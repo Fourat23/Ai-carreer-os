@@ -38,6 +38,11 @@ export const LESSONS = [
   { file: 'etl-pipelines.md', title: 'Pipelines ETL' },
   { file: 'feature-engineering.md', title: 'Feature engineering' },
   { file: 'model-evaluation.md', title: 'Évaluer un modèle ML' },
+  // DevOps / production & carrière (batch qualité)
+  { file: 'docker-containers.md', title: 'Docker et conteneurs' },
+  { file: 'ci-cd.md', title: 'Intégration continue (CI/CD)' },
+  { file: 'technical-storytelling.md', title: 'Storytelling technique' },
+  { file: 'system-design-interview.md', title: "L'entretien de design système" },
 ];
 
 export const LESSON_BY_SKILL = {
@@ -48,7 +53,7 @@ export const LESSON_BY_SKILL = {
   http: ['http-rest-json.md', 'api-design-basics.md'],
   sql: ['sql-foundations.md', 'etl-pipelines.md', 'data-cleaning-quality.md'],
   se: ['clean-code.md', 'testing-foundations.md'],
-  archi: ['architecture-basics.md'],
+  archi: ['architecture-basics.md', 'system-design-interview.md'],
   patterns: ['design-patterns-intro.md'],
   python: ['python-foundations.md', 'pandas-data-wrangling.md'],
   ml: ['machine-learning-basics.md', 'statistics-for-ml.md', 'feature-engineering.md', 'model-evaluation.md'],
@@ -58,9 +63,9 @@ export const LESSON_BY_SKILL = {
   agents: ['agents-fundamentals.md', 'structured-outputs-tools.md'],
   evalia: ['ai-evaluation.md'],
   secu: ['ai-security.md'],
-  cloud: ['architecture-basics.md'],
-  comm: ['clean-code.md'],
-  autonomy: ['algorithmic-thinking.md'],
+  cloud: ['docker-containers.md', 'ci-cd.md', 'architecture-basics.md'],
+  comm: ['technical-storytelling.md', 'clean-code.md'],
+  autonomy: ['system-design-interview.md', 'algorithmic-thinking.md'],
 };
 
 // Vraie question d'entretien par défaut, par compétence (question + idée de réponse).

@@ -84,9 +84,10 @@ question d'entretien pour jours IA, alerte vague/court.
 - **Batch 0** : ✅ FAIT — audit + ce fichier.
 - **Batch 7 (anticipé)** : ✅ FAIT — `AUTHORING_GUIDE.md`, `templates/*`, `prompts/*`.
 - **Mécanisme d'enrichissement** : ✅ FAIT — `INTERVIEW_BY_SKILL` + `CASE_BY_SKILL` (chaque jour a une vraie question d'entretien ; jours data/IA ont un cas métier), `days-enrich.mjs` (override par jour), blocs générés « Cas métier » et « Question d'entretien ».
-- **Batch 1 (en cours)** : ✅ +11 leçons → **32/60**.
+- **Batch 1 (en cours)** : ✅ +15 leçons → **36/60**.
   - IA-core (6) : prompt-engineering, structured-outputs-tools, embeddings, vector-databases, chunking-strategies, retrieval-reranking.
   - Data/ML (5) : pandas-data-wrangling, data-cleaning-quality, etl-pipelines, feature-engineering, model-evaluation.
+  - DevOps/carrière (4) : docker-containers, ci-cd, technical-storytelling, system-design-interview.
 - **Batch 6** : ✅ FAIT — scripts d'audit renforcés (compte de leçons + cible 60, structure des leçons, question d'entretien + cas métier obligatoires pour jours data/IA, alerte vague/court, kit d'auteur requis).
 
 ### État qualité actuel (mesuré)
@@ -96,15 +97,15 @@ question d'entretien pour jours IA, alerte vague/court.
 
 ## RESTE À FAIRE (par ordre de priorité)
 
-### Batch 1 (finir) — atteindre 60 leçons (28 restantes)
+### Batch 1 (finir) — atteindre 60 leçons (24 restantes)
 À créer avec `prompts/create-lesson.md` + `templates/lesson-template.md`, puis enregistrer dans `scripts/data/lessons-map.mjs` (`LESSONS` + `LESSON_BY_SKILL`) :
 - **Fondations/JS/TS** : recursion, async-javascript, react-fundamentals, react-hooks-effects, git-advanced.
 - **Web/backend** : express-backend, authentication, caching-performance.
 - **Data/SQL** : database-modeling (indexes/transactions), numpy-fundamentals.
 - **ML/DL** : neural-networks, transformers, scikit-learn-workflow, overfitting-regularization.
 - **IA** : llm-cost-optimization, llm-observability, rag-evaluation (dédiée), prompt-injection-defense (dédiée), agent-workflows-orchestration.
-- **DevOps/prod** : docker-containers, ci-cd, deployment-secrets, monitoring-production, error-handling, observability-logging.
-- **Carrière** : readme-documentation, technical-storytelling, portfolio-github, interview-preparation, system-design-interview.
+- **DevOps/prod** : deployment-secrets, monitoring-production, error-handling, observability-logging. *(docker-containers, ci-cd : FAITS)*
+- **Carrière** : readme-documentation, portfolio-github, interview-preparation. *(technical-storytelling, system-design-interview : FAITS)*
 (Le regroupement d'affichage est dans `app/lessons/page.tsx` → `groupOf()` : ajouter les nouveaux slugs.)
 
 ### Batch 2 — jours 31-90 : ajouter des exemples guidés (52 jours)

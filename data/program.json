@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-05T20:19:59.677Z",
+  "generatedAt": "2026-07-05T20:24:02.044Z",
   "skills": [
     {
       "id": "algo",
@@ -5963,6 +5963,26 @@
     {
       "slug": "retrieval-reranking",
       "title": "Retrieval, recherche hybride et reranking"
+    },
+    {
+      "slug": "pandas-data-wrangling",
+      "title": "pandas : manipuler des données"
+    },
+    {
+      "slug": "data-cleaning-quality",
+      "title": "Nettoyage et qualité des données"
+    },
+    {
+      "slug": "etl-pipelines",
+      "title": "Pipelines ETL"
+    },
+    {
+      "slug": "feature-engineering",
+      "title": "Feature engineering"
+    },
+    {
+      "slug": "model-evaluation",
+      "title": "Évaluer un modèle ML"
     }
   ]
 }

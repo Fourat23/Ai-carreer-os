@@ -1,0 +1,71 @@
+<!-- keep -->
+# Leçon — Feature engineering
+
+## 🎯 Objectif
+Comprendre pourquoi les features (variables d'entrée) comptent souvent PLUS que le choix du modèle, savoir en créer d'utiles, encoder les catégories, et éviter le leakage. C'est le levier de performance ML le plus rentable et le plus interrogé en entretien.
+
+## 🧠 Modèle mental
+Une feature, c'est **une façon de PRÉSENTER l'information au modèle pour qu'il la comprenne**. Un même fait mal présenté est invisible ; bien présenté, il devient prédictif. Le modèle n'invente pas le signal : tu le lui rends lisible.
+
+## 📖 Explication complète
+Le feature engineering transforme des données brutes en variables prédictives :
+- **Features dérivées** : d'une date → jour de semaine, mois, week-end ; de deux colonnes → un ratio métier (dépense/revenu). Chaque feature encode une HYPOTHÈSE (« le week-end influence l'achat »).
+- **Encodage des catégories** : les modèles veulent des nombres. **One-hot** (une colonne 0/1 par catégorie) pour les catégories sans ordre ; **ordinal** pour celles ordonnées. Attention aux catégories à très haute cardinalité.
+- **Mise à l'échelle** : normaliser/standardiser quand le modèle est sensible aux échelles (k-means, régressions régularisées).
+Le piège central : le **leakage par feature** — une feature qui contient (directement ou indirectement) l'information du futur ou de la cible. Exemple : « date du dernier paiement » pour prédire le churn peut fuiter le résultat. Et toutes les transformations APPRISES (moyennes d'encodage, paramètres de normalisation) doivent être calculées sur le TRAIN uniquement, puis appliquées au test — d'où le **Pipeline** scikit-learn qui l'automatise.
+
+## 🔧 Exemple simple
+D'une colonne `date_achat`, créer `est_weekend` (booléen) : si l'hypothèse « on achète plus le week-end » est vraie, cette feature simple booste le modèle.
+
+## 🧭 Exemple guidé
+**Énoncé** : encoder une colonne `ville` (catégorielle) pour un modèle.
+**Raisonnement** : pas d'ordre entre les villes → one-hot ; mais si trop de villes, la matrice explose.
+**Solution** :
+```python
+df = pd.get_dummies(df, columns=["ville"])   # one-hot
+# Si haute cardinalité : regrouper les villes rares en "Autre" d'abord.
+```
+**Explication** : one-hot évite d'imposer un faux ordre ; regrouper les rares limite l'explosion de colonnes. **Variante** : encode plutôt par la fréquence, en calculant les fréquences sur le TRAIN seulement (anti-leakage).
+
+## 🤖 Exemple appliqué (IA / data / architecture)
+En ML tabulaire (mois 6), améliorer un modèle par les features (sans changer le modèle) est souvent le gain le plus rentable. Le raisonnement « bien présenter l'information » se retrouve aussi côté LLM : structurer un prompt, c'est présenter l'information pour qu'elle soit exploitable.
+
+## ⚠️ Erreurs fréquentes
+- Features sans hypothèse (bruit).
+- Leakage : une feature qui contient la réponse ou du futur.
+- Encoder/normaliser sur TOUT le dataset avant le split (leakage).
+- One-hot sur une catégorie à des milliers de valeurs (explosion).
+
+## 🚫 Anti-patterns
+- Empiler des features au hasard « au cas où ».
+- Croire qu'un modèle plus complexe compense de mauvaises features.
+
+## ✍️ Mini-exercice
+À partir d'une colonne date, crée 3 features (jour de semaine, mois, week-end) et mesure si l'une améliore un modèle simple.
+
+## 🔥 Exercice plus difficile
+Améliore le score d'un modèle UNIQUEMENT par le feature engineering (pas le modèle), avec un journal des tentatives et de leur effet mesuré, et vérifie l'absence de leakage.
+
+## ✅ Correction attendue
+La logique : chaque feature encode une hypothèse ; encoder les catégories sans imposer d'ordre faux ; calculer les transformations apprises sur le train seulement (Pipeline). Vérifie : pas de leakage (aucune feature ne connaît la cible/le futur), gain MESURÉ par feature, transformations dans un Pipeline.
+
+## 🎤 Questions d'entretien
+- « Modèle ou features, qu'est-ce qui compte le plus ? » → Souvent les features : elles rendent le signal lisible.
+- « Comment encodes-tu une variable catégorielle ? » → One-hot (sans ordre) ou ordinal (avec ordre) ; gérer la haute cardinalité.
+- « Qu'est-ce que le leakage par feature ? » → Une feature qui contient l'info de la cible/du futur → score illusoire.
+
+## 🧾 À retenir
+- Les features rendent le signal lisible : elles comptent souvent plus que le modèle.
+- Chaque feature encode une hypothèse ; encoder sans faux ordre.
+- Transformations apprises sur le train seulement (Pipeline) — anti-leakage.
+
+## 📚 Vocabulaire
+**feature** · **feature dérivée** · **one-hot / ordinal** · **cardinalité** · **normalisation / standardisation** · **leakage** · **Pipeline** · **hypothèse prédictive**.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Chaque feature que je crée a une hypothèse explicite.
+- [ ] Je sais encoder les catégories et gérer la haute cardinalité.
+- [ ] J'évite le leakage (transformations dans un Pipeline, sur le train).
+
+## 🔗 Liens avec le programme
+Mois 6 (jours ~155-175), projet 5 (ChurnScope). Leçons liées : `machine-learning-basics`, `model-evaluation`, `data-cleaning-quality`.

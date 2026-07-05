@@ -32,6 +32,12 @@ export const LESSONS = [
   { file: 'vector-databases.md', title: 'Bases de données vectorielles' },
   { file: 'chunking-strategies.md', title: 'Stratégies de chunking' },
   { file: 'retrieval-reranking.md', title: 'Retrieval, recherche hybride et reranking' },
+  // Approfondissements data / ML (batch qualité)
+  { file: 'pandas-data-wrangling.md', title: 'pandas : manipuler des données' },
+  { file: 'data-cleaning-quality.md', title: 'Nettoyage et qualité des données' },
+  { file: 'etl-pipelines.md', title: 'Pipelines ETL' },
+  { file: 'feature-engineering.md', title: 'Feature engineering' },
+  { file: 'model-evaluation.md', title: 'Évaluer un modèle ML' },
 ];
 
 export const LESSON_BY_SKILL = {
@@ -40,12 +46,12 @@ export const LESSON_BY_SKILL = {
   algo: ['algorithmic-thinking.md'],
   ds: ['data-structures-intro.md'],
   http: ['http-rest-json.md', 'api-design-basics.md'],
-  sql: ['sql-foundations.md'],
+  sql: ['sql-foundations.md', 'etl-pipelines.md', 'data-cleaning-quality.md'],
   se: ['clean-code.md', 'testing-foundations.md'],
   archi: ['architecture-basics.md'],
   patterns: ['design-patterns-intro.md'],
-  python: ['python-foundations.md'],
-  ml: ['statistics-for-ml.md', 'machine-learning-basics.md'],
+  python: ['python-foundations.md', 'pandas-data-wrangling.md'],
+  ml: ['machine-learning-basics.md', 'statistics-for-ml.md', 'feature-engineering.md', 'model-evaluation.md'],
   dl: ['machine-learning-basics.md', 'llm-fundamentals.md'],
   llm: ['llm-fundamentals.md', 'prompt-engineering.md', 'structured-outputs-tools.md'],
   rag: ['rag-fundamentals.md', 'embeddings.md', 'chunking-strategies.md', 'retrieval-reranking.md', 'vector-databases.md'],

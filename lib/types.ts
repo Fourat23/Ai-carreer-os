@@ -37,12 +37,18 @@ export interface ProgramMonth {
   expectedScores: Record<string, number>;
 }
 
+export interface Lesson {
+  slug: string;
+  title: string;
+}
+
 export interface Program {
   generatedAt: string;
   skills: Skill[];
   months: ProgramMonth[];
   weeks: ProgramWeek[];
   days: ProgramDay[];
+  lessons?: Lesson[];
 }
 
 export type DayStatus = 'not-started' | 'in-progress' | 'done' | 'to-review';

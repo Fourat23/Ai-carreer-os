@@ -25,6 +25,13 @@ export const LESSONS = [
   { file: 'agents-fundamentals.md', title: 'Agents IA : fondamentaux' },
   { file: 'ai-evaluation.md', title: "Évaluer un système IA" },
   { file: 'ai-security.md', title: 'Sécurité des systèmes IA' },
+  // Approfondissements IA (batch qualité)
+  { file: 'prompt-engineering.md', title: 'Prompt engineering (sérieux)' },
+  { file: 'structured-outputs-tools.md', title: 'Sorties structurées et function calling' },
+  { file: 'embeddings.md', title: 'Embeddings' },
+  { file: 'vector-databases.md', title: 'Bases de données vectorielles' },
+  { file: 'chunking-strategies.md', title: 'Stratégies de chunking' },
+  { file: 'retrieval-reranking.md', title: 'Retrieval, recherche hybride et reranking' },
 ];
 
 export const LESSON_BY_SKILL = {
@@ -40,9 +47,9 @@ export const LESSON_BY_SKILL = {
   python: ['python-foundations.md'],
   ml: ['statistics-for-ml.md', 'machine-learning-basics.md'],
   dl: ['machine-learning-basics.md', 'llm-fundamentals.md'],
-  llm: ['llm-fundamentals.md'],
-  rag: ['rag-fundamentals.md'],
-  agents: ['agents-fundamentals.md'],
+  llm: ['llm-fundamentals.md', 'prompt-engineering.md', 'structured-outputs-tools.md'],
+  rag: ['rag-fundamentals.md', 'embeddings.md', 'chunking-strategies.md', 'retrieval-reranking.md', 'vector-databases.md'],
+  agents: ['agents-fundamentals.md', 'structured-outputs-tools.md'],
   evalia: ['ai-evaluation.md'],
   secu: ['ai-security.md'],
   cloud: ['architecture-basics.md'],

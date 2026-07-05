@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-05T20:13:35.814Z",
+  "generatedAt": "2026-07-05T20:19:59.677Z",
   "skills": [
     {
       "id": "algo",
@@ -5853,6 +5853,116 @@
       "detailed": false,
       "deliverable": "Lettre-bilan de l'année + checklist portfolio complète + confirmation des candidatures envoyées + 3 prochaines actions datées.",
       "project": null
+    }
+  ],
+  "lessons": [
+    {
+      "slug": "terminal-shell-filesystem",
+      "title": "Terminal, shell et système de fichiers"
+    },
+    {
+      "slug": "git-fundamentals",
+      "title": "Git : les fondamentaux"
+    },
+    {
+      "slug": "javascript-basics",
+      "title": "JavaScript : les bases solides"
+    },
+    {
+      "slug": "typescript-basics",
+      "title": "TypeScript : typer pour fiabiliser"
+    },
+    {
+      "slug": "algorithmic-thinking",
+      "title": "La pensée algorithmique"
+    },
+    {
+      "slug": "data-structures-intro",
+      "title": "Structures de données : choisir son outil"
+    },
+    {
+      "slug": "http-rest-json",
+      "title": "HTTP, REST et JSON"
+    },
+    {
+      "slug": "api-design-basics",
+      "title": "Concevoir une API"
+    },
+    {
+      "slug": "sql-foundations",
+      "title": "SQL : les fondations"
+    },
+    {
+      "slug": "clean-code",
+      "title": "Clean code"
+    },
+    {
+      "slug": "testing-foundations",
+      "title": "Tester son code"
+    },
+    {
+      "slug": "architecture-basics",
+      "title": "Architecture logicielle : les bases"
+    },
+    {
+      "slug": "design-patterns-intro",
+      "title": "Design patterns : introduction"
+    },
+    {
+      "slug": "python-foundations",
+      "title": "Python : les fondations"
+    },
+    {
+      "slug": "statistics-for-ml",
+      "title": "Statistiques pour le ML"
+    },
+    {
+      "slug": "machine-learning-basics",
+      "title": "Machine learning : les bases"
+    },
+    {
+      "slug": "llm-fundamentals",
+      "title": "LLM : comprendre les grands modèles de langage"
+    },
+    {
+      "slug": "rag-fundamentals",
+      "title": "RAG : retrieval-augmented generation"
+    },
+    {
+      "slug": "agents-fundamentals",
+      "title": "Agents IA : fondamentaux"
+    },
+    {
+      "slug": "ai-evaluation",
+      "title": "Évaluer un système IA"
+    },
+    {
+      "slug": "ai-security",
+      "title": "Sécurité des systèmes IA"
+    },
+    {
+      "slug": "prompt-engineering",
+      "title": "Prompt engineering (sérieux)"
+    },
+    {
+      "slug": "structured-outputs-tools",
+      "title": "Sorties structurées et function calling"
+    },
+    {
+      "slug": "embeddings",
+      "title": "Embeddings"
+    },
+    {
+      "slug": "vector-databases",
+      "title": "Bases de données vectorielles"
+    },
+    {
+      "slug": "chunking-strategies",
+      "title": "Stratégies de chunking"
+    },
+    {
+      "slug": "retrieval-reranking",
+      "title": "Retrieval, recherche hybride et reranking"
     }
   ]
 }

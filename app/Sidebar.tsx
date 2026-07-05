@@ -6,12 +6,14 @@ import { usePathname } from 'next/navigation';
 const LINKS = [
   { href: '/', label: '📊 Dashboard' },
   { href: '/calendar', label: '🗓️ Calendrier' },
+  { href: '/lessons', label: '📖 Leçons de fond' },
   { href: '/skills', label: '🎯 Compétences' },
   { href: '/projects', label: '🚀 Projets' },
   { href: '/reviews', label: '📝 Évaluations' },
   { href: '/notes', label: '🗒️ Notes' },
   { href: '/resources', label: '🔗 Ressources' },
   { href: '/career', label: '💼 Carrière' },
+  { href: '/guide', label: '📘 Mode d\'emploi' },
 ];
 
 export default function Sidebar() {

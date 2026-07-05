@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "generate": "node scripts/generate-curriculum.mjs",
+    "curriculum:check": "node scripts/curriculum-check.mjs",
+    "curriculum:depth-check": "node scripts/curriculum-depth-check.mjs",
     "test": "node --test \"tests/**/*.test.mjs\""
   },
   "dependencies": {

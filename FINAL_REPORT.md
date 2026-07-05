@@ -4,6 +4,50 @@ Rapport de fin de construction. À lire en entier avant de commencer.
 
 ---
 
+## 0. Mise à jour — audit de complétion + enrichissement pédagogique
+
+Cette section résume le second passage (audit brutal + renforcement théorique). Le reste du rapport (sections 1-10) reste valable.
+
+### Résultats des checks (tous verts)
+- `npm run curriculum:check` → **Jours 365/365 · Corrections 365/365 · Semaines 52/52 · Mois 12/12 · Leçons 21/21 · ✅ Intégrité OK**
+- `npm run curriculum:depth-check` → **Jours 1-30 : 26/26 avec Cours approfondi ET Exemple guidé · 313 jours de travail avec « Pourquoi ça comptera plus tard » et correction · ✅ Profondeur OK**
+- `npm test` → **20/20 verts** · `npm run build` → **OK (18 routes)**
+
+### Nombres exacts
+- **365 fichiers jour** (`day-001.md` … `day-365.md`).
+- **365 corrections** (`day-XXX-solution.md`) : 313 corrections détaillées (jours de travail) + **52 grilles d'évaluation** (jours de revue — créées lors de cet audit ; auparavant absentes).
+- **21 leçons de fond** approfondies (`curriculum/lessons/`).
+- 52 semaines, 12 mois, 7 fiches projets, 3 rubriques, 5 docs méthodologie, 2 docs carrière.
+
+### Ce qui a été enrichi
+- **Nouvelle structure pédagogique sur CHAQUE jour** : 🎯 Objectif → 📖 Cours approfondi (+ renvoi leçon de fond) → 🧭 Exemple guidé → ✍️ Pratique autonome → ❓ Mini-quiz → 📦 Livrable → ✅ Critères → ⚠️ Erreurs fréquentes → 🧠 À retenir → 🚀 Pourquoi ça comptera plus tard.
+- **Jours 1-30** : théorie déjà riche + **exemple guidé pas-à-pas ajouté à chacun** + « À retenir » + « Pourquoi ça comptera plus tard ».
+- **Jours 31-90** : **théorie courte substantielle ajoutée** (via `days-31-90-extras.mjs`), **critères de validation**, erreurs fréquentes (reprises des pièges), renvoi vers les leçons de fond.
+- **Jours 91-365** : objectif, tâche, livrable, **critères de validation par défaut**, compétence, correction/grille, et **au moins un renvoi vers une leçon de fond** (≥ 400-800 mots de théorie disponibles via la leçon).
+- **21 leçons de fond** créées : chacune avec explication complète, pourquoi, concepts, exemple, pièges, mini-exercice, lien IA/ML/LLM, vocabulaire, résumé.
+- **`curriculum/QUALITY_STANDARD.md`** : définit ce qu'est une bonne journée (structure, profondeur, fiche superficielle vs vrai cours).
+- **`curriculum/how-to-use-12-months.md`** (page « Mode d'emploi ») : quoi faire chaque jour, si je rate un jour / une semaine, réviser, corrections, IA sans tricher, portfolio, savoir si je suis prêt à candidater.
+- **Sauvegarde** : export/restore de `data/progress.json` depuis le Dashboard + `GET /api/progress/export` / `POST /api/progress/import` (validé).
+- **2 scripts d'audit** : `curriculum:check` (intégrité) et `curriculum:depth-check` (profondeur).
+- **Nouvelles pages** : 📖 Leçons de fond (index), 📘 Mode d'emploi.
+
+### Combien de jours ont un cours approfondi
+- **313 jours de travail** ont le bloc « Cours approfondi ». Les **90 premiers** (hors revues) ont une théorie propre substantielle rédigée ; **tous** renvoient vers une leçon de fond (400-2000+ mots selon le sujet).
+- **26 jours (1-30 hors revues)** ont en plus un **exemple guidé** rédigé à la main.
+
+### Limites restantes
+- Les jours 91-365 s'appuient surtout sur les **leçons de fond** pour la profondeur (leur théorie inline reste courte) : c'est le compromis assumé « moins de jours ultra-détaillés, mais tous adossés à une vraie leçon ».
+- Les exemples guidés ne sont rédigés que pour les jours 1-30 (les jours suivants s'appuient sur l'exemple des leçons de fond).
+- Corrections des jours planifiés = grilles d'auto-évaluation (non ligne-à-ligne).
+
+### Prochaine priorité pédagogique
+1. Rédiger des **exemples guidés** pour les jours 31-90 (mêmes standards que 1-30).
+2. Étoffer la **théorie inline** des jours 91-365 les plus techniques (RAG, agents, éval) via `scripts/data/days-plan.mjs`.
+3. Ajouter 2-3 **leçons de fond** supplémentaires (Docker/CI, observabilité, prompt engineering avancé) et les relier aux jours des mois 10-11.
+4. Enrichir chaque jour au fur et à mesure que tu l'atteins (le meilleur moment pour approfondir, c'est la veille).
+
+---
+
 ## 1. Ce qui a été construit
 
 Une application web locale complète (**AI Career OS**) contenant un programme d'apprentissage de 12 mois pour devenir employable sur des rôles IA appliquée, avec :

@@ -3,6 +3,7 @@ import { getProgram } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
 import { computeStats, currentSkills } from '@/lib/progress-stats';
 import StartDayButton from './StartDayButton';
+import BackupControls from './BackupControls';
 
 export const dynamic = 'force-dynamic';
 
@@ -113,6 +114,16 @@ export default function Dashboard() {
             <Link className="btn small" href={`/projects`}>Projet du mois : {currentMonth.project.name}</Link>
           )}
         </div>
+      </div>
+
+      <div className="spacer" />
+
+      <div className="card">
+        <h3>Sauvegarde de ma progression</h3>
+        <p className="sub">
+          Ta progression vit dans <code>data/progress.json</code>. Exporte-la régulièrement (surtout avant une mise à jour) ; restaure-la depuis un fichier exporté.
+        </p>
+        <BackupControls />
       </div>
     </>
   );

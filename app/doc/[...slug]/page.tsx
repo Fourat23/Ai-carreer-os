@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 // Rend n'importe quel document du curriculum : /doc/methodology/how-to-learn,
 // /doc/rubrics/skills-scorecard, etc. Restreint aux dossiers de contenu connus.
-const ALLOWED = new Set(['methodology', 'rubrics', 'resources', 'career']);
+const ALLOWED = new Set(['methodology', 'rubrics', 'resources', 'career', 'lessons']);
 
 export default async function DocPage({ params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params;

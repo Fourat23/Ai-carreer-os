@@ -65,13 +65,40 @@ test('chaque jour non-revue a une correction', () => {
   }
 });
 
-test('le jour 1 est complet et détaillé', () => {
+test('le jour 1 est complet et détaillé (structure pédagogique)', () => {
   const md = readFileSync(join(ROOT, 'curriculum', 'days', 'day-001.md'), 'utf8');
-  for (const section of ['Objectif', 'Exercice principal', 'Livrable', "Règle d'utilisation de l'IA", 'Découpage horaire', 'Mini-quiz']) {
+  for (const section of [
+    'Objectif du jour', 'Cours approfondi', 'Exemple guidé', 'Pratique autonome',
+    'Exercice principal', 'Livrable', "Consigne d'utilisation de l'IA", 'Découpage horaire',
+    'Mini-quiz', 'À retenir', 'Pourquoi ça comptera plus tard',
+  ]) {
     assert.ok(md.includes(section), `jour 1 : section « ${section} » manquante`);
   }
+  // Le jour 1 renvoie vers une leçon de fond.
+  assert.ok(md.includes('/doc/lessons/'), 'jour 1 : pas de renvoi vers une leçon de fond');
   const sol = readFileSync(join(ROOT, 'curriculum', 'solutions', 'day-001-solution.md'), 'utf8');
   assert.ok(sol.includes('logique attendue'), 'jour 1 : correction sans logique attendue');
+});
+
+test('les 21 leçons de fond existent', () => {
+  const lessons = [
+    'terminal-shell-filesystem', 'git-fundamentals', 'javascript-basics', 'typescript-basics',
+    'algorithmic-thinking', 'data-structures-intro', 'http-rest-json', 'api-design-basics',
+    'sql-foundations', 'clean-code', 'testing-foundations', 'architecture-basics',
+    'design-patterns-intro', 'python-foundations', 'statistics-for-ml', 'machine-learning-basics',
+    'llm-fundamentals', 'rag-fundamentals', 'agents-fundamentals', 'ai-evaluation', 'ai-security',
+  ];
+  for (const l of lessons)
+    assert.ok(existsSync(join(ROOT, 'curriculum', 'lessons', `${l}.md`)), `manque la leçon ${l}`);
+});
+
+test('chaque jour de travail a un exemple guidé OU renvoie vers une leçon de fond', () => {
+  for (const d of program.days) {
+    if (d.isReview) continue;
+    const md = readFileSync(join(ROOT, 'curriculum', 'days', `day-${String(d.day).padStart(3, '0')}.md`), 'utf8');
+    const ok = md.includes('Exemple guidé') || md.includes('/doc/lessons/');
+    assert.ok(ok, `jour ${d.day} : ni exemple guidé ni leçon de fond liée`);
+  }
 });
 
 test('le mois 1 est complet (fichier + revue mensuelle)', () => {

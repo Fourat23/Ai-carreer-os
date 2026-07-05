@@ -100,16 +100,27 @@ Cela régénère tous les fichiers non protégés + `data/program.json`.
 
 ---
 
-## Comment utiliser l'app chaque jour
+## Recommended daily workflow (déroulé quotidien recommandé)
 
 1. **Ouvre le Dashboard.** Il affiche ta progression, le jour actuel, les compétences de la semaine, le prochain livrable et un éventuel retard.
 2. **Clique sur « ▶ Commencer la journée ».** Le compteur démarre (la date de début est enregistrée au premier clic) et tu arrives sur la **Vue Jour**.
-3. **Travaille la journée** dans l'ordre : théorie courte → exercice principal **seul, sans IA** → bonus → mini-quiz.
+3. **Travaille la journée dans l'ordre des blocs** : 🎯 Objectif → 📖 Cours approfondi (+ la **leçon de fond** liée) → 🧭 Exemple guidé → ✍️ Pratique autonome **seul, sans IA** → ❓ Mini-quiz.
 4. **Remplis ton suivi** (panneau « Mon suivi du jour ») : statut, auto-évaluation 0-5, checklist de validation, **ta réponse**, tes notes personnelles. Tout est sauvegardé automatiquement.
-5. **Ensuite seulement**, déplie la correction (« ⛔ Voir la correction »). Elle explique la *logique attendue*, les *erreurs probables*, une *solution simple*, une *solution améliorée*, et pose des *questions de réflexion*.
-6. **Marque le jour « Terminé »** (ou « À revoir » si besoin). Le Dashboard avance au jour suivant.
+5. **Ensuite seulement**, déplie la **Correction** (« ⛔ Voir la correction »). Elle explique la *logique attendue*, les *erreurs probables*, une *solution simple*, une *solution améliorée*, et pose des *questions de réflexion*.
+6. Relis **🧠 À retenir** et **🚀 Pourquoi ça comptera plus tard**, puis **marque le jour « Terminé »** (ou « À revoir »). Le Dashboard avance au jour suivant.
+
+Guide complet : **Mode d'emploi** (menu de gauche → `curriculum/how-to-use-12-months.md`).
 
 > **Règle d'or anti-dépendance :** d'abord seul au moins 30 minutes, jamais de copier-coller de l'IA. Voir `curriculum/methodology/how-to-use-ai-without-dependency.md`.
+
+### Cours vs exercice vs correction (bien les distinguer)
+- **📖 Cours approfondi** (+ leçons de fond) : la THÉORIE. Le *pourquoi*, le modèle mental, les pièges. À lire et reformuler de mémoire.
+- **🧭 Exemple guidé** : un pas-à-pas travaillé, PLUS SIMPLE que l'exercice. À étudier puis fermer.
+- **✍️ Pratique autonome** : ce que tu FAIS toi-même, sans IA d'abord.
+- **⛔ Correction** : à ouvrir APRÈS avoir essayé. Ce n'est pas une réponse à copier mais un outil pour comprendre ta démarche (logique, solution simple, solution améliorée, oral).
+
+### Comment utiliser les leçons de fond (`curriculum/lessons/`)
+21 leçons approfondies et réutilisables (terminal, Git, JS, TS, algo, structures, HTTP, API, SQL, clean code, tests, architecture, patterns, Python, stats, ML, LLM, RAG, agents, évaluation IA, sécurité IA). Chaque jour renvoie vers la leçon correspondante dans son bloc « Cours approfondi ». Accès direct via le menu **📖 Leçons de fond**. Lis-les pour la profondeur, relis-les pour consolider.
 
 ---
 
@@ -121,10 +132,44 @@ Cela régénère tous les fichiers non protégés + `data/program.json`.
 
 ---
 
-## Où sont mes données ?
+## Where is my data? (où sont mes données ?)
 - Ta progression : `data/progress.json` (lisible et éditable à la main).
 - Elle survit au navigateur (c'est un fichier, pas du localStorage).
-- Pour repartir de zéro : remets le contenu à `{ "startDate": null, "days": {}, "skills": {}, "weeklyReviews": {}, "monthlyReviews": {} }`.
+
+## How to backup progress (sauvegarder ma progression)
+- **Depuis l'app** : Dashboard → carte « Sauvegarde de ma progression » → **⬇️ Exporter** télécharge `progress-AAAA-MM-JJ.json`. **⬆️ Restaurer** recharge un fichier exporté (validé avant écrasement).
+- **API directe** : `GET /api/progress/export` (télécharge), `POST /api/progress/import` (restaure).
+- **À la main** : copie simplement le fichier `data/progress.json` ailleurs. Pour restaurer, remets-le en place.
+- **Conseil** : exporte avant chaque `git pull`/mise à jour, et de temps en temps par sécurité.
+
+## How to reset progress (repartir de zéro)
+Remplace le contenu de `data/progress.json` par :
+```json
+{ "startDate": null, "days": {}, "skills": {}, "weeklyReviews": {}, "monthlyReviews": {} }
+```
+(Sauvegarde-le d'abord si tu veux pouvoir revenir en arrière.)
+
+## How to customize the curriculum (personnaliser le programme)
+Deux façons :
+1. **Éditer un fichier Markdown** dans `curriculum/` et ajouter `<!-- keep -->` en première ligne pour qu'il ne soit jamais réécrit par le générateur.
+2. **Éditer les données sources** dans `scripts/data/` (jours, semaines, mois, leçons, plan), puis `npm run generate`.
+Le standard de qualité d'une journée est décrit dans `curriculum/QUALITY_STANDARD.md` (menu **📘 Mode d'emploi → standard de qualité**).
+
+## How to run the curriculum integrity & depth checks
+```bash
+npm run curriculum:check         # intégrité : 365 jours, 365 corrections, 52 semaines,
+                                 # 12 mois, sections obligatoires, compétences, liens internes
+npm run curriculum:depth-check   # profondeur pédagogique : cours approfondi, exemple guidé,
+                                 # « pourquoi ça comptera plus tard », correction, longueur minimale
+```
+Les deux sortent en erreur (code 1) si un problème est détecté — pratique en pré-commit.
+
+## Known limitations (limites connues)
+- **Jours 91-365 moins verbeux** que les jours 1-30 : ils restent *actionnables* (objectif, tâche, livrable, critères, correction/grille, renvoi vers une leçon de fond) mais leur théorie propre est plus courte. Enrichissables via `scripts/data/days-plan.mjs` + `npm run generate`.
+- **Corrections des jours planifiés** = grilles d'auto-évaluation guidées (pas des solutions détaillées ligne à ligne, contrairement aux jours 1-30).
+- **Scores de compétences déclaratifs** : auto-évaluation guidée par rubrique, non calculée par un correcteur automatique (honnête pour un outil solo).
+- **Pas d'IDE intégré** : tu codes dans ton propre éditeur ; l'app est le pilote pédagogique, pas un environnement d'exécution.
+- **Usage mono-utilisateur local** : pas d'authentification ni de multi-profils (par conception).
 
 ## Stack technique
 Next.js 15 (App Router) · TypeScript · React 19 · `marked` (rendu Markdown) · stockage fichier JSON · tests `node:test`. Aucune dépendance superflue, aucun service externe.

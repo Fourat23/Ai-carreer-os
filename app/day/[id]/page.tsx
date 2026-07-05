@@ -36,9 +36,9 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
 
       <DayPanel day={dayNum} initial={progress} checklist={checklist} />
 
-      {!meta.isReview && solution && (
+      {solution && (
         <details className="solution">
-          <summary>⛔ Voir la correction (seulement après avoir vraiment essayé seul)</summary>
+          <summary>{meta.isReview ? '📋 Voir la grille d\'évaluation' : '⛔ Voir la correction (seulement après avoir vraiment essayé seul)'}</summary>
           <div className="prose" style={{ borderRadius: '0 0 8px 8px', borderTop: 'none' }}
                dangerouslySetInnerHTML={{ __html: solution }} />
         </details>

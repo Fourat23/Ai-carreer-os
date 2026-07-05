@@ -25,7 +25,11 @@ import { DAYS_31_90 } from './data/days-31-90.mjs';
 import { WEEK_PLANS } from './data/days-plan.mjs';
 import { EXTRAS_31_90 } from './data/days-31-90-extras.mjs';
 import { GUIDED_01_30 } from './data/days-01-30-guided.mjs';
-import { LESSON_BY_SKILL, FUTURE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
+import { DAYS_ENRICH } from './data/days-enrich.mjs';
+import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
+
+// Compétences « IA / data » pour lesquelles un cas métier est attendu.
+const DATA_AI_SKILLS = new Set(['sql', 'python', 'ml', 'dl', 'llm', 'rag', 'agents', 'evalia', 'secu', 'cloud', 'http']);
 
 const lessonTitle = (file) => (LESSONS.find((l) => l.file === file)?.title ?? file);
 
@@ -100,14 +104,19 @@ function buildDay(n) {
     // Fusion des suppléments (théorie/critères pour 31-90 ; exemple guidé/à-retenir pour 1-30).
     const extra31 = EXTRAS_31_90[n] ?? {};
     const guided = GUIDED_01_30[n] ?? {};
+    const enrich = DAYS_ENRICH[n] ?? {};
     return {
       ...src,
       week, month, isReview: false, detailed: true,
       theory: src.theory ?? extra31.theory,
+      theoryExtra: enrich.theory,
       criteria: src.criteria ?? extra31.criteria,
-      guidedExample: src.guidedExample ?? guided.guidedExample,
-      takeaways: src.takeaways ?? guided.takeaways,
+      guidedExample: src.guidedExample ?? guided.guidedExample ?? enrich.guided,
+      takeaways: src.takeaways ?? guided.takeaways ?? enrich.takeaways,
       future: src.future ?? guided.future,
+      caseStudy: enrich.caseStudy,
+      interview: src.interview ?? enrich.interview,
+      lessonsOverride: enrich.lessons,
       // « Erreurs fréquentes » : explicites, sinon reprises des pièges de la correction.
       mistakes: src.mistakes ?? src.solution?.pitfalls,
     };
@@ -122,6 +131,7 @@ function buildDay(n) {
     for (let d = weekStart; d < n; d++) if (!REVIEW_DAYS.has(d)) pos++;
     const entry = plan.days[pos];
     if (entry) {
+      const enrich = DAYS_ENRICH[n] ?? {};
       return {
         day: n, week, month, isReview: false, planned: true,
         title: entry.title,
@@ -132,6 +142,12 @@ function buildDay(n) {
         exercise: entry.exercise,
         deliverable: entry.deliverable,
         project: entry.project,
+        theoryExtra: enrich.theory,
+        guidedExample: enrich.guided,
+        caseStudy: enrich.caseStudy,
+        interview: enrich.interview,
+        takeaways: enrich.takeaways,
+        lessonsOverride: enrich.lessons,
         criteria: [
           `Le livrable est produit et correspond à : ${entry.deliverable}`,
           "J'ai d'abord tenté seul (sans IA) au moins 30 minutes.",
@@ -219,11 +235,15 @@ function renderDay(day) {
   if (day.theory) {
     L.push(day.theory);
     L.push('');
-  } else {
+  } else if (!day.theoryExtra) {
     L.push('Ce jour approfondit et applique les notions de la semaine. Travaille la théorie via la ou les leçons de fond ci-dessous, puis passe à la pratique.');
     L.push('');
   }
-  const lessons = LESSON_BY_SKILL[day.skill] ?? [];
+  if (day.theoryExtra) {
+    L.push(day.theoryExtra);
+    L.push('');
+  }
+  const lessons = day.lessonsOverride ?? LESSON_BY_SKILL[day.skill] ?? [];
   if (lessons.length) {
     L.push('**Leçon(s) de fond à lire/relire :**');
     for (const f of lessons) L.push(`- [${lessonTitle(f)}](/doc/lessons/${f.replace(/\.md$/, '')})`);
@@ -296,6 +316,22 @@ function renderDay(day) {
   if (day.aiRule) {
     L.push('## 🤖 Consigne d\'utilisation de l\'IA');
     L.push(day.aiRule);
+    L.push('');
+  }
+
+  // ── Cas métier (compétences data/IA) ──
+  const caseStudy = day.caseStudy ?? CASE_BY_SKILL[day.skill];
+  if (caseStudy) {
+    L.push('## 🏢 Cas métier');
+    L.push(caseStudy);
+    L.push('');
+  }
+
+  // ── Question d'entretien ──
+  const interview = day.interview ?? INTERVIEW_BY_SKILL[day.skill];
+  if (interview) {
+    L.push('## 🎤 Question d\'entretien');
+    L.push(interview);
     L.push('');
   }
 

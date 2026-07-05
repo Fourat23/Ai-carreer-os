@@ -3,7 +3,7 @@
 // Vérifie présence et cohérence (jours, corrections, semaines, mois, sections,
 // compétences, liens internes). Sort en code 1 si une vérification échoue.
 
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SKILLS } from './data/skills.mjs';
@@ -77,13 +77,24 @@ for (const doc of requiredDocs) if (!existsSync(join(CUR, doc))) fail(`Document 
 for (const id of ['01', '02', '03', '04', '05', '06', 'final'])
   if (!existsSync(join(CUR, 'projects', `project-${id}.md`))) fail(`Fiche projet manquante : project-${id}.md`);
 
+// Bibliothèque de leçons : compte réel + cible (avertissement tant que < 60).
+const LESSON_TARGET = 60;
+const nbLessons = existsSync(join(CUR, 'lessons'))
+  ? readdirSync(join(CUR, 'lessons')).filter((f) => f.endsWith('.md')).length : 0;
+if (nbLessons < LESSON_TARGET) warn(`Leçons : ${nbLessons}/${LESSON_TARGET} (cible non atteinte — chantier qualité en cours)`);
+
+// Kit d'auteur (maintenabilité sans Fable).
+for (const f of ['AUTHORING_GUIDE.md', 'templates/lesson-template.md', 'templates/day-template.md',
+  'templates/solution-template.md', 'templates/project-template.md'])
+  if (!existsSync(join(CUR, f))) fail(`Kit d'auteur manquant : ${f}`);
+
 // Rapport
 console.log('── Vérification d\'intégrité du curriculum ──');
 console.log(`Jours          : ${daysOk}/365`);
 console.log(`Corrections    : ${solOk}/365`);
 console.log(`Semaines       : ${weeksOk}/52`);
 console.log(`Mois           : ${monthsOk}/12`);
-console.log(`Leçons de fond : ${[...Array(0)].length || ''}${countLessons()}/21`);
+console.log(`Leçons de fond : ${nbLessons} (cible ${LESSON_TARGET})`);
 for (const w of warns) console.log(`⚠️  ${w}`);
 if (errors.length) {
   console.log(`\n❌ ${errors.length} erreur(s) :`);

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T08:23:40.926Z",
+  "generatedAt": "2026-07-06T08:28:23.700Z",
   "skills": [
     {
       "id": "algo",
@@ -6047,6 +6047,30 @@
     {
       "slug": "interview-preparation",
       "title": "Préparation à l'entretien IA"
+    },
+    {
+      "slug": "recursion",
+      "title": "La récursion en profondeur"
+    },
+    {
+      "slug": "async-javascript",
+      "title": "JavaScript asynchrone"
+    },
+    {
+      "slug": "react-fundamentals",
+      "title": "React : les fondamentaux"
+    },
+    {
+      "slug": "react-hooks-effects",
+      "title": "React : effets, données async et hooks"
+    },
+    {
+      "slug": "express-backend",
+      "title": "Backend Express : structure et robustesse"
+    },
+    {
+      "slug": "authentication",
+      "title": "Authentification et autorisation"
     }
   ]
 }

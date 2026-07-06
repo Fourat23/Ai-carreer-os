@@ -57,14 +57,21 @@ export const LESSONS = [
   { file: 'readme-documentation.md', title: 'Le README recruteur' },
   { file: 'portfolio-github.md', title: 'Portfolio technique GitHub' },
   { file: 'interview-preparation.md', title: "Préparation à l'entretien IA" },
+  // Fondations & web (batch qualité, sous-batch 3)
+  { file: 'recursion.md', title: 'La récursion en profondeur' },
+  { file: 'async-javascript.md', title: 'JavaScript asynchrone' },
+  { file: 'react-fundamentals.md', title: 'React : les fondamentaux' },
+  { file: 'react-hooks-effects.md', title: 'React : effets, données async et hooks' },
+  { file: 'express-backend.md', title: 'Backend Express : structure et robustesse' },
+  { file: 'authentication.md', title: 'Authentification et autorisation' },
 ];
 
 export const LESSON_BY_SKILL = {
   gitlinux: ['terminal-shell-filesystem.md', 'git-fundamentals.md'],
-  jsts: ['javascript-basics.md', 'typescript-basics.md'],
-  algo: ['algorithmic-thinking.md'],
+  jsts: ['javascript-basics.md', 'typescript-basics.md', 'async-javascript.md'],
+  algo: ['algorithmic-thinking.md', 'recursion.md'],
   ds: ['data-structures-intro.md'],
-  http: ['http-rest-json.md', 'api-design-basics.md'],
+  http: ['http-rest-json.md', 'api-design-basics.md', 'express-backend.md'],
   sql: ['sql-foundations.md', 'etl-pipelines.md', 'data-cleaning-quality.md'],
   se: ['clean-code.md', 'testing-foundations.md', 'error-handling.md'],
   archi: ['architecture-basics.md', 'system-design-interview.md'],
@@ -76,7 +83,7 @@ export const LESSON_BY_SKILL = {
   rag: ['rag-fundamentals.md', 'embeddings.md', 'chunking-strategies.md', 'retrieval-reranking.md', 'vector-databases.md', 'rag-evaluation.md'],
   agents: ['agents-fundamentals.md', 'agent-workflows-orchestration.md', 'structured-outputs-tools.md'],
   evalia: ['ai-evaluation.md', 'rag-evaluation.md', 'model-evaluation.md'],
-  secu: ['ai-security.md', 'prompt-injection-defense.md'],
+  secu: ['ai-security.md', 'prompt-injection-defense.md', 'authentication.md'],
   cloud: ['docker-containers.md', 'ci-cd.md', 'deployment-secrets.md', 'monitoring-production.md'],
   comm: ['technical-storytelling.md', 'readme-documentation.md', 'portfolio-github.md', 'interview-preparation.md'],
   autonomy: ['system-design-interview.md', 'algorithmic-thinking.md'],

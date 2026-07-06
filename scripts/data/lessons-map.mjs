@@ -43,6 +43,13 @@ export const LESSONS = [
   { file: 'ci-cd.md', title: 'Intégration continue (CI/CD)' },
   { file: 'technical-storytelling.md', title: 'Storytelling technique' },
   { file: 'system-design-interview.md', title: "L'entretien de design système" },
+  // Production & LLMOps (batch qualité, sous-batch 1)
+  { file: 'observability-logging.md', title: 'Observabilité et logs structurés' },
+  { file: 'monitoring-production.md', title: 'Monitoring et production' },
+  { file: 'deployment-secrets.md', title: 'Secrets, environnements et déploiement' },
+  { file: 'error-handling.md', title: "Gestion d'erreurs" },
+  { file: 'llm-observability.md', title: 'LLMOps : observer un système LLM' },
+  { file: 'llm-cost-optimization.md', title: "Coûts d'inférence : estimer et optimiser" },
 ];
 
 export const LESSON_BY_SKILL = {
@@ -52,18 +59,18 @@ export const LESSON_BY_SKILL = {
   ds: ['data-structures-intro.md'],
   http: ['http-rest-json.md', 'api-design-basics.md'],
   sql: ['sql-foundations.md', 'etl-pipelines.md', 'data-cleaning-quality.md'],
-  se: ['clean-code.md', 'testing-foundations.md'],
+  se: ['clean-code.md', 'testing-foundations.md', 'error-handling.md'],
   archi: ['architecture-basics.md', 'system-design-interview.md'],
   patterns: ['design-patterns-intro.md'],
   python: ['python-foundations.md', 'pandas-data-wrangling.md'],
   ml: ['machine-learning-basics.md', 'statistics-for-ml.md', 'feature-engineering.md', 'model-evaluation.md'],
   dl: ['machine-learning-basics.md', 'llm-fundamentals.md'],
-  llm: ['llm-fundamentals.md', 'prompt-engineering.md', 'structured-outputs-tools.md'],
+  llm: ['llm-fundamentals.md', 'prompt-engineering.md', 'structured-outputs-tools.md', 'llm-cost-optimization.md'],
   rag: ['rag-fundamentals.md', 'embeddings.md', 'chunking-strategies.md', 'retrieval-reranking.md', 'vector-databases.md'],
   agents: ['agents-fundamentals.md', 'structured-outputs-tools.md'],
   evalia: ['ai-evaluation.md'],
   secu: ['ai-security.md'],
-  cloud: ['docker-containers.md', 'ci-cd.md', 'architecture-basics.md'],
+  cloud: ['docker-containers.md', 'ci-cd.md', 'deployment-secrets.md', 'monitoring-production.md'],
   comm: ['technical-storytelling.md', 'clean-code.md'],
   autonomy: ['system-design-interview.md', 'algorithmic-thinking.md'],
 };

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-05T20:30:36.405Z",
+  "generatedAt": "2026-07-06T08:18:27.168Z",
   "skills": [
     {
       "id": "algo",
@@ -5999,6 +5999,30 @@
     {
       "slug": "system-design-interview",
       "title": "L'entretien de design système"
+    },
+    {
+      "slug": "observability-logging",
+      "title": "Observabilité et logs structurés"
+    },
+    {
+      "slug": "monitoring-production",
+      "title": "Monitoring et production"
+    },
+    {
+      "slug": "deployment-secrets",
+      "title": "Secrets, environnements et déploiement"
+    },
+    {
+      "slug": "error-handling",
+      "title": "Gestion d'erreurs"
+    },
+    {
+      "slug": "llm-observability",
+      "title": "LLMOps : observer un système LLM"
+    },
+    {
+      "slug": "llm-cost-optimization",
+      "title": "Coûts d'inférence : estimer et optimiser"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T08:28:23.700Z",
+  "generatedAt": "2026-07-06T13:30:14.500Z",
   "skills": [
     {
       "id": "algo",
@@ -5858,219 +5858,621 @@
   "lessons": [
     {
       "slug": "terminal-shell-filesystem",
-      "title": "Terminal, shell et système de fichiers"
+      "title": "Terminal, shell et système de fichiers",
+      "cat": "Fondations",
+      "level": 1,
+      "min": 40,
+      "skills": [
+        "gitlinux"
+      ]
     },
     {
       "slug": "git-fundamentals",
-      "title": "Git : les fondamentaux"
+      "title": "Git : les fondamentaux",
+      "cat": "Fondations",
+      "level": 1,
+      "min": 45,
+      "skills": [
+        "gitlinux"
+      ]
     },
     {
       "slug": "javascript-basics",
-      "title": "JavaScript : les bases solides"
-    },
-    {
-      "slug": "typescript-basics",
-      "title": "TypeScript : typer pour fiabiliser"
+      "title": "JavaScript : les bases solides",
+      "cat": "Fondations",
+      "level": 1,
+      "min": 50,
+      "skills": [
+        "jsts"
+      ]
     },
     {
       "slug": "algorithmic-thinking",
-      "title": "La pensée algorithmique"
-    },
-    {
-      "slug": "data-structures-intro",
-      "title": "Structures de données : choisir son outil"
-    },
-    {
-      "slug": "http-rest-json",
-      "title": "HTTP, REST et JSON"
-    },
-    {
-      "slug": "api-design-basics",
-      "title": "Concevoir une API"
-    },
-    {
-      "slug": "sql-foundations",
-      "title": "SQL : les fondations"
-    },
-    {
-      "slug": "clean-code",
-      "title": "Clean code"
-    },
-    {
-      "slug": "testing-foundations",
-      "title": "Tester son code"
-    },
-    {
-      "slug": "architecture-basics",
-      "title": "Architecture logicielle : les bases"
-    },
-    {
-      "slug": "design-patterns-intro",
-      "title": "Design patterns : introduction"
-    },
-    {
-      "slug": "python-foundations",
-      "title": "Python : les fondations"
-    },
-    {
-      "slug": "statistics-for-ml",
-      "title": "Statistiques pour le ML"
-    },
-    {
-      "slug": "machine-learning-basics",
-      "title": "Machine learning : les bases"
-    },
-    {
-      "slug": "llm-fundamentals",
-      "title": "LLM : comprendre les grands modèles de langage"
-    },
-    {
-      "slug": "rag-fundamentals",
-      "title": "RAG : retrieval-augmented generation"
-    },
-    {
-      "slug": "agents-fundamentals",
-      "title": "Agents IA : fondamentaux"
-    },
-    {
-      "slug": "ai-evaluation",
-      "title": "Évaluer un système IA"
-    },
-    {
-      "slug": "ai-security",
-      "title": "Sécurité des systèmes IA"
-    },
-    {
-      "slug": "prompt-engineering",
-      "title": "Prompt engineering (sérieux)"
-    },
-    {
-      "slug": "structured-outputs-tools",
-      "title": "Sorties structurées et function calling"
-    },
-    {
-      "slug": "embeddings",
-      "title": "Embeddings"
-    },
-    {
-      "slug": "vector-databases",
-      "title": "Bases de données vectorielles"
-    },
-    {
-      "slug": "chunking-strategies",
-      "title": "Stratégies de chunking"
-    },
-    {
-      "slug": "retrieval-reranking",
-      "title": "Retrieval, recherche hybride et reranking"
-    },
-    {
-      "slug": "pandas-data-wrangling",
-      "title": "pandas : manipuler des données"
-    },
-    {
-      "slug": "data-cleaning-quality",
-      "title": "Nettoyage et qualité des données"
-    },
-    {
-      "slug": "etl-pipelines",
-      "title": "Pipelines ETL"
-    },
-    {
-      "slug": "feature-engineering",
-      "title": "Feature engineering"
-    },
-    {
-      "slug": "model-evaluation",
-      "title": "Évaluer un modèle ML"
-    },
-    {
-      "slug": "docker-containers",
-      "title": "Docker et conteneurs"
-    },
-    {
-      "slug": "ci-cd",
-      "title": "Intégration continue (CI/CD)"
-    },
-    {
-      "slug": "technical-storytelling",
-      "title": "Storytelling technique"
-    },
-    {
-      "slug": "system-design-interview",
-      "title": "L'entretien de design système"
-    },
-    {
-      "slug": "observability-logging",
-      "title": "Observabilité et logs structurés"
-    },
-    {
-      "slug": "monitoring-production",
-      "title": "Monitoring et production"
-    },
-    {
-      "slug": "deployment-secrets",
-      "title": "Secrets, environnements et déploiement"
-    },
-    {
-      "slug": "error-handling",
-      "title": "Gestion d'erreurs"
-    },
-    {
-      "slug": "llm-observability",
-      "title": "LLMOps : observer un système LLM"
-    },
-    {
-      "slug": "llm-cost-optimization",
-      "title": "Coûts d'inférence : estimer et optimiser"
-    },
-    {
-      "slug": "prompt-injection-defense",
-      "title": "Défense contre la prompt injection"
-    },
-    {
-      "slug": "rag-evaluation",
-      "title": "Évaluation RAG avancée"
-    },
-    {
-      "slug": "agent-workflows-orchestration",
-      "title": "Agents avancés et orchestration"
-    },
-    {
-      "slug": "readme-documentation",
-      "title": "Le README recruteur"
-    },
-    {
-      "slug": "portfolio-github",
-      "title": "Portfolio technique GitHub"
-    },
-    {
-      "slug": "interview-preparation",
-      "title": "Préparation à l'entretien IA"
+      "title": "La pensée algorithmique",
+      "cat": "Fondations",
+      "level": 1,
+      "min": 50,
+      "skills": [
+        "algo"
+      ]
     },
     {
       "slug": "recursion",
-      "title": "La récursion en profondeur"
+      "title": "La récursion en profondeur",
+      "cat": "Fondations",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "algo"
+      ]
+    },
+    {
+      "slug": "data-structures-intro",
+      "title": "Structures de données : choisir son outil",
+      "cat": "Fondations",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "ds"
+      ]
+    },
+    {
+      "slug": "typescript-basics",
+      "title": "TypeScript : typer pour fiabiliser",
+      "cat": "Fondations",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "jsts"
+      ]
     },
     {
       "slug": "async-javascript",
-      "title": "JavaScript asynchrone"
+      "title": "JavaScript asynchrone",
+      "cat": "Fondations",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "jsts"
+      ]
     },
     {
-      "slug": "react-fundamentals",
-      "title": "React : les fondamentaux"
+      "slug": "git-advanced",
+      "title": "Git avancé : rebase et historique propre",
+      "cat": "Fondations",
+      "level": 3,
+      "min": 40,
+      "skills": [
+        "gitlinux"
+      ]
     },
     {
-      "slug": "react-hooks-effects",
-      "title": "React : effets, données async et hooks"
+      "slug": "http-rest-json",
+      "title": "HTTP, REST et JSON",
+      "cat": "Web & backend",
+      "level": 1,
+      "min": 45,
+      "skills": [
+        "http"
+      ]
+    },
+    {
+      "slug": "api-design-basics",
+      "title": "Concevoir une API",
+      "cat": "Web & backend",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "http"
+      ]
     },
     {
       "slug": "express-backend",
-      "title": "Backend Express : structure et robustesse"
+      "title": "Backend Express : structure et robustesse",
+      "cat": "Web & backend",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "http",
+        "se"
+      ]
     },
     {
       "slug": "authentication",
-      "title": "Authentification et autorisation"
+      "title": "Authentification et autorisation",
+      "cat": "Web & backend",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "secu",
+        "http"
+      ]
+    },
+    {
+      "slug": "react-fundamentals",
+      "title": "React : les fondamentaux",
+      "cat": "Web & backend",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "jsts"
+      ]
+    },
+    {
+      "slug": "react-hooks-effects",
+      "title": "React : effets, données async et hooks",
+      "cat": "Web & backend",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "jsts"
+      ]
+    },
+    {
+      "slug": "caching-performance",
+      "title": "Cache et performance",
+      "cat": "Web & backend",
+      "level": 3,
+      "min": 45,
+      "skills": [
+        "archi",
+        "se"
+      ]
+    },
+    {
+      "slug": "sql-foundations",
+      "title": "SQL : les fondations",
+      "cat": "Data & SQL",
+      "level": 1,
+      "min": 50,
+      "skills": [
+        "sql"
+      ]
+    },
+    {
+      "slug": "database-modeling",
+      "title": "Modélisation, index et transactions",
+      "cat": "Data & SQL",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "sql"
+      ]
+    },
+    {
+      "slug": "pandas-data-wrangling",
+      "title": "pandas : manipuler des données",
+      "cat": "Data & SQL",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "python",
+        "sql"
+      ]
+    },
+    {
+      "slug": "data-cleaning-quality",
+      "title": "Nettoyage et qualité des données",
+      "cat": "Data & SQL",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "python",
+        "sql"
+      ]
+    },
+    {
+      "slug": "etl-pipelines",
+      "title": "Pipelines ETL",
+      "cat": "Data & SQL",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "python",
+        "sql"
+      ]
+    },
+    {
+      "slug": "clean-code",
+      "title": "Clean code",
+      "cat": "Software engineering & architecture",
+      "level": 1,
+      "min": 45,
+      "skills": [
+        "se"
+      ]
+    },
+    {
+      "slug": "testing-foundations",
+      "title": "Tester son code",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "se"
+      ]
+    },
+    {
+      "slug": "error-handling",
+      "title": "Gestion d'erreurs",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "se"
+      ]
+    },
+    {
+      "slug": "design-patterns-intro",
+      "title": "Design patterns : introduction",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "patterns"
+      ]
+    },
+    {
+      "slug": "architecture-basics",
+      "title": "Architecture logicielle : les bases",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "archi"
+      ]
+    },
+    {
+      "slug": "observability-logging",
+      "title": "Observabilité et logs structurés",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "min": 40,
+      "skills": [
+        "archi",
+        "cloud"
+      ]
+    },
+    {
+      "slug": "python-foundations",
+      "title": "Python : les fondations",
+      "cat": "Python & ML",
+      "level": 1,
+      "min": 45,
+      "skills": [
+        "python"
+      ]
+    },
+    {
+      "slug": "statistics-for-ml",
+      "title": "Statistiques pour le ML",
+      "cat": "Python & ML",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "ml"
+      ]
+    },
+    {
+      "slug": "machine-learning-basics",
+      "title": "Machine learning : les bases",
+      "cat": "Python & ML",
+      "level": 2,
+      "min": 55,
+      "skills": [
+        "ml"
+      ]
+    },
+    {
+      "slug": "feature-engineering",
+      "title": "Feature engineering",
+      "cat": "Python & ML",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "ml"
+      ]
+    },
+    {
+      "slug": "model-evaluation",
+      "title": "Évaluer un modèle ML",
+      "cat": "Python & ML",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "ml",
+        "evalia"
+      ]
+    },
+    {
+      "slug": "scikit-learn-workflow",
+      "title": "Le workflow scikit-learn",
+      "cat": "Python & ML",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "ml",
+        "python"
+      ]
+    },
+    {
+      "slug": "neural-networks",
+      "title": "Réseaux de neurones : ouvrir la boîte noire",
+      "cat": "Python & ML",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "dl"
+      ]
+    },
+    {
+      "slug": "transformers",
+      "title": "Transformers : l'architecture des LLM",
+      "cat": "Python & ML",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "dl",
+        "llm"
+      ]
+    },
+    {
+      "slug": "llm-fundamentals",
+      "title": "LLM : comprendre les grands modèles",
+      "cat": "IA appliquée",
+      "level": 2,
+      "min": 55,
+      "skills": [
+        "llm"
+      ]
+    },
+    {
+      "slug": "prompt-engineering",
+      "title": "Prompt engineering (sérieux)",
+      "cat": "IA appliquée",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "llm"
+      ]
+    },
+    {
+      "slug": "structured-outputs-tools",
+      "title": "Sorties structurées et function calling",
+      "cat": "IA appliquée",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "llm",
+        "agents"
+      ]
+    },
+    {
+      "slug": "embeddings",
+      "title": "Embeddings",
+      "cat": "IA appliquée",
+      "level": 2,
+      "min": 40,
+      "skills": [
+        "rag",
+        "dl"
+      ]
+    },
+    {
+      "slug": "rag-fundamentals",
+      "title": "RAG : retrieval-augmented generation",
+      "cat": "IA appliquée",
+      "level": 2,
+      "min": 55,
+      "skills": [
+        "rag"
+      ]
+    },
+    {
+      "slug": "chunking-strategies",
+      "title": "Stratégies de chunking",
+      "cat": "IA appliquée",
+      "level": 2,
+      "min": 40,
+      "skills": [
+        "rag"
+      ]
+    },
+    {
+      "slug": "vector-databases",
+      "title": "Bases de données vectorielles",
+      "cat": "IA appliquée",
+      "level": 2,
+      "min": 40,
+      "skills": [
+        "rag"
+      ]
+    },
+    {
+      "slug": "retrieval-reranking",
+      "title": "Retrieval, hybride et reranking",
+      "cat": "IA appliquée",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "rag"
+      ]
+    },
+    {
+      "slug": "ai-evaluation",
+      "title": "Évaluer un système IA",
+      "cat": "IA appliquée",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "evalia"
+      ]
+    },
+    {
+      "slug": "rag-evaluation",
+      "title": "Évaluation RAG avancée",
+      "cat": "IA appliquée",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "evalia",
+        "rag"
+      ]
+    },
+    {
+      "slug": "agents-fundamentals",
+      "title": "Agents IA : fondamentaux",
+      "cat": "IA appliquée",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "agents"
+      ]
+    },
+    {
+      "slug": "agent-workflows-orchestration",
+      "title": "Agents avancés et orchestration",
+      "cat": "IA appliquée",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "agents"
+      ]
+    },
+    {
+      "slug": "ai-security",
+      "title": "Sécurité des systèmes IA",
+      "cat": "IA appliquée",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "secu"
+      ]
+    },
+    {
+      "slug": "prompt-injection-defense",
+      "title": "Défense contre la prompt injection",
+      "cat": "IA appliquée",
+      "level": 3,
+      "min": 45,
+      "skills": [
+        "secu"
+      ]
+    },
+    {
+      "slug": "llm-cost-optimization",
+      "title": "Coûts d'inférence : estimer et optimiser",
+      "cat": "IA appliquée",
+      "level": 3,
+      "min": 40,
+      "skills": [
+        "llm",
+        "cloud"
+      ]
+    },
+    {
+      "slug": "deployment-secrets",
+      "title": "Secrets, environnements et déploiement",
+      "cat": "Production & DevOps",
+      "level": 2,
+      "min": 40,
+      "skills": [
+        "cloud",
+        "secu"
+      ]
+    },
+    {
+      "slug": "docker-containers",
+      "title": "Docker et conteneurs",
+      "cat": "Production & DevOps",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "cloud"
+      ]
+    },
+    {
+      "slug": "ci-cd",
+      "title": "Intégration continue (CI/CD)",
+      "cat": "Production & DevOps",
+      "level": 2,
+      "min": 40,
+      "skills": [
+        "cloud"
+      ]
+    },
+    {
+      "slug": "monitoring-production",
+      "title": "Monitoring et production",
+      "cat": "Production & DevOps",
+      "level": 3,
+      "min": 45,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "llm-observability",
+      "title": "LLMOps : observer un système LLM",
+      "cat": "Production & DevOps",
+      "level": 3,
+      "min": 45,
+      "skills": [
+        "cloud",
+        "llm"
+      ]
+    },
+    {
+      "slug": "readme-documentation",
+      "title": "Le README recruteur",
+      "cat": "Portfolio & carrière",
+      "level": 1,
+      "min": 35,
+      "skills": [
+        "comm"
+      ]
+    },
+    {
+      "slug": "portfolio-github",
+      "title": "Portfolio technique GitHub",
+      "cat": "Portfolio & carrière",
+      "level": 1,
+      "min": 35,
+      "skills": [
+        "comm"
+      ]
+    },
+    {
+      "slug": "technical-storytelling",
+      "title": "Storytelling technique",
+      "cat": "Portfolio & carrière",
+      "level": 2,
+      "min": 40,
+      "skills": [
+        "comm"
+      ]
+    },
+    {
+      "slug": "system-design-interview",
+      "title": "L'entretien de design système",
+      "cat": "Portfolio & carrière",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "archi",
+        "comm"
+      ]
+    },
+    {
+      "slug": "interview-preparation",
+      "title": "Préparation à l'entretien IA",
+      "cat": "Portfolio & carrière",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "comm"
+      ]
     }
   ]
 }

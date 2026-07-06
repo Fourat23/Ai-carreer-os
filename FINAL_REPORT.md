@@ -4,6 +4,15 @@ Rapport de fin de construction. À lire en entier avant de commencer.
 
 ---
 
+## 0-bis. Mise à jour — bibliothèque de 60 leçons (Batch 1 terminé)
+
+- **60 leçons de fond** (`curriculum/lessons/`), organisées en 8 catégories (Fondations, Web & backend, Data & SQL, SE & architecture, Python & ML, IA appliquée, Production & DevOps, Portfolio & carrière), chacune avec exercices, corrections, questions d'entretien et vocabulaire. 39 suivent le gabarit complet neuf (modèle mental, exemple guidé, exemple appliqué IA, anti-patterns, checklist « quand je suis prêt »).
+- **Page /lessons enrichie** : ordre recommandé par catégorie, badges niveau (débutant/intermédiaire/avancé), durée estimée, compétences associées — alimentée par `program.json` (source : `scripts/data/lessons-map.mjs`).
+- **Audits durcis** : moins de 60 leçons = ERREUR bloquante dans `curriculum:check` et `curriculum:depth-check` ; question d'entretien + cas métier restent obligatoires pour tous les jours data/IA.
+- **Chaque jour du programme** renvoie vers ses leçons de référence (mappings compétence→leçons complets, y compris DL→transformers, RAG→évaluation RAG, cloud→Docker/CI/secrets/monitoring).
+- Checks : `curriculum:check` ✅ (365/365/52/12, 60 leçons) · `curriculum:depth-check` ✅ · tests 20/20 ✅ · build ✅.
+- Reste à faire (voir NEXT_STEPS_FABLE.md) : Batch 4 prioritaire (enrichir les jours 181-270 cœur IA via `days-enrich.mjs`), puis Batches 2/3/5 ; retrofit optionnel des 21 leçons d'origine au gabarit complet.
+
 ## 0. Mise à jour — audit de complétion + enrichissement pédagogique
 
 Cette section résume le second passage (audit brutal + renforcement théorique). Le reste du rapport (sections 1-10) reste valable.

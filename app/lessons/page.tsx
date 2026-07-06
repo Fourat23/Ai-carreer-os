@@ -3,48 +3,67 @@ import { getProgram } from '@/lib/program';
 
 export const dynamic = 'force-dynamic';
 
-// Regroupement thématique des leçons (par préfixe de slug connu).
-function groupOf(slug: string): string {
-  if (['terminal-shell-filesystem', 'git-fundamentals', 'git-advanced', 'javascript-basics', 'typescript-basics', 'async-javascript', 'algorithmic-thinking', 'recursion', 'data-structures-intro'].includes(slug)) return 'Fondations';
-  if (['http-rest-json', 'api-design-basics', 'sql-foundations', 'express-backend', 'authentication', 'caching-performance', 'react-fundamentals', 'react-hooks-effects'].includes(slug)) return 'Web / API / Data';
-  if (['clean-code', 'testing-foundations', 'debugging-methodology', 'refactoring', 'architecture-basics', 'design-patterns-intro', 'observability-logging', 'error-handling'].includes(slug)) return 'Software engineering / Architecture';
-  if (['python-foundations', 'pandas-data-wrangling', 'data-cleaning-quality', 'etl-pipelines', 'statistics-for-ml', 'machine-learning-basics', 'feature-engineering', 'model-evaluation', 'neural-networks', 'transformers'].includes(slug)) return 'Python / Data / ML';
-  if (['docker-containers', 'ci-cd', 'deployment-secrets', 'monitoring-production'].includes(slug)) return 'DevOps / Cloud / Production';
-  if (['readme-documentation', 'technical-storytelling', 'portfolio-github', 'cv-linkedin', 'interview-preparation', 'system-design-interview'].includes(slug)) return 'Portfolio / Carrière';
-  return 'IA appliquée (LLM / RAG / agents / éval / sécurité)';
-}
-
-const ORDER = [
-  'Fondations', 'Web / API / Data', 'Software engineering / Architecture',
-  'Python / Data / ML', 'IA appliquée (LLM / RAG / agents / éval / sécurité)',
-  'DevOps / Cloud / Production', 'Portfolio / Carrière',
+// Ordre recommandé des catégories (suit la progression du programme).
+const CAT_ORDER = [
+  'Fondations',
+  'Web & backend',
+  'Data & SQL',
+  'Software engineering & architecture',
+  'Python & ML',
+  'IA appliquée',
+  'Production & DevOps',
+  'Portfolio & carrière',
 ];
 
+const LEVEL_LABEL: Record<number, { label: string; cls: string }> = {
+  1: { label: 'débutant', cls: 'ok' },
+  2: { label: 'intermédiaire', cls: 'accent' },
+  3: { label: 'avancé', cls: 'review' },
+};
+
 export default function LessonsPage() {
-  const lessons = getProgram().lessons ?? [];
-  const groups = new Map<string, { slug: string; title: string }[]>();
+  const program = getProgram();
+  const lessons = program.lessons ?? [];
+  const skillName = (id: string) => program.skills.find((s) => s.id === id)?.name ?? id;
+
+  const byCat = new Map<string, typeof lessons>();
   for (const l of lessons) {
-    const g = groupOf(l.slug);
-    if (!groups.has(g)) groups.set(g, []);
-    groups.get(g)!.push(l);
+    const cat = l.cat ?? 'Autres';
+    if (!byCat.has(cat)) byCat.set(cat, []);
+    byCat.get(cat)!.push(l);
   }
-  const sorted = ORDER.filter((g) => groups.has(g));
+  const cats = [...CAT_ORDER.filter((c) => byCat.has(c)), ...[...byCat.keys()].filter((c) => !CAT_ORDER.includes(c))];
+  const totalMin = lessons.reduce((t, l) => t + (l.min ?? 0), 0);
 
   return (
     <>
       <h1>Leçons de fond</h1>
       <p className="subtitle">
-        {lessons.length} leçons approfondies et réutilisables. Chaque jour renvoie vers la ou les leçons
-        correspondantes dans son bloc « Cours approfondi ». À lire pour la profondeur, à relire pour consolider.
+        {lessons.length} leçons approfondies et réutilisables (~{Math.round(totalMin / 60)} h de théorie + exercices).
+        L'ordre dans chaque catégorie est l'ordre recommandé — il suit la progression des 12 mois.
+        Chaque jour du programme renvoie vers ses leçons dans le bloc « Cours approfondi ».
       </p>
-      {sorted.map((g) => (
-        <div key={g} className="card" style={{ marginBottom: 14 }}>
-          <h3>{g}</h3>
-          {groups.get(g)!.map((l) => (
-            <div key={l.slug} style={{ padding: '5px 0' }}>
-              <Link href={`/doc/lessons/${l.slug}`}>{l.title}</Link>
-            </div>
-          ))}
+      {cats.map((cat) => (
+        <div key={cat} className="card" style={{ marginBottom: 14 }}>
+          <h3>{cat}</h3>
+          {byCat.get(cat)!.map((l, i) => {
+            const lvl = LEVEL_LABEL[l.level ?? 2] ?? LEVEL_LABEL[2];
+            return (
+              <div key={l.slug} className="row" style={{ padding: '6px 0', justifyContent: 'space-between', borderBottom: '1px solid var(--border)' }}>
+                <div className="row" style={{ gap: 10 }}>
+                  <span className="muted" style={{ width: 18, textAlign: 'right' }}>{i + 1}.</span>
+                  <Link href={`/doc/lessons/${l.slug}`}>{l.title}</Link>
+                </div>
+                <div className="row" style={{ gap: 6 }}>
+                  {(l.skills ?? []).map((s) => (
+                    <span key={s} className="badge" title="Compétence associée">{skillName(s)}</span>
+                  ))}
+                  <span className={`badge ${lvl.cls}`}>{lvl.label}</span>
+                  <span className="badge">~{l.min} min</span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       ))}
     </>

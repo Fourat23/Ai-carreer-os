@@ -88,7 +88,7 @@ for (const f of lessonFiles) {
   const full = ['🎯 Objectif', 'Modèle mental', 'Exemple guidé', "Questions d'entretien", 'quand suis-je prêt'];
   if (full.every((s) => md.includes(s))) fullGabarit++;
 }
-if (nbLessons < LESSON_TARGET) warns.push(`Bibliothèque : ${nbLessons}/${LESSON_TARGET} leçons (cible non atteinte — objectif de qualité en cours)`);
+if (nbLessons < LESSON_TARGET) errors.push(`Bibliothèque : ${nbLessons}/${LESSON_TARGET} leçons — exigence minimale non atteinte`);
 
 // ── Rapport ──
 const nWork = program.days.filter((d) => !d.isReview).length;

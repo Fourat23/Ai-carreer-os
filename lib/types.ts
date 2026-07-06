@@ -40,6 +40,10 @@ export interface ProgramMonth {
 export interface Lesson {
   slug: string;
   title: string;
+  cat?: string;
+  level?: number; // 1 = débutant, 2 = intermédiaire, 3 = avancé
+  min?: number;   // durée estimée (lecture + exercices), en minutes
+  skills?: string[];
 }
 
 export interface Program {

@@ -80,6 +80,28 @@ question d'entretien pour jours IA, alerte vague/court.
 ## Règle de sécurité (chaque batch)
 `npm run generate` (si besoin) → `curriculum:check` → `curriculum:depth-check` → `npm test` → `npm run build` → corriger → commit + push.
 
+## ✅ BATCH 1 TERMINÉ — 60/60 leçons
+
+- **60 leçons de fond** dans `curriculum/lessons/` (39 au gabarit complet neuf, 21 au gabarit d'origine — toutes structurées, avec exercices et vocabulaire).
+- **Métadonnées par leçon** (catégorie, niveau 1-3, durée en minutes, compétences) dans `LESSONS` de `lessons-map.mjs`, exportées dans `program.json`, affichées sur **/lessons** (ordre recommandé, badges niveau/durée/compétences, 8 catégories).
+- **Audits durcis** : `curriculum:check` et `curriculum:depth-check` ÉCHOUENT désormais sous 60 leçons (exigence, plus un warning).
+- Mappings compétence→leçons complets (chaque compétence pointe vers ses leçons de référence, y compris avancées).
+
+### Leçons ajoutées cette session (sous-batchs 4-7)
+- Production/LLMOps : observability-logging, monitoring-production, deployment-secrets, error-handling, llm-observability, llm-cost-optimization.
+- IA avancée & carrière : prompt-injection-defense, rag-evaluation, agent-workflows-orchestration, readme-documentation, portfolio-github, interview-preparation.
+- Fondations & web : recursion, async-javascript, react-fundamentals, react-hooks-effects, express-backend, authentication.
+- ML/DL & data : neural-networks, transformers, scikit-learn-workflow, database-modeling, caching-performance, git-advanced.
+
+### Retrofit optionnel (non bloquant)
+Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guidé / Questions d'entretien / Checklist » du nouveau gabarit (39/60 les ont). Les upgrader ferait 60/60 au gabarit complet. Prompt : `prompts/create-lesson.md` en mode réécriture.
+
+## PROCHAIN BATCH RECOMMANDÉ : Batch 4 — jours 181-270 (cœur IA)
+Le plus rentable maintenant : enrichir les jours LLM/RAG/agents/éval/sécu via `scripts/data/days-enrich.mjs`
+(champs `theory` 200-300 mots + `guided` + `interview` spécifique par jour — exemplaires : jours 92 et 211).
+Les leçons profondes vers lesquelles ces jours pointent existent désormais TOUTES.
+Ensuite : Batch 2 (exemples guidés 31-90), Batch 3 (91-180), Batch 5 (271-365).
+
 ## Journal d'avancement
 - **Batch 0** : ✅ FAIT — audit + ce fichier.
 - **Batch 7 (anticipé)** : ✅ FAIT — `AUTHORING_GUIDE.md`, `templates/*`, `prompts/*`.

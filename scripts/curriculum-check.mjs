@@ -81,7 +81,7 @@ for (const id of ['01', '02', '03', '04', '05', '06', 'final'])
 const LESSON_TARGET = 60;
 const nbLessons = existsSync(join(CUR, 'lessons'))
   ? readdirSync(join(CUR, 'lessons')).filter((f) => f.endsWith('.md')).length : 0;
-if (nbLessons < LESSON_TARGET) warn(`Leçons : ${nbLessons}/${LESSON_TARGET} (cible non atteinte — chantier qualité en cours)`);
+if (nbLessons < LESSON_TARGET) fail(`Leçons : ${nbLessons}/${LESSON_TARGET} — la bibliothèque doit compter au moins ${LESSON_TARGET} leçons`);
 
 // Kit d'auteur (maintenabilité sans Fable).
 for (const f of ['AUTHORING_GUIDE.md', 'templates/lesson-template.md', 'templates/day-template.md',

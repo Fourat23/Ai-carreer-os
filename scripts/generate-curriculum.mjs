@@ -622,7 +622,10 @@ const program = {
   })),
   weeks: WEEKS.map((w) => ({ week: w.week, theme: w.theme, month: monthOfWeek(w.week), skills: w.skills })),
   days: programDays,
-  lessons: LESSONS.map((l) => ({ slug: l.file.replace(/\.md$/, ''), title: l.title })),
+  lessons: LESSONS.map((l) => ({
+    slug: l.file.replace(/\.md$/, ''), title: l.title,
+    cat: l.cat, level: l.level, min: l.min, skills: l.skills ?? [],
+  })),
 };
 writeFileSync(join(ROOT, 'data', 'program.json'), JSON.stringify(program, null, 2));
 

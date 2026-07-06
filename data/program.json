@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T08:18:27.168Z",
+  "generatedAt": "2026-07-06T08:23:40.926Z",
   "skills": [
     {
       "id": "algo",
@@ -6023,6 +6023,30 @@
     {
       "slug": "llm-cost-optimization",
       "title": "Coûts d'inférence : estimer et optimiser"
+    },
+    {
+      "slug": "prompt-injection-defense",
+      "title": "Défense contre la prompt injection"
+    },
+    {
+      "slug": "rag-evaluation",
+      "title": "Évaluation RAG avancée"
+    },
+    {
+      "slug": "agent-workflows-orchestration",
+      "title": "Agents avancés et orchestration"
+    },
+    {
+      "slug": "readme-documentation",
+      "title": "Le README recruteur"
+    },
+    {
+      "slug": "portfolio-github",
+      "title": "Portfolio technique GitHub"
+    },
+    {
+      "slug": "interview-preparation",
+      "title": "Préparation à l'entretien IA"
     }
   ]
 }

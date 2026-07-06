@@ -50,6 +50,13 @@ export const LESSONS = [
   { file: 'error-handling.md', title: "Gestion d'erreurs" },
   { file: 'llm-observability.md', title: 'LLMOps : observer un système LLM' },
   { file: 'llm-cost-optimization.md', title: "Coûts d'inférence : estimer et optimiser" },
+  // IA avancée & carrière (batch qualité, sous-batch 2)
+  { file: 'prompt-injection-defense.md', title: 'Défense contre la prompt injection' },
+  { file: 'rag-evaluation.md', title: 'Évaluation RAG avancée' },
+  { file: 'agent-workflows-orchestration.md', title: 'Agents avancés et orchestration' },
+  { file: 'readme-documentation.md', title: 'Le README recruteur' },
+  { file: 'portfolio-github.md', title: 'Portfolio technique GitHub' },
+  { file: 'interview-preparation.md', title: "Préparation à l'entretien IA" },
 ];
 
 export const LESSON_BY_SKILL = {
@@ -66,12 +73,12 @@ export const LESSON_BY_SKILL = {
   ml: ['machine-learning-basics.md', 'statistics-for-ml.md', 'feature-engineering.md', 'model-evaluation.md'],
   dl: ['machine-learning-basics.md', 'llm-fundamentals.md'],
   llm: ['llm-fundamentals.md', 'prompt-engineering.md', 'structured-outputs-tools.md', 'llm-cost-optimization.md'],
-  rag: ['rag-fundamentals.md', 'embeddings.md', 'chunking-strategies.md', 'retrieval-reranking.md', 'vector-databases.md'],
-  agents: ['agents-fundamentals.md', 'structured-outputs-tools.md'],
-  evalia: ['ai-evaluation.md'],
-  secu: ['ai-security.md'],
+  rag: ['rag-fundamentals.md', 'embeddings.md', 'chunking-strategies.md', 'retrieval-reranking.md', 'vector-databases.md', 'rag-evaluation.md'],
+  agents: ['agents-fundamentals.md', 'agent-workflows-orchestration.md', 'structured-outputs-tools.md'],
+  evalia: ['ai-evaluation.md', 'rag-evaluation.md', 'model-evaluation.md'],
+  secu: ['ai-security.md', 'prompt-injection-defense.md'],
   cloud: ['docker-containers.md', 'ci-cd.md', 'deployment-secrets.md', 'monitoring-production.md'],
-  comm: ['technical-storytelling.md', 'clean-code.md'],
+  comm: ['technical-storytelling.md', 'readme-documentation.md', 'portfolio-github.md', 'interview-preparation.md'],
   autonomy: ['system-design-interview.md', 'algorithmic-thinking.md'],
 };
 

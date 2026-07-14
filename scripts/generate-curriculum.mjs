@@ -28,9 +28,10 @@ import { GUIDED_01_30 } from './data/days-01-30-guided.mjs';
 import { DAYS_ENRICH as ENRICH_BASE } from './data/days-enrich.mjs';
 import { ENRICH_181_210 } from './data/days-enrich-181-210.mjs';
 import { ENRICH_211_240 } from './data/days-enrich-211-240.mjs';
+import { ENRICH_241_270 } from './data/days-enrich-241-270.mjs';
 
 // Fusion des enrichissements par jour (les fichiers spécialisés priment).
-const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_181_210, ...ENRICH_211_240 };
+const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_181_210, ...ENRICH_211_240, ...ENRICH_241_270 };
 import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.
@@ -218,6 +219,29 @@ function renderDay(day) {
       L.push('');
       L.push('### Exercice de réflexion architecturale');
       L.push(r.archiExercise);
+      L.push('');
+    }
+    // Enrichissement optionnel des revues (synthèse, grille de notation,
+    // plan de remédiation, questions d'entretien) via DAYS_ENRICH.
+    const enrichRev = DAYS_ENRICH[day.day] ?? {};
+    if (enrichRev.reviewSynthese) {
+      L.push('### Synthèse de la semaine');
+      L.push(enrichRev.reviewSynthese);
+      L.push('');
+    }
+    if (enrichRev.reviewGrid) {
+      L.push('### Grille de notation');
+      L.push(enrichRev.reviewGrid);
+      L.push('');
+    }
+    if (enrichRev.remediation) {
+      L.push('### Plan de remédiation (si un critère échoue)');
+      L.push(enrichRev.remediation);
+      L.push('');
+    }
+    if (enrichRev.interview) {
+      L.push('### Questions d\'entretien de la semaine');
+      L.push(enrichRev.interview);
       L.push('');
     }
     L.push('### Auto-évaluation');

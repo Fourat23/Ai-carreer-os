@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+La consolidation réussit si un tiers peut reconstruire ton système ET tes raisons depuis le commit : config avec justifications pointant vers les tableaux, baseline complète (qualité, latence, coût) dans le manifeste, dette listée avec ses raisons. Rien de neuf ne s'invente — tout se compile et se fige.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Consolider en recopiant les conclusions sans les chiffres : « structurel car meilleur » ne permet aucune ré-évaluation — le renvoi au tableau, si.
+- Une baseline partielle (qualité sans latence ni coût) : l'hybride et le reranking DÉGRADENT la latence — sans baseline latence, impossible d'arbitrer la semaine prochaine.
+- Cacher la dette d'expérimentation : les synthèses à 3/6 non résolues sont une info CRUCIALE pour la suite, pas une honte à masquer.
+- Différer la consolidation (« je le ferai après l'hybride ») : chaque expérience de plus rend la compilation plus floue — on fige à chaque palier.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le fichier de config existe, chaque paramètre a sa justification avec renvoi.
+- La baseline couvre qualité (par type), refus, latence décomposée, coût.
+- La dette liste ≥ 3 non-testés avec leurs raisons.
+- Le commit est tagué retrieval-v1 et le manifeste de l'index pointe vers cette config.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Le récit de la semaine en 90 secondes : « trois expériences contrôlées — chunking, versioning, embeddings — compilées en une config de référence justifiée ligne à ligne, une baseline chiffrée à battre, et une dette explicite dont une observation clé : mes synthèses résistent au retrieval, le problème est probablement ailleurs ». C'est un rapport de fin d'itération d'ingénieur ML — à 30 ans de carrière, le format ne changera pas.

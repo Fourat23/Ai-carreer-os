@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+L'ablation est valide si tout est constant sauf la configuration, si la lecture est marginale (étage vs étage précédent), et si les trois familles de colonnes (qualité par type, latence, coût) permettent l'arbitrage. La décision finale est un PARAMÈTRE documenté (défaut + mode dégradé), pas un verdict absolu.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Comparer chaque config au vectoriel initial au lieu de la précédente : les gains marginaux se brouillent et le reranking s'attribue le mérite de l'hybride.
+- Un tableau qualité-seulement : sans latence ni coût, l'ablation conclut toujours « empiler plus » — les colonnes prix sont ce qui rend la décision réelle.
+- Ignorer les questions perdues par étage : le +3 global de l'hybride qui cache une régression (q.14) doit être VISIBLE, tracé, expliqué.
+- Re-mesurer ce qui existe déjà : l'ablation compile les campagnes des jours 246-248 — re-payer 4 campagnes complètes est du gaspillage (et introduit du bruit si quoi que ce soit a bougé).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le tableau couvre les 4 configurations × (qualité par type, p50, €/q, perdu).
+- La lecture marginale est écrite pour chaque étage.
+- La q.14 (perdue puis récupérée) est documentée de bout en bout.
+- La décision défaut + mode dégradé est dans configs/, avec ses conditions.
+- La ligne synthèses inchangées est explicitement transmise au chantier génération.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Le tableau d'ablation EST ta présentation : projette-le (ou dessine-le) et déroule les marges ligne à ligne en 2 minutes, en terminant par la découverte (« ce qui ne bouge pas localise le vrai problème »). C'est le récit d'ingénierie le plus complet de ton portfolio — répète-le jusqu'à la fluidité.

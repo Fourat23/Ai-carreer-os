@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le versioning tient en trois preuves : le manifeste complet (on sait ce qu'est l'index), la reconstruction à l'identique (on peut le refaire), la migration blanche jouée avec rollback (on sait en changer sans danger). La règle d'invalidation (incrémental vs total) découle de la recette : tout ce qui change la recette change TOUS les vecteurs.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Versionner l'index sans le hash du corpus : le manifeste dit « v3 » mais ne détecte pas un corpus modifié sous lui — le check de synchronisation est la moitié de la valeur.
+- Reconstruire « sur place » dans la collection active : pendant la reconstruction, les requêtes tapent un index à moitié vide — toujours en parallèle puis bascule.
+- Croire qu'un changement de paramètre de chunking est « mineur » : min_tk 80→120 change tous les chunks, donc tous les vecteurs — reconstruction totale.
+- Garder dix versions d'index « au cas où » : deux suffisent (active + précédente pour rollback) ; au-delà, c'est du disque et de la confusion.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le manifeste existe pour l'index actif et contient les 4 ingrédients + le score de validation.
+- rag build reconstruit un index identique (n_chunks égal, échantillon de vecteurs comparé).
+- La migration blanche est jouée : bascule, rollback testé, journal écrit.
+- Le check de désynchronisation corpus/manifeste détecte le document modifié en douce (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Déroule la règle d'invalidation au tableau : les 4 ingrédients de la recette, une flèche « qui change quoi » (corpus → incrémental ; chunking/embedding/code → total). Puis la procédure de migration en 4 temps. C'est une question de system design RAG quasi certaine — et tu l'auras VÉCUE, pas apprise.

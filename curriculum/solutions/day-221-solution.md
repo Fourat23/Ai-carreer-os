@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le refactoring est réussi si le harnais passe à l'identique ET si chaque module est remplaçable seul (le test mental : « changer le chunking touche combien de fichiers ? » — réponse attendue : un). Le README documente les contrats parce que ce sont eux, pas le code, qui constituent l'architecture.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Refactorer sans harnais : tu ne sauras pas si les réponses ont changé — et avec un LLM à temp 0, elles DOIVENT être stables.
+- Des modules qui s'importent en cascade (answer importe chunk) : les frontières sont décoratives si tout dépend de tout.
+- Cacher les formats intermédiaires « pour encapsuler » : le mois 9 a BESOIN de brancher des mesures entre les étapes.
+- README qui décrit les fichiers au lieu des contrats : « chunk.py découpe les textes » n'aide personne ; le format d'entrée/sortie, si.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Harnais : 10/10 questions donnent les mêmes réponses qu'avant le refactoring.
+- `rag search` fonctionne sans appel de génération (et affiche les scores).
+- Changer la taille de chunk ne touche qu'un fichier + une ré-ingestion.
+- Le README contient le schéma du pipeline et le format entre chaque étape.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Déroule l'architecture au tableau depuis ton README : 5 boîtes, les formats entre elles, et UNE décision de découpage justifiée (search/answer séparés pour déboguer le retrieval seul). C'est l'exercice « explique ton projet » de l'entretien, préparé à l'avance.

@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le calcul part de constantes MESURÉES (octets/chunk, ms/1000 chunks, €/1000 chunks), extrapole sur trois ordres de grandeur, et nomme les murs dans l'ordre où ils tombent. La conclusion utile est la MARGE : « je suis à x % du premier mur » — c'est elle qui décide de l'urgence (ou non) de la vector DB.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Calculer la mémoire des vecteurs et oublier le FORMAT (JSON : texte, parsing, tout-en-RAM) : le format casse presque toujours avant les maths.
+- Extrapoler sans constantes mesurées : un calcul débranché du réel se démonte en une question.
+- Chercher la précision (« 3,7 Go ») au lieu des ordres de grandeur : à ×2 près suffit pour décider, et la fausse précision décrédibilise.
+- Conclure « il FAUT une vector DB » quand ta marge est de ×50 : le calcul sert aussi à justifier de NE PAS migrer tout de suite.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les 4 constantes sont mesurées sur TON système, pas estimées.
+- Le tableau ×10/×100/×1000 est complet (mémoire, latence, coût).
+- Les 2 premiers murs sont nommés avec leur seuil approximatif.
+- La marge actuelle est chiffrée et la conclusion (migrer ou pas, quand) en découle.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Refais le calcul à voix haute en 90 secondes, de mémoire, avec des ronds chiffres : c'est un exercice d'entretien à part entière. L'aisance à manipuler les ordres de grandeur (× dimensions × octets, latence linéaire) s'entraîne — et s'entend immédiatement.

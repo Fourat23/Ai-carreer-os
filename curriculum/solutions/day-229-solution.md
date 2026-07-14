@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le filtrage est correct s'il s'applique AVANT la similarité (sous-matrice, pas post-filtre), s'il est exposé proprement (CLI), et s'il est PROUVÉ par le cas à deux documents concurrents. Le périmètre vide est un cas géré avec un message spécifique — pas un refus mystérieux.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Filtrer le top-k après la recherche globale : le piège classique — résultats vides alors que la réponse existe dans le périmètre.
+- Des filtres en substring flou (source contient « contrat ») quand l'utilisateur attend un match exact : définis la sémantique de chaque filtre.
+- Ne pas distinguer « périmètre vide » de « rien de pertinent » : deux messages différents, deux actions utilisateur différentes.
+- Construire le test avec une question qui n'existe que dans UN document : le filtre semblera marcher sans rien prouver.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le cas deux-documents est construit et le filtre change la réponse (avant/après documentés).
+- Filtre sur source inexistante → message « périmètre vide » explicite.
+- La CLI accepte au moins source et type.
+- Le gain de latence du filtrage est mesuré (variante).
+- Sans filtre, le comportement reste strictement identique à avant (non-régression).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Déroule le scénario des deux contrats en 60 secondes : sans filtre le 2023 gagne, avec --source le 2025 répond, et la règle « filtrer AVANT de chercher » avec le pourquoi. Simple, visuel, et ça répond d'avance à « pourquoi une vector DB ? » — par les fonctionnalités, pas par la mode.

@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+L'ADR est réussie si la décision découle de MESURES (jour 228), si les conséquences négatives sont écrites, et si les conditions de révision sont observables. La revue est réussie si le triage acquis/fragile/ouvert est honnête et si les chantiers du mois 9 sortent des DONNÉES (autopsies) plutôt que de l'envie.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Une ADR-plaidoyer (que des avantages pour l'option choisie) : sans conséquences négatives assumées, c'est du marketing interne.
+- Décider « vector DB » parce que le programme le prévoit : la bonne formulation est « je migre au jour 239 POUR ces raisons, avec ces conditions » — l'ADR peut cadrer une décision planifiée.
+- Une revue-célébration sans FRAGILE ni chiffres : l'inventaire honnête est ce qui la rend utile (et crédible en entretien).
+- Oublier les conditions de révision : une décision sans critère de réouverture redevient un dogme.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- ADR-006 complète : contexte chiffré, 4 options, décision, ≥ 2 conséquences négatives, ≥ 2 conditions de révision.
+- La revue contient les 3 listes (acquis/fragile/ouvert) et 3 chiffres du mois.
+- Les chantiers « ouverts » citent les données qui les justifient (autopsies, grille).
+- Un tiers comprendrait la décision sans te parler (test de relecture).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Présente l'ADR en 90 secondes : la question, les chiffres, la décision différée avec conditions, et UNE conséquence négative assumée à voix haute (« je re-validerai Chroma contre ma brute force, parce que je perds la transparence »). Assumer un inconvénient en entretien est un signal de séniorité que presque personne n'envoie.

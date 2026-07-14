@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+La valeur de v0 n'est pas son score (il sera moyen — c'est attendu) mais la qualité de la récolte : 15 questions variées écrites avant, trois verdicts par question dont le décisif « bon chunk dans top-k », et un journal brut. Le tri retrieval/génération est ce qui rend l'amélioration PILOTABLE.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Corriger au fil de l'eau : chaque retouche invalide les mesures précédentes — la passe se fait à système GELÉ.
+- Des questions calquées sur les documents (mêmes mots) : tu testes la mémorisation, pas l'usage réel — les reformulées sont là pour ça.
+- Juger « réponse OK » sans vérifier les citations : une bonne réponse avec citations fausses est un échec de confiance.
+- Conclure « le RAG est mauvais » au lieu de compter OÙ il échoue : v0 sert à localiser, pas à noter.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- 15/15 lignes de grille remplies, les 3 verdicts partout.
+- Le compte final sépare échecs retrieval / échecs génération / refus corrects.
+- Au moins une surprise notée au journal (il y en a toujours).
+- Le système n'a pas changé d'un octet pendant la passe.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Présente ta grille comme un résultat d'audit : « 9/15 correctes ; 4 échecs, dont 3 de retrieval concentrés sur les questions reformulées — le chantier prioritaire est donc le retrieval, pas le prompt ». Diagnostiquer avant de traiter : c'est LA posture qui te vend.

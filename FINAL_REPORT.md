@@ -4,6 +4,14 @@ Rapport de fin de construction. À lire en entier avant de commencer.
 
 ---
 
+## 0-quater. Mise à jour — LLM prod & RAG jours 211-240 (Batch 4B terminé)
+
+- **26 jours d'apprentissage enrichis en profondeur** (211-216, 218-223, 225-230, 232-237, 239-240 — les jours 217/224/231/238 sont des revues). Couvre le LLM en production (prompts versionnés + testés, guardrails, function calling avancé, composant appel-LLM robuste) et tout le RAG v1 → DocQA (chunking, embeddings, retrieval maison, citations et refus honnête, pipeline modulaire, PDF/Markdown, ré-ingestion idempotente, diagnostic des échecs, décisions de conception, dimensionnement, filtrage métadonnées, ADR, projet évalué, interface, multi-tours, optimisation mesurée du prompt, cas limites, golden set, migration Chroma, chunking structurel).
+- **Même gabarit complet que le Batch 4A** : cours théorique avec modèle mental, exemple guidé, cas métier, question d'entretien avec réponse attendue, section bankable, correction exigeante (logique, pièges, vérifications, section orale).
+- **Mécanisme** : `scripts/data/days-enrich-211-240.mjs` (ENRICH_211_240), fusionné dans `generate-curriculum.mjs`.
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés 78/313) · tests 20/20 ✅ · build ✅.
+- Prochaine étape (voir NEXT_STEPS_FABLE.md) : **Batch 4C — jours 241-270** (retrieval avancé mesuré, agents, éval, sécurité IA), même mécanisme.
+
 ## 0-ter. Mise à jour — cœur IA jours 181-210 (Batch 4A terminé)
 
 - **25 jours d'apprentissage enrichis en profondeur** (jours 181, 183-188, 190-195, 197-202, 204-209 — les jours 182/189/196/203/210 sont des revues). Couvre la fin du projet ML, tout le deep learning (neurone → gradient → PyTorch → MLP → MNIST → régularisation), l'intuition LLM (tokenisation, embeddings, attention, transformer) et le LLM en pratique (fonctionnement, API, température, tokens/coûts, hallucinations/grounding, banc d'essai, prompts-spécifications, structured outputs, few-shot, function calling, intégration app, consolidation).

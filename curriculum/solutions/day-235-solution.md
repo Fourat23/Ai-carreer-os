@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+La boucle est valide si : la baseline est chiffrée avant toute modification, chaque itération cible un échec observé avec UNE modification, et la re-mesure est complète à chaque fois. La progression du score compte moins que la discipline — un 13/15 obtenu proprement se défend ; un 15/15 au feeling ne prouve rien.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Changer trois choses en une itération : gain inattribuable, régression masquée possible — la règle une-modif-une-mesure est absolue.
+- Re-mesurer seulement les questions ciblées : les régressions arrivent ailleurs (le refus qui casse quand on assouplit, typiquement).
+- Optimiser jusqu'à 15/15 sur 15 questions : au-delà d'un certain point tu sur-ajustes au jeu de test — garde des questions fraîches pour le golden set du mois 9.
+- Oublier de versionner chaque itération du prompt (jour 211 : fichiers + changelog) — la v2 doit rester restaurable quand la v3 déçoit.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Baseline chiffrée et échecs listés avant toute modification.
+- 3 itérations documentées : cible, modification, score, décision.
+- Le refus hors-corpus fonctionne encore après l'itération 3 (non-régression vérifiée).
+- Chaque version du prompt est dans le système du jour 211 (fichier + changelog).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Raconte l'itération 3 en détail : le refus injustifié, l'assouplissement, et le CONTRÔLE que le refus légitime tenait toujours. « J'ai vérifié la non-régression du cas inverse » est la phrase qui distingue l'ingénieur du bidouilleur.

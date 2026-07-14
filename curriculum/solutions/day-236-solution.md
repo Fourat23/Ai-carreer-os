@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Chaque famille a une DÉCISION écrite (promesse, dégradé, ou refus), une implémentation, et 3 tests dont le verdict est honnête. Le succès n'est pas « tout marche » mais « tout est défini et conforme à sa définition » — y compris les refus assumés.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Régler le seuil de refus sur les cas évidents (questions absurdes) : le vrai test est la question PROCHE du corpus — c'est elle qui piège les seuils naïfs.
+- Répondre à l'interprétation probable SANS annoncer l'hypothèse : juste, mais dangereux — l'utilisateur ne sait pas qu'un choix a été fait à sa place.
+- Traiter le multi-documents en espérant que le top-k global couvre les deux : il ne le garantit jamais — la recherche par périmètre, si.
+- Découvrir la prémisse fausse en production : c'est LE cas à tester exprès, car il ne se produit pas dans les tests « gentils ».
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- La matrice est complète : 4 familles × (décision + 3 tests + verdict).
+- Le cas « proche mais absent » est testé et refusé proprement.
+- La comparaison 2023/2025 remonte des chunks des DEUX documents (vérifié dans le contexte).
+- Le test prémisse fausse avant/après la clause montre la correction (variante).
+- Les décisions sont reportées dans le cadrage du jour 232.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Raconte le cas de la prémisse fausse avec l'exemple juridique : la question piégée, la broderie sans clause, la correction avec clause. C'est court, mémorable, et ça démontre les trois couches : compréhension du mécanisme (jour 201), conception, test.

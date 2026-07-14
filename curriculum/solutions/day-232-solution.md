@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le cadrage est complet si un tiers peut répondre, en le lisant : sur quoi porte le système (corpus figé), ce qu'il promet par type de question, comment on saura si v1 bat v0 (golden set + verdicts + baseline), et ce qui est hors jeu. Les critères sont écrits AVANT les résultats — c'est toute leur valeur.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Cadrer « toutes les questions » : sans taxonomie, l'évaluation mélangera des choses incomparables et le score global ne voudra rien dire.
+- Écrire les questions du golden set d'après ce que le système sait DÉJÀ faire : elles doivent venir du besoin utilisateur, pas des capacités actuelles.
+- Sauter la baseline v0 : améliorer sans point de départ chiffré = naviguer sans position.
+- Un cadrage de 10 pages : 2 pages max — un cadrage qu'on ne relit pas est un cadrage mort.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Corpus listé et figé avec date.
+- Les 5 types de question ont chacun une promesse ET un exemple concret.
+- Le plan d'évaluation précise nombre, verdicts, baseline, seuils v1.
+- 5 questions du golden set déjà écrites avec réponse attendue (variante).
+- La section « hors périmètre assumé » existe et est honnête.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Présente le cadrage comme tu le ferais à un client : « voici ce que le système promet, type par type ; voici comment on mesurera ; voici ce qu'il ne fera pas ». Savoir dire « il ne fera pas X » avec aplomb est une compétence d'entretien — ça s'entraîne ici.

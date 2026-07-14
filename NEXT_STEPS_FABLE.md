@@ -104,13 +104,19 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Générateur étendu** : les jours planifiés acceptent désormais `future` et `solution` par jour ; les corrections savent rendre une section `oral`.
 - Thèmes couverts : reproductibilité ML, neurone/gradient/autograd/MLP/MNIST/régularisation, tokenisation, embeddings, attention, transformer, fonctionnement LLM, API, température, tokens/coûts, hallucinations/grounding, banc d'essai/évaluation, prompts-spécifications, structured outputs, few-shot, function calling/tool use, intégration app, consolidation « LLM = composant d'ingénierie ».
 
-## PROCHAIN BATCH RECOMMANDÉ : Batch 4B — jours 211-240 (RAG, vector DB, chunking, retrieval)
-Continuer sur le même mécanisme : créer `scripts/data/days-enrich-211-240.mjs` sur le modèle exact
-de `days-enrich-197-210.mjs` (champs `theory`, `guided`, `caseStudy`, `interview`, `future`,
-`solution {logic, pitfalls, checks, oral}`), l'agréger et le fusionner dans
-`generate-curriculum.mjs` comme `ENRICH_181_210` l'est déjà. Attention : le jour 211 a déjà un
-exemplaire dans `days-enrich.mjs` — l'enrichissement 211-240 le remplace s'il est plus profond.
-Ensuite : Batch 4C (241-270), puis Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
+## ✅ BATCH 4B TERMINÉ — jours 211-240 (LLM prod, RAG v1, DocQA, Chroma)
+
+- **26 jours d'apprentissage enrichis en profondeur** (211-216, 218-223, 225-230, 232-237, 239-240 ; les jours 217/224/231/238 sont des revues générées). Même gabarit complet que le Batch 4A.
+- Thèmes couverts : prompts versionnés en production, guardrails entrée/sortie, function calling avancé (matrice de robustesse), composant appel-LLM robuste, pourquoi le RAG, chunking (fixe + structurel), embeddings/ingestion idempotente, similarité cosinus maison, génération avec citations et refus honnête, pipeline modulaire, ingestion PDF/Markdown, ré-ingestion sans doublons, DocQA v0 + diagnostic retrieval/génération, 6 décisions de conception avec critères d'échec, dimensionnement d'index, filtrage par métadonnées, ADR stockage vecteurs, cadrage projet évalué, interface de confiance, multi-tours avec réécriture de requête, optimisation mesurée du prompt, cas limites (hors corpus / ambiguë / multi-docs / prémisse fausse), bilan + golden set, migration Chroma validée par double-run, chunking par structure.
+- **Fichier de données** : `scripts/data/days-enrich-211-240.mjs` (ENRICH_211_240), fusionné dans le générateur (remplace l'ancien exemplaire du jour 211).
+
+## PROCHAIN BATCH RECOMMANDÉ : Batch 4C — jours 241-270 (chunking mesuré, hybride, reranking, évaluation RAG, agents)
+Même mécanisme : créer `scripts/data/days-enrich-241-270.mjs` sur le modèle exact de
+`days-enrich-211-240.mjs` (champs `theory`, `guided`, `caseStudy`, `interview`, `future`,
+`solution {logic, pitfalls, checks, oral}`) et le fusionner dans `generate-curriculum.mjs`.
+Les jours 241-248 (comparaison chunking, versioning index, embeddings, hybride BM25/RRF,
+reranking, ablation, latence) prolongent directement les fils posés aux jours 226-240.
+Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 
 ## Journal d'avancement
 - **Batch 0** : ✅ FAIT — audit + ce fichier.
@@ -119,20 +125,18 @@ Ensuite : Batch 4C (241-270), puis Batch 2 (31-90), Batch 3 (91-180), Batch 5 (2
 - **Batch 1** : ✅ TERMINÉ — **60/60 leçons** (voir section « BATCH 1 TERMINÉ » ci-dessus).
 - **Batch 6** : ✅ FAIT — scripts d'audit renforcés (compte de leçons + cible 60, structure des leçons, question d'entretien + cas métier obligatoires pour jours data/IA, alerte vague/court, kit d'auteur requis).
 - **Batch 4A** : ✅ TERMINÉ — jours 181-210 enrichis en profondeur (25 jours d'apprentissage ; voir section « BATCH 4A TERMINÉ » ci-dessus).
+- **Batch 4B** : ✅ TERMINÉ — jours 211-240 enrichis en profondeur (26 jours d'apprentissage ; voir section « BATCH 4B TERMINÉ » ci-dessus).
 
 ### État qualité actuel (mesuré)
-- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. 183/313 avec Cas métier (jours data/IA). Exemple guidé : **53/313** (1-30 + 181-210).
-- Jours 91-365 : vraie question d'entretien partout ; jours 181-210 au niveau « cours complet » (~900-1200 mots).
+- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. 183/313 avec Cas métier (jours data/IA). Exemple guidé : **78/313** (1-30 + 181-240).
+- Jours 91-365 : vraie question d'entretien partout ; jours 181-240 au niveau « cours complet » (~900-1200 mots).
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
 ## RESTE À FAIRE (par ordre de priorité)
 
-### Batch 4B — jours 211-240 (RAG v1 : chunking, embeddings, vector DB, retrieval) — PRIORITAIRE
-Créer `scripts/data/days-enrich-211-240.mjs` sur le modèle de `days-enrich-197-210.mjs`
-(mêmes champs, même exigence), agréger et fusionner dans le générateur. Sous-batchs : 211-220, 221-230, 231-240.
-
-### Batch 4C — jours 241-270 (RAG avancé, agents, éval, sécurité IA)
-Même mécanisme, après 4B.
+### Batch 4C — jours 241-270 (RAG avancé mesuré, agents, éval, sécurité IA) — PRIORITAIRE
+Créer `scripts/data/days-enrich-241-270.mjs` sur le modèle de `days-enrich-211-240.mjs`
+(mêmes champs, même exigence), fusionner dans le générateur. Sous-batchs : 241-250, 251-260, 261-270.
 
 ### Batch 2 — jours 31-90 : ajouter des exemples guidés (52 jours)
 Éditer `scripts/data/days-31-90.mjs` (ajouter `guidedExample`) OU `days-enrich.mjs` par jour. Prompt : `prompts/enrich-day.md`.
@@ -147,4 +151,4 @@ Enrichir via le même mécanisme ; les leçons DevOps/carrière existent toutes 
 Les 21 leçons d'origine suivent un gabarit plus ancien (sans « Modèle mental / Exemple guidé / Questions d'entretien / Checklist »). Les faire passer au gabarit complet ferait 60/60 au gabarit neuf (39/60 aujourd'hui). Non bloquant.
 
 ## Où j'en suis (dernier point stable)
-Batch 4A (jours 181-210) terminé, commité et poussé. `curriculum:check` OK, `curriculum:depth-check` OK, 20/20 tests, build OK. Prochaine action recommandée : **Batch 4B (jours 211-240)** par sous-batchs de 10 jours.
+Batchs 4A (jours 181-210) et 4B (jours 211-240) terminés, commités et poussés. `curriculum:check` OK, `curriculum:depth-check` OK (78/313 exemples guidés), 20/20 tests, build OK. Prochaine action recommandée : **Batch 4C (jours 241-270)** par sous-batchs de 10 jours.

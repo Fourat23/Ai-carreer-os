@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+La manipulation directe (encoder/décoder morceau par morceau) construit l'intuition qu'aucune lecture ne donne : les espaces collés, la granularité variable, l'écart français/anglais. Ton ratio tokens/mots personnel est le livrable durable.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Croire 1 token = 1 mot (faux : ~0.75 mot en anglais, moins en français).
+- Oublier que la SORTIE se paie aussi en tokens.
+- Comparer des tokenizers différents comme s'ils étaient interchangeables (chaque famille de modèles a le sien).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Tableau : 4 textes × (nb tokens, morceaux surprenants).
+- Ratio tokens/mots calculé sur TES prompts (~1.3-2 en français).
+- " chat" et "chat" donnent des ids différents — vérifié et compris.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Montre UN exemple de découpage surprenant et déroule ses trois conséquences : coût, fenêtre, comportements étranges. Concret, mémorable, trois phrases.

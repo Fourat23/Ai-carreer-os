@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+La preuve de maîtrise est le TABLEAU comparatif : 4 runs, une variable d'écart chacun, val_acc finale + forme des courbes. L'overfitting doit être VISIBLE dans le témoin (sinon rien n'est démontré) avant d'être corrigé.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Dropout actif à l'évaluation (model.eval() oublié) : les scores de val sous-estimés.
+- Early stopping sur la loss TRAIN (contresens complet).
+- Changer dropout ET capacité en même temps : effet indémêlable.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Run A : écart train/val flagrant sur les courbes.
+- Runs B/C/D : val_acc ≥ A avec écart réduit.
+- Le tableau final tient sur un écran et se raconte en 90 secondes.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Dessine les courbes de l'overfitting (train qui plonge, val qui remonte, le point d'arrêt idéal) et récite les remèdes par ordre de coût. Question posée dans quasi tous les entretiens ML/DL.

@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+L'intégration est jugée sur les quatre protections : latence maîtrisée (timeout, UX de chargement), coût observé (log par appel), sortie validée, panne dégradée gracieusement. Le test qui fait foi : clé API coupée → l'app reste utilisable, le message est honnête.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Appel LLM dans le chemin critique d'une page : la latence du tiers devient TA latence perçue.
+- Pas de timeout : un appel qui pend gèle l'expérience entière.
+- Afficher la sortie LLM brute sans validation ni possibilité d'édition : l'hallucination part chez l'utilisateur avec TON logo dessus.
+- Tester uniquement le cas nominal : la panne se teste EXPRÈS, en coupant la clé.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le parcours nominal marche (suggestion utile, latence acceptable).
+- Clé coupée → app utilisable, message clair, zéro stacktrace.
+- Chaque appel est loggé (tokens, coût, latence, statut).
+- L'utilisateur peut éditer/refuser la sortie IA.
+- Le retry sur 429 est en place avec backoff.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Prépare la démo en 3 actes (2 min) : la feature qui marche → les logs de coût qui tournent → la panne simulée et l'app qui tient debout. C'est le troisième acte qui fait la différence en entretien.

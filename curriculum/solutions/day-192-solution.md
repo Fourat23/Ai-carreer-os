@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le mini-calcul vaut mille lectures : scores par produits scalaires, softmax pour normaliser, mélange des valeurs. La compréhension se teste par la PRÉDICTION : avant de recalculer avec une autre requête, devine vers qui bascule l'écoute.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Confondre les rôles : la VALEUR est ce qui est transmis, pas ce qui décide (c'est Q·K qui décide).
+- Oublier le softmax et mélanger avec des scores bruts (poids non normalisés).
+- Réciter « queries keys values » sans savoir refaire le calcul 3×2.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Ton calcul manuel : les poids somment à 1.
+- Ta prédiction avant le recalcul (variante) était correcte.
+- Tu sais dire pourquoi 3 projections distinctes plutôt qu'une seule.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+L'analogie de la réunion + le mini-exemple chiffré + la phrase « coût quadratique → fenêtre bornée → RAG » : trois éléments, une réponse d'entretien complète en 90 secondes.

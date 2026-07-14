@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+La traduction réussie prouve l'équivalence : mêmes données + même seed → mêmes prédictions finales que la version NumPy. w.grad à l'itération 1 doit égaler ton calcul manuel (à la précision près) — c'est LA vérification qui ancre.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Oublier zero_grad() : les gradients s'ACCUMULENT silencieusement, l'entraînement devient chaotique — provoque-le une fois pour le reconnaître.
+- Mettre à jour les poids hors de no_grad() : PyTorch enregistre la mise à jour dans le graphe → erreur ou fuite mémoire.
+- Comparer NumPy et PyTorch avec des seeds différentes et s'étonner de l'écart.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- w.grad (itération 1) ≈ ton gradient manuel d'hier.
+- Prédictions finales ≈ [0, .05, .05, .9].
+- La variante avec optim.SGD donne le même résultat que la boucle manuelle.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique la boucle canonique en 5 gestes et POURQUOI zero_grad existe (l'accumulation par défaut sert aux gros batchs fractionnés — mais piège les débutants).

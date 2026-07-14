@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le neurone converge sur le ET parce que le problème est linéairement séparable : une droite peut isoler (1,1) des trois autres points. La loss décroissante est ta preuve d'apprentissage ; les prédictions finales proches de [0,0,0,1] ta preuve de convergence.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Learning rate trop grand (0.5 → 50) : les prédictions oscillent, la loss diverge — observe-le exprès.
+- Oublier la non-linéarité (retirer la sigmoïde) : le neurone devient une régression linéaire.
+- Conclure du XOR que « le neurone est cassé » : c'est la LIMITE structurelle d'un neurone seul, la raison d'être des couches.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Prédictions finales : [~0, ~0.05, ~0.05, ~0.9].
+- La courbe de loss décroît de façon monotone (trace-la).
+- Le XOR échoue quel que soit le nombre d'epochs — et tu sais dire pourquoi.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Dessine un neurone (entrées → poids → somme+biais → activation → sortie) en 30 secondes et raconte le calcul sur UN exemple chiffré. C'est le schéma le plus rentable de tout le mois.

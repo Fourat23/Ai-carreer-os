@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Une expérience propre : UNE variable (le LR), même seed, mêmes données, mêmes epochs — les courbes deviennent comparables. Les trois régimes (lent / bon / divergent) doivent être visibles sur ton graphe.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Oublier de re-seeder à chaque LR : les points de départ diffèrent, la comparaison est faussée.
+- Conclure sur 20 epochs (le lent semble « cassé » alors qu'il est juste lent).
+- Comparer des loss de formules différentes entre runs.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le graphe superpose les 3 courbes avec légende.
+- Tu sais pointer : lequel divergerait encore plus avec plus d'epochs ? Lequel finirait par converger ?
+- Ton LR « limite de divergence » est noté.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Raconte les deux pathologies du learning rate en montrant (ou dessinant) les courbes : osciller au-dessus de la vallée vs ramper sans progresser. Une image, deux phrases, question maîtrisée.

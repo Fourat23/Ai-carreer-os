@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+L'étude est une expérience contrôlée : mêmes prompts, même modèle, seule la température varie, 3 runs par condition pour estimer la variance. La conclusion opérationnelle : temp 0 pour le structurel/factuel, temp haute pour le divergent — documentée par TES exemples.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Un seul run par condition : tu compares deux tirages de dés et tu crois comparer deux réglages.
+- Juger la qualité créative à temp 0 « mauvaise » : elle est surtout UNIFORME — c'est la diversité qui manque, pas la compétence.
+- Extrapoler « temp 0 = fiable » : la température ne corrige pas les hallucinations (jour 201).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le tableau couvre 5 tâches × 2 températures × 3 runs.
+- Chaque conclusion cite un exemple concret de tes runs.
+- Tu sais citer une tâche où temp 1 est le BON choix (et pourquoi).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique température et top-p avec l'image de la loterie : temp 0 = on prend le billet le plus probable ; temp haute = on pioche plus large ; top-p = on jette d'abord les billets improbables. Puis la règle : la sortie est-elle pour une machine ou pour un humain ?

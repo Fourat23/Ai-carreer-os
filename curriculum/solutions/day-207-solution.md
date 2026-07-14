@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+L'assistant est une boucle bornée : le modèle choisit (texte OU demande d'outil) via les descriptions, ton code valide et exécute, le résultat repart au modèle. La robustesse se juge sur les cas non nominaux : pas d'outil pertinent, outil en échec, arguments invalides.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- eval() sur l'expression du LLM : exécution de code arbitraire proposé par un composant non fiable — LA faille à ne jamais commettre.
+- Boucle sans limite d'itérations : le modèle peut redemander des outils indéfiniment.
+- Descriptions d'outils vagues : le modèle appelle la météo pour tout — la description EST l'interface de décision.
+- Masquer l'échec d'un outil au modèle : il invente alors un résultat plausible au lieu de signaler le problème.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Question météo → outil météo appelé, réponse intègre le mock.
+- Question calcul → outil calcul, résultat exact.
+- Question sans outil pertinent → réponse honnête SANS appel d'outil.
+- Outil forcé en échec → l'assistant le DIT au lieu d'inventer.
+- La boucle s'arrête toujours (limite testée).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Dessine la boucle au tableau (utilisateur → modèle → tool_call → validation/exécution → tool_result → modèle → réponse) et place la frontière de confiance d'un trait rouge : tout ce qui vient du modèle est une PROPOSITION. Ce schéma est une question d'entretien quasi certaine en 2026.

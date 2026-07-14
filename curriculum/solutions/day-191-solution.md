@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le protocole vaut par ses paires CONSTRUITES : chaque catégorie teste une propriété (sens sans mots, mots sans sens, désambiguïsation). Ta fonction cosinus doit passer cosinus(v, v)=1 et la symétrie avant toute interprétation.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Comparer des embeddings de modèles différents (espaces incompatibles).
+- Interpréter les valeurs absolues dans l'absolu (0.6 « bon » ? ça dépend du modèle) — ce sont les ÉCARTS entre catégories qui parlent.
+- Ré-embedder les mêmes textes à chaque comparaison (coût inutile — cache-les).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- cosinus(v, v) = 1.0 ; cosinus(a, b) = cosinus(b, a).
+- Le classement par catégories est respecté (synonymes > domaine > homonymes > sans rapport).
+- Au moins UN désaccord intuition/cosinus analysé par écrit.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+L'exemple « avocat/avocat » en 30 secondes : mêmes mots, sens différents, cosinus plus bas que deux synonymes sans mots communs — la preuve que c'est le SENS qui est mesuré.

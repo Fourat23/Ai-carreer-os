@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Chaque pattern est un produit fini : prompt structuré, exemples choisis (variés + cas limite, format exact), cas de test avec labels attendus, chiffres zero-shot vs few-shot, notes d'usage. La bibliothèque prouve une COMPÉTENCE (construire et mesurer) pas une collection de recettes.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Des exemples tous faciles et similaires : le modèle apprend un rail trop étroit et déraille sur la variété réelle.
+- Exemples incohérents avec le format demandé (tu demandes un label seul, tes exemples ont des phrases) : le modèle imite l'INCOHÉRENCE.
+- Sauter la comparaison zero-shot : sans référence, tu ne sais pas si tes exemples servent.
+- Biais de classe dans les exemples de classification — teste-le, ne l'ignore pas.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- 5 fichiers pattern complets, chacun ≥ 8 cas de test.
+- Les chiffres zero-shot vs few-shot figurent pour chaque pattern.
+- Chaque pattern inclut un exemple de cas limite.
+- L'expérience « biais d'exemples » a été faite et notée.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Raconte le résultat le plus parlant de tes mesures (« sur la classification, passer de 0 à 3 exemples m'a fait gagner N points, et voici l'exemple qui a tout changé »). Un chiffre + une histoire = la réponse d'entretien parfaite.

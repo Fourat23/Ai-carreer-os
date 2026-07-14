@@ -4,6 +4,14 @@ Rapport de fin de construction. À lire en entier avant de commencer.
 
 ---
 
+## 0-ter. Mise à jour — cœur IA jours 181-210 (Batch 4A terminé)
+
+- **25 jours d'apprentissage enrichis en profondeur** (jours 181, 183-188, 190-195, 197-202, 204-209 — les jours 182/189/196/203/210 sont des revues). Couvre la fin du projet ML, tout le deep learning (neurone → gradient → PyTorch → MLP → MNIST → régularisation), l'intuition LLM (tokenisation, embeddings, attention, transformer) et le LLM en pratique (fonctionnement, API, température, tokens/coûts, hallucinations/grounding, banc d'essai, prompts-spécifications, structured outputs, few-shot, function calling, intégration app, consolidation).
+- **Chaque jour contient désormais** : un cours théorique substantiel ouvert par un modèle mental, un exemple guidé avec code commenté et variante, un cas métier concret, une question d'entretien réaliste avec la réponse attendue, une section « pourquoi ça comptera » orientée bankable, et une correction exigeante (logique, pièges, vérifications, + section « 🎤 À savoir expliquer à l'oral »).
+- **Mécanisme** : `scripts/data/days-enrich-181-196.mjs` + `days-enrich-197-210.mjs`, agrégés par `days-enrich-181-210.mjs` et fusionnés dans `generate-curriculum.mjs` (qui accepte désormais `future` et `solution` par jour, et rend la section orale des corrections).
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés 53/313) · tests 20/20 ✅ · build ✅.
+- Prochaine étape (voir NEXT_STEPS_FABLE.md) : **Batch 4B — jours 211-240** (RAG v1), même mécanisme.
+
 ## 0-bis. Mise à jour — bibliothèque de 60 leçons (Batch 1 terminé)
 
 - **60 leçons de fond** (`curriculum/lessons/`), organisées en 8 catégories (Fondations, Web & backend, Data & SQL, SE & architecture, Python & ML, IA appliquée, Production & DevOps, Portfolio & carrière), chacune avec exercices, corrections, questions d'entretien et vocabulaire. 39 suivent le gabarit complet neuf (modèle mental, exemple guidé, exemple appliqué IA, anti-patterns, checklist « quand je suis prêt »).

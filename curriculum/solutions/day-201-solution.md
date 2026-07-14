@@ -5,21 +5,18 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Chaque cas documenté suit la même grille : prompt → réponse → preuve de fausseté → mécanisme (quel pattern plausible a été complété). La contre-épreuve avec grounding montre le levier : le problème se déplace de « la mémoire du modèle » vers « ce que JE mets dans le contexte ».
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Moraliser (« l'IA est menteuse ») au lieu de mécaniser : la mission demande le POURQUOI, c'est lui qui a de la valeur.
+- Choisir des questions dont tu ne peux pas VÉRIFIER la réponse : sans preuve de fausseté, pas de cas documenté.
+- Croire que « demande-lui d'être honnête » suffit : sans les faits dans le contexte, la consigne réduit mais n'élimine pas l'invention.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- 3 hallucinations avec preuve de fausseté chacune.
+- Le mécanisme est explicité pour chaque cas (pattern complété).
+- La contre-épreuve grounding est faite et son effet décrit.
+- Ta note distingue « erreur » (fait faux fréquent) et « hallucination » (invention plausible).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Raconte TON meilleur cas en 45 secondes : la question piège, la réponse inventée avec aplomb, la preuve, le mécanisme. Termine par « et c'est pour ça que le RAG existe » — transition parfaite qui montre où tu vas.

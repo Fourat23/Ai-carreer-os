@@ -25,7 +25,11 @@ import { DAYS_31_90 } from './data/days-31-90.mjs';
 import { WEEK_PLANS } from './data/days-plan.mjs';
 import { EXTRAS_31_90 } from './data/days-31-90-extras.mjs';
 import { GUIDED_01_30 } from './data/days-01-30-guided.mjs';
-import { DAYS_ENRICH } from './data/days-enrich.mjs';
+import { DAYS_ENRICH as ENRICH_BASE } from './data/days-enrich.mjs';
+import { ENRICH_181_210 } from './data/days-enrich-181-210.mjs';
+
+// Fusion des enrichissements par jour (les fichiers spécialisés priment).
+const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_181_210 };
 import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.
@@ -148,6 +152,8 @@ function buildDay(n) {
         interview: enrich.interview,
         takeaways: enrich.takeaways,
         lessonsOverride: enrich.lessons,
+        future: enrich.future,
+        solution: enrich.solution,
         criteria: [
           `Le livrable est produit et correspond à : ${entry.deliverable}`,
           "J'ai d'abord tenté seul (sans IA) au moins 30 minutes.",
@@ -396,6 +402,11 @@ function renderSolution(day) {
     if (day.quiz?.length) {
       L.push('## ❓ Réponses du mini-quiz');
       day.quiz.forEach((q, i) => { L.push(`${i + 1}. **${q.q}**`); L.push(`   → ${q.a}`); });
+      L.push('');
+    }
+    if (s.oral) {
+      L.push('## 🎤 À savoir expliquer à l\'oral');
+      L.push(s.oral);
       L.push('');
     }
     if (s.reflection?.length) {

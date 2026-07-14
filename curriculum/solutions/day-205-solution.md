@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+La fiabilité vient de la boucle complète : contrat explicite (avec convention d'absence) → validation schéma + invariants → retry informé par l'erreur → échec propre. Chaque étage attrape ce que le précédent laisse passer ; aucun étage ne fait confiance au modèle.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Valider seulement « c'est du JSON » : un JSON bien formé peut contenir un montant inventé — les invariants métier sont le 2e étage obligatoire.
+- Retry aveugle (re-run sans renvoyer l'erreur) : tu rejoues la même loterie au lieu de guider la correction.
+- Laisser le modèle deviner les champs manquants au lieu d'imposer null : l'invention silencieuse entre en base.
+- Oublier le cas « texte hors sujet » : l'extracteur doit savoir dire « rien à extraire ».
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le schéma rejette un champ manquant/mal typé (teste-le exprès).
+- Le retry avec erreur renvoyée est démontré sur un cas réel.
+- Les 3 textes pièges produisent null/échec propre, PAS des inventions.
+- Chaque échec est loggé avec le texte d'entrée.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Dessine la boucle (prompt-contrat → LLM → validation → retry → échec propre) et raconte UN cas piège de tes tests : le texte sans date, le modèle qui inventait, la validation qui l'a attrapé. L'anecdote personnelle vaut dix slides.

@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le schéma est le livrable ET le test : si une étape ne se dessine pas, elle n'est pas comprise. L'ordre est intangible (tokens → embeddings+position → blocs → projection → échantillonnage) et chaque flèche a une entrée/sortie nommable.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Oublier la POSITION (l'erreur n°1) : sans elle, l'attention ne voit qu'un sac de mots.
+- Dessiner « une couche » au lieu de N blocs identiques empilés.
+- Placer la température au mauvais endroit (elle agit à l'échantillonnage, pas dans l'attention).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Ton schéma se redessine de MÉMOIRE en 2 minutes.
+- Chaque flèche répond à « entrée → sortie ».
+- Tu sais y pointer : fenêtre, température, source des hallucinations.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Chronomètre-toi : le trajet complet en 3 minutes, schéma à l'appui, en finissant par « il géométrise le plausible, pas le vrai » — la phrase qui ouvre la discussion suivante (RAG, grounding).

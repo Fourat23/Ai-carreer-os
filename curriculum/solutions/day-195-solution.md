@@ -5,21 +5,17 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le juge de la note : un dev backend qui ne connaît RIEN aux LLM la lit en 10 minutes et peut ensuite expliquer à quelqu'un d'autre pourquoi un LLM hallucine et pourquoi le contexte est borné. Chaque section sert ce but ; tout le reste est coupé.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Écrire pour impressionner (jargon) au lieu d'expliquer (le lecteur backend décroche).
+- Schémas empruntés : ils ne t'apprennent rien et se voient.
+- Éviter les limites (hallucinations, coûts) : c'est la section qui crédibilise.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les 5 sections du plan sont là ; chaque terme technique est défini à sa 1re apparition.
+- Tes schémas du jour 193 sont intégrés (refaits proprement).
+- Publiée (GitHub/LinkedIn) avec le lien noté dans l'app.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Ta note EST ton oral : entraîne-toi à la dérouler en 5 minutes sans la lire. C'est la simulation d'entretien du mois 7 (voir month-07.md), déjà à moitié préparée.

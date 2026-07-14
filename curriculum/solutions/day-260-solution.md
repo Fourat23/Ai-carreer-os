@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le red teaming couvre les deux surfaces (directe et surtout indirecte via document piégé) et plusieurs objectifs (exfiltration, détournement, DoS, désinformation), documente chaque tentative objectivement (payload, résultat, réussite), et réussit au moins une injection — car la défense de demain se conçoit contre des attaques VUES fonctionner. L'injection indirecte est la menace spécifique du RAG à démontrer absolument.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Ne tester que l'injection directe (dans la question) : c'est la surface évidente ; l'INDIRECTE (document piégé) est la vraie menace RAG, et celle que tout le monde oublie.
+- Se contenter d'attaques qui échouent et conclure « mon système est sûr » : sans réussite, tu n'as pas trouvé les limites — insiste jusqu'à en réussir une, c'est le but.
+- Juger le succès subjectivement : définis l'objectif AVANT (exfiltration = le system prompt apparaît ; détournement = le comportement change) pour un verdict objectif.
+- Attaquer un système de production sans autorisation : le red teaming se fait sur TON système, dans un cadre autorisé — la même éthique que le pentesting.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- 5 tentatives documentées couvrant directe ET indirecte, plusieurs objectifs.
+- Au moins un document piégé créé, indexé, et son injection indirecte testée sur une question normale.
+- Au moins une injection RÉUSSIT (sinon les payloads sont trop faibles — durcis-les).
+- Chaque tentative a un verdict objectif basé sur un objectif défini a priori.
+- La profondeur de l'injection indirecte (payload noyé dans un long doc) est testée (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique l'injection indirecte avec un scénario concret : « je n'accède pas à ton assistant RH ; je fais juste indexer un PDF anodin contenant, en bas, une instruction cachée — elle dort dans l'index jusqu'à ce qu'une question la réveille ». Puis le parallèle SQL : « données non fiables prises pour des instructions ». Cette menace, bien racontée, montre que tu penses en attaquant — rare et précieux.

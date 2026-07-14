@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le harnais orchestre les évaluateurs existants en UNE commande produisant un rapport à trois niveaux (agrégats, par type, par question), reproductible (temp 0, versions figées), comparable (rapports horodatés + deltas) et économe (cache de jugements, coût affiché). Il transforme l'évaluation d'un événement rare en réflexe à chaque changement.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Un rapport agrégat-seulement : le score global dit qu'il y a un problème mais pas OÙ — les niveaux par type et par question sont ce qui permet de réparer.
+- Harnais non déterministe (juges à température > 0) : deux runs diffèrent, aucune comparaison de versions n'est fiable.
+- Pas de cache de jugements : re-juger tout le golden set à chaque petite modif coûte cher et décourage l'usage — on ne re-juge que ce qui a changé.
+- Oublier d'enregistrer la config et la version du golden dans le rapport : six mois plus tard, un rapport sans contexte est un chiffre orphelin.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- `rag eval` produit un rapport à 3 niveaux (agrégats, par type, détail par question avec échecs listés).
+- Deux exécutions sur le même système donnent le même rapport (reproductibilité vérifiée).
+- Le rapport enregistre config + version du golden + date + coût.
+- `rag eval --compare` montre les deltas et les questions basculées (variante).
+- Le cache de jugements évite de re-juger l'inchangé (hit démontré).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Fais le parallèle avec les tests automatisés : « ce qui n'est pas sans friction n'est pas fait ; mon harnais rend l'évaluation aussi simple que lancer les tests — une commande, un rapport, je le lance à chaque changement ». Puis montre la structure à 3 niveaux (décider/cibler/diagnostiquer). Culture d'ingénierie + compétence IA en une réponse.

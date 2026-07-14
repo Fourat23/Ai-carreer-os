@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le golden set vaut par ses trois propriétés : représentativité (distribution == usage), vérité-terrain exploitable (source + passage pour l'automatisation), stabilité versionnée (figé, jamais pour développer). La taille suit la COUVERTURE des cas, pas le volume. Les questions viennent du besoin, formulées comme un utilisateur.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Distribution biaisée vers le facile à écrire (trop de factuelles) : tu mesures un système que personne n'utilise vraiment.
+- Questions tirées des documents : elles testent la mémorisation d'un passage, pas la capacité à répondre à un vrai besoin reformulé.
+- Pas de passage exact dans la source de vérité : les métriques de retrieval du jour 254 redeviennent manuelles et coûteuses.
+- Retoucher le set en cours d'éval « parce qu'une question est mal posée » : version 1.1 figée — note-la pour la 1.2, ne la change pas maintenant.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Distribution par type mesurée et conforme à la cible d'usage (pas à la facilité).
+- Chaque question non-hors-corpus a source + section + passage exact.
+- Les cas difficiles (prémisse fausse, hors corpus proche, vocabulaire) sont présents et tagués.
+- Aucune question n'est une citation déguisée (test mémorisation passé).
+- Version 1.1 taguée avec changelog vs 1.0.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique le principe train/test appliqué au RAG : « mon golden set est mon jeu de TEST — figé, représentatif, avec vérité-terrain ; il ne sert jamais à développer, sinon je sur-ajuste dessus ». Puis la règle anti-mémorisation : « les questions viennent du besoin, pas des documents ». Deux principes, la crédibilité d'évaluation est établie.

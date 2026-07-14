@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le chunker est 20 lignes ; la valeur du jour est dans l'inspection outillée : stats de tailles, lecture d'un échantillon, et vérification manuelle que les chunks capables de répondre à tes questions types EXISTENT. Un chunk illisible pour toi est illisible pour le pipeline.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Oublier l'overlap (ou le mettre ≥ taille : boucle infinie — teste ce bord).
+- Chunker en caractères en croyant compter des tokens : facteur ~4 d'erreur sur la taille réelle.
+- Jeter les métadonnées (source, position) « pour simplifier » : les citations du jour 220 deviennent impossibles sans ré-ingestion.
+- Valider le chunking sur les stats seules sans LIRE : la moyenne peut être parfaite et les chunks incompréhensibles (tableaux hachés, code coupé).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Stats affichées : n, min/moy/max — pas de chunks fantômes de 5 mots.
+- 20 chunks lus, verdict noté (autoportant ou coupé) pour chacun.
+- Pour 3 questions types, le chunk-réponse existe et est entier.
+- Chaque chunk porte source + position.
+- Le cas limite overlap ≥ taille est géré (erreur explicite).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique la tension petit/gros avec un exemple LU dans tes propres chunks (le chunk orphelin « il a augmenté de 12 % » est parfait). Puis la règle pro : partir de 300-500 + overlap, inspecter, mesurer ensuite. Concret, vécu, mesurable.

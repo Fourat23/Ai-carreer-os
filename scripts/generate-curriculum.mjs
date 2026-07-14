@@ -27,9 +27,10 @@ import { EXTRAS_31_90 } from './data/days-31-90-extras.mjs';
 import { GUIDED_01_30 } from './data/days-01-30-guided.mjs';
 import { DAYS_ENRICH as ENRICH_BASE } from './data/days-enrich.mjs';
 import { ENRICH_181_210 } from './data/days-enrich-181-210.mjs';
+import { ENRICH_211_240 } from './data/days-enrich-211-240.mjs';
 
 // Fusion des enrichissements par jour (les fichiers spécialisés priment).
-const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_181_210 };
+const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_181_210, ...ENRICH_211_240 };
 import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.

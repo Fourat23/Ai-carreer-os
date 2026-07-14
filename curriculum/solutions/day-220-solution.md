@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Le pipeline complet enchaîne tes briques : top-k (jour 219) → sources numérotées avec métadonnées (jour 216) → llm_call sous contrat (jour 214). La qualité se juge sur les trois régimes, et le refus honnête est un CAS DE SUCCÈS, pas un échec du système.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Un contrat mou (« aide-toi des extraits ») : le modèle mélange sources et mémoire d'entraînement — impossible à auditer.
+- Citations vérifiées seulement en apparence : vérifie que [2] pointe VRAIMENT vers l'extrait qui soutient l'affirmation (le modèle peut citer décorativement).
+- Ne pas transmettre les scores au contrôle : génération forcée sur un top-k à 0.35 = hallucination avec décor.
+- Injecter 10 chunks « pour être sûr » : bruit, coût, et le modèle cite tout et n'importe quoi — k reste une décision (3-5).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- 5/5 questions nominales : réponse correcte + citations exactes (vérifiées manuellement).
+- La question multi-chunks cite ses deux sources.
+- 2/2 questions hors corpus → refus explicite, zéro invention.
+- Chaque réponse logge coût et latence (via llm_call).
+- Une affirmation sans citation déclenche ton œil : audit fait sur les 5 réponses.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+La démo en 90 secondes : une question normale (réponse + citations), puis LA question piège hors corpus (refus propre). Termine par : « un RAG qui sait dire je-ne-sais-pas est un RAG qu'on peut déployer ». C'est le moment le plus vendeur de tout ton portfolio RAG.

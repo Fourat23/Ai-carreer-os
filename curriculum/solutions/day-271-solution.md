@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : compiler les mesures des jours 267-269 en un tableau avant/après par amélioration. Solution améliorée : ajouter la méthode reproductible (golden version, juge validé), la trajectoire multidimensionnelle (qualité par type + sécurité + latence + coût), les régressions visibles et les limites assumées avec hypothèse sur la suite. Chaque affirmation renvoie à un chiffre refaisable.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Un rapport-brochure sans limites ni régressions : suspect, non défendable — les limites assumées CRÉDIBILISENT le reste.
+- Des chiffres non reproductibles (golden non versionné, juge non validé) : le lecteur ne peut pas refaire la mesure, le rapport ne prouve rien.
+- Ne montrer que la métrique visée par chaque amélioration : les régressions cachées passent, et le rapport ment par omission.
+- Confondre trajectoire globale et somme des gains : les améliorations interagissent (jour 269) — la trajectoire se mesure de bout en bout.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- La méthode est décrite (golden version, métriques, juge validé) : un tiers peut refaire.
+- Chaque amélioration a un tableau avant/après avec la métrique visée ET les autres.
+- La trajectoire globale couvre qualité/sécurité/latence/coût.
+- Les limites (ce qui ne s'est pas amélioré) sont écrites avec une hypothèse.
+- Chaque affirmation pointe vers un chiffre reproductible.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Raconte le rapport comme une histoire de preuve : « baseline 0,81, deux améliorations pilotées, trajectoire à 0,87 — avec les régressions visibles et une limite assumée : les synthèses plafonnent, le prochain gain viendra du corpus ». Savoir présenter des chiffres AVEC leurs limites est ce qui rend crédible devant un manager comme en entretien.

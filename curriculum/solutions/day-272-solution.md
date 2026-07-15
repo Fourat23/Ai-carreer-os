@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un README avec problème, ce que ça fait, comment lancer. Solution améliorée : y ajouter les résultats chiffrés (rapport j.271), un schéma d'architecture avec liens vers 3 ADR (décisions arbitrées), une démo enregistrée de 3 min (réponse citée + refus honnête + état du corpus), et des limites assumées. Le tout écrit pour un lecteur extérieur pressé et validé par le test du regard neuf.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- README qui commence par la stack technique : le lecteur ne sait pas POURQUOI le projet existe — commence par le problème métier.
+- ADR qui ne liste que la décision sans les options écartées : sans l'arbitrage, elle ne prouve pas la pensée d'architecte.
+- Démo non enregistrée ou hésitante : « ça marche sur ma machine » ne convainc pas — une démo fluide de 3 min, oui.
+- Pas de résultats chiffrés dans le README : le lecteur ne peut pas juger à quel point le système est bon.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le README commence par le problème métier et montre des résultats chiffrés.
+- 3 ADR figent les décisions structurantes avec options écartées et conditions de révision.
+- La démo de 3 min est enregistrée, fluide, et montre réponse citée + refus honnête.
+- Le projet se lance en une commande documentée.
+- Le test du regard neuf est passé : un inconnu comprend en 90 s.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Entraîne ta démo de 3 minutes jusqu'à la fluidité totale : problème → démo vivante (réponse citée, refus piège) → chiffres → une décision d'architecture. C'est LA présentation que tu réutiliseras en entretien pour tout projet — répète-la chronomètre en main.

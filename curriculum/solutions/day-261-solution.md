@@ -5,21 +5,19 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+La défense empile des couches imparfaites (séparation, consigne durcie, filtre d'entrée, ancrage de sortie, moindre privilège) et se PROUVE par le re-test mesuré des attaques du jour 260 après chaque couche. La couche de sortie (ancrage) est la plus solide car indépendante de la coopération du modèle — c'est elle qui neutralise l'injection indirecte. Ce qui passe encore est documenté.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Chercher LA rustine parfaite (un super-prompt anti-injection) : illusoire — le modèle ne distingue pas instructions et données, seules les couches combinées réduisent le risque.
+- Tout miser sur les couches d'ENTRÉE : elles n'arrêtent pas l'injection indirecte (le payload est dans les données récupérées) — l'ancrage de SORTIE est indispensable.
+- Déclarer « sécurisé » après avoir bloqué les attaques connues : de nouvelles passeront — la posture est « réduit et détectable », pas « immunisé ».
+- Ne pas re-tester : une défense non mesurée est une croyance ; re-joue les attaques du jour 260 et compte ce qui passe.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les couches sont implémentées et le tableau de réduction (attaque × couche) est rempli.
+- L'injection INDIRECTE du jour 260 est bien attrapée par la couche d'ancrage de sortie (et pas avant).
+- Au moins une attaque résiduelle qui passe TOUTES les couches est documentée honnêtement.
+- La réduction est mesurée (x attaques sur y neutralisées), pas affirmée.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique pourquoi l'ancrage de sortie est la couche reine : « les couches d'entrée relèvent la barre mais l'injection indirecte a son payload DANS les données — seule une vérification de sortie qui ne fait pas confiance au modèle l'attrape ». Puis la phrase de maturité : « je ne bloque pas tout, je réduis, je détecte, je limite les dégâts — et je sais ce qui passe encore ».

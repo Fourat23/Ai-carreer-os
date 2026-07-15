@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+L'amélioration pilotée suit : hypothèse écrite (issue de la baseline), UN changement isolé, comparaison MULTIDIMENSIONNELLE contre la baseline (la métrique visée ET toutes les autres), décision tracée et versionnée. Le cas central est l'amélioration qui gagne sur sa cible mais régresse ailleurs — la décision dépend de la distribution d'usage et s'assume explicitement.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Changer plusieurs choses à la fois : gain inattribuable, régression cachée — un changement isolé par amélioration.
+- Mesurer seulement la métrique visée : la régression est ailleurs (factuelles verbeuses quand on améliore les synthèses) — la comparaison doit être multidimensionnelle.
+- Garder une amélioration parce que le score cible monte, sans regarder les régressions : c'est déplacer le problème, pas le résoudre.
+- Jeter une hypothèse réfutée sans la documenter : une réfutation propre (« le prompt n'était pas le problème, c'est le chunking ») ré-oriente utilement — un bricolage qui marche sans explication ne s'améliore pas.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- L'hypothèse est écrite AVANT le changement, avec une prédiction chiffrée.
+- Un seul changement isolé est appliqué.
+- La comparaison est multidimensionnelle (métrique visée + toutes les autres + latence/coût).
+- La décision (garder/jeter/nuancer) est explicite et fondée sur la distribution d'usage.
+- L'amélioration et son rapport de comparaison sont versionnés.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Raconte une amélioration avec sa régression : « hypothèse : le prompt de synthèse gagnera ~0,20 ; résultat : +0,22 sur les synthèses MAIS −0,04 sur les factuelles ; gardée car les synthèses dominent l'usage, régression notée pour l'itération suivante ». Montrer qu'on voit ET qu'on assume les régressions est ce qui distingue l'ingénieur du bricoleur.

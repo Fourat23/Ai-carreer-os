@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+La baseline fige le système et le mesure sur TOUTES les dimensions (retrieval, génération par type, sécurité, latence, coût), enregistrée et datée comme référence immuable. Elle sert de point de comparaison ET de diagnostic priorisant les chantiers par faiblesse mesurée. Aucune correction pendant la mesure — l'état est intact, le contraste avant/après viendra ensuite.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Corriger « un petit truc » pendant la mesure : chaque correction invalide le point de comparaison — la baseline mesure l'existant intact.
+- Une baseline unidimensionnelle (exactitude seule) : une amélioration peut gagner en exactitude et dégrader latence/sécurité — la baseline doit être multidimensionnelle pour le voir.
+- Ne pas enregistrer/dater la baseline : sans référence sauvegardée, les comparaisons des jours suivants n'ont rien contre quoi mesurer.
+- Choisir les améliorations par envie plutôt que par la baseline : les chantiers sortent des faiblesses MESURÉES (synthèses à 0,50), pas de ce qui est amusant à coder.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- La baseline couvre retrieval + génération par type + sécurité + latence + coût.
+- Le rapport est enregistré, daté, versionné (config + golden version).
+- Aucune modification du système pendant la mesure (état intact vérifié).
+- Les chantiers des jours 268-269 sont priorisés par faiblesse mesurée, avec une hypothèse testable chacun.
+- La confirmation « synthèses = génération » est reliée aux jours 244/249.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Présente la baseline comme un point de départ d'ingénieur : « avant de toucher quoi que ce soit, je photographie l'état — toutes les dimensions, daté, figé ; ça me donne le point de comparaison ET les chantiers priorisés par faiblesse mesurée ». Puis la règle : « je ne corrige rien pendant la mesure ». Discipline de mesure = crédibilité.

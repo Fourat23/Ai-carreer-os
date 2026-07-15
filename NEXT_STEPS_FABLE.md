@@ -110,8 +110,19 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - Thèmes couverts : prompts versionnés en production, guardrails entrée/sortie, function calling avancé (matrice de robustesse), composant appel-LLM robuste, pourquoi le RAG, chunking (fixe + structurel), embeddings/ingestion idempotente, similarité cosinus maison, génération avec citations et refus honnête, pipeline modulaire, ingestion PDF/Markdown, ré-ingestion sans doublons, DocQA v0 + diagnostic retrieval/génération, 6 décisions de conception avec critères d'échec, dimensionnement d'index, filtrage par métadonnées, ADR stockage vecteurs, cadrage projet évalué, interface de confiance, multi-tours avec réécriture de requête, optimisation mesurée du prompt, cas limites (hors corpus / ambiguë / multi-docs / prémisse fausse), bilan + golden set, migration Chroma validée par double-run, chunking par structure.
 - **Fichier de données** : `scripts/data/days-enrich-211-240.mjs` (ENRICH_211_240), fusionné dans le générateur (remplace l'ancien exemplaire du jour 211).
 
-## PROCHAIN BATCH RECOMMANDÉ : Batch 4C — jours 241-270 (chunking mesuré, hybride, reranking, évaluation RAG, agents)
-Même mécanisme : créer `scripts/data/days-enrich-241-270.mjs` sur le modèle exact de
+## ✅ BATCH 4C TERMINÉ — jours 241-270 (retrieval avancé, évaluation, sécurité, Projet 6) → CŒUR IA 181-270 COMPLET
+
+- **27 jours d'apprentissage enrichis** (241-244, 246-251, 253-258, 260-265, 267-270) + **4 revues enrichies** (245, 252, 259, 266).
+- Thèmes : comparaison mesurée du chunking, chunking structurel, versioning index & réindexation, comparaison d'embeddings, BM25/FTS5, hybride + RRF, filtrage métadonnées, reranking cross-encoder, ablation du pipeline, budget coûts/latence ; golden sets, rappel@k/MRR, LLM-as-judge + limites, fidélité/pertinence/exactitude, harnais d'éval, validation du juge (kappa) ; prompt injection directe/indirecte, défense en profondeur, citations vérifiables, refus comme feature, suite adverse ; Projet 6 (baseline chiffrée, améliorations pilotées, intégration qualité/sécurité).
+- **Fichier** : `scripts/data/days-enrich-241-270.mjs` (ENRICH_241_270). Le générateur rend désormais les sections enrichies des revues (synthèse, grille, remédiation, entretien).
+- **Audit Fable des jours 251-260** : au standard 241-250 (profondeur ≥, gabarit complet, corrections avec oral) — **aucune correction nécessaire**.
+- **Périmètre** : les thèmes agents/tool-calling/orchestration sont au **mois 10 (jours 274-289)**, hors 241-270 — non touchés (zone 271-365).
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **104/313**) · 20/20 tests · build ✅.
+
+## PROCHAIN BATCH RECOMMANDÉ : Batch 5 — jours 271-365 (agents, prod, projet final, portfolio, carrière)
+Le cœur IA (181-270) est TERMINÉ. La suite naturelle : les jours 271-365 (agents & orchestration mois 10,
+observabilité/prod/coûts mois 11, projet final + portfolio + carrière mois 12).
+Même mécanisme : créer `scripts/data/days-enrich-271-300.mjs` (puis 301-330, 331-365) sur le modèle exact de
 `days-enrich-211-240.mjs` (champs `theory`, `guided`, `caseStudy`, `interview`, `future`,
 `solution {logic, pitfalls, checks, oral}`) et le fusionner dans `generate-curriculum.mjs`.
 Les jours 241-248 (comparaison chunking, versioning index, embeddings, hybride BM25/RRF,
@@ -126,17 +137,19 @@ Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 - **Batch 6** : ✅ FAIT — scripts d'audit renforcés (compte de leçons + cible 60, structure des leçons, question d'entretien + cas métier obligatoires pour jours data/IA, alerte vague/court, kit d'auteur requis).
 - **Batch 4A** : ✅ TERMINÉ — jours 181-210 enrichis en profondeur (25 jours d'apprentissage ; voir section « BATCH 4A TERMINÉ » ci-dessus).
 - **Batch 4B** : ✅ TERMINÉ — jours 211-240 enrichis en profondeur (26 jours d'apprentissage ; voir section « BATCH 4B TERMINÉ » ci-dessus).
+- **Batch 4C** : ✅ TERMINÉ — jours 241-270 enrichis (27 jours + 4 revues) → **cœur IA 181-270 COMPLET** (voir section « BATCH 4C TERMINÉ » ci-dessus).
 
 ### État qualité actuel (mesuré)
-- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. 183/313 avec Cas métier (jours data/IA). Exemple guidé : **78/313** (1-30 + 181-240).
-- Jours 91-365 : vraie question d'entretien partout ; jours 181-240 au niveau « cours complet » (~900-1200 mots).
+- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **104/313** (1-30 + 181-270).
+- Jours 181-270 au niveau « cours complet » (~1000-1200 mots), corrections avec section orale ; revues 245/252/259/266 enrichies (synthèse, grille, remédiation, entretien).
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
 ## RESTE À FAIRE (par ordre de priorité)
 
-### Batch 4C — jours 241-270 (RAG avancé mesuré, agents, éval, sécurité IA) — PRIORITAIRE
-Créer `scripts/data/days-enrich-241-270.mjs` sur le modèle de `days-enrich-211-240.mjs`
-(mêmes champs, même exigence), fusionner dans le générateur. Sous-batchs : 241-250, 251-260, 261-270.
+### Batch 5 — jours 271-365 (agents mois 10, prod mois 11, projet final/portfolio/carrière mois 12) — PRIORITAIRE
+Créer `scripts/data/days-enrich-271-300.mjs` (puis 301-330, 331-365) sur le modèle de `days-enrich-241-270.mjs`
+(mêmes champs, même exigence, revues enrichies). C'est là que vivent les thèmes agents/tool-calling/orchestration
+(semaine 40, jours 274-289). Sous-batchs de 10 jours.
 
 ### Batch 2 — jours 31-90 : ajouter des exemples guidés (52 jours)
 Éditer `scripts/data/days-31-90.mjs` (ajouter `guidedExample`) OU `days-enrich.mjs` par jour. Prompt : `prompts/enrich-day.md`.
@@ -151,4 +164,4 @@ Enrichir via le même mécanisme ; les leçons DevOps/carrière existent toutes 
 Les 21 leçons d'origine suivent un gabarit plus ancien (sans « Modèle mental / Exemple guidé / Questions d'entretien / Checklist »). Les faire passer au gabarit complet ferait 60/60 au gabarit neuf (39/60 aujourd'hui). Non bloquant.
 
 ## Où j'en suis (dernier point stable)
-Batchs 4A (jours 181-210) et 4B (jours 211-240) terminés, commités et poussés. `curriculum:check` OK, `curriculum:depth-check` OK (78/313 exemples guidés), 20/20 tests, build OK. Prochaine action recommandée : **Batch 4C (jours 241-270)** par sous-batchs de 10 jours.
+Batchs 4A (181-210), 4B (211-240) et 4C (241-270) terminés, commités et poussés → **cœur IA 181-270 COMPLET**. `curriculum:check` OK, `curriculum:depth-check` OK (104/313 exemples guidés), 20/20 tests, build OK. Prochaine action recommandée : **Batch 5 (jours 271-365)** par sous-batchs de 10 jours (agents, prod, projet final, carrière).

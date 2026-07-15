@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : lister les données de DocSense et où elles vont. Solution améliorée : répondre aux quatre questions (entrée avec classification, transit/stockage avec moindre privilège, SORTIE externe vers les APIs LLM avec garanties fournisseur + masquage/modèle local pour le sensible, rétention avec droit à l'effacement). Le point critique est le n°3 : ce qui part vers un LLM tiers. Une politique explicite est ce qui rend l'app déployable en entreprise (RGPD, confiance).
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Ignorer que l'appel LLM ENVOIE des données à un tiers : c'est le risque n°1 de gouvernance d'une app IA — le tracer et le contrôler est essentiel.
+- Pas de classification des données : traiter un document confidentiel comme un document public expose au risque juridique — classifier d'abord.
+- Oublier la rétention et le droit à l'effacement : exigence légale RGPD, pas optionnelle.
+- Ne pas prévoir de traitement pour les données sensibles (masquage, modèle local) : sans lui, l'app est indéployable pour les clients régulés.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- La politique répond aux 4 questions (entrée classifiée, transit sécurisé, sortie externe, rétention).
+- Le point « données envoyées aux APIs LLM » est explicite avec ses garanties.
+- Une parade pour les données sensibles (masquage ou modèle local) est définie.
+- La rétention et le droit à l'effacement sont couverts.
+- Un type de donnée qui ne doit PAS partir vers un LLM externe est identifié et traité (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Centre ta réponse sur le point IA critique : « quand j'appelle une API LLM, j'envoie question + extraits à un tiers — c'est LA question qu'un DPO pose ; je vérifie les garanties no-training/non-rétention, je masque le sensible, et pour l'ultra-confidentiel j'offre un modèle local ». Cette conscience de gouvernance des données rend une app IA déployable en entreprise — et distingue nettement en entretien.

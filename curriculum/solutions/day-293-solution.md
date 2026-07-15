@@ -5,21 +5,21 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : dessiner un flux ingestion + requête. Solution améliorée : dérouler la MÉTHODE complète — clarifier les exigences (elles déterminent l'architecture), estimer les ordres de grandeur (ils orientent les choix), dessiner le flux de haut niveau, approfondir 2-3 points durs, et énoncer les TRADE-OFFS de chaque choix justifiés par une contrainte. Le processus (dirigé, à voix haute, avec limites assumées) compte plus que l'architecture exacte.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Dessiner avant de clarifier les exigences : l'architecture dépend du volume/débit/latence — sauter cette étape produit un design hors sol.
+- Oublier d'estimer les ordres de grandeur : sans chiffres, impossible de justifier vector DB managée vs fichier, sync vs async.
+- Ne pas énoncer les trade-offs : un design présenté comme « la » solution sans coûts est suspect — chaque choix a un prix.
+- Rester muet ou dérouler en silence : l'évaluateur note le RAISONNEMENT — penser à voix haute est la moitié de l'exercice.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- L'exercice commence par clarifier les exigences (questions posées avant de dessiner).
+- Les ordres de grandeur sont estimés (volume, débit, stockage, coût).
+- Le flux ingestion + requête est dessiné au niveau composants.
+- 2-3 points durs sont approfondis (reprise, fraîcheur, budget).
+- Chaque choix majeur est accompagné de son trade-off justifié par une contrainte.
+- L'exercice est fait chronométré à voix haute (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+L'oral EST l'exercice : entraîne-toi à dérouler la méthode à voix haute en 45 min — « d'abord je clarifie : combien de docs, quel débit ? ; j'estime : 20M chunks → 80 Go → vector DB managée ; je dessine le flux ; j'approfondis la reprise ; et voici mes trade-offs ». Diriger l'exercice avec une méthode et verbaliser les arbitrages est ce qui fait réussir le design système.

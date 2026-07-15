@@ -119,10 +119,16 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Périmètre** : les thèmes agents/tool-calling/orchestration sont au **mois 10 (jours 274-289)**, hors 241-270 — non touchés (zone 271-365).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **104/313**) · 20/20 tests · build ✅.
 
-## PROCHAIN BATCH RECOMMANDÉ : Batch 5 — jours 271-365 (agents, prod, projet final, portfolio, carrière)
-Le cœur IA (181-270) est TERMINÉ. La suite naturelle : les jours 271-365 (agents & orchestration mois 10,
-observabilité/prod/coûts mois 11, projet final + portfolio + carrière mois 12).
-Même mécanisme : créer `scripts/data/days-enrich-271-300.mjs` (puis 301-330, 331-365) sur le modèle exact de
+## ✅ BATCH 5A TERMINÉ — jours 271-300 (agents, workflows, architecture, sécurité) → MOIS 10 COMPLET
+
+- **26 jours d'apprentissage enrichis** (271-272, 274-279, 281-286, 288-293, 295-300) + **4 revues enrichies** (273, 280, 287, 294).
+- Thèmes (titres réels du plan) : Projet 6 finalisé (rapport/README/ADR/démo) ; agents (boucle, modes d'échec, cas d'usage, mémoire, agent vs workflow, doctrine) ; workflows (explicites, 4 patterns, orchestration, cache, coûts, doctrine) ; architecture (clean, hexagonale, event-driven, monolithe vs microservices, patterns, design système) ; sécurité IA (OWASP LLM, données, observabilité, secrets, threat model, consolidation).
+- **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
+
+## PROCHAIN BATCH RECOMMANDÉ : Batch 5B — jours 301-330 (projet final DocSense build + DevOps mois 11)
+Le mois 10 est TERMINÉ. La suite : les jours 301-365 (build de DocSense + DevOps mois 11, finalisation + portfolio + carrière mois 12).
+Même mécanisme : créer `scripts/data/days-enrich-301-330.mjs` (puis 331-365) sur le modèle exact de
 `days-enrich-211-240.mjs` (champs `theory`, `guided`, `caseStudy`, `interview`, `future`,
 `solution {logic, pitfalls, checks, oral}`) et le fusionner dans `generate-curriculum.mjs`.
 Les jours 241-248 (comparaison chunking, versioning index, embeddings, hybride BM25/RRF,
@@ -138,18 +144,18 @@ Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 - **Batch 4A** : ✅ TERMINÉ — jours 181-210 enrichis en profondeur (25 jours d'apprentissage ; voir section « BATCH 4A TERMINÉ » ci-dessus).
 - **Batch 4B** : ✅ TERMINÉ — jours 211-240 enrichis en profondeur (26 jours d'apprentissage ; voir section « BATCH 4B TERMINÉ » ci-dessus).
 - **Batch 4C** : ✅ TERMINÉ — jours 241-270 enrichis (27 jours + 4 revues) → **cœur IA 181-270 COMPLET** (voir section « BATCH 4C TERMINÉ » ci-dessus).
+- **Batch 5A** : ✅ TERMINÉ — jours 271-300 enrichis (26 jours + 4 revues) → **mois 10 COMPLET** (voir section « BATCH 5A TERMINÉ » ci-dessus).
 
 ### État qualité actuel (mesuré)
-- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **104/313** (1-30 + 181-270).
-- Jours 181-270 au niveau « cours complet » (~1000-1200 mots), corrections avec section orale ; revues 245/252/259/266 enrichies (synthèse, grille, remédiation, entretien).
+- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **130/313** (1-30 + 181-300).
+- Jours 181-300 au niveau « cours complet » (~1000-1300 mots), corrections avec section orale ; revues 245/252/259/266/273/280/287/294 enrichies (synthèse, grille, remédiation, entretien).
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
 ## RESTE À FAIRE (par ordre de priorité)
 
-### Batch 5 — jours 271-365 (agents mois 10, prod mois 11, projet final/portfolio/carrière mois 12) — PRIORITAIRE
-Créer `scripts/data/days-enrich-271-300.mjs` (puis 301-330, 331-365) sur le modèle de `days-enrich-241-270.mjs`
-(mêmes champs, même exigence, revues enrichies). C'est là que vivent les thèmes agents/tool-calling/orchestration
-(semaine 40, jours 274-289). Sous-batchs de 10 jours.
+### Batch 5B — jours 301-365 (projet final DocSense build + DevOps mois 11 ; finalisation/portfolio/carrière mois 12) — PRIORITAIRE
+Créer `scripts/data/days-enrich-301-330.mjs` (puis 331-365) sur le modèle de `days-enrich-271-300.mjs`
+(mêmes champs, même exigence, revues enrichies). Sous-batchs de 10 jours.
 
 ### Batch 2 — jours 31-90 : ajouter des exemples guidés (52 jours)
 Éditer `scripts/data/days-31-90.mjs` (ajouter `guidedExample`) OU `days-enrich.mjs` par jour. Prompt : `prompts/enrich-day.md`.
@@ -157,11 +163,8 @@ Créer `scripts/data/days-enrich-271-300.mjs` (puis 301-330, 331-365) sur le mod
 ### Batch 3 — jours 91-180 : enrichir théorie inline + exemple guidé + cas métier spécifiques
 Cibler d'abord les jours ML/data. Via `days-enrich.mjs` (champs `theory`, `guided`, `caseStudy`, `interview`, `future`, `solution`) — exemplaires : jours 92 et 181-210.
 
-### Batch 5 — jours 271-365 : projet final, prod, carrière
-Enrichir via le même mécanisme ; les leçons DevOps/carrière existent toutes (Batch 1 terminé).
-
 ### Retrofit optionnel
 Les 21 leçons d'origine suivent un gabarit plus ancien (sans « Modèle mental / Exemple guidé / Questions d'entretien / Checklist »). Les faire passer au gabarit complet ferait 60/60 au gabarit neuf (39/60 aujourd'hui). Non bloquant.
 
 ## Où j'en suis (dernier point stable)
-Batchs 4A (181-210), 4B (211-240) et 4C (241-270) terminés, commités et poussés → **cœur IA 181-270 COMPLET**. `curriculum:check` OK, `curriculum:depth-check` OK (104/313 exemples guidés), 20/20 tests, build OK. Prochaine action recommandée : **Batch 5 (jours 271-365)** par sous-batchs de 10 jours (agents, prod, projet final, carrière).
+Batchs 4A (181-210), 4B (211-240), 4C (241-270) → **cœur IA COMPLET** ; Batch 5A (271-300) → **mois 10 COMPLET**. Tout commité et poussé. `curriculum:check` OK, `curriculum:depth-check` OK (130/313 exemples guidés), 20/20 tests, build OK. Prochaine action recommandée : **Batch 5B (jours 301-365)** par sous-batchs de 10 jours (projet final DocSense, DevOps, portfolio, carrière).

@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : résumer les défenses du mois. Solution améliorée : une vue en COUCHES cohérente, un principe directeur assumé (réduire/limiter/détecter, pas l'étanchéité ; moindre privilège en fil rouge), des menaces résiduelles explicites, et surtout la PREUVE — 3 vraies failles (issues du threat model/audits) corrigées, vérifiées, et idéalement verrouillées par des tests adverses. La revue mensuelle triage acquis/fragile/ouvert. La sécurité se prouve par des failles fermées, pas par des intentions.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Une synthèse de principes sans failles corrigées : la sécurité se PROUVE par des failles réelles fermées, pas par des intentions récitées.
+- Prétendre à l'invulnérabilité : une posture mûre assume les menaces résiduelles — un système « 100 % sûr » est un mensonge suspect.
+- Corriger sans verrouiller : une faille corrigée sans test peut rouvrir au prochain changement — l'ajouter à la suite adverse (jour 264) la ferme durablement.
+- Une revue mensuelle sans FRAGILE ni chiffres : le triage honnête (dont ce qui reste fragile) est ce qui rend la revue utile et crédible.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- La synthèse présente les couches de défense et le principe directeur (moindre privilège, réduire/limiter/détecter).
+- Les menaces résiduelles sont assumées explicitement.
+- 3 vraies failles sont corrigées ET vérifiées (faille → correctif → vérification).
+- Au moins une correction est verrouillée par un test adverse (variante).
+- La revue mensuelle 10 triage acquis/fragile/ouvert avec 3 chiffres du mois.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Prouve ta posture plutôt que de la réciter : « voici mes couches, mon principe — moindre privilège et détectabilité, pas l'étanchéité — mes menaces résiduelles assumées, et surtout les 3 failles que mon threat model a trouvées et que j'ai fermées et verrouillées par des tests ». Démontrer la sécurité par des failles réellement corrigées, dans un domaine où elle est négligée, est un différenciateur d'entretien majeur.

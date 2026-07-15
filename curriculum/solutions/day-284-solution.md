@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un dict prompt→réponse consulté avant l'appel. Solution améliorée : clé = hash(prompt+modèle+params), persistance (SQLite pour survivre aux runs), garde-fou température 0 (cacher du non-déterministe est un bug), mesure du taux de hit (l'indicateur qui décide si le cache vaut le coup), et conscience des limites (n'aide que sur le répété/déterministe, invalidation si le corpus change). Mesurer le taux de hit AVANT de conclure est le réflexe clé.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Cacher à température > 0 : on fige un tirage aléatoire comme s'il était LA réponse — la variabilité voulue disparaît, bug subtil.
+- Ne pas mesurer le taux de hit : un cache à 2 % de hit ne sert à rien ; sans la mesure, on croit optimiser sans effet.
+- Clé incomplète (oublier le modèle ou les paramètres) : deux appels réellement différents partagent une entrée → mauvaise réponse servie.
+- Ignorer l'invalidation : une réponse cachée devient obsolète si le corpus change — lier la clé à la version de l'index quand c'est pertinent.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le cache est fonctionnel (hit sur un appel identique répété — un seul appel réel).
+- La clé inclut prompt + modèle + paramètres.
+- Un garde-fou empêche le cache à température > 0.
+- Le taux de hit est mesuré et interprété (le cache vaut-il le coup ?).
+- La différence de taux de hit dev vs questions uniques est observée (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique la condition de validité comme la clé de compréhension : « le cache n'est correct qu'à température 0 — cacher du non-déterministe fige un tirage aléatoire ». Puis le réflexe de mesure : « je mesure le taux de hit avant de conclure — 40 % c'est un levier, 2 % c'est inutile ; le cache n'aide que sur le répété ». Nuancer un optimisation (quand elle aide, quand non) est un signal d'ingénieur.

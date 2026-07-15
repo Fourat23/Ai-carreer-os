@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un arbre de décision script/workflow/agent selon le flux. Solution améliorée : y intégrer le choix du pattern de workflow (les 4), les arbitrages CHIFFRÉS (coût/fiabilité/flexibilité/testabilité mesurés ce mois), les optimisations transverses (cache, routage de modèle, orchestration), et la règle d'or (niveau le plus bas, monter sur preuve). La valeur tient à l'ancrage : chaque règle adossée à une mesure ou expérience vécue.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Une doctrine qui n'est qu'un arbre de décision sans arbitrages chiffrés : elle tranche mais ne sait pas peser selon les contraintes (budget vs fiabilité vs flexibilité).
+- Récitation de bonnes pratiques non ancrées : fragile en entretien — chaque règle doit renvoyer à une mesure ou expérience du mois.
+- Oublier les optimisations transverses : le cache et le routage de modèle s'appliquent à tout niveau, pas seulement aux agents.
+- Une doctrine qui hésite sur des tâches concrètes : la tester sur des cas réels (variante) révèle si elle est opérationnelle ou trop vague.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- La doctrine couvre les trois niveaux (script/workflow/agent) avec critère de choix.
+- Le choix du pattern de workflow (les 4) est intégré.
+- Les arbitrages sont chiffrés/mesurés (coût, fiabilité, flexibilité, testabilité).
+- Les optimisations transverses (cache, routage, orchestration) sont incluses.
+- La doctrine tranche clairement sur 3 tâches de test (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Présente ta doctrine comme un outil de cadrage d'architecte : « script d'abord, workflow pour la majorité, agent en dernier recours — et je pèse coût/fiabilité/flexibilité/testabilité selon les contraintes, chaque arbitrage chiffré ce mois ». Termine par la posture anti-hype : « je choisis le niveau le plus bas qui marche, et je peux prouver que le workflow suffisait ». Résister à la mode avec des chiffres = signal d'architecte.

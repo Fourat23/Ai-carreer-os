@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : une boucle qui traite chaque document et sauve le résultat. Solution améliorée : découpage en unités à id stable, parallélisation BORNÉE par sémaphore (anti-429), checkpoint par unité pour la reprise idempotente, retry/backoff sur transitoire, journal des échecs définitifs (on continue), et budget estimé/plafonné/suivi. Le livrable est une ARCHITECTURE (schéma) montrant ces composants, pas juste du code.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Concurrence non bornée (500 appels d'un coup) : rate limits massifs, coût simultané, instabilité — le sémaphore est indispensable.
+- Pas de checkpoint : un plantage au document 480 perd les 479 traités (et re-payés au relancement) — sauver au fil de l'eau.
+- Pas de budget : à l'échelle, une erreur d'estimation devient une facture énorme découverte trop tard — estimer avant, plafonner, suivre.
+- Un échec d'unité qui arrête tout : un document illisible ne doit pas bloquer les 499 autres — journaliser et continuer.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le travail est découpé en unités indépendantes à id stable.
+- La concurrence est bornée (sémaphore) pour éviter les rate limits.
+- Un checkpoint par unité permet la reprise sans retraiter (idempotence prouvée).
+- Un budget est estimé avant, plafonné, et suivi pendant.
+- Les échecs d'unités sont journalisés sans arrêter l'orchestration.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Réponds à « traite un million de documents » en architecte : « découpage en unités, workers à concurrence bornée, checkpoint par unité pour la reprise, retry sur transitoire, budget plafonné ». Insiste sur la reprise : « un plantage à 90 % ne doit pas tout reperdre — idempotence, on saute ce qui est fait ». Parler reprise/concurrence/budget plutôt que « une boucle qui appelle le LLM » est le signal system design.

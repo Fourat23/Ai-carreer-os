@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : lister les composants et intuitionner cœur vs détail. Solution améliorée : classer chaque composant par le TEST DU CHANGEMENT (« si je change cette techno, ce code change-t-il ? »), identifier les CONTAMINATIONS (du cœur qui importe un détail comme chromadb), et poser les interfaces que le cœur devrait définir. La règle directrice : dépendances vers le cœur, cœur sans import de framework — préalable au refactoring hexagonal.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Mettre la logique métier RAG au même niveau que l'appel à Chroma : le cœur (le QUOI) doit être séparé du détail (le COMMENT), sinon changer de store casse la logique.
+- Croire que « ça marche » suffit : une app qui marche mais dont le cœur importe le SDK LLM partout devra être réécrite à chaque changement de modèle.
+- Confondre couches techniques (UI/DB) et clean architecture : ce qui compte est la DIRECTION des dépendances (vers le cœur), pas juste la séparation en dossiers.
+- Ne pas identifier les contaminations : sans la liste des fichiers qui importent un détail, le refactoring du jour 289 n'a pas de cible.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Chaque composant de DocQA est classé cœur ou détail par le test du changement.
+- Le cœur identifié ne contient aucune règle métier dépendante d'une techno spécifique.
+- Les contaminations (cœur qui importe un détail) sont listées.
+- Les interfaces que le cœur devrait définir sont esquissées.
+- Le nombre de fichiers important directement un SDK est compté (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique l'inversion de dépendance avec le test concret : « si je change de vector store, ma logique de refus doit-elle changer ? Non — donc elle est du cœur, et Chroma est un détail derrière une interface ». Puis le pourquoi IA : « l'écosystème LLM change tous les mois ; isoler les détails rend l'évolution triviale — je remplace un adaptateur, pas mon cœur ». La direction des dépendances est LE concept.

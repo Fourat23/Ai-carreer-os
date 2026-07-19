@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : ajouter plus de logs. Solution améliorée : des logs assez détaillés pour REJOUER une session complète (question → chunks+scores → prompt → réponse → coût, via correlation id), permettant de diagnostiquer un incident a posteriori sans reproduction ; et un dashboard NARRATIF qui raconte la trajectoire de qualité (baseline → final, annotée), transformant les données en récit de valeur. L'un sert le débogage, l'autre la communication.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Logs insuffisants pour rejouer : si on ne peut pas reconstituer les chunks/scores/prompt, l'incident reste un mystère — logger assez pour rejouer.
+- Dashboard d'état seul (score du jour) : il ne raconte pas la trajectoire — le narratif (d'où on part, où on arrive) communique la valeur.
+- Logger des données sensibles en clair : privacy — hash/masquage (jour 296), même pour la session rejouable.
+- Observabilité comme accessoire : dans un système non déterministe, elle est l'outil de débogage ESSENTIEL, pas un bonus.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Une session complète est reconstituable depuis les logs (question → réponse → coût).
+- Un incident est diagnosticable a posteriori sans reproduction (variante).
+- Le dashboard raconte la trajectoire de qualité (baseline → final, annotée).
+- Coûts et latences dans le temps sont visibles.
+- Les données sensibles dans les logs sont masquées.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Montre le double atout : « côté technique, je rejoue n'importe quelle session depuis les logs pour diagnostiquer un incident sans le reproduire ; côté valeur, mon dashboard raconte comment la qualité a progressé de la baseline au final ». Débogage + communication de la valeur : l'observabilité de production complète, un signal de maturité rare.

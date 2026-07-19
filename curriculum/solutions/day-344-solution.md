@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : lister ses compétences et projets. Solution améliorée : un CV d'une page orienté PREUVES — chaque projet présenté avec un résultat chiffré ou un livrable concret (les projets sont l'expérience), les chiffres plutôt que les adjectifs, un format ATS-friendly (simple, mots-clés des offres), la concision qui force à garder les preuves les plus fortes. Pour un junior, compenser l'absence d'expérience par des preuves chiffrées est le levier n°1.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Un CV d'adjectifs (« passionné », « maîtrise ») : creux, tout le monde les écrit — remplacer chaque adjectif par une preuve chiffrée.
+- Format exotique (colonnes, graphiques, images) : cassé par les ATS, écarté avant l'œil humain — format simple.
+- Plus d'une page pour un junior : la concision force à garder les preuves les plus fortes — une page.
+- Projets sans résultats chiffrés : un projet listé sans chiffre ne prouve pas — chaque projet porte un résultat ou un livrable concret.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le CV tient sur une page.
+- Chaque projet porte un résultat chiffré ou un livrable concret.
+- Les adjectifs creux sont remplacés par des preuves.
+- Le format est ATS-friendly (simple, mots-clés des offres).
+- Chaque ligne est une preuve, pas un adjectif (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique le levier du junior : « sans expérience professionnelle, mes projets SONT mon expérience — présentés avec des résultats chiffrés : DocSense à 0,92 d'exactitude, pas maîtrise-le-RAG ; les chiffres prouvent, les adjectifs affirment ». Puis : « un CV d'une page, chiffré, ATS-friendly, ouvre la porte de l'entretien ». Compenser l'absence d'expérience par des preuves chiffrées est le levier n°1 d'un candidat junior.

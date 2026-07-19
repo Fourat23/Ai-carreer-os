@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : mettre à jour son profil. Solution améliorée : optimiser pour la trouvabilité et l'attraction — titre avec mots-clés recruteurs + preuve, à-propos qui pitche avec preuves, projets présentés comme expérience et ÉPINGLÉS (montrer), mots-clés des offres dans tout le profil, et PUBLIER. LinkedIn est un canal passif (les recruteurs cherchent, tu apparais) — un profil optimisé travaille pour toi en continu, complément du CV actif.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Titre générique (« étudiant ») : invisible dans les recherches — un titre avec le rôle visé et les mots-clés.
+- Pas de mots-clés des offres : tu n'apparais pas dans les recherches recruteurs — les semer dans titre/à-propos/expériences.
+- Projets décrits mais non épinglés : les projets épinglés MONTRENT (liens cliquables), plus convaincants — les épingler.
+- Profil optimisé mais non publié : un brouillon ne sert à rien — publier.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le titre contient le rôle visé + mots-clés + une preuve.
+- L'à-propos pitche qui tu es avec des preuves chiffrées.
+- Les projets sont présentés comme expérience et épinglés (liens).
+- Les mots-clés des offres sont présents dans tout le profil.
+- Le profil est publié (pas en brouillon).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique LinkedIn comme canal passif : « contrairement au CV que j'envoie, mon LinkedIn optimisé travaille pour moi en continu — les recruteurs cherchent par mots-clés, et un titre accrocheur avec AI-Engineer, RAG, LLM plus mes projets épinglés me rendent trouvable et convaincant ». Un LinkedIn optimisé ouvre un flux d'opportunités que le seul CV ne donne pas — un investissement d'une journée à fort rendement.

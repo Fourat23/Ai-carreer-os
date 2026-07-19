@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : préparer une présentation de soi. Solution améliorée : 3 pitchs (30s, 90s, 3 min) autour des mêmes composants (qui tu es + ce que tu vises, ta preuve phare chiffrée, ce qui te distingue), écrits puis ENREGISTRÉS et réécoutés pour corriger hésitations et débit. C'est la question la plus prévisible de l'entretien — la préparer et la rendre fluide garantit un départ fort adapté au temps disponible.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Improviser « parle-moi de toi » : c'est la question la plus prévisible — l'improviser plombe le départ et déstabilise.
+- Un seul format : le contexte varie (intro rapide vs présentation approfondie) — 3 formats pour s'adapter.
+- Écrire sans enregistrer/répéter : la fluidité vient de la répétition ; s'enregistrer révèle les hésitations à corriger.
+- Un pitch sans preuve chiffrée : « je suis passionné d'IA » est creux — ancrer sur DocSense et ses chiffres.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les 3 pitchs (30s, 90s, 3 min) sont écrits.
+- Chacun contient qui tu es + preuve phare chiffrée + distinction.
+- Ils sont enregistrés et réécoutés (hésitations, débit corrigés).
+- Le pitch est fluide (répété jusqu'à la fluidité).
+- Un tiers comprend le message après l'avoir écouté (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+C'est LE jour de l'oral par excellence : « parle-moi de toi » est la question la plus prévisible — je la prépare en 3 formats (30s, 90s, 3 min), écrits et répétés en m'enregistrant. Un pitch fluide qui dit qui je suis, ma preuve phare (DocSense à 0,92) et ce qui me distingue pose une bonne première impression et me met en confiance. Ne pas préparer la question la plus certaine de l'entretien serait absurde — la répétition garantit un départ fort.

@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : lister des entreprises qui recrutent. Solution améliorée : 30 entreprises en 3 cercles (rêves accessibles / cœur de cible / paris-entraînement) selon adéquation et attrait, chacune justifiée (pourquoi elle + pourquoi toi), pour calibrer l'effort de personnalisation et concentrer les chances. Le ciblage bat la dispersion : les candidatures personnalisées aux bonnes entreprises ont un bien meilleur taux de réponse que les envois massifs.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Postuler partout au hasard (spray and pray) : candidatures génériques, faible taux de réponse, épuisement — cibler concentre l'effort.
+- Ne cibler que des rêves inaccessibles : décourageant et peu réaliste — équilibrer les 3 cercles avec des chances réalistes.
+- Justifications vagues (« ils recrutent ») : la justification (pourquoi elle + pourquoi toi) est la base de la personnalisation — la soigner.
+- Ignorer le cercle 3 : les paris et l'entraînement aux entretiens ont de la valeur (volume, expérience) — les inclure.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- 30 entreprises classées en 3 cercles (rêves / cœur / paris).
+- Chaque entreprise a une justification (pourquoi elle + pourquoi toi).
+- Les 3 cercles sont équilibrés avec des chances réalistes.
+- Le cercle 1 a des détails spécifiques pour la personnalisation (variante).
+- La liste clarifie ce que tu veux et où tu corresponds.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique le ciblage vs la dispersion : « je ne postule pas partout au hasard — je cible 30 entreprises en 3 cercles (rêves accessibles, cœur de cible, paris), chacune justifiée par pourquoi-elle et pourquoi-moi ; les candidatures personnalisées aux bonnes entreprises ont un bien meilleur taux de réponse que les envois massifs ». La qualité du ciblage prime sur la quantité — une stratégie maîtrisée plutôt qu'une loterie.

@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : générer une réponse avec des citations. Solution améliorée : un contrat de génération strict (sources uniquement, citation par affirmation, refus si insuffisant), une vérification automatique des citations en aval (la source soutient vraiment l'affirmation, jour 262), un refus honnête sur ancrage insuffisant ou scores faibles (jour 263), et un format soigné. Les citations vérifiables + le refus sont ce qui rend DocSense digne de confiance et déployable auprès d'un professionnel.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Citations présentes mais non vérifiées : le modèle peut citer décorativement ou mal — la vérification aval est indispensable.
+- Pas de refus : un système qui répond toujours invente parfois, et un mensonge découvert détruit la confiance — le refus est une feature.
+- Format brut (réponse et refus identiques) : l'utilisateur ne distingue pas une réponse d'un refus — soigner le format.
+- Seuil de refus non calibré : trop bas il hallucine, trop haut il refuse des questions couvertes — calibrer sur le corpus DocSense (jour 263).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Chaque affirmation cite sa source et la citation est vérifiée automatiquement.
+- Le refus honnête fonctionne sur une question hors corpus (message utile, pas d'invention).
+- Le format distingue clairement réponse et refus, citations lisibles/cliquables.
+- Les 3 régimes (répondable, hors corpus, multi-documents) sont testés sur le corpus DocSense.
+- Le seuil de refus est calibré sur le corpus DocSense.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Fais la démo de confiance en 60 secondes : « je pose une question, voici la réponse avec ses citations — je clique, la source contient bien l'affirmation ; maintenant une question hors corpus, DocSense refuse honnêtement au lieu d'inventer ». Puis la phrase clé : « un assistant qui cite et sait dire je-ne-sais-pas est un assistant qu'un professionnel ose utiliser ». C'est la démonstration la plus vendeuse de tout le projet.

@@ -30,9 +30,10 @@ import { ENRICH_181_210 } from './data/days-enrich-181-210.mjs';
 import { ENRICH_211_240 } from './data/days-enrich-211-240.mjs';
 import { ENRICH_241_270 } from './data/days-enrich-241-270.mjs';
 import { ENRICH_271_300 } from './data/days-enrich-271-300.mjs';
+import { ENRICH_301_365 } from './data/days-enrich-301-365.mjs';
 
 // Fusion des enrichissements par jour (les fichiers spécialisés priment).
-const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_181_210, ...ENRICH_211_240, ...ENRICH_241_270, ...ENRICH_271_300 };
+const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_181_210, ...ENRICH_211_240, ...ENRICH_241_270, ...ENRICH_271_300, ...ENRICH_301_365 };
 import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.
@@ -77,6 +78,7 @@ function buildDay(n) {
 
   // Jour 365 : la clôture de l'année (jour hors des 52×7 = 364).
   if (n === 365) {
+    const enrich = DAYS_ENRICH[365] ?? {};
     return {
       day: 365, week: 52, month: 12, isReview: false, planned: true,
       title: "Jour 365 — Clôture de l'année et lancement de la suite",
@@ -85,6 +87,12 @@ function buildDay(n) {
       concepts: [],
       exercise: "1) Relis ta toute première note (jour 1) et écris une lettre à ton toi d'il y a un an. 2) Vérifie que tes 7 projets sont propres et publics sur GitHub. 3) Confirme que tes premières candidatures sont ENVOYÉES (pas « prêtes »). 4) Relis ton PLAN-90-JOURS.md et bloque tes 3 prochaines actions dans un agenda.",
       deliverable: "Lettre-bilan de l'année + checklist portfolio complète + confirmation des candidatures envoyées + 3 prochaines actions datées.",
+      theoryExtra: enrich.theory,
+      guidedExample: enrich.guided,
+      caseStudy: enrich.caseStudy,
+      interview: enrich.interview,
+      future: enrich.future,
+      solution: enrich.solution,
       criteria: [
         "Lettre-bilan écrite (comparaison honnête avec le toi du jour 1).",
         "Les 7 projets sont propres, publics et démontrables sur GitHub.",

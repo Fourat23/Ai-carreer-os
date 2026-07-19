@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : lister les tâches par semaine. Solution améliorée : maquetter les écrans pour fixer l'interface, puis découper en 8 jalons DÉMONTRABLES (chacun montrable, avec sa phrase de démo), suivant la logique de construction. La règle : un jalon non montrable en fin de semaine est un signal de retard à traiter. Le découpage démontrable garantit une version montrable à tout moment et des retards détectés tôt.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Planifier en tâches (« coder le retrieval ») au lieu de jalons démontrables : les retards restent cachés jusqu'à la deadline.
+- Maquettes trop léchées : le papier suffit — l'objectif est de DÉCIDER la structure, pas de faire joli ; le design détaillé viendrait plus tard.
+- Des jalons trop gros (un seul livrable à la fin) : aucune détection de retard intermédiaire ni version montrable en cours de route.
+- Un jalon sans phrase de démo : s'il n'est pas assez concret pour écrire « regarde, je... », il n'est pas assez démontrable.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les 3 écrans sont maquettés (papier suffit).
+- Le backlog a 8 jalons, chacun MONTRABLE avec une phrase de démo.
+- Les jalons suivent une logique de construction incrémentale.
+- Chaque jalon a un critère de « fait » vérifiable.
+- Une phrase de démo est écrite pour chaque jalon (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique la puissance du jalon démontrable : « je planifie en jalons montrables, pas en tâches — chaque semaine je peux dire regarde, je pose 10 questions et voici les réponses citées ; si je ne peux pas le montrer, c'est un retard que je traite tout de suite, pas que je cache ». Savoir livrer incrémentalement et détecter les retards tôt est une compétence de gestion de projet qui rassure un employeur.

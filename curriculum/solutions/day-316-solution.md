@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : écrire 40 questions sur le corpus. Solution améliorée : les dériver des cas d'usage de la SPEC (représentativité selon l'usage visé), les ancrer dans le corpus RÉEL avec vérité-terrain exploitable (doc + passage), inclure les cas difficiles et les hors corpus (refus attendu), et versionner/figer. La qualité du golden set plafonne toute l'évaluation ; il mesure ce que DocSense PROMET, pas des questions génériques.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Golden set sur corpus jouet ou générique : il ne mesure pas la vraie qualité perçue — ancrer dans le corpus réel.
+- Questions tirées des documents (mémorisation) : elles testent la récupération d'un passage, pas l'usage réel — partir des cas d'usage.
+- Pas de vérité-terrain avec passage exact : les métriques de retrieval redeviennent manuelles — poser doc + passage.
+- Oublier les hors corpus : le refus est un comportement à mesurer ; un golden set sans hors-corpus ne teste pas la fiabilité.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- 40+ questions ancrées dans le corpus réel DocSense.
+- Distribution dérivée des cas d'usage de la SPEC (pondérée selon l'usage).
+- Chaque question a une vérité-terrain (doc + passage exact).
+- Les cas difficiles et hors corpus (refus attendu) sont présents.
+- Le golden set est versionné et figé.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique la continuité SPEC → golden set : « mes 40 questions viennent des cas d'usage de ma SPEC, sur mon corpus réel, avec vérité-terrain — donc je mesure ce que DocSense PROMET, pas des questions génériques ». Puis : « il est figé, il ne sert jamais à développer ». Un golden set dérivé des cas d'usage réels est la preuve d'une évaluation sérieuse.

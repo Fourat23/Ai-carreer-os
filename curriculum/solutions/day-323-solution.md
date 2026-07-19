@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : enchaîner résumé, points clés, questions. Solution améliorée : construire l'analyse comme un WORKFLOW explicite (étapes fixes orchestrées par le code, flux connu — pas un agent car pas besoin d'autonomie), avec un nombre d'appels connu (coût borné), une sortie structurée, et la testabilité étape par étape. La valeur est double : une fonctionnalité différenciante ET le bon choix d'architecture (workflow car flux fixe, justifié par la doctrine du jour 278).
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Construire l'analyse comme un agent : le flux est fixe, l'autonomie d'un agent serait coûteuse et fragile pour rien — un workflow suffit.
+- Un résumé en pavé non structuré : la valeur est dans la STRUCTURE (résumé + points clés + questions), pas dans un bloc de texte.
+- Ne pas savoir justifier workflow vs agent : le jugement d'architecture est aussi important que la fonctionnalité — savoir dire pourquoi workflow.
+- Flux non testable : structurer en étapes permet de tester chacune (jour 327) — un mégaprompt monolithique perd cet avantage.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- L'analyse produit un résumé structuré + points clés + questions ouvertes.
+- Elle est construite comme un workflow explicite (étapes fixes orchestrées).
+- Le nombre d'appels LLM est connu (coût borné).
+- Le choix workflow-pas-agent est justifié (flux fixe).
+- Chaque étape est testable en isolation (préfigure jour 327).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Présente la fonctionnalité ET le choix d'architecture : « DocSense n'analyse pas seulement, il analyse — résumé structuré, points clés, questions ouvertes ; et je l'ai construit comme un workflow, pas un agent, parce que le flux est fixe : coût borné, testable, pas de modes d'échec ». Montrer une fonctionnalité de valeur avec un choix d'architecture justifié est le combo qui distingue.

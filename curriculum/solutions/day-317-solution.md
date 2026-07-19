@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un script qui calcule les métriques. Solution améliorée : un harnais en une commande produisant un rapport structuré (retrieval + génération, par type + agrégat), reproductible (temp 0, golden versionné), comparable entre versions (--compare), branché sur le cœur hexagonal (teste les configs via les ports). Évaluer DÈS MAINTENANT permet de piloter tout le build par la mesure — le principe des tests automatisés appliqué à la qualité IA.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Reporter l'évaluation à la fin : les problèmes sont découverts trop tard pour être corrigés — évaluer en continu.
+- Un harnais lent/cher : il ne sera pas lancé souvent — optimiser (cache des jugements) pour qu'il reste sans friction.
+- Rapport agrégat seul : le score global ne dit pas OÙ améliorer — par type + par question.
+- Non reproductible (juges à température > 0) : les comparaisons de versions deviennent non fiables.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- `docsense eval` produit un rapport en une commande (retrieval + fidélité, par type + agrégat).
+- Le rapport est reproductible (temp 0, golden versionné, config enregistrée).
+- Le mode --compare montre les deltas entre versions.
+- Le harnais évalue le cœur via les ports (teste les configs sans le changer).
+- Le temps et le coût d'une campagne sont mesurés (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Fais le parallèle avec la CI : « comme la CI rend les tests automatiques, mon harnais rend l'évaluation automatique — une commande, un rapport ; je le lance à chaque changement, donc j'améliore DocSense guidé par les chiffres, pas à l'aveugle ». Évaluer tôt et souvent plutôt qu'à la fin est une culture d'ingénierie qui distingue.

@@ -129,6 +129,27 @@ test('ambiguïté : PR est marqué ambigu et documente plusieurs sens', () => {
   assert.ok((pr.senses ?? []).length >= 2, 'PR devrait documenter au moins 2 sens');
 });
 
+test('pertinence : « PR » ne retourne pas une masse de faux positifs', () => {
+  const r = filterEntries(entries, { query: 'PR' });
+  assert.ok(r.some((e) => e.id === 'git-pr'), 'PR doit être trouvé');
+  assert.ok(r.length <= 3, `« PR » devrait renvoyer très peu de résultats, obtenu ${r.length}: ${r.map((e) => e.term).join(', ')}`);
+  // « pr » ne doit PAS matcher via une sous-chaîne dans un mot (entreprise, production, démarrage…)
+  assert.ok(!r.some((e) => e.id === 'dev-api'), 'API ne doit pas matcher « PR »');
+});
+
+test('pertinence : un acronyme court matche l\'entrée exacte, pas les sous-chaînes', () => {
+  const rag = filterEntries(entries, { query: 'RAG' });
+  assert.ok(rag.some((e) => e.id === 'ai-rag'), 'RAG doit être trouvé');
+  assert.ok(!rag.some((e) => e.id === 'arch-boilerplate'), '« RAG » ne doit pas matcher « démarrage »');
+});
+
+test('recherche : préfixe sur le terme (recherche pendant la frappe)', () => {
+  const r = filterEntries(entries, { query: 'proxy' });
+  assert.ok(r.some((e) => e.id === 'network-proxy'));
+  const pref = filterEntries(entries, { query: 'kanb' }); // préfixe partiel
+  assert.ok(pref.some((e) => e.id === 'agile-kanban'), 'un préfixe de terme doit matcher');
+});
+
 test('état vide : une recherche sans correspondance ne retourne rien', () => {
   const r = filterEntries(entries, { query: 'zzzzz-terme-inexistant-xyz' });
   assert.equal(r.length, 0, "une recherche absurde devrait renvoyer un ensemble vide");

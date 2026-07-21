@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : split train/test et évaluer sur le test. Solution améliorée : DÉMONTRER le leakage (préprocessing sur tout le dataset, ou feature du futur) en montrant le score gonflé, puis le corriger (split d'abord, préprocessing ajusté sur le train seul, appliqué au test), et poser une baseline triviale que le modèle doit battre. La preuve : montrer côte à côte le score optimiste (avec leakage) et le score honnête (sans), et le modèle qui bat la baseline.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Normaliser/imputer avant le split : le train voit les statistiques du test — leakage classique.
+- Inclure une feature calculée à partir de la cible (feature du futur) : score quasi parfait, inutilisable en réel.
+- Ne pas poser de baseline : on ne sait pas si le modèle apporte quelque chose.
+- Faire confiance à un score trop beau : c'est souvent le symptôme d'un leakage, pas d'un bon modèle.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le split est fait AVANT tout préprocessing.
+- Le préprocessing est ajusté sur le train uniquement, puis appliqué au test.
+- Aucune feature ne fuit la cible (pas de feature du futur).
+- Une baseline est posée et le modèle la bat.
+- Le leakage est démontré puis corrigé (comparaison des scores).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Définis le leakage comme « de l'information du futur/du test qui fuit dans l'entraînement, invisible car sans erreur ». Donne les deux formes clés (préprocessing sur tout le dataset ; feature du futur) et la parade (split d'abord, apprentissage sur le train seul, Pipeline). Ajoute « un score trop beau est suspect » et « toujours une baseline ». Savoir démontrer un leakage prouve que tu comprends l'évaluation, pas juste que tu appelles fit/predict.

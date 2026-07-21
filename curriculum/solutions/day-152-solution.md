@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : lister des biais possibles dans les jeux de données. Solution améliorée : pour CHAQUE jeu, remonter au processus de collecte, identifier précisément qui/quoi manque, nommer le type de biais (sélection/survivant/historique/déséquilibre), proposer une correction réaliste (repondération, rééchantillonnage, redéfinition de la cible) OU assumer la limite dans une fiche de données. La preuve : les biais identifiés sont concrets et actionnables, pas génériques.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Se fier aux métriques d'entraînement : un biais d'échantillonnage y est invisible, il réussit sur sa réalité faussée.
+- Confondre biais d'algorithme et biais de données : ici la cause est les DONNÉES, un meilleur modèle n'y change rien.
+- Ignorer le biais du survivant : conclure à partir des seuls « survivants » (clients convertis, projets réussis).
+- Traiter un déséquilibre de classes comme un détail : la cible rare est sous-apprise et l'accuracy trompe (jour 162).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Chaque biais identifié est relié au processus de collecte des données.
+- Ce qui MANQUE dans l'échantillon est explicité.
+- Une correction ou une limite assumée accompagne chaque biais.
+- Le déséquilibre de la cible est vérifié (value_counts).
+- Une fiche de données documente source, période, population et angles morts.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Pose le principe : « un modèle apprend le monde que ses données montrent ; un échantillon biaisé donne un modèle biaisé, invisible dans les métriques ». Illustre avec le survivant (avions/startups) et l'historique (recrutement). Insiste : « aucun algorithme ne corrige un échantillon non représentatif ». Savoir auditer la provenance des données AVANT de modéliser distingue un data scientist mûr d'un applicateur d'algorithmes.

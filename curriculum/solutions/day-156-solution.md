@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : entraîner une LinearRegression et regarder le score. Solution améliorée : split propre, poser une baseline (DummyRegressor mean) que le modèle doit battre, évaluer en MAE/RMSE sur le test, interpréter les coefficients en tenant compte de l'échelle des features, et diagnostiquer les limites (linéarité, outliers, colinéarité). La preuve : le modèle bat la baseline ET ses coefficients sont interprétés en termes métier.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Ne pas comparer à une baseline : sans elle, on ne sait pas si le modèle apporte quoi que ce soit.
+- Interpréter les coefficients sans tenir compte de l'échelle des features : des coefficients non comparables.
+- Ignorer les outliers : à cause du carré, ils tirent la droite et faussent tout.
+- Supposer la linéarité sans la vérifier : une relation courbe est mal capturée (créer des features ou changer de modèle).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Un split train/test propre est effectué (pas de leakage).
+- Une baseline est posée et le modèle la bat.
+- L'évaluation utilise MAE/RMSE sur le test.
+- Les coefficients sont interprétés (effet par unité, échelle prise en compte).
+- Les limites (linéarité, outliers) sont vérifiées.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique les moindres carrés (minimiser les carrés des erreurs) et l'interprétation des coefficients (effet par unité, toutes choses égales par ailleurs). Insiste sur la baseline (« battre prédire-la-moyenne est le minimum ») et sur les limites (linéarité, outliers). Montrer que tu interprètes les coefficients en termes métier — pas juste un score — prouve que tu comprends le modèle, pas seulement que tu l'exécutes.

@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : décrire le modèle et ses métriques. Solution améliorée : structurer orienté décision — question métier d'abord, méthode reproductible, performance TOUJOURS vs baseline et traduite en termes métier, limites honnêtes assumées (biais, classe rare, corrélation ≠ causalité), et recommandation d'action. Écrit pour un décideur non technique. La preuve : un lecteur non technique sait quelle décision prendre après lecture.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Commencer par le score ou la stack au lieu de la question métier : le décideur ne sait pas à quoi ça sert.
+- Rapporter un score nu sans baseline : un chiffre sans comparaison ne veut rien dire.
+- Cacher les limites pour bien vendre le modèle : la confiance s'effondre quand elles apparaissent en production.
+- Empiler des métriques sans les relier à une décision : le rapport n'est pas actionnable.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le rapport commence par la question métier et la décision éclairée.
+- La méthode est reproductible (données, split, modèle, métrique justifiée).
+- La performance est rapportée vs une baseline et traduite en termes métier.
+- Les limites sont assumées explicitement (biais, classe rare, causalité).
+- Une recommandation d'action clôt le rapport ; un non-technique sait quoi décider.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Structure : question métier → méthode reproductible → performance vs baseline (traduite métier) → limites assumées → recommandation. Insiste que « un modèle ne vaut que par la décision qu'il éclaire » et que les limites CRÉDIBILISENT au lieu d'affaiblir. Le test « un non-technique sait-il quoi décider ? » prouve que ton rapport est orienté décision, la marque d'un data scientist qui a de l'impact.

@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : appliquer la formule de Bayes P(malade|+) = P(+|malade)·P(malade)/P(+). Solution améliorée : décomposer explicitement P(+) en vrais positifs + faux positifs, vérifier le résultat par un raisonnement en effectifs sur une population (bien plus intuitif), et interpréter au regard du taux de base — puis montrer que faire varier la prévalence change radicalement P(malade|+). La preuve de compréhension : expliquer POURQUOI ~2 % (les faux positifs écrasent les vrais quand la cible est rare).
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Confondre P(test+|malade) et P(malade|test+) : l'erreur d'inversion la plus fréquente.
+- Ignorer le taux de base (prévalence) : on surestime massivement la proba a posteriori sur une cible rare.
+- Croire qu'un test précis implique un positif fiable : la fiabilité d'un positif dépend AUSSI de la rareté de la cible.
+- Oublier les faux positifs dans le dénominateur P(test+) : on ne compte que les vrais positifs et le calcul est faux.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- P(test+) inclut bien vrais ET faux positifs.
+- Le résultat est cohérent avec un raisonnement en effectifs sur une population.
+- L'interprétation mentionne explicitement le taux de base.
+- Faire varier la prévalence change le résultat dans le sens attendu.
+- P(A|B) et P(B|A) sont clairement distingués.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Raconte le cas médical en EFFECTIFS plutôt qu'en formules : « sur 100 000 personnes, 100 malades mais 5000 faux positifs — donc un positif ne veut dire malade qu'à ~2 % ». Puis nomme le piège (base rate fallacy) et relie-le à l'accuracy trompeuse sur les classes déséquilibrées. Savoir inverser une conditionnelle avec Bayes ET l'expliquer en population est un signal fort en entretien data.

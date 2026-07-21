@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : regarder les données et entraîner un premier modèle. Solution améliorée : mener une EDA orientée métier (distribution de la cible/déséquilibre, qualité, corrélations, chasse aux FUITES), confirmer le cadrage, faire un split STRATIFIÉ en réservant un test intouché, et établir une baseline honnête sur la métrique métier (pas l'accuracy). La preuve : les pièges (fuite, déséquilibre) sont identifiés et une baseline donne le seuil à battre avant toute modélisation.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Sauter l'EDA : on rate une fuite, un déséquilibre extrême ou des features inutilisables qui invalideront tout.
+- Établir une baseline sur l'accuracy : trompeuse sur du churn déséquilibré — utiliser la métrique métier.
+- Split non stratifié sur une cible rare : trop peu de positifs dans le test, évaluation instable.
+- Toucher au jeu de test pendant l'exploration : il doit rester intouché jusqu'à l'évaluation finale.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- La distribution de la cible et le déséquilibre sont analysés.
+- Les fuites potentielles sont chassées (features suspectes/calculées après l'événement).
+- Le split réserve un test intouché et est stratifié sur la cible.
+- Une baseline honnête est établie sur la métrique métier.
+- Le premier livrable est le socle EDA + baseline, pas un modèle.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique que le premier livrable est EDA + baseline, pas un modèle : l'EDA révèle les pièges (fuite, déséquilibre), la baseline donne le seuil à battre (« AUC 0,72 ne veut rien dire sans savoir que la baseline est à 0,50 »). Mentionne la stratification sur une cible rare et le test intouché. Cette rigueur de départ prouve que tu as compris le problème avant d'investir dans la modélisation.

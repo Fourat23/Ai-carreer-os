@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : ajouter des features et voir si le score monte. Solution améliorée : dériver des features justifiées par le métier ET l'analyse d'erreurs, mesurer chaque gain en CV (modèle/protocole fixes), journaliser, et surtout vérifier à CHAQUE ajout l'absence de leakage temporel (feature calculable à la date d'observation, fenêtre antérieure, calcul sur le train seul via Pipeline). La preuve : des gains mesurés et reproductibles, aucune feature encodant la cible ou postérieure à l'observation.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Ajouter une feature qui encode la cible (ex. 'jours depuis résiliation') : gain magique, modèle inutilisable.
+- Agrégat temporel incluant des données postérieures à la date d'observation : leakage temporel subtil.
+- Garder des features sans mesurer leur gain : certaines hypothèses séduisantes n'apportent rien.
+- Créer les features hors Pipeline (sur tout le dataset) : leakage — les intégrer au Pipeline, apprises sur le train seul.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les features dérivent d'hypothèses métier et de l'analyse d'erreurs.
+- Chaque feature est mesurée sur la validation et journalisée.
+- Aucune feature n'encode la cible ni n'inclut d'information postérieure à l'observation.
+- Les fenêtres temporelles sont antérieures à la date d'observation.
+- Les features sont calculées via le Pipeline (train seul, pas de leakage).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique que sur un projet réel les features rapportent plus que le modèle, et qu'elles viennent du métier et de l'analyse d'erreurs. Insiste sur le leakage temporel spécifique au churn (« jours depuis résiliation » encode la cible ; fenêtres antérieures à l'observation). Montrer qu'une feature qui fuit fait exploser l'AUC à ~1,0 prouve que tu sais reconnaître un gain illusoire, la vigilance clé d'un projet réel.

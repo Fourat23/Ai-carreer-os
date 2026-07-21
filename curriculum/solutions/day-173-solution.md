@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : afficher la feature importance native. Solution améliorée : comparer l'importance native (rapide, biaisée, sur le train) à la permutation importance (agnostique, sur la validation, plus honnête), expliquer une prédiction individuelle (SHAP), et utiliser l'interprétabilité comme DÉTECTEUR de leakage (une feature démesurément importante est suspecte). La preuve : une explication fiable des features qui comptent ET la détection d'une feature anormale.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Prendre la feature importance native pour une vérité : elle est biaisée et calculée sur le train — préférer la permutation.
+- Calculer l'importance sur le train : elle peut refléter du surapprentissage — la mesurer sur la validation.
+- Ignorer une feature anormalement importante : c'est souvent le signe d'un leakage à investiguer.
+- Se contenter d'une importance globale quand il faut expliquer une décision individuelle (SHAP).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- L'importance native et la permutation importance sont comparées.
+- La permutation importance est mesurée sur la validation.
+- Une feature suspecte est examinée comme possible leakage.
+- Les contributions locales (SHAP) sont mobilisées pour expliquer une prédiction individuelle si besoin.
+- L'interprétation sert l'adoption, la conformité et le débogage.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Oppose importance native (rapide, biaisée, train) et permutation importance (agnostique, validation, honnête), et cite SHAP pour l'explication individuelle. Donne les trois enjeux (adoption, conformité, débogage) et le réflexe « une feature trop importante = suspicion de leakage ». Montrer que l'interprétabilité attrape un leakage qu'une métrique masque prouve que tu la vois comme un outil, pas une formalité.

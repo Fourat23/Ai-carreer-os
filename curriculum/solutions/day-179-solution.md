@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : GridSearchCV et prendre la meilleure config. Solution améliorée : régler par recherche (grid/random) en validation croisée sur le dev set UNIQUEMENT, garder un test final vierge, évaluer la meilleure config UNE seule fois sur ce test et rapporter CE chiffre (pas le score de validation optimiste), rester sobre dans la recherche (regarder la stabilité), et n'optimiser qu'après le feature engineering. La preuve : le score rapporté vient d'un test jamais utilisé pour régler quoi que ce soit.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Régler les hyperparamètres en regardant le test : il n'est plus une mesure honnête (leakage) — régler sur la CV.
+- Rapporter le meilleur score de validation : il est optimiste par construction — rapporter le test final.
+- Sur-optimiser (des centaines de configs) : on choisit la config chanceuse, le score de validation devient trompeur.
+- Optimiser les hyperparamètres avant/au lieu du feature engineering : mauvaise priorité (les features rapportent plus).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le réglage se fait par recherche en validation croisée sur le dev set.
+- Le jeu de test final reste vierge jusqu'à l'évaluation finale.
+- Le test final n'est touché qu'une seule fois et c'est ce chiffre qui est rapporté.
+- La recherche reste sobre (stabilité regardée, pas de sur-optimisation).
+- L'optimisation vient APRÈS le feature engineering.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Distingue paramètres (appris) et hyperparamètres (fixés avant), et explique la recherche en CV. Martèle la séparation dev/test : « on règle sur la validation, on ne touche au test qu'une fois, et c'est ce chiffre qu'on rapporte — pas le score de validation, optimiste ». Ajoute la hiérarchie des gains (features d'abord). Rapporter le test final, pas le meilleur score de recherche, est le signe d'une évaluation honnête.

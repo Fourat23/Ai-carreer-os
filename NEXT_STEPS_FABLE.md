@@ -126,6 +126,17 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
+## ✅ BATCH 5E TERMINÉ — jours 121-150 (Python cœur, pandas, SQL avancé + ETL, Projet 4 DataPulse, entrée statistiques)
+
+- **26 jours d'apprentissage enrichis** + **4 revues enrichies** (126, 133, 140, 147). Sous-batchs : 5E1 (121-130), 5E2 (131-140), 5E3 (141-150).
+- **Tranche authentiquement Python/data** (contrairement à 91-120) : les titres réels correspondent bien au thème data.
+- Thèmes (titres réels du plan) : Python cœur (fonctions/modules/fichiers, exceptions, POO pythonique, pytest, venv/outils) ; pandas (charger/inspecter, nettoyer, filtrer/trier, grouper, merge, data quality en fonctions pures) ; SQL avancé (normalisation 3NF, index, transactions ACID, requêtes analytiques) ; ETL (concevoir, robustesse/idempotence) ; Projet 4 DataPulse (cadrage par questions, extract, transform, load, dashboard, README/ADR/démo) ; statistiques (tendance/dispersion, distributions/visu, corrélation/causalité).
+- **Même gabarit complet** que 181-365 : cours + modèle mental distinct, exemple guidé (exemple simple + mini-quiz), cas métier distinct, question d'entretien avec réponse attendue, section bankable, correction exigeante (solution simple + améliorée, pièges, vérifications, section orale), leçons de fond ciblées (python-foundations, error-handling, clean-code, testing-foundations, pandas-data-wrangling, data-cleaning-quality, database-modeling, sql-foundations, etl-pipelines, statistics-for-ml, architecture-basics, readme-documentation).
+- **Concepts data expliqués depuis zéro** : EAFP vs LBYL, dataclass/composition, fixtures pytest, vectorisation/split-apply-combine, masque booléen et \`SettingWithCopyWarning\`, cardinalité des jointures, 3NF et anomalies, index B-tree/EXPLAIN, ACID/rollback, fonctions fenêtre vs GROUP BY, séparation extract/transform/load, idempotence, quand la moyenne ment, quartet d'Anscombe, corrélation ≠ causalité. Comparaisons JS/SQL/pandas là où elles aident.
+- **Fichier** : \`scripts/data/days-enrich-121-150.mjs\` (ENRICH_121_150), fusionné dans \`generate-curriculum.mjs\`.
+- **Audit anti-générique** : 26 modèles mentaux vérifiés tous distincts, aucune question d'entretien dupliquée, cas métier propres à chaque sujet ; tous les jours ≥ 1107 mots (niveau des meilleurs 181-365).
+- Checks : \`curriculum:check\` ✅ · \`curriculum:depth-check\` ✅ (exemples guidés **235/313**) · 20/20 tests · build ✅.
+
 ## ✅ BATCH 5D TERMINÉ — jours 91-120 (React, ingénierie logicielle front, Projet 3 BiblioApp, entrée Python)
 
 - **25 jours d'apprentissage enrichis** + **5 revues enrichies** (91, 98, 105, 112, 119). Sous-batchs : 5D1 (91-100), 5D2 (101-110), 5D3 (111-120).
@@ -169,8 +180,8 @@ Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 - **Batch 5B/5C** : ✅ TERMINÉ — jours 301-365 enrichis (55 jours + 10 revues) → **JOURS 181-365 AU STANDARD COMPLET** (voir section « BATCH 5B/5C TERMINÉ » ci-dessus).
 
 ### État qualité actuel (mesuré)
-- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **209/313** (1-30 + 91-120 + 181-365).
-- Jours 91-120 (React/front/Projet 3/Python) et 181-365 au niveau « cours complet », corrections avec section orale ; **23 revues enrichies** (91/98/105/112/119/245/252/259/266/273/280/287/294/301/308/315/322/329/336/343/350/357/364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
+- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **235/313** (1-30 + 91-150 + 181-365).
+- Jours 91-150 (React/front/Projet 3 ; Python/pandas/SQL/ETL/Projet 4/stats) et 181-365 au niveau « cours complet », corrections avec section orale ; **27 revues enrichies** (91/98/105/112/119/126/133/140/147/245/252/259/266/273/280/287/294/301/308/315/322/329/336/343/350/357/364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
 ## RESTE À FAIRE (pistes optionnelles, non prioritaires)

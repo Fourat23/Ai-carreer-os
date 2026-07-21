@@ -126,6 +126,17 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
+## ✅ BATCH 5F TERMINÉ — jours 151-180 (machine learning classique + Projet 5 ChurnScope)
+
+- **26 jours d'apprentissage enrichis** + **4 revues enrichies** (154, 161, 168, 175). Sous-batchs : 5F1 (151-160), 5F2 (161-170), 5F3 (171-180).
+- **Tranche authentiquement ML** (mois 6-7) : titres réels respectés.
+- Thèmes (titres réels du plan) : stats/proba pour le ML (Bayes/taux de base, biais d'échantillonnage, étude honnête) ; workflow scikit-learn ; régression linéaire/logistique, train/test + baseline + **data leakage** ; métriques de régression et de classification ; arbres, random forests ; cross-validation, overfitting/régularisation, analyse d'erreurs ; feature engineering, encodage/préprocessing, pipelines, clustering k-means, interprétabilité ; cadrage + **Projet 5 ChurnScope** (EDA/baseline, modèles, features, optimisation, rapport orienté décision).
+- **Même gabarit complet** que 181-365 : cours + modèle mental distinct, exemple guidé exécutable (scikit-learn) avec exemple simple + mini-quiz, cas métier distinct, question d'entretien avec réponse attendue, section bankable, correction exigeante (solution simple + améliorée, pièges, vérifications, oral), leçons de fond ciblées (statistics-for-ml, machine-learning-basics, scikit-learn-workflow, model-evaluation, feature-engineering, data-cleaning-quality).
+- **Concepts ML depuis les fondations** : Bayes/base rate, biais de données, moindres carrés/coefficients, leakage démontré, MAE/RMSE/R², sigmoïde/seuil/matrice de confusion, précision/rappel/F1/AUC selon le coût métier, impureté/profondeur, bagging/vote, k-fold moyenne±variabilité, biais-variance/régularisation, feature engineering mesuré + anti-leakage temporel, one-hot vs label, Pipeline anti-leakage, k-means (normaliser/choisir k/interpréter), permutation importance.
+- **Fichier** : `scripts/data/days-enrich-151-180.mjs` (ENRICH_151_180), fusionné dans `generate-curriculum.mjs`.
+- **Audit anti-générique** : 26 modèles mentaux vérifiés tous distincts, aucune question d'entretien dupliquée, cas métier propres à chaque sujet ; tous les jours ≥ 1202 mots.
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **261/313**) · 43/43 tests · build ✅.
+
 ## ✅ CHANTIER GLOSSAIRE IT TERMINÉ — page `/glossary` (indépendant du curriculum)
 
 - **254 entrées** (132 acronymes, 122 termes non acronymiques, 18 ambigus), 17 catégories couvertes, **0 référence non résolue**, 784 relations, 381 alias.
@@ -190,8 +201,8 @@ Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 - **Batch 5B/5C** : ✅ TERMINÉ — jours 301-365 enrichis (55 jours + 10 revues) → **JOURS 181-365 AU STANDARD COMPLET** (voir section « BATCH 5B/5C TERMINÉ » ci-dessus).
 
 ### État qualité actuel (mesuré)
-- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **235/313** (1-30 + 91-150 + 181-365).
-- Jours 91-150 (React/front/Projet 3 ; Python/pandas/SQL/ETL/Projet 4/stats) et 181-365 au niveau « cours complet », corrections avec section orale ; **27 revues enrichies** (91/98/105/112/119/126/133/140/147/245/252/259/266/273/280/287/294/301/308/315/322/329/336/343/350/357/364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
+- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **261/313** (1-30 + 91-180 + 181-365).
+- Jours 91-180 (React/front/Projet 3 ; Python/pandas/SQL/ETL/Projet 4/stats ; ML classique/Projet 5) et 181-365 au niveau « cours complet », corrections avec section orale ; **31 revues enrichies** (91/98/105/112/119/126/133/140/147/154/161/168/175/245/252/259/266/273/280/287/294/301/308/315/322/329/336/343/350/357/364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
 ## RESTE À FAIRE (pistes optionnelles, non prioritaires)

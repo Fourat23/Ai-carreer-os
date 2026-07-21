@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : mettre le code du notebook dans des fonctions. Solution améliorée : découper en fonctions PURES à responsabilité unique (load/validate/clean/report), chacune renvoyant une nouvelle valeur sans muter l'entrée ni lire d'état global, valider tôt (échec clair sur données invalides), et TESTER chaque fonction avec pytest sur des cas connus (y compris les cas d'échec). La preuve : le pipeline se compose, se rejoue de façon déterministe, et chaque étape est couverte par un test.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Fonction qui mute son entrée ou lit un état global : impure, source de surprises — utiliser `df.copy()` et ne dépendre que des paramètres.
+- Tout garder dans le notebook : non testable, non rejouable, dépendant de l'ordre d'exécution des cellules.
+- Sauter la validation : un pipeline qui traite des données invalides produit des résultats invalides sans le signaler.
+- Une fonction fourre-tout qui load + clean + report : impossible à tester ou remplacer par morceau — une responsabilité par fonction.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le nettoyage est découpé en fonctions pures à responsabilité unique (load/validate/clean/report).
+- Aucune fonction ne mute son entrée ni ne lit d'état global.
+- `validate` échoue tôt sur des données non conformes.
+- Chaque fonction est testée avec pytest (chemin heureux ET cas d'échec).
+- Le pipeline se compose et se rejoue de façon déterministe.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique la transition « le notebook explore, le module produit » : fonctions pures (mêmes entrées → mêmes sorties, pas de mutation), à responsabilité unique, testables et composables. Insiste sur validate qui échoue tôt et sur la testabilité (un notebook ne se teste pas). Cette transition « analyst → data engineer » est ce qui montre que tu sais livrer un outil, pas juste une analyse.

@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : ajouter des try/except et des prints. Solution améliorée : rendre le load IDEMPOTENT (upsert par clé ou remplacement de partition, pas d'INSERT aveugle), journaliser chaque étape (lignes extraites/transformées/chargées + erreurs), charger transactionnellement (tout ou rien), tracer les lignes invalides dans un dead-letter avec leur raison, permettre la reprise après échec, et PROUVER en interrompant. La preuve : relancer après une coupure ne produit ni doublon ni chargement partiel.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- INSERT aveugle non idempotent : relancer duplique les données — utiliser un upsert ou un remplacement par clé.
+- Aucun log : un échec nocturne est indiagnosticable au matin.
+- Load non transactionnel : une interruption laisse la base à moitié chargée.
+- Ignorer ou planter sur une ligne invalide : perte silencieuse ou pipeline fragile — la router vers un dead-letter avec sa raison.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le load est idempotent (relancer ne duplique pas).
+- Chaque étape est journalisée (compteurs + erreurs).
+- Le chargement est transactionnel (pas d'état partiel).
+- Les lignes invalides sont tracées dans un dead-letter avec leur raison.
+- Une interruption suivie d'un relancement ne produit ni doublon ni chargement partiel (prouvé).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Structure autour de deux propriétés : idempotence (upsert → relancer sans dupliquer) et survie aux échecs (logs, load transactionnel, reprise, dead-letter). Martèle « je conçois pour l'interruption, pas pour le chemin heureux ». La preuve par coupure simulée (ni doublon, ni chargement partiel) est la démonstration qui prouve la maturité data engineer.

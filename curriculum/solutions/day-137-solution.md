@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : des SELECT avec GROUP BY et sous-requêtes. Solution améliorée : distinguer les questions « une valeur par groupe » (GROUP BY) des questions « chaque ligne reliée à son groupe » (window functions), utiliser `ROW_NUMBER/RANK` pour les classements, `SUM() OVER (ORDER BY)` pour les cumuls, `AVG() OVER (PARTITION BY)` pour les comparaisons intra-groupe, `LAG/LEAD` pour les évolutions, et des CTE pour rendre les requêtes complexes lisibles. La preuve : les 5 requêtes répondent en une passe lisible à des questions qu'un GROUP BY seul ne peut pas traiter.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Utiliser GROUP BY là où il faut une window function : on perd les lignes qu'on voulait garder (rang, cumul impossibles).
+- Auto-jointures compliquées pour un classement ou un cumul que `ROW_NUMBER`/`SUM() OVER` font en une ligne.
+- Requête monolithique illisible au lieu de CTE nommées composant les étapes.
+- Oublier l'`ORDER BY` dans une window de cumul : le running total n'a pas de sens sans ordre.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les questions « par groupe » utilisent GROUP BY, les questions « par ligne reliée au groupe » des window functions.
+- Les classements utilisent ROW_NUMBER/RANK, les cumuls SUM() OVER (ORDER BY).
+- Les comparaisons intra-groupe utilisent AVG/... OVER (PARTITION BY).
+- Les requêtes complexes sont découpées en CTE lisibles.
+- Les 5 requêtes analytiques sont correctes et commentées.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Pose la distinction clé : « GROUP BY réduit à une ligne par groupe ; une window function garde chaque ligne en la reliant à son groupe ». Illustre avec rang, cumul, comparaison à la moyenne du groupe. Mentionne les CTE pour la lisibilité. Savoir répondre à « rang de chaque vente dans son mois » avec une window function (pas une auto-jointure) est ce qui prouve ton niveau SQL analytique.

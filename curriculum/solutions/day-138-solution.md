@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : une fonction qui lit, traite et écrit. Solution améliorée : trois étapes strictement séparées — extract (lecture du brut + erreurs de source), transform (traitement en mémoire, fonctions pures testables, aucune écriture), load (écriture transactionnelle dans un schéma pensé) — composées proprement, avec un staging optionnel pour rejouer une étape sans refaire les précédentes. La preuve : chaque étape se teste isolément et une source/cible se remplace sans toucher au reste.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Mélanger extraction et transformation : impossible de rejouer le traitement sans re-télécharger.
+- Écrire en base depuis l'étape transform : couplage à la cible, transform non testable sans base.
+- Une fonction fourre-tout E+T+L : intestable, impossible à rejouer partiellement ou à faire évoluer.
+- Ne pas gérer les erreurs de source dans extract : une API en panne casse tout le pipeline sans diagnostic clair.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Extract, transform et load sont trois responsabilités strictement séparées.
+- Transform ne fait aucune écriture (fonctions pures en mémoire).
+- Load écrit dans un schéma pensé, transactionnellement.
+- Chaque étape est testable isolément.
+- Une source ou une cible peut être remplacée sans réécrire le reste.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Déroule E/T/L en insistant sur la responsabilité STRICTE de chacune (extract lit, transform traite en mémoire, load écrit) et sur les bénéfices : rejouabilité sans re-télécharger, remplaçabilité des sources/cibles, débogage par localisation. Relier à l'architecture propre du jour 121 (responsabilités isolées) montre que tu vois le principe général derrière l'ETL.

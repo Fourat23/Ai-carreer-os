@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un try/catch autour des appels et un état d'erreur. Solution améliorée : distinguer les deux familles — erreurs async (état 'error' + retry) et exceptions de rendu (error boundaries) qu'un try/catch ne peut pas attraper ; placer une boundary par section (granularité) pour contenir les crashs, journaliser via componentDidCatch, offrir une sortie sur chaque erreur, et PROUVER la résilience en cassant volontairement l'app. La preuve : une section qui plante affiche un repli local, le reste reste utilisable.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Croire qu'un try/catch attrape les exceptions de rendu : il ne le fait pas — c'est le rôle des error boundaries.
+- Une seule error boundary pour toute l'app : un widget cassé fait tomber tout l'écran — une par section.
+- Laisser des culs-de-sac (erreur sans bouton réessayer/retour) : l'utilisateur est bloqué.
+- Ne pas provoquer les erreurs : sans les tester volontairement, on ne sait pas si la dégradation est réellement propre.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les erreurs async ont un état 'error' avec message et retry.
+- Les exceptions de rendu sont attrapées par des error boundaries.
+- La granularité des boundaries contient les crashs (une par section).
+- Chaque état d'erreur offre une sortie (réessayer/retour).
+- La résilience est prouvée en cassant volontairement l'app (réseau coupé, exception forcée).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Structure ta réponse en deux familles : « attendues (async → état error + retry) et inattendues (exceptions de rendu → error boundary, car try/catch ne les attrape pas) ». Insiste sur la granularité (une boundary par section) et la preuve par sabotage (couper le réseau, forcer une exception). « Jamais d'écran blanc » est la formule qui résume une pensée de robustesse mûre.

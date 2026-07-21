@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un README qui décrit l'app et comment la lancer. Solution améliorée : un README qui commence par le problème et la valeur avec un GIF de démo, un schéma d'architecture 3-tiers (front ↔ API ↔ base, avec le parcours d'une requête), une ADR qui fige une VRAIE décision arbitrée de BiblioApp (Context vs local) avec options écartées et conséquences, et une démo de 2 min du parcours CRUD — le tout écrit pour un lecteur extérieur pressé et validé par le test du regard neuf.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- README qui commence par la stack (« React + Vite ») au lieu du problème et de la valeur : le lecteur ne sait pas pourquoi le projet existe.
+- Pas de schéma d'architecture : sur un projet full-stack, on ne prouve pas qu'on comprend comment les couches collaborent.
+- ADR qui ne liste que la décision sans les options écartées : sans l'arbitrage, elle ne prouve pas la pensée d'architecte.
+- Démo hésitante ou absente : « ça marche sur ma machine » ne convainc pas — un parcours CRUD fluide de 2 min, oui.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le README commence par le problème/la valeur et inclut un GIF de démo.
+- Un schéma 3-tiers montre front ↔ API ↔ base et le parcours d'une requête.
+- L'ADR fige une vraie décision (Context vs local) avec options écartées et conséquences.
+- La démo de 2 min déroule le parcours CRUD de façon fluide.
+- Le test du regard neuf est passé : un inconnu comprend en 90 secondes.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Entraîne ta démo de 2 minutes jusqu'à la fluidité : problème → parcours CRUD vivant → schéma 3-tiers → décision arbitrée (ADR Context vs local). Insiste sur ce que le full-stack ajoute : le schéma prouve que tu comprends comment front, API et base collaborent. C'est LA présentation de projet que tu réutiliseras en entretien — répète-la chronomètre en main.

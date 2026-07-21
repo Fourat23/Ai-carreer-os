@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : filtrer la liste selon le texte recherché. Solution améliorée : stocker uniquement les CRITÈRES en state et DÉRIVER les résultats à chaque rendu, composer les filtres comme des prédicats indépendants reliés par un ET (extensible sans toucher à l'existant), traiter le cas « aucun résultat » distinctement du cas « aucune donnée » (avec le terme et une réinitialisation), et n'ajouter un debounce que si le Profiler prouve un ralentissement. La preuve : ajouter un filtre ne demande qu'un prédicat de plus.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Stocker la liste filtrée en state : seconde source de vérité à resynchroniser, désynchronisations garanties.
+- Filtres entremêlés impossibles à étendre : ajouter un critère oblige à réécrire la logique — composer des prédicats indépendants.
+- Confondre « aucun résultat de recherche » et « aucune donnée » : messages différents, l'un doit montrer le terme cherché et offrir de réinitialiser.
+- Ajouter un debounce sans mesurer : complexité inutile sur une petite liste où le filtrage direct est instantané.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le state ne contient que les critères, pas les résultats.
+- Les résultats sont dérivés des données + critères à chaque rendu.
+- Les filtres sont composés en prédicats indépendants (extensibles).
+- Le cas « aucun résultat » est traité explicitement avec réinitialisation.
+- Le debounce n'est présent que si une mesure le justifie.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Formule le principe : « je stocke les critères, je dérive les résultats — jamais l'inverse ». Explique la composition de prédicats indépendants (`match1 && match2`) qui rend les filtres extensibles. Cite le piège du débutant (stocker la liste filtrée) et la règle du debounce (seulement si mesuré). Ajouter un filtre en une ligne est la démonstration que ta conception est saine.

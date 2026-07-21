@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : des fonctions creer/modifier/supprimer qui appellent l'api. Solution améliorée : réutiliser le formulaire contrôlé validé pour créer ET modifier (initialisation différente, verbe HTTP différent), mettre à jour l'état IMMUABLEMENT à chaque réussite (spread/map/filter), CONFIRMER toute suppression, et gérer l'ÉCHEC de l'api pour que l'UI ne mente jamais (rollback ou message). La preuve : une écriture rejetée par le serveur ne modifie pas l'affichage.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- UI qui « ment » : mettre à jour l'état sans gérer l'échec de l'api affiche un changement que le serveur a refusé.
+- Suppression sans confirmation : destruction de données par un clic accidentel.
+- Muter l'état après écriture (push/splice) au lieu de spread/map/filter : désynchronisation de l'affichage.
+- Dupliquer deux formulaires quasi identiques pour créer et modifier au lieu d'en réutiliser un seul : plus de code, incohérences.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les quatre opérations (créer, lire, modifier, supprimer) fonctionnent.
+- Le formulaire contrôlé validé est réutilisé pour créer et modifier.
+- Chaque écriture met à jour l'état immuablement (spread/map/filter).
+- La suppression est confirmée avant exécution.
+- L'échec d'un appel api est géré : l'UI ne reflète jamais un changement refusé.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Présente le CRUD comme un ASSEMBLAGE : « formulaire validé + écriture immuable + couche api, décliné en C/U/D ». Insiste sur les deux points de maturité : la suppression confirmée (action destructrice) et l'UI qui ne ment pas (gérer l'échec de l'api). Mentionner le formulaire réutilisé pour créer et modifier montre que tu penses conception, pas copier-coller.

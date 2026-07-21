@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : traduire les exercices JS en Python ligne à ligne. Solution améliorée : les réécrire IDIOMATIQUEMENT — comprehensions au lieu des boucles-push (transformer et filtrer), dict avec .get(cle, defaut) pour le comptage (pas de KeyError), enumerate pour indice+valeur, zip pour deux listes, set pour dédoublonner, snake_case et f-strings — le tout dans un venv activé. La preuve : mise côte à côte, la version pythonique est nettement plus courte et lisible que la traduction littérale.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Écrire des boucles `for ... .append()` là où une comprehension s'impose : du JavaScript traduit, pas du Python.
+- Accéder à un dict par `d[cle]` sans gérer la clé absente : KeyError — utiliser `.get(cle, defaut)`.
+- Itérer par index (`range(len(xs))`) au lieu d'`enumerate`/`zip` : anti-idiome peu lisible.
+- Travailler sans venv : les dépendances polluent l'installation globale (Python installe globalement par défaut, contrairement à npm).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les transformations et filtres utilisent des comprehensions, pas des boucles-push.
+- Le comptage utilise un dict avec .get(cle, defaut).
+- L'itération indice+valeur utilise enumerate, deux listes utilisent zip.
+- Le nommage est en snake_case et les chaînes utilisent des f-strings.
+- Les scripts tournent dans un venv activé, isolé du système.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Formule la bascule : « je ne traduis pas mon JS, j'adopte les idiomes de Python ». Cite les plus marquants : comprehensions (vs for-push), dict avec .get, enumerate/zip (vs index), indentation, snake_case, venv. Montrer les deux versions côte à côte (JS traduit vs pythonique) et pointer la différence de lisibilité prouve que tu as intégré la LANGUE, pas juste sa syntaxe.

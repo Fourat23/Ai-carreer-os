@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un `to_sql` pour écrire les données. Solution améliorée : charger dans un schéma pensé (types, contraintes, clés), transactionnellement (tout ou rien), idempotemment (replace ou upsert selon le cas), derrière un point d'entrée unique qui enchaîne extract → transform → load. Le critère de réussite : tout le pipeline se rejoue en une commande et reconstruit un état correct sans doublon. La preuve : deux exécutions successives laissent la base identique.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- `to_sql` brut sans schéma pensé : types et contraintes absents, base fragile et incohérente.
+- Chargement non transactionnel : une interruption laisse une base à moitié chargée, dashboard faux.
+- Chargement non idempotent : relancer duplique les données.
+- Pipeline à étapes manuelles multiples : ni reproductible, ni démontrable, casse si on oublie une étape.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le schéma cible est pensé (types, contraintes, clés).
+- Le chargement est transactionnel (tout ou rien).
+- Le chargement est idempotent (relancer ne duplique pas).
+- Tout le pipeline se lance depuis un point d'entrée unique.
+- Deux exécutions successives produisent une base identique (rejouable en une commande, prouvé).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Vise le critère « rejouable en une commande » et explique ce qu'il force : automatisation propre, ordre des étapes, idempotence. Détaille les trois piliers du load (schéma pensé, transaction, idempotence) hérités des jours 134/136/139. La preuve par double exécution (base identique) démontre l'idempotence — le cœur d'un pipeline reproductible et démontrable.

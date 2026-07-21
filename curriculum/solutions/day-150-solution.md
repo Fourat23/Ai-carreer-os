@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : mesurer la corrélation et constater qu'elle est forte. Solution améliorée : mesurer ET visualiser la corrélation, puis AVANT toute conclusion causale, chercher activement les trois explications alternatives (confondant, causalité inverse, hasard), tester un confondant plausible en le contrôlant (la corrélation s'effondre-t-elle ?), et formuler l'explication non causale. La preuve : identifier un confondant (la température pour glaces~noyades) et montrer que la corrélation disparaît quand on le contrôle.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Conclure « X cause Y » d'une corrélation : l'erreur la plus coûteuse — chercher d'abord confondant/inverse/hasard.
+- Ignorer les confondants : la cause réelle (une 3e variable) est manquée, la décision se trompe de levier.
+- Oublier la causalité inverse : agir sur X alors que c'est Y qui cause X.
+- Prendre une corrélation nulle pour une absence de relation : il peut y avoir une relation non linéaire (regarder le scatter, jour 149).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- La corrélation est mesurée ET visualisée.
+- Les trois explications non causales (confondant, inverse, hasard) sont envisagées avant conclusion.
+- Un confondant plausible est identifié et testé (contrôle).
+- Aucune causalité n'est affirmée sans expérience ou raisonnement causal.
+- L'analyse formule explicitement l'explication non causale de la corrélation trompeuse.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Donne l'exemple glaces~noyades~chaleur pour incarner le confondant, puis les trois alternatives (confondant, causalité inverse, hasard). Explique qu'établir une causalité exige une expérience (A/B) ou un raisonnement causal. « C'est corrélé, mais voici trois raisons non causales possibles » est la phrase qui prouve ta maturité — elle distingue un analyste qui éclaire les décisions d'un qui les fourvoie.

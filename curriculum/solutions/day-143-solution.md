@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : nettoyer les données du projet. Solution améliorée : transformer en fonctions PURES testées, guidées par les 3 questions (ne dériver que le nécessaire), valider tôt, justifier chaque décision de nettoyage, tracer les rejets, et produire un RAPPORT DE QUALITÉ (lignes entrée/sortie, décisions, rejets) qui rend l'analyse reproductible et défendable. La preuve : chaque transformation sert une question, chaque décision est justifiée, et un test vérifie que le nettoyage se comporte comme documenté.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Transformer sans se référer aux questions : colonnes dérivées inutiles (bruit) ou colonne clé mal préparée (question sans réponse).
+- Nettoyer sans justifier ni rapporter : l'analyse devient indéfendable — un décideur ne peut pas faire confiance.
+- Écrire en base dans le transform : c'est le rôle du load ; le transform reste en mémoire, pur.
+- Ne pas tester le transform : une transformation fausse produit une analyse fausse sans planter.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les transformations sont des fonctions pures testées.
+- Chaque transformation sert une des 3 questions (rien d'inutile).
+- Chaque décision de nettoyage est justifiée et les rejets tracés.
+- Un rapport de qualité (entrée/sortie/décisions/rejets) accompagne les données.
+- Un test vérifie le comportement du nettoyage sur un cas connu.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique que le transform est GUIDÉ par les questions (on prépare les réponses, rien d'inutile) et qu'il produit un RAPPORT DE QUALITÉ qui rend l'analyse défendable. Insiste sur les fonctions pures testées (« une transformation fausse fausse tout silencieusement ») et le nettoyage justifié. « Sans rapport de qualité, voici les chiffres n'est pas crédible » est la formule qui montre ta maturité analytique.

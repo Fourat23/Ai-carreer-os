@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : faire quelques graphiques à partir de la base. Solution améliorée : une visualisation par question, la forme choisie selon la nature (évolution→ligne, comparaison→barres, répartition→histogramme), chaque graphique requêtant la base par agrégation, titré avec sa question, honnête (axes non tronqués) et épuré, en supprimant tout graphique qui ne répond à aucune question. La preuve : un lecteur retrouve les 3 questions rien qu'en regardant le dashboard.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Empiler des graphiques « parce qu'on peut » : dashboard encombré qui noie le message.
+- Mauvaise forme (évolution en camembert, comparaison en ligne) : le graphique trahit la question.
+- Axe Y tronqué (ne partant pas de zéro) : exagère les écarts, manipule le lecteur.
+- Décoration inutile (3D, chartjunk) qui distrait de la donnée.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Chaque visualisation répond à une des 3 questions du cadrage.
+- La forme est adaptée à la nature de la question.
+- Chaque graphique est titré avec sa question.
+- Les axes sont honnêtes (non tronqués) et le graphique épuré.
+- Aucun graphique ne répond à zéro question (pas de bruit).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Pose la règle « une question, une visualisation ; la forme suit la nature ». Donne les correspondances (évolution→ligne, comparaison→barres, répartition→histogramme) et insiste sur l'honnêteté visuelle (axes non tronqués). « Trois graphiques clairs valent mieux qu'un dashboard sophistiqué illisible » montre que tu vises la communication de la donnée, pas la démonstration technique.

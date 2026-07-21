@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : envelopper le composant lourd dans React.memo. Solution améliorée : MESURER d'abord au Profiler, diagnostiquer la référence instable (fonction/objet en ligne), stabiliser avec useCallback/useMemo pour que memo agisse réellement, puis RE-profiler pour prouver le gain. Le jugement clé : ne mémoïser que ce qu'un profil désigne comme coûteux et inutile — pas par principe. La preuve : un avant/après chiffré au Profiler.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Mémoïser partout « au cas où » : coût en complexité et en mémoire sans gain, code illisible.
+- React.memo sans stabiliser les props-fonctions (useCallback) : l'enfant re-rend quand même car l'identité change à chaque rendu.
+- Optimiser sans mesurer : on complexifie à l'aveugle, souvent le mauvais composant.
+- useMemo sur un calcul trivial : du bruit qui dégrade la lisibilité pour un gain nul.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Un profil (Profiler) identifie le re-rendu coûteux AVANT toute optimisation.
+- La cause (référence instable) est diagnostiquée, pas devinée.
+- memo est accompagné de useCallback/useMemo pour que les props restent stables.
+- Un re-profilage prouve le gain après optimisation.
+- Aucune mémoïsation n'est posée sans justification mesurée.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Formule la règle d'or : « mesurer avant d'optimiser ». Explique la chaîne référence instable → props changent → memo inefficace, et pourquoi useCallback débloque memo. Insiste sur le jugement anti-sur-ingénierie : « je ne mémoïse que le re-rendu coûteux prouvé au Profiler ». Montrer un avant/après chiffré est bien plus convaincant que réciter les trois hooks.

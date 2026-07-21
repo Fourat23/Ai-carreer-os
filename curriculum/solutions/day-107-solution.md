@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : render + un clic + une assertion. Solution améliorée : trouver les éléments par rôle/label/texte (jamais par classe/id technique), simuler de vraies interactions avec userEvent, affirmer uniquement sur le comportement observable (DOM visible, callbacks appelés), et PROUVER l'indépendance à l'implémentation en refactorant l'interne sans casser les tests. La preuve : renommer un state ou restructurer les sous-composants laisse les tests verts.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Chercher par classe CSS ou id technique : le test casse dès qu'on change le style ou la structure, sans vrai bug.
+- Affirmer sur le state interne au lieu du DOM visible : couplage à l'implémentation, tests fragiles.
+- Tester des détails de rendu sans valeur (nombre de divs) plutôt que le comportement utilisateur.
+- Oublier d'attendre les interactions asynchrones (userEvent/await) : assertions sur un DOM pas encore à jour.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les éléments sont trouvés par rôle, label ou texte (comme un utilisateur).
+- Les assertions portent sur le comportement observable, pas le state interne.
+- Les vraies interactions sont simulées (userEvent).
+- Un refactor interne sans changement de comportement laisse les tests verts.
+- Les trois composants clés couvrent rendu, interaction et états.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Cite le principe de Testing Library : « plus le test ressemble à l'usage réel, plus il donne confiance ». Oppose test d'implémentation (casse au refactor, n'attrape rien) et test de comportement (résiste, attrape les vrais bugs). Mentionne le bonus a11y (chercher par rôle). Proposer de refactorer l'interne sans casser les tests est la démonstration qui prouve que tu as compris.

@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : mocker fetch/api et vérifier l'affichage. Solution améliorée : mocker uniquement la frontière externe (réseau, temps), couvrir succès + erreur + vide grâce au mock (cas impossibles à provoquer en vrai), écrire un test d'intégration qui laisse collaborer tout le code interne (formulaire → api → UI) et vérifie AUSSI les bonnes données envoyées, sans jamais mocker la logique testée. La preuve : un cas d'erreur 500 et un bug d'assemblage sont couverts.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Sur-mocker jusqu'à mocker le code testé : le test ne vérifie plus que la config des mocks.
+- Faire de vrais appels réseau dans les tests : lents, non déterministes, cas d'erreur intestables.
+- Ne tester que le succès : les cas 500/timeout/vide, pourtant faciles à mocker, cassent en production.
+- Oublier de vérifier les DONNÉES envoyées à l'api (toHaveBeenCalledWith) : on rate les bugs de format d'assemblage.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Seule la frontière externe (réseau, temps) est mockée, pas la logique testée.
+- Les cas succès, erreur et vide sont couverts via le mock.
+- Un test d'intégration vérifie un flux complet (formulaire → api → UI).
+- Les données envoyées à l'api sont vérifiées (bon format).
+- Les tests restent rapides et déterministes.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Formule la règle : « mock ce que tu ne possèdes pas (réseau, temps), teste en vrai ce que tu possèdes ». Explique le grand intérêt du mock : rendre testables les cas d'erreur rares (500, timeout) impossibles à provoquer autrement. Oppose test unitaire (une unité) et intégration (l'assemblage). Citer l'anti-pattern du sur-mock montre que tu sais où placer la frontière.

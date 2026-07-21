@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : ajouter des alt et des labels manquants. Solution améliorée : construire sur du HTML sémantique (vrais boutons, labels liés, titres hiérarchisés, nav/main), garantir la navigation clavier complète (audit sans souris), un focus visible et géré, des contrastes suffisants, et croiser un audit automatique (Lighthouse/axe) avec le parcours clavier vécu. La preuve : l'app est entièrement utilisable au clavier et cinq problèmes réels sont corrigés, pas seulement signalés.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- <div onClick> au lieu de <button> : non focusable, inutilisable au clavier, muet pour les lecteurs d'écran.
+- Supprimer l'outline de focus sans le remplacer : l'utilisateur clavier ne voit plus où il est.
+- Champs sans <label> lié : le lecteur d'écran n'annonce pas à quoi sert le champ.
+- Se fier uniquement à l'audit automatique : il rate l'ordre de focus illogique et l'expérience clavier réelle.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Toute interactivité utilise le HTML sémantique adéquat (button, label, nav).
+- L'app entière est navigable et activable au clavier (testé sans souris).
+- Le focus est toujours visible et géré après les actions.
+- Images (alt) et contrastes sont conformes.
+- Cinq problèmes concrets sont réellement corrigés, audit automatique + clavier croisés.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Résume : « l'accessibilité, c'est surtout le bon HTML dès le départ — un vrai bouton est accessible gratuitement ». Décris ton audit clavier (parcourir sans souris) comme le test le plus révélateur. Mentionne le double bénéfice (inclusion + SEO + utilisabilité pour tous). Montrer qu'on pense clavier et label signale un souci du détail que les recruteurs front remarquent.

@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : une liste d'écrans et de composants. Solution améliorée : trois artefacts articulés — un arbre de composants avec les réutilisables identifiés, un plan d'état qui place chaque donnée (plus petit ancêtre commun, props/Context justifiés, état dérivé repéré) et décrit sa circulation, et un backlog d'incréments livrables ordonnés. Le critère de réussite : le codage des jours 113-118 devient de la simple exécution, sans décision structurante restante.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Sauter le cadrage pour « coder plus vite » : les décisions d'état mal placées se paient en refactors à mi-parcours.
+- Un plan d'état flou (« on verra où mettre ça ») : props drilling et doublons de state garantis.
+- Un backlog par couches horizontales (tout le CSS, puis toute la logique) : effet tunnel, rien de démontrable avant la fin — découpe en incréments verticaux.
+- Une décomposition trop plate sans composants réutilisables : on n'a pas vraiment pensé en briques.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- L'arbre de composants couvre chaque route et identifie les réutilisables.
+- Le plan d'état place chaque donnée (lieu + circulation + Context justifié).
+- L'état dérivé est distingué de l'état stocké (pas de doublon).
+- Le backlog est fait d'incréments livrables et ordonnés.
+- Chaque incrément produit quelque chose de démontrable (découpage vertical).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique le principe : « je décide l'architecture sur papier — arbre, état, backlog — parce que c'est dix fois moins cher que de la découvrir dans le code ». Donne le critère de réussite : « un bon cadrage rend le codage ennuyeux ». Décrire ces trois artefacts en réponse à « comment démarres-tu ? » signale que tu conçois une application, pas que tu empiles des features.

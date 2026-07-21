@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : une fonction useX qui appelle useState/useEffect et renvoie ce qu'il faut. Solution améliorée : définir d'abord le contrat (ce que le hook renvoie), encapsuler la logique complète (les 3 états et le nettoyage pour useFetch, l'initialisation paresseuse et la persistance pour useLocalStorage), typer génériquement (<T>), respecter les règles des hooks, et tester le hook ISOLÉMENT. La preuve : deux composants réutilisent le hook avec chacun leur propre état, et la logique est testée sans composant autour.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Croire qu'un hook partage les DONNÉES : il partage la logique ; chaque appelant a son propre état (partage de données = Context).
+- Extraire un hook pour une logique triviale à usage unique : sur-abstraction sans bénéfice.
+- Violer les règles des hooks (appel conditionnel, hors du niveau racine) : comportement cassé et linter en alerte.
+- Un hook qui renvoie une interface floue ou instable : les composants appelants deviennent compliqués — soigner le contrat de retour.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le nom commence par use et le hook respecte les règles des hooks.
+- La logique à état répétée est encapsulée une fois (fetch/localStorage complets).
+- Le hook est typé génériquement et renvoie une interface claire.
+- Le hook est testé isolément (sans composant autour).
+- Chaque composant appelant a son propre état (logique partagée, pas données).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Définis le hook comme « la fonction réutilisable du clean code appliquée au stateful ». Le point qui prouve la compréhension : « il partage la LOGIQUE, pas les données — deux useFetch = deux états ; pour partager des données, c'est Context ». Mentionne les règles des hooks et le test isolé. Ajoute le garde-fou anti-abstraction : « je n'extrais que ce qui se répète ou clarifie ».

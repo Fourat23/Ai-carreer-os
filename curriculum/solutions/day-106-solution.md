@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : quelques tests qui appellent la fonction et vérifient la sortie. Solution améliorée : structurer chaque test en Arrange-Act-Assert avec un nom qui décrit le comportement, couvrir explicitement les cas normaux, limites et d'erreur, garantir le déterminisme (aucune dépendance réseau/horloge), et surtout PROUVER chaque test en sabotant le code pour vérifier qu'il rougit. La preuve de valeur : une régression volontaire casse le bon test.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Test « décoratif » sans vraie assertion ou qui ne touche pas le code métier : gonfle la couverture, ne protège rien.
+- Ne pas vérifier que le test peut rougir : un test toujours vert donne un faux sentiment de sécurité.
+- Ne couvrir que le cas heureux : les bugs se cachent aux cas limites (vide, zéro, espaces, très grand).
+- Test non déterministe (dépend du réseau ou de la date) : rougit/verdit au hasard, on ne peut pas s'y fier.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Chaque test suit Arrange-Act-Assert et porte un nom décrivant le comportement.
+- Les cas normaux, limites et d'erreur sont couverts.
+- Chaque test a été prouvé en sabotant le code (il rougit).
+- Les tests sont rapides et déterministes.
+- Au moins 10 tests couvrent la logique métier réelle.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Insiste sur le geste clé : « je sabote le code pour prouver que le test peut échouer — sinon il ne protège rien ». Explique AAA, le déterminisme et la couverture des cas limites (« c'est là que les bugs vivent »). Le test décoratif qui ne peut pas rougir est le contre-exemple parfait à citer — il montre que tu comprends À QUOI sert vraiment un test.

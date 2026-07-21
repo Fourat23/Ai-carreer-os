@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : couper un gros composant en plus petits. Solution améliorée : diagnostiquer les code smells (longueur, mélange logique/rendu, noms vagues, duplication), extraire la logique à état dans un hook custom et les sections en sous-composants nommés, renommer d'après l'intention, et garantir par les tests que le comportement est inchangé (refactor = zéro fonctionnalité ajoutée). Le critère : chaque pièce a une responsabilité nommable d'une phrase sans « et ».
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Extraire sans nommer d'après l'intention : des sous-composants `Bloc1`/`Bloc2` n'améliorent pas la lisibilité.
+- Refactorer sans tests : on ne peut pas prouver que le comportement est resté identique.
+- Laisser la logique à état dans le composant de rendu : il reste intestable et mélangé — extraire un hook.
+- Ajouter des fonctionnalités pendant le refactor : on ne sait plus si une régression vient du refactor ou de la feature.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Chaque composant/hook/fonction extrait a une responsabilité nommable d'une phrase.
+- La logique à état est dans des hooks, le rendu dans les composants.
+- Les noms expriment l'intention (pas data/temp/handleClick).
+- Le JSX dupliqué est factorisé en composants mappés.
+- Les tests restent verts : le comportement est inchangé.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Traite le composant comme une fonction : « trop long, mélange logique/rendu, noms vagues, duplication → j'extrais, une responsabilité par pièce ». Insiste sur « le refactor ne change rien au comportement, il se fait sous protection des tests » et « le code est lu plus qu'écrit ». Proposer de mesurer la lisibilité en temps de compréhension montre une vision d'ingénieur, pas d'esthète.

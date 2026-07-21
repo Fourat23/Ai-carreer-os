@@ -5,20 +5,22 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Solution simple : constater la fin du programme. Solution améliorée : mesurer la transformation (lettre au toi d'il y a un an, chemin rendu tangible), vérifier que tout est prêt et débouche sur l'action (portfolio public, candidatures ENVOYÉES, plan relu, 3 actions datées), et acter le passage psychologique (« en formation » → « dev IA en recherche active »). Le jour 365 est un seuil : célébrer le chemin ET s'élancer, avec une confiance fondée sur des preuves.
+Solution simple : constater qu'on a progressé et se lancer. Solution améliorée : traiter son profil comme un système à évaluer — bilan chiffré par compétence (niveau 1-5 ADOSSÉ À UNE PREUVE), inventaire des preuves démontrables, grille prêt/presque/pas-encore sur critères objectifs, ciblage d'offres (viser les postes couverts par les « prêt » + 1-2 « presque prêt » ; écarter ceux exigeant plusieurs « pas encore » critiques), plans 30/90 jours avec maintien des acquis, plan de remédiation si seuils non atteints, et un dernier entraînement (présentation portfolio + simulation). La confiance fondée sur cet audit tient là où la confiance non fondée s'effondre.
 
 ## ⚠️ Erreurs probables et points à vérifier
-- Traiter le jour 365 comme une fin : c'est un SEUIL — une année ne vaut que si elle débouche sur une carrière.
-- Candidatures « prêtes » mais pas envoyées : l'aboutissement est l'ACTION — vérifier qu'elles sont parties.
-- Ne pas s'autoriser le passage psychologique : les preuves sont là (7 projets, DocSense évalué) — se considérer comme dev IA est fondé, pas présomptueux.
-- Célébrer sans lancer, ou lancer sans reconnaître le chemin : le jour 365 tient les deux (confiance ET action).
+- Un texte motivant sans mesure : « je me sens prêt » ne pilote aucune décision — le bilan chiffré adossé à des preuves, si.
+- Un niveau de compétence sans preuve : c'est une opinion (auto-flatterie ou fausse modestie) ; une preuve démontrable le rend factuel.
+- Cibler à l'aveugle : viser trop haut (plusieurs « pas encore » critiques) produit des refus décourageants, viser trop bas gâche le potentiel — cibler sur la grille.
+- Oublier le maintien des acquis : sans routine de pratique, les compétences « prêt » s'érodent pendant une recherche longue — le plan 90 jours l'inclut.
+- Cacher les lacunes en entretien : les assumer avec un plan (déployer sur le cloud ce mois-ci) rassure ; les esquiver ou paniquer inquiète.
 
 ## 🔍 Comment vérifier ta solution
-- La lettre-bilan mesure le chemin (comparaison honnête avec le jour 1).
-- Le portfolio est vérifié (7 projets propres, publics, démontrables).
-- Les candidatures sont confirmées ENVOYÉES (pas « prêtes »).
-- Le PLAN-90-JOURS est relu et 3 prochaines actions sont datées.
-- Le passage « en formation » → « dev IA en recherche active » est acté.
+- Le bilan couvre chaque compétence cœur avec un niveau 1-5 ET une preuve démontrable.
+- L'inventaire des preuves liste les artefacts montrables (projets publics, DocSense, rapport chiffré).
+- La grille prêt/presque/pas-encore repose sur des critères objectifs, pas un ressenti.
+- Le ciblage distingue les offres à viser des offres encore trop avancées, avec justification.
+- Les plans 30 et 90 jours sont concrets, datés, et incluent le maintien des acquis + une remédiation conditionnelle.
+- La présentation portfolio (3 min) et une simulation d'entretien finale sont faites et auto-évaluées.
 
 ## 🎤 À savoir expliquer à l'oral
-Assume le seuil franchi : « je viens de boucler une année de transformation — d'ignorer ce qu'est un embedding à avoir construit et évalué 7 projets IA ; mon portfolio est public, mes candidatures sont envoyées, et je ne me considère plus en formation mais comme un développeur IA, avec des preuves concrètes derrière cette confiance ». Franchir ce seuil avec une assurance fondée sur des faits est l'aboutissement de l'année — et le fondement de la carrière qui commence.
+Déroule ton audit comme un diagnostic d'ingénieur, pas comme un discours : « voici mon niveau par compétence adossé à des preuves — RAG 4/5 avec DocSense à 0,92, cloud 2/5 sans déploiement réel ; je suis PRÊT sur le cœur RAG/éval, PAS ENCORE sur le cloud ; je vise donc des postes junior RAG/LLM et j'écarte le MLOps senior pour l'instant ; ma priorité 30 jours est de déployer DocSense sur une infra managée ». Savoir dire précisément ce qu'on maîtrise (preuves), ce qui manque (plan) et ce qu'on vise (critères) est le signe d'un profil autonome et lucide — la confiance qui tient parce qu'elle est fondée.

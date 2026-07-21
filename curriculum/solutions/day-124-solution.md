@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : des fonctions test_ avec assert sur la logique. Solution améliorée : tester la logique métier pure (sans I/O) ET le stockage via la fixture `tmp_path` (pas de pollution du disque), couvrir les cas limites par `@pytest.mark.parametrize`, factoriser le setup en fixtures personnalisées, et prouver chaque test en sabotant le code. La preuve de valeur : une régression volontaire (ex. l'incrément d'id) casse le bon test.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Tester en écrivant/lisant de vrais fichiers du projet : tests non déterministes et polluants — utiliser `tmp_path`.
+- Dupliquer le même setup dans chaque test au lieu d'une fixture : maintenance lourde.
+- Copier dix fonctions pour dix cas au lieu de `parametrize` : bruit et oublis.
+- Ne pas vérifier le rougissement : une suite verte qui ne peut pas échouer donne un faux sentiment de sécurité.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les tests sont des fonctions `test_*` avec `assert`, découvertes automatiquement.
+- L'I/O est testée via `tmp_path` (aucune pollution du disque).
+- Les cas limites sont couverts par `@pytest.mark.parametrize`.
+- Le setup partagé est factorisé en fixtures.
+- Chaque test a été prouvé en sabotant le code (il rougit).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Vante la simplicité de pytest (fonction + `assert`, découverte automatique) et explique les fixtures (setup réutilisable, `tmp_path` pour l'I/O jetable) et `parametrize` (table de cas). Rappelle le principe universel : « je sabote le code pour prouver que le test peut rougir ». Une suite verte qui permet de refactorer sans peur est l'argument qui montre la vraie valeur des tests.

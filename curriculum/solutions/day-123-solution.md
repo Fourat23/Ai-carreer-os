@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : des classes avec __init__ et des méthodes. Solution améliorée : utiliser des `@dataclass` pour les structures de données (init/repr/eq générés), n'ajouter une classe que si données et comportement vont ensemble, composer plutôt qu'hériter, exposer les idiomes via les dunder methods (`__len__`), éviter la valeur par défaut mutable (`field(default_factory=list)`), et supprimer les classes qui ne sont que des fonctions déguisées. La preuve : le code est plus court et lisible qu'une POO « à la Java ».
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Valeur par défaut mutable (`livres: list = []`) : partagée entre TOUTES les instances — utiliser `field(default_factory=list)`.
+- Une classe pour ce qui devrait être une fonction (un seul __init__ + une méthode) : over-engineering.
+- Hiérarchie d'héritage profonde là où la composition suffit : couplage rigide et fragile.
+- Réécrire à la main `__init__`/`__repr__` que `@dataclass` génère : code répétitif et sujet aux erreurs.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les structures de données utilisent `@dataclass`.
+- Une classe n'existe que si données et comportement vont ensemble.
+- La composition est préférée à l'héritage (héritage réservé au « est-un »).
+- Aucune valeur par défaut mutable (`field(default_factory=...)` utilisé).
+- Aucune classe n'est une fonction déguisée.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Pose la question d'abord : « ai-je vraiment besoin d'une classe ? ». Explique dataclass (données), composition > héritage, duck typing (comportement pas type), et le piège de la valeur par défaut mutable. Savoir dire « ici une fonction suffit » est aussi pythonique que savoir écrire une classe — c'est ce qui distingue du code Python idiomatique d'une POO plaquée d'un autre langage.

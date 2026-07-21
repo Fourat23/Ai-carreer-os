@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un try/except autour des opérations risquées. Solution améliorée : rattraper le type SPÉCIFIQUE de chaque opération faillible (FileNotFoundError, JSONDecodeError, ValueError), lever soi-même (`raise`) sur les préconditions métier violées, distinguer erreurs métier (exception personnalisée) et techniques, chaîner avec `from e` pour conserver la cause, et traduire en message clair + code de sortie non nul à la frontière. La preuve : chaque échec prévisible donne un message utile, et un vrai bug remonte au lieu d'être avalé.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- `except:` nu ou `except Exception` trop large : avale bugs et interruptions, masque les vrais problèmes — rattraper le type spécifique.
+- Rattraper puis ignorer silencieusement (`except: pass`) : le pire — un pipeline qui « marche » en produisant des données fausses.
+- Vérifier tout avant (LBYL) au lieu de tenter (EAFP) : verbeux et sujet aux courses — préférer try/except.
+- Ne pas chaîner (`raise ... from e`) : la trace perd la cause d'origine, débogage plus difficile.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Chaque opération faillible rattrape son type d'exception SPÉCIFIQUE.
+- Aucun `except:` nu ni rattrapage silencieux.
+- Les préconditions métier lèvent une exception (`raise`) — échec tôt.
+- Les erreurs métier (exception personnalisée) sont distinctes des techniques.
+- Les erreurs sont chaînées (`from e`) et traduites en message clair à la frontière.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Oppose EAFP (tenter + rattraper spécifique) et LBYL (tout vérifier avant), et explique pourquoi le `except` large est dangereux (avale les bugs, données fausses silencieuses). Cite l'échec tôt (`raise` sur précondition) et la distinction métier/technique. Le pipeline qui « marche » en produisant des données fausses est l'exemple qui prouve que tu comprends l'enjeu réel.

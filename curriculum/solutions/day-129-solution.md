@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : filtrer avec un masque et trier. Solution améliorée : composer les conditions avec `&`/`|`/`~` et parenthèses (jamais `and`/`or`), distinguer `.loc` (étiquette/masque) de `.iloc` (position), enchaîner filtre → tri → sélection de colonnes lisiblement, et surtout MODIFIER via `.loc` en une seule opération pour éviter le `SettingWithCopyWarning`. La preuve : le code reproduit fidèlement les requêtes SQL, est vectorisé (rapide), et ne modifie jamais une copie par erreur.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- `and`/`or` au lieu de `&`/`|` sur des Series : erreur de vectorisation ; oublier les parenthèses casse la priorité.
+- Confondre `.loc` (étiquette) et `.iloc` (position) : sélection erronée silencieuse.
+- Indexation chaînée pour modifier (`df[cond]["col"] = x`) : modifie une copie, changement perdu — utiliser `.loc` en une fois.
+- Boucler ligne par ligne au lieu de filtrer par masque : lent (10-100×) et non idiomatique.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les filtres utilisent des masques booléens avec `&`/`|` et parenthèses.
+- `.loc` et `.iloc` sont utilisés à bon escient (étiquette vs position).
+- Les modifications passent par `.loc` en une seule opération.
+- Le tri utilise `sort_values`.
+- Le code est vectorisé (aucune boucle de filtrage).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique le masque booléen (Series de True/False alignée), les opérateurs `&`/`|` avec parenthèses, et la distinction `.loc`/`.iloc`. Insiste sur le `SettingWithCopyWarning` : « modifier une copie chaînée donne des résultats faux sans planter — toujours `.loc` en une fois ». Comparer à `filter().sort().map()` en JS montre que tu vois la continuité, et l'écart de vitesse justifie la vectorisation.

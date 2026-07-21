@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un venv et un pip install. Solution améliorée : les trois piliers — venv isolé, dépendances FIGÉES avec versions (requirements.txt/pyproject.toml), linter + formateur (ruff/black) configurés — plus une structure claire (code/tests séparés), un `.gitignore` qui exclut le venv, et 5 conventions documentées. La preuve de reproductibilité : un tiers clone, `pip install -r requirements.txt`, et le projet tourne à l'identique.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Installer globalement sans venv : conflits de versions entre projets, « ça marche sur ma machine ».
+- Ne pas figer les versions (requirements sans numéros) : l'installation n'est pas reproductible.
+- Committer le dossier `.venv/` : des milliers de fichiers inutiles dans le repo — l'exclure via `.gitignore`.
+- Compter sur la discipline manuelle pour le style au lieu d'un formateur : incohérences et débats stériles.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Un venv isole les dépendances du projet.
+- Les dépendances sont figées avec versions (requirements.txt/pyproject.toml).
+- Un linter et un formateur (ruff/black) sont configurés.
+- Le `.gitignore` exclut le venv (jamais commité).
+- 5 conventions sont documentées et la structure sépare code et tests.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Structure ta réponse en trois piliers : isolation (venv), figeage (requirements/pyproject), style automatique (ruff/black). Explique le POURQUOI de chacun (Python installe globalement ; installation reproductible ; style non négociable). Mentionne que le venv ne se commite jamais. « Un collègue clone et lance à l'identique » est le critère qui prouve que tu vises la reproductibilité, pas juste « ça tourne ».

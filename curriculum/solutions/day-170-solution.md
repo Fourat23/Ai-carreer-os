@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : encoder les catégories et normaliser. Solution améliorée : encoder selon la NATURE (one-hot pour le non-ordonné, label seulement pour l'ordonné), normaliser uniquement pour les modèles sensibles à l'échelle, imputer les manquants avec une décision justifiée, et TOUT encapsuler dans un ColumnTransformer + Pipeline appliquant le bon traitement à chaque type de colonne, ré-appris à chaque fold. La preuve : pas d'ordre fictif, pas de leakage, préprocessing reproductible en production.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Label-encoder une catégorie non ordonnée : ordre fictif qui trompe les modèles linéaires — utiliser le one-hot.
+- Normaliser sur tout le dataset avant le split : l'info du test fuit — l'encapsuler dans un Pipeline.
+- Normaliser pour des arbres/forêts : inutile (ils sont insensibles à l'échelle).
+- One-hot sur une variable à très nombreuses modalités : explosion de colonnes — envisager d'autres encodages.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les catégories non ordonnées sont en one-hot (pas d'ordre fictif).
+- La normalisation n'est appliquée qu'aux modèles qui en ont besoin.
+- Les manquants sont imputés avec une décision justifiée.
+- Tout le préprocessing est dans un ColumnTransformer + Pipeline.
+- Le préprocessing est ré-appris sur le train de chaque fold (pas de leakage).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique « le modèle ne mange que des nombres » : one-hot pour le non-ordonné (pas d'ordre fictif), label seulement pour l'ordonné, normalisation pour les modèles à base de distance (pas les arbres). Insiste sur le Pipeline + ColumnTransformer qui apprend sur le train seul (anti-leakage) et rend le préprocessing reproductible en production. Citer l'erreur du label-encoding sur du non-ordonné montre que tu connais les pièges réels.

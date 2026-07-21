@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : entraîner un arbre et regarder le score. Solution améliorée : contraindre la profondeur, VISUALISER les splits pour l'interprétabilité, DÉMONTRER le surapprentissage en comparant un arbre profond (train ≈ 1, test bas) à un arbre limité (train ≈ test), et tracer score train/test vs profondeur pour trouver le compromis. La preuve : identifier la profondeur qui maximise le test (pas le train) et expliquer l'instabilité d'un arbre unique.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Laisser l'arbre sans limite de profondeur : il mémorise les données d'entraînement (surapprentissage).
+- Juger un arbre sur son score de TRAIN : un arbre profond y atteint presque 100 % sans généraliser.
+- Oublier que l'arbre est instable : de petits changements de données changent beaucoup l'arbre.
+- Ne pas visualiser l'arbre : on perd son principal atout (l'interprétabilité) et la compréhension des splits.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- L'arbre est entraîné avec une profondeur contrôlée.
+- Les splits sont visualisés et interprétés.
+- Le surapprentissage est démontré (écart train/test sur un arbre profond).
+- La profondeur optimale est cherchée sur le score de TEST.
+- L'instabilité d'un arbre unique est comprise (motive les forêts).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Décris l'arbre comme une suite de questions oui/non qui homogénéisent les groupes (réduction d'impureté), lisible comme un organigramme. Explique le surapprentissage (mémorise si trop profond, écart train/test) et la profondeur comme curseur biais/variance. Ajoute l'instabilité d'un arbre seul qui motive les forêts. Montrer la courbe train/test vs profondeur prouve que tu comprends le compromis, pas juste l'API.

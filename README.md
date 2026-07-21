@@ -164,7 +164,31 @@ npm run curriculum:depth-check   # profondeur pédagogique : cours approfondi, e
 ```
 Les deux sortent en erreur (code 1) si un problème est détecté — pratique en pré-commit.
 
+## Glossaire IT & monde du travail (`/glossary`)
+Une page dédiée pour décoder les acronymes, anglicismes et expressions du métier
+(développement, architecture, cloud, data, IA, production, gestion de projet, entreprise,
+carrière). Chaque terme explique sa signification, sa forme développée, sa traduction
+française, son contexte réel, une phrase « entendue en réunion », les confusions possibles
+et les termes liés. Les acronymes ambigus (PR, PM, PO, CD, CI, ADR, SME, MVP, POC, QA,
+UAT, TSD…) documentent explicitement leurs différents sens.
+
+- **Route** : `/glossary` (lien « 📚 Glossaire IT » dans la barre latérale).
+- **Données éditables** : `curriculum/glossary/glossary.json` — format documenté dans
+  `curriculum/glossary/README.md` (champs, catégories, niveaux, ajout d'entrée/alias/relation).
+- **Recherche** instantanée, insensible à la casse et aux accents (terme, forme développée,
+  français, alias, tags), filtres par catégorie et par niveau, navigation A–Z, vues
+  compacte/détaillée, filtres reflétés dans l'URL.
+- **Validation** :
+```bash
+npm run glossary:check      # (alias : npm run glossary:validate)
+```
+Le validateur détecte identifiants/termes dupliqués, définitions manquantes, catégories ou
+niveaux invalides, relations vers un `id` inexistant, alias en collision et champs
+obligatoires manquants ; il échoue (code 1) au moindre problème. Tests : `tests/glossary.test.mjs`.
+
 ## Known limitations (limites connues)
+- **Glossaire non exhaustif** : base initiale de grande qualité (~250 termes), pensée pour être
+  étendue à la main (`curriculum/glossary/glossary.json`) — pas un dictionnaire complet.
 - **Jours 91-365 moins verbeux** que les jours 1-30 : ils restent *actionnables* (objectif, tâche, livrable, critères, correction/grille, renvoi vers une leçon de fond) mais leur théorie propre est plus courte. Enrichissables via `scripts/data/days-plan.mjs` + `npm run generate`.
 - **Corrections des jours planifiés** = grilles d'auto-évaluation guidées (pas des solutions détaillées ligne à ligne, contrairement aux jours 1-30).
 - **Scores de compétences déclaratifs** : auto-évaluation guidée par rubrique, non calculée par un correcteur automatique (honnête pour un outil solo).

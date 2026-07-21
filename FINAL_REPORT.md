@@ -4,6 +4,56 @@ Rapport de fin de construction. À lire en entier avant de commencer.
 
 ---
 
+## 0-decies. Nouveau chantier — Glossaire IT & monde du travail (page `/glossary`)
+
+Chantier **indépendant du curriculum** : aucun jour, leçon, correction ni le système de
+génération n'a été modifié. Objectif : une page permettant à un débutant de décoder les
+acronymes, anglicismes et expressions du métier (dev, archi, cloud, data, IA, prod, gestion
+de projet, entreprise, carrière).
+
+- **Dataset** : `curriculum/glossary/glossary.json` — **254 entrées** (132 acronymes,
+  122 termes non acronymiques, **18 termes ambigus** documentés), **784 relations**,
+  **381 alias**, **0 référence non résolue**. Format documenté dans `curriculum/glossary/README.md`.
+- **Couverture des 17 catégories** : Développement 19 · Git 15 · Tests 16 · Architecture 26 ·
+  Agile/produit 16 · Gestion de projet 18 · DevOps 9 · Cloud 10 · Réseau 16 · Bases de données 11 ·
+  Data 9 · IA/ML 20 · Sécurité 19 · Production 24 · ITSM 6 · Entreprise 12 · Carrière 8.
+- **Acronymes ambigus** traités avec sens multiples explicites (`senses` + `ambiguityNote`) :
+  PR, PM, PO, SME, MVP, POC, TSD (sens structurés), plus CD, CI, ADR, QA, UAT, NLP, EDA, IP,
+  token, CDC (notes d'ambiguïté). Chaque sens indique domaine, indice de reconnaissance et
+  exemple.
+- **Termes non acronymiques** traités au même niveau : rollback, hotfix, stakeholder,
+  ownership, scope, legacy, runbook, go-live, handover, onboarding, offboarding, technical
+  debt, feature flag, breaking change, workaround, greenfield, brownfield, escalation,
+  bandwidth, alignment, deprecation, sunset, boilerplate, idempotency, flaky test, churn…
+- **Qualité éditoriale** : chaque entrée = définition courte + détaillée + contexte + phrase
+  « entendue en réunion » + traduction en langage simple + confusions + termes liés. Audit
+  automatique : **aucun doublon exact** de définition/exemple/traduction sur les 254 entrées ;
+  aucune définition trop courte ; tous les exemples de réunion en style direct crédible.
+- **Architecture technique** (aucune refonte de l'existant) :
+  - Logique pure partagée (recherche/filtre/validation) : `lib/glossary-core.mjs` +
+    déclarations `lib/glossary-core.d.ts` — **un seul code** pour l'app, le validateur et les
+    tests. Loader serveur : `lib/glossary.ts`.
+  - Route `app/glossary/page.tsx` (Server Component) + `app/glossary/GlossaryBrowser.tsx`
+    (client) : recherche instantanée insensible casse/accents, filtres catégorie + niveau,
+    navigation A–Z, compteur, vue compacte/détaillée, termes liés cliquables, badge « ambigu »,
+    bouton de réinitialisation, état vide, filtres reflétés dans l'URL, focus clavier visible,
+    responsive mobile.
+  - Lien « 📚 Glossaire IT » ajouté à `app/Sidebar.tsx` ; styles glossaire + `:focus-visible`
+    global + media query mobile ajoutés à `app/globals.css` (aucune modification des styles existants).
+  - Validateur `scripts/glossary-check.mjs` (`npm run glossary:check` / `:validate`).
+  - Tests `tests/glossary.test.mjs` (**23 tests** : chargement, schéma, id/terme dupliqués,
+    catégorie/niveau invalides, relation inexistante, champ manquant, recherche par
+    acronyme/forme/français/alias/tag, sans accents, filtres catégorie/niveau, pertinence
+    (« PR » sans faux positifs), préfixe, ambiguïté PR, état vide, tri).
+- **Correction notable** : la recherche par simple sous-chaîne faisait remonter 89 résultats
+  pour « PR » (matchant « pr » dans *entreprise*, *production*, *démarrage*…). Remplacée par
+  une recherche par jeton (exact partout ; préfixe terme/forme/alias dès 3 caractères ;
+  préfixe français/tags dès 4 ; sous-chaîne pour les requêtes multi-mots) → « PR » → 1 résultat,
+  toutes les recherches demandées (production, test driven, authentification, mise en
+  production, stakeholder, rollback, RAG, OAuth, ADR, TSD) renvoient des ensembles pertinents.
+- Checks : `glossary:check` ✅ (0 référence non résolue) · **43/43 tests** · `build` ✅ ·
+  `curriculum:check` ✅ · `curriculum:depth-check` ✅. Commits poussés sur la branche.
+
 ## 0-nonies. Mise à jour — Python cœur, pandas, SQL avancé + ETL, Projet 4 DataPulse & entrée statistiques jours 121-150 (Batch 5E terminé)
 
 - **26 jours d'apprentissage enrichis en profondeur** (121-125, 127-132, 134-139, 141-146, 148-150) + **4 revues enrichies** (126, 133, 140, 147). Sous-batchs : 5E1 (121-130), 5E2 (131-140), 5E3 (141-150). Couvre : le **Python de projet** (fonctions/modules/fichiers et organisation en responsabilités, exceptions EAFP et robustesse, POO pythonique légère — dataclass/composition, tests pytest — fixtures/paramétrisation, outillage reproductible — venv/dépendances figées/ruff-black), **pandas** (DataFrame vectorisé et inspection systématique, nettoyage justifié avec rapport de qualité, filtrage par masque booléen et pièges \`.loc\`/\`SettingWithCopyWarning\`, agrégation split-apply-combine, jointures et cardinalité, promotion en fonctions pures testées), le **SQL avancé** (normalisation 3NF et anomalies, index B-tree diagnostiqués à l'\`EXPLAIN\`, transactions ACID et rollback, requêtes analytiques — sous-requêtes/CTE/fonctions fenêtre), l'**ETL** (conception en étapes séparées, robustesse — idempotence/logs/résilience), le **Projet 4 DataPulse** (cadrage par les 3 questions, extract robuste, transform en fonctions pures + rapport qualité, load transactionnel/idempotent rejouable en une commande, dashboard une-question-une-visualisation, README/ADR SQLite-vs-Postgres/démo), et l'**entrée en statistiques** (quand la moyenne ment — tendance + dispersion, quartet d'Anscombe — regarder la distribution, corrélation ≠ causalité — confondants/causalité inverse/hasard).

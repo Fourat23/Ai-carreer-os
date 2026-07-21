@@ -126,6 +126,16 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
+## ✅ CHANTIER GLOSSAIRE IT TERMINÉ — page `/glossary` (indépendant du curriculum)
+
+- **254 entrées** (132 acronymes, 122 termes non acronymiques, 18 ambigus), 17 catégories couvertes, **0 référence non résolue**, 784 relations, 381 alias.
+- Source éditable : `curriculum/glossary/glossary.json` (format documenté dans `curriculum/glossary/README.md`).
+- Logique partagée : `lib/glossary-core.mjs` (+ `.d.ts`) ; loader `lib/glossary.ts` ; page `app/glossary/*` ; validateur `scripts/glossary-check.mjs` (`npm run glossary:check` / `:validate`) ; tests `tests/glossary.test.mjs`.
+- Recherche insensible casse/accents et **par jeton** (pas de faux positifs type « PR » dans « entreprise »). Filtres catégorie/niveau, A–Z, vues compacte/détaillée, termes liés cliquables, URL, focus clavier, mobile.
+- Acronymes ambigus documentés (sens multiples) : PR, PM, PO, SME, MVP, POC, TSD, CD, CI, ADR, QA, UAT, NLP, EDA, IP, token…
+- **Aucune modification** du curriculum (jours, leçons, corrections, générateur).
+- Checks : `glossary:check` ✅ · 43/43 tests · build ✅ · `curriculum:check` ✅ · `curriculum:depth-check` ✅.
+
 ## ✅ BATCH 5E TERMINÉ — jours 121-150 (Python cœur, pandas, SQL avancé + ETL, Projet 4 DataPulse, entrée statistiques)
 
 - **26 jours d'apprentissage enrichis** + **4 revues enrichies** (126, 133, 140, 147). Sous-batchs : 5E1 (121-130), 5E2 (131-140), 5E3 (141-150).

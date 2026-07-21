@@ -12,6 +12,7 @@ const LINKS = [
   { href: '/reviews', label: '📝 Évaluations' },
   { href: '/notes', label: '🗒️ Notes' },
   { href: '/resources', label: '🔗 Ressources' },
+  { href: '/glossary', label: '📚 Glossaire IT' },
   { href: '/career', label: '💼 Carrière' },
   { href: '/guide', label: '📘 Mode d\'emploi' },
 ];

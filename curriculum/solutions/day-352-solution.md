@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : réviser les concepts IA. Solution améliorée : lister les 20 questions IA probables, en préparer 10 avec des réponses de 2 minutes STRUCTURÉES (concept → pourquoi → exemple vécu) et ANCRÉES dans tes projets (ton golden set, ton kappa, ton hybride). Les questions IA sont ton terrain fort où exceller ; les préparer transforme une performance aléatoire en une performance fiable sur le cœur de l'évaluation.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Traiter les questions IA comme l'algo (juste ne pas échouer) : c'est ton terrain fort, l'objectif est d'EXCELLER — préparer pour briller.
+- Réponses théoriques récitées : elles ne distinguent pas — ancrer dans tes projets (« mon golden set ») prouve le vécu.
+- Réponses trop longues (monologue) ou trop courtes : viser ~2 minutes structurées.
+- Ne pas préparer les questions prévisibles : les sujets IA reviennent constamment — improviser sur du prévisible est un gâchis.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- 20 questions IA probables listées, 10 réponses préparées.
+- Chaque réponse fait ~2 minutes, structurée (concept → pourquoi → exemple).
+- Chaque réponse est ancrée dans tes projets (concret, vécu).
+- Les réponses couvrent les sujets clés (RAG, éval, sécurité, agents, coûts).
+- 3 réponses enregistrées tiennent en 2 min, ancrées (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Distingue l'IA de l'algo : « l'algo, je vise à ne pas me faire éliminer ; les questions IA, c'est mon terrain fort où je dois EXCELLER — je les prépare avec des réponses de 2 minutes ancrées dans mes projets ». Puis l'ancrage : « comment évaluer un RAG ? je réponds avec MON golden set et MON kappa, pas de la théorie ». Exceller sur les questions IA, ancrées dans le vécu, compense l'absence d'expérience et gagne l'entretien.

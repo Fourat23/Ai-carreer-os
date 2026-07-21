@@ -126,9 +126,20 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
-## PROCHAIN BATCH RECOMMANDÉ : Batch 5B — jours 301-330 (projet final DocSense build + DevOps mois 11)
-Le mois 10 est TERMINÉ. La suite : les jours 301-365 (build de DocSense + DevOps mois 11, finalisation + portfolio + carrière mois 12).
-Même mécanisme : créer `scripts/data/days-enrich-301-330.mjs` (puis 331-365) sur le modèle exact de
+## ✅ BATCH 5B/5C TERMINÉ — jours 301-365 (projet final DocSense, DevOps, portfolio, carrière) → JOURS 181-365 ENRICHIS AU STANDARD COMPLET
+
+- **55 jours d'apprentissage enrichis** + **10 revues enrichies** (301, 308, 315, 322, 329, 336, 343, 350, 357, 364). Sous-batchs : 5B1 (301-315), 5B2 (316-330), 5C1 (331-347), 5C2 (348-365).
+- Thèmes (titres réels du plan) : construction de DocSense (cadrage, RAG build, évaluation, fonctionnalités, polish v1.0), portfolio (README, démo, storytelling, GitHub, schéma, cohérence), carrière (CV, LinkedIn, ciblage, pitch, analyse d'offres, dossier, révision algo, questions IA, simulations, dossier d'entretien, négociation, candidatures, entretiens blancs, bilan, PLAN-90-JOURS, clôture).
+- **Fichier** : `scripts/data/days-enrich-301-365.mjs` (ENRICH_301_365). Le générateur a reçu le support d'enrichissement du jour 365 (cas spécial de clôture).
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **185/313**) · 20/20 tests · build ✅.
+
+## ✅ OBJECTIF ATTEINT : JOURS 181-365 ENRICHIS AU STANDARD COMPLET
+Les 185 jours de travail des jours 181 à 365 (cœur IA, agents/archi/sécurité, projet final DocSense, portfolio, carrière) + 24 revues enrichies sont au gabarit complet. Chaque jour est vraiment exploitable pour apprendre (théorie substantielle, modèle mental, exemple guidé + mini-quiz, cas métier, question d'entretien, correction exigeante avec section orale, section bankable).
+
+## PROCHAINES PISTES OPTIONNELLES (non prioritaires)
+- **Batch 2/3** : enrichir les jours 31-180 (exemples guidés, théorie inline) via le même mécanisme — voir ci-dessous.
+- **Retrofit leçons** : passer les 21 leçons d'origine au gabarit complet neuf (39/60 → 60/60).
+Référence de mécanisme : créer `scripts/data/days-enrich-XXX.mjs` sur le modèle exact de
 `days-enrich-211-240.mjs` (champs `theory`, `guided`, `caseStudy`, `interview`, `future`,
 `solution {logic, pitfalls, checks, oral}`) et le fusionner dans `generate-curriculum.mjs`.
 Les jours 241-248 (comparaison chunking, versioning index, embeddings, hybride BM25/RRF,
@@ -145,17 +156,14 @@ Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 - **Batch 4B** : ✅ TERMINÉ — jours 211-240 enrichis en profondeur (26 jours d'apprentissage ; voir section « BATCH 4B TERMINÉ » ci-dessus).
 - **Batch 4C** : ✅ TERMINÉ — jours 241-270 enrichis (27 jours + 4 revues) → **cœur IA 181-270 COMPLET** (voir section « BATCH 4C TERMINÉ » ci-dessus).
 - **Batch 5A** : ✅ TERMINÉ — jours 271-300 enrichis (26 jours + 4 revues) → **mois 10 COMPLET** (voir section « BATCH 5A TERMINÉ » ci-dessus).
+- **Batch 5B/5C** : ✅ TERMINÉ — jours 301-365 enrichis (55 jours + 10 revues) → **JOURS 181-365 AU STANDARD COMPLET** (voir section « BATCH 5B/5C TERMINÉ » ci-dessus).
 
 ### État qualité actuel (mesuré)
-- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **130/313** (1-30 + 181-300).
-- Jours 181-300 au niveau « cours complet » (~1000-1300 mots), corrections avec section orale ; revues 245/252/259/266/273/280/287/294 enrichies (synthèse, grille, remédiation, entretien).
+- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **185/313** (1-30 + 181-365).
+- Jours 181-365 au niveau « cours complet » (~1000-1300 mots), corrections avec section orale ; **24 revues enrichies** (245/252/259/266/273/280/287/294/301/308/315/322/329/336/343/350/357/364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
-## RESTE À FAIRE (par ordre de priorité)
-
-### Batch 5B — jours 301-365 (projet final DocSense build + DevOps mois 11 ; finalisation/portfolio/carrière mois 12) — PRIORITAIRE
-Créer `scripts/data/days-enrich-301-330.mjs` (puis 331-365) sur le modèle de `days-enrich-271-300.mjs`
-(mêmes champs, même exigence, revues enrichies). Sous-batchs de 10 jours.
+## RESTE À FAIRE (pistes optionnelles, non prioritaires)
 
 ### Batch 2 — jours 31-90 : ajouter des exemples guidés (52 jours)
 Éditer `scripts/data/days-31-90.mjs` (ajouter `guidedExample`) OU `days-enrich.mjs` par jour. Prompt : `prompts/enrich-day.md`.
@@ -167,4 +175,4 @@ Cibler d'abord les jours ML/data. Via `days-enrich.mjs` (champs `theory`, `guide
 Les 21 leçons d'origine suivent un gabarit plus ancien (sans « Modèle mental / Exemple guidé / Questions d'entretien / Checklist »). Les faire passer au gabarit complet ferait 60/60 au gabarit neuf (39/60 aujourd'hui). Non bloquant.
 
 ## Où j'en suis (dernier point stable)
-Batchs 4A (181-210), 4B (211-240), 4C (241-270) → **cœur IA COMPLET** ; Batch 5A (271-300) → **mois 10 COMPLET**. Tout commité et poussé. `curriculum:check` OK, `curriculum:depth-check` OK (130/313 exemples guidés), 20/20 tests, build OK. Prochaine action recommandée : **Batch 5B (jours 301-365)** par sous-batchs de 10 jours (projet final DocSense, DevOps, portfolio, carrière).
+Batchs 4A (181-210), 4B (211-240), 4C (241-270) → **cœur IA COMPLET** ; 5A (271-300) → **mois 10 COMPLET** ; 5B/5C (301-365) → **JOURS 181-365 AU STANDARD COMPLET**. Tout commité et poussé. `curriculum:check` OK, `curriculum:depth-check` OK (185/313 exemples guidés), 20/20 tests, build OK. Objectif atteint : les 185 jours de travail de 181 à 365 + 24 revues sont enrichis au gabarit complet. Pistes optionnelles restantes : Batch 2 (31-90), Batch 3 (91-180), retrofit des 21 leçons d'origine.

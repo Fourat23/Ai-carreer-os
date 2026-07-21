@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : décider de continuer. Solution améliorée : un plan concret et MESURABLE pour 90 jours — candidatures (objectif hebdo, relances, entretiens visés), itération du portfolio selon les retours, approfondissement des 2 manques et points fragiles, et une routine soutenable — avec une revue hebdomadaire. Le plan maintient la dynamique et transforme la fin du programme en un départ structuré, évitant le vide anxiogène de l'après.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Pas de plan pour l'après : sans structure imposée, l'élan retombe (procrastination, dispersion) — un plan concret maintient la dynamique.
+- Objectifs vagues (« continuer à candidater ») : le concret et mesurable (« 5/semaine ») se suit et s'atteint.
+- Portfolio figé : les retours d'entretien informent des améliorations — prévoir l'itération selon le marché.
+- Routine non soutenable : un rythme intenable mène à l'épuisement — prévoir une routine tenable dans la durée.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Le PLAN-90-JOURS couvre candidatures, portfolio, compétences, routine.
+- Les objectifs sont concrets et mesurables (pas des vœux).
+- L'itération du portfolio selon les retours est prévue.
+- Les 2 manques et points fragiles sont inclus.
+- Une routine soutenable et une revue hebdomadaire sont fixées (variante).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Présente le plan comme un départ : « la fin de ma formation est un départ, pas une arrivée — mon PLAN-90-JOURS structure la suite : candidatures régulières, portfolio itéré selon les retours, compétences ciblées à combler, routine soutenable ». Puis : « sans structure, l'élan retombe ; un plan concret le maintient ». Se donner une structure sans qu'on vous l'impose est une autonomie qui rassure un employeur et fait continuer à progresser.

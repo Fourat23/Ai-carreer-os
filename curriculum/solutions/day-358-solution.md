@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : préparer des candidatures. Solution améliorée : les ENVOYER réellement (pas « prêtes ») — 5 candidatures ciblées, personnalisées avec le dossier (pourquoi l'entreprise + quel projet), trackées dans le tableau de suivi. Le critère de réussite est binaire : envoyées. Le perfectionnisme (peaufiner sans envoyer) est le piège n°1 ; le combattre par une limite de temps. Seule une candidature envoyée peut aboutir.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Rester en préparation infinie (« je peaufine encore ») : procrastination confortable — seules les candidatures ENVOYÉES aboutissent.
+- Copier-coller générique pour aller vite : les candidatures génériques sont rejetées — personnaliser (avec une limite de temps).
+- Ne pas tracker : perdre le fil, oublier de relancer — le tableau de suivi gère le processus.
+- Attendre la candidature parfaite : une candidature envoyée bat dix candidatures parfaites jamais envoyées.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- 5 candidatures sont RÉELLEMENT envoyées (pas « prêtes »).
+- Chacune est personnalisée (pourquoi l'entreprise + quel projet).
+- Chacune est trackée dans le tableau de suivi.
+- Le perfectionnisme est combattu par une limite de temps (variante).
+- Le passage à l'action est franchi (préparation → candidature active).
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Insiste sur le passage à l'action : « toute ma préparation ne vaut que si les candidatures partent — j'ai envoyé 5 candidatures ciblées et trackées, réellement envoyées, pas prêtes ; le perfectionnisme est le piège n°1, une candidature envoyée bat dix candidatures parfaites qui dorment ». Franchir le pas du je-me-prépare au je-candidate est ce qui déclenche les opportunités.

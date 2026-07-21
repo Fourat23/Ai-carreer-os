@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : un useEffect qui fetch et remplit un state, avec loading/error/data. Solution améliorée : encoder les 3 états dans UNE machine à états (impossible d'être 'ok' sans data), déclarer les BONNES dépendances (re-fetch quand l'url change), ajouter un nettoyage (drapeau annule) qui ignore les réponses tardives, gérer le statut HTTP (r.ok) et proposer un re-essai propre via une dépendance dédiée. La preuve : naviguer vite entre deux ressources ne produit aucun warning ni affichage incohérent.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Dépendances incomplètes : stale closure, l'effet utilise une valeur périmée — inclure tout ce que l'effet lit.
+- Pas de nettoyage : setState sur composant démonté, warning et fuite quand une réponse arrive tard.
+- Ne gérer que le cas heureux : pas d'état d'erreur ni de chargement — l'app casse sur réseau lent ou API en panne.
+- Transformer en effet ce qui est une valeur dérivée : un useEffect inutile qui recopie une donnée calculable (jour 93).
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Les 3 états (chargement, erreur, données) sont rendus, un seul à la fois.
+- Le tableau de dépendances contient tout ce que l'effet lit.
+- Un nettoyage ignore les réponses tardives (pas de setState après démontage).
+- Le statut HTTP est vérifié (r.ok) avant de parser.
+- Le re-essai relance un fetch propre sans dupliquer la logique.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Définis l'effet comme une synchronisation avec l'extérieur, pas comme « du code après le rendu ». Puis déroule les 3 pièges (dépendances, nettoyage, over-use) et la règle des 3 états. Montre le drapeau `annule` et explique le bug qu'il évite (réponse tardive sur composant démonté) — ce détail prouve que tu as géré des cas réels, pas juste le tutoriel.

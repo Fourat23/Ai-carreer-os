@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : useState pour chaque valeur qui change, setter appelé sur chaque événement. Solution améliorée : garantir l'immutabilité partout (spread pour ajouter, map avec spread d'objet pour modifier, filter pour retirer), utiliser le setter FONCTIONNEL quand la valeur dépend de l'ancienne, DÉRIVER les valeurs calculables (total, nombre coché) au lieu de les stocker, et borner le state (min/max) dans le setter. La preuve : aucune mutation, l'UI reste toujours synchrone avec le state.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Muter au lieu de remplacer (push/sort/obj.x = v) : pas de re-rendu, bug classique — spread systématique.
+- Stocker en state une valeur dérivable (le total des articles) : double source de vérité, désynchronisation garantie — dérive-la à la volée.
+- Utiliser setN(n+1) dans plusieurs mises à jour successives : elles se basent sur la même valeur figée — utilise setN(c => c+1).
+- Un seul gros state-objet pour des valeurs indépendantes (ou l'inverse) : granularité mal choisie, mises à jour plus fragiles.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Chaque mise à jour crée une nouvelle référence (aucune mutation).
+- Les valeurs calculables sont dérivées, pas stockées en state.
+- Le setter fonctionnel est utilisé quand la valeur dépend de l'ancienne.
+- L'UI reflète toujours le state courant (jamais de manipulation directe du DOM).
+- Le compteur respecte ses bornes min/max.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Montre la boucle au tableau : événement → setState (immuable) → nouveau rendu. Puis la phrase clé : « je ne modifie pas le state, je le remplace ; React re-rend parce que la référence change ». Illustre avec le bug du push qui ne re-rend pas — c'est l'exemple qui prouve que tu as compris valeur/référence appliqué à React.

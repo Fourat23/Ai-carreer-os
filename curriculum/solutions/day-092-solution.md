@@ -5,21 +5,20 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Ce jour privilégie l'autonomie. La « correction » n'est pas un code à copier mais une grille d'auto-évaluation.
+Solution simple : une fonction par bloc visuel, des props typées, composées dans un parent. Solution améliorée : isoler les vrais composants RÉUTILISABLES (Badge servira ailleurs), typer précisément les props (pas de any), garder chaque composant pur (aucune mutation, aucun effet de bord), et préparer la communication vers le haut via des props-fonctions (onEmprunter). La preuve de bonne décomposition : la même Carte s'utilise dans plusieurs contextes sans modification.
 
-## ✅ Auto-évaluation de ton livrable
-- [ ] Mon livrable correspond exactement à ce qui était demandé.
-- [ ] J'ai d'abord tenté seul, sans IA, au moins 30 minutes.
-- [ ] Je peux expliquer chaque décision que j'ai prise.
-- [ ] J'ai testé/vérifié le résultat, pas seulement « ça a l'air de marcher ».
-- [ ] J'ai noté ce qui m'a bloqué (donnée précieuse sur mes lacunes).
+## ⚠️ Erreurs probables et points à vérifier
+- Un composant géant qui fait tout : illisible et non réutilisable — découpe en briques nommées d'après leur rôle.
+- Muter les props (les props sont en lecture seule) : casse le flux unidirectionnel et provoque des bugs invisibles.
+- Oublier la majuscule sur le nom du composant : React le prend pour une balise HTML et ne le rend pas.
+- Typer les props avec any : on perd toute la sécurité de TypeScript, qui est justement l'intérêt de typer un front.
 
-## ⚠️ Points à vérifier
-- Ai-je géré les cas limites et les erreurs, pas seulement le chemin heureux ?
-- Mon code est-il lisible par un tiers (nommage, structure) ?
-- Ai-je réutilisé des patterns déjà appris plutôt que tout réinventer ?
+## 🔍 Comment vérifier ta solution
+- Chaque composant est une fonction pure qui renvoie du JSX.
+- Les props sont typées précisément (aucun any).
+- Aucun composant ne modifie ses props.
+- Au moins un composant est réellement réutilisé dans plusieurs contextes.
+- La liste utilise une key stable (id), pas l'index.
 
-## 🧩 Questions de réflexion
-- Qu'est-ce que cet exercice prouve à un recruteur ?
-- Comment l'expliquerais-je à l'oral en 2 minutes ?
-- Quelle version « améliorée » pourrais-je viser si j'y revenais ?
+## 🎤 À savoir expliquer à l'oral
+Explique le renversement déclaratif : « en vanilla je donnais des ordres au DOM ; en React j'écris une fonction qui décrit l'UI pour des props données, et React fait correspondre le DOM ». Puis la règle : composants purs, props en lecture seule, données qui descendent. Savoir décomposer une maquette au tableau en 5 composants nommés est un signal fort en entretien front.

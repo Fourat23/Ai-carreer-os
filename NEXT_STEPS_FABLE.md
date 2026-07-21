@@ -126,6 +126,16 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
+## ✅ BATCH 5D TERMINÉ — jours 91-120 (React, ingénierie logicielle front, Projet 3 BiblioApp, entrée Python)
+
+- **25 jours d'apprentissage enrichis** + **5 revues enrichies** (91, 98, 105, 112, 119). Sous-batchs : 5D1 (91-100), 5D2 (101-110), 5D3 (111-120).
+- **Note de cadrage** : la consigne évoquait « début du parcours Python/data », mais les titres RÉELS des jours 91-120 (`days-plan.mjs`) sont React (92-97, 99-104), ingénierie logicielle front / tests (106-111), Projet 3 BiblioApp (113-118) et **un seul** jour Python (120). Conformément à la règle « respecter les titres réels, ne forcer aucun sujet », les vrais intitulés ont été enrichis. Les différences JS→Python (comprehensions vs boucles-push, dict/.get, enumerate/zip, snake_case, venv) sont explicitées au jour 120 où elles s'appliquent réellement.
+- Thèmes (titres réels du plan) : React (composants/props/JSX, useState immuable, listes/keys, useEffect/3 états, formulaires contrôlés, couche api.ts, routing, lever l'état, Context, performance/re-renders, accessibilité, cadrage Projet 3) ; ingénierie front (tests Vitest, tests de composants, mocks/intégration, clean code front, hooks personnalisés, gestion d'erreur robuste) ; Projet 3 BiblioApp (socle, CRUD, recherche/filtres, tests, polish, README/schéma-3-tiers/ADR/démo) ; Python idiomatique.
+- **Même gabarit complet** que 181-365 : cours + modèle mental distinct, exemple guidé (exemple simple + mini-quiz), cas métier distinct, question d'entretien avec réponse attendue, section bankable, correction exigeante (solution simple + améliorée, pièges, vérifications, section orale), leçons de fond React/testing/Python ciblées.
+- **Fichier** : `scripts/data/days-enrich-91-120.mjs` (ENRICH_91_120), fusionné dans `generate-curriculum.mjs`.
+- **Audit anti-générique** : 25 modèles mentaux vérifiés tous distincts, aucune question d'entretien dupliquée, cas métier propres à chaque sujet.
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **209/313**) · 20/20 tests · build ✅.
+
 ## ✅ BATCH 5B/5C TERMINÉ — jours 301-365 (projet final DocSense, DevOps, portfolio, carrière) → JOURS 181-365 ENRICHIS AU STANDARD COMPLET
 
 - **55 jours d'apprentissage enrichis** + **10 revues enrichies** (301, 308, 315, 322, 329, 336, 343, 350, 357, 364). Sous-batchs : 5B1 (301-315), 5B2 (316-330), 5C1 (331-347), 5C2 (348-365).
@@ -159,8 +169,8 @@ Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 - **Batch 5B/5C** : ✅ TERMINÉ — jours 301-365 enrichis (55 jours + 10 revues) → **JOURS 181-365 AU STANDARD COMPLET** (voir section « BATCH 5B/5C TERMINÉ » ci-dessus).
 
 ### État qualité actuel (mesuré)
-- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **185/313** (1-30 + 181-365).
-- Jours 181-365 au niveau « cours complet » (~1000-1300 mots), corrections avec section orale ; **24 revues enrichies** (245/252/259/266/273/280/287/294/301/308/315/322/329/336/343/350/357/364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
+- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **209/313** (1-30 + 91-120 + 181-365).
+- Jours 91-120 (React/front/Projet 3/Python) et 181-365 au niveau « cours complet », corrections avec section orale ; **23 revues enrichies** (91/98/105/112/119/245/252/259/266/273/280/287/294/301/308/315/322/329/336/343/350/357/364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
 ## RESTE À FAIRE (pistes optionnelles, non prioritaires)

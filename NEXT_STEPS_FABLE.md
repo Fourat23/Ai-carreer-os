@@ -19,7 +19,7 @@ Mis à jour à chaque batch. **Reprends toujours ce fichier en premier.**
 | Tranche | Jours travail | Moy. mots | Exemple guidé | Vraie question d'entretien | Théorie inline |
 |---|---|---|---|---|---|
 | 1-30 | 26 | **1263** | 26/26 ✅ | oui (quiz + oral) | riche ✅ |
-| 31-90 | 52 | 565 | **26/52** (31-60 ✅ Batch 5G ; 61-90 restants) | 31-60 oui (Q+relance+oral) ; 61-90 non | 31-60 riche ✅ ; 61-90 correcte |
+| 31-90 | 52 | 565 | **52/52 ✅** (31-60 Batch 5G ; 61-90 Batch 5H) | oui (Q+relance+oral) | riche ✅ |
 | 91-180 | 77 | 366 | **0/77** ❌ | non | **mince** (surtout liens leçons) |
 | 181-270 | 77 | 366 | **0/77** ❌ | non | **mince** |
 | 271-365 | 81 | 358 | **0/81** ❌ | non | **mince** |
@@ -126,6 +126,18 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
+## ✅ BATCH 5H TERMINÉ — jours 61-90 (Projet 2 LivreAPI, sécurité, culture d'ingénieur, architecture, Python, full-stack React) → **313/313 exemples guidés**
+
+- **26 jours d'apprentissage enrichis** + **4 revues enrichies** (63, 70, 77, 84). Sous-batchs : 5H1 (61-70), 5H2 (71-80), 5H3 (81-90).
+- **Objectif structurel atteint : 313/313 exemples guidés.** La tranche 61-90 était la dernière sans enrichissement ; tous les jours de travail de 1 à 365 ont désormais exemple guidé, question d'entretien réelle, cas métier, section bankable et correction exigeante.
+- **Tranche fidèle au programme réel** (fin du trimestre 1) : titres, objectifs, exercices et livrables réels respectés ; enrichissement en complément de `days-31-90-extras.mjs` (rendu en `theoryExtra`).
+- Thèmes (titres réels) : **Projet 2 LivreAPI** (socle CRUD SQLite, relations/emprunt transactionnel 409, recherche/pagination/OFFSET, tests d'intégration, doc/ADR/démo, durcissement + test de charge, storytelling STAR) ; **sécurité** (OWASP, auth token/secrets) ; **refactoring sous tests** ; **culture d'ingénieur** (réseau DNS/TCP/TLS/HTTP2, Linux/scripts, Git rebase, doc technique, lecture de code, modularité) ; **architecture** (3-tiers/MVC, observabilité, cache/N+1, trade-offs/anti-patterns) ; **Python** d'introduction ; **full-stack React** (UI=f(state), fetch/états async, mini-app de bout en bout) ; **bilans** (mois 3, trimestre 1).
+- **Même gabarit complet** que 91-365 : modèle mental distinct, exemple guidé exécutable, mini-quiz (4 Q), cas métier distinct, question d'entretien + relance, section bankable, correction exigeante (logique + simple + améliorée, pièges, vérifications, oral), leçons de fond ciblées.
+- **Fichier** : nouveau `scripts/data/days-enrich-61-90.mjs` (ENRICH_61_90), fusionné dans `generate-curriculum.mjs`. Le câblage de la branche 31-90 (enrich.future/solution/quiz) existait déjà (Batch 5G).
+- **Audit anti-générique** : 26 modèles mentaux distincts, **0 question d'entretien dupliquée**, **0 cas métier dupliqué** (vérifié programmatiquement) ; jours proches différenciés (66/74 doc, 76/78 archi, 83/90 bilans, 88/89 full-stack).
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **313/313**) · 43/43 tests · build ✅.
+- **Périmètre** : jours 1-60 et 91-365 inchangés ; interface, glossaire, leçons, architecture inchangés. **Plus aucun jour de travail sans enrichissement.**
+
 ## ✅ BATCH 5G TERMINÉ — jours 31-60 (structures de données, TypeScript/POO, Projet 1 TaskFlow, HTTP/REST/Express, SQL, Projet 2)
 
 - **26 jours d'apprentissage enrichis** + **4 revues enrichies** (35, 42, 49, 56). Sous-batchs : 5G1 (31-40), 5G2 (41-50), 5G3 (51-60).
@@ -211,20 +223,21 @@ Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 - **Batch 5A** : ✅ TERMINÉ — jours 271-300 enrichis (26 jours + 4 revues) → **mois 10 COMPLET** (voir section « BATCH 5A TERMINÉ » ci-dessus).
 - **Batch 5B/5C** : ✅ TERMINÉ — jours 301-365 enrichis (55 jours + 10 revues) → **JOURS 181-365 AU STANDARD COMPLET** (voir section « BATCH 5B/5C TERMINÉ » ci-dessus).
 - **Batch 5F** : ✅ TERMINÉ — jours 151-180 enrichis (26 jours + 4 revues).
-- **Batch 5G** : ✅ TERMINÉ — jours 31-60 enrichis (26 jours + 4 revues) → **mois 2-3 partiellement au standard complet ; premier jour restant = 61** (voir section « BATCH 5G TERMINÉ » ci-dessus).
+- **Batch 5G** : ✅ TERMINÉ — jours 31-60 enrichis (26 jours + 4 revues) (voir section « BATCH 5G TERMINÉ » ci-dessus).
+- **Batch 5H** : ✅ TERMINÉ — jours 61-90 enrichis (26 jours + 4 revues) → **313/313 exemples guidés ; PLUS AUCUN jour de travail sans enrichissement** (voir section « BATCH 5H TERMINÉ » ci-dessus).
 
 ### État qualité actuel (mesuré)
-- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **287/313** (1-30 + 31-60 + 91-180 + 181-365). Restants sans exemple guidé : jours **61-90** (26 jours de travail).
-- Jours 91-180 (React/front/Projet 3 ; Python/pandas/SQL/ETL/Projet 4/stats ; ML classique/Projet 5) et 181-365 au niveau « cours complet », corrections avec section orale ; **31 revues enrichies** (91/98/105/112/119/126/133/140/147/154/161/168/175/245/252/259/266/273/280/287/294/301/308/315/322/329/336/343/350/357/364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
+- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **313/313 ✅** (COMPLET — tous les jours 1-365). Plus aucun jour de travail sans exemple guidé.
+- **Tous les jours 31-365** (et 1-30 depuis l'origine) au niveau « cours complet », corrections avec section orale. Jours 31-90 enrichis aux Batchs 5G (31-60) et 5H (61-90). **Toutes les revues hebdomadaires enrichies** (35/42/49/56/63/70/77/84 pour le trimestre 1, puis 91→364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
 ## RESTE À FAIRE (pistes optionnelles, non prioritaires)
 
-### Batch 2 — jours 61-90 : enrichir au standard complet (26 jours restants)
-Jours 31-60 ✅ faits (Batch 5G). Restent **61-90** (Projet 2 LivreAPI suite, auth, tests, déploiement, Projet 3 amorce). Même mécanisme : étendre `scripts/data/days-enrich-31-60.mjs` (renommer/ajouter un `ENRICH_61_90`) avec `theory`, `guided`, `quiz`, `caseStudy`, `interview`, `future`, `solution`, `lessons`. Le câblage du générateur (branche 31-90) consomme déjà tous ces champs.
+### Batch 2 (jours 31-90) — ✅ TERMINÉ
+Jours 31-60 (Batch 5G) et 61-90 (Batch 5H) enrichis au standard complet. **313/313 exemples guidés atteint.**
 
-### Batch 3 — jours 91-180 : enrichir théorie inline + exemple guidé + cas métier spécifiques
-Cibler d'abord les jours ML/data. Via `days-enrich.mjs` (champs `theory`, `guided`, `caseStudy`, `interview`, `future`, `solution`) — exemplaires : jours 92 et 181-210.
+### Batch 3 (jours 91-180) — ✅ TERMINÉ
+Enrichis lors des batchs précédents (React/front/Projet 3 ; Python/pandas/SQL/ETL/Projet 4/stats ; ML/Projet 5).
 
 ### Retrofit optionnel
 Les 21 leçons d'origine suivent un gabarit plus ancien (sans « Modèle mental / Exemple guidé / Questions d'entretien / Checklist »). Les faire passer au gabarit complet ferait 60/60 au gabarit neuf (39/60 aujourd'hui). Non bloquant.

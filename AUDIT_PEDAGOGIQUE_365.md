@@ -8,6 +8,32 @@
 
 ---
 
+## 0. Suivi des remédiations (le diagnostic initial ci-dessous est CONSERVÉ intact)
+
+> Cette section trace les corrections apportées APRÈS le diagnostic. Elle ne réécrit ni n'efface
+> les constats d'origine (§1-§17), qui restent le point de référence.
+
+- **Chantier A — Revues (problème Y1) : ✅ TERMINÉ.** Les **13 revues** identifiées comme non
+  enrichies (7, 14, 21, 28, 182, 189, 196, 203, 210, 217, 224, 231, 238) ont reçu la couche
+  d'évaluation enrichie (synthèse structurée, test théorique spécifique, exercice pratique/conception,
+  **grille de notation /100 mesurable avec seuils acquis/fragile/insuffisant**, diagnostic
+  erreur→compétence, remédiation conditionnelle + rattrapage ciblé + décision + livrables,
+  3-5 questions d'entretien distinctes). Le contenu de base des revues a été **conservé**.
+  - **Recalcul après remédiation : 52/52 revues enrichies** (contre 39/52 au diagnostic).
+  - **Anomalies `revue` dans `audit-pedagogique-365.json` : 13 → 0.** Total anomalies : 50 → 37.
+  - **Unicité vérifiée** : les 4 sections enrichies (synthèse, grille, remédiation, entretien) sont
+    **distinctes sur les 52 revues** (0 doublon exact), y compris entre les 13 nouvelles et les 39 existantes.
+  - Mécanisme : nouveau `scripts/data/days-enrich-reviews.mjs` (ENRICH_REVIEWS) + câblage minimal du
+    générateur (un import + un token de merge). Aucun jour d'apprentissage, leçon, projet ni autre
+    revue modifié. Sous-batchs commités : A1 (`b841946`), A2 (`802a91e`), A3 (`896306a`).
+- **Note revues révisée : 7,5/10 → ~9/10** (les 52 revues possèdent désormais grille mesurable,
+  remédiation ciblée et questions d'entretien).
+- **Chantiers restants (non traités par le chantier A)** : M1 (questions d'entretien génériques
+  1-30), M2 (profondeur mois 7 LLM), N1/N3/Y4 (leçons orphelines, titre 314/321, critères subjectifs),
+  Y2/Y3 (homogénéité mini-quiz et structure des corrections 91-365). Voir §17.
+
+---
+
 ## 1. Résumé exécutif honnête
 
 AI Career OS est un parcours **structurellement très complet et techniquement solide**, au-dessus

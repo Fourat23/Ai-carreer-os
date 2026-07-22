@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-22T20:12:39.559Z",
+  "generatedAt": "2026-07-22T21:24:08.632Z",
   "counts": {
     "total": 365,
     "work": 303,
@@ -31,149 +31,6 @@
     },
     {
       "id": "A0003",
-      "day": 7,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-007.md",
-      "status": "open"
-    },
-    {
-      "id": "A0004",
-      "day": 14,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-014.md",
-      "status": "open"
-    },
-    {
-      "id": "A0005",
-      "day": 21,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-021.md",
-      "status": "open"
-    },
-    {
-      "id": "A0006",
-      "day": 28,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-028.md",
-      "status": "open"
-    },
-    {
-      "id": "A0007",
-      "day": 182,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-182.md",
-      "status": "open"
-    },
-    {
-      "id": "A0008",
-      "day": 189,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-189.md",
-      "status": "open"
-    },
-    {
-      "id": "A0009",
-      "day": 196,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-196.md",
-      "status": "open"
-    },
-    {
-      "id": "A0010",
-      "day": 203,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-203.md",
-      "status": "open"
-    },
-    {
-      "id": "A0011",
-      "day": 210,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-210.md",
-      "status": "open"
-    },
-    {
-      "id": "A0012",
-      "day": 217,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-217.md",
-      "status": "open"
-    },
-    {
-      "id": "A0013",
-      "day": 224,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-224.md",
-      "status": "open"
-    },
-    {
-      "id": "A0014",
-      "day": 231,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-231.md",
-      "status": "open"
-    },
-    {
-      "id": "A0015",
-      "day": 238,
-      "category": "revue",
-      "severity": "moyen",
-      "description": "Revue non enrichie (structure de base seulement)",
-      "proof": "manque Synthèse structurée / Grille de notation mesurable / Plan de remédiation / Questions d'entretien",
-      "recommendation": "Ajouter les 4 sections d'évaluation enrichie",
-      "file": "/home/user/Ai-carreer-os/curriculum/days/day-238.md",
-      "status": "open"
-    },
-    {
-      "id": "A0016",
       "day": 0,
       "category": "lecons",
       "severity": "mineur",
@@ -184,7 +41,7 @@
       "status": "open"
     },
     {
-      "id": "A0017",
+      "id": "A0004",
       "day": 0,
       "category": "lecons",
       "severity": "mineur",
@@ -195,7 +52,7 @@
       "status": "open"
     },
     {
-      "id": "A0018",
+      "id": "A0005",
       "day": 0,
       "category": "lecons",
       "severity": "mineur",
@@ -206,7 +63,7 @@
       "status": "open"
     },
     {
-      "id": "A0019",
+      "id": "A0006",
       "day": 1,
       "category": "cas-metier",
       "severity": "mineur",
@@ -217,7 +74,7 @@
       "status": "open"
     },
     {
-      "id": "A0020",
+      "id": "A0007",
       "day": 2,
       "category": "cas-metier",
       "severity": "mineur",
@@ -228,7 +85,7 @@
       "status": "open"
     },
     {
-      "id": "A0021",
+      "id": "A0008",
       "day": 3,
       "category": "cas-metier",
       "severity": "mineur",
@@ -239,7 +96,7 @@
       "status": "open"
     },
     {
-      "id": "A0022",
+      "id": "A0009",
       "day": 4,
       "category": "cas-metier",
       "severity": "mineur",
@@ -250,7 +107,7 @@
       "status": "open"
     },
     {
-      "id": "A0023",
+      "id": "A0010",
       "day": 5,
       "category": "cas-metier",
       "severity": "mineur",
@@ -261,7 +118,7 @@
       "status": "open"
     },
     {
-      "id": "A0024",
+      "id": "A0011",
       "day": 6,
       "category": "cas-metier",
       "severity": "mineur",
@@ -272,7 +129,7 @@
       "status": "open"
     },
     {
-      "id": "A0025",
+      "id": "A0012",
       "day": 8,
       "category": "cas-metier",
       "severity": "mineur",
@@ -283,7 +140,7 @@
       "status": "open"
     },
     {
-      "id": "A0026",
+      "id": "A0013",
       "day": 9,
       "category": "cas-metier",
       "severity": "mineur",
@@ -294,7 +151,7 @@
       "status": "open"
     },
     {
-      "id": "A0027",
+      "id": "A0014",
       "day": 10,
       "category": "cas-metier",
       "severity": "mineur",
@@ -305,7 +162,7 @@
       "status": "open"
     },
     {
-      "id": "A0028",
+      "id": "A0015",
       "day": 11,
       "category": "cas-metier",
       "severity": "mineur",
@@ -316,7 +173,7 @@
       "status": "open"
     },
     {
-      "id": "A0029",
+      "id": "A0016",
       "day": 12,
       "category": "cas-metier",
       "severity": "mineur",
@@ -327,7 +184,7 @@
       "status": "open"
     },
     {
-      "id": "A0030",
+      "id": "A0017",
       "day": 13,
       "category": "cas-metier",
       "severity": "mineur",
@@ -338,7 +195,7 @@
       "status": "open"
     },
     {
-      "id": "A0031",
+      "id": "A0018",
       "day": 15,
       "category": "cas-metier",
       "severity": "mineur",
@@ -349,7 +206,7 @@
       "status": "open"
     },
     {
-      "id": "A0032",
+      "id": "A0019",
       "day": 16,
       "category": "cas-metier",
       "severity": "mineur",
@@ -360,7 +217,7 @@
       "status": "open"
     },
     {
-      "id": "A0033",
+      "id": "A0020",
       "day": 17,
       "category": "cas-metier",
       "severity": "mineur",
@@ -371,7 +228,7 @@
       "status": "open"
     },
     {
-      "id": "A0034",
+      "id": "A0021",
       "day": 18,
       "category": "cas-metier",
       "severity": "mineur",
@@ -382,7 +239,7 @@
       "status": "open"
     },
     {
-      "id": "A0035",
+      "id": "A0022",
       "day": 19,
       "category": "cas-metier",
       "severity": "mineur",
@@ -393,7 +250,7 @@
       "status": "open"
     },
     {
-      "id": "A0036",
+      "id": "A0023",
       "day": 20,
       "category": "cas-metier",
       "severity": "mineur",
@@ -404,7 +261,7 @@
       "status": "open"
     },
     {
-      "id": "A0037",
+      "id": "A0024",
       "day": 22,
       "category": "cas-metier",
       "severity": "mineur",
@@ -415,7 +272,7 @@
       "status": "open"
     },
     {
-      "id": "A0038",
+      "id": "A0025",
       "day": 23,
       "category": "cas-metier",
       "severity": "mineur",
@@ -426,7 +283,7 @@
       "status": "open"
     },
     {
-      "id": "A0039",
+      "id": "A0026",
       "day": 24,
       "category": "cas-metier",
       "severity": "mineur",
@@ -437,7 +294,7 @@
       "status": "open"
     },
     {
-      "id": "A0040",
+      "id": "A0027",
       "day": 25,
       "category": "cas-metier",
       "severity": "mineur",
@@ -448,7 +305,7 @@
       "status": "open"
     },
     {
-      "id": "A0041",
+      "id": "A0028",
       "day": 26,
       "category": "cas-metier",
       "severity": "mineur",
@@ -459,7 +316,7 @@
       "status": "open"
     },
     {
-      "id": "A0042",
+      "id": "A0029",
       "day": 27,
       "category": "cas-metier",
       "severity": "mineur",
@@ -470,7 +327,7 @@
       "status": "open"
     },
     {
-      "id": "A0043",
+      "id": "A0030",
       "day": 29,
       "category": "cas-metier",
       "severity": "mineur",
@@ -481,7 +338,7 @@
       "status": "open"
     },
     {
-      "id": "A0044",
+      "id": "A0031",
       "day": 30,
       "category": "cas-metier",
       "severity": "mineur",
@@ -492,7 +349,7 @@
       "status": "open"
     },
     {
-      "id": "A0045",
+      "id": "A0032",
       "day": 0,
       "category": "coherence",
       "severity": "mineur",
@@ -503,7 +360,7 @@
       "status": "open"
     },
     {
-      "id": "A0046",
+      "id": "A0033",
       "day": 0,
       "category": "coherence",
       "severity": "mineur",
@@ -514,7 +371,7 @@
       "status": "open"
     },
     {
-      "id": "A0047",
+      "id": "A0034",
       "day": 314,
       "category": "duplication",
       "severity": "moyen",
@@ -525,7 +382,7 @@
       "status": "open"
     },
     {
-      "id": "A0048",
+      "id": "A0035",
       "day": 1,
       "category": "duplication",
       "severity": "majeur",
@@ -536,7 +393,7 @@
       "status": "open"
     },
     {
-      "id": "A0049",
+      "id": "A0036",
       "day": 4,
       "category": "duplication",
       "severity": "majeur",
@@ -547,7 +404,7 @@
       "status": "open"
     },
     {
-      "id": "A0050",
+      "id": "A0037",
       "day": 15,
       "category": "duplication",
       "severity": "majeur",

@@ -4,6 +4,19 @@ Rapport de fin de construction. À lire en entier avant de commencer.
 
 ---
 
+## 0-quaterdecies. Mise à jour — Chantier A : les 13 revues incomplètes enrichies → 52/52 revues au standard complet
+
+Suite à l'audit pédagogique global (`AUDIT_PEDAGOGIQUE_365.md`), le **Chantier A** a corrigé le
+problème Y1 : **13 revues sur 52 n'avaient que leur structure d'évaluation de base**, sans la couche
+enrichie des meilleures revues.
+
+- **13 revues enrichies** : **7, 14, 21, 28** (mois 1 : terminal/Git/JS ; structures JS ; algo/Big O ; map-filter-reduce/récursion) ; **182, 189, 196, 203** (Projet 5 ChurnScope ; deep learning ; NLP/transformers ; LLM foundations) ; **210, 217, 224, 231, 238** (LLM appliqué ; LLM prod + intro RAG ; RAG cœur ; RAG v1 pratique ; RAG productisé + prép évaluation).
+- **Chaque revue reçoit**, en complément de son contenu de base **conservé** : synthèse structurée des compétences réellement enseignées, test théorique spécifique, exercice pratique/conception, **grille de notation /100 mesurable avec seuils explicites (acquis ≥ 80 / fragile 50-79 / insuffisant < 50)**, diagnostic reliant chaque erreur à une compétence précise, plan de remédiation **conditionnel selon le score**, exercices de rattrapage ciblés, décision explicite (continuer/consolider/reprendre), livrables attendus, et 3-5 questions d'entretien distinctes.
+- **Ancrage strict** : chaque revue est bâtie sur les **jours réels** de sa semaine (titres réellement enseignés), jamais sur le thème générique de `WEEKS` (qui, pour certaines semaines, décalait d'une semaine). Aucun sujet non encore enseigné.
+- **Recalcul après remédiation : 52/52 revues enrichies** (vs 39/52). **Anomalies `revue` : 13 → 0.** Unicité vérifiée : les 4 sections enrichies sont distinctes sur les 52 revues (0 doublon exact).
+- **Mécanisme** : nouveau `scripts/data/days-enrich-reviews.mjs` (ENRICH_REVIEWS) + câblage minimal du générateur (import + merge). **Aucun jour d'apprentissage, leçon, projet ni autre revue modifié.**
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ · tests **43/43** ✅ · build ✅. Sous-batchs : A1 `b841946`, A2 `802a91e`, A3 `896306a`.
+
 ## 0-terdecies. Mise à jour — fin du trimestre 1 enrichie, jours 61-90 (Batch 5H terminé) — 313/313 exemples guidés
 
 - **26 jours d'apprentissage enrichis en profondeur** (61-62, 64-69, 71-76, 78-83, 85-90) + **4 revues enrichies** (63, 70, 77, 84). Sous-batchs : 5H1 (61-70), 5H2 (71-80), 5H3 (81-90). Couvre le **Projet 2 LivreAPI** de bout en bout (socle CRUD sur SQLite, relations et logique d'emprunt transactionnelle avec 409, recherche/pagination/filtres et piège d'OFFSET, tests d'intégration sur base isolée, documentation/README/ADR/démo, durcissement final + test de charge, storytelling STAR), la **sécurité web** (OWASP appliqué, auth par token et gestion des secrets), le **refactoring sous tests**, la **culture d'ingénieur** (réseau DNS/TCP/TLS/HTTP2, Linux/scripts, Git rebase, documentation technique, lecture de code, modularité couplage/cohésion), l'**architecture** (3-tiers/MVC, observabilité logs/métriques/traces, cache/performance et N+1, trade-offs et anti-patterns), l'**introduction à Python** (préparation data/ML), le **full-stack React** (UI = f(state), fetch et états async, mini-app de bout en bout) et les **bilans** (consolidation mois 3, clôture du trimestre 1).

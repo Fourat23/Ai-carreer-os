@@ -126,6 +126,14 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
+## ✅ CHANTIER A TERMINÉ — 13 revues incomplètes enrichies → **52/52 revues au standard complet**
+
+- Suite à l'audit pédagogique global (`AUDIT_PEDAGOGIQUE_365.md`, problème Y1), les **13 revues** restées à la structure de base ont reçu la couche d'évaluation enrichie : **7, 14, 21, 28** (mois 1) ; **182, 189, 196, 203** (ML/DL/NLP/LLM) ; **210, 217, 224, 231, 238** (LLM appliqué/RAG).
+- Chaque revue (contenu de base **conservé**) : synthèse structurée, test théorique spécifique, exercice pratique/conception, **grille /100 mesurable + seuils acquis/fragile/insuffisant**, diagnostic erreur→compétence, remédiation conditionnelle + rattrapage + décision + livrables, 3-5 questions d'entretien distinctes. **Ancrage sur les jours réels** (pas le thème générique).
+- **Recalcul : 39 → 52/52 revues enrichies.** Anomalies `revue` de l'audit : 13 → 0. Unicité vérifiée (0 doublon exact des 4 sections sur les 52 revues).
+- **Fichier** : `scripts/data/days-enrich-reviews.mjs` (ENRICH_REVIEWS) + câblage minimal du générateur. Aucun jour d'apprentissage, leçon, projet ni autre revue modifié. Sous-batchs : A1 `b841946`, A2 `802a91e`, A3 `896306a`.
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ · 43/43 tests · build ✅.
+
 ## ✅ BATCH 5H TERMINÉ — jours 61-90 (Projet 2 LivreAPI, sécurité, culture d'ingénieur, architecture, Python, full-stack React) → **313/313 exemples guidés**
 
 - **26 jours d'apprentissage enrichis** + **4 revues enrichies** (63, 70, 77, 84). Sous-batchs : 5H1 (61-70), 5H2 (71-80), 5H3 (81-90).
@@ -228,7 +236,7 @@ Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 
 ### État qualité actuel (mesuré)
 - 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **313/313 ✅** (COMPLET — tous les jours 1-365). Plus aucun jour de travail sans exemple guidé.
-- **Tous les jours 31-365** (et 1-30 depuis l'origine) au niveau « cours complet », corrections avec section orale. Jours 31-90 enrichis aux Batchs 5G (31-60) et 5H (61-90). **Toutes les revues hebdomadaires enrichies** (35/42/49/56/63/70/77/84 pour le trimestre 1, puis 91→364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
+- **Tous les jours 31-365** (et 1-30 depuis l'origine) au niveau « cours complet », corrections avec section orale. Jours 31-90 enrichis aux Batchs 5G (31-60) et 5H (61-90). **Les 52/52 revues hebdomadaires sont enrichies** (couche synthèse + grille de notation mesurable + plan de remédiation + questions d'entretien + décision de passage) — les 13 dernières (7/14/21/28/182/189/196/203/210/217/224/231/238) l'ont été au **Chantier A**, après l'audit qui avait recalculé 39/52 seulement.
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
 ## RESTE À FAIRE (pistes optionnelles, non prioritaires)

@@ -26,6 +26,7 @@ import { WEEK_PLANS } from './data/days-plan.mjs';
 import { EXTRAS_31_90 } from './data/days-31-90-extras.mjs';
 import { GUIDED_01_30 } from './data/days-01-30-guided.mjs';
 import { DAYS_ENRICH as ENRICH_BASE } from './data/days-enrich.mjs';
+import { ENRICH_31_60 } from './data/days-enrich-31-60.mjs';
 import { ENRICH_91_120 } from './data/days-enrich-91-120.mjs';
 import { ENRICH_121_150 } from './data/days-enrich-121-150.mjs';
 import { ENRICH_151_180 } from './data/days-enrich-151-180.mjs';
@@ -36,7 +37,7 @@ import { ENRICH_271_300 } from './data/days-enrich-271-300.mjs';
 import { ENRICH_301_365 } from './data/days-enrich-301-365.mjs';
 
 // Fusion des enrichissements par jour (les fichiers spécialisés priment).
-const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_91_120, ...ENRICH_121_150, ...ENRICH_151_180, ...ENRICH_181_210, ...ENRICH_211_240, ...ENRICH_241_270, ...ENRICH_271_300, ...ENRICH_301_365 };
+const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_31_60, ...ENRICH_91_120, ...ENRICH_121_150, ...ENRICH_151_180, ...ENRICH_181_210, ...ENRICH_211_240, ...ENRICH_241_270, ...ENRICH_271_300, ...ENRICH_301_365 };
 import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.
@@ -129,14 +130,16 @@ function buildDay(n) {
       theory: src.theory ?? extra31.theory,
       theoryExtra: enrich.theory,
       criteria: src.criteria ?? extra31.criteria,
-      guidedExample: src.guidedExample ?? guided.guidedExample ?? enrich.guided,
-      takeaways: src.takeaways ?? guided.takeaways ?? enrich.takeaways,
-      future: src.future ?? guided.future,
+      guidedExample: enrich.guided ?? src.guidedExample ?? guided.guidedExample,
+      takeaways: enrich.takeaways ?? src.takeaways ?? guided.takeaways,
+      future: enrich.future ?? src.future ?? guided.future,
       caseStudy: enrich.caseStudy,
-      interview: src.interview ?? enrich.interview,
+      interview: enrich.interview ?? src.interview,
+      quiz: enrich.quiz ?? src.quiz,
       lessonsOverride: enrich.lessons,
+      solution: enrich.solution ?? src.solution,
       // « Erreurs fréquentes » : explicites, sinon reprises des pièges de la correction.
-      mistakes: src.mistakes ?? src.solution?.pitfalls,
+      mistakes: src.mistakes ?? enrich.solution?.pitfalls ?? src.solution?.pitfalls,
     };
   }
 

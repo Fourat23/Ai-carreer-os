@@ -41,7 +41,7 @@
     },
     "mentalModel": "Terminal / shell · Système de fichiers (chemins absolus et relatifs) · Commandes : pwd, ls, cd, mkdir, touch, cat, rm, mv, cp · Node.js et npm : à quoi ça sert ",
     "caseWords": 0,
-    "interviewWords": 52,
+    "interviewWords": 267,
     "guidedWords": 177
   },
   {
@@ -86,7 +86,7 @@
     },
     "mentalModel": "Redirections > et >> · Pipe | · grep, find, wc, head, tail · Variables d'environnement (PATH) · process.argv dans Node · Codes de sortie. Hier tu as appris à te",
     "caseWords": 0,
-    "interviewWords": 52,
+    "interviewWords": 259,
     "guidedWords": 136
   },
   {
@@ -131,7 +131,7 @@
     },
     "mentalModel": "Pourquoi versionner · init, status, add, commit, log, diff · Le staging (zone de préparation) · .gitignore · Bonnes pratiques de messages de commit.",
     "caseWords": 0,
-    "interviewWords": 52,
+    "interviewWords": 274,
     "guidedWords": 139
   },
   {
@@ -176,7 +176,7 @@
     },
     "mentalModel": "let vs const (et pourquoi pas var) · Types : string, number, boolean, null, undefined · typeof · Template literals · Conversions et pièges (== vs ===) · Opérate",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 258,
     "guidedWords": 141
   },
   {
@@ -221,7 +221,7 @@
     },
     "mentalModel": "if / else if / else · &&, ||, ! · Truthy / falsy · Ternaire (usage sobre) · Guard clauses (retours anticipés) · switch (et quand l'éviter). Un programme utile p",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 296,
     "guidedWords": 143
   },
   {
@@ -266,7 +266,7 @@
     },
     "mentalModel": "for classique · while · for...of · break / continue · Accumulateurs · Boucles imbriquées · GitHub : remote, push, README. Une",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 282,
     "guidedWords": 148
   },
   {
@@ -352,7 +352,7 @@
     },
     "mentalModel": "push/pop/shift/unshift · indexOf/includes/find · slice vs splice · Copie vs référence · join/split · Tableaux 2D. Le",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 249,
     "guidedWords": 128
   },
   {
@@ -397,7 +397,7 @@
     },
     "mentalModel": "Déclaration vs expression vs fléchée · Paramètres, valeurs par défaut, rest · return (et undefined implicite) · Portée (scope) et shadowing · Une fonction = une",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 284,
     "guidedWords": 138
   },
   {
@@ -442,7 +442,7 @@
     },
     "mentalModel": "Littéraux d'objets · Accès point vs crochets · Object.keys/values/entries · Imbrication · Destructuring · Optional chaining ?. · Objets = références (comme les ",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 291,
     "guidedWords": 122
   },
   {
@@ -487,7 +487,7 @@
     },
     "mentalModel": "Collections d'entités · find/filter à la boucle · Tri avec sort et comparateurs · Agrégations (somme, moyenne, min/max par critère) · Regroupement par clé · Don",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 279,
     "guidedWords": 142
   },
   {
@@ -532,7 +532,7 @@
     },
     "mentalModel": "fs.readFileSync / writeFileSync · JSON comme format de persistance · try/catch et erreurs · Le cycle lire→modifier→réécrire · Chemins et __dirname · Séparation ",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 302,
     "guidedWords": 160
   },
   {
@@ -577,7 +577,7 @@
     },
     "mentalModel": "Assemblage de toutes les briques · Découpage d'un projet en tâches · Modélisation simple · Validation des entrées · Autonomie méthodique. Aujourd'hui, presque p",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 284,
     "guidedWords": 155
   },
   {
@@ -662,7 +662,7 @@
     },
     "mentalModel": "Pourquoi mesurer le coût · O(1), O(log n), O(n), O(n log n), O(n²) · Analyse de boucles simples et imbriquées · Le coût caché des méthodes (includes, indexOf) ·",
     "caseWords": 0,
-    "interviewWords": 49,
+    "interviewWords": 278,
     "guidedWords": 145
   },
   {
@@ -706,7 +706,7 @@
     },
     "mentalModel": "Recherche linéaire O(n) · Recherche binaire O(log n) · Invariants de boucle · Le piège des bornes (low/high/mid) · Prérequis : données triées · Diviser pour rég",
     "caseWords": 0,
-    "interviewWords": 49,
+    "interviewWords": 307,
     "guidedWords": 180
   },
   {
@@ -750,7 +750,7 @@
     },
     "mentalModel": "Tri à bulles · Tri par insertion · Comparaisons et échanges · Stabilité d'un tri · O(n²) vs O(n log n) · Le sort natif et son comparateur. Pourquoi implémenter ",
     "caseWords": 0,
-    "interviewWords": 49,
+    "interviewWords": 322,
     "guidedWords": 193
   },
   {
@@ -795,7 +795,7 @@
     },
     "mentalModel": "branch, checkout/switch · merge (fast-forward vs vrai merge) · Conflits : anatomie et résolution · Workflow feature branch · log --graph · stash (dépannage). Un",
     "caseWords": 0,
-    "interviewWords": 52,
+    "interviewWords": 314,
     "guidedWords": 161
   },
   {
@@ -839,7 +839,7 @@
     },
     "mentalModel": "Reformulation d'énoncé · Exemples et cas limites AVANT de coder · Décomposition · Pseudo-code · Trace d'exécution manuelle · La méthode comme protection anti-pa",
     "caseWords": 0,
-    "interviewWords": 49,
+    "interviewWords": 280,
     "guidedWords": 174
   },
   {
@@ -883,7 +883,7 @@
     },
     "mentalModel": "Rappel actif (la technique d'apprentissage n°1) · Gestion du temps sous contrainte · Auto-diagnostic des lacunes · Ré-implémentation de mémoire. Aujourd'hui, pa",
     "caseWords": 0,
-    "interviewWords": 49,
+    "interviewWords": 295,
     "guidedWords": 149
   },
   {
@@ -969,7 +969,7 @@
     },
     "mentalModel": "Fonctions = valeurs de première classe · Callbacks · Fonctions d'ordre supérieur · Closures (première rencontre) · Fabriques de fonctions · Le contrat d'une cal",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 295,
     "guidedWords": 142
   },
   {
@@ -1014,7 +1014,7 @@
     },
     "mentalModel": "map : transformer 1-pour-1 · filter : sélectionner · Chaînage · Immutabilité de ces méthodes · Lisibilité déclarative vs impérative · Quand préférer la boucle. ",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 272,
     "guidedWords": 133
   },
   {
@@ -1059,7 +1059,7 @@
     },
     "mentalModel": "L'accumulateur · Valeur initiale (et le piège sans elle) · reduce vers un nombre, un objet, un tableau · Regroupement en reduce · reduce vs boucle : le juge lis",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 282,
     "guidedWords": 153
   },
   {
@@ -1103,7 +1103,7 @@
     },
     "mentalModel": "Cas de base / cas récursif · La pile d'appels (call stack) · Stack overflow · La confiance récursive (leap of faith) · Récursif vs itératif : conversion · Où la",
     "caseWords": 0,
-    "interviewWords": 49,
+    "interviewWords": 296,
     "guidedWords": 144
   },
   {
@@ -1148,7 +1148,7 @@
     },
     "mentalModel": "Fonction pure (2 critères) · Effets de bord · Pourquoi pur = testable + cachable + prévisible · Immutabilité : patterns objet/tableau · Copie superficielle vs p",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 300,
     "guidedWords": 151
   },
   {
@@ -1193,7 +1193,7 @@
     },
     "mentalModel": "Synthèse : tout le fonctionnel de la semaine · Pipeline de données bout-en-bout · Séparation cœur/coquille appliquée · Rapport lisible (le livrable compte autan",
     "caseWords": 0,
-    "interviewWords": 46,
+    "interviewWords": 291,
     "guidedWords": 163
   },
   {
@@ -1278,7 +1278,7 @@
     },
     "mentalModel": "- [La pensée algorithmique](/doc/lessons/algorithmic-thinking) - [La récursion en profondeur](/doc/lessons/recursion)",
     "caseWords": 0,
-    "interviewWords": 49,
+    "interviewWords": 346,
     "guidedWords": 156
   },
   {

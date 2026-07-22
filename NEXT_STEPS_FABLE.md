@@ -126,6 +126,15 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
+## ✅ CHANTIER B TERMINÉ — questions d'entretien génériques des jours 1-30 remplacées → **313/313 distinctes**
+
+- Suite à l'audit (problème M1), les **3 groupes** de questions d'entretien génériques par compétence (git commit ; valeur-vs-référence ; complexité), réutilisés sur **25 jours** de 1-30, ont été remplacés par des questions **distinctes et spécifiques au contenu exact** de chaque jour.
+- **25 jours corrigés** : 1,2,3,4,5,6,8,9,10 (B1) ; 11,12,13,15,16,17,18,19,20 (B2) ; 22,23,24,25,26,27,29 (B3). Non touchés : jour 30 (déjà distinct), revues 7/14/21/28.
+- Chaque question : mise en situation, ce qu'elle évalue, réponse attendue, niveaux débutant/correct/excellent, relance, à éviter, formulation orale. Teste le raisonnement/diagnostic/arbitrage, jamais une définition récitée. Aucun concept postérieur au jour.
+- **Recalcul : 291 → 313/313 textes d'entretien distincts** ; groupes de duplication 1-30 : **3 → 0**. Aucune collision avec 31-365 (similarité max n-grammes tech-normalisés 0,037 ; entre les 25 nouvelles 0,024).
+- **Fichier** : `scripts/data/days-enrich-interviews-1-30.mjs` (champ `interview` seulement) + câblage minimal. SEUL le bloc « Question d'entretien » change par jour. Sous-batchs : B1 `930a37a`, B2 `2ebb3f5`, B3 `c7ffd8c`.
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ · 43/43 tests · build ✅.
+
 ## ✅ CHANTIER A TERMINÉ — 13 revues incomplètes enrichies → **52/52 revues au standard complet**
 
 - Suite à l'audit pédagogique global (`AUDIT_PEDAGOGIQUE_365.md`, problème Y1), les **13 revues** restées à la structure de base ont reçu la couche d'évaluation enrichie : **7, 14, 21, 28** (mois 1) ; **182, 189, 196, 203** (ML/DL/NLP/LLM) ; **210, 217, 224, 231, 238** (LLM appliqué/RAG).

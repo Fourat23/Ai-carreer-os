@@ -4,6 +4,19 @@ Rapport de fin de construction. À lire en entier avant de commencer.
 
 ---
 
+## 0-quindecies. Mise à jour — Chantier B : questions d'entretien spécifiques pour les jours 1-30 → 313/313 distinctes
+
+Suite à l'audit (problème M1), le **Chantier B** a corrigé les questions d'entretien génériques
+des jours 1-30. L'audit avait localisé **3 groupes de questions génériques par compétence** réutilisées
+sur **25 jours** (git commit ; valeur-vs-référence ; complexité).
+
+- **25 jours affectés corrigés** : 1, 2, 3, 4, 5, 6, 8, 9, 10 (B1) ; 11, 12, 13, 15, 16, 17, 18, 19, 20 (B2) ; 22, 23, 24, 25, 26, 27, 29 (B3). Non touchés : jour 30 (déjà distinct), revues 7/14/21/28.
+- **Chaque question** est désormais une **mise en situation spécifique au contenu exact du jour**, avec : ce qu'elle évalue, réponse attendue structurée, distinction débutant/correct/excellent, 1-2 relances, erreurs à éviter, et une formulation orale naturelle. Les questions testent le **raisonnement, un diagnostic ou un arbitrage** (ex. « ton tableau est trié à ton insu, explique et corrige » ; « fichier absent vs corrompu » ; « tri à bulles vs sort natif à l'échelle »), pas la récitation d'une définition.
+- **Respect du niveau** : aucune question n'utilise un concept enseigné après le jour (vérifié : `reduce` non requis en j11, cœur pur non requis en j13, optional chaining bien enseigné en j10).
+- **Recalcul : 291 → 313/313 textes d'entretien distincts** ; groupes de duplication dans les jours 1-30 : **3 → 0**. **Aucune nouvelle collision** avec les jours 31-365 (similarité max n-grammes tech-normalisés = 0,037 ; entre les 25 nouvelles = 0,024).
+- **Mécanisme** : nouveau `scripts/data/days-enrich-interviews-1-30.mjs` (champ `interview` seulement) + câblage minimal du générateur. **SEUL le bloc « Question d'entretien » change** dans chaque jour ; tout le reste (théorie, exemple guidé, exercice, correction) est inchangé — confirmé par `git diff`.
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ · tests **43/43** ✅ · build ✅. Sous-batchs : B1 `930a37a`, B2 `2ebb3f5`, B3 `c7ffd8c`.
+
 ## 0-quaterdecies. Mise à jour — Chantier A : les 13 revues incomplètes enrichies → 52/52 revues au standard complet
 
 Suite à l'audit pédagogique global (`AUDIT_PEDAGOGIQUE_365.md`), le **Chantier A** a corrigé le

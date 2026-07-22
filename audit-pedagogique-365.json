@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-22T21:24:08.632Z",
+  "generatedAt": "2026-07-22T22:46:46.597Z",
   "counts": {
     "total": 365,
     "work": 303,
@@ -379,39 +379,6 @@
       "proof": "\"DocSense : jalon démontrable\" jours 314,321",
       "recommendation": "Différencier les titres",
       "file": "program.json",
-      "status": "open"
-    },
-    {
-      "id": "A0035",
-      "day": 1,
-      "category": "duplication",
-      "severity": "majeur",
-      "description": "Question d'entretien générique réutilisé sur 4 jours",
-      "proof": "jours 1,2,3,18 — texte identique",
-      "recommendation": "Rédiger un question d'entretien spécifique par jour",
-      "file": "enrich",
-      "status": "open"
-    },
-    {
-      "id": "A0036",
-      "day": 4,
-      "category": "duplication",
-      "severity": "majeur",
-      "description": "Question d'entretien générique réutilisé sur 14 jours",
-      "proof": "jours 4,5,6,8,9,10,11,12,13,22,23,24,26,27 — texte identique",
-      "recommendation": "Rédiger un question d'entretien spécifique par jour",
-      "file": "enrich",
-      "status": "open"
-    },
-    {
-      "id": "A0037",
-      "day": 15,
-      "category": "duplication",
-      "severity": "majeur",
-      "description": "Question d'entretien générique réutilisé sur 7 jours",
-      "proof": "jours 15,16,17,19,20,25,29 — texte identique",
-      "recommendation": "Rédiger un question d'entretien spécifique par jour",
-      "file": "enrich",
       "status": "open"
     }
   ]

@@ -28,9 +28,25 @@
     revue modifié. Sous-batchs commités : A1 (`b841946`), A2 (`802a91e`), A3 (`896306a`).
 - **Note revues révisée : 7,5/10 → ~9/10** (les 52 revues possèdent désormais grille mesurable,
   remédiation ciblée et questions d'entretien).
-- **Chantiers restants (non traités par le chantier A)** : M1 (questions d'entretien génériques
-  1-30), M2 (profondeur mois 7 LLM), N1/N3/Y4 (leçons orphelines, titre 314/321, critères subjectifs),
-  Y2/Y3 (homogénéité mini-quiz et structure des corrections 91-365). Voir §17.
+- **Chantier B — Questions d'entretien génériques 1-30 (problème M1) : ✅ TERMINÉ.** Les **3 groupes
+  de questions d'entretien génériques** (jours {1,2,3,18} « git commit » ; {4,5,6,8,9,10,11,12,13,22,23,24,26,27}
+  « valeur vs référence » ; {15,16,17,19,20,25,29} « complexité ») réutilisées sur **25 jours** ont été
+  remplacées par des questions **distinctes, spécifiques au contenu exact de chaque jour** et adaptées
+  au niveau. Chaque question suit un standard complet (mise en situation, ce qu'elle évalue, réponse
+  attendue, niveaux débutant/correct/excellent, relance, erreurs à éviter, formulation orale) et
+  n'utilise aucun concept enseigné après le jour concerné.
+  - **Recalcul après remédiation : 291 → 313/313 textes d'entretien distincts** ; **groupes de
+    duplication dans les jours 1-30 : 3 → 0.** Anomalie `duplication` d'entretien de l'audit : résolue.
+  - **Aucune nouvelle duplication** créée avec les jours 31-365 : similarité max (n-grammes
+    tech-normalisés) d'un jour affecté vs 31-365 = **0,037** ; entre les 25 nouvelles questions = **0,024**.
+  - Mécanisme : nouveau `scripts/data/days-enrich-interviews-1-30.mjs` (champ `interview` uniquement)
+    + câblage minimal (merge en dernier). **SEUL le bloc « Question d'entretien » change** dans chaque
+    jour ; théorie/exemple guidé/exercice/correction inchangés. Jour 30 (déjà distinct) et revues non
+    touchés. Sous-batchs commités : B1 (`930a37a`), B2 (`2ebb3f5`), B3 (`c7ffd8c`).
+  - Lecture manuelle traçable de 6 jours (3, 8, 12, 16, 24, 26) : chaque question correspond bien à
+    l'objectif et à l'exercice du jour.
+- **Chantiers restants** : M2 (profondeur mois 7 LLM), N1/N3/Y4 (leçons orphelines, titre 314/321,
+  critères subjectifs), Y2/Y3 (homogénéité mini-quiz et structure des corrections 91-365). Voir §17.
 
 ---
 

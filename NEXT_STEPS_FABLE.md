@@ -19,7 +19,7 @@ Mis à jour à chaque batch. **Reprends toujours ce fichier en premier.**
 | Tranche | Jours travail | Moy. mots | Exemple guidé | Vraie question d'entretien | Théorie inline |
 |---|---|---|---|---|---|
 | 1-30 | 26 | **1263** | 26/26 ✅ | oui (quiz + oral) | riche ✅ |
-| 31-90 | 52 | 565 | **0/52** ❌ | non (bloc générique) | correcte |
+| 31-90 | 52 | 565 | **26/52** (31-60 ✅ Batch 5G ; 61-90 restants) | 31-60 oui (Q+relance+oral) ; 61-90 non | 31-60 riche ✅ ; 61-90 correcte |
 | 91-180 | 77 | 366 | **0/77** ❌ | non | **mince** (surtout liens leçons) |
 | 181-270 | 77 | 366 | **0/77** ❌ | non | **mince** |
 | 271-365 | 81 | 358 | **0/81** ❌ | non | **mince** |
@@ -126,6 +126,17 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
+## ✅ BATCH 5G TERMINÉ — jours 31-60 (structures de données, TypeScript/POO, Projet 1 TaskFlow, HTTP/REST/Express, SQL, Projet 2)
+
+- **26 jours d'apprentissage enrichis** + **4 revues enrichies** (35, 42, 49, 56). Sous-batchs : 5G1 (31-40), 5G2 (41-50), 5G3 (51-60).
+- **Tranche fidèle au programme réel** (mois 2-3) : titres, objectifs, exercices et livrables réels des jours 31-60 respectés ; l'enrichissement complète la théorie existante (`days-31-90-extras.mjs`) sans l'écraser (rendu en `theoryExtra`).
+- Thèmes (titres réels) : réflexe hash map/twoSum, backtracking, stacks/queues, listes chaînées/BST ; TypeScript (typage-contrat), types avancés, POO/polymorphisme, design patterns, clean code, débogage méthodique ; FP typée, **Projet 1 TaskFlow** (interface Store/inversion de dépendance, JsonStore robuste + ids max+1, CRUD immuable + filtres, tests/README/ADR), consolidation/entretien blanc ; HTTP sans état, REST design, Node natif→Express, middlewares + 3 couches, validation + erreurs centralisées ; SQL (JOIN/GROUP BY/WHERE vs HAVING), SQLite branché anti-injection, modélisation/normalisation/index/transactions, Postman avancé, **cadrage Projet 2 LivreAPI**.
+- **Même gabarit complet** que 91-365 : cours + modèle mental distinct, exemple guidé exécutable avec exemple simple + raisonnement pas-à-pas, **mini-quiz** (4 questions, réponses en correction), cas métier distinct, question d'entretien avec réponse attendue + relance, section bankable, correction exigeante (logique + solution simple + améliorée, pièges, vérifications, oral), leçons de fond ciblées (data-structures-intro, algorithmic-thinking, recursion, typescript-basics, design-patterns-intro, clean-code, testing-foundations, architecture-basics, error-handling, http-rest-json, api-design-basics, express-backend, sql-foundations, database-modeling, readme-documentation, interview-preparation).
+- **Fichier** : `scripts/data/days-enrich-31-60.mjs` (ENRICH_31_60), fusionné dans `generate-curriculum.mjs`. La branche 31-90 consomme désormais `enrich.future`, `enrich.solution` et `enrich.quiz` (sans effet sur 61-90, enrichissement vide).
+- **Audit anti-générique** : 26 modèles mentaux tous distincts, **0 question d'entretien dupliquée**, **0 cas métier dupliqué** (vérifié programmatiquement) ; exemples guidés réellement liés au titre.
+- Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **287/313**, vs 261 avant) · 43/43 tests · build ✅.
+- **Périmètre** : jours 1-30 et 61-365 inchangés ; interface, glossaire, leçons, architecture inchangés. **Premier jour restant : jour 61** (début du Projet 2 LivreAPI, tranche 61-90 non enrichie).
+
 ## ✅ BATCH 5F TERMINÉ — jours 151-180 (machine learning classique + Projet 5 ChurnScope)
 
 - **26 jours d'apprentissage enrichis** + **4 revues enrichies** (154, 161, 168, 175). Sous-batchs : 5F1 (151-160), 5F2 (161-170), 5F3 (171-180).
@@ -199,16 +210,18 @@ Ensuite : Batch 2 (31-90), Batch 3 (91-180), Batch 5 (271-365).
 - **Batch 4C** : ✅ TERMINÉ — jours 241-270 enrichis (27 jours + 4 revues) → **cœur IA 181-270 COMPLET** (voir section « BATCH 4C TERMINÉ » ci-dessus).
 - **Batch 5A** : ✅ TERMINÉ — jours 271-300 enrichis (26 jours + 4 revues) → **mois 10 COMPLET** (voir section « BATCH 5A TERMINÉ » ci-dessus).
 - **Batch 5B/5C** : ✅ TERMINÉ — jours 301-365 enrichis (55 jours + 10 revues) → **JOURS 181-365 AU STANDARD COMPLET** (voir section « BATCH 5B/5C TERMINÉ » ci-dessus).
+- **Batch 5F** : ✅ TERMINÉ — jours 151-180 enrichis (26 jours + 4 revues).
+- **Batch 5G** : ✅ TERMINÉ — jours 31-60 enrichis (26 jours + 4 revues) → **mois 2-3 partiellement au standard complet ; premier jour restant = 61** (voir section « BATCH 5G TERMINÉ » ci-dessus).
 
 ### État qualité actuel (mesuré)
-- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **261/313** (1-30 + 91-180 + 181-365).
+- 313/313 jours de travail : Cours approfondi, Question d'entretien, Pourquoi, correction. Exemple guidé : **287/313** (1-30 + 31-60 + 91-180 + 181-365). Restants sans exemple guidé : jours **61-90** (26 jours de travail).
 - Jours 91-180 (React/front/Projet 3 ; Python/pandas/SQL/ETL/Projet 4/stats ; ML classique/Projet 5) et 181-365 au niveau « cours complet », corrections avec section orale ; **31 revues enrichies** (91/98/105/112/119/126/133/140/147/154/161/168/175/245/252/259/266/273/280/287/294/301/308/315/322/329/336/343/350/357/364) avec synthèse, grille de notation, plan de remédiation, questions d'entretien, décision de passage.
 - Leçons : **60/60** (39 au gabarit complet neuf).
 
 ## RESTE À FAIRE (pistes optionnelles, non prioritaires)
 
-### Batch 2 — jours 31-90 : ajouter des exemples guidés (52 jours)
-Éditer `scripts/data/days-31-90.mjs` (ajouter `guidedExample`) OU `days-enrich.mjs` par jour. Prompt : `prompts/enrich-day.md`.
+### Batch 2 — jours 61-90 : enrichir au standard complet (26 jours restants)
+Jours 31-60 ✅ faits (Batch 5G). Restent **61-90** (Projet 2 LivreAPI suite, auth, tests, déploiement, Projet 3 amorce). Même mécanisme : étendre `scripts/data/days-enrich-31-60.mjs` (renommer/ajouter un `ENRICH_61_90`) avec `theory`, `guided`, `quiz`, `caseStudy`, `interview`, `future`, `solution`, `lessons`. Le câblage du générateur (branche 31-90) consomme déjà tous ces champs.
 
 ### Batch 3 — jours 91-180 : enrichir théorie inline + exemple guidé + cas métier spécifiques
 Cibler d'abord les jours ML/data. Via `days-enrich.mjs` (champs `theory`, `guided`, `caseStudy`, `interview`, `future`, `solution`) — exemplaires : jours 92 et 181-210.

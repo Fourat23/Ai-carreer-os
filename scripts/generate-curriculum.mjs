@@ -36,9 +36,10 @@ import { ENRICH_211_240 } from './data/days-enrich-211-240.mjs';
 import { ENRICH_241_270 } from './data/days-enrich-241-270.mjs';
 import { ENRICH_271_300 } from './data/days-enrich-271-300.mjs';
 import { ENRICH_301_365 } from './data/days-enrich-301-365.mjs';
+import { ENRICH_REVIEWS } from './data/days-enrich-reviews.mjs';
 
-// Fusion des enrichissements par jour (les fichiers spécialisés priment).
-const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_31_60, ...ENRICH_61_90, ...ENRICH_91_120, ...ENRICH_121_150, ...ENRICH_151_180, ...ENRICH_181_210, ...ENRICH_211_240, ...ENRICH_241_270, ...ENRICH_271_300, ...ENRICH_301_365 };
+// Fusion des enrichissements par jour (les fichiers spécialisés priment ; les revues en dernier).
+const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_31_60, ...ENRICH_61_90, ...ENRICH_91_120, ...ENRICH_121_150, ...ENRICH_151_180, ...ENRICH_181_210, ...ENRICH_211_240, ...ENRICH_241_270, ...ENRICH_271_300, ...ENRICH_301_365, ...ENRICH_REVIEWS };
 import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.

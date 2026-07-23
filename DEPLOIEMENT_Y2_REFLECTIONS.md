@@ -20,8 +20,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 | SB4 | 168-180 | 169-180 | 11 | `days-enrich-reflection-168-180.mjs` | ✅ `682e817` |
 | SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | ✅ `43fed2f` |
 | SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | ✅ `d61402f` |
-| SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | ✅ fait |
-| SB8 | 271-300 | 271-300 | 24 | `days-enrich-reflection-271-300.mjs` | — |
+| SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | ✅ `b166206` |
+| SB8 | 271-300 | 271-300 | 24 | `days-enrich-reflection-271-300.mjs` | ✅ fait |
 | SB9 | 301-321 | 303-321 | 16 | `days-enrich-reflection-301-321.mjs` | — |
 | SB10 | 322-343 | 323-342 | 17 | `days-enrich-reflection-322-343.mjs` | — |
 | SB11 | 344-363 | 344-363 | 17 | `days-enrich-reflection-344-363.mjs` | — |
@@ -129,3 +129,17 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
 - **Périmètre Git** : 23 jours (réflexion seule) + `days-enrich-reflection-241-270.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
 - **Prochain sous-batch** : **SB8** (271-300, jours d'apprentissage 271-300).
+
+## SB8 — jours 271-300 (24 jours d'apprentissage : 271-300 hors pilote 274/288)
+
+- **HEAD de départ** : `b166206` · **revues exclues** : 273, 280, 287, 294
+- **Jours traités** : 271, 272, 275, 276, 277, 278, 279, 281, 282, 283, 284, 285, 286, 289, 290, 291, 292, 293, 295, 296, 297, 298, 299, 300
+- **Domaines** : Projet 6 (rapport d'évaluation, README/ADR/démo), Agents (modes d'échec, cas d'usage, mémoire/état, agent vs workflow, consolidation), Workflows (explicites, 4 patterns, orchestration, caching, coûts d'inférence, doctrine), Architecture (hexagonale, event-driven, monolithe vs microservices, design patterns, exercice de design), Sécurité (OWASP LLM, privacy, observabilité, secrets, threat model, consolidation).
+- **Questions** : 72 (24 × 3).
+- **Similarité** (après 2 réécritures) : intra-batch max **0,082** ; vs déployées max **0,104** ; vs 313 entretiens **0,042** ; vs exercices max **0,090** ; vs cas métier **0,059**.
+- **Défauts détectés puis corrigés** : `295.1 ~ exo295 = 0,17` (reprend la liste verbatim du top-3 OWASP de l'exercice) → **295.1 réécrite** (angle « excès d'autonomie », liste retirée) ; `295.3 ~ 299.3 = 0,12` (même argument « systématique > au hasard, évite d'oublier ») → **299.3 réangée** vers le transfert « penser aux pires cas d'abord ».
+- **Lecture manuelle** : 24/24. **Classement : A = 24, B = 0, C = 0.**
+- **Lecture croisée** : jours **271** (premier, rapport de preuve), **300** (dernier, posture sécurité), **293** (dense, design système), **278** (agent vs workflow), **289** (hexagonal). Alignement théorie/correction confirmé ; prérequis respectés (277 renvoie à la session RAG du 234).
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
+- **Périmètre Git** : 24 jours (réflexion seule) + `days-enrich-reflection-271-300.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
+- **Prochain sous-batch** : **SB9** (301-321, jours d'apprentissage 303-321).

@@ -73,7 +73,7 @@
   - **Résultat : 235/235 jours d'apprentissage 91-365 avec réflexion spécifique, 705 questions**, 0 jour
     générique résiduel, 0 doublon exact, 0 question vide. Similarité globale : réflexion↔réflexion
     max 0,120 (0 paire ≥ 0,14) ; ↔entretiens 0,094 ; ↔exercices 0,132 (topique) ; ↔cas 0,088.
-  - **Lecture manuelle : A = 235, B = 0, C = 0.** 18 questions réécrites via contrôle de similarité.
+  - **Conformité structurelle (automatisée)** : 235/235 jours conformes. **Audit manuel stratifié** : 16 jours lus intégralement (toutes périodes/domaines) → **16/16 classés A, 0 B, 0 C dans l'échantillon**, aucun défaut qualitatif détecté ; la relecture humaine n'a pas porté sur les 235 jours. 18 questions réécrites via contrôle de similarité.
   - **Mécanisme isolé** : 12 fichiers `scripts/data/days-enrich-reflection-*.mjs` (champ `reflection`
     seul) + merge PAR JOUR dans le générateur. **Y3 intact** : aucun fichier `curriculum/solutions/`
     modifié ; seules les puces de réflexion changent dans les 235 jours. Journal complet :

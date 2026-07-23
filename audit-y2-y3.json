@@ -10058,9 +10058,19 @@
     },
     "classification": {
       "axis": "Y2 reflection",
-      "A": 235,
-      "B": 0,
-      "C": 0
+      "structuralConformityAutomated": {
+        "days": 235,
+        "conforming": 235,
+        "note": "3 questions specifiques/jour, 0 generique, 0 doublon exact, 0 vide — controle par script sur fichiers rendus."
+      },
+      "manualStratifiedAudit": {
+        "daysRead": 16,
+        "A": 16,
+        "B": 0,
+        "C": 0,
+        "note": "16 jours lus integralement (toutes periodes/domaines) ; aucun defaut qualitatif detecte dans l'echantillon."
+      },
+      "disclaimer": "Aucune relecture manuelle integrale des 235 jours. Le 'tout A' vaut pour l'echantillon de 16 jours ; la conformite 235/235 est etablie par controle automatise (structure + similarite)."
     },
     "y3Intact": {
       "solutionsDiff": "empty",

@@ -222,9 +222,10 @@ SB2 : 2 · SB4 : 1 · SB5 : 3 · SB6 : 1 · SB8 : 2 · SB9 : 3 · SB10 : 2 · SB
 - **Réflexion vs exercice (même jour)** : max **0,132** (jour 209, topique).
 - **Réflexion vs cas métier (même jour)** : max **0,088**.
 
-## Résultats manuels
-- **Classement final : A = 235, B = 0, C = 0.**
-- Lectures croisées complètes (théorie+guidé+exo+cas+entretien+réflexion+correction) : ≥ 5 par sous-batch (55+ jours) + échantillon stratifié final de 16 jours couvrant toutes les périodes et tous les domaines. Aucun jour B/C.
+## Résultats — deux niveaux distincts
+- **Conformité structurelle (automatisée, 235/235 jours)** : les 235 jours d'apprentissage portent 3 questions de réflexion spécifiques (705 au total), 0 générique résiduel, 0 doublon exact, 0 question vide, triplet respecté. Contrôle par script sur les fichiers rendus.
+- **Audit manuel stratifié (16/16 jours)** : lecture manuelle intégrale d'un **échantillon stratifié de 16 jours** couvrant toutes les périodes et tous les domaines (+ lectures croisées ≥ 5 par sous-batch pendant le déploiement). **Sur cet échantillon : 16/16 classés A, 0 B, 0 C** ; aucun défaut qualitatif détecté.
+- **Portée** : la lecture manuelle intégrale **n'a pas** porté sur les 235 jours ; le « tout A » ci-dessus vaut pour l'échantillon de 16 jours audité manuellement, la conformité 235/235 étant établie par contrôle automatisé (structure + similarité), non par relecture humaine exhaustive.
 
 ## Anomalies
 - **Corrigées** : 18 proximités de similarité (réécrites), aucune régression. Faux positifs « blocs vides » du script d'audit corrigés en amont.

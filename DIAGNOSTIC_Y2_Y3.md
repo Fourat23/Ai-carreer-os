@@ -261,7 +261,7 @@ sur les **235 journées d'apprentissage** du palier 91-365 — **et rien d'autre
   le diff cumulé des jours ne contient que des puces de réflexion.
 - **Similarité globale** (contrôle anti-générique) : réflexion↔réflexion max **0,120** ; ↔313 questions
   d'entretien max **0,094** ; ↔exercice même jour max **0,132** ; ↔étude de cas même jour max **0,088**.
-- **Classement final A/B/C (Y2 réflexion)** : **A = 235, B = 0, C = 0**.
+- **Classement A/B/C (Y2 réflexion)** : conformité structurelle **automatisée** sur **235/235** jours ; **audit manuel stratifié** de **16 jours** → **16/16 A, 0 B, 0 C** dans l'échantillon, aucun défaut qualitatif détecté. Aucune prétention à une relecture manuelle intégrale des 235 jours.
 - **Journal détaillé** (sous-batchs, réécritures, hashes) : `DEPLOIEMENT_Y2_REFLECTIONS.md`.
 - **Pipeline** (`curriculum:check`, `depth-check`, tests 43/43, build, scan glyphes) : vert à chaque
   sous-batch et au final.

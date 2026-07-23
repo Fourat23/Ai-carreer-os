@@ -48,6 +48,7 @@ import { ENRICH_REFLECTION_211_240 } from './data/days-enrich-reflection-211-240
 import { ENRICH_REFLECTION_241_270 } from './data/days-enrich-reflection-241-270.mjs';
 import { ENRICH_REFLECTION_271_300 } from './data/days-enrich-reflection-271-300.mjs';
 import { ENRICH_REFLECTION_301_321 } from './data/days-enrich-reflection-301-321.mjs';
+import { ENRICH_REFLECTION_322_343 } from './data/days-enrich-reflection-322-343.mjs';
 
 // Fusion des enrichissements par jour (les fichiers spécialisés priment ; les revues et
 // les questions d'entretien spécifiques des jours 1-30 en dernier — ils n'écrasent qu'un champ).
@@ -65,6 +66,7 @@ const REFLECTION_SOURCES = [
   ENRICH_REFLECTION_241_270,
   ENRICH_REFLECTION_271_300,
   ENRICH_REFLECTION_301_321,
+  ENRICH_REFLECTION_322_343,
 ];
 for (const src of REFLECTION_SOURCES) {
   for (const [d, v] of Object.entries(src)) {

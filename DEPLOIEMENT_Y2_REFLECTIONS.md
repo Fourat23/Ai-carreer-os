@@ -22,8 +22,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 | SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | ✅ `d61402f` |
 | SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | ✅ `b166206` |
 | SB8 | 271-300 | 271-300 | 24 | `days-enrich-reflection-271-300.mjs` | ✅ `845f175` |
-| SB9 | 301-321 | 303-321 | 16 | `days-enrich-reflection-301-321.mjs` | ✅ fait |
-| SB10 | 322-343 | 323-342 | 17 | `days-enrich-reflection-322-343.mjs` | — |
+| SB9 | 301-321 | 303-321 | 16 | `days-enrich-reflection-301-321.mjs` | ✅ `89865a5` |
+| SB10 | 322-343 | 323-342 | 17 | `days-enrich-reflection-322-343.mjs` | ✅ fait |
 | SB11 | 344-363 | 344-363 | 17 | `days-enrich-reflection-344-363.mjs` | — |
 
 Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-reflection-sim.mjs`.
@@ -157,3 +157,17 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
 - **Périmètre Git** : 16 jours (réflexion seule) + `days-enrich-reflection-301-321.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
 - **Prochain sous-batch** : **SB10** (322-343, jours d'apprentissage 323-342).
+
+## SB10 — jours 322-343 (17 jours d'apprentissage : 323-342)
+
+- **HEAD de départ** : `89865a5` · **revues exclues** : 322, 329, 336, 343
+- **Jours traités** : 323, 324, 325, 326, 327, 328, 330, 331, 332, 333, 334, 335, 338, 339, 340, 341, 342
+- **Domaines** : Finalisation DocSense — workflow d'analyse, détection d'incohérences, coûts/observabilité, CI complète, tests du workflow LLM (mock/replay), jalon/revue mensuelle 11, guardrails testés, gestion d'erreur bout-en-bout, observabilité finale, couverture de tests, rapport qualité v1.0, feature freeze/post-mortem ; Communication (démo vidéo, storytelling des 7 projets, polish GitHub, schéma d'archi entretien, cohérence du portfolio).
+- **Questions** : 51 (17 × 3).
+- **Similarité** (après 2 réécritures) : intra-batch max **0,090** ; vs déployées max **0,093** ; vs 313 entretiens **0,064** ; vs exercices max **0,113** (323.1 vs son exercice, topique) ; vs cas métier **0,066**.
+- **Défauts détectés puis corrigés** : `327.2 ~ refl108.1 = 0,16` (« le vrai LLM échoue 1/5 → mock restaure », déjà porté par le jour 108) → **327.2 réangée** vers la distinction mock/replay ; `339.3 ~ refl160.3 = 0,11` (« admettre ses limites renforce la crédibilité », déjà au 160) → **339.3 réangée** vers le signal de progression.
+- **Lecture manuelle** : 17/17. **Classement : A = 17, B = 0, C = 0.**
+- **Lecture croisée** : jours **323** (premier, fonctionnalité différenciante), **342** (dernier, cohérence portfolio), **327** (dense, tests LLM mock/replay), **335** (feature freeze/post-mortem), **341** (schéma d'archi entretien). Alignement théorie/correction confirmé.
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
+- **Périmètre Git** : 17 jours (réflexion seule) + `days-enrich-reflection-322-343.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
+- **Prochain sous-batch** : **SB11** (344-363, jours d'apprentissage 344-363) — dernier.

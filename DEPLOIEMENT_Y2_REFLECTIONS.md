@@ -19,8 +19,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 | SB3 | 151-167 | 151-167 | 14 | `days-enrich-reflection-151-167.mjs` | ✅ `41f132f` |
 | SB4 | 168-180 | 169-180 | 11 | `days-enrich-reflection-168-180.mjs` | ✅ `682e817` |
 | SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | ✅ `43fed2f` |
-| SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | ✅ fait |
-| SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | — |
+| SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | ✅ `d61402f` |
+| SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | ✅ fait |
 | SB8 | 271-300 | 271-300 | 24 | `days-enrich-reflection-271-300.mjs` | — |
 | SB9 | 301-321 | 303-321 | 16 | `days-enrich-reflection-301-321.mjs` | — |
 | SB10 | 322-343 | 323-342 | 17 | `days-enrich-reflection-322-343.mjs` | — |
@@ -115,3 +115,17 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
 - **Périmètre Git** : 24 jours (réflexion seule) + `days-enrich-reflection-211-240.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
 - **Prochain sous-batch** : **SB7** (241-270, jours d'apprentissage 242-270).
+
+## SB7 — jours 241-270 (23 jours d'apprentissage : 242-270 hors pilote 241/253/260)
+
+- **HEAD de départ** : `d61402f` · **revues exclues** : 245, 252, 259, 266
+- **Jours traités** : 242, 243, 244, 246, 247, 248, 249, 250, 251, 254, 255, 256, 257, 258, 261, 262, 263, 264, 265, 267, 268, 269, 270
+- **Domaines** : RAG retrieval avancé (versioning d'index, comparaison d'embeddings, recherche lexicale BM25/FTS5, hybride/RRF, reranking, ablation, budget latence), Évaluation IA (rappel@k, LLM-as-judge, dimensions fidélité/pertinence/exactitude, harnais, validation du juge), Sécurité (défense injection en profondeur, citations vérifiables, refus comme feature, suite adverse, synthèse en couches), Projet 6 (baseline chiffrée, améliorations 1 et 2 pilotées, guardrails/robustesse).
+- **Questions** : 69 (23 × 3).
+- **Similarité** : intra-batch max **0,067** ; vs déployées max **0,113** (254.1 vs 156.1 : écho « qu'est-ce que ça signifie concrètement » sur des sujets sans rapport — conservée) ; vs 313 entretiens **0,066** ; vs exercices **0,110** (249.1 vs son exercice : l'exercice EST le tableau d'ablation — topique) ; vs cas métier **0,032**. Aucune paire artificiellement proche.
+- **Réécritures** : aucune nécessaire (toutes les paires de tête < 0,12, topiques ou coïncidences de formulation sur sujets distincts, inspectées).
+- **Lecture manuelle** : 23/23. **Classement : A = 23, B = 0, C = 0.**
+- **Lecture croisée** : jours **242** (premier, index/artefact compilé), **270** (dernier, qualité+sécurité ensemble), **249** (dense, ablation), **255** (LLM-as-judge), **265** (synthèse sécurité en couches). Alignement théorie/correction confirmé ; prérequis respectés (249 renvoie à l'ablation DL du 186 ; 265 à OWASP du mois 2 — tous deux antérieurs).
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
+- **Périmètre Git** : 23 jours (réflexion seule) + `days-enrich-reflection-241-270.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
+- **Prochain sous-batch** : **SB8** (271-300, jours d'apprentissage 271-300).

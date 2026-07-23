@@ -10,7 +10,7 @@ Une expérience propre : UNE variable (le LR), même seed, mêmes données, mêm
 ## ⚠️ Erreurs probables et points à vérifier
 - Oublier de re-seeder à chaque LR : les points de départ diffèrent, la comparaison est faussée.
 - Conclure sur 20 epochs (le lent semble « cassé » alors qu'il est juste lent).
-- Comparer des loss de formules différentes entre runs.
+- Prendre la courbe affichée `((pred - y)**2).mean()` pour la loss optimisée : c'est un indicateur ; la règle `pred - y` dérive de la BCE, pas de cette MSE. Assure-toi surtout de comparer la MÊME grandeur entre tous les runs.
 
 ## 🔍 Comment vérifier ta solution
 - Le graphe superpose les 3 courbes avec légende.

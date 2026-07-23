@@ -5,12 +5,13 @@
 > ⛔ **Ne lis cette correction qu'après avoir vraiment tenté seul.** Une correction n'est pas une réponse à copier : c'est un outil pour comprendre ta démarche.
 
 ## 🧠 La logique attendue
-Le neurone converge sur le ET parce que le problème est linéairement séparable : une droite peut isoler (1,1) des trois autres points. La loss décroissante est ta preuve d'apprentissage ; les prédictions finales proches de [0,0,0,1] ta preuve de convergence.
+Le neurone converge sur le ET parce que le problème est linéairement séparable : une droite peut isoler (1,1) des trois autres points. La loss décroissante est ta preuve d'apprentissage ; les prédictions finales proches de [0,0,0,1] ta preuve de convergence. Point technique à savoir défendre : la règle `w -= lr * X.T @ (pred - y)` n'est pas admise au hasard — `pred - y` est EXACTEMENT le gradient de l'entropie croisée binaire (BCE) par rapport au logit `z = w·x + b`, le facteur dérivé de la sigmoïde s'annulant dans le calcul (démonstration complète demain).
 
 ## ⚠️ Erreurs probables et points à vérifier
 - Learning rate trop grand (0.5 → 50) : les prédictions oscillent, la loss diverge — observe-le exprès.
 - Oublier la non-linéarité (retirer la sigmoïde) : le neurone devient une régression linéaire.
 - Conclure du XOR que « le neurone est cassé » : c'est la LIMITE structurelle d'un neurone seul, la raison d'être des couches.
+- Croire que la grandeur affichée `((pred - y)**2).mean()` EST la loss optimisée : ce carré n'est qu'un indicateur de convergence lisible ; la règle `pred - y` dérive de la BCE, pas de cette MSE (qui, elle, porterait un facteur `pred·(1−pred)`). Ne confonds pas la mesure affichée et la loss réellement minimisée.
 
 ## 🔍 Comment vérifier ta solution
 - Prédictions finales : [~0, ~0.05, ~0.05, ~0.9].

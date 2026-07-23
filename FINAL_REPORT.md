@@ -4,6 +4,30 @@ Rapport de fin de construction. À lire en entier avant de commencer.
 
 ---
 
+## 0-sexdecies. Mise à jour — Chantier M2 : audit manuel du mois 7 (183-210) + remédiation technique ciblée
+
+Le **Chantier M2** répond à l'anomalie « mois LLM le plus léger ». Plutôt qu'une réécriture, un
+**audit manuel journée par journée** des 24 journées d'apprentissage (diagnostic complet dans
+**`DIAGNOSTIC_M2.md`**), suivi d'une remédiation **minimale et technique**.
+
+- **Diagnostic** : **22 journées SOLIDES** (dont **toute la tranche LLM 197-209**, la plus riche du
+  mois : théorie 191-245 mots, corrections 151-208, cas métier spécifiques, exactitude vérifiée),
+  **2 à consolider** (183/184), **0 insuffisante**, **0 anomalie** de l'audit automatique dans 183-210.
+  La légèreté des corrections DL (119-144 mots) est **relative** et compensée par des exemples guidés
+  excellents et code-centrés — pas une insuffisance pédagogique.
+- **Vérité technique** (exigée par le cahier des charges) : la règle `pred - y` des jours 183/184 est
+  **exactement** le gradient de l'**entropie croisée binaire + sigmoïde** (vérifié numériquement :
+  0,055025 = grad BCE, ≠ 0,0218 = grad MSE), **pas** celui de la MSE affichée `((pred-y)**2).mean()`.
+  Le code entraîne correctement ; c'est l'**étiquette « loss »** qui est clarifiée. Aucun changement de code.
+- **Remédiation** (périmètre validé « minimal + théorie DL », **zéro remplissage**) : **183** (clarification
+  loss/gradient dans `logic` + `pitfall`), **184** (théorie backpropagation approfondie — dérivation en
+  chaîne, réutilisation de la passe avant, coût ≈ une passe avant — + clarification loss), **187** (théorie :
+  anatomie d'un pas d'entraînement + justification batching/shuffle). **SEULS 183/184/187 touchés.**
+- **Cohérence** : format des corrections **91-365 respecté** (pas de champs `simple`/`improved`, qui
+  n'existent que sur le palier 1-90). **Constats provisoires invalidés** : objectifs courts (style
+  curriculum-wide), théorie « trop brève » (dense), ajout `simple`/`improved` (romprait la cohérence).
+- Checks : `curriculum:check` **365/365** ✅ · `depth-check` ✅ · tests **43/43** ✅ · build ✅ · scan glyphes propre. Commit : `85e44cf`.
+
 ## 0-quindecies. Mise à jour — Chantier B : questions d'entretien spécifiques pour les jours 1-30 → 313/313 distinctes
 
 Suite à l'audit (problème M1), le **Chantier B** a corrigé les questions d'entretien génériques

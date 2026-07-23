@@ -45,8 +45,25 @@
     touchés. Sous-batchs commités : B1 (`930a37a`), B2 (`2ebb3f5`), B3 (`c7ffd8c`).
   - Lecture manuelle traçable de 6 jours (3, 8, 12, 16, 24, 26) : chaque question correspond bien à
     l'objectif et à l'exercice du jour.
-- **Chantiers restants** : M2 (profondeur mois 7 LLM), N1/N3/Y4 (leçons orphelines, titre 314/321,
-  critères subjectifs), Y2/Y3 (homogénéité mini-quiz et structure des corrections 91-365). Voir §17.
+- **Chantier M2 — Profondeur du mois 7 (183-210) : ✅ TERMINÉ (audit manuel + remédiation ciblée).**
+  Audit manuel des **24 journées d'apprentissage** (183-188, 190-195 DL ; 197-202, 204-209 LLM),
+  diagnostic journée par journée dans **`DIAGNOSTIC_M2.md`**. Résultat : **22 journées SOLIDES**
+  (dont **toute la tranche LLM 197-209**, la plus riche du mois), **2 à consolider** (183/184),
+  **0 insuffisante**, **0 anomalie** de l'audit automatique dans 183-210.
+  - **Vérité technique tranchée** : la règle de mise à jour `pred - y` (jours 183/184) est
+    **exactement** le gradient de l'**entropie croisée binaire + sigmoïde** (vérifié numériquement :
+    0,055025 = gradient BCE, ≠ 0,0218 gradient MSE), **pas** celui de la MSE affichée
+    `((pred-y)**2).mean()`. Correction = **clarification d'étiquette**, le code étant juste.
+  - **Remédiation** (périmètre validé « minimal + théorie DL », **sans remplissage**) : 183
+    (clarification loss/gradient dans `logic` + `pitfall`), 184 (théorie backpropagation approfondie
+    + clarification loss ; `pitfall`), 187 (théorie : anatomie d'un pas d'entraînement + batching/shuffle).
+    **SEULS 183/184/187 touchés** ; théorie/guidés/exercices/cas des 22 autres jours et des 4 revues
+    inchangés. Format **91-365 respecté** (pas de champs `simple`/`improved`, absents de tout 91-365).
+  - **Constats provisoires invalidés** : objectifs courts (style curriculum-wide, ~3,9 mots), théorie
+    « trop brève » (dense et compensée par des guidés excellents), ajout `simple`/`improved` (n'existe
+    que sur le palier 1-90). Commit : `85e44cf`.
+- **Chantiers restants** : N1/N3/Y4 (leçons orphelines, titre 314/321, critères subjectifs),
+  Y2/Y3 (homogénéité mini-quiz et structure des corrections 91-365). Voir §17.
 
 ---
 

@@ -7918,7 +7918,7 @@
     "theoryWords": 165,
     "critItems": 4,
     "critMeasurable": true,
-    "solutionWords": 235,
+    "solutionWords": 345,
     "solutionSections": {
       "solHasLogic": true,
       "solHasSimple": false,
@@ -7959,10 +7959,10 @@
       "hasDeliverable": true,
       "hasMistakes": false
     },
-    "theoryWords": 176,
+    "theoryWords": 341,
     "critItems": 4,
     "critMeasurable": true,
-    "solutionWords": 208,
+    "solutionWords": 240,
     "solutionSections": {
       "solHasLogic": true,
       "solHasSimple": false,
@@ -8091,7 +8091,7 @@
       "hasDeliverable": true,
       "hasMistakes": false
     },
-    "theoryWords": 182,
+    "theoryWords": 291,
     "critItems": 4,
     "critMeasurable": true,
     "solutionWords": 193,

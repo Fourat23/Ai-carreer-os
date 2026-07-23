@@ -126,6 +126,15 @@ Les 21 leçons d'origine n'ont pas les sections « Modèle mental / Exemple guid
 - **Fichier** : `scripts/data/days-enrich-271-300.mjs` (ENRICH_271_300). Gabarit complet + exemple simple + mini-quiz embarqués dans le champ `guided` (aucun changement d'architecture du générateur).
 - Checks : `curriculum:check` ✅ · `curriculum:depth-check` ✅ (exemples guidés **130/313**) · 20/20 tests · build ✅.
 
+## ✅ CHANTIER M2 TERMINÉ — audit manuel du mois 7 (183-210) + remédiation technique ciblée
+
+- Réponse à l'anomalie « mois LLM le plus léger » : **audit manuel journée par journée** des 24 journées d'apprentissage (diagnostic complet dans **`DIAGNOSTIC_M2.md`**), remédiation **minimale**, pas de réécriture.
+- **Diagnostic** : **22 journées SOLIDES** (dont toute la tranche LLM 197-209), **2 à consolider** (183/184), **0 insuffisante**, **0 anomalie** automatique dans 183-210. La légèreté des corrections DL est relative (guidés excellents, code-centrés), pas une insuffisance.
+- **Vérité technique tranchée** : `pred - y` (183/184) = gradient **BCE+sigmoïde** exact (vérifié : 0,055025 vs 0,0218 pour la MSE), **pas** la MSE affichée. Le code est juste → **clarification d'étiquette**, aucun changement de code.
+- **Remédiation (validée « minimal + théorie DL », zéro remplissage)** : 183 (clarif. loss/gradient), 184 (théorie backpropagation approfondie + clarif. loss), 187 (théorie : anatomie d'un pas d'entraînement + batching/shuffle). **SEULS 183/184/187 touchés** ; format 91-365 respecté (pas de `simple`/`improved`).
+- **Constats invalidés** : objectifs courts (style global), théorie « trop brève » (dense), ajout `simple`/`improved` (n'existe que sur 1-90). Commit : `85e44cf`.
+- Checks : `curriculum:check` **365/365** ✅ · `depth-check` ✅ · **43/43** tests · build ✅ · scan glyphes propre.
+
 ## ✅ CHANTIER B TERMINÉ — questions d'entretien génériques des jours 1-30 remplacées → **313/313 distinctes**
 
 - Suite à l'audit (problème M1), les **3 groupes** de questions d'entretien génériques par compétence (git commit ; valeur-vs-référence ; complexité), réutilisés sur **25 jours** de 1-30, ont été remplacés par des questions **distinctes et spécifiques au contenu exact** de chaque jour.

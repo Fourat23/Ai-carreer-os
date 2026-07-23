@@ -271,7 +271,7 @@ export const WEEK_PLANS = {
     d("DocSense : retrieval hybride", "Le meilleur retrieval.", "Intègre hybride + reranking, teste sur le corpus DocSense.", "Retrieval hybride sur DocSense."),
     d("DocSense : génération avec citations", "Réponses fiables.", "Génération avec citations vérifiables, refus si absent, format soigné.", "Génération citée et fiable."),
     d("DocSense : spikes exécutés", "Réduire les risques identifiés.", "Exécute les 3 spikes du jour 44, documente résultats et décisions.", "3 spikes exécutés et documentés."),
-    d("DocSense : jalon démontrable", "Démontrer la semaine.", "10 questions sur le corpus → réponses citées, avec l'architecture cible. Revue d'archi hebdo.", "Jalon 45 démontré + revue d'archi."),
+    d("DocSense : jalon RAG bout-en-bout", "Démontrer la semaine.", "10 questions sur le corpus → réponses citées, avec l'architecture cible. Revue d'archi hebdo.", "Jalon 45 démontré + revue d'archi."),
   ]},
   46: { skill: 'evalia', days: [
     d("DocSense : golden set", "Bâtir l'évaluation.", "Golden set de 40+ questions sur le corpus DocSense, types variés.", "Golden set DocSense 40+."),
@@ -279,7 +279,7 @@ export const WEEK_PLANS = {
     d("DocSense : dashboard qualité", "Visualiser la qualité.", "Dashboard affichant les scores par version (tendance > valeur absolue).", "Dashboard qualité fonctionnel."),
     d("DocSense : baseline officielle", "Figer la référence.", "Baseline chiffrée v0, tableau de scores de référence pour toutes les améliorations.", "Baseline officielle enregistrée."),
     d("DocSense : dockerisation", "Rendre reproductible.", "Dockerfile + compose (up = tout tourne), secrets par env, .dockerignore.", "DocSense dockerisé (compose up)."),
-    d("DocSense : jalon démontrable", "Démontrer la semaine.", "Éval en une commande + dashboard + docker up sur machine propre. Revue d'archi hebdo.", "Jalon 46 démontré + revue d'archi."),
+    d("DocSense : jalon évaluation et reproductibilité", "Démontrer la semaine.", "Éval en une commande + dashboard + docker up sur machine propre. Revue d'archi hebdo.", "Jalon 46 démontré + revue d'archi."),
   ]},
   47: { skill: 'agents', days: [
     d("DocSense : workflow d'analyse", "La fonctionnalité différenciante.", "Workflow explicite : résumé structuré, points clés, questions ouvertes d'un document.", "Workflow d'analyse fonctionnel."),

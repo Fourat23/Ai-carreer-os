@@ -1,4 +1,4 @@
-# Correction — Jour 321 : DocSense : jalon démontrable
+# Correction — Jour 321 : DocSense : jalon évaluation et reproductibilité
 
 [← Retour au jour 321](../days/day-321.md)
 

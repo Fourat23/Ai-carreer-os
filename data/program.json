@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-22T22:45:50.140Z",
+  "generatedAt": "2026-07-23T19:58:09.016Z",
   "skills": [
     {
       "id": "algo",
@@ -5130,7 +5130,7 @@
       "day": 314,
       "week": 45,
       "month": 11,
-      "title": "DocSense : jalon démontrable",
+      "title": "DocSense : jalon RAG bout-en-bout",
       "skill": "rag",
       "skillName": "RAG",
       "difficulty": 3,
@@ -5228,7 +5228,7 @@
       "day": 321,
       "week": 46,
       "month": 11,
-      "title": "DocSense : jalon démontrable",
+      "title": "DocSense : jalon évaluation et reproductibilité",
       "skill": "evalia",
       "skillName": "Évaluation IA",
       "difficulty": 3,

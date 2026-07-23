@@ -1,4 +1,4 @@
-# Correction — Jour 314 : DocSense : jalon démontrable
+# Correction — Jour 314 : DocSense : jalon RAG bout-en-bout
 
 [← Retour au jour 314](../days/day-314.md)
 

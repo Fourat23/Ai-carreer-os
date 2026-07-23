@@ -11,6 +11,7 @@ if (!batchFile) { console.error('usage: node _reflection_simcheck.mjs <batchFile
 const deployedFiles = [
   'scripts/data/days-enrich-reflection-pilot.mjs',
   'scripts/data/days-enrich-reflection-091-120.mjs',
+  'scripts/data/days-enrich-reflection-121-150.mjs',
 ];
 
 async function loadReflections(rel) {

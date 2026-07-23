@@ -14,8 +14,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 
 | SB | Plage | Jours | Nb | Fichier | État |
 |----|-------|-------|----|---------|------|
-| SB1 | 91-120 | 93-118 | 21 | `days-enrich-reflection-091-120.mjs` | ✅ fait |
-| SB2 | 121-150 | 121-150 | 24 | `days-enrich-reflection-121-150.mjs` | — |
+| SB1 | 91-120 | 93-118 | 21 | `days-enrich-reflection-091-120.mjs` | ✅ `b039b80` |
+| SB2 | 121-150 | 121-150 | 24 | `days-enrich-reflection-121-150.mjs` | ✅ fait |
 | SB3 | 151-167 | 151-167 | 14 | `days-enrich-reflection-151-167.mjs` | — |
 | SB4 | 168-180 | 169-180 | 11 | `days-enrich-reflection-168-180.mjs` | — |
 | SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | — |
@@ -44,4 +44,18 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · curriculum:check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré (timestamp seul).
 - **Périmètre Git** : 21 jours (section réflexion uniquement) + `days-enrich-reflection-091-120.mjs` (nouveau) + `scripts/generate-curriculum.mjs` (import + merge par jour) + `scripts/audit-reflection-sim.mjs` (outil). Aucune correction/revue/leçon touchée.
 - **Working tree** : propre après commit/push.
-- **Prochain jour restant** : **121** (début SB2).
+- **Commit** : `b039b80`.
+
+## SB2 — jours 121-150 (24 jours)
+
+- **HEAD de départ** : `b039b80`
+- **Jours traités** : 121, 122, 123, 124, 125, 127, 128, 129, 130, 131, 132, 135, 136, 137, 138, 139, 141, 142, 143, 144, 145, 146, 149, 150
+- **Domaines** : Python (fonctions/modules, exceptions, POO, pytest, outils), pandas (charger/nettoyer/filtrer/grouper/joindre, fonctions qualité), SQL avancé (index, transactions ACID, fenêtres, ETL, robustesse), Projet 4 DataPulse (cadrage, extract/transform/load, dashboard, README/ADR), statistiques (distributions, corrélation/causalité).
+- **Questions** : 72 (24 × 3).
+- **Similarité** (après réécriture de 2 paires) : intra-batch max **0,093** ; vs déployées max **0,120** ; vs 313 entretiens **0,045** ; vs exercices **0,077** ; vs cas métier **0,045**.
+- **Défauts détectés puis corrigés** : 2 paires artificiellement proches signalées et **réécrites** — `146.3 ~ refl118.3 = 0,233` (deux « présente le projet en 2 min », template commun → 146.3 recentrée sur les 3 questions/chiffres du dashboard) et `132.1 ~ 143.1 = 0,145` (deux Q1 « pureté/global → imprévisible » → 143.1 recentrée sur la reproductibilité du rapport de qualité). Après réécriture : max intra 0,093, max vs déployées 0,120.
+- **Lecture manuelle** : 24/24. **Classement : A = 24, B = 0, C = 0.**
+- **Lecture croisée complète** : jours **121** (premier), **150** (dernier), **137** (complexe : fonctions fenêtre), **144** (projet : load transactionnel), **128** (aléatoire : nettoyage). Alignement théorie/correction confirmé.
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré (timestamp seul).
+- **Périmètre Git** : 24 jours (réflexion seule) + `days-enrich-reflection-121-150.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`. Aucune correction/revue/leçon touchée.
+- **Prochain jour restant** : **151** (début SB3).

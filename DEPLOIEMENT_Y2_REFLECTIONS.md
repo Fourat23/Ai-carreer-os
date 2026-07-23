@@ -23,8 +23,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 | SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | ✅ `b166206` |
 | SB8 | 271-300 | 271-300 | 24 | `days-enrich-reflection-271-300.mjs` | ✅ `845f175` |
 | SB9 | 301-321 | 303-321 | 16 | `days-enrich-reflection-301-321.mjs` | ✅ `89865a5` |
-| SB10 | 322-343 | 323-342 | 17 | `days-enrich-reflection-322-343.mjs` | ✅ fait |
-| SB11 | 344-363 | 344-363 | 17 | `days-enrich-reflection-344-363.mjs` | — |
+| SB10 | 322-343 | 323-342 | 17 | `days-enrich-reflection-322-343.mjs` | ✅ `6072d3a` |
+| SB11 | 344-363 | 344-363 | 17 | `days-enrich-reflection-344-363.mjs` | ✅ fait |
 
 Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-reflection-sim.mjs`.
 
@@ -171,3 +171,17 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
 - **Périmètre Git** : 17 jours (réflexion seule) + `days-enrich-reflection-322-343.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
 - **Prochain sous-batch** : **SB11** (344-363, jours d'apprentissage 344-363) — dernier.
+
+## SB11 — jours 344-363 (17 jours d'apprentissage : 344-363 hors pilote 348) — DERNIER
+
+- **HEAD de départ** : `6072d3a` · **revues exclues** : 350, 357, 364 · pilote exclu : 348
+- **Jours traités** : 344, 345, 346, 347, 349, 351, 352, 353, 354, 355, 356, 358, 359, 360, 361, 362, 363
+- **Domaines** : Recherche d'emploi et clôture — CV orienté preuves, LinkedIn, ciblage 30 entreprises, pitch, dossier de candidature, révision algo, questions IA, simulations technique/architecture, dossier d'entretien, négociation, candidatures réelles (deux lots), entretiens blancs (technique+projet, archi+comportemental), bilan annuel, plan des 90 jours.
+- **Questions** : 51 (17 × 3).
+- **Similarité** (après 4 réécritures) : intra-batch max **0,072** ; vs déployées max **0,100** ; vs 313 entretiens **0,063** ; vs exercices max **0,123** (363.1/355.1 vs leurs exercices, topique) ; vs cas métier **0,029**.
+- **Défauts détectés puis corrigés** : jour **354** (simulation d'archi) calquait le jour 293 (exercice de design système) — `354.3~refl293.3=0,25`, `354.2~refl293.2=0,18` → **les 3 questions de 354 réécrites** vers la dimension simulation-entretien (oral, examinateur, conditions) ; `347.3~351.3=0,10` (« s'enregistrer révèle… ») → **351.3 réangée** vers la stratégie de révision (maîtrise profonde de quelques patterns). Après : intra 0,072, vs déployées 0,100.
+- **Lecture manuelle** : 17/17. **Classement : A = 17, B = 0, C = 0.**
+- **Lecture croisée** : jours **344** (premier, CV preuves), **363** (dernier, plan 90 jours), **354** (dense/réécrit, sim archi), **358** (projet, candidatures réelles), **361** (comportemental STAR). Alignement théorie/correction confirmé.
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
+- **Périmètre Git** : 17 jours (réflexion seule) + `days-enrich-reflection-344-363.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
+- **DÉPLOIEMENT TERMINÉ** : 235/235 jours d'apprentissage spécifiques. Audit global final ci-dessous.

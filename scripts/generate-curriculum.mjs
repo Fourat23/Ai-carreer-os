@@ -39,14 +39,21 @@ import { ENRICH_301_365 } from './data/days-enrich-301-365.mjs';
 import { ENRICH_REVIEWS } from './data/days-enrich-reviews.mjs';
 import { ENRICH_INTERVIEWS_1_30 } from './data/days-enrich-interviews-1-30.mjs';
 import { ENRICH_REFLECTION_PILOT } from './data/days-enrich-reflection-pilot.mjs';
+import { ENRICH_REFLECTION_091_120 } from './data/days-enrich-reflection-091-120.mjs';
 
 // Fusion des enrichissements par jour (les fichiers spécialisés priment ; les revues et
 // les questions d'entretien spécifiques des jours 1-30 en dernier — ils n'écrasent qu'un champ).
 const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_31_60, ...ENRICH_61_90, ...ENRICH_91_120, ...ENRICH_121_150, ...ENRICH_151_180, ...ENRICH_181_210, ...ENRICH_211_240, ...ENRICH_241_270, ...ENRICH_271_300, ...ENRICH_301_365, ...ENRICH_REVIEWS, ...ENRICH_INTERVIEWS_1_30 };
-// Pilote Y2 (Chantier C, option B1) : surcharge UNIQUEMENT le champ `reflection` des
-// 22 jours ciblés, par merge PAR JOUR — préserve tous les autres champs déjà enrichis.
-for (const [d, v] of Object.entries(ENRICH_REFLECTION_PILOT)) {
-  DAYS_ENRICH[d] = { ...(DAYS_ENRICH[d] ?? {}), ...v };
+// Y2 (Chantier C) : surcharge UNIQUEMENT le champ `reflection` des jours ciblés, par
+// merge PAR JOUR — préserve tous les autres champs déjà enrichis. Pilote + sous-batchs.
+const REFLECTION_SOURCES = [
+  ENRICH_REFLECTION_PILOT,
+  ENRICH_REFLECTION_091_120,
+];
+for (const src of REFLECTION_SOURCES) {
+  for (const [d, v] of Object.entries(src)) {
+    DAYS_ENRICH[d] = { ...(DAYS_ENRICH[d] ?? {}), ...v };
+  }
 }
 import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
 

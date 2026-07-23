@@ -38,10 +38,16 @@ import { ENRICH_271_300 } from './data/days-enrich-271-300.mjs';
 import { ENRICH_301_365 } from './data/days-enrich-301-365.mjs';
 import { ENRICH_REVIEWS } from './data/days-enrich-reviews.mjs';
 import { ENRICH_INTERVIEWS_1_30 } from './data/days-enrich-interviews-1-30.mjs';
+import { ENRICH_REFLECTION_PILOT } from './data/days-enrich-reflection-pilot.mjs';
 
 // Fusion des enrichissements par jour (les fichiers spécialisés priment ; les revues et
 // les questions d'entretien spécifiques des jours 1-30 en dernier — ils n'écrasent qu'un champ).
 const DAYS_ENRICH = { ...ENRICH_BASE, ...ENRICH_31_60, ...ENRICH_61_90, ...ENRICH_91_120, ...ENRICH_121_150, ...ENRICH_151_180, ...ENRICH_181_210, ...ENRICH_211_240, ...ENRICH_241_270, ...ENRICH_271_300, ...ENRICH_301_365, ...ENRICH_REVIEWS, ...ENRICH_INTERVIEWS_1_30 };
+// Pilote Y2 (Chantier C, option B1) : surcharge UNIQUEMENT le champ `reflection` des
+// 22 jours ciblés, par merge PAR JOUR — préserve tous les autres champs déjà enrichis.
+for (const [d, v] of Object.entries(ENRICH_REFLECTION_PILOT)) {
+  DAYS_ENRICH[d] = { ...(DAYS_ENRICH[d] ?? {}), ...v };
+}
 import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.
@@ -101,6 +107,7 @@ function buildDay(n) {
       interview: enrich.interview,
       future: enrich.future,
       solution: enrich.solution,
+      reflection: enrich.reflection,
       criteria: [
         "Lettre-bilan écrite (comparaison honnête avec le toi du jour 1).",
         "Les 7 projets sont propres, publics et démontrables sur GitHub.",
@@ -175,6 +182,7 @@ function buildDay(n) {
         lessonsOverride: enrich.lessons,
         future: enrich.future,
         solution: enrich.solution,
+        reflection: enrich.reflection,
         criteria: [
           `Le livrable est produit et correspond à : ${entry.deliverable}`,
           "J'ai d'abord tenté seul (sans IA) au moins 30 minutes.",
@@ -397,10 +405,15 @@ function renderDay(day) {
   L.push('');
 
   // Correction (rappel du lien) + questions de réflexion.
+  // Spécifiques au jour si fournies (pilote Y2), sinon les 3 génériques par défaut.
   L.push('## 🧩 Questions de réflexion (à faire seul)');
-  L.push('- Qu\'est-ce que je ne comprends pas encore parfaitement ?');
-  L.push('- Comment j\'expliquerais ce concept à l\'oral, en entretien ?');
-  L.push('- Où précisément le réutiliserai-je dans un projet IA/data/archi ?');
+  if (Array.isArray(day.reflection) && day.reflection.length) {
+    for (const q of day.reflection) L.push(`- ${q}`);
+  } else {
+    L.push('- Qu\'est-ce que je ne comprends pas encore parfaitement ?');
+    L.push('- Comment j\'expliquerais ce concept à l\'oral, en entretien ?');
+    L.push('- Où précisément le réutiliserai-je dans un projet IA/data/archi ?');
+  }
   L.push('');
   L.push(`➡️ **[Voir la correction](../solutions/day-${pad3(day.day)}-solution.md)** — uniquement après avoir vraiment essayé.`);
   L.push('');

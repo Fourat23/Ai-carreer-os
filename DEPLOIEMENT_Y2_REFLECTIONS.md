@@ -15,8 +15,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 | SB | Plage | Jours | Nb | Fichier | État |
 |----|-------|-------|----|---------|------|
 | SB1 | 91-120 | 93-118 | 21 | `days-enrich-reflection-091-120.mjs` | ✅ `b039b80` |
-| SB2 | 121-150 | 121-150 | 24 | `days-enrich-reflection-121-150.mjs` | ✅ fait |
-| SB3 | 151-167 | 151-167 | 14 | `days-enrich-reflection-151-167.mjs` | — |
+| SB2 | 121-150 | 121-150 | 24 | `days-enrich-reflection-121-150.mjs` | ✅ `2febae6` |
+| SB3 | 151-167 | 151-167 | 14 | `days-enrich-reflection-151-167.mjs` | ✅ fait |
 | SB4 | 168-180 | 169-180 | 11 | `days-enrich-reflection-168-180.mjs` | — |
 | SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | — |
 | SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | — |
@@ -58,4 +58,18 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Lecture croisée complète** : jours **121** (premier), **150** (dernier), **137** (complexe : fonctions fenêtre), **144** (projet : load transactionnel), **128** (aléatoire : nettoyage). Alignement théorie/correction confirmé.
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré (timestamp seul).
 - **Périmètre Git** : 24 jours (réflexion seule) + `days-enrich-reflection-121-150.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`. Aucune correction/revue/leçon touchée.
-- **Prochain jour restant** : **151** (début SB3).
+- **Commit** : `2febae6`.
+
+## SB3 — jours 151-167 (14 jours)
+
+- **HEAD de départ** : `2febae6`
+- **Jours traités** : 151, 152, 153, 155, 156, 157, 158, 159, 160, 162, 163, 164, 166, 167
+- **Domaines** : Machine learning classique (probabilités/Bayes, biais d'échantillonnage, étude honnête, workflow scikit-learn, régression linéaire, split/baseline/leakage, métriques de régression, régression logistique, rapport de modèle, métriques de classification, arbres, random forests, overfitting/régularisation, analyse d'erreurs).
+- **Questions** : 42 (14 × 3).
+- **Similarité** : intra-batch max **0,100** ; vs déployées max **0,108** ; vs 313 entretiens **0,049** ; vs exercices **0,068** ; vs cas métier **0,049**. Les 2 paires de tête (156.2~164.2 ; 155.2~refl150.2) sont topiques et ancrées sur des jours distincts (< 0,11) — revues et **conservées** (aucune réécriture nécessaire).
+- **Lecture manuelle** : 14/14. **Classement : A = 14, B = 0, C = 0.**
+- **Lecture croisée** : jours **151** (premier, Bayes), **167** (dernier), **162** (complexe : métriques déséquilibre), **159** (logistique/seuil), **166** (overfitting). Alignement théorie/correction confirmé ; prérequis respectés (159 reste au niveau matrice de confusion/seuil, précision/rappel introduits au 162).
+- **Défauts détectés / corrigés** : aucun (0 B/C).
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
+- **Périmètre Git** : 14 jours (réflexion seule) + `days-enrich-reflection-151-167.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
+- **Prochain jour restant** : **168** (début SB4).

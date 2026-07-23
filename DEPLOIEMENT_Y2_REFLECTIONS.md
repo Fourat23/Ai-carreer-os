@@ -18,8 +18,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 | SB2 | 121-150 | 121-150 | 24 | `days-enrich-reflection-121-150.mjs` | ✅ `2febae6` |
 | SB3 | 151-167 | 151-167 | 14 | `days-enrich-reflection-151-167.mjs` | ✅ `41f132f` |
 | SB4 | 168-180 | 169-180 | 11 | `days-enrich-reflection-168-180.mjs` | ✅ `682e817` |
-| SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | ✅ fait |
-| SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | — |
+| SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | ✅ `43fed2f` |
+| SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | ✅ fait |
 | SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | — |
 | SB8 | 271-300 | 271-300 | 24 | `days-enrich-reflection-271-300.mjs` | — |
 | SB9 | 301-321 | 303-321 | 16 | `days-enrich-reflection-301-321.mjs` | — |
@@ -101,3 +101,17 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
 - **Périmètre Git** : 22 jours (réflexion seule) + `days-enrich-reflection-181-210.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
 - **Prochain sous-batch** : **SB6** (211-240, jours d'apprentissage 212-240).
+
+## SB6 — jours 211-240 (24 jours d'apprentissage : 212-240 hors pilote 211/218)
+
+- **HEAD de départ** : `43fed2f`
+- **Jours traités** : 212, 213, 214, 215, 216, 219, 220, 221, 222, 223, 225, 226, 227, 228, 229, 230, 232, 233, 234, 235, 236, 237, 239, 240
+- **Domaines** : LLM prod (guardrails, function calling avancé, composant d'appel robuste) et RAG (pourquoi, chunking, recherche par similarité, génération avec citations, pipeline modulaire, multi-formats PDF, ré-ingestion, DocQA v0, diagnostic d'échecs, décisions de conception, estimation d'index, métadonnées/filtrage, consolidation RAG v1, cadrage Projet 6, interface, sessions, optimisation de prompt, cas limites, bilan/éval, migration Chroma, chunking par structure).
+- **Questions** : 72 (24 × 3).
+- **Similarité** (après réangle) : intra-batch max **0,056** ; vs déployées max **0,104** (223.2 vs 185.2 : coïncidence de la formule « si tu l'oublies », sujets sans rapport — conservée) ; vs 313 entretiens **0,060** ; vs exercices **0,084** ; vs cas métier **0,051**.
+- **Défaut détecté puis corrigé** : `237.3 ~ refl253.3 = 0,10` (même formule « figer l'éval pour que les comparaisons de versions veuillent dire quelque chose ») → **237.3 réangée** vers le bilan honnête des faiblesses connues (contenu propre au jour 237).
+- **Lecture manuelle** : 24/24. **Classement : A = 24, B = 0, C = 0.**
+- **Lecture croisée** : jours **212** (premier, guardrails), **240** (dernier, chunking structurel), **226** (complexe, diagnostic retrieval/génération), **232** (projet, cadrage), **220** (citations). Alignement théorie/correction confirmé ; prérequis respectés (Chroma n'est nommé qu'à partir du 239 ; avant, « base vectorielle » comme concept).
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
+- **Périmètre Git** : 24 jours (réflexion seule) + `days-enrich-reflection-211-240.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
+- **Prochain sous-batch** : **SB7** (241-270, jours d'apprentissage 242-270).

@@ -21,8 +21,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 | SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | ✅ `43fed2f` |
 | SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | ✅ `d61402f` |
 | SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | ✅ `b166206` |
-| SB8 | 271-300 | 271-300 | 24 | `days-enrich-reflection-271-300.mjs` | ✅ fait |
-| SB9 | 301-321 | 303-321 | 16 | `days-enrich-reflection-301-321.mjs` | — |
+| SB8 | 271-300 | 271-300 | 24 | `days-enrich-reflection-271-300.mjs` | ✅ `845f175` |
+| SB9 | 301-321 | 303-321 | 16 | `days-enrich-reflection-301-321.mjs` | ✅ fait |
 | SB10 | 322-343 | 323-342 | 17 | `days-enrich-reflection-322-343.mjs` | — |
 | SB11 | 344-363 | 344-363 | 17 | `days-enrich-reflection-344-363.mjs` | — |
 
@@ -143,3 +143,17 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
 - **Périmètre Git** : 24 jours (réflexion seule) + `days-enrich-reflection-271-300.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
 - **Prochain sous-batch** : **SB9** (301-321, jours d'apprentissage 303-321).
+
+## SB9 — jours 301-321 (16 jours d'apprentissage : 303-321 hors pilote 302/314)
+
+- **HEAD de départ** : `845f175` · **revues exclues** : 301, 308, 315
+- **Jours traités** : 303, 304, 305, 306, 307, 309, 310, 311, 312, 313, 316, 317, 318, 319, 320, 321
+- **Domaines** : Capstone DocSense — architecture (ADRs/C4, modèle de données, maquettes/backlog, dérisquage/spikes, setup/CI), RAG core (ingestion multi-format, hexagonal, retrieval hybride, génération avec citations, spikes exécutés), évaluation (golden set, harnais, dashboard qualité, baseline officielle), dockerisation, jalon démontrable.
+- **Questions** : 48 (16 × 3).
+- **Similarité** (après 3 réécritures) : intra-batch max **0,075** ; vs déployées max **0,104** ; vs 313 entretiens **0,060** ; vs exercices max **0,090** ; vs cas métier **0,031**.
+- **Défauts détectés puis corrigés** : `317.3 ~ refl232.2 = 0,13` (« l'éval tôt change la construction ») → **317.3 réangée** vers la boucle de retour rapide ; `321.3 ~ refl314.3 = 0,11` (revue d'archi hebdo, portée par le pilote 314) → **321.3 réécrite** ; cette réécriture ayant rapproché 321.3 de 321.1 (0,13), **321.3 réorientée** une seconde fois vers la valeur démo/entretien.
+- **Lecture manuelle** : 16/16. **Classement : A = 16, B = 0, C = 0.**
+- **Lecture croisée** : jours **303** (premier, ADR/dette), **321** (dernier, jalon mi-parcours), **310** (dense, RAG core hexagonal), **309** (projet, ingestion réelle), **316** (golden set). Alignement théorie/correction confirmé ; prérequis respectés (310 renvoie à l'hexagonal du 289).
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
+- **Périmètre Git** : 16 jours (réflexion seule) + `days-enrich-reflection-301-321.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
+- **Prochain sous-batch** : **SB10** (322-343, jours d'apprentissage 323-342).

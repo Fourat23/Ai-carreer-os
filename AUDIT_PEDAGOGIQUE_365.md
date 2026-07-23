@@ -62,8 +62,24 @@
   - **Constats provisoires invalidés** : objectifs courts (style curriculum-wide, ~3,9 mots), théorie
     « trop brève » (dense et compensée par des guidés excellents), ajout `simple`/`improved` (n'existe
     que sur le palier 1-90). Commit : `85e44cf`.
-- **Chantiers restants** : N1/N3/Y4 (leçons orphelines, titre 314/321, critères subjectifs),
-  Y2/Y3 (homogénéité mini-quiz et structure des corrections 91-365). Voir §17.
+- **Chantier C — Y2/Y3 (palier 91-365) : ✅ TERMINÉ (diagnostic + pilote + déploiement).**
+  Le diagnostic dédié (`DIAGNOSTIC_Y2_Y3.md`) a **révisé** la piste initiale de ce rapport : plutôt
+  que d'ajouter un « mini-quiz » (voir §17 ligne Y2, conservée telle quelle), il a établi que **Y3 est
+  un faux positif** (la distinction simple/robuste EST présente, inline ou en raisonnement — palier
+  laissé en **option A**, aucune correction touchée) et que la seule vraie faiblesse était Y2 : les
+  « Questions de réflexion » **génériques et identiques** sur les 235 jours. Remédiation retenue et
+  déployée : **option B1** — 3 questions de réflexion **spécifiques** par jour (prédiction / diagnostic /
+  transfert).
+  - **Résultat : 235/235 jours d'apprentissage 91-365 avec réflexion spécifique, 705 questions**, 0 jour
+    générique résiduel, 0 doublon exact, 0 question vide. Similarité globale : réflexion↔réflexion
+    max 0,120 (0 paire ≥ 0,14) ; ↔entretiens 0,094 ; ↔exercices 0,132 (topique) ; ↔cas 0,088.
+  - **Lecture manuelle : A = 235, B = 0, C = 0.** 18 questions réécrites via contrôle de similarité.
+  - **Mécanisme isolé** : 12 fichiers `scripts/data/days-enrich-reflection-*.mjs` (champ `reflection`
+    seul) + merge PAR JOUR dans le générateur. **Y3 intact** : aucun fichier `curriculum/solutions/`
+    modifié ; seules les puces de réflexion changent dans les 235 jours. Journal complet :
+    `DEPLOIEMENT_Y2_REFLECTIONS.md`. Pilote `86a2948` → SB1-SB11 (`b039b80` … `2901cb5`).
+- **Chantiers restants** : N1/N3/Y4 (leçons orphelines, titre 314/321, critères subjectifs). Voir §17.
+  (Y2/Y3 : voir clôture ci-dessus.)
 
 ---
 

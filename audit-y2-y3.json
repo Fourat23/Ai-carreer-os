@@ -10035,5 +10035,50 @@
       "classY2": "A",
       "classY3": "A"
     }
+  },
+  "deploymentClosure": {
+    "note": "Ajout post-diagnostic (2026-07-23). Le diagnostic d'origine (champs ci-dessus) est conserve intact. Ce bloc enregistre la decision et l'execution.",
+    "date": "2026-07-23",
+    "y3Decision": "OPTION A (aucun changement) — faux positif confirme, aucune correction/theorie/exercice/revue/projet/glossaire/interface modifie.",
+    "y2Decision": "OPTION B1 ciblee — Questions de reflexion rendues specifiques au jour (3 questions ancrees), via le generateur, sur les 235 journees d'apprentissage.",
+    "chantier": "Chantier C — deploiement Y2 (option B1)",
+    "mechanism": "12 fichiers scripts/data/days-enrich-reflection-*.mjs, champ `reflection` par jour, fusion merge-by-day dans scripts/generate-curriculum.mjs (REFLECTION_SOURCES). Seul le rendu des Questions de reflexion change.",
+    "coverage": {
+      "learningDays": 235,
+      "daysCovered": 235,
+      "genericRemaining": 0,
+      "questionsTotal": 705,
+      "questionsPerDay": 3
+    },
+    "similarityGlobal": {
+      "reflectionVsReflectionMax": 0.12,
+      "reflectionVsInterviewMax": 0.094,
+      "reflectionVsSameDayExerciseMax": 0.132,
+      "reflectionVsSameDayCaseMax": 0.088
+    },
+    "classification": {
+      "axis": "Y2 reflection",
+      "A": 235,
+      "B": 0,
+      "C": 0
+    },
+    "y3Intact": {
+      "solutionsDiff": "empty",
+      "note": "git diff sur curriculum/solutions/ = vide ; aucune correction modifiee."
+    },
+    "pipeline": {
+      "curriculumCheck": "OK",
+      "depthCheck": "OK",
+      "tests": "43/43",
+      "build": "OK",
+      "glyphScan": "clean"
+    },
+    "journal": "DEPLOIEMENT_Y2_REFLECTIONS.md",
+    "notDone": [
+      "OPTION B2 (mini-quiz leger)",
+      "OPTION C (evolution structurelle)",
+      "toute modification de corrections/theorie/guides/exercices/etudes de cas/entretien/revues/lecons/projets/glossaire/interface"
+    ],
+    "status": "Chantier C (Y2/Y3) cloture."
   }
 }

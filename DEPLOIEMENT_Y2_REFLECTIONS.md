@@ -185,3 +185,55 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
 - **Périmètre Git** : 17 jours (réflexion seule) + `days-enrich-reflection-344-363.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
 - **DÉPLOIEMENT TERMINÉ** : 235/235 jours d'apprentissage spécifiques. Audit global final ci-dessous.
+
+---
+
+# CLÔTURE Y2 — Chantier C terminé (2026-07-23)
+
+Déploiement des « Questions de réflexion » spécifiques **achevé** sur l'intégralité du palier 91-365.
+
+## État avant Y2
+Palier 91-365 : 235 jours d'apprentissage avec **3 questions de réflexion génériques identiques** (métacognitives, non ancrées au contenu). Diagnostic dans `DIAGNOSTIC_Y2_Y3.md` (Chantier C) → option **B1** validée (questions spécifiques par jour), en remplacement du « mini-quiz » initialement suggéré par `AUDIT_PEDAGOGIQUE_365.md`.
+
+## Pilote + SB1 à SB11 — récapitulatif
+
+| Étape | Plage | Jours | Questions | Commit |
+|---|---|---|---|---|
+| Pilote | échantillon | 22 | 66 | `86a2948` |
+| SB1 | 91-120 | 21 | 63 | `b039b80` |
+| SB2 | 121-150 | 24 | 72 | `2febae6` |
+| SB3 | 151-167 | 14 | 42 | `41f132f` |
+| SB4 | 168-180 | 11 | 33 | `682e817` |
+| SB5 | 181-210 | 22 | 66 | `43fed2f` |
+| SB6 | 211-240 | 24 | 72 | `d61402f` |
+| SB7 | 241-270 | 23 | 69 | `b166206` |
+| SB8 | 271-300 | 24 | 72 | `845f175` |
+| SB9 | 301-321 | 16 | 48 | `89865a5` |
+| SB10 | 322-343 | 17 | 51 | `6072d3a` |
+| SB11 | 344-363 | 17 | 51 | `2901cb5` |
+| **Total** | **91-365** | **235** | **705** | — |
+
+## Réécritures (déclenchées par le contrôle de similarité, jamais masquées)
+SB2 : 2 · SB4 : 1 · SB5 : 3 · SB6 : 1 · SB8 : 2 · SB9 : 3 · SB10 : 2 · SB11 : 4 · **Total : 18 questions réécrites** pour éliminer toute proximité artificielle (la plus élevée traitée : 354 vs 293 = 0,25 → réécrit).
+
+## Métriques de similarité GLOBALES (705 questions, Jaccard n-grammes normalisés)
+- **Réflexion vs réflexion** : max **0,120** sur 248 160 paires · **0 paire ≥ 0,14** · seulement 7 paires ≥ 0,10 · 99,86 % des paires < 0,05.
+- **Réflexion vs 313 entretiens** : max **0,094** · 0 paire ≥ 0,14.
+- **Réflexion vs exercice (même jour)** : max **0,132** (jour 209, topique).
+- **Réflexion vs cas métier (même jour)** : max **0,088**.
+
+## Résultats manuels
+- **Classement final : A = 235, B = 0, C = 0.**
+- Lectures croisées complètes (théorie+guidé+exo+cas+entretien+réflexion+correction) : ≥ 5 par sous-batch (55+ jours) + échantillon stratifié final de 16 jours couvrant toutes les périodes et tous les domaines. Aucun jour B/C.
+
+## Anomalies
+- **Corrigées** : 18 proximités de similarité (réécrites), aucune régression. Faux positifs « blocs vides » du script d'audit corrigés en amont.
+- **Restantes** : aucune. 0 jour générique, 0 doublon exact, 0 question vide, 0 concept prématuré détecté.
+
+## Preuve que Y3 est intact
+Sur tout le déploiement (`2be5c3f..2901cb5`) : **aucun fichier `curriculum/solutions/` modifié** ; le diff cumulé des 235 jours ne contient QUE des puces de la section « Questions de réflexion » (aucune autre section touchée) ; mécanisme par merge PAR JOUR (`reflection` seul), aucun autre champ d'enrichissement écrasé. Y3 reste en **option A** (aucune correction, aucun format de correction modifié).
+
+## Pipeline final
+`generate` (795 fichiers) ✅ · `curriculum:check` 365/365 ✅ · `depth-check` ✅ · **43/43 tests** ✅ · `build` ✅ · scan glyphes CLEAN ✅ · `program.json` restauré (timestamp seul) ✅.
+
+**Chantier C (Y2) : TERMINÉ. 235/235 jours spécifiques, 705 questions, Y3 intact.**

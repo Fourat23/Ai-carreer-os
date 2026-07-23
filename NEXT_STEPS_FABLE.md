@@ -80,6 +80,15 @@ question d'entretien pour jours IA, alerte vague/court.
 ## Règle de sécurité (chaque batch)
 `npm run generate` (si besoin) → `curriculum:check` → `curriculum:depth-check` → `npm test` → `npm run build` → corriger → commit + push.
 
+## ✅ CHANTIER C TERMINÉ — « Questions de réflexion » du palier 91-365 rendues spécifiques → **235/235 jours, 705 questions**
+
+- Suite au diagnostic `DIAGNOSTIC_Y2_Y3.md` : **Y3 → OPTION A** (faux positif, aucune correction touchée) ; **Y2 → OPTION B1** ciblée : remplacer les 3 « Questions de réflexion » **génériques et identiques** des 235 journées d'apprentissage 91-365 par 3 questions **spécifiques au jour** (compréhension · diagnostic/arbitrage · transfert/recul).
+- **Résultat : 235/235 jours couverts, 705 questions spécifiques (3/jour), 0 réflexion générique restante.** Classement final **A = 235, B = 0, C = 0**.
+- **Mécanisme isolé** : champ `reflection` par jour dans **12 fichiers** `scripts/data/days-enrich-reflection-*.mjs`, fusion **par jour** (`REFLECTION_SOURCES` + merge-by-day) dans `scripts/generate-curriculum.mjs`. **Seul** le rendu des « Questions de réflexion » change ; corrections, théorie, guidés, exercices, études de cas, entretien, revues, leçons, projets, glossaire et interface **intacts** (`git diff` sur `curriculum/solutions/` = vide).
+- **Similarité globale** (anti-générique) : réflexion↔réflexion max **0,120** ; ↔313 questions d'entretien **0,094** ; ↔exercice même jour **0,132** ; ↔étude de cas même jour **0,088**. **18 réécritures** ciblées sur signaux de similarité.
+- **Sous-batchs** : pilote (22 j) `86a2948` → SB1-SB11. Derniers : SB10 (323-342) `6072d3a`, SB11 (344-363) `2901cb5`. Journal détaillé : `DEPLOIEMENT_Y2_REFLECTIONS.md`.
+- Checks (chaque sous-batch + final) : `curriculum:check` **365/365** ✅ · `depth-check` ✅ · **43/43** tests · build ✅ · scan glyphes propre.
+
 ## ✅ BATCH 1 TERMINÉ — 60/60 leçons
 
 - **60 leçons de fond** dans `curriculum/lessons/` (39 au gabarit complet neuf, 21 au gabarit d'origine — toutes structurées, avec exercices et vocabulaire).

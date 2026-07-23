@@ -236,3 +236,38 @@ zone de réelle légèreté (183-209).
 - HEAD de départ inchangé : `5eca0ef`.
 
 **STOP — validation demandée. Quelle option valides-tu : A, B ou C ?**
+
+---
+
+## 15. Suite donnée (post-diagnostic — 2026-07-23)
+
+> Ajout postérieur à la validation. **Le diagnostic ci-dessus (§1-14) est conservé intégralement, tel
+> qu'il a été produit** ; cette section ne le réécrit pas, elle enregistre la décision prise et son
+> exécution.
+
+**Décision retenue.** L'utilisateur a validé, pour **Y3, l'OPTION A** (aucun changement — faux positif
+confirmé : aucune correction, théorie, exercice, revue, projet, glossaire ni interface n'a été touché)
+et, pour **Y2, l'OPTION B1 strictement ciblée** : rendre les « Questions de réflexion » **spécifiques
+au jour** (3 questions ancrées sur le contenu, à la place du template générique), via le générateur,
+sur les **235 journées d'apprentissage** du palier 91-365 — **et rien d'autre**.
+
+**Exécution (Chantier C — déploiement Y2, option B1).**
+- Mécanisme **isolé** : champ `reflection` par jour dans **12 fichiers** `scripts/data/days-enrich-reflection-*.mjs`,
+  fusionnés **par jour** (`REFLECTION_SOURCES` + merge-by-day) dans `scripts/generate-curriculum.mjs`.
+  Seul le rendu des « Questions de réflexion » change ; **aucune autre rubrique** n'est affectée.
+- **Résultat : 235/235 jours** couverts, **705 questions spécifiques** (3/jour), **0 réflexion générique
+  restante**, structure du triplet respectée (compréhension · diagnostic/arbitrage · transfert/recul).
+- **Y3 intact vérifié** : `git diff` sur `curriculum/solutions/` = **vide** (aucune correction modifiée) ;
+  le diff cumulé des jours ne contient que des puces de réflexion.
+- **Similarité globale** (contrôle anti-générique) : réflexion↔réflexion max **0,120** ; ↔313 questions
+  d'entretien max **0,094** ; ↔exercice même jour max **0,132** ; ↔étude de cas même jour max **0,088**.
+- **Classement final A/B/C (Y2 réflexion)** : **A = 235, B = 0, C = 0**.
+- **Journal détaillé** (sous-batchs, réécritures, hashes) : `DEPLOIEMENT_Y2_REFLECTIONS.md`.
+- **Pipeline** (`curriculum:check`, `depth-check`, tests 43/43, build, scan glyphes) : vert à chaque
+  sous-batch et au final.
+
+**Ce qui n'a PAS été fait**, conformément au périmètre validé : ni OPTION B2 (mini-quiz léger), ni
+OPTION C (évolution structurelle), ni aucune modification de corrections, théorie, exemples guidés,
+exercices, études de cas, questions d'entretien, revues, leçons, projets, glossaire ou interface.
+
+**Statut : Chantier C (Y2/Y3) clôturé.**

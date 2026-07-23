@@ -13,6 +13,7 @@ const deployedFiles = [
   'scripts/data/days-enrich-reflection-091-120.mjs',
   'scripts/data/days-enrich-reflection-121-150.mjs',
   'scripts/data/days-enrich-reflection-151-167.mjs',
+  'scripts/data/days-enrich-reflection-168-180.mjs',
 ];
 
 async function loadReflections(rel) {

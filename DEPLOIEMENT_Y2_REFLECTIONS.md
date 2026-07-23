@@ -16,8 +16,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 |----|-------|-------|----|---------|------|
 | SB1 | 91-120 | 93-118 | 21 | `days-enrich-reflection-091-120.mjs` | ✅ `b039b80` |
 | SB2 | 121-150 | 121-150 | 24 | `days-enrich-reflection-121-150.mjs` | ✅ `2febae6` |
-| SB3 | 151-167 | 151-167 | 14 | `days-enrich-reflection-151-167.mjs` | ✅ fait |
-| SB4 | 168-180 | 169-180 | 11 | `days-enrich-reflection-168-180.mjs` | — |
+| SB3 | 151-167 | 151-167 | 14 | `days-enrich-reflection-151-167.mjs` | ✅ `41f132f` |
+| SB4 | 168-180 | 169-180 | 11 | `days-enrich-reflection-168-180.mjs` | ✅ fait |
 | SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | — |
 | SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | — |
 | SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | — |
@@ -73,3 +73,17 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
 - **Périmètre Git** : 14 jours (réflexion seule) + `days-enrich-reflection-151-167.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
 - **Prochain jour restant** : **168** (début SB4).
+
+## SB4 — jours 168-180 (11 jours d'apprentissage : 169-180 ; 168 et 175 sont des revues)
+
+- **HEAD de départ** : `41f132f`
+- **Jours traités** : 169, 170, 171, 172, 173, 174, 176, 177, 178, 179, 180
+- **Domaines** : Machine learning — feature engineering, encodage/préprocessing, pipelines scikit-learn, clustering k-means, interprétabilité, consolidation + cadrage Projet 5, projet ChurnScope (EDA/baseline, premiers modèles, feature engineering, optimisation/validation, analyse d'erreurs/rapport).
+- **Questions** : 33 (11 × 3).
+- **Similarité** (après réécriture) : intra-batch max **0,069** ; vs déployées max **0,075** ; vs 313 entretiens **0,033** ; vs exercices **0,073** ; vs cas métier **0,021**.
+- **Défaut détecté puis corrigé** : `170.3 ~ refl157.1 = 0,205` (redite du leakage « normaliser avant split » du jour 157) → **170.3 réécrite** vers la fuite spécifique du préprocessing appris (catégorie inconnue en production). Après : max vs déployées 0,075.
+- **Lecture manuelle** : 11/11. **Classement : A = 11, B = 0, C = 0.**
+- **Lecture croisée** : jours **169** (premier, features>modèle), **180** (dernier, rapport décision), **173** (complexe, interprétabilité), **176** (projet, EDA/baseline), **172** (clustering). Alignement théorie/correction confirmé.
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
+- **Périmètre Git** : 11 jours (réflexion seule) + `days-enrich-reflection-168-180.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
+- **Prochain sous-batch** : **SB5** (181-210, jours d'apprentissage 181-209).

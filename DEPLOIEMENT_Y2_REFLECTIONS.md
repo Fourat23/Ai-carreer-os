@@ -17,8 +17,8 @@ format modifié). Un sous-batch = mapping → rédaction → génération → co
 | SB1 | 91-120 | 93-118 | 21 | `days-enrich-reflection-091-120.mjs` | ✅ `b039b80` |
 | SB2 | 121-150 | 121-150 | 24 | `days-enrich-reflection-121-150.mjs` | ✅ `2febae6` |
 | SB3 | 151-167 | 151-167 | 14 | `days-enrich-reflection-151-167.mjs` | ✅ `41f132f` |
-| SB4 | 168-180 | 169-180 | 11 | `days-enrich-reflection-168-180.mjs` | ✅ fait |
-| SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | — |
+| SB4 | 168-180 | 169-180 | 11 | `days-enrich-reflection-168-180.mjs` | ✅ `682e817` |
+| SB5 | 181-210 | 181-209 | 22 | `days-enrich-reflection-181-210.mjs` | ✅ fait |
 | SB6 | 211-240 | 212-240 | 24 | `days-enrich-reflection-211-240.mjs` | — |
 | SB7 | 241-270 | 242-270 | 23 | `days-enrich-reflection-241-270.mjs` | — |
 | SB8 | 271-300 | 271-300 | 24 | `days-enrich-reflection-271-300.mjs` | — |
@@ -87,3 +87,17 @@ Total : **213** (0 doublon, 0 manquant). Outil de contrôle : `scripts/audit-ref
 - **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
 - **Périmètre Git** : 11 jours (réflexion seule) + `days-enrich-reflection-168-180.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
 - **Prochain sous-batch** : **SB5** (181-210, jours d'apprentissage 181-209).
+
+## SB5 — jours 181-210 (22 jours d'apprentissage : 181-209 hors pilote 190/194/197)
+
+- **HEAD de départ** : `682e817`
+- **Jours traités** : 181, 183, 184, 185, 186, 187, 188, 191, 192, 193, 195, 198, 199, 200, 201, 202, 204, 205, 206, 207, 208, 209
+- **Domaines** : reproductibilité (fin Projet 5), Deep learning (neurone NumPy, descente de gradient, PyTorch/autograd, MLP/XOR, entraînement MNIST, régularisation), NLP/DL (embeddings, attention, transformer, note de vulgarisation), LLM (API, température, tokens/coûts, hallucinations, banc d'essai, prompt engineering, structured outputs, few-shot, function calling, intégration, consolidation).
+- **Questions** : 66 (22 × 3).
+- **Similarité** (après réécriture) : intra-batch max **0,060** ; vs déployées max **0,082** ; vs 313 entretiens **0,094** ; vs exercices **0,132** (209.1 vs son exercice, topique — les 5 propriétés sont le contenu du jour) ; vs cas métier **0,088**.
+- **Défauts détectés puis corrigés** : 3 échos topiques réangés — `204.3 ~ refl211.3 = 0,164` (prompt-as-code/régression, thème du 211 → 204.3 recentrée sur la prédictibilité de la spec par un tiers) ; `206.2` et `198.3` (~0,11 avec leur propre entretien → réangés vers un diagnostic / la versionnabilité). Après : max vs déployées 0,082 ; vs entretiens 0,094.
+- **Lecture manuelle** : 22/22. **Classement : A = 22, B = 0, C = 0.**
+- **Lecture croisée** : jours **181** (premier), **209** (dernier), **192** (complexe : attention), **205** (structured outputs), **201** (hallucinations) + confirmation théorie sur 183. Alignement théorie/correction confirmé ; prérequis respectés (183 ne référence pas MLP ; 191 s'appuie sur la tokenisation du pilote 190).
+- **Tests** : generate ✅ · check ✅ · depth-check ✅ · 43/43 ✅ · build ✅ · scan glyphes CLEAN · program.json restauré.
+- **Périmètre Git** : 22 jours (réflexion seule) + `days-enrich-reflection-181-210.mjs` + `generate-curriculum.mjs` + `audit-reflection-sim.mjs`.
+- **Prochain sous-batch** : **SB6** (211-240, jours d'apprentissage 212-240).

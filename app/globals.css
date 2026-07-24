@@ -1,16 +1,21 @@
 :root {
-  --bg: #0f1115;
-  --panel: #171a21;
-  --panel-2: #1e222b;
-  --border: #2a2f3a;
-  --text: #e6e8ec;
-  --muted: #9aa2b1;
-  --accent: #5b9dff;
-  --accent-2: #3ad29f;
-  --warn: #ffb454;
-  --danger: #ff6b6b;
-  --radius: 10px;
+  /* Engineering Workbench — surfaces graphite légèrement chaudes, accent minéral froid. */
+  --bg: #131519;
+  --panel: #1a1d23;
+  --panel-2: #21252c;
+  --border: #2b2f38;
+  --text: #e6e8ec;         /* blanc cassé, jamais blanc pur */
+  --muted: #969ba6;
+  --accent: #63a6a0;       /* teal minéral, froid, utilisé avec retenue */
+  --accent-2: #4fb08a;     /* succès */
+  --warn: #d6a44e;         /* avertissement */
+  --danger: #d9706b;       /* erreur */
+  --radius: 8px;
   --sidebar-w: 232px;
+  --nav-w: 238px;
+  --nav-w-collapsed: 62px;
+  --topbar-h: 52px;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
 }
 
 * { box-sizing: border-box; }
@@ -25,30 +30,75 @@ body {
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-.layout { display: flex; min-height: 100vh; }
+/* ══ Shell « Engineering Workbench » ══ */
+.app { display: flex; min-height: 100vh; }
 
-/* Sidebar */
-.sidebar {
-  width: var(--sidebar-w);
-  min-width: var(--sidebar-w);
-  background: var(--panel);
-  border-right: 1px solid var(--border);
-  padding: 18px 12px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
+/* Rail de navigation desktop */
+.app-rail {
+  display: flex; flex-direction: column;
+  width: var(--nav-w); min-width: var(--nav-w);
+  background: var(--panel); border-right: 1px solid var(--border);
+  position: sticky; top: 0; height: 100vh;
 }
-.sidebar .brand { font-weight: 700; font-size: 17px; margin: 4px 8px 18px; color: var(--text); }
-.sidebar .brand span { color: var(--accent-2); }
-.sidebar nav a {
-  display: flex; align-items: center; gap: 9px;
-  padding: 8px 10px; border-radius: 8px; color: var(--muted);
-  font-size: 14px; margin-bottom: 2px;
+.app[data-collapsed="true"] .app-rail { width: var(--nav-w-collapsed); min-width: var(--nav-w-collapsed); }
+.rail-top { padding: 14px 14px 8px; }
+.rail-scroll { flex: 1; overflow-y: auto; padding: 6px 10px 12px; }
+
+.brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 600; }
+.brand:hover { text-decoration: none; }
+.brand-mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 7px;
+  background: var(--panel-2); border: 1px solid var(--border); color: var(--accent); flex: none; }
+.brand-text { font-size: 15px; letter-spacing: -0.01em; }
+.brand-text b { color: var(--accent); font-weight: 700; }
+
+.nav-sect { font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted);
+  margin: 16px 10px 6px; font-family: var(--font-mono); opacity: .75; }
+.nav-group { display: flex; flex-direction: column; gap: 1px; }
+.nav-link { display: flex; align-items: center; gap: 11px; padding: 8px 10px; border-radius: 7px;
+  color: var(--muted); font-size: 14px; position: relative; }
+.nav-link:hover { background: var(--panel-2); color: var(--text); text-decoration: none; }
+.nav-link.active { background: var(--panel-2); color: var(--text); }
+.nav-link.active::before { content: ''; position: absolute; left: 0; top: 7px; bottom: 7px; width: 2.5px;
+  border-radius: 0 2px 2px 0; background: var(--accent); }
+.nav-ico { display: grid; place-items: center; width: 18px; height: 18px; flex: none; color: inherit; }
+.nav-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.rail-collapse { display: flex; align-items: center; gap: 11px; margin: 4px 10px 12px; padding: 8px 10px;
+  border-radius: 7px; border: none; background: none; color: var(--muted); font-size: 13px; cursor: pointer;
+  text-align: left; }
+.rail-collapse:hover { background: var(--panel-2); color: var(--text); }
+
+/* Repli : masque libellés/sections, centre les icônes */
+.app[data-collapsed="true"] .nav-label,
+.app[data-collapsed="true"] .nav-sect,
+.app[data-collapsed="true"] .brand-text { display: none; }
+.app[data-collapsed="true"] .nav-link,
+.app[data-collapsed="true"] .rail-collapse { justify-content: center; gap: 0; }
+
+/* Barre supérieure + drawer : masqués sur desktop */
+.app-topbar { display: none; }
+.drawer-overlay, .app-drawer { display: none; }
+.topbar-btn { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--panel-2); color: var(--text); cursor: pointer; }
+.topbar-btn:hover { background: #262b33; }
+.topbar-spacer { width: 40px; flex: none; }
+
+/* Mobile / tablette étroite : rail masqué, barre + drawer, contenu prioritaire */
+@media (max-width: 900px) {
+  .app { flex-direction: column; }
+  .app-rail { display: none; }
+  .app-topbar { display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 30;
+    height: var(--topbar-h); padding: 0 12px; background: var(--panel); border-bottom: 1px solid var(--border); }
+  .drawer-overlay { display: block; position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.55);
+    opacity: 0; pointer-events: none; transition: opacity .18s ease; }
+  .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+  .app-drawer { display: flex; flex-direction: column; position: fixed; top: 0; left: 0; z-index: 50;
+    width: min(84vw, 300px); height: 100dvh; background: var(--panel); border-right: 1px solid var(--border);
+    transform: translateX(-100%); transition: transform .2s ease; }
+  .app-drawer.open { transform: translateX(0); }
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;
+    border-bottom: 1px solid var(--border); }
 }
-.sidebar nav a:hover { background: var(--panel-2); color: var(--text); text-decoration: none; }
-.sidebar nav a.active { background: var(--panel-2); color: var(--text); font-weight: 600; }
-.sidebar .sect { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #6b7280; margin: 16px 10px 6px; }
 
 /* Content */
 /* min-width:0 : autorise ce flex-item à rétrécir sous la largeur min-content de ses enfants
@@ -202,15 +252,6 @@ details.gloss-more > summary::before { content: '▸ '; }
 details.gloss-more[open] > summary::before { content: '▾ '; }
 
 @media (max-width: 640px) {
-  /* D1 — sous 640px : la barre latérale se replie au-dessus du contenu (largeur pleine),
-     au lieu de fixer 232px et d'écraser le contenu. Comportement desktop inchangé au-dessus. */
-  .layout { flex-direction: column; }
-  .sidebar {
-    width: 100%; min-width: 0; height: auto;
-    position: static;
-    border-right: none; border-bottom: 1px solid var(--border);
-  }
-  .sidebar nav { display: flex; flex-wrap: wrap; gap: 4px; }
   .content { padding: 18px 16px 50px; max-width: 100%; }
   /* Une seule colonne de cartes sous 640px (évite le débordement des grilles serrées). */
   .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }

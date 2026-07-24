@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Sidebar from './Sidebar';
+import AppShell from './shell/AppShell';
 
 export const metadata: Metadata = {
   title: 'AI Career OS',
@@ -11,10 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr">
       <body>
-        <div className="layout">
-          <Sidebar />
-          <main className="content">{children}</main>
-        </div>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

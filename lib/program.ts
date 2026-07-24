@@ -4,6 +4,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { marked } from 'marked';
+import { rewriteHtmlLinks } from './internal-links';
 import type { Program, ProgramDay, ProgramWeek, ProgramMonth } from './types';
 
 const ROOT = process.cwd();
@@ -40,7 +41,9 @@ function renderMarkdown(relativePath: string): string | null {
   const md = readFileSync(path, 'utf8');
   // Retire un éventuel marqueur <!-- keep --> en tête (ne pas l'afficher).
   const cleaned = md.replace(/^<!-- keep -->\n?/, '');
-  return marked.parse(cleaned, { async: false }) as string;
+  const html = marked.parse(cleaned, { async: false }) as string;
+  // Normalise les liens internes Markdown (../week-35.md, …) vers les routes réelles (/week/35).
+  return rewriteHtmlLinks(html);
 }
 
 export function getDayHtml(day: number): string | null {

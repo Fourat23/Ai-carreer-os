@@ -51,7 +51,9 @@ a:hover { text-decoration: underline; }
 .sidebar .sect { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #6b7280; margin: 16px 10px 6px; }
 
 /* Content */
-.content { flex: 1; padding: 26px 34px 60px; max-width: 1000px; }
+/* min-width:0 : autorise ce flex-item à rétrécir sous la largeur min-content de ses enfants
+   (sinon un <pre>/<table> large empêche le rétrécissement et crée un débordement horizontal). */
+.content { flex: 1; min-width: 0; padding: 26px 34px 60px; max-width: 1000px; }
 h1 { font-size: 26px; margin: 0 0 6px; }
 h2 { font-size: 19px; margin: 26px 0 10px; }
 .subtitle { color: var(--muted); margin: 0 0 22px; }
@@ -200,7 +202,21 @@ details.gloss-more > summary::before { content: '▸ '; }
 details.gloss-more[open] > summary::before { content: '▾ '; }
 
 @media (max-width: 640px) {
-  .content { padding: 18px 16px 50px; }
+  /* D1 — sous 640px : la barre latérale se replie au-dessus du contenu (largeur pleine),
+     au lieu de fixer 232px et d'écraser le contenu. Comportement desktop inchangé au-dessus. */
+  .layout { flex-direction: column; }
+  .sidebar {
+    width: 100%; min-width: 0; height: auto;
+    position: static;
+    border-right: none; border-bottom: 1px solid var(--border);
+  }
+  .sidebar nav { display: flex; flex-wrap: wrap; gap: 4px; }
+  .content { padding: 18px 16px 50px; max-width: 100%; }
+  /* Une seule colonne de cartes sous 640px (évite le débordement des grilles serrées). */
+  .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }
+  /* Ligne de compétence : le nom passe sur sa propre ligne (évite le débordement du nom fixe 200px). */
+  .skill-row { flex-wrap: wrap; }
+  .skill-row .name { width: 100%; min-width: 0; }
   .gloss-controls .grow, .gloss-controls select, .gloss-controls input { min-width: 0; width: 100%; }
   .gloss-controls .field-group { flex: 1 1 100%; }
 }

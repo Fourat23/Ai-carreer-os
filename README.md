@@ -4,6 +4,8 @@
 
 Une application web qui tourne en **localhost**, sans authentification ni cloud. Tout le contenu pédagogique (365 jours, 52 semaines, 12 mois, 7 projets, corrections, rubriques, méthodologie, carrière) est en **Markdown éditable**. Ta progression est sauvegardée dans un simple fichier JSON local.
 
+> **Outil personnel, 100 % local.** Pas d'authentification, pas de base de données, pas d'hébergement ni de service externe requis : tu clones, tu lances `npm run dev`, tu travailles sur `http://localhost:3000`. Ce n'est ni un SaaS ni une application publique — c'est ton système d'apprentissage exécuté sur ta machine.
+
 ---
 
 ## Prérequis
@@ -46,8 +48,11 @@ ai-career-os/
 │   ├── notes/              # Vue Notes (agrégées depuis les jours)
 │   ├── resources/          # Vue Ressources
 │   ├── career/             # Vue Carrière (CV, entretiens)
-│   ├── doc/[...slug]/      # Rendu des documents (méthodologie, rubriques)
-│   └── api/progress/       # API de progression (lit/écrit data/progress.json)
+│   ├── lessons/            # Vue Leçons de fond (index des 60 leçons)
+│   ├── glossary/           # Vue Glossaire IT & monde du travail
+│   ├── guide/              # Vue Mode d'emploi
+│   ├── doc/[...slug]/      # Rendu des documents (méthodologie, rubriques, leçons)
+│   └── api/progress/       # API de progression (lit/écrit data/progress.json) + export/import
 ├── lib/                    # Types, chargement du programme, calculs, progression
 ├── curriculum/             # 📚 TOUT le contenu pédagogique (Markdown éditable)
 │   ├── year-overview.md
@@ -120,7 +125,7 @@ Guide complet : **Mode d'emploi** (menu de gauche → `curriculum/how-to-use-12-
 - **⛔ Correction** : à ouvrir APRÈS avoir essayé. Ce n'est pas une réponse à copier mais un outil pour comprendre ta démarche (logique, solution simple, solution améliorée, oral).
 
 ### Comment utiliser les leçons de fond (`curriculum/lessons/`)
-21 leçons approfondies et réutilisables (terminal, Git, JS, TS, algo, structures, HTTP, API, SQL, clean code, tests, architecture, patterns, Python, stats, ML, LLM, RAG, agents, évaluation IA, sécurité IA). Chaque jour renvoie vers la leçon correspondante dans son bloc « Cours approfondi ». Accès direct via le menu **📖 Leçons de fond**. Lis-les pour la profondeur, relis-les pour consolider.
+60 leçons approfondies et réutilisables, réparties en 8 catégories : Fondations (9), Web & backend (7), Data & SQL (5), Software engineering & architecture (6), Python & ML (8), IA appliquée (15 : LLM, RAG, agents, évaluation, sécurité IA), Production & DevOps (5 : Docker, CI/CD, secrets, observabilité, monitoring), Portfolio & carrière (5). Chaque jour renvoie vers la ou les leçons correspondantes dans son bloc « Cours approfondi ». Accès direct via le menu **📖 Leçons de fond** (route `/lessons`). Lis-les pour la profondeur, relis-les pour consolider.
 
 ---
 
@@ -135,6 +140,19 @@ Guide complet : **Mode d'emploi** (menu de gauche → `curriculum/how-to-use-12-
 ## Where is my data? (où sont mes données ?)
 - Ta progression : `data/progress.json` (lisible et éditable à la main).
 - Elle survit au navigateur (c'est un fichier, pas du localStorage).
+- **Ce fichier est local et non versionné** (il est dans `.gitignore`) : ta progression personnelle
+  ne part jamais dans Git, et un `git pull` ne l'écrase pas. Un modèle vierge est fourni :
+  `data/progress.example.json`.
+
+## Initialiser la progression locale
+L'application fonctionne même si `data/progress.json` est **absent** (elle démarre alors sur un état
+vide en mémoire, puis crée le fichier au premier suivi enregistré). Pour partir d'un fichier propre
+tout de suite :
+```bash
+cp data/progress.example.json data/progress.json
+```
+Si le fichier est **corrompu**, l'app ne plante pas : elle repart d'un état vide sans écraser
+silencieusement le fichier existant.
 
 ## How to backup progress (sauvegarder ma progression)
 - **Depuis l'app** : Dashboard → carte « Sauvegarde de ma progression » → **⬇️ Exporter** télécharge `progress-AAAA-MM-JJ.json`. **⬆️ Restaurer** recharge un fichier exporté (validé avant écrasement).

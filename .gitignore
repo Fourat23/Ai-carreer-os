@@ -3,3 +3,6 @@ node_modules/
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+
+# Progression locale personnelle (ne pas versionner). Voir data/progress.example.json.
+data/progress.json

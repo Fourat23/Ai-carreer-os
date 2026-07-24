@@ -1,5 +1,10 @@
 # Release Readiness V1 — AI Career OS (2026-07-24)
 
+> **⚠️ Terminologie** — « release-readiness » désigne ici l'**intégrité locale** du socle (fonctionnement
+> en localhost), **pas** une publication, une mise en production ni un SaaS. AI Career OS reste un outil
+> personnel local. **Diagnostic initial ci-dessous ; findings D1/D2/D3 résolus** — voir
+> `LOCAL_V1_INTEGRITY.md` (verdict : LOCAL V1 BASELINE VALIDÉE).
+
 > **Audit fonctionnel et release-readiness**, en **lecture seule**. Aucun contenu pédagogique,
 > aucun jour, aucune correction, aucune leçon, aucun composant n'a été modifié. Ce document est un
 > **diagnostic** ; aucune correction n'est appliquée sans validation explicite.

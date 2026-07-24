@@ -1,9 +1,11 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getDay, getDayHtml, getSolutionHtml, getDayChecklist } from '@/lib/program';
 import { getDayProgress } from '@/lib/progress-server';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
+import { stripDayLeadHtml } from '@/lib/day-view';
 import DayPanel from './DayPanel';
+import DayHeader from './DayHeader';
+import DayOutline from './DayOutline';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,36 +15,43 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
   if (!Number.isInteger(dayNum) || dayNum < 1 || dayNum > 365) notFound();
 
   const meta = getDay(dayNum);
-  const html = getDayHtml(dayNum);
-  if (!meta || !html) notFound();
+  const rawHtml = getDayHtml(dayNum);
+  if (!meta || !rawHtml) notFound();
+  const html = stripDayLeadHtml(rawHtml);
   const solution = getSolutionHtml(dayNum);
   const checklist = getDayChecklist(dayNum);
   const progress = getDayProgress(dayNum) ?? { ...EMPTY_DAY_PROGRESS };
 
   return (
     <div className="day-view">
-      <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
-        <div className="row">
-          {dayNum > 1 && <Link className="btn small" href={`/day/${dayNum - 1}`}>← Jour {dayNum - 1}</Link>}
-          {dayNum < 365 && <Link className="btn small" href={`/day/${dayNum + 1}`}>Jour {dayNum + 1} →</Link>}
-        </div>
-        <div className="row">
-          <Link className="btn small" href={`/week/${meta.week}`}>Semaine {meta.week}</Link>
-          <Link className="btn small" href={`/month/${meta.month}`}>Mois {meta.month}</Link>
-        </div>
+      <div className="day-main">
+        <DayHeader
+          day={dayNum}
+          title={meta.title}
+          skillName={meta.skillName}
+          difficulty={meta.difficulty}
+          hours={meta.hours}
+          week={meta.week}
+          month={meta.month}
+          status={progress.status}
+        />
+
+        <DayOutline variant="compact" />
+
+        <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+
+        <DayPanel day={dayNum} initial={progress} checklist={checklist} />
+
+        {solution && (
+          <details className="solution">
+            <summary>{meta.isReview ? "📋 Voir la grille d'évaluation" : '⛔ Voir la correction (seulement après avoir vraiment essayé seul)'}</summary>
+            <div className="prose" style={{ borderRadius: '0 0 8px 8px', borderTop: 'none' }}
+                 dangerouslySetInnerHTML={{ __html: solution }} />
+          </details>
+        )}
       </div>
 
-      <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
-
-      <DayPanel day={dayNum} initial={progress} checklist={checklist} />
-
-      {solution && (
-        <details className="solution">
-          <summary>{meta.isReview ? '📋 Voir la grille d\'évaluation' : '⛔ Voir la correction (seulement après avoir vraiment essayé seul)'}</summary>
-          <div className="prose" style={{ borderRadius: '0 0 8px 8px', borderTop: 'none' }}
-               dangerouslySetInnerHTML={{ __html: solution }} />
-        </details>
-      )}
+      <DayOutline variant="rail" />
     </div>
   );
 }

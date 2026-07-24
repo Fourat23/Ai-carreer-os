@@ -267,7 +267,7 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
    app/day/[id]/page.tsx). N'affecte aucun autre écran partageant .prose (semaine,
    mois, doc, leçons, projets). But : colonne de lecture ~68-72 car/ligne + corps
    confortable, sans « mur de texte plein écran », en gardant l'identité sobre. */
-.day-view { max-width: 39.5rem; }
+.day-main { max-width: 39.5rem; }
 
 /* Corps confortable */
 .day-view .prose { font-size: 16.5px; line-height: 1.72; }
@@ -287,3 +287,224 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 
 /* Métadonnées / notes moins envahissantes */
 .day-view .prose blockquote { font-size: 14px; padding: 8px 14px; margin: 10px 0 18px; }
+
+/* ── Vue Jour — structure & repères (Sprint UI V2) ──
+   La colonne de lecture reste plafonnée (.day-main). Sur très grand écran, un rail
+   « Sections » apparaît à droite ; en dessous, il se replie en <details>. */
+.day-view { display: block; }
+
+/* Le contenu du jour est éditorial, pas une grosse carte : on retire fond/bordure/
+   padding de l'article principal. Le rythme vient des règles au-dessus des H2 et de
+   l'espacement. (La correction, un div.prose dans details.solution, garde sa carte.) */
+.day-view article.prose {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+.day-view article.prose h2 {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  margin-top: 34px;
+}
+.day-view article.prose > h2:first-child { border-top: none; padding-top: 0; margin-top: 6px; }
+
+@media (min-width: 1200px) {
+  .day-view {
+    display: grid;
+    grid-template-columns: minmax(0, 39.5rem) 13.5rem;
+    gap: 40px;
+    align-items: start;
+  }
+  .day-main { grid-column: 1; min-width: 0; }
+  .outline-rail { grid-column: 2; }
+}
+
+/* En-tête instrumental du jour (pas une grosse carte générique) */
+.day-head {
+  margin: 0 0 26px;
+  padding: 0 0 18px;
+  border-bottom: 1px solid var(--border);
+}
+.day-head-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 12px;
+}
+.day-ordinal {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.day-ordinal span { opacity: 0.7; }
+.day-turn { display: flex; gap: 6px; }
+.turn-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+}
+.turn-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: var(--panel-2);
+}
+.turn-btn svg { flex: none; }
+
+.day-title {
+  font-size: 26px;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: var(--text);
+}
+
+.day-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 16px;
+}
+.day-meta .chip {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  padding: 3px 9px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--panel);
+}
+.day-meta .chip-link {
+  color: var(--text);
+  transition: border-color 0.12s, color 0.12s;
+}
+.day-meta .chip-link:hover { border-color: var(--accent); color: var(--accent); }
+.day-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 9px 3px 22px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  position: relative;
+  margin-left: auto;
+}
+.day-status::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.day-status.ok   { color: var(--accent-2); border-color: color-mix(in srgb, var(--accent-2) 40%, var(--border)); }
+.day-status.prog { color: var(--accent);   border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+.day-status.warn { color: var(--warn);     border-color: color-mix(in srgb, var(--warn) 40%, var(--border)); }
+.day-status.idle { color: var(--muted); }
+
+.day-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--panel-2);
+  overflow: hidden;
+}
+.day-progress span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* Rail « Sections » (scroll-spy) — visible ≥1200px seulement */
+.outline-rail {
+  position: sticky;
+  top: 72px;
+  align-self: start;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  font-size: 13px;
+}
+.outline-rail .outline-title {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  padding-left: 11px;
+}
+.outline-rail ul { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--border); }
+.outline-rail li { margin: 0; }
+.outline-rail a {
+  display: block;
+  padding: 4px 0 4px 11px;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: var(--muted);
+  line-height: 1.35;
+  transition: color 0.12s, border-color 0.12s;
+}
+.outline-rail a:hover { color: var(--text); }
+.outline-rail a.active {
+  color: var(--text);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+
+/* Repli compact des sections — visible <1200px */
+.outline-compact {
+  margin: 0 0 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.outline-compact > summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  list-style: none;
+}
+.outline-compact > summary::-webkit-details-marker { display: none; }
+.outline-compact > summary::before { content: '▸ '; color: var(--muted); }
+.outline-compact[open] > summary::before { content: '▾ '; }
+.outline-compact ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 14px 12px 28px;
+  border-top: 1px solid var(--border);
+}
+.outline-compact li { margin: 6px 0; }
+.outline-compact a { color: var(--muted); font-size: 13px; }
+.outline-compact a:hover, .outline-compact a.active { color: var(--text); }
+
+@media (min-width: 1200px) { .outline-compact { display: none; } }
+@media (max-width: 1199px) { .outline-rail { display: none; } }
+
+@media (max-width: 640px) {
+  .day-head-top { flex-wrap: wrap; }
+  .day-title { font-size: 22px; }
+  .day-status { margin-left: 0; }
+  .turn-btn span { display: none; }
+  .turn-btn { padding: 6px 8px; }
+}

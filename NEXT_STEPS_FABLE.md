@@ -80,6 +80,15 @@ question d'entretien pour jours IA, alerte vague/court.
 ## Règle de sécurité (chaque batch)
 `npm run generate` (si besoin) → `curriculum:check` → `curriculum:depth-check` → `npm test` → `npm run build` → corriger → commit + push.
 
+## ✅ CHANTIER D TERMINÉ — Finitions N1/N3/Y4 (dernière remédiation pédagogique avant V1)
+
+- Suite au diagnostic `DIAGNOSTIC_RESIDUEL_N1_N3_Y4.md` (OPTION B ciblée). Commit pédagogique `a027d38`.
+- **N1 — 3 leçons réellement orphelines liées** (0 lien → référencées), liens existants préservés : `ci-cd` → jours 307 et 326 ; `docker-containers` → jour 320 ; `llm-observability` → jours 325 et 332. Résiduel : **0 leçon orpheline**.
+  - **À NE PAS confondre** avec les leçons seulement **sous-référencées** (jamais un défaut, non touchées) : `deployment-secrets` (jour 68), `monitoring-production` (jour 79), `observability-logging` (jours 79, 85) — déjà liées ≥ 1 fois.
+- **N3 — titres 314/321 désambiguïsés** : « DocSense : jalon RAG bout-en-bout » (314) et « DocSense : jalon évaluation et reproductibilité » (321). Résiduel : **0 titre exact dupliqué**.
+- **Y4 — 2 critères subjectifs du jour 10 rendus mesurables** (champs + invariants pv ≤ pvMax / poids calculé ; sortie explicite de `bilan()`). Jour 10 absent des signaux résiduels ; 8 signaux restants = faux positifs déjà invalidés.
+- **Mécanisme isolé** : override `lessons` (`days-enrich-301-365.mjs`), titres (`days-plan.mjs`), critères (`days-01-15.mjs`) + régénération. **Y2/Y3 intacts.** `curriculum:check` 365/365 · `depth-check` ✅ · 43/43 tests · build ✅ · 0 lien cassé · glyphes propres.
+
 ## ✅ CHANTIER C TERMINÉ — « Questions de réflexion » du palier 91-365 rendues spécifiques → **235/235 jours, 705 questions**
 
 - Suite au diagnostic `DIAGNOSTIC_Y2_Y3.md` : **Y3 → OPTION A** (faux positif, aucune correction touchée) ; **Y2 → OPTION B1** ciblée : remplacer les 3 « Questions de réflexion » **génériques et identiques** des 235 journées d'apprentissage 91-365 par 3 questions **spécifiques au jour** (compréhension · diagnostic/arbitrage · transfert/recul).

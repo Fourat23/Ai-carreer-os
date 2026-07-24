@@ -16,7 +16,8 @@
       "proof": "- [ ] Tes projets cartographiés : chaque fichier assigné à sa couche (et les violations repérées)\n- [ ] L'architecture c",
       "recommendation": "Rendre les critères mesurables",
       "file": "/home/user/Ai-carreer-os/curriculum/days/day-078.md",
-      "status": "open"
+      "status": "false_positive",
+      "resolution": "Faux positif invalidé au diagnostic manuel (DIAGNOSTIC_RESIDUEL_N1_N3_Y4.md) : critères jours 78/79 en réalité vérifiables. Le vrai défaut Y4 (critères subjectifs) était au jour 10 ; ses 2 critères ont été rendus mesurables en a027d38."
     },
     {
       "id": "A0002",
@@ -27,7 +28,8 @@
       "proof": "- [ ] Logs JSON structurés avec niveaux et correlation id sur chaque requête\n- [ ] Une session complète reconstituée à p",
       "recommendation": "Rendre les critères mesurables",
       "file": "/home/user/Ai-carreer-os/curriculum/days/day-079.md",
-      "status": "open"
+      "status": "false_positive",
+      "resolution": "Faux positif invalidé au diagnostic manuel (DIAGNOSTIC_RESIDUEL_N1_N3_Y4.md) : critères jours 78/79 en réalité vérifiables. Le vrai défaut Y4 (critères subjectifs) était au jour 10 ; ses 2 critères ont été rendus mesurables en a027d38."
     },
     {
       "id": "A0003",
@@ -38,7 +40,8 @@
       "proof": "aucun jour ne référence cette leçon",
       "recommendation": "Lier la leçon depuis les jours pertinents",
       "file": "/home/user/Ai-carreer-os/curriculum/lessons/ci-cd.md",
-      "status": "open"
+      "status": "resolved",
+      "resolution": "Résolu (a027d38) : ci-cd liée aux jours 307 et 326. Résiduel recalculé : 0 leçon orpheline."
     },
     {
       "id": "A0004",
@@ -49,7 +52,8 @@
       "proof": "aucun jour ne référence cette leçon",
       "recommendation": "Lier la leçon depuis les jours pertinents",
       "file": "/home/user/Ai-carreer-os/curriculum/lessons/docker-containers.md",
-      "status": "open"
+      "status": "resolved",
+      "resolution": "Résolu (a027d38) : docker-containers liée au jour 320. Résiduel recalculé : 0 leçon orpheline."
     },
     {
       "id": "A0005",
@@ -60,7 +64,8 @@
       "proof": "aucun jour ne référence cette leçon",
       "recommendation": "Lier la leçon depuis les jours pertinents",
       "file": "/home/user/Ai-carreer-os/curriculum/lessons/llm-observability.md",
-      "status": "open"
+      "status": "resolved",
+      "resolution": "Résolu (a027d38) : llm-observability liée aux jours 325 et 332. Résiduel recalculé : 0 leçon orpheline."
     },
     {
       "id": "A0006",
@@ -379,7 +384,71 @@
       "proof": "\"DocSense : jalon démontrable\" jours 314,321",
       "recommendation": "Différencier les titres",
       "file": "program.json",
-      "status": "open"
+      "status": "resolved",
+      "resolution": "Résolu (a027d38) : titres désambiguïsés — 314 « jalon RAG bout-en-bout », 321 « jalon évaluation et reproductibilité ». Résiduel recalculé : 0 titre exact dupliqué."
     }
-  ]
+  ],
+  "remediation": {
+    "date": "2026-07-23",
+    "commitPedagogique": "a027d38",
+    "scope": "OPTION B ciblée N1/N3/Y4 — dernière remédiation pédagogique avant stabilisation V1",
+    "N1": {
+      "leconsReellementOrphelinesResolues": [
+        "ci-cd",
+        "docker-containers",
+        "llm-observability"
+      ],
+      "mapping": {
+        "ci-cd": [
+          307,
+          326
+        ],
+        "docker-containers": [
+          320
+        ],
+        "llm-observability": [
+          325,
+          332
+        ]
+      },
+      "apres": "0 leçon orpheline (audit résiduel recalculé)"
+    },
+    "N1_distinctionImportante": {
+      "note": "À NE PAS confondre : les 3 ci-dessus étaient RÉELLEMENT orphelines (0 lien). Les 3 leçons ci-dessous n'étaient PAS orphelines, seulement peu référencées — jamais un défaut.",
+      "leconsSeulementSousReferencees_nonDefaut": {
+        "deployment-secrets": [
+          68
+        ],
+        "monitoring-production": [
+          79
+        ],
+        "observability-logging": [
+          79,
+          85
+        ]
+      }
+    },
+    "N3": {
+      "jour314": "DocSense : jalon RAG bout-en-bout",
+      "jour321": "DocSense : jalon évaluation et reproductibilité",
+      "apres": "0 titre exact dupliqué"
+    },
+    "Y4": {
+      "jour": 10,
+      "criteresReformules": 2,
+      "apres": "jour 10 absent des signaux résiduels ; 8 signaux restants = faux positifs déjà invalidés (jours 3,12,23,24,46,72,342)"
+    },
+    "nonRegression": {
+      "Y2": "235 jours / 705 questions / 0 générique",
+      "Y3": "corps des corrections intacts (seuls 2 en-têtes de titre 314/321 changés)"
+    },
+    "pipeline": {
+      "curriculumCheck": "365/365",
+      "depthCheck": "OK",
+      "tests": "43/43",
+      "build": "OK",
+      "liensCasses": 0,
+      "glyphes": "propre"
+    }
+  }
 }

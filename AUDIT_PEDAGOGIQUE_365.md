@@ -78,8 +78,29 @@
     seul) + merge PAR JOUR dans le générateur. **Y3 intact** : aucun fichier `curriculum/solutions/`
     modifié ; seules les puces de réflexion changent dans les 235 jours. Journal complet :
     `DEPLOIEMENT_Y2_REFLECTIONS.md`. Pilote `86a2948` → SB1-SB11 (`b039b80` … `2901cb5`).
-- **Chantiers restants** : N1/N3/Y4 (leçons orphelines, titre 314/321, critères subjectifs). Voir §17.
-  (Y2/Y3 : voir clôture ci-dessus.)
+- **Chantier D — Finitions N1/N3/Y4 : ✅ TERMINÉ (diagnostic + remédiation OPTION B ciblée).**
+  Diagnostic dédié : `DIAGNOSTIC_RESIDUEL_N1_N3_Y4.md`. Remédiation `a027d38` (pédagogique) + clôture
+  documentaire. Dernière remédiation pédagogique avant stabilisation V1.
+  - **N1 — 3 leçons réellement orphelines liées** (0 lien → référencées), liens existants préservés :
+    `ci-cd` → jours 307 et 326 ; `docker-containers` → jour 320 ; `llm-observability` → jours 325 et 332.
+    Résiduel recalculé : **0 leçon orpheline**.
+    - À ne pas confondre : `deployment-secrets`, `monitoring-production`, `observability-logging`
+      n'étaient **pas** orphelines (déjà liées ≥ 1 fois) — seulement peu référencées, **jamais un
+      défaut** ; aucune modification ne les concerne.
+  - **N3 — titres 314/321 désambiguïsés** : « DocSense : jalon RAG bout-en-bout » (314) et « DocSense :
+    jalon évaluation et reproductibilité » (321). Résiduel recalculé : **0 titre exact dupliqué**.
+  - **Y4 — 2 critères subjectifs du jour 10 rendus mesurables** (champs requis + invariants pv ≤ pvMax /
+    poids calculé ; sortie explicite de `bilan()`). Jour 10 **absent** des signaux résiduels ; les 8
+    signaux restants (jours 3/12/23/24/46/72/342) sont des **faux positifs déjà invalidés**.
+  - **Mécanisme isolé** : override `lessons` par jour (`days-enrich-301-365.mjs`), titres
+    (`days-plan.mjs`), critères (`days-01-15.mjs`) + régénération. Aucune théorie, exemple guidé,
+    exercice, correction (corps), entretien, réflexion Y2, revue, projet, leçon ni interface modifié.
+    **Y2 intact** (235 jours / 705 questions / 0 générique), **Y3 intact** (corps des corrections
+    inchangés ; seuls 2 en-têtes de titre 314/321 reflètent le renommage). `curriculum:check` 365/365,
+    `depth-check`, 43/43 tests, build, 0 lien cassé, glyphes propres.
+- **Chantiers restants** : aucun chantier pédagogique. Socle V1 stabilisé (Y1/M1/M2/Y2/Y3/N1/N3/Y4
+  traités ; Y3 = faux positif laissé en option A). Restent des pistes **non pédagogiques / optionnelles**
+  (N1/N3/Y4 : voir clôture ci-dessus ; Y2/Y3 : voir plus haut).
 
 ---
 

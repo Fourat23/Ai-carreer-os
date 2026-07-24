@@ -250,3 +250,68 @@ optionnelle, à faible risque. Aucune OPTION C justifiée.**
 
 **Décision recommandée : OPTION B ciblée pour les trois, exécutée par le mécanisme d'enrichissement
 isolé, avec régénération contrôlée.** En attente de validation explicite avant toute remédiation.
+
+---
+
+## Résolution (post-validation — 2026-07-23)
+
+> Section ajoutée **après** application de l'OPTION B validée. **Le diagnostic ci-dessus (sections 1
+> à Verdict) est conservé intégralement** ; ce bloc enregistre la remédiation effectuée et les audits
+> recalculés qui la prouvent. Commit pédagogique : **`a027d38`**.
+
+### État initial (avant remédiation)
+- N1 : 3 leçons **réellement orphelines** (0 lien depuis un jour) — `ci-cd`, `docker-containers`,
+  `llm-observability`.
+- N3 : 1 paire de titres exactement dupliqués — jours 314 et 321, « DocSense : jalon démontrable ».
+- Y4 : 2 critères subjectifs confirmés au **jour 10** (« Modèle … cohérent », « bilan() lisible sans
+  effort »).
+
+### Modifications exactes appliquées
+- **N1** — override `lessons` par jour (`scripts/data/days-enrich-301-365.mjs`), liens existants
+  **préservés**, leçon fondamentale **ajoutée en fin de bloc** :
+  - `ci-cd` → jours **307** (setup + CI vide) et **326** (CI complète) ;
+  - `docker-containers` → jour **320** (dockerisation) ;
+  - `llm-observability` → jours **325** (coûts + observabilité) et **332** (observabilité finale).
+- **N3** — titres dans `scripts/data/days-plan.mjs` :
+  - jour **314** → « **DocSense : jalon RAG bout-en-bout** » ;
+  - jour **321** → « **DocSense : jalon évaluation et reproductibilité** ».
+- **Y4** — 2 critères du **jour 10** dans `scripts/data/days-01-15.mjs` :
+  - « Modèle du personnage complet et cohérent » → « Le personnage regroupe identité, stats, inventaire
+    et équipement ; invariants respectés : pv ≤ pvMax, et poids total calculé depuis l'inventaire » ;
+  - « bilan() lisible sans effort » → « bilan(perso) affiche les pv/pvMax, l'équipement, l'inventaire
+    trié par valeur décroissante et le poids total (sortie vérifiable en la comparant au scénario) ».
+
+### Résultats avant / après (audit résiduel recalculé)
+| Anomalie | Avant | Après |
+|---|---|---|
+| N1 — leçons orphelines | 3 | **0** |
+| N3 — titres exactement dupliqués | 1 | **0** |
+| Y4 — jour 10 signalé | oui (2 critères) | **non (absent des signaux)** |
+
+### Distinction à ne jamais confondre
+- **Réellement orphelines (résolues)** : `ci-cd`, `docker-containers`, `llm-observability` — étaient à
+  **0 lien**, désormais liées.
+- **Seulement sous-référencées (jamais un défaut)** : `deployment-secrets` (jour 68),
+  `monitoring-production` (jour 79), `observability-logging` (jours 79, 85) — étaient déjà liées ≥ 1
+  fois ; faible usage normal pour des leçons de niche. **Aucune modification ne les concerne.**
+  (Post-remédiation, l'audit liste aussi `ci-cd`, `docker-containers`, `llm-observability` en
+  « sous-référencées 1-2 jours » : c'est la preuve qu'elles sont **désormais référencées**, plus
+  orphelines — à ne pas relire comme un défaut.)
+
+### Faux positifs déjà invalidés (inchangés, non touchés)
+- Y4 automatique : jours **3, 12, 23, 24, 46, 72, 342** (ancrage mesurable présent, dispositif à l'oral
+  intentionnel, ou ligne de gabarit générée) ; jours **78/79** (critères en réalité vérifiables). Aucun
+  de ces jours n'a été modifié.
+
+### Contrôles exécutés & absence de régression
+- `curriculum:check` **365/365**, `depth-check` OK, **43/43** tests, `build` OK, **0 lien de leçon
+  cassé**, scan glyphes propre.
+- **Y2 intact** : 235 jours d'apprentissage, 705 questions de réflexion, 0 générique.
+- **Y3 intact** : corps des corrections inchangés ; seuls les 2 **en-têtes de titre** des corrections
+  314/321 reflètent le renommage N3 (même titre, pas de contenu modifié).
+- Diff de portée : day-010 (2 critères), day-307/320/325/326/332 (+1 lien chacun), day-314/321 (titre),
+  2 corrections (en-tête), `program.json` (titres 314/321). Aucun autre fichier de contenu touché.
+
+### Verdict de résolution
+**N1, N3 et Y4 : RÉSOLUS** (audits recalculés à l'appui). Classement manuel du rendu : **A** pour les
+5 renvois N1, les 2 titres N3 et les 2 critères Y4. Commit pédagogique `a027d38`.

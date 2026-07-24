@@ -54,10 +54,10 @@ test('route déjà absolue : inchangée', () => {
 });
 
 test('chemin Markdown non reconnu : inchangé (pas de mauvaise redirection)', () => {
-  assert.equal(normalizeInternalHref('../year-overview.md'), '../year-overview.md');
-  assert.equal(normalizeInternalHref('year-overview.md'), 'year-overview.md');
+  // year-overview.md et les familles doc sont désormais gérés (Lot 0B) — voir tests dédiés.
   assert.equal(normalizeInternalHref('../../'), '../../');
   assert.equal(normalizeInternalHref('some/other-doc.md'), 'some/other-doc.md');
+  assert.equal(normalizeInternalHref('unknown.md'), 'unknown.md');
 });
 
 test('suffixe : ancre conservée sur une route réécrite', () => {
@@ -90,4 +90,46 @@ test('rewriteHtmlLinks : ne touche pas le texte des blocs de code (pas de href)'
 test('rewriteHtmlLinks : lien externe dans un <a> reste inchangé', () => {
   const html = '<a href="https://anthropic.com">ext</a>';
   assert.equal(rewriteHtmlLinks(html), '<a href="https://anthropic.com">ext</a>');
+});
+
+// ── Lot 0B : vue d'ensemble annuelle + liens doc-family ──
+
+test('année : year-overview.md → /doc/year-overview (relatif ../, ./ et nu)', () => {
+  assert.equal(normalizeInternalHref('year-overview.md'), '/doc/year-overview');
+  assert.equal(normalizeInternalHref('../year-overview.md'), '/doc/year-overview');
+  assert.equal(normalizeInternalHref('./year-overview.md'), '/doc/year-overview');
+});
+
+test('année : ancre conservée', () => {
+  assert.equal(normalizeInternalHref('../year-overview.md#les-12-mois'), '/doc/year-overview#les-12-mois');
+});
+
+test('doc-family : les 5 familles confirmées → /doc/<dossier>/<nom>', () => {
+  assert.equal(normalizeInternalHref('methodology/how-to-learn.md'), '/doc/methodology/how-to-learn');
+  assert.equal(normalizeInternalHref('methodology/how-to-use-ai-without-dependency.md'), '/doc/methodology/how-to-use-ai-without-dependency');
+  assert.equal(normalizeInternalHref('career/cv-linkedin-strategy.md'), '/doc/career/cv-linkedin-strategy');
+  assert.equal(normalizeInternalHref('rubrics/skills-scorecard.md'), '/doc/rubrics/skills-scorecard');
+  assert.equal(normalizeInternalHref('resources/resources.md'), '/doc/resources/resources');
+});
+
+test('doc-family : variantes ../ et ./ + ancre', () => {
+  assert.equal(normalizeInternalHref('../methodology/how-to-learn.md'), '/doc/methodology/how-to-learn');
+  assert.equal(normalizeInternalHref('../../career/cv-linkedin-strategy.md'), '/doc/career/cv-linkedin-strategy');
+  assert.equal(normalizeInternalHref('./resources/resources.md#outils'), '/doc/resources/resources#outils');
+  assert.equal(normalizeInternalHref('lessons/rag-fundamentals.md'), '/doc/lessons/rag-fundamentals');
+});
+
+test('doc-family : dossier NON servi par la route doc → inchangé (pas de généralisation arbitraire)', () => {
+  assert.equal(normalizeInternalHref('other/thing.md'), 'other/thing.md');
+  assert.equal(normalizeInternalHref('foo/bar.md'), 'foo/bar.md');
+  // fichier .md à la racine sans dossier connu → inchangé (on n'invente pas de dossier)
+  assert.equal(normalizeInternalHref('how-to-learn.md'), 'how-to-learn.md');
+});
+
+test('non-régression Lot 0 : week/month/day/solution/project inchangés par l\'ajout doc-family', () => {
+  assert.equal(normalizeInternalHref('../week-35.md'), '/week/35');
+  assert.equal(normalizeInternalHref('../month-09.md'), '/month/9');
+  assert.equal(normalizeInternalHref('../days/day-241.md'), '/day/241');            // 'days' n'est pas doc-family
+  assert.equal(normalizeInternalHref('../solutions/day-7-solution.md'), '/day/7');  // 'solutions' n'est pas doc-family
+  assert.equal(normalizeInternalHref('projects/project-01.md'), '/projects?p=01');
 });

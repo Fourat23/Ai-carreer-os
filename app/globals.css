@@ -220,3 +220,29 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
   .gloss-controls .grow, .gloss-controls select, .gloss-controls input { min-width: 0; width: 100%; }
   .gloss-controls .field-group { flex: 1 1 100%; }
 }
+
+/* ── Vue Jour — lisibilité (Lot 1) ──
+   Styles STRICTEMENT bornés à /day/[id] via le conteneur .day-view (ajouté dans
+   app/day/[id]/page.tsx). N'affecte aucun autre écran partageant .prose (semaine,
+   mois, doc, leçons, projets). But : colonne de lecture ~68-72 car/ligne + corps
+   confortable, sans « mur de texte plein écran », en gardant l'identité sobre. */
+.day-view { max-width: 39.5rem; }
+
+/* Corps confortable */
+.day-view .prose { font-size: 16.5px; line-height: 1.72; }
+.day-view .prose p { margin: 0 0 14px; }
+.day-view .prose ul, .day-view .prose ol { padding-left: 24px; margin: 2px 0 14px; }
+.day-view .prose li { margin: 4px 0; }
+.day-view .prose li > ul, .day-view .prose li > ol { margin: 4px 0; }
+
+/* Hiérarchie typographique nette */
+.day-view .prose h1 { font-size: 27px; line-height: 1.25; margin: 2px 0 12px; letter-spacing: -0.01em; }
+.day-view .prose h2 { font-size: 20px; line-height: 1.3; margin: 32px 0 12px; padding-top: 18px; font-weight: 700; }
+.day-view .prose h3 { font-size: 16px; line-height: 1.4; margin: 20px 0 8px; font-weight: 600; }
+
+/* Contenus techniques lisibles */
+.day-view .prose code { font-size: 0.88em; }
+.day-view .prose pre { font-size: 13.5px; line-height: 1.55; }
+
+/* Métadonnées / notes moins envahissantes */
+.day-view .prose blockquote { font-size: 14px; padding: 8px 14px; margin: 10px 0 18px; }

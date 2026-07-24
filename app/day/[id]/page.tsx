@@ -20,7 +20,7 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
   const progress = getDayProgress(dayNum) ?? { ...EMPTY_DAY_PROGRESS };
 
   return (
-    <>
+    <div className="day-view">
       <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
         <div className="row">
           {dayNum > 1 && <Link className="btn small" href={`/day/${dayNum - 1}`}>← Jour {dayNum - 1}</Link>}
@@ -43,6 +43,6 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
                dangerouslySetInnerHTML={{ __html: solution }} />
         </details>
       )}
-    </>
+    </div>
   );
 }

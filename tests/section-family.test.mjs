@@ -83,3 +83,37 @@ test('annotateDayHtml : ids uniques même titres répétés, non-chaîne pass-th
   assert.equal(new Set(ids).size, 2);
   assert.equal(annotateDayHtml(null), null);
 });
+
+// ── V6 : dérivation des activités (sections à réponse) ──
+import { deriveActivities, ANSWERABLE_FAMILIES } from '../lib/section-family.mjs';
+
+test('deriveActivities : familles answerable seulement', () => {
+  const html = annotateDayHtml(
+    '<h2>🎯 Objectif du jour</h2><p>x</p>' +      // objective → non
+    '<h2>📖 Cours approfondi</h2><p>x</p>' +       // learn → non
+    '<h2>✍️ Pratique autonome</h2><p>x</p>' +      // practice → oui
+    '<h2>🧩 Cas métier</h2><p>x</p>' +             // apply → oui
+    "<h2>💼 Question d'entretien</h2><p>x</p>" +    // prepare → oui
+    '<h2>📌 À retenir</h2><p>x</p>' +              // retain → oui
+    '<h2>Critères de validation</h2><p>x</p>',     // verify → non
+  );
+  const acts = deriveActivities(html);
+  assert.deepEqual(acts.map((a) => a.family), ['practice', 'apply', 'prepare', 'retain']);
+  assert.equal(acts[0].id, 'pratique-autonome');
+  assert.equal(acts[1].label, 'Cas métier');
+});
+
+test('deriveActivities : aucune activité reconnue → tableau vide', () => {
+  const html = annotateDayHtml('<h2>Ressources</h2><p>x</p><h2>🎯 Objectif</h2>');
+  assert.deepEqual(deriveActivities(html), []);
+  assert.equal(deriveActivities(null).length, 0);
+});
+
+test('ANSWERABLE_FAMILIES : ensemble attendu', () => {
+  assert.equal([...ANSWERABLE_FAMILIES].sort().join(','), 'apply,practice,prepare,retain');
+});
+
+test('deriveActivities : décode les entités HTML du label', () => {
+  const html = annotateDayHtml("<h2>💼 Question d'entretien</h2>");
+  assert.equal(deriveActivities(html)[0].label, "Question d'entretien");
+});

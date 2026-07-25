@@ -11,3 +11,6 @@ export function classifyHeading(text: string): string | null;
 export function cleanHeadingText(inner: string): string;
 export function familyMeta(key: string | null | undefined): FamilyMeta | null;
 export function annotateDayHtml(html: string): string;
+export const ANSWERABLE_FAMILIES: Set<string>;
+export interface Activity { id: string; family: string; label: string }
+export function deriveActivities(html: string): Activity[];

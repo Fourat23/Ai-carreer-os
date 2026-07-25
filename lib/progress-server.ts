@@ -5,7 +5,10 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Progress, DayProgress } from './types';
-import { migrateProgress } from './learning';
+import {
+  migrateToV7, activeTrackProgress, writeActiveTrack, enrollTrack, setActiveTrack,
+  tracksMeta, type ProgressV3, type TrackMeta,
+} from './progress-store';
 
 const ROOT = process.cwd();
 const FILE = join(ROOT, 'data', 'progress.json');
@@ -14,7 +17,6 @@ const SNAPSHOT = join(ROOT, 'data', 'progress.backup.json');
 export function emptyProgress(): Progress {
   return { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
 }
-const empty = emptyProgress;
 
 // Copie l'état courant vers progress.backup.json avant une opération destructive
 // (import de remplacement, réinitialisation), pour offrir un filet de sécurité local.
@@ -22,23 +24,44 @@ export function snapshotProgress(): void {
   try { if (existsSync(FILE)) writeFileSync(SNAPSHOT, readFileSync(FILE, 'utf8')); } catch { /* best-effort */ }
 }
 
-export function readProgress(): Progress {
-  if (!existsSync(FILE)) return empty();
+// Lit la structure multi-parcours v3 (migre l'ancien format plat en mémoire).
+export function readProgressV3(): ProgressV3 {
+  if (!existsSync(FILE)) return migrateToV7({});
   try {
-    const p = JSON.parse(readFileSync(FILE, 'utf8'));
-    // Migration/normalisation V5→V6 en mémoire : remplit les champs Active
-    // Learning avec des valeurs sûres, sans perte des données existantes.
-    return migrateProgress(p);
+    return migrateToV7(JSON.parse(readFileSync(FILE, 'utf8')));
   } catch {
-    // Fichier corrompu : on ne l'écrase pas silencieusement, on repart d'un état vide en mémoire.
-    return empty();
+    return migrateToV7({});
   }
 }
 
-export function writeProgress(p: Progress): void {
+// API historique : progression PLATE du parcours actif (consommée partout).
+export function readProgress(): Progress {
+  return activeTrackProgress(readProgressV3());
+}
+
+function writeV3(v3: ProgressV3): void {
   const dir = join(ROOT, 'data');
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-  writeFileSync(FILE, JSON.stringify(p, null, 2));
+  writeFileSync(FILE, JSON.stringify(v3, null, 2));
+}
+
+// Écrit la progression plate dans le parcours actif de la structure v3.
+export function writeProgress(p: Progress): void {
+  writeV3(writeActiveTrack(readProgressV3(), p));
+}
+
+// ── Gestion des parcours ──
+export function getActiveTrackId(): string {
+  return readProgressV3().activeTrackId;
+}
+export function listTracks(): TrackMeta[] {
+  return tracksMeta(readProgressV3());
+}
+export function enrollAndActivate(trackId: string, version = '1'): void {
+  writeV3(enrollTrack(readProgressV3(), trackId, version));
+}
+export function activateTrack(trackId: string): void {
+  writeV3(setActiveTrack(readProgressV3(), trackId));
 }
 
 export function getDayProgress(day: number): DayProgress | undefined {

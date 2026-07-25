@@ -810,3 +810,14 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .corr-partial.active { border-color: var(--accent); color: var(--accent); }
 .corr-review.active { border-color: var(--warn); color: var(--warn); }
 .corr-assess-note { font-size: var(--fs-xs); color: var(--faint); margin: 0; }
+
+/* ── Vue Jour : clôture de journée ── */
+.day-close { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+.dpx-done { display: inline-flex; align-items: center; gap: 6px; color: var(--ok); font-weight: 600; font-size: var(--fs-base); }
+.dc-summary { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+.dc-chip { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 3px 9px; }
+.dc-warn { display: flex; align-items: center; gap: 6px; font-size: var(--fs-sm); color: var(--warn); margin: 4px 0 10px; }
+.dc-conf { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.dc-conf-label { font-size: var(--fs-sm); color: var(--muted); }
+.dc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 640px) { .dc-actions .btn { flex: 1 1 auto; justify-content: center; } }

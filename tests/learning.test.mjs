@@ -143,3 +143,27 @@ test('evidence : URL dangereuse neutralisée à la normalisation', () => {
   const d = addEvidence(normalizeDay({}), { title: 'X', url: 'javascript:evil()' });
   assert.equal(d.evidence[0].url, '');
 });
+
+// ── V6 CP4 : synthèse de journée ──
+import { daySummary } from '../lib/learning.mjs';
+
+test('daySummary : compte activités/réponses/état', () => {
+  let d = normalizeDay({ status: 'in-progress' });
+  d = updateAnswer(d, 'a', 'réponse A');
+  d = updateAnswer(d, 'b', '   '); // vide (espaces) → non répondu
+  d = setCorrectionState(d, 'acknowledged');
+  d = updateSelfAssessment(d, { confidence: 'medium' });
+  d = addEvidence(d, { title: 'preuve' });
+  const s = daySummary(d, [{ id: 'a' }, { id: 'b' }, { id: 'c' }]);
+  assert.equal(s.activities, 3);
+  assert.equal(s.answered, 1);
+  assert.equal(s.unanswered, 2);
+  assert.equal(s.correctionViewed, true);
+  assert.equal(s.confidence, 'medium');
+  assert.equal(s.evidenceCount, 1);
+});
+
+test('daySummary : jour vierge', () => {
+  const s = daySummary(normalizeDay({}), []);
+  assert.deepEqual([s.activities, s.answered, s.correctionViewed], [0, 0, false]);
+});

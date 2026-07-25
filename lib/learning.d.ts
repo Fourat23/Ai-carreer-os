@@ -54,3 +54,8 @@ export function setComprehension(day: unknown, value: Comprehension | null): Day
 export function scheduleReview(day: unknown, review: Partial<ReviewState> | null): DayProgress;
 export function addEvidence(day: unknown, evidence: Partial<Evidence>): DayProgress;
 export function removeEvidence(day: unknown, id: string): DayProgress;
+export function daySummary(day: unknown, activities?: { id: string }[]): {
+  status: string; activities: number; answered: number; unanswered: number;
+  correctionViewed: boolean; comprehension: string | null; confidence: string | null;
+  reviewDueAt: string | null; evidenceCount: number; hasNotes: boolean;
+};

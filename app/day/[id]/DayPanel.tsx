@@ -11,6 +11,7 @@ import { Play, Check, RotateCcw, AlertTriangle, ArrowRight } from 'lucide-react'
 import type { DayProgress, DayStatus } from '@/lib/types';
 import type { Activity } from '@/lib/section-family';
 import { nextStatusFor } from '@/lib/resume';
+import { updateReviewSchedule } from '@/lib/review';
 
 const FAMILY_LABEL: Record<string, string> = {
   practice: 'Pratiquer', apply: 'Appliquer', prepare: 'Préparer', retain: 'Retenir',
@@ -43,6 +44,7 @@ export default function DayPanel({
   const [notes, setNotes] = useState(initial.notes ?? '');
   const [selfScore, setSelfScore] = useState<number | null>(initial.selfScore ?? null);
   const [checks, setChecks] = useState<Record<string, boolean>>(initial.checklist ?? {});
+  const [confidence, setConfidence] = useState<string | null>(initial.selfAssessment?.confidence ?? null);
   const [saved, setSaved] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [savedAt, setSavedAt] = useState<string>('');
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -95,6 +97,32 @@ export default function DayPanel({
     try { await postDay(day, patch); setSaved('saved'); } catch { setSaved('error'); }
   }
 
+  async function chooseConfidence(v: 'low' | 'medium' | 'high') {
+    setConfidence(v);
+    const sa = initial.selfAssessment ?? { level: null, confidence: null, criteria: {}, comment: '' };
+    await immediate({ selfAssessment: { ...sa, confidence: v } });
+  }
+
+  // Clôture explicite : terminer / terminer et revoir / laisser en cours.
+  async function closeDay(mode: 'done' | 'review-later' | 'in-progress') {
+    const now = new Date().toISOString();
+    const patch: Partial<DayProgress> =
+      mode === 'in-progress' ? { status: 'in-progress' }
+        : { status: 'done', completedAt: now };
+    if (mode === 'review-later') {
+      patch.review = updateReviewSchedule(initial.review ?? null, { comprehension: 'partial', confidence, now: new Date() });
+    }
+    setStatus(patch.status as DayStatus);
+    try { await postDay(day, patch); } catch { setSaved('error'); return; }
+    window.dispatchEvent(new CustomEvent('progress-changed'));
+    router.refresh();
+  }
+
+  // Synthèse dérivée (client) pour la clôture.
+  const answeredCount = activities.filter((a) => (answers[a.id] ?? '').trim()).length;
+  const unanswered = Math.max(0, activities.length - answeredCount);
+  const correctionViewed = initial.correctionState === 'viewed' || initial.correctionState === 'acknowledged';
+
   const savedText = saved === 'saving' ? 'Enregistrement…'
     : saved === 'error' ? 'Échec de sauvegarde — texte conservé'
     : saved === 'saved' ? `Enregistré${savedAt ? ` · ${savedAt}` : ''}` : '';
@@ -112,17 +140,14 @@ export default function DayPanel({
       </div>
 
       <div className="dpx-actions">
-        {status !== 'done' && status !== 'in-progress' && (
+        {status === 'not-started' && (
           <button className="btn primary" onClick={() => setStatusAction('start')}><Play size={15} strokeWidth={2.2} /> Commencer la journée</button>
         )}
-        {status === 'in-progress' && (
-          <button className="btn primary" onClick={() => setStatusAction('complete')}><Check size={15} strokeWidth={2.2} /> Marquer comme terminée</button>
+        {status === 'done' && (
+          <span className="dpx-done"><Check size={15} strokeWidth={2.2} /> Journée terminée</span>
         )}
         {status === 'done' && (
-          <button className="btn" onClick={() => setStatusAction('reopen')}><RotateCcw size={14} strokeWidth={2} /> Rouvrir la journée</button>
-        )}
-        {status !== 'to-review' && status !== 'not-started' && (
-          <button className="btn ghost" onClick={() => setStatusAction('review')}><AlertTriangle size={14} strokeWidth={2} /> À revoir</button>
+          <button className="btn" onClick={() => setStatusAction('reopen')}><RotateCcw size={14} strokeWidth={2} /> Rouvrir</button>
         )}
         {day < 365 && (
           <a className="btn ghost dpx-next" href={`/day/${day + 1}`}>Jour suivant <ArrowRight size={14} strokeWidth={2} /></a>
@@ -158,6 +183,35 @@ export default function DayPanel({
           <textarea id="day-notes" className="work-textarea" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Ce qui m'a surpris, ce qui m'a bloqué, une question ouverte…" />
         </div>
       </div>
+
+      {/* Clôture de journée — explicite, non aveugle */}
+      {status !== 'not-started' && (
+        <div className="day-close">
+          <p className="dpx-eyebrow">Clôturer la journée</p>
+          <div className="dc-summary">
+            {activities.length > 0 && <span className="dc-chip">{answeredCount}/{activities.length} activités répondues</span>}
+            <span className="dc-chip">Correction {correctionViewed ? 'consultée' : 'non consultée'}</span>
+            {initial.evidence && initial.evidence.length > 0 && <span className="dc-chip">{initial.evidence.length} preuve(s)</span>}
+          </div>
+          {unanswered > 0 && (
+            <p className="dc-warn"><AlertTriangle size={13} strokeWidth={2} /> {unanswered} activité(s) sans réponse — tu peux terminer quand même.</p>
+          )}
+          <div className="dc-conf" role="group" aria-label="Confiance globale">
+            <span className="dc-conf-label">Confiance</span>
+            {(['low', 'medium', 'high'] as const).map((v) => (
+              <button key={v} className={`btn small${confidence === v ? ' primary' : ''}`} aria-pressed={confidence === v}
+                onClick={() => chooseConfidence(v)}>{v === 'low' ? 'Faible' : v === 'medium' ? 'Moyenne' : 'Élevée'}</button>
+            ))}
+          </div>
+          {status !== 'done' && (
+            <div className="dc-actions">
+              <button className="btn primary" onClick={() => closeDay('done')}><Check size={15} strokeWidth={2.2} /> Terminer</button>
+              <button className="btn" onClick={() => closeDay('review-later')}><AlertTriangle size={14} strokeWidth={2} /> Terminer et revoir plus tard</button>
+              <button className="btn ghost" onClick={() => closeDay('in-progress')}>Laisser en cours</button>
+            </div>
+          )}
+        </div>
+      )}
 
       <details className="dpx-more">
         <summary>Auto-évaluation et checklist</summary>

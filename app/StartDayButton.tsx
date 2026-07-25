@@ -2,8 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Play } from 'lucide-react';
 
-export default function StartDayButton({ day }: { day: number }) {
+export default function StartDayButton({ day, label }: { day: number; label?: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -18,8 +19,9 @@ export default function StartDayButton({ day }: { day: number }) {
   }
 
   return (
-    <button className="btn primary" onClick={start} disabled={loading}>
-      {loading ? '…' : '▶ Commencer la journée'}
+    <button className="btn primary big" onClick={start} disabled={loading}>
+      <Play size={15} strokeWidth={2.2} />
+      {loading ? 'Ouverture…' : (label ?? 'Commencer la journée')}
     </button>
   );
 }

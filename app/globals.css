@@ -203,6 +203,41 @@ h2 { font-size: var(--fs-h2); line-height: 1.28; letter-spacing: -0.01em; margin
 .section-title { font-size: var(--fs-h3); font-weight: 600; margin: 0; }
 .section-note { color: var(--muted); font-size: var(--fs-sm); margin-left: auto; }
 
+/* ── Dashboard : bloc « Reprendre » (point d'entrée, arête d'accent) ── */
+.resume {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-6);
+  flex-wrap: wrap; margin: 0 0 var(--sp-5); padding: var(--sp-5) var(--sp-6);
+  background: var(--panel); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: var(--r);
+}
+.resume-main { min-width: 0; }
+.resume-eyebrow {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--accent); margin: 0 0 var(--sp-2);
+}
+.resume-line { display: flex; align-items: center; gap: 12px; margin-bottom: var(--sp-1); }
+.resume-day { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--muted); }
+.resume-title { font-size: 22px; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 var(--sp-3); line-height: 1.2; }
+.resume-meta { display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap; }
+.resume-actions { display: flex; gap: var(--sp-2); flex-wrap: wrap; flex: none; }
+
+/* ── Dashboard : lecture d'instrument (un conteneur, lignes séparées) ── */
+.dash-panel { border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); overflow: hidden; }
+.dash-row { display: grid; grid-template-columns: 168px 1fr; gap: var(--sp-5); padding: var(--sp-4) var(--sp-5); }
+.dash-row + .dash-row { border-top: 1px solid var(--border); }
+.dash-row-k {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--muted); padding-top: 3px;
+}
+.dash-row-v { min-width: 0; }
+.dash-strong { font-size: var(--fs-ui); font-weight: 600; }
+.dash-note { color: var(--muted); font-size: var(--fs-sm); margin: 4px 0 0; }
+@media (max-width: 640px) {
+  .dash-row { grid-template-columns: 1fr; gap: var(--sp-2); }
+  .resume-actions { width: 100%; }
+  .resume-actions .btn { flex: 1; justify-content: center; }
+}
+
 /* Cards / grid */
 .grid { display: grid; gap: var(--sp-4); }
 .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }

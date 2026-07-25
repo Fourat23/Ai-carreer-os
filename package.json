@@ -15,6 +15,7 @@
     "test": "node --test \"tests/**/*.test.mjs\""
   },
   "dependencies": {
+    "@codemirror/commands": "^6.10.4",
     "@codemirror/lang-javascript": "^6.2.5",
     "@codemirror/state": "^6.7.1",
     "@codemirror/view": "^6.43.6",

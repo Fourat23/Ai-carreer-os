@@ -59,11 +59,45 @@ export type DayStatus = 'not-started' | 'in-progress' | 'done' | 'to-review';
 
 export interface DayProgress {
   status: DayStatus;
-  selfScore: number | null; // 0-5
-  answer: string;
+  selfScore: number | null; // 0-5 (legacy V5)
+  answer: string;           // réponse globale (legacy V5)
   notes: string;
-  checklist: Record<string, boolean>;
+  checklist: Record<string, boolean>; // legacy V5
   updatedAt: string;
+  // ── Active Learning (V6) — champs optionnels, rétro-compatibles ──
+  startedAt?: string | null;
+  completedAt?: string | null;
+  answers?: Record<string, string>; // réponses par section/activité
+  selfAssessment?: {
+    level: number | null;
+    confidence: 'low' | 'medium' | 'high' | null;
+    criteria: Record<string, boolean>;
+    comment: string;
+  } | null;
+  comprehension?: 'understood' | 'partial' | 'review' | null;
+  attempts?: {
+    count: number;
+    lastAt: string | null;
+    history: { at: string | null; outcome: string; summary: string }[];
+  };
+  correctionState?: 'locked' | 'available' | 'viewed' | 'acknowledged';
+  review?: {
+    dueAt: string | null;
+    interval: number;
+    repetitions: number;
+    ease: number;
+    lastReviewedAt: string | null;
+    reason: string;
+  } | null;
+  evidence?: {
+    id: string;
+    type: 'exercise' | 'repo' | 'project' | 'screenshot' | 'note' | 'demo' | 'other';
+    title: string;
+    description: string;
+    url: string;
+    skills: string[];
+    createdAt: string;
+  }[];
 }
 
 export interface Progress {

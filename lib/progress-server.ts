@@ -5,6 +5,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Progress, DayProgress } from './types';
+import { migrateProgress } from './learning';
 
 const ROOT = process.cwd();
 const FILE = join(ROOT, 'data', 'progress.json');
@@ -24,15 +25,10 @@ export function snapshotProgress(): void {
 export function readProgress(): Progress {
   if (!existsSync(FILE)) return empty();
   try {
-    const p = JSON.parse(readFileSync(FILE, 'utf8')) as Progress;
-    // Normalisation défensive (fichier édité à la main possible).
-    return {
-      startDate: p.startDate ?? null,
-      days: p.days ?? {},
-      skills: p.skills ?? {},
-      weeklyReviews: p.weeklyReviews ?? {},
-      monthlyReviews: p.monthlyReviews ?? {},
-    };
+    const p = JSON.parse(readFileSync(FILE, 'utf8'));
+    // Migration/normalisation V5→V6 en mémoire : remplit les champs Active
+    // Learning avec des valeurs sûres, sans perte des données existantes.
+    return migrateProgress(p);
   } catch {
     // Fichier corrompu : on ne l'écrase pas silencieusement, on repart d'un état vide en mémoire.
     return empty();

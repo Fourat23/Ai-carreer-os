@@ -10,7 +10,7 @@ import {
   NotebookPen, Library, BookMarked, Briefcase, LifeBuoy, GraduationCap, Bot, Bug,
   Brain, Network, Menu, X, PanelLeftClose, PanelLeftOpen, Terminal, Search, Database,
 } from 'lucide-react';
-import { PRIMARY_NAV, METHOD_NAV, type NavItem } from './nav';
+import { NAV_GROUPS, type NavItem } from './nav';
 import CommandPalette from './CommandPalette';
 
 function openPalette() {
@@ -37,6 +37,7 @@ function NavLinks({ path, onNavigate }: { path: string; onNavigate?: () => void 
           href={it.href}
           className={`nav-link${active ? ' active' : ''}`}
           aria-current={active ? 'page' : undefined}
+          title={it.label}
           onClick={onNavigate}
         >
           <span className="nav-ico" aria-hidden="true"><Icon size={17} strokeWidth={1.75} /></span>
@@ -46,9 +47,12 @@ function NavLinks({ path, onNavigate }: { path: string; onNavigate?: () => void 
     });
   return (
     <>
-      <nav className="nav-group" aria-label="Navigation principale">{render(PRIMARY_NAV)}</nav>
-      <div className="nav-sect">Méthode</div>
-      <nav className="nav-group" aria-label="Méthode">{render(METHOD_NAV)}</nav>
+      {NAV_GROUPS.map((g) => (
+        <div key={g.label}>
+          <div className="nav-sect">{g.label}</div>
+          <nav className="nav-group" aria-label={g.label}>{render(g.items)}</nav>
+        </div>
+      ))}
     </>
   );
 }

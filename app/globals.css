@@ -769,3 +769,18 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 
 /* Aide clavier de la trajectoire */
 .traj-kbd { font-family: var(--font-mono); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0 4px; }
+
+/* ── Dashboard : composition deux colonnes sur grand écran ── */
+.content:has(.dash-cols) { max-width: 1240px; }
+.dash-cols { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); }
+.dash-main { min-width: 0; display: flex; flex-direction: column; gap: var(--sp-6); }
+.dash-main > * { margin-bottom: 0; }
+.dash-side { display: flex; flex-direction: column; gap: var(--sp-3); }
+.side-block { border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); padding: var(--sp-4) var(--sp-4); }
+.side-block .stat-k { margin-bottom: 4px; }
+.side-sep { height: 1px; background: var(--border); margin: var(--sp-3) 0; }
+.progress-block .progress-line { display: flex; align-items: baseline; gap: 10px; }
+@media (min-width: 1100px) {
+  .dash-cols { grid-template-columns: minmax(0, 1fr) 320px; align-items: start; }
+  .dash-side { position: sticky; top: var(--sp-6); }
+}

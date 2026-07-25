@@ -45,117 +45,101 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Zone principale — la bonne journée, et pourquoi */}
-      <section className="resume">
-        <div className="resume-main">
-          <p className="resume-eyebrow">{pos.resumeReason === 'complete' ? 'Programme terminé' : started ? 'Reprendre où j\'en suis' : 'Commencer'}</p>
-          <div className="resume-line">
-            <span className="resume-day">Jour {pos.resumeDay}</span>
-            <span className={`day-status ${st.cls}`}>{st.label}</span>
-          </div>
-          <h2 className="resume-title">{resumeDay?.title}</h2>
-          <div className="resume-meta">
-            {resumeDay?.isReview && <span className="badge review">Revue hebdo</span>}
-            <span className="day-skill">{resumeDay?.skillName}</span>
-            <dl className="day-data">
-              <div><dt>Difficulté</dt><dd>{resumeDay?.difficulty}/5</dd></div>
-              <div><dt>Durée</dt><dd>{resumeDay?.hours} h</dd></div>
-              <div><dt>Repères</dt><dd>Mois {resumeDay?.month} · Semaine {resumeDay?.week}</dd></div>
-            </dl>
-          </div>
-          <p className="resume-why">{resumeReasonText(pos.resumeReason)}</p>
-        </div>
-        <div className="resume-actions">
-          <StartDayButton day={pos.resumeDay} label={started ? `Reprendre le jour ${pos.resumeDay}` : `Commencer le jour ${pos.resumeDay}`} />
-          <Link className="btn" href={`/day/${pos.resumeDay}`}>Ouvrir la vue du jour</Link>
-        </div>
-      </section>
+      <div className="dash-cols">
+        {/* Colonne principale : reprise + trajectoire + progression */}
+        <div className="dash-main">
+          <section className="resume">
+            <div className="resume-main">
+              <p className="resume-eyebrow">{pos.resumeReason === 'complete' ? 'Programme terminé' : started ? 'Reprendre où j\'en suis' : 'Commencer'}</p>
+              <div className="resume-line">
+                <span className="resume-day">Jour {pos.resumeDay}</span>
+                <span className={`day-status ${st.cls}`}>{st.label}</span>
+              </div>
+              <h2 className="resume-title">{resumeDay?.title}</h2>
+              <div className="resume-meta">
+                {resumeDay?.isReview && <span className="badge review">Revue hebdo</span>}
+                <span className="day-skill">{resumeDay?.skillName}</span>
+                <dl className="day-data">
+                  <div><dt>Difficulté</dt><dd>{resumeDay?.difficulty}/5</dd></div>
+                  <div><dt>Durée</dt><dd>{resumeDay?.hours} h</dd></div>
+                  <div><dt>Repères</dt><dd>Mois {resumeDay?.month} · Semaine {resumeDay?.week}</dd></div>
+                </dl>
+              </div>
+              <p className="resume-why">{resumeReasonText(pos.resumeReason)}</p>
+            </div>
+            <div className="resume-actions">
+              <StartDayButton day={pos.resumeDay} label={started ? `Reprendre le jour ${pos.resumeDay}` : `Commencer le jour ${pos.resumeDay}`} />
+              <Link className="btn" href={`/day/${pos.resumeDay}`}>Ouvrir la vue du jour</Link>
+            </div>
+          </section>
 
-      {/* Trajectoire 365 — signature */}
-      <section className="section">
-        <div className="section-head">
-          <span className="section-label">Trajectoire</span>
-          <h2 className="section-title">365 jours</h2>
-          <span className="section-note">{percent}% · {counts.done}/{counts.total} jours</span>
-        </div>
-        <Trajectory365 program={program} progress={progress} currentDay={pos.resumeDay} />
-      </section>
+          <section className="section">
+            <div className="section-head">
+              <span className="section-label">Trajectoire</span>
+              <h2 className="section-title">365 jours</h2>
+              <span className="section-note">{percent}% · {counts.done}/{counts.total} jours</span>
+            </div>
+            <Trajectory365 program={program} progress={progress} currentDay={pos.resumeDay} />
+          </section>
 
-      {/* Pilotage récent */}
-      <div className="stat-strip">
-        <div className="stat">
-          <div className="stat-k">Progression</div>
-          <div className="stat-v">{percent}%</div>
-          <div className="progressbar" style={{ margin: '8px 0 6px' }}><div style={{ width: `${percent}%` }} /></div>
-          <div className="stat-sub">{counts.done} / {counts.total} jours</div>
-        </div>
-        <div className="stat">
-          <div className="stat-k">En cours / à revoir</div>
-          <div className="stat-v">{counts['in-progress'] + counts['to-review']}</div>
-          <div className="stat-sub">{counts['in-progress']} en cours · {counts['to-review']} à revoir</div>
-        </div>
-        <div className="stat">
-          <div className="stat-k">Rythme</div>
-          <div className="stat-v sm" style={{ color: pos.complete ? 'var(--ok)' : pos.delay > 0 ? 'var(--warn)' : pos.ahead > 0 ? 'var(--accent)' : 'var(--ok)' }}>
-            {pos.expectedDay === null ? '—' : pos.complete ? 'Terminé' : pos.delay > 0 ? `${pos.delay} j de retard` : pos.ahead > 0 ? `${pos.ahead} j d'avance` : 'À jour'}
-          </div>
-          <div className="stat-sub">
-            {pos.expectedDay === null
-              ? 'compteur non démarré'
-              : `attendu jour ${pos.expectedDay}${pos.nextIncompleteDay ? ` · à faire jour ${pos.nextIncompleteDay}` : ''}`}
+          <div className="side-block progress-block">
+            <div className="stat-k">Progression globale</div>
+            <div className="progress-line"><span className="stat-v">{percent}%</span><span className="stat-sub">{counts.done} / {counts.total} jours terminés</span></div>
+            <div className="progressbar" style={{ marginTop: 8 }}><div style={{ width: `${percent}%` }} /></div>
           </div>
         </div>
-        <div className="stat">
-          <div className="stat-k">Mois en cours</div>
-          <div className="stat-v sm">{currentMonth?.month} / 12</div>
-          <div className="stat-sub">{currentMonth?.title}</div>
-        </div>
-      </div>
 
-      {/* Lecture d'instrument */}
-      <div className="dash-panel">
-        <div className="dash-row">
-          <div className="dash-row-k">Prochain livrable</div>
-          <div className="dash-row-v">
+        {/* Colonne secondaire : rythme, livrable, compétences, mois, accès */}
+        <aside className="dash-side" aria-label="Pilotage">
+          <div className="side-block">
+            <div className="stat-k">Rythme</div>
+            <div className="stat-v sm" style={{ color: pos.complete ? 'var(--ok)' : pos.delay > 0 ? 'var(--warn)' : pos.ahead > 0 ? 'var(--accent)' : 'var(--ok)' }}>
+              {pos.expectedDay === null ? '—' : pos.complete ? 'Terminé' : pos.delay > 0 ? `${pos.delay} j de retard` : pos.ahead > 0 ? `${pos.ahead} j d'avance` : 'À jour'}
+            </div>
+            <div className="stat-sub">
+              {pos.expectedDay === null ? 'compteur non démarré' : `attendu jour ${pos.expectedDay}${pos.nextIncompleteDay ? ` · à faire jour ${pos.nextIncompleteDay}` : ''}`}
+            </div>
+            <div className="side-sep" />
+            <div className="stat-k">En cours / à revoir</div>
+            <div className="stat-v sm">{counts['in-progress'] + counts['to-review']}</div>
+            <div className="stat-sub">{counts['in-progress']} en cours · {counts['to-review']} à revoir</div>
+          </div>
+
+          <div className="side-block">
+            <div className="stat-k">Prochain livrable</div>
             {stats.nextDeliverable ? (
               <>
-                <div className="dash-strong">
-                  <Link href={`/day/${stats.nextDeliverable.day}`}>Jour {stats.nextDeliverable.day}</Link> — {stats.nextDeliverable.title}
-                </div>
+                <div className="dash-strong"><Link href={`/day/${stats.nextDeliverable.day}`}>Jour {stats.nextDeliverable.day}</Link> — {stats.nextDeliverable.title}</div>
                 <p className="dash-note">{stats.nextDeliverable.deliverable}</p>
               </>
             ) : <span className="muted">Tous les livrables sont faits.</span>}
           </div>
-        </div>
-        <div className="dash-row">
-          <div className="dash-row-k">Compétences actives</div>
-          <div className="dash-row-v">
-            <div className="row" style={{ gap: 6 }}>
+
+          <div className="side-block">
+            <div className="stat-k">Compétences actives</div>
+            <div className="row" style={{ gap: 6, marginTop: 6 }}>
               {skillNames.length ? skillNames.map((n) => <span key={n} className="badge accent">{n}</span>) : <span className="muted">—</span>}
             </div>
           </div>
-        </div>
-        <div className="dash-row">
-          <div className="dash-row-k">Mois {currentMonth?.month}</div>
-          <div className="dash-row-v">
+
+          <div className="side-block">
+            <div className="stat-k">Mois {currentMonth?.month} / 12</div>
             <div className="dash-strong">{currentMonth?.title}</div>
             <p className="dash-note">{currentMonth?.summary}</p>
             <div className="row" style={{ gap: 8, marginTop: 10 }}>
               <Link className="btn small" href={`/month/${currentMonth?.month}`}>Voir le mois</Link>
               <Link className="btn small" href={`/week/${resumeDay?.week}`}>Semaine {resumeDay?.week}</Link>
-              {currentMonth?.project && <Link className="btn small ghost" href="/projects">Projet : {currentMonth.project.name}</Link>}
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Actions secondaires */}
-      <nav className="dash-quick" aria-label="Accès rapides">
-        <Link className="btn small" href="/calendar"><CalendarDays size={14} /> Calendrier</Link>
-        <Link className="btn small" href="/projects"><FolderGit2 size={14} /> Projets</Link>
-        <Link className="btn small" href="/reviews"><ClipboardCheck size={14} /> Évaluations</Link>
-        <Link className="btn small" href="/notes"><NotebookPen size={14} /> Notes</Link>
-      </nav>
+          <nav className="dash-quick" aria-label="Accès rapides">
+            <Link className="btn small" href="/calendar"><CalendarDays size={14} /> Calendrier</Link>
+            <Link className="btn small" href="/projects"><FolderGit2 size={14} /> Projets</Link>
+            <Link className="btn small" href="/reviews"><ClipboardCheck size={14} /> Évaluations</Link>
+            <Link className="btn small" href="/notes"><NotebookPen size={14} /> Notes</Link>
+          </nav>
+        </aside>
+      </div>
     </>
   );
 }

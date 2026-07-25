@@ -17,6 +17,7 @@ export const NAV_GROUPS: NavGroup[] = [
     label: 'Apprendre',
     items: [
       { href: '/lessons', label: 'Leçons de fond', icon: 'BookOpen' },
+      { href: '/lab', label: 'Laboratoire', icon: 'FlaskConical' },
       { href: '/skills', label: 'Compétences', icon: 'Target' },
       { href: '/projects', label: 'Projets', icon: 'FolderGit2' },
       { href: '/reviews', label: 'Évaluations', icon: 'ClipboardCheck' },

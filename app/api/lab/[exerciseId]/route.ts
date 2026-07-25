@@ -4,6 +4,7 @@
 // aucun secret transmis. Aucun shell libre.
 import { NextRequest, NextResponse } from 'next/server';
 import { getExercise } from '@/lib/exercises-server';
+import { resolveActiveFile } from '@/lib/exercise-files';
 import { getDayExerciseIndex } from '@/lib/day-exercises-server';
 import { daysForExercise } from '@/lib/day-exercises';
 import { readProgress, writeProgress } from '@/lib/progress-server';
@@ -27,7 +28,9 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ exe
   const { exerciseId } = await params;
   const ex = getExercise(exerciseId);
   if (!ex) return NextResponse.json({ error: 'Exercice introuvable.' }, { status: 404 });
-  return NextResponse.json({ exercise: exerciseMeta(ex), files: readWorkspaceTree(ex) });
+  const files = readWorkspaceTree(ex);
+  const activeFile = resolveActiveFile(files, (ex as { activeFile?: string }).activeFile ?? null);
+  return NextResponse.json({ exercise: exerciseMeta(ex), files, activeFile });
 }
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ exerciseId: string }> }) {

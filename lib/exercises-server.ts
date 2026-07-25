@@ -5,6 +5,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { validateExercise } from './exercise.mjs';
+import { normalizeExerciseFiles } from './exercise-files.mjs';
 import type { Exercise } from './exercise';
 
 const DIR = join(process.cwd(), 'data', 'exercises');
@@ -24,6 +25,7 @@ function loadAll(): Exercise[] {
     const raw = JSON.parse(readFileSync(join(DIR, f), 'utf8'));
     const v = validateExercise(raw);
     if (!v.ok) throw new Error(`Exercice invalide (${f}) : ${v.errors.join(' ; ')}`);
+    normalizeExerciseFiles(raw); // valide aussi le modèle multi-fichiers (lève si cassé)
     if (seen.has(raw.id)) throw new Error(`Exercice : id dupliqué « ${raw.id} » (${f}).`);
     seen.add(raw.id);
     out.push(raw as Exercise);

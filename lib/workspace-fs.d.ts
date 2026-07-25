@@ -8,6 +8,10 @@ export interface WorkspaceFileState {
   path: string;
   content: string;
   readOnly: boolean;
+  editable: boolean;
+  hidden: boolean;
+  language: string;
+  entry: boolean;
 }
 
 export interface RunOutput {

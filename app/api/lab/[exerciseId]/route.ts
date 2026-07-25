@@ -4,6 +4,10 @@
 // aucun secret transmis. Aucun shell libre.
 import { NextRequest, NextResponse } from 'next/server';
 import { getExercise } from '@/lib/exercises-server';
+import { getDayExerciseIndex } from '@/lib/day-exercises-server';
+import { daysForExercise } from '@/lib/day-exercises';
+import { readProgress, writeProgress } from '@/lib/progress-server';
+import { recordExerciseSuccess } from '@/lib/lab-progress';
 import {
   readWorkspaceTree, writeWorkspaceFile, resetWorkspace, runExercise,
 } from '@/lib/workspace-server';
@@ -52,7 +56,19 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       // Persiste d'abord (les fichiers autorisés) pour que l'état survive au run.
       for (const [path, content] of Object.entries(files)) writeWorkspaceFile(ex, path, String(content));
       const { attempt, stdout, timedOut, error } = await runExercise(ex, files);
-      return NextResponse.json({ ok: true, attempt, stdout, timedOut, error });
+      // Réussite → preuve de compétence dans la progression (jours liés).
+      let recorded = false;
+      if (attempt.allPassed) {
+        const dayRefs = daysForExercise(getDayExerciseIndex(), ex.id);
+        if (dayRefs.length) {
+          const next = recordExerciseSuccess(readProgress(), {
+            exerciseId: ex.id, title: ex.title, skills: ex.skills ?? [], dayRefs,
+          });
+          writeProgress(next);
+          recorded = true;
+        }
+      }
+      return NextResponse.json({ ok: true, attempt, stdout, timedOut, error, recorded });
     }
     return NextResponse.json({ error: 'Action inconnue.' }, { status: 400 });
   } catch (e: unknown) {

@@ -651,8 +651,10 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .traj-inner { display: inline-block; min-width: 100%; }
 .traj-months { display: grid; gap: var(--cgap); margin-bottom: 7px; }
 .traj-mlabel { grid-row: 1; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .03em; color: var(--faint); }
-.traj-grid { display: grid; gap: var(--cgap); }
-.tcell { display: block; width: var(--cell); height: var(--cell); border-radius: 3px; background: var(--panel-2); border: 1px solid transparent; transition: outline-color var(--t); }
+.traj-grid { display: flex; flex-direction: column; gap: var(--cgap); }
+.traj-row { display: flex; gap: var(--cgap); }
+.tcell-empty { width: var(--cell); height: var(--cell); flex: none; }
+.tcell { display: block; flex: none; width: var(--cell); height: var(--cell); border-radius: 3px; background: var(--panel-2); border: 1px solid transparent; transition: outline-color var(--t); }
 .tcell:hover, .tcell:focus-visible { outline: 2px solid var(--text); outline-offset: 1px; }
 .tcell.now { box-shadow: 0 0 0 2px var(--accent); position: relative; z-index: 1; }
 .tsw { display: inline-block; width: 11px; height: 11px; border-radius: 3px; background: var(--panel-2); border: 1px solid transparent; }
@@ -764,3 +766,6 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 /* Avertissements d'import (non bloquants) */
 .settings-warnings { list-style: none; margin: 0 0 12px; padding: 0; }
 .settings-warnings li { display: flex; align-items: center; gap: 6px; font-size: var(--fs-xs); color: var(--warn); margin: 4px 0; }
+
+/* Aide clavier de la trajectoire */
+.traj-kbd { font-family: var(--font-mono); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0 4px; }

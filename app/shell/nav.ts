@@ -8,6 +8,7 @@ export const NAV_GROUPS: NavGroup[] = [
     label: 'Pilotage',
     items: [
       { href: '/', label: 'Tableau de bord', icon: 'LayoutDashboard' },
+      { href: '/parcours', label: 'Parcours', icon: 'Route' },
       { href: '/calendar', label: 'Calendrier', icon: 'CalendarDays' },
       { href: '/revisions', label: 'Révisions', icon: 'History' },
     ],

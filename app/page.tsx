@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { CalendarDays, NotebookPen, FolderGit2, ClipboardCheck } from 'lucide-react';
+import { Route } from 'lucide-react';
 import { getProgram } from '@/lib/program';
-import { readProgress } from '@/lib/progress-server';
+import { getCatalogue } from '@/lib/catalogue-server';
+import { getTrack } from '@/lib/catalogue';
+import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { computeStats, currentSkills } from '@/lib/progress-stats';
 import { resumeReasonText, countStatuses } from '@/lib/resume';
 import { progressPosition } from '@/lib/position';
@@ -21,6 +24,8 @@ const STATUS: Record<string, { label: string; cls: string }> = {
 export default function Dashboard() {
   const program = getProgram();
   const progress = readProgress();
+  const catalogue = getCatalogue();
+  const activeTrack = getTrack(catalogue, getActiveTrackId()) ?? catalogue.tracks[0];
   const stats = computeStats(program, progress);          // livrable suivant
   const counts = countStatuses(program.days, progress);
   const pos = progressPosition(program.days, progress);   // source de vérité des positions
@@ -54,6 +59,11 @@ export default function Dashboard() {
           </p>
         </div>
       </div>
+
+      <p className="track-hint">
+        <Route size={13} strokeWidth={2} /> Parcours actif : <strong>{activeTrack.title}</strong>
+        <span className="sep">·</span> <Link href="/parcours">gérer les parcours</Link>
+      </p>
 
       <div className="dash-cols">
         {/* Colonne principale : reprise + trajectoire + progression */}

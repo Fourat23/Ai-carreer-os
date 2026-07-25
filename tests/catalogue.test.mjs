@@ -67,3 +67,13 @@ test('taxonomie : ids uniques, couvre les technologies clés', () => {
     assert.ok(ids.includes(key), `taxonomie manque ${key}`);
   }
 });
+
+test('parcours : chaque technologie référencée résout dans la taxonomie', () => {
+  const cat = buildCatalogue(program);
+  const known = new Set(cat.technologies.map((t) => t.id));
+  for (const t of cat.tracks) {
+    for (const id of t.technologies ?? []) {
+      assert.ok(known.has(id), `parcours ${t.id} référence une techno inconnue « ${id} »`);
+    }
+  }
+});

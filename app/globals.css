@@ -866,3 +866,46 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .skst-practiced { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
 .skst-demonstrated { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--border)); }
 .skst-to-consolidate { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, var(--border)); }
+
+/* ── Parcours (multi-track) ── */
+.track-active {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
+  padding: var(--sp-6); margin: 0 0 var(--sp-8);
+}
+.track-active-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap; }
+.track-title { font-size: var(--fs-h2); font-weight: 700; letter-spacing: -0.015em; margin: var(--sp-1) 0 0; }
+.track-goal { color: var(--muted); margin: var(--sp-3) 0 var(--sp-4); max-width: 72ch; }
+.track-techs { display: flex; gap: 6px; flex-wrap: wrap; }
+.track-modules { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.track-mod { display: flex; gap: var(--sp-4); align-items: baseline; padding: var(--sp-3) var(--sp-4); background: var(--panel); }
+.track-mod-n { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--muted); flex: none; }
+.track-mod-body { min-width: 0; }
+.track-mod-title { font-weight: 600; font-size: var(--fs-base); }
+.track-mod-meta { color: var(--muted); font-size: var(--fs-xs); margin-top: 2px; }
+.track-list { display: flex; flex-direction: column; gap: var(--sp-3); }
+.track-row {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-4);
+  border: 1px solid var(--border); border-radius: var(--r); background: var(--panel);
+  padding: var(--sp-4) var(--sp-5); opacity: 0.85;
+}
+.track-row-main { min-width: 0; }
+.track-row-title { font-weight: 600; font-size: var(--fs-base); }
+.track-row-goal { color: var(--muted); font-size: var(--fs-sm); margin: 2px 0 var(--sp-2); max-width: 68ch; }
+.track-badge {
+  display: inline-flex; align-items: center; gap: 5px; flex: none;
+  padding: 3px 10px; border-radius: var(--r-pill); font-size: var(--fs-xs);
+  border: 1px solid var(--border); color: var(--muted); background: var(--panel-2);
+}
+.track-badge.active { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 42%, var(--border)); }
+.track-badge.soon { color: var(--muted); }
+.track-err { color: var(--warn); font-size: var(--fs-xs); margin-left: var(--sp-2); }
+/* Aperçu discret du parcours actif sur le tableau de bord */
+.track-hint {
+  display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;
+  font-size: var(--fs-xs); color: var(--muted); margin: 0 0 var(--sp-5);
+}
+.track-hint a { color: var(--accent); }
+@media (max-width: 560px) {
+  .track-active { padding: var(--sp-4); }
+  .track-row { flex-direction: column; }
+}

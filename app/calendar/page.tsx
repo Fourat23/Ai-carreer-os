@@ -30,6 +30,7 @@ export default function CalendarPage() {
         <span><i style={{ borderStyle: 'dashed' }} /> Revue hebdo</span>
       </div>
 
+      <div className="cal-months page-wide">
       {[...byMonth.entries()].map(([month, days]) => {
         const m = program.months.find((x) => x.month === month);
         const weeks = new Map<number, typeof days>();
@@ -64,6 +65,7 @@ export default function CalendarPage() {
           </div>
         );
       })}
+      </div>
     </>
   );
 }

@@ -344,7 +344,13 @@ table.list th { color: var(--muted); font-weight: 500; font-size: 12px; text-tra
 table.list tr:hover td { background: var(--panel); }
 
 /* Calendar */
+/* Calendrier : les mois s'écoulent en grille sur grand écran (1 → 2 → 3 col),
+   l'ordre DOM et la navigation clavier restant intacts (grid respecte l'ordre). */
+.cal-months { display: grid; grid-template-columns: 1fr; gap: var(--sp-6) var(--sp-8); }
+@media (min-width: 900px) { .cal-months { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1400px) { .cal-months { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .month-block { margin-bottom: 26px; }
+.cal-months .month-block { margin-bottom: 0; }
 .month-block h2 { display: flex; align-items: center; gap: 10px; }
 .week-row { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; align-items: center; }
 .week-label { width: 90px; min-width: 90px; font-size: 12px; color: var(--muted); }
@@ -770,8 +776,18 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 /* Aide clavier de la trajectoire */
 .traj-kbd { font-family: var(--font-mono); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 0 4px; }
 
+/* ── Stratégie de largeur par type de page ────────────────────────────────
+   .content plafonne à --content-max (1080px) : bon pour le contenu éditorial
+   (lecture ~70–90 caractères). Les pages de PILOTAGE (tableaux, grilles) veulent
+   exploiter les grands écrans → largeur fluide plus généreuse. Le futur
+   laboratoire prendra toute la largeur. Marqueurs posés sur un élément de la
+   page, détectés via :has (aucune plomberie de layout).                        */
+.content:has(.page-wide) { max-width: min(1680px, 100%); }
+.content:has(.page-workspace) { max-width: none; }
+/* .page-editorial / .page-standard conservent le plafond de lecture par défaut. */
+
 /* ── Dashboard : composition deux colonnes sur grand écran ── */
-.content:has(.dash-cols) { max-width: 1240px; }
+.content:has(.dash-cols) { max-width: min(1680px, 100%); }
 .dash-cols { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); }
 .dash-main { min-width: 0; display: flex; flex-direction: column; gap: var(--sp-6); }
 .dash-main > * { margin-bottom: 0; }
@@ -781,7 +797,9 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .side-sep { height: 1px; background: var(--border); margin: var(--sp-3) 0; }
 .progress-block .progress-line { display: flex; align-items: baseline; gap: 10px; }
 @media (min-width: 1100px) {
-  .dash-cols { grid-template-columns: minmax(0, 1fr) 320px; align-items: start; }
+  /* colonne principale fluide (minmax 0 → pas de débordement) ; rail secondaire
+     stable, borné par clamp pour rester lisible de 1100 à 1920 px. */
+  .dash-cols { grid-template-columns: minmax(0, 1fr) clamp(320px, 24vw, 380px); align-items: start; }
   .dash-side { position: sticky; top: var(--sp-6); }
 }
 
@@ -882,7 +900,9 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .track-mod-body { min-width: 0; }
 .track-mod-title { font-weight: 600; font-size: var(--fs-base); }
 .track-mod-meta { color: var(--muted); font-size: var(--fs-xs); margin-top: 2px; }
-.track-list { display: flex; flex-direction: column; gap: var(--sp-3); }
+.track-list { display: grid; grid-template-columns: 1fr; gap: var(--sp-3); }
+@media (min-width: 1100px) { .track-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1500px) { .track-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .track-row {
   display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-4);
   border: 1px solid var(--border); border-radius: var(--r); background: var(--panel);

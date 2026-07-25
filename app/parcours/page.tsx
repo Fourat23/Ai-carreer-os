@@ -16,7 +16,7 @@ export default function ParcoursPage() {
 
   return (
     <>
-      <div className="page-head">
+      <div className="page-head page-wide">
         <div className="page-head-main">
           <p className="page-eyebrow">Parcours <span className="sep">/</span> {cat.tracks.filter((t) => isTrackAvailable(t)).length} disponible · {cat.tracks.length} au total</p>
           <h1 className="page-title">Parcours</h1>

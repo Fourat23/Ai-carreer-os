@@ -8,11 +8,13 @@ export interface BackupStats {
 }
 export interface Backup {
   app: string; schemaVersion: number; exportedAt: string; stats: BackupStats; progress: Progress;
+  activeTrackId?: string; trackCount?: number;
 }
+export interface BackupMeta { activeTrackId?: string; trackCount?: number }
 export function normalizeProgress(p: unknown): Progress;
 export function isProgressShape(p: unknown): boolean;
 export function backupStats(progress: unknown): BackupStats;
-export function serializeBackup(progress: unknown, now?: Date): Backup;
+export function serializeBackup(progress: unknown, now?: Date, meta?: BackupMeta | null): Backup;
 export function migrate(obj: unknown): Progress;
 export const DAY_STATUSES: readonly ['not-started', 'in-progress', 'done', 'to-review'];
 export function validateStrict(src: unknown):

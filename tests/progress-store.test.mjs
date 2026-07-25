@@ -86,3 +86,40 @@ test('emptyFlat : forme V6 vide', () => {
   assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
+
+// ── Migration des formats hérités V4/V5 (plats, sans champs Active Learning) ──
+const v4 = { // V4 : progression plate legacy, pas de schemaVersion
+  startDate: '2026-01-10',
+  days: { '3': { status: 'done', selfScore: 4, answer: 'texte legacy', notes: 'note', checklist: { a: true }, updatedAt: NOW } },
+  skills: { git: 2 },
+};
+const v5 = { // V5 : idem + schemaVersion, modèle de position unifié
+  schemaVersion: 1,
+  startDate: '2026-02-20',
+  days: { '7': { status: 'in-progress', selfScore: null, answer: '', notes: '', checklist: {}, updatedAt: NOW } },
+  skills: {}, weeklyReviews: {}, monthlyReviews: {},
+};
+
+test('migrateToV7 : V4 plat legacy → v3 sous parcours par défaut (aucune perte)', () => {
+  const v3 = migrateToV7(v4, NOW);
+  assert.equal(v3.schemaVersion, PROGRESS_SCHEMA);
+  const t = v3.tracks[DEFAULT_TRACK_ID];
+  assert.equal(t.startDate, '2026-01-10');
+  assert.equal(t.days['3'].status, 'done');
+  assert.equal(t.days['3'].answer, 'texte legacy'); // champ cœur conservé
+  assert.equal(t.skills.git, 2);
+  // champs Active Learning matérialisés par la migration (jamais undefined)
+  assert.ok(t.days['3'].answers && typeof t.days['3'].answers === 'object');
+});
+
+test('migrateToV7 : V5 (schemaVersion 1) → v3 ; idempotent', () => {
+  const once = migrateToV7(v5, NOW);
+  assert.equal(once.tracks[DEFAULT_TRACK_ID].days['7'].status, 'in-progress');
+  const twice = migrateToV7(once, NOW);
+  assert.deepEqual(twice.tracks[DEFAULT_TRACK_ID].days, once.tracks[DEFAULT_TRACK_ID].days);
+});
+
+test('activeTrackProgress : vue plate lisible depuis V4 et V5', () => {
+  assert.equal(activeTrackProgress(migrateToV7(v4, NOW)).days['3'].answer, 'texte legacy');
+  assert.equal(activeTrackProgress(migrateToV7(v5, NOW)).days['7'].status, 'in-progress');
+});

@@ -27,6 +27,45 @@ test('buildIndex : couvre pages, commandes et contenu (statique)', () => {
   assert.equal(idx.some((i) => /Reprendre le jour/.test(i.title)), false);
 });
 
+const catalogue = {
+  technologies: [{ id: 'rag', name: 'RAG' }, { id: 'git', name: 'Git' }],
+  modules: { 'mod-m9': { id: 'mod-m9', title: 'RAG en production', dayRefs: [241, 242, 243] } },
+  tracks: [
+    { id: 'ai-engineer-foundations-v1', title: 'AI Engineer — Fondations', status: 'available', technologies: ['rag', 'git'] },
+    { id: 'backend-engineer-v1', title: 'Backend Engineer', status: 'announced', technologies: ['git'] },
+  ],
+};
+
+test('buildIndex : le catalogue ajoute parcours, modules et technologies', () => {
+  const idx = buildIndex(program, catalogue);
+  const types = new Set(idx.map((i) => i.type));
+  for (const t of ['track', 'module', 'technology']) assert.ok(types.has(t), `type ${t} présent`);
+  const track = idx.find((i) => i.type === 'track' && /Fondations/.test(i.title));
+  assert.equal(track.href, '/parcours#ai-engineer-foundations-v1');
+  const mod = idx.find((i) => i.type === 'module');
+  assert.equal(mod.href, '/day/241'); // module → son premier jour
+  // ids uniques parmi les entrées du catalogue (technologies → hrefs distincts)
+  const catIds = idx.filter((i) => ['track', 'module', 'technology'].includes(i.type)).map((i) => i.id);
+  assert.equal(new Set(catIds).size, catIds.length);
+});
+
+test('buildIndex : n’indexe JAMAIS de données privées (réponses/notes)', () => {
+  const privateProgram = { days: [{ day: 1, title: 'Terminal', skillName: 'Git', week: 1, month: 1 }] };
+  // même si une progression contient des réponses, buildIndex ne la reçoit pas :
+  // il n'accepte que programme + catalogue publics.
+  const idx = buildIndex(privateProgram, catalogue);
+  const blob = JSON.stringify(idx).toLowerCase();
+  assert.equal(blob.includes('answer'), false);
+  assert.equal(blob.includes('reponse'), false);
+  for (const it of idx) assert.equal('answer' in it, false);
+});
+
+test('search : trouve un parcours et une technologie via le catalogue', () => {
+  const idx = buildIndex(program, catalogue);
+  assert.ok(search(idx, 'fondations').some((r) => r.type === 'track'));
+  assert.ok(search(idx, 'rag').some((r) => r.type === 'technology' || r.type === 'skill'));
+});
+
 test('parseJump : jour / semaine / mois', () => {
   assert.equal(parseJump('jour 241').href, '/day/241');
   assert.equal(parseJump('j241').href, '/day/241');

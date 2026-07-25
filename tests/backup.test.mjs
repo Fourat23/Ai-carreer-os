@@ -47,12 +47,22 @@ test('serializeBackup : enveloppe versionnée', () => {
   assert.equal(b.stats.done, 1);
 });
 
-test('parseBackup : format wrappé valide', () => {
-  const b = serializeBackup(sample);
+test('serializeBackup : métadonnées multi-parcours (informatives)', () => {
+  const b = serializeBackup(sample, new Date('2026-07-25T10:00:00Z'), { activeTrackId: 'ai-engineer-foundations-v1', trackCount: 2 });
+  assert.equal(b.activeTrackId, 'ai-engineer-foundations-v1');
+  assert.equal(b.trackCount, 2);
+  // rétro-compatibilité : sans meta, aucun champ superflu
+  const plain = serializeBackup(sample);
+  assert.equal('activeTrackId' in plain, false);
+  assert.equal('trackCount' in plain, false);
+});
+
+test('parseBackup : format wrappé valide (méta parcours tolérée)', () => {
+  const b = serializeBackup(sample, new Date(), { activeTrackId: 'x', trackCount: 3 });
   const r = parseBackup(JSON.stringify(b));
   assert.equal(r.ok, true);
   assert.equal(r.version, SCHEMA_VERSION);
-  assert.equal(r.progress.days['1'].status, 'done');
+  assert.equal(r.progress.days['1'].status, 'done'); // méta parcours ignorée sans risque
 });
 
 test('parseBackup : format legacy brut (progress.json v0)', () => {

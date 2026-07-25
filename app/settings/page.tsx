@@ -1,11 +1,16 @@
-import { readProgress } from '@/lib/progress-server';
+import { readProgress, listTracks, getActiveTrackId } from '@/lib/progress-server';
 import { backupStats } from '@/lib/backup';
+import { getCatalogue } from '@/lib/catalogue-server';
+import { getTrack } from '@/lib/catalogue';
 import SettingsPanel from './SettingsPanel';
 
 export const dynamic = 'force-dynamic';
 
 export default function SettingsPage() {
   const stats = backupStats(readProgress());
+  const tracks = listTracks();
+  const activeTrack = getTrack(getCatalogue(), getActiveTrackId());
+  const activeTitle = activeTrack?.title ?? getActiveTrackId();
   return (
     <>
       <div className="page-head">
@@ -25,6 +30,11 @@ export default function SettingsPage() {
         <div className="stat"><div className="stat-k">Notes / réponses</div><div className="stat-v sm">{stats.notes}</div></div>
         <div className="stat"><div className="stat-k">Compétences notées</div><div className="stat-v sm">{stats.skillsRated}</div></div>
       </div>
+
+      <p className="track-hint" style={{ marginBottom: 'var(--sp-6)' }}>
+        {tracks.length} parcours suivi{tracks.length > 1 ? 's' : ''} <span className="sep">·</span> actif : <strong>{activeTitle}</strong>
+        <span className="sep">·</span> l’export contient la progression du parcours actif.
+      </p>
 
       <SettingsPanel />
     </>

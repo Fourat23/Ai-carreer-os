@@ -1,9 +1,10 @@
 // Types pour lib/search.mjs (recherche locale pure).
 import type { Program } from './types';
+import type { Catalogue } from './catalogue';
 
 export interface SearchItem {
   id: string;
-  type: 'command' | 'page' | 'day' | 'week' | 'month' | 'skill' | 'project' | 'lesson';
+  type: 'command' | 'page' | 'day' | 'week' | 'month' | 'skill' | 'project' | 'lesson' | 'track' | 'module' | 'technology';
   title: string;
   subtitle: string;
   href: string;
@@ -12,7 +13,7 @@ export interface SearchItem {
 
 export function normalize(s: unknown): string;
 export function tokenize(s: unknown): string[];
-export function buildIndex(program: Program): SearchItem[];
+export function buildIndex(program: Program, catalogue?: Catalogue | null): SearchItem[];
 export function parseJump(query: string): (SearchItem & { type: string }) | null;
 export function search(items: SearchItem[], query: string, limit?: number): SearchItem[];
 export function resumeCommand(resumeDay: number): SearchItem | null;

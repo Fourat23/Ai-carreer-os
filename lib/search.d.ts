@@ -16,4 +16,5 @@ export function buildIndex(program: Program): SearchItem[];
 export function parseJump(query: string): (SearchItem & { type: string }) | null;
 export function search(items: SearchItem[], query: string, limit?: number): SearchItem[];
 export function resumeCommand(resumeDay: number): SearchItem | null;
+export function reviewsCommand(dueCount: number): SearchItem | null;
 export function mergeIndex(staticItems: SearchItem[], dynamic?: (SearchItem | null)[]): SearchItem[];

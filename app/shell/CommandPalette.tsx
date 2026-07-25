@@ -6,7 +6,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, CornerDownLeft } from 'lucide-react';
-import { search, mergeIndex, resumeCommand, type SearchItem } from '@/lib/search';
+import { search, mergeIndex, resumeCommand, reviewsCommand, type SearchItem } from '@/lib/search';
 
 const TYPE_LABEL: Record<string, string> = {
   command: 'Commandes', day: 'Journées', week: 'Semaines', month: 'Mois',
@@ -31,6 +31,7 @@ export default function CommandPalette() {
   const [query, setQuery] = useState('');
   const [items, setItems] = useState<SearchItem[]>([]);   // index STATIQUE (caché)
   const [resumeDay, setResumeDay] = useState<number | null>(null); // métadonnée dynamique
+  const [dueReviews, setDueReviews] = useState(0);
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -45,6 +46,7 @@ export default function CommandPalette() {
       const data = await res.json();
       if (!items.length) setItems(data.items ?? []); // statique : une seule fois
       setResumeDay(typeof data.resumeDay === 'number' ? data.resumeDay : null);
+      setDueReviews(typeof data.dueReviews === 'number' ? data.dueReviews : 0);
       staleRef.current = false;
     } catch { /* recherche indisponible : la palette reste ouvrable, vide */ }
   }, [items.length]);
@@ -75,8 +77,8 @@ export default function CommandPalette() {
 
   // Fusionne l'index statique caché avec la commande dynamique de reprise.
   const indexed = useMemo(
-    () => (resumeDay ? mergeIndex(items, [resumeCommand(resumeDay)]) : items),
-    [items, resumeDay],
+    () => mergeIndex(items, [resumeDay ? resumeCommand(resumeDay) : null, reviewsCommand(dueReviews)]),
+    [items, resumeDay, dueReviews],
   );
   const results = useMemo(() => search(indexed, query, 30), [indexed, query]);
   useEffect(() => { setActive(0); }, [query]);

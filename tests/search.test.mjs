@@ -105,3 +105,33 @@ test('cohérence après changement de jour à reprendre (ré-enrichissement)', (
   // l'index statique n'a pas été reconstruit (même référence d'items)
   assert.equal(stat, stat);
 });
+
+// ── V6 CP9 : révisions dues + confidentialité de la recherche ──
+import { reviewsCommand } from '../lib/search.mjs';
+
+test('reviewsCommand : compteur seulement', () => {
+  const c = reviewsCommand(3);
+  assert.equal(c.href, '/revisions');
+  assert.match(c.title, /Révisions dues \(3\)/);
+  assert.equal(reviewsCommand(0), null);
+  assert.equal(reviewsCommand(-1), null);
+});
+
+test('mergeIndex : reprise + révisions dues en tête', () => {
+  const stat = buildIndex(program);
+  const merged = mergeIndex(stat, [resumeCommand(41), reviewsCommand(2)]);
+  assert.equal(merged[0].href, '/day/41');
+  assert.equal(merged[1].href, '/revisions');
+});
+
+test('confidentialité : l\'index statique ne contient aucun contenu de réponse privé', () => {
+  // buildIndex ne prend QUE le programme : structurellement, il ne peut porter
+  // aucun texte de réponse/notes de l'utilisateur (jamais de progress en entrée).
+  const privateToken = 'mon-secret-de-reponse-privee-42';
+  const idx = buildIndex(program); // aucune progression fournie
+  const blob = JSON.stringify(idx);
+  assert.equal(blob.includes(privateToken), false);
+  // et buildIndex ignore tout second argument (pas de fuite via progress)
+  const idx2 = buildIndex(program, { days: { '1': { answer: privateToken } } });
+  assert.equal(JSON.stringify(idx2).includes(privateToken), false);
+});

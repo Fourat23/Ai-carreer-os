@@ -8,9 +8,14 @@ import { useEffect, useRef, useState } from 'react';
 import {
   LayoutDashboard, CalendarDays, BookOpen, Target, FolderGit2, ClipboardCheck,
   NotebookPen, Library, BookMarked, Briefcase, LifeBuoy, GraduationCap, Bot, Bug,
-  Brain, Network, Menu, X, PanelLeftClose, PanelLeftOpen, Terminal,
+  Brain, Network, Menu, X, PanelLeftClose, PanelLeftOpen, Terminal, Search,
 } from 'lucide-react';
 import { PRIMARY_NAV, METHOD_NAV, type NavItem } from './nav';
+import CommandPalette from './CommandPalette';
+
+function openPalette() {
+  window.dispatchEvent(new CustomEvent('open-command-palette'));
+}
 
 const ICONS: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number }>> = {
   LayoutDashboard, CalendarDays, BookOpen, Target, FolderGit2, ClipboardCheck,
@@ -88,7 +93,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     <div className="app" data-collapsed={collapsed ? 'true' : 'false'}>
       {/* Rail desktop */}
       <aside className="app-rail" aria-label="Navigation">
-        <div className="rail-top"><Brand compact={collapsed} /></div>
+        <div className="rail-top">
+          <Brand compact={collapsed} />
+          <button type="button" className="rail-search" onClick={openPalette}
+                  aria-label="Rechercher (Ctrl+K)" title="Rechercher (Ctrl+K)">
+            <span className="nav-ico" aria-hidden="true"><Search size={16} strokeWidth={1.9} /></span>
+            <span className="nav-label">Rechercher</span>
+            <kbd className="rail-kbd" aria-hidden="true">⌘K</kbd>
+          </button>
+        </div>
         <div className="rail-scroll"><NavLinks path={path} /></div>
         <button
           type="button"
@@ -117,6 +130,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         </button>
         <Brand />
         <span className="topbar-spacer" />
+        <button type="button" className="topbar-btn" onClick={openPalette} aria-label="Rechercher">
+          <Search size={19} strokeWidth={1.9} />
+        </button>
       </header>
 
       {/* Drawer mobile */}
@@ -139,6 +155,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <main className="content" id="main">{children}</main>
+
+      <CommandPalette />
     </div>
   );
 }

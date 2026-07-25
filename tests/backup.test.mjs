@@ -89,3 +89,99 @@ test('migrate : champs additionnels futurs ignorés sans risque', () => {
   const p = migrate(future);
   assert.equal(p.startDate, '2026-06-15');
 });
+
+// ── Checkpoint V5 : validation stricte de l'import ──
+import { validateStrict, DAY_STATUSES } from '../lib/backup.mjs';
+
+const wrap = (progress) => ({ app: 'ai-career-os', schemaVersion: 1, progress });
+
+test('strict : jour 0 / 366 / 999 rejetés', () => {
+  for (const bad of ['0', '366', '999']) {
+    const r = parseBackup(wrap({ days: { [bad]: { status: 'done' } }, skills: {} }));
+    assert.equal(r.ok, false, `jour ${bad}`);
+    assert.match(r.error, /bornes/);
+  }
+});
+
+test('strict : clé de jour non numérique rejetée', () => {
+  const r = parseBackup(wrap({ days: { abc: { status: 'done' } }, skills: {} }));
+  assert.equal(r.ok, false);
+  assert.match(r.error, /non numérique/);
+});
+
+test('strict : statut inconnu rejeté', () => {
+  const r = parseBackup(wrap({ days: { '1': { status: 'finished' } }, skills: {} }));
+  assert.equal(r.ok, false);
+  assert.match(r.error, /statut inconnu/);
+});
+
+test('strict : auto-évaluation hors bornes rejetée', () => {
+  const r = parseBackup(wrap({ days: { '1': { status: 'done', selfScore: 9 } }, skills: {} }));
+  assert.equal(r.ok, false);
+});
+
+test('strict : pollution de prototype rejetée', () => {
+  const r = parseBackup('{"progress":{"days":{"__proto__":{"status":"done"}},"skills":{}}}');
+  assert.equal(r.ok, false);
+  assert.match(r.error, /interdite/);
+});
+
+test('strict : JSON corrompu → erreur propre', () => {
+  const r = parseBackup('{ pas du json');
+  assert.equal(r.ok, false);
+  assert.match(r.error, /illisible|corrompu/i);
+});
+
+test('strict : schéma futur non supporté', () => {
+  const r = parseBackup({ app: 'ai-career-os', schemaVersion: 99, progress: { days: {}, skills: {} } });
+  assert.equal(r.ok, false);
+  assert.match(r.error, /récent|supporté/i);
+});
+
+test('strict : mauvaise app rejetée', () => {
+  const r = parseBackup({ app: 'autre-app', schemaVersion: 1, progress: { days: {}, skills: {} } });
+  assert.equal(r.ok, false);
+});
+
+test('strict : objet vide / sans days rejeté', () => {
+  assert.equal(parseBackup('{}').ok, false);
+  assert.equal(parseBackup(JSON.stringify({ hello: 'world' })).ok, false);
+});
+
+test('strict : ancienne sauvegarde valide (legacy brut) acceptée', () => {
+  const legacy = { startDate: '2026-06-15', days: { '1': { status: 'done' } }, skills: { rag: 3 } };
+  const r = parseBackup(JSON.stringify(legacy));
+  assert.equal(r.ok, true);
+  assert.equal(r.version, 0);
+  assert.equal(r.progress.days['1'].status, 'done');
+});
+
+test('strict : sauvegarde versionnée valide acceptée', () => {
+  const r = parseBackup(wrap({ startDate: null, days: { '1': { status: 'in-progress' } }, skills: {} }));
+  assert.equal(r.ok, true);
+  assert.equal(r.version, 1);
+});
+
+test('strict : champs supplémentaires tolérés avec avertissement', () => {
+  const r = parseBackup(wrap({ days: { '1': { status: 'done', hackerField: 'x' } }, skills: {} }));
+  assert.equal(r.ok, true);
+  assert.ok(r.warnings.some((w) => /supplémentaires/.test(w)));
+  assert.equal('hackerField' in r.progress.days['1'], false); // retiré (objet reconstruit propre)
+});
+
+test('strict : date de démarrage invalide rejetée', () => {
+  const r = parseBackup(wrap({ startDate: 'hier', days: {}, skills: {} }));
+  assert.equal(r.ok, false);
+});
+
+test('strict : aucune mutation partielle après erreur', () => {
+  const input = { days: { '1': { status: 'done' }, '999': { status: 'done' } }, skills: {} };
+  const before = JSON.stringify(input);
+  const r = parseBackup(input);
+  assert.equal(r.ok, false);
+  assert.equal(JSON.stringify(input), before); // entrée inchangée
+});
+
+test('strict : DAY_STATUSES = enum attendue', () => {
+  assert.deepEqual([...DAY_STATUSES], ['not-started', 'in-progress', 'done', 'to-review']);
+});

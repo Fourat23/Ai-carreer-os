@@ -14,6 +14,10 @@ export function isProgressShape(p: unknown): boolean;
 export function backupStats(progress: unknown): BackupStats;
 export function serializeBackup(progress: unknown, now?: Date): Backup;
 export function migrate(obj: unknown): Progress;
+export const DAY_STATUSES: readonly ['not-started', 'in-progress', 'done', 'to-review'];
+export function validateStrict(src: unknown):
+  | { ok: true; progress: Progress; warnings: string[] }
+  | { ok: false; error: string };
 export function parseBackup(input: unknown):
-  | { ok: true; progress: Progress; version: number; stats: BackupStats }
+  | { ok: true; progress: Progress; version: number; stats: BackupStats; warnings: string[] }
   | { ok: false; error: string };

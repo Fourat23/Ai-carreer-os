@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Download, Upload, RotateCcw, AlertTriangle, Check } from 'lucide-react';
 import { parseBackup, type BackupStats } from '@/lib/backup';
 
-type Preview = { stats: BackupStats; version: number; raw: unknown };
+type Preview = { stats: BackupStats; version: number; raw: unknown; warnings: string[] };
 
 export default function SettingsPanel() {
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function SettingsPanel() {
     catch { setError('Fichier JSON illisible ou corrompu.'); setPreview(null); if (fileRef.current) fileRef.current.value = ''; return; }
     const parsed = parseBackup(raw);
     if (!parsed.ok) { setError(parsed.error); setPreview(null); }
-    else setPreview({ stats: parsed.stats, version: parsed.version, raw });
+    else setPreview({ stats: parsed.stats, version: parsed.version, raw, warnings: parsed.warnings });
     if (fileRef.current) fileRef.current.value = '';
   }
 
@@ -81,6 +81,11 @@ export default function SettingsPanel() {
               <div><dt>Notes</dt><dd>{preview.stats.notes}</dd></div>
               <div><dt>Format</dt><dd>{preview.version ? `v${preview.version}` : 'legacy'}</dd></div>
             </dl>
+            {preview.warnings.length > 0 && (
+              <ul className="settings-warnings">
+                {preview.warnings.map((w) => <li key={w}><AlertTriangle size={12} /> {w}</li>)}
+              </ul>
+            )}
             <div className="row" style={{ gap: 8 }}>
               <button className="btn primary" onClick={confirmImport} disabled={busy}><Check size={15} strokeWidth={2} /> Remplacer par cette sauvegarde</button>
               <button className="btn ghost" onClick={() => setPreview(null)} disabled={busy}>Annuler</button>

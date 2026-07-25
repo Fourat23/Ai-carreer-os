@@ -7,3 +7,7 @@ next-env.d.ts
 # Progression locale personnelle (ne pas versionner). Voir data/progress.example.json.
 data/progress.json
 data/progress.backup.json
+
+# Espaces de travail du laboratoire de code (fichiers utilisateur exécutés localement).
+# Jamais versionnés : contenu volatil, propre à la machine.
+data/lab-workspaces/

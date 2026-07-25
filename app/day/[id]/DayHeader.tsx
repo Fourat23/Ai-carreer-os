@@ -38,15 +38,22 @@ export default function DayHeader({
       <h1 className="day-title">{title}</h1>
 
       <div className="day-meta">
-        <span className="chip">{skillName}</span>
-        <span className="chip">{difficultyLabel(difficulty)}</span>
-        <span className="chip">{hours} h</span>
-        <Link className="chip chip-link" href={`/week/${week}`}>Semaine {week}</Link>
-        <Link className="chip chip-link" href={`/month/${month}`}>Mois {month}</Link>
+        <span className="day-skill">{skillName}</span>
+        <dl className="day-data">
+          <div><dt>Difficulté</dt><dd>{difficultyLabel(difficulty)}</dd></div>
+          <div><dt>Durée</dt><dd>{hours} h</dd></div>
+        </dl>
+        <nav className="day-jump" aria-label="Semaine et mois">
+          <Link href={`/week/${week}`}>Semaine {week}</Link>
+          <Link href={`/month/${month}`}>Mois {month}</Link>
+        </nav>
         <span className={`day-status ${st.cls}`}>{st.label}</span>
       </div>
 
-      <div className="day-progress" aria-hidden="true"><span style={{ width: `${pct}%` }} /></div>
+      <div className="day-progress">
+        <div className="dp-track" aria-hidden="true"><span style={{ width: `${pct}%` }} /></div>
+        <span className="dp-label">Avancement du parcours · jour {day} sur 365</span>
+      </div>
     </header>
   );
 }

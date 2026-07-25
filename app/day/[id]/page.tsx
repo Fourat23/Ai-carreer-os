@@ -3,6 +3,7 @@ import { getDay, getDayHtml, getSolutionHtml, getDayChecklist } from '@/lib/prog
 import { getDayProgress } from '@/lib/progress-server';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
 import { stripDayLeadHtml } from '@/lib/day-view';
+import { annotateDayHtml } from '@/lib/section-family';
 import DayPanel from './DayPanel';
 import DayHeader from './DayHeader';
 import DayOutline from './DayOutline';
@@ -17,7 +18,7 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
   const meta = getDay(dayNum);
   const rawHtml = getDayHtml(dayNum);
   if (!meta || !rawHtml) notFound();
-  const html = stripDayLeadHtml(rawHtml);
+  const html = annotateDayHtml(stripDayLeadHtml(rawHtml));
   const solution = getSolutionHtml(dayNum);
   const checklist = getDayChecklist(dayNum);
   const progress = getDayProgress(dayNum) ?? { ...EMPTY_DAY_PROGRESS };

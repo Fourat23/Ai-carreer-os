@@ -30,6 +30,7 @@ export interface TestDefinition {
   export?: string;      // call-equals : nom de la fonction exportée
   args?: unknown[];     // call-equals : arguments
   expected: unknown;    // valeur (call-equals) ou texte (stdout-*)
+  private?: boolean;    // test privé : pass/fail visible, attendu/reçu jamais divulgués
 }
 
 export interface Exercise {

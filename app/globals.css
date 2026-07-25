@@ -1070,3 +1070,11 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .wb-palette-list { list-style: none; margin: 0; padding: 4px; max-height: 50vh; overflow-y: auto; }
 .wb-palette-list button { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; background: none; border: none; cursor: pointer; color: var(--muted); font-family: var(--font-mono); font-size: var(--fs-xs); padding: 8px 10px; border-radius: var(--r-sm); }
 .wb-palette-list button:hover { background: var(--panel-2); color: var(--text); }
+
+/* Workbench : exécution en cours + historique */
+.wb-running { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.wb-history { margin-top: var(--sp-5); padding-top: var(--sp-3); border-top: 1px solid var(--border); }
+.wb-history ul { list-style: none; margin: 0; padding: 0; }
+.wb-history li { display: grid; grid-template-columns: 1fr auto auto; gap: var(--sp-3); font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); padding: 3px 0; }
+.wb-history li.ok > span:nth-child(2) { color: var(--ok); }
+.wb-history li.ko > span:nth-child(2) { color: var(--warn); }

@@ -64,6 +64,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       // Persiste d'abord (les fichiers autorisés) pour que l'état survive au run.
       for (const [path, content] of Object.entries(files)) writeWorkspaceFile(ex, path, String(content));
       const { attempt, stdout, timedOut, error } = await runExercise(ex, files);
+      // Redaction : pour les tests PRIVES, on ne divulgue jamais l'attendu/reçu.
+      const privateIds = new Set(ex.tests.filter((t) => (t as { private?: boolean }).private).map((t) => t.id));
+      attempt.results = attempt.results.map((r) =>
+        privateIds.has(r.testId)
+          ? { testId: r.testId, name: r.name, passed: r.passed, expected: null, actual: null, message: r.passed ? 'Test privé réussi.' : 'Test privé échoué (détails masqués).' }
+          : r);
       // Réussite → preuve de compétence dans la progression (jours liés).
       let recorded = false;
       if (attempt.allPassed) {

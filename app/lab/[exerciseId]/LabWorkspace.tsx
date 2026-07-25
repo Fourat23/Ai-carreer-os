@@ -48,6 +48,9 @@ export default function LabWorkspace({
   const [rightTab, setRightTab] = useState<RightTab>('tests');
   const [palette, setPalette] = useState(false);
   const [paletteQ, setPaletteQ] = useState('');
+  const [history, setHistory] = useState<{ at: string; passed: number; total: number; allPassed: boolean; durationMs: number }[]>([]);
+  const abortRef = useRef<AbortController | null>(null);
+  const LASTRUN_KEY = `lab:lastrun:${exercise.id}`;
 
   const rootRef = useRef<HTMLDivElement>(null);
   const explorerRef = useRef<HTMLUListElement>(null);
@@ -85,6 +88,15 @@ export default function LabWorkspace({
   useEffect(() => {
     try { localStorage.setItem(TABS_KEY, JSON.stringify({ openTabs, active })); } catch { /* best-effort */ }
   }, [openTabs, active, TABS_KEY]);
+
+  // Restaure le dernier résultat d'exécution (session précédente) au montage.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(LASTRUN_KEY);
+      if (raw) { const p = JSON.parse(raw); if (p.attempt) { setAttempt(p.attempt); setStdout(typeof p.stdout === 'string' ? p.stdout : ''); } }
+    } catch { /* ignore */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const openFile = useCallback((path: string) => {
     setActive(path);
@@ -124,12 +136,25 @@ export default function LabWorkspace({
 
   const run = useCallback(async () => {
     setRunning(true); setRunError(''); setAttempt(null); setStdout(''); setRightTab('tests');
+    const controller = new AbortController();
+    abortRef.current = controller;
     try {
-      const j = await post('run');
+      const res = await fetch(`/api/lab/${exercise.id}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'run', files: editableMap() }), signal: controller.signal,
+      });
+      const j = await res.json().catch(() => ({ error: 'Réponse illisible.' }));
       if (j.error) { setRunError(j.error); return; }
       setAttempt(j.attempt); setStdout(j.stdout ?? ''); setDirty(new Set()); setSaveState('saved');
-    } finally { setRunning(false); }
-  }, [post]);
+      setHistory((h) => [{ at: new Date().toISOString(), passed: j.attempt.passed, total: j.attempt.total, allPassed: j.attempt.allPassed, durationMs: j.attempt.durationMs }, ...h].slice(0, 5));
+      try { localStorage.setItem(LASTRUN_KEY, JSON.stringify({ attempt: j.attempt, stdout: j.stdout ?? '' })); } catch { /* best-effort */ }
+    } catch (e) {
+      if ((e as Error).name === 'AbortError') setRunError('Exécution annulée. (Le bac à sable serveur s’arrête seul par timeout.)');
+      else setRunError('Échec de l’exécution.');
+    } finally { setRunning(false); abortRef.current = null; }
+  }, [exercise.id, editableMap, LASTRUN_KEY]);
+
+  const cancelRun = useCallback(() => { abortRef.current?.abort(); }, []);
 
   async function resetExercise() {
     if (!confirm('Réinitialiser tout l’exercice au code de départ ? Ton code sera perdu.')) return;
@@ -278,7 +303,12 @@ export default function LabWorkspace({
           <div className="wb-rbody" aria-live="polite">
             {rightTab === 'tests' && (
               <>
-                {running && <div className="lab-hint"><Loader2 size={13} className="spin" /> Exécution en cours…</div>}
+                {running && (
+                  <div className="wb-running">
+                    <span className="lab-hint"><Loader2 size={13} className="spin" /> Exécution en cours…</span>
+                    <button className="btn small ghost" onClick={cancelRun}>Annuler</button>
+                  </div>
+                )}
                 {runError && <div className="lab-error">{runError}</div>}
                 {!attempt && !runError && !running && <div className="lab-hint">Lance les tests pour voir le détail. {exercise.tests.length} tests.</div>}
                 {attempt && (
@@ -296,6 +326,20 @@ export default function LabWorkspace({
                       ))}
                     </ul>
                   </>
+                )}
+                {history.length > 1 && (
+                  <div className="wb-history">
+                    <div className="section-label" style={{ marginBottom: 6 }}>Exécutions récentes</div>
+                    <ul>
+                      {history.map((h, i) => (
+                        <li key={h.at + i} className={h.allPassed ? 'ok' : 'ko'}>
+                          <span>{new Date(h.at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                          <span>{h.passed}/{h.total}</span>
+                          <span>{h.durationMs} ms</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </>
             )}

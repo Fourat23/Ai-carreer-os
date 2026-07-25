@@ -33,6 +33,14 @@ export default function Dashboard() {
   const currentMonth = program.months.find((m) => m.month === resumeDay?.month);
   const started = resumeStatus !== 'not-started';
   const reviews = reviewSummary(progress.days);
+  // Dernière preuve ajoutée (toutes journées confondues).
+  let lastEvidence: { day: number; title: string } | null = null;
+  let lastAt = '';
+  for (const k of Object.keys(progress.days)) {
+    for (const e of (progress.days[k]?.evidence ?? [])) {
+      if (typeof e.createdAt === 'string' && e.createdAt > lastAt) { lastAt = e.createdAt; lastEvidence = { day: Number(k), title: e.title }; }
+    }
+  }
 
   return (
     <>
@@ -135,6 +143,13 @@ export default function Dashboard() {
             <div className="row" style={{ gap: 6, marginTop: 6 }}>
               {skillNames.length ? skillNames.map((n) => <span key={n} className="badge accent">{n}</span>) : <span className="muted">—</span>}
             </div>
+            <div className="side-sep" />
+            <div className="stat-k">Dernière preuve</div>
+            {lastEvidence ? (
+              <div className="dash-strong" style={{ marginTop: 4 }}>
+                <Link href={`/day/${lastEvidence.day}`}>Jour {lastEvidence.day}</Link> — {lastEvidence.title}
+              </div>
+            ) : <p className="dash-note" style={{ marginTop: 4 }}>Aucune preuve enregistrée pour l'instant.</p>}
           </div>
 
           <div className="side-block">

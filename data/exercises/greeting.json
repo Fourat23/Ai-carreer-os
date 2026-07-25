@@ -15,6 +15,7 @@
       }
     ]
   },
+  "reference": { "main.mjs": "console.log('Bonjour, monde');" },
   "tests": [
     { "id": "t-exact", "name": "Sortie exacte", "kind": "stdout-equals", "expected": "Bonjour, monde" },
     { "id": "t-contains", "name": "Contient le salut", "kind": "stdout-contains", "expected": "Bonjour" }

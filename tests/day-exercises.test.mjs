@@ -1,7 +1,7 @@
 // Tests de la liaison jour↔exercice + enregistrement de réussite (purs).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { buildDayExerciseIndex, exercisesForDay, daysForExercise } from '../lib/day-exercises.mjs';
 import { recordExerciseSuccess, hasLabEvidence, labEvidenceUrl } from '../lib/lab-progress.mjs';
 
@@ -27,13 +27,14 @@ test('buildDayExerciseIndex : dédoublonne, ignore clés dangereuses', () => {
   assert.equal(Object.hasOwn(Object.getPrototypeOf(idx.byDay), 'x'), false);
 });
 
-test('la fixture livrée est valide contre exercices + jours', () => {
+test('la fixture livrée est valide contre exercices + jours réels', () => {
   const raw = JSON.parse(readFileSync(new URL('../data/day-exercises.json', import.meta.url), 'utf8'));
   const days = new Set(Array.from({ length: 365 }, (_, i) => i + 1));
-  // ids réels des fixtures d'exercices
-  const exFiles = ['fizzbuzz', 'greeting'];
-  const idx = buildDayExerciseIndex(raw, new Set(exFiles), days);
-  assert.ok(idx.byDay.size >= 1);
+  // ids réels des fixtures d'exercices présentes sur le disque
+  const exDir = new URL('../data/exercises/', import.meta.url);
+  const ids = new Set(readdirSync(exDir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(new URL(f, exDir), 'utf8')).id));
+  const idx = buildDayExerciseIndex(raw, ids, days);
+  assert.ok(idx.byDay.size >= 8); // catalogue complet lié
 });
 
 const flat = { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };

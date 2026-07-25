@@ -1,4 +1,10 @@
 {
   "1": ["greeting"],
-  "8": ["fizzbuzz"]
+  "8": ["fizzbuzz"],
+  "10": ["array-sum-even"],
+  "12": ["word-frequencies"],
+  "15": ["validate-user"],
+  "24": ["async-user-lookup"],
+  "26": ["async-sum"],
+  "30": ["debug-cart"]
 }

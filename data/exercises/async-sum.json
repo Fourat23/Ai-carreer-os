@@ -1,0 +1,20 @@
+{
+  "id": "async-sum",
+  "title": "Fonctions asynchrones : agrégation",
+  "summary": "Objectif : orchestrer des promesses. Écris sumAsync(nums) qui renvoie une Promise résolue avec la somme du tableau (utilise async/await, ex. Promise.all). Critère : le tableau vide renvoie 0.",
+  "difficulty": 3,
+  "runtime": "node-js",
+  "skills": ["javascript", "node"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Renvoie une Promise avec la somme de nums.\n// Exemple : await sumAsync([1,2,3]) === 6\nexport async function sumAsync(nums) {\n  // TODO\n  return 0;\n}\n" }
+    ]
+  },
+  "reference": { "solution.mjs": "export async function sumAsync(nums){ const vals = await Promise.all(nums.map(n => Promise.resolve(n))); return vals.reduce((a,b)=>a+b, 0); }" },
+  "tests": [
+    { "id": "t1", "name": "[1,2,3] -> 6", "kind": "call-equals", "export": "sumAsync", "args": [[1, 2, 3]], "expected": 6 },
+    { "id": "t2", "name": "vide -> 0", "kind": "call-equals", "export": "sumAsync", "args": [[]], "expected": 0 },
+    { "id": "t3", "name": "[10,20] -> 30", "kind": "call-equals", "export": "sumAsync", "args": [[10, 20]], "expected": 30 }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "debug-cart",
+  "title": "Débogage : total du panier (multi-fichiers)",
+  "summary": "Objectif : lire, comprendre et corriger du code. cart.mjs contient un bug dans le calcul du total. Corrige-le : total = somme de (prix x quantité), puis remise de 10% arrondie si le total dépasse 100. Les prix sont dans items.mjs (lecture seule). Certains tests sont privés. Critère : tous les tests passent.",
+  "difficulty": 4,
+  "runtime": "node-js",
+  "skills": ["javascript", "algo", "testing"],
+  "activeFile": "cart.mjs",
+  "workspace": {
+    "entry": "cart.mjs",
+    "files": [
+      { "path": "cart.mjs", "content": "import { PRICES } from './items.mjs';\n\n// BUG : le total ignore la quantité. À corriger.\nexport function cartTotal(cart) {\n  let total = 0;\n  for (const item of cart) {\n    total += PRICES[item.id];\n  }\n  if (total > 100) total = Math.round(total * 0.9);\n  return total;\n}\n" },
+      { "path": "items.mjs", "readOnly": true, "content": "// Catalogue de prix (lecture seule).\nexport const PRICES = { pomme: 2, pain: 3, lait: 1 };\n" }
+    ]
+  },
+  "reference": { "cart.mjs": "import { PRICES } from './items.mjs';\nexport function cartTotal(cart){ let total=0; for(const item of cart){ total += (PRICES[item.id]||0) * item.qty; } if(total>100) total=Math.round(total*0.9); return total; }" },
+  "tests": [
+    { "id": "t-pub1", "name": "2 pommes -> 4", "kind": "call-equals", "export": "cartTotal", "args": [[{ "id": "pomme", "qty": 2 }]], "expected": 4 },
+    { "id": "t-pub2", "name": "3 pains -> 9", "kind": "call-equals", "export": "cartTotal", "args": [[{ "id": "pain", "qty": 3 }]], "expected": 9 },
+    { "id": "t-pub3", "name": "panier mixte", "kind": "call-equals", "export": "cartTotal", "args": [[{ "id": "pomme", "qty": 1 }, { "id": "lait", "qty": 2 }]], "expected": 4 },
+    { "id": "t-priv-disc", "name": "remise au-dessus de 100", "kind": "call-equals", "export": "cartTotal", "args": [[{ "id": "pain", "qty": 40 }]], "expected": 108, "private": true },
+    { "id": "t-priv-edge", "name": "exactement 100 (pas de remise)", "kind": "call-equals", "export": "cartTotal", "args": [[{ "id": "pomme", "qty": 50 }]], "expected": 100, "private": true }
+  ]
+}

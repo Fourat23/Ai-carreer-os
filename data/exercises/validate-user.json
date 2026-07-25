@@ -1,0 +1,23 @@
+{
+  "id": "validate-user",
+  "title": "Validation de données (multi-fichiers)",
+  "summary": "Objectif : composer plusieurs modules. Implémente validateUser(user) dans validate.mjs en utilisant les règles de rules.mjs (lecture seule). Renvoie { valid, errors }. Messages exacts : 'nom trop court', 'email invalide'. Ordre : le nom d'abord, puis l'email. Critère : les 4 tests passent.",
+  "difficulty": 3,
+  "runtime": "node-js",
+  "skills": ["javascript", "testing"],
+  "activeFile": "validate.mjs",
+  "workspace": {
+    "entry": "validate.mjs",
+    "files": [
+      { "path": "validate.mjs", "content": "import { isEmail, MIN_NAME } from './rules.mjs';\n\n// Renvoie { valid: boolean, errors: string[] }.\n// Ordre des erreurs : nom puis email.\nexport function validateUser(user) {\n  const errors = [];\n  // TODO : utiliser MIN_NAME et isEmail\n  return { valid: errors.length === 0, errors };\n}\n" },
+      { "path": "rules.mjs", "readOnly": true, "content": "// Règles partagées (lecture seule).\nexport const MIN_NAME = 2;\nexport function isEmail(s) {\n  return typeof s === 'string' && /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(s);\n}\n" }
+    ]
+  },
+  "reference": { "validate.mjs": "import { isEmail, MIN_NAME } from './rules.mjs';\nexport function validateUser(user){ const errors=[]; if(!user||typeof user.name!=='string'||user.name.length<MIN_NAME) errors.push('nom trop court'); if(!user||!isEmail(user.email)) errors.push('email invalide'); return { valid: errors.length===0, errors }; }" },
+  "tests": [
+    { "id": "t-ok", "name": "utilisateur valide", "kind": "call-equals", "export": "validateUser", "args": [{ "name": "Alice", "email": "a@b.co" }], "expected": { "valid": true, "errors": [] } },
+    { "id": "t-name", "name": "nom trop court", "kind": "call-equals", "export": "validateUser", "args": [{ "name": "A", "email": "a@b.co" }], "expected": { "valid": false, "errors": ["nom trop court"] } },
+    { "id": "t-email", "name": "email invalide", "kind": "call-equals", "export": "validateUser", "args": [{ "name": "Alice", "email": "bad" }], "expected": { "valid": false, "errors": ["email invalide"] } },
+    { "id": "t-both", "name": "deux erreurs, dans l'ordre", "kind": "call-equals", "export": "validateUser", "args": [{ "name": "", "email": "bad" }], "expected": { "valid": false, "errors": ["nom trop court", "email invalide"] } }
+  ]
+}

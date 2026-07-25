@@ -1,0 +1,22 @@
+{
+  "id": "async-user-lookup",
+  "title": "Fonctions asynchrones : recherche (multi-fichiers)",
+  "summary": "Objectif : écrire une fonction async. Implémente fetchUserName(id) dans index.mjs : renvoie une Promise résolue avec le nom de l'utilisateur depuis data.mjs (lecture seule), ou null s'il n'existe pas. Critère : les tests asynchrones passent.",
+  "difficulty": 3,
+  "runtime": "node-js",
+  "skills": ["javascript", "node"],
+  "activeFile": "index.mjs",
+  "workspace": {
+    "entry": "index.mjs",
+    "files": [
+      { "path": "index.mjs", "content": "import { USERS } from './data.mjs';\n\n// Renvoie une Promise avec le nom de l'utilisateur, ou null.\nexport async function fetchUserName(id) {\n  // TODO : simuler un accès asynchrone (await) puis lire USERS.\n  return null;\n}\n" },
+      { "path": "data.mjs", "readOnly": true, "content": "// Données simulées (lecture seule) — aucun accès réseau.\nexport const USERS = { 1: 'Alice', 2: 'Bob', 3: 'Carla' };\n" }
+    ]
+  },
+  "reference": { "index.mjs": "import { USERS } from './data.mjs';\nexport async function fetchUserName(id){ await Promise.resolve(); return USERS[id] ?? null; }" },
+  "tests": [
+    { "id": "t1", "name": "id 1 -> Alice", "kind": "call-equals", "export": "fetchUserName", "args": [1], "expected": "Alice" },
+    { "id": "t2", "name": "id 3 -> Carla", "kind": "call-equals", "export": "fetchUserName", "args": [3], "expected": "Carla" },
+    { "id": "t3", "name": "inconnu -> null", "kind": "call-equals", "export": "fetchUserName", "args": [99], "expected": null }
+  ]
+}

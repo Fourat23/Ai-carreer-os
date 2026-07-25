@@ -15,6 +15,7 @@
       }
     ]
   },
+  "reference": { "solution.mjs": "export function fizzbuzz(n){ if(n%15===0)return 'FizzBuzz'; if(n%3===0)return 'Fizz'; if(n%5===0)return 'Buzz'; return String(n); }" },
   "tests": [
     { "id": "t-3", "name": "3 → Fizz", "kind": "call-equals", "export": "fizzbuzz", "args": [3], "expected": "Fizz" },
     { "id": "t-5", "name": "5 → Buzz", "kind": "call-equals", "export": "fizzbuzz", "args": [5], "expected": "Buzz" },

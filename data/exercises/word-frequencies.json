@@ -1,0 +1,20 @@
+{
+  "id": "word-frequencies",
+  "title": "Comptage de fréquences avec Map",
+  "summary": "Objectif : compter des occurrences. Écris wordCount(str) qui renvoie un objet { mot: nombre }, en minuscules, les mots séparés par des espaces. Critère de réussite : casse ignorée et chaîne vide -> {}.",
+  "difficulty": 2,
+  "runtime": "node-js",
+  "skills": ["javascript", "algo"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Compte les mots (minuscules, séparés par des espaces).\n// Exemple : wordCount('a b a') === { a: 2, b: 1 }\nexport function wordCount(str) {\n  // Astuce : une Map puis Object.fromEntries.\n  return {};\n}\n" }
+    ]
+  },
+  "reference": { "solution.mjs": "export function wordCount(str){ const m=new Map(); for(const w of str.toLowerCase().split(/\\s+/).filter(Boolean)){ m.set(w,(m.get(w)||0)+1); } return Object.fromEntries(m); }" },
+  "tests": [
+    { "id": "t1", "name": "'a b a' -> {a:2,b:1}", "kind": "call-equals", "export": "wordCount", "args": ["a b a"], "expected": { "a": 2, "b": 1 } },
+    { "id": "t2", "name": "chaine vide -> {}", "kind": "call-equals", "export": "wordCount", "args": [""], "expected": {} },
+    { "id": "t3", "name": "casse ignoree", "kind": "call-equals", "export": "wordCount", "args": ["Hi hi HI"], "expected": { "hi": 3 } }
+  ]
+}

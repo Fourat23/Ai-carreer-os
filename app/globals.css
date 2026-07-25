@@ -16,7 +16,7 @@
   /* Texte */
   --text: #e6e8ec;         /* blanc cassé, jamais blanc pur */
   --muted: #969ba6;
-  --faint: #6d727c;        /* labels très secondaires */
+  --faint: #7d838f;        /* labels très secondaires (contraste AA large) */
 
   /* Accent + sémantiques */
   --accent: #63a6a0;       /* teal minéral, froid, utilisé avec retenue */
@@ -370,7 +370,8 @@ textarea { min-height: 90px; resize: vertical; }
 .muted { color: var(--muted); }
 .spacer { height: 14px; }
 details.solution { margin-top: 18px; }
-details.solution > summary { cursor: pointer; padding: 12px 16px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; font-weight: 600; color: var(--warn); }
+details.solution > summary { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px 16px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; font-weight: 600; color: var(--warn); }
+details.solution > summary svg { flex: none; }
 details.solution[open] > summary { border-radius: 8px 8px 0 0; }
 
 .skill-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { Lock, ClipboardCheck } from 'lucide-react';
 import { getDay, getDayHtml, getSolutionHtml, getDayChecklist } from '@/lib/program';
 import { getDayProgress } from '@/lib/progress-server';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
@@ -45,7 +46,11 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
 
         {solution && (
           <details className="solution">
-            <summary>{meta.isReview ? "📋 Voir la grille d'évaluation" : '⛔ Voir la correction (seulement après avoir vraiment essayé seul)'}</summary>
+            <summary>
+              {meta.isReview
+                ? <><ClipboardCheck size={15} strokeWidth={2} /> Voir la grille d'évaluation</>
+                : <><Lock size={15} strokeWidth={2} /> Voir la correction (seulement après avoir vraiment essayé seul)</>}
+            </summary>
             <div className="prose" style={{ borderRadius: '0 0 8px 8px', borderTop: 'none' }}
                  dangerouslySetInnerHTML={{ __html: solution }} />
           </details>

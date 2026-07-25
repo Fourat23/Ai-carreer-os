@@ -1,0 +1,22 @@
+{
+  "id": "greeting",
+  "title": "Premier programme : la sortie standard",
+  "summary": "Fais afficher exactement « Bonjour, monde » sur la sortie standard avec console.log.",
+  "difficulty": 1,
+  "runtime": "node-js",
+  "skills": ["javascript", "linux"],
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "workspace": {
+    "entry": "main.mjs",
+    "files": [
+      {
+        "path": "main.mjs",
+        "content": "// Affiche exactement : Bonjour, monde\n// Astuce : console.log écrit une ligne sur la sortie standard.\nconsole.log('...');\n"
+      }
+    ]
+  },
+  "tests": [
+    { "id": "t-exact", "name": "Sortie exacte", "kind": "stdout-equals", "expected": "Bonjour, monde" },
+    { "id": "t-contains", "name": "Contient le salut", "kind": "stdout-contains", "expected": "Bonjour" }
+  ]
+}

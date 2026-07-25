@@ -1,0 +1,25 @@
+{
+  "id": "fizzbuzz",
+  "title": "FizzBuzz",
+  "summary": "Écris une fonction fizzbuzz(n) qui renvoie « Fizz » si n est divisible par 3, « Buzz » par 5, « FizzBuzz » par 15, sinon le nombre sous forme de chaîne.",
+  "difficulty": 1,
+  "runtime": "node-js",
+  "skills": ["javascript", "algo"],
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Implémente fizzbuzz(n) puis lance les tests.\n// Rappel : renvoie une CHAÎNE ('Fizz', 'Buzz', 'FizzBuzz' ou le nombre).\nexport function fizzbuzz(n) {\n  // TODO: à compléter\n  return String(n);\n}\n"
+      }
+    ]
+  },
+  "tests": [
+    { "id": "t-3", "name": "3 → Fizz", "kind": "call-equals", "export": "fizzbuzz", "args": [3], "expected": "Fizz" },
+    { "id": "t-5", "name": "5 → Buzz", "kind": "call-equals", "export": "fizzbuzz", "args": [5], "expected": "Buzz" },
+    { "id": "t-15", "name": "15 → FizzBuzz", "kind": "call-equals", "export": "fizzbuzz", "args": [15], "expected": "FizzBuzz" },
+    { "id": "t-1", "name": "1 → \"1\"", "kind": "call-equals", "export": "fizzbuzz", "args": [1], "expected": "1" },
+    { "id": "t-30", "name": "30 → FizzBuzz", "kind": "call-equals", "export": "fizzbuzz", "args": [30], "expected": "FizzBuzz" }
+  ]
+}

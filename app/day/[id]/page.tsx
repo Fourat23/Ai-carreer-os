@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import { Lock, ClipboardCheck } from 'lucide-react';
 import { getDay, getDayHtml, getSolutionHtml, getDayChecklist } from '@/lib/program';
 import { getDayProgress } from '@/lib/progress-server';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
@@ -8,6 +7,7 @@ import { annotateDayHtml, deriveActivities } from '@/lib/section-family';
 import DayPanel from './DayPanel';
 import DayHeader from './DayHeader';
 import DayOutline from './DayOutline';
+import DayCorrection from './DayCorrection';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,15 +46,7 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
         <DayPanel day={dayNum} initial={progress} checklist={checklist} activities={activities} />
 
         {solution && (
-          <details className="solution">
-            <summary>
-              {meta.isReview
-                ? <><ClipboardCheck size={15} strokeWidth={2} /> Voir la grille d'évaluation</>
-                : <><Lock size={15} strokeWidth={2} /> Voir la correction (seulement après avoir vraiment essayé seul)</>}
-            </summary>
-            <div className="prose" style={{ borderRadius: '0 0 8px 8px', borderTop: 'none' }}
-                 dangerouslySetInnerHTML={{ __html: solution }} />
-          </details>
+          <DayCorrection day={dayNum} solutionHtml={solution} isReview={!!meta.isReview} initial={progress} />
         )}
       </div>
 

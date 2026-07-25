@@ -797,3 +797,16 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
   padding: 1px 6px; flex: none;
 }
 .work-textarea { min-height: 88px; resize: vertical; font-family: inherit; line-height: 1.55; }
+
+/* ── Vue Jour : correction interactive ── */
+.day-corr { margin-top: 22px; }
+.corr-lock { border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: var(--r); background: var(--panel); padding: var(--sp-4) var(--sp-5); }
+.corr-lock-head { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--warn); }
+.corr-lock p { margin: 8px 0 14px; font-size: var(--fs-sm); }
+.corr-assess { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
+.corr-assess-q { font-size: var(--fs-sm); color: var(--muted); }
+.corr-assess-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.corr-understood.active { border-color: var(--ok); color: var(--ok); }
+.corr-partial.active { border-color: var(--accent); color: var(--accent); }
+.corr-review.active { border-color: var(--warn); color: var(--warn); }
+.corr-assess-note { font-size: var(--fs-xs); color: var(--faint); margin: 0; }

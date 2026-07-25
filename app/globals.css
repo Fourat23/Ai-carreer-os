@@ -644,3 +644,28 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
+
+/* ── Trajectoire 365 (signature Dashboard) ── */
+.traj { --cell: 15px; --cgap: 3px; margin: 0 0 var(--sp-4); }
+.traj-scroll { overflow-x: auto; padding-bottom: 6px; }
+.traj-inner { display: inline-block; min-width: 100%; }
+.traj-months { display: grid; gap: var(--cgap); margin-bottom: 7px; }
+.traj-mlabel { grid-row: 1; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .03em; color: var(--faint); }
+.traj-grid { display: grid; gap: var(--cgap); }
+.tcell { display: block; width: var(--cell); height: var(--cell); border-radius: 3px; background: var(--panel-2); border: 1px solid transparent; transition: outline-color var(--t); }
+.tcell:hover, .tcell:focus-visible { outline: 2px solid var(--text); outline-offset: 1px; }
+.tcell.now { box-shadow: 0 0 0 2px var(--accent); position: relative; z-index: 1; }
+.tsw { display: inline-block; width: 11px; height: 11px; border-radius: 3px; background: var(--panel-2); border: 1px solid transparent; }
+.tcell.s-done, .tsw.s-done { background: color-mix(in srgb, var(--ok) 58%, var(--bg)); }
+.tcell.s-in-progress, .tsw.s-in-progress { background: color-mix(in srgb, var(--accent) 62%, var(--bg)); }
+.tcell.s-to-review, .tsw.s-to-review { background: color-mix(in srgb, var(--warn) 55%, var(--bg)); }
+.tcell.s-not-started, .tsw.s-not-started { background: var(--panel-2); }
+.tcell.rev, .tsw.rev { border-color: var(--border-strong); border-style: dashed; }
+.traj-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap; margin-top: 4px; }
+.traj-legend { margin: 0; }
+.traj-now-note { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--faint); }
+@media (max-width: 640px) { .traj { --cell: 13px; --cgap: 2px; } }
+
+/* ── Dashboard : raison de reprise + actions secondaires ── */
+.resume-why { color: var(--muted); font-size: var(--fs-sm); margin: 8px 0 0; }
+.dash-quick { display: flex; gap: 8px; flex-wrap: wrap; margin-top: var(--sp-5); }

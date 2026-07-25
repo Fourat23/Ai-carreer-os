@@ -821,3 +821,22 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .dc-conf-label { font-size: var(--fs-sm); color: var(--muted); }
 .dc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 @media (max-width: 640px) { .dc-actions .btn { flex: 1 1 auto; justify-content: center; } }
+
+/* ── Révisions ── */
+.rev-list { border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); overflow: hidden; }
+.rev-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; flex-wrap: wrap; }
+.rev-row + .rev-row { border-top: 1px solid var(--border); }
+.rev-main { min-width: 0; }
+.rev-title { font-weight: 600; }
+.rev-meta { display: flex; gap: 10px; margin-top: 3px; font-size: var(--fs-xs); }
+.rev-reason { color: var(--muted); }
+.rev-late { color: var(--warn); }
+.rev-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.rev-hard:hover { border-color: var(--warn); color: var(--warn); }
+.rev-good:hover { border-color: var(--ok); color: var(--ok); }
+@media (max-width: 560px) { .rev-btn-txt { display: none; } .rev-row { gap: 8px; } }
+
+/* Bloc révisions du Dashboard */
+.rev-block .rev-nums { display: flex; gap: 16px; align-items: baseline; margin: 4px 0 8px; }
+.rev-block .rev-due { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.rev-block .rev-due.has { color: var(--warn); }

@@ -5,6 +5,7 @@ import { readProgress } from '@/lib/progress-server';
 import { computeStats, currentSkills } from '@/lib/progress-stats';
 import { resumeReasonText, countStatuses } from '@/lib/resume';
 import { progressPosition } from '@/lib/position';
+import { reviewSummary } from '@/lib/review';
 import StartDayButton from './StartDayButton';
 import Trajectory365 from './Trajectory365';
 
@@ -31,6 +32,7 @@ export default function Dashboard() {
   const skillNames = program.skills.filter((s) => skillIds.includes(s.id)).map((s) => s.name);
   const currentMonth = program.months.find((m) => m.month === resumeDay?.month);
   const started = resumeStatus !== 'not-started';
+  const reviews = reviewSummary(progress.days);
 
   return (
     <>
@@ -91,6 +93,19 @@ export default function Dashboard() {
 
         {/* Colonne secondaire : rythme, livrable, compétences, mois, accès */}
         <aside className="dash-side" aria-label="Pilotage">
+          <div className="side-block rev-block">
+            <div className="stat-k">Révisions</div>
+            <div className="rev-nums">
+              <span className={`rev-due${reviews.dueToday > 0 ? ' has' : ''}`}>{reviews.dueToday}</span>
+              <span className="stat-sub">à revoir aujourd'hui{reviews.overdue > 0 ? ` · ${reviews.overdue} en retard` : ''}</span>
+            </div>
+            <div className="stat-sub" style={{ marginBottom: 10 }}>
+              {reviews.next ? `Prochaine : jour ${reviews.next.day} dans ${reviews.next.inDays} j` : 'Aucune révision planifiée'}
+            </div>
+            <Link className={`btn small${reviews.dueToday > 0 ? ' primary' : ''}`} href="/revisions">
+              {reviews.dueToday > 0 ? 'Réviser maintenant' : 'Ouvrir les révisions'}
+            </Link>
+          </div>
           <div className="side-block">
             <div className="stat-k">Rythme</div>
             <div className="stat-v sm" style={{ color: pos.complete ? 'var(--ok)' : pos.delay > 0 ? 'var(--warn)' : pos.ahead > 0 ? 'var(--accent)' : 'var(--ok)' }}>

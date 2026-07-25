@@ -1024,13 +1024,16 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .wb-sep { cursor: col-resize; background: var(--border); transition: background var(--t); }
 .wb-sep:hover, .wb-sep:focus-visible { background: var(--accent); outline: none; }
 
-/* Tablette : panneaux latéraux plus étroits, workbench plus court */
-@media (max-width: 1199px) {
-  .wb { grid-template-columns: 1fr !important; height: auto; }
-  .wb-left, .wb-right { max-height: 320px; border: none; border-bottom: 1px solid var(--border); }
-  .wb-sep { display: none; }
-  .wb-cm { height: 380px; flex: none; }
-}
+/* Tablette / mobile (< 1200px) : une seule zone à la fois via nav segmentée.
+   Le rendu des zones est piloté par React (narrow) ; ici on met en forme. */
+.wb-mobilenav { display: flex; gap: 2px; border: 1px solid var(--border); border-bottom: none;
+  border-radius: var(--r) var(--r) 0 0; overflow-x: auto; background: var(--panel-2); }
+.wb-mvbtn { flex: 1 0 auto; min-width: 68px; padding: 11px 10px; background: none; border: none;
+  border-bottom: 2px solid transparent; color: var(--muted); font-size: var(--fs-xs); cursor: pointer; white-space: nowrap; }
+.wb-mvbtn.active { color: var(--text); border-bottom-color: var(--accent); background: var(--panel); }
+.wb-narrow { grid-template-columns: 1fr !important; height: clamp(440px, calc(100vh - 240px), 900px); border-radius: 0 0 var(--r) var(--r); }
+.wb-narrow .wb-left, .wb-narrow .wb-right { max-height: none; border: none; }
+.wb-narrow .wb-cm { flex: 1; }
 
 .lab-results { border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); padding: var(--sp-4) var(--sp-5); }
 .lab-verdict { font-family: var(--font-mono); font-size: var(--fs-xs); }

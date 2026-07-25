@@ -51,6 +51,9 @@ export default function LabWorkspace({
   const [history, setHistory] = useState<{ at: string; passed: number; total: number; allPassed: boolean; durationMs: number }[]>([]);
   const abortRef = useRef<AbortController | null>(null);
   const LASTRUN_KEY = `lab:lastrun:${exercise.id}`;
+  // Vue étroite (tablette/mobile) : une zone à la fois via une nav segmentée.
+  const [narrow, setNarrow] = useState(false);
+  const [mv, setMv] = useState<'brief' | 'files' | 'code' | 'tests' | 'console'>('code');
 
   const rootRef = useRef<HTMLDivElement>(null);
   const explorerRef = useRef<HTMLUListElement>(null);
@@ -221,17 +224,43 @@ export default function LabWorkspace({
 
   useEffect(() => { if (palette) paletteInputRef.current?.focus(); }, [palette]);
 
+  // Détection viewport étroit (tablette/mobile) → nav segmentée à une zone.
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 1199px)');
+    const apply = () => setNarrow(mql.matches);
+    apply();
+    mql.addEventListener('change', apply);
+    return () => mql.removeEventListener('change', apply);
+  }, []);
+  // Sélection d'une zone en vue étroite (synchronise l'onglet droit).
+  const selectView = useCallback((v: typeof mv) => {
+    setMv(v);
+    if (v === 'tests') setRightTab('tests');
+    if (v === 'console') setRightTab('console');
+  }, []);
+
   const paletteResults = useMemo(() => {
     const q = paletteQ.trim().toLowerCase();
     return visibleFiles.filter((f) => !q || f.path.toLowerCase().includes(q));
   }, [paletteQ, visibleFiles]);
 
   const cols = `${layout.layout.leftOpen ? layout.layout.left + 'px' : '0'} ${layout.layout.leftOpen ? '6px' : '0'} minmax(0,1fr) ${layout.layout.rightOpen ? '6px' : '0'} ${layout.layout.rightOpen ? layout.layout.right + 'px' : '0'}`;
+  const showLeft = narrow ? (mv === 'brief' || mv === 'files') : layout.layout.leftOpen;
+  const showRight = narrow ? (mv === 'tests' || mv === 'console') : layout.layout.rightOpen;
+  const showCenter = narrow ? mv === 'code' : true;
 
   return (
-    <div className="wb" style={{ gridTemplateColumns: cols }} ref={rootRef}>
+    <>
+    {narrow && (
+      <nav className="wb-mobilenav" aria-label="Zones du laboratoire">
+        {([['brief', 'Énoncé'], ['files', 'Fichiers'], ['code', 'Code'], ['tests', 'Tests'], ['console', 'Console']] as const).map(([v, label]) => (
+          <button key={v} className={`wb-mvbtn${mv === v ? ' active' : ''}`} aria-pressed={mv === v} onClick={() => selectView(v)}>{label}</button>
+        ))}
+      </nav>
+    )}
+    <div className={`wb${narrow ? ' wb-narrow' : ''}`} data-mv={mv} style={narrow ? undefined : { gridTemplateColumns: cols }} ref={rootRef}>
       {/* ── Panneau gauche ── */}
-      {layout.layout.leftOpen && (
+      {showLeft && (
         <aside className="wb-left" aria-label="Consigne et fichiers">
           <div className="wb-panel-head">
             <span className="section-label">Consigne</span>
@@ -252,9 +281,10 @@ export default function LabWorkspace({
           </ul>
         </aside>
       )}
-      {layout.layout.leftOpen && <Separator side="left" layout={layout} />}
+      {!narrow && layout.layout.leftOpen && <Separator side="left" layout={layout} />}
 
       {/* ── Zone centrale ── */}
+      {showCenter && (
       <section className="wb-center" aria-label="Éditeur">
         <div className="wb-tabs" role="tablist" aria-label="Onglets de fichiers">
           {!layout.layout.leftOpen && (
@@ -289,10 +319,11 @@ export default function LabWorkspace({
           </span>
         </div>
       </section>
+      )}
 
       {/* ── Panneau droit ── */}
-      {layout.layout.rightOpen && <Separator side="right" layout={layout} />}
-      {layout.layout.rightOpen && (
+      {!narrow && layout.layout.rightOpen && <Separator side="right" layout={layout} />}
+      {showRight && (
         <aside className="wb-right" aria-label="Tests, console et aide" ref={resultsRef}>
           <div className="wb-rtabs" role="tablist" aria-label="Panneau de résultats">
             <button role="tab" aria-selected={rightTab === 'tests'} className={`wb-rtab${rightTab === 'tests' ? ' active' : ''}`} onClick={() => setRightTab('tests')}><FlaskConical size={13} /> Tests{attempt ? ` (${attempt.passed}/${attempt.total})` : ''}</button>
@@ -381,6 +412,7 @@ export default function LabWorkspace({
         </div>
       )}
     </div>
+    </>
   );
 }
 

@@ -16,10 +16,19 @@ export default function CalendarPage() {
 
   return (
     <>
-      <h1>Calendrier — 365 jours</h1>
-      <p className="subtitle">
-        Vue mois → semaines → jours. Vert = terminé, bleu = en cours, violet = à revoir, pointillé = revue hebdo.
-      </p>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Vue d'ensemble <span className="sep">/</span> 365 jours</p>
+          <h1 className="page-title">Calendrier</h1>
+          <p className="page-sub">Mois → semaines → jours. Clique un jour pour l'ouvrir.</p>
+        </div>
+      </div>
+      <div className="legend">
+        <span><i style={{ background: '#143a2c', borderColor: '#1e5b45' }} /> Terminé</span>
+        <span><i style={{ background: '#2a3550', borderColor: '#2e4a70' }} /> En cours</span>
+        <span><i style={{ background: '#3a2a52', borderColor: '#533a7a' }} /> À revoir</span>
+        <span><i style={{ borderStyle: 'dashed' }} /> Revue hebdo</span>
+      </div>
 
       {[...byMonth.entries()].map(([month, days]) => {
         const m = program.months.find((x) => x.month === month);

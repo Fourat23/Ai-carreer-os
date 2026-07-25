@@ -15,10 +15,15 @@ export default function ReviewsPage() {
 
   return (
     <>
-      <h1>Évaluations</h1>
-      <p className="subtitle">Revues hebdomadaires, mensuelles, et grilles d'entretien.</p>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Évaluations <span className="sep">/</span> hebdo · mensuel · entretien</p>
+          <h1 className="page-title">Évaluations</h1>
+          <p className="page-sub">Revues hebdomadaires, mensuelles, et grilles d'entretien.</p>
+        </div>
+      </div>
 
-      <h2>Revues hebdomadaires</h2>
+      <div className="section-head"><span className="section-label">Hebdo</span><h2 className="section-title">Revues hebdomadaires</h2></div>
       <div className="card">
         <table className="list">
           <thead><tr><th>Semaine</th><th>Jour de revue</th><th>Statut</th><th></th></tr></thead>
@@ -38,7 +43,7 @@ export default function ReviewsPage() {
         </table>
       </div>
 
-      <h2>Revues mensuelles</h2>
+      <div className="section-head" style={{ marginTop: 'var(--sp-8)' }}><span className="section-label">Mensuel</span><h2 className="section-title">Revues mensuelles</h2></div>
       <div className="card">
         <div className="row" style={{ flexWrap: 'wrap' }}>
           {program.months.map((m) => (
@@ -49,14 +54,14 @@ export default function ReviewsPage() {
         </div>
         {monthly && (
           <details className="solution" style={{ marginTop: 16 }}>
-            <summary>📖 Grille d'évaluation mensuelle</summary>
+            <summary>Grille d'évaluation mensuelle</summary>
             <div className="prose" style={{ borderRadius: '0 0 8px 8px', borderTop: 'none' }}
                  dangerouslySetInnerHTML={{ __html: monthly }} />
           </details>
         )}
       </div>
 
-      <h2>Grille d'entretien</h2>
+      <div className="section-head" style={{ marginTop: 'var(--sp-8)' }}><span className="section-label">Entretien</span><h2 className="section-title">Grille d'entretien</h2></div>
       {interview && (
         <article className="prose" dangerouslySetInnerHTML={{ __html: interview }} />
       )}

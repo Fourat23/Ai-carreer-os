@@ -203,6 +203,24 @@ h2 { font-size: var(--fs-h2); line-height: 1.28; letter-spacing: -0.01em; margin
 .section-title { font-size: var(--fs-h3); font-weight: 600; margin: 0; }
 .section-note { color: var(--muted); font-size: var(--fs-sm); margin-left: auto; }
 
+/* ── Primitive : sous-navigation / filtres (pills sobres, un seul style partout) ── */
+.subnav { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 var(--sp-5); }
+.subnav a, .subnav button {
+  padding: 6px 12px; border: 1px solid var(--border); border-radius: var(--r-sm);
+  background: var(--panel); color: var(--muted); font-size: var(--fs-sm); cursor: pointer;
+  transition: color var(--t), border-color var(--t), background var(--t);
+}
+.subnav a:hover, .subnav button:hover { color: var(--text); border-color: var(--border-strong); text-decoration: none; }
+.subnav a.active, .subnav button.active { background: var(--panel-2); color: var(--text); border-color: var(--accent); }
+
+/* ── Primitive : légende (pastilles d'état) ── */
+.legend { display: flex; gap: var(--sp-4); flex-wrap: wrap; font-size: var(--fs-xs); color: var(--muted); margin: 0 0 var(--sp-5); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; border: 1px solid var(--border); display: inline-block; }
+
+/* ── Primitive : état vide ── */
+.empty { text-align: center; padding: var(--sp-10) var(--sp-5); color: var(--muted); border: 1px dashed var(--border); border-radius: var(--r); }
+
 /* ── Dashboard : bloc « Reprendre » (point d'entrée, arête d'accent) ── */
 .resume {
   display: flex; align-items: center; justify-content: space-between; gap: var(--sp-6);

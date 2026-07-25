@@ -8,8 +8,13 @@ export default function ResourcesPage() {
   if (!html) notFound();
   return (
     <>
-      <h1>Ressources</h1>
-      <p className="subtitle">Sélection de ressources gratuites et de qualité. Lis peu, code beaucoup.</p>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Références <span className="sep">/</span> gratuit &amp; ciblé</p>
+          <h1 className="page-title">Ressources</h1>
+          <p className="page-sub">Sélection de ressources gratuites et de qualité. Lis peu, code beaucoup.</p>
+        </div>
+      </div>
       <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
     </>
   );

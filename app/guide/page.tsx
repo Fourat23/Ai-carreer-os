@@ -11,8 +11,13 @@ export default async function GuidePage({ searchParams }: { searchParams: Promis
   if (!html) notFound();
   return (
     <>
-      <h1>Mode d'emploi</h1>
-      <p className="subtitle">Comment utiliser la plateforme pendant 12 mois — et le standard de qualité du contenu.</p>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Manuel <span className="sep">/</span> 12 mois</p>
+          <h1 className="page-title">Mode d'emploi</h1>
+          <p className="page-sub">Comment utiliser la plateforme pendant 12 mois — et le standard de qualité du contenu.</p>
+        </div>
+      </div>
       <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
     </>
   );

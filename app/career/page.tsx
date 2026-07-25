@@ -14,8 +14,13 @@ export default async function CareerPage({ searchParams }: { searchParams: Promi
 
   return (
     <>
-      <h1>Carrière</h1>
-      <p className="subtitle">Transformer 12 mois de travail en un poste. À travailler surtout au mois 12.</p>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Débouché <span className="sep">/</span> mois 12</p>
+          <h1 className="page-title">Carrière</h1>
+          <p className="page-sub">Transformer 12 mois de travail en un poste. À travailler surtout au mois 12.</p>
+        </div>
+      </div>
       <div className="row" style={{ marginBottom: 16 }}>
         {DOCS.map((d) => (
           <Link key={d.id} href={`/career?doc=${d.id}`} className={`btn small ${selected === d.id ? 'primary' : ''}`}>

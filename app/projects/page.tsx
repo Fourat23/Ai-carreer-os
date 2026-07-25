@@ -20,19 +20,24 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
 
   return (
     <>
-      <h1>Projets portfolio</h1>
-      <p className="subtitle">7 projets progressifs. Chacun prouve quelque chose de précis à un recruteur.</p>
-      <div className="row" style={{ marginBottom: 16 }}>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Portfolio <span className="sep">/</span> 7 projets</p>
+          <h1 className="page-title">Projets</h1>
+          <p className="page-sub">7 projets progressifs. Chacun prouve quelque chose de précis à un recruteur.</p>
+        </div>
+      </div>
+      <nav className="subnav" aria-label="Projets">
         {PROJECTS.map((pr) => (
           <Link
             key={pr.id}
             href={`/projects?p=${pr.id}`}
-            className={`btn small ${selected === pr.id ? 'primary' : ''}`}
+            className={selected === pr.id ? 'active' : ''}
           >
             {pr.name}
           </Link>
         ))}
-      </div>
+      </nav>
       {html ? (
         <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
       ) : (

@@ -37,12 +37,17 @@ export default function LessonsPage() {
 
   return (
     <>
-      <h1>Leçons de fond</h1>
-      <p className="subtitle">
-        {lessons.length} leçons approfondies et réutilisables (~{Math.round(totalMin / 60)} h de théorie + exercices).
-        L'ordre dans chaque catégorie est l'ordre recommandé — il suit la progression des 12 mois.
-        Chaque jour du programme renvoie vers ses leçons dans le bloc « Cours approfondi ».
-      </p>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Théorie <span className="sep">/</span> {lessons.length} leçons · ~{Math.round(totalMin / 60)} h</p>
+          <h1 className="page-title">Leçons de fond</h1>
+          <p className="page-sub">
+            {lessons.length} leçons approfondies et réutilisables. L'ordre dans chaque catégorie est
+            l'ordre recommandé — il suit la progression des 12 mois. Chaque jour renvoie vers ses
+            leçons dans le bloc « Cours approfondi ».
+          </p>
+        </div>
+      </div>
       {cats.map((cat) => (
         <div key={cat} className="card" style={{ marginBottom: 14 }}>
           <h3>{cat}</h3>

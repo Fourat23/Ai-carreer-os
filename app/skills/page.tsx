@@ -12,15 +12,20 @@ export default function SkillsPage() {
 
   return (
     <>
-      <h1>Compétences</h1>
-      <p className="subtitle">
-        20 compétences suivies de 0 à 5. Réévalue à chaque revue mensuelle.
-        Détail de la grille : <Link href="/doc/rubrics/skills-scorecard">scorecard</Link>.
-      </p>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Compétences <span className="sep">/</span> 20 suivies · 0 à 5</p>
+          <h1 className="page-title">Compétences</h1>
+          <p className="page-sub">
+            20 compétences suivies de 0 à 5. Réévalue à chaque revue mensuelle.
+            Détail de la grille : <Link href="/doc/rubrics/skills-scorecard">scorecard</Link>.
+          </p>
+        </div>
+      </div>
       <SkillsBoard skills={program.skills} initialScores={progress.skills} />
       {rubric && (
         <details className="solution" style={{ marginTop: 24 }}>
-          <summary>📖 Voir la grille détaillée (que signifie chaque niveau)</summary>
+          <summary>Voir la grille détaillée (que signifie chaque niveau)</summary>
           <div className="prose" style={{ borderRadius: '0 0 8px 8px', borderTop: 'none' }}
                dangerouslySetInnerHTML={{ __html: rubric }} />
         </details>

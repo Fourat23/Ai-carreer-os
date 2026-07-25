@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getProgram, getWeekHtml } from '@/lib/program';
+import { getWeekHtml } from '@/lib/program';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,28 +10,17 @@ export default async function WeekPage({ params }: { params: Promise<{ id: strin
   if (!Number.isInteger(week) || week < 1 || week > 52) notFound();
   const html = getWeekHtml(week);
   if (!html) notFound();
-  const program = getProgram();
-  const days = program.days.filter((d) => d.week === week);
 
   return (
     <>
-      <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
-        <div className="row">
-          {week > 1 && <Link className="btn small" href={`/week/${week - 1}`}>← Semaine {week - 1}</Link>}
-          {week < 52 && <Link className="btn small" href={`/week/${week + 1}`}>Semaine {week + 1} →</Link>}
+      <nav className="doc-toolbar" aria-label="Navigation des semaines">
+        <div className="subnav" style={{ margin: 0 }}>
+          {week > 1 && <Link href={`/week/${week - 1}`}>← Semaine {week - 1}</Link>}
+          {week < 52 && <Link href={`/week/${week + 1}`}>Semaine {week + 1} →</Link>}
         </div>
-        <Link className="btn small" href="/calendar">Calendrier</Link>
-      </div>
-      <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
-      <div className="card" style={{ marginTop: 18 }}>
-        <h3>Jours de la semaine</h3>
-        {days.map((d) => (
-          <div key={d.day} className="row" style={{ justifyContent: 'space-between', padding: '4px 0' }}>
-            <Link href={`/day/${d.day}`}>Jour {d.day} — {d.title}</Link>
-            {d.isReview && <span className="badge review">revue</span>}
-          </div>
-        ))}
-      </div>
+        <div className="subnav" style={{ margin: 0 }}><Link href="/calendar">Calendrier</Link></div>
+      </nav>
+      <article className="prose reading" dangerouslySetInnerHTML={{ __html: html }} />
     </>
   );
 }

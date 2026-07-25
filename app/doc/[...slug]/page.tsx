@@ -15,5 +15,5 @@ export default async function DocPage({ params }: { params: Promise<{ slug: stri
   const rel = slug.join('/') + '.md';
   const html = getDocHtml(rel);
   if (!html) notFound();
-  return <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />;
+  return <article className="prose reading" dangerouslySetInnerHTML={{ __html: html }} />;
 }

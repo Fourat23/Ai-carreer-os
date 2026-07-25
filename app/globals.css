@@ -733,3 +733,30 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .btn.danger-btn { border-color: color-mix(in srgb, var(--danger) 55%, var(--border)); color: var(--danger); }
 .btn.danger-btn:hover { background: color-mix(in srgb, var(--danger) 16%, var(--panel-2)); }
 @media (max-width: 640px) { .settings-stats { grid-template-columns: 1fr 1fr; } }
+
+/* ── Pages éditoriales (semaine / mois / documentation) : colonne de lecture,
+      pas de grosse carte. Le titre vient du H1 du contenu rendu. ── */
+.prose.reading {
+  max-width: var(--read-max); background: none; border: none; border-radius: 0; padding: 0;
+  font-size: var(--fs-read); line-height: var(--lh-read);
+}
+.prose.reading h1 { font-size: var(--fs-h1); line-height: var(--lh-tight); letter-spacing: -0.02em; margin: 0 0 16px; }
+.prose.reading > h1:first-child { margin-top: 0; }
+.prose.reading h2 { font-size: var(--fs-h2); border-top: 1px solid var(--border); padding-top: 20px; margin: 34px 0 12px; letter-spacing: -0.01em; }
+.prose.reading h3 { font-size: var(--fs-h3); margin: 22px 0 8px; font-weight: 650; }
+.prose.reading p, .prose.reading li { max-width: none; }
+
+.doc-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 var(--sp-5); flex-wrap: wrap; }
+
+/* Liste des jours d'une semaine (scannable, un conteneur). */
+.day-list { border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); overflow: hidden; margin-top: var(--sp-6); max-width: var(--read-max); }
+.day-list a.dl-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; color: var(--text); }
+.day-list a.dl-row + a.dl-row { border-top: 1px solid var(--border); }
+.day-list a.dl-row:hover { background: var(--panel-2); text-decoration: none; }
+.dl-num { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--faint); margin-right: 10px; }
+
+/* Notes agrégées : entrées scannables (arête d'accent, pas pile de cartes). */
+.note-entry { border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r); background: var(--panel); padding: var(--sp-4) var(--sp-5); margin-bottom: 12px; }
+.note-entry-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.note-field-k { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--faint); margin: 12px 0 4px; }
+.note-entry pre { white-space: pre-wrap; margin: 0; font-family: inherit; color: var(--text); }

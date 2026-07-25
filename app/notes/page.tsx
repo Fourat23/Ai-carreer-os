@@ -16,24 +16,27 @@ export default function NotesPage() {
 
   return (
     <>
-      <h1>Notes</h1>
-      <p className="subtitle">
-        Toutes tes notes personnelles et tes réponses, agrégées depuis les vues Jour.
-        Ton journal d'apprentissage — relis-le aux bilans.
-      </p>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Journal <span className="sep">/</span> {entries.length} {entries.length > 1 ? 'entrées' : 'entrée'}</p>
+          <h1 className="page-title">Notes</h1>
+          <p className="page-sub">
+            Toutes tes notes personnelles et tes réponses, agrégées depuis les vues Jour.
+            Ton journal d'apprentissage — relis-le aux bilans.
+          </p>
+        </div>
+      </div>
 
       {entries.length === 0 ? (
-        <div className="card">
-          <p className="muted">
-            Aucune note pour l'instant. Ouvre un <Link href="/day/1">jour</Link> et remplis « Ma réponse » ou « Notes personnelles ».
-          </p>
+        <div className="empty">
+          Aucune note pour l'instant. Ouvre un <Link href="/day/1">jour</Link> et remplis « Ma réponse » ou « Notes personnelles ».
         </div>
       ) : (
         entries.map((e) => {
           const meta = program.days.find((d) => d.day === e.day);
           return (
-            <div key={e.day} className="card" style={{ marginBottom: 12 }}>
-              <div className="row" style={{ justifyContent: 'space-between' }}>
+            <div key={e.day} className="note-entry">
+              <div className="note-entry-head">
                 <Link href={`/day/${e.day}`} style={{ fontWeight: 600 }}>
                   Jour {e.day} — {meta?.title}
                 </Link>
@@ -41,14 +44,14 @@ export default function NotesPage() {
               </div>
               {e.answer?.trim() && (
                 <>
-                  <div className="muted" style={{ fontSize: 12, marginTop: 8 }}>Ma réponse</div>
-                  <pre style={{ whiteSpace: 'pre-wrap', margin: '4px 0', fontFamily: 'inherit' }}>{e.answer}</pre>
+                  <div className="note-field-k">Ma réponse</div>
+                  <pre>{e.answer}</pre>
                 </>
               )}
               {e.notes?.trim() && (
                 <>
-                  <div className="muted" style={{ fontSize: 12, marginTop: 8 }}>Notes</div>
-                  <pre style={{ whiteSpace: 'pre-wrap', margin: '4px 0', fontFamily: 'inherit' }}>{e.notes}</pre>
+                  <div className="note-field-k">Notes</div>
+                  <pre>{e.notes}</pre>
                 </>
               )}
             </div>

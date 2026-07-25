@@ -14,14 +14,17 @@ export default function GlossaryPage() {
 
   return (
     <>
-      <h1>Glossaire IT &amp; monde du travail</h1>
-      <p className="subtitle">
-        {entries.length} termes pour décoder les acronymes, anglicismes et expressions
-        entendus en développement, architecture, cloud, data, IA, production, gestion de
-        projet et entreprise ({acronyms} acronymes, {entries.length - acronyms} expressions).
-        Chaque entrée dit ce que le terme veut dire, dans quel contexte on l'emploie, et ce
-        qu'une personne attend concrètement de toi quand elle l'utilise.
-      </p>
+      <div className="page-head">
+        <div className="page-head-main">
+          <p className="page-eyebrow">Vocabulaire <span className="sep">/</span> {entries.length} termes · {acronyms} acronymes</p>
+          <h1 className="page-title">Glossaire IT &amp; monde du travail</h1>
+          <p className="page-sub">
+            Décoder les acronymes, anglicismes et expressions entendus en développement,
+            architecture, cloud, data, IA, production et entreprise. Chaque entrée dit ce que
+            le terme veut dire, dans quel contexte on l'emploie, et ce qu'on attend de toi.
+          </p>
+        </div>
+      </div>
       <GlossaryBrowser entries={entries} categories={CATEGORIES} />
     </>
   );

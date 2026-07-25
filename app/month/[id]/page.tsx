@@ -13,14 +13,14 @@ export default async function MonthPage({ params }: { params: Promise<{ id: stri
 
   return (
     <>
-      <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
-        <div className="row">
-          {month > 1 && <Link className="btn small" href={`/month/${month - 1}`}>← Mois {month - 1}</Link>}
-          {month < 12 && <Link className="btn small" href={`/month/${month + 1}`}>Mois {month + 1} →</Link>}
+      <nav className="doc-toolbar" aria-label="Navigation des mois">
+        <div className="subnav" style={{ margin: 0 }}>
+          {month > 1 && <Link href={`/month/${month - 1}`}>← Mois {month - 1}</Link>}
+          {month < 12 && <Link href={`/month/${month + 1}`}>Mois {month + 1} →</Link>}
         </div>
-        <Link className="btn small" href="/calendar">Calendrier</Link>
-      </div>
-      <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+        <div className="subnav" style={{ margin: 0 }}><Link href="/calendar">Calendrier</Link></div>
+      </nav>
+      <article className="prose reading" dangerouslySetInnerHTML={{ __html: html }} />
     </>
   );
 }

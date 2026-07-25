@@ -501,13 +501,23 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 [data-family="retain"]    { --fam: var(--fam-retain); }
 
 @media (min-width: 1200px) {
+  /* Vue Jour éditoriale : on lève le plafond de .content propre au jour et on
+     CENTRE le groupe article+rail dans l'espace principal (marges gauche/droite
+     équilibrées) au lieu de le coller à gauche avec un vide à droite. La colonne
+     de lecture reste bornée à --read-max : le texte ne s'élargit pas. */
+  .content:has(.day-view) { max-width: none; }
   .day-view {
     display: grid;
     grid-template-columns: minmax(0, var(--read-max)) 16.5rem;
     gap: 48px; align-items: start;
+    justify-content: center;
   }
   .day-main { grid-column: 1; min-width: 0; }
   .outline-rail { grid-column: 2; }
+}
+/* Sur très grand écran, un peu plus de respiration entre lecture et sommaire. */
+@media (min-width: 1600px) {
+  .day-view { gap: 72px; }
 }
 
 /* ── En-tête instrumental du jour ── */
@@ -896,6 +906,12 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .track-techs { display: flex; gap: 6px; flex-wrap: wrap; }
 .track-modules { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
 .track-mod { display: flex; gap: var(--sp-4); align-items: baseline; padding: var(--sp-3) var(--sp-4); background: var(--panel); }
+/* Ultrawide : les modules passent en grille de deux cartes pour exploiter la
+   largeur plutôt qu'une longue liste alignée à gauche. */
+@media (min-width: 1440px) {
+  .track-modules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-2); background: none; border: none; overflow: visible; }
+  .track-modules .track-mod { border: 1px solid var(--border); border-radius: var(--r); }
+}
 .track-mod-n { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--muted); flex: none; }
 .track-mod-body { min-width: 0; }
 .track-mod-title { font-weight: 600; font-size: var(--fs-base); }

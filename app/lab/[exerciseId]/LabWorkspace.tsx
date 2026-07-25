@@ -1,14 +1,15 @@
 'use client';
 
 // Workbench trois zones : (gauche) consigne + explorateur, (centre) onglets +
-// éditeur + statut, (droite) Tests / Console / Aide. Séparateurs ajustables
-// (souris + clavier), disposition persistée. Aucun terminal shell : seuls
-// « Lancer les tests » et « Réinitialiser » agissent, via le bac à sable serveur.
-import { useState, useCallback, useMemo } from 'react';
+// éditeur + statut, (droite) Tests / Console / Aide. Séparateurs ajustables,
+// disposition + onglets persistés, autosave debouncé avec flush avant navigation,
+// raccourcis clavier, palette de fichiers. Aucun terminal shell : seuls
+// « Lancer », « Enregistrer » et « Réinitialiser » agissent via le bac à sable.
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import {
   Play, RotateCcw, Check, X, Loader2, FileCode, PanelLeftClose, PanelLeftOpen,
-  PanelRightClose, PanelRightOpen, LayoutTemplate, FlaskConical, Terminal, HelpCircle,
+  PanelRightClose, PanelRightOpen, LayoutTemplate, FlaskConical, Terminal, HelpCircle, Undo2,
 } from 'lucide-react';
 import { usePanelLayout } from './usePanelLayout';
 
@@ -19,7 +20,7 @@ const CodeMirrorEditor = dynamic(() => import('./CodeMirrorEditor'), {
 
 type FileState = { path: string; content: string; readOnly: boolean; editable: boolean; language: string; hidden: boolean; entry: boolean };
 type TestMeta = { id: string; name: string };
-type ResultItem = { testId: string; name: string; passed: boolean; message: string; expected?: unknown; actual?: unknown };
+type ResultItem = { testId: string; name: string; passed: boolean; message: string };
 type Attempt = { total: number; passed: number; allPassed: boolean; durationMs: number; results: ResultItem[] };
 type RightTab = 'tests' | 'console' | 'help';
 
@@ -32,6 +33,7 @@ export default function LabWorkspace({
 }) {
   const layout = usePanelLayout();
   const visibleFiles = useMemo(() => initialFiles.filter((f) => !f.hidden), [initialFiles]);
+  const TABS_KEY = `lab:tabs:${exercise.id}`;
 
   const [files, setFiles] = useState<FileState[]>(initialFiles);
   const [active, setActive] = useState(initialActive || visibleFiles[0]?.path || '');
@@ -42,8 +44,16 @@ export default function LabWorkspace({
   const [attempt, setAttempt] = useState<Attempt | null>(null);
   const [stdout, setStdout] = useState('');
   const [runError, setRunError] = useState('');
-  const [saving, setSaving] = useState(false);
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved'>('idle');
   const [rightTab, setRightTab] = useState<RightTab>('tests');
+  const [palette, setPalette] = useState(false);
+  const [paletteQ, setPaletteQ] = useState('');
+
+  const rootRef = useRef<HTMLDivElement>(null);
+  const explorerRef = useRef<HTMLUListElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const paletteInputRef = useRef<HTMLInputElement>(null);
+  const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const activeFile = files.find((f) => f.path === active) ?? files[0];
   const isDirty = dirty.size > 0;
@@ -52,6 +62,29 @@ export default function LabWorkspace({
     () => Object.fromEntries(files.filter((f) => f.editable).map((f) => [f.path, f.content])),
     [files],
   );
+  // Réf toujours à jour pour les flush (unload/visibility) sans recréer les listeners.
+  const editableMapRef = useRef(editableMap);
+  editableMapRef.current = editableMap;
+  const dirtyRef = useRef(dirty);
+  dirtyRef.current = dirty;
+
+  // ── Persistance des onglets/fichier actif (par exercice) ──
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(TABS_KEY);
+      if (raw) {
+        const p = JSON.parse(raw);
+        const valid = (Array.isArray(p.openTabs) ? p.openTabs : []).filter((t: string) => visibleFiles.some((f) => f.path === t));
+        if (valid.length) setOpenTabs(valid);
+        if (typeof p.active === 'string' && visibleFiles.some((f) => f.path === p.active)) setActive(p.active);
+        setEditorKey((k) => k + 1);
+      }
+    } catch { /* défauts */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    try { localStorage.setItem(TABS_KEY, JSON.stringify({ openTabs, active })); } catch { /* best-effort */ }
+  }, [openTabs, active, TABS_KEY]);
 
   const openFile = useCallback((path: string) => {
     setActive(path);
@@ -71,51 +104,108 @@ export default function LabWorkspace({
   const onEdit = useCallback((v: string) => {
     setFiles((prev) => prev.map((f) => (f.path === active ? { ...f, content: v } : f)));
     setDirty((d) => new Set(d).add(active));
+    setSaveState('idle');
   }, [active]);
 
-  async function post(action: string) {
+  const post = useCallback(async (action: string, extra: Record<string, unknown> = {}) => {
     const res = await fetch(`/api/lab/${exercise.id}`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action, files: editableMap() }),
+      body: JSON.stringify({ action, files: editableMap(), ...extra }),
     });
     return res.json().catch(() => ({ error: 'Réponse illisible.' }));
-  }
+  }, [exercise.id, editableMap]);
 
-  async function save() {
-    setSaving(true);
-    try { const j = await post('save'); if (j.ok) setDirty(new Set()); }
-    finally { setSaving(false); }
-  }
+  const save = useCallback(async () => {
+    if (!dirtyRef.current.size) { setSaveState('saved'); return; }
+    setSaveState('saving');
+    const j = await post('save');
+    if (j.ok) { setDirty(new Set()); setSaveState('saved'); } else setSaveState('idle');
+  }, [post]);
 
-  async function run() {
+  const run = useCallback(async () => {
     setRunning(true); setRunError(''); setAttempt(null); setStdout(''); setRightTab('tests');
     try {
       const j = await post('run');
       if (j.error) { setRunError(j.error); return; }
-      setAttempt(j.attempt); setStdout(j.stdout ?? ''); setDirty(new Set());
+      setAttempt(j.attempt); setStdout(j.stdout ?? ''); setDirty(new Set()); setSaveState('saved');
     } finally { setRunning(false); }
-  }
+  }, [post]);
 
   async function resetExercise() {
-    if (!confirm('Réinitialiser cet exercice au code de départ ? Ton code sera perdu.')) return;
-    const res = await fetch(`/api/lab/${exercise.id}`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'reset' }),
-    });
-    const j = await res.json().catch(() => ({}));
+    if (!confirm('Réinitialiser tout l’exercice au code de départ ? Ton code sera perdu.')) return;
+    const j = await post('reset');
+    if (j.files) { setFiles(j.files); setDirty(new Set()); setAttempt(null); setStdout(''); setRunError(''); setSaveState('idle'); setEditorKey((k) => k + 1); }
+  }
+
+  async function resetActiveFile() {
+    if (!activeFile || !activeFile.editable) return;
+    if (!confirm(`Réinitialiser « ${activeFile.path} » au code de départ ?`)) return;
+    const j = await post('reset-file', { path: activeFile.path });
     if (j.files) {
       setFiles(j.files);
-      setDirty(new Set());
-      setAttempt(null); setStdout(''); setRunError('');
+      setDirty((d) => { const n = new Set(d); n.delete(activeFile.path); return n; });
       setEditorKey((k) => k + 1);
     }
   }
 
+  // ── Autosave debouncé (n'agit que si des modifications non enregistrées) ──
+  useEffect(() => {
+    if (!isDirty) return;
+    if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
+    autosaveTimer.current = setTimeout(() => { if (!running) save(); }, 1400);
+    return () => { if (autosaveTimer.current) clearTimeout(autosaveTimer.current); };
+  }, [files, isDirty, running, save]);
+
+  // ── Flush avant fermeture/navigation (sendBeacon fiable) ──
+  useEffect(() => {
+    const flush = () => {
+      if (!dirtyRef.current.size) return;
+      try {
+        const blob = new Blob([JSON.stringify({ action: 'save', files: editableMapRef.current() })], { type: 'application/json' });
+        navigator.sendBeacon(`/api/lab/${exercise.id}`, blob);
+      } catch { /* best-effort */ }
+    };
+    const onVis = () => { if (document.visibilityState === 'hidden') flush(); };
+    window.addEventListener('beforeunload', flush);
+    document.addEventListener('visibilitychange', onVis);
+    return () => { flush(); window.removeEventListener('beforeunload', flush); document.removeEventListener('visibilitychange', onVis); };
+  }, [exercise.id]);
+
+  // ── Raccourcis clavier ──
+  const focusZone = useCallback((zone: 'explorer' | 'editor' | 'results') => {
+    if (zone === 'explorer') (explorerRef.current?.querySelector('button') as HTMLElement | null)?.focus();
+    else if (zone === 'editor') (rootRef.current?.querySelector('.cm-content') as HTMLElement | null)?.focus();
+    else (resultsRef.current?.querySelector('button, [tabindex]') as HTMLElement | null)?.focus();
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const mod = e.ctrlKey || e.metaKey;
+      if (mod && e.key.toLowerCase() === 's') { e.preventDefault(); save(); }
+      else if (mod && e.key === 'Enter') { e.preventDefault(); run(); }
+      else if (mod && e.key.toLowerCase() === 'p') { e.preventDefault(); setPalette(true); }
+      else if (mod && e.key.toLowerCase() === 'w') { e.preventDefault(); if (active) closeTab(active); }
+      else if (e.altKey && e.key === '1') { e.preventDefault(); if (!layout.layout.leftOpen) layout.toggle('left'); focusZone('explorer'); }
+      else if (e.altKey && e.key === '2') { e.preventDefault(); focusZone('editor'); }
+      else if (e.altKey && e.key === '3') { e.preventDefault(); if (!layout.layout.rightOpen) layout.toggle('right'); focusZone('results'); }
+      else if (e.key === 'Escape') { setPalette(false); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [save, run, active, closeTab, focusZone, layout]);
+
+  useEffect(() => { if (palette) paletteInputRef.current?.focus(); }, [palette]);
+
+  const paletteResults = useMemo(() => {
+    const q = paletteQ.trim().toLowerCase();
+    return visibleFiles.filter((f) => !q || f.path.toLowerCase().includes(q));
+  }, [paletteQ, visibleFiles]);
+
   const cols = `${layout.layout.leftOpen ? layout.layout.left + 'px' : '0'} ${layout.layout.leftOpen ? '6px' : '0'} minmax(0,1fr) ${layout.layout.rightOpen ? '6px' : '0'} ${layout.layout.rightOpen ? layout.layout.right + 'px' : '0'}`;
 
   return (
-    <div className="wb" style={{ gridTemplateColumns: cols }}>
-      {/* ── Panneau gauche : consigne + explorateur ── */}
+    <div className="wb" style={{ gridTemplateColumns: cols }} ref={rootRef}>
+      {/* ── Panneau gauche ── */}
       {layout.layout.leftOpen && (
         <aside className="wb-left" aria-label="Consigne et fichiers">
           <div className="wb-panel-head">
@@ -124,7 +214,7 @@ export default function LabWorkspace({
           </div>
           <div className="wb-brief">{exercise.summary}</div>
           <div className="wb-panel-head"><span className="section-label">Fichiers</span></div>
-          <ul className="wb-explorer" role="tree" aria-label="Explorateur de fichiers">
+          <ul className="wb-explorer" role="tree" aria-label="Explorateur de fichiers" ref={explorerRef}>
             {visibleFiles.map((f) => (
               <li key={f.path} role="treeitem" aria-selected={f.path === active}>
                 <button className={`wb-file${f.path === active ? ' active' : ''}`} onClick={() => openFile(f.path)}>
@@ -139,7 +229,7 @@ export default function LabWorkspace({
       )}
       {layout.layout.leftOpen && <Separator side="left" layout={layout} />}
 
-      {/* ── Zone centrale : onglets + éditeur + statut ── */}
+      {/* ── Zone centrale ── */}
       <section className="wb-center" aria-label="Éditeur">
         <div className="wb-tabs" role="tablist" aria-label="Onglets de fichiers">
           {!layout.layout.leftOpen && (
@@ -164,20 +254,21 @@ export default function LabWorkspace({
         </div>
         <div className="wb-status">
           <span className="wb-status-file">{activeFile?.path ?? '—'}</span>
-          <span className={`wb-status-state${isDirty ? ' dirty' : ''}`}>{isDirty ? 'Modifié — non enregistré' : 'Enregistré'}</span>
+          <span className={`wb-status-state${isDirty ? ' dirty' : ''}`}>{saveState === 'saving' ? 'Enregistrement…' : isDirty ? 'Modifié' : 'Enregistré'}</span>
           <span className="wb-actions">
-            <button className="btn small primary" onClick={run} disabled={running}>{running ? <Loader2 size={13} className="spin" /> : <Play size={13} />} Lancer</button>
-            <button className="btn small" onClick={save} disabled={saving || running}>{saving ? 'Enregistrement…' : 'Enregistrer'}</button>
+            <button className="btn small primary" onClick={run} disabled={running}>{running ? <Loader2 size={13} className="spin" /> : <Play size={13} />} Lancer <kbd className="wb-kbd">⌘⏎</kbd></button>
+            <button className="btn small" onClick={save} disabled={saveState === 'saving' || running}>Enregistrer</button>
+            {activeFile?.editable && <button className="wb-icon" title="Réinitialiser ce fichier" aria-label="Réinitialiser ce fichier" onClick={resetActiveFile}><Undo2 size={15} /></button>}
             <button className="btn small ghost" onClick={resetExercise} disabled={running}><RotateCcw size={13} /> Reset</button>
             <button className="wb-icon" title="Réinitialiser la disposition" aria-label="Réinitialiser la disposition des panneaux" onClick={layout.reset}><LayoutTemplate size={15} /></button>
           </span>
         </div>
       </section>
 
-      {/* ── Panneau droit : Tests / Console / Aide ── */}
+      {/* ── Panneau droit ── */}
       {layout.layout.rightOpen && <Separator side="right" layout={layout} />}
       {layout.layout.rightOpen && (
-        <aside className="wb-right" aria-label="Tests, console et aide">
+        <aside className="wb-right" aria-label="Tests, console et aide" ref={resultsRef}>
           <div className="wb-rtabs" role="tablist" aria-label="Panneau de résultats">
             <button role="tab" aria-selected={rightTab === 'tests'} className={`wb-rtab${rightTab === 'tests' ? ' active' : ''}`} onClick={() => setRightTab('tests')}><FlaskConical size={13} /> Tests{attempt ? ` (${attempt.passed}/${attempt.total})` : ''}</button>
             <button role="tab" aria-selected={rightTab === 'console'} className={`wb-rtab${rightTab === 'console' ? ' active' : ''}`} onClick={() => setRightTab('console')}><Terminal size={13} /> Console</button>
@@ -215,14 +306,35 @@ export default function LabWorkspace({
               <div className="wb-help">
                 <p>Écris ton code, puis <strong>Lancer</strong> pour exécuter les tests localement (bac à sable : timeout, sortie bornée, pas d’accès réseau).</p>
                 <ul>
+                  <li>Raccourcis : <kbd>⌘/Ctrl+S</kbd> enregistrer · <kbd>⌘/Ctrl+↵</kbd> lancer · <kbd>⌘/Ctrl+P</kbd> ouvrir un fichier · <kbd>⌘/Ctrl+W</kbd> fermer l’onglet · <kbd>Alt+1/2/3</kbd> panneaux.</li>
                   <li>Les fichiers en <em>lecture</em> ne sont pas modifiables.</li>
-                  <li><strong>Enregistrer</strong> sauvegarde ton travail localement ; il est restauré au retour.</li>
-                  <li><strong>Reset</strong> restaure le code de départ de l’exercice.</li>
+                  <li>Ton travail est enregistré automatiquement et restauré au retour.</li>
                 </ul>
               </div>
             )}
           </div>
         </aside>
+      )}
+
+      {/* ── Palette de fichiers (Ctrl/Cmd+P) ── */}
+      {palette && (
+        <div className="wb-palette-backdrop" onClick={() => setPalette(false)}>
+          <div className="wb-palette" role="dialog" aria-modal="true" aria-label="Ouvrir un fichier" onClick={(e) => e.stopPropagation()}>
+            <input
+              ref={paletteInputRef} className="wb-palette-input" placeholder="Ouvrir un fichier…"
+              value={paletteQ} onChange={(e) => setPaletteQ(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' && paletteResults[0]) { openFile(paletteResults[0].path); setPalette(false); setPaletteQ(''); } }}
+            />
+            <ul className="wb-palette-list">
+              {paletteResults.map((f) => (
+                <li key={f.path}>
+                  <button onClick={() => { openFile(f.path); setPalette(false); setPaletteQ(''); }}><FileCode size={13} /> {f.path}</button>
+                </li>
+              ))}
+              {paletteResults.length === 0 && <li className="lab-hint" style={{ padding: 8 }}>Aucun fichier.</li>}
+            </ul>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -232,16 +344,10 @@ function Separator({ side, layout }: { side: 'left' | 'right'; layout: ReturnTyp
   const value = side === 'left' ? layout.layout.left : layout.layout.right;
   return (
     <div
-      className="wb-sep"
-      role="separator"
-      aria-orientation="vertical"
+      className="wb-sep" role="separator" aria-orientation="vertical"
       aria-label={`Redimensionner le panneau ${side === 'left' ? 'gauche' : 'droit'}`}
-      aria-valuenow={value}
-      aria-valuemin={layout.MIN}
-      aria-valuemax={layout.MAX}
-      tabIndex={0}
-      onPointerDown={layout.dragHandle(side)}
-      onKeyDown={layout.keyHandle(side)}
+      aria-valuenow={value} aria-valuemin={layout.MIN} aria-valuemax={layout.MAX}
+      tabIndex={0} onPointerDown={layout.dragHandle(side)} onKeyDown={layout.keyHandle(side)}
     />
   );
 }

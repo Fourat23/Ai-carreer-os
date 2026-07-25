@@ -10,7 +10,7 @@ import { daysForExercise } from '@/lib/day-exercises';
 import { readProgress, writeProgress } from '@/lib/progress-server';
 import { recordExerciseSuccess } from '@/lib/lab-progress';
 import {
-  readWorkspaceTree, writeWorkspaceFile, resetWorkspace, runExercise,
+  readWorkspaceTree, writeWorkspaceFile, resetWorkspace, resetWorkspaceFile, runExercise,
 } from '@/lib/workspace-server';
 
 export const dynamic = 'force-dynamic';
@@ -49,6 +49,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
   try {
     if (action === 'reset') {
       resetWorkspace(ex);
+      return NextResponse.json({ ok: true, files: readWorkspaceTree(ex) });
+    }
+    if (action === 'reset-file') {
+      const path = String((body as { path?: string }).path ?? '');
+      resetWorkspaceFile(ex, path);
       return NextResponse.json({ ok: true, files: readWorkspaceTree(ex) });
     }
     if (action === 'save') {

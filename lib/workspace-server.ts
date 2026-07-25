@@ -24,6 +24,9 @@ export function writeWorkspaceFile(exercise: Exercise, path: string, content: st
 export function resetWorkspace(exercise: Exercise): string {
   return fs.resetWorkspace(ROOT, exercise);
 }
+export function resetWorkspaceFile(exercise: Exercise, path: string): void {
+  fs.resetWorkspaceFile(ROOT, exercise, path);
+}
 export function clearWorkspace(exerciseId: string): void {
   fs.clearWorkspace(ROOT, exerciseId);
 }

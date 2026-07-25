@@ -39,7 +39,7 @@ export default function SettingsPanel() {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(preview.raw),
     });
     setBusy(false);
-    if (res.ok) { setPreview(null); setMsg('Progression restaurée. L\'état précédent a été sauvegardé automatiquement.'); router.refresh(); }
+    if (res.ok) { setPreview(null); setMsg('Progression restaurée. L\'état précédent a été sauvegardé automatiquement.'); window.dispatchEvent(new CustomEvent('progress-changed')); router.refresh(); }
     else { const j = await res.json().catch(() => ({})); setError(j.error ?? 'Échec de l\'import.'); }
   }
 
@@ -48,7 +48,7 @@ export default function SettingsPanel() {
     const res = await fetch('/api/progress/reset', { method: 'POST' });
     setBusy(false);
     setConfirmReset(false);
-    if (res.ok) { setMsg('Progression réinitialisée. L\'état précédent a été sauvegardé automatiquement.'); router.refresh(); }
+    if (res.ok) { setMsg('Progression réinitialisée. L\'état précédent a été sauvegardé automatiquement.'); window.dispatchEvent(new CustomEvent('progress-changed')); router.refresh(); }
     else setError('Échec de la réinitialisation.');
   }
 

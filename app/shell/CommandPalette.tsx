@@ -6,7 +6,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, CornerDownLeft } from 'lucide-react';
-import { search, type SearchItem } from '@/lib/search';
+import { search, mergeIndex, resumeCommand, type SearchItem } from '@/lib/search';
 
 const TYPE_LABEL: Record<string, string> = {
   command: 'Commandes', day: 'Journées', week: 'Semaines', month: 'Mois',
@@ -29,18 +29,23 @@ export default function CommandPalette() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [items, setItems] = useState<SearchItem[]>([]);
+  const [items, setItems] = useState<SearchItem[]>([]);   // index STATIQUE (caché)
+  const [resumeDay, setResumeDay] = useState<number | null>(null); // métadonnée dynamique
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const staleRef = useRef(true); // vrai tant que les métadonnées dynamiques doivent être (re)chargées
 
-  // Chargement paresseux de l'index (une fois).
+  // Charge l'index statique une fois ; revalide seulement la métadonnée dynamique
+  // (resumeDay) quand la progression a changé. Jamais de rebuild par frappe.
   const loadIndex = useCallback(async () => {
-    if (items.length) return;
+    if (items.length && !staleRef.current) return;
     try {
       const res = await fetch('/api/search-index');
       const data = await res.json();
-      setItems(data.items ?? []);
+      if (!items.length) setItems(data.items ?? []); // statique : une seule fois
+      setResumeDay(typeof data.resumeDay === 'number' ? data.resumeDay : null);
+      staleRef.current = false;
     } catch { /* recherche indisponible : la palette reste ouvrable, vide */ }
   }, [items.length]);
 
@@ -53,14 +58,27 @@ export default function CommandPalette() {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setOpen((o) => !o); loadIndex(); }
     }
     function onOpen() { show(); }
+    // Après une mutation de progression, la métadonnée dynamique est périmée :
+    // on la revalide (immédiatement si la palette est ouverte, sinon à la réouverture).
+    function onChanged() { staleRef.current = true; if (open) loadIndex(); }
     window.addEventListener('keydown', onKey);
     window.addEventListener('open-command-palette', onOpen);
-    return () => { window.removeEventListener('keydown', onKey); window.removeEventListener('open-command-palette', onOpen); };
-  }, [loadIndex, show]);
+    window.addEventListener('progress-changed', onChanged);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('open-command-palette', onOpen);
+      window.removeEventListener('progress-changed', onChanged);
+    };
+  }, [loadIndex, show, open]);
 
   useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 20); }, [open]);
 
-  const results = useMemo(() => search(items, query, 30), [items, query]);
+  // Fusionne l'index statique caché avec la commande dynamique de reprise.
+  const indexed = useMemo(
+    () => (resumeDay ? mergeIndex(items, [resumeCommand(resumeDay)]) : items),
+    [items, resumeDay],
+  );
+  const results = useMemo(() => search(indexed, query, 30), [indexed, query]);
   useEffect(() => { setActive(0); }, [query]);
 
   const go = useCallback((it?: SearchItem) => {

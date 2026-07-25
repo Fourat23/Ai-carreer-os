@@ -12,5 +12,7 @@ export async function GET() {
   const program = getProgram();
   const progress = readProgress();
   const resume = resolveResume(program.days, progress);
-  return NextResponse.json({ items: buildIndex(program, { resumeDay: resume.day }) });
+  // items = index STATIQUE (cache client) ; resumeDay = métadonnée dynamique
+  // (fusionnée côté client via mergeIndex, revalidée après chaque mutation).
+  return NextResponse.json({ items: buildIndex(program), resumeDay: resume.day });
 }

@@ -15,6 +15,7 @@ export default function StartDayButton({ day, label }: { day: number; label?: st
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'day', payload: { day, patch: { status: 'in-progress' } } }),
     });
+    window.dispatchEvent(new CustomEvent('progress-changed'));
     router.push(`/day/${day}`);
   }
 

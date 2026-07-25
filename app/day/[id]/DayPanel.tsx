@@ -58,6 +58,7 @@ export default function DayPanel({
     setSaved('saving');
     await save(day, { status: next });
     setSaved('saved');
+    window.dispatchEvent(new CustomEvent('progress-changed'));
     router.refresh();
   }
 

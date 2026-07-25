@@ -713,3 +713,23 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .cmdk-sub { color: var(--muted); font-size: var(--fs-xs); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cmdk-enter { margin-left: auto; color: var(--faint); flex: none; }
 .cmdk-empty { padding: 28px 16px; text-align: center; color: var(--muted); }
+
+/* ── Paramètres / sauvegarde des données ── */
+.settings { display: flex; flex-direction: column; gap: var(--sp-4); max-width: 720px; }
+.settings-block { border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); padding: var(--sp-4) var(--sp-5); }
+.settings-block.danger { border-color: color-mix(in srgb, var(--danger) 40%, var(--border)); }
+.settings-block h3 { margin: 0 0 6px; font-size: var(--fs-h3); }
+.settings-block p { margin: 0 0 12px; }
+.settings-block p.muted { font-size: var(--fs-sm); }
+.settings-preview, .settings-confirm { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; }
+.settings-confirm p { font-size: var(--fs-sm); }
+.settings-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 16px; margin: 10px 0 14px; }
+.settings-stats > div { display: flex; flex-direction: column; gap: 2px; }
+.settings-stats dt { font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--faint); }
+.settings-stats dd { margin: 0; font-size: var(--fs-ui); font-weight: 600; }
+.settings-ok, .settings-err { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); padding: 10px 12px; border-radius: var(--r-sm); border: 1px solid var(--border); }
+.settings-ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--border)); }
+.settings-err { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 40%, var(--border)); }
+.btn.danger-btn { border-color: color-mix(in srgb, var(--danger) 55%, var(--border)); color: var(--danger); }
+.btn.danger-btn:hover { background: color-mix(in srgb, var(--danger) 16%, var(--panel-2)); }
+@media (max-width: 640px) { .settings-stats { grid-template-columns: 1fr 1fr; } }

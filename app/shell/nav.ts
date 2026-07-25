@@ -14,6 +14,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { href: '/glossary', label: 'Glossaire IT', icon: 'BookMarked' },
   { href: '/career', label: 'Carrière', icon: 'Briefcase' },
   { href: '/guide', label: "Mode d'emploi", icon: 'LifeBuoy' },
+  { href: '/settings', label: 'Sauvegarde', icon: 'Database' },
 ];
 
 export const METHOD_NAV: NavItem[] = [

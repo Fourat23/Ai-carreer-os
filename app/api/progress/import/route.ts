@@ -1,41 +1,24 @@
-// Import/restauration de la progression depuis une sauvegarde.
-// POST /api/progress/import  body = le contenu d'un progress.json exporté.
-// Valide la forme minimale avant d'écraser, pour ne pas corrompre l'état.
-
+// Import / restauration : accepte une sauvegarde versionnée OU un progress.json
+// brut (legacy). Valide et migre via lib/backup ; snapshot de l'état précédent
+// avant de remplacer ; ne corrompt jamais l'état sur JSON invalide.
 import { NextRequest, NextResponse } from 'next/server';
-import { writeProgress } from '@/lib/progress-server';
-import type { Progress } from '@/lib/types';
+import { writeProgress, snapshotProgress } from '@/lib/progress-server';
+import { parseBackup } from '@/lib/backup';
 
 export const dynamic = 'force-dynamic';
 
-function isValid(p: unknown): p is Progress {
-  if (!p || typeof p !== 'object') return false;
-  const o = p as Record<string, unknown>;
-  return (
-    (o.startDate === null || typeof o.startDate === 'string') &&
-    typeof o.days === 'object' && o.days !== null &&
-    typeof o.skills === 'object' && o.skills !== null
-  );
-}
-
 export async function POST(req: NextRequest) {
-  let body: unknown;
+  let raw: unknown;
   try {
-    body = await req.json();
+    raw = await req.json();
   } catch {
-    return NextResponse.json({ error: 'JSON invalide' }, { status: 400 });
+    return NextResponse.json({ error: 'Fichier JSON illisible ou corrompu.' }, { status: 400 });
   }
-  if (!isValid(body)) {
-    return NextResponse.json({ error: 'Format de sauvegarde invalide' }, { status: 400 });
+  const parsed = parseBackup(raw);
+  if (!parsed.ok) {
+    return NextResponse.json({ error: parsed.error }, { status: 400 });
   }
-  // Normalise les champs optionnels.
-  const p = body as Progress;
-  writeProgress({
-    startDate: p.startDate ?? null,
-    days: p.days ?? {},
-    skills: p.skills ?? {},
-    weeklyReviews: p.weeklyReviews ?? {},
-    monthlyReviews: p.monthlyReviews ?? {},
-  });
-  return NextResponse.json({ ok: true });
+  snapshotProgress();          // filet de sécurité : conserve l'état précédent
+  writeProgress(parsed.progress);
+  return NextResponse.json({ ok: true, stats: parsed.stats, version: parsed.version });
 }

@@ -1,18 +1,18 @@
-// Export de la progression : télécharge data/progress.json en pièce jointe.
-// GET /api/progress/export  → fichier progress-AAAA-MM-JJ.json
-
+// Export de la progression : télécharge une sauvegarde JSON versionnée.
+// GET /api/progress/export → ai-career-os-backup-AAAA-MM-JJ.json
 import { NextResponse } from 'next/server';
 import { readProgress } from '@/lib/progress-server';
+import { serializeBackup } from '@/lib/backup';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const data = JSON.stringify(readProgress(), null, 2);
+  const backup = serializeBackup(readProgress());
   const date = new Date().toISOString().slice(0, 10);
-  return new NextResponse(data, {
+  return new NextResponse(JSON.stringify(backup, null, 2), {
     headers: {
       'Content-Type': 'application/json',
-      'Content-Disposition': `attachment; filename="progress-${date}.json"`,
+      'Content-Disposition': `attachment; filename="ai-career-os-backup-${date}.json"`,
     },
   });
 }

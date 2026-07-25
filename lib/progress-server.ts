@@ -8,9 +8,17 @@ import type { Progress, DayProgress } from './types';
 
 const ROOT = process.cwd();
 const FILE = join(ROOT, 'data', 'progress.json');
+const SNAPSHOT = join(ROOT, 'data', 'progress.backup.json');
 
-function empty(): Progress {
+export function emptyProgress(): Progress {
   return { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
+}
+const empty = emptyProgress;
+
+// Copie l'état courant vers progress.backup.json avant une opération destructive
+// (import de remplacement, réinitialisation), pour offrir un filet de sécurité local.
+export function snapshotProgress(): void {
+  try { if (existsSync(FILE)) writeFileSync(SNAPSHOT, readFileSync(FILE, 'utf8')); } catch { /* best-effort */ }
 }
 
 export function readProgress(): Progress {

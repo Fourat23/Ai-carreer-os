@@ -618,3 +618,29 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
   .turn-btn span { display: none; }
   .turn-btn { padding: 6px 8px; }
 }
+
+/* ── Vue Jour : panneau de suivi / workflow ── */
+.day-panel { margin-top: 28px; border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); padding: var(--sp-4) var(--sp-5); }
+.dpx-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.dpx-eyebrow { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--muted); margin: 0 0 6px; }
+.dpx-state { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--fs-ui); }
+.dpx-state .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
+.dpx-state.s-not-started { color: var(--muted); }
+.dpx-state.s-in-progress { color: var(--accent); }
+.dpx-state.s-done { color: var(--ok); }
+.dpx-state.s-to-review { color: var(--warn); }
+.dpx-saved { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--faint); white-space: nowrap; }
+.dpx-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.dpx-next { margin-left: auto; }
+.dpx-more { margin-top: 16px; border-top: 1px solid var(--border); }
+.dpx-more > summary { cursor: pointer; font-size: var(--fs-sm); color: var(--muted); padding: 10px 0 4px; list-style: none; }
+.dpx-more > summary::-webkit-details-marker { display: none; }
+.dpx-more > summary::before { content: '▸ '; color: var(--faint); }
+.dpx-more[open] > summary::before { content: '▾ '; }
+.dpx-more-body { padding-top: 4px; }
+@media (max-width: 640px) { .dpx-next { margin-left: 0; } .dpx-actions .btn { flex: 1 1 auto; justify-content: center; } }
+
+/* Mouvement réduit : respecte la préférence système. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}

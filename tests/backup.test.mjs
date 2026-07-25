@@ -185,3 +185,72 @@ test('strict : aucune mutation partielle après erreur', () => {
 test('strict : DAY_STATUSES = enum attendue', () => {
   assert.deepEqual([...DAY_STATUSES], ['not-started', 'in-progress', 'done', 'to-review']);
 });
+
+// ── V6 CP8 : préservation des données Active Learning ──
+test('V6 : schemaVersion = 2', () => {
+  assert.equal(SCHEMA_VERSION, 2);
+  assert.equal(serializeBackup({ days: {} }).schemaVersion, 2);
+});
+
+test('V6 : answers/evidence/review préservés au round-trip', () => {
+  const v6 = wrap({
+    days: { '1': {
+      status: 'done', answers: { 'sec-a': 'ma réponse' }, comprehension: 'partial',
+      correctionState: 'acknowledged',
+      review: { dueAt: '2026-08-01T00:00:00.000Z', interval: 3, repetitions: 0, ease: 2.4, lastReviewedAt: null, reason: 'x' },
+      evidence: [{ id: 'e1', type: 'repo', title: 'Repo', description: '', url: 'https://github.com/me/x', skills: ['rag'], createdAt: '2026-07-01T00:00:00.000Z' }],
+    } },
+    skills: {},
+  });
+  v6.schemaVersion = 2;
+  const r = parseBackup(v6);
+  assert.equal(r.ok, true);
+  const d = r.progress.days['1'];
+  assert.equal(d.answers['sec-a'], 'ma réponse');
+  assert.equal(d.comprehension, 'partial');
+  assert.equal(d.correctionState, 'acknowledged');
+  assert.equal(d.review.interval, 3);
+  assert.equal(d.evidence[0].title, 'Repo');
+});
+
+test('V6 : URL de preuve dangereuse neutralisée', () => {
+  const bad = wrap({ days: { '1': { status: 'in-progress', evidence: [{ id: 'e', type: 'repo', title: 'X', url: 'javascript:alert(1)' }] } }, skills: {} });
+  bad.schemaVersion = 2;
+  const r = parseBackup(bad);
+  assert.equal(r.ok, true);
+  assert.equal(r.progress.days['1'].evidence[0].url, '');
+});
+
+test('V6 : migration V5 (sv1) ajoute les champs Active Learning', () => {
+  const v5 = { app: 'ai-career-os', schemaVersion: 1, progress: { days: { '1': { status: 'done', answer: 'x' } }, skills: {} } };
+  const r = parseBackup(v5);
+  assert.equal(r.ok, true);
+  assert.equal(r.version, 1);
+  assert.deepEqual(r.progress.days['1'].answers, {});
+  assert.equal(r.progress.days['1'].correctionState, 'locked');
+  assert.deepEqual(r.progress.days['1'].evidence, []);
+  assert.equal(r.progress.days['1'].answer, 'x'); // legacy conservé
+});
+
+test('V6 : schéma futur (sv3) rejeté', () => {
+  const r = parseBackup({ app: 'ai-career-os', schemaVersion: 3, progress: { days: {}, skills: {} } });
+  assert.equal(r.ok, false);
+  assert.match(r.error, /récent|supporté/i);
+});
+
+test('V6 : answers avec clé prototype ignorée (pas de pollution)', () => {
+  const p = wrap({ days: { '1': { status: 'in-progress', answers: { '__proto__': 'evil', ok: 'v' } } }, skills: {} });
+  p.schemaVersion = 2;
+  const r = parseBackup(p);
+  assert.equal(r.ok, true);
+  assert.equal(Object.hasOwn(r.progress.days['1'].answers, '__proto__'), false);
+  assert.equal(r.progress.days['1'].answers.ok, 'v');
+});
+
+test('V6 : chaîne de réponse trop longue tronquée', () => {
+  const p = wrap({ days: { '1': { status: 'in-progress', answers: { a: 'x'.repeat(50000) } } }, skills: {} });
+  p.schemaVersion = 2;
+  const r = parseBackup(p);
+  assert.equal(r.ok, true);
+  assert.equal(r.progress.days['1'].answers.a.length, 20000);
+});

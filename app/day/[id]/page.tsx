@@ -8,6 +8,7 @@ import DayPanel from './DayPanel';
 import DayHeader from './DayHeader';
 import DayOutline from './DayOutline';
 import DayCorrection from './DayCorrection';
+import DayEvidence from './DayEvidence';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,6 +49,8 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
         {solution && (
           <DayCorrection day={dayNum} solutionHtml={solution} isReview={!!meta.isReview} initial={progress} />
         )}
+
+        <DayEvidence day={dayNum} initial={progress.evidence ?? []} skillId={meta.skill} skillName={meta.skillName} />
       </div>
 
       <DayOutline variant="rail" />

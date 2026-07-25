@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getProgram, getDocHtml } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
+import { skillStats } from '@/lib/skill-state';
 import SkillsBoard from './SkillsBoard';
 
 export const dynamic = 'force-dynamic';
@@ -9,6 +10,7 @@ export default function SkillsPage() {
   const program = getProgram();
   const progress = readProgress();
   const rubric = getDocHtml('rubrics/skills-scorecard.md');
+  const stats = Object.fromEntries(skillStats(program, progress).map((s) => [s.id, s]));
 
   return (
     <>
@@ -22,7 +24,7 @@ export default function SkillsPage() {
           </p>
         </div>
       </div>
-      <SkillsBoard skills={program.skills} initialScores={progress.skills} />
+      <SkillsBoard skills={program.skills} initialScores={progress.skills} stats={stats} />
       {rubric && (
         <details className="solution" style={{ marginTop: 24 }}>
           <summary>Voir la grille détaillée (que signifie chaque niveau)</summary>

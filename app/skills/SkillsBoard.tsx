@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import type { Skill } from '@/lib/types';
+import { SKILL_STATE_LABEL, type SkillStat } from '@/lib/skill-state';
 
 export default function SkillsBoard({
-  skills, initialScores,
+  skills, initialScores, stats = {},
 }: {
   skills: Skill[];
   initialScores: Record<string, number>;
+  stats?: Record<string, SkillStat>;
 }) {
   const [scores, setScores] = useState<Record<string, number>>(initialScores);
 
@@ -34,9 +36,19 @@ export default function SkillsBoard({
 
       {skills.map((s) => {
         const val = scores[s.id] ?? 0;
+        const st = stats[s.id];
         return (
           <div key={s.id} className="skill-row">
-            <div className="name">{s.name}</div>
+            <div className="name">
+              {s.name}
+              {st && (
+                <span className="skill-meta">
+                  <span className={`skst skst-${st.state}`}>{SKILL_STATE_LABEL[st.state]}</span>
+                  {st.daysDone > 0 && <span className="skill-sub">{st.daysDone}/{st.daysAssociated} j</span>}
+                  {st.evidenceCount > 0 && <span className="skill-sub">{st.evidenceCount} preuve{st.evidenceCount > 1 ? 's' : ''}</span>}
+                </span>
+              )}
+            </div>
             <div className="dots">
               {[1, 2, 3, 4, 5].map((n) => (
                 <div

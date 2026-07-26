@@ -29,5 +29,7 @@ export function readWorkspaceFile(root: string, exercise: Exercise, path: string
 export function writeWorkspaceFile(root: string, exercise: Exercise, path: string, content: string): void;
 export function resetWorkspace(root: string, exercise: Exercise): string;
 export function resetWorkspaceFile(root: string, exercise: Exercise, path: string): void;
+export function editableAllowSet(exercise: Exercise): Set<string>;
+export function exportWorkspace(root: string, exercise: Exercise): { files: Record<string, string> } | null;
 export function clearWorkspace(root: string, exerciseId: string): void;
 export function runExercise(root: string, exercise: Exercise, userFiles?: Record<string, string>): Promise<RunOutput>;

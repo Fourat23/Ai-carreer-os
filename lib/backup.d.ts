@@ -1,8 +1,20 @@
 // Types pour lib/backup.mjs (sauvegarde/restauration pure).
 import type { Progress } from './types';
+import type { ProgressV3 } from './progress-store';
 
 export const SCHEMA_VERSION: number;
+export const BACKUP_SCHEMA_V3: number;
 export const APP_ID: string;
+
+export interface WorkspaceExport { files: Record<string, string>; runtime?: string }
+export type WorkspacesExport = Record<string, WorkspaceExport>;
+
+export function serializeBackupV3(v3: ProgressV3, workspaces?: WorkspacesExport, now?: Date): unknown;
+export function sanitizeWorkspaces(raw: unknown, allow: Map<string, Set<string>>):
+  { workspaces: Record<string, { files: Record<string, string> }>; warnings: string[] };
+export function parseBackupV3(input: unknown, allow?: Map<string, Set<string>>):
+  | { ok: true; v3: ProgressV3; workspaces: Record<string, { files: Record<string, string> }>; warnings: string[]; version: number }
+  | { ok: false; error: string };
 export interface BackupStats {
   daysTracked: number; done: number; inProgress: number; toReview: number; notes: number; skillsRated: number;
 }

@@ -37,4 +37,34 @@ export function runExercise(exercise: Exercise, userFiles: Record<string, string
   return fs.runExercise(ROOT, exercise, userFiles);
 }
 
+// ── Export / restauration des workspaces (sauvegarde V9) ──
+export function exportAllWorkspaces(exercises: Exercise[]): Record<string, { files: Record<string, string> }> {
+  const out: Record<string, { files: Record<string, string> }> = {};
+  for (const ex of exercises) {
+    const w = fs.exportWorkspace(ROOT, ex);
+    if (w) out[ex.id] = w;
+  }
+  return out;
+}
+
+export function workspaceAllowlist(exercises: Exercise[]): Map<string, Set<string>> {
+  const map = new Map<string, Set<string>>();
+  for (const ex of exercises) map.set(ex.id, fs.editableAllowSet(ex));
+  return map;
+}
+
+/** Restaure des workspaces validés : n'écrit que des fichiers éditables autorisés. */
+export function restoreWorkspaces(
+  exercisesById: Map<string, Exercise>,
+  workspaces: Record<string, { files: Record<string, string> }>,
+): void {
+  for (const [exId, w] of Object.entries(workspaces)) {
+    const ex = exercisesById.get(exId);
+    if (!ex) continue;
+    for (const [path, content] of Object.entries(w.files)) {
+      try { fs.writeWorkspaceFile(ROOT, ex, path, content); } catch { /* fichier refusé : ignoré */ }
+    }
+  }
+}
+
 export type { WorkspaceFileState, RunOutput };

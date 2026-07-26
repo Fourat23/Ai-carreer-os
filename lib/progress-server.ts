@@ -61,6 +61,11 @@ function writeV3(v3: ProgressV3): void {
   writeFileSync(FILE, JSON.stringify(v3, null, 2));
 }
 
+/** Écrit la structure multi-parcours v3 complète (import de sauvegarde V9). */
+export function writeProgressV3(v3: ProgressV3): void {
+  writeV3(v3);
+}
+
 // Écrit la progression plate dans le parcours actif de la structure v3.
 export function writeProgress(p: Progress): void {
   writeV3(writeActiveTrack(readProgressV3Fresh(), p));

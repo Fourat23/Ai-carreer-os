@@ -12,6 +12,9 @@ const ROOT = join(process.cwd(), 'data', 'lab-workspaces');
 export function materializeWorkspace(exercise: Exercise, userFiles: Record<string, string> = {}): string {
   return fs.materializeWorkspace(ROOT, exercise, userFiles);
 }
+export function workspaceExists(exercise: Exercise): boolean {
+  return fs.workspaceExists(ROOT, exercise);
+}
 export function readWorkspaceTree(exercise: Exercise): WorkspaceFileState[] {
   return fs.readWorkspaceTree(ROOT, exercise);
 }

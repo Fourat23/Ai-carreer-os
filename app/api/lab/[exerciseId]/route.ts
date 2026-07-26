@@ -12,15 +12,19 @@ import { recordExerciseSuccess } from '@/lib/lab-progress';
 import {
   readWorkspaceTree, writeWorkspaceFile, resetWorkspace, resetWorkspaceFile, runExercise,
 } from '@/lib/workspace-server';
+import { splitAttempt } from '@/lib/lab-feedback';
 
 export const dynamic = 'force-dynamic';
 
 const MAX_FILES_IN_REQUEST = 40;
 
-function exerciseMeta(ex: { id: string; title: string; summary?: string; runtime?: string; tests: { id: string; name: string }[] }) {
+function exerciseMeta(ex: { id: string; title: string; summary?: string; runtime?: string; tests: { id: string; name: string; private?: boolean }[] }) {
   return {
     id: ex.id, title: ex.title, summary: ex.summary ?? '', runtime: ex.runtime ?? 'node-js',
-    tests: ex.tests.map((t) => ({ id: t.id, name: t.name })), // jamais les valeurs attendues brutes
+    // Anti-fuite : seuls les NOMS des tests publics sont exposés (un nom de test
+    // privé pourrait suggérer l'attendu). Le total sert au décompte affiché.
+    tests: ex.tests.filter((t) => !t.private).map((t) => ({ id: t.id, name: t.name })),
+    testCount: ex.tests.length,
   };
 }
 
@@ -64,12 +68,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       // Persiste d'abord (les fichiers autorisés) pour que l'état survive au run.
       for (const [path, content] of Object.entries(files)) writeWorkspaceFile(ex, path, String(content));
       const { attempt, stdout, timedOut, error, phase, diagnostics } = await runExercise(ex, files);
-      // Redaction : pour les tests PRIVES, on ne divulgue jamais l'attendu/reçu.
+      // Anti-fuite : les tests PRIVÉS ne quittent JAMAIS le serveur en détail.
+      // On n'expose que les résultats publics + un AGRÉGAT privé (total/réussis),
+      // jamais leur nom, attendu, reçu, message ni durée. allPassed/passed/total
+      // restent calculés sur l'ensemble (public + privé) pour la preuve.
       const privateIds = new Set(ex.tests.filter((t) => (t as { private?: boolean }).private).map((t) => t.id));
-      attempt.results = attempt.results.map((r) =>
-        privateIds.has(r.testId)
-          ? { testId: r.testId, name: r.name, passed: r.passed, expected: null, actual: null, message: r.passed ? 'Test privé réussi.' : 'Test privé échoué (détails masqués).' }
-          : r);
+      const { publicResults, privateSummary } = splitAttempt(attempt, privateIds);
+      attempt.results = publicResults;
       // Réussite → preuve de compétence dans la progression (jours liés).
       let recorded = false;
       if (attempt.allPassed) {
@@ -82,7 +87,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
           recorded = true;
         }
       }
-      return NextResponse.json({ ok: true, attempt, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded });
+      return NextResponse.json({ ok: true, attempt, privateSummary, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded });
     }
     return NextResponse.json({ error: 'Action inconnue.' }, { status: 400 });
   } catch (e: unknown) {

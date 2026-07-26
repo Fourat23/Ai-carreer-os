@@ -30,7 +30,9 @@ export default async function LabExercisePage({ params }: { params: Promise<{ ex
   };
   const meta = {
     id: ex.id, title: ex.title, summary: ex.summary ?? '',
-    tests: ex.tests.map((t) => ({ id: t.id, name: t.name })),
+    // Anti-fuite : jamais le nom d'un test privé (il pourrait suggérer l'attendu).
+    tests: ex.tests.filter((t) => !(t as { private?: boolean }).private).map((t) => ({ id: t.id, name: t.name })),
+    testCount: ex.tests.length,
   };
 
   return (

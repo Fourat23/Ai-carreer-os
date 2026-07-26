@@ -13,6 +13,8 @@ import {
   AlertTriangle, Info, Lightbulb,
 } from 'lucide-react';
 import { usePanelLayout } from './usePanelLayout';
+import { describeDiff } from '@/lib/test-diff';
+import { hintForDiagnostic } from '@/lib/ts-hints';
 
 const CodeMirrorEditor = dynamic(() => import('./CodeMirrorEditor'), {
   ssr: false,
@@ -21,17 +23,31 @@ const CodeMirrorEditor = dynamic(() => import('./CodeMirrorEditor'), {
 
 type FileState = { path: string; content: string; readOnly: boolean; editable: boolean; language: string; hidden: boolean; entry: boolean };
 type TestMeta = { id: string; name: string };
-type ResultItem = { testId: string; name: string; passed: boolean; message: string };
+type ResultItem = { testId: string; name: string; passed: boolean; message: string; expected?: unknown; actual?: unknown; durationMs?: number | null };
 type Attempt = { total: number; passed: number; allPassed: boolean; durationMs: number; results: ResultItem[] };
+type PrivateSummary = { total: number; passed: number } | null;
 type Diagnostic = { category: 'error' | 'warning' | 'suggestion'; code: number | string; message: string; phase: string; file?: string; line?: number; column?: number; endLine?: number; endColumn?: number };
 type RightTab = 'tests' | 'diagnostics' | 'console' | 'help';
 
 type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean };
 
+// Formatage compact et borné d'une valeur pour l'affichage (attendu/reçu/diff).
+function formatVal(v: unknown): string {
+  let s: string;
+  if (v === undefined) return 'undefined';
+  try { s = typeof v === 'string' ? v : JSON.stringify(v); } catch { s = String(v); }
+  if (typeof s !== 'string') s = String(s);
+  return s.length > 300 ? s.slice(0, 300) + '…' : s;
+}
+// Vrai si la valeur mérite un diff structuré (objet ou tableau).
+function isStructured(v: unknown): boolean {
+  return typeof v === 'object' && v !== null;
+}
+
 export default function LabWorkspace({
   exercise, initialFiles, initialActive, runtime,
 }: {
-  exercise: { id: string; title: string; summary: string; tests: TestMeta[] };
+  exercise: { id: string; title: string; summary: string; tests: TestMeta[]; testCount?: number };
   initialFiles: FileState[];
   initialActive: string;
   runtime: RuntimeInfo;
@@ -48,6 +64,7 @@ export default function LabWorkspace({
   const [running, setRunning] = useState(false);
   const [runPhase, setRunPhase] = useState<'compiling' | 'testing' | null>(null);
   const [attempt, setAttempt] = useState<Attempt | null>(null);
+  const [privateSummary, setPrivateSummary] = useState<PrivateSummary>(null);
   const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
   const [compileFailed, setCompileFailed] = useState(false);
   const [goto, setGoto] = useState<{ line: number; column: number; nonce: number } | null>(null);
@@ -105,7 +122,7 @@ export default function LabWorkspace({
   useEffect(() => {
     try {
       const raw = localStorage.getItem(LASTRUN_KEY);
-      if (raw) { const p = JSON.parse(raw); if (p.attempt) { setAttempt(p.attempt); setStdout(typeof p.stdout === 'string' ? p.stdout : ''); } }
+      if (raw) { const p = JSON.parse(raw); if (p.attempt) { setAttempt(p.attempt); setStdout(typeof p.stdout === 'string' ? p.stdout : ''); setPrivateSummary(p.privateSummary ?? null); } }
     } catch { /* ignore */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -149,7 +166,7 @@ export default function LabWorkspace({
   const run = useCallback(async () => {
     if (running) return; // empêche les lancements concurrents (double-run)
     if (!runtime.available) { setRightTab('tests'); setRunError(runtime.error || `Runtime « ${runtime.label} » indisponible sur cette machine.`); return; }
-    setRunning(true); setRunError(''); setAttempt(null); setStdout(''); setDiagnostics([]); setCompileFailed(false); setRightTab('tests');
+    setRunning(true); setRunError(''); setAttempt(null); setPrivateSummary(null); setStdout(''); setDiagnostics([]); setCompileFailed(false); setRightTab('tests');
     // Runtime compilé : la compilation précède l'exécution des tests côté serveur.
     setRunPhase(runtime.compiles ? 'compiling' : 'testing');
     const controller = new AbortController();
@@ -170,8 +187,9 @@ export default function LabWorkspace({
       setCompileFailed(isCompileFail);
       if (j.attempt) {
         setAttempt(j.attempt);
+        setPrivateSummary(j.privateSummary ?? null);
         setHistory((h) => [{ at: new Date().toISOString(), passed: j.attempt.passed, total: j.attempt.total, allPassed: j.attempt.allPassed, durationMs: j.attempt.durationMs }, ...h].slice(0, 5));
-        try { localStorage.setItem(LASTRUN_KEY, JSON.stringify({ attempt: j.attempt, stdout: j.stdout ?? '' })); } catch { /* best-effort */ }
+        try { localStorage.setItem(LASTRUN_KEY, JSON.stringify({ attempt: j.attempt, stdout: j.stdout ?? '', privateSummary: j.privateSummary ?? null })); } catch { /* best-effort */ }
       }
       setStdout(j.stdout ?? ''); setDirty(new Set()); setSaveState('saved');
       // Échec de compilation → bascule vers l'onglet Diagnostics (distinct des tests).
@@ -382,7 +400,7 @@ export default function LabWorkspace({
                   </div>
                 )}
                 {runError && <div className="lab-error">{runError}</div>}
-                {!attempt && !runError && !running && <div className="lab-hint">Lance les tests pour voir le détail. {exercise.tests.length} tests.</div>}
+                {!attempt && !runError && !running && <div className="lab-hint">Lance les tests pour voir le détail. {exercise.testCount ?? exercise.tests.length} tests.</div>}
                 {compileFailed && !running && (
                   <div className="lab-error" style={{ marginBottom: 'var(--sp-3)' }}>
                     <AlertTriangle size={14} /> Compilation échouée : les tests n’ont pas été exécutés.{' '}
@@ -393,16 +411,43 @@ export default function LabWorkspace({
                   <>
                     <div className={`lab-verdict ${attempt.allPassed ? 'ok' : 'ko'}`} style={{ marginBottom: 'var(--sp-3)' }}>{attempt.passed}/{attempt.total} tests · {attempt.durationMs} ms</div>
                     <ul className="lab-test-list">
-                      {attempt.results.map((r) => (
-                        <li key={r.testId} className={`lab-test ${r.passed ? 'ok' : 'ko'}`}>
-                          <span className="lab-test-ico">{r.passed ? <Check size={14} /> : <X size={14} />}</span>
-                          <span className="lab-test-body">
-                            <span className="lab-test-name">{r.name}</span>
-                            {!r.passed && <span className="lab-test-msg">{r.message}</span>}
-                          </span>
-                        </li>
-                      ))}
+                      {attempt.results.map((r) => {
+                        const showDiff = !r.passed && r.expected !== undefined;
+                        const structural = showDiff && isStructured(r.expected) && isStructured(r.actual);
+                        const diffs = structural ? describeDiff(r.expected, r.actual) : [];
+                        return (
+                          <li key={r.testId} className={`lab-test ${r.passed ? 'ok' : 'ko'}`}>
+                            <span className="lab-test-ico">{r.passed ? <Check size={14} /> : <X size={14} />}</span>
+                            <span className="lab-test-body">
+                              <span className="lab-test-head">
+                                <span className="lab-test-name">{r.name}</span>
+                                {typeof r.durationMs === 'number' && <span className="lab-test-dur">{r.durationMs} ms</span>}
+                              </span>
+                              {!r.passed && (
+                                showDiff ? (
+                                  <span className="lab-test-diff">
+                                    <span className="lab-diff-row"><span className="lab-diff-label ok">attendu</span> <code>{formatVal(r.expected)}</code></span>
+                                    <span className="lab-diff-row"><span className="lab-diff-label ko">reçu</span> <code>{formatVal(r.actual)}</code></span>
+                                    {diffs.length > 0 && (
+                                      <ul className="lab-diff-paths">
+                                        {diffs.map((d, i) => (
+                                          <li key={i}><code>{d.path || '(racine)'}</code> : {formatVal(d.expected)} → {formatVal(d.actual)}</li>
+                                        ))}
+                                      </ul>
+                                    )}
+                                  </span>
+                                ) : <span className="lab-test-msg">{r.message}</span>
+                              )}
+                            </span>
+                          </li>
+                        );
+                      })}
                     </ul>
+                    {privateSummary && (
+                      <div className={`lab-private ${privateSummary.passed === privateSummary.total ? 'ok' : 'ko'}`}>
+                        <FlaskConical size={12} /> Tests privés : {privateSummary.passed}/{privateSummary.total} réussis <span className="lab-private-note">(détails masqués)</span>
+                      </div>
+                    )}
                   </>
                 )}
                 {history.length > 1 && (
@@ -428,6 +473,7 @@ export default function LabWorkspace({
                     {diagnostics.map((d, i) => {
                       const Icon = d.category === 'error' ? AlertTriangle : d.category === 'warning' ? Info : Lightbulb;
                       const clickable = !!(d.file && files.some((f) => f.path === d.file && !f.hidden));
+                      const hint = hintForDiagnostic(d.code);
                       return (
                         <li key={`${d.file ?? ''}:${d.line ?? 0}:${d.column ?? 0}:${d.code}:${i}`} className={`wb-diag ${d.category}`}>
                           <button className="wb-diag-btn" onClick={() => openDiagnostic(d)} disabled={!clickable} title={clickable ? 'Ouvrir à cette position' : undefined}>
@@ -437,6 +483,7 @@ export default function LabWorkspace({
                               <span className="wb-diag-loc">
                                 {d.file ? d.file : 'général'}{d.line ? `:${d.line}:${d.column ?? 1}` : ''} · {typeof d.code === 'number' ? `TS${d.code}` : d.code}
                               </span>
+                              {hint && <span className="wb-diag-hint"><Lightbulb size={11} /> {hint}</span>}
                             </span>
                           </button>
                         </li>

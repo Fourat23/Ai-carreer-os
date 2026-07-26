@@ -1,0 +1,71 @@
+{
+  "id": "ts-debug-filter-strings",
+  "title": "TypeScript : débogage d’un filtre typé",
+  "difficulty": 3,
+  "summary": "Débogage. onlyStrings(items) doit conserver uniquement les CHAÎNES d’un tableau mixte. Le garde de type filtre les mauvais éléments : corrige-le.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "export function onlyStrings(items: (string | number)[]): string[] {\n  const out: string[] = [];\n  for (const x of items) {\n    // BUG : condition inversée — on garde les nombres au lieu des chaînes\n    if (typeof x === 'number') out.push(String(x));\n  }\n  return out;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export function onlyStrings(items: (string | number)[]): string[] {\n  return items.filter((x): x is string => typeof x === 'string');\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "['a',1,'b'] → ['a','b']",
+      "kind": "call-equals",
+      "export": "onlyStrings",
+      "args": [
+        [
+          "a",
+          1,
+          "b"
+        ]
+      ],
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "[1,2] → [] (privé)",
+      "kind": "call-equals",
+      "export": "onlyStrings",
+      "args": [
+        [
+          1,
+          2
+        ]
+      ],
+      "expected": [],
+      "private": true
+    },
+    {
+      "id": "t3",
+      "name": "['x'] → ['x']",
+      "kind": "call-equals",
+      "export": "onlyStrings",
+      "args": [
+        [
+          "x"
+        ]
+      ],
+      "expected": [
+        "x"
+      ]
+    }
+  ]
+}

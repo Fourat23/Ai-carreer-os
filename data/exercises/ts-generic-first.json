@@ -1,0 +1,63 @@
+{
+  "id": "ts-generic-first",
+  "title": "TypeScript : fonction générique",
+  "difficulty": 3,
+  "summary": "Objectif : les génériques. Écris first<T>(arr: T[]): T | null qui renvoie le premier élément d’un tableau, ou null si le tableau est vide. Le type doit être préservé.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "export function first<T>(arr: T[]): T | null {\n  // TODO\n  return null;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export function first<T>(arr: T[]): T | null {\n  return arr.length > 0 ? arr[0] : null;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "[1,2,3] → 1",
+      "kind": "call-equals",
+      "export": "first",
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "id": "t2",
+      "name": "['a'] → 'a'",
+      "kind": "call-equals",
+      "export": "first",
+      "args": [
+        [
+          "a"
+        ]
+      ],
+      "expected": "a"
+    },
+    {
+      "id": "t3",
+      "name": "[] → null (privé)",
+      "kind": "call-equals",
+      "export": "first",
+      "args": [
+        []
+      ],
+      "expected": null,
+      "private": true
+    }
+  ]
+}

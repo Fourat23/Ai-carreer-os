@@ -1,0 +1,67 @@
+{
+  "id": "ts-fizzbuzz",
+  "title": "TypeScript : FizzBuzz",
+  "difficulty": 2,
+  "summary": "Objectif : conditions et modulo. Écris fizzbuzz(n: number): string → « Fizz » si divisible par 3, « Buzz » si par 5, « FizzBuzz » si par 15, sinon le nombre en chaîne.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript",
+    "javascript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "export function fizzbuzz(n: number): string {\n  // TODO\n  return '';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export function fizzbuzz(n: number): string {\n  if (n % 15 === 0) return 'FizzBuzz';\n  if (n % 3 === 0) return 'Fizz';\n  if (n % 5 === 0) return 'Buzz';\n  return String(n);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t3",
+      "name": "3 → Fizz",
+      "kind": "call-equals",
+      "export": "fizzbuzz",
+      "args": [
+        3
+      ],
+      "expected": "Fizz"
+    },
+    {
+      "id": "t5",
+      "name": "5 → Buzz",
+      "kind": "call-equals",
+      "export": "fizzbuzz",
+      "args": [
+        5
+      ],
+      "expected": "Buzz"
+    },
+    {
+      "id": "t15",
+      "name": "15 → FizzBuzz",
+      "kind": "call-equals",
+      "export": "fizzbuzz",
+      "args": [
+        15
+      ],
+      "expected": "FizzBuzz"
+    },
+    {
+      "id": "t7",
+      "name": "7 → « 7 »",
+      "kind": "call-equals",
+      "export": "fizzbuzz",
+      "args": [
+        7
+      ],
+      "expected": "7"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "id": "ts-union-area",
+  "title": "TypeScript : aire d’une forme (union discriminée)",
+  "difficulty": 3,
+  "summary": "Objectif : unions discriminées et exhaustivité. Complète area(s: Shape): number selon le champ « kind » de Shape (shapes.ts, lecture seule) : cercle → π·r², rectangle → largeur·hauteur.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript",
+    "javascript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "import { Shape } from './shapes';\n\nexport function area(s: Shape): number {\n  // TODO : switch sur s.kind\n  return 0;\n}\n"
+      },
+      {
+        "path": "shapes.ts",
+        "readOnly": true,
+        "content": "// Type de forme — lecture seule.\nexport type Shape =\n  | { kind: 'circle'; radius: number }\n  | { kind: 'rect'; width: number; height: number };\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "import { Shape } from './shapes';\n\nexport function area(s: Shape): number {\n  switch (s.kind) {\n    case 'circle':\n      return Math.PI * s.radius * s.radius;\n    case 'rect':\n      return s.width * s.height;\n  }\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "rect 2×3 → 6",
+      "kind": "call-equals",
+      "export": "area",
+      "args": [
+        {
+          "kind": "rect",
+          "width": 2,
+          "height": 3
+        }
+      ],
+      "expected": 6
+    },
+    {
+      "id": "t2",
+      "name": "rect 5×5 → 25",
+      "kind": "call-equals",
+      "export": "area",
+      "args": [
+        {
+          "kind": "rect",
+          "width": 5,
+          "height": 5
+        }
+      ],
+      "expected": 25
+    },
+    {
+      "id": "t3",
+      "name": "cercle r=1 → π (privé)",
+      "kind": "call-equals",
+      "export": "area",
+      "args": [
+        {
+          "kind": "circle",
+          "radius": 1
+        }
+      ],
+      "expected": 3.141592653589793,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "id": "ts-word-frequency",
+  "title": "TypeScript : fréquence des mots",
+  "difficulty": 3,
+  "summary": "Objectif : le type Record. Écris frequency(words: string[]): Record<string, number> qui renvoie le nombre d’occurrences de chaque mot.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript",
+    "javascript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "export function frequency(words: string[]): Record<string, number> {\n  // TODO\n  return {};\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export function frequency(words: string[]): Record<string, number> {\n  const out: Record<string, number> = {};\n  for (const w of words) {\n    out[w] = (out[w] ?? 0) + 1;\n  }\n  return out;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "['a','b','a'] → {a:2,b:1}",
+      "kind": "call-equals",
+      "export": "frequency",
+      "args": [
+        [
+          "a",
+          "b",
+          "a"
+        ]
+      ],
+      "expected": {
+        "a": 2,
+        "b": 1
+      }
+    },
+    {
+      "id": "t2",
+      "name": "[] → {}",
+      "kind": "call-equals",
+      "export": "frequency",
+      "args": [
+        []
+      ],
+      "expected": {}
+    },
+    {
+      "id": "t3",
+      "name": "['x','x','x'] → {x:3} (privé)",
+      "kind": "call-equals",
+      "export": "frequency",
+      "args": [
+        [
+          "x",
+          "x",
+          "x"
+        ]
+      ],
+      "expected": {
+        "x": 3
+      },
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "id": "ts-interface-cart",
+  "title": "TypeScript : total d’un panier avec TVA (multi-fichiers)",
+  "difficulty": 4,
+  "summary": "Objectif : interfaces et agrégation. Complète totalWithTax(items, taxRate): number → somme de price×qty, majorée de la TVA (taxRate, ex. 0.2 = 20%), ARRONDIE à 2 décimales. CartItem vient de types.ts (lecture seule).",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript",
+    "javascript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "import { CartItem } from './types';\n\nexport function totalWithTax(items: CartItem[], taxRate: number): number {\n  // TODO : somme(price*qty) * (1+taxRate), arrondie à 2 décimales\n  return 0;\n}\n"
+      },
+      {
+        "path": "types.ts",
+        "readOnly": true,
+        "content": "// Article du panier — lecture seule.\nexport interface CartItem {\n  name: string;\n  price: number;\n  qty: number;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "import { CartItem } from './types';\n\nexport function totalWithTax(items: CartItem[], taxRate: number): number {\n  const subtotal = items.reduce((sum, it) => sum + it.price * it.qty, 0);\n  return Math.round(subtotal * (1 + taxRate) * 100) / 100;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "10×2 à 10% → 22",
+      "kind": "call-equals",
+      "export": "totalWithTax",
+      "args": [
+        [
+          {
+            "name": "a",
+            "price": 10,
+            "qty": 2
+          }
+        ],
+        0.1
+      ],
+      "expected": 22
+    },
+    {
+      "id": "t2",
+      "name": "panier vide → 0",
+      "kind": "call-equals",
+      "export": "totalWithTax",
+      "args": [
+        [],
+        0.2
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t3",
+      "name": "mixte sans TVA → 17 (privé)",
+      "kind": "call-equals",
+      "export": "totalWithTax",
+      "args": [
+        [
+          {
+            "name": "x",
+            "price": 5,
+            "qty": 3
+          },
+          {
+            "name": "y",
+            "price": 2,
+            "qty": 1
+          }
+        ],
+        0
+      ],
+      "expected": 17,
+      "private": true
+    }
+  ]
+}

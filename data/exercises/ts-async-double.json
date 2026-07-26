@@ -1,0 +1,57 @@
+{
+  "id": "ts-async-double",
+  "title": "TypeScript : fonction asynchrone",
+  "difficulty": 2,
+  "summary": "Objectif : async/await. Écris doubleLater(n): Promise<number> qui renvoie le double de n de façon asynchrone (via await d’une promesse résolue).",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript",
+    "javascript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "export async function doubleLater(n: number): Promise<number> {\n  // TODO : renvoie 2*n\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export async function doubleLater(n: number): Promise<number> {\n  const value = await Promise.resolve(n * 2);\n  return value;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "21 → 42",
+      "kind": "call-equals",
+      "export": "doubleLater",
+      "args": [
+        21
+      ],
+      "expected": 42
+    },
+    {
+      "id": "t2",
+      "name": "0 → 0",
+      "kind": "call-equals",
+      "export": "doubleLater",
+      "args": [
+        0
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t3",
+      "name": "-5 → -10",
+      "kind": "call-equals",
+      "export": "doubleLater",
+      "args": [
+        -5
+      ],
+      "expected": -10
+    }
+  ]
+}

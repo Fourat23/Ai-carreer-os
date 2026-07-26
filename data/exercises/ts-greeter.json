@@ -1,0 +1,46 @@
+{
+  "id": "ts-greeter",
+  "title": "TypeScript : salutation typée",
+  "difficulty": 1,
+  "summary": "Objectif : premiers pas en TypeScript. Écris greet(name: string): string qui renvoie « Bonjour, <name> ! » (avec l'espace avant le point d'exclamation).",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "// Renvoie : Bonjour, <name> !\nexport function greet(name: string): string {\n  // TODO\n  return '';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export function greet(name: string): string {\n  return `Bonjour, ${name} !`;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "greet('Ada') → « Bonjour, Ada ! »",
+      "kind": "call-equals",
+      "export": "greet",
+      "args": [
+        "Ada"
+      ],
+      "expected": "Bonjour, Ada !"
+    },
+    {
+      "id": "t2",
+      "name": "greet('Sam')",
+      "kind": "call-equals",
+      "export": "greet",
+      "args": [
+        "Sam"
+      ],
+      "expected": "Bonjour, Sam !"
+    }
+  ]
+}

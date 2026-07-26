@@ -1,0 +1,63 @@
+{
+  "id": "ts-async-fetch-user",
+  "title": "TypeScript : résolution asynchrone (multi-fichiers)",
+  "difficulty": 3,
+  "summary": "Objectif : await un module asynchrone. Complète userName(id): Promise<string> : récupère l’utilisateur via fetchUser (store.ts, lecture seule) et renvoie son nom, ou « inconnu » s’il n’existe pas.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript",
+    "javascript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "import { fetchUser } from './store';\n\nexport async function userName(id: number): Promise<string> {\n  // TODO : await fetchUser(id), renvoie le nom ou 'inconnu'\n  return 'inconnu';\n}\n"
+      },
+      {
+        "path": "store.ts",
+        "readOnly": true,
+        "content": "// Faux magasin de données asynchrone — lecture seule.\nexport interface User {\n  id: number;\n  name: string;\n}\n\nconst USERS: User[] = [\n  { id: 1, name: 'Ada' },\n  { id: 2, name: 'Alan' },\n];\n\nexport function fetchUser(id: number): Promise<User | undefined> {\n  return Promise.resolve(USERS.find((u) => u.id === id));\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "import { fetchUser } from './store';\n\nexport async function userName(id: number): Promise<string> {\n  const user = await fetchUser(id);\n  return user ? user.name : 'inconnu';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "id 1 → Ada",
+      "kind": "call-equals",
+      "export": "userName",
+      "args": [
+        1
+      ],
+      "expected": "Ada"
+    },
+    {
+      "id": "t2",
+      "name": "id 2 → Alan",
+      "kind": "call-equals",
+      "export": "userName",
+      "args": [
+        2
+      ],
+      "expected": "Alan"
+    },
+    {
+      "id": "t3",
+      "name": "id 99 → inconnu (privé)",
+      "kind": "call-equals",
+      "export": "userName",
+      "args": [
+        99
+      ],
+      "expected": "inconnu",
+      "private": true
+    }
+  ]
+}

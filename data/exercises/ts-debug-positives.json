@@ -1,0 +1,69 @@
+{
+  "id": "ts-debug-positives",
+  "title": "TypeScript : débogage d’un comptage",
+  "difficulty": 3,
+  "summary": "Débogage. countPositives(nums) doit compter les nombres STRICTEMENT positifs (> 0). Le code compte aussi les zéros : corrige la condition.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "export function countPositives(nums: number[]): number {\n  let count = 0;\n  for (const n of nums) {\n    if (n >= 0) count++; // BUG : inclut 0\n  }\n  return count;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export function countPositives(nums: number[]): number {\n  let count = 0;\n  for (const n of nums) {\n    if (n > 0) count++;\n  }\n  return count;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "[1,-2,3,0] → 2",
+      "kind": "call-equals",
+      "export": "countPositives",
+      "args": [
+        [
+          1,
+          -2,
+          3,
+          0
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "[-1,-2] → 0",
+      "kind": "call-equals",
+      "export": "countPositives",
+      "args": [
+        [
+          -1,
+          -2
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t3",
+      "name": "[0,0,0] → 0 (privé)",
+      "kind": "call-equals",
+      "export": "countPositives",
+      "args": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected": 0,
+      "private": true
+    }
+  ]
+}

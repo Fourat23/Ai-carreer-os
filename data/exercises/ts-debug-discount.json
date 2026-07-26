@@ -1,0 +1,61 @@
+{
+  "id": "ts-debug-discount",
+  "title": "TypeScript : débogage d’une remise",
+  "difficulty": 2,
+  "summary": "Débogage. finalPrice(price, discountPct) doit appliquer une remise EN POURCENTAGE et renvoyer le prix final. Le code soustrait le pourcentage comme un montant absolu : corrige-le.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript",
+    "javascript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "// BUG : la remise est un POURCENTAGE, pas un montant.\nexport function finalPrice(price: number, discountPct: number): number {\n  return price - discountPct;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export function finalPrice(price: number, discountPct: number): number {\n  return price * (1 - discountPct / 100);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "100 à -20% → 80",
+      "kind": "call-equals",
+      "export": "finalPrice",
+      "args": [
+        100,
+        20
+      ],
+      "expected": 80
+    },
+    {
+      "id": "t2",
+      "name": "50 à -0% → 50",
+      "kind": "call-equals",
+      "export": "finalPrice",
+      "args": [
+        50,
+        0
+      ],
+      "expected": 50
+    },
+    {
+      "id": "t3",
+      "name": "200 à -50% → 100 (privé)",
+      "kind": "call-equals",
+      "export": "finalPrice",
+      "args": [
+        200,
+        50
+      ],
+      "expected": 100,
+      "private": true
+    }
+  ]
+}

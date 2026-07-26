@@ -34,6 +34,8 @@ test('detectLanguage', () => {
   assert.equal(detectLanguage('a.mjs'), 'javascript');
   assert.equal(detectLanguage('a.json'), 'json');
   assert.equal(detectLanguage('README.md'), 'markdown');
+  assert.equal(detectLanguage('solution.ts'), 'typescript');
+  assert.equal(detectLanguage('main.py'), 'python');
   assert.equal(detectLanguage('noext'), 'javascript');
 });
 

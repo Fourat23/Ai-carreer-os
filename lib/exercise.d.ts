@@ -17,14 +17,30 @@ export interface WorkspaceTemplate {
 
 export type TestKind = 'call-equals' | 'stdout-equals' | 'stdout-contains';
 
+export type WebTestKind =
+  | 'selector-exists' | 'selector-count' | 'text-contains' | 'attribute-equals'
+  | 'class-present' | 'input-value' | 'computed-style-equals'
+  | 'event-changes-text' | 'console-contains';
+
+export interface WebTestAction {
+  type: 'click' | 'input';
+  selector: string;
+  value?: string;
+}
+
 export interface TestDefinition {
   id: string;
   name: string;
-  kind: TestKind;
+  kind: TestKind | WebTestKind;
   export?: string;      // call-equals : nom de la fonction exportée
   args?: unknown[];     // call-equals : arguments
-  expected: unknown;    // valeur (call-equals) ou texte (stdout-*)
+  expected?: unknown;   // valeur / texte / nombre attendu selon le type
   private?: boolean;    // test privé : pass/fail visible, attendu/reçu jamais divulgués
+  // Champs des assertions web :
+  selector?: string;
+  attribute?: string;
+  property?: string;
+  action?: WebTestAction;
 }
 
 export interface ExerciseLimits {
@@ -70,6 +86,7 @@ export interface AttemptResult {
 
 export const RUNTIMES: Record<string, RuntimeDefinition>;
 export const TEST_KINDS: readonly TestKind[];
+export const WEB_TEST_KINDS: readonly WebTestKind[];
 export const DEFAULT_RUNTIME_ID: string;
 export function getRuntime(id: string): RuntimeDefinition | null;
 export function getRuntimeAdapter(id: string): RuntimeDefinition | null;
@@ -79,6 +96,7 @@ export function isSafeRelPath(p: unknown): boolean;
 export function deepEqual(a: unknown, b: unknown): boolean;
 export function validateExercise(ex: unknown): { ok: boolean; errors: string[] };
 export function validateTest(t: unknown): string | null;
+export function validateWebTest(t: unknown): string | null;
 export function checkTest(
   test: TestDefinition,
   observed?: { value?: unknown; stdout?: string },

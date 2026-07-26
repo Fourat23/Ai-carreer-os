@@ -4,6 +4,7 @@ import type { Exercise } from './exercise';
 export interface RuntimeCapabilities {
   execution: boolean; publicTests: boolean; privateTests: boolean; multiFile: boolean;
   stdin: boolean; cancellation: boolean; timeout: boolean; syntaxHighlighting: boolean;
+  preview?: boolean;
 }
 
 export interface RuntimeAdapter {
@@ -13,15 +14,20 @@ export interface RuntimeAdapter {
   language: string;
   extensions: string[];
   entryDefault: string;
-  binary: string;
-  harnessFile: string;
   fileExtension: string;
   timeoutMs: number;
   maxOutputBytes: number;
   capabilities: RuntimeCapabilities;
-  buildHarness(exercise: Exercise): string;
-  buildArgs(harnessFile: string): string[];
   env(): Record<string, string>;
+  // Runtimes exécutables (Node/Python/TypeScript) uniquement :
+  binary?: string;
+  harnessFile?: string;
+  buildHarness?(exercise: Exercise): string;
+  buildArgs?(harnessFile: string): string[];
+  compile?: boolean;
+  // Runtime de preview (web) :
+  preview?: boolean;
+  executable?: boolean;
 }
 
 export const LAB_RESULT_MARKER: string;

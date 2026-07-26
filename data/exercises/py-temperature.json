@@ -1,0 +1,22 @@
+{
+  "id": "py-temperature",
+  "title": "Python : conversion de température",
+  "summary": "Objectif : variables, conditions et fonction. Écris celsius_to_label(c) qui renvoie 'gel' si c <= 0, 'chaud' si c >= 30, sinon 'tempéré'. Critère : les bornes 0 et 30 sont incluses.",
+  "difficulty": 1,
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python", "algo"],
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      { "path": "solution.py", "content": "# Renvoie 'gel', 'tempéré' ou 'chaud' selon la température.\ndef celsius_to_label(c):\n    # TODO\n    return \"\"\n" }
+    ]
+  },
+  "reference": { "solution.py": "def celsius_to_label(c):\n    if c <= 0:\n        return 'gel'\n    if c >= 30:\n        return 'chaud'\n    return 'tempéré'\n" },
+  "tests": [
+    { "id": "t-gel", "name": "0 -> gel (borne incluse)", "kind": "call-equals", "export": "celsius_to_label", "args": [0], "expected": "gel" },
+    { "id": "t-froid", "name": "-5 -> gel", "kind": "call-equals", "export": "celsius_to_label", "args": [-5], "expected": "gel" },
+    { "id": "t-temp", "name": "20 -> tempéré", "kind": "call-equals", "export": "celsius_to_label", "args": [20], "expected": "tempéré" },
+    { "id": "t-chaud", "name": "30 -> chaud (borne incluse)", "kind": "call-equals", "export": "celsius_to_label", "args": [30], "expected": "chaud" }
+  ]
+}

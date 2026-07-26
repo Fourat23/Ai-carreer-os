@@ -15,6 +15,7 @@ import {
 import { usePanelLayout } from './usePanelLayout';
 import { describeDiff } from '@/lib/test-diff';
 import { hintForDiagnostic } from '@/lib/ts-hints';
+import { appendPreviewLog, type PreviewLogEntry } from '@/lib/console-format';
 
 const CodeMirrorEditor = dynamic(() => import('./CodeMirrorEditor'), {
   ssr: false,
@@ -78,8 +79,8 @@ export default function LabWorkspace({
   const [stdout, setStdout] = useState('');
   const [runError, setRunError] = useState('');
   const isWeb = !!runtime.preview;
-  const [previewLogs, setPreviewLogs] = useState<PreviewLog[]>([]);
-  const onPreviewLog = useCallback((log: PreviewLog) => setPreviewLogs((l) => [...l.slice(-199), log]), []);
+  const [previewLogs, setPreviewLogs] = useState<PreviewLogEntry[]>([]);
+  const onPreviewLog = useCallback((log: PreviewLog) => setPreviewLogs((l) => appendPreviewLog(l, log)), []);
   // Fichiers passés à la preview : tous les fichiers visibles (HTML/CSS/JS),
   // y compris ceux en lecture seule ; jamais les fichiers de test (absents de `files`).
   const previewFiles = useMemo(() => files.filter((f) => !f.hidden).map((f) => ({ path: f.path, content: f.content })), [files]);

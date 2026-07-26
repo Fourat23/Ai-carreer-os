@@ -1,0 +1,23 @@
+{
+  "id": "py-word-count",
+  "title": "Python : comptage de mots (multi-fichiers)",
+  "summary": "Objectif : dictionnaires + import local. Implémente word_count(text) dans main.py en utilisant normalize() de freq.py (lecture seule). Renvoie un dict { mot: nombre }. Critère : casse ignorée, chaîne vide -> {}.",
+  "difficulty": 3,
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python", "algo"],
+  "activeFile": "main.py",
+  "workspace": {
+    "entry": "main.py",
+    "files": [
+      { "path": "main.py", "content": "from freq import normalize\n\n# Renvoie { mot: nombre } (minuscules).\ndef word_count(text):\n    # TODO : utiliser normalize(text)\n    return {}\n" },
+      { "path": "freq.py", "readOnly": true, "content": "# Découpe en mots minuscules (lecture seule).\ndef normalize(text):\n    return text.lower().split()\n" }
+    ]
+  },
+  "reference": { "main.py": "from freq import normalize\ndef word_count(text):\n    d = {}\n    for w in normalize(text):\n        d[w] = d.get(w, 0) + 1\n    return d\n" },
+  "tests": [
+    { "id": "t1", "name": "'a b a' -> {a:2,b:1}", "kind": "call-equals", "export": "word_count", "args": ["a b a"], "expected": { "a": 2, "b": 1 } },
+    { "id": "t2", "name": "vide -> {}", "kind": "call-equals", "export": "word_count", "args": [""], "expected": {} },
+    { "id": "t3", "name": "casse ignorée", "kind": "call-equals", "export": "word_count", "args": ["Hi hi HI"], "expected": { "hi": 3 } }
+  ]
+}

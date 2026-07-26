@@ -1,0 +1,22 @@
+{
+  "id": "py-report",
+  "title": "Python : rapport de données (multi-fichiers + sortie)",
+  "summary": "Objectif : traiter des données et écrire sur la sortie standard. main.py doit afficher exactement 'Total: N' où N est la somme des quantités de SALES (data.py, lecture seule).",
+  "difficulty": 3,
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python", "data"],
+  "activeFile": "main.py",
+  "workspace": {
+    "entry": "main.py",
+    "files": [
+      { "path": "main.py", "content": "from data import SALES\n\n# Affiche : Total: <somme des quantités>\n# TODO\n" },
+      { "path": "data.py", "readOnly": true, "content": "# Ventes (nom, quantité) — lecture seule.\nSALES = [('pomme', 3), ('pain', 5), ('lait', 2)]\n" }
+    ]
+  },
+  "reference": { "main.py": "from data import SALES\ntotal = sum(q for _, q in SALES)\nprint(f\"Total: {total}\")\n" },
+  "tests": [
+    { "id": "t-exact", "name": "sortie exacte", "kind": "stdout-equals", "expected": "Total: 10" },
+    { "id": "t-contains", "name": "contient Total", "kind": "stdout-contains", "expected": "Total" }
+  ]
+}

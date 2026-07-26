@@ -1,0 +1,23 @@
+{
+  "id": "py-debug-average",
+  "title": "Python : débogage de la moyenne (multi-fichiers)",
+  "summary": "Objectif : lire et corriger. main.py calcule une moyenne mais contient un bug (mauvais dénominateur). Corrige-le en utilisant total() de helper.py (lecture seule). Un test privé couvre le cas d'une seule valeur.",
+  "difficulty": 4,
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python", "algo", "testing"],
+  "activeFile": "main.py",
+  "workspace": {
+    "entry": "main.py",
+    "files": [
+      { "path": "main.py", "content": "from helper import total\n\n# BUG : le dénominateur est faux.\ndef average(nums):\n    return total(nums) / (len(nums) - 1)\n" },
+      { "path": "helper.py", "readOnly": true, "content": "# Somme d'une liste (lecture seule).\ndef total(nums):\n    return sum(nums)\n" }
+    ]
+  },
+  "reference": { "main.py": "from helper import total\ndef average(nums):\n    return total(nums) / len(nums)\n" },
+  "tests": [
+    { "id": "t1", "name": "[10,20,30] -> 20", "kind": "call-equals", "export": "average", "args": [[10, 20, 30]], "expected": 20 },
+    { "id": "t2", "name": "[2,4] -> 3", "kind": "call-equals", "export": "average", "args": [[2, 4]], "expected": 3 },
+    { "id": "t3", "name": "une seule valeur (privé)", "kind": "call-equals", "export": "average", "args": [[5]], "expected": 5, "private": true }
+  ]
+}

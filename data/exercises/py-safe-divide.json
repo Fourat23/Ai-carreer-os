@@ -1,0 +1,19 @@
+{
+  "id": "py-safe-divide",
+  "title": "Python : gestion d'erreurs",
+  "summary": "Objectif : gérer une exception. Écris safe_div(a, b) qui renvoie a / b, ou None si b vaut 0 (attrape ZeroDivisionError, sans planter). Certains tests sont privés.",
+  "difficulty": 2,
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python"],
+  "workspace": {
+    "entry": "solution.py",
+    "files": [{ "path": "solution.py", "content": "# a / b, ou None si b == 0.\ndef safe_div(a, b):\n    # TODO : try / except ZeroDivisionError\n    return a / b\n" }]
+  },
+  "reference": { "solution.py": "def safe_div(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return None\n" },
+  "tests": [
+    { "id": "t1", "name": "6 / 2 -> 3", "kind": "call-equals", "export": "safe_div", "args": [6, 2], "expected": 3 },
+    { "id": "t2", "name": "5 / 0 -> None", "kind": "call-equals", "export": "safe_div", "args": [5, 0], "expected": null },
+    { "id": "t3", "name": "1 / 4 -> 0.25 (privé)", "kind": "call-equals", "export": "safe_div", "args": [1, 4], "expected": 0.25, "private": true }
+  ]
+}

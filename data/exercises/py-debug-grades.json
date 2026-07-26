@@ -1,0 +1,20 @@
+{
+  "id": "py-debug-grades",
+  "title": "Python : débogage des notes",
+  "summary": "Objectif : corriger une condition. to_letter(score) doit renvoyer 'A' (>=90), 'B' (>=80), 'C' (>=70), sinon 'F'. Une borne est erronée : trouve-la et corrige-la.",
+  "difficulty": 3,
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python", "algo"],
+  "workspace": {
+    "entry": "solution.py",
+    "files": [{ "path": "solution.py", "content": "def to_letter(score):\n    if score >= 90:\n        return 'A'\n    if score >= 80:\n        return 'B'\n    if score > 70:  # BUG\n        return 'C'\n    return 'F'\n" }]
+  },
+  "reference": { "solution.py": "def to_letter(score):\n    if score >= 90:\n        return 'A'\n    if score >= 80:\n        return 'B'\n    if score >= 70:\n        return 'C'\n    return 'F'\n" },
+  "tests": [
+    { "id": "t1", "name": "95 -> A", "kind": "call-equals", "export": "to_letter", "args": [95], "expected": "A" },
+    { "id": "t2", "name": "85 -> B", "kind": "call-equals", "export": "to_letter", "args": [85], "expected": "B" },
+    { "id": "t3", "name": "70 -> C (borne)", "kind": "call-equals", "export": "to_letter", "args": [70], "expected": "C" },
+    { "id": "t4", "name": "50 -> F", "kind": "call-equals", "export": "to_letter", "args": [50], "expected": "F" }
+  ]
+}

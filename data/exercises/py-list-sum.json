@@ -1,0 +1,19 @@
+{
+  "id": "py-list-sum",
+  "title": "Python : boucles et listes",
+  "summary": "Objectif : parcourir une liste. Écris sum_positive(nums) qui renvoie la somme des nombres strictement positifs. Critère : liste vide -> 0, que des négatifs -> 0.",
+  "difficulty": 2,
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python", "algo"],
+  "workspace": {
+    "entry": "solution.py",
+    "files": [{ "path": "solution.py", "content": "# Somme des nombres strictement positifs.\ndef sum_positive(nums):\n    # TODO\n    return 0\n" }]
+  },
+  "reference": { "solution.py": "def sum_positive(nums):\n    return sum(n for n in nums if n > 0)\n" },
+  "tests": [
+    { "id": "t1", "name": "[1,-2,3] -> 4", "kind": "call-equals", "export": "sum_positive", "args": [[1, -2, 3]], "expected": 4 },
+    { "id": "t2", "name": "vide -> 0", "kind": "call-equals", "export": "sum_positive", "args": [[]], "expected": 0 },
+    { "id": "t3", "name": "négatifs -> 0", "kind": "call-equals", "export": "sum_positive", "args": [[-1, -2]], "expected": 0 }
+  ]
+}

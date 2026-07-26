@@ -1,0 +1,19 @@
+{
+  "id": "py-slugify",
+  "title": "Python : normalisation de chaînes",
+  "summary": "Objectif : manipuler des chaînes. Écris slugify(s) : minuscules, espaces de début/fin retirés, mots séparés par un seul tiret. Certains tests sont privés.",
+  "difficulty": 2,
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python"],
+  "workspace": {
+    "entry": "solution.py",
+    "files": [{ "path": "solution.py", "content": "# 'Hello World' -> 'hello-world'\ndef slugify(s):\n    # TODO\n    return \"\"\n" }]
+  },
+  "reference": { "solution.py": "def slugify(s):\n    return '-'.join(s.strip().lower().split())\n" },
+  "tests": [
+    { "id": "t1", "name": "'Hello World' -> 'hello-world'", "kind": "call-equals", "export": "slugify", "args": ["Hello World"], "expected": "hello-world" },
+    { "id": "t2", "name": "espaces de bord", "kind": "call-equals", "export": "slugify", "args": ["  A B  "], "expected": "a-b" },
+    { "id": "t3", "name": "espaces multiples (privé)", "kind": "call-equals", "export": "slugify", "args": ["Multiple   Spaces"], "expected": "multiple-spaces", "private": true }
+  ]
+}

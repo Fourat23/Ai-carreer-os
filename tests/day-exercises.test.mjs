@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
-import { buildDayExerciseIndex, exercisesForDay, daysForExercise } from '../lib/day-exercises.mjs';
+import { buildDayExerciseIndex, exercisesForDay, daysForExercise, selectDayExercises } from '../lib/day-exercises.mjs';
 import { recordExerciseSuccess, hasLabEvidence, labEvidenceUrl } from '../lib/lab-progress.mjs';
 
 const known = new Set(['greeting', 'fizzbuzz']);
@@ -35,6 +35,41 @@ test('la fixture livrée est valide contre exercices + jours réels', () => {
   const ids = new Set(readdirSync(exDir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(new URL(f, exDir), 'utf8')).id));
   const idx = buildDayExerciseIndex(raw, ids, days);
   assert.ok(idx.byDay.size >= 8); // catalogue complet lié
+});
+
+// ── CP7 : sélection/ordre d'affichage d'une journée (pur) ──
+test('selectDayExercises : ordonne par difficulté puis id, statut via preuve', () => {
+  const idx = buildDayExerciseIndex(
+    { '36': ['ts-fizzbuzz', 'ts-greeter', 'ts-typed-average'] },
+    new Set(['ts-fizzbuzz', 'ts-greeter', 'ts-typed-average']),
+    new Set([36]),
+  );
+  const defs = {
+    'ts-greeter': { title: 'Salutation', runtime: 'typescript', language: 'typescript', difficulty: 1 },
+    'ts-typed-average': { title: 'Moyenne', runtime: 'typescript', language: 'typescript', difficulty: 2 },
+    'ts-fizzbuzz': { title: 'FizzBuzz', runtime: 'typescript', language: 'typescript', difficulty: 2 },
+  };
+  const out = selectDayExercises(idx, 36, defs, (id) => id === 'ts-greeter');
+  // d1 d'abord, puis d2 triés par id (ts-fizzbuzz < ts-typed-average)
+  assert.deepEqual(out.map((x) => x.id), ['ts-greeter', 'ts-fizzbuzz', 'ts-typed-average']);
+  assert.equal(out[0].status, 'passed');
+  assert.equal(out[1].status, 'todo');
+  assert.equal(out[0].runtime, 'typescript');
+  assert.equal(out[1].difficulty, 2);
+});
+
+test('selectDayExercises : accepte une fonction résolveur et ignore les ids inconnus', () => {
+  const idx = buildDayExerciseIndex({ '36': ['ts-greeter', 'fantome'] }, new Set(['ts-greeter', 'fantome']), new Set([36]));
+  const out = selectDayExercises(idx, 36, (id) => (id === 'ts-greeter' ? { title: 'G', runtime: 'typescript', difficulty: 1 } : null));
+  assert.deepEqual(out.map((x) => x.id), ['ts-greeter']); // fantome résolu à null → ignoré
+  assert.equal(out[0].status, 'todo'); // isPassed par défaut = false
+});
+
+test('selectDayExercises : défaut runtime node-js si absent, jour vide → []', () => {
+  const idx = buildDayExerciseIndex({ '8': ['fizzbuzz'] }, new Set(['fizzbuzz']), new Set([8]));
+  const out = selectDayExercises(idx, 8, { fizzbuzz: { title: 'FB' } });
+  assert.equal(out[0].runtime, 'node-js');
+  assert.deepEqual(selectDayExercises(idx, 999, {}), []);
 });
 
 const flat = { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };

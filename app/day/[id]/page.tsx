@@ -4,8 +4,9 @@ import { FlaskConical, Check, ArrowRight } from 'lucide-react';
 import { getDay, getDayHtml, getSolutionHtml, getDayChecklist } from '@/lib/program';
 import { getDayProgress } from '@/lib/progress-server';
 import { getDayExerciseIndex } from '@/lib/day-exercises-server';
-import { exercisesForDay } from '@/lib/day-exercises';
+import { selectDayExercises } from '@/lib/day-exercises';
 import { getExercise } from '@/lib/exercises-server';
+import { getRuntimeAdapter } from '@/lib/runtime.mjs';
 import { hasLabEvidence } from '@/lib/lab-progress';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
 import { stripDayLeadHtml } from '@/lib/day-view';
@@ -33,12 +34,13 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
   const progress = getDayProgress(dayNum) ?? { ...EMPTY_DAY_PROGRESS };
 
   // Exercices de code liés à ce jour (fixture, sans toucher au Markdown).
-  const labExercises = exercisesForDay(getDayExerciseIndex(), dayNum)
-    .map((exId) => {
-      const e = getExercise(exId);
-      return e ? { id: exId, title: e.title, passed: hasLabEvidence(progress, exId) } : null;
-    })
-    .filter((x): x is { id: string; title: string; passed: boolean } => x !== null);
+  // Sélection/ordre PURS (par difficulté puis id), statut via preuve de réussite.
+  const labExercises = selectDayExercises(
+    getDayExerciseIndex(),
+    dayNum,
+    (exId) => getExercise(exId),
+    (exId) => hasLabEvidence(progress, exId),
+  ).map((x) => ({ ...x, runtimeLabel: getRuntimeAdapter(x.runtime)?.label ?? x.runtime }));
 
   return (
     <div className="day-view">
@@ -67,7 +69,11 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
                 <Link key={x.id} href={`/lab/${x.id}`} className="day-lab-item">
                   <FlaskConical size={15} strokeWidth={2} />
                   <span className="day-lab-title">{x.title}</span>
-                  {x.passed
+                  <span className="day-lab-meta">
+                    <span className="day-lab-runtime">{x.runtimeLabel}</span>
+                    {x.difficulty ? <span className="day-lab-diff" title={`Difficulté ${x.difficulty}/5`} aria-label={`Difficulté ${x.difficulty} sur 5`}>{'●'.repeat(x.difficulty)}<span className="day-lab-diff-off">{'●'.repeat(Math.max(0, 5 - x.difficulty))}</span></span> : null}
+                  </span>
+                  {x.status === 'passed'
                     ? <span className="badge ok"><Check size={12} /> Réussi</span>
                     : <span className="badge">À faire</span>}
                   <ArrowRight size={14} className="day-lab-go" />

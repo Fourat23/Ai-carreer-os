@@ -1083,7 +1083,12 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .day-lab-item:hover { border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); text-decoration: none; }
 .day-lab-item > svg:first-child { color: var(--accent); flex: none; }
 .day-lab-title { font-weight: 600; font-size: var(--fs-sm); flex: 1; min-width: 0; }
+.day-lab-meta { display: inline-flex; align-items: center; gap: var(--sp-2); flex: none; }
+.day-lab-runtime { font-size: var(--fs-xs); color: var(--muted); background: var(--panel-2); border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+.day-lab-diff { font-size: 8px; letter-spacing: 1px; color: var(--accent); white-space: nowrap; }
+.day-lab-diff-off { color: var(--border); }
 .day-lab-go { color: var(--muted); flex: none; }
+@media (max-width: 560px) { .day-lab-runtime { display: none; } }
 
 /* Workbench : palette de fichiers + raccourcis */
 .wb-kbd, kbd { font-family: var(--font-mono); font-size: 10px; color: var(--muted); background: var(--panel-2); border: 1px solid var(--border); border-radius: 4px; padding: 0 4px; margin-left: 4px; }

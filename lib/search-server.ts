@@ -4,12 +4,31 @@
 // requête dans la route, pour rester cohérentes après chaque mutation.
 import { getProgram } from './program';
 import { getCatalogue } from './catalogue-server';
+import { listExercises } from './exercises-server';
+import { getRuntimeAdapter, DEFAULT_RUNTIME_ID } from './runtime.mjs';
 import { buildIndex } from './search';
 import type { SearchItem } from './search';
 
 let cached: SearchItem[] | null = null;
 
+// Projection PUBLIQUE et sûre d'un exercice pour l'index : uniquement titre,
+// compétences, runtime et difficulté. JAMAIS le workspace, les fichiers, la
+// solution de référence, les tests (encore moins privés) ni les diagnostics.
+function publicExerciseSummaries() {
+  return listExercises().map((ex) => {
+    const adapter = getRuntimeAdapter(ex.runtime ?? DEFAULT_RUNTIME_ID);
+    return {
+      id: ex.id,
+      title: ex.title,
+      skills: ex.skills ?? [],
+      language: adapter?.language ?? ex.runtime ?? DEFAULT_RUNTIME_ID,
+      runtimeLabel: adapter?.label ?? ex.runtime ?? DEFAULT_RUNTIME_ID,
+      difficulty: typeof ex.difficulty === 'number' ? ex.difficulty : 0,
+    };
+  });
+}
+
 export function getSearchIndex(): SearchItem[] {
-  if (!cached) cached = buildIndex(getProgram(), getCatalogue());
+  if (!cached) cached = buildIndex(getProgram(), getCatalogue(), publicExerciseSummaries());
   return cached;
 }

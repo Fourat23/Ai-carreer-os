@@ -4,16 +4,25 @@ import type { Catalogue } from './catalogue';
 
 export interface SearchItem {
   id: string;
-  type: 'command' | 'page' | 'day' | 'week' | 'month' | 'skill' | 'project' | 'lesson' | 'track' | 'module' | 'technology';
+  type: 'command' | 'page' | 'day' | 'week' | 'month' | 'skill' | 'project' | 'lesson' | 'track' | 'module' | 'technology' | 'exercise';
   title: string;
   subtitle: string;
   href: string;
   keywords: string;
 }
 
+export interface ExerciseSummary {
+  id: string;
+  title: string;
+  skills?: string[];
+  language?: string;
+  runtimeLabel?: string;
+  difficulty?: number;
+}
+
 export function normalize(s: unknown): string;
 export function tokenize(s: unknown): string[];
-export function buildIndex(program: Program, catalogue?: Catalogue | null): SearchItem[];
+export function buildIndex(program: Program, catalogue?: Catalogue | null, exercises?: ExerciseSummary[] | null): SearchItem[];
 export function parseJump(query: string): (SearchItem & { type: string }) | null;
 export function search(items: SearchItem[], query: string, limit?: number): SearchItem[];
 export function resumeCommand(resumeDay: number): SearchItem | null;

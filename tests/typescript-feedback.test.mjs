@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { describeDiff } from '../lib/test-diff.mjs';
 import { hintForDiagnostic, hasHint } from '../lib/ts-hints.mjs';
 import { splitAttempt } from '../lib/lab-feedback.mjs';
-import { buildIndex } from '../lib/search.mjs';
+import { buildIndex, search } from '../lib/search.mjs';
 
 // ── Diff structuré ───────────────────────────────────────────────────────────
 test('describeDiff : primitifs', () => {
@@ -85,17 +85,35 @@ test('splitAttempt : sans test privé → pas d’agrégat', () => {
   assert.equal(privateSummary, null);
 });
 
-// ── Anti-fuite : l'index de recherche n'indexe aucun contenu d'exercice ──────
-test('buildIndex : aucune fuite d’exercice (pas de /lab/, pas de solution)', () => {
-  const program = {
-    days: [{ day: 36, title: 'TypeScript', skillName: 'TS', week: 6, month: 2 }],
-    weeks: [], months: [], skills: [], lessons: [],
-  };
-  const catalogue = { tracks: [], modules: {}, technologies: [] };
-  const items = buildIndex(program, catalogue);
+// ── Palette globale : trouve les exercices TS, SANS indexer leur contenu ─────
+const program = {
+  days: [{ day: 36, title: 'TypeScript', skillName: 'TS', week: 6, month: 2 }],
+  weeks: [], months: [], skills: [], lessons: [],
+};
+const catalogue = { tracks: [], modules: {}, technologies: [] };
+// Résumés PUBLICS uniquement (comme la projection serveur) — jamais de code.
+const exSummaries = [
+  { id: 'ts-inventory', title: 'TypeScript : valeur d’un inventaire', skills: ['typescript', 'javascript'], language: 'typescript', runtimeLabel: 'TypeScript', difficulty: 3 },
+  { id: 'ts-async-double', title: 'TypeScript : fonction asynchrone', skills: ['typescript'], language: 'typescript', runtimeLabel: 'TypeScript', difficulty: 2 },
+];
+
+test('buildIndex : indexe les exercices (métadonnées publiques) avec href /lab/', () => {
+  const items = buildIndex(program, catalogue, exSummaries);
+  const ex = items.filter((i) => i.type === 'exercise');
+  assert.equal(ex.length, 2);
+  assert.ok(ex.every((i) => i.href.startsWith('/lab/')));
+  assert.match(ex[0].subtitle, /Exercice/);
+});
+
+test('search : la palette trouve un exercice TS par titre / compétence', () => {
+  const items = buildIndex(program, catalogue, exSummaries);
+  assert.ok(search(items, 'inventaire').some((i) => i.href === '/lab/ts-inventory'));
+  assert.ok(search(items, 'asynchrone').some((i) => i.href === '/lab/ts-async-double'));
+});
+
+test('buildIndex : aucun code / solution / test privé indexé', () => {
+  const items = buildIndex(program, catalogue, exSummaries);
   const blob = JSON.stringify(items);
-  assert.equal(items.some((i) => i.type === 'exercise'), false);
-  assert.equal(items.some((i) => typeof i.href === 'string' && i.href.startsWith('/lab/')), false);
-  // Aucun contenu de code d'exercice / solution / test privé n'est indexé.
-  assert.equal(/reduce\(|solution\.ts|export function|REPONSE_SECRETE/.test(blob), false);
+  // Métadonnées publiques présentes, mais jamais de code ni de contenu privé.
+  assert.equal(/export function|reduce\(|solution\.ts|REPONSE_SECRETE|=> \{|await fetchUser/.test(blob), false);
 });

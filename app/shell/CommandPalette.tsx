@@ -9,7 +9,7 @@ import { Search, CornerDownLeft } from 'lucide-react';
 import { search, mergeIndex, resumeCommand, reviewsCommand, type SearchItem } from '@/lib/search';
 
 const TYPE_LABEL: Record<string, string> = {
-  command: 'Commandes', day: 'Journées', track: 'Parcours', module: 'Modules',
+  command: 'Commandes', day: 'Journées', exercise: 'Exercices', track: 'Parcours', module: 'Modules',
   week: 'Semaines', month: 'Mois', skill: 'Compétences', technology: 'Technologies',
   project: 'Projets', lesson: 'Leçons', page: 'Pages',
 };

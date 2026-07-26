@@ -173,10 +173,20 @@ test('dépassement de sortie : trop de stdout → interrompu, tests non réussis
 });
 
 test('commande / argument interdits : runtime hors allowlist refusé ; binaire & args figés', async () => {
-  const bad = { ...fizz, id: 'bad-rt', runtime: 'python' };
+  const bad = { ...fizz, id: 'bad-rt', runtime: 'ruby' };
   await assert.rejects(() => runExercise(ROOT, bad, {}), /Runtime non exécutable/);
   const bad2 = { ...fizz, id: 'bad-rt2', runtime: '__proto__' };
   await assert.rejects(() => runExercise(ROOT, bad2, {}), /Runtime non exécutable/);
+});
+
+test('compat V8 : exercice SANS champ runtime → défaut Node, s’exécute', async () => {
+  const noRuntime = {
+    id: 'no-rt', title: 'no-rt',
+    workspace: { entry: 'solution.mjs', files: [{ path: 'solution.mjs', content: 'export const f = () => 42;' }] },
+    tests: [{ id: 't', name: '42', kind: 'call-equals', export: 'f', args: [], expected: 42 }],
+  };
+  const { attempt } = await runExercise(ROOT, noRuntime, {});
+  assert.equal(attempt.allPassed, true);
 });
 
 test('aucun secret transmis : les variables d’environnement de l’appli sont invisibles', async () => {

@@ -1017,6 +1017,25 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .wb-rtab.has-errors.active { border-bottom-color: var(--danger); }
 .wb-rbody { padding: var(--sp-4); overflow-y: auto; flex: 1; min-height: 0; }
 
+/* Preview web (iframe sandboxée) */
+.wb-preview { display: flex; flex-direction: column; gap: var(--sp-2); height: 100%; min-height: 0; }
+.wb-preview-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); flex-wrap: wrap; }
+.wb-preview-actions { display: inline-flex; gap: var(--sp-2); }
+.wb-preview-state { display: inline-flex; align-items: center; gap: 5px; font-size: var(--fs-xs); color: var(--muted); }
+.wb-preview-state.ready { color: var(--ok); }
+.wb-preview-state.error { color: var(--warn); }
+.wb-preview-state.updating { color: var(--muted); }
+.wb-preview-frame { flex: 1; min-height: 240px; width: 100%; border: 1px solid var(--border); border-radius: var(--r); background: #fff; }
+/* Console web (messages postMessage rendus en TEXTE — jamais d'HTML interprété) */
+.wb-weblog { display: flex; flex-direction: column; gap: var(--sp-2); min-height: 0; }
+.wb-weblog-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+.wb-weblog-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; font-family: var(--font-mono); font-size: var(--fs-xs); }
+.wb-weblog-item { display: flex; gap: var(--sp-2); padding: 3px 0; border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent); align-items: baseline; }
+.wb-weblog-lvl { flex: none; text-transform: uppercase; font-size: 9px; letter-spacing: .5px; padding: 0 5px; border-radius: 3px; background: var(--panel-2); color: var(--muted); }
+.wb-weblog-item.error .wb-weblog-lvl, .wb-weblog-item.error .wb-weblog-text { color: var(--warn); }
+.wb-weblog-item.warn .wb-weblog-lvl { color: var(--warn); }
+.wb-weblog-text { word-break: break-word; white-space: pre-wrap; }
+
 /* Onglet Diagnostics (compilation TypeScript) */
 .wb-diags { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
 .wb-diag { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }

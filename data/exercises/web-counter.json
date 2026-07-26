@@ -1,0 +1,27 @@
+{
+  "id": "web-counter",
+  "title": "JavaScript DOM : compteur interactif",
+  "summary": "Objectif : écouter un événement et mettre à jour le DOM. Quand on clique sur le bouton « + », le nombre affiché dans #count doit augmenter de 1. Complète app.js.",
+  "difficulty": 2,
+  "runtime": "web",
+  "language": "html",
+  "skills": ["javascript", "dom"],
+  "activeFile": "app.js",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      { "path": "index.html", "readOnly": true, "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"><title>Compteur</title></head>\n<body>\n  <h1>Compteur</h1>\n  <p>Valeur : <span id=\"count\">0</span></p>\n  <button id=\"inc\" type=\"button\">+</button>\n</body>\n</html>\n" },
+      { "path": "style.css", "content": "body { font-family: system-ui, sans-serif; }\nbutton { font-size: 1.2rem; padding: 4px 12px; }\n" },
+      { "path": "app.js", "content": "// Quand on clique sur #inc, augmente le nombre dans #count de 1.\nconst btn = document.getElementById('inc');\nconst out = document.getElementById('count');\n// TODO : ajoute un écouteur 'click' qui incrémente la valeur.\n" }
+    ]
+  },
+  "reference": {
+    "app.js": "const btn = document.getElementById('inc');\nconst out = document.getElementById('count');\nbtn.addEventListener('click', () => {\n  out.textContent = String(Number(out.textContent) + 1);\n});\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "le bouton existe", "kind": "selector-exists", "selector": "#inc" },
+    { "id": "t2", "name": "valeur initiale 0", "kind": "text-contains", "selector": "#count", "expected": "0" },
+    { "id": "t3", "name": "un clic → 1", "kind": "event-changes-text", "selector": "#count", "action": { "type": "click", "selector": "#inc" }, "expected": "1" },
+    { "id": "t4", "name": "deux clics → 2 (privé)", "kind": "event-changes-text", "selector": "#count", "action": { "type": "click", "selector": "#inc", "times": 2 }, "expected": "2", "private": true }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "web-card",
+  "title": "HTML/CSS : carte produit accessible",
+  "summary": "Objectif : structurer une carte produit. Dans index.html, ajoute une image avec un texte alternatif, un titre <h2> contenant « Casque audio », et un bouton portant la classe « buy ». Utilise style.css pour la mise en forme.",
+  "difficulty": 1,
+  "runtime": "web",
+  "language": "html",
+  "skills": ["html", "css", "accessibility"],
+  "activeFile": "index.html",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      { "path": "index.html", "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"><title>Carte</title><link rel=\"stylesheet\" href=\"style.css\"></head>\n<body>\n  <article class=\"card\">\n    <!-- TODO : image (avec alt), titre h2 « Casque audio », bouton .buy -->\n  </article>\n</body>\n</html>\n" },
+      { "path": "style.css", "content": ".card { max-width: 320px; border: 1px solid #ccc; border-radius: 8px; padding: 16px; font-family: system-ui, sans-serif; }\n.buy { background: #0a5; color: #fff; border: 0; padding: 8px 16px; border-radius: 6px; }\n" }
+    ]
+  },
+  "reference": {
+    "index.html": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"><title>Carte</title><link rel=\"stylesheet\" href=\"style.css\"></head>\n<body>\n  <article class=\"card\">\n    <img src=\"data:image/gif;base64,R0lGODlhAQABAAAAACw=\" alt=\"Casque audio noir\">\n    <h2>Casque audio</h2>\n    <button class=\"buy\" type=\"button\">Acheter</button>\n  </article>\n</body>\n</html>\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "une image présente", "kind": "selector-exists", "selector": "img" },
+    { "id": "t2", "name": "image avec texte alternatif", "kind": "attribute-equals", "selector": "img", "attribute": "alt", "expected": "Casque audio noir" },
+    { "id": "t3", "name": "titre h2 correct", "kind": "text-contains", "selector": "h2", "expected": "Casque audio" },
+    { "id": "t4", "name": "bouton .buy présent", "kind": "selector-exists", "selector": "button.buy" },
+    { "id": "t5", "name": "un seul bouton d'achat (privé)", "kind": "selector-count", "selector": ".buy", "expected": 1, "private": true }
+  ]
+}

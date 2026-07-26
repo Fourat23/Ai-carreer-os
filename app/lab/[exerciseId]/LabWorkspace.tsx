@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 import {
   Play, RotateCcw, Check, X, Loader2, FileCode, PanelLeftClose, PanelLeftOpen,
   PanelRightClose, PanelRightOpen, LayoutTemplate, FlaskConical, Terminal, HelpCircle, Undo2,
-  AlertTriangle, Info, Lightbulb,
+  AlertTriangle, Info, Lightbulb, Eye,
 } from 'lucide-react';
 import { usePanelLayout } from './usePanelLayout';
 import { describeDiff } from '@/lib/test-diff';
@@ -20,6 +20,12 @@ const CodeMirrorEditor = dynamic(() => import('./CodeMirrorEditor'), {
   ssr: false,
   loading: () => <div className="cm-loading">Chargement de l’éditeur…</div>,
 });
+// Preview web : chargée uniquement sur /lab/[id] (le moteur de preview n'entre
+// jamais dans les bundles des autres routes).
+const FrontendPreview = dynamic(() => import('./FrontendPreview'), {
+  ssr: false,
+  loading: () => <div className="cm-loading">Chargement de l’aperçu…</div>,
+});
 
 type FileState = { path: string; content: string; readOnly: boolean; editable: boolean; language: string; hidden: boolean; entry: boolean };
 type TestMeta = { id: string; name: string };
@@ -27,9 +33,10 @@ type ResultItem = { testId: string; name: string; passed: boolean; message: stri
 type Attempt = { total: number; passed: number; allPassed: boolean; durationMs: number; results: ResultItem[] };
 type PrivateSummary = { total: number; passed: number } | null;
 type Diagnostic = { category: 'error' | 'warning' | 'suggestion'; code: number | string; message: string; phase: string; file?: string; line?: number; column?: number; endLine?: number; endColumn?: number };
-type RightTab = 'tests' | 'diagnostics' | 'console' | 'help';
+type RightTab = 'preview' | 'tests' | 'diagnostics' | 'console' | 'help';
+type PreviewLog = { level: string; type: string; text: string; line?: number | null; col?: number | null; at: number };
 
-type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean };
+type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean; preview?: boolean };
 
 // Formatage compact et borné d'une valeur pour l'affichage (attendu/reçu/diff).
 function formatVal(v: unknown): string {
@@ -70,8 +77,15 @@ export default function LabWorkspace({
   const [goto, setGoto] = useState<{ line: number; column: number; nonce: number } | null>(null);
   const [stdout, setStdout] = useState('');
   const [runError, setRunError] = useState('');
+  const isWeb = !!runtime.preview;
+  const [previewLogs, setPreviewLogs] = useState<PreviewLog[]>([]);
+  const onPreviewLog = useCallback((log: PreviewLog) => setPreviewLogs((l) => [...l.slice(-199), log]), []);
+  // Fichiers passés à la preview : tous les fichiers visibles (HTML/CSS/JS),
+  // y compris ceux en lecture seule ; jamais les fichiers de test (absents de `files`).
+  const previewFiles = useMemo(() => files.filter((f) => !f.hidden).map((f) => ({ path: f.path, content: f.content })), [files]);
+  const entryFile = useMemo(() => files.find((f) => f.entry)?.path ?? 'index.html', [files]);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved'>('idle');
-  const [rightTab, setRightTab] = useState<RightTab>('tests');
+  const [rightTab, setRightTab] = useState<RightTab>(runtime.preview ? 'preview' : 'tests');
   const [palette, setPalette] = useState(false);
   const [paletteQ, setPaletteQ] = useState('');
   const [history, setHistory] = useState<{ at: string; passed: number; total: number; allPassed: boolean; durationMs: number }[]>([]);
@@ -79,7 +93,7 @@ export default function LabWorkspace({
   const LASTRUN_KEY = `lab:lastrun:${exercise.id}`;
   // Vue étroite (tablette/mobile) : une zone à la fois via une nav segmentée.
   const [narrow, setNarrow] = useState(false);
-  const [mv, setMv] = useState<'brief' | 'files' | 'code' | 'tests' | 'console'>('code');
+  const [mv, setMv] = useState<'brief' | 'files' | 'code' | 'preview' | 'tests' | 'console'>('code');
 
   const rootRef = useRef<HTMLDivElement>(null);
   const explorerRef = useRef<HTMLUListElement>(null);
@@ -287,6 +301,7 @@ export default function LabWorkspace({
   // Sélection d'une zone en vue étroite (synchronise l'onglet droit).
   const selectView = useCallback((v: typeof mv) => {
     setMv(v);
+    if (v === 'preview') setRightTab('preview');
     if (v === 'tests') setRightTab('tests');
     if (v === 'console') setRightTab('console');
   }, []);
@@ -298,14 +313,17 @@ export default function LabWorkspace({
 
   const cols = `${layout.layout.leftOpen ? layout.layout.left + 'px' : '0'} ${layout.layout.leftOpen ? '6px' : '0'} minmax(0,1fr) ${layout.layout.rightOpen ? '6px' : '0'} ${layout.layout.rightOpen ? layout.layout.right + 'px' : '0'}`;
   const showLeft = narrow ? (mv === 'brief' || mv === 'files') : layout.layout.leftOpen;
-  const showRight = narrow ? (mv === 'tests' || mv === 'console') : layout.layout.rightOpen;
+  const showRight = narrow ? (mv === 'tests' || mv === 'console' || mv === 'preview') : layout.layout.rightOpen;
   const showCenter = narrow ? mv === 'code' : true;
+  const mobileZones = isWeb
+    ? ([['brief', 'Énoncé'], ['files', 'Fichiers'], ['code', 'Code'], ['preview', 'Preview'], ['tests', 'Tests'], ['console', 'Console']] as const)
+    : ([['brief', 'Énoncé'], ['files', 'Fichiers'], ['code', 'Code'], ['tests', 'Tests'], ['console', 'Console']] as const);
 
   return (
     <>
     {narrow && (
       <nav className="wb-mobilenav" aria-label="Zones du laboratoire">
-        {([['brief', 'Énoncé'], ['files', 'Fichiers'], ['code', 'Code'], ['tests', 'Tests'], ['console', 'Console']] as const).map(([v, label]) => (
+        {mobileZones.map(([v, label]) => (
           <button key={v} className={`wb-mvbtn${mv === v ? ' active' : ''}`} aria-pressed={mv === v} onClick={() => selectView(v)}>{label}</button>
         ))}
       </nav>
@@ -367,7 +385,7 @@ export default function LabWorkspace({
           </span>
           <span className={`wb-status-state${isDirty ? ' dirty' : ''}`}>{saveState === 'saving' ? 'Enregistrement…' : isDirty ? 'Modifié' : 'Enregistré'}</span>
           <span className="wb-actions">
-            <button className="btn small primary" onClick={run} disabled={running || !runtime.available} title={runtime.available ? 'Lancer les tests' : (runtime.error ?? 'Runtime indisponible')}>{running ? <Loader2 size={13} className="spin" /> : <Play size={13} />} Lancer <kbd className="wb-kbd">⌘⏎</kbd></button>
+            <button className="btn small primary" onClick={run} disabled={running || !runtime.available} title={runtime.available ? 'Lancer les tests' : (runtime.error ?? 'Runtime indisponible')}>{running ? <Loader2 size={13} className="spin" /> : <Play size={13} />} Lancer <kbd className="wb-kbd">⌘⏎</kbd></button>{/* web: évaluation branchée en CP6 */}
             <button className="btn small" onClick={save} disabled={saveState === 'saving' || running}>Enregistrer</button>
             {activeFile?.editable && <button className="wb-icon" title="Réinitialiser ce fichier" aria-label="Réinitialiser ce fichier" onClick={resetActiveFile}><Undo2 size={15} /></button>}
             <button className="btn small ghost" onClick={resetExercise} disabled={running}><RotateCcw size={13} /> Reset</button>
@@ -382,6 +400,9 @@ export default function LabWorkspace({
       {showRight && (
         <aside className="wb-right" aria-label="Tests, console et aide" ref={resultsRef}>
           <div className="wb-rtabs" role="tablist" aria-label="Panneau de résultats">
+            {isWeb && (
+              <button role="tab" aria-selected={rightTab === 'preview'} className={`wb-rtab${rightTab === 'preview' ? ' active' : ''}`} onClick={() => setRightTab('preview')}><Eye size={13} /> Preview</button>
+            )}
             <button role="tab" aria-selected={rightTab === 'tests'} className={`wb-rtab${rightTab === 'tests' ? ' active' : ''}`} onClick={() => setRightTab('tests')}><FlaskConical size={13} /> Tests{attempt && !compileFailed ? ` (${attempt.passed}/${attempt.total})` : ''}</button>
             {runtime.compiles && (
               <button role="tab" aria-selected={rightTab === 'diagnostics'} className={`wb-rtab${rightTab === 'diagnostics' ? ' active' : ''}${compileFailed ? ' has-errors' : ''}`} onClick={() => setRightTab('diagnostics')}><AlertTriangle size={13} /> Diagnostics{diagnostics.length ? ` (${diagnostics.length})` : ''}</button>
@@ -391,6 +412,11 @@ export default function LabWorkspace({
             <button className="wb-icon" style={{ marginLeft: 'auto' }} title="Replier le panneau" aria-label="Replier le panneau droit" onClick={() => layout.toggle('right')}><PanelRightClose size={15} /></button>
           </div>
           <div className="wb-rbody" aria-live="polite">
+            {/* Preview web : montée en permanence (reste vivante hors onglet) ;
+                masquée quand un autre onglet est actif → continue d'alimenter la Console. */}
+            {isWeb && (
+              <FrontendPreview files={previewFiles} entry={entryFile} onLog={onPreviewLog} hidden={rightTab !== 'preview'} />
+            )}
             {rightTab === 'tests' && (
               <>
                 {running && (
@@ -492,7 +518,26 @@ export default function LabWorkspace({
                   </ul>
             )}
             {rightTab === 'console' && (
-              stdout ? <pre className="wb-console">{stdout.slice(0, 8000)}</pre> : <div className="lab-hint">Aucune sortie standard. Utilise <code>console.log</code> dans ton code.</div>
+              isWeb ? (
+                <div className="wb-weblog">
+                  <div className="wb-weblog-bar">
+                    <span className="lab-hint">{previewLogs.length} message{previewLogs.length > 1 ? 's' : ''}</span>
+                    {previewLogs.length > 0 && <button className="btn small ghost" onClick={() => setPreviewLogs([])}>Effacer</button>}
+                  </div>
+                  {previewLogs.length === 0
+                    ? <div className="lab-hint">Aucun message. Utilise <code>console.log</code> dans ton JavaScript ; les erreurs s’affichent ici.</div>
+                    : <ul className="wb-weblog-list">
+                        {previewLogs.map((l, i) => (
+                          <li key={l.at + ':' + i} className={`wb-weblog-item ${l.type === 'error' ? 'error' : l.level}`}>
+                            <span className="wb-weblog-lvl">{l.type === 'error' ? 'err' : l.level}</span>
+                            <span className="wb-weblog-text">{l.text}{l.line ? ` (l.${l.line})` : ''}</span>
+                          </li>
+                        ))}
+                      </ul>}
+                </div>
+              ) : (
+                stdout ? <pre className="wb-console">{stdout.slice(0, 8000)}</pre> : <div className="lab-hint">Aucune sortie standard. Utilise <code>console.log</code> dans ton code.</div>
+              )
             )}
             {rightTab === 'help' && (
               <div className="wb-help">

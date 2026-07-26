@@ -1,0 +1,40 @@
+{
+  "id": "web-inline-style",
+  "title": "CSS : couleur via l’attribut style",
+  "difficulty": 2,
+  "summary": "Objectif : appliquer un style inline. Donne au bouton #cta une couleur de texte verte grâce à l’attribut style (color: green).",
+  "runtime": "web",
+  "language": "html",
+  "skills": [
+    "css"
+  ],
+  "activeFile": "index.html",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      {
+        "path": "index.html",
+        "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"></head>\n<body>\n  <!-- TODO : ajoute style=\"color: green\" au bouton -->\n  <button id=\"cta\" type=\"button\">Valider</button>\n</body>\n</html>\n"
+      }
+    ]
+  },
+  "reference": {
+    "index.html": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"></head>\n<body>\n  <button id=\"cta\" type=\"button\" style=\"color: green\">Valider</button>\n</body>\n</html>\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "le bouton existe",
+      "kind": "selector-exists",
+      "selector": "#cta"
+    },
+    {
+      "id": "t2",
+      "name": "couleur verte (inline)",
+      "kind": "computed-style-equals",
+      "selector": "#cta",
+      "property": "color",
+      "expected": "green"
+    }
+  ]
+}

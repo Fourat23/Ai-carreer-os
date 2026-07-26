@@ -1,0 +1,58 @@
+{
+  "id": "web-greeting-form",
+  "title": "Formulaire : salutation en direct",
+  "difficulty": 2,
+  "summary": "Objectif : lire une saisie et réagir à l’événement input. Quand on tape un prénom dans #name, #out doit afficher « Bonjour, <prénom> ! ». Complète app.js.",
+  "runtime": "web",
+  "language": "html",
+  "skills": [
+    "javascript",
+    "dom",
+    "forms"
+  ],
+  "activeFile": "app.js",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      {
+        "path": "index.html",
+        "readOnly": true,
+        "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"></head>\n<body>\n  <label>Prénom : <input id=\"name\"></label>\n  <p id=\"out\"></p>\n</body>\n</html>\n"
+      },
+      {
+        "path": "app.js",
+        "content": "const input = document.getElementById('name');\nconst out = document.getElementById('out');\n// TODO : à chaque saisie (événement 'input'), écris « Bonjour, <valeur> ! » dans #out.\n"
+      }
+    ]
+  },
+  "reference": {
+    "app.js": "const input = document.getElementById('name');\nconst out = document.getElementById('out');\ninput.addEventListener('input', () => { out.textContent = `Bonjour, ${input.value} !`; });\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "saisie « Ada »",
+      "kind": "event-changes-text",
+      "selector": "#out",
+      "action": {
+        "type": "input",
+        "selector": "#name",
+        "value": "Ada"
+      },
+      "expected": "Bonjour, Ada !"
+    },
+    {
+      "id": "t2",
+      "name": "saisie « Sam » (privé)",
+      "kind": "event-changes-text",
+      "selector": "#out",
+      "action": {
+        "type": "input",
+        "selector": "#name",
+        "value": "Sam"
+      },
+      "expected": "Bonjour, Sam !",
+      "private": true
+    }
+  ]
+}

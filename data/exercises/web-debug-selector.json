@@ -1,0 +1,56 @@
+{
+  "id": "web-debug-selector",
+  "title": "Débogage : le bon sélecteur",
+  "difficulty": 2,
+  "summary": "Débogage. Un clic sur #inc doit incrémenter #count. Le code cible un identifiant qui n’existe pas : corrige le sélecteur.",
+  "runtime": "web",
+  "language": "html",
+  "skills": [
+    "javascript",
+    "dom"
+  ],
+  "activeFile": "app.js",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      {
+        "path": "index.html",
+        "readOnly": true,
+        "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"></head>\n<body>\n  <span id=\"count\">0</span>\n  <button id=\"inc\" type=\"button\">+</button>\n</body>\n</html>\n"
+      },
+      {
+        "path": "app.js",
+        "content": "const btn = document.getElementById('inc');\n// BUG : cet identifiant n'existe pas dans le HTML.\nconst out = document.getElementById('counter');\nbtn.addEventListener('click', () => { out.textContent = String(Number(out.textContent) + 1); });\n"
+      }
+    ]
+  },
+  "reference": {
+    "app.js": "const btn = document.getElementById('inc');\nconst out = document.getElementById('count');\nbtn.addEventListener('click', () => { out.textContent = String(Number(out.textContent) + 1); });\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un clic → 1",
+      "kind": "event-changes-text",
+      "selector": "#count",
+      "action": {
+        "type": "click",
+        "selector": "#inc"
+      },
+      "expected": "1"
+    },
+    {
+      "id": "t2",
+      "name": "trois clics → 3 (privé)",
+      "kind": "event-changes-text",
+      "selector": "#count",
+      "action": {
+        "type": "click",
+        "selector": "#inc",
+        "times": 3
+      },
+      "expected": "3",
+      "private": true
+    }
+  ]
+}

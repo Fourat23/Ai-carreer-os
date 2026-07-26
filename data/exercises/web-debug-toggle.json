@@ -1,0 +1,43 @@
+{
+  "id": "web-debug-toggle",
+  "title": "Débogage : le bon événement",
+  "difficulty": 2,
+  "summary": "Débogage. Un clic sur #go doit afficher « Ouvert » dans #msg. Le code écoute le mauvais événement : corrige-le.",
+  "runtime": "web",
+  "language": "html",
+  "skills": [
+    "javascript",
+    "dom"
+  ],
+  "activeFile": "app.js",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      {
+        "path": "index.html",
+        "readOnly": true,
+        "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"></head>\n<body>\n  <button id=\"go\" type=\"button\">Ouvrir</button>\n  <p id=\"msg\"></p>\n</body>\n</html>\n"
+      },
+      {
+        "path": "app.js",
+        "content": "const go = document.getElementById('go');\nconst msg = document.getElementById('msg');\n// BUG : ce n'est pas le bon événement.\ngo.addEventListener('mouseenter', () => { msg.textContent = 'Ouvert'; });\n"
+      }
+    ]
+  },
+  "reference": {
+    "app.js": "const go = document.getElementById('go');\nconst msg = document.getElementById('msg');\ngo.addEventListener('click', () => { msg.textContent = 'Ouvert'; });\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "clic → Ouvert",
+      "kind": "event-changes-text",
+      "selector": "#msg",
+      "action": {
+        "type": "click",
+        "selector": "#go"
+      },
+      "expected": "Ouvert"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "id": "web-list-filter",
+  "title": "JavaScript : filtre de liste",
+  "difficulty": 3,
+  "summary": "Objectif : filtrer une liste selon une saisie. En tapant dans #q, #hits doit afficher le nombre d’éléments .fruit dont le texte contient la saisie (insensible à la casse). Les fruits viennent de data.js (lecture seule).",
+  "runtime": "web",
+  "language": "html",
+  "skills": [
+    "javascript",
+    "dom"
+  ],
+  "activeFile": "app.js",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      {
+        "path": "index.html",
+        "readOnly": true,
+        "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"></head>\n<body>\n  <input id=\"q\" placeholder=\"filtrer\">\n  <p><span id=\"hits\">0</span> résultat(s)</p>\n  <ul id=\"list\"></ul>\n</body>\n</html>\n"
+      },
+      {
+        "path": "data.js",
+        "readOnly": true,
+        "content": "window.FRUITS = ['pomme', 'poire', 'prune', 'kiwi', 'mangue'];\n"
+      },
+      {
+        "path": "app.js",
+        "content": "const q = document.getElementById('q');\nconst hits = document.getElementById('hits');\n// FRUITS est fourni par data.js.\n// TODO : à chaque saisie, mets dans #hits le nombre de fruits contenant la saisie.\n"
+      }
+    ]
+  },
+  "reference": {
+    "app.js": "const q = document.getElementById('q');\nconst hits = document.getElementById('hits');\nq.addEventListener('input', () => {\n  const needle = q.value.toLowerCase();\n  const n = window.FRUITS.filter((f) => f.toLowerCase().includes(needle)).length;\n  hits.textContent = String(n);\n});\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "« p » → 3",
+      "kind": "event-changes-text",
+      "selector": "#hits",
+      "action": {
+        "type": "input",
+        "selector": "#q",
+        "value": "p"
+      },
+      "expected": "3"
+    },
+    {
+      "id": "t2",
+      "name": "« kiwi » → 1",
+      "kind": "event-changes-text",
+      "selector": "#hits",
+      "action": {
+        "type": "input",
+        "selector": "#q",
+        "value": "kiwi"
+      },
+      "expected": "1"
+    },
+    {
+      "id": "t3",
+      "name": "« z » → 0 (privé)",
+      "kind": "event-changes-text",
+      "selector": "#hits",
+      "action": {
+        "type": "input",
+        "selector": "#q",
+        "value": "z"
+      },
+      "expected": "0",
+      "private": true
+    }
+  ]
+}

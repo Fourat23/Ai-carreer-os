@@ -1,0 +1,51 @@
+{
+  "id": "web-nav",
+  "title": "HTML/CSS : navigation responsive",
+  "difficulty": 2,
+  "summary": "Objectif : structurer une navigation. Dans index.html, crée une <nav> contenant une <ul class=\"menu\"> avec exactement 3 liens <a>. La mise en forme responsive se fait dans style.css (visible dans la preview).",
+  "runtime": "web",
+  "language": "html",
+  "skills": [
+    "html",
+    "css",
+    "responsive"
+  ],
+  "activeFile": "index.html",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      {
+        "path": "index.html",
+        "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"><link rel=\"stylesheet\" href=\"style.css\"></head>\n<body>\n  <!-- TODO : nav > ul.menu > 3 x a -->\n</body>\n</html>\n"
+      },
+      {
+        "path": "style.css",
+        "content": ".menu { display: flex; gap: 12px; list-style: none; padding: 0; }\n@media (max-width: 480px) { .menu { flex-direction: column; } }\n"
+      }
+    ]
+  },
+  "reference": {
+    "index.html": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"><link rel=\"stylesheet\" href=\"style.css\"></head>\n<body>\n  <nav><ul class=\"menu\">\n    <li><a href=\"#a\">Accueil</a></li>\n    <li><a href=\"#b\">Blog</a></li>\n    <li><a href=\"#c\">Contact</a></li>\n  </ul></nav>\n</body>\n</html>\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une nav",
+      "kind": "selector-exists",
+      "selector": "nav"
+    },
+    {
+      "id": "t2",
+      "name": "liste .menu",
+      "kind": "selector-exists",
+      "selector": "ul.menu"
+    },
+    {
+      "id": "t3",
+      "name": "exactement 3 liens",
+      "kind": "selector-count",
+      "selector": ".menu a",
+      "expected": 3
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "web-semantic",
+  "title": "HTML : structure sémantique d’une page",
+  "difficulty": 1,
+  "summary": "Objectif : structurer une page avec des balises sémantiques. Dans index.html, ajoute un <header>, un <nav>, un <main> et un <footer> (dans cet ordre) à l’intérieur du body.",
+  "runtime": "web",
+  "language": "html",
+  "skills": [
+    "html",
+    "accessibility"
+  ],
+  "activeFile": "index.html",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      {
+        "path": "index.html",
+        "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"></head>\n<body>\n  <!-- TODO : header, nav, main, footer -->\n</body>\n</html>\n"
+      }
+    ]
+  },
+  "reference": {
+    "index.html": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"></head>\n<body>\n  <header><h1>Mon site</h1></header>\n  <nav><a href=\"#\">Accueil</a></nav>\n  <main><p>Contenu</p></main>\n  <footer><small>© 2026</small></footer>\n</body>\n</html>\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un header",
+      "kind": "selector-exists",
+      "selector": "header"
+    },
+    {
+      "id": "t2",
+      "name": "un nav",
+      "kind": "selector-exists",
+      "selector": "nav"
+    },
+    {
+      "id": "t3",
+      "name": "un main",
+      "kind": "selector-exists",
+      "selector": "main"
+    },
+    {
+      "id": "t4",
+      "name": "un footer",
+      "kind": "selector-exists",
+      "selector": "footer"
+    },
+    {
+      "id": "t5",
+      "name": "un seul main (privé)",
+      "kind": "selector-count",
+      "selector": "main",
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

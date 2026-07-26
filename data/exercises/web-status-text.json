@@ -1,0 +1,63 @@
+{
+  "id": "web-status-text",
+  "title": "JavaScript : indicateur d’état",
+  "difficulty": 3,
+  "summary": "Objectif : refléter un état dans le DOM. Un clic sur #switch doit mettre le texte de #state à « allumé ». Complète app.js.",
+  "runtime": "web",
+  "language": "html",
+  "skills": [
+    "javascript",
+    "dom"
+  ],
+  "activeFile": "app.js",
+  "workspace": {
+    "entry": "index.html",
+    "files": [
+      {
+        "path": "index.html",
+        "readOnly": true,
+        "content": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"></head>\n<body>\n  <button id=\"switch\" type=\"button\">Basculer</button>\n  <span id=\"state\">éteint</span>\n</body>\n</html>\n"
+      },
+      {
+        "path": "app.js",
+        "content": "const sw = document.getElementById('switch');\nconst state = document.getElementById('state');\n// TODO : au clic, mets « allumé » dans #state.\n"
+      }
+    ]
+  },
+  "reference": {
+    "app.js": "const sw = document.getElementById('switch');\nconst state = document.getElementById('state');\nsw.addEventListener('click', () => { state.textContent = 'allumé'; });\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "état initial éteint",
+      "kind": "text-contains",
+      "selector": "#state",
+      "expected": "éteint"
+    },
+    {
+      "id": "t2",
+      "name": "clic → allumé",
+      "kind": "event-changes-text",
+      "selector": "#state",
+      "action": {
+        "type": "click",
+        "selector": "#switch"
+      },
+      "expected": "allumé"
+    },
+    {
+      "id": "t3",
+      "name": "reste allumé après 2 clics (privé)",
+      "kind": "event-changes-text",
+      "selector": "#state",
+      "action": {
+        "type": "click",
+        "selector": "#switch",
+        "times": 2
+      },
+      "expected": "allumé",
+      "private": true
+    }
+  ]
+}

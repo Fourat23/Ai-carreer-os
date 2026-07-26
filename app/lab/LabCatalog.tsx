@@ -11,7 +11,7 @@ import { FlaskConical, ArrowRight, Check, Circle, Dot } from 'lucide-react';
 export type CatalogItem = {
   id: string; title: string; summary: string; language: string; runtimeLabel: string;
   runtimeAvailable: boolean; difficulty: number; skills: string[]; testCount: number;
-  type: string; status: string; day: number | null;
+  type: string; execKind?: string; status: string; day: number | null;
 };
 
 const STATUS_META: Record<string, { label: string; cls: string }> = {
@@ -28,9 +28,11 @@ export default function LabCatalog({ items }: { items: CatalogItem[] }) {
 
   const [q, setQ] = useState(params.get('q') ?? '');
   const [lang, setLang] = useState(params.get('lang') ?? '');
+  const [kind, setKind] = useState(params.get('kind') ?? '');
   const [diff, setDiff] = useState(params.get('diff') ?? '');
   const [skill, setSkill] = useState(params.get('skill') ?? '');
   const [status, setStatus] = useState(params.get('status') ?? '');
+  const hasPreview = useMemo(() => items.some((i) => i.execKind === 'preview'), [items]);
 
   const languages = useMemo(() => uniqSorted(items.map((i) => i.language)), [items]);
   const skills = useMemo(() => uniqSorted(items.flatMap((i) => i.skills)), [items]);
@@ -40,27 +42,29 @@ export default function LabCatalog({ items }: { items: CatalogItem[] }) {
     const sp = new URLSearchParams();
     if (q) sp.set('q', q);
     if (lang) sp.set('lang', lang);
+    if (kind) sp.set('kind', kind);
     if (diff) sp.set('diff', diff);
     if (skill) sp.set('skill', skill);
     if (status) sp.set('status', status);
     const qs = sp.toString();
     router.replace(qs ? `/lab?${qs}` : '/lab', { scroll: false });
-  }, [q, lang, diff, skill, status, router]);
+  }, [q, lang, kind, diff, skill, status, router]);
 
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
     return items
       .filter((i) => (!lang || i.language === lang)
+        && (!kind || i.execKind === kind)
         && (!diff || String(i.difficulty) === diff)
         && (!skill || i.skills.includes(skill))
         && (!status || i.status === status)
         && (!needle || `${i.title} ${i.summary} ${i.skills.join(' ')} ${i.type}`.toLowerCase().includes(needle)))
       // tri stable : difficulté puis titre
       .sort((a, b) => a.difficulty - b.difficulty || a.title.localeCompare(b.title));
-  }, [items, q, lang, diff, skill, status]);
+  }, [items, q, lang, kind, diff, skill, status]);
 
-  const reset = useCallback(() => { setQ(''); setLang(''); setDiff(''); setSkill(''); setStatus(''); }, []);
-  const active = q || lang || diff || skill || status;
+  const reset = useCallback(() => { setQ(''); setLang(''); setKind(''); setDiff(''); setSkill(''); setStatus(''); }, []);
+  const active = q || lang || kind || diff || skill || status;
 
   return (
     <div className="page-wide">
@@ -73,6 +77,13 @@ export default function LabCatalog({ items }: { items: CatalogItem[] }) {
           <option value="">Tous langages</option>
           {languages.map((l) => <option key={l} value={l}>{l}</option>)}
         </select>
+        {hasPreview && (
+          <select aria-label="Type d’exercice" value={kind} onChange={(e) => setKind(e.target.value)}>
+            <option value="">Tous types</option>
+            <option value="exécution">Exécution</option>
+            <option value="preview">Preview</option>
+          </select>
+        )}
         <select aria-label="Difficulté" value={diff} onChange={(e) => setDiff(e.target.value)}>
           <option value="">Toute difficulté</option>
           {[1, 2, 3, 4, 5].map((d) => <option key={d} value={String(d)}>Difficulté {d}</option>)}

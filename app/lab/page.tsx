@@ -49,6 +49,7 @@ export default function LabPage() {
       skills: ex.skills ?? [],
       testCount: ex.tests.length,
       type: exerciseType(ex),
+      execKind: (adapter as { preview?: boolean } | null)?.preview ? 'preview' : 'exécution',
       status: userStatus,
       day: days[0] ?? null,
     };

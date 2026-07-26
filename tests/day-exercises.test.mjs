@@ -72,6 +72,35 @@ test('selectDayExercises : défaut runtime node-js si absent, jour vide → []',
   assert.deepEqual(selectDayExercises(idx, 999, {}), []);
 });
 
+// ── CP8 (V11) : exercices web liés à des journées frontend ──
+test('la fixture lie des exercices web à des journées frontend', () => {
+  const raw = JSON.parse(readFileSync(new URL('../data/day-exercises.json', import.meta.url), 'utf8'));
+  const exDir = new URL('../data/exercises/', import.meta.url);
+  const defs = {};
+  for (const f of readdirSync(exDir).filter((n) => n.endsWith('.json'))) {
+    const e = JSON.parse(readFileSync(new URL(f, exDir), 'utf8'));
+    defs[e.id] = e;
+  }
+  const ids = new Set(Object.keys(defs));
+  const days = new Set(Array.from({ length: 365 }, (_, i) => i + 1));
+  const idx = buildDayExerciseIndex(raw, ids, days);
+  const day87 = selectDayExercises(idx, 87, defs);
+  assert.ok(day87.length >= 3);
+  assert.ok(day87.every((x) => x.runtime === 'web'));
+  // ordonné par difficulté croissante
+  for (let i = 1; i < day87.length; i++) assert.ok(day87[i - 1].difficulty <= day87[i].difficulty);
+});
+
+test('recordExerciseSuccess : réussite web → preuve + compétences (logique partagée)', () => {
+  const flatWeb = { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
+  const next = recordExerciseSuccess(flatWeb, { exerciseId: 'web-card', title: 'Carte', skills: ['html', 'css', 'accessibility'], dayRefs: [87] });
+  assert.equal(hasLabEvidence(next.days['87'], 'web-card'), true);
+  assert.equal(next.days['87'].evidence[0].url, '/lab/web-card');
+  assert.equal(next.days['87'].evidence[0].type, 'exercise'); // même type que Node/Python/TS
+  assert.equal(next.skills.html, 3);
+  assert.equal(next.skills.css, 3);
+});
+
 const flat = { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
 
 test('recordExerciseSuccess : ajoute preuve aux jours liés + relève compétences', () => {

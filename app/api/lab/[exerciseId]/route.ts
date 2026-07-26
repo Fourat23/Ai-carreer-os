@@ -63,7 +63,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
     if (action === 'run') {
       // Persiste d'abord (les fichiers autorisés) pour que l'état survive au run.
       for (const [path, content] of Object.entries(files)) writeWorkspaceFile(ex, path, String(content));
-      const { attempt, stdout, timedOut, error } = await runExercise(ex, files);
+      const { attempt, stdout, timedOut, error, phase, diagnostics } = await runExercise(ex, files);
       // Redaction : pour les tests PRIVES, on ne divulgue jamais l'attendu/reçu.
       const privateIds = new Set(ex.tests.filter((t) => (t as { private?: boolean }).private).map((t) => t.id));
       attempt.results = attempt.results.map((r) =>
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
           recorded = true;
         }
       }
-      return NextResponse.json({ ok: true, attempt, stdout, timedOut, error, recorded });
+      return NextResponse.json({ ok: true, attempt, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded });
     }
     return NextResponse.json({ error: 'Action inconnue.' }, { status: 400 });
   } catch (e: unknown) {

@@ -1,5 +1,6 @@
 // Types pour lib/workspace-fs.mjs (gestionnaire d'espace de travail, I/O).
 import type { Exercise, AttemptResult } from './exercise';
+import type { LabDiagnostic } from './typescript-compile';
 
 export const MAX_FILE_BYTES: number;
 export const MAX_TOTAL_BYTES: number;
@@ -19,6 +20,10 @@ export interface RunOutput {
   stdout: string;
   timedOut: boolean;
   error: string | null;
+  /** Étape ayant produit le résultat : compilation, exécution ou notation des tests. */
+  phase?: 'compile' | 'run' | 'test';
+  /** Diagnostics de compilation (runtimes compilés). Jamais de fuite de test privé. */
+  diagnostics?: LabDiagnostic[];
 }
 
 export function templateFileMap(exercise: Exercise): Map<string, { content: string; readOnly: boolean }>;

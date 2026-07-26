@@ -17,9 +17,9 @@ export const dynamic = 'force-dynamic';
 
 const MAX_FILES_IN_REQUEST = 40;
 
-function exerciseMeta(ex: { id: string; title: string; summary?: string; runtime: string; tests: { id: string; name: string }[] }) {
+function exerciseMeta(ex: { id: string; title: string; summary?: string; runtime?: string; tests: { id: string; name: string }[] }) {
   return {
-    id: ex.id, title: ex.title, summary: ex.summary ?? '', runtime: ex.runtime,
+    id: ex.id, title: ex.title, summary: ex.summary ?? '', runtime: ex.runtime ?? 'node-js',
     tests: ex.tests.map((t) => ({ id: t.id, name: t.name })), // jamais les valeurs attendues brutes
   };
 }

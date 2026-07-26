@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import {
   RUNTIMES, TEST_KINDS, getRuntime, isSafeRelPath, deepEqual,
-  validateExercise, validateTest, checkTest, buildAttemptResult,
+  validateExercise, validateTest, checkTest, buildAttemptResult, effectiveLimits,
 } from '../lib/exercise.mjs';
 
 const valid = {
@@ -110,4 +110,39 @@ test('fixtures : data/exercises/*.json sont des exercices valides', () => {
     assert.equal(ids.has(ex.id), false, `id dupliqué ${ex.id}`);
     ids.add(ex.id);
   }
+});
+
+// ── CP4 : modèle multi-runtime ──
+test('validateExercise : cohérence runtime <-> extension du fichier d entrée', () => {
+  const py = {
+    id: 'p', title: 'P', runtime: 'python3',
+    workspace: { entry: 'solution.py', files: [{ path: 'solution.py', content: 'def f():\n return 1\n' }] },
+    tests: [{ id: 't', name: 'n', kind: 'call-equals', export: 'f', args: [], expected: 1 }],
+  };
+  assert.equal(validateExercise(py).ok, true);
+  // Python mais entrée .mjs → incohérent
+  const bad = { ...py, workspace: { entry: 'solution.mjs', files: [{ path: 'solution.mjs', content: 'x' }] } };
+  const r = validateExercise(bad);
+  assert.equal(r.ok, false);
+  assert.ok(r.errors.some((e) => /incohérente/.test(e)));
+});
+
+test('validateExercise : limits bornées valides / invalides', () => {
+  const base = {
+    id: 'x', title: 'X', runtime: 'node-js',
+    workspace: { entry: 'solution.mjs', files: [{ path: 'solution.mjs', content: 'export const f=()=>1;' }] },
+    tests: [{ id: 't', name: 'n', kind: 'call-equals', export: 'f', args: [], expected: 1 }],
+  };
+  assert.equal(validateExercise({ ...base, limits: { timeoutMs: 2000, maxOutputBytes: 5000 } }).ok, true);
+  assert.equal(validateExercise({ ...base, limits: { timeoutMs: -1 } }).ok, false);
+  assert.equal(validateExercise({ ...base, limits: { maxOutputBytes: 0 } }).ok, false);
+  assert.equal(validateExercise({ ...base, skills: 'nope' }).ok, false); // skills doit être un tableau
+});
+
+test('effectiveLimits : bornées par le plafond du runtime', () => {
+  const node = { runtime: 'node-js' };
+  assert.equal(effectiveLimits(node).timeoutMs, RUNTIMES['node-js'].timeoutMs); // défaut = plafond
+  assert.equal(effectiveLimits({ runtime: 'node-js', limits: { timeoutMs: 1000 } }).timeoutMs, 1000); // en dessous → gardé
+  assert.equal(effectiveLimits({ runtime: 'node-js', limits: { timeoutMs: 999999 } }).timeoutMs, RUNTIMES['node-js'].timeoutMs); // au-dessus → borné
+  assert.equal(effectiveLimits({}).timeoutMs > 0, true); // runtime absent → défaut node
 });

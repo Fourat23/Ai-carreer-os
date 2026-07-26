@@ -65,3 +65,23 @@ test('recordExerciseSuccess : ne rétrograde pas une compétence déjà élevée
 test('recordExerciseSuccess : sans jours liés → progression inchangée', () => {
   assert.equal(recordExerciseSuccess(flat, { exerciseId: 'x', title: 'X', skills: [], dayRefs: [] }), flat);
 });
+
+// ── CP8 : les réussites Python produisent les mêmes preuves que Node ──
+test('recordExerciseSuccess : exercice Python multi-compétences → preuve + compétences (logique partagée)', () => {
+  const flatPy = { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
+  const next = recordExerciseSuccess(flatPy, {
+    exerciseId: 'py-debug-average', title: 'Débogage moyenne',
+    skills: ['python', 'algo', 'testing'], dayRefs: [150],
+  });
+  const d = next.days['150'];
+  assert.equal(hasLabEvidence(d, 'py-debug-average'), true);
+  assert.equal(d.evidence[0].url, '/lab/py-debug-average');
+  assert.equal(d.evidence[0].type, 'exercise'); // même type que Node
+  assert.equal(next.skills.python, 3);
+  assert.equal(next.skills.algo, 3);
+  assert.equal(next.skills.testing, 3);
+  // idempotent : relancer ne duplique pas la preuve
+  const again = recordExerciseSuccess(next, { exerciseId: 'py-debug-average', title: 'x', skills: ['python'], dayRefs: [150] });
+  assert.equal(again.days['150'].evidence.length, 1);
+  assert.equal(again, next);
+});

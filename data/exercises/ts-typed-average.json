@@ -1,0 +1,22 @@
+{
+  "id": "ts-typed-average",
+  "title": "TypeScript : moyenne typée",
+  "summary": "Objectif : découvrir le typage strict. Écris average(nums: number[]): number qui renvoie la moyenne des nombres, ou 0 si le tableau est vide. Le typage doit être correct (mode strict). Un test est privé.",
+  "difficulty": 2,
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": ["typescript", "javascript"],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      { "path": "solution.ts", "content": "// Renvoie la moyenne, ou 0 si le tableau est vide.\nexport function average(nums: number[]): number {\n  // TODO\n  return 0;\n}\n" }
+    ]
+  },
+  "reference": { "solution.ts": "export function average(nums: number[]): number {\n  if (nums.length === 0) return 0;\n  return nums.reduce((s, n) => s + n, 0) / nums.length;\n}\n" },
+  "tests": [
+    { "id": "t1", "name": "[1,2,3] → 2", "kind": "call-equals", "export": "average", "args": [[1, 2, 3]], "expected": 2 },
+    { "id": "t2", "name": "[] → 0", "kind": "call-equals", "export": "average", "args": [[]], "expected": 0 },
+    { "id": "t3", "name": "[10] → 10 (privé)", "kind": "call-equals", "export": "average", "args": [[10]], "expected": 10, "private": true }
+  ]
+}

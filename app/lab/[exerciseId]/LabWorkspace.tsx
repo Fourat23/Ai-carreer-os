@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import {
   Play, RotateCcw, Check, X, Loader2, FileCode, PanelLeftClose, PanelLeftOpen,
   PanelRightClose, PanelRightOpen, LayoutTemplate, FlaskConical, Terminal, HelpCircle, Undo2,
+  AlertTriangle, Info, Lightbulb,
 } from 'lucide-react';
 import { usePanelLayout } from './usePanelLayout';
 
@@ -22,9 +23,10 @@ type FileState = { path: string; content: string; readOnly: boolean; editable: b
 type TestMeta = { id: string; name: string };
 type ResultItem = { testId: string; name: string; passed: boolean; message: string };
 type Attempt = { total: number; passed: number; allPassed: boolean; durationMs: number; results: ResultItem[] };
-type RightTab = 'tests' | 'console' | 'help';
+type Diagnostic = { category: 'error' | 'warning' | 'suggestion'; code: number | string; message: string; phase: string; file?: string; line?: number; column?: number; endLine?: number; endColumn?: number };
+type RightTab = 'tests' | 'diagnostics' | 'console' | 'help';
 
-type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null };
+type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean };
 
 export default function LabWorkspace({
   exercise, initialFiles, initialActive, runtime,
@@ -44,7 +46,11 @@ export default function LabWorkspace({
   const [dirty, setDirty] = useState<Set<string>>(() => new Set());
   const [editorKey, setEditorKey] = useState(0);
   const [running, setRunning] = useState(false);
+  const [runPhase, setRunPhase] = useState<'compiling' | 'testing' | null>(null);
   const [attempt, setAttempt] = useState<Attempt | null>(null);
+  const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
+  const [compileFailed, setCompileFailed] = useState(false);
+  const [goto, setGoto] = useState<{ line: number; column: number; nonce: number } | null>(null);
   const [stdout, setStdout] = useState('');
   const [runError, setRunError] = useState('');
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved'>('idle');
@@ -141,8 +147,11 @@ export default function LabWorkspace({
   }, [post]);
 
   const run = useCallback(async () => {
+    if (running) return; // empêche les lancements concurrents (double-run)
     if (!runtime.available) { setRightTab('tests'); setRunError(runtime.error || `Runtime « ${runtime.label} » indisponible sur cette machine.`); return; }
-    setRunning(true); setRunError(''); setAttempt(null); setStdout(''); setRightTab('tests');
+    setRunning(true); setRunError(''); setAttempt(null); setStdout(''); setDiagnostics([]); setCompileFailed(false); setRightTab('tests');
+    // Runtime compilé : la compilation précède l'exécution des tests côté serveur.
+    setRunPhase(runtime.compiles ? 'compiling' : 'testing');
     const controller = new AbortController();
     abortRef.current = controller;
     try {
@@ -151,22 +160,43 @@ export default function LabWorkspace({
         body: JSON.stringify({ action: 'run', files: editableMap() }), signal: controller.signal,
       });
       const j = await res.json().catch(() => ({ error: 'Réponse illisible.' }));
-      if (j.error) { setRunError(j.error); return; }
-      setAttempt(j.attempt); setStdout(j.stdout ?? ''); setDirty(new Set()); setSaveState('saved');
-      setHistory((h) => [{ at: new Date().toISOString(), passed: j.attempt.passed, total: j.attempt.total, allPassed: j.attempt.allPassed, durationMs: j.attempt.durationMs }, ...h].slice(0, 5));
-      try { localStorage.setItem(LASTRUN_KEY, JSON.stringify({ attempt: j.attempt, stdout: j.stdout ?? '' })); } catch { /* best-effort */ }
+      const diags: Diagnostic[] = Array.isArray(j.diagnostics) ? j.diagnostics : [];
+      const isCompileFail = j.phase === 'compile';
+      // Échec de compilation : ce n'est PAS une erreur fatale d'API — on affiche
+      // les diagnostics. Une erreur sans tentative (400/500, réponse illisible)
+      // ou une erreur d'exécution reste un message dans l'onglet Tests.
+      if (j.error && !isCompileFail) { setRunError(j.error); if (j.attempt) setAttempt(j.attempt); return; }
+      setDiagnostics(diags);
+      setCompileFailed(isCompileFail);
+      if (j.attempt) {
+        setAttempt(j.attempt);
+        setHistory((h) => [{ at: new Date().toISOString(), passed: j.attempt.passed, total: j.attempt.total, allPassed: j.attempt.allPassed, durationMs: j.attempt.durationMs }, ...h].slice(0, 5));
+        try { localStorage.setItem(LASTRUN_KEY, JSON.stringify({ attempt: j.attempt, stdout: j.stdout ?? '' })); } catch { /* best-effort */ }
+      }
+      setStdout(j.stdout ?? ''); setDirty(new Set()); setSaveState('saved');
+      // Échec de compilation → bascule vers l'onglet Diagnostics (distinct des tests).
+      if (isCompileFail && diags.length) { setRightTab('diagnostics'); if (narrow) setMv('tests'); }
     } catch (e) {
       if ((e as Error).name === 'AbortError') setRunError('Exécution annulée. (Le bac à sable serveur s’arrête seul par timeout.)');
       else setRunError('Échec de l’exécution.');
-    } finally { setRunning(false); abortRef.current = null; }
-  }, [exercise.id, editableMap, LASTRUN_KEY, runtime]);
+    } finally { setRunning(false); setRunPhase(null); abortRef.current = null; }
+  }, [exercise.id, editableMap, LASTRUN_KEY, runtime, running, narrow]);
+
+  // Clic sur un diagnostic → ouvre le fichier concerné et révèle la position.
+  const openDiagnostic = useCallback((d: Diagnostic) => {
+    if (!d.file) return;
+    const exists = files.some((f) => f.path === d.file && !f.hidden);
+    if (!exists) return;
+    openFile(d.file);
+    if (d.line) setGoto({ line: d.line, column: d.column ?? 1, nonce: Date.now() });
+  }, [files, openFile]);
 
   const cancelRun = useCallback(() => { abortRef.current?.abort(); }, []);
 
   async function resetExercise() {
     if (!confirm('Réinitialiser tout l’exercice au code de départ ? Ton code sera perdu.')) return;
     const j = await post('reset');
-    if (j.files) { setFiles(j.files); setDirty(new Set()); setAttempt(null); setStdout(''); setRunError(''); setSaveState('idle'); setEditorKey((k) => k + 1); }
+    if (j.files) { setFiles(j.files); setDirty(new Set()); setAttempt(null); setStdout(''); setRunError(''); setDiagnostics([]); setCompileFailed(false); setSaveState('idle'); setEditorKey((k) => k + 1); }
   }
 
   async function resetActiveFile() {
@@ -308,7 +338,7 @@ export default function LabWorkspace({
         </div>
         <div className="wb-cm">
           {activeFile
-            ? <CodeMirrorEditor key={`${activeFile.path}:${editorKey}`} value={activeFile.content} onChange={onEdit} readOnly={!activeFile.editable} language={activeFile.language} />
+            ? <CodeMirrorEditor key={`${activeFile.path}:${editorKey}`} value={activeFile.content} onChange={onEdit} readOnly={!activeFile.editable} language={activeFile.language} goto={goto && goto.line ? goto : null} />
             : <div className="cm-loading">Aucun fichier ouvert.</div>}
         </div>
         <div className="wb-status">
@@ -334,7 +364,10 @@ export default function LabWorkspace({
       {showRight && (
         <aside className="wb-right" aria-label="Tests, console et aide" ref={resultsRef}>
           <div className="wb-rtabs" role="tablist" aria-label="Panneau de résultats">
-            <button role="tab" aria-selected={rightTab === 'tests'} className={`wb-rtab${rightTab === 'tests' ? ' active' : ''}`} onClick={() => setRightTab('tests')}><FlaskConical size={13} /> Tests{attempt ? ` (${attempt.passed}/${attempt.total})` : ''}</button>
+            <button role="tab" aria-selected={rightTab === 'tests'} className={`wb-rtab${rightTab === 'tests' ? ' active' : ''}`} onClick={() => setRightTab('tests')}><FlaskConical size={13} /> Tests{attempt && !compileFailed ? ` (${attempt.passed}/${attempt.total})` : ''}</button>
+            {runtime.compiles && (
+              <button role="tab" aria-selected={rightTab === 'diagnostics'} className={`wb-rtab${rightTab === 'diagnostics' ? ' active' : ''}${compileFailed ? ' has-errors' : ''}`} onClick={() => setRightTab('diagnostics')}><AlertTriangle size={13} /> Diagnostics{diagnostics.length ? ` (${diagnostics.length})` : ''}</button>
+            )}
             <button role="tab" aria-selected={rightTab === 'console'} className={`wb-rtab${rightTab === 'console' ? ' active' : ''}`} onClick={() => setRightTab('console')}><Terminal size={13} /> Console</button>
             <button role="tab" aria-selected={rightTab === 'help'} className={`wb-rtab${rightTab === 'help' ? ' active' : ''}`} onClick={() => setRightTab('help')}><HelpCircle size={13} /> Aide</button>
             <button className="wb-icon" style={{ marginLeft: 'auto' }} title="Replier le panneau" aria-label="Replier le panneau droit" onClick={() => layout.toggle('right')}><PanelRightClose size={15} /></button>
@@ -344,13 +377,19 @@ export default function LabWorkspace({
               <>
                 {running && (
                   <div className="wb-running">
-                    <span className="lab-hint"><Loader2 size={13} className="spin" /> Exécution en cours…</span>
+                    <span className="lab-hint"><Loader2 size={13} className="spin" /> {runPhase === 'compiling' ? 'Compilation…' : 'Exécution des tests…'}</span>
                     <button className="btn small ghost" onClick={cancelRun}>Annuler</button>
                   </div>
                 )}
                 {runError && <div className="lab-error">{runError}</div>}
                 {!attempt && !runError && !running && <div className="lab-hint">Lance les tests pour voir le détail. {exercise.tests.length} tests.</div>}
-                {attempt && (
+                {compileFailed && !running && (
+                  <div className="lab-error" style={{ marginBottom: 'var(--sp-3)' }}>
+                    <AlertTriangle size={14} /> Compilation échouée : les tests n’ont pas été exécutés.{' '}
+                    <button className="wb-linkbtn" onClick={() => setRightTab('diagnostics')}>Voir les diagnostics ({diagnostics.length})</button>
+                  </div>
+                )}
+                {attempt && !compileFailed && (
                   <>
                     <div className={`lab-verdict ${attempt.allPassed ? 'ok' : 'ko'}`} style={{ marginBottom: 'var(--sp-3)' }}>{attempt.passed}/{attempt.total} tests · {attempt.durationMs} ms</div>
                     <ul className="lab-test-list">
@@ -381,6 +420,29 @@ export default function LabWorkspace({
                   </div>
                 )}
               </>
+            )}
+            {rightTab === 'diagnostics' && (
+              diagnostics.length === 0
+                ? <div className="lab-hint">{running ? 'Compilation…' : compileFailed ? 'Aucun diagnostic exposé.' : 'Aucun diagnostic. Le code compile.'}</div>
+                : <ul className="wb-diags">
+                    {diagnostics.map((d, i) => {
+                      const Icon = d.category === 'error' ? AlertTriangle : d.category === 'warning' ? Info : Lightbulb;
+                      const clickable = !!(d.file && files.some((f) => f.path === d.file && !f.hidden));
+                      return (
+                        <li key={`${d.file ?? ''}:${d.line ?? 0}:${d.column ?? 0}:${d.code}:${i}`} className={`wb-diag ${d.category}`}>
+                          <button className="wb-diag-btn" onClick={() => openDiagnostic(d)} disabled={!clickable} title={clickable ? 'Ouvrir à cette position' : undefined}>
+                            <span className="wb-diag-ico"><Icon size={14} /></span>
+                            <span className="wb-diag-body">
+                              <span className="wb-diag-msg">{d.message}</span>
+                              <span className="wb-diag-loc">
+                                {d.file ? d.file : 'général'}{d.line ? `:${d.line}:${d.column ?? 1}` : ''} · {typeof d.code === 'number' ? `TS${d.code}` : d.code}
+                              </span>
+                            </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
             )}
             {rightTab === 'console' && (
               stdout ? <pre className="wb-console">{stdout.slice(0, 8000)}</pre> : <div className="lab-hint">Aucune sortie standard. Utilise <code>console.log</code> dans ton code.</div>

@@ -1,0 +1,23 @@
+{
+  "id": "ts-inventory",
+  "title": "TypeScript : valeur d'un inventaire (multi-fichiers)",
+  "summary": "Objectif : consommer un module typé importé. Complète totalValue dans solution.ts pour renvoyer la valeur totale de l'inventaire (prix × quantité, sommés). Le catalogue et le type Item viennent de catalog.ts (lecture seule).",
+  "difficulty": 3,
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": ["typescript", "javascript"],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      { "path": "solution.ts", "content": "import { CATALOG, Item } from './catalog';\n\n// Somme de price × qty sur tous les articles.\nexport function totalValue(items: Item[] = CATALOG): number {\n  // TODO\n  return 0;\n}\n" },
+      { "path": "catalog.ts", "readOnly": true, "content": "// Catalogue et type — lecture seule.\nexport interface Item {\n  name: string;\n  price: number;\n  qty: number;\n}\n\nexport const CATALOG: Item[] = [\n  { name: 'clavier', price: 30, qty: 2 },\n  { name: 'souris', price: 15, qty: 4 },\n];\n" }
+    ]
+  },
+  "reference": { "solution.ts": "import { CATALOG, Item } from './catalog';\n\nexport function totalValue(items: Item[] = CATALOG): number {\n  return items.reduce((sum, it) => sum + it.price * it.qty, 0);\n}\n" },
+  "tests": [
+    { "id": "t1", "name": "catalogue par défaut → 120", "kind": "call-equals", "export": "totalValue", "args": [], "expected": 120 },
+    { "id": "t2", "name": "liste fournie → 15", "kind": "call-equals", "export": "totalValue", "args": [[{ "name": "x", "price": 5, "qty": 3 }]], "expected": 15 },
+    { "id": "t3", "name": "liste vide → 0 (privé)", "kind": "call-equals", "export": "totalValue", "args": [[]], "expected": 0, "private": true }
+  ]
+}

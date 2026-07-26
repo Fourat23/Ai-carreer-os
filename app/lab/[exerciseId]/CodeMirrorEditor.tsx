@@ -31,9 +31,10 @@ const theme = EditorView.theme({
 }, { dark: true });
 
 export default function CodeMirrorEditor({
-  value, onChange, readOnly = false, language,
-}: { value: string; onChange: (v: string) => void; readOnly?: boolean; language?: string }) {
+  value, onChange, readOnly = false, language, goto,
+}: { value: string; onChange: (v: string) => void; readOnly?: boolean; language?: string; goto?: { line: number; column: number; nonce: number } | null }) {
   const host = useRef<HTMLDivElement | null>(null);
+  const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
 
@@ -54,12 +55,25 @@ export default function CodeMirrorEditor({
         ],
       }),
     });
-    return () => view.destroy();
+    viewRef.current = view;
+    return () => { view.destroy(); viewRef.current = null; };
     // Volontairement monté une fois : le parent force un remontage (clé) au
     // changement de fichier ou au reset. Pas de synchronisation de valeur → pas
     // de saut de curseur.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Révèle une position (ligne/colonne 1-indexées) — clic sur un diagnostic.
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view || !goto || !goto.line) return;
+    const doc = view.state.doc;
+    const lineNo = Math.min(Math.max(1, goto.line), doc.lines);
+    const line = doc.line(lineNo);
+    const pos = Math.min(line.from + Math.max(0, goto.column - 1), line.to);
+    view.dispatch({ selection: { anchor: pos }, scrollIntoView: true });
+    view.focus();
+  }, [goto]);
 
   return <div ref={host} className="cm-host" aria-label={readOnly ? 'Fichier en lecture seule' : 'Éditeur de code'} />;
 }

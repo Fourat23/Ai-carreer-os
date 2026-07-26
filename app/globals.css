@@ -1013,7 +1013,27 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
   color: var(--muted); font-size: var(--fs-xs); padding: 9px 8px; white-space: nowrap; }
 .wb-rtab:hover { color: var(--text); }
 .wb-rtab.active { color: var(--text); border-bottom-color: var(--accent); }
+.wb-rtab.has-errors { color: var(--danger); }
+.wb-rtab.has-errors.active { border-bottom-color: var(--danger); }
 .wb-rbody { padding: var(--sp-4); overflow-y: auto; flex: 1; min-height: 0; }
+
+/* Onglet Diagnostics (compilation TypeScript) */
+.wb-diags { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.wb-diag { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.wb-diag.error { border-left: 3px solid var(--danger); }
+.wb-diag.warning { border-left: 3px solid var(--warn); }
+.wb-diag.suggestion { border-left: 3px solid var(--accent); }
+.wb-diag-btn { display: flex; align-items: flex-start; gap: var(--sp-2); width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: var(--sp-2) var(--sp-3); color: var(--text); }
+.wb-diag-btn:hover:not(:disabled) { background: var(--panel-2); }
+.wb-diag-btn:disabled { cursor: default; }
+.wb-diag.error .wb-diag-ico { color: var(--danger); }
+.wb-diag.warning .wb-diag-ico { color: var(--warn); }
+.wb-diag.suggestion .wb-diag-ico { color: var(--accent); }
+.wb-diag-ico { flex: 0 0 auto; margin-top: 1px; }
+.wb-diag-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.wb-diag-msg { font-size: var(--fs-sm); word-break: break-word; }
+.wb-diag-loc { font-size: var(--fs-xs); color: var(--muted); font-family: var(--font-mono); }
+.wb-linkbtn { background: none; border: none; padding: 0; color: var(--accent); cursor: pointer; font: inherit; text-decoration: underline; }
 .wb-console { background: var(--panel-2); border: 1px solid var(--border); border-radius: var(--r); padding: var(--sp-3); overflow: auto; font-size: var(--fs-xs); margin: 0; max-height: 100%; white-space: pre-wrap; word-break: break-word; }
 .wb-help { font-size: var(--fs-sm); color: var(--muted); }
 .wb-help p { margin: 0 0 var(--sp-3); }

@@ -26,6 +26,7 @@ export default async function LabExercisePage({ params }: { params: Promise<{ ex
     available: status.available,
     version: status.version,
     error: status.error,
+    compiles: !!(adapter as { compile?: boolean } | null)?.compile,
   };
   const meta = {
     id: ex.id, title: ex.title, summary: ex.summary ?? '',

@@ -6,11 +6,18 @@
 // (remonté par clé lors d'un changement de fichier / reset) ; remonte ses
 // modifications via onChange.
 import { useEffect, useRef } from 'react';
-import { EditorState } from '@codemirror/state';
+import { EditorState, type Extension } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
 import { basicSetup } from 'codemirror';
 import { javascript } from '@codemirror/lang-javascript';
+import { python } from '@codemirror/lang-python';
 import { indentWithTab } from '@codemirror/commands';
+
+// Coloration selon le langage du fichier actif. JSON reste en mode JS (proche).
+function languageExtension(language?: string): Extension {
+  if (language === 'python') return python();
+  return javascript({ typescript: language === 'typescript' });
+}
 
 const theme = EditorView.theme({
   '&': { backgroundColor: 'transparent', color: 'var(--text)', fontSize: '13px', height: '100%' },
@@ -24,8 +31,8 @@ const theme = EditorView.theme({
 }, { dark: true });
 
 export default function CodeMirrorEditor({
-  value, onChange, readOnly = false,
-}: { value: string; onChange: (v: string) => void; readOnly?: boolean }) {
+  value, onChange, readOnly = false, language,
+}: { value: string; onChange: (v: string) => void; readOnly?: boolean; language?: string }) {
   const host = useRef<HTMLDivElement | null>(null);
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
@@ -38,7 +45,7 @@ export default function CodeMirrorEditor({
         doc: value,
         extensions: [
           basicSetup,
-          javascript(),
+          languageExtension(language),
           keymap.of([indentWithTab]),
           theme,
           EditorView.editable.of(!readOnly),

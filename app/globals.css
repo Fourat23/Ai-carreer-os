@@ -1081,3 +1081,9 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .wb-history li { display: grid; grid-template-columns: 1fr auto auto; gap: var(--sp-3); font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); padding: 3px 0; }
 .wb-history li.ok > span:nth-child(2) { color: var(--ok); }
 .wb-history li.ko > span:nth-child(2) { color: var(--warn); }
+
+/* Workbench : indicateur de runtime */
+.wb-runtime { display: inline-flex; align-items: center; gap: 5px; font-size: var(--fs-xs); color: var(--muted); }
+.wb-runtime.off { color: var(--warn); }
+.wb-runtime-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); flex: none; }
+.wb-runtime-dot.on { background: var(--ok); }

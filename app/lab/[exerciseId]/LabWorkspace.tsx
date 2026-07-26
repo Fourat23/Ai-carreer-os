@@ -24,12 +24,15 @@ type ResultItem = { testId: string; name: string; passed: boolean; message: stri
 type Attempt = { total: number; passed: number; allPassed: boolean; durationMs: number; results: ResultItem[] };
 type RightTab = 'tests' | 'console' | 'help';
 
+type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null };
+
 export default function LabWorkspace({
-  exercise, initialFiles, initialActive,
+  exercise, initialFiles, initialActive, runtime,
 }: {
   exercise: { id: string; title: string; summary: string; tests: TestMeta[] };
   initialFiles: FileState[];
   initialActive: string;
+  runtime: RuntimeInfo;
 }) {
   const layout = usePanelLayout();
   const visibleFiles = useMemo(() => initialFiles.filter((f) => !f.hidden), [initialFiles]);
@@ -138,6 +141,7 @@ export default function LabWorkspace({
   }, [post]);
 
   const run = useCallback(async () => {
+    if (!runtime.available) { setRightTab('tests'); setRunError(runtime.error || `Runtime « ${runtime.label} » indisponible sur cette machine.`); return; }
     setRunning(true); setRunError(''); setAttempt(null); setStdout(''); setRightTab('tests');
     const controller = new AbortController();
     abortRef.current = controller;
@@ -155,7 +159,7 @@ export default function LabWorkspace({
       if ((e as Error).name === 'AbortError') setRunError('Exécution annulée. (Le bac à sable serveur s’arrête seul par timeout.)');
       else setRunError('Échec de l’exécution.');
     } finally { setRunning(false); abortRef.current = null; }
-  }, [exercise.id, editableMap, LASTRUN_KEY]);
+  }, [exercise.id, editableMap, LASTRUN_KEY, runtime]);
 
   const cancelRun = useCallback(() => { abortRef.current?.abort(); }, []);
 
@@ -304,14 +308,18 @@ export default function LabWorkspace({
         </div>
         <div className="wb-cm">
           {activeFile
-            ? <CodeMirrorEditor key={`${activeFile.path}:${editorKey}`} value={activeFile.content} onChange={onEdit} readOnly={!activeFile.editable} />
+            ? <CodeMirrorEditor key={`${activeFile.path}:${editorKey}`} value={activeFile.content} onChange={onEdit} readOnly={!activeFile.editable} language={activeFile.language} />
             : <div className="cm-loading">Aucun fichier ouvert.</div>}
         </div>
         <div className="wb-status">
           <span className="wb-status-file">{activeFile?.path ?? '—'}</span>
+          <span className={`wb-runtime${runtime.available ? '' : ' off'}`} title={runtime.available ? (runtime.version ?? '') : (runtime.error ?? 'indisponible')}>
+            <span className={`wb-runtime-dot${runtime.available ? ' on' : ''}`} aria-hidden="true" />
+            {runtime.label}{runtime.available ? '' : ' · indisponible'}
+          </span>
           <span className={`wb-status-state${isDirty ? ' dirty' : ''}`}>{saveState === 'saving' ? 'Enregistrement…' : isDirty ? 'Modifié' : 'Enregistré'}</span>
           <span className="wb-actions">
-            <button className="btn small primary" onClick={run} disabled={running}>{running ? <Loader2 size={13} className="spin" /> : <Play size={13} />} Lancer <kbd className="wb-kbd">⌘⏎</kbd></button>
+            <button className="btn small primary" onClick={run} disabled={running || !runtime.available} title={runtime.available ? 'Lancer les tests' : (runtime.error ?? 'Runtime indisponible')}>{running ? <Loader2 size={13} className="spin" /> : <Play size={13} />} Lancer <kbd className="wb-kbd">⌘⏎</kbd></button>
             <button className="btn small" onClick={save} disabled={saveState === 'saving' || running}>Enregistrer</button>
             {activeFile?.editable && <button className="wb-icon" title="Réinitialiser ce fichier" aria-label="Réinitialiser ce fichier" onClick={resetActiveFile}><Undo2 size={15} /></button>}
             <button className="btn small ghost" onClick={resetExercise} disabled={running}><RotateCcw size={13} /> Reset</button>

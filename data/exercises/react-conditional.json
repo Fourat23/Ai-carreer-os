@@ -1,0 +1,67 @@
+{
+  "id": "react-conditional",
+  "title": "React : rendu conditionnel",
+  "difficulty": 2,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "summary": "Objectif : afficher un élément seulement si nécessaire. Complète App.tsx : n’affiche le <p class=\"alert\"> (avec le message) QUE si la prop message est non vide.",
+  "skills": [
+    "react",
+    "jsx",
+    "props"
+  ],
+  "activeFile": "App.tsx",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      {
+        "path": "App.tsx",
+        "content": "export default function App({ message = '' }: { message?: string }) {\n  // BUG : l'alerte s'affiche même quand message est vide.\n  return <div><p className=\"alert\">{message}</p></div>;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.tsx": "export default function App({ message = '' }: { message?: string }) {\n  return <div>{message ? <p className=\"alert\">{message}</p> : null}</div>;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "message présent → alerte visible",
+      "kind": "conditional-visible",
+      "selector": ".alert",
+      "expected": true,
+      "props": {
+        "message": "Erreur !"
+      }
+    },
+    {
+      "id": "t2",
+      "name": "message affiché",
+      "kind": "text-contains",
+      "selector": ".alert",
+      "expected": "Erreur !",
+      "props": {
+        "message": "Erreur !"
+      }
+    },
+    {
+      "id": "t3",
+      "name": "message vide → pas d’alerte",
+      "kind": "conditional-visible",
+      "selector": ".alert",
+      "expected": false,
+      "props": {}
+    },
+    {
+      "id": "t4",
+      "name": "espaces seuls → pas d’alerte (privé)",
+      "kind": "element-count",
+      "selector": ".alert",
+      "expected": 0,
+      "props": {
+        "message": ""
+      },
+      "private": true
+    }
+  ]
+}

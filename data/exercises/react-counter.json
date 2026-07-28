@@ -1,0 +1,50 @@
+{
+  "id": "react-counter",
+  "title": "React : état initial (useState)",
+  "difficulty": 2,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "summary": "Objectif : initialiser un état depuis une prop. Le compteur (#v) doit démarrer à la valeur de la prop start (via useState). Le bouton incrémente le compteur (visible dans la preview).",
+  "skills": [
+    "react",
+    "state",
+    "events",
+    "hooks"
+  ],
+  "activeFile": "App.tsx",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      {
+        "path": "App.tsx",
+        "content": "import { useState } from 'react';\n\nexport default function App({ start = 0 }: { start?: number }) {\n  // BUG : l'état ignore la prop start.\n  const [n, setN] = useState(0);\n  return (\n    <div>\n      <p>Compteur : <b id=\"v\">{n}</b></p>\n      <button type=\"button\" onClick={() => setN(n + 1)}>Incrémenter</button>\n    </div>\n  );\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.tsx": "import { useState } from 'react';\n\nexport default function App({ start = 0 }: { start?: number }) {\n  const [n, setN] = useState(start);\n  return (\n    <div>\n      <p>Compteur : <b id=\"v\">{n}</b></p>\n      <button type=\"button\" onClick={() => setN(n + 1)}>Incrémenter</button>\n    </div>\n  );\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "démarre à start=7",
+      "kind": "text-contains",
+      "selector": "#v",
+      "expected": "7",
+      "props": {
+        "start": 7
+      }
+    },
+    {
+      "id": "t2",
+      "name": "un bouton",
+      "kind": "accessible-role-exists",
+      "role": "button"
+    },
+    {
+      "id": "t3",
+      "name": "rend quelque chose",
+      "kind": "component-renders"
+    }
+  ]
+}

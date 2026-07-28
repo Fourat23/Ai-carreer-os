@@ -1,0 +1,59 @@
+{
+  "id": "react-debug-list",
+  "title": "React : débogage d’une liste",
+  "difficulty": 2,
+  "runtime": "react-tsx",
+  "language": "jsx",
+  "summary": "Débogage. Chaque <li> doit afficher la valeur de l’élément. Le code affiche une lettre littérale au lieu de la variable : corrige-le.",
+  "skills": [
+    "react",
+    "jsx",
+    "components"
+  ],
+  "activeFile": "App.jsx",
+  "workspace": {
+    "entry": "App.jsx",
+    "files": [
+      {
+        "path": "App.jsx",
+        "content": "export default function App({ items = [] }) {\n  // BUG : « x » est du texte littéral, pas la variable.\n  return <ul>{items.map((x) => <li className=\"row\">x</li>)}</ul>;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.jsx": "export default function App({ items = [] }) {\n  return <ul>{items.map((x) => <li className=\"row\" key={x}>{x}</li>)}</ul>;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "contenu correct",
+      "kind": "list-content",
+      "selector": ".row",
+      "expected": [
+        "a",
+        "b"
+      ],
+      "props": {
+        "items": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "id": "t2",
+      "name": "3 lignes (privé)",
+      "kind": "element-count",
+      "selector": ".row",
+      "expected": 3,
+      "props": {
+        "items": [
+          "x",
+          "y",
+          "z"
+        ]
+      },
+      "private": true
+    }
+  ]
+}

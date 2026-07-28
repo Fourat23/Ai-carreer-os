@@ -1,0 +1,73 @@
+{
+  "id": "react-profile",
+  "title": "React : composition d’un profil (multi-fichiers)",
+  "difficulty": 3,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "summary": "Objectif : composer des composants. Complète App.tsx pour rendre un <article class=\"profile\"> contenant Avatar (avec la prop name) et Bio (avec la prop bio). Avatar et Bio sont fournis (lecture seule).",
+  "skills": [
+    "react",
+    "components",
+    "props",
+    "accessibility"
+  ],
+  "activeFile": "App.tsx",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      {
+        "path": "App.tsx",
+        "content": "import Avatar from './Avatar';\nimport Bio from './Bio';\n\nexport default function App({ name = 'Ada', bio = '' }: { name?: string; bio?: string }) {\n  // TODO : <article className=\"profile\"> avec <Avatar name={name}/> et <Bio bio={bio}/>\n  return <article className=\"profile\"></article>;\n}\n"
+      },
+      {
+        "path": "Avatar.tsx",
+        "readOnly": true,
+        "content": "export default function Avatar({ name }: { name: string }) {\n  return <img className=\"avatar\" src=\"#\" alt={name} />;\n}\n"
+      },
+      {
+        "path": "Bio.tsx",
+        "readOnly": true,
+        "content": "export default function Bio({ bio }: { bio: string }) {\n  return <p className=\"bio\">{bio}</p>;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.tsx": "import Avatar from './Avatar';\nimport Bio from './Bio';\n\nexport default function App({ name = 'Ada', bio = '' }: { name?: string; bio?: string }) {\n  return (\n    <article className=\"profile\">\n      <Avatar name={name} />\n      <Bio bio={bio} />\n    </article>\n  );\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un avatar",
+      "kind": "selector-exists",
+      "selector": ".profile .avatar"
+    },
+    {
+      "id": "t2",
+      "name": "avatar accessible",
+      "kind": "accessible-name-equals",
+      "selector": ".avatar",
+      "expected": "Grace",
+      "props": {
+        "name": "Grace"
+      }
+    },
+    {
+      "id": "t3",
+      "name": "bio affichée",
+      "kind": "text-contains",
+      "selector": ".bio",
+      "expected": "ingénieure",
+      "props": {
+        "bio": "ingénieure"
+      }
+    },
+    {
+      "id": "t4",
+      "name": "une seule bio (privé)",
+      "kind": "element-count",
+      "selector": ".bio",
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

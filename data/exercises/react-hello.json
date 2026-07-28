@@ -1,0 +1,40 @@
+{
+  "id": "react-hello",
+  "title": "React : premier composant",
+  "difficulty": 1,
+  "runtime": "react-tsx",
+  "language": "jsx",
+  "summary": "Objectif : rendre du JSX. Complète App.jsx pour afficher un <h1> contenant exactement « Bonjour, React ! ».",
+  "skills": [
+    "react",
+    "jsx"
+  ],
+  "activeFile": "App.jsx",
+  "workspace": {
+    "entry": "App.jsx",
+    "files": [
+      {
+        "path": "App.jsx",
+        "content": "export default function App() {\n  // TODO : renvoie un <h1>Bonjour, React !</h1>\n  return <div></div>;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.jsx": "export default function App() {\n  return <h1>Bonjour, React !</h1>;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un h1",
+      "kind": "selector-exists",
+      "selector": "h1"
+    },
+    {
+      "id": "t2",
+      "name": "texte exact",
+      "kind": "text-contains",
+      "selector": "h1",
+      "expected": "Bonjour, React !"
+    }
+  ]
+}

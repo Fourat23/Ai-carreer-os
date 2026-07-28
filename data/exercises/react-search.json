@@ -1,0 +1,81 @@
+{
+  "id": "react-search",
+  "title": "React : filtre de liste (multi-fichiers)",
+  "difficulty": 3,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "summary": "Objectif : dériver un rendu de deux props. Rends un <li class=\"hit\"> par élément de items qui contient la prop query (insensible à la casse). Réutilise le composant Row (Row.tsx, lecture seule).",
+  "skills": [
+    "react",
+    "components",
+    "forms",
+    "props"
+  ],
+  "activeFile": "App.tsx",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      {
+        "path": "App.tsx",
+        "content": "import Row from './Row';\n\nexport default function App({ items = [] as string[], query = '' }: { items?: string[]; query?: string }) {\n  // TODO : filtre items par query (casse ignorée) et rends un <Row> par résultat\n  return <ul></ul>;\n}\n"
+      },
+      {
+        "path": "Row.tsx",
+        "readOnly": true,
+        "content": "export default function Row({ label }: { label: string }) {\n  return <li className=\"hit\">{label}</li>;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.tsx": "import Row from './Row';\n\nexport default function App({ items = [] as string[], query = '' }: { items?: string[]; query?: string }) {\n  const q = query.toLowerCase();\n  return (\n    <ul>\n      {items.filter((it) => it.toLowerCase().includes(q)).map((it) => (\n        <Row key={it} label={it} />\n      ))}\n    </ul>\n  );\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "« a » → 2 résultats",
+      "kind": "element-count",
+      "selector": ".hit",
+      "expected": 2,
+      "props": {
+        "items": [
+          "Ananas",
+          "Poire",
+          "Banane"
+        ],
+        "query": "a"
+      }
+    },
+    {
+      "id": "t2",
+      "name": "contenu filtré",
+      "kind": "list-content",
+      "selector": ".hit",
+      "expected": [
+        "Ananas",
+        "Banane"
+      ],
+      "props": {
+        "items": [
+          "Ananas",
+          "Poire",
+          "Banane"
+        ],
+        "query": "an"
+      }
+    },
+    {
+      "id": "t3",
+      "name": "aucun résultat (privé)",
+      "kind": "element-count",
+      "selector": ".hit",
+      "expected": 0,
+      "props": {
+        "items": [
+          "x"
+        ],
+        "query": "zzz"
+      },
+      "private": true
+    }
+  ]
+}

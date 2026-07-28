@@ -1,0 +1,49 @@
+{
+  "id": "react-toggle",
+  "title": "React : interrupteur",
+  "difficulty": 2,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "summary": "Objectif : dériver un affichage d’un état. #s doit afficher « Allumé » si l’état est vrai, sinon « Éteint ». L’état initial vient de la prop on.",
+  "skills": [
+    "react",
+    "state",
+    "events",
+    "hooks"
+  ],
+  "activeFile": "App.tsx",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      {
+        "path": "App.tsx",
+        "content": "import { useState } from 'react';\n\nexport default function App({ on = false }: { on?: boolean }) {\n  const [state, setState] = useState(on);\n  return (\n    <div>\n      <span id=\"s\">{/* TODO : « Allumé » ou « Éteint » */}</span>\n      <button type=\"button\" onClick={() => setState(!state)}>Basculer</button>\n    </div>\n  );\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.tsx": "import { useState } from 'react';\n\nexport default function App({ on = false }: { on?: boolean }) {\n  const [state, setState] = useState(on);\n  return (\n    <div>\n      <span id=\"s\">{state ? 'Allumé' : 'Éteint'}</span>\n      <button type=\"button\" onClick={() => setState(!state)}>Basculer</button>\n    </div>\n  );\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "on=true → Allumé",
+      "kind": "text-contains",
+      "selector": "#s",
+      "expected": "Allumé",
+      "props": {
+        "on": true
+      }
+    },
+    {
+      "id": "t2",
+      "name": "on=false → Éteint",
+      "kind": "text-contains",
+      "selector": "#s",
+      "expected": "Éteint",
+      "props": {
+        "on": false
+      }
+    }
+  ]
+}

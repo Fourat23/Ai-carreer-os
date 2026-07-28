@@ -1,0 +1,38 @@
+{
+  "id": "react-debug-greeting",
+  "title": "React : débogage d’une salutation",
+  "difficulty": 2,
+  "runtime": "react-tsx",
+  "language": "jsx",
+  "summary": "Débogage. Le <h1> doit afficher « Bonjour, <name> ! » mais la prop n’est pas interpolée : corrige-le.",
+  "skills": [
+    "react",
+    "jsx",
+    "props"
+  ],
+  "activeFile": "App.jsx",
+  "workspace": {
+    "entry": "App.jsx",
+    "files": [
+      {
+        "path": "App.jsx",
+        "content": "export default function App({ name = 'le monde' }) {\n  // BUG : name n'est pas interpolé.\n  return <h1>Bonjour, name !</h1>;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.jsx": "export default function App({ name = 'le monde' }) {\n  return <h1>Bonjour, {name} !</h1>;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "interpole la prop",
+      "kind": "text-contains",
+      "selector": "h1",
+      "expected": "Bonjour, Ada !",
+      "props": {
+        "name": "Ada"
+      }
+    }
+  ]
+}

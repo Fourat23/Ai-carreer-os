@@ -1,0 +1,70 @@
+{
+  "id": "react-badge-list",
+  "title": "React : listes et clés",
+  "difficulty": 2,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "summary": "Objectif : rendre une liste. Complète App.tsx : rends un <li class=\"badge\"> par élément de la prop tags (avec une key stable).",
+  "skills": [
+    "react",
+    "jsx",
+    "props",
+    "components"
+  ],
+  "activeFile": "App.tsx",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      {
+        "path": "App.tsx",
+        "content": "export default function App({ tags = [] as string[] }: { tags?: string[] }) {\n  return (\n    <ul>\n      {/* TODO : un <li className=\"badge\" key=...> par tag */}\n    </ul>\n  );\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.tsx": "export default function App({ tags = [] as string[] }: { tags?: string[] }) {\n  return (\n    <ul>\n      {tags.map((t) => (\n        <li className=\"badge\" key={t}>{t}</li>\n      ))}\n    </ul>\n  );\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "3 badges",
+      "kind": "element-count",
+      "selector": ".badge",
+      "expected": 3,
+      "props": {
+        "tags": [
+          "a",
+          "b",
+          "c"
+        ]
+      }
+    },
+    {
+      "id": "t2",
+      "name": "contenu ordonné",
+      "kind": "list-content",
+      "selector": ".badge",
+      "expected": [
+        "React",
+        "JSX"
+      ],
+      "props": {
+        "tags": [
+          "React",
+          "JSX"
+        ]
+      }
+    },
+    {
+      "id": "t3",
+      "name": "liste vide (privé)",
+      "kind": "element-count",
+      "selector": ".badge",
+      "expected": 0,
+      "props": {
+        "tags": []
+      },
+      "private": true
+    }
+  ]
+}

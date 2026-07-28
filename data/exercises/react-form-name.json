@@ -1,0 +1,62 @@
+{
+  "id": "react-form-name",
+  "title": "React : champ contrôlé",
+  "difficulty": 3,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "summary": "Objectif : refléter une valeur. L’<input id=\"n\"> doit afficher la prop value, et #g doit afficher « Bonjour, <value> ! ». (La saisie live est visible dans la preview.)",
+  "skills": [
+    "react",
+    "state",
+    "forms",
+    "events",
+    "hooks"
+  ],
+  "activeFile": "App.tsx",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      {
+        "path": "App.tsx",
+        "content": "import { useState } from 'react';\n\nexport default function App({ value = '' }: { value?: string }) {\n  const [name, setName] = useState(value);\n  return (\n    <form>\n      <label>Nom : <input id=\"n\" onChange={(e) => setName(e.target.value)} /></label>\n      <p id=\"g\">Bonjour !</p>\n    </form>\n  );\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.tsx": "import { useState } from 'react';\n\nexport default function App({ value = '' }: { value?: string }) {\n  const [name, setName] = useState(value);\n  return (\n    <form>\n      <label>Nom : <input id=\"n\" value={name} onChange={(e) => setName(e.target.value)} /></label>\n      <p id=\"g\">Bonjour, {name} !</p>\n    </form>\n  );\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "input reflète value",
+      "kind": "attribute-equals",
+      "selector": "#n",
+      "attribute": "value",
+      "expected": "Ada",
+      "props": {
+        "value": "Ada"
+      }
+    },
+    {
+      "id": "t2",
+      "name": "salutation",
+      "kind": "text-contains",
+      "selector": "#g",
+      "expected": "Bonjour, Ada !",
+      "props": {
+        "value": "Ada"
+      }
+    },
+    {
+      "id": "t3",
+      "name": "autre valeur (privé)",
+      "kind": "text-contains",
+      "selector": "#g",
+      "expected": "Bonjour, Sam !",
+      "props": {
+        "value": "Sam"
+      },
+      "private": true
+    }
+  ]
+}

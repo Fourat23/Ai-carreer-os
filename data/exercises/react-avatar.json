@@ -1,0 +1,57 @@
+{
+  "id": "react-avatar",
+  "title": "React : image accessible",
+  "difficulty": 1,
+  "runtime": "react-tsx",
+  "language": "jsx",
+  "summary": "Objectif : props et accessibilité. Complète App.jsx : rends une <img> dont src vaut la prop url et le texte alternatif alt vaut la prop alt.",
+  "skills": [
+    "react",
+    "jsx",
+    "props",
+    "accessibility"
+  ],
+  "activeFile": "App.jsx",
+  "workspace": {
+    "entry": "App.jsx",
+    "files": [
+      {
+        "path": "App.jsx",
+        "content": "export default function App({ url = '#', alt = 'avatar' }) {\n  // TODO : ajoute alt={alt}\n  return <img src={url} />;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.jsx": "export default function App({ url = '#', alt = 'avatar' }) {\n  return <img src={url} alt={alt} />;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une image",
+      "kind": "selector-exists",
+      "selector": "img"
+    },
+    {
+      "id": "t2",
+      "name": "texte alternatif",
+      "kind": "attribute-equals",
+      "selector": "img",
+      "attribute": "alt",
+      "expected": "Photo de Ada",
+      "props": {
+        "alt": "Photo de Ada"
+      }
+    },
+    {
+      "id": "t3",
+      "name": "nom accessible (privé)",
+      "kind": "accessible-name-equals",
+      "selector": "img",
+      "expected": "Logo",
+      "props": {
+        "alt": "Logo"
+      },
+      "private": true
+    }
+  ]
+}

@@ -22,6 +22,11 @@ export type WebTestKind =
   | 'class-present' | 'input-value' | 'computed-style-equals'
   | 'event-changes-text' | 'console-contains';
 
+export type ReactTestKind =
+  | 'component-renders' | 'selector-exists' | 'selector-count' | 'element-count'
+  | 'text-contains' | 'attribute-equals' | 'class-present' | 'accessible-role-exists'
+  | 'accessible-name-equals' | 'list-content' | 'conditional-visible' | 'console-contains';
+
 export interface WebTestAction {
   type: 'click' | 'input';
   selector: string;
@@ -31,15 +36,17 @@ export interface WebTestAction {
 export interface TestDefinition {
   id: string;
   name: string;
-  kind: TestKind | WebTestKind;
+  kind: TestKind | WebTestKind | ReactTestKind;
   export?: string;      // call-equals : nom de la fonction exportée
   args?: unknown[];     // call-equals : arguments
-  expected?: unknown;   // valeur / texte / nombre attendu selon le type
+  expected?: unknown;   // valeur / texte / nombre / liste / booléen attendu selon le type
   private?: boolean;    // test privé : pass/fail visible, attendu/reçu jamais divulgués
-  // Champs des assertions web :
+  // Champs des assertions web / React :
   selector?: string;
   attribute?: string;
   property?: string;
+  role?: string;                       // React : accessible-role-exists
+  props?: Record<string, unknown>;     // React : props passées au composant racine
   action?: WebTestAction;
 }
 
@@ -87,6 +94,7 @@ export interface AttemptResult {
 export const RUNTIMES: Record<string, RuntimeDefinition>;
 export const TEST_KINDS: readonly TestKind[];
 export const WEB_TEST_KINDS: readonly WebTestKind[];
+export const REACT_TEST_KINDS: readonly ReactTestKind[];
 export const DEFAULT_RUNTIME_ID: string;
 export function getRuntime(id: string): RuntimeDefinition | null;
 export function getRuntimeAdapter(id: string): RuntimeDefinition | null;
@@ -97,6 +105,7 @@ export function deepEqual(a: unknown, b: unknown): boolean;
 export function validateExercise(ex: unknown): { ok: boolean; errors: string[] };
 export function validateTest(t: unknown): string | null;
 export function validateWebTest(t: unknown): string | null;
+export function validateReactTest(t: unknown): string | null;
 export function checkTest(
   test: TestDefinition,
   observed?: { value?: unknown; stdout?: string },

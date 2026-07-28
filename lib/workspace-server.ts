@@ -36,6 +36,11 @@ export function clearWorkspace(exerciseId: string): void {
 export function runExercise(exercise: Exercise, userFiles: Record<string, string> = {}): Promise<RunOutput> {
   return fs.runExercise(ROOT, exercise, userFiles);
 }
+export function buildReactPreview(exercise: Exercise, userFiles: Record<string, string> = {}): {
+  ok: boolean; srcDoc?: string; channel?: string; diagnostics: unknown[];
+} {
+  return fs.buildReactPreview(exercise, userFiles);
+}
 
 // ── Export / restauration des workspaces (sauvegarde V9) ──
 export function exportAllWorkspaces(exercises: Exercise[]): Record<string, { files: Record<string, string> }> {

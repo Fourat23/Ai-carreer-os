@@ -27,6 +27,11 @@ const FrontendPreview = dynamic(() => import('./FrontendPreview'), {
   ssr: false,
   loading: () => <div className="cm-loading">Chargement de l’aperçu…</div>,
 });
+// Preview React : chargée uniquement sur /lab/[id] (React hors des bundles non-lab).
+const ReactPreview = dynamic(() => import('./ReactPreview'), {
+  ssr: false,
+  loading: () => <div className="cm-loading">Chargement de l’aperçu React…</div>,
+});
 
 type FileState = { path: string; content: string; readOnly: boolean; editable: boolean; language: string; hidden: boolean; entry: boolean };
 type TestMeta = { id: string; name: string };
@@ -37,7 +42,7 @@ type Diagnostic = { category: 'error' | 'warning' | 'suggestion'; code: number |
 type RightTab = 'preview' | 'tests' | 'diagnostics' | 'console' | 'help';
 type PreviewLog = { level: string; type: string; text: string; line?: number | null; col?: number | null; at: number };
 
-type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean; preview?: boolean };
+type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean; preview?: boolean; previewKind?: string | null };
 
 // Formatage compact et borné d'une valeur pour l'affichage (attendu/reçu/diff).
 function formatVal(v: unknown): string {
@@ -78,7 +83,9 @@ export default function LabWorkspace({
   const [goto, setGoto] = useState<{ line: number; column: number; nonce: number } | null>(null);
   const [stdout, setStdout] = useState('');
   const [runError, setRunError] = useState('');
-  const isWeb = !!runtime.preview;
+  const isReact = !!runtime.preview && runtime.previewKind === 'react';
+  const isWeb = !!runtime.preview;                 // web OU react (preview au sens large)
+  const onPreviewDiagnostics = useCallback((d: Diagnostic[]) => setDiagnostics(d), []);
   const [previewLogs, setPreviewLogs] = useState<PreviewLogEntry[]>([]);
   const onPreviewLog = useCallback((log: PreviewLog) => setPreviewLogs((l) => appendPreviewLog(l, log)), []);
   // Fichiers passés à la preview : tous les fichiers visibles (HTML/CSS/JS),
@@ -415,9 +422,11 @@ export default function LabWorkspace({
           <div className="wb-rbody" aria-live="polite">
             {/* Preview web : montée en permanence (reste vivante hors onglet) ;
                 masquée quand un autre onglet est actif → continue d'alimenter la Console. */}
-            {isWeb && (
+            {isReact ? (
+              <ReactPreview exerciseId={exercise.id} files={previewFiles} onLog={onPreviewLog} onDiagnostics={onPreviewDiagnostics} hidden={rightTab !== 'preview'} />
+            ) : isWeb ? (
               <FrontendPreview files={previewFiles} entry={entryFile} onLog={onPreviewLog} hidden={rightTab !== 'preview'} />
-            )}
+            ) : null}
             {rightTab === 'tests' && (
               <>
                 {running && (

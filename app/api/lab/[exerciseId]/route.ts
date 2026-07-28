@@ -10,7 +10,7 @@ import { daysForExercise } from '@/lib/day-exercises';
 import { readProgress, writeProgress } from '@/lib/progress-server';
 import { recordExerciseSuccess } from '@/lib/lab-progress';
 import {
-  readWorkspaceTree, writeWorkspaceFile, resetWorkspace, resetWorkspaceFile, runExercise,
+  readWorkspaceTree, writeWorkspaceFile, resetWorkspace, resetWorkspaceFile, runExercise, buildReactPreview,
 } from '@/lib/workspace-server';
 import { splitAttempt } from '@/lib/lab-feedback';
 
@@ -59,6 +59,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       const path = String((body as { path?: string }).path ?? '');
       resetWorkspaceFile(ex, path);
       return NextResponse.json({ ok: true, files: readWorkspaceTree(ex) });
+    }
+    if (action === 'preview') {
+      // Preview React : compile TSX/JSX + construit le srcDoc React (aucun test,
+      // aucune écriture disque, aucune donnée privée). Diagnostics de compilation.
+      const r = buildReactPreview(ex, files);
+      return NextResponse.json({ ok: r.ok, srcDoc: r.srcDoc ?? null, channel: r.channel ?? null, diagnostics: r.diagnostics ?? [] });
     }
     if (action === 'save') {
       for (const [path, content] of Object.entries(files)) writeWorkspaceFile(ex, path, String(content));

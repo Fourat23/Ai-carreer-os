@@ -28,6 +28,7 @@ export default async function LabExercisePage({ params }: { params: Promise<{ ex
     error: status.error,
     compiles: !!(adapter as { compile?: boolean } | null)?.compile,
     preview: !!(adapter as { preview?: boolean } | null)?.preview,
+    previewKind: (adapter as { kind?: string } | null)?.kind ?? null,
   };
   const meta = {
     id: ex.id, title: ex.title, summary: ex.summary ?? '',

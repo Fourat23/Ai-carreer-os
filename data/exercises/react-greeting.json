@@ -1,0 +1,24 @@
+{
+  "id": "react-greeting",
+  "title": "React : premier composant et props",
+  "summary": "Objectif : afficher une prop. Complète App.tsx pour que le composant affiche « Bonjour, <name> ! » dans le <h1>, où name est la prop reçue (valeur par défaut « le monde »).",
+  "difficulty": 1,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "skills": ["react", "jsx", "props"],
+  "activeFile": "App.tsx",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      { "path": "App.tsx", "content": "export default function App({ name = 'le monde' }: { name?: string }) {\n  // TODO : affiche « Bonjour, <name> ! » dans le h1.\n  return <h1>Bonjour !</h1>;\n}\n" }
+    ]
+  },
+  "reference": {
+    "App.tsx": "export default function App({ name = 'le monde' }: { name?: string }) {\n  return <h1>Bonjour, {name} !</h1>;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "rend un h1", "kind": "selector-exists", "selector": "h1" },
+    { "id": "t2", "name": "salue « Ada »", "kind": "text-contains", "selector": "h1", "expected": "Bonjour, Ada !", "props": { "name": "Ada" } },
+    { "id": "t3", "name": "salue « Sam » (privé)", "kind": "text-contains", "selector": "h1", "expected": "Bonjour, Sam !", "props": { "name": "Sam" }, "private": true }
+  ]
+}

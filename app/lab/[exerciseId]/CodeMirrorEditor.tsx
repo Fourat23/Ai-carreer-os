@@ -16,6 +16,8 @@ import { indentWithTab } from '@codemirror/commands';
 // Coloration selon le langage du fichier actif. JSON reste en mode JS (proche).
 function languageExtension(language?: string): Extension {
   if (language === 'python') return python();
+  if (language === 'tsx') return javascript({ typescript: true, jsx: true });
+  if (language === 'jsx') return javascript({ jsx: true });
   return javascript({ typescript: language === 'typescript' });
 }
 

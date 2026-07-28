@@ -1,0 +1,26 @@
+{
+  "id": "react-list",
+  "title": "React : listes et composition",
+  "summary": "Objectif : afficher une liste et composer des composants. Complète App.tsx pour rendre un <li> par élément de la prop items, en réutilisant le composant Item (Item.tsx, lecture seule) qui affiche un <li>.",
+  "difficulty": 2,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "skills": ["react", "jsx", "components", "props"],
+  "activeFile": "App.tsx",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      { "path": "App.tsx", "content": "import Item from './Item';\n\nexport default function App({ items = [] as string[] }: { items?: string[] }) {\n  return (\n    <ul>\n      {/* TODO : un <Item> par élément de items */}\n    </ul>\n  );\n}\n" },
+      { "path": "Item.tsx", "readOnly": true, "content": "export default function Item({ label }: { label: string }) {\n  return <li className=\"item\">{label}</li>;\n}\n" }
+    ]
+  },
+  "reference": {
+    "App.tsx": "import Item from './Item';\n\nexport default function App({ items = [] as string[] }: { items?: string[] }) {\n  return (\n    <ul>\n      {items.map((label) => (\n        <Item key={label} label={label} />\n      ))}\n    </ul>\n  );\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "rend une liste", "kind": "selector-exists", "selector": "ul" },
+    { "id": "t2", "name": "3 éléments", "kind": "element-count", "selector": "li.item", "expected": 3, "props": { "items": ["a", "b", "c"] } },
+    { "id": "t3", "name": "contenu de la liste", "kind": "list-content", "selector": "li", "expected": ["Pomme", "Poire"], "props": { "items": ["Pomme", "Poire"] } },
+    { "id": "t4", "name": "liste vide (privé)", "kind": "element-count", "selector": "li", "expected": 0, "props": { "items": [] }, "private": true }
+  ]
+}

@@ -21,7 +21,7 @@ function publicExerciseSummaries() {
       id: ex.id,
       title: ex.title,
       skills: ex.skills ?? [],
-      language: adapter?.language ?? ex.runtime ?? DEFAULT_RUNTIME_ID,
+      language: ex.language ?? adapter?.language ?? ex.runtime ?? DEFAULT_RUNTIME_ID,
       runtimeLabel: adapter?.label ?? ex.runtime ?? DEFAULT_RUNTIME_ID,
       difficulty: typeof ex.difficulty === 'number' ? ex.difficulty : 0,
     };

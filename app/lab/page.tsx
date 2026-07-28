@@ -42,7 +42,7 @@ export default function LabPage() {
       id: ex.id,
       title: ex.title,
       summary: ex.summary ?? '',
-      language: adapter?.language ?? runtimeId,
+      language: ex.language ?? adapter?.language ?? runtimeId,
       runtimeLabel: adapter?.label ?? runtimeId,
       runtimeAvailable: status.available,
       difficulty: typeof ex.difficulty === 'number' ? ex.difficulty : 0,

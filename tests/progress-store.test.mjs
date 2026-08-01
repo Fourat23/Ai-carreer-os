@@ -123,3 +123,54 @@ test('activeTrackProgress : vue plate lisible depuis V4 et V5', () => {
   assert.equal(activeTrackProgress(migrateToV7(v4, NOW)).days['3'].answer, 'texte legacy');
   assert.equal(activeTrackProgress(migrateToV7(v5, NOW)).days['7'].status, 'in-progress');
 });
+
+// ── CP5 (V14) : isolation stricte entre deux parcours (scénario complet) ─────
+import { recordExerciseSuccess } from '../lib/lab-progress.mjs';
+import { FULLSTACK_TRACK_ID } from '../lib/catalogue.mjs';
+
+test('isolation : progression indépendante entre Fondations et Full-Stack', () => {
+  // 1) Fondations possède une progression réelle.
+  let v3 = migrateToV7({ startDate: '2026-01-01', days: {
+    '3': { status: 'done', answer: 'fondations j3', notes: 'note F', selfScore: 4 },
+  }, skills: { rag: 3 }, weeklyReviews: {}, monthlyReviews: {} }, NOW);
+  assert.equal(v3.activeTrackId, DEFAULT_TRACK_ID);
+  const foundSnapshot = JSON.stringify(v3.tracks[DEFAULT_TRACK_ID]);
+
+  // 2) L'utilisateur démarre Full-Stack (inscription + activation).
+  v3 = enrollTrack(v3, FULLSTACK_TRACK_ID, '1', NOW);
+  assert.equal(v3.activeTrackId, FULLSTACK_TRACK_ID);
+
+  // 3) Il complète une activité DANS Full-Stack (réponse + réussite d'exercice).
+  const fsFlat = activeTrackProgress(v3);
+  const withAnswer = { ...fsFlat, days: { ...fsFlat.days, '50': { status: 'done', answer: 'fullstack j50', notes: 'note FS' } } };
+  const withProof = recordExerciseSuccess(withAnswer, { exerciseId: 'http-status', title: 'HTTP', skills: ['http'], dayRefs: [50] });
+  v3 = writeActiveTrack(v3, withProof, NOW);
+
+  // 4-5) Retour à Fondations : progression STRICTEMENT inchangée.
+  v3 = setActiveTrack(v3, DEFAULT_TRACK_ID, NOW);
+  const foundAfter = activeTrackProgress(v3);
+  assert.equal(foundAfter.days['3'].answer, 'fondations j3');
+  assert.equal(foundAfter.days['3'].notes, 'note F');
+  assert.equal(foundAfter.days['50'], undefined); // l'activité FS n'a PAS contaminé Fondations
+  assert.equal(foundAfter.skills.http, undefined); // la compétence FS n'est pas dans Fondations
+  assert.equal(foundAfter.skills.rag, 3);
+
+  // 6-7) Retour à Full-Stack : progression correctement restaurée.
+  v3 = setActiveTrack(v3, FULLSTACK_TRACK_ID, NOW);
+  const fsAfter = activeTrackProgress(v3);
+  assert.equal(fsAfter.days['50'].answer, 'fullstack j50');
+  assert.equal(fsAfter.days['50'].evidence.length, 1);
+  assert.equal(fsAfter.skills.http, 3); // preuve → compétence PRACTICED dans FS uniquement
+  assert.equal(fsAfter.days['3'], undefined); // Fondations n'a pas fuité dans FS
+});
+
+test('isolation : la preuve d’un parcours ne contamine jamais l’autre', () => {
+  let v3 = migrateToV7(emptyFlat(), NOW);
+  v3 = enrollTrack(v3, FULLSTACK_TRACK_ID, '1', NOW);
+  const proof = recordExerciseSuccess(activeTrackProgress(v3), { exerciseId: 'ds-stack', title: 'Pile', skills: ['stack'], dayRefs: [33] });
+  v3 = writeActiveTrack(v3, proof, NOW);
+  // Fondations reste vierge.
+  const found = v3.tracks[DEFAULT_TRACK_ID];
+  assert.deepEqual(found.skills, {});
+  assert.equal(Object.keys(found.days).length, 0);
+});

@@ -1,0 +1,99 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "algo-two-sum",
+  "title": "Algo : deux sommes (hash map)",
+  "difficulty": 2,
+  "summary": "Écris twoSum(nums, target) qui renvoie [i, j] (i < j) tels que nums[i] + nums[j] === target, ou null. Utilise une hash map pour rester en O(n).",
+  "skills": [
+    "algo",
+    "hashmap"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function twoSum(nums, target) {\n  // TODO : mémorise les valeurs vues dans une Map (valeur → index)\n  return null;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function twoSum(nums, target){ const seen=new Map(); for(let i=0;i<nums.length;i++){ const need=target-nums[i]; if(seen.has(need)) return [seen.get(need), i]; if(!seen.has(nums[i])) seen.set(nums[i], i); } return null; }"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "[2,7,11,15], 9 → [0,1]",
+      "kind": "call-equals",
+      "export": "twoSum",
+      "args": [
+        [
+          2,
+          7,
+          11,
+          15
+        ],
+        9
+      ],
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "[3,2,4], 6 → [1,2]",
+      "kind": "call-equals",
+      "export": "twoSum",
+      "args": [
+        [
+          3,
+          2,
+          4
+        ],
+        6
+      ],
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "aucune paire → null",
+      "kind": "call-equals",
+      "export": "twoSum",
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        100
+      ],
+      "expected": null
+    },
+    {
+      "id": "t4",
+      "name": "doublons [3,3], 6 → [0,1] (privé)",
+      "kind": "call-equals",
+      "export": "twoSum",
+      "args": [
+        [
+          3,
+          3
+        ],
+        6
+      ],
+      "expected": [
+        0,
+        1
+      ],
+      "private": true
+    }
+  ]
+}

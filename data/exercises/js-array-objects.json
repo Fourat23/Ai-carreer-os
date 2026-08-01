@@ -1,0 +1,88 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "js-array-objects",
+  "title": "JavaScript : tableaux d’objets",
+  "difficulty": 2,
+  "summary": "players = [{ name, score }]. Écris topScorer(players) qui renvoie le name du meilleur score. En cas d’égalité, le premier rencontré.",
+  "skills": [
+    "javascript",
+    "arrays",
+    "objects"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function topScorer(players) {\n  // TODO : renvoie le name du plus grand score\n  return players[0]?.name ?? null;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function topScorer(players){ let best=null; for(const p of players){ if(best===null||p.score>best.score) best=p; } return best?best.name:null; }"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "meilleur score",
+      "kind": "call-equals",
+      "export": "topScorer",
+      "args": [
+        [
+          {
+            "name": "Ana",
+            "score": 12
+          },
+          {
+            "name": "Bo",
+            "score": 30
+          },
+          {
+            "name": "Cy",
+            "score": 7
+          }
+        ]
+      ],
+      "expected": "Bo"
+    },
+    {
+      "id": "t2",
+      "name": "un seul joueur",
+      "kind": "call-equals",
+      "export": "topScorer",
+      "args": [
+        [
+          {
+            "name": "Zed",
+            "score": 3
+          }
+        ]
+      ],
+      "expected": "Zed"
+    },
+    {
+      "id": "t3",
+      "name": "égalité → premier (privé)",
+      "kind": "call-equals",
+      "export": "topScorer",
+      "args": [
+        [
+          {
+            "name": "Ivy",
+            "score": 9
+          },
+          {
+            "name": "Jo",
+            "score": 9
+          }
+        ]
+      ],
+      "expected": "Ivy",
+      "private": true
+    }
+  ]
+}

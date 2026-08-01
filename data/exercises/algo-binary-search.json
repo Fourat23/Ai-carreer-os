@@ -1,0 +1,106 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "algo-binary-search",
+  "title": "Algo : recherche binaire",
+  "difficulty": 2,
+  "summary": "Tableau TRIÉ croissant. Écris binarySearch(arr, target) qui renvoie l’index de target, ou -1. Coût O(log n).",
+  "skills": [
+    "algo",
+    "search"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function binarySearch(arr, target) {\n  // TODO : dichotomie (lo/hi), renvoie l’index ou -1\n  return -1;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function binarySearch(arr, target){ let lo=0, hi=arr.length-1; while(lo<=hi){ const mid=(lo+hi)>>1; if(arr[mid]===target) return mid; if(arr[mid]<target) lo=mid+1; else hi=mid-1; } return -1; }"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "trouve 7 → index 3",
+      "kind": "call-equals",
+      "export": "binarySearch",
+      "args": [
+        [
+          1,
+          3,
+          5,
+          7,
+          9
+        ],
+        7
+      ],
+      "expected": 3
+    },
+    {
+      "id": "t2",
+      "name": "absent → -1",
+      "kind": "call-equals",
+      "export": "binarySearch",
+      "args": [
+        [
+          1,
+          3,
+          5,
+          7,
+          9
+        ],
+        4
+      ],
+      "expected": -1
+    },
+    {
+      "id": "t3",
+      "name": "premier élément",
+      "kind": "call-equals",
+      "export": "binarySearch",
+      "args": [
+        [
+          2,
+          4,
+          6
+        ],
+        2
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t4",
+      "name": "dernier élément (privé)",
+      "kind": "call-equals",
+      "export": "binarySearch",
+      "args": [
+        [
+          2,
+          4,
+          6
+        ],
+        6
+      ],
+      "expected": 2,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "tableau vide → -1 (privé)",
+      "kind": "call-equals",
+      "export": "binarySearch",
+      "args": [
+        [],
+        1
+      ],
+      "expected": -1,
+      "private": true
+    }
+  ]
+}

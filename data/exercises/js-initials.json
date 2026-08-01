@@ -1,0 +1,71 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "js-initials",
+  "title": "JavaScript : fonctions et découpage",
+  "difficulty": 1,
+  "summary": "Écris initials(fullName) qui renvoie les initiales en majuscules. 'ada lovelace' → 'AL'. Espaces multiples ignorés.",
+  "skills": [
+    "javascript",
+    "functions",
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function initials(fullName) {\n  // TODO : première lettre de chaque mot, en MAJUSCULES\n  return fullName;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function initials(fullName){ return fullName.split(/\\s+/).filter(Boolean).map(w=>w[0].toUpperCase()).join(''); }"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "'ada lovelace' → 'AL'",
+      "kind": "call-equals",
+      "export": "initials",
+      "args": [
+        "ada lovelace"
+      ],
+      "expected": "AL"
+    },
+    {
+      "id": "t2",
+      "name": "'grace brewster hopper' → 'GBH'",
+      "kind": "call-equals",
+      "export": "initials",
+      "args": [
+        "grace brewster hopper"
+      ],
+      "expected": "GBH"
+    },
+    {
+      "id": "t3",
+      "name": "'alan' → 'A'",
+      "kind": "call-equals",
+      "export": "initials",
+      "args": [
+        "alan"
+      ],
+      "expected": "A"
+    },
+    {
+      "id": "t4",
+      "name": "espaces multiples (privé)",
+      "kind": "call-equals",
+      "export": "initials",
+      "args": [
+        "  linus   torvalds "
+      ],
+      "expected": "LT",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "js-pipeline",
+  "title": "JavaScript : pipeline de transformations",
+  "difficulty": 2,
+  "summary": "Écris runPipeline(x, ops) qui applique en séquence des opérations nommées à x. ops parmi 'double' (×2), 'inc' (+1), 'square' (²). runPipeline(3, ['double','inc']) → 7. Utilise reduce.",
+  "skills": [
+    "javascript",
+    "hof",
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function runPipeline(x, ops) {\n  // TODO : applique chaque opération à x, de gauche à droite (reduce).\n  const OPS = { double: (n) => n * 2, inc: (n) => n + 1, square: (n) => n * n };\n  return x;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function runPipeline(x, ops){ const OPS={ double:n=>n*2, inc:n=>n+1, square:n=>n*n }; return ops.reduce((acc, op)=>OPS[op](acc), x); }"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "3 → double,inc = 7",
+      "kind": "call-equals",
+      "export": "runPipeline",
+      "args": [
+        3,
+        [
+          "double",
+          "inc"
+        ]
+      ],
+      "expected": 7
+    },
+    {
+      "id": "t2",
+      "name": "2 → square,double = 8",
+      "kind": "call-equals",
+      "export": "runPipeline",
+      "args": [
+        2,
+        [
+          "square",
+          "double"
+        ]
+      ],
+      "expected": 8
+    },
+    {
+      "id": "t3",
+      "name": "aucune opération → x",
+      "kind": "call-equals",
+      "export": "runPipeline",
+      "args": [
+        5,
+        []
+      ],
+      "expected": 5
+    },
+    {
+      "id": "t4",
+      "name": "ordre respecté (privé)",
+      "kind": "call-equals",
+      "export": "runPipeline",
+      "args": [
+        3,
+        [
+          "inc",
+          "square"
+        ]
+      ],
+      "expected": 16,
+      "private": true
+    }
+  ]
+}

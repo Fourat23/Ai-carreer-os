@@ -1,0 +1,83 @@
+{
+  "runtime": "typescript",
+  "language": "typescript",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.ts",
+  "id": "ds-stack",
+  "title": "Structures : implémenter une pile (LIFO)",
+  "difficulty": 2,
+  "summary": "Écris runStack(ops) qui rejoue des opérations sur une pile : [\"push 1\",\"push 2\",\"pop\",\"push 3\"] et renvoie le contenu final du bas vers le haut. Ici → [1, 3].",
+  "skills": [
+    "ds",
+    "stack",
+    "typescript"
+  ],
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "export function runStack(ops: string[]): number[] {\n  // TODO : 'push <n>' empile n ; 'pop' dépile le sommet (ignore si vide).\n  const stack: number[] = [];\n  return stack;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export function runStack(ops: string[]): number[] {\n  const stack: number[] = [];\n  for (const op of ops) {\n    if (op.startsWith('push ')) stack.push(Number(op.slice(5)));\n    else if (op === 'pop') stack.pop();\n  }\n  return stack;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "push/pop mélangés",
+      "kind": "call-equals",
+      "export": "runStack",
+      "args": [
+        [
+          "push 1",
+          "push 2",
+          "pop",
+          "push 3"
+        ]
+      ],
+      "expected": [
+        1,
+        3
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "LIFO : dernier entré, premier sorti",
+      "kind": "call-equals",
+      "export": "runStack",
+      "args": [
+        [
+          "push 5",
+          "push 6",
+          "push 7",
+          "pop",
+          "pop"
+        ]
+      ],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "pop sur pile vide ignoré (privé)",
+      "kind": "call-equals",
+      "export": "runStack",
+      "args": [
+        [
+          "pop",
+          "push 9"
+        ]
+      ],
+      "expected": [
+        9
+      ],
+      "private": true
+    }
+  ]
+}

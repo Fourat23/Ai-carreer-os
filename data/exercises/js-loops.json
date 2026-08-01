@@ -1,0 +1,70 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "js-loops",
+  "title": "JavaScript : boucles et accumulation",
+  "difficulty": 1,
+  "summary": "Écris sumTo(n) qui renvoie la somme 1 + 2 + … + n à l’aide d’une boucle. sumTo(0) vaut 0.",
+  "skills": [
+    "javascript",
+    "loops"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function sumTo(n) {\n  // TODO : accumule 1 + 2 + ... + n avec une boucle\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function sumTo(n){ let s=0; for(let i=1;i<=n;i++) s+=i; return s; }"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "sumTo(1) = 1",
+      "kind": "call-equals",
+      "export": "sumTo",
+      "args": [
+        1
+      ],
+      "expected": 1
+    },
+    {
+      "id": "t2",
+      "name": "sumTo(5) = 15",
+      "kind": "call-equals",
+      "export": "sumTo",
+      "args": [
+        5
+      ],
+      "expected": 15
+    },
+    {
+      "id": "t3",
+      "name": "sumTo(100) = 5050",
+      "kind": "call-equals",
+      "export": "sumTo",
+      "args": [
+        100
+      ],
+      "expected": 5050
+    },
+    {
+      "id": "t4",
+      "name": "sumTo(0) = 0 (privé)",
+      "kind": "call-equals",
+      "export": "sumTo",
+      "args": [
+        0
+      ],
+      "expected": 0,
+      "private": true
+    }
+  ]
+}

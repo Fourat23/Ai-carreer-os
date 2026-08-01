@@ -1,0 +1,81 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "js-conditions",
+  "title": "JavaScript : conditions et décisions",
+  "difficulty": 1,
+  "summary": "Écris categorize(age) qui renvoie 'enfant' si age < 13, 'ado' de 13 à 17 inclus, sinon 'adulte'.",
+  "skills": [
+    "javascript",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function categorize(age) {\n  // TODO : 'enfant' (<13), 'ado' (13-17), 'adulte' (>=18)\n  return 'adulte';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function categorize(age){ if(age<13)return 'enfant'; if(age<=17)return 'ado'; return 'adulte'; }"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "8 → enfant",
+      "kind": "call-equals",
+      "export": "categorize",
+      "args": [
+        8
+      ],
+      "expected": "enfant"
+    },
+    {
+      "id": "t2",
+      "name": "15 → ado",
+      "kind": "call-equals",
+      "export": "categorize",
+      "args": [
+        15
+      ],
+      "expected": "ado"
+    },
+    {
+      "id": "t3",
+      "name": "20 → adulte",
+      "kind": "call-equals",
+      "export": "categorize",
+      "args": [
+        20
+      ],
+      "expected": "adulte"
+    },
+    {
+      "id": "t4",
+      "name": "borne 13 → ado (privé)",
+      "kind": "call-equals",
+      "export": "categorize",
+      "args": [
+        13
+      ],
+      "expected": "ado",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "borne 17 → ado (privé)",
+      "kind": "call-equals",
+      "export": "categorize",
+      "args": [
+        17
+      ],
+      "expected": "ado",
+      "private": true
+    }
+  ]
+}

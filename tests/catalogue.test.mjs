@@ -17,7 +17,8 @@ test('buildCatalogue : parcours fondations disponible + parcours annoncés', () 
   assert.equal(found.totalDays, program.days.length); // 365
   assert.ok(cat.tracks.some((t) => t.status === 'announced'));
   assert.ok(isTrackAvailable(found));
-  assert.equal(isTrackAvailable(getTrack(cat, 'backend-engineer-v1')), false);
+  // un parcours encore annoncé reste non activable (backend est désormais disponible).
+  assert.equal(isTrackAvailable(getTrack(cat, 'frontend-engineer-v1')), false);
 });
 
 test('modules dérivés des mois, référencés (pas copiés)', () => {
@@ -154,4 +155,51 @@ test('resolveTrackDayObjects : objets-journée ordonnés du parcours actif', () 
   assert.equal(fst[0].day, 1);
   assert.equal(fst[fst.length - 1].day, 119);
   assert.ok(fst.every((d) => d && typeof d.title === 'string'));
+});
+
+// ── CP2 (V15) : troisième parcours Backend Engineer (available, non contigu) ──
+import { BACKEND_TRACK_ID } from '../lib/catalogue.mjs';
+
+test('Backend : parcours available, non contigu (j82 exclu), durée dérivée', () => {
+  const cat = buildCatalogue(program);
+  const be = getTrack(cat, BACKEND_TRACK_ID);
+  assert.ok(be, 'parcours backend présent');
+  assert.equal(isTrackAvailable(be), true);
+  const days = resolveTrackDays(cat, be);
+  assert.equal(days.length, be.totalDays);            // durée cohérente
+  assert.equal(days.includes(82), false);             // Python/data exclu
+  assert.ok(days.includes(81) && days.includes(83));  // non contigu autour de 82
+  assert.equal(days.includes(87), false);             // pas de React
+  // ordre déterministe croissant
+  assert.deepEqual(days, [...days].sort((a, b) => a - b));
+});
+
+test('Backend : modules non vides, dayRefs uniques, jours existants', () => {
+  const cat = buildCatalogue(program);
+  const be = getTrack(cat, BACKEND_TRACK_ID);
+  const mods = getTrackModules(cat, be);
+  assert.ok(mods.length >= 8);
+  const dayNums = new Set(program.days.map((d) => d.day));
+  const seen = new Set();
+  for (const m of mods) {
+    assert.ok(m.dayRefs.length > 0, `module ${m.id} non vide`);
+    for (const d of m.dayRefs) {
+      assert.ok(dayNums.has(d), `jour ${d} existe`);
+      assert.equal(seen.has(d), false, `jour ${d} non dupliqué`);
+      seen.add(d);
+    }
+  }
+});
+
+test('Backend : n’est plus annoncé ; les parcours existants restent intacts', () => {
+  const cat = buildCatalogue(program);
+  assert.equal(cat.tracks.filter((t) => t.id === BACKEND_TRACK_ID).length, 1);
+  const be = getTrack(cat, BACKEND_TRACK_ID);
+  assert.notEqual(be.status, 'announced');
+  // Fondations = 365, Full-Stack = 119, inchangés.
+  assert.equal(getTrack(cat, DEFAULT_TRACK_ID).totalDays, 365);
+  assert.equal(resolveTrackDays(cat, 'fullstack-typescript').length, 119);
+  // 3 parcours disponibles, technologies canoniques (pas de docker fictif).
+  assert.equal(cat.tracks.filter(isTrackAvailable).length, 3);
+  assert.equal(be.technologies.includes('docker'), false);
 });

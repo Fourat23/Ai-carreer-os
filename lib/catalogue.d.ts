@@ -3,6 +3,7 @@ import type { Program } from './types';
 
 export const DEFAULT_TRACK_ID: string;
 export const FULLSTACK_TRACK_ID: string;
+export const BACKEND_TRACK_ID: string;
 
 export interface Technology { id: string; name: string; area: string }
 export interface Module {

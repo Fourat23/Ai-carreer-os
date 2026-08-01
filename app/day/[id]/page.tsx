@@ -19,6 +19,12 @@ import DayEvidence from './DayEvidence';
 
 export const dynamic = 'force-dynamic';
 
+// Libellés FR des rôles pédagogiques dérivés (ADR-013). Affichés seulement quand
+// une journée porte plusieurs exercices, pour distinguer le principal des compléments.
+const DAY_ROLE_LABELS: Record<string, string> = {
+  principal: 'Principal', complement: 'Complément', remediation: 'Remédiation', challenge: 'Défi',
+};
+
 export default async function DayPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const dayNum = Number(id);
@@ -70,6 +76,9 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
                   <FlaskConical size={15} strokeWidth={2} />
                   <span className="day-lab-title">{x.title}</span>
                   <span className="day-lab-meta">
+                    {labExercises.length > 1 && x.role && (
+                      <span className={`day-lab-role role-${x.role}`}>{DAY_ROLE_LABELS[x.role] ?? x.role}</span>
+                    )}
                     <span className="day-lab-runtime">{x.runtimeLabel}</span>
                     {x.difficulty ? <span className="day-lab-diff" title={`Difficulté ${x.difficulty}/5`} aria-label={`Difficulté ${x.difficulty} sur 5`}>{'●'.repeat(x.difficulty)}<span className="day-lab-diff-off">{'●'.repeat(Math.max(0, 5 - x.difficulty))}</span></span> : null}
                   </span>

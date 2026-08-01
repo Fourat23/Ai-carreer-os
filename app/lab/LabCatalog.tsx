@@ -7,6 +7,7 @@ import { useMemo, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FlaskConical, ArrowRight, Check, Circle, Dot } from 'lucide-react';
+import { skillLabel } from '@/lib/skill-taxonomy.mjs';
 
 export type CatalogItem = {
   id: string; title: string; summary: string; language: string; runtimeLabel: string;
@@ -90,7 +91,7 @@ export default function LabCatalog({ items }: { items: CatalogItem[] }) {
         </select>
         <select aria-label="Compétence" value={skill} onChange={(e) => setSkill(e.target.value)}>
           <option value="">Toute compétence</option>
-          {skills.map((s) => <option key={s} value={s}>{s}</option>)}
+          {skills.map((s) => <option key={s} value={s}>{skillLabel(s)}</option>)}
         </select>
         <select aria-label="Statut" value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value="">Tout statut</option>

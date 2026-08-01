@@ -1,0 +1,94 @@
+{
+  "id": "react-parent-child",
+  "title": "React : communication parent/enfant (callback)",
+  "difficulty": 2,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "App.tsx",
+  "skills": [
+    "react",
+    "components",
+    "props",
+    "events"
+  ],
+  "summary": "Objectif : faire communiquer parent et enfants. Rends un <MenuItem> par élément de la prop `items` via <Menu>, en passant à Menu la prop `items` ET un callback `onPick`. Menu et MenuItem sont fournis (lecture seule).",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      {
+        "path": "App.tsx",
+        "content": "import Menu from './Menu';\n\nexport default function App({ items = [] as string[] }: { items?: string[] }) {\n  const handlePick = (label: string) => { console.log('pick', label); };\n  // TODO : passe items ET onPick à <Menu>\n  return <Menu items={[]} onPick={handlePick} />;\n}\n"
+      },
+      {
+        "path": "Menu.tsx",
+        "readOnly": true,
+        "content": "import MenuItem from './MenuItem';\n\nexport default function Menu({ items, onPick }: { items: string[]; onPick: (l: string) => void }) {\n  return (\n    <ul>\n      {items.map((it) => (\n        <li key={it}><MenuItem label={it} onSelect={onPick} /></li>\n      ))}\n    </ul>\n  );\n}\n"
+      },
+      {
+        "path": "MenuItem.tsx",
+        "readOnly": true,
+        "content": "export default function MenuItem({ label, onSelect }: { label: string; onSelect: (l: string) => void }) {\n  return <button className=\"menu-item\" onClick={() => onSelect(label)}>{label}</button>;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.tsx": "import Menu from './Menu';\n\nexport default function App({ items = [] as string[] }: { items?: string[] }) {\n  const handlePick = (label: string) => { console.log('pick', label); };\n  return <Menu items={items} onPick={handlePick} />;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un item par entrée",
+      "kind": "element-count",
+      "selector": ".menu-item",
+      "expected": 3,
+      "props": {
+        "items": [
+          "Fichier",
+          "Édition",
+          "Vue"
+        ]
+      }
+    },
+    {
+      "id": "t2",
+      "name": "contenu ordonné",
+      "kind": "list-content",
+      "selector": ".menu-item",
+      "expected": [
+        "A",
+        "B"
+      ],
+      "props": {
+        "items": [
+          "A",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "t3",
+      "name": "la cible du callback est un bouton",
+      "kind": "accessible-role-exists",
+      "role": "button",
+      "props": {
+        "items": [
+          "X"
+        ]
+      }
+    },
+    {
+      "id": "t4",
+      "name": "liste vide (privé)",
+      "kind": "element-count",
+      "selector": ".menu-item",
+      "expected": 0,
+      "props": {
+        "items": []
+      },
+      "private": true
+    }
+  ]
+}

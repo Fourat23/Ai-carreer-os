@@ -1,0 +1,82 @@
+{
+  "id": "react-lift-state",
+  "title": "React : remontée d’état (lifting state up)",
+  "difficulty": 3,
+  "runtime": "react-tsx",
+  "language": "tsx",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "App.tsx",
+  "skills": [
+    "react",
+    "state",
+    "lifting-state",
+    "components",
+    "props"
+  ],
+  "summary": "Objectif : remonter l'état dans le parent. App détient l'état `selected` (initialisé par la prop `initial`) et le partage : <Display value={selected}/> doit afficher « Choix : <selected> », et un <button class=\"opt\"> par option. Complète App.tsx.",
+  "workspace": {
+    "entry": "App.tsx",
+    "files": [
+      {
+        "path": "App.tsx",
+        "content": "import { useState } from 'react';\nimport Display from './Display';\n\nexport default function App({ initial = '', options = [] as string[] }: { initial?: string; options?: string[] }) {\n  const [selected, setSelected] = useState(initial);\n  // BUG : Display reçoit une valeur figée au lieu de l'état remonté.\n  return (\n    <div>\n      <Display value=\"?\" />\n      {options.map((o) => (\n        <button className=\"opt\" key={o} onClick={() => setSelected(o)}>{o}</button>\n      ))}\n    </div>\n  );\n}\n"
+      },
+      {
+        "path": "Display.tsx",
+        "readOnly": true,
+        "content": "export default function Display({ value }: { value: string }) {\n  return <p id=\"display\">Choix : {value}</p>;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "App.tsx": "import { useState } from 'react';\nimport Display from './Display';\n\nexport default function App({ initial = '', options = [] as string[] }: { initial?: string; options?: string[] }) {\n  const [selected, setSelected] = useState(initial);\n  return (\n    <div>\n      <Display value={selected} />\n      {options.map((o) => (\n        <button className=\"opt\" key={o} onClick={() => setSelected(o)}>{o}</button>\n      ))}\n    </div>\n  );\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "affiche l’état initial remonté",
+      "kind": "text-contains",
+      "selector": "#display",
+      "expected": "Choix : B",
+      "props": {
+        "initial": "B",
+        "options": [
+          "A",
+          "B",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "t2",
+      "name": "un bouton par option",
+      "kind": "element-count",
+      "selector": ".opt",
+      "expected": 3,
+      "props": {
+        "initial": "B",
+        "options": [
+          "A",
+          "B",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "t3",
+      "name": "autre état initial (privé)",
+      "kind": "text-contains",
+      "selector": "#display",
+      "expected": "Choix : X",
+      "props": {
+        "initial": "X",
+        "options": [
+          "X"
+        ]
+      },
+      "private": true
+    }
+  ]
+}

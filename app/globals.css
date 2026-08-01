@@ -935,6 +935,8 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .track-badge.active { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 42%, var(--border)); }
 .track-badge.soon { color: var(--muted); }
 .track-err { color: var(--warn); font-size: var(--fs-xs); margin-left: var(--sp-2); }
+.track-confirm { display: inline-flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.track-confirm-msg { font-size: var(--fs-xs); color: var(--muted); max-width: 34ch; }
 /* Aperçu discret du parcours actif sur le tableau de bord */
 .track-hint {
   display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;

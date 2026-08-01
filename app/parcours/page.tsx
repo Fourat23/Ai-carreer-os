@@ -70,7 +70,7 @@ export default function ParcoursPage() {
               <div className="track-row-goal">{t.goal}</div>
               <div className="track-techs">{(t.technologies ?? []).slice(0, 6).map((id) => <span key={id} className="badge">{techName(id)}</span>)}</div>
             </div>
-            <TrackActions trackId={t.id} active={false} available={isTrackAvailable(t)} />
+            <TrackActions trackId={t.id} active={false} available={isTrackAvailable(t)} hasActiveOther />
           </div>
         ))}
       </div>

@@ -964,6 +964,24 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .lab-card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: var(--sp-2); }
 .lab-card-go { margin-left: auto; color: var(--accent); font-size: var(--fs-xs); display: inline-flex; align-items: center; gap: 4px; }
 
+/* Synthèse multi-parcours (V16) — lecture seule, grille adaptative */
+.synth-ro { display: inline-flex; align-items: center; gap: 5px; margin-left: var(--sp-3); color: var(--muted); font-size: var(--fs-xs); }
+.synth-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.synth-card { border: 1px solid var(--border); border-radius: var(--r-lg, 12px); padding: var(--sp-4); background: var(--panel); display: flex; flex-direction: column; gap: var(--sp-3); }
+.synth-card.active { border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); }
+.synth-head { display: flex; align-items: center; gap: var(--sp-2); }
+.synth-head > svg:first-child { color: var(--accent); flex: none; }
+.synth-title { font-size: var(--fs-base); font-weight: 600; margin: 0; flex: 1; min-width: 0; }
+.synth-prog { display: flex; flex-direction: column; gap: 4px; }
+.synth-prog-label { color: var(--muted); font-size: var(--fs-xs); }
+.synth-metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px var(--sp-3); margin: 0; }
+.synth-metrics > div { display: flex; justify-content: space-between; gap: var(--sp-2); font-size: var(--fs-sm); }
+.synth-metrics dt { color: var(--muted); margin: 0; }
+.synth-metrics dd { margin: 0; font-weight: 600; }
+.synth-evidence { color: var(--muted); font-size: var(--fs-xs); margin: 0; }
+.synth-actions { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); flex-wrap: wrap; margin-top: auto; }
+.synth-open { color: var(--accent); font-size: var(--fs-xs); text-decoration: none; }
+
 /* Contexte de parcours (V16) */
 .lab-track-ctx { color: var(--muted); font-size: var(--fs-sm); margin: 0 0 var(--sp-3); }
 .lab-track-ctx strong { color: var(--fg); }

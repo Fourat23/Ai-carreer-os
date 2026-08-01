@@ -9,6 +9,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/', label: 'Tableau de bord', icon: 'LayoutDashboard' },
       { href: '/parcours', label: 'Parcours', icon: 'Route' },
+      { href: '/synthese', label: 'Synthèse', icon: 'LayoutGrid' },
       { href: '/calendar', label: 'Calendrier', icon: 'CalendarDays' },
       { href: '/revisions', label: 'Révisions', icon: 'History' },
     ],

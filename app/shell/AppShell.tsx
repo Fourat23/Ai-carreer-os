@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   LayoutDashboard, CalendarDays, BookOpen, Target, FolderGit2, ClipboardCheck,
   NotebookPen, Library, BookMarked, Briefcase, LifeBuoy, GraduationCap, Bot, Bug,
-  Brain, Network, Menu, X, PanelLeftClose, PanelLeftOpen, Terminal, Search, Database, History, Route, FlaskConical,
+  Brain, Network, Menu, X, PanelLeftClose, PanelLeftOpen, Terminal, Search, Database, History, Route, FlaskConical, LayoutGrid,
 } from 'lucide-react';
 import { NAV_GROUPS, type NavItem } from './nav';
 import CommandPalette from './CommandPalette';
@@ -19,7 +19,7 @@ function openPalette() {
 
 const ICONS: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number }>> = {
   LayoutDashboard, CalendarDays, BookOpen, Target, FolderGit2, ClipboardCheck,
-  NotebookPen, Library, BookMarked, Briefcase, LifeBuoy, GraduationCap, Bot, Bug, Brain, Network, Database, History, Route, FlaskConical,
+  NotebookPen, Library, BookMarked, Briefcase, LifeBuoy, GraduationCap, Bot, Bug, Brain, Network, Database, History, Route, FlaskConical, LayoutGrid,
 };
 
 function isActive(path: string, href: string) {

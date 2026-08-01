@@ -1,0 +1,96 @@
+{
+  "id": "http-status",
+  "title": "HTTP : classes de code de statut",
+  "difficulty": 2,
+  "summary": "Écris statusInfo(code) qui renvoie { category, ok }. category ∈ 'informational'(1xx), 'success'(2xx), 'redirection'(3xx), 'client-error'(4xx), 'server-error'(5xx). ok vaut true seulement pour 2xx.",
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "skills": [
+    "http",
+    "node"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function statusInfo(code) {\n  // TODO : classe le code HTTP et indique si c'est un succès (2xx)\n  return { category: 'unknown', ok: false };\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function statusInfo(code){ const category = code>=500?'server-error':code>=400?'client-error':code>=300?'redirection':code>=200?'success':code>=100?'informational':'unknown'; return { category, ok: code>=200 && code<300 }; }"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "200 → success, ok",
+      "kind": "call-equals",
+      "export": "statusInfo",
+      "args": [
+        200
+      ],
+      "expected": {
+        "category": "success",
+        "ok": true
+      }
+    },
+    {
+      "id": "t2",
+      "name": "404 → client-error",
+      "kind": "call-equals",
+      "export": "statusInfo",
+      "args": [
+        404
+      ],
+      "expected": {
+        "category": "client-error",
+        "ok": false
+      }
+    },
+    {
+      "id": "t3",
+      "name": "500 → server-error",
+      "kind": "call-equals",
+      "export": "statusInfo",
+      "args": [
+        500
+      ],
+      "expected": {
+        "category": "server-error",
+        "ok": false
+      }
+    },
+    {
+      "id": "t4",
+      "name": "301 → redirection (privé)",
+      "kind": "call-equals",
+      "export": "statusInfo",
+      "args": [
+        301
+      ],
+      "expected": {
+        "category": "redirection",
+        "ok": false
+      },
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "204 → success, ok (privé)",
+      "kind": "call-equals",
+      "export": "statusInfo",
+      "args": [
+        204
+      ],
+      "expected": {
+        "category": "success",
+        "ok": true
+      },
+      "private": true
+    }
+  ]
+}

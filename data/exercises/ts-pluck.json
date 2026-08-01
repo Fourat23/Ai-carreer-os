@@ -1,0 +1,106 @@
+{
+  "id": "ts-pluck",
+  "title": "TypeScript : extraire une colonne (générique)",
+  "difficulty": 3,
+  "summary": "Écris pluck<T, K extends keyof T>(items: T[], key: K): T[K][] qui renvoie la liste des valeurs de `key`, sans muter items. Fonction pure et typée.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.ts",
+  "skills": [
+    "typescript",
+    "arrays",
+    "purity"
+  ],
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "export function pluck<T, K extends keyof T>(items: T[], key: K): T[K][] {\n  // TODO : renvoie items.map(...) sans modifier items\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "export function pluck<T, K extends keyof T>(items: T[], key: K): T[K][] {\n  return items.map((it) => it[key]);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "colonne 'name'",
+      "kind": "call-equals",
+      "export": "pluck",
+      "args": [
+        [
+          {
+            "name": "Ada",
+            "age": 36
+          },
+          {
+            "name": "Bo",
+            "age": 20
+          }
+        ],
+        "name"
+      ],
+      "expected": [
+        "Ada",
+        "Bo"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "colonne 'age'",
+      "kind": "call-equals",
+      "export": "pluck",
+      "args": [
+        [
+          {
+            "name": "Ada",
+            "age": 36
+          },
+          {
+            "name": "Bo",
+            "age": 20
+          }
+        ],
+        "age"
+      ],
+      "expected": [
+        36,
+        20
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "liste vide → []",
+      "kind": "call-equals",
+      "export": "pluck",
+      "args": [
+        [],
+        "x"
+      ],
+      "expected": []
+    },
+    {
+      "id": "t4",
+      "name": "un seul élément (privé)",
+      "kind": "call-equals",
+      "export": "pluck",
+      "args": [
+        [
+          {
+            "id": 7
+          }
+        ],
+        "id"
+      ],
+      "expected": [
+        7
+      ],
+      "private": true
+    }
+  ]
+}

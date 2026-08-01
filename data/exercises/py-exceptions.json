@@ -1,0 +1,82 @@
+{
+  "id": "py-exceptions",
+  "title": "Python : exceptions et robustesse",
+  "difficulty": 2,
+  "summary": "Écris parse_ratio(text) qui interprète 'a/b' et renvoie a / b (float), ou None si le texte est invalide (non numérique, mauvais format) ou si b vaut 0. Attrape ValueError ET ZeroDivisionError.",
+  "runtime": "python3",
+  "language": "python",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.py",
+  "skills": [
+    "python",
+    "errors"
+  ],
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "# 'a/b' -> a / b, sinon None (texte invalide ou division par zéro).\ndef parse_ratio(text):\n    # TODO : try / except (ValueError, ZeroDivisionError)\n    a, b = text.split('/')\n    return int(a) / int(b)\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def parse_ratio(text):\n    try:\n        a, b = text.split('/')\n        return int(a) / int(b)\n    except (ValueError, ZeroDivisionError):\n        return None\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "'3/4' → 0.75",
+      "kind": "call-equals",
+      "export": "parse_ratio",
+      "args": [
+        "3/4"
+      ],
+      "expected": 0.75
+    },
+    {
+      "id": "t2",
+      "name": "'10/2' → 5",
+      "kind": "call-equals",
+      "export": "parse_ratio",
+      "args": [
+        "10/2"
+      ],
+      "expected": 5
+    },
+    {
+      "id": "t3",
+      "name": "'3/0' → None",
+      "kind": "call-equals",
+      "export": "parse_ratio",
+      "args": [
+        "3/0"
+      ],
+      "expected": null
+    },
+    {
+      "id": "t4",
+      "name": "'abc' → None (privé)",
+      "kind": "call-equals",
+      "export": "parse_ratio",
+      "args": [
+        "abc"
+      ],
+      "expected": null,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "'1/2/3' → None (privé)",
+      "kind": "call-equals",
+      "export": "parse_ratio",
+      "args": [
+        "1/2/3"
+      ],
+      "expected": null,
+      "private": true
+    }
+  ]
+}

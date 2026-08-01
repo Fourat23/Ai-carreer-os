@@ -1,0 +1,145 @@
+{
+  "id": "api-router",
+  "title": "API : routeur REST minimal",
+  "difficulty": 3,
+  "summary": "Écris matchRoute(method, path, table) qui renvoie le nom du handler correspondant, ou 'not-found'. table = [[method, motif, nom]] ; un segment de motif commençant par ':' est un paramètre (matche n'importe quel segment).",
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "skills": [
+    "http",
+    "node"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function matchRoute(method, path, table) {\n  // TODO : compare method + segments (':' = paramètre). Renvoie le nom ou 'not-found'.\n  return 'not-found';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function matchRoute(method, path, table){ const sp = path.split('/'); for (const [m, pattern, name] of table){ if (m!==method) continue; const pp = pattern.split('/'); if (pp.length!==sp.length) continue; let ok=true; for (let i=0;i<pp.length;i++){ if (pp[i].startsWith(':')) continue; if (pp[i]!==sp[i]){ ok=false; break; } } if (ok) return name; } return 'not-found'; }"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "GET /users → list",
+      "kind": "call-equals",
+      "export": "matchRoute",
+      "args": [
+        "GET",
+        "/users",
+        [
+          [
+            "GET",
+            "/users",
+            "list"
+          ],
+          [
+            "POST",
+            "/users",
+            "create"
+          ],
+          [
+            "GET",
+            "/users/:id",
+            "show"
+          ]
+        ]
+      ],
+      "expected": "list"
+    },
+    {
+      "id": "t2",
+      "name": "POST /users → create",
+      "kind": "call-equals",
+      "export": "matchRoute",
+      "args": [
+        "POST",
+        "/users",
+        [
+          [
+            "GET",
+            "/users",
+            "list"
+          ],
+          [
+            "POST",
+            "/users",
+            "create"
+          ],
+          [
+            "GET",
+            "/users/:id",
+            "show"
+          ]
+        ]
+      ],
+      "expected": "create"
+    },
+    {
+      "id": "t3",
+      "name": "GET /users/42 → show (paramètre)",
+      "kind": "call-equals",
+      "export": "matchRoute",
+      "args": [
+        "GET",
+        "/users/42",
+        [
+          [
+            "GET",
+            "/users",
+            "list"
+          ],
+          [
+            "GET",
+            "/users/:id",
+            "show"
+          ]
+        ]
+      ],
+      "expected": "show"
+    },
+    {
+      "id": "t4",
+      "name": "méthode absente → not-found",
+      "kind": "call-equals",
+      "export": "matchRoute",
+      "args": [
+        "DELETE",
+        "/users",
+        [
+          [
+            "GET",
+            "/users",
+            "list"
+          ]
+        ]
+      ],
+      "expected": "not-found"
+    },
+    {
+      "id": "t5",
+      "name": "longueur différente → not-found (privé)",
+      "kind": "call-equals",
+      "export": "matchRoute",
+      "args": [
+        "GET",
+        "/users/42/posts",
+        [
+          [
+            "GET",
+            "/users/:id",
+            "show"
+          ]
+        ]
+      ],
+      "expected": "not-found",
+      "private": true
+    }
+  ]
+}

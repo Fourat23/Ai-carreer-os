@@ -174,3 +174,56 @@ test('isolation : la preuve d’un parcours ne contamine jamais l’autre', () =
   assert.deepEqual(found.skills, {});
   assert.equal(Object.keys(found.days).length, 0);
 });
+
+// ── CP5 (V15) : isolation stricte des TROIS parcours ─────────────────────────
+import { BACKEND_TRACK_ID } from '../lib/catalogue.mjs';
+
+test('isolation : Backend n’altère ni Fondations ni Full-Stack', () => {
+  // Fondations a une progression ; Full-Stack en a une autre.
+  let v3 = migrateToV7({ startDate: '2026-01-01', days: { '3': { status: 'done', answer: 'F3' } }, skills: { rag: 3 }, weeklyReviews: {}, monthlyReviews: {} }, NOW);
+  v3 = enrollTrack(v3, FULLSTACK_TRACK_ID, '1', NOW);
+  v3 = writeActiveTrack(v3, { ...activeTrackProgress(v3), days: { '92': { status: 'done', answer: 'FS92' } }, skills: { react: 3 } }, NOW);
+
+  // Démarrage Backend + activité + réussite d'exercice.
+  v3 = enrollTrack(v3, BACKEND_TRACK_ID, '1', NOW);
+  assert.equal(v3.activeTrackId, BACKEND_TRACK_ID);
+  const be = recordExerciseSuccess({ ...activeTrackProgress(v3), days: { '50': { status: 'done', answer: 'BE50' } } }, { exerciseId: 'api-router', title: 'Routeur', skills: ['http'], dayRefs: [52] });
+  v3 = writeActiveTrack(v3, be, NOW);
+
+  // Fondations strictement inchangé.
+  const f = v3.tracks[DEFAULT_TRACK_ID];
+  assert.equal(f.days['3'].answer, 'F3');
+  assert.equal(f.days['50'], undefined);
+  assert.equal(f.days['52'], undefined);
+  assert.equal(f.skills.http, undefined);
+
+  // Full-Stack strictement inchangé.
+  const fs = v3.tracks[FULLSTACK_TRACK_ID];
+  assert.equal(fs.days['92'].answer, 'FS92');
+  assert.equal(fs.days['50'], undefined);
+  assert.equal(fs.skills.react, 3);
+  assert.equal(fs.skills.http, undefined);
+
+  // Backend possède sa propre progression + preuve + compétence.
+  const b = v3.tracks[BACKEND_TRACK_ID];
+  assert.equal(b.days['50'].answer, 'BE50');
+  assert.equal(b.days['52'].evidence.length, 1);
+  assert.equal(b.skills.http, 3);
+  assert.equal(b.days['3'], undefined);   // Fondations n'a pas fuité
+  assert.equal(b.days['92'], undefined);  // Full-Stack n'a pas fuité
+});
+
+test('isolation : bascule aller-retour entre les trois parcours conserve chaque état', () => {
+  let v3 = migrateToV7(emptyFlat(), NOW);
+  v3 = enrollTrack(v3, FULLSTACK_TRACK_ID, '1', NOW);
+  v3 = writeActiveTrack(v3, { ...activeTrackProgress(v3), skills: { react: 3 } }, NOW);
+  v3 = enrollTrack(v3, BACKEND_TRACK_ID, '1', NOW);
+  v3 = writeActiveTrack(v3, { ...activeTrackProgress(v3), skills: { http: 3 } }, NOW);
+  // Retour Fondations, puis Full-Stack, puis Backend.
+  v3 = setActiveTrack(v3, DEFAULT_TRACK_ID, NOW);
+  assert.deepEqual(activeTrackProgress(v3).skills, {});
+  v3 = setActiveTrack(v3, FULLSTACK_TRACK_ID, NOW);
+  assert.equal(activeTrackProgress(v3).skills.react, 3);
+  v3 = setActiveTrack(v3, BACKEND_TRACK_ID, NOW);
+  assert.equal(activeTrackProgress(v3).skills.http, 3);
+});

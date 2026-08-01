@@ -174,3 +174,38 @@ test('confidentialité : l\'index statique ne contient aucun contenu de réponse
   const idx2 = buildIndex(program, { days: { '1': { answer: privateToken } } });
   assert.equal(JSON.stringify(idx2).includes(privateToken), false);
 });
+
+// ── CP8 (V14) : le second parcours est trouvable par métadonnées publiques ───
+import { readFileSync } from 'node:fs';
+import { buildCatalogue, FULLSTACK_TRACK_ID } from '../lib/catalogue.mjs';
+
+const realProgram = JSON.parse(readFileSync(new URL('../data/program.json', import.meta.url), 'utf8'));
+const realCat = buildCatalogue(realProgram);
+
+test('recherche : le parcours Full-Stack TypeScript est trouvable', () => {
+  const idx = buildIndex(realProgram, realCat);
+  const fs = idx.find((i) => i.type === 'track' && /Full-Stack TypeScript/.test(i.title));
+  assert.ok(fs, 'parcours Full-Stack indexé');
+  assert.match(fs.href, /\/parcours#/);
+  // Résultats de recherche effectifs.
+  assert.ok(search(idx, 'full-stack typescript').some((r) => r.type === 'track'));
+});
+
+test('recherche : disponibilité distinguée (disponible vs à venir)', () => {
+  const idx = buildIndex(realProgram, realCat);
+  const fs = idx.find((i) => i.type === 'track' && i.href.includes(FULLSTACK_TRACK_ID));
+  const announced = idx.find((i) => i.type === 'track' && /à venir/.test(i.subtitle));
+  assert.equal(fs.subtitle, 'Parcours');            // disponible
+  assert.ok(announced, 'au moins un parcours annoncé porte « à venir »');
+});
+
+test('recherche : aucune donnée privée du second parcours indexée', () => {
+  const idx = buildIndex(realProgram, realCat);
+  const blob = JSON.stringify(idx);
+  // buildIndex ne reçoit QUE programme + catalogue publics (aucune progression) :
+  // aucune structure de donnée privée ne peut donc apparaître dans l'index.
+  assert.equal(/"answer"\s*:|"evidence"\s*:\s*\[|"workspace"\s*:|referenceSolution|"reference"\s*:/.test(blob), false);
+  // Le parcours n'expose que des métadonnées publiques (titre, statut, href).
+  const fs = idx.find((i) => i.href && i.href.includes(FULLSTACK_TRACK_ID));
+  assert.deepEqual(Object.keys(fs).sort(), ['href', 'id', 'keywords', 'subtitle', 'title', 'type']);
+});

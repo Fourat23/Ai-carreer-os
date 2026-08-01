@@ -964,6 +964,20 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .lab-card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: var(--sp-2); }
 .lab-card-go { margin-left: auto; color: var(--accent); font-size: var(--fs-xs); display: inline-flex; align-items: center; gap: 4px; }
 
+/* Contexte de parcours (V16) */
+.lab-track-ctx { color: var(--muted); font-size: var(--fs-sm); margin: 0 0 var(--sp-3); }
+.lab-track-ctx strong { color: var(--fg); }
+.lab-track-hint { color: var(--muted); }
+@media (max-width: 560px) { .lab-track-hint { display: none; } }
+.badge.ctx-active { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); }
+.badge.ctx-other { color: var(--muted); }
+.badge.ctx-global { color: var(--muted); font-style: italic; }
+.badge.ctx-multi { color: color-mix(in srgb, var(--accent) 70%, var(--fg)); }
+.lab-card-days { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; padding-left: 2px; }
+.lab-day-link { font-size: var(--fs-xs); color: var(--accent); text-decoration: none; border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border)); border-radius: 999px; padding: 1px 8px; }
+.lab-day-link:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.lab-day-other { font-size: var(--fs-xs); color: var(--muted); }
+
 /* Primitives partagées éditeur/résultats */
 .cm-host { height: 100%; }
 .cm-host .cm-editor { height: 100%; }

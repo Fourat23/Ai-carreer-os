@@ -4,7 +4,10 @@ import { runtimeStatus } from '@/lib/runtime-detect.mjs';
 import { getDayExerciseIndex } from '@/lib/day-exercises-server';
 import { daysForExercise } from '@/lib/day-exercises';
 import { normalizeExerciseFiles } from '@/lib/exercise-files';
-import { readProgress } from '@/lib/progress-server';
+import { readProgress, getActiveTrackId } from '@/lib/progress-server';
+import { getCatalogue } from '@/lib/catalogue-server';
+import { getTrack, isTrackAvailable } from '@/lib/catalogue';
+import { trackDaySets, classifyExercise, contextBadge } from '@/lib/exercise-context.mjs';
 import { hasLabEvidence } from '@/lib/lab-progress';
 import { Suspense } from 'react';
 import { workspaceExists } from '@/lib/workspace-server';
@@ -25,6 +28,14 @@ export default function LabPage() {
   const exercises = listExercises();
   const idx = getDayExerciseIndex();
   const progress = readProgress();
+  // Contexte de parcours : classification PURE côté serveur (métadonnées publiques
+  // seulement). Le catalogue mémoïsé fournit les jours de chaque parcours actif.
+  const catalogue = getCatalogue();
+  const activeTrackId = getActiveTrackId();
+  const activeTrackObj = getTrack(catalogue, activeTrackId) ?? catalogue.tracks[0];
+  const sets = trackDaySets(catalogue);
+  const trackTitle = new Map(catalogue.tracks.map((t) => [t.id, t.title]));
+  const availableTracks = catalogue.tracks.filter(isTrackAvailable).map((t) => ({ id: t.id, title: t.title }));
   const rtCache = new Map<string, ReturnType<typeof runtimeStatus>>();
   const rtStatus = (id: string) => {
     if (!rtCache.has(id)) rtCache.set(id, runtimeStatus(id));
@@ -38,6 +49,8 @@ export default function LabPage() {
     const days = daysForExercise(idx, ex.id);
     const passed = days.some((d) => hasLabEvidence(progress.days[String(d)], ex.id));
     const userStatus = passed ? 'réussi' : (workspaceExists(ex) ? 'en cours' : 'non commencé');
+    const ctx = classifyExercise(days, sets, activeTrackId);
+    const badge = contextBadge(ctx);
     return {
       id: ex.id,
       title: ex.title,
@@ -52,6 +65,13 @@ export default function LabPage() {
       execKind: (adapter as { preview?: boolean } | null)?.preview ? 'preview' : 'exécution',
       status: userStatus,
       day: days[0] ?? null,
+      // Contexte de parcours (métadonnées publiques : ids + numéros de jours).
+      scope: ctx.scope,
+      activeDays: ctx.activeDays,
+      reachableTracks: ctx.reachableTracks,
+      otherTrackTitles: ctx.inActive ? [] : ctx.reachableTracks.map((id) => trackTitle.get(id) ?? id),
+      badgeLabel: badge.label,
+      badgeKind: badge.kind,
     };
   });
 
@@ -68,7 +88,7 @@ export default function LabPage() {
         </div>
       </div>
       <Suspense fallback={<div className="lab-count">Chargement…</div>}>
-        <LabCatalog items={items} />
+        <LabCatalog items={items} activeTrack={{ id: activeTrackObj.id, title: activeTrackObj.title }} availableTracks={availableTracks} />
       </Suspense>
     </>
   );

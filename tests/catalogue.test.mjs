@@ -77,3 +77,66 @@ test('parcours : chaque technologie référencée résout dans la taxonomie', ()
     }
   }
 });
+
+// ── CP2 (V14) : resolveTrackDays + validation renforcée des parcours ─────────
+import { resolveTrackDays } from '../lib/catalogue.mjs';
+
+const mkCat = (over = {}) => ({
+  technologies: [{ id: 'node', name: 'Node', area: 'backend' }, { id: 'react', name: 'React', area: 'frontend' }],
+  modules: {
+    'm-a': { id: 'm-a', title: 'A', summary: '', dayRefs: [1, 2, 3], skills: [], projectRef: null },
+    'm-b': { id: 'm-b', title: 'B', summary: '', dayRefs: [4, 5], skills: [], projectRef: null },
+  },
+  tracks: [{ id: 't1', version: '1', status: 'available', title: 'T', goal: 'g', moduleRefs: ['m-a', 'm-b'], technologies: ['node'], totalDays: 5 }],
+  ...over,
+});
+
+test('resolveTrackDays : concatène les dayRefs des modules, ordonné et dédupliqué', () => {
+  const cat = mkCat();
+  assert.deepEqual(resolveTrackDays(cat, 't1'), [1, 2, 3, 4, 5]);
+  assert.deepEqual(resolveTrackDays(cat, 'inconnu'), []);
+});
+
+test('validation : parcours disponible sans module → erreur', () => {
+  const cat = mkCat({ tracks: [{ id: 't1', version: '1', status: 'available', title: 'T', goal: 'g', moduleRefs: [], technologies: [], totalDays: 0 }] });
+  assert.throws(() => validateCatalogue(cat), /sans module/);
+});
+
+test('validation : totalDays incohérent → erreur', () => {
+  const cat = mkCat({ tracks: [{ id: 't1', version: '1', status: 'available', title: 'T', goal: 'g', moduleRefs: ['m-a', 'm-b'], technologies: ['node'], totalDays: 99 }] });
+  assert.throws(() => validateCatalogue(cat), /totalDays incohérent/);
+});
+
+test('validation : jour dupliqué entre deux modules d’un parcours → erreur', () => {
+  const cat = mkCat({
+    modules: {
+      'm-a': { id: 'm-a', title: 'A', summary: '', dayRefs: [1, 2], skills: [], projectRef: null },
+      'm-b': { id: 'm-b', title: 'B', summary: '', dayRefs: [2, 3], skills: [], projectRef: null },
+    },
+    tracks: [{ id: 't1', version: '1', status: 'available', title: 'T', goal: 'g', moduleRefs: ['m-a', 'm-b'], technologies: [], totalDays: 3 }],
+  });
+  assert.throws(() => validateCatalogue(cat), /dupliqué entre modules/);
+});
+
+test('validation : technologie inconnue → erreur', () => {
+  const cat = mkCat({ tracks: [{ id: 't1', version: '1', status: 'available', title: 'T', goal: 'g', moduleRefs: ['m-a', 'm-b'], technologies: ['inexistante'], totalDays: 5 }] });
+  assert.throws(() => validateCatalogue(cat), /technologie inconnue/);
+});
+
+test('validation : statut invalide → erreur', () => {
+  const cat = mkCat({ tracks: [{ id: 't1', version: '1', status: 'draft', title: 'T', goal: 'g', moduleRefs: ['m-a', 'm-b'], technologies: [], totalDays: 5 }] });
+  assert.throws(() => validateCatalogue(cat), /statut invalide/);
+});
+
+test('validation : id de parcours polluant (__proto__) → erreur', () => {
+  const cat = mkCat({ tracks: [{ id: '__proto__', version: '1', status: 'announced', title: 'X', goal: 'g', moduleRefs: [], technologies: [], totalDays: 0 }] });
+  assert.throws(() => validateCatalogue(cat), /id valide/);
+});
+
+test('validation : parcours annoncé sans module reste valide', () => {
+  const cat = mkCat({ tracks: [
+    mkCat().tracks[0],
+    { id: 'soon', version: '1', status: 'announced', title: 'S', goal: 'g', moduleRefs: [], technologies: ['react'], totalDays: 0 },
+  ] });
+  assert.equal(validateCatalogue(cat), true);
+});

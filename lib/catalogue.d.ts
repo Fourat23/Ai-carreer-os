@@ -11,6 +11,7 @@ export interface Module {
 export interface Track {
   id: string; version: string; status: 'available' | 'announced';
   title: string; goal: string; moduleRefs: string[]; technologies: string[]; totalDays: number;
+  roles?: string[]; prerequisites?: string[]; completion?: { minDaysDone?: number; projectRefs?: string[] };
 }
 export interface Catalogue {
   technologies: Technology[];
@@ -22,6 +23,7 @@ export const TECHNOLOGIES: Technology[];
 export const ANNOUNCED_TRACKS: Array<{ id: string; title: string; goal: string; technologies: string[] }>;
 export function buildCatalogue(program: Program): Catalogue;
 export function validateCatalogue(catalogue: Catalogue, dayNums?: Set<number> | null): boolean;
+export function resolveTrackDays(catalogue: Catalogue, trackOrId: Track | string): number[];
 export function getTrack(catalogue: Catalogue, id: string): Track | null;
 export function getTrackModules(catalogue: Catalogue, track: Track): Module[];
 export function isTrackAvailable(track: Track | null | undefined): boolean;

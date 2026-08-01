@@ -1,0 +1,24 @@
+{
+  "sprint": "V17",
+  "baselineRef": "eb7c3b8",
+  "note": "Plan explicite de mutation contrôlée du curriculum (cf. ADR-017). Toute journée/fichier hors de ce plan ne doit PAS dériver. Rempli de façon incrémentale par checkpoint (CP3 dette/maintenance, CP4 performance, CP5 documentation, CP6 exercices, CP7 glossaire).",
+  "topics": [
+    { "id": "tech-debt", "domain": "quality", "targetDepth": "practiced" },
+    { "id": "maintenance", "domain": "quality", "targetDepth": "explained" },
+    { "id": "refactoring", "domain": "quality", "targetDepth": "evaluated" },
+    { "id": "code-smells", "domain": "quality", "targetDepth": "explained" },
+    { "id": "deprecation", "domain": "quality", "targetDepth": "explained" },
+    { "id": "perf-measure", "domain": "performance", "targetDepth": "practiced" },
+    { "id": "perf-metrics", "domain": "performance", "targetDepth": "explained" },
+    { "id": "perf-pitfalls", "domain": "performance", "targetDepth": "explained" },
+    { "id": "perf-regression", "domain": "performance", "targetDepth": "explained" },
+    { "id": "doc-decision", "domain": "documentation", "targetDepth": "practiced" },
+    { "id": "doc-design", "domain": "documentation", "targetDepth": "explained" },
+    { "id": "doc-ops", "domain": "documentation", "targetDepth": "practiced" }
+  ],
+  "allowedSourceModules": [],
+  "allowedKeptMarkdown": [],
+  "days": [],
+  "exercisesAdded": [],
+  "glossaryTermsAdded": []
+}

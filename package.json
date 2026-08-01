@@ -12,7 +12,8 @@
     "curriculum:depth-check": "node scripts/curriculum-depth-check.mjs",
     "glossary:check": "node scripts/glossary-check.mjs",
     "glossary:validate": "node scripts/glossary-check.mjs",
-    "test": "node --test \"tests/**/*.test.mjs\""
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "v17:check": "node scripts/v17-coverage-check.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",

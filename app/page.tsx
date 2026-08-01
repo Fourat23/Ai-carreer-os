@@ -3,7 +3,7 @@ import { CalendarDays, NotebookPen, FolderGit2, ClipboardCheck } from 'lucide-re
 import { Route } from 'lucide-react';
 import { getProgram } from '@/lib/program';
 import { getCatalogue } from '@/lib/catalogue-server';
-import { getTrack } from '@/lib/catalogue';
+import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
 import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { computeStats, currentSkills } from '@/lib/progress-stats';
 import { resumeReasonText, countStatuses } from '@/lib/resume';
@@ -26,9 +26,12 @@ export default function Dashboard() {
   const progress = readProgress();
   const catalogue = getCatalogue();
   const activeTrack = getTrack(catalogue, getActiveTrackId()) ?? catalogue.tracks[0];
+  // Jours du PARCOURS ACTIF (Fondations = les 365 jours ; un parcours ciblé = son
+  // sous-ensemble ordonné). Toutes les positions/compteurs en découlent.
+  const trackDays = resolveTrackDayObjects(catalogue, activeTrack, program);
   const stats = computeStats(program, progress);          // livrable suivant
-  const counts = countStatuses(program.days, progress);
-  const pos = progressPosition(program.days, progress);   // source de vérité des positions
+  const counts = countStatuses(trackDays, progress);
+  const pos = progressPosition(trackDays, progress);      // source de vérité des positions (parcours actif)
   const percent = pos.total ? Math.round((pos.currentProgressPosition / pos.total) * 100) : 0;
   const resumeDay = program.days.find((d) => d.day === pos.resumeDay);
   const resumeStatus = progress.days[String(pos.resumeDay)]?.status ?? 'not-started';
@@ -51,7 +54,7 @@ export default function Dashboard() {
     <>
       <div className="page-head">
         <div className="page-head-main">
-          <p className="page-eyebrow">Mission control <span className="sep">/</span> jour {pos.resumeDay} sur 365</p>
+          <p className="page-eyebrow">Mission control <span className="sep">/</span> jour {pos.resumeDay} sur {pos.total}</p>
           <h1 className="page-title">Tableau de bord</h1>
           <p className="page-sub">
             Programme de 12 mois vers des rôles IA appliquée.
@@ -96,10 +99,10 @@ export default function Dashboard() {
           <section className="section">
             <div className="section-head">
               <span className="section-label">Trajectoire</span>
-              <h2 className="section-title">365 jours</h2>
+              <h2 className="section-title">{pos.total} jours</h2>
               <span className="section-note">{percent}% · {counts.done}/{counts.total} jours</span>
             </div>
-            <Trajectory365 program={program} progress={progress} currentDay={pos.resumeDay} />
+            <Trajectory365 days={trackDays} progress={progress} currentDay={pos.resumeDay} />
           </section>
 
           <div className="side-block progress-block">

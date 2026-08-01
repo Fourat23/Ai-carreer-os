@@ -1,15 +1,21 @@
 import Link from 'next/link';
 import { getProgram } from '@/lib/program';
-import { readProgress } from '@/lib/progress-server';
+import { getCatalogue } from '@/lib/catalogue-server';
+import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
+import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 
 export const dynamic = 'force-dynamic';
 
 export default function CalendarPage() {
   const program = getProgram();
   const progress = readProgress();
+  const catalogue = getCatalogue();
+  const activeTrack = getTrack(catalogue, getActiveTrackId()) ?? catalogue.tracks[0];
+  // Le calendrier est généré à partir du PARCOURS ACTIF (Fondations = 365 jours).
+  const trackDays = resolveTrackDayObjects(catalogue, activeTrack, program);
 
   const byMonth = new Map<number, typeof program.days>();
-  for (const d of program.days) {
+  for (const d of trackDays) {
     if (!byMonth.has(d.month)) byMonth.set(d.month, []);
     byMonth.get(d.month)!.push(d);
   }
@@ -18,7 +24,7 @@ export default function CalendarPage() {
     <>
       <div className="page-head">
         <div className="page-head-main">
-          <p className="page-eyebrow">Vue d'ensemble <span className="sep">/</span> 365 jours</p>
+          <p className="page-eyebrow">Vue d'ensemble <span className="sep">/</span> {trackDays.length} jours · {activeTrack.title}</p>
           <h1 className="page-title">Calendrier</h1>
           <p className="page-sub">Mois → semaines → jours. Clique un jour pour l'ouvrir.</p>
         </div>

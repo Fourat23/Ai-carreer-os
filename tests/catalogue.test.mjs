@@ -140,3 +140,18 @@ test('validation : parcours annoncé sans module reste valide', () => {
   ] });
   assert.equal(validateCatalogue(cat), true);
 });
+
+// ── CP6 (V14) : resolveTrackDayObjects (surfaces pilotées par le parcours actif) ─
+import { resolveTrackDayObjects, FULLSTACK_TRACK_ID } from '../lib/catalogue.mjs';
+
+test('resolveTrackDayObjects : objets-journée ordonnés du parcours actif', () => {
+  const cat = buildCatalogue(program);
+  const found = resolveTrackDayObjects(cat, DEFAULT_TRACK_ID, program);
+  assert.equal(found.length, 365);               // Fondations = tout le programme
+  assert.equal(found[0].day, 1);
+  const fst = resolveTrackDayObjects(cat, FULLSTACK_TRACK_ID, program);
+  assert.equal(fst.length, 119);                 // Full-Stack = jours 1-119
+  assert.equal(fst[0].day, 1);
+  assert.equal(fst[fst.length - 1].day, 119);
+  assert.ok(fst.every((d) => d && typeof d.title === 'string'));
+});

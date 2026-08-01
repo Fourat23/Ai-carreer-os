@@ -6,12 +6,12 @@ import type { Program, Progress } from '@/lib/types';
 import TrajectoryGrid, { type TCell } from './TrajectoryGrid';
 
 export default function Trajectory365({
-  program, progress, currentDay,
+  days, progress, currentDay,
 }: {
-  program: Program; progress: Progress; currentDay: number;
+  days: Program['days']; progress: Progress; currentDay: number;
 }) {
   const byWeek = new Map<number, Program['days']>();
-  for (const d of program.days) {
+  for (const d of days) {
     const arr = byWeek.get(d.week);
     if (arr) arr.push(d); else byWeek.set(d.week, [d]);
   }
@@ -32,9 +32,9 @@ export default function Trajectory365({
     });
   }
 
-  const currentWeek = program.days.find((d) => d.day === currentDay)?.week ?? weeks[0];
+  const currentWeek = days.find((d) => d.day === currentDay)?.week ?? weeks[0];
   const monthFirstWeek = new Map<number, number>();
-  for (const d of program.days) {
+  for (const d of days) {
     const cur = monthFirstWeek.get(d.month);
     if (cur === undefined || d.week < cur) monthFirstWeek.set(d.month, d.week);
   }

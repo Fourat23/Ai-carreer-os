@@ -25,14 +25,14 @@
   "tests": [
     {
       "id": "t1",
-      "name": "100 à -20% → 80",
+      "name": "200 à -10% → 180",
       "kind": "call-equals",
       "export": "finalPrice",
       "args": [
-        100,
-        20
+        200,
+        10
       ],
-      "expected": 80
+      "expected": 180
     },
     {
       "id": "t2",

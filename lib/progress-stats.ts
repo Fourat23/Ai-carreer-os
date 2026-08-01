@@ -20,8 +20,10 @@ export interface Stats {
 
 const DONE = new Set(['done']);
 
-export function computeStats(program: Program, progress: Progress): Stats {
-  const days = program.days;
+// `days` = journées ORDONNÉES du parcours actif (Fondations = 365 ; parcours
+// ciblé = son sous-ensemble). Toutes les stats (livrable, jour attendu, retard)
+// sont ainsi calculées dans le périmètre du parcours actif.
+export function computeStats(days: Program['days'], progress: Progress): Stats {
   const totalDays = days.length;
   let completedDays = 0, inProgressDays = 0, toReviewDays = 0;
   for (const d of days) {

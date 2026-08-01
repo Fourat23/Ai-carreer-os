@@ -27,6 +27,7 @@ export function buildCatalogue(program: Program): Catalogue;
 export function validateCatalogue(catalogue: Catalogue, dayNums?: Set<number> | null): boolean;
 export function resolveTrackDays(catalogue: Catalogue, trackOrId: Track | string): number[];
 export function resolveTrackDayObjects(catalogue: Catalogue, trackOrId: Track | string, program: Program): Program['days'];
+export function trackNeighbors(trackDayNums: number[], day: number): { inTrack: boolean; prev: number | null; next: number | null; position: number | null; total: number };
 export function getTrack(catalogue: Catalogue, id: string): Track | null;
 export function getTrackModules(catalogue: Catalogue, track: Track): Module[];
 export function isTrackAvailable(track: Track | null | undefined): boolean;

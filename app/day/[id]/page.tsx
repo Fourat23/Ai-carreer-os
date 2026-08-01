@@ -2,7 +2,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FlaskConical, Check, ArrowRight } from 'lucide-react';
 import { getDay, getDayHtml, getSolutionHtml, getDayChecklist } from '@/lib/program';
-import { getDayProgress } from '@/lib/progress-server';
+import { getDayProgress, getActiveTrackId } from '@/lib/progress-server';
+import { getCatalogue } from '@/lib/catalogue-server';
+import { resolveTrackDays, trackNeighbors } from '@/lib/catalogue';
 import { getDayExerciseIndex } from '@/lib/day-exercises-server';
 import { selectDayExercises } from '@/lib/day-exercises';
 import { getExercise } from '@/lib/exercises-server';
@@ -39,6 +41,18 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
   const checklist = getDayChecklist(dayNum);
   const progress = getDayProgress(dayNum) ?? { ...EMPTY_DAY_PROGRESS };
 
+  // Navigation BORNÉE au parcours actif : précédent/suivant sont les journées
+  // voisines dans resolveTrackDays (jamais day±1). Si la journée est hors du
+  // parcours actif (contenu partagé consultable), on retombe sur une navigation
+  // linéaire du programme sans position de parcours.
+  const catalogue = getCatalogue();
+  const trackDays = resolveTrackDays(catalogue, getActiveTrackId());
+  const nb = trackNeighbors(trackDays, dayNum);
+  const prevDay = nb.inTrack ? nb.prev : (dayNum > 1 ? dayNum - 1 : null);
+  const nextDay = nb.inTrack ? nb.next : (dayNum < 365 ? dayNum + 1 : null);
+  const trackTotal = nb.inTrack ? nb.total : null;
+  const trackPosition = nb.inTrack ? nb.position : null;
+
   // Exercices de code liés à ce jour (fixture, sans toucher au Markdown).
   // Sélection/ordre PURS (par difficulté puis id), statut via preuve de réussite.
   const labExercises = selectDayExercises(
@@ -60,6 +74,10 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
           week={meta.week}
           month={meta.month}
           status={progress.status}
+          prevDay={prevDay}
+          nextDay={nextDay}
+          trackTotal={trackTotal}
+          trackPosition={trackPosition}
         />
 
         <DayOutline variant="compact" />
@@ -94,7 +112,7 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
 
         <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
 
-        <DayPanel day={dayNum} initial={progress} checklist={checklist} activities={activities} />
+        <DayPanel day={dayNum} nextDay={nextDay} initial={progress} checklist={checklist} activities={activities} />
 
         {solution && (
           <DayCorrection day={dayNum} solutionHtml={solution} isReview={!!meta.isReview} initial={progress} />

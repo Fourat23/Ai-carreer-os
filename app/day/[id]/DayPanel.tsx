@@ -30,9 +30,10 @@ async function postDay(day: number, patch: Partial<DayProgress>, keepalive = fal
 }
 
 export default function DayPanel({
-  day, initial, checklist, activities,
+  day, nextDay, initial, checklist, activities,
 }: {
   day: number;
+  nextDay?: number | null;
   initial: DayProgress;
   checklist: string[];
   activities: Activity[];
@@ -149,8 +150,8 @@ export default function DayPanel({
         {status === 'done' && (
           <button className="btn" onClick={() => setStatusAction('reopen')}><RotateCcw size={14} strokeWidth={2} /> Rouvrir</button>
         )}
-        {day < 365 && (
-          <a className="btn ghost dpx-next" href={`/day/${day + 1}`}>Jour suivant <ArrowRight size={14} strokeWidth={2} /></a>
+        {nextDay != null && (
+          <a className="btn ghost dpx-next" href={`/day/${nextDay}`}>Jour suivant <ArrowRight size={14} strokeWidth={2} /></a>
         )}
       </div>
 

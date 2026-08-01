@@ -203,3 +203,28 @@ test('Backend : n’est plus annoncé ; les parcours existants restent intacts',
   assert.equal(cat.tracks.filter(isTrackAvailable).length, 3);
   assert.equal(be.technologies.includes('docker'), false);
 });
+
+// ── CP6 (V15) : navigation bornée au parcours (trackNeighbors) ───────────────
+import { trackNeighbors } from '../lib/catalogue.mjs';
+
+test('trackNeighbors : précédent/suivant DANS le parcours (jamais day±1)', () => {
+  // Parcours non contigu : …, 81, 83, 84…
+  const days = [1, 2, 3, 81, 83, 84];
+  assert.deepEqual(trackNeighbors(days, 81), { inTrack: true, prev: 3, next: 83, position: 4, total: 6 });
+  // 81 → suivant = 83 (pas 82, hors parcours) ; 83 → précédent = 81 (pas 82).
+  assert.deepEqual(trackNeighbors(days, 83), { inTrack: true, prev: 81, next: 84, position: 5, total: 6 });
+  // Première journée : pas de précédent. Dernière : pas de suivant.
+  assert.equal(trackNeighbors(days, 1).prev, null);
+  assert.equal(trackNeighbors(days, 84).next, null);
+  // Journée hors parcours.
+  assert.deepEqual(trackNeighbors(days, 200), { inTrack: false, prev: null, next: null, position: null, total: 6 });
+});
+
+test('trackNeighbors : bornes du parcours Backend réel (81→83, pas de 82)', () => {
+  const cat = buildCatalogue(program);
+  const days = resolveTrackDays(cat, BACKEND_TRACK_ID);
+  assert.equal(trackNeighbors(days, 81).next, 83);   // saute j82
+  assert.equal(trackNeighbors(days, 83).prev, 81);
+  assert.equal(trackNeighbors(days, 86).next, null); // dernière journée backend
+  assert.equal(trackNeighbors(days, 1).prev, null);  // première journée
+});

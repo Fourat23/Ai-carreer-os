@@ -29,7 +29,7 @@ export default function Dashboard() {
   // Jours du PARCOURS ACTIF (Fondations = les 365 jours ; un parcours ciblé = son
   // sous-ensemble ordonné). Toutes les positions/compteurs en découlent.
   const trackDays = resolveTrackDayObjects(catalogue, activeTrack, program);
-  const stats = computeStats(program, progress);          // livrable suivant
+  const stats = computeStats(trackDays, progress);        // livrable suivant (parcours actif)
   const counts = countStatuses(trackDays, progress);
   const pos = progressPosition(trackDays, progress);      // source de vérité des positions (parcours actif)
   const percent = pos.total ? Math.round((pos.currentProgressPosition / pos.total) * 100) : 0;

@@ -11,25 +11,31 @@ const STATUS: Record<string, { label: string; cls: string }> = {
 
 export default function DayHeader({
   day, title, skillName, difficulty, hours, week, month, status,
+  prevDay, nextDay, trackTotal, trackPosition,
 }: {
   day: number; title: string; skillName: string; difficulty: number;
   hours: number; week: number; month: number; status?: string;
+  prevDay?: number | null; nextDay?: number | null;
+  trackTotal?: number | null; trackPosition?: number | null;
 }) {
   const st = STATUS[status ?? 'not-started'] ?? STATUS['not-started'];
-  const pct = Math.round((day / 365) * 100);
+  // Position et navigation BORNÉES au parcours actif (Fondations : jour/365).
+  const total = trackTotal ?? 365;
+  const posInTrack = trackPosition ?? day;
+  const pct = Math.round((posInTrack / total) * 100);
   return (
     <header className="day-head">
       <div className="day-head-top">
-        <span className="day-ordinal">Jour {day} <span>/ 365</span></span>
-        <nav className="day-turn" aria-label="Navigation entre les jours">
-          {day > 1 && (
-            <Link className="turn-btn" href={`/day/${day - 1}`} aria-label={`Jour ${day - 1}`}>
-              <ChevronLeft size={15} strokeWidth={2} /> <span>Jour {day - 1}</span>
+        <span className="day-ordinal">Jour {day}{trackPosition != null ? <span> · {posInTrack}/{total}</span> : <span> / 365</span>}</span>
+        <nav className="day-turn" aria-label="Navigation entre les jours du parcours">
+          {prevDay != null && (
+            <Link className="turn-btn" href={`/day/${prevDay}`} aria-label={`Jour ${prevDay}`}>
+              <ChevronLeft size={15} strokeWidth={2} /> <span>Jour {prevDay}</span>
             </Link>
           )}
-          {day < 365 && (
-            <Link className="turn-btn" href={`/day/${day + 1}`} aria-label={`Jour ${day + 1}`}>
-              <span>Jour {day + 1}</span> <ChevronRight size={15} strokeWidth={2} />
+          {nextDay != null && (
+            <Link className="turn-btn" href={`/day/${nextDay}`} aria-label={`Jour ${nextDay}`}>
+              <span>Jour {nextDay}</span> <ChevronRight size={15} strokeWidth={2} />
             </Link>
           )}
         </nav>
@@ -52,7 +58,7 @@ export default function DayHeader({
 
       <div className="day-progress">
         <div className="dp-track" aria-hidden="true"><span style={{ width: `${pct}%` }} /></div>
-        <span className="dp-label">Avancement du parcours · jour {day} sur 365</span>
+        <span className="dp-label">Avancement du parcours · jour {posInTrack} sur {total}</span>
       </div>
     </header>
   );

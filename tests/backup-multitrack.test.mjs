@@ -101,3 +101,32 @@ test('mutation puis restauration exacte des trois parcours', () => {
   assert.equal(Object.keys(restored.tracks).length, 3);
   assert.equal(restored.tracks[BACKEND_TRACK_ID].days['52'].answer, 'BE52');
 });
+
+// ── CP8 (V16) : aucune préférence d'affichage ni état agrégé persisté ────────
+import { aggregateTracks } from '../lib/track-aggregate.mjs';
+import { buildCatalogue } from '../lib/catalogue.mjs';
+import { readFileSync as _rf } from 'node:fs';
+
+test('la sauvegarde ne contient QUE des données de progression (pas de filtre/portée/agrégat)', () => {
+  const wrapped = serializeBackupV3(threeTracks(), {});
+  const blob = JSON.stringify(wrapped);
+  // Les préférences d'affichage V16 (scope/track/portée) vivent dans l'URL, jamais
+  // dans progress.json ; aucun read-model agrégé n'est persisté.
+  for (const forbidden of ['"scope"', '"reachableTracks"', '"aggregate"', '"badgeKind"', '"contextBadge"', '"percent"', '"reviewsDue"']) {
+    assert.equal(blob.includes(forbidden), false, `la sauvegarde ne doit pas contenir ${forbidden}`);
+  }
+  // Structure attendue : progress v3 pur.
+  assert.equal(wrapped.progress.schemaVersion, 3);
+  assert.ok(wrapped.progress.tracks && wrapped.progress.activeTrackId);
+});
+
+test('read-model agrégé : purement dérivé, jamais présent dans la sauvegarde', () => {
+  const program = JSON.parse(_rf(new URL('../data/program.json', import.meta.url), 'utf8'));
+  const cat = buildCatalogue(program);
+  const v3 = threeTracks();
+  const rows = aggregateTracks(cat, v3, program);
+  assert.ok(rows.length >= 1);
+  // Le v3 n'a pas gagné de champ agrégé après calcul (lecture seule).
+  const serialized = JSON.stringify(serializeBackupV3(v3, {}));
+  assert.equal(serialized.includes('"completedDays"'), false);
+});

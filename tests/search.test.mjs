@@ -209,3 +209,20 @@ test('recherche : aucune donnée privée du second parcours indexée', () => {
   const fs = idx.find((i) => i.href && i.href.includes(FULLSTACK_TRACK_ID));
   assert.deepEqual(Object.keys(fs).sort(), ['href', 'id', 'keywords', 'subtitle', 'title', 'type']);
 });
+
+// ── CP8 (V15) : le parcours Backend est trouvable, sans fuite ────────────────
+import { BACKEND_TRACK_ID } from '../lib/catalogue.mjs';
+
+test('recherche : le parcours Backend Engineer est trouvable et marqué disponible', () => {
+  const idx = buildIndex(realProgram, realCat);
+  const be = idx.find((i) => i.type === 'track' && i.href.includes(BACKEND_TRACK_ID));
+  assert.ok(be, 'parcours Backend indexé');
+  assert.equal(be.subtitle, 'Parcours');               // disponible (pas « à venir »)
+  assert.ok(search(idx, 'backend engineer').some((r) => r.type === 'track'));
+  // Trois parcours disponibles distingués des annoncés.
+  const availableTracks = idx.filter((i) => i.type === 'track' && i.subtitle === 'Parcours');
+  assert.ok(availableTracks.length >= 3);
+  // Aucune donnée privée (buildIndex ne reçoit que programme + catalogue publics).
+  const be2 = idx.find((i) => i.href && i.href.includes(BACKEND_TRACK_ID));
+  assert.deepEqual(Object.keys(be2).sort(), ['href', 'id', 'keywords', 'subtitle', 'title', 'type']);
+});

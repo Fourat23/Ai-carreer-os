@@ -149,3 +149,49 @@ test('recordExerciseSuccess : exercice Python multi-compétences → preuve + co
   assert.equal(again.days['150'].evidence.length, 1);
   assert.equal(again, next);
 });
+
+// ── CP3 (V13) : rôles pédagogiques dérivés + rapport de charge ───────────────
+import { assignDayRoles, dayLoadReport, prerequisiteSatisfied, MAX_DAY_LOAD } from '../lib/day-exercises.mjs';
+
+test('assignDayRoles : principal (1er), remédiation (debug), défi (≥ principal+2), complément', () => {
+  const items = [
+    { id: 'a-intro', difficulty: 1, debug: false },
+    { id: 'b-more', difficulty: 2, debug: false },
+    { id: 'c-debug-x', difficulty: 2, debug: true },
+    { id: 'd-hard', difficulty: 3, debug: false },
+  ];
+  const r = assignDayRoles(items);
+  assert.equal(r.get('a-intro'), 'principal');
+  assert.equal(r.get('b-more'), 'complement');
+  assert.equal(r.get('c-debug-x'), 'remediation');
+  assert.equal(r.get('d-hard'), 'challenge'); // 3 >= 1+2
+  assert.deepEqual(assignDayRoles([]), new Map());
+});
+
+test('selectDayExercises : expose un rôle dérivé (principal en tête)', () => {
+  const idx = buildDayExerciseIndex({ '10': ['x-debug', 'x-base'] }, new Set(['x-debug', 'x-base']), new Set([10]));
+  const out = selectDayExercises(idx, 10, {
+    'x-base': { title: 'Base', runtime: 'node-js', difficulty: 1 },
+    'x-debug': { title: 'Debug', runtime: 'node-js', difficulty: 2 },
+  });
+  assert.equal(out[0].id, 'x-base');
+  assert.equal(out[0].role, 'principal');
+  assert.equal(out[1].role, 'remediation'); // id contient "debug"
+});
+
+test('dayLoadReport : signale les journées au-dessus de la cible (advisory, ne lève pas)', () => {
+  const idx = buildDayExerciseIndex(
+    { '1': ['a'], '2': ['b', 'c', 'd', 'e'] },
+    new Set(['a', 'b', 'c', 'd', 'e']), new Set([1, 2]),
+  );
+  const rep = dayLoadReport(idx);
+  assert.deepEqual(rep.find((r) => r.day === 1), { day: 1, count: 1, over: false });
+  assert.deepEqual(rep.find((r) => r.day === 2), { day: 2, count: 4, over: true }); // > 3
+  assert.equal(MAX_DAY_LOAD, 3);
+});
+
+test('prerequisiteSatisfied : la journée liée doit être ≥ à la journée d’intro', () => {
+  assert.equal(prerequisiteSatisfied(31, 30), true);
+  assert.equal(prerequisiteSatisfied(16, 15), true);
+  assert.equal(prerequisiteSatisfied(5, 8), false);
+});

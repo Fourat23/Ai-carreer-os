@@ -124,7 +124,8 @@
       "objective": "Enrichir le jour 80 (cache & performance) avec le protocole de mesure : baseline, hypothèse, profiling, hot path, latence/débit, percentiles p50/p95/p99, taxonomie CPU/IO/memory-bound, allocations, memory leak, cold start, budget et régression de performance.",
       "exercises": [
         "latency-percentiles",
-        "perf-budget"
+        "perf-budget",
+        "fix-nplus1"
       ],
       "docDeliverables": []
     },
@@ -199,6 +200,14 @@
       "skills": [
         "functions",
         "conditions"
+      ],
+      "day": 80
+    },
+    {
+      "id": "fix-nplus1",
+      "skills": [
+        "hashmap",
+        "arrays"
       ],
       "day": 80
     }

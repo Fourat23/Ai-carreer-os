@@ -86,7 +86,8 @@
   ],
   "80": [
     "latency-percentiles",
-    "perf-budget"
+    "perf-budget",
+    "fix-nplus1"
   ],
   "87": [
     "web-semantic",

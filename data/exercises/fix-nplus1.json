@@ -1,0 +1,30 @@
+{
+  "id": "fix-nplus1",
+  "title": "Corriger un goulot N+1 par pré-indexation",
+  "runtime": "node-js",
+  "language": "javascript",
+  "activeFile": "solution.mjs",
+  "difficulty": 2,
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "skills": ["hashmap", "arrays"],
+  "summary": "joinLoans(loans, books) associe à chaque emprunt le titre de son livre. La version naïve refait un books.find(...) PAR emprunt : coût O(n·m), le fameux N+1. Corrige-la en pré-indexant les livres dans une Map une seule fois (O(n+m)), à comportement observable identique (titre null si le livre manque).",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// loans = [{ id, bookId }] ; books = [{ id, title }].\n// Renvoie [{ id, title }] : pour chaque emprunt, le titre de SON livre\n// (title = null si le livre n'existe pas). Ordre = celui des emprunts.\n//\n// PIÈGE N+1 : faire books.find(b => b.id === loan.bookId) DANS la boucle refait\n// un balayage complet par emprunt -> O(n·m). Pré-indexe les livres dans une Map\n// UNE fois (bookId -> title), puis lis en O(1) par emprunt.\nexport function joinLoans(loans, books) {\n  // TODO : construis la Map une fois, puis mappe les emprunts.\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function joinLoans(loans, books) {\n  const titleById = new Map(books.map((b) => [b.id, b.title]));\n  return loans.map((l) => ({ id: l.id, title: titleById.has(l.bookId) ? titleById.get(l.bookId) : null }));\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "association simple", "kind": "call-equals", "export": "joinLoans", "args": [[{ "id": 1, "bookId": "a" }, { "id": 2, "bookId": "b" }], [{ "id": "a", "title": "Go" }, { "id": "b", "title": "Rust" }]], "expected": [{ "id": 1, "title": "Go" }, { "id": 2, "title": "Rust" }] },
+    { "id": "t2", "name": "livre manquant → title null", "kind": "call-equals", "export": "joinLoans", "args": [[{ "id": 1, "bookId": "x" }], [{ "id": "a", "title": "Go" }]], "expected": [{ "id": 1, "title": null }] },
+    { "id": "t3", "name": "ordre des emprunts préservé", "kind": "call-equals", "export": "joinLoans", "args": [[{ "id": 3, "bookId": "b" }, { "id": 1, "bookId": "a" }], [{ "id": "a", "title": "Go" }, { "id": "b", "title": "Rust" }]], "expected": [{ "id": 3, "title": "Rust" }, { "id": 1, "title": "Go" }] },
+    { "id": "t4", "name": "aucun emprunt (privé)", "kind": "call-equals", "export": "joinLoans", "args": [[], [{ "id": "a", "title": "Go" }]], "expected": [], "private": true },
+    { "id": "t5", "name": "plusieurs emprunts d'un même livre (privé)", "kind": "call-equals", "export": "joinLoans", "args": [[{ "id": 1, "bookId": "a" }, { "id": 2, "bookId": "a" }], [{ "id": "a", "title": "Go" }]], "expected": [{ "id": 1, "title": "Go" }, { "id": 2, "title": "Go" }], "private": true }
+  ]
+}

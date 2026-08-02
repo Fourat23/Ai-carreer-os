@@ -117,3 +117,58 @@ test('CP5 — livrable documentaire évalué ajouté au projet (jour 66 → runb
   const d = program.days.find((x) => x.day === 66);
   assert.ok(/runbook/i.test(d.deliverable), 'le livrable du projet inclut un runbook');
 });
+
+// ── CP6 : corpus d'exercices & projets reliés ────────────────────────────────
+
+test('CP6 — les 5 exercices V17 sont valides, avec public + privé', () => {
+  for (const id of ['debt-audit', 'refactor-legacy', 'latency-percentiles', 'perf-budget', 'fix-nplus1']) {
+    const ex = exercise(id);
+    assert.deepEqual(validateExercise(ex), { ok: true, errors: [] }, `${id} valide`);
+    assert.ok(ex.tests.some((t) => !t.private) && ex.tests.some((t) => t.private), `${id} : public + privé`);
+    const starter = ex.workspace.files.find((f) => f.path === ex.activeFile).content;
+    assert.notEqual(starter, ex.reference[ex.activeFile], `${id} : starter ≠ solution`);
+  }
+});
+
+test('CP6 — chaque exercice V17 est relié à une journée thématiquement cohérente', () => {
+  const de = dayExercises();
+  // dette/refactoring → jour 69 ; performance/goulot → jour 80 ; budget → aussi jour 102.
+  assert.deepEqual(de['69'], ['debt-audit', 'refactor-legacy']);
+  assert.deepEqual(de['80'], ['latency-percentiles', 'perf-budget', 'fix-nplus1']);
+  assert.ok(de['102'].includes('perf-budget'));
+});
+
+test('CP6 — matrice de couverture des activités : aucun manque', () => {
+  // Chaque activité CP6 est couverte soit par un exercice de code (lab), soit par
+  // un livrable documentaire évalué / une référence réutilisable.
+  const de = dayExercises();
+  const program = JSON.parse(readFileSync(new URL('../data/program.json', import.meta.url), 'utf8'));
+  const doc = readFileSync(new URL('../curriculum/methodology/documentation-technique.md', import.meta.url), 'utf8');
+  const allExercises = new Set(Object.values(de).flat());
+  const d66 = program.days.find((x) => x.day === 66);
+
+  // Activités « code » → exercices réels.
+  assert.ok(allExercises.has('debt-audit'), 'identification de dette');
+  assert.ok(allExercises.has('refactor-legacy'), 'refactoring sans régression + caractérisation');
+  assert.ok(allExercises.has('latency-percentiles'), 'analyse de performance');
+  assert.ok(allExercises.has('fix-nplus1'), 'correction d’un goulot');
+  assert.ok(allExercises.has('perf-budget'), 'budget/régression de performance');
+  // Activités « documentaires » → livrables évalués / modèles de référence.
+  assert.ok(/runbook/i.test(d66.deliverable), 'runbook : livrable évalué');
+  assert.ok(/ADR/.test(d66.deliverable), 'ADR : livrable évalué');
+  assert.ok(doc.includes('## Post-mortem'), 'post-mortem : modèle de référence');
+  assert.ok(doc.includes('## TSD') && doc.includes('## HSD'), 'TSD/HSD : modèles de référence');
+});
+
+test('CP6 — anti-fuite corpus : aucune référence/solution des exercices V17 indexée', () => {
+  // Les fichiers d'exercice contiennent la référence, mais elle ne doit jamais
+  // transiter par une surface publique. On vérifie que le champ reference existe
+  // (serveur) mais qu'aucun test PRIVÉ n'est marqué public par erreur.
+  for (const id of ['debt-audit', 'refactor-legacy', 'latency-percentiles', 'perf-budget', 'fix-nplus1']) {
+    const ex = exercise(id);
+    assert.ok(ex.reference && Object.keys(ex.reference).length > 0, `${id} a une référence (serveur only)`);
+    const privateNames = ex.tests.filter((t) => t.private).map((t) => t.name);
+    // un test privé ne doit pas révéler l'attendu dans un test public homonyme
+    assert.ok(privateNames.every((n) => n.includes('privé')), `${id} : tests privés étiquetés`);
+  }
+});

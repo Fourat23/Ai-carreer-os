@@ -1,0 +1,25 @@
+{
+  "sprint": "V19",
+  "baselineRef": "84dc1f5",
+  "note": "Plan de mutation contrôlée V19 (cf. ADR-019). Toute journée/fichier hors de ce plan ne doit PAS dériver. Rempli par checkpoint (CP3 terminal/Linux, CP4 système/réseau, CP5 exercices, CP6 missions, CP7 parcours, CP8 glossaire).",
+  "topics": [
+    { "id": "terminal-cli", "domain": "shell", "targetDepth": "practiced" },
+    { "id": "filesystem", "domain": "shell", "targetDepth": "explained" },
+    { "id": "permissions", "domain": "system", "targetDepth": "evaluated" },
+    { "id": "processes", "domain": "system", "targetDepth": "practiced" },
+    { "id": "services-logs", "domain": "system", "targetDepth": "explained" },
+    { "id": "resources", "domain": "system", "targetDepth": "practiced" },
+    { "id": "networking", "domain": "network", "targetDepth": "practiced" },
+    { "id": "dns", "domain": "network", "targetDepth": "practiced" },
+    { "id": "http-tls", "domain": "network", "targetDepth": "explained" },
+    { "id": "ssh", "domain": "network", "targetDepth": "explained" },
+    { "id": "diagnostic", "domain": "ops", "targetDepth": "evaluated" }
+  ],
+  "allowedSourceModules": [],
+  "allowedKeptMarkdown": [],
+  "tracksAdded": ["systems-cloud-foundations-v1"],
+  "days": [],
+  "exercisesAdded": [],
+  "missionsAdded": [],
+  "glossaryTermsAdded": []
+}

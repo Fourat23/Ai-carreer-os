@@ -136,7 +136,7 @@ test('CP6 — chaque exercice V17 est relié à une journée thématiquement coh
   const de = dayExercises();
   // dette/refactoring → jour 69 ; performance/goulot → jour 80 ; budget → aussi jour 102.
   assert.ok(de['69'].includes('debt-audit') && de['69'].includes('refactor-legacy'));
-  assert.deepEqual(de['80'], ['latency-percentiles', 'perf-budget', 'fix-nplus1']);
+  for (const id of ['latency-percentiles', 'perf-budget', 'fix-nplus1']) assert.ok(de['80'].includes(id), `jour 80 → ${id}`);
   assert.ok(de['102'].includes('perf-budget'));
 });
 

@@ -58,3 +58,38 @@ test('CP3 — vue publique de la mission : aucun attendu caché exposé', () => 
   assert.ok(!pub.includes('docSpec') && !pub.includes('requireMentions'), 'pas de spec interne');
   assert.ok(pub.includes('Registre de dette'), 'les sections attendues restent des critères publics');
 });
+
+// ── CP4 : mission performance, profiling & optimisation ──────────────────────
+
+test('CP4 — mission slow-endpoint-optimization valide, catégorie performance', () => {
+  const m = mission('slow-endpoint-optimization');
+  assert.deepEqual(validateMission(m, ctx()), { ok: true, errors: [] });
+  assert.equal(m.category, 'performance');
+  assert.ok(m.dayRefs.includes(80));
+});
+
+test('CP4 — rapport de perf exige baseline/mesure avant-après/bottleneck/compromis', () => {
+  const m = mission('slow-endpoint-optimization');
+  const report = m.deliverables.find((d) => d.id === 'perf-report');
+  for (const s of ['Baseline', 'Hypothèse', 'Mesure avant', 'Bottleneck', 'Mesure après', 'Compromis']) {
+    assert.ok(report.docSpec.requiredSections.includes(s), `exige « ${s} »`);
+  }
+  const guard = m.deliverables.find((d) => d.id === 'regression-guard');
+  assert.ok(guard.docSpec.requiredSections.includes('Budget de performance'));
+  assert.ok(guard.docSpec.requiredSections.includes('Test de régression'));
+});
+
+test('CP4 — exercice perf-pair-count : optimisation vérifiée par une mesure déterministe', () => {
+  const ex = exercise('perf-pair-count');
+  assert.deepEqual(validateExercise(ex), { ok: true, errors: [] });
+  // La mesure (lookups) est déterministe, pas un chrono fragile.
+  assert.ok(ex.tests.every((t) => 'lookups' in (t.expected ?? {})), 'chaque test mesure lookups');
+  assert.ok(ex.tests.some((t) => t.private), 'garde des tests privés (budget de lookups)');
+  assert.ok(dayExercises()['80'].includes('perf-pair-count'));
+});
+
+test('CP4 — la mission interdit les fausses optimisations (erreurs fréquentes)', () => {
+  const m = mission('slow-endpoint-optimization');
+  const blob = m.commonMistakes.join(' ').toLowerCase();
+  assert.ok(/seuil du test|hardcode|masquer une erreur|cache/.test(blob), 'liste les fausses optimisations');
+});

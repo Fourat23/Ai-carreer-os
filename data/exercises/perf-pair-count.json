@@ -1,0 +1,31 @@
+{
+  "id": "perf-pair-count",
+  "title": "Optimiser un comptage de paires O(n²) → O(n)",
+  "runtime": "node-js",
+  "language": "javascript",
+  "activeFile": "solution.mjs",
+  "difficulty": 3,
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "skills": ["hashmap", "algo"],
+  "summary": "countPairsWithSum(nums, target) compte les paires (i<j) dont la somme vaut target, ET rapporte lookups = le nombre de consultations effectuées (UNE par élément dans une solution efficace). Le starter naïf est O(n²) : correct mais lent (lookups = n(n-1)/2). Ré-implémente en O(n) avec une Map : même count, mais lookups = n. La mesure (lookups) est le juge, pas le chrono.",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// countPairsWithSum(nums, target) → { count, lookups }\n//   count   = nombre de paires (i<j) avec nums[i]+nums[j] === target ;\n//   lookups = nombre de CONSULTATIONS faites pour trouver les compléments.\n// BASELINE (ci-dessous) : double boucle O(n²) — correcte, mais lookups explose\n// (n(n-1)/2). HYPOTHÈSE : une Map complément→occurrences ramène à UNE consultation\n// par élément → lookups = n. Objectif : même count, lookups = n.\nexport function countPairsWithSum(nums, target) {\n  let count = 0;\n  let lookups = 0;\n  for (let i = 0; i < nums.length; i++) {\n    for (let j = i + 1; j < nums.length; j++) {\n      lookups++; // compare chaque paire : O(n²)\n      if (nums[i] + nums[j] === target) count++;\n    }\n  }\n  return { count, lookups };\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function countPairsWithSum(nums, target) {\n  const seen = new Map();\n  let count = 0;\n  let lookups = 0;\n  for (const n of nums) {\n    lookups++; // une seule consultation par élément\n    count += seen.get(target - n) ?? 0;\n    seen.set(n, (seen.get(n) ?? 0) + 1);\n  }\n  return { count, lookups };\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "compte correct + lookups = n (O(n))", "kind": "call-equals", "export": "countPairsWithSum", "args": [[1, 2, 3, 4], 5], "expected": { "count": 2, "lookups": 4 } },
+    { "id": "t2", "name": "aucune paire", "kind": "call-equals", "export": "countPairsWithSum", "args": [[1, 1, 1], 5], "expected": { "count": 0, "lookups": 3 } },
+    { "id": "t3", "name": "doublons : toutes les paires comptées", "kind": "call-equals", "export": "countPairsWithSum", "args": [[2, 2, 2, 2], 4], "expected": { "count": 6, "lookups": 4 } },
+    { "id": "t4", "name": "budget de lookups tenu sur entrée plus grande (privé)", "kind": "call-equals", "export": "countPairsWithSum", "args": [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 11], "expected": { "count": 5, "lookups": 10 }, "private": true },
+    { "id": "t5", "name": "beaucoup de paires, lookups reste = n (privé)", "kind": "call-equals", "export": "countPairsWithSum", "args": [[3, 3, 3, 3, 3, 3, 3, 3, 3, 3], 6], "expected": { "count": 45, "lookups": 10 }, "private": true },
+    { "id": "t6", "name": "vide", "kind": "call-equals", "export": "countPairsWithSum", "args": [[], 5], "expected": { "count": 0, "lookups": 0 }, "private": true }
+  ]
+}

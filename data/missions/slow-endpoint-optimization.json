@@ -1,0 +1,76 @@
+{
+  "id": "slow-endpoint-optimization",
+  "title": "Corriger un endpoint lent, mesures à l'appui",
+  "description": "Diagnostiquer et corriger un goulot de performance mesurable : établir une baseline, formuler une hypothèse, mesurer, identifier le bottleneck, optimiser sans changer le comportement, re-mesurer, analyser les compromis et prévenir la régression.",
+  "category": "performance",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Un endpoint de rapport agrège des paires de valeurs et devient lent quand le jeu de données grossit : sur 10 000 lignes, la latence p95 dépasse le budget de 300 ms. Une capture de profil montre que 90 % du temps part dans une fonction de comptage à double boucle — un O(n²) qui explose avec la taille. Ta mission : NE PAS deviner. Établis d'abord une baseline reproductible, formule une hypothèse (« le goulot est le comptage de paires, pas la sérialisation »), MESURE pour la valider, corrige la vraie cause (comptage en O(n) via une table de hachage), re-mesure pour PROUVER le gain, puis protège-le par un budget de performance et un test de régression. Le comportement fonctionnel (le résultat du comptage) doit rester STRICTEMENT identique — une optimisation qui change le résultat n'est pas une optimisation, c'est un bug.",
+  "prerequisites": ["Mesurer avant d'optimiser, percentiles, bound (jour 80)", "N+1 et pré-indexation (jour 80)"],
+  "skills": ["hashmap", "algo"],
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "dayRefs": [80],
+  "exerciseRefs": ["perf-pair-count"],
+  "deliverables": [
+    {
+      "id": "optimize",
+      "kind": "code",
+      "title": "Optimisation O(n²) → O(n) sous mesure (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "perf-pair-count",
+      "hint": "La mesure objective est lookups. Garde le count identique, ramène lookups à n avec une Map."
+    },
+    {
+      "id": "perf-report",
+      "kind": "metrics",
+      "title": "Rapport de performance avant/après",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Baseline", "Hypothèse", "Mesure avant", "Bottleneck", "Mesure après", "Compromis"],
+        "requireMentions": ["régression"],
+        "minLength": 320,
+        "maxLength": 8000
+      },
+      "hint": "Une optimisation n'est validée que si : une baseline existe, la mesure est reproductible, le comportement est préservé, le compromis est documenté."
+    },
+    {
+      "id": "regression-guard",
+      "kind": "plan",
+      "title": "Budget de performance & test de régression",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Budget de performance", "Test de régression"],
+        "minLength": 200,
+        "maxLength": 6000
+      },
+      "hint": "Fixe une borne explicite (ex. lookups ≤ n, ou p95 < 300 ms) et un test qui échoue si un changement futur la dépasse."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    { "label": "Optimisation vérifiée : count identique, lookups ramené à n (O(n))", "blocking": true },
+    { "label": "Baseline établie AVANT et re-mesure APRÈS, reproductibles", "blocking": true },
+    { "label": "Comportement fonctionnel strictement préservé", "blocking": true },
+    { "label": "Bottleneck identifié par la mesure, pas par l'intuition", "blocking": false },
+    { "label": "Budget de performance + test de régression en place", "blocking": false },
+    { "label": "Compromis (lisibilité, mémoire) documenté honnêtement", "blocking": false }
+  ],
+  "commonMistakes": [
+    "Optimiser au hasard sans baseline ni mesure",
+    "Modifier le seuil du test au lieu du code (fausse optimisation)",
+    "Supprimer une fonctionnalité, hardcoder le résultat ou masquer une erreur pour « accélérer »",
+    "Mettre en cache une donnée qui doit rester dynamique",
+    "Ne pas ajouter de test de régression : le gain se reperd au prochain changement"
+  ],
+  "status": "published",
+  "version": "1"
+}

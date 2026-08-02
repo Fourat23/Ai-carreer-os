@@ -212,5 +212,267 @@
       "day": 80
     }
   ],
-  "glossaryTermsAdded": []
+  "glossaryTermsAdded": [
+    {
+      "id": "test-code-smell",
+      "term": "code smell",
+      "shortDefinition": "Un signe superficiel qui trahit un problème de conception plus profond, sans être un bug en soi.",
+      "detailedDefinition": "Un code smell (« mauvaise odeur ») est un symptôme repérable dans le code — fonction trop longue, duplication, liste de paramètres interminable, classe qui fait tout — qui n'empêche pas le programme de marcher mais signale une faiblesse de conception qui rendra les évolutions coûteuses. Ce n'est pas un défaut à corriger mécaniquement : c'est une invitation à examiner si un refactoring est justifié.",
+      "days": [
+        69
+      ]
+    },
+    {
+      "id": "arch-backward-compat",
+      "term": "backward compatibility",
+      "shortDefinition": "La propriété d'une nouvelle version qui continue de fonctionner avec les clients et données de l'ancienne.",
+      "detailedDefinition": "Un changement est rétro-compatible si le code existant qui dépendait de l'ancienne version continue de marcher sans modification. Ajouter un champ optionnel ou une nouvelle route l'est ; retirer un champ, renommer une route ou changer un type ne l'est pas (c'est un breaking change). Préserver la compatibilité ascendante permet de faire évoluer un système sans casser ses consommateurs ; quand c'est impossible, on passe par la dépréciation puis une migration annoncée.",
+      "days": [
+        85
+      ]
+    },
+    {
+      "id": "prod-corrective-maintenance",
+      "term": "corrective maintenance",
+      "shortDefinition": "Réparer un défaut constaté après la mise en production.",
+      "detailedDefinition": "La maintenance corrective (norme ISO 14764) répond à un défaut observé : un bug remonté par un utilisateur ou une alerte. Elle est réactive et souvent urgente ; un cas critique se traite par un hotfix. C'est une des quatre familles de maintenance, aux côtés de l'adaptative, la préventive et l'évolutive.",
+      "days": [
+        85
+      ]
+    },
+    {
+      "id": "prod-adaptive-maintenance",
+      "term": "adaptive maintenance",
+      "shortDefinition": "Adapter un logiciel à un changement de son environnement, sans nouveau besoin métier.",
+      "detailedDefinition": "La maintenance adaptative répond à une évolution EXTERNE : montée de version du langage ou de l'OS, nouvelle API d'un fournisseur, changement réglementaire. Le besoin métier ne change pas — c'est l'environnement qui bouge et impose de suivre. Subie de l'extérieur, elle se distingue de l'évolutive (nouveau besoin) et de la corrective (défaut).",
+      "days": [
+        85
+      ]
+    },
+    {
+      "id": "prod-preventive-maintenance",
+      "term": "preventive maintenance",
+      "shortDefinition": "Agir avant la panne : réduire le risque futur plutôt que réparer.",
+      "detailedDefinition": "La maintenance préventive intervient AVANT qu'un problème ne survienne : rembourser de la dette technique, mettre à jour une dépendance vulnérable, ajouter un test manquant, nettoyer un code fragile. Elle n'est pas déclenchée par un défaut mais par l'anticipation ; le durcissement d'un projet en est un exemple. Invisible quand elle réussit, elle évite les incidents.",
+      "days": [
+        85
+      ]
+    },
+    {
+      "id": "prod-perfective-maintenance",
+      "term": "perfective maintenance",
+      "shortDefinition": "Améliorer ou étendre le logiciel à la demande du métier (nouvelles fonctionnalités, confort).",
+      "detailedDefinition": "La maintenance perfective (souvent appelée évolutive) ajoute ou améliore des fonctionnalités en réponse à un besoin métier : la partie la plus visible du travail, mais loin d'être la seule. On la distingue de la corrective (réparer), l'adaptative (suivre l'environnement) et la préventive (anticiper). En pratique, une grande part de l'effort d'une équipe va aux trois autres familles, souvent sous-estimées.",
+      "days": [
+        85
+      ]
+    },
+    {
+      "id": "prod-patch",
+      "term": "patch",
+      "shortDefinition": "Une modification ciblée et de faible ampleur, souvent un correctif appliqué à une version existante.",
+      "detailedDefinition": "Un patch est un changement limité qui corrige ou ajuste un logiciel déjà livré, sans le refondre. En versionnage sémantique, un incrément de patch (1.2.3 → 1.2.4) signale une correction rétro-compatible. Un patch appliqué en urgence à la production s'appelle un hotfix. Le mot désigne aussi, en Git, le diff appliqué à un fichier.",
+      "days": [
+        85
+      ]
+    },
+    {
+      "id": "prod-baseline",
+      "term": "baseline",
+      "shortDefinition": "Une mesure de référence de l'état actuel, prise avant tout changement, pour juger un gain.",
+      "detailedDefinition": "Une baseline est le point de comparaison : on mesure la performance (ou toute métrique) AVANT d'optimiser, dans des conditions reproductibles. Sans baseline, « c'est plus rapide » n'a aucun sens — on ne sait ni de combien ni par rapport à quoi. Toute optimisation sérieuse commence par établir une baseline et se juge en re-mesurant contre elle.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-benchmark",
+      "term": "benchmark",
+      "shortDefinition": "Une mesure de performance reproductible servant à comparer des versions ou des options.",
+      "detailedDefinition": "Un benchmark exécute une charge contrôlée pour mesurer une performance (temps, débit) de façon comparable. Sa valeur tient à sa REPRODUCTIBILITÉ : même jeu de données, même machine au repos, plusieurs itérations moyennées. Un benchmark non reproductible ou biaisé (machine chargée, cache tiède, micro-cas irréaliste) induit en erreur — d'où la méfiance envers les micro-benchmarks isolés.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-profiling",
+      "term": "profiling",
+      "shortDefinition": "Mesurer où un programme passe réellement son temps (ou sa mémoire) pour localiser le goulot.",
+      "detailedDefinition": "Le profilage instrumente une exécution pour révéler la répartition réelle du coût : quelles fonctions consomment le CPU, quelles requêtes dominent, où la mémoire s'accumule. Il sert à trouver le hot path AVANT d'optimiser — car l'intuition sur l'emplacement d'un goulot est presque toujours fausse. On profile, on corrige la vraie cause, on re-mesure.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-latency",
+      "term": "latency",
+      "shortDefinition": "Le temps que met une requête individuelle à obtenir sa réponse.",
+      "detailedDefinition": "La latence mesure la durée d'UNE opération, du départ à la réponse. À distinguer du débit (nombre d'opérations par seconde). La latence ne se résume jamais à une moyenne, qui masque les pics : on la lit en percentiles (p50, p95, p99). Réduire la latence et augmenter le débit sont deux objectifs différents, parfois en tension.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-throughput",
+      "term": "throughput",
+      "shortDefinition": "Le nombre d'opérations qu'un système traite par unité de temps.",
+      "detailedDefinition": "Le débit mesure la capacité : requêtes par seconde, messages traités par minute. Il se distingue de la latence (temps d'une seule opération). On peut améliorer le débit (parallélisme, batch) sans améliorer la latence individuelle, et inversement. Débit et latence se dégradent souvent ensemble sous forte charge — d'où l'intérêt des tests de charge.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-percentile",
+      "term": "percentile (p50/p95/p99)",
+      "shortDefinition": "Une lecture de la distribution des latences : la valeur sous laquelle tombent X % des mesures.",
+      "detailedDefinition": "Le p-ième percentile est la valeur en dessous de laquelle se trouvent p % des mesures. En performance, le p50 (médiane) décrit l'expérience typique, tandis que le p95 et le p99 décrivent la « tail latency » — les 5 % et 1 % d'utilisateurs les plus lents. La moyenne trompe : un p50 à 20 ms avec un p99 à 3 s signale un système qui punit régulièrement de vrais utilisateurs. On fixe donc les objectifs sur les percentiles, pas sur la moyenne.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-bound",
+      "term": "resource bound (CPU/IO/memory)",
+      "shortDefinition": "La ressource qui limite un traitement : le processeur, les entrées-sorties ou la mémoire.",
+      "detailedDefinition": "Un traitement est CPU-bound quand le processeur calcule sans cesse (tri, sérialisation), I/O-bound quand il ATTEND le disque, le réseau ou la base (le cas le plus fréquent d'une API), memory-bound quand il est limité par les accès et allocations mémoire. Identifier la nature du « bound » AVANT d'agir est décisif : on optimise l'algorithme ou on parallélise pour du CPU-bound, on batche/cache/rend asynchrone pour de l'I/O-bound. Se tromper de bound, c'est optimiser dans le vide.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-memory-leak",
+      "term": "memory leak",
+      "shortDefinition": "De la mémoire allouée qui n'est jamais libérée, faisant croître la consommation jusqu'au crash.",
+      "detailedDefinition": "Une fuite mémoire survient quand un programme retient des objets dont il n'a plus besoin — un cache sans borne, un écouteur d'événement jamais retiré, une référence oubliée. Symptôme caractéristique : la consommation mémoire monte sans redescendre, jusqu'à la saturation et le crash (out of memory). On la traque au profileur mémoire, en cherchant ce qui grossit et n'est jamais collecté.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-cache-hit-ratio",
+      "term": "cache hit ratio",
+      "shortDefinition": "La proportion de requêtes servies depuis le cache plutôt que recalculées.",
+      "detailedDefinition": "Le taux de succès (hit ratio) = accès trouvés dans le cache / accès totaux. Un ratio élevé signifie que le cache travaille ; un ratio faible signale un cache mal dimensionné, mal invalidé ou peu utile (données trop variées). C'est la métrique qui dit si un cache VAUT son coût et sa complexité d'invalidation. On la surveille avant d'ajouter ou de retirer un cache.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-cold-start",
+      "term": "cold start",
+      "shortDefinition": "Le surcoût de la première requête après démarrage, le temps que le système s'initialise.",
+      "detailedDefinition": "Au démarrage à froid, un service paie une initialisation ponctuelle : ouverture des connexions, compilation JIT, chargement des caches, réveil d'une fonction serverless inactive. La première requête est donc plus lente et NON représentative — on l'exclut d'une baseline. Le cold start est un enjeu majeur du serverless, où une fonction endormie doit se réveiller à la demande.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "prod-hot-path",
+      "term": "hot path",
+      "shortDefinition": "Le chemin de code exécuté le plus souvent ou le plus coûteux, où l'optimisation compte vraiment.",
+      "detailedDefinition": "Le hot path est la portion de code sur le trajet critique : celle empruntée par la majorité des requêtes ou celle qui domine le temps d'exécution. C'est là — et seulement là — qu'une optimisation a un effet mesurable. Optimiser un code froid (rarement exécuté) est du gaspillage (premature optimization). Le profilage sert précisément à identifier le hot path avant d'agir.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "db-n-plus-1",
+      "term": "N+1 query problem",
+      "shortDefinition": "Un anti-pattern où l'on exécute une requête par élément d'une liste au lieu d'une seule requête groupée.",
+      "detailedDefinition": "Le problème N+1 : pour afficher une liste de N éléments avec une donnée liée, on fait 1 requête pour la liste puis 1 requête PAR élément — soit N+1 requêtes. Symptôme : le nombre de requêtes CROÎT avec la taille de la liste. On le corrige par un JOIN, une requête batch (WHERE id IN (...)) ou une pré-indexation en mémoire. C'est l'une des causes les plus fréquentes de lenteur des API.",
+      "days": [
+        80
+      ]
+    },
+    {
+      "id": "dev-bundle-size",
+      "term": "bundle size",
+      "shortDefinition": "Le poids du JavaScript envoyé au navigateur, déterminant pour le temps de chargement.",
+      "detailedDefinition": "Le bundle size est la taille du paquet JS qu'un client doit télécharger, parser puis exécuter avant que la page soit interactive — critique sur mobile et réseau lent. On le réduit par le code splitting (découper en morceaux) et le lazy loading (charger à la demande). On le mesure (bundle analyzer, Lighthouse) et on lui fixe un budget de performance dont tout dépassement est une régression.",
+      "days": [
+        102
+      ]
+    },
+    {
+      "id": "arch-rfc",
+      "term": "RFC",
+      "shortDefinition": "Un document qui propose un changement significatif et le soumet à la relecture AVANT décision.",
+      "detailedDefinition": "Un RFC présente une proposition (motivation, conception, alternatives, impact) pour recueillir des retours avant de s'engager sur un choix coûteux ou irréversible. Il a un cycle de vie : brouillon → en revue → accepté ou rejeté. Une fois tranché, sa conclusion se fige souvent en ADR. Le RFC est l'espace du débat ; l'ADR est la trace de la décision prise.",
+      "days": [
+        66
+      ]
+    },
+    {
+      "id": "arch-hld",
+      "term": "HLD",
+      "shortDefinition": "La vue d'architecture : composants, responsabilités et interactions, sans détail d'implémentation.",
+      "detailedDefinition": "Un High-Level Design décrit la structure d'un système — ses composants, ce dont chacun est responsable, comment ils échangent — à un niveau où l'on comprend l'ensemble sans lire de code. Il s'appuie souvent sur le modèle C4 (contexte, conteneurs, composants). Il se situe sous le HSD (quelle solution et pourquoi) et au-dessus du LLD (l'intérieur d'un composant).",
+      "days": [
+        66
+      ]
+    },
+    {
+      "id": "arch-hsd",
+      "term": "HSD",
+      "shortDefinition": "La vue « solution » au-dessus de l'architecture : quelle solution répond au problème métier, et pourquoi.",
+      "detailedDefinition": "Dans la convention de ce cours, HSD signifie High-Level Solution Design : le document qui, avant de figer l'architecture (HLD), décrit le problème métier, les contraintes, les options de solution envisagées et le choix retenu avec sa justification. L'acronyme HSD n'est PAS universel (on rencontre aussi « High-Level System Design ») : on précise donc toujours qu'on parle de Solution Design (voir ADR-017).",
+      "days": [
+        66
+      ]
+    },
+    {
+      "id": "arch-lld",
+      "term": "LLD",
+      "shortDefinition": "Le détail interne d'un composant : classes, schéma de données, algorithme, cas limites.",
+      "detailedDefinition": "Un Low-Level Design spécifie l'intérieur d'UN composant, au niveau où un développeur peut l'implémenter : interface publique, modèle de données, logique, erreurs et invariants. Il descend sous le HLD (la carte des composants). On n'en rédige pas pour du code trivial — ce serait de la sur-documentation ; on le réserve aux composants complexes.",
+      "days": [
+        66
+      ]
+    },
+    {
+      "id": "arch-api-contract",
+      "term": "API contract",
+      "shortDefinition": "Ce qu'une API promet à ses consommateurs : routes, entrées, sorties, erreurs et versions.",
+      "detailedDefinition": "Le contrat d'API fige les promesses d'une interface : les chemins, les corps attendus, les réponses et codes d'erreur, les règles de version. Il PRÉCÈDE l'implémentation et sert de référence partagée entre l'équipe qui expose l'API et celles qui la consomment. Tout changement du contrat est un événement de compatibilité : ajouter est généralement sûr, retirer ou renommer est un breaking change.",
+      "days": [
+        66
+      ]
+    },
+    {
+      "id": "arch-c4-model",
+      "term": "C4 model",
+      "shortDefinition": "Une façon de diagrammer une architecture à quatre niveaux de zoom : contexte, conteneurs, composants, code.",
+      "detailedDefinition": "Le modèle C4 structure les diagrammes d'architecture en quatre niveaux : (1) Contexte — le système et le monde autour ; (2) Conteneurs — applications, bases, services ; (3) Composants — l'intérieur d'un conteneur ; (4) Code — rarement dessiné. Sa force est d'imposer UN niveau de zoom par diagramme, pour l'audience visée, au lieu de tout mélanger. On choisit le niveau utile, on ne dessine pas tout.",
+      "days": [
+        66
+      ]
+    },
+    {
+      "id": "arch-changelog",
+      "term": "changelog",
+      "shortDefinition": "La liste, destinée aux utilisateurs, de ce qui a changé entre deux versions.",
+      "detailedDefinition": "Un changelog énumère par version les ajouts, corrections et changements — en signalant les changements cassants. Il s'adresse aux UTILISATEURS d'un logiciel ou d'une API pour qu'ils sachent quoi attendre d'une mise à jour. Il diffère du decision log : le changelog dit CE QUI a changé, le decision log dit CE QUI a été décidé et pourquoi.",
+      "days": [
+        66
+      ]
+    },
+    {
+      "id": "arch-decision-log",
+      "term": "decision log",
+      "shortDefinition": "L'index chronologique des décisions structurantes, souvent la liste des ADR.",
+      "detailedDefinition": "Un decision log rassemble, dans l'ordre, les décisions importantes prises sur un projet — le plus souvent en indexant les ADR. Il permet à quiconque de retracer POURQUOI le système est ainsi, sans reconstituer l'histoire de mémoire. Il complète le changelog (ce qui a changé pour l'utilisateur) en gardant la trace du raisonnement.",
+      "days": [
+        66
+      ]
+    },
+    {
+      "id": "prod-playbook",
+      "term": "playbook",
+      "shortDefinition": "Un guide qui orchestre la marche à suivre pour une FAMILLE de situations récurrentes.",
+      "detailedDefinition": "Un playbook rassemble les procédures pour un type de situation — réponse à incident, onboarding, mise en production — en enchaînant décisions et actions. Plus large qu'un runbook (qui décrit UNE procédure précise et exécutable), il orchestre plusieurs runbooks et arbitrages. Il sert à réagir vite et de façon cohérente face à une classe de situations.",
+      "days": [
+        66
+      ]
+    }
+  ]
 }

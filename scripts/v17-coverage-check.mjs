@@ -45,8 +45,15 @@ const skillIds = { has: (s) => isKnownSkill(s) };
 const dayExercises = JSON.parse(readFileSync(R('data/day-exercises.json'), 'utf8'));
 const exerciseIds = new Set(Object.values(dayExercises).flat());
 const glossary = JSON.parse(readFileSync(R('curriculum/glossary/glossary.json'), 'utf8'));
+// Base de doublons = glossaire ACTUEL moins les termes que le plan déclare avoir
+// ajoutés (sinon un terme légitimement ajouté par ce sprint serait vu comme un
+// « doublon » de lui-même). Le contrôle attrape ainsi les vrais doublons
+// pré-existants, pas les ajouts intentionnels.
+const plannedTerms = new Set((plan.glossaryTermsAdded ?? []).map((g) => String(g.term ?? '').toLowerCase()));
 const glossaryTerms = new Set(
-  glossary.flatMap((e) => [e.term, e.fullForm, ...(e.aliases ?? [])].filter(Boolean).map((s) => s.toLowerCase())),
+  glossary
+    .flatMap((e) => [e.term, e.fullForm, ...(e.aliases ?? [])].filter(Boolean).map((s) => s.toLowerCase()))
+    .filter((t) => !plannedTerms.has(t)),
 );
 
 // ── 1. Validation du plan ────────────────────────────────────────────────────

@@ -6,6 +6,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { validateExercise } from '../lib/exercise.mjs';
+import { validateGlossary, filterEntries } from '../lib/glossary-core.mjs';
 
 const day = (n) => readFileSync(new URL(`../curriculum/days/day-${String(n).padStart(3, '0')}.md`, import.meta.url), 'utf8');
 const exercise = (id) => JSON.parse(readFileSync(new URL(`../data/exercises/${id}.json`, import.meta.url), 'utf8'));
@@ -170,5 +171,43 @@ test('CP6 — anti-fuite corpus : aucune référence/solution des exercices V17 
     const privateNames = ex.tests.filter((t) => t.private).map((t) => t.name);
     // un test privé ne doit pas révéler l'attendu dans un test public homonyme
     assert.ok(privateNames.every((n) => n.includes('privé')), `${id} : tests privés étiquetés`);
+  }
+});
+
+// ── CP7 : enrichissement du glossaire ────────────────────────────────────────
+
+const glossary = () => JSON.parse(readFileSync(new URL('../curriculum/glossary/glossary.json', import.meta.url), 'utf8'));
+
+test('CP7 — les 32 termes cibles sont présents (terme, acronyme ou alias)', () => {
+  const g = glossary();
+  const have = new Set(g.flatMap((e) => [e.term, e.fullForm, ...(e.aliases ?? [])].filter(Boolean).map((s) => s.toLowerCase())));
+  const targets = ['code smell', 'backward compatibility', 'corrective maintenance', 'adaptive maintenance', 'preventive maintenance', 'perfective maintenance', 'patch', 'baseline', 'benchmark', 'profiling', 'latency', 'throughput', 'p50', 'p95', 'p99', 'CPU-bound', 'I/O-bound', 'memory leak', 'cache hit ratio', 'cold start', 'hot path', 'N+1', 'bundle size', 'RFC', 'HLD', 'HSD', 'LLD', 'API contract', 'C4 model', 'playbook', 'changelog', 'decision log'];
+  const missing = targets.filter((t) => !have.has(t.toLowerCase()));
+  assert.deepEqual(missing, [], `termes manquants : ${missing.join(', ')}`);
+});
+
+test('CP7 — glossaire enrichi reste valide (schéma, relations, unicité)', () => {
+  assert.deepEqual(validateGlossary(glossary()).errors, []);
+});
+
+test('CP7 — HSD : convention documentée et ambiguïté signalée', () => {
+  const hsd = glossary().find((e) => e.id === 'arch-hsd');
+  assert.ok(hsd, 'entrée HSD présente');
+  assert.match(hsd.fullForm, /High-Level Solution Design/);
+  assert.ok(hsd.ambiguityNote && /pas un acronyme standard/i.test(hsd.ambiguityNote), 'ambiguïté signalée');
+});
+
+test('CP7 — nouvelles entrées reliées à des journées (journées associées)', () => {
+  const g = glossary();
+  for (const id of ['prod-percentile', 'arch-hld', 'dev-bundle-size', 'prod-corrective-maintenance']) {
+    const e = g.find((x) => x.id === id);
+    assert.ok(Array.isArray(e.days) && e.days.length > 0, `${id} doit référencer au moins une journée`);
+  }
+});
+
+test('CP7 — recherche : les nouveaux termes clés sont trouvables', () => {
+  const g = glossary();
+  for (const [q, id] of [['RFC', 'arch-rfc'], ['percentile', 'prod-percentile'], ['fuite mémoire', 'prod-memory-leak'], ['bundle size', 'dev-bundle-size'], ['playbook', 'prod-playbook']]) {
+    assert.ok(filterEntries(g, { query: q }).some((e) => e.id === id), `« ${q} » doit trouver ${id}`);
   }
 });

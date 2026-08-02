@@ -5,6 +5,7 @@
 import { getProgram } from './program';
 import { getCatalogue } from './catalogue-server';
 import { listExercises } from './exercises-server';
+import { listMissions } from './missions-server';
 import { getRuntimeAdapter, DEFAULT_RUNTIME_ID } from './runtime.mjs';
 import { buildIndex } from './search';
 import type { SearchItem } from './search';
@@ -28,7 +29,16 @@ function publicExerciseSummaries() {
   });
 }
 
+// Projection PUBLIQUE d'une mission pour l'index : titre, catégorie, compétences.
+// JAMAIS le contexte interne de notation, les docSpec, les exerciseRef internes,
+// ni les livrables de l'apprenant.
+function publicMissionSummaries() {
+  return listMissions()
+    .filter((m) => m.status === 'published')
+    .map((m) => ({ id: m.id, title: m.title, category: m.category, skills: m.skills ?? [] }));
+}
+
 export function getSearchIndex(): SearchItem[] {
-  if (!cached) cached = buildIndex(getProgram(), getCatalogue(), publicExerciseSummaries());
+  if (!cached) cached = buildIndex(getProgram(), getCatalogue(), publicExerciseSummaries(), publicMissionSummaries());
   return cached;
 }

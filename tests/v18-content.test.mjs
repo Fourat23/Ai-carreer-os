@@ -208,3 +208,48 @@ test('CP7 — vue publique expose le lien d\'exercice mais pas les seuils caché
   assert.ok(pub.includes('exerciseId'), 'lien d\'exercice public présent');
   assert.ok(!pub.includes('requireMentions') && !pub.includes('minLength') && !pub.includes('exerciseRef"'), 'seuils cachés non exposés');
 });
+
+// ── CP9 : recherche, glossaire, sauvegarde ───────────────────────────────────
+import { buildIndex } from '../lib/search.mjs';
+import { buildCatalogue } from '../lib/catalogue.mjs';
+import { serializeBackupV3, parseBackupV3 } from '../lib/backup.mjs';
+import { submitDeliverable as _sub } from '../lib/mission-state.mjs';
+
+test('CP9 — recherche : missions trouvables par leur domaine, sans fuite', () => {
+  const cat = buildCatalogue(program);
+  const missions = allMissions().map((m) => ({ id: m.id, title: m.title, category: m.category, skills: m.skills }));
+  const idx = buildIndex(program, cat, [], missions);
+  const items = idx.filter((i) => i.type === 'mission');
+  assert.equal(items.length, 4);
+  const find = (q) => idx.filter((i) => i.type === 'mission' && i.keywords.includes(q.toLowerCase())).map((i) => i.href);
+  assert.ok(find('dette').includes('/missions/legacy-pricing-maintenance'));
+  assert.ok(find('profiling').includes('/missions/slow-endpoint-optimization'));
+  assert.ok(find('adr').includes('/missions/feature-design-docs'));
+  assert.ok(find('post-mortem').includes('/missions/health-incident-postmortem'));
+  // aucune donnée interne indexée
+  assert.ok(!/docSpec|exerciseRef|requireMentions|priceCart/.test(JSON.stringify(items)));
+});
+
+test('CP9 — sauvegarde : état de mission + livrables préservés, refus corrompu/futur, sans fuite', () => {
+  let v3 = migrateToV7({ startDate: '2026-01-01', days: {}, skills: {} });
+  const def = mission('legacy-pricing-maintenance');
+  let flat = _start(activeTrackProgress(v3), def.id);
+  flat = _sub(flat, def, 'debt-register', { status: 'structure-valid', content: 'registre rédigé' });
+  v3 = writeActiveTrack(v3, flat);
+  const wrapped = serializeBackupV3(v3, {});
+  const parsed = parseBackupV3(JSON.stringify(wrapped));
+  const t = parsed.v3.tracks[parsed.v3.activeTrackId];
+  assert.equal(t.missions[def.id].deliverables['debt-register'].status, 'structure-valid');
+  assert.equal(t.missions[def.id].deliverables['debt-register'].content, 'registre rédigé');
+  assert.ok(!/priceCart|"reference"|referenceSolution/.test(JSON.stringify(wrapped)), 'aucune solution/test privé dans l\'export');
+  assert.equal(parseBackupV3(JSON.stringify({ app: 'ai-career-os', schemaVersion: 99, progress: v3 })).ok, false);
+  assert.equal(parseBackupV3('{corrompu').ok, false);
+});
+
+test('CP9 — glossaire : termes V18 ajoutés, tous les termes cibles présents', () => {
+  const g = JSON.parse(readFileSync(new URL('../curriculum/glossary/glossary.json', import.meta.url), 'utf8'));
+  const have = new Set(g.flatMap((e) => [e.term, e.fullForm, ...(e.aliases ?? [])].filter(Boolean).map((s) => s.toLowerCase())));
+  const targets = ['characterization test', 'technical debt register', 'deprecation policy', 'migration plan', 'rollback plan', 'performance budget', 'bottleneck', 'flame graph', 'heap', 'error budget', 'MTTD', 'blameless post-mortem', 'corrective action', 'preventive action'];
+  const missing = targets.filter((x) => !have.has(x.toLowerCase()));
+  assert.deepEqual(missing, [], `manquants : ${missing.join(', ')}`);
+});

@@ -8566,5 +8566,455 @@
     "days": [
       66
     ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Reprise de code legacy, refactoring sous filet, dette de tests.",
+    "meetingExample": "« Avant de toucher à ce module, écrivons des tests de caractérisation : on gèle le comportement actuel, puis on refactore. »",
+    "plainTranslation": "« Un test qui photographie ce que le code fait déjà, pour ne rien casser en le changeant. »",
+    "relatedTerms": [
+      "arch-refactoring",
+      "test-code-smell",
+      "arch-legacy"
+    ],
+    "aliases": [
+      "test de caractérisation"
+    ],
+    "possibleConfusions": [
+      "Un test de caractérisation fige le comportement EXISTANT ; un test unitaire classique vérifie le comportement ATTENDU."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "tests",
+      "refactoring",
+      "legacy"
+    ],
+    "id": "test-characterization-test",
+    "term": "characterization test",
+    "frenchMeaning": "test de caractérisation",
+    "category": "test",
+    "level": "intermédiaire",
+    "shortDefinition": "Un test qui capture le comportement ACTUEL d'un code existant, pour créer un filet avant de le modifier.",
+    "detailedDefinition": "Un test de caractérisation ne vérifie pas ce que le code DEVRAIT faire mais ce qu'il FAIT réellement aujourd'hui — même un comportement bizarre. On l'écrit sur du code legacy non testé avant de le refactorer : il gèle le comportement observable pour prouver qu'une restructuration ne change rien. C'est le préalable d'un refactoring sûr sur du code qu'on ne comprend pas encore entièrement.",
+    "days": [
+      69
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Gestion de dette, priorisation de refactorings, revues techniques.",
+    "meetingExample": "« Ajoute-le au registre de dette : emplacement, intérêt, effort, et le signal qui nous fera le traiter. »",
+    "plainTranslation": "« La liste organisée de nos dettes techniques, pour décider lesquelles rembourser et quand. »",
+    "relatedTerms": [
+      "arch-tech-debt",
+      "arch-refactoring",
+      "test-code-smell"
+    ],
+    "aliases": [
+      "registre de dette technique",
+      "registre de dette"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "dette",
+      "maintenance",
+      "gouvernance"
+    ],
+    "id": "arch-tech-debt-register",
+    "term": "technical debt register",
+    "frenchMeaning": "registre de dette technique",
+    "category": "arch",
+    "level": "intermédiaire",
+    "shortDefinition": "Un backlog dédié qui recense la dette technique pour la rendre visible et arbitrable.",
+    "detailedDefinition": "Le registre de dette technique liste, hors des TODO éparpillés, chaque dette avec son emplacement, l'intérêt qu'elle coûte (fréquence des douleurs), l'effort de remboursement et le signal qui déclencherait son traitement. Il transforme une dette subie en dette gérée : on priorise par impact × risque × effort et on décide quand rembourser plutôt que de découvrir la dette au pire moment.",
+    "days": [
+      69
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Évolution d'API publiques, cycle de vie, compatibilité.",
+    "meetingExample": "« Notre politique de dépréciation impose deux versions de préavis avant tout retrait. »",
+    "plainTranslation": "« Les règles pour retirer une vieille fonctionnalité sans casser ceux qui l'utilisent. »",
+    "relatedTerms": [
+      "arch-deprecation",
+      "arch-backward-compat",
+      "arch-breaking-change"
+    ],
+    "aliases": [
+      "politique de dépréciation"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "maintenance",
+      "api",
+      "cycle de vie"
+    ],
+    "id": "arch-deprecation-policy",
+    "term": "deprecation policy",
+    "frenchMeaning": "politique de dépréciation",
+    "category": "arch",
+    "level": "intermédiaire",
+    "shortDefinition": "Les règles qui encadrent comment on marque, annonce et retire une fonctionnalité obsolète.",
+    "detailedDefinition": "Une politique de dépréciation définit le processus pour retirer proprement une API ou une fonctionnalité : marquer comme dépréciée, documenter la voie de migration, garantir une période de coexistence annoncée, puis retirer. Elle protège les consommateurs des changements cassants brutaux et rend l'évolution prévisible.",
+    "days": [
+      85
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Changements de schéma, montées de version, remplacements de composant.",
+    "meetingExample": "« Le plan de migration prévoit une phase de double écriture avant de basculer les lectures. »",
+    "plainTranslation": "« Comment passer de l'ancien au nouveau sans rien perdre ni casser. »",
+    "relatedTerms": [
+      "db-migration",
+      "arch-rollback-plan",
+      "arch-backward-compat"
+    ],
+    "aliases": [
+      "plan de migration"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "maintenance",
+      "données",
+      "déploiement"
+    ],
+    "id": "arch-migration-plan",
+    "term": "migration plan",
+    "frenchMeaning": "plan de migration",
+    "category": "arch",
+    "level": "intermédiaire",
+    "shortDefinition": "Le plan pour faire passer données, code ou clients d'un état ancien à un état nouveau sans casse.",
+    "detailedDefinition": "Un plan de migration décrit les étapes, l'ordre, la réversibilité et les vérifications pour basculer d'un ancien système/format/schéma vers un nouveau : migration des données existantes, compatibilité pendant la transition, points de contrôle, et retour arrière possible. Sans plan, une migration devient un incident.",
+    "days": [
+      66,
+      85
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Déploiements, migrations, réponse à incident.",
+    "meetingExample": "« Pas de mise en prod sans plan de rollback testé : on doit pouvoir revenir en cinq minutes. »",
+    "plainTranslation": "« Le plan pour revenir en arrière vite si ça casse. »",
+    "relatedTerms": [
+      "prod-rollback",
+      "arch-migration-plan",
+      "prod-runbook"
+    ],
+    "aliases": [
+      "plan de retour arrière",
+      "plan de rollback"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "exploitation",
+      "déploiement",
+      "incident"
+    ],
+    "id": "arch-rollback-plan",
+    "term": "rollback plan",
+    "frenchMeaning": "plan de retour arrière",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "La procédure pour revenir à la version saine précédente si un changement tourne mal.",
+    "detailedDefinition": "Un plan de rollback définit À L'AVANCE comment annuler un déploiement ou une migration : quelles étapes, dans quel ordre, avec quelles vérifications de rétablissement. On le prépare AVANT de livrer, pas pendant l'incident. Restaurer le service prime sur comprendre : un bon rollback rend un déploiement risqué réversible.",
+    "days": [
+      66,
+      85
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Optimisation, prévention de régression, revues de performance.",
+    "meetingExample": "« Cette PR fait sauter le budget de performance : le p95 passe à 450 ms, on ne merge pas en l'état. »",
+    "plainTranslation": "« La limite de lenteur/poids qu'on s'interdit de dépasser. »",
+    "relatedTerms": [
+      "prod-baseline",
+      "prod-latency",
+      "dev-bundle-size"
+    ],
+    "aliases": [
+      "budget de performance"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "performance",
+      "mesure",
+      "ci"
+    ],
+    "id": "prod-performance-budget",
+    "term": "performance budget",
+    "frenchMeaning": "budget de performance",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Une limite explicite de performance à ne pas dépasser (latence, poids, coût).",
+    "detailedDefinition": "Un budget de performance fixe une borne mesurable — « p95 < 200 ms », « bundle initial < 200 Ko » — qui sert de garde-fou. Tout changement qui la dépasse est une régression à traiter, idéalement détectée en CI plutôt que par l'utilisateur. Le budget transforme la performance d'une bonne intention en un critère vérifiable.",
+    "days": [
+      80,
+      102
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Diagnostic de performance, optimisation ciblée.",
+    "meetingExample": "« Le goulot, c'est la requête sans index : tant qu'on ne la corrige pas, cacher le reste ne sert à rien. »",
+    "plainTranslation": "« L'endroit le plus lent qui freine tout le reste. »",
+    "relatedTerms": [
+      "prod-profiling",
+      "prod-hot-path",
+      "db-n-plus-1"
+    ],
+    "aliases": [
+      "goulot d’étranglement",
+      "goulot"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "performance",
+      "diagnostic"
+    ],
+    "id": "prod-bottleneck",
+    "term": "bottleneck",
+    "frenchMeaning": "goulot d’étranglement",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "La partie d'un système qui limite la performance de l'ensemble.",
+    "detailedDefinition": "Un goulot d'étranglement est l'étape la plus lente d'un traitement : c'est elle qui plafonne le débit ou gonfle la latence, indépendamment de la vitesse du reste. On le localise par la MESURE (profilage), pas par l'intuition — optimiser ailleurs qu'au goulot n'apporte aucun gain. Corriger le goulot déplace parfois la limite vers le suivant.",
+    "days": [
+      80
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Profilage CPU/mémoire, diagnostic de lenteur.",
+    "meetingExample": "« Le flame graph montre 70 % du temps dans la sérialisation JSON : voilà notre cible. »",
+    "plainTranslation": "« Un schéma qui montre où le programme passe son temps, par empilement d'appels. »",
+    "relatedTerms": [
+      "prod-profiling",
+      "prod-hot-path",
+      "prod-bottleneck"
+    ],
+    "aliases": [
+      "graphe de flammes",
+      "flamegraph"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "performance",
+      "profilage",
+      "diagnostic"
+    ],
+    "id": "prod-flame-graph",
+    "term": "flame graph",
+    "frenchMeaning": "graphe de flammes",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Une visualisation de profilage montrant où le temps (ou la mémoire) est passé, par pile d'appels.",
+    "detailedDefinition": "Un flame graph empile les appels de fonctions : la largeur de chaque barre est proportionnelle au temps passé dans cette fonction et ses enfants. Les barres les plus larges révèlent d'un coup d'œil le hot path et le goulot. C'est un outil de lecture de profil : on cherche les larges plateaux, pas la hauteur.",
+    "days": [
+      80
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Diagnostic mémoire, fuites, performance.",
+    "meetingExample": "« Prends un heap snapshot avant/après : on verra quel objet s'accumule. »",
+    "plainTranslation": "« La mémoire où vivent les objets créés pendant l'exécution. »",
+    "relatedTerms": [
+      "prod-memory-leak",
+      "prod-profiling"
+    ],
+    "aliases": [
+      "tas",
+      "tas mémoire"
+    ],
+    "possibleConfusions": [
+      "Le tas (heap, allocation dynamique) n’est pas la pile (stack, liée aux appels de fonctions)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "performance",
+      "mémoire"
+    ],
+    "id": "prod-heap",
+    "term": "heap",
+    "frenchMeaning": "tas (mémoire)",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "La zone mémoire où sont alloués les objets dont la durée de vie n'est pas liée à la pile d'appels.",
+    "detailedDefinition": "Le tas (heap) est la mémoire d'allocation dynamique : y vivent les objets créés à l'exécution, libérés par le ramasse-miettes quand plus rien ne les référence. Une consommation du tas qui monte sans redescendre signale une fuite mémoire. On l'inspecte avec un profileur mémoire (heap snapshot) pour voir ce qui grossit et n'est jamais collecté. À distinguer de la PILE (stack), liée aux appels de fonctions.",
+    "days": [
+      80
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "SRE, arbitrage vitesse/fiabilité, politique de déploiement.",
+    "meetingExample": "« On a cramé l'error budget du trimestre : on gèle les nouvelles features jusqu'à revenir dans le SLO. »",
+    "plainTranslation": "« La part d'erreurs qu'on s'autorise avant de devoir freiner les changements. »",
+    "relatedTerms": [
+      "prod-slo",
+      "prod-sli",
+      "prod-observability"
+    ],
+    "aliases": [
+      "budget d’erreur"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "sre",
+      "fiabilité",
+      "exploitation"
+    ],
+    "id": "prod-error-budget",
+    "term": "error budget",
+    "frenchMeaning": "budget d’erreur",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "La quantité d'indisponibilité/erreurs tolérée par un SLO sur une période — un budget à dépenser.",
+    "detailedDefinition": "L'error budget découle du SLO : si l'objectif est 99,9 % de disponibilité, les 0,1 % restants sont un BUDGET d'erreur qu'on peut « dépenser » (déploiements risqués, expérimentations). Tant qu'il reste du budget, on peut livrer vite ; quand il est épuisé, on gèle les changements risqués pour restaurer la fiabilité. Il aligne vitesse et stabilité par une règle chiffrée, pas par l'opinion.",
+    "days": [
+      85
+    ]
+  },
+  {
+    "fullForm": "Mean Time To Detect",
+    "usageContext": "SRE, qualité de l'alerting, post-mortem.",
+    "meetingExample": "« L'incident a duré 40 min mais on ne l'a vu qu'après 30 : notre MTTD est le vrai problème. »",
+    "plainTranslation": "« Le temps qu'on met à s'apercevoir qu'il y a un problème. »",
+    "relatedTerms": [
+      "prod-mttr",
+      "prod-observability",
+      "prod-error-budget"
+    ],
+    "aliases": [
+      "mean time to detect",
+      "temps moyen de détection"
+    ],
+    "possibleConfusions": [
+      "MTTD = temps pour DÉTECTER ; MTTR = temps pour RÉSOUDRE une fois détecté."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "sre",
+      "incident",
+      "métrique"
+    ],
+    "id": "prod-mttd",
+    "term": "MTTD",
+    "frenchMeaning": "temps moyen de détection",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Le temps moyen entre le début d'un incident et sa détection.",
+    "detailedDefinition": "Le MTTD mesure la réactivité de la DÉTECTION : combien de temps un problème vit avant qu'on le remarque. Un MTTD élevé signale une observabilité insuffisante (alertes aveugles, métriques manquantes). Le réduire — via de bonnes alertes sur les bons signaux — est le préalable à un MTTR (temps de résolution) court : on ne peut pas réparer vite ce qu'on découvre tard.",
+    "days": [
+      85
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Réponse à incident, culture d'ingénierie, amélioration continue.",
+    "meetingExample": "« Post-mortem sans blâme : on ne demande pas QUI a poussé le bouton, mais POURQUOI le système l'a permis. »",
+    "plainTranslation": "« Analyser un incident pour corriger le système, pas pour punir quelqu'un. »",
+    "relatedTerms": [
+      "prod-postmortem",
+      "prod-corrective-action",
+      "prod-preventive-action"
+    ],
+    "aliases": [
+      "post-mortem sans blâme",
+      "blameless postmortem"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "incident",
+      "culture",
+      "sre"
+    ],
+    "id": "prod-blameless-postmortem",
+    "term": "blameless post-mortem",
+    "frenchMeaning": "post-mortem sans blâme",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Une analyse d'incident qui cherche la cause systémique, pas un coupable.",
+    "detailedDefinition": "Un post-mortem sans blâme part du principe que les personnes ont agi raisonnablement avec l'information dont elles disposaient : l'erreur révèle un défaut du SYSTÈME (process, outils, alertes), pas une faute individuelle. Ce cadre libère la parole, fait remonter les vraies causes racines et produit des actions correctives utiles — là où la chasse au coupable pousse à cacher les erreurs.",
+    "days": [
+      66,
+      85
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Post-mortem, backlog d'actions, amélioration continue.",
+    "meetingExample": "« Action corrective : ajouter une alerte sur l'état 'degraded', responsable Sam, échéance vendredi. »",
+    "plainTranslation": "« Ce qu'on répare pour que le même incident ne revienne pas. »",
+    "relatedTerms": [
+      "prod-preventive-action",
+      "prod-blameless-postmortem",
+      "prod-postmortem"
+    ],
+    "aliases": [
+      "action corrective"
+    ],
+    "possibleConfusions": [
+      "Corrective (traite un problème survenu) ≠ préventive (anticipe un problème non survenu)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "incident",
+      "amélioration",
+      "sre"
+    ],
+    "id": "prod-corrective-action",
+    "term": "corrective action",
+    "frenchMeaning": "action corrective",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Une action qui traite la cause d'un problème déjà survenu pour qu'il ne se reproduise pas ainsi.",
+    "detailedDefinition": "Une action corrective, issue d'un post-mortem, s'attaque à la cause racine d'un incident PASSÉ : corriger le défaut, combler le trou d'alerting, ajouter le test manquant. Elle se distingue de l'action préventive (qui anticipe un problème NON encore survenu) et de la simple mitigation (qui a arrêté l'hémorragie sur le moment). Une bonne action corrective a un responsable et une échéance.",
+    "days": [
+      85
+    ]
+  },
+  {
+    "fullForm": null,
+    "usageContext": "Post-mortem, gestion des risques, fiabilité.",
+    "meetingExample": "« Action préventive : appliquer la même vérification aux trois autres endpoints, avant qu'ils ne tombent aussi. »",
+    "plainTranslation": "« Ce qu'on fait pour éviter un problème avant qu'il n'arrive. »",
+    "relatedTerms": [
+      "prod-corrective-action",
+      "prod-preventive-maintenance",
+      "prod-blameless-postmortem"
+    ],
+    "aliases": [
+      "action préventive"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "incident",
+      "risque",
+      "sre"
+    ],
+    "id": "prod-preventive-action",
+    "term": "preventive action",
+    "frenchMeaning": "action préventive",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Une action qui réduit le risque d'un problème qui n'est pas encore survenu.",
+    "detailedDefinition": "Une action préventive s'attaque à un risque anticipé AVANT qu'il ne cause un incident : durcir un point faible repéré, ajouter un garde-fou, généraliser une leçon d'un incident voisin. Elle complète les actions correctives (qui traitent un incident déjà arrivé) en réduisant la probabilité des prochains. C'est l'équivalent, au niveau du système, de la maintenance préventive.",
+    "days": [
+      85
+    ]
   }
 ]

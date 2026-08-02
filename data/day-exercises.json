@@ -1,6 +1,11 @@
 {
   "1": [
-    "greeting"
+    "greeting",
+    "sh-pipeline-run"
+  ],
+  "2": [
+    "sh-exit-retry",
+    "sys-log-level-counts"
   ],
   "5": [
     "js-conditions"
@@ -75,7 +80,8 @@
     "ts-inventory"
   ],
   "50": [
-    "http-status"
+    "http-status",
+    "net-http-status-class"
   ],
   "52": [
     "api-router"
@@ -84,6 +90,18 @@
     "debt-audit",
     "refactor-legacy",
     "debt-legacy-refactor"
+  ],
+  "71": [
+    "net-layer-classify",
+    "net-dns-resolve",
+    "net-first-failure"
+  ],
+  "72": [
+    "sys-perms-to-octal",
+    "sys-perms-to-symbolic",
+    "sys-umask-apply",
+    "sys-process-top-cpu",
+    "sys-port-listener"
   ],
   "80": [
     "latency-percentiles",

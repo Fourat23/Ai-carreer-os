@@ -1,0 +1,147 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sh-pipeline-run",
+  "title": "Shell : pipeline déterministe (modèle)",
+  "difficulty": 4,
+  "summary": "MODÈLE déterministe d’un pipeline (PAS un vrai shell). runPipeline(lines, steps) applique en ordre : {op:\"grep\",arg}, {op:\"reject\",arg}, {op:\"sort\"}, {op:\"uniq\"} (doublons consécutifs), {op:\"head\",arg}, {op:\"count\"} (→ [nombre]). op inconnu = sans effet.",
+  "skills": [
+    "arrays",
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function runPipeline(lines, steps) {\n  // TODO : appliquer chaque step en ordre (grep/reject/sort/uniq/head/count).\n  return lines;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function runPipeline(lines,steps){let cur=[...lines];for(const s of steps){if(s.op===\"grep\")cur=cur.filter(l=>l.includes(s.arg));else if(s.op===\"reject\")cur=cur.filter(l=>!l.includes(s.arg));else if(s.op===\"sort\")cur=[...cur].sort();else if(s.op===\"uniq\")cur=cur.filter((l,i)=>i===0||l!==cur[i-1]);else if(s.op===\"head\")cur=cur.slice(0,s.arg);else if(s.op===\"count\")cur=[String(cur.length)];}return cur;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "grep puis head",
+      "kind": "call-equals",
+      "export": "runPipeline",
+      "args": [
+        [
+          "foo",
+          "bar",
+          "foobar"
+        ],
+        [
+          {
+            "op": "grep",
+            "arg": "foo"
+          },
+          {
+            "op": "head",
+            "arg": 1
+          }
+        ]
+      ],
+      "expected": [
+        "foo"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "sort puis uniq",
+      "kind": "call-equals",
+      "export": "runPipeline",
+      "args": [
+        [
+          "b",
+          "a",
+          "a",
+          "b"
+        ],
+        [
+          {
+            "op": "sort"
+          },
+          {
+            "op": "uniq"
+          }
+        ]
+      ],
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "reject",
+      "kind": "call-equals",
+      "export": "runPipeline",
+      "args": [
+        [
+          "keep",
+          "drop me"
+        ],
+        [
+          {
+            "op": "reject",
+            "arg": "drop"
+          }
+        ]
+      ],
+      "expected": [
+        "keep"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "count (privé)",
+      "kind": "call-equals",
+      "export": "runPipeline",
+      "args": [
+        [
+          "x",
+          "y",
+          "z"
+        ],
+        [
+          {
+            "op": "count"
+          }
+        ]
+      ],
+      "expected": [
+        "3"
+      ],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "op inconnu sans effet (privé)",
+      "kind": "call-equals",
+      "export": "runPipeline",
+      "args": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          {
+            "op": "wat"
+          }
+        ]
+      ],
+      "expected": [
+        "a",
+        "b"
+      ],
+      "private": true
+    }
+  ]
+}

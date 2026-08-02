@@ -1,0 +1,87 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sys-umask-apply",
+  "title": "umask : permissions par soustraction",
+  "difficulty": 3,
+  "summary": "Simulation déterministe. applyUmask(\"666\",\"022\") → \"644\" : par chiffre, résultat = base ET (NON umask). Le umask RETIRE des droits.",
+  "skills": [
+    "linux",
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function applyUmask(base, umask) {\n  // TODO : par chiffre octal, résultat = baseDigit & (~umaskDigit & 7).\n  return \"\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function applyUmask(b,u){let o=\"\";for(let i=0;i<b.length;i++){o+=String(Number(b[i])&(~Number(u[i])&7));}return o;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "fichier 666 - umask 022 → 644",
+      "kind": "call-equals",
+      "export": "applyUmask",
+      "args": [
+        "666",
+        "022"
+      ],
+      "expected": "644"
+    },
+    {
+      "id": "t2",
+      "name": "dossier 777 - umask 022 → 755",
+      "kind": "call-equals",
+      "export": "applyUmask",
+      "args": [
+        "777",
+        "022"
+      ],
+      "expected": "755"
+    },
+    {
+      "id": "t3",
+      "name": "777 - umask 077 → 700",
+      "kind": "call-equals",
+      "export": "applyUmask",
+      "args": [
+        "777",
+        "077"
+      ],
+      "expected": "700"
+    },
+    {
+      "id": "t4",
+      "name": "666 - umask 000 → 666 (privé)",
+      "kind": "call-equals",
+      "export": "applyUmask",
+      "args": [
+        "666",
+        "000"
+      ],
+      "expected": "666",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "666 - umask 077 → 600 (privé)",
+      "kind": "call-equals",
+      "export": "applyUmask",
+      "args": [
+        "666",
+        "077"
+      ],
+      "expected": "600",
+      "private": true
+    }
+  ]
+}

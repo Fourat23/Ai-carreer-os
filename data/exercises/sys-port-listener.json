@@ -1,0 +1,119 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sys-port-listener",
+  "title": "Réseau : qui écoute ce port ?",
+  "difficulty": 2,
+  "summary": "Fixture déterministe (simulation de `ss -ltnp`). whoListens(listeners, port) → le pid qui écoute ce port, ou null (port libre).",
+  "skills": [
+    "linux",
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function whoListens(listeners, port) {\n  // TODO : trouver le listener dont .port === port ; renvoyer son .pid, sinon null.\n  return null;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function whoListens(l,port){const f=l.find(x=>x.port===port);return f?f.pid:null;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "port 3000 occupé",
+      "kind": "call-equals",
+      "export": "whoListens",
+      "args": [
+        [
+          {
+            "port": 3000,
+            "pid": 812
+          },
+          {
+            "port": 5432,
+            "pid": 91
+          }
+        ],
+        3000
+      ],
+      "expected": 812
+    },
+    {
+      "id": "t2",
+      "name": "port 8080 occupé",
+      "kind": "call-equals",
+      "export": "whoListens",
+      "args": [
+        [
+          {
+            "port": 80,
+            "pid": 1
+          },
+          {
+            "port": 8080,
+            "pid": 42
+          }
+        ],
+        8080
+      ],
+      "expected": 42
+    },
+    {
+      "id": "t3",
+      "name": "port libre → null",
+      "kind": "call-equals",
+      "export": "whoListens",
+      "args": [
+        [
+          {
+            "port": 3000,
+            "pid": 812
+          }
+        ],
+        9999
+      ],
+      "expected": null
+    },
+    {
+      "id": "t4",
+      "name": "liste vide → null (privé)",
+      "kind": "call-equals",
+      "export": "whoListens",
+      "args": [
+        [],
+        22
+      ],
+      "expected": null,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "premier gagnant (privé)",
+      "kind": "call-equals",
+      "export": "whoListens",
+      "args": [
+        [
+          {
+            "port": 22,
+            "pid": 7
+          },
+          {
+            "port": 22,
+            "pid": 8
+          }
+        ],
+        22
+      ],
+      "expected": 7,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sh-exit-retry",
+  "title": "Codes de sortie : décision de reprise",
+  "difficulty": 2,
+  "summary": "retryDecision(exitCode, attempt, maxAttempts) : exitCode 0 → \"success\" ; sinon si attempt < maxAttempts → \"retry\" ; sinon \"give-up\".",
+  "skills": [
+    "conditions",
+    "errors"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function retryDecision(exitCode, attempt, maxAttempts) {\n  // TODO : 0 → success ; échec et tentatives restantes → retry ; sinon give-up.\n  return \"give-up\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function retryDecision(code,attempt,max){if(code===0)return \"success\";return attempt<max?\"retry\":\"give-up\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "succès",
+      "kind": "call-equals",
+      "export": "retryDecision",
+      "args": [
+        0,
+        1,
+        3
+      ],
+      "expected": "success"
+    },
+    {
+      "id": "t2",
+      "name": "échec, on réessaie",
+      "kind": "call-equals",
+      "export": "retryDecision",
+      "args": [
+        1,
+        1,
+        3
+      ],
+      "expected": "retry"
+    },
+    {
+      "id": "t3",
+      "name": "échec, plus de tentatives",
+      "kind": "call-equals",
+      "export": "retryDecision",
+      "args": [
+        1,
+        3,
+        3
+      ],
+      "expected": "give-up"
+    },
+    {
+      "id": "t4",
+      "name": "échec au milieu → retry (privé)",
+      "kind": "call-equals",
+      "export": "retryDecision",
+      "args": [
+        2,
+        2,
+        3
+      ],
+      "expected": "retry",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "succès à la dernière → success (privé)",
+      "kind": "call-equals",
+      "export": "retryDecision",
+      "args": [
+        0,
+        3,
+        3
+      ],
+      "expected": "success",
+      "private": true
+    }
+  ]
+}

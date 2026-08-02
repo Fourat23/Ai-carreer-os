@@ -1,0 +1,128 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "net-dns-resolve",
+  "title": "DNS : résolution simulée (CNAME → A)",
+  "difficulty": 3,
+  "summary": "Table DNS SIMULÉE. resolve(table, name) suit les CNAME jusqu’à un enregistrement A et renvoie l’IP ; nom absent ou boucle → null.",
+  "skills": [
+    "hashmap",
+    "recursion"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function resolve(table, name) {\n  // TODO : suivre les CNAME jusqu’à un A ; détecter les boucles ; absent → null.\n  return null;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function resolve(table,name){const seen=new Set();let cur=name;while(true){if(seen.has(cur))return null;seen.add(cur);const rec=table[cur];if(!rec)return null;if(rec.type===\"A\")return rec.value;cur=rec.value;}}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "A direct",
+      "kind": "call-equals",
+      "export": "resolve",
+      "args": [
+        {
+          "a.dev": {
+            "type": "A",
+            "value": "1.2.3.4"
+          }
+        },
+        "a.dev"
+      ],
+      "expected": "1.2.3.4"
+    },
+    {
+      "id": "t2",
+      "name": "CNAME → A",
+      "kind": "call-equals",
+      "export": "resolve",
+      "args": [
+        {
+          "www.dev": {
+            "type": "CNAME",
+            "value": "a.dev"
+          },
+          "a.dev": {
+            "type": "A",
+            "value": "9.9.9.9"
+          }
+        },
+        "www.dev"
+      ],
+      "expected": "9.9.9.9"
+    },
+    {
+      "id": "t3",
+      "name": "chaîne CNAME → CNAME → A",
+      "kind": "call-equals",
+      "export": "resolve",
+      "args": [
+        {
+          "x": {
+            "type": "CNAME",
+            "value": "y"
+          },
+          "y": {
+            "type": "CNAME",
+            "value": "z"
+          },
+          "z": {
+            "type": "A",
+            "value": "5.5.5.5"
+          }
+        },
+        "x"
+      ],
+      "expected": "5.5.5.5"
+    },
+    {
+      "id": "t4",
+      "name": "nom absent → null (privé)",
+      "kind": "call-equals",
+      "export": "resolve",
+      "args": [
+        {
+          "a.dev": {
+            "type": "A",
+            "value": "1.1.1.1"
+          }
+        },
+        "absent.dev"
+      ],
+      "expected": null,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "boucle → null (privé)",
+      "kind": "call-equals",
+      "export": "resolve",
+      "args": [
+        {
+          "a": {
+            "type": "CNAME",
+            "value": "b"
+          },
+          "b": {
+            "type": "CNAME",
+            "value": "a"
+          }
+        },
+        "a"
+      ],
+      "expected": null,
+      "private": true
+    }
+  ]
+}

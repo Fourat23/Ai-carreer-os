@@ -1,0 +1,82 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sys-perms-to-octal",
+  "title": "Permissions : symbolique → octal",
+  "difficulty": 2,
+  "summary": "Simulation déterministe. toOctal(\"rwxr-xr-x\") → \"755\" : pour chaque triplet, r=4, w=2, x=1, additionnés (- = 0).",
+  "skills": [
+    "linux",
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function toOctal(symbolic) {\n  // TODO : 3 triplets rwx ; r=4 w=2 x=1, - = 0. Renvoie une chaîne de 3 chiffres.\n  return \"\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function toOctal(s){const v={r:4,w:2,x:1,\"-\":0};let o=\"\";for(let i=0;i<9;i+=3){o+=String(v[s[i]]+v[s[i+1]]+v[s[i+2]]);}return o;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "rwxr-xr-x → 755",
+      "kind": "call-equals",
+      "export": "toOctal",
+      "args": [
+        "rwxr-xr-x"
+      ],
+      "expected": "755"
+    },
+    {
+      "id": "t2",
+      "name": "rw-r--r-- → 644",
+      "kind": "call-equals",
+      "export": "toOctal",
+      "args": [
+        "rw-r--r--"
+      ],
+      "expected": "644"
+    },
+    {
+      "id": "t3",
+      "name": "rwxrwxrwx → 777",
+      "kind": "call-equals",
+      "export": "toOctal",
+      "args": [
+        "rwxrwxrwx"
+      ],
+      "expected": "777"
+    },
+    {
+      "id": "t4",
+      "name": "--------- → 000 (privé)",
+      "kind": "call-equals",
+      "export": "toOctal",
+      "args": [
+        "---------"
+      ],
+      "expected": "000",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "rwx------ → 700 (privé)",
+      "kind": "call-equals",
+      "export": "toOctal",
+      "args": [
+        "rwx------"
+      ],
+      "expected": "700",
+      "private": true
+    }
+  ]
+}

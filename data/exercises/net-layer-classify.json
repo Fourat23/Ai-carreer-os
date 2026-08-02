@@ -1,0 +1,92 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "net-layer-classify",
+  "title": "Diagnostic : classer un symptôme par couche",
+  "difficulty": 3,
+  "summary": "Modèle déterministe. classify(symptom) range un symptôme sur sa couche : name-not-resolved→DNS, connection-refused/timeout→TCP, cert-expired/cert-mismatch→TLS, http-4xx/http-5xx→HTTP, sinon UNKNOWN.",
+  "skills": [
+    "http",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function classify(symptom) {\n  // TODO : mapper le symptôme sur DNS | TCP | TLS | HTTP | UNKNOWN.\n  return \"UNKNOWN\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function classify(s){const m={\"name-not-resolved\":\"DNS\",\"connection-refused\":\"TCP\",\"timeout\":\"TCP\",\"cert-expired\":\"TLS\",\"cert-mismatch\":\"TLS\"};if(m[s])return m[s];if(/^http-[45]\\d\\d$/.test(s))return \"HTTP\";return \"UNKNOWN\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "name-not-resolved → DNS",
+      "kind": "call-equals",
+      "export": "classify",
+      "args": [
+        "name-not-resolved"
+      ],
+      "expected": "DNS"
+    },
+    {
+      "id": "t2",
+      "name": "connection-refused → TCP",
+      "kind": "call-equals",
+      "export": "classify",
+      "args": [
+        "connection-refused"
+      ],
+      "expected": "TCP"
+    },
+    {
+      "id": "t3",
+      "name": "cert-expired → TLS",
+      "kind": "call-equals",
+      "export": "classify",
+      "args": [
+        "cert-expired"
+      ],
+      "expected": "TLS"
+    },
+    {
+      "id": "t4",
+      "name": "http-503 → HTTP",
+      "kind": "call-equals",
+      "export": "classify",
+      "args": [
+        "http-503"
+      ],
+      "expected": "HTTP"
+    },
+    {
+      "id": "t5",
+      "name": "timeout → TCP (privé)",
+      "kind": "call-equals",
+      "export": "classify",
+      "args": [
+        "timeout"
+      ],
+      "expected": "TCP",
+      "private": true
+    },
+    {
+      "id": "t6",
+      "name": "inconnu → UNKNOWN (privé)",
+      "kind": "call-equals",
+      "export": "classify",
+      "args": [
+        "banana"
+      ],
+      "expected": "UNKNOWN",
+      "private": true
+    }
+  ]
+}

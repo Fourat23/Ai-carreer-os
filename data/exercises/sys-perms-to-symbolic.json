@@ -1,0 +1,82 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sys-perms-to-symbolic",
+  "title": "Permissions : octal → symbolique",
+  "difficulty": 2,
+  "summary": "Simulation déterministe. toSymbolic(\"755\") → \"rwxr-xr-x\" : chaque chiffre porte les bits 4=r, 2=w, 1=x.",
+  "skills": [
+    "linux",
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function toSymbolic(octal) {\n  // TODO : pour chaque chiffre, bit 4→r, 2→w, 1→x, sinon \"-\".\n  return \"\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function toSymbolic(o){let s=\"\";for(const c of o){const d=Number(c);s+=(d&4?\"r\":\"-\")+(d&2?\"w\":\"-\")+(d&1?\"x\":\"-\");}return s;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "755 → rwxr-xr-x",
+      "kind": "call-equals",
+      "export": "toSymbolic",
+      "args": [
+        "755"
+      ],
+      "expected": "rwxr-xr-x"
+    },
+    {
+      "id": "t2",
+      "name": "644 → rw-r--r--",
+      "kind": "call-equals",
+      "export": "toSymbolic",
+      "args": [
+        "644"
+      ],
+      "expected": "rw-r--r--"
+    },
+    {
+      "id": "t3",
+      "name": "600 → rw-------",
+      "kind": "call-equals",
+      "export": "toSymbolic",
+      "args": [
+        "600"
+      ],
+      "expected": "rw-------"
+    },
+    {
+      "id": "t4",
+      "name": "777 → rwxrwxrwx (privé)",
+      "kind": "call-equals",
+      "export": "toSymbolic",
+      "args": [
+        "777"
+      ],
+      "expected": "rwxrwxrwx",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "640 → rw-r----- (privé)",
+      "kind": "call-equals",
+      "export": "toSymbolic",
+      "args": [
+        "640"
+      ],
+      "expected": "rw-r-----",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sys-log-level-counts",
+  "title": "Logs : comptage par niveau",
+  "difficulty": 3,
+  "summary": "Fixture déterministe. countByLevel(lines) → objet {ERROR,WARN,INFO,DEBUG} comptant le 2ᵉ champ de chaque ligne. Ignore les niveaux inconnus.",
+  "skills": [
+    "hashmap",
+    "data"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function countByLevel(lines) {\n  // TODO : le niveau est le 2ᵉ token ; compter ERROR/WARN/INFO/DEBUG uniquement.\n  return {};\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function countByLevel(lines){const known=new Set([\"ERROR\",\"WARN\",\"INFO\",\"DEBUG\"]);const out={};for(const l of lines){const lvl=l.split(/\\s+/)[1];if(known.has(lvl))out[lvl]=(out[lvl]||0)+1;}return out;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux ERROR une INFO",
+      "kind": "call-equals",
+      "export": "countByLevel",
+      "args": [
+        [
+          "12:00 ERROR boom",
+          "12:01 INFO ok",
+          "12:02 ERROR again"
+        ]
+      ],
+      "expected": {
+        "ERROR": 2,
+        "INFO": 1
+      }
+    },
+    {
+      "id": "t2",
+      "name": "WARN et DEBUG",
+      "kind": "call-equals",
+      "export": "countByLevel",
+      "args": [
+        [
+          "t WARN slow",
+          "t DEBUG x"
+        ]
+      ],
+      "expected": {
+        "WARN": 1,
+        "DEBUG": 1
+      }
+    },
+    {
+      "id": "t3",
+      "name": "niveau inconnu ignoré",
+      "kind": "call-equals",
+      "export": "countByLevel",
+      "args": [
+        [
+          "t TRACE noise",
+          "t INFO ok"
+        ]
+      ],
+      "expected": {
+        "INFO": 1
+      }
+    },
+    {
+      "id": "t4",
+      "name": "liste vide → {} (privé)",
+      "kind": "call-equals",
+      "export": "countByLevel",
+      "args": [
+        []
+      ],
+      "expected": {},
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "que des inconnus → {} (privé)",
+      "kind": "call-equals",
+      "export": "countByLevel",
+      "args": [
+        [
+          "a FATAL x",
+          "b VERBOSE y"
+        ]
+      ],
+      "expected": {},
+      "private": true
+    }
+  ]
+}

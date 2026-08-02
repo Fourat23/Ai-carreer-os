@@ -1,0 +1,122 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "net-first-failure",
+  "title": "Diagnostic : première couche en échec",
+  "difficulty": 2,
+  "summary": "checks est une liste ORDONNÉE [{layer, ok}]. firstFailure(checks) → le layer du premier check en échec, ou null si tout passe.",
+  "skills": [
+    "debugging",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function firstFailure(checks) {\n  // TODO : renvoyer le layer du premier check dont ok est faux, sinon null.\n  return null;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function firstFailure(checks){for(const c of checks){if(!c.ok)return c.layer;}return null;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "TLS échoue",
+      "kind": "call-equals",
+      "export": "firstFailure",
+      "args": [
+        [
+          {
+            "layer": "DNS",
+            "ok": true
+          },
+          {
+            "layer": "TCP",
+            "ok": true
+          },
+          {
+            "layer": "TLS",
+            "ok": false
+          }
+        ]
+      ],
+      "expected": "TLS"
+    },
+    {
+      "id": "t2",
+      "name": "DNS échoue en premier",
+      "kind": "call-equals",
+      "export": "firstFailure",
+      "args": [
+        [
+          {
+            "layer": "DNS",
+            "ok": false
+          },
+          {
+            "layer": "TCP",
+            "ok": false
+          }
+        ]
+      ],
+      "expected": "DNS"
+    },
+    {
+      "id": "t3",
+      "name": "tout passe → null",
+      "kind": "call-equals",
+      "export": "firstFailure",
+      "args": [
+        [
+          {
+            "layer": "DNS",
+            "ok": true
+          },
+          {
+            "layer": "HTTP",
+            "ok": true
+          }
+        ]
+      ],
+      "expected": null
+    },
+    {
+      "id": "t4",
+      "name": "liste vide → null (privé)",
+      "kind": "call-equals",
+      "export": "firstFailure",
+      "args": [
+        []
+      ],
+      "expected": null,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "HTTP échoue en dernier (privé)",
+      "kind": "call-equals",
+      "export": "firstFailure",
+      "args": [
+        [
+          {
+            "layer": "DNS",
+            "ok": true
+          },
+          {
+            "layer": "HTTP",
+            "ok": false
+          }
+        ]
+      ],
+      "expected": "HTTP",
+      "private": true
+    }
+  ]
+}

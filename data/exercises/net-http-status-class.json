@@ -1,0 +1,92 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "net-http-status-class",
+  "title": "HTTP : classe d’un code de statut",
+  "difficulty": 1,
+  "summary": "statusClass(code) : 1xx→informational, 2xx→success, 3xx→redirect, 4xx→client-error, 5xx→server-error, sinon unknown.",
+  "skills": [
+    "http",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function statusClass(code) {\n  // TODO : renvoyer la classe selon la centaine du code.\n  return \"unknown\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function statusClass(c){if(c>=100&&c<200)return \"informational\";if(c<300)return \"success\";if(c<400)return \"redirect\";if(c<500)return \"client-error\";if(c<600)return \"server-error\";return \"unknown\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "200 → success",
+      "kind": "call-equals",
+      "export": "statusClass",
+      "args": [
+        200
+      ],
+      "expected": "success"
+    },
+    {
+      "id": "t2",
+      "name": "301 → redirect",
+      "kind": "call-equals",
+      "export": "statusClass",
+      "args": [
+        301
+      ],
+      "expected": "redirect"
+    },
+    {
+      "id": "t3",
+      "name": "404 → client-error",
+      "kind": "call-equals",
+      "export": "statusClass",
+      "args": [
+        404
+      ],
+      "expected": "client-error"
+    },
+    {
+      "id": "t4",
+      "name": "503 → server-error",
+      "kind": "call-equals",
+      "export": "statusClass",
+      "args": [
+        503
+      ],
+      "expected": "server-error"
+    },
+    {
+      "id": "t5",
+      "name": "100 → informational (privé)",
+      "kind": "call-equals",
+      "export": "statusClass",
+      "args": [
+        100
+      ],
+      "expected": "informational",
+      "private": true
+    },
+    {
+      "id": "t6",
+      "name": "700 → unknown (privé)",
+      "kind": "call-equals",
+      "export": "statusClass",
+      "args": [
+        700
+      ],
+      "expected": "unknown",
+      "private": true
+    }
+  ]
+}

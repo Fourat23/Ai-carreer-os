@@ -1,0 +1,133 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sys-process-top-cpu",
+  "title": "Processus : top n par CPU",
+  "difficulty": 3,
+  "summary": "Fixture déterministe. topByCpu(procs, n) → tableau des pid des n processus les plus gourmands (CPU décroissant, égalité départagée par pid croissant).",
+  "skills": [
+    "arrays",
+    "objects"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function topByCpu(procs, n) {\n  // TODO : trier par cpu décroissant, pid croissant en cas d’égalité ; renvoyer n pid.\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function topByCpu(procs,n){return [...procs].sort((a,b)=>b.cpu-a.cpu||a.pid-b.pid).slice(0,n).map(p=>p.pid);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "top 2",
+      "kind": "call-equals",
+      "export": "topByCpu",
+      "args": [
+        [
+          {
+            "pid": 10,
+            "cpu": 5
+          },
+          {
+            "pid": 11,
+            "cpu": 40
+          },
+          {
+            "pid": 12,
+            "cpu": 12
+          }
+        ],
+        2
+      ],
+      "expected": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "top 1",
+      "kind": "call-equals",
+      "export": "topByCpu",
+      "args": [
+        [
+          {
+            "pid": 3,
+            "cpu": 1
+          },
+          {
+            "pid": 4,
+            "cpu": 99
+          }
+        ],
+        1
+      ],
+      "expected": [
+        4
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "égalité départagée par pid",
+      "kind": "call-equals",
+      "export": "topByCpu",
+      "args": [
+        [
+          {
+            "pid": 9,
+            "cpu": 20
+          },
+          {
+            "pid": 2,
+            "cpu": 20
+          }
+        ],
+        2
+      ],
+      "expected": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "n plus grand que la liste (privé)",
+      "kind": "call-equals",
+      "export": "topByCpu",
+      "args": [
+        [
+          {
+            "pid": 1,
+            "cpu": 3
+          }
+        ],
+        5
+      ],
+      "expected": [
+        1
+      ],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "liste vide → [] (privé)",
+      "kind": "call-equals",
+      "export": "topByCpu",
+      "args": [
+        [],
+        3
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

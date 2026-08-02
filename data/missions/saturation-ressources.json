@@ -1,0 +1,101 @@
+{
+  "id": "saturation-ressources",
+  "title": "Saturation de ressources : le serveur rame",
+  "description": "Un serveur est saturé. Identifier la ressource en cause (CPU/mémoire/disque) et les processus gourmands à partir de métriques, puis proposer un plan de remédiation étayé.",
+  "category": "performance",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Simulation déterministe (métriques et processus fournis en données, aucun système réel). Le serveur « rame » : les temps de réponse explosent. La cause peut être le CPU (calcul), la MÉMOIRE (swap qui écroule tout), le DISQUE (I/O ou espace/inodes épuisés) ou trop de descripteurs de fichiers ouverts. Le réflexe amateur est de redémarrer ; le réflexe pro est de MESURER pour localiser la ressource saturée AVANT d'agir. À partir d'une liste de processus avec leur consommation CPU et d'un flux de logs, tu identifies les processus les plus gourmands (l'équivalent d'un `top`/`ps` trié) et tu comptes les niveaux d'erreurs, puis tu rédiges une analyse : quelle ressource est saturée, quelles hypothèses (fuite mémoire ? boucle CPU ? disque plein ?), et quel plan de remédiation (borne les ressources, corrige la fuite, ajoute de la capacité — dans cet ordre de coût). Rappel des fondations : « too many open files » = limite de descripteurs ; disque « plein » à faible `du` = inodes épuisés.",
+  "prerequisites": [
+    "Ressources : CPU/mémoire/disque, inode/descripteurs (jour 72)",
+    "Budgets de performance et latence (jour 80)"
+  ],
+  "skills": [
+    "linux",
+    "data"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "fullstack-typescript",
+    "backend-engineer-v1"
+  ],
+  "dayRefs": [
+    72,
+    80
+  ],
+  "exerciseRefs": [
+    "sys-process-top-cpu",
+    "sys-log-level-counts"
+  ],
+  "deliverables": [
+    {
+      "id": "top-consumers",
+      "kind": "code",
+      "title": "Identifier les processus les plus gourmands (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "sys-process-top-cpu",
+      "hint": "Trie les processus par CPU décroissant (pid croissant en cas d’égalité) et renvoie les n premiers PID."
+    },
+    {
+      "id": "analysis",
+      "kind": "document",
+      "title": "Analyse de saturation & plan de remédiation",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptôme",
+          "Métriques",
+          "Ressource saturée",
+          "Hypothèses",
+          "Plan de remédiation"
+        ],
+        "requireMentions": [
+          "CPU",
+          "mémoire",
+          "disque"
+        ],
+        "minLength": 320,
+        "maxLength": 8000
+      },
+      "hint": "Appuie chaque conclusion sur une métrique. Distingue CPU/mémoire/disque/descripteurs. Ordonne le plan du moins coûteux (borner, corriger) au plus coûteux (ajouter de la capacité)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : les processus les plus gourmands sont correctement identifiés",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Ressource saturée identifiée PAR LES MÉTRIQUES (pas par intuition)",
+      "blocking": true,
+      "category": "performance"
+    },
+    {
+      "label": "Hypothèses distinguées (fuite mémoire vs boucle CPU vs disque plein)",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Plan ordonné par coût (borner/corriger avant d’ajouter de la capacité)",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Redémarrer sans mesurer quelle ressource est saturée",
+    "Ajouter de la capacité (coûteux) avant de corriger une fuite (gratuit)",
+    "Ignorer les inodes/descripteurs quand « le disque est plein » ou « too many open files »"
+  ],
+  "status": "published",
+  "version": "1"
+}

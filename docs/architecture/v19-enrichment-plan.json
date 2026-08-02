@@ -41,6 +41,11 @@
     { "id": "sh-pipeline-run", "skills": ["arrays", "functions"], "day": 1 },
     { "id": "sh-exit-retry", "skills": ["conditions", "errors"], "day": 2 }
   ],
-  "missionsAdded": [],
+  "missionsAdded": [
+    { "id": "port-occupe-service-indisponible", "days": [2, 71, 72], "exercises": ["sys-port-listener", "sh-exit-retry"] },
+    { "id": "permissions-secret-expose", "days": [68, 72], "exercises": ["sys-perms-to-octal", "sys-umask-apply"] },
+    { "id": "incident-dns-tls-http", "days": [50, 71], "exercises": ["net-first-failure", "net-layer-classify", "net-dns-resolve"] },
+    { "id": "saturation-ressources", "days": [72, 80], "exercises": ["sys-process-top-cpu", "sys-log-level-counts"] }
+  ],
   "glossaryTermsAdded": []
 }

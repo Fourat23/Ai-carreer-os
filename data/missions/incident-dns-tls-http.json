@@ -1,0 +1,103 @@
+{
+  "id": "incident-dns-tls-http",
+  "title": "Le site est down : diagnostic par couches (DNS/TLS/HTTP)",
+  "description": "Un service est injoignable. Localiser la couche fautive par une remontée méthodique DNS → connectivité → TLS → HTTP, puis rédiger un postmortem par couches.",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Simulation d'incident déterministe (aucun réseau réel ; les vérifications par couche te sont fournies sous forme de données). « Le site ne répond plus » — mais l'erreur peut venir de N'IMPORTE quelle couche : le nom ne résout plus (DNS), la machine/le port ne répond pas (TCP), le certificat a expiré (TLS), ou le serveur renvoie un 5xx (HTTP). Deviner fait perdre des heures ; la MÉTHODE consiste à remonter la pile couche par couche et à ISOLER l'étage fautif : chaque couche que tu exclus réduit le champ des causes. À partir d'une liste ordonnée de vérifications par couche et d'une table de résolution DNS simulée, tu localises la PREMIÈRE couche en échec, tu la relies à un symptôme (ex. `cert-expired` → TLS), puis tu rédiges un postmortem par couches qui raconte l'incident et prévient la récidive (ex. surveillance de l'expiration des certificats). C'est la même bissection que pour un bug (jour 30), appliquée au réseau.",
+  "prerequisites": [
+    "Pile réseau DNS/TCP/TLS/HTTP (jour 71)",
+    "Méthode de diagnostic par couches (jour 71)"
+  ],
+  "skills": [
+    "http",
+    "debugging"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "fullstack-typescript",
+    "backend-engineer-v1"
+  ],
+  "dayRefs": [
+    50,
+    71
+  ],
+  "exerciseRefs": [
+    "net-first-failure",
+    "net-layer-classify",
+    "net-dns-resolve"
+  ],
+  "deliverables": [
+    {
+      "id": "locate-layer",
+      "kind": "code",
+      "title": "Localiser la première couche en échec (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "net-first-failure",
+      "hint": "Parcours les vérifications ordonnées et renvoie la couche du premier check en échec, ou null si tout passe."
+    },
+    {
+      "id": "postmortem",
+      "kind": "document",
+      "title": "Postmortem par couches",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Résumé",
+          "Chronologie",
+          "Diagnostic par couches",
+          "Cause racine",
+          "Actions correctives",
+          "Prévention"
+        ],
+        "requireMentions": [
+          "DNS",
+          "TLS",
+          "HTTP"
+        ],
+        "minLength": 350,
+        "maxLength": 8000
+      },
+      "hint": "Déroule le diagnostic couche par couche (DNS → TCP → TLS → HTTP), identifie la couche fautive et la cause racine, liste les actions correctives et la prévention (ex. alerte sur l’expiration des certificats)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : la première couche en échec est correctement localisée",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Diagnostic PAR COUCHES (chaque couche exclue réduit le champ), pas au hasard",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Cause racine reliée à la bonne couche (ex. cert-expired → TLS)",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Prévention concrète (surveillance, alerte)",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Redémarrer à l’aveugle sans isoler la couche fautive",
+    "Confondre une erreur TLS (certificat) avec une erreur HTTP (statut applicatif)",
+    "Conclure « le réseau est cassé » sans preuve par couche"
+  ],
+  "status": "published",
+  "version": "1"
+}

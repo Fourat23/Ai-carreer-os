@@ -220,7 +220,7 @@ test('CP9 — recherche : missions trouvables par leur domaine, sans fuite', () 
   const missions = allMissions().map((m) => ({ id: m.id, title: m.title, category: m.category, skills: m.skills }));
   const idx = buildIndex(program, cat, [], missions);
   const items = idx.filter((i) => i.type === 'mission');
-  assert.equal(items.length, 4);
+  assert.ok(items.length >= 4, `au moins les 4 missions V18 (V19 en ajoute) — ${items.length}`);
   const find = (q) => idx.filter((i) => i.type === 'mission' && i.keywords.includes(q.toLowerCase())).map((i) => i.href);
   assert.ok(find('dette').includes('/missions/legacy-pricing-maintenance'));
   assert.ok(find('profiling').includes('/missions/slow-endpoint-optimization'));

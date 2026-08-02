@@ -1,0 +1,101 @@
+{
+  "id": "port-occupe-service-indisponible",
+  "title": "Un service ne démarre plus : le port est déjà occupé",
+  "description": "Diagnostiquer un service qui refuse de démarrer (EADDRINUSE), identifier le processus qui occupe le port, résoudre proprement, et documenter l’incident pour éviter la récidive.",
+  "category": "incident",
+  "difficulty": 2,
+  "estimatedHours": 3,
+  "context": "Simulation d'incident déterministe (aucune exécution réseau réelle). Le déploiement de l'API échoue au démarrage : « Error: listen EADDRINUSE: address already in use :::3000 ». Un autre processus écoute déjà sur le port 3000. Tu dois RAISONNER comme en exploitation : à partir d'une table de listeners fournie (l'équivalent de `ss -ltnp`), identifier quel PID occupe le port, décider de l'action (arrêter l'intrus par un SIGTERM propre, ou reconfigurer le port via l'environnement), puis rejouer le démarrage avec une politique de reprise sensée selon le code de sortie. Enfin, tu documentes l'incident (symptôme → diagnostic → cause racine → résolution → prévention) pour que la prochaine collision de port se règle en deux minutes. Rappel : `localhost:3000` désigne un service sur CETTE machine ; « port occupé » n'est pas un bug de code mais un conflit d'exploitation.",
+  "prerequisites": [
+    "Ports, sockets et localhost (jour 71)",
+    "Processus et signaux (jour 72)"
+  ],
+  "skills": [
+    "linux",
+    "debugging"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "fullstack-typescript",
+    "backend-engineer-v1"
+  ],
+  "dayRefs": [
+    2,
+    71,
+    72
+  ],
+  "exerciseRefs": [
+    "sys-port-listener",
+    "sh-exit-retry"
+  ],
+  "deliverables": [
+    {
+      "id": "find-listener",
+      "kind": "code",
+      "title": "Identifier le processus qui occupe le port (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "sys-port-listener",
+      "hint": "Parcours la table de listeners et renvoie le PID qui écoute le port demandé, ou null si le port est libre."
+    },
+    {
+      "id": "incident-log",
+      "kind": "document",
+      "title": "Journal d'incident (port occupé)",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptôme",
+          "Diagnostic",
+          "Cause racine",
+          "Résolution",
+          "Prévention"
+        ],
+        "requireMentions": [
+          "port",
+          "processus"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Déroule le raisonnement : quel symptôme, comment tu as trouvé le PID, la cause racine (double démarrage ? port en dur ?), la résolution (SIGTERM ou reconfiguration par l’environnement), la prévention."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : le PID qui occupe le port est correctement identifié",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Cause racine distinguée du symptôme (pas seulement « kill -9 »)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Résolution propre privilégiée (SIGTERM / reconfiguration par l’environnement avant SIGKILL)",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Prévention concrète (éviter la récidive)",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Faire `kill -9` d’emblée sans comprendre quel processus on tue",
+    "Coder le port en dur au lieu de le lire depuis l’environnement",
+    "Confondre le symptôme (EADDRINUSE) et la cause racine (double démarrage)"
+  ],
+  "status": "published",
+  "version": "1"
+}

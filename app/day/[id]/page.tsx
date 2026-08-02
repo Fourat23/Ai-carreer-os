@@ -2,12 +2,13 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FlaskConical, Check, ArrowRight } from 'lucide-react';
 import { getDay, getDayHtml, getSolutionHtml, getDayChecklist } from '@/lib/program';
-import { getDayProgress, getActiveTrackId } from '@/lib/progress-server';
+import { getDayProgress, getActiveTrackId, readProgress } from '@/lib/progress-server';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { resolveTrackDays, trackNeighbors } from '@/lib/catalogue';
 import { getDayExerciseIndex } from '@/lib/day-exercises-server';
 import { selectDayExercises } from '@/lib/day-exercises';
 import { getExercise } from '@/lib/exercises-server';
+import { missionsForDay, missionProgressFor } from '@/lib/missions-server';
 import { getRuntimeAdapter } from '@/lib/runtime.mjs';
 import { hasLabEvidence } from '@/lib/lab-progress';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
@@ -62,6 +63,15 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
     (exId) => hasLabEvidence(progress, exId),
   ).map((x) => ({ ...x, runtimeLabel: getRuntimeAdapter(x.runtime)?.label ?? x.runtime }));
 
+  // Missions d'ingénierie reliées à ce jour (dérivé de dayRefs ; statut via progression).
+  const MISSION_CAT: Record<string, string> = { 'debt-maintenance': 'Dette & maintenance', performance: 'Performance', documentation: 'Documentation', incident: 'Incident' };
+  const MISSION_STATUS: Record<string, string> = { 'not-started': 'À commencer', 'in-progress': 'En cours', 'deliverables-incomplete': 'Livrables incomplets', 'ready-for-review': 'Prêt pour revue', done: 'Terminé' };
+  const flatProgress = readProgress();
+  const dayMissions = missionsForDay(dayNum).map((m) => {
+    const st = missionProgressFor(flatProgress, m).status;
+    return { id: m.id, title: m.title, category: MISSION_CAT[m.category] ?? m.category, statusLabel: MISSION_STATUS[st] ?? 'À commencer', done: st === 'done' };
+  });
+
   return (
     <div className="day-view">
       <div className="day-main">
@@ -103,6 +113,27 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
                   {x.status === 'passed'
                     ? <span className="badge ok"><Check size={12} /> Réussi</span>
                     : <span className="badge">À faire</span>}
+                  <ArrowRight size={14} className="day-lab-go" />
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {dayMissions.length > 0 && (
+          <section className="day-lab day-missions">
+            <div className="section-head">
+              <span className="section-label">Missions</span>
+              <h2 className="section-title">Missions d'ingénierie</h2>
+            </div>
+            <div className="day-lab-list">
+              {dayMissions.map((m) => (
+                <Link key={m.id} href={`/missions/${m.id}`} className="day-lab-item">
+                  <span className="day-lab-title">{m.title}</span>
+                  <span className="day-lab-meta">
+                    <span className="day-lab-runtime">{m.category}</span>
+                  </span>
+                  {m.done ? <span className="badge ok"><Check size={12} /> Terminé</span> : <span className="badge">{m.statusLabel}</span>}
                   <ArrowRight size={14} className="day-lab-go" />
                 </Link>
               ))}

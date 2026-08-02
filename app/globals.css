@@ -1201,3 +1201,20 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .lab-status.ok { color: var(--ok); }
 .lab-status.prog { color: var(--accent); }
 .lab-status.idle { color: var(--faint); }
+
+/* Missions d'ingénierie (V18) */
+.mission-list { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px; }
+.mission-card-head, .mission-deliverable-head, .mission-badges { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.mission-deliverable-head { justify-content: space-between; }
+.mission-desc { color: var(--muted); margin: 6px 0; }
+.mission-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin: 8px 0; }
+.mission-skills { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { padding: 2px 8px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--border); font-size: 12px; }
+.mission-detail section { margin-top: 16px; }
+.mission-deliverable { margin: 10px 0; }
+.mission-hint { font-style: italic; }
+.mission-doc textarea, .mission-review textarea { width: 100%; max-width: 100%; box-sizing: border-box; font-family: inherit; margin: 8px 0; padding: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel-2); color: inherit; }
+.mission-review-actions, .mission-auto { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.mission-struct-ok { color: var(--ok, #2a8); }
+.mission-struct-ko ul { margin: 4px 0; padding-left: 18px; }
+.badge.muted { opacity: 0.6; }

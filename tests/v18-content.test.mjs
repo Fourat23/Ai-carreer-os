@@ -167,3 +167,44 @@ test('CP6 — les 4 domaines V18 sont couverts par des missions publiées', () =
   const cats = new Set(ids.map((id) => mission(id).category));
   assert.deepEqual([...cats].sort(), ['debt-maintenance', 'documentation', 'incident', 'performance']);
 });
+
+// ── CP7 : intégration parcours / journées / progression ──────────────────────
+import { migrateToV7, activeTrackProgress, writeActiveTrack, setActiveTrack, enrollTrack, normalizeMissionsMap } from '../lib/progress-store.mjs';
+import { startMission as _start, readMissionState as _read } from '../lib/mission-state.mjs';
+const DEF = DEFAULT_TRACK_ID;
+
+function allMissions() {
+  return readdirSync(new URL('../data/missions', import.meta.url)).filter((f) => f.endsWith('.json')).map((f) => mission(f.replace('.json', '')));
+}
+
+test('CP7 — chaque journée cible porte au moins une mission publiée (dérivé de dayRefs)', () => {
+  const ms = allMissions().filter((m) => m.status === 'published');
+  for (const day of [66, 69, 80, 85]) {
+    assert.ok(ms.some((m) => m.dayRefs.includes(day)), `jour ${day} doit avoir une mission`);
+  }
+});
+
+test('CP7 — état de mission persiste dans le parcours actif et reste ISOLÉ', () => {
+  let v3 = migrateToV7({ startDate: '2026-01-01', days: {}, skills: {} }); // Foundations actif
+  let flat = _start(activeTrackProgress(v3), 'legacy-pricing-maintenance');
+  v3 = writeActiveTrack(v3, flat);
+  // Le parcours actif porte l'état ; un autre parcours ne le voit pas.
+  assert.equal(_read(activeTrackProgress(v3), 'legacy-pricing-maintenance').status, 'in-progress');
+  v3 = enrollTrack(v3, FULLSTACK_TRACK_ID); // s'inscrit + devient actif (parcours frais)
+  assert.equal(_read(activeTrackProgress(v3), 'legacy-pricing-maintenance').status, 'not-started');
+  v3 = setActiveTrack(v3, DEF);
+  assert.equal(_read(activeTrackProgress(v3), 'legacy-pricing-maintenance').status, 'in-progress');
+});
+
+test('CP7 — normalizeMissionsMap : borne le contenu et rejette les clés dangereuses', () => {
+  const dirty = { __proto__: { status: 'done' }, m1: { status: 'in-progress', deliverables: { d1: { status: 'submitted', content: 'x'.repeat(50000) } }, startedAt: null, updatedAt: null } };
+  const clean = normalizeMissionsMap(dirty);
+  assert.ok(!Object.hasOwn(clean, '__proto__'));
+  assert.equal(clean.m1.deliverables.d1.content.length, 20000); // borné
+});
+
+test('CP7 — vue publique expose le lien d\'exercice mais pas les seuils cachés', () => {
+  const pub = JSON.stringify(publicMissionView(mission('legacy-pricing-maintenance')));
+  assert.ok(pub.includes('exerciseId'), 'lien d\'exercice public présent');
+  assert.ok(!pub.includes('requireMentions') && !pub.includes('minLength') && !pub.includes('exerciseRef"'), 'seuils cachés non exposés');
+});

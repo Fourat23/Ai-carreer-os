@@ -13,7 +13,7 @@ const cat = buildCatalogue(program);
 test('un seul parcours (Foundations) : une ligne, durée réelle', () => {
   const v3 = migrateToV7({ startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} });
   const rows = aggregateTracks(cat, v3, program);
-  assert.equal(rows.length, 3); // 3 parcours disponibles (même si non démarrés)
+  assert.equal(rows.length, 4); // 4 parcours disponibles (V19 ajoute Systems & Cloud), même si non démarrés
   const f = rows.find((r) => r.trackId === DEFAULT_TRACK_ID);
   assert.equal(f.totalDays, 365);
   assert.equal(f.completedDays, 0);

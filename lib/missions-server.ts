@@ -9,7 +9,7 @@ import { validateMission, publicMissionView } from './mission.mjs';
 import type { Mission } from './mission';
 import { listExercises } from './exercises-server';
 import { getProgram } from './program';
-import { DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID } from './catalogue.mjs';
+import { DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID } from './catalogue.mjs';
 import { isKnownSkill } from './skill-taxonomy.mjs';
 
 const DIR = join(process.cwd(), 'data', 'missions');
@@ -24,7 +24,7 @@ function loadAll(): Mission[] {
   const program = getProgram();
   const ctx = {
     validDays: new Set<number>((program.days ?? []).map((d) => d.day)),
-    trackIds: new Set<string>([DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID]),
+    trackIds: new Set<string>([DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID]),
     skillIds: { has: (s: string) => isKnownSkill(s) },
     exerciseIds: new Set<string>(listExercises().map((e) => e.id)),
   };

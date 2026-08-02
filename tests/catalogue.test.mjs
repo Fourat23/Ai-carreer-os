@@ -199,8 +199,8 @@ test('Backend : n’est plus annoncé ; les parcours existants restent intacts',
   // Fondations = 365, Full-Stack = 119, inchangés.
   assert.equal(getTrack(cat, DEFAULT_TRACK_ID).totalDays, 365);
   assert.equal(resolveTrackDays(cat, 'fullstack-typescript').length, 119);
-  // 3 parcours disponibles, technologies canoniques (pas de docker fictif).
-  assert.equal(cat.tracks.filter(isTrackAvailable).length, 3);
+  // 4 parcours disponibles (V19 ajoute Systems & Cloud), technologies canoniques (pas de docker fictif).
+  assert.equal(cat.tracks.filter(isTrackAvailable).length, 4);
   assert.equal(be.technologies.includes('docker'), false);
 });
 

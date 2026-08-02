@@ -134,3 +134,36 @@ test('CP5 — modèles détaillés présents dans la référence (HSD/TSD/LLD/ru
     assert.ok(doc.includes(needle), `modèle détaillé doit couvrir « ${needle} »`);
   }
 });
+
+// ── CP6 : mission incident, observabilité & post-mortem ──────────────────────
+
+test('CP6 — mission health-incident-postmortem valide, catégorie incident', () => {
+  const m = mission('health-incident-postmortem');
+  assert.deepEqual(validateMission(m, ctx()), { ok: true, errors: [] });
+  assert.equal(m.category, 'incident');
+  assert.ok(m.dayRefs.includes(85));
+  // le faux indice fait partie du scénario
+  assert.ok(/faux indice/i.test(m.context));
+});
+
+test('CP6 — post-mortem exige RCA, prévention, backlog et cadrage sans blâme', () => {
+  const pm = mission('health-incident-postmortem').deliverables.find((d) => d.id === 'postmortem');
+  for (const s of ['Cause racine', 'Actions correctives', 'Prévention', 'Backlog']) assert.ok(pm.docSpec.requiredSections.includes(s));
+  assert.ok(pm.docSpec.requireMentions.includes('sans blâme') && pm.docSpec.requireMentions.includes('MTTR'));
+});
+
+test('CP6 — exercice de diagnostic : starter reproduit le symptôme, privés neutres', () => {
+  const ex = exercise('incident-health-rollup');
+  assert.deepEqual(validateExercise(ex), { ok: true, errors: [] });
+  // les noms des tests privés ne révèlent pas la cause racine (degraded avalé)
+  const priv = ex.tests.filter((t) => t.private);
+  assert.ok(priv.length > 0);
+  assert.ok(!priv.some((t) => /dégrad|degraded|cause|ignor/i.test(t.name)), 'les privés ne révèlent pas la cause');
+  assert.ok(dayExercises()['85'].includes('incident-health-rollup'));
+});
+
+test('CP6 — les 4 domaines V18 sont couverts par des missions publiées', () => {
+  const ids = ['legacy-pricing-maintenance', 'slow-endpoint-optimization', 'feature-design-docs', 'health-incident-postmortem'];
+  const cats = new Set(ids.map((id) => mission(id).category));
+  assert.deepEqual([...cats].sort(), ['debt-maintenance', 'documentation', 'incident', 'performance']);
+});

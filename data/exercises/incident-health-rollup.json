@@ -1,0 +1,31 @@
+{
+  "id": "incident-health-rollup",
+  "title": "Incident : agrégation d'état de santé faussée",
+  "runtime": "node-js",
+  "language": "javascript",
+  "activeFile": "solution.mjs",
+  "difficulty": 2,
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "skills": ["conditions", "arrays"],
+  "summary": "aggregateHealth(checks) agrège l'état de plusieurs services en un état global : 'down' si au moins un est 'down' ; sinon 'degraded' si au moins un est 'degraded' ; sinon 'up'. Depuis un déploiement, le tableau de bord affiche « tout va bien » alors que des utilisateurs voient des erreurs : un état intermédiaire est avalé. Corrige l'agrégation pour refléter fidèlement l'état réel.",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// checks = [{ name, status: 'up' | 'degraded' | 'down' }]\n// État global attendu :\n//   'down'      s'il existe au moins un service 'down' ;\n//   sinon 'degraded' s'il existe au moins un service 'degraded' ;\n//   sinon 'up'.\n// SYMPTÔME de l'incident : le tableau de bord affiche 'up' alors que des\n// services sont 'degraded'. Le rollup ne distingue que up/down.\nexport function aggregateHealth(checks) {\n  const anyDown = checks.some((c) => c.status === 'down');\n  return anyDown ? 'down' : 'up';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function aggregateHealth(checks) {\n  if (checks.some((c) => c.status === 'down')) return 'down';\n  if (checks.some((c) => c.status === 'degraded')) return 'degraded';\n  return 'up';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "tous up → up", "kind": "call-equals", "export": "aggregateHealth", "args": [[{ "name": "a", "status": "up" }, { "name": "b", "status": "up" }]], "expected": "up" },
+    { "id": "t2", "name": "un down → down", "kind": "call-equals", "export": "aggregateHealth", "args": [[{ "name": "a", "status": "up" }, { "name": "b", "status": "down" }]], "expected": "down" },
+    { "id": "t3", "name": "un dégradé (aucun down) → degraded", "kind": "call-equals", "export": "aggregateHealth", "args": [[{ "name": "a", "status": "up" }, { "name": "b", "status": "degraded" }]], "expected": "degraded" },
+    { "id": "t4", "name": "cas mixte (privé)", "kind": "call-equals", "export": "aggregateHealth", "args": [[{ "name": "a", "status": "degraded" }, { "name": "b", "status": "down" }]], "expected": "down", "private": true },
+    { "id": "t5", "name": "plusieurs services (privé)", "kind": "call-equals", "export": "aggregateHealth", "args": [[{ "name": "a", "status": "degraded" }, { "name": "b", "status": "up" }, { "name": "c", "status": "degraded" }]], "expected": "degraded", "private": true },
+    { "id": "t6", "name": "liste vide (privé)", "kind": "call-equals", "export": "aggregateHealth", "args": [[]], "expected": "up", "private": true }
+  ]
+}

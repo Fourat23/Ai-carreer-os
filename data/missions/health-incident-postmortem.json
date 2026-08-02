@@ -1,0 +1,87 @@
+{
+  "id": "health-incident-postmortem",
+  "title": "Gérer un incident et écrire le post-mortem",
+  "description": "Diagnostiquer un incident de production simulé, le mitiger, corriger la cause racine par du code, puis écrire un rapport d'incident et un post-mortem sans blâme avec un backlog d'actions priorisées.",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "07h50 — l'astreinte reçoit des remontées : « le site rame et renvoie des erreurs par intermittence », alors que le tableau de bord de santé affiche TOUT EN VERT. Signal technique : le taux d'erreurs 5xx a bondi à 08h05, dix minutes après le déploiement de 07h55. Faux indice tentant : un pic de trafic à la même heure fait croire à une surcharge — mais les métriques CPU/mémoire sont normales, ce n'est pas la charge. La vraie piste : le rollup de santé a été modifié au dernier déploiement et n'affiche plus l'état intermédiaire « degraded » — un service dégradé est compté comme sain, si bien que l'alerte ne s'est jamais déclenchée. Ta mission : établir la timeline, distinguer le vrai signal du faux indice, MITIGER d'abord (rollback du déploiement pour restaurer le service), corriger la CAUSE RACINE dans le code d'agrégation, ajouter une protection contre la récidive, puis écrire un rapport d'incident et un post-mortem SANS BLÂME (on cherche le système fautif, pas un coupable) avec un backlog d'actions correctives et préventives priorisées. Mobilise logs, métriques, traces (au moins conceptuellement), SLI/SLO, error budget, alerte, MTTD, MTTR, rollback et runbook.",
+  "prerequisites": ["Observabilité, logs et métriques (jour 85)", "Post-mortem sans blâme (jours 66, 85)"],
+  "skills": ["conditions", "arrays"],
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "dayRefs": [85],
+  "exerciseRefs": ["incident-health-rollup"],
+  "deliverables": [
+    {
+      "id": "diagnosis-fix",
+      "kind": "code",
+      "title": "Correction de la cause racine (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "incident-health-rollup",
+      "hint": "La cause racine est dans l'agrégation d'état. Corrige-la pour refléter l'état réel, sans casser les autres cas."
+    },
+    {
+      "id": "incident-report",
+      "kind": "report",
+      "title": "Rapport d'incident (diagnostic + timeline)",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Diagnostic", "Timeline", "Cause racine", "Mitigation", "Correction", "Faux indice"],
+        "minLength": 320,
+        "maxLength": 8000
+      },
+      "hint": "Sépare le vrai signal (5xx après déploiement) du faux indice (pic de trafic). Mitige (rollback) AVANT de corriger."
+    },
+    {
+      "id": "postmortem",
+      "kind": "report",
+      "title": "Post-mortem sans blâme + backlog d'actions",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Résumé", "Impact", "Détection", "Cause racine", "Actions correctives", "Prévention", "Backlog"],
+        "requireMentions": ["MTTR", "sans blâme"],
+        "minLength": 360,
+        "maxLength": 9000
+      },
+      "hint": "Cherche le système qui a permis l'erreur (alerte aveugle au 'degraded'), pas un coupable. Priorise les actions."
+    },
+    {
+      "id": "runbook",
+      "kind": "plan",
+      "title": "Runbook de l'incident",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Symptômes", "Diagnostic", "Rollback", "Validation du rétablissement"],
+        "minLength": 220,
+        "maxLength": 6000
+      }
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    { "label": "Cause racine corrigée par le code (agrégation fidèle), sans régression", "blocking": true },
+    { "label": "Timeline claire, vrai signal distingué du faux indice", "blocking": true },
+    { "label": "Mitigation (rollback) posée AVANT la correction définitive", "blocking": true },
+    { "label": "Post-mortem SANS BLÂME : système fautif, pas un coupable", "blocking": true },
+    { "label": "Backlog d'actions correctives et préventives priorisées", "blocking": false },
+    { "label": "Runbook exécutable pour la prochaine fois", "blocking": false }
+  ],
+  "commonMistakes": [
+    "Suivre le faux indice (le pic de trafic) au lieu de la corrélation déploiement → 5xx",
+    "Corriger le code AVANT de mitiger (le service reste cassé pendant l'investigation)",
+    "Chercher un coupable au lieu du défaut systémique (l'alerte aveugle au 'degraded')",
+    "Clore l'incident sans action de prévention (la récidive est garantie)"
+  ],
+  "status": "published",
+  "version": "1"
+}

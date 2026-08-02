@@ -1,0 +1,75 @@
+{
+  "id": "legacy-pricing-maintenance",
+  "title": "Reprendre un module de tarification legacy",
+  "description": "Reprendre en main un module de calcul de prix hérité : le comprendre, le sécuriser par des tests, corriger ses régressions sans casser le comportement attendu, puis documenter sa dette et son plan de maintenance.",
+  "category": "debt-maintenance",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Tu reprends `priceCart`, un module de tarification écrit il y a deux ans par une personne qui a quitté l'équipe. Il tourne en production et « marche » sur les paniers courants, mais il n'a AUCUN test, mélange calcul et cas particuliers, et deux bugs subtils dorment dedans : un coupon fixe supérieur au sous-total produit un prix NÉGATIF, et les totaux ne sont pas arrondis (des centimes fantômes apparaissent). Le métier demande d'ajouter bientôt un nouveau type de coupon — mais interdit de casser la facturation existante. Avant toute évolution, il faut donc : verrouiller le comportement actuel par des tests de caractérisation, corriger les régressions sans changer les cas déjà corrects, et documenter la dette et la maintenance pour que la prochaine évolution soit sûre. Compatibilité ascendante obligatoire : les clients qui appellent `priceCart` aujourd'hui ne doivent rien voir changer, sauf les deux bugs corrigés.",
+  "prerequisites": ["Refactoring sous tests (jour 69)", "Taxonomie de la dette technique (jour 69)"],
+  "skills": ["functions", "arrays"],
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "dayRefs": [69, 85],
+  "exerciseRefs": ["debt-legacy-refactor"],
+  "deliverables": [
+    {
+      "id": "refactor",
+      "kind": "code",
+      "title": "Refactoring sous tests de caractérisation (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "debt-legacy-refactor",
+      "hint": "Verrouille le comportement AVANT de corriger. Les deux régressions : borne le coupon fixe à 0, arrondis le total au centime."
+    },
+    {
+      "id": "debt-register",
+      "kind": "document",
+      "title": "Registre de dette technique + priorisation",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Registre de dette", "Classification", "Matrice", "Stratégie de remboursement"],
+        "requireMentions": ["impact", "risque", "effort"],
+        "minLength": 320,
+        "maxLength": 8000
+      },
+      "hint": "Classe chaque dette : volontaire/involontaire, prudente/imprudente, locale/systémique. Priorise par impact × risque × effort."
+    },
+    {
+      "id": "maintenance-plan",
+      "kind": "plan",
+      "title": "Plan de maintenance, dépréciation & compatibilité",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Corrective", "Adaptative", "Préventive", "Évolutive", "Dépréciation", "Compatibilité", "Changelog"],
+        "minLength": 320,
+        "maxLength": 8000
+      },
+      "hint": "Couvre les quatre types de maintenance, la stratégie de dépréciation du futur coupon, une note de compatibilité ascendante et une entrée de changelog."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    { "label": "Exercice de refactoring vert : les deux régressions corrigées, cas existants préservés", "blocking": true },
+    { "label": "Registre de dette classé (Fowler + locale/systémique) et priorisé impact × risque × effort", "blocking": true },
+    { "label": "Compatibilité ascendante préservée (aucun changement de contrat sauf bugs corrigés)", "blocking": true },
+    { "label": "Plan de maintenance couvrant corrective / adaptative / préventive / évolutive", "blocking": false },
+    { "label": "Stratégie de dépréciation et changelog présents", "blocking": false },
+    { "label": "Auto-évaluation honnête (ce qui est prouvé vs ce qui reste à revoir)", "blocking": false }
+  ],
+  "commonMistakes": [
+    "Refactorer sans écrire d'abord les tests de caractérisation (on casse en croyant améliorer)",
+    "Corriger les bugs ET changer d'autres comportements au passage (régression cachée)",
+    "Traiter une dette « laide mais stable » avant une dette à fort intérêt",
+    "Retirer l'ancien comportement sans dépréciation ni note de compatibilité"
+  ],
+  "status": "published",
+  "version": "1"
+}

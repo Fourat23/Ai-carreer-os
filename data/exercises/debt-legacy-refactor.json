@@ -1,0 +1,31 @@
+{
+  "id": "debt-legacy-refactor",
+  "title": "Reprise d'un module de tarification legacy",
+  "runtime": "node-js",
+  "language": "javascript",
+  "activeFile": "solution.mjs",
+  "difficulty": 3,
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "skills": ["functions", "arrays"],
+  "summary": "Un priceCart(items, coupon) legacy « marche » sur le cas simple mais cache deux régressions subtiles : un coupon fixe qui dépasse le sous-total doit ramener à 0 (jamais négatif), et le total doit être arrondi au centime. Répare le comportement SANS changer les cas déjà corrects. Les tests de caractérisation verrouillent le contrat.",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// LEGACY : calcule le prix d'un panier avec un coupon.\n//   items  = [{ price, qty }]  ;  coupon = { type:'percent'|'fixed', value } | null\n// Règles ATTENDUES (verrouillées par les tests de caractérisation) :\n//   sous-total = somme(price*qty) ; percent → -value% ; fixed → -value MAIS jamais\n//   sous 0 ; le total est arrondi au centime (2 décimales).\n// Deux régressions subtiles à corriger sans casser les cas déjà verts :\n//   1) le coupon fixe n'est pas borné à 0 (peut devenir négatif) ;\n//   2) le total n'est pas arrondi (erreurs de virgule flottante).\nexport function priceCart(items, coupon) {\n  const subtotal = items.reduce((s, it) => s + it.price * it.qty, 0);\n  if (coupon && coupon.type === 'percent') return subtotal - (subtotal * coupon.value) / 100;\n  if (coupon && coupon.type === 'fixed') return subtotal - coupon.value;\n  return subtotal;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function priceCart(items, coupon) {\n  const subtotal = items.reduce((s, it) => s + it.price * it.qty, 0);\n  let total = subtotal;\n  if (coupon && coupon.type === 'percent') total = subtotal * (1 - coupon.value / 100);\n  else if (coupon && coupon.type === 'fixed') total = Math.max(0, subtotal - coupon.value);\n  return Math.round(total * 100) / 100;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "caractérisation : sans coupon", "kind": "call-equals", "export": "priceCart", "args": [[{ "price": 10, "qty": 2 }], null], "expected": 20 },
+    { "id": "t2", "name": "caractérisation : coupon percent", "kind": "call-equals", "export": "priceCart", "args": [[{ "price": 10, "qty": 2 }], { "type": "percent", "value": 10 }], "expected": 18 },
+    { "id": "t3", "name": "caractérisation : coupon fixe dans les bornes", "kind": "call-equals", "export": "priceCart", "args": [[{ "price": 10, "qty": 2 }], { "type": "fixed", "value": 5 }], "expected": 15 },
+    { "id": "t4", "name": "coupon fixe > sous-total → 0 (jamais négatif)", "kind": "call-equals", "export": "priceCart", "args": [[{ "price": 10, "qty": 1 }], { "type": "fixed", "value": 15 }], "expected": 0 },
+    { "id": "t5", "name": "régression : arrondi au centime (privé)", "kind": "call-equals", "export": "priceCart", "args": [[{ "price": 9.99, "qty": 1 }], { "type": "percent", "value": 10 }], "expected": 8.99, "private": true },
+    { "id": "t6", "name": "régression : somme flottante arrondie (privé)", "kind": "call-equals", "export": "priceCart", "args": [[{ "price": 0.1, "qty": 3 }], null], "expected": 0.3, "private": true }
+  ]
+}

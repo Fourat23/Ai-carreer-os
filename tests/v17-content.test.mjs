@@ -42,7 +42,8 @@ test('CP3 — exercices dette+refactoring : contrat valide, tests public+privé'
 
 test('CP3 — exercices reliés au jour 69 (atteignable depuis les 3 parcours)', () => {
   const de = dayExercises();
-  assert.deepEqual(de['69'], ['debt-audit', 'refactor-legacy']);
+  // Le jour 69 peut accueillir d'autres exercices (V18) ; les deux exercices V17 restent présents.
+  assert.ok(de['69'].includes('debt-audit') && de['69'].includes('refactor-legacy'));
 });
 
 test('CP3 — refactor-legacy verrouille par des tests de CARACTÉRISATION', () => {
@@ -134,7 +135,7 @@ test('CP6 — les 5 exercices V17 sont valides, avec public + privé', () => {
 test('CP6 — chaque exercice V17 est relié à une journée thématiquement cohérente', () => {
   const de = dayExercises();
   // dette/refactoring → jour 69 ; performance/goulot → jour 80 ; budget → aussi jour 102.
-  assert.deepEqual(de['69'], ['debt-audit', 'refactor-legacy']);
+  assert.ok(de['69'].includes('debt-audit') && de['69'].includes('refactor-legacy'));
   assert.deepEqual(de['80'], ['latency-percentiles', 'perf-budget', 'fix-nplus1']);
   assert.ok(de['102'].includes('perf-budget'));
 });

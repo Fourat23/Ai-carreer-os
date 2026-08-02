@@ -82,7 +82,8 @@
   ],
   "69": [
     "debt-audit",
-    "refactor-legacy"
+    "refactor-legacy",
+    "debt-legacy-refactor"
   ],
   "80": [
     "latency-percentiles",

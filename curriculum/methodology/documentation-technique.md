@@ -252,3 +252,88 @@ est le plus petit document qui répond à la question de mon lecteur** ». Un RE
 clair vaut mieux qu'un HLD que personne ne lit. On écrit un document quand son
 absence **coûte** (un inconnu bloqué, une décision reperdue, une astreinte sans
 procédure) — et on le supprime quand il ment plus qu'il n'aide.
+
+---
+
+# Modèles détaillés pour les missions d'ingénierie (V18)
+
+Ces gabarits complets servent aux **missions** : copie la structure, remplis chaque
+section, retire les crochets. La validation de l'application est **structurelle**
+(sections présentes, pas de placeholder, taille raisonnable) — elle ne juge pas le
+fond : la justesse reste ton auto-évaluation et une revue humaine.
+
+## ADR détaillé
+
+```md
+# ADR-00X : [décision]
+## Contexte      [problème, contraintes, ce qui force à décider]
+## Décision      [ce qu'on retient, formulé à l'affirmatif]
+## Alternatives  [≥ 2 options écartées, avec leur coût]
+## Conséquences  [positives ET négatives assumées]
+## Risques       [ce qui pourrait mal tourner + mitigation]
+## Statut        [proposé | accepté | remplacé par ADR-00Y]
+```
+
+## HSD — High-Level Solution Design
+
+```md
+# HSD : [nom de la solution]
+## Contexte         [problème métier, contraintes]
+## Objectifs        [ce que la solution doit atteindre, mesurable]
+## Non-objectifs    [ce qu'on ne fait PAS, explicitement]
+## Architecture     [vue d'ensemble, renvoi au diagramme C4]
+## Composants       [les briques et leurs responsabilités]
+## Flux             [1–2 séquences clés, du déclencheur au résultat]
+## Interfaces       [ce que la solution expose / consomme]
+## Données          [modèle, volumétrie, cycle de vie]
+## Sécurité         [authn/authz, secrets, surface d'attaque]
+## Observabilité    [logs, métriques, traces ; ce qu'on saura en prod]
+## Disponibilité    [SLO visé, dégradation, points de défaillance]
+## Déploiement      [comment ça arrive en prod, feature flag éventuel]
+## Risques          [techniques et projet, avec mitigation]
+```
+
+## TSD — Technical Solution Design (+ LLD ciblé)
+
+```md
+# TSD : [composant / évolution]
+## Contrat          [ce que le composant garantit à ses appelants]
+## Modèles          [types, schémas de données, invariants]
+## API              [routes, entrées, sorties, versions]
+## Erreurs          [codes, cas, messages ; comportement en échec]
+## Validations      [règles d'entrée, bornes, refus]
+## Persistance      [tables, index, transactions]
+## Migrations       [avant/arrière, données existantes]
+## Tests            [unitaires, intégration, cas limites, non-régression]
+## Performances     [budget, coût attendu, points chauds]
+## Rollback         [comment revenir à l'état sain, étapes]
+## LLD              [détail interne du composant clé : responsabilités,
+                     fonctions/états, séquences, cas limites, invariants]
+```
+
+## Runbook détaillé
+
+```md
+# Runbook : [service / fonctionnalité]
+## Symptômes                [ce que l'astreinte observe]
+## Diagnostic               [étapes pour localiser la cause, commandes]
+## Mitigation               [réduire l'impact tout de suite]
+## Rollback                 [revenir à la version saine, étapes exactes]
+## Escalade                 [qui prévenir, quand]
+## Validation du rétablissement  [comment confirmer que c'est réglé]
+```
+
+## Post-mortem sans blâme détaillé
+
+```md
+# Post-mortem : [incident] — [date]
+## Résumé                   [1–2 phrases]
+## Impact                   [durée, utilisateurs, pertes]
+## Timeline                 [détection → mitigation → résolution]
+## Détection                [comment on l'a su ; MTTD]
+## Cause racine (RCA)       [les « 5 pourquoi », pas un coupable]
+## Facteurs contributifs    [ce qui a aggravé ou masqué]
+## Résolution               [ce qui a rétabli le service ; MTTR]
+## Actions correctives      [avec responsable et échéance]
+## Prévention               [ce qui empêche la récidive]
+```

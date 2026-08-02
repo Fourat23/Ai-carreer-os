@@ -93,3 +93,44 @@ test('CP4 — la mission interdit les fausses optimisations (erreurs fréquentes
   const blob = m.commonMistakes.join(' ').toLowerCase();
   assert.ok(/seuil du test|hardcode|masquer une erreur|cache/.test(blob), 'liste les fausses optimisations');
 });
+
+// ── CP5 : mission documentation technique ────────────────────────────────────
+import { validateDocumentStructure } from '../lib/mission.mjs';
+
+test('CP5 — mission feature-design-docs valide, catégorie documentation', () => {
+  const m = mission('feature-design-docs');
+  assert.deepEqual(validateMission(m, ctx()), { ok: true, errors: [] });
+  assert.equal(m.category, 'documentation');
+  assert.ok(m.dayRefs.includes(66));
+});
+
+test('CP5 — HSD/TSD/ops exigent les sections professionnelles complètes', () => {
+  const m = mission('feature-design-docs');
+  const d = (id) => m.deliverables.find((x) => x.id === id).docSpec.requiredSections;
+  for (const s of ['Non-objectifs', 'Sécurité', 'Observabilité', 'Disponibilité', 'Déploiement']) assert.ok(d('hsd').includes(s), `HSD exige ${s}`);
+  for (const s of ['Migrations', 'Rollback', 'Tests', 'LLD']) assert.ok(d('tsd').includes(s), `TSD exige ${s}`);
+  for (const s of ['Runbook', 'Rollback', 'Migration', 'Changelog']) assert.ok(d('ops').includes(s), `ops exige ${s}`);
+});
+
+test('CP5 — validation structurelle HONNÊTE : rejette incomplet, accepte complet', () => {
+  const spec = mission('feature-design-docs').deliverables.find((d) => d.id === 'adr').docSpec;
+  const incomplet = 'Contexte : on veut exporter. Décision : format JSON.'; // sections manquantes
+  const rI = validateDocumentStructure(incomplet, spec);
+  assert.equal(rI.ok, false);
+  assert.ok(rI.missingSections.includes('Alternatives') && rI.tooShort);
+  const complet = ['Contexte : gros export, contrat public, plusieurs consommateurs et contraintes de base.',
+    'Décision : export en streaming au format JSON et CSV via un endpoint versionné.',
+    'Alternatives : tout-en-mémoire (écartée : coût mémoire), export asynchrone par job (écartée : complexité).',
+    'Conséquences : positives (scalable), négatives (streaming plus complexe à tester).',
+    'Risques : pression base sur gros volume, mitigation par pagination et budget.',
+    'Statut : accepté.'].join('\n\n');
+  assert.equal(validateDocumentStructure(complet, spec).ok, true);
+});
+
+test('CP5 — modèles détaillés présents dans la référence (HSD/TSD/LLD/runbook)', () => {
+  const doc = readFileSync(new URL('../curriculum/methodology/documentation-technique.md', import.meta.url), 'utf8');
+  assert.ok(doc.includes('Modèles détaillés pour les missions'), 'section modèles détaillés V18');
+  for (const needle of ['## Non-objectifs', 'Observabilité', '## Rollback', '## LLD', 'Post-mortem sans blâme détaillé']) {
+    assert.ok(doc.includes(needle), `modèle détaillé doit couvrir « ${needle} »`);
+  }
+});

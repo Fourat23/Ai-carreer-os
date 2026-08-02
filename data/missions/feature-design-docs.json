@@ -1,0 +1,102 @@
+{
+  "id": "feature-design-docs",
+  "title": "Concevoir et documenter une évolution d'API",
+  "description": "Piloter par la documentation l'ajout d'un endpoint d'export à une API existante : décider (ADR), concevoir la solution (HSD), spécifier l'implémentation (TSD + LLD ciblé), et préparer l'exploitation (runbook, migration, rollback, changelog). Produire des documents professionnels vérifiés STRUCTURELLEMENT, jamais jugés sur le fond automatiquement.",
+  "category": "documentation",
+  "difficulty": 4,
+  "estimatedHours": 8,
+  "context": "L'équipe veut ajouter à LivreAPI un endpoint d'export (GET /export?format=json|csv) des emprunts. Ce n'est pas un petit patch : d'autres équipes consomment déjà l'API, un gros export peut peser sur la base, et le format devient un contrat public. Avant d'écrire une ligne, tu pilotes la conception PAR la documentation : un ADR tranche le format et l'approche (streaming vs tout-en-mémoire) ; un HSD décrit la solution de haut niveau (composants, flux, données, sécurité, observabilité, disponibilité, déploiement) ; un TSD spécifie le contrat technique (API, erreurs, validations, persistance, migrations, tests, performances, rollback) avec un LLD ciblé du composant d'export ; un document d'exploitation fournit runbook, plan de migration, rollback et changelog. L'application vérifie la STRUCTURE de tes documents (sections présentes, pas de placeholder, taille raisonnable, mentions attendues) — elle ne prétend PAS juger la qualité architecturale : cela reste ton auto-évaluation et une revue humaine. Modèles réutilisables : /doc/methodology/documentation-technique.",
+  "prerequisites": ["Carte de la documentation professionnelle (jour 66)", "Contrat d'API et compatibilité (jours 66, 85)"],
+  "skills": ["api", "testing"],
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "dayRefs": [66],
+  "deliverables": [
+    {
+      "id": "adr",
+      "kind": "decision",
+      "title": "ADR — choix du format et de l'approche d'export",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Contexte", "Décision", "Alternatives", "Conséquences", "Risques", "Statut"],
+        "minLength": 260,
+        "maxLength": 6000
+      },
+      "hint": "Une décision, deux alternatives au moins, conséquences positives ET négatives, risques, statut."
+    },
+    {
+      "id": "hsd",
+      "kind": "document",
+      "title": "HSD — conception de solution de haut niveau",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Contexte", "Objectifs", "Non-objectifs", "Architecture", "Composants", "Flux", "Interfaces", "Données", "Sécurité", "Observabilité", "Disponibilité", "Déploiement", "Risques"],
+        "minLength": 500,
+        "maxLength": 10000
+      },
+      "hint": "High-Level Solution Design (cf. ADR-017) : quelle solution et pourquoi, avant le détail technique."
+    },
+    {
+      "id": "tsd",
+      "kind": "document",
+      "title": "TSD — spécification technique + LLD ciblé",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Contrat", "Modèles", "API", "Erreurs", "Validations", "Persistance", "Migrations", "Tests", "Performances", "Rollback", "LLD"],
+        "minLength": 500,
+        "maxLength": 10000
+      },
+      "hint": "Contrat d'implémentation sans ambiguïté + un LLD ciblé du composant d'export (responsabilités, invariants, cas limites)."
+    },
+    {
+      "id": "ops",
+      "kind": "plan",
+      "title": "Exploitation — runbook, migration, rollback, changelog",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Runbook", "Symptômes", "Diagnostic", "Rollback", "Migration", "Changelog"],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "De quoi exploiter la fonctionnalité et revenir en arrière sans paniquer."
+    },
+    {
+      "id": "rfc",
+      "kind": "document",
+      "title": "RFC courte (optionnel) — soumettre la proposition",
+      "required": false,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": ["Motivation", "Proposition", "Alternatives"],
+        "minLength": 180,
+        "maxLength": 5000
+      }
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    { "label": "ADR : décision tranchée, alternatives et risques explicites", "blocking": true },
+    { "label": "HSD : solution de haut niveau complète (sécurité, observabilité, disponibilité, déploiement)", "blocking": true },
+    { "label": "TSD : contrat d'API + erreurs + validations + migrations + tests + rollback, avec LLD ciblé", "blocking": true },
+    { "label": "Exploitation : runbook exécutable, migration ET rollback, changelog", "blocking": false },
+    { "label": "Aucun placeholder, documents cohérents avec le problème traité", "blocking": true },
+    { "label": "Auto-évaluation : distingue ce qui est structurellement valide de ce qui reste à faire relire", "blocking": false }
+  ],
+  "commonMistakes": [
+    "Croire qu'un document est « bon » parce qu'il a les bons titres (la structure n'est pas la qualité)",
+    "Oublier le rollback et le plan de migration (on sait avancer, pas revenir)",
+    "Confondre HSD (quelle solution) et TSD (comment l'implémenter)",
+    "Introduire un changement cassant sans le signaler dans le changelog"
+  ],
+  "status": "published",
+  "version": "1"
+}

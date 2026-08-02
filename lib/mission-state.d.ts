@@ -15,6 +15,7 @@ export interface DeliverableState {
   selfAssessment?: Record<string, unknown>;
   reviewNote?: string;
   submittedAt?: string;
+  history?: Array<{ status: DeliverableStatus; at: string }>;
 }
 export interface MissionState {
   status: MissionStatus;
@@ -34,3 +35,7 @@ export function submitDeliverable<T>(
 export function computeMissionStatus(missionDef: Mission, state: MissionState): MissionStatus;
 export function recordMissionCompletion<T>(flat: T, missionDef: Mission, now?: string): T;
 export function missionProgress(flat: unknown, missionDef: Mission): { status: MissionStatus; requiredTotal: number; requiredDone: number };
+export function missionReview(missionDef: Mission, state: MissionState): {
+  status: MissionStatus; completion: number; autoValidated: string[]; structureValid: string[];
+  awaitingReview: string[]; todo: string[]; blockingCriteria: string[]; humanReviewRequired: boolean;
+};

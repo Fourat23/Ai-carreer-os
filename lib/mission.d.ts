@@ -8,6 +8,8 @@ export const MISSION_CATEGORIES: MissionCategory[];
 export const DELIVERABLE_KINDS: DeliverableKind[];
 export const VALIDATION_MODES: ValidationMode[];
 export const MISSION_DEF_STATUSES: Array<'draft' | 'published'>;
+export type RubricCategory = 'functional' | 'quality' | 'maintainability' | 'tests' | 'performance' | 'documentation' | 'security' | 'tradeoffs';
+export const RUBRIC_CATEGORIES: RubricCategory[];
 
 export interface DocSpec {
   requiredSections: string[];
@@ -31,6 +33,7 @@ export interface MissionDeliverable {
 export interface RubricCriterion {
   label: string;
   blocking?: boolean;
+  category?: RubricCategory;
 }
 
 export interface Mission {

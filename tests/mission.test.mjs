@@ -153,3 +153,59 @@ test('recordMissionCompletion ne fait rien si la mission n’est pas done', () =
   assert.equal(recordMissionCompletion(f, def), f);
   assert.deepEqual(missionProgress(f, def), { status: 'in-progress', requiredTotal: 2, requiredDone: 0 });
 });
+
+// ── CP8 : évaluations, rubrics & revue honnête ───────────────────────────────
+import { RUBRIC_CATEGORIES } from '../lib/mission.mjs';
+import { missionReview } from '../lib/mission-state.mjs';
+
+test('CP8 — rubric : catégorie optionnelle validée (refuse une catégorie inconnue)', () => {
+  assert.ok(RUBRIC_CATEGORIES.includes('performance') && RUBRIC_CATEGORIES.includes('security'));
+  const withCat = { ...valid(), rubric: [{ label: 'x', blocking: true, category: 'tests' }] };
+  assert.equal(validateMission(withCat, ctx()).ok, true);
+  const badCat = { ...valid(), rubric: [{ label: 'x', category: 'bidon' }] };
+  assert.ok(validateMission(badCat, ctx()).errors.some((e) => /catégorie inconnue/.test(e)));
+});
+
+test('CP8 — historique de soumission borné et horodaté', () => {
+  const def = valid();
+  let f = startMission({ days: {}, skills: {}, missions: {} }, def.id);
+  for (let i = 0; i < 25; i++) f = submitDeliverable(f, def, 'adr', { status: i % 2 ? 'structure-valid' : 'submitted', content: 'Contexte Décision' });
+  const hist = readMissionState(f, def.id).deliverables.adr.history;
+  assert.ok(hist.length <= 20, 'historique borné à 20');
+  assert.ok(hist.every((h) => h.at && h.status), 'chaque entrée horodatée + statut');
+});
+
+test('CP8 — missionReview : complétion (pas qualité) + revue humaine requise', () => {
+  const def = { ...valid(), deliverables: [
+    { id: 'code', kind: 'code', title: 'x', required: true, validation: 'auto', exerciseRef: 'debt-audit' },
+    { id: 'doc', kind: 'document', title: 'y', required: true, validation: 'structural', docSpec: { requiredSections: ['A'] } },
+    { id: 'rev', kind: 'report', title: 'z', required: true, validation: 'review' },
+  ] };
+  let f = startMission({ days: {}, skills: {}, missions: {} }, def.id);
+  f = submitDeliverable(f, def, 'code', { status: 'validated' });
+  f = submitDeliverable(f, def, 'doc', { status: 'structure-valid' });
+  f = submitDeliverable(f, def, 'rev', { status: 'self-assessed' });
+  const rv = missionReview(def, readMissionState(f, def.id));
+  assert.deepEqual(rv.autoValidated, ['code']);
+  assert.deepEqual(rv.structureValid, ['doc']);
+  assert.deepEqual(rv.awaitingReview, ['rev']);
+  assert.equal(rv.humanReviewRequired, true);
+  assert.ok(rv.completion > 0.5 && rv.completion < 1, 'complétion partielle tant que la revue humaine manque');
+});
+
+test('CP8 — transitions invalides refusées (statut inconnu, livrable inconnu)', () => {
+  const def = valid();
+  const f = startMission({ days: {}, skills: {}, missions: {} }, def.id);
+  assert.equal(submitDeliverable(f, def, 'adr', { status: 'pas-un-statut' }), f); // statut inconnu → no-op
+  assert.equal(submitDeliverable(f, def, 'inexistant', { status: 'validated' }), f); // livrable inconnu → no-op
+});
+
+test('CP8 — preuve produite UNIQUEMENT quand toutes les conditions requises sont remplies', () => {
+  const def = { ...valid(), deliverables: [{ id: 'code', kind: 'code', title: 'x', required: true, validation: 'auto', exerciseRef: 'debt-audit' }, { id: 'rev', kind: 'report', title: 'z', required: true, validation: 'review' }] };
+  let f = startMission({ days: {}, skills: {}, missions: {} }, def.id);
+  f = submitDeliverable(f, def, 'code', { status: 'validated' });
+  assert.equal(recordMissionCompletion(f, def), f); // pas encore done (revue manquante) → aucune preuve
+  f = submitDeliverable(f, def, 'rev', { status: 'validated' });
+  const f2 = recordMissionCompletion(f, def);
+  assert.ok((f2.days['69']?.evidence ?? []).some((e) => e.url === '/missions/demo-mission'), 'preuve créée seulement une fois done');
+});

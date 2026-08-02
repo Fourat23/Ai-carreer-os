@@ -9,11 +9,12 @@ type Deliverable = {
 type PublicMission = {
   id: string; title: string; description: string; category: string; difficulty: number;
   estimatedHours: number; skills: string[]; trackRefs: string[]; dayRefs: number[];
-  deliverables: Deliverable[]; rubric: { label: string; blocking: boolean }[];
+  deliverables: Deliverable[]; rubric: { label: string; blocking: boolean; category?: string }[];
 };
 type DeliverableState = { status?: string; content?: string };
 type MissionState = { status: string; deliverables: Record<string, DeliverableState> };
 type Progress = { status: string; requiredTotal: number; requiredDone: number };
+type Review = { status: string; completion: number; autoValidated: string[]; structureValid: string[]; awaitingReview: string[]; todo: string[]; blockingCriteria: string[]; humanReviewRequired: boolean };
 type Structure = { ok: boolean; missingSections: string[]; placeholders: boolean; tooShort: boolean; tooLong: boolean; missingMentions: string[] };
 
 const STATUS_LABEL: Record<string, string> = {
@@ -24,12 +25,13 @@ const VALIDATION_LABEL: Record<string, string> = {
   auto: 'Auto-corrigé (exercice)', structural: 'Validé structurellement (document)', review: 'Revue humaine',
 };
 
-export default function MissionDetail({ mission, context, prerequisites, commonMistakes, initialState, initialProgress }: {
+export default function MissionDetail({ mission, context, prerequisites, commonMistakes, initialState, initialProgress, initialReview }: {
   mission: PublicMission; context: string; prerequisites: string[]; commonMistakes: string[];
-  initialState: MissionState; initialProgress: Progress;
+  initialState: MissionState; initialProgress: Progress; initialReview: Review;
 }) {
   const [state, setState] = useState<MissionState>(initialState);
   const [progress, setProgress] = useState<Progress>(initialProgress);
+  const [review, setReview] = useState<Review>(initialReview);
   const [drafts, setDrafts] = useState<Record<string, string>>(() => {
     const d: Record<string, string> = {};
     for (const dv of mission.deliverables) d[dv.id] = initialState.deliverables?.[dv.id]?.content ?? '';
@@ -45,6 +47,7 @@ export default function MissionDetail({ mission, context, prerequisites, commonM
       const data = await r.json();
       if (data.state) setState(data.state);
       if (data.progress) setProgress(data.progress);
+      if (data.review) setReview(data.review);
       if (data.structure && body.deliverableId) setStructures((s) => ({ ...s, [body.deliverableId as string]: data.structure }));
     } finally { setBusy(false); }
   }
@@ -55,6 +58,7 @@ export default function MissionDetail({ mission, context, prerequisites, commonM
       const data = await r.json();
       if (data.state) setState(data.state);
       if (data.progress) setProgress(data.progress);
+      if (data.review) setReview(data.review);
     } finally { setBusy(false); }
   }
 
@@ -142,10 +146,25 @@ export default function MissionDetail({ mission, context, prerequisites, commonM
         })}
       </section>
 
+      <section className="card mission-review-panel">
+        <h2>Bilan</h2>
+        <p className="muted">Un taux de <strong>complétion</strong> des livrables requis — <strong>pas</strong> une note de qualité. La justesse du fond relève de ta revue et d'une relecture humaine.</p>
+        <div className="mission-review-bar" aria-label={`Complétion ${Math.round(review.completion * 100)} %`}>
+          <div className="mission-review-fill" style={{ width: `${Math.round(review.completion * 100)}%` }} />
+        </div>
+        <p>Complétion des livrables requis : {Math.round(review.completion * 100)} %</p>
+        <ul className="mission-review-lists">
+          {review.autoValidated.length > 0 && <li>✓ Auto-corrigés : {review.autoValidated.join(', ')}</li>}
+          {review.structureValid.length > 0 && <li>✓ Structure validée : {review.structureValid.join(', ')}</li>}
+          {review.awaitingReview.length > 0 && <li>⏳ Revue humaine nécessaire : {review.awaitingReview.join(', ')}</li>}
+          {review.todo.length > 0 && <li>• À faire : {review.todo.join(', ')}</li>}
+        </ul>
+      </section>
+
       <section className="card mission-rubric">
         <h2>Grille d'évaluation</h2>
         <ul>
-          {mission.rubric.map((r, i) => <li key={i}>{r.blocking ? '⛔ ' : '• '}{r.label}{r.blocking ? ' (bloquant)' : ''}</li>)}
+          {mission.rubric.map((r, i) => <li key={i}>{r.blocking ? '⛔ ' : '• '}{r.category ? <span className="chip">{r.category}</span> : null} {r.label}{r.blocking ? ' (bloquant)' : ''}</li>)}
         </ul>
       </section>
 

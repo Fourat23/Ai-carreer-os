@@ -6,11 +6,26 @@
   "difficulty": 3,
   "estimatedHours": 5,
   "context": "Tu reprends `priceCart`, un module de tarification écrit il y a deux ans par une personne qui a quitté l'équipe. Il tourne en production et « marche » sur les paniers courants, mais il n'a AUCUN test, mélange calcul et cas particuliers, et deux bugs subtils dorment dedans : un coupon fixe supérieur au sous-total produit un prix NÉGATIF, et les totaux ne sont pas arrondis (des centimes fantômes apparaissent). Le métier demande d'ajouter bientôt un nouveau type de coupon — mais interdit de casser la facturation existante. Avant toute évolution, il faut donc : verrouiller le comportement actuel par des tests de caractérisation, corriger les régressions sans changer les cas déjà corrects, et documenter la dette et la maintenance pour que la prochaine évolution soit sûre. Compatibilité ascendante obligatoire : les clients qui appellent `priceCart` aujourd'hui ne doivent rien voir changer, sauf les deux bugs corrigés.",
-  "prerequisites": ["Refactoring sous tests (jour 69)", "Taxonomie de la dette technique (jour 69)"],
-  "skills": ["functions", "arrays"],
-  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
-  "dayRefs": [69, 85],
-  "exerciseRefs": ["debt-legacy-refactor"],
+  "prerequisites": [
+    "Refactoring sous tests (jour 69)",
+    "Taxonomie de la dette technique (jour 69)"
+  ],
+  "skills": [
+    "functions",
+    "arrays"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "fullstack-typescript",
+    "backend-engineer-v1"
+  ],
+  "dayRefs": [
+    69,
+    85
+  ],
+  "exerciseRefs": [
+    "debt-legacy-refactor"
+  ],
   "deliverables": [
     {
       "id": "refactor",
@@ -28,8 +43,17 @@
       "required": true,
       "validation": "structural",
       "docSpec": {
-        "requiredSections": ["Registre de dette", "Classification", "Matrice", "Stratégie de remboursement"],
-        "requireMentions": ["impact", "risque", "effort"],
+        "requiredSections": [
+          "Registre de dette",
+          "Classification",
+          "Matrice",
+          "Stratégie de remboursement"
+        ],
+        "requireMentions": [
+          "impact",
+          "risque",
+          "effort"
+        ],
         "minLength": 320,
         "maxLength": 8000
       },
@@ -42,7 +66,15 @@
       "required": true,
       "validation": "structural",
       "docSpec": {
-        "requiredSections": ["Corrective", "Adaptative", "Préventive", "Évolutive", "Dépréciation", "Compatibilité", "Changelog"],
+        "requiredSections": [
+          "Corrective",
+          "Adaptative",
+          "Préventive",
+          "Évolutive",
+          "Dépréciation",
+          "Compatibilité",
+          "Changelog"
+        ],
         "minLength": 320,
         "maxLength": 8000
       },
@@ -57,12 +89,36 @@
     }
   ],
   "rubric": [
-    { "label": "Exercice de refactoring vert : les deux régressions corrigées, cas existants préservés", "blocking": true },
-    { "label": "Registre de dette classé (Fowler + locale/systémique) et priorisé impact × risque × effort", "blocking": true },
-    { "label": "Compatibilité ascendante préservée (aucun changement de contrat sauf bugs corrigés)", "blocking": true },
-    { "label": "Plan de maintenance couvrant corrective / adaptative / préventive / évolutive", "blocking": false },
-    { "label": "Stratégie de dépréciation et changelog présents", "blocking": false },
-    { "label": "Auto-évaluation honnête (ce qui est prouvé vs ce qui reste à revoir)", "blocking": false }
+    {
+      "label": "Exercice de refactoring vert : les deux régressions corrigées, cas existants préservés",
+      "blocking": true,
+      "category": "tests"
+    },
+    {
+      "label": "Registre de dette classé (Fowler + locale/systémique) et priorisé impact × risque × effort",
+      "blocking": true,
+      "category": "maintainability"
+    },
+    {
+      "label": "Compatibilité ascendante préservée (aucun changement de contrat sauf bugs corrigés)",
+      "blocking": true,
+      "category": "maintainability"
+    },
+    {
+      "label": "Plan de maintenance couvrant corrective / adaptative / préventive / évolutive",
+      "blocking": false,
+      "category": "maintainability"
+    },
+    {
+      "label": "Stratégie de dépréciation et changelog présents",
+      "blocking": false,
+      "category": "documentation"
+    },
+    {
+      "label": "Auto-évaluation honnête (ce qui est prouvé vs ce qui reste à revoir)",
+      "blocking": false,
+      "category": "tradeoffs"
+    }
   ],
   "commonMistakes": [
     "Refactorer sans écrire d'abord les tests de caractérisation (on casse en croyant améliorer)",

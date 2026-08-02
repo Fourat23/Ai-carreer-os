@@ -1218,3 +1218,7 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .mission-struct-ok { color: var(--ok, #2a8); }
 .mission-struct-ko ul { margin: 4px 0; padding-left: 18px; }
 .badge.muted { opacity: 0.6; }
+.mission-review-bar { height: 8px; background: var(--panel-2); border-radius: 999px; overflow: hidden; margin: 8px 0; }
+.mission-review-fill { height: 100%; background: var(--accent); }
+.mission-review-lists { list-style: none; padding: 0; margin: 6px 0; display: grid; gap: 4px; font-size: 14px; }
+.mission-rubric .chip { margin-right: 4px; }

@@ -6,7 +6,7 @@ import { getMission, publicMission, reconcileAutoDeliverables } from '@/lib/miss
 import { readProgress, writeProgress } from '@/lib/progress-server';
 import {
   startMission, submitDeliverable, readMissionState, computeMissionStatus,
-  recordMissionCompletion, missionProgress,
+  recordMissionCompletion, missionProgress, missionReview,
 } from '@/lib/mission-state.mjs';
 import { validateDocumentStructure } from '@/lib/mission.mjs';
 import type { Mission, DocSpec } from '@/lib/mission';
@@ -21,6 +21,7 @@ function snapshot(flat: MissionFlat, mission: Mission) {
     mission: publicMission(mission),
     state: readMissionState(flat, mission.id),
     progress: missionProgress(flat, mission),
+    review: missionReview(mission, readMissionState(flat, mission.id)),
   };
 }
 

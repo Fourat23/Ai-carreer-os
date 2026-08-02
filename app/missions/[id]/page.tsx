@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getMission, publicMission, reconcileAutoDeliverables } from '@/lib/missions-server';
 import { readProgress } from '@/lib/progress-server';
-import { readMissionState, missionProgress } from '@/lib/mission-state.mjs';
+import { readMissionState, missionProgress, missionReview } from '@/lib/mission-state.mjs';
 import MissionDetail from './MissionDetail';
 
 export const dynamic = 'force-dynamic';
@@ -19,6 +19,7 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
       commonMistakes={mission.commonMistakes ?? []}
       initialState={readMissionState(flat, mission.id)}
       initialProgress={missionProgress(flat, mission)}
+      initialReview={missionReview(mission, readMissionState(flat, mission.id))}
     />
   );
 }

@@ -6,10 +6,22 @@
   "difficulty": 4,
   "estimatedHours": 8,
   "context": "L'équipe veut ajouter à LivreAPI un endpoint d'export (GET /export?format=json|csv) des emprunts. Ce n'est pas un petit patch : d'autres équipes consomment déjà l'API, un gros export peut peser sur la base, et le format devient un contrat public. Avant d'écrire une ligne, tu pilotes la conception PAR la documentation : un ADR tranche le format et l'approche (streaming vs tout-en-mémoire) ; un HSD décrit la solution de haut niveau (composants, flux, données, sécurité, observabilité, disponibilité, déploiement) ; un TSD spécifie le contrat technique (API, erreurs, validations, persistance, migrations, tests, performances, rollback) avec un LLD ciblé du composant d'export ; un document d'exploitation fournit runbook, plan de migration, rollback et changelog. L'application vérifie la STRUCTURE de tes documents (sections présentes, pas de placeholder, taille raisonnable, mentions attendues) — elle ne prétend PAS juger la qualité architecturale : cela reste ton auto-évaluation et une revue humaine. Modèles réutilisables : /doc/methodology/documentation-technique.",
-  "prerequisites": ["Carte de la documentation professionnelle (jour 66)", "Contrat d'API et compatibilité (jours 66, 85)"],
-  "skills": ["api", "testing"],
-  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
-  "dayRefs": [66],
+  "prerequisites": [
+    "Carte de la documentation professionnelle (jour 66)",
+    "Contrat d'API et compatibilité (jours 66, 85)"
+  ],
+  "skills": [
+    "api",
+    "testing"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "fullstack-typescript",
+    "backend-engineer-v1"
+  ],
+  "dayRefs": [
+    66
+  ],
   "deliverables": [
     {
       "id": "adr",
@@ -18,7 +30,14 @@
       "required": true,
       "validation": "structural",
       "docSpec": {
-        "requiredSections": ["Contexte", "Décision", "Alternatives", "Conséquences", "Risques", "Statut"],
+        "requiredSections": [
+          "Contexte",
+          "Décision",
+          "Alternatives",
+          "Conséquences",
+          "Risques",
+          "Statut"
+        ],
         "minLength": 260,
         "maxLength": 6000
       },
@@ -31,7 +50,21 @@
       "required": true,
       "validation": "structural",
       "docSpec": {
-        "requiredSections": ["Contexte", "Objectifs", "Non-objectifs", "Architecture", "Composants", "Flux", "Interfaces", "Données", "Sécurité", "Observabilité", "Disponibilité", "Déploiement", "Risques"],
+        "requiredSections": [
+          "Contexte",
+          "Objectifs",
+          "Non-objectifs",
+          "Architecture",
+          "Composants",
+          "Flux",
+          "Interfaces",
+          "Données",
+          "Sécurité",
+          "Observabilité",
+          "Disponibilité",
+          "Déploiement",
+          "Risques"
+        ],
         "minLength": 500,
         "maxLength": 10000
       },
@@ -44,7 +77,19 @@
       "required": true,
       "validation": "structural",
       "docSpec": {
-        "requiredSections": ["Contrat", "Modèles", "API", "Erreurs", "Validations", "Persistance", "Migrations", "Tests", "Performances", "Rollback", "LLD"],
+        "requiredSections": [
+          "Contrat",
+          "Modèles",
+          "API",
+          "Erreurs",
+          "Validations",
+          "Persistance",
+          "Migrations",
+          "Tests",
+          "Performances",
+          "Rollback",
+          "LLD"
+        ],
         "minLength": 500,
         "maxLength": 10000
       },
@@ -57,7 +102,14 @@
       "required": true,
       "validation": "structural",
       "docSpec": {
-        "requiredSections": ["Runbook", "Symptômes", "Diagnostic", "Rollback", "Migration", "Changelog"],
+        "requiredSections": [
+          "Runbook",
+          "Symptômes",
+          "Diagnostic",
+          "Rollback",
+          "Migration",
+          "Changelog"
+        ],
         "minLength": 300,
         "maxLength": 8000
       },
@@ -70,7 +122,11 @@
       "required": false,
       "validation": "structural",
       "docSpec": {
-        "requiredSections": ["Motivation", "Proposition", "Alternatives"],
+        "requiredSections": [
+          "Motivation",
+          "Proposition",
+          "Alternatives"
+        ],
         "minLength": 180,
         "maxLength": 5000
       }
@@ -84,12 +140,36 @@
     }
   ],
   "rubric": [
-    { "label": "ADR : décision tranchée, alternatives et risques explicites", "blocking": true },
-    { "label": "HSD : solution de haut niveau complète (sécurité, observabilité, disponibilité, déploiement)", "blocking": true },
-    { "label": "TSD : contrat d'API + erreurs + validations + migrations + tests + rollback, avec LLD ciblé", "blocking": true },
-    { "label": "Exploitation : runbook exécutable, migration ET rollback, changelog", "blocking": false },
-    { "label": "Aucun placeholder, documents cohérents avec le problème traité", "blocking": true },
-    { "label": "Auto-évaluation : distingue ce qui est structurellement valide de ce qui reste à faire relire", "blocking": false }
+    {
+      "label": "ADR : décision tranchée, alternatives et risques explicites",
+      "blocking": true,
+      "category": "documentation"
+    },
+    {
+      "label": "HSD : solution de haut niveau complète (sécurité, observabilité, disponibilité, déploiement)",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "TSD : contrat d'API + erreurs + validations + migrations + tests + rollback, avec LLD ciblé",
+      "blocking": true,
+      "category": "tests"
+    },
+    {
+      "label": "Exploitation : runbook exécutable, migration ET rollback, changelog",
+      "blocking": false,
+      "category": "maintainability"
+    },
+    {
+      "label": "Aucun placeholder, documents cohérents avec le problème traité",
+      "blocking": true,
+      "category": "documentation"
+    },
+    {
+      "label": "Auto-évaluation : distingue ce qui est structurellement valide de ce qui reste à faire relire",
+      "blocking": false,
+      "category": "tradeoffs"
+    }
   ],
   "commonMistakes": [
     "Croire qu'un document est « bon » parce qu'il a les bons titres (la structure n'est pas la qualité)",

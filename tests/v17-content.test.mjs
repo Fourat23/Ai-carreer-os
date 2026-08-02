@@ -81,3 +81,39 @@ test('CP4 — exercices perf reliés à des journées de performance', () => {
   assert.ok(de['80'].includes('latency-percentiles') && de['80'].includes('perf-budget'), 'jour 80 → percentiles + budget');
   assert.ok(de['102'].includes('perf-budget'), 'jour 102 → budget');
 });
+
+// ── CP5 : documentation technique professionnelle ────────────────────────────
+
+const methodologyDoc = () => readFileSync(new URL('../curriculum/methodology/documentation-technique.md', import.meta.url), 'utf8');
+
+test('CP5 — jour 66 enseigne la carte de la documentation (décision/conception/exploitation)', () => {
+  const md = day(66);
+  for (const needle of ['RFC', 'HSD', 'HLD', 'LLD', 'TSD', 'C4', "contrat d'API", 'runbook', 'playbook', 'post-mortem sans blâme', 'decision log', 'changelog', 'SUR-documentation']) {
+    assert.ok(md.includes(needle), `jour 66 doit mentionner « ${needle} »`);
+  }
+});
+
+test('CP5 — référence de modèles : keep-marked, tous les documents couverts', () => {
+  const doc = methodologyDoc();
+  assert.ok(doc.startsWith('<!-- keep -->'), 'la référence doit être keep-marked (jamais régénérée)');
+  for (const heading of ['README', 'ADR', 'RFC', 'HLD', 'HSD', 'LLD', 'TSD', 'Contrat d\'API', 'Modèle C4', 'Runbook', 'Playbook', 'Post-mortem', 'Changelog', 'Decision log']) {
+    assert.ok(doc.includes(`## ${heading}`), `la référence doit couvrir « ${heading} »`);
+  }
+  // Chaque modèle explique but/audience/quand (pas juste un titre).
+  assert.ok(doc.includes('**But**') && doc.includes('**Audience**'), 'but + audience présents');
+  // Convention HSD documentée (cohérente avec ADR-017).
+  assert.ok(/HSD.*High-Level Solution Design/s.test(doc), 'convention HSD explicite');
+});
+
+test('CP5 — jour 66 lie la référence réutilisable (route /doc/methodology valide)', () => {
+  assert.ok(day(66).includes('/doc/methodology/documentation-technique'), 'lien vers la référence');
+  // Le slug relève de la catégorie « methodology » servie par app/doc/[...slug].
+  const route = readFileSync(new URL('../app/doc/[...slug]/page.tsx', import.meta.url), 'utf8');
+  assert.ok(/ALLOWED\s*=\s*new Set\(\[[^\]]*'methodology'/s.test(route), 'la catégorie methodology est autorisée par la route /doc');
+});
+
+test('CP5 — livrable documentaire évalué ajouté au projet (jour 66 → runbook)', () => {
+  const program = JSON.parse(readFileSync(new URL('../data/program.json', import.meta.url), 'utf8'));
+  const d = program.days.find((x) => x.day === 66);
+  assert.ok(/runbook/i.test(d.deliverable), 'le livrable du projet inclut un runbook');
+});

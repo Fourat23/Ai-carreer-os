@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T08:14:06.359Z",
+  "generatedAt": "2026-08-02T08:18:40.600Z",
   "skills": [
     {
       "id": "algo",
@@ -1665,7 +1665,7 @@
       "hours": 4.5,
       "isReview": false,
       "detailed": true,
-      "deliverable": "LivreAPI v1 : README + collection + ADR + démo.",
+      "deliverable": "LivreAPI v1 : README + collection + ADR + runbook + démo.",
       "project": 2
     },
     {

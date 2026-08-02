@@ -66,9 +66,12 @@
   ],
   "allowedSourceModules": [
     "scripts/data/days-enrich-61-90.mjs",
-    "scripts/data/days-enrich-91-120.mjs"
+    "scripts/data/days-enrich-91-120.mjs",
+    "scripts/data/days-31-90.mjs"
   ],
-  "allowedKeptMarkdown": [],
+  "allowedKeptMarkdown": [
+    "curriculum/methodology/documentation-technique.md"
+  ],
   "days": [
     {
       "day": 69,
@@ -141,6 +144,29 @@
         "perf-budget"
       ],
       "docDeliverables": []
+    },
+    {
+      "day": 66,
+      "topics": [
+        "doc-decision",
+        "doc-design",
+        "doc-ops"
+      ],
+      "tracks": [
+        "ai-engineer-foundations-v1",
+        "fullstack-typescript",
+        "backend-engineer-v1"
+      ],
+      "objective": "Enrichir le jour 66 (documentation LivreAPI) avec la carte de la documentation technique professionnelle (décision/conception/exploitation : README, ADR, RFC, changelog, decision log, HSD, HLD, LLD, TSD, C4, contrat d API, runbook, playbook, post-mortem) et ajouter un runbook comme livrable documentaire évalué. Référence réutilisable /doc/methodology/documentation-technique.",
+      "exercises": [],
+      "docDeliverables": [
+        "README",
+        "ADR",
+        "runbook",
+        "post-mortem template",
+        "RFC template",
+        "HLD/HSD/LLD/TSD templates"
+      ]
     }
   ],
   "exercisesAdded": [

@@ -28,6 +28,8 @@ node bonjour.js
       "Une commande = un programme + des arguments, exécuté depuis ta position courante.",
       "`node fichier.js` exécute du JavaScript hors navigateur ; `>` redirige une sortie vers un fichier.",
       "Chemin absolu (depuis `/`) vs relatif (depuis ici, avec `.` et `..`) : la source du trajet change tout.",
+      "Le shell découpe la ligne sur les espaces ; les guillemets protègent un argument (`'...'` = littéral brut, `\"...\"` = avec expansion des variables).",
+      "Les jokers (`*`, `?`, `[...]`) sont du *globbing* : le shell les remplace par les fichiers correspondants AVANT de lancer la commande (ce n'est pas la commande qui les interprète).",
     ],
   },
   2: {
@@ -55,6 +57,9 @@ console.log(n * 2);
       "`process.argv` transforme un script en outil paramétrable (les arguments commencent à l'index 2).",
       "Toujours *parser → valider → traiter* : valider AVANT de traiter évite la moitié des bugs.",
       "Un code de sortie non nul (`process.exit(1)`) signale un échec — indispensable pour la CI plus tard.",
+      "Rediriger les flux : `>` écrit (écrase) dans un fichier, `>>` ajoute à la fin, `2>` capte les erreurs (stderr, flux 2), `<` alimente l'entrée depuis un fichier.",
+      "Un *pipe* `|` branche la sortie d'une commande sur l'entrée de la suivante : un pipeline compose des outils simples en un traitement puissant.",
+      "Chaîner selon le code de sortie : `cmd1 && cmd2` n'exécute la 2ᵉ que si la 1ʳᵉ réussit ; `cmd1 || cmd2`, que si elle échoue — la base des scripts robustes.",
     ],
   },
   3: {

@@ -15,10 +15,17 @@
     { "id": "ssh", "domain": "network", "targetDepth": "explained" },
     { "id": "diagnostic", "domain": "ops", "targetDepth": "evaluated" }
   ],
-  "allowedSourceModules": [],
+  "allowedSourceModules": [
+    "scripts/data/days-01-30-guided.mjs",
+    "scripts/data/days-enrich-61-90.mjs"
+  ],
   "allowedKeptMarkdown": [],
   "tracksAdded": ["systems-cloud-foundations-v1"],
-  "days": [],
+  "days": [
+    { "day": 1, "topics": ["terminal-cli", "filesystem"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Terminal, arborescence, quoting et globbing : le shell découpe, protège et développe les motifs avant d'exécuter." },
+    { "day": 2, "topics": ["terminal-cli"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Redirections (>, >>, 2>, <), pipes et chaînage par code de sortie (&&, ||) : composer des outils simples de façon robuste." },
+    { "day": 72, "topics": ["permissions", "processes", "services-logs", "resources"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Linux opérationnel approfondi : rwx↔octal, umask, inode/descripteurs de fichiers, signaux (SIGTERM/SIGKILL), services et journaux (systemd/journalctl)." }
+  ],
   "exercisesAdded": [],
   "missionsAdded": [],
   "glossaryTermsAdded": []

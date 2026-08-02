@@ -24,6 +24,7 @@
   "days": [
     { "day": 1, "topics": ["terminal-cli", "filesystem"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Terminal, arborescence, quoting et globbing : le shell découpe, protège et développe les motifs avant d'exécuter." },
     { "day": 2, "topics": ["terminal-cli"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Redirections (>, >>, 2>, <), pipes et chaînage par code de sortie (&&, ||) : composer des outils simples de façon robuste." },
+    { "day": 71, "topics": ["networking", "dns", "http-tls", "ssh", "diagnostic"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Réseau opérationnel : ports/sockets/localhost, SSH par clés (privée/publique, known_hosts, agent, tunnel) et méthode de diagnostic par couches DNS→port→TLS→HTTP." },
     { "day": 72, "topics": ["permissions", "processes", "services-logs", "resources"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Linux opérationnel approfondi : rwx↔octal, umask, inode/descripteurs de fichiers, signaux (SIGTERM/SIGKILL), services et journaux (systemd/journalctl)." }
   ],
   "exercisesAdded": [],

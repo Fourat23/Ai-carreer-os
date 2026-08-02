@@ -3,49 +3,546 @@
   "baselineRef": "84dc1f5",
   "note": "Plan de mutation contrôlée V19 (cf. ADR-019). Toute journée/fichier hors de ce plan ne doit PAS dériver. Rempli par checkpoint (CP3 terminal/Linux, CP4 système/réseau, CP5 exercices, CP6 missions, CP7 parcours, CP8 glossaire).",
   "topics": [
-    { "id": "terminal-cli", "domain": "shell", "targetDepth": "practiced" },
-    { "id": "filesystem", "domain": "shell", "targetDepth": "explained" },
-    { "id": "permissions", "domain": "system", "targetDepth": "evaluated" },
-    { "id": "processes", "domain": "system", "targetDepth": "practiced" },
-    { "id": "services-logs", "domain": "system", "targetDepth": "explained" },
-    { "id": "resources", "domain": "system", "targetDepth": "practiced" },
-    { "id": "networking", "domain": "network", "targetDepth": "practiced" },
-    { "id": "dns", "domain": "network", "targetDepth": "practiced" },
-    { "id": "http-tls", "domain": "network", "targetDepth": "explained" },
-    { "id": "ssh", "domain": "network", "targetDepth": "explained" },
-    { "id": "diagnostic", "domain": "ops", "targetDepth": "evaluated" }
+    {
+      "id": "terminal-cli",
+      "domain": "shell",
+      "targetDepth": "practiced"
+    },
+    {
+      "id": "filesystem",
+      "domain": "shell",
+      "targetDepth": "explained"
+    },
+    {
+      "id": "permissions",
+      "domain": "system",
+      "targetDepth": "evaluated"
+    },
+    {
+      "id": "processes",
+      "domain": "system",
+      "targetDepth": "practiced"
+    },
+    {
+      "id": "services-logs",
+      "domain": "system",
+      "targetDepth": "explained"
+    },
+    {
+      "id": "resources",
+      "domain": "system",
+      "targetDepth": "practiced"
+    },
+    {
+      "id": "networking",
+      "domain": "network",
+      "targetDepth": "practiced"
+    },
+    {
+      "id": "dns",
+      "domain": "network",
+      "targetDepth": "practiced"
+    },
+    {
+      "id": "http-tls",
+      "domain": "network",
+      "targetDepth": "explained"
+    },
+    {
+      "id": "ssh",
+      "domain": "network",
+      "targetDepth": "explained"
+    },
+    {
+      "id": "diagnostic",
+      "domain": "ops",
+      "targetDepth": "evaluated"
+    }
   ],
   "allowedSourceModules": [
     "scripts/data/days-01-30-guided.mjs",
     "scripts/data/days-enrich-61-90.mjs"
   ],
   "allowedKeptMarkdown": [],
-  "tracksAdded": ["systems-cloud-foundations-v1"],
+  "tracksAdded": [
+    "systems-cloud-foundations-v1"
+  ],
   "days": [
-    { "day": 1, "topics": ["terminal-cli", "filesystem"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Terminal, arborescence, quoting et globbing : le shell découpe, protège et développe les motifs avant d'exécuter." },
-    { "day": 2, "topics": ["terminal-cli"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Redirections (>, >>, 2>, <), pipes et chaînage par code de sortie (&&, ||) : composer des outils simples de façon robuste." },
-    { "day": 71, "topics": ["networking", "dns", "http-tls", "ssh", "diagnostic"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Réseau opérationnel : ports/sockets/localhost, SSH par clés (privée/publique, known_hosts, agent, tunnel) et méthode de diagnostic par couches DNS→port→TLS→HTTP." },
-    { "day": 72, "topics": ["permissions", "processes", "services-logs", "resources"], "tracks": ["systems-cloud-foundations-v1"], "objective": "Linux opérationnel approfondi : rwx↔octal, umask, inode/descripteurs de fichiers, signaux (SIGTERM/SIGKILL), services et journaux (systemd/journalctl)." }
+    {
+      "day": 1,
+      "topics": [
+        "terminal-cli",
+        "filesystem"
+      ],
+      "tracks": [
+        "systems-cloud-foundations-v1"
+      ],
+      "objective": "Terminal, arborescence, quoting et globbing : le shell découpe, protège et développe les motifs avant d'exécuter."
+    },
+    {
+      "day": 2,
+      "topics": [
+        "terminal-cli"
+      ],
+      "tracks": [
+        "systems-cloud-foundations-v1"
+      ],
+      "objective": "Redirections (>, >>, 2>, <), pipes et chaînage par code de sortie (&&, ||) : composer des outils simples de façon robuste."
+    },
+    {
+      "day": 71,
+      "topics": [
+        "networking",
+        "dns",
+        "http-tls",
+        "ssh",
+        "diagnostic"
+      ],
+      "tracks": [
+        "systems-cloud-foundations-v1"
+      ],
+      "objective": "Réseau opérationnel : ports/sockets/localhost, SSH par clés (privée/publique, known_hosts, agent, tunnel) et méthode de diagnostic par couches DNS→port→TLS→HTTP."
+    },
+    {
+      "day": 72,
+      "topics": [
+        "permissions",
+        "processes",
+        "services-logs",
+        "resources"
+      ],
+      "tracks": [
+        "systems-cloud-foundations-v1"
+      ],
+      "objective": "Linux opérationnel approfondi : rwx↔octal, umask, inode/descripteurs de fichiers, signaux (SIGTERM/SIGKILL), services et journaux (systemd/journalctl)."
+    }
   ],
   "exercisesAdded": [
-    { "id": "sys-perms-to-octal", "skills": ["linux", "functions"], "day": 72 },
-    { "id": "sys-perms-to-symbolic", "skills": ["linux", "functions"], "day": 72 },
-    { "id": "sys-umask-apply", "skills": ["linux", "functions"], "day": 72 },
-    { "id": "sys-process-top-cpu", "skills": ["arrays", "objects"], "day": 72 },
-    { "id": "sys-port-listener", "skills": ["linux", "arrays"], "day": 72 },
-    { "id": "sys-log-level-counts", "skills": ["hashmap", "data"], "day": 2 },
-    { "id": "net-layer-classify", "skills": ["http", "conditions"], "day": 71 },
-    { "id": "net-dns-resolve", "skills": ["hashmap", "recursion"], "day": 71 },
-    { "id": "net-http-status-class", "skills": ["http", "conditions"], "day": 50 },
-    { "id": "net-first-failure", "skills": ["debugging", "conditions"], "day": 71 },
-    { "id": "sh-pipeline-run", "skills": ["arrays", "functions"], "day": 1 },
-    { "id": "sh-exit-retry", "skills": ["conditions", "errors"], "day": 2 }
+    {
+      "id": "sys-perms-to-octal",
+      "skills": [
+        "linux",
+        "functions"
+      ],
+      "day": 72
+    },
+    {
+      "id": "sys-perms-to-symbolic",
+      "skills": [
+        "linux",
+        "functions"
+      ],
+      "day": 72
+    },
+    {
+      "id": "sys-umask-apply",
+      "skills": [
+        "linux",
+        "functions"
+      ],
+      "day": 72
+    },
+    {
+      "id": "sys-process-top-cpu",
+      "skills": [
+        "arrays",
+        "objects"
+      ],
+      "day": 72
+    },
+    {
+      "id": "sys-port-listener",
+      "skills": [
+        "linux",
+        "arrays"
+      ],
+      "day": 72
+    },
+    {
+      "id": "sys-log-level-counts",
+      "skills": [
+        "hashmap",
+        "data"
+      ],
+      "day": 2
+    },
+    {
+      "id": "net-layer-classify",
+      "skills": [
+        "http",
+        "conditions"
+      ],
+      "day": 71
+    },
+    {
+      "id": "net-dns-resolve",
+      "skills": [
+        "hashmap",
+        "recursion"
+      ],
+      "day": 71
+    },
+    {
+      "id": "net-http-status-class",
+      "skills": [
+        "http",
+        "conditions"
+      ],
+      "day": 50
+    },
+    {
+      "id": "net-first-failure",
+      "skills": [
+        "debugging",
+        "conditions"
+      ],
+      "day": 71
+    },
+    {
+      "id": "sh-pipeline-run",
+      "skills": [
+        "arrays",
+        "functions"
+      ],
+      "day": 1
+    },
+    {
+      "id": "sh-exit-retry",
+      "skills": [
+        "conditions",
+        "errors"
+      ],
+      "day": 2
+    }
   ],
   "missionsAdded": [
-    { "id": "port-occupe-service-indisponible", "days": [2, 71, 72], "exercises": ["sys-port-listener", "sh-exit-retry"] },
-    { "id": "permissions-secret-expose", "days": [68, 72], "exercises": ["sys-perms-to-octal", "sys-umask-apply"] },
-    { "id": "incident-dns-tls-http", "days": [50, 71], "exercises": ["net-first-failure", "net-layer-classify", "net-dns-resolve"] },
-    { "id": "saturation-ressources", "days": [72, 80], "exercises": ["sys-process-top-cpu", "sys-log-level-counts"] }
+    {
+      "id": "port-occupe-service-indisponible",
+      "days": [
+        2,
+        71,
+        72
+      ],
+      "exercises": [
+        "sys-port-listener",
+        "sh-exit-retry"
+      ]
+    },
+    {
+      "id": "permissions-secret-expose",
+      "days": [
+        68,
+        72
+      ],
+      "exercises": [
+        "sys-perms-to-octal",
+        "sys-umask-apply"
+      ]
+    },
+    {
+      "id": "incident-dns-tls-http",
+      "days": [
+        50,
+        71
+      ],
+      "exercises": [
+        "net-first-failure",
+        "net-layer-classify",
+        "net-dns-resolve"
+      ]
+    },
+    {
+      "id": "saturation-ressources",
+      "days": [
+        72,
+        80
+      ],
+      "exercises": [
+        "sys-process-top-cpu",
+        "sys-log-level-counts"
+      ]
+    }
   ],
-  "glossaryTermsAdded": []
+  "glossaryTermsAdded": [
+    {
+      "term": "chmod",
+      "shortDefinition": "Commande qui change les permissions (lecture/écriture/exécution) d’un fichier ou dossier.",
+      "detailedDefinition": "chmod (« change mode ») modifie les droits rwx d’un fichier. On les exprime en symbolique (`chmod +x script.sh`) ou en octal (`chmod 644 fichier`). Éviter `chmod 777`, qui ouvre tous les droits à tout le monde : préférer le strict nécessaire."
+    },
+    {
+      "term": "chown",
+      "shortDefinition": "Commande qui change le propriétaire (et le groupe) d’un fichier.",
+      "detailedDefinition": "chown (« change owner ») attribue un fichier à un utilisateur et/ou un groupe. Utile quand un service tourne sous un compte dédié et doit posséder ses fichiers. Se combine avec chmod pour appliquer le moindre privilège."
+    },
+    {
+      "term": "umask",
+      "shortDefinition": "Filtre qui RETIRE des permissions par défaut à chaque nouveau fichier créé.",
+      "detailedDefinition": "Le umask définit les droits qu’un nouveau fichier N’AURA PAS. Avec umask 022, un fichier (base 666) naît en 644 et un dossier (777) en 755 : le groupe et les autres perdent l’écriture. C’est une protection par défaut contre les fichiers trop ouverts."
+    },
+    {
+      "term": "inode",
+      "shortDefinition": "Identifiant interne d’un fichier sur disque, portant ses métadonnées (droits, taille, blocs).",
+      "detailedDefinition": "Un inode stocke tout d’un fichier SAUF son nom : droits, propriétaire, taille, pointeurs vers les blocs de données. Le nom n’est qu’une entrée d’annuaire pointant vers l’inode (d’où les liens durs). Un disque peut être « plein » d’inodes (trop de petits fichiers) alors que l’espace semble libre."
+    },
+    {
+      "term": "Descripteur de fichier",
+      "shortDefinition": "Numéro qu’un programme utilise pour manipuler un fichier ou une connexion ouverte.",
+      "detailedDefinition": "Quand un programme ouvre un fichier ou un socket, le système lui rend un descripteur (un entier). 0 = entrée standard, 1 = sortie standard, 2 = erreur standard ; 3, 4… pour le reste. « Too many open files » signifie que la limite de descripteurs est atteinte — souvent des fichiers/connexions non refermés."
+    },
+    {
+      "term": "Lien symbolique",
+      "shortDefinition": "Fichier spécial qui pointe vers un autre chemin, comme un raccourci.",
+      "detailedDefinition": "Un lien symbolique (symlink) contient le CHEMIN d’une cible : l’ouvrir revient à ouvrir la cible. Très utilisé pour pointer « current » vers la version active d’un déploiement. Contrairement au lien dur, il peut pointer entre disques et devient « cassé » si la cible disparaît."
+    },
+    {
+      "term": "FHS",
+      "shortDefinition": "Convention qui définit à quoi sert chaque dossier standard d’un système Linux.",
+      "detailedDefinition": "Le FHS (Filesystem Hierarchy Standard) normalise l’arborescence : /etc (configuration), /var/log (journaux), /usr/bin (programmes), /home (utilisateurs), /tmp (temporaire). Le connaître, c’est savoir où chercher un fichier de config ou un log sans deviner."
+    },
+    {
+      "term": "sudo",
+      "shortDefinition": "Commande qui exécute une action avec les privilèges d’administrateur, ponctuellement.",
+      "detailedDefinition": "sudo (« superuser do ») permet à un utilisateur autorisé de lancer UNE commande en tant que root, avec traçabilité. On l’utilise au lieu de se connecter directement en root : moindre privilège et journal d’audit de qui a fait quoi."
+    },
+    {
+      "term": "root",
+      "shortDefinition": "Le compte administrateur tout-puissant d’un système Unix/Linux.",
+      "detailedDefinition": "root (UID 0) peut tout faire : lire n’importe quel fichier, tuer n’importe quel processus, modifier le système. On évite d’y travailler en continu — une erreur y est catastrophique et sans garde-fou. Le principe du moindre privilège recommande sudo ponctuel plutôt qu’une session root permanente."
+    },
+    {
+      "term": "PATH",
+      "shortDefinition": "Variable d’environnement listant les dossiers où le shell cherche les programmes.",
+      "detailedDefinition": "Quand tu tapes une commande, le shell la cherche dans les dossiers listés par PATH, dans l’ordre. « command not found » signifie souvent que le programme n’est pas dans le PATH. On l’étend pour rendre ses propres outils disponibles sans chemin complet."
+    },
+    {
+      "term": "PID",
+      "shortDefinition": "Numéro unique identifiant un processus en cours d’exécution.",
+      "detailedDefinition": "Le PID (Process IDentifier) désigne un processus vivant. On le retrouve avec `ps` ou `ss -ltnp`, et on l’utilise pour agir dessus (`kill <pid>`). Deux exécutions d’un même programme ont des PID différents."
+    },
+    {
+      "term": "Signal",
+      "shortDefinition": "Message que le système envoie à un processus pour lui demander de réagir.",
+      "detailedDefinition": "Un signal notifie un processus d’un événement : SIGTERM (demande d’arrêt propre), SIGKILL (arrêt immédiat forcé), SIGHUP (recharge de config), SIGINT (Ctrl-C). Bien gérer SIGTERM permet à un service de fermer ses connexions avant de s’arrêter."
+    },
+    {
+      "term": "SIGTERM",
+      "shortDefinition": "Signal d’arrêt POLI : le processus peut nettoyer avant de se terminer.",
+      "detailedDefinition": "SIGTERM (signal 15) demande à un processus de s’arrêter, en lui laissant le temps de fermer ses fichiers, terminer ses requêtes et libérer ses ressources. C’est le signal par défaut de `kill`. On l’essaie AVANT SIGKILL."
+    },
+    {
+      "term": "SIGKILL",
+      "shortDefinition": "Signal d’arrêt IMMÉDIAT et non interceptable : dernier recours.",
+      "detailedDefinition": "SIGKILL (signal 9, `kill -9`) tue un processus sur-le-champ : il ne peut ni l’intercepter ni nettoyer. À réserver aux processus bloqués qui ignorent SIGTERM — un service qu’on doit toujours -9 révèle une mauvaise gestion de l’arrêt."
+    },
+    {
+      "term": "Démon",
+      "shortDefinition": "Programme qui tourne en arrière-plan, sans terminal, pour rendre un service.",
+      "detailedDefinition": "Un démon (daemon) s’exécute en continu en tâche de fond : serveur web, base de données, planificateur. Il est en général géré par le système d’init (systemd) qui le démarre, le surveille et le redémarre. Son nom finit souvent par « d » (sshd, httpd)."
+    },
+    {
+      "term": "Processus zombie",
+      "shortDefinition": "Processus terminé dont l’entrée subsiste car son parent n’a pas lu son code de sortie.",
+      "detailedDefinition": "Un zombie a fini de s’exécuter mais reste dans la table des processus tant que son parent n’a pas « récolté » son statut de sortie. Quelques zombies sont normaux ; une accumulation signale un parent bogué qui n’attend pas ses enfants."
+    },
+    {
+      "term": "Load average",
+      "shortDefinition": "Mesure de la charge système : nombre moyen de processus en attente d’exécution.",
+      "detailedDefinition": "Le load average (sur 1, 5 et 15 minutes) indique combien de processus veulent le CPU. Comparé au nombre de cœurs : un load de 4 sur 4 cœurs = pleine charge ; bien au-dessus = saturation et files d’attente. À croiser avec CPU, I/O et mémoire pour localiser le goulet."
+    },
+    {
+      "term": "Swap",
+      "shortDefinition": "Espace disque utilisé comme mémoire de secours quand la RAM est pleine.",
+      "detailedDefinition": "Le swap étend la mémoire en déplaçant sur disque des pages de RAM peu utilisées. Utile comme filet, mais LENT : si un serveur « swappe » beaucoup, les performances s’écroulent. Un swap intense est un symptôme de manque de mémoire, pas une solution."
+    },
+    {
+      "term": "OOM killer",
+      "shortDefinition": "Mécanisme du noyau qui tue un processus quand la mémoire est totalement épuisée.",
+      "detailedDefinition": "L’OOM (Out Of Memory) killer intervient quand le système n’a plus de mémoire : il choisit un processus (souvent le plus gourmand) et le tue pour sauver la machine. Un service qui disparaît « tout seul » a souvent été tué par l’OOM — à confirmer dans les logs système."
+    },
+    {
+      "term": "cron",
+      "shortDefinition": "Planificateur qui exécute des tâches automatiquement à intervalles réguliers.",
+      "detailedDefinition": "cron lance des commandes selon un calendrier (la crontab) : sauvegardes nocturnes, nettoyages, rapports. La syntaxe (`minute heure jour mois jour-semaine`) décrit quand. Idéal pour toute tâche répétitive qu’on ne veut pas lancer à la main."
+    },
+    {
+      "term": "systemd",
+      "shortDefinition": "Système d’initialisation et gestionnaire de services des Linux modernes.",
+      "detailedDefinition": "systemd démarre la machine et gère les services (units) : il les lance dans le bon ordre, les surveille, les redémarre en cas d’échec, et centralise leurs journaux. C’est le chef d’orchestre des démons sur la plupart des distributions actuelles."
+    },
+    {
+      "term": "systemctl",
+      "shortDefinition": "Commande pour piloter les services gérés par systemd.",
+      "detailedDefinition": "systemctl contrôle les services : `systemctl status nom` (état), `start`/`stop`/`restart` (cycle de vie), `enable` (démarrage au boot). C’est le point d’entrée quotidien pour gérer un démon sur un serveur systemd."
+    },
+    {
+      "term": "journalctl",
+      "shortDefinition": "Commande pour lire les journaux (logs) collectés par systemd.",
+      "detailedDefinition": "journalctl consulte le journal centralisé de systemd : `journalctl -u nom` filtre sur un service, `-f` suit en direct, `--since` borne dans le temps. Diagnostiquer « le service ne démarre pas » commence TOUJOURS par lire ses logs ici, avant de redémarrer à l’aveugle."
+    },
+    {
+      "term": "Health check",
+      "shortDefinition": "Vérification automatique et régulière de l’état de santé d’un service.",
+      "detailedDefinition": "Un health check interroge périodiquement un service (souvent un endpoint /health) pour savoir s’il répond correctement. Les orchestrateurs (systemd, Docker, load balancers) s’en servent pour retirer du trafic ou redémarrer un service malade. Une sonde honnête vérifie les dépendances critiques, pas seulement « le process tourne »."
+    },
+    {
+      "term": "Port",
+      "shortDefinition": "Numéro (0-65535) qui identifie un service précis sur une machine.",
+      "detailedDefinition": "Une adresse IP désigne une machine ; un port désigne un SERVICE dessus : 80 (HTTP), 443 (HTTPS), 22 (SSH), 5432 (PostgreSQL). Deux services ne peuvent pas écouter le même port : « address already in use » signale ce conflit."
+    },
+    {
+      "term": "Socket",
+      "shortDefinition": "Point de connexion réseau, identifié par une adresse IP et un port.",
+      "detailedDefinition": "Un socket est le bout d’une communication : le couple (IP, port). Une connexion TCP est identifiée par quatre valeurs (IP et port source, IP et port destination). Les programmes lisent et écrivent sur des sockets comme sur des fichiers."
+    },
+    {
+      "term": "localhost",
+      "shortDefinition": "Nom désignant la machine elle-même (adresse de boucle locale 127.0.0.1).",
+      "detailedDefinition": "localhost / 127.0.0.1 fait référence à la machine locale : un service joint sur localhost ne sort pas sur le réseau. Idéal en développement, mais un service qui n’écoute QUE sur localhost n’est pas joignable depuis l’extérieur — un piège classique de déploiement."
+    },
+    {
+      "term": "Handshake TCP",
+      "shortDefinition": "Échange en trois temps qui établit une connexion TCP fiable.",
+      "detailedDefinition": "Avant tout échange, TCP ouvre la connexion par un handshake en trois messages (SYN → SYN-ACK → ACK). Ce triple aller-retour a un coût de latence — d’où l’intérêt de réutiliser les connexions (keep-alive, HTTP/2) plutôt que d’en rouvrir une par requête."
+    },
+    {
+      "term": "Sous-réseau",
+      "shortDefinition": "Découpage d’un réseau IP en segments plus petits, défini par un masque.",
+      "detailedDefinition": "Un sous-réseau (subnet) regroupe des adresses IP partageant un préfixe, décrit en notation CIDR (ex. 10.0.1.0/24 = 256 adresses). Il structure et isole le réseau : machines d’un même subnet se parlent directement, le reste passe par une passerelle."
+    },
+    {
+      "term": "Passerelle",
+      "shortDefinition": "Point de sortie d’un réseau vers d’autres réseaux (souvent Internet).",
+      "detailedDefinition": "La passerelle (gateway) est la machine par laquelle le trafic quitte le réseau local pour atteindre une destination extérieure. « default gateway » est la route par défaut : si elle est mal configurée, la machine parle en local mais pas vers l’extérieur."
+    },
+    {
+      "term": "Pare-feu",
+      "shortDefinition": "Filtre qui autorise ou bloque le trafic réseau selon des règles.",
+      "detailedDefinition": "Un pare-feu (firewall) contrôle quels flux entrent et sortent, par port, adresse et protocole. Il applique le moindre privilège au réseau : n’ouvrir que les ports nécessaires. Un service « injoignable » alors qu’il écoute bien est souvent bloqué par une règle de pare-feu."
+    },
+    {
+      "term": "Enregistrement DNS",
+      "shortDefinition": "Entrée d’une zone DNS associant un nom à une valeur (adresse, alias…).",
+      "detailedDefinition": "Le DNS stocke des enregistrements : A (nom → IPv4), AAAA (→ IPv6), CNAME (nom → autre nom), MX (mail), TXT (texte). Résoudre un nom, c’est suivre ces enregistrements jusqu’à une adresse. Une mauvaise entrée ou un TTL trop long explique bien des incidents « le site pointe au mauvais endroit »."
+    },
+    {
+      "term": "CNAME",
+      "shortDefinition": "Enregistrement DNS qui fait d’un nom un alias vers un autre nom.",
+      "detailedDefinition": "Un CNAME (Canonical NAME) redirige un nom vers un autre : www.exemple.dev → exemple.dev. La résolution suit la chaîne de CNAME jusqu’à un enregistrement A. Pratique pour pointer plusieurs noms vers une même cible, mais une chaîne trop longue ou circulaire casse la résolution."
+    },
+    {
+      "term": "TTL",
+      "shortDefinition": "Durée de validité d’une donnée en cache (ex. une réponse DNS) avant réinterrogation.",
+      "detailedDefinition": "Le TTL (Time To Live) dit combien de temps garder une réponse en cache. Un TTL DNS élevé accélère (moins de requêtes) mais ralentit la propagation d’un changement : après avoir modifié un enregistrement, l’ancienne valeur peut persister jusqu’à expiration du TTL. On le baisse AVANT une migration."
+    },
+    {
+      "term": "Bande passante",
+      "shortDefinition": "Débit d’un lien réseau : quantité de données transportables par seconde.",
+      "detailedDefinition": "La bande passante est le DÉBIT (Mo/s), à distinguer de la LATENCE (temps d’un aller-retour). Beaucoup de lenteurs viennent de la latence (trop d’allers-retours), pas d’un manque de débit : télécharger un gros fichier dépend de la bande passante, mais charger une page multiplie surtout les allers-retours."
+    },
+    {
+      "term": "ping",
+      "shortDefinition": "Outil qui teste si une machine répond et mesure le temps d’aller-retour.",
+      "detailedDefinition": "ping envoie de petits paquets (ICMP) et mesure le temps de réponse : il confirme qu’une machine est joignable et donne un ordre de grandeur de la latence. « ping ok mais service KO » isole la panne au-dessus du réseau (application) ; « ping KO » pointe vers le réseau ou la machine."
+    },
+    {
+      "term": "traceroute",
+      "shortDefinition": "Outil qui affiche le chemin (les routeurs successifs) jusqu’à une destination.",
+      "detailedDefinition": "traceroute (tracert sous Windows) révèle chaque saut réseau vers une cible et le temps à chaque étape : utile pour localiser où le trafic ralentit ou se bloque. Le nom diffère selon le système, mais l’idée — voir la route paquet par paquet — est universelle."
+    },
+    {
+      "term": "ss / netstat",
+      "shortDefinition": "Outils qui listent les connexions réseau et les ports en écoute.",
+      "detailedDefinition": "ss (successeur moderne de netstat) montre qui écoute quoi : `ss -ltnp` liste les ports TCP en écoute et le processus associé. Indispensable pour répondre à « quel programme occupe ce port ? » lors d’un conflit de port ou d’un diagnostic de service."
+    },
+    {
+      "term": "SNI",
+      "shortDefinition": "Extension TLS indiquant, en clair, le nom de domaine visé au début du handshake.",
+      "detailedDefinition": "Le SNI (Server Name Indication) permet à un serveur hébergeant plusieurs sites de présenter le bon certificat : le client annonce le domaine dès l’ouverture TLS. Conséquence importante pour la vie privée : même en HTTPS, le NOM du domaine visité fuite via le SNI (et le DNS), seul le contenu est chiffré."
+    },
+    {
+      "term": "Port éphémère",
+      "shortDefinition": "Port temporaire attribué automatiquement au client pour une connexion sortante.",
+      "detailedDefinition": "Quand un client ouvre une connexion, le système lui attribue un port source éphémère (dans une plage haute), le temps de l’échange. Le serveur, lui, écoute sur un port fixe connu. Épuiser la plage de ports éphémères (trop de connexions simultanées non refermées) empêche d’en ouvrir de nouvelles."
+    },
+    {
+      "term": "Certificat TLS",
+      "shortDefinition": "Document numérique qui prouve l’identité d’un serveur et permet le chiffrement HTTPS.",
+      "detailedDefinition": "Un certificat TLS, signé par une autorité de confiance, lie un nom de domaine à une clé publique : il prouve « je suis bien exemple.dev » et sert à établir le canal chiffré. Un certificat EXPIRÉ, pour le mauvais domaine, ou non signé par une autorité connue, casse HTTPS — une cause d’incident fréquente et évitable par une alerte d’expiration."
+    },
+    {
+      "term": "Clé SSH",
+      "shortDefinition": "Paire de clés (privée/publique) authentifiant une connexion SSH sans mot de passe.",
+      "detailedDefinition": "L’authentification SSH par clés remplace le mot de passe : la clé PRIVÉE reste secrète sur ta machine, la clé PUBLIQUE est déposée sur le serveur (authorized_keys). Le serveur vérifie que tu détiens la privée sans qu’elle transite. Règle d’or : la clé privée ne quitte JAMAIS ta machine et se protège par une passphrase."
+    },
+    {
+      "term": "known_hosts",
+      "shortDefinition": "Fichier où SSH mémorise l’empreinte des serveurs déjà visités pour détecter les usurpations.",
+      "detailedDefinition": "À la première connexion, SSH enregistre l’empreinte du serveur dans known_hosts. Aux suivantes, il vérifie qu’elle n’a pas changé : un avertissement bruyant (« REMOTE HOST IDENTIFICATION HAS CHANGED ») signale soit une réinstallation légitime, soit une tentative d’interception. Ne jamais l’ignorer aveuglément."
+    },
+    {
+      "term": "Tunnel SSH",
+      "shortDefinition": "Canal chiffré SSH par lequel on fait transiter d’autre trafic réseau.",
+      "detailedDefinition": "Un tunnel SSH encapsule une connexion (ex. accès à une base de données distante) dans le canal chiffré de SSH : `ssh -L 5432:db-interne:5432 serveur` rend la base interne accessible en local, en sécurité. Pratique pour joindre un service non exposé publiquement sans ouvrir de port au monde."
+    },
+    {
+      "term": "Moindre privilège",
+      "shortDefinition": "Principe : n’accorder à chaque acteur que les droits strictement nécessaires.",
+      "detailedDefinition": "Le moindre privilège (least privilege) limite les dégâts d’une erreur ou d’une compromission : un service tourne sous un compte dédié aux droits réduits, un fichier de secrets n’est lisible que par son propriétaire, on n’ouvre que les ports utiles. L’anti-pattern absolu est `chmod 777` ou tout tourner en root."
+    },
+    {
+      "term": "Shell",
+      "shortDefinition": "Programme qui interprète les commandes tapées au terminal.",
+      "detailedDefinition": "Le shell (bash, zsh…) lit une ligne, la découpe, développe les jokers et variables, puis lance le programme correspondant. C’est l’interface texte pour piloter la machine et enchaîner des outils via pipes et redirections. Le maîtriser, c’est automatiser au lieu de cliquer."
+    },
+    {
+      "term": "Bash",
+      "shortDefinition": "Shell Unix très répandu, langage des scripts d’automatisation courants.",
+      "detailedDefinition": "Bash (Bourne Again SHell) est le shell par défaut de nombreuses distributions et le langage des scripts `.sh`. On y écrit setup, déploiements et tâches de maintenance, en veillant à la robustesse (`set -euo pipefail`) et à lire la config depuis l’environnement."
+    },
+    {
+      "term": "Pipe",
+      "shortDefinition": "Opérateur `|` qui branche la sortie d’une commande sur l’entrée de la suivante.",
+      "detailedDefinition": "Le pipe compose des outils simples en un traitement puissant : `logs | grep ERROR | wc -l` compte les erreurs. Chaque commande fait UNE chose ; le pipe les enchaîne, incarnant la philosophie Unix « de petits outils qui coopèrent »."
+    },
+    {
+      "term": "Redirection",
+      "shortDefinition": "Mécanisme qui envoie les flux d’une commande vers/depuis un fichier.",
+      "detailedDefinition": "La redirection détourne les entrées/sorties : `>` écrit (en écrasant) dans un fichier, `>>` ajoute, `2>` capte les erreurs (stderr), `<` alimente l’entrée depuis un fichier. Elle sépare la sortie normale (stdout) des erreurs (stderr), essentiel pour des logs propres."
+    },
+    {
+      "term": "stdin",
+      "shortDefinition": "Entrée standard : le flux par lequel un programme reçoit ses données.",
+      "detailedDefinition": "stdin (flux 0) est la source d’entrée par défaut d’un programme : le clavier, un fichier redirigé (`< data.txt`) ou la sortie d’une commande précédente via un pipe. Lire stdin rend un outil composable dans un pipeline."
+    },
+    {
+      "term": "stdout",
+      "shortDefinition": "Sortie standard : le flux normal des résultats d’un programme.",
+      "detailedDefinition": "stdout (flux 1) reçoit la sortie « utile » d’un programme, distincte des erreurs (stderr). On la redirige (`> fichier`) ou l’enchaîne (pipe). Séparer stdout de stderr permet de traiter les résultats sans les polluer avec les messages d’erreur."
+    },
+    {
+      "term": "stderr",
+      "shortDefinition": "Erreur standard : le flux séparé où un programme écrit ses messages d’erreur.",
+      "detailedDefinition": "stderr (flux 2) isole les erreurs et diagnostics de la sortie normale (stdout). Cette séparation permet, dans un pipeline, de traiter les résultats sans mélanger les erreurs, et de rediriger les erreurs vers un log dédié (`2> erreurs.log`)."
+    },
+    {
+      "term": "Code de sortie",
+      "shortDefinition": "Nombre qu’un programme renvoie en se terminant : 0 = succès, non-zéro = échec.",
+      "detailedDefinition": "À sa fin, tout programme renvoie un code de sortie (exit code) : 0 signifie « tout va bien », une autre valeur signale une erreur (dont le type peut varier). C’est la base de l’enchaînement conditionnel (`cmd1 && cmd2`), des scripts robustes (`set -e`) et des décisions de reprise en CI."
+    },
+    {
+      "term": "Glob",
+      "shortDefinition": "Motif à jokers (`*`, `?`, `[...]`) que le shell développe en noms de fichiers.",
+      "detailedDefinition": "Le globbing remplace un motif par la liste des fichiers correspondants AVANT de lancer la commande : `*.log` devient tous les fichiers .log. C’est le SHELL qui développe, pas la commande — d’où la nécessité de protéger un motif par des guillemets quand on veut le passer littéralement."
+    },
+    {
+      "term": "Variable d’environnement",
+      "shortDefinition": "Valeur nommée fournie par l’environnement à un programme (config, secrets, chemins).",
+      "detailedDefinition": "Les variables d’environnement (PATH, PORT, DB_URL…) transmettent la configuration sans la coder en dur : le MÊME programme tourne en local, en CI et en conteneur, seule l’environnement change (principe twelve-factor). C’est aussi le canal standard pour injecter des secrets sans les écrire dans le code."
+    },
+    {
+      "term": "Shebang",
+      "shortDefinition": "Première ligne `#!` d’un script indiquant quel interpréteur doit l’exécuter.",
+      "detailedDefinition": "Le shebang (`#!/usr/bin/env bash`, `#!/usr/bin/env python3`) en tête de fichier dit au système avec quel programme lancer le script. Couplé au droit d’exécution (chmod +x), il permet de lancer le script directement (`./script.sh`) sans nommer l’interpréteur."
+    }
+  ]
 }

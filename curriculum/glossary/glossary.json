@@ -9016,5 +9016,1222 @@
     "days": [
       85
     ]
+  },
+  {
+    "id": "sys-chmod",
+    "term": "chmod",
+    "fullForm": null,
+    "frenchMeaning": "changer les permissions",
+    "category": "prod",
+    "level": "débutant",
+    "shortDefinition": "Commande qui change les permissions (lecture/écriture/exécution) d’un fichier ou dossier.",
+    "detailedDefinition": "chmod (« change mode ») modifie les droits rwx d’un fichier. On les exprime en symbolique (`chmod +x script.sh`) ou en octal (`chmod 644 fichier`). Éviter `chmod 777`, qui ouvre tous les droits à tout le monde : préférer le strict nécessaire.",
+    "usageContext": "Rendre un script exécutable, restreindre un fichier de secrets.",
+    "meetingExample": "« Fais un chmod +x sur le script sinon il ne se lance pas. »",
+    "plainTranslation": "« Régler qui a le droit de lire, écrire ou exécuter un fichier. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "permissions"
+    ]
+  },
+  {
+    "id": "sys-chown",
+    "term": "chown",
+    "fullForm": null,
+    "frenchMeaning": "changer le propriétaire",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Commande qui change le propriétaire (et le groupe) d’un fichier.",
+    "detailedDefinition": "chown (« change owner ») attribue un fichier à un utilisateur et/ou un groupe. Utile quand un service tourne sous un compte dédié et doit posséder ses fichiers. Se combine avec chmod pour appliquer le moindre privilège.",
+    "usageContext": "Donner à un service la propriété de ses fichiers.",
+    "meetingExample": "« Le service tourne sous www-data, fais un chown pour qu’il possède ses logs. »",
+    "plainTranslation": "« Dire à qui appartient un fichier. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "permissions"
+    ]
+  },
+  {
+    "id": "sys-umask",
+    "term": "umask",
+    "fullForm": null,
+    "frenchMeaning": "masque de création de fichier",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Filtre qui RETIRE des permissions par défaut à chaque nouveau fichier créé.",
+    "detailedDefinition": "Le umask définit les droits qu’un nouveau fichier N’AURA PAS. Avec umask 022, un fichier (base 666) naît en 644 et un dossier (777) en 755 : le groupe et les autres perdent l’écriture. C’est une protection par défaut contre les fichiers trop ouverts.",
+    "usageContext": "Empêcher que les fichiers naissent lisibles/écrivables par tous.",
+    "meetingExample": "« Mets un umask 077 sur le service de déploiement pour que les secrets ne naissent pas grands ouverts. »",
+    "plainTranslation": "« Le réglage qui décide des droits par défaut d’un fichier neuf. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "permissions",
+      "securite"
+    ]
+  },
+  {
+    "id": "sys-inode",
+    "term": "inode",
+    "fullForm": null,
+    "frenchMeaning": "nœud d’index",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Identifiant interne d’un fichier sur disque, portant ses métadonnées (droits, taille, blocs).",
+    "detailedDefinition": "Un inode stocke tout d’un fichier SAUF son nom : droits, propriétaire, taille, pointeurs vers les blocs de données. Le nom n’est qu’une entrée d’annuaire pointant vers l’inode (d’où les liens durs). Un disque peut être « plein » d’inodes (trop de petits fichiers) alors que l’espace semble libre.",
+    "usageContext": "Diagnostic « disque plein » alors que du montre peu de données.",
+    "meetingExample": "« df -i montre que les inodes sont saturés : trop de petits fichiers. »",
+    "plainTranslation": "« La fiche d’identité interne d’un fichier sur le disque. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "stockage"
+    ]
+  },
+  {
+    "id": "sys-fd",
+    "term": "Descripteur de fichier",
+    "fullForm": "file descriptor",
+    "frenchMeaning": "descripteur de fichier",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Numéro qu’un programme utilise pour manipuler un fichier ou une connexion ouverte.",
+    "detailedDefinition": "Quand un programme ouvre un fichier ou un socket, le système lui rend un descripteur (un entier). 0 = entrée standard, 1 = sortie standard, 2 = erreur standard ; 3, 4… pour le reste. « Too many open files » signifie que la limite de descripteurs est atteinte — souvent des fichiers/connexions non refermés.",
+    "usageContext": "Diagnostic des fuites de handles, limites système.",
+    "meetingExample": "« On a un “too many open files” : une fuite de descripteurs, on ne ferme pas les connexions. »",
+    "plainTranslation": "« Le ticket qu’un programme reçoit pour accéder à un fichier ouvert. »",
+    "relatedTerms": [],
+    "aliases": [
+      "file descriptor",
+      "descripteur"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "processus"
+    ]
+  },
+  {
+    "id": "sys-symlink",
+    "term": "Lien symbolique",
+    "fullForm": null,
+    "frenchMeaning": "lien symbolique",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Fichier spécial qui pointe vers un autre chemin, comme un raccourci.",
+    "detailedDefinition": "Un lien symbolique (symlink) contient le CHEMIN d’une cible : l’ouvrir revient à ouvrir la cible. Très utilisé pour pointer « current » vers la version active d’un déploiement. Contrairement au lien dur, il peut pointer entre disques et devient « cassé » si la cible disparaît.",
+    "usageContext": "Basculer une version de déploiement en changeant un lien.",
+    "meetingExample": "« On déploie en atomique : on fait pointer le symlink current vers la nouvelle release. »",
+    "plainTranslation": "« Un raccourci qui redirige vers un autre fichier. »",
+    "relatedTerms": [],
+    "aliases": [
+      "symlink",
+      "lien symbolique"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "stockage"
+    ]
+  },
+  {
+    "id": "sys-fhs",
+    "term": "FHS",
+    "fullForm": "Filesystem Hierarchy Standard",
+    "frenchMeaning": "hiérarchie standard des fichiers",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Convention qui définit à quoi sert chaque dossier standard d’un système Linux.",
+    "detailedDefinition": "Le FHS (Filesystem Hierarchy Standard) normalise l’arborescence : /etc (configuration), /var/log (journaux), /usr/bin (programmes), /home (utilisateurs), /tmp (temporaire). Le connaître, c’est savoir où chercher un fichier de config ou un log sans deviner.",
+    "usageContext": "Retrouver config et logs à leur place attendue.",
+    "meetingExample": "« Le log est dans /var/log comme le veut le FHS. »",
+    "plainTranslation": "« La carte des dossiers d’un système Linux. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "stockage"
+    ]
+  },
+  {
+    "id": "sys-sudo",
+    "term": "sudo",
+    "fullForm": null,
+    "frenchMeaning": "exécuter en super-utilisateur",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Commande qui exécute une action avec les privilèges d’administrateur, ponctuellement.",
+    "detailedDefinition": "sudo (« superuser do ») permet à un utilisateur autorisé de lancer UNE commande en tant que root, avec traçabilité. On l’utilise au lieu de se connecter directement en root : moindre privilège et journal d’audit de qui a fait quoi.",
+    "usageContext": "Installer un paquet, redémarrer un service, sans être root en permanence.",
+    "meetingExample": "« Lance-le avec sudo, sinon tu n’as pas les droits. »",
+    "plainTranslation": "« Demander les droits admin le temps d’une commande. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "securite"
+    ]
+  },
+  {
+    "id": "sys-root",
+    "term": "root",
+    "fullForm": null,
+    "frenchMeaning": "super-utilisateur",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Le compte administrateur tout-puissant d’un système Unix/Linux.",
+    "detailedDefinition": "root (UID 0) peut tout faire : lire n’importe quel fichier, tuer n’importe quel processus, modifier le système. On évite d’y travailler en continu — une erreur y est catastrophique et sans garde-fou. Le principe du moindre privilège recommande sudo ponctuel plutôt qu’une session root permanente.",
+    "usageContext": "Administration système ; à manier avec prudence.",
+    "meetingExample": "« Ne tourne pas le service en root : crée un compte dédié. »",
+    "plainTranslation": "« Le compte qui a tous les droits sur la machine. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "securite"
+    ]
+  },
+  {
+    "id": "sys-path-env",
+    "term": "PATH",
+    "fullForm": null,
+    "frenchMeaning": "chemin de recherche des commandes",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Variable d’environnement listant les dossiers où le shell cherche les programmes.",
+    "detailedDefinition": "Quand tu tapes une commande, le shell la cherche dans les dossiers listés par PATH, dans l’ordre. « command not found » signifie souvent que le programme n’est pas dans le PATH. On l’étend pour rendre ses propres outils disponibles sans chemin complet.",
+    "usageContext": "Rendre un binaire accessible partout ; diagnostic « command not found ».",
+    "meetingExample": "« Ajoute ~/bin au PATH pour lancer ton outil de n’importe où. »",
+    "plainTranslation": "« La liste des endroits où le terminal cherche les programmes. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "shell"
+    ]
+  },
+  {
+    "id": "sys-pid",
+    "term": "PID",
+    "fullForm": "Process IDentifier",
+    "frenchMeaning": "identifiant de processus",
+    "category": "prod",
+    "level": "débutant",
+    "shortDefinition": "Numéro unique identifiant un processus en cours d’exécution.",
+    "detailedDefinition": "Le PID (Process IDentifier) désigne un processus vivant. On le retrouve avec `ps` ou `ss -ltnp`, et on l’utilise pour agir dessus (`kill <pid>`). Deux exécutions d’un même programme ont des PID différents.",
+    "usageContext": "Cibler un processus à inspecter ou arrêter.",
+    "meetingExample": "« Trouve le PID qui occupe le port 3000 et arrête-le proprement. »",
+    "plainTranslation": "« Le numéro qui identifie un programme en train de tourner. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "processus"
+    ]
+  },
+  {
+    "id": "sys-signal",
+    "term": "Signal",
+    "fullForm": null,
+    "frenchMeaning": "signal de processus",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Message que le système envoie à un processus pour lui demander de réagir.",
+    "detailedDefinition": "Un signal notifie un processus d’un événement : SIGTERM (demande d’arrêt propre), SIGKILL (arrêt immédiat forcé), SIGHUP (recharge de config), SIGINT (Ctrl-C). Bien gérer SIGTERM permet à un service de fermer ses connexions avant de s’arrêter.",
+    "usageContext": "Arrêter/recharger un service, gérer un arrêt gracieux.",
+    "meetingExample": "« Le service doit intercepter SIGTERM pour finir ses requêtes en cours avant de quitter. »",
+    "plainTranslation": "« Un petit message envoyé à un programme pour lui dire quoi faire. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "processus"
+    ]
+  },
+  {
+    "id": "sys-sigterm",
+    "term": "SIGTERM",
+    "fullForm": null,
+    "frenchMeaning": "signal de terminaison",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Signal d’arrêt POLI : le processus peut nettoyer avant de se terminer.",
+    "detailedDefinition": "SIGTERM (signal 15) demande à un processus de s’arrêter, en lui laissant le temps de fermer ses fichiers, terminer ses requêtes et libérer ses ressources. C’est le signal par défaut de `kill`. On l’essaie AVANT SIGKILL.",
+    "usageContext": "Arrêt gracieux d’un service.",
+    "meetingExample": "« Envoie d’abord un SIGTERM ; ne passe au -9 que s’il ne répond pas. »",
+    "plainTranslation": "« Demander gentiment à un programme de s’arrêter. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "processus"
+    ]
+  },
+  {
+    "id": "sys-sigkill",
+    "term": "SIGKILL",
+    "fullForm": null,
+    "frenchMeaning": "signal de mise à mort",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Signal d’arrêt IMMÉDIAT et non interceptable : dernier recours.",
+    "detailedDefinition": "SIGKILL (signal 9, `kill -9`) tue un processus sur-le-champ : il ne peut ni l’intercepter ni nettoyer. À réserver aux processus bloqués qui ignorent SIGTERM — un service qu’on doit toujours -9 révèle une mauvaise gestion de l’arrêt.",
+    "usageContext": "Tuer un processus figé qui ignore SIGTERM.",
+    "meetingExample": "« Il ne répond plus au SIGTERM, on est obligé de le -9. »",
+    "plainTranslation": "« Forcer l’arrêt immédiat d’un programme. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "processus"
+    ]
+  },
+  {
+    "id": "sys-daemon",
+    "term": "Démon",
+    "fullForm": null,
+    "frenchMeaning": "processus en arrière-plan",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Programme qui tourne en arrière-plan, sans terminal, pour rendre un service.",
+    "detailedDefinition": "Un démon (daemon) s’exécute en continu en tâche de fond : serveur web, base de données, planificateur. Il est en général géré par le système d’init (systemd) qui le démarre, le surveille et le redémarre. Son nom finit souvent par « d » (sshd, httpd).",
+    "usageContext": "Services de fond gérés par systemd.",
+    "meetingExample": "« Le démon sshd écoute sur le port 22. »",
+    "plainTranslation": "« Un programme qui tourne tout seul en fond pour rendre un service. »",
+    "relatedTerms": [],
+    "aliases": [
+      "daemon",
+      "démon"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "processus"
+    ]
+  },
+  {
+    "id": "sys-zombie",
+    "term": "Processus zombie",
+    "fullForm": null,
+    "frenchMeaning": "processus zombie",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Processus terminé dont l’entrée subsiste car son parent n’a pas lu son code de sortie.",
+    "detailedDefinition": "Un zombie a fini de s’exécuter mais reste dans la table des processus tant que son parent n’a pas « récolté » son statut de sortie. Quelques zombies sont normaux ; une accumulation signale un parent bogué qui n’attend pas ses enfants.",
+    "usageContext": "Diagnostic d’un parent qui n’attend pas ses enfants.",
+    "meetingExample": "« On a plein de zombies : le process parent ne fait pas son wait(). »",
+    "plainTranslation": "« Un programme fini mais pas encore effacé de la liste. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "processus"
+    ]
+  },
+  {
+    "id": "sys-load-average",
+    "term": "Load average",
+    "fullForm": null,
+    "frenchMeaning": "charge moyenne",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Mesure de la charge système : nombre moyen de processus en attente d’exécution.",
+    "detailedDefinition": "Le load average (sur 1, 5 et 15 minutes) indique combien de processus veulent le CPU. Comparé au nombre de cœurs : un load de 4 sur 4 cœurs = pleine charge ; bien au-dessus = saturation et files d’attente. À croiser avec CPU, I/O et mémoire pour localiser le goulet.",
+    "usageContext": "Détecter une saturation CPU/IO.",
+    "meetingExample": "« Le load average est à 12 sur 4 cœurs : la machine est saturée. »",
+    "plainTranslation": "« Un chiffre qui dit à quel point la machine est débordée. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "performance"
+    ]
+  },
+  {
+    "id": "sys-swap",
+    "term": "Swap",
+    "fullForm": null,
+    "frenchMeaning": "mémoire d’échange",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Espace disque utilisé comme mémoire de secours quand la RAM est pleine.",
+    "detailedDefinition": "Le swap étend la mémoire en déplaçant sur disque des pages de RAM peu utilisées. Utile comme filet, mais LENT : si un serveur « swappe » beaucoup, les performances s’écroulent. Un swap intense est un symptôme de manque de mémoire, pas une solution.",
+    "usageContext": "Diagnostic d’un serveur qui rame par manque de RAM.",
+    "meetingExample": "« Il swappe à mort : il manque de la RAM, pas du disque. »",
+    "plainTranslation": "« Du disque utilisé comme rallonge de mémoire quand la RAM déborde. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "performance"
+    ]
+  },
+  {
+    "id": "sys-oom",
+    "term": "OOM killer",
+    "fullForm": "Out Of Memory killer",
+    "frenchMeaning": "tueur de mémoire insuffisante",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Mécanisme du noyau qui tue un processus quand la mémoire est totalement épuisée.",
+    "detailedDefinition": "L’OOM (Out Of Memory) killer intervient quand le système n’a plus de mémoire : il choisit un processus (souvent le plus gourmand) et le tue pour sauver la machine. Un service qui disparaît « tout seul » a souvent été tué par l’OOM — à confirmer dans les logs système.",
+    "usageContext": "Diagnostic d’un process tué sans raison apparente.",
+    "meetingExample": "« Le service a été OOM-killé : la conteneur a dépassé sa limite mémoire. »",
+    "plainTranslation": "« Le système tue un programme quand il n’y a plus de mémoire du tout. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "performance"
+    ]
+  },
+  {
+    "id": "sys-cron",
+    "term": "cron",
+    "fullForm": null,
+    "frenchMeaning": "planificateur de tâches",
+    "category": "prod",
+    "level": "débutant",
+    "shortDefinition": "Planificateur qui exécute des tâches automatiquement à intervalles réguliers.",
+    "detailedDefinition": "cron lance des commandes selon un calendrier (la crontab) : sauvegardes nocturnes, nettoyages, rapports. La syntaxe (`minute heure jour mois jour-semaine`) décrit quand. Idéal pour toute tâche répétitive qu’on ne veut pas lancer à la main.",
+    "usageContext": "Automatiser sauvegardes et tâches récurrentes.",
+    "meetingExample": "« Mets la sauvegarde en cron tous les jours à 3h du matin. »",
+    "plainTranslation": "« Un minuteur qui lance des tâches toutes seules à heures fixes. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "automatisation"
+    ]
+  },
+  {
+    "id": "sys-systemd",
+    "term": "systemd",
+    "fullForm": null,
+    "frenchMeaning": "gestionnaire de services et d’init",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Système d’initialisation et gestionnaire de services des Linux modernes.",
+    "detailedDefinition": "systemd démarre la machine et gère les services (units) : il les lance dans le bon ordre, les surveille, les redémarre en cas d’échec, et centralise leurs journaux. C’est le chef d’orchestre des démons sur la plupart des distributions actuelles.",
+    "usageContext": "Piloter les services de fond d’un serveur Linux.",
+    "meetingExample": "« Le service est géré par systemd : un simple systemctl restart suffit. »",
+    "plainTranslation": "« Le programme qui démarre et surveille tous les services de la machine. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "services"
+    ]
+  },
+  {
+    "id": "sys-systemctl",
+    "term": "systemctl",
+    "fullForm": null,
+    "frenchMeaning": "contrôler les services systemd",
+    "category": "prod",
+    "level": "débutant",
+    "shortDefinition": "Commande pour piloter les services gérés par systemd.",
+    "detailedDefinition": "systemctl contrôle les services : `systemctl status nom` (état), `start`/`stop`/`restart` (cycle de vie), `enable` (démarrage au boot). C’est le point d’entrée quotidien pour gérer un démon sur un serveur systemd.",
+    "usageContext": "Démarrer, arrêter, inspecter un service.",
+    "meetingExample": "« Fais un systemctl status pour voir pourquoi le service est tombé. »",
+    "plainTranslation": "« La commande pour démarrer, arrêter ou vérifier un service. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "services"
+    ]
+  },
+  {
+    "id": "sys-journalctl",
+    "term": "journalctl",
+    "fullForm": null,
+    "frenchMeaning": "lire les journaux systemd",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Commande pour lire les journaux (logs) collectés par systemd.",
+    "detailedDefinition": "journalctl consulte le journal centralisé de systemd : `journalctl -u nom` filtre sur un service, `-f` suit en direct, `--since` borne dans le temps. Diagnostiquer « le service ne démarre pas » commence TOUJOURS par lire ses logs ici, avant de redémarrer à l’aveugle.",
+    "usageContext": "Diagnostic d’un service défaillant.",
+    "meetingExample": "« Regarde journalctl -u monservice avant de le relancer. »",
+    "plainTranslation": "« La commande pour lire les messages qu’un service a laissés. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "linux",
+      "services",
+      "observabilite"
+    ]
+  },
+  {
+    "id": "sys-healthcheck",
+    "term": "Health check",
+    "fullForm": null,
+    "frenchMeaning": "sonde de santé",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Vérification automatique et régulière de l’état de santé d’un service.",
+    "detailedDefinition": "Un health check interroge périodiquement un service (souvent un endpoint /health) pour savoir s’il répond correctement. Les orchestrateurs (systemd, Docker, load balancers) s’en servent pour retirer du trafic ou redémarrer un service malade. Une sonde honnête vérifie les dépendances critiques, pas seulement « le process tourne ».",
+    "usageContext": "Détecter et remplacer automatiquement un service en panne.",
+    "meetingExample": "« Le load balancer sort l’instance du pool si son health check échoue. »",
+    "plainTranslation": "« Un test automatique qui vérifie régulièrement qu’un service va bien. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "exploitation",
+      "observabilite"
+    ]
+  },
+  {
+    "id": "net-port",
+    "term": "Port",
+    "fullForm": null,
+    "frenchMeaning": "port réseau",
+    "category": "network",
+    "level": "débutant",
+    "shortDefinition": "Numéro (0-65535) qui identifie un service précis sur une machine.",
+    "detailedDefinition": "Une adresse IP désigne une machine ; un port désigne un SERVICE dessus : 80 (HTTP), 443 (HTTPS), 22 (SSH), 5432 (PostgreSQL). Deux services ne peuvent pas écouter le même port : « address already in use » signale ce conflit.",
+    "usageContext": "Exposer/joindre un service précis ; diagnostic de conflit de port.",
+    "meetingExample": "« L’API écoute sur le port 3000 ; un autre process l’occupe déjà. »",
+    "plainTranslation": "« Le numéro de la “porte” par laquelle on joint un service sur une machine. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau"
+    ]
+  },
+  {
+    "id": "net-socket",
+    "term": "Socket",
+    "fullForm": null,
+    "frenchMeaning": "prise réseau",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Point de connexion réseau, identifié par une adresse IP et un port.",
+    "detailedDefinition": "Un socket est le bout d’une communication : le couple (IP, port). Une connexion TCP est identifiée par quatre valeurs (IP et port source, IP et port destination). Les programmes lisent et écrivent sur des sockets comme sur des fichiers.",
+    "usageContext": "Établir et suivre des connexions réseau.",
+    "meetingExample": "« ss liste les sockets en écoute et leurs process. »",
+    "plainTranslation": "« Le point de branchement d’une connexion réseau. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau"
+    ]
+  },
+  {
+    "id": "net-localhost",
+    "term": "localhost",
+    "fullForm": null,
+    "frenchMeaning": "hôte local",
+    "category": "network",
+    "level": "débutant",
+    "shortDefinition": "Nom désignant la machine elle-même (adresse de boucle locale 127.0.0.1).",
+    "detailedDefinition": "localhost / 127.0.0.1 fait référence à la machine locale : un service joint sur localhost ne sort pas sur le réseau. Idéal en développement, mais un service qui n’écoute QUE sur localhost n’est pas joignable depuis l’extérieur — un piège classique de déploiement.",
+    "usageContext": "Développement local ; diagnostic « joignable en local mais pas à distance ».",
+    "meetingExample": "« Il écoute sur localhost, c’est pour ça qu’il n’est pas accessible depuis l’extérieur. »",
+    "plainTranslation": "« Un nom qui veut dire “cette machine-ci”. »",
+    "relatedTerms": [],
+    "aliases": [
+      "127.0.0.1",
+      "boucle locale"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau"
+    ]
+  },
+  {
+    "id": "net-tcp-handshake",
+    "term": "Handshake TCP",
+    "fullForm": null,
+    "frenchMeaning": "poignée de main TCP",
+    "category": "network",
+    "level": "avancé",
+    "shortDefinition": "Échange en trois temps qui établit une connexion TCP fiable.",
+    "detailedDefinition": "Avant tout échange, TCP ouvre la connexion par un handshake en trois messages (SYN → SYN-ACK → ACK). Ce triple aller-retour a un coût de latence — d’où l’intérêt de réutiliser les connexions (keep-alive, HTTP/2) plutôt que d’en rouvrir une par requête.",
+    "usageContext": "Comprendre le coût de latence d’ouverture de connexion.",
+    "meetingExample": "« Chaque nouvelle connexion paie un handshake TCP ; réutilisons-les. »",
+    "plainTranslation": "« Le petit dialogue d’ouverture avant de vraiment se parler en TCP. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau"
+    ]
+  },
+  {
+    "id": "net-subnet",
+    "term": "Sous-réseau",
+    "fullForm": null,
+    "frenchMeaning": "sous-réseau",
+    "category": "network",
+    "level": "avancé",
+    "shortDefinition": "Découpage d’un réseau IP en segments plus petits, défini par un masque.",
+    "detailedDefinition": "Un sous-réseau (subnet) regroupe des adresses IP partageant un préfixe, décrit en notation CIDR (ex. 10.0.1.0/24 = 256 adresses). Il structure et isole le réseau : machines d’un même subnet se parlent directement, le reste passe par une passerelle.",
+    "usageContext": "Segmentation et isolation réseau (cloud, VPC).",
+    "meetingExample": "« Mets la base dans un subnet privé, sans accès Internet direct. »",
+    "plainTranslation": "« Une tranche d’un réseau qui regroupe certaines adresses. »",
+    "relatedTerms": [],
+    "aliases": [
+      "subnet"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "cloud"
+    ]
+  },
+  {
+    "id": "net-gateway",
+    "term": "Passerelle",
+    "fullForm": null,
+    "frenchMeaning": "passerelle réseau",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Point de sortie d’un réseau vers d’autres réseaux (souvent Internet).",
+    "detailedDefinition": "La passerelle (gateway) est la machine par laquelle le trafic quitte le réseau local pour atteindre une destination extérieure. « default gateway » est la route par défaut : si elle est mal configurée, la machine parle en local mais pas vers l’extérieur.",
+    "usageContext": "Routage vers l’extérieur ; diagnostic de connectivité sortante.",
+    "meetingExample": "« Pas de route vers l’extérieur : la default gateway est mal réglée. »",
+    "plainTranslation": "« La porte de sortie d’un réseau vers les autres réseaux. »",
+    "relatedTerms": [],
+    "aliases": [
+      "gateway"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau"
+    ]
+  },
+  {
+    "id": "net-firewall",
+    "term": "Pare-feu",
+    "fullForm": null,
+    "frenchMeaning": "pare-feu",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Filtre qui autorise ou bloque le trafic réseau selon des règles.",
+    "detailedDefinition": "Un pare-feu (firewall) contrôle quels flux entrent et sortent, par port, adresse et protocole. Il applique le moindre privilège au réseau : n’ouvrir que les ports nécessaires. Un service « injoignable » alors qu’il écoute bien est souvent bloqué par une règle de pare-feu.",
+    "usageContext": "Restreindre l’exposition réseau ; diagnostic de blocage.",
+    "meetingExample": "« Le port est ouvert côté serveur mais le pare-feu le bloque. »",
+    "plainTranslation": "« Un filtre qui décide quel trafic réseau passe ou non. »",
+    "relatedTerms": [],
+    "aliases": [
+      "firewall"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "securite"
+    ]
+  },
+  {
+    "id": "net-dns-a-record",
+    "term": "Enregistrement DNS",
+    "fullForm": null,
+    "frenchMeaning": "enregistrement DNS",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Entrée d’une zone DNS associant un nom à une valeur (adresse, alias…).",
+    "detailedDefinition": "Le DNS stocke des enregistrements : A (nom → IPv4), AAAA (→ IPv6), CNAME (nom → autre nom), MX (mail), TXT (texte). Résoudre un nom, c’est suivre ces enregistrements jusqu’à une adresse. Une mauvaise entrée ou un TTL trop long explique bien des incidents « le site pointe au mauvais endroit ».",
+    "usageContext": "Configuration de domaines ; diagnostic de résolution.",
+    "meetingExample": "« Change l’enregistrement A pour pointer vers la nouvelle IP. »",
+    "plainTranslation": "« Une ligne de l’annuaire DNS qui relie un nom à une valeur. »",
+    "relatedTerms": [],
+    "aliases": [
+      "A record",
+      "enregistrement A"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "dns"
+    ]
+  },
+  {
+    "id": "net-cname",
+    "term": "CNAME",
+    "fullForm": "Canonical Name",
+    "frenchMeaning": "nom canonique (alias)",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Enregistrement DNS qui fait d’un nom un alias vers un autre nom.",
+    "detailedDefinition": "Un CNAME (Canonical NAME) redirige un nom vers un autre : www.exemple.dev → exemple.dev. La résolution suit la chaîne de CNAME jusqu’à un enregistrement A. Pratique pour pointer plusieurs noms vers une même cible, mais une chaîne trop longue ou circulaire casse la résolution.",
+    "usageContext": "Aliasser des sous-domaines vers une cible commune.",
+    "meetingExample": "« Mets un CNAME de www vers le domaine racine. »",
+    "plainTranslation": "« Un renvoi DNS d’un nom vers un autre nom. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "dns"
+    ]
+  },
+  {
+    "id": "net-ttl",
+    "term": "TTL",
+    "fullForm": "Time To Live",
+    "frenchMeaning": "durée de vie",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Durée de validité d’une donnée en cache (ex. une réponse DNS) avant réinterrogation.",
+    "detailedDefinition": "Le TTL (Time To Live) dit combien de temps garder une réponse en cache. Un TTL DNS élevé accélère (moins de requêtes) mais ralentit la propagation d’un changement : après avoir modifié un enregistrement, l’ancienne valeur peut persister jusqu’à expiration du TTL. On le baisse AVANT une migration.",
+    "usageContext": "Maîtriser la propagation des changements DNS et la fraîcheur des caches.",
+    "meetingExample": "« Baisse le TTL à 5 minutes la veille de la migration DNS. »",
+    "plainTranslation": "« Le temps pendant lequel une réponse reste valable en cache. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "dns",
+      "cache"
+    ]
+  },
+  {
+    "id": "net-bandwidth",
+    "term": "Bande passante",
+    "fullForm": null,
+    "frenchMeaning": "bande passante",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Débit d’un lien réseau : quantité de données transportables par seconde.",
+    "detailedDefinition": "La bande passante est le DÉBIT (Mo/s), à distinguer de la LATENCE (temps d’un aller-retour). Beaucoup de lenteurs viennent de la latence (trop d’allers-retours), pas d’un manque de débit : télécharger un gros fichier dépend de la bande passante, mais charger une page multiplie surtout les allers-retours.",
+    "usageContext": "Analyser les performances réseau ; ne pas confondre avec la latence.",
+    "meetingExample": "« Ce n’est pas la bande passante le problème, c’est la latence : trop d’allers-retours. »",
+    "plainTranslation": "« La largeur du tuyau : combien de données passent par seconde. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "performance"
+    ]
+  },
+  {
+    "id": "net-ping",
+    "term": "ping",
+    "fullForm": null,
+    "frenchMeaning": "test de connectivité",
+    "category": "network",
+    "level": "débutant",
+    "shortDefinition": "Outil qui teste si une machine répond et mesure le temps d’aller-retour.",
+    "detailedDefinition": "ping envoie de petits paquets (ICMP) et mesure le temps de réponse : il confirme qu’une machine est joignable et donne un ordre de grandeur de la latence. « ping ok mais service KO » isole la panne au-dessus du réseau (application) ; « ping KO » pointe vers le réseau ou la machine.",
+    "usageContext": "Première brique du diagnostic de connectivité.",
+    "meetingExample": "« Le ping passe mais l’appli ne répond pas : le souci est applicatif. »",
+    "plainTranslation": "« Un “t’es là ?” envoyé à une machine pour voir si elle répond. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "diagnostic"
+    ]
+  },
+  {
+    "id": "net-traceroute",
+    "term": "traceroute",
+    "fullForm": null,
+    "frenchMeaning": "traçage de route",
+    "category": "network",
+    "level": "avancé",
+    "shortDefinition": "Outil qui affiche le chemin (les routeurs successifs) jusqu’à une destination.",
+    "detailedDefinition": "traceroute (tracert sous Windows) révèle chaque saut réseau vers une cible et le temps à chaque étape : utile pour localiser où le trafic ralentit ou se bloque. Le nom diffère selon le système, mais l’idée — voir la route paquet par paquet — est universelle.",
+    "usageContext": "Localiser un ralentissement ou une coupure sur le trajet réseau.",
+    "meetingExample": "« Fais un traceroute pour voir à quel saut ça bloque. »",
+    "plainTranslation": "« Voir par quels routeurs passe le trafic jusqu’à une destination. »",
+    "relatedTerms": [],
+    "aliases": [
+      "tracert"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "diagnostic"
+    ]
+  },
+  {
+    "id": "net-netstat-ss",
+    "term": "ss / netstat",
+    "fullForm": null,
+    "frenchMeaning": "inspecter les sockets",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Outils qui listent les connexions réseau et les ports en écoute.",
+    "detailedDefinition": "ss (successeur moderne de netstat) montre qui écoute quoi : `ss -ltnp` liste les ports TCP en écoute et le processus associé. Indispensable pour répondre à « quel programme occupe ce port ? » lors d’un conflit de port ou d’un diagnostic de service.",
+    "usageContext": "Trouver le process qui occupe un port ; auditer l’exposition.",
+    "meetingExample": "« ss -ltnp te dit quel PID écoute sur 3000. »",
+    "plainTranslation": "« La commande qui liste les connexions et les ports ouverts. »",
+    "relatedTerms": [],
+    "aliases": [
+      "netstat",
+      "ss"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "diagnostic"
+    ]
+  },
+  {
+    "id": "net-sni",
+    "term": "SNI",
+    "fullForm": "Server Name Indication",
+    "frenchMeaning": "indication du nom de serveur",
+    "category": "network",
+    "level": "avancé",
+    "shortDefinition": "Extension TLS indiquant, en clair, le nom de domaine visé au début du handshake.",
+    "detailedDefinition": "Le SNI (Server Name Indication) permet à un serveur hébergeant plusieurs sites de présenter le bon certificat : le client annonce le domaine dès l’ouverture TLS. Conséquence importante pour la vie privée : même en HTTPS, le NOM du domaine visité fuite via le SNI (et le DNS), seul le contenu est chiffré.",
+    "usageContext": "Hébergement multi-sites en HTTPS ; limites de confidentialité.",
+    "meetingExample": "« Le contenu est chiffré, mais le domaine fuit via le SNI. »",
+    "plainTranslation": "« Le client dit à quel site il veut parler, en clair, au début du HTTPS. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "tls",
+      "securite"
+    ]
+  },
+  {
+    "id": "net-ephemeral-port",
+    "term": "Port éphémère",
+    "fullForm": null,
+    "frenchMeaning": "port éphémère",
+    "category": "network",
+    "level": "avancé",
+    "shortDefinition": "Port temporaire attribué automatiquement au client pour une connexion sortante.",
+    "detailedDefinition": "Quand un client ouvre une connexion, le système lui attribue un port source éphémère (dans une plage haute), le temps de l’échange. Le serveur, lui, écoute sur un port fixe connu. Épuiser la plage de ports éphémères (trop de connexions simultanées non refermées) empêche d’en ouvrir de nouvelles.",
+    "usageContext": "Comprendre les connexions sortantes ; diagnostic d’épuisement de ports.",
+    "meetingExample": "« On épuise les ports éphémères : trop de connexions courtes non réutilisées. »",
+    "plainTranslation": "« Le port temporaire que la machine prend pour une connexion sortante. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau"
+    ]
+  },
+  {
+    "id": "sec-tls-cert",
+    "term": "Certificat TLS",
+    "fullForm": null,
+    "frenchMeaning": "certificat TLS",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Document numérique qui prouve l’identité d’un serveur et permet le chiffrement HTTPS.",
+    "detailedDefinition": "Un certificat TLS, signé par une autorité de confiance, lie un nom de domaine à une clé publique : il prouve « je suis bien exemple.dev » et sert à établir le canal chiffré. Un certificat EXPIRÉ, pour le mauvais domaine, ou non signé par une autorité connue, casse HTTPS — une cause d’incident fréquente et évitable par une alerte d’expiration.",
+    "usageContext": "Mettre en place HTTPS ; diagnostic des erreurs de certificat.",
+    "meetingExample": "« Le site est down : le certificat TLS a expiré cette nuit. »",
+    "plainTranslation": "« La carte d’identité chiffrée d’un site web. »",
+    "relatedTerms": [],
+    "aliases": [
+      "certificat SSL"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "securite",
+      "tls",
+      "reseau"
+    ]
+  },
+  {
+    "id": "sec-ssh-key",
+    "term": "Clé SSH",
+    "fullForm": null,
+    "frenchMeaning": "clé SSH",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Paire de clés (privée/publique) authentifiant une connexion SSH sans mot de passe.",
+    "detailedDefinition": "L’authentification SSH par clés remplace le mot de passe : la clé PRIVÉE reste secrète sur ta machine, la clé PUBLIQUE est déposée sur le serveur (authorized_keys). Le serveur vérifie que tu détiens la privée sans qu’elle transite. Règle d’or : la clé privée ne quitte JAMAIS ta machine et se protège par une passphrase.",
+    "usageContext": "Accès sécurisé aux serveurs, déploiements automatisés.",
+    "meetingExample": "« Dépose ta clé publique sur le serveur ; ne partage jamais la privée. »",
+    "plainTranslation": "« Deux clés jumelles : une secrète chez toi, une publique sur le serveur. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "securite",
+      "ssh",
+      "reseau"
+    ]
+  },
+  {
+    "id": "sec-known-hosts",
+    "term": "known_hosts",
+    "fullForm": null,
+    "frenchMeaning": "hôtes connus",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Fichier où SSH mémorise l’empreinte des serveurs déjà visités pour détecter les usurpations.",
+    "detailedDefinition": "À la première connexion, SSH enregistre l’empreinte du serveur dans known_hosts. Aux suivantes, il vérifie qu’elle n’a pas changé : un avertissement bruyant (« REMOTE HOST IDENTIFICATION HAS CHANGED ») signale soit une réinstallation légitime, soit une tentative d’interception. Ne jamais l’ignorer aveuglément.",
+    "usageContext": "Protection contre l’usurpation de serveur en SSH.",
+    "meetingExample": "« Le warning known_hosts a sauté : vérifie que c’est bien une réinstall avant de l’effacer. »",
+    "plainTranslation": "« Le carnet où SSH note l’empreinte des serveurs qu’il connaît. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "securite",
+      "ssh"
+    ]
+  },
+  {
+    "id": "sec-ssh-tunnel",
+    "term": "Tunnel SSH",
+    "fullForm": null,
+    "frenchMeaning": "tunnel SSH",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Canal chiffré SSH par lequel on fait transiter d’autre trafic réseau.",
+    "detailedDefinition": "Un tunnel SSH encapsule une connexion (ex. accès à une base de données distante) dans le canal chiffré de SSH : `ssh -L 5432:db-interne:5432 serveur` rend la base interne accessible en local, en sécurité. Pratique pour joindre un service non exposé publiquement sans ouvrir de port au monde.",
+    "usageContext": "Accès sécurisé à un service interne non exposé.",
+    "meetingExample": "« Passe par un tunnel SSH pour joindre la base privée depuis ton poste. »",
+    "plainTranslation": "« Faire passer une autre connexion dans le tuyau chiffré de SSH. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "securite",
+      "ssh",
+      "reseau"
+    ]
+  },
+  {
+    "id": "sec-least-privilege",
+    "term": "Moindre privilège",
+    "fullForm": null,
+    "frenchMeaning": "principe du moindre privilège",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Principe : n’accorder à chaque acteur que les droits strictement nécessaires.",
+    "detailedDefinition": "Le moindre privilège (least privilege) limite les dégâts d’une erreur ou d’une compromission : un service tourne sous un compte dédié aux droits réduits, un fichier de secrets n’est lisible que par son propriétaire, on n’ouvre que les ports utiles. L’anti-pattern absolu est `chmod 777` ou tout tourner en root.",
+    "usageContext": "Concevoir permissions, comptes de service et exposition réseau.",
+    "meetingExample": "« Applique le moindre privilège : ce service n’a pas besoin des droits root. »",
+    "plainTranslation": "« Ne donner à chacun que le strict minimum de droits. »",
+    "relatedTerms": [],
+    "aliases": [
+      "least privilege"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "securite"
+    ]
+  },
+  {
+    "id": "sh-shell",
+    "term": "Shell",
+    "fullForm": null,
+    "frenchMeaning": "interpréteur de commandes",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "Programme qui interprète les commandes tapées au terminal.",
+    "detailedDefinition": "Le shell (bash, zsh…) lit une ligne, la découpe, développe les jokers et variables, puis lance le programme correspondant. C’est l’interface texte pour piloter la machine et enchaîner des outils via pipes et redirections. Le maîtriser, c’est automatiser au lieu de cliquer.",
+    "usageContext": "Piloter la machine, écrire des scripts d’automatisation.",
+    "meetingExample": "« Écris un petit script shell pour automatiser le setup. »",
+    "plainTranslation": "« Le programme qui exécute ce que tu tapes au terminal. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
+  },
+  {
+    "id": "sh-bash",
+    "term": "Bash",
+    "fullForm": "Bourne Again SHell",
+    "frenchMeaning": "shell Bash",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "Shell Unix très répandu, langage des scripts d’automatisation courants.",
+    "detailedDefinition": "Bash (Bourne Again SHell) est le shell par défaut de nombreuses distributions et le langage des scripts `.sh`. On y écrit setup, déploiements et tâches de maintenance, en veillant à la robustesse (`set -euo pipefail`) et à lire la config depuis l’environnement.",
+    "usageContext": "Scripts de setup, CI, maintenance.",
+    "meetingExample": "« Le script de déploiement est en bash avec set -e pour s’arrêter à la première erreur. »",
+    "plainTranslation": "« Le shell le plus courant, aussi utilisé pour écrire des scripts. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
+  },
+  {
+    "id": "sh-pipe",
+    "term": "Pipe",
+    "fullForm": null,
+    "frenchMeaning": "tube",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "Opérateur `|` qui branche la sortie d’une commande sur l’entrée de la suivante.",
+    "detailedDefinition": "Le pipe compose des outils simples en un traitement puissant : `logs | grep ERROR | wc -l` compte les erreurs. Chaque commande fait UNE chose ; le pipe les enchaîne, incarnant la philosophie Unix « de petits outils qui coopèrent ».",
+    "usageContext": "Composer des commandes en pipelines de traitement.",
+    "meetingExample": "« Enchaîne les commandes avec un pipe plutôt qu’un fichier temporaire. »",
+    "plainTranslation": "« Envoyer le résultat d’une commande directement dans une autre. »",
+    "relatedTerms": [],
+    "aliases": [
+      "tube"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
+  },
+  {
+    "id": "sh-redirection",
+    "term": "Redirection",
+    "fullForm": null,
+    "frenchMeaning": "redirection de flux",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "Mécanisme qui envoie les flux d’une commande vers/depuis un fichier.",
+    "detailedDefinition": "La redirection détourne les entrées/sorties : `>` écrit (en écrasant) dans un fichier, `>>` ajoute, `2>` capte les erreurs (stderr), `<` alimente l’entrée depuis un fichier. Elle sépare la sortie normale (stdout) des erreurs (stderr), essentiel pour des logs propres.",
+    "usageContext": "Écrire des logs, séparer sortie et erreurs.",
+    "meetingExample": "« Redirige les erreurs vers un fichier avec 2> pour les garder à part. »",
+    "plainTranslation": "« Diriger ce qu’écrit une commande vers un fichier. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
+  },
+  {
+    "id": "sh-stdin",
+    "term": "stdin",
+    "fullForm": "standard input",
+    "frenchMeaning": "entrée standard",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Entrée standard : le flux par lequel un programme reçoit ses données.",
+    "detailedDefinition": "stdin (flux 0) est la source d’entrée par défaut d’un programme : le clavier, un fichier redirigé (`< data.txt`) ou la sortie d’une commande précédente via un pipe. Lire stdin rend un outil composable dans un pipeline.",
+    "usageContext": "Composer des filtres dans un pipeline.",
+    "meetingExample": "« L’outil lit sur stdin, tu peux donc lui envoyer les logs par un pipe. »",
+    "plainTranslation": "« Le flux d’entrée d’un programme (clavier, fichier ou pipe). »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
+  },
+  {
+    "id": "sh-stdout",
+    "term": "stdout",
+    "fullForm": "standard output",
+    "frenchMeaning": "sortie standard",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Sortie standard : le flux normal des résultats d’un programme.",
+    "detailedDefinition": "stdout (flux 1) reçoit la sortie « utile » d’un programme, distincte des erreurs (stderr). On la redirige (`> fichier`) ou l’enchaîne (pipe). Séparer stdout de stderr permet de traiter les résultats sans les polluer avec les messages d’erreur.",
+    "usageContext": "Récupérer et enchaîner les résultats d’une commande.",
+    "meetingExample": "« Envoie stdout dans le pipeline et garde stderr pour les logs. »",
+    "plainTranslation": "« Le flux où un programme écrit ses résultats normaux. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
+  },
+  {
+    "id": "sh-stderr",
+    "term": "stderr",
+    "fullForm": "standard error",
+    "frenchMeaning": "erreur standard",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Erreur standard : le flux séparé où un programme écrit ses messages d’erreur.",
+    "detailedDefinition": "stderr (flux 2) isole les erreurs et diagnostics de la sortie normale (stdout). Cette séparation permet, dans un pipeline, de traiter les résultats sans mélanger les erreurs, et de rediriger les erreurs vers un log dédié (`2> erreurs.log`).",
+    "usageContext": "Journaliser les erreurs à part des résultats.",
+    "meetingExample": "« Le message part sur stderr, c’est pour ça qu’il n’est pas capté par le pipe. »",
+    "plainTranslation": "« Le flux séparé où un programme écrit ses erreurs. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
+  },
+  {
+    "id": "sh-exit-code",
+    "term": "Code de sortie",
+    "fullForm": null,
+    "frenchMeaning": "code de retour",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "Nombre qu’un programme renvoie en se terminant : 0 = succès, non-zéro = échec.",
+    "detailedDefinition": "À sa fin, tout programme renvoie un code de sortie (exit code) : 0 signifie « tout va bien », une autre valeur signale une erreur (dont le type peut varier). C’est la base de l’enchaînement conditionnel (`cmd1 && cmd2`), des scripts robustes (`set -e`) et des décisions de reprise en CI.",
+    "usageContext": "Chaîner des commandes, décider d’un retry, faire échouer une CI.",
+    "meetingExample": "« Si le code de sortie n’est pas 0, on arrête le pipeline. »",
+    "plainTranslation": "« Le petit chiffre qui dit si un programme a réussi ou échoué. »",
+    "relatedTerms": [],
+    "aliases": [
+      "exit code",
+      "code de retour"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
+  },
+  {
+    "id": "sh-glob",
+    "term": "Glob",
+    "fullForm": null,
+    "frenchMeaning": "motif de fichiers",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Motif à jokers (`*`, `?`, `[...]`) que le shell développe en noms de fichiers.",
+    "detailedDefinition": "Le globbing remplace un motif par la liste des fichiers correspondants AVANT de lancer la commande : `*.log` devient tous les fichiers .log. C’est le SHELL qui développe, pas la commande — d’où la nécessité de protéger un motif par des guillemets quand on veut le passer littéralement.",
+    "usageContext": "Agir sur des ensembles de fichiers ; comprendre l’expansion du shell.",
+    "meetingExample": "« rm *.tmp efface tous les .tmp : le glob est développé par le shell. »",
+    "plainTranslation": "« Un motif avec des jokers pour désigner plusieurs fichiers. »",
+    "relatedTerms": [],
+    "aliases": [
+      "globbing"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
+  },
+  {
+    "id": "sh-env-var",
+    "term": "Variable d’environnement",
+    "fullForm": null,
+    "frenchMeaning": "variable d’environnement",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "Valeur nommée fournie par l’environnement à un programme (config, secrets, chemins).",
+    "detailedDefinition": "Les variables d’environnement (PATH, PORT, DB_URL…) transmettent la configuration sans la coder en dur : le MÊME programme tourne en local, en CI et en conteneur, seule l’environnement change (principe twelve-factor). C’est aussi le canal standard pour injecter des secrets sans les écrire dans le code.",
+    "usageContext": "Configurer un service par environnement ; injecter des secrets.",
+    "meetingExample": "« Ne code pas l’URL en dur : lis-la depuis une variable d’environnement. »",
+    "plainTranslation": "« Un réglage fourni au programme par son environnement. »",
+    "relatedTerms": [],
+    "aliases": [
+      "env var",
+      "variable d environnement"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "config",
+      "devops"
+    ]
+  },
+  {
+    "id": "sh-shebang",
+    "term": "Shebang",
+    "fullForm": null,
+    "frenchMeaning": "ligne d’interpréteur",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Première ligne `#!` d’un script indiquant quel interpréteur doit l’exécuter.",
+    "detailedDefinition": "Le shebang (`#!/usr/bin/env bash`, `#!/usr/bin/env python3`) en tête de fichier dit au système avec quel programme lancer le script. Couplé au droit d’exécution (chmod +x), il permet de lancer le script directement (`./script.sh`) sans nommer l’interpréteur.",
+    "usageContext": "Rendre un script directement exécutable.",
+    "meetingExample": "« Ajoute le shebang et un chmod +x, et le script se lance tout seul. »",
+    "plainTranslation": "« La ligne qui dit avec quel programme ouvrir un script. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "shell",
+      "linux"
+    ]
   }
 ]

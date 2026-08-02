@@ -426,11 +426,14 @@ details.solution[open] > summary { border-radius: 8px 8px 0 0; }
 .gloss-sense .s-meaning { font-weight: 600; }
 .gloss-sense .s-dom { color: var(--muted); font-size: 12px; }
 .gloss-related { display: flex; gap: 6px; flex-wrap: wrap; }
-.gloss-related button {
+.gloss-related button,
+.gloss-related a.gloss-day-link {
   padding: 3px 9px; border-radius: 999px; font-size: 12px; cursor: pointer;
   background: var(--panel-2); border: 1px solid var(--border); color: var(--accent);
+  text-decoration: none; display: inline-block;
 }
-.gloss-related button:hover { border-color: var(--accent); }
+.gloss-related button:hover,
+.gloss-related a.gloss-day-link:hover { border-color: var(--accent); }
 .gloss-confusions { margin: 4px 0 0; padding-left: 18px; }
 .gloss-empty { text-align: center; padding: 40px 20px; color: var(--muted); }
 details.gloss-more > summary { cursor: pointer; color: var(--accent); font-size: 13px; margin-top: 8px; list-style: none; }

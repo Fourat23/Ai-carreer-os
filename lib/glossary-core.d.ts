@@ -28,6 +28,8 @@ export interface GlossaryEntry {
   ambiguityNote?: string | null;
   senses?: GlossarySense[];
   tags?: string[];
+  /** Journées du curriculum où ce terme est enseigné (liens glossaire → cours). */
+  days?: number[];
 }
 
 export interface GlossaryCategory {

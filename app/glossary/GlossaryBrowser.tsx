@@ -241,6 +241,17 @@ function GlossaryCard({
           </div>
         </div>
       )}
+
+      {(entry.days?.length ?? 0) > 0 && (
+        <div className="gloss-field">
+          <span className="k">Journées associées</span>
+          <div className="gloss-related">
+            {entry.days!.map((n) => (
+              <a key={n} className="gloss-day-link" href={`/day/${n}`}>Jour {n}</a>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 

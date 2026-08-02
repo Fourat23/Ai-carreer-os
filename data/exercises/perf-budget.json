@@ -1,0 +1,31 @@
+{
+  "id": "perf-budget",
+  "title": "Budget de performance et détection de régression",
+  "runtime": "node-js",
+  "language": "javascript",
+  "activeFile": "solution.mjs",
+  "difficulty": 2,
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "skills": ["functions", "conditions"],
+  "summary": "Écris regressionVerdict(baselineMs, currentMs, budgetPct) qui compare une mesure courante à une BASELINE tolérée d'un budget. Renvoie 'regression' au-delà du budget, 'improved' sous la baseline, 'ok' entre les deux. Une optimisation ne se défend que par une baseline et un budget explicites.",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// baselineMs = mesure de référence ; currentMs = nouvelle mesure ;\n// budgetPct  = tolérance en % au-dessus de la baseline (ex. 10 = +10 %).\n// Seuil autorisé = baselineMs * (1 + budgetPct/100).\n//   currentMs > seuil autorisé  -> 'regression'\n//   currentMs < baselineMs      -> 'improved'\n//   sinon (dans le budget)      -> 'ok'\nexport function regressionVerdict(baselineMs, currentMs, budgetPct) {\n  // TODO : calcule le seuil autorisé, puis décide.\n  return 'ok';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function regressionVerdict(baselineMs, currentMs, budgetPct) {\n  const allowed = baselineMs * (1 + budgetPct / 100);\n  if (currentMs > allowed) return 'regression';\n  if (currentMs < baselineMs) return 'improved';\n  return 'ok';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "sous la baseline → improved", "kind": "call-equals", "export": "regressionVerdict", "args": [100, 90, 10], "expected": "improved" },
+    { "id": "t2", "name": "au-delà du budget → regression", "kind": "call-equals", "export": "regressionVerdict", "args": [100, 120, 10], "expected": "regression" },
+    { "id": "t3", "name": "dans le budget → ok", "kind": "call-equals", "export": "regressionVerdict", "args": [100, 105, 10], "expected": "ok" },
+    { "id": "t4", "name": "juste sur le seuil → ok (privé)", "kind": "call-equals", "export": "regressionVerdict", "args": [100, 110, 10], "expected": "ok", "private": true },
+    { "id": "t5", "name": "budget nul, égal → ok (privé)", "kind": "call-equals", "export": "regressionVerdict", "args": [200, 200, 0], "expected": "ok", "private": true },
+    { "id": "t6", "name": "budget nul, plus rapide → improved (privé)", "kind": "call-equals", "export": "regressionVerdict", "args": [50, 49, 0], "expected": "improved", "private": true }
+  ]
+}

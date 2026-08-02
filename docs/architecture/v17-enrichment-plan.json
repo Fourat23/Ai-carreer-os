@@ -65,7 +65,8 @@
     }
   ],
   "allowedSourceModules": [
-    "scripts/data/days-enrich-61-90.mjs"
+    "scripts/data/days-enrich-61-90.mjs",
+    "scripts/data/days-enrich-91-120.mjs"
   ],
   "allowedKeptMarkdown": [],
   "days": [
@@ -103,6 +104,43 @@
       ],
       "objective": "Enrichir le durcissement (jour 85) avec les quatre types de maintenance (ISO 14764), dépréciation/compatibilité ascendante/breaking change/migration, strangler pattern, hotfix/rollback/post-déploiement et politique de fin de vie.",
       "docDeliverables": []
+    },
+    {
+      "day": 80,
+      "topics": [
+        "perf-measure",
+        "perf-metrics",
+        "perf-pitfalls",
+        "perf-regression"
+      ],
+      "tracks": [
+        "ai-engineer-foundations-v1",
+        "fullstack-typescript",
+        "backend-engineer-v1"
+      ],
+      "objective": "Enrichir le jour 80 (cache & performance) avec le protocole de mesure : baseline, hypothèse, profiling, hot path, latence/débit, percentiles p50/p95/p99, taxonomie CPU/IO/memory-bound, allocations, memory leak, cold start, budget et régression de performance.",
+      "exercises": [
+        "latency-percentiles",
+        "perf-budget"
+      ],
+      "docDeliverables": []
+    },
+    {
+      "day": 102,
+      "topics": [
+        "perf-measure",
+        "perf-pitfalls",
+        "perf-regression"
+      ],
+      "tracks": [
+        "ai-engineer-foundations-v1",
+        "fullstack-typescript"
+      ],
+      "objective": "Enrichir le jour 102 (performance React) avec le poids du bundle, le code splitting/lazy loading, la mesure (bundle analyzer, Lighthouse) et le budget/régression de performance côté frontend.",
+      "exercises": [
+        "perf-budget"
+      ],
+      "docDeliverables": []
     }
   ],
   "exercisesAdded": [
@@ -121,6 +159,22 @@
         "purity"
       ],
       "day": 69
+    },
+    {
+      "id": "latency-percentiles",
+      "skills": [
+        "arrays",
+        "functions"
+      ],
+      "day": 80
+    },
+    {
+      "id": "perf-budget",
+      "skills": [
+        "functions",
+        "conditions"
+      ],
+      "day": 80
     }
   ],
   "glossaryTermsAdded": []

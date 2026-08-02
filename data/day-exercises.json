@@ -84,6 +84,10 @@
     "debt-audit",
     "refactor-legacy"
   ],
+  "80": [
+    "latency-percentiles",
+    "perf-budget"
+  ],
   "87": [
     "web-semantic",
     "web-card",
@@ -125,6 +129,9 @@
   "100": [
     "react-lift-state",
     "react-parent-child"
+  ],
+  "102": [
+    "perf-budget"
   ],
   "103": [
     "react-avatar",

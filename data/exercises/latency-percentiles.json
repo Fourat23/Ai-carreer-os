@@ -1,0 +1,30 @@
+{
+  "id": "latency-percentiles",
+  "title": "Latence : p50, p95, p99 depuis des échantillons",
+  "runtime": "node-js",
+  "language": "javascript",
+  "activeFile": "solution.mjs",
+  "difficulty": 2,
+  "trackRefs": ["ai-engineer-foundations-v1", "fullstack-typescript", "backend-engineer-v1"],
+  "skills": ["arrays", "functions"],
+  "summary": "Écris percentiles(samples) qui renvoie { p50, p95, p99 } par la méthode du rang le plus proche (nearest-rank) sur une COPIE triée. La moyenne cache les pics : ce sont les percentiles (surtout p99, la tail latency) qui décrivent l'expérience réelle.",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// samples = latences en ms (non triées). Renvoie { p50, p95, p99 }.\n// Méthode du rang le plus proche : sur la COPIE triée croissante de n valeurs,\n// le p-ième percentile est l'élément d'index ceil(p/100 * n) - 1 (borné à n-1).\n// Piège classique : renvoyer la MOYENNE — elle cache les pics de la queue.\nexport function percentiles(samples) {\n  // TODO : trie une copie, puis lis p50/p95/p99 par rang le plus proche.\n  const mean = samples.reduce((s, x) => s + x, 0) / samples.length;\n  return { p50: mean, p95: mean, p99: mean };\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function percentiles(samples) {\n  if (!samples.length) throw new Error('aucun échantillon');\n  const sorted = [...samples].sort((a, b) => a - b);\n  const at = (p) => sorted[Math.min(sorted.length - 1, Math.ceil((p / 100) * sorted.length) - 1)];\n  return { p50: at(50), p95: at(95), p99: at(99) };\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "cas simple 1..5", "kind": "call-equals", "export": "percentiles", "args": [[10, 20, 30, 40, 50]], "expected": { "p50": 30, "p95": 50, "p99": 50 } },
+    { "id": "t2", "name": "un seul échantillon", "kind": "call-equals", "export": "percentiles", "args": [[5]], "expected": { "p50": 5, "p95": 5, "p99": 5 } },
+    { "id": "t3", "name": "entrée non triée → trie une copie", "kind": "call-equals", "export": "percentiles", "args": [[50, 10, 30, 20, 40]], "expected": { "p50": 30, "p95": 50, "p99": 50 } },
+    { "id": "t4", "name": "dix valeurs (privé)", "kind": "call-equals", "export": "percentiles", "args": [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]], "expected": { "p50": 5, "p95": 10, "p99": 10 }, "private": true },
+    { "id": "t5", "name": "p99 capte la tail latency (privé)", "kind": "call-equals", "export": "percentiles", "args": [[10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1000, 1000, 1000, 1000]], "expected": { "p50": 10, "p95": 10, "p99": 1000 }, "private": true }
+  ]
+}

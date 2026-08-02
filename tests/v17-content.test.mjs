@@ -49,3 +49,35 @@ test('CP3 — refactor-legacy verrouille par des tests de CARACTÉRISATION', () 
   const publicTests = ex.tests.filter((t) => !t.private);
   assert.ok(publicTests.some((t) => /caractérisation/i.test(t.name)), 'au moins un test public nommé « caractérisation »');
 });
+
+// ── CP4 : performance, profiling & optimisation ──────────────────────────────
+
+test('CP4 — jour 80 enseigne le protocole de mesure et les percentiles', () => {
+  const md = day(80);
+  for (const needle of ['BASELINE', 'HYPOTHÈSE', 'PROFILER', 'hot path', 'tail latency', 'p50', 'p95', 'p99', 'CPU-bound', 'I/O-bound', 'memory-bound', 'memory leak', 'cold start', 'BUDGET DE PERFORMANCE', 'RÉGRESSION DE PERFORMANCE', 'premature optimization']) {
+    assert.ok(md.includes(needle), `jour 80 doit mentionner « ${needle} »`);
+  }
+});
+
+test('CP4 — jour 102 enseigne le poids du bundle et le budget frontend', () => {
+  const md = day(102);
+  for (const needle of ['bundle size', 'code splitting', 'lazy loading', 'React.lazy', 'bundle analyzer', 'BUDGET DE PERFORMANCE', 'RÉGRESSION']) {
+    assert.ok(md.includes(needle), `jour 102 doit mentionner « ${needle} »`);
+  }
+});
+
+test('CP4 — exercices perf à métriques explicites : contrat valide, public+privé', () => {
+  for (const id of ['latency-percentiles', 'perf-budget']) {
+    const ex = exercise(id);
+    assert.deepEqual(validateExercise(ex), { ok: true, errors: [] }, `${id} doit être valide`);
+    assert.ok(ex.tests.some((t) => !t.private) && ex.tests.some((t) => t.private), `${id} : public + privé`);
+    const starter = ex.workspace.files.find((f) => f.path === ex.activeFile).content;
+    assert.notEqual(starter, ex.reference[ex.activeFile], `${id} : starter ≠ solution`);
+  }
+});
+
+test('CP4 — exercices perf reliés à des journées de performance', () => {
+  const de = dayExercises();
+  assert.ok(de['80'].includes('latency-percentiles') && de['80'].includes('perf-budget'), 'jour 80 → percentiles + budget');
+  assert.ok(de['102'].includes('perf-budget'), 'jour 102 → budget');
+});

@@ -1,0 +1,95 @@
+{
+  "id": "refactor-legacy",
+  "title": "Refactorer un slugify legacy sans régression",
+  "runtime": "node-js",
+  "language": "javascript",
+  "activeFile": "solution.mjs",
+  "difficulty": 2,
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "fullstack-typescript",
+    "backend-engineer-v1"
+  ],
+  "skills": [
+    "functions",
+    "purity"
+  ],
+  "summary": "Un slugify legacy passe le cas simple mais échoue les cas limites. Les tests de CARACTÉRISATION verrouillent le comportement attendu : refactore la fonction pour tous les faire passer, sans casser les cas déjà verts. Comportement à obtenir : minuscules, tout groupe de caractères non alphanumériques → un seul tiret, sans tiret en début/fin.",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// LEGACY : gère seulement « mots séparés par un espace ». Il échoue dès qu'il y a\n// de la ponctuation, des espaces multiples ou des bords à nettoyer.\n// Les tests de caractérisation ci-dessous capturent le comportement ATTENDU.\n// Refactore cette fonction pour TOUS les faire passer, sans casser les cas verts.\n//   Cible : \"Hello, World!\" -> \"hello-world\" ; \"  Trim  Me  \" -> \"trim-me\".\nexport function slugify(title) {\n  return String(title).toLowerCase().split(' ').join('-');\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function slugify(title) {\n  return String(title)\n    .toLowerCase()\n    .replace(/[^a-z0-9]+/g, '-')\n    .replace(/^-+|-+$/g, '');\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "caractérisation : cas simple (déjà vert)",
+      "kind": "call-equals",
+      "export": "slugify",
+      "args": [
+        "Hello World"
+      ],
+      "expected": "hello-world"
+    },
+    {
+      "id": "t2",
+      "name": "caractérisation : ponctuation → un seul tiret",
+      "kind": "call-equals",
+      "export": "slugify",
+      "args": [
+        "Hello, World!"
+      ],
+      "expected": "hello-world"
+    },
+    {
+      "id": "t3",
+      "name": "caractérisation : espaces multiples + bords",
+      "kind": "call-equals",
+      "export": "slugify",
+      "args": [
+        "  Trim  Me  "
+      ],
+      "expected": "trim-me"
+    },
+    {
+      "id": "t4",
+      "name": "symboles collés (privé)",
+      "kind": "call-equals",
+      "export": "slugify",
+      "args": [
+        "C++ & Rust"
+      ],
+      "expected": "c-rust",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "déjà un slug → inchangé (privé)",
+      "kind": "call-equals",
+      "export": "slugify",
+      "args": [
+        "already-slug"
+      ],
+      "expected": "already-slug",
+      "private": true
+    },
+    {
+      "id": "t6",
+      "name": "chaîne vide (privé)",
+      "kind": "call-equals",
+      "export": "slugify",
+      "args": [
+        ""
+      ],
+      "expected": "",
+      "private": true
+    }
+  ]
+}

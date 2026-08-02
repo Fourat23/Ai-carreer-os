@@ -1,0 +1,171 @@
+{
+  "id": "debt-audit",
+  "title": "Dette technique : prioriser le registre",
+  "runtime": "node-js",
+  "language": "javascript",
+  "activeFile": "solution.mjs",
+  "difficulty": 2,
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "fullstack-typescript",
+    "backend-engineer-v1"
+  ],
+  "skills": [
+    "functions",
+    "arrays"
+  ],
+  "summary": "Écris prioritizeDebt(entries) qui ordonne un registre de dette par retour sur remboursement : intérêt/effort décroissant, puis intérêt décroissant, puis id croissant. On rembourse d'abord la dette à fort intérêt et faible effort, jamais la plus « laide ».",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Un registre de dette : chaque entrée = { id, interest, effort } (1..5).\n//   interest = surcoût payé à CHAQUE modification tant que la dette est là ;\n//   effort   = coût de remboursement.\n// Rembourse d'abord le meilleur RATIO interest/effort (fort intérêt, faible\n// effort). Retourne les ids ordonnés du plus prioritaire au moins prioritaire.\n// Départage : ratio égal -> intérêt le plus fort d'abord ; encore égal -> id croissant.\nexport function prioritizeDebt(entries) {\n  // TODO : trie une COPIE puis renvoie la liste des ids.\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function prioritizeDebt(entries) {\n  return [...entries]\n    .sort(\n      (a, b) =>\n        b.interest / b.effort - a.interest / a.effort ||\n        b.interest - a.interest ||\n        (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),\n    )\n    .map((e) => e.id);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "fort intérêt / faible effort passe devant",
+      "kind": "call-equals",
+      "export": "prioritizeDebt",
+      "args": [
+        [
+          {
+            "id": "a",
+            "interest": 5,
+            "effort": 1
+          },
+          {
+            "id": "b",
+            "interest": 1,
+            "effort": 5
+          }
+        ]
+      ],
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "meilleur ratio l'emporte",
+      "kind": "call-equals",
+      "export": "prioritizeDebt",
+      "args": [
+        [
+          {
+            "id": "x",
+            "interest": 2,
+            "effort": 2
+          },
+          {
+            "id": "y",
+            "interest": 4,
+            "effort": 1
+          }
+        ]
+      ],
+      "expected": [
+        "y",
+        "x"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "ratio égal → intérêt le plus fort d'abord",
+      "kind": "call-equals",
+      "export": "prioritizeDebt",
+      "args": [
+        [
+          {
+            "id": "p",
+            "interest": 2,
+            "effort": 2
+          },
+          {
+            "id": "q",
+            "interest": 4,
+            "effort": 4
+          }
+        ]
+      ],
+      "expected": [
+        "q",
+        "p"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "égalité totale → id croissant (privé)",
+      "kind": "call-equals",
+      "export": "prioritizeDebt",
+      "args": [
+        [
+          {
+            "id": "m",
+            "interest": 3,
+            "effort": 3
+          },
+          {
+            "id": "d",
+            "interest": 3,
+            "effort": 3
+          }
+        ]
+      ],
+      "expected": [
+        "d",
+        "m"
+      ],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "registre vide (privé)",
+      "kind": "call-equals",
+      "export": "prioritizeDebt",
+      "args": [
+        []
+      ],
+      "expected": [],
+      "private": true
+    },
+    {
+      "id": "t6",
+      "name": "mélange réaliste (privé)",
+      "kind": "call-equals",
+      "export": "prioritizeDebt",
+      "args": [
+        [
+          {
+            "id": "legacy-auth",
+            "interest": 5,
+            "effort": 5
+          },
+          {
+            "id": "dup-utils",
+            "interest": 4,
+            "effort": 1
+          },
+          {
+            "id": "old-todo",
+            "interest": 1,
+            "effort": 3
+          }
+        ]
+      ],
+      "expected": [
+        "dup-utils",
+        "legacy-auth",
+        "old-todo"
+      ],
+      "private": true
+    }
+  ]
+}

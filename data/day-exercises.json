@@ -1,45 +1,160 @@
 {
-  "1": ["greeting"],
-  "5": ["js-conditions"],
-  "6": ["js-loops"],
-  "8": ["fizzbuzz"],
-  "9": ["js-initials"],
-  "10": ["array-sum-even"],
-  "11": ["js-array-objects"],
-  "12": ["word-frequencies"],
-  "15": ["validate-user"],
-  "16": ["algo-binary-search"],
-  "22": ["js-pipeline"],
-  "23": ["js-even-squares"],
-  "24": ["async-user-lookup"],
-  "26": ["async-sum"],
-  "30": ["debug-cart"],
-  "31": ["algo-two-sum"],
-  "33": ["ds-stack"],
-  "36": ["ts-greeter", "ts-typed-average", "ts-fizzbuzz"],
-  "37": ["ts-generic-first", "ts-union-area", "ts-word-frequency"],
-  "38": ["ts-interface-cart"],
-  "41": ["ts-debug-discount", "ts-debug-positives", "ts-debug-filter-strings"],
-  "43": ["ts-pluck"],
-  "44": ["ts-inventory"],
-  "50": ["http-status"],
-  "52": ["api-router"],
-  "87": ["web-semantic", "web-card", "web-nav", "web-inline-style"],
-  "88": ["ts-async-double", "ts-async-fetch-user", "web-log-init", "web-counter", "web-status-text"],
-  "89": ["web-debug-toggle", "web-debug-selector"],
-  "92": ["react-hello", "react-greeting", "react-debug-greeting"],
-  "93": ["react-counter", "react-toggle", "react-form-name"],
-  "94": ["react-conditional", "react-badge-list", "react-list", "react-debug-list"],
-  "96": ["web-greeting-form", "web-list-filter", "react-search"],
-  "100": ["react-lift-state", "react-parent-child"],
-  "103": ["react-avatar", "react-profile"],
-  "121": ["py-temperature"],
-  "122": ["py-exceptions"],
-  "123": ["py-list-sum"],
-  "125": ["py-word-count"],
-  "127": ["py-slugify"],
-  "129": ["py-safe-divide"],
-  "150": ["py-debug-average"],
-  "152": ["py-debug-grades"],
-  "155": ["py-report"]
+  "1": [
+    "greeting"
+  ],
+  "5": [
+    "js-conditions"
+  ],
+  "6": [
+    "js-loops"
+  ],
+  "8": [
+    "fizzbuzz"
+  ],
+  "9": [
+    "js-initials"
+  ],
+  "10": [
+    "array-sum-even"
+  ],
+  "11": [
+    "js-array-objects"
+  ],
+  "12": [
+    "word-frequencies"
+  ],
+  "15": [
+    "validate-user"
+  ],
+  "16": [
+    "algo-binary-search"
+  ],
+  "22": [
+    "js-pipeline"
+  ],
+  "23": [
+    "js-even-squares"
+  ],
+  "24": [
+    "async-user-lookup"
+  ],
+  "26": [
+    "async-sum"
+  ],
+  "30": [
+    "debug-cart"
+  ],
+  "31": [
+    "algo-two-sum"
+  ],
+  "33": [
+    "ds-stack"
+  ],
+  "36": [
+    "ts-greeter",
+    "ts-typed-average",
+    "ts-fizzbuzz"
+  ],
+  "37": [
+    "ts-generic-first",
+    "ts-union-area",
+    "ts-word-frequency"
+  ],
+  "38": [
+    "ts-interface-cart"
+  ],
+  "41": [
+    "ts-debug-discount",
+    "ts-debug-positives",
+    "ts-debug-filter-strings"
+  ],
+  "43": [
+    "ts-pluck"
+  ],
+  "44": [
+    "ts-inventory"
+  ],
+  "50": [
+    "http-status"
+  ],
+  "52": [
+    "api-router"
+  ],
+  "69": [
+    "debt-audit",
+    "refactor-legacy"
+  ],
+  "87": [
+    "web-semantic",
+    "web-card",
+    "web-nav",
+    "web-inline-style"
+  ],
+  "88": [
+    "ts-async-double",
+    "ts-async-fetch-user",
+    "web-log-init",
+    "web-counter",
+    "web-status-text"
+  ],
+  "89": [
+    "web-debug-toggle",
+    "web-debug-selector"
+  ],
+  "92": [
+    "react-hello",
+    "react-greeting",
+    "react-debug-greeting"
+  ],
+  "93": [
+    "react-counter",
+    "react-toggle",
+    "react-form-name"
+  ],
+  "94": [
+    "react-conditional",
+    "react-badge-list",
+    "react-list",
+    "react-debug-list"
+  ],
+  "96": [
+    "web-greeting-form",
+    "web-list-filter",
+    "react-search"
+  ],
+  "100": [
+    "react-lift-state",
+    "react-parent-child"
+  ],
+  "103": [
+    "react-avatar",
+    "react-profile"
+  ],
+  "121": [
+    "py-temperature"
+  ],
+  "122": [
+    "py-exceptions"
+  ],
+  "123": [
+    "py-list-sum"
+  ],
+  "125": [
+    "py-word-count"
+  ],
+  "127": [
+    "py-slugify"
+  ],
+  "129": [
+    "py-safe-divide"
+  ],
+  "150": [
+    "py-debug-average"
+  ],
+  "152": [
+    "py-debug-grades"
+  ],
+  "155": [
+    "py-report"
+  ]
 }

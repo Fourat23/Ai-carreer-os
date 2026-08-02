@@ -25,7 +25,7 @@ import {
   FULLSTACK_TRACK_ID,
   BACKEND_TRACK_ID,
 } from '../lib/catalogue.mjs';
-import { SKILLS } from './data/skills.mjs';
+import { isKnownSkill } from '../lib/skill-taxonomy.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const R = (p) => join(ROOT, p);
@@ -38,7 +38,9 @@ const program = JSON.parse(readFileSync(R('data/program.json'), 'utf8'));
 const days = program.days ?? [];
 const validDays = new Set(days.map((d) => d.day));
 const trackIds = new Set([DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID]);
-const skillIds = new Set((Array.isArray(SKILLS) ? SKILLS : Object.values(SKILLS)).map((s) => s.id));
+// Les compétences d'exercice relèvent de la taxonomie FINE (lib/skill-taxonomy),
+// pas des 20 macro-compétences du programme : on valide via isKnownSkill.
+const skillIds = { has: (s) => isKnownSkill(s) };
 
 const dayExercises = JSON.parse(readFileSync(R('data/day-exercises.json'), 'utf8'));
 const exerciseIds = new Set(Object.values(dayExercises).flat());

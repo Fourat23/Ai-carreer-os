@@ -12418,5 +12418,1133 @@
       "base",
       "migration"
     ]
+  },
+  {
+    "id": "k8s-kubernetes",
+    "term": "Kubernetes",
+    "fullForm": "Kubernetes",
+    "frenchMeaning": "orchestrateur de conteneurs",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Système open source qui automatise le déploiement, la mise à l'échelle et la résilience de conteneurs sur un cluster.",
+    "detailedDefinition": "Kubernetes (K8s) fait tourner des conteneurs sur plusieurs machines : on lui déclare un état DÉSIRÉ (combien d'instances, quelle image, comment exposer) et il exécute une boucle de réconciliation pour l'atteindre et le maintenir — redémarrant, replaçant et remplaçant les pods automatiquement. Il ne remplace ni une bonne application ni une bonne architecture, et ajoute une réelle complexité d'exploitation.",
+    "usageContext": "Dès qu'on orchestre des conteneurs en production.",
+    "meetingExample": "« On passe le service sur Kubernetes pour la résilience et le scaling automatique. »",
+    "plainTranslation": "« L'outil qui fait tourner et surveille tes conteneurs tout seul, sur plusieurs machines. »",
+    "relatedTerms": [
+      "k8s-orchestration",
+      "k8s-pod",
+      "k8s-deployment",
+      "k8s-reconciliation"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "orchestration"
+    ]
+  },
+  {
+    "id": "k8s-orchestration",
+    "term": "orchestration",
+    "fullForm": null,
+    "frenchMeaning": "coordination automatisée de conteneurs",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Automatiser le placement, la santé et la mise à l'échelle de nombreux conteneurs sur plusieurs machines.",
+    "detailedDefinition": "L'orchestration gère ce qu'un conteneur seul ne fait pas : plusieurs instances, sur plusieurs nœuds, qui redémarrent, se remplacent sans coupure et se retrouvent via des Services. Kubernetes en est l'implémentation la plus répandue. À distinguer de la simple conteneurisation (Docker), qui produit et lance une image.",
+    "usageContext": "Quand un service dépasse une seule instance/machine.",
+    "meetingExample": "« Sans orchestration, on relance les conteneurs à la main à chaque panne. »",
+    "plainTranslation": "« Faire tourner et coordonner plein de conteneurs automatiquement. »",
+    "relatedTerms": [
+      "k8s-kubernetes",
+      "devops-container"
+    ],
+    "aliases": [
+      "orchestration de conteneurs"
+    ],
+    "possibleConfusions": [
+      "Orchestration (coordonner des conteneurs) ≠ conteneurisation (fabriquer/lancer une image)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-cluster",
+    "term": "cluster (Kubernetes)",
+    "fullForm": null,
+    "frenchMeaning": "ensemble de machines orchestrées",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Ensemble de machines (control plane + worker nodes) qui exécutent des conteneurs de façon coordonnée.",
+    "detailedDefinition": "Un cluster Kubernetes réunit un control plane (le cerveau : décisions, état désiré) et des worker nodes (les bras : exécutent les pods). On parle à l'API server, pas aux machines. La panne d'un nœud est absorbée par replanification sur les autres.",
+    "usageContext": "À la conception d'un déploiement orchestré.",
+    "meetingExample": "« Le cluster a trois nœuds : si l'un tombe, les pods repartent ailleurs. »",
+    "plainTranslation": "« Le groupe de machines qui font tourner tes conteneurs ensemble. »",
+    "relatedTerms": [
+      "k8s-control-plane",
+      "k8s-node",
+      "k8s-kubernetes"
+    ],
+    "aliases": [
+      "cluster k8s"
+    ],
+    "possibleConfusions": [
+      "Un cluster Kubernetes (machines orchestrées) n'est pas un cluster de données (regroupement statistique, k-means)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-control-plane",
+    "term": "control plane",
+    "fullForm": "control plane",
+    "frenchMeaning": "cerveau du cluster",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Composants qui pilotent le cluster : API server, scheduler, controller manager, etcd.",
+    "detailedDefinition": "Le control plane prend les décisions : l'API server est la porte d'entrée (tout passe par lui), le scheduler place les pods sur les nœuds, le controller manager exécute les boucles de réconciliation, etcd stocke l'état désiré. Les worker nodes exécutent ; le control plane décide.",
+    "usageContext": "Quand on explique l'architecture d'un cluster.",
+    "meetingExample": "« L'API server du control plane est saturé : les déploiements traînent. »",
+    "plainTranslation": "« La partie qui décide où et comment tournent les conteneurs. »",
+    "relatedTerms": [
+      "k8s-api-server",
+      "k8s-scheduler",
+      "k8s-etcd",
+      "k8s-node"
+    ],
+    "aliases": [
+      "plan de contrôle"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-node",
+    "term": "worker node",
+    "fullForm": null,
+    "frenchMeaning": "machine qui exécute les pods",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Machine du cluster qui héberge et exécute les pods, sous le pilotage du control plane.",
+    "detailedDefinition": "Un worker node fait tourner les conteneurs : le kubelet y applique les décisions du control plane, le kube-proxy y gère le routage réseau. On dimensionne le cluster en ajoutant des nœuds. Un pod vit sur un nœud ; si le nœud tombe, le pod est replanifié ailleurs.",
+    "usageContext": "Au dimensionnement et au diagnostic de placement.",
+    "meetingExample": "« Ce nœud est plein : le scheduler ne peut plus y placer de pod (Pending). »",
+    "plainTranslation": "« Une machine du cluster qui exécute réellement les conteneurs. »",
+    "relatedTerms": [
+      "k8s-control-plane",
+      "k8s-kubelet",
+      "k8s-pod",
+      "k8s-pending"
+    ],
+    "aliases": [
+      "node",
+      "nœud",
+      "worker"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-api-server",
+    "term": "API server",
+    "fullForm": "API server",
+    "frenchMeaning": "porte d'entrée du cluster",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Composant du control plane par lequel passent toutes les interactions avec le cluster.",
+    "detailedDefinition": "L'API server expose l'API Kubernetes : kubectl, les contrôleurs et les composants s'y adressent. Il valide et persiste l'état désiré (dans etcd), puis les contrôleurs le réalisent. C'est le point d'entrée unique et le goulet potentiel.",
+    "usageContext": "Quand on parle d'accès ou de performance du control plane.",
+    "meetingExample": "« Toute action passe par l'API server ; s'il est down, plus aucun changement. »",
+    "plainTranslation": "« La porte par laquelle on parle au cluster. »",
+    "relatedTerms": [
+      "k8s-control-plane",
+      "k8s-etcd"
+    ],
+    "aliases": [
+      "kube-apiserver",
+      "apiserver"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-scheduler",
+    "term": "scheduler",
+    "fullForm": null,
+    "frenchMeaning": "placeur de pods",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Composant du control plane qui décide sur quel nœud placer chaque pod.",
+    "detailedDefinition": "Le scheduler choisit le nœud d'un pod selon les ressources demandées (requests), les contraintes (affinity, taints/tolerations) et la place disponible. S'il ne trouve aucun nœud, le pod reste Pending.",
+    "usageContext": "Au diagnostic d'un pod Pending.",
+    "meetingExample": "« Le pod reste Pending : le scheduler ne trouve pas de nœud avec assez de mémoire. »",
+    "plainTranslation": "« Ce qui décide sur quelle machine va chaque conteneur. »",
+    "relatedTerms": [
+      "k8s-node",
+      "k8s-pending",
+      "k8s-requests-limits"
+    ],
+    "aliases": [
+      "kube-scheduler",
+      "ordonnanceur"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-etcd",
+    "term": "etcd",
+    "fullForm": null,
+    "frenchMeaning": "magasin d'état du cluster",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Base clé-valeur distribuée qui stocke l'état désiré et la configuration du cluster.",
+    "detailedDefinition": "etcd est la mémoire du cluster : tout l'état désiré y est persisté. Sa perte ou sa corruption est critique (d'où sauvegardes et redondance). Présenté ici conceptuellement : on n'y touche presque jamais directement.",
+    "usageContext": "Quand on parle de sauvegarde/robustesse du control plane.",
+    "meetingExample": "« On sauvegarde etcd : c'est tout l'état du cluster. »",
+    "plainTranslation": "« La base qui garde tout ce que le cluster doit maintenir. »",
+    "relatedTerms": [
+      "k8s-control-plane",
+      "k8s-api-server"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-kubelet",
+    "term": "kubelet",
+    "fullForm": null,
+    "frenchMeaning": "agent d'un nœud",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Agent qui, sur chaque nœud, applique les décisions du control plane et surveille les pods.",
+    "detailedDefinition": "Le kubelet démarre/arrête les conteneurs d'un nœud selon ce que le control plane attend, exécute les probes et remonte l'état. C'est le bras local de Kubernetes sur chaque machine.",
+    "usageContext": "Au diagnostic d'un nœud ou d'un pod bloqué.",
+    "meetingExample": "« Le kubelet ne répond plus : les pods du nœud passent NotReady. »",
+    "plainTranslation": "« L'agent sur chaque machine qui lance et surveille les conteneurs. »",
+    "relatedTerms": [
+      "k8s-node",
+      "k8s-pod"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-pod",
+    "term": "Pod",
+    "fullForm": null,
+    "frenchMeaning": "plus petite unité déployable",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Un ou plusieurs conteneurs qui partagent réseau et volumes ; la plus petite unité déployée par Kubernetes.",
+    "detailedDefinition": "Le Pod est l'unité de base : souvent un seul conteneur, parfois quelques-uns couplés (sidecars). On ne le crée presque jamais directement : un contrôleur (Deployment, StatefulSet…) le gère pour assurer replicas, remplacement et mise à jour. Un pod est éphémère : il peut être recréé à tout moment.",
+    "usageContext": "Partout où l'on parle d'exécution dans Kubernetes.",
+    "meetingExample": "« Le pod a redémarré : son adresse a changé, d'où l'intérêt d'un Service stable. »",
+    "plainTranslation": "« Une enveloppe qui fait tourner un (ou quelques) conteneurs ensemble. »",
+    "relatedTerms": [
+      "k8s-deployment",
+      "k8s-replicaset",
+      "k8s-service",
+      "k8s-node"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-replicaset",
+    "term": "ReplicaSet",
+    "fullForm": null,
+    "frenchMeaning": "maintient N copies d'un pod",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Contrôleur qui garantit qu'un nombre fixé de pods identiques tourne à tout moment.",
+    "detailedDefinition": "Un ReplicaSet recrée les pods manquants pour tenir le compte voulu. On l'utilise rarement seul : un Deployment le pilote pour offrir les mises à jour progressives et le rollback. Il sélectionne SES pods par labels.",
+    "usageContext": "Sous le capot d'un Deployment.",
+    "meetingExample": "« Le Deployment crée un nouveau ReplicaSet à chaque version. »",
+    "plainTranslation": "« Ce qui maintient toujours le bon nombre de copies d'un pod. »",
+    "relatedTerms": [
+      "k8s-deployment",
+      "k8s-pod",
+      "k8s-selector"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-deployment",
+    "term": "Deployment",
+    "fullForm": null,
+    "frenchMeaning": "gère un service sans état, ses versions et son scaling",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Objet qui déclare un service stateless : nombre de replicas, image, et gère les mises à jour progressives et le rollback.",
+    "detailedDefinition": "Le Deployment est l'objet le plus courant : il maintient N replicas (via un ReplicaSet), déploie une nouvelle version par rolling update sans coupure, et permet de revenir en arrière (rollback) vers une révision précédente. Il sélectionne ses pods par labels — d'où l'importance que le selector matche le gabarit.",
+    "usageContext": "Pour tout service sans état exposé.",
+    "meetingExample": "« On scale le Deployment à 5 replicas et on déploie la v2 en rolling update. »",
+    "plainTranslation": "« L'objet qui gère les copies d'un service, ses mises à jour et le retour arrière. »",
+    "relatedTerms": [
+      "k8s-replicaset",
+      "k8s-pod",
+      "k8s-rollout",
+      "k8s-service",
+      "scale-stateless"
+    ],
+    "aliases": [
+      "déploiement k8s"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-statefulset",
+    "term": "StatefulSet",
+    "fullForm": null,
+    "frenchMeaning": "gère un service avec état et identité stable",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Contrôleur pour applications à état : identité réseau et stockage persistant stables par instance.",
+    "detailedDefinition": "Un StatefulSet donne à chaque pod une identité et un volume persistants (bases, files, clusters). À la différence d'un Deployment, l'ordre et l'identité comptent, et chaque instance réclame un PersistentVolumeClaim. Sans persistance déclarée, il perd sa raison d'être.",
+    "usageContext": "Pour bases de données et systèmes à état dans le cluster.",
+    "meetingExample": "« La base tourne en StatefulSet : chaque réplica a son volume et son identité. »",
+    "plainTranslation": "« Comme un Deployment, mais pour des services qui gardent des données. »",
+    "relatedTerms": [
+      "k8s-deployment",
+      "k8s-pvc",
+      "scale-stateful"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-daemonset",
+    "term": "DaemonSet",
+    "fullForm": null,
+    "frenchMeaning": "un pod par nœud",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Contrôleur qui garantit une copie d'un pod sur chaque nœud (ou un sous-ensemble).",
+    "detailedDefinition": "Un DaemonSet est fait pour les agents transverses : collecteur de logs, agent de métriques, réseau. Il place automatiquement un pod sur chaque nœud, y compris les nouveaux ajoutés. À distinguer d'un Deployment (nombre fixe, placement libre).",
+    "usageContext": "Pour les agents d'infrastructure.",
+    "meetingExample": "« L'agent de logs tourne en DaemonSet : un par nœud, automatiquement. »",
+    "plainTranslation": "« Un pod par machine du cluster. »",
+    "relatedTerms": [
+      "k8s-deployment",
+      "k8s-node"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-job",
+    "term": "Job",
+    "fullForm": null,
+    "frenchMeaning": "tâche ponctuelle jusqu'à complétion",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Objet qui exécute un ou plusieurs pods jusqu'à leur achèvement réussi, puis s'arrête.",
+    "detailedDefinition": "Un Job lance un traitement fini (migration, batch) et suit sa réussite ; il relance en cas d'échec selon la politique. À la différence d'un Deployment (qui tourne indéfiniment), un Job se termine. Sans limites de ressources, il peut saturer un nœud.",
+    "usageContext": "Pour des traitements batch ponctuels.",
+    "meetingExample": "« La migration tourne en Job : elle se termine une fois finie. »",
+    "plainTranslation": "« Une tâche qui s'exécute jusqu'au bout puis s'arrête. »",
+    "relatedTerms": [
+      "k8s-cronjob",
+      "k8s-pod"
+    ],
+    "aliases": [
+      "job k8s"
+    ],
+    "possibleConfusions": [
+      "Un Job Kubernetes (tâche jusqu'à complétion) n'est pas un job CI (tâche de pipeline) ni un cron classique."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-cronjob",
+    "term": "CronJob",
+    "fullForm": null,
+    "frenchMeaning": "Job planifié récurrent",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Objet qui crée un Job selon une planification (cron).",
+    "detailedDefinition": "Un CronJob lance un Job à intervalles réguliers (sauvegardes, nettoyages). La concurrencyPolicy évite les chevauchements si une exécution déborde. C'est le « cron » du cluster.",
+    "usageContext": "Pour des tâches récurrentes.",
+    "meetingExample": "« La sauvegarde nocturne est un CronJob à 2h du matin. »",
+    "plainTranslation": "« Une tâche répétée automatiquement à heure fixe. »",
+    "relatedTerms": [
+      "k8s-job"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-namespace",
+    "term": "Namespace (Kubernetes)",
+    "fullForm": null,
+    "frenchMeaning": "cloisonnement logique de ressources",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Partition logique du cluster qui regroupe et isole des ressources (équipes, environnements).",
+    "detailedDefinition": "Un Namespace organise les objets (noms uniques par namespace, quotas, politiques). C'est une frontière d'ORGANISATION et de gouvernance — PAS une isolation de sécurité au niveau OS. On sépare souvent dev/staging/prod ou équipes par namespaces.",
+    "usageContext": "À l'organisation d'un cluster partagé.",
+    "meetingExample": "« Chaque équipe a son namespace avec ses quotas. »",
+    "plainTranslation": "« Un espace nommé pour ranger et cloisonner des ressources du cluster. »",
+    "relatedTerms": [
+      "k8s-rbac",
+      "k8s-serviceaccount"
+    ],
+    "aliases": [
+      "namespace k8s"
+    ],
+    "possibleConfusions": [
+      "Un Namespace Kubernetes (cloisonnement logique) n'est pas un namespace Linux (isolation noyau) ni une isolation OS complète."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-service",
+    "term": "Service (Kubernetes)",
+    "fullForm": null,
+    "frenchMeaning": "adresse stable vers un groupe de pods",
+    "category": "network",
+    "level": "débutant",
+    "shortDefinition": "Objet qui donne une adresse et un nom stables à un ensemble de pods et répartit le trafic entre eux.",
+    "detailedDefinition": "Les pods sont éphémères et changent d'adresse ; un Service offre un point d'accès stable qui trouve ses pods par SELECTOR (labels) et load-balance entre eux. S'il ne matche aucun pod, il n'a « aucun endpoint » et ne route vers rien. Trois types : ClusterIP (interne), NodePort, LoadBalancer.",
+    "usageContext": "Pour exposer un ensemble de pods.",
+    "meetingExample": "« Le Service api route vers les trois pods du Deployment. »",
+    "plainTranslation": "« Une adresse fixe qui pointe vers un groupe de conteneurs. »",
+    "relatedTerms": [
+      "k8s-selector",
+      "k8s-pod",
+      "k8s-ingress",
+      "k8s-clusterip"
+    ],
+    "aliases": [
+      "service k8s"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "reseau"
+    ]
+  },
+  {
+    "id": "k8s-clusterip",
+    "term": "ClusterIP",
+    "fullForm": null,
+    "frenchMeaning": "Service interne au cluster",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Type de Service par défaut : adresse accessible uniquement à l'intérieur du cluster.",
+    "detailedDefinition": "Un ClusterIP expose des pods aux AUTRES pods du cluster, jamais à l'extérieur. C'est le type par défaut, utilisé pour la communication interne entre services. Pour exposer dehors, on ajoute un NodePort, un LoadBalancer ou un Ingress.",
+    "usageContext": "Pour la communication interne entre services.",
+    "meetingExample": "« La base est en ClusterIP : seuls les pods du cluster y accèdent. »",
+    "plainTranslation": "« Une adresse interne, invisible depuis l'extérieur. »",
+    "relatedTerms": [
+      "k8s-service",
+      "k8s-nodeport",
+      "k8s-loadbalancer"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "reseau"
+    ]
+  },
+  {
+    "id": "k8s-nodeport",
+    "term": "NodePort",
+    "fullForm": null,
+    "frenchMeaning": "Service exposé sur un port de chaque nœud",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Type de Service qui ouvre un port fixe sur chaque nœud pour joindre les pods de l'extérieur.",
+    "detailedDefinition": "Un NodePort rend le Service accessible via <IP du nœud>:<port> sur tous les nœuds. Simple mais rustique (ports élevés, pas de nom d'hôte). On lui préfère souvent un LoadBalancer ou un Ingress en production.",
+    "usageContext": "Pour une exposition externe simple ou en dev.",
+    "meetingExample": "« On teste via le NodePort en attendant l'Ingress. »",
+    "plainTranslation": "« Un port ouvert sur chaque machine pour joindre le service. »",
+    "relatedTerms": [
+      "k8s-service",
+      "k8s-loadbalancer",
+      "k8s-ingress"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "reseau"
+    ]
+  },
+  {
+    "id": "k8s-loadbalancer",
+    "term": "LoadBalancer (Service)",
+    "fullForm": null,
+    "frenchMeaning": "Service exposé via un répartiteur externe",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Type de Service qui provisionne un load balancer externe pointant vers les pods.",
+    "detailedDefinition": "Un Service de type LoadBalancer demande au fournisseur (cloud) un répartiteur externe avec une adresse publique. Pratique pour exposer un service dehors, mais un par service peut coûter cher — d'où l'Ingress qui mutualise l'entrée HTTP.",
+    "usageContext": "Pour exposer un service en production.",
+    "meetingExample": "« Le front est en LoadBalancer, le reste passe par l'Ingress. »",
+    "plainTranslation": "« Le service reçoit une entrée publique via un répartiteur. »",
+    "relatedTerms": [
+      "k8s-service",
+      "k8s-ingress"
+    ],
+    "aliases": [
+      "service loadbalancer"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "reseau"
+    ]
+  },
+  {
+    "id": "k8s-ingress",
+    "term": "Ingress",
+    "fullForm": null,
+    "frenchMeaning": "routage HTTP externe vers des Services",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Objet qui route le trafic HTTP entrant vers différents Services selon l'hôte et le chemin.",
+    "detailedDefinition": "Un Ingress mutualise une seule entrée HTTP(S) et dispatche vers les bons Services par nom d'hôte/chemin, avec terminaison TLS. Il nécessite un Ingress Controller qui l'implémente. Une règle pointant vers un Service absent casse la route (404/502).",
+    "usageContext": "Pour exposer plusieurs services derrière une entrée unique.",
+    "meetingExample": "« L'Ingress route /api vers le Service api et / vers le front. »",
+    "plainTranslation": "« Le portier HTTP qui envoie chaque URL au bon service. »",
+    "relatedTerms": [
+      "k8s-service"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "reseau"
+    ]
+  },
+  {
+    "id": "k8s-configmap",
+    "term": "ConfigMap",
+    "fullForm": null,
+    "frenchMeaning": "configuration non sensible",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Objet qui stocke de la configuration non sensible (clé/valeur) injectée dans les pods.",
+    "detailedDefinition": "Une ConfigMap externalise la configuration (URLs, options) hors de l'image, injectée en variables d'environnement ou fichiers. Elle n'est PAS chiffrée : les données sensibles vont dans un Secret. Mettre un mot de passe dans une ConfigMap est un défaut classique.",
+    "usageContext": "Pour configurer une application sans reconstruire l'image.",
+    "meetingExample": "« L'URL de l'API vient d'une ConfigMap, pas du code. »",
+    "plainTranslation": "« Un fichier de réglages non secrets pour les conteneurs. »",
+    "relatedTerms": [
+      "k8s-secret",
+      "k8s-pod"
+    ],
+    "aliases": [],
+    "possibleConfusions": [
+      "Une ConfigMap (non sensible) n'est pas un Secret : n'y mets jamais de mot de passe ou de token."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-secret",
+    "term": "Secret (Kubernetes)",
+    "fullForm": null,
+    "frenchMeaning": "donnée sensible référencée",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Objet qui stocke des données sensibles (mots de passe, tokens) référencées par les pods, séparément de la configuration.",
+    "detailedDefinition": "Un Secret conserve des valeurs sensibles à part et les injecte via valueFrom.secretKeyRef — jamais posées en clair dans le manifest. Encodé (base64) et non chiffré par défaut, il se combine avec un chiffrement au repos et le moindre privilège (RBAC). Un secret compromis se fait TOURNER (rotation).",
+    "usageContext": "Pour toute donnée sensible d'un déploiement.",
+    "meetingExample": "« Le mot de passe de la base vient d'un Secret, référencé par le pod. »",
+    "plainTranslation": "« Un coffre du cluster pour les données sensibles. »",
+    "relatedTerms": [
+      "k8s-configmap",
+      "k8s-rbac"
+    ],
+    "aliases": [
+      "secret k8s"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "securite"
+    ]
+  },
+  {
+    "id": "k8s-serviceaccount",
+    "term": "ServiceAccount",
+    "fullForm": null,
+    "frenchMeaning": "identité d'un pod dans le cluster",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Identité attribuée à un pod pour agir auprès de l'API du cluster, régie par RBAC.",
+    "detailedDefinition": "Un ServiceAccount donne à un pod une identité et des permissions (via RBAC) pour parler à l'API Kubernetes. Utiliser le ServiceAccount par défaut, souvent trop permissif, est un risque : on crée un compte dédié au moindre privilège.",
+    "usageContext": "À la sécurisation des accès API d'un pod.",
+    "meetingExample": "« Ce pod a un ServiceAccount dédié, limité au strict nécessaire. »",
+    "plainTranslation": "« Le badge d'un conteneur pour agir dans le cluster. »",
+    "relatedTerms": [
+      "k8s-rbac",
+      "k8s-namespace",
+      "sec-least-privilege"
+    ],
+    "aliases": [
+      "compte de service"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "securite"
+    ]
+  },
+  {
+    "id": "k8s-rbac",
+    "term": "RBAC (Kubernetes)",
+    "fullForm": "Role-Based Access Control",
+    "frenchMeaning": "contrôle d'accès par rôles",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Modèle de permissions du cluster : des rôles (Role/ClusterRole) liés à des identités (RoleBinding).",
+    "detailedDefinition": "Le RBAC applique le moindre privilège dans le cluster : un Role décrit des permissions (sur un namespace), un ClusterRole à l'échelle du cluster, et un RoleBinding/ClusterRoleBinding les attache à un ServiceAccount ou un utilisateur. On accorde le strict nécessaire, jamais « admin » par défaut.",
+    "usageContext": "À la gouvernance des accès d'un cluster.",
+    "meetingExample": "« Le RBAC limite ce ServiceAccount à lire les ConfigMaps de son namespace. »",
+    "plainTranslation": "« Qui a le droit de faire quoi dans le cluster. »",
+    "relatedTerms": [
+      "k8s-serviceaccount",
+      "k8s-role",
+      "sec-least-privilege"
+    ],
+    "aliases": [
+      "rbac k8s"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "securite"
+    ]
+  },
+  {
+    "id": "k8s-role",
+    "term": "Role / RoleBinding",
+    "fullForm": null,
+    "frenchMeaning": "permissions et leur attribution",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Un Role liste des permissions ; un RoleBinding les attribue à une identité, dans un namespace.",
+    "detailedDefinition": "Un Role définit ce qui est permis (verbes sur des ressources) au sein d'un namespace ; un RoleBinding l'associe à un ServiceAccount ou utilisateur. À l'échelle du cluster, ce sont ClusterRole et ClusterRoleBinding. C'est la brique concrète du RBAC.",
+    "usageContext": "À la définition fine des permissions.",
+    "meetingExample": "« On crée un Role lecture-seule et un RoleBinding vers le ServiceAccount de l'app. »",
+    "plainTranslation": "« Une liste de droits et à qui on la donne. »",
+    "relatedTerms": [
+      "k8s-rbac",
+      "k8s-serviceaccount"
+    ],
+    "aliases": [
+      "role",
+      "rolebinding",
+      "clusterrole"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "securite"
+    ]
+  },
+  {
+    "id": "k8s-labels",
+    "term": "labels et selectors",
+    "fullForm": null,
+    "frenchMeaning": "étiquettes et sélection par étiquettes",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Les labels étiquettent les objets (clé/valeur) ; les selectors sélectionnent des objets par leurs labels.",
+    "detailedDefinition": "Les labels sont le tissu conjonctif de Kubernetes : un Deployment sélectionne SES pods, un Service route vers les pods dont les labels matchent son selector. Un selector qui ne matche rien (« orphelin ») casse le lien (Service sans endpoints, contrôleur inopérant). Cohérence labels ↔ selector = réflexe de base.",
+    "usageContext": "Partout où des objets se lient entre eux.",
+    "meetingExample": "« Le Service ne trouve rien : son selector ne matche pas les labels du pod. »",
+    "plainTranslation": "« Des étiquettes sur les objets, et le moyen de les retrouver par étiquette. »",
+    "relatedTerms": [
+      "k8s-selector",
+      "k8s-service",
+      "k8s-deployment"
+    ],
+    "aliases": [
+      "labels",
+      "label kubernetes"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-selector",
+    "term": "selector (Kubernetes)",
+    "fullForm": null,
+    "frenchMeaning": "sélection d'objets par labels",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Ensemble de couples clé/valeur qui sélectionne les objets portant tous ces labels.",
+    "detailedDefinition": "Un selector (matchLabels) relie un contrôleur ou un Service à ses pods : il matche ceux dont les labels contiennent tous les couples demandés. Un selector orphelin (aucun pod ne matche) est une cause fréquente de Service injoignable ou de contrôleur qui ne gère aucun pod.",
+    "usageContext": "Au diagnostic des liaisons Service/pods.",
+    "meetingExample": "« Aligne le selector du Service sur les labels du gabarit, sinon zéro endpoint. »",
+    "plainTranslation": "« La règle qui choisit les pods par leurs étiquettes. »",
+    "relatedTerms": [
+      "k8s-labels",
+      "k8s-service",
+      "k8s-replicaset"
+    ],
+    "aliases": [
+      "selector"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-readiness-probe",
+    "term": "readiness probe",
+    "fullForm": null,
+    "frenchMeaning": "sonde « prêt à recevoir du trafic »",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Sonde qui indique si un pod est prêt à recevoir du trafic ; sinon le Service ne lui en envoie pas.",
+    "detailedDefinition": "La readiness probe protège les utilisateurs pendant les phases non prêtes (démarrage, cache froid, dépendance indisponible) : tant qu'elle est rouge, le Service retire le pod de ses endpoints. Sans elle, on route vers un pod pas prêt → erreurs. À distinguer de la liveness (redémarrer) et de la startup (démarrages lents).",
+    "usageContext": "Sur tout service exposé.",
+    "meetingExample": "« La readiness reste rouge : le pod ne reçoit pas de trafic tant que la base n'est pas prête. »",
+    "plainTranslation": "« Le test qui dit « prêt à répondre » avant d'envoyer du trafic. »",
+    "relatedTerms": [
+      "k8s-liveness-probe",
+      "k8s-startup-probe",
+      "k8s-service"
+    ],
+    "aliases": [
+      "readiness",
+      "sonde de disponibilité"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-liveness-probe",
+    "term": "liveness probe",
+    "fullForm": null,
+    "frenchMeaning": "sonde « encore vivant »",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Sonde qui vérifie qu'un conteneur fonctionne encore ; en cas d'échec, il est redémarré.",
+    "detailedDefinition": "La liveness probe détecte un conteneur figé et le redémarre. Danger classique : un initialDelaySeconds trop court la fait échouer AVANT le démarrage → CrashLoopBackOff dû à la sonde, pas à l'app. On la tempère avec une startup probe pour les démarrages lents.",
+    "usageContext": "Sur les services sujets aux blocages.",
+    "meetingExample": "« La liveness tue le pod avant qu'il démarre : il faut allonger l'initialDelay. »",
+    "plainTranslation": "« Le test qui redémarre le conteneur s'il ne répond plus. »",
+    "relatedTerms": [
+      "k8s-readiness-probe",
+      "k8s-startup-probe",
+      "k8s-crashloopbackoff"
+    ],
+    "aliases": [
+      "liveness",
+      "sonde de vivacité"
+    ],
+    "possibleConfusions": [
+      "Liveness (redémarrer si figé) ≠ readiness (envoyer du trafic ou non). Les confondre casse le service."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-startup-probe",
+    "term": "startup probe",
+    "fullForm": null,
+    "frenchMeaning": "sonde pour démarrages lents",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Sonde qui protège les applications à démarrage lent en désactivant les autres probes le temps du boot.",
+    "detailedDefinition": "La startup probe évite qu'une liveness trop stricte tue un conteneur qui met du temps à démarrer : tant qu'elle n'est pas verte, readiness et liveness sont suspendues. Utile pour les applications lourdes au boot (JVM, gros caches).",
+    "usageContext": "Pour les applications à démarrage long.",
+    "meetingExample": "« On ajoute une startup probe : la liveness ne s'active qu'une fois l'app démarrée. »",
+    "plainTranslation": "« Un test qui laisse à l'app le temps de démarrer avant de la surveiller. »",
+    "relatedTerms": [
+      "k8s-liveness-probe",
+      "k8s-readiness-probe"
+    ],
+    "aliases": [
+      "sonde de démarrage"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-requests-limits",
+    "term": "requests et limits",
+    "fullForm": null,
+    "frenchMeaning": "ressources réservées et plafonnées",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "requests réservent des ressources (CPU/mémoire) pour la planification ; limits les plafonnent.",
+    "detailedDefinition": "Les requests disent à l'ordonnanceur ce qu'il faut réserver (sinon placement hasardeux, voisins bruyants) ; les limits empêchent un conteneur de tout consommer (fuite mémoire → OOMKilled du voisinage). Incohérence classique : limit mémoire sous la request. Bien réglés, ils rendent le cluster prévisible.",
+    "usageContext": "À tout dimensionnement de conteneur.",
+    "meetingExample": "« Sans requests, le scheduler place à l'aveugle ; sans limits, une fuite tue le nœud. »",
+    "plainTranslation": "« Ce qu'on réserve et le maximum autorisé pour chaque conteneur. »",
+    "relatedTerms": [
+      "k8s-oomkilled",
+      "k8s-scheduler",
+      "k8s-pending"
+    ],
+    "aliases": [
+      "requests",
+      "limits",
+      "resource requests",
+      "resource limits"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-rollout",
+    "term": "rollout",
+    "fullForm": null,
+    "frenchMeaning": "déploiement progressif d'une version",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Processus de mise à jour d'un Deployment, remplaçant progressivement les pods par la nouvelle version.",
+    "detailedDefinition": "Un rollout (rolling update) remplace les pods petit à petit (réglé par maxUnavailable/maxSurge) sans coupure, mais fait coexister deux versions un temps (compatibilité requise). S'il bloque (nouveaux pods jamais prêts), on rollback vers la révision précédente.",
+    "usageContext": "À chaque mise à jour d'un service orchestré.",
+    "meetingExample": "« Le rollout est bloqué : readiness rouge ; on rollback sur la version stable. »",
+    "plainTranslation": "« La mise à jour d'un service, pod par pod, sans coupure. »",
+    "relatedTerms": [
+      "k8s-deployment",
+      "prod-rollback",
+      "deploy-rolling"
+    ],
+    "aliases": [
+      "rolling update kubernetes"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "deploiement"
+    ]
+  },
+  {
+    "id": "k8s-crashloopbackoff",
+    "term": "CrashLoopBackOff",
+    "fullForm": null,
+    "frenchMeaning": "pod qui redémarre en boucle",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "État d'un pod dont le conteneur démarre puis meurt de façon répétée, avec un délai croissant entre les tentatives.",
+    "detailedDefinition": "CrashLoopBackOff signale un conteneur qui crashe en boucle : bug de démarrage, configuration/dépendance manquante, ou liveness probe trop agressive qui le tue avant qu'il démarre. On lit les logs et les événements pour trancher — on ne relance pas à l'aveugle.",
+    "usageContext": "Au diagnostic d'un déploiement cassé.",
+    "meetingExample": "« Le pod est en CrashLoopBackOff : logs d'abord, avant de toucher quoi que ce soit. »",
+    "plainTranslation": "« Un conteneur qui plante, redémarre, replante, en boucle. »",
+    "relatedTerms": [
+      "k8s-liveness-probe",
+      "k8s-imagepullbackoff",
+      "k8s-oomkilled"
+    ],
+    "aliases": [
+      "crash loop"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "incident"
+    ]
+  },
+  {
+    "id": "k8s-imagepullbackoff",
+    "term": "ImagePullBackOff",
+    "fullForm": null,
+    "frenchMeaning": "image introuvable",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "État d'un pod qui ne parvient pas à récupérer son image de conteneur.",
+    "detailedDefinition": "ImagePullBackOff (ou ErrImagePull) signale que le nœud n'a pas pu tirer l'image : nom/tag erroné, image absente du registre, ou accès refusé (credentials). Le pod ne démarre pas tant que l'image n'est pas récupérable.",
+    "usageContext": "Au diagnostic d'un pod qui ne démarre pas.",
+    "meetingExample": "« ImagePullBackOff : le tag n'existe pas dans le registre. »",
+    "plainTranslation": "« Le conteneur ne trouve pas son image à télécharger. »",
+    "relatedTerms": [
+      "k8s-pod",
+      "k8s-crashloopbackoff"
+    ],
+    "aliases": [
+      "errimagepull"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "incident"
+    ]
+  },
+  {
+    "id": "k8s-oomkilled",
+    "term": "OOMKilled",
+    "fullForm": null,
+    "frenchMeaning": "conteneur tué pour dépassement mémoire",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "État d'un conteneur arrêté par le noyau pour avoir dépassé sa limite mémoire.",
+    "detailedDefinition": "OOMKilled (Out Of Memory Killed) survient quand un conteneur dépasse sa limite mémoire (ou que le nœud manque de mémoire) : le noyau le tue. On corrige en relevant la limite ET en cherchant la cause (fuite), après avoir vérifié la cohérence requests/limits.",
+    "usageContext": "Au diagnostic d'un conteneur instable sous charge.",
+    "meetingExample": "« Le worker est OOMKilled : limite trop basse ou fuite mémoire à investiguer. »",
+    "plainTranslation": "« Le conteneur a dépassé sa mémoire, le système l'a tué. »",
+    "relatedTerms": [
+      "k8s-requests-limits",
+      "k8s-crashloopbackoff"
+    ],
+    "aliases": [
+      "out of memory killed"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "incident"
+    ]
+  },
+  {
+    "id": "k8s-pending",
+    "term": "Pending (pod)",
+    "fullForm": null,
+    "frenchMeaning": "pod pas encore planifié",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "État d'un pod accepté mais pas encore lancé, faute de nœud ou de ressource disponibles.",
+    "detailedDefinition": "Un pod Pending attend d'être planifié : ressources insuffisantes sur les nœuds, PVC non lié, ou contraintes (taints/affinity) qui empêchent le placement. On lit les événements du pod pour connaître la raison exacte.",
+    "usageContext": "Au diagnostic d'un déploiement qui ne démarre pas.",
+    "meetingExample": "« Les pods restent Pending : plus de mémoire disponible sur les nœuds. »",
+    "plainTranslation": "« Le conteneur attend qu'une machine puisse l'accueillir. »",
+    "relatedTerms": [
+      "k8s-scheduler",
+      "k8s-requests-limits",
+      "k8s-pvc"
+    ],
+    "aliases": [
+      "pending",
+      "pod pending"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "incident"
+    ]
+  },
+  {
+    "id": "k8s-pvc",
+    "term": "PersistentVolumeClaim",
+    "fullForm": "PersistentVolumeClaim",
+    "frenchMeaning": "demande de stockage durable",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Demande d'un stockage persistant qu'un pod (souvent d'un StatefulSet) réclame et monte.",
+    "detailedDefinition": "Un PersistentVolumeClaim (PVC) demande un volume durable (taille, mode d'accès) satisfait par un PersistentVolume, souvent provisionné via une StorageClass. Un StatefulSet en réclame un par instance. Sans requests.storage, la demande ne peut être satisfaite (pod Pending).",
+    "usageContext": "Pour les données qui doivent survivre au pod.",
+    "meetingExample": "« Chaque réplica de la base a son PVC de 20 Gi. »",
+    "plainTranslation": "« Une demande de disque persistant pour un conteneur. »",
+    "relatedTerms": [
+      "k8s-statefulset",
+      "k8s-pending",
+      "store-block"
+    ],
+    "aliases": [
+      "pvc",
+      "persistentvolume"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "stockage"
+    ]
+  },
+  {
+    "id": "k8s-hpa",
+    "term": "Horizontal Pod Autoscaler",
+    "fullForm": "Horizontal Pod Autoscaler",
+    "frenchMeaning": "mise à l'échelle automatique des pods",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Contrôleur qui ajuste le nombre de replicas d'un workload selon une métrique (CPU, mémoire).",
+    "detailedDefinition": "Le HPA augmente ou réduit les replicas d'un Deployment selon la charge observée, entre un minimum et un maximum. Il suppose des services stateless et des requests bien réglées (base du calcul). C'est l'autoscaling horizontal appliqué aux pods.",
+    "usageContext": "Pour absorber une charge variable.",
+    "meetingExample": "« Le HPA monte à 8 replicas aux heures de pointe, redescend à 2 la nuit. »",
+    "plainTranslation": "« Ce qui ajoute ou retire des copies selon la charge. »",
+    "relatedTerms": [
+      "k8s-deployment",
+      "k8s-requests-limits"
+    ],
+    "aliases": [
+      "hpa"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes",
+      "scalabilite"
+    ]
+  },
+  {
+    "id": "k8s-taint-toleration",
+    "term": "taint et toleration",
+    "fullForm": null,
+    "frenchMeaning": "répulsion/autorisation de placement",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Un taint repousse les pods d'un nœud ; une toleration autorise un pod à y aller malgré le taint.",
+    "detailedDefinition": "Les taints/tolerations contrôlent le placement : un nœud « tainté » n'accueille que les pods qui « tolèrent » ce taint (ex. nœuds dédiés GPU). Complémentaires de l'affinity (attirance vers certains nœuds). Concept avancé, introduit ici.",
+    "usageContext": "Au placement fin des workloads.",
+    "meetingExample": "« Les nœuds GPU sont taintés ; seuls les pods ML les tolèrent. »",
+    "plainTranslation": "« Une machine qui repousse les conteneurs, sauf ceux autorisés. »",
+    "relatedTerms": [
+      "k8s-node",
+      "k8s-scheduler"
+    ],
+    "aliases": [
+      "taint",
+      "toleration",
+      "affinity",
+      "anti-affinity",
+      "node selector"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "k8s-reconciliation",
+    "term": "réconciliation",
+    "fullForm": null,
+    "frenchMeaning": "convergence état désiré → état observé",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Boucle continue par laquelle Kubernetes fait converger l'état réel vers l'état déclaré.",
+    "detailedDefinition": "La réconciliation est le cœur du modèle déclaratif : tu déclares un état DÉSIRÉ, des contrôleurs comparent en boucle avec l'état OBSERVÉ et agissent pour combler l'écart (recréer un pod mort, replanifier après une panne). Tu décris la cible ; Kubernetes s'occupe du comment.",
+    "usageContext": "Pour comprendre le fonctionnement de fond du cluster.",
+    "meetingExample": "« Un pod tombe ? La réconciliation en recrée un pour tenir les 3 replicas. »",
+    "plainTranslation": "« La boucle qui rapproche sans cesse le réel de ce que tu as demandé. »",
+    "relatedTerms": [
+      "k8s-kubernetes",
+      "k8s-deployment"
+    ],
+    "aliases": [
+      "reconciliation",
+      "boucle de réconciliation",
+      "état désiré",
+      "desired state"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "ops-corrective-preventive",
+    "term": "action corrective / préventive",
+    "fullForm": null,
+    "frenchMeaning": "corriger la cause / empêcher la récurrence",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Une action corrective supprime la cause d'un incident ; une action préventive empêche qu'il se reproduise.",
+    "detailedDefinition": "Après un incident, on distingue l'action CORRECTIVE (règle le problème présent — le correctif) de l'action PRÉVENTIVE (empêche la récurrence : test de non-régression, alerte, garde-fou, revue). Un bon post-mortem produit les deux. Confondre les deux, c'est réparer sans apprendre.",
+    "usageContext": "Dans un post-mortem ou un plan d'amélioration.",
+    "meetingExample": "« Correctif : on relève la limite mémoire. Préventif : on ajoute une alerte OOM. »",
+    "plainTranslation": "« Réparer maintenant, et faire en sorte que ça ne revienne pas. »",
+    "relatedTerms": [
+      "reg-root-cause",
+      "reg-non-regression-test",
+      "prod-postmortem"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "incident"
+    ]
   }
 ]

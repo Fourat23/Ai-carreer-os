@@ -1,0 +1,62 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-statefulset-pvc",
+  "title": "Kubernetes : StatefulSet sans persistance",
+  "difficulty": 2,
+  "summary": "needsPvc(kind, hasVolumeClaim) → true seulement si kind=\"StatefulSet\" ET hasVolumeClaim=false (état stable sans stockage durable).",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function needsPvc(kind, hasVolumeClaim) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function needsPvc(kind,hasVolumeClaim){return kind===\"StatefulSet\"&&!hasVolumeClaim;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "StatefulSet sans PVC → true",
+      "kind": "call-equals",
+      "export": "needsPvc",
+      "args": [
+        "StatefulSet",
+        false
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "StatefulSet avec PVC → false",
+      "kind": "call-equals",
+      "export": "needsPvc",
+      "args": [
+        "StatefulSet",
+        true
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "Deployment → false",
+      "kind": "call-equals",
+      "export": "needsPvc",
+      "args": [
+        "Deployment",
+        false
+      ],
+      "expected": false
+    }
+  ]
+}

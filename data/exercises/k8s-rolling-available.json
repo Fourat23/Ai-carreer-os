@@ -1,0 +1,74 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-rolling-available",
+  "title": "Kubernetes : disponibilité minimale pendant un rolling update",
+  "difficulty": 3,
+  "summary": "minAvailable(replicas, maxUnavailable) → nombre minimal de pods disponibles = max(0, replicas - maxUnavailable). Valeurs ≥ 0, maxUnavailable ≤ replicas en pratique.",
+  "skills": [
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function minAvailable(replicas, maxUnavailable) {\n  // TODO\n  return replicas;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function minAvailable(replicas,maxUnavailable){return Math.max(0,replicas-maxUnavailable);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "4 replicas, maxU 1 → 3",
+      "kind": "call-equals",
+      "export": "minAvailable",
+      "args": [
+        4,
+        1
+      ],
+      "expected": 3
+    },
+    {
+      "id": "t2",
+      "name": "2 replicas, maxU 2 → 0",
+      "kind": "call-equals",
+      "export": "minAvailable",
+      "args": [
+        2,
+        2
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t3",
+      "name": "3 replicas, maxU 0 → 3",
+      "kind": "call-equals",
+      "export": "minAvailable",
+      "args": [
+        3,
+        0
+      ],
+      "expected": 3
+    },
+    {
+      "id": "t4",
+      "name": "borné à 0",
+      "kind": "call-equals",
+      "export": "minAvailable",
+      "args": [
+        1,
+        5
+      ],
+      "expected": 0,
+      "private": true
+    }
+  ]
+}

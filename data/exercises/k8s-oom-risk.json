@@ -1,0 +1,74 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-oom-risk",
+  "title": "Kubernetes : risque OOMKilled ?",
+  "difficulty": 3,
+  "summary": "oomRisk(reqMi, limMi) → true si la limite mémoire (Mi) est strictement inférieure à la request (Mi) — configuration incohérente. Valeurs ≥ 0.",
+  "skills": [
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function oomRisk(reqMi, limMi) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function oomRisk(reqMi,limMi){return limMi<reqMi;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "limite < request → risque",
+      "kind": "call-equals",
+      "export": "oomRisk",
+      "args": [
+        512,
+        256
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "limite > request → ok",
+      "kind": "call-equals",
+      "export": "oomRisk",
+      "args": [
+        128,
+        256
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "égales → ok",
+      "kind": "call-equals",
+      "export": "oomRisk",
+      "args": [
+        256,
+        256
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "limite très basse",
+      "kind": "call-equals",
+      "export": "oomRisk",
+      "args": [
+        1024,
+        64
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

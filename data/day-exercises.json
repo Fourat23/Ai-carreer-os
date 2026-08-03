@@ -218,7 +218,25 @@
     "docker-dockerignore",
     "docker-layer-cache",
     "docker-exit-diagnosis",
-    "docker-tag-vs-digest"
+    "docker-tag-vs-digest",
+    "k8s-count-kinds",
+    "k8s-selector-match",
+    "k8s-service-endpoints",
+    "k8s-image-pinned",
+    "k8s-choose-workload",
+    "k8s-secret-placement"
+  ],
+  "321": [
+    "k8s-oom-risk",
+    "k8s-probe-role",
+    "k8s-rolling-available",
+    "k8s-pod-phase",
+    "k8s-recovery-decision",
+    "k8s-ingress-backends",
+    "k8s-statefulset-pvc",
+    "k8s-config-drift",
+    "k8s-replicas-ha",
+    "k8s-needs-probe"
   ],
   "326": [
     "cicd-trigger-should-run",

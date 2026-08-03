@@ -1,0 +1,81 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-pod-phase",
+  "title": "Kubernetes : nommer l'état d'un pod",
+  "difficulty": 2,
+  "summary": "phase(signal) → \"ImagePullBackOff\" si signal=\"bad-image\" ; \"OOMKilled\" si \"mem-exceeded\" ; \"CrashLoopBackOff\" si \"restart-loop\" ; \"Pending\" si \"unscheduled\" ; sinon \"Running\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function phase(signal) {\n  // TODO\n  return \"Running\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function phase(signal){const m={\"bad-image\":\"ImagePullBackOff\",\"mem-exceeded\":\"OOMKilled\",\"restart-loop\":\"CrashLoopBackOff\",\"unscheduled\":\"Pending\"};return m[signal]||\"Running\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "image absente → ImagePullBackOff",
+      "kind": "call-equals",
+      "export": "phase",
+      "args": [
+        "bad-image"
+      ],
+      "expected": "ImagePullBackOff"
+    },
+    {
+      "id": "t2",
+      "name": "mémoire dépassée → OOMKilled",
+      "kind": "call-equals",
+      "export": "phase",
+      "args": [
+        "mem-exceeded"
+      ],
+      "expected": "OOMKilled"
+    },
+    {
+      "id": "t3",
+      "name": "boucle → CrashLoopBackOff",
+      "kind": "call-equals",
+      "export": "phase",
+      "args": [
+        "restart-loop"
+      ],
+      "expected": "CrashLoopBackOff"
+    },
+    {
+      "id": "t4",
+      "name": "non planifié → Pending",
+      "kind": "call-equals",
+      "export": "phase",
+      "args": [
+        "unscheduled"
+      ],
+      "expected": "Pending",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "nominal → Running",
+      "kind": "call-equals",
+      "export": "phase",
+      "args": [
+        "ok"
+      ],
+      "expected": "Running",
+      "private": true
+    }
+  ]
+}

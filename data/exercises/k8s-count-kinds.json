@@ -1,0 +1,126 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-count-kinds",
+  "title": "Kubernetes : compter les ressources par kind",
+  "difficulty": 1,
+  "summary": "countKinds(resources) où resources=[{kind}] → un objet { kind: nombre }.",
+  "skills": [
+    "hashmap"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function countKinds(resources) {\n  // TODO\n  return {};\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function countKinds(resources){const o={};for(const r of resources)o[r.kind]=(o[r.kind]||0)+1;return o;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux Deployment un Service",
+      "kind": "call-equals",
+      "export": "countKinds",
+      "args": [
+        [
+          {
+            "kind": "Deployment"
+          },
+          {
+            "kind": "Deployment"
+          },
+          {
+            "kind": "Service"
+          }
+        ]
+      ],
+      "expected": {
+        "Deployment": 2,
+        "Service": 1
+      }
+    },
+    {
+      "id": "t2",
+      "name": "un seul",
+      "kind": "call-equals",
+      "export": "countKinds",
+      "args": [
+        [
+          {
+            "kind": "Pod"
+          }
+        ]
+      ],
+      "expected": {
+        "Pod": 1
+      }
+    },
+    {
+      "id": "t3",
+      "name": "vide",
+      "kind": "call-equals",
+      "export": "countKinds",
+      "args": [
+        []
+      ],
+      "expected": {}
+    },
+    {
+      "id": "t4",
+      "name": "trois kinds",
+      "kind": "call-equals",
+      "export": "countKinds",
+      "args": [
+        [
+          {
+            "kind": "ConfigMap"
+          },
+          {
+            "kind": "Secret"
+          },
+          {
+            "kind": "Ingress"
+          }
+        ]
+      ],
+      "expected": {
+        "ConfigMap": 1,
+        "Secret": 1,
+        "Ingress": 1
+      },
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "répétitions",
+      "kind": "call-equals",
+      "export": "countKinds",
+      "args": [
+        [
+          {
+            "kind": "Job"
+          },
+          {
+            "kind": "Job"
+          },
+          {
+            "kind": "Job"
+          }
+        ]
+      ],
+      "expected": {
+        "Job": 3
+      },
+      "private": true
+    }
+  ]
+}

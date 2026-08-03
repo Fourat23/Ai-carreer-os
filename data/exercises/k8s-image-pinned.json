@@ -1,0 +1,70 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-image-pinned",
+  "title": "Kubernetes : l'image est-elle épinglée ?",
+  "difficulty": 2,
+  "summary": "pinned(image) → true seulement si l'image a un tag explicite différent de \"latest\" (ex. \"app:1.2.3\"). Sans tag ou :latest → false.",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function pinned(image) {\n  // TODO\n  return true;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function pinned(image){const ref=image.split(\"/\").pop();if(!ref.includes(\":\"))return false;const tag=ref.split(\":\").pop();return tag!==\"latest\"&&tag.length>0;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "version épinglée",
+      "kind": "call-equals",
+      "export": "pinned",
+      "args": [
+        "registry/app:1.2.3"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "latest → non",
+      "kind": "call-equals",
+      "export": "pinned",
+      "args": [
+        "registry/app:latest"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "sans tag → non",
+      "kind": "call-equals",
+      "export": "pinned",
+      "args": [
+        "registry/app"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "tag court",
+      "kind": "call-equals",
+      "export": "pinned",
+      "args": [
+        "nginx:1.25"
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-service-endpoints",
+  "title": "Kubernetes : compter les endpoints d'un Service",
+  "difficulty": 2,
+  "summary": "endpoints(selector, pods) où pods=[{labels}] → nombre de pods dont les labels contiennent tout le selector.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function endpoints(selector, pods) {\n  // TODO\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function endpoints(selector,pods){const k=Object.keys(selector);if(k.length===0)return 0;return pods.filter(p=>k.every(key=>p.labels[key]===selector[key])).length;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux pods matchent",
+      "kind": "call-equals",
+      "export": "endpoints",
+      "args": [
+        {
+          "app": "api"
+        },
+        [
+          {
+            "labels": {
+              "app": "api"
+            }
+          },
+          {
+            "labels": {
+              "app": "api"
+            }
+          },
+          {
+            "labels": {
+              "app": "web"
+            }
+          }
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "selector orphelin → 0",
+      "kind": "call-equals",
+      "export": "endpoints",
+      "args": [
+        {
+          "app": "ghost"
+        },
+        [
+          {
+            "labels": {
+              "app": "api"
+            }
+          }
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t3",
+      "name": "aucun pod",
+      "kind": "call-equals",
+      "export": "endpoints",
+      "args": [
+        {
+          "app": "api"
+        },
+        []
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t4",
+      "name": "un seul",
+      "kind": "call-equals",
+      "export": "endpoints",
+      "args": [
+        {
+          "app": "db"
+        },
+        [
+          {
+            "labels": {
+              "app": "db",
+              "role": "primary"
+            }
+          }
+        ]
+      ],
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

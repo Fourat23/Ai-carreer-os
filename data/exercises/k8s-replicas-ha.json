@@ -1,0 +1,70 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-replicas-ha",
+  "title": "Kubernetes : replicas pour la haute disponibilité",
+  "difficulty": 2,
+  "summary": "haReplicas(desired) → max(2, desired) : jamais moins de 2 instances en production, pour tolérer une panne et un déploiement sans coupure.",
+  "skills": [
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function haReplicas(desired) {\n  // TODO\n  return desired;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function haReplicas(desired){return Math.max(2,desired);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "1 → 2 (plancher)",
+      "kind": "call-equals",
+      "export": "haReplicas",
+      "args": [
+        1
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "5 conservé",
+      "kind": "call-equals",
+      "export": "haReplicas",
+      "args": [
+        5
+      ],
+      "expected": 5
+    },
+    {
+      "id": "t3",
+      "name": "0 → 2",
+      "kind": "call-equals",
+      "export": "haReplicas",
+      "args": [
+        0
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t4",
+      "name": "2 conservé",
+      "kind": "call-equals",
+      "export": "haReplicas",
+      "args": [
+        2
+      ],
+      "expected": 2,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-choose-workload",
+  "title": "Kubernetes : choisir le bon type de workload",
+  "difficulty": 3,
+  "summary": "chooseWorkload(need) où need={stateful, perNode, scheduled, oneShot} → \"DaemonSet\" si perNode ; sinon \"CronJob\" si scheduled ; sinon \"Job\" si oneShot ; sinon \"StatefulSet\" si stateful ; sinon \"Deployment\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function chooseWorkload(need) {\n  // TODO\n  return \"Deployment\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function chooseWorkload(n){if(n.perNode)return \"DaemonSet\";if(n.scheduled)return \"CronJob\";if(n.oneShot)return \"Job\";if(n.stateful)return \"StatefulSet\";return \"Deployment\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "par nœud → DaemonSet",
+      "kind": "call-equals",
+      "export": "chooseWorkload",
+      "args": [
+        {
+          "perNode": true
+        }
+      ],
+      "expected": "DaemonSet"
+    },
+    {
+      "id": "t2",
+      "name": "planifié → CronJob",
+      "kind": "call-equals",
+      "export": "chooseWorkload",
+      "args": [
+        {
+          "scheduled": true
+        }
+      ],
+      "expected": "CronJob"
+    },
+    {
+      "id": "t3",
+      "name": "stateful → StatefulSet",
+      "kind": "call-equals",
+      "export": "chooseWorkload",
+      "args": [
+        {
+          "stateful": true
+        }
+      ],
+      "expected": "StatefulSet"
+    },
+    {
+      "id": "t4",
+      "name": "défaut → Deployment",
+      "kind": "call-equals",
+      "export": "chooseWorkload",
+      "args": [
+        {}
+      ],
+      "expected": "Deployment",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "ponctuel → Job",
+      "kind": "call-equals",
+      "export": "chooseWorkload",
+      "args": [
+        {
+          "oneShot": true
+        }
+      ],
+      "expected": "Job",
+      "private": true
+    }
+  ]
+}

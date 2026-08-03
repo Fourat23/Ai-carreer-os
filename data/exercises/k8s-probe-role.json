@@ -1,0 +1,59 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-probe-role",
+  "title": "Kubernetes : quelle probe pour quel besoin ?",
+  "difficulty": 2,
+  "summary": "probeFor(goal) → \"readiness\" si goal=\"traffic\" ; \"liveness\" si goal=\"restart\" ; \"startup\" si goal=\"slow-boot\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function probeFor(goal) {\n  // TODO\n  return \"readiness\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function probeFor(goal){if(goal===\"traffic\")return \"readiness\";if(goal===\"restart\")return \"liveness\";if(goal===\"slow-boot\")return \"startup\";return \"readiness\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "recevoir du trafic → readiness",
+      "kind": "call-equals",
+      "export": "probeFor",
+      "args": [
+        "traffic"
+      ],
+      "expected": "readiness"
+    },
+    {
+      "id": "t2",
+      "name": "redémarrer si figé → liveness",
+      "kind": "call-equals",
+      "export": "probeFor",
+      "args": [
+        "restart"
+      ],
+      "expected": "liveness"
+    },
+    {
+      "id": "t3",
+      "name": "démarrage lent → startup",
+      "kind": "call-equals",
+      "export": "probeFor",
+      "args": [
+        "slow-boot"
+      ],
+      "expected": "startup"
+    }
+  ]
+}

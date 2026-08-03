@@ -1,0 +1,99 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-config-drift",
+  "title": "Kubernetes : détecter une dérive de configuration",
+  "difficulty": 3,
+  "summary": "drift(desired, observed) → les clés dont la valeur diffère entre desired et observed (mêmes clés supposées), triées.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function drift(desired, observed) {\n  // TODO\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function drift(desired,observed){return Object.keys(desired).filter(k=>observed[k]!==desired[k]).sort();}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une clé a dérivé",
+      "kind": "call-equals",
+      "export": "drift",
+      "args": [
+        {
+          "replicas": 3,
+          "image": "v2"
+        },
+        {
+          "replicas": 3,
+          "image": "v1"
+        }
+      ],
+      "expected": [
+        "image"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucune dérive",
+      "kind": "call-equals",
+      "export": "drift",
+      "args": [
+        {
+          "a": 1
+        },
+        {
+          "a": 1
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux clés triées",
+      "kind": "call-equals",
+      "export": "drift",
+      "args": [
+        {
+          "z": 1,
+          "a": 2
+        },
+        {
+          "z": 9,
+          "a": 9
+        }
+      ],
+      "expected": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "valeurs égales",
+      "kind": "call-equals",
+      "export": "drift",
+      "args": [
+        {
+          "x": "same"
+        },
+        {
+          "x": "same"
+        }
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-selector-match",
+  "title": "Kubernetes : un selector matche-t-il des labels ?",
+  "difficulty": 2,
+  "summary": "matches(selector, labels) → true si TOUS les couples clé/valeur du selector sont présents et égaux dans labels (selector vide → false).",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function matches(selector, labels) {\n  // TODO\n  return true;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function matches(selector,labels){const k=Object.keys(selector);if(k.length===0)return false;return k.every(key=>labels[key]===selector[key]);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "match exact",
+      "kind": "call-equals",
+      "export": "matches",
+      "args": [
+        {
+          "app": "api"
+        },
+        {
+          "app": "api",
+          "tier": "back"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "valeur différente",
+      "kind": "call-equals",
+      "export": "matches",
+      "args": [
+        {
+          "app": "api"
+        },
+        {
+          "app": "web"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "label manquant",
+      "kind": "call-equals",
+      "export": "matches",
+      "args": [
+        {
+          "app": "api",
+          "tier": "back"
+        },
+        {
+          "app": "api"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "selector vide → false",
+      "kind": "call-equals",
+      "export": "matches",
+      "args": [
+        {},
+        {
+          "app": "api"
+        }
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

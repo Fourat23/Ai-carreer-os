@@ -1,0 +1,68 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-recovery-decision",
+  "title": "Kubernetes : rollback, roll-forward ou hotfix ?",
+  "difficulty": 3,
+  "summary": "recover(ctx) où ctx={migrationBlocks, urgent} → \"roll-forward\" si migrationBlocks (retour impossible) ; sinon \"hotfix\" si urgent ; sinon \"rollback\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function recover(ctx) {\n  // TODO\n  return \"rollback\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function recover(ctx){if(ctx.migrationBlocks)return \"roll-forward\";if(ctx.urgent)return \"hotfix\";return \"rollback\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "migration bloque → roll-forward",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "migrationBlocks": true,
+          "urgent": true
+        }
+      ],
+      "expected": "roll-forward"
+    },
+    {
+      "id": "t2",
+      "name": "urgent, réversible → hotfix",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "migrationBlocks": false,
+          "urgent": true
+        }
+      ],
+      "expected": "hotfix"
+    },
+    {
+      "id": "t3",
+      "name": "réversible non urgent → rollback",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "migrationBlocks": false,
+          "urgent": false
+        }
+      ],
+      "expected": "rollback"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-needs-probe",
+  "title": "Kubernetes : ce conteneur a-t-il besoin d'une readiness ?",
+  "difficulty": 2,
+  "summary": "needsReadiness(container) où container={kind, hasReadiness} → true si kind sert du trafic (\"service\") et hasReadiness=false. Les \"job\" n'en ont pas besoin.",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function needsReadiness(container) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function needsReadiness(c){return c.kind===\"service\"&&!c.hasReadiness;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "service sans readiness → true",
+      "kind": "call-equals",
+      "export": "needsReadiness",
+      "args": [
+        {
+          "kind": "service",
+          "hasReadiness": false
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "service avec readiness → false",
+      "kind": "call-equals",
+      "export": "needsReadiness",
+      "args": [
+        {
+          "kind": "service",
+          "hasReadiness": true
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "job → false",
+      "kind": "call-equals",
+      "export": "needsReadiness",
+      "args": [
+        {
+          "kind": "job",
+          "hasReadiness": false
+        }
+      ],
+      "expected": false
+    }
+  ]
+}

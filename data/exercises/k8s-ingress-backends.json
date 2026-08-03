@@ -1,0 +1,100 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "k8s-ingress-backends",
+  "title": "Kubernetes : Ingress pointant vers des Services absents",
+  "difficulty": 3,
+  "summary": "brokenBackends(backends, services) où backends=[nom], services=[nom] → les noms de backends absents de services, triés.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function brokenBackends(backends, services) {\n  // TODO\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function brokenBackends(backends,services){const set=new Set(services);return [...new Set(backends.filter(b=>!set.has(b)))].sort();}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un backend cassé",
+      "kind": "call-equals",
+      "export": "brokenBackends",
+      "args": [
+        [
+          "api",
+          "ghost"
+        ],
+        [
+          "api",
+          "web"
+        ]
+      ],
+      "expected": [
+        "ghost"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "tous résolus",
+      "kind": "call-equals",
+      "export": "brokenBackends",
+      "args": [
+        [
+          "api"
+        ],
+        [
+          "api",
+          "web"
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux cassés triés",
+      "kind": "call-equals",
+      "export": "brokenBackends",
+      "args": [
+        [
+          "z",
+          "a"
+        ],
+        []
+      ],
+      "expected": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "doublons",
+      "kind": "call-equals",
+      "export": "brokenBackends",
+      "args": [
+        [
+          "x",
+          "x"
+        ],
+        [
+          "y"
+        ]
+      ],
+      "expected": [
+        "x"
+      ],
+      "private": true
+    }
+  ]
+}

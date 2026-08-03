@@ -12,7 +12,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { validateMissionCatalogue, publicMissionView } from '../lib/mission.mjs';
-import { DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID } from '../lib/catalogue.mjs';
+import { buildCatalogue } from '../lib/catalogue.mjs';
 import { isKnownSkill } from '../lib/skill-taxonomy.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -21,7 +21,9 @@ const errors = [];
 
 const program = JSON.parse(readFileSync(R('data/program.json'), 'utf8'));
 const validDays = new Set(program.days.map((d) => d.day));
-const trackIds = new Set([DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID]);
+// Invariant DÉRIVÉ des sources (jamais codé en dur) : tout parcours réel du
+// catalogue est accepté — la gate reste valide quand un parcours est ajouté.
+const trackIds = new Set(buildCatalogue(program).tracks.map((t) => t.id));
 const exerciseIds = new Set(readdirSync(R('data/exercises')).filter((f) => f.endsWith('.json')).map((f) => f.replace('.json', '')));
 const skillIds = { has: (s) => isKnownSkill(s) };
 

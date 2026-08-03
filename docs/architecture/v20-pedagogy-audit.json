@@ -511,6 +511,150 @@
         "track-coherence": 4
       },
       "notes": "diagnostic par couches, postmortem structuré."
+    },
+    {
+      "id": "day-320",
+      "kind": "day",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 3,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 3,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 3,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Dockerisation (CP8) : fondations profondes ajoutées (image/couches/cache, CMD vs ENTRYPOINT, multi-stage, durcissement, PID 1, healthcheck, diagnostic). Limite noyau partagé explicitée. Dense."
+    },
+    {
+      "id": "docker-detect-secret",
+      "kind": "exercise",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 3,
+        "mental-model": 3,
+        "depth": 3,
+        "progression": 3,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 3,
+        "professional-relevance": 4,
+        "evaluation": 4,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Repérage de secret exposé dans un Dockerfile : statique, déterministe, réf verte, tests privés."
+    },
+    {
+      "id": "docker-instruction-order",
+      "kind": "exercise",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 3,
+        "mental-model": 3,
+        "depth": 3,
+        "progression": 3,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 3,
+        "professional-relevance": 4,
+        "evaluation": 4,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Ordre des instructions pour le cache : aligné aux fondations Docker."
+    },
+    {
+      "id": "docker-tag-vs-digest",
+      "kind": "exercise",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 3,
+        "mental-model": 3,
+        "depth": 3,
+        "progression": 3,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 3,
+        "professional-relevance": 4,
+        "evaluation": 4,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Reproductibilité tag vs digest : concept clé, déterministe."
+    },
+    {
+      "id": "docker-containerize-api",
+      "kind": "mission",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 3,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 3,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 3,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Conteneuriser proprement : non-root, cache, healthcheck, doc — auto+structurel+revue."
+    },
+    {
+      "id": "docker-container-incident",
+      "kind": "mission",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 3,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 3,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 3,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Incident de conteneur : diagnostic par couches, post-mortem structuré."
     }
   ]
 }

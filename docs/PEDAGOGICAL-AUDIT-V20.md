@@ -200,3 +200,37 @@ Résultat mesuré :
 Restent volontairement **non traités** (hors périmètre V20) : la généralisation
 des **quiz** (77 journées) et l'enrichissement de day-205 (thème LLM). La journée
 sans pitfalls rédigés (1/313) n'a pas de section ajoutée : pas de contenu fabriqué.
+
+## 14. Audit final CP9 — contenu Docker (CP8) & bilan avant/après
+
+Le moteur d'audit a été rejoué après CP8 (Docker) sur l'ensemble du corpus
+(474 fichiers scannés) et le registre étendu à **27 éléments notés** (21 récents).
+
+- **Danger** : **0 signal bloquant** sur les 13 fichiers Docker (10 exercices +
+  3 missions) et sur le jour 320 enrichi.
+- **Jour 320** (dockerisation) : fondations profondes ajoutées (image/couches/
+  cache, CMD vs ENTRYPOINT, multi-stage, durcissement non-root/read-only/network
+  none, PID 1/signaux, healthcheck, diagnostic par couches). Limite honnête
+  **noyau partagé ≠ isolation OS** explicitée → moyenne 3,50 (dense, charge
+  cognitive 3).
+- **Exercices Docker** : déterministes, statiques (exécutables **sans daemon**),
+  réf verte / starter échoue / tests privés → alignés aux compétences.
+- **Missions Docker** : évaluation honnête (auto + structurel + revue humaine),
+  aucun pseudo-score.
+
+**Avant/après (dimensions clés)** :
+
+| Dimension | Avant V20 | Après V20 |
+|---|---|---|
+| Erreurs fréquentes (couverture) | 78/313 journées | **312/313** (CP3, contenu authored surfacé) |
+| Modèle mental (j2) | absent | **présent** (CP3) |
+| Pratique du terminal | théorie seule | **terminal borné exécutable** (CP4-CP7) |
+| Docker | mentionné (j320 projet) | **fondations + 10 exercices + 3 missions + 35 termes** |
+| Exécutabilité honnête | — | Docker **désactivé proprement** si daemon absent, jamais de faux succès |
+| Moyenne notes récentes | 3,50 | **3,51** (maintenue en ajoutant du contenu) |
+
+**Ce qui nécessite encore une revue humaine** : la qualité SÉMANTIQUE des livrables
+documentaires des missions (post-mortems, plans) — validée structurellement, jamais
+notée automatiquement. **Reporté** : quiz sur 77 journées de base, exercices Docker
+RÉELS (build/run) exécutables uniquement si un daemon est disponible, observation
+d'apprenants réels.

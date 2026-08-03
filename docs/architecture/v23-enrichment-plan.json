@@ -1,0 +1,13 @@
+{
+  "sprint": "V23",
+  "baselineRef": "b76af3b",
+  "note": "Plan de mutation contrôlée V23 (cf. ADR-023). Le contenu Kubernetes/orchestration enrichit ADDITIVEMENT les journées d'ancrage réelles du module Docker du parcours Systems & Cloud : 320 (dockerisation → orchestration : objets, control plane, état désiré/observé) et 321 (reproductibilité → exploitation : probes, rollout/rollback, incidents k8s, méthode « Que faire dans ce cas ? », vocabulaire de reprise). Aucune journée déplacée. Toute dérive hors de ce périmètre échoue la gate v23:check. Les scénarios de manifests livrés (data/manifests) sont validés contre les données réelles.",
+  "allowedSourceModules": [
+    "scripts/data/days-enrich-301-365.mjs"
+  ],
+  "targetDays": [320, 321],
+  "requiredConcepts": {
+    "320": ["kubernetes", "orchestration", "control plane", "pod", "deployment", "service", "selector", "état désiré", "réconciliation"],
+    "321": ["readiness", "liveness", "rolling update", "rollback", "crashloopbackoff", "oomkilled", "que faire dans ce cas", "roll-forward", "runbook"]
+  }
+}

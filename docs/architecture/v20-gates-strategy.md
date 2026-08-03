@@ -24,13 +24,17 @@ missions Docker/V19. Il redevient une gate courante utile.
 
 ## B. Gates HISTORIQUES de snapshot (informatives, non autoritatives)
 
-`v17:check` et `v19:check` sont **figées sur le baseline de leur sprint** (V17,
-V19). Elles détectent la **dérive vs ce baseline** — c'est leur but. Après un
-sprint ULTÉRIEUR qui mute légitimement le contenu (V19 a touché des jours gelés
-par V17 ; V20/CP3 a surfacé des « Erreurs fréquentes » et CP8 a enrichi le jour
-320 + le glossaire), elles remontent naturellement de la dérive. **Ce n'est pas
-une régression** : c'est un instantané historique qui a fait son travail au
-moment de son sprint.
+`v17:check`, `v19:check` et — depuis V22 — `v21:check` sont **figées sur le
+baseline de leur sprint** (V17, V19, V21). Elles détectent la **dérive vs ce
+baseline** — c'est leur but. Après un sprint ULTÉRIEUR qui mute légitimement le
+contenu (V19 a touché des jours gelés par V17 ; V20/CP3 a surfacé des « Erreurs
+fréquentes » et CP8 a enrichi le jour 320 + le glossaire ; **V22 a enrichi les
+jours 78-81 et `days-enrich-61-90.mjs`, hors du périmètre V21 [307/326]**), elles
+remontent naturellement de la dérive. **Ce n'est pas une régression** : c'est un
+instantané historique qui a fait son travail au moment de son sprint. Note :
+`v21:check` valide toujours correctement les 3 pipelines livrés — seule sa
+**détection de dérive** (par nature bornée au baseline V21) se déclenche sur le
+contenu V22 ; le produit CI/CD n'est pas cassé.
 
 Elles ne sont donc **pas** exécutées comme conditions de succès pour le travail
 des sprints suivants. On ne les rend pas vertes artificiellement en affaiblissant

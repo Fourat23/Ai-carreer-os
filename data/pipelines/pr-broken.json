@@ -1,0 +1,21 @@
+{
+  "id": "pr-broken",
+  "title": "Pipeline de pull request (cassé)",
+  "description": "Le lint échoue : le build qui en dépend est bloqué (fail-fast). À diagnostiquer et corriger.",
+  "version": "1",
+  "trigger": ["pull_request"],
+  "branchFilters": ["main"],
+  "stages": [
+    { "id": "verify", "name": "Vérification", "order": 1 },
+    { "id": "package", "name": "Empaquetage", "order": 2 }
+  ],
+  "jobs": [
+    { "id": "lint", "name": "Lint", "stage": "verify", "action": "lint", "timeoutMs": 3000, "with": { "lintErrors": 3 } },
+    { "id": "unit-tests", "name": "Tests unitaires", "stage": "verify", "action": "test", "timeoutMs": 5000, "with": { "failed": 0, "total": 8 } },
+    { "id": "build", "name": "Build", "stage": "package", "needs": ["lint", "unit-tests"], "action": "build", "timeoutMs": 6000, "with": { "buildOk": true }, "artifactsOut": ["app.tgz"] }
+  ],
+  "environment": { "name": "ci" },
+  "skills": ["testing", "git"],
+  "dayRefs": [326],
+  "trackScope": ["systems-cloud-foundations-v1"]
+}

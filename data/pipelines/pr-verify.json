@@ -1,0 +1,23 @@
+{
+  "id": "pr-verify",
+  "title": "Pipeline de pull request (vert)",
+  "description": "Une PR déclenche lint → tests unitaires → build → contrôle d'artefact. Tout passe : la PR est mergeable.",
+  "version": "1",
+  "trigger": ["pull_request"],
+  "branchFilters": ["main"],
+  "stages": [
+    { "id": "verify", "name": "Vérification", "order": 1 },
+    { "id": "package", "name": "Empaquetage", "order": 2 }
+  ],
+  "jobs": [
+    { "id": "lint", "name": "Lint", "stage": "verify", "action": "lint", "timeoutMs": 3000, "with": { "lintErrors": 0 } },
+    { "id": "unit-tests", "name": "Tests unitaires", "stage": "verify", "action": "test", "timeoutMs": 5000, "with": { "failed": 0, "total": 12 } },
+    { "id": "build", "name": "Build", "stage": "package", "needs": ["lint", "unit-tests"], "action": "build", "timeoutMs": 6000, "with": { "buildOk": true }, "artifactsOut": ["app.tgz"] },
+    { "id": "artifact", "name": "Contrôle d'artefact", "stage": "package", "needs": ["build"], "action": "artifact-check", "timeoutMs": 2000, "with": { "artifact": "app.tgz" } }
+  ],
+  "environment": { "name": "ci" },
+  "skills": ["testing", "git"],
+  "dayRefs": [326],
+  "trackScope": ["systems-cloud-foundations-v1"],
+  "missionRefs": ["cicd-broken-pr"]
+}

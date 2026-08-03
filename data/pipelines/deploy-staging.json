@@ -1,0 +1,23 @@
+{
+  "id": "deploy-staging",
+  "title": "Déploiement vers staging (avec approbation)",
+  "description": "Déclenchement manuel : build → porte d'approbation manuelle → déploiement. Sans approbation, le déploiement reste bloqué.",
+  "version": "1",
+  "trigger": ["manual"],
+  "stages": [
+    { "id": "build", "name": "Build", "order": 1 },
+    { "id": "approve", "name": "Approbation", "order": 2 },
+    { "id": "deploy", "name": "Déploiement", "order": 3 }
+  ],
+  "jobs": [
+    { "id": "build", "name": "Build", "stage": "build", "action": "build", "timeoutMs": 6000, "with": { "buildOk": true }, "artifactsOut": ["release.tgz"] },
+    { "id": "gate", "name": "Approbation manuelle", "stage": "approve", "needs": ["build"], "action": "approval", "timeoutMs": 1000 },
+    { "id": "deploy", "name": "Déployer sur staging", "stage": "deploy", "needs": ["gate"], "action": "artifact-check", "timeoutMs": 3000, "with": { "artifact": "release.tgz" } }
+  ],
+  "environment": { "name": "staging", "requiresApproval": true },
+  "approval": { "required": true },
+  "skills": ["testing", "git"],
+  "dayRefs": [326],
+  "trackScope": ["systems-cloud-foundations-v1"],
+  "missionRefs": ["cicd-blocked-delivery"]
+}

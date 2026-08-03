@@ -19,6 +19,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/lessons', label: 'Leçons de fond', icon: 'BookOpen' },
       { href: '/lab', label: 'Laboratoire', icon: 'FlaskConical' },
+      { href: '/pipelines', label: 'Pipeline Lab', icon: 'Workflow' },
       { href: '/missions', label: 'Missions', icon: 'Target' },
       { href: '/skills', label: 'Compétences', icon: 'Target' },
       { href: '/projects', label: 'Projets', icon: 'FolderGit2' },

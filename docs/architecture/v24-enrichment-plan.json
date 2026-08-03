@@ -1,0 +1,15 @@
+{
+  "sprint": "V24",
+  "baselineRef": "e904bda",
+  "note": "Plan de mutation contrôlée V24 (cf. ADR-024). Le contenu cybersécurité enrichit ADDITIVEMENT des journées d'ancrage réelles : 68 (auth/secrets → gestion, rotation, révocation + « Que faire dans ce cas ? » fuite de secret), 298 (sécurité des secrets → supply chain : lockfiles, pinning, typosquatting, dependency confusion, SBOM, provenance, image digest), 85 (durcissement → RBAC/moindre privilège, securityContext, NetworkPolicy + « Que faire dans ce cas ? » accès/workload). Aucune journée déplacée. Sources : days-enrich-61-90.mjs (68, 85) et days-enrich-271-300.mjs (298). Toute dérive hors périmètre échoue v24:check. Les scénarios (data/security) sont validés contre les données réelles.",
+  "allowedSourceModules": [
+    "scripts/data/days-enrich-61-90.mjs",
+    "scripts/data/days-enrich-271-300.mjs"
+  ],
+  "targetDays": [68, 85, 298],
+  "requiredConcepts": {
+    "68": ["rotation", "révocation", "coffre", "que faire dans ce cas", "moindre privilège"],
+    "298": ["supply chain", "lockfile", "typosquatting", "sbom", "provenance", "digest"],
+    "85": ["rbac", "moindre privilège", "securitycontext", "networkpolicy", "que faire dans ce cas"]
+  }
+}

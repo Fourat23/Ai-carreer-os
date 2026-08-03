@@ -24,8 +24,9 @@ missions Docker/V19. Il redevient une gate courante utile.
 
 ## B. Gates HISTORIQUES de snapshot (informatives, non autoritatives)
 
-`v17:check`, `v19:check` et — depuis V22 — `v21:check` sont **figées sur le
-baseline de leur sprint** (V17, V19, V21). Elles détectent la **dérive vs ce
+`v17:check`, `v19:check`, `v21:check` (depuis V22) et `v22:check` (depuis V23)
+sont **figées sur le baseline de leur sprint** (V17, V19, V21, V22). Un inventaire
+central classe toutes les gates : `docs/architecture/gates-inventory.md`. Elles détectent la **dérive vs ce
 baseline** — c'est leur but. Après un sprint ULTÉRIEUR qui mute légitimement le
 contenu (V19 a touché des jours gelés par V17 ; V20/CP3 a surfacé des « Erreurs
 fréquentes » et CP8 a enrichi le jour 320 + le glossaire ; **V22 a enrichi les

@@ -4,7 +4,7 @@ import type { Catalogue } from './catalogue';
 
 export interface SearchItem {
   id: string;
-  type: 'command' | 'page' | 'day' | 'week' | 'month' | 'skill' | 'project' | 'lesson' | 'track' | 'module' | 'technology' | 'exercise' | 'mission' | 'pipeline' | 'topology';
+  type: 'command' | 'page' | 'day' | 'week' | 'month' | 'skill' | 'project' | 'lesson' | 'track' | 'module' | 'technology' | 'exercise' | 'mission' | 'pipeline' | 'topology' | 'manifest';
   title: string;
   subtitle: string;
   href: string;
@@ -22,7 +22,7 @@ export interface ExerciseSummary {
 
 export function normalize(s: unknown): string;
 export function tokenize(s: unknown): string[];
-export function buildIndex(program: Program, catalogue?: Catalogue | null, exercises?: ExerciseSummary[] | null, missions?: Array<{ id: string; title: string; category?: string; skills?: string[] }> | null, pipelines?: Array<{ id: string; title?: string; name?: string; description?: string; summary?: string }> | null, topologies?: Array<{ id: string; title?: string; name?: string; description?: string }> | null): SearchItem[];
+export function buildIndex(program: Program, catalogue?: Catalogue | null, exercises?: ExerciseSummary[] | null, missions?: Array<{ id: string; title: string; category?: string; skills?: string[] }> | null, pipelines?: Array<{ id: string; title?: string; name?: string; description?: string; summary?: string }> | null, topologies?: Array<{ id: string; title?: string; name?: string; description?: string }> | null, manifests?: Array<{ id: string; title?: string; name?: string; description?: string }> | null): SearchItem[];
 export function parseJump(query: string): (SearchItem & { type: string }) | null;
 export function search(items: SearchItem[], query: string, limit?: number): SearchItem[];
 export function resumeCommand(resumeDay: number): SearchItem | null;

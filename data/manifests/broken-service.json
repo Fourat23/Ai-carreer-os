@@ -1,0 +1,38 @@
+{
+  "id": "broken-service",
+  "title": "Service injoignable (à diagnostiquer)",
+  "description": "Un déploiement dont le Service ne route vers aucun pod : le selector du Service ne correspond pas aux labels du gabarit. S'y ajoutent une image latest, des probes manquantes et l'absence de requests/limits. Objectif : repérer et corriger.",
+  "resources": [
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": { "name": "web", "namespace": "prod", "labels": { "app": "web" } },
+      "spec": {
+        "replicas": 2,
+        "selector": { "matchLabels": { "app": "web" } },
+        "template": {
+          "metadata": { "labels": { "app": "web" } },
+          "spec": {
+            "containers": [
+              {
+                "name": "web",
+                "image": "registry.example.com/web:latest",
+                "ports": [{ "containerPort": 3000 }]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": { "name": "web", "namespace": "prod" },
+      "spec": { "type": "ClusterIP", "selector": { "app": "frontend" }, "ports": [{ "port": 80, "targetPort": 3000 }] }
+    }
+  ],
+  "skills": ["http", "debugging"],
+  "dayRefs": [320],
+  "trackScope": ["systems-cloud-foundations-v1"],
+  "missionRefs": ["k8s-service-no-endpoints"]
+}

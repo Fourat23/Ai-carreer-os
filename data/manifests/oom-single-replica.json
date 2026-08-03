@@ -1,0 +1,36 @@
+{
+  "id": "oom-single-replica",
+  "title": "OOMKilled & instance unique en production",
+  "description": "Un worker avec une limite mémoire sous la request, une seule instance en production, une liveness probe trop agressive et un secret posé en clair. Illustre les incidents OOMKilled et CrashLoopBackOff et le sous-dimensionnement.",
+  "resources": [
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": { "name": "worker", "namespace": "prod", "labels": { "app": "worker" } },
+      "spec": {
+        "replicas": 1,
+        "selector": { "matchLabels": { "app": "worker" } },
+        "template": {
+          "metadata": { "labels": { "app": "worker" } },
+          "spec": {
+            "containers": [
+              {
+                "name": "worker",
+                "image": "registry.example.com/worker:2.0.1",
+                "ports": [{ "containerPort": 9000 }],
+                "resources": { "requests": { "cpu": "250m", "memory": "512Mi" }, "limits": { "cpu": "500m", "memory": "256Mi" } },
+                "readinessProbe": { "httpGet": { "path": "/ready", "port": 9000 } },
+                "livenessProbe": { "httpGet": { "path": "/live", "port": 9000 }, "initialDelaySeconds": 1 },
+                "env": [{ "name": "API_TOKEN", "value": "changeme-please" }]
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "skills": ["debugging", "testing"],
+  "dayRefs": [321],
+  "trackScope": ["systems-cloud-foundations-v1"],
+  "missionRefs": ["k8s-oomkilled-sizing"]
+}

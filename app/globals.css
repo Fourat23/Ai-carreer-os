@@ -1308,3 +1308,19 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .cl-scenres.is-ko { border-left: 3px solid var(--danger, #c0392b); }
 .cl-scenres p { margin: 4px 0; }
 @media (max-width: 900px) { .cl-grid { grid-template-columns: 1fr; } }
+
+/* ── Kubernetes & Orchestration Lab (V23) ─────────────────────────────────── */
+.kb-avail { margin-bottom: var(--sp-3); padding: 8px 12px; border: 1px solid var(--border); border-left: 3px solid var(--muted);
+  border-radius: var(--r-sm); background: var(--panel-2); font-size: var(--fs-sm); }
+.kb-avail-absent { border-left-color: var(--muted); }
+.kb-avail-cli-only { border-left-color: #b8860b; }
+.kb-avail-cluster { border-left-color: var(--ok, #2a8); }
+.kb-avail-denied { border-left-color: var(--danger, #c0392b); }
+.kb-editor { width: 100%; max-width: 100%; box-sizing: border-box; font-family: var(--mono, monospace); font-size: 12px;
+  line-height: 1.5; padding: 10px; border: 1px solid var(--border); border-radius: var(--r-sm);
+  background: var(--panel); color: var(--text); resize: vertical; min-height: 200px; white-space: pre; overflow-wrap: normal; overflow-x: auto; }
+.kb-editor:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.kb-sev-blocking { border-left-color: var(--danger, #c0392b); }
+.kb-sev-risk { border-left-color: #d97706; }
+.kb-sev-warning { border-left-color: #b8860b; }
+.kb-sev-observation { border-left-color: var(--muted); }

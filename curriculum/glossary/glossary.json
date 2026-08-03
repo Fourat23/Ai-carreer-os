@@ -11014,5 +11014,277 @@
       "docker",
       "conteneurs"
     ]
+  },
+  {
+    "id": "devops-pipeline",
+    "term": "pipeline",
+    "fullForm": null,
+    "frenchMeaning": "chaîne d'assemblage automatisée (de la validation à la livraison)",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Suite ordonnée d'étapes automatisées qui transforment du code en logiciel validé puis livrable.",
+    "detailedDefinition": "Un pipeline CI/CD enchaîne des étapes (valider la config, linter, tester, construire, publier un artefact, déployer) déclenchées par un événement (push, pull request, tag). Chaque étape a un STATUT (succès, échec, ignorée, bloquée) ; l'échec d'une étape critique arrête la suite (fail-fast). On le décrit de façon DÉCLARATIVE (ce qu'on veut), pas impérative. Bien pensé, il est déterministe et reproductible : mêmes entrées → même résultat.",
+    "usageContext": "Sur toute équipe qui pratique l'intégration/livraison continue.",
+    "meetingExample": "« Le pipeline est rouge sur ta PR : le job de tests a échoué, regarde les logs. »",
+    "plainTranslation": "« La chaîne automatique qui vérifie et prépare le code avant la mise en prod. »",
+    "relatedTerms": [
+      "devops-cicd",
+      "devops-ci",
+      "devops-job",
+      "devops-stage"
+    ],
+    "aliases": [
+      "pipeline CI/CD",
+      "chaîne CI/CD"
+    ],
+    "possibleConfusions": [
+      "Un pipeline CI/CD (livraison logicielle) n'est pas un pipeline de données (ETL) ni un « pipe » shell."
+    ],
+    "ambiguityNote": "« Pipeline » se dit aussi en data (ETL/ML) et pour un « pipe » shell : préciser le contexte.",
+    "tags": [
+      "cicd",
+      "automatisation",
+      "livraison"
+    ]
+  },
+  {
+    "id": "devops-stage",
+    "term": "stage (CI)",
+    "fullForm": null,
+    "frenchMeaning": "phase d'un pipeline regroupant des jobs",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Phase d'un pipeline qui regroupe des jobs de même nature (ex. « build », « test », « deploy »).",
+    "detailedDefinition": "Un stage (ou « étape » de haut niveau) structure le pipeline en phases successives ; les jobs d'un même stage peuvent tourner en parallèle, et le stage suivant n'entame qu'une fois le précédent terminé selon les dépendances. C'est une commodité d'organisation : la vraie contrainte d'ordre vient du graphe de dépendances (needs) entre jobs, pas seulement du nom du stage.",
+    "usageContext": "Lors de la conception ou de la lecture d'un pipeline.",
+    "meetingExample": "« Le stage de build passe, c'est le stage de déploiement qui bloque sur l'approbation. »",
+    "plainTranslation": "« Un groupe d'étapes du pipeline, comme « tester » ou « déployer ». »",
+    "relatedTerms": [
+      "devops-pipeline",
+      "devops-job"
+    ],
+    "aliases": [
+      "étape de pipeline",
+      "phase de pipeline"
+    ],
+    "possibleConfusions": [
+      "Un stage (phase de pipeline) n'est pas le « staging » (environnement de préproduction), même racine anglaise."
+    ],
+    "ambiguityNote": "« Stage » (phase de pipeline) ≠ « staging » (environnement de préprod) : distinguer selon le contexte.",
+    "tags": [
+      "cicd",
+      "pipeline"
+    ]
+  },
+  {
+    "id": "devops-job",
+    "term": "job (CI)",
+    "fullForm": null,
+    "frenchMeaning": "unité de travail exécutée par un pipeline",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Unité de travail d'un pipeline (ex. « lancer les tests »), avec ses dépendances et son propre statut.",
+    "detailedDefinition": "Un job est la brique exécutable du pipeline : il fait une chose (linter, tester, construire…), déclare ses dépendances (needs) vers d'autres jobs, et se termine par un statut (succès, échec, ignoré, bloqué, annulé). Les jobs sans dépendance mutuelle peuvent tourner en parallèle. L'ordre global se calcule par tri topologique du graphe de dépendances (un cycle rend le pipeline invalide).",
+    "usageContext": "À la lecture des logs et de l'état d'un pipeline.",
+    "meetingExample": "« Le job de lint est vert, mais le job de tests d'intégration est rouge. »",
+    "plainTranslation": "« Une tâche précise du pipeline, avec son résultat propre. »",
+    "relatedTerms": [
+      "devops-pipeline",
+      "devops-stage",
+      "devops-runner"
+    ],
+    "aliases": [
+      "tâche de pipeline"
+    ],
+    "possibleConfusions": [
+      "Un job CI (tâche de pipeline) n'est pas un cron job (tâche planifiée) ni un job en base (traitement batch)."
+    ],
+    "ambiguityNote": "« Job » a plusieurs sens (CI, cron, batch) : le contexte pipeline le précise.",
+    "tags": [
+      "cicd",
+      "pipeline"
+    ]
+  },
+  {
+    "id": "devops-runner",
+    "term": "runner",
+    "fullForm": null,
+    "frenchMeaning": "agent qui exécute les jobs d'un pipeline",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Machine ou agent qui prend en charge l'exécution des jobs d'un pipeline.",
+    "detailedDefinition": "Le runner (ou « agent ») est l'exécutant : il réserve un environnement, récupère le code, lance les étapes du job, remonte logs et statut. Il peut être partagé ou dédié, éphémère (recréé à chaque job, plus reproductible) ou persistant. La capacité et le nombre de runners déterminent le parallélisme réel du pipeline. Un runner mal isolé est un risque de sécurité (secrets, artefacts d'un autre projet).",
+    "usageContext": "Quand on parle de capacité d'exécution ou de files d'attente CI.",
+    "meetingExample": "« Les jobs attendent : plus aucun runner libre, il faut en ajouter. »",
+    "plainTranslation": "« La machine qui fait réellement tourner les étapes du pipeline. »",
+    "relatedTerms": [
+      "devops-job",
+      "devops-pipeline",
+      "devops-container"
+    ],
+    "aliases": [
+      "agent CI",
+      "agent d'exécution"
+    ],
+    "possibleConfusions": [
+      "Le runner (exécutant CI) n'est pas le « test runner » (outil qui lance une suite de tests), bien que les noms se ressemblent."
+    ],
+    "ambiguityNote": "« Runner » CI (agent d'exécution) ≠ « test runner » (lanceur de tests) : préciser.",
+    "tags": [
+      "cicd",
+      "infrastructure"
+    ]
+  },
+  {
+    "id": "devops-artefact",
+    "term": "artefact",
+    "fullForm": null,
+    "frenchMeaning": "produit versionné issu d'un build",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Fichier ou paquet produit par un pipeline (binaire, image, archive) et conservé pour les étapes suivantes.",
+    "detailedDefinition": "Un artefact est le RÉSULTAT tangible d'un build (image de conteneur, bundle, archive de tests, rapport). Il est stocké, versionné et transmis d'un job à l'autre ou vers le déploiement. À distinguer du CACHE : l'artefact est un livrable qu'on veut conserver et tracer ; le cache n'est qu'une optimisation reconstructible. Un artefact PÉRIMÉ (trop vieux vis-à-vis du code) ne doit pas être promu en production.",
+    "usageContext": "Lors du build, du stockage et de la promotion vers les environnements.",
+    "meetingExample": "« On déploie l'artefact produit par le pipeline, pas un build refait à la main. »",
+    "plainTranslation": "« Le fichier livrable que le pipeline fabrique et garde. »",
+    "relatedTerms": [
+      "devops-pipeline",
+      "devops-promotion",
+      "devops-image"
+    ],
+    "aliases": [
+      "artifact",
+      "livrable de build"
+    ],
+    "possibleConfusions": [
+      "Un artefact (livrable versionné) n'est pas un cache (optimisation reconstructible) : l'un se conserve, l'autre se jette."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "cicd",
+      "livraison"
+    ]
+  },
+  {
+    "id": "devops-fail-fast",
+    "term": "fail-fast",
+    "fullForm": null,
+    "frenchMeaning": "arrêt au premier échec",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Stratégie d'un pipeline qui s'arrête dès le premier échec au lieu de poursuivre inutilement.",
+    "detailedDefinition": "En fail-fast, l'échec d'un job critique bloque les jobs qui en dépendent (statut « bloqué », ils n'ont pas tourné) et peut annuler les jobs indépendants encore en attente. On gagne du temps et un feedback rapide. On le tempère avec « allow-failure » sur les jobs non critiques (leur échec est toléré et n'arrête pas la suite). La cause racine est le PREMIER job réellement en échec — pas les jobs bloqués en aval.",
+    "usageContext": "À la conception d'un pipeline et au diagnostic d'un échec.",
+    "meetingExample": "« Fail-fast : dès que le lint casse, on n'attend pas les tests, on rend la main tout de suite. »",
+    "plainTranslation": "« Le pipeline s'arrête au premier problème au lieu de continuer pour rien. »",
+    "relatedTerms": [
+      "devops-pipeline",
+      "devops-job"
+    ],
+    "aliases": [
+      "échec rapide",
+      "arrêt rapide"
+    ],
+    "possibleConfusions": [
+      "Un job « bloqué » (son prérequis a échoué) n'est pas la cause : la cause est le premier job « en échec »."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "cicd",
+      "pipeline"
+    ]
+  },
+  {
+    "id": "devops-branch-policy",
+    "term": "branch policy",
+    "fullForm": null,
+    "frenchMeaning": "politique de protection d'une branche",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Règles qui conditionnent ce qu'on peut faire sur une branche (merge, push) selon des critères automatiques.",
+    "detailedDefinition": "Une branch policy (branche protégée) impose des conditions avant d'intégrer du code : pipeline vert obligatoire, revue approuvée, pas de push direct sur la branche principale, motif de branche autorisé. C'est une porte de qualité : le pipeline évalue la politique et AUTORISE ou refuse le merge de façon déterministe. Elle sépare « ce qui peut arriver en main » de « ce qui est en cours ».",
+    "usageContext": "Sur les dépôts d'équipe, pour protéger la branche principale.",
+    "meetingExample": "« La branch policy exige une revue + CI verte : ta PR ne pourra pas merger tant que les tests sont rouges. »",
+    "plainTranslation": "« Les règles qui décident si on a le droit de fusionner sur une branche. »",
+    "relatedTerms": [
+      "git-branch",
+      "devops-pipeline",
+      "prod-rollback"
+    ],
+    "aliases": [
+      "branche protégée",
+      "politique de branche"
+    ],
+    "possibleConfusions": [
+      "Une branch policy (règles de merge/protection) n'est pas une stratégie de branchement (git-flow, trunk-based)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "cicd",
+      "git",
+      "qualite"
+    ]
+  },
+  {
+    "id": "devops-critical-path",
+    "term": "chemin critique (pipeline)",
+    "fullForm": null,
+    "frenchMeaning": "la plus longue chaîne de dépendances d'un pipeline",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "La chaîne de jobs dépendants la plus longue en durée : elle fixe le temps minimal du pipeline.",
+    "detailedDefinition": "Dans le graphe de dépendances d'un pipeline, le chemin critique est la suite de jobs enchaînés dont la somme des durées est maximale. Sa durée = durée incompressible du pipeline, quel que soit le parallélisme ajouté ailleurs. Pour accélérer, il faut agir SUR le chemin critique (raccourcir un job, casser une dépendance, mettre en cache), pas sur les jobs hors chemin. Concept identique au chemin critique en gestion de projet.",
+    "usageContext": "Quand on optimise la durée d'un pipeline lent.",
+    "meetingExample": "« Paralléliser les tests ne sert à rien : le chemin critique passe par le build, c'est lui qu'il faut accélérer. »",
+    "plainTranslation": "« La plus longue suite d'étapes qui s'enchaînent : c'est elle qui fixe la durée totale. »",
+    "relatedTerms": [
+      "devops-pipeline",
+      "devops-job",
+      "devops-fail-fast"
+    ],
+    "aliases": [
+      "critical path",
+      "chemin critique du pipeline"
+    ],
+    "possibleConfusions": [
+      "Le chemin critique n'est pas « le job le plus lent » isolé, mais la plus longue CHAÎNE de jobs dépendants."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "cicd",
+      "performance"
+    ]
+  },
+  {
+    "id": "devops-promotion",
+    "term": "promotion (environnement)",
+    "fullForm": null,
+    "frenchMeaning": "faire passer un artefact d'un environnement au suivant",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Faire avancer un même artefact validé d'un environnement au suivant (dev → staging → prod).",
+    "detailedDefinition": "La promotion déplace le MÊME artefact déjà construit et testé vers l'environnement suivant, sous conditions (portes : tests verts, approbation, artefact non périmé). On NE reconstruit PAS à chaque étape — reconstruire romprait la reproductibilité. La promotion vers la production est souvent gardée par une approbation manuelle (porte humaine). En cas de problème après promotion, on rollback vers la version précédente.",
+    "usageContext": "Lors du déploiement continu à travers les environnements.",
+    "meetingExample": "« L'artefact est vert en staging : on demande l'approbation pour le promouvoir en prod. »",
+    "plainTranslation": "« Faire passer la même version validée à l'environnement d'après, jusqu'à la prod. »",
+    "relatedTerms": [
+      "devops-artefact",
+      "devops-cd",
+      "prod-rollback",
+      "devops-blue-green"
+    ],
+    "aliases": [
+      "promouvoir",
+      "promotion inter-environnements"
+    ],
+    "possibleConfusions": [
+      "Promouvoir (déplacer le même artefact validé) n'est pas reconstruire à chaque environnement : reconstruire casse la reproductibilité."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "cicd",
+      "deploiement",
+      "environnements"
+    ]
   }
 ]

@@ -1,0 +1,13 @@
+{
+  "sprint": "V21",
+  "baselineRef": "8d224f3",
+  "note": "Plan de mutation contrôlée V21 (cf. ADR-021). Le contenu CI/CD n'enrichit QUE les journées d'ancrage réelles (307 CI vide, 326 CI complète), de façon additive. Toute dérive hors de ce périmètre échoue la gate v21:check. Les pipelines livrés (data/pipelines) sont validés contre les données réelles.",
+  "allowedSourceModules": [
+    "scripts/data/days-enrich-301-365.mjs"
+  ],
+  "targetDays": [307, 326],
+  "requiredConcepts": {
+    "326": ["DAG", "artefact", "cache", "rollback", "canary", "blue-green", "fail-fast", "promotion", "flaky", "chemin critique"],
+    "307": ["pipeline", "stage", "job", "runner", "déclenche"]
+  }
+}

@@ -655,6 +655,54 @@
         "track-coherence": 4
       },
       "notes": "Incident de conteneur : diagnostic par couches, post-mortem structuré."
+    },
+    {
+      "id": "day-326",
+      "kind": "day",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 3,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 3,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 3,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "CI complète (V21) : ingénierie de livraison approfondie — CI/CD/déploiement continu, anatomie pipeline, DAG/parallélisme, artefacts/cache, secrets/environnements, promotion/rollback, blue-green/canary, flaky/dette. Dense."
+    },
+    {
+      "id": "day-307",
+      "kind": "day",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 3,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 3,
+        "professional-relevance": 3,
+        "evaluation": 3,
+        "cognitive-load": 4,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "CI vide (V21) : vocabulaire pipeline/stage/job/runner/trigger, walking skeleton appliqué à la CI."
     }
   ]
 }

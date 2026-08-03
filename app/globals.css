@@ -1324,3 +1324,28 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .kb-sev-risk { border-left-color: #d97706; }
 .kb-sev-warning { border-left-color: #b8860b; }
 .kb-sev-observation { border-left-color: var(--muted); }
+
+/* ── Security & Incident Lab (V24) ────────────────────────────────────────── */
+.sec-mode { margin-bottom: var(--sp-3); padding: 8px 12px; border: 1px solid var(--border); border-left: 3px solid var(--muted);
+  border-radius: var(--r-sm); background: var(--panel-2); font-size: var(--fs-sm); display: flex; align-items: center; gap: 8px; }
+.sec-mode-vuln { border-left-color: #d97706; }
+.sec-mode-fixed { border-left-color: var(--ok, #2a8); }
+.sec-artifact { margin-bottom: var(--sp-3); }
+.sec-artifact-head { font-size: var(--fs-xs); color: var(--muted); margin-bottom: 4px; }
+.sec-artifact-head code { font-family: var(--mono, monospace); }
+.sec-code { font-family: var(--mono, monospace); font-size: 12px; line-height: 1.5; padding: 10px; margin: 0;
+  border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--panel); color: var(--text);
+  overflow-x: auto; white-space: pre; max-height: 320px; overflow-y: auto; }
+.sec-sev-blocking { border-left-color: var(--danger, #c0392b); }
+.sec-sev-risk { border-left-color: #d97706; }
+.sec-sev-warning { border-left-color: #b8860b; }
+.sec-sev-observation { border-left-color: var(--muted); }
+.sec-limits { margin-top: var(--sp-3); font-size: var(--fs-xs); color: var(--muted); }
+.sec-limits summary { cursor: pointer; }
+.sec-limits ul { margin: 6px 0; padding-left: 18px; }
+.sec-incident, .sec-playbook { margin-top: var(--sp-3); padding: var(--sp-3); border: 1px solid var(--border);
+  border-radius: var(--r-sm); background: var(--panel-2); }
+.sec-phases { margin: 6px 0; padding-left: 20px; font-size: var(--fs-sm); }
+.sec-phases li { margin: 3px 0; }
+.sec-pb-block { margin: 8px 0; font-size: var(--fs-sm); }
+.sec-pb-block ul { margin: 4px 0; padding-left: 18px; }

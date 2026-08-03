@@ -1,0 +1,21 @@
+{
+  "id": "overprivileged-rbac",
+  "title": "RBAC trop permissif (wildcard)",
+  "description": "Un ClusterRole accorde « * » sur les verbes et ressources, lié au ServiceAccount par défaut. Objectif : appliquer le moindre privilège et corriger le binding.",
+  "domain": "rbac",
+  "difficulty": 3,
+  "incident": "access-compromise",
+  "playbookRef": "pb-overprivileged-access",
+  "artifacts": [
+    { "id": "role", "kind": "rbac", "path": "rbac/role.json", "content": { "kind": "ClusterRole", "scopeHint": "namespace", "rules": [ { "apiGroups": ["*"], "resources": ["*"], "verbs": ["*"] } ] } },
+    { "id": "binding", "kind": "rbac", "path": "rbac/binding.json", "content": { "kind": "ClusterRoleBinding", "roleRef": "admin-everything", "subjectServiceAccount": "default" } }
+  ],
+  "fixedArtifacts": [
+    { "id": "role", "kind": "rbac", "path": "rbac/role.json", "content": { "kind": "Role", "rules": [ { "apiGroups": [""], "resources": ["configmaps"], "verbs": ["get", "list"] } ] } },
+    { "id": "binding", "kind": "rbac", "path": "rbac/binding.json", "content": { "kind": "RoleBinding", "roleRef": "configmap-reader", "subjectServiceAccount": "billing-reader" } }
+  ],
+  "skills": ["linux", "debugging"],
+  "dayRefs": [85],
+  "trackScope": ["systems-cloud-foundations-v1"],
+  "missionRefs": ["sec-rbac-excessive"]
+}

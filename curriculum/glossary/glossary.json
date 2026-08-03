@@ -11286,5 +11286,1137 @@
       "deploiement",
       "environnements"
     ]
+  },
+  {
+    "id": "cloud-faas",
+    "term": "FaaS",
+    "fullForm": "Function as a Service",
+    "frenchMeaning": "fonction en tant que service (serverless)",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Ne fournir que des fonctions ; la plateforme les exécute et les met à l'échelle à la demande.",
+    "detailedDefinition": "En FaaS (cœur du « serverless »), on écrit des fonctions et la plateforme s'occupe de l'exécution, du démarrage et de la mise à l'échelle — jusqu'à zéro instance quand il n'y a pas de trafic. On paie à l'usage. Contrepartie : démarrages à froid, exécutions courtes, état à externaliser.",
+    "usageContext": "Pour des traitements événementiels ou à charge très variable.",
+    "meetingExample": "« Ce webhook, on le met en serverless : une fonction, pas de serveur à gérer. »",
+    "plainTranslation": "« On écrit juste la fonction, le cloud s'occupe de la faire tourner. »",
+    "relatedTerms": [
+      "cloud-saas",
+      "cloud-paas",
+      "scale-stateless"
+    ],
+    "aliases": [
+      "function as a service"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "cloud"
+    ]
+  },
+  {
+    "id": "cloud-shared-resp",
+    "term": "responsabilité partagée",
+    "fullForm": null,
+    "frenchMeaning": "partage des responsabilités de sécurité client/fournisseur",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Le fournisseur sécurise l'infrastructure ; le client reste responsable de sa configuration, de ses accès et de ses données.",
+    "detailedDefinition": "Le modèle de responsabilité partagée trace une frontière : le fournisseur cloud garantit la sécurité DU cloud (datacenters, matériel, hyperviseur), mais la sécurité DANS le cloud (permissions, secrets, accès public, chiffrement des données) reste au client. Une base ouverte au monde ou un bucket public n'est pas une faille du fournisseur : c'est une erreur de configuration côté client.",
+    "usageContext": "Dès qu'on déploie sur un cloud public.",
+    "meetingExample": "« Le fournisseur sécurise l'infra, mais cette base exposée, c'est notre config — notre responsabilité. »",
+    "plainTranslation": "« Le cloud protège ses machines ; à toi de bien régler tes accès et tes secrets. »",
+    "relatedTerms": [
+      "cloud-iaas",
+      "cloud-saas"
+    ],
+    "aliases": [
+      "shared responsibility",
+      "modèle de responsabilité partagée"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "cloud",
+      "securite"
+    ]
+  },
+  {
+    "id": "cloud-region",
+    "term": "région",
+    "fullForm": null,
+    "frenchMeaning": "zone géographique d'un cloud",
+    "category": "cloud",
+    "level": "débutant",
+    "shortDefinition": "Grande zone géographique d'un fournisseur cloud, choisie pour la proximité des utilisateurs et la résidence des données.",
+    "detailedDefinition": "Une région est une aire géographique (ex. « Europe de l'Ouest ») contenant plusieurs zones de disponibilité. On la choisit pour la latence (proximité des utilisateurs) et pour des contraintes légales (résidence des données). Répartir entre régions protège d'une catastrophe régionale, au prix d'une latence entre régions.",
+    "usageContext": "Au moment de placer une infrastructure.",
+    "meetingExample": "« On déploie en région Europe pour la latence et la résidence des données. »",
+    "plainTranslation": "« La zone du monde où tournent tes serveurs. »",
+    "relatedTerms": [
+      "cloud-az",
+      "ha-high-availability"
+    ],
+    "aliases": [
+      "region"
+    ],
+    "possibleConfusions": [
+      "Une région (aire géographique) contient plusieurs zones de disponibilité (datacenters isolés) : ce ne sont pas la même échelle."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "cloud"
+    ]
+  },
+  {
+    "id": "cloud-az",
+    "term": "zone de disponibilité",
+    "fullForm": "Availability Zone",
+    "frenchMeaning": "datacenter isolé dans une région",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Datacenter isolé (énergie, réseau) à l'intérieur d'une région ; répartir dessus protège d'une panne locale.",
+    "detailedDefinition": "Une zone de disponibilité (AZ) est un datacenter physiquement isolé au sein d'une région, avec sa propre alimentation et son réseau. Répartir ses instances sur PLUSIEURS zones d'une même région protège d'une panne locale (incendie, coupure) sans changer de région ni ajouter de latence notable. C'est la brique de base de la haute disponibilité.",
+    "usageContext": "Quand on conçoit une architecture tolérante aux pannes.",
+    "meetingExample": "« On répartit les instances sur deux zones : si l'une tombe, le service tient. »",
+    "plainTranslation": "« Un datacenter isolé dans la région ; on s'étale dessus pour survivre à une panne. »",
+    "relatedTerms": [
+      "cloud-region",
+      "ha-high-availability",
+      "ha-failover"
+    ],
+    "aliases": [
+      "availability zone",
+      "az",
+      "zone az"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "cloud",
+      "disponibilite"
+    ]
+  },
+  {
+    "id": "net-security-group",
+    "term": "security group",
+    "fullForm": "Network Security Group",
+    "frenchMeaning": "pare-feu virtuel d'une ressource",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Ensemble de règles qui autorisent/refusent le trafic vers une ressource (pare-feu virtuel).",
+    "detailedDefinition": "Un security group (ou NSG) est un pare-feu attaché à une ressource : il liste les flux autorisés (port, source). Bien réglé, il n'ouvre que le strict nécessaire (moindre privilège) — par exemple, la base n'accepte que le trafic venant de l'API, jamais d'Internet. Un security group trop permissif est une cause classique d'exposition.",
+    "usageContext": "À la configuration réseau d'une ressource cloud.",
+    "meetingExample": "« Le security group de la base n'autorise que l'API, pas le monde entier. »",
+    "plainTranslation": "« Les règles qui disent qui a le droit de parler à cette ressource. »",
+    "relatedTerms": [
+      "net-subnet",
+      "net-firewall",
+      "sec-least-privilege"
+    ],
+    "aliases": [
+      "nsg",
+      "groupe de sécurité"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reseau",
+      "securite"
+    ]
+  },
+  {
+    "id": "store-object",
+    "term": "stockage objet",
+    "fullForm": null,
+    "frenchMeaning": "stockage de fichiers comme objets adressables",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Stocker des fichiers comme des objets accessibles par une clé, très scalable et durable (ex. buckets).",
+    "detailedDefinition": "Le stockage objet range des données non structurées (images, sauvegardes, artefacts) sous forme d'objets identifiés par une clé, dans des « buckets ». Très durable et extensible, il n'est pas fait pour des écritures transactionnelles (ce n'est pas une base). Un bucket mal configuré en accès public est une fuite classique.",
+    "usageContext": "Pour fichiers, sauvegardes, artefacts.",
+    "meetingExample": "« Les artefacts et les sauvegardes vont dans le stockage objet, pas dans la base. »",
+    "plainTranslation": "« Un grand casier de fichiers rangés par étiquette. »",
+    "relatedTerms": [
+      "store-block",
+      "dr-backup"
+    ],
+    "aliases": [
+      "object storage",
+      "bucket"
+    ],
+    "possibleConfusions": [
+      "Le stockage objet (fichiers par clé) n'est pas une base de données (requêtes, transactions)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "cloud",
+      "stockage"
+    ]
+  },
+  {
+    "id": "store-block",
+    "term": "stockage bloc",
+    "fullForm": null,
+    "frenchMeaning": "disque virtuel attaché à une instance",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Disque virtuel bas niveau attaché à une machine, adapté aux bases et systèmes de fichiers.",
+    "detailedDefinition": "Le stockage bloc expose un « disque » attaché à une instance, sur lequel on met un système de fichiers ou une base. Rapide et persistant (contrairement au disque éphémère d'une instance), il est en général lié à une instance à la fois. À distinguer du stockage objet (fichiers par clé) et du stockage fichier (partagé en réseau).",
+    "usageContext": "Pour des bases ou des données de bas niveau.",
+    "meetingExample": "« La base tourne sur un volume de stockage bloc persistant, pas sur le disque éphémère. »",
+    "plainTranslation": "« Un disque dur virtuel branché sur la machine. »",
+    "relatedTerms": [
+      "store-object",
+      "store-file",
+      "ephemeral-storage"
+    ],
+    "aliases": [
+      "block storage"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "cloud",
+      "stockage"
+    ]
+  },
+  {
+    "id": "store-file",
+    "term": "stockage fichier",
+    "fullForm": null,
+    "frenchMeaning": "système de fichiers partagé en réseau",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Système de fichiers partagé, monté par plusieurs instances en même temps.",
+    "detailedDefinition": "Le stockage fichier expose un système de fichiers réseau (dossiers/fichiers) que plusieurs instances montent simultanément. Pratique pour partager des données entre services, plus lent qu'un stockage bloc local. Trois familles à distinguer : bloc (disque d'une instance), fichier (partagé réseau), objet (fichiers par clé).",
+    "usageContext": "Pour un partage de fichiers entre instances.",
+    "meetingExample": "« Le stockage fichier est monté par les deux workers pour partager les uploads. »",
+    "plainTranslation": "« Un dossier réseau que plusieurs machines ouvrent en même temps. »",
+    "relatedTerms": [
+      "store-block",
+      "store-object"
+    ],
+    "aliases": [
+      "file storage"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "cloud",
+      "stockage"
+    ]
+  },
+  {
+    "id": "ephemeral-storage",
+    "term": "stockage éphémère",
+    "fullForm": null,
+    "frenchMeaning": "stockage perdu au remplacement de l'instance",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Stockage local d'une instance, perdu quand l'instance est arrêtée ou remplacée.",
+    "detailedDefinition": "Le stockage éphémère est le disque local d'une instance : rapide et gratuit, mais VOLATILE — tout est perdu si l'instance est remplacée (mise à l'échelle, panne, redéploiement). Il convient aux caches et aux fichiers temporaires, JAMAIS aux données à conserver, qui doivent aller sur un stockage persistant (bloc/objet) et être sauvegardées.",
+    "usageContext": "Quand on place des données dans une architecture.",
+    "meetingExample": "« Ces données sont sur du stockage éphémère : au prochain déploiement, tout disparaît. »",
+    "plainTranslation": "« Un disque temporaire vidé dès que la machine est recréée. »",
+    "relatedTerms": [
+      "store-block",
+      "dr-backup"
+    ],
+    "aliases": [
+      "ephemeral storage",
+      "disque éphémère"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "cloud",
+      "stockage"
+    ]
+  },
+  {
+    "id": "ha-high-availability",
+    "term": "haute disponibilité",
+    "fullForm": "High Availability",
+    "frenchMeaning": "capacité à rester disponible malgré des pannes",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Concevoir un service pour rester disponible malgré la panne d'un composant (redondance + bascule).",
+    "detailedDefinition": "La haute disponibilité (HA) vise à éviter l'interruption : on supprime les points de défaillance uniques par la redondance (plusieurs instances, plusieurs zones) et la bascule automatique (failover). Elle a un coût (ressources doublées, complexité) et se mesure en production — on ne l'affirme pas par un chiffre inventé.",
+    "usageContext": "Dès qu'une coupure a un vrai impact.",
+    "meetingExample": "« Pour la haute disponibilité : deux zones, réplica de base, failover automatique. »",
+    "plainTranslation": "« Faire en sorte que le service tienne même si une machine tombe. »",
+    "relatedTerms": [
+      "ha-spof",
+      "ha-failover",
+      "cloud-az",
+      "scale-horizontal"
+    ],
+    "aliases": [
+      "high availability",
+      "ha"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "disponibilite"
+    ]
+  },
+  {
+    "id": "ha-spof",
+    "term": "point de défaillance unique",
+    "fullForm": "Single Point Of Failure",
+    "frenchMeaning": "composant unique dont la panne casse tout",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Composant unique, sans redondance, dont la panne rend tout le service indisponible.",
+    "detailedDefinition": "Un point de défaillance unique (SPOF) est un maillon sans doublure : une seule instance d'API, une base sans réplica, un load balancer non redondé, une seule zone. Sa panne coupe tout le chemin qui en dépend. On l'élimine par la redondance et le failover. Repérer les SPOF est le premier réflexe d'une revue de disponibilité.",
+    "usageContext": "En revue d'architecture ou après un incident.",
+    "meetingExample": "« Cette base sans réplica est un SPOF : si elle tombe, plus rien ne marche. »",
+    "plainTranslation": "« Le seul maillon qui, s'il casse, arrête tout. »",
+    "relatedTerms": [
+      "ha-high-availability",
+      "ha-failover",
+      "deploy-blast-radius"
+    ],
+    "aliases": [
+      "single point of failure",
+      "spof"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "disponibilite"
+    ]
+  },
+  {
+    "id": "ha-failover",
+    "term": "failover",
+    "fullForm": null,
+    "frenchMeaning": "bascule automatique vers un composant sain",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Bascule automatique du trafic vers une instance/zone saine quand la principale tombe.",
+    "detailedDefinition": "Le failover est le mécanisme qui, à la détection d'une panne, redirige le trafic vers un pair sain (autre instance, réplica, autre zone). En actif/passif, le passif prend le relais ; en actif/actif, les survivants absorbent la charge. Une redondance SANS failover ne protège pas : encore faut-il basculer automatiquement et vite.",
+    "usageContext": "Dans toute conception tolérante aux pannes.",
+    "meetingExample": "« Le failover bascule sur le réplica en secondes : l'incident reste invisible. »",
+    "plainTranslation": "« Passer automatiquement sur la machine de secours quand l'autre tombe. »",
+    "relatedTerms": [
+      "ha-spof",
+      "ha-high-availability",
+      "prod-rollback"
+    ],
+    "aliases": [
+      "bascule",
+      "basculement"
+    ],
+    "possibleConfusions": [
+      "Le failover (bascule d'infrastructure) n'est pas un rollback (retour à une version antérieure de logiciel)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "disponibilite"
+    ]
+  },
+  {
+    "id": "ha-active-passive",
+    "term": "actif/passif",
+    "fullForm": null,
+    "frenchMeaning": "un nœud sert, un autre attend en secours",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Modèle où une instance sert le trafic et une autre attend, prête à prendre le relais.",
+    "detailedDefinition": "En actif/passif, une seule instance traite le trafic ; une seconde reste en attente et prend le relais au failover. Plus simple à raisonner (pas de conflit d'état), mais la capacité de secours est inutilisée en temps normal. À opposer à l'actif/actif, où toutes les instances servent et se répartissent la charge (meilleure utilisation, mais cohérence à gérer).",
+    "usageContext": "Au choix d'une stratégie de redondance.",
+    "meetingExample": "« On part actif/passif : plus simple, le secours prend le relais si besoin. »",
+    "plainTranslation": "« Une machine travaille, l'autre attend prête à la remplacer. »",
+    "relatedTerms": [
+      "ha-active-active",
+      "ha-failover"
+    ],
+    "aliases": [
+      "active-passive"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "disponibilite"
+    ]
+  },
+  {
+    "id": "ha-active-active",
+    "term": "actif/actif",
+    "fullForm": null,
+    "frenchMeaning": "tous les nœuds servent et se répartissent",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Modèle où toutes les instances servent le trafic et se partagent la charge.",
+    "detailedDefinition": "En actif/actif, toutes les instances traitent du trafic simultanément derrière un répartiteur ; la perte de l'une laisse les autres absorber la charge. Meilleure utilisation des ressources et bascule naturelle, mais impose de gérer la cohérence de l'état (services stateless de préférence). À opposer à l'actif/passif (un seul actif, un secours en attente).",
+    "usageContext": "Au choix d'une stratégie de redondance.",
+    "meetingExample": "« En actif/actif, les deux zones servent ; si l'une tombe, l'autre encaisse. »",
+    "plainTranslation": "« Toutes les machines travaillent en même temps et se partagent le travail. »",
+    "relatedTerms": [
+      "ha-active-passive",
+      "scale-horizontal",
+      "scale-stateless"
+    ],
+    "aliases": [
+      "active-active"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "disponibilite"
+    ]
+  },
+  {
+    "id": "scale-horizontal",
+    "term": "scalabilité horizontale",
+    "fullForm": null,
+    "frenchMeaning": "ajouter des instances",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Absorber la charge en ajoutant des instances derrière un répartiteur (plutôt qu'en grossissant une machine).",
+    "detailedDefinition": "La scalabilité horizontale ajoute des instances identiques derrière un load balancer : pas de plafond dur, et redondance par nature (plusieurs instances = tolérance à la panne). Elle exige des services stateless (état externalisé). À opposer à la scalabilité verticale (une machine plus grosse), plus simple mais plafonnée et créant un SPOF.",
+    "usageContext": "Quand la charge dépasse une machine.",
+    "meetingExample": "« On scale horizontalement : plus d'instances derrière le load balancer. »",
+    "plainTranslation": "« Ajouter des machines plutôt que d'en prendre une plus grosse. »",
+    "relatedTerms": [
+      "scale-vertical",
+      "scale-stateless"
+    ],
+    "aliases": [
+      "horizontal scaling",
+      "scale-out"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "scalabilite"
+    ]
+  },
+  {
+    "id": "scale-vertical",
+    "term": "scalabilité verticale",
+    "fullForm": null,
+    "frenchMeaning": "grossir la machine",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Absorber la charge en donnant plus de ressources (CPU/RAM) à une machine.",
+    "detailedDefinition": "La scalabilité verticale augmente la taille d'une instance (plus de CPU/RAM). Simple (aucun changement d'architecture), mais limitée par la plus grosse machine disponible, et elle laisse un point de défaillance unique. On la privilégie pour un gain rapide, avant de passer à l'horizontal pour la disponibilité et l'extensibilité.",
+    "usageContext": "Pour un gain rapide sur une charge modérée.",
+    "meetingExample": "« On scale verticalement pour tenir ce soir, on passera horizontal ensuite. »",
+    "plainTranslation": "« Prendre une machine plus puissante au lieu d'en ajouter. »",
+    "relatedTerms": [
+      "scale-horizontal",
+      "ha-spof"
+    ],
+    "aliases": [
+      "vertical scaling",
+      "scale-up"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "scalabilite"
+    ]
+  },
+  {
+    "id": "scale-stateless",
+    "term": "stateless",
+    "fullForm": null,
+    "frenchMeaning": "sans état local",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Un service qui ne garde aucun état local : n'importe quelle instance traite n'importe quelle requête.",
+    "detailedDefinition": "Un service stateless ne conserve rien entre deux requêtes (l'état vit dans une base/cache partagé). Conséquence : on ajoute/retire des instances librement, on répartit le trafic sans « coller » un utilisateur à une instance. C'est le PRÉREQUIS de la scalabilité horizontale et de l'autoscaling. Rendre un service stateless est souvent la première étape avant de le mettre à l'échelle.",
+    "usageContext": "Dès qu'on veut plusieurs instances.",
+    "meetingExample": "« On externalise la session : le service devient stateless, on peut scaler. »",
+    "plainTranslation": "« Le service ne retient rien entre deux requêtes, donc toute machine peut répondre. »",
+    "relatedTerms": [
+      "scale-stateful",
+      "scale-horizontal"
+    ],
+    "aliases": [
+      "sans état"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "scalabilite"
+    ]
+  },
+  {
+    "id": "scale-stateful",
+    "term": "stateful",
+    "fullForm": null,
+    "frenchMeaning": "avec état local",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Un service qui garde un état local (session, fichier) : ajouter des instances casse la cohérence.",
+    "detailedDefinition": "Un service stateful conserve un état localement (session en mémoire, fichier sur disque). Ajouter une instance pose problème : une requête peut tomber sur une instance « qui ne connaît pas » l'utilisateur. Un stateful derrière un autoscaling est un anti-pattern. La solution : externaliser l'état (base/cache partagé) pour le rendre stateless.",
+    "usageContext": "Quand on diagnostique un problème de scaling.",
+    "meetingExample": "« Ce service est stateful : sous autoscaling, les sessions sautent. »",
+    "plainTranslation": "« Le service garde des infos en local, donc on ne peut pas juste ajouter des machines. »",
+    "relatedTerms": [
+      "scale-stateless"
+    ],
+    "aliases": [
+      "avec état"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "scalabilite"
+    ]
+  },
+  {
+    "id": "dr-disaster-recovery",
+    "term": "disaster recovery",
+    "fullForm": "Disaster Recovery",
+    "frenchMeaning": "reprise après sinistre",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Ensemble des moyens pour rétablir le service après un sinistre majeur (perte de données, de zone).",
+    "detailedDefinition": "Le disaster recovery (DR) prépare le rétablissement après un incident grave : sauvegardes, réplication inter-zones/régions, procédures de bascule, et surtout TESTS de restauration. Il se pilote par deux objectifs chiffrés : le RTO (temps de reprise) et le RPO (perte de données tolérée). Un plan de DR jamais testé est une illusion de sécurité.",
+    "usageContext": "Dans la préparation à l'incident majeur.",
+    "meetingExample": "« Notre plan de disaster recovery : réplica cross-région, RTO 1h, RPO 15min, test trimestriel. »",
+    "plainTranslation": "« Le plan pour repartir après une grosse panne. »",
+    "relatedTerms": [
+      "dr-backup",
+      "dr-restore"
+    ],
+    "aliases": [
+      "dr",
+      "reprise après sinistre",
+      "plan de reprise"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reprise"
+    ]
+  },
+  {
+    "id": "dr-backup",
+    "term": "sauvegarde",
+    "fullForm": null,
+    "frenchMeaning": "copie de secours des données",
+    "category": "prod",
+    "level": "débutant",
+    "shortDefinition": "Copie de secours des données, permettant de restaurer après perte ou corruption.",
+    "detailedDefinition": "Une sauvegarde (backup) est une copie datée des données, conservée à part, qui permet de restaurer après une suppression, une corruption ou un sinistre. Sa valeur dépend de sa fréquence (RPO), de sa rétention, et surtout du TEST de restauration : une sauvegarde jamais restaurée peut être inexploitable le jour J. À distinguer d'un réplica (copie vivante, mais qui propage aussi une corruption).",
+    "usageContext": "Pour toute donnée qui compte.",
+    "meetingExample": "« Sauvegarde horaire, rétention 30 jours, test de restauration mensuel. »",
+    "plainTranslation": "« Une copie de secours pour pouvoir revenir en arrière. »",
+    "relatedTerms": [
+      "dr-restore",
+      "ephemeral-storage"
+    ],
+    "aliases": [
+      "backup"
+    ],
+    "possibleConfusions": [
+      "Une sauvegarde (copie datée à part) n'est pas un réplica (copie vivante synchronisée qui propage aussi les erreurs)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "reprise"
+    ]
+  },
+  {
+    "id": "dr-restore",
+    "term": "test de restauration",
+    "fullForm": null,
+    "frenchMeaning": "vérification qu'une sauvegarde est exploitable",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Restaurer réellement une sauvegarde pour prouver qu'elle fonctionne.",
+    "detailedDefinition": "Le test de restauration consiste à RECHARGER une sauvegarde dans un environnement pour vérifier qu'elle est complète et exploitable, et mesurer le temps de reprise (RTO). C'est la seule preuve qu'une sauvegarde vaut quelque chose : de nombreuses organisations découvrent une sauvegarde inutilisable le jour de l'incident. À planifier régulièrement, pas seulement à la mise en place.",
+    "usageContext": "Dans tout plan de reprise sérieux.",
+    "meetingExample": "« La sauvegarde existe, mais l'a-t-on déjà restaurée ? Sinon, on ne sait pas si elle marche. »",
+    "plainTranslation": "« Vérifier pour de vrai qu'on peut récupérer les données sauvegardées. »",
+    "relatedTerms": [
+      "dr-backup",
+      "dr-disaster-recovery"
+    ],
+    "aliases": [
+      "restore test",
+      "test de restore"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "reprise"
+    ]
+  },
+  {
+    "id": "deploy-environment",
+    "term": "environnement",
+    "fullForm": null,
+    "frenchMeaning": "contexte isolé d'exécution (dev, staging, prod)",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Contexte isolé où tourne l'application (development, testing, staging, production), avec sa propre configuration.",
+    "detailedDefinition": "Un environnement est une instance isolée de l'application avec sa propre configuration et ses propres données : development (on code), testing (on teste), staging/préproduction (réplique de la prod pour valider), production (les vrais utilisateurs). La règle d'or : les environnements sont ISOLÉS — un staging ne touche jamais la base de production.",
+    "usageContext": "Dès qu'on parle de déploiement.",
+    "meetingExample": "« On valide en staging avant de promouvoir en production. »",
+    "plainTranslation": "« Une copie séparée de l'appli : une pour tester, une pour les vrais utilisateurs. »",
+    "relatedTerms": [
+      "deploy-staging",
+      "devops-promotion"
+    ],
+    "aliases": [
+      "environment",
+      "env"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement"
+    ]
+  },
+  {
+    "id": "deploy-staging",
+    "term": "staging",
+    "fullForm": null,
+    "frenchMeaning": "environnement de préproduction",
+    "category": "devops",
+    "level": "débutant",
+    "shortDefinition": "Environnement de préproduction qui réplique la production pour valider avant mise en ligne.",
+    "detailedDefinition": "Le staging (préproduction) est une réplique aussi fidèle que possible de la production, où l'on valide une version avant de la promouvoir. Il doit avoir ses PROPRES ressources : un staging qui lit ou écrit dans la base de production est un défaut grave (un test peut corrompre les vraies données). C'est le dernier filtre avant la prod.",
+    "usageContext": "Avant toute mise en production.",
+    "meetingExample": "« Ça passe en staging : on peut promouvoir en prod. »",
+    "plainTranslation": "« La répétition générale avant la vraie mise en ligne. »",
+    "relatedTerms": [
+      "deploy-environment",
+      "devops-promotion"
+    ],
+    "aliases": [
+      "préproduction",
+      "pre-production",
+      "preprod"
+    ],
+    "possibleConfusions": [
+      "« Staging » (environnement de préprod) ≠ « stage » (phase d'un pipeline CI)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement"
+    ]
+  },
+  {
+    "id": "deploy-canary",
+    "term": "déploiement canary",
+    "fullForm": "canary deployment",
+    "frenchMeaning": "exposer une nouvelle version à une fraction du trafic",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Envoyer une petite part du trafic sur la nouvelle version, mesurer, puis promouvoir ou annuler.",
+    "detailedDefinition": "Le déploiement canary expose la nouvelle version à une FRACTION des utilisateurs, compare des métriques (erreurs, latence) avec la version stable, puis décide de promouvoir (élargir) ou d'annuler (revenir). Il réduit le blast radius d'une régression. Sans métrique de comparaison, un canary est inutile : il faut de l'observabilité pour décider.",
+    "usageContext": "Pour livrer une version risquée prudemment.",
+    "meetingExample": "« On passe 5 % du trafic sur le canary et on regarde les erreurs avant d'élargir. »",
+    "plainTranslation": "« On teste la nouvelle version sur quelques utilisateurs avant tout le monde. »",
+    "relatedTerms": [
+      "deploy-blast-radius",
+      "devops-canary"
+    ],
+    "aliases": [
+      "canary deployment"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement"
+    ]
+  },
+  {
+    "id": "deploy-rolling",
+    "term": "rolling deployment",
+    "fullForm": null,
+    "frenchMeaning": "remplacement progressif des instances",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Remplacer les instances une par une par la nouvelle version, sans coupure.",
+    "detailedDefinition": "Le rolling deployment remplace les instances progressivement (une ou quelques-unes à la fois) : le service reste disponible, mais deux versions COEXISTENT pendant la transition — il faut donc que la nouvelle version reste compatible avec l'ancienne (compatibilité ascendante). Simple et économe en ressources, mais rollback plus lent qu'un blue/green.",
+    "usageContext": "Pour livrer sans coupure à moindre coût.",
+    "meetingExample": "« Déploiement rolling : on remplace deux instances à la fois, sans coupure. »",
+    "plainTranslation": "« On remplace les machines une par une pour éviter l'interruption. »",
+    "relatedTerms": [
+      "deploy-recreate",
+      "compat-backward"
+    ],
+    "aliases": [
+      "rolling update",
+      "déploiement progressif"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement"
+    ]
+  },
+  {
+    "id": "deploy-recreate",
+    "term": "recreate",
+    "fullForm": null,
+    "frenchMeaning": "arrêt puis redémarrage (avec coupure)",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Arrêter l'ancienne version puis démarrer la nouvelle : simple, mais avec interruption.",
+    "detailedDefinition": "La stratégie recreate arrête toutes les instances de l'ancienne version, puis démarre la nouvelle. Simple et sans coexistence de versions (donc pas de souci de compatibilité), mais elle impose une COUPURE. Acceptable pour un outil interne ou une fenêtre de maintenance, à éviter pour un service qui doit rester disponible.",
+    "usageContext": "Quand une courte coupure est tolérable.",
+    "meetingExample": "« En recreate on a trente secondes de coupure : ok pour l'outil interne, pas pour le site. »",
+    "plainTranslation": "« On éteint l'ancienne version, on allume la nouvelle — avec une petite coupure. »",
+    "relatedTerms": [
+      "deploy-rolling"
+    ],
+    "aliases": [
+      "recreate deployment"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement"
+    ]
+  },
+  {
+    "id": "deploy-dark-launch",
+    "term": "dark launch",
+    "fullForm": null,
+    "frenchMeaning": "activer une fonctionnalité en douce pour observer",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Activer une fonctionnalité de façon invisible (ou pour un sous-ensemble) afin d'observer avant l'ouverture générale.",
+    "detailedDefinition": "Le dark launch active une fonctionnalité sans l'annoncer — pour un petit groupe, ou en exécutant le nouveau chemin en tâche de fond sans exposer le résultat — afin de mesurer charge et comportement en conditions réelles avant l'ouverture générale. Il s'appuie sur des feature flags. Proche du canary, mais côté fonctionnalité plutôt que côté version déployée.",
+    "usageContext": "Pour dérisquer une grosse fonctionnalité.",
+    "meetingExample": "« On dark launch le nouveau moteur de recherche en fond pour mesurer la charge. »",
+    "plainTranslation": "« Allumer discrètement une fonctionnalité pour l'observer avant de l'annoncer. »",
+    "relatedTerms": [
+      "deploy-canary"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement"
+    ]
+  },
+  {
+    "id": "deploy-post-verification",
+    "term": "vérification post-déploiement",
+    "fullForm": null,
+    "frenchMeaning": "contrôles après une mise en production",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Contrôles menés juste après un déploiement pour confirmer le bon fonctionnement (ou décider un rollback).",
+    "detailedDefinition": "La vérification post-déploiement regroupe les contrôles faits APRÈS la mise en production : smoke tests, métriques (erreurs, latence), logs. Elle décide si l'on garde la version ou si l'on déclenche le rollback. Prévue AVANT le déploiement (dans le plan), elle transforme « on croise les doigts » en décision fondée sur des signaux.",
+    "usageContext": "Immédiatement après chaque déploiement.",
+    "meetingExample": "« Vérification post-déploiement : erreurs stables, latence ok — on garde la version. »",
+    "plainTranslation": "« Vérifier après la mise en ligne que tout va bien, sinon revenir en arrière. »",
+    "relatedTerms": [
+      "prod-rollback",
+      "deploy-rollback-plan"
+    ],
+    "aliases": [
+      "post-deployment verification"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement"
+    ]
+  },
+  {
+    "id": "deploy-rollback-plan",
+    "term": "plan de rollback",
+    "fullForm": null,
+    "frenchMeaning": "procédure de retour arrière préparée à l'avance",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Procédure décidée AVANT le déploiement pour revenir à l'état stable en cas de problème.",
+    "detailedDefinition": "Un plan de rollback définit, avant la mise en production, COMMENT revenir à la version précédente : quelle version cible, comment gérer la base (migration réversible ?), qui décide, en combien de temps. Le préparer à froid évite l'improvisation pendant l'incident. Si un rollback est impossible (migration non rétrocompatible), le plan prévoit un roll-forward.",
+    "usageContext": "Dans toute mise en production à risque.",
+    "meetingExample": "« Le plan de rollback est prêt : version N-1, migration réversible, décision en 5 minutes. »",
+    "plainTranslation": "« Le plan pour revenir en arrière proprement si le déploiement tourne mal. »",
+    "relatedTerms": [
+      "prod-rollback",
+      "reg-roll-forward",
+      "deploy-blast-radius"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement"
+    ]
+  },
+  {
+    "id": "deploy-blast-radius",
+    "term": "blast radius",
+    "fullForm": null,
+    "frenchMeaning": "étendue de l'impact d'une panne ou d'un changement",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Portée de l'impact : combien d'utilisateurs/services sont touchés par une panne ou un changement.",
+    "detailedDefinition": "Le blast radius (« rayon de l'explosion ») mesure l'ÉTENDUE de l'impact d'un incident ou d'un déploiement : combien d'utilisateurs, quels services, quelles données. On cherche à le RÉDUIRE (canary, déploiement progressif, cloisonnement) pour qu'un problème reste local plutôt que global. C'est un critère clé pour décider d'un rollback ou d'une mitigation.",
+    "usageContext": "À l'évaluation d'un incident ou d'un changement.",
+    "meetingExample": "« Le blast radius est limité au service de recommandation : le reste tient. »",
+    "plainTranslation": "« Jusqu'où s'étend la casse si ça tourne mal. »",
+    "relatedTerms": [
+      "ha-spof",
+      "deploy-canary",
+      "reg-mitigation"
+    ],
+    "aliases": [
+      "rayon d'impact"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement",
+      "incident"
+    ]
+  },
+  {
+    "id": "reg-regression",
+    "term": "régression",
+    "fullForm": null,
+    "frenchMeaning": "fonctionnalité qui marchait et ne marche plus",
+    "category": "test",
+    "level": "débutant",
+    "shortDefinition": "Comportement qui fonctionnait et cesse de fonctionner après un changement.",
+    "detailedDefinition": "Une régression est une fonctionnalité auparavant correcte que casse un changement (nouvelle version, refactor, dépendance). Sournoise car le code « nouveau » peut sembler ok tandis qu'il brise l'existant ailleurs. On la prévient par des tests de non-régression (qui rejouent l'ancien comportement) et on la rattrape par le canary/l'observabilité.",
+    "usageContext": "Après toute évolution du code.",
+    "meetingExample": "« La nouvelle version a introduit une régression : l'export PDF ne marche plus. »",
+    "plainTranslation": "« Un truc qui marchait avant et qui casse après une modif. »",
+    "relatedTerms": [
+      "reg-non-regression-test",
+      "reg-roll-forward",
+      "prod-rollback"
+    ],
+    "aliases": [
+      "regression"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "test",
+      "qualite"
+    ]
+  },
+  {
+    "id": "reg-non-regression-test",
+    "term": "test de non-régression",
+    "fullForm": null,
+    "frenchMeaning": "test qui vérifie que l'existant marche toujours",
+    "category": "test",
+    "level": "intermédiaire",
+    "shortDefinition": "Test qui rejoue un comportement connu pour s'assurer qu'un changement ne l'a pas cassé.",
+    "detailedDefinition": "Un test de non-régression vérifie qu'une fonctionnalité EXISTANTE marche toujours après un changement. Ajouté (idéalement) au moment de corriger un bug, il empêche sa réapparition et, plus largement, protège l'acquis. La suite de non-régression, rejouée à chaque changement (dans la CI), est le filet qui autorise à modifier sans tout re-tester à la main.",
+    "usageContext": "À chaque correction et évolution.",
+    "meetingExample": "« On ajoute un test de non-régression sur ce bug pour qu'il ne revienne jamais. »",
+    "plainTranslation": "« Un test qui garde la preuve que l'ancien comportement marche encore. »",
+    "relatedTerms": [
+      "reg-regression"
+    ],
+    "aliases": [
+      "non-regression test"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "test",
+      "qualite"
+    ]
+  },
+  {
+    "id": "reg-roll-forward",
+    "term": "roll-forward",
+    "fullForm": null,
+    "frenchMeaning": "corriger en avançant vers une nouvelle version",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Réparer en publiant une nouvelle version corrective plutôt qu'en revenant à la précédente.",
+    "detailedDefinition": "Le roll-forward corrige un problème en AVANÇANT : on livre une nouvelle version qui répare, au lieu de revenir en arrière (rollback). On le choisit quand le rollback est impossible ou risqué — typiquement après une migration de base NON rétrocompatible, où revenir casserait les données. Il suppose de pouvoir livrer vite et sûrement (hotfix).",
+    "usageContext": "Quand le retour arrière est impossible.",
+    "meetingExample": "« La migration n'est pas réversible : pas de rollback, on fait un roll-forward avec un hotfix. »",
+    "plainTranslation": "« Réparer en sortant une nouvelle version plutôt qu'en revenant à l'ancienne. »",
+    "relatedTerms": [
+      "prod-rollback",
+      "prod-hotfix",
+      "reg-regression"
+    ],
+    "aliases": [
+      "roll forward"
+    ],
+    "possibleConfusions": [
+      "Roll-forward = avancer vers une version corrective ; rollback = revenir à la version précédente."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "incident"
+    ]
+  },
+  {
+    "id": "reg-revert",
+    "term": "revert",
+    "fullForm": null,
+    "frenchMeaning": "annuler un changement dans l'historique du code",
+    "category": "git",
+    "level": "intermédiaire",
+    "shortDefinition": "Annuler un commit en créant un nouveau commit qui inverse ses modifications.",
+    "detailedDefinition": "Un revert (Git) annule un changement en ajoutant un commit qui INVERSE ses modifications, sans réécrire l'historique. À distinguer d'un rollback (déploiement : revenir à une version déployée précédente) : le revert agit dans le CODE, le rollback dans le DÉPLOIEMENT. Reverter le commit fautif puis redéployer est une façon propre de corriger une régression.",
+    "usageContext": "Pour défaire un changement de code fautif.",
+    "meetingExample": "« On revert le commit qui a cassé l'export, puis on redéploie. »",
+    "plainTranslation": "« Annuler une modif dans le code en ajoutant une modif inverse. »",
+    "relatedTerms": [
+      "prod-rollback",
+      "reg-regression"
+    ],
+    "aliases": [
+      "git revert"
+    ],
+    "possibleConfusions": [
+      "Revert (annuler un commit dans le code) ≠ rollback (revenir à une version déployée précédente)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "git"
+    ]
+  },
+  {
+    "id": "reg-mitigation",
+    "term": "mitigation",
+    "fullForm": null,
+    "frenchMeaning": "réduction de l'impact sans supprimer la cause",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Réduire l'impact d'un incident sans nécessairement en avoir supprimé la cause.",
+    "detailedDefinition": "Une mitigation limite les dégâts d'un incident EN COURS sans forcément traiter la cause racine : couper une fonctionnalité fautive, basculer sur un secours, limiter le débit. Elle achète du temps pour trouver et corriger la vraie cause. À distinguer du correctif (qui supprime la cause) et du workaround (contournement, souvent côté utilisateur).",
+    "usageContext": "Pendant la gestion d'un incident.",
+    "meetingExample": "« Mitigation immédiate : on coupe la feature fautive ; on cherchera la cause après. »",
+    "plainTranslation": "« Réduire les dégâts tout de suite, même sans avoir réglé le fond. »",
+    "relatedTerms": [
+      "prod-hotfix",
+      "reg-root-cause"
+    ],
+    "aliases": [
+      "atténuation"
+    ],
+    "possibleConfusions": [
+      "Mitigation (réduire l'impact) ≠ correctif (supprimer la cause) ≠ workaround (contournement temporaire)."
+    ],
+    "ambiguityNote": null,
+    "tags": [
+      "incident"
+    ]
+  },
+  {
+    "id": "reg-root-cause",
+    "term": "root cause",
+    "fullForm": null,
+    "frenchMeaning": "cause racine d'un incident",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "La cause première d'un incident, dont la correction empêche sa réapparition.",
+    "detailedDefinition": "La root cause (cause racine) est l'origine réelle d'un incident, par-delà les symptômes. La trouver (analyse de cause racine) permet un correctif DURABLE, contrairement à une mitigation qui ne fait que réduire l'impact. Attention : un incident a souvent plusieurs facteurs contributifs plutôt qu'une cause unique ; une analyse sans blâme cherche les causes systémiques, pas un coupable.",
+    "usageContext": "Dans un post-mortem.",
+    "meetingExample": "« La root cause n'est pas l'erreur de l'opérateur, c'est l'absence de garde-fou. »",
+    "plainTranslation": "« La vraie origine du problème, pas juste le symptôme. »",
+    "relatedTerms": [
+      "reg-contributing-factor",
+      "prod-postmortem",
+      "reg-mitigation"
+    ],
+    "aliases": [
+      "cause racine"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "incident"
+    ]
+  },
+  {
+    "id": "reg-contributing-factor",
+    "term": "facteur contributif",
+    "fullForm": null,
+    "frenchMeaning": "facteur ayant participé à un incident",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Élément qui a contribué à un incident sans en être l'unique cause.",
+    "detailedDefinition": "Un facteur contributif est une condition qui a participé à un incident sans en être, à lui seul, la cause. La plupart des incidents naissent d'une COMBINAISON de facteurs (un bug + une alerte manquante + une procédure floue) plutôt que d'une cause unique. Les recenser, dans une culture sans blâme, mène à des améliorations systémiques plutôt qu'à la désignation d'un coupable.",
+    "usageContext": "Dans un post-mortem approfondi.",
+    "meetingExample": "« La panne a plusieurs facteurs contributifs : le bug, mais aussi l'absence d'alerte. »",
+    "plainTranslation": "« Un des éléments qui ont aidé le problème à arriver, parmi d'autres. »",
+    "relatedTerms": [
+      "reg-root-cause",
+      "prod-postmortem"
+    ],
+    "aliases": [
+      "contributing factor"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "incident"
+    ]
+  },
+  {
+    "id": "prod-change-failure-rate",
+    "term": "change failure rate",
+    "fullForm": null,
+    "frenchMeaning": "taux de changements qui échouent",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Part des déploiements qui provoquent un incident ou nécessitent un correctif.",
+    "detailedDefinition": "Le change failure rate (taux d'échec des changements) est l'un des indicateurs DORA : la proportion de déploiements qui causent une dégradation (rollback, hotfix, incident). Un taux élevé signale un manque de tests, de revue ou de progressivité. À lire avec les autres indicateurs (fréquence de déploiement, délai, MTTR) : livrer souvent ET sûrement est le but, pas livrer rarement pour cacher les échecs.",
+    "usageContext": "Dans le pilotage de la livraison.",
+    "meetingExample": "« Notre change failure rate grimpe : trop de déploiements cassent, il faut renforcer les tests. »",
+    "plainTranslation": "« La part des mises en production qui tournent mal. »",
+    "relatedTerms": [
+      "prod-mttr",
+      "deploy-canary"
+    ],
+    "aliases": [
+      "taux d'échec des changements"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "livraison",
+      "metrique"
+    ]
+  },
+  {
+    "id": "prod-incident-commander",
+    "term": "incident commander",
+    "fullForm": null,
+    "frenchMeaning": "coordinateur d'un incident",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Personne qui coordonne la réponse à un incident (décisions, rôles, communication).",
+    "detailedDefinition": "L'incident commander (commandant d'incident) est celui qui COORDONNE la réponse à un incident majeur : il n'a pas à tout réparer lui-même, mais il attribue les rôles, prend les décisions (mitiger ? rollback ?), et cadence la communication. Ce rôle clair évite le chaos où tout le monde débogue en parallèle sans direction. Introduit ici au niveau conceptuel.",
+    "usageContext": "Pendant un incident critique.",
+    "meetingExample": "« Qui est incident commander sur ce sev1 ? Il faut quelqu'un qui coordonne. »",
+    "plainTranslation": "« La personne qui dirige la réponse à la panne. »",
+    "relatedTerms": [
+      "prod-postmortem",
+      "reg-mitigation"
+    ],
+    "aliases": [
+      "commandant d'incident"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "incident"
+    ]
+  },
+  {
+    "id": "deploy-change-freeze",
+    "term": "change freeze",
+    "fullForm": null,
+    "frenchMeaning": "gel des changements sur une période",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Période pendant laquelle on interdit les déploiements pour réduire les risques.",
+    "detailedDefinition": "Un change freeze (gel des changements, ou release freeze) suspend les déploiements sur une période sensible (fêtes, forte charge, événement). Objectif : réduire le risque quand la capacité à réagir est réduite. Contrepartie : les changements s'accumulent et le premier déploiement d'après-gel est plus gros donc plus risqué — d'où l'intérêt de gels courts et ciblés plutôt que systématiques.",
+    "usageContext": "Avant une période à fort enjeu.",
+    "meetingExample": "« Change freeze du 20 décembre au 2 janvier : aucun déploiement sauf hotfix critique. »",
+    "plainTranslation": "« Une période où on n'a pas le droit de déployer pour éviter les risques. »",
+    "relatedTerms": [
+      "deploy-rollback-plan",
+      "prod-hotfix"
+    ],
+    "aliases": [
+      "release freeze",
+      "gel des changements",
+      "gel de release"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "deploiement"
+    ]
+  },
+  {
+    "id": "compat-backward",
+    "term": "compatibilité ascendante",
+    "fullForm": null,
+    "frenchMeaning": "la nouvelle version accepte l'ancien format",
+    "category": "dev",
+    "level": "avancé",
+    "shortDefinition": "Propriété d'une nouvelle version qui reste compatible avec les données/clients de l'ancienne.",
+    "detailedDefinition": "La compatibilité ascendante (backward compatibility) garantit qu'une nouvelle version accepte encore ce que produisait l'ancienne (anciens formats, anciens clients). Elle est INDISPENSABLE aux déploiements rolling/canary (où deux versions coexistent) et aux migrations réversibles. Une rupture de compatibilité (breaking change) impose une coordination et complique le rollback.",
+    "usageContext": "À chaque évolution d'API ou de schéma.",
+    "meetingExample": "« Garde la compatibilité ascendante : pendant le rolling, l'ancienne et la nouvelle version cohabitent. »",
+    "plainTranslation": "« La nouvelle version continue d'accepter l'ancien format. »",
+    "relatedTerms": [
+      "compat-forward",
+      "migration-expand-contract",
+      "deploy-rolling"
+    ],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "compatibilite"
+    ]
+  },
+  {
+    "id": "compat-forward",
+    "term": "compatibilité descendante",
+    "fullForm": null,
+    "frenchMeaning": "l'ancienne version tolère le nouveau format",
+    "category": "dev",
+    "level": "avancé",
+    "shortDefinition": "Propriété d'une ancienne version qui tolère les données produites par une nouvelle.",
+    "detailedDefinition": "La compatibilité descendante (forward compatibility) est la capacité d'une version ANCIENNE à ne pas casser face à des données produites par une version PLUS RÉCENTE (par exemple en ignorant des champs inconnus). Plus difficile à garantir que la compatibilité ascendante, elle facilite les rollbacks et les migrations progressives (expand-and-contract).",
+    "usageContext": "À la conception de formats évolutifs.",
+    "meetingExample": "« Le client ignore les champs inconnus : compatibilité descendante assurée, on peut rollbacker. »",
+    "plainTranslation": "« L'ancienne version supporte les données de la nouvelle sans planter. »",
+    "relatedTerms": [
+      "compat-backward",
+      "migration-expand-contract"
+    ],
+    "aliases": [
+      "forward compatibility",
+      "compatibilité amont"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "compatibilite"
+    ]
+  },
+  {
+    "id": "migration-expand-contract",
+    "term": "migration expand-and-contract",
+    "fullForm": "expand-and-contract",
+    "frenchMeaning": "migration de schéma en deux temps, réversible",
+    "category": "db",
+    "level": "avancé",
+    "shortDefinition": "Migrer un schéma en deux phases (ajouter puis retirer) pour rester rétrocompatible et réversible.",
+    "detailedDefinition": "La migration expand-and-contract évite les migrations « big bang » irréversibles : on ÉTEND d'abord le schéma de façon compatible (ajouter la nouvelle colonne, écrire dans les deux), on déploie et on migre les données, puis, une fois l'ancienne version disparue, on CONTRACTE (retirer l'ancien). À chaque étape, l'ancienne et la nouvelle version du code fonctionnent — ce qui préserve la possibilité de rollback.",
+    "usageContext": "Pour changer un schéma sans coupure ni piège.",
+    "meetingExample": "« Migration expand-and-contract : on ajoute la colonne, on double-écrit, on bascule, puis on nettoie. »",
+    "plainTranslation": "« Changer la base en deux étapes pour pouvoir revenir en arrière à tout moment. »",
+    "relatedTerms": [
+      "compat-backward",
+      "reg-roll-forward",
+      "prod-rollback"
+    ],
+    "aliases": [
+      "expand and contract",
+      "expand-contract",
+      "parallel change"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "base",
+      "migration"
+    ]
   }
 ]

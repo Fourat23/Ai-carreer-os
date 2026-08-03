@@ -1,0 +1,11 @@
+{
+  "sprint": "V20",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V20 (cf. ADR-020). `scanGlobs` = fichiers toujours scannés pour signaux de danger (bloquant). `items` = notes HUMAINES 0-4 par dimension (16), portées en CP2 et rejouées en CP10. Un registre vide passe la gate ; les notes sont ajoutées au fil de l'audit, jamais fabriquées.",
+  "scanGlobs": [
+    "curriculum/days/*.md",
+    "data/exercises/*.json",
+    "data/missions/*.json"
+  ],
+  "items": []
+}

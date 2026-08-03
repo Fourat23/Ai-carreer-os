@@ -1,0 +1,45 @@
+{
+  "id": "three-tier-ha",
+  "title": "Trois tiers en haute disponibilité",
+  "description": "Architecture web 3-tiers de référence : entrée managée, services répliqués sur deux zones, base privée avec réplica et sauvegarde testée, observabilité présente. Sert de topologie « saine » à comparer.",
+  "environments": ["production"],
+  "zones": [
+    { "id": "az-a", "label": "Zone de disponibilité A" },
+    { "id": "az-b", "label": "Zone de disponibilité B" }
+  ],
+  "nodes": [
+    { "id": "client", "kind": "client", "label": "Navigateur / client" },
+    { "id": "dns", "kind": "dns", "label": "DNS" },
+    { "id": "lb", "kind": "load-balancer", "label": "Load balancer managé", "zone": "az-a", "environment": "production", "props": { "managed": true } },
+    { "id": "api-a", "kind": "api", "label": "API (zone A)", "zone": "az-a", "environment": "production", "props": { "replicas": 2, "stateful": false } },
+    { "id": "api-b", "kind": "api", "label": "API (zone B)", "zone": "az-b", "environment": "production", "props": { "replicas": 2, "stateful": false } },
+    { "id": "cache", "kind": "cache", "label": "Cache partagé", "zone": "az-a", "environment": "production" },
+    { "id": "db", "kind": "relational-db", "label": "Base primaire", "zone": "az-a", "environment": "production", "props": { "public": false, "persistent": true } },
+    { "id": "db-replica", "kind": "relational-db", "label": "Base réplica", "zone": "az-b", "environment": "production", "props": { "public": false, "persistent": true } },
+    { "id": "secrets", "kind": "secret-store", "label": "Coffre à secrets", "environment": "production" },
+    { "id": "backup", "kind": "backup", "label": "Sauvegarde", "props": { "restoreTested": true } },
+    { "id": "monitoring", "kind": "monitoring", "label": "Observabilité" }
+  ],
+  "edges": [
+    { "id": "d1", "from": "client", "to": "dns", "kind": "resolves", "props": { "tls": true } },
+    { "id": "r1", "from": "client", "to": "lb", "kind": "routes-to", "props": { "tls": true } },
+    { "id": "r2", "from": "lb", "to": "api-a", "kind": "routes-to" },
+    { "id": "r3", "from": "lb", "to": "api-b", "kind": "routes-to" },
+    { "id": "c1", "from": "api-a", "to": "cache", "kind": "reads" },
+    { "id": "c2", "from": "api-b", "to": "cache", "kind": "reads" },
+    { "id": "w1", "from": "api-a", "to": "db", "kind": "writes" },
+    { "id": "w2", "from": "api-b", "to": "db", "kind": "writes" },
+    { "id": "rep", "from": "db", "to": "db-replica", "kind": "replicates-to" },
+    { "id": "bk", "from": "backup", "to": "db", "kind": "backs-up" },
+    { "id": "m1", "from": "monitoring", "to": "api-a", "kind": "monitors" },
+    { "id": "m2", "from": "monitoring", "to": "api-b", "kind": "monitors" }
+  ],
+  "objectives": [
+    { "id": "avail", "kind": "availability", "target": "multi-zone" },
+    { "id": "rpo", "kind": "rpo", "target": "15min" }
+  ],
+  "skills": ["http", "testing"],
+  "dayRefs": [78],
+  "trackScope": ["systems-cloud-foundations-v1", "ai-engineer-foundations-v1"],
+  "missionRefs": ["cloud-three-tier"]
+}

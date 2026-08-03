@@ -1,0 +1,27 @@
+{
+  "id": "exposed-monolith",
+  "title": "Monolithe exposé (à diagnostiquer)",
+  "description": "Un déploiement naïf : base de données accessible publiquement, service unique sans load balancer, aucune sauvegarde ni observabilité, flux public sans TLS. Objectif : repérer les défauts et proposer des corrections.",
+  "environments": ["production"],
+  "zones": [
+    { "id": "az-a", "label": "Zone unique" }
+  ],
+  "nodes": [
+    { "id": "client", "kind": "client", "label": "Client" },
+    { "id": "api", "kind": "api", "label": "API monolithe", "zone": "az-a", "environment": "production", "props": { "replicas": 1, "holdsSecrets": true } },
+    { "id": "worker", "kind": "backend", "label": "Worker de traitement", "zone": "az-a", "environment": "production", "props": { "replicas": 1 } },
+    { "id": "db", "kind": "relational-db", "label": "Base de données", "zone": "az-a", "environment": "production", "props": { "public": true, "persistent": true } }
+  ],
+  "edges": [
+    { "id": "r1", "from": "client", "to": "api", "kind": "routes-to" },
+    { "id": "w1", "from": "api", "to": "db", "kind": "writes" },
+    { "id": "w2", "from": "worker", "to": "db", "kind": "writes" }
+  ],
+  "objectives": [
+    { "id": "avail", "kind": "availability", "target": "best-effort" }
+  ],
+  "skills": ["http", "debugging"],
+  "dayRefs": [78],
+  "trackScope": ["systems-cloud-foundations-v1"],
+  "missionRefs": ["cloud-secure-exposure"]
+}

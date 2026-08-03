@@ -20,6 +20,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/lessons', label: 'Leçons de fond', icon: 'BookOpen' },
       { href: '/lab', label: 'Laboratoire', icon: 'FlaskConical' },
       { href: '/pipelines', label: 'Pipeline Lab', icon: 'Workflow' },
+      { href: '/cloud-lab', label: 'Cloud Topology Lab', icon: 'Network' },
       { href: '/missions', label: 'Missions', icon: 'Target' },
       { href: '/skills', label: 'Compétences', icon: 'Target' },
       { href: '/projects', label: 'Projets', icon: 'FolderGit2' },

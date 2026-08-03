@@ -1279,3 +1279,32 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .mission-review-fill { height: 100%; background: var(--accent); }
 .mission-review-lists { list-style: none; padding: 0; margin: 6px 0; display: grid; gap: 4px; font-size: 14px; }
 .mission-rubric .chip { margin-right: 4px; }
+
+/* ── Cloud Topology Lab (V22) ──────────────────────────────────────────────── */
+.cl-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--sp-4); align-items: start; }
+.cl-col { min-width: 0; }
+.cl-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); display: block; overflow-x: auto; }
+.cl-table th, .cl-table td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.cl-table th { color: var(--muted); font-weight: 600; font-size: var(--fs-xs); }
+.cl-table code { font-family: var(--mono, monospace); font-size: 11px; }
+.cl-summary { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--sp-3); }
+.cl-sevchip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--panel); color: var(--text); font-size: var(--fs-xs); cursor: pointer; }
+.cl-sevchip.is-on { border-color: var(--accent); background: var(--panel-2); }
+.cl-diags { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-3); }
+.cl-diag { border: 1px solid var(--border); border-left-width: 3px; border-radius: var(--r-sm); padding: var(--sp-3); background: var(--panel); }
+.cl-diag-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.cl-diag-exp { margin: 6px 0; font-size: var(--fs-sm); }
+.cl-diag-meta { margin: 3px 0; font-size: var(--fs-xs); color: var(--muted); }
+.cl-tradeoff { font-style: italic; }
+.cl-sev-blocking { border-left-color: var(--danger, #c0392b); }
+.cl-sev-risk { border-left-color: #d97706; }
+.cl-sev-warning { border-left-color: #b8860b; }
+.cl-sev-observation { border-left-color: var(--muted); }
+.cl-incident { margin-top: var(--sp-4); padding-top: var(--sp-3); border-top: 1px solid var(--border); }
+.cl-error { color: var(--danger, #c0392b); font-size: var(--fs-sm); }
+.cl-scenres { margin-top: var(--sp-3); padding: var(--sp-3); border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--panel-2); font-size: var(--fs-sm); }
+.cl-scenres.is-ok { border-left: 3px solid var(--ok, #2a8); }
+.cl-scenres.is-ko { border-left: 3px solid var(--danger, #c0392b); }
+.cl-scenres p { margin: 4px 0; }
+@media (max-width: 900px) { .cl-grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,35 @@
+{
+  "id": "canary-no-metric",
+  "title": "Déploiement canary sans métrique",
+  "description": "Un service déployé en canary et un environnement staging relié à la base de production, sans observabilité. Illustre les régressions de déploiement : comment décider promotion, rollback ou roll-forward sans mesure.",
+  "environments": ["staging", "production"],
+  "zones": [
+    { "id": "az-a", "label": "Zone A" },
+    { "id": "az-b", "label": "Zone B" }
+  ],
+  "nodes": [
+    { "id": "client", "kind": "client", "label": "Client" },
+    { "id": "lb", "kind": "load-balancer", "label": "Load balancer", "zone": "az-a", "environment": "production", "props": { "managed": true } },
+    { "id": "api-stable", "kind": "api", "label": "API stable", "zone": "az-a", "environment": "production", "props": { "replicas": 2 } },
+    { "id": "api-canary", "kind": "api", "label": "API canary", "zone": "az-b", "environment": "production", "props": { "replicas": 1, "deployStrategy": "canary" } },
+    { "id": "db", "kind": "relational-db", "label": "Base de production", "zone": "az-a", "environment": "production", "props": { "public": false, "persistent": true } },
+    { "id": "backup", "kind": "backup", "label": "Sauvegarde", "props": { "restoreTested": true } },
+    { "id": "api-staging", "kind": "api", "label": "API staging", "zone": "az-b", "environment": "staging", "props": { "replicas": 1 } }
+  ],
+  "edges": [
+    { "id": "r1", "from": "client", "to": "lb", "kind": "routes-to", "props": { "tls": true } },
+    { "id": "r2", "from": "lb", "to": "api-stable", "kind": "routes-to" },
+    { "id": "r3", "from": "lb", "to": "api-canary", "kind": "routes-to" },
+    { "id": "w1", "from": "api-stable", "to": "db", "kind": "writes" },
+    { "id": "w2", "from": "api-canary", "to": "db", "kind": "writes" },
+    { "id": "leak", "from": "api-staging", "to": "db", "kind": "reads" },
+    { "id": "bk", "from": "backup", "to": "db", "kind": "backs-up" }
+  ],
+  "objectives": [
+    { "id": "avail", "kind": "availability", "target": "multi-zone" }
+  ],
+  "skills": ["http", "testing"],
+  "dayRefs": [78],
+  "trackScope": ["systems-cloud-foundations-v1"],
+  "missionRefs": ["cloud-broken-release"]
+}

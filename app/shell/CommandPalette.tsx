@@ -10,7 +10,7 @@ import { search, mergeIndex, resumeCommand, reviewsCommand, type SearchItem } fr
 
 const TYPE_LABEL: Record<string, string> = {
   command: 'Commandes', day: 'Journées', exercise: 'Exercices', mission: 'Missions',
-  pipeline: 'Pipelines', track: 'Parcours', module: 'Modules',
+  pipeline: 'Pipelines', topology: 'Topologies', track: 'Parcours', module: 'Modules',
   week: 'Semaines', month: 'Mois', skill: 'Compétences', technology: 'Technologies',
   project: 'Projets', lesson: 'Leçons', page: 'Pages',
 };

@@ -7,6 +7,7 @@ import { getCatalogue } from './catalogue-server';
 import { listExercises } from './exercises-server';
 import { listMissions } from './missions-server';
 import { publicPipelineSummaries } from './pipelines-server';
+import { publicTopologySummaries } from './topologies-server';
 import { getRuntimeAdapter, DEFAULT_RUNTIME_ID } from './runtime.mjs';
 import { buildIndex } from './search';
 import type { SearchItem } from './search';
@@ -40,6 +41,6 @@ function publicMissionSummaries() {
 }
 
 export function getSearchIndex(): SearchItem[] {
-  if (!cached) cached = buildIndex(getProgram(), getCatalogue(), publicExerciseSummaries(), publicMissionSummaries(), publicPipelineSummaries());
+  if (!cached) cached = buildIndex(getProgram(), getCatalogue(), publicExerciseSummaries(), publicMissionSummaries(), publicPipelineSummaries(), publicTopologySummaries());
   return cached;
 }

@@ -1,0 +1,15 @@
+{
+  "sprint": "V22",
+  "baselineRef": "9d59a9c",
+  "note": "Plan de mutation contrôlée V22 (cf. ADR-022). Le contenu Cloud enrichit ADDITIVEMENT les journées d'ancrage réelles du module architecture/observabilité du parcours Systems & Cloud : 78 (3-tiers → déploiement cloud), 79 (observabilité → haute disponibilité), 80 (cache/perf → scalabilité & coûts), 81 (trade-offs → déploiement, régressions & reprise). Aucune journée déplacée. Toute dérive hors de ce périmètre échoue la gate v22:check. Les topologies livrées (data/topologies) sont validées contre les données réelles.",
+  "allowedSourceModules": [
+    "scripts/data/days-enrich-61-90.mjs"
+  ],
+  "targetDays": [78, 79, 80, 81],
+  "requiredConcepts": {
+    "78": ["cloud", "iaas", "paas", "responsabilité partagée", "zone de disponibilité", "subnet"],
+    "79": ["haute disponibilité", "point de défaillance unique", "failover", "readiness", "budget d'erreur", "slo"],
+    "80": ["scalabilité horizontale", "autoscaling", "stateless", "stateful", "compromis"],
+    "81": ["blue/green", "canary", "rollback", "roll-forward", "rto", "rpo", "blast radius"]
+  }
+}

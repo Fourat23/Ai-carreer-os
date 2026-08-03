@@ -17,7 +17,8 @@
     "v18:check": "node scripts/v18-missions-check.mjs",
     "v19:check": "node scripts/v19-coverage-check.mjs",
     "v20:pedagogy-check": "node scripts/v20-pedagogy-check.mjs",
-    "v21:check": "node scripts/v21-check.mjs"
+    "v21:check": "node scripts/v21-check.mjs",
+    "v22:check": "node scripts/v22-check.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",

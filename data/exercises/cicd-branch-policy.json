@@ -1,0 +1,127 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-branch-policy",
+  "title": "CI/CD : valider une politique de branche",
+  "difficulty": 2,
+  "summary": "canMerge(policy, pr) : policy={requireGreenCI, protectedBranches}. Autorise le merge si la cible n’est pas protégée, OU si elle l’est et que la CI est verte (pr.ciGreen).",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function canMerge(policy, pr) {\n  // TODO : branche protégée ⇒ CI verte requise.\n  return true;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function canMerge(policy,pr){const protectedB=policy.protectedBranches||[];if(!protectedB.includes(pr.target))return true;if(policy.requireGreenCI)return pr.ciGreen===true;return true;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "main protégée, CI verte",
+      "kind": "call-equals",
+      "export": "canMerge",
+      "args": [
+        {
+          "requireGreenCI": true,
+          "protectedBranches": [
+            "main"
+          ]
+        },
+        {
+          "target": "main",
+          "ciGreen": true
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "main protégée, CI rouge",
+      "kind": "call-equals",
+      "export": "canMerge",
+      "args": [
+        {
+          "requireGreenCI": true,
+          "protectedBranches": [
+            "main"
+          ]
+        },
+        {
+          "target": "main",
+          "ciGreen": false
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "branche non protégée",
+      "kind": "call-equals",
+      "export": "canMerge",
+      "args": [
+        {
+          "requireGreenCI": true,
+          "protectedBranches": [
+            "main"
+          ]
+        },
+        {
+          "target": "feature",
+          "ciGreen": false
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t4",
+      "name": "protégée sans exigence CI (privé)",
+      "kind": "call-equals",
+      "export": "canMerge",
+      "args": [
+        {
+          "requireGreenCI": false,
+          "protectedBranches": [
+            "main"
+          ]
+        },
+        {
+          "target": "main",
+          "ciGreen": false
+        }
+      ],
+      "expected": true,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "release protégée, CI rouge (privé)",
+      "kind": "call-equals",
+      "export": "canMerge",
+      "args": [
+        {
+          "requireGreenCI": true,
+          "protectedBranches": [
+            "main",
+            "release"
+          ]
+        },
+        {
+          "target": "release",
+          "ciGreen": false
+        }
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

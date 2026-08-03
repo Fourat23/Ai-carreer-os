@@ -1,0 +1,134 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-fail-fast",
+  "title": "CI/CD : effet du fail-fast",
+  "difficulty": 3,
+  "summary": "failFast(jobs) : liste ORDONNÉE [{id, status}]. Après le PREMIER \"failed\", tous les jobs \"pending\" suivants deviennent \"cancelled\". Renvoie la liste des ids annulés.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function failFast(jobs) {\n  // TODO : ids des jobs pending annulés après le 1er échec.\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function failFast(jobs){let failed=false;const out=[];for(const j of jobs){if(failed&&j.status===\"pending\")out.push(j.id);if(j.status===\"failed\")failed=true;}return out;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "annule les suivants pending",
+      "kind": "call-equals",
+      "export": "failFast",
+      "args": [
+        [
+          {
+            "id": "a",
+            "status": "success"
+          },
+          {
+            "id": "b",
+            "status": "failed"
+          },
+          {
+            "id": "c",
+            "status": "pending"
+          },
+          {
+            "id": "d",
+            "status": "pending"
+          }
+        ]
+      ],
+      "expected": [
+        "c",
+        "d"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucun échec → rien",
+      "kind": "call-equals",
+      "export": "failFast",
+      "args": [
+        [
+          {
+            "id": "a",
+            "status": "success"
+          },
+          {
+            "id": "b",
+            "status": "pending"
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "échec en dernier → rien après",
+      "kind": "call-equals",
+      "export": "failFast",
+      "args": [
+        [
+          {
+            "id": "a",
+            "status": "pending"
+          },
+          {
+            "id": "b",
+            "status": "failed"
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t4",
+      "name": "déjà terminé non annulé (privé)",
+      "kind": "call-equals",
+      "export": "failFast",
+      "args": [
+        [
+          {
+            "id": "a",
+            "status": "failed"
+          },
+          {
+            "id": "b",
+            "status": "success"
+          },
+          {
+            "id": "c",
+            "status": "pending"
+          }
+        ]
+      ],
+      "expected": [
+        "c"
+      ],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "vide (privé)",
+      "kind": "call-equals",
+      "export": "failFast",
+      "args": [
+        []
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

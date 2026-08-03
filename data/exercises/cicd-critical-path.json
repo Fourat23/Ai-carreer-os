@@ -1,0 +1,131 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-critical-path",
+  "title": "CI/CD : durée du chemin critique",
+  "difficulty": 4,
+  "summary": "criticalPath(jobs) où jobs=[{id, duration, needs?}] → la durée de la plus longue chaîne de dépendances (durée minimale du pipeline avec parallélisme illimité).",
+  "skills": [
+    "algo"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function criticalPath(jobs) {\n  // TODO : plus longue somme de durées le long des dépendances.\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function criticalPath(jobs){const byId=new Map(jobs.map(j=>[j.id,j]));const memo=new Map();function longest(id){if(memo.has(id))return memo.get(id);const j=byId.get(id);const deps=(j.needs||[]).filter(d=>byId.has(d));const best=deps.length?Math.max(...deps.map(longest)):0;const v=best+(j.duration||0);memo.set(id,v);return v;}return jobs.length?Math.max(...jobs.map(j=>longest(j.id))):0;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "chaîne 1+2+3",
+      "kind": "call-equals",
+      "export": "criticalPath",
+      "args": [
+        [
+          {
+            "id": "a",
+            "duration": 1
+          },
+          {
+            "id": "b",
+            "duration": 2,
+            "needs": [
+              "a"
+            ]
+          },
+          {
+            "id": "c",
+            "duration": 3,
+            "needs": [
+              "b"
+            ]
+          }
+        ]
+      ],
+      "expected": 6
+    },
+    {
+      "id": "t2",
+      "name": "parallèle → max branche",
+      "kind": "call-equals",
+      "export": "criticalPath",
+      "args": [
+        [
+          {
+            "id": "a",
+            "duration": 5
+          },
+          {
+            "id": "b",
+            "duration": 2
+          }
+        ]
+      ],
+      "expected": 5
+    },
+    {
+      "id": "t3",
+      "name": "fan-in prend la plus longue",
+      "kind": "call-equals",
+      "export": "criticalPath",
+      "args": [
+        [
+          {
+            "id": "lint",
+            "duration": 2
+          },
+          {
+            "id": "test",
+            "duration": 5
+          },
+          {
+            "id": "build",
+            "duration": 1,
+            "needs": [
+              "lint",
+              "test"
+            ]
+          }
+        ]
+      ],
+      "expected": 6
+    },
+    {
+      "id": "t4",
+      "name": "un seul job (privé)",
+      "kind": "call-equals",
+      "export": "criticalPath",
+      "args": [
+        [
+          {
+            "id": "a",
+            "duration": 4
+          }
+        ]
+      ],
+      "expected": 4,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "vide (privé)",
+      "kind": "call-equals",
+      "export": "criticalPath",
+      "args": [
+        []
+      ],
+      "expected": 0,
+      "private": true
+    }
+  ]
+}

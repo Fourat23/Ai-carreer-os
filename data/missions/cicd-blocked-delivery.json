@@ -1,0 +1,99 @@
+{
+  "id": "cicd-blocked-delivery",
+  "title": "Livraison bloquée vers la production",
+  "description": "Un artefact validé n’atteint pas la production. Diagnostiquer la porte de promotion (CI, artefact, approbation), débloquer proprement et rédiger un runbook + plan de rollback.",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Simulation déterministe. Une release est prête mais reste BLOQUÉE avant la production. La promotion vers un environnement protégé exige plusieurs conditions : CI verte, artefact présent (le MÊME qu'on a testé — jamais un rebuild), et APPROBATION manuelle si l'environnement la requiert. Tu dois déterminer laquelle manque, débloquer proprement (obtenir l'approbation, régénérer l'artefact manquant), promouvoir le bon artefact, et surtout préparer l'après : un RUNBOOK (comment déployer, vérifier, et ROLLBACK si ça casse). Le rollback suppose de garder la version précédente immuable. On ne « force » jamais une promotion en contournant la porte.",
+  "prerequisites": [
+    "Environnements, approbations, promotion & rollback (jour 326)"
+  ],
+  "skills": [
+    "git",
+    "testing"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "dayRefs": [
+    326
+  ],
+  "exerciseRefs": [
+    "cicd-env-promotion",
+    "cicd-stale-artifact"
+  ],
+  "deliverables": [
+    {
+      "id": "promote",
+      "kind": "code",
+      "title": "Décider de la promotion (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cicd-env-promotion",
+      "hint": "Promotion autorisée si CI verte ET artefact présent ET (pas d’approbation requise OU approuvé)."
+    },
+    {
+      "id": "runbook",
+      "kind": "plan",
+      "title": "Runbook de déploiement & rollback",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Pré-requis",
+          "Déploiement",
+          "Vérification",
+          "Rollback",
+          "Approbation"
+        ],
+        "requireMentions": [
+          "artefact",
+          "rollback",
+          "approbation"
+        ],
+        "minLength": 320,
+        "maxLength": 8000
+      },
+      "hint": "Documente comment promouvoir le même artefact, vérifier après déploiement, et revenir à la version précédente en cas de problème."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : décision de promotion correcte",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "On promeut le MÊME artefact testé (pas de rebuild)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Rollback prévu (version précédente conservée)",
+      "blocking": false,
+      "category": "maintainability"
+    },
+    {
+      "label": "Porte de promotion respectée (pas de contournement)",
+      "blocking": false,
+      "category": "security"
+    }
+  ],
+  "commonMistakes": [
+    "Rebuild au lieu de promouvoir l’artefact déjà testé",
+    "Contourner l’approbation",
+    "Aucun plan de rollback",
+    "Promouvoir un artefact périmé"
+  ],
+  "status": "published",
+  "version": "1"
+}

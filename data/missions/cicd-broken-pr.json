@@ -1,0 +1,99 @@
+{
+  "id": "cicd-broken-pr",
+  "title": "Pipeline de pull request cassé",
+  "description": "Une PR bloque : lint, tests ou build échoue. Diagnostiquer la cause à partir des statuts, corriger, et rétablir un pipeline vert.",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Simulation déterministe (aucun runner réel). Une pull request ne peut pas être mergée : la CI est ROUGE. Le pipeline enchaîne lint → tests → build ; un job a échoué et, par fail-fast, la suite est bloquée/annulée. Tu dois RAISONNER sur les statuts (success/failed/blocked/cancelled), identifier le PREMIER job en échec (la cause racine), distinguer un échec DUR d'un échec toléré (allow-failure), corriger, et vérifier que le statut GLOBAL redevient vert. Rappel : un job dont un prérequis a échoué est BLOQUÉ (il n'a pas tourné) — sa « correction » passe par celle de son prérequis, pas par lui-même.",
+  "prerequisites": [
+    "CI complète : anatomie et statuts (jour 326)"
+  ],
+  "skills": [
+    "testing",
+    "debugging"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "dayRefs": [
+    326
+  ],
+  "exerciseRefs": [
+    "cicd-global-status",
+    "cicd-detect-cycle"
+  ],
+  "deliverables": [
+    {
+      "id": "status",
+      "kind": "code",
+      "title": "Calculer le statut global (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cicd-global-status",
+      "hint": "failed (non toléré) > blocked > cancelled > success ; un échec allow-failure n’échoue pas le global."
+    },
+    {
+      "id": "diag",
+      "kind": "document",
+      "title": "Diagnostic du pipeline cassé",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptôme",
+          "Statuts",
+          "Cause racine",
+          "Correctif",
+          "Prévention"
+        ],
+        "requireMentions": [
+          "job",
+          "échec",
+          "bloqué"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Identifie le premier job en échec (cause), explique pourquoi les suivants sont bloqués/annulés, propose le correctif et une prévention."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : statut global correctement calculé",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Cause racine = premier job en échec (pas un job bloqué)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Échec dur vs toléré distingué",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Prévention concrète",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Corriger un job BLOQUÉ au lieu de son prérequis en échec",
+    "Confondre échec toléré et échec dur",
+    "Relancer sans diagnostiquer",
+    "Ignorer le fail-fast (croire que les jobs annulés ont « planté »)"
+  ],
+  "status": "published",
+  "version": "1"
+}

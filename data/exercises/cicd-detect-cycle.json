@@ -1,0 +1,154 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-detect-cycle",
+  "title": "CI/CD : détecter un cycle de dépendances",
+  "difficulty": 3,
+  "summary": "hasCycle(jobs) → true si le graphe des dépendances (needs) contient un cycle. jobs = [{id, needs?}].",
+  "skills": [
+    "algo",
+    "debugging"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function hasCycle(jobs) {\n  // TODO : DFS avec états ; true si cycle.\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function hasCycle(jobs){const byId=new Map(jobs.map(j=>[j.id,j]));const st=new Map();function dfs(id){if(!byId.has(id))return false;if(st.get(id)===1)return false;if(st.get(id)===0)return true;st.set(id,0);for(const d of byId.get(id).needs||[])if(dfs(d))return true;st.set(id,1);return false;}return jobs.some(j=>dfs(j.id));}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "acyclique → false",
+      "kind": "call-equals",
+      "export": "hasCycle",
+      "args": [
+        [
+          {
+            "id": "a"
+          },
+          {
+            "id": "b",
+            "needs": [
+              "a"
+            ]
+          }
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t2",
+      "name": "cycle direct",
+      "kind": "call-equals",
+      "export": "hasCycle",
+      "args": [
+        [
+          {
+            "id": "a",
+            "needs": [
+              "b"
+            ]
+          },
+          {
+            "id": "b",
+            "needs": [
+              "a"
+            ]
+          }
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t3",
+      "name": "cycle indirect",
+      "kind": "call-equals",
+      "export": "hasCycle",
+      "args": [
+        [
+          {
+            "id": "a",
+            "needs": [
+              "c"
+            ]
+          },
+          {
+            "id": "b",
+            "needs": [
+              "a"
+            ]
+          },
+          {
+            "id": "c",
+            "needs": [
+              "b"
+            ]
+          }
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t4",
+      "name": "auto-dépendance (privé)",
+      "kind": "call-equals",
+      "export": "hasCycle",
+      "args": [
+        [
+          {
+            "id": "a",
+            "needs": [
+              "a"
+            ]
+          }
+        ]
+      ],
+      "expected": true,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "diamant acyclique (privé)",
+      "kind": "call-equals",
+      "export": "hasCycle",
+      "args": [
+        [
+          {
+            "id": "a"
+          },
+          {
+            "id": "b",
+            "needs": [
+              "a"
+            ]
+          },
+          {
+            "id": "c",
+            "needs": [
+              "a"
+            ]
+          },
+          {
+            "id": "d",
+            "needs": [
+              "b",
+              "c"
+            ]
+          }
+        ]
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

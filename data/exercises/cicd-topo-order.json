@@ -1,0 +1,149 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-topo-order",
+  "title": "CI/CD : ordonner un DAG de jobs",
+  "difficulty": 3,
+  "summary": "topoOrder(jobs) → un ordre topologique des ids (un prérequis avant ses dépendants). Départage par ordre déclaré. jobs = [{id, needs?}].",
+  "skills": [
+    "algo"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function topoOrder(jobs) {\n  // TODO : tri topologique stable ; renvoie un tableau d’ids.\n  return jobs.map(j => j.id);\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function topoOrder(jobs){const byId=new Map(jobs.map(j=>[j.id,j]));const indeg=new Map(jobs.map(j=>[j.id,0]));for(const j of jobs)for(const d of j.needs||[])if(byId.has(d))indeg.set(j.id,indeg.get(j.id)+1);const out=[];const ready=jobs.filter(j=>indeg.get(j.id)===0).map(j=>j.id);const seen=new Set();while(ready.length){const id=ready.shift();if(seen.has(id))continue;seen.add(id);out.push(id);for(const j of jobs)if((j.needs||[]).includes(id)){indeg.set(j.id,indeg.get(j.id)-1);if(indeg.get(j.id)===0)ready.push(j.id);}}return out;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "build après lint+test",
+      "kind": "call-equals",
+      "export": "topoOrder",
+      "args": [
+        [
+          {
+            "id": "build",
+            "needs": [
+              "lint",
+              "test"
+            ]
+          },
+          {
+            "id": "lint"
+          },
+          {
+            "id": "test"
+          }
+        ]
+      ],
+      "expected": [
+        "lint",
+        "test",
+        "build"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "chaîne",
+      "kind": "call-equals",
+      "export": "topoOrder",
+      "args": [
+        [
+          {
+            "id": "a"
+          },
+          {
+            "id": "b",
+            "needs": [
+              "a"
+            ]
+          },
+          {
+            "id": "c",
+            "needs": [
+              "b"
+            ]
+          }
+        ]
+      ],
+      "expected": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "indépendants → ordre déclaré",
+      "kind": "call-equals",
+      "export": "topoOrder",
+      "args": [
+        [
+          {
+            "id": "x"
+          },
+          {
+            "id": "y"
+          }
+        ]
+      ],
+      "expected": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "fan-out (privé)",
+      "kind": "call-equals",
+      "export": "topoOrder",
+      "args": [
+        [
+          {
+            "id": "root"
+          },
+          {
+            "id": "a",
+            "needs": [
+              "root"
+            ]
+          },
+          {
+            "id": "b",
+            "needs": [
+              "root"
+            ]
+          }
+        ]
+      ],
+      "expected": [
+        "root",
+        "a",
+        "b"
+      ],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "vide (privé)",
+      "kind": "call-equals",
+      "export": "topoOrder",
+      "args": [
+        []
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

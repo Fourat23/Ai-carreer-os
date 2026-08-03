@@ -199,5 +199,19 @@
     "docker-layer-cache",
     "docker-exit-diagnosis",
     "docker-tag-vs-digest"
+  ],
+  "326": [
+    "cicd-trigger-should-run",
+    "cicd-topo-order",
+    "cicd-detect-cycle",
+    "cicd-global-status",
+    "cicd-mask-secrets",
+    "cicd-branch-policy",
+    "cicd-cache-key",
+    "cicd-critical-path",
+    "cicd-stale-artifact",
+    "cicd-env-promotion",
+    "cicd-fail-fast",
+    "cicd-missing-deps"
   ]
 }

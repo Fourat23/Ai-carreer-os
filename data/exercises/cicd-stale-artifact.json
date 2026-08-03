@@ -1,0 +1,102 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-stale-artifact",
+  "title": "CI/CD : artefact périmé ?",
+  "difficulty": 2,
+  "summary": "isStale(artifact, nowDay, retentionDays) → true si (nowDay - artifact.createdDay) > retentionDays. La rétention borne la durée de conservation.",
+  "skills": [
+    "conditions",
+    "data"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isStale(artifact, nowDay, retentionDays) {\n  // TODO : âge > rétention.\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isStale(a,now,ret){return (now-(a.createdDay||0))>ret;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "plus vieux que la rétention",
+      "kind": "call-equals",
+      "export": "isStale",
+      "args": [
+        {
+          "createdDay": 1
+        },
+        40,
+        30
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "dans la rétention",
+      "kind": "call-equals",
+      "export": "isStale",
+      "args": [
+        {
+          "createdDay": 20
+        },
+        40,
+        30
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "pile à la limite → non périmé",
+      "kind": "call-equals",
+      "export": "isStale",
+      "args": [
+        {
+          "createdDay": 10
+        },
+        40,
+        30
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "créé aujourd’hui (privé)",
+      "kind": "call-equals",
+      "export": "isStale",
+      "args": [
+        {
+          "createdDay": 40
+        },
+        40,
+        7
+      ],
+      "expected": false,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "un jour de trop (privé)",
+      "kind": "call-equals",
+      "export": "isStale",
+      "args": [
+        {
+          "createdDay": 0
+        },
+        8,
+        7
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-missing-deps",
+  "title": "CI/CD : dépendances manquantes",
+  "difficulty": 2,
+  "summary": "missingDeps(jobs) → la liste (dédupliquée, ordre d’apparition) des `needs` qui ne correspondent à aucun id de job.",
+  "skills": [
+    "arrays",
+    "debugging"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function missingDeps(jobs) {\n  // TODO : needs pointant vers un id inexistant.\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function missingDeps(jobs){const ids=new Set(jobs.map(j=>j.id));const out=[];const seen=new Set();for(const j of jobs)for(const d of j.needs||[])if(!ids.has(d)&&!seen.has(d)){seen.add(d);out.push(d);}return out;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une dépendance absente",
+      "kind": "call-equals",
+      "export": "missingDeps",
+      "args": [
+        [
+          {
+            "id": "build",
+            "needs": [
+              "lint",
+              "ghost"
+            ]
+          },
+          {
+            "id": "lint"
+          }
+        ]
+      ],
+      "expected": [
+        "ghost"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "toutes présentes",
+      "kind": "call-equals",
+      "export": "missingDeps",
+      "args": [
+        [
+          {
+            "id": "a"
+          },
+          {
+            "id": "b",
+            "needs": [
+              "a"
+            ]
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "déduplication",
+      "kind": "call-equals",
+      "export": "missingDeps",
+      "args": [
+        [
+          {
+            "id": "a",
+            "needs": [
+              "x"
+            ]
+          },
+          {
+            "id": "b",
+            "needs": [
+              "x"
+            ]
+          }
+        ]
+      ],
+      "expected": [
+        "x"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "plusieurs absentes, ordre (privé)",
+      "kind": "call-equals",
+      "export": "missingDeps",
+      "args": [
+        [
+          {
+            "id": "a",
+            "needs": [
+              "p",
+              "q"
+            ]
+          }
+        ]
+      ],
+      "expected": [
+        "p",
+        "q"
+      ],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "sans needs (privé)",
+      "kind": "call-equals",
+      "export": "missingDeps",
+      "args": [
+        [
+          {
+            "id": "a"
+          }
+        ]
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

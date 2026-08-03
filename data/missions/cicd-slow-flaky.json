@@ -1,0 +1,102 @@
+{
+  "id": "cicd-slow-flaky",
+  "title": "Pipeline lent et flaky",
+  "description": "Un pipeline est trop lent et instable (flaky). Mesurer le chemin critique, corriger la flakiness, paralléliser et mettre en cache, et rembourser la dette de pipeline.",
+  "category": "performance",
+  "difficulty": 4,
+  "estimatedHours": 5,
+  "context": "Simulation déterministe (métriques fournies). Le pipeline met trop de temps et « échoue au hasard » (flaky) : l'équipe a pris l'habitude de RELANCER — un anti-pattern qui détruit la confiance dans la CI. Tu dois raisonner performance : calculer le CHEMIN CRITIQUE (la plus longue chaîne de dépendances, qui borne la durée avec parallélisme), identifier les jobs indépendants à PARALLÉLISER, régler le CACHE (bonne clé = réutilisation ; mauvaise clé = builds lents ou faux), et surtout traiter la FLAKINESS à la racine (dépendance au temps/à l'ordre/au réseau) plutôt que de relancer. Enfin, prioriser la DETTE DE PIPELINE (étapes redondantes, cache mal réglé) par impact × risque.",
+  "prerequisites": [
+    "Flaky, chemin critique & dette de pipeline (jour 326)",
+    "Budgets de performance (jour 80)"
+  ],
+  "skills": [
+    "testing",
+    "data"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "dayRefs": [
+    326,
+    80
+  ],
+  "exerciseRefs": [
+    "cicd-critical-path",
+    "cicd-cache-key"
+  ],
+  "deliverables": [
+    {
+      "id": "critical",
+      "kind": "code",
+      "title": "Calculer le chemin critique (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cicd-critical-path",
+      "hint": "La durée minimale du pipeline = plus longue somme de durées le long des dépendances."
+    },
+    {
+      "id": "plan",
+      "kind": "plan",
+      "title": "Plan d’amélioration (perf + flakiness)",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Métriques",
+          "Chemin critique",
+          "Parallélisation",
+          "Cache",
+          "Flakiness",
+          "Dette"
+        ],
+        "requireMentions": [
+          "cache",
+          "parallél",
+          "flaky"
+        ],
+        "minLength": 350,
+        "maxLength": 8000
+      },
+      "hint": "Appuie chaque action sur une métrique. Traite la flakiness à la racine, ne relance pas. Priorise la dette par impact × risque."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : chemin critique correctement calculé",
+      "blocking": true,
+      "category": "performance"
+    },
+    {
+      "label": "Flakiness traitée à la RACINE (pas de « relance »)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Parallélisation & cache justifiés par les métriques",
+      "blocking": false,
+      "category": "performance"
+    },
+    {
+      "label": "Dette de pipeline priorisée (impact × risque)",
+      "blocking": false,
+      "category": "maintainability"
+    }
+  ],
+  "commonMistakes": [
+    "Relancer un test flaky au lieu de le corriger",
+    "Optimiser un job hors du chemin critique (gain nul)",
+    "Mauvaise clé de cache (jamais réutilisé ou périmé)",
+    "Ajouter des runners sans réduire le chemin critique"
+  ],
+  "status": "published",
+  "version": "1"
+}

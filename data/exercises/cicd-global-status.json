@@ -1,0 +1,114 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-global-status",
+  "title": "CI/CD : calculer le statut global",
+  "difficulty": 2,
+  "summary": "globalStatus(jobs) où jobs=[{status, allowFailure?}] → \"failed\" si un échec non toléré ; sinon \"blocked\" si un bloqué ; sinon \"cancelled\" si un annulé ; sinon \"success\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function globalStatus(jobs) {\n  // TODO : failed > blocked > cancelled > success (échec toléré ignoré).\n  return \"success\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function globalStatus(jobs){if(jobs.some(j=>j.status===\"failed\"&&!j.allowFailure))return \"failed\";if(jobs.some(j=>j.status===\"blocked\"))return \"blocked\";if(jobs.some(j=>j.status===\"cancelled\"))return \"cancelled\";return \"success\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tout vert",
+      "kind": "call-equals",
+      "export": "globalStatus",
+      "args": [
+        [
+          {
+            "status": "success"
+          },
+          {
+            "status": "success"
+          }
+        ]
+      ],
+      "expected": "success"
+    },
+    {
+      "id": "t2",
+      "name": "un échec dur",
+      "kind": "call-equals",
+      "export": "globalStatus",
+      "args": [
+        [
+          {
+            "status": "success"
+          },
+          {
+            "status": "failed"
+          }
+        ]
+      ],
+      "expected": "failed"
+    },
+    {
+      "id": "t3",
+      "name": "échec toléré → success",
+      "kind": "call-equals",
+      "export": "globalStatus",
+      "args": [
+        [
+          {
+            "status": "failed",
+            "allowFailure": true
+          },
+          {
+            "status": "success"
+          }
+        ]
+      ],
+      "expected": "success"
+    },
+    {
+      "id": "t4",
+      "name": "bloqué (privé)",
+      "kind": "call-equals",
+      "export": "globalStatus",
+      "args": [
+        [
+          {
+            "status": "success"
+          },
+          {
+            "status": "blocked"
+          }
+        ]
+      ],
+      "expected": "blocked",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "annulé sans échec (privé)",
+      "kind": "call-equals",
+      "export": "globalStatus",
+      "args": [
+        [
+          {
+            "status": "cancelled"
+          }
+        ]
+      ],
+      "expected": "cancelled",
+      "private": true
+    }
+  ]
+}

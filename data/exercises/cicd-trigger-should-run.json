@@ -1,0 +1,130 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-trigger-should-run",
+  "title": "CI/CD : le pipeline se déclenche-t-il ?",
+  "difficulty": 2,
+  "summary": "shouldRun(pipeline, event) → true si event.kind est dans pipeline.trigger ET (aucun filtre de branche, ou branch dans branchFilters). Les événements « tag » ignorent les filtres de branche.",
+  "skills": [
+    "git",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function shouldRun(pipeline, event) {\n  // TODO : trigger + filtres de branche/tag.\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function shouldRun(p,e){if(!(p.trigger||[]).includes(e.kind))return false;if(e.kind===\"tag\")return !(p.tagFilters&&p.tagFilters.length)||p.tagFilters.includes(e.tag);if(p.branchFilters&&p.branchFilters.length)return p.branchFilters.includes(e.branch);return true;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "PR sur main autorisée",
+      "kind": "call-equals",
+      "export": "shouldRun",
+      "args": [
+        {
+          "trigger": [
+            "pull_request"
+          ],
+          "branchFilters": [
+            "main"
+          ]
+        },
+        {
+          "kind": "pull_request",
+          "branch": "main"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "PR sur dev refusée",
+      "kind": "call-equals",
+      "export": "shouldRun",
+      "args": [
+        {
+          "trigger": [
+            "pull_request"
+          ],
+          "branchFilters": [
+            "main"
+          ]
+        },
+        {
+          "kind": "pull_request",
+          "branch": "dev"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "mauvais événement",
+      "kind": "call-equals",
+      "export": "shouldRun",
+      "args": [
+        {
+          "trigger": [
+            "push"
+          ]
+        },
+        {
+          "kind": "manual"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "tag filtré (privé)",
+      "kind": "call-equals",
+      "export": "shouldRun",
+      "args": [
+        {
+          "trigger": [
+            "tag"
+          ],
+          "tagFilters": [
+            "v1"
+          ]
+        },
+        {
+          "kind": "tag",
+          "tag": "v2"
+        }
+      ],
+      "expected": false,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "sans filtre → autorisé (privé)",
+      "kind": "call-equals",
+      "export": "shouldRun",
+      "args": [
+        {
+          "trigger": [
+            "push"
+          ]
+        },
+        {
+          "kind": "push",
+          "branch": "x"
+        }
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

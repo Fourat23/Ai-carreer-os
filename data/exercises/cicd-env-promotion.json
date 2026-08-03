@@ -1,0 +1,103 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-env-promotion",
+  "title": "CI/CD : promotion vers production ?",
+  "difficulty": 3,
+  "summary": "canPromote(gates) : gates={ciGreen, approved, artifactPresent, requiresApproval}. Autorise la promotion si CI verte ET artefact présent ET (pas d’approbation requise OU approuvé).",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function canPromote(gates) {\n  // TODO : CI verte + artefact + approbation si requise.\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function canPromote(g){if(!g.ciGreen||!g.artifactPresent)return false;if(g.requiresApproval)return g.approved===true;return true;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tout ok, approuvé",
+      "kind": "call-equals",
+      "export": "canPromote",
+      "args": [
+        {
+          "ciGreen": true,
+          "artifactPresent": true,
+          "requiresApproval": true,
+          "approved": true
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "approbation manquante",
+      "kind": "call-equals",
+      "export": "canPromote",
+      "args": [
+        {
+          "ciGreen": true,
+          "artifactPresent": true,
+          "requiresApproval": true,
+          "approved": false
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "CI rouge",
+      "kind": "call-equals",
+      "export": "canPromote",
+      "args": [
+        {
+          "ciGreen": false,
+          "artifactPresent": true,
+          "requiresApproval": false
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "sans approbation requise (privé)",
+      "kind": "call-equals",
+      "export": "canPromote",
+      "args": [
+        {
+          "ciGreen": true,
+          "artifactPresent": true,
+          "requiresApproval": false
+        }
+      ],
+      "expected": true,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "artefact manquant (privé)",
+      "kind": "call-equals",
+      "export": "canPromote",
+      "args": [
+        {
+          "ciGreen": true,
+          "artifactPresent": false,
+          "requiresApproval": false
+        }
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

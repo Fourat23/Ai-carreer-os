@@ -1,0 +1,104 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cicd-cache-key",
+  "title": "CI/CD : hit ou miss de cache ?",
+  "difficulty": 3,
+  "summary": "cacheHit(inputs, changedFiles) → true si AUCUN fichier d’entrée de la clé de cache n’a changé (donc le cache est réutilisable). Sans inputs → toujours miss (false).",
+  "skills": [
+    "hashmap"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function cacheHit(inputs, changedFiles) {\n  // TODO : hit si aucun input changé ; sans input → miss.\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function cacheHit(inputs,changed){if(!inputs||inputs.length===0)return false;const set=new Set(changed||[]);return !inputs.some(f=>set.has(f));}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "rien changé → hit",
+      "kind": "call-equals",
+      "export": "cacheHit",
+      "args": [
+        [
+          "package.json",
+          "lock"
+        ],
+        [
+          "src/app.js"
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "manifeste changé → miss",
+      "kind": "call-equals",
+      "export": "cacheHit",
+      "args": [
+        [
+          "package.json"
+        ],
+        [
+          "package.json"
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "sans input → miss",
+      "kind": "call-equals",
+      "export": "cacheHit",
+      "args": [
+        [],
+        [
+          "x"
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "un des inputs changé (privé)",
+      "kind": "call-equals",
+      "export": "cacheHit",
+      "args": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "b"
+        ]
+      ],
+      "expected": false,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "aucun changement (privé)",
+      "kind": "call-equals",
+      "export": "cacheHit",
+      "args": [
+        [
+          "a"
+        ],
+        []
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

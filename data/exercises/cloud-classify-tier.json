@@ -1,0 +1,81 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-classify-tier",
+  "title": "Cloud : classer un composant par tier",
+  "difficulty": 1,
+  "summary": "tier(kind) → \"presentation\" pour load-balancer/frontend/cdn ; \"data\" pour relational-db/nosql-db/object-storage/cache ; sinon \"logic\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function tier(kind) {\n  // TODO\n  return \"logic\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function tier(kind){const p=[\"load-balancer\",\"frontend\",\"cdn\",\"reverse-proxy\"];const d=[\"relational-db\",\"nosql-db\",\"object-storage\",\"cache\",\"block-storage\",\"file-storage\"];if(p.includes(kind))return \"presentation\";if(d.includes(kind))return \"data\";return \"logic\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "load-balancer → presentation",
+      "kind": "call-equals",
+      "export": "tier",
+      "args": [
+        "load-balancer"
+      ],
+      "expected": "presentation"
+    },
+    {
+      "id": "t2",
+      "name": "relational-db → data",
+      "kind": "call-equals",
+      "export": "tier",
+      "args": [
+        "relational-db"
+      ],
+      "expected": "data"
+    },
+    {
+      "id": "t3",
+      "name": "api → logic",
+      "kind": "call-equals",
+      "export": "tier",
+      "args": [
+        "api"
+      ],
+      "expected": "logic"
+    },
+    {
+      "id": "t4",
+      "name": "object-storage → data",
+      "kind": "call-equals",
+      "export": "tier",
+      "args": [
+        "object-storage"
+      ],
+      "expected": "data",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "worker → logic",
+      "kind": "call-equals",
+      "export": "tier",
+      "args": [
+        "worker"
+      ],
+      "expected": "logic",
+      "private": true
+    }
+  ]
+}

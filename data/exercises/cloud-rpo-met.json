@@ -1,0 +1,74 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-rpo-met",
+  "title": "Cloud : l'objectif RPO est-il tenu ?",
+  "difficulty": 3,
+  "summary": "rpoMet(backupIntervalMin, rpoMin) → true si l'intervalle entre deux sauvegardes est ≤ au RPO cible (on ne perd pas plus que toléré). Valeurs > 0.",
+  "skills": [
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function rpoMet(backupIntervalMin, rpoMin) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function rpoMet(backupIntervalMin,rpoMin){return backupIntervalMin<=rpoMin;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "sauvegarde 10min ≤ RPO 15min → ok",
+      "kind": "call-equals",
+      "export": "rpoMet",
+      "args": [
+        10,
+        15
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "sauvegarde 60min > RPO 15min → non",
+      "kind": "call-equals",
+      "export": "rpoMet",
+      "args": [
+        60,
+        15
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "pile à la limite",
+      "kind": "call-equals",
+      "export": "rpoMet",
+      "args": [
+        15,
+        15
+      ],
+      "expected": true
+    },
+    {
+      "id": "t4",
+      "name": "RPO très strict",
+      "kind": "call-equals",
+      "export": "rpoMet",
+      "args": [
+        5,
+        1
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

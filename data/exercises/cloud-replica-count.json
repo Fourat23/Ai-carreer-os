@@ -1,0 +1,86 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-replica-count",
+  "title": "Cloud : nombre de réplicas nécessaires",
+  "difficulty": 3,
+  "summary": "replicas(rps, perInstance) → nombre d'instances = ceil(rps/perInstance) + 1 (marge N+1), minimum 2. perInstance > 0.",
+  "skills": [
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function replicas(rps, perInstance) {\n  // TODO\n  return 1;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function replicas(rps,perInstance){const base=Math.ceil(rps/perInstance)+1;return Math.max(2,base);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "1000 rps @ 300 → 5",
+      "kind": "call-equals",
+      "export": "replicas",
+      "args": [
+        1000,
+        300
+      ],
+      "expected": 5
+    },
+    {
+      "id": "t2",
+      "name": "faible charge → minimum 2",
+      "kind": "call-equals",
+      "export": "replicas",
+      "args": [
+        10,
+        1000
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t3",
+      "name": "600 @ 200 → 4",
+      "kind": "call-equals",
+      "export": "replicas",
+      "args": [
+        600,
+        200
+      ],
+      "expected": 4
+    },
+    {
+      "id": "t4",
+      "name": "pile un multiple",
+      "kind": "call-equals",
+      "export": "replicas",
+      "args": [
+        900,
+        300
+      ],
+      "expected": 4,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "charge nulle → 2",
+      "kind": "call-equals",
+      "export": "replicas",
+      "args": [
+        0,
+        100
+      ],
+      "expected": 2,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-public-exposure",
+  "title": "Cloud : repérer les bases exposées publiquement",
+  "difficulty": 2,
+  "summary": "exposedDbs(nodes) où nodes=[{id, kind, public}] → ids des bases (relational-db/nosql-db) marquées public===true, triés.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function exposedDbs(nodes) {\n  // TODO\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function exposedDbs(nodes){const db=new Set([\"relational-db\",\"nosql-db\"]);return nodes.filter(n=>db.has(n.kind)&&n.public===true).map(n=>n.id).sort();}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une base publique",
+      "kind": "call-equals",
+      "export": "exposedDbs",
+      "args": [
+        [
+          {
+            "id": "db",
+            "kind": "relational-db",
+            "public": true
+          },
+          {
+            "id": "api",
+            "kind": "api",
+            "public": true
+          }
+        ]
+      ],
+      "expected": [
+        "db"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucune exposée",
+      "kind": "call-equals",
+      "export": "exposedDbs",
+      "args": [
+        [
+          {
+            "id": "db",
+            "kind": "relational-db",
+            "public": false
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux bases, triées",
+      "kind": "call-equals",
+      "export": "exposedDbs",
+      "args": [
+        [
+          {
+            "id": "z",
+            "kind": "nosql-db",
+            "public": true
+          },
+          {
+            "id": "a",
+            "kind": "relational-db",
+            "public": true
+          }
+        ]
+      ],
+      "expected": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "cache public non compté",
+      "kind": "call-equals",
+      "export": "exposedDbs",
+      "args": [
+        [
+          {
+            "id": "c",
+            "kind": "cache",
+            "public": true
+          }
+        ]
+      ],
+      "expected": [],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "liste vide",
+      "kind": "call-equals",
+      "export": "exposedDbs",
+      "args": [
+        []
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

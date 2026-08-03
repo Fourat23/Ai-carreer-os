@@ -1,0 +1,98 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-readiness-routing",
+  "title": "Cloud : router seulement vers les instances prêtes",
+  "difficulty": 2,
+  "summary": "routable(instances) où instances=[{id, ready}] → ids des instances ready===true, triés (le load balancer n'envoie du trafic qu'aux instances prêtes).",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function routable(instances) {\n  // TODO\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function routable(instances){return instances.filter(i=>i.ready===true).map(i=>i.id).sort();}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une prête sur deux",
+      "kind": "call-equals",
+      "export": "routable",
+      "args": [
+        [
+          {
+            "id": "a",
+            "ready": true
+          },
+          {
+            "id": "b",
+            "ready": false
+          }
+        ]
+      ],
+      "expected": [
+        "a"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "toutes prêtes triées",
+      "kind": "call-equals",
+      "export": "routable",
+      "args": [
+        [
+          {
+            "id": "y",
+            "ready": true
+          },
+          {
+            "id": "x",
+            "ready": true
+          }
+        ]
+      ],
+      "expected": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "aucune prête",
+      "kind": "call-equals",
+      "export": "routable",
+      "args": [
+        [
+          {
+            "id": "a",
+            "ready": false
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t4",
+      "name": "vide",
+      "kind": "call-equals",
+      "export": "routable",
+      "args": [
+        []
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

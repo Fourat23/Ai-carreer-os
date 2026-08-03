@@ -1,0 +1,123 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-detect-spof",
+  "title": "Cloud : détecter les points de défaillance uniques",
+  "difficulty": 3,
+  "summary": "spofKinds(nodes) où nodes=[{kind}] → les kinds « critiques » (api, load-balancer, relational-db) présents en UN SEUL exemplaire, triés.",
+  "skills": [
+    "hashmap"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function spofKinds(nodes) {\n  // TODO\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function spofKinds(nodes){const crit=new Set([\"api\",\"load-balancer\",\"relational-db\"]);const c={};for(const n of nodes)if(crit.has(n.kind))c[n.kind]=(c[n.kind]||0)+1;return Object.keys(c).filter(k=>c[k]===1).sort();}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "api unique → SPOF",
+      "kind": "call-equals",
+      "export": "spofKinds",
+      "args": [
+        [
+          {
+            "kind": "api"
+          },
+          {
+            "kind": "relational-db"
+          },
+          {
+            "kind": "relational-db"
+          }
+        ]
+      ],
+      "expected": [
+        "api"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "tout redondé",
+      "kind": "call-equals",
+      "export": "spofKinds",
+      "args": [
+        [
+          {
+            "kind": "api"
+          },
+          {
+            "kind": "api"
+          },
+          {
+            "kind": "load-balancer"
+          },
+          {
+            "kind": "load-balancer"
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux SPOF triés",
+      "kind": "call-equals",
+      "export": "spofKinds",
+      "args": [
+        [
+          {
+            "kind": "relational-db"
+          },
+          {
+            "kind": "api"
+          }
+        ]
+      ],
+      "expected": [
+        "api",
+        "relational-db"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "kinds non critiques ignorés",
+      "kind": "call-equals",
+      "export": "spofKinds",
+      "args": [
+        [
+          {
+            "kind": "cache"
+          },
+          {
+            "kind": "monitoring"
+          }
+        ]
+      ],
+      "expected": [],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "vide",
+      "kind": "call-equals",
+      "export": "spofKinds",
+      "args": [
+        []
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

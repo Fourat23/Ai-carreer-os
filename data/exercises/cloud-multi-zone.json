@@ -1,0 +1,109 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-multi-zone",
+  "title": "Cloud : valider la répartition multi-zone",
+  "difficulty": 2,
+  "summary": "isMultiZone(instances) où instances=[{zone}] → true si au moins deux zones distinctes sont utilisées.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isMultiZone(instances) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isMultiZone(instances){return new Set(instances.map(i=>i.zone)).size>=2;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux zones",
+      "kind": "call-equals",
+      "export": "isMultiZone",
+      "args": [
+        [
+          {
+            "zone": "a"
+          },
+          {
+            "zone": "b"
+          }
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "une seule zone",
+      "kind": "call-equals",
+      "export": "isMultiZone",
+      "args": [
+        [
+          {
+            "zone": "a"
+          },
+          {
+            "zone": "a"
+          }
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "trois zones",
+      "kind": "call-equals",
+      "export": "isMultiZone",
+      "args": [
+        [
+          {
+            "zone": "a"
+          },
+          {
+            "zone": "b"
+          },
+          {
+            "zone": "c"
+          }
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t4",
+      "name": "une instance",
+      "kind": "call-equals",
+      "export": "isMultiZone",
+      "args": [
+        [
+          {
+            "zone": "a"
+          }
+        ]
+      ],
+      "expected": false,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "vide",
+      "kind": "call-equals",
+      "export": "isMultiZone",
+      "args": [
+        []
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

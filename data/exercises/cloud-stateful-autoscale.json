@@ -1,0 +1,82 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-stateful-autoscale",
+  "title": "Cloud : détecter un stateful mal mis à l'échelle",
+  "difficulty": 2,
+  "summary": "isRisky(svc) où svc={stateful, autoscaling} → true seulement si stateful ET autoscaling (anti-pattern : l'état local se perd entre instances).",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isRisky(svc) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isRisky(svc){return svc.stateful===true&&svc.autoscaling===true;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "stateful + autoscaling → risque",
+      "kind": "call-equals",
+      "export": "isRisky",
+      "args": [
+        {
+          "stateful": true,
+          "autoscaling": true
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "stateless + autoscaling → ok",
+      "kind": "call-equals",
+      "export": "isRisky",
+      "args": [
+        {
+          "stateful": false,
+          "autoscaling": true
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "stateful sans autoscaling → ok",
+      "kind": "call-equals",
+      "export": "isRisky",
+      "args": [
+        {
+          "stateful": true,
+          "autoscaling": false
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "ni l'un ni l'autre",
+      "kind": "call-equals",
+      "export": "isRisky",
+      "args": [
+        {
+          "stateful": false,
+          "autoscaling": false
+        }
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

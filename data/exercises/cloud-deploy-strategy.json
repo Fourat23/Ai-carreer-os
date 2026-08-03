@@ -1,0 +1,86 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-deploy-strategy",
+  "title": "Cloud : choisir une stratégie de déploiement",
+  "difficulty": 3,
+  "summary": "strategy(req) où req={zeroDowntime, needsMetric, instantRollback} → \"canary\" si needsMetric ; sinon \"blue-green\" si instantRollback ; sinon \"rolling\" si zeroDowntime ; sinon \"recreate\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function strategy(req) {\n  // TODO\n  return \"recreate\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function strategy(req){if(req.needsMetric)return \"canary\";if(req.instantRollback)return \"blue-green\";if(req.zeroDowntime)return \"rolling\";return \"recreate\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "métrique → canary",
+      "kind": "call-equals",
+      "export": "strategy",
+      "args": [
+        {
+          "zeroDowntime": true,
+          "needsMetric": true,
+          "instantRollback": true
+        }
+      ],
+      "expected": "canary"
+    },
+    {
+      "id": "t2",
+      "name": "rollback instantané → blue-green",
+      "kind": "call-equals",
+      "export": "strategy",
+      "args": [
+        {
+          "zeroDowntime": true,
+          "needsMetric": false,
+          "instantRollback": true
+        }
+      ],
+      "expected": "blue-green"
+    },
+    {
+      "id": "t3",
+      "name": "zéro coupure → rolling",
+      "kind": "call-equals",
+      "export": "strategy",
+      "args": [
+        {
+          "zeroDowntime": true,
+          "needsMetric": false,
+          "instantRollback": false
+        }
+      ],
+      "expected": "rolling"
+    },
+    {
+      "id": "t4",
+      "name": "aucune contrainte → recreate",
+      "kind": "call-equals",
+      "export": "strategy",
+      "args": [
+        {
+          "zeroDowntime": false,
+          "needsMetric": false,
+          "instantRollback": false
+        }
+      ],
+      "expected": "recreate",
+      "private": true
+    }
+  ]
+}

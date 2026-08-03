@@ -1,0 +1,91 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-error-budget",
+  "title": "Cloud : budget d'erreur restant",
+  "difficulty": 3,
+  "summary": "remainingBudget(total, slo, failed) → nombre de requêtes en échec encore tolérées = floor(total*(1-slo)) - failed, borné à 0 minimum. slo entre 0 et 1.",
+  "skills": [
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function remainingBudget(total, slo, failed) {\n  // TODO\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function remainingBudget(total,slo,failed){const allowed=Math.floor(total*(1-slo));return Math.max(0,allowed-failed);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "99% sur 1000, 5 échecs → 5",
+      "kind": "call-equals",
+      "export": "remainingBudget",
+      "args": [
+        1000,
+        0.99,
+        5
+      ],
+      "expected": 5
+    },
+    {
+      "id": "t2",
+      "name": "budget épuisé → 0",
+      "kind": "call-equals",
+      "export": "remainingBudget",
+      "args": [
+        1000,
+        0.99,
+        20
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t3",
+      "name": "99.9% sur 10000, 0 échec → 10",
+      "kind": "call-equals",
+      "export": "remainingBudget",
+      "args": [
+        10000,
+        0.999,
+        0
+      ],
+      "expected": 10
+    },
+    {
+      "id": "t4",
+      "name": "aucun échec toléré dépassé",
+      "kind": "call-equals",
+      "export": "remainingBudget",
+      "args": [
+        100,
+        1,
+        1
+      ],
+      "expected": 0,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "95% sur 200, 3 échecs → 7",
+      "kind": "call-equals",
+      "export": "remainingBudget",
+      "args": [
+        200,
+        0.95,
+        3
+      ],
+      "expected": 7,
+      "private": true
+    }
+  ]
+}

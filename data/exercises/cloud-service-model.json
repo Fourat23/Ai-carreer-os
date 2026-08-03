@@ -1,0 +1,86 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-service-model",
+  "title": "Cloud : identifier le modèle de service",
+  "difficulty": 2,
+  "summary": "serviceModel(managed) où managed={os, runtime, app} (booléens = géré par le fournisseur) → \"SaaS\" si tout ; \"PaaS\" si os+runtime ; \"IaaS\" si os seul ; \"on-prem\" sinon.",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function serviceModel(managed) {\n  // TODO\n  return \"on-prem\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function serviceModel(m){if(m.os&&m.runtime&&m.app)return \"SaaS\";if(m.os&&m.runtime)return \"PaaS\";if(m.os)return \"IaaS\";return \"on-prem\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tout géré → SaaS",
+      "kind": "call-equals",
+      "export": "serviceModel",
+      "args": [
+        {
+          "os": true,
+          "runtime": true,
+          "app": true
+        }
+      ],
+      "expected": "SaaS"
+    },
+    {
+      "id": "t2",
+      "name": "os+runtime → PaaS",
+      "kind": "call-equals",
+      "export": "serviceModel",
+      "args": [
+        {
+          "os": true,
+          "runtime": true,
+          "app": false
+        }
+      ],
+      "expected": "PaaS"
+    },
+    {
+      "id": "t3",
+      "name": "os seul → IaaS",
+      "kind": "call-equals",
+      "export": "serviceModel",
+      "args": [
+        {
+          "os": true,
+          "runtime": false,
+          "app": false
+        }
+      ],
+      "expected": "IaaS"
+    },
+    {
+      "id": "t4",
+      "name": "rien → on-prem",
+      "kind": "call-equals",
+      "export": "serviceModel",
+      "args": [
+        {
+          "os": false,
+          "runtime": false,
+          "app": false
+        }
+      ],
+      "expected": "on-prem",
+      "private": true
+    }
+  ]
+}

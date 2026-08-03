@@ -103,11 +103,31 @@
     "sys-process-top-cpu",
     "sys-port-listener"
   ],
+  "78": [
+    "cloud-classify-tier",
+    "cloud-public-exposure",
+    "cloud-service-model"
+  ],
+  "79": [
+    "cloud-detect-spof",
+    "cloud-multi-zone",
+    "cloud-readiness-routing",
+    "cloud-error-budget"
+  ],
   "80": [
     "latency-percentiles",
     "perf-budget",
     "fix-nplus1",
-    "perf-pair-count"
+    "perf-pair-count",
+    "cloud-scaling-choice",
+    "cloud-replica-count",
+    "cloud-stateful-autoscale"
+  ],
+  "81": [
+    "cloud-deploy-strategy",
+    "cloud-rollback-decision",
+    "cloud-rpo-met",
+    "cloud-blast-radius"
   ],
   "85": [
     "incident-health-rollup"

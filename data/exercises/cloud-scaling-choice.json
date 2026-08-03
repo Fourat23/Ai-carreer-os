@@ -1,0 +1,82 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-scaling-choice",
+  "title": "Cloud : choisir vertical ou horizontal",
+  "difficulty": 2,
+  "summary": "scalingChoice(svc) où svc={stateless, atMaxSize} → \"horizontal\" si stateless ; sinon \"vertical\" si !atMaxSize ; sinon \"refactor\" (stateful et déjà au max).",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function scalingChoice(svc) {\n  // TODO\n  return \"vertical\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function scalingChoice(svc){if(svc.stateless)return \"horizontal\";if(!svc.atMaxSize)return \"vertical\";return \"refactor\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "stateless → horizontal",
+      "kind": "call-equals",
+      "export": "scalingChoice",
+      "args": [
+        {
+          "stateless": true,
+          "atMaxSize": false
+        }
+      ],
+      "expected": "horizontal"
+    },
+    {
+      "id": "t2",
+      "name": "stateful, marge → vertical",
+      "kind": "call-equals",
+      "export": "scalingChoice",
+      "args": [
+        {
+          "stateless": false,
+          "atMaxSize": false
+        }
+      ],
+      "expected": "vertical"
+    },
+    {
+      "id": "t3",
+      "name": "stateful au max → refactor",
+      "kind": "call-equals",
+      "export": "scalingChoice",
+      "args": [
+        {
+          "stateless": false,
+          "atMaxSize": true
+        }
+      ],
+      "expected": "refactor"
+    },
+    {
+      "id": "t4",
+      "name": "stateless au max → horizontal",
+      "kind": "call-equals",
+      "export": "scalingChoice",
+      "args": [
+        {
+          "stateless": true,
+          "atMaxSize": true
+        }
+      ],
+      "expected": "horizontal",
+      "private": true
+    }
+  ]
+}

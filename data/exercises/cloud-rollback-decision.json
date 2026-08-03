@@ -1,0 +1,82 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-rollback-decision",
+  "title": "Cloud : rollback, roll-forward ou hotfix ?",
+  "difficulty": 3,
+  "summary": "decide(ctx) où ctx={reversible, critical} → \"rollback\" si reversible ; sinon \"hotfix\" si critical (urgent, irréversible) ; sinon \"roll-forward\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function decide(ctx) {\n  // TODO\n  return \"roll-forward\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function decide(ctx){if(ctx.reversible)return \"rollback\";if(ctx.critical)return \"hotfix\";return \"roll-forward\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "réversible → rollback",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "reversible": true,
+          "critical": true
+        }
+      ],
+      "expected": "rollback"
+    },
+    {
+      "id": "t2",
+      "name": "irréversible + critique → hotfix",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "reversible": false,
+          "critical": true
+        }
+      ],
+      "expected": "hotfix"
+    },
+    {
+      "id": "t3",
+      "name": "irréversible non critique → roll-forward",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "reversible": false,
+          "critical": false
+        }
+      ],
+      "expected": "roll-forward"
+    },
+    {
+      "id": "t4",
+      "name": "réversible non critique → rollback",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "reversible": true,
+          "critical": false
+        }
+      ],
+      "expected": "rollback",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-blast-radius",
+  "title": "Cloud : estimer le blast radius",
+  "difficulty": 3,
+  "summary": "blastRadius(services, downId) où services=[{id, dependsOn}] → nombre de services impactés si downId tombe = downId lui-même + tous ceux qui en dépendent (directement).",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function blastRadius(services, downId) {\n  // TODO\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function blastRadius(services,downId){const impacted=new Set([downId]);for(const s of services)if((s.dependsOn||[]).includes(downId))impacted.add(s.id);return impacted.size;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux dépendants + lui-même = 3",
+      "kind": "call-equals",
+      "export": "blastRadius",
+      "args": [
+        [
+          {
+            "id": "db",
+            "dependsOn": []
+          },
+          {
+            "id": "api",
+            "dependsOn": [
+              "db"
+            ]
+          },
+          {
+            "id": "worker",
+            "dependsOn": [
+              "db"
+            ]
+          }
+        ],
+        "db"
+      ],
+      "expected": 3
+    },
+    {
+      "id": "t2",
+      "name": "aucun dépendant = 1",
+      "kind": "call-equals",
+      "export": "blastRadius",
+      "args": [
+        [
+          {
+            "id": "db",
+            "dependsOn": []
+          },
+          {
+            "id": "api",
+            "dependsOn": []
+          }
+        ],
+        "db"
+      ],
+      "expected": 1
+    },
+    {
+      "id": "t3",
+      "name": "un dépendant = 2",
+      "kind": "call-equals",
+      "export": "blastRadius",
+      "args": [
+        [
+          {
+            "id": "lb",
+            "dependsOn": []
+          },
+          {
+            "id": "api",
+            "dependsOn": [
+              "lb"
+            ]
+          }
+        ],
+        "lb"
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t4",
+      "name": "service isolé",
+      "kind": "call-equals",
+      "export": "blastRadius",
+      "args": [
+        [
+          {
+            "id": "x",
+            "dependsOn": []
+          }
+        ],
+        "x"
+      ],
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

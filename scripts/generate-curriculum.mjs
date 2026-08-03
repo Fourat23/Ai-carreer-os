@@ -210,6 +210,10 @@ function buildDay(n) {
         future: enrich.future,
         solution: enrich.solution,
         reflection: enrich.reflection,
+        // « Erreurs fréquentes » : mêmes règles que les jours 1-90 (cf. l.180) —
+        // on rend les pièges de la correction déjà rédigés (jusqu'ici masqués
+        // pour les jours planifiés 91-365 : correctif de cohérence du générateur).
+        mistakes: enrich.mistakes ?? enrich.solution?.pitfalls,
         criteria: [
           `Le livrable est produit et correspond à : ${entry.deliverable}`,
           "J'ai d'abord tenté seul (sans IA) au moins 30 minutes.",

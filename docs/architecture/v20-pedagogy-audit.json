@@ -40,7 +40,7 @@
         "technical-accuracy": 4,
         "objective": 4,
         "prerequisites": 3,
-        "mental-model": 2,
+        "mental-model": 4,
         "depth": 3,
         "progression": 4,
         "guided-example": 4,
@@ -54,7 +54,7 @@
         "retention": 3,
         "track-coherence": 4
       },
-      "notes": "Redirections/pipes/exit codes (V19) : solide ; ABSENCE de section « modèle mental » explicite → action CP3."
+      "notes": "Redirections/pipes/exit codes (V19) : section « modèle mental » ajoutée en CP3 (filtre/tuyaux/code de sortie)."
     },
     {
       "id": "day-50",
@@ -238,7 +238,7 @@
         "guided-example": 4,
         "autonomous-practice": 4,
         "feedback": 3,
-        "common-mistakes": 2,
+        "common-mistakes": 4,
         "professional-relevance": 4,
         "evaluation": 3,
         "cognitive-load": 3,
@@ -246,7 +246,7 @@
         "retention": 3,
         "track-coherence": 4
       },
-      "notes": "Perf/observabilité (V17) : bon ; ABSENCE de section « erreurs fréquentes » explicite → action CP3."
+      "notes": "Performance React re-renders (V17) : « erreurs fréquentes » désormais rendues (correctif de cohérence du générateur, CP3)."
     },
     {
       "id": "day-5",
@@ -310,7 +310,7 @@
         "guided-example": 4,
         "autonomous-practice": 4,
         "feedback": 3,
-        "common-mistakes": 2,
+        "common-mistakes": 3,
         "professional-relevance": 3,
         "evaluation": 3,
         "cognitive-load": 4,
@@ -318,7 +318,7 @@
         "retention": 3,
         "track-coherence": 4
       },
-      "notes": "React useEffect : bon ; pas de section « erreurs fréquentes »."
+      "notes": "React useEffect : « erreurs fréquentes » désormais rendues (correctif générateur CP3)."
     },
     {
       "id": "day-160",
@@ -334,7 +334,7 @@
         "guided-example": 4,
         "autonomous-practice": 4,
         "feedback": 3,
-        "common-mistakes": 2,
+        "common-mistakes": 3,
         "professional-relevance": 3,
         "evaluation": 3,
         "cognitive-load": 4,
@@ -342,7 +342,7 @@
         "retention": 3,
         "track-coherence": 4
       },
-      "notes": "Rapport de modèle ML : bon ; pas de section « erreurs fréquentes »."
+      "notes": "Rapport de modèle ML : « erreurs fréquentes » désormais rendues (correctif générateur CP3)."
     },
     {
       "id": "day-205",
@@ -358,7 +358,7 @@
         "guided-example": 4,
         "autonomous-practice": 3,
         "feedback": 3,
-        "common-mistakes": 2,
+        "common-mistakes": 3,
         "professional-relevance": 3,
         "evaluation": 3,
         "cognitive-load": 4,
@@ -366,7 +366,7 @@
         "retention": 2,
         "track-coherence": 3
       },
-      "notes": "LLM structured outputs : correct mais plus court (968 mots), sans quiz ni erreurs fréquentes."
+      "notes": "LLM structured outputs : « erreurs fréquentes » rendues (CP3) ; quiz toujours absent ; plus court (968 mots)."
     },
     {
       "id": "day-340",
@@ -382,7 +382,7 @@
         "guided-example": 4,
         "autonomous-practice": 4,
         "feedback": 3,
-        "common-mistakes": 2,
+        "common-mistakes": 3,
         "professional-relevance": 3,
         "evaluation": 3,
         "cognitive-load": 4,
@@ -390,7 +390,7 @@
         "retention": 3,
         "track-coherence": 4
       },
-      "notes": "Polish GitHub : bon ; pas de section « erreurs fréquentes »."
+      "notes": "Polish GitHub : « erreurs fréquentes » désormais rendues (correctif générateur CP3)."
     },
     {
       "id": "sys-perms-to-octal",

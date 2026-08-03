@@ -73,7 +73,9 @@ node scripts/hello.js # depuis ia-lab/ : chemin relatif scripts/hello.js
     skill: 'gitlinux', difficulty: 1, hours: 4.5,
     objective: "Être à l'aise avec les flux (>, >>, |), les droits, la recherche de fichiers, et écrire un premier script Node.js qui lit des arguments.",
     concepts: ['Redirections > et >>', 'Pipe |', 'grep, find, wc, head, tail', 'Variables d\'environnement (PATH)', 'process.argv dans Node', 'Codes de sortie'],
-    theory: `Hier tu as appris à te déplacer. Aujourd'hui : faire COOPÉRER les commandes.
+    theory: `**Modèle mental : chaque commande est un FILTRE — elle lit une entrée (stdin), écrit une sortie (stdout) et signale ses erreurs à part (stderr). Les redirections (\`>\`, \`>>\`, \`2>\`, \`<\`) branchent ces flux sur des fichiers ; le pipe (\`|\`) enchaîne les commandes comme des TUYAUX, la sortie de l'une devenant l'entrée de la suivante. Un programme n'est donc qu'un maillon : il reçoit un flux, le transforme, le renvoie — d'où la force des petits outils composables. Et son CODE DE SORTIE (0 = succès, non-zéro = échec) permet de les chaîner selon le résultat (\`&&\`, \`||\`).**
+
+Hier tu as appris à te déplacer. Aujourd'hui : faire COOPÉRER les commandes.
 
 - **Redirection** : \`commande > fichier\` envoie la sortie dans un fichier (écrase) ; \`>>\` ajoute à la fin.
 - **Pipe** : \`commande1 | commande2\` branche la sortie de la première sur l'entrée de la seconde. Exemple : \`ls | wc -l\` compte les fichiers. C'est LA grande idée d'Unix : des petits outils composables — tu retrouveras cette philosophie dans les fonctions pures (jour 26) et les pipelines de données (mois 5).

@@ -177,5 +177,26 @@ Les trois vagues dépassent les seuils. V19 est la plus riche mais aussi la plus
 - **Parcours Systems/Cloud cohérent ?** Oui pour les fondations ; Docker à ajouter
   (CP8).
 - **Docker assez profond ?** **Pas encore** — c'est l'objet de CP8.
-- **Ce qui manque avant crédibilité pro complète ?** Docker/CI/CD, généralisation
-  des « erreurs fréquentes », et l'observation d'apprenants réels.
+- **Ce qui manque avant crédibilité pro complète ?** Docker/CI/CD et
+  l'observation d'apprenants réels.
+
+## 13. Mise à jour CP3 (corrections appliquées)
+
+L'audit CP2 avait classé « ajouter *Erreurs fréquentes* aux ~235 journées » comme
+**reporté** (chantier de masse supposé). CP3 a révélé la vraie cause : un
+**bug de cohérence du générateur** — la branche des journées planifiées (91-365)
+ne câblait pas le champ `mistakes`, alors que la branche des jours 1-90 rend déjà
+les `solution.pitfalls` comme « Erreurs fréquentes ». Les pièges étaient donc
+**déjà rédigés** mais **masqués**. Correctif : **une ligne** dans
+`scripts/generate-curriculum.mjs`, **purement additive** (aucune ligne retirée,
+aucune autre section modifiée), qui **surface du contenu existant**.
+
+Résultat mesuré :
+- couverture « Erreurs fréquentes » (journées d'enseignement) : **78 → 312 / 313**.
+- **0 signal de danger** introduit (scan des 235 journées modifiées).
+- day-2 : section « modèle mental » ajoutée (source, additif).
+- day-102/95/160/205/340 : dimensions concernées remontées à ≥ 3 dans le registre.
+
+Restent volontairement **non traités** (hors périmètre V20) : la généralisation
+des **quiz** (77 journées) et l'enrichissement de day-205 (thème LLM). La journée
+sans pitfalls rédigés (1/313) n'a pas de section ajoutée : pas de contenu fabriqué.

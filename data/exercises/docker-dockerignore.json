@@ -1,0 +1,124 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "docker-dockerignore",
+  "title": "Docker : appliquer .dockerignore",
+  "difficulty": 3,
+  "summary": "Fixture déterministe. keptFiles(files, patterns) renvoie les fichiers CONSERVÉS dans le build context après exclusion. Motifs supportés : nom exact, préfixe de dossier (\"node_modules/\"), et joker \"*.ext\". Ordre d’entrée conservé.",
+  "skills": [
+    "arrays",
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function keptFiles(files, patterns) {\n  // TODO : exclure exact, dossier/, *.ext ; garder l’ordre.\n  return files;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function keptFiles(files,patterns){const ex=(f)=>patterns.some(p=>{if(p.endsWith(\"/\"))return f.startsWith(p);if(p.startsWith(\"*.\"))return f.endsWith(p.slice(1));return f===p;});return files.filter(f=>!ex(f));}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "exclut .env et node_modules/",
+      "kind": "call-equals",
+      "export": "keptFiles",
+      "args": [
+        [
+          "app.js",
+          ".env",
+          "node_modules/x.js",
+          "README.md"
+        ],
+        [
+          ".env",
+          "node_modules/"
+        ]
+      ],
+      "expected": [
+        "app.js",
+        "README.md"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "joker *.log",
+      "kind": "call-equals",
+      "export": "keptFiles",
+      "args": [
+        [
+          "a.log",
+          "b.js",
+          "c.log"
+        ],
+        [
+          "*.log"
+        ]
+      ],
+      "expected": [
+        "b.js"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "aucun motif → tout gardé",
+      "kind": "call-equals",
+      "export": "keptFiles",
+      "args": [
+        [
+          "a",
+          "b"
+        ],
+        []
+      ],
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "tout exclu (privé)",
+      "kind": "call-equals",
+      "export": "keptFiles",
+      "args": [
+        [
+          "x.tmp",
+          "y.tmp"
+        ],
+        [
+          "*.tmp"
+        ]
+      ],
+      "expected": [],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "dossier imbriqué (privé)",
+      "kind": "call-equals",
+      "export": "keptFiles",
+      "args": [
+        [
+          "src/a.js",
+          "dist/b.js"
+        ],
+        [
+          "dist/"
+        ]
+      ],
+      "expected": [
+        "src/a.js"
+      ],
+      "private": true
+    }
+  ]
+}

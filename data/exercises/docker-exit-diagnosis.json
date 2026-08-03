@@ -1,0 +1,82 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "docker-exit-diagnosis",
+  "title": "Docker : diagnostiquer un conteneur",
+  "difficulty": 3,
+  "summary": "Modèle déterministe. diagnose(symptom) range un symptôme sur sa cause : \"exited-127\"→\"command-not-found\", \"exited-1-missing-env\"→\"missing-env\", \"port-unreachable\"→\"port-not-published\", \"permission-denied\"→\"permissions\", \"healthcheck-failed\"→\"healthcheck\", sinon \"unknown\".",
+  "skills": [
+    "debugging",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function diagnose(symptom) {\n  // TODO : mapper le symptôme sur sa cause.\n  return \"unknown\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function diagnose(s){const m={\"exited-127\":\"command-not-found\",\"exited-1-missing-env\":\"missing-env\",\"port-unreachable\":\"port-not-published\",\"permission-denied\":\"permissions\",\"healthcheck-failed\":\"healthcheck\"};return m[s]||\"unknown\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "127 → command not found",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        "exited-127"
+      ],
+      "expected": "command-not-found"
+    },
+    {
+      "id": "t2",
+      "name": "missing env",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        "exited-1-missing-env"
+      ],
+      "expected": "missing-env"
+    },
+    {
+      "id": "t3",
+      "name": "port injoignable",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        "port-unreachable"
+      ],
+      "expected": "port-not-published"
+    },
+    {
+      "id": "t4",
+      "name": "healthcheck (privé)",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        "healthcheck-failed"
+      ],
+      "expected": "healthcheck",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "inconnu (privé)",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        "banana"
+      ],
+      "expected": "unknown",
+      "private": true
+    }
+  ]
+}

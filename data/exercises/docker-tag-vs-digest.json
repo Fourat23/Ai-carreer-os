@@ -1,0 +1,82 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "docker-tag-vs-digest",
+  "title": "Docker : build reproductible ?",
+  "difficulty": 2,
+  "summary": "isReproducible(imageRef) → true si la référence épingle un digest (contient \"@sha256:\"); false si c’est un tag mutable (\"latest\", \"20\", \"3.12-alpine\") — non reproductible dans le temps.",
+  "skills": [
+    "linux",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isReproducible(imageRef) {\n  // TODO : true seulement si @sha256: présent.\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isReproducible(ref){return /@sha256:[0-9a-f]{6,}/i.test(String(ref));}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "digest épinglé → true",
+      "kind": "call-equals",
+      "export": "isReproducible",
+      "args": [
+        "node:20@sha256:abcdef123456"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "latest → false",
+      "kind": "call-equals",
+      "export": "isReproducible",
+      "args": [
+        "node:latest"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "tag version → false",
+      "kind": "call-equals",
+      "export": "isReproducible",
+      "args": [
+        "python:3.12-alpine"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "digest sans tag (privé)",
+      "kind": "call-equals",
+      "export": "isReproducible",
+      "args": [
+        "alpine@sha256:deadbeef99"
+      ],
+      "expected": true,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "chaîne vide → false (privé)",
+      "kind": "call-equals",
+      "export": "isReproducible",
+      "args": [
+        ""
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

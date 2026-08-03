@@ -1,0 +1,172 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "docker-instruction-order",
+  "title": "Docker : ordonner pour le cache",
+  "difficulty": 3,
+  "summary": "Analyse STATIQUE (aucun Docker requis). optimalOrder(steps) réordonne un Dockerfile pour maximiser le cache : base (FROM) → système (RUN apt/apk) → manifeste (COPY package.json) → install (RUN npm ci) → code (COPY .) → commande (CMD). Conserve l’ordre relatif d’origine à rang égal.",
+  "skills": [
+    "linux",
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function optimalOrder(steps) {\n  // TODO : trier par rang de cache (from<system<manifest<install<code<cmd), stable.\n  return steps;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function optimalOrder(steps){const r={from:0,system:1,manifest:2,install:3,code:4,cmd:5};return steps.map((s,i)=>[s,i]).sort((a,b)=>(r[a[0].kind]-r[b[0].kind])||(a[1]-b[1])).map(x=>x[0]);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "code avant install → réordonné",
+      "kind": "call-equals",
+      "export": "optimalOrder",
+      "args": [
+        [
+          {
+            "kind": "from"
+          },
+          {
+            "kind": "code"
+          },
+          {
+            "kind": "install"
+          },
+          {
+            "kind": "manifest"
+          }
+        ]
+      ],
+      "expected": [
+        {
+          "kind": "from"
+        },
+        {
+          "kind": "manifest"
+        },
+        {
+          "kind": "install"
+        },
+        {
+          "kind": "code"
+        }
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "déjà optimal → inchangé",
+      "kind": "call-equals",
+      "export": "optimalOrder",
+      "args": [
+        [
+          {
+            "kind": "from"
+          },
+          {
+            "kind": "manifest"
+          },
+          {
+            "kind": "install"
+          },
+          {
+            "kind": "cmd"
+          }
+        ]
+      ],
+      "expected": [
+        {
+          "kind": "from"
+        },
+        {
+          "kind": "manifest"
+        },
+        {
+          "kind": "install"
+        },
+        {
+          "kind": "cmd"
+        }
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "stable à rang égal",
+      "kind": "call-equals",
+      "export": "optimalOrder",
+      "args": [
+        [
+          {
+            "kind": "code",
+            "n": 1
+          },
+          {
+            "kind": "code",
+            "n": 2
+          }
+        ]
+      ],
+      "expected": [
+        {
+          "kind": "code",
+          "n": 1
+        },
+        {
+          "kind": "code",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "système avant manifeste (privé)",
+      "kind": "call-equals",
+      "export": "optimalOrder",
+      "args": [
+        [
+          {
+            "kind": "manifest"
+          },
+          {
+            "kind": "system"
+          },
+          {
+            "kind": "from"
+          }
+        ]
+      ],
+      "expected": [
+        {
+          "kind": "from"
+        },
+        {
+          "kind": "system"
+        },
+        {
+          "kind": "manifest"
+        }
+      ],
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "vide → vide (privé)",
+      "kind": "call-equals",
+      "export": "optimalOrder",
+      "args": [
+        []
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

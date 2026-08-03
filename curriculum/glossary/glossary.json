@@ -10233,5 +10233,786 @@
       "shell",
       "linux"
     ]
+  },
+  {
+    "id": "dk-layer",
+    "term": "Couche (layer)",
+    "fullForm": null,
+    "frenchMeaning": "couche d’image",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Chaque instruction d’un Dockerfile produit une couche, mise en cache et empilée.",
+    "detailedDefinition": "Une image est une pile de couches en lecture seule ; chaque instruction (FROM/RUN/COPY…) en ajoute une, réutilisée par le cache tant que son entrée n’a pas changé. Les couches sont ADDITIVES : supprimer un fichier dans une couche ultérieure ne réduit pas la taille (le fichier reste dans une couche antérieure).",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Copie le manifeste avant le code pour ne pas invalider la couche d’install. »",
+    "plainTranslation": "« Un étage d’une image, mis en cache. »",
+    "relatedTerms": [],
+    "aliases": [
+      "layer"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-registry",
+    "term": "Registry",
+    "fullForm": null,
+    "frenchMeaning": "registre d’images",
+    "category": "cloud",
+    "level": "débutant",
+    "shortDefinition": "Service qui stocke et distribue les images Docker (public ou privé).",
+    "detailedDefinition": "Un registry (Docker Hub, GHCR, ECR…) héberge les images : on y pousse (push) et on en tire (pull). Un repository y regroupe les versions d’une même image, distinguées par des tags ou des digests.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Pousse l’image sur le registry privé, pas en public. »",
+    "plainTranslation": "« L’entrepôt où vivent les images. »",
+    "relatedTerms": [],
+    "aliases": [
+      "registre",
+      "container registry"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-repository",
+    "term": "Repository (image)",
+    "fullForm": null,
+    "frenchMeaning": "dépôt d’images",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Ensemble des versions d’une même image dans un registry.",
+    "detailedDefinition": "Un repository regroupe les variantes/versions d’une image (ex. `library/node`), chacune identifiée par un tag (`20-alpine`) ou un digest. À ne pas confondre avec un dépôt Git.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Le repository node a des dizaines de tags. »",
+    "plainTranslation": "« Le dossier d’un registry qui contient les versions d’une image. »",
+    "relatedTerms": [],
+    "aliases": [
+      "repo d’image"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-tag",
+    "term": "Tag (image)",
+    "fullForm": null,
+    "frenchMeaning": "étiquette d’image",
+    "category": "cloud",
+    "level": "débutant",
+    "shortDefinition": "Étiquette MUTABLE pointant vers une version d’image (ex. node:20-alpine).",
+    "detailedDefinition": "Un tag est un pointeur lisible vers une image dans un repository. Il est MUTABLE : `latest` ou `20` peuvent pointer vers un contenu différent demain. Pour un build reproductible, on épingle un digest.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« N’utilise pas latest en prod : le tag peut bouger sous tes pieds. »",
+    "plainTranslation": "« Le nom de version d’une image, qui peut changer de contenu. »",
+    "relatedTerms": [],
+    "aliases": [
+      "image tag"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-digest",
+    "term": "Digest (image)",
+    "fullForm": null,
+    "frenchMeaning": "empreinte d’image",
+    "category": "cloud",
+    "level": "avancé",
+    "shortDefinition": "Empreinte sha256 identifiant un contenu d’image EXACT et immuable.",
+    "detailedDefinition": "Un digest (`@sha256:…`) identifie le contenu exact d’une image : il ne change jamais. Épingler un digest garantit que le même build donnera la même image demain (reproductibilité), contrairement à un tag mutable.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Épingle le digest pour un build 100% reproductible. »",
+    "plainTranslation": "« L’empreinte unique et figée d’une image. »",
+    "relatedTerms": [],
+    "aliases": [
+      "image digest"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-dockerfile",
+    "term": "Dockerfile",
+    "fullForm": null,
+    "frenchMeaning": "recette d’image",
+    "category": "cloud",
+    "level": "débutant",
+    "shortDefinition": "Fichier texte décrivant, instruction par instruction, comment construire une image.",
+    "detailedDefinition": "Le Dockerfile (FROM, WORKDIR, COPY, RUN, ENV, USER, EXPOSE, ENTRYPOINT, CMD, HEALTHCHECK…) est la recette reproductible d’une image. L’ordre des instructions gouverne le cache de couches ; les bonnes pratiques (non-root, base minimale, pas de secret) s’y appliquent.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Le Dockerfile copie le code avant d’installer : le cache est cassé. »",
+    "plainTranslation": "« La recette pour fabriquer une image. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-build-context",
+    "term": "Build context",
+    "fullForm": null,
+    "frenchMeaning": "contexte de build",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Ensemble des fichiers envoyés au démon Docker pour construire une image.",
+    "detailedDefinition": "Au build, Docker envoie le « contexte » (le dossier courant par défaut) au démon ; les COPY/ADD y puisent. Un contexte trop large (avec .git, node_modules) ralentit le build et risque d’embarquer des secrets — d’où le `.dockerignore`.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Réduis le build context avec un .dockerignore. »",
+    "plainTranslation": "« Les fichiers envoyés à Docker pour construire l’image. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-dockerignore",
+    "term": ".dockerignore",
+    "fullForm": null,
+    "frenchMeaning": "exclusions de build",
+    "category": "cloud",
+    "level": "débutant",
+    "shortDefinition": "Fichier listant ce qu’il faut EXCLURE du build context (et donc de l’image).",
+    "detailedDefinition": "Le `.dockerignore` exclut du contexte de build les fichiers inutiles ou sensibles (`.git`, `node_modules`, `.env`, tests). Il allège l’image, accélère le build et évite d’embarquer des secrets.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Ajoute .env au .dockerignore pour ne pas le copier dans l’image. »",
+    "plainTranslation": "« La liste de ce qu’on ne met pas dans l’image. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-multistage",
+    "term": "Multi-stage build",
+    "fullForm": null,
+    "frenchMeaning": "build multi-étapes",
+    "category": "cloud",
+    "level": "avancé",
+    "shortDefinition": "Construction en plusieurs étapes : compiler dans une image lourde, ne copier que l’artefact final dans une image minimale.",
+    "detailedDefinition": "Un build multi-stage utilise une première image (avec le toolchain) pour compiler, puis copie uniquement le résultat dans une image d’exécution minimale. Résultat : image plus petite, surface d’attaque réduite, démarrage plus rapide.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Passe en multi-stage : l’image de prod n’a pas besoin du compilateur. »",
+    "plainTranslation": "« Compiler dans une grosse image, livrer une petite. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-base-image",
+    "term": "Image de base",
+    "fullForm": null,
+    "frenchMeaning": "image de base",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Image de départ (FROM) sur laquelle on construit la sienne.",
+    "detailedDefinition": "L’image de base (`FROM node:20-alpine`) fournit l’OS minimal et le runtime. Choisir une base MINIMALE (alpine, distroless) réduit taille et vulnérabilités ; une base obsolète est une dette de sécurité à mettre à jour régulièrement.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Mets à jour l’image de base : elle a des CVE non corrigées. »",
+    "plainTranslation": "« Le point de départ d’une image. »",
+    "relatedTerms": [],
+    "aliases": [
+      "base image"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-distroless",
+    "term": "Distroless",
+    "fullForm": null,
+    "frenchMeaning": "image sans distribution",
+    "category": "cloud",
+    "level": "avancé",
+    "shortDefinition": "Image sans shell ni gestionnaire de paquets : uniquement le runtime et l’app.",
+    "detailedDefinition": "Une image distroless ne contient ni shell ni outils système, seulement le strict nécessaire à l’exécution. Surface d’attaque minimale et image légère, au prix d’un débogage plus difficile (pas de shell à l’intérieur).",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« En prod on passe distroless : moins de surface d’attaque. »",
+    "plainTranslation": "« Une image réduite au strict minimum pour tourner. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-cache-layer",
+    "term": "Cache de couches",
+    "fullForm": null,
+    "frenchMeaning": "cache de build",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Réutilisation des couches inchangées pour accélérer les builds.",
+    "detailedDefinition": "Docker met en cache chaque couche et la réutilise tant que son instruction et ses entrées n’ont pas changé. D’où la règle : copier le manifeste de dépendances et installer AVANT de copier le code, pour qu’un changement de code ne réinvalide pas l’installation.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Le build est lent : l’ordre des couches casse le cache. »",
+    "plainTranslation": "« Réutiliser les étages d’image qui n’ont pas changé. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-entrypoint",
+    "term": "ENTRYPOINT",
+    "fullForm": null,
+    "frenchMeaning": "point d’entrée",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Instruction fixant l’exécutable lancé par le conteneur.",
+    "detailedDefinition": "ENTRYPOINT définit le programme principal du conteneur ; CMD fournit ses arguments par défaut (surchargeables). En forme « exec » (liste JSON), le processus reçoit les signaux directement — indispensable pour un arrêt propre.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Mets l’ENTRYPOINT en forme exec pour recevoir SIGTERM. »",
+    "plainTranslation": "« Le programme que lance le conteneur. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-cmd",
+    "term": "CMD",
+    "fullForm": null,
+    "frenchMeaning": "commande par défaut",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Instruction fournissant la commande/arguments par défaut d’un conteneur.",
+    "detailedDefinition": "CMD donne la commande par défaut (ou les arguments d’un ENTRYPOINT), surchargeable au `docker run`. En forme exec (`[\"node\",\"x\"]`) plutôt que shell, le processus est PID 1 et reçoit les signaux — arrêt propre.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« CMD en forme exec, sinon le process ne reçoit pas SIGTERM. »",
+    "plainTranslation": "« La commande lancée par défaut dans le conteneur. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-volume",
+    "term": "Volume",
+    "fullForm": null,
+    "frenchMeaning": "volume de données",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Stockage persistant géré par Docker, indépendant du cycle de vie du conteneur.",
+    "detailedDefinition": "Un volume conserve des données au-delà de la vie d’un conteneur (le filesystem du conteneur étant éphémère). Géré par Docker, il est portable et sauvegardable — contrairement à un bind mount lié à un chemin précis de l’hôte.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Mets la base dans un volume, sinon tu perds les données au rm. »",
+    "plainTranslation": "« Un espace de stockage qui survit au conteneur. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-bind-mount",
+    "term": "Bind mount",
+    "fullForm": null,
+    "frenchMeaning": "montage lié",
+    "category": "cloud",
+    "level": "intermédiaire",
+    "shortDefinition": "Montage d’un dossier PRÉCIS de l’hôte dans le conteneur.",
+    "detailedDefinition": "Un bind mount relie un chemin exact de l’hôte à un chemin du conteneur (`-v /hôte:/conteneur`). Pratique en dev (voir ses fichiers en direct), mais couplé à l’hôte et risqué s’il expose trop (jamais monter `/` ni le socket Docker).",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« En dev on bind-monte le code ; en prod on préfère un volume. »",
+    "plainTranslation": "« Relier un dossier de la machine au conteneur. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-bridge-network",
+    "term": "Réseau bridge",
+    "fullForm": null,
+    "frenchMeaning": "réseau pont",
+    "category": "network",
+    "level": "intermédiaire",
+    "shortDefinition": "Réseau virtuel par défaut reliant des conteneurs sur un même hôte.",
+    "detailedDefinition": "Sur un réseau bridge, les conteneurs se joignent par leur NOM de service (DNS interne Docker). `localhost` dans un conteneur désigne le conteneur lui-même, pas l’hôte ni les autres — d’où « pourquoi mon conteneur ne joint pas l’autre sur localhost ». `--network none` désactive tout réseau.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Utilise le nom du service, pas localhost, pour joindre l’autre conteneur. »",
+    "plainTranslation": "« Le réseau qui relie les conteneurs d’une machine. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-port-publish",
+    "term": "Publication de port",
+    "fullForm": null,
+    "frenchMeaning": "publication de port",
+    "category": "network",
+    "level": "débutant",
+    "shortDefinition": "Exposer un port de conteneur sur l’hôte avec -p hôte:conteneur.",
+    "detailedDefinition": "Publier un port (`-p 8080:80`) rend un service du conteneur joignable depuis l’hôte. `EXPOSE` ne fait que DOCUMENTER un port, il ne le publie pas — d’où « le service tourne mais est injoignable ».",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« EXPOSE ne suffit pas : ajoute -p pour publier le port. »",
+    "plainTranslation": "« Ouvrir un port du conteneur vers l’extérieur. »",
+    "relatedTerms": [],
+    "aliases": [
+      "port publishing",
+      "port mapping"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-healthcheck",
+    "term": "Healthcheck",
+    "fullForm": null,
+    "frenchMeaning": "sonde de santé",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Sonde vérifiant périodiquement qu’un conteneur/service répond vraiment.",
+    "detailedDefinition": "Un HEALTHCHECK (dans le Dockerfile ou l’orchestrateur) teste régulièrement la santé réelle du service, pas seulement que le processus tourne. Un orchestrateur redémarre ou retire du trafic un conteneur « unhealthy ». Une sonde honnête vérifie les dépendances critiques.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Le conteneur tourne mais le healthcheck échoue : le service ne répond pas. »",
+    "plainTranslation": "« Un test régulier qui vérifie que le conteneur va bien. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-pid1",
+    "term": "PID 1 (conteneur)",
+    "fullForm": null,
+    "frenchMeaning": "processus principal",
+    "category": "prod",
+    "level": "avancé",
+    "shortDefinition": "Le processus principal d’un conteneur ; sa gestion des signaux gouverne l’arrêt.",
+    "detailedDefinition": "Dans un conteneur, le processus principal est PID 1 : s’il n’intercepte pas SIGTERM (forme shell), `docker stop` attend puis le tue par SIGKILL. La forme exec, et parfois un init léger, assurent un arrêt propre et récoltent les processus zombies.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Le conteneur met 10 s à s’arrêter : PID 1 n’intercepte pas SIGTERM. »",
+    "plainTranslation": "« Le programme n°1 d’un conteneur, qui reçoit les signaux d’arrêt. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-immutable-infra",
+    "term": "Infrastructure immuable",
+    "fullForm": null,
+    "frenchMeaning": "infrastructure immuable",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "On ne modifie pas un serveur/conteneur en place : on le remplace par une nouvelle version.",
+    "detailedDefinition": "Avec l’infrastructure immuable, une mise à jour = reconstruire une image et remplacer les conteneurs, jamais bricoler l’existant. Résultat : reproductibilité, rollback facile (redéployer l’image précédente), moins de dérive de configuration.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« On ne patche pas le conteneur en prod : on redéploie une nouvelle image. »",
+    "plainTranslation": "« Remplacer plutôt que modifier en place. »",
+    "relatedTerms": [],
+    "aliases": [
+      "immutable infrastructure"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-readonly-fs",
+    "term": "Système de fichiers en lecture seule",
+    "fullForm": null,
+    "frenchMeaning": "filesystem en lecture seule",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Conteneur dont le filesystem est monté --read-only (écriture seulement en tmpfs).",
+    "detailedDefinition": "Lancer un conteneur `--read-only` empêche toute écriture sur son image, avec un `--tmpfs` pour l’éphémère. Cela limite les dégâts d’une compromission (pas de dépôt de fichiers, pas de modification du binaire).",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Passe le conteneur en --read-only, il n’a pas besoin d’écrire. »",
+    "plainTranslation": "« Empêcher le conteneur d’écrire sur son disque. »",
+    "relatedTerms": [],
+    "aliases": [
+      "read-only filesystem"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-resource-limit",
+    "term": "Limite de ressources (conteneur)",
+    "fullForm": null,
+    "frenchMeaning": "limites de ressources",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Bornes CPU/mémoire/PIDs imposées à un conteneur.",
+    "detailedDefinition": "Les limites (`--memory`, `--cpus`, `--pids-limit`) empêchent un conteneur de monopoliser l’hôte ou de partir en fork bomb. Dépasser la limite mémoire déclenche un OOM kill du conteneur. Indispensable en multi-conteneurs.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Le conteneur a été OOM-killé : il a dépassé sa limite mémoire. »",
+    "plainTranslation": "« Plafonner le CPU, la mémoire et les processus d’un conteneur. »",
+    "relatedTerms": [],
+    "aliases": [
+      "resource limit"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-image-bloat",
+    "term": "Image bloat",
+    "fullForm": null,
+    "frenchMeaning": "image trop lourde",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Image inutilement lourde (couches inutiles, dépendances de build, caches).",
+    "detailedDefinition": "L’« image bloat » vient de dépendances de build embarquées, de caches non nettoyés, d’une base non minimale ou d’instructions mal ordonnées. C’est une dette : builds lents, pull lents, surface d’attaque accrue. Multi-stage et base minimale la réduisent.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« L’image fait 1,2 Go : image bloat, passe en multi-stage. »",
+    "plainTranslation": "« Une image gonflée par des choses inutiles. »",
+    "relatedTerms": [],
+    "aliases": [],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-non-root",
+    "term": "Non-root (conteneur)",
+    "fullForm": null,
+    "frenchMeaning": "utilisateur non privilégié",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Exécuter le processus du conteneur sous un utilisateur sans privilèges.",
+    "detailedDefinition": "Par défaut un conteneur tourne en root ; une compromission a alors les droits root dans le conteneur (et une surface d’évasion accrue). Fixer un USER non-root (`USER 1000`) applique le moindre privilège. À combiner avec `no-new-privileges` et `--cap-drop ALL`.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Ajoute USER node : ne fais pas tourner le conteneur en root. »",
+    "plainTranslation": "« Faire tourner le conteneur sans les droits admin. »",
+    "relatedTerms": [],
+    "aliases": [
+      "rootless",
+      "non-root"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-docker-socket",
+    "term": "Socket Docker",
+    "fullForm": null,
+    "frenchMeaning": "socket du démon Docker",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Point de contrôle du démon Docker ; le monter dans un conteneur = donner le contrôle de l’hôte.",
+    "detailedDefinition": "Le socket Docker (`/var/run/docker.sock`) pilote le démon. Le monter dans un conteneur revient à donner à ce conteneur le contrôle TOTAL de l’hôte (créer des conteneurs privilégiés, monter `/`). À ne JAMAIS faire sans raison impérative et bornée.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Ne monte jamais le socket Docker dans un conteneur exposé. »",
+    "plainTranslation": "« La prise de commande de Docker ; la donner = tout donner. »",
+    "relatedTerms": [],
+    "aliases": [
+      "docker socket"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-container-escape",
+    "term": "Évasion de conteneur",
+    "fullForm": null,
+    "frenchMeaning": "évasion de conteneur",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Sortir de l’isolation d’un conteneur pour agir sur l’hôte.",
+    "detailedDefinition": "Une « container escape » exploite une faiblesse (privileged, socket Docker monté, capability dangereuse, faille noyau) pour franchir l’isolation et atteindre l’hôte. Le durcissement (non-root, cap-drop, no-new-privileges, read-only, pas de socket) réduit ce risque — rappel : le noyau est PARTAGÉ, l’isolation n’est pas absolue.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Le conteneur privileged, c’est la porte ouverte à une évasion. »",
+    "plainTranslation": "« S’échapper d’un conteneur vers la machine hôte. »",
+    "relatedTerms": [],
+    "aliases": [
+      "container escape"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-namespace",
+    "term": "Namespace (Linux)",
+    "fullForm": null,
+    "frenchMeaning": "espace de noms",
+    "category": "cloud",
+    "level": "avancé",
+    "shortDefinition": "Mécanisme du noyau isolant la vue qu’un processus a du système (PID, réseau, montages…).",
+    "detailedDefinition": "Les namespaces Linux cloisonnent ce qu’un conteneur VOIT : ses propres PID, interfaces réseau, points de montage, utilisateurs. C’est un des piliers de l’isolation des conteneurs (avec les cgroups). Ils cloisonnent la vue, pas la consommation.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Le conteneur a son propre namespace réseau : son localhost lui est propre. »",
+    "plainTranslation": "« Le noyau donne au conteneur sa propre vue du système. »",
+    "relatedTerms": [],
+    "aliases": [
+      "namespace"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-cgroup",
+    "term": "cgroup",
+    "fullForm": null,
+    "frenchMeaning": "groupe de contrôle",
+    "category": "cloud",
+    "level": "avancé",
+    "shortDefinition": "Mécanisme du noyau limitant/comptabilisant les ressources d’un groupe de processus.",
+    "detailedDefinition": "Les control groups (cgroups) bornent et mesurent CPU, mémoire, I/O d’un conteneur. C’est ce qui rend effectives les limites `--memory`/`--cpus`. Complémentaires des namespaces : les cgroups gèrent la CONSOMMATION, les namespaces la VUE.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« La limite mémoire est appliquée par les cgroups. »",
+    "plainTranslation": "« Le noyau plafonne les ressources d’un conteneur. »",
+    "relatedTerms": [],
+    "aliases": [
+      "control group",
+      "cgroup"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-sbom",
+    "term": "SBOM",
+    "fullForm": "Software Bill of Materials",
+    "frenchMeaning": "nomenclature logicielle",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Inventaire des composants et dépendances d’une image (nomenclature logicielle).",
+    "detailedDefinition": "Un SBOM (Software Bill of Materials) liste tout ce que contient une image : paquets, versions, licences. Il permet de réagir vite à une vulnérabilité (« suis-je affecté ? ») et fait partie de la sécurité de la chaîne d’approvisionnement (supply chain).",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Génère un SBOM de l’image pour tracer les dépendances vulnérables. »",
+    "plainTranslation": "« La liste de tout ce qu’il y a dans une image. »",
+    "relatedTerms": [],
+    "aliases": [
+      "software bill of materials"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-supply-chain",
+    "term": "Chaîne d’approvisionnement logicielle",
+    "fullForm": null,
+    "frenchMeaning": "chaîne d’approvisionnement",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "L’ensemble des sources (images de base, paquets, registries) dont dépend un livrable.",
+    "detailedDefinition": "La supply chain regroupe tout ce dont dépend une image : base, dépendances, registries, outils de build. La sécuriser = images de provenance connue, digests épinglés, scan de vulnérabilités, SBOM. Une base compromise contamine tout ce qui en dérive.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Épingle les digests : la sécurité de la supply chain en dépend. »",
+    "plainTranslation": "« Toutes les sources dont dépend ton image. »",
+    "relatedTerms": [],
+    "aliases": [
+      "supply chain"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-reproducible-build",
+    "term": "Build reproductible",
+    "fullForm": null,
+    "frenchMeaning": "build reproductible",
+    "category": "devops",
+    "level": "avancé",
+    "shortDefinition": "Un build qui, à partir des mêmes sources, produit toujours la même image.",
+    "detailedDefinition": "Un build reproductible fige tout (base épinglée par digest, dépendances verrouillées) pour que « ça marche chez moi » devienne « ça marche partout, à l’identique ». C’est la condition d’un déploiement fiable et d’un rollback sûr.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Épingle les versions : on veut un build reproductible. »",
+    "plainTranslation": "« Reconstruire exactement la même image à chaque fois. »",
+    "relatedTerms": [],
+    "aliases": [
+      "reproducible build"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-orphan-container",
+    "term": "Conteneur orphelin",
+    "fullForm": null,
+    "frenchMeaning": "conteneur orphelin",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Conteneur arrêté mais non supprimé, qui traîne et consomme des ressources.",
+    "detailedDefinition": "Un conteneur orphelin (ou « dangling ») reste après usage faute de `--rm` ou de nettoyage. Il occupe disque et parfois des ports/noms. Bonne hygiène : `--rm` pour les conteneurs éphémères, nettoyage périodique.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Nettoie les conteneurs orphelins, ils saturent le disque. »",
+    "plainTranslation": "« Un conteneur laissé derrière soi. »",
+    "relatedTerms": [],
+    "aliases": [
+      "orphan container"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-dangling-image",
+    "term": "Image dangling",
+    "fullForm": null,
+    "frenchMeaning": "image sans tag",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Image sans tag, laissée par un rebuild, qui occupe l’espace disque.",
+    "detailedDefinition": "Une image « dangling » (`<none>:<none>`) est une couche d’image devenue sans tag après un rebuild. Elle consomme du disque sans servir : on la nettoie régulièrement (prune). Signe d’une hygiène de build à entretenir.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Fais un prune : les images dangling remplissent le disque. »",
+    "plainTranslation": "« Une image oubliée, sans nom, qui prend de la place. »",
+    "relatedTerms": [],
+    "aliases": [
+      "dangling image"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
+  },
+  {
+    "id": "dk-container-runtime",
+    "term": "Runtime de conteneur",
+    "fullForm": null,
+    "frenchMeaning": "moteur d’exécution de conteneurs",
+    "category": "cloud",
+    "level": "avancé",
+    "shortDefinition": "Composant bas niveau qui crée et exécute réellement les conteneurs.",
+    "detailedDefinition": "Le container runtime (containerd, runc…) est la brique qui, sous le CLI Docker, met en place namespaces/cgroups et lance le processus. Le connaître aide à comprendre que Docker orchestre, mais que l’exécution repose sur des mécanismes standard du noyau.",
+    "usageContext": "Fondations Docker / conteneurs (parcours Systems & Cloud Foundations).",
+    "meetingExample": "« Sous Docker, c’est containerd qui exécute vraiment les conteneurs. »",
+    "plainTranslation": "« La brique qui lance concrètement les conteneurs. »",
+    "relatedTerms": [],
+    "aliases": [
+      "container runtime"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "docker",
+      "conteneurs"
+    ]
   }
 ]

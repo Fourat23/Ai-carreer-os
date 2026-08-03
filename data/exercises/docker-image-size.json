@@ -1,0 +1,109 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "docker-image-size",
+  "title": "Docker : taille et couches gaspillées",
+  "difficulty": 3,
+  "summary": "Fixture déterministe. imageSize(layers) additionne la taille des couches (en Mo). Une couche { removed:true } a été supprimée dans une couche ULTÉRIEURE mais compte TOUJOURS (les couches sont additives, jamais soustractives).",
+  "skills": [
+    "functions",
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function imageSize(layers) {\n  // TODO : somme des tailles ; removed compte quand même.\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function imageSize(layers){return layers.reduce((s,l)=>s+(l.sizeMb||0),0);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "somme simple",
+      "kind": "call-equals",
+      "export": "imageSize",
+      "args": [
+        [
+          {
+            "sizeMb": 100
+          },
+          {
+            "sizeMb": 50
+          },
+          {
+            "sizeMb": 5
+          }
+        ]
+      ],
+      "expected": 155
+    },
+    {
+      "id": "t2",
+      "name": "couche « supprimée » compte quand même",
+      "kind": "call-equals",
+      "export": "imageSize",
+      "args": [
+        [
+          {
+            "sizeMb": 100
+          },
+          {
+            "sizeMb": 80,
+            "removed": true
+          }
+        ]
+      ],
+      "expected": 180
+    },
+    {
+      "id": "t3",
+      "name": "vide → 0",
+      "kind": "call-equals",
+      "export": "imageSize",
+      "args": [
+        []
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t4",
+      "name": "une couche (privé)",
+      "kind": "call-equals",
+      "export": "imageSize",
+      "args": [
+        [
+          {
+            "sizeMb": 12
+          }
+        ]
+      ],
+      "expected": 12,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "tailles manquantes = 0 (privé)",
+      "kind": "call-equals",
+      "export": "imageSize",
+      "args": [
+        [
+          {},
+          {
+            "sizeMb": 7
+          }
+        ]
+      ],
+      "expected": 7,
+      "private": true
+    }
+  ]
+}

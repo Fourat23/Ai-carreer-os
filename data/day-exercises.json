@@ -187,5 +187,17 @@
   ],
   "155": [
     "py-report"
+  ],
+  "320": [
+    "docker-instruction-order",
+    "docker-detect-secret",
+    "docker-detect-root",
+    "docker-image-size",
+    "docker-cmd-entrypoint",
+    "docker-port-mapping",
+    "docker-dockerignore",
+    "docker-layer-cache",
+    "docker-exit-diagnosis",
+    "docker-tag-vs-digest"
   ]
 }

@@ -1,0 +1,104 @@
+{
+  "id": "docker-reduce-image-debt",
+  "title": "Réduire la dette d’une image legacy",
+  "description": "Une image legacy est lourde, en `latest`, root, avec un secret et sans healthcheck. Établir un plan de migration mesuré (avant/après) avec stratégie de rollback.",
+  "category": "debt-maintenance",
+  "difficulty": 4,
+  "estimatedHours": 5,
+  "context": "Simulation déterministe (analyse de configuration, sans daemon obligatoire). Tu hérites d'une image Docker « legacy » qui accumule la dette : base en `latest` (build non reproductible), image lourde (dépendances de build embarquées, pas de multi-stage), conteneur en root, un secret dans une couche, dépendances obsolètes, aucun healthcheck. Chaque point est une dette avec un INTÉRÊT (risque de sécurité, builds lents, incidents). Tu dois PRIORISER (sécurité d'abord : secret et root ; puis reproductibilité : épingler la base ; puis performance : multi-stage et taille), proposer un plan de MIGRATION incrémental, MESURER l'effet (taille avant/après, reproductibilité) et prévoir un ROLLBACK (tags de version, image précédente conservée) au cas où la nouvelle image casse. On ne « big-bang » pas une image de production.",
+  "prerequisites": [
+    "Taille d’image et multi-stage (jour 320)",
+    "Dette technique et priorisation (jour 69)"
+  ],
+  "skills": [
+    "linux",
+    "data"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "dayRefs": [
+    69,
+    320
+  ],
+  "exerciseRefs": [
+    "docker-image-size",
+    "docker-tag-vs-digest",
+    "docker-detect-secret"
+  ],
+  "deliverables": [
+    {
+      "id": "repro",
+      "kind": "code",
+      "title": "Vérifier la reproductibilité (tag vs digest) (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "docker-tag-vs-digest",
+      "hint": "Une référence reproductible épingle un digest (@sha256:) ; un tag mutable (latest, 20) ne l’est pas."
+    },
+    {
+      "id": "migration",
+      "kind": "plan",
+      "title": "Plan de migration & rollback mesuré",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Dette identifiée",
+          "Priorisation",
+          "Plan de migration",
+          "Mesure avant/après",
+          "Rollback",
+          "Compatibilité"
+        ],
+        "requireMentions": [
+          "secret",
+          "root",
+          "taille",
+          "digest"
+        ],
+        "minLength": 380,
+        "maxLength": 8000
+      },
+      "hint": "Priorise sécurité (secret, root) avant reproductibilité (digest) avant performance (multi-stage, taille). Mesure avant/après. Prévois un rollback (tags versionnés)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : reproductibilité (digest vs tag) correctement évaluée",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Sécurité priorisée (secret retiré + rotation, non-root)",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "Réduction de taille étayée (multi-stage, base minimale) et mesurée",
+      "blocking": false,
+      "category": "performance"
+    },
+    {
+      "label": "Rollback et compatibilité prévus (pas de big-bang)",
+      "blocking": false,
+      "category": "maintainability"
+    }
+  ],
+  "commonMistakes": [
+    "Optimiser la taille avant de retirer le secret et le root",
+    "Migrer d’un coup sans rollback",
+    "Garder `latest` (irreproductible)",
+    "Ne pas mesurer l’effet (taille, build) avant/après"
+  ],
+  "status": "published",
+  "version": "1"
+}

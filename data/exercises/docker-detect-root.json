@@ -1,0 +1,96 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "docker-detect-root",
+  "title": "Docker : conteneur exécuté en root ?",
+  "difficulty": 2,
+  "summary": "Analyse STATIQUE. runsAsRoot(lines) → true si le Dockerfile ne fixe aucun USER non-root (absence de USER, ou dernier USER = root/0). Un USER non-root après les installations corrige.",
+  "skills": [
+    "linux",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function runsAsRoot(lines) {\n  // TODO : true si aucun USER non-root final.\n  return true;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function runsAsRoot(lines){let last=null;for(const l of lines){const m=l.match(/^\\s*USER\\s+(\\S+)/i);if(m)last=m[1];}if(last===null)return true;return last===\"root\"||/^0(:|$)/.test(last);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "aucun USER → root",
+      "kind": "call-equals",
+      "export": "runsAsRoot",
+      "args": [
+        [
+          "FROM node",
+          "CMD node app"
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "USER node → non-root",
+      "kind": "call-equals",
+      "export": "runsAsRoot",
+      "args": [
+        [
+          "FROM node",
+          "USER node",
+          "CMD node app"
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "USER root explicite",
+      "kind": "call-equals",
+      "export": "runsAsRoot",
+      "args": [
+        [
+          "FROM node",
+          "USER root"
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t4",
+      "name": "USER 1000 → non-root (privé)",
+      "kind": "call-equals",
+      "export": "runsAsRoot",
+      "args": [
+        [
+          "USER 1000"
+        ]
+      ],
+      "expected": false,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "USER 0:0 → root (privé)",
+      "kind": "call-equals",
+      "export": "runsAsRoot",
+      "args": [
+        [
+          "USER 0:0"
+        ]
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

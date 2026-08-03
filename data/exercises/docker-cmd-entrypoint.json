@@ -1,0 +1,82 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "docker-cmd-entrypoint",
+  "title": "Docker : CMD vs ENTRYPOINT",
+  "difficulty": 2,
+  "summary": "classifyForm(line) : \"exec\" si liste JSON ([\"node\",\"x\"]) — reçoit les signaux ; \"shell\" si forme shell (node x) — enveloppé par /bin/sh, ne reçoit pas SIGTERM ; \"invalid\" sinon.",
+  "skills": [
+    "linux",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function classifyForm(line) {\n  // TODO : exec (liste JSON) | shell (texte) | invalid.\n  return \"invalid\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function classifyForm(line){const m=line.match(/^\\s*(CMD|ENTRYPOINT)\\s+(.*)$/i);if(!m)return \"invalid\";const arg=m[2].trim();if(/^\\[.*\\]$/.test(arg)){try{const a=JSON.parse(arg);return Array.isArray(a)&&a.every(x=>typeof x===\"string\")?\"exec\":\"invalid\";}catch{return \"invalid\";}}return arg?\"shell\":\"invalid\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "exec form",
+      "kind": "call-equals",
+      "export": "classifyForm",
+      "args": [
+        "CMD [\"node\",\"server.js\"]"
+      ],
+      "expected": "exec"
+    },
+    {
+      "id": "t2",
+      "name": "shell form",
+      "kind": "call-equals",
+      "export": "classifyForm",
+      "args": [
+        "CMD node server.js"
+      ],
+      "expected": "shell"
+    },
+    {
+      "id": "t3",
+      "name": "ENTRYPOINT exec",
+      "kind": "call-equals",
+      "export": "classifyForm",
+      "args": [
+        "ENTRYPOINT [\"/app/run\"]"
+      ],
+      "expected": "exec"
+    },
+    {
+      "id": "t4",
+      "name": "ligne non CMD/ENTRYPOINT (privé)",
+      "kind": "call-equals",
+      "export": "classifyForm",
+      "args": [
+        "RUN npm ci"
+      ],
+      "expected": "invalid",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "JSON invalide (privé)",
+      "kind": "call-equals",
+      "export": "classifyForm",
+      "args": [
+        "CMD [\"node\",]"
+      ],
+      "expected": "invalid",
+      "private": true
+    }
+  ]
+}

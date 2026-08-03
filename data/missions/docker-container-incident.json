@@ -1,0 +1,101 @@
+{
+  "id": "docker-container-incident",
+  "title": "Diagnostiquer un incident de conteneur",
+  "description": "Un conteneur démarre puis s’arrête. Localiser la cause à partir des logs, du code de sortie et de la configuration, puis rédiger un mini post-mortem avec plan de correction.",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Simulation d'incident déterministe (aucun daemon requis : les logs, le code de sortie et la config te sont fournis). Un conteneur « démarre puis s'arrête » immédiatement. La cause peut être multiple : commande/ENTRYPOINT erroné (souvent code de sortie 127), variable d'environnement MANQUANTE, PORT non publié (`EXPOSE` ne publie pas ; il faut `-p`), PERMISSION refusée (droits/utilisateur), VOLUME mal monté, ou HEALTHCHECK en échec. Tu ne devines pas : tu LIS les logs, tu regardes le code de sortie de PID 1, tu relies le symptôme à sa cause, puis tu rédiges un mini post-mortem (symptôme → diagnostic → cause racine → correctif → prévention). C'est la même méthode par couches que pour le réseau (jour 71), appliquée au conteneur.",
+  "prerequisites": [
+    "Cycle de vie et logs d’un conteneur (jour 320)",
+    "PID 1 et signaux (jour 72)"
+  ],
+  "skills": [
+    "debugging",
+    "linux"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "dayRefs": [
+    320,
+    72
+  ],
+  "exerciseRefs": [
+    "docker-exit-diagnosis",
+    "docker-port-mapping"
+  ],
+  "deliverables": [
+    {
+      "id": "diagnose",
+      "kind": "code",
+      "title": "Relier le symptôme à sa cause (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "docker-exit-diagnosis",
+      "hint": "Mappe chaque symptôme (exit 127, env manquante, port injoignable, permission, healthcheck) sur sa cause."
+    },
+    {
+      "id": "postmortem",
+      "kind": "document",
+      "title": "Mini post-mortem de conteneur",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptôme",
+          "Logs",
+          "Code de sortie",
+          "Cause racine",
+          "Correctif",
+          "Prévention"
+        ],
+        "requireMentions": [
+          "exit",
+          "log"
+        ],
+        "minLength": 320,
+        "maxLength": 8000
+      },
+      "hint": "Appuie chaque conclusion sur une preuve (log, code de sortie). Distingue commande erronée, env manquante, port non publié, permission, volume, healthcheck."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : le symptôme est relié à la bonne cause",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Diagnostic appuyé sur les logs et le code de sortie (pas deviné)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Cause racine distinguée du symptôme",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Prévention concrète",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Redémarrer en boucle sans lire les logs",
+    "Confondre EXPOSE et -p (port non publié)",
+    "Ignorer le code de sortie de PID 1",
+    "Conclure « Docker est cassé » sans preuve"
+  ],
+  "status": "published",
+  "version": "1"
+}

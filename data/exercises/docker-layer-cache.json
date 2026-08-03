@@ -1,0 +1,147 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "docker-layer-cache",
+  "title": "Docker : première couche invalidée",
+  "difficulty": 3,
+  "summary": "Fixture déterministe. firstInvalidated(layers, changedFiles) : chaque couche a des inputs (fichiers). Renvoie l’index de la PREMIÈRE couche dont un input a changé (toutes les suivantes sont reconstruites), ou -1 si le cache tient entièrement.",
+  "skills": [
+    "linux",
+    "algo"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function firstInvalidated(layers, changedFiles) {\n  // TODO : index de la 1re couche touchée par un fichier changé, sinon -1.\n  return -1;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function firstInvalidated(layers,changed){const set=new Set(changed);for(let i=0;i<layers.length;i++){if((layers[i].inputs||[]).some(f=>set.has(f)))return i;}return -1;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "code change → couche COPY .",
+      "kind": "call-equals",
+      "export": "firstInvalidated",
+      "args": [
+        [
+          {
+            "inputs": [
+              "package.json"
+            ]
+          },
+          {
+            "inputs": []
+          },
+          {
+            "inputs": [
+              "src/app.js"
+            ]
+          }
+        ],
+        [
+          "src/app.js"
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "manifeste change → tôt",
+      "kind": "call-equals",
+      "export": "firstInvalidated",
+      "args": [
+        [
+          {
+            "inputs": [
+              "package.json"
+            ]
+          },
+          {
+            "inputs": [
+              "src/app.js"
+            ]
+          }
+        ],
+        [
+          "package.json"
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t3",
+      "name": "rien ne change → -1",
+      "kind": "call-equals",
+      "export": "firstInvalidated",
+      "args": [
+        [
+          {
+            "inputs": [
+              "a"
+            ]
+          }
+        ],
+        [
+          "b"
+        ]
+      ],
+      "expected": -1
+    },
+    {
+      "id": "t4",
+      "name": "plusieurs changements, 1er index (privé)",
+      "kind": "call-equals",
+      "export": "firstInvalidated",
+      "args": [
+        [
+          {
+            "inputs": [
+              "a"
+            ]
+          },
+          {
+            "inputs": [
+              "b"
+            ]
+          }
+        ],
+        [
+          "b",
+          "a"
+        ]
+      ],
+      "expected": 0,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "couche sans inputs (privé)",
+      "kind": "call-equals",
+      "export": "firstInvalidated",
+      "args": [
+        [
+          {},
+          {
+            "inputs": [
+              "x"
+            ]
+          }
+        ],
+        [
+          "x"
+        ]
+      ],
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

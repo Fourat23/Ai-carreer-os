@@ -1,0 +1,98 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "docker-port-mapping",
+  "title": "Docker : port publié ?",
+  "difficulty": 2,
+  "summary": "Fixture déterministe. hostPortFor(mappings, containerPort) : chaque mapping \"H:C\" publie le port conteneur C sur l’hôte H. Renvoie le port hôte (nombre) pour containerPort, ou null s’il n’est pas publié. EXPOSE ne publie pas.",
+  "skills": [
+    "linux",
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function hostPortFor(mappings, containerPort) {\n  // TODO : trouver \"H:C\" avec C===containerPort ; renvoyer H (nombre) ou null.\n  return null;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function hostPortFor(mappings,cp){for(const m of mappings){const [h,c]=String(m).split(\":\").map(Number);if(c===cp)return h;}return null;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "8080:80 → 8080 pour 80",
+      "kind": "call-equals",
+      "export": "hostPortFor",
+      "args": [
+        [
+          "8080:80",
+          "5432:5432"
+        ],
+        80
+      ],
+      "expected": 8080
+    },
+    {
+      "id": "t2",
+      "name": "db mappé",
+      "kind": "call-equals",
+      "export": "hostPortFor",
+      "args": [
+        [
+          "8080:80",
+          "5432:5432"
+        ],
+        5432
+      ],
+      "expected": 5432
+    },
+    {
+      "id": "t3",
+      "name": "non publié → null",
+      "kind": "call-equals",
+      "export": "hostPortFor",
+      "args": [
+        [
+          "8080:80"
+        ],
+        3000
+      ],
+      "expected": null
+    },
+    {
+      "id": "t4",
+      "name": "aucun mapping → null (privé)",
+      "kind": "call-equals",
+      "export": "hostPortFor",
+      "args": [
+        [],
+        80
+      ],
+      "expected": null,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "premier gagnant (privé)",
+      "kind": "call-equals",
+      "export": "hostPortFor",
+      "args": [
+        [
+          "9000:80",
+          "9001:80"
+        ],
+        80
+      ],
+      "expected": 9000,
+      "private": true
+    }
+  ]
+}

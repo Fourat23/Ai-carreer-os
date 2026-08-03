@@ -1,0 +1,104 @@
+{
+  "id": "docker-containerize-api",
+  "title": "Conteneuriser proprement une petite API",
+  "description": "Écrire un Dockerfile production-ready pour une petite API : image minimale, utilisateur non-root, cache de couches, healthcheck, aucune fuite de secret, et documenter son exécution (README + runbook).",
+  "category": "documentation",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Simulation d'analyse déterministe (Docker peut être indisponible : le raisonnement s'évalue sur des fichiers, pas sur un daemon). Tu conteneurises une petite API. Un Dockerfile « qui marche » ne suffit pas : il doit être REPRODUCTIBLE (base épinglée, pas `latest`), PETIT (image de base minimale, cache de couches en copiant d'abord le manifeste de dépendances puis le code), SÛR (utilisateur non-root, pas de secret dans une couche, `.dockerignore` excluant `.env`/`.git`/`node_modules`), et EXPLOITABLE (un `HEALTHCHECK`, un port publié documenté, les variables d'environnement injectées au lancement). Tu dois produire le Dockerfile amélioré et une documentation d'exécution : comment le construire, le lancer, quelles variables fournir, comment vérifier qu'il est sain. Rappel honnête : un conteneur réduit la surface mais PARTAGE le noyau — ce n'est pas une isolation OS absolue.",
+  "prerequisites": [
+    "Dockerisation & reproductibilité (jour 320)",
+    "Permissions et moindre privilège (jour 72)"
+  ],
+  "skills": [
+    "linux",
+    "functions"
+  ],
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "dayRefs": [
+    72,
+    320
+  ],
+  "exerciseRefs": [
+    "docker-detect-root",
+    "docker-instruction-order",
+    "docker-dockerignore"
+  ],
+  "deliverables": [
+    {
+      "id": "non-root",
+      "kind": "code",
+      "title": "Vérifier l’exécution non-root (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "docker-detect-root",
+      "hint": "Détecte l’absence de USER non-root ; un Dockerfile production-ready fixe un utilisateur non-root après les installations."
+    },
+    {
+      "id": "dockerfile-doc",
+      "kind": "document",
+      "title": "Dockerfile amélioré + README/runbook d’exécution",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Dockerfile",
+          "Choix",
+          "Build",
+          "Run",
+          "Variables",
+          "Healthcheck",
+          "Sécurité"
+        ],
+        "requireMentions": [
+          "non-root",
+          "cache",
+          "secret"
+        ],
+        "minLength": 350,
+        "maxLength": 8000
+      },
+      "hint": "Justifie chaque choix : base minimale épinglée, ordre des couches pour le cache, non-root, .dockerignore, healthcheck, variables d’environnement, port publié."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : l’exécution non-root est correctement diagnostiquée",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "Aucun secret dans une couche ; .dockerignore présent",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "Cache de couches exploité (manifeste avant code)",
+      "blocking": false,
+      "category": "performance"
+    },
+    {
+      "label": "Documentation d’exécution complète (build/run/variables/healthcheck)",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Utiliser `latest` (build non reproductible)",
+    "Copier tout le contexte avant d’installer les dépendances (cache cassé)",
+    "Laisser le conteneur tourner en root",
+    "Mettre un secret dans une couche (il reste dans l’historique de l’image)"
+  ],
+  "status": "published",
+  "version": "1"
+}

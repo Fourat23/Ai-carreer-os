@@ -1,0 +1,98 @@
+{
+  "id": "cloud-cost-reduction",
+  "title": "Réduire le coût sans casser la disponibilité",
+  "description": "Une architecture est surdimensionnée. Détecter le gaspillage, proposer des ajustements, conserver les contraintes de disponibilité.",
+  "category": "performance",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Analyse déterministe. Une architecture coûte trop cher : instances surdimensionnées, redondance excessive là où elle n'apporte rien, capacité réservée pour un trafic marginal. Tu dois repérer le surdimensionnement, proposer des ajustements (autoscaling, bon nombre de réplicas) et VÉRIFIER que les contraintes de disponibilité restent tenues. Les chiffres de coût sont des ordres de grandeur pédagogiques, jamais contractuels.",
+  "prerequisites": [
+    "Scalabilité et compromis (jour 80)"
+  ],
+  "skills": [
+    "http",
+    "testing"
+  ],
+  "dayRefs": [
+    80
+  ],
+  "exerciseRefs": [
+    "cloud-replica-count",
+    "cloud-scaling-choice"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Calculer le bon nombre de réplicas (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-replica-count",
+      "hint": "ceil(rps/perInstance)+1, minimum 2."
+    },
+    {
+      "id": "proposal",
+      "kind": "plan",
+      "title": "Proposition d'optimisation",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Gaspillage identifié",
+          "Ajustements",
+          "Impact disponibilité",
+          "Compromis"
+        ],
+        "requireMentions": [
+          "réplica",
+          "autoscaling",
+          "disponibilité"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Identifie le surdimensionnement, propose des ajustements, prouve que la disponibilité tient."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : nombre de réplicas correct",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Contraintes de disponibilité préservées (pas d'instance unique en prod)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Autoscaling proposé là où c'est pertinent",
+      "blocking": false,
+      "category": "performance"
+    },
+    {
+      "label": "Coûts présentés comme ordres de grandeur, non contractuels",
+      "blocking": false,
+      "category": "tradeoffs"
+    }
+  ],
+  "commonMistakes": [
+    "Descendre à une instance unique en production pour économiser",
+    "Activer l'autoscaling sur un service stateful",
+    "Présenter un chiffre de coût comme une facture réelle",
+    "Optimiser sans vérifier la disponibilité"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

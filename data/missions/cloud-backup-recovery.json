@@ -1,0 +1,98 @@
+{
+  "id": "cloud-backup-recovery",
+  "title": "Sauvegarde et reprise (RTO/RPO)",
+  "description": "Définir RTO et RPO, concevoir une stratégie de sauvegarde, prévoir un test de restauration.",
+  "category": "documentation",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Analyse déterministe. Un service détient des données précieuses sans stratégie de reprise claire. Tu dois définir le RTO (temps de reprise visé) et le RPO (perte de données tolérée), en déduire une stratégie de sauvegarde/réplication cohérente, et surtout PRÉVOIR un test de restauration — une sauvegarde jamais restaurée est une fausse sécurité. Aucune donnée réelle, aucun secret.",
+  "prerequisites": [
+    "Déploiement, régressions et reprise (jour 81)"
+  ],
+  "skills": [
+    "http",
+    "testing"
+  ],
+  "dayRefs": [
+    81
+  ],
+  "exerciseRefs": [
+    "cloud-rpo-met"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Vérifier que le RPO est tenu (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-rpo-met",
+      "hint": "intervalle de sauvegarde ≤ RPO cible."
+    },
+    {
+      "id": "drplan",
+      "kind": "plan",
+      "title": "Plan de reprise (DR)",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "RTO et RPO cibles",
+          "Stratégie de sauvegarde",
+          "Réplication",
+          "Test de restauration",
+          "Limites"
+        ],
+        "requireMentions": [
+          "rto",
+          "rpo",
+          "restauration"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Fixe RTO/RPO, déduis la stratégie, décris le test de restauration et sa fréquence."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : RPO correctement évalué",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "RTO et RPO définis et cohérents avec la stratégie",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Test de restauration prévu (pas seulement la sauvegarde)",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Limites honnêtes (pas de garantie absolue)",
+      "blocking": false,
+      "category": "tradeoffs"
+    }
+  ],
+  "commonMistakes": [
+    "Sauvegarder sans jamais tester la restauration",
+    "Confondre RTO (temps) et RPO (données perdues)",
+    "Promettre une reprise « sans aucune perte »",
+    "Stratégie de sauvegarde incohérente avec le RPO visé"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

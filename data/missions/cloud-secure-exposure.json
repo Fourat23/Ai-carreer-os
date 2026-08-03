@@ -1,0 +1,98 @@
+{
+  "id": "cloud-secure-exposure",
+  "title": "Corriger une exposition publique",
+  "description": "Une base est exposée, des secrets traînent dans la config, les environnements se mélangent. Corriger en respectant la responsabilité partagée.",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Simulation déterministe. Un déploiement naïf expose une base de données au monde, garde des secrets dans la configuration applicative, et laisse un environnement staging toucher la production. Tu dois refermer l'exposition (base en réseau privé, accès via l'API seulement, TLS sur les flux publics), déplacer les secrets vers une abstraction dédiée (coffre), séparer les environnements, et rappeler la responsabilité partagée (le fournisseur sécurise l'infra, TA config reste TA responsabilité). Aucun secret réel n'est manipulé.",
+  "prerequisites": [
+    "Architecture cloud et sécurité (jours 78, 81)"
+  ],
+  "skills": [
+    "http",
+    "debugging"
+  ],
+  "dayRefs": [
+    78
+  ],
+  "exerciseRefs": [
+    "cloud-public-exposure"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Repérer les bases exposées (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-public-exposure",
+      "hint": "bases marquées public===true."
+    },
+    {
+      "id": "hardening",
+      "kind": "plan",
+      "title": "Plan de durcissement",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Expositions identifiées",
+          "Réseau privé et TLS",
+          "Gestion des secrets",
+          "Séparation des environnements",
+          "Responsabilité partagée"
+        ],
+        "requireMentions": [
+          "privé",
+          "secret",
+          "environnement"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Referme l'exposition, déplace les secrets vers un coffre, sépare staging et prod."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : bases exposées correctement repérées",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Base placée en réseau privé, accès via l'API seulement",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "Secrets déplacés hors de la configuration (coffre)",
+      "blocking": false,
+      "category": "security"
+    },
+    {
+      "label": "Environnements séparés (staging ne touche pas la prod)",
+      "blocking": false,
+      "category": "security"
+    }
+  ],
+  "commonMistakes": [
+    "Laisser un accès public « juste pour debug »",
+    "Garder les secrets dans la config applicative",
+    "Partager la base de prod avec staging",
+    "Croire que le fournisseur sécurise TA configuration"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

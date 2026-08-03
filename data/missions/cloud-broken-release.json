@@ -1,0 +1,100 @@
+{
+  "id": "cloud-broken-release",
+  "title": "Déploiement cassé et régression",
+  "description": "Une nouvelle version casse une fonctionnalité existante. Choisir entre rollback, roll-forward, hotfix, feature flag ou mitigation ; produire un plan de vérification et une communication d'incident.",
+  "category": "incident",
+  "difficulty": 4,
+  "estimatedHours": 6,
+  "context": "Simulation déterministe. Une mise en production introduit une RÉGRESSION : une fonctionnalité qui marchait ne marche plus. Le canary était déployé sans métrique, donc rien ne l'a arrêté. Tu dois décider vite : rollback (si réversible), roll-forward (si une migration empêche le retour), hotfix (urgent), feature flag ou mitigation. Tu produis un plan de vérification (smoke test, vérification post-déploiement), une communication d'incident courte, et les actions post-incident (root cause, prévention). Rappel du vocabulaire : bugfix ≠ hotfix ≠ patch ≠ rollback ≠ roll-forward ≠ revert ≠ mitigation ≠ workaround.",
+  "prerequisites": [
+    "Déploiement, régressions et reprise (jour 81)"
+  ],
+  "skills": [
+    "debugging",
+    "testing"
+  ],
+  "dayRefs": [
+    81
+  ],
+  "exerciseRefs": [
+    "cloud-rollback-decision",
+    "cloud-deploy-strategy"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Décider rollback / roll-forward / hotfix (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-rollback-decision",
+      "hint": "réversible → rollback ; sinon critique → hotfix ; sinon roll-forward."
+    },
+    {
+      "id": "incident",
+      "kind": "plan",
+      "title": "Rapport d'incident et décision",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptôme",
+          "Blast radius",
+          "Décision (rollback/roll-forward/hotfix)",
+          "Plan de vérification",
+          "Communication",
+          "Root cause et prévention"
+        ],
+        "requireMentions": [
+          "régression",
+          "rollback",
+          "vérification"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Décris la régression, le blast radius, la décision JUSTIFIÉE, le plan de vérif, la comm, et la prévention."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : décision de reprise correcte",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Décision justifiée par réversibilité et urgence (pas au hasard)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Plan de vérification concret (smoke test / post-déploiement)",
+      "blocking": false,
+      "category": "tests"
+    },
+    {
+      "label": "Communication d'incident claire et honnête",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Roll-forward alors qu'un simple rollback suffisait",
+    "Rollback impossible ignoré (migration non rétrocompatible)",
+    "Confondre mitigation (réduire l'impact) et correctif (supprimer la cause)",
+    "Aucune vérification post-déploiement"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

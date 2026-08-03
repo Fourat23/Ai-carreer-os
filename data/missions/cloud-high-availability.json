@@ -1,0 +1,99 @@
+{
+  "id": "cloud-high-availability",
+  "title": "Éliminer les points de défaillance unique",
+  "description": "Une architecture tient sur des composants uniques. Repérer les SPOF, ajouter redondance, health checks et failover, discuter le coût.",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Simulation déterministe. Une architecture « marche » mais repose sur des composants uniques : une seule API, une base sans réplica, une seule zone. Un incident les révèle. Tu dois identifier chaque point de défaillance unique, proposer une redondance (multi-instance, multi-zone), ajouter des health checks (liveness/readiness) et un failover, puis discuter honnêtement le surcoût. Le Cloud Topology Lab et son scénario « perte d'une zone » servent à vérifier que le service survit.",
+  "prerequisites": [
+    "Haute disponibilité et observabilité (jour 79)"
+  ],
+  "skills": [
+    "http",
+    "debugging"
+  ],
+  "dayRefs": [
+    79
+  ],
+  "exerciseRefs": [
+    "cloud-detect-spof",
+    "cloud-multi-zone"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Détecter les SPOF (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-detect-spof",
+      "hint": "kinds critiques présents en un seul exemplaire."
+    },
+    {
+      "id": "remediation",
+      "kind": "plan",
+      "title": "Plan de remédiation HA",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "SPOF identifiés",
+          "Redondance proposée",
+          "Health checks",
+          "Failover",
+          "Coût"
+        ],
+        "requireMentions": [
+          "zone",
+          "failover",
+          "readiness"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Pour chaque SPOF : redondance, health check, bascule ; puis le surcoût assumé."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : SPOF correctement détectés",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Redondance multi-zone proposée pour les composants critiques",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Liveness et readiness distingués",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Surcoût de la HA discuté honnêtement",
+      "blocking": false,
+      "category": "tradeoffs"
+    }
+  ],
+  "commonMistakes": [
+    "Confondre liveness et readiness",
+    "Répliquer dans la même zone (ne protège pas d'une panne de zone)",
+    "Oublier le failover (redondance sans bascule)",
+    "Promettre un chiffre de disponibilité inventé"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

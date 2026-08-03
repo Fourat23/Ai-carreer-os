@@ -1,0 +1,99 @@
+{
+  "id": "cloud-three-tier",
+  "title": "Concevoir une architecture trois tiers",
+  "description": "Concevoir une architecture web 3-tiers propre : séparer public et privé, justifier chaque composant et chaque frontière.",
+  "category": "documentation",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Analyse déterministe, aucun cloud réel. On te demande l'architecture d'un service web modeste mais sérieux. Tu dois placer chaque composant dans le bon tier (présentation/logique/données), n'exposer QUE le point d'entrée public, garder l'API et la base en réseau privé, et justifier tes choix (zones, redondance, coût). Utilise le Cloud Topology Lab pour vérifier ton architecture : il doit être exempt de défaut bloquant.",
+  "prerequisites": [
+    "Architecture 3-tiers et déploiement cloud (jour 78)"
+  ],
+  "skills": [
+    "http",
+    "testing"
+  ],
+  "dayRefs": [
+    78
+  ],
+  "exerciseRefs": [
+    "cloud-classify-tier",
+    "cloud-public-exposure"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Classer les composants par tier (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-classify-tier",
+      "hint": "presentation / logic / data selon le kind."
+    },
+    {
+      "id": "design",
+      "kind": "document",
+      "title": "Document d'architecture (HLD)",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Contexte",
+          "Composants et tiers",
+          "Public vs privé",
+          "Zones et redondance",
+          "Compromis"
+        ],
+        "requireMentions": [
+          "tier",
+          "privé",
+          "load balancer"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Décris chaque tier, ce qui est public/privé, et justifie zones/redondance/coût."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : composants correctement classés",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Base et logique en réseau privé (jamais exposées)",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "Frontières entre tiers justifiées",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Compromis coût/disponibilité explicités",
+      "blocking": false,
+      "category": "tradeoffs"
+    }
+  ],
+  "commonMistakes": [
+    "Exposer la base directement au client",
+    "Mélanger logique et présentation",
+    "Oublier la redondance multi-zone",
+    "Justifier par un dogme (« il faut toujours X ») au lieu d'un compromis"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

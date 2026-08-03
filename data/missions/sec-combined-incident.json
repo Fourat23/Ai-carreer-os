@@ -1,0 +1,100 @@
+{
+  "id": "sec-combined-incident",
+  "title": "Incident combiné (secret + image + accès)",
+  "description": "Un incident cumule secret exposé, image suspecte et permissions trop larges, avec service dégradé. Construire la chronologie, confiner, récupérer, post-mortem.",
+  "category": "incident",
+  "difficulty": 4,
+  "estimatedHours": 7,
+  "context": "Simulation déterministe, aucun secret réel. Plusieurs signaux arrivent en même temps : un secret exposé, une image de conteneur devenue non fiable, un ServiceAccount sur-privilégié, et un service dégradé. Tu dois établir la CHRONOLOGIE, prioriser (blast radius), confiner (révocation, blocage d'image, réduction des droits), récupérer (rotation, image de confiance, RBAC minimal), et rédiger un post-mortem sans blâme. Une seule mission, plusieurs fronts à ordonner.",
+  "prerequisites": [
+    "Réponse à incident (jours 68, 85, 298)"
+  ],
+  "skills": [
+    "debugging",
+    "testing"
+  ],
+  "dayRefs": [
+    298
+  ],
+  "exerciseRefs": [
+    "sec-blast-radius",
+    "sec-remediation-order"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Estimer le blast radius (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "sec-blast-radius",
+      "hint": "composant compromis + dépendants directs."
+    },
+    {
+      "id": "timeline",
+      "kind": "plan",
+      "title": "Chronologie et plan de containment",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Signaux observés",
+          "Chronologie",
+          "Priorisation (blast radius)",
+          "Confinement",
+          "Récupération",
+          "Post-mortem"
+        ],
+        "requireMentions": [
+          "containment",
+          "révocation",
+          "chronologie"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Ordonne les fronts par impact ; confine avant de récupérer ; distingue containment et récupération."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : blast radius correct",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Confinement AVANT récupération",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "Priorisation par impact (blast radius)",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Post-mortem sans blâme",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Traiter les fronts dans le désordre",
+    "Récupérer avant d'avoir confiné",
+    "Oublier un des signaux",
+    "Chercher un coupable dans le post-mortem"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

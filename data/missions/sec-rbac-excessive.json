@@ -1,0 +1,99 @@
+{
+  "id": "sec-rbac-excessive",
+  "title": "RBAC Kubernetes excessif",
+  "description": "Un ClusterRole en wildcard est lié au ServiceAccount par défaut. Réduire au moindre privilège sans casser le fonctionnement, documenter la décision.",
+  "category": "documentation",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Analyse déterministe. Un Role/ClusterRole accorde « * » sur verbes et ressources, lié à un ServiceAccount partagé. Tu dois analyser les permissions réelles, les réduire au strict nécessaire, créer un ServiceAccount dédié, vérifier les bindings, et t'assurer que le service fonctionne TOUJOURS avec les droits réduits. Tu documentes la décision (avant/après).",
+  "prerequisites": [
+    "Durcissement et moindre privilège (jour 85)"
+  ],
+  "skills": [
+    "linux",
+    "debugging"
+  ],
+  "dayRefs": [
+    85
+  ],
+  "exerciseRefs": [
+    "sec-rbac-wildcard",
+    "sec-least-privilege"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Repérer les permissions superflues (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "sec-least-privilege",
+      "hint": "granted absentes de needed."
+    },
+    {
+      "id": "rbac-review",
+      "kind": "document",
+      "title": "Revue RBAC (avant/après)",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Permissions actuelles",
+          "Permissions nécessaires",
+          "Rôle minimal proposé",
+          "ServiceAccount dédié",
+          "Vérification du fonctionnement"
+        ],
+        "requireMentions": [
+          "wildcard",
+          "moindre privilège",
+          "serviceaccount"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Montre les droits actuels, les droits réellement nécessaires, et prouve que le service tient avec le rôle réduit."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : permissions superflues repérées",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Wildcards retirés, droits minimaux explicités",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "ServiceAccount dédié (pas le compte par défaut)",
+      "blocking": false,
+      "category": "security"
+    },
+    {
+      "label": "Service fonctionne toujours (le moindre privilège ne casse rien)",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "commonMistakes": [
+    "Élargir les droits « pour que ça marche »",
+    "Garder le ServiceAccount par défaut",
+    "Retirer des droits nécessaires (casser le service)",
+    "Confondre Role et ClusterRole"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

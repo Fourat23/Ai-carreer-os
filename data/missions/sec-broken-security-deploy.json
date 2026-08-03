@@ -1,0 +1,123 @@
+{
+  "id": "sec-broken-security-deploy",
+  "title": "Déploiement cassé par un correctif de sécurité",
+  "description": "Un correctif de sécurité casse la production. Diagnostiquer la régression, décider rollback/roll-forward/hotfix, produire un plan de rollback et un post-mortem.",
+  "category": "incident",
+  "difficulty": 4,
+  "estimatedHours": 7,
+  "context": "Simulation déterministe. Un correctif de sécurité (durcissement, mise à jour de dépendance) a introduit une régression en production. Tu dois diagnostiquer, décider selon la réversibilité : rollback (si réversible), roll-forward (si une migration non rétrocompatible empêche le retour), ou hotfix urgent — SANS réintroduire la faille. Tu produis un plan de rollback préparé, une communication d'incident, et un post-mortem sans blâme (cause racine, action corrective ET préventive). Le correctif final doit couvrir à la fois la régression et la faille.",
+  "prerequisites": [
+    "Secrets/durcissement et reprise (jours 68, 85)"
+  ],
+  "skills": [
+    "debugging",
+    "testing"
+  ],
+  "dayRefs": [
+    85
+  ],
+  "exerciseRefs": [
+    "sec-recovery-decision",
+    "sec-remediation-order"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Décider rollback/roll-forward/hotfix (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "sec-recovery-decision",
+      "hint": "migration bloque → roll-forward ; réversible → rollback ; urgent → hotfix ; sinon mitigation."
+    },
+    {
+      "id": "rollback",
+      "kind": "plan",
+      "title": "Plan de rollback",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Contexte",
+          "Décision et justification",
+          "Étapes du rollback",
+          "Vérification (service ET sécurité)",
+          "Communication"
+        ],
+        "requireMentions": [
+          "rollback",
+          "roll-forward",
+          "vérification"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Justifie la décision par la réversibilité ; la vérification couvre le service ET la propriété de sécurité."
+    },
+    {
+      "id": "postmortem",
+      "kind": "report",
+      "title": "Post-mortem sans blâme",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Résumé",
+          "Chronologie",
+          "Cause racine",
+          "Action corrective",
+          "Action préventive"
+        ],
+        "requireMentions": [
+          "cause racine",
+          "préventive",
+          "régression"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Distingue clairement action corrective (règle le problème) et préventive (empêche la récurrence)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : décision de reprise correcte",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Décision justifiée par la réversibilité",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Vérification couvre service ET sécurité (pas de réintroduction de faille)",
+      "blocking": false,
+      "category": "security"
+    },
+    {
+      "label": "Post-mortem : action corrective ET préventive distinguées",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Roll-forward alors qu'un rollback suffisait",
+    "Rollback qui réintroduit la faille de sécurité",
+    "Post-mortem qui cherche un coupable",
+    "Aucune action préventive"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

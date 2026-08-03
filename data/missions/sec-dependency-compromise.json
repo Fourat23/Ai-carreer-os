@@ -1,0 +1,100 @@
+{
+  "id": "sec-dependency-compromise",
+  "title": "Dépendance compromise",
+  "description": "Une dépendance est signalée vulnérable/compromise. Identifier l'exposition (SBOM), geler, remplacer ou isoler, reconstruire, surveiller.",
+  "category": "incident",
+  "difficulty": 4,
+  "estimatedHours": 6,
+  "context": "Simulation déterministe, base CVE FACTICE locale. Un lockfile mêle une dépendance non verrouillée, une version vulnérable (CVE factice) et un paquet au nom suspect (typosquatting). Tu dois évaluer l'exposition, geler les déploiements, épingler/remplacer, écarter le paquet suspect, reconstruire depuis un lockfile vérifié, et rédiger le compte rendu. Aucun accès réseau ni scanner réel.",
+  "prerequisites": [
+    "Supply chain et sécurité des dépendances (jour 298)"
+  ],
+  "skills": [
+    "git",
+    "testing"
+  ],
+  "dayRefs": [
+    298
+  ],
+  "exerciseRefs": [
+    "sec-cve-affected",
+    "sec-typosquat"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Déterminer si une version est affectée (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "sec-cve-affected",
+      "hint": "version < version corrigée."
+    },
+    {
+      "id": "response",
+      "kind": "plan",
+      "title": "Compte rendu de traitement de dépendance",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Exposition",
+          "Gel des déploiements",
+          "Remplacement/isolation",
+          "Reconstruction",
+          "Surveillance",
+          "Prévention"
+        ],
+        "requireMentions": [
+          "lockfile",
+          "sbom",
+          "provenance"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Décris l'exposition (où la dépendance est utilisée), les actions ordonnées, la prévention (verrouillage, provenance)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : version affectée correctement évaluée",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Gel des déploiements avant propagation",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "Paquet suspect (typosquat) écarté",
+      "blocking": false,
+      "category": "security"
+    },
+    {
+      "label": "Prévention : verrouillage et provenance",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Mettre à jour sans évaluer l'exposition",
+    "Ignorer le paquet au nom suspect",
+    "Reconstruire sans lockfile vérifié",
+    "Confondre dépendance directe et transitive"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

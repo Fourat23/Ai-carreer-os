@@ -1,0 +1,99 @@
+{
+  "id": "sec-workload-hardening",
+  "title": "Workload Kubernetes à durcir",
+  "description": "Un Deployment tourne en root, filesystem inscriptible, capabilities non retirées, image en latest. Le durcir (securityContext, image, réseau).",
+  "category": "documentation",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Analyse déterministe. Un workload de production n'est pas durci : root, rootfs inscriptible, capabilities ajoutées, image en latest, aucune NetworkPolicy. Tu dois appliquer le securityContext (non-root, read-only, drop ALL), épingler l'image par digest, ajouter une NetworkPolicy « deny par défaut », et comparer l'état vulnérable et durci.",
+  "prerequisites": [
+    "Durcissement des workloads (jour 85)"
+  ],
+  "skills": [
+    "linux",
+    "testing"
+  ],
+  "dayRefs": [
+    85
+  ],
+  "exerciseRefs": [
+    "sec-securitycontext",
+    "sec-image-digest"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Vérifier le durcissement du conteneur (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "sec-securitycontext",
+      "hint": "non-root + rootfs read-only + drop ALL."
+    },
+    {
+      "id": "hardening",
+      "kind": "plan",
+      "title": "Plan de durcissement du workload",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Faiblesses identifiées",
+          "securityContext",
+          "Image (digest)",
+          "NetworkPolicy",
+          "Vérification"
+        ],
+        "requireMentions": [
+          "non-root",
+          "digest",
+          "networkpolicy"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Décris chaque durcissement et prouve que le service reste fonctionnel."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : durcissement correctement évalué",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "securityContext durci (non-root, read-only, drop ALL)",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "Image épinglée par digest",
+      "blocking": false,
+      "category": "security"
+    },
+    {
+      "label": "NetworkPolicy « deny par défaut »",
+      "blocking": false,
+      "category": "security"
+    }
+  ],
+  "commonMistakes": [
+    "Laisser le conteneur en root",
+    "Image en latest",
+    "Ajouter des capabilities sans drop ALL",
+    "Aucune segmentation réseau"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

@@ -1,0 +1,59 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-image-digest",
+  "title": "Sécurité : image épinglée par digest ?",
+  "difficulty": 2,
+  "summary": "byDigest(image) → true si l'image est référencée par digest immuable (contient \"@sha256:\"). Un tag comme latest → false.",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function byDigest(image) {\n  // TODO\n  return true;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function byDigest(image){return String(image).includes(\"@sha256:\");}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "digest",
+      "kind": "call-equals",
+      "export": "byDigest",
+      "args": [
+        "registry/api@sha256:abcdef"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "latest",
+      "kind": "call-equals",
+      "export": "byDigest",
+      "args": [
+        "registry/api:latest"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "tag version",
+      "kind": "call-equals",
+      "export": "byDigest",
+      "args": [
+        "registry/api:1.2.3"
+      ],
+      "expected": false
+    }
+  ]
+}

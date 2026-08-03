@@ -1,0 +1,81 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-classify-sensitive",
+  "title": "Sécurité : un champ est-il sensible ?",
+  "difficulty": 1,
+  "summary": "isSensitive(name) → true si le nom de champ (minuscule) contient \"password\", \"token\", \"secret\", \"apikey\" ou \"key\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isSensitive(name) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isSensitive(name){const n=String(name).toLowerCase();return [\"password\",\"token\",\"secret\",\"apikey\",\"key\"].some(k=>n.includes(k));}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "password",
+      "kind": "call-equals",
+      "export": "isSensitive",
+      "args": [
+        "db_password"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "apiKey",
+      "kind": "call-equals",
+      "export": "isSensitive",
+      "args": [
+        "apiKey"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t3",
+      "name": "host",
+      "kind": "call-equals",
+      "export": "isSensitive",
+      "args": [
+        "host"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "accessToken",
+      "kind": "call-equals",
+      "export": "isSensitive",
+      "args": [
+        "accessToken"
+      ],
+      "expected": true,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "name",
+      "kind": "call-equals",
+      "export": "isSensitive",
+      "args": [
+        "name"
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

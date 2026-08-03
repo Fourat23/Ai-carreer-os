@@ -1,0 +1,84 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-recovery-decision",
+  "title": "Sécurité : rollback, roll-forward, hotfix ou mitigation ?",
+  "difficulty": 3,
+  "summary": "recover(ctx) où ctx={migrationBlocks, reversible, urgent} → \"roll-forward\" si migrationBlocks ; sinon \"rollback\" si reversible ; sinon \"hotfix\" si urgent ; sinon \"mitigation\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function recover(ctx) {\n  // TODO\n  return \"mitigation\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function recover(ctx){if(ctx.migrationBlocks)return \"roll-forward\";if(ctx.reversible)return \"rollback\";if(ctx.urgent)return \"hotfix\";return \"mitigation\";}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "migration bloque → roll-forward",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "migrationBlocks": true,
+          "reversible": true
+        }
+      ],
+      "expected": "roll-forward"
+    },
+    {
+      "id": "t2",
+      "name": "réversible → rollback",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "migrationBlocks": false,
+          "reversible": true
+        }
+      ],
+      "expected": "rollback"
+    },
+    {
+      "id": "t3",
+      "name": "irréversible urgent → hotfix",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "migrationBlocks": false,
+          "reversible": false,
+          "urgent": true
+        }
+      ],
+      "expected": "hotfix"
+    },
+    {
+      "id": "t4",
+      "name": "sinon → mitigation",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "migrationBlocks": false,
+          "reversible": false,
+          "urgent": false
+        }
+      ],
+      "expected": "mitigation",
+      "private": true
+    }
+  ]
+}

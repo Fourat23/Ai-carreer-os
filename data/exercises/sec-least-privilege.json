@@ -1,0 +1,97 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-least-privilege",
+  "title": "Sécurité : permissions superflues",
+  "difficulty": 3,
+  "summary": "extraPerms(granted, needed) → les permissions de `granted` absentes de `needed`, triées (violations du moindre privilège).",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function extraPerms(granted, needed) {\n  // TODO\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function extraPerms(granted,needed){const set=new Set(needed);return [...new Set(granted.filter(p=>!set.has(p)))].sort();}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une superflue",
+      "kind": "call-equals",
+      "export": "extraPerms",
+      "args": [
+        [
+          "get",
+          "delete"
+        ],
+        [
+          "get"
+        ]
+      ],
+      "expected": [
+        "delete"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucune",
+      "kind": "call-equals",
+      "export": "extraPerms",
+      "args": [
+        [
+          "get"
+        ],
+        [
+          "get",
+          "list"
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux triées",
+      "kind": "call-equals",
+      "export": "extraPerms",
+      "args": [
+        [
+          "z",
+          "a"
+        ],
+        []
+      ],
+      "expected": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "doublons",
+      "kind": "call-equals",
+      "export": "extraPerms",
+      "args": [
+        [
+          "x",
+          "x"
+        ],
+        []
+      ],
+      "expected": [
+        "x"
+      ],
+      "private": true
+    }
+  ]
+}

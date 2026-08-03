@@ -1,0 +1,81 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-sbom-added",
+  "title": "Sécurité : paquets ajoutés entre deux SBOM",
+  "difficulty": 2,
+  "summary": "added(oldList, newList) → noms présents dans newList mais absents de oldList, triés.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function added(oldList, newList) {\n  // TODO\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function added(oldList,newList){const set=new Set(oldList);return [...new Set(newList.filter(p=>!set.has(p)))].sort();}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un ajout",
+      "kind": "call-equals",
+      "export": "added",
+      "args": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "a",
+          "b",
+          "c"
+        ]
+      ],
+      "expected": [
+        "c"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucun",
+      "kind": "call-equals",
+      "export": "added",
+      "args": [
+        [
+          "a"
+        ],
+        [
+          "a"
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux triés",
+      "kind": "call-equals",
+      "export": "added",
+      "args": [
+        [],
+        [
+          "z",
+          "a"
+        ]
+      ],
+      "expected": [
+        "a",
+        "z"
+      ]
+    }
+  ]
+}

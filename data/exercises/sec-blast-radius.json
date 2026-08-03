@@ -1,0 +1,95 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-blast-radius",
+  "title": "Sécurité : blast radius d'un composant compromis",
+  "difficulty": 3,
+  "summary": "blastRadius(services, id) où services=[{id, dependsOn}] → nombre de composants impactés = le compromis + ceux qui en dépendent directement.",
+  "skills": [
+    "debugging"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function blastRadius(services, id) {\n  // TODO\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function blastRadius(services,id){const hit=new Set([id]);for(const s of services)if((s.dependsOn||[]).includes(id))hit.add(s.id);return hit.size;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux dépendants +lui = 3",
+      "kind": "call-equals",
+      "export": "blastRadius",
+      "args": [
+        [
+          {
+            "id": "db",
+            "dependsOn": []
+          },
+          {
+            "id": "api",
+            "dependsOn": [
+              "db"
+            ]
+          },
+          {
+            "id": "w",
+            "dependsOn": [
+              "db"
+            ]
+          }
+        ],
+        "db"
+      ],
+      "expected": 3
+    },
+    {
+      "id": "t2",
+      "name": "isolé = 1",
+      "kind": "call-equals",
+      "export": "blastRadius",
+      "args": [
+        [
+          {
+            "id": "x",
+            "dependsOn": []
+          }
+        ],
+        "x"
+      ],
+      "expected": 1
+    },
+    {
+      "id": "t3",
+      "name": "un dépendant = 2",
+      "kind": "call-equals",
+      "export": "blastRadius",
+      "args": [
+        [
+          {
+            "id": "a",
+            "dependsOn": []
+          },
+          {
+            "id": "b",
+            "dependsOn": [
+              "a"
+            ]
+          }
+        ],
+        "a"
+      ],
+      "expected": 2
+    }
+  ]
+}

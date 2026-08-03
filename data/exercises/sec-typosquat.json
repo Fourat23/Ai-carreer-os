@@ -1,0 +1,83 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-typosquat",
+  "title": "Sécurité : détecter un paquet typosquatté",
+  "difficulty": 3,
+  "summary": "isTyposquat(name, known) → true si `name` n'est pas dans `known` mais est à une distance d'édition de 1 d'un nom connu.",
+  "skills": [
+    "algo"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isTyposquat(name, known) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "function lev(a,b){const m=a.length,n=b.length,dp=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);for(let j=0;j<=n;j++)dp[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return dp[m][n];}\nexport function isTyposquat(name,known){if(known.includes(name))return false;return known.some(k=>lev(k,name)===1);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "expresss ~ express",
+      "kind": "call-equals",
+      "export": "isTyposquat",
+      "args": [
+        "expresss",
+        [
+          "express",
+          "react"
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "nom légitime",
+      "kind": "call-equals",
+      "export": "isTyposquat",
+      "args": [
+        "express",
+        [
+          "express"
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "trop éloigné",
+      "kind": "call-equals",
+      "export": "isTyposquat",
+      "args": [
+        "banana",
+        [
+          "express"
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "reactt ~ react",
+      "kind": "call-equals",
+      "export": "isTyposquat",
+      "args": [
+        "reactt",
+        [
+          "react"
+        ]
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

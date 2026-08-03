@@ -1,0 +1,95 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-rbac-wildcard",
+  "title": "Sécurité : règle RBAC en wildcard ?",
+  "difficulty": 2,
+  "summary": "hasWildcard(rule) où rule={verbs, resources} → true si verbs OU resources contient \"*\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function hasWildcard(rule) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function hasWildcard(rule){return (rule.verbs||[]).includes(\"*\")||(rule.resources||[]).includes(\"*\");}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "verbs *",
+      "kind": "call-equals",
+      "export": "hasWildcard",
+      "args": [
+        {
+          "verbs": [
+            "*"
+          ],
+          "resources": [
+            "pods"
+          ]
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "resources *",
+      "kind": "call-equals",
+      "export": "hasWildcard",
+      "args": [
+        {
+          "verbs": [
+            "get"
+          ],
+          "resources": [
+            "*"
+          ]
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t3",
+      "name": "précis",
+      "kind": "call-equals",
+      "export": "hasWildcard",
+      "args": [
+        {
+          "verbs": [
+            "get",
+            "list"
+          ],
+          "resources": [
+            "configmaps"
+          ]
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "vide",
+      "kind": "call-equals",
+      "export": "hasWildcard",
+      "args": [
+        {
+          "verbs": [],
+          "resources": []
+        }
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

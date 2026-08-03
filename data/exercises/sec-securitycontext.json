@@ -1,0 +1,86 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-securitycontext",
+  "title": "Sécurité : le conteneur est-il durci ?",
+  "difficulty": 2,
+  "summary": "isHardened(sc) où sc={runAsNonRoot, readOnlyRootFilesystem, dropsAll} → true seulement si les trois sont true.",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isHardened(sc) {\n  // TODO\n  return true;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isHardened(sc){return sc.runAsNonRoot===true&&sc.readOnlyRootFilesystem===true&&sc.dropsAll===true;}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tout durci",
+      "kind": "call-equals",
+      "export": "isHardened",
+      "args": [
+        {
+          "runAsNonRoot": true,
+          "readOnlyRootFilesystem": true,
+          "dropsAll": true
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "root → non",
+      "kind": "call-equals",
+      "export": "isHardened",
+      "args": [
+        {
+          "runAsNonRoot": false,
+          "readOnlyRootFilesystem": true,
+          "dropsAll": true
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "rootfs inscriptible → non",
+      "kind": "call-equals",
+      "export": "isHardened",
+      "args": [
+        {
+          "runAsNonRoot": true,
+          "readOnlyRootFilesystem": false,
+          "dropsAll": true
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "caps non retirées → non",
+      "kind": "call-equals",
+      "export": "isHardened",
+      "args": [
+        {
+          "runAsNonRoot": true,
+          "readOnlyRootFilesystem": true,
+          "dropsAll": false
+        }
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

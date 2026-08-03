@@ -1,0 +1,100 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-lockfile-diff",
+  "title": "Sécurité : dépendances changées entre deux lockfiles",
+  "difficulty": 3,
+  "summary": "changed(before, after) où chaque map est {nom: version} → les noms dont la version diffère (présents dans les deux), triés.",
+  "skills": [
+    "debugging"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function changed(before, after) {\n  // TODO\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function changed(before,after){return Object.keys(before).filter(k=>k in after&&after[k]!==before[k]).sort();}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une bougé",
+      "kind": "call-equals",
+      "export": "changed",
+      "args": [
+        {
+          "a": "1.0.0",
+          "b": "2.0.0"
+        },
+        {
+          "a": "1.0.0",
+          "b": "2.1.0"
+        }
+      ],
+      "expected": [
+        "b"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucune",
+      "kind": "call-equals",
+      "export": "changed",
+      "args": [
+        {
+          "a": "1.0.0"
+        },
+        {
+          "a": "1.0.0"
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux triées",
+      "kind": "call-equals",
+      "export": "changed",
+      "args": [
+        {
+          "z": "1",
+          "a": "1"
+        },
+        {
+          "z": "2",
+          "a": "2"
+        }
+      ],
+      "expected": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "t4",
+      "name": "nouvelle dép ignorée",
+      "kind": "call-equals",
+      "export": "changed",
+      "args": [
+        {
+          "a": "1"
+        },
+        {
+          "a": "1",
+          "c": "9"
+        }
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

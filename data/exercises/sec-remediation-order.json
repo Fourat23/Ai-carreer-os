@@ -1,0 +1,100 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-remediation-order",
+  "title": "Sécurité : ordonner un plan de remédiation",
+  "difficulty": 3,
+  "summary": "ordered(findings) où findings=[{code, severity}] → les codes triés par sévérité (\"blocking\" < \"risk\" < \"warning\" < \"observation\"), puis code alphabétique.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function ordered(findings) {\n  // TODO\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function ordered(findings){const rank={blocking:0,risk:1,warning:2,observation:3};return [...findings].sort((a,b)=>(rank[a.severity]-rank[b.severity])||a.code.localeCompare(b.code)).map(f=>f.code);}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "par sévérité",
+      "kind": "call-equals",
+      "export": "ordered",
+      "args": [
+        [
+          {
+            "code": "b",
+            "severity": "warning"
+          },
+          {
+            "code": "a",
+            "severity": "blocking"
+          }
+        ]
+      ],
+      "expected": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "même sévérité → alpha",
+      "kind": "call-equals",
+      "export": "ordered",
+      "args": [
+        [
+          {
+            "code": "z",
+            "severity": "risk"
+          },
+          {
+            "code": "a",
+            "severity": "risk"
+          }
+        ]
+      ],
+      "expected": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "trois niveaux",
+      "kind": "call-equals",
+      "export": "ordered",
+      "args": [
+        [
+          {
+            "code": "o",
+            "severity": "observation"
+          },
+          {
+            "code": "r",
+            "severity": "risk"
+          },
+          {
+            "code": "bl",
+            "severity": "blocking"
+          }
+        ]
+      ],
+      "expected": [
+        "bl",
+        "r",
+        "o"
+      ]
+    }
+  ]
+}

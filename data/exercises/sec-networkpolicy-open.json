@@ -1,0 +1,72 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "sec-networkpolicy-open",
+  "title": "Sécurité : NetworkPolicy trop ouverte ?",
+  "difficulty": 2,
+  "summary": "isOpen(policy) où policy={defaultDeny, allowFrom} → true (risque) si defaultDeny===false OU allowFrom contient \"*\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isOpen(policy) {\n  // TODO\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isOpen(policy){return policy.defaultDeny===false||(policy.allowFrom||[]).includes(\"*\");}"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "pas de deny par défaut",
+      "kind": "call-equals",
+      "export": "isOpen",
+      "args": [
+        {
+          "defaultDeny": false,
+          "allowFrom": []
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "allow *",
+      "kind": "call-equals",
+      "export": "isOpen",
+      "args": [
+        {
+          "defaultDeny": true,
+          "allowFrom": [
+            "*"
+          ]
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t3",
+      "name": "segmentée",
+      "kind": "call-equals",
+      "export": "isOpen",
+      "args": [
+        {
+          "defaultDeny": true,
+          "allowFrom": [
+            "frontend"
+          ]
+        }
+      ],
+      "expected": false
+    }
+  ]
+}

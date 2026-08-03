@@ -86,6 +86,12 @@
   "52": [
     "api-router"
   ],
+  "68": [
+    "sec-mask-secrets",
+    "sec-classify-sensitive",
+    "sec-secret-response-order",
+    "sec-remediation-order"
+  ],
   "69": [
     "debt-audit",
     "refactor-legacy",
@@ -130,7 +136,12 @@
     "cloud-blast-radius"
   ],
   "85": [
-    "incident-health-rollup"
+    "incident-health-rollup",
+    "sec-rbac-wildcard",
+    "sec-least-privilege",
+    "sec-securitycontext",
+    "sec-networkpolicy-open",
+    "sec-image-digest"
   ],
   "87": [
     "web-semantic",
@@ -207,6 +218,14 @@
   ],
   "155": [
     "py-report"
+  ],
+  "298": [
+    "sec-lockfile-diff",
+    "sec-typosquat",
+    "sec-sbom-added",
+    "sec-cve-affected",
+    "sec-blast-radius",
+    "sec-recovery-decision"
   ],
   "320": [
     "docker-instruction-order",

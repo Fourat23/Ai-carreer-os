@@ -1,0 +1,27 @@
+{
+  "id": "term-run-node",
+  "title": "Exécuter un script Node contrôlé",
+  "description": "Lance un petit script Node prédéfini qui affiche des informations de base. Le script n'est pas modifiable : c'est une démonstration d'exécution bornée.",
+  "adapter": "local",
+  "executable": "node",
+  "argumentSchema": [
+    { "name": "flag", "kind": "literal", "default": "-e" },
+    { "name": "script", "kind": "enum", "values": [
+      "console.log('Node ' + process.version)",
+      "console.log([1,2,3].map(n => n*2).join(' '))",
+      "process.stderr.write('exemple d erreur'); process.exit(2)"
+    ], "default": "console.log('Node ' + process.version)" }
+  ],
+  "cwdPolicy": "workspace",
+  "environmentPolicy": "minimal",
+  "timeoutMs": 4000,
+  "maxStdoutBytes": 8192,
+  "maxStderrBytes": 4096,
+  "maxCombinedBytes": 12288,
+  "expectedExitCodes": [0],
+  "cleanupPolicy": "always",
+  "skills": ["linux"],
+  "dayRefs": [2],
+  "hints": ["Le 3e script sort en code 2 : observe le statut « échec » et le stderr.", "Le code de sortie 0 = succès, non-zéro = échec."],
+  "securityNotes": ["`node -e` avec un script CHOISI dans une liste fermée — jamais une saisie libre.", "Environnement minimal : aucun secret transmis."]
+}

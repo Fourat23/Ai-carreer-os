@@ -1,0 +1,23 @@
+{
+  "id": "term-docker-info",
+  "title": "Docker : vérifier la disponibilité (honnête)",
+  "description": "Tente d'exécuter une commande dans un conteneur durci (alpine, réseau none, non-root, read-only). Si le daemon Docker est indisponible, l'exécution est honnêtement signalée « indisponible » — aucun faux succès.",
+  "adapter": "docker",
+  "executable": "echo",
+  "dockerImage": "alpine:3.20",
+  "argumentSchema": [
+    { "name": "msg", "kind": "enum", "values": ["conteneur pédagogique OK", "isolation partielle, noyau partagé"], "default": "conteneur pédagogique OK" }
+  ],
+  "cwdPolicy": "workspace",
+  "environmentPolicy": "minimal",
+  "timeoutMs": 8000,
+  "maxStdoutBytes": 8192,
+  "maxStderrBytes": 4096,
+  "maxCombinedBytes": 12288,
+  "expectedExitCodes": [0],
+  "cleanupPolicy": "always",
+  "skills": ["linux"],
+  "dayRefs": [72],
+  "hints": ["Un conteneur réduit la surface mais PARTAGE le noyau hôte : ce n'est pas une isolation OS absolue.", "Si Docker est indisponible ici, c'est normal : la notion s'apprend quand même par les exercices statiques."],
+  "securityNotes": ["Conteneur durci : --network none, --read-only, --cap-drop ALL, --security-opt no-new-privileges, utilisateur non-root, suppression après exécution.", "Aucune isolation OS n'est prétendue."]
+}

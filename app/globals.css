@@ -1092,6 +1092,29 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .wb-linkbtn { background: none; border: none; padding: 0; color: var(--accent); cursor: pointer; font: inherit; text-decoration: underline; }
 .wb-console { background: var(--panel-2); border: 1px solid var(--border); border-radius: var(--r); padding: var(--sp-3); overflow: auto; font-size: var(--fs-xs); margin: 0; max-height: 100%; white-space: pre-wrap; word-break: break-word; }
 .wb-help { font-size: var(--fs-sm); color: var(--muted); }
+
+/* ── Terminal pédagogique borné (CP7) ── */
+.wb-terminal { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.wb-terminal-controls { display: flex; flex-direction: column; gap: var(--sp-2); }
+.wb-terminal-desc { font-size: var(--fs-xs); color: var(--muted); margin: 0; }
+.wb-field { display: flex; flex-direction: column; gap: 3px; font-size: var(--fs-xs); }
+.wb-field select { padding: 5px 7px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--panel); color: var(--fg); font: inherit; max-width: 100%; }
+.wb-terminal-cmd { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.wb-terminal-cmd code { background: var(--panel-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 3px 7px; font-size: var(--fs-xs); overflow-x: auto; max-width: 100%; }
+.wb-badge { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--border); color: var(--muted); }
+.wb-badge-docker { border-color: color-mix(in oklab, var(--accent) 40%, var(--border)); }
+.wb-badge.has-errors { color: var(--danger, #c0392b); border-color: var(--danger, #c0392b); }
+.wb-terminal-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.wb-terminal-status { font-size: var(--fs-xs); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+.wb-terminal-status.status-success { color: #1e7e34; border-color: #1e7e34; }
+.wb-terminal-status.status-failed, .wb-terminal-status.status-timed-out, .wb-terminal-status.status-unavailable { color: var(--danger, #c0392b); border-color: var(--danger, #c0392b); }
+.wb-terminal-status.status-running { color: var(--accent); border-color: var(--accent); }
+.wb-terminal-secnote { font-size: 11px; color: var(--muted); margin: 0; }
+.wb-terminal-output { display: flex; flex-direction: column; gap: 4px; min-width: 0; overflow: auto; }
+.wb-terminal-meta { display: flex; flex-wrap: wrap; gap: var(--sp-2); font-size: var(--fs-xs); color: var(--muted); }
+.wb-terminal-pre { background: var(--panel-2); border: 1px solid var(--border); border-radius: var(--r); padding: var(--sp-2) var(--sp-3); font-size: var(--fs-xs); margin: 0; overflow: auto; white-space: pre-wrap; word-break: break-word; max-height: 240px; }
+.wb-terminal-err { border-color: color-mix(in oklab, var(--danger, #c0392b) 40%, var(--border)); }
+.wb-terminal-note { font-size: var(--fs-xs); color: var(--muted); margin: 0; }
 .wb-help p { margin: 0 0 var(--sp-3); }
 .wb-help ul { padding-left: 18px; margin: 0; }
 .wb-help li { margin: var(--sp-1) 0; }

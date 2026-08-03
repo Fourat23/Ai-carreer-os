@@ -1,0 +1,27 @@
+{
+  "id": "term-list-files",
+  "title": "Lister les fichiers du workspace",
+  "description": "Exécute `ls` sur un petit workspace pédagogique (fichiers d'exemple préparés). Choisis le format d'affichage.",
+  "adapter": "local",
+  "executable": "ls",
+  "argumentSchema": [
+    { "name": "format", "kind": "flag", "values": ["-1", "-l", "-la"], "default": "-la" }
+  ],
+  "cwdPolicy": "workspace",
+  "environmentPolicy": "minimal",
+  "timeoutMs": 4000,
+  "maxStdoutBytes": 16384,
+  "maxStderrBytes": 4096,
+  "maxCombinedBytes": 20480,
+  "expectedExitCodes": [0],
+  "cleanupPolicy": "always",
+  "skills": ["linux"],
+  "dayRefs": [1, 72],
+  "seedFiles": [
+    { "path": "README.md", "content": "# Atelier terminal\nDes fichiers d'exemple pour t'entraîner.\n" },
+    { "path": "notes.txt", "content": "ligne 1\nligne 2\nligne 3\n" },
+    { "path": "src/app.js", "content": "console.log('demo');\n" }
+  ],
+  "hints": ["`-la` montre les fichiers cachés et les permissions rwx.", "Compare `-1`, `-l` et `-la`."],
+  "securityNotes": ["Exécution locale bornée : `ls` uniquement, dans un workspace temporaire, sans accès au reste du système."]
+}

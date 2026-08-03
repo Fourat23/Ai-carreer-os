@@ -6,6 +6,9 @@ import { readWorkspaceTree } from '@/lib/workspace-server';
 import { resolveActiveFile } from '@/lib/exercise-files';
 import { getRuntimeAdapter, DEFAULT_RUNTIME_ID } from '@/lib/runtime.mjs';
 import { runtimeStatus } from '@/lib/runtime-detect.mjs';
+import { getDayExerciseIndex } from '@/lib/day-exercises-server';
+import { daysForExercise } from '@/lib/day-exercises';
+import { tasksForDays, publicTerminalTask } from '@/lib/terminal-tasks-server';
 import LabWorkspace from './LabWorkspace';
 
 export const dynamic = 'force-dynamic';
@@ -37,6 +40,10 @@ export default async function LabExercisePage({ params }: { params: Promise<{ ex
     testCount: ex.tests.length,
   };
 
+  // Tâches de terminal reliées aux journées de l'exercice (dérivé, borné).
+  const exDays = daysForExercise(getDayExerciseIndex(), ex.id);
+  const terminalTasks = tasksForDays(exDays).map(publicTerminalTask);
+
   return (
     <div className="page-workspace">
       <div className="page-head">
@@ -46,7 +53,7 @@ export default async function LabExercisePage({ params }: { params: Promise<{ ex
           <p className="page-sub">{ex.summary}</p>
         </div>
       </div>
-      <LabWorkspace exercise={meta} initialFiles={files} initialActive={initialActive} runtime={runtime} />
+      <LabWorkspace exercise={meta} initialFiles={files} initialActive={initialActive} runtime={runtime} terminalTasks={terminalTasks} />
     </div>
   );
 }

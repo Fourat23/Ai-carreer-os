@@ -32,6 +32,12 @@ const ReactPreview = dynamic(() => import('./ReactPreview'), {
   ssr: false,
   loading: () => <div className="cm-loading">Chargement de l’aperçu React…</div>,
 });
+// Terminal borné (CP7) : chargé PARESSEUSEMENT, uniquement dans le Lab.
+const TerminalPanel = dynamic(() => import('./TerminalPanel'), {
+  ssr: false,
+  loading: () => <div className="cm-loading">Chargement du terminal…</div>,
+});
+type TerminalTaskView = import('./TerminalPanel').TerminalTaskView;
 
 type FileState = { path: string; content: string; readOnly: boolean; editable: boolean; language: string; hidden: boolean; entry: boolean };
 type TestMeta = { id: string; name: string };
@@ -39,7 +45,7 @@ type ResultItem = { testId: string; name: string; passed: boolean; message: stri
 type Attempt = { total: number; passed: number; allPassed: boolean; durationMs: number; results: ResultItem[] };
 type PrivateSummary = { total: number; passed: number } | null;
 type Diagnostic = { category: 'error' | 'warning' | 'suggestion'; code: number | string; message: string; phase: string; file?: string; line?: number; column?: number; endLine?: number; endColumn?: number };
-type RightTab = 'preview' | 'tests' | 'diagnostics' | 'console' | 'help';
+type RightTab = 'preview' | 'tests' | 'diagnostics' | 'console' | 'terminal' | 'help';
 type PreviewLog = { level: string; type: string; text: string; line?: number | null; col?: number | null; at: number };
 
 type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean; preview?: boolean; previewKind?: string | null };
@@ -58,9 +64,10 @@ function isStructured(v: unknown): boolean {
 }
 
 export default function LabWorkspace({
-  exercise, initialFiles, initialActive, runtime,
+  exercise, initialFiles, initialActive, runtime, terminalTasks = [],
 }: {
   exercise: { id: string; title: string; summary: string; tests: TestMeta[]; testCount?: number };
+  terminalTasks?: TerminalTaskView[];
   initialFiles: FileState[];
   initialActive: string;
   runtime: RuntimeInfo;
@@ -101,7 +108,7 @@ export default function LabWorkspace({
   const LASTRUN_KEY = `lab:lastrun:${exercise.id}`;
   // Vue étroite (tablette/mobile) : une zone à la fois via une nav segmentée.
   const [narrow, setNarrow] = useState(false);
-  const [mv, setMv] = useState<'brief' | 'files' | 'code' | 'preview' | 'tests' | 'console'>('code');
+  const [mv, setMv] = useState<'brief' | 'files' | 'code' | 'preview' | 'tests' | 'console' | 'terminal'>('code');
 
   const rootRef = useRef<HTMLDivElement>(null);
   const explorerRef = useRef<HTMLUListElement>(null);
@@ -312,6 +319,7 @@ export default function LabWorkspace({
     if (v === 'preview') setRightTab('preview');
     if (v === 'tests') setRightTab('tests');
     if (v === 'console') setRightTab('console');
+    if (v === 'terminal') setRightTab('terminal');
   }, []);
 
   const paletteResults = useMemo(() => {
@@ -321,11 +329,12 @@ export default function LabWorkspace({
 
   const cols = `${layout.layout.leftOpen ? layout.layout.left + 'px' : '0'} ${layout.layout.leftOpen ? '6px' : '0'} minmax(0,1fr) ${layout.layout.rightOpen ? '6px' : '0'} ${layout.layout.rightOpen ? layout.layout.right + 'px' : '0'}`;
   const showLeft = narrow ? (mv === 'brief' || mv === 'files') : layout.layout.leftOpen;
-  const showRight = narrow ? (mv === 'tests' || mv === 'console' || mv === 'preview') : layout.layout.rightOpen;
+  const showRight = narrow ? (mv === 'tests' || mv === 'console' || mv === 'preview' || mv === 'terminal') : layout.layout.rightOpen;
   const showCenter = narrow ? mv === 'code' : true;
+  const termZone = terminalTasks.length > 0 ? ([['terminal', 'Terminal']] as const) : ([] as const);
   const mobileZones = isWeb
-    ? ([['brief', 'Énoncé'], ['files', 'Fichiers'], ['code', 'Code'], ['preview', 'Preview'], ['tests', 'Tests'], ['console', 'Console']] as const)
-    : ([['brief', 'Énoncé'], ['files', 'Fichiers'], ['code', 'Code'], ['tests', 'Tests'], ['console', 'Console']] as const);
+    ? ([['brief', 'Énoncé'], ['files', 'Fichiers'], ['code', 'Code'], ['preview', 'Preview'], ['tests', 'Tests'], ['console', 'Console'], ...termZone] as const)
+    : ([['brief', 'Énoncé'], ['files', 'Fichiers'], ['code', 'Code'], ['tests', 'Tests'], ['console', 'Console'], ...termZone] as const);
 
   return (
     <>
@@ -416,6 +425,9 @@ export default function LabWorkspace({
               <button role="tab" aria-selected={rightTab === 'diagnostics'} className={`wb-rtab${rightTab === 'diagnostics' ? ' active' : ''}${compileFailed ? ' has-errors' : ''}`} onClick={() => setRightTab('diagnostics')}><AlertTriangle size={13} /> Diagnostics{diagnostics.length ? ` (${diagnostics.length})` : ''}</button>
             )}
             <button role="tab" aria-selected={rightTab === 'console'} className={`wb-rtab${rightTab === 'console' ? ' active' : ''}`} onClick={() => setRightTab('console')}><Terminal size={13} /> Console</button>
+            {terminalTasks.length > 0 && (
+              <button role="tab" aria-selected={rightTab === 'terminal'} className={`wb-rtab${rightTab === 'terminal' ? ' active' : ''}`} onClick={() => setRightTab('terminal')}><Terminal size={13} /> Terminal</button>
+            )}
             <button role="tab" aria-selected={rightTab === 'help'} className={`wb-rtab${rightTab === 'help' ? ' active' : ''}`} onClick={() => setRightTab('help')}><HelpCircle size={13} /> Aide</button>
             <button className="wb-icon" style={{ marginLeft: 'auto' }} title="Replier le panneau" aria-label="Replier le panneau droit" onClick={() => layout.toggle('right')}><PanelRightClose size={15} /></button>
           </div>
@@ -548,6 +560,9 @@ export default function LabWorkspace({
               ) : (
                 stdout ? <pre className="wb-console">{stdout.slice(0, 8000)}</pre> : <div className="lab-hint">Aucune sortie standard. Utilise <code>console.log</code> dans ton code.</div>
               )
+            )}
+            {rightTab === 'terminal' && terminalTasks.length > 0 && (
+              <TerminalPanel tasks={terminalTasks} />
             )}
             {rightTab === 'help' && (
               <div className="wb-help">

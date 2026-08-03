@@ -1,0 +1,99 @@
+{
+  "id": "k8s-deploy-api",
+  "title": "Déployer une API avec Service et probes",
+  "description": "Concevoir un Deployment d'API propre : replicas, probes, requests/limits, image épinglée, exposé par un Service dont le selector matche.",
+  "category": "documentation",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Analyse déterministe, aucun cluster réel. On te demande le manifest d'une API modeste mais sérieuse. Tu dois déclarer un Deployment (≥2 replicas), des probes (readiness/liveness), des requests/limits cohérents, une image ÉPINGLÉE (pas de latest), et un Service dont le selector correspond aux labels du gabarit de pod. Le Kubernetes Manifest Lab doit être exempt de défaut bloquant.",
+  "prerequisites": [
+    "Du conteneur à l'orchestration (jour 320)"
+  ],
+  "skills": [
+    "http",
+    "testing"
+  ],
+  "dayRefs": [
+    320
+  ],
+  "exerciseRefs": [
+    "k8s-selector-match",
+    "k8s-service-endpoints"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Compter les endpoints d'un Service (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "k8s-service-endpoints",
+      "hint": "pods dont les labels contiennent tout le selector."
+    },
+    {
+      "id": "manifest",
+      "kind": "document",
+      "title": "Manifest commenté (Deployment + Service)",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Objectif",
+          "Deployment",
+          "Probes",
+          "Ressources",
+          "Service et selector"
+        ],
+        "requireMentions": [
+          "readiness",
+          "selector",
+          "replicas"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Décris chaque bloc, justifie replicas/probes/ressources, montre que le selector du Service matche le gabarit."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : endpoints correctement comptés",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Selector du Service aligné sur les labels du gabarit",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Probes readiness/liveness déclarées",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Image épinglée et ressources déclarées",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "commonMistakes": [
+    "Selector du Service qui ne matche aucun pod",
+    "Image en latest",
+    "Aucune readiness probe",
+    "Une seule replica en production"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

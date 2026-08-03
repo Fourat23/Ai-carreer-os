@@ -1,0 +1,124 @@
+{
+  "id": "k8s-rolling-regression",
+  "title": "Régression après rolling update",
+  "description": "Une nouvelle image régresse en production. Décider rollback, roll-forward ou hotfix, produire un plan de rollback, une communication et un post-mortem.",
+  "category": "incident",
+  "difficulty": 4,
+  "estimatedHours": 7,
+  "context": "Simulation déterministe. Un rolling update a mis en production une image qui introduit une RÉGRESSION : une fonctionnalité qui marchait est cassée. Tu dois décider vite selon la réversibilité : rollback (retour à la révision précédente, si réversible), roll-forward (si une migration non rétrocompatible empêche le retour), ou hotfix urgent. Tu produis un plan de rollback préparé, une communication d'incident, et un post-mortem sans blâme (cause racine, actions corrective et préventive).",
+  "prerequisites": [
+    "Rollout/rollback et reprise (jour 321)"
+  ],
+  "skills": [
+    "debugging",
+    "testing"
+  ],
+  "dayRefs": [
+    321
+  ],
+  "exerciseRefs": [
+    "k8s-recovery-decision",
+    "k8s-rolling-available"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Décider rollback/roll-forward/hotfix (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "k8s-recovery-decision",
+      "hint": "migration bloque → roll-forward ; urgent → hotfix ; sinon rollback."
+    },
+    {
+      "id": "rollback",
+      "kind": "plan",
+      "title": "Plan de rollback",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Contexte",
+          "Décision et justification",
+          "Étapes du rollback",
+          "Vérification",
+          "Communication"
+        ],
+        "requireMentions": [
+          "rollback",
+          "roll-forward",
+          "vérification"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Prépare la procédure de retour, justifie la décision, décris la vérification et la comm."
+    },
+    {
+      "id": "postmortem",
+      "kind": "report",
+      "title": "Post-mortem sans blâme",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Résumé",
+          "Chronologie",
+          "Cause racine",
+          "Facteurs contributifs",
+          "Action corrective",
+          "Action préventive"
+        ],
+        "requireMentions": [
+          "cause racine",
+          "préventive",
+          "régression"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Analyse a posteriori : cause racine, facteurs, ce qui corrige vs ce qui prévient la récurrence."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : décision de reprise correcte",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Décision justifiée par réversibilité et urgence",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Plan de rollback concret et vérifiable",
+      "blocking": false,
+      "category": "documentation"
+    },
+    {
+      "label": "Post-mortem sans blâme (cause racine + préventive)",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Roll-forward alors qu'un rollback suffisait",
+    "Rollback impossible ignoré (migration non rétrocompatible)",
+    "Post-mortem qui cherche un coupable",
+    "Aucune action préventive"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

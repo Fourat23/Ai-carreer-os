@@ -1,0 +1,100 @@
+{
+  "id": "k8s-crashloop",
+  "title": "Incident CrashLoopBackOff",
+  "description": "Un pod redémarre en boucle. Distinguer un bug applicatif d'une liveness trop agressive, appliquer la méthode « Que faire dans ce cas ? ».",
+  "category": "incident",
+  "difficulty": 4,
+  "estimatedHours": 6,
+  "context": "Simulation déterministe. Un pod est en CrashLoopBackOff : il démarre puis meurt en boucle. Deux familles de causes : l'application échoue au démarrage (config manquante, dépendance absente) OU la liveness probe est trop agressive (initialDelaySeconds trop court) et tue le conteneur avant qu'il ait démarré. Tu appliques la méthode : symptômes, vérifications, hypothèses classées, données à collecter, décision, validation. Tu produis un runbook rejouable.",
+  "prerequisites": [
+    "Exploitation et probes (jour 321)"
+  ],
+  "skills": [
+    "debugging",
+    "testing"
+  ],
+  "dayRefs": [
+    321
+  ],
+  "exerciseRefs": [
+    "k8s-pod-phase",
+    "k8s-probe-role"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Nommer l'état d'un pod (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "k8s-pod-phase",
+      "hint": "restart-loop → CrashLoopBackOff, etc."
+    },
+    {
+      "id": "runbook",
+      "kind": "plan",
+      "title": "Runbook de diagnostic CrashLoopBackOff",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptômes",
+          "Hypothèses",
+          "Données à collecter",
+          "Décision",
+          "Validation",
+          "Prévention"
+        ],
+        "requireMentions": [
+          "liveness",
+          "logs",
+          "startup"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Rends la procédure rejouable : comment distinguer bug applicatif et liveness trop stricte, quoi collecter, comment valider."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : états de pod correctement nommés",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Distinction bug applicatif vs liveness trop agressive",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Runbook rejouable (données à collecter, ordre)",
+      "blocking": false,
+      "category": "documentation"
+    },
+    {
+      "label": "Prévention (startup probe, initialDelay)",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "commonMistakes": [
+    "Désactiver la liveness « pour que ça passe »",
+    "Augmenter les ressources sans lire les logs",
+    "Ne pas distinguer readiness et liveness",
+    "Redéployer à l'aveugle"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

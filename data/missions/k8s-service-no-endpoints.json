@@ -1,0 +1,92 @@
+{
+  "id": "k8s-service-no-endpoints",
+  "title": "Service injoignable : selector orphelin",
+  "description": "Un Service ne route vers aucun pod. Diagnostiquer le selector orphelin, corriger l'alignement des labels, vérifier les endpoints.",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 4,
+  "context": "Simulation déterministe. Un Service existe mais renvoie une erreur : aucun endpoint. La cause classique : le selector du Service ne correspond pas aux labels du gabarit de pod du Deployment. Tu dois LIRE la configuration, repérer l'écart de labels, corriger, et vérifier que le Service a de nouveau des endpoints. Le Manifest Lab et son incident « no-endpoints » servent à valider.",
+  "prerequisites": [
+    "Objets et selectors (jour 320)"
+  ],
+  "skills": [
+    "http",
+    "debugging"
+  ],
+  "dayRefs": [
+    320
+  ],
+  "exerciseRefs": [
+    "k8s-selector-match",
+    "k8s-service-endpoints"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Vérifier qu'un selector matche (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "k8s-selector-match",
+      "hint": "tous les couples du selector présents dans les labels."
+    },
+    {
+      "id": "diag",
+      "kind": "document",
+      "title": "Diagnostic du Service injoignable",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptôme",
+          "Cause racine",
+          "Correctif",
+          "Vérification"
+        ],
+        "requireMentions": [
+          "selector",
+          "endpoint",
+          "label"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Explique pourquoi le selector est orphelin, corrige l'alignement, montre le retour des endpoints."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : correspondance selector/labels correcte",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Cause racine = selector orphelin (pas un autre symptôme)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Vérification des endpoints après correctif",
+      "blocking": false,
+      "category": "tests"
+    }
+  ],
+  "commonMistakes": [
+    "Recréer le Service sans corriger les labels",
+    "Confondre selector et nom de Service",
+    "Modifier au hasard sans lire la configuration"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

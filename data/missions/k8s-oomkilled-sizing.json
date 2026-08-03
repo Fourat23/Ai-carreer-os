@@ -1,0 +1,98 @@
+{
+  "id": "k8s-oomkilled-sizing",
+  "title": "OOMKilled et dimensionnement des ressources",
+  "description": "Un conteneur est tué pour dépassement mémoire. Corriger l'incohérence requests/limits, dimensionner sainement, discuter le coût.",
+  "category": "performance",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Simulation déterministe. Un conteneur est OOMKilled : la limite mémoire est sous la request (incohérent) ou trop basse pour la charge réelle. Tu dois corriger la cohérence (limits ≥ requests), dimensionner à partir de la consommation observée, et discuter honnêtement le compromis coût/marge. Les chiffres restent pédagogiques, pas contractuels.",
+  "prerequisites": [
+    "Requests/limits et incidents (jour 321)"
+  ],
+  "skills": [
+    "debugging",
+    "testing"
+  ],
+  "dayRefs": [
+    321
+  ],
+  "exerciseRefs": [
+    "k8s-oom-risk",
+    "k8s-rolling-available"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Détecter le risque OOMKilled (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "k8s-oom-risk",
+      "hint": "limite mémoire < request → risque."
+    },
+    {
+      "id": "sizing",
+      "kind": "plan",
+      "title": "Note de dimensionnement",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptôme",
+          "Incohérence identifiée",
+          "Nouveau dimensionnement",
+          "Compromis"
+        ],
+        "requireMentions": [
+          "limits",
+          "requests",
+          "mémoire"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Corrige requests/limits, justifie les nouvelles valeurs à partir de la consommation, discute la marge."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : risque OOM correctement détecté",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "limits ≥ requests rétabli",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Dimensionnement justifié par des données",
+      "blocking": false,
+      "category": "performance"
+    },
+    {
+      "label": "Compromis coût/marge discuté honnêtement",
+      "blocking": false,
+      "category": "tradeoffs"
+    }
+  ],
+  "commonMistakes": [
+    "Mettre une limite énorme « pour être tranquille »",
+    "Limite mémoire sous la request",
+    "Ne pas mesurer la consommation réelle",
+    "Présenter un coût comme contractuel"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

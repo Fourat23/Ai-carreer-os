@@ -12,7 +12,12 @@
     { "slug": "networking-addressing-routing", "cp": "CP3", "theme": "Réseau" },
     { "slug": "networking-dns", "cp": "CP3", "theme": "Réseau" },
     { "slug": "networking-http-tls", "cp": "CP3", "theme": "Réseau" },
-    { "slug": "networking-proxy-loadbalancing", "cp": "CP3", "theme": "Réseau" }
+    { "slug": "networking-proxy-loadbalancing", "cp": "CP3", "theme": "Réseau" },
+    { "slug": "docker-images-layers", "cp": "CP4", "theme": "Docker" },
+    { "slug": "docker-build-dockerfile", "cp": "CP4", "theme": "Docker" },
+    { "slug": "docker-networking-volumes", "cp": "CP4", "theme": "Docker" },
+    { "slug": "docker-compose", "cp": "CP4", "theme": "Docker" },
+    { "slug": "docker-production-hardening", "cp": "CP4", "theme": "Docker" }
   ],
   "requiredConcepts": {
     "linux-filesystem-permissions": ["inode", "rwx", "octal", "chmod", "permission"],
@@ -24,6 +29,11 @@
     "networking-addressing-routing": ["cidr", "subnet", "gateway", "nat", "routage"],
     "networking-dns": ["dns", "ttl", "cname", "resolver", "propagation"],
     "networking-http-tls": ["http", "tls", "certificat", "handshake", "statut"],
-    "networking-proxy-loadbalancing": ["reverse proxy", "load balancer", "l4", "l7", "health check"]
+    "networking-proxy-loadbalancing": ["reverse proxy", "load balancer", "l4", "l7", "health check"],
+    "docker-images-layers": ["couche", "cache", "digest", "registre", "base minimale"],
+    "docker-build-dockerfile": ["multi-stage", "dockerignore", "arg", "env", "entrypoint"],
+    "docker-networking-volumes": ["réseau", "nom de service", "volume", "bind mount", "port"],
+    "docker-compose": ["service", "depends_on", "healthcheck", "condition", "réseau"],
+    "docker-production-hardening": ["non-root", "namespaces", "oom", "sigterm", "read-only"]
   }
 }

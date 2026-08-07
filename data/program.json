@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T16:20:01.922Z",
+  "generatedAt": "2026-08-07T16:28:37.906Z",
   "skills": [
     {
       "id": "algo",
@@ -6477,6 +6477,60 @@
       "skills": [
         "archi",
         "cloud"
+      ]
+    },
+    {
+      "slug": "docker-images-layers",
+      "title": "Docker : images, couches et registre",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "cloud"
+      ]
+    },
+    {
+      "slug": "docker-build-dockerfile",
+      "title": "Docker : maîtriser le Dockerfile et le multi-stage",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "secu"
+      ]
+    },
+    {
+      "slug": "docker-networking-volumes",
+      "title": "Docker : réseau et persistance des données",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "docker-compose",
+      "title": "Docker Compose : orchestrer une application multi-services",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "docker-production-hardening",
+      "title": "Docker : durcissement pour la production",
+      "cat": "Conteneurs & Docker",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "secu"
       ]
     },
     {

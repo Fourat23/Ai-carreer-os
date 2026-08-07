@@ -75,6 +75,12 @@ export const LESSONS = [
   { file: 'networking-dns.md', title: 'Réseau : DNS, la résolution de noms', cat: 'Réseau', level: 2, min: 45, skills: ['http', 'cloud'] },
   { file: 'networking-http-tls.md', title: 'Réseau : HTTP et TLS', cat: 'Réseau', level: 2, min: 50, skills: ['http', 'secu'] },
   { file: 'networking-proxy-loadbalancing.md', title: 'Réseau : proxy, reverse proxy et load balancing', cat: 'Réseau', level: 3, min: 50, skills: ['archi', 'cloud'] },
+  // ── Conteneurs & Docker ──
+  { file: 'docker-images-layers.md', title: 'Docker : images, couches et registre', cat: 'Conteneurs & Docker', level: 2, min: 45, skills: ['cloud'] },
+  { file: 'docker-build-dockerfile.md', title: 'Docker : maîtriser le Dockerfile et le multi-stage', cat: 'Conteneurs & Docker', level: 2, min: 50, skills: ['cloud', 'secu'] },
+  { file: 'docker-networking-volumes.md', title: 'Docker : réseau et persistance des données', cat: 'Conteneurs & Docker', level: 2, min: 45, skills: ['cloud', 'archi'] },
+  { file: 'docker-compose.md', title: 'Docker Compose : orchestrer une application multi-services', cat: 'Conteneurs & Docker', level: 2, min: 45, skills: ['cloud', 'archi'] },
+  { file: 'docker-production-hardening.md', title: 'Docker : durcissement pour la production', cat: 'Conteneurs & Docker', level: 3, min: 50, skills: ['cloud', 'secu'] },
   // ── Production & DevOps ──
   { file: 'deployment-secrets.md', title: 'Secrets, environnements et déploiement', cat: 'Production & DevOps', level: 2, min: 40, skills: ['cloud', 'secu'] },
   { file: 'docker-containers.md', title: 'Docker et conteneurs', cat: 'Production & DevOps', level: 2, min: 45, skills: ['cloud'] },

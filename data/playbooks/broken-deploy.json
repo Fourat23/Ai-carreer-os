@@ -1,0 +1,87 @@
+{
+  "id": "broken-deploy",
+  "situation": "Un déploiement casse la production",
+  "domain": "deployment",
+  "severityHint": "souvent SEV1/SEV2 — impact immédiat",
+  "dayRefs": [
+    79,
+    85,
+    326
+  ],
+  "relatedGlossary": [
+    "prod-rollback",
+    "reg-roll-forward",
+    "deploy-rollback-plan",
+    "prod-incident",
+    "devops-canary"
+  ],
+  "symptoms": [
+    "Les erreurs explosent juste après une mise en production.",
+    "Le service ne démarre plus, ou renvoie des 5xx en masse.",
+    "Les probes de santé échouent ; le rollout est bloqué ou dégradé."
+  ],
+  "firstChecks": [
+    "Confirmer la corrélation temporelle avec le déploiement (à la seconde près).",
+    "Identifier ce qui a changé : code, config, variable d’environnement, migration.",
+    "Le déploiement précédent est-il encore disponible pour un rollback ?"
+  ],
+  "containment": [
+    "Décider vite : rollback (revenir au dernier bon état) est généralement le premier réflexe.",
+    "Si le rollback est impossible (migration destructive, état incompatible), préparer un roll-forward.",
+    "Geler les autres déploiements le temps de stabiliser."
+  ],
+  "recommendedOrder": [
+    "Stopper la propagation (arrêter le rollout)",
+    "rollback si possible",
+    "sinon roll-forward",
+    "confirmer le rétablissement",
+    "post-mortem"
+  ],
+  "communication": [
+    "Déclarer l’incident et désigner un pilote.",
+    "Prévenir les équipes dépendantes et le support ; statut régulier.",
+    "Annoncer clairement la décision rollback vs roll-forward."
+  ],
+  "evidence": [
+    "Conserver les logs du rollout et l’ID de la release fautive.",
+    "Noter le diff (code + config) entre l’ancienne et la nouvelle version.",
+    "Capturer l’état des probes/replicas au moment de la panne."
+  ],
+  "doNot": [
+    "Ne pas empiler des correctifs à chaud sur une prod déjà cassée.",
+    "Ne pas rollback une release contenant une migration destructive sans vérifier la compatibilité des données.",
+    "Ne pas retirer le monitoring « parce que ça fait du bruit »."
+  ],
+  "mitigation": [
+    "Basculer le trafic vers la version saine (blue-green) si disponible.",
+    "Réduire à zéro les replicas fautifs et laisser tourner l’ancienne version."
+  ],
+  "correction": [
+    "Rollback : redéployer le dernier artefact immuable connu bon.",
+    "Roll-forward : livrer un correctif minimal qui répare sans revenir en arrière."
+  ],
+  "validation": [
+    "Probes vertes, taux d’erreur revenu à la normale, parcours critiques testés.",
+    "Vérifier l’intégrité des données si une migration était impliquée."
+  ],
+  "delivery": [
+    "Rétablir via le mécanisme choisi ; ne relivrer la version corrigée qu’après cause comprise.",
+    "Réactiver les déploiements une fois la prod stable."
+  ],
+  "monitoring": [
+    "Surveiller erreurs, latence et saturation pendant la période de stabilisation.",
+    "Confirmer que le rollout suivant se déroule sainement."
+  ],
+  "documentation": [
+    "Post-mortem : cause, décision rollback/roll-forward, délai de rétablissement (MTTR).",
+    "Mettre à jour le plan de rollback si une lacune est apparue."
+  ],
+  "prevention": [
+    "Déploiements progressifs (canary) avec critères d’arrêt automatiques.",
+    "Migrations rétro-compatibles (expand/contract) pour garder le rollback possible.",
+    "Security/quality gate bloquante dans le pipeline."
+  ],
+  "exitCriteria": [
+    "Service rétabli, métriques nominales, données intègres, décision et cause documentées."
+  ]
+}

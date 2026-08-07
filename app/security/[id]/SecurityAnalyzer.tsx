@@ -6,6 +6,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { AlertOctagon, AlertTriangle, Info, Eye, FileWarning, Activity, RotateCcw, ShieldCheck, LifeBuoy } from 'lucide-react';
+import { PlaybookView } from '../PlaybookView';
 
 interface Artifact { id: string; kind: string; path: string | null; content: unknown }
 interface Scenario { id: string; artifacts: Artifact[] }
@@ -76,8 +77,6 @@ export default function SecurityAnalyzer({
     const data = await post({ action: 'simulate', incident }, 'simulate');
     if (data) setIncidentRes(data.incident);
   }, [incident, post]);
-
-  const pbArr = (k: string): string[] => (Array.isArray(playbook?.[k]) ? (playbook![k] as string[]) : []);
 
   return (
     <div>
@@ -163,13 +162,9 @@ export default function SecurityAnalyzer({
           )}
 
           {playbook && showPlaybook && (
-            <div className="sec-playbook">
+            <div>
               <h2 className="section-label"><LifeBuoy size={14} /> Que faire dans ce cas ? — {String(playbook.situation ?? playbook.title ?? '')}</h2>
-              {(['symptoms', 'firstChecks', 'doNot', 'containment', 'communication', 'correction', 'validation', 'monitoring', 'documentation', 'prevention', 'exitCriteria'] as const).map((k) => {
-                const arr = pbArr(k); if (!arr.length) return null;
-                const LBL: Record<string, string> = { symptoms: 'Symptômes', firstChecks: 'Premières vérifications', doNot: 'À ne pas faire', containment: 'Confinement', communication: 'Communication', correction: 'Correction', validation: 'Validation', monitoring: 'Surveillance', documentation: 'Documentation', prevention: 'Prévention', exitCriteria: 'Critères de sortie' };
-                return (<div key={k} className="sec-pb-block"><strong>{LBL[k]}</strong><ul>{arr.map((x, i) => <li key={i}>{x}</li>)}</ul></div>);
-              })}
+              <PlaybookView playbook={playbook} />
             </div>
           )}
 

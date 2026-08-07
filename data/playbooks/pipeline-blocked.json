@@ -1,0 +1,78 @@
+{
+  "id": "pipeline-blocked",
+  "situation": "Le pipeline CI/CD est bloqué",
+  "domain": "pipeline",
+  "severityHint": "bloque la livraison — impact indirect",
+  "dayRefs": [
+    307,
+    326
+  ],
+  "relatedGlossary": [
+    "devops-cicd",
+    "devops-fail-fast",
+    "devops-critical-path",
+    "sec-security-gate",
+    "devops-pipeline"
+  ],
+  "symptoms": [
+    "Le pipeline échoue ou reste bloqué ; plus rien ne se livre.",
+    "Un job du chemin critique est rouge, en timeout, ou attend indéfiniment.",
+    "Une gate (sécurité/qualité) refuse le build."
+  ],
+  "firstChecks": [
+    "Lire le log du job fautif : erreur réelle vs bruit ; est-ce fail-fast attendu ?",
+    "Est-ce le code, la config du pipeline, un runner indisponible, ou une gate légitime ?",
+    "Le blocage est-il récent (changement de pipeline) ou intermittent (flaky) ?"
+  ],
+  "containment": [
+    "Ne PAS désactiver une gate de sécurité légitime pour « débloquer » : traiter la cause.",
+    "Si un runner est en panne : relancer sur un runner sain ; si secret expiré : le renouveler."
+  ],
+  "recommendedOrder": [
+    "Lire le log",
+    "distinguer vrai échec / flaky / gate légitime",
+    "corriger la cause",
+    "relancer",
+    "sécuriser contre la récidive"
+  ],
+  "communication": [
+    "Prévenir les équipes en attente de livraison ; donner une ETA.",
+    "Si une gate bloque à juste titre, expliquer pourquoi plutôt que la contourner."
+  ],
+  "evidence": [
+    "Conserver le log du job fautif et l’ID du run.",
+    "Noter le commit et la config de pipeline en cause."
+  ],
+  "doNot": [
+    "Ne pas contourner une security/quality gate pour aller plus vite : c’est ouvrir la porte au prochain incident.",
+    "Ne pas « relancer jusqu’à ce que ça passe » un test flaky sans le corriger."
+  ],
+  "mitigation": [
+    "Isoler/quarantiner un test flaky identifié pendant qu’on le corrige, de façon tracée.",
+    "Utiliser un runner de secours si l’infrastructure CI est en cause."
+  ],
+  "correction": [
+    "Corriger le code, la config du pipeline, le secret ou la dépendance à l’origine du blocage.",
+    "Stabiliser un test non déterministe (cause du flaky)."
+  ],
+  "validation": [
+    "Le pipeline repasse au vert de bout en bout, gates comprises.",
+    "Le run est reproductible (pas un succès de chance)."
+  ],
+  "delivery": [
+    "Reprendre la livraison normale une fois le chemin critique vert."
+  ],
+  "monitoring": [
+    "Surveiller la durée du pipeline et le taux d’échec/flaky après correction."
+  ],
+  "documentation": [
+    "Noter la cause du blocage et la correction ; suivre la dette de flaky tests."
+  ],
+  "prevention": [
+    "Fail-fast et parallélisation raisonnée, gestion des secrets de pipeline, quarantaine des flaky.",
+    "Runners redondants et monitoring de l’infra CI."
+  ],
+  "exitCriteria": [
+    "Pipeline vert et reproductible, gates respectées, cause corrigée, livraison reprise."
+  ]
+}

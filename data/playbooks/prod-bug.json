@@ -1,0 +1,87 @@
+{
+  "id": "prod-bug",
+  "situation": "Un bug est signalé en production",
+  "domain": "production",
+  "severityHint": "variable — qualifier l’impact avant de réagir",
+  "dayRefs": [
+    79,
+    85
+  ],
+  "relatedGlossary": [
+    "prod-incident",
+    "prod-severity",
+    "prod-bugfix",
+    "prod-hotfix",
+    "test-regression"
+  ],
+  "symptoms": [
+    "Un utilisateur ou une alerte remonte un comportement incorrect en prod.",
+    "L’erreur n’apparaît pas (ou plus) en local ou en staging.",
+    "Les logs montrent une exception ou un résultat inattendu sur un chemin précis."
+  ],
+  "firstChecks": [
+    "Reproduire : quelles entrées, quel utilisateur, quelle fréquence ?",
+    "Depuis quand ? Corréler avec le dernier déploiement (date, commit).",
+    "Quel est l’impact réel : combien d’utilisateurs, données corrompues ou juste gênant ?"
+  ],
+  "containment": [
+    "Qualifier la sévérité pour décider du rythme (SEV1 = tout de suite, SEV3 = planifié).",
+    "Si l’impact est fort et lié à un déploiement récent : envisager rollback ou kill switch.",
+    "Sinon, ne rien précipiter : un correctif mal testé crée le prochain bug."
+  ],
+  "recommendedOrder": [
+    "Qualifier l’impact",
+    "décider bugfix planifié vs hotfix urgent",
+    "écrire un test qui échoue",
+    "corriger",
+    "valider",
+    "livrer",
+    "surveiller"
+  ],
+  "communication": [
+    "Prévenir le support/produit si des utilisateurs sont affectés.",
+    "En cas de SEV1, désigner un pilote d’incident et informer le management.",
+    "Tenir un fil de communication court et factuel (état, prochaine mise à jour)."
+  ],
+  "evidence": [
+    "Capturer les logs et l’ID de trace autour de l’erreur.",
+    "Noter le commit et la version déployés au moment du bug.",
+    "Sauvegarder un exemple d’entrée reproduisant le problème."
+  ],
+  "doNot": [
+    "Ne pas « corriger à l’aveugle » en prod sans reproduction.",
+    "Ne pas fermer le ticket sans test de non-régression.",
+    "Ne pas confondre urgence ressentie et gravité réelle."
+  ],
+  "mitigation": [
+    "Kill switch / feature flag pour désactiver le chemin fautif si possible.",
+    "Contournement documenté côté support en attendant le correctif."
+  ],
+  "correction": [
+    "Écrire un test qui reproduit le bug (rouge), puis corriger jusqu’au vert.",
+    "Corriger la cause, pas seulement le symptôme visible."
+  ],
+  "validation": [
+    "Le test de non-régression passe ; la suite complète reste verte.",
+    "Vérifier le correctif en staging sur le cas réel avant la prod."
+  ],
+  "delivery": [
+    "Bugfix : par le cycle normal. Hotfix : via un changement d’urgence tracé.",
+    "Déployer progressivement (canary) si le risque le justifie."
+  ],
+  "monitoring": [
+    "Surveiller le taux d’erreur et la métrique métier affectée après livraison.",
+    "Confirmer la disparition de l’exception dans les logs."
+  ],
+  "documentation": [
+    "Mettre à jour le ticket : cause, correctif, test ajouté.",
+    "Post-mortem si l’incident était de sévérité élevée."
+  ],
+  "prevention": [
+    "Ajouter le cas aux tests automatisés.",
+    "Renforcer la validation d’entrée ou le typage si la cause est structurelle."
+  ],
+  "exitCriteria": [
+    "Bug non reproductible, test de non-régression vert, métriques stables, ticket documenté."
+  ]
+}

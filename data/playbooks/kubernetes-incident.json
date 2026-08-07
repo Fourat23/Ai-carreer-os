@@ -1,0 +1,75 @@
+{
+  "id": "kubernetes-incident",
+  "situation": "Un incident survient sur un workload Kubernetes",
+  "domain": "kubernetes",
+  "severityHint": "SEV selon la criticité du workload",
+  "dayRefs": [
+    320,
+    321
+  ],
+  "relatedGlossary": [
+    "k8s-crashloopbackoff",
+    "k8s-oomkilled",
+    "k8s-readiness-probe",
+    "k8s-reconciliation",
+    "prod-incident"
+  ],
+  "symptoms": [
+    "Pods en CrashLoopBackOff, OOMKilled, Pending, ou ImagePullBackOff.",
+    "Le rollout est bloqué ; le nombre de replicas disponibles chute.",
+    "Le service Kubernetes ne route plus vers des endpoints sains."
+  ],
+  "firstChecks": [
+    "Lire l’état et les événements : describe du pod, logs, raison du redémarrage.",
+    "Distinguer la classe de panne : image (pull), ressources (OOM/limits), probe, config, planification.",
+    "Corréler avec un changement récent (image, manifeste, quota, nœud)."
+  ],
+  "containment": [
+    "Rollback du Deployment vers la dernière révision saine si le rollout est fautif.",
+    "Ajuster requests/limits ou remplacer l’image si la cause est claire et sûre."
+  ],
+  "recommendedOrder": [
+    "Diagnostiquer la classe de panne",
+    "rollback du rollout si récent",
+    "corriger (image/limits/probe/config)",
+    "laisser la réconciliation converger",
+    "valider"
+  ],
+  "communication": [
+    "Déclarer l’incident selon la criticité ; prévenir les dépendants.",
+    "Statut clair sur les replicas disponibles et l’ETA."
+  ],
+  "evidence": [
+    "Conserver describe, events et logs des pods fautifs.",
+    "Noter la révision du Deployment et le digest de l’image."
+  ],
+  "doNot": [
+    "Ne pas supprimer les pods en boucle en espérant que « ça reparte » sans diagnostic.",
+    "Ne pas augmenter les limites à l’aveugle sans comprendre la fuite/charge."
+  ],
+  "mitigation": [
+    "Rollback du Deployment, ajustement temporaire des ressources, réduction du trafic entrant."
+  ],
+  "correction": [
+    "Corriger la cause : image épinglée par digest, requests/limits adaptés, probe correcte, secret/config valides."
+  ],
+  "validation": [
+    "Pods Running et Ready, rollout terminé, endpoints du Service sains, parcours critiques OK."
+  ],
+  "delivery": [
+    "Appliquer le manifeste corrigé et versionné ; laisser la boucle de réconciliation converger."
+  ],
+  "monitoring": [
+    "Surveiller redémarrages, OOM, latence des probes et disponibilité des replicas."
+  ],
+  "documentation": [
+    "Post-mortem : classe de panne, cause, correctif, prévention (limits, probes, pinning)."
+  ],
+  "prevention": [
+    "requests/limits réalistes, probes bien réglées, images épinglées par digest, securityContext durci.",
+    "Rollouts progressifs avec critères d’arrêt."
+  ],
+  "exitCriteria": [
+    "Workload stable (Running/Ready), rollout sain, ressources adaptées, cause documentée."
+  ]
+}

@@ -10707,7 +10707,8 @@
     "plainTranslation": "« Empêcher le conteneur d’écrire sur son disque. »",
     "relatedTerms": [],
     "aliases": [
-      "read-only filesystem"
+      "read-only filesystem",
+      "readOnlyRootFilesystem"
     ],
     "possibleConfusions": [],
     "ambiguityNote": null,
@@ -10775,7 +10776,8 @@
     "relatedTerms": [],
     "aliases": [
       "rootless",
-      "non-root"
+      "non-root",
+      "runAsNonRoot"
     ],
     "possibleConfusions": [],
     "ambiguityNote": null,
@@ -13545,6 +13547,1238 @@
     "ambiguityNote": null,
     "tags": [
       "incident"
+    ]
+  },
+  {
+    "id": "sec-threat-model",
+    "term": "threat model",
+    "fullForm": null,
+    "frenchMeaning": "modèle de menaces",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Exercice structuré qui identifie ce qu’on protège, contre qui, et par où une attaque pourrait passer.",
+    "detailedDefinition": "Modéliser les menaces, c’est répondre méthodiquement à quatre questions : qu’est-ce qu’on construit ? qu’est-ce qui peut mal tourner ? qu’est-ce qu’on fait à ce sujet ? a-t-on bien fait le travail ? On liste les actifs (données, secrets, services), les acteurs de menace (attaquant externe, initié, dépendance compromise), les points d’entrée (surface d’attaque) et les contre-mesures. Des méthodes comme STRIDE aident à ne rien oublier. Le but n’est pas la paranoïa exhaustive mais la priorisation : concentrer l’effort là où l’impact × la vraisemblance est le plus fort.",
+    "usageContext": "Au démarrage d’un service ou d’une fonctionnalité sensible (authentification, paiement, stockage de secrets), et à chaque changement d’architecture significatif.",
+    "meetingExample": "« Avant d’exposer cette API, on fait un threat model rapide : quels secrets elle manipule, qui pourrait vouloir les lire, et par où. »",
+    "plainTranslation": "« Réfléchissons calmement à ce qu’on protège et à comment quelqu’un pourrait s’y attaquer, avant que ça arrive. »",
+    "relatedTerms": [
+      "sec-attack-surface",
+      "sec-defense-in-depth",
+      "sec-least-privilege",
+      "deploy-blast-radius"
+    ],
+    "aliases": [
+      "modèle de menaces",
+      "modélisation des menaces",
+      "threat modeling"
+    ],
+    "possibleConfusions": [
+      "audit de sécurité (constat a posteriori) vs threat model (anticipation en conception)"
+    ],
+    "tags": [
+      "sécurité",
+      "conception",
+      "risque",
+      "stride"
+    ]
+  },
+  {
+    "id": "sec-attack-surface",
+    "term": "attack surface",
+    "fullForm": null,
+    "frenchMeaning": "surface d’attaque",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "L’ensemble des points par lesquels un attaquant peut tenter d’entrer ou d’extraire des données.",
+    "detailedDefinition": "La surface d’attaque agrège tout ce qui est exposé : endpoints HTTP, ports ouverts, formulaires, paramètres, dépendances tierces, comptes de service, variables d’environnement, fichiers de configuration. Plus elle est grande, plus il y a de chances qu’un point soit mal protégé. Réduire la surface d’attaque (fermer les ports inutiles, retirer les dépendances non utilisées, désactiver les endpoints de debug, appliquer le moindre privilège) est l’un des gestes de durcissement les plus rentables : on ne peut pas attaquer ce qui n’existe pas.",
+    "usageContext": "Revue de durcissement d’un service, d’une image de conteneur ou d’un cluster ; audit avant mise en production.",
+    "meetingExample": "« Ce endpoint de debug en prod agrandit inutilement la surface d’attaque, on le désactive. »",
+    "plainTranslation": "« Tout ce qui est ouvert vers l’extérieur est une porte potentielle : fermons celles dont on n’a pas besoin. »",
+    "relatedTerms": [
+      "sec-threat-model",
+      "sec-defense-in-depth",
+      "sec-least-privilege"
+    ],
+    "aliases": [
+      "surface d’attaque"
+    ],
+    "possibleConfusions": [
+      "surface d’attaque (ce qui est exposé) vs vecteur d’attaque (le chemin concret utilisé)"
+    ],
+    "tags": [
+      "sécurité",
+      "durcissement",
+      "exposition"
+    ]
+  },
+  {
+    "id": "sec-defense-in-depth",
+    "term": "defense in depth",
+    "fullForm": null,
+    "frenchMeaning": "défense en profondeur",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Empiler plusieurs couches de protection pour qu’une seule faille ne suffise pas à compromettre le système.",
+    "detailedDefinition": "La défense en profondeur part du principe qu’aucun contrôle n’est parfait. On superpose donc des barrières indépendantes : réseau (NetworkPolicy, security groups), identité (RBAC, moindre privilège), application (validation, authentification), données (chiffrement, secrets en coffre), exécution (conteneur non-root, filesystem en lecture seule). Si un attaquant franchit une couche, la suivante limite encore le rayon d’impact. C’est l’opposé du « périmètre unique » où, une fois le mur franchi, tout est accessible.",
+    "usageContext": "Conception d’architecture sécurisée, durcissement de workloads Kubernetes, réponse à un audit.",
+    "meetingExample": "« Même si le pod est compromis, la NetworkPolicy et le RBAC limitent ce qu’il peut atteindre : c’est la défense en profondeur. »",
+    "plainTranslation": "« On ne met pas une seule serrure : on en met plusieurs, différentes, pour qu’une seule cassée ne donne pas tout. »",
+    "relatedTerms": [
+      "sec-threat-model",
+      "sec-attack-surface",
+      "sec-least-privilege",
+      "k8s-networkpolicy",
+      "sec-privilege-escalation"
+    ],
+    "aliases": [
+      "défense en profondeur",
+      "defence in depth"
+    ],
+    "possibleConfusions": [
+      "défense en profondeur (plusieurs couches) vs redondance (plusieurs copies pour la disponibilité)"
+    ],
+    "tags": [
+      "sécurité",
+      "architecture",
+      "durcissement"
+    ]
+  },
+  {
+    "id": "sec-privilege-escalation",
+    "term": "privilege escalation",
+    "fullForm": null,
+    "frenchMeaning": "élévation de privilèges",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Obtenir plus de droits que ceux accordés, en exploitant une faille ou une permission trop large.",
+    "detailedDefinition": "Il y a deux formes : verticale (un utilisateur standard devient administrateur/root) et horizontale (accéder aux données d’un autre utilisateur de même niveau). Les causes classiques : permissions RBAC en wildcard, conteneur tournant en root, capability Linux excessive, secret réutilisé, faille applicative. En Kubernetes, un ServiceAccount trop permissif ou un RoleBinding vers un ClusterRole d’admin permet à un pod compromis de prendre le contrôle du cluster. Le moindre privilège et l’isolation (securityContext, seccomp) sont les principales contre-mesures.",
+    "usageContext": "Analyse d’incident, revue RBAC, durcissement de workloads, post-mortem d’une compromission.",
+    "meetingExample": "« Ce RoleBinding donne à un simple pod des droits d’admin cluster : risque direct d’élévation de privilèges. »",
+    "plainTranslation": "« Quelqu’un est arrivé à obtenir des droits qu’il n’aurait jamais dû avoir. »",
+    "relatedTerms": [
+      "sec-least-privilege",
+      "sec-wildcard-permission",
+      "k8s-rbac",
+      "k8s-security-context",
+      "dk-non-root",
+      "sec-linux-capabilities"
+    ],
+    "aliases": [
+      "élévation de privilèges",
+      "escalade de privilèges",
+      "privesc"
+    ],
+    "possibleConfusions": [
+      "élévation verticale (devenir admin) vs horizontale (accéder aux données d’un pair)"
+    ],
+    "tags": [
+      "sécurité",
+      "rbac",
+      "incident",
+      "kubernetes"
+    ]
+  },
+  {
+    "id": "sec-credential-leak",
+    "term": "credential leak",
+    "fullForm": null,
+    "frenchMeaning": "fuite d’identifiants",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Exposition non intentionnelle d’un secret (mot de passe, clé, token) là où il ne devrait pas être.",
+    "detailedDefinition": "Une fuite d’identifiants survient quand un secret se retrouve dans un endroit lisible : commit Git, log applicatif, message d’erreur, capture d’écran, ticket, variable d’environnement exposée, dépôt public. Dès qu’un secret a fuité, il doit être considéré comme compromis même si « personne ne l’a vu » : la bonne réponse n’est pas de le supprimer discrètement mais de le RÉVOQUER puis de le FAIRE TOURNER (rotation). Réécrire l’historique Git ne suffit pas — le secret a pu être cloné ou indexé. L’ordre canonique : révocation → rotation → redéploiement → audit d’usage.",
+    "usageContext": "Réponse à incident « secret exposé », scan de dépôt, revue de logs, onboarding sécurité des développeurs.",
+    "meetingExample": "« Une clé API est apparue dans un log public : on révoque tout de suite, on régénère, puis on cherche qui l’a utilisée. »",
+    "plainTranslation": "« Un mot de passe ou une clé s’est retrouvé exposé : il faut le désactiver et le remplacer sans attendre. »",
+    "relatedTerms": [
+      "security-secret",
+      "sec-secret-revocation",
+      "sec-secret-rotation",
+      "sec-redaction",
+      "deploy-blast-radius"
+    ],
+    "aliases": [
+      "fuite d’identifiants",
+      "fuite de secret",
+      "secret leak",
+      "leaked credential"
+    ],
+    "possibleConfusions": [
+      "fuite (exposition accidentelle) vs vol (accès malveillant délibéré) — la réponse est la même : révoquer et faire tourner"
+    ],
+    "tags": [
+      "sécurité",
+      "secrets",
+      "incident"
+    ]
+  },
+  {
+    "id": "sec-redaction",
+    "term": "redaction",
+    "fullForm": null,
+    "frenchMeaning": "expurgation (masquage) de données sensibles",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Masquer ou supprimer les données sensibles avant de les afficher, journaliser ou partager.",
+    "detailedDefinition": "La rédaction (au sens sécurité, « redaction ») remplace un secret ou une donnée personnelle par un marqueur (par ex. `****`, `[REDACTED]`) pour qu’il ne soit jamais exposé en clair dans un log, une trace, une réponse d’API ou une capture. C’est une mesure préventive contre la fuite d’identifiants : on masque à la source. Un bon masquage conserve juste assez d’information pour diagnostiquer (les 4 derniers chiffres, la longueur) sans révéler le secret. Attention : masquer à l’affichage ne dispense pas de sécuriser le stockage.",
+    "usageContext": "Journalisation applicative, réponses d’API, tickets de support, captures d’écran, jeux de données de test.",
+    "meetingExample": "« Nos logs affichent le token en clair : ajoute une redaction pour ne garder que les 4 derniers caractères. »",
+    "plainTranslation": "« Cachons les infos sensibles dans les logs et les écrans, pour ne pas les exposer par accident. »",
+    "relatedTerms": [
+      "sec-credential-leak",
+      "security-secret",
+      "sec-secret-rotation"
+    ],
+    "aliases": [
+      "expurgation",
+      "masquage",
+      "caviardage",
+      "data redaction"
+    ],
+    "possibleConfusions": [
+      "masquage à l’affichage (redaction) vs chiffrement (protection du stockage/transport)"
+    ],
+    "tags": [
+      "sécurité",
+      "secrets",
+      "logs",
+      "confidentialité"
+    ]
+  },
+  {
+    "id": "sec-secret-rotation",
+    "term": "secret rotation",
+    "fullForm": null,
+    "frenchMeaning": "rotation de secret",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Remplacer régulièrement (ou après incident) un secret par une nouvelle valeur, sans interruption de service.",
+    "detailedDefinition": "Faire tourner un secret, c’est générer une nouvelle valeur et propager cette valeur à tous les consommateurs, puis retirer l’ancienne. La rotation est planifiée (tous les N jours, pour limiter la fenêtre d’exposition d’un secret non détecté) ou réactive (immédiatement après une fuite). La difficulté est la continuité : on utilise souvent une période de chevauchement où ancien et nouveau secret sont valides le temps que tous les services adoptent le nouveau. Un coffre à secrets (vault) et des identifiants à courte durée de vie réduisent le besoin de rotation manuelle.",
+    "usageContext": "Politique de sécurité récurrente, réponse à une fuite, migration de clés d’API ou de certificats.",
+    "meetingExample": "« Après la fuite, on révoque, puis on fait la rotation de la clé sur tous les services avec une fenêtre de chevauchement d’une heure. »",
+    "plainTranslation": "« On remplace la clé par une neuve et on met à jour tout le monde, sans couper le service. »",
+    "relatedTerms": [
+      "sec-secret-revocation",
+      "security-secret",
+      "sec-credential-leak",
+      "sec-redaction"
+    ],
+    "aliases": [
+      "rotation de secret",
+      "rotation de clés",
+      "key rotation"
+    ],
+    "possibleConfusions": [
+      "rotation (remplacer par du neuf, planifié ou réactif) vs révocation (invalider l’ancien immédiatement)"
+    ],
+    "tags": [
+      "sécurité",
+      "secrets",
+      "exploitation"
+    ]
+  },
+  {
+    "id": "sec-secret-revocation",
+    "term": "secret revocation",
+    "fullForm": null,
+    "frenchMeaning": "révocation de secret",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Invalider immédiatement un secret pour qu’il ne fonctionne plus, même s’il est connu d’un attaquant.",
+    "detailedDefinition": "Révoquer un secret coupe son pouvoir : le token, la clé ou le certificat n’est plus accepté par le système émetteur. C’est le PREMIER geste après une fuite, avant même la rotation — car tant que le secret n’est pas révoqué, un attaquant qui le détient peut s’en servir. Révocation et rotation vont de pair : on révoque l’ancien (il devient inutile) puis on distribue le nouveau (rotation). Un service peut brièvement être dégradé entre les deux ; c’est un compromis assumé face au risque d’un secret actif dans la nature.",
+    "usageContext": "Réponse à incident « secret exposé », départ d’un collaborateur, compromission d’un compte de service.",
+    "meetingExample": "« Le token est dans un dépôt public : on le révoque MAINTENANT, on verra la rotation propre juste après. »",
+    "plainTranslation": "« On désactive tout de suite la clé compromise pour qu’elle ne serve plus à personne. »",
+    "relatedTerms": [
+      "sec-secret-rotation",
+      "sec-credential-leak",
+      "security-secret",
+      "prod-incident"
+    ],
+    "aliases": [
+      "révocation de secret",
+      "révocation de clés",
+      "key revocation"
+    ],
+    "possibleConfusions": [
+      "révocation (invalider l’ancien tout de suite) vs rotation (le remplacer par un nouveau)"
+    ],
+    "tags": [
+      "sécurité",
+      "secrets",
+      "incident"
+    ]
+  },
+  {
+    "id": "sec-cvss",
+    "term": "CVSS",
+    "fullForm": "Common Vulnerability Scoring System",
+    "frenchMeaning": "système standard de notation de gravité des vulnérabilités",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Barème standard (0 à 10) qui note la gravité d’une vulnérabilité selon des critères objectifs.",
+    "detailedDefinition": "Le CVSS attribue à une vulnérabilité un score de 0 à 10, calculé à partir de métriques (vecteur d’attaque, complexité, privilèges requis, impact sur confidentialité/intégrité/disponibilité). On parle de gravité faible (0.1–3.9), moyenne (4–6.9), élevée (7–8.9), critique (9–10). Attention : le score de base est CONTEXTUEL au produit vulnérable, pas à VOTRE usage. Une CVE « critique » sur une dépendance que vous n’exposez pas peut être moins urgente qu’une « moyenne » sur un composant en frontière. Le CVSS priorise, il ne décide pas à votre place.",
+    "usageContext": "Triage de vulnérabilités remontées par un scanner, décision de patcher en urgence ou non.",
+    "meetingExample": "« La CVE est notée CVSS 9.1, critique — mais on n’utilise pas la fonction affectée, donc on planifie le patch sans hotfix. »",
+    "plainTranslation": "« Il existe une note standardisée de gravité pour chaque faille ; on s’en sert pour prioriser, en tenant compte de notre contexte. »",
+    "relatedTerms": [
+      "security-cve",
+      "sec-zero-day",
+      "sec-vulnerable-dependency",
+      "prod-patch",
+      "prod-severity"
+    ],
+    "aliases": [
+      "common vulnerability scoring system",
+      "score cvss"
+    ],
+    "possibleConfusions": [
+      "CVSS (le score de gravité) vs CVE (l’identifiant de la vulnérabilité)"
+    ],
+    "tags": [
+      "sécurité",
+      "vulnérabilité",
+      "triage"
+    ]
+  },
+  {
+    "id": "sec-zero-day",
+    "term": "zero-day",
+    "fullForm": null,
+    "frenchMeaning": "faille « jour zéro » (sans correctif disponible)",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Vulnérabilité connue des attaquants mais pas encore corrigée par l’éditeur — aucun patch n’existe.",
+    "detailedDefinition": "Un « zero-day » désigne une faille pour laquelle l’éditeur a eu « zéro jour » pour préparer un correctif : elle est exploitée (ou exploitable) avant qu’un patch soit disponible. Comme on ne peut pas corriger, la réponse repose sur la mitigation : réduire la surface d’attaque, isoler le composant, ajouter des règles de détection, désactiver la fonctionnalité vulnérable si possible. Dès qu’un correctif sort, la faille cesse d’être un zero-day et redevient une CVE à patcher normalement. La défense en profondeur limite l’impact d’un zero-day qu’on ne peut pas encore corriger.",
+    "usageContext": "Alerte de sécurité urgente, décision de mitigation en l’absence de patch, communication d’incident.",
+    "meetingExample": "« C’est un zero-day, pas de patch encore : on mitige en coupant l’endpoint concerné en attendant le correctif éditeur. »",
+    "plainTranslation": "« Une faille est activement exploitée alors qu’aucune rustine n’existe encore : on limite les dégâts en attendant. »",
+    "relatedTerms": [
+      "security-cve",
+      "sec-cvss",
+      "reg-mitigation",
+      "sec-defense-in-depth",
+      "prod-hotfix"
+    ],
+    "aliases": [
+      "0-day",
+      "jour zéro",
+      "zero day"
+    ],
+    "possibleConfusions": [
+      "zero-day (aucun patch encore) vs vulnérabilité connue (patch disponible mais pas appliqué)"
+    ],
+    "tags": [
+      "sécurité",
+      "vulnérabilité",
+      "incident"
+    ]
+  },
+  {
+    "id": "sec-vulnerable-dependency",
+    "term": "vulnerable dependency",
+    "fullForm": null,
+    "frenchMeaning": "dépendance vulnérable",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Une bibliothèque tierce (directe ou transitive) qui contient une vulnérabilité connue.",
+    "detailedDefinition": "Votre code hérite des failles de ses dépendances, y compris celles que vous n’avez jamais installées explicitement (transitives). Une dépendance vulnérable est repérée par un identifiant (CVE) et une version affectée : si votre lockfile résout une version dans la plage affectée, vous êtes exposé — mais seulement si vous UTILISEZ le chemin de code vulnérable. La réponse : mettre à jour vers une version corrigée (bump), et si aucune n’existe, mitiger ou remplacer la dépendance. Le lockfile et le SBOM permettent de savoir exactement ce qu’on embarque.",
+    "usageContext": "Triage des alertes d’un scanner de dépendances, mise à jour de sécurité, réponse à une dépendance compromise.",
+    "meetingExample": "« Le scan remonte 3 dépendances vulnérables ; deux ont un fix, on bump ; la troisième n’a pas de correctif, on l’isole. »",
+    "plainTranslation": "« Une brique qu’on utilise contient une faille connue : on la met à jour vers une version saine. »",
+    "relatedTerms": [
+      "security-cve",
+      "sec-cvss",
+      "sc-transitive-dependency",
+      "sc-lockfile",
+      "dk-sbom",
+      "sc-dependency-pinning"
+    ],
+    "aliases": [
+      "dépendance vulnérable",
+      "vulnerable package"
+    ],
+    "possibleConfusions": [
+      "dépendance vulnérable (faille connue) vs dépendance compromise (code malveillant injecté)"
+    ],
+    "tags": [
+      "sécurité",
+      "supply chain",
+      "dépendances"
+    ]
+  },
+  {
+    "id": "sec-security-gate",
+    "term": "security gate",
+    "fullForm": null,
+    "frenchMeaning": "barrière de sécurité (dans la CI/CD)",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Un contrôle bloquant dans le pipeline qui empêche de livrer si un critère de sécurité n’est pas respecté.",
+    "detailedDefinition": "Une security gate est une étape de CI/CD qui échoue (et bloque la livraison) quand une condition n’est pas remplie : présence d’un secret en clair, dépendance vulnérable critique, image non signée, manifeste avec conteneur root, couverture de tests insuffisante. Elle transforme une bonne pratique en garde-fou automatique : on ne peut plus « oublier » la vérification. La clé est l’équilibre : trop stricte, elle bloque tout le monde et est contournée ; bien calibrée (bloquer le critique, avertir sur le reste), elle protège sans paralyser.",
+    "usageContext": "Conception de pipeline sécurisé, politique de livraison, DevSecOps.",
+    "meetingExample": "« On ajoute une security gate : le build échoue si un secret est détecté ou si une CVE critique apparaît. »",
+    "plainTranslation": "« Le pipeline refuse de livrer tant qu’un contrôle de sécurité important n’est pas au vert. »",
+    "relatedTerms": [
+      "sec-policy-as-code",
+      "devops-cicd",
+      "devops-fail-fast",
+      "sec-vulnerable-dependency",
+      "sc-artifact-signing"
+    ],
+    "aliases": [
+      "barrière de sécurité",
+      "quality gate sécurité",
+      "gate de sécurité"
+    ],
+    "possibleConfusions": [
+      "security gate (contrôle bloquant en CI) vs admission controller (contrôle bloquant à l’admission Kubernetes)"
+    ],
+    "tags": [
+      "sécurité",
+      "ci/cd",
+      "devsecops"
+    ]
+  },
+  {
+    "id": "sec-policy-as-code",
+    "term": "policy as code",
+    "fullForm": null,
+    "frenchMeaning": "politiques exprimées en code",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Écrire les règles de sécurité/conformité sous forme de code versionné et évalué automatiquement.",
+    "detailedDefinition": "La policy as code exprime des règles (« aucun conteneur ne tourne en root », « toute image doit être signée », « pas de bucket public ») dans un langage déclaratif, versionné dans Git et évalué par un moteur (OPA/Rego, Kyverno…). Avantages : les règles sont testables, auditables, appliquées uniformément en CI et à l’admission du cluster, et leur historique est traçable. Elle rend la conformité continue plutôt que ponctuelle : au lieu d’un audit annuel manuel, chaque déploiement est vérifié automatiquement contre les mêmes règles.",
+    "usageContext": "Gouvernance de cluster Kubernetes, conformité automatisée, DevSecOps à l’échelle.",
+    "meetingExample": "« On code la règle « pas de securityContext root » en policy as code : Kyverno la refuse à l’admission, plus besoin de la vérifier à la main. »",
+    "plainTranslation": "« On écrit nos règles de sécurité sous forme de code, et une machine les fait respecter partout, tout le temps. »",
+    "relatedTerms": [
+      "sec-security-gate",
+      "k8s-admission-controller",
+      "devops-iac",
+      "k8s-security-context",
+      "sec-least-privilege"
+    ],
+    "aliases": [
+      "policy-as-code",
+      "politiques en code",
+      "pac"
+    ],
+    "possibleConfusions": [
+      "policy as code (règles de conformité) vs infrastructure as code (description de l’infra)"
+    ],
+    "tags": [
+      "sécurité",
+      "conformité",
+      "kubernetes",
+      "devsecops"
+    ]
+  },
+  {
+    "id": "sec-ioc",
+    "term": "indicator of compromise",
+    "fullForm": "Indicator Of Compromise",
+    "frenchMeaning": "indicateur de compromission",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Une trace observable qui suggère qu’un système a été (ou est en train d’être) compromis.",
+    "detailedDefinition": "Un IoC est un signe concret d’intrusion : connexion depuis une IP inhabituelle, pic de trafic sortant, création d’un compte inconnu, hash d’un fichier malveillant, requête vers un domaine de commande-et-contrôle, secret utilisé depuis un lieu improbable. Les IoC servent à DÉTECTER et à QUALIFIER un incident, puis à chasser d’autres systèmes affectés (« a-t-on vu cet IoC ailleurs ? »). Ils alimentent aussi le post-mortem. Un bon IoC est spécifique et actionnable ; un IoC trop générique génère du bruit.",
+    "usageContext": "Détection et investigation d’incident, chasse aux menaces, corrélation de logs et métriques.",
+    "meetingExample": "« On a un IoC clair : le token de service a été utilisé depuis une IP hors de nos régions. On confine ce compte. »",
+    "plainTranslation": "« On a repéré un signe qui montre que quelque chose d’anormal — probablement une intrusion — s’est produit. »",
+    "relatedTerms": [
+      "prod-incident",
+      "prod-containment",
+      "prod-mttd",
+      "prod-rca",
+      "sec-privilege-escalation"
+    ],
+    "aliases": [
+      "indicateur de compromission",
+      "ioc",
+      "indicators of compromise"
+    ],
+    "possibleConfusions": [
+      "IoC (indice de compromission constatée) vs vulnérabilité (faiblesse potentielle non encore exploitée)"
+    ],
+    "tags": [
+      "sécurité",
+      "détection",
+      "incident"
+    ]
+  },
+  {
+    "id": "sec-wildcard-permission",
+    "term": "wildcard permission",
+    "fullForm": null,
+    "frenchMeaning": "permission générique (joker « * »)",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Une règle d’accès qui utilise « * » pour tout autoriser — pratique mais dangereuse.",
+    "detailedDefinition": "Une permission wildcard (`verbs: [\"*\"]`, `resources: [\"*\"]`, ou une politique IAM `Action: \"*\"`) accorde tout, y compris ce qui n’est pas encore inventé. Elle viole frontalement le moindre privilège : elle est commode à écrire mais rend impossible de savoir ce qui est réellement autorisé, et transforme n’importe quelle compromission en compromission totale. La bonne pratique : lister explicitement les verbes et ressources nécessaires (get, list, watch sur telles ressources), puis élargir seulement si un besoin réel apparaît. Un wildcard en RBAC est un signal d’alerte immédiat en revue.",
+    "usageContext": "Revue RBAC Kubernetes, audit de politiques IAM cloud, durcissement des comptes de service.",
+    "meetingExample": "« Ce Role a `verbs: [\"*\"]` sur toutes les ressources : on remplace par la liste précise des actions dont le service a besoin. »",
+    "plainTranslation": "« Cette règle autorise absolument tout ; réduisons-la à ce qui est vraiment nécessaire. »",
+    "relatedTerms": [
+      "sec-least-privilege",
+      "k8s-rbac",
+      "k8s-role",
+      "sec-privilege-escalation",
+      "k8s-serviceaccount"
+    ],
+    "aliases": [
+      "permission joker",
+      "wildcard",
+      "permission générique",
+      "star permission"
+    ],
+    "possibleConfusions": [
+      "wildcard permission (droits trop larges) vs role bien scoping (verbes/ressources explicites)"
+    ],
+    "tags": [
+      "sécurité",
+      "rbac",
+      "iam",
+      "moindre privilège"
+    ]
+  },
+  {
+    "id": "sc-transitive-dependency",
+    "term": "transitive dependency",
+    "fullForm": null,
+    "frenchMeaning": "dépendance transitive (indirecte)",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Une dépendance que vous n’avez pas installée directement, mais qu’une de vos dépendances tire.",
+    "detailedDefinition": "Quand vous installez une bibliothèque, elle amène ses propres dépendances, qui amènent les leurs : un arbre. Les nœuds que vous n’avez pas déclarés vous-même sont vos dépendances transitives. Elles constituent l’essentiel du code embarqué dans un projet moderne — et donc l’essentiel de la surface d’attaque de la supply chain. Un problème (vulnérabilité, dépendance compromise, licence incompatible) dans une transitive vous affecte autant qu’une directe. Le lockfile fige l’arbre complet (directes + transitives) ; le SBOM en donne l’inventaire.",
+    "usageContext": "Analyse de vulnérabilités, audit de licences, investigation d’une dépendance compromise.",
+    "meetingExample": "« La CVE n’est pas sur une lib qu’on a installée, mais sur une dépendance transitive tirée par notre client HTTP. »",
+    "plainTranslation": "« Le problème vient d’une brique qu’on n’a pas choisie directement, mais qu’une de nos briques utilise. »",
+    "relatedTerms": [
+      "sc-lockfile",
+      "dk-sbom",
+      "sec-vulnerable-dependency",
+      "sc-dependency-pinning",
+      "dk-supply-chain"
+    ],
+    "aliases": [
+      "dépendance transitive",
+      "dépendance indirecte",
+      "indirect dependency"
+    ],
+    "possibleConfusions": [
+      "dépendance directe (déclarée par vous) vs transitive (tirée par une autre dépendance)"
+    ],
+    "tags": [
+      "supply chain",
+      "dépendances",
+      "sécurité"
+    ]
+  },
+  {
+    "id": "sc-lockfile",
+    "term": "lockfile",
+    "fullForm": null,
+    "frenchMeaning": "fichier de verrouillage des versions",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Un fichier qui fige les versions EXACTES de toutes les dépendances (directes et transitives).",
+    "detailedDefinition": "Un lockfile (`package-lock.json`, `yarn.lock`, `poetry.lock`…) enregistre la résolution complète de l’arbre de dépendances : version précise et souvent empreinte (hash) de chaque paquet. Il garantit que deux installations, sur deux machines et à deux dates, produisent EXACTEMENT le même code — condition d’un build reproductible et d’une supply chain maîtrisée. Sans lockfile, une plage de versions (`^1.2.0`) peut résoudre une version différente demain, introduisant silencieusement un changement… ou une dépendance compromise. Le lockfile doit être versionné dans Git et son diff relu comme du code.",
+    "usageContext": "Reproductibilité des builds, revue de mise à jour de dépendances, réponse à une dépendance compromise.",
+    "meetingExample": "« Le diff du lockfile montre qu’une transitive est passée en 2.0.1 sans qu’on l’ait demandé : on vérifie avant de merger. »",
+    "plainTranslation": "« Ce fichier note les versions exactes de toutes nos briques, pour que tout le monde installe rigoureusement les mêmes. »",
+    "relatedTerms": [
+      "sc-dependency-pinning",
+      "sc-transitive-dependency",
+      "dk-reproducible-build",
+      "dk-sbom",
+      "sec-vulnerable-dependency"
+    ],
+    "aliases": [
+      "fichier de verrouillage",
+      "lock file",
+      "package-lock",
+      "fichier lock"
+    ],
+    "possibleConfusions": [
+      "lockfile (versions figées, généré) vs manifeste (plages de versions souhaitées, écrit à la main)"
+    ],
+    "tags": [
+      "supply chain",
+      "dépendances",
+      "reproductibilité"
+    ]
+  },
+  {
+    "id": "sc-dependency-pinning",
+    "term": "dependency pinning",
+    "fullForm": null,
+    "frenchMeaning": "épinglage des versions de dépendances",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Fixer une dépendance à une version (ou empreinte) précise plutôt qu’à une plage évolutive.",
+    "detailedDefinition": "Épingler, c’est écrire `1.2.3` (ou une empreinte de contenu) au lieu de `^1.2.0`. On échange un peu de commodité (les correctifs mineurs ne s’installent plus automatiquement) contre du contrôle : aucune version ne change sous vos pieds sans une modification explicite, relue et testée. C’est une défense clé de la supply chain contre les mises à jour surprises et certaines attaques (une version malveillante publiée ne sera pas tirée automatiquement). Le pinning se combine au lockfile ; pour les images de conteneur, épingler par digest est plus fort qu’épingler par tag.",
+    "usageContext": "Politique de gestion des dépendances, durcissement de la supply chain, images de conteneur en production.",
+    "meetingExample": "« Pour la prod, on épingle l’image par digest, pas par tag `latest` : au moins on sait exactement ce qui tourne. »",
+    "plainTranslation": "« On fixe chaque brique à une version précise, pour qu’elle ne change pas toute seule sans qu’on le décide. »",
+    "relatedTerms": [
+      "sc-lockfile",
+      "dk-digest",
+      "dk-tag",
+      "sc-immutable-artifact",
+      "dk-reproducible-build"
+    ],
+    "aliases": [
+      "épinglage de dépendances",
+      "version pinning",
+      "pinning"
+    ],
+    "possibleConfusions": [
+      "pin par tag (mutable, peut être réécrit) vs pin par digest (immuable, empreinte du contenu)"
+    ],
+    "tags": [
+      "supply chain",
+      "dépendances",
+      "durcissement"
+    ]
+  },
+  {
+    "id": "sc-dependency-confusion",
+    "term": "dependency confusion",
+    "fullForm": null,
+    "frenchMeaning": "confusion de dépendances (attaque)",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Attaque où un paquet public malveillant usurpe le nom d’un paquet interne pour être installé à sa place.",
+    "detailedDefinition": "Beaucoup d’organisations utilisent des paquets internes (privés) portant des noms non enregistrés sur le registre public. Un attaquant publie sur le registre PUBLIC un paquet du même nom, avec un numéro de version très élevé. Si l’outil d’installation interroge le registre public en priorité (ou choisit la version la plus haute), il tire la version malveillante à la place de l’interne : c’est la confusion de dépendances. Contre-mesures : réserver les noms sur le public, configurer explicitement les registres (scoped registries), épingler par version/empreinte, et vérifier la provenance.",
+    "usageContext": "Durcissement de la supply chain interne, configuration des registres de paquets, audit sécurité.",
+    "meetingExample": "« Nos paquets `@interne/*` doivent pointer explicitement vers notre registre privé, sinon on est exposé à la dependency confusion. »",
+    "plainTranslation": "« Un pirate peut publier un faux paquet du même nom que le nôtre pour qu’on installe le sien par erreur. »",
+    "relatedTerms": [
+      "sc-typosquatting",
+      "dk-supply-chain",
+      "sc-dependency-pinning",
+      "sc-provenance",
+      "dk-registry"
+    ],
+    "aliases": [
+      "confusion de dépendances",
+      "dependency confusion attack",
+      "substitution attack"
+    ],
+    "possibleConfusions": [
+      "dependency confusion (même nom qu’un paquet interne) vs typosquatting (nom proche d’un paquet populaire)"
+    ],
+    "tags": [
+      "supply chain",
+      "attaque",
+      "dépendances"
+    ]
+  },
+  {
+    "id": "sc-typosquatting",
+    "term": "typosquatting",
+    "fullForm": null,
+    "frenchMeaning": "typosquattage (paquet au nom trompeur)",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Publier un paquet malveillant sous un nom très proche d’un paquet populaire, pour piéger les fautes de frappe.",
+    "detailedDefinition": "Le typosquatting exploite l’erreur humaine : un attaquant publie `lodahs` (au lieu de `lodash`), `reqests` (au lieu de `requests`), ou une variante avec un tiret. Un développeur pressé qui se trompe d’une lettre installe le paquet malveillant, qui exécute souvent du code à l’installation (exfiltration de secrets, backdoor). Contre-mesures : copier-coller les noms depuis une source fiable, relire le diff du lockfile, utiliser un registre filtré, et vérifier téléchargements/mainteneurs avant d’ajouter une dépendance. La ressemblance visuelle est l’arme ; l’attention au moment de l’ajout est la défense.",
+    "usageContext": "Ajout de nouvelles dépendances, revue de PR touchant les manifestes, formation sécurité des développeurs.",
+    "meetingExample": "« Cette PR ajoute `expresss` avec trois « s » : c’est du typosquatting, on retire tout de suite. »",
+    "plainTranslation": "« Un pirate crée une brique au nom presque identique à une brique connue, en misant sur une faute de frappe. »",
+    "relatedTerms": [
+      "sc-dependency-confusion",
+      "dk-supply-chain",
+      "sec-vulnerable-dependency",
+      "sc-lockfile",
+      "sc-provenance"
+    ],
+    "aliases": [
+      "typosquattage",
+      "typo-squatting",
+      "squattage de nom"
+    ],
+    "possibleConfusions": [
+      "typosquatting (nom qui imite un paquet populaire) vs dependency confusion (nom identique à un paquet interne)"
+    ],
+    "tags": [
+      "supply chain",
+      "attaque",
+      "dépendances"
+    ]
+  },
+  {
+    "id": "sc-provenance",
+    "term": "provenance",
+    "fullForm": null,
+    "frenchMeaning": "provenance (traçabilité d’un artefact)",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "La preuve vérifiable de d’où vient un artefact : quel code source, quel build, quand et par qui.",
+    "detailedDefinition": "La provenance répond à « puis-je faire confiance à cet artefact ? » en fournissant une attestation vérifiable : le commit source exact, le système de build utilisé, les paramètres, l’horodatage. Des cadres comme SLSA formalisent des niveaux de provenance. Couplée à la signature d’artefact, elle permet de rejeter à l’exécution (ou à l’admission du cluster) tout binaire/image dont on ne peut pas prouver l’origine. C’est une réponse directe aux attaques de supply chain : même si un attaquant publie un artefact, il ne peut pas produire une provenance valide signée par votre chaîne de build.",
+    "usageContext": "Supply chain sécurisée, conformité SLSA, admission d’images signées dans un cluster.",
+    "meetingExample": "« On n’admet que les images avec une provenance signée par notre CI : une image inconnue est refusée à l’admission. »",
+    "plainTranslation": "« On garde une preuve vérifiable de l’origine de chaque livrable, pour ne faire confiance qu’à ce qu’on a réellement produit. »",
+    "relatedTerms": [
+      "sc-artifact-signing",
+      "sc-immutable-artifact",
+      "dk-sbom",
+      "dk-digest",
+      "k8s-admission-controller"
+    ],
+    "aliases": [
+      "traçabilité d’artefact",
+      "build provenance",
+      "attestation de provenance"
+    ],
+    "possibleConfusions": [
+      "provenance (d’où vient l’artefact) vs SBOM (ce que contient l’artefact)"
+    ],
+    "tags": [
+      "supply chain",
+      "confiance",
+      "slsa"
+    ]
+  },
+  {
+    "id": "sc-artifact-signing",
+    "term": "artifact signing",
+    "fullForm": null,
+    "frenchMeaning": "signature d’artefact",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Apposer une signature cryptographique sur un livrable pour prouver son origine et son intégrité.",
+    "detailedDefinition": "Signer un artefact (image de conteneur, binaire, paquet) produit une empreinte cryptographique liée à une identité (clé de la CI, sigstore/cosign). À l’installation ou à l’admission, on VÉRIFIE la signature : si elle est valide, l’artefact vient bien de la source attendue et n’a pas été altéré ; sinon, on le rejette. La signature ne dit pas que l’artefact est exempt de bug — elle dit qu’il est authentique et intègre. Combinée à la provenance et à l’épinglage par digest, elle ferme la porte aux artefacts substitués dans la chaîne de livraison.",
+    "usageContext": "Supply chain sécurisée, registres d’images, admission Kubernetes, distribution de binaires.",
+    "meetingExample": "« Le pipeline signe l’image avec cosign ; l’admission controller refuse toute image dont la signature ne vérifie pas. »",
+    "plainTranslation": "« On appose un sceau infalsifiable sur chaque livrable, et on ne déploie que ceux dont le sceau est authentique. »",
+    "relatedTerms": [
+      "sc-provenance",
+      "sc-immutable-artifact",
+      "dk-digest",
+      "k8s-admission-controller",
+      "sec-security-gate"
+    ],
+    "aliases": [
+      "signature d’artefact",
+      "image signing",
+      "code signing",
+      "signature de code"
+    ],
+    "possibleConfusions": [
+      "signature (authenticité + intégrité) vs chiffrement (confidentialité du contenu)"
+    ],
+    "tags": [
+      "supply chain",
+      "confiance",
+      "cryptographie"
+    ]
+  },
+  {
+    "id": "sc-immutable-artifact",
+    "term": "immutable artifact",
+    "fullForm": null,
+    "frenchMeaning": "artefact immuable",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Un livrable construit une seule fois, jamais modifié ensuite, et promu tel quel d’un environnement à l’autre.",
+    "detailedDefinition": "Le principe « build once, deploy many » : on construit l’artefact UNE fois, on l’identifie par une empreinte (digest), et c’est CE MÊME binaire/image qu’on teste en staging puis qu’on promeut en production — jamais une reconstruction. Cela élimine la classe de bugs « ça marchait en test » due à des builds différents, et sécurise la supply chain : ce qui a été vérifié est exactement ce qui tourne. L’immuabilité s’oppose aux modifications « à chaud » d’un artefact déployé, qui rendent l’état non reproductible et non auditable.",
+    "usageContext": "Stratégie de promotion CI/CD, reproductibilité, supply chain, déploiements de conteneurs.",
+    "meetingExample": "« On promeut l’image testée en staging par son digest en prod — même artefact immuable, aucune reconstruction. »",
+    "plainTranslation": "« On fabrique le livrable une seule fois et on déplace exactement celui-là partout, sans jamais le refaire. »",
+    "relatedTerms": [
+      "sc-dependency-pinning",
+      "dk-digest",
+      "dk-reproducible-build",
+      "devops-promotion",
+      "sc-provenance"
+    ],
+    "aliases": [
+      "artefact immuable",
+      "immutable build",
+      "build once deploy many"
+    ],
+    "possibleConfusions": [
+      "artefact immuable (livrable figé, promu tel quel) vs infrastructure immuable (serveurs remplacés plutôt que modifiés)"
+    ],
+    "tags": [
+      "supply chain",
+      "reproductibilité",
+      "ci/cd"
+    ]
+  },
+  {
+    "id": "k8s-security-context",
+    "term": "securityContext",
+    "fullForm": null,
+    "frenchMeaning": "contexte de sécurité (Pod/conteneur Kubernetes)",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Le champ Kubernetes qui définit les privilèges et l’isolation d’un pod ou d’un conteneur.",
+    "detailedDefinition": "Le `securityContext` regroupe les réglages de durcissement d’un workload : `runAsNonRoot`/`runAsUser` (ne pas tourner en root), `readOnlyRootFilesystem` (filesystem non modifiable), `allowPrivilegeEscalation: false`, `capabilities.drop` (retirer les capabilities Linux inutiles), et le profil `seccomp`. Par défaut, un conteneur est bien plus permissif qu’il ne devrait : un securityContext explicite applique le moindre privilège à l’exécution, si bien qu’un pod compromis dispose du minimum de pouvoir. C’est l’une des vérifications de durcissement les plus importantes en revue de manifeste.",
+    "usageContext": "Durcissement de manifestes Kubernetes, revue de sécurité, policy as code.",
+    "meetingExample": "« Ajoute un securityContext : runAsNonRoot, readOnlyRootFilesystem et drop de toutes les capabilities. »",
+    "plainTranslation": "« On configure le conteneur pour qu’il tourne avec le moins de droits possible sur la machine. »",
+    "relatedTerms": [
+      "dk-non-root",
+      "dk-readonly-fs",
+      "k8s-seccomp",
+      "sec-linux-capabilities",
+      "sec-least-privilege",
+      "sec-privilege-escalation"
+    ],
+    "aliases": [
+      "security context",
+      "contexte de sécurité",
+      "pod security context"
+    ],
+    "possibleConfusions": [
+      "securityContext (durcissement à l’exécution) vs RBAC (droits d’accès à l’API Kubernetes)"
+    ],
+    "tags": [
+      "sécurité",
+      "kubernetes",
+      "durcissement",
+      "workload"
+    ]
+  },
+  {
+    "id": "k8s-seccomp",
+    "term": "seccomp",
+    "fullForm": "secure computing mode",
+    "frenchMeaning": "filtrage des appels système du noyau",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Un mécanisme du noyau Linux qui restreint les appels système qu’un processus a le droit d’exécuter.",
+    "detailedDefinition": "seccomp filtre les syscalls : un profil autorise une liste d’appels système et bloque (ou tue) le reste. Un conteneur n’a besoin que d’une fraction des ~300 syscalls ; en interdire l’essentiel réduit drastiquement ce qu’un attaquant peut faire après une compromission (par ex. bloquer les syscalls servant à s’échapper du conteneur). Kubernetes permet d’appliquer un profil seccomp via le securityContext (`seccompProfile: RuntimeDefault` est un bon point de départ). C’est une couche de défense en profondeur au niveau du noyau, complémentaire du non-root et du drop de capabilities.",
+    "usageContext": "Durcissement avancé de workloads, isolation de conteneurs sensibles, réponse à un risque d’évasion.",
+    "meetingExample": "« On active seccompProfile: RuntimeDefault sur tous les pods — un cran de plus contre l’évasion de conteneur. »",
+    "plainTranslation": "« On limite les commandes de bas niveau qu’un conteneur peut demander au système, pour réduire les dégâts en cas de piratage. »",
+    "relatedTerms": [
+      "k8s-security-context",
+      "sec-linux-capabilities",
+      "dk-container-escape",
+      "dk-non-root",
+      "sec-defense-in-depth"
+    ],
+    "aliases": [
+      "secure computing mode",
+      "seccomp profile",
+      "profil seccomp"
+    ],
+    "possibleConfusions": [
+      "seccomp (filtre les appels système) vs capabilities (accorde/retire des privilèges root granulaires)"
+    ],
+    "tags": [
+      "sécurité",
+      "linux",
+      "kubernetes",
+      "durcissement"
+    ]
+  },
+  {
+    "id": "sec-linux-capabilities",
+    "term": "Linux capabilities",
+    "fullForm": null,
+    "frenchMeaning": "capacités Linux (privilèges root granulaires)",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Un découpage du pouvoir de root en petits privilèges attribuables ou retirables individuellement.",
+    "detailedDefinition": "Historiquement, root avait tous les pouvoirs (0 ou tout). Les capabilities Linux fragmentent ce pouvoir : `NET_BIND_SERVICE` (ouvrir un port < 1024), `NET_RAW` (paquets bruts), `SYS_ADMIN` (très large), etc. Un conteneur reçoit par défaut un ensemble de capabilities dont il n’a presque jamais besoin. Le durcissement consiste à toutes les retirer (`drop: [\"ALL\"]`) puis à n’en rajouter que le strict nécessaire. Cela limite ce qu’un processus compromis peut faire, même s’il tourne « en root » dans le conteneur. C’est le moindre privilège appliqué au niveau du noyau.",
+    "usageContext": "Durcissement de securityContext, revue de manifestes, conteneurs devant ouvrir des ports privilégiés.",
+    "meetingExample": "« On drop toutes les capabilities et on ne rajoute que NET_BIND_SERVICE dont le service a réellement besoin. »",
+    "plainTranslation": "« Au lieu de donner tous les super-pouvoirs, on n’accorde au conteneur que la poignée dont il a vraiment besoin. »",
+    "relatedTerms": [
+      "k8s-security-context",
+      "k8s-seccomp",
+      "dk-non-root",
+      "sec-least-privilege",
+      "sec-privilege-escalation"
+    ],
+    "aliases": [
+      "linux capabilities",
+      "capabilities",
+      "capacités linux"
+    ],
+    "possibleConfusions": [
+      "capabilities (privilèges root granulaires) vs seccomp (filtrage des appels système)"
+    ],
+    "tags": [
+      "sécurité",
+      "linux",
+      "kubernetes",
+      "durcissement"
+    ]
+  },
+  {
+    "id": "k8s-networkpolicy",
+    "term": "NetworkPolicy",
+    "fullForm": null,
+    "frenchMeaning": "politique réseau (pare-feu entre pods)",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Une ressource Kubernetes qui contrôle quels pods peuvent communiquer entre eux et avec l’extérieur.",
+    "detailedDefinition": "Par défaut, dans un cluster Kubernetes, TOUS les pods peuvent se parler : le réseau est ouvert. Une NetworkPolicy agit comme un pare-feu au niveau des pods : elle définit, par sélecteur de labels, quel trafic entrant (ingress) et sortant (egress) est autorisé. Bien utilisée, elle segmente le cluster (le front ne parle qu’à l’API, l’API ne parle qu’à la base) et limite fortement le mouvement latéral d’un attaquant : un pod compromis ne peut atteindre que ce que la politique autorise. C’est une pièce majeure de la défense en profondeur. Attention : elle nécessite un plugin réseau (CNI) qui la supporte.",
+    "usageContext": "Segmentation réseau d’un cluster, durcissement, limitation du rayon d’impact d’une compromission.",
+    "meetingExample": "« On ajoute une NetworkPolicy : seul le pod API peut joindre la base, plus personne d’autre. »",
+    "plainTranslation": "« On met des règles pour décider quels services ont le droit de se parler, au lieu de tout laisser ouvert. »",
+    "relatedTerms": [
+      "sec-defense-in-depth",
+      "k8s-security-context",
+      "sec-least-privilege",
+      "deploy-blast-radius",
+      "k8s-clusterip"
+    ],
+    "aliases": [
+      "network policy",
+      "politique réseau",
+      "netpol"
+    ],
+    "possibleConfusions": [
+      "NetworkPolicy (pare-feu entre pods, niveau cluster) vs security group / NSG (pare-feu au niveau du cloud)"
+    ],
+    "tags": [
+      "sécurité",
+      "kubernetes",
+      "réseau",
+      "durcissement"
+    ]
+  },
+  {
+    "id": "k8s-clusterrolebinding",
+    "term": "ClusterRoleBinding",
+    "fullForm": null,
+    "frenchMeaning": "liaison de rôle à l’échelle du cluster",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Attribue un ClusterRole à un utilisateur/groupe/ServiceAccount sur TOUT le cluster, tous namespaces confondus.",
+    "detailedDefinition": "En RBAC Kubernetes, un RoleBinding accorde des droits dans UN namespace ; un ClusterRoleBinding les accorde à l’échelle du CLUSTER entier. C’est puissant et dangereux : lier un ServiceAccount à un ClusterRole d’administration via un ClusterRoleBinding donne à tout pod utilisant ce compte les pleins pouvoirs sur le cluster — une aubaine pour l’élévation de privilèges en cas de compromission. Règle de prudence : préférer un RoleBinding namespacé chaque fois que possible, réserver les ClusterRoleBindings aux composants d’infrastructure qui en ont réellement besoin, et bannir les liaisons vers `cluster-admin` pour des charges applicatives.",
+    "usageContext": "Revue RBAC, audit de sécurité de cluster, durcissement des comptes de service.",
+    "meetingExample": "« Ce ClusterRoleBinding lie le SA de l’app à cluster-admin : à corriger d’urgence, un RoleBinding namespacé suffit. »",
+    "plainTranslation": "« Cette règle donne des droits sur tout le cluster ; le plus souvent, des droits limités à un seul espace suffisent. »",
+    "relatedTerms": [
+      "k8s-rbac",
+      "k8s-role",
+      "k8s-serviceaccount",
+      "sec-least-privilege",
+      "sec-privilege-escalation",
+      "sec-wildcard-permission"
+    ],
+    "aliases": [
+      "cluster role binding",
+      "clusterrolebinding"
+    ],
+    "possibleConfusions": [
+      "RoleBinding (droits dans un namespace) vs ClusterRoleBinding (droits sur tout le cluster)"
+    ],
+    "tags": [
+      "sécurité",
+      "rbac",
+      "kubernetes",
+      "moindre privilège"
+    ]
+  },
+  {
+    "id": "k8s-admission-controller",
+    "term": "admission controller",
+    "fullForm": null,
+    "frenchMeaning": "contrôleur d’admission",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Un composant qui intercepte les requêtes vers l’API Kubernetes pour les valider ou les modifier avant acceptation.",
+    "detailedDefinition": "Quand on soumet un objet (Pod, Deployment…) à l’API server, il passe par des admission controllers avant d’être persisté. Deux types : « validating » (accepte ou refuse selon des règles — par ex. rejeter tout conteneur root ou toute image non signée) et « mutating » (modifie l’objet — par ex. injecter un securityContext par défaut). Couplés à la policy as code (OPA/Gatekeeper, Kyverno), ils appliquent la sécurité de façon centralisée et non contournable : c’est une security gate au niveau du cluster. Un contrôle qui n’est pas à l’admission peut être oublié ; à l’admission, il s’applique à tous.",
+    "usageContext": "Gouvernance de cluster, application de politiques de sécurité, admission d’images signées.",
+    "meetingExample": "« On met un admission controller qui refuse tout pod sans securityContext non-root : plus moyen de passer à côté. »",
+    "plainTranslation": "« Un gardien vérifie chaque déploiement à l’entrée du cluster et refuse ceux qui ne respectent pas nos règles. »",
+    "relatedTerms": [
+      "sec-policy-as-code",
+      "sec-security-gate",
+      "k8s-security-context",
+      "sc-artifact-signing",
+      "k8s-api-server"
+    ],
+    "aliases": [
+      "contrôleur d’admission",
+      "admission webhook",
+      "validating admission",
+      "mutating admission"
+    ],
+    "possibleConfusions": [
+      "admission controller (contrôle à l’entrée de l’API cluster) vs RBAC (qui a le droit d’appeler l’API)"
+    ],
+    "tags": [
+      "sécurité",
+      "kubernetes",
+      "conformité"
+    ]
+  },
+  {
+    "id": "k8s-image-pull-policy",
+    "term": "image pull policy",
+    "fullForm": null,
+    "frenchMeaning": "politique de récupération d’image",
+    "category": "devops",
+    "level": "intermédiaire",
+    "shortDefinition": "Le réglage qui décide si Kubernetes retélécharge l’image d’un conteneur ou réutilise celle en cache.",
+    "detailedDefinition": "Le champ `imagePullPolicy` d’un conteneur vaut `Always` (toujours retélécharger), `IfNotPresent` (utiliser le cache local si l’image y est) ou `Never` (jamais tirer, l’image doit déjà être là). L’enjeu de sécurité et de reproductibilité : avec un tag mutable comme `latest` et `IfNotPresent`, deux nœuds peuvent exécuter des CONTENUS différents sous le même tag, et une image mise à jour côté registre peut ne jamais être reprise. La combinaison robuste est d’épingler l’image par digest (immuable) : le contenu est alors garanti, quelle que soit la pull policy.",
+    "usageContext": "Configuration de déploiements, reproductibilité, durcissement de la supply chain d’images.",
+    "meetingExample": "« Avec `latest` et IfNotPresent, les nœuds divergent ; on épingle par digest pour garantir le même contenu partout. »",
+    "plainTranslation": "« Ce réglage dit si Kubernetes va rechercher la dernière image ou garder celle qu’il a déjà — d’où l’importance d’épingler. »",
+    "relatedTerms": [
+      "sc-dependency-pinning",
+      "dk-digest",
+      "dk-tag",
+      "sc-immutable-artifact",
+      "dk-registry"
+    ],
+    "aliases": [
+      "imagePullPolicy",
+      "politique de pull",
+      "pull policy"
+    ],
+    "possibleConfusions": [
+      "imagePullPolicy (quand retélécharger) vs digest pinning (quel contenu exact exécuter)"
+    ],
+    "tags": [
+      "kubernetes",
+      "conteneurs",
+      "reproductibilité"
+    ]
+  },
+  {
+    "id": "prod-bugfix",
+    "term": "bugfix",
+    "fullForm": null,
+    "frenchMeaning": "correction de bug (planifiée)",
+    "category": "prod",
+    "level": "débutant",
+    "shortDefinition": "Une correction d’anomalie livrée par le processus normal, sans urgence particulière.",
+    "detailedDefinition": "Un bugfix corrige un défaut identifié en suivant le cycle habituel : reproduction, test qui échoue, correctif, revue, CI, livraison planifiée. Il se distingue du hotfix par l’ABSENCE d’urgence : le bug n’exige pas de contourner le processus. La majorité des corrections sont des bugfix ; le hotfix est l’exception réservée aux incidents graves. Un bon bugfix ajoute un test de non-régression pour que le défaut ne revienne pas — sinon on rejoue le même bug dans six mois.",
+    "usageContext": "Cycle de développement quotidien, planification de sprint, triage de tickets.",
+    "meetingExample": "« Ce n’est pas bloquant : on le traite en bugfix dans le prochain sprint, avec un test de non-régression. »",
+    "plainTranslation": "« On corrige ce défaut tranquillement, dans le cadre normal, sans précipitation. »",
+    "relatedTerms": [
+      "prod-hotfix",
+      "prod-patch",
+      "test-regression",
+      "prod-emergency-change"
+    ],
+    "aliases": [
+      "correction de bug",
+      "bug fix",
+      "correctif planifié"
+    ],
+    "possibleConfusions": [
+      "bugfix (correction planifiée, processus normal) vs hotfix (correction urgente qui court-circuite le processus)"
+    ],
+    "tags": [
+      "production",
+      "maintenance",
+      "correction"
+    ]
+  },
+  {
+    "id": "prod-emergency-change",
+    "term": "emergency change",
+    "fullForm": null,
+    "frenchMeaning": "changement d’urgence",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Une modification appliquée en urgence pour résoudre ou éviter un incident, avec un processus allégé mais tracé.",
+    "detailedDefinition": "Un changement d’urgence (au sens ITIL/ITSM) contourne le circuit d’approbation habituel parce que l’attente causerait plus de dégâts que le risque du changement lui-même : incident majeur en cours, faille critique exploitée. Ce qui le distingue d’un cow-boy fix, c’est qu’il reste TRACÉ : on note ce qui a été changé, par qui, pourquoi, et on régularise a posteriori (revue rétroactive, ticket, post-mortem). Un hotfix est souvent déployé via un processus de changement d’urgence. La discipline « urgence ≠ chaos » évite qu’un correctif rapide crée le prochain incident.",
+    "usageContext": "Gestion d’incident, gouvernance du changement, hotfix de sécurité.",
+    "meetingExample": "« On passe en emergency change : on déploie le hotfix maintenant, et on fait la revue rétroactive demain matin. »",
+    "plainTranslation": "« C’est trop urgent pour attendre la validation habituelle, mais on note tout pour régulariser juste après. »",
+    "relatedTerms": [
+      "prod-hotfix",
+      "prod-bugfix",
+      "prod-incident",
+      "arch-rollback-plan",
+      "deploy-change-freeze"
+    ],
+    "aliases": [
+      "changement d’urgence",
+      "emergency fix",
+      "changement en urgence"
+    ],
+    "possibleConfusions": [
+      "emergency change (urgent mais tracé et régularisé) vs changement standard (planifié et pré-approuvé)"
+    ],
+    "tags": [
+      "production",
+      "itsm",
+      "incident",
+      "gouvernance"
+    ]
+  },
+  {
+    "id": "prod-kill-switch",
+    "term": "kill switch",
+    "fullForm": null,
+    "frenchMeaning": "interrupteur d’arrêt d’urgence",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Un mécanisme permettant de désactiver instantanément une fonctionnalité problématique sans redéployer.",
+    "detailedDefinition": "Un kill switch est un feature flag dédié à l’arrêt d’urgence : une bascule (souvent une config lue à chaud) qui coupe une fonctionnalité, un endpoint ou une intégration en quelques secondes, sans passer par un cycle de build/déploiement. Il transforme une réponse d’incident de « rollback en 20 minutes » en « désactivation en 20 secondes ». Utile quand une nouvelle feature dégrade la production, quand une dépendance externe tombe, ou quand un abus est détecté. Il doit être testé (un kill switch qui ne marche pas le jour J est pire que rien) et son usage doit être tracé.",
+    "usageContext": "Réponse rapide à un incident, lancement progressif de fonctionnalités risquées, coupure d’une intégration défaillante.",
+    "meetingExample": "« La nouvelle reco plante sous charge : on active le kill switch, elle disparaît le temps qu’on corrige — pas besoin de rollback. »",
+    "plainTranslation": "« On a un bouton pour éteindre immédiatement une fonctionnalité qui pose problème, sans redéployer. »",
+    "relatedTerms": [
+      "prod-feature-flag",
+      "prod-rollback",
+      "reg-mitigation",
+      "prod-incident",
+      "reg-roll-forward"
+    ],
+    "aliases": [
+      "interrupteur d’arrêt",
+      "coupe-circuit",
+      "feature kill switch"
+    ],
+    "possibleConfusions": [
+      "kill switch (désactive une feature à chaud) vs rollback (revient à une version précédente du déploiement)"
+    ],
+    "tags": [
+      "production",
+      "incident",
+      "feature flag"
+    ]
+  },
+  {
+    "id": "prod-severity",
+    "term": "severity",
+    "fullForm": null,
+    "frenchMeaning": "gravité (niveau) d’un incident",
+    "category": "prod",
+    "level": "débutant",
+    "shortDefinition": "La classification de l’impact d’un incident (par ex. SEV1 à SEV4), qui pilote l’urgence et la réponse.",
+    "detailedDefinition": "La sévérité mesure l’impact business/utilisateur d’un incident et déclenche une réponse proportionnée. Une échelle typique : SEV1 (panne majeure, service indisponible, perte de données ou faille active — tout le monde est mobilisé, communication immédiate), SEV2 (dégradation importante), SEV3/SEV4 (impact limité, traitement planifié). Fixer la sévérité TÔT évite deux erreurs symétriques : sur-réagir à un incident mineur, ou sous-estimer un incident majeur. La sévérité peut évoluer pendant l’incident, à la hausse comme à la baisse, à mesure qu’on comprend l’impact réel.",
+    "usageContext": "Qualification d’incident, escalade, définition des SLA de réponse, communication de crise.",
+    "meetingExample": "« Faille de sécurité avec secret exposé et données accessibles : on classe SEV1, on mobilise et on prévient le management. »",
+    "plainTranslation": "« On note à quel point c’est grave, ce qui décide qui on réveille et à quelle vitesse on réagit. »",
+    "relatedTerms": [
+      "prod-incident",
+      "prod-incident-commander",
+      "prod-containment",
+      "sec-cvss",
+      "prod-mttr"
+    ],
+    "aliases": [
+      "gravité",
+      "sévérité",
+      "niveau d’incident",
+      "sev"
+    ],
+    "possibleConfusions": [
+      "severity (impact de l’incident) vs priority (ordre de traitement, qui combine impact et urgence)",
+      "severity d’un incident vs CVSS d’une vulnérabilité"
+    ],
+    "tags": [
+      "production",
+      "incident",
+      "itsm"
+    ]
+  },
+  {
+    "id": "prod-containment",
+    "term": "containment",
+    "fullForm": null,
+    "frenchMeaning": "confinement (d’un incident)",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Limiter l’étendue et l’impact d’un incident en cours, avant même de le résoudre.",
+    "detailedDefinition": "Le confinement est la phase où l’on ARRÊTE LA PROPAGATION : isoler un service compromis, révoquer un secret fuité, couper un endpoint abusé, mettre un pod en quarantaine, bloquer une IP. On ne cherche pas encore à réparer la cause profonde — on empêche que ça empire et on réduit le rayon d’impact. Le confinement précède l’éradication (retirer la cause) et la récupération (rétablir le service). Bien mené, il transforme un incident qui s’étend en un incident borné, ce qui laisse le temps d’investiguer sereinement.",
+    "usageContext": "Phase de réponse à incident, réponse à une compromission ou à une fuite de secret.",
+    "meetingExample": "« D’abord le confinement : on révoque le token compromis et on isole le pod, on cherchera la cause profonde ensuite. »",
+    "plainTranslation": "« On commence par empêcher que ça s’aggrave et se répande, avant de réparer vraiment. »",
+    "relatedTerms": [
+      "prod-incident",
+      "prod-eradication",
+      "prod-mttr",
+      "sec-secret-revocation",
+      "deploy-blast-radius",
+      "k8s-networkpolicy"
+    ],
+    "aliases": [
+      "confinement",
+      "containment phase",
+      "endiguement"
+    ],
+    "possibleConfusions": [
+      "confinement (limiter la propagation) vs éradication (supprimer la cause) vs récupération (rétablir le service)"
+    ],
+    "tags": [
+      "production",
+      "incident",
+      "sécurité"
+    ]
+  },
+  {
+    "id": "prod-eradication",
+    "term": "eradication",
+    "fullForm": null,
+    "frenchMeaning": "éradication (de la cause d’un incident)",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "Supprimer la cause profonde d’un incident après l’avoir confiné, pour qu’il ne puisse pas se reproduire.",
+    "detailedDefinition": "L’éradication intervient après le confinement : on retire ce qui a causé l’incident — corriger la vulnérabilité, supprimer le code malveillant, révoquer définitivement les accès compromis, éliminer la dépendance à l’origine du problème, appliquer le patch. Tant que la cause n’est pas éradiquée, la récupération est fragile : rétablir le service sans éradiquer, c’est rouvrir la même porte. C’est aussi le moment de vérifier qu’aucune persistance n’a été laissée par un attaquant (backdoor, tâche planifiée, second compte). L’éradication alimente directement les actions de prévention du post-mortem.",
+    "usageContext": "Phase de réponse à incident, après confinement et avant récupération complète.",
+    "meetingExample": "« Confiné, maintenant l’éradication : on patche la faille, on supprime le compte créé par l’attaquant, on vérifie l’absence de backdoor. »",
+    "plainTranslation": "« Une fois la fuite endiguée, on enlève vraiment la cause pour que ça ne recommence pas. »",
+    "relatedTerms": [
+      "prod-containment",
+      "prod-incident",
+      "prod-rca",
+      "prod-patch",
+      "prod-postmortem",
+      "sec-secret-revocation"
+    ],
+    "aliases": [
+      "éradication",
+      "eradication phase",
+      "suppression de la cause"
+    ],
+    "possibleConfusions": [
+      "éradication (retirer la cause) vs confinement (empêcher la propagation) vs mitigation (réduire l’impact sans traiter la cause)"
+    ],
+    "tags": [
+      "production",
+      "incident",
+      "sécurité"
+    ]
+  },
+  {
+    "id": "prod-remediation",
+    "term": "remediation",
+    "fullForm": null,
+    "frenchMeaning": "remédiation (correction complète d’un problème)",
+    "category": "prod",
+    "level": "intermédiaire",
+    "shortDefinition": "L’ensemble des actions qui corrigent durablement un problème, au-delà du simple contournement.",
+    "detailedDefinition": "La remédiation vise la résolution DURABLE : corriger la cause, appliquer le correctif, mettre à jour la configuration, ajouter les garde-fous (tests, gates, monitoring) qui empêchent la réapparition. Elle s’oppose à la mitigation, qui ne fait que réduire l’impact en attendant (contournement, kill switch). Un plan de remédiation liste les actions, leurs responsables et leurs échéances — souvent issues d’un post-mortem ou d’un rapport de vulnérabilités. « Mitiger aujourd’hui, remédier ensuite » est un enchaînement courant : on éteint le feu, puis on traite le fond.",
+    "usageContext": "Suivi post-incident, traitement de vulnérabilités, plans d’action de post-mortem.",
+    "meetingExample": "« La mitigation tient pour l’instant ; la remédiation, c’est le refactor de l’auth et la gate qui empêchera le retour du bug. »",
+    "plainTranslation": "« Au-delà du pansement, on corrige le problème pour de bon et on ajoute ce qu’il faut pour qu’il ne revienne pas. »",
+    "relatedTerms": [
+      "reg-mitigation",
+      "prod-eradication",
+      "prod-postmortem",
+      "prod-patch",
+      "sec-security-gate"
+    ],
+    "aliases": [
+      "remédiation",
+      "remediation plan",
+      "plan de remédiation"
+    ],
+    "possibleConfusions": [
+      "remédiation (correction durable de la cause) vs mitigation (réduction temporaire de l’impact)"
+    ],
+    "tags": [
+      "production",
+      "incident",
+      "correction"
     ]
   }
 ]

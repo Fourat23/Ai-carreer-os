@@ -1,0 +1,76 @@
+{
+  "id": "service-down",
+  "situation": "Un service est indisponible",
+  "domain": "availability",
+  "severityHint": "SEV1 si service critique",
+  "dayRefs": [
+    71,
+    79
+  ],
+  "relatedGlossary": [
+    "prod-incident",
+    "ha-failover",
+    "ha-spof",
+    "prod-mttr",
+    "prod-severity"
+  ],
+  "symptoms": [
+    "Le service ne répond plus (timeouts, connexions refusées) ou renvoie des 5xx.",
+    "Les probes de santé échouent ; les utilisateurs signalent une panne.",
+    "Les tableaux de bord montrent une chute du trafic servi."
+  ],
+  "firstChecks": [
+    "Confirmer l’ampleur : total ou partiel, une région/instance ou toutes ?",
+    "Remonter les couches : DNS → réseau/TLS → équilibreur → service → base/dépendances.",
+    "Y a-t-il eu un changement récent (déploiement, config, dépendance externe) ?"
+  ],
+  "containment": [
+    "Basculer sur une instance/région saine (failover) si possible.",
+    "Redémarrer/redéployer proprement si l’état est corrompu ; couper une dépendance fautive."
+  ],
+  "recommendedOrder": [
+    "Localiser la couche en panne",
+    "rétablir le service (failover/restart/rollback)",
+    "confirmer",
+    "trouver la cause",
+    "prévenir la récidive"
+  ],
+  "communication": [
+    "Déclarer l’incident, désigner un pilote, publier un statut.",
+    "Prévenir les équipes et clients dépendants ; donner une ETA prudente."
+  ],
+  "evidence": [
+    "Conserver logs, métriques et traces autour du début de panne.",
+    "Noter l’heure exacte de début et les actions tentées (timeline)."
+  ],
+  "doNot": [
+    "Ne pas multiplier les actions simultanées : on ne saura plus ce qui a rétabli le service.",
+    "Ne pas déclarer résolu au premier signe de vie sans vérifier les parcours critiques."
+  ],
+  "mitigation": [
+    "Mode dégradé (cache, réponse statique, file d’attente) pour absorber la panne d’une dépendance.",
+    "Limiter le débit (rate limiting) si la cause est une saturation."
+  ],
+  "correction": [
+    "Traiter la cause identifiée (SPOF, saturation, dépendance, bug) après rétablissement."
+  ],
+  "validation": [
+    "Probes vertes, parcours critiques OK, métriques de trafic et d’erreur nominales."
+  ],
+  "delivery": [
+    "Appliquer le correctif de fond via le cycle normal une fois la cause comprise."
+  ],
+  "monitoring": [
+    "Surveiller la stabilité sur plusieurs cycles ; guetter une rechute."
+  ],
+  "documentation": [
+    "Post-mortem avec timeline, cause racine, MTTD/MTTR, actions de prévention."
+  ],
+  "prevention": [
+    "Éliminer les SPOF (redondance, multi-zone), autoscaling, probes et budgets d’erreur.",
+    "Tester régulièrement le failover et la restauration."
+  ],
+  "exitCriteria": [
+    "Service stable sur la durée, cause traitée, timeline et prévention documentées."
+  ]
+}

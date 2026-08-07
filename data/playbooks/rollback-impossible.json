@@ -1,0 +1,74 @@
+{
+  "id": "rollback-impossible",
+  "situation": "Le rollback est impossible",
+  "domain": "rollback",
+  "severityHint": "SEV1/SEV2 — le filet habituel a disparu",
+  "dayRefs": [
+    85
+  ],
+  "relatedGlossary": [
+    "reg-roll-forward",
+    "prod-rollback",
+    "arch-rollback-plan",
+    "dr-backup",
+    "prod-hotfix"
+  ],
+  "symptoms": [
+    "Une release fautive est en prod mais on ne peut pas revenir en arrière.",
+    "La cause : migration destructive, format de données incompatible, artefact précédent introuvable, dépendance externe déjà basculée."
+  ],
+  "firstChecks": [
+    "Comprendre POURQUOI le rollback est bloqué (donnée ? artefact ? état externe ?).",
+    "Évaluer si un roll-forward (correctif en avant) est réalisable rapidement.",
+    "Une sauvegarde permet-elle une restauration partielle en dernier recours ?"
+  ],
+  "containment": [
+    "Mitiger l’impact utilisateur (kill switch, mode dégradé) pendant la préparation du roll-forward.",
+    "Geler tout nouveau changement."
+  ],
+  "recommendedOrder": [
+    "Mitiger l’impact",
+    "préparer un roll-forward",
+    "ou restaurer depuis sauvegarde si nécessaire",
+    "valider",
+    "documenter la lacune"
+  ],
+  "communication": [
+    "Annoncer que le rétablissement se fera par roll-forward (pas de retour arrière).",
+    "Donner une ETA prudente ; statut régulier."
+  ],
+  "evidence": [
+    "Documenter précisément l’obstacle au rollback (pour le post-mortem).",
+    "Sauvegarder l’état courant avant le roll-forward."
+  ],
+  "doNot": [
+    "Ne pas forcer un rollback qui corromprait les données (migration destructive).",
+    "Ne pas improviser sans sauvegarde de l’état actuel."
+  ],
+  "mitigation": [
+    "Mode dégradé / kill switch pour tenir pendant la correction en avant."
+  ],
+  "correction": [
+    "Roll-forward : livrer un correctif qui répare l’état actuel sans revenir en arrière.",
+    "En dernier recours : restauration depuis sauvegarde testée, en assumant la perte entre les points."
+  ],
+  "validation": [
+    "Service rétabli, intégrité des données vérifiée, parcours critiques OK."
+  ],
+  "delivery": [
+    "Déployer le roll-forward de façon progressive et surveillée."
+  ],
+  "monitoring": [
+    "Surveiller erreurs, cohérence des données et métriques métier après correction."
+  ],
+  "documentation": [
+    "Post-mortem centré sur la cause de l’impossibilité de rollback."
+  ],
+  "prevention": [
+    "Migrations rétro-compatibles (expand/contract), artefacts immuables conservés, plan de rollback testé.",
+    "Découpler les changements irréversibles des livraisons courantes (feature flags)."
+  ],
+  "exitCriteria": [
+    "Service rétabli par roll-forward, données intègres, cause de l’impossibilité documentée et corrigée pour l’avenir."
+  ]
+}

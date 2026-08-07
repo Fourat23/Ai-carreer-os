@@ -1,0 +1,74 @@
+{
+  "id": "network-incident",
+  "situation": "Un incident réseau perturbe le service",
+  "domain": "network",
+  "severityHint": "SEV1/SEV2 selon la portée",
+  "dayRefs": [
+    71
+  ],
+  "relatedGlossary": [
+    "prod-incident",
+    "ha-failover",
+    "prod-mttr",
+    "k8s-networkpolicy",
+    "prod-severity"
+  ],
+  "symptoms": [
+    "Latences anormales, timeouts, erreurs TLS, résolutions DNS qui échouent.",
+    "Le service est joignable par intermittence ou depuis certaines zones seulement."
+  ],
+  "firstChecks": [
+    "Diagnostiquer par couches : DNS → TCP → TLS → HTTP.",
+    "Est-ce interne (NetworkPolicy, règle de pare-feu, config) ou externe (opérateur, fournisseur) ?",
+    "Un changement réseau/déploiement récent coïncide-t-il ?"
+  ],
+  "containment": [
+    "Rétablir la connectivité par la voie la plus sûre : rollback d’une règle réseau récente, basculement de zone.",
+    "Contourner le point défaillant (route alternative, autre résolveur DNS)."
+  ],
+  "recommendedOrder": [
+    "Localiser la couche fautive (DNS/TCP/TLS/HTTP)",
+    "rétablir la connectivité",
+    "confirmer",
+    "traiter la cause",
+    "prévenir"
+  ],
+  "communication": [
+    "Déclarer l’incident ; prévenir les équipes et clients affectés selon la zone.",
+    "Coordonner avec le fournisseur si la cause est externe."
+  ],
+  "evidence": [
+    "Capturer les diagnostics par couche (dig, traceroute, handshake TLS, codes HTTP).",
+    "Noter la portée géographique et la timeline."
+  ],
+  "doNot": [
+    "Ne pas conclure « c’est le réseau » sans preuve par couche : c’est parfois l’application.",
+    "Ne pas modifier plusieurs règles réseau à la fois sans traçabilité."
+  ],
+  "mitigation": [
+    "Basculer le trafic (failover multi-zone), augmenter les timeouts/retries prudemment.",
+    "Servir en mode dégradé si une dépendance réseau est injoignable."
+  ],
+  "correction": [
+    "Corriger la règle/config fautive ou appliquer le contournement fournisseur."
+  ],
+  "validation": [
+    "Connectivité rétablie sur toutes les zones ; latence et taux d’erreur nominaux."
+  ],
+  "delivery": [
+    "Appliquer la correction réseau de façon contrôlée et versionnée."
+  ],
+  "monitoring": [
+    "Surveiller latence, erreurs DNS/TLS et disponibilité par zone."
+  ],
+  "documentation": [
+    "Post-mortem : couche en cause, portée, MTTR, dépendance interne/externe."
+  ],
+  "prevention": [
+    "Redondance multi-zone, résolveurs et routes de secours, tests de failover.",
+    "NetworkPolicies et règles revues et versionnées."
+  ],
+  "exitCriteria": [
+    "Connectivité stable partout, cause traitée, diagnostics et prévention documentés."
+  ]
+}

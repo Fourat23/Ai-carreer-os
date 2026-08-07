@@ -1,0 +1,78 @@
+{
+  "id": "compromised-dependency",
+  "situation": "Une dépendance est compromise ou malveillante",
+  "domain": "supply-chain",
+  "severityHint": "SEV1/SEV2 — la chaîne d’approvisionnement est touchée",
+  "dayRefs": [
+    298
+  ],
+  "relatedGlossary": [
+    "dk-supply-chain",
+    "sec-vulnerable-dependency",
+    "sc-typosquatting",
+    "sc-dependency-confusion",
+    "sc-lockfile"
+  ],
+  "symptoms": [
+    "Une alerte signale un paquet malveillant, retiré ou détourné dans l’arbre de dépendances.",
+    "Comportement suspect au build/à l’installation (accès réseau, exfiltration).",
+    "Le diff du lockfile montre une version ou un paquet inattendu."
+  ],
+  "firstChecks": [
+    "Identifier le paquet, la version et s’il est direct ou transitif (via le lockfile/SBOM).",
+    "Déterminer si le chemin de code compromis est réellement exécuté.",
+    "Vérifier s’il s’agit de typosquatting ou de dependency confusion (mauvais nom/registre)."
+  ],
+  "containment": [
+    "Épingler ou retirer la version compromise ; bloquer son installation.",
+    "Suspendre les builds qui pourraient réinstaller le paquet.",
+    "Si des secrets ont pu être exfiltrés au build : les traiter comme fuités (révoquer/rotationner)."
+  ],
+  "recommendedOrder": [
+    "Isoler la version compromise",
+    "revenir à une version saine (lockfile)",
+    "révoquer les secrets exposés",
+    "reconstruire proprement",
+    "auditer"
+  ],
+  "communication": [
+    "Prévenir l’équipe sécurité et les équipes utilisant la dépendance.",
+    "Signaler en amont si un paquet interne a été usurpé (registre)."
+  ],
+  "evidence": [
+    "Sauvegarder le lockfile avant/après et le SBOM.",
+    "Conserver les logs de build montrant le comportement malveillant."
+  ],
+  "doNot": [
+    "Ne pas mettre à jour aveuglément vers « la dernière version » sans vérifier la provenance.",
+    "Ne pas ignorer les transitives : le mal vient souvent d’une dépendance indirecte."
+  ],
+  "mitigation": [
+    "Basculer sur un miroir/registre interne de confiance le temps de nettoyer.",
+    "Désactiver le composant qui utilise la dépendance si isolable."
+  ],
+  "correction": [
+    "Revenir à une version saine et épinglée (par version, et par digest pour les images).",
+    "Remplacer la dépendance si aucune version saine n’existe."
+  ],
+  "validation": [
+    "Le lockfile ne contient plus la version compromise (directe ni transitive).",
+    "Build reproductible propre ; scan de dépendances au vert."
+  ],
+  "delivery": [
+    "Reconstruire un artefact immuable depuis une base saine et le promouvoir."
+  ],
+  "monitoring": [
+    "Surveiller les alertes de dépendances et tout usage résiduel de la version compromise."
+  ],
+  "documentation": [
+    "Post-mortem : vecteur (typosquatting/confusion/compromission amont), portée, secrets impactés."
+  ],
+  "prevention": [
+    "Épinglage par version/digest, vérification de provenance et de signature, registres explicites.",
+    "Revue du diff de lockfile en PR ; SBOM et scan continus."
+  ],
+  "exitCriteria": [
+    "Version saine épinglée, secrets impactés traités, build propre reproductible, prévention en place."
+  ]
+}

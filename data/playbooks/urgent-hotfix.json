@@ -1,0 +1,76 @@
+{
+  "id": "urgent-hotfix",
+  "situation": "Un hotfix urgent doit être livré",
+  "domain": "hotfix",
+  "severityHint": "urgence réelle — mais discipline maintenue",
+  "dayRefs": [
+    85,
+    326
+  ],
+  "relatedGlossary": [
+    "prod-hotfix",
+    "prod-emergency-change",
+    "prod-bugfix",
+    "arch-rollback-plan",
+    "reg-roll-forward"
+  ],
+  "symptoms": [
+    "Un incident grave exige une correction immédiate qui ne peut pas attendre le cycle normal.",
+    "Le coût d’attendre dépasse le risque de livrer vite."
+  ],
+  "firstChecks": [
+    "Le hotfix est-il vraiment le bon outil, ou un rollback/kill switch serait plus sûr ?",
+    "Le correctif est-il minimal et ciblé (pas un refactor déguisé) ?",
+    "Un plan de rollback du hotfix lui-même existe-t-il ?"
+  ],
+  "containment": [
+    "Mitiger l’impact immédiat (kill switch, rollback) pendant la préparation du hotfix."
+  ],
+  "recommendedOrder": [
+    "Mitiger l’impact immédiat",
+    "préparer un correctif minimal",
+    "test ciblé",
+    "emergency change tracé",
+    "déploiement surveillé",
+    "régularisation"
+  ],
+  "communication": [
+    "Ouvrir un canal d’incident ; annoncer le hotfix et sa fenêtre.",
+    "Faire relire le correctif par au moins une autre personne malgré l’urgence."
+  ],
+  "evidence": [
+    "Tracer précisément ce qui est changé, par qui, pourquoi (changement d’urgence).",
+    "Conserver le diff du hotfix et le contexte de l’incident."
+  ],
+  "doNot": [
+    "Ne pas court-circuiter TOUS les garde-fous : un test ciblé et une relecture restent nécessaires.",
+    "Ne pas oublier de porter le hotfix sur la branche principale (sinon régression au prochain déploiement).",
+    "Ne pas transformer le hotfix en fourre-tout de corrections."
+  ],
+  "mitigation": [
+    "Kill switch / rollback comme filet pendant la livraison du hotfix."
+  ],
+  "correction": [
+    "Correctif minimal et réversible, focalisé sur l’incident, avec un test qui le couvre."
+  ],
+  "validation": [
+    "Test ciblé vert ; vérification rapide en staging si le temps le permet.",
+    "Vérifier que le hotfix n’introduit pas de régression évidente."
+  ],
+  "delivery": [
+    "Déployer via un processus de changement d’urgence tracé ; livraison surveillée (canary si possible)."
+  ],
+  "monitoring": [
+    "Surveiller de près les métriques juste après le déploiement du hotfix."
+  ],
+  "documentation": [
+    "Régulariser a posteriori : ticket, revue rétroactive, post-mortem de l’incident.",
+    "Vérifier la remontée du correctif dans la ligne principale."
+  ],
+  "prevention": [
+    "Réduire le besoin de hotfix : tests, canary, feature flags, plan de rollback prêts."
+  ],
+  "exitCriteria": [
+    "Incident résorbé, hotfix tracé et porté sur main, régularisation faite, monitoring stable."
+  ]
+}

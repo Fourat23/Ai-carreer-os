@@ -1,0 +1,77 @@
+{
+  "id": "failed-migration",
+  "situation": "Une migration de données a échoué",
+  "domain": "data",
+  "severityHint": "SEV1 si intégrité des données menacée",
+  "dayRefs": [
+    85
+  ],
+  "relatedGlossary": [
+    "prod-rollback",
+    "dr-backup",
+    "dr-restore",
+    "reg-roll-forward",
+    "prod-incident"
+  ],
+  "symptoms": [
+    "La migration s’est arrêtée à mi-chemin ; le schéma ou les données sont incohérents.",
+    "L’application renvoie des erreurs liées à des colonnes/tables/valeurs manquantes.",
+    "Des écarts de comptage ou de contraintes apparaissent après la bascule."
+  ],
+  "firstChecks": [
+    "Déterminer où la migration s’est arrêtée et ce qui a été appliqué ou non.",
+    "La migration est-elle réversible ? Une sauvegarde récente et testée existe-t-elle ?",
+    "L’écriture applicative continue-t-elle pendant l’incohérence (aggravation) ?"
+  ],
+  "containment": [
+    "Suspendre les écritures sur les données concernées (mode lecture seule) pour figer l’état.",
+    "Empêcher toute nouvelle exécution de la migration défaillante."
+  ],
+  "recommendedOrder": [
+    "Figer les écritures",
+    "évaluer réversibilité",
+    "rollback via sauvegarde OU roll-forward correctif",
+    "réconcilier",
+    "rouvrir les écritures"
+  ],
+  "communication": [
+    "Prévenir les équipes métier : risque sur l’intégrité et fenêtre de lecture seule.",
+    "Désigner un pilote ; statut clair sur les données potentiellement affectées."
+  ],
+  "evidence": [
+    "Sauvegarder l’état actuel (dump) AVANT toute réparation.",
+    "Conserver les logs de migration et le point d’arrêt exact."
+  ],
+  "doNot": [
+    "Ne pas relancer la migration « pour voir » sur des données déjà partiellement migrées.",
+    "Ne pas restaurer une sauvegarde sans vérifier la perte de données entre-temps."
+  ],
+  "mitigation": [
+    "Basculer l’application en lecture seule pendant la réconciliation.",
+    "Servir depuis une réplique saine si disponible."
+  ],
+  "correction": [
+    "Rollback : restaurer depuis une sauvegarde testée (attention aux écritures perdues).",
+    "Roll-forward : script correctif idempotent qui achève/répare la migration."
+  ],
+  "validation": [
+    "Contrôles d’intégrité : comptages, contraintes, cohérence référentielle.",
+    "Échantillonnage manuel de données critiques ; l’application repasse verte."
+  ],
+  "delivery": [
+    "Rouvrir les écritures uniquement après validation d’intégrité complète."
+  ],
+  "monitoring": [
+    "Surveiller les erreurs applicatives liées aux données et les métriques de cohérence."
+  ],
+  "documentation": [
+    "Post-mortem : cause, données affectées, méthode de réparation, pertes éventuelles."
+  ],
+  "prevention": [
+    "Migrations rétro-compatibles (expand/contract), idempotentes, testées sur copie de prod.",
+    "Sauvegarde vérifiée + test de restauration AVANT toute migration risquée."
+  ],
+  "exitCriteria": [
+    "Intégrité vérifiée, écritures rouvertes, pertes documentées, procédure durcie."
+  ]
+}

@@ -64,5 +64,10 @@ export function publicScenarioSummaries() {
   }));
 }
 export function publicPlaybookSummaries() {
-  return listPlaybooks().map((p) => ({ id: p.id as string, title: (p.title ?? p.situation) as string, situation: p.situation as string }));
+  return listPlaybooks().map((p) => ({
+    id: p.id as string,
+    title: (p.title ?? p.situation) as string,
+    situation: p.situation as string,
+    domain: (p.domain ?? null) as string | null,
+  }));
 }

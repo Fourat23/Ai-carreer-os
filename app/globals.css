@@ -1349,3 +1349,22 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .sec-phases li { margin: 3px 0; }
 .sec-pb-block { margin: 8px 0; font-size: var(--fs-sm); }
 .sec-pb-block ul { margin: 4px 0; padding-left: 18px; }
+.sec-pb-block li { margin: 2px 0; }
+.sec-pb-order { margin: 4px 0; font-size: var(--fs-sm); font-weight: 600; }
+.sec-pb-days { margin-top: 8px; font-size: var(--fs-sm); }
+/* Navigateur de playbooks « Que faire dans ce cas ? » (V24 CP8). */
+.sec-pb-browser { margin-top: var(--sp-3); }
+.sec-pb-search { display: flex; align-items: center; gap: 8px; margin: var(--sp-2) 0;
+  padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--panel-2); }
+.sec-pb-search input { flex: 1; border: none; background: transparent; color: inherit;
+  font-size: var(--fs-sm); outline: none; }
+.sec-pb-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.sec-pb-item { border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--panel); overflow: hidden; }
+.sec-pb-toggle { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
+  padding: 10px 12px; background: transparent; border: none; color: inherit; cursor: pointer; font-size: var(--fs-base); }
+.sec-pb-toggle:hover { background: var(--panel-2); }
+.sec-pb-title { flex: 1; font-weight: 600; }
+.sec-pb-domain { font-size: var(--fs-xs); color: var(--muted); border: 1px solid var(--border);
+  border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+.sec-pb-item .sec-playbook { margin-top: 0; border: none; border-top: 1px solid var(--border);
+  border-radius: 0; background: var(--panel-2); }

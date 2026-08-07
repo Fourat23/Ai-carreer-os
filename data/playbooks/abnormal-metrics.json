@@ -1,0 +1,74 @@
+{
+  "id": "abnormal-metrics",
+  "situation": "Des métriques anormales apparaissent",
+  "domain": "observability",
+  "severityHint": "signal précoce — investiguer avant l’incident",
+  "dayRefs": [
+    79,
+    80
+  ],
+  "relatedGlossary": [
+    "prod-mttd",
+    "sec-ioc",
+    "prod-incident",
+    "prod-rca",
+    "prod-severity"
+  ],
+  "symptoms": [
+    "Pic de latence, hausse du taux d’erreur, dérive mémoire/CPU, trafic sortant inhabituel.",
+    "Une métrique métier (conversions, paiements) décroche sans cause évidente."
+  ],
+  "firstChecks": [
+    "La métrique est-elle fiable (pas un artefact de mesure/déploiement d’observabilité) ?",
+    "Corréler avec les changements récents (déploiement, config, trafic, dépendance).",
+    "Est-ce un problème de performance, un abus, ou un indicateur de compromission (IoC) ?"
+  ],
+  "containment": [
+    "Si la dérive menace le service : mitiger (scaling, rate limiting, kill switch).",
+    "Si IoC de sécurité : confiner (isoler, révoquer) selon le playbook secret/compromission."
+  ],
+  "recommendedOrder": [
+    "Confirmer la fiabilité du signal",
+    "corréler avec les changements",
+    "qualifier (perf/abus/sécurité)",
+    "mitiger si besoin",
+    "traiter la cause"
+  ],
+  "communication": [
+    "Alerter l’équipe concernée ; escalader si la trajectoire mène à un incident.",
+    "Impliquer la sécurité si un IoC est suspecté."
+  ],
+  "evidence": [
+    "Capturer les tableaux de bord et la fenêtre temporelle de l’anomalie.",
+    "Conserver logs et traces corrélés au pic."
+  ],
+  "doNot": [
+    "Ne pas ignorer un signal faible récurrent : c’est souvent le précurseur d’un incident.",
+    "Ne pas « faire taire » l’alerte au lieu de traiter la cause."
+  ],
+  "mitigation": [
+    "Autoscaling / rate limiting / cache pour absorber une dérive de charge.",
+    "Confinement si origine sécurité."
+  ],
+  "correction": [
+    "Traiter la cause racine : fuite mémoire, requête coûteuse, boucle, abus, compromission."
+  ],
+  "validation": [
+    "La métrique revient dans sa plage normale et y reste sur plusieurs cycles."
+  ],
+  "delivery": [
+    "Livrer le correctif de fond par le cycle adapté (normal ou urgent selon la trajectoire)."
+  ],
+  "monitoring": [
+    "Ajuster les seuils d’alerte ; ajouter une alerte sur ce précurseur si utile."
+  ],
+  "documentation": [
+    "Consigner l’analyse (cause, corrélation) même si aucun incident n’a éclaté."
+  ],
+  "prevention": [
+    "Alerting pertinent (SLO, budgets d’erreur), tableaux de bord des précurseurs, revue des signaux faibles."
+  ],
+  "exitCriteria": [
+    "Signal revenu à la normale, cause comprise et traitée, alerting ajusté, analyse consignée."
+  ]
+}

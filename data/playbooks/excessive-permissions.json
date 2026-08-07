@@ -1,0 +1,76 @@
+{
+  "id": "excessive-permissions",
+  "situation": "Des permissions sont trop larges (RBAC/IAM)",
+  "domain": "rbac",
+  "severityHint": "risque latent — élévation de privilèges possible",
+  "dayRefs": [
+    85
+  ],
+  "relatedGlossary": [
+    "sec-least-privilege",
+    "sec-wildcard-permission",
+    "k8s-rbac",
+    "k8s-clusterrolebinding",
+    "sec-privilege-escalation"
+  ],
+  "symptoms": [
+    "Un audit/revue révèle un rôle en wildcard (`*`) ou un ClusterRoleBinding vers admin.",
+    "Un compte de service dispose de droits sans rapport avec son usage.",
+    "Un pod compromis pourrait atteindre bien plus que nécessaire."
+  ],
+  "firstChecks": [
+    "Cartographier ce que la permission autorise réellement (verbes, ressources, portée).",
+    "Déterminer ce dont le service a VRAIMENT besoin (usage réel).",
+    "La permission a-t-elle déjà été utilisée abusivement (logs d’API) ?"
+  ],
+  "containment": [
+    "Si abus avéré : restreindre/suspendre immédiatement le compte concerné.",
+    "Sinon, planifier la réduction sans casser le service (fenêtre de test)."
+  ],
+  "recommendedOrder": [
+    "Cartographier l’usage réel",
+    "définir le minimum nécessaire",
+    "restreindre",
+    "valider en non-régression",
+    "auditer"
+  ],
+  "communication": [
+    "Prévenir le propriétaire du service avant de réduire (éviter une panne surprise).",
+    "Sécurité informée si un abus est constaté."
+  ],
+  "evidence": [
+    "Sauvegarder la définition RBAC/IAM avant modification.",
+    "Extraire les logs d’usage justifiant le périmètre réduit."
+  ],
+  "doNot": [
+    "Ne pas laisser un wildcard « le temps de faire propre » : c’est le risque, ici et maintenant.",
+    "Ne pas réduire à l’aveugle sans vérifier l’usage réel (risque de casser le service)."
+  ],
+  "mitigation": [
+    "Restreindre d’abord la portée (namespace au lieu de cluster) si le détail fin prend du temps."
+  ],
+  "correction": [
+    "Remplacer le wildcard par la liste explicite des verbes/ressources nécessaires.",
+    "Préférer un RoleBinding namespacé à un ClusterRoleBinding quand c’est possible."
+  ],
+  "validation": [
+    "Le service fonctionne avec les droits réduits (tests des parcours qui en dépendent).",
+    "Plus aucun wildcard ni binding admin injustifié en revue."
+  ],
+  "delivery": [
+    "Appliquer via policy as code / manifeste versionné et relu."
+  ],
+  "monitoring": [
+    "Surveiller les erreurs de permission (403) après réduction pour ajuster finement."
+  ],
+  "documentation": [
+    "Documenter le périmètre retenu et sa justification (moindre privilège)."
+  ],
+  "prevention": [
+    "Admission controller / policy as code interdisant wildcards et bindings admin.",
+    "Revue RBAC périodique ; principe du moindre privilège par défaut."
+  ],
+  "exitCriteria": [
+    "Permissions au strict nécessaire, aucun wildcard, service fonctionnel, justification documentée."
+  ]
+}

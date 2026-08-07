@@ -9,6 +9,8 @@ import { listMissions } from './missions-server';
 import { publicPipelineSummaries } from './pipelines-server';
 import { publicTopologySummaries } from './topologies-server';
 import { publicManifestSummaries } from './manifests-server';
+import { publicScenarioSummaries, publicPlaybookSummaries } from './security-server';
+import { getGlossary } from './glossary';
 import { getRuntimeAdapter, DEFAULT_RUNTIME_ID } from './runtime.mjs';
 import { buildIndex } from './search';
 import type { SearchItem } from './search';
@@ -41,7 +43,21 @@ function publicMissionSummaries() {
     .map((m) => ({ id: m.id, title: m.title, category: m.category, skills: m.skills ?? [] }));
 }
 
+// Projection PUBLIQUE des entrées de glossaire pour l'index : uniquement les champs
+// « forts » (terme, forme, français, alias). Aucune définition n'est indexée : le
+// résultat renvoie vers le glossaire filtré sur le terme.
+function publicGlossarySummaries() {
+  return getGlossary().map((g) => ({
+    id: g.id, term: g.term, fullForm: g.fullForm ?? null,
+    frenchMeaning: g.frenchMeaning ?? '', aliases: g.aliases ?? [],
+  }));
+}
+
 export function getSearchIndex(): SearchItem[] {
-  if (!cached) cached = buildIndex(getProgram(), getCatalogue(), publicExerciseSummaries(), publicMissionSummaries(), publicPipelineSummaries(), publicTopologySummaries(), publicManifestSummaries());
+  if (!cached) cached = buildIndex(
+    getProgram(), getCatalogue(), publicExerciseSummaries(), publicMissionSummaries(),
+    publicPipelineSummaries(), publicTopologySummaries(), publicManifestSummaries(),
+    publicScenarioSummaries(), publicPlaybookSummaries(), publicGlossarySummaries(),
+  );
   return cached;
 }

@@ -41,7 +41,14 @@ for (const f of scnFiles) {
   if (/sk-[A-Za-z0-9]{16,}|ghp_[A-Za-z0-9]{16,}|AKIA[0-9A-Z]{12,}/.test(blob)) errors.push(`scénario ${f} : fuite de secret dans la vue publique`);
 }
 
-// 1b. Playbooks : JSON valides, champs de base, aucun secret réel.
+// 1b. Playbooks : JSON valides, champs de base, RICHESSE professionnelle, aucun secret réel.
+// Un playbook « Que faire dans ce cas ? » doit être exploitable, pas une FAQ : chaque
+// rubrique métier doit être présente et non vide (cf. app/security PlaybookView).
+const PB_REQUIRED_ARRAYS = [
+  'symptoms', 'firstChecks', 'containment', 'recommendedOrder', 'communication',
+  'evidence', 'doNot', 'mitigation', 'correction', 'validation', 'delivery',
+  'monitoring', 'documentation', 'prevention', 'exitCriteria',
+];
 const pbDir = R('data/playbooks');
 const pbFiles = existsSync(pbDir) ? readdirSync(pbDir).filter((f) => f.endsWith('.json')) : [];
 const pbIds = new Set();
@@ -52,6 +59,13 @@ for (const f of pbFiles) {
   if (pbIds.has(p.id)) errors.push(`playbook : id dupliqué « ${p.id} »`);
   pbIds.add(p.id);
   if (!p.situation && !p.title) errors.push(`playbook ${f} : situation/titre manquant`);
+  if (!p.domain || typeof p.domain !== 'string') errors.push(`playbook ${f} : domaine manquant`);
+  for (const k of PB_REQUIRED_ARRAYS) {
+    if (!Array.isArray(p[k]) || p[k].length === 0) errors.push(`playbook ${f} : rubrique « ${k} » manquante ou vide`);
+    else if (p[k].some((x) => typeof x !== 'string' || !x.trim())) errors.push(`playbook ${f} : rubrique « ${k} » contient une entrée vide`);
+  }
+  // dayRefs (facultatif) doivent exister ; relatedGlossary (facultatif) : ids texte.
+  for (const d of p.dayRefs ?? []) if (!validDays.has(d)) errors.push(`playbook ${f} : jour inexistant ${d}`);
   for (const c of detectSecretCandidates(JSON.stringify(p))) {
     if (!c.fake && c.confidence === 'high') errors.push(`playbook ${f} : secret trop réaliste`);
   }

@@ -1,0 +1,77 @@
+{
+  "id": "feature-regression",
+  "situation": "Une nouvelle fonctionnalité provoque une régression",
+  "domain": "regression",
+  "severityHint": "variable — dépend du périmètre touché",
+  "dayRefs": [
+    85
+  ],
+  "relatedGlossary": [
+    "test-regression",
+    "reg-contributing-factor",
+    "prod-feature-flag",
+    "prod-kill-switch",
+    "reg-roll-forward"
+  ],
+  "symptoms": [
+    "Une fonctionnalité qui marchait avant est cassée après la livraison d’une nouveauté.",
+    "Le lien de cause n’est pas évident : la feature A casse le comportement B.",
+    "Les tests existants ne l’ont pas attrapé (angle mort de couverture)."
+  ],
+  "firstChecks": [
+    "Identifier la feature livrée et son périmètre théorique.",
+    "Cerner ce qui régresse réellement et depuis quelle version.",
+    "Chercher le couplage caché (état partagé, effet de bord, dépendance commune)."
+  ],
+  "containment": [
+    "Si la feature est derrière un flag : la désactiver (kill switch) immédiatement.",
+    "Sinon, envisager rollback ciblé ou roll-forward selon le risque."
+  ],
+  "recommendedOrder": [
+    "Désactiver la feature (flag)",
+    "reproduire la régression par un test",
+    "corriger le couplage",
+    "réactiver progressivement",
+    "surveiller"
+  ],
+  "communication": [
+    "Prévenir les utilisateurs des fonctionnalités impactées (B, pas seulement A).",
+    "Informer l’équipe produit de la désactivation temporaire de la feature."
+  ],
+  "evidence": [
+    "Noter le comportement attendu vs observé sur la fonctionnalité régressée.",
+    "Conserver le diff de la feature et la version où la régression apparaît."
+  ],
+  "doNot": [
+    "Ne pas supposer que « c’est sans rapport » : une régression est souvent un couplage non vu.",
+    "Ne pas réactiver la feature sans test couvrant la régression."
+  ],
+  "mitigation": [
+    "Feature flag à false pour isoler l’impact sans tout redéployer.",
+    "Communiquer un contournement si la fonction B a une alternative."
+  ],
+  "correction": [
+    "Écrire un test de non-régression sur le comportement B, puis corriger le couplage.",
+    "Découpler proprement plutôt que rustiner l’effet de bord."
+  ],
+  "validation": [
+    "Le test de régression passe ; la feature A ET la fonction B fonctionnent ensemble.",
+    "La suite complète reste verte."
+  ],
+  "delivery": [
+    "Réactiver la feature via un lancement progressif (canary / cohorte) sous surveillance."
+  ],
+  "monitoring": [
+    "Surveiller conjointement les métriques de A et de B après réactivation."
+  ],
+  "documentation": [
+    "Documenter le couplage découvert et le facteur contributif dans le post-mortem."
+  ],
+  "prevention": [
+    "Renforcer la couverture de tests aux frontières entre modules.",
+    "Revue d’impact systématique pour les changements touchant l’état partagé."
+  ],
+  "exitCriteria": [
+    "Feature active, comportement B rétabli, test de régression en place, couplage documenté."
+  ]
+}

@@ -1,11 +1,13 @@
 import Link from 'next/link';
-import { publicScenarioSummaries } from '@/lib/security-server';
+import { publicScenarioSummaries, listPlaybooks } from '@/lib/security-server';
 import SecurityCatalogue from './SecurityCatalogue';
+import PlaybookBrowser from './PlaybookBrowser';
 
 export const dynamic = 'force-dynamic';
 
 export default function SecurityPage() {
   const scenarios = publicScenarioSummaries();
+  const playbooks = listPlaybooks();
   return (
     <div className="page">
       <div className="page-head">
@@ -22,6 +24,11 @@ export default function SecurityPage() {
       {scenarios.length === 0
         ? <p className="muted">Aucun scénario pour le moment.</p>
         : <SecurityCatalogue scenarios={scenarios} />}
+      {playbooks.length > 0 && (
+        <div style={{ marginTop: 'var(--sp-5)' }}>
+          <PlaybookBrowser playbooks={playbooks} />
+        </div>
+      )}
       <p className="muted" style={{ marginTop: 'var(--sp-4)' }}>
         Pour aller plus loin : <Link href="/day/68">jour secrets</Link> · <Link href="/kubernetes">Kubernetes Lab</Link> · <Link href="/pipelines">Pipeline Lab</Link> · <Link href="/missions">Missions</Link> · <Link href="/glossary">Glossaire</Link>.
       </p>

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { validateMission, publicMissionView } from '../lib/mission.mjs';
 import { isKnownSkill } from '../lib/skill-taxonomy.mjs';
-import { DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID } from '../lib/catalogue.mjs';
+import { buildCatalogue, isTrackAvailable } from '../lib/catalogue.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const R = (p) => join(ROOT, p);
@@ -16,7 +16,7 @@ const program = JSON.parse(readFileSync(R('data/program.json'), 'utf8'));
 const exerciseIds = new Set(readdirSync(R('data/exercises')).filter((f) => f.endsWith('.json')).map((f) => f.replace('.json', '')));
 const ctx = {
   validDays: new Set(program.days.map((d) => d.day)),
-  trackIds: new Set([DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID]),
+  trackIds: new Set(buildCatalogue(program).tracks.filter(isTrackAvailable).map((t) => t.id)),
   skillIds: { has: (s) => isKnownSkill(s) },
   exerciseIds,
 };

@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildCatalogue, DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID } from '../lib/catalogue.mjs';
+import { buildCatalogue, DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID, APPSEC_CLOUD_TRACK_ID, isTrackAvailable } from '../lib/catalogue.mjs';
 import { trackDaySets, classifyExercise, matchesScope, reachableFromTrack, contextBadge } from '../lib/exercise-context.mjs';
 
 const program = JSON.parse(readFileSync(new URL('../data/program.json', import.meta.url), 'utf8'));
@@ -10,7 +10,9 @@ const cat = buildCatalogue(program);
 const sets = trackDaySets(cat);
 
 test('trackDaySets : uniquement les parcours disponibles, jours résolus', () => {
-  assert.deepEqual([...sets.keys()].sort(), [DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID].sort());
+  // Les clés = exactement les parcours DISPONIBLES du catalogue (dérivé, pas de liste magique).
+  const availableIds = cat.tracks.filter(isTrackAvailable).map((t) => t.id).sort();
+  assert.deepEqual([...sets.keys()].sort(), availableIds);
   assert.equal(sets.get(DEFAULT_TRACK_ID).size, 365);
   assert.equal(sets.get(FULLSTACK_TRACK_ID).size, 119);
   assert.equal(sets.get(BACKEND_TRACK_ID).size, 85);
@@ -26,9 +28,16 @@ test('exercice d’une journée du parcours actif (Foundations) → active, Jour
   assert.equal(matchesScope(ctx, 'active-day'), true);
 });
 
-test('exercice multi-parcours (j50 ∈ Foundations, Full-Stack, Backend, Systems & Cloud)', () => {
+test('exercice multi-parcours (j50 ∈ tous les parcours qui contiennent la journée 50)', () => {
   const ctx = classifyExercise([50], sets, DEFAULT_TRACK_ID);
-  assert.deepEqual(ctx.reachableTracks, [DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID].sort());
+  // Attendu = dérivé des données : tout parcours disponible dont l'ensemble de jours contient 50.
+  const expected = [...sets].filter(([, s]) => s.has(50)).map(([id]) => id).sort();
+  assert.deepEqual(ctx.reachableTracks, expected);
+  // j50 (HTTP) est un tronc commun : présent dans Foundations, Full-Stack, Backend,
+  // Systems & Cloud et AppSec & Cloud Security (module acs-01-http-api).
+  for (const id of [DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID, APPSEC_CLOUD_TRACK_ID]) {
+    assert.ok(ctx.reachableTracks.includes(id), `j50 atteignable depuis ${id}`);
+  }
   assert.equal(ctx.multiTrack, true);
   assert.equal(matchesScope(ctx, 'multi'), true);
   // multi-parcours n'annule pas « actif » : pas d'exclusivité prétendue.

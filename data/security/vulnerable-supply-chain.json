@@ -5,15 +5,76 @@
   "domain": "supply-chain",
   "difficulty": 3,
   "incident": "dependency-compromise",
-  "playbookRef": "pb-dependency-compromise",
+  "playbookRef": "compromised-dependency",
   "artifacts": [
-    { "id": "lock", "kind": "lockfile", "path": "package-lock.summary.json", "content": { "dependencies": [ { "name": "axios", "version": "1.5.0" }, { "name": "lodash", "version": "^4.17.20" }, { "name": "expresss", "version": "4.19.2" }, { "name": "internal-utils", "version": "1.0.0", "internal": true, "source": "public" } ] } }
+    {
+      "id": "lock",
+      "kind": "lockfile",
+      "path": "package-lock.summary.json",
+      "content": {
+        "dependencies": [
+          {
+            "name": "axios",
+            "version": "1.5.0"
+          },
+          {
+            "name": "lodash",
+            "version": "^4.17.20"
+          },
+          {
+            "name": "expresss",
+            "version": "4.19.2"
+          },
+          {
+            "name": "internal-utils",
+            "version": "1.0.0",
+            "internal": true,
+            "source": "public"
+          }
+        ]
+      }
+    }
   ],
   "fixedArtifacts": [
-    { "id": "lock", "kind": "lockfile", "path": "package-lock.summary.json", "content": { "dependencies": [ { "name": "axios", "version": "1.6.2" }, { "name": "lodash", "version": "4.17.21" }, { "name": "express", "version": "4.19.2" }, { "name": "internal-utils", "version": "1.0.0", "internal": true, "source": "internal" } ] } }
+    {
+      "id": "lock",
+      "kind": "lockfile",
+      "path": "package-lock.summary.json",
+      "content": {
+        "dependencies": [
+          {
+            "name": "axios",
+            "version": "1.6.2"
+          },
+          {
+            "name": "lodash",
+            "version": "4.17.21"
+          },
+          {
+            "name": "express",
+            "version": "4.19.2"
+          },
+          {
+            "name": "internal-utils",
+            "version": "1.0.0",
+            "internal": true,
+            "source": "internal"
+          }
+        ]
+      }
+    }
   ],
-  "skills": ["git", "testing"],
-  "dayRefs": [298],
-  "trackScope": ["systems-cloud-foundations-v1"],
-  "missionRefs": ["sec-dependency-compromise"]
+  "skills": [
+    "git",
+    "testing"
+  ],
+  "dayRefs": [
+    298
+  ],
+  "trackScope": [
+    "systems-cloud-foundations-v1"
+  ],
+  "missionRefs": [
+    "sec-dependency-compromise"
+  ]
 }

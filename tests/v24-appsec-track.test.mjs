@@ -100,15 +100,16 @@ test('AppSec : enrôlement, bascule aller/retour et ISOLATION de la progression'
   v3 = enrollTrack(v3, APPSEC_CLOUD_TRACK_ID, '1');
   v3 = setActiveTrack(v3, APPSEC_CLOUD_TRACK_ID);
   assert.equal(v3.activeTrackId, APPSEC_CLOUD_TRACK_ID);
-  // Progression PROPRE à AppSec (jour 68 fait, une compétence, une preuve d'exercice sécurité).
+  // Progression PROPRE à AppSec (jour 68 fait + preuve d'exercice sécurité → compétence secu).
   let flat = activeTrackProgress(v3);
   flat.days = { ...(flat.days ?? {}), '68': { status: 'done' } };
-  flat = recordExerciseSuccess(flat, 'sec-secret-response-order', { at: '2026-02-02' });
-  flat.skills = { ...(flat.skills ?? {}), secu: 3 };
+  flat = recordExerciseSuccess(flat, { exerciseId: 'sec-secret-response-order', title: 'Ordre de réponse au secret', skills: ['secu'], dayRefs: [68], at: '2026-02-02' });
   v3 = writeActiveTrack(v3, flat);
 
   // Isolation : la progression AppSec ne fuit PAS dans Foundations.
   assert.equal(v3.tracks[APPSEC_CLOUD_TRACK_ID].days['68'].status, 'done');
+  assert.ok((v3.tracks[APPSEC_CLOUD_TRACK_ID].days['68'].evidence ?? []).some((e) => e.id === 'lab-sec-secret-response-order'), 'preuve d’exercice enregistrée');
+  assert.equal(v3.tracks[APPSEC_CLOUD_TRACK_ID].skills.secu >= 1, true, 'compétence secu créditée par la preuve');
   assert.equal(v3.tracks[DEFAULT_TRACK_ID].days['68'], undefined, 'aucune fuite AppSec → Foundations');
   assert.equal(v3.tracks[DEFAULT_TRACK_ID].days['1'].status, 'done', 'Foundations conserve sa progression');
   assert.equal(v3.tracks[APPSEC_CLOUD_TRACK_ID].days['1'], undefined, 'aucune fuite Foundations → AppSec');
@@ -124,7 +125,7 @@ test('AppSec : enrôlement, bascule aller/retour et ISOLATION de la progression'
   assert.ok(parsed.ok);
   const acs = parsed.v3.tracks[APPSEC_CLOUD_TRACK_ID];
   assert.equal(acs.days['68'].status, 'done');
-  assert.equal(acs.skills.secu, 3);
+  assert.ok(acs.skills.secu >= 1);
 });
 
 test('AppSec : indexé dans la recherche globale, sans fuite de données privées', () => {

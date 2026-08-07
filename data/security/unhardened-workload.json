@@ -5,15 +5,90 @@
   "domain": "kubernetes",
   "difficulty": 3,
   "incident": "image-untrusted",
-  "playbookRef": "pb-untrusted-image",
+  "playbookRef": "kubernetes-incident",
   "artifacts": [
-    { "id": "deploy", "kind": "manifest", "path": "k8s/deploy.json", "content": { "apiVersion": "apps/v1", "kind": "Deployment", "metadata": { "name": "api", "namespace": "prod" }, "exposeNote": "no-networkpolicy", "spec": { "template": { "spec": { "containers": [ { "name": "api", "image": "registry/api:latest", "securityContext": { "capabilities": { "add": ["NET_ADMIN"] } } } ] } } } } }
+    {
+      "id": "deploy",
+      "kind": "manifest",
+      "path": "k8s/deploy.json",
+      "content": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "name": "api",
+          "namespace": "prod"
+        },
+        "exposeNote": "no-networkpolicy",
+        "spec": {
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "name": "api",
+                  "image": "registry/api:latest",
+                  "securityContext": {
+                    "capabilities": {
+                      "add": [
+                        "NET_ADMIN"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
   ],
   "fixedArtifacts": [
-    { "id": "deploy", "kind": "manifest", "path": "k8s/deploy.json", "content": { "apiVersion": "apps/v1", "kind": "Deployment", "metadata": { "name": "api", "namespace": "prod" }, "spec": { "template": { "spec": { "containers": [ { "name": "api", "image": "registry/api@sha256:aaabbbcccdddeeefff", "securityContext": { "runAsNonRoot": true, "runAsUser": 1000, "readOnlyRootFilesystem": true, "capabilities": { "drop": ["ALL"] } } } ] } } } } }
+    {
+      "id": "deploy",
+      "kind": "manifest",
+      "path": "k8s/deploy.json",
+      "content": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "name": "api",
+          "namespace": "prod"
+        },
+        "spec": {
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "name": "api",
+                  "image": "registry/api@sha256:aaabbbcccdddeeefff",
+                  "securityContext": {
+                    "runAsNonRoot": true,
+                    "runAsUser": 1000,
+                    "readOnlyRootFilesystem": true,
+                    "capabilities": {
+                      "drop": [
+                        "ALL"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
   ],
-  "skills": ["linux", "testing"],
-  "dayRefs": [85],
-  "trackScope": ["systems-cloud-foundations-v1"],
-  "missionRefs": ["sec-workload-hardening"]
+  "skills": [
+    "linux",
+    "testing"
+  ],
+  "dayRefs": [
+    85
+  ],
+  "trackScope": [
+    "systems-cloud-foundations-v1"
+  ],
+  "missionRefs": [
+    "sec-workload-hardening"
+  ]
 }

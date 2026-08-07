@@ -1,4 +1,4 @@
-# Inventaire des gates — statut et classement (V23)
+# Inventaire des gates — statut et classement (V24)
 
 Ce document recense TOUTES les gates du dépôt et les classe en trois groupes.
 Objectif : conserver les preuves historiques sans réécrire l'histoire Git, ne
@@ -11,23 +11,25 @@ Ces gates dérivent leurs invariants des **sources canoniques** (aucune liste de
 parcours, aucun total codé en dur, aucune dépendance à une fixture future). Elles
 doivent rester **vertes** à tout moment ; un échec = un vrai problème.
 
-| Gate | Script | Ce qu'elle garantit |
-|---|---|---|
-| `curriculum:check` | `scripts/curriculum-check.mjs` | Intégrité structurelle du curriculum (365 jours, cohérence). |
-| `curriculum:depth-check` | `scripts/curriculum-depth-check.mjs` | Profondeur pédagogique (blocs présents, leçons structurées). |
-| `glossary:check` | `scripts/glossary-check.mjs` | Schéma/catégories/niveaux/relations/unicité du glossaire. |
-| `v18:check` | `scripts/v18-missions-check.mjs` | Missions valides + anti-fuite ; **dérive les parcours du catalogue** (accepte tout nouveau contenu additif). |
-| `v20:pedagogy-check` | `scripts/v20-pedagogy-check.mjs` | Scan de danger (toujours actif) + registre de notes humaines ≥ seuils. |
-| `v23:check` | `scripts/v23-check.mjs` | Manifests Kubernetes valides + anti-fuite + dérive bornée à V23 + profondeur. |
+| Gate | Script | Sprint | Périmètre | Bloquant | Ce qu'elle garantit |
+|---|---|---|---|---|---|
+| `curriculum:check` | `scripts/curriculum-check.mjs` | transverse | 365 jours | oui | Intégrité structurelle du curriculum (365 jours, cohérence). |
+| `curriculum:depth-check` | `scripts/curriculum-depth-check.mjs` | transverse | tous jours | oui | Profondeur pédagogique (blocs présents, leçons structurées). |
+| `glossary:check` | `scripts/glossary-check.mjs` | transverse | glossaire (520) | oui | Schéma/catégories/niveaux/relations/unicité du glossaire. |
+| `v18:check` | `scripts/v18-missions-check.mjs` | transverse | missions | oui | Missions valides + anti-fuite ; **dérive les parcours du catalogue** (accepte tout nouveau contenu additif). |
+| `v20:pedagogy-check` | `scripts/v20-pedagogy-check.mjs` | transverse | danger + revue | oui | Scan de danger (toujours actif) + registre de notes humaines ≥ seuils. |
+| `v24:check` | `scripts/v24-check.mjs` | V24 (courant) | jours 68/85/298 (sécurité) | oui | Scénarios de sécurité + playbooks (15 rubriques) + base CVE factice + anti-fuite + dérive bornée à V24 + profondeur. **Dérive les parcours du catalogue** (`buildCatalogue`), jamais de compte codé en dur. |
 
-Note : `v23:check` borne sa détection de dérive à SON périmètre (baseline +
-targetDays du sprint) et valide un contenu **propre au sprint** (manifests). Tant
-qu'un sprint ULTÉRIEUR ne modifie pas ses jours cibles (320-321), elle reste un
-invariant actif. Le jour où V24+ touchera ces jours, elle basculera en groupe B —
-comme `v21:check` (en V22) puis `v22:check` (en V23) l'ont fait — et sera retirée
-de `gates:active`. C'est le cycle de vie normal d'une gate de sprint, pas une
-régression : la gate d'un sprint reste active tant que le sprint est le « dernier »
-à avoir touché son périmètre, puis devient un instantané historique.
+Note : `v24:check` borne sa détection de dérive à SON périmètre (baseline +
+targetDays du sprint : jours 68/85/298) et valide un contenu **propre au sprint**
+(scénarios/playbooks). Elle reste active tant qu'aucun sprint ultérieur ne touchera
+ces jours. **Cycle de vie appliqué en V24** : `v23:check` détectait la dérive vs le
+baseline V23 sur *toute* modification de `curriculum`/`scripts/data` hors de son
+périmètre (320-321) ; or V24 a légitimement enrichi les jours 68/85/298. `v23:check`
+a donc rempli son rôle et **bascule en groupe B (historique)** — exactement comme
+`v21:check` (en V22) puis `v22:check` (en V23). Les 3 manifests Kubernetes livrés
+par V23 restent valides ; seule la détection de dérive se déclenche. Ce n'est pas
+une régression produit, c'est la fin de vie normale d'une gate de sprint.
 
 ## B. Audits HISTORIQUES figés (informatifs — `npm run gates:historical`)
 
@@ -39,12 +41,13 @@ travail. Elles ne sont **pas** dans la batterie principale, ne sont **pas** rend
 vertes artificiellement, et ne sont **pas** supprimées (elles documentent le
 périmètre contrôlé de leur sprint).
 
-| Gate | Script | Baseline | Pourquoi figée |
-|---|---|---|---|
-| `v17:check` | `scripts/v17-coverage-check.mjs` | V17 | Contenu couvert enrichi par V19/V20+. |
-| `v19:check` | `scripts/v19-coverage-check.mjs` | V19 | Jours gelés touchés par V20/CP3, CP8, etc. |
-| `v21:check` | `scripts/v21-check.mjs` | V21 (8d224f3) | Jours 78-81 enrichis par V22 (hors périmètre 307/326). Les 3 pipelines livrés restent valides ; seule la détection de dérive se déclenche. |
-| `v22:check` | `scripts/v22-check.mjs` | V22 (9d59a9c) | Jours 320-321 enrichis par V23 (hors périmètre 78-81). Les 3 topologies livrées restent valides ; seule la détection de dérive se déclenche. Figée en V23. |
+| Gate | Script | Baseline | Statut | Pourquoi figée |
+|---|---|---|---|---|
+| `v17:check` | `scripts/v17-coverage-check.mjs` | V17 | informatif | Contenu couvert enrichi par V19/V20+. |
+| `v19:check` | `scripts/v19-coverage-check.mjs` | V19 | informatif | Jours gelés touchés par V20/CP3, CP8, etc. |
+| `v21:check` | `scripts/v21-check.mjs` | V21 (8d224f3) | informatif | Jours 78-81 enrichis par V22 (hors périmètre 307/326). Les 3 pipelines livrés restent valides ; seule la détection de dérive se déclenche. |
+| `v22:check` | `scripts/v22-check.mjs` | V22 (9d59a9c) | informatif | Jours 320-321 enrichis par V23 (hors périmètre 78-81). Les 3 topologies livrées restent valides ; seule la détection de dérive se déclenche. Figée en V23. |
+| `v23:check` | `scripts/v23-check.mjs` | V23 (e904bda…) | informatif | Jours 68/85/298 enrichis par V24 (hors périmètre 320-321). Les 3 manifests Kubernetes livrés restent valides ; seule la détection de dérive se déclenche. **Figée en V24.** |
 
 `gates:historical` les exécute de façon **informative** (n'échoue jamais le shell) :
 elles servent de trace, pas de condition de succès pour les sprints suivants.

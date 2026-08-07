@@ -21,8 +21,8 @@
     "v22:check": "node scripts/v22-check.mjs",
     "v23:check": "node scripts/v23-check.mjs",
     "v24:check": "node scripts/v24-check.mjs",
-    "gates:active": "npm run curriculum:check && npm run curriculum:depth-check && npm run glossary:check && npm run v18:check && npm run v20:pedagogy-check && npm run v23:check && npm run v24:check",
-    "gates:historical": "node scripts/v17-coverage-check.mjs; node scripts/v19-coverage-check.mjs; node scripts/v21-check.mjs; node scripts/v22-check.mjs; true"
+    "gates:active": "npm run curriculum:check && npm run curriculum:depth-check && npm run glossary:check && npm run v18:check && npm run v20:pedagogy-check && npm run v24:check",
+    "gates:historical": "node scripts/v17-coverage-check.mjs; node scripts/v19-coverage-check.mjs; node scripts/v21-check.mjs; node scripts/v22-check.mjs; node scripts/v23-check.mjs; true"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",

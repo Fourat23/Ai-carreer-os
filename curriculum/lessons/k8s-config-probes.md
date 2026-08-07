@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Kubernetes : configuration, secrets, probes et ressources
 
+## 🌍 Le problème d'abord
+Un même conteneur doit se comporter différemment en test et en production (autre base
+de données, autres réglages), sans le reconstruire. Comment lui passer sa
+configuration ? Et comment Kubernetes sait-il si un Pod est vraiment PRÊT à recevoir
+du trafic, ou s'il est bloqué et doit être redémarré ? Et comment éviter qu'un Pod
+gourmand n'affame ses voisins sur la même machine ? Trois besoins concrets, trois
+réponses : la **configuration** (ConfigMap/Secret) séparée de l'image, les **probes**
+qui répondent « vivant ? » et « prêt ? », et les **requests/limits** qui réservent et
+plafonnent les ressources. Cette leçon les construit un par un — avec un avertissement
+important sur ce qu'un « Secret » Kubernetes protège réellement.
+
 ## 🎯 Objectif
 Rendre un Pod configurable et fiable : injecter la configuration
 (**ConfigMap**) et les **Secrets**, déclarer les **probes** (liveness, readiness,
@@ -8,8 +19,10 @@ startup) qui pilotent la santé, et fixer les **requests/limits** de ressources 
 gouvernent le placement et la stabilité.
 
 ## 🧩 Prérequis
-Workloads (`/doc/lessons/k8s-workloads`) et ressources Linux
-(`/doc/lessons/linux-resources-io`).
+Vous devez connaître les **workloads** (Pod/Deployment — `/doc/lessons/k8s-workloads`)
+et comprendre les **ressources** d'une machine (CPU, mémoire, OOM —
+`/doc/lessons/linux-resources-io`), car requests/limits et le OOMKilled s'appuient
+dessus. ConfigMap, Secret et probes sont définis ici.
 
 ## 🧠 Modèle mental
 Un Pod bien conçu SÉPARE trois choses de son image : sa **configuration** (qui

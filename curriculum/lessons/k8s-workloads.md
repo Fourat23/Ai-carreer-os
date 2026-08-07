@@ -1,6 +1,16 @@
 <!-- keep -->
 # Leçon — Kubernetes : Pods, Deployments et workloads
 
+## 🌍 Le problème d'abord
+Kubernetes ne fait pas « tourner un conteneur » directement. On lui déclare plutôt
+un **workload** — un objet qui dit « voilà ce que je veux faire tourner, et
+comment ». Mais lequel choisir ? Une application web sans mémoire propre, une base de
+données qui a besoin de son disque à elle, un agent présent sur chaque machine, une
+tâche ponctuelle de nuit… ce ne sont pas les mêmes besoins, donc pas les mêmes
+objets. Le débutant qui met une base dans le mauvais objet corrompt ses données au
+premier déploiement. Cette leçon part du **Pod** (le plus petit grain) puis explique
+quel workload choisir selon la nature de l'application.
+
 ## 🎯 Objectif
 Connaître les objets qui font TOURNER les applications : le **Pod** (unité de
 base), le **ReplicaSet** et le **Deployment** (réplication + rolling update), et
@@ -8,7 +18,11 @@ les workloads spécialisés (**DaemonSet**, **StatefulSet**, **Job/CronJob**).
 Choisir le bon objet selon le besoin.
 
 ## 🧩 Prérequis
-Architecture et réconciliation (`/doc/lessons/k8s-why-architecture`).
+Vous devez comprendre l'idée centrale de Kubernetes — **état désiré** et **boucle de
+réconciliation** — et l'architecture cluster/nœuds
+(`/doc/lessons/k8s-why-architecture`), car un workload est justement une DÉCLARATION
+d'état désiré que des contrôleurs maintiennent. Pod, Deployment, StatefulSet sont
+définis ici.
 
 ## 🧠 Modèle mental
 On n'exécute pas un « conteneur » directement dans Kubernetes : on déclare un

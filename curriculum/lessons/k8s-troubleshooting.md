@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Kubernetes : diagnostiquer un incident
 
+## 🌍 Le problème d'abord
+Rappel de l'idée de base : Kubernetes essaie en permanence de faire correspondre la
+réalité (l'état OBSERVÉ) à ce que vous avez demandé (l'état DÉSIRÉ). Un « incident »,
+c'est simplement un ÉCART qui ne se comble pas : un Pod qui redémarre en boucle, qui
+refuse de démarrer, ou qui n'est jamais placé. La bonne nouvelle : Kubernetes est
+BAVARD — il écrit presque toujours POURQUOI il n'y arrive pas. Le débutant, lui, a le
+réflexe de « supprimer et relancer » au hasard (ce qui efface les indices). Cette
+leçon apprend à LIRE ces messages dans le bon ordre, et à reconnaître 5 pannes très
+fréquentes pour les nommer et les corriger — au lieu de deviner. On s'appuie sur tout
+ce qui précède (Pod, image, config, ressources, Service).
+
 ## 🎯 Objectif
 Acquérir une MÉTHODE de diagnostic dans Kubernetes : lire l'état (`get`,
 `describe`, `events`, `logs`), et reconnaître les pannes récurrentes —
@@ -8,8 +19,11 @@ Acquérir une MÉTHODE de diagnostic dans Kubernetes : lire l'état (`get`,
 Service sans endpoints — pour les résoudre vite au lieu de deviner.
 
 ## 🧩 Prérequis
-Workloads, réseau et config K8s (`/doc/lessons/k8s-workloads`,
-`/doc/lessons/k8s-networking-services`, `/doc/lessons/k8s-config-probes`).
+Cette leçon est l'ABOUTISSEMENT : elle suppose acquis les **workloads**
+(`/doc/lessons/k8s-workloads`), le **réseau/Service** (`/doc/lessons/k8s-networking-services`)
+et la **config/probes/ressources** (`/doc/lessons/k8s-config-probes`) — car
+diagnostiquer, c'est distinguer un problème d'application, d'image, de configuration,
+de ressource, de réseau ou de placement. À faire en dernier dans le parcours K8s.
 
 ## 🧠 Modèle mental
 Diagnostiquer, c'est comparer l'état DÉSIRÉ à l'état OBSERVÉ et remonter la chaîne

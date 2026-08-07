@@ -1,6 +1,18 @@
 <!-- keep -->
 # Leçon — Kubernetes : pourquoi et architecture
 
+## 🌍 Le problème d'abord
+Vous savez lancer un conteneur, et même plusieurs avec Docker Compose, sur UNE
+machine. Mais en vrai : et si la machine tombe ? et s'il faut 20 exemplaires de
+l'appli répartis sur 10 machines ? et si un conteneur crashe à 3 h du matin — qui le
+relance ? Le faire à la main sur un parc de serveurs est impossible. **Kubernetes**
+est le robot qui s'en charge : vous lui DÉCRIVEZ ce que vous voulez (« je veux 3
+exemplaires sains, joignables »), et il travaille en permanence pour que la réalité
+corresponde à votre demande — il recrée ce qui tombe, répartit, remplace sans
+coupure. Avant de toucher au moindre bouton, cette leçon fait comprendre CETTE idée
+centrale (« décrire l'état voulu, le robot s'en occupe ») et qui fait quoi dans le
+système. Sans elle, tout le reste paraît magique et incompréhensible.
+
 ## 🎯 Objectif
 Comprendre le PROBLÈME que Kubernetes résout (faire tourner des conteneurs à
 l'échelle, de façon résiliente et automatisée) et son idée centrale : la
@@ -8,8 +20,11 @@ l'échelle, de façon résiliente et automatisée) et son idée centrale : la
 (control plane vs nœuds) avant de manipuler des objets.
 
 ## 🧩 Prérequis
-Conteneurs et Compose (`/doc/lessons/docker-compose`,
-`/doc/lessons/docker-production-hardening`).
+Vous devez être à l'aise avec les **conteneurs** et avoir vu **Docker Compose**
+(décrire une appli multi-conteneurs — `/doc/lessons/docker-compose`) ainsi que le
+**durcissement** (`/doc/lessons/docker-production-hardening`), car Kubernetes
+orchestre des conteneurs et pousse plus loin l'idée déclarative de Compose. Les
+termes cluster, nœud, Pod, état désiré/observé sont introduits ici.
 
 ## 🧠 Modèle mental
 Avec Docker Compose, vous décrivez un état sur UNE machine et vous le lancez.

@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Kubernetes : sécurité et moindre privilège
 
+## 🌍 Le problème d'abord
+Par défaut, un cluster Kubernetes est TROP permissif : n'importe quel Pod peut
+souvent joindre n'importe quel autre, un composant peut avoir bien plus de droits
+qu'il n'en faut, et un conteneur peut tourner en root. Résultat : si UN seul Pod est
+piraté, l'attaquant peut se promener dans tout le cluster. La sécurité n'est pas un
+bouton unique : c'est une **superposition** de « moindres privilèges » — qui peut
+faire quoi (RBAC), qui peut parler à qui (NetworkPolicy), ce qu'un conteneur a le
+droit de faire (securityContext). Chaque couche réduit les dégâts possibles. Cette
+leçon part de ce constat (« tout est ouvert par défaut ») et ajoute les verrous un à
+un, en rappelant qu'un conteneur n'isole pas comme une machine virtuelle.
+
 ## 🎯 Objectif
 Réduire ce qu'un compromis peut faire dans un cluster : **namespaces** pour
 cloisonner, **RBAC** pour l'autorisation, **NetworkPolicies** pour segmenter le
@@ -8,9 +19,11 @@ réseau, **securityContext** pour durcir les Pods, et une gestion lucide des
 **Secrets**. Appliquer le moindre privilège à chaque couche.
 
 ## 🧩 Prérequis
-Config/probes et réseau K8s (`/doc/lessons/k8s-config-probes`,
-`/doc/lessons/k8s-networking-services`), durcissement Docker
-(`/doc/lessons/docker-production-hardening`).
+Vous devez connaître la **config et les Secrets** K8s (`/doc/lessons/k8s-config-probes`),
+le **réseau/Service** (`/doc/lessons/k8s-networking-services`) et le **durcissement
+Docker** (`/doc/lessons/docker-production-hardening`), car la sécurité K8s prolonge le
+moindre privilège des conteneurs. RBAC, NetworkPolicy et securityContext sont définis
+ici.
 
 ## 🧠 Modèle mental
 La sécurité d'un cluster n'est pas UN réglage, c'est une SUPERPOSITION de moindres

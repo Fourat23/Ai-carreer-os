@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T21:36:32.240Z",
+  "generatedAt": "2026-08-07T21:39:54.706Z",
   "skills": [
     {
       "id": "algo",
@@ -6774,6 +6774,20 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "k8s-count-kinds"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-pod-phase"
+        },
+        {
+          "kind": "lab",
+          "id": "kubernetes"
+        }
       ]
     },
     {
@@ -6785,6 +6799,28 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "k8s-choose-workload"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-replicas-ha"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-statefulset-pvc"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-image-pinned"
+        },
+        {
+          "kind": "lab",
+          "id": "kubernetes"
+        }
       ]
     },
     {
@@ -6796,6 +6832,24 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "k8s-service-endpoints"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-selector-match"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-ingress-backends"
+        },
+        {
+          "kind": "lab",
+          "id": "kubernetes"
+        }
       ]
     },
     {
@@ -6807,6 +6861,24 @@
       "skills": [
         "cloud",
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "k8s-needs-probe"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-probe-role"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-oom-risk"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-secret-placement"
+        }
       ]
     },
     {
@@ -6818,6 +6890,24 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "k8s-pod-phase"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-recovery-decision"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-config-drift"
+        },
+        {
+          "kind": "lab",
+          "id": "kubernetes"
+        }
       ]
     },
     {
@@ -6829,6 +6919,20 @@
       "skills": [
         "secu",
         "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "sec-networkpolicy-open"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-secret-placement"
+        },
+        {
+          "kind": "lab",
+          "id": "security"
+        }
       ]
     },
     {

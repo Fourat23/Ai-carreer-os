@@ -1,6 +1,16 @@
 <!-- keep -->
 # Leçon — Kubernetes : réseau, Services et Ingress
 
+## 🌍 Le problème d'abord
+Les Pods sont **jetables** : Kubernetes en crée et en détruit sans cesse, et à
+chaque fois leur adresse change. Alors comment un composant peut-il en joindre un
+autre de façon fiable, si l'adresse bouge tout le temps ? On ne peut pas s'appuyer
+sur l'adresse d'un Pod précis. La réponse est le **Service** : une adresse STABLE
+posée devant un groupe de Pods, qui répartit le trafic vers ceux qui sont en bonne
+santé — exactement le rôle d'un load balancer interne. Cette leçon résout ce
+problème (« joindre une cible mouvante ») puis montre comment exposer proprement une
+application au monde extérieur avec l'Ingress.
+
 ## 🎯 Objectif
 Comprendre comment on JOINT des Pods qui vont et viennent : le **Service** comme
 adresse stable, ses types (**ClusterIP**, **NodePort**, **LoadBalancer**), la
@@ -8,9 +18,12 @@ adresse stable, ses types (**ClusterIP**, **NodePort**, **LoadBalancer**), la
 ces objets au modèle réseau appris précédemment.
 
 ## 🧩 Prérequis
-Workloads (`/doc/lessons/k8s-workloads`), modèle réseau et load balancing
-(`/doc/lessons/networking-tcp-ip-model`,
-`/doc/lessons/networking-proxy-loadbalancing`).
+Vous devez savoir ce qu'est un **Pod** et un **workload**
+(`/doc/lessons/k8s-workloads`), et avoir la carte du **réseau** et du **load
+balancing L4/L7** (`/doc/lessons/networking-tcp-ip-model`,
+`/doc/lessons/networking-proxy-loadbalancing`), car un Service EST un répartiteur et
+l'Ingress un reverse proxy L7. Les notions ClusterIP/NodePort/LoadBalancer et
+endpoints sont définies ici.
 
 ## 🧠 Modèle mental
 Les Pods sont jetables : leurs IP changent. On ne peut donc pas s'y connecter

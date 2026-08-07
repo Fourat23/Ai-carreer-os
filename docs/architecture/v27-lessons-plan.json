@@ -21,7 +21,13 @@
     "ci-cd-pipeline-anatomy",
     "ci-cd-quality-gates-artifacts",
     "deployment-strategies",
-    "release-incident-recovery"
+    "release-incident-recovery",
+    "k8s-why-architecture",
+    "k8s-workloads",
+    "k8s-networking-services",
+    "k8s-config-probes",
+    "k8s-troubleshooting",
+    "k8s-security"
   ],
   "critical": [
     "networking-http-tls",
@@ -52,6 +58,12 @@
     "ci-cd-pipeline-anatomy": ["ci-cd", "docker-images-layers"],
     "ci-cd-quality-gates-artifacts": ["ci-cd-pipeline-anatomy"],
     "deployment-strategies": ["ci-cd-quality-gates-artifacts", "networking-proxy-loadbalancing"],
-    "release-incident-recovery": ["ci-cd-quality-gates-artifacts", "deployment-strategies"]
+    "release-incident-recovery": ["ci-cd-quality-gates-artifacts", "deployment-strategies"],
+    "k8s-why-architecture": ["docker-compose", "docker-production-hardening"],
+    "k8s-workloads": ["k8s-why-architecture"],
+    "k8s-networking-services": ["k8s-workloads", "networking-proxy-loadbalancing"],
+    "k8s-config-probes": ["k8s-workloads", "linux-resources-io"],
+    "k8s-troubleshooting": ["k8s-config-probes", "k8s-networking-services"],
+    "k8s-security": ["k8s-config-probes", "docker-production-hardening"]
   }
 }

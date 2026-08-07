@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Cloud : le réseau (VPC/VNet, subnets, pare-feu)
 
+## 🌍 Le problème d'abord
+Dans le cloud, vos machines ont besoin d'un réseau : lesquelles peuvent se parler ?
+lesquelles sont joignables depuis Internet ? laquelle doit rester cachée (la base de
+données) ? Bonne nouvelle : ce n'est PAS un nouveau sujet. Un réseau cloud, c'est
+exactement l'adressage, les subnets, les passerelles et le routage que vous avez
+déjà appris — mais rendus **logiciels** : on les crée par configuration, en quelques
+clics, au lieu de tirer des câbles. Le vocabulaire change selon le fournisseur (AWS
+dit « VPC », Azure dit « VNet »), le raisonnement non. Cette leçon fait le pont
+entre le réseau « général » déjà vu et sa version cloud, et montre l'erreur qui
+expose une base de données à tout Internet.
+
 ## 🎯 Objectif
 Appliquer le modèle réseau au cloud : le réseau virtuel isolé (**VPC** côté AWS,
 **VNet** côté Azure), le découpage en **subnets** publics/privés, les **pare-feu**
@@ -9,10 +20,11 @@ l'équilibrage managé. Concevoir un réseau cloud sûr et diagnostiquer « ça 
 pas ».
 
 ## 🧩 Prérequis
-Adressage/routage et modèle en couches
-(`/doc/lessons/networking-addressing-routing`,
-`/doc/lessons/networking-tcp-ip-model`), fondamentaux cloud
-(`/doc/lessons/cloud-fundamentals`).
+Vous devez maîtriser l'**adressage IP/CIDR, subnets, gateway, NAT**
+(`/doc/lessons/networking-addressing-routing`) et le **modèle en couches**
+(`/doc/lessons/networking-tcp-ip-model`), ainsi que les **fondamentaux cloud**
+(régions/zones — `/doc/lessons/cloud-fundamentals`) : cette leçon ne fait que les
+transposer au cloud. VPC/VNet, security group/NSG sont reliés à ces bases.
 
 ## 🧠 Modèle mental
 Un réseau cloud EST le modèle appris en réseau (CIDR, subnets, gateway, routage,

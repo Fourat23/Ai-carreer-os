@@ -27,7 +27,14 @@
     "k8s-networking-services",
     "k8s-config-probes",
     "k8s-troubleshooting",
-    "k8s-security"
+    "k8s-security",
+    "cloud-fundamentals",
+    "cloud-networking",
+    "cloud-compute-storage",
+    "cloud-aws-core",
+    "cloud-azure-core",
+    "iac-fundamentals",
+    "cloud-finops"
   ],
   "critical": [
     "networking-http-tls",
@@ -64,6 +71,12 @@
     "k8s-networking-services": ["k8s-workloads", "networking-proxy-loadbalancing"],
     "k8s-config-probes": ["k8s-workloads", "linux-resources-io"],
     "k8s-troubleshooting": ["k8s-config-probes", "k8s-networking-services"],
-    "k8s-security": ["k8s-config-probes", "docker-production-hardening"]
+    "k8s-security": ["k8s-config-probes", "docker-production-hardening"],
+    "cloud-networking": ["cloud-fundamentals", "networking-addressing-routing"],
+    "cloud-compute-storage": ["cloud-fundamentals", "docker-containers"],
+    "cloud-aws-core": ["cloud-fundamentals", "cloud-networking", "cloud-compute-storage"],
+    "cloud-azure-core": ["cloud-fundamentals", "cloud-networking", "cloud-compute-storage"],
+    "iac-fundamentals": ["cloud-fundamentals", "k8s-why-architecture"],
+    "cloud-finops": ["cloud-compute-storage", "k8s-config-probes"]
   }
 }

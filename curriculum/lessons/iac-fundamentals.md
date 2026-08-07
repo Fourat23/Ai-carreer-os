@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Infrastructure as Code : les fondamentaux
 
+## 🌍 Le problème d'abord
+Créer son infrastructure « à la main » en cliquant dans la console du fournisseur
+paraît simple… au début. Puis les problèmes arrivent : personne ne sait exactement
+ce qui tourne, impossible de recréer à l'identique, un collègue modifie un réglage en
+douce et plus rien n'est cohérent. La solution : **décrire** l'infrastructure voulue
+dans du **code** versionné, et laisser un outil la créer et la mettre à jour. C'est
+l'**Infrastructure as Code**. C'est la même idée que Kubernetes appliquée aux
+serveurs/réseaux : on déclare l'état voulu, l'outil calcule les changements. Cette
+leçon explique pourquoi, et les notions clés (plan/apply, state, dérive) — en
+enseignant les CONCEPTS, sans provisionner quoi que ce soit de réel.
+
 ## 🎯 Objectif
 Comprendre pourquoi on DÉCRIT l'infrastructure dans du code versionné plutôt que
 de cliquer dans une console : l'approche **déclarative**, l'**idempotence**, le
@@ -9,8 +20,11 @@ Concevoir une infra reproductible et auditable — sans prétendre l'avoir
 provisionnée.
 
 ## 🧩 Prérequis
-Fondamentaux cloud et un fournisseur (`/doc/lessons/cloud-fundamentals`,
-`/doc/lessons/cloud-aws-core` ou `/doc/lessons/cloud-azure-core`).
+Vous devez connaître les **fondamentaux cloud** (`/doc/lessons/cloud-fundamentals`)
+et au moins un fournisseur (`/doc/lessons/cloud-aws-core` ou
+`/doc/lessons/cloud-azure-core`), car l'IaC crée ces ressources. Il est très utile
+d'avoir vu l'idée **déclarative** de Kubernetes (`/doc/lessons/k8s-why-architecture`)
+— l'IaC applique la même logique à l'infrastructure.
 
 ## 🧠 Modèle mental
 L'IaC applique à l'infrastructure la même idée que Kubernetes aux applications :

@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Cloud : compute et stockage
 
+## 🌍 Le problème d'abord
+Deux questions reviennent pour toute application dans le cloud : « où va tourner mon
+code ? » et « où vais-je ranger mes données ? ». Pour le code, faut-il une machine
+complète (que je gère), un conteneur managé, ou juste une petite fonction qui se
+lance à la demande ? Pour les données, un « disque », un partage entre machines, ou
+un grand entrepôt de fichiers ? Se tromper coûte cher : payer une grosse machine
+allumée en permanence pour un usage occasionnel, ou utiliser un entrepôt de fichiers
+comme s'il s'agissait d'un disque. Cette leçon donne les critères de choix, avec un
+principe clé : le code est souvent **jetable**, donc les données à garder vont
+ailleurs (jamais sur le disque d'une machine qui peut disparaître).
+
 ## 🎯 Objectif
 Choisir OÙ faire tourner du code et OÙ ranger des données dans le cloud : les
 options de **compute** (machines virtuelles, conteneurs managés, **serverless**),
@@ -8,8 +19,10 @@ les types de **stockage** (**objet**, **bloc**, **fichier**) et les **bases
 managées**. Décider selon le besoin, indépendamment du fournisseur.
 
 ## 🧩 Prérequis
-Fondamentaux cloud (`/doc/lessons/cloud-fundamentals`) et conteneurs
-(`/doc/lessons/docker-containers`).
+Vous devez connaître les **fondamentaux cloud** (IaaS/PaaS, managé, élasticité —
+`/doc/lessons/cloud-fundamentals`) et avoir manipulé un **conteneur**
+(`/doc/lessons/docker-containers`). Les notions serverless, stockage objet/bloc/
+fichier sont définies ici, indépendamment du fournisseur.
 
 ## 🧠 Modèle mental
 Deux questions structurent l'architecture cloud : « où tourne mon code ? » et « où

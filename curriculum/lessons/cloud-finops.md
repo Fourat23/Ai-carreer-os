@@ -1,6 +1,16 @@
 <!-- keep -->
 # Leçon — FinOps : maîtriser le coût du cloud
 
+## 🌍 Le problème d'abord
+Dans le cloud, on ne paie pas une fois : on paie EN CONTINU, tant qu'une ressource
+existe — qu'elle serve ou non. D'où la mésaventure classique : une facture qui double
+sans nouveau projet, à cause de machines de test laissées allumées la nuit, de
+disques oubliés, ou d'un sur-dimensionnement « pour être tranquille ». Le **FinOps**,
+c'est traiter le coût comme une variable d'ingénierie : savoir QUI dépense QUOI,
+ajuster la taille au besoin réel, choisir le bon mode d'achat, et poser des alertes
+pour ne plus être surpris. Cette leçon part de la facture qui dérape et remonte aux
+gestes qui la maîtrisent — sans jamais sacrifier la fiabilité d'un service critique.
+
 ## 🎯 Objectif
 Comprendre le MODÈLE économique du cloud et comment le piloter : le **paiement à
 l'usage**, le **right-sizing**, les modèles d'achat (à la demande, **réservé**,
@@ -9,9 +19,11 @@ coût des ressources **inutilisées**. Faire du coût une variable d'ingénierie
 une surprise en fin de mois.
 
 ## 🧩 Prérequis
-Fondamentaux cloud et compute/stockage (`/doc/lessons/cloud-fundamentals`,
-`/doc/lessons/cloud-compute-storage`), ressources conteneur
-(`/doc/lessons/k8s-config-probes`).
+Vous devez connaître les **fondamentaux cloud** (paiement à l'usage —
+`/doc/lessons/cloud-fundamentals`), les options de **compute/stockage**
+(`/doc/lessons/cloud-compute-storage`) et la notion de **requests/limits** de
+ressources (`/doc/lessons/k8s-config-probes`), car le right-sizing consiste à ajuster
+ces ressources au besoin réel mesuré.
 
 ## 🧠 Modèle mental
 Dans le cloud, chaque ressource qui existe COÛTE, qu'elle serve ou non. Le coût

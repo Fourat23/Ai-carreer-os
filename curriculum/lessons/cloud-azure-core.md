@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Azure : les services cœur et le modèle d'identité
 
+## 🌍 Le problème d'abord
+Azure repose sur les MÊMES concepts que n'importe quel cloud (machines, stockage,
+réseau, identité) — mais avec une organisation et un vocabulaire qui lui sont
+PROPRES, et différents d'AWS. L'erreur numéro un des personnes venant d'AWS est de
+chercher un équivalent identique et de tout mélanger (« le S3 d'Azure », « l'IAM
+d'Azure »)… qui n'existent pas sous ce nom ni exactement sous cette forme. Deux
+spécificités à intégrer d'emblée : une hiérarchie de rangement explicite
+(abonnement → groupe de ressources) et une identité en deux parties (l'annuaire
+Entra ID + les droits RBAC Azure). Cette leçon présente Azure pour lui-même, PUIS
+donne une table de correspondance honnête AWS ↔ Azure pour ne jamais confondre.
+
 ## 🎯 Objectif
 Se repérer dans Azure : son ORGANISATION propre (**abonnements**, **groupes de
 ressources**), les services cœur (**Machines virtuelles**, **Blob Storage**,
@@ -9,9 +20,10 @@ d'identité **Microsoft Entra ID** + **RBAC Azure**. Objectif : lire une
 architecture Azure SANS la confondre avec AWS.
 
 ## 🧩 Prérequis
-Fondamentaux et réseau cloud (`/doc/lessons/cloud-fundamentals`,
-`/doc/lessons/cloud-networking`) ; utile : les services AWS
-(`/doc/lessons/cloud-aws-core`) pour comparer.
+Vous devez maîtriser les **concepts génériques** cloud (fondamentaux, réseau —
+`/doc/lessons/cloud-fundamentals`, `/doc/lessons/cloud-networking`). Il est très
+utile d'avoir lu la leçon **AWS** (`/doc/lessons/cloud-aws-core`) juste avant, pour
+COMPARER les deux modèles terme à terme (S3 vs Blob, IAM vs Entra ID + RBAC).
 
 ## 🧠 Modèle mental
 Azure repose sur les MÊMES concepts cloud (compute, stockage, réseau, identité)

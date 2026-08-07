@@ -1,6 +1,18 @@
 <!-- keep -->
 # Leçon — Cloud : concepts fondamentaux
 
+## 🌍 Le problème d'abord
+Pour héberger une application, il fallait autrefois **acheter des serveurs** et les
+installer dans une salle (un « datacenter »). Cher, lent, risqué : trop de machines
+si le trafic baisse, pas assez s'il explose. Le **cloud** renverse ça : au lieu de
+POSSÉDER des serveurs, on en **loue** à la demande, à la minute, chez un fournisseur
+qui gère les machines physiques à votre place. On peut en ajouter en quelques minutes
+et ne payer que ce qu'on consomme. Mais cette facilité crée de nouvelles questions :
+qu'est-ce que je gère encore, et qu'est-ce que le fournisseur gère ? qui est
+responsable de la sécurité ? Cette leçon pose ce socle — datacenter, virtualisation,
+régions, « louer au lieu de posséder » — commun à AWS comme à Azure, avant d'entrer
+dans les détails d'un fournisseur.
+
 ## 🎯 Objectif
 Poser le socle commun À TOUS les fournisseurs cloud : les **modèles de service**
 (IaaS/PaaS/SaaS), le **modèle de responsabilité partagée**, **régions** et **zones
@@ -8,8 +20,11 @@ de disponibilité**, l'**élasticité** et le **paiement à l'usage**, les **ser
 managés**. Le vocabulaire et les modèles mentaux avant AWS ou Azure.
 
 ## 🧩 Prérequis
-Réseau et conteneurs (`/doc/lessons/networking-addressing-routing`,
-`/doc/lessons/docker-containers`).
+Vous devez avoir une idée de ce qu'est une **adresse réseau**
+(`/doc/lessons/networking-addressing-routing`) et un **conteneur**
+(`/doc/lessons/docker-containers`), car le cloud héberge surtout des machines et des
+conteneurs mis en réseau. Aucune notion cloud (IaaS, région, responsabilité
+partagée) n'est supposée : on part du datacenter physique.
 
 ## 🧠 Modèle mental
 Le cloud, c'est **louer** de l'infrastructure à la demande au lieu de POSSÉDER des

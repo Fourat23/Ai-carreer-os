@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T21:39:54.706Z",
+  "generatedAt": "2026-08-07T21:43:59.075Z",
   "skills": [
     {
       "id": "algo",
@@ -6944,6 +6944,20 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-service-model"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-classify-tier"
+        },
+        {
+          "kind": "lab",
+          "id": "cloud-architecture"
+        }
       ]
     },
     {
@@ -6955,6 +6969,24 @@
       "skills": [
         "cloud",
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-cidr-overlap"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-subnet-visibility"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-sg-port-range"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-public-exposure"
+        }
       ]
     },
     {
@@ -6966,6 +6998,24 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-compute-choice"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-storage-class"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-scaling-choice"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-scaling-kind"
+        }
       ]
     },
     {
@@ -6977,6 +7027,28 @@
       "skills": [
         "cloud",
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-iam-wildcard"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-iam-excess-actions"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-iam-credential-choice"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-provider-map"
+        },
+        {
+          "kind": "lab",
+          "id": "cloud-architecture"
+        }
       ]
     },
     {
@@ -6988,6 +7060,20 @@
       "skills": [
         "cloud",
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-provider-map"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-iam-credential-choice"
+        },
+        {
+          "kind": "lab",
+          "id": "cloud-architecture"
+        }
       ]
     },
     {
@@ -6999,6 +7085,12 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "k8s-config-drift"
+        }
       ]
     },
     {
@@ -7010,6 +7102,20 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-rightsizing-savings"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-monthly-cost"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-error-budget"
+        }
       ]
     },
     {

@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — AWS : les services cœur et le modèle IAM
 
+## 🌍 Le problème d'abord
+AWS propose des CENTAINES de services aux noms opaques (EC2, S3, IAM, VPC…). Le
+débutant se noie et croit qu'il faut tout mémoriser. En réalité, chaque service
+n'est que la version AWS d'un concept que vous connaissez DÉJÀ : une machine, un
+espace de stockage, un réseau, une base, un contrôle d'accès. La vraie compétence
+n'est pas de réciter la liste, c'est de RANGER chaque service dans sa catégorie et
+de maîtriser **IAM** — le système qui décide qui a le droit de faire quoi, et d'où
+viennent la plupart des incidents de sécurité AWS. Cette leçon donne cette grille de
+lecture et insiste sur IAM, sans jamais confondre AWS avec Azure (voir la leçon
+Azure pour la correspondance).
+
 ## 🎯 Objectif
 Se repérer dans AWS : les services fondamentaux (**EC2**, **S3**, **VPC**,
 **RDS**, **Lambda**, **ECS/EKS**, **CloudWatch**) et surtout le modèle
@@ -9,9 +20,11 @@ Objectif : lire une architecture AWS et raisonner ses accès — sans confondre 
 et Azure.
 
 ## 🧩 Prérequis
-Fondamentaux et réseau cloud (`/doc/lessons/cloud-fundamentals`,
-`/doc/lessons/cloud-networking`), compute/stockage
-(`/doc/lessons/cloud-compute-storage`).
+Vous devez maîtriser les **concepts génériques** cloud : fondamentaux
+(`/doc/lessons/cloud-fundamentals`), réseau (`/doc/lessons/cloud-networking`) et
+compute/stockage (`/doc/lessons/cloud-compute-storage`) — car cette leçon ne fait que
+donner les NOMS AWS de ces concepts. Comprendre d'abord le générique évite
+d'apprendre AWS « par cœur ».
 
 ## 🧠 Modèle mental
 AWS est un catalogue immense, mais quelques services portent l'essentiel. Le fil

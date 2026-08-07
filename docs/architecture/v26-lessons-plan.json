@@ -27,7 +27,14 @@
     { "slug": "k8s-networking-services", "cp": "CP6", "theme": "Kubernetes" },
     { "slug": "k8s-config-probes", "cp": "CP6", "theme": "Kubernetes" },
     { "slug": "k8s-troubleshooting", "cp": "CP6", "theme": "Kubernetes" },
-    { "slug": "k8s-security", "cp": "CP6", "theme": "Kubernetes" }
+    { "slug": "k8s-security", "cp": "CP6", "theme": "Kubernetes" },
+    { "slug": "cloud-fundamentals", "cp": "CP7", "theme": "Cloud" },
+    { "slug": "cloud-networking", "cp": "CP7", "theme": "Cloud" },
+    { "slug": "cloud-compute-storage", "cp": "CP7", "theme": "Cloud" },
+    { "slug": "cloud-aws-core", "cp": "CP7", "theme": "AWS" },
+    { "slug": "cloud-azure-core", "cp": "CP7", "theme": "Azure" },
+    { "slug": "iac-fundamentals", "cp": "CP7", "theme": "IaC" },
+    { "slug": "cloud-finops", "cp": "CP7", "theme": "FinOps" }
   ],
   "requiredConcepts": {
     "linux-filesystem-permissions": ["inode", "rwx", "octal", "chmod", "permission"],
@@ -54,6 +61,13 @@
     "k8s-networking-services": ["service", "clusterip", "ingress", "endpoints", "dns"],
     "k8s-config-probes": ["configmap", "secret", "liveness", "readiness", "requests"],
     "k8s-troubleshooting": ["crashloopbackoff", "imagepullbackoff", "pending", "describe", "logs"],
-    "k8s-security": ["rbac", "namespace", "networkpolicy", "securitycontext", "non-root"]
+    "k8s-security": ["rbac", "namespace", "networkpolicy", "securitycontext", "non-root"],
+    "cloud-fundamentals": ["iaas", "paas", "responsabilité partagée", "zone de disponibilité", "pay-as-you-go"],
+    "cloud-networking": ["vpc", "vnet", "subnet", "security group", "nat"],
+    "cloud-compute-storage": ["serverless", "objet", "bloc", "fichier", "managé"],
+    "cloud-aws-core": ["ec2", "s3", "iam", "rôle", "policy"],
+    "cloud-azure-core": ["blob", "entra id", "rbac azure", "resource group", "identité managée"],
+    "iac-fundamentals": ["déclaratif", "idempotence", "state", "plan", "dérive"],
+    "cloud-finops": ["right-sizing", "réservé", "spot", "tagging", "egress"]
   }
 }

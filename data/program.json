@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T20:11:37.884Z",
+  "generatedAt": "2026-08-07T20:19:10.990Z",
   "skills": [
     {
       "id": "algo",
@@ -6641,6 +6641,83 @@
       "skills": [
         "secu",
         "cloud"
+      ]
+    },
+    {
+      "slug": "cloud-fundamentals",
+      "title": "Cloud : concepts fondamentaux",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "cloud-networking",
+      "title": "Cloud : le réseau (VPC/VNet, subnets, pare-feu)",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "secu"
+      ]
+    },
+    {
+      "slug": "cloud-compute-storage",
+      "title": "Cloud : compute et stockage",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "cloud-aws-core",
+      "title": "AWS : les services cœur et le modèle IAM",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "cloud",
+        "secu"
+      ]
+    },
+    {
+      "slug": "cloud-azure-core",
+      "title": "Azure : les services cœur et le modèle d'identité",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "cloud",
+        "secu"
+      ]
+    },
+    {
+      "slug": "iac-fundamentals",
+      "title": "Infrastructure as Code : les fondamentaux",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "cloud-finops",
+      "title": "FinOps : maîtriser le coût du cloud",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "cloud",
+        "archi"
       ]
     },
     {

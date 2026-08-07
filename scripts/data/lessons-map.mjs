@@ -93,6 +93,14 @@ export const LESSONS = [
   { file: 'k8s-config-probes.md', title: 'Kubernetes : configuration, secrets, probes et ressources', cat: 'Kubernetes', level: 3, min: 50, skills: ['cloud', 'secu'] },
   { file: 'k8s-troubleshooting.md', title: 'Kubernetes : diagnostiquer un incident', cat: 'Kubernetes', level: 3, min: 50, skills: ['cloud', 'archi'] },
   { file: 'k8s-security.md', title: 'Kubernetes : sécurité et moindre privilège', cat: 'Kubernetes', level: 3, min: 50, skills: ['secu', 'cloud'] },
+  // ── Cloud, AWS, Azure & IaC ──
+  { file: 'cloud-fundamentals.md', title: 'Cloud : concepts fondamentaux', cat: 'Cloud, AWS, Azure & IaC', level: 2, min: 50, skills: ['cloud', 'archi'] },
+  { file: 'cloud-networking.md', title: 'Cloud : le réseau (VPC/VNet, subnets, pare-feu)', cat: 'Cloud, AWS, Azure & IaC', level: 3, min: 50, skills: ['cloud', 'secu'] },
+  { file: 'cloud-compute-storage.md', title: 'Cloud : compute et stockage', cat: 'Cloud, AWS, Azure & IaC', level: 2, min: 50, skills: ['cloud', 'archi'] },
+  { file: 'cloud-aws-core.md', title: 'AWS : les services cœur et le modèle IAM', cat: 'Cloud, AWS, Azure & IaC', level: 3, min: 55, skills: ['cloud', 'secu'] },
+  { file: 'cloud-azure-core.md', title: "Azure : les services cœur et le modèle d'identité", cat: 'Cloud, AWS, Azure & IaC', level: 3, min: 55, skills: ['cloud', 'secu'] },
+  { file: 'iac-fundamentals.md', title: 'Infrastructure as Code : les fondamentaux', cat: 'Cloud, AWS, Azure & IaC', level: 3, min: 50, skills: ['cloud', 'archi'] },
+  { file: 'cloud-finops.md', title: 'FinOps : maîtriser le coût du cloud', cat: 'Cloud, AWS, Azure & IaC', level: 2, min: 45, skills: ['cloud', 'archi'] },
   // ── Production & DevOps ──
   { file: 'deployment-secrets.md', title: 'Secrets, environnements et déploiement', cat: 'Production & DevOps', level: 2, min: 40, skills: ['cloud', 'secu'] },
   { file: 'docker-containers.md', title: 'Docker et conteneurs', cat: 'Production & DevOps', level: 2, min: 45, skills: ['cloud'] },

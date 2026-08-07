@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Réseau : proxy, reverse proxy et load balancing
 
+## 🌍 Le problème d'abord
+Un seul serveur ne suffit bientôt plus : trop de visiteurs, et s'il tombe, tout
+tombe. La solution est d'en faire tourner **plusieurs** identiques… mais alors, à qui
+le visiteur parle-t-il ? On place devant eux un **répartiteur** qui distribue le
+trafic vers les serveurs en bonne santé et écarte ceux qui sont malades. C'est le
+**load balancer**. On le confond souvent avec un simple « proxy », et l'on ne sait
+plus, en cas de panne, si le problème vient du répartiteur ou des serveurs derrière.
+Cette leçon clarifie proxy vs reverse proxy vs load balancer, et donne une méthode
+pour diagnostiquer la chaîne « client → répartiteur → serveur » maillon par maillon.
+C'est exactement ce que font les load balancers cloud et l'Ingress de Kubernetes.
+
 ## 🎯 Objectif
 Distinguer **proxy** et **reverse proxy**, comprendre le **load balancing** (L4 vs L7,
 health checks, répartition, sessions), et savoir diagnostiquer une chaîne réseau
@@ -8,8 +19,11 @@ health checks, répartition, sessions), et savoir diagnostiquer une chaîne rés
 et en Kubernetes.
 
 ## 🧩 Prérequis
-Modèle en couches et HTTP/TLS (`/doc/lessons/networking-tcp-ip-model`,
-`/doc/lessons/networking-http-tls`).
+Vous devez avoir la **carte des couches réseau**
+(`/doc/lessons/networking-tcp-ip-model`) et comprendre **HTTP/TLS**
+(`/doc/lessons/networking-http-tls`), car un load balancer travaille soit au niveau
+transport (L4), soit au niveau HTTP (L7) : la distinction s'appuie sur ces couches.
+Les termes proxy, reverse proxy et health check sont définis ici.
 
 ## 🧠 Modèle mental
 Entre le client et le serveur, on intercale souvent un **intermédiaire**. Un **proxy**

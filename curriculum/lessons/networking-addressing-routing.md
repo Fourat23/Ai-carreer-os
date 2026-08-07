@@ -1,6 +1,18 @@
 <!-- keep -->
 # Leçon — Réseau : adressage IP, CIDR et routage
 
+## 🌍 Le problème d'abord
+Chaque machine sur un réseau a une **adresse**, comme une maison a une adresse
+postale. Mais quand vous devez organiser des centaines de machines dans le cloud —
+lesquelles peuvent se parler ? lesquelles sont joignables depuis Internet ?
+lesquelles doivent rester cachées ? — il faut découper l'espace d'adresses en
+**quartiers** et décider des règles de circulation. Mal fait, deux quartiers se
+chevauchent et plus rien ne « route » ; ou une base de données se retrouve exposée à
+tout Internet. Cette leçon part de l'analogie « adresses et quartiers d'une ville »
+(en précisant vite ses limites) pour construire les vraies notions : IP, CIDR,
+subnet, gateway, routage et NAT. C'est exactement le modèle des réseaux cloud
+(VPC/VNet).
+
 ## 🎯 Objectif
 Savoir lire une adresse IP et un **CIDR**, comprendre ce qu'est un **subnet**, une
 **gateway**, une **table de routage** et le **NAT**, et distinguer réseau **public** et
@@ -8,7 +20,10 @@ Savoir lire une adresse IP et un **CIDR**, comprendre ce qu'est un **subnet**, u
 pas ».
 
 ## 🧩 Prérequis
-Modèle en couches (`/doc/lessons/networking-tcp-ip-model`).
+Vous devez avoir la **carte mentale des couches réseau**
+(`/doc/lessons/networking-tcp-ip-model`), en particulier savoir que l'adresse IP vit
+à la couche « internet » : cette leçon zoome sur cette couche. Aucune notion de CIDR,
+subnet ou NAT n'est supposée — elles sont construites ici pas à pas.
 
 ## 🧠 Modèle mental
 Une **IP** est l'adresse d'une machine sur un réseau. Un **subnet** est un quartier

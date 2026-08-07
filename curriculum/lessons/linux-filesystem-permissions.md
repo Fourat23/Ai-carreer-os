@@ -1,6 +1,16 @@
 <!-- keep -->
 # Leçon — Linux : système de fichiers et permissions
 
+## 🌍 Le problème d'abord
+Vous lancez un programme sur un serveur et il refuse de démarrer avec un message
+sec : « Permission denied ». Le fichier est pourtant là, vous le voyez. Alors
+pourquoi la machine dit-elle non ? Parce que sous Linux, exister ne suffit pas :
+pour CHAQUE fichier, le système garde en mémoire **qui a le droit d'en faire quoi**.
+Tant qu'on ne sait pas lire ces droits, on tâtonne (et, pire, on « ouvre tout » par
+dépit, ce qui crée des trous de sécurité). Cette leçon vous apprend à LIRE ces
+droits et à corriger un refus d'accès en le comprenant, pas au hasard. On part de
+zéro : deux idées suffisent — « où est rangé le fichier » et « qui a le droit ».
+
 ## 🎯 Objectif
 Savoir lire et raisonner l'arborescence Linux, comprendre ce qu'est réellement un
 fichier (inode), et **maîtriser les permissions** (propriétaire/groupe/autres, `rwx`,
@@ -8,8 +18,12 @@ notation octale) au point de diagnostiquer et corriger un « Permission denied �
 tâtonner.
 
 ## 🧩 Prérequis
-Savoir ouvrir un terminal et se déplacer (`cd`, `ls`, `pwd`) — voir la leçon
-`terminal-shell-filesystem`.
+Avant cette leçon, vous devez savoir **ouvrir un terminal** et vous **déplacer dans
+les dossiers** (`cd` pour changer de dossier, `ls` pour lister, `pwd` pour savoir où
+l'on est) — car on va lire des chemins de fichiers et les droits associés. Si ces
+gestes ne sont pas acquis, commencez par
+`/doc/lessons/terminal-shell-filesystem`. Aucune notion de permissions n'est
+supposée : on la construit ici.
 
 ## 🧠 Modèle mental
 Sous Linux, **tout est fichier** : un document, un répertoire, un disque, une socket,
@@ -77,11 +91,12 @@ stat fichier          # métadonnées détaillées (inode, droits, horodatages)
    souvent un `x` manquant sur un dossier parent, pas sur le fichier).
 3. Comparer le propriétaire/groupe du fichier avec `id` : suis-je le proprio ? membre
    du groupe ? sinon je tombe dans « others ».
-4. Corriger au plus juste : donner le droit minimal nécessaire, pas `chmod 777`.
+4. Corriger au plus juste : donner le droit minimal nécessaire, ne **jamais** faire
+   `chmod 777` (voir Erreurs fréquentes).
 
 ## ⚠️ Erreurs fréquentes
-- **`chmod 777` « pour que ça marche »** : ouvre le fichier à tout le monde en
-  écriture — trou de sécurité, et masque le vrai problème (souvent un `x` de dossier).
+- **`chmod 777` « pour que ça marche »** (à éviter, danger) : ouvre le fichier à tous
+  en écriture — trou de sécurité, et masque le vrai problème (souvent un `x` de dossier).
 - Oublier le `x` de traversée sur un répertoire parent.
 - `chmod -R` qui rend des fichiers de données exécutables sans raison.
 - Confondre « je suis root » et « le fichier m'appartient » : root passe outre, mais

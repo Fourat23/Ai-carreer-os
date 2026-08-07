@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Réseau : le modèle TCP/IP en couches
 
+## 🌍 Le problème d'abord
+« Le site ne marche pas. » Mais qu'est-ce qui ne marche pas, exactement ? Le nom qui
+ne se traduit pas en adresse ? La machine injoignable ? Le bon programme qui répond
+mal ? Sans méthode, on devine — on redémarre au hasard, on accuse « le réseau ». La
+réalité, c'est que faire communiquer deux machines met en jeu **plusieurs étages
+empilés**, chacun s'occupant d'une seule chose : le lien physique, l'adresse, la
+livraison fiable, puis le sens du message. Si l'on sait à quel étage se situe la
+panne, on la trouve en minutes. Cette leçon donne cette **carte mentale** — la base
+qui rendra ensuite lisibles le DNS, TLS, HTTP et le réseau cloud. Aucune connaissance
+réseau n'est supposée : on construit l'image étage par étage.
+
 ## 🎯 Objectif
 Acquérir le **modèle mental par couches** qui structure tout le réseau : savoir à
 quelle couche appartient un problème (câble/wifi, IP, TCP/UDP, application) pour
@@ -8,7 +19,10 @@ diagnostiquer méthodiquement au lieu de deviner. C'est la carte qui rend lisibl
 TLS, HTTP, load balancers et réseau cloud.
 
 ## 🧩 Prérequis
-Aucun ; une machine avec un terminal suffit.
+Aucune connaissance réseau préalable n'est nécessaire : une machine avec un terminal
+suffit. Il est simplement utile d'être à l'aise avec le terminal
+(`/doc/lessons/terminal-shell-filesystem`), car on illustre chaque couche avec une
+petite commande de diagnostic.
 
 ## 🧠 Modèle mental
 Le réseau est un **empilement de couches**, chacune rendant un service à celle du

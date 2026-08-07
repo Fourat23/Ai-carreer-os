@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Linux : processus, jobs et signaux
 
+## 🌍 Le problème d'abord
+Votre application « tourne », puis un jour elle ne répond plus, ou refuse de
+démarrer en disant que « le port est déjà utilisé », ou consomme tout le processeur
+sans raison. Pour agir, il faut d'abord répondre à une question simple : **quel
+programme est en train de s'exécuter, et lequel pose problème ?** Un programme rangé
+sur le disque est juste un fichier inerte ; quand on le lance, il devient une chose
+VIVANTE que le système suit à la trace. Cette chose vivante s'appelle un
+**processus**. Cette leçon apprend à les voir, à comprendre leur état (actif,
+endormi, bloqué), et à leur demander poliment — puis fermement — de s'arrêter. Sans
+ce socle, on « tue » des programmes au hasard et on casse des services.
+
 ## 🎯 Objectif
 Comprendre ce qu'est un **processus** (PID/PPID, états, arbre), savoir l'observer
 (`ps`, `top`), le contrôler en avant/arrière-plan (jobs), et lui envoyer les bons
@@ -8,7 +19,11 @@ Comprendre ce qu'est un **processus** (PID/PPID, états, arbre), savoir l'observ
 « rame », qui ne s'arrête pas, ou un port déjà occupé.
 
 ## 🧩 Prérequis
-Terminal de base et permissions (`/doc/lessons/linux-filesystem-permissions`).
+Vous devez être à l'aise avec le **terminal** et comprendre les **permissions**
+(`/doc/lessons/linux-filesystem-permissions`) — car agir sur un processus qui ne
+vous appartient pas exige les bons droits. Aucune notion de « processus » n'est
+supposée : on la définit ici, à partir de l'idée « programme sur disque » vs
+« programme en train de tourner ».
 
 ## 🧠 Modèle mental
 Un programme sur disque est **inerte** ; un **processus** est ce programme en train de

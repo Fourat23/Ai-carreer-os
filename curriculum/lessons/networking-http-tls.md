@@ -1,6 +1,18 @@
 <!-- keep -->
 # Leçon — Réseau : HTTP et TLS
 
+## 🌍 Le problème d'abord
+Quand votre navigateur affiche une page, il a en réalité **demandé** quelque chose à
+un serveur qui lui a **répondu**. Ce dialogue suit des règles précises : c'est
+**HTTP**. Et le petit cadenas « HTTPS » ? Il ajoute une couche qui chiffre l'échange :
+c'est **TLS**. Deux malentendus coûtent cher aux débutants : croire qu'une erreur
+vient toujours du serveur (alors que souvent c'est la requête qui est mal formée), et
+croire que « cadenas vert = site de confiance » (faux : le cadenas prouve seulement
+que la communication est chiffrée, pas que le site est honnête). Cette leçon apprend
+à LIRE une réponse (le fameux code 404, 500…) et à comprendre ce que le cadenas
+garantit — et surtout ce qu'il ne garantit PAS. On n'a besoin d'aucune expérience
+préalable des API.
+
 ## 🎯 Objectif
 Comprendre **HTTP** (requête/réponse, méthodes, statuts, en-têtes) et **TLS** (ce que
 le « S » de HTTPS garantit vraiment : le handshake, les certificats, ce qui est protégé
@@ -8,7 +20,10 @@ et ce qui ne l'est pas) — pour diagnostiquer une API et raisonner la sécurit�
 transit.
 
 ## 🧩 Prérequis
-Modèle en couches (`/doc/lessons/networking-tcp-ip-model`).
+Vous devez avoir la **carte des couches réseau**
+(`/doc/lessons/networking-tcp-ip-model`) : HTTP vit à la couche « application » et TLS
+juste en dessous. Aucune connaissance des méthodes HTTP, des statuts ou des
+certificats n'est supposée — tout est introduit ici, du plus simple au plus subtil.
 
 ## 🧠 Modèle mental
 HTTP est un protocole **requête → réponse** au niveau application : le client demande,

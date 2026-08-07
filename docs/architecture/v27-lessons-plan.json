@@ -2,7 +2,18 @@
   "sprint": "V27",
   "baselineRef": "4b8bb27",
   "note": "Périmètre de durcissement pédagogique V27 (cf. ADR-027/HSD-027/TSD-027). Les 32 leçons V26 reçoivent un on-ramp débutant, des prérequis explicités et des liens vers la pratique existante (practiceRefs). Le gate v27:check valide STRUCTURELLEMENT chaque leçon durcie ; il ne juge jamais la profondeur par la longueur. hardened[] est renseigné au fil des CP3→CP6 ; critical[] liste les leçons devant impérativement porter au moins un practiceRef. prereq{} déclare le graphe de prérequis (slug -> [slugs]) validé sans cycle.",
-  "hardened": [],
+  "hardened": [
+    "linux-filesystem-permissions",
+    "linux-processes-signals",
+    "linux-services-systemd",
+    "linux-resources-io",
+    "linux-ssh-remote",
+    "networking-tcp-ip-model",
+    "networking-addressing-routing",
+    "networking-dns",
+    "networking-http-tls",
+    "networking-proxy-loadbalancing"
+  ],
   "critical": [
     "networking-http-tls",
     "cloud-aws-core",
@@ -14,5 +25,15 @@
     "linux-resources-io",
     "docker-images-layers"
   ],
-  "prereq": {}
+  "prereq": {
+    "linux-filesystem-permissions": ["terminal-shell-filesystem"],
+    "linux-processes-signals": ["linux-filesystem-permissions"],
+    "linux-services-systemd": ["linux-processes-signals"],
+    "linux-resources-io": ["linux-processes-signals"],
+    "linux-ssh-remote": ["linux-filesystem-permissions", "networking-tcp-ip-model"],
+    "networking-addressing-routing": ["networking-tcp-ip-model"],
+    "networking-dns": ["networking-addressing-routing"],
+    "networking-http-tls": ["networking-tcp-ip-model"],
+    "networking-proxy-loadbalancing": ["networking-tcp-ip-model", "networking-http-tls"]
+  }
 }

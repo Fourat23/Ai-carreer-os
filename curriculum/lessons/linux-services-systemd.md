@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Linux : services, daemons et systemd
 
+## 🌍 Le problème d'abord
+Vous lancez votre serveur à la main dans un terminal : il marche. Vous fermez le
+terminal… et tout s'arrête. La machine redémarre la nuit : votre serveur ne revient
+pas. Il crashe à 3 h du matin : personne ne le relance. Lancer un programme « à la
+main » ne suffit donc pas pour qu'un service tienne dans la durée. Il faut quelqu'un
+qui le démarre au bon moment, le RELANCE s'il tombe, et garde une trace de ce qui
+s'est passé. Sur Linux, ce « quelqu'un » est un chef d'orchestre appelé **systemd**.
+Cette leçon explique le problème (faire tourner un programme durablement, sans
+humain de garde) puis la solution, sans supposer que vous savez ce qu'est un
+« service ».
+
 ## 🎯 Objectif
 Comprendre ce qu'est un **service** (daemon), comment **systemd** le démarre, le
 supervise et le redémarre, et savoir lire ses **logs** avec `journalctl` — pour qu'une
@@ -8,7 +19,10 @@ application tourne durablement, survive au redémarrage de la machine, et se dia
 proprement.
 
 ## 🧩 Prérequis
-Processus et signaux (`/doc/lessons/linux-processes-signals`).
+Vous devez comprendre ce qu'est un **processus** et comment on l'arrête proprement
+(`/doc/lessons/linux-processes-signals`) — car un service n'est qu'un processus géré
+automatiquement, et systemd s'appuie sur les signaux (`SIGTERM`) pour l'arrêter. La
+notion de « daemon » (programme de fond) est définie dans cette leçon.
 
 ## 🧠 Modèle mental
 Un **daemon** est un processus qui tourne en tâche de fond, sans terminal, en

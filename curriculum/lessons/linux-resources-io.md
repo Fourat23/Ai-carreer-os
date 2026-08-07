@@ -1,6 +1,16 @@
 <!-- keep -->
 # Leçon — Linux : ressources, mémoire et I/O
 
+## 🌍 Le problème d'abord
+« Le serveur est lent. » C'est la plainte la plus fréquente… et la plus vague. Lent
+POURQUOI ? Un serveur n'a que quelques ressources limitées qu'il doit se partager :
+le temps de calcul (le processeur), la mémoire vive, le disque, et le nombre de
+fichiers qu'il peut ouvrir en même temps. Quand « ça rame », c'est presque toujours
+que l'une de ces quatre ressources est **saturée** — mais pas la même selon les cas,
+et le remède diffère radicalement. Confondre « manque de mémoire » et « disque
+saturé », c'est appliquer le mauvais correctif et perdre des heures. Cette leçon
+apprend à mesurer AVANT de conclure, avec des chiffres, pour nommer la vraie cause.
+
 ## 🎯 Objectif
 Savoir diagnostiquer une machine qui « rame » ou sature : distinguer un problème de
 **CPU**, de **mémoire** (RSS, swap, OOM), d'**I/O disque** ou de **descripteurs de
@@ -8,7 +18,10 @@ fichiers**, avec les bons outils et la bonne interprétation — sans confondre 
 symptômes.
 
 ## 🧩 Prérequis
-Processus et signaux (`/doc/lessons/linux-processes-signals`).
+Vous devez savoir observer un **processus** (`ps`, `top`) et comprendre son état
+(`/doc/lessons/linux-processes-signals`) — car diagnostiquer une saturation, c'est
+d'abord repérer QUEL processus consomme la ressource. Les termes RSS, swap, OOM et
+descripteur de fichier sont définis ici, pas supposés connus.
 
 ## 🧠 Modèle mental
 Un serveur a quatre ressources limitées qui se partagent : **CPU** (temps de calcul),

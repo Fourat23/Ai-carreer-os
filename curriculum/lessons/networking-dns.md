@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Réseau : DNS, la résolution de noms
 
+## 🌍 Le problème d'abord
+Vous tapez `exemple.fr` dans un navigateur, pas une suite de chiffres. Pourtant les
+machines ne savent se joindre que par des **adresses numériques** (IP). Il faut donc
+un annuaire géant qui traduise les noms en adresses : c'est le **DNS**. Ce détail
+invisible est responsable d'une part énorme des pannes : « j'ai changé le serveur
+mais le site pointe encore vers l'ancien », « le site marche chez moi mais pas chez
+le voisin ». La raison est presque toujours la même — une réponse **gardée en
+mémoire** trop longtemps. Cette leçon explique comment un nom devient une adresse, et
+pourquoi un réglage appelé TTL décide de la vitesse à laquelle un changement se
+propage. D'où la blague d'ingénieur : « c'est toujours le DNS ».
+
 ## 🎯 Objectif
 Comprendre comment un **nom de domaine** devient une **IP** : les types
 d'enregistrements (A, AAAA, CNAME, MX, TXT), le rôle du **TTL** et du **cache**, et
@@ -8,7 +19,10 @@ savoir diagnostiquer un problème DNS avec `dig` — l'une des causes d'incident
 fréquentes et les plus mal comprises.
 
 ## 🧩 Prérequis
-Adressage IP (`/doc/lessons/networking-addressing-routing`).
+Vous devez savoir ce qu'est une **adresse IP** et distinguer réseau public/privé
+(`/doc/lessons/networking-addressing-routing`), puisque le DNS ne fait que traduire un
+nom EN une IP. Les notions d'enregistrement (A/CNAME/…), de resolver et de TTL sont
+définies ici.
 
 ## 🧠 Modèle mental
 Les humains retiennent des noms (`api.exemple.test`), les machines parlent en IP. Le

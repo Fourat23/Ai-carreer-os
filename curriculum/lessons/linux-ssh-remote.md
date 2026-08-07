@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Linux : SSH et accès distant
 
+## 🌍 Le problème d'abord
+Votre serveur est dans un datacenter à des milliers de kilomètres, ou c'est une
+machine louée dans le cloud. Vous devez y taper des commandes comme si vous étiez
+devant. Deux dangers évidents : n'importe qui sur le chemin pourrait **espionner**
+ce que vous tapez (dont vos mots de passe), et vous pourriez vous connecter par
+erreur à une **fausse** machine qui se fait passer pour la vôtre. **SSH** résout les
+deux : il ouvre un tuyau chiffré ET vérifie l'identité des deux bouts. Cette leçon
+part de ce besoin concret (« administrer une machine distante sans se faire
+espionner ni tromper ») et montre pourquoi une **clé** cryptographique est bien plus
+sûre qu'un mot de passe.
+
 ## 🎯 Objectif
 Comprendre comment **SSH** sécurise un accès à distance, savoir utiliser
 l'**authentification par clé** (plutôt que par mot de passe), copier des fichiers
@@ -8,8 +19,11 @@ l'**authentification par clé** (plutôt que par mot de passe), copier des fichi
 base — la porte d'entrée de toute machine serveur ou instance cloud.
 
 ## 🧩 Prérequis
-Permissions (`/doc/lessons/linux-filesystem-permissions`) et notions de réseau
-(`/doc/lessons/networking-tcp-ip-model`).
+Vous devez comprendre les **permissions** de fichiers
+(`/doc/lessons/linux-filesystem-permissions`) — SSH refuse une clé privée aux droits
+trop ouverts — et avoir une idée de ce qu'est une **connexion réseau** et un **port**
+(`/doc/lessons/networking-tcp-ip-model`). Les notions de clé publique/privée et de
+tunnel sont expliquées ici depuis le début.
 
 ## 🧠 Modèle mental
 SSH (Secure Shell) ouvre un **canal chiffré** entre votre machine (client) et une
@@ -67,6 +81,26 @@ rsync -avz ./build/ prod:/srv/app/        # synchroniser un dossier
 ssh -L 5432:localhost:5432 prod           # tunnel local -> service distant privé
 ssh-add ~/.ssh/id_ed25519                 # charger la clé dans l'agent
 ```
+
+## 🧭 Exemple guidé — première connexion par clé (pas à pas)
+**Situation.** Vous venez de louer une machine et vous voulez vous y connecter sans
+mot de passe, de façon sûre.
+1. **Générer une paire de clés** (une fois pour toutes) : `ssh-keygen -t ed25519`.
+   Deux fichiers apparaissent : `~/.ssh/id_ed25519` (la clé **privée**, secrète, à ne
+   JAMAIS partager) et `~/.ssh/id_ed25519.pub` (la clé **publique**, qu'on peut
+   diffuser). Analogie (avec ses limites) : la clé publique est un cadenas ouvert que
+   l'on distribue ; la clé privée est la seule à pouvoir le fermer/ouvrir. L'analogie
+   s'arrête là : il n'y a pas d'objet physique, juste des maths.
+2. **Déposer la clé publique** sur le serveur : `ssh-copy-id app@203.0.113.10`. Elle
+   est ajoutée au fichier `~/.ssh/authorized_keys` du serveur (la liste des clés
+   autorisées).
+3. **Se connecter** : `ssh app@203.0.113.10`. La première fois, le client affiche
+   l'empreinte de la **clé d'hôte** du serveur et demande confirmation : c'est le
+   serveur qui prouve SON identité (on répond `yes` seulement si l'empreinte est
+   attendue). Elle est mémorisée dans `~/.ssh/known_hosts`.
+4. **Résultat** : vous obtenez un shell distant, sans mot de passe, sur un canal
+   chiffré. Si ça échoue par « Permissions … are too open », c'est que la clé privée
+   n'est pas en `600` (cf. la leçon permissions) : `chmod 600 ~/.ssh/id_ed25519`.
 
 ## 🔐 Durcissement du serveur
 Réglages classiques (`/etc/ssh/sshd_config`) : `PasswordAuthentication no` (clés

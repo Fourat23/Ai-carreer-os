@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T20:19:10.990Z",
+  "generatedAt": "2026-08-07T21:30:30.850Z",
   "skills": [
     {
       "id": "algo",
@@ -6389,6 +6389,16 @@
       "min": 45,
       "skills": [
         "gitlinux"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "sys-process-top-cpu"
+        },
+        {
+          "kind": "exercise",
+          "id": "docker-exit-diagnosis"
+        }
       ]
     },
     {
@@ -6411,6 +6421,16 @@
       "skills": [
         "gitlinux",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "sys-process-top-cpu"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-oom-risk"
+        }
       ]
     },
     {
@@ -6433,6 +6453,16 @@
       "skills": [
         "http",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "net-http-status-class"
+        },
+        {
+          "kind": "exercise",
+          "id": "net-dns-resolve"
+        }
       ]
     },
     {
@@ -6444,6 +6474,20 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-cidr-overlap"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-subnet-visibility"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-sg-port-range"
+        }
       ]
     },
     {
@@ -6455,6 +6499,12 @@
       "skills": [
         "http",
         "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "net-dns-resolve"
+        }
       ]
     },
     {
@@ -6466,6 +6516,16 @@
       "skills": [
         "http",
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "net-http-status-class"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-status"
+        }
       ]
     },
     {
@@ -6477,6 +6537,16 @@
       "skills": [
         "archi",
         "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-readiness-routing"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-service-endpoints"
+        }
       ]
     },
     {

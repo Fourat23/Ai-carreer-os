@@ -1,0 +1,76 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "linux-fd-ulimit",
+  "title": "Linux : dépassement de la limite de descripteurs",
+  "difficulty": 2,
+  "summary": "exceedsUlimit(open, limit) → true si le nombre de descripteurs ouverts dépasse STRICTEMENT la limite. À la limite exacte, ce n'est pas encore un dépassement.",
+  "skills": [
+    "linux",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function exceedsUlimit(open, limit) {\n  // TODO : attention au cas open == limit\n  return open >= limit;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function exceedsUlimit(open, limit) {\n  return open > limit;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "sous la limite",
+      "kind": "call-equals",
+      "export": "exceedsUlimit",
+      "args": [
+        100,
+        1024
+      ],
+      "expected": false
+    },
+    {
+      "id": "t2",
+      "name": "au-dessus de la limite",
+      "kind": "call-equals",
+      "export": "exceedsUlimit",
+      "args": [
+        2000,
+        1024
+      ],
+      "expected": true
+    },
+    {
+      "id": "t3",
+      "name": "exactement à la limite → pas un dépassement",
+      "kind": "call-equals",
+      "export": "exceedsUlimit",
+      "args": [
+        1024,
+        1024
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "juste au-dessus de la limite",
+      "kind": "call-equals",
+      "export": "exceedsUlimit",
+      "args": [
+        1025,
+        1024
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

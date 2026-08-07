@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T21:43:59.075Z",
+  "generatedAt": "2026-08-07T21:52:27.414Z",
   "skills": [
     {
       "id": "algo",
@@ -6379,6 +6379,12 @@
       "skills": [
         "gitlinux",
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "linux-path-traversal-x"
+        }
       ]
     },
     {
@@ -6398,6 +6404,10 @@
         {
           "kind": "exercise",
           "id": "docker-exit-diagnosis"
+        },
+        {
+          "kind": "exercise",
+          "id": "linux-signal-choice"
         }
       ]
     },
@@ -6410,6 +6420,12 @@
       "skills": [
         "gitlinux",
         "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "systemd-restart-loop"
+        }
       ]
     },
     {
@@ -6430,6 +6446,10 @@
         {
           "kind": "exercise",
           "id": "k8s-oom-risk"
+        },
+        {
+          "kind": "exercise",
+          "id": "linux-fd-ulimit"
         }
       ]
     },
@@ -6442,6 +6462,12 @@
       "skills": [
         "gitlinux",
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "ssh-key-perms-accepted"
+        }
       ]
     },
     {
@@ -6504,6 +6530,14 @@
         {
           "kind": "exercise",
           "id": "net-dns-resolve"
+        },
+        {
+          "kind": "exercise",
+          "id": "dns-record-type-choice"
+        },
+        {
+          "kind": "exercise",
+          "id": "dns-ttl-still-cached"
         }
       ]
     },
@@ -6525,6 +6559,14 @@
         {
           "kind": "exercise",
           "id": "http-status"
+        },
+        {
+          "kind": "exercise",
+          "id": "tls-cert-usable"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-method-idempotent"
         }
       ]
     },
@@ -6629,6 +6671,10 @@
         {
           "kind": "exercise",
           "id": "docker-port-mapping"
+        },
+        {
+          "kind": "exercise",
+          "id": "compose-depends-ready"
         }
       ]
     },
@@ -7090,6 +7136,14 @@
         {
           "kind": "exercise",
           "id": "k8s-config-drift"
+        },
+        {
+          "kind": "exercise",
+          "id": "iac-plan-destructive"
+        },
+        {
+          "kind": "exercise",
+          "id": "iac-idempotent-changes"
         }
       ]
     },

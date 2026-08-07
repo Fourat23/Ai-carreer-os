@@ -1,0 +1,65 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "dns-ttl-still-cached",
+  "title": "DNS : l'ancienne valeur est-elle encore en cache ?",
+  "difficulty": 2,
+  "summary": "stillCached(ttl, elapsed) → true si le temps écoulé depuis la mise en cache est STRICTEMENT inférieur au TTL (l'ancienne réponse peut encore être servie).",
+  "skills": [
+    "http",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function stillCached(ttl, elapsed) {\n  // TODO : comparer le temps écoulé au TTL\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function stillCached(ttl, elapsed) {\n  return elapsed < ttl;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "peu de temps écoulé → encore en cache",
+      "kind": "call-equals",
+      "export": "stillCached",
+      "args": [
+        3600,
+        100
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "TTL dépassé → cache expiré",
+      "kind": "call-equals",
+      "export": "stillCached",
+      "args": [
+        3600,
+        4000
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "pile à l'expiration → plus en cache",
+      "kind": "call-equals",
+      "export": "stillCached",
+      "args": [
+        300,
+        300
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

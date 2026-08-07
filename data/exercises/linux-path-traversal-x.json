@@ -1,0 +1,74 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "linux-path-traversal-x",
+  "title": "Linux : traversée d'un chemin (x sur chaque dossier)",
+  "difficulty": 2,
+  "summary": "canReach(dirExecFlags) → true seulement si CHAQUE dossier parent accorde le droit d'exécution (x = traversée). Un x manquant sur un parent bloque l'accès.",
+  "skills": [
+    "linux",
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function canReach(dirExecFlags) {\n  // TODO : il faut x sur TOUS les dossiers parents, pas seulement le dernier\n  return dirExecFlags[dirExecFlags.length - 1];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function canReach(dirExecFlags) {\n  return dirExecFlags.every(Boolean);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tous les dossiers ont x",
+      "kind": "call-equals",
+      "export": "canReach",
+      "args": [
+        [
+          true,
+          true,
+          true
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "un dossier intermédiaire sans x",
+      "kind": "call-equals",
+      "export": "canReach",
+      "args": [
+        [
+          true,
+          false,
+          true
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "premier dossier sans x",
+      "kind": "call-equals",
+      "export": "canReach",
+      "args": [
+        [
+          false,
+          true,
+          true
+        ]
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

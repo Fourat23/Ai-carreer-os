@@ -1,0 +1,73 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "ssh-key-perms-accepted",
+  "title": "SSH : la clé privée est-elle acceptée ?",
+  "difficulty": 2,
+  "summary": "keyAccepted(octalMode) → true seulement si la clé privée est lisible par son SEUL propriétaire ('600' ou '400'). Trop ouverte, le client SSH la refuse.",
+  "skills": [
+    "linux",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function keyAccepted(octalMode) {\n  // TODO : SSH refuse une clé lisible par le groupe/les autres\n  return octalMode !== '777';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function keyAccepted(octalMode) {\n  return octalMode === '600' || octalMode === '400';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "600 accepté",
+      "kind": "call-equals",
+      "export": "keyAccepted",
+      "args": [
+        "600"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "644 refusé (groupe/autres lisent)",
+      "kind": "call-equals",
+      "export": "keyAccepted",
+      "args": [
+        "644"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "400 accepté (lecture seule propriétaire)",
+      "kind": "call-equals",
+      "export": "keyAccepted",
+      "args": [
+        "400"
+      ],
+      "expected": true,
+      "private": true
+    },
+    {
+      "id": "t4",
+      "name": "777 refusé",
+      "kind": "call-equals",
+      "export": "keyAccepted",
+      "args": [
+        "777"
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

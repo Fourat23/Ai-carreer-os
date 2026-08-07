@@ -1,0 +1,72 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "http-method-idempotent",
+  "title": "HTTP : la méthode est-elle idempotente ?",
+  "difficulty": 2,
+  "summary": "isIdempotent(method) → true pour GET/HEAD/PUT/DELETE (rejouer donne le même état), false pour POST/PATCH.",
+  "skills": [
+    "http",
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isIdempotent(method) {\n  // TODO : plusieurs méthodes sont idempotentes, pas seulement GET\n  return method === 'GET';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isIdempotent(method) {\n  return ['GET', 'HEAD', 'PUT', 'DELETE'].includes(method);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "GET idempotent",
+      "kind": "call-equals",
+      "export": "isIdempotent",
+      "args": [
+        "GET"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "POST non idempotent",
+      "kind": "call-equals",
+      "export": "isIdempotent",
+      "args": [
+        "POST"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "DELETE idempotent",
+      "kind": "call-equals",
+      "export": "isIdempotent",
+      "args": [
+        "DELETE"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t4",
+      "name": "PATCH non idempotent",
+      "kind": "call-equals",
+      "export": "isIdempotent",
+      "args": [
+        "PATCH"
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

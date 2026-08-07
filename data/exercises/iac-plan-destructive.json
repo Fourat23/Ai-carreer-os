@@ -1,0 +1,71 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "iac-plan-destructive",
+  "title": "IaC : cette action du plan est-elle destructive ?",
+  "difficulty": 2,
+  "summary": "isDestructive(action) → true pour 'replace' et 'destroy' (perte/recréation de ressource), false pour 'create', 'read', 'update'. À lire dans un plan avant apply.",
+  "skills": [
+    "functions",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isDestructive(action) {\n  // TODO : 'replace' recrée la ressource — c'est destructif aussi\n  return action === 'destroy';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isDestructive(action) {\n  return action === 'destroy' || action === 'replace';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "destroy est destructif",
+      "kind": "call-equals",
+      "export": "isDestructive",
+      "args": [
+        "destroy"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "create ne l'est pas",
+      "kind": "call-equals",
+      "export": "isDestructive",
+      "args": [
+        "create"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "replace est destructif (recréation)",
+      "kind": "call-equals",
+      "export": "isDestructive",
+      "args": [
+        "replace"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t4",
+      "name": "update ne l'est pas",
+      "kind": "call-equals",
+      "export": "isDestructive",
+      "args": [
+        "update"
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

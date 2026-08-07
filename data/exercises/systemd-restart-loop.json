@@ -1,0 +1,72 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "systemd-restart-loop",
+  "title": "systemd : détecter un service en boucle de crash",
+  "difficulty": 2,
+  "summary": "crashLooping(exitCodes) → true si le service a redémarré au moins 3 fois avec un code de sortie non nul à chaque fois (échec répété), false sinon.",
+  "skills": [
+    "linux",
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function crashLooping(exitCodes) {\n  // TODO : au moins 3 échecs consécutifs (code != 0)\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function crashLooping(exitCodes) {\n  return exitCodes.length >= 3 && exitCodes.every((c) => c !== 0);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "trois échecs → boucle",
+      "kind": "call-equals",
+      "export": "crashLooping",
+      "args": [
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "un seul démarrage OK",
+      "kind": "call-equals",
+      "export": "crashLooping",
+      "args": [
+        [
+          0
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "un succès intercalé → pas une boucle",
+      "kind": "call-equals",
+      "export": "crashLooping",
+      "args": [
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

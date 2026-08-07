@@ -1,0 +1,70 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "compose-depends-ready",
+  "title": "Compose : le démarrage est-il déterministe ?",
+  "difficulty": 2,
+  "summary": "startupSafe(dep) où dep={hasHealthcheck, condition} → true seulement si le service dépendu a un healthcheck ET que depends_on utilise la condition 'service_healthy'. Sinon, course au démarrage.",
+  "skills": [
+    "conditions",
+    "objects"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function startupSafe(dep) {\n  // TODO : depends_on seul ne garantit que l'ORDRE, pas la disponibilité\n  return dep.condition === 'started';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function startupSafe(dep) {\n  return !!dep.hasHealthcheck && dep.condition === 'service_healthy';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "healthcheck + service_healthy → déterministe",
+      "kind": "call-equals",
+      "export": "startupSafe",
+      "args": [
+        {
+          "hasHealthcheck": true,
+          "condition": "service_healthy"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "depends_on 'started' seul → course au démarrage",
+      "kind": "call-equals",
+      "export": "startupSafe",
+      "args": [
+        {
+          "hasHealthcheck": false,
+          "condition": "started"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "condition service_healthy mais sans healthcheck",
+      "kind": "call-equals",
+      "export": "startupSafe",
+      "args": [
+        {
+          "hasHealthcheck": false,
+          "condition": "service_healthy"
+        }
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

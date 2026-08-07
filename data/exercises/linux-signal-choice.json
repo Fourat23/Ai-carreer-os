@@ -1,0 +1,62 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "linux-signal-choice",
+  "title": "Linux : choisir le bon signal",
+  "difficulty": 2,
+  "summary": "signalFor(intent) → 'SIGTERM' (arrêt gracieux), 'SIGKILL' (forcer, dernier recours), 'SIGHUP' (recharger la config).",
+  "skills": [
+    "linux",
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function signalFor(intent) {\n  // TODO : ne pas tout tuer avec SIGKILL\n  return 'SIGKILL';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function signalFor(intent) {\n  return { graceful: 'SIGTERM', force: 'SIGKILL', reload: 'SIGHUP' }[intent] ?? 'SIGTERM';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "arrêt gracieux → SIGTERM",
+      "kind": "call-equals",
+      "export": "signalFor",
+      "args": [
+        "graceful"
+      ],
+      "expected": "SIGTERM"
+    },
+    {
+      "id": "t2",
+      "name": "forcer → SIGKILL",
+      "kind": "call-equals",
+      "export": "signalFor",
+      "args": [
+        "force"
+      ],
+      "expected": "SIGKILL"
+    },
+    {
+      "id": "t3",
+      "name": "recharger la config → SIGHUP",
+      "kind": "call-equals",
+      "export": "signalFor",
+      "args": [
+        "reload"
+      ],
+      "expected": "SIGHUP",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "iac-idempotent-changes",
+  "title": "IaC : combien de changements au prochain apply ?",
+  "difficulty": 3,
+  "summary": "plannedChanges(desired, current) → nombre de clés dont la valeur désirée diffère de l'état actuel. Si tout correspond déjà, renvoie 0 (idempotence : un second apply ne change rien).",
+  "skills": [
+    "objects",
+    "hashmap"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function plannedChanges(desired, current) {\n  // TODO : ne compter QUE les clés qui diffèrent réellement\n  return Object.keys(desired).length;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function plannedChanges(desired, current) {\n  const keys = new Set([...Object.keys(desired), ...Object.keys(current)]);\n  let n = 0;\n  for (const k of keys) if (desired[k] !== current[k]) n++;\n  return n;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "état conforme → 0 changement (idempotent)",
+      "kind": "call-equals",
+      "export": "plannedChanges",
+      "args": [
+        {
+          "size": "small",
+          "count": 2
+        },
+        {
+          "size": "small",
+          "count": 2
+        }
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t2",
+      "name": "une valeur diffère → 1",
+      "kind": "call-equals",
+      "export": "plannedChanges",
+      "args": [
+        {
+          "size": "large",
+          "count": 2
+        },
+        {
+          "size": "small",
+          "count": 2
+        }
+      ],
+      "expected": 1
+    },
+    {
+      "id": "t3",
+      "name": "une clé nouvelle → 1",
+      "kind": "call-equals",
+      "export": "plannedChanges",
+      "args": [
+        {
+          "size": "small",
+          "count": 2,
+          "tag": "prod"
+        },
+        {
+          "size": "small",
+          "count": 2
+        }
+      ],
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

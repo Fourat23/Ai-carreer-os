@@ -1,0 +1,73 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "dns-record-type-choice",
+  "title": "DNS : choisir le bon type d'enregistrement",
+  "difficulty": 2,
+  "summary": "recordType(need) → 'A' (nom→IPv4), 'AAAA' (IPv6), 'CNAME' (alias vers un autre nom), 'MX' (mail), 'TXT' (vérification de propriété).",
+  "skills": [
+    "http",
+    "objects"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function recordType(need) {\n  // TODO : mapper le besoin au bon type\n  return 'A';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function recordType(need) {\n  return { ipv4: 'A', ipv6: 'AAAA', alias: 'CNAME', mail: 'MX', verify: 'TXT' }[need] ?? 'A';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "nom vers IPv4 → A",
+      "kind": "call-equals",
+      "export": "recordType",
+      "args": [
+        "ipv4"
+      ],
+      "expected": "A"
+    },
+    {
+      "id": "t2",
+      "name": "alias vers un autre nom → CNAME",
+      "kind": "call-equals",
+      "export": "recordType",
+      "args": [
+        "alias"
+      ],
+      "expected": "CNAME"
+    },
+    {
+      "id": "t3",
+      "name": "serveur mail → MX",
+      "kind": "call-equals",
+      "export": "recordType",
+      "args": [
+        "mail"
+      ],
+      "expected": "MX",
+      "private": true
+    },
+    {
+      "id": "t4",
+      "name": "preuve de propriété → TXT",
+      "kind": "call-equals",
+      "export": "recordType",
+      "args": [
+        "verify"
+      ],
+      "expected": "TXT",
+      "private": true
+    }
+  ]
+}

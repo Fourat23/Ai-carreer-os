@@ -1,0 +1,92 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1",
+    "cloud-devops-engineer-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "tls-cert-usable",
+  "title": "TLS : le certificat est-il utilisable ?",
+  "difficulty": 3,
+  "summary": "certUsable(now, notAfter, host, san) → true seulement si le certificat n'est pas expiré (now <= notAfter) ET si le domaine demandé figure dans la liste des noms couverts (san).",
+  "skills": [
+    "http",
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function certUsable(now, notAfter, host, san) {\n  // TODO : vérifier AUSSI que host est couvert par le certificat\n  return now <= notAfter;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function certUsable(now, notAfter, host, san) {\n  return now <= notAfter && Array.isArray(san) && san.includes(host);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "valide et domaine couvert",
+      "kind": "call-equals",
+      "export": "certUsable",
+      "args": [
+        1000,
+        2000,
+        "api.exemple.test",
+        [
+          "api.exemple.test"
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "expiré",
+      "kind": "call-equals",
+      "export": "certUsable",
+      "args": [
+        3000,
+        2000,
+        "api.exemple.test",
+        [
+          "api.exemple.test"
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "non expiré mais mauvais domaine",
+      "kind": "call-equals",
+      "export": "certUsable",
+      "args": [
+        1000,
+        2000,
+        "autre.exemple.test",
+        [
+          "api.exemple.test"
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t4",
+      "name": "expiré ET mauvais domaine",
+      "kind": "call-equals",
+      "export": "certUsable",
+      "args": [
+        3000,
+        2000,
+        "autre.exemple.test",
+        [
+          "api.exemple.test"
+        ]
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

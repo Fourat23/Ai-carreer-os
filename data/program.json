@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T21:52:27.414Z",
+  "generatedAt": "2026-08-07T21:56:23.993Z",
   "skills": [
     {
       "id": "algo",
@@ -6567,6 +6567,10 @@
         {
           "kind": "exercise",
           "id": "http-method-idempotent"
+        },
+        {
+          "kind": "mission",
+          "id": "incident-dns-tls-http"
         }
       ]
     },
@@ -6700,6 +6704,10 @@
         {
           "kind": "exercise",
           "id": "docker-exit-diagnosis"
+        },
+        {
+          "kind": "mission",
+          "id": "docker-container-incident"
         }
       ]
     },
@@ -6729,6 +6737,10 @@
         {
           "kind": "exercise",
           "id": "cicd-cache-key"
+        },
+        {
+          "kind": "mission",
+          "id": "cicd-blocked-delivery"
         }
       ]
     },
@@ -6783,6 +6795,10 @@
         {
           "kind": "exercise",
           "id": "cloud-readiness-routing"
+        },
+        {
+          "kind": "mission",
+          "id": "k8s-rolling-regression"
         }
       ]
     },
@@ -6808,6 +6824,10 @@
         {
           "kind": "exercise",
           "id": "incident-health-rollup"
+        },
+        {
+          "kind": "mission",
+          "id": "cloud-broken-release"
         }
       ]
     },
@@ -6924,6 +6944,10 @@
         {
           "kind": "exercise",
           "id": "k8s-secret-placement"
+        },
+        {
+          "kind": "mission",
+          "id": "k8s-oomkilled-sizing"
         }
       ]
     },
@@ -6953,6 +6977,14 @@
         {
           "kind": "lab",
           "id": "kubernetes"
+        },
+        {
+          "kind": "mission",
+          "id": "k8s-crashloop"
+        },
+        {
+          "kind": "mission",
+          "id": "k8s-service-no-endpoints"
         }
       ]
     },
@@ -7003,6 +7035,10 @@
         {
           "kind": "lab",
           "id": "cloud-architecture"
+        },
+        {
+          "kind": "mission",
+          "id": "cloud-three-tier"
         }
       ]
     },
@@ -7032,6 +7068,10 @@
         {
           "kind": "exercise",
           "id": "cloud-public-exposure"
+        },
+        {
+          "kind": "mission",
+          "id": "cloud-secure-exposure"
         }
       ]
     },
@@ -7061,6 +7101,10 @@
         {
           "kind": "exercise",
           "id": "cloud-scaling-kind"
+        },
+        {
+          "kind": "mission",
+          "id": "cloud-high-availability"
         }
       ]
     },
@@ -7144,6 +7188,10 @@
         {
           "kind": "exercise",
           "id": "iac-idempotent-changes"
+        },
+        {
+          "kind": "mission",
+          "id": "iac-drift-remediation"
         }
       ]
     },
@@ -7169,6 +7217,10 @@
         {
           "kind": "exercise",
           "id": "cloud-error-budget"
+        },
+        {
+          "kind": "mission",
+          "id": "cloud-cost-reduction"
         }
       ]
     },

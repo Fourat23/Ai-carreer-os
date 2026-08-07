@@ -1,0 +1,110 @@
+{
+  "id": "iac-drift-remediation",
+  "title": "Dérive IaC : diagnostiquer et remédier sans casser la prod",
+  "description": "L'infrastructure réelle a divergé du code (Infrastructure as Code). Analyser la dérive, planifier une remédiation sûre (sans action destructive à l'aveugle), rétablir « le code = la vérité ».",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Simulation déterministe (aucun provisioning réel, aucun appel cloud). Quelqu'un a modifié une ressource À LA MAIN dans la console : l'état réel ne correspond plus au code IaC versionné. Un prochain `apply` pourrait ANNULER la modification manuelle, ou pire, un plan mal lu pourrait DÉTRUIRE/recréer une ressource. Tu appliques la méthode : lire le plan (create/update/replace/destroy), distinguer les actions destructives, décider d'une remédiation (ramener le code vers l'intention, ou importer l'existant), et valider l'idempotence (un second apply ne doit produire aucun changement).",
+  "prerequisites": [
+    "Leçon Infrastructure as Code (déclaratif, plan/apply, state, drift)"
+  ],
+  "skills": [
+    "debugging",
+    "conditions"
+  ],
+  "dayRefs": [
+    81
+  ],
+  "exerciseRefs": [
+    "iac-plan-destructive",
+    "iac-idempotent-changes"
+  ],
+  "deliverables": [
+    {
+      "id": "exo-destructive",
+      "kind": "code",
+      "title": "Repérer une action destructive dans un plan (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "iac-plan-destructive",
+      "hint": "replace ET destroy sont destructifs ; create/update/read ne le sont pas."
+    },
+    {
+      "id": "exo-idempotent",
+      "kind": "code",
+      "title": "Compter les changements au prochain apply (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "iac-idempotent-changes",
+      "hint": "État conforme au code → 0 changement (idempotence)."
+    },
+    {
+      "id": "runbook",
+      "kind": "plan",
+      "title": "Runbook de remédiation de dérive IaC",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptômes",
+          "Diagnostic",
+          "Décision",
+          "Actions",
+          "Validation",
+          "Prévention"
+        ],
+        "requireMentions": [
+          "plan",
+          "state",
+          "destructive",
+          "idempotence"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Rends la procédure rejouable : comment lire le plan, quand refuser un apply destructif, comment vérifier l'idempotence, comment éviter la dérive (tout par le code, revue de PR)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercices verts : actions destructives et idempotence correctement raisonnées",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Le plan est LU avant tout apply (aucune destruction à l'aveugle)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Remédiation ramène « le code = la vérité » (idempotence vérifiée)",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "Prévention de la dérive (tout par le code, revue, verrouillage du state)",
+      "blocking": false,
+      "category": "documentation"
+    }
+  ],
+  "commonMistakes": [
+    "Lancer `apply` sans lire le plan (destruction/recréation surprise)",
+    "Modifier à la main puis oublier de reporter dans le code",
+    "Confondre update (en place) et replace (destructif)",
+    "Ne pas protéger le fichier de state (sensible et critique)"
+  ],
+  "trackRefs": [
+    "cloud-devops-engineer-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

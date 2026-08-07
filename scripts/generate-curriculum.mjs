@@ -724,6 +724,9 @@ const program = {
   lessons: LESSONS.map((l) => ({
     slug: l.file.replace(/\.md$/, ''), title: l.title,
     cat: l.cat, level: l.level, min: l.min, skills: l.skills ?? [],
+    // V27 : graphe leçon → pratique (références vers des artefacts EXISTANTS).
+    // Recopié tel quel, sans nouvelle source de vérité. Omis si absent.
+    ...(Array.isArray(l.practiceRefs) && l.practiceRefs.length ? { practiceRefs: l.practiceRefs } : {}),
   })),
 };
 writeFileSync(join(ROOT, 'data', 'program.json'), JSON.stringify(program, null, 2));

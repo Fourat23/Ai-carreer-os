@@ -1,0 +1,7 @@
+{
+  "sprint": "V27",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V27 (leçons de fond Cloud/DevOps V26 durcies). Même rubrique que v20 (16 dimensions, 0-4, lib/pedagogy-audit.mjs). Chaque item porte les scores APRÈS durcissement ; les scores AVANT et le détail avant/après sont consignés dans docs/PEDAGOGICAL-AUDIT-V27.md. Renseigné aux CP3→CP6 et consolidé en CP11.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

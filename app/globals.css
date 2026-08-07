@@ -1381,3 +1381,17 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .cl-map-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .cl-map-list li { font-size: var(--fs-sm); padding: 8px 10px; border: 1px solid var(--border);
   border-radius: var(--r-sm); background: var(--panel); }
+
+/* V27 — « Pratique associée » sous une leçon de fond. Minimal, responsive,
+   aligné sur les tokens existants (var(--border), var(--surface), var(--accent)). */
+.lesson-practice {
+  margin-top: 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface, transparent);
+}
+.lesson-practice h2 { margin: 0 0 .25rem; font-size: 1.05rem; }
+.lesson-practice__hint { margin: 0 0 .6rem; color: var(--muted); font-size: .9rem; }
+.lesson-practice ul { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .3rem; }
+.lesson-practice li { line-height: 1.4; }

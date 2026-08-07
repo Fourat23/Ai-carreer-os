@@ -37,6 +37,11 @@ export interface ProgramMonth {
   expectedScores: Record<string, number>;
 }
 
+export interface PracticeRef {
+  kind: 'exercise' | 'lab' | 'mission' | 'playbook';
+  id: string;
+}
+
 export interface Lesson {
   slug: string;
   title: string;
@@ -44,6 +49,7 @@ export interface Lesson {
   level?: number; // 1 = débutant, 2 = intermédiaire, 3 = avancé
   min?: number;   // durée estimée (lecture + exercices), en minutes
   skills?: string[];
+  practiceRefs?: PracticeRef[]; // V27 : graphe leçon → pratique (artefacts existants)
 }
 
 export interface Program {

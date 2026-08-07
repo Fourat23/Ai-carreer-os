@@ -1,0 +1,64 @@
+{
+  "id": "cloud-db-saturation",
+  "situation": "Une base de données managée arrive à saturation",
+  "domain": "database",
+  "dayRefs": [
+    80,
+    81
+  ],
+  "symptoms": [
+    "Latence des requêtes qui grimpe, timeouts, connexions refusées.",
+    "CPU/mémoire/IOPS de la base proches du maximum.",
+    "Le pool de connexions est épuisé."
+  ],
+  "firstChecks": [
+    "Quelle ressource sature (CPU, IOPS, connexions, stockage) ?",
+    "Requêtes lentes récentes, index manquant, ou simple hausse de charge légitime ?",
+    "Un déploiement récent a-t-il changé le profil d'accès (N+1, requête coûteuse) ?"
+  ],
+  "containment": [
+    "Ajouter des réplicas de lecture / augmenter temporairement la taille (scaling vertical) pour tenir.",
+    "Limiter le débit (rate limiting) ou couper une fonctionnalité coûteuse via feature flag."
+  ],
+  "recommendedOrder": [
+    "Identifier la ressource saturée",
+    "soulager (réplicas/scaling/pooling)",
+    "corriger la cause (requêtes/index)",
+    "valider",
+    "prévenir"
+  ],
+  "communication": [
+    "Prévenir les équipes dépendantes ; statut si l'expérience utilisateur est dégradée."
+  ],
+  "evidence": [
+    "Capturer les métriques de saturation et les requêtes lentes sur la période."
+  ],
+  "doNot": [
+    "Ne pas augmenter la taille indéfiniment sans traiter la cause (fuite de connexions, requête coûteuse).",
+    "Ne pas ajouter des index à l'aveugle."
+  ],
+  "mitigation": [
+    "Réplicas de lecture, connection pooling, cache, rate limiting, scaling vertical temporaire."
+  ],
+  "correction": [
+    "Corriger les requêtes coûteuses (N+1), ajouter les index mesurés, revoir le pooling ; répartir lecture/écriture."
+  ],
+  "validation": [
+    "Latence et taux d'erreur revenus à la normale ; ressources sous les seuils."
+  ],
+  "delivery": [
+    "Déployer les optimisations de requêtes/index par migration contrôlée ; ajuster le dimensionnement."
+  ],
+  "monitoring": [
+    "Surveiller CPU/IOPS/connexions, latence p95, et alerter sur les seuils."
+  ],
+  "documentation": [
+    "Consigner la cause de saturation et les optimisations ; mettre à jour le dimensionnement cible."
+  ],
+  "prevention": [
+    "Réplicas et pooling dès la conception, index mesurés, tests de charge, alertes de capacité, autoscaling du compute en amont."
+  ],
+  "exitCriteria": [
+    "Base sous les seuils, cause corrigée, dimensionnement adapté, alertes en place."
+  ]
+}

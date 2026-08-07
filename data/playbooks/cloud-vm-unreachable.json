@@ -1,0 +1,65 @@
+{
+  "id": "cloud-vm-unreachable",
+  "situation": "Une VM critique est inaccessible",
+  "domain": "compute",
+  "dayRefs": [
+    80,
+    81
+  ],
+  "symptoms": [
+    "Une VM ne répond plus (SSH/HTTP en timeout).",
+    "Le service hébergé est indisponible ou dégradé.",
+    "Les health checks de la VM échouent."
+  ],
+  "firstChecks": [
+    "La VM est-elle démarrée et saine côté hyperviseur (état, CPU/mémoire) ?",
+    "Est-ce réseau (security group/NSG, route, DNS) ou la VM elle-même (OS figé, disque plein) ?",
+    "Un changement récent (déploiement, règle réseau, patch) coïncide-t-il ?"
+  ],
+  "containment": [
+    "Basculer le trafic vers une instance/zone saine si l'architecture le permet (failover).",
+    "Sinon, redémarrer proprement la VM ou en recréer une depuis l'image."
+  ],
+  "recommendedOrder": [
+    "Localiser la cause (VM vs réseau)",
+    "rétablir le service (failover/redémarrage/recréation)",
+    "confirmer",
+    "traiter la cause",
+    "éliminer le SPOF"
+  ],
+  "communication": [
+    "Déclarer l'incident, prévenir les dépendants, publier un statut avec ETA prudente."
+  ],
+  "evidence": [
+    "Capturer l'état de la VM, les logs système et les métriques avant redémarrage/recréation.",
+    "Noter l'heure de début et les actions tentées."
+  ],
+  "doNot": [
+    "Ne pas détruire la VM sans capturer les preuves si un diagnostic est nécessaire.",
+    "Ne pas empiler des redémarrages sans comprendre la cause."
+  ],
+  "mitigation": [
+    "Failover vers une autre AZ, mode dégradé, mise à l'échelle horizontale pour absorber la perte."
+  ],
+  "correction": [
+    "Corriger la cause (disque plein, règle réseau, image), et surtout supprimer le SPOF si la VM était unique."
+  ],
+  "validation": [
+    "Service rétabli, health checks verts, parcours critiques testés."
+  ],
+  "delivery": [
+    "Recréer via image/IaC reproductible ; réintroduire dans le load balancer après validation."
+  ],
+  "monitoring": [
+    "Surveiller disponibilité, saturation disque/mémoire et redémarrages de la VM."
+  ],
+  "documentation": [
+    "Post-mortem : cause, SPOF éventuel, action de résilience (redondance)."
+  ],
+  "prevention": [
+    "Redondance multi-AZ derrière un load balancer, autoscaling, alertes sur saturation, images reproductibles."
+  ],
+  "exitCriteria": [
+    "Service stable, cause traitée, SPOF éliminé, résilience documentée."
+  ]
+}

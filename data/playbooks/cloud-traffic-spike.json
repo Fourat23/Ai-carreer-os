@@ -1,0 +1,63 @@
+{
+  "id": "cloud-traffic-spike",
+  "situation": "Le trafic a été multiplié par dix",
+  "domain": "compute",
+  "dayRefs": [
+    80
+  ],
+  "symptoms": [
+    "Hausse brutale des requêtes ; latence et taux d'erreur qui montent.",
+    "L'autoscaling atteint ses limites ou ne suit pas.",
+    "Des dépendances en aval (base, API tierce) saturent."
+  ],
+  "firstChecks": [
+    "Le pic est-il légitime (campagne, effet viral) ou un abus/attaque ?",
+    "Où est le goulot : compute, base, dépendance externe, quota fournisseur ?",
+    "L'architecture est-elle stateless (donc scalable horizontalement) ?"
+  ],
+  "containment": [
+    "Laisser l'autoscaling absorber ; relever les limites d'autoscaling si prudent.",
+    "Rate limiting / file d'attente pour lisser ; couper le superflu via feature flag."
+  ],
+  "recommendedOrder": [
+    "Qualifier le pic (légitime/abus)",
+    "absorber (autoscaling/rate limiting)",
+    "protéger les dépendances aval",
+    "stabiliser",
+    "capacité planifiée"
+  ],
+  "communication": [
+    "Prévenir les équipes ; si abus/attaque, impliquer la sécurité."
+  ],
+  "evidence": [
+    "Capturer la courbe de trafic, les métriques de saturation et les erreurs par composant."
+  ],
+  "doNot": [
+    "Ne pas scaler à l'infini un composant stateful.",
+    "Ne pas oublier que la base/les dépendances ne scalent pas comme le compute."
+  ],
+  "mitigation": [
+    "Autoscaling horizontal, cache/CDN pour le contenu, rate limiting, dégradation gracieuse."
+  ],
+  "correction": [
+    "Rendre stateless ce qui bloque le scaling, ajouter cache/réplicas, relever les quotas nécessaires."
+  ],
+  "validation": [
+    "Latence et erreurs sous contrôle au niveau de charge visé ; dépendances aval stables."
+  ],
+  "delivery": [
+    "Ajuster les politiques d'autoscaling et les quotas ; déployer cache/réplicas."
+  ],
+  "monitoring": [
+    "Surveiller trafic, saturation par composant, et les limites d'autoscaling."
+  ],
+  "documentation": [
+    "Consigner l'origine du pic et les mesures ; planifier la capacité pour les prochains pics."
+  ],
+  "prevention": [
+    "Compute stateless + autoscaling, cache/CDN, rate limiting, tests de charge, quotas dimensionnés, budgets (le scaling coûte)."
+  ],
+  "exitCriteria": [
+    "Charge absorbée sans dégradation, dépendances stables, capacité planifiée documentée."
+  ]
+}

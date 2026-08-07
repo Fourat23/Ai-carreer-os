@@ -1,0 +1,63 @@
+{
+  "id": "cloud-region-outage",
+  "situation": "Une région ou une zone de disponibilité subit une panne",
+  "domain": "resilience",
+  "dayRefs": [
+    81
+  ],
+  "symptoms": [
+    "Plusieurs services d'une même zone/région tombent simultanément.",
+    "Le fournisseur signale un incident sur la région.",
+    "Le trafic n'est plus servi depuis une zone entière."
+  ],
+  "firstChecks": [
+    "Confirmer l'étendue : une AZ ou la région entière ? (page de statut du fournisseur)",
+    "Quelles ressources critiques sont dans la zone touchée ?",
+    "Le failover automatique a-t-il fonctionné, ou faut-il l'enclencher ?"
+  ],
+  "containment": [
+    "Basculer le trafic vers une zone/région saine (failover DNS ou load balancer).",
+    "Passer en mode dégradé si une dépendance de la zone est injoignable."
+  ],
+  "recommendedOrder": [
+    "Qualifier l'étendue (AZ/région)",
+    "basculer vers une zone saine",
+    "restaurer si nécessaire (RTO/RPO)",
+    "vérifier",
+    "renforcer la résilience"
+  ],
+  "communication": [
+    "Déclarer l'incident, désigner un pilote, communiquer clairement « panne fournisseur » et l'action de bascule."
+  ],
+  "evidence": [
+    "Horodater le début, corréler avec la page de statut du fournisseur, noter les services impactés."
+  ],
+  "doNot": [
+    "Ne pas attendre passivement que le fournisseur répare si un failover est possible.",
+    "Ne pas improviser une restauration jamais testée."
+  ],
+  "mitigation": [
+    "Failover multi-zone/multi-région, mode dégradé, file d'attente pour absorber le temps de bascule."
+  ],
+  "correction": [
+    "Rétablir depuis une zone saine ; restaurer depuis backup si des données de la zone sont perdues (assumer le RPO)."
+  ],
+  "validation": [
+    "Service servi depuis la zone saine, intégrité des données vérifiée, RTO/RPO tenus."
+  ],
+  "delivery": [
+    "Rebasculer vers la zone d'origine une fois l'incident fournisseur clos, de façon contrôlée."
+  ],
+  "monitoring": [
+    "Surveiller la disponibilité par zone et la santé du failover pendant et après l'incident."
+  ],
+  "documentation": [
+    "Post-mortem : le failover a-t-il tenu ? RTO/RPO réels vs cibles ? actions de renforcement."
+  ],
+  "prevention": [
+    "Architecture multi-AZ (voire multi-région pour le critique), failover testé, backups cross-région, jeux de bascule réguliers."
+  ],
+  "exitCriteria": [
+    "Service stable, données intègres, RTO/RPO tenus, résilience renforcée et documentée."
+  ]
+}

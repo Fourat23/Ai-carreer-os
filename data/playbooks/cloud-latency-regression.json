@@ -1,0 +1,64 @@
+{
+  "id": "cloud-latency-regression",
+  "situation": "Une nouvelle release augmente fortement la latence",
+  "domain": "observability",
+  "dayRefs": [
+    79,
+    80
+  ],
+  "symptoms": [
+    "La latence p95/p99 grimpe juste après un déploiement.",
+    "Pas d'erreurs, mais tout est plus lent.",
+    "Les métriques montrent un changement de profil (CPU, requêtes DB, appels externes)."
+  ],
+  "firstChecks": [
+    "Confirmer la corrélation temporelle avec la release (à la minute).",
+    "Où est la latence ajoutée : compute, base (N+1, index), appel externe, sérialisation ?",
+    "Le rollback est-il possible rapidement ?"
+  ],
+  "containment": [
+    "Rollback de la release si l'impact est fort et le rollback sûr.",
+    "Sinon, désactiver la fonctionnalité coûteuse via feature flag."
+  ],
+  "recommendedOrder": [
+    "Corréler avec la release",
+    "localiser la latence (traces/métriques)",
+    "rollback ou correctif ciblé",
+    "valider",
+    "prévenir la récidive"
+  ],
+  "communication": [
+    "Prévenir les équipes ; annoncer le rollback ou le correctif et l'ETA."
+  ],
+  "evidence": [
+    "Comparer les métriques/traces avant/après la release ; identifier l'appel qui a ralenti."
+  ],
+  "doNot": [
+    "Ne pas « attendre que ça passe » : une régression de latence ne se résorbe pas seule.",
+    "Ne pas optimiser au hasard sans mesurer."
+  ],
+  "mitigation": [
+    "Rollback, feature flag, cache, ou augmentation temporaire de capacité en attendant le correctif."
+  ],
+  "correction": [
+    "Corriger la cause mesurée (requête N+1, index manquant, appel externe synchrone, sérialisation coûteuse)."
+  ],
+  "validation": [
+    "Latence revenue au niveau d'avant la release ; suite de tests verte."
+  ],
+  "delivery": [
+    "Relivrer le correctif de façon progressive (canary) avec surveillance de la latence."
+  ],
+  "monitoring": [
+    "Surveiller p95/p99 après livraison ; alerter sur les régressions de latence."
+  ],
+  "documentation": [
+    "Consigner la cause et le correctif ; ajouter un garde-fou (budget de latence en CI si possible)."
+  ],
+  "prevention": [
+    "Traces distribuées, budgets de latence, tests de performance, déploiements progressifs avec métriques."
+  ],
+  "exitCriteria": [
+    "Latence nominale rétablie, cause corrigée, garde-fou ajouté, incident documenté."
+  ]
+}

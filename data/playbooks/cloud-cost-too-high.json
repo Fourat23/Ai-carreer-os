@@ -1,0 +1,67 @@
+{
+  "id": "cloud-cost-too-high",
+  "situation": "La facture cloud a explosé ce mois-ci",
+  "domain": "finops",
+  "dayRefs": [
+    325
+  ],
+  "symptoms": [
+    "La facture mensuelle dépasse nettement les mois précédents.",
+    "Une alerte de budget se déclenche (ou aurait dû).",
+    "Un poste de coût domine anormalement (compute, egress, stockage, logs)."
+  ],
+  "firstChecks": [
+    "Ventiler la facture par service et par tag (qui/quoi dépense).",
+    "Comparer avec le mois précédent : quel poste a bougé et depuis quand ?",
+    "Une ressource a-t-elle été créée/oubliée, ou le trafic a-t-il changé ?"
+  ],
+  "containment": [
+    "Stopper ou réduire immédiatement les ressources manifestement inutiles (environnements de test oubliés).",
+    "Poser une alerte de budget si elle manquait, pour éviter la prochaine surprise."
+  ],
+  "recommendedOrder": [
+    "Ventiler par tag",
+    "identifier le poste qui a bougé",
+    "arrêter le gaspillage évident",
+    "right-sizing/réservation",
+    "poser budgets & alertes"
+  ],
+  "communication": [
+    "Prévenir l'équipe/le responsable budget avec le poste identifié.",
+    "Aligner avec les équipes concernées avant de couper une ressource partagée."
+  ],
+  "evidence": [
+    "Exporter la ventilation des coûts (par service, par tag) sur la période.",
+    "Noter la date d'apparition de la dérive et la ressource en cause."
+  ],
+  "doNot": [
+    "Ne pas couper à l'aveugle une ressource sans vérifier qui l'utilise.",
+    "Ne pas réserver de la capacité pour une charge instable.",
+    "Ne pas ignorer l'egress (souvent le poste caché)."
+  ],
+  "mitigation": [
+    "Right-sizing immédiat des ressources sur-dimensionnées ; autoscaling pour ne payer que le nécessaire.",
+    "Lifecycle sur le stockage, filtrage/rétention des logs."
+  ],
+  "correction": [
+    "Traiter la cause : right-sizing durable, capacité réservée pour la charge stable, réduction de l'egress (cache/CDN, colocalisation)."
+  ],
+  "validation": [
+    "Le coût projeté revient dans l'enveloppe attendue ; le service reste fonctionnel après right-sizing."
+  ],
+  "delivery": [
+    "Appliquer les changements par IaC versionnée si possible ; réservation après confirmation de stabilité."
+  ],
+  "monitoring": [
+    "Suivre le coût quotidien et les budgets avec alertes ; surveiller que le right-sizing ne dégrade pas la performance."
+  ],
+  "documentation": [
+    "Consigner la cause de la dérive et les optimisations appliquées (décision FinOps chiffrée)."
+  ],
+  "prevention": [
+    "Tagging systématique, budgets + alertes, revue FinOps périodique, right-sizing dès la conception."
+  ],
+  "exitCriteria": [
+    "Coût revenu dans l'enveloppe, cause traitée, budgets/alertes en place, décision documentée."
+  ]
+}

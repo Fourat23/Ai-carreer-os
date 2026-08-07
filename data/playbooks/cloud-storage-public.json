@@ -1,0 +1,65 @@
+{
+  "id": "cloud-storage-public",
+  "situation": "Un stockage est accidentellement public",
+  "domain": "storage",
+  "dayRefs": [
+    78,
+    79
+  ],
+  "symptoms": [
+    "Un bucket/partage est accessible sans authentification.",
+    "Une alerte de configuration ou un scan signale un accès public.",
+    "Des données apparaissent indexées ou téléchargeables publiquement."
+  ],
+  "firstChecks": [
+    "Confirmer que l'accès public est réel et quelles données sont exposées (sensibilité).",
+    "Depuis quand ? (logs d'accès) et qui a pu y accéder ?",
+    "Est-ce le bucket entier ou certains objets/ACL ?"
+  ],
+  "containment": [
+    "Retirer immédiatement l'accès public (bloquer l'accès public au niveau du compte/ressource).",
+    "Si des secrets/données sensibles étaient exposés, les traiter comme compromis."
+  ],
+  "recommendedOrder": [
+    "Couper l'accès public",
+    "évaluer l'exposition (données + durée)",
+    "révoquer ce qui a fuité",
+    "auditer les accès",
+    "prévenir la récidive"
+  ],
+  "communication": [
+    "Prévenir sécurité et propriétaire des données ; déclencher la notification si données personnelles exposées."
+  ],
+  "evidence": [
+    "Conserver la configuration fautive et les logs d'accès AVANT correction.",
+    "Lister les objets exposés et la fenêtre d'exposition."
+  ],
+  "doNot": [
+    "Ne pas se contenter de retirer une ACL sans vérifier le paramètre global d'accès public.",
+    "Ne pas supprimer les logs d'accès (preuves)."
+  ],
+  "mitigation": [
+    "Blocage d'accès public au niveau du compte, restriction par endpoint privé/identité le temps de nettoyer."
+  ],
+  "correction": [
+    "Rendre le stockage privé par défaut, exposer uniquement via une identité/endpoint contrôlé, chiffrer au repos."
+  ],
+  "validation": [
+    "L'accès anonyme échoue ; le service légitime accède toujours via l'identité prévue."
+  ],
+  "delivery": [
+    "Appliquer la configuration privée par IaC ; ajouter une policy « as code » interdisant le public."
+  ],
+  "monitoring": [
+    "Surveiller toute nouvelle configuration d'accès public et les accès anonymes."
+  ],
+  "documentation": [
+    "Post-mortem : comment le public a été activé, données exposées, mesures de prévention."
+  ],
+  "prevention": [
+    "Blocage d'accès public par défaut au niveau organisation, policy as code, scan de configuration continu."
+  ],
+  "exitCriteria": [
+    "Accès public supprimé, exposition évaluée et traitée, prévention en place, incident documenté."
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "id": "cloud-overspend",
+  "situation": "Le service fonctionne mais coûte beaucoup trop cher",
+  "domain": "finops",
+  "dayRefs": [
+    325
+  ],
+  "symptoms": [
+    "Le coût par unité (requête, utilisateur) est disproportionné.",
+    "Des ressources tournent en continu à faible utilisation.",
+    "Aucune capacité réservée sur une charge pourtant stable."
+  ],
+  "firstChecks": [
+    "Quel est le coût unitaire (par requête/utilisateur) et où part l'argent ?",
+    "Quelles ressources sont sous-utilisées (CPU moyen faible) ?",
+    "La charge est-elle stable (candidate à la réservation) ou variable (candidate à l'autoscaling/serverless) ?"
+  ],
+  "containment": [
+    "Right-sizing des ressources les plus sous-utilisées sans attendre.",
+    "Éteindre les environnements hors production la nuit/week-end."
+  ],
+  "recommendedOrder": [
+    "Mesurer le coût unitaire",
+    "right-sizing",
+    "choisir le bon modèle (serverless/réservation)",
+    "suivre",
+    "ancrer en conception"
+  ],
+  "communication": [
+    "Présenter au responsable budget une décision chiffrée avec compromis."
+  ],
+  "evidence": [
+    "Exporter l'utilisation moyenne vs capacité provisionnée et le coût par poste."
+  ],
+  "doNot": [
+    "Ne pas sacrifier la résilience pour économiser (garder le multi-AZ nécessaire).",
+    "Ne pas réserver une charge instable."
+  ],
+  "mitigation": [
+    "Right-sizing, autoscaling, extinction planifiée des environnements non-prod."
+  ],
+  "correction": [
+    "Migrer une charge en pics vers du serverless, réserver la charge stable, réduire l'egress, revoir le stockage."
+  ],
+  "validation": [
+    "Coût unitaire réduit, service et résilience préservés."
+  ],
+  "delivery": [
+    "Appliquer par IaC ; réservation après confirmation de stabilité de la charge."
+  ],
+  "monitoring": [
+    "Suivre le coût unitaire et l'utilisation ; alerter sur la sous-utilisation persistante."
+  ],
+  "documentation": [
+    "Décision FinOps : leviers, économies, compromis engagement/flexibilité."
+  ],
+  "prevention": [
+    "Coût raisonné en conception (choix compute/région/réplication), tagging, budgets, revue FinOps régulière."
+  ],
+  "exitCriteria": [
+    "Coût unitaire maîtrisé, résilience intacte, décision documentée, suivi en place."
+  ]
+}

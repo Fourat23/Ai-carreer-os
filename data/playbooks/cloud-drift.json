@@ -1,0 +1,64 @@
+{
+  "id": "cloud-drift",
+  "situation": "Une ressource ne respecte plus l'architecture déclarée",
+  "domain": "network",
+  "dayRefs": [
+    78,
+    79
+  ],
+  "symptoms": [
+    "Une ressource a été modifiée à la main (hors IaC) : « configuration drift ».",
+    "Un écart apparaît entre l'état déclaré (IaC) et l'état réel.",
+    "Une règle réseau/IAM plus permissive que prévu est constatée."
+  ],
+  "firstChecks": [
+    "Quelle ressource a dérivé et en quoi (diff état déclaré vs réel) ?",
+    "Le changement est-il légitime (urgence non régularisée) ou suspect ?",
+    "Depuis quand, et par qui (logs d'audit) ?"
+  ],
+  "containment": [
+    "Si le drift ouvre un risque (règle trop permissive, ressource publique), le corriger immédiatement.",
+    "Geler les modifications manuelles sur la ressource concernée."
+  ],
+  "recommendedOrder": [
+    "Détecter le diff",
+    "qualifier (légitime/suspect)",
+    "ramener à l'état déclaré (ou mettre à jour l'IaC)",
+    "vérifier",
+    "prévenir le drift"
+  ],
+  "communication": [
+    "Prévenir l'équipe propriétaire ; sécurité si le drift crée une exposition."
+  ],
+  "evidence": [
+    "Conserver le diff état déclaré vs réel et les logs d'audit du changement."
+  ],
+  "doNot": [
+    "Ne pas « réappliquer l'IaC » aveuglément si le changement manuel était une correction d'urgence légitime — régulariser d'abord.",
+    "Ne pas laisser un drift risqué en place."
+  ],
+  "mitigation": [
+    "Restreindre temporairement l'accès à la ressource, corriger l'exposition immédiate."
+  ],
+  "correction": [
+    "Ramener la ressource à l'état déclaré via IaC, OU mettre à jour l'IaC si le changement est légitime — la source de vérité doit redevenir cohérente."
+  ],
+  "validation": [
+    "Plus d'écart entre état déclaré et réel ; la ressource respecte l'architecture et la politique."
+  ],
+  "delivery": [
+    "Appliquer via IaC versionnée et relue ; interdire les modifications manuelles hors urgence tracée."
+  ],
+  "monitoring": [
+    "Détection de drift automatique (comparaison IaC vs réel), alertes sur changements hors pipeline."
+  ],
+  "documentation": [
+    "Consigner la cause du drift et la régularisation ; renforcer le processus de changement."
+  ],
+  "prevention": [
+    "Tout changement par IaC, détection de drift continue, policy as code, accès manuel restreint et tracé."
+  ],
+  "exitCriteria": [
+    "État réel = état déclaré, exposition corrigée, drift détecté automatiquement à l'avenir."
+  ]
+}

@@ -164,5 +164,17 @@ Après : 32 leçons avec on-ramp néophyte + prérequis explicités + 32/32 reli
 pratique ; +12 exercices ciblés, +1 mission IaC, gate v27, surface « Pratique
 associée ».
 
-## 28. HEAD final, Git, données
-Renseignés dans la synthèse finale (après CP11).
+## 28. CP11 — Pedagogical Hardening & Beginner Validation
+Ré-audit des 32 leçons durcies (rubrique 16 dimensions) : moyenne globale ≈ **3,53
+/ 4**, aucune dimension < 2, toutes les dimensions obligatoires ≥ 3, aucune leçon
+sous le seuil. Ledger `docs/architecture/v27-pedagogy-audit.json` (32 items).
+Validation « néophyte complet » sur un échantillon d'une leçon par domaine (10) :
+on-ramp, exemple guidé, mini-exercice, vocabulaire et practiceRefs présents partout ;
+12 questions de validation débutant répondues positivement. Rapport complet :
+`docs/PEDAGOGICAL-AUDIT-V27.md`. Les 9 leçons denses passent le seuil mais restent
+les plus exigeantes (dette V28). Aucune correction supplémentaire n'a été rendue
+nécessaire par le ré-audit au-delà de celles des CP3→CP10.
+
+## 29. HEAD final, Git, données
+HEAD final et confirmations (local == origin, progress.json restauré, 0 workspace/
+serveur/conteneur) : voir la synthèse finale en français.

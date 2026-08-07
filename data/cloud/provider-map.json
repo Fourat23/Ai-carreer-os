@@ -1,0 +1,118 @@
+{
+  "id": "provider-map-v1",
+  "note": "Mapping RAISONNÉ AWS ↔ Azure : pour chaque concept, l'équivalent chez chaque fournisseur, QUAND l'utiliser, POURQUOI, et les DIFFÉRENCES de modèle. Ce n'est pas une simple table d'équivalence ; les différences comptent autant que les ressemblances.",
+  "mappings": [
+    {
+      "concept": "Identité & autorisation",
+      "aws": "IAM (users, roles, policies) + STS (credentials temporaires)",
+      "azure": "Microsoft Entra ID + Azure RBAC + service principal / managed identity",
+      "when": "Toujours : gouverner qui/quoi peut agir sur quelles ressources.",
+      "why": "Le moindre privilège commence par l'identité, avant le réseau.",
+      "difference": "AWS attache des policies JSON à des principals et fait assumer des rôles via STS. Azure sépare l'annuaire d'identités (Entra ID) du contrôle d'accès aux ressources (RBAC via role assignments sur un scope). Les managed identities Azure évitent les secrets côté application, comme les rôles d'instance AWS."
+    },
+    {
+      "concept": "Réseau privé",
+      "aws": "VPC + subnets + Internet Gateway + NAT Gateway + Security Groups + NACL",
+      "azure": "VNet + subnets + NSG + Azure Firewall + NAT Gateway",
+      "when": "Dès qu'on isole des ressources (bases privées, backends internes).",
+      "why": "La segmentation réseau limite le rayon d'impact d'une compromission.",
+      "difference": "AWS a deux couches de filtrage (Security Group au niveau ressource, stateful ; NACL au niveau subnet, stateless). Azure combine surtout le NSG (stateful, applicable subnet ou NIC). Le modèle mental (public vs private subnet, route table) est commun."
+    },
+    {
+      "concept": "Machine virtuelle",
+      "aws": "EC2 (+ Auto Scaling Groups)",
+      "azure": "Virtual Machines (+ VM Scale Sets)",
+      "when": "Charge nécessitant un contrôle fin de l'OS, logiciels legacy, GPU.",
+      "why": "Contrôle maximal, mais responsabilité d'exploitation maximale (patchs, mise à l'échelle).",
+      "difference": "Modèles très proches ; l'autoscaling s'appuie sur des groupes (ASG / VMSS). Choisir VM seulement si container/serverless ne conviennent pas."
+    },
+    {
+      "concept": "Fonctions serverless",
+      "aws": "Lambda",
+      "azure": "Azure Functions",
+      "when": "Charge événementielle, pics irréguliers, code court sans état.",
+      "why": "Zéro serveur à gérer, facturation à l'usage, scale-to-zero.",
+      "difference": "Contraintes communes : cold start, durée max, statelessness. Bien pour l'événementiel, mauvais pour une charge constante et intensive (une VM/container y est souvent moins chère)."
+    },
+    {
+      "concept": "Conteneurs managés",
+      "aws": "ECS / EKS (Kubernetes managé)",
+      "azure": "Container Apps / AKS (Kubernetes managé)",
+      "when": "Microservices, portabilité, charge continue avec autoscaling.",
+      "why": "Compromis entre le contrôle des VM et la simplicité du serverless.",
+      "difference": "EKS et AKS sont deux Kubernetes managés ; ECS (AWS) et Container Apps (Azure) sont des orchestrateurs plus simples, propriétaires, sans la complexité de Kubernetes."
+    },
+    {
+      "concept": "Stockage objet",
+      "aws": "S3",
+      "azure": "Blob Storage",
+      "when": "Fichiers, médias, sauvegardes, data lake, contenu statique.",
+      "why": "Durabilité très élevée, coût faible, scalable sans gestion.",
+      "difference": "Concepts communs (buckets/containers, classes de stockage, lifecycle). Attention au coût d'egress et au blocage d'accès public (à activer explicitement)."
+    },
+    {
+      "concept": "Stockage bloc",
+      "aws": "EBS",
+      "azure": "Managed Disks",
+      "when": "Disque attaché à une VM (système de fichiers, base auto-gérée).",
+      "why": "Faible latence, performance par IOPS provisionnées.",
+      "difference": "Lié à une VM/zone ; ne remplace pas le stockage objet pour le partage à grande échelle."
+    },
+    {
+      "concept": "Stockage fichier",
+      "aws": "EFS",
+      "azure": "Azure Files",
+      "when": "Partage POSIX/SMB entre plusieurs instances.",
+      "why": "Système de fichiers partagé managé.",
+      "difference": "Plus cher que l'objet ; à réserver aux cas nécessitant réellement un montage fichier partagé."
+    },
+    {
+      "concept": "Base relationnelle managée",
+      "aws": "RDS / Aurora",
+      "azure": "Azure SQL / PostgreSQL Flexible Server",
+      "when": "Données transactionnelles, schéma relationnel, cohérence forte.",
+      "why": "Backups, patchs, réplicas et failover gérés par le fournisseur.",
+      "difference": "Aurora (AWS) découple compute/stockage pour la scalabilité. Azure SQL est un moteur propriétaire compatible T-SQL. Prévoir multi-AZ et read replicas selon les besoins de disponibilité."
+    },
+    {
+      "concept": "Base NoSQL managée",
+      "aws": "DynamoDB",
+      "azure": "Cosmos DB",
+      "when": "Clé-valeur/document à très grande échelle, latence faible prévisible.",
+      "why": "Scalabilité horizontale sans gestion de serveurs.",
+      "difference": "DynamoDB est clé-valeur/document ; Cosmos DB propose plusieurs API (document, table, graphe) et des niveaux de cohérence configurables. Modéliser selon les patterns d'accès, pas comme du relationnel."
+    },
+    {
+      "concept": "Répartition de charge",
+      "aws": "ALB (L7) / NLB (L4)",
+      "azure": "Application Gateway (L7) / Load Balancer (L4)",
+      "when": "Distribuer le trafic vers plusieurs instances, health checks.",
+      "why": "Disponibilité (retirer une instance malsaine) et scalabilité horizontale.",
+      "difference": "Choisir L7 pour le routage applicatif (chemins, hôtes, TLS), L4 pour la performance brute TCP/UDP. Le concept stateless + health check est commun."
+    },
+    {
+      "concept": "Observabilité",
+      "aws": "CloudWatch (métriques/logs/alarmes) + CloudTrail (audit)",
+      "azure": "Azure Monitor + Log Analytics + Activity Log (audit)",
+      "when": "Toujours : sans observabilité, pas de détection ni de diagnostic.",
+      "why": "MTTD/MTTR dépendent directement de la qualité des signaux.",
+      "difference": "CloudTrail et Activity Log tracent les actions d'API (audit de sécurité), distincts des métriques applicatives. Les logs peuvent coûter cher : filtrer et fixer une rétention."
+    },
+    {
+      "concept": "Gestion des coûts (FinOps)",
+      "aws": "Cost Explorer + Budgets",
+      "azure": "Cost Management + Billing + Budgets",
+      "when": "Dès qu'il y a une facture : suivre, allouer, alerter.",
+      "why": "Le cloud transforme le coût fixe en coût variable — il faut le piloter.",
+      "difference": "Le tagging (AWS) / les tags et resource groups (Azure) permettent l'allocation des coûts. Les capacités réservées réduisent le coût d'une charge stable au prix d'un engagement."
+    },
+    {
+      "concept": "Périmètre de compte",
+      "aws": "Account (+ Organizations)",
+      "azure": "Subscription (+ Management Groups) et Resource Groups",
+      "when": "Isoler environnements, équipes, limites de facturation.",
+      "why": "Réduire le rayon d'impact et clarifier la facturation/gouvernance.",
+      "difference": "AWS isole souvent par compte (multi-account). Azure structure par subscription puis resource group (regroupement logique avec cycle de vie commun) — il n'y a pas d'équivalent direct du resource group côté AWS."
+    }
+  ]
+}

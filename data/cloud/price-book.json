@@ -1,0 +1,28 @@
+{
+  "id": "FAKE-PRICE-BOOK-v1",
+  "disclaimer": "Barème FACTICE en unités arbitraires (FAKE-UNITS). Aucun prix cloud réel, aucun devis officiel. Sert uniquement à raisonner le coût relatif (right-sizing, gaspillage).",
+  "currency": "FAKE-UNITS",
+  "entries": [
+    { "kind": "vm", "cost": 40 },
+    { "kind": "container", "cost": 25 },
+    { "kind": "serverless", "cost": 5 },
+    { "kind": "backend", "cost": 30 },
+    { "kind": "api", "cost": 30 },
+    { "kind": "worker", "cost": 20 },
+    { "kind": "relational-db", "cost": 60 },
+    { "kind": "managed-db", "cost": 60 },
+    { "kind": "nosql-db", "cost": 45 },
+    { "kind": "object-storage", "cost": 5 },
+    { "kind": "file-storage", "cost": 10 },
+    { "kind": "block-storage", "cost": 8 },
+    { "kind": "load-balancer", "cost": 18 },
+    { "kind": "cache", "cost": 15 },
+    { "kind": "cdn", "cost": 12 },
+    { "kind": "nat", "cost": 32 },
+    { "kind": "gateway", "cost": 20 },
+    { "kind": "monitoring", "cost": 10 },
+    { "kind": "backup", "cost": 6 },
+    { "kind": "queue", "cost": 8 },
+    { "kind": "dns", "cost": 1 }
+  ]
+}

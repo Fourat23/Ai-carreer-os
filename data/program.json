@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T20:04:53.325Z",
+  "generatedAt": "2026-08-07T20:11:37.884Z",
   "skills": [
     {
       "id": "algo",
@@ -6575,6 +6575,72 @@
       "skills": [
         "cloud",
         "archi"
+      ]
+    },
+    {
+      "slug": "k8s-why-architecture",
+      "title": "Kubernetes : pourquoi et architecture",
+      "cat": "Kubernetes",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "k8s-workloads",
+      "title": "Kubernetes : Pods, Deployments et workloads",
+      "cat": "Kubernetes",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "k8s-networking-services",
+      "title": "Kubernetes : réseau, Services et Ingress",
+      "cat": "Kubernetes",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "k8s-config-probes",
+      "title": "Kubernetes : configuration, secrets, probes et ressources",
+      "cat": "Kubernetes",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "secu"
+      ]
+    },
+    {
+      "slug": "k8s-troubleshooting",
+      "title": "Kubernetes : diagnostiquer un incident",
+      "cat": "Kubernetes",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "k8s-security",
+      "title": "Kubernetes : sécurité et moindre privilège",
+      "cat": "Kubernetes",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "secu",
+        "cloud"
       ]
     },
     {

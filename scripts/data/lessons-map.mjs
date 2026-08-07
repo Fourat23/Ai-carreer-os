@@ -86,6 +86,13 @@ export const LESSONS = [
   { file: 'ci-cd-quality-gates-artifacts.md', title: 'CI/CD : portes qualité et artefacts versionnés', cat: 'CI/CD & livraison', level: 2, min: 45, skills: ['cloud', 'se'] },
   { file: 'deployment-strategies.md', title: 'Stratégies de déploiement sans coupure', cat: 'CI/CD & livraison', level: 3, min: 50, skills: ['cloud', 'archi'] },
   { file: 'release-incident-recovery.md', title: 'Reprise après incident : rollback, roll-forward, hotfix', cat: 'CI/CD & livraison', level: 3, min: 45, skills: ['cloud', 'archi'] },
+  // ── Kubernetes ──
+  { file: 'k8s-why-architecture.md', title: 'Kubernetes : pourquoi et architecture', cat: 'Kubernetes', level: 2, min: 50, skills: ['cloud', 'archi'] },
+  { file: 'k8s-workloads.md', title: 'Kubernetes : Pods, Deployments et workloads', cat: 'Kubernetes', level: 2, min: 50, skills: ['cloud', 'archi'] },
+  { file: 'k8s-networking-services.md', title: 'Kubernetes : réseau, Services et Ingress', cat: 'Kubernetes', level: 3, min: 50, skills: ['cloud', 'archi'] },
+  { file: 'k8s-config-probes.md', title: 'Kubernetes : configuration, secrets, probes et ressources', cat: 'Kubernetes', level: 3, min: 50, skills: ['cloud', 'secu'] },
+  { file: 'k8s-troubleshooting.md', title: 'Kubernetes : diagnostiquer un incident', cat: 'Kubernetes', level: 3, min: 50, skills: ['cloud', 'archi'] },
+  { file: 'k8s-security.md', title: 'Kubernetes : sécurité et moindre privilège', cat: 'Kubernetes', level: 3, min: 50, skills: ['secu', 'cloud'] },
   // ── Production & DevOps ──
   { file: 'deployment-secrets.md', title: 'Secrets, environnements et déploiement', cat: 'Production & DevOps', level: 2, min: 40, skills: ['cloud', 'secu'] },
   { file: 'docker-containers.md', title: 'Docker et conteneurs', cat: 'Production & DevOps', level: 2, min: 45, skills: ['cloud'] },

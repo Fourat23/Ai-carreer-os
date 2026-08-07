@@ -21,7 +21,13 @@
     { "slug": "ci-cd-pipeline-anatomy", "cp": "CP5", "theme": "CI/CD" },
     { "slug": "ci-cd-quality-gates-artifacts", "cp": "CP5", "theme": "CI/CD" },
     { "slug": "deployment-strategies", "cp": "CP5", "theme": "CI/CD" },
-    { "slug": "release-incident-recovery", "cp": "CP5", "theme": "CI/CD" }
+    { "slug": "release-incident-recovery", "cp": "CP5", "theme": "CI/CD" },
+    { "slug": "k8s-why-architecture", "cp": "CP6", "theme": "Kubernetes" },
+    { "slug": "k8s-workloads", "cp": "CP6", "theme": "Kubernetes" },
+    { "slug": "k8s-networking-services", "cp": "CP6", "theme": "Kubernetes" },
+    { "slug": "k8s-config-probes", "cp": "CP6", "theme": "Kubernetes" },
+    { "slug": "k8s-troubleshooting", "cp": "CP6", "theme": "Kubernetes" },
+    { "slug": "k8s-security", "cp": "CP6", "theme": "Kubernetes" }
   ],
   "requiredConcepts": {
     "linux-filesystem-permissions": ["inode", "rwx", "octal", "chmod", "permission"],
@@ -42,6 +48,12 @@
     "ci-cd-pipeline-anatomy": ["runner", "job", "artefact", "cache", "parallélisme"],
     "ci-cd-quality-gates-artifacts": ["porte qualité", "couverture", "artefact", "immuable", "promotion"],
     "deployment-strategies": ["rolling", "blue-green", "canary", "feature flag", "expand/contract"],
-    "release-incident-recovery": ["rollback", "roll-forward", "hotfix", "migration destructive", "post-mortem"]
+    "release-incident-recovery": ["rollback", "roll-forward", "hotfix", "migration destructive", "post-mortem"],
+    "k8s-why-architecture": ["état désiré", "réconciliation", "control plane", "api server", "kubelet"],
+    "k8s-workloads": ["pod", "deployment", "statefulset", "daemonset", "label"],
+    "k8s-networking-services": ["service", "clusterip", "ingress", "endpoints", "dns"],
+    "k8s-config-probes": ["configmap", "secret", "liveness", "readiness", "requests"],
+    "k8s-troubleshooting": ["crashloopbackoff", "imagepullbackoff", "pending", "describe", "logs"],
+    "k8s-security": ["rbac", "namespace", "networkpolicy", "securitycontext", "non-root"]
   }
 }

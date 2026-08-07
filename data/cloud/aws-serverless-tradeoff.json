@@ -1,0 +1,232 @@
+{
+  "id": "aws-serverless-tradeoff",
+  "title": "AWS — serverless plutôt que VM sur-dimensionnée",
+  "provider": "aws",
+  "region": "eu-west-1",
+  "description": "Charge événementielle irrégulière servie par deux VM sur-dimensionnées (gaspillage), migrée vers du serverless payé à l'usage avec base managée sauvegardée.",
+  "need": "Traiter des pics irréguliers sans payer une capacité constante inutilisée.",
+  "constraints": [
+    "coût maîtrisé",
+    "scale-to-zero possible"
+  ],
+  "zones": [
+    {
+      "id": "az-a",
+      "label": "AZ A"
+    },
+    {
+      "id": "az-b",
+      "label": "AZ B"
+    }
+  ],
+  "resources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "lb",
+      "kind": "load-balancer",
+      "label": "ALB",
+      "zone": "az-a",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "vm-a",
+      "kind": "vm",
+      "label": "VM A (surdimensionnée)",
+      "zone": "az-a"
+    },
+    {
+      "id": "vm-b",
+      "kind": "vm",
+      "label": "VM B (surdimensionnée)",
+      "zone": "az-b"
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "RDS",
+      "zone": "az-a",
+      "props": {
+        "managed": true,
+        "backup": true
+      }
+    },
+    {
+      "id": "backup",
+      "kind": "backup",
+      "label": "Sauvegardes",
+      "props": {
+        "restoreTested": true
+      }
+    },
+    {
+      "id": "mon",
+      "kind": "monitoring",
+      "label": "CloudWatch"
+    }
+  ],
+  "edges": [
+    {
+      "id": "c-lb",
+      "from": "client",
+      "to": "lb",
+      "kind": "routes-to",
+      "props": {
+        "tls": true
+      }
+    },
+    {
+      "id": "lb-a",
+      "from": "lb",
+      "to": "vm-a",
+      "kind": "routes-to"
+    },
+    {
+      "id": "lb-b",
+      "from": "lb",
+      "to": "vm-b",
+      "kind": "routes-to"
+    },
+    {
+      "id": "a-db",
+      "from": "vm-a",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "b-db",
+      "from": "vm-b",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "bk-db",
+      "from": "backup",
+      "to": "db",
+      "kind": "backs-up"
+    }
+  ],
+  "observability": {
+    "logs": true,
+    "metrics": true
+  },
+  "costHints": [
+    {
+      "resourceId": "vm-a",
+      "sizing": "oversized",
+      "monthlyUnits": 4
+    },
+    {
+      "resourceId": "vm-b",
+      "sizing": "oversized",
+      "monthlyUnits": 4
+    }
+  ],
+  "skills": [
+    "http",
+    "debugging"
+  ],
+  "dayRefs": [
+    80,
+    81
+  ],
+  "trackScope": [
+    "systems-cloud-foundations-v1"
+  ],
+  "playbookRef": "cloud-cost-too-high",
+  "missionRefs": [
+    "cloud-reduce-bill"
+  ],
+  "fixedResources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "gw",
+      "kind": "gateway",
+      "label": "API Gateway",
+      "zone": "az-a",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "fn",
+      "kind": "serverless",
+      "label": "Lambda",
+      "zone": "az-a",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "RDS",
+      "zone": "az-a",
+      "props": {
+        "managed": true,
+        "backup": true
+      }
+    },
+    {
+      "id": "backup",
+      "kind": "backup",
+      "label": "Sauvegardes",
+      "props": {
+        "restoreTested": true
+      }
+    },
+    {
+      "id": "mon",
+      "kind": "monitoring",
+      "label": "CloudWatch"
+    }
+  ],
+  "fixedEdges": [
+    {
+      "id": "c-gw",
+      "from": "client",
+      "to": "gw",
+      "kind": "routes-to",
+      "props": {
+        "tls": true
+      }
+    },
+    {
+      "id": "gw-fn",
+      "from": "gw",
+      "to": "fn",
+      "kind": "routes-to"
+    },
+    {
+      "id": "fn-db",
+      "from": "fn",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "bk-db",
+      "from": "backup",
+      "to": "db",
+      "kind": "backs-up"
+    }
+  ],
+  "fixedCostHints": [
+    {
+      "resourceId": "fn",
+      "monthlyUnits": 1
+    }
+  ],
+  "fixedObservability": {
+    "logs": true,
+    "metrics": true
+  }
+}

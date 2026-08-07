@@ -1,0 +1,204 @@
+{
+  "id": "aws-insecure",
+  "title": "AWS — architecture non sécurisée",
+  "provider": "aws",
+  "region": "us-east-1",
+  "description": "Base publique, bucket public, rôle IAM en wildcard, aucune sauvegarde ni observabilité : durcir une architecture qui expose tout.",
+  "need": "Corriger une architecture qui fuit données et privilèges.",
+  "constraints": [
+    "moindre privilège",
+    "aucune donnée publique"
+  ],
+  "zones": [
+    {
+      "id": "az-a",
+      "label": "AZ A"
+    }
+  ],
+  "resources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "api",
+      "kind": "api",
+      "label": "API",
+      "zone": "az-a",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "RDS (publique)",
+      "zone": "az-a",
+      "public": true,
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "bucket",
+      "kind": "object-storage",
+      "label": "S3 (public)",
+      "public": true
+    }
+  ],
+  "edges": [
+    {
+      "id": "c-api",
+      "from": "client",
+      "to": "api",
+      "kind": "routes-to",
+      "props": {
+        "tls": true
+      }
+    },
+    {
+      "id": "api-db",
+      "from": "api",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "api-s3",
+      "from": "api",
+      "to": "bucket",
+      "kind": "writes"
+    }
+  ],
+  "identities": [
+    {
+      "id": "api-role",
+      "type": "role",
+      "policies": [
+        {
+          "actions": [
+            "*"
+          ],
+          "resources": [
+            "*"
+          ],
+          "effect": "allow"
+        }
+      ]
+    }
+  ],
+  "observability": {},
+  "skills": [
+    "linux",
+    "debugging"
+  ],
+  "dayRefs": [
+    79,
+    85
+  ],
+  "trackScope": [
+    "systems-cloud-foundations-v1",
+    "appsec-cloud-security-v1"
+  ],
+  "playbookRef": "cloud-storage-public",
+  "missionRefs": [
+    "cloud-secure-architecture"
+  ],
+  "fixedResources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "api",
+      "kind": "api",
+      "label": "API",
+      "zone": "az-a",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "RDS (privée)",
+      "zone": "az-a",
+      "public": false,
+      "props": {
+        "managed": true,
+        "backup": true
+      }
+    },
+    {
+      "id": "bucket",
+      "kind": "object-storage",
+      "label": "S3 (privé)",
+      "public": false
+    },
+    {
+      "id": "backup",
+      "kind": "backup",
+      "label": "Sauvegardes",
+      "props": {
+        "restoreTested": true
+      }
+    },
+    {
+      "id": "mon",
+      "kind": "monitoring",
+      "label": "CloudWatch"
+    }
+  ],
+  "fixedEdges": [
+    {
+      "id": "c-api",
+      "from": "client",
+      "to": "api",
+      "kind": "routes-to",
+      "props": {
+        "tls": true
+      }
+    },
+    {
+      "id": "api-db",
+      "from": "api",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "api-s3",
+      "from": "api",
+      "to": "bucket",
+      "kind": "writes"
+    },
+    {
+      "id": "bk-db",
+      "from": "backup",
+      "to": "db",
+      "kind": "backs-up"
+    }
+  ],
+  "fixedIdentities": [
+    {
+      "id": "api-role",
+      "type": "role",
+      "policies": [
+        {
+          "actions": [
+            "s3:GetObject",
+            "s3:PutObject"
+          ],
+          "resources": [
+            "arn:aws:s3:::FAKE-app-bucket/*"
+          ],
+          "effect": "allow"
+        }
+      ]
+    }
+  ],
+  "fixedObservability": {
+    "logs": true,
+    "metrics": true
+  }
+}

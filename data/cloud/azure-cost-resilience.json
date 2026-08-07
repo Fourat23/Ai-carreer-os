@@ -1,0 +1,259 @@
+{
+  "id": "azure-cost-resilience",
+  "title": "Azure — coût et résilience",
+  "provider": "azure",
+  "region": "westeurope",
+  "description": "Ressource sur-dimensionnée, subnets aux CIDR qui se chevauchent et base sans sauvegarde : optimiser le coût tout en fiabilisant l'architecture.",
+  "need": "Réduire le gaspillage sans sacrifier la résilience.",
+  "constraints": [
+    "right-sizing",
+    "segmentation réseau propre",
+    "sauvegarde testée"
+  ],
+  "zones": [
+    {
+      "id": "zone-1",
+      "label": "Zone 1"
+    },
+    {
+      "id": "zone-2",
+      "label": "Zone 2"
+    }
+  ],
+  "resources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "lb",
+      "kind": "load-balancer",
+      "label": "Load Balancer",
+      "zone": "zone-1",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "app-1",
+      "kind": "container",
+      "label": "App 1",
+      "zone": "zone-1"
+    },
+    {
+      "id": "app-2",
+      "kind": "container",
+      "label": "App 2",
+      "zone": "zone-2"
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "Azure SQL",
+      "zone": "zone-1",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "mon",
+      "kind": "monitoring",
+      "label": "Azure Monitor"
+    }
+  ],
+  "edges": [
+    {
+      "id": "c-lb",
+      "from": "client",
+      "to": "lb",
+      "kind": "routes-to",
+      "props": {
+        "tls": true
+      }
+    },
+    {
+      "id": "lb-1",
+      "from": "lb",
+      "to": "app-1",
+      "kind": "routes-to"
+    },
+    {
+      "id": "lb-2",
+      "from": "lb",
+      "to": "app-2",
+      "kind": "routes-to"
+    },
+    {
+      "id": "a1-db",
+      "from": "app-1",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "a2-db",
+      "from": "app-2",
+      "to": "db",
+      "kind": "writes"
+    }
+  ],
+  "network": {
+    "cidr": "10.0.0.0/16",
+    "subnets": [
+      {
+        "id": "sn-1",
+        "cidr": "10.0.1.0/24",
+        "public": false
+      },
+      {
+        "id": "sn-2",
+        "cidr": "10.0.1.128/25",
+        "public": false
+      }
+    ]
+  },
+  "observability": {
+    "logs": true,
+    "metrics": true
+  },
+  "costHints": [
+    {
+      "resourceId": "app-1",
+      "sizing": "oversized",
+      "monthlyUnits": 5
+    }
+  ],
+  "skills": [
+    "http",
+    "debugging"
+  ],
+  "dayRefs": [
+    80,
+    81
+  ],
+  "trackScope": [
+    "systems-cloud-foundations-v1"
+  ],
+  "playbookRef": "cloud-cost-too-high",
+  "missionRefs": [
+    "cloud-reduce-bill",
+    "cloud-backup-dr"
+  ],
+  "fixedResources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "lb",
+      "kind": "load-balancer",
+      "label": "Load Balancer",
+      "zone": "zone-1",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "app-1",
+      "kind": "container",
+      "label": "App 1 (right-sized)",
+      "zone": "zone-1"
+    },
+    {
+      "id": "app-2",
+      "kind": "container",
+      "label": "App 2",
+      "zone": "zone-2"
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "Azure SQL (HA)",
+      "zone": "zone-1",
+      "props": {
+        "managed": true,
+        "backup": true
+      }
+    },
+    {
+      "id": "backup",
+      "kind": "backup",
+      "label": "Sauvegardes",
+      "props": {
+        "restoreTested": true
+      }
+    },
+    {
+      "id": "mon",
+      "kind": "monitoring",
+      "label": "Azure Monitor"
+    }
+  ],
+  "fixedEdges": [
+    {
+      "id": "c-lb",
+      "from": "client",
+      "to": "lb",
+      "kind": "routes-to",
+      "props": {
+        "tls": true
+      }
+    },
+    {
+      "id": "lb-1",
+      "from": "lb",
+      "to": "app-1",
+      "kind": "routes-to"
+    },
+    {
+      "id": "lb-2",
+      "from": "lb",
+      "to": "app-2",
+      "kind": "routes-to"
+    },
+    {
+      "id": "a1-db",
+      "from": "app-1",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "a2-db",
+      "from": "app-2",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "bk-db",
+      "from": "backup",
+      "to": "db",
+      "kind": "backs-up"
+    }
+  ],
+  "fixedNetwork": {
+    "cidr": "10.0.0.0/16",
+    "subnets": [
+      {
+        "id": "sn-1",
+        "cidr": "10.0.1.0/24",
+        "public": false
+      },
+      {
+        "id": "sn-2",
+        "cidr": "10.0.2.0/24",
+        "public": false
+      }
+    ]
+  },
+  "fixedCostHints": [
+    {
+      "resourceId": "app-1",
+      "monthlyUnits": 1
+    }
+  ],
+  "fixedObservability": {
+    "logs": true,
+    "metrics": true
+  }
+}

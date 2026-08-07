@@ -1,0 +1,167 @@
+{
+  "id": "azure-web-ha",
+  "title": "Azure — application web hautement disponible",
+  "provider": "azure",
+  "region": "westeurope",
+  "description": "Une application web sur une VM unique, sans observabilité, migrée vers Application Gateway + compute redondé + Azure SQL avec sauvegardes et monitoring.",
+  "need": "Application web résiliente et observable.",
+  "constraints": [
+    "multi-zone",
+    "observabilité obligatoire"
+  ],
+  "zones": [
+    {
+      "id": "zone-1",
+      "label": "Zone 1"
+    },
+    {
+      "id": "zone-2",
+      "label": "Zone 2"
+    }
+  ],
+  "resources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "vm",
+      "kind": "vm",
+      "label": "VM web (unique)",
+      "zone": "zone-1"
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "Azure SQL",
+      "zone": "zone-1"
+    }
+  ],
+  "edges": [
+    {
+      "id": "c-vm",
+      "from": "client",
+      "to": "vm",
+      "kind": "routes-to"
+    },
+    {
+      "id": "vm-db",
+      "from": "vm",
+      "to": "db",
+      "kind": "writes"
+    }
+  ],
+  "observability": {},
+  "skills": [
+    "http",
+    "debugging"
+  ],
+  "dayRefs": [
+    78,
+    79
+  ],
+  "trackScope": [
+    "systems-cloud-foundations-v1"
+  ],
+  "playbookRef": "cloud-vm-unreachable",
+  "missionRefs": [
+    "cloud-migrate-resilient"
+  ],
+  "fixedResources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "agw",
+      "kind": "load-balancer",
+      "label": "Application Gateway",
+      "zone": "zone-1",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "app-1",
+      "kind": "container",
+      "label": "App 1",
+      "zone": "zone-1"
+    },
+    {
+      "id": "app-2",
+      "kind": "container",
+      "label": "App 2",
+      "zone": "zone-2"
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "Azure SQL (HA)",
+      "zone": "zone-1",
+      "props": {
+        "managed": true,
+        "backup": true
+      }
+    },
+    {
+      "id": "backup",
+      "kind": "backup",
+      "label": "Sauvegardes",
+      "props": {
+        "restoreTested": true
+      }
+    },
+    {
+      "id": "mon",
+      "kind": "monitoring",
+      "label": "Azure Monitor"
+    }
+  ],
+  "fixedEdges": [
+    {
+      "id": "c-agw",
+      "from": "client",
+      "to": "agw",
+      "kind": "routes-to",
+      "props": {
+        "tls": true
+      }
+    },
+    {
+      "id": "agw-1",
+      "from": "agw",
+      "to": "app-1",
+      "kind": "routes-to"
+    },
+    {
+      "id": "agw-2",
+      "from": "agw",
+      "to": "app-2",
+      "kind": "routes-to"
+    },
+    {
+      "id": "a1-db",
+      "from": "app-1",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "a2-db",
+      "from": "app-2",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "bk-db",
+      "from": "backup",
+      "to": "db",
+      "kind": "backs-up"
+    }
+  ],
+  "fixedObservability": {
+    "logs": true,
+    "metrics": true
+  }
+}

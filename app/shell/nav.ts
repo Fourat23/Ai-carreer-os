@@ -23,6 +23,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/cloud-lab', label: 'Cloud Topology Lab', icon: 'Network' },
       { href: '/kubernetes', label: 'Kubernetes Lab', icon: 'Boxes' },
       { href: '/security', label: 'Security Lab', icon: 'ShieldAlert' },
+      { href: '/cloud-foundations', label: 'Cloud Architecture Lab', icon: 'Cloud' },
       { href: '/missions', label: 'Missions', icon: 'Target' },
       { href: '/skills', label: 'Compétences', icon: 'Target' },
       { href: '/projects', label: 'Projets', icon: 'FolderGit2' },

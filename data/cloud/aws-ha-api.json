@@ -1,0 +1,167 @@
+{
+  "id": "aws-ha-api",
+  "title": "AWS — API hautement disponible",
+  "provider": "aws",
+  "region": "eu-west-1",
+  "description": "Rendre une API publique disponible même en cas de panne d'une zone : du single-AZ fragile vers une architecture multi-AZ avec load balancer, réplicas et sauvegardes.",
+  "need": "API publique qui reste disponible si une zone tombe.",
+  "constraints": [
+    "budget raisonnable",
+    "RTO < 5 min"
+  ],
+  "zones": [
+    {
+      "id": "az-a",
+      "label": "AZ A"
+    },
+    {
+      "id": "az-b",
+      "label": "AZ B"
+    }
+  ],
+  "resources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "api",
+      "kind": "api",
+      "label": "API (unique)",
+      "zone": "az-a"
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "RDS",
+      "zone": "az-a"
+    }
+  ],
+  "edges": [
+    {
+      "id": "c-api",
+      "from": "client",
+      "to": "api",
+      "kind": "routes-to"
+    },
+    {
+      "id": "api-db",
+      "from": "api",
+      "to": "db",
+      "kind": "writes"
+    }
+  ],
+  "observability": {},
+  "skills": [
+    "http",
+    "debugging"
+  ],
+  "dayRefs": [
+    78,
+    79
+  ],
+  "trackScope": [
+    "systems-cloud-foundations-v1"
+  ],
+  "playbookRef": "cloud-region-outage",
+  "missionRefs": [
+    "cloud-ha-api-design"
+  ],
+  "fixedResources": [
+    {
+      "id": "client",
+      "kind": "client",
+      "label": "Client"
+    },
+    {
+      "id": "lb",
+      "kind": "load-balancer",
+      "label": "ALB (managé)",
+      "zone": "az-a",
+      "props": {
+        "managed": true
+      }
+    },
+    {
+      "id": "api-a",
+      "kind": "api",
+      "label": "API A",
+      "zone": "az-a"
+    },
+    {
+      "id": "api-b",
+      "kind": "api",
+      "label": "API B",
+      "zone": "az-b"
+    },
+    {
+      "id": "db",
+      "kind": "managed-db",
+      "label": "RDS multi-AZ",
+      "zone": "az-a",
+      "props": {
+        "managed": true,
+        "backup": true
+      }
+    },
+    {
+      "id": "backup",
+      "kind": "backup",
+      "label": "Sauvegardes",
+      "props": {
+        "restoreTested": true
+      }
+    },
+    {
+      "id": "mon",
+      "kind": "monitoring",
+      "label": "CloudWatch"
+    }
+  ],
+  "fixedEdges": [
+    {
+      "id": "c-lb",
+      "from": "client",
+      "to": "lb",
+      "kind": "routes-to",
+      "props": {
+        "tls": true
+      }
+    },
+    {
+      "id": "lb-a",
+      "from": "lb",
+      "to": "api-a",
+      "kind": "routes-to"
+    },
+    {
+      "id": "lb-b",
+      "from": "lb",
+      "to": "api-b",
+      "kind": "routes-to"
+    },
+    {
+      "id": "a-db",
+      "from": "api-a",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "b-db",
+      "from": "api-b",
+      "to": "db",
+      "kind": "writes"
+    },
+    {
+      "id": "bk-db",
+      "from": "backup",
+      "to": "db",
+      "kind": "backs-up"
+    }
+  ],
+  "fixedObservability": {
+    "logs": true,
+    "metrics": true
+  }
+}

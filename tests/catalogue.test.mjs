@@ -8,7 +8,7 @@ import {
 } from '../lib/catalogue.mjs';
 // FULLSTACK_TRACK_ID / BACKEND_TRACK_ID sont importés plus bas (l.147/162) ; on
 // n'ajoute ici que les ids de parcours pas encore importés ailleurs dans ce fichier.
-import { SYSTEMS_CLOUD_TRACK_ID, APPSEC_CLOUD_TRACK_ID } from '../lib/catalogue.mjs';
+import { SYSTEMS_CLOUD_TRACK_ID, APPSEC_CLOUD_TRACK_ID, CLOUD_DEVOPS_TRACK_ID } from '../lib/catalogue.mjs';
 
 const program = JSON.parse(readFileSync(new URL('../data/program.json', import.meta.url), 'utf8'));
 
@@ -203,11 +203,12 @@ test('Backend : n’est plus annoncé ; les parcours existants restent intacts',
   assert.equal(getTrack(cat, DEFAULT_TRACK_ID).totalDays, 365);
   assert.equal(resolveTrackDays(cat, 'fullstack-typescript').length, 119);
   // Contrat de surface : l'ENSEMBLE nommé des parcours disponibles (pas un simple
-  // compte magique). V19 a ajouté Systems & Cloud, V24 ajoute AppSec & Cloud Security.
+  // compte magique). V19 a ajouté Systems & Cloud, V24 AppSec & Cloud Security,
+  // V26 Cloud / DevOps Engineer.
   const availableIds = cat.tracks.filter(isTrackAvailable).map((t) => t.id).sort();
   assert.deepEqual(availableIds, [
     DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID,
-    SYSTEMS_CLOUD_TRACK_ID, APPSEC_CLOUD_TRACK_ID,
+    SYSTEMS_CLOUD_TRACK_ID, APPSEC_CLOUD_TRACK_ID, CLOUD_DEVOPS_TRACK_ID,
   ].sort());
   assert.equal(be.technologies.includes('docker'), false);
 });

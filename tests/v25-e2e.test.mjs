@@ -120,8 +120,12 @@ test('E2E-8 : export → mutation → import → restauration exacte (multi-parc
   assert.ok(!/"reference"|diagnostics"|AKIA/.test(exported), 'aucune donnée interne dans la sauvegarde');
 });
 
-test('E2E-9 : les 5 parcours restent disponibles et isolés (data-driven)', () => {
+test('E2E-9 : les parcours cloud restent disponibles et isolés (data-driven)', () => {
+  // Data-driven : on n'épingle PAS un compte magique (V26 a ajouté Cloud/DevOps
+  // Engineer). On vérifie l'invariant : les parcours cloud attendus sont bien
+  // disponibles, et l'ensemble disponible est cohérent.
   const available = cat.tracks.filter(isTrackAvailable).map((t) => t.id);
-  assert.equal(available.length, 5, 'toujours 5 parcours (aucun nouveau en V25)');
+  assert.ok(available.length >= 5, 'les parcours disponibles existants sont préservés');
   assert.ok(available.includes(SYSTEMS_CLOUD_TRACK_ID) && available.includes(APPSEC_CLOUD_TRACK_ID));
+  assert.equal(new Set(available).size, available.length, 'aucun parcours disponible dupliqué');
 });

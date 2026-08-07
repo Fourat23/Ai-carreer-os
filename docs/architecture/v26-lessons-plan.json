@@ -1,0 +1,7 @@
+{
+  "sprint": "V26",
+  "baselineRef": "7d8868b",
+  "note": "Périmètre d'expansion pédagogique V26 (cf. ADR-026). Nouvelles Leçons de fond sur la colonne Cloud/DevOps. Le tableau newLessons est renseigné au fil des checkpoints CP3→CP7 ; v26:check valide chaque leçon déclarée. requiredConcepts liste les notions clés attendues par leçon.",
+  "newLessons": [],
+  "requiredConcepts": {}
+}

@@ -1,0 +1,63 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-cidr-overlap",
+  "title": "Réseau : deux CIDR se chevauchent-ils ?",
+  "difficulty": 2,
+  "summary": "cidrOverlap(a, b) → true si les deux plages CIDR IPv4 (ex. \"10.0.0.0/16\") se recouvrent.",
+  "skills": [
+    "algo"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function cidrOverlap(a, b) {\n  // TODO : implémenter\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function cidrOverlap(a, b) {\n  const r = c => { const [ip, p] = c.split(\"/\"); const n = ip.split(\".\").reduce((x, o) => (x * 256 + (+o)) >>> 0, 0); const pref = +p; const mask = pref === 0 ? 0 : (0xffffffff << (32 - pref)) >>> 0; const s = (n & mask) >>> 0; const size = pref === 32 ? 1 : 2 ** (32 - pref); return [s, (s + size - 1) >>> 0]; }; const [sa, ea] = r(a), [sb, eb] = r(b); return sa <= eb && sb <= ea;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "/24 inclus dans /16",
+      "kind": "call-equals",
+      "export": "cidrOverlap",
+      "args": [
+        "10.0.0.0/16",
+        "10.0.1.0/24"
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "disjoints",
+      "kind": "call-equals",
+      "export": "cidrOverlap",
+      "args": [
+        "10.0.1.0/24",
+        "10.0.2.0/24"
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "recouvrement partiel",
+      "kind": "call-equals",
+      "export": "cidrOverlap",
+      "args": [
+        "10.0.0.0/24",
+        "10.0.0.128/25"
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-iam-excess-actions",
+  "title": "IAM : actions en trop (moindre privilège)",
+  "difficulty": 2,
+  "summary": "excessActions(granted, needed) → les actions ACCORDÉES qui ne sont pas NÉCESSAIRES (à retirer pour le moindre privilège).",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function excessActions(granted, needed) {\n  // TODO : implémenter\n  return granted;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function excessActions(granted, needed) {\n  return granted.filter(a => !needed.includes(a));\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "retire le superflu",
+      "kind": "call-equals",
+      "export": "excessActions",
+      "args": [
+        [
+          "s3:Get",
+          "s3:Put",
+          "ec2:*"
+        ],
+        [
+          "s3:Get",
+          "s3:Put"
+        ]
+      ],
+      "expected": [
+        "ec2:*"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "rien en trop",
+      "kind": "call-equals",
+      "export": "excessActions",
+      "args": [
+        [
+          "s3:Get"
+        ],
+        [
+          "s3:Get",
+          "s3:Put"
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "tout en trop",
+      "kind": "call-equals",
+      "export": "excessActions",
+      "args": [
+        [
+          "a",
+          "b"
+        ],
+        []
+      ],
+      "expected": [
+        "a",
+        "b"
+      ],
+      "private": true
+    }
+  ]
+}

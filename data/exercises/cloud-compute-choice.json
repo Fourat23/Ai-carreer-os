@@ -1,0 +1,68 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-compute-choice",
+  "title": "Compute : VM, container ou serverless ?",
+  "difficulty": 2,
+  "summary": "computeChoice(ctx) : needsOsControl → vm ; sinon charge en pics (spiky) → serverless ; sinon container.",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function computeChoice(ctx) {\n  // TODO : implémenter\n  return \"vm\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function computeChoice(ctx) {\n  if (ctx.needsOsControl) return \"vm\"; if (ctx.spiky) return \"serverless\"; return \"container\";\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "contrôle OS → vm",
+      "kind": "call-equals",
+      "export": "computeChoice",
+      "args": [
+        {
+          "needsOsControl": true
+        }
+      ],
+      "expected": "vm"
+    },
+    {
+      "id": "t2",
+      "name": "pics irréguliers → serverless",
+      "kind": "call-equals",
+      "export": "computeChoice",
+      "args": [
+        {
+          "needsOsControl": false,
+          "spiky": true
+        }
+      ],
+      "expected": "serverless"
+    },
+    {
+      "id": "t3",
+      "name": "charge continue → container",
+      "kind": "call-equals",
+      "export": "computeChoice",
+      "args": [
+        {
+          "needsOsControl": false,
+          "spiky": false
+        }
+      ],
+      "expected": "container",
+      "private": true
+    }
+  ]
+}

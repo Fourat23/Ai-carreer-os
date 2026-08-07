@@ -1,0 +1,72 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-sg-port-range",
+  "title": "Réseau : le security group autorise-t-il ce port ?",
+  "difficulty": 2,
+  "summary": "portAllowed(rule, port) où rule={from,to} → true si le port est dans la plage autorisée.",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function portAllowed(rule, port) {\n  // TODO : implémenter\n  return true;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function portAllowed(rule, port) {\n  return port >= rule.from && port <= rule.to;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "port dans la plage",
+      "kind": "call-equals",
+      "export": "portAllowed",
+      "args": [
+        {
+          "from": 80,
+          "to": 443
+        },
+        443
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "port hors plage",
+      "kind": "call-equals",
+      "export": "portAllowed",
+      "args": [
+        {
+          "from": 80,
+          "to": 443
+        },
+        8080
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "borne basse",
+      "kind": "call-equals",
+      "export": "portAllowed",
+      "args": [
+        {
+          "from": 22,
+          "to": 22
+        },
+        22
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

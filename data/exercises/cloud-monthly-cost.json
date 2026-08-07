@@ -1,0 +1,73 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-monthly-cost",
+  "title": "FinOps : coût mensuel estimé",
+  "difficulty": 2,
+  "summary": "monthlyCost(items) où chaque item={units,unitCost} → la somme units × coût unitaire.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function monthlyCost(items) {\n  // TODO : implémenter\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function monthlyCost(items) {\n  return items.reduce((s, it) => s + it.units * it.unitCost, 0);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux postes",
+      "kind": "call-equals",
+      "export": "monthlyCost",
+      "args": [
+        [
+          {
+            "units": 2,
+            "unitCost": 40
+          },
+          {
+            "units": 1,
+            "unitCost": 60
+          }
+        ]
+      ],
+      "expected": 140
+    },
+    {
+      "id": "t2",
+      "name": "liste vide",
+      "kind": "call-equals",
+      "export": "monthlyCost",
+      "args": [
+        []
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t3",
+      "name": "un poste",
+      "kind": "call-equals",
+      "export": "monthlyCost",
+      "args": [
+        [
+          {
+            "units": 3,
+            "unitCost": 5
+          }
+        ]
+      ],
+      "expected": 15,
+      "private": true
+    }
+  ]
+}

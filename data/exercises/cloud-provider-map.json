@@ -1,0 +1,70 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-provider-map",
+  "title": "Architecture : équivalent Azure d'un service AWS",
+  "difficulty": 2,
+  "summary": "awsToAzure(service) → l'équivalent Azure raisonné (EC2→Virtual Machines, S3→Blob Storage, Lambda→Azure Functions, RDS→Azure SQL, IAM Role→Managed Identity), sinon \"inconnu\".",
+  "skills": [
+    "hashmap"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function awsToAzure(service) {\n  // TODO : implémenter\n  return \"inconnu\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function awsToAzure(service) {\n  const m = { \"EC2\": \"Virtual Machines\", \"S3\": \"Blob Storage\", \"Lambda\": \"Azure Functions\", \"RDS\": \"Azure SQL\", \"IAM Role\": \"Managed Identity\" }; return m[service] ?? \"inconnu\";\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "EC2 → VM",
+      "kind": "call-equals",
+      "export": "awsToAzure",
+      "args": [
+        "EC2"
+      ],
+      "expected": "Virtual Machines"
+    },
+    {
+      "id": "t2",
+      "name": "S3 → Blob",
+      "kind": "call-equals",
+      "export": "awsToAzure",
+      "args": [
+        "S3"
+      ],
+      "expected": "Blob Storage"
+    },
+    {
+      "id": "t3",
+      "name": "Lambda → Functions",
+      "kind": "call-equals",
+      "export": "awsToAzure",
+      "args": [
+        "Lambda"
+      ],
+      "expected": "Azure Functions"
+    },
+    {
+      "id": "t4",
+      "name": "inconnu",
+      "kind": "call-equals",
+      "export": "awsToAzure",
+      "args": [
+        "Braket"
+      ],
+      "expected": "inconnu",
+      "private": true
+    }
+  ]
+}

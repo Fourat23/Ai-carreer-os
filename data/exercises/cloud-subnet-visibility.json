@@ -1,0 +1,60 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-subnet-visibility",
+  "title": "Réseau : subnet public ou privé ?",
+  "difficulty": 2,
+  "summary": "subnetKind(hasRouteToInternetGateway) → \"public\" si une route mène à l'Internet Gateway, sinon \"private\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function subnetKind(hasRouteToInternetGateway) {\n  // TODO : implémenter\n  return \"public\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function subnetKind(hasRouteToInternetGateway) {\n  return hasRouteToInternetGateway ? \"public\" : \"private\";\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "route vers IGW → public",
+      "kind": "call-equals",
+      "export": "subnetKind",
+      "args": [
+        true
+      ],
+      "expected": "public"
+    },
+    {
+      "id": "t2",
+      "name": "pas de route → privé",
+      "kind": "call-equals",
+      "export": "subnetKind",
+      "args": [
+        false
+      ],
+      "expected": "private"
+    },
+    {
+      "id": "t3",
+      "name": "privé confirmé",
+      "kind": "call-equals",
+      "export": "subnetKind",
+      "args": [
+        false
+      ],
+      "expected": "private",
+      "private": true
+    }
+  ]
+}

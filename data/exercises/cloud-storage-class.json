@@ -1,0 +1,64 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-storage-class",
+  "title": "Stockage : objet, bloc ou fichier ?",
+  "difficulty": 2,
+  "summary": "storageClass(ctx) : partage POSIX/SMB → file ; disque attaché à une VM → block ; sinon object.",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function storageClass(ctx) {\n  // TODO : implémenter\n  return \"object\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function storageClass(ctx) {\n  if (ctx.sharedFilesystem) return \"file\"; if (ctx.attachedToVm) return \"block\"; return \"object\";\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "partage fichier → file",
+      "kind": "call-equals",
+      "export": "storageClass",
+      "args": [
+        {
+          "sharedFilesystem": true
+        }
+      ],
+      "expected": "file"
+    },
+    {
+      "id": "t2",
+      "name": "disque VM → block",
+      "kind": "call-equals",
+      "export": "storageClass",
+      "args": [
+        {
+          "attachedToVm": true
+        }
+      ],
+      "expected": "block"
+    },
+    {
+      "id": "t3",
+      "name": "sinon → object",
+      "kind": "call-equals",
+      "export": "storageClass",
+      "args": [
+        {}
+      ],
+      "expected": "object",
+      "private": true
+    }
+  ]
+}

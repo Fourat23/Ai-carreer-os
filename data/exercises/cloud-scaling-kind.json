@@ -1,0 +1,54 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-scaling-kind",
+  "title": "Scaling : horizontal ou vertical ?",
+  "difficulty": 2,
+  "summary": "scalingKind(ctx) → \"horizontal\" si le service est stateless (état externalisé), sinon \"vertical\".",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function scalingKind(ctx) {\n  // TODO : implémenter\n  return \"vertical\";\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function scalingKind(ctx) {\n  return ctx.stateless ? \"horizontal\" : \"vertical\";\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "stateless → horizontal",
+      "kind": "call-equals",
+      "export": "scalingKind",
+      "args": [
+        {
+          "stateless": true
+        }
+      ],
+      "expected": "horizontal"
+    },
+    {
+      "id": "t2",
+      "name": "stateful → vertical",
+      "kind": "call-equals",
+      "export": "scalingKind",
+      "args": [
+        {
+          "stateless": false
+        }
+      ],
+      "expected": "vertical",
+      "private": true
+    }
+  ]
+}

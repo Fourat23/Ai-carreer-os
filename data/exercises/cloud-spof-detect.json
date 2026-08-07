@@ -1,0 +1,89 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-spof-detect",
+  "title": "Résilience : détecter les SPOF",
+  "difficulty": 2,
+  "summary": "spofs(resources) où chaque ressource={kind,critical,count,redundant} → les kinds critiques uniques et non redondés.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function spofs(resources) {\n  // TODO : implémenter\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function spofs(resources) {\n  return resources.filter(r => r.critical && r.count < 2 && !r.redundant).map(r => r.kind);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "db unique critique",
+      "kind": "call-equals",
+      "export": "spofs",
+      "args": [
+        [
+          {
+            "kind": "db",
+            "critical": true,
+            "count": 1,
+            "redundant": false
+          },
+          {
+            "kind": "api",
+            "critical": true,
+            "count": 2,
+            "redundant": false
+          }
+        ]
+      ],
+      "expected": [
+        "db"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "managé/redondé → pas SPOF",
+      "kind": "call-equals",
+      "export": "spofs",
+      "args": [
+        [
+          {
+            "kind": "lb",
+            "critical": true,
+            "count": 1,
+            "redundant": true
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "aucun",
+      "kind": "call-equals",
+      "export": "spofs",
+      "args": [
+        [
+          {
+            "kind": "cache",
+            "critical": false,
+            "count": 1,
+            "redundant": false
+          }
+        ]
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

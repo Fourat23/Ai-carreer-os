@@ -1,0 +1,81 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-iam-wildcard",
+  "title": "IAM : détecter une permission wildcard",
+  "difficulty": 2,
+  "summary": "hasWildcard(policy) où policy={actions,resources} → true si « * » apparaît dans les actions OU les ressources.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function hasWildcard(policy) {\n  // TODO : implémenter\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function hasWildcard(policy) {\n  return (policy.actions || []).includes(\"*\") || (policy.resources || []).includes(\"*\");\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "actions wildcard",
+      "kind": "call-equals",
+      "export": "hasWildcard",
+      "args": [
+        {
+          "actions": [
+            "*"
+          ],
+          "resources": [
+            "arn:x"
+          ]
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "resources wildcard",
+      "kind": "call-equals",
+      "export": "hasWildcard",
+      "args": [
+        {
+          "actions": [
+            "s3:Get"
+          ],
+          "resources": [
+            "*"
+          ]
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t3",
+      "name": "aucun wildcard",
+      "kind": "call-equals",
+      "export": "hasWildcard",
+      "args": [
+        {
+          "actions": [
+            "s3:Get"
+          ],
+          "resources": [
+            "arn:x"
+          ]
+        }
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

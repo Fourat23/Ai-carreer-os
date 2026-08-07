@@ -1,0 +1,53 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-rightsizing-savings",
+  "title": "FinOps : économies du right-sizing",
+  "difficulty": 2,
+  "summary": "savings(currentUnits, targetUnits, unitCost) → économie mensuelle en réduisant la taille (unités économisées × coût).",
+  "skills": [
+    "functions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function savings(currentUnits, targetUnits, unitCost) {\n  // TODO : implémenter\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function savings(currentUnits, targetUnits, unitCost) {\n  return (currentUnits - targetUnits) * unitCost;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "de 5 à 2 unités",
+      "kind": "call-equals",
+      "export": "savings",
+      "args": [
+        5,
+        2,
+        40
+      ],
+      "expected": 120
+    },
+    {
+      "id": "t2",
+      "name": "déjà optimal",
+      "kind": "call-equals",
+      "export": "savings",
+      "args": [
+        2,
+        2,
+        40
+      ],
+      "expected": 0,
+      "private": true
+    }
+  ]
+}

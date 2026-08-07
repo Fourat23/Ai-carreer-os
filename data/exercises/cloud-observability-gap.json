@@ -1,0 +1,73 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-observability-gap",
+  "title": "Observabilité : quels signaux manquent ?",
+  "difficulty": 2,
+  "summary": "missingSignals(obs) où obs={logs,metrics,alerts} → la liste des signaux d'observabilité absents.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function missingSignals(obs) {\n  // TODO : implémenter\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function missingSignals(obs) {\n  return [\"logs\", \"metrics\", \"alerts\"].filter(k => !obs[k]);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tout manque",
+      "kind": "call-equals",
+      "export": "missingSignals",
+      "args": [
+        {}
+      ],
+      "expected": [
+        "logs",
+        "metrics",
+        "alerts"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "alertes manquantes",
+      "kind": "call-equals",
+      "export": "missingSignals",
+      "args": [
+        {
+          "logs": true,
+          "metrics": true
+        }
+      ],
+      "expected": [
+        "alerts"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "rien ne manque",
+      "kind": "call-equals",
+      "export": "missingSignals",
+      "args": [
+        {
+          "logs": true,
+          "metrics": true,
+          "alerts": true
+        }
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

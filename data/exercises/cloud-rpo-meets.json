@@ -1,0 +1,63 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-rpo-meets",
+  "title": "Résilience : la sauvegarde respecte-t-elle le RPO ?",
+  "difficulty": 2,
+  "summary": "meetsRpo(backupIntervalMin, rpoMin) → true si l'intervalle de sauvegarde ne dépasse pas le RPO cible.",
+  "skills": [
+    "conditions"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function meetsRpo(backupIntervalMin, rpoMin) {\n  // TODO : implémenter\n  return true;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function meetsRpo(backupIntervalMin, rpoMin) {\n  return backupIntervalMin <= rpoMin;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "intervalle < RPO",
+      "kind": "call-equals",
+      "export": "meetsRpo",
+      "args": [
+        15,
+        60
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "intervalle > RPO",
+      "kind": "call-equals",
+      "export": "meetsRpo",
+      "args": [
+        120,
+        60
+      ],
+      "expected": false
+    },
+    {
+      "id": "t3",
+      "name": "intervalle = RPO",
+      "kind": "call-equals",
+      "export": "meetsRpo",
+      "args": [
+        60,
+        60
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

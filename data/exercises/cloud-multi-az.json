@@ -1,0 +1,57 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-multi-az",
+  "title": "Résilience : l'architecture est-elle multi-AZ ?",
+  "difficulty": 2,
+  "summary": "isMultiAz(zones) → true si les ressources sont réparties sur au moins deux zones de disponibilité distinctes.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function isMultiAz(zones) {\n  // TODO : implémenter\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isMultiAz(zones) {\n  return new Set(zones).size >= 2;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux AZ",
+      "kind": "call-equals",
+      "export": "isMultiAz",
+      "args": [
+        [
+          "az-a",
+          "az-b",
+          "az-a"
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "une seule AZ",
+      "kind": "call-equals",
+      "export": "isMultiAz",
+      "args": [
+        [
+          "az-a",
+          "az-a"
+        ]
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

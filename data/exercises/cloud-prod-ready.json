@@ -1,0 +1,78 @@
+{
+  "runtime": "node-js",
+  "trackRefs": [
+    "ai-engineer-foundations-v1",
+    "systems-cloud-foundations-v1"
+  ],
+  "activeFile": "solution.mjs",
+  "id": "cloud-prod-ready",
+  "title": "Architecture : prête pour la production ?",
+  "difficulty": 2,
+  "summary": "prodReady(diagnostics) → false s'il reste au moins un diagnostic bloquant ou de risque, sinon true.",
+  "skills": [
+    "arrays"
+  ],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function prodReady(diagnostics) {\n  // TODO : implémenter\n  return true;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function prodReady(diagnostics) {\n  return !diagnostics.some(d => d.severity === \"blocking\" || d.severity === \"risk\");\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un bloquant → non prêt",
+      "kind": "call-equals",
+      "export": "prodReady",
+      "args": [
+        [
+          {
+            "severity": "blocking"
+          },
+          {
+            "severity": "warning"
+          }
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "id": "t2",
+      "name": "que des avertissements → prêt",
+      "kind": "call-equals",
+      "export": "prodReady",
+      "args": [
+        [
+          {
+            "severity": "warning"
+          },
+          {
+            "severity": "observation"
+          }
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "id": "t3",
+      "name": "un risque → non prêt",
+      "kind": "call-equals",
+      "export": "prodReady",
+      "args": [
+        [
+          {
+            "severity": "risk"
+          }
+        ]
+      ],
+      "expected": false,
+      "private": true
+    }
+  ]
+}

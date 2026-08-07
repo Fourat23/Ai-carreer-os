@@ -112,13 +112,22 @@
   "78": [
     "cloud-classify-tier",
     "cloud-public-exposure",
-    "cloud-service-model"
+    "cloud-service-model",
+    "cloud-iam-excess-actions",
+    "cloud-iam-wildcard",
+    "cloud-iam-credential-choice",
+    "cloud-subnet-visibility",
+    "cloud-cidr-overlap",
+    "cloud-sg-port-range",
+    "cloud-storage-class",
+    "cloud-provider-map"
   ],
   "79": [
     "cloud-detect-spof",
     "cloud-multi-zone",
     "cloud-readiness-routing",
-    "cloud-error-budget"
+    "cloud-error-budget",
+    "cloud-observability-gap"
   ],
   "80": [
     "latency-percentiles",
@@ -127,13 +136,19 @@
     "perf-pair-count",
     "cloud-scaling-choice",
     "cloud-replica-count",
-    "cloud-stateful-autoscale"
+    "cloud-stateful-autoscale",
+    "cloud-compute-choice",
+    "cloud-scaling-kind"
   ],
   "81": [
     "cloud-deploy-strategy",
     "cloud-rollback-decision",
     "cloud-rpo-met",
-    "cloud-blast-radius"
+    "cloud-blast-radius",
+    "cloud-rpo-meets",
+    "cloud-spof-detect",
+    "cloud-multi-az",
+    "cloud-prod-ready"
   ],
   "85": [
     "incident-health-rollup",
@@ -256,6 +271,10 @@
     "k8s-config-drift",
     "k8s-replicas-ha",
     "k8s-needs-probe"
+  ],
+  "325": [
+    "cloud-monthly-cost",
+    "cloud-rightsizing-savings"
   ],
   "326": [
     "cicd-trigger-should-run",

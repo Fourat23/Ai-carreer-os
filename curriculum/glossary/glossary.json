@@ -14780,5 +14780,1560 @@
       "incident",
       "correction"
     ]
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-az",
+      "ha-spof",
+      "ha-high-availability"
+    ],
+    "aliases": [
+      "domaine de défaillance"
+    ],
+    "tags": [
+      "cloud",
+      "résilience"
+    ],
+    "id": "cloud-fault-domain",
+    "term": "fault domain",
+    "frenchMeaning": "domaine de défaillance",
+    "category": "cloud",
+    "shortDefinition": "Un ensemble de ressources qui peuvent tomber ensemble à cause d'une panne partagée.",
+    "detailedDefinition": "Un fault domain regroupe ce qui partage un point de défaillance commun (même rack, même alimentation, même zone). Répartir des instances sur PLUSIEURS fault domains (ou availability zones) garantit qu'une panne matérielle n'emporte pas tout. C'est le principe physique derrière le multi-AZ.",
+    "usageContext": "Conception de haute disponibilité, placement d'instances redondées.",
+    "meetingExample": "« Nos deux répliques sont dans le même fault domain : une panne d'alim les tue toutes les deux. »",
+    "plainTranslation": "« Ne mets pas tous tes œufs dans le même panier physique. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-subscription",
+      "cloud-account",
+      "cloud-tagging"
+    ],
+    "aliases": [
+      "groupe de ressources"
+    ],
+    "tags": [
+      "azure",
+      "gouvernance"
+    ],
+    "id": "cloud-resource-group",
+    "term": "resource group",
+    "frenchMeaning": "groupe de ressources (Azure)",
+    "category": "cloud",
+    "shortDefinition": "Un conteneur logique Azure qui regroupe des ressources au cycle de vie commun.",
+    "detailedDefinition": "Sur Azure, un resource group rassemble des ressources liées (une application et sa base, son réseau, son stockage) pour les gérer, les taguer, les facturer et les supprimer ensemble. Il n'a pas d'équivalent direct côté AWS, où l'isolation se fait plutôt par compte et le regroupement par tags.",
+    "usageContext": "Organisation et gouvernance des ressources Azure.",
+    "meetingExample": "« Supprime le resource group de la démo, ça nettoie tout d'un coup. »",
+    "plainTranslation": "« Un dossier qui regroupe toutes les ressources d'un même projet. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-account",
+      "cloud-resource-group",
+      "cloud-quota"
+    ],
+    "aliases": [
+      "abonnement azure"
+    ],
+    "tags": [
+      "azure",
+      "facturation"
+    ],
+    "id": "cloud-subscription",
+    "term": "subscription",
+    "frenchMeaning": "abonnement (Azure)",
+    "category": "cloud",
+    "shortDefinition": "L'unité Azure de facturation et de limite d'accès qui contient des resource groups.",
+    "detailedDefinition": "Une subscription Azure délimite la facturation, les quotas et les accès ; elle contient des resource groups. On isole souvent les environnements (prod/test) ou les équipes par subscription, comme AWS le fait par compte. Les management groups organisent plusieurs subscriptions.",
+    "usageContext": "Gouvernance, isolation d'environnements, facturation Azure.",
+    "meetingExample": "« La prod est sur une subscription séparée du bac à sable. »",
+    "plainTranslation": "« Le compte de facturation et de droits qui contient tes ressources Azure. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-subscription",
+      "deploy-blast-radius",
+      "cloud-quota"
+    ],
+    "aliases": [
+      "compte aws"
+    ],
+    "tags": [
+      "aws",
+      "gouvernance"
+    ],
+    "id": "cloud-account",
+    "term": "account",
+    "fullForm": "AWS Account",
+    "frenchMeaning": "compte (AWS)",
+    "category": "cloud",
+    "shortDefinition": "L'unité AWS d'isolation, de facturation et de limite de sécurité.",
+    "detailedDefinition": "Un compte AWS isole les ressources, la facturation et les accès. La stratégie multi-comptes (via Organizations) sépare environnements et équipes pour réduire le rayon d'impact : une compromission d'un compte de test n'atteint pas la prod. Côté Azure, l'équivalent d'isolation est la subscription.",
+    "usageContext": "Isolation d'environnements, gouvernance, facturation AWS.",
+    "meetingExample": "« On crée un compte AWS dédié par environnement pour limiter le blast radius. »",
+    "plainTranslation": "« Le compte qui contient et facture tes ressources AWS. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-autoscaling",
+      "cloud-account"
+    ],
+    "aliases": [
+      "limite de service",
+      "service limit"
+    ],
+    "tags": [
+      "cloud",
+      "capacité"
+    ],
+    "id": "cloud-quota",
+    "term": "quota",
+    "frenchMeaning": "quota (limite de service)",
+    "category": "cloud",
+    "shortDefinition": "Une limite imposée par le fournisseur sur le nombre ou la taille de ressources.",
+    "detailedDefinition": "Chaque service cloud a des quotas (nombre d'instances, d'adresses IP, de requêtes/s). Ils protègent le fournisseur et te protègent d'une facture folle, mais peuvent bloquer une montée en charge légitime : un quota atteint provoque des erreurs sous pic. On les surveille et on demande une augmentation AVANT d'en avoir besoin.",
+    "usageContext": "Montée en charge, incidents « limite atteinte », planification de capacité.",
+    "meetingExample": "« On a atteint le quota d'instances : demande une augmentation avant le lancement. »",
+    "plainTranslation": "« Une limite du fournisseur qu'il faut anticiper avant qu'elle ne bloque. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-iam-policy",
+      "security-rbac",
+      "sec-least-privilege"
+    ],
+    "aliases": [
+      "principal iam"
+    ],
+    "tags": [
+      "iam",
+      "sécurité"
+    ],
+    "id": "cloud-iam-principal",
+    "term": "principal",
+    "frenchMeaning": "principal (identité qui agit)",
+    "category": "security",
+    "shortDefinition": "L'entité (utilisateur, rôle, service) à qui une policy accorde ou refuse des actions.",
+    "detailedDefinition": "En IAM, le principal est QUI agit : un utilisateur humain, un rôle assumé, un compte de service. Les policies décrivent ce qu'un principal peut faire, sur quelles ressources, sous quelles conditions. Identifier le principal est la première étape pour raisonner un accès (et une compromission).",
+    "usageContext": "Rédaction de policies, analyse d'accès, investigation d'incident.",
+    "meetingExample": "« Quel principal a le droit de supprimer ce bucket ? »",
+    "plainTranslation": "« L'identité — personne ou service — à qui on donne des droits. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-iam-principal",
+      "sec-wildcard-permission",
+      "sec-least-privilege"
+    ],
+    "aliases": [
+      "policy iam",
+      "politique iam"
+    ],
+    "tags": [
+      "iam",
+      "sécurité"
+    ],
+    "id": "cloud-iam-policy",
+    "term": "policy (IAM)",
+    "frenchMeaning": "politique d'autorisation",
+    "category": "security",
+    "shortDefinition": "Un document déclaratif qui accorde ou refuse des actions sur des ressources.",
+    "detailedDefinition": "Une policy IAM liste des règles (effet allow/deny, actions, ressources, conditions). Attachée à un principal, elle définit ce qui est permis. La bonne policy applique le moindre privilège : actions et ressources explicites, jamais de wildcard « * » par confort. Côté AWS c'est du JSON attaché ; côté Azure, un role assignment RBAC sur un scope.",
+    "usageContext": "Contrôle d'accès, revue de sécurité, moindre privilège.",
+    "meetingExample": "« Cette policy autorise s3:* — réduis-la aux deux actions réellement utilisées. »",
+    "plainTranslation": "« Les règles écrites qui disent ce qu'une identité a le droit de faire. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "sec-secret-rotation",
+      "cloud-managed-identity",
+      "sec-least-privilege"
+    ],
+    "aliases": [
+      "security token service"
+    ],
+    "tags": [
+      "aws",
+      "iam",
+      "sécurité"
+    ],
+    "id": "cloud-sts",
+    "term": "STS",
+    "fullForm": "Security Token Service",
+    "frenchMeaning": "service de jetons temporaires (AWS)",
+    "category": "security",
+    "shortDefinition": "Le service AWS qui délivre des credentials TEMPORAIRES pour assumer un rôle.",
+    "detailedDefinition": "STS émet des credentials à courte durée de vie quand un principal « assume » un rôle. C'est la brique du moindre privilège dans le temps : plutôt que des clés statiques éternelles, on obtient un accès limité qui expire. Les rôles d'instance et l'accès cross-compte reposent sur STS.",
+    "usageContext": "Accès temporaire, cross-compte, rôles d'instance, fédération.",
+    "meetingExample": "« L'appli assume un rôle via STS : plus de clés statiques à faire fuiter. »",
+    "plainTranslation": "« Un service qui donne des accès temporaires qui expirent tout seuls. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-service-principal",
+      "cloud-sts",
+      "security-secret"
+    ],
+    "aliases": [
+      "identité managée"
+    ],
+    "tags": [
+      "azure",
+      "iam",
+      "sécurité"
+    ],
+    "id": "cloud-managed-identity",
+    "term": "managed identity",
+    "frenchMeaning": "identité managée (Azure)",
+    "category": "security",
+    "shortDefinition": "Une identité Azure gérée par la plateforme, sans secret à stocker côté application.",
+    "detailedDefinition": "Une managed identity permet à une ressource Azure (VM, fonction) de s'authentifier auprès d'autres services SANS clé ni mot de passe dans le code : la plateforme gère les credentials et leur rotation. C'est l'équivalent des rôles d'instance AWS, et la meilleure défense contre les fuites de secrets applicatifs.",
+    "usageContext": "Authentification service-à-service sur Azure, élimination des secrets applicatifs.",
+    "meetingExample": "« Utilise une managed identity : aucune clé à mettre dans la config. »",
+    "plainTranslation": "« Une identité que le cloud gère pour toi, sans clé à cacher. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-managed-identity",
+      "cloud-iam-principal",
+      "security-rbac"
+    ],
+    "aliases": [
+      "principal de service",
+      "sp azure"
+    ],
+    "tags": [
+      "azure",
+      "iam"
+    ],
+    "id": "cloud-service-principal",
+    "term": "service principal",
+    "frenchMeaning": "principal de service (Azure)",
+    "category": "security",
+    "shortDefinition": "Une identité Azure pour une application/un service (non humaine), avec ses propres droits.",
+    "detailedDefinition": "Un service principal est l'identité d'une application dans Microsoft Entra ID : elle reçoit des rôles RBAC sur un scope. Utilisé quand une managed identity ne convient pas (hors Azure, CI/CD externe). Ses secrets/certificats doivent être protégés et tournés — d'où la préférence pour la managed identity quand elle est possible.",
+    "usageContext": "Automatisation, CI/CD, applications non hébergées sur Azure.",
+    "meetingExample": "« Le pipeline se connecte via un service principal dédié, aux droits minimaux. »",
+    "plainTranslation": "« Un compte pour une application (pas un humain) avec ses propres droits. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-vpc",
+      "net-subnet",
+      "cloud-nsg"
+    ],
+    "aliases": [
+      "virtual network",
+      "réseau virtuel"
+    ],
+    "tags": [
+      "azure",
+      "réseau"
+    ],
+    "id": "cloud-vnet",
+    "term": "VNet",
+    "fullForm": "Virtual Network",
+    "frenchMeaning": "réseau privé virtuel (Azure)",
+    "category": "network",
+    "shortDefinition": "Le réseau privé isolé d'Azure, équivalent du VPC AWS.",
+    "detailedDefinition": "Un VNet est l'espace réseau privé où vivent les ressources Azure : on y découpe des subnets, on y applique des NSG, on y contrôle le routage. C'est le pendant Azure du VPC AWS — même modèle mental (isolation, subnets publics/privés), vocabulaire différent.",
+    "usageContext": "Conception réseau Azure, isolation, segmentation.",
+    "meetingExample": "« La base est dans un subnet privé du VNet, jamais exposée. »",
+    "plainTranslation": "« Le réseau privé Azure où tu ranges tes ressources. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-internet-gateway",
+      "cloud-nat-gateway",
+      "net-subnet"
+    ],
+    "aliases": [
+      "table de routage"
+    ],
+    "tags": [
+      "réseau",
+      "routage"
+    ],
+    "id": "cloud-route-table",
+    "term": "route table",
+    "frenchMeaning": "table de routage",
+    "category": "network",
+    "shortDefinition": "Les règles qui décident où va le trafic sortant d'un subnet.",
+    "detailedDefinition": "Une table de routage associe des destinations (plages CIDR) à des cibles (gateway, NAT, peering). C'est elle qui rend un subnet « public » (une route vers l'Internet Gateway) ou « privé » (pas de route directe vers Internet). Mal configurée, elle expose ou isole par erreur.",
+    "usageContext": "Conception réseau, distinction subnet public/privé, diagnostic de connectivité.",
+    "meetingExample": "« Ce subnet a une route vers l'IGW : il est public, ce n'était pas voulu. »",
+    "plainTranslation": "« Les panneaux de direction qui disent où part le trafic. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-route-table",
+      "cloud-nat-gateway",
+      "net-subnet"
+    ],
+    "aliases": [
+      "igw",
+      "passerelle internet"
+    ],
+    "tags": [
+      "réseau",
+      "aws"
+    ],
+    "id": "cloud-internet-gateway",
+    "term": "Internet Gateway",
+    "frenchMeaning": "passerelle Internet",
+    "category": "network",
+    "shortDefinition": "Le composant qui permet à un subnet public de communiquer avec Internet.",
+    "detailedDefinition": "Une Internet Gateway (IGW) relie un VPC/VNet à Internet. Un subnet est « public » précisément parce que sa table de routage pointe vers l'IGW. Les ressources sans besoin d'exposition (bases, backends) restent dans des subnets privés, sans route vers l'IGW.",
+    "usageContext": "Exposition contrôlée, conception de subnets publics.",
+    "meetingExample": "« Seul le subnet du load balancer route vers l'Internet Gateway. »",
+    "plainTranslation": "« La porte qui ouvre un sous-réseau vers Internet. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-internet-gateway",
+      "cloud-egress",
+      "net-subnet"
+    ],
+    "aliases": [
+      "nat gateway",
+      "passerelle nat"
+    ],
+    "tags": [
+      "réseau",
+      "coût"
+    ],
+    "id": "cloud-nat-gateway",
+    "term": "NAT Gateway",
+    "frenchMeaning": "passerelle NAT",
+    "category": "network",
+    "shortDefinition": "Permet aux ressources privées de SORTIR vers Internet sans être joignables depuis Internet.",
+    "detailedDefinition": "Une NAT Gateway laisse un subnet privé initier des connexions sortantes (télécharger un paquet, appeler une API) tout en restant INACCESSIBLE de l'extérieur. C'est la façon propre de donner un accès sortant à une base ou un backend sans les exposer. Attention : le trafic qui la traverse est facturé.",
+    "usageContext": "Accès sortant contrôlé pour ressources privées.",
+    "meetingExample": "« Le backend privé passe par la NAT Gateway pour joindre l'API de paiement. »",
+    "plainTranslation": "« Une sortie à sens unique : les ressources privées sortent, personne n'entre. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "net-security-group",
+      "cloud-nsg",
+      "sec-defense-in-depth"
+    ],
+    "aliases": [
+      "network acl"
+    ],
+    "tags": [
+      "aws",
+      "réseau",
+      "sécurité"
+    ],
+    "id": "cloud-nacl",
+    "term": "NACL",
+    "fullForm": "Network ACL",
+    "frenchMeaning": "liste de contrôle d'accès réseau (AWS)",
+    "category": "network",
+    "shortDefinition": "Un pare-feu STATELESS au niveau du subnet, complémentaire du security group.",
+    "detailedDefinition": "Une NACL filtre le trafic à l'entrée/sortie d'un SUBNET, de façon stateless (il faut autoriser explicitement l'aller ET le retour). Le security group, lui, est stateful et s'applique à la ressource. Les deux se combinent en défense en profondeur : la NACL comme large filet au niveau subnet, le security group au plus près de la ressource.",
+    "usageContext": "Durcissement réseau AWS, défense en profondeur.",
+    "meetingExample": "« La NACL bloque déjà ce port au niveau subnet, en plus du security group. »",
+    "plainTranslation": "« Un pare-feu au niveau du sous-réseau, en plus de celui de la ressource. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "net-security-group",
+      "cloud-nacl",
+      "sec-attack-surface"
+    ],
+    "aliases": [
+      "network security group"
+    ],
+    "tags": [
+      "azure",
+      "réseau",
+      "sécurité"
+    ],
+    "id": "cloud-nsg",
+    "term": "NSG",
+    "fullForm": "Network Security Group",
+    "frenchMeaning": "groupe de sécurité réseau (Azure)",
+    "category": "network",
+    "shortDefinition": "Le pare-feu Azure appliqué à un subnet ou une interface réseau.",
+    "detailedDefinition": "Un NSG filtre le trafic entrant/sortant par règles (priorité, port, source/destination), au niveau subnet ou carte réseau. C'est l'équivalent Azure du security group AWS (stateful). Une règle trop permissive (0.0.0.0/0 sur un port sensible) est un défaut de sécurité classique.",
+    "usageContext": "Segmentation réseau Azure, durcissement.",
+    "meetingExample": "« Le NSG autorise le port 22 depuis Internet : à restreindre au VPN. »",
+    "plainTranslation": "« Le pare-feu Azure qui filtre le trafic de tes ressources. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-egress",
+      "sec-attack-surface",
+      "net-subnet"
+    ],
+    "aliases": [
+      "point de terminaison privé",
+      "endpoint privé"
+    ],
+    "tags": [
+      "réseau",
+      "sécurité"
+    ],
+    "id": "cloud-private-endpoint",
+    "term": "private endpoint",
+    "frenchMeaning": "point de terminaison privé",
+    "category": "network",
+    "shortDefinition": "Un accès PRIVÉ à un service managé, sans passer par Internet.",
+    "detailedDefinition": "Un private endpoint expose un service managé (base, stockage) via une IP privée dans ton VPC/VNet : le trafic ne sort jamais sur Internet. C'est la façon de consommer un service managé tout en gardant la surface d'attaque minimale et en évitant l'egress Internet.",
+    "usageContext": "Durcissement, accès privé aux services managés, réduction d'egress.",
+    "meetingExample": "« Le stockage est joint par private endpoint : aucun trafic ne passe par Internet. »",
+    "plainTranslation": "« Une connexion privée à un service, sans passer par l'Internet public. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-egress-cost",
+      "cloud-nat-gateway",
+      "cloud-cdn"
+    ],
+    "aliases": [
+      "trafic sortant"
+    ],
+    "tags": [
+      "réseau",
+      "coût"
+    ],
+    "id": "cloud-egress",
+    "term": "egress",
+    "frenchMeaning": "trafic sortant",
+    "category": "network",
+    "shortDefinition": "Le trafic qui SORT de ton réseau/cloud — souvent facturé, contrairement à l'entrant.",
+    "detailedDefinition": "L'egress est le trafic sortant (vers Internet, vers une autre région). Chez la plupart des fournisseurs, l'ingress (entrant) est gratuit mais l'egress est FACTURÉ : c'est un poste de coût majeur et souvent sous-estimé (transferts inter-régions, sorties vers Internet, réplication cross-région). On le réduit par le cache/CDN, la colocalisation et les endpoints privés.",
+    "usageContext": "FinOps, conception réseau, choix de région.",
+    "meetingExample": "« La facture explose à cause de l'egress inter-régions : colocalise les services. »",
+    "plainTranslation": "« Les données qui sortent — et que tu paies, contrairement à celles qui entrent. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-east-west",
+      "network-load-balancer",
+      "sec-defense-in-depth"
+    ],
+    "aliases": [
+      "trafic nord-sud"
+    ],
+    "tags": [
+      "réseau",
+      "architecture"
+    ],
+    "id": "cloud-north-south",
+    "term": "north-south traffic",
+    "frenchMeaning": "trafic nord-sud",
+    "category": "network",
+    "shortDefinition": "Le trafic qui entre et sort du système (client ↔ service).",
+    "detailedDefinition": "Le trafic nord-sud traverse la frontière du système : entre les clients externes et tes services (via load balancer, gateway). On le sécurise au périmètre (WAF, TLS, authentification). À distinguer du trafic est-ouest (entre services internes).",
+    "usageContext": "Architecture réseau, placement des contrôles de sécurité.",
+    "meetingExample": "« Le WAF protège le trafic nord-sud, la NetworkPolicy le trafic est-ouest. »",
+    "plainTranslation": "« Le trafic entre l'extérieur et ton système. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-north-south",
+      "k8s-networkpolicy",
+      "sec-privilege-escalation"
+    ],
+    "aliases": [
+      "trafic est-ouest"
+    ],
+    "tags": [
+      "réseau",
+      "sécurité"
+    ],
+    "id": "cloud-east-west",
+    "term": "east-west traffic",
+    "frenchMeaning": "trafic est-ouest",
+    "category": "network",
+    "shortDefinition": "Le trafic INTERNE entre services d'un même système.",
+    "detailedDefinition": "Le trafic est-ouest circule entre les composants internes (service ↔ service, service ↔ base). Longtemps négligé (« c'est interne, donc sûr »), il est une voie de déplacement latéral après une compromission. On le segmente (NetworkPolicy, NSG, private endpoints) : un pod compromis ne doit joindre que ce dont il a besoin.",
+    "usageContext": "Segmentation interne, défense en profondeur, limitation du mouvement latéral.",
+    "meetingExample": "« Segmente le trafic est-ouest : le front n'a pas à parler directement à la base. »",
+    "plainTranslation": "« Le trafic entre tes propres services, à ne pas laisser tout ouvert. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-l7",
+      "network-load-balancer"
+    ],
+    "aliases": [
+      "layer 4",
+      "couche 4"
+    ],
+    "tags": [
+      "réseau",
+      "load balancing"
+    ],
+    "id": "cloud-l4",
+    "term": "L4",
+    "fullForm": "Layer 4 (transport)",
+    "frenchMeaning": "couche 4 (transport, TCP/UDP)",
+    "category": "network",
+    "shortDefinition": "Répartition de charge au niveau transport (TCP/UDP), sans comprendre le contenu applicatif.",
+    "detailedDefinition": "Un load balancer L4 route selon IP et port (TCP/UDP), sans lire le contenu HTTP. Très performant et polyvalent (tout protocole), mais incapable de router selon l'URL ou l'hôte. On le choisit pour la performance brute ou les protocoles non-HTTP.",
+    "usageContext": "Choix de type de load balancer, protocoles non-HTTP.",
+    "meetingExample": "« Pour ce flux TCP brut, un load balancer L4 suffit. »",
+    "plainTranslation": "« Un répartiteur qui regarde juste l'adresse et le port, pas le contenu. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-l4",
+      "network-load-balancer",
+      "cloud-sticky-session"
+    ],
+    "aliases": [
+      "layer 7",
+      "couche 7"
+    ],
+    "tags": [
+      "réseau",
+      "load balancing"
+    ],
+    "id": "cloud-l7",
+    "term": "L7",
+    "fullForm": "Layer 7 (application)",
+    "frenchMeaning": "couche 7 (application, HTTP)",
+    "category": "network",
+    "shortDefinition": "Répartition de charge au niveau applicatif (HTTP) : routage par URL, hôte, en-têtes.",
+    "detailedDefinition": "Un load balancer L7 comprend HTTP : il route selon le chemin, l'hôte, les en-têtes, gère la terminaison TLS, les redirections, le sticky session. Plus riche que le L4 mais un peu plus coûteux — on le choisit pour le routage applicatif (microservices, plusieurs domaines).",
+    "usageContext": "Routage applicatif, microservices, terminaison TLS.",
+    "meetingExample": "« On route /api vers le backend et / vers le front via un load balancer L7. »",
+    "plainTranslation": "« Un répartiteur qui comprend le HTTP et route selon l'URL. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "scale-stateless",
+      "cloud-l7",
+      "cloud-autoscaling"
+    ],
+    "aliases": [
+      "affinité de session",
+      "session affinity"
+    ],
+    "tags": [
+      "réseau",
+      "scaling"
+    ],
+    "id": "cloud-sticky-session",
+    "term": "sticky session",
+    "frenchMeaning": "session persistante (affinité)",
+    "category": "network",
+    "shortDefinition": "Router un même client toujours vers la même instance — souvent un pis-aller.",
+    "detailedDefinition": "La sticky session (affinité de session) force le load balancer à renvoyer un client vers la même instance, pour ne pas perdre son état local. C'est un contournement du problème de fond : un service qui garde de l'état local n'est pas vraiment stateless. La bonne solution est d'externaliser l'état (cache/base partagé) pour un scaling horizontal sain.",
+    "usageContext": "Débogage de scaling, migration vers stateless.",
+    "meetingExample": "« On a mis du sticky session en pansement ; il faut externaliser la session. »",
+    "plainTranslation": "« Coller un utilisateur à une machine — utile en dépannage, mauvais signe sur le long terme. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-reserved-capacity",
+      "cloud-finops",
+      "cloud-vm"
+    ],
+    "aliases": [
+      "instance spot",
+      "spot vm"
+    ],
+    "tags": [
+      "finops",
+      "compute"
+    ],
+    "id": "cloud-spot-instance",
+    "term": "spot instance",
+    "frenchMeaning": "instance ponctuelle (à prix cassé)",
+    "category": "cloud",
+    "shortDefinition": "De la capacité cloud très bon marché, mais qui peut être reprise à tout moment.",
+    "detailedDefinition": "Les spot instances (AWS) / spot VMs (Azure) vendent de la capacité inutilisée à prix fortement réduit, en échange d'une reprise possible avec court préavis. Parfaites pour des charges tolérantes aux interruptions (batch, calcul, CI), à éviter pour un service critique sans tolérance à la coupure.",
+    "usageContext": "FinOps, charges batch/tolérantes aux interruptions.",
+    "meetingExample": "« Le rendu vidéo tourne sur des spot instances : 70% moins cher, et peu importe si ça coupe. »",
+    "plainTranslation": "« De la capacité pas chère qu'on peut te reprendre à tout moment. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "prod-cold-start",
+      "prod-observability",
+      "cloud-region"
+    ],
+    "aliases": [
+      "latence cloud"
+    ],
+    "tags": [
+      "performance",
+      "observabilité"
+    ],
+    "id": "cloud-latency",
+    "term": "latency (cloud)",
+    "frenchMeaning": "latence",
+    "category": "cloud",
+    "shortDefinition": "Le délai entre une requête et sa réponse — mesuré par percentiles (p95, p99).",
+    "detailedDefinition": "La latence se juge par percentiles, pas par moyenne : la p95 (95% des requêtes plus rapides) et la p99 révèlent l'expérience des utilisateurs les moins bien servis. Dans le cloud, elle dépend de la région (proximité), du cold start, de la base, des appels externes. On fixe des budgets de latence et on surveille les percentiles.",
+    "usageContext": "Observabilité, SLO, diagnostic de régression de performance.",
+    "meetingExample": "« La p99 est passée de 200 ms à 2 s après la release : on investigue. »",
+    "plainTranslation": "« Le temps de réponse, mesuré pour les pires cas, pas juste en moyenne. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-availability-metric",
+      "dr-backup",
+      "store-object"
+    ],
+    "aliases": [
+      "durabilité"
+    ],
+    "tags": [
+      "stockage",
+      "résilience"
+    ],
+    "id": "cloud-durability",
+    "term": "durability",
+    "frenchMeaning": "durabilité (des données)",
+    "category": "cloud",
+    "shortDefinition": "La probabilité qu'une donnée stockée ne soit jamais perdue (souvent « 11 neuf »).",
+    "detailedDefinition": "La durabilité mesure la résistance à la PERTE de données (ex. « 99,999999999% », 11 neuf), obtenue par réplication interne. À ne pas confondre avec la disponibilité (pouvoir y ACCÉDER à un instant t). Une haute durabilité ne dispense pas de sauvegardes : elle protège du crash disque, pas de la suppression accidentelle ni de la corruption applicative.",
+    "usageContext": "Choix de stockage, stratégie de sauvegarde.",
+    "meetingExample": "« Le stockage objet a 11 neuf de durabilité — mais ça ne remplace pas nos backups. »",
+    "plainTranslation": "« La garantie que le stockage ne perdra pas tes données — mais fais quand même des sauvegardes. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-durability",
+      "ha-high-availability",
+      "cloud-multi-az"
+    ],
+    "aliases": [
+      "disponibilité sla",
+      "neuf de disponibilité"
+    ],
+    "tags": [
+      "résilience",
+      "slo"
+    ],
+    "id": "cloud-availability-metric",
+    "term": "availability (SLA)",
+    "frenchMeaning": "disponibilité (taux, SLA)",
+    "category": "cloud",
+    "shortDefinition": "La proportion de temps où un service est accessible (ex. 99,9% = « trois neuf »).",
+    "detailedDefinition": "La disponibilité se chiffre en « neuf » : 99,9% autorise ~8,7 h d'indisponibilité par an, 99,99% ~52 min. Elle mesure l'ACCÈS (contrairement à la durabilité qui mesure la non-perte). Un SLA fournisseur annonce une cible et parfois un dédommagement — mais le SLA n'est pas une garantie de zéro panne.",
+    "usageContext": "SLO/SLA, dimensionnement de la haute disponibilité.",
+    "meetingExample": "« Le client veut 99,99% : il faut du multi-AZ et un failover testé. »",
+    "plainTranslation": "« Le pourcentage de temps où le service répond — les « neuf » comptent. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-multi-az",
+      "cloud-db-saturation-term",
+      "scale-stateless"
+    ],
+    "aliases": [
+      "réplica de lecture",
+      "read-replica"
+    ],
+    "tags": [
+      "base de données",
+      "scaling"
+    ],
+    "id": "cloud-read-replica",
+    "term": "read replica",
+    "frenchMeaning": "réplica de lecture",
+    "category": "db",
+    "shortDefinition": "Une copie en lecture seule d'une base, pour répartir la charge de lecture.",
+    "detailedDefinition": "Un read replica réplique une base managée pour absorber les lectures (rapports, pages de consultation) sans surcharger la primaire qui gère les écritures. Il améliore la scalabilité en lecture, mais la réplication est souvent asynchrone (léger retard) — il ne convient donc pas à une lecture qui exige la toute dernière écriture.",
+    "usageContext": "Scalabilité de base de données, séparation lecture/écriture.",
+    "meetingExample": "« On envoie les rapports sur un read replica pour soulager la primaire. »",
+    "plainTranslation": "« Une copie en lecture de la base pour encaisser les consultations. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-finops",
+      "store-object",
+      "cloud-egress-cost"
+    ],
+    "aliases": [
+      "cycle de vie du stockage",
+      "lifecycle policy"
+    ],
+    "tags": [
+      "stockage",
+      "finops"
+    ],
+    "id": "cloud-storage-lifecycle",
+    "term": "storage lifecycle",
+    "frenchMeaning": "cycle de vie du stockage",
+    "category": "cloud",
+    "shortDefinition": "Des règles qui déplacent ou suppriment automatiquement les données selon leur âge.",
+    "detailedDefinition": "Une politique de lifecycle fait migrer les objets vers des classes de stockage moins chères (accès rare, archive) après N jours, ou les supprime. C'est un levier FinOps clé : sans lifecycle, le stockage s'accumule et facture indéfiniment des données que plus personne ne lit.",
+    "usageContext": "FinOps, gestion du stockage objet, conformité de rétention.",
+    "meetingExample": "« Ajoute une règle de lifecycle : archive après 90 jours, supprime après un an. »",
+    "plainTranslation": "« Des règles qui rangent ou jettent automatiquement les vieilles données. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-az",
+      "cloud-multi-region",
+      "ha-failover"
+    ],
+    "aliases": [
+      "multi az",
+      "multi-zone"
+    ],
+    "tags": [
+      "résilience",
+      "ha"
+    ],
+    "id": "cloud-multi-az",
+    "term": "multi-AZ",
+    "frenchMeaning": "multi-zones de disponibilité",
+    "category": "cloud",
+    "shortDefinition": "Répartir une architecture sur plusieurs zones de disponibilité d'une même région.",
+    "detailedDefinition": "Une architecture multi-AZ place ses instances et sa base sur au moins deux zones isolées : la panne d'un datacenter (une AZ) ne coupe pas le service. C'est le socle standard de la haute disponibilité, à coût raisonnable (même région, faible latence inter-AZ). Le multi-région va plus loin (survivre à la perte d'une région) mais coûte et complexifie davantage.",
+    "usageContext": "Haute disponibilité, conception résiliente standard.",
+    "meetingExample": "« On passe la base en multi-AZ : un failover automatique si la zone A tombe. »",
+    "plainTranslation": "« Répartir sur plusieurs datacenters d'une région pour survivre à la panne de l'un. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-multi-az",
+      "dr-disaster-recovery",
+      "cloud-egress-cost"
+    ],
+    "aliases": [
+      "multi région",
+      "multi-région"
+    ],
+    "tags": [
+      "résilience",
+      "dr"
+    ],
+    "id": "cloud-multi-region",
+    "term": "multi-region",
+    "frenchMeaning": "multi-régions",
+    "category": "cloud",
+    "shortDefinition": "Répartir sur plusieurs régions géographiques pour survivre à la perte d'une région entière.",
+    "detailedDefinition": "Le multi-région réplique l'architecture dans des régions distinctes : il protège contre une panne régionale majeure et rapproche les utilisateurs (latence). C'est puissant mais coûteux et complexe (réplication de données cross-région, cohérence, egress). On le réserve aux services les plus critiques, après avoir maîtrisé le multi-AZ.",
+    "usageContext": "Disaster recovery avancé, services critiques mondiaux.",
+    "meetingExample": "« Le multi-région nous couvre si toute la région eu-west-1 tombe. »",
+    "plainTranslation": "« Se dupliquer dans plusieurs régions pour survivre même à la panne d'une région. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-cloudtrail",
+      "cloud-azure-monitor",
+      "prod-mttd"
+    ],
+    "aliases": [
+      "cloud watch"
+    ],
+    "tags": [
+      "aws",
+      "observabilité"
+    ],
+    "id": "cloud-cloudwatch",
+    "term": "CloudWatch",
+    "frenchMeaning": "observabilité AWS (métriques/logs/alarmes)",
+    "category": "cloud",
+    "shortDefinition": "Le service AWS de métriques, logs et alarmes.",
+    "detailedDefinition": "CloudWatch collecte les métriques (CPU, latence, erreurs), centralise les logs et déclenche des alarmes qui pilotent des actions (notification, autoscaling). C'est la base de l'observabilité AWS. Distinct de CloudTrail, qui journalise les appels d'API à des fins d'AUDIT.",
+    "usageContext": "Observabilité AWS, alerting, autoscaling.",
+    "meetingExample": "« Mets une alarme CloudWatch sur la p99 pour être prévenu avant les clients. »",
+    "plainTranslation": "« Le tableau de bord AWS des métriques, logs et alertes. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-cloudwatch",
+      "cloud-activity-log",
+      "sec-ioc"
+    ],
+    "aliases": [
+      "cloud trail"
+    ],
+    "tags": [
+      "aws",
+      "audit",
+      "sécurité"
+    ],
+    "id": "cloud-cloudtrail",
+    "term": "CloudTrail",
+    "frenchMeaning": "journal d'audit AWS",
+    "category": "security",
+    "shortDefinition": "Le journal AWS de QUI a fait quel appel d'API — la trace d'audit.",
+    "detailedDefinition": "CloudTrail enregistre les actions d'API (qui a créé/supprimé/modifié quoi, quand, depuis où). C'est la trace d'AUDIT indispensable pour investiguer un incident de sécurité ou un changement suspect — distincte des métriques applicatives de CloudWatch. Côté Azure, l'équivalent est l'Activity Log.",
+    "usageContext": "Audit de sécurité, investigation d'incident, conformité.",
+    "meetingExample": "« CloudTrail montre quel principal a supprimé le bucket, et à quelle heure. »",
+    "plainTranslation": "« Le registre de qui a fait quoi sur le compte AWS. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-log-analytics",
+      "cloud-cloudwatch",
+      "cloud-activity-log"
+    ],
+    "aliases": [
+      "azure monitor"
+    ],
+    "tags": [
+      "azure",
+      "observabilité"
+    ],
+    "id": "cloud-azure-monitor",
+    "term": "Azure Monitor",
+    "frenchMeaning": "observabilité Azure",
+    "category": "cloud",
+    "shortDefinition": "Le service Azure de métriques, logs et alertes (avec Log Analytics).",
+    "detailedDefinition": "Azure Monitor centralise métriques et logs, avec Log Analytics pour interroger les logs (langage KQL) et des alertes/dashboards. C'est l'équivalent Azure de CloudWatch. L'audit des opérations, lui, passe par l'Activity Log.",
+    "usageContext": "Observabilité Azure, alerting, diagnostic.",
+    "meetingExample": "« Requête Log Analytics : montre-moi les erreurs 5xx de la dernière heure. »",
+    "plainTranslation": "« Le centre d'observabilité Azure : métriques, logs, alertes. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-azure-monitor",
+      "cloud-cloudwatch"
+    ],
+    "aliases": [
+      "log analytics"
+    ],
+    "tags": [
+      "azure",
+      "observabilité"
+    ],
+    "id": "cloud-log-analytics",
+    "term": "Log Analytics",
+    "frenchMeaning": "analyse de logs (Azure)",
+    "category": "cloud",
+    "shortDefinition": "Le moteur Azure de requête et d'analyse des logs (langage KQL).",
+    "detailedDefinition": "Log Analytics ingère les logs et permet de les interroger avec KQL (Kusto Query Language) pour diagnostiquer, corréler et alerter. C'est le pendant de la recherche de logs dans CloudWatch Logs Insights. Attention au coût d'ingestion : filtrer et fixer une rétention.",
+    "usageContext": "Diagnostic, corrélation de logs, alerting Azure.",
+    "meetingExample": "« En trois lignes de KQL dans Log Analytics, on isole la requête fautive. »",
+    "plainTranslation": "« L'outil Azure pour fouiller et interroger les logs. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-cloudtrail",
+      "cloud-azure-monitor",
+      "sec-ioc"
+    ],
+    "aliases": [
+      "activity log"
+    ],
+    "tags": [
+      "azure",
+      "audit"
+    ],
+    "id": "cloud-activity-log",
+    "term": "Activity Log",
+    "frenchMeaning": "journal d'activité (Azure, audit)",
+    "category": "security",
+    "shortDefinition": "Le journal d'audit Azure des opérations sur les ressources.",
+    "detailedDefinition": "L'Activity Log trace les opérations effectuées sur les ressources Azure (création, suppression, modification, par qui). C'est la trace d'AUDIT, distincte des métriques applicatives d'Azure Monitor — l'équivalent d'AWS CloudTrail.",
+    "usageContext": "Audit, investigation d'incident, conformité Azure.",
+    "meetingExample": "« L'Activity Log confirme qui a modifié le NSG hier soir. »",
+    "plainTranslation": "« Le registre Azure de qui a modifié quelle ressource. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-right-sizing",
+      "cloud-tagging",
+      "cloud-reserved-capacity"
+    ],
+    "aliases": [
+      "finops",
+      "cloud financial management"
+    ],
+    "tags": [
+      "finops",
+      "coût"
+    ],
+    "id": "cloud-finops",
+    "term": "FinOps",
+    "frenchMeaning": "gestion financière du cloud",
+    "category": "cloud",
+    "shortDefinition": "La pratique qui rend le coût du cloud visible, alloué et pilotable comme une décision d'ingénierie.",
+    "detailedDefinition": "Le FinOps réunit ingénierie, finance et produit pour piloter le coût variable du cloud : visibilité (tagging, ventilation), optimisation (right-sizing, réservation, autoscaling) et gouvernance (budgets, alertes). L'idée clé : le coût est une propriété d'architecture qui se décide à la conception, pas une facture subie en fin de mois.",
+    "usageContext": "Maîtrise des coûts cloud, décisions d'architecture, gouvernance.",
+    "meetingExample": "« En FinOps, on chiffre le coût par requête avant de choisir serverless ou VM. »",
+    "plainTranslation": "« Gérer la dépense cloud comme un vrai sujet d'ingénierie, pas une surprise mensuelle. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-finops",
+      "cloud-resource-group",
+      "sec-policy-as-code"
+    ],
+    "aliases": [
+      "étiquetage",
+      "tags cloud"
+    ],
+    "tags": [
+      "finops",
+      "gouvernance"
+    ],
+    "id": "cloud-tagging",
+    "term": "tagging",
+    "frenchMeaning": "étiquetage des ressources",
+    "category": "cloud",
+    "shortDefinition": "Étiqueter chaque ressource (équipe, projet, environnement) pour l'allocation et la gouvernance.",
+    "detailedDefinition": "Le tagging attache des métadonnées (clé/valeur) aux ressources : équipe, projet, environnement, centre de coût. Il permet de répondre à « qui dépense quoi », d'appliquer des politiques et de nettoyer. Une stratégie de tags cohérente et imposée (policy as code) est le prérequis de tout FinOps sérieux.",
+    "usageContext": "Allocation des coûts, gouvernance, automatisation.",
+    "meetingExample": "« Sans tag « équipe », impossible de savoir qui paie cette facture. »",
+    "plainTranslation": "« Coller des étiquettes sur chaque ressource pour savoir à qui elle appartient. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-finops",
+      "cloud-autoscaling",
+      "cloud-reserved-capacity"
+    ],
+    "aliases": [
+      "right sizing",
+      "dimensionnement"
+    ],
+    "tags": [
+      "finops",
+      "coût"
+    ],
+    "id": "cloud-right-sizing",
+    "term": "right-sizing",
+    "frenchMeaning": "ajustement de la taille des ressources",
+    "category": "cloud",
+    "shortDefinition": "Ajuster la taille d'une ressource à son usage réel mesuré, plutôt que sur-provisionner.",
+    "detailedDefinition": "Le right-sizing réduit (ou augmente) une ressource pour coller à son usage réel : une VM à 5% de CPU moyen est sur-dimensionnée. On mesure l'utilisation, on réduit la taille, on vérifie que la performance tient. C'est le levier FinOps le plus direct contre le gaspillage, à combiner avec l'autoscaling.",
+    "usageContext": "Optimisation de coût, revue FinOps.",
+    "meetingExample": "« Ces instances tournent à 8% : un right-sizing divise la facture par trois. »",
+    "plainTranslation": "« Mettre la bonne taille : ni trop grand (gaspillage), ni trop petit (lenteur). »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-finops",
+      "cloud-spot-instance",
+      "cloud-right-sizing"
+    ],
+    "aliases": [
+      "capacité réservée",
+      "reserved instance",
+      "savings plan"
+    ],
+    "tags": [
+      "finops",
+      "coût"
+    ],
+    "id": "cloud-reserved-capacity",
+    "term": "reserved capacity",
+    "frenchMeaning": "capacité réservée",
+    "category": "cloud",
+    "shortDefinition": "S'engager sur une durée en échange d'un prix réduit pour une charge stable.",
+    "detailedDefinition": "La capacité réservée (reserved instances / savings plans AWS, réservations Azure) échange un engagement de durée (1-3 ans) contre une forte remise. Elle convient à une charge STABLE et prévisible ; pour une charge variable, l'autoscaling ou le serverless (à la demande) reste préférable. Réserver une charge instable, c'est payer pour de l'inutilisé.",
+    "usageContext": "Optimisation de coût d'une charge stable, FinOps.",
+    "meetingExample": "« La base tourne 24/7 depuis un an : une réservation économise 40%. »",
+    "plainTranslation": "« Payer moins cher en s'engageant sur la durée, pour ce qui tourne en permanence. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-egress",
+      "cloud-finops",
+      "cloud-cdn"
+    ],
+    "aliases": [
+      "coût d'egress",
+      "coût de sortie"
+    ],
+    "tags": [
+      "finops",
+      "réseau"
+    ],
+    "id": "cloud-egress-cost",
+    "term": "egress cost",
+    "frenchMeaning": "coût du trafic sortant",
+    "category": "cloud",
+    "shortDefinition": "Le coût, souvent sous-estimé, des données qui sortent du cloud ou changent de région.",
+    "detailedDefinition": "Le coût d'egress facture le trafic SORTANT (vers Internet, entre régions, parfois entre zones). C'est un piège FinOps classique : une architecture qui réplique ou transfère beaucoup de données cross-région peut coûter plus en egress qu'en compute. On le réduit par le cache/CDN, la colocalisation des services et les endpoints privés.",
+    "usageContext": "FinOps, choix d'architecture réseau et de région.",
+    "meetingExample": "« 30% de la facture est de l'egress inter-régions : rapproche les services. »",
+    "plainTranslation": "« Ce que coûtent les données qui sortent — souvent la mauvaise surprise. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-finops",
+      "cloud-right-sizing"
+    ],
+    "aliases": [
+      "coût unitaire",
+      "unit economics"
+    ],
+    "tags": [
+      "finops",
+      "business"
+    ],
+    "id": "cloud-unit-economics",
+    "term": "unit economics",
+    "frenchMeaning": "coût unitaire (par unité de valeur)",
+    "category": "cloud",
+    "shortDefinition": "Le coût cloud rapporté à une unité de valeur (par requête, par utilisateur, par commande).",
+    "detailedDefinition": "Les unit economics divisent le coût cloud par une unité métier (coût par requête, par utilisateur actif, par commande traitée). C'est la métrique FinOps mature : une facture qui monte n'est pas un problème si le coût PAR unité baisse (croissance saine). Elle relie la dépense technique à la valeur business.",
+    "usageContext": "FinOps avancé, décisions produit, scalabilité économique.",
+    "meetingExample": "« Le coût par utilisateur actif a baissé de 20% malgré la hausse de la facture : c'est sain. »",
+    "plainTranslation": "« Combien coûte le cloud pour chaque requête ou client — pas juste la facture totale. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-cost-management",
+      "cloud-finops",
+      "cloud-tagging"
+    ],
+    "aliases": [
+      "cost explorer"
+    ],
+    "tags": [
+      "aws",
+      "finops"
+    ],
+    "id": "cloud-cost-explorer",
+    "term": "Cost Explorer",
+    "frenchMeaning": "exploration des coûts (AWS)",
+    "category": "cloud",
+    "shortDefinition": "L'outil AWS pour visualiser, ventiler et prévoir les coûts.",
+    "detailedDefinition": "Cost Explorer visualise les dépenses AWS par service, par tag, dans le temps, avec des prévisions. Couplé aux Budgets (alertes de seuil), il rend le coût pilotable. Côté Azure, l'équivalent est Cost Management + Billing.",
+    "usageContext": "FinOps, analyse de facture, prévision.",
+    "meetingExample": "« Cost Explorer montre que le pic vient du service X depuis le 3. »",
+    "plainTranslation": "« L'outil AWS pour voir où part l'argent. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-cost-explorer",
+      "cloud-finops",
+      "cloud-budget"
+    ],
+    "aliases": [
+      "cost management"
+    ],
+    "tags": [
+      "azure",
+      "finops"
+    ],
+    "id": "cloud-cost-management",
+    "term": "Cost Management",
+    "frenchMeaning": "gestion des coûts (Azure)",
+    "category": "cloud",
+    "shortDefinition": "L'outil Azure pour analyser les coûts, définir des budgets et des alertes.",
+    "detailedDefinition": "Azure Cost Management + Billing ventile les coûts (par subscription, resource group, tag), pose des budgets avec alertes et fournit des recommandations d'optimisation. C'est l'équivalent AWS Cost Explorer + Budgets.",
+    "usageContext": "FinOps Azure, budgets, gouvernance.",
+    "meetingExample": "« Un budget Azure avec alerte à 80% nous aurait prévenus avant la dérive. »",
+    "plainTranslation": "« L'outil Azure pour suivre les coûts et fixer des budgets. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-finops",
+      "cloud-cost-management",
+      "cloud-tagging"
+    ],
+    "aliases": [
+      "budget cloud"
+    ],
+    "tags": [
+      "finops",
+      "gouvernance"
+    ],
+    "id": "cloud-budget",
+    "term": "budget (cloud)",
+    "frenchMeaning": "budget avec alertes",
+    "category": "cloud",
+    "shortDefinition": "Un seuil de dépense qui déclenche des alertes (ou des actions) avant la dérive.",
+    "detailedDefinition": "Un budget cloud fixe un plafond de dépense (mensuel, par équipe, par projet) et alerte à des paliers (50%, 80%, 100%). Il transforme la surveillance des coûts de réactive (« oups, la facture ») en proactive (« on approche du seuil »). Certains budgets peuvent même déclencher des actions automatiques.",
+    "usageContext": "FinOps, prévention des dérives de coût.",
+    "meetingExample": "« Pose un budget par équipe avec alerte à 80% : plus de facture surprise. »",
+    "plainTranslation": "« Une limite de dépense qui te prévient avant que ça dérape. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-shared-resp",
+      "ha-high-availability",
+      "cloud-finops"
+    ],
+    "aliases": [
+      "well architected",
+      "well-architected framework"
+    ],
+    "tags": [
+      "architecture",
+      "bonnes pratiques"
+    ],
+    "id": "cloud-well-architected",
+    "term": "well-architected",
+    "frenchMeaning": "bien architecturé (cadre de bonnes pratiques)",
+    "category": "cloud",
+    "shortDefinition": "Un cadre qui évalue une architecture selon des piliers (sécurité, fiabilité, coût, performance, exploitation).",
+    "detailedDefinition": "Le Well-Architected Framework (AWS, avec un équivalent Azure) structure la revue d'une architecture autour de piliers : excellence opérationnelle, sécurité, fiabilité, efficacité des performances, optimisation des coûts (et durabilité). Il fournit une check-list de questions pour repérer les faiblesses AVANT la production.",
+    "usageContext": "Revue d'architecture, préparation à la production.",
+    "meetingExample": "« Passe l'archi au crible des piliers well-architected avant le go-live. »",
+    "plainTranslation": "« Une grille de bonnes pratiques pour vérifier qu'une architecture tient la route. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-well-architected",
+      "cloud-vm",
+      "cloud-serverless"
+    ],
+    "aliases": [
+      "lift and shift",
+      "réhébergement"
+    ],
+    "tags": [
+      "migration",
+      "architecture"
+    ],
+    "id": "cloud-lift-and-shift",
+    "term": "lift-and-shift",
+    "frenchMeaning": "migration « telle quelle »",
+    "category": "cloud",
+    "shortDefinition": "Migrer une application vers le cloud sans la modifier — rapide mais non optimisé.",
+    "detailedDefinition": "Le lift-and-shift (réhébergement) déplace une application vers le cloud quasi à l'identique (sur des VM), sans la ré-architecturer. Rapide et peu risqué, il ne profite pas des services managés ni de l'élasticité : le coût et la résilience restent ceux d'avant. C'est souvent une première étape, suivie d'une modernisation progressive.",
+    "usageContext": "Stratégie de migration cloud, planification.",
+    "meetingExample": "« On fait un lift-and-shift pour la deadline, puis on modernise vers du managé. »",
+    "plainTranslation": "« Déménager l'appli dans le cloud sans la changer — vite fait, pas optimisé. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-account",
+      "sec-policy-as-code",
+      "devops-iac"
+    ],
+    "aliases": [
+      "landing zone",
+      "zone d'atterrissage"
+    ],
+    "tags": [
+      "gouvernance",
+      "architecture"
+    ],
+    "id": "cloud-landing-zone",
+    "term": "landing zone",
+    "frenchMeaning": "zone d'atterrissage (socle cloud)",
+    "category": "cloud",
+    "shortDefinition": "Un socle cloud pré-configuré (comptes, réseau, sécurité, gouvernance) prêt à accueillir des charges.",
+    "detailedDefinition": "Une landing zone est l'environnement de base d'une organisation dans le cloud : structure de comptes/subscriptions, réseau, politiques IAM, journalisation d'audit, garde-fous (policy as code) — le tout défini en IaC. Elle évite que chaque équipe réinvente (mal) la sécurité et la gouvernance.",
+    "usageContext": "Gouvernance à l'échelle, démarrage cloud d'entreprise.",
+    "meetingExample": "« Les nouvelles équipes déploient dans la landing zone : sécurité et audit déjà en place. »",
+    "plainTranslation": "« Un terrain cloud déjà viabilisé (sécurité, réseau, comptes) prêt à bâtir dessus. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-autoscaling",
+      "scale-stateless",
+      "cloud-serverless"
+    ],
+    "aliases": [
+      "élasticité"
+    ],
+    "tags": [
+      "cloud",
+      "scaling"
+    ],
+    "id": "cloud-elasticity",
+    "term": "elasticity",
+    "frenchMeaning": "élasticité",
+    "category": "cloud",
+    "shortDefinition": "La capacité à ajouter ET retirer des ressources automatiquement selon la demande.",
+    "detailedDefinition": "L'élasticité, c'est suivre la charge dans les DEUX sens : monter en capacité au pic, et surtout REDESCENDRE au creux (jusqu'au scale-to-zero du serverless). C'est ce qui différencie le cloud d'un datacenter classique et rend le pay-as-you-go économique — à condition que l'architecture soit stateless.",
+    "usageContext": "Scaling, optimisation de coût, conception cloud-native.",
+    "meetingExample": "« Grâce à l'élasticité, on ne paie la grosse capacité que pendant les soldes. »",
+    "plainTranslation": "« Grandir quand il y a du monde, rétrécir quand c'est calme — automatiquement. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-encryption-in-transit",
+      "security-secret",
+      "cloud-durability"
+    ],
+    "aliases": [
+      "chiffrement au repos"
+    ],
+    "tags": [
+      "sécurité",
+      "données"
+    ],
+    "id": "cloud-encryption-at-rest",
+    "term": "encryption at rest",
+    "frenchMeaning": "chiffrement au repos",
+    "category": "security",
+    "shortDefinition": "Chiffrer les données stockées, pour qu'un accès au disque ne révèle rien en clair.",
+    "detailedDefinition": "Le chiffrement au repos protège les données STOCKÉES (disques, bases, buckets) : même si quelqu'un accède au support physique ou à une copie, les données restent illisibles sans la clé. Souvent activable en un réglage côté fournisseur, avec des clés gérées par le service ou par toi (KMS/Key Vault). Complémentaire du chiffrement en transit (TLS).",
+    "usageContext": "Durcissement des données, conformité.",
+    "meetingExample": "« Active le chiffrement au repos sur le bucket et la base — c'est un clic. »",
+    "plainTranslation": "« Chiffrer ce qui est stocké, pour qu'un vol de disque ne donne rien. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-encryption-at-rest",
+      "net-sni",
+      "sec-attack-surface"
+    ],
+    "aliases": [
+      "chiffrement en transit",
+      "tls en transit"
+    ],
+    "tags": [
+      "sécurité",
+      "réseau"
+    ],
+    "id": "cloud-encryption-in-transit",
+    "term": "encryption in transit",
+    "frenchMeaning": "chiffrement en transit",
+    "category": "security",
+    "shortDefinition": "Chiffrer les données en circulation (TLS) pour qu'elles ne soient pas lisibles sur le réseau.",
+    "detailedDefinition": "Le chiffrement en transit protège les données qui CIRCULENT (entre client et service, entre services) via TLS : personne sur le chemin ne peut lire ni altérer. C'est le pendant du chiffrement au repos ; les deux ensemble couvrent le cycle de vie de la donnée. Un endpoint public sans TLS est un défaut de sécurité immédiat.",
+    "usageContext": "Durcissement réseau, conformité, exposition publique.",
+    "meetingExample": "« Le endpoint parle en clair : impose TLS pour le chiffrement en transit. »",
+    "plainTranslation": "« Chiffrer les données qui voyagent, pour qu'on ne puisse pas les espionner en route. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-read-replica",
+      "cloud-connection-pooling",
+      "cloud-latency"
+    ],
+    "aliases": [
+      "saturation base de données",
+      "saturation db"
+    ],
+    "tags": [
+      "base de données",
+      "incident"
+    ],
+    "id": "cloud-db-saturation-term",
+    "term": "database saturation",
+    "frenchMeaning": "saturation de base de données",
+    "category": "db",
+    "shortDefinition": "Quand une base atteint ses limites (CPU, IOPS, connexions) et dégrade tout le service.",
+    "detailedDefinition": "La saturation survient quand une ressource de la base plafonne : CPU, IOPS, stockage, ou pool de connexions épuisé. Symptômes : latence qui grimpe, timeouts, erreurs de connexion. Causes fréquentes : requêtes coûteuses (N+1), index manquants, fuite de connexions, ou simple hausse de charge. On soulage (réplicas, pooling, cache) puis on corrige la cause.",
+    "usageContext": "Incident de performance, scalabilité de données.",
+    "meetingExample": "« Le pool de connexions est épuisé : la base sature, tout ralentit. »",
+    "plainTranslation": "« La base est débordée et fait ralentir tout le reste. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-db-saturation-term",
+      "cloud-read-replica"
+    ],
+    "aliases": [
+      "pool de connexions",
+      "pooling"
+    ],
+    "tags": [
+      "base de données",
+      "performance"
+    ],
+    "id": "cloud-connection-pooling",
+    "term": "connection pooling",
+    "frenchMeaning": "pool de connexions",
+    "category": "db",
+    "shortDefinition": "Réutiliser un ensemble de connexions à la base plutôt que d'en ouvrir une par requête.",
+    "detailedDefinition": "Ouvrir une connexion à une base coûte cher ; le connection pooling maintient un pool réutilisable, partagé entre requêtes. Sans lui (ou mal réglé), chaque requête ouvre une connexion, épuise vite la limite de la base et provoque des erreurs sous charge. C'est un réglage clé de scalabilité côté données.",
+    "usageContext": "Scalabilité de base, diagnostic de saturation, serverless (attention aux pics de connexions).",
+    "meetingExample": "« Chaque lambda ouvrait sa connexion : on a mis un pooler devant la base. »",
+    "plainTranslation": "« Réutiliser des connexions à la base au lieu d'en rouvrir une à chaque fois. »"
+  },
+  {
+    "level": "intermédiaire",
+    "relatedTerms": [
+      "cloud-shared-resp",
+      "cloud-paas",
+      "cloud-vendor-lock-in"
+    ],
+    "aliases": [
+      "service managé"
+    ],
+    "tags": [
+      "cloud",
+      "architecture"
+    ],
+    "id": "cloud-managed-service",
+    "term": "managed service",
+    "frenchMeaning": "service managé",
+    "category": "cloud",
+    "shortDefinition": "Un service dont le fournisseur opère l'infrastructure (patchs, scaling, sauvegardes).",
+    "detailedDefinition": "Un service managé (base managée, file, cache, fonction) délègue au fournisseur l'exploitation (patchs, disponibilité, sauvegardes, mise à l'échelle). Tu gagnes du temps et de la fiabilité, au prix d'un coût et d'une dépendance accrus. C'est le cœur du modèle de responsabilité partagée : plus c'est managé, plus tu délègues — mais tu restes responsable de la configuration et des accès.",
+    "usageContext": "Choix build vs buy, conception cloud-native.",
+    "meetingExample": "« Plutôt qu'opérer notre propre base, on prend une base managée. »",
+    "plainTranslation": "« Un service que le cloud fait tourner pour toi, au lieu de le gérer toi-même. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-elasticity",
+      "scale-stateless",
+      "cloud-lift-and-shift"
+    ],
+    "aliases": [
+      "cloud native"
+    ],
+    "tags": [
+      "cloud",
+      "architecture"
+    ],
+    "id": "cloud-native",
+    "term": "cloud-native",
+    "frenchMeaning": "conçu pour le cloud",
+    "category": "cloud",
+    "shortDefinition": "Une application conçue pour tirer parti du cloud : stateless, élastique, résiliente, observable.",
+    "detailedDefinition": "Une application cloud-native est pensée dès le départ pour le cloud : composants stateless et scalables horizontalement, tolérance aux pannes, configuration externalisée, observabilité intégrée, déploiement automatisé. S'oppose au lift-and-shift (déplacer sans adapter). Le cloud-native exploite l'élasticité et les services managés au lieu de reproduire un datacenter.",
+    "usageContext": "Conception d'applications modernes, modernisation.",
+    "meetingExample": "« Pour profiter de l'élasticité, il faut rendre le service cloud-native, pas juste le déplacer. »",
+    "plainTranslation": "« Une appli pensée pour le cloud, pas juste déménagée dedans. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-managed-service",
+      "cloud-native"
+    ],
+    "aliases": [
+      "verrouillage fournisseur",
+      "lock-in"
+    ],
+    "tags": [
+      "cloud",
+      "architecture"
+    ],
+    "id": "cloud-vendor-lock-in",
+    "term": "vendor lock-in",
+    "frenchMeaning": "verrouillage fournisseur",
+    "category": "cloud",
+    "shortDefinition": "La difficulté à changer de fournisseur à cause d'une forte dépendance à ses services propriétaires.",
+    "detailedDefinition": "Le vendor lock-in mesure le coût de migration hors d'un fournisseur : plus on utilise ses services propriétaires (bases, files, fonctions spécifiques), plus partir est coûteux. Ce n'est pas forcément mauvais (les services managés apportent de la valeur), mais c'est un compromis conscient : on pèse la productivité gagnée contre la liberté perdue. Les standards ouverts (conteneurs, SQL) réduisent le lock-in.",
+    "usageContext": "Décisions d'architecture, stratégie multi-cloud.",
+    "meetingExample": "« Cette file propriétaire nous rend dépendants : quel est le coût de sortie ? »",
+    "plainTranslation": "« Être coincé chez un fournisseur parce qu'en partir coûterait trop cher. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-serverless",
+      "cloud-elasticity",
+      "prod-cold-start"
+    ],
+    "aliases": [
+      "scale to zero"
+    ],
+    "tags": [
+      "finops",
+      "serverless"
+    ],
+    "id": "cloud-scale-to-zero",
+    "term": "scale-to-zero",
+    "frenchMeaning": "mise à l'échelle à zéro",
+    "category": "cloud",
+    "shortDefinition": "Réduire une ressource à zéro instance quand il n'y a pas de trafic — on ne paie rien à vide.",
+    "detailedDefinition": "Le scale-to-zero (typique du serverless) supprime toute capacité quand il n'y a aucune demande : coût nul à l'inactivité. Le revers est le cold start à la reprise. Idéal pour des charges intermittentes (tâches occasionnelles, environnements de test), à éviter pour un service à faible latence constant.",
+    "usageContext": "FinOps, serverless, environnements intermittents.",
+    "meetingExample": "« L'environnement de démo scale-to-zero la nuit : zéro coût quand personne ne s'en sert. »",
+    "plainTranslation": "« Tomber à zéro machine quand il n'y a personne — donc zéro coût. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-encryption-at-rest",
+      "security-secret",
+      "sec-secret-rotation"
+    ],
+    "aliases": [
+      "key management service",
+      "key vault"
+    ],
+    "tags": [
+      "sécurité",
+      "chiffrement"
+    ],
+    "id": "cloud-kms",
+    "term": "KMS",
+    "fullForm": "Key Management Service",
+    "frenchMeaning": "gestion des clés de chiffrement",
+    "category": "security",
+    "shortDefinition": "Un service managé qui crée, stocke et fait tourner les clés de chiffrement.",
+    "detailedDefinition": "Un KMS (AWS KMS, Azure Key Vault) gère le cycle de vie des clés de chiffrement et des secrets : création, rotation, contrôle d'accès, audit d'usage. Il permet le chiffrement au repos sans manipuler les clés en clair dans le code, et centralise la révocation. C'est le coffre à clés du cloud.",
+    "usageContext": "Chiffrement, gestion des secrets, conformité.",
+    "meetingExample": "« Les clés de chiffrement vivent dans le KMS, avec rotation automatique et audit. »",
+    "plainTranslation": "« Le coffre-fort du cloud pour les clés de chiffrement et les secrets. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-north-south",
+      "sec-attack-surface",
+      "sec-defense-in-depth"
+    ],
+    "aliases": [
+      "web application firewall"
+    ],
+    "tags": [
+      "sécurité",
+      "réseau"
+    ],
+    "id": "cloud-waf",
+    "term": "WAF",
+    "fullForm": "Web Application Firewall",
+    "frenchMeaning": "pare-feu applicatif web",
+    "category": "security",
+    "shortDefinition": "Un pare-feu qui filtre le trafic HTTP pour bloquer les attaques applicatives courantes.",
+    "detailedDefinition": "Un WAF inspecte les requêtes HTTP et bloque les attaques applicatives (injection, XSS, bots, pics abusifs) avant qu'elles n'atteignent l'application. Placé au périmètre (sur le trafic nord-sud), il complète — sans remplacer — un code sécurisé : c'est une couche de défense en profondeur, pas une excuse pour ne pas valider les entrées.",
+    "usageContext": "Protection périmètre, mitigation d'attaques web, exposition publique.",
+    "meetingExample": "« Le WAF absorbe les tentatives d'injection pendant qu'on corrige la validation. »",
+    "plainTranslation": "« Un filtre devant l'application qui bloque les attaques web connues. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-autoscaling",
+      "scale-stateless",
+      "ha-failover"
+    ],
+    "aliases": [
+      "vm scale set",
+      "auto scaling group",
+      "vmss"
+    ],
+    "tags": [
+      "compute",
+      "scaling"
+    ],
+    "id": "cloud-vm-scale-set",
+    "term": "VM scale set",
+    "frenchMeaning": "groupe de VM à l'échelle",
+    "category": "cloud",
+    "shortDefinition": "Un groupe de VM identiques géré et mis à l'échelle ensemble (autoscaling).",
+    "detailedDefinition": "Un VM Scale Set (Azure) / Auto Scaling Group (AWS) gère un ensemble de VM identiques : il ajoute/retire des instances selon la charge et remplace celles qui tombent. C'est le mécanisme qui rend une flotte de VM élastique et auto-réparante, à condition que les instances soient stateless.",
+    "usageContext": "Autoscaling de VM, haute disponibilité, remplacement automatique.",
+    "meetingExample": "« Le scale set passe de 2 à 8 VM au pic, puis redescend. »",
+    "plainTranslation": "« Un troupeau de machines identiques qui grossit et rétrécit tout seul. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-multi-region",
+      "dr-disaster-recovery",
+      "cloud-egress-cost"
+    ],
+    "aliases": [
+      "réplication inter-régions",
+      "cross region replication"
+    ],
+    "tags": [
+      "résilience",
+      "données"
+    ],
+    "id": "cloud-cross-region-replication",
+    "term": "cross-region replication",
+    "frenchMeaning": "réplication inter-régions",
+    "category": "cloud",
+    "shortDefinition": "Copier automatiquement des données vers une autre région, pour la reprise ou la proximité.",
+    "detailedDefinition": "La réplication inter-régions duplique des données (stockage, base) vers une région distincte : elle protège contre la perte d'une région (disaster recovery) et rapproche les données des utilisateurs. Elle a un coût (stockage + egress inter-régions) et pose la question de la cohérence (réplication souvent asynchrone). On la réserve aux données critiques.",
+    "usageContext": "Disaster recovery, distribution géographique, conformité.",
+    "meetingExample": "« On réplique le stockage en cross-région pour tenir même si eu-west-1 disparaît. »",
+    "plainTranslation": "« Copier ses données dans une autre région, au cas où la première tombe. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "dr-disaster-recovery",
+      "cloud-multi-region",
+      "cloud-cross-region-replication"
+    ],
+    "aliases": [
+      "pilot light",
+      "veilleuse"
+    ],
+    "tags": [
+      "résilience",
+      "dr"
+    ],
+    "id": "cloud-pilot-light",
+    "term": "pilot light",
+    "frenchMeaning": "stratégie DR « veilleuse »",
+    "category": "cloud",
+    "shortDefinition": "Une stratégie de reprise où un minimum est maintenu allumé dans une région de secours.",
+    "detailedDefinition": "La stratégie « pilot light » garde le strict minimum actif dans une région de secours (données répliquées, configuration prête) et allume le reste seulement en cas de sinistre. Elle offre un bon compromis coût/RTO : moins chère qu'un site chaud (warm standby) complet, plus rapide qu'une reconstruction à froid. Le choix dépend du RTO/RPO visé et du budget.",
+    "usageContext": "Disaster recovery, arbitrage coût vs RTO.",
+    "meetingExample": "« En pilot light, les données sont déjà répliquées ; on démarre le compute en cas de sinistre. »",
+    "plainTranslation": "« Garder une veilleuse allumée dans une région de secours, prête à monter en puissance. »"
+  },
+  {
+    "level": "avancé",
+    "relatedTerms": [
+      "cloud-region",
+      "cloud-cross-region-replication"
+    ],
+    "aliases": [
+      "résidence des données",
+      "data residency"
+    ],
+    "tags": [
+      "conformité",
+      "données"
+    ],
+    "id": "cloud-data-residency",
+    "term": "data residency",
+    "frenchMeaning": "résidence des données",
+    "category": "cloud",
+    "shortDefinition": "L'exigence que des données restent stockées dans une zone géographique précise.",
+    "detailedDefinition": "La résidence des données impose que certaines données (personnelles, réglementées) soient stockées et traitées dans une région/juridiction donnée (ex. RGPD en UE). Elle contraint le choix de région, la réplication et l'egress. Ignorer cette contrainte peut rendre une architecture non conforme, indépendamment de sa qualité technique.",
+    "usageContext": "Conformité, choix de région, architecture réglementée.",
+    "meetingExample": "« Les données clients doivent rester en UE : région eu-west, pas de réplication hors UE. »",
+    "plainTranslation": "« L'obligation légale de garder certaines données dans une zone géographique donnée. »"
   }
 ]

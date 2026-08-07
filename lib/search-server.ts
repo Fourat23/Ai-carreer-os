@@ -10,6 +10,7 @@ import { publicPipelineSummaries } from './pipelines-server';
 import { publicTopologySummaries } from './topologies-server';
 import { publicManifestSummaries } from './manifests-server';
 import { publicScenarioSummaries, publicPlaybookSummaries } from './security-server';
+import { publicCloudSummaries } from './cloud-server';
 import { getGlossary } from './glossary';
 import { getRuntimeAdapter, DEFAULT_RUNTIME_ID } from './runtime.mjs';
 import { buildIndex } from './search';
@@ -58,6 +59,7 @@ export function getSearchIndex(): SearchItem[] {
     getProgram(), getCatalogue(), publicExerciseSummaries(), publicMissionSummaries(),
     publicPipelineSummaries(), publicTopologySummaries(), publicManifestSummaries(),
     publicScenarioSummaries(), publicPlaybookSummaries(), publicGlossarySummaries(),
+    publicCloudSummaries(),
   );
   return cached;
 }

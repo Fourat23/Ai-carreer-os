@@ -1,0 +1,99 @@
+{
+  "id": "cloud-ha-api-design",
+  "title": "Concevoir une API SaaS hautement disponible",
+  "category": "documentation",
+  "difficulty": 4,
+  "estimatedHours": 8,
+  "description": "Concevoir l'architecture d'une API SaaS multi-AZ et la documenter dans un HLD/HSD complet.",
+  "context": "Simulation déterministe. Tu conçois une API publique qui doit survivre à la panne d'une zone : entrée par load balancer, compute redondé multi-AZ, base managée avec réplica et sauvegardes, observabilité. Le livrable principal est un HLD/HSD (High-Level Solution Design) qui justifie chaque choix (identité, réseau, compute, données, disponibilité, observabilité, coût) et ses trade-offs. Aucun déploiement réel.",
+  "prerequisites": [
+    "Architecture cloud et résilience (jours 78, 81)"
+  ],
+  "dayRefs": [
+    78,
+    81
+  ],
+  "exerciseRefs": [
+    "cloud-prod-ready"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Vérifier l'absence de bloquant/risque (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-prod-ready",
+      "hint": "prodReady = aucun diagnostic bloquant ni risque."
+    },
+    {
+      "id": "hld",
+      "kind": "document",
+      "title": "HLD/HSD de l'architecture",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Contexte",
+          "Exigences fonctionnelles",
+          "Exigences non fonctionnelles",
+          "Architecture",
+          "Sécurité",
+          "Disponibilité",
+          "Observabilité",
+          "Coûts",
+          "Alternatives",
+          "Risques",
+          "Décision"
+        ],
+        "requireMentions": [
+          "multi-az",
+          "rto",
+          "rpo",
+          "trade-off"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Justifie chaque couche (identité → réseau → compute → données → disponibilité → observabilité → coût)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : architecture sans bloquant/risque",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "HLD complet (toutes les sections)",
+      "blocking": true,
+      "category": "documentation"
+    },
+    {
+      "label": "Trade-offs explicites (disponibilité vs coût)",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "commonMistakes": [
+    "Single-AZ « pour simplifier »",
+    "Aucun RTO/RPO chiffré",
+    "HLD sans alternatives ni risques"
+  ],
+  "skills": [
+    "debugging"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

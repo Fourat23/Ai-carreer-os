@@ -1,0 +1,93 @@
+{
+  "id": "cloud-reduce-bill",
+  "title": "Réduire une facture cloud anormalement élevée",
+  "category": "performance",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "description": "Analyser une facture cloud, identifier le gaspillage et décider des optimisations FinOps chiffrées.",
+  "context": "Simulation déterministe. Une architecture coûte trop cher : ressources sur-dimensionnées, egress inutile, aucune capacité réservée. Tu mesures le coût (barème factice), identifies les postes, et produis une décision FinOps chiffrée (right-sizing, autoscaling, réservation) avec l'économie estimée et les compromis (engagement vs flexibilité).",
+  "prerequisites": [
+    "FinOps (jour 325)"
+  ],
+  "dayRefs": [
+    325
+  ],
+  "exerciseRefs": [
+    "cloud-rightsizing-savings"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Calculer l'économie du right-sizing (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-rightsizing-savings",
+      "hint": "économie = (unités actuelles − cible) × coût unitaire."
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision FinOps chiffrée",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Contexte",
+          "Postes de coût",
+          "Options",
+          "Décision et économie estimée",
+          "Compromis",
+          "Suivi (tagging, budgets)"
+        ],
+        "requireMentions": [
+          "right-sizing",
+          "egress",
+          "budget",
+          "compromis"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Chiffre l'économie de chaque levier ; explicite le compromis réservation (engagement) vs à la demande (flexibilité)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : économie correctement calculée",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Décision chiffrée avec économie estimée",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Compromis engagement/flexibilité explicité",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "commonMistakes": [
+    "Couper sans mesurer",
+    "Réserver une charge instable",
+    "Ignorer le coût d'egress"
+  ],
+  "skills": [
+    "debugging"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

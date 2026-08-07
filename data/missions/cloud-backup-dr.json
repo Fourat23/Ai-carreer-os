@@ -1,0 +1,93 @@
+{
+  "id": "cloud-backup-dr",
+  "title": "Concevoir une stratégie backup & disaster recovery",
+  "category": "documentation",
+  "difficulty": 4,
+  "estimatedHours": 6,
+  "description": "Définir une stratégie de sauvegarde et de reprise avec RPO/RTO argumentés et restauration testée.",
+  "context": "Simulation déterministe. Un service critique n'a ni sauvegarde testée ni plan de reprise. Tu définis le RPO (perte de données acceptable → fréquence de sauvegarde) et le RTO (indisponibilité acceptable → mécanisme de bascule), conçois la stratégie de backup (fréquence, rétention, test de restauration) et un plan de disaster recovery (multi-AZ, voire multi-région) avec ses coûts et compromis.",
+  "prerequisites": [
+    "Résilience et reprise (jour 81)"
+  ],
+  "dayRefs": [
+    81
+  ],
+  "exerciseRefs": [
+    "cloud-rpo-meets"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Vérifier le respect du RPO (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-rpo-meets",
+      "hint": "La fréquence de sauvegarde doit être ≤ au RPO cible."
+    },
+    {
+      "id": "dr-plan",
+      "kind": "plan",
+      "title": "Plan de backup & disaster recovery",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Contexte",
+          "RPO et RTO cibles",
+          "Stratégie de sauvegarde",
+          "Test de restauration",
+          "Plan de reprise (failover)",
+          "Coûts et compromis"
+        ],
+        "requireMentions": [
+          "rpo",
+          "rto",
+          "disaster recovery",
+          "restauration"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Relie RPO à la fréquence de sauvegarde et RTO au mécanisme de bascule ; une sauvegarde non testée ne compte pas."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : respect du RPO évalué",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "RPO/RTO chiffrés et reliés aux mécanismes",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Test de restauration prévu",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "commonMistakes": [
+    "Sauvegarde jamais testée",
+    "RPO/RTO non chiffrés",
+    "DR sans estimation de coût"
+  ],
+  "skills": [
+    "debugging"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

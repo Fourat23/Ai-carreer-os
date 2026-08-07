@@ -1,0 +1,93 @@
+{
+  "id": "cloud-secure-architecture",
+  "title": "Sécuriser une architecture cloud trop permissive",
+  "category": "documentation",
+  "difficulty": 4,
+  "estimatedHours": 6,
+  "description": "Durcir une architecture qui expose des données et des privilèges (IAM wildcard, stockage public).",
+  "context": "Simulation déterministe. Une architecture accorde des permissions IAM en wildcard, expose un stockage et une base en public, et n'a pas d'observabilité. Tu produis un plan de remédiation appliquant le moindre privilège (policies explicites), la privatisation des ressources, et l'ajout d'observabilité — en vérifiant que le service continue de fonctionner avec les droits réduits.",
+  "prerequisites": [
+    "IAM et durcissement (jours 78, 85)"
+  ],
+  "dayRefs": [
+    78,
+    85
+  ],
+  "exerciseRefs": [
+    "cloud-iam-wildcard"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Détecter une permission wildcard (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-iam-wildcard",
+      "hint": "Une policy avec « * » viole le moindre privilège."
+    },
+    {
+      "id": "remediation",
+      "kind": "plan",
+      "title": "Plan de remédiation sécurité",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Contexte",
+          "Constats",
+          "Moindre privilège",
+          "Privatisation des ressources",
+          "Observabilité",
+          "Vérification (service ET sécurité)"
+        ],
+        "requireMentions": [
+          "moindre privilège",
+          "wildcard",
+          "privé"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Remplace les wildcards par des actions explicites ; vérifie que le service marche TOUJOURS avec les droits réduits."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : wildcard détecté",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Moindre privilège appliqué (actions explicites)",
+      "blocking": true,
+      "category": "security"
+    },
+    {
+      "label": "Vérification : service fonctionnel après réduction",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "commonMistakes": [
+    "Élargir les droits « pour que ça marche »",
+    "Laisser un stockage public",
+    "Réduire sans vérifier le service"
+  ],
+  "skills": [
+    "debugging"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

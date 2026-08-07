@@ -1,0 +1,93 @@
+{
+  "id": "cloud-migrate-resilient",
+  "title": "Migrer une VM unique vers une architecture résiliente",
+  "category": "debt-maintenance",
+  "difficulty": 4,
+  "estimatedHours": 7,
+  "description": "Migrer une application mono-VM (SPOF) vers une architecture redondée multi-AZ, sans big-bang.",
+  "context": "Simulation déterministe. Une application tourne sur une VM unique : SPOF, pas d'observabilité, base sans sauvegarde. Tu planifies la migration vers du compute redondé derrière un load balancer, une base managée en HA avec sauvegardes, et de l'observabilité — étape par étape, en préservant le service. Le plan doit ordonner les étapes et prévoir un rollback à chaque palier.",
+  "prerequisites": [
+    "Architecture et résilience (jours 78, 81)"
+  ],
+  "dayRefs": [
+    78,
+    81
+  ],
+  "exerciseRefs": [
+    "cloud-spof-detect"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Identifier les SPOF (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-spof-detect",
+      "hint": "Un composant critique unique et non redondé est un SPOF."
+    },
+    {
+      "id": "plan",
+      "kind": "plan",
+      "title": "Plan de migration résiliente",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Contexte",
+          "État cible",
+          "Étapes ordonnées",
+          "Rollback par palier",
+          "Vérification",
+          "Risques"
+        ],
+        "requireMentions": [
+          "spof",
+          "multi-az",
+          "rollback"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Migre par paliers réversibles ; chaque étape a son critère de vérification et son rollback."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : SPOF correctement identifiés",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Plan par paliers réversibles",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Rollback prévu à chaque étape",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "commonMistakes": [
+    "Migration big-bang non réversible",
+    "Oublier la sauvegarde de la base",
+    "Aucun critère de vérification par étape"
+  ],
+  "skills": [
+    "debugging"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

@@ -1,0 +1,87 @@
+{
+  "id": "cloud-observability-diagnosis",
+  "title": "Diagnostiquer une application cloud lente",
+  "category": "incident",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "description": "À partir de métriques et logs fictifs, diagnostiquer la cause d'une latence élevée et proposer un correctif.",
+  "context": "Simulation déterministe. Une application est lente en production. À partir de métriques et de logs FICTIFS (latence p95, CPU, taux d'erreur, absence de certains signaux), tu qualifies l'incident, identifies les signaux manquants (observabilité), formules une hypothèse de cause racine et proposes un correctif vérifiable. Aucune métrique cloud réelle.",
+  "prerequisites": [
+    "Observabilité (jour 79)"
+  ],
+  "dayRefs": [
+    79
+  ],
+  "exerciseRefs": [
+    "cloud-observability-gap"
+  ],
+  "deliverables": [
+    {
+      "id": "exo",
+      "kind": "code",
+      "title": "Identifier les signaux manquants (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "cloud-observability-gap",
+      "hint": "missingSignals = logs/metrics/alerts absents."
+    },
+    {
+      "id": "diagnosis",
+      "kind": "report",
+      "title": "Rapport de diagnostic",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Symptômes",
+          "Signaux disponibles et manquants",
+          "Hypothèse de cause racine",
+          "Correctif proposé",
+          "Vérification",
+          "Prévention"
+        ],
+        "requireMentions": [
+          "cause racine",
+          "observabilité",
+          "vérification"
+        ],
+        "minLength": 300,
+        "maxLength": 8000
+      },
+      "hint": "Distingue ce que les signaux MONTRENT de ce qu'ils ne montrent pas ; propose un correctif vérifiable."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : signaux manquants identifiés",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Hypothèse de cause racine argumentée",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Correctif vérifiable proposé",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "skills": [
+    "debugging"
+  ],
+  "trackRefs": [
+    "systems-cloud-foundations-v1",
+    "ai-engineer-foundations-v1"
+  ],
+  "status": "published",
+  "version": "1"
+}

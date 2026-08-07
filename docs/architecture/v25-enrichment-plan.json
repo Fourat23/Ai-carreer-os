@@ -1,0 +1,17 @@
+{
+  "sprint": "V25",
+  "baselineRef": "23e90c6",
+  "note": "Plan de mutation contrôlée V25 (cf. ADR-025). Le contenu cloud enrichit ADDITIVEMENT des journées d'ancrage réelles au niveau FOURNISSEUR (au-delà du conceptuel V22) : 78 (architecture → responsabilité partagée, IAM/moindre privilège, région/AZ, compte/subscription/resource group, VPC/VNet/subnets, mapping AWS↔Azure), 79 (observabilité → CloudWatch/CloudTrail vs Azure Monitor/Log Analytics/Activity Log, audit, MTTD), 80 (perf → scaling horizontal/vertical, autoscaling, stateless, VM/container/serverless, load balancer L4/L7), 81 (trade-offs → HA multi-AZ, SPOF, RTO/RPO, backup, disaster recovery, « Que faire dans ce cas ? » cloud), 325 (coûts → FinOps : pay-as-you-go, right-sizing, egress, tagging, budgets, capacité réservée). Aucune journée déplacée, aucun contenu retiré. Sources : days-enrich-61-90.mjs (78,79,80,81) et days-enrich-301-365.mjs (325). Toute dérive hors périmètre échoue v25:check.",
+  "allowedSourceModules": [
+    "scripts/data/days-enrich-61-90.mjs",
+    "scripts/data/days-enrich-301-365.mjs"
+  ],
+  "targetDays": [78, 79, 80, 81, 325],
+  "requiredConcepts": {
+    "78": ["responsabilité partagée", "iam", "moindre privilège", "availability zone", "vpc", "vnet", "resource group"],
+    "79": ["cloudwatch", "azure monitor", "audit", "mttd"],
+    "80": ["autoscaling", "serverless", "stateless", "load balancer"],
+    "81": ["rto", "rpo", "disaster recovery", "multi-az", "haute disponibilité", "que faire dans ce cas"],
+    "325": ["finops", "right-sizing", "tagging", "egress", "budget", "pay-as-you-go"]
+  }
+}

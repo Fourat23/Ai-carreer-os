@@ -43,8 +43,8 @@ quel dans `program.json`. Extension du modèle d'audit existant
 | CP7 | `1a2ad2f` | 12 exercices comblant les trous réels |
 | CP8 | `e6e54b4` | mission drift IaC + graphe leçon → mission |
 | CP9 | `3313e06` | matrice de cohérence du parcours + E2E |
-| CP10 | *(ce commit)* | surface « Pratique associée » + hardening + rapport |
-| CP11 | *(à venir)* | Pedagogical Hardening & Beginner Validation |
+| CP10 | `5c730b6` | surface « Pratique associée » + hardening + rapport |
+| CP11 | `e9ae7d7` | Pedagogical Hardening & Beginner Validation |
 
 ## 6. Leçons auditées
 Les **32** leçons de fond Cloud/DevOps V26 ont été auditées (grille 16 dimensions,
@@ -178,3 +178,106 @@ nécessaire par le ré-audit au-delà de celles des CP3→CP10.
 ## 29. HEAD final, Git, données
 HEAD final et confirmations (local == origin, progress.json restauré, 0 workspace/
 serveur/conteneur) : voir la synthèse finale en français.
+
+---
+
+## Prompt COMPLET V28 (à copier tel quel pour démarrer le prochain sprint)
+
+```
+SPRINT V28 — « Observabilité, incidents, SRE & fiabilité opérationnelle +
+2ᵉ vague de durcissement pédagogique »
+
+CONTEXTE PRODUIT (à ne jamais violer)
+AI Career OS est une application d'apprentissage strictement LOCALE, mono-
+utilisateur, SANS authentification, SANS SaaS, SANS multi-utilisateur, SANS
+télémétrie externe, SANS cloud réel, SANS secrets réels, SANS réseau fournisseur
+réel. Tout fonctionne hors ligne. Pipeline : leçons .md hand-authored + métadonnées
+LESSONS (scripts/data/lessons-map.mjs) → data/program.json via `npm run generate`
+(fichiers `<!-- keep -->` jamais régénérés). Progression = store v3 ; catalogue =
+lib/catalogue.mjs ; audit pédagogique = lib/pedagogy-audit.mjs + ledgers ; gates =
+package.json. NE RECRÉE AUCUN MOTEUR (progression, exercices, missions, preuves,
+compétences, Labs, catalogue).
+
+PRIORITÉ : qualité pédagogique réelle > accessibilité néophyte > cohérence
+leçons/parcours/pratique > exactitude > pratique délibérée > robustesse > nouvelles
+surfaces. Le nombre de fichiers/tests/exercices n'est pas un objectif.
+
+COMMENCE PAR CP0. N'ÉCRIS RIEN AVANT D'AVOIR ÉTABLI L'ÉTAT RÉEL.
+
+CP0 — Audit forensique + pédagogique (lecture seule). Établis l'état RÉEL (jamais
+supposé) : branche, HEAD, local vs origin, working tree, stash, artefacts V28,
+serveurs/process, baseline progress.json, tests, tsc, build, gates actifs/histo,
+génération déterministe, nb leçons, nb parcours. Puis audite la COUVERTURE
+OBSERVABILITÉ/SRE : quelles leçons de fond existent sur métriques, logs, traces,
+SLI/SLO, error budget, alerting, incidents, runbooks, résilience ? (V26/V27 ont
+couvert Linux/réseau/Docker/CI-CD/K8s/cloud/AWS/Azure/IaC/FinOps ; l'observabilité
+n'a qu'une leçon `observability-logging` généraliste.) Identifie les trous réels et
+les leçons DENSES V27 (networking-http-tls, cloud-aws-core, cloud-azure-core,
+k8s-troubleshooting, iac-fundamentals, cloud-finops, ci-cd-quality-gates-artifacts,
+linux-resources-io, docker-images-layers) candidates à un découpage progressif.
+Produis une matrice + le plan CP1→CP11. Aucun commit sauf état corrompu.
+
+CP1 — ADR/HSD/TSD-028 : stratégie (nouvelles leçons de fond observabilité/SRE +
+2ᵉ vague de durcissement/découpage des leçons denses) ; réutilisation des Labs
+existants (Cloud Architecture Lab pour SLO/observabilité, Pipeline/K8s pour
+incidents) ; contrat de leçon débutant (repris de HSD-027) ; distinction réel/simulé ;
+refus d'un 2ᵉ moteur ; migration additive.
+
+CP2 — Gate v28:check (structurel) + extension du ledger d'audit (nouvelles leçons +
+leçons re-durcies) + tests d'intégrité. Basculer v27:check en gates:historical SI
+V28 enrichit légitimement son périmètre (lessons-map). Documenter le cycle de vie.
+
+CP3-CP6 — Nouvelles Leçons de fond observabilité/SRE (qualité > quantité, ~+6 à +10) :
+métriques (types, cardinalité, RED/USE), logs structurés & corrélation, traces &
+spans, SLI/SLO/SLA & error budget, alerting (symptôme vs cause, fatigue d'alerte),
+saturation/capacité/latence p50/p95/p99, disponibilité & résilience (redondance,
+dégradation gracieuse, chaos SIMULÉ), incident command & post-mortem sans blâme,
+runbooks. Chaque leçon : on-ramp « Le problème d'abord », prérequis explicités,
+vocabulaire au premier usage, practiceRefs vers artefacts EXISTANTS (ou nouveaux si
+trou réel). Relier au glossaire (compléter uniquement les termes réellement absents).
+
+CP7 — Exercices ciblés observabilité/SRE (déterministes) : calcul d'error budget,
+p95/p99 sur un échantillon, choix d'un SLI, tri alerte symptôme/cause, détection de
+saturation, décision d'incident. Réutiliser le moteur ; contrat respecté (starter
+faux échouant ≥1 test PUBLIC, référence verte, ≥1 test privé, taxonomie d'exercices,
+aucune fuite). Ne pas dupliquer les ~75 exercices Cloud/DevOps existants.
+
+CP8 — Missions/pratique guidée : combler les trous réels d'observabilité/SRE
+(ex. définir des SLO pour un service, écrire un runbook d'alerte, conduire un
+post-mortem). Réutiliser les Labs. Relier leçons ↔ jours ↔ exercices ↔ missions ↔
+compétences ↔ preuves via practiceRefs.
+
+CP9 — 2ᵉ vague de durcissement pédagogique : traiter les leçons DENSES V27 (découpage
+progressif si pertinent, sans casser la cohérence ni les liens) et améliorer
+`observability-logging`. Cohérence du parcours cloud-devops-engineer-v1 (l'observabilité
+doit s'y insérer proprement). Matrice + E2E complet (enrôlement → progression →
+preuve → isolation → export/import).
+
+CP10 — Hardening technique : tests, tsc, build, gates actifs, génération déterministe,
+bundles, absence d'eval/exec de runtime nouveau, anti-fuite, progress.json restauré,
+nettoyage serveurs/workspaces, responsive 375/768/1024/1440/1920 (Chromium
+pré-installé, PAS de « playwright install » — distinguer honnêtement testé/non testé).
+docs/SPRINT-V28.md (sans déclarer terminé).
+
+CP11 — Pedagogical Hardening & Beginner Validation : ré-audit des leçons nouvelles ET
+re-durcies, scores avant/après, échantillon néophyte de bout en bout, corrections des
+contenus sous le seuil, docs/PEDAGOGICAL-AUDIT-V28.md, prompt COMPLET V29. Rejouer
+toute la batterie après modifications.
+
+ANTI-SLOP (non négociable) : pas de contenu générique ni de gabarits répétés ; pas de
+faux chiffres ; AWS distinct d'Azure ; ne jamais prétendre exécuter/observer un
+système réel ; « chaos » toujours SIMULÉ et étiqueté ; conteneur ≠ VM ; Secret K8s =
+base64 non chiffré ; secrets factices ; ne pas déclarer un domaine « couvert » sur la
+seule présence d'une leçon — vérifier la pratique ATTEIGNABLE ; qualité > quantité.
+
+HORS PÉRIMÈTRE V28 : refonte UI/UX globale, gamification, complétion Data/Frontend/
+Game, exécution réelle (cloud/K8s/IaC/observabilité), réécriture des 365 jours.
+
+RAPPELS : Chromium headless pré-installé ; progress.json gitignoré (ne pas committer) ;
+tout en FRANÇAIS ; commits atomiques par CP (audit → implémentation → tests → tsc →
+build → gates → commit → push sur la branche de développement). NE DÉMARRE PAS V29.
+```
+
+---
+
+*Fin du rapport V27. V28 est préparé mais NON démarré.*

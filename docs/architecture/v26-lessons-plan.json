@@ -17,7 +17,11 @@
     { "slug": "docker-build-dockerfile", "cp": "CP4", "theme": "Docker" },
     { "slug": "docker-networking-volumes", "cp": "CP4", "theme": "Docker" },
     { "slug": "docker-compose", "cp": "CP4", "theme": "Docker" },
-    { "slug": "docker-production-hardening", "cp": "CP4", "theme": "Docker" }
+    { "slug": "docker-production-hardening", "cp": "CP4", "theme": "Docker" },
+    { "slug": "ci-cd-pipeline-anatomy", "cp": "CP5", "theme": "CI/CD" },
+    { "slug": "ci-cd-quality-gates-artifacts", "cp": "CP5", "theme": "CI/CD" },
+    { "slug": "deployment-strategies", "cp": "CP5", "theme": "CI/CD" },
+    { "slug": "release-incident-recovery", "cp": "CP5", "theme": "CI/CD" }
   ],
   "requiredConcepts": {
     "linux-filesystem-permissions": ["inode", "rwx", "octal", "chmod", "permission"],
@@ -34,6 +38,10 @@
     "docker-build-dockerfile": ["multi-stage", "dockerignore", "arg", "env", "entrypoint"],
     "docker-networking-volumes": ["réseau", "nom de service", "volume", "bind mount", "port"],
     "docker-compose": ["service", "depends_on", "healthcheck", "condition", "réseau"],
-    "docker-production-hardening": ["non-root", "namespaces", "oom", "sigterm", "read-only"]
+    "docker-production-hardening": ["non-root", "namespaces", "oom", "sigterm", "read-only"],
+    "ci-cd-pipeline-anatomy": ["runner", "job", "artefact", "cache", "parallélisme"],
+    "ci-cd-quality-gates-artifacts": ["porte qualité", "couverture", "artefact", "immuable", "promotion"],
+    "deployment-strategies": ["rolling", "blue-green", "canary", "feature flag", "expand/contract"],
+    "release-incident-recovery": ["rollback", "roll-forward", "hotfix", "migration destructive", "post-mortem"]
   }
 }

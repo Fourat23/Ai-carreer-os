@@ -81,6 +81,11 @@ export const LESSONS = [
   { file: 'docker-networking-volumes.md', title: 'Docker : réseau et persistance des données', cat: 'Conteneurs & Docker', level: 2, min: 45, skills: ['cloud', 'archi'] },
   { file: 'docker-compose.md', title: 'Docker Compose : orchestrer une application multi-services', cat: 'Conteneurs & Docker', level: 2, min: 45, skills: ['cloud', 'archi'] },
   { file: 'docker-production-hardening.md', title: 'Docker : durcissement pour la production', cat: 'Conteneurs & Docker', level: 3, min: 50, skills: ['cloud', 'secu'] },
+  // ── CI/CD & livraison ──
+  { file: 'ci-cd-pipeline-anatomy.md', title: "CI/CD : anatomie d'un pipeline", cat: 'CI/CD & livraison', level: 2, min: 45, skills: ['cloud', 'se'] },
+  { file: 'ci-cd-quality-gates-artifacts.md', title: 'CI/CD : portes qualité et artefacts versionnés', cat: 'CI/CD & livraison', level: 2, min: 45, skills: ['cloud', 'se'] },
+  { file: 'deployment-strategies.md', title: 'Stratégies de déploiement sans coupure', cat: 'CI/CD & livraison', level: 3, min: 50, skills: ['cloud', 'archi'] },
+  { file: 'release-incident-recovery.md', title: 'Reprise après incident : rollback, roll-forward, hotfix', cat: 'CI/CD & livraison', level: 3, min: 45, skills: ['cloud', 'archi'] },
   // ── Production & DevOps ──
   { file: 'deployment-secrets.md', title: 'Secrets, environnements et déploiement', cat: 'Production & DevOps', level: 2, min: 40, skills: ['cloud', 'secu'] },
   { file: 'docker-containers.md', title: 'Docker et conteneurs', cat: 'Production & DevOps', level: 2, min: 45, skills: ['cloud'] },

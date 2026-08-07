@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T16:28:37.906Z",
+  "generatedAt": "2026-08-07T20:04:53.325Z",
   "skills": [
     {
       "id": "algo",
@@ -6531,6 +6531,50 @@
       "skills": [
         "cloud",
         "secu"
+      ]
+    },
+    {
+      "slug": "ci-cd-pipeline-anatomy",
+      "title": "CI/CD : anatomie d'un pipeline",
+      "cat": "CI/CD & livraison",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "cloud",
+        "se"
+      ]
+    },
+    {
+      "slug": "ci-cd-quality-gates-artifacts",
+      "title": "CI/CD : portes qualité et artefacts versionnés",
+      "cat": "CI/CD & livraison",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "cloud",
+        "se"
+      ]
+    },
+    {
+      "slug": "deployment-strategies",
+      "title": "Stratégies de déploiement sans coupure",
+      "cat": "CI/CD & livraison",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "release-incident-recovery",
+      "title": "Reprise après incident : rollback, roll-forward, hotfix",
+      "cat": "CI/CD & livraison",
+      "level": 3,
+      "min": 45,
+      "skills": [
+        "cloud",
+        "archi"
       ]
     },
     {

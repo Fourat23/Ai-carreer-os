@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Docker : maîtriser le Dockerfile et le multi-stage
 
+## 🌍 Le problème d'abord
+Un **Dockerfile** est la recette qui fabrique votre image : « pars de telle base,
+copie le code, installe les dépendances, lance telle commande ». Le débutant écrit
+vite une recette qui « marche »… mais produit une image énorme, lente à fabriquer,
+et parfois contenant par accident un mot de passe ou tout le code source. Le
+problème à résoudre : écrire une recette qui donne une image **petite, rapide à
+refabriquer et sans secret**. La grande idée sera le **multi-stage** : fabriquer
+dans un atelier bien équipé, puis ne livrer que le produit fini, en laissant les
+outils derrière. Cette leçon part d'un Dockerfile naïf et le rend propre, étape par
+étape.
+
 ## 🎯 Objectif
 Aller au-delà du Dockerfile minimal : comprendre le **contexte de build**, les
 instructions clés (`COPY` vs `ADD`, `CMD` vs `ENTRYPOINT`, `ARG` vs `ENV`), le
@@ -8,7 +19,10 @@ instructions clés (`COPY` vs `ADD`, `CMD` vs `ENTRYPOINT`, `ARG` vs `ENV`), le
 `.dockerignore`. Objectif : des images petites, reproductibles et sans secrets.
 
 ## 🧩 Prérequis
-Modèle en couches (`/doc/lessons/docker-images-layers`).
+Vous devez comprendre le **modèle en couches** et le **cache de build**
+(`/doc/lessons/docker-images-layers`), car chaque instruction du Dockerfile crée une
+couche et l'ordre gouverne le cache. Les instructions et le multi-stage sont
+introduits ici sans prérequis supplémentaire.
 
 ## 🧠 Modèle mental
 Un Dockerfile est une **recette déterministe** : à partir d'une base, on applique
@@ -103,6 +117,20 @@ Une équipe livrait une image de 900 Mo contenant tout le toolchain de build. Un
 audit trouve même une ancienne clé de test inscrite via `ENV`. Correction :
 `.dockerignore`, multi-stage (image finale 150 Mo), secret retiré des couches et
 déplacé vers le gestionnaire de secrets injecté au run.
+
+## 🚑 Que faire dans ce cas ? — « l'image marche en local mais pas en CI »
+- **Symptômes** : `docker build` réussit sur votre poste, échoue (ou produit une
+  image cassée) dans le pipeline.
+- **Premières vérifications** : le **contexte de build** est-il le même ? un fichier
+  utilisé en local est-il exclu par `.dockerignore` ou non commité (donc absent en
+  CI) ? une dépendance est-elle installée globalement chez vous mais pas dans
+  l'image ?
+- **Cause probable** : l'image s'appuyait implicitement sur quelque chose présent
+  SEULEMENT sur votre machine (fichier non versionné, cache local, variable).
+- **Correction** : tout ce dont l'image a besoin doit être copié explicitement et
+  versionné ; ne jamais dépendre de l'état de la machine hôte.
+- **Prévention** : construire localement dans un dossier propre (comme le fait la CI)
+  avant de pousser ; garder un `.dockerignore` juste (ni trop, ni trop peu).
 
 ## 🎤 Questions d'entretien
 - « À quoi sert un multi-stage build ? » → construire dans une étape riche, ne

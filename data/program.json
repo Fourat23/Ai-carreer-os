@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T21:30:30.850Z",
+  "generatedAt": "2026-08-07T21:36:32.240Z",
   "skills": [
     {
       "id": "algo",
@@ -6557,6 +6557,20 @@
       "min": 45,
       "skills": [
         "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "docker-layer-cache"
+        },
+        {
+          "kind": "exercise",
+          "id": "docker-image-size"
+        },
+        {
+          "kind": "exercise",
+          "id": "docker-tag-vs-digest"
+        }
       ]
     },
     {
@@ -6568,6 +6582,20 @@
       "skills": [
         "cloud",
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "docker-instruction-order"
+        },
+        {
+          "kind": "exercise",
+          "id": "docker-dockerignore"
+        },
+        {
+          "kind": "exercise",
+          "id": "docker-cmd-entrypoint"
+        }
       ]
     },
     {
@@ -6579,6 +6607,12 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "docker-port-mapping"
+        }
       ]
     },
     {
@@ -6590,6 +6624,12 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "docker-port-mapping"
+        }
       ]
     },
     {
@@ -6601,6 +6641,20 @@
       "skills": [
         "cloud",
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "docker-detect-root"
+        },
+        {
+          "kind": "exercise",
+          "id": "docker-detect-secret"
+        },
+        {
+          "kind": "exercise",
+          "id": "docker-exit-diagnosis"
+        }
       ]
     },
     {
@@ -6612,6 +6666,24 @@
       "skills": [
         "cloud",
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cicd-critical-path"
+        },
+        {
+          "kind": "exercise",
+          "id": "cicd-topo-order"
+        },
+        {
+          "kind": "exercise",
+          "id": "cicd-fail-fast"
+        },
+        {
+          "kind": "exercise",
+          "id": "cicd-cache-key"
+        }
       ]
     },
     {
@@ -6623,6 +6695,24 @@
       "skills": [
         "cloud",
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cicd-stale-artifact"
+        },
+        {
+          "kind": "exercise",
+          "id": "cicd-mask-secrets"
+        },
+        {
+          "kind": "exercise",
+          "id": "cicd-env-promotion"
+        },
+        {
+          "kind": "exercise",
+          "id": "cicd-branch-policy"
+        }
       ]
     },
     {
@@ -6634,6 +6724,20 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-deploy-strategy"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-rolling-available"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-readiness-routing"
+        }
       ]
     },
     {
@@ -6645,6 +6749,20 @@
       "skills": [
         "cloud",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-rollback-decision"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-recovery-decision"
+        },
+        {
+          "kind": "exercise",
+          "id": "incident-health-rollup"
+        }
       ]
     },
     {

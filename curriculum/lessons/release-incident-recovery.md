@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Reprise après incident : rollback, roll-forward, hotfix
 
+## 🌍 Le problème d'abord
+Il est 15 h, vous venez de livrer, et le taux d'erreurs explose. Panique ? Non :
+méthode. La toute première décision n'est PAS « comprendre le bug » — c'est
+**rétablir le service** au plus vite pour les utilisateurs, quitte à comprendre
+après. Mais rétablir comment ? Revenir à la version d'avant (rollback) ? Foncer vers
+un correctif (roll-forward / hotfix) ? Couper la fonctionnalité fautive ? Le mauvais
+choix aggrave l'incident — par exemple, un rollback devient IMPOSSIBLE si une
+modification de base de données est déjà passée. Cette leçon donne le réflexe et les
+critères pour choisir, puis la discipline de l'après (post-mortem sans blâme). On
+part du principe fondateur : « rétablir d'abord, comprendre ensuite ».
+
 ## 🎯 Objectif
 Savoir RÉAGIR quand une release tourne mal : distinguer **rollback**,
 **roll-forward** et **hotfix**, choisir la bonne réponse selon la situation, et
@@ -8,8 +19,10 @@ comprendre pourquoi les artefacts versionnés et les migrations compatibles rend
 la reprise possible. L'objectif d'un incident : rétablir vite, comprendre ensuite.
 
 ## 🧩 Prérequis
-Artefacts versionnés (`/doc/lessons/ci-cd-quality-gates-artifacts`) et stratégies
-de déploiement (`/doc/lessons/deployment-strategies`).
+Vous devez comprendre les **artefacts versionnés** (ce qui rend un rollback possible
+— `/doc/lessons/ci-cd-quality-gates-artifacts`) et les **stratégies de déploiement**
+(rolling, canary, feature flag, migrations — `/doc/lessons/deployment-strategies`).
+Les termes rollback, roll-forward, hotfix et post-mortem sont définis ici.
 
 ## 🧠 Modèle mental
 En incident, la priorité n'est pas de COMPRENDRE, c'est de RÉTABLIR le service

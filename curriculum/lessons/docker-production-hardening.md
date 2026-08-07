@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Docker : durcissement pour la production
 
+## 🌍 Le problème d'abord
+« Ça tourne sur ma machine » ne veut pas dire « c'est prêt pour la production ». Un
+conteneur mal configuré tourne en **root** (si quelqu'un le pirate, il a tous les
+droits), embarque un shell et mille outils inutiles (plus de surface d'attaque),
+n'a aucune limite (il peut avaler toute la mémoire de la machine et faire tomber les
+voisins), ou s'arrête brutalement en coupant les requêtes en cours. Ces défauts ne se
+voient pas quand « ça marche » — ils explosent en production. Cette leçon liste les
+réglages qui font passer un conteneur de « ça tourne » à « ça tourne bien et sans
+danger », en rappelant honnêtement qu'un conteneur n'est PAS une machine virtuelle
+(il partage le noyau de l'hôte).
+
 ## 🎯 Objectif
 Faire tourner des conteneurs **sûrs et stables** en production : utilisateur
 **non-root**, image **minimale**, système de fichiers **en lecture seule**,
@@ -9,8 +20,11 @@ Faire tourner des conteneurs **sûrs et stables** en production : utilisateur
 danger ».
 
 ## 🧩 Prérequis
-Dockerfile et multi-stage (`/doc/lessons/docker-build-dockerfile`), processus et
-signaux (`/doc/lessons/linux-processes-signals`).
+Vous devez savoir écrire un **Dockerfile** propre (multi-stage, image minimale —
+`/doc/lessons/docker-build-dockerfile`) et comprendre les **processus et signaux**
+(`/doc/lessons/linux-processes-signals`), car le durcissement joue sur l'utilisateur,
+les limites et l'arrêt gracieux (`SIGTERM`). Les notions namespaces/cgroups sont
+expliquées ici.
 
 ## 🧠 Modèle mental
 Un conteneur n'est pas une VM : il **partage le noyau** de l'hôte. L'isolation
@@ -90,8 +104,10 @@ nettement plus sûr et prévisible.
 Le durcissement est un cumul de moindres privilèges : non-root, minimal,
 read-only, limites, secrets externalisés, images scannées et épinglées. Aucun de
 ces réglages ne transforme un conteneur en frontière de sécurité de type VM ; ils
-réduisent le risque et l'impact d'une compromission. Ne jamais présenter
-l'isolation conteneur comme une isolation OS complète.
+réduisent le risque et l'impact d'une compromission. Un conteneur ne fournit jamais
+une séparation équivalente à celle d'une machine virtuelle (le noyau reste partagé) :
+ne présentez pas son cloisonnement comme une frontière de niveau système
+d'exploitation.
 
 ## 🏢 Cas métier
 Un service était « instable » : redémarrages nocturnes et arrêts brutaux coupant

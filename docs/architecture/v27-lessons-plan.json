@@ -12,7 +12,16 @@
     "networking-addressing-routing",
     "networking-dns",
     "networking-http-tls",
-    "networking-proxy-loadbalancing"
+    "networking-proxy-loadbalancing",
+    "docker-images-layers",
+    "docker-build-dockerfile",
+    "docker-networking-volumes",
+    "docker-compose",
+    "docker-production-hardening",
+    "ci-cd-pipeline-anatomy",
+    "ci-cd-quality-gates-artifacts",
+    "deployment-strategies",
+    "release-incident-recovery"
   ],
   "critical": [
     "networking-http-tls",
@@ -34,6 +43,15 @@
     "networking-addressing-routing": ["networking-tcp-ip-model"],
     "networking-dns": ["networking-addressing-routing"],
     "networking-http-tls": ["networking-tcp-ip-model"],
-    "networking-proxy-loadbalancing": ["networking-tcp-ip-model", "networking-http-tls"]
+    "networking-proxy-loadbalancing": ["networking-tcp-ip-model", "networking-http-tls"],
+    "docker-images-layers": ["docker-containers", "linux-filesystem-permissions"],
+    "docker-build-dockerfile": ["docker-images-layers"],
+    "docker-networking-volumes": ["docker-containers", "networking-tcp-ip-model"],
+    "docker-compose": ["docker-networking-volumes"],
+    "docker-production-hardening": ["docker-build-dockerfile", "linux-processes-signals"],
+    "ci-cd-pipeline-anatomy": ["ci-cd", "docker-images-layers"],
+    "ci-cd-quality-gates-artifacts": ["ci-cd-pipeline-anatomy"],
+    "deployment-strategies": ["ci-cd-quality-gates-artifacts", "networking-proxy-loadbalancing"],
+    "release-incident-recovery": ["ci-cd-quality-gates-artifacts", "deployment-strategies"]
   }
 }

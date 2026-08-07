@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — CI/CD : portes qualité et artefacts versionnés
 
+## 🌍 Le problème d'abord
+Un pipeline vert ne veut pas dire « du bon code ». Si les vérifications n'empêchent
+pas réellement de fusionner ou de livrer, elles rassurent à tort. Et un piège
+classique casse la production : on reconstruit l'application à chaque étape
+(dev, préproduction, prod) — donc on déploie potentiellement un objet DIFFÉRENT de
+celui qu'on a testé. « Mais c'est le même code ! » … pas forcément le même résultat.
+Cette leçon résout deux problèmes concrets : rendre les contrôles réellement
+BLOQUANTS, et **construire une seule fois** un livrable figé (un « artefact ») qu'on
+promeut ensuite d'un environnement à l'autre sans le refabriquer. On part de l'idée
+simple : qu'est-ce qu'un « artefact », et pourquoi le figer ?
+
 ## 🎯 Objectif
 Transformer un pipeline « qui passe » en pipeline « qui protège » : définir des
 **portes qualité** (tests, couverture, sécurité, lint) qui BLOQUENT vraiment,
@@ -8,7 +19,10 @@ produire des **artefacts immuables et versionnés**, et appliquer le principe
 **construire une fois, déployer partout**.
 
 ## 🧩 Prérequis
-Anatomie d'un pipeline (`/doc/lessons/ci-cd-pipeline-anatomy`).
+Vous devez comprendre l'**anatomie d'un pipeline** (jobs, artefacts, cache —
+`/doc/lessons/ci-cd-pipeline-anatomy`), car les portes qualité sont des jobs
+bloquants et l'artefact est ce qui circule entre les étapes. Les notions de porte
+qualité, d'immuabilité et de promotion sont définies ici.
 
 ## 🧠 Modèle mental
 Une porte qualité est un **contrat** : « ce qui ne satisfait pas ces critères ne
@@ -86,6 +100,21 @@ prod échoue alors que staging était vert : une dépendance transitive avait ch
 entre deux builds. Correction : construire UNE image versionnée par le hash de
 commit, la promouvoir telle quelle, n'injecter que la config. Les surprises « vert
 en staging, rouge en prod » disparaissent.
+
+## 🚑 Que faire dans ce cas ? — « le pipeline passe mais l'appli ne démarre pas »
+- **Symptômes** : tous les jobs sont verts, l'artefact est publié, mais une fois
+  déployé, l'application ne démarre pas.
+- **Premières vérifications** : l'artefact déployé est-il bien celui testé (même
+  version/digest) ? la **configuration** d'exécution (variables, secrets, URL de
+  base de données) est-elle fournie à l'exécution ? les logs de démarrage disent
+  quoi ?
+- **Cause probable** : la config a été confondue avec l'artefact — soit l'artefact
+  a été reconstruit, soit la config d'exécution manque (elle n'est PAS dans
+  l'artefact, elle est injectée au déploiement).
+- **Correction** : promouvoir l'artefact exact déjà testé ; fournir la config au
+  déploiement (pas dans l'image).
+- **Prévention** : « build once, deploy many » + séparation stricte config/artefact ;
+  tracer quel artefact tourne où.
 
 ## 🎤 Questions d'entretien
 - « Que signifie "build once, deploy many" ? » → construire un artefact unique et

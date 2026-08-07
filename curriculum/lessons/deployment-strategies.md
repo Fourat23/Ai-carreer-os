@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Stratégies de déploiement sans coupure
 
+## 🌍 Le problème d'abord
+Mettre en ligne une nouvelle version, c'est risqué : et si elle contient un bug ? La
+tentation du débutant est de tout remplacer d'un coup — mais alors, si ça casse, TOUT
+casse pour TOUS les utilisateurs en même temps. Il existe des façons de déployer qui
+limitent la casse : remplacer progressivement, ou n'exposer d'abord la nouveauté qu'à
+1 % des visiteurs, ou pouvoir revenir en arrière en une seconde. Et un piège sournois
+guette : modifier la base de données de façon irréversible pendant que l'ancienne
+version tourne encore. Cette leçon présente les stratégies (rolling, blue-green,
+canary, feature flags) comme des réponses à UNE question : « comment réduire le rayon
+d'impact d'une mauvaise version ? ».
+
 ## 🎯 Objectif
 Livrer une nouvelle version SANS interrompre le service et en limitant le rayon
 d'impact d'un bug : **rolling update**, **blue-green**, **canary**, **feature
@@ -8,8 +19,10 @@ flags**, et le cas piégeux des **migrations de base compatibles**. Choisir la
 bonne stratégie selon le risque.
 
 ## 🧩 Prérequis
-Artefacts versionnés (`/doc/lessons/ci-cd-quality-gates-artifacts`) et load
-balancing (`/doc/lessons/networking-proxy-loadbalancing`).
+Vous devez comprendre les **artefacts versionnés** (pour pouvoir revenir à une
+version précédente — `/doc/lessons/ci-cd-quality-gates-artifacts`) et le **load
+balancing / health check** (`/doc/lessons/networking-proxy-loadbalancing`), car le
+déploiement sans coupure repose sur le routage vers les instances saines.
 
 ## 🧠 Modèle mental
 Déployer, c'est **remplacer progressivement** l'ancienne version par la nouvelle

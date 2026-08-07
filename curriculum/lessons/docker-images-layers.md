@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Docker : images, couches et registre
 
+## 🌍 Le problème d'abord
+Vous fabriquez une « image » de votre application pour la déployer partout à
+l'identique. Mais deux surprises reviennent sans cesse : le fabrication (build) est
+parfois instantanée, parfois interminable ; et l'image pèse tantôt 80 Mo, tantôt 1
+Go pour la même appli. Pourquoi ? Parce qu'une image n'est pas un bloc unique :
+c'est un **empilement de calques** (layers), et Docker est très malin pour
+RÉUTILISER les calques déjà fabriqués — à condition qu'on range les étapes dans le
+bon ordre. Comprendre ce système de calques explique la vitesse, le poids, et
+pourquoi l'étiquette `latest` est un piège en production. On part de l'image de base :
+qu'est-ce qu'une image, concrètement ?
+
 ## 🎯 Objectif
 Comprendre ce qu'est VRAIMENT une image Docker : le modèle en **couches**
 (layers) empilées, le **cache de build**, les **tags** et **digests**, et le rôle
@@ -8,8 +19,11 @@ du **registre**. C'est ce qui explique pourquoi un build est lent ou rapide,
 pourquoi une image pèse 1 Go ou 80 Mo, et pourquoi `latest` est un piège.
 
 ## 🧩 Prérequis
-Notions de base sur les conteneurs (`/doc/lessons/docker-containers`) et le
-système de fichiers (`/doc/lessons/linux-filesystem-permissions`).
+Vous devez savoir ce qu'est un **conteneur** vs une **image** au niveau intuitif
+(`/doc/lessons/docker-containers`) et comprendre qu'un **système de fichiers** est un
+arbre de fichiers (`/doc/lessons/linux-filesystem-permissions`), car une couche
+d'image EST une différence de système de fichiers. Les termes « couche », « cache de
+build », « tag » et « digest » sont construits ici.
 
 ## 🧠 Modèle mental
 Une image n'est pas un gros bloc opaque : c'est un **empilement de couches en
@@ -94,6 +108,17 @@ history` révèle une base généraliste + des caches d'installation laissés en
 place. En passant à une base `-slim` et en nettoyant dans le même `RUN`, l'image
 tombe à 180 Mo : pulls plus rapides, déploiements plus courts, moins de
 vulnérabilités.
+
+## 🚑 Que faire dans ce cas ? — « le build Docker est devenu très lent »
+- **Symptômes** : chaque build refait tout (réinstalle les dépendances) alors que
+  vous n'avez changé qu'une ligne de code.
+- **Premières vérifications** : `docker history` (quelles couches sont refaites ?) ;
+  l'ordre du Dockerfile (le `COPY . .` est-il AVANT l'installation des dépendances ?).
+- **Cause probable** : copier tout le code avant d'installer invalide le cache
+  d'installation à chaque changement de code.
+- **Correction** : copier d'abord `package*.json`, installer, PUIS copier le reste.
+- **Prévention** : ranger du plus stable (dépendances) au plus changeant (code) ;
+  vérifier avec un second build qu'il ne réinstalle plus.
 
 ## 🎤 Questions d'entretien
 - « Différence entre un tag et un digest ? » → étiquette mutable vs identifiant de

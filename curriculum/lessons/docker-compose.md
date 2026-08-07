@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Docker Compose : orchestrer une application multi-services
 
+## 🌍 Le problème d'abord
+Lancer une appli à plusieurs conteneurs « à la main », c'est taper une longue série
+de commandes `docker run` avec les bons réseaux, volumes et variables — dans le bon
+ordre, à chaque fois, sans se tromper. Fastidieux et non reproductible. Et si un
+collègue veut lancer la même chose ? **Docker Compose** répond à ce besoin : on
+DÉCRIT l'application entière (quels services, comment ils se relient, quelles
+données) dans UN fichier, et une seule commande la démarre. On passe de « je tape des
+commandes » à « je décris ce que je veux » — le même glissement d'esprit qu'on
+retrouvera, en plus puissant, avec Kubernetes. Cette leçon part de la douleur du
+« docker run » manuel pour montrer la solution déclarative.
+
 ## 🎯 Objectif
 Décrire une application entière (app + base + cache + …) dans un seul fichier
 **déclaratif**, avec réseaux, volumes, variables et **dépendances de santé**, et
@@ -8,7 +19,10 @@ la lancer d'une commande. Compose est le pont entre « un conteneur » et « un
 système » — et une répétition douce avant l'orchestration Kubernetes.
 
 ## 🧩 Prérequis
-Réseau et volumes Docker (`/doc/lessons/docker-networking-volumes`).
+Vous devez comprendre comment les conteneurs **communiquent** et **persistent** leurs
+données (`/doc/lessons/docker-networking-volumes`), car Compose ne fait que déclarer
+ces réseaux et volumes pour vous. La notion d'« état désiré déclaratif » est
+introduite ici.
 
 ## 🧠 Modèle mental
 Compose transforme une série de `docker run` fragiles et non reproductibles en un

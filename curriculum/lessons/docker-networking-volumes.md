@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — Docker : réseau et persistance des données
 
+## 🌍 Le problème d'abord
+Un conteneur seul, c'est facile. Mais une vraie application, c'est souvent plusieurs
+conteneurs (l'appli + sa base de données) qui doivent **se parler**. Et le jour où
+vous supprimez le conteneur de la base… vos données disparaissent ! Deux questions
+concrètes se posent donc : « comment deux conteneurs communiquent-ils ? » et
+« comment garder les données quand le conteneur est jetable ? ». Les débutants
+butent presque toujours ici : ils écrivent `localhost` entre conteneurs (et ça ne
+marche pas), ou oublient de brancher un espace de stockage durable (et perdent tout).
+Cette leçon résout ces deux problèmes avec deux idées simples : le **réseau partagé**
+(où l'on s'appelle par son nom) et le **volume** (une boîte de données qui survit).
+
 ## 🎯 Objectif
 Comprendre comment les conteneurs **communiquent** (réseaux, mapping de ports,
 résolution par nom de service) et comment **persister** des données (volumes vs
@@ -8,8 +19,11 @@ bind mounts) — les deux points où « ça marche en local mais pas ensemble »
 échoue le plus souvent.
 
 ## 🧩 Prérequis
-Bases Docker (`/doc/lessons/docker-containers`) et modèle réseau
-(`/doc/lessons/networking-tcp-ip-model`, `/doc/lessons/networking-addressing-routing`).
+Vous devez avoir manipulé un **conteneur** (`/doc/lessons/docker-containers`) et
+comprendre la notion de **port** et d'**adresse** au niveau réseau
+(`/doc/lessons/networking-tcp-ip-model`,
+`/doc/lessons/networking-addressing-routing`), car la communication entre conteneurs
+repose dessus. Volumes et bind mounts sont définis ici.
 
 ## 🧠 Modèle mental
 Un conteneur est **isolé par défaut** : son propre espace réseau, son propre

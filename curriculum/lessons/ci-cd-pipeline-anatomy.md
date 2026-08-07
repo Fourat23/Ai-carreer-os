@@ -1,6 +1,17 @@
 <!-- keep -->
 # Leçon — CI/CD : anatomie d'un pipeline
 
+## 🌍 Le problème d'abord
+À chaque fois que vous modifiez du code, il faut le tester, le construire, peut-être
+le déployer. Le faire à la main, c'est long, oubliable et différent d'une personne à
+l'autre. Un **pipeline** est un robot qui exécute ces étapes AUTOMATIQUEMENT, dans un
+environnement propre, à chaque changement. Mais un pipeline mal compris devient une
+boîte noire de 25 minutes qui décourage : on ne sait plus pourquoi c'est lent, ni
+pourquoi un job échoue. Cette leçon ouvre la boîte : de quoi un pipeline est-il fait
+(étapes, jobs, machines jetables), et pourquoi certaines choses doivent être
+explicitement transmises d'une étape à l'autre. On part de zéro : c'est quoi, « le
+robot » ?
+
 ## 🎯 Objectif
 Décomposer un pipeline moderne : **déclencheurs**, **jobs** et **étapes**,
 **runners**, **parallélisme** et **matrice**, **cache** et **artefacts** qui
@@ -8,8 +19,10 @@ circulent entre les jobs. Objectif : lire, concevoir et accélérer un pipeline 
 lieu d'en subir un.
 
 ## 🧩 Prérequis
-Notions de CI/CD (`/doc/lessons/ci-cd`) et de build d'image
-(`/doc/lessons/docker-images-layers`).
+Vous devez avoir l'intuition de la **CI/CD** (`/doc/lessons/ci-cd`) et savoir ce
+qu'est une **image** que l'on construit (`/doc/lessons/docker-images-layers`), car un
+pipeline construit et publie souvent des images. Les notions de job, runner, cache et
+artefact sont définies ici.
 
 ## 🧠 Modèle mental
 Un pipeline est un **graphe de tâches** déclenché par un événement. Chaque tâche
@@ -109,6 +122,19 @@ Une équipe subissait un pipeline de 25 min qui dissuadait les petits commits.
 Diagnostic : dépendances re-téléchargées, jobs en série, tests longs en premier.
 Après cache des dépendances, parallélisation lint/tests/build et fail fast, le
 pipeline tombe à 7 min et les intégrations redeviennent fréquentes.
+
+## 🚑 Que faire dans ce cas ? — « le pipeline échoue seulement en production »
+- **Symptômes** : les jobs passent pour les branches de test, mais le job de
+  déploiement en production échoue.
+- **Premières vérifications** : les **secrets/variables** de l'environnement prod
+  sont-ils bien définis (et pas seulement ceux de test) ? le job prod a-t-il les
+  droits/approbations nécessaires ? cible-t-il le bon environnement ?
+- **Cause probable** : une différence de CONFIGURATION entre environnements (secret
+  manquant, variable, approbation), pas le code lui-même.
+- **Correction** : aligner/renseigner la configuration de l'environnement prod ;
+  vérifier la portée des secrets par job.
+- **Prévention** : documenter les variables requises par environnement ; échouer tôt
+  avec un message clair si une variable obligatoire manque.
 
 ## 🎤 Questions d'entretien
 - « Différence entre cache et artefact ? » → accélération opportuniste vs livrable

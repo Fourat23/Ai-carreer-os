@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T14:53:22.037Z",
+  "generatedAt": "2026-08-07T16:20:01.922Z",
   "skills": [
     {
       "id": "algo",
@@ -6367,6 +6367,115 @@
       "min": 40,
       "skills": [
         "llm",
+        "cloud"
+      ]
+    },
+    {
+      "slug": "linux-filesystem-permissions",
+      "title": "Linux : système de fichiers et permissions",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "gitlinux",
+        "secu"
+      ]
+    },
+    {
+      "slug": "linux-processes-signals",
+      "title": "Linux : processus et signaux",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "gitlinux"
+      ]
+    },
+    {
+      "slug": "linux-services-systemd",
+      "title": "Linux : services et systemd",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "gitlinux",
+        "cloud"
+      ]
+    },
+    {
+      "slug": "linux-resources-io",
+      "title": "Linux : ressources, mémoire et I/O",
+      "cat": "Systèmes & Linux",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "gitlinux",
+        "archi"
+      ]
+    },
+    {
+      "slug": "linux-ssh-remote",
+      "title": "Linux : SSH et accès distant",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "gitlinux",
+        "secu"
+      ]
+    },
+    {
+      "slug": "networking-tcp-ip-model",
+      "title": "Réseau : le modèle TCP/IP en couches",
+      "cat": "Réseau",
+      "level": 1,
+      "min": 40,
+      "skills": [
+        "http",
+        "archi"
+      ]
+    },
+    {
+      "slug": "networking-addressing-routing",
+      "title": "Réseau : adressage IP, CIDR et routage",
+      "cat": "Réseau",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "cloud",
+        "archi"
+      ]
+    },
+    {
+      "slug": "networking-dns",
+      "title": "Réseau : DNS, la résolution de noms",
+      "cat": "Réseau",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "http",
+        "cloud"
+      ]
+    },
+    {
+      "slug": "networking-http-tls",
+      "title": "Réseau : HTTP et TLS",
+      "cat": "Réseau",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "http",
+        "secu"
+      ]
+    },
+    {
+      "slug": "networking-proxy-loadbalancing",
+      "title": "Réseau : proxy, reverse proxy et load balancing",
+      "cat": "Réseau",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "archi",
         "cloud"
       ]
     },

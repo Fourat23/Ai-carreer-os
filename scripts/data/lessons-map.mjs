@@ -63,6 +63,18 @@ export const LESSONS = [
   { file: 'ai-security.md', title: 'Sécurité des systèmes IA', cat: 'IA appliquée', level: 3, min: 50, skills: ['secu'] },
   { file: 'prompt-injection-defense.md', title: 'Défense contre la prompt injection', cat: 'IA appliquée', level: 3, min: 45, skills: ['secu'] },
   { file: 'llm-cost-optimization.md', title: "Coûts d'inférence : estimer et optimiser", cat: 'IA appliquée', level: 3, min: 40, skills: ['llm', 'cloud'] },
+  // ── Systèmes & Linux ──
+  { file: 'linux-filesystem-permissions.md', title: 'Linux : système de fichiers et permissions', cat: 'Systèmes & Linux', level: 2, min: 45, skills: ['gitlinux', 'secu'] },
+  { file: 'linux-processes-signals.md', title: 'Linux : processus et signaux', cat: 'Systèmes & Linux', level: 2, min: 45, skills: ['gitlinux'] },
+  { file: 'linux-services-systemd.md', title: 'Linux : services et systemd', cat: 'Systèmes & Linux', level: 2, min: 45, skills: ['gitlinux', 'cloud'] },
+  { file: 'linux-resources-io.md', title: 'Linux : ressources, mémoire et I/O', cat: 'Systèmes & Linux', level: 3, min: 50, skills: ['gitlinux', 'archi'] },
+  { file: 'linux-ssh-remote.md', title: 'Linux : SSH et accès distant', cat: 'Systèmes & Linux', level: 2, min: 45, skills: ['gitlinux', 'secu'] },
+  // ── Réseau ──
+  { file: 'networking-tcp-ip-model.md', title: 'Réseau : le modèle TCP/IP en couches', cat: 'Réseau', level: 1, min: 40, skills: ['http', 'archi'] },
+  { file: 'networking-addressing-routing.md', title: 'Réseau : adressage IP, CIDR et routage', cat: 'Réseau', level: 2, min: 50, skills: ['cloud', 'archi'] },
+  { file: 'networking-dns.md', title: 'Réseau : DNS, la résolution de noms', cat: 'Réseau', level: 2, min: 45, skills: ['http', 'cloud'] },
+  { file: 'networking-http-tls.md', title: 'Réseau : HTTP et TLS', cat: 'Réseau', level: 2, min: 50, skills: ['http', 'secu'] },
+  { file: 'networking-proxy-loadbalancing.md', title: 'Réseau : proxy, reverse proxy et load balancing', cat: 'Réseau', level: 3, min: 50, skills: ['archi', 'cloud'] },
   // ── Production & DevOps ──
   { file: 'deployment-secrets.md', title: 'Secrets, environnements et déploiement', cat: 'Production & DevOps', level: 2, min: 40, skills: ['cloud', 'secu'] },
   { file: 'docker-containers.md', title: 'Docker et conteneurs', cat: 'Production & DevOps', level: 2, min: 45, skills: ['cloud'] },

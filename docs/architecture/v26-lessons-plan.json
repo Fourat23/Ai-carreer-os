@@ -2,6 +2,28 @@
   "sprint": "V26",
   "baselineRef": "7d8868b",
   "note": "Périmètre d'expansion pédagogique V26 (cf. ADR-026). Nouvelles Leçons de fond sur la colonne Cloud/DevOps. Le tableau newLessons est renseigné au fil des checkpoints CP3→CP7 ; v26:check valide chaque leçon déclarée. requiredConcepts liste les notions clés attendues par leçon.",
-  "newLessons": [],
-  "requiredConcepts": {}
+  "newLessons": [
+    { "slug": "linux-filesystem-permissions", "cp": "CP3", "theme": "Linux" },
+    { "slug": "linux-processes-signals", "cp": "CP3", "theme": "Linux" },
+    { "slug": "linux-services-systemd", "cp": "CP3", "theme": "Linux" },
+    { "slug": "linux-resources-io", "cp": "CP3", "theme": "Linux" },
+    { "slug": "linux-ssh-remote", "cp": "CP3", "theme": "Linux" },
+    { "slug": "networking-tcp-ip-model", "cp": "CP3", "theme": "Réseau" },
+    { "slug": "networking-addressing-routing", "cp": "CP3", "theme": "Réseau" },
+    { "slug": "networking-dns", "cp": "CP3", "theme": "Réseau" },
+    { "slug": "networking-http-tls", "cp": "CP3", "theme": "Réseau" },
+    { "slug": "networking-proxy-loadbalancing", "cp": "CP3", "theme": "Réseau" }
+  ],
+  "requiredConcepts": {
+    "linux-filesystem-permissions": ["inode", "rwx", "octal", "chmod", "permission"],
+    "linux-processes-signals": ["pid", "signal", "sigterm", "sigkill", "zombie"],
+    "linux-services-systemd": ["systemd", "daemon", "journalctl", "enable", "service"],
+    "linux-resources-io": ["load average", "swap", "oom", "iostat", "file descriptor"],
+    "linux-ssh-remote": ["ssh", "clé publique", "clé privée", "tunnel", "authorized_keys"],
+    "networking-tcp-ip-model": ["couche", "tcp", "udp", "encapsulation", "port"],
+    "networking-addressing-routing": ["cidr", "subnet", "gateway", "nat", "routage"],
+    "networking-dns": ["dns", "ttl", "cname", "resolver", "propagation"],
+    "networking-http-tls": ["http", "tls", "certificat", "handshake", "statut"],
+    "networking-proxy-loadbalancing": ["reverse proxy", "load balancer", "l4", "l7", "health check"]
+  }
 }

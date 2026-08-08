@@ -1,0 +1,15 @@
+{
+  "sprint": "V28",
+  "baselineRef": "58f5b7d",
+  "note": "Périmètre V28 (cf. ADR-028/HSD-028/TSD-028). newLessons : nouvelles Leçons de fond Observabilité/SRE/incident. hardenedLegacy : leçons historiques (pré-V26) corrigées par l'audit rétroactif (on-ramp + prérequis + practiceRefs + modèle mental si absent). Le gate v28:check valide STRUCTURELLEMENT tout le périmètre ; il ne juge jamais la profondeur par la longueur. critical : leçons devant porter au moins un practiceRef. prereq : graphe de prérequis (slug -> [slugs]) validé acyclique.",
+  "newLessons": [],
+  "hardenedLegacy": [],
+  "critical": [
+    "metrics-percentiles",
+    "slo-error-budget",
+    "incident-response",
+    "postmortem-rca",
+    "resilience-patterns"
+  ],
+  "prereq": {}
+}

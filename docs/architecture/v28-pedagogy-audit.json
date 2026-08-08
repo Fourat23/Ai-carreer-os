@@ -1,0 +1,7 @@
+{
+  "sprint": "V28",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V28 (nouvelles leçons Observabilité/SRE + leçons historiques corrigées). Même rubrique que v20/v27 (16 dimensions, 0-4, lib/pedagogy-audit.mjs). Scores APRÈS ; avant/après détaillé dans docs/PEDAGOGICAL-AUDIT-V28.md. Renseigné aux CP3→CP6 et consolidé en CP11.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T09:21:03.555Z",
+  "generatedAt": "2026-08-08T09:23:34.765Z",
   "skills": [
     {
       "id": "algo",
@@ -6447,6 +6447,23 @@
         {
           "kind": "exercise",
           "id": "cloud-observability-gap"
+        }
+      ]
+    },
+    {
+      "slug": "slo-error-budget",
+      "title": "SLI, SLO et error budget : la fiabilité comme un budget",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-error-budget"
         }
       ]
     },

@@ -6,7 +6,8 @@
     "observability-fundamentals",
     "logging-structured",
     "distributed-tracing",
-    "metrics-percentiles"
+    "metrics-percentiles",
+    "slo-error-budget"
   ],
   "hardenedLegacy": [],
   "critical": [
@@ -17,8 +18,19 @@
     "resilience-patterns"
   ],
   "prereq": {
-    "logging-structured": ["observability-fundamentals"],
-    "distributed-tracing": ["observability-fundamentals", "logging-structured"],
-    "metrics-percentiles": ["observability-fundamentals", "linux-resources-io"]
+    "logging-structured": [
+      "observability-fundamentals"
+    ],
+    "distributed-tracing": [
+      "observability-fundamentals",
+      "logging-structured"
+    ],
+    "metrics-percentiles": [
+      "observability-fundamentals",
+      "linux-resources-io"
+    ],
+    "slo-error-budget": [
+      "metrics-percentiles"
+    ]
   }
 }

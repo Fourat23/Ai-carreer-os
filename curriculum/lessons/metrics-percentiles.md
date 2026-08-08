@@ -134,5 +134,5 @@ Exercices : calcul de percentiles, verdict de régression, signal manquant.
 ## 🔗 Liens avec le programme
 Jours `/day/79` (observabilité) et `/day/80` (performance). Leçons liées :
 `/doc/lessons/observability-fundamentals`, `/doc/lessons/distributed-tracing`,
-`/doc/lessons/linux-resources-io`. Les percentiles sont la base des SLO et de l'error
-budget (leçon SRE suivante).
+`/doc/lessons/linux-resources-io`, `/doc/lessons/slo-error-budget`. Les percentiles
+sont la base des SLO et de l'error budget.

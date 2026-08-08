@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "cloud-devops-engineer-v1"],
+  "activeFile": "solution.mjs",
+  "id": "rca-classify-cause",
+  "title": "Post-mortem : symptôme, cause racine ou facteur contributif ?",
+  "difficulty": 2,
+  "summary": "classify(item) où item={observed, deepest, aggravatingOnly} → 'symptom' si observé, 'root-cause' si c'est la raison profonde, sinon 'contributing-factor'. Un item observé est toujours un symptôme.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function classify(item) {\n  // TODO : distinguer symptôme, cause racine, facteur contributif\n  return 'root-cause';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function classify(item) {\n  if (item.observed) return 'symptom';\n  if (item.deepest) return 'root-cause';\n  return 'contributing-factor';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "observé → symptôme", "kind": "call-equals", "export": "classify", "args": [{ "observed": true, "deepest": false, "aggravatingOnly": false }], "expected": "symptom" },
+    { "id": "t2", "name": "raison profonde → cause racine", "kind": "call-equals", "export": "classify", "args": [{ "observed": false, "deepest": true, "aggravatingOnly": false }], "expected": "root-cause" },
+    { "id": "t3", "name": "aggravant seulement → facteur contributif", "kind": "call-equals", "export": "classify", "args": [{ "observed": false, "deepest": false, "aggravatingOnly": true }], "expected": "contributing-factor", "private": true }
+  ]
+}

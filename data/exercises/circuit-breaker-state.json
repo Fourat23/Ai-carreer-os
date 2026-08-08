@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "cloud-devops-engineer-v1"],
+  "activeFile": "solution.mjs",
+  "id": "circuit-breaker-state",
+  "title": "Résilience : état d'un circuit breaker",
+  "difficulty": 3,
+  "summary": "nextState(failures, threshold) → 'open' si le nombre d'échecs consécutifs atteint ou dépasse le seuil (on arrête d'appeler le service), 'closed' sinon (les appels passent).",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function nextState(failures, threshold) {\n  // TODO : le circuit s'ouvre QUAND on atteint le seuil (>=), pas seulement au-dessus\n  return failures > threshold ? 'open' : 'closed';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function nextState(failures, threshold) {\n  return failures >= threshold ? 'open' : 'closed';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "sous le seuil → closed", "kind": "call-equals", "export": "nextState", "args": [2, 5], "expected": "closed" },
+    { "id": "t2", "name": "au seuil exact → open", "kind": "call-equals", "export": "nextState", "args": [5, 5], "expected": "open" },
+    { "id": "t3", "name": "au-dessus du seuil → open", "kind": "call-equals", "export": "nextState", "args": [7, 5], "expected": "open", "private": true }
+  ]
+}

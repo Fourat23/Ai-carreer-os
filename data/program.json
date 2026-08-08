@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T09:27:56.889Z",
+  "generatedAt": "2026-08-08T09:30:51.509Z",
   "skills": [
     {
       "id": "algo",
@@ -6388,6 +6388,10 @@
         {
           "kind": "exercise",
           "id": "incident-health-rollup"
+        },
+        {
+          "kind": "exercise",
+          "id": "alert-actionable"
         }
       ]
     },
@@ -6464,6 +6468,10 @@
         {
           "kind": "exercise",
           "id": "cloud-error-budget"
+        },
+        {
+          "kind": "exercise",
+          "id": "slo-burn-rate"
         }
       ]
     },
@@ -6493,6 +6501,10 @@
         {
           "kind": "mission",
           "id": "health-incident-postmortem"
+        },
+        {
+          "kind": "exercise",
+          "id": "incident-severity"
         }
       ]
     },
@@ -6514,6 +6526,10 @@
         {
           "kind": "mission",
           "id": "health-incident-postmortem"
+        },
+        {
+          "kind": "exercise",
+          "id": "rca-classify-cause"
         }
       ]
     },
@@ -6543,6 +6559,14 @@
         {
           "kind": "mission",
           "id": "cloud-high-availability"
+        },
+        {
+          "kind": "exercise",
+          "id": "circuit-breaker-state"
+        },
+        {
+          "kind": "exercise",
+          "id": "retry-should"
         }
       ]
     },

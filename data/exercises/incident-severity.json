@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "cloud-devops-engineer-v1"],
+  "activeFile": "solution.mjs",
+  "id": "incident-severity",
+  "title": "Incident : qualifier la severity",
+  "difficulty": 2,
+  "summary": "severity(ctx) où ctx={allUsers, userFacing} → 'SEV1' si tous les utilisateurs sont touchés, 'SEV2' si c'est visible par des utilisateurs (sans être total), 'SEV3' sinon (interne/mineur).",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function severity(ctx) {\n  // TODO : SEV1 = impact total ; SEV2 = visible utilisateurs ; SEV3 = mineur\n  return 'SEV3';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function severity(ctx) {\n  if (ctx.allUsers) return 'SEV1';\n  if (ctx.userFacing) return 'SEV2';\n  return 'SEV3';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "tous les utilisateurs → SEV1", "kind": "call-equals", "export": "severity", "args": [{ "allUsers": true, "userFacing": true }], "expected": "SEV1" },
+    { "id": "t2", "name": "visible utilisateurs, non total → SEV2", "kind": "call-equals", "export": "severity", "args": [{ "allUsers": false, "userFacing": true }], "expected": "SEV2" },
+    { "id": "t3", "name": "interne/mineur → SEV3", "kind": "call-equals", "export": "severity", "args": [{ "allUsers": false, "userFacing": false }], "expected": "SEV3", "private": true }
+  ]
+}

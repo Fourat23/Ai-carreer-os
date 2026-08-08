@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "cloud-devops-engineer-v1"],
+  "activeFile": "solution.mjs",
+  "id": "alert-actionable",
+  "title": "Observabilité : cette alerte est-elle exploitable ?",
+  "difficulty": 2,
+  "summary": "isGoodAlert(a) où a={userImpact, actionable} → true seulement si l'alerte reflète un impact utilisateur ET demande une action. Sinon, c'est du bruit (fatigue d'alerte).",
+  "skills": ["conditions", "objects"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function isGoodAlert(a) {\n  // TODO : une bonne alerte a un impact utilisateur ET est actionnable\n  return a.userImpact;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function isGoodAlert(a) {\n  return !!a.userImpact && !!a.actionable;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "impact + actionnable → bonne", "kind": "call-equals", "export": "isGoodAlert", "args": [{ "userImpact": true, "actionable": true }], "expected": true },
+    { "id": "t2", "name": "impact mais rien à faire → bruit", "kind": "call-equals", "export": "isGoodAlert", "args": [{ "userImpact": true, "actionable": false }], "expected": false },
+    { "id": "t3", "name": "pas d'impact utilisateur → bruit", "kind": "call-equals", "export": "isGoodAlert", "args": [{ "userImpact": false, "actionable": true }], "expected": false, "private": true }
+  ]
+}

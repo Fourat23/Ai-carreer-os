@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "cloud-devops-engineer-v1"],
+  "activeFile": "solution.mjs",
+  "id": "slo-burn-rate",
+  "title": "SRE : calculer le burn rate de l'error budget",
+  "difficulty": 2,
+  "summary": "burnRate(consumedFraction, elapsedFraction) → vitesse de consommation de l'error budget = consumedFraction / elapsedFraction. 1 = pile dans les temps ; >1 = trop vite. elapsedFraction ∈ ]0,1].",
+  "skills": ["functions", "conditions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function burnRate(consumedFraction, elapsedFraction) {\n  // TODO : rapport consommé / temps écoulé (attention à la division)\n  return consumedFraction;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function burnRate(consumedFraction, elapsedFraction) {\n  if (elapsedFraction <= 0) return 0;\n  return consumedFraction / elapsedFraction;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "pile dans les temps → 1", "kind": "call-equals", "export": "burnRate", "args": [0.5, 0.5], "expected": 1 },
+    { "id": "t2", "name": "deux fois trop vite → 2", "kind": "call-equals", "export": "burnRate", "args": [0.5, 0.25], "expected": 2 },
+    { "id": "t3", "name": "sous le rythme → 0.5", "kind": "call-equals", "export": "burnRate", "args": [0.1, 0.2], "expected": 0.5, "private": true }
+  ]
+}

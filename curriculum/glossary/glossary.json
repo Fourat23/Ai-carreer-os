@@ -16335,5 +16335,560 @@
     "usageContext": "Conformité, choix de région, architecture réglementée.",
     "meetingExample": "« Les données clients doivent rester en UE : région eu-west, pas de réplication hors UE. »",
     "plainTranslation": "« L'obligation légale de garder certaines données dans une zone géographique donnée. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "telemetry"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "observabilité"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-telemetry",
+    "term": "télémétrie",
+    "fullForm": null,
+    "frenchMeaning": "données émises par un système sur son propre fonctionnement",
+    "shortDefinition": "L'ensemble des signaux qu'un système émet sur lui-même (logs, métriques, traces) pour être observé.",
+    "detailedDefinition": "La télémétrie regroupe toutes les données qu'un service produit pour raconter ce qu'il fait : logs (événements), métriques (nombres agrégés), traces (parcours de requêtes). Sans télémétrie, un système est une boîte noire : on ne peut ni alerter, ni diagnostiquer. Elle doit être décidée AVANT la panne (on n'observe que ce qu'on a instrumenté).",
+    "meetingExample": "« On n'a aucune télémétrie sur ce service, impossible de savoir pourquoi il rame. »",
+    "plainTranslation": "« Le service ne nous dit rien sur ce qu'il fait, on est aveugles. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [],
+    "tags": [
+      "observabilité"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-instrumentation",
+    "term": "instrumentation",
+    "fullForm": null,
+    "frenchMeaning": "ajouter au code de quoi émettre de la télémétrie",
+    "shortDefinition": "Le fait d'équiper le code pour qu'il émette logs, métriques et traces.",
+    "detailedDefinition": "Instrumenter, c'est ajouter dans le code (souvent via une bibliothèque) les points qui émettent des signaux : compter les requêtes, mesurer une durée, créer un span de trace, écrire un log structuré. Un code non instrumenté ne produit aucune donnée exploitable. Les bibliothèques modernes instrumentent automatiquement les appels HTTP et bases de données courants.",
+    "meetingExample": "« Il faut instrumenter l'appel paiement pour voir sa latence. »",
+    "plainTranslation": "« Ajoutons de quoi mesurer, sinon on ne verra jamais ce qui se passe. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "structured logging"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "observabilité",
+      "logs"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-structured-logging",
+    "term": "log structuré",
+    "fullForm": null,
+    "frenchMeaning": "log sous forme de données clé/valeur",
+    "shortDefinition": "Un log émis comme des champs (clé/valeur) plutôt qu'une phrase, pour être filtré et agrégé à grande échelle.",
+    "detailedDefinition": "Au lieu d'écrire une phrase (« user 42 a échoué »), on émet des champs : { level, userId, action, reason, requestId }. Une machine peut alors filtrer, compter et agréger sur des millions de lignes. C'est indispensable en production. On n'y met jamais de secret.",
+    "meetingExample": "« Passe ce log en structuré, on ne peut pas filtrer du texte libre. »",
+    "plainTranslation": "« Écris tes logs comme des données, pas comme des phrases. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "request id",
+      "correlation identifier"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "observabilité",
+      "logs"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-correlation-id",
+    "term": "correlation ID",
+    "fullForm": "Correlation Identifier",
+    "frenchMeaning": "identifiant reliant tous les logs d'une même requête",
+    "shortDefinition": "Un identifiant unique attribué à une requête et propagé partout, pour relier tous ses logs/événements.",
+    "detailedDefinition": "Une requête produit des logs éparpillés et mélangés à ceux des autres. En lui attribuant un identifiant unique (correlation ID / request ID) ajouté à chaque log et propagé aux services appelés, on peut filtrer par cet ID et reconstituer toute l'histoire d'une requête, même à travers plusieurs services. C'est le fil d'Ariane du diagnostic.",
+    "meetingExample": "« Donne-moi le correlation ID, je retrouve toute la requête. »",
+    "plainTranslation": "« Un numéro de suivi pour retrouver tout ce qu'a fait une requête. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [],
+    "tags": [
+      "observabilité",
+      "tracing"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-trace",
+    "term": "trace",
+    "fullForm": null,
+    "frenchMeaning": "parcours complet d'une requête à travers les composants",
+    "shortDefinition": "L'enregistrement du parcours d'une requête à travers les services, avec le temps passé à chaque étape.",
+    "detailedDefinition": "Une trace suit UNE requête de bout en bout et se compose de spans (étapes). Affichée sur une timeline, elle montre où le temps est dépensé (l'API ? la base ? un service externe ?). Elle répond à « OÙ est passée la latence ? », ce que logs et métriques ne disent pas.",
+    "meetingExample": "« La trace montre que 90 % du temps part dans l'appel externe. »",
+    "plainTranslation": "« Le bordereau de suivi d'une requête, étape par étape. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [
+      "obs-trace"
+    ],
+    "tags": [
+      "observabilité",
+      "tracing"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-span",
+    "term": "span",
+    "fullForm": null,
+    "frenchMeaning": "une étape mesurée dans une trace",
+    "shortDefinition": "Une opération mesurée (début, fin, parent) au sein d'une trace, ex. « requête SQL ».",
+    "detailedDefinition": "Un span représente une étape d'une trace : il a un début, une fin (donc une durée) et un parent. Les spans s'emboîtent (le span « traiter requête » contient le span « requête SQL »), formant l'arbre de la trace. C'est l'unité qui permet de voir quelle étape domine le temps total.",
+    "meetingExample": "« Le span base de données dure 40 ms, le span paiement 1,9 s. »",
+    "plainTranslation": "« Une étape chronométrée dans le parcours d'une requête. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "échantillonnage"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "observabilité"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-sampling",
+    "term": "sampling",
+    "fullForm": null,
+    "frenchMeaning": "échantillonnage : ne conserver qu'une fraction des données",
+    "shortDefinition": "Ne conserver qu'une fraction des traces/logs pour maîtriser le coût, tout en gardant de quoi diagnostiquer.",
+    "detailedDefinition": "Tout tracer/logger coûte cher (stockage, performance). Le sampling garde une fraction représentative (par ex. 1 % des traces), souvent en conservant TOUTES les traces d'erreur. Compromis : assez pour diagnostiquer, pas au point de coûter plus que le service.",
+    "meetingExample": "« On échantillonne à 5 %, mais on garde 100 % des erreurs. »",
+    "plainTranslation": "« On ne garde qu'une partie des mesures pour ne pas exploser les coûts. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [],
+    "tags": [
+      "observabilité",
+      "métriques"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-cardinality",
+    "term": "cardinalité",
+    "fullForm": null,
+    "frenchMeaning": "nombre de valeurs distinctes d'une étiquette de métrique",
+    "shortDefinition": "Le nombre de combinaisons distinctes d'étiquettes d'une métrique ; une cardinalité élevée fait exploser les coûts.",
+    "detailedDefinition": "Une métrique porte des étiquettes (endpoint, région…). La cardinalité est le nombre de combinaisons distinctes. Mettre en étiquette un identifiant unique (userId, requestId) crée une cardinalité énorme (une série par utilisateur) qui sature le système de métriques. Règle : des étiquettes à faible cardinalité.",
+    "meetingExample": "« Ne mets pas le userId en label, ça explose la cardinalité. »",
+    "plainTranslation": "« Trop de valeurs différentes sur une métrique la rend ingérable. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "tableau de bord"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "observabilité"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-dashboard",
+    "term": "dashboard",
+    "fullForm": null,
+    "frenchMeaning": "tableau de bord de métriques",
+    "shortDefinition": "Un écran regroupant des graphes de métriques pour suivre l'état d'un service d'un coup d'œil.",
+    "detailedDefinition": "Un dashboard rassemble les signaux clés (latence, erreurs, trafic, saturation) en graphes. Utile pour repérer une tendance ou corréler un changement. Piège : un dashboard vert ne prouve pas que tout va bien — seulement que ce qu'on a choisi de mesurer va bien (attention aux angles morts).",
+    "meetingExample": "« Le dashboard est vert mais les clients se plaignent : on ne mesure pas le bon signal. »",
+    "plainTranslation": "« L'écran de contrôle du service. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "alert fatigue"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "observabilité",
+      "alerting"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-alert-fatigue",
+    "term": "fatigue d'alerte",
+    "fullForm": null,
+    "frenchMeaning": "désensibilisation due à trop d'alertes",
+    "shortDefinition": "Quand trop d'alertes (souvent non actionnables) désensibilisent l'équipe, qui finit par ignorer les vraies.",
+    "detailedDefinition": "Des alertes trop nombreuses, bruyantes ou sans impact utilisateur épuisent l'attention : on finit par les ignorer, et une vraie alerte passe inaperçue. Remèdes : n'alerter que sur des symptômes à impact utilisateur, alerter sur le burn rate plutôt que sur chaque erreur, supprimer les alertes non actionnables.",
+    "meetingExample": "« On reçoit 200 alertes par jour, plus personne ne les lit : fatigue d'alerte. »",
+    "plainTranslation": "« Trop d'alarmes tuent l'alarme. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "golden signals"
+    ],
+    "relatedTerms": [
+      "obs-red",
+      "obs-use"
+    ],
+    "tags": [
+      "sre",
+      "métriques"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-golden-signals",
+    "term": "Golden Signals",
+    "fullForm": null,
+    "frenchMeaning": "les quatre signaux clés d'un service (Google SRE)",
+    "shortDefinition": "Latence, trafic, erreurs, saturation : la check-list de base pour surveiller un service (Google SRE).",
+    "detailedDefinition": "Les Golden Signals rappellent les quatre familles à surveiller : latence (temps de réponse), trafic (débit), erreurs (taux d'échec), saturation (remplissage des ressources). C'est une check-list qui évite l'angle mort « je ne mesurais pas les erreurs ».",
+    "meetingExample": "« On couvre les Golden Signals ? On n'a pas la saturation. »",
+    "plainTranslation": "« Les quatre choses de base à toujours mesurer sur un service. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [
+      "obs-use",
+      "obs-golden-signals"
+    ],
+    "tags": [
+      "sre",
+      "métriques"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-red",
+    "term": "RED",
+    "fullForm": "Rate, Errors, Duration",
+    "frenchMeaning": "méthode de métriques orientée requêtes",
+    "shortDefinition": "Méthode : pour un service orienté requêtes, surveiller Rate (trafic), Errors, Duration (latence).",
+    "detailedDefinition": "RED est une check-list de métriques pour les services qui traitent des requêtes : Rate (nombre de requêtes/s), Errors (taux d'échec), Duration (latence, en percentiles). Complément de USE (orienté ressources).",
+    "meetingExample": "« Sur l'API, on suit RED : rate, errors, duration. »",
+    "plainTranslation": "« Pour un service, mesure le débit, les erreurs et le temps de réponse. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [
+      "obs-red",
+      "obs-golden-signals"
+    ],
+    "tags": [
+      "sre",
+      "métriques"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-use",
+    "term": "USE",
+    "fullForm": "Utilization, Saturation, Errors",
+    "frenchMeaning": "méthode de métriques orientée ressources",
+    "shortDefinition": "Méthode : pour une ressource, surveiller Utilization, Saturation, Errors.",
+    "detailedDefinition": "USE est une check-list pour les ressources (CPU, mémoire, disque, file) : Utilization (taux d'usage), Saturation (file d'attente/dépassement), Errors. Complément de RED (orienté requêtes).",
+    "meetingExample": "« Sur le CPU, applique USE : utilisation, saturation, erreurs. »",
+    "plainTranslation": "« Pour une ressource, mesure son usage, son engorgement et ses erreurs. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [],
+    "tags": [
+      "sre",
+      "métriques"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "obs-saturation",
+    "term": "saturation",
+    "fullForm": null,
+    "frenchMeaning": "niveau de remplissage d'une ressource",
+    "shortDefinition": "À quel point une ressource est pleine (CPU, mémoire, file) ; le signal qui précède l'effondrement.",
+    "detailedDefinition": "La saturation mesure le remplissage d'une ressource et surtout sa file d'attente. Une ressource proche de 100 % ou dont la file grandit annonce une dégradation imminente : c'est souvent le signal le plus prédictif d'une panne. On la surveille explicitement (USE, Golden Signals).",
+    "meetingExample": "« La file de messages sature, on va tomber si on n'agit pas. »",
+    "plainTranslation": "« La ressource est presque pleine, ça va bientôt casser. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "taux de consommation"
+    ],
+    "relatedTerms": [
+      "obs-alert-fatigue"
+    ],
+    "tags": [
+      "sre"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "sre-burn-rate",
+    "term": "burn rate",
+    "fullForm": null,
+    "frenchMeaning": "vitesse de consommation de l'error budget",
+    "shortDefinition": "La vitesse à laquelle on épuise l'error budget ; base d'un alerting intelligent.",
+    "detailedDefinition": "Le burn rate compare la consommation de l'error budget au temps écoulé. Un burn rate de 1 = on consomme pile le budget sur la période ; 10 = on l'épuisera 10× trop vite. Alerter sur le burn rate (plutôt que sur chaque erreur) réveille l'équipe seulement quand le budget part vraiment trop vite, évitant la fatigue d'alerte.",
+    "meetingExample": "« Le burn rate est à 14, on va griller le budget du mois en deux jours. »",
+    "plainTranslation": "« À quelle vitesse on épuise notre droit à l'erreur. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [],
+    "tags": [
+      "sre"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "sre-toil",
+    "term": "toil",
+    "fullForm": null,
+    "frenchMeaning": "travail manuel répétitif sans valeur durable",
+    "shortDefinition": "Le travail opérationnel manuel, répétitif, automatisable, qui ne laisse rien de durable.",
+    "detailedDefinition": "Le toil, c'est relancer un service à la main chaque nuit, appliquer la même correction encore et encore. Il ne crée pas de valeur pérenne et épuise l'équipe. La démarche SRE vise à le réduire par l'automatisation, pour libérer du temps vers la fiabilité. Un SLO tenu à coups de toil n'est pas soutenable.",
+    "meetingExample": "« Ce redémarrage manuel quotidien, c'est du toil : automatisons-le. »",
+    "plainTranslation": "« Le travail pénible et répétitif qu'on devrait automatiser. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [],
+    "tags": [
+      "résilience"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "res-timeout",
+    "term": "timeout",
+    "fullForm": null,
+    "frenchMeaning": "délai maximal avant d'abandonner une opération",
+    "shortDefinition": "Une durée maximale au-delà de laquelle on abandonne un appel, pour ne pas attendre l'infini.",
+    "detailedDefinition": "Sans timeout, un appel vers une dépendance lente bloque threads et connexions jusqu'à l'épuisement, provoquant une panne en cascade. Un timeout borne l'attente et libère les ressources. C'est la protection de résilience la plus fondamentale.",
+    "meetingExample": "« Mets un timeout de 2 s sur l'appel paiement, sinon on bloque tout. »",
+    "plainTranslation": "« N'attends pas indéfiniment une réponse. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [],
+    "relatedTerms": [
+      "res-timeout",
+      "res-circuit-breaker"
+    ],
+    "tags": [
+      "résilience"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "res-retry",
+    "term": "retry",
+    "fullForm": null,
+    "frenchMeaning": "réessayer un appel échoué (avec prudence)",
+    "shortDefinition": "Réessayer une opération échouée ; utile si transitoire, dangereux si mal fait.",
+    "detailedDefinition": "Un retry peut surmonter une erreur passagère, mais réessayer immédiatement et en boucle pendant une panne ajoute de la charge à un service à terre (effet troupeau). Règles : uniquement sur des opérations idempotentes, avec un espacement croissant (exponential backoff + jitter) et un nombre limité de tentatives.",
+    "meetingExample": "« Le retry est agressif, il achève le service : ajoute du backoff. »",
+    "plainTranslation": "« Réessayer, oui, mais doucement et pas n'importe quoi. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "disjoncteur"
+    ],
+    "relatedTerms": [
+      "res-timeout"
+    ],
+    "tags": [
+      "résilience"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "res-circuit-breaker",
+    "term": "circuit breaker",
+    "fullForm": null,
+    "frenchMeaning": "disjoncteur qui coupe les appels vers un service défaillant",
+    "shortDefinition": "Un « disjoncteur » qui arrête d'appeler un service qui échoue en boucle, pour éviter l'épuisement.",
+    "detailedDefinition": "Si un service échoue de façon répétée, le circuit breaker s'OUVRE : on cesse de l'appeler un moment et on échoue vite (ou on dégrade), au lieu d'attendre à chaque fois. Après un délai, on teste prudemment s'il est revenu (half-open). Cela protège l'appelant (qui ne s'épuise pas) et l'appelé (qu'on n'achève pas de trafic).",
+    "meetingExample": "« Le circuit breaker s'est ouvert sur le service paiement, on dégrade. »",
+    "plainTranslation": "« Un fusible qui coupe les appels vers un service en panne. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "contre-pression"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "résilience"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "res-backpressure",
+    "term": "backpressure",
+    "fullForm": null,
+    "frenchMeaning": "ralentir l'entrée quand on ne peut pas suivre",
+    "shortDefinition": "Refuser/ralentir l'acceptation de travail au-delà de sa capacité, pour ne pas exploser.",
+    "detailedDefinition": "Quand la demande dépasse la capacité, la backpressure consiste à ne pas accepter plus de travail qu'on ne peut en traiter (files bornées, refus), pour éviter que la mémoire et les files n'explosent. Mieux vaut ralentir proprement que s'écrouler.",
+    "meetingExample": "« Sans backpressure, la file grossit jusqu'à l'OOM. »",
+    "plainTranslation": "« Si on ne suit pas, on arrête d'accepter du travail. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "délestage"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "résilience"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "res-load-shedding",
+    "term": "load shedding",
+    "fullForm": null,
+    "frenchMeaning": "rejeter volontairement une partie du trafic",
+    "shortDefinition": "Rejeter délibérément une part du trafic (souvent la moins prioritaire) pour préserver le reste.",
+    "detailedDefinition": "En surcharge, le load shedding sacrifie une fraction des requêtes (les moins prioritaires) pour que le service continue de répondre aux autres. Mieux vaut refuser proprement 10 % que s'effondrer à 100 %. Complément de la backpressure et du rate limiting.",
+    "meetingExample": "« On fait du load shedding sur les requêtes non critiques le temps du pic. »",
+    "plainTranslation": "« On sacrifie une petite partie pour sauver le reste. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "limitation de débit"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "résilience"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "res-rate-limiting",
+    "term": "rate limiting",
+    "fullForm": null,
+    "frenchMeaning": "limiter le nombre de requêtes par client/période",
+    "shortDefinition": "Limiter le nombre de requêtes acceptées par client et par période, pour protéger des abus et des pics.",
+    "detailedDefinition": "Le rate limiting plafonne les requêtes (par IP, par clé d'API, par utilisateur) sur une fenêtre de temps. Il protège des abus, des boucles folles et des pics, et garantit une part équitable des ressources. C'est un garde-fou d'entrée, complémentaire de la backpressure.",
+    "meetingExample": "« Ce client fait 10 000 req/s, active le rate limiting. »",
+    "plainTranslation": "« On limite combien de requêtes chacun a le droit d'envoyer. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "dégradation gracieuse"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "résilience"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "res-graceful-degradation",
+    "term": "graceful degradation",
+    "fullForm": null,
+    "frenchMeaning": "fonctionner en mode dégradé plutôt que tomber",
+    "shortDefinition": "Offrir une version réduite du service quand une partie est indisponible, plutôt qu'une panne totale.",
+    "detailedDefinition": "Plutôt que renvoyer une erreur quand une dépendance optionnelle tombe (ex. recommandations), on affiche la page SANS cette partie. L'utilisateur garde l'essentiel. Cela suppose d'avoir distingué ce qui est critique de ce qui est optionnel.",
+    "meetingExample": "« Le service de reco est down : on dégrade gracieusement, la page marche sans reco. »",
+    "plainTranslation": "« Offrir moins plutôt que rien du tout. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "redundancy"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "résilience"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "res-redundancy",
+    "term": "redondance",
+    "fullForm": null,
+    "frenchMeaning": "plusieurs exemplaires pour éviter un point unique de panne",
+    "shortDefinition": "Dupliquer un composant (instances, zones) pour qu'une panne d'un exemplaire ne fasse pas tout tomber.",
+    "detailedDefinition": "La redondance élimine les SPOF : plusieurs instances derrière un équilibreur, plusieurs zones de disponibilité, réplicas de base. Couplée au failover (bascule automatique vers un exemplaire sain), elle assure la haute disponibilité. Elle a un coût qu'on arbitre selon le besoin.",
+    "meetingExample": "« Une seule instance, c'est un SPOF : ajoute de la redondance multi-zone. »",
+    "plainTranslation": "« Avoir des exemplaires de secours pour ne pas tout perdre d'un coup. »"
+  },
+  {
+    "category": "itsm",
+    "level": "intermédiaire",
+    "aliases": [
+      "cinq pourquoi",
+      "5 whys"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "incident",
+      "post-mortem"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "inc-five-whys",
+    "term": "Five Whys",
+    "fullForm": "Cinq pourquoi",
+    "frenchMeaning": "technique d'analyse en enchaînant les « pourquoi »",
+    "shortDefinition": "Creuser une cause en demandant « pourquoi ? » en chaîne jusqu'à la cause systémique.",
+    "detailedDefinition": "Technique de RCA : on part du symptôme et on demande « pourquoi ? » plusieurs fois de suite, chaque réponse devenant la question suivante, jusqu'à atteindre une cause systémique (pas un coupable). Ex. « pourquoi la panne ? … pourquoi rien ne l'a empêchée ? » → « aucun garde-fou en CI ».",
+    "meetingExample": "« Faisons les Five Whys : on s'arrête toujours au premier pourquoi. »",
+    "plainTranslation": "« Demander pourquoi plusieurs fois pour trouver la vraie cause. »"
+  },
+  {
+    "category": "itsm",
+    "level": "intermédiaire",
+    "aliases": [
+      "sans blâme",
+      "blameless post-mortem"
+    ],
+    "relatedTerms": [],
+    "tags": [
+      "incident",
+      "post-mortem"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "inc-blameless",
+    "term": "blameless",
+    "fullForm": null,
+    "frenchMeaning": "sans blâme (post-mortem qui n'accuse personne)",
+    "shortDefinition": "Un post-mortem « sans blâme » cherche à corriger le système, pas à punir une personne.",
+    "detailedDefinition": "Un post-mortem blameless part du principe que chacun a agi raisonnablement avec les informations disponibles. En n'accusant personne, on obtient une information honnête et on corrige les causes SYSTÉMIQUES. Chercher un coupable pousse au contraire à cacher l'information et empêche d'apprendre.",
+    "meetingExample": "« Le post-mortem est blameless : on cherche la cause système, pas un responsable. »",
+    "plainTranslation": "« On analyse sans accuser, pour vraiment apprendre. »"
+  },
+  {
+    "category": "devops",
+    "level": "intermédiaire",
+    "aliases": [
+      "livraison progressive"
+    ],
+    "relatedTerms": [
+      "obs-golden-signals"
+    ],
+    "tags": [
+      "livraison"
+    ],
+    "usageContext": "Exploitation d'un service en production ; discussions observabilité/SRE.",
+    "id": "del-progressive-delivery",
+    "term": "progressive delivery",
+    "fullForm": null,
+    "frenchMeaning": "livrer par étapes en limitant le rayon d'impact",
+    "shortDefinition": "Livrer une nouveauté par paliers (canary, % d'utilisateurs, feature flags) pour limiter le rayon d'impact.",
+    "detailedDefinition": "La progressive delivery expose une nouvelle version graduellement : à 1 % des utilisateurs, puis 10 %, etc., en observant les signaux, avec possibilité de couper vite (feature flag) ou de rebasculer. Elle réduit le rayon d'impact d'un bug et s'appuie sur l'observabilité pour décider d'avancer ou non.",
+    "meetingExample": "« On fait de la progressive delivery : canary 5 %, puis on monte si les métriques tiennent. »",
+    "plainTranslation": "« Déployer petit à petit pour limiter les dégâts si ça casse. »"
   }
 ]

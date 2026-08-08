@@ -114,3 +114,89 @@ Le Curriculum Graph ne juge pas la QUALITÉ d'une leçon (seulement la structure
 la connectivité) ; l'audit pédagogique humain (`docs/PEDAGOGICAL-AUDIT-V31.md`)
 reste le juge de fond. Le `concept-not-practiced` warning subsiste pour des
 compétences transverses enseignées sans exercice dédié.
+
+## 18. Prompt de reprise V32
+Voir ci-dessous. **Ne pas démarrer V32 dans cette session.**
+
+---
+
+# Prompt de lancement — Sprint V32 (à démarrer PLUS TARD, PAS maintenant)
+
+> Ce prompt clôt V31. **Ne démarre pas V32 dans cette session.** Rédigé pour être collé tel
+> quel au lancement du sprint suivant.
+
+Reprends **AI Career OS** pour le **Sprint V32 — « IA appliquée : couche agents/orchestration
+en PRATIQUE + durcissement de la sécurité LLM + résorption de la dette pédagogique »**.
+
+**IMPORTANT — travaille sur l'état RÉEL du dépôt.** Ne suppose jamais que ce résumé V31
+correspond encore au repository. Commence par un **CP0 strictement en lecture seule** : audite
+l'état réel (git, tests, build, gates, leçons, exercices, missions, playbooks, glossaire,
+parcours, Curriculum Graph, processus/serveurs résiduels, baseline `progress.json`) et présente
+un **rapport d'audit CP0 en français AVANT toute implémentation**.
+
+**Langue** : tous les rapports, audits, synthèses et le prompt V33 final en **français**.
+
+**Priorité (inchangée)** : QUALITÉ PÉDAGOGIQUE > cohérence des parcours > progression néophyte >
+théorie→pratique→compétence→preuve > exactitude technique > fonctionnalités. *Une excellente
+leçon/exercice vaut mieux que cinq superficiels. Ne maximise artificiellement rien (leçons,
+exercices, lignes, commits, scores). L'audit fait foi.* Pas de refonte UI/UX globale.
+
+**Critère néophyte complet** (juge suprême) : situation → intuition → vocabulaire → mécanisme →
+pratique. Pour l'IA : **maths honnêtes** (intuition avant formule), et **frontière réel/simulé
+explicite** — jamais de fausse exécution de LLM/vector DB/embedding, jamais prétendre appeler
+OpenAI/Anthropic ni entraîner un modèle.
+
+**État attendu (à VÉRIFIER, pas à supposer)** : branche `claude/ai-career-os-saas-phfg49`,
+HEAD final V31, ~110 leçons, ~203 exercices (dont 5 RAG déterministes), 40 missions, ~31
+playbooks, ~661 termes de glossaire, gates v26→v31 actives (~983 tests), Curriculum Graph
+(`lib/curriculum-graph.mjs`) sans anomalie bloquante. V31 a durci la chaîne RAG/IA appliquée,
+ajouté la première couche de pratique RAG, et rendu la rupture de chaîne détectable.
+
+**Objectif central V32 — la couche AGENTS en PRATIQUE (dette V31 assumée) :** créer, seulement
+pour des trous RÉELS, des exercices de RAISONNEMENT DÉTERMINISTES (node-js, contrat vérifié par
+exécution, étiquetés SIMULATION) pour la couche agents/prompt, jusque-là sans pratique
+exécutable :
+- **budget d'itérations / arrêt propre** d'une boucle d'agent (borne, reprise) ;
+- **classification instruction-vs-donnée multi-source** (extension de
+  `prompt-injection-classify`) ;
+- **query rewriting** déterministe ;
+- éventuellement un **routage** (question simple/complexe/hors-sujet → traitement).
+Relier ces exercices via `practiceRefs` à `agent-workflows-orchestration`,
+`prompt-engineering`, `prompt-injection-defense`, et les passer `critical`. NE PAS simuler de
+LLM ni de console d'agent : uniquement le raisonnement déterministe.
+
+**Objectif secondaire V32 :** (A) résorber les warnings `concept-not-practiced` restants du
+Curriculum Graph ; (B) étendre la suite adverse (prompt injection) en cas rejouables ; (C)
+étudier honnêtement un runtime SQLite/DuckDB pour la pratique data réelle (décision ADR-030
+différée) — décider Option A (statu quo) ou B (runtime réel), documenter.
+
+**Contraintes d'architecture (inchangées)** : local, mono-utilisateur, sans auth/SaaS/réseau.
+Pas de second moteur / catalogue / curriculum / runtime. Réutiliser `lib/curriculum-graph.mjs`
+comme AUDITEUR (jamais comme source de vérité). `progress.json` sauvegardé puis restauré
+(gitignoré, jamais committé). Aucun secret réel, aucune fuite de solution/test privé. Pas de
+librairie UI, pas de refonte globale.
+
+**Gates** : garder `v26→v31:check` **actifs**. Nouveau contrat structurel → `v32:check` ciblé
+et testé. Attention aux faux positifs du scan d'authoring (`à compléter`, `TODO`, `XXX`/`useXxx`)
+dans la prose — reformuler la prose, jamais affaiblir le gate.
+
+**Checkpoints atomiques** CP0→CP11 (audit → design ADR/HSD/TSD → implémentation → tests → tsc →
+build → validation navigateur → restauration progress.json → cleanup → commit → push), un commit
+par CP.
+
+**CP11 (obligatoire, quality gate pédagogique)** : ré-audit (A) leçons/exercices V32, (B)
+échantillon V29–V31, (C) anciennes non modifiées de plusieurs époques, (D) walkthroughs néophyte
+d'au moins deux séquences (dont une chaîne agent complète) ; matrice P0→P3 dans
+`docs/PEDAGOGICAL-AUDIT-V32.md` ; faire tourner l'audit du Curriculum Graph et confirmer zéro
+anomalie bloquante ; append du **prompt V33** à la fin de `SPRINT-V32.md` **sans démarrer V33**.
+
+**Critères de refus** : remplissage, généralités, jargon non introduit, fausse profondeur,
+gonflage de scores, longueur prise pour de la qualité, fausse exécution IA présentée comme
+réelle, leçon/exercice créé sans besoin réel.
+
+**Livrable final** : `docs/SPRINT-V32.md` (rapport complet) + synthèse française distinguant ce
+qui **existait / a été ajouté / corrigé / testé / non testé / simulé / insuffisant**, chiffres
+avant/après, dette restante P0/P1/P2, HEAD final et état Git.
+
+**Commence maintenant par CP0. N'implémente absolument rien avant d'avoir présenté le rapport
+d'audit CP0.**

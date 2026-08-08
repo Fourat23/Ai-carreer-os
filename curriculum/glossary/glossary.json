@@ -17500,5 +17500,471 @@
     "tags": [
       "sécurité"
     ]
+  },
+  {
+    "id": "ai-cosine-similarity",
+    "term": "cosine similarity",
+    "fullForm": null,
+    "frenchMeaning": "similarité cosinus (proximité par ORIENTATION de deux vecteurs)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Mesure à quel point deux vecteurs pointent dans la même DIRECTION (de -1 à 1), indépendamment de leur longueur.",
+    "detailedDefinition": "Intuition d'abord : deux embeddings sont proches par le SENS s'ils pointent dans la même direction, même si l'un est « plus long » que l'autre. La similarité cosinus capte cette orientation : 1 = même direction (sens très proche), 0 = perpendiculaire (sans rapport), -1 = opposé. Formellement, c'est le produit scalaire divisé par le produit des normes — la division par les normes est justement ce qui neutralise la magnitude. C'est la mesure de proximité par défaut en recherche sémantique et RAG.",
+    "usageContext": "Recherche sémantique, RAG, classement des chunks par proximité à la question.",
+    "meetingExample": "« On classe les passages par similarité cosinus avec la question, puis on garde le top-k. »",
+    "plainTranslation": "« Regarder si deux textes “pointent dans la même direction” de sens, sans se soucier de leur taille. »",
+    "relatedTerms": [
+      "ai-embedding",
+      "ai-top-k",
+      "ai-semantic-search"
+    ],
+    "aliases": [
+      "similarité cosinus",
+      "cosinus"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "recherche"
+    ]
+  },
+  {
+    "id": "ai-chunk",
+    "term": "chunk",
+    "fullForm": null,
+    "frenchMeaning": "morceau de texte découpé pour l'indexation (avec recouvrement éventuel)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Un fragment de document, de taille maîtrisée, unité de base indexée puis récupérée dans un RAG.",
+    "detailedDefinition": "On ne peut pas donner un document entier à un modèle : on le découpe en chunks. Chaque chunk est transformé en embedding et indexé. Deux pièges : trop gros, le chunk noie l'information ; trop petit, il perd le contexte. Le RECOUVREMENT (overlap) fait se chevaucher les chunks de quelques phrases pour éviter de couper une idée pile à la frontière. La stratégie de découpage (par taille, par titre, par phrase) influence fortement la qualité du retrieval.",
+    "usageContext": "Préparation de corpus pour un RAG, indexation, réglage taille/recouvrement.",
+    "meetingExample": "« On passe à un chunking par section avec 15 % de recouvrement, le rappel s'améliore. »",
+    "plainTranslation": "« Couper un document en petits morceaux qui se chevauchent un peu, pour pouvoir les retrouver. »",
+    "relatedTerms": [
+      "ai-embedding",
+      "ai-rag",
+      "ai-vector-db"
+    ],
+    "aliases": [
+      "chunking",
+      "découpage",
+      "recouvrement",
+      "overlap"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag"
+    ]
+  },
+  {
+    "id": "ai-top-k",
+    "term": "top-k",
+    "fullForm": null,
+    "frenchMeaning": "les k meilleurs résultats (ex. les k passages les plus proches)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "La sélection des k éléments les mieux classés d'une recherche, k étant un petit nombre choisi.",
+    "detailedDefinition": "Après avoir classé des candidats par pertinence (ex. par similarité cosinus), on ne garde que les k premiers : c'est le top-k. Choisir k est un compromis : trop petit, on risque de rater le bon passage ; trop grand, on noie le modèle sous du bruit et on paie plus cher. On mesure d'ailleurs le retrieval par « le bon passage est-il dans le top-k ? » (rappel@k).",
+    "usageContext": "Retrieval RAG, recommandation, tout classement où l'on ne garde que les meilleurs.",
+    "meetingExample": "« On récupère le top-20, on reranke, on ne garde que le top-5 pour la génération. »",
+    "plainTranslation": "« Ne garder que les quelques meilleurs résultats, pas toute la liste. »",
+    "relatedTerms": [
+      "ai-cosine-similarity",
+      "ai-recall-at-k",
+      "ai-reranking"
+    ],
+    "aliases": [
+      "top k",
+      "top-K"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "recherche"
+    ]
+  },
+  {
+    "id": "ai-ann",
+    "term": "ANN",
+    "fullForm": "Approximate Nearest Neighbor",
+    "frenchMeaning": "recherche approchée des plus proches voisins (index vectoriel)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Algorithme qui trouve TRÈS vite des vecteurs proches d'une requête, en acceptant une petite marge d'erreur pour gagner en vitesse.",
+    "detailedDefinition": "Comparer une requête à des millions de vecteurs un par un (recherche exacte) est trop lent. Un index ANN (ex. HNSW, IVF) organise les vecteurs pour répondre en millisecondes, au prix d'un résultat « approché » : il peut manquer rarement un voisin. C'est le moteur d'une base de données vectorielle. Le réglage arbitre vitesse ↔ exactitude (rappel).",
+    "usageContext": "Bases vectorielles, recherche sémantique à grande échelle.",
+    "meetingExample": "« Avec un index HNSW, la recherche ANN sur 2M de vecteurs répond en <10 ms. »",
+    "plainTranslation": "« Retrouver très vite les vecteurs proches, quitte à en rater un de temps en temps. »",
+    "relatedTerms": [
+      "ai-vector-db",
+      "ai-embedding",
+      "ai-cosine-similarity"
+    ],
+    "aliases": [
+      "approximate nearest neighbor",
+      "index vectoriel",
+      "plus proches voisins approchés"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "performance"
+    ]
+  },
+  {
+    "id": "ai-semantic-search",
+    "term": "semantic search",
+    "fullForm": null,
+    "frenchMeaning": "recherche sémantique (par le sens, via embeddings)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Rechercher par le SENS plutôt que par les mots exacts, en comparant des embeddings.",
+    "detailedDefinition": "La recherche sémantique trouve des passages dont la SIGNIFICATION est proche de la question, même sans mots communs (« voiture » trouve « automobile »). Elle repose sur les embeddings et une mesure de proximité (cosinus). Sa limite : elle peut RATER un terme exact rare (une référence, un code) — d'où la complémentarité avec la recherche lexicale.",
+    "usageContext": "RAG, moteurs de recherche internes, FAQ intelligentes.",
+    "meetingExample": "« La recherche sémantique ramène les bons paragraphes même quand l'utilisateur reformule. »",
+    "plainTranslation": "« Chercher par le sens des mots, pas seulement par les mots eux-mêmes. »",
+    "relatedTerms": [
+      "ai-embedding",
+      "ai-lexical-search",
+      "ai-hybrid-search"
+    ],
+    "aliases": [
+      "recherche sémantique"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "recherche"
+    ]
+  },
+  {
+    "id": "ai-lexical-search",
+    "term": "lexical search",
+    "fullForm": null,
+    "frenchMeaning": "recherche lexicale (par mots exacts, ex. BM25)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Rechercher par les MOTS présents dans le texte (correspondance de termes), typiquement avec BM25.",
+    "detailedDefinition": "La recherche lexicale trouve les documents contenant les mots de la requête, pondérés par leur importance (BM25 favorise les termes rares et pénalise les documents très longs). Elle excelle sur les termes EXACTS — codes d'erreur, noms propres, références — que la recherche sémantique rate parfois. Sa limite : elle ignore les synonymes et reformulations. D'où l'intérêt de la combiner en recherche hybride.",
+    "usageContext": "Moteurs plein-texte (SQLite FTS5, Elasticsearch), volet lexical d'un RAG hybride.",
+    "meetingExample": "« La recherche lexicale (BM25) retrouve le code “ORA-00942” que le vectoriel ratait. »",
+    "plainTranslation": "« Chercher les documents qui contiennent exactement les mots demandés. »",
+    "relatedTerms": [
+      "ai-semantic-search",
+      "ai-hybrid-search",
+      "ai-rrf"
+    ],
+    "aliases": [
+      "recherche lexicale",
+      "BM25",
+      "recherche plein-texte"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "recherche"
+    ]
+  },
+  {
+    "id": "ai-hybrid-search",
+    "term": "hybrid search",
+    "fullForm": null,
+    "frenchMeaning": "recherche hybride (sémantique + lexicale, scores fusionnés)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Combiner recherche sémantique (sens) et lexicale (mots exacts) puis fusionner leurs classements.",
+    "detailedDefinition": "Aucune méthode seule ne suffit : le sémantique attrape les reformulations, le lexical attrape les termes exacts. La recherche hybride lance les deux et FUSIONNE les résultats (souvent par RRF) pour récupérer le meilleur des deux mondes. C'est l'un des leviers les plus rentables pour améliorer le rappel d'un RAG.",
+    "usageContext": "RAG de production, moteurs de recherche modernes.",
+    "meetingExample": "« On passe en recherche hybride : +6 points de rappel@5 sans toucher au modèle. »",
+    "plainTranslation": "« Chercher à la fois par le sens ET par les mots exacts, puis mélanger les deux listes. »",
+    "relatedTerms": [
+      "ai-semantic-search",
+      "ai-lexical-search",
+      "ai-rrf"
+    ],
+    "aliases": [
+      "recherche hybride"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "recherche"
+    ]
+  },
+  {
+    "id": "ai-rrf",
+    "term": "RRF",
+    "fullForm": "Reciprocal Rank Fusion",
+    "frenchMeaning": "fusion par rang réciproque (combiner plusieurs classements)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Méthode simple pour fusionner plusieurs listes classées : chaque doc marque 1/(K+rang) dans chaque liste, on somme.",
+    "detailedDefinition": "RRF fusionne des classements SANS avoir à comparer leurs scores bruts (qui sont sur des échelles différentes). Chaque document reçoit, dans chaque liste, un score 1/(K+rang) — bien classé partout = score élevé. On somme sur toutes les listes et on retrie. Un document présent en bonne place dans PLUSIEURS listes remonte : c'est exactement ce qu'on veut pour la recherche hybride. K (souvent 60) amortit l'influence des tout premiers rangs.",
+    "usageContext": "Fusion vectoriel+lexical d'un RAG hybride, agrégation de plusieurs moteurs.",
+    "meetingExample": "« On fusionne les deux classements par RRF ; un passage fort dans les deux listes passe devant. »",
+    "plainTranslation": "« Mélanger plusieurs classements en donnant plus de points à ce qui est bien placé partout. »",
+    "relatedTerms": [
+      "ai-hybrid-search",
+      "ai-top-k",
+      "ai-reranking"
+    ],
+    "aliases": [
+      "reciprocal rank fusion",
+      "fusion de rangs"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "recherche"
+    ]
+  },
+  {
+    "id": "ai-groundedness",
+    "term": "groundedness",
+    "fullForm": null,
+    "frenchMeaning": "fidélité aux sources (la réponse s'appuie-t-elle sur les extraits ?)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Degré auquel une réponse générée est réellement fondée sur les documents fournis, sans invention.",
+    "detailedDefinition": "Dans un RAG, une réponse peut être fluide mais INVENTÉE. La fidélité (groundedness / faithfulness) mesure si chaque affirmation s'appuie sur les extraits récupérés. On l'évalue avec un juge (LLM-as-judge calibré) ou par vérification de citations (l'affirmation figure-t-elle dans la source citée ?). Une réponse peu fidèle est le symptôme classique d'une hallucination — à distinguer d'un problème de retrieval (le bon passage n'était pas là).",
+    "usageContext": "Évaluation RAG, garde-fous anti-hallucination, vérification de citations.",
+    "meetingExample": "« Fidélité à 91 % (juge calibré) : 9 % des réponses citent une source qui ne les soutient pas. »",
+    "plainTranslation": "« Vérifier que la réponse dit vraiment ce qui est dans les documents, sans rien inventer. »",
+    "relatedTerms": [
+      "ai-grounding",
+      "ai-hallucination",
+      "ai-golden-set"
+    ],
+    "aliases": [
+      "fidélité",
+      "faithfulness"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "évaluation"
+    ]
+  },
+  {
+    "id": "ai-golden-set",
+    "term": "golden set",
+    "fullForm": null,
+    "frenchMeaning": "jeu d'évaluation de référence (questions + réponses attendues)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Un ensemble soigné de cas de test (question → réponse/chunk attendu) qui sert de vérité pour mesurer un système IA.",
+    "detailedDefinition": "Sans golden set, on « améliore » à l'aveugle. C'est un jeu de 30-50 cas représentatifs : questions factuelles, multi-passages, pièges lexicaux, ET cas SANS réponse dans le corpus (pour tester le refus). Chaque cas porte la réponse attendue et, pour un RAG, l'identifiant du chunk correct. Il est VIVANT : chaque échec réel devient un nouveau cas. C'est le fondement de toute mesure honnête (rappel@k, fidélité).",
+    "usageContext": "Évaluation RAG et LLM, non-régression, comparaison de versions.",
+    "meetingExample": "« Chaque incident client devient un cas du golden set : on ne rejoue plus jamais le même bug. »",
+    "plainTranslation": "« Une liste de questions dont on connaît la bonne réponse, pour noter le système objectivement. »",
+    "relatedTerms": [
+      "ai-recall-at-k",
+      "ai-groundedness",
+      "ai-precision"
+    ],
+    "aliases": [
+      "eval dataset",
+      "jeu d'évaluation",
+      "jeu doré"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "évaluation",
+      "rag"
+    ]
+  },
+  {
+    "id": "ai-recall-at-k",
+    "term": "rappel@k",
+    "fullForm": null,
+    "frenchMeaning": "recall@k — le bon passage est-il dans les k premiers résultats ?",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Proportion de cas où le bon document se trouve dans le top-k du retrieval.",
+    "detailedDefinition": "Le rappel@k mesure le RETRIEVAL, pas la génération : sur le golden set, dans combien de cas le chunk correct est-il dans les k premiers ramenés ? Rapide, programmatique, gratuit (aucun LLM) — c'est la métrique au meilleur rendement d'un RAG, car 80 % des échecs se diagnostiquent là. Un rappel@5 faible signale qu'il faut corriger le retrieval (chunking, hybride, reranking) AVANT de blâmer le modèle.",
+    "usageContext": "Évaluation de l'étage retrieval, ablation, réglage du chunking.",
+    "meetingExample": "« Rappel@5 = 84 % : dans 16 % des cas, le bon passage n'est même pas récupéré. »",
+    "plainTranslation": "« Sur 100 questions, combien de fois le bon passage est-il dans les 5 premiers trouvés ? »",
+    "relatedTerms": [
+      "ai-top-k",
+      "ai-golden-set",
+      "ai-recall"
+    ],
+    "aliases": [
+      "recall@k",
+      "recall at k"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "évaluation"
+    ]
+  },
+  {
+    "id": "ai-agent-loop",
+    "term": "agent loop",
+    "fullForm": null,
+    "frenchMeaning": "boucle d'agent (décider → agir → observer, répétée)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Le cycle par lequel un agent LLM raisonne, appelle un outil, observe le résultat, et recommence jusqu'à la réponse.",
+    "detailedDefinition": "Un agent ne répond pas d'un coup : il BOUCLE. À chaque tour, le modèle décide (répondre ou appeler un outil), ton code exécute l'outil, le résultat revient dans le contexte, et le modèle poursuit. Cette boucle DOIT être bornée (budget d'itérations) sous peine de tourner à l'infini et de coûter cher. Elle doit aussi être tracée (quel outil, quel argument, quel résultat) pour être débogable.",
+    "usageContext": "Agents, orchestration, function calling.",
+    "meetingExample": "« La boucle d'agent est plafonnée à 5 itérations, sinon on renvoie une réponse partielle. »",
+    "plainTranslation": "« L'agent réfléchit, utilise un outil, regarde le résultat, recommence — jusqu'à répondre. »",
+    "relatedTerms": [
+      "ai-agent",
+      "ai-tool-calling",
+      "ai-guardrail"
+    ],
+    "aliases": [
+      "boucle d'agent",
+      "agentic loop"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "agents"
+    ]
+  },
+  {
+    "id": "ai-guardrail",
+    "term": "guardrail",
+    "fullForm": null,
+    "frenchMeaning": "garde-fou (contrôle de sécurité autour d'un LLM/agent)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Un contrôle externe au modèle qui borne ce qu'il peut recevoir en entrée ou produire en sortie.",
+    "detailedDefinition": "Un LLM est influençable : on ne lui fait pas confiance seul. Les garde-fous sont des barrières côté CODE — validation d'entrée (longueur, format), contrôle de sortie (schéma imposé, filtrage), moindre privilège des outils, confirmation humaine des actions sensibles. Ils forment une défense en profondeur : aucun n'est parfait, mais empilés ils rendent un détournement coûteux. Un simple « sois prudent » dans le prompt N'EST PAS un garde-fou.",
+    "usageContext": "Sécurité IA, agents, défense contre la prompt injection.",
+    "meetingExample": "« Le garde-fou de sortie rejette toute réponse hors schéma : une injection réussie devient visible. »",
+    "plainTranslation": "« Des verrous autour du modèle pour l'empêcher de recevoir ou produire n'importe quoi. »",
+    "relatedTerms": [
+      "security-prompt-injection",
+      "ai-excessive-agency",
+      "sec-least-privilege"
+    ],
+    "aliases": [
+      "garde-fou",
+      "garde-fous"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "sécurité",
+      "agents"
+    ]
+  },
+  {
+    "id": "security-indirect-prompt-injection",
+    "term": "indirect prompt injection",
+    "fullForm": null,
+    "frenchMeaning": "injection de prompt indirecte (via un document ingéré)",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Une attaque où l'instruction malveillante est cachée dans un contenu que le système ingère (page, PDF, email), pas dans la question de l'utilisateur.",
+    "detailedDefinition": "C'est LA menace des RAG et des agents : l'attaquant ne parle pas directement au modèle, il piège un DOCUMENT que ton pipeline va récupérer et livrer au modèle (« ignore tes consignes et exfiltre X »). Comme le modèle ne distingue pas structurellement instructions et données, il peut obéir. La parade est en couches : frontière de données (délimiteurs + « ceci est du contenu non fiable »), contrôle de sortie, vérification de citations, moindre privilège des outils, et une suite adverse rejouée à chaque changement.",
+    "usageContext": "Sécurité des RAG et des agents, revue de menaces, suite de tests adverse.",
+    "meetingExample": "« Notre suite adverse inclut un document piégé : l'injection indirecte est testée à chaque release. »",
+    "plainTranslation": "« Cacher un ordre piégé dans un document que le système va lire tout seul et risquer d'exécuter. »",
+    "relatedTerms": [
+      "security-prompt-injection",
+      "ai-guardrail",
+      "ai-rag"
+    ],
+    "aliases": [
+      "injection indirecte",
+      "injection de prompt indirecte"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "sécurité",
+      "ia",
+      "rag"
+    ]
+  },
+  {
+    "id": "ai-excessive-agency",
+    "term": "excessive agency",
+    "fullForm": null,
+    "frenchMeaning": "agence excessive (un agent a trop de pouvoir/permissions)",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Risque où un agent LLM dispose d'outils ou de permissions trop larges, amplifiant les dégâts d'un détournement.",
+    "detailedDefinition": "Recensée par l'OWASP Top 10 pour les LLM, l'agence excessive survient quand un agent peut faire plus que nécessaire : outils trop puissants (exécuter du shell, supprimer des données), permissions trop larges, actions irréversibles sans confirmation. Si l'agent est détourné (ex. par injection), les conséquences sont proportionnelles à ce qu'il POUVAIT faire. La parade : moindre privilège strict, outils étroits et ciblés, et validation humaine des actions sensibles.",
+    "usageContext": "Sécurité des agents, conception d'outils, revue de permissions.",
+    "meetingExample": "« On retire l'outil “supprimer” à l'agent : agence excessive évitée, il propose, un humain valide. »",
+    "plainTranslation": "« Donner trop de pouvoir à un agent : s'il déraille, il peut faire beaucoup de dégâts. »",
+    "relatedTerms": [
+      "ai-guardrail",
+      "sec-least-privilege",
+      "security-indirect-prompt-injection"
+    ],
+    "aliases": [
+      "agence excessive",
+      "pouvoir excessif"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "sécurité",
+      "ia",
+      "agents"
+    ]
+  },
+  {
+    "id": "ai-human-in-the-loop",
+    "term": "human-in-the-loop",
+    "fullForm": null,
+    "frenchMeaning": "humain dans la boucle (validation humaine d'une action IA)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Concevoir un système IA pour qu'un humain valide les décisions ou actions sensibles avant leur exécution.",
+    "detailedDefinition": "Plutôt que de laisser un agent agir seul sur des opérations risquées ou irréversibles, on insère un point de validation humain : le système PROPOSE, l'humain APPROUVE. C'est un garde-fou essentiel face au non-déterminisme et aux détournements : il borne le pire cas. Le compromis est l'autonomie (plus de contrôle = moins d'automatisation) ; on le réserve donc aux actions à fort enjeu.",
+    "usageContext": "Agents, automatisation d'actions sensibles, conformité.",
+    "meetingExample": "« Pour tout envoi client, human-in-the-loop : l'agent rédige, un humain relit et envoie. »",
+    "plainTranslation": "« Faire valider par un humain les actions importantes que l'IA propose, avant de les exécuter. »",
+    "relatedTerms": [
+      "ai-guardrail",
+      "ai-excessive-agency",
+      "ai-agent"
+    ],
+    "aliases": [
+      "humain dans la boucle",
+      "HITL",
+      "validation humaine"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "agents",
+      "sécurité"
+    ]
   }
 ]

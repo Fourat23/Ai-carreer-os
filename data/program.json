@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T14:36:11.257Z",
+  "generatedAt": "2026-08-08T14:40:30.578Z",
   "skills": [
     {
       "id": "algo",
@@ -6199,6 +6199,10 @@
         {
           "kind": "exercise",
           "id": "react-search"
+        },
+        {
+          "kind": "playbook",
+          "id": "frontend-regression"
         }
       ]
     },
@@ -6292,6 +6296,10 @@
         {
           "kind": "exercise",
           "id": "perf-pair-count"
+        },
+        {
+          "kind": "playbook",
+          "id": "slow-sql-query"
         }
       ]
     },
@@ -6497,6 +6505,10 @@
         {
           "kind": "exercise",
           "id": "breaking-change-classify"
+        },
+        {
+          "kind": "playbook",
+          "id": "breaking-api-change"
         }
       ]
     },

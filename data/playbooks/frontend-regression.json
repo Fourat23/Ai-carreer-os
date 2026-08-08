@@ -1,0 +1,69 @@
+{
+  "id": "frontend-regression",
+  "situation": "Une modification React a cassé une autre partie de l'interface",
+  "domain": "incident",
+  "severityHint": "SEV2 si parcours clé cassé ; SEV3 si écran secondaire",
+  "dayRefs": [92],
+  "relatedGlossary": ["reg-regression", "reg-non-regression-test", "prod-rollback", "prod-incident"],
+  "symptoms": [
+    "Un écran qui marchait affiche des données périmées, vides, ou ne réagit plus.",
+    "La console montre des avertissements React (dépendances d'effet, keys) ou des erreurs de rendu.",
+    "Le bug apparaît sur un composant qu'on n'a pas touché directement (état partagé, prop modifiée)."
+  ],
+  "firstChecks": [
+    "Quel changement récent (PR/commit) précède la régression ? Le diff est le premier suspect.",
+    "Le bug vient-il d'un état mal placé (dérivé stocké, source de vérité dupliquée) ?",
+    "Un effet a-t-il des dépendances fausses (ne rejoue pas / boucle), ou une key instable ?"
+  ],
+  "containment": [
+    "Si un parcours clé est cassé, revenir à la version précédente (rollback) pendant l'investigation.",
+    "Isoler le composant fautif en reproduisant le bug sur un cas minimal."
+  ],
+  "recommendedOrder": [
+    "Reproduire",
+    "identifier le changement en cause",
+    "diagnostiquer (état / effet / props / key)",
+    "corriger",
+    "ajouter un test de non-régression",
+    "revalider"
+  ],
+  "communication": [
+    "Signaler l'écran impacté et si un contournement existe pour les utilisateurs.",
+    "Indiquer si un rollback temporaire a été fait."
+  ],
+  "evidence": [
+    "Capturer les avertissements/erreurs console et l'état React au moment du bug.",
+    "Conserver le cas de reproduction minimal."
+  ],
+  "doNot": [
+    "Ne pas ajouter des useEffect/useMemo au hasard pour « faire disparaître » le symptôme.",
+    "Ne pas muter l'état directement pour forcer un affichage (masque la cause, casse ailleurs)."
+  ],
+  "mitigation": [
+    "Rollback du déploiement frontend ou coupure via feature flag si la fonctionnalité est isolable."
+  ],
+  "correction": [
+    "Corriger la vraie cause : replacer l'état au bon niveau, dériver au lieu de stocker, corriger les dépendances d'effet ou la key.",
+    "Rendre l'affectation immuable si une mutation de référence empêchait le re-rendu."
+  ],
+  "validation": [
+    "Vérifier l'écran cassé ET l'écran d'origine du changement (pas de nouvelle régression).",
+    "Zéro avertissement console ; le cas de reproduction minimal passe."
+  ],
+  "delivery": [
+    "Redéployer après validation ; réactiver le flag si utilisé."
+  ],
+  "monitoring": [
+    "Surveiller les erreurs front (journalisation client) et les retours utilisateurs sur l'écran touché."
+  ],
+  "documentation": [
+    "Noter la cause (état/effet/props/key), la correction et le test de non-régression ajouté."
+  ],
+  "prevention": [
+    "Tester les composants par leur comportement observable (rôle + nom accessible), pas leur implémentation.",
+    "Préférer l'état dérivé au rendu et l'immutabilité pour éviter les régressions par référence partagée."
+  ],
+  "exitCriteria": [
+    "Écran réparé sans nouvelle régression, test de non-régression en place, cause documentée."
+  ]
+}

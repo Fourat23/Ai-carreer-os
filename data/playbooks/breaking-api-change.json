@@ -1,0 +1,69 @@
+{
+  "id": "breaking-api-change",
+  "situation": "Un changement d'API a cassé des consommateurs existants",
+  "domain": "deployment",
+  "severityHint": "SEV1 si des clients externes sont impactés ; SEV2 en interne",
+  "dayRefs": [66],
+  "relatedGlossary": ["arch-deprecation", "arch-deprecation-policy", "migration-expand-contract", "reg-roll-forward", "prod-rollback"],
+  "symptoms": [
+    "Après une mise à jour d'API, des applications appelantes échouent (4xx/5xx, champs manquants).",
+    "Un client lit un champ renommé/supprimé, ou envoie un paramètre devenu invalide.",
+    "Le problème touche des consommateurs qu'on ne maîtrise pas forcément (autres équipes, externes)."
+  ],
+  "firstChecks": [
+    "Quel changement de contrat a été livré (champ renommé/supprimé, paramètre rendu obligatoire, type modifié) ?",
+    "Le changement était-il cassant (breaking) ou aurait-il dû être additif ?",
+    "Quels consommateurs sont impactés et depuis quand (corréler avec le déploiement) ?"
+  ],
+  "containment": [
+    "Rétablir la compatibilité au plus vite : rollback de l'API OU rétablir l'ancien champ/paramètre en parallèle du nouveau.",
+    "Communiquer un contournement immédiat aux équipes appelantes si le rollback prend du temps."
+  ],
+  "recommendedOrder": [
+    "Identifier le changement cassant",
+    "rétablir la compatibilité (rollback ou double forme)",
+    "prévenir les consommateurs",
+    "planifier une évolution compatible",
+    "déprécier proprement",
+    "retirer plus tard"
+  ],
+  "communication": [
+    "Prévenir immédiatement les équipes/consommateurs impactés avec le contournement.",
+    "Annoncer le plan : rétablissement, puis migration compatible et calendrier de dépréciation."
+  ],
+  "evidence": [
+    "Conserver l'ancien et le nouveau contrat (diff), et les erreurs observées côté consommateurs.",
+    "Lister précisément les consommateurs touchés."
+  ],
+  "doNot": [
+    "Ne pas demander à tous les consommateurs de « corriger en urgence » un changement cassant qu'on a imposé.",
+    "Ne pas retirer l'ancienne forme sans période de dépréciation ni entrée de changelog."
+  ],
+  "mitigation": [
+    "Servir l'ancien ET le nouveau contrat en parallèle (expand) le temps que les consommateurs migrent."
+  ],
+  "correction": [
+    "Refaire l'évolution de façon compatible : ajouter la nouvelle forme sans casser l'ancienne.",
+    "Mettre en place le cycle de dépréciation (introduire → déprécier → laisser migrer → retirer en version majeure)."
+  ],
+  "validation": [
+    "Vérifier que les anciens ET les nouveaux consommateurs fonctionnent.",
+    "Contrôler que le changelog documente clairement le changement et la dépréciation."
+  ],
+  "delivery": [
+    "Livrer la version compatible ; annoncer la dépréciation et la date de retrait de l'ancienne forme."
+  ],
+  "monitoring": [
+    "Surveiller l'usage de l'ancienne forme (pour savoir quand elle peut être retirée) et les erreurs des consommateurs."
+  ],
+  "documentation": [
+    "Post-mortem : quel changement cassant, quels consommateurs, correction, et politique de compatibilité renforcée."
+  ],
+  "prevention": [
+    "Distinguer systématiquement changement compatible vs cassant AVANT de livrer (revue de contrat).",
+    "Versionnement sémantique + expand/contract + changelog pour toute évolution d'API."
+  ],
+  "exitCriteria": [
+    "Tous les consommateurs fonctionnent, évolution rendue compatible, dépréciation planifiée et documentée."
+  ]
+}

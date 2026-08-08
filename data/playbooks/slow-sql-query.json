@@ -1,0 +1,69 @@
+{
+  "id": "slow-sql-query",
+  "situation": "Une requête base de données est devenue très lente en production",
+  "domain": "data",
+  "severityHint": "SEV2 si dégradation générale ; SEV3 si écran isolé",
+  "dayRefs": [85],
+  "relatedGlossary": ["db-index", "prod-latency", "prod-percentile", "prod-incident"],
+  "symptoms": [
+    "Une page ou un endpoint qui répondait vite met désormais plusieurs secondes.",
+    "La lenteur s'aggrave avec la croissance des données (invisible en dev, forte en prod).",
+    "Le CPU/les I/O de la base montent ; d'autres requêtes ralentissent par contention."
+  ],
+  "firstChecks": [
+    "Quelle requête exactement est lente ? Isoler par les logs de requêtes lentes.",
+    "Demander le PLAN d'exécution (EXPLAIN) : parcours complet de table ou usage d'index ?",
+    "Est-ce un N+1 (une requête par élément d'une liste) plutôt qu'une seule requête lente ?"
+  ],
+  "containment": [
+    "Limiter l'impact : réduire la pagination profonde, poser un cache court sur la lecture chaude.",
+    "Si une requête sature la base, la couper/limiter en débit le temps du diagnostic."
+  ],
+  "recommendedOrder": [
+    "Identifier la requête",
+    "lire le plan d'exécution",
+    "diagnostiquer (index manquant / N+1 / OFFSET géant)",
+    "corriger de façon ciblée",
+    "re-mesurer"
+  ],
+  "communication": [
+    "Prévenir que l'origine est identifiée comme une requête et non une panne globale.",
+    "Donner une estimation : correctif d'index rapide vs refonte de requête plus longue."
+  ],
+  "evidence": [
+    "Conserver le plan d'exécution AVANT correction et le temps mesuré.",
+    "Noter les volumes réels (nombre de lignes) qui ont révélé le problème."
+  ],
+  "doNot": [
+    "Ne pas poser des index au hasard sur toutes les colonnes (écritures ralenties).",
+    "Ne pas « optimiser » sans avoir lu le plan d'exécution (deviner fait perdre du temps)."
+  ],
+  "mitigation": [
+    "Cache de lecture temporaire sur la donnée chaude en attendant le correctif.",
+    "Basculer une pagination par OFFSET géant vers un curseur si c'est la cause."
+  ],
+  "correction": [
+    "Ajouter l'index qui sert le filtre/la jointure/le tri révélé par le plan.",
+    "Corriger un N+1 en chargeant les données liées en une requête groupée (JOIN ou IN)."
+  ],
+  "validation": [
+    "Re-demander le plan : il doit montrer un usage d'index (plus de parcours complet).",
+    "Re-mesurer le temps sur les volumes réels ; comparer avant/après."
+  ],
+  "delivery": [
+    "Déployer l'index/la correction via une migration compatible (création d'index non bloquante si possible)."
+  ],
+  "monitoring": [
+    "Surveiller la latence p95/p99 de l'endpoint et le temps de la requête après correction."
+  ],
+  "documentation": [
+    "Noter la cause (index manquant, N+1, OFFSET), la correction et le gain mesuré."
+  ],
+  "prevention": [
+    "Tester les requêtes sur des volumes réalistes, pas seulement sur des données de dev.",
+    "Revue systématique : toute requête sur une grande table filtrée doit pouvoir utiliser un index."
+  ],
+  "exitCriteria": [
+    "Plan d'exécution sain, latence revenue à la normale sur volumes réels, cause documentée."
+  ]
+}

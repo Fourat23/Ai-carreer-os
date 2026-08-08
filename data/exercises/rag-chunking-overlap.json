@@ -1,0 +1,25 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "rag-chunking-overlap",
+  "title": "RAG : découper un texte en chunks avec recouvrement",
+  "difficulty": 2,
+  "summary": "chunkWindows({length, size, overlap}) renvoie les fenêtres [début, fin] qui découpent un texte de `length` caractères en morceaux de `size`, chaque fenêtre chevauchant la précédente de `overlap` caractères (le pas est size - overlap). SIMULATION : on raisonne sur des positions entières, pas sur du vrai texte tokenisé — le point clé est que le recouvrement évite de couper une idée en deux à la frontière d'un chunk.",
+  "skills": ["arrays", "loops", "functions", "algo"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Découpe un texte de `length` caractères en fenêtres [début, fin].\n// TODO : le pas doit être (size - overlap), pas `size` — sinon aucun\n//        recouvrement, et une idée à cheval sur deux chunks est perdue.\nexport function chunkWindows({ length, size, overlap }) {\n  const out = [];\n  for (let start = 0; start < length; start += size) {\n    out.push([start, Math.min(start + size, length)]);\n  }\n  return out;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function chunkWindows({ length, size, overlap }) {\n  const step = Math.max(1, size - overlap);\n  const out = [];\n  let start = 0;\n  while (start < length) {\n    const end = Math.min(start + size, length);\n    out.push([start, end]);\n    if (end === length) break;\n    start += step;\n  }\n  return out;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "recouvrement de 1 : les fenêtres se chevauchent (pas = 3)", "kind": "call-equals", "export": "chunkWindows", "args": [{ "length": 10, "size": 4, "overlap": 1 }], "expected": [[0, 4], [3, 7], [6, 10]] },
+    { "id": "t2", "name": "sans recouvrement : découpage adjacent", "kind": "call-equals", "export": "chunkWindows", "args": [{ "length": 8, "size": 4, "overlap": 0 }], "expected": [[0, 4], [4, 8]] },
+    { "id": "t3", "name": "texte plus court qu'un chunk : une seule fenêtre", "kind": "call-equals", "export": "chunkWindows", "args": [{ "length": 3, "size": 5, "overlap": 2 }], "expected": [[0, 3]], "private": true },
+    { "id": "t4", "name": "recouvrement de 2 sur un texte plus long", "kind": "call-equals", "export": "chunkWindows", "args": [{ "length": 12, "size": 5, "overlap": 2 }], "expected": [[0, 5], [3, 8], [6, 11], [9, 12]], "private": true }
+  ]
+}

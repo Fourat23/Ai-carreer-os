@@ -1,0 +1,25 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "rag-structured-validate",
+  "title": "Sorties structurées : valider un JSON de LLM (ne jamais faire confiance)",
+  "difficulty": 2,
+  "summary": "validateExtraction(obj) vérifie une sortie censée être {amount:number>0, currency: 'EUR'|'USD'|'GBP'}. Le piège central des sorties LLM : le modèle renvoie souvent le bon CHAMP mais le mauvais TYPE (amount = \"42\" en texte) ou une valeur hors-liste. On renvoie 'invalid:amount', 'invalid:currency', ou 'valid'. SIMULATION : l'objet est déjà parsé ; on code la VALIDATION côté programme, la ligne de défense qu'un 'réponds en JSON' ne remplace jamais.",
+  "skills": ["conditions", "objects", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Valide une sortie structurée de LLM AVANT que le code s'en serve.\n// TODO : tester la simple PRÉSENCE (truthy) laisse passer amount = \"42\"\n//        (une chaîne, pas un nombre) et une devise inventée. Il faut vérifier\n//        le TYPE de amount et que currency est dans la liste autorisée.\nexport function validateExtraction(obj) {\n  return obj.amount && obj.currency ? 'valid' : 'invalid:amount';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function validateExtraction(obj) {\n  if (typeof obj.amount !== 'number' || !Number.isFinite(obj.amount) || obj.amount <= 0) return 'invalid:amount';\n  if (!['EUR', 'USD', 'GBP'].includes(obj.currency)) return 'invalid:currency';\n  return 'valid';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "montant renvoyé en TEXTE (\"42\") → invalide (piège LLM classique)", "kind": "call-equals", "export": "validateExtraction", "args": [{ "amount": "42", "currency": "EUR" }], "expected": "invalid:amount" },
+    { "id": "t2", "name": "devise hors de la liste autorisée → invalide", "kind": "call-equals", "export": "validateExtraction", "args": [{ "amount": 42, "currency": "BTC" }], "expected": "invalid:currency" },
+    { "id": "t3", "name": "montant nombre + devise autorisée → valide", "kind": "call-equals", "export": "validateExtraction", "args": [{ "amount": 42, "currency": "EUR" }], "expected": "valid" },
+    { "id": "t4", "name": "devise absente → invalide", "kind": "call-equals", "export": "validateExtraction", "args": [{ "amount": 42 }], "expected": "invalid:currency", "private": true }
+  ]
+}

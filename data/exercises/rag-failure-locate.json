@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "rag-failure-locate",
+  "title": "RAG : le problème vient-il du retrieval ou de la génération ?",
+  "difficulty": 2,
+  "summary": "locateFailure(ctx) où ctx={goldInTopK, answerGrounded} localise la panne d'un RAG. Règle de diagnostic (retrieval d'abord) : si le bon passage n'a PAS été retrouvé (goldInTopK=false) → 'retrieval' (le modèle ne pouvait pas répondre, inutile de changer de LLM) ; s'il était là mais que la réponse ne s'appuie pas dessus → 'generation' ; sinon → 'ok'. SIMULATION : les signaux sont fournis (mesurés ailleurs), on code l'ARBRE de décision.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Localise la panne d'un RAG à partir de deux signaux mesurés.\n// TODO : ce réflexe accuse toujours le modèle. Or dans la majorité des cas le\n//        bon passage n'a jamais été retrouvé : il faut vérifier le RETRIEVAL\n//        d'abord (goldInTopK) avant de blâmer la génération.\nexport function locateFailure(ctx) {\n  return 'generation';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function locateFailure(ctx) {\n  if (!ctx.goldInTopK) return 'retrieval';\n  if (!ctx.answerGrounded) return 'generation';\n  return 'ok';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "bon passage absent du top-k → panne de retrieval", "kind": "call-equals", "export": "locateFailure", "args": [{ "goldInTopK": false, "answerGrounded": false }], "expected": "retrieval" },
+    { "id": "t2", "name": "passage présent mais réponse non fondée → panne de génération", "kind": "call-equals", "export": "locateFailure", "args": [{ "goldInTopK": true, "answerGrounded": false }], "expected": "generation" },
+    { "id": "t3", "name": "passage présent et réponse fondée → rien à corriger", "kind": "call-equals", "export": "locateFailure", "args": [{ "goldInTopK": true, "answerGrounded": true }], "expected": "ok", "private": true }
+  ]
+}

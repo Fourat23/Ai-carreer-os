@@ -16,7 +16,16 @@
     "prompt-engineering",
     "prompt-injection-defense"
   ],
-  "critical": [],
+  "critical": [
+    "rag-fundamentals",
+    "embeddings",
+    "chunking-strategies",
+    "vector-databases",
+    "retrieval-reranking",
+    "rag-evaluation",
+    "ai-evaluation",
+    "structured-outputs-tools"
+  ],
   "prereq": {
     "prompt-engineering": ["llm-fundamentals", "error-handling"],
     "prompt-injection-defense": ["llm-fundamentals", "rag-fundamentals", "agents-fundamentals", "ai-security"],

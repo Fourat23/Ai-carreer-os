@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "rag-cosine-rank",
+  "title": "Embeddings : classer par similarité cosinus (top-k)",
+  "difficulty": 3,
+  "summary": "rankByCosine(query, chunks, k) renvoie les `k` identifiants de chunks les plus proches du vecteur `query` au sens de la similarité COSINUS (orientation, pas magnitude). La cosinus normalise par la longueur des vecteurs : un chunk 'gros' mais mal orienté ne doit pas gagner. SIMULATION : les vecteurs sont de petits tableaux fournis, PAS de vrais embeddings calculés par un modèle — on manipule la notion, pas l'API.",
+  "skills": ["arrays", "hof", "functions", "algo"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Classe les chunks par proximité au vecteur `query`, renvoie les k premiers ids.\n// TODO : ceci trie par PRODUIT SCALAIRE brut, donc un vecteur de grande\n//        magnitude gagne même s'il pointe dans la mauvaise direction.\n//        La cosinus divise par la norme : c'est l'ORIENTATION qui compte.\nexport function rankByCosine(query, chunks, k) {\n  const dot = (a, b) => a.reduce((s, x, i) => s + x * b[i], 0);\n  const scored = chunks.map((c) => ({ id: c.id, s: dot(query, c.vec) }));\n  scored.sort((a, b) => b.s - a.s || (a.id < b.id ? -1 : 1));\n  return scored.slice(0, k).map((x) => x.id);\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function rankByCosine(query, chunks, k) {\n  const dot = (a, b) => a.reduce((s, x, i) => s + x * b[i], 0);\n  const norm = (a) => Math.sqrt(dot(a, a));\n  const cos = (a, b) => dot(a, b) / (norm(a) * norm(b));\n  const scored = chunks.map((c) => ({ id: c.id, s: cos(query, c.vec) }));\n  scored.sort((a, b) => b.s - a.s || (a.id < b.id ? -1 : 1));\n  return scored.slice(0, k).map((x) => x.id);\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "un vecteur bien orienté bat un vecteur gros mais mal orienté", "kind": "call-equals", "export": "rankByCosine", "args": [[1, 0], [{ "id": "A", "vec": [10, 10] }, { "id": "B", "vec": [2, 0] }], 2], "expected": ["B", "A"] },
+    { "id": "t2", "name": "requête verticale : le chunk aligné en tête", "kind": "call-equals", "export": "rankByCosine", "args": [[0, 1], [{ "id": "X", "vec": [0, 5] }, { "id": "Y", "vec": [3, 1] }, { "id": "Z", "vec": [1, 0] }], 2], "expected": ["X", "Y"] },
+    { "id": "t3", "name": "top-1 : ne renvoie que le meilleur", "kind": "call-equals", "export": "rankByCosine", "args": [[1, 0], [{ "id": "A", "vec": [10, 10] }, { "id": "B", "vec": [2, 0] }], 1], "expected": ["B"], "private": true }
+  ]
+}

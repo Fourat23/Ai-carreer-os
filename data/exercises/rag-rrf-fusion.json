@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "rag-rrf-fusion",
+  "title": "Retrieval hybride : fusionner deux classements (RRF)",
+  "difficulty": 3,
+  "summary": "fuse(lists, K=60) fusionne plusieurs classements d'ids (ex. vectoriel + lexical) par Reciprocal Rank Fusion : chaque id reçoit la somme de 1/(K + rang) dans chaque liste (rang 1 pour le 1er), puis on trie par score décroissant. Un document bien classé dans PLUSIEURS listes remonte — c'est ce qui fait la force de l'hybride. SIMULATION : les listes sont déjà classées ; on ne fait aucune recherche réelle, on combine des rangs.",
+  "skills": ["arrays", "hof", "objects", "algo"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Fusionne plusieurs listes classées en un seul classement.\n// TODO : ceci garde l'ordre de la 1re liste et colle les nouveaux ids à la fin.\n//        Il faut au contraire SOMMER 1/(K+rang) sur toutes les listes : un doc\n//        présent en bonne place dans plusieurs listes doit remonter.\nexport function fuse(lists, K = 60) {\n  const out = [...lists[0]];\n  for (const list of lists.slice(1)) {\n    for (const id of list) if (!out.includes(id)) out.push(id);\n  }\n  return out;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function fuse(lists, K = 60) {\n  const score = {};\n  for (const list of lists) {\n    list.forEach((id, i) => { score[id] = (score[id] || 0) + 1 / (K + i + 1); });\n  }\n  return Object.keys(score).sort((a, b) => score[b] - score[a] || (a < b ? -1 : 1));\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "un doc mid-liste1 mais top-liste2 remonte devant le top-liste1", "kind": "call-equals", "export": "fuse", "args": [[["doc1", "doc2", "doc3"], ["doc3", "doc4", "doc2"]]], "expected": ["doc3", "doc2", "doc1", "doc4"] },
+    { "id": "t2", "name": "une seule liste : ordre inchangé", "kind": "call-equals", "export": "fuse", "args": [[["x", "y", "z"]]], "expected": ["x", "y", "z"] },
+    { "id": "t3", "name": "un doc présent dans les trois listes domine", "kind": "call-equals", "export": "fuse", "args": [[["a", "b"], ["b", "c"], ["b", "d"]]], "expected": ["b", "a", "c", "d"], "private": true }
+  ]
+}

@@ -63,6 +63,10 @@ export const LESSONS = [
   { file: 'ai-security.md', title: 'Sécurité des systèmes IA', cat: 'IA appliquée', level: 3, min: 50, skills: ['secu'] },
   { file: 'prompt-injection-defense.md', title: 'Défense contre la prompt injection', cat: 'IA appliquée', level: 3, min: 45, skills: ['secu'] },
   { file: 'llm-cost-optimization.md', title: "Coûts d'inférence : estimer et optimiser", cat: 'IA appliquée', level: 3, min: 40, skills: ['llm', 'cloud'] },
+  // ── Observabilité, SRE & fiabilité ──
+  { file: 'observability-fundamentals.md', title: 'Observabilité : voir ce qui se passe en production', cat: 'Observabilité, SRE & fiabilité', level: 2, min: 45, skills: ['archi', 'cloud'], practiceRefs: [{ kind: 'exercise', id: 'cloud-observability-gap' }, { kind: 'exercise', id: 'incident-health-rollup' }] },
+  { file: 'logging-structured.md', title: 'Logs structurés et correlation ID', cat: 'Observabilité, SRE & fiabilité', level: 2, min: 40, skills: ['archi', 'secu'], practiceRefs: [{ kind: 'exercise', id: 'cicd-mask-secrets' }] },
+  { file: 'distributed-tracing.md', title: 'Traces distribuées : suivre une requête de bout en bout', cat: 'Observabilité, SRE & fiabilité', level: 3, min: 45, skills: ['archi', 'cloud'], practiceRefs: [{ kind: 'exercise', id: 'latency-percentiles' }] },
   // ── Systèmes & Linux ──
   { file: 'linux-filesystem-permissions.md', title: 'Linux : système de fichiers et permissions', cat: 'Systèmes & Linux', level: 2, min: 45, skills: ['gitlinux', 'secu'], practiceRefs: [{ kind: 'exercise', id: 'linux-path-traversal-x' }] },
   { file: 'linux-processes-signals.md', title: 'Linux : processus et signaux', cat: 'Systèmes & Linux', level: 2, min: 45, skills: ['gitlinux'], practiceRefs: [{ kind: 'exercise', id: 'sys-process-top-cpu' }, { kind: 'exercise', id: 'docker-exit-diagnosis' }, { kind: 'exercise', id: 'linux-signal-choice' }] },

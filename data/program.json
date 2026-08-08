@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T21:56:23.993Z",
+  "generatedAt": "2026-08-08T09:17:57.788Z",
   "skills": [
     {
       "id": "algo",
@@ -6368,6 +6368,61 @@
       "skills": [
         "llm",
         "cloud"
+      ]
+    },
+    {
+      "slug": "observability-fundamentals",
+      "title": "Observabilité : voir ce qui se passe en production",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-observability-gap"
+        },
+        {
+          "kind": "exercise",
+          "id": "incident-health-rollup"
+        }
+      ]
+    },
+    {
+      "slug": "logging-structured",
+      "title": "Logs structurés et correlation ID",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "min": 40,
+      "skills": [
+        "archi",
+        "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cicd-mask-secrets"
+        }
+      ]
+    },
+    {
+      "slug": "distributed-tracing",
+      "title": "Traces distribuées : suivre une requête de bout en bout",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "min": 45,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "latency-percentiles"
+        }
       ]
     },
     {

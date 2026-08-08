@@ -1,11 +1,27 @@
 <!-- keep -->
 # Leçon — Stratégies de chunking
 
+## 🌍 Le problème d'abord
+Pour qu'un RAG retrouve les bons passages, il faut d'abord DÉCOUPER tes documents en morceaux.
+Ça paraît anodin — « je coupe tous les 1000 caractères » — mais c'est souvent LE facteur qui
+fait qu'un RAG marche ou pas. Coupe trop gros, et chaque morceau récupéré est noyé de bruit
+autour de l'info utile ; coupe trop petit, et une idée se retrouve tranchée en deux, illisible.
+Pire : couper au milieu d'une phrase peut rendre un passage introuvable. Ces morceaux
+s'appellent des **chunks**, et la façon de les découper — le **chunking** — est le premier
+levier de qualité d'un RAG. Cette leçon t'apprend à choisir une stratégie par la mesure, pas au
+hasard.
+
 ## 🎯 Objectif
 Comprendre pourquoi et comment découper des documents en morceaux (chunks) pour un RAG, les trade-offs taille/structure/overlap, et comment CHOISIR une stratégie par la mesure plutôt qu'au feeling. Le chunking est souvent le premier levier de qualité d'un RAG.
 
 ## 🧠 Modèle mental
 Un chunk est **l'unité que ton système récupère et montre au modèle**. Trop gros : du bruit noie l'info et le retrieval devient flou. Trop petit : le sens se fragmente et le contexte manque. Le bon chunk = **une idée complète, autonome, retrouvable**.
+
+## 🧩 Prérequis
+Tu dois comprendre le pipeline RAG dans son ensemble — pourquoi on découpe et on récupère des
+extraits (`/doc/lessons/rag-fundamentals`) — et ce qu'est un embedding, puisque chaque chunk
+sera vectorisé (`/doc/lessons/embeddings`). Aucune bibliothèque particulière n'est supposée :
+le chunking se raisonne d'abord sur le texte brut.
 
 ## 📖 Explication complète
 Le LLM ne peut pas ingérer 10 000 documents : on récupère seulement les extraits pertinents. La qualité de ces extraits dépend du découpage :

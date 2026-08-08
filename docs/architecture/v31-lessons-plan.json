@@ -3,7 +3,17 @@
   "baselineRef": "417a40e",
   "note": "Périmètre V31 (cf. ADR-031/HSD-031/TSD-031). Durcissement de la chaîne RAG / IA appliquée (aucune nouvelle leçon 'pour faire nombre'). Le gate v31:check valide STRUCTURELLEMENT tout le périmètre ; il ne juge jamais la profondeur par la longueur. critical : leçons devant porter au moins un practiceRef. prereq : graphe de prérequis (slug -> [slugs]) validé acyclique. Les arrays se remplissent au fil des CP3->CP6.",
   "newLessons": [],
-  "hardenedLegacy": [],
+  "hardenedLegacy": [
+    "rag-fundamentals",
+    "embeddings",
+    "chunking-strategies",
+    "vector-databases"
+  ],
   "critical": [],
-  "prereq": {}
+  "prereq": {
+    "embeddings": ["llm-fundamentals"],
+    "rag-fundamentals": ["llm-fundamentals", "embeddings"],
+    "chunking-strategies": ["rag-fundamentals", "embeddings"],
+    "vector-databases": ["embeddings", "rag-fundamentals", "data-structures-intro"]
+  }
 }

@@ -1,11 +1,27 @@
 <!-- keep -->
 # Leçon — Bases de données vectorielles
 
+## 🌍 Le problème d'abord
+Tu as transformé tes documents en milliers de vecteurs (embeddings). À chaque question, tu dois
+trouver les quelques vecteurs les PLUS PROCHES de celui de la question. Facile avec 100
+vecteurs : tu les compares un par un. Mais avec un MILLION de vecteurs, les comparer tous à
+chaque question devient trop lent. Comment retrouver les plus proches presque instantanément,
+sur d'énormes volumes ? C'est le rôle d'une **base de données vectorielle** : un index
+spécialisé qui répond vite à « quels vecteurs ressemblent le plus à celui-ci ? ». Cette leçon
+te montre ce qu'elle fait vraiment (et le piège de croire que « vector DB = RAG »).
+
 ## 🎯 Objectif
 Comprendre à quoi sert une base vectorielle, ce qu'elle stocke en plus des vecteurs, le compromis recherche exacte vs approximative (ANN), et quand un simple fichier suffit vs quand il faut une vraie base. Indispensable pour industrialiser un RAG.
 
 ## 🧠 Modèle mental
 Une base vectorielle, c'est **un index qui répond vite à “quels vecteurs sont les plus proches de celui-ci ?”**, avec des métadonnées et des filtres — comme un moteur de recherche, mais par SENS au lieu de mots-clés.
+
+## 🧩 Prérequis
+Tu dois comprendre les embeddings et la similarité (le sens devenu vecteur, la proximité
+mesurée par cosinus, `/doc/lessons/embeddings`) et la place du retrieval dans un RAG
+(`/doc/lessons/rag-fundamentals`). Une intuition du coût algorithmique aide (chercher parmi n
+éléments, `/doc/lessons/data-structures-intro`), car l'ANN est précisément un compromis de
+coût. Aucune base vectorielle particulière n'est supposée.
 
 ## 📖 Explication complète
 Stocker des vecteurs est facile ; les CHERCHER vite est le problème. Comparer une requête à un million de vecteurs un par un (recherche exacte) coûte cher. Les bases vectorielles utilisent des index **ANN** (Approximate Nearest Neighbors, ex. HNSW) : un peu moins exact, mais des ordres de grandeur plus rapides — un trade-off vitesse/précision qu'on règle.

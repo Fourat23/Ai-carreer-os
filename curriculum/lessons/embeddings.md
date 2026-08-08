@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Embeddings
 
+## 🌍 Le problème d'abord
+Deux phrases peuvent employer des mots complètement différents et pourtant parler de la même
+chose : « comment poser mes congés ? » et « procédure de demande de vacances ». Une recherche
+classique par mots-clés échoue ici — aucun mot commun. Comment une machine peut-elle mesurer
+que ces deux phrases sont PROCHES par le SENS, pas par les lettres ? La réponse est l'idée
+centrale de toute l'IA de recherche moderne : transformer chaque texte en une position dans un
+espace, calculée pour que « sens proche = position proche ». Ces positions s'appellent des
+**embeddings**. Cette leçon te fait comprendre géométriquement ce que c'est et pourquoi ça rend
+possible la recherche par sens — la brique qui fait fonctionner le retrieval d'un RAG.
+
 ## 🎯 Objectif
 Comprendre ce qu'est un embedding (géométriquement), pourquoi il permet la recherche par SENS (et pas par mots), et comment l'utiliser en pratique (similarité cosinus, normalisation). C'est la brique qui rend possible le retrieval d'un RAG.
 
 ## 🧠 Modèle mental
-Un embedding transforme un texte en un **point dans un espace à plusieurs centaines de dimensions**, positionné de sorte que **le sens proche = la distance proche**. « Congés payés » et « droit aux vacances » atterrissent côte à côte, même sans mot commun.
+Un embedding transforme un texte en un **point dans un espace à plusieurs centaines de dimensions**, positionné de sorte que **le sens proche = la distance proche**. « Congés payés » et « droit aux vacances » atterrissent côte à côte, même sans mot commun. Attention à la limite de l'analogie : on ne peut pas VISUALISER 384 dimensions — on garde l'intuition « proximité = sens », mais chaque dimension n'a pas de signification lisible.
+
+## 🧩 Prérequis
+Tu dois comprendre qu'un LLM manipule du texte et que la recherche par mots-clés a des limites
+(`/doc/lessons/llm-fundamentals`, `/doc/lessons/http-rest-json` pour l'usage via API). Aucune
+algèbre linéaire avancée n'est requise : la similarité cosinus est introduite ici PAR
+L'INTUITION (l'angle entre deux directions) avant toute formule. Savoir écrire une petite
+fonction (produit scalaire) suffit pour la pratique.
 
 ## 📖 Explication complète
 Un modèle d'embedding (entraîné sur d'immenses corpus) prend un texte et sort un **vecteur** (une liste de ~384 à ~3072 nombres). La géométrie encode la sémantique : deux textes de sens voisin ont des vecteurs voisins.

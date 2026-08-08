@@ -5,7 +5,10 @@
   "newLessons": [
     "browser-dom-rendering",
     "react-composition-architecture",
-    "react-accessibility"
+    "react-accessibility",
+    "sql-performance-indexing",
+    "database-transactions-concurrency",
+    "database-migrations"
   ],
   "hardenedLegacy": [
     "terminal-shell-filesystem",
@@ -14,7 +17,8 @@
     "typescript-basics",
     "sql-foundations",
     "react-fundamentals",
-    "react-hooks-effects"
+    "react-hooks-effects",
+    "database-modeling"
   ],
   "critical": [
     "terminal-shell-filesystem",
@@ -25,7 +29,8 @@
     "react-fundamentals",
     "react-hooks-effects",
     "react-composition-architecture",
-    "react-accessibility"
+    "react-accessibility",
+    "sql-performance-indexing"
   ],
   "prereq": {
     "git-fundamentals": ["terminal-shell-filesystem"],
@@ -36,6 +41,10 @@
     "react-fundamentals": ["browser-dom-rendering", "javascript-basics"],
     "react-hooks-effects": ["react-fundamentals", "async-javascript"],
     "react-composition-architecture": ["react-fundamentals", "react-hooks-effects", "clean-code"],
-    "react-accessibility": ["browser-dom-rendering", "react-fundamentals"]
+    "react-accessibility": ["browser-dom-rendering", "react-fundamentals"],
+    "database-modeling": ["sql-foundations", "clean-code"],
+    "sql-performance-indexing": ["sql-foundations", "algorithmic-thinking", "data-structures-intro"],
+    "database-transactions-concurrency": ["sql-foundations", "database-modeling"],
+    "database-migrations": ["database-modeling", "git-fundamentals"]
   }
 }

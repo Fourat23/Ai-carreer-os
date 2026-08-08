@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T14:10:56.321Z",
+  "generatedAt": "2026-08-08T14:21:06.742Z",
   "skills": [
     {
       "id": "algo",
@@ -6252,6 +6252,59 @@
       "min": 50,
       "skills": [
         "sql"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "sys-log-level-counts"
+        },
+        {
+          "kind": "exercise",
+          "id": "fix-nplus1"
+        }
+      ]
+    },
+    {
+      "slug": "sql-performance-indexing",
+      "title": "Performance SQL : index, plans et N+1",
+      "cat": "Data & SQL",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "sql",
+        "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "fix-nplus1"
+        },
+        {
+          "kind": "exercise",
+          "id": "perf-pair-count"
+        }
+      ]
+    },
+    {
+      "slug": "database-transactions-concurrency",
+      "title": "Transactions, ACID et concurrence",
+      "cat": "Data & SQL",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "sql",
+        "se"
+      ]
+    },
+    {
+      "slug": "database-migrations",
+      "title": "Migrations de schéma et compatibilité",
+      "cat": "Data & SQL",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "sql",
+        "se"
       ]
     },
     {

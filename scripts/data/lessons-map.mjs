@@ -32,7 +32,10 @@ export const LESSONS = [
   { file: 'react-accessibility.md', title: 'Accessibilité des interfaces web', cat: 'Frontend & React', level: 2, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-semantic' }, { kind: 'exercise', id: 'web-card' }, { kind: 'exercise', id: 'react-avatar' }, { kind: 'exercise', id: 'react-debug-list' }] },
   // ── Data & SQL ──
   { file: 'sql-foundations.md', title: 'SQL : les fondations', cat: 'Data & SQL', level: 1, min: 50, skills: ['sql'], practiceRefs: [{ kind: 'exercise', id: 'sys-log-level-counts' }, { kind: 'exercise', id: 'fix-nplus1' }] },
-  { file: 'database-modeling.md', title: 'Modélisation, index et transactions', cat: 'Data & SQL', level: 2, min: 50, skills: ['sql'] },
+  { file: 'database-modeling.md', title: 'Modélisation, index et transactions', cat: 'Data & SQL', level: 2, min: 50, skills: ['sql'], practiceRefs: [{ kind: 'exercise', id: 'sys-log-level-counts' }, { kind: 'exercise', id: 'fix-nplus1' }] },
+  { file: 'sql-performance-indexing.md', title: 'Performance SQL : index, plans et N+1', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'archi'], practiceRefs: [{ kind: 'exercise', id: 'fix-nplus1' }, { kind: 'exercise', id: 'perf-pair-count' }] },
+  { file: 'database-transactions-concurrency.md', title: 'Transactions, ACID et concurrence', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'se'] },
+  { file: 'database-migrations.md', title: 'Migrations de schéma et compatibilité', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'se'] },
   { file: 'pandas-data-wrangling.md', title: 'pandas : manipuler des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
   { file: 'data-cleaning-quality.md', title: 'Nettoyage et qualité des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
   { file: 'etl-pipelines.md', title: 'Pipelines ETL', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },

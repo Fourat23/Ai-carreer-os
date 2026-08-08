@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Modélisation de données, index et transactions
 
+## 🌍 Le problème d'abord
+Tu démarres une appli et tu ranges les données « au plus simple » : le nom de l'auteur écrit
+en toutes lettres dans chaque ligne de livre, les catégories dans une colonne « a,b,c ». Six
+mois plus tard, l'auteur change de nom : tu dois corriger 40 lignes (et tu en oublies), et
+« trouver tous les livres de la catégorie b » devient un cauchemar. Le problème n'était pas
+le code : c'était le MODÈLE de données. Bien modéliser, c'est décider où vit chaque
+information pour que les questions futures restent faciles et que rien ne se désynchronise.
+Cette leçon t'apprend à concevoir un schéma solide — la fondation qui rend tout le reste de
+l'application simple ou impossible.
+
 ## 🎯 Objectif
 Concevoir des schémas de base solides (normalisation, relations, tables de liaison), poser des index JUSTIFIÉS, et garantir l'intégrité par les transactions. Un mauvais schéma condamne une application ; un bon schéma rend tout le reste simple.
 
 ## 🧠 Modèle mental
 Modéliser, c'est **décider où vit chaque FAIT — à un seul endroit**. Toute duplication finira désynchronisée (la règle « une source de vérité » du jour 10, au niveau base). Les relations recomposent ensuite ce qu'on a soigneusement séparé.
+
+## 🧩 Prérequis
+Tu dois maîtriser le modèle relationnel et les requêtes de base — tables, clés, SELECT,
+JOIN, GROUP BY (`/doc/lessons/sql-foundations`), car la modélisation décide de la forme des
+tables que tu interrogeras. Le principe « une source de vérité » vient de la conception
+logicielle (`/doc/lessons/clean-code`). Aucune connaissance préalable de normalisation ni
+d'index n'est supposée.
 
 ## 📖 Explication complète
 - **La normalisation** : 1NF — valeurs atomiques (pas de listes dans une cellule) ; 2NF/3NF — chaque colonne dépend de la clé, toute la clé, rien que la clé. Concrètement : l'auteur vit dans SA table, les livres le référencent par clé étrangère — renommer l'auteur = UNE ligne modifiée.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T14:21:06.742Z",
+  "generatedAt": "2026-08-08T14:29:33.288Z",
   "skills": [
     {
       "id": "algo",
@@ -6368,6 +6368,16 @@
       "min": 50,
       "skills": [
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "validate-user"
+        },
+        {
+          "kind": "exercise",
+          "id": "debug-cart"
+        }
       ]
     },
     {
@@ -6378,6 +6388,16 @@
       "min": 45,
       "skills": [
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "retry-should"
+        },
+        {
+          "kind": "exercise",
+          "id": "sh-exit-retry"
+        }
       ]
     },
     {
@@ -6398,6 +6418,58 @@
       "min": 55,
       "skills": [
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "lab",
+          "id": "cloud-architecture"
+        }
+      ]
+    },
+    {
+      "slug": "refactoring-legacy-code",
+      "title": "Refactoring et code legacy : changer sans casser",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "refactor-legacy"
+        },
+        {
+          "kind": "exercise",
+          "id": "debt-legacy-refactor"
+        }
+      ]
+    },
+    {
+      "slug": "technical-debt",
+      "title": "La dette technique : décider en connaissance de cause",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "debt-legacy-refactor"
+        }
+      ]
+    },
+    {
+      "slug": "breaking-changes-compatibility",
+      "title": "Changements cassants et compatibilité",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "min": 45,
+      "skills": [
+        "se"
       ]
     },
     {

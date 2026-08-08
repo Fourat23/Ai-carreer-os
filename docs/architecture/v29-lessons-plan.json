@@ -8,7 +8,10 @@
     "react-accessibility",
     "sql-performance-indexing",
     "database-transactions-concurrency",
-    "database-migrations"
+    "database-migrations",
+    "refactoring-legacy-code",
+    "technical-debt",
+    "breaking-changes-compatibility"
   ],
   "hardenedLegacy": [
     "terminal-shell-filesystem",
@@ -18,7 +21,11 @@
     "sql-foundations",
     "react-fundamentals",
     "react-hooks-effects",
-    "database-modeling"
+    "database-modeling",
+    "testing-foundations",
+    "error-handling",
+    "design-patterns-intro",
+    "architecture-basics"
   ],
   "critical": [
     "terminal-shell-filesystem",
@@ -30,7 +37,12 @@
     "react-hooks-effects",
     "react-composition-architecture",
     "react-accessibility",
-    "sql-performance-indexing"
+    "sql-performance-indexing",
+    "testing-foundations",
+    "error-handling",
+    "architecture-basics",
+    "refactoring-legacy-code",
+    "technical-debt"
   ],
   "prereq": {
     "git-fundamentals": ["terminal-shell-filesystem"],
@@ -45,6 +57,13 @@
     "database-modeling": ["sql-foundations", "clean-code"],
     "sql-performance-indexing": ["sql-foundations", "algorithmic-thinking", "data-structures-intro"],
     "database-transactions-concurrency": ["sql-foundations", "database-modeling"],
-    "database-migrations": ["database-modeling", "git-fundamentals"]
+    "database-migrations": ["database-modeling", "git-fundamentals"],
+    "testing-foundations": ["javascript-basics", "clean-code"],
+    "error-handling": ["javascript-basics", "async-javascript"],
+    "design-patterns-intro": ["typescript-basics", "clean-code"],
+    "architecture-basics": ["clean-code", "design-patterns-intro"],
+    "refactoring-legacy-code": ["clean-code", "testing-foundations"],
+    "technical-debt": ["clean-code", "refactoring-legacy-code"],
+    "breaking-changes-compatibility": ["typescript-basics", "database-migrations"]
   }
 }

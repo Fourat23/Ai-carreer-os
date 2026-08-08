@@ -41,10 +41,13 @@ export const LESSONS = [
   { file: 'etl-pipelines.md', title: 'Pipelines ETL', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
   // ── Software engineering & architecture ──
   { file: 'clean-code.md', title: 'Clean code', cat: 'Software engineering & architecture', level: 1, min: 45, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'refactor-legacy' }, { kind: 'exercise', id: 'debug-cart' }] },
-  { file: 'testing-foundations.md', title: 'Tester son code', cat: 'Software engineering & architecture', level: 2, min: 50, skills: ['se'] },
-  { file: 'error-handling.md', title: "Gestion d'erreurs", cat: 'Software engineering & architecture', level: 2, min: 45, skills: ['se'] },
+  { file: 'testing-foundations.md', title: 'Tester son code', cat: 'Software engineering & architecture', level: 2, min: 50, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'validate-user' }, { kind: 'exercise', id: 'debug-cart' }] },
+  { file: 'error-handling.md', title: "Gestion d'erreurs", cat: 'Software engineering & architecture', level: 2, min: 45, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'retry-should' }, { kind: 'exercise', id: 'sh-exit-retry' }] },
   { file: 'design-patterns-intro.md', title: 'Design patterns : introduction', cat: 'Software engineering & architecture', level: 2, min: 45, skills: ['patterns'] },
-  { file: 'architecture-basics.md', title: 'Architecture logicielle : les bases', cat: 'Software engineering & architecture', level: 3, min: 55, skills: ['archi'] },
+  { file: 'architecture-basics.md', title: 'Architecture logicielle : les bases', cat: 'Software engineering & architecture', level: 3, min: 55, skills: ['archi'], practiceRefs: [{ kind: 'lab', id: 'cloud-architecture' }] },
+  { file: 'refactoring-legacy-code.md', title: 'Refactoring et code legacy : changer sans casser', cat: 'Software engineering & architecture', level: 2, min: 50, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'refactor-legacy' }, { kind: 'exercise', id: 'debt-legacy-refactor' }] },
+  { file: 'technical-debt.md', title: 'La dette technique : décider en connaissance de cause', cat: 'Software engineering & architecture', level: 2, min: 45, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'debt-legacy-refactor' }] },
+  { file: 'breaking-changes-compatibility.md', title: 'Changements cassants et compatibilité', cat: 'Software engineering & architecture', level: 3, min: 45, skills: ['se'] },
   { file: 'observability-logging.md', title: 'Observabilité et logs structurés', cat: 'Software engineering & architecture', level: 2, min: 40, skills: ['archi', 'cloud'] },
   // ── Python & ML ──
   { file: 'python-foundations.md', title: 'Python : les fondations', cat: 'Python & ML', level: 1, min: 45, skills: ['python'], practiceRefs: [{ kind: 'exercise', id: 'py-list-sum' }, { kind: 'exercise', id: 'py-word-count' }, { kind: 'exercise', id: 'py-slugify' }] },

@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Gestion d'erreurs
 
+## 🌍 Le problème d'abord
+Ton programme marche… tant que tout se passe bien. Mais un fichier peut être absent, une API
+peut ne pas répondre, l'utilisateur peut envoyer n'importe quoi. Le débutant traite ces cas
+« quand ça arrivera » — et ça arrive toujours, en production, au pire moment : l'application
+plante avec un message cryptique, ou pire, elle continue en silence avec des données
+corrompues. Bien gérer les erreurs, ce n'est pas semer des `try/catch` au hasard : c'est
+DÉCIDER À L'AVANCE, pour chaque chose qui peut mal tourner, qui répond quoi. Cette leçon
+t'apprend à concevoir la gestion d'erreurs comme une architecture, pour que ton système reste
+vivable quand le monde réel le maltraite.
+
 ## 🎯 Objectif
 Concevoir la gestion d'erreurs comme une ARCHITECTURE, pas des try/catch éparpillés : distinguer erreurs attendues et bugs, centraliser, ne jamais crasher ni fuiter, et dégrader gracieusement quand une dépendance (base, LLM) échoue. C'est ce qui rend un système vivable en production.
 
 ## 🧠 Modèle mental
 Une erreur est **un message, pas une catastrophe** : quelque chose dit « je ne peux pas faire ce que tu demandes, voilà pourquoi ». Ton travail : décider QUI répond QUOI à chaque message possible — à l'avance, pas dans la panique.
+
+## 🧩 Prérequis
+Tu dois savoir écrire des fonctions et manipuler `try/catch` en JavaScript, y compris
+l'asynchrone (`/doc/lessons/javascript-basics`, `/doc/lessons/async-javascript`), car les
+erreurs surgissent surtout aux frontières et dans les opérations asynchrones. Une notion des
+codes de statut HTTP aide pour la partie API (`/doc/lessons/http-rest-json`). La distinction
+erreur attendue / bug est construite ici.
 
 ## 📖 Explication complète
 - **Deux familles** : l'erreur **opérationnelle** (attendue : fichier absent, entrée invalide, API distante en panne, ressource inexistante) se GÈRE — on informe, on réessaie, on dégrade. Le **bug** (inattendu : null déréférencé, invariant violé) se LOGGE en détail et on échoue proprement — le masquer, c'est corrompre en silence.

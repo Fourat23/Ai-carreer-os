@@ -131,7 +131,7 @@ export const LESSONS = [
 
 export const LESSON_BY_SKILL = {
   gitlinux: ['terminal-shell-filesystem.md', 'git-fundamentals.md', 'git-advanced.md'],
-  jsts: ['javascript-basics.md', 'typescript-basics.md', 'async-javascript.md', 'browser-dom-rendering.md', 'react-fundamentals.md', 'react-hooks-effects.md', 'react-composition-architecture.md', 'react-accessibility.md'],
+  jsts: ['javascript-basics.md', 'typescript-basics.md', 'async-javascript.md'],
   algo: ['algorithmic-thinking.md', 'recursion.md'],
   ds: ['data-structures-intro.md', 'recursion.md'],
   http: ['http-rest-json.md', 'api-design-basics.md', 'express-backend.md'],

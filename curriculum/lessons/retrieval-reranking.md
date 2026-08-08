@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Retrieval, recherche hybride et reranking
 
+## 🌍 Le problème d'abord
+Ton RAG répond mal. Réflexe du débutant : « le modèle est nul, changeons de LLM ». Mais dans
+la grande majorité des cas, le vrai coupable est AVANT le modèle : le bon passage n'a jamais
+été retrouvé, donc le modèle ne pouvait pas répondre correctement — il n'avait pas la réponse
+sous les yeux. La recherche sémantique pure (par embeddings) attrape le sens mais rate parfois
+les termes EXACTS (un numéro de référence, un nom propre) ; à l'inverse, la recherche par
+mots-clés rate les reformulations. Comment ramener FIABLEMENT le bon extrait ? Cette leçon
+attaque le maillon faible de la plupart des RAG : le retrieval, sa version hybride, et le
+reranking qui affine le tri.
+
 ## 🎯 Objectif
 Comprendre pourquoi le retrieval est le maillon faible de la plupart des RAG, comment combiner recherche vectorielle et lexicale (hybride), et à quoi sert le reranking. Savoir mesurer chaque étage. C'est là que se gagne la qualité d'un RAG.
 
 ## 🧠 Modèle mental
 Le retrieval, c'est **ramener les bons extraits AVANT de générer**. Si le bon passage n'est pas ramené, aucune magie de génération ne le sauvera. « Garbage in, garbage out » : la génération ne peut pas inventer ce que le retrieval n'a pas trouvé.
+
+## 🧩 Prérequis
+Tu dois comprendre les embeddings et la similarité sémantique (`/doc/lessons/embeddings`), le
+pipeline RAG et la distinction retrieval/génération (`/doc/lessons/rag-fundamentals`), et le
+rôle de l'index vectoriel (`/doc/lessons/vector-databases`). La notion de rappel@k, centrale
+ici, est approfondie dans l'évaluation (`/doc/lessons/rag-evaluation`). Aucun moteur de
+recherche particulier n'est supposé.
 
 ## 📖 Explication complète
 - **Recherche vectorielle** : par SENS (embeddings). Attrape les reformulations, rate parfois les termes exacts (références, noms propres, codes).

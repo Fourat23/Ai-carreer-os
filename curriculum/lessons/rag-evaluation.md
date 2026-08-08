@@ -1,11 +1,27 @@
 <!-- keep -->
 # Leçon — Évaluation RAG avancée
 
+## 🌍 Le problème d'abord
+Tu améliores ton RAG : nouveau découpage, recherche hybride, reranking… mais comment SAVOIR si
+chaque changement aide vraiment, ou aggrave discrètement autre chose ? Sans mesure, tu pilotes
+à l'aveugle et tu « améliores » souvent en dégradant. Et une difficulté propre au RAG : quand
+une réponse est mauvaise, est-ce parce qu'on n'a pas RETROUVÉ le bon passage, ou parce qu'on
+l'a mal UTILISÉ ? Ces deux pannes se corrigent différemment. Cette leçon construit le harnais
+d'évaluation qui mesure chaque étage séparément et te laisse améliorer sur des CHIFFRES — le
+différenciateur n°1 d'un profil RAG sur le marché.
+
 ## 🎯 Objectif
 Construire un harnais d'évaluation RAG complet et l'utiliser pour PILOTER les améliorations : golden set exigeant, métriques par étage (retrieval/génération), juge calibré, ablation, scores versionnés. C'est le différenciateur n°1 d'un profil RAG sur le marché.
 
 ## 🧠 Modèle mental
 Un RAG sans éval, c'est **naviguer sans instruments** : chaque « amélioration » est un pari. Le harnais transforme le pilotage au feeling en pilotage aux instruments — et chaque étage du pipeline a SON cadran.
+
+## 🧩 Prérequis
+Tu dois maîtriser les principes d'évaluation d'un système IA — golden set, évaluation par
+étage, LLM-as-judge calibré, baseline (`/doc/lessons/ai-evaluation`) — et le pipeline RAG avec
+ses étages retrieval/génération (`/doc/lessons/rag-fundamentals`,
+`/doc/lessons/retrieval-reranking`). Les réflexes statistiques (bruit vs signal,
+`/doc/lessons/statistics-for-ml`) évitent de confondre une vraie amélioration avec du hasard.
 
 ## 📖 Explication complète
 - **Le golden set exigeant** : 30-50 questions sur TON corpus, avec pour chacune la réponse attendue ET l'identifiant du/des chunks qui la contiennent. Varié par construction : factuelles, synthèse multi-passages, ambiguës, pièges lexicaux (mots partagés/sens différent), et SANS réponse dans le corpus (pour tester le refus). Vivant : chaque échec réel devient un cas.

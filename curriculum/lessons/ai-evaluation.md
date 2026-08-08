@@ -1,7 +1,39 @@
 <!-- keep -->
 # Leçon — Évaluer un système IA
 
-## Pourquoi c'est important
+## 🌍 Le problème d'abord
+Tu as construit un système RAG. Il « a l'air de marcher » sur les deux ou trois questions que
+tu lui poses. Puis tu changes le découpage des documents pour l'améliorer… et tu n'as AUCUNE
+idée si tu l'as rendu meilleur ou pire. Avec du code classique, un test vérifie une égalité
+(`total === 42`). Mais « la réponse de l'IA est-elle bonne ? » n'a pas UNE seule bonne réponse :
+c'est du texte libre, nuancé. Comment mesurer objectivement la qualité d'un système dont la
+sortie est ouverte, pour améliorer sur des CHIFFRES et non au feeling ? C'est tout l'enjeu de
+l'**évaluation**. Cette leçon te donne le harnais qui transforme le bricolage en ingénierie —
+et le différenciateur n°1 en entretien IA.
+
+## 🎯 Objectif
+Savoir construire un **golden set**, **évaluer par étage** (retrieval programmatique d'abord —
+rappel@k ; génération ensuite — fidélité/pertinence), utiliser un **LLM-as-judge calibré**, et
+piloter une **boucle d'amélioration** sur les chiffres (baseline → un changement → re-mesure →
+décision).
+
+## 🧩 Prérequis
+Tu dois avoir les réflexes d'évaluation ML — jeu de test, métriques choisies selon le coût des
+erreurs, précision/rappel (`/doc/lessons/model-evaluation`, `/doc/lessons/machine-learning-basics`)
+— et comprendre le pipeline RAG dont on évalue chaque étage (`/doc/lessons/rag-fundamentals`).
+Les réflexes statistiques (échantillon représentatif, bruit vs signal,
+`/doc/lessons/statistics-for-ml`) sont réutilisés. Aucun outil d'évaluation particulier n'est
+supposé.
+
+## 🧠 Modèle mental
+Évaluer un système IA, c'est lui faire passer un EXAMEN dont tu as le corrigé. Deux idées
+portent tout : (1) un **golden set** (des questions + ce qu'une bonne réponse doit contenir),
+construit à la main sur TON corpus, qui est ton examen ; (2) l'**évaluation par étage** — on ne
+note pas « le système » en bloc, on note séparément le RETRIEVAL (a-t-on retrouvé le bon
+passage ? mesurable sans LLM) puis la GÉNÉRATION (la réponse est-elle fidèle et pertinente ?),
+car corriger exige de savoir QUEL étage a failli.
+
+## 💡 Pourquoi c'est important
 Un système IA sans évaluation est un pari : tu ne sais ni s'il marche, ni si ta dernière « amélioration » l'a dégradé. L'évaluation est LA compétence la plus rare chez les candidats juniors IA — 90 % des projets RAG de portfolio n'en ont aucune. Tes chiffres avant/après seront ton différenciateur n°1 en entretien, et le harnais d'évaluation est ce qui transforme le bricolage en ingénierie : on n'améliore que ce qu'on mesure.
 
 ## Explication complète
@@ -30,7 +62,7 @@ Le rituel qui rend tout le reste utile : (1) BASELINE chiffrée ; (2) UN changem
 ## Concepts clés
 Golden set (varié, représentatif, vivant) · évaluation par étage · rappel@k / précision@k · fidélité / pertinence / exactitude · LLM-as-judge, biais (position, verbosité, auto-préférence) · calibration juge/humain · baseline · ablation (mesurer chaque étage) · versionnement des scores · tests adverses (les cas hostiles DANS le harnais).
 
-## Exemple
+## 🧭 Exemple guidé
 Ton harnais en une commande :
 ```
 $ npm run eval
@@ -41,21 +73,21 @@ vs baseline (v0.3) : rappel +9 pts (chunking par structure), fidélité stable
 ```
 Quatre lignes qui changent tout : tu sais OÙ ça pèche (les 5 questions d'échec sont tes prochaines investigations), tu sais si la dernière modif a payé, et tu as des chiffres pour l'entretien.
 
-## Pièges classiques
+## ⚠️ Erreurs fréquentes
 - Évaluer « au feeling » sur 3 questions mémorisées : tu optimises ton biais.
 - Un golden set sans questions « sans réponse » : le refus n'est jamais testé, l'hallucination passe.
 - Faire confiance au juge LLM sans calibration humaine.
 - Changer trois choses puis mesurer : l'effet est indémêlable.
 - Optimiser UNE métrique en aveugle : le rappel@k monte si k=50... et la génération se noie. Les métriques se lisent ENSEMBLE.
 
-## Lien avec l'IA / le futur
+## 🔗 Liens avec le programme
 C'est le transfert direct du ML (mois 6) : golden set = jeu de test, fidélité = métrique choisie selon le coût d'erreur, biais du juge = biais de mesure, ablation = expériences contrôlées. Le dashboard qualité de DocSense (mois 11-12) affichera l'HISTOIRE de ces scores — la pièce que tu montreras en entretien. Et « comment sais-tu que ton système marche ? » est LA question qui sépare l'ingénieur du prompteur : ta réponse tiendra en quatre lignes de rapport.
 
 ## Mini-exercice
 Construis un golden set de 10 questions sur un mini-corpus (3 documents) : 5 factuelles, 2 de synthèse, 1 ambiguë, 2 sans réponse. Pour chacune, note le chunk qui contient la réponse. Écris le script qui mesure le rappel@3 de ton retrieval. Tu as un harnais minimal — le reste n'est que de l'extension.
 
-## Vocabulaire à retenir
+## 📚 Vocabulaire
 **golden set** · **rappel@k** · **fidélité (groundedness)** · **pertinence** · **LLM-as-judge** · **calibration** · **biais de position / verbosité** · **baseline** · **ablation** · **régression de qualité** · **éval smoke** (version rapide en CI).
 
-## Résumé
+## 🧾 À retenir
 Évaluer un système IA = un golden set varié (avec des cas sans réponse), une évaluation PAR ÉTAGE (retrieval programmatique d'abord — rappel@k ; génération ensuite — fidélité/pertinence via un juge CALIBRÉ sur l'humain), et une boucle d'amélioration pilotée : baseline, un changement, re-mesure, décision sur les chiffres, scores versionnés. C'est ce qui transforme « ça a l'air de marcher » en ingénierie — et un candidat en recrue évidente.

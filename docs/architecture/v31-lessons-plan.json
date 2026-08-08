@@ -7,13 +7,19 @@
     "rag-fundamentals",
     "embeddings",
     "chunking-strategies",
-    "vector-databases"
+    "vector-databases",
+    "retrieval-reranking",
+    "rag-evaluation",
+    "ai-evaluation"
   ],
   "critical": [],
   "prereq": {
     "embeddings": ["llm-fundamentals"],
     "rag-fundamentals": ["llm-fundamentals", "embeddings"],
     "chunking-strategies": ["rag-fundamentals", "embeddings"],
-    "vector-databases": ["embeddings", "rag-fundamentals", "data-structures-intro"]
+    "vector-databases": ["embeddings", "rag-fundamentals", "data-structures-intro"],
+    "retrieval-reranking": ["embeddings", "rag-fundamentals", "vector-databases"],
+    "ai-evaluation": ["model-evaluation", "rag-fundamentals", "statistics-for-ml"],
+    "rag-evaluation": ["ai-evaluation", "rag-fundamentals", "retrieval-reranking"]
   }
 }

@@ -1,0 +1,9 @@
+{
+  "sprint": "V30",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V30 : leçons Backend/API et AI/ML historiques corrigées + éventuelles nouvelles leçons (documentation SE). Rubrique v20 (16 dimensions, 0-4). Scores APRÈS ; avant/après, matrice complète et échantillon d'historiques non modifiées dans docs/PEDAGOGICAL-AUDIT-V30.md. Items remplis au CP11.",
+  "scanGlobs": [
+    "curriculum/lessons/*.md"
+  ],
+  "items": []
+}

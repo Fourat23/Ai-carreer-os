@@ -1,0 +1,9 @@
+{
+  "sprint": "V30",
+  "baselineRef": "e4a1046",
+  "note": "Périmètre V30 (cf. ADR-030/HSD-030/TSD-030). newLessons : nouvelles Leçons de fond (peu — qualité > quantité). hardenedLegacy : leçons historiques corrigées (Backend/API + dette AI/ML historique + Software Engineering). Le gate v30:check valide STRUCTURELLEMENT tout le périmètre ; il ne juge jamais la profondeur par la longueur. critical : leçons devant porter au moins un practiceRef. prereq : graphe de prérequis (slug -> [slugs]) validé acyclique. Les arrays se remplissent au fil des CP3->CP8 (une leçon n'est ajoutée qu'une fois réellement conforme).",
+  "newLessons": [],
+  "hardenedLegacy": [],
+  "critical": [],
+  "prereq": {}
+}

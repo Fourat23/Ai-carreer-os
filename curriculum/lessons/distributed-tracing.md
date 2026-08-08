@@ -124,6 +124,6 @@ Exercices : localiser une lenteur via des percentiles ; identifier le signal man
 
 ## 🔗 Liens avec le programme
 Jour `/day/79` (observabilité). Leçons liées :
-`/doc/lessons/observability-fundamentals`, `/doc/lessons/logging-structured`. La trace
-localise une lenteur ; les leçons suivantes couvrent les métriques/percentiles et les
-patterns de résilience (timeout, circuit breaker) qui corrigent les dépendances lentes.
+`/doc/lessons/observability-fundamentals`, `/doc/lessons/logging-structured`,
+`/doc/lessons/metrics-percentiles`. La trace localise une lenteur ; les patterns de
+résilience (timeout, circuit breaker) corrigent ensuite les dépendances lentes.

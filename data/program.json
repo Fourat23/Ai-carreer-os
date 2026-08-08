@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T09:17:57.788Z",
+  "generatedAt": "2026-08-08T09:21:03.555Z",
   "skills": [
     {
       "id": "algo",
@@ -6422,6 +6422,31 @@
         {
           "kind": "exercise",
           "id": "latency-percentiles"
+        }
+      ]
+    },
+    {
+      "slug": "metrics-percentiles",
+      "title": "Métriques et percentiles : quand la moyenne ment",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "latency-percentiles"
+        },
+        {
+          "kind": "exercise",
+          "id": "perf-budget"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-observability-gap"
         }
       ]
     },

@@ -132,5 +132,5 @@ ci-dessous).
 
 ## 🔗 Liens avec le programme
 Jour `/day/79` (observabilité). Leçons liées : `/doc/lessons/observability-logging`,
-`/doc/lessons/logging-structured`, `/doc/lessons/distributed-tracing`. La suite couvre
-les métriques et percentiles, puis les leçons SRE et incident.
+`/doc/lessons/logging-structured`, `/doc/lessons/distributed-tracing`,
+`/doc/lessons/metrics-percentiles`. La suite couvre les leçons SRE et incident.

@@ -5,7 +5,8 @@
   "newLessons": [
     "observability-fundamentals",
     "logging-structured",
-    "distributed-tracing"
+    "distributed-tracing",
+    "metrics-percentiles"
   ],
   "hardenedLegacy": [],
   "critical": [
@@ -17,6 +18,7 @@
   ],
   "prereq": {
     "logging-structured": ["observability-fundamentals"],
-    "distributed-tracing": ["observability-fundamentals", "logging-structured"]
+    "distributed-tracing": ["observability-fundamentals", "logging-structured"],
+    "metrics-percentiles": ["observability-fundamentals", "linux-resources-io"]
   }
 }

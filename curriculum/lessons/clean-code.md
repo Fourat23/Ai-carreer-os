@@ -1,7 +1,34 @@
 <!-- keep -->
 # Leçon — Clean code
 
-## Pourquoi c'est important
+## 🌍 Le problème d'abord
+Tu ouvres un fichier de code écrit il y a six mois (peut-être par toi) et… tu ne
+comprends plus rien : des variables nommées `x`, `data2`, des fonctions de 200 lignes,
+aucune logique apparente. Résultat : tu as PEUR d'y toucher, tu introduis des bugs, tu
+perds des heures. Le **clean code** attaque ce problème très concret : écrire du code
+qu'un humain (souvent toi-même plus tard) peut relire, comprendre et modifier sans
+douleur. Ce n'est pas de la décoration : c'est ce qui fait qu'un projet reste
+modifiable au lieu de pourrir. Cette leçon donne les principes qui rendent le code
+lisible.
+
+## 🎯 Objectif
+Écrire du code **lisible et modifiable** : nommage intentionnel, fonctions courtes à
+responsabilité unique, réduction de la complexité, commentaires utiles — et savoir
+reconnaître le code « sale » pour le corriger.
+
+## 🧩 Prérequis
+Tu dois savoir écrire des **fonctions** et manipuler des **variables/structures**
+(`/doc/lessons/javascript-basics`), car le clean code parle de la FAÇON d'écrire ce
+que tu sais déjà écrire. Aucune notion préalable de « qualité » n'est supposée : elle
+est construite ici, exemple à l'appui.
+
+## 🧠 Modèle mental
+Le code est LU bien plus souvent qu'écrit. On optimise donc pour le LECTEUR, pas pour
+le clavier. Un bon nom remplace un commentaire ; une fonction courte qui fait UNE
+chose se comprend d'un coup d'œil ; réduire les niveaux d'imbrication réduit la charge
+mentale. « Est-ce que quelqu'un d'autre comprendrait ça en 10 secondes ? » est le test.
+
+## 💡 Pourquoi c'est important
 Le code est LU dix fois plus qu'il n'est écrit — par tes collègues, tes reviewers, et surtout par toi-dans-six-mois, qui est un étranger. Le clean code n'est pas de l'esthétique : c'est de l'économie (moins de temps de lecture, moins de bugs, moins de peur de modifier). En entretien, la propreté de ton code sous pression est évaluée dans CHAQUE exercice, même quand personne ne le dit.
 
 ## Explication complète
@@ -29,7 +56,7 @@ Le cœur du clean code structurel (jour 26) : la LOGIQUE en fonctions pures (tes
 ## Concepts clés
 Nommage d'intention · une fonction = une responsabilité · niveau d'abstraction cohérent · guard clauses · commentaire = pourquoi · DRY vs mauvaise abstraction · code smells (fonction géante, paramètres en rafale, imbrication profonde, noms menteurs, duplication) · boy-scout rule (laisser le code un peu plus propre qu'on l'a trouvé).
 
-## Exemple
+## 🧭 Exemple guidé
 ```js
 // ❌ avant
 function proc(u, d) {
@@ -47,20 +74,20 @@ function totalCommandesActives(utilisateur, commandes) {
 ```
 Même logique, zéro commentaire nécessaire : les noms et la structure PORTENT le sens.
 
-## Pièges classiques
+## ⚠️ Erreurs fréquentes
 - Sur-commenter l'évident et sous-commenter les décisions.
 - « Je nettoierai plus tard » : plus tard n'existe pas ; la propreté se maintient en continu.
 - Refactorer sans tests : on casse en croyant améliorer.
 - Le clean code dogmatique : des fonctions de 2 lignes partout peuvent être PIRES qu'une fonction claire de 15 lignes. Le juge est la lisibilité, pas la règle.
 
-## Lien avec l'IA / le futur
+## 🔗 Liens avec le programme
 Les pipelines RAG (mois 8-9) sont des chaînes de transformations : la discipline « petites fonctions pures nommées » les rend débuggables étape par étape. Les prompts eux-mêmes bénéficient du clean code (structure claire, intention explicite, versionnés). Et un recruteur juge ton portfolio d'abord par la lisibilité de ton code — avant même de le lancer.
 
 ## Mini-exercice
 Prends ta plus grosse fonction du mois 1. Applique dans l'ordre : (1) renommer pour l'intention, (2) guard clauses, (3) extraire les blocs commentables en fonctions nommées, (4) séparer calcul et affichage. Compare avant/après à voix haute : lequel expliques-tu le plus vite ?
 
-## Vocabulaire à retenir
+## 📚 Vocabulaire
 **intention** · **responsabilité unique** · **niveau d'abstraction** · **guard clause** · **code smell** · **refactoring** · **dette technique** · **DRY** · **couplage** · **boy-scout rule**.
 
-## Résumé
+## 🧾 À retenir
 Optimise pour le lecteur : noms qui disent l'intention, fonctions courtes à une responsabilité et un seul niveau d'abstraction, guards plutôt que pyramides, commentaires réservés aux POURQUOI, DRY sans fusionner ce qui n'est que ressemblant, logique pure séparée des effets. C'est une hygiène quotidienne — pas un grand nettoyage de printemps.

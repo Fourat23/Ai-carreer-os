@@ -12,7 +12,13 @@
     "postmortem-rca",
     "resilience-patterns"
   ],
-  "hardenedLegacy": [],
+  "hardenedLegacy": [
+    "javascript-basics",
+    "algorithmic-thinking",
+    "http-rest-json",
+    "python-foundations",
+    "clean-code"
+  ],
   "critical": [
     "metrics-percentiles",
     "slo-error-budget",
@@ -45,6 +51,18 @@
     "resilience-patterns": [
       "metrics-percentiles",
       "networking-proxy-loadbalancing"
+    ],
+    "http-rest-json": [
+      "javascript-basics"
+    ],
+    "python-foundations": [
+      "javascript-basics"
+    ],
+    "clean-code": [
+      "javascript-basics"
+    ],
+    "algorithmic-thinking": [
+      "javascript-basics"
     ]
   }
 }

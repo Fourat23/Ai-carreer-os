@@ -1,7 +1,36 @@
 <!-- keep -->
 # Leçon — JavaScript : les bases solides
 
-## Pourquoi c'est important
+## 🌍 Le problème d'abord
+Tu écris ta première ligne de code et tu veux qu'un ordinateur FASSE quelque chose :
+garder une liste de courses, calculer un total, afficher un message. Pour ça, il faut
+lui parler dans une langue qu'il comprend. **JavaScript** est cette langue — et elle a
+un super-pouvoir : elle tourne PARTOUT (dans ton navigateur, sur un serveur, dans des
+outils). Mais comme toute langue, elle a des règles surprenantes qui piègent les
+débutants (par exemple, additionner du texte et un nombre ne fait pas ce qu'on croit).
+Cette leçon te donne les bases solides pour dire à la machine QUOI faire, en évitant
+les pièges qui causent l'essentiel des bugs de débutant.
+
+## 🎯 Objectif
+Manipuler les **valeurs** et **types**, comprendre la différence cruciale entre
+**valeur et référence**, utiliser **tableaux**, **objets** et **fonctions**, et
+adopter deux disciplines (**pureté**, **immutabilité**) qui rendent le code fiable.
+
+## 🧩 Prérequis
+Aucune expérience de programmation n'est requise : c'est une leçon de premier
+contact. Il faut seulement savoir ouvrir un éditeur ou une console JavaScript pour
+essayer les exemples. Les notions de valeur, type, variable et fonction sont
+construites ici, à partir de zéro.
+
+## 🧠 Modèle mental
+Un programme, c'est des **valeurs** (des données : un texte, un nombre) rangées dans
+des **variables** (des étiquettes), et des **fonctions** (des actions réutilisables)
+qui les transforment. L'idée la plus importante à intégrer tout de suite : certaines
+valeurs se **copient** quand on les passe (les nombres, les textes), d'autres se
+**partagent** (les objets, les tableaux). Confondre les deux est LA source de bugs du
+débutant — on y revient en détail plus bas.
+
+## 💡 Pourquoi c'est important
 JavaScript est le seul langage qui tourne partout : navigateur, serveur (Node), scripts, outils. C'est ta première langue de programmation sérieuse et le véhicule de la moitié de ton année (CLI mois 2, API mois 3, front mois 4, apps LLM mois 8-12). Mais surtout : les CONCEPTS appris ici (types, références, fonctions, immutabilité) sont universels — Python (mois 5) ne sera qu'un changement de syntaxe.
 
 ## Explication complète
@@ -30,7 +59,7 @@ Une fonction **pure** (même entrée → même sortie, zéro effet de bord) est 
 ## Concepts clés
 `const`/`let` · types primitifs · conversions et `===` · truthy/falsy (les 6 falsy : `false, 0, "", null, undefined, NaN`) · valeur vs référence · copie superficielle (spread) · tableaux, objets, tableaux d'objets · fonctions fléchées · callbacks · closures · `map/filter/reduce` · pureté, immutabilité.
 
-## Exemple
+## 🧭 Exemple guidé
 ```js
 const employes = [
   { nom: "Lina", service: "tech", salaire: 45000 },
@@ -46,20 +75,20 @@ const augmentes = employes.map((e) =>
 );
 ```
 
-## Pièges classiques
+## ⚠️ Erreurs fréquentes
 - `const b = a; b.push(x)` → a change aussi (référence partagée).
 - `[10, 9, 1].sort()` → `[1, 10, 9]` (tri ALPHABÉTIQUE sans comparateur).
 - `if (arr.indexOf(x))` bugge quand x est en position 0 (0 est falsy) — utiliser `includes`.
 - `{ ...obj }` ne protège qu'UN niveau : l'imbriqué reste partagé.
 
-## Lien avec l'IA / le futur
+## 🔗 Liens avec le programme
 Tes applications RAG (mois 8-9) manipuleront des tableaux d'objets (chunks avec métadonnées) avec exactement ces gestes : filtrer par score, trier par similarité, regrouper par document. Valider la sortie JSON d'un LLM = vérifier types et structure — la conscience des types commence ici. Et le cache d'appels LLM (mois 10) = une closure + une Map, deux concepts de cette leçon.
 
 ## Mini-exercice
 Sur un tableau de 10 produits `{nom, prix, categorie}` : (1) les noms des produits < 20 €, (2) le prix total, (3) appliquer -10 % sur une catégorie SANS modifier l'original (prouve-le), (4) regrouper par catégorie. En boucles d'abord, puis en map/filter/reduce.
 
-## Vocabulaire à retenir
+## 📚 Vocabulaire
 **primitif** · **référence** · **copie superficielle / profonde** · **truthy / falsy** · **callback** · **fonction d'ordre supérieur** · **closure** · **fonction pure** · **effet de bord** · **immutabilité** · **accumulateur**.
 
-## Résumé
+## 🧾 À retenir
 JS manipule des valeurs typées ; les primitifs se copient, les objets se PARTAGENT (référence) — la source du bug débutant n°1. Les données réelles sont des tableaux d'objets traités par six gestes universels. Les fonctions sont des valeurs (callbacks, closures), et la discipline pureté + immutabilité rend le code testable et prévisible. Tout ton stack futur (TypeScript, React, apps LLM) repose sur ces fondations.

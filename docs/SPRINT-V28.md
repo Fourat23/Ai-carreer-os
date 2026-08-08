@@ -43,8 +43,8 @@ gates).
 | CP7 | `2b7cfdd` | 6 exercices obs/SRE (trous réels) |
 | CP8 | `a072c00` | glossaire obs/SRE (+27 termes) |
 | CP9 | `6b6a160` | cohérence des parcours + E2E |
-| CP10 | *(ce commit)* | hardening + validation navigateur + rapport |
-| CP11 | *(à venir)* | Pedagogical Hardening + audit rétroactif |
+| CP10 | `32bdcf5` | hardening + validation navigateur + rapport |
+| CP11 | *(ce commit)* | Pedagogical Hardening + audit rétroactif |
 
 ## 6. Contenu livré — nouvelles leçons (8)
 Catégorie « Observabilité, SRE & fiabilité » :
@@ -65,10 +65,17 @@ Catégorie « Observabilité, SRE & fiabilité » :
 Chacune : on-ramp « 🌍 Le problème d'abord », prérequis explicités, vocabulaire au
 premier usage, scénario « 🚨 Que faire dans ce cas ? », `practiceRefs`.
 
-## 7. Leçons anciennes corrigées
-En V28 (CP1→CP10) : aucune (l'audit rétroactif + corrections sont réalisés en CP11,
-qui remplira `hardenedLegacy`). La matrice d'audit des 60 historiques est établie au
-CP0 et détaillée dans `docs/PEDAGOGICAL-AUDIT-V28.md`.
+## 7. Leçons anciennes corrigées (CP11)
+Audit rétroactif du standard V27 appliqué au corpus historique. **5 leçons de premier
+contact P0 → P3** corrigées de façon **additive** (contenu technique conservé) :
+`javascript-basics`, `algorithmic-thinking`, `http-rest-json`, `python-foundations`,
+`clean-code`. Chacune reçoit : rampe « 🌍 Le problème d'abord » avant l'objectif,
+« 🧩 Prérequis » rédigés, « 🧠 Modèle mental » si absent, titres homogénéisés, et
+`practiceRefs` vers des exercices **existants**. La matrice complète (P0→P3),
+l'échantillon des historiques non modifiées, le ré-audit des 9 denses V27 et le
+walkthrough néophyte sont dans `docs/PEDAGOGICAL-AUDIT-V28.md`. Dette restante (P0
+premier contact : terminal, git, sql, data-structures, typescript ; P1/P2 fort trafic)
+documentée pour V29.
 
 ## 8. Exercices ajoutés (6)
 `slo-burn-rate`, `rca-classify-cause`, `alert-actionable`, `incident-severity`,
@@ -148,9 +155,98 @@ néophyte reste une lecture experte, pas un test utilisateur.
 
 ## 23. Avant / après
 Avant : 92 leçons, 0 fondation obs/SRE dédiée, standard V27 sur 32 leçons seulement.
-Après (fin CP10) : **100 leçons** (8 obs/SRE au standard V27), +6 exercices, +27
-termes de glossaire, 6 parcours audités et cohérents. Corrections rétroactives des
-historiques : CP11.
+Après (fin CP11) : **100 leçons** (8 obs/SRE au standard V27 + **5 historiques
+corrigées P0→P3**), **190 exercices** (+6), **610 termes de glossaire** (+27), 6
+parcours audités et cohérents. Audit pédagogique rétroactif amorcé et cartographié
+(P0→P3) dans `docs/PEDAGOGICAL-AUDIT-V28.md` ; registre 16-dim (13 items, moyenne
+3,514) validé par test.
 
 ## 24. HEAD final, Git, données
-Renseignés dans la synthèse finale (après CP11).
+- Branche : `claude/ai-career-os-saas-phfg49` (poussée).
+- Tests : **937 verts**, `tsc --noEmit` propre, `next build` OK, `gates:active` verts
+  (dont v28:check : 8 nouvelles + 5 historiques corrigées + 5 critiques).
+- `data/program.json` régénéré déterministe (hors `generatedAt`) ; `progress.json`
+  (gitignoré) intact (SHA `598f27c2…`).
+- Aucun serveur laissé actif, aucun workspace résiduel.
+- CP11 livre : 5 leçons corrigées, `v28-lessons-plan.json` (+ hardenedLegacy + graphe),
+  `v28-pedagogy-audit.json` (13 items), `docs/PEDAGOGICAL-AUDIT-V28.md`, ce rapport.
+
+---
+
+# Prompt de lancement — Sprint V29 (à démarrer PLUS TARD, PAS maintenant)
+
+> Ce prompt clôt V28. **Ne démarre pas V29 dans cette session.** Il est rédigé pour être
+> collé tel quel au lancement du sprint suivant.
+
+Reprends **AI Career OS** pour le **Sprint V29 — « Rééquilibrage pédagogique
+Frontend/React + Data/Software Engineering + poursuite du hardening des anciennes
+leçons »**.
+
+**IMPORTANT — travaille sur l'état RÉEL du dépôt.** Ne suppose jamais que ce résumé
+V28 correspond encore exactement au repository. Commence par un CP0 **strictement en
+lecture seule** : audite l'état réel (leçons, exercices, missions, parcours, gates,
+tests, glossaire) et présente un **rapport d'audit CP0 en français AVANT d'implémenter
+quoi que ce soit**.
+
+**Langue** : tous les rapports, audits, synthèses et le prompt V30 final sont en
+**français**.
+
+**Ordre de priorité (inchangé)** : 1. compréhension réelle par un néophyte complet ;
+2. exactitude technique ; 3. progression pédagogique ; 4. cohérence
+théorie↔pratique↔parcours ; 5. raisonnement en situation professionnelle réelle ;
+6. qualité des exercices/missions/Labs ; 7. fonctionnalités ; 8. UI. *Ne privilégie
+JAMAIS la quantité au détriment de la qualité. Je préfère 8 leçons réellement
+excellentes à 30 leçons moyennes.*
+
+**Critère néophyte complet** (le juge suprême) : « une personne intelligente mais
+totalement débutante pourrait-elle comprendre *pourquoi* le concept existe **avant** de
+mémoriser son vocabulaire ? » Toujours : situation → intuition → vocabulaire →
+mécanisme → pratique.
+
+**Objectifs V29 (deux axes, complémentaires) :**
+
+- **(A) Rééquilibrage Frontend/React + Data/Software Engineering.** Le corpus est riche
+  en cloud/infra/obs-SRE ; il faut renforcer les domaines à fort enjeu employabilité
+  côté produit : React (`react-fundamentals`, `react-hooks-effects` + éventuelles
+  nouvelles leçons état/formulaires/composition/rendu), et Data/SE
+  (`database-modeling`, `testing-foundations`, `design-patterns-intro`,
+  `architecture-basics`). Créer/enrichir des **leçons de fond** au standard V27 avec des
+  scénarios « Que faire dans ce cas ? » (bug de rendu, état incohérent, re-render en
+  boucle, requête N+1, test flaky…). **Complète, ne duplique pas** l'existant.
+
+- **(B) Poursuite du hardening rétroactif.** Attaque les **P0 de premier contact**
+  identifiés dans `docs/PEDAGOGICAL-AUDIT-V28.md` : `terminal-shell-filesystem`,
+  `git-fundamentals`, `sql-foundations`, `data-structures-intro`, `typescript-basics`.
+  Même patron **additif** que V28 (rampe « Le problème d'abord » avant l'objectif +
+  « Prérequis » rédigés + « Modèle mental » si absent + `practiceRefs` vers des
+  artefacts **existants**). Contenu technique d'origine **conservé**.
+
+**Contraintes d'architecture (inchangées)** : local, mono-utilisateur, sans auth, sans
+SaaS, sans réseau requis. **Pas** de second moteur / second catalogue / duplication de
+curriculum. `progress.json` sauvegardé puis restauré (gitignoré, ne jamais committer).
+Aucun secret réel, aucune fuite de solution/test privé. Runtimes paresseux et sandboxés.
+Pas de librairie UI, pas de refonte UI globale, aucun changement parasite.
+
+**Gates** : garde `v26:check`, `v27:check`, `v28:check` **actifs** (périmètres vivants
+distincts, « pas de cimetière de gates »). Si V29 introduit un nouveau contrat
+structurel, ajoute un `v29:check` ciblé et **teste-le**.
+
+**Checkpoints atomiques** CP0→CP11 (audit → design ADR/HSD/TSD → implémentation → tests
+→ tsc → build → validation → restauration progress.json → cleanup → commit → push), un
+commit par CP.
+
+**CP11 (obligatoire)** : ré-audit (A) nouvelles leçons V29, (B) leçons historiques
+modifiées, (C) échantillon d'historiques non modifiées, (D) walkthrough néophyte d'au
+moins une séquence complète ; mettre à jour la matrice P0→P3 dans un
+`docs/PEDAGOGICAL-AUDIT-V29.md` ; append du **prompt V30** à la fin de `SPRINT-V29.md`
+**sans démarrer V30**.
+
+**Critères de refus** : contenu de remplissage, généralités, jargon non introduit,
+fausse profondeur, gonflage artificiel de scores, longueur prise pour de la qualité.
+
+**Livrable final** : `docs/SPRINT-V29.md` (rapport complet) + synthèse française
+distinguant ce qui **existait / a été ajouté / corrigé / testé / non testé / simulé /
+insuffisant**, avec chiffres avant/après, dette restante, HEAD final et état Git.
+
+**Commence maintenant par CP0. N'implémente absolument rien avant d'avoir présenté le
+rapport d'audit CP0.**

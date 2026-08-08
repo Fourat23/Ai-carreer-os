@@ -1,7 +1,33 @@
 <!-- keep -->
 # Leçon — Python : les fondations
 
-## Pourquoi c'est important
+## 🌍 Le problème d'abord
+Tu veux faire de la data ou de l'IA : analyser un fichier, entraîner un modèle,
+appeler un LLM. Presque tout cet écosystème parle une seule langue : **Python**. La
+bonne nouvelle, si tu as déjà vu JavaScript : tu sais DÉJÀ programmer (variables,
+boucles, fonctions). Le piège du débutant venu de JS, c'est de croire que Python est
+« un autre monde » — alors que c'est surtout une autre SYNTAXE des mêmes idées, avec
+quelques particularités (indentation significative, conventions). Cette leçon te fait
+passer de « je programme » à « je programme en Python » en quelques jours.
+
+## 🎯 Objectif
+Écrire du Python idiomatique : types de base, structures (listes, dicts), fonctions,
+compréhensions, gestion d'erreurs — en réutilisant ce que tu sais déjà programmer.
+
+## 🧩 Prérequis
+Tu dois déjà savoir PROGRAMMER (variables, boucles, fonctions, structures) — idéalement
+via `/doc/lessons/javascript-basics`. Cette leçon est un changement de syntaxe, pas
+d'apprentissage de la programmation depuis zéro. Aucun outil data (pandas…) n'est
+supposé : c'est le langage de base.
+
+## 🧠 Modèle mental
+Les concepts de programmation sont universels ; seule la syntaxe change. Là où JS a
+`const`/`{}`/`map`, Python a l'assignation simple, les `dict`/`list` et les
+**compréhensions**. La particularité qui déroute : en Python, l'**indentation** (les
+espaces en début de ligne) DÉFINIT les blocs — ce n'est pas décoratif, c'est la
+structure du programme.
+
+## 💡 Pourquoi c'est important
 Python est la langue de l'IA : pandas, scikit-learn, PyTorch, et l'essentiel de l'outillage data/ML sont Python-first. Sans Python, pas de ML crédible. Bonne nouvelle : tu sais déjà PROGRAMMER — variables, boucles, fonctions, structures, pureté sont acquis. Apprendre Python après JavaScript est un changement de SYNTAXE, pas de paradigme : compte des jours, pas des mois.
 
 ## Explication complète
@@ -50,7 +76,7 @@ Un fichier `.py` est un module ; `import mon_module` l'utilise. Les scripts s'ex
 ## Concepts clés
 list / tuple / set / dict · comprehensions · f-strings · slicing (`arr[2:5]`, `arr[-1]`) · `enumerate`, `zip` · exceptions (`try/except/finally`, exceptions typées) · venv + requirements.txt · modules et imports · dataclasses (les « types » légers de Python) · PEP 8 (le style standard).
 
-## Exemple
+## 🧭 Exemple guidé
 Ton `groupBy` du jour 11, en pythonique :
 ```python
 from collections import defaultdict
@@ -67,20 +93,20 @@ moyennes = {s: sum(e["salaire"] for e in grp) / len(grp)
 ```
 Même modèle mental qu'en JS et SQL — troisième syntaxe, zéro nouveau concept.
 
-## Pièges classiques
+## ⚠️ Erreurs fréquentes
 - Écrire du JS en Python (boucles + push au lieu de comprehensions, camelCase au lieu de snake_case).
 - Oublier le venv → dépendances globales en vrac, projets irreproductibles.
 - `except:` nu qui avale TOUT (même Ctrl-C) : attraper des exceptions PRÉCISES.
 - Le défaut mutable `def f(acc=[])`.
 
-## Lien avec l'IA / le futur
+## 🔗 Liens avec le programme
 pandas (mois 5) manipule des DataFrames avec ces gestes (comprehensions, dicts, slicing). scikit-learn (mois 6) et PyTorch (mois 7) sont des APIs Python. La moitié des exemples de code LLM/RAG de l'écosystème sont en Python — être bilingue JS/Python te rend deux fois plus employable sur les rôles IA.
 
 ## Mini-exercice
 Transpose ton analyseur de fréquences de mots (jour 30) en Python idiomatique : lecture de fichier, normalisation, `collections.Counter` (découvre-le : il fait le comptage en une ligne), top 10. Puis écris 3 tests pytest dessus. Compare ligne à ligne avec ta version JS : qu'est-ce qui est plus élégant de chaque côté ?
 
-## Vocabulaire à retenir
+## 📚 Vocabulaire
 **comprehension** · **tuple** · **None** · **is vs ==** · **venv / pip / requirements** · **module / import** · **`__main__`** · **exception typée** · **dataclass** · **PEP 8 / snake_case** · **Counter / defaultdict**.
 
-## Résumé
+## 🧾 À retenir
 Python = tes concepts JS avec une autre syntaxe : dicts au lieu d'objets, comprehensions au lieu de map/filter, exceptions typées, indentation significative. Les vrais pièges sont peu nombreux mais mordants (is/==, défauts mutables, venv oublié). Vise le style pythonique dès le premier jour : c'est la langue de tout ton avenir ML.

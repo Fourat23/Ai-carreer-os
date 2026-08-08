@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T09:30:51.509Z",
+  "generatedAt": "2026-08-08T09:49:50.968Z",
   "skills": [
     {
       "id": "algo",
@@ -5884,6 +5884,24 @@
       "min": 50,
       "skills": [
         "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "js-array-objects"
+        },
+        {
+          "kind": "exercise",
+          "id": "js-conditions"
+        },
+        {
+          "kind": "exercise",
+          "id": "js-loops"
+        },
+        {
+          "kind": "exercise",
+          "id": "js-even-squares"
+        }
       ]
     },
     {
@@ -5894,6 +5912,20 @@
       "min": 50,
       "skills": [
         "algo"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "algo-two-sum"
+        },
+        {
+          "kind": "exercise",
+          "id": "fizzbuzz"
+        },
+        {
+          "kind": "exercise",
+          "id": "algo-binary-search"
+        }
       ]
     },
     {
@@ -5954,6 +5986,16 @@
       "min": 45,
       "skills": [
         "http"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "http-status"
+        },
+        {
+          "kind": "exercise",
+          "id": "api-router"
+        }
       ]
     },
     {
@@ -6080,6 +6122,16 @@
       "min": 45,
       "skills": [
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "refactor-legacy"
+        },
+        {
+          "kind": "exercise",
+          "id": "debug-cart"
+        }
       ]
     },
     {
@@ -6141,6 +6193,20 @@
       "min": 45,
       "skills": [
         "python"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "py-list-sum"
+        },
+        {
+          "kind": "exercise",
+          "id": "py-word-count"
+        },
+        {
+          "kind": "exercise",
+          "id": "py-slugify"
+        }
       ]
     },
     {

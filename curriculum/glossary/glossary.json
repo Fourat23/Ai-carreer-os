@@ -17264,5 +17264,241 @@
       "api",
       "compatibilité"
     ]
+  },
+  {
+    "id": "dev-middleware",
+    "term": "middleware",
+    "fullForm": null,
+    "frenchMeaning": "maillon intermédiaire de traitement d'une requête",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Une fonction qui s'insère dans la chaîne de traitement d'une requête (souvent HTTP) : elle traite puis passe la main, ou court-circuite en répondant.",
+    "detailedDefinition": "Dans un serveur comme Express, chaque requête traverse une suite ordonnée de middlewares (journalisation, parsing, validation, authentification) avant d'atteindre la route finale. L'ORDRE de déclaration est l'ordre d'exécution ; un middleware appelle next() pour passer au suivant, ou répond pour arrêter la chaîne. Le gestionnaire d'erreurs est un middleware placé en dernier.",
+    "usageContext": "Serveurs HTTP, pipelines de traitement de requêtes.",
+    "meetingExample": "« Mets la validation dans un middleware avant la route, pas dans la logique métier. »",
+    "plainTranslation": "« Une étape intermédiaire que traverse chaque requête avant la réponse. »",
+    "tags": [
+      "back",
+      "http"
+    ]
+  },
+  {
+    "id": "security-authentication",
+    "term": "authentification",
+    "fullForm": "AuthN",
+    "frenchMeaning": "vérifier l'identité (qui es-tu ?)",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Établir QUI fait une requête (mot de passe, token). Échec → 401. À distinguer de l'autorisation.",
+    "detailedDefinition": "L'authentification répond à « qui es-tu ? » : le système vérifie une preuve d'identité (mot de passe haché, token signé). HTTP étant sans état, cette preuve est présentée à CHAQUE requête (souvent un Bearer token dans l'en-tête). En cas d'échec, on renvoie 401. Elle précède toujours l'autorisation.",
+    "usageContext": "Sécurité des API et applications.",
+    "meetingExample": "« Ce 401 signifie un problème d'authentification, pas de droits. »",
+    "plainTranslation": "« Prouver qui on est avant d'accéder à un service. »",
+    "tags": [
+      "sécurité",
+      "api"
+    ]
+  },
+  {
+    "id": "security-authorization",
+    "term": "autorisation",
+    "fullForm": "AuthZ",
+    "frenchMeaning": "vérifier les droits (as-tu le droit ?)",
+    "category": "security",
+    "level": "débutant",
+    "shortDefinition": "Décider si une identité DÉJÀ connue a le droit d'effectuer une action précise. Refus → 403.",
+    "detailedDefinition": "L'autorisation répond à « as-tu le droit de faire CECI ? » une fois l'identité établie : rôle, propriété de la ressource, permissions. Le refus renvoie 403 (à ne pas confondre avec 401). Elle se vérifie souvent près de la donnée (dans le service), là où l'on connaît la ressource visée — sinon on s'expose à l'IDOR (accéder à la ressource d'autrui par son id).",
+    "usageContext": "Contrôle d'accès des API et applications.",
+    "meetingExample": "« Il est authentifié mais pas autorisé à supprimer cette note : 403. »",
+    "plainTranslation": "« Vérifier ce qu'une personne a le droit de faire, une fois qu'on sait qui elle est. »",
+    "tags": [
+      "sécurité",
+      "api"
+    ]
+  },
+  {
+    "id": "dev-session",
+    "term": "session",
+    "fullForm": null,
+    "frenchMeaning": "état de connexion d'un utilisateur",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Un mécanisme qui maintient l'état « connecté » d'un utilisateur entre des requêtes HTTP sans mémoire.",
+    "detailedDefinition": "HTTP étant sans état, la session permet de « se souvenir » qu'un utilisateur est connecté : côté serveur, un identifiant de session (dans un cookie) pointe vers un état stocké ; ou, alternative sans état côté serveur, un token auto-porteur (JWT) rejoué à chaque requête. La session opaque est facile à révoquer ; le token auto-porteur évite un stockage mais se révoque mal avant expiration.",
+    "usageContext": "Authentification web, gestion de connexion.",
+    "meetingExample": "« On stocke la session côté serveur pour pouvoir la révoquer immédiatement. »",
+    "plainTranslation": "« Ce qui fait que le site se souvient que tu es connecté d'une page à l'autre. »",
+    "tags": [
+      "back",
+      "sécurité"
+    ]
+  },
+  {
+    "id": "ai-temperature",
+    "term": "température",
+    "fullForm": null,
+    "frenchMeaning": "réglage du hasard d'un LLM",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Un réglage qui contrôle le hasard des sorties d'un LLM : 0 = quasi déterministe (le plus probable), élevé = plus varié et créatif.",
+    "detailedDefinition": "À chaque étape, un LLM a une distribution de probabilités sur les tokens suivants. La température ajuste la façon d'y piocher : proche de 0, on prend presque toujours le plus probable (utile pour l'extraction, la classification) ; élevée, on échantillonne plus librement (créativité, mais plus d'erreurs). Même à 0, il ne faut jamais supposer un déterminisme parfait : le code doit valider la sortie.",
+    "usageContext": "Appels de LLM, réglage de la génération.",
+    "meetingExample": "« Pour de l'extraction structurée, mets la température à 0. »",
+    "plainTranslation": "« Un bouton qui règle à quel point le modèle répond de façon prévisible ou variée. »",
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "id": "ai-overfitting",
+    "term": "overfitting",
+    "fullForm": "surapprentissage",
+    "frenchMeaning": "modèle qui mémorise au lieu de généraliser",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Quand un modèle mémorise le bruit de ses données d'entraînement au lieu d'apprendre le motif général : excellent sur le train, mauvais sur des données nouvelles.",
+    "detailedDefinition": "L'overfitting (surapprentissage) est l'étudiant qui apprend le corrigé par cœur et échoue dès que l'énoncé change : score d'entraînement élevé, score de test médiocre. On le diagnostique en comparant train vs validation, et on le combat par plus de données, moins de complexité, ou de la régularisation. Son opposé, l'underfitting, est un modèle trop simple, mauvais partout.",
+    "usageContext": "Entraînement et évaluation de modèles ML.",
+    "meetingExample": "« 99 % au train mais 70 % au test : c'est de l'overfitting. »",
+    "plainTranslation": "« Le modèle a appris par cœur au lieu de comprendre, et rate les cas nouveaux. »",
+    "tags": [
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-train-test-split",
+    "term": "train/test split",
+    "fullForm": null,
+    "frenchMeaning": "séparation des données entraînement/test",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Séparer, AVANT tout travail, un jeu de test que le modèle ne verra qu'à l'évaluation finale — pour mesurer sa vraie capacité à généraliser.",
+    "detailedDefinition": "Évaluer un modèle sur ses propres données d'entraînement revient à faire passer un examen avec les réponses. On réserve donc un jeu de test (souvent 20 %) intouché jusqu'à la fin. Le piège associé est le leakage : une information du test qui fuite vers l'entraînement (normaliser avant de séparer, une feature contenant la réponse) — scores magnifiques, modèle inutile en production.",
+    "usageContext": "Protocole d'évaluation honnête en ML.",
+    "meetingExample": "« Fais le split AVANT toute transformation, sinon tu as du leakage. »",
+    "plainTranslation": "« Garder de côté des données que le modèle n'a jamais vues, pour l'évaluer honnêtement. »",
+    "tags": [
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-precision",
+    "term": "precision",
+    "fullForm": "précision",
+    "frenchMeaning": "part de vrais positifs parmi les positifs prédits",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Parmi tout ce que le modèle a prédit positif, la proportion qui l'était vraiment. On la privilégie quand un faux positif coûte cher.",
+    "detailedDefinition": "La précision répond à « quand le modèle dit oui, a-t-il raison ? ». Un filtre anti-spam veut une haute précision (ne pas bloquer un vrai mail). Elle s'oppose au rappel dans un arbitrage dicté par le COÛT des erreurs ; F1 les combine. Sur des classes déséquilibrées, précision et rappel sont bien plus parlants que l'accuracy.",
+    "usageContext": "Évaluation de classification ML.",
+    "meetingExample": "« Ici un faux positif est coûteux : optimise la précision. »",
+    "plainTranslation": "« Quand le modèle dit “oui”, à quel point on peut le croire. »",
+    "tags": [
+      "ml"
+    ],
+    "relatedTerms": [
+      "ai-recall"
+    ]
+  },
+  {
+    "id": "ai-recall",
+    "term": "recall",
+    "fullForm": "rappel",
+    "frenchMeaning": "part de vrais positifs retrouvés",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Parmi tous les vrais positifs, la proportion que le modèle a effectivement trouvés. On le privilégie quand rater un positif coûte cher.",
+    "detailedDefinition": "Le rappel répond à « le modèle a-t-il trouvé tous les cas positifs ? ». Un dépistage médical veut un haut rappel (ne rater aucun malade), quitte à quelques faux positifs. Il s'oppose à la précision selon le coût métier des erreurs ; F1 les combine. En recherche d'information (RAG), le rappel@k mesure si les bons documents sont retrouvés.",
+    "usageContext": "Évaluation de classification et de recherche.",
+    "meetingExample": "« Rater un cas de fraude coûte cher : priorise le rappel. »",
+    "plainTranslation": "« Parmi tous les vrais cas, combien le modèle en a attrapés. »",
+    "tags": [
+      "ml"
+    ],
+    "relatedTerms": [
+      "ai-precision"
+    ]
+  },
+  {
+    "id": "ai-feature",
+    "term": "feature",
+    "fullForm": "variable d'entrée",
+    "frenchMeaning": "variable en entrée d'un modèle",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Une variable d'entrée fournie à un modèle ML. La qualité des features compte souvent plus que le choix du modèle.",
+    "detailedDefinition": "Une feature est une caractéristique mesurable utilisée pour prédire (âge, montant, jour de la semaine dérivé d'une date). Le feature engineering — créer, transformer, encoder ces variables (one-hot pour les catégories, ratios métier) — a souvent plus d'impact que l'algorithme. Les transformations doivent être apprises sur le train et appliquées à l'identique ailleurs (Pipeline) pour éviter le leakage.",
+    "usageContext": "Préparation des données en ML.",
+    "meetingExample": "« Encode la date en jour de la semaine : c'est une feature plus utile. »",
+    "plainTranslation": "« Une information en entrée que le modèle utilise pour prédire. »",
+    "tags": [
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-tool-use",
+    "term": "tool use",
+    "fullForm": "function calling",
+    "frenchMeaning": "usage d'outils par un LLM",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Le mécanisme par lequel un LLM DEMANDE l'exécution d'un outil (fonction) décrit à l'avance — c'est TON code qui exécute et garde le contrôle.",
+    "detailedDefinition": "Avec le function calling / tool use, on décrit au modèle des outils (nom, rôle, paramètres) ; face à une tâche, le modèle peut répondre « appelle cet outil avec ces arguments ». Ton code valide les arguments, exécute, et rend le résultat au modèle. C'est la brique des agents. Principe de sécurité : moindre privilège (des outils étroits, validés), car un outil puissant détourné est un risque.",
+    "usageContext": "Agents et applications LLM outillées.",
+    "meetingExample": "« Le modèle a DEMANDÉ l'outil ; c'est notre code qui décide de l'exécuter. »",
+    "plainTranslation": "« Le modèle réclame une action, mais c'est ton programme qui l'exécute vraiment. »",
+    "tags": [
+      "llm",
+      "agents"
+    ]
+  },
+  {
+    "id": "ai-workflow-vs-agent",
+    "term": "workflow (vs agent)",
+    "fullForm": null,
+    "frenchMeaning": "étapes fixes vs décision autonome",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Un workflow enchaîne des étapes FIXÉES par le développeur (prévisible, testable) ; un agent laisse le LLM DÉCIDER des étapes (flexible, mais cher et non-déterministe).",
+    "detailedDefinition": "La distinction structurante des systèmes LLM : si le chemin est connu d'avance, un workflow (chaînage, routage, parallélisation) est prévisible, testable et à coût borné. Si le chemin dépend de découvertes en cours de route, un agent (boucle décider→agir→observer) se justifie — encadré de garde-fous (budget, timeout, traces). Choisir l'agent par défaut « parce que c'est plus intelligent » est un anti-pattern.",
+    "usageContext": "Conception de systèmes LLM.",
+    "meetingExample": "« Le chemin est connu : un workflow suffit, pas besoin d'agent. »",
+    "plainTranslation": "« Suivre une recette fixe, ou laisser le modèle improviser les étapes. »",
+    "tags": [
+      "llm",
+      "agents"
+    ]
+  },
+  {
+    "id": "arch-software-maintenance",
+    "term": "maintenance logicielle",
+    "fullForm": null,
+    "frenchMeaning": "les quatre types d'évolution d'un logiciel",
+    "category": "arch",
+    "level": "intermédiaire",
+    "shortDefinition": "L'entretien d'un logiciel après sa livraison, en quatre types : corrective (réparer), adaptative (s'ajuster à l'environnement), préventive (réduire les risques), évolutive (ajouter des fonctions).",
+    "detailedDefinition": "Un logiciel vit après sa mise en production. La maintenance CORRECTIVE répare des défauts (bugs, incidents) ; l'ADAPTATIVE l'ajuste à un changement externe (nouvelle version d'une dépendance, d'un OS) ; la PRÉVENTIVE réduit des risques futurs (rembourser de la dette, renforcer les tests) avant la panne ; l'ÉVOLUTIVE ajoute des fonctionnalités. Chaque type s'appuie sur des documents différents (post-mortem, ADR, runbook).",
+    "usageContext": "Cycle de vie logiciel, gestion de projet.",
+    "meetingExample": "« Ce sprint, on fait surtout de la maintenance préventive : dette et tests. »",
+    "plainTranslation": "« Les différentes façons d'entretenir un logiciel une fois livré. »",
+    "tags": [
+      "ingénierie"
+    ]
+  },
+  {
+    "id": "security-defense-in-depth",
+    "term": "défense en profondeur",
+    "fullForm": null,
+    "frenchMeaning": "empiler plusieurs barrières de sécurité",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Ne jamais compter sur une seule barrière : empiler des protections indépendantes pour qu'une faille dans l'une ne suffise pas à compromettre le système.",
+    "detailedDefinition": "La défense en profondeur suppose que chaque barrière peut céder, et rend l'attaque coûteuse par leur EMPILEMENT : validation des entrées, marquage des données non fiables, consignes durcies, contrôle des sorties, vérification des citations, moindre privilège des outils, logs sans secrets. C'est la posture centrale de la sécurité des systèmes IA (contre la prompt injection) comme des systèmes classiques.",
+    "usageContext": "Sécurité applicative et IA.",
+    "meetingExample": "« Un seul prompt “sois prudent” ne suffit pas : défense en profondeur. »",
+    "plainTranslation": "« Mettre plusieurs verrous, car un seul finit toujours par lâcher. »",
+    "tags": [
+      "sécurité"
+    ]
   }
 ]

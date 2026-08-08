@@ -132,6 +132,12 @@ version. Explique laquelle tu choisis et pourquoi.
 **lost update** · **niveau d'isolation (Read Committed, Serializable)** · **verrou pessimiste
 / optimiste** · **deadlock** · **compare-and-set**.
 
+> **Note pratique — réel vs simulé.** La pratique associée à cette leçon s'exécute en
+> JavaScript (raisonnement relationnel déterministe : les lignes sont des tableaux d'objets),
+> **pas sur un vrai SGBD**. Elle entraîne le RAISONNEMENT sur les données, pas la syntaxe SQL
+> réellement exécutée. AI Career OS n'embarque pas (encore) de moteur SQL — voir la décision de
+> runtime dans `docs/ADR-030-curriculum-hardening-iii-and-ai-ml-debt.md`.
+
 ## 🧾 À retenir
 Une transaction rend un groupe d'opérations tout-ou-rien (ACID) : c'est la protection contre
 les pannes. La concurrence ajoute un second danger — des transactions simultanées qui se

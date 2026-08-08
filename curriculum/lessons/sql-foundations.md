@@ -98,5 +98,11 @@ Sur une base livres/auteurs/emprunts : (1) les livres jamais empruntés (LEFT JO
 ## 📚 Vocabulaire
 **clé primaire / étrangère** · **jointure** · **agrégat** · **HAVING** · **sous-requête** · **normalisation / dénormalisation** · **index** · **transaction / ACID / rollback** · **requête paramétrée** · **injection SQL**.
 
+> **Note pratique — réel vs simulé.** La pratique associée à cette leçon s'exécute en
+> JavaScript (raisonnement relationnel déterministe : les lignes sont des tableaux d'objets),
+> **pas sur un vrai SGBD**. Elle entraîne le RAISONNEMENT sur les données, pas la syntaxe SQL
+> réellement exécutée. AI Career OS n'embarque pas (encore) de moteur SQL — voir la décision de
+> runtime dans `docs/ADR-030-curriculum-hardening-iii-and-ai-ml-debt.md`.
+
 ## 🧾 À retenir
 SQL décrit déclarativement des résultats sur des tables reliées par des clés : filtrer (WHERE), joindre (JOIN...ON), regrouper-agréger (GROUP BY/HAVING), trier-découper. La normalisation garantit une source de vérité unique, les index achètent de la vitesse de lecture, les transactions l'intégrité, et les requêtes paramétrées la sécurité. C'est le socle data de toute ta carrière IA.

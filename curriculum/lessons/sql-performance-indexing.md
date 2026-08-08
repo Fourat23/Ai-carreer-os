@@ -124,6 +124,12 @@ d'un N+1 côté application. Compare le nombre d'opérations avant/après.
 composite / préfixe** · **N+1** · **pagination par curseur** · **index couvrant** ·
 **sélectivité**.
 
+> **Note pratique — réel vs simulé.** La pratique associée à cette leçon s'exécute en
+> JavaScript (raisonnement relationnel déterministe : les lignes sont des tableaux d'objets),
+> **pas sur un vrai SGBD**. Elle entraîne le RAISONNEMENT sur les données, pas la syntaxe SQL
+> réellement exécutée. AI Career OS n'embarque pas (encore) de moteur SQL — voir la décision de
+> runtime dans `docs/ADR-030-curriculum-hardening-iii-and-ai-ml-debt.md`.
+
 ## 🧾 À retenir
 La performance SQL se joue sur une question : la base peut-elle éviter de tout lire ? Un index
 transforme un parcours O(n) en recherche O(log n), au prix d'écritures plus lentes — on

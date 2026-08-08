@@ -131,6 +131,12 @@ une fois toutes les lignes remplies). Explique pourquoi l'ordre importe.
 **compatibilité descendante** · **expand / contract** · **backfill** · **migration de
 données** · **zéro interruption**.
 
+> **Note pratique — réel vs simulé.** La pratique associée à cette leçon s'exécute en
+> JavaScript (raisonnement relationnel déterministe : les lignes sont des tableaux d'objets),
+> **pas sur un vrai SGBD**. Elle entraîne le RAISONNEMENT sur les données, pas la syntaxe SQL
+> réellement exécutée. AI Career OS n'embarque pas (encore) de moteur SQL — voir la décision de
+> runtime dans `docs/ADR-030-curriculum-hardening-iii-and-ai-ml-debt.md`.
+
 ## 🧾 À retenir
 Une base vivante évolue par migrations versionnées, committées avec le code, appliquées dans
 l'ordre — le « Git du schéma ». La règle d'or est la compatibilité : le code en production doit

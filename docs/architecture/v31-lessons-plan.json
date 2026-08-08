@@ -12,10 +12,14 @@
     "rag-evaluation",
     "ai-evaluation",
     "structured-outputs-tools",
-    "agent-workflows-orchestration"
+    "agent-workflows-orchestration",
+    "prompt-engineering",
+    "prompt-injection-defense"
   ],
   "critical": [],
   "prereq": {
+    "prompt-engineering": ["llm-fundamentals", "error-handling"],
+    "prompt-injection-defense": ["llm-fundamentals", "rag-fundamentals", "agents-fundamentals", "ai-security"],
     "structured-outputs-tools": ["llm-fundamentals", "typescript-basics", "api-design-basics"],
     "agent-workflows-orchestration": ["agents-fundamentals", "structured-outputs-tools", "architecture-basics"],
     "embeddings": ["llm-fundamentals"],

@@ -1,11 +1,31 @@
 <!-- keep -->
 # Leçon — Prompt engineering (sérieux)
 
+## 🌍 Le problème d'abord
+Tu essaies un LLM : tu tapes une phrase, ça répond, magie. Puis tu veux t'en servir DANS un
+programme — extraire un montant, classer un ticket, alimenter un RAG — et là, la magie devient
+un cauchemar : la même demande donne parfois un JSON propre, parfois un paragraphe poli avec le
+JSON noyé dedans, parfois un champ inventé. Le réflexe « j'ajoute “réponds en JSON” » ne règle
+rien : il réduit la fréquence des erreurs, il ne les supprime pas. Le problème n'est pas de
+trouver la formule magique ; c'est de traiter le prompt comme une SPÉCIFICATION (rôle,
+contraintes, format, exemples) dont le résultat est ensuite VÉRIFIÉ par ton code. Cette leçon te
+sort de la chasse aux astuces pour entrer dans une discipline d'ingénierie : spécifier, tester,
+mesurer, versionner.
+
 ## 🎯 Objectif
 Comprendre qu'un prompt est une **spécification**, pas une incantation ; savoir écrire des prompts robustes, versionnés et **validés par le code** ; et savoir pourquoi « ajoute “réponds en JSON” » ne suffit jamais en production. Utile dès que tu intègres un LLM dans une application (extraction, classification, RAG, agents).
 
 ## 🧠 Modèle mental
 Un prompt, c'est **le cahier des charges que tu donnes à un exécutant très rapide, très cultivé, mais distrait et non déterministe**. Tu ne le supplies pas : tu le spécifies (rôle, contraintes, format, exemples), puis tu VÉRIFIES son travail.
+
+## 🧩 Prérequis
+Tu dois comprendre ce qu'est un LLM et son non-déterminisme — pourquoi la même entrée peut
+donner deux sorties (`/doc/lessons/llm-fundamentals`) — et savoir parser/valider des données
+aux frontières d'un programme, gérer un échec proprement (`/doc/lessons/error-handling`). Les
+notions de sortie structurée et de retry sont formalisées juste après
+(`/doc/lessons/structured-outputs-tools`) ; l'évaluation d'un prompt par un jeu de cas mesuré
+s'appuie sur (`/doc/lessons/ai-evaluation`). Sans l'idée de non-déterminisme, « valider la
+sortie » paraît superflu — c'est pourtant tout l'enjeu.
 
 ## 📖 Explication complète
 Un prompt efficace combine quelques éléments :

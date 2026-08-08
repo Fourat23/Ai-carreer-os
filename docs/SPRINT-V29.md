@@ -53,8 +53,8 @@ relationnel `node-js`. Gate `v29:check` structurel + signaux pédagogiques (dens
 | CP7 | `2be3e79` | 5 exercices (trous réels) |
 | CP8 | `1a26de0` | 3 playbooks « Que faire dans ce cas ? » |
 | CP9 | `79c36ed` | cohérence des parcours + E2E |
-| CP10 | *(ce commit)* | glossaire + hardening + validation navigateur + rapport |
-| CP11 | *(à venir)* | Pedagogical hardening + audit |
+| CP10 | `9e85504` | glossaire + hardening + validation navigateur + rapport |
+| CP11 | *(ce commit)* | Pedagogical hardening + audit + prompt V30 |
 
 ## 10. CP0→CP11
 CP0 audit lecture seule → CP1 architecture → CP2 gate/registre → CP3 dette P0 → CP4
@@ -103,12 +103,14 @@ caractérisation, code legacy, versionnement sémantique). Glossaire 610 → 631
 côté Data/SE ; `frontend-engineer-v1` et `data-ml-v1` restent **annoncés** (pas de
 greenwashing : connaissance renforcée mais pas de curation jour-par-jour).
 
-## 18. Scores pédagogiques avant/après
-Détaillés dans `docs/PEDAGOGICAL-AUDIT-V29.md` (CP11). Objectif : leçons du périmètre au
-standard V27/V28 (on-ramp néophyte, prérequis explicites, pratique reliée).
+## 18. Scores pédagogiques avant/après (CP11)
+`docs/PEDAGOGICAL-AUDIT-V29.md` : registre de 21 items (9 nouvelles + 12 corrigées),
+moyenne globale **3,527**, tous ≥ seuil récent 3,25, planchers respectés. 12 leçons
+historiques passent de P0/P1 à P3. Avant/après, matrice complète, échantillon d'historiques
+non modifiées et walkthroughs néophyte (frontend + backend) y sont détaillés.
 
 ## 19. Tests finaux
-949 tests (à confirmer en CP11 après ajout des tests V29). 0 échec.
+**949 tests**, 0 échec (dont v29-pedagogy 4, v29-exercises 3, v29-e2e 5).
 
 ## 20. Typecheck
 `tsc --noEmit` propre (via `next build`).
@@ -165,7 +167,9 @@ observability-logging, prompt-engineering ; P1/P2 AI/ML et Production ancienne.
 Branche `claude/ai-career-os-saas-phfg49`, commits atomiques par CP, poussés.
 
 ## 32. HEAD final
-Renseigné dans la synthèse finale (après CP11).
+Le HEAD final (commit CP11) et l'état Git sont confirmés dans la synthèse finale affichée à
+la fin du sprint. Branche `claude/ai-career-os-saas-phfg49`, local == origin, working tree
+propre, aucun serveur/workspace résiduel, `progress.json` intact (SHA `598f27c2…`).
 
 ## 33. local == origin
 Vérifié après chaque push.
@@ -194,4 +198,97 @@ Data ; envisager la CURATION jour-par-jour des parcours Frontend/Data pour les r
 disponibles ; troisième vague d'audit rétroactif. (Prompt complet en fin de document, CP11.)
 
 ## 40. Prompt complet V30
-Ajouté en fin de document au CP11 (ne pas démarrer V30).
+Voir ci-dessous. **Ne pas démarrer V30 dans cette session.**
+
+---
+
+# Prompt de lancement — Sprint V30 (à démarrer PLUS TARD, PAS maintenant)
+
+> Ce prompt clôt V29. **Ne démarre pas V30 dans cette session.** Rédigé pour être collé tel
+> quel au lancement du sprint suivant.
+
+Reprends **AI Career OS** pour le **Sprint V30 — « Data/Software Engineering & Frontend
+Practice Expansion + troisième vague de Pedagogical Hardening »**.
+
+**IMPORTANT — travaille sur l'état RÉEL du dépôt.** Ne suppose jamais que ce résumé V29
+correspond encore exactement au repository. Commence par un **CP0 strictement en lecture
+seule** : audite l'état réel (git, tests, build, gates, leçons, exercices, missions,
+playbooks, glossaire, parcours) et présente un **rapport d'audit CP0 en français AVANT
+d'implémenter quoi que ce soit**.
+
+**Langue** : tous les rapports, audits, synthèses et le prompt V31 final en **français**.
+
+**Ordre de priorité (inchangé)** : PÉDAGOGIE > COHÉRENCE DES PARCOURS > PRATIQUE > QUALITÉ
+LOGICIELLE > FEATURES > UI/UX. *Ne privilégie jamais la quantité à la qualité. Une excellente
+leçon vaut mieux que cinq superficielles.* Pas de refonte UI/UX globale. Le projet doit
+enseigner à un NÉOPHYTE COMPLET sans sacrifier la profondeur professionnelle.
+
+**Critère néophyte complet** (juge suprême) : « une personne qui ne connaît pas encore la
+technologie peut-elle comprendre POURQUOI le concept existe, se construire un modèle mental
+correct, puis l'appliquer sans recopier aveuglément ? » Toujours : situation → intuition →
+vocabulaire → mécanisme → pratique.
+
+**État attendu (à VÉRIFIER, pas à supposer)** : HEAD final V29, branche
+`claude/ai-career-os-saas-phfg49`, ~109 leçons, ~195 exercices, 40 missions, ~28 playbooks,
+~631 termes de glossaire, 6 parcours disponibles + 3 annoncés, ~949 tests. V29 a résorbé la
+dette P0 de premier contact (terminal, git, sql, data-structures, typescript), créé le corpus
+Frontend/React (browser-dom-rendering → react-* → react-accessibility), approfondi Data/SQL
+(index/plans, transactions/concurrence, migrations) et SE (refactoring/legacy, dette
+technique, changements cassants). Gate `v29:check` actif. Moteur d'audit `lib/pedagogy-audit.mjs`.
+
+**Objectifs V30 (par ordre, à confirmer par l'audit CP0) :**
+
+- **(A) Troisième vague de hardening rétroactif.** Attaquer les **P0 restants** identifiés
+  dans `docs/PEDAGOGICAL-AUDIT-V29.md` : `api-design-basics`, et les fondations IA/ML de
+  premier contact (`llm-fundamentals`, `agents-fundamentals`, `ai-security`,
+  `statistics-for-ml`, `machine-learning-basics`). Même patron ADDITIF (rampe « Le problème
+  d'abord » + « Prérequis » rédigés + « Modèle mental » si absent + `practiceRefs` vers des
+  artefacts EXISTANTS), contenu technique conservé.
+
+- **(B) Rattrapage des P1 à fort trafic**, par lots cohérents (un domaine à la fois) :
+  d'abord Web/back (`express-backend`, `authentication`, `caching-performance`,
+  `async-javascript`), puis Data (`pandas-data-wrangling`, `data-cleaning-quality`,
+  `etl-pipelines`), puis un lot IA appliquée (`prompt-engineering`, `embeddings`, `rag-*`).
+
+- **(C) Expansion de la pratique Frontend/Data.** Approfondir React (routing, data-fetching
+  avancé, formulaires complexes/validation) et Data si l'audit révèle des trous, en
+  RÉUTILISANT les runtimes existants (react-tsx, web, node-js) ; créer de nouveaux exercices
+  UNIQUEMENT pour des trous réels (aucune duplication des ~195 existants).
+
+- **(D) Curation possible d'un parcours Frontend ou Data.** N'activer `frontend-engineer-v1`
+  ou `data-ml-v1` (aujourd'hui `announced`) que si corpus + pratique + progression + durée
+  crédible + audit le justifient (curation jour-par-jour via modules → `dayRefs`, projet fil
+  rouge). Sinon les laisser `announced` — **jamais de greenwashing pédagogique** (pas de
+  `totalDays: 0` promu).
+
+**Contraintes d'architecture (inchangées)** : local, mono-utilisateur, sans auth, sans SaaS,
+sans réseau requis. Pas de second moteur / catalogue / curriculum / runtime. `progress.json`
+sauvegardé puis restauré (gitignoré, jamais committé). Aucun secret réel, aucune fuite de
+solution/test privé. Pas de librairie UI, pas de refonte UI globale, aucun changement
+parasite. Distinguer toujours RÉEL / SIMULÉ / NON TESTÉ.
+
+**Gates** : garder `v26/v27/v28/v29:check` **actifs** (périmètres vivants distincts). Si V30
+introduit un nouveau contrat structurel, ajouter un `v30:check` ciblé et **le tester**.
+Attention aux FAUX POSITIFS du scan d'authoring (`à compléter`, `TODO`, `XXX`/`useXxx`) dans
+la prose des leçons — reformuler la prose, ne pas affaiblir le gate.
+
+**Checkpoints atomiques** CP0→CP11 (audit → design ADR/HSD/TSD → implémentation → tests →
+tsc → build → validation → restauration progress.json → cleanup → commit → push), un commit
+par CP.
+
+**CP11 (obligatoire)** : ré-audit (A) nouvelles leçons V30, (B) historiques modifiées
+(avant/après), (C) échantillon d'historiques NON modifiées de plusieurs époques, (D)
+walkthrough néophyte d'au moins deux séquences complètes ; mettre à jour la matrice P0→P3
+dans `docs/PEDAGOGICAL-AUDIT-V30.md` ; append du **prompt V31** à la fin de `SPRINT-V30.md`
+**sans démarrer V31**.
+
+**Critères de refus** : contenu de remplissage, généralités, jargon non introduit, fausse
+profondeur, gonflage de scores, longueur prise pour de la qualité, pattern/leçon sans besoin
+réel.
+
+**Livrable final** : `docs/SPRINT-V30.md` (rapport complet, 40 points) + synthèse française
+distinguant ce qui **existait / a été ajouté / corrigé / testé / non testé / simulé /
+insuffisant**, avec chiffres avant/après, dette restante P0/P1/P2, HEAD final et état Git.
+
+**Commence maintenant par CP0. N'implémente absolument rien avant d'avoir présenté le rapport
+d'audit CP0.**

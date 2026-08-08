@@ -8,13 +8,13 @@
 // skills (compétences associées). L'ordre DANS une catégorie = ordre recommandé.
 export const LESSONS = [
   // ── Fondations ──
-  { file: 'terminal-shell-filesystem.md', title: 'Terminal, shell et système de fichiers', cat: 'Fondations', level: 1, min: 40, skills: ['gitlinux'] },
+  { file: 'terminal-shell-filesystem.md', title: 'Terminal, shell et système de fichiers', cat: 'Fondations', level: 1, min: 40, skills: ['gitlinux'], practiceRefs: [{ kind: 'lab', id: 'terminal' }] },
   { file: 'git-fundamentals.md', title: 'Git : les fondamentaux', cat: 'Fondations', level: 1, min: 45, skills: ['gitlinux'] },
   { file: 'javascript-basics.md', title: 'JavaScript : les bases solides', cat: 'Fondations', level: 1, min: 50, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'js-array-objects' }, { kind: 'exercise', id: 'js-conditions' }, { kind: 'exercise', id: 'js-loops' }, { kind: 'exercise', id: 'js-even-squares' }] },
   { file: 'algorithmic-thinking.md', title: 'La pensée algorithmique', cat: 'Fondations', level: 1, min: 50, skills: ['algo'], practiceRefs: [{ kind: 'exercise', id: 'algo-two-sum' }, { kind: 'exercise', id: 'fizzbuzz' }, { kind: 'exercise', id: 'algo-binary-search' }] },
   { file: 'recursion.md', title: 'La récursion en profondeur', cat: 'Fondations', level: 2, min: 45, skills: ['algo'] },
-  { file: 'data-structures-intro.md', title: 'Structures de données : choisir son outil', cat: 'Fondations', level: 2, min: 50, skills: ['ds'] },
-  { file: 'typescript-basics.md', title: 'TypeScript : typer pour fiabiliser', cat: 'Fondations', level: 2, min: 45, skills: ['jsts'] },
+  { file: 'data-structures-intro.md', title: 'Structures de données : choisir son outil', cat: 'Fondations', level: 2, min: 50, skills: ['ds'], practiceRefs: [{ kind: 'exercise', id: 'ds-stack' }, { kind: 'exercise', id: 'algo-two-sum' }, { kind: 'exercise', id: 'perf-pair-count' }] },
+  { file: 'typescript-basics.md', title: 'TypeScript : typer pour fiabiliser', cat: 'Fondations', level: 2, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'ts-greeter' }, { kind: 'exercise', id: 'ts-interface-cart' }, { kind: 'exercise', id: 'ts-generic-first' }, { kind: 'exercise', id: 'ts-debug-positives' }] },
   { file: 'async-javascript.md', title: 'JavaScript asynchrone', cat: 'Fondations', level: 2, min: 45, skills: ['jsts'] },
   { file: 'git-advanced.md', title: 'Git avancé : rebase et historique propre', cat: 'Fondations', level: 3, min: 40, skills: ['gitlinux'] },
   // ── Web & backend ──
@@ -26,7 +26,7 @@ export const LESSONS = [
   { file: 'react-hooks-effects.md', title: 'React : effets, données async et hooks', cat: 'Web & backend', level: 2, min: 50, skills: ['jsts'] },
   { file: 'caching-performance.md', title: 'Cache et performance', cat: 'Web & backend', level: 3, min: 45, skills: ['archi', 'se'] },
   // ── Data & SQL ──
-  { file: 'sql-foundations.md', title: 'SQL : les fondations', cat: 'Data & SQL', level: 1, min: 50, skills: ['sql'] },
+  { file: 'sql-foundations.md', title: 'SQL : les fondations', cat: 'Data & SQL', level: 1, min: 50, skills: ['sql'], practiceRefs: [{ kind: 'exercise', id: 'sys-log-level-counts' }, { kind: 'exercise', id: 'fix-nplus1' }] },
   { file: 'database-modeling.md', title: 'Modélisation, index et transactions', cat: 'Data & SQL', level: 2, min: 50, skills: ['sql'] },
   { file: 'pandas-data-wrangling.md', title: 'pandas : manipuler des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
   { file: 'data-cleaning-quality.md', title: 'Nettoyage et qualité des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },

@@ -1,12 +1,43 @@
 <!-- keep -->
 # Leçon — TypeScript : typer pour fiabiliser
 
-## Pourquoi c'est important
+## 🌍 Le problème d'abord
+En JavaScript, rien ne t'empêche d'appeler une fonction avec le mauvais type : tu passes
+un texte là où un nombre était attendu, et ça n'explose qu'à l'exécution — parfois en
+production, devant un client. Tu passes alors des heures à chercher un bug qu'une simple
+relecture aurait pu attraper. **TypeScript** répond exactement à ça : tu ANNOTES ce que
+tes fonctions attendent et renvoient, et un vérificateur relit tout ton code AVANT
+l'exécution pour signaler les incohérences. C'est comme un correcteur orthographique, mais
+pour la cohérence de ton code. Cette leçon te montre comment ces annotations transforment
+des bugs d'exécution coûteux en erreurs attrapées en une seconde.
+
+## 🎯 Objectif
+Savoir **typer** du JavaScript (signatures, interfaces, unions littérales, génériques,
+optionnels), comprendre que la vérification est **statique** (à la compilation, pas à
+l'exécution), et utiliser `unknown` + validation comme **frontière** avec toute donnée
+externe (fichier, API, sortie de LLM).
+
+## 🧩 Prérequis
+Tu dois déjà savoir programmer en JavaScript — valeurs, types, objets, tableaux, fonctions,
+notamment la conscience des types et la différence valeur/référence
+(`/doc/lessons/javascript-basics`). TypeScript n'est PAS un nouveau langage : c'est
+JavaScript avec des annotations. Aucun outillage préalable (`tsc`, `tsconfig`) n'est
+supposé : il est présenté ici.
+
+## 🧠 Modèle mental
+TypeScript n'exécute rien : c'est **JavaScript + des annotations**, relues par un
+compilateur (`tsc`) qui signale les incohérences AVANT l'exécution ; le code produit est du
+JS normal. Conséquence CAPITALE à intégrer tout de suite : les types existent à la
+COMPILATION et DISPARAISSENT à l'exécution. TypeScript ne vérifie donc PAS les données au
+moment où elles arrivent (une réponse d'API, une sortie de LLM) — il faut, à ces
+frontières, une validation qui s'exécute vraiment.
+
+## 💡 Pourquoi c'est important
 TypeScript est le standard de l'industrie pour tout projet JS sérieux. La raison est économique : un bug attrapé à la compilation coûte des secondes ; le même bug en production coûte des heures (ou des clients). Le typage est aussi une **documentation vérifiée** : la signature dit le contrat, le compilateur le fait respecter partout, pour toujours. Pour tes futurs systèmes IA, c'est vital : la sortie d'un LLM est par nature incertaine — la frontière typée est ce qui empêche cette incertitude de contaminer ton application.
 
 ## Explication complète
 
-### Le modèle mental : un vérificateur AU-DESSUS de JavaScript
+### Le vérificateur au-dessus de JavaScript, en détail
 TypeScript n'exécute rien : c'est JavaScript + des annotations, relues par un compilateur (`tsc`) qui signale les incohérences AVANT l'exécution. Le code produit est du JS normal. Donc : mêmes concepts qu'en JS, plus un garde du corps qui lit tout ton code à chaque sauvegarde.
 
 ```ts
@@ -19,7 +50,7 @@ Tu n'annotes pas tout : `const x = 42` est inféré `number`. La règle pratique
 
 ### Les outils de modélisation
 - **`interface`** décrit la forme d'un objet : `interface Task { id: number; titre: string; fait: boolean }`.
-- **Unions littérales** — l'outil le plus rentable du langage : `type Statut = 'panier' | 'payee' | 'expediee'`. Une simple string devient un contrat : la typo `'payé'` est une erreur de compilation, et un `switch` sur le statut peut être vérifié EXHAUSTIF (ajouter un statut → le compilateur pointe tous les switch à compléter).
+- **Unions littérales** — l'outil le plus rentable du langage : `type Statut = 'panier' | 'payee' | 'expediee'`. Une simple string devient un contrat : la typo `'payé'` est une erreur de compilation, et un `switch` sur le statut peut être vérifié EXHAUSTIF (ajouter un statut → le compilateur pointe tous les switch à mettre à jour).
 - **Optionnels et null-safety** : `telephone?: string` dit « peut être absent » ; en mode `strict`, utiliser une valeur possiblement `undefined` sans vérifier est une erreur. La moitié des crashs JS (`cannot read property of undefined`) meurt ici.
 - **Génériques `<T>`** : écrire UNE logique valable pour tous les types sans perdre le typage. `premier<T>(arr: T[], p: (x: T) => boolean): T | undefined` fonctionne sur des nombres comme des Commandes, et le résultat est du BON type. C'est le mécanisme derrière `Array<T>`, `Map<K, V>`, `Promise<T>`.
 
@@ -38,7 +69,7 @@ Dans chaque branche, TypeScript AFFINE le type selon tes tests. Tes guard clause
 ## Concepts clés
 `tsc`, `tsconfig`, mode `strict` · annotations de signatures · inférence · `interface` vs `type` · unions et littéraux · optionnels `?` · `readonly` · génériques · `any` vs `unknown` · narrowing.
 
-## Exemple
+## 🧭 Exemple guidé
 ```ts
 type Statut = 'pending' | 'done';
 interface Task { id: number; titre: string; statut: Statut }
@@ -49,20 +80,20 @@ function terminer(tasks: readonly Task[], id: number): Task[] {
 ```
 `readonly` fait vérifier l'immutabilité par le compilateur : `tasks.push(...)` est une erreur. Ta discipline du jour 26, devenue contrat outillé.
 
-## Pièges classiques
+## ⚠️ Erreurs fréquentes
 - `any` pour faire taire une erreur : tu viens de payer TypeScript pour le débrancher. Cherche le vrai type, ou utilise `unknown` + validation.
 - Statut en `string` au lieu d'union littérale : toute la protection s'évapore.
 - Croire que TS valide À L'EXÉCUTION : les annotations disparaissent à la compilation. Les données externes exigent une validation runtime (code qui vérifie vraiment).
 - Sur-typer l'interne : annote les frontières, laisse l'inférence vivre.
 
-## Lien avec l'IA / le futur
+## 🔗 Liens avec le programme
 Le pattern central de tes apps LLM (mois 8+) : définir le type attendu de la sortie du modèle, parser en `unknown`, VALIDER, puis seulement utiliser. Le LLM est un composant faillible ; le typage est la douane à sa frontière. DocSense (mois 11) sera intégralement typé : ports et adapters de l'architecture hexagonale sont... des interfaces TypeScript.
 
 ## Mini-exercice
 Modélise une commande e-commerce : `Produit`, `LigneCommande`, `Commande` (statut en union littérale). Écris `total(commande): number` et une fonction générique `chercher<T>(arr: T[], p: (x: T) => boolean): T | undefined`. Tout doit compiler en strict, zéro `any`. Puis introduis volontairement une typo de statut et constate l'erreur.
 
-## Vocabulaire à retenir
+## 📚 Vocabulaire
 **compilation** · **inférence** · **contrat / signature** · **union littérale** · **narrowing** · **générique** · **strict mode** · **`unknown`** · **validation runtime** (≠ typage statique).
 
-## Résumé
+## 🧾 À retenir
 TypeScript est un vérificateur posé sur JavaScript : les signatures deviennent des contrats vérifiés mécaniquement. Les unions littérales transforment les strings en états sûrs, les génériques donnent des outils réutilisables sans perte de type, `unknown` + validation est la frontière avec toute donnée externe — dont les sorties de LLM. Annote les frontières, bannis `any`, active `strict` : le compilateur devient ton premier relecteur.

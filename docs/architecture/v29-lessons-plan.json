@@ -3,7 +3,23 @@
   "baselineRef": "4b8d8b4",
   "note": "Périmètre V29 (cf. ADR-029/HSD-029/TSD-029). newLessons : nouvelles Leçons de fond Frontend/React, Data/SQL, Software Engineering. hardenedLegacy : leçons historiques corrigées (dette P0 de premier contact + domaines cibles React/Data/SE). Le gate v29:check valide STRUCTURELLEMENT tout le périmètre ; il ne juge jamais la profondeur par la longueur. critical : leçons devant porter au moins un practiceRef. prereq : graphe de prérequis (slug -> [slugs]) validé acyclique. Les arrays se remplissent au fil des CP3->CP6 (une leçon n'est ajoutée qu'une fois réellement conforme).",
   "newLessons": [],
-  "hardenedLegacy": [],
-  "critical": [],
-  "prereq": {}
+  "hardenedLegacy": [
+    "terminal-shell-filesystem",
+    "git-fundamentals",
+    "data-structures-intro",
+    "typescript-basics",
+    "sql-foundations"
+  ],
+  "critical": [
+    "terminal-shell-filesystem",
+    "data-structures-intro",
+    "typescript-basics",
+    "sql-foundations"
+  ],
+  "prereq": {
+    "git-fundamentals": ["terminal-shell-filesystem"],
+    "data-structures-intro": ["javascript-basics", "algorithmic-thinking"],
+    "typescript-basics": ["javascript-basics"],
+    "sql-foundations": ["javascript-basics"]
+  }
 }

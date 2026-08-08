@@ -1,12 +1,40 @@
 <!-- keep -->
 # Leçon — SQL : les fondations
 
-## Pourquoi c'est important
+## 🌍 Le problème d'abord
+Une entreprise stocke des millions de lignes : clients, commandes, produits. Un jour on te
+demande « quels sont nos 3 meilleurs clients ce trimestre ? ». Ouvrir un fichier et compter
+à la main est impossible. Il te faut un moyen de POSER une question précise à un grand
+ensemble de données et d'obtenir la réponse en une seconde. Ce moyen s'appelle **SQL** : au
+lieu d'écrire COMMENT parcourir les données, tu DÉCRIS ce que tu veux (« les clients, triés
+par total dépensé, les 3 premiers ») et le moteur se débrouille. Cette leçon t'apprend à
+raisonner sur les données relationnelles et à formuler ces questions.
+
+## 🎯 Objectif
+Comprendre le **modèle relationnel** (tables reliées par des clés) et savoir écrire les
+requêtes fondamentales — filtrer (WHERE), joindre (JOIN), regrouper/agréger (GROUP BY),
+trier/limiter — puis raisonner sur l'intégrité (transactions) et la performance (index).
+
+## 🧩 Prérequis
+Tu dois être à l'aise avec les tableaux d'objets et les six gestes universels (filtrer,
+transformer, agréger, trier, regrouper) vus en JavaScript (`/doc/lessons/javascript-basics`),
+car SQL EST ce raisonnement, dans une autre langue. Aucune base de données ni aucun serveur
+n'est requis pour comprendre la leçon : le modèle relationnel est construit ici.
+
+## 🧠 Modèle mental
+Pense « question métier → ensemble de lignes → filtrage/jointure/agrégation → résultat ».
+Les données vivent dans des **tables** (lignes × colonnes typées), reliées entre elles par
+des **clés** (chaque ligne a un identifiant unique ; une table en référence une autre par
+cet identifiant). SQL est **déclaratif** : tu décris le résultat voulu, pas la façon de
+parcourir. C'est exactement ton pipeline `filter → map → reduce → sort` du mois 1, exprimé
+dans le langage des données.
+
+## 💡 Pourquoi c'est important
 SQL a 50 ans et enterrera probablement toutes les technologies de ton CV : c'est LA langue des données en entreprise. Analytics, pipelines, feature engineering ML, métadonnées de ton RAG — tout y passe. C'est aussi une compétence d'entretien quasi systématique pour les rôles data/IA (2-3 requêtes en live), et un des rares savoirs qui ne se périme pas.
 
 ## Explication complète
 
-### Le modèle : des tables reliées par des clés
+### Les tables reliées par des clés, en détail
 Une base relationnelle organise les données en **tables** (lignes × colonnes typées). Chaque ligne a une **clé primaire** (id unique) ; une table en référence une autre par une **clé étrangère** (`livres.auteur_id` → `auteurs.id`). Ce système de références élimine la duplication : l'auteur vit à UN endroit, mille livres pointent vers lui.
 
 ### SQL est DÉCLARATIF
@@ -43,7 +71,7 @@ Les requêtes **paramétrées** (`WHERE nom = ?` + valeur passée séparément) 
 ## Concepts clés
 Table, ligne, colonne typée · clé primaire / étrangère · SELECT / WHERE / ORDER BY / LIMIT · JOIN (INNER / LEFT, condition ON) · GROUP BY, agrégats, HAVING · sous-requêtes · normalisation 1-3NF, dénormalisation · index (coût/bénéfice) · transaction, ACID · requêtes paramétrées.
 
-## Exemple
+## 🧭 Exemple guidé
 « Les 3 services qui coûtent le plus cher » :
 ```sql
 SELECT service, SUM(salaire) AS cout
@@ -54,21 +82,21 @@ LIMIT 3;
 ```
 Compare mot à mot avec ta version JS du jour 11 (regrouper → sommer → trier → découper) : QUATRE syntaxes dans l'année (JS, SQL, pandas, et l'agrégation d'éval RAG), UN modèle mental.
 
-## Pièges classiques
+## ⚠️ Erreurs fréquentes
 - JOIN sans ON : explosion cartésienne.
 - WHERE au lieu de HAVING sur un agrégat (et inversement).
 - Index partout (écritures lentes) ou nulle part (lectures lentes) : mesurer.
 - Concaténer du SQL avec l'entrée utilisateur : faille d'injection béante.
 - NULL se compare avec `IS NULL`, jamais `= NULL`.
 
-## Lien avec l'IA / le futur
+## 🔗 Liens avec le programme
 Ton RAG hybride (mois 9) utilisera SQLite FTS5 (recherche lexicale = du SQL), et les métadonnées des chunks vivront en SQL. Le feature engineering ML (mois 6) commence par des agrégats SQL. L'évaluation de DocSense stockera ses scores versionnés en SQLite. Et « écris-moi la requête des top clients » reste un grand classique d'entretien data.
 
 ## Mini-exercice
 Sur une base livres/auteurs/emprunts : (1) les livres jamais empruntés (LEFT JOIN + IS NULL), (2) le nombre d'emprunts par membre trié décroissant, (3) les auteurs ayant plus de 2 livres (HAVING). Vérifie chaque résultat à la main sur des données de test réduites.
 
-## Vocabulaire à retenir
+## 📚 Vocabulaire
 **clé primaire / étrangère** · **jointure** · **agrégat** · **HAVING** · **sous-requête** · **normalisation / dénormalisation** · **index** · **transaction / ACID / rollback** · **requête paramétrée** · **injection SQL**.
 
-## Résumé
+## 🧾 À retenir
 SQL décrit déclarativement des résultats sur des tables reliées par des clés : filtrer (WHERE), joindre (JOIN...ON), regrouper-agréger (GROUP BY/HAVING), trier-découper. La normalisation garantit une source de vérité unique, les index achètent de la vitesse de lecture, les transactions l'intégrité, et les requêtes paramétrées la sécurité. C'est le socle data de toute ta carrière IA.

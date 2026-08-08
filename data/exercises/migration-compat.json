@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "backend-engineer-v1"],
+  "activeFile": "solution.mjs",
+  "id": "migration-compat",
+  "title": "Migrations : changement compatible ou cassant ?",
+  "difficulty": 2,
+  "summary": "classifyMigration(change) où change={kind} renvoie 'compatible' pour un changement additif (add-nullable-column, add-table, add-index) et 'cassant' pour un changement destructif ou contraignant (drop-column, rename-column, add-not-null-without-default). Sur une base vivante, seul le compatible se déploie sans coupure.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function classifyMigration(change) {\n  // TODO : distinguer les changements additifs (compatibles) des destructifs/contraignants (cassants).\n  return 'compatible';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function classifyMigration(change) {\n  const compatibles = new Set(['add-nullable-column', 'add-table', 'add-index']);\n  return compatibles.has(change.kind) ? 'compatible' : 'cassant';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "ajouter une colonne nullable → compatible", "kind": "call-equals", "export": "classifyMigration", "args": [{ "kind": "add-nullable-column" }], "expected": "compatible" },
+    { "id": "t2", "name": "supprimer une colonne utilisée → cassant", "kind": "call-equals", "export": "classifyMigration", "args": [{ "kind": "drop-column" }], "expected": "cassant" },
+    { "id": "t3", "name": "ajouter une colonne NOT NULL sans défaut → cassant", "kind": "call-equals", "export": "classifyMigration", "args": [{ "kind": "add-not-null-without-default" }], "expected": "cassant", "private": true }
+  ]
+}

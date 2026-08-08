@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T14:29:33.288Z",
+  "generatedAt": "2026-08-08T14:36:11.257Z",
   "skills": [
     {
       "id": "algo",
@@ -5880,6 +5880,12 @@
       "min": 45,
       "skills": [
         "gitlinux"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "git-commit-grouping"
+        }
       ]
     },
     {
@@ -6236,6 +6242,10 @@
       "practiceRefs": [
         {
           "kind": "exercise",
+          "id": "sql-inner-join"
+        },
+        {
+          "kind": "exercise",
           "id": "sys-log-level-counts"
         },
         {
@@ -6294,6 +6304,12 @@
       "skills": [
         "sql",
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "db-concurrency-risk"
+        }
       ]
     },
     {
@@ -6305,6 +6321,12 @@
       "skills": [
         "sql",
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "migration-compat"
+        }
       ]
     },
     {
@@ -6470,6 +6492,12 @@
       "min": 45,
       "skills": [
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "breaking-change-classify"
+        }
       ]
     },
     {

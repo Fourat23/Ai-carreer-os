@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "backend-engineer-v1", "fullstack-typescript"],
+  "activeFile": "solution.mjs",
+  "id": "git-commit-grouping",
+  "title": "Git : combien de commits cohérents ?",
+  "difficulty": 1,
+  "summary": "commitCount(files) où files=[{path, reason}] renvoie le nombre de commits COHÉRENTS à faire, c'est-à-dire le nombre de RAISONS distinctes de changement (un commit = un changement cohérent). Deux fichiers modifiés pour la même raison → un seul commit ; pour des raisons différentes → un commit chacun.",
+  "skills": ["arrays", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function commitCount(files) {\n  // TODO : un commit = une RAISON cohérente, pas un commit par fichier.\n  return files.length;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function commitCount(files) {\n  return new Set(files.map((f) => f.reason)).size;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "deux fichiers, même raison → un seul commit", "kind": "call-equals", "export": "commitCount", "args": [[{ "path": "a.js", "reason": "feat-recherche" }, { "path": "b.js", "reason": "feat-recherche" }]], "expected": 1 },
+    { "id": "t2", "name": "deux raisons distinctes → deux commits", "kind": "call-equals", "export": "commitCount", "args": [[{ "path": "a.js", "reason": "feat-recherche" }, { "path": "b.js", "reason": "fix-bug" }]], "expected": 2 },
+    { "id": "t3", "name": "aucun changement → zéro commit", "kind": "call-equals", "export": "commitCount", "args": [[]], "expected": 0, "private": true }
+  ]
+}

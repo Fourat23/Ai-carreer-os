@@ -42,7 +42,11 @@
     "error-handling",
     "architecture-basics",
     "refactoring-legacy-code",
-    "technical-debt"
+    "technical-debt",
+    "git-fundamentals",
+    "database-transactions-concurrency",
+    "database-migrations",
+    "breaking-changes-compatibility"
   ],
   "prereq": {
     "git-fundamentals": ["terminal-shell-filesystem"],

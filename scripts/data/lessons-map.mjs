@@ -9,7 +9,7 @@
 export const LESSONS = [
   // ── Fondations ──
   { file: 'terminal-shell-filesystem.md', title: 'Terminal, shell et système de fichiers', cat: 'Fondations', level: 1, min: 40, skills: ['gitlinux'], practiceRefs: [{ kind: 'lab', id: 'terminal' }] },
-  { file: 'git-fundamentals.md', title: 'Git : les fondamentaux', cat: 'Fondations', level: 1, min: 45, skills: ['gitlinux'] },
+  { file: 'git-fundamentals.md', title: 'Git : les fondamentaux', cat: 'Fondations', level: 1, min: 45, skills: ['gitlinux'], practiceRefs: [{ kind: 'exercise', id: 'git-commit-grouping' }] },
   { file: 'javascript-basics.md', title: 'JavaScript : les bases solides', cat: 'Fondations', level: 1, min: 50, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'js-array-objects' }, { kind: 'exercise', id: 'js-conditions' }, { kind: 'exercise', id: 'js-loops' }, { kind: 'exercise', id: 'js-even-squares' }] },
   { file: 'algorithmic-thinking.md', title: 'La pensée algorithmique', cat: 'Fondations', level: 1, min: 50, skills: ['algo'], practiceRefs: [{ kind: 'exercise', id: 'algo-two-sum' }, { kind: 'exercise', id: 'fizzbuzz' }, { kind: 'exercise', id: 'algo-binary-search' }] },
   { file: 'recursion.md', title: 'La récursion en profondeur', cat: 'Fondations', level: 2, min: 45, skills: ['algo'] },
@@ -31,11 +31,11 @@ export const LESSONS = [
   { file: 'react-composition-architecture.md', title: 'React : composition, architecture d\'état et hooks personnalisés', cat: 'Frontend & React', level: 3, min: 55, skills: ['jsts', 'archi'], practiceRefs: [{ kind: 'exercise', id: 'react-profile' }, { kind: 'exercise', id: 'react-parent-child' }, { kind: 'exercise', id: 'react-search' }] },
   { file: 'react-accessibility.md', title: 'Accessibilité des interfaces web', cat: 'Frontend & React', level: 2, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-semantic' }, { kind: 'exercise', id: 'web-card' }, { kind: 'exercise', id: 'react-avatar' }, { kind: 'exercise', id: 'react-debug-list' }] },
   // ── Data & SQL ──
-  { file: 'sql-foundations.md', title: 'SQL : les fondations', cat: 'Data & SQL', level: 1, min: 50, skills: ['sql'], practiceRefs: [{ kind: 'exercise', id: 'sys-log-level-counts' }, { kind: 'exercise', id: 'fix-nplus1' }] },
+  { file: 'sql-foundations.md', title: 'SQL : les fondations', cat: 'Data & SQL', level: 1, min: 50, skills: ['sql'], practiceRefs: [{ kind: 'exercise', id: 'sql-inner-join' }, { kind: 'exercise', id: 'sys-log-level-counts' }, { kind: 'exercise', id: 'fix-nplus1' }] },
   { file: 'database-modeling.md', title: 'Modélisation, index et transactions', cat: 'Data & SQL', level: 2, min: 50, skills: ['sql'], practiceRefs: [{ kind: 'exercise', id: 'sys-log-level-counts' }, { kind: 'exercise', id: 'fix-nplus1' }] },
   { file: 'sql-performance-indexing.md', title: 'Performance SQL : index, plans et N+1', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'archi'], practiceRefs: [{ kind: 'exercise', id: 'fix-nplus1' }, { kind: 'exercise', id: 'perf-pair-count' }] },
-  { file: 'database-transactions-concurrency.md', title: 'Transactions, ACID et concurrence', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'se'] },
-  { file: 'database-migrations.md', title: 'Migrations de schéma et compatibilité', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'se'] },
+  { file: 'database-transactions-concurrency.md', title: 'Transactions, ACID et concurrence', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'se'], practiceRefs: [{ kind: 'exercise', id: 'db-concurrency-risk' }] },
+  { file: 'database-migrations.md', title: 'Migrations de schéma et compatibilité', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'se'], practiceRefs: [{ kind: 'exercise', id: 'migration-compat' }] },
   { file: 'pandas-data-wrangling.md', title: 'pandas : manipuler des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
   { file: 'data-cleaning-quality.md', title: 'Nettoyage et qualité des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
   { file: 'etl-pipelines.md', title: 'Pipelines ETL', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
@@ -47,7 +47,7 @@ export const LESSONS = [
   { file: 'architecture-basics.md', title: 'Architecture logicielle : les bases', cat: 'Software engineering & architecture', level: 3, min: 55, skills: ['archi'], practiceRefs: [{ kind: 'lab', id: 'cloud-architecture' }] },
   { file: 'refactoring-legacy-code.md', title: 'Refactoring et code legacy : changer sans casser', cat: 'Software engineering & architecture', level: 2, min: 50, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'refactor-legacy' }, { kind: 'exercise', id: 'debt-legacy-refactor' }] },
   { file: 'technical-debt.md', title: 'La dette technique : décider en connaissance de cause', cat: 'Software engineering & architecture', level: 2, min: 45, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'debt-legacy-refactor' }] },
-  { file: 'breaking-changes-compatibility.md', title: 'Changements cassants et compatibilité', cat: 'Software engineering & architecture', level: 3, min: 45, skills: ['se'] },
+  { file: 'breaking-changes-compatibility.md', title: 'Changements cassants et compatibilité', cat: 'Software engineering & architecture', level: 3, min: 45, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'breaking-change-classify' }] },
   { file: 'observability-logging.md', title: 'Observabilité et logs structurés', cat: 'Software engineering & architecture', level: 2, min: 40, skills: ['archi', 'cloud'] },
   // ── Python & ML ──
   { file: 'python-foundations.md', title: 'Python : les fondations', cat: 'Python & ML', level: 1, min: 45, skills: ['python'], practiceRefs: [{ kind: 'exercise', id: 'py-list-sum' }, { kind: 'exercise', id: 'py-word-count' }, { kind: 'exercise', id: 'py-slugify' }] },

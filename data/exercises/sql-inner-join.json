@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "backend-engineer-v1"],
+  "activeFile": "solution.mjs",
+  "id": "sql-inner-join",
+  "title": "Données : jointure interne (INNER JOIN) en mémoire",
+  "difficulty": 2,
+  "summary": "innerJoin(left, right, key) reproduit la logique d'un INNER JOIN : ne garder que les lignes de gauche qui ONT une correspondance à droite sur `key`, en fusionnant les deux objets. Les lignes sans correspondance sont EXCLUES (contrairement à un LEFT JOIN). Raisonnement relationnel, sans SGBD.",
+  "skills": ["arrays", "hashmap", "objects"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function innerJoin(left, right, key) {\n  const index = new Map(right.map((r) => [r[key], r]));\n  // TODO : un INNER JOIN EXCLUT les lignes de gauche sans correspondance à droite.\n  return left.map((l) => ({ ...l, ...index.get(l[key]) }));\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function innerJoin(left, right, key) {\n  const index = new Map(right.map((r) => [r[key], r]));\n  const out = [];\n  for (const l of left) {\n    if (index.has(l[key])) out.push({ ...l, ...index.get(l[key]) });\n  }\n  return out;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "correspondance simple : fusionne les deux lignes", "kind": "call-equals", "export": "innerJoin", "args": [[{ "id": 1, "a": "x" }, { "id": 2, "a": "y" }], [{ "id": 1, "b": "p" }], "id"], "expected": [{ "id": 1, "a": "x", "b": "p" }] },
+    { "id": "t2", "name": "aucune correspondance : résultat vide (pas de LEFT JOIN)", "kind": "call-equals", "export": "innerJoin", "args": [[{ "id": 1, "a": "x" }], [{ "id": 9, "b": "z" }], "id"], "expected": [] },
+    { "id": "t3", "name": "plusieurs lignes de gauche pour une même clé", "kind": "call-equals", "export": "innerJoin", "args": [[{ "id": 1, "a": "x" }, { "id": 1, "a": "y" }], [{ "id": 1, "b": "p" }], "id"], "expected": [{ "id": 1, "a": "x", "b": "p" }, { "id": 1, "a": "y", "b": "p" }], "private": true }
+  ]
+}

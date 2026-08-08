@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "backend-engineer-v1"],
+  "activeFile": "solution.mjs",
+  "id": "db-concurrency-risk",
+  "title": "Concurrence : risque de mise à jour perdue ?",
+  "difficulty": 2,
+  "summary": "classifyUpdate(op) où op={kind} renvoie 'risque-perte' si le motif est un read-then-write non protégé (deux transactions lisent puis écrivent → l'une écrase l'autre), sinon 'sûr' pour un incrément atomique ('atomic-increment') ou une lecture verrouillée ('locked-read'). Enseigne le lost update.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function classifyUpdate(op) {\n  // TODO : seul le motif 'read-then-write' non protégé risque une mise à jour perdue.\n  return 'sûr';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function classifyUpdate(op) {\n  return op.kind === 'read-then-write' ? 'risque-perte' : 'sûr';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "read-then-write non protégé → risque de mise à jour perdue", "kind": "call-equals", "export": "classifyUpdate", "args": [{ "kind": "read-then-write" }], "expected": "risque-perte" },
+    { "id": "t2", "name": "incrément atomique → sûr", "kind": "call-equals", "export": "classifyUpdate", "args": [{ "kind": "atomic-increment" }], "expected": "sûr" },
+    { "id": "t3", "name": "lecture verrouillée (FOR UPDATE) → sûr", "kind": "call-equals", "export": "classifyUpdate", "args": [{ "kind": "locked-read" }], "expected": "sûr", "private": true }
+  ]
+}

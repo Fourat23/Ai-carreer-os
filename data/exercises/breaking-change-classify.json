@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "backend-engineer-v1", "fullstack-typescript"],
+  "activeFile": "solution.mjs",
+  "id": "breaking-change-classify",
+  "title": "Contrat d'API : changement compatible ou cassant ?",
+  "difficulty": 2,
+  "summary": "classifyApiChange(change) où change={kind} renvoie 'compatible' pour un ajout (add-optional-param, add-response-field, add-endpoint) et 'cassant' pour une rupture de contrat (remove-field, rename-param, make-param-required). Règle : on élargit sans restreindre en silence.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function classifyApiChange(change) {\n  // TODO : un ajout est compatible ; retirer, renommer ou rendre obligatoire est cassant.\n  return 'compatible';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function classifyApiChange(change) {\n  const compatibles = new Set(['add-optional-param', 'add-response-field', 'add-endpoint']);\n  return compatibles.has(change.kind) ? 'compatible' : 'cassant';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "ajouter un paramètre optionnel → compatible", "kind": "call-equals", "export": "classifyApiChange", "args": [{ "kind": "add-optional-param" }], "expected": "compatible" },
+    { "id": "t2", "name": "renommer un champ de réponse → cassant", "kind": "call-equals", "export": "classifyApiChange", "args": [{ "kind": "rename-param" }], "expected": "cassant" },
+    { "id": "t3", "name": "rendre obligatoire un paramètre optionnel → cassant", "kind": "call-equals", "export": "classifyApiChange", "args": [{ "kind": "make-param-required" }], "expected": "cassant", "private": true }
+  ]
+}

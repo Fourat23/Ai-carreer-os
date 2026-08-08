@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T15:33:02.586Z",
+  "generatedAt": "2026-08-08T15:35:59.560Z",
   "skills": [
     {
       "id": "algo",
@@ -6551,6 +6551,27 @@
         {
           "kind": "playbook",
           "id": "breaking-api-change"
+        }
+      ]
+    },
+    {
+      "slug": "technical-documentation",
+      "title": "La documentation technique : quel document, pour qui, quand",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "min": 40,
+      "skills": [
+        "se",
+        "comm"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "mission",
+          "id": "feature-design-docs"
+        },
+        {
+          "kind": "mission",
+          "id": "health-incident-postmortem"
         }
       ]
     },

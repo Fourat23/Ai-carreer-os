@@ -93,8 +93,12 @@ V30 = profondeur + liens) ; ai-engineer-foundations fortement amélioré (fondat
 backend-engineer renforcé ; frontend-engineer-v1 / data-ml-v1 restent **annoncés**.
 
 ## 18. Audit pédagogique CP11
-Voir `docs/PEDAGOGICAL-AUDIT-V30.md` (registre 16-dim, avant/après, walkthroughs néophyte,
-dette restante). Rempli au CP11.
+`docs/PEDAGOGICAL-AUDIT-V30.md` : quality gate pédagogique indépendante. Registre de 11 items
+(1 nouvelle + 10 corrigées), moyenne **3,551**, tous ≥ 3,25. Vérification « maths honnêtes »
+(AI/ML : intuition avant formule). Walkthroughs néophyte Backend et AI/ML : aucune connaissance
+non introduite exigée. Échantillon d'historiques non modifiées de plusieurs époques (V26–V29
+conformes ; IA appliquée avancée = dette P1 V31). Distinction explicite proxy structurel ≠
+compréhension réelle.
 
 ## 19. Métriques avant/après
 Leçons 109 → **110** ; exercices 195 → **198** ; playbooks 28 → **31** ; glossaire 631 →
@@ -165,10 +169,102 @@ Backend/API est cohérent et relié, la documentation technique existe. 110 leç
 31 playbooks, 645 termes, 961 tests. Aucune régression.
 
 ## 33. HEAD final
-Renseigné dans la synthèse finale (après CP11).
+Commit CP11 (dernier commit de la branche `claude/ai-career-os-saas-phfg49`) ; valeur exacte
+dans la synthèse finale affichée à l'utilisateur.
 
 ## 34. local == origin
-Vérifié après chaque push.
+Vérifié après chaque push (ahead 0 / behind 0), working tree propre, aucun serveur/workspace
+résiduel, `progress.json` inchangé (SHA `598f27c2…`).
 
 ## 35. Prompt de reprise V31
-Voir la fin de ce document (ajouté au CP11) ; **ne pas démarrer V31**.
+Voir ci-dessous. **Ne pas démarrer V31 dans cette session.**
+
+---
+
+# Prompt de lancement — Sprint V31 (à démarrer PLUS TARD, PAS maintenant)
+
+> Ce prompt clôt V30. **Ne démarre pas V31 dans cette session.** Rédigé pour être collé tel
+> quel au lancement du sprint suivant.
+
+Reprends **AI Career OS** pour le **Sprint V31 — « AI/ML Pedagogical Hardening IV (RAG &
+IA appliquée) + Curriculum Graph Completion »**.
+
+**IMPORTANT — travaille sur l'état RÉEL du dépôt.** Ne suppose jamais que ce résumé V30
+correspond encore exactement au repository. Commence par un **CP0 strictement en lecture
+seule** : audite l'état réel (git, tests, build, gates, leçons, exercices, missions, playbooks,
+glossaire, parcours, processus/serveurs résiduels, baseline `progress.json`) et présente un
+**rapport d'audit CP0 en français AVANT d'implémenter quoi que ce soit**.
+
+**Langue** : tous les rapports, audits, synthèses et le prompt V32 final en **français**.
+
+**Priorité (inchangée)** : QUALITÉ PÉDAGOGIQUE DES COURS > cohérence des parcours > progression
+néophyte > articulation théorie→pratique→mission→compétence→preuve > qualité technique >
+fonctionnalités. *Une excellente leçon vaut mieux que cinq superficielles. Ne maximise
+artificiellement ni le nombre de leçons, ni d'exercices, ni de fichiers, ni de commits, ni de
+lignes, ni les scores. L'audit fait foi.* Pas de refonte UI/UX globale.
+
+**Critère néophyte complet** (juge suprême) : « en ne connaissant que les prérequis annoncés,
+un débutant peut-il comprendre POURQUOI le concept existe, se construire un modèle mental
+correct, puis l'appliquer sans recopier ? » Toujours : situation → intuition → vocabulaire →
+mécanisme → pratique. Pour l'IA/ML : **maths honnêtes** (intuition avant formule, niveau requis
+précisé, aucun concept masqué derrière une formule ; jamais de fausse exécution de modèle/LLM).
+
+**État attendu (à VÉRIFIER, pas à supposer)** : branche `claude/ai-career-os-saas-phfg49`,
+HEAD final V30, ~110 leçons, ~198 exercices, 40 missions, ~31 playbooks, ~645 termes de
+glossaire, 6 parcours disponibles + 3 annoncés, ~961 tests, gates v26→v30 actives. V30 a
+corrigé le socle Backend/API et un sous-ensemble P0 des fondations AI/ML (statistics-for-ml,
+machine-learning-basics, model-evaluation, llm-fundamentals, agents-fundamentals, ai-security),
+ajouté `technical-documentation`, tranché la décision runtime SQL (Option A : raisonnement
+relationnel node-js, pas de moteur SQL), et documenté la dette restante.
+
+**Objectif central V31 — dette AI/ML appliquée (l'audit CP0/CP8 fait foi) :** corriger, de
+façon ADDITIVE (contenu conservé), un sous-ensemble PRIORITAIRE des leçons P1 d'IA appliquée
+listées comme dette dans `docs/PEDAGOGICAL-AUDIT-V30.md`, par lots cohérents :
+- **Lot Prompting/LLM** : `prompt-engineering`, `structured-outputs-tools`,
+  `llm-cost-optimization`, `llm-observability` ;
+- **Lot RAG** : `embeddings`, `chunking-strategies`, `vector-databases`, `retrieval-reranking`,
+  `rag-fundamentals`, `rag-evaluation` ;
+- **Lot Éval/Sécurité/Agents avancés** : `ai-evaluation`, `prompt-injection-defense`,
+  `agent-workflows-orchestration` ;
+- **Lot ML classique restant** (si le temps le permet) : `feature-engineering`,
+  `scikit-learn-workflow`, `neural-networks`, `transformers`.
+Ne PAS tout traiter d'un coup : choisir un sous-ensemble réellement excellent, documenter le
+reste. Chaque leçon corrigée : on-ramp « Le problème d'abord », prérequis rédigés, modèle
+mental, vocabulaire au premier usage, `practiceRefs` vers des artefacts EXISTANTS (créer un
+exercice de RAISONNEMENT déterministe seulement pour un trou réel — jamais de fausse console
+LLM/vecteurs).
+
+**Objectif secondaire V31 — complétion du graphe de curriculum :** vérifier la cohérence
+globale des prérequis inter-domaines (aucun cycle, aucun saut), et rattraper si utile les
+Backend/Fondations P1 restants (`caching-performance`, `recursion`, `git-advanced`).
+
+**Contraintes d'architecture (inchangées)** : local, mono-utilisateur, sans auth, sans SaaS,
+sans réseau requis. Pas de second moteur / catalogue / curriculum / runtime. `progress.json`
+sauvegardé puis restauré (gitignoré, jamais committé). Aucun secret réel, aucune fuite de
+solution/test privé. Pas de librairie UI, pas de refonte UI globale, aucun changement parasite.
+Distinguer toujours RÉEL / SIMULÉ / NON TESTÉ.
+
+**Gates** : garder `v26→v30:check` **actifs**. Si V31 introduit un nouveau contrat structurel,
+ajouter un `v31:check` ciblé et **le tester**. Attention aux faux positifs du scan d'authoring
+(`à compléter`, `TODO`, `XXX`/`useXxx`) dans la prose des leçons — reformuler la prose, jamais
+affaiblir le gate.
+
+**Checkpoints atomiques** CP0→CP11 (audit → design ADR/HSD/TSD → implémentation → tests → tsc
+→ build → validation → restauration progress.json → cleanup → commit → push), un commit par CP.
+
+**CP11 (obligatoire, quality gate pédagogique)** : ré-audit (A) leçons V31, (B) échantillon
+V28–V30, (C) anciennes non modifiées de plusieurs époques, (D) walkthroughs néophyte d'au moins
+deux séquences (dont une chaîne RAG complète) ; matrice P0→P3 dans
+`docs/PEDAGOGICAL-AUDIT-V31.md` ; append du **prompt V32** à la fin de `SPRINT-V31.md` **sans
+démarrer V32**.
+
+**Critères de refus** : remplissage, généralités, jargon non introduit, fausse profondeur,
+gonflage de scores, longueur prise pour de la qualité, fausse exécution IA présentée comme
+réelle, leçon/exercice créé sans besoin réel.
+
+**Livrable final** : `docs/SPRINT-V31.md` (rapport complet) + synthèse française distinguant ce
+qui **existait / a été ajouté / corrigé / testé / non testé / simulé / insuffisant**, avec
+chiffres avant/après, dette restante P0/P1/P2, HEAD final et état Git.
+
+**Commence maintenant par CP0. N'implémente absolument rien avant d'avoir présenté le rapport
+d'audit CP0.**

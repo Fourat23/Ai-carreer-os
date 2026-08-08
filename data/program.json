@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T15:44:14.294Z",
+  "generatedAt": "2026-08-08T15:48:16.893Z",
   "skills": [
     {
       "id": "algo",
@@ -6369,6 +6369,10 @@
         {
           "kind": "exercise",
           "id": "db-concurrency-risk"
+        },
+        {
+          "kind": "playbook",
+          "id": "intermittent-incident"
         }
       ]
     },
@@ -6459,6 +6463,10 @@
         {
           "kind": "exercise",
           "id": "debug-cart"
+        },
+        {
+          "kind": "playbook",
+          "id": "ci-passes-locally-fails"
         }
       ]
     },
@@ -6479,6 +6487,10 @@
         {
           "kind": "exercise",
           "id": "sh-exit-retry"
+        },
+        {
+          "kind": "playbook",
+          "id": "third-party-outage"
         }
       ]
     },

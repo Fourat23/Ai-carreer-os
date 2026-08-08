@@ -1,0 +1,70 @@
+{
+  "id": "ci-passes-locally-fails",
+  "situation": "Le build/les tests passent en local mais échouent en CI",
+  "domain": "deployment",
+  "severityHint": "SEV3 (bloque la livraison, pas la production) — sauf si ça masque un vrai bug",
+  "dayRefs": [86],
+  "relatedGlossary": ["test-regression", "reg-regression", "prod-incident"],
+  "symptoms": [
+    "« Ça marche sur ma machine » : tests verts en local, rouges dans la CI (ou l'inverse).",
+    "L'échec CI est parfois reproductible, parfois non (ordre des tests, parallélisme).",
+    "Le message d'erreur CI diffère de tout ce qu'on voit en local."
+  ],
+  "firstChecks": [
+    "Lire le LOG CI complet (pas seulement la ligne rouge) : quelle étape, quel message exact ?",
+    "Comparer les ENVIRONNEMENTS : version de Node/langage, variables d'environnement, fuseau horaire, locale, OS.",
+    "L'échec dépend-il de l'ORDRE des tests ou du parallélisme (test non isolé, état partagé) ?"
+  ],
+  "containment": [
+    "Ne PAS contourner en désactivant le test ou en relançant jusqu'au vert : c'est masquer un signal.",
+    "Marquer la PR comme non mergeable tant que la cause n'est pas comprise."
+  ],
+  "recommendedOrder": [
+    "Lire le log CI",
+    "reproduire localement les CONDITIONS de la CI",
+    "isoler la différence (env / ordre / état / dépendance)",
+    "corriger la cause",
+    "re-vérifier en CI",
+    "prévenir"
+  ],
+  "communication": [
+    "Indiquer à l'équipe que la CI est rouge et si la livraison est bloquée.",
+    "Partager la cause une fois trouvée (souvent instructive pour tous)."
+  ],
+  "evidence": [
+    "Conserver le log CI en échec et la config d'environnement (versions, variables).",
+    "Noter si l'échec est déterministe ou intermittent (indice fort sur la cause)."
+  ],
+  "doNot": [
+    "Ne pas relancer la CI en boucle en espérant un vert (on masque un test flaky ou un vrai bug).",
+    "Ne pas « corriger » en supprimant l'assertion qui gêne."
+  ],
+  "mitigation": [
+    "Reproduire les conditions CI en local : mêmes versions, mêmes variables, exécution des tests dans un ordre aléatoire.",
+    "Épingler les versions (lockfile, image) pour éliminer la dérive d'environnement."
+  ],
+  "correction": [
+    "Cause fréquente : dépendance à l'environnement (chemin, locale, fuseau, variable manquante) → rendre le test indépendant de l'environnement.",
+    "Cause fréquente : test non isolé (état partagé, ordre) → réinitialiser l'état, supprimer les dépendances entre tests."
+  ],
+  "validation": [
+    "La CI repasse au vert de façon REPRODUCTIBLE (relancer plusieurs fois, ordre aléatoire).",
+    "Le test échoue toujours quand on réintroduit le vrai défaut (il teste bien quelque chose)."
+  ],
+  "delivery": [
+    "Débloquer la livraison seulement après un vert reproductible, pas après un vert « chanceux »."
+  ],
+  "monitoring": [
+    "Surveiller le taux d'échec intermittent de la CI ; traiter un test flaky comme un bug à part entière."
+  ],
+  "documentation": [
+    "Noter la cause (différence d'environnement / test non isolé) et le correctif, pour l'équipe."
+  ],
+  "prevention": [
+    "Aligner l'environnement local et CI (versions épinglées, mêmes variables, conteneur commun).",
+    "Rendre les tests déterministes et isolés (pas d'état partagé, pas de dépendance à l'ordre ni à l'horloge réelle)."
+  ],
+  "exitCriteria": [
+    "CI verte de façon reproductible, cause comprise et documentée, tests rendus déterministes/isolés."
+  ]
+}

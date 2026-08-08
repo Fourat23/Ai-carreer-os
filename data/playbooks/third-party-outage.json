@@ -1,0 +1,70 @@
+{
+  "id": "third-party-outage",
+  "situation": "Un service tiers dont on dépend est indisponible",
+  "domain": "incident",
+  "severityHint": "SEV1/SEV2 selon la criticité de la dépendance (paiement vs fonction secondaire)",
+  "dayRefs": [86],
+  "relatedGlossary": ["res-circuit-breaker", "res-backpressure", "prod-incident"],
+  "symptoms": [
+    "Les appels vers une API externe (paiement, email, LLM, fournisseur de données) échouent ou traînent.",
+    "Ton service ralentit ou tombe « à cause » d'un composant que tu ne contrôles pas.",
+    "Les erreurs se propagent : la lenteur du tiers sature tes propres ressources (effet domino)."
+  ],
+  "firstChecks": [
+    "Confirmer que la panne vient bien du TIERS (page de statut, appels directs) et pas de ton intégration.",
+    "Quelle est la criticité : la fonctionnalité est-elle vitale (paiement) ou dégradable (recommandations) ?",
+    "Ta dépendance a-t-elle un timeout ? Sinon, elle bloque tes threads/connexions (effet domino)."
+  ],
+  "containment": [
+    "Poser/raccourcir un TIMEOUT pour ne pas laisser le tiers bloquer ton service (isoler la panne).",
+    "Ouvrir le circuit breaker : cesser d'appeler un service manifestement mort pour le laisser récupérer."
+  ],
+  "recommendedOrder": [
+    "Confirmer la panne côté tiers",
+    "isoler (timeout, circuit breaker)",
+    "dégrader gracieusement",
+    "communiquer",
+    "surveiller le rétablissement",
+    "durcir l'intégration"
+  ],
+  "communication": [
+    "Informer les utilisateurs de la fonctionnalité affectée et du mode dégradé éventuel.",
+    "Suivre la page de statut du fournisseur ; donner un ETA seulement s'il est fiable."
+  ],
+  "evidence": [
+    "Conserver les taux d'erreur/latence vers le tiers et l'horodatage du début (corrélation avec leur statut).",
+    "Noter l'impact réel sur tes utilisateurs (quelles fonctions, combien de requêtes)."
+  ],
+  "doNot": [
+    "Ne pas marteler le tiers de retries agressifs (on aggrave sa panne et on épuise ses propres ressources).",
+    "Ne pas laisser une dépendance sans timeout bloquer tout le service."
+  ],
+  "mitigation": [
+    "Dégradation gracieuse : servir une valeur par défaut, une donnée en cache, ou désactiver proprement la fonction non vitale.",
+    "File d'attente pour les opérations différables (à rejouer quand le tiers revient), avec idempotence."
+  ],
+  "correction": [
+    "Rétablir les appels progressivement quand le tiers revient (le circuit breaker repasse en semi-ouvert puis fermé).",
+    "Rejouer les opérations mises en file, sans doublon (idempotence)."
+  ],
+  "validation": [
+    "Vérifier que la fonctionnalité est revenue et qu'aucune opération différée n'a été perdue ni dupliquée.",
+    "Confirmer que ton service est resté sain pendant la panne (pas d'effet domino)."
+  ],
+  "delivery": [
+    "Réactiver la fonctionnalité pleine une fois le tiers stable ; retirer les mesures temporaires."
+  ],
+  "monitoring": [
+    "Surveiller la santé de chaque dépendance externe (taux d'erreur, latence) et l'état du circuit breaker."
+  ],
+  "documentation": [
+    "Post-mortem : dépendance concernée, impact, comment l'isolation a (ou non) protégé le service, améliorations."
+  ],
+  "prevention": [
+    "Conception résiliente par défaut : timeout systématique, circuit breaker, dégradation gracieuse, idempotence des rejeux.",
+    "Cartographier les SPOF externes ; prévoir un plan de dégradation par dépendance critique."
+  ],
+  "exitCriteria": [
+    "Fonctionnalité rétablie sans perte, service resté sain pendant la panne, intégration durcie (timeout/breaker/dégradation)."
+  ]
+}

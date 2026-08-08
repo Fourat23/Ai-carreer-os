@@ -1,0 +1,70 @@
+{
+  "id": "intermittent-incident",
+  "situation": "Un incident survient par intermittence, difficile à reproduire",
+  "domain": "incident",
+  "severityHint": "SEV2/SEV3 selon la fréquence et l'impact ; ne pas sous-estimer un bug rare mais grave",
+  "dayRefs": [86],
+  "relatedGlossary": ["prod-incident", "prod-percentile", "res-circuit-breaker"],
+  "symptoms": [
+    "Des erreurs ou lenteurs apparaissent PAR MOMENTS, sans schéma évident, puis disparaissent.",
+    "Impossible de reproduire à la demande ; « quand je regarde, tout va bien ».",
+    "Une petite fraction des requêtes échoue (visible seulement au p99, pas à la moyenne)."
+  ],
+  "firstChecks": [
+    "Quantifier : quelle FRÉQUENCE, quels moments (pics de charge, tâche planifiée, déploiement) ?",
+    "Regarder la distribution, pas la moyenne : le p95/p99 révèle ce que la moyenne noie.",
+    "Corréler avec un facteur : une instance précise ? un utilisateur ? une taille de données ? l'heure ?"
+  ],
+  "containment": [
+    "Augmenter temporairement l'observabilité (logs, traces, échantillonnage) pour CAPTURER l'incident quand il se produit.",
+    "Si l'impact est réel, appliquer une mitigation (retry idempotent, timeout, dégradation) en attendant la cause."
+  ],
+  "recommendedOrder": [
+    "Quantifier la fréquence",
+    "collecter des preuves sur plusieurs occurrences",
+    "corréler avec un facteur",
+    "formuler une hypothèse testable",
+    "reproduire dans des conditions ciblées",
+    "corriger",
+    "valider dans la durée"
+  ],
+  "communication": [
+    "Être honnête : « intermittent, cause non encore confirmée, voici les hypothèses et les mesures en cours ».",
+    "Donner un point de situation régulier plutôt que d'annoncer une résolution prématurée."
+  ],
+  "evidence": [
+    "Collecter les traces/logs de PLUSIEURS occurrences (une seule ne suffit pas à distinguer le hasard du motif).",
+    "Noter le contexte de chaque occurrence (charge, version, instance, données) pour trouver le facteur commun."
+  ],
+  "doNot": [
+    "Ne pas déclarer « résolu » après une simple disparition : l'intermittent revient.",
+    "Ne pas se fier à la moyenne (elle cache un problème sur une fraction des requêtes)."
+  ],
+  "mitigation": [
+    "Rendre le système tolérant en attendant la cause : retry sur opérations idempotentes, timeout, circuit breaker, dégradation gracieuse."
+  ],
+  "correction": [
+    "Une fois le facteur commun identifié (course, dépendance instable, cas de données rare, fuite lente), corriger la cause RACINE.",
+    "Écrire un test qui reproduit la condition (ordre/concurrence/données) pour éviter la récidive."
+  ],
+  "validation": [
+    "Vérifier dans la DURÉE : l'absence d'occurrence sur une fenêtre représentative (pas quelques minutes).",
+    "Le test de reproduction échoue sans le correctif, passe avec."
+  ],
+  "delivery": [
+    "Livrer la correction ; garder l'observabilité renforcée le temps de confirmer la disparition."
+  ],
+  "monitoring": [
+    "Surveiller le taux d'occurrence (p99, taux d'erreur) sur la durée ; alerter si le motif réapparaît."
+  ],
+  "documentation": [
+    "Post-mortem : le facteur commun trouvé, la cause racine, le test ajouté, la méthode de diagnostic."
+  ],
+  "prevention": [
+    "Instrumenter suffisamment pour capturer les événements rares AVANT qu'ils ne deviennent critiques.",
+    "Traiter les courses (race conditions) et les dépendances instables par conception (idempotence, résilience)."
+  ],
+  "exitCriteria": [
+    "Facteur commun identifié, cause racine corrigée, test de reproduction en place, absence confirmée sur la durée."
+  ]
+}

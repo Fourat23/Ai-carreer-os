@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T15:35:59.560Z",
+  "generatedAt": "2026-08-08T15:39:01.915Z",
   "skills": [
     {
       "id": "algo",
@@ -6114,6 +6114,16 @@
       "skills": [
         "secu",
         "http"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "auth-status-decision"
+        },
+        {
+          "kind": "exercise",
+          "id": "validate-user"
+        }
       ]
     },
     {

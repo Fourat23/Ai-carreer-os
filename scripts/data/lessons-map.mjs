@@ -21,7 +21,7 @@ export const LESSONS = [
   { file: 'http-rest-json.md', title: 'HTTP, REST et JSON', cat: 'Web & backend', level: 1, min: 45, skills: ['http'], practiceRefs: [{ kind: 'exercise', id: 'http-status' }, { kind: 'exercise', id: 'api-router' }] },
   { file: 'api-design-basics.md', title: 'Concevoir une API', cat: 'Web & backend', level: 2, min: 45, skills: ['http'], practiceRefs: [{ kind: 'exercise', id: 'api-router' }, { kind: 'exercise', id: 'http-status' }, { kind: 'exercise', id: 'http-method-idempotent' }] },
   { file: 'express-backend.md', title: 'Backend Express : structure et robustesse', cat: 'Web & backend', level: 2, min: 50, skills: ['http', 'se'], practiceRefs: [{ kind: 'exercise', id: 'api-router' }, { kind: 'exercise', id: 'validate-user' }, { kind: 'exercise', id: 'http-status' }] },
-  { file: 'authentication.md', title: 'Authentification et autorisation', cat: 'Web & backend', level: 2, min: 45, skills: ['secu', 'http'] },
+  { file: 'authentication.md', title: 'Authentification et autorisation', cat: 'Web & backend', level: 2, min: 45, skills: ['secu', 'http'], practiceRefs: [{ kind: 'exercise', id: 'auth-status-decision' }, { kind: 'exercise', id: 'validate-user' }] },
   { file: 'caching-performance.md', title: 'Cache et performance', cat: 'Web & backend', level: 3, min: 45, skills: ['archi', 'se'] },
 
   // ── Frontend & React ──

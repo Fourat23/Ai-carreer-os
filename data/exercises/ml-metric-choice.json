@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "ml-metric-choice",
+  "title": "ML : quelle métrique d'évaluation choisir ?",
+  "difficulty": 2,
+  "summary": "chooseMetric(ctx) où ctx={imbalanced, falseNegativeCostly} choisit la métrique adaptée : 'accuracy' si les classes sont équilibrées ; sinon (données déséquilibrées, où l'accuracy MENT) 'recall' quand rater un positif coûte cher (maladie, fraude), 'precision' sinon. Raisonnement d'évaluation, sans entraîner de modèle.",
+  "skills": ["conditions", "functions", "data"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function chooseMetric(ctx) {\n  // TODO : sur données déséquilibrées, l'accuracy est trompeuse.\n  return 'accuracy';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function chooseMetric(ctx) {\n  if (!ctx.imbalanced) return 'accuracy';\n  return ctx.falseNegativeCostly ? 'recall' : 'precision';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "classes équilibrées → accuracy", "kind": "call-equals", "export": "chooseMetric", "args": [{ "imbalanced": false, "falseNegativeCostly": false }], "expected": "accuracy" },
+    { "id": "t2", "name": "déséquilibré + rater un positif coûte cher → recall", "kind": "call-equals", "export": "chooseMetric", "args": [{ "imbalanced": true, "falseNegativeCostly": true }], "expected": "recall" },
+    { "id": "t3", "name": "déséquilibré + faux positifs coûteux → precision", "kind": "call-equals", "export": "chooseMetric", "args": [{ "imbalanced": true, "falseNegativeCostly": false }], "expected": "precision", "private": true }
+  ]
+}

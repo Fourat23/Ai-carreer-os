@@ -1,0 +1,25 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1", "backend-engineer-v1", "fullstack-typescript"],
+  "activeFile": "solution.mjs",
+  "id": "auth-status-decision",
+  "title": "API : quel statut renvoyer (401 / 403 / 404 / 200) ?",
+  "difficulty": 2,
+  "summary": "authStatus(ctx) où ctx={authenticated, exists, authorized} renvoie le bon statut HTTP : 401 si l'identité n'est pas établie, sinon 404 si la ressource n'existe pas (ne pas révéler une ressource interdite), sinon 403 si l'action est interdite, sinon 200. Distingue authentification et autorisation.",
+  "skills": ["conditions", "functions", "http"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function authStatus(ctx) {\n  // TODO : 401 (pas identifié) vient AVANT 404, qui vient AVANT 403.\n  return ctx.authorized ? 200 : 403;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function authStatus(ctx) {\n  if (!ctx.authenticated) return 401;\n  if (!ctx.exists) return 404;\n  if (!ctx.authorized) return 403;\n  return 200;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "non authentifié → 401 (même si tout le reste est bon)", "kind": "call-equals", "export": "authStatus", "args": [{ "authenticated": false, "exists": true, "authorized": true }], "expected": 401 },
+    { "id": "t2", "name": "authentifié mais ressource inexistante → 404", "kind": "call-equals", "export": "authStatus", "args": [{ "authenticated": true, "exists": false, "authorized": true }], "expected": 404 },
+    { "id": "t3", "name": "authentifié, existe, mais interdit → 403", "kind": "call-equals", "export": "authStatus", "args": [{ "authenticated": true, "exists": true, "authorized": false }], "expected": 403 },
+    { "id": "t4", "name": "tout est bon → 200", "kind": "call-equals", "export": "authStatus", "args": [{ "authenticated": true, "exists": true, "authorized": true }], "expected": 200, "private": true }
+  ]
+}

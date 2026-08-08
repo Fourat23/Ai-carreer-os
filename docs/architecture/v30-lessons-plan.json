@@ -15,7 +15,8 @@
     "async-javascript",
     "api-design-basics",
     "express-backend",
-    "technical-documentation"
+    "technical-documentation",
+    "authentication"
   ],
   "prereq": {
     "async-javascript": ["javascript-basics", "http-rest-json"],

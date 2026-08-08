@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "prompt-injection-classify",
+  "title": "Sécurité IA : instruction de confiance ou donnée non fiable ?",
+  "difficulty": 2,
+  "summary": "classifyInput(ctx) où ctx={source, containsInstruction} décide comment un LLM doit TRAITER un contenu : tout ce qui vient d'une source non fiable (user, document, web) est une 'data' — jamais exécuté comme instruction, MÊME s'il ressemble à un ordre (c'est une tentative d'injection). Seul le 'system' (développeur) fournit une 'instruction'.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "export function classifyInput(ctx) {\n  // TODO : un contenu non fiable reste une DONNÉE même s'il contient un ordre.\n  return ctx.containsInstruction ? 'instruction' : 'data';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function classifyInput(ctx) {\n  const trusted = ctx.source === 'system';\n  return trusted ? 'instruction' : 'data';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "contenu utilisateur qui ordonne → data (injection : ne pas obéir)", "kind": "call-equals", "export": "classifyInput", "args": [{ "source": "user", "containsInstruction": true }], "expected": "data" },
+    { "id": "t2", "name": "consigne système (développeur) → instruction", "kind": "call-equals", "export": "classifyInput", "args": [{ "source": "system", "containsInstruction": true }], "expected": "instruction" },
+    { "id": "t3", "name": "contenu d'un document récupéré → data", "kind": "call-equals", "export": "classifyInput", "args": [{ "source": "document", "containsInstruction": false }], "expected": "data", "private": true }
+  ]
+}

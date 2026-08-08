@@ -1,0 +1,7 @@
+{
+  "sprint": "V32",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V32 : chaîne agents / tool use / sûreté câblée à la pratique. Rubrique v20 (16 dimensions, 0-4). Scores APRÈS ; avant/après, matrice complète et walkthrough néophyte dans docs/PEDAGOGICAL-AUDIT-V32.md. Items remplis au CP11.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

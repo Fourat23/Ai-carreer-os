@@ -1,0 +1,19 @@
+{
+  "sprint": "V32",
+  "baselineRef": "54f5d04",
+  "note": "Périmètre V32 (cf. ADR-032/HSD-032/TSD-032). Applied AI II : câbler la PRATIQUE de la chaîne agents/tool-use/sûreté (théorie déjà au standard V31). Aucune nouvelle leçon 'pour faire nombre'. Le gate v32:check valide STRUCTURELLEMENT ; il ne juge jamais la profondeur par la longueur. critical : leçons devant porter au moins un practiceRef résolu. prereq : graphe de prérequis (slug -> [slugs]) validé acyclique. Les arrays se remplissent au fil des CP3->CP6.",
+  "newLessons": [],
+  "hardenedLegacy": [
+    "agents-fundamentals",
+    "agent-workflows-orchestration",
+    "prompt-engineering",
+    "prompt-injection-defense"
+  ],
+  "critical": [],
+  "prereq": {
+    "agents-fundamentals": ["llm-fundamentals", "api-design-basics"],
+    "agent-workflows-orchestration": ["agents-fundamentals", "structured-outputs-tools", "architecture-basics"],
+    "prompt-engineering": ["llm-fundamentals", "error-handling"],
+    "prompt-injection-defense": ["llm-fundamentals", "rag-fundamentals", "agents-fundamentals", "ai-security"]
+  }
+}

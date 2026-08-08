@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T14:40:30.578Z",
+  "generatedAt": "2026-08-08T15:28:37.460Z",
   "skills": [
     {
       "id": "algo",
@@ -6010,6 +6010,20 @@
       "min": 45,
       "skills": [
         "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "async-sum"
+        },
+        {
+          "kind": "exercise",
+          "id": "async-user-lookup"
+        },
+        {
+          "kind": "exercise",
+          "id": "ts-async-fetch-user"
+        }
       ]
     },
     {
@@ -6050,6 +6064,20 @@
       "min": 45,
       "skills": [
         "http"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "api-router"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-status"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-method-idempotent"
+        }
       ]
     },
     {
@@ -6061,6 +6089,20 @@
       "skills": [
         "http",
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "api-router"
+        },
+        {
+          "kind": "exercise",
+          "id": "validate-user"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-status"
+        }
       ]
     },
     {

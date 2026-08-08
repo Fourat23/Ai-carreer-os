@@ -15,12 +15,12 @@ export const LESSONS = [
   { file: 'recursion.md', title: 'La récursion en profondeur', cat: 'Fondations', level: 2, min: 45, skills: ['algo'] },
   { file: 'data-structures-intro.md', title: 'Structures de données : choisir son outil', cat: 'Fondations', level: 2, min: 50, skills: ['ds'], practiceRefs: [{ kind: 'exercise', id: 'ds-stack' }, { kind: 'exercise', id: 'algo-two-sum' }, { kind: 'exercise', id: 'perf-pair-count' }] },
   { file: 'typescript-basics.md', title: 'TypeScript : typer pour fiabiliser', cat: 'Fondations', level: 2, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'ts-greeter' }, { kind: 'exercise', id: 'ts-interface-cart' }, { kind: 'exercise', id: 'ts-generic-first' }, { kind: 'exercise', id: 'ts-debug-positives' }] },
-  { file: 'async-javascript.md', title: 'JavaScript asynchrone', cat: 'Fondations', level: 2, min: 45, skills: ['jsts'] },
+  { file: 'async-javascript.md', title: 'JavaScript asynchrone', cat: 'Fondations', level: 2, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'async-sum' }, { kind: 'exercise', id: 'async-user-lookup' }, { kind: 'exercise', id: 'ts-async-fetch-user' }] },
   { file: 'git-advanced.md', title: 'Git avancé : rebase et historique propre', cat: 'Fondations', level: 3, min: 40, skills: ['gitlinux'] },
   // ── Web & backend ──
   { file: 'http-rest-json.md', title: 'HTTP, REST et JSON', cat: 'Web & backend', level: 1, min: 45, skills: ['http'], practiceRefs: [{ kind: 'exercise', id: 'http-status' }, { kind: 'exercise', id: 'api-router' }] },
-  { file: 'api-design-basics.md', title: 'Concevoir une API', cat: 'Web & backend', level: 2, min: 45, skills: ['http'] },
-  { file: 'express-backend.md', title: 'Backend Express : structure et robustesse', cat: 'Web & backend', level: 2, min: 50, skills: ['http', 'se'] },
+  { file: 'api-design-basics.md', title: 'Concevoir une API', cat: 'Web & backend', level: 2, min: 45, skills: ['http'], practiceRefs: [{ kind: 'exercise', id: 'api-router' }, { kind: 'exercise', id: 'http-status' }, { kind: 'exercise', id: 'http-method-idempotent' }] },
+  { file: 'express-backend.md', title: 'Backend Express : structure et robustesse', cat: 'Web & backend', level: 2, min: 50, skills: ['http', 'se'], practiceRefs: [{ kind: 'exercise', id: 'api-router' }, { kind: 'exercise', id: 'validate-user' }, { kind: 'exercise', id: 'http-status' }] },
   { file: 'authentication.md', title: 'Authentification et autorisation', cat: 'Web & backend', level: 2, min: 45, skills: ['secu', 'http'] },
   { file: 'caching-performance.md', title: 'Cache et performance', cat: 'Web & backend', level: 3, min: 45, skills: ['archi', 'se'] },
 

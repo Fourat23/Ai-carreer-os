@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — JavaScript asynchrone
 
+## 🌍 Le problème d'abord
+Ton programme doit aller chercher une donnée sur le réseau — ça prend quelques centaines de
+millisecondes, parfois plusieurs secondes pour un appel à un modèle d'IA. Pendant ce temps,
+que fait le reste du programme ? Si tout s'arrête pour attendre, l'interface se fige et le
+serveur ne répond plus à personne. JavaScript n'a qu'un seul fil d'exécution : il ne PEUT PAS
+se permettre d'attendre les bras croisés. La solution s'appelle l'**asynchrone** : lancer la
+tâche longue, continuer à faire autre chose, et revenir traiter le résultat quand il arrive.
+Cette leçon t'apprend à écrire et raisonner ce code non bloquant — sur lequel repose chaque
+appel réseau, base de données et LLM de ta carrière.
+
 ## 🎯 Objectif
 Comprendre pourquoi JS est asynchrone, maîtriser Promises et async/await, gérer les erreurs async, et paralléliser proprement. Tout ton avenir en dépend : chaque fetch, chaque appel LLM, chaque accès base est asynchrone.
 
 ## 🧠 Modèle mental
 JS est **un serveur de restaurant seul en salle** : il ne reste jamais planté devant une table en attendant que le plat soit prêt (I/O). Il prend la commande, la passe en cuisine, sert d'autres tables, et REVIENT quand la cuisine sonne. L'asynchrone, c'est cette organisation : ne jamais bloquer pendant qu'on attend.
+
+## 🧩 Prérequis
+Tu dois savoir écrire des fonctions et des callbacks (fonctions passées en argument) en
+JavaScript (`/doc/lessons/javascript-basics`), car une opération asynchrone consiste à
+fournir « la suite à exécuter quand ce sera prêt ». Une intuition de ce qu'est un appel réseau
+(client → serveur → réponse) aide (`/doc/lessons/http-rest-json`). Les Promises et
+`async/await` sont construits ici, à partir de zéro.
 
 ## 📖 Explication complète
 - **Pourquoi** : JS n'a qu'UN fil d'exécution. Une attente bloquante (réseau : des dizaines de ms ; LLM : des secondes) gèlerait tout — l'UI, le serveur entier. Les opérations lentes sont donc DÉLÉGUÉES, et ton code fournit « la suite à exécuter quand c'est prêt ».

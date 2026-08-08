@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Backend Express : structure et robustesse
 
+## 🌍 Le problème d'abord
+Tu écris ta première API : au début, tout tient dans un fichier, chaque route fait un peu de
+tout — lire la requête, vérifier les données, appliquer la règle métier, parler à la base,
+gérer les erreurs. Ça marche… jusqu'à ce que le fichier atteigne 800 lignes, que tu ne
+saches plus où une erreur est traitée, et que tu ne puisses plus tester une règle sans lancer
+tout le serveur. **Express** est l'outil le plus répandu pour construire ces APIs en Node ;
+bien l'utiliser, ce n'est pas connaître sa syntaxe mais STRUCTURER la requête en étapes
+claires et séparer les responsabilités. Cette leçon te donne le squelette robuste et testable
+de toutes tes APIs.
+
 ## 🎯 Objectif
 Construire des APIs Express structurées en couches, avec middlewares compris (pas subis), validation systématique et erreurs centralisées. C'est le squelette de toutes tes APIs — y compris celles qui serviront tes systèmes IA.
 
 ## 🧠 Modèle mental
 Express est **une chaîne de guichets** : chaque requête traverse des guichets successifs (middlewares) — identification, journal, parsing, validation — avant d'atteindre le guichet final (la route) qui répond. Chaque guichet traite PUIS passe (next), ou court-circuite en répondant.
+
+## 🧩 Prérequis
+Tu dois comprendre HTTP et le style REST (`/doc/lessons/http-rest-json`), la conception d'un
+contrat d'API (`/doc/lessons/api-design-basics`), l'asynchrone en JavaScript
+(`/doc/lessons/async-javascript`) et la gestion d'erreurs
+(`/doc/lessons/error-handling`), car une API Express assemble exactement ces briques. La
+notion de code lisible en couches (`/doc/lessons/clean-code`) est réutilisée ici.
 
 ## 📖 Explication complète
 - **Le middleware** : une fonction `(req, res, next)`. L'ORDRE de déclaration est l'ordre d'exécution — le parsing JSON avant les routes, le gestionnaire d'erreurs en DERNIER. Oublier `next()` = requête suspendue à jamais.

@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Authentification et autorisation
 
+## 🌍 Le problème d'abord
+Ton API fonctionne, mais pour l'instant N'IMPORTE QUI peut tout faire : lire les données de
+tout le monde, en supprimer, en modifier. Il te faut deux garde-fous distincts : d'abord
+savoir QUI fait la requête (est-ce bien Alice ?), ensuite décider si cette personne a le
+DROIT de faire cette action précise (Alice peut-elle supprimer la note de Bob ?). Ces deux
+questions — **authentification** et **autorisation** — sont souvent confondues, et cette
+confusion est la source de failles de sécurité classiques. Comme HTTP n'a pas de mémoire
+entre deux requêtes, l'identité doit être re-prouvée à chaque appel. Cette leçon t'apprend à
+protéger une API proprement.
+
 ## 🎯 Objectif
 Distinguer authentification (qui es-tu ?) et autorisation (qu'as-tu le droit de faire ?), comprendre tokens, sessions et hachage de mots de passe, et protéger des routes proprement. Le b.a.-ba de sécurité de toute API — questions d'entretien garanties.
 
 ## 🧠 Modèle mental
 L'authentification, c'est **le contrôle d'identité à l'entrée du bâtiment** (badge) ; l'autorisation, c'est **les portes que ton badge ouvre** (étages autorisés). Deux questions distinctes, deux mécanismes — et HTTP étant sans état, le badge se présente À CHAQUE requête.
+
+## 🧩 Prérequis
+Tu dois comprendre HTTP — requêtes sans état, en-têtes, statuts (dont 401/403) — et le style
+REST (`/doc/lessons/http-rest-json`), ainsi que la structure d'une API en couches
+(`/doc/lessons/express-backend`), car l'auth s'implémente comme un middleware devant les
+routes protégées. Une notion de sécurité applicative aide (`/doc/lessons/ai-security` viendra
+plus loin). Le hachage de mots de passe et les tokens sont introduits ici.
 
 ## 📖 Explication complète
 - **AuthN vs AuthZ** : authentifier = vérifier l'identité (mot de passe, token) → 401 si échec. Autoriser = vérifier les droits de cette identité (rôle, propriété de la ressource) → 403 si refus. Les confondre = la confusion 401/403, classique d'entretien.

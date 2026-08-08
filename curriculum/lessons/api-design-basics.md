@@ -1,7 +1,37 @@
 <!-- keep -->
 # Leçon — Concevoir une API
 
-## Pourquoi c'est important
+## 🌍 Le problème d'abord
+Tu construis un service, et d'autres programmes doivent l'utiliser : ton application front,
+l'appli mobile d'un collègue, un autre service, demain un client externe. Comment se
+mettent-ils d'accord sur la façon de te parler — quelle adresse appeler, quoi envoyer, quoi
+attendre en retour ? Si chacun devine, l'intégration devient un cauchemar et le moindre
+changement casse tout le monde. Une **API** est ce point d'accord : un CONTRAT clair entre
+ton système et ceux qui l'utilisent. Bien la concevoir, c'est penser d'abord à celui qui
+l'utilisera. Cette leçon t'apprend à concevoir un contrat qu'on devine sans documentation et
+qui survit aux évolutions.
+
+## 🎯 Objectif
+Savoir **concevoir le contrat** d'une API avant de coder : ressources et URLs, verbes HTTP,
+statuts précis, format d'erreur uniforme, validation aux frontières, pagination — puis penser
+son **évolution** sans casser les consommateurs.
+
+## 🧩 Prérequis
+Tu dois maîtriser HTTP (requête/réponse, méthodes, statuts, JSON) et le style REST
+(`/doc/lessons/http-rest-json`), car concevoir une API, c'est appliquer ces briques avec
+cohérence. La notion de changement compatible vs cassant
+(`/doc/lessons/breaking-changes-compatibility`) éclaire la partie évolution. Aucune
+expérience de conception d'API n'est supposée.
+
+## 🧠 Modèle mental
+Pense « CONTRAT avant code ». Une API est une promesse : pour telle requête (méthode +
+adresse + corps), tu t'engages sur telle réponse (statut + forme). Comme tout contrat, il se
+lit sans documentation quand il est cohérent, et le rompre (renommer, supprimer) casse ceux
+qui s'appuient dessus. Concevoir une API, c'est donc un exercice d'EMPATHIE : se mettre à la
+place du consommateur (humain, service, ou même un modèle de langage) et lui offrir des
+règles prévisibles.
+
+## 💡 Pourquoi c'est important
 Une API est un CONTRAT entre ton système et ses consommateurs (front, autres services, clients). Un bon contrat se devine sans documentation, survit aux évolutions et protège des erreurs ; un mauvais contrat se paie à chaque intégration, pour toujours (le changer casse les clients). Concevoir une API est un exercice d'EMPATHIE technique : penser comme celui qui l'utilisera — et c'est une question d'entretien récurrente (« design une API pour un blog »).
 
 ## Explication complète
@@ -30,7 +60,7 @@ Une API vit : nouveaux champs (ajout non cassant — les clients ignorent l'inco
 ## Concepts clés
 Contrat d'abord · ressources et sous-ressources · statuts sémantiques (dont 409) · format d'erreur uniforme · validation aux frontières · erreurs centralisées sans fuite · pagination/filtres/tri · idempotence · versionnement · moindre exposition (ne renvoyer que le nécessaire).
 
-## Exemple
+## 🧭 Exemple guidé
 Design d'un endpoint d'emprunt (le cas intéressant : une ACTION métier, pas un simple CRUD) :
 ```
 POST /loans          { bookId, memberId }
@@ -41,20 +71,20 @@ POST /loans          { bookId, memberId }
 ```
 L'action est modélisée comme la CRÉATION d'une ressource « emprunt » — le pattern REST pour les verbes métier. Le retour : `POST /loans/42/return` (ou PATCH du statut) — les deux se défendent, la COHÉRENCE tranche.
 
-## Pièges classiques
+## ⚠️ Erreurs fréquentes
 - Verbes dans les URLs (`/getLivres`, `/creerLivre`) : le contrat devient une liste de fonctions ad hoc.
 - 400 pour tout (y compris les conflits métier → 409 et les absences → 404) : le client ne peut plus distinguer.
 - Renvoyer l'objet interne complet (mot de passe hashé, champs techniques) : ne renvoyer QUE le nécessaire.
 - Oublier la pagination sur les collections : la liste de 100 000 éléments finira par arriver.
 
-## Lien avec l'IA / le futur
+## 🔗 Liens avec le programme
 Tes systèmes IA SONT des APIs : DocQA expose `POST /questions`, DocSense `POST /documents/analyze`. Le function calling des LLM (mois 8) est... de la conception d'API : décrire précisément des outils (nom, paramètres, types) pour qu'un consommateur (le modèle !) les utilise correctement — les mêmes qualités de contrat s'appliquent. Et une API bien conçue est ce qui rend ton portfolio testable en 5 minutes par un recruteur.
 
 ## Mini-exercice
 Conçois sur papier le contrat complet d'une API de blog : articles, commentaires, tags, brouillons vs publiés. Endpoints, verbes, statuts (y compris : commenter un article inexistant ? publier un brouillon déjà publié ?), format d'erreur, pagination. Puis fais-le critiquer (ou critique-le toi-même 24 h plus tard).
 
-## Vocabulaire à retenir
+## 📚 Vocabulaire
 **contrat** · **endpoint** · **ressource / sous-ressource** · **payload** · **validation** · **erreur opérationnelle vs bug** · **pagination** · **versionnement** · **rétrocompatibilité** · **moindre exposition**.
 
-## Résumé
+## 🧾 À retenir
 Une API se conçoit contrat d'abord : ressources nommées, verbes HTTP sémantiques, statuts précis, format d'erreur unique, validation à chaque porte, erreurs centralisées sans fuite interne, pagination prévue dès le début. La cohérence prime sur l'élégance, et chaque décision pense au consommateur — humain, service, ou modèle de langage.

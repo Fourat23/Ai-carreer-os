@@ -10,10 +10,14 @@
     "vector-databases",
     "retrieval-reranking",
     "rag-evaluation",
-    "ai-evaluation"
+    "ai-evaluation",
+    "structured-outputs-tools",
+    "agent-workflows-orchestration"
   ],
   "critical": [],
   "prereq": {
+    "structured-outputs-tools": ["llm-fundamentals", "typescript-basics", "api-design-basics"],
+    "agent-workflows-orchestration": ["agents-fundamentals", "structured-outputs-tools", "architecture-basics"],
     "embeddings": ["llm-fundamentals"],
     "rag-fundamentals": ["llm-fundamentals", "embeddings"],
     "chunking-strategies": ["rag-fundamentals", "embeddings"],

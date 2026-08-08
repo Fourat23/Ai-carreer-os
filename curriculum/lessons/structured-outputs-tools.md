@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Sorties structurées et function calling
 
+## 🌍 Le problème d'abord
+Un LLM te répond en belles phrases — parfait pour un humain, inutilisable pour un programme.
+Ton code, lui, a besoin de DONNÉES : `{ "montant": 42, "devise": "EUR" }`, pas « le montant est
+de quarante-deux euros ». Et plus fort : parfois le modèle doit DÉCLENCHER une action (chercher
+dans une base, envoyer un email) qu'il ne peut pas faire lui-même. Comment obtenir d'un LLM une
+sortie que le code peut exploiter à coup sûr, et comment lui laisser demander des actions sans
+lui donner les commandes ? Ce sont les **sorties structurées** et le **function calling** : ce
+qui transforme un LLM « qui cause » en composant applicatif fiable. Cette leçon te montre
+comment — et pourquoi la validation reste TON travail.
+
 ## 🎯 Objectif
 Savoir obtenir d'un LLM des sorties EXPLOITABLE par du code (JSON validé), et lui faire APPELER des outils (function calling) de façon robuste. C'est ce qui transforme un LLM « qui cause » en composant applicatif fiable.
 
 ## 🧠 Modèle mental
 Un LLM seul produit du texte. **Les sorties structurées le rendent programmable** (le code peut agir dessus), et **le function calling lui donne des mains** (il DEMANDE une action, ton code l'EXÉCUTE). Le modèle propose ; ton code dispose et contrôle.
+
+## 🧩 Prérequis
+Tu dois comprendre ce qu'est un LLM et son non-déterminisme (`/doc/lessons/llm-fundamentals`),
+la validation de données aux frontières et la distinction compile-time/runtime
+(`/doc/lessons/typescript-basics`, `/doc/lessons/error-handling`), et la conception d'un
+contrat clair (`/doc/lessons/api-design-basics`), car décrire un outil à un modèle EST de la
+conception d'API. La notion d'agent (qui enchaîne ces appels) vient juste après.
 
 ## 📖 Explication complète
 **Sorties structurées** : on impose un schéma (JSON) et on VALIDE côté code. Le modèle est faillible : parfois il ajoute du texte autour, oublie un champ, invente un type. Donc : parser dans un try/catch, valider contre le schéma, et sur échec, RETRY en renvoyant l'erreur au modèle. Ne jamais faire confiance à la sortie brute.

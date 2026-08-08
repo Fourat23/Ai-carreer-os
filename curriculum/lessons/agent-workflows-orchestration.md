@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Agents avancés et orchestration de workflows
 
+## 🌍 Le problème d'abord
+Tu as fait tourner un petit agent en démo : impressionnant. Puis tu veux le mettre en
+production sur une vraie tâche répétée, et tout se complique — il coûte cher, part parfois dans
+une boucle, donne des résultats différents à chaque exécution, et tu ne sais plus s'il a
+réussi. La question n'est alors plus « comment coder un agent » mais « comment ORCHESTRER le
+travail de façon fiable et prévisible » : quand enchaîner des étapes fixes (workflow), quand
+laisser le modèle décider (agent), comment paralléliser, borner les budgets, reprendre sur
+échec. Cette leçon te fait passer de la démo à l'ingénierie — et à décider agent vs workflow
+sur des CHIFFRES, pas sur la mode.
+
 ## 🎯 Objectif
 Passer du « petit agent démo » à l'orchestration sérieuse : les 4 patterns de workflow, la parallélisation, la reprise sur échec, les budgets, et les critères CHIFFRÉS pour trancher agent vs workflow. C'est la compétence d'architecture appliquée à l'IA.
 
 ## 🧠 Modèle mental
 Un workflow est **une chaîne de production** (étapes fixées, débit prévisible) ; un agent est **un artisan autonome** (s'adapte, mais variable et cher). L'orchestrateur, c'est toi : tu choisis l'outil par tâche, tu bornes les budgets, tu prévois les pannes.
+
+## 🧩 Prérequis
+Tu dois maîtriser les fondamentaux des agents — boucle décider→agir→observer, function calling,
+garde-fous, modes d'échec (`/doc/lessons/agents-fundamentals`) — et les sorties structurées/
+outils (`/doc/lessons/structured-outputs-tools`). Les patterns d'architecture (parallélisation,
+reprise sur échec, files) viennent de `/doc/lessons/architecture-basics` et de la résilience
+(`/doc/lessons/resilience-patterns`). Aucun framework d'agents particulier n'est supposé.
 
 ## 📖 Explication complète
 - **Les 4 patterns de workflow** :

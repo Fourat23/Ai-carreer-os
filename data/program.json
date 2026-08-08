@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T09:23:34.765Z",
+  "generatedAt": "2026-08-08T09:27:56.889Z",
   "skills": [
     {
       "id": "algo",
@@ -6464,6 +6464,85 @@
         {
           "kind": "exercise",
           "id": "cloud-error-budget"
+        }
+      ]
+    },
+    {
+      "slug": "incident-response",
+      "title": "Répondre à un incident : méthode sous pression",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "incident-health-rollup"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-rollback-decision"
+        },
+        {
+          "kind": "exercise",
+          "id": "k8s-recovery-decision"
+        },
+        {
+          "kind": "mission",
+          "id": "health-incident-postmortem"
+        }
+      ]
+    },
+    {
+      "slug": "postmortem-rca",
+      "title": "Post-mortem et analyse de cause racine (RCA)",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "min": 45,
+      "skills": [
+        "archi",
+        "comm"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "sec-recovery-decision"
+        },
+        {
+          "kind": "mission",
+          "id": "health-incident-postmortem"
+        }
+      ]
+    },
+    {
+      "slug": "resilience-patterns",
+      "title": "Patterns de résilience : survivre aux pannes des autres",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-detect-spof"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-multi-az"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-rpo-met"
+        },
+        {
+          "kind": "mission",
+          "id": "cloud-high-availability"
         }
       ]
     },

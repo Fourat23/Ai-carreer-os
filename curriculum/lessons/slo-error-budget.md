@@ -138,6 +138,6 @@ Exercice : calcul de l'error budget restant.
 
 ## 🔗 Liens avec le programme
 Jour `/day/79` (observabilité/SLO). Leçons liées :
-`/doc/lessons/metrics-percentiles`, `/doc/lessons/observability-fundamentals`. L'error
-budget décide quand livrer et quand stabiliser ; il se relie à la gestion d'incident
-(leçon suivante) et aux stratégies de déploiement.
+`/doc/lessons/metrics-percentiles`, `/doc/lessons/observability-fundamentals`,
+`/doc/lessons/incident-response`. L'error budget décide quand livrer et quand
+stabiliser ; il se relie à la gestion d'incident et aux stratégies de déploiement.

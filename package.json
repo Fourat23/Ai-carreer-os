@@ -25,7 +25,8 @@
     "v26:check": "node scripts/v26-check.mjs",
     "v27:check": "node scripts/v27-check.mjs",
     "v28:check": "node scripts/v28-check.mjs",
-    "gates:active": "npm run curriculum:check && npm run curriculum:depth-check && npm run glossary:check && npm run v18:check && npm run v20:pedagogy-check && npm run v26:check && npm run v27:check && npm run v28:check",
+    "v29:check": "node scripts/v29-check.mjs",
+    "gates:active": "npm run curriculum:check && npm run curriculum:depth-check && npm run glossary:check && npm run v18:check && npm run v20:pedagogy-check && npm run v26:check && npm run v27:check && npm run v28:check && npm run v29:check",
     "gates:historical": "node scripts/v17-coverage-check.mjs; node scripts/v19-coverage-check.mjs; node scripts/v21-check.mjs; node scripts/v22-check.mjs; node scripts/v23-check.mjs; node scripts/v24-check.mjs; node scripts/v25-check.mjs; true"
   },
   "dependencies": {

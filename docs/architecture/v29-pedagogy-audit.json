@@ -1,0 +1,9 @@
+{
+  "sprint": "V29",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V29 : leçons Frontend/React, Data/SQL, Software Engineering créées + leçons historiques corrigées. Rubrique v20 (16 dimensions, 0-4). Scores APRÈS ; avant/après, matrice complète et échantillon d'historiques non modifiées dans docs/PEDAGOGICAL-AUDIT-V29.md. Items remplis au CP11 (une fois les leçons finalisées).",
+  "scanGlobs": [
+    "curriculum/lessons/*.md"
+  ],
+  "items": []
+}

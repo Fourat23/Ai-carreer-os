@@ -1,11 +1,29 @@
 <!-- keep -->
 # Leçon — React : effets, données async et hooks
 
+## 🌍 Le problème d'abord
+Ton composant sait afficher un état. Mais dans la vraie vie, l'interface doit se
+SYNCHRONISER avec le monde extérieur : aller chercher des données sur une API, s'abonner à
+un flux, lancer un minuteur. Ces choses ne sont pas « du rendu » — elles se produisent À
+CÔTÉ, et il faut les déclencher au bon moment, les nettoyer quand il faut, et gérer les cas
+où ça charge, où ça échoue, ou où l'utilisateur tape plus vite que le réseau ne répond. Mal
+fait, on obtient des pages blanches, des spinners éternels et des résultats qui s'affichent
+dans le désordre. Cette leçon t'apprend à brancher proprement ton interface sur le monde
+extérieur — avec `useEffect` et les états d'une donnée asynchrone.
+
 ## 🎯 Objectif
 Maîtriser useEffect (et savoir quand NE PAS l'utiliser), gérer les trois états de toute donnée async (loading/error/data), les formulaires contrôlés, et extraire la logique en hooks personnalisés. C'est le pont entre ton UI et le monde (APIs, LLM).
 
 ## 🧠 Modèle mental
 `useEffect` est **une synchronisation avec l'EXTÉRIEUR** (réseau, abonnements, timers) — pas un fourre-tout « code à exécuter ». Question filtre avant chaque effet : « est-ce que je synchronise avec quelque chose d'externe ? » Non → tu n'as probablement pas besoin d'un effet (calcule au rendu).
+
+## 🧩 Prérequis
+Tu dois maîtriser les fondamentaux de React — composants, props, state, re-rendu, état
+dérivé (`/doc/lessons/react-fundamentals`) — car un effet réagit à ces rendus. Tu dois aussi
+comprendre l'asynchrone en JavaScript, les promesses et `async/await`
+(`/doc/lessons/async-javascript`), puisque les effets orchestrent surtout des opérations
+asynchrones (appels réseau). La notion des trois états d'une donnée distante est construite
+ici.
 
 ## 📖 Explication complète
 - **useEffect(fn, deps)** : fn s'exécute APRÈS le rendu ; le tableau `deps` dit QUAND rejouer (`[]` = au montage ; `[id]` = quand id change). Le **cleanup** (la fonction retournée) nettoie avant le prochain effet/démontage (annuler un abonnement, un timer).

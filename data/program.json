@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T10:50:15.163Z",
+  "generatedAt": "2026-08-08T14:10:56.321Z",
   "skills": [
     {
       "id": "algo",
@@ -6069,26 +6069,6 @@
       ]
     },
     {
-      "slug": "react-fundamentals",
-      "title": "React : les fondamentaux",
-      "cat": "Web & backend",
-      "level": 2,
-      "min": 50,
-      "skills": [
-        "jsts"
-      ]
-    },
-    {
-      "slug": "react-hooks-effects",
-      "title": "React : effets, données async et hooks",
-      "cat": "Web & backend",
-      "level": 2,
-      "min": 50,
-      "skills": [
-        "jsts"
-      ]
-    },
-    {
       "slug": "caching-performance",
       "title": "Cache et performance",
       "cat": "Web & backend",
@@ -6097,6 +6077,151 @@
       "skills": [
         "archi",
         "se"
+      ]
+    },
+    {
+      "slug": "browser-dom-rendering",
+      "title": "Le navigateur, le DOM et le rendu",
+      "cat": "Frontend & React",
+      "level": 1,
+      "min": 45,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "web-semantic"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-counter"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-debug-selector"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-inline-style"
+        }
+      ]
+    },
+    {
+      "slug": "react-fundamentals",
+      "title": "React : les fondamentaux",
+      "cat": "Frontend & React",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "react-hello"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-greeting"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-conditional"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-counter"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-list"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-lift-state"
+        }
+      ]
+    },
+    {
+      "slug": "react-hooks-effects",
+      "title": "React : effets, données async et hooks",
+      "cat": "Frontend & React",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "react-toggle"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-form-name"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-search"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-parent-child"
+        }
+      ]
+    },
+    {
+      "slug": "react-composition-architecture",
+      "title": "React : composition, architecture d'état et hooks personnalisés",
+      "cat": "Frontend & React",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "react-profile"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-parent-child"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-search"
+        }
+      ]
+    },
+    {
+      "slug": "react-accessibility",
+      "title": "Accessibilité des interfaces web",
+      "cat": "Frontend & React",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "web-semantic"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-card"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-avatar"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-debug-list"
+        }
       ]
     },
     {

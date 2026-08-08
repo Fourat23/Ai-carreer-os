@@ -1,11 +1,29 @@
 <!-- keep -->
 # Leçon — React : les fondamentaux
 
+## 🌍 Le problème d'abord
+Tu as vu (leçon précédente) que rendre une page vivante « à la main » revient à mettre à
+jour le DOM à chaque changement — et que, dès que l'interface grandit, tu oublies fatalement
+un endroit et l'écran affiche une valeur périmée. **React** répond exactement à ce problème :
+au lieu de décrire COMMENT modifier l'écran étape par étape, tu décris À QUOI l'écran doit
+ressembler pour un état donné ; quand l'état change, React se charge de mettre le DOM à jour
+correctement, partout. Tu passes d'un travail de plombier (« trouve ce div, change son
+texte ») à un travail de dessinateur (« pour cet état, voici l'interface »). Cette leçon
+installe ce basculement mental — le plus important de tout le frontend.
+
 ## 🎯 Objectif
 Acquérir LE modèle mental de React (UI = f(state)), penser en composants, gérer l'état sans le muter, et comprendre le re-rendu. React est le standard du frontend — et l'interface de tes futures apps IA (DocQA, DocSense).
 
 ## 🧠 Modèle mental
 **L'UI est une FONCTION de l'état** : tu ne modifies jamais l'écran directement (« trouve ce div et change son texte ») — tu décris à quoi l'UI DOIT ressembler pour chaque état possible, et React recalcule le rendu quand l'état change. Déclaratif (QUOI), pas impératif (COMMENT).
+
+## 🧩 Prérequis
+Tu dois comprendre le DOM, les événements et le cycle événement → état → DOM
+(`/doc/lessons/browser-dom-rendering`), car React automatise précisément ce cycle. Tu dois
+aussi être à l'aise en JavaScript — fonctions, callbacks, tableaux (`map`/`filter`) et,
+surtout, la différence valeur/référence et l'immutabilité (`/doc/lessons/javascript-basics`),
+car React s'appuie dessus pour détecter les changements. Aucune connaissance préalable de
+React n'est supposée.
 
 ## 📖 Explication complète
 - **Le composant** : une fonction qui reçoit des **props** (entrées, en lecture seule) et retourne du **JSX** (la description de l'UI). L'interface se DÉCOMPOSE en composants réutilisables — c'est la décomposition en fonctions (jour 9), appliquée à l'UI.

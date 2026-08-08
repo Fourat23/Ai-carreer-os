@@ -1,0 +1,139 @@
+<!-- keep -->
+# Leçon — Accessibilité des interfaces web
+
+## 🌍 Le problème d'abord
+Tu construis une interface qui marche… pour toi, à la souris, avec une bonne vue. Mais une
+partie de tes utilisateurs navigue au clavier (sans souris), écoute la page via un lecteur
+d'écran (parce qu'ils sont aveugles ou malvoyants), ou distingue mal les couleurs. Si tu as
+fabriqué tes boutons avec des `<div>` stylés et cliquables, ces personnes ne peuvent tout
+simplement pas les utiliser : rien ne se passe au clavier, le lecteur d'écran n'annonce
+rien. L'**accessibilité** (souvent abrégée **a11y**) consiste à construire des interfaces
+utilisables par TOUS. Bonne nouvelle : l'essentiel s'obtient gratuitement en écrivant du HTML
+correct — pas en ajoutant une couche compliquée à la fin. Cette leçon te montre comment.
+
+## 🎯 Objectif
+Savoir rendre une interface **utilisable au clavier et au lecteur d'écran** : choisir le HTML
+sémantique, garantir des noms accessibles (textes alternatifs, labels), gérer le focus et le
+contraste, utiliser ARIA avec parcimonie — et tester ce que l'utilisateur PERÇOIT, pas les
+détails d'implémentation.
+
+## 🧩 Prérequis
+Tu dois connaître le HTML, le DOM et les événements (`/doc/lessons/browser-dom-rendering`),
+car l'accessibilité repose d'abord sur le bon choix de balises. Une familiarité avec les
+composants React (`/doc/lessons/react-fundamentals`) aide pour les exemples, mais les
+principes valent pour toute interface web. Aucune connaissance préalable d'ARIA n'est
+supposée.
+
+## 🧠 Modèle mental
+Une page a deux « lectures » : la lecture VISUELLE (ce que voit une personne voyante) et la
+lecture PROGRAMMATIQUE (ce que le navigateur expose aux technologies d'assistance — clavier,
+lecteur d'écran). L'accessibilité, c'est faire en sorte que ces deux lectures disent la MÊME
+chose. Le HTML sémantique le fait presque tout seul : un vrai `<button>` est déjà focusable,
+activable à Entrée/Espace, et annoncé « bouton » par le lecteur d'écran. Chaque fois que tu
+remplaces une balise sémantique par un `<div>`, tu casses la lecture programmatique et tu
+dois tout reconstruire à la main.
+
+## 💡 Pourquoi c'est important
+C'est d'abord une question d'inclusion : exclure des utilisateurs par négligence n'est pas
+acceptable. C'est aussi une obligation LÉGALE dans de nombreux contextes (secteur public,
+grandes entreprises). Et c'est un marqueur de professionnalisme : un recruteur repère
+immédiatement un candidat qui met des `<div onclick>` partout. Enfin, une interface
+accessible est souvent plus claire, mieux structurée et plus facile à tester pour tout le
+monde.
+
+## Explication complète
+
+### Le HTML sémantique fait 80 % du travail
+Utilise la balise qui porte le SENS de l'élément : `<button>` pour une action, `<a>` pour un
+lien, `<nav>` pour la navigation, `<h1>`–`<h6>` pour la hiérarchie des titres, `<label>` pour
+étiqueter un champ, `<ul>/<li>` pour une liste. Ces balises apportent GRATUITEMENT le
+comportement clavier, le rôle annoncé et la navigation par repères. Le réflexe « je stylise
+un `<div>` en bouton » est l'erreur d'accessibilité n°1.
+
+### Noms accessibles : que « voit » un lecteur d'écran ?
+Chaque élément interactif doit avoir un NOM que le lecteur d'écran peut annoncer :
+- une image porteuse de sens a un texte alternatif : `<img alt="Graphique des ventes 2024">`
+  (une image purement décorative prend un `alt=""` vide, pour être ignorée) ;
+- un champ de formulaire est relié à un `<label>` (`<label for="email">` + `<input id="email">`) ;
+- un bouton n'affichant qu'une icône a besoin d'un nom : `aria-label="Fermer"`.
+Sans nom accessible, l'utilisateur entend « bouton » sans savoir ce qu'il fait.
+
+### Clavier et focus
+Tout ce qui est cliquable doit être utilisable au clavier : atteignable par Tab, activable
+par Entrée/Espace. Les éléments sémantiques le sont déjà ; les faux boutons en `<div>` ne le
+sont pas. L'ORDRE de focus doit suivre l'ordre logique de lecture, et le focus doit rester
+VISIBLE (ne supprime pas le contour de focus sans le remplacer). Après une action (ouvrir une
+modale), place le focus là où l'utilisateur doit continuer.
+
+### Contraste et couleur
+Le texte doit avoir un contraste suffisant avec son fond (les recommandations WCAG donnent
+des seuils chiffrés). Et ne transmets JAMAIS une information par la seule couleur : « les
+champs en rouge sont invalides » exclut les daltoniens — ajoute une icône ou un message.
+
+### ARIA : avec parcimonie
+**ARIA** est un ensemble d'attributs (`role`, `aria-label`, `aria-expanded`…) qui complètent
+la sémantique quand le HTML natif ne suffit pas (composants riches : onglets, menus). Règle
+d'or : « pas d'ARIA vaut mieux qu'un mauvais ARIA ». N'ajoute ARIA que si aucune balise native
+ne convient, et jamais pour contredire la sémantique. Un `<button>` natif n'a besoin
+d'aucun `role="button"`.
+
+### Tester l'accessibilité (et tester le bon niveau)
+Trois tests simples et gratuits : navigue la page ENTIÈREMENT au clavier ; vérifie que chaque
+image/bouton a un nom ; passe un vérificateur automatique (comme axe) qui détecte les
+manques évidents. Côté tests automatisés de composants, la bonne pratique rejoint
+l'accessibilité : sélectionne les éléments par leur RÔLE et leur nom accessible (« le bouton
+nommé Envoyer ») plutôt que par une classe CSS interne — tu testes alors ce que l'utilisateur
+perçoit, pas un détail d'implémentation (voir `/doc/lessons/testing-foundations`).
+
+## Concepts clés
+Accessibilité (a11y) · HTML sémantique · nom accessible (`alt`, `<label>`, `aria-label`) ·
+navigation clavier / focus visible / ordre de focus · contraste / information non portée par
+la seule couleur · ARIA (rôle, avec parcimonie) · test par rôle et nom accessible.
+
+## 🧭 Exemple guidé
+Un bouton icône, mal puis bien fait :
+```tsx
+// ❌ inaccessible : pas focusable, pas activable au clavier, aucun nom annoncé
+<div className="btn" onClick={fermer}>✕</div>
+
+// ✅ accessible : vrai bouton (clavier gratuit) + nom pour le lecteur d'écran
+<button type="button" onClick={fermer} aria-label="Fermer la fenêtre">✕</button>
+```
+Le second est atteignable par Tab, s'active à Entrée/Espace, et est annoncé « Fermer la
+fenêtre, bouton ». Aucune ligne de JavaScript en plus — juste la bonne balise et un nom.
+
+## ⚠️ Erreurs fréquentes
+- Faux boutons/liens en `<div>` cliquables : inutilisables au clavier et muets pour le
+  lecteur d'écran.
+- Images sans `alt` (ou icônes-boutons sans `aria-label`) : contenu invisible pour
+  l'assistance.
+- Supprimer le contour de focus « parce que c'est moche » sans le remplacer : navigation
+  clavier impossible à suivre.
+- Information transmise par la seule couleur (rouge = erreur) : ajoute texte/icône.
+- Empiler des attributs ARIA pour « faire accessible » alors qu'une balise native suffisait.
+
+## 🔗 Liens avec le programme
+Cette leçon prolonge `/doc/lessons/browser-dom-rendering` (le HTML sémantique) et outille
+`/doc/lessons/react-fundamentals` et `/doc/lessons/react-composition-architecture` (des
+composants accessibles par construction). La façon de tester « par rôle et nom accessible »
+rejoint `/doc/lessons/testing-foundations`. L'interface de tes apps IA (mois 8+) doit être
+accessible comme toute autre.
+
+## Mini-exercice
+Prends une petite interface que tu as écrite. (1) Navigue-la uniquement au clavier : tout est-il
+atteignable et activable ? (2) Remplace tout faux bouton/lien par la balise sémantique
+correcte. (3) Ajoute les noms accessibles manquants (`alt`, `<label>`, `aria-label`). (4)
+Vérifie qu'aucune information n'est portée par la seule couleur. Note ce que tu as dû corriger.
+
+## 📚 Vocabulaire
+**accessibilité (a11y)** · **HTML sémantique** · **nom accessible** · **texte alternatif
+(`alt`)** · **`<label>`** · **focus** · **contraste** · **ARIA** · **rôle** · **lecteur
+d'écran**.
+
+## 🧾 À retenir
+L'accessibilité fait qu'une interface est utilisable par tous — au clavier, au lecteur
+d'écran, avec un contraste suffisant. L'essentiel s'obtient GRATUITEMENT avec du HTML
+sémantique : un vrai `<button>` vaut mieux qu'un `<div>` stylé. Donne un nom accessible à
+chaque élément interactif, garde le focus visible, ne transmets pas d'information par la seule
+couleur, et n'utilise ARIA qu'en dernier recours. Teste par rôle et nom accessible : tu
+valides alors ce que l'utilisateur perçoit vraiment.

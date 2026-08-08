@@ -22,9 +22,14 @@ export const LESSONS = [
   { file: 'api-design-basics.md', title: 'Concevoir une API', cat: 'Web & backend', level: 2, min: 45, skills: ['http'] },
   { file: 'express-backend.md', title: 'Backend Express : structure et robustesse', cat: 'Web & backend', level: 2, min: 50, skills: ['http', 'se'] },
   { file: 'authentication.md', title: 'Authentification et autorisation', cat: 'Web & backend', level: 2, min: 45, skills: ['secu', 'http'] },
-  { file: 'react-fundamentals.md', title: 'React : les fondamentaux', cat: 'Web & backend', level: 2, min: 50, skills: ['jsts'] },
-  { file: 'react-hooks-effects.md', title: 'React : effets, données async et hooks', cat: 'Web & backend', level: 2, min: 50, skills: ['jsts'] },
   { file: 'caching-performance.md', title: 'Cache et performance', cat: 'Web & backend', level: 3, min: 45, skills: ['archi', 'se'] },
+
+  // ── Frontend & React ──
+  { file: 'browser-dom-rendering.md', title: 'Le navigateur, le DOM et le rendu', cat: 'Frontend & React', level: 1, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-semantic' }, { kind: 'exercise', id: 'web-counter' }, { kind: 'exercise', id: 'web-debug-selector' }, { kind: 'exercise', id: 'web-inline-style' }] },
+  { file: 'react-fundamentals.md', title: 'React : les fondamentaux', cat: 'Frontend & React', level: 2, min: 50, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'react-hello' }, { kind: 'exercise', id: 'react-greeting' }, { kind: 'exercise', id: 'react-conditional' }, { kind: 'exercise', id: 'react-counter' }, { kind: 'exercise', id: 'react-list' }, { kind: 'exercise', id: 'react-lift-state' }] },
+  { file: 'react-hooks-effects.md', title: 'React : effets, données async et hooks', cat: 'Frontend & React', level: 2, min: 50, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'react-toggle' }, { kind: 'exercise', id: 'react-form-name' }, { kind: 'exercise', id: 'react-search' }, { kind: 'exercise', id: 'react-parent-child' }] },
+  { file: 'react-composition-architecture.md', title: 'React : composition, architecture d\'état et hooks personnalisés', cat: 'Frontend & React', level: 3, min: 55, skills: ['jsts', 'archi'], practiceRefs: [{ kind: 'exercise', id: 'react-profile' }, { kind: 'exercise', id: 'react-parent-child' }, { kind: 'exercise', id: 'react-search' }] },
+  { file: 'react-accessibility.md', title: 'Accessibilité des interfaces web', cat: 'Frontend & React', level: 2, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-semantic' }, { kind: 'exercise', id: 'web-card' }, { kind: 'exercise', id: 'react-avatar' }, { kind: 'exercise', id: 'react-debug-list' }] },
   // ── Data & SQL ──
   { file: 'sql-foundations.md', title: 'SQL : les fondations', cat: 'Data & SQL', level: 1, min: 50, skills: ['sql'], practiceRefs: [{ kind: 'exercise', id: 'sys-log-level-counts' }, { kind: 'exercise', id: 'fix-nplus1' }] },
   { file: 'database-modeling.md', title: 'Modélisation, index et transactions', cat: 'Data & SQL', level: 2, min: 50, skills: ['sql'] },
@@ -126,7 +131,7 @@ export const LESSONS = [
 
 export const LESSON_BY_SKILL = {
   gitlinux: ['terminal-shell-filesystem.md', 'git-fundamentals.md', 'git-advanced.md'],
-  jsts: ['javascript-basics.md', 'typescript-basics.md', 'async-javascript.md'],
+  jsts: ['javascript-basics.md', 'typescript-basics.md', 'async-javascript.md', 'browser-dom-rendering.md', 'react-fundamentals.md', 'react-hooks-effects.md', 'react-composition-architecture.md', 'react-accessibility.md'],
   algo: ['algorithmic-thinking.md', 'recursion.md'],
   ds: ['data-structures-intro.md', 'recursion.md'],
   http: ['http-rest-json.md', 'api-design-basics.md', 'express-backend.md'],

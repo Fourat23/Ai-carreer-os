@@ -2,24 +2,40 @@
   "sprint": "V29",
   "baselineRef": "4b8d8b4",
   "note": "Périmètre V29 (cf. ADR-029/HSD-029/TSD-029). newLessons : nouvelles Leçons de fond Frontend/React, Data/SQL, Software Engineering. hardenedLegacy : leçons historiques corrigées (dette P0 de premier contact + domaines cibles React/Data/SE). Le gate v29:check valide STRUCTURELLEMENT tout le périmètre ; il ne juge jamais la profondeur par la longueur. critical : leçons devant porter au moins un practiceRef. prereq : graphe de prérequis (slug -> [slugs]) validé acyclique. Les arrays se remplissent au fil des CP3->CP6 (une leçon n'est ajoutée qu'une fois réellement conforme).",
-  "newLessons": [],
+  "newLessons": [
+    "browser-dom-rendering",
+    "react-composition-architecture",
+    "react-accessibility"
+  ],
   "hardenedLegacy": [
     "terminal-shell-filesystem",
     "git-fundamentals",
     "data-structures-intro",
     "typescript-basics",
-    "sql-foundations"
+    "sql-foundations",
+    "react-fundamentals",
+    "react-hooks-effects"
   ],
   "critical": [
     "terminal-shell-filesystem",
     "data-structures-intro",
     "typescript-basics",
-    "sql-foundations"
+    "sql-foundations",
+    "browser-dom-rendering",
+    "react-fundamentals",
+    "react-hooks-effects",
+    "react-composition-architecture",
+    "react-accessibility"
   ],
   "prereq": {
     "git-fundamentals": ["terminal-shell-filesystem"],
     "data-structures-intro": ["javascript-basics", "algorithmic-thinking"],
     "typescript-basics": ["javascript-basics"],
-    "sql-foundations": ["javascript-basics"]
+    "sql-foundations": ["javascript-basics"],
+    "browser-dom-rendering": ["javascript-basics"],
+    "react-fundamentals": ["browser-dom-rendering", "javascript-basics"],
+    "react-hooks-effects": ["react-fundamentals", "async-javascript"],
+    "react-composition-architecture": ["react-fundamentals", "react-hooks-effects", "clean-code"],
+    "react-accessibility": ["browser-dom-rendering", "react-fundamentals"]
   }
 }

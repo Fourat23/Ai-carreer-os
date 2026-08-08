@@ -1,7 +1,38 @@
 <!-- keep -->
 # Leçon — LLM : comprendre les grands modèles de langage
 
-## Pourquoi c'est important
+## 🌍 Le problème d'abord
+Tu poses une question à ChatGPT, il répond avec aplomb… et parfois invente une référence qui
+n'existe pas, avec la même assurance que pour une réponse juste. Comment un outil aussi
+impressionnant peut-il se tromper aussi sûrement ? Le débutant croit qu'un LLM « sait » des
+choses, comme une encyclopédie ; en réalité, il fait une chose beaucoup plus simple et
+surprenante — deviner le prochain morceau de texte le plus plausible. Comprendre CE que fait
+vraiment un modèle change tout : tu sais alors prédire quand il échouera, concevoir autour de
+ses limites (sources, validation), et maîtriser ses coûts. Cette leçon ouvre la boîte noire —
+c'est ce qui sépare un « prompteur » d'un ingénieur IA.
+
+## 🎯 Objectif
+Comprendre ce qu'un LLM FAIT réellement (prédire le token suivant), pourquoi il **hallucine**
+par construction, ce qu'est la **fenêtre de contexte**, le rôle de la **température**, la
+structure des **coûts**, et comment traiter le LLM comme un **composant d'ingénierie**
+faillible à encadrer.
+
+## 🧩 Prérequis
+Tu dois avoir l'intuition de ce qu'est le machine learning — apprendre des régularités à
+partir d'exemples, généralisation, le fait qu'un modèle produit des sorties probabilistes
+(`/doc/lessons/machine-learning-basics`). Une notion d'appel d'API (requête/réponse, coût,
+latence, `/doc/lessons/http-rest-json`) aide pour la partie ingénierie. Aucune connaissance
+d'architecture de réseaux de neurones n'est requise ici.
+
+## 🧠 Modèle mental
+Un LLM fait UNE chose : étant donné un texte, prédire le prochain **token** (un morceau de
+mot) le plus probable, l'ajouter, et recommencer. Tout — dialogue, code, « raisonnement » —
+ÉMERGE de cette mécanique à très grande échelle. Conséquence à graver : le modèle produit du
+texte STATISTIQUEMENT PLAUSIBLE, pas du texte VRAI. La vérité n'est pas dans ce qu'il optimise ;
+c'est pourquoi il faut l'ancrer dans des sources et valider ses sorties, plutôt que lui faire
+confiance parce qu'il « a l'air sûr ».
+
+## 💡 Pourquoi c'est important
 Les LLM sont l'outil central de ton futur métier — et la différence entre un « prompteur » et un ingénieur IA tient à UNE chose : comprendre ce que le modèle FAIT réellement. Cette compréhension te permet de prédire quand il échouera, de concevoir autour de ses limites (RAG, validation, guardrails), d'en maîtriser les coûts, et de répondre aux questions d'entretien qui trient les candidats (« pourquoi les LLM hallucinent-ils ? »).
 
 ## Explication complète
@@ -29,7 +60,7 @@ Cinq propriétés qui dictent ton code appelant : **non-déterministe** (→ val
 ## Concepts clés
 Token · fenêtre de contexte · system/user prompts · prédiction du token suivant · hallucination (mécanisme) · température, top-p · structured outputs (JSON contraint + validation côté code) · function calling (le modèle DEMANDE, ton code EXÉCUTE) · coûts entrée/sortie · streaming · dérive.
 
-## Exemple
+## 🧭 Exemple guidé
 ```
 Entrée : "La capitale de la France est"
 Le modèle calcule : P("Paris") = 0.92, P("une") = 0.03, ...
@@ -39,21 +70,21 @@ Maintenant : "La capitale de la Zorbaquie est"
 ```
 Même mécanique dans les deux cas — c'est exactement pourquoi la confiance apparente d'un LLM n'est PAS un signal de vérité, et pourquoi tes systèmes exigeront des sources.
 
-## Pièges classiques
+## ⚠️ Erreurs fréquentes
 - Traiter le LLM comme une base de connaissances fiable (il est un générateur plausible).
 - « Réponds en JSON » sans validation : le parse échouera un jour — schéma validé + retry, toujours.
 - Ignorer les coûts jusqu'à la facture.
 - Croire que le modèle « se souvient » de la conversation (c'est TON code qui renvoie l'historique).
 - Confondre function calling (le modèle demande) et exécution (ton code décide et exécute).
 
-## Lien avec l'IA / le futur
+## 🔗 Liens avec le programme
 Tout ton dernier trimestre est bâti sur cette leçon : le RAG (mois 8-9) contourne la fenêtre de contexte et ancre contre l'hallucination ; l'évaluation (mois 9) mesure ce que le non-déterminisme rend incertain ; les agents (mois 10) enchaînent des prédictions faillibles — d'où budgets et garde-fous ; les coûts pilotent l'architecture de DocSense. Et les questions d'entretien IA (tokens, température, hallucinations) viennent TOUTES d'ici.
 
 ## Mini-exercice
 Avec une API LLM : (1) pose 5 fois la même question à température 0 puis 1 — observe ; (2) provoque une hallucination (question précise sur un sujet inventé plausible) et explique le mécanisme ; (3) compte les tokens d'un de tes prompts et calcule le coût de 10 000 appels/jour. Trois manipulations, trois piliers du métier.
 
-## Vocabulaire à retenir
+## 📚 Vocabulaire
 **token** · **fenêtre de contexte** · **inférence** · **température / top-p** · **hallucination** · **system prompt** · **structured output** · **function calling / tool use** · **streaming** · **coût par token** · **dérive de modèle**.
 
-## Résumé
+## 🧾 À retenir
 Un LLM prédit le token suivant le plus plausible — c'est tout, et c'est immense. Il n'a ni vérité, ni mémoire hors contexte, ni déterminisme garanti ; il hallucine par construction et coûte à chaque token. L'ingénierie LLM consiste à bâtir autour de ces propriétés : ancrer (RAG), contraindre et valider (structured outputs), outiller (function calling), mesurer (éval), encadrer (guardrails). Comprendre la mécanique, c'est cesser de subir la magie.

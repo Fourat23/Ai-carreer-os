@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Évaluer un modèle ML
 
+## 🌍 Le problème d'abord
+Un collègue annonce fièrement : « mon modèle de détection de fraude a 99 % d'exactitude ! ».
+Impressionnant… jusqu'à ce que tu réalises que 99 % des transactions sont légitimes : un
+modèle qui répond TOUJOURS « pas de fraude » atteint aussi 99 % — et ne détecte aucune fraude.
+Le chiffre était juste, mais la QUESTION posée aux prédictions était la mauvaise. Évaluer un
+modèle, ce n'est pas lire un score, c'est choisir la bonne mesure selon ce qu'une erreur COÛTE
+vraiment. C'est la compétence ML la plus interrogée en entretien, et celle qui distingue un
+profil sérieux d'un récitant de chiffres. Cette leçon t'apprend à ne plus te faire avoir par
+une belle métrique.
+
 ## 🎯 Objectif
 Savoir choisir et interpréter la bonne métrique selon le problème et le COÛT MÉTIER des erreurs, lire une matrice de confusion, et éviter les pièges (accuracy trompeuse, évaluation sur le train). C'est la compétence ML la plus interrogée en entretien — et celle qui distingue un profil sérieux.
 
 ## 🧠 Modèle mental
 Une métrique, c'est **la question précise qu'on pose aux prédictions**. La mauvaise question donne une bonne note à un mauvais modèle. « 99 % d'accuracy » ne veut rien dire sans savoir QUELLE question elle répond et à quoi elle se compare.
+
+## 🧩 Prérequis
+Tu dois maîtriser les bases du ML — train/test split, baseline, overfitting, matrice de
+confusion, précision/rappel (`/doc/lessons/machine-learning-basics`) — et avoir les réflexes
+statistiques (l'intuition de Bayes, pourquoi l'accuracy ment sur les classes déséquilibrées,
+`/doc/lessons/statistics-for-ml`). Cette leçon approfondit le CHOIX de la métrique selon le
+coût métier ; aucune notion nouvelle de modélisation n'est requise.
 
 ## 📖 Explication complète
 - **Toujours une baseline** : la prédiction naïve (moyenne, classe majoritaire). Un modèle qui ne la bat pas ne sert à rien. Une baseline à 95 % (classes déséquilibrées) recadre tout.

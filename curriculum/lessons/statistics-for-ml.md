@@ -1,7 +1,37 @@
 <!-- keep -->
 # Leçon — Statistiques pour le ML
 
-## Pourquoi c'est important
+## 🌍 Le problème d'abord
+On t'annonce « le salaire moyen de l'équipe est de 60 000 € » — mais personne autour de toi
+ne gagne ça : une seule personne gagne 300 000 € et tire la moyenne vers le haut. Ce chiffre
+unique MENT sur la réalité. Autre piège : « les ventes ont augmenté après la campagne, donc
+la campagne marche » — vraiment, ou est-ce simplement l'été ? Les **statistiques** sont
+l'outil pour raisonner honnêtement sur des données : résumer sans mentir, repérer les pièges,
+et ne pas confondre coïncidence et cause. Sans elles, le machine learning devient une boîte
+noire qu'on utilise en priant. Cette leçon te donne le kit minimal mais solide pour ne plus
+te faire avoir par un chiffre.
+
+## 🎯 Objectif
+Savoir **résumer honnêtement** des données (tendance, dispersion, distribution), distinguer
+**corrélation et causalité**, interroger la **représentativité** d'un échantillon, et garder
+l'**intuition de Bayes** — les réflexes qui fondent toute évaluation ML sérieuse.
+
+## 🧩 Prérequis
+Aucune mathématique avancée n'est requise : il faut seulement être à l'aise avec des chiffres
+du quotidien (une moyenne, un pourcentage). Les notions (médiane, écart-type, distribution,
+corrélation, Bayes) sont construites ici PAR L'INTUITION, sans formule imposée. Pour la
+pratique, savoir manipuler des données en Python aide (`/doc/lessons/python-foundations`),
+mais la compréhension de la leçon n'en dépend pas.
+
+## 🧠 Modèle mental
+Une donnée n'est jamais UN chiffre : c'est une DISTRIBUTION (une forme). Le premier réflexe
+n'est donc pas « quelle est la moyenne ? » mais « à quoi ressemble la forme ? » — est-elle
+symétrique, asymétrique, à deux bosses, avec des valeurs extrêmes ? Le bon résumé dépend de la
+forme (médiane et percentiles pour l'asymétrique, moyenne pour le symétrique). Et devant deux
+choses qui « bougent ensemble », la question n'est jamais « laquelle cause l'autre ? » mais
+« se pourrait-il qu'une TROISIÈME chose cause les deux ? ».
+
+## 💡 Pourquoi c'est important
 Le ML sans statistiques, c'est utiliser une boîte noire en espérant que ça marche : tu ne sauras ni préparer les données, ni choisir une métrique, ni détecter que ton modèle ment. Les stats d'ici sont MINIMALES mais SOLIDES — le kit de survie pour raisonner honnêtement sur des données, repérer les pièges classiques, et répondre aux questions d'entretien (« pourquoi la moyenne est-elle trompeuse ici ? »).
 
 ## Explication complète
@@ -29,23 +59,23 @@ Un échantillon BIAISÉ produit des conclusions fausses avec une grande confianc
 ## Concepts clés
 Moyenne / médiane / mode · variance, écart-type · distribution, histogramme, boxplot · quantiles / percentiles (p95 de latence !) · aberration (outlier) · corrélation (et sa force) · confondant · biais de sélection / du survivant · probabilité conditionnelle · Bayes (l'intuition).
 
-## Exemple
+## 🧭 Exemple guidé
 Latence d'une API : moyenne 120 ms — « tout va bien » ? L'histogramme montre 95 % à 80 ms et 5 % à 900 ms (timeouts). La moyenne noie le problème ; le **p95/p99** le révèle. C'est pour ça que les SLA se définissent en percentiles, jamais en moyennes — et que ton dashboard qualité RAG (mois 9) regardera la distribution des scores, pas juste leur moyenne.
 
-## Pièges classiques
+## ⚠️ Erreurs fréquentes
 - Résumer une distribution asymétrique par sa moyenne.
 - Conclure une causalité d'une corrélation (sans chercher les confondants).
 - Ignorer QUI manque dans l'échantillon.
 - Comparer des taux sans regarder les effectifs (le paradoxe de Simpson : une tendance peut S'INVERSER en agrégeant des groupes — à connaître de nom).
 
-## Lien avec l'IA / le futur
+## 🔗 Liens avec le programme
 Le choix de métrique ML (mois 6) est une décision statistique : précision vs rappel = arbitrer les coûts d'erreurs, exactement le raisonnement de Bayes. L'évaluation RAG (mois 9) est de la statistique appliquée : un golden set est un ÉCHANTILLON (représentatif ?), un juge LLM a des BIAIS (mesurables par accord avec l'humain), une amélioration de +3 % sur 30 questions est-elle du signal ou du bruit ? Sans ces réflexes, on optimise du hasard.
 
 ## Mini-exercice
 Sur les données de ton projet 4 : calcule moyenne ET médiane d'une variable asymétrique (constate l'écart et explique-le), trace son histogramme, trouve une corrélation entre deux variables et écris les TROIS explications possibles (X→Y, Y→X, Z→les deux) avec ton verdict argumenté.
 
-## Vocabulaire à retenir
+## 📚 Vocabulaire
 **distribution** · **médiane / quantile / p95** · **écart-type** · **outlier** · **corrélation** · **confondant** · **biais de sélection / du survivant** · **prévalence** · **probabilité conditionnelle** · **paradoxe de Simpson**.
 
-## Résumé
+## 🧾 À retenir
 Regarde toujours la distribution avant de résumer ; préfère la médiane et les percentiles sur les données asymétriques ; ne confonds jamais corrélation et causalité (cherche les confondants) ; interroge la représentativité de tout échantillon ; et garde l'intuition de Bayes (la prévalence domine les tests). Ces cinq réflexes valent plus que des formules — ils sont le socle de toute évaluation honnête, du ML classique aux systèmes RAG.

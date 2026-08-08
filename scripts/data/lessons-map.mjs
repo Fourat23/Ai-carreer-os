@@ -53,9 +53,9 @@ export const LESSONS = [
   // ── Python & ML ──
   { file: 'python-foundations.md', title: 'Python : les fondations', cat: 'Python & ML', level: 1, min: 45, skills: ['python'], practiceRefs: [{ kind: 'exercise', id: 'py-list-sum' }, { kind: 'exercise', id: 'py-word-count' }, { kind: 'exercise', id: 'py-slugify' }] },
   { file: 'statistics-for-ml.md', title: 'Statistiques pour le ML', cat: 'Python & ML', level: 2, min: 50, skills: ['ml'] },
-  { file: 'machine-learning-basics.md', title: 'Machine learning : les bases', cat: 'Python & ML', level: 2, min: 55, skills: ['ml'] },
+  { file: 'machine-learning-basics.md', title: 'Machine learning : les bases', cat: 'Python & ML', level: 2, min: 55, skills: ['ml'], practiceRefs: [{ kind: 'exercise', id: 'ml-metric-choice' }] },
   { file: 'feature-engineering.md', title: 'Feature engineering', cat: 'Python & ML', level: 2, min: 45, skills: ['ml'] },
-  { file: 'model-evaluation.md', title: 'Évaluer un modèle ML', cat: 'Python & ML', level: 2, min: 50, skills: ['ml', 'evalia'] },
+  { file: 'model-evaluation.md', title: 'Évaluer un modèle ML', cat: 'Python & ML', level: 2, min: 50, skills: ['ml', 'evalia'], practiceRefs: [{ kind: 'exercise', id: 'ml-metric-choice' }] },
   { file: 'scikit-learn-workflow.md', title: 'Le workflow scikit-learn', cat: 'Python & ML', level: 2, min: 45, skills: ['ml', 'python'] },
   { file: 'neural-networks.md', title: 'Réseaux de neurones : ouvrir la boîte noire', cat: 'Python & ML', level: 3, min: 55, skills: ['dl'] },
   { file: 'transformers.md', title: "Transformers : l'architecture des LLM", cat: 'Python & ML', level: 3, min: 55, skills: ['dl', 'llm'] },
@@ -72,7 +72,7 @@ export const LESSONS = [
   { file: 'rag-evaluation.md', title: 'Évaluation RAG avancée', cat: 'IA appliquée', level: 3, min: 50, skills: ['evalia', 'rag'] },
   { file: 'agents-fundamentals.md', title: 'Agents IA : fondamentaux', cat: 'IA appliquée', level: 2, min: 50, skills: ['agents'] },
   { file: 'agent-workflows-orchestration.md', title: 'Agents avancés et orchestration', cat: 'IA appliquée', level: 3, min: 50, skills: ['agents'] },
-  { file: 'ai-security.md', title: 'Sécurité des systèmes IA', cat: 'IA appliquée', level: 3, min: 50, skills: ['secu'] },
+  { file: 'ai-security.md', title: 'Sécurité des systèmes IA', cat: 'IA appliquée', level: 3, min: 50, skills: ['secu'], practiceRefs: [{ kind: 'exercise', id: 'prompt-injection-classify' }] },
   { file: 'prompt-injection-defense.md', title: 'Défense contre la prompt injection', cat: 'IA appliquée', level: 3, min: 45, skills: ['secu'] },
   { file: 'llm-cost-optimization.md', title: "Coûts d'inférence : estimer et optimiser", cat: 'IA appliquée', level: 3, min: 40, skills: ['llm', 'cloud'] },
   // ── Observabilité, SRE & fiabilité ──

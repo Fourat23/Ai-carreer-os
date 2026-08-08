@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T15:39:01.915Z",
+  "generatedAt": "2026-08-08T15:44:14.294Z",
   "skills": [
     {
       "id": "algo",
@@ -6638,6 +6638,12 @@
       "min": 55,
       "skills": [
         "ml"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "ml-metric-choice"
+        }
       ]
     },
     {
@@ -6659,6 +6665,12 @@
       "skills": [
         "ml",
         "evalia"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "ml-metric-choice"
+        }
       ]
     },
     {
@@ -6824,6 +6836,12 @@
       "min": 50,
       "skills": [
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "prompt-injection-classify"
+        }
       ]
     },
     {

@@ -9,20 +9,34 @@
     "async-javascript",
     "api-design-basics",
     "express-backend",
-    "authentication"
+    "authentication",
+    "statistics-for-ml",
+    "machine-learning-basics",
+    "model-evaluation",
+    "llm-fundamentals",
+    "agents-fundamentals",
+    "ai-security"
   ],
   "critical": [
     "async-javascript",
     "api-design-basics",
     "express-backend",
     "technical-documentation",
-    "authentication"
+    "authentication",
+    "machine-learning-basics",
+    "model-evaluation",
+    "ai-security"
   ],
   "prereq": {
     "async-javascript": ["javascript-basics", "http-rest-json"],
     "api-design-basics": ["http-rest-json", "breaking-changes-compatibility"],
     "express-backend": ["http-rest-json", "api-design-basics", "async-javascript", "error-handling"],
     "authentication": ["http-rest-json", "express-backend"],
-    "technical-documentation": ["architecture-basics", "error-handling", "breaking-changes-compatibility"]
+    "technical-documentation": ["architecture-basics", "error-handling", "breaking-changes-compatibility"],
+    "machine-learning-basics": ["statistics-for-ml", "python-foundations"],
+    "model-evaluation": ["machine-learning-basics", "statistics-for-ml"],
+    "llm-fundamentals": ["machine-learning-basics", "http-rest-json"],
+    "agents-fundamentals": ["llm-fundamentals", "api-design-basics"],
+    "ai-security": ["llm-fundamentals", "agents-fundamentals", "authentication"]
   }
 }

@@ -16890,5 +16890,379 @@
     "detailedDefinition": "La progressive delivery expose une nouvelle version graduellement : à 1 % des utilisateurs, puis 10 %, etc., en observant les signaux, avec possibilité de couper vite (feature flag) ou de rebasculer. Elle réduit le rayon d'impact d'un bug et s'appuie sur l'observabilité pour décider d'avancer ou non.",
     "meetingExample": "« On fait de la progressive delivery : canary 5 %, puis on monte si les métriques tiennent. »",
     "plainTranslation": "« Déployer petit à petit pour limiter les dégâts si ça casse. »"
+  },
+  {
+    "id": "dev-dom",
+    "term": "DOM",
+    "fullForm": "Document Object Model",
+    "frenchMeaning": "représentation en arbre d'une page web",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "L'arbre d'objets, construit par le navigateur à partir du HTML, que le code JavaScript peut lire et modifier pour rendre la page vivante.",
+    "detailedDefinition": "Quand le navigateur charge une page, il transforme le HTML en DOM : un arbre où chaque balise devient un nœud manipulable. Modifier le DOM (textContent, classList, createElement) change ce que voit l'utilisateur sans recharger la page. Manipuler le DOM à la main devient vite fragile quand l'état grandit, ce qui motive les frameworks à rendu déclaratif comme React.",
+    "usageContext": "Développement web front, manipulation d'interface, motivation de React.",
+    "meetingExample": "« Le bug vient d'une mise à jour manuelle du DOM oubliée ; l'affichage est périmé. »",
+    "plainTranslation": "« La page vue comme un arbre que le code peut modifier en direct. »",
+    "tags": [
+      "front",
+      "web"
+    ]
+  },
+  {
+    "id": "dev-jsx",
+    "term": "JSX",
+    "fullForm": null,
+    "frenchMeaning": "syntaxe mêlant balisage et JavaScript",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "Une syntaxe proche du HTML, utilisée dans React, pour décrire l'interface directement dans le code JavaScript.",
+    "detailedDefinition": "JSX permet d'écrire des éléments d'interface (`<Bouton />`) au milieu du JavaScript. Ce n'est pas du HTML : c'est transformé en appels de fonctions qui décrivent l'UI. Il rend le rendu déclaratif lisible : on décrit à quoi l'écran doit ressembler pour un état donné.",
+    "usageContext": "Composants React, description déclarative de l'UI.",
+    "meetingExample": "« Ce composant renvoie du JSX conditionnel selon l'état de chargement. »",
+    "plainTranslation": "« Écrire l'apparence de l'écran directement dans le code, façon HTML. »",
+    "tags": [
+      "front",
+      "react"
+    ]
+  },
+  {
+    "id": "dev-react-hook",
+    "term": "hook",
+    "fullForm": null,
+    "frenchMeaning": "fonction React d'accès à l'état et au cycle de vie",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Une fonction React (useState, useEffect…) qui donne à un composant une mémoire (état) ou une synchronisation avec l'extérieur (effets).",
+    "detailedDefinition": "Les hooks branchent un composant sur des capacités de React : useState pour l'état local, useEffect pour synchroniser avec l'extérieur. On peut aussi créer des hooks personnalisés (useXxx) pour factoriser une logique réutilisable. Ils s'appellent toujours au même niveau du composant, jamais conditionnellement.",
+    "usageContext": "Gestion d'état et d'effets dans les composants React.",
+    "meetingExample": "« Extrais cette logique de chargement dans un hook personnalisé réutilisable. »",
+    "plainTranslation": "« Des outils React qui donnent mémoire et réactions à un composant. »",
+    "tags": [
+      "front",
+      "react"
+    ]
+  },
+  {
+    "id": "dev-useeffect",
+    "term": "useEffect",
+    "fullForm": null,
+    "frenchMeaning": "effet de synchronisation avec l'extérieur",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Le hook React qui exécute du code de synchronisation avec le monde extérieur (réseau, timers) après le rendu, selon des dépendances.",
+    "detailedDefinition": "useEffect(fn, deps) lance fn après le rendu ; deps décide quand rejouer, et la fonction de cleanup retournée nettoie avant le prochain effet. C'est fait pour SYNCHRONISER avec l'extérieur, pas pour calculer un dérivé (qui se calcule au rendu). Mauvaises dépendances = effet qui ne rejoue pas ou boucle infinie.",
+    "usageContext": "Requêtes réseau, abonnements, timers dans React.",
+    "meetingExample": "« Ce useEffect n'a pas de cleanup : il laisse fuir des réponses obsolètes. »",
+    "plainTranslation": "« Le code React qui va chercher ou synchronise des choses après l'affichage. »",
+    "tags": [
+      "front",
+      "react"
+    ]
+  },
+  {
+    "id": "dev-declarative-rendering",
+    "term": "rendu déclaratif",
+    "fullForm": null,
+    "frenchMeaning": "décrire l'UI en fonction de l'état",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Décrire à quoi l'interface doit ressembler pour un état donné, en laissant le framework mettre le DOM à jour — au lieu de le modifier soi-même, étape par étape.",
+    "detailedDefinition": "Le rendu impératif dit COMMENT changer l'écran (trouve ce div, change son texte) ; le rendu déclaratif dit QUOI afficher pour un état (UI = f(état)) et laisse React recalculer et appliquer les changements. Cela élimine la classe de bugs où l'on oublie de mettre à jour un endroit du DOM.",
+    "usageContext": "React et autres frameworks d'UI modernes.",
+    "meetingExample": "« En déclaratif, on ne touche plus le DOM : on change l'état, le rendu suit. »",
+    "plainTranslation": "« On décrit l'écran voulu, l'outil se charge de l'afficher. »",
+    "tags": [
+      "front"
+    ]
+  },
+  {
+    "id": "dev-lifting-state",
+    "term": "lifting state up",
+    "fullForm": null,
+    "frenchMeaning": "remontée de l'état",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Placer un état partagé au plus proche ancêtre commun des composants qui en ont besoin, plutôt que de le dupliquer.",
+    "detailedDefinition": "Quand deux composants frères doivent partager une donnée, on la remonte à leur parent commun, qui la passe en props et reçoit les changements par callbacks. Trop bas, l'état est inaccessible aux frères ; trop haut, il provoque des re-rendus et du prop drilling inutiles.",
+    "usageContext": "Architecture d'état React.",
+    "meetingExample": "« Ces deux composants doivent partager le filtre : remonte l'état au parent. »",
+    "plainTranslation": "« Mettre une donnée partagée juste au-dessus de ceux qui l'utilisent. »",
+    "tags": [
+      "front",
+      "react"
+    ]
+  },
+  {
+    "id": "dev-derived-state",
+    "term": "état dérivé",
+    "fullForm": null,
+    "frenchMeaning": "valeur calculée à partir de l'état",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Une valeur qui se CALCULE à partir de l'état existant (au rendu) plutôt que d'être stockée séparément.",
+    "detailedDefinition": "Stocker ce qui se calcule (un total, une liste filtrée) crée une seconde source de vérité qui se désynchronise. L'état dérivé se recalcule à chaque rendu à partir de l'état source : toujours cohérent, plus simple. Règle : ne stocke que le strict nécessaire.",
+    "usageContext": "React, mais aussi toute gestion d'état.",
+    "meetingExample": "« Ne stocke pas le total dans un useState : c'est un état dérivé du panier. »",
+    "plainTranslation": "« Une valeur qu'on recalcule au lieu de la garder en double. »",
+    "tags": [
+      "front"
+    ]
+  },
+  {
+    "id": "dev-reconciliation",
+    "term": "reconciliation (React)",
+    "fullForm": null,
+    "frenchMeaning": "rapprochement entre rendu voulu et DOM réel",
+    "category": "dev",
+    "level": "avancé",
+    "shortDefinition": "Le processus par lequel React compare le rendu voulu au DOM actuel et n'applique que les changements nécessaires.",
+    "detailedDefinition": "Quand l'état change, React recalcule la description de l'UI puis la RÉCONCILIE avec le DOM existant : il repère les différences et met à jour le minimum. Les keys stables aident React à identifier les éléments d'une liste entre deux rendus, évitant des re-créations et des bugs d'affichage.",
+    "usageContext": "Fonctionnement interne de React, performance des listes.",
+    "meetingExample": "« Sans key stable, la reconciliation confond les lignes réordonnées. »",
+    "plainTranslation": "« React ne redessine que ce qui a vraiment changé à l'écran. »",
+    "tags": [
+      "front",
+      "react"
+    ],
+    "aliases": [
+      "reconciliation front"
+    ]
+  },
+  {
+    "id": "dev-accessibility",
+    "term": "accessibilité",
+    "fullForm": "a11y",
+    "frenchMeaning": "utilisabilité par tous",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "Concevoir des interfaces utilisables par tous, y compris au clavier et au lecteur d'écran, et malgré une vision réduite.",
+    "detailedDefinition": "L'accessibilité (a11y) fait qu'une interface est perçue et utilisée par tous : navigation clavier, noms accessibles pour le lecteur d'écran, contraste suffisant, information non portée par la seule couleur. L'essentiel s'obtient gratuitement avec du HTML sémantique (un vrai bouton plutôt qu'un div stylé).",
+    "usageContext": "Développement front, obligations légales, qualité.",
+    "meetingExample": "« Ce menu n'est pas atteignable au clavier : problème d'accessibilité. »",
+    "plainTranslation": "« Faire que tout le monde puisse utiliser l'interface, pas seulement à la souris. »",
+    "tags": [
+      "front",
+      "a11y"
+    ]
+  },
+  {
+    "id": "dev-aria",
+    "term": "ARIA",
+    "fullForm": "Accessible Rich Internet Applications",
+    "frenchMeaning": "attributs d'accessibilité complémentaires",
+    "category": "dev",
+    "level": "intermédiaire",
+    "shortDefinition": "Un ensemble d'attributs (role, aria-label…) qui complètent la sémantique HTML pour les technologies d'assistance, à utiliser avec parcimonie.",
+    "detailedDefinition": "ARIA enrichit l'accessibilité quand le HTML natif ne suffit pas (composants riches : onglets, menus). Règle d'or : « pas d'ARIA vaut mieux qu'un mauvais ARIA ». On préfère toujours la balise native (un <button> n'a pas besoin de role=button) et on n'ajoute ARIA qu'en dernier recours.",
+    "usageContext": "Accessibilité de composants d'interface complexes.",
+    "meetingExample": "« Ajoute un aria-label à ce bouton-icône pour le lecteur d'écran. »",
+    "plainTranslation": "« Des étiquettes en plus pour rendre les composants compréhensibles par les lecteurs d'écran. »",
+    "tags": [
+      "front",
+      "a11y"
+    ]
+  },
+  {
+    "id": "dev-semantic-html",
+    "term": "HTML sémantique",
+    "fullForm": null,
+    "frenchMeaning": "utiliser la balise qui porte le sens",
+    "category": "dev",
+    "level": "débutant",
+    "shortDefinition": "Choisir la balise HTML qui exprime le SENS de l'élément (button, nav, label, h1…) plutôt qu'un div générique.",
+    "detailedDefinition": "Le HTML sémantique apporte gratuitement le comportement clavier, le rôle annoncé aux lecteurs d'écran et une meilleure structure. Remplacer un <button> par un <div> cliquable casse cette lecture programmatique et oblige à tout reconstruire à la main. C'est la base de l'accessibilité.",
+    "usageContext": "Structuration de pages web, accessibilité, SEO.",
+    "meetingExample": "« Utilise un vrai <button>, pas un div : c'est du HTML sémantique. »",
+    "plainTranslation": "« Choisir la bonne balise selon ce que l'élément veut dire. »",
+    "tags": [
+      "front",
+      "a11y"
+    ]
+  },
+  {
+    "id": "db-join",
+    "term": "jointure",
+    "fullForm": null,
+    "frenchMeaning": "combiner des lignes de deux tables",
+    "category": "db",
+    "level": "intermédiaire",
+    "shortDefinition": "Une opération SQL qui combine les lignes de deux tables selon une condition, recomposant ce que la normalisation a séparé.",
+    "detailedDefinition": "Un INNER JOIN ne garde que les lignes qui ont une correspondance des deux côtés ; un LEFT JOIN garde aussi les lignes de gauche sans correspondance (les orphelins, souvent la question métier intéressante). Une jointure sans condition ON produit un produit cartésien (explosion de lignes).",
+    "usageContext": "Requêtes SQL sur données relationnelles.",
+    "meetingExample": "« Fais un LEFT JOIN pour aussi voir les clients SANS commande. »",
+    "plainTranslation": "« Rassembler les infos de deux tables qui se correspondent. »",
+    "relatedTerms": [
+      "db-index"
+    ],
+    "tags": [
+      "sql"
+    ]
+  },
+  {
+    "id": "db-query-plan",
+    "term": "plan d'exécution",
+    "fullForm": null,
+    "frenchMeaning": "stratégie choisie par la base pour une requête",
+    "category": "db",
+    "level": "avancé",
+    "shortDefinition": "Le compte-rendu, obtenu via EXPLAIN, de la façon dont la base compte exécuter une requête (parcours complet vs usage d'index).",
+    "detailedDefinition": "Le plan d'exécution révèle si la base balaie toute la table (scan complet, souvent le signe d'un index manquant) ou saute directement via un index. C'est la PREMIÈRE chose à regarder face à une requête lente : on ne devine pas, on lit le plan, on agit (index ciblé), on re-mesure.",
+    "usageContext": "Optimisation de performance SQL.",
+    "meetingExample": "« Le plan montre un SEQ SCAN : il manque un index sur la colonne filtrée. »",
+    "plainTranslation": "« Ce que la base a décidé de faire pour répondre, à lire pour comprendre une lenteur. »",
+    "relatedTerms": [
+      "db-index"
+    ],
+    "tags": [
+      "sql",
+      "performance"
+    ]
+  },
+  {
+    "id": "db-nplus1",
+    "term": "N+1",
+    "fullForm": null,
+    "frenchMeaning": "une requête par élément d'une liste",
+    "category": "db",
+    "level": "intermédiaire",
+    "shortDefinition": "Un anti-pattern de performance où, pour afficher N éléments, le code fait 1 requête pour la liste puis 1 par élément (N+1 au total).",
+    "detailedDefinition": "Le N+1 est souvent invisible en développement (peu de données) et dévastateur en production. On le corrige en récupérant les données liées en UNE requête (un JOIN ou un WHERE id IN (...)) puis en regroupant en mémoire. C'est le pendant, côté données, du O(n²) caché.",
+    "usageContext": "Accès aux données, ORM, performance.",
+    "meetingExample": "« Cette boucle fait une requête par ligne : c'est un N+1, charge tout d'un coup. »",
+    "plainTranslation": "« Faire une requête par élément au lieu d'une seule pour tout. »",
+    "relatedTerms": [
+      "db-index"
+    ],
+    "tags": [
+      "sql",
+      "performance"
+    ]
+  },
+  {
+    "id": "db-isolation-level",
+    "term": "niveau d'isolation",
+    "fullForm": null,
+    "frenchMeaning": "degré de protection entre transactions concurrentes",
+    "category": "db",
+    "level": "avancé",
+    "shortDefinition": "Le réglage qui décide à quel point une transaction est protégée des effets des autres transactions qui s'exécutent en même temps.",
+    "detailedDefinition": "Du moins au plus strict : Read Uncommitted, Read Committed (défaut courant), Repeatable Read, Serializable. Plus l'isolation monte, plus on évite d'anomalies (lecture sale, mise à jour perdue, lecture fantôme) mais plus le parallélisme baisse. On choisit selon l'enjeu : Serializable pour un transfert d'argent.",
+    "usageContext": "Transactions, concurrence en base de données.",
+    "meetingExample": "« Pour ce transfert, monte en Serializable pour éviter les anomalies. »",
+    "plainTranslation": "« À quel point une transaction est isolée des autres qui tournent en même temps. »",
+    "tags": [
+      "sql",
+      "concurrence"
+    ]
+  },
+  {
+    "id": "db-lost-update",
+    "term": "mise à jour perdue",
+    "fullForm": null,
+    "frenchMeaning": "écriture concurrente écrasée",
+    "category": "db",
+    "level": "avancé",
+    "shortDefinition": "Une anomalie où deux transactions lisent la même valeur, la modifient, et la seconde écrase la première — le changement de l'une est perdu.",
+    "detailedDefinition": "Le motif read-then-write non protégé cause ce bug : deux clients réservent le dernier siège, chacun a lu « 1 disponible ». On l'évite par un incrément atomique (UPDATE ... SET x = x + 1), un verrou (SELECT ... FOR UPDATE) ou un verrouillage optimiste avec numéro de version.",
+    "usageContext": "Concurrence sur données critiques (stock, argent, réservations).",
+    "meetingExample": "« Deux likes simultanés : risque de mise à jour perdue, passe par un incrément atomique. »",
+    "plainTranslation": "« Deux modifications en même temps, l'une efface l'autre sans le savoir. »",
+    "tags": [
+      "sql",
+      "concurrence"
+    ]
+  },
+  {
+    "id": "db-backfill",
+    "term": "backfill",
+    "fullForm": null,
+    "frenchMeaning": "remplissage rétroactif de données",
+    "category": "db",
+    "level": "intermédiaire",
+    "shortDefinition": "L'étape d'une migration qui remplit une nouvelle colonne/table avec les données existantes, souvent par lots pour ne pas bloquer.",
+    "detailedDefinition": "Dans le motif expand/contract, après avoir ajouté une nouvelle colonne (expand), le backfill copie/transforme les données existantes vers elle avant que le code ne l'utilise pleinement. Sur de gros volumes, on procède par lots pour éviter de verrouiller la table des heures.",
+    "usageContext": "Migrations de schéma sans interruption.",
+    "meetingExample": "« Ajoute la colonne, puis backfill par lots de 10 000 lignes. »",
+    "plainTranslation": "« Remplir après coup une nouvelle colonne avec les données déjà là. »",
+    "relatedTerms": [
+      "migration-expand-contract"
+    ],
+    "tags": [
+      "sql",
+      "migration"
+    ]
+  },
+  {
+    "id": "arch-technical-debt",
+    "term": "dette technique",
+    "fullForm": null,
+    "frenchMeaning": "coût futur d'un raccourci de conception",
+    "category": "arch",
+    "level": "intermédiaire",
+    "shortDefinition": "La métaphore financière d'un raccourci de code : un principal (le raccourci) et un intérêt (le surcoût de chaque modification future).",
+    "detailedDefinition": "La dette technique n'est pas « du mauvais code » : c'est un arbitrage vitesse/risque. Une dette délibérée, prudente et tracée est saine ; une dette subie et cachée étouffe le projet. On la priorise par son intérêt réel (coût × fréquence de modification) et on la rembourse surtout en continu (boy-scout rule).",
+    "usageContext": "Décisions d'ingénierie, revues, communication avec le management.",
+    "meetingExample": "« On prend cette dette consciemment pour livrer, et on la rembourse au prochain sprint. »",
+    "plainTranslation": "« Un raccourci qui fait gagner du temps maintenant mais en coûte plus tard. »",
+    "tags": [
+      "ingénierie"
+    ]
+  },
+  {
+    "id": "test-characterization",
+    "term": "test de caractérisation",
+    "fullForm": null,
+    "frenchMeaning": "test qui capture le comportement actuel",
+    "category": "test",
+    "level": "intermédiaire",
+    "shortDefinition": "Un test qui fige le comportement ACTUEL d'un code (pas son comportement idéal), pour servir de filet avant de le refactorer.",
+    "detailedDefinition": "Sur du code legacy sans tests, on ne peut pas modifier en confiance. Le test de caractérisation appelle le code avec des entrées représentatives et fige les sorties réelles observées : au moindre changement pendant un refactoring, il rougit. Ce n'est pas une validation du bon comportement, c'est un harnais de sécurité.",
+    "usageContext": "Reprise de code legacy, refactoring sûr.",
+    "meetingExample": "« Avant de refactorer, pose des tests de caractérisation qui figent l'existant. »",
+    "plainTranslation": "« Un test qui enregistre ce que le code fait aujourd'hui, pour ne rien casser en le nettoyant. »",
+    "relatedTerms": [
+      "test-regression"
+    ],
+    "tags": [
+      "test",
+      "legacy"
+    ]
+  },
+  {
+    "id": "arch-legacy-code",
+    "term": "code legacy",
+    "fullForm": null,
+    "frenchMeaning": "code hérité, souvent sans tests",
+    "category": "arch",
+    "level": "débutant",
+    "shortDefinition": "Du code hérité qu'on doit modifier sans le comprendre entièrement — utilement défini comme du code sans tests.",
+    "detailedDefinition": "Le code legacy ne peut pas être modifié en confiance car rien ne dit s'il casse. On brise ce cercle par les tests de caractérisation (poser un filet), en trouvant une couture pour rendre le code testable, puis en avançant par petits pas réversibles. C'est la situation la plus fréquente du métier.",
+    "usageContext": "Maintenance, reprise de projets existants.",
+    "meetingExample": "« Ce module est du legacy sans tests : caractérise-le avant d'y toucher. »",
+    "plainTranslation": "« Du vieux code qu'on doit modifier prudemment parce qu'on le comprend mal. »",
+    "tags": [
+      "ingénierie",
+      "legacy"
+    ]
+  },
+  {
+    "id": "arch-semver",
+    "term": "versionnement sémantique",
+    "fullForm": "SemVer",
+    "frenchMeaning": "numérotation MAJEUR.MINEUR.CORRECTIF",
+    "category": "arch",
+    "level": "intermédiaire",
+    "shortDefinition": "Une convention de numéros de version (MAJEUR.MINEUR.CORRECTIF) qui communique la nature d'un changement, dont les ruptures.",
+    "detailedDefinition": "CORRECTIF = correction compatible ; MINEUR = ajout compatible ; MAJEUR = changement cassant assumé. Respecter SemVer, c'est tenir une promesse : une mise à jour mineure ou corrective ne doit jamais casser les appelants. Incrémenter le majeur est la façon d'annoncer qu'il faudra adapter son code.",
+    "usageContext": "Publication de bibliothèques et d'API.",
+    "meetingExample": "« Ce changement casse le contrat : c'est une version majeure, pas mineure. »",
+    "plainTranslation": "« Des numéros de version qui disent si une mise à jour risque de casser. »",
+    "relatedTerms": [
+      "arch-breaking-change"
+    ],
+    "tags": [
+      "api",
+      "compatibilité"
+    ]
   }
 ]

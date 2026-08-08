@@ -1,0 +1,7 @@
+{
+  "sprint": "V31",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V31 : chaîne RAG / IA appliquée durcie. Rubrique v20 (16 dimensions, 0-4). Scores APRÈS ; avant/après, matrice complète et échantillon d'historiques non modifiées dans docs/PEDAGOGICAL-AUDIT-V31.md. Items remplis au CP11.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

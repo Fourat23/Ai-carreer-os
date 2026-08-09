@@ -8,7 +8,8 @@
     "css-layout-flexbox-grid",
     "responsive-design",
     "web-forms-validation",
-    "typescript-frontend"
+    "typescript-frontend",
+    "react-application-states"
   ],
   "hardenedLegacy": [
     "browser-dom-rendering",
@@ -24,6 +25,7 @@
     "css-layout-flexbox-grid": ["css-fundamentals", "html-semantic-structure"],
     "responsive-design": ["css-layout-flexbox-grid", "css-fundamentals"],
     "web-forms-validation": ["html-semantic-structure", "browser-dom-rendering"],
-    "typescript-frontend": ["typescript-basics", "async-javascript"]
+    "typescript-frontend": ["typescript-basics", "async-javascript"],
+    "react-application-states": ["react-hooks-effects", "react-composition-architecture"]
   }
 }

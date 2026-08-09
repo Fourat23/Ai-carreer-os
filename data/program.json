@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T15:49:44.335Z",
+  "generatedAt": "2026-08-09T15:52:28.215Z",
   "skills": [
     {
       "id": "algo",
@@ -6380,6 +6380,31 @@
         {
           "kind": "exercise",
           "id": "react-search"
+        },
+        {
+          "kind": "playbook",
+          "id": "frontend-regression"
+        }
+      ]
+    },
+    {
+      "slug": "react-application-states",
+      "title": "De composant à application : routing, useReducer et états d'écran",
+      "cat": "Frontend & React",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "react-search"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-parent-child"
         },
         {
           "kind": "playbook",

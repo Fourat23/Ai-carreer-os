@@ -48,7 +48,11 @@ const REQUIRED_SECTIONS = [
   ['vocabulaire'],
   ['liens'],
 ];
-const AUTHORING_MARKERS = /\bTODO\b|\bFIXME\b|PLACEHOLDER|Lorem ipsum|à compléter|a completer|XXX(?!X)/i;
+// Marqueurs d'authoring non résolus. NB : « placeholder » en minuscules est un
+// ATTRIBUT HTML légitime (leçons formulaires) — on ne flague donc que la forme
+// d'authoring PLACEHOLDER en MAJUSCULES (convention), pas le mot en minuscules.
+const AUTHORING_MARKERS = /\bTODO\b|\bFIXME\b|Lorem ipsum|à compléter|a completer|XXX(?!X)/i;
+const AUTHORING_MARKERS_CS = /\bPLACEHOLDER\b/;
 
 // Seuil de densité conceptuelle : nombre de termes de vocabulaire « gras » DISTINCTS
 // au-dessus duquel on alerte (proxy de surcharge cognitive). Non bloquant.
@@ -151,7 +155,7 @@ for (const slug of perimeter) {
     if (words.length < 12) errors.push(`${where} : prérequis trop maigres (expliciter ce qu'il faut savoir et pourquoi)`);
   }
 
-  if (AUTHORING_MARKERS.test(md)) errors.push(`${where} : marqueur d'authoring non résolu`);
+  if (AUTHORING_MARKERS.test(md) || AUTHORING_MARKERS_CS.test(md)) errors.push(`${where} : marqueur d'authoring non résolu`);
 
   for (const m of md.matchAll(/\/doc\/lessons\/([a-z0-9-]+)/g)) {
     if (!existsSync(join(LES, `${m[1]}.md`))) errors.push(`${where} : lien mort vers leçon « ${m[1]} »`);

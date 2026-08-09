@@ -1,0 +1,147 @@
+<!-- keep -->
+# Leçon — Formulaires web : saisie, validation et accessibilité
+
+## 🌍 Le problème d'abord
+Un formulaire semble trivial : un champ, un bouton, on envoie. Puis la réalité : l'utilisateur
+tape un e-mail sans `@`, laisse un champ obligatoire vide, clique deux fois, ou navigue au clavier
+et ne sait plus quel champ est sélectionné. Un débutant « recode » alors à la main ce que le
+navigateur sait déjà faire — mal, et sans accessibilité. Le problème : on ignore que HTML offre des
+champs typés, une validation native et des associations label↔champ gratuites. Cette leçon
+t'apprend à construire un formulaire correct, validé et utilisable par tous — la porte d'entrée de
+presque toute application.
+
+## 🎯 Objectif
+Savoir construire un formulaire HTML accessible et validé : associer chaque champ à un `<label>`,
+choisir le bon `type` d'`<input>`, utiliser la validation native (`required`, `type`, `min`,
+`pattern`), comprendre pourquoi la validation navigateur ne remplace JAMAIS la validation serveur,
+et distinguer un formulaire « qui s'affiche » d'un formulaire réellement utilisable.
+
+## 🧩 Prérequis
+Tu dois savoir structurer une page avec des balises sémantiques
+(`/doc/lessons/html-semantic-structure`) et comprendre le cycle événement → état → DOM
+(`/doc/lessons/browser-dom-rendering`). Des bases de JavaScript aident pour la soumission
+(`/doc/lessons/javascript-basics`). Aucune expérience préalable de formulaires n'est supposée.
+
+## 🧠 Modèle mental
+Un formulaire est un **contrat de saisie** entre l'utilisateur et l'application. Chaque champ
+DÉCLARE ce qu'il attend (un e-mail, un nombre, un champ obligatoire) et le navigateur t'offre
+gratuitement : le bon clavier sur mobile, une validation de base, et l'accessibilité si tu
+associes correctement `<label>` et champ. La règle d'or de sécurité : la validation côté navigateur
+est une **commodité pour l'utilisateur**, pas une **garantie** — elle se contourne trivialement, donc
+le serveur doit TOUJOURS re-valider. « Pratique côté client, vérité côté serveur. »
+
+## 💡 Pourquoi c'est important
+Les formulaires sont partout : connexion, recherche, paiement, paramètres. Un formulaire mal fait
+exclut les utilisateurs au clavier et aux lecteurs d'écran, laisse passer des données invalides et
+frustre tout le monde. Bien le faire — labels associés, types adaptés, validation native + serveur —
+est un marqueur direct de qualité et d'accessibilité. C'est aussi le socle des formulaires React
+contrôlés que tu écriras ensuite.
+
+## Explication complète
+
+### Associer label et champ (non négociable)
+Chaque champ a un `<label>` associé, de deux façons :
+```html
+<label for="email">E-mail</label>
+<input id="email" name="email" type="email" required />
+```
+ou en enveloppant le champ dans le label. L'association permet : de cliquer le label pour focaliser
+le champ, et au lecteur d'écran d'annoncer le nom du champ. Un placeholder n'est PAS un label (il
+disparaît à la saisie et n'est pas lu de façon fiable).
+
+### Choisir le bon `type`
+`type="email"`, `type="number"`, `type="tel"`, `type="url"`, `type="date"`, `type="password"`… Le
+bon type déclenche le bon clavier sur mobile, une validation adaptée et parfois un widget natif. Un
+`type="email"` vaut mieux qu'un `type="text"` « validé » à la main.
+
+### La validation native
+Des attributs déclaratifs suffisent souvent : `required` (obligatoire), `min`/`max` (bornes),
+`minlength`/`maxlength`, `pattern="[0-9]{5}"` (expression régulière). Le navigateur bloque la
+soumission et affiche un message. On peut personnaliser via l'API de contrainte
+(`element.setCustomValidity(...)`) sans tout recoder.
+
+### La soumission
+Un `<form>` avec un `<button type="submit">` se soumet à l'appui sur Entrée ET au clic — comportement
+natif à préserver. En JavaScript, on intercepte pour gérer l'envoi sans rechargement :
+```html
+<form id="inscription">
+  <label for="pseudo">Pseudo</label>
+  <input id="pseudo" name="pseudo" required minlength="3" />
+  <button type="submit">Créer</button>
+</form>
+<script>
+  document.querySelector('#inscription').addEventListener('submit', (e) => {
+    e.preventDefault();               // on gère nous-mêmes
+    const form = e.currentTarget;
+    if (!form.checkValidity()) { form.reportValidity(); return; } // laisse le navigateur signaler
+    // … envoyer les données (fetch), puis re-valider CÔTÉ SERVEUR
+  });
+</script>
+```
+
+### Client vs serveur (sécurité)
+La validation navigateur améliore l'expérience mais ne protège rien : un utilisateur peut désactiver
+JavaScript ou envoyer une requête directe. **Le serveur doit toujours re-valider** (types, bornes,
+autorisations). Ne fais jamais confiance à une donnée « parce que le formulaire l'a validée ».
+
+### Accessibilité des erreurs
+Regroupe les champs liés dans `<fieldset>`/`<legend>`. Pour un message d'erreur, relie-le au champ
+(`aria-describedby`) et signale l'état invalide (`aria-invalid="true"`) : le lecteur d'écran annonce
+alors l'erreur au bon moment, pas seulement une couleur rouge que certains ne perçoivent pas.
+
+## Concepts clés
+`<label>` associé (`for`/`id`) · `type` d'`<input>` adapté · validation native (`required`, `pattern`,
+`min`/`max`) · `<form>` + `submit` (Entrée & clic) · `checkValidity`/`reportValidity` · client ≠
+serveur (re-valider côté serveur) · accessibilité (`fieldset`/`legend`, `aria-describedby`,
+`aria-invalid`).
+
+## 🧭 Exemple guidé
+Un mini-formulaire d'inscription accessible et validé :
+```html
+<form id="signup">
+  <fieldset>
+    <legend>Créer un compte</legend>
+    <label for="mail">E-mail</label>
+    <input id="mail" name="mail" type="email" required aria-describedby="mail-err" />
+    <p id="mail-err" hidden>E-mail invalide.</p>
+    <button type="submit">S'inscrire</button>
+  </fieldset>
+</form>
+```
+Raisonnement : `type="email"` + `required` donnent une validation native ; le `<label for>` rend le
+champ nommé et cliquable ; `aria-describedby` relie un message d'erreur que l'on affiche si
+`checkValidity()` échoue. À la soumission, on `preventDefault`, on laisse le navigateur signaler les
+erreurs, puis on envoie — et le serveur re-valide. Rien n'est recodé inutilement, tout est accessible.
+
+## ⚠️ Erreurs fréquentes
+- Utiliser un `placeholder` comme label (disparaît, mal lu par l'assistance).
+- `type="text"` pour un e-mail/nombre au lieu du type dédié → mauvais clavier, validation manuelle inutile.
+- Se fier à la validation navigateur pour la sécurité → le serveur DOIT re-valider.
+- Signaler une erreur uniquement par la couleur (rouge) → invisible pour beaucoup d'utilisateurs.
+- Détourner un `<div onclick>` en bouton d'envoi → casse la soumission au clavier (Entrée).
+
+## 🔗 Liens avec le programme
+Cette leçon s'appuie sur `/doc/lessons/html-semantic-structure` et
+`/doc/lessons/browser-dom-rendering`, et prépare les formulaires React contrôlés
+(`/doc/lessons/react-hooks-effects`) — où l'« état » du champ vit dans le composant. L'accessibilité
+approfondie est traitée dans `/doc/lessons/react-accessibility`. La règle client≠serveur rejoint
+`/doc/lessons/authentication` et la validation d'API.
+
+## Mini-exercice
+Construis un formulaire de contact (nom requis ≥ 2 caractères, e-mail requis, message requis) : chaque
+champ a un `<label>` associé, un `type` adapté et une contrainte native. Intercepte `submit`, utilise
+`checkValidity()`/`reportValidity()`, et affiche un message d'erreur relié par `aria-describedby`.
+Vérifie que tout se remplit et se soumet au clavier seul. Pratique associée : `web-greeting-form`,
+`web-card`.
+
+## 📚 Vocabulaire
+**`<label>` associé** · **`type` d'input** · **validation native** (`required`/`pattern`/`min`) ·
+**`<form>` / `submit`** · **`checkValidity` / `reportValidity`** · **client ≠ serveur** ·
+**`fieldset` / `legend`** · **`aria-describedby` / `aria-invalid`**.
+
+## 🧾 À retenir
+Un formulaire est un contrat de saisie : déclare l'attendu (labels associés, bons `type`,
+contraintes natives) et le navigateur t'offre validation, clavier adapté et accessibilité. Intercepte
+`submit` avec `checkValidity`/`reportValidity` plutôt que tout recoder. Surtout : la validation
+navigateur est une commodité, jamais une garantie — le serveur re-valide toujours. Et signale les
+erreurs de façon accessible, pas seulement par la couleur.

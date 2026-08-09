@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T15:42:29.256Z",
+  "generatedAt": "2026-08-09T15:46:06.342Z",
   "skills": [
     {
       "id": "algo",
@@ -6215,6 +6215,54 @@
         {
           "kind": "exercise",
           "id": "web-nav"
+        }
+      ]
+    },
+    {
+      "slug": "web-forms-validation",
+      "title": "Formulaires web : saisie, validation et accessibilité",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "web-greeting-form"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-card"
+        }
+      ]
+    },
+    {
+      "slug": "typescript-frontend",
+      "title": "TypeScript côté frontend : props, événements et données d'API",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "ts-union-area"
+        },
+        {
+          "kind": "exercise",
+          "id": "ts-interface-cart"
+        },
+        {
+          "kind": "exercise",
+          "id": "ts-pluck"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-profile"
         }
       ]
     },

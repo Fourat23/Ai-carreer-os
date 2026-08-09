@@ -75,6 +75,21 @@ bouton.addEventListener('click', () => {
 ```
 Le cycle est toujours : **événement → mise à jour d'un état → mise à jour du DOM**.
 
+### Propagation et délégation
+Un événement ne reste pas sur l'élément cliqué : il **remonte** l'arbre, du nœud le plus profond vers
+ses parents (c'est le *bubbling*). Un clic sur un `<button>` dans un `<li>` déclenche donc aussi les
+écouteurs du `<li>`, de l'`<ul>`, etc. On peut arrêter cette remontée avec `event.stopPropagation()`
+(à utiliser avec parcimonie). Cette remontée rend possible la **délégation** : au lieu d'attacher un
+écouteur à chaque `<li>` d'une liste (coûteux, et cassé pour les éléments ajoutés ensuite), on met UN
+seul écouteur sur le parent `<ul>` et on lit `event.target` pour savoir quel enfant a été cliqué.
+```js
+document.querySelector('#liste').addEventListener('click', (e) => {
+  const item = e.target.closest('li');   // quel <li> a été cliqué ?
+  if (item) item.classList.toggle('fait');
+});
+```
+La délégation est robuste (elle couvre les éléments futurs) et économe (un seul écouteur).
+
 ### Pourquoi la manipulation manuelle devient fragile
 Sur une petite page, tout va bien. Mais quand l'interface grandit, tu dois te souvenir, à
 CHAQUE changement d'état, de TOUS les endroits du DOM à mettre à jour manuellement — le

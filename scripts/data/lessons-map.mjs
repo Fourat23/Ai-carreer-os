@@ -29,6 +29,8 @@ export const LESSONS = [
   { file: 'css-fundamentals.md', title: 'CSS : cascade, spécificité et box model', cat: 'Frontend : Web Platform', level: 1, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-inline-style' }, { kind: 'exercise', id: 'web-card' }] },
   { file: 'css-layout-flexbox-grid.md', title: 'Mise en page : Flexbox et Grid', cat: 'Frontend : Web Platform', level: 2, min: 50, skills: ['jsts', 'archi'], practiceRefs: [{ kind: 'exercise', id: 'web-nav' }, { kind: 'exercise', id: 'web-card' }] },
   { file: 'responsive-design.md', title: 'Responsive design : une interface pour tous les écrans', cat: 'Frontend : Web Platform', level: 2, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-nav' }] },
+  { file: 'web-forms-validation.md', title: 'Formulaires web : saisie, validation et accessibilité', cat: 'Frontend : Web Platform', level: 2, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-greeting-form' }, { kind: 'exercise', id: 'web-card' }] },
+  { file: 'typescript-frontend.md', title: 'TypeScript côté frontend : props, événements et données d\'API', cat: 'Frontend : Web Platform', level: 2, min: 50, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'ts-union-area' }, { kind: 'exercise', id: 'ts-interface-cart' }, { kind: 'exercise', id: 'ts-pluck' }, { kind: 'exercise', id: 'react-profile' }] },
 
   // ── Frontend & React ──
   { file: 'browser-dom-rendering.md', title: 'Le navigateur, le DOM et le rendu', cat: 'Frontend & React', level: 1, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-semantic' }, { kind: 'exercise', id: 'web-counter' }, { kind: 'exercise', id: 'web-debug-selector' }, { kind: 'exercise', id: 'web-inline-style' }] },

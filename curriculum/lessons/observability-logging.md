@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Observabilité et logs structurés
 
+## 🌍 Le problème d'abord
+Un utilisateur signale : « votre appli a planté hier soir vers 22 h ». Tu ouvres ton code… et tu n'as AUCUNE idée de ce qui s'est passé : pas de trace, pas d'événement enregistré, rien à rejouer. Tu devines, tu tâtonnes, tu ne reproduis pas. Un système qu'on ne peut pas OBSERVER est une boîte noire indéfendable — et c'est encore pire pour un système IA non déterministe. Il te faut des enregistrements exploitables : des logs structurés, des niveaux, un identifiant pour suivre une requête de bout en bout. Cette leçon t'apprend à rendre un système observable, et surtout ce qu'il ne faut JAMAIS enregistrer.
+
 ## 🎯 Objectif
 Rendre un système OBSERVABLE : savoir ce qui s'est passé en production sans deviner. Maîtriser les logs structurés, les niveaux, le correlation id, et savoir quoi ne JAMAIS logger. Sans observabilité, tout système (surtout IA) est une boîte noire indéfendable.
+
+## 🧩 Prérequis
+Tu dois comprendre le cycle de vie d'une requête (entrée, traitement, réponse) vu en HTTP (`/doc/lessons/http-rest-json`) et la gestion d'erreurs (`/doc/lessons/error-handling`), car on enregistre justement erreurs et événements. La notion de donnée sensible/secret (`/doc/lessons/deployment-secrets`) éclaire ce qu'il ne faut jamais logger. Aucun outil d'observabilité particulier n'est supposé.
 
 ## 🧠 Modèle mental
 L'observabilité, c'est **la boîte noire d'un avion** : quand quelque chose se passe (crash, lenteur, réponse étrange), tu peux REJOUER le film. Trois instruments : les **logs** (les événements), les **métriques** (les agrégats), les **traces** (le parcours d'UNE requête).

@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Monitoring et production
 
+## 🌍 Le problème d'abord
+Ton service tourne en production. Tout va bien… jusqu'à ce qu'un client appelle, furieux : le site est lent depuis deux heures et tu ne le savais pas. Découvrir les pannes PAR les utilisateurs, c'est déjà avoir perdu. Il te faut détecter qu'un système va mal AVANT eux : des jauges qui mesurent en continu, des voyants qui s'allument quand quelque chose sort de la normale — et, pour l'IA, surveiller aussi la qualité, les coûts et la dérive. Cette leçon te fait passer de « j'ai déployé » à « je fais tourner un service » : définir des alertes utiles, pas du bruit.
+
 ## 🎯 Objectif
 Savoir surveiller un système en production : détecter qu'il va mal AVANT les utilisateurs, définir des seuils d'alerte utiles, et surveiller ce qui est spécifique à l'IA (qualité, coûts, dérive). C'est ce qui sépare « j'ai déployé » de « je fais tourner un service ».
+
+## 🧩 Prérequis
+Tu dois connaître les bases de l'observabilité — logs, métriques, traces (`/doc/lessons/observability-logging`) — car le monitoring s'appuie dessus pour déclencher des alertes. Les notions de latence, de percentile et de disponibilité (vues en architecture) aident à définir des seuils. Pour la partie IA, une idée de la dérive et du coût par requête (`/doc/lessons/llm-observability`) est utile mais rappelée ici.
 
 ## 🧠 Modèle mental
 Le monitoring, c'est **le tableau de bord d'une voiture** : jauges (métriques) + voyants (alertes). Tu ne regardes pas le moteur en permanence ; tu veux qu'un voyant s'allume quand quelque chose sort de la normale — et AVANT la panne.

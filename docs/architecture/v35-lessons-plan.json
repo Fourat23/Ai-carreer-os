@@ -3,7 +3,52 @@
   "baselineRef": "cbddb85",
   "note": "Périmètre V35. Burn-down de dette pédagogique (12 leçons sans on-ramp) + composition du parcours Data/ML via le mécanisme non-contigu existant. hardenedLegacy/critical/prereq se remplissent au fil des CP. Le gate v35:check valide STRUCTURELLEMENT ; il ne juge jamais la profondeur par la longueur.",
   "newLessons": [],
-  "hardenedLegacy": [],
-  "critical": [],
-  "prereq": {}
+  "hardenedLegacy": [
+    "git-advanced",
+    "docker-containers",
+    "ci-cd",
+    "observability-logging",
+    "monitoring-production",
+    "deployment-secrets",
+    "caching-performance",
+    "system-design-interview",
+    "interview-preparation",
+    "portfolio-github",
+    "readme-documentation",
+    "technical-storytelling"
+  ],
+  "critical": [
+    "docker-containers"
+  ],
+  "prereq": {
+    "docker-containers": [
+      "terminal-shell-filesystem"
+    ],
+    "ci-cd": [
+      "testing-foundations",
+      "git-fundamentals"
+    ],
+    "observability-logging": [
+      "http-rest-json",
+      "error-handling"
+    ],
+    "deployment-secrets": [
+      "git-fundamentals",
+      "authentication"
+    ],
+    "interview-preparation": [
+      "technical-storytelling"
+    ],
+    "portfolio-github": [
+      "git-fundamentals",
+      "readme-documentation"
+    ],
+    "readme-documentation": [
+      "git-fundamentals"
+    ],
+    "technical-storytelling": [
+      "portfolio-github",
+      "technical-documentation"
+    ]
+  }
 }

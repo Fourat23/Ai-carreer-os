@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Secrets, environnements et déploiement
 
+## 🌍 Le problème d'abord
+Un développeur commit par mégarde une clé d'API dans le dépôt. Quelques heures plus tard, la clé est aspirée par un robot qui scanne GitHub, et la facture cloud explose — ou pire, des données fuient. Un secret commis une seule fois est compromis POUR TOUJOURS, même supprimé ensuite (il reste dans l'historique). Le problème de fond : le code est fait pour être PARTAGÉ, les secrets pour rester PRIVÉS — ils ne doivent jamais voyager ensemble. Cette leçon t'apprend à gérer secrets et configuration proprement (hors du code, par environnement) et à déployer sans fuiter — l'erreur qui coûte le plus cher évitée.
+
 ## 🎯 Objectif
 Gérer les secrets (clés d'API, mots de passe) et la configuration proprement : hors du code, par environnement, jamais dans Git. Savoir déployer une application simple sans fuiter. Un secret commis une fois est compromis pour toujours — cette leçon évite l'erreur qui coûte le plus cher.
+
+## 🧩 Prérequis
+Tu dois comprendre le fonctionnement de Git et le fait que l'historique conserve TOUT (`/doc/lessons/git-fundamentals`), ainsi que les bases de la sécurité applicative et du moindre privilège (`/doc/lessons/authentication`). Savoir qu'une application se configure différemment selon l'environnement (dev/test/prod) aide. Aucune plateforme de déploiement particulière n'est supposée.
 
 ## 🧠 Modèle mental
 Le code est **PUBLIC par défaut** (partagé, commité, copié) ; les secrets sont **PRIVÉS par nature**. Ils ne doivent jamais voyager ensemble. La configuration, c'est **ce qui change entre les environnements** (dev/test/prod) sans que le code change : elle vit dans l'ENVIRONNEMENT, pas dans le code.

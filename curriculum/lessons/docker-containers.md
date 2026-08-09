@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Docker et conteneurs
 
+## 🌍 Le problème d'abord
+Ton application marche parfaitement sur ta machine. Tu l'envoies à un collègue (ou en production) : elle plante — mauvaise version de langage, dépendance manquante, variable d'environnement absente. « Ça marche chez moi » devient le cauchemar de toute équipe. Le problème : ton application dépend d'un ENVIRONNEMENT que tu n'as pas emporté avec elle. Les conteneurs résolvent ça en empaquetant l'application ET tout son environnement dans une boîte qui tourne à l'identique partout. Cette leçon t'apprend à construire cette boîte (Dockerfile) pour livrer n'importe quelle application — y compris un système IA — de façon reproductible.
+
 ## 🎯 Objectif
 Comprendre ce qu'est un conteneur, pourquoi il résout le « ça marche chez moi », et savoir écrire un Dockerfile + un docker-compose pour livrer une application (dont un système IA) de façon reproductible. C'est le standard de livraison et ce qui rend ton projet final crédible.
+
+## 🧩 Prérequis
+Tu dois savoir utiliser un terminal et comprendre qu'une application a des DÉPENDANCES et une configuration (`/doc/lessons/terminal-shell-filesystem`), et avoir une idée de ce qu'est un processus. Les notions de port et de variable d'environnement (vues en HTTP et déploiement) aident. Aucune expérience préalable de conteneurs n'est supposée : on part de « ça marche chez moi ».
 
 ## 🧠 Modèle mental
 Un conteneur, c'est **une boîte qui emporte ton application ET tout son environnement** (dépendances, version de langage, config) pour qu'elle tourne à l'identique partout. Pas « ça marche chez moi » : « ça marche dans la boîte, donc partout ».

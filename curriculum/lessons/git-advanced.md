@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Git avancé : rebase, historique propre, collaboration
 
+## 🌍 Le problème d'abord
+Tu travailles à plusieurs sur un projet. Ton historique Git est un fouillis : « fix », « wip », « oops », des branches mortes, des merges dans tous les sens. Un collègue veut comprendre POURQUOI une ligne a changé : impossible, l'histoire est illisible. Pire, tu as besoin de retrouver le commit qui a introduit un bug parmi 200 — à la main, c'est des heures. `git commit` et `git merge` ne suffisent plus : il te faut MAÎTRISER l'historique, pas seulement l'alimenter. Cette leçon te fait passer de « je sauvegarde » à « je raconte une histoire propre et je navigue dedans » — un signal de professionnalisme que les équipes lisent en une seconde.
+
 ## 🎯 Objectif
 Passer de « je sais committer » à « je maîtrise l'historique » : rebase (et sa règle de sécurité), nettoyage de branches, bisect, et le workflow de collaboration par pull requests. L'historique propre est un signal de professionnalisme que les équipes lisent immédiatement.
+
+## 🧩 Prérequis
+Tu dois maîtriser les fondamentaux de Git — commit, branche, merge, remote, résolution de conflit (`/doc/lessons/git-fundamentals`) — car les opérations avancées (rebase, bisect) les réorganisent. Comprendre qu'un commit est un instantané relié à ses parents aide à visualiser l'historique. Aucun outil graphique n'est supposé : on raisonne en ligne de commande.
 
 ## 🧠 Modèle mental
 `merge` **fusionne deux histoires** (et garde la trace du croisement) ; `rebase` **réécrit ton histoire** comme si tu avais commencé plus tard (linéaire, propre). Réécrire SON brouillon local : sain. Réécrire une histoire DÉJÀ PARTAGÉE : interdit — tu corromprais celle des autres.

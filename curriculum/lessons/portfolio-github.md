@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Portfolio technique GitHub
 
+## 🌍 Le problème d'abord
+Un recruteur reçoit ta candidature et ouvre ton GitHub. En 2-3 minutes, il décide si ton profil mérite un entretien. Ce qu'il voit : un profil vide ou soigné, des repos qui racontent une progression ou un grenier de projets abandonnés, des commits réguliers ou un désert. Pour un reconverti sans expérience salariée, ce GitHub EST le CV technique — la seule preuve tangible que tu sais coder et que tu es constant. Laissé au hasard, il travaille CONTRE toi (secrets exposés, code honteux public, repos morts). Cette leçon t'apprend à en faire une vitrine qui plaide en ta faveur.
+
 ## 🎯 Objectif
 Transformer ton GitHub en PREUVE d'employabilité : profil soigné, repos épinglés qui racontent une progression, historique de commits qui démontre la constance, et zéro signal négatif (secrets, repos morts, code honteux public). Pour un reconverti, le portfolio EST le CV technique.
+
+## 🧩 Prérequis
+Tu dois maîtriser Git et la notion d'historique de commits (`/doc/lessons/git-fundamentals`), savoir écrire un README clair (`/doc/lessons/readme-documentation`), et être conscient du risque de fuite de secrets (`/doc/lessons/deployment-secrets`). Avoir un ou deux projets à exposer est le point de départ. Aucune notoriété open-source préalable n'est attendue.
 
 ## 🧠 Modèle mental
 Ton GitHub est **une vitrine de magasin, pas un grenier** : on y expose le meilleur, rangé et étiqueté — pas tout ce qu'on possède. Le recruteur y passe 2-3 minutes : chaque élément visible doit travailler POUR toi.

@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Cache et performance
 
+## 🌍 Le problème d'abord
+Ta page met trois secondes à charger. Ton premier réflexe : « ajoutons un cache » ou « réécrivons en plus rapide ». Mauvaise idée : tu optimises à l'aveugle, souvent au mauvais endroit, et parfois tu casses la justesse des données. La vérité, c'est qu'on ne devine JAMAIS d'où vient une lenteur — on la MESURE d'abord. Beaucoup de lenteurs viennent de causes classiques (requêtes N+1, requêtes non indexées) qui se corrigent sans cache. Et quand le cache est justifié, il apporte un nouveau problème : savoir quand la copie ment (invalidation). Cette leçon t'apprend à mesurer avant d'optimiser, puis à cacher consciemment — un levier de vitesse ET, en IA, de coût.
+
 ## 🎯 Objectif
 Savoir MESURER avant d'optimiser, corriger les problèmes de performance classiques (N+1, requêtes lentes), et mettre en place un cache avec une stratégie d'invalidation consciente. En IA, le cache est aussi un levier de COÛT majeur (appels LLM évités).
+
+## 🧩 Prérequis
+Tu dois comprendre comment une requête traverse une application et interroge une base de données (`/doc/lessons/http-rest-json`, `/doc/lessons/sql-performance-indexing`), car les lenteurs classiques (N+1, requêtes lentes) y naissent. La notion de compromis (fraîcheur vs vitesse) et les bases d'architecture (`/doc/lessons/architecture-basics`) aident. Aucun système de cache particulier n'est supposé.
 
 ## 🧠 Modèle mental
 Un cache, c'est **garder la réponse sous la main au lieu de la recalculer** — échanger de la FRAÎCHEUR contre de la VITESSE (et en IA, contre des euros). Le prix caché : savoir quand la copie ment (invalidation), l'un des « deux problèmes difficiles de l'informatique ».

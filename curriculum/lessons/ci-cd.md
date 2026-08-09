@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Intégration continue (CI/CD)
 
+## 🌍 Le problème d'abord
+Tu pousses une modification un vendredi soir. Elle casse une fonctionnalité que tu n'avais pas pensé à retester, et personne ne s'en aperçoit avant lundi — en production, devant les utilisateurs. Retester TOUT à la main à chaque changement est impossible ; compter sur sa mémoire est illusoire. Il te faut un ROBOT qui rejoue automatiquement toutes tes vérifications (lint, tests, build) à chaque push et t'arrête AVANT que la casse n'atteigne les autres. C'est l'intégration continue. Cette leçon te montre pourquoi elle attrape les régressions tôt et comment écrire un pipeline simple — le signe qu'un projet est « sérieux ».
+
 ## 🎯 Objectif
 Comprendre ce qu'est une CI, pourquoi elle attrape les régressions avant qu'elles n'arrivent en production, et savoir écrire un pipeline simple (lint + tests + build, et pour l'IA une éval smoke). C'est ce qui rend un projet « sérieux » aux yeux d'un recruteur et d'une équipe.
+
+## 🧩 Prérequis
+Tu dois savoir écrire et lancer des tests automatisés (`/doc/lessons/testing-foundations`) et comprendre le workflow Git de collaboration par branches et pull requests (`/doc/lessons/git-fundamentals`), car la CI se déclenche sur ces événements. Savoir ce qu'est un build aide. Aucun fournisseur de CI particulier n'est supposé : on raisonne sur les étapes.
 
 ## 🧠 Modèle mental
 La CI, c'est **un robot qui rejoue tes vérifications à chaque push** : il lint, teste, construit. Si quelque chose casse, il te le dit AVANT que ça n'atteigne les autres ou la prod. C'est ton filet de sécurité, automatisé et impartial.

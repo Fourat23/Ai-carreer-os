@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Le README recruteur
 
+## 🌍 Le problème d'abord
+Tu es fier de ton projet : des semaines de travail, du code propre. Un recruteur clique dessus, tombe sur un README vide (ou pire, le README généré par défaut), ne comprend ni ce que fait le projet ni comment l'essayer… et repart en dix secondes. 90 % des visiteurs ne verront QUE le README : c'est la porte d'entrée de ton travail. S'il est mauvais, ton code ne sera même pas regardé. Le problème : un README n'est pas une documentation exhaustive, c'est une page d'atterrissage qui doit répondre vite aux questions du visiteur pressé. Cette leçon t'apprend à écrire un README compris en 30 secondes et exécutable en 5 minutes.
+
 ## 🎯 Objectif
 Écrire des READMEs qu'un recruteur comprend en 30 secondes et qu'un développeur exécute en 5 minutes. Le README est la PORTE de chaque projet : 90 % des visiteurs ne verront que lui — c'est lui qui décide si ton code sera même regardé.
+
+## 🧩 Prérequis
+Tu dois avoir un projet à documenter et connaître Markdown (titres, listes, blocs de code) ainsi que les bases de la documentation technique (`/doc/lessons/technical-documentation`). Savoir lancer ton projet (commandes d'installation et d'exécution) est nécessaire pour les décrire. Aucun générateur de documentation n'est supposé.
 
 ## 🧠 Modèle mental
 Un README est **une page d'atterrissage, pas une documentation exhaustive** : il doit répondre, dans l'ordre, aux questions du visiteur pressé — c'est quoi ? ça marche ? je peux essayer ? c'est sérieux ? — chacune en quelques secondes de lecture.

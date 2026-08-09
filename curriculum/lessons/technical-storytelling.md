@@ -1,8 +1,14 @@
 <!-- keep -->
 # Leçon — Storytelling technique (raconter ses projets)
 
+## 🌍 Le problème d'abord
+En entretien, on te demande de parler d'un projet. Tu réponds : « j'ai fait une application avec React et une base de données ». Silence poli. Le recruteur n'a rien retenu, rien appris de ta façon de penser. Le problème : tu as décrit CE QUE tu as tapé, pas COMMENT tu as décidé. Un projet qu'on ne sait pas raconter n'existe pas aux yeux d'un employeur. Un bon récit technique montre un problème, des décisions arbitrées sous contraintes, des résultats chiffrés et des apprentissages — la « façon de penser » que le recruteur achète réellement. Cette leçon t'apprend à transformer ton travail en récit qui convertit en entretiens.
+
 ## 🎯 Objectif
 Savoir transformer un projet technique en un RÉCIT qui convainc un recruteur : problème, décisions, résultats chiffrés, apprentissages. Un projet qu'on ne sait pas raconter n'existe pas pour un employeur — c'est LA compétence qui convertit ton travail en offres d'entretien.
+
+## 🧩 Prérequis
+Tu dois avoir mené un projet technique avec de vraies décisions (`/doc/lessons/portfolio-github`) et savoir en tirer des résultats mesurables (avant/après, chiffres). Les bases de la communication technique — adapter son propos à l'auditoire (`/doc/lessons/technical-documentation`) — aident. Aucune aisance orale préalable n'est supposée : le récit se prépare et se répète.
 
 ## 🧠 Modèle mental
 Un recruteur n'achète pas des features, il achète une **façon de penser**. Raconter un projet, c'est montrer comment tu DÉCIDES sous contraintes — pas réciter ce que tu as tapé. « J'ai fait un CRUD » n'intéresse personne ; « j'ai arbitré X vs Y pour telle raison, et voici le résultat mesuré » recrute.

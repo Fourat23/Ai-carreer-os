@@ -1,0 +1,66 @@
+{
+  "id": "css-box-size",
+  "title": "CSS : largeur réelle et box-sizing",
+  "difficulty": 2,
+  "summary": "Objectif : comprendre le box model. Complète renderedWidth({ width, padding, border, boxSizing }) : en 'content-box' (défaut), la largeur RÉELLE = width + 2·padding + 2·border ; en 'border-box', la largeur réelle = width (padding et bordure sont inclus). padding et border s'appliquent des deux côtés.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["css"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Largeur réelle occupée par la boîte selon le modèle de dimensionnement.\nexport function renderedWidth({ width, padding = 0, border = 0, boxSizing = 'content-box' }) {\n  // BUG : ignore padding/border et le modèle.\n  return width;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function renderedWidth({ width, padding = 0, border = 0, boxSizing = 'content-box' }) {\n  if (boxSizing === 'border-box') return width;\n  return width + 2 * padding + 2 * border;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "content-box : width + padding + border des deux côtés",
+      "kind": "call-equals",
+      "export": "renderedWidth",
+      "args": [{ "width": 200, "padding": 12, "border": 1, "boxSizing": "content-box" }],
+      "expected": 226
+    },
+    {
+      "id": "t2",
+      "name": "border-box : la largeur annoncée est la vraie",
+      "kind": "call-equals",
+      "export": "renderedWidth",
+      "args": [{ "width": 200, "padding": 12, "border": 1, "boxSizing": "border-box" }],
+      "expected": 200
+    },
+    {
+      "id": "t3",
+      "name": "content-box par défaut",
+      "kind": "call-equals",
+      "export": "renderedWidth",
+      "args": [{ "width": 100, "padding": 10, "border": 5 }],
+      "expected": 130
+    },
+    {
+      "id": "t4",
+      "name": "sans padding ni bordure",
+      "kind": "call-equals",
+      "export": "renderedWidth",
+      "args": [{ "width": 340, "boxSizing": "content-box" }],
+      "expected": 340,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "border-box ignore padding/bordure dans le total",
+      "kind": "call-equals",
+      "export": "renderedWidth",
+      "args": [{ "width": 50, "padding": 8, "border": 2, "boxSizing": "border-box" }],
+      "expected": 50,
+      "private": true
+    }
+  ]
+}

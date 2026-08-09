@@ -179,7 +179,10 @@
   "92": [
     "react-hello",
     "react-greeting",
-    "react-debug-greeting"
+    "react-debug-greeting",
+    "dom-event-delegation",
+    "css-specificity-order",
+    "css-box-size"
   ],
   "93": [
     "react-counter",

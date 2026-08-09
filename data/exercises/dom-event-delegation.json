@@ -1,0 +1,66 @@
+{
+  "id": "dom-event-delegation",
+  "title": "DOM : délégation d'événements (closest)",
+  "difficulty": 2,
+  "summary": "Objectif : comprendre la délégation. Un événement remonte du nœud cliqué vers ses parents. Un écouteur délégué sur un ancêtre cherche le premier ancêtre (en partant du nœud cliqué, inclus) qui correspond à un tag cible — comme element.closest(tag). Complète delegatedMatch(path, tag) : path est la liste des tags du nœud cliqué jusqu'à la racine ; renvoie le PREMIER tag égal à `tag`, sinon null.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["dom"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// path : tags du plus profond (nœud cliqué) vers la racine, ex. ['span','button','li','ul'].\n// Renvoie le premier tag == tag (le plus proche du clic), sinon null. Comme closest().\nexport function delegatedMatch(path, tag) {\n  // BUG : renvoie toujours le nœud cliqué, sans chercher l'ancêtre correspondant.\n  return path[0];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function delegatedMatch(path, tag) {\n  for (const t of path) {\n    if (t === tag) return t;\n  }\n  return null;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "trouve le li en remontant depuis le span",
+      "kind": "call-equals",
+      "export": "delegatedMatch",
+      "args": [["span", "button", "li", "ul"], "li"],
+      "expected": "li"
+    },
+    {
+      "id": "t2",
+      "name": "aucun ancêtre ne correspond → null",
+      "kind": "call-equals",
+      "export": "delegatedMatch",
+      "args": [["span", "p", "div"], "li"],
+      "expected": null
+    },
+    {
+      "id": "t3",
+      "name": "le nœud cliqué lui-même correspond",
+      "kind": "call-equals",
+      "export": "delegatedMatch",
+      "args": [["button", "li", "ul"], "button"],
+      "expected": "button"
+    },
+    {
+      "id": "t4",
+      "name": "remonte jusqu'à la racine si nécessaire",
+      "kind": "call-equals",
+      "export": "delegatedMatch",
+      "args": [["a", "span", "section", "main"], "main"],
+      "expected": "main",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "chemin d'un seul élément sans correspondance",
+      "kind": "call-equals",
+      "export": "delegatedMatch",
+      "args": [["div"], "button"],
+      "expected": null,
+      "private": true
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T21:14:59.895Z",
+  "generatedAt": "2026-08-09T21:19:20.050Z",
   "skills": [
     {
       "id": "algo",
@@ -6173,6 +6173,14 @@
       "practiceRefs": [
         {
           "kind": "exercise",
+          "id": "css-specificity-order"
+        },
+        {
+          "kind": "exercise",
+          "id": "css-box-size"
+        },
+        {
+          "kind": "exercise",
           "id": "web-inline-style"
         },
         {
@@ -6303,6 +6311,10 @@
         {
           "kind": "exercise",
           "id": "web-counter"
+        },
+        {
+          "kind": "exercise",
+          "id": "dom-event-delegation"
         },
         {
           "kind": "exercise",

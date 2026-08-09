@@ -1,0 +1,66 @@
+{
+  "id": "css-specificity-order",
+  "title": "CSS : quelle règle gagne ? (spécificité)",
+  "difficulty": 2,
+  "summary": "Objectif : appliquer l'arbitrage de la cascade. Chaque règle a une spécificité (a=identifiants, b=classes, c=types) et une couleur, dans l'ordre du fichier. Complète winningColor(rules) : renvoie la couleur de la règle la PLUS spécifique ; à spécificité égale, la DERNIÈRE écrite gagne. Compare (a, b, c) dans cet ordre — pas seulement l'ordre d'apparition.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["css"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Chaque règle : { color, a, b, c } où a=#id, b=.classe, c=type.\n// Renvoie la couleur gagnante selon la spécificité, l'ordre départageant les égalités.\nexport function winningColor(rules) {\n  // BUG : renvoie la dernière règle, en ignorant la spécificité.\n  return rules[rules.length - 1].color;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function winningColor(rules) {\n  let best = null;\n  for (const r of rules) {\n    if (best === null) { best = r; continue; }\n    const cmp = r.a - best.a || r.b - best.b || r.c - best.c;\n    // r plus spécifique, ou égal (l'ordre fait gagner le plus récent)\n    if (cmp >= 0) best = r;\n  }\n  return best ? best.color : null;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "id bat classe bat type",
+      "kind": "call-equals",
+      "export": "winningColor",
+      "args": [[{ "color": "grey", "a": 0, "b": 0, "c": 1 }, { "color": "green", "a": 0, "b": 1, "c": 0 }, { "color": "navy", "a": 1, "b": 0, "c": 0 }]],
+      "expected": "navy"
+    },
+    {
+      "id": "t2",
+      "name": "la plus spécifique gagne même si écrite AVANT",
+      "kind": "call-equals",
+      "export": "winningColor",
+      "args": [[{ "color": "classe", "a": 0, "b": 1, "c": 0 }, { "color": "types", "a": 0, "b": 0, "c": 2 }]],
+      "expected": "classe"
+    },
+    {
+      "id": "t3",
+      "name": "égalité → la dernière gagne",
+      "kind": "call-equals",
+      "export": "winningColor",
+      "args": [[{ "color": "a", "a": 0, "b": 1, "c": 0 }, { "color": "b", "a": 0, "b": 1, "c": 0 }]],
+      "expected": "b"
+    },
+    {
+      "id": "t4",
+      "name": "un id bat beaucoup de classes",
+      "kind": "call-equals",
+      "export": "winningColor",
+      "args": [[{ "color": "id", "a": 1, "b": 0, "c": 0 }, { "color": "classes", "a": 0, "b": 5, "c": 9 }]],
+      "expected": "id",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "une seule règle",
+      "kind": "call-equals",
+      "export": "winningColor",
+      "args": [[{ "color": "seule", "a": 0, "b": 0, "c": 1 }]],
+      "expected": "seule",
+      "private": true
+    }
+  ]
+}

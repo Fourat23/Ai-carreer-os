@@ -62,8 +62,30 @@ Sans nom accessible, l'utilisateur entend « bouton » sans savoir ce qu'il fait
 Tout ce qui est cliquable doit être utilisable au clavier : atteignable par Tab, activable
 par Entrée/Espace. Les éléments sémantiques le sont déjà ; les faux boutons en `<div>` ne le
 sont pas. L'ORDRE de focus doit suivre l'ordre logique de lecture, et le focus doit rester
-VISIBLE (ne supprime pas le contour de focus sans le remplacer). Après une action (ouvrir une
-modale), place le focus là où l'utilisateur doit continuer.
+VISIBLE (ne supprime pas le contour de focus sans le remplacer).
+
+### Gérer le focus : `tabindex` et l'ordre de tabulation
+L'ordre de tabulation suit l'ordre du DOM — c'est pourquoi un DOM bien structuré est déjà à
+moitié accessible. `tabindex` l'ajuste, avec prudence :
+- `tabindex="0"` : rend focusable un élément qui ne l'est pas nativement (rare — préfère une
+  vraie balise interactive), en le plaçant dans l'ordre naturel.
+- `tabindex="-1"` : focusable par script (`element.focus()`) mais PAS par Tab — utile pour
+  déplacer le focus vers une zone (message d'erreur, titre de modale) sans l'ajouter au parcours.
+- `tabindex` **positif** (`1`, `2`…) : à PROSCRIRE — il casse l'ordre naturel et devient
+  ingérable. Le bon ordre se règle en réordonnant le DOM, pas avec des numéros.
+
+### Gérer le focus : modales et changements de vue
+Quand tu ouvres une **modale**, trois gestes non négociables : (1) DÉPLACER le focus dans la
+modale (sur son titre ou son premier champ) ; (2) PIÉGER le focus à l'intérieur tant qu'elle
+est ouverte (Tab ne doit pas partir derrière) ; (3) fermer avec **Échap** et RENDRE le focus à
+l'élément qui l'avait ouverte. Sans cela, un utilisateur au clavier « tombe » derrière la modale
+et se perd. Même logique après une navigation : place le focus sur le titre de la nouvelle vue.
+
+### Mouvement et préférences utilisateur
+Certaines animations (défilements, transitions fortes) provoquent gêne ou malaise. Respecte le
+réglage système via la media query `@media (prefers-reduced-motion: reduce)` : réduis ou
+supprime les animations non essentielles. L'accessibilité, c'est aussi respecter ce que
+l'utilisateur a DÉJÀ demandé à son système.
 
 ### Contraste et couleur
 Le texte doit avoir un contraste suffisant avec son fond (les recommandations WCAG donnent
@@ -109,6 +131,10 @@ fenêtre, bouton ». Aucune ligne de JavaScript en plus — juste la bonne balis
   l'assistance.
 - Supprimer le contour de focus « parce que c'est moche » sans le remplacer : navigation
   clavier impossible à suivre.
+- Modale sans gestion du focus : focus non déplacé, non piégé, non rendu à la fermeture (Échap
+  ignoré) → l'utilisateur clavier se perd derrière la modale.
+- `tabindex` positif pour « corriger » l'ordre : casse tout ; réordonne le DOM à la place.
+- Ignorer `prefers-reduced-motion` : animations imposées à qui a demandé de les réduire.
 - Information transmise par la seule couleur (rouge = erreur) : ajoute texte/icône.
 - Empiler des attributs ARIA pour « faire accessible » alors qu'une balise native suffisait.
 
@@ -127,8 +153,9 @@ Vérifie qu'aucune information n'est portée par la seule couleur. Note ce que t
 
 ## 📚 Vocabulaire
 **accessibilité (a11y)** · **HTML sémantique** · **nom accessible** · **texte alternatif
-(`alt`)** · **`<label>`** · **focus** · **contraste** · **ARIA** · **rôle** · **lecteur
-d'écran**.
+(`alt`)** · **`<label>`** · **focus / ordre de tabulation** · **`tabindex` (0 / -1)** ·
+**piège de focus (modale)** · **`prefers-reduced-motion`** · **contraste** · **ARIA** ·
+**rôle** · **lecteur d'écran**.
 
 ## 🧾 À retenir
 L'accessibilité fait qu'une interface est utilisable par tous — au clavier, au lecteur

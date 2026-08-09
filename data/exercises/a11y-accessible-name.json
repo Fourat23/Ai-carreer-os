@@ -1,0 +1,66 @@
+{
+  "id": "a11y-accessible-name",
+  "title": "Accessibilité : le nom accessible d'un élément",
+  "difficulty": 2,
+  "summary": "Objectif : comprendre ce qu'un lecteur d'écran ANNONCE. Complète accessibleName({ tag, ariaLabel, text, alt }) selon la précédence simplifiée : un aria-label non vide gagne toujours ; sinon une <img> utilise son alt ; sinon on prend le texte visible ; sinon chaîne vide (élément sans nom — à corriger). Renvoie toujours une chaîne.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["accessibility"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Nom accessible annoncé par un lecteur d'écran (précédence simplifiée).\nexport function accessibleName({ tag, ariaLabel = '', text = '', alt = '' }) {\n  // BUG : renvoie toujours le texte, en ignorant aria-label et alt.\n  return text;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function accessibleName({ tag, ariaLabel = '', text = '', alt = '' }) {\n  if (ariaLabel.trim() !== '') return ariaLabel;\n  if (tag === 'img') return alt;\n  if (text.trim() !== '') return text;\n  return '';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "aria-label gagne sur le texte",
+      "kind": "call-equals",
+      "export": "accessibleName",
+      "args": [{ "tag": "button", "ariaLabel": "Fermer la fenêtre", "text": "✕" }],
+      "expected": "Fermer la fenêtre"
+    },
+    {
+      "id": "t2",
+      "name": "image : le alt sert de nom",
+      "kind": "call-equals",
+      "export": "accessibleName",
+      "args": [{ "tag": "img", "alt": "Graphique des ventes" }],
+      "expected": "Graphique des ventes"
+    },
+    {
+      "id": "t3",
+      "name": "sans aria-label ni alt : le texte visible",
+      "kind": "call-equals",
+      "export": "accessibleName",
+      "args": [{ "tag": "button", "text": "Envoyer" }],
+      "expected": "Envoyer"
+    },
+    {
+      "id": "t4",
+      "name": "bouton icône sans nom → chaîne vide (à corriger)",
+      "kind": "call-equals",
+      "export": "accessibleName",
+      "args": [{ "tag": "button", "text": "" }],
+      "expected": "",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "image décorative : alt vide → nom vide",
+      "kind": "call-equals",
+      "export": "accessibleName",
+      "args": [{ "tag": "img", "alt": "", "text": "ignoré" }],
+      "expected": "",
+      "private": true
+    }
+  ]
+}

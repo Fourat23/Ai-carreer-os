@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T21:19:20.050Z",
+  "generatedAt": "2026-08-09T21:23:10.230Z",
   "skills": [
     {
       "id": "algo",
@@ -6462,6 +6462,10 @@
         "jsts"
       ],
       "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "a11y-accessible-name"
+        },
         {
           "kind": "exercise",
           "id": "web-semantic"

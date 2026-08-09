@@ -7,7 +7,8 @@
     "css-grid"
   ],
   "hardenedLegacy": [
-    "css-fundamentals"
+    "css-fundamentals",
+    "react-accessibility"
   ],
   "removedLessons": [
     "css-layout-flexbox-grid"
@@ -17,8 +18,18 @@
     "css-grid"
   ],
   "prereq": {
-    "css-flexbox": ["css-fundamentals", "html-semantic-structure"],
-    "css-grid": ["css-fundamentals", "css-flexbox"],
-    "responsive-design": ["css-flexbox", "css-grid", "css-fundamentals"]
+    "css-flexbox": [
+      "css-fundamentals",
+      "html-semantic-structure"
+    ],
+    "css-grid": [
+      "css-fundamentals",
+      "css-flexbox"
+    ],
+    "responsive-design": [
+      "css-flexbox",
+      "css-grid",
+      "css-fundamentals"
+    ]
   }
 }

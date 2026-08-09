@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "agent-tool-select",
+  "title": "Agent : choisir le bon outil pour l'intention",
+  "difficulty": 2,
+  "summary": "selectTool(intent, tools) renvoie l'id de l'outil dont la CAPACITÉ correspond au besoin de l'intention (intent.need), ou 'none' si aucun outil ne l'offre. C'est la première décision d'un agent : router l'intention vers la bonne capacité, jamais prendre le premier outil venu. SIMULATION : le catalogue d'outils et le besoin sont fournis (aucun LLM ne décide ici) — on code la RÈGLE de sélection.",
+  "skills": ["conditions", "functions", "arrays", "hof"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Choisit l'outil dont la capacité répond au besoin de l'intention.\n// TODO : renvoyer le PREMIER outil est faux — il faut trouver celui dont\n//        la capability correspond à intent.need, et 'none' si aucun.\nexport function selectTool(intent, tools) {\n  return tools[0] ? tools[0].id : 'none';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function selectTool(intent, tools) {\n  const match = tools.find((t) => t.capability === intent.need);\n  return match ? match.id : 'none';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "le bon outil n'est pas le premier du catalogue", "kind": "call-equals", "export": "selectTool", "args": [{ "need": "read-file" }, [{ "id": "web", "capability": "search-web" }, { "id": "fs", "capability": "read-file" }]], "expected": "fs" },
+    { "id": "t2", "name": "aucun outil n'offre la capacité demandée → none", "kind": "call-equals", "export": "selectTool", "args": [{ "need": "send-email" }, [{ "id": "web", "capability": "search-web" }, { "id": "fs", "capability": "read-file" }]], "expected": "none" },
+    { "id": "t3", "name": "correspondance directe", "kind": "call-equals", "export": "selectTool", "args": [{ "need": "search-web" }, [{ "id": "web", "capability": "search-web" }]], "expected": "web", "private": true }
+  ]
+}

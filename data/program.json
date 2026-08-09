@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T21:39:57.783Z",
+  "generatedAt": "2026-08-09T08:24:06.002Z",
   "skills": [
     {
       "id": "algo",
@@ -6880,6 +6880,16 @@
       "min": 50,
       "skills": [
         "agents"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "agent-tool-select"
+        },
+        {
+          "kind": "exercise",
+          "id": "agent-state-transition"
+        }
       ]
     },
     {
@@ -6890,6 +6900,16 @@
       "min": 50,
       "skills": [
         "agents"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "agent-loop-detect"
+        },
+        {
+          "kind": "exercise",
+          "id": "agent-state-transition"
+        }
       ]
     },
     {

@@ -9,7 +9,10 @@
     "prompt-engineering",
     "prompt-injection-defense"
   ],
-  "critical": [],
+  "critical": [
+    "agents-fundamentals",
+    "agent-workflows-orchestration"
+  ],
   "prereq": {
     "agents-fundamentals": ["llm-fundamentals", "api-design-basics"],
     "agent-workflows-orchestration": ["agents-fundamentals", "structured-outputs-tools", "architecture-basics"],

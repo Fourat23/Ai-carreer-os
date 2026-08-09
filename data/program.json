@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T10:15:11.253Z",
+  "generatedAt": "2026-08-09T10:17:19.423Z",
   "skills": [
     {
       "id": "algo",
@@ -8185,6 +8185,10 @@
         {
           "kind": "exercise",
           "id": "llm-cost-estimate"
+        },
+        {
+          "kind": "exercise",
+          "id": "ml-drift-detect"
         }
       ]
     },

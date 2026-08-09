@@ -17,7 +17,7 @@ const read = (p) => readFileSync(R(p), 'utf8');
 const onDisk = new Set(readdirSync(R('data/exercises')).filter((f) => f.endsWith('.json')).map((f) => f.replace('.json', '')));
 
 const V34_EXERCISES = [
-  'llm-context-budget', 'data-missing-strategy', 'data-quality-detect', 'etl-pipeline-order', 'table-groupby',
+  'llm-context-budget', 'data-missing-strategy', 'data-quality-detect', 'etl-pipeline-order', 'table-groupby', 'ml-drift-detect',
 ];
 
 const tmp = mkdtempSync(join(tmpdir(), 'v34x-'));

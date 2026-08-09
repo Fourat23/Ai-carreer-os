@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "ml-drift-detect",
+  "title": "Production ML : détecter une dérive (drift)",
+  "difficulty": 2,
+  "summary": "detectDrift(stats) où stats={trainMean, prodMean, threshold} signale 'drift' si la moyenne d'une variable en PRODUCTION s'éloigne de celle de l'ENTRAÎNEMENT au-delà d'un seuil, sinon 'stable'. Un modèle entraîné sur le passé vieillit quand les données changent : le drift dégrade la qualité sans que le code bouge. SIMULATION : les statistiques sont fournies (aucun modèle) — on code la règle de détection.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Détecte une dérive entre la distribution d'entraînement et celle de prod.\n// TODO : supposer que tout est 'stable' ignore le drift — comparer l'écart\n//        des moyennes au seuil.\nexport function detectDrift(stats) {\n  return 'stable';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function detectDrift(stats) {\n  return Math.abs(stats.prodMean - stats.trainMean) > stats.threshold ? 'drift' : 'stable';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "forte dérive de la moyenne → drift", "kind": "call-equals", "export": "detectDrift", "args": [{ "trainMean": 50, "prodMean": 80, "threshold": 10 }], "expected": "drift" },
+    { "id": "t2", "name": "petit écart sous le seuil → stable", "kind": "call-equals", "export": "detectDrift", "args": [{ "trainMean": 50, "prodMean": 52, "threshold": 10 }], "expected": "stable" },
+    { "id": "t3", "name": "baisse importante → drift", "kind": "call-equals", "export": "detectDrift", "args": [{ "trainMean": 100, "prodMean": 70, "threshold": 20 }], "expected": "drift", "private": true }
+  ]
+}

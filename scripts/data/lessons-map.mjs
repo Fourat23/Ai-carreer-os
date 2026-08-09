@@ -127,7 +127,7 @@ export const LESSONS = [
   { file: 'docker-containers.md', title: 'Docker et conteneurs', cat: 'Production & DevOps', level: 2, min: 45, skills: ['cloud'], practiceRefs: [{ kind: 'exercise', id: 'docker-instruction-order' }, { kind: 'exercise', id: 'docker-layer-cache' }, { kind: 'exercise', id: 'docker-image-size' }] },
   { file: 'ci-cd.md', title: 'Intégration continue (CI/CD)', cat: 'Production & DevOps', level: 2, min: 40, skills: ['cloud'] },
   { file: 'monitoring-production.md', title: 'Monitoring et production', cat: 'Production & DevOps', level: 3, min: 45, skills: ['cloud', 'archi'] },
-  { file: 'llm-observability.md', title: 'LLMOps : observer un système LLM', cat: 'Production & DevOps', level: 3, min: 45, skills: ['cloud', 'llm'], practiceRefs: [{ kind: 'exercise', id: 'llm-cost-estimate' }] },
+  { file: 'llm-observability.md', title: 'LLMOps : observer un système LLM', cat: 'Production & DevOps', level: 3, min: 45, skills: ['cloud', 'llm'], practiceRefs: [{ kind: 'exercise', id: 'llm-cost-estimate' }, { kind: 'exercise', id: 'ml-drift-detect' }] },
   // ── Portfolio & carrière ──
   { file: 'readme-documentation.md', title: 'Le README recruteur', cat: 'Portfolio & carrière', level: 1, min: 35, skills: ['comm'] },
   { file: 'portfolio-github.md', title: 'Portfolio technique GitHub', cat: 'Portfolio & carrière', level: 1, min: 35, skills: ['comm'] },

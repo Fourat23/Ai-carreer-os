@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "data-missing-strategy",
+  "title": "Data : quelle stratégie pour les valeurs manquantes ?",
+  "difficulty": 2,
+  "summary": "chooseMissingStrategy(col) où col={missingRatio, isCritical} décide : trop de manquants (>50%) → 'drop-column' (la colonne n'est plus fiable) ; colonne critique → 'impute-flag' (imputer ET ajouter un indicateur de manquant) ; sinon → 'impute-mean'. Nettoyer, c'est décider consciemment, pas maquiller. SIMULATION : les stats de la colonne sont fournies (aucun dataset réel) — on code la règle.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Choisit la stratégie de traitement des valeurs manquantes d'une colonne.\n// TODO : imputer par la moyenne dans TOUS les cas est faux — une colonne à\n//        70% de manquants n'est plus fiable, une colonne critique mérite un flag.\nexport function chooseMissingStrategy(col) {\n  return 'impute-mean';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function chooseMissingStrategy(col) {\n  if (col.missingRatio > 0.5) return 'drop-column';\n  if (col.isCritical) return 'impute-flag';\n  return 'impute-mean';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "majorité de manquants → abandonner la colonne", "kind": "call-equals", "export": "chooseMissingStrategy", "args": [{ "missingRatio": 0.7, "isCritical": false }], "expected": "drop-column" },
+    { "id": "t2", "name": "colonne critique → imputer + indicateur", "kind": "call-equals", "export": "chooseMissingStrategy", "args": [{ "missingRatio": 0.1, "isCritical": true }], "expected": "impute-flag" },
+    { "id": "t3", "name": "peu de manquants, non critique → imputer moyenne", "kind": "call-equals", "export": "chooseMissingStrategy", "args": [{ "missingRatio": 0.1, "isCritical": false }], "expected": "impute-mean", "private": true }
+  ]
+}

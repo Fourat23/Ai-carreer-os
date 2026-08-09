@@ -1,11 +1,27 @@
 <!-- keep -->
 # Leçon — Pipelines ETL
 
+## 🌍 Le problème d'abord
+Chaque matin, il faut récupérer les ventes de la veille depuis trois sources, les nettoyer, les
+recouper, et les charger dans la base d'analyse. Le faire à la main, c'est oublier une étape un
+jour sur deux, tout relancer de zéro au moindre plantage, et ne jamais savoir si le résultat
+est complet. Il te faut un PIPELINE : une chaîne d'étapes ordonnée (extraire → transformer →
+charger), REJOUABLE sans tout casser (idempotente), et résistante aux échecs partiels. C'est la
+colonne vertébrale de tout système data — et exactement le squelette d'un pipeline d'ingestion
+RAG (charger → découper → indexer). Cette leçon te montre comment le construire proprement.
+
 ## 🎯 Objectif
 Savoir construire un pipeline de données Extract-Transform-Load robuste, REJOUABLE (idempotent) et résistant aux échecs partiels. C'est la colonne vertébrale de tout système data et le squelette d'un pipeline d'ingestion RAG.
 
 ## 🧠 Modèle mental
 Un pipeline ETL, c'est **une chaîne de montage** : la matière première (source) entre, passe par des postes (extract → transform → load), et ressort en produit fini (données exploitables). Comme toute chaîne, elle doit gérer les pannes sans tout casser.
+
+## 🧩 Prérequis
+Tu dois savoir manipuler des données tabulaires (`/doc/lessons/pandas-data-wrangling`) et
+connaître les gestes de nettoyage/qualité (`/doc/lessons/data-cleaning-quality`), car la phase
+« transform » les applique. Les notions de reprise sur échec, d'idempotence et de gestion
+d'erreurs (`/doc/lessons/error-handling`) sont réutilisées ici pour rendre le pipeline robuste.
+Aucun orchestrateur particulier n'est supposé : on raisonne sur la structure du pipeline.
 
 ## 📖 Explication complète
 - **Extract** : récupérer depuis la source (CSV, API, base). Point fragile : la source peut être absente, changer de format, être incomplète.

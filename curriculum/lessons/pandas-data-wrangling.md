@@ -1,11 +1,29 @@
 <!-- keep -->
 # Leçon — pandas : manipuler des données
 
+## 🌍 Le problème d'abord
+On te donne un fichier de 50 000 lignes de ventes et une question simple : « quel est le
+chiffre d'affaires moyen par région le mois dernier ? ». Ouvrir ça dans un tableur rame et ne
+se rejoue pas ; le faire à la main en Python, ligne par ligne, est long et truffé de bugs. Il
+te faut un outil pour CHARGER, INSPECTER, FILTRER, TRANSFORMER et AGRÉGER des tableaux de
+données de façon rapide, lisible et reproductible. C'est exactement le rôle de pandas — et,
+bonne nouvelle, ce sont les mêmes gestes que tu connais déjà en SQL (filtrer, grouper, agréger)
+ou en JavaScript (map, filter, reduce), appliqués à des tableaux. Cette leçon te donne ces
+gestes quotidiens, socle de tout travail data et prérequis du ML.
+
 ## 🎯 Objectif
 Savoir charger, inspecter, filtrer, transformer et agréger des données tabulaires avec pandas — les gestes quotidiens de tout travail data et le prérequis du ML. Reconnaître que ce sont les mêmes 6 gestes que tu connais déjà en JS/SQL.
 
 ## 🧠 Modèle mental
 Un **DataFrame**, c'est **une feuille de calcul programmable** : des colonnes typées, des lignes indexées, et des opérations VECTORISÉES (on agit sur toute une colonne d'un coup, pas ligne par ligne).
+
+## 🧩 Prérequis
+Tu dois maîtriser les bases de Python — variables, listes, dictionnaires, fonctions
+(`/doc/lessons/python-foundations`) — et avoir vu la logique « filtrer / grouper / agréger »
+d'un tableau, déjà rencontrée en SQL (`/doc/lessons/sql-foundations`) : pandas applique ces
+mêmes idées en code. Comprendre ce qu'est une donnée tabulaire (lignes = observations,
+colonnes = variables) aide, mais on le rappelle ici. Aucune expérience préalable de pandas
+n'est supposée.
 
 ## 📖 Explication complète
 pandas repose sur deux objets : la **Series** (une colonne) et le **DataFrame** (un tableau). Les gestes fondamentaux, identiques à SQL et à tes pipelines JS :

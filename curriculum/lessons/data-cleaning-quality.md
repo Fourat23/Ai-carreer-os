@@ -1,11 +1,29 @@
 <!-- keep -->
 # Leçon — Nettoyage et qualité des données
 
+## 🌍 Le problème d'abord
+Tu reçois un export « clients » : des dates dans trois formats différents, des e-mails en
+double, des âges à 0 ou 999, des colonnes à moitié vides. Si tu enchaînes directement un
+modèle ou un dashboard là-dessus, le résultat sera FAUX — mais d'apparence crédible, ce qui est
+pire. Avant toute analyse, il faut DIAGNOSTIQUER les défauts (manquants, doublons, formats,
+aberrations), décider consciemment quoi en faire, et le DOCUMENTER pour que ce soit reproductible
+et justifiable. Ce travail, souvent négligé, représente 60 à 80 % du temps réel en data — et
+c'est lui qui fait la fiabilité de tout ce qui suit. Cette leçon t'apprend à nettoyer sans
+maquiller.
+
 ## 🎯 Objectif
 Savoir diagnostiquer et corriger des données sales (manquants, doublons, formats, aberrations) de façon DOCUMENTÉE et justifiée, et produire un rapport de qualité. C'est 60-80 % du travail réel en data et en ML — et ce qui fait la fiabilité de tout ce qui suit.
 
 ## 🧠 Modèle mental
 « Garbage in, garbage out » : **un modèle ou un dashboard ne vaut jamais mieux que ses données**. Nettoyer, ce n'est pas maquiller : c'est comprendre POURQUOI la donnée est sale et décider consciemment quoi en faire.
+
+## 🧩 Prérequis
+Tu dois savoir manipuler un tableau de données — charger, inspecter, filtrer, transformer
+(`/doc/lessons/pandas-data-wrangling`) — et connaître les types de base et la notion de
+donnée tabulaire (lignes/colonnes). La distinction feature/target et l'idée de fuite de
+données (`/doc/lessons/feature-engineering`) éclairent pourquoi certaines corrections doivent
+attendre APRÈS le split. Aucune bibliothèque particulière n'est supposée : on raisonne sur les
+décisions de qualité.
 
 ## 📖 Explication complète
 Le nettoyage suit un ordre : **inspecter d'abord** (sinon on rate les vrais problèmes), puis traiter chaque défaut avec une décision justifiée.

@@ -1,0 +1,23 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "etl-pipeline-order",
+  "title": "ETL : remettre les étapes dans le bon ordre",
+  "difficulty": 2,
+  "summary": "orderPipeline(steps) remet les étapes d'un pipeline dans l'ordre canonique extract → clean → transform → load (en ne gardant que celles présentes). L'ordre compte : nettoyer après avoir agrégé, ou charger avant de transformer, corrompt le résultat. SIMULATION : les étapes sont fournies (aucune exécution de pipeline) — on code l'ordonnancement.",
+  "skills": ["arrays", "functions", "hof"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Remet les étapes ETL dans l'ordre canonique.\n// TODO : renvoyer les étapes telles quelles ignore que l'ordre est imposé :\n//        extract → clean → transform → load.\nexport function orderPipeline(steps) {\n  return steps;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "const ORDER = ['extract', 'clean', 'transform', 'load'];\nexport function orderPipeline(steps) {\n  return ORDER.filter((s) => steps.includes(s));\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "étapes mélangées → ordre canonique", "kind": "call-equals", "export": "orderPipeline", "args": [["load", "extract", "transform", "clean"]], "expected": ["extract", "clean", "transform", "load"] },
+    { "id": "t2", "name": "sous-ensemble d'étapes, ordre préservé", "kind": "call-equals", "export": "orderPipeline", "args": [["transform", "extract"]], "expected": ["extract", "transform"], "private": true }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "table-groupby",
+  "title": "Data wrangling : compter par groupe (group by)",
+  "difficulty": 2,
+  "summary": "groupCount(rows, key) renvoie un objet {valeur: nombre d'occurrences} en regroupant les lignes par la colonne `key` — l'opération de base du group-by (pandas/SQL). SIMULATION : les lignes sont un tableau d'objets fourni (aucun pandas) — le regroupement est réellement calculé en local.",
+  "skills": ["arrays", "objects", "loops", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Compte les lignes par valeur de la colonne `key`.\n// TODO : renvoyer un total global n'est pas un group-by — il faut un compte\n//        PAR valeur distincte de la colonne.\nexport function groupCount(rows, key) {\n  return rows.length;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function groupCount(rows, key) {\n  const out = {};\n  for (const r of rows) out[r[key]] = (out[r[key]] || 0) + 1;\n  return out;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "compte par groupe", "kind": "call-equals", "export": "groupCount", "args": [[{ "v": "a" }, { "v": "b" }, { "v": "a" }], "v"], "expected": { "a": 2, "b": 1 } },
+    { "id": "t2", "name": "un seul groupe", "kind": "call-equals", "export": "groupCount", "args": [[{ "cat": "x" }, { "cat": "x" }], "cat"], "expected": { "x": 2 }, "private": true }
+  ]
+}

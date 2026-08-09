@@ -1,0 +1,25 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "data-quality-detect",
+  "title": "Data : diagnostiquer un problème de qualité",
+  "difficulty": 2,
+  "summary": "dataIssue(record) où record={value, seenBefore, expectedType} diagnostique, dans l'ordre : valeur vide/absente → 'missing' ; déjà vue → 'duplicate' ; mauvais type → 'type-mismatch' ; sinon 'ok'. Les problèmes de qualité les plus courants, à repérer AVANT de modéliser (garbage in, garbage out). SIMULATION : l'enregistrement et son contexte sont fournis — on code le diagnostic.",
+  "skills": ["conditions", "functions", "objects"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Diagnostique le problème de qualité d'un enregistrement.\n// TODO : ne détecter que les valeurs manquantes laisse passer doublons et\n//        types incohérents — vérifier missing, puis duplicate, puis type.\nexport function dataIssue(record) {\n  if (record.value === null || record.value === undefined || record.value === '') return 'missing';\n  return 'ok';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function dataIssue(record) {\n  if (record.value === null || record.value === undefined || record.value === '') return 'missing';\n  if (record.seenBefore) return 'duplicate';\n  if (typeof record.value !== record.expectedType) return 'type-mismatch';\n  return 'ok';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "valeur vide → missing", "kind": "call-equals", "export": "dataIssue", "args": [{ "value": "", "seenBefore": false, "expectedType": "string" }], "expected": "missing" },
+    { "id": "t2", "name": "déjà vue → duplicate", "kind": "call-equals", "export": "dataIssue", "args": [{ "value": "x", "seenBefore": true, "expectedType": "string" }], "expected": "duplicate" },
+    { "id": "t3", "name": "nombre attendu mais texte reçu → type-mismatch", "kind": "call-equals", "export": "dataIssue", "args": [{ "value": "5", "seenBefore": false, "expectedType": "number" }], "expected": "type-mismatch" },
+    { "id": "t4", "name": "enregistrement sain → ok", "kind": "call-equals", "export": "dataIssue", "args": [{ "value": "ok", "seenBefore": false, "expectedType": "string" }], "expected": "ok", "private": true }
+  ]
+}

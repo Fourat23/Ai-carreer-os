@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T10:11:21.664Z",
+  "generatedAt": "2026-08-09T10:15:11.253Z",
   "skills": [
     {
       "id": "algo",
@@ -6402,6 +6402,16 @@
       "skills": [
         "python",
         "sql"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "table-groupby"
+        },
+        {
+          "kind": "exercise",
+          "id": "data-quality-detect"
+        }
       ]
     },
     {
@@ -6413,6 +6423,16 @@
       "skills": [
         "python",
         "sql"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "data-quality-detect"
+        },
+        {
+          "kind": "exercise",
+          "id": "data-missing-strategy"
+        }
       ]
     },
     {
@@ -6424,6 +6444,12 @@
       "skills": [
         "python",
         "sql"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "etl-pipeline-order"
+        }
       ]
     },
     {

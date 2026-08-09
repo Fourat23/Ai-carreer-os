@@ -36,9 +36,9 @@ export const LESSONS = [
   { file: 'sql-performance-indexing.md', title: 'Performance SQL : index, plans et N+1', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'archi'], practiceRefs: [{ kind: 'exercise', id: 'fix-nplus1' }, { kind: 'exercise', id: 'perf-pair-count' }, { kind: 'playbook', id: 'slow-sql-query' }] },
   { file: 'database-transactions-concurrency.md', title: 'Transactions, ACID et concurrence', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'se'], practiceRefs: [{ kind: 'exercise', id: 'db-concurrency-risk' }, { kind: 'playbook', id: 'intermittent-incident' }] },
   { file: 'database-migrations.md', title: 'Migrations de schéma et compatibilité', cat: 'Data & SQL', level: 3, min: 50, skills: ['sql', 'se'], practiceRefs: [{ kind: 'exercise', id: 'migration-compat' }] },
-  { file: 'pandas-data-wrangling.md', title: 'pandas : manipuler des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
-  { file: 'data-cleaning-quality.md', title: 'Nettoyage et qualité des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
-  { file: 'etl-pipelines.md', title: 'Pipelines ETL', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'] },
+  { file: 'pandas-data-wrangling.md', title: 'pandas : manipuler des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'], practiceRefs: [{ kind: 'exercise', id: 'table-groupby' }, { kind: 'exercise', id: 'data-quality-detect' }] },
+  { file: 'data-cleaning-quality.md', title: 'Nettoyage et qualité des données', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'], practiceRefs: [{ kind: 'exercise', id: 'data-quality-detect' }, { kind: 'exercise', id: 'data-missing-strategy' }] },
+  { file: 'etl-pipelines.md', title: 'Pipelines ETL', cat: 'Data & SQL', level: 2, min: 45, skills: ['python', 'sql'], practiceRefs: [{ kind: 'exercise', id: 'etl-pipeline-order' }] },
   // ── Software engineering & architecture ──
   { file: 'clean-code.md', title: 'Clean code', cat: 'Software engineering & architecture', level: 1, min: 45, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'refactor-legacy' }, { kind: 'exercise', id: 'debug-cart' }] },
   { file: 'testing-foundations.md', title: 'Tester son code', cat: 'Software engineering & architecture', level: 2, min: 50, skills: ['se'], practiceRefs: [{ kind: 'exercise', id: 'validate-user' }, { kind: 'exercise', id: 'debug-cart' }, { kind: 'playbook', id: 'ci-passes-locally-fails' }] },

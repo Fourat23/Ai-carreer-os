@@ -78,11 +78,12 @@ test('e2e V34 : nouveaux exercices data/ml étiquetés SIMULATION', () => {
   }
 });
 
-test('e2e V34 : data-ml-v1 reste ANNONCÉ (décision honnête, pas de greenwashing)', () => {
+test('e2e V34→V35 : data-ml-v1 est DISPONIBLE (activé en V35 par composition non contiguë)', () => {
   const cat = buildCatalogue(J('data/program.json'));
   const dataMl = cat.tracks.find((t) => t.id === 'data-ml-v1');
   assert.ok(dataMl, 'le parcours data-ml-v1 existe au catalogue');
-  assert.equal(dataMl.status, 'announced', 'data-ml-v1 reste annoncé tant que le packaging n\'est pas distinct et cohérent');
+  assert.equal(dataMl.status, 'available', 'data-ml-v1 promu disponible en V35 (modules composés de jours réels)');
+  assert.ok(dataMl.totalDays > 0, 'data-ml-v1 a des jours résolus');
 });
 
 test('e2e V34 : aucune anomalie bloquante sur le curriculum réel', () => {

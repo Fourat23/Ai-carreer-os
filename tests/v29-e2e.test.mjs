@@ -60,9 +60,9 @@ test('E2E-4 : les parcours disponibles restent cohérents (durée dérivée)', (
   }
 });
 
-test('E2E-5 : les parcours Frontend/Data restent ANNONCÉS (pas de greenwashing)', () => {
+test('E2E-5 : il reste au moins un parcours ANNONCÉ (pas de greenwashing)', () => {
   const byId = new Map(cat.tracks.map((t) => [t.id, t]));
-  for (const id of ['frontend-engineer-v1', 'ai-fullstack-v1']) {
+  for (const id of ['ai-fullstack-v1']) {
     const t = byId.get(id);
     assert.ok(t, `parcours annoncé présent : ${id}`);
     assert.equal(t.status, 'announced', `${id} reste annoncé (non promu sans curation de journées)`);

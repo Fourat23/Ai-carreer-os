@@ -2,9 +2,9 @@
 // le vrai harnais (runExercise) : schéma valide, ≥1 test public + ≥1 test privé,
 // compétences connues, référence 100% verte, starter échoue ≥1 test public, aucune
 // fuite de solution. Déterministe, local — aucun réseau, aucun faux navigateur.
-import { test } from 'node:test';
+import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { validateExercise } from '../lib/exercise.mjs';
@@ -17,6 +17,12 @@ const read = (p) => readFileSync(R(p), 'utf8');
 const onDisk = new Set(readdirSync(R('data/exercises')).filter((f) => f.endsWith('.json')).map((f) => f.replace('.json', '')));
 
 const V36_EXERCISES = ['ts-frontend-guard', 'react-reducer-actions'];
+
+// Racine d'exécution ISOLÉE (sous data/lab-workspaces, gitignoré) : runExercise
+// matérialise le workspace sous cette racine ; on la nettoie après les tests.
+let SANDBOX;
+before(() => { mkdirSync(R('data/lab-workspaces'), { recursive: true }); SANDBOX = mkdtempSync(R('data/lab-workspaces/v36x-')); });
+after(() => { if (SANDBOX) rmSync(SANDBOX, { recursive: true, force: true }); });
 
 test('V36 : les exercices frontend existent et sont des fixtures valides', () => {
   for (const id of V36_EXERCISES) {
@@ -43,9 +49,9 @@ test('V36 : compétences connues, ≥1 test public et ≥1 test privé, référe
 test('V36 : référence 100% verte, starter échoue ≥1 test public (exécuté)', async () => {
   for (const id of V36_EXERCISES) {
     const ex = JSON.parse(read(`data/exercises/${id}.json`));
-    const ref = await runExercise(ROOT, ex, ex.reference);
+    const ref = await runExercise(SANDBOX, ex, ex.reference);
     assert.ok(ref.attempt.results.every((r) => r.passed), `${id} : référence doit être 100% verte`);
-    const st = await runExercise(ROOT, ex, {});
+    const st = await runExercise(SANDBOX, ex, {});
     const publicFail = ex.tests.some((t) => !t.private && !st.attempt.results.find((r) => r.id === t.id)?.passed);
     assert.ok(publicFail, `${id} : le starter doit échouer au moins un test public`);
   }

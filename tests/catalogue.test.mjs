@@ -8,7 +8,7 @@ import {
 } from '../lib/catalogue.mjs';
 // FULLSTACK_TRACK_ID / BACKEND_TRACK_ID sont importés plus bas (l.147/162) ; on
 // n'ajoute ici que les ids de parcours pas encore importés ailleurs dans ce fichier.
-import { SYSTEMS_CLOUD_TRACK_ID, APPSEC_CLOUD_TRACK_ID, CLOUD_DEVOPS_TRACK_ID, DATA_ML_TRACK_ID } from '../lib/catalogue.mjs';
+import { SYSTEMS_CLOUD_TRACK_ID, APPSEC_CLOUD_TRACK_ID, CLOUD_DEVOPS_TRACK_ID, DATA_ML_TRACK_ID, FRONTEND_TRACK_ID } from '../lib/catalogue.mjs';
 
 const program = JSON.parse(readFileSync(new URL('../data/program.json', import.meta.url), 'utf8'));
 
@@ -20,8 +20,8 @@ test('buildCatalogue : parcours fondations disponible + parcours annoncés', () 
   assert.equal(found.totalDays, program.days.length); // 365
   assert.ok(cat.tracks.some((t) => t.status === 'announced'));
   assert.ok(isTrackAvailable(found));
-  // un parcours encore annoncé reste non activable (backend est désormais disponible).
-  assert.equal(isTrackAvailable(getTrack(cat, 'frontend-engineer-v1')), false);
+  // un parcours encore annoncé reste non activable (ai-fullstack-v1).
+  assert.equal(isTrackAvailable(getTrack(cat, 'ai-fullstack-v1')), false);
 });
 
 test('modules dérivés des mois, référencés (pas copiés)', () => {
@@ -209,7 +209,7 @@ test('Backend : n’est plus annoncé ; les parcours existants restent intacts',
   assert.deepEqual(availableIds, [
     DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID,
     SYSTEMS_CLOUD_TRACK_ID, APPSEC_CLOUD_TRACK_ID, CLOUD_DEVOPS_TRACK_ID,
-    DATA_ML_TRACK_ID,
+    DATA_ML_TRACK_ID, FRONTEND_TRACK_ID,
   ].sort());
   assert.equal(be.technologies.includes('docker'), false);
 });

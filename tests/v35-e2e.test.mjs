@@ -60,7 +60,6 @@ test('e2e V35 : les 6 parcours historiques restent DISPONIBLES', () => {
 
 test('e2e V35 : il reste des parcours ANNONCÉS (pas de sur-promotion)', () => {
   const announced = cat.tracks.filter((t) => t.status === 'announced').map((t) => t.id);
-  assert.ok(announced.includes('frontend-engineer-v1'), 'frontend reste annoncé');
   assert.ok(announced.includes('ai-fullstack-v1'), 'ai-fullstack reste annoncé');
 });
 

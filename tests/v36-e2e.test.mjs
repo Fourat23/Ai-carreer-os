@@ -61,9 +61,25 @@ test('e2e V36 : aucune anomalie bloquante sur le curriculum réel', () => {
   assert.equal(rep.blocking.length, 0, rep.blocking.map((b) => `${b.type}:${b.subject}`).join(' | '));
 });
 
-test('e2e V36 : le parcours frontend-engineer-v1 existe au catalogue', () => {
+test('e2e V36 : parcours frontend-engineer-v1 DISPONIBLE, modules et jours réels', () => {
   const cat = buildCatalogue(program);
   const fe = cat.tracks.find((t) => t.id === 'frontend-engineer-v1');
   assert.ok(fe, 'frontend-engineer-v1 présent au catalogue');
-  assert.ok(['available', 'announced'].includes(fe.status), 'statut valide');
+  assert.equal(fe.status, 'available', 'activé en V36 (composition de jours réels)');
+  assert.ok(fe.moduleRefs.length >= 5, 'au moins 5 modules');
+  assert.ok(fe.totalDays > 0, 'durée dérivée > 0');
+  const valid = new Set(program.days.map((d) => d.day));
+  for (const mid of fe.moduleRefs) {
+    const m = cat.modules[mid];
+    assert.ok(m && m.dayRefs.length > 0, `module ${mid} a des jours`);
+    for (const d of m.dayRefs) assert.ok(valid.has(d), `jour réel ${d}`);
+  }
+});
+
+test('e2e V36 : Frontend est DISTINCT (sous-ensemble focalisé, pas une copie)', () => {
+  const cat = buildCatalogue(program);
+  const feDays = new Set(cat.tracks.find((t) => t.id === 'frontend-engineer-v1').moduleRefs.flatMap((id) => cat.modules[id].dayRefs));
+  const fstDays = new Set(cat.tracks.find((t) => t.id === 'fullstack-typescript').moduleRefs.flatMap((id) => cat.modules[id].dayRefs));
+  assert.ok(feDays.size < fstDays.size, 'Frontend plus focalisé que Full-Stack');
+  assert.ok(feDays.size < program.days.length, 'Frontend plus focalisé que les 365 jours');
 });

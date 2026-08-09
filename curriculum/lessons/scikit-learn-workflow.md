@@ -1,11 +1,30 @@
 <!-- keep -->
 # Leçon — Le workflow scikit-learn
 
+## 🌍 Le problème d'abord
+Ton notebook ML « marche » : tu normalises les données, tu entraînes, tu obtiens 92 %. Puis
+un collègue essaie de le rejouer et obtient un autre chiffre ; en production, le modèle se
+trompe sur une ville jamais vue et plante. Que s'est-il passé ? Souvent : tu as normalisé sur
+TOUT le dataset avant de séparer train et test (le test a « fuité »), tes cellules
+s'exécutent dans un ordre magique connu de toi seul, et rien ne garantit que la production
+applique les mêmes transformations que l'entraînement. Le vrai sujet n'est pas « quelle
+fonction appeler » — c'est le WORKFLOW : un processus reproductible où ce que le train a
+appris s'applique à l'identique partout, sans fuite. Cette leçon présente l'outil qui rend
+ce protocole automatique (le Pipeline), pas un catalogue d'API.
+
 ## 🎯 Objectif
 Maîtriser l'API scikit-learn (fit/predict/transform) et surtout le **Pipeline**, qui rend tout le workflow ML reproductible et anti-leakage par construction. C'est l'outillage standard du ML tabulaire — celui de ton projet 5 et des entretiens data.
 
 ## 🧠 Modèle mental
 scikit-learn a UNE grammaire : **tout objet apprend avec `fit`, applique avec `predict` (modèles) ou `transform` (préprocesseurs)**. Le Pipeline enchaîne ces objets en un SEUL : ce que le train a appris s'applique à l'identique partout — le protocole d'honnêteté du ML, outillé.
+
+## 🧩 Prérequis
+Tu dois comprendre le workflow ML (problème → données → split → entraînement → évaluation)
+et pourquoi le test ne doit jamais guider l'entraînement
+(`/doc/lessons/machine-learning-basics`, `/doc/lessons/model-evaluation`), ainsi que le
+feature engineering et la fuite de données (`/doc/lessons/feature-engineering`), car le
+Pipeline existe précisément pour rendre le leakage impossible. Des bases de Python suffisent ;
+aucune connaissance préalable de scikit-learn n'est supposée.
 
 ## 📖 Explication complète
 - **La grammaire** : `model.fit(X_train, y_train)` apprend ; `model.predict(X_test)` prédit ; `scaler.fit_transform(X_train)` apprend ET applique ; `scaler.transform(X_test)` applique SEULEMENT (jamais re-fit sur le test !). Tous les objets (régressions, forêts, scalers, encodeurs) parlent cette langue — en changer est trivial.

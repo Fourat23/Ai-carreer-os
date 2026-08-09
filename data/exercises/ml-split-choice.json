@@ -1,0 +1,23 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "ml-split-choice",
+  "title": "ML : split aléatoire ou temporel ?",
+  "difficulty": 1,
+  "summary": "chooseSplit(dataset) renvoie 'temporal' si les données sont ordonnées dans le temps (timeOrdered: true), sinon 'random'. Sur des données temporelles, un split aléatoire laisse fuiter le futur dans l'entraînement (leakage) : on doit couper par le temps. SIMULATION : la nature du dataset est fournie — on code la règle de décision.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Choisit la stratégie de séparation train/test selon le dataset.\n// TODO : renvoyer toujours 'random' fait fuiter le futur sur des données\n//        temporelles — un dataset ordonné dans le temps exige un split temporel.\nexport function chooseSplit(dataset) {\n  return 'random';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function chooseSplit(dataset) {\n  return dataset.timeOrdered ? 'temporal' : 'random';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "données temporelles → split temporel", "kind": "call-equals", "export": "chooseSplit", "args": [{ "timeOrdered": true }], "expected": "temporal" },
+    { "id": "t2", "name": "données non temporelles → split aléatoire", "kind": "call-equals", "export": "chooseSplit", "args": [{ "timeOrdered": false }], "expected": "random", "private": true }
+  ]
+}

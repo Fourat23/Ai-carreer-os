@@ -1,11 +1,30 @@
 <!-- keep -->
 # Leçon — Feature engineering
 
+## 🌍 Le problème d'abord
+Tu veux prédire quels clients vont résilier. Tu as un tableau : une ligne par client, des
+colonnes (âge, ancienneté, nombre d'appels au support…). Tu lances un modèle : résultat
+médiocre. Réflexe du débutant : « prenons un modèle plus puissant ». Mais souvent le vrai
+levier est ailleurs — dans la façon dont l'information est PRÉSENTÉE. Une date de naissance
+brute ne dit rien ; la transformer en « âge » ou en « client depuis X mois » rend soudain le
+signal lisible. À l'inverse, une colonne mal choisie peut contenir la réponse déguisée (la
+date de résiliation pour prédire la résiliation !) et donner un modèle « parfait »… qui
+s'effondre en production. Cette leçon montre pourquoi les FEATURES comptent souvent plus que
+le modèle, et comment éviter le piège qui trompe le plus de débutants : la fuite de données.
+
 ## 🎯 Objectif
 Comprendre pourquoi les features (variables d'entrée) comptent souvent PLUS que le choix du modèle, savoir en créer d'utiles, encoder les catégories, et éviter le leakage. C'est le levier de performance ML le plus rentable et le plus interrogé en entretien.
 
 ## 🧠 Modèle mental
 Une feature, c'est **une façon de PRÉSENTER l'information au modèle pour qu'il la comprenne**. Un même fait mal présenté est invisible ; bien présenté, il devient prédictif. Le modèle n'invente pas le signal : tu le lui rends lisible.
+
+## 🧩 Prérequis
+Tu dois savoir ce qu'est un modèle supervisé et la distinction feature (variable d'entrée) /
+target (ce qu'on prédit) — vue dans les bases du machine learning
+(`/doc/lessons/machine-learning-basics`) — et la séparation train/test ainsi que la notion de
+fuite de données (`/doc/lessons/statistics-for-ml`, `/doc/lessons/model-evaluation`), car la
+plupart des erreurs de feature engineering SONT des fuites. Aucune bibliothèque particulière
+n'est supposée : on raisonne sur les transformations, pas sur une API.
 
 ## 📖 Explication complète
 Le feature engineering transforme des données brutes en variables prédictives :

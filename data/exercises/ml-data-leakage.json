@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "ml-data-leakage",
+  "title": "ML : détecter une fuite de données (leakage)",
+  "difficulty": 2,
+  "summary": "findLeakage(features) renvoie le nom de la première feature qui « connaît la cible » (knowsTarget: true — information de la cible ou du futur), ou 'none'. Le leakage donne un score excellent en validation puis catastrophique en production : c'est le piège n°1 du ML. SIMULATION : les features sont décrites (aucun modèle entraîné) — on code la règle de détection.",
+  "skills": ["conditions", "functions", "arrays", "hof"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Cherche une feature qui contient (directement ou indirectement) la réponse.\n// TODO : supposer qu'il n'y a jamais de fuite est faux — il faut repérer la\n//        feature dont knowsTarget est vrai (info de la cible ou du futur).\nexport function findLeakage(features) {\n  return 'none';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function findLeakage(features) {\n  const leak = features.find((f) => f.knowsTarget);\n  return leak ? leak.name : 'none';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "une feature connaît la cible → leakage détecté", "kind": "call-equals", "export": "findLeakage", "args": [[{ "name": "age", "knowsTarget": false }, { "name": "date_dernier_paiement", "knowsTarget": true }]], "expected": "date_dernier_paiement" },
+    { "id": "t2", "name": "aucune fuite → none", "kind": "call-equals", "export": "findLeakage", "args": [[{ "name": "age", "knowsTarget": false }, { "name": "ville", "knowsTarget": false }]], "expected": "none" },
+    { "id": "t3", "name": "première fuite renvoyée", "kind": "call-equals", "export": "findLeakage", "args": [[{ "name": "solde_final", "knowsTarget": true }, { "name": "note_client", "knowsTarget": true }]], "expected": "solde_final", "private": true }
+  ]
+}

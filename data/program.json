@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T08:28:39.877Z",
+  "generatedAt": "2026-08-09T09:17:57.519Z",
   "skills": [
     {
       "id": "algo",
@@ -6640,6 +6640,12 @@
       "min": 50,
       "skills": [
         "ml"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "ml-split-choice"
+        }
       ]
     },
     {
@@ -6666,6 +6672,16 @@
       "min": 45,
       "skills": [
         "ml"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "ml-data-leakage"
+        },
+        {
+          "kind": "exercise",
+          "id": "ml-feature-encoding"
+        }
       ]
     },
     {
@@ -6694,6 +6710,16 @@
       "skills": [
         "ml",
         "python"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "ml-split-choice"
+        },
+        {
+          "kind": "exercise",
+          "id": "ml-data-leakage"
+        }
       ]
     },
     {

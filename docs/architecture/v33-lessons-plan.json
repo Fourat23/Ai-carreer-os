@@ -3,8 +3,14 @@
   "baselineRef": "cab7036",
   "note": "Périmètre V33 (cf. ADR-033/HSD-033/TSD-033). Durcissement additif de la chaîne ML → DL → Transformers → LLMOps (leçons au contenu fort, mais sans on-ramp/prérequis/pratique). Le prereq déclare AUSSI les prérequis manquants des leçons niveau-3 pour réduire les warnings concept-without-foundation du Curriculum Graph. Le gate v33:check valide STRUCTURELLEMENT ; il ne juge jamais la profondeur par la longueur. critical : leçons devant porter au moins un practiceRef résolu. prereq : graphe (slug -> [slugs]) validé acyclique. Les arrays se remplissent au fil des CP3->CP7.",
   "newLessons": [],
-  "hardenedLegacy": [],
-  "critical": [],
+  "hardenedLegacy": [
+    "feature-engineering",
+    "scikit-learn-workflow"
+  ],
+  "critical": [
+    "feature-engineering",
+    "scikit-learn-workflow"
+  ],
   "prereq": {
     "feature-engineering": ["machine-learning-basics", "statistics-for-ml"],
     "scikit-learn-workflow": ["machine-learning-basics", "feature-engineering", "model-evaluation"],

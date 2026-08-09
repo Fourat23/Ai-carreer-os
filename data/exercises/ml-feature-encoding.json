@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "ml-feature-encoding",
+  "title": "ML : choisir l'encodage d'une variable catégorielle",
+  "difficulty": 2,
+  "summary": "chooseEncoding(feature) renvoie 'ordinal' si la catégorie a un ordre (ordered: true), sinon 'group-then-one-hot' si la cardinalité est élevée (> 50, sinon la matrice explose), sinon 'one-hot'. Encoder sans imposer de faux ordre, et maîtriser la haute cardinalité. SIMULATION : les propriétés de la feature sont fournies — on code la règle de choix.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Choisit l'encodage d'une variable catégorielle.\n// TODO : renvoyer toujours 'one-hot' impose un faux ordre absent (ordinal) et\n//        fait exploser la matrice sur les hautes cardinalités.\nexport function chooseEncoding(feature) {\n  return 'one-hot';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function chooseEncoding(feature) {\n  if (feature.ordered) return 'ordinal';\n  if (feature.cardinality > 50) return 'group-then-one-hot';\n  return 'one-hot';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "catégorie ordonnée → ordinal", "kind": "call-equals", "export": "chooseEncoding", "args": [{ "ordered": true, "cardinality": 3 }], "expected": "ordinal" },
+    { "id": "t2", "name": "haute cardinalité → regrouper puis one-hot", "kind": "call-equals", "export": "chooseEncoding", "args": [{ "ordered": false, "cardinality": 200 }], "expected": "group-then-one-hot" },
+    { "id": "t3", "name": "catégorie simple sans ordre → one-hot", "kind": "call-equals", "export": "chooseEncoding", "args": [{ "ordered": false, "cardinality": 5 }], "expected": "one-hot", "private": true }
+  ]
+}

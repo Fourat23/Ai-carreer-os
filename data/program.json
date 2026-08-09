@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T09:24:15.979Z",
+  "generatedAt": "2026-08-09T09:25:44.139Z",
   "skills": [
     {
       "id": "algo",
@@ -6698,6 +6698,14 @@
         {
           "kind": "exercise",
           "id": "ml-metric-choice"
+        },
+        {
+          "kind": "exercise",
+          "id": "ml-confusion-metric"
+        },
+        {
+          "kind": "exercise",
+          "id": "ml-overfit-diagnose"
         }
       ]
     },

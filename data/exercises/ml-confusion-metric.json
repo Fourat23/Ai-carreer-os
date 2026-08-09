@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "ml-confusion-metric",
+  "title": "ML : precision & recall depuis une matrice de confusion",
+  "difficulty": 2,
+  "summary": "metrics(cm) où cm={tp, fp, fn, tn} calcule precision = tp/(tp+fp) et recall = tp/(tp+fn), renvoyés en POURCENTAGES entiers arrondis. precision et recall répondent à deux questions différentes (« quand je dis oui, ai-je raison ? » vs « ai-je trouvé tous les oui ? ») et peuvent mener à deux décisions opposées. SIMULATION : les comptes sont fournis (aucun modèle) — le calcul est réellement exécuté en local.",
+  "skills": ["functions", "objects"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// precision et recall (en % entiers) depuis une matrice de confusion.\n// TODO : renvoyer l'accuracy pour les deux champs est faux — precision et\n//        recall ont chacune leur formule et répondent à deux questions.\nexport function metrics(cm) {\n  const acc = Math.round((cm.tp + cm.tn) / (cm.tp + cm.fp + cm.fn + cm.tn) * 100);\n  return { precision: acc, recall: acc };\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function metrics(cm) {\n  return {\n    precision: Math.round(cm.tp / (cm.tp + cm.fp) * 100),\n    recall: Math.round(cm.tp / (cm.tp + cm.fn) * 100),\n  };\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "precision et recall distincts", "kind": "call-equals", "export": "metrics", "args": [{ "tp": 80, "fp": 20, "fn": 40, "tn": 100 }], "expected": { "precision": 80, "recall": 67 } },
+    { "id": "t2", "name": "aucun faux positif → precision 100%", "kind": "call-equals", "export": "metrics", "args": [{ "tp": 5, "fp": 0, "fn": 5, "tn": 90 }], "expected": { "precision": 100, "recall": 50 } },
+    { "id": "t3", "name": "rappel parfait, précision faible (beaucoup de faux positifs)", "kind": "call-equals", "export": "metrics", "args": [{ "tp": 10, "fp": 90, "fn": 0, "tn": 0 }], "expected": { "precision": 10, "recall": 100 }, "private": true }
+  ]
+}

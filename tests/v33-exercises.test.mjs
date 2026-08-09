@@ -19,7 +19,7 @@ const onDisk = new Set(readdirSync(R('data/exercises')).filter((f) => f.endsWith
 const V33_EXERCISES = [
   'ml-data-leakage', 'ml-split-choice', 'ml-feature-encoding',
   'nn-forward-neuron', 'ml-overfit-diagnose',
-  'attention-argmax', 'llm-cost-estimate',
+  'attention-argmax', 'llm-cost-estimate', 'ml-confusion-metric',
 ];
 
 const tmp = mkdtempSync(join(tmpdir(), 'v33x-'));

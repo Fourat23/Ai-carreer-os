@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T20:09:38.495Z",
+  "generatedAt": "2026-08-09T21:14:59.895Z",
   "skills": [
     {
       "id": "algo",
@@ -6182,8 +6182,28 @@
       ]
     },
     {
-      "slug": "css-layout-flexbox-grid",
-      "title": "Mise en page : Flexbox et Grid",
+      "slug": "css-flexbox",
+      "title": "CSS Flexbox : aligner et répartir sur un axe",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "web-nav"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-card"
+        }
+      ]
+    },
+    {
+      "slug": "css-grid",
+      "title": "CSS Grid : organiser en lignes et colonnes",
       "cat": "Frontend : Web Platform",
       "level": 2,
       "min": 50,
@@ -6194,11 +6214,11 @@
       "practiceRefs": [
         {
           "kind": "exercise",
-          "id": "web-nav"
+          "id": "web-card"
         },
         {
           "kind": "exercise",
-          "id": "web-card"
+          "id": "web-nav"
         }
       ]
     },

@@ -1,10 +1,24 @@
 {
   "sprint": "V37",
   "baselineRef": "5f7bdf1",
-  "note": "Périmètre V37 : split css-layout → css-flexbox + css-grid (approfondis), durcissement css-fundamentals/react-accessibility, pratique Web ciblée, chaîne Next.js fondations. Le gate v37:check valide STRUCTURELLEMENT ; il ne juge jamais la profondeur par la longueur.",
-  "newLessons": [],
-  "hardenedLegacy": [],
-  "removedLessons": [],
-  "critical": [],
-  "prereq": {}
+  "note": "Périmètre V37 : split css-layout → css-flexbox + css-grid (approfondis), durcissement css-fundamentals (flux/display/positionnement/overflow) et react-accessibility, pratique Web ciblée, chaîne Next.js fondations. Le gate v37:check valide STRUCTURELLEMENT ; il ne juge jamais la profondeur par la longueur.",
+  "newLessons": [
+    "css-flexbox",
+    "css-grid"
+  ],
+  "hardenedLegacy": [
+    "css-fundamentals"
+  ],
+  "removedLessons": [
+    "css-layout-flexbox-grid"
+  ],
+  "critical": [
+    "css-flexbox",
+    "css-grid"
+  ],
+  "prereq": {
+    "css-flexbox": ["css-fundamentals", "html-semantic-structure"],
+    "css-grid": ["css-fundamentals", "css-flexbox"],
+    "responsive-design": ["css-flexbox", "css-grid", "css-fundamentals"]
+  }
 }

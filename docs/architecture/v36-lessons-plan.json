@@ -5,7 +5,6 @@
   "newLessons": [
     "html-semantic-structure",
     "css-fundamentals",
-    "css-layout-flexbox-grid",
     "responsive-design",
     "web-forms-validation",
     "typescript-frontend",
@@ -18,18 +17,37 @@
     "react-fundamentals"
   ],
   "critical": [
-    "html-semantic-structure",
-    "css-layout-flexbox-grid"
+    "html-semantic-structure"
   ],
   "prereq": {
-    "html-semantic-structure": ["browser-dom-rendering"],
-    "css-fundamentals": ["html-semantic-structure"],
-    "css-layout-flexbox-grid": ["css-fundamentals", "html-semantic-structure"],
-    "responsive-design": ["css-layout-flexbox-grid", "css-fundamentals"],
-    "web-forms-validation": ["html-semantic-structure", "browser-dom-rendering"],
-    "typescript-frontend": ["typescript-basics", "async-javascript"],
-    "react-application-states": ["react-hooks-effects", "react-composition-architecture"],
-    "frontend-testing": ["testing-foundations", "react-fundamentals"],
-    "frontend-performance": ["react-composition-architecture", "caching-performance"]
+    "html-semantic-structure": [
+      "browser-dom-rendering"
+    ],
+    "css-fundamentals": [
+      "html-semantic-structure"
+    ],
+    "responsive-design": [
+      "css-fundamentals"
+    ],
+    "web-forms-validation": [
+      "html-semantic-structure",
+      "browser-dom-rendering"
+    ],
+    "typescript-frontend": [
+      "typescript-basics",
+      "async-javascript"
+    ],
+    "react-application-states": [
+      "react-hooks-effects",
+      "react-composition-architecture"
+    ],
+    "frontend-testing": [
+      "testing-foundations",
+      "react-fundamentals"
+    ],
+    "frontend-performance": [
+      "react-composition-architecture",
+      "caching-performance"
+    ]
   }
 }

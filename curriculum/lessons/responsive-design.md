@@ -18,7 +18,7 @@ cassée sur mobile.
 
 ## 🧩 Prérequis
 Tu dois savoir disposer des éléments avec Flexbox et Grid, et connaître les unités relatives
-(`/doc/lessons/css-layout-flexbox-grid`, `/doc/lessons/css-fundamentals`). Comprendre le box model
+(`/doc/lessons/css-flexbox`, `/doc/lessons/css-grid`, `/doc/lessons/css-fundamentals`). Comprendre le box model
 et `min-width: 0` est indispensable pour diagnostiquer les débordements. Aucune expérience de design
 mobile n'est supposée.
 
@@ -115,7 +115,7 @@ horizontal.
 
 ## 🔗 Liens avec le programme
 Cette leçon clôt le socle Web Platform (`/doc/lessons/html-semantic-structure`,
-`/doc/lessons/css-fundamentals`, `/doc/lessons/css-layout-flexbox-grid`) et irrigue tout le frontend :
+`/doc/lessons/css-fundamentals`, `/doc/lessons/css-flexbox`, `/doc/lessons/css-grid`) et irrigue tout le frontend :
 les interfaces React (`/doc/lessons/react-fundamentals`) et l'accessibilité
 (`/doc/lessons/react-accessibility`) doivent rester utilisables sur tous les écrans. La méthode de
 validation multi-largeurs sert aussi à diagnostiquer les débordements réels de la plateforme.

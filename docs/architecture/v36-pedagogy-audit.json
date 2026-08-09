@@ -57,31 +57,6 @@
       "notes": "Cascade/spécificité/box model/box-sizing expliqués comme des RÈGLES, pas de la magie ; anti !important. Relié à web-inline-style/web-card."
     },
     {
-      "id": "css-layout-flexbox-grid",
-      "kind": "content",
-      "sourcePath": "curriculum/lessons/css-layout-flexbox-grid.md",
-      "recent": true,
-      "scores": {
-        "technical-accuracy": 4,
-        "objective": 4,
-        "prerequisites": 4,
-        "mental-model": 4,
-        "depth": 3,
-        "progression": 4,
-        "guided-example": 4,
-        "autonomous-practice": 3,
-        "feedback": 3,
-        "common-mistakes": 4,
-        "professional-relevance": 4,
-        "evaluation": 3,
-        "cognitive-load": 3,
-        "accessibility": 4,
-        "retention": 3,
-        "track-coherence": 4
-      },
-      "notes": "Flexbox (1D) vs Grid (2D), gap, min-width:0 comme cause n°1 de débordement. Critique. Relié à web-nav/web-card."
-    },
-    {
       "id": "responsive-design",
       "kind": "content",
       "sourcePath": "curriculum/lessons/responsive-design.md",

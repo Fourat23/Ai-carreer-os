@@ -78,6 +78,30 @@ les débordements surprises. La parade quasi universelle :
 Avec `border-box`, `width` inclut padding et bordure : la boîte fait la taille annoncée, sans
 arithmétique mentale. C'est le réglage de base de tout projet sérieux.
 
+### Le flux normal et `display`
+Sans aucune mise en page, le navigateur empile les éléments dans le **flux normal** : les éléments de
+type **bloc** (`<p>`, `<div>`, `<section>`) prennent toute la largeur et s'empilent verticalement ; les
+éléments **en ligne** (`<span>`, `<a>`, `<strong>`) se suivent horizontalement dans le texte. La
+propriété **`display`** change ce comportement : `block`, `inline`, `inline-block` (en ligne mais avec
+largeur/hauteur/marges), `none` (retire l'élément du flux et de l'affichage), et surtout `flex`/`grid`
+(qui activent les systèmes de mise en page, vus dans leurs leçons dédiées). Comprendre le flux normal,
+c'est comprendre l'état PAR DÉFAUT que Flexbox et Grid viennent réorganiser.
+
+### Le positionnement
+`position` sort (partiellement) un élément du flux normal :
+- `static` (défaut) : dans le flux, `top/left` ignorés.
+- `relative` : reste dans le flux mais peut être décalé par rapport à sa position, et sert d'ancrage.
+- `absolute` : retiré du flux, positionné par rapport à l'ancêtre positionné le plus proche.
+- `fixed` : positionné par rapport à la fenêtre (reste visible au défilement).
+- `sticky` : dans le flux, puis « se colle » à un bord au défilement (en-têtes collants).
+Le positionnement sert des cas ciblés (badge, info-bulle, en-tête collant) — **pas** à faire une mise
+en page générale : pour cela, Flexbox et Grid sont les bons outils.
+
+### `overflow` : quand le contenu déborde
+Quand un contenu dépasse la taille de sa boîte, `overflow` décide : `visible` (défaut, ça déborde),
+`hidden` (coupé), `scroll`/`auto` (barre de défilement). Un réflexe clé du responsive : un bloc large
+(code, tableau) reçoit `overflow-x: auto` pour défiler à l'intérieur au lieu d'élargir la page.
+
 ### Les unités
 `px` (pixels, absolus), `%` (relatif au parent), `rem` (relatif à la taille de police racine — idéal
 pour des tailles cohérentes et accessibles), `em` (relatif à l'élément courant). Préfère `rem` pour
@@ -114,7 +138,7 @@ HTML, tu n'ajouterais PAS `!important` : tu réduirais la spécificité de la r�
 
 ## 🔗 Liens avec le programme
 Cette leçon suit `/doc/lessons/html-semantic-structure` (on habille une structure saine) et fonde la
-mise en page (`/doc/lessons/css-layout-flexbox-grid`) et le responsive
+mise en page (`/doc/lessons/css-flexbox`, `/doc/lessons/css-grid`) et le responsive
 (`/doc/lessons/responsive-design`), qui supposent le box model acquis. Les bugs d'overflow que tu
 rencontreras (y compris dans cette plateforme) se diagnostiquent avec ces notions.
 

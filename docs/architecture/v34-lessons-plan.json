@@ -28,6 +28,19 @@
       "pandas-data-wrangling",
       "data-cleaning-quality",
       "error-handling"
+    ],
+    "git-advanced": [
+      "git-fundamentals"
+    ],
+    "caching-performance": [
+      "api-design-basics",
+      "architecture-basics"
+    ],
+    "monitoring-production": [
+      "observability-fundamentals"
+    ],
+    "system-design-interview": [
+      "architecture-basics"
     ]
   }
 }

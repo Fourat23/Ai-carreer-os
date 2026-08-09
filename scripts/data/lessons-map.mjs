@@ -24,6 +24,12 @@ export const LESSONS = [
   { file: 'authentication.md', title: 'Authentification et autorisation', cat: 'Web & backend', level: 2, min: 45, skills: ['secu', 'http'], practiceRefs: [{ kind: 'exercise', id: 'auth-status-decision' }, { kind: 'exercise', id: 'validate-user' }] },
   { file: 'caching-performance.md', title: 'Cache et performance', cat: 'Web & backend', level: 3, min: 45, skills: ['archi', 'se'] },
 
+  // ── Frontend : Web Platform (V36) ──
+  { file: 'html-semantic-structure.md', title: 'HTML sémantique : structurer une page', cat: 'Frontend : Web Platform', level: 1, min: 40, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-semantic' }, { kind: 'exercise', id: 'web-nav' }, { kind: 'exercise', id: 'web-card' }] },
+  { file: 'css-fundamentals.md', title: 'CSS : cascade, spécificité et box model', cat: 'Frontend : Web Platform', level: 1, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-inline-style' }, { kind: 'exercise', id: 'web-card' }] },
+  { file: 'css-layout-flexbox-grid.md', title: 'Mise en page : Flexbox et Grid', cat: 'Frontend : Web Platform', level: 2, min: 50, skills: ['jsts', 'archi'], practiceRefs: [{ kind: 'exercise', id: 'web-nav' }, { kind: 'exercise', id: 'web-card' }] },
+  { file: 'responsive-design.md', title: 'Responsive design : une interface pour tous les écrans', cat: 'Frontend : Web Platform', level: 2, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-nav' }] },
+
   // ── Frontend & React ──
   { file: 'browser-dom-rendering.md', title: 'Le navigateur, le DOM et le rendu', cat: 'Frontend & React', level: 1, min: 45, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'web-semantic' }, { kind: 'exercise', id: 'web-counter' }, { kind: 'exercise', id: 'web-debug-selector' }, { kind: 'exercise', id: 'web-inline-style' }] },
   { file: 'react-fundamentals.md', title: 'React : les fondamentaux', cat: 'Frontend & React', level: 2, min: 50, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'react-hello' }, { kind: 'exercise', id: 'react-greeting' }, { kind: 'exercise', id: 'react-conditional' }, { kind: 'exercise', id: 'react-counter' }, { kind: 'exercise', id: 'react-list' }, { kind: 'exercise', id: 'react-lift-state' }] },

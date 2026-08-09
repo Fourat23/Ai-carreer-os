@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T10:17:19.423Z",
+  "generatedAt": "2026-08-09T15:42:29.256Z",
   "skills": [
     {
       "id": "algo",
@@ -6135,6 +6135,87 @@
       "skills": [
         "archi",
         "se"
+      ]
+    },
+    {
+      "slug": "html-semantic-structure",
+      "title": "HTML sémantique : structurer une page",
+      "cat": "Frontend : Web Platform",
+      "level": 1,
+      "min": 40,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "web-semantic"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-nav"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-card"
+        }
+      ]
+    },
+    {
+      "slug": "css-fundamentals",
+      "title": "CSS : cascade, spécificité et box model",
+      "cat": "Frontend : Web Platform",
+      "level": 1,
+      "min": 45,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "web-inline-style"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-card"
+        }
+      ]
+    },
+    {
+      "slug": "css-layout-flexbox-grid",
+      "title": "Mise en page : Flexbox et Grid",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "min": 50,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "web-nav"
+        },
+        {
+          "kind": "exercise",
+          "id": "web-card"
+        }
+      ]
+    },
+    {
+      "slug": "responsive-design",
+      "title": "Responsive design : une interface pour tous les écrans",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "min": 45,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "web-nav"
+        }
       ]
     },
     {

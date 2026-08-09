@@ -7,6 +7,8 @@ export const dynamic = 'force-dynamic';
 const CAT_ORDER = [
   'Fondations',
   'Web & backend',
+  'Frontend : Web Platform',
+  'Frontend & React',
   'Data & SQL',
   'Software engineering & architecture',
   'Python & ML',

@@ -2,8 +2,21 @@
   "sprint": "V36",
   "baselineRef": "1a15d7d",
   "note": "Périmètre V36 : socle Frontend « Web Platform » (HTML, CSS, layout, responsive, formulaires, TS front) + durcissement React si l'audit le justifie. newLessons/hardenedLegacy/critical/prereq se remplissent au fil des CP3-CP7. Le gate v36:check valide STRUCTURELLEMENT ; il ne juge jamais la profondeur par la longueur.",
-  "newLessons": [],
+  "newLessons": [
+    "html-semantic-structure",
+    "css-fundamentals",
+    "css-layout-flexbox-grid",
+    "responsive-design"
+  ],
   "hardenedLegacy": [],
-  "critical": [],
-  "prereq": {}
+  "critical": [
+    "html-semantic-structure",
+    "css-layout-flexbox-grid"
+  ],
+  "prereq": {
+    "html-semantic-structure": ["browser-dom-rendering"],
+    "css-fundamentals": ["html-semantic-structure"],
+    "css-layout-flexbox-grid": ["css-fundamentals", "html-semantic-structure"],
+    "responsive-design": ["css-layout-flexbox-grid", "css-fundamentals"]
+  }
 }

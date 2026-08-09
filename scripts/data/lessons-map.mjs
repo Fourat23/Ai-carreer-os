@@ -73,7 +73,7 @@ export const LESSONS = [
   { file: 'agents-fundamentals.md', title: 'Agents IA : fondamentaux', cat: 'IA appliquée', level: 2, min: 50, skills: ['agents'], practiceRefs: [{ kind: 'exercise', id: 'agent-tool-select' }, { kind: 'exercise', id: 'agent-state-transition' }] },
   { file: 'agent-workflows-orchestration.md', title: 'Agents avancés et orchestration', cat: 'IA appliquée', level: 3, min: 50, skills: ['agents'], practiceRefs: [{ kind: 'exercise', id: 'agent-loop-detect' }, { kind: 'exercise', id: 'agent-state-transition' }, { kind: 'exercise', id: 'agent-tool-validate' }] },
   { file: 'ai-security.md', title: 'Sécurité des systèmes IA', cat: 'IA appliquée', level: 3, min: 50, skills: ['secu'], practiceRefs: [{ kind: 'exercise', id: 'prompt-injection-classify' }] },
-  { file: 'prompt-injection-defense.md', title: 'Défense contre la prompt injection', cat: 'IA appliquée', level: 3, min: 45, skills: ['secu'] },
+  { file: 'prompt-injection-defense.md', title: 'Défense contre la prompt injection', cat: 'IA appliquée', level: 3, min: 45, skills: ['secu'], practiceRefs: [{ kind: 'exercise', id: 'prompt-injection-classify' }, { kind: 'exercise', id: 'agent-hitl-decision' }] },
   { file: 'llm-cost-optimization.md', title: "Coûts d'inférence : estimer et optimiser", cat: 'IA appliquée', level: 3, min: 40, skills: ['llm', 'cloud'] },
   // ── Observabilité, SRE & fiabilité ──
   { file: 'observability-fundamentals.md', title: 'Observabilité : voir ce qui se passe en production', cat: 'Observabilité, SRE & fiabilité', level: 2, min: 45, skills: ['archi', 'cloud'], practiceRefs: [{ kind: 'exercise', id: 'cloud-observability-gap' }, { kind: 'exercise', id: 'incident-health-rollup' }, { kind: 'exercise', id: 'alert-actionable' }] },

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T08:25:53.607Z",
+  "generatedAt": "2026-08-09T08:27:24.591Z",
   "skills": [
     {
       "id": "algo",
@@ -6946,6 +6946,16 @@
       "min": 45,
       "skills": [
         "secu"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "prompt-injection-classify"
+        },
+        {
+          "kind": "exercise",
+          "id": "agent-hitl-decision"
+        }
       ]
     },
     {

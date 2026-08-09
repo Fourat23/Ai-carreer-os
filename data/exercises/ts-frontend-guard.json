@@ -1,0 +1,74 @@
+{
+  "id": "ts-frontend-guard",
+  "title": "TypeScript frontend : garde de type sur des données d'API",
+  "difficulty": 3,
+  "summary": "Objectif : à la frontière réseau, une donnée est `unknown`, pas `User`. Complète isUser(v: unknown): v is User (types.ts, lecture seule) pour VÉRIFIER la forme, puis userName renvoie le nom si c'est bien un User, sinon « inconnu ». Ne présume jamais du type d'une donnée externe.",
+  "runtime": "typescript",
+  "language": "typescript",
+  "skills": [
+    "typescript",
+    "javascript"
+  ],
+  "activeFile": "solution.ts",
+  "workspace": {
+    "entry": "solution.ts",
+    "files": [
+      {
+        "path": "solution.ts",
+        "content": "import { User } from './types';\n\n// BUG : ce garde accepte TOUT sans rien vérifier.\nexport function isUser(v: unknown): v is User {\n  return true;\n}\n\nexport function userName(v: unknown): string {\n  return isUser(v) ? (v as User).name : 'inconnu';\n}\n"
+      },
+      {
+        "path": "types.ts",
+        "readOnly": true,
+        "content": "// Type attendu — lecture seule.\nexport type User = { id: number; name: string };\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.ts": "import { User } from './types';\n\nexport function isUser(v: unknown): v is User {\n  return typeof v === 'object' && v !== null\n    && typeof (v as Record<string, unknown>).id === 'number'\n    && typeof (v as Record<string, unknown>).name === 'string';\n}\n\nexport function userName(v: unknown): string {\n  return isUser(v) ? v.name : 'inconnu';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "utilisateur valide → son nom",
+      "kind": "call-equals",
+      "export": "userName",
+      "args": [{ "id": 1, "name": "Ada" }],
+      "expected": "Ada"
+    },
+    {
+      "id": "t2",
+      "name": "pas un objet → inconnu",
+      "kind": "call-equals",
+      "export": "userName",
+      "args": ["pas un objet"],
+      "expected": "inconnu"
+    },
+    {
+      "id": "t3",
+      "name": "nom manquant → inconnu",
+      "kind": "call-equals",
+      "export": "userName",
+      "args": [{ "id": 1 }],
+      "expected": "inconnu"
+    },
+    {
+      "id": "t4",
+      "name": "null → inconnu",
+      "kind": "call-equals",
+      "export": "userName",
+      "args": [null],
+      "expected": "inconnu",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "id du mauvais type → inconnu",
+      "kind": "call-equals",
+      "export": "userName",
+      "args": [{ "id": "x", "name": "Bob" }],
+      "expected": "inconnu",
+      "private": true
+    }
+  ]
+}

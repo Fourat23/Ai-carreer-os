@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T20:00:13.795Z",
+  "generatedAt": "2026-08-09T20:05:23.093Z",
   "skills": [
     {
       "id": "algo",
@@ -6250,15 +6250,15 @@
       "practiceRefs": [
         {
           "kind": "exercise",
+          "id": "ts-frontend-guard"
+        },
+        {
+          "kind": "exercise",
           "id": "ts-union-area"
         },
         {
           "kind": "exercise",
           "id": "ts-interface-cart"
-        },
-        {
-          "kind": "exercise",
-          "id": "ts-pluck"
         },
         {
           "kind": "exercise",
@@ -6398,6 +6398,10 @@
         "archi"
       ],
       "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "react-reducer-actions"
+        },
         {
           "kind": "exercise",
           "id": "react-search"

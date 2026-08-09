@@ -1,0 +1,68 @@
+{
+  "id": "react-reducer-actions",
+  "title": "React : un reducer pur (actions → nouvel état)",
+  "difficulty": 2,
+  "summary": "Objectif : modéliser un état complexe avec un reducer PUR, comme useReducer. Complète reducer(state, action) : « inc » ajoute le pas (state.step) au compteur, « setStep » change le pas, « reset » remet count à 0 ET step à 1. Retourne toujours un NOUVEL objet (jamais de mutation), et l'état inchangé pour une action inconnue.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "javascript"
+  ],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Un reducer pur : (state, action) => nouvel état. Aucune mutation.\nexport function reducer(state, action) {\n  switch (action.type) {\n    case 'inc':\n      // BUG : ajoute 1 au lieu du pas (state.step).\n      return { ...state, count: state.count + 1 };\n    case 'setStep':\n      return { ...state, step: action.step };\n    case 'reset':\n      // BUG : ne réinitialise pas le pas.\n      return { ...state, count: 0 };\n    default:\n      return state;\n  }\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function reducer(state, action) {\n  switch (action.type) {\n    case 'inc':\n      return { ...state, count: state.count + state.step };\n    case 'setStep':\n      return { ...state, step: action.step };\n    case 'reset':\n      return { count: 0, step: 1 };\n    default:\n      return state;\n  }\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "inc ajoute le pas",
+      "kind": "call-equals",
+      "export": "reducer",
+      "args": [{ "count": 0, "step": 2 }, { "type": "inc" }],
+      "expected": { "count": 2, "step": 2 }
+    },
+    {
+      "id": "t2",
+      "name": "reset remet count ET step",
+      "kind": "call-equals",
+      "export": "reducer",
+      "args": [{ "count": 5, "step": 3 }, { "type": "reset" }],
+      "expected": { "count": 0, "step": 1 }
+    },
+    {
+      "id": "t3",
+      "name": "setStep change le pas",
+      "kind": "call-equals",
+      "export": "reducer",
+      "args": [{ "count": 0, "step": 1 }, { "type": "setStep", "step": 5 }],
+      "expected": { "count": 0, "step": 5 }
+    },
+    {
+      "id": "t4",
+      "name": "inc respecte un grand pas",
+      "kind": "call-equals",
+      "export": "reducer",
+      "args": [{ "count": 10, "step": 4 }, { "type": "inc" }],
+      "expected": { "count": 14, "step": 4 },
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "action inconnue → état inchangé",
+      "kind": "call-equals",
+      "export": "reducer",
+      "args": [{ "count": 1, "step": 1 }, { "type": "???" }],
+      "expected": { "count": 1, "step": 1 },
+      "private": true
+    }
+  ]
+}

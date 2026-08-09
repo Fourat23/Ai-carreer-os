@@ -7,13 +7,17 @@
     "feature-engineering",
     "scikit-learn-workflow",
     "neural-networks",
-    "transformers"
+    "transformers",
+    "llm-cost-optimization",
+    "llm-observability"
   ],
   "critical": [
     "feature-engineering",
     "scikit-learn-workflow",
     "neural-networks",
-    "transformers"
+    "transformers",
+    "llm-cost-optimization",
+    "llm-observability"
   ],
   "prereq": {
     "feature-engineering": ["machine-learning-basics", "statistics-for-ml"],

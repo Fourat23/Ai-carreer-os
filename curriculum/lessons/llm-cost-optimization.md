@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — Coûts d'inférence : estimer et optimiser
 
+## 🌍 Le problème d'abord
+Ton prototype d'assistant IA marche à merveille sur ton écran. Tu le mets en ligne, quelques
+centaines d'utilisateurs l'essaient… et à la fin du mois, la facture te fait tomber de ta
+chaise. Ce qui semblait « gratuit » en démo se paie, à chaque appel, dans les deux sens :
+chaque mot envoyé au modèle ET chaque mot qu'il répond coûte. Un RAG qui injecte trois pages
+de contexte à chaque question peut coûter cent fois plus qu'une simple question. Le vrai
+enjeu n'est pas « comment payer moins » en aveugle, mais savoir ESTIMER le coût AVANT de
+lancer, comprendre OÙ partent les tokens, et arbitrer sciemment entre qualité, coût et
+latence. Cette leçon te donne cette compétence d'ingénieur que peu de juniors possèdent.
+
 ## 🎯 Objectif
 Savoir ESTIMER le coût d'un système LLM avant de le lancer, identifier où partent les tokens, et appliquer les leviers d'optimisation (contexte, cache, modèle, batch). La maîtrise des coûts est une compétence d'ingénieur que peu de juniors ont — et une question d'entretien de plus en plus fréquente.
 
 ## 🧠 Modèle mental
 Un appel LLM, c'est **un compteur de taxi : tu paies au token, dans les deux sens** (entrée ET sortie). L'entrée domine presque toujours dans un RAG (le contexte injecté est gros). Optimiser les coûts = raccourcir les trajets, pas supprimer les courses.
+
+## 🧩 Prérequis
+Tu dois savoir ce qu'est un LLM, un token et la fenêtre de contexte
+(`/doc/lessons/llm-fundamentals`), et comment un RAG injecte du contexte récupéré dans le
+prompt — la principale source de tokens d'entrée (`/doc/lessons/rag-fundamentals`). Des bases
+d'arithmétique suffisent : le coût est une multiplication (tokens × prix) sommée sur les
+appels. Aucun fournisseur particulier n'est supposé ; les prix sont des paramètres.
 
 ## 📖 Explication complète
 - **La formule** : coût = tokens_entrée × prix_entrée + tokens_sortie × prix_sortie, sommé sur les appels. Les prix (par million de tokens) varient fortement selon le modèle — et la sortie coûte typiquement plus cher que l'entrée.

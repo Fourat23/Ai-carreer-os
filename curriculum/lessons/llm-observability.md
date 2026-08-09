@@ -1,11 +1,29 @@
 <!-- keep -->
 # Leçon — LLMOps : observer un système LLM en production
 
+## 🌍 Le problème d'abord
+Ton système LLM tourne en production. Un client se plaint : « la réponse était fausse hier
+soir ». Tu ouvres ton code… et tu n'as AUCUNE trace de ce qui s'est passé : quel prompt, quel
+modèle, quel contexte récupéré, combien ça a coûté, combien de temps. Pire : quelqu'un a
+changé le prompt la semaine dernière et tu ne sais pas si la qualité a baissé depuis. Un
+système LLM n'est pas un logiciel classique déterministe : chaque appel est unique, coûteux et
+non reproductible. Sans instrumentation, tu es aveugle — incapable d'expliquer une facture, un
+bug ou une régression. Cette leçon montre comment donner à chaque appel un « reçu » et suivre
+la santé du système dans le temps, pour le faire VIVRE et pas seulement le lancer.
+
 ## 🎯 Objectif
 Savoir instrumenter un système LLM : tracer chaque appel (prompt, version, tokens, coût, latence), relier les traces aux évaluations, détecter les régressions et la dérive. « LLMOps » = faire vivre un système IA dans le temps, pas juste le lancer.
 
 ## 🧠 Modèle mental
 Un appel LLM est **une transaction coûteuse et non déterministe** : comme une transaction bancaire, chacune mérite un REÇU (qui, quoi, combien, résultat). Sans reçus, impossible d'expliquer une facture, un bug ou une baisse de qualité.
+
+## 🧩 Prérequis
+Tu dois comprendre les principes d'observabilité (logs, métriques, traces, corrélation par
+identifiant) vus côté systèmes (`/doc/lessons/observability-fundamentals`), et ce qu'est un
+appel LLM avec ses tokens et son coût (`/doc/lessons/llm-fundamentals`,
+`/doc/lessons/llm-cost-optimization`). Les notions d'évaluation par version (golden set,
+régression) éclairent le suivi de qualité (`/doc/lessons/ai-evaluation`). Aucun outil
+propriétaire n'est supposé.
 
 ## 📖 Explication complète
 Ce qu'on trace PAR APPEL (le « reçu ») : requestId (corrélation), version du prompt, modèle utilisé, tokens entrée/sortie, coût calculé, latence, statut (ok / parse-fail / retry / refus), et — si non sensible — un échantillon des entrées/sorties pour le debug.

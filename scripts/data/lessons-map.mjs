@@ -74,7 +74,7 @@ export const LESSONS = [
   { file: 'agent-workflows-orchestration.md', title: 'Agents avancés et orchestration', cat: 'IA appliquée', level: 3, min: 50, skills: ['agents'], practiceRefs: [{ kind: 'exercise', id: 'agent-loop-detect' }, { kind: 'exercise', id: 'agent-state-transition' }, { kind: 'exercise', id: 'agent-tool-validate' }, { kind: 'exercise', id: 'agent-retry-policy' }] },
   { file: 'ai-security.md', title: 'Sécurité des systèmes IA', cat: 'IA appliquée', level: 3, min: 50, skills: ['secu'], practiceRefs: [{ kind: 'exercise', id: 'prompt-injection-classify' }] },
   { file: 'prompt-injection-defense.md', title: 'Défense contre la prompt injection', cat: 'IA appliquée', level: 3, min: 45, skills: ['secu'], practiceRefs: [{ kind: 'exercise', id: 'prompt-injection-classify' }, { kind: 'exercise', id: 'agent-hitl-decision' }] },
-  { file: 'llm-cost-optimization.md', title: "Coûts d'inférence : estimer et optimiser", cat: 'IA appliquée', level: 3, min: 40, skills: ['llm', 'cloud'] },
+  { file: 'llm-cost-optimization.md', title: "Coûts d'inférence : estimer et optimiser", cat: 'IA appliquée', level: 3, min: 40, skills: ['llm', 'cloud'], practiceRefs: [{ kind: 'exercise', id: 'llm-cost-estimate' }] },
   // ── Observabilité, SRE & fiabilité ──
   { file: 'observability-fundamentals.md', title: 'Observabilité : voir ce qui se passe en production', cat: 'Observabilité, SRE & fiabilité', level: 2, min: 45, skills: ['archi', 'cloud'], practiceRefs: [{ kind: 'exercise', id: 'cloud-observability-gap' }, { kind: 'exercise', id: 'incident-health-rollup' }, { kind: 'exercise', id: 'alert-actionable' }] },
   { file: 'logging-structured.md', title: 'Logs structurés et correlation ID', cat: 'Observabilité, SRE & fiabilité', level: 2, min: 40, skills: ['archi', 'secu'], practiceRefs: [{ kind: 'exercise', id: 'cicd-mask-secrets' }] },
@@ -127,7 +127,7 @@ export const LESSONS = [
   { file: 'docker-containers.md', title: 'Docker et conteneurs', cat: 'Production & DevOps', level: 2, min: 45, skills: ['cloud'] },
   { file: 'ci-cd.md', title: 'Intégration continue (CI/CD)', cat: 'Production & DevOps', level: 2, min: 40, skills: ['cloud'] },
   { file: 'monitoring-production.md', title: 'Monitoring et production', cat: 'Production & DevOps', level: 3, min: 45, skills: ['cloud', 'archi'] },
-  { file: 'llm-observability.md', title: 'LLMOps : observer un système LLM', cat: 'Production & DevOps', level: 3, min: 45, skills: ['cloud', 'llm'] },
+  { file: 'llm-observability.md', title: 'LLMOps : observer un système LLM', cat: 'Production & DevOps', level: 3, min: 45, skills: ['cloud', 'llm'], practiceRefs: [{ kind: 'exercise', id: 'llm-cost-estimate' }] },
   // ── Portfolio & carrière ──
   { file: 'readme-documentation.md', title: 'Le README recruteur', cat: 'Portfolio & carrière', level: 1, min: 35, skills: ['comm'] },
   { file: 'portfolio-github.md', title: 'Portfolio technique GitHub', cat: 'Portfolio & carrière', level: 1, min: 35, skills: ['comm'] },

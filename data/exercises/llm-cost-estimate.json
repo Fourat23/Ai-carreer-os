@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "llm-cost-estimate",
+  "title": "LLMOps : estimer le coût d'un appel LLM",
+  "difficulty": 2,
+  "summary": "estimateCents(usage) calcule le coût d'un appel en centimes : inTokens/1000 × prix d'entrée + outTokens/1000 × prix de sortie (prix en centimes pour 1000 tokens), arrondi à l'entier. On paie l'entrée ET la sortie : ignorer la sortie sous-estime gravement la facture. SIMULATION : les tokens et prix sont fournis (aucun appel réel) — le calcul est réellement exécuté en local.",
+  "skills": ["functions", "objects", "conditions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Estime le coût (centimes) d'un appel LLM à partir des tokens et des prix.\n// TODO : ne compter que l'entrée sous-estime la facture — la SORTIE se paie\n//        aussi, et souvent plus cher.\nexport function estimateCents(usage) {\n  return Math.round(usage.inTokens / 1000 * usage.inPricePer1kCents);\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function estimateCents(usage) {\n  const input = usage.inTokens / 1000 * usage.inPricePer1kCents;\n  const output = usage.outTokens / 1000 * usage.outPricePer1kCents;\n  return Math.round(input + output);\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "entrée + sortie comptées", "kind": "call-equals", "export": "estimateCents", "args": [{ "inTokens": 1500, "outTokens": 500, "inPricePer1kCents": 30, "outPricePer1kCents": 60 }], "expected": 75 },
+    { "id": "t2", "name": "sortie nulle → coût d'entrée seul", "kind": "call-equals", "export": "estimateCents", "args": [{ "inTokens": 2000, "outTokens": 0, "inPricePer1kCents": 25, "outPricePer1kCents": 75 }], "expected": 50 },
+    { "id": "t3", "name": "sortie chère domine le coût", "kind": "call-equals", "export": "estimateCents", "args": [{ "inTokens": 1000, "outTokens": 1000, "inPricePer1kCents": 10, "outPricePer1kCents": 90 }], "expected": 100, "private": true }
+  ]
+}

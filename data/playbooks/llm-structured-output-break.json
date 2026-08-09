@@ -1,0 +1,70 @@
+{
+  "id": "llm-structured-output-break",
+  "domain": "ai",
+  "severityHint": "élevée",
+  "situation": "Le modèle respecte le JSON attendu 95 % du temps, mais casse la production sur les 5 % restants (champ manquant, mauvais type, texte autour du JSON).",
+  "dayRefs": [
+    215,
+    220
+  ],
+  "relatedGlossary": [
+    "structured output",
+    "schema validation",
+    "retry"
+  ],
+  "symptoms": [
+    "Exceptions de parsing intermittentes en aval.",
+    "Champs manquants ou mauvais types passés à du code qui suppose la validité.",
+    "Erreurs corrélées à certaines entrées/formulations."
+  ],
+  "firstChecks": [
+    "La sortie est-elle parsée dans un try/catch puis validée contre un schéma ?",
+    "Y a-t-il un retry en renvoyant l'erreur au modèle ?",
+    "Le code en aval suppose-t-il aveuglément la structure ?"
+  ],
+  "containment": [
+    "Rejeter proprement les sorties non conformes au lieu de planter.",
+    "Basculer sur une valeur par défaut / file de reprise pour les cas invalides."
+  ],
+  "recommendedOrder": [
+    "Sécuriser la frontière (valider avant usage), puis ajouter retry, puis corriger le prompt."
+  ],
+  "communication": [
+    "Signaler le taux d'échec réel et l'impact sur les fonctionnalités en aval."
+  ],
+  "evidence": [
+    "Collecter les sorties brutes fautives (les 5 %).",
+    "Mesurer le taux d'échec par type d'entrée."
+  ],
+  "doNot": [
+    "Faire confiance à « réponds en JSON » sans valider.",
+    "Corriger au cas par cas côté aval au lieu de valider à la frontière."
+  ],
+  "mitigation": [
+    "Parser + valider contre un schéma + retry avec le message d'erreur.",
+    "Contrat de type strict avant toute utilisation en aval."
+  ],
+  "correction": [
+    "Renforcer le prompt (exemple, contraintes) ET garder la validation.",
+    "Ajouter les cas fautifs à un banc d'essai."
+  ],
+  "validation": [
+    "Rejouer les 5 % fautifs : ils sont rejetés/retentés proprement, plus aucun plantage."
+  ],
+  "delivery": [
+    "Déployer la validation + retry, suivre le taux de conformité."
+  ],
+  "monitoring": [
+    "Alerter sur taux de sorties invalides et sur les retries répétés."
+  ],
+  "documentation": [
+    "Post-mortem : frontière non validée, contrat ajouté, banc d'essai."
+  ],
+  "prevention": [
+    "Ne jamais consommer une sortie LLM sans validation de schéma + retry.",
+    "Banc d'essai avec cas pièges avant mise en production."
+  ],
+  "exitCriteria": [
+    "0 plantage sur les cas fautifs rejoués, taux de conformité mesuré, alerte active."
+  ]
+}

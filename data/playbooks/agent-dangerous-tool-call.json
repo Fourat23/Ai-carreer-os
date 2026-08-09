@@ -1,0 +1,75 @@
+{
+  "id": "agent-dangerous-tool-call",
+  "domain": "agents",
+  "severityHint": "critique",
+  "situation": "Un agent choisit le mauvais outil ou l'appelle avec des arguments dangereux (suppression, envoi massif), au-delà de ce qu'il devrait pouvoir faire.",
+  "dayRefs": [
+    274,
+    287
+  ],
+  "relatedGlossary": [
+    "excessive agency",
+    "least privilege",
+    "human-in-the-loop",
+    "tool calling"
+  ],
+  "symptoms": [
+    "Un outil sensible est appelé sans validation attendue.",
+    "Des arguments hors périmètre (chemin, montant, destinataire) apparaissent.",
+    "Une action irréversible a été tentée ou exécutée."
+  ],
+  "firstChecks": [
+    "Les arguments de l'appel ont-ils été validés (type, enum, champ inconnu) ?",
+    "L'outil aurait-il dû exiger une confirmation humaine ?",
+    "L'agent avait-il vraiment besoin de cet outil (moindre privilège) ?"
+  ],
+  "containment": [
+    "Révoquer l'accès de l'agent à l'outil concerné.",
+    "Suspendre les actions irréversibles derrière une confirmation humaine.",
+    "Geler l'exécution le temps de l'analyse."
+  ],
+  "recommendedOrder": [
+    "Couper l'accès à l'outil, évaluer l'impact réel, puis durcir la validation avant réactivation."
+  ],
+  "communication": [
+    "Alerter sécurité + propriétaire du système impacté.",
+    "Décrire l'action tentée/exécutée et son périmètre."
+  ],
+  "evidence": [
+    "Conserver l'appel d'outil complet (nom, arguments, résultat).",
+    "Tracer la décision qui a mené à cet appel."
+  ],
+  "doNot": [
+    "Laisser l'outil accessible « le temps de comprendre ».",
+    "Traiter un contenu récupéré comme une instruction fiable.",
+    "Donner un outil large « au cas où »."
+  ],
+  "mitigation": [
+    "Validation stricte des arguments avant exécution.",
+    "Moindre privilège : outils étroits, pas de « exécute du shell ».",
+    "Confirmation humaine sur toute action irréversible/sensible."
+  ],
+  "correction": [
+    "Restreindre le catalogue d'outils de l'agent au strict nécessaire.",
+    "Ajouter une allowlist et une étape human-in-the-loop."
+  ],
+  "validation": [
+    "Rejouer le scénario : l'argument dangereux est rejeté, l'action sensible escaladée."
+  ],
+  "delivery": [
+    "Réactiver l'outil derrière la validation + confirmation, surveiller les rejets."
+  ],
+  "monitoring": [
+    "Journaliser tout appel d'outil sensible et tout rejet d'arguments."
+  ],
+  "documentation": [
+    "Post-mortem : privilège excessif identifié, garde-fous ajoutés."
+  ],
+  "prevention": [
+    "Principe du moindre privilège par défaut, revue des permissions d'outils.",
+    "Validation d'arguments systématique + HITL sur actions à fort enjeu."
+  ],
+  "exitCriteria": [
+    "Outils réduits au nécessaire, arguments validés, actions sensibles sous confirmation."
+  ]
+}

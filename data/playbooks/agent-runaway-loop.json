@@ -1,0 +1,74 @@
+{
+  "id": "agent-runaway-loop",
+  "domain": "agents",
+  "severityHint": "élevée",
+  "situation": "Un agent en production tourne sans jamais terminer : il répète les mêmes actions, la facture grimpe, aucune réponse ne sort.",
+  "dayRefs": [
+    274,
+    287
+  ],
+  "relatedGlossary": [
+    "agent loop",
+    "budget",
+    "guardrail"
+  ],
+  "symptoms": [
+    "La même action (ou le cycle A→B→A→B) se répète dans les traces.",
+    "Le coût et la latence explosent sans réponse finale.",
+    "Le nombre d'itérations dépasse tout ordre de grandeur attendu."
+  ],
+  "firstChecks": [
+    "Y a-t-il un budget d'itérations (maxSteps) et est-il atteint ?",
+    "Les traces montrent-elles une action répétée à l'identique ?",
+    "L'outil renvoie-t-il toujours la même erreur non gérée ?"
+  ],
+  "containment": [
+    "Couper l'agent (kill switch) ou forcer l'arrêt propre.",
+    "Plafonner immédiatement maxSteps et le budget de coût.",
+    "Basculer sur une réponse dégradée ou une escalade humaine."
+  ],
+  "recommendedOrder": [
+    "Arrêter l'agent, borner le budget, puis analyser les traces avant de relancer."
+  ],
+  "communication": [
+    "Prévenir l'équipe et, si visible, les utilisateurs (réponse retardée).",
+    "Indiquer le coût déjà consommé et la mesure de coupure prise."
+  ],
+  "evidence": [
+    "Conserver la trace complète (pensées, appels, observations) de la boucle.",
+    "Noter le nombre d'itérations et le coût cumulé."
+  ],
+  "doNot": [
+    "Relancer tel quel en espérant que « ça passe ».",
+    "Augmenter le budget sans comprendre la cause.",
+    "Supprimer les traces qui documentent la boucle."
+  ],
+  "mitigation": [
+    "Détection d'état répété (arrêt sur cycle) en plus de maxSteps.",
+    "Budget de coût et de temps avec arrêt propre + raison."
+  ],
+  "correction": [
+    "Corriger la cause : outil qui échoue en boucle, objectif mal posé, condition de terminaison absente.",
+    "Ajouter une transition d'échec explicite vers ASK_HUMAN ou FAILED."
+  ],
+  "validation": [
+    "Rejouer le cas sur la trace capturée : l'agent s'arrête désormais avec une raison.",
+    "Vérifier que le budget borne le pire cas."
+  ],
+  "delivery": [
+    "Déployer le correctif derrière le garde-fou de budget, surveiller le taux de terminaison."
+  ],
+  "monitoring": [
+    "Alerter sur itérations > seuil, coût/exécution > seuil, taux de non-terminaison."
+  ],
+  "documentation": [
+    "Post-mortem : cause de la boucle, garde-fou ajouté, seuils retenus."
+  ],
+  "prevention": [
+    "maxSteps + détection de répétition + budget par défaut sur tout agent.",
+    "Mesurer le taux de réussite sur des cas répétés avant mise en production."
+  ],
+  "exitCriteria": [
+    "Aucune boucle observée sur les cas rejoués, budgets en place, alerte active."
+  ]
+}

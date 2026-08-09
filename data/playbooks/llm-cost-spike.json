@@ -1,0 +1,69 @@
+{
+  "id": "llm-cost-spike",
+  "domain": "ai",
+  "severityHint": "élevée",
+  "situation": "Les coûts d'un workflow LLM explosent soudainement : la facture dérape sans hausse d'usage proportionnelle.",
+  "dayRefs": [
+    280,
+    287
+  ],
+  "relatedGlossary": [
+    "budget",
+    "agent loop",
+    "top-k"
+  ],
+  "symptoms": [
+    "Coût par requête ou coût total en forte hausse.",
+    "Contexte de plus en plus gros (historique d'agent, top-k élevé).",
+    "Nombre d'appels par tâche anormalement élevé."
+  ],
+  "firstChecks": [
+    "Une boucle d'agent tourne-t-elle plus que prévu (itérations) ?",
+    "Le contexte enfle-t-il (historique non élagué, top-k trop grand) ?",
+    "Un changement récent (prompt, retrieval, modèle) coïncide-t-il ?"
+  ],
+  "containment": [
+    "Plafonner budget et itérations, réduire top-k, borner la taille du contexte.",
+    "Basculer les tâches simples sur un modèle moins cher (routage)."
+  ],
+  "recommendedOrder": [
+    "Borner les budgets, identifier le poste de coût dominant, puis optimiser."
+  ],
+  "communication": [
+    "Informer les responsables du coût et de la mesure de plafonnement prise."
+  ],
+  "evidence": [
+    "Ventiler le coût par étape (retrieval, génération, itérations d'agent).",
+    "Comparer avant/après le dernier changement."
+  ],
+  "doNot": [
+    "Augmenter les quotas sans trouver la cause.",
+    "Optimiser au feeling sans mesurer le poste dominant."
+  ],
+  "mitigation": [
+    "Budgets par tâche, élagage/résumé de l'historique, top-k raisonnable.",
+    "Routage : petit modèle pour les cas simples, cache des réponses fréquentes."
+  ],
+  "correction": [
+    "Corriger la cause (boucle, contexte, top-k, modèle surdimensionné).",
+    "Réviser l'architecture du workflow si le fan-out est excessif."
+  ],
+  "validation": [
+    "Re-mesurer le coût par tâche : retour sous le seuil attendu."
+  ],
+  "delivery": [
+    "Déployer avec budgets actifs, suivre le coût par tâche."
+  ],
+  "monitoring": [
+    "Alerter sur coût/tâche, taille de contexte, itérations moyennes."
+  ],
+  "documentation": [
+    "Post-mortem : poste de coût dominant, optimisation, budget retenu."
+  ],
+  "prevention": [
+    "Budgets par défaut, mesure du coût par étape, routage et cache dès la conception."
+  ],
+  "exitCriteria": [
+    "Coût par tâche sous le seuil, budgets et alertes en place."
+  ]
+}

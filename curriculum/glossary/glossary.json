@@ -17966,5 +17966,362 @@
       "agents",
       "sécurité"
     ]
+  },
+  {
+    "id": "ai-function-calling",
+    "term": "function calling",
+    "fullForm": null,
+    "frenchMeaning": "appel de fonction (le modèle DEMANDE une action, le code l'exécute)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Mécanisme où un LLM, au lieu de répondre en texte, renvoie une demande structurée d'appel d'outil que TON code exécute.",
+    "detailedDefinition": "Le modèle ne fait qu'exprimer une intention (« appelle get_weather(ville=\"Paris\") ») ; c'est ton code qui reçoit la demande, valide les arguments, exécute, et rend le résultat. Point clé : le modèle N'EXÉCUTE rien — tu gardes le contrôle (validation, moindre privilège, timeout). C'est la brique de base des agents. Synonyme courant : tool calling.",
+    "usageContext": "Agents, outils, extraction structurée.",
+    "meetingExample": "« Le modèle demande l'outil, notre code l'exécute et valide les arguments. »",
+    "plainTranslation": "« Le modèle dit quelle action il veut ; c'est notre programme qui la fait vraiment. »",
+    "relatedTerms": [
+      "ai-tool-calling",
+      "ai-tool-schema",
+      "ai-agent"
+    ],
+    "aliases": [
+      "appel de fonction",
+      "function call"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "agents"
+    ]
+  },
+  {
+    "id": "ai-tool-schema",
+    "term": "tool schema",
+    "fullForm": null,
+    "frenchMeaning": "schéma d'outil (contrat : nom, description, paramètres typés)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "La déclaration qui décrit un outil au modèle : nom, rôle, et paramètres typés qu'il attend.",
+    "detailedDefinition": "Décrire un outil à un LLM, c'est de la conception d'API dont le consommateur est un modèle : la qualité de la description détermine la qualité d'usage. Le schéma des paramètres (types, enum, requis) sert AUSSI à valider côté code les arguments proposés par le modèle avant exécution.",
+    "usageContext": "Function calling, agents, validation d'arguments.",
+    "meetingExample": "« On a resserré le tool schema : types stricts et enum, la validation rejette les arguments douteux. »",
+    "plainTranslation": "« La fiche technique d'un outil que le modèle lit pour savoir comment l'appeler. »",
+    "relatedTerms": [
+      "ai-function-calling",
+      "ai-tool-calling",
+      "ai-structured-output"
+    ],
+    "aliases": [
+      "schéma d'outil"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "agents"
+    ]
+  },
+  {
+    "id": "ai-agent-state-machine",
+    "term": "agent state machine",
+    "fullForm": null,
+    "frenchMeaning": "machine à états d'un agent (états explicites + transitions légales)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Modéliser un agent comme une suite d'états explicites (THINK, SELECT_TOOL, VALIDATE, EXECUTE, OBSERVE…) reliés par des transitions autorisées.",
+    "detailedDefinition": "Un agent bien conçu n'est pas un while flou : c'est une machine à états où chaque transition (état, événement) est légale ou non. Une transition illégale est un bug rattrapable (état FAILED), pas un comportement silencieux. Cela rend l'agent débuggable, testable et prévisible.",
+    "usageContext": "Orchestration d'agents, fiabilité, débogage.",
+    "meetingExample": "« On a formalisé l'agent en machine à états : les transitions illégales tombent en FAILED, plus de comportement fantôme. »",
+    "plainTranslation": "« Un plan de vol de l'agent : des étapes précises et les passages autorisés entre elles. »",
+    "relatedTerms": [
+      "ai-agent",
+      "ai-agent-loop",
+      "ai-termination-condition"
+    ],
+    "aliases": [
+      "machine à états d'agent"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "agents"
+    ]
+  },
+  {
+    "id": "ai-termination-condition",
+    "term": "termination condition",
+    "fullForm": null,
+    "frenchMeaning": "condition de terminaison (quand un agent doit s'arrêter)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "La règle qui décide qu'un agent doit s'arrêter : objectif atteint, budget épuisé, ou boucle détectée.",
+    "detailedDefinition": "Sans condition de terminaison explicite, un agent peut tourner indéfiniment (facture qui court). On combine : succès (objectif atteint), échec (impasse), budget (maxSteps / coût / temps), et détection de boucle (action répétée). Chaque arrêt doit produire une RAISON.",
+    "usageContext": "Boucle d'agent, budgets, fiabilité.",
+    "meetingExample": "« Chaque exécution se termine avec une raison : succès, échec, ou budget épuisé. »",
+    "plainTranslation": "« La règle qui dit à l'agent : maintenant, tu t'arrêtes. »",
+    "relatedTerms": [
+      "ai-agent-loop",
+      "ai-agent-state-machine"
+    ],
+    "aliases": [
+      "condition de terminaison",
+      "max steps",
+      "budget d'itérations"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "agents"
+    ]
+  },
+  {
+    "id": "ai-idempotency-key",
+    "term": "idempotency key",
+    "fullForm": null,
+    "frenchMeaning": "clé d'idempotence (identifiant unique protégeant contre le doublon)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Un identifiant unique attaché à une opération pour que sa répétition (retry) ne l'exécute qu'une fois.",
+    "detailedDefinition": "Le client génère une clé unique par opération ; le serveur mémorise les clés déjà traitées et ignore (ou renvoie le même résultat pour) une clé déjà vue. C'est le mécanisme concret qui rend une action idempotente face aux retries d'un agent.",
+    "usageContext": "Paiements, envois, toute action à effet de bord réessayée.",
+    "meetingExample": "« Chaque appel porte une idempotency key ; le doublon est détecté et ignoré. »",
+    "plainTranslation": "« Un ticket unique par action, pour ne jamais la faire deux fois par erreur. »",
+    "relatedTerms": [
+      "dev-idempotency",
+      "ai-agent-loop"
+    ],
+    "aliases": [
+      "clé d'idempotence"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "agents",
+      "fiabilité"
+    ]
+  },
+  {
+    "id": "ai-backoff",
+    "term": "backoff",
+    "fullForm": null,
+    "frenchMeaning": "backoff (attendre de plus en plus longtemps entre les tentatives)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Stratégie de retry où le délai d'attente augmente (souvent exponentiellement) à chaque nouvelle tentative.",
+    "detailedDefinition": "Réessayer immédiatement en boucle aggrave une surcharge (rate limit). Le backoff attend de plus en plus longtemps (1s, 2s, 4s…) pour laisser le système récupérer. On l'applique aux erreurs TRANSITOIRES (rate-limit, timeout), jamais aux erreurs non-retryable (argument invalide, permission refusée).",
+    "usageContext": "Retries d'agent, appels d'outils, résilience.",
+    "meetingExample": "« Retry avec backoff exponentiel sur les rate limits, pas sur les erreurs 4xx. »",
+    "plainTranslation": "« Si ça rate, réessayer en attendant à chaque fois un peu plus longtemps. »",
+    "relatedTerms": [
+      "ai-jitter",
+      "dev-idempotency",
+      "ai-agent-loop"
+    ],
+    "aliases": [
+      "backoff exponentiel",
+      "temporisation"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "fiabilité"
+    ]
+  },
+  {
+    "id": "ai-jitter",
+    "term": "jitter",
+    "fullForm": null,
+    "frenchMeaning": "jitter (aléa ajouté au délai de retry pour désynchroniser)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Petite variation aléatoire ajoutée aux délais de backoff pour éviter que tous les clients réessaient au même instant.",
+    "detailedDefinition": "Si mille clients échouent en même temps et réessaient tous à 2s pile, ils resaturent le service (« thundering herd »). Le jitter ajoute un aléa (ex. 2s ± 0,5s) pour étaler les tentatives. C'est un complément conceptuel du backoff.",
+    "usageContext": "Retries à grande échelle, résilience.",
+    "meetingExample": "« On ajoute du jitter au backoff pour éviter le pic synchronisé de retries. »",
+    "plainTranslation": "« Ajouter un peu de hasard aux délais pour que tout le monde ne réessaie pas pile en même temps. »",
+    "relatedTerms": [
+      "ai-backoff",
+      "ai-agent-loop"
+    ],
+    "aliases": [
+      "gigue"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "fiabilité"
+    ]
+  },
+  {
+    "id": "ai-structured-output",
+    "term": "structured output",
+    "fullForm": null,
+    "frenchMeaning": "sortie structurée (réponse d'un LLM contrainte à un schéma, ex. JSON)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Une réponse de LLM contrainte à un format exploitable par le code (JSON conforme à un schéma), et VALIDÉE.",
+    "detailedDefinition": "Le code a besoin de données, pas de prose. Une sortie structurée impose un schéma (champs, types, enum). Mais « réponds en JSON » ne garantit rien : le modèle peut ajouter du texte, oublier un champ, se tromper de type. On parse dans un try/catch, on valide contre le schéma, et on retente avec le message d'erreur. Jamais de confiance aveugle.",
+    "usageContext": "Extraction, classification, agents, RAG.",
+    "meetingExample": "« La sortie structurée est validée puis retentée si non conforme, avant tout usage en aval. »",
+    "plainTranslation": "« Forcer le modèle à répondre dans un format carré que le programme peut utiliser — et le vérifier. »",
+    "relatedTerms": [
+      "ai-schema-validation",
+      "ai-function-calling",
+      "ai-hallucination"
+    ],
+    "aliases": [
+      "sortie structurée"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "agents"
+    ]
+  },
+  {
+    "id": "ai-schema-validation",
+    "term": "schema validation",
+    "fullForm": null,
+    "frenchMeaning": "validation de schéma (vérifier une donnée contre un contrat)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Vérifier qu'une donnée respecte un contrat : champs requis, types, valeurs autorisées (enum), champs inconnus.",
+    "detailedDefinition": "C'est la frontière de confiance entre une sortie de modèle (ou une entrée externe) et le code. On vérifie, dans l'ordre : champ requis présent, bon type, valeur dans l'enum, pas de champ inattendu. Un piège classique : un champ présent mais du mauvais TYPE (montant \"42\" en texte) — la simple présence ne suffit pas.",
+    "usageContext": "Sorties structurées, validation d'arguments d'outil, frontières d'API.",
+    "meetingExample": "« La validation de schéma rejette amount=\"42\" : présent mais mauvais type. »",
+    "plainTranslation": "« Vérifier qu'une donnée a bien la forme attendue avant de s'en servir. »",
+    "relatedTerms": [
+      "ai-structured-output",
+      "ai-tool-schema"
+    ],
+    "aliases": [
+      "validation de schéma"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "agents"
+    ]
+  },
+  {
+    "id": "security-context-poisoning",
+    "term": "context poisoning",
+    "fullForm": null,
+    "frenchMeaning": "empoisonnement de contexte (contenu malveillant injecté dans le contexte)",
+    "category": "security",
+    "level": "avancé",
+    "shortDefinition": "Contamination du contexte d'un LLM par du contenu non fiable (document récupéré, sortie d'outil) qui altère son comportement.",
+    "detailedDefinition": "Le RAG et les agents insèrent dans le contexte des contenus externes (documents, résultats d'outils). Si l'un contient une instruction cachée, il « empoisonne » le contexte et peut détourner le modèle — c'est le véhicule de l'injection indirecte. La parade : traiter tout contenu ingéré comme une DONNÉE non fiable, jamais comme une instruction, et vérifier les sorties.",
+    "usageContext": "Sécurité des RAG et des agents.",
+    "meetingExample": "« Un document empoisonné a contaminé le contexte : on isole la source et on renforce la frontière données/instructions. »",
+    "plainTranslation": "« Glisser du contenu piégé dans ce que lit le modèle pour le faire dérailler. »",
+    "relatedTerms": [
+      "security-indirect-prompt-injection",
+      "ai-untrusted-context",
+      "ai-guardrail"
+    ],
+    "aliases": [
+      "empoisonnement de contexte"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "sécurité",
+      "ia",
+      "rag"
+    ]
+  },
+  {
+    "id": "ai-untrusted-context",
+    "term": "untrusted context",
+    "fullForm": null,
+    "frenchMeaning": "contexte non fiable (contenu externe traité comme donnée, jamais instruction)",
+    "category": "security",
+    "level": "intermédiaire",
+    "shortDefinition": "Tout contenu inséré dans le prompt qui ne vient pas du développeur : documents récupérés, entrées utilisateur, sorties d'outils.",
+    "detailedDefinition": "La distinction structurante de la sécurité LLM : seul le développeur (system/developer) fournit des INSTRUCTIONS fiables ; tout le reste est du contexte NON FIABLE, à traiter comme donnée même s'il a la forme d'un ordre. Poser cette frontière explicitement (délimiteurs, consignes, validation de sortie) est la première couche de défense contre l'injection.",
+    "usageContext": "RAG, agents, sécurité LLM.",
+    "meetingExample": "« Les extraits <docs> sont du contexte non fiable : on n'exécute jamais ce qu'ils contiennent. »",
+    "plainTranslation": "« Tout ce que le modèle lit sans que ça vienne de nous est suspect : c'est une donnée, pas un ordre. »",
+    "relatedTerms": [
+      "security-indirect-prompt-injection",
+      "security-context-poisoning",
+      "ai-guardrail"
+    ],
+    "aliases": [
+      "contexte non fiable",
+      "trusted instruction"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "sécurité",
+      "ia"
+    ]
+  },
+  {
+    "id": "ai-prompt-regression",
+    "term": "prompt regression",
+    "fullForm": null,
+    "frenchMeaning": "régression de prompt (une modif de prompt dégrade la qualité)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Baisse de qualité provoquée par un changement de prompt (ou de version de modèle) qui améliore un cas mais en casse d'autres.",
+    "detailedDefinition": "Un prompt est du code : le modifier peut régresser. Sans banc d'essai versionné, on « améliore » à l'aveugle et on dégrade silencieusement. On mesure avant/après sur un golden set, on adopte le changement seulement si le score global ne régresse pas, et on versionne score ↔ prompt ↔ config. Vaut aussi pour un changement de modèle (les résultats d'évaluation bougent).",
+    "usageContext": "Évaluation LLM, non-régression, opérations.",
+    "meetingExample": "« Le nouveau prompt gagne sur Q7 mais régresse le score global : on ne l'adopte pas. »",
+    "plainTranslation": "« Changer le prompt peut casser ce qui marchait : il faut le mesurer avant/après. »",
+    "relatedTerms": [
+      "ai-golden-set",
+      "ai-prompt-engineering",
+      "ai-groundedness"
+    ],
+    "aliases": [
+      "régression de prompt",
+      "retrieval regression"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "évaluation"
+    ]
+  },
+  {
+    "id": "ai-precision-at-k",
+    "term": "precision@k",
+    "fullForm": null,
+    "frenchMeaning": "précision@k — part des k résultats retournés qui sont pertinents",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Parmi les k premiers résultats retournés, la proportion qui sont réellement pertinents.",
+    "detailedDefinition": "Complément du rappel@k : le rappel demande « a-t-on ramené le bon passage ? », la précision@k demande « les k passages ramenés sont-ils pertinents, ou noyés dans du bruit ? ». Monter k améliore le rappel mais fait souvent chuter la précision (la génération se noie). Les deux se lisent ENSEMBLE.",
+    "usageContext": "Évaluation du retrieval, réglage de k.",
+    "meetingExample": "« En passant k de 5 à 20, le rappel monte mais la précision@k chute : la génération se noie. »",
+    "plainTranslation": "« Sur les quelques résultats montrés, combien sont vraiment utiles ? »",
+    "relatedTerms": [
+      "ai-recall-at-k",
+      "ai-top-k",
+      "ai-reranking"
+    ],
+    "aliases": [
+      "précision@k",
+      "precision at k"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "rag",
+      "évaluation"
+    ]
   }
 ]

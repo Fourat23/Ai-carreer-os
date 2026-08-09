@@ -1,0 +1,9 @@
+{
+  "sprint": "V35",
+  "baselineRef": "cbddb85",
+  "note": "Périmètre V35. Burn-down de dette pédagogique (12 leçons sans on-ramp) + composition du parcours Data/ML via le mécanisme non-contigu existant. hardenedLegacy/critical/prereq se remplissent au fil des CP. Le gate v35:check valide STRUCTURELLEMENT ; il ne juge jamais la profondeur par la longueur.",
+  "newLessons": [],
+  "hardenedLegacy": [],
+  "critical": [],
+  "prereq": {}
+}

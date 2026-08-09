@@ -1,0 +1,7 @@
+{
+  "sprint": "V35",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V35 : burn-down des leçons sans on-ramp. Rubrique v20 (16 dimensions, 0-4). Items remplis au CP11.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

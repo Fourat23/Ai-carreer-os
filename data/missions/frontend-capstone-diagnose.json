@@ -1,0 +1,117 @@
+{
+  "id": "frontend-capstone-diagnose",
+  "title": "Capstone Frontend : diagnostiquer et réparer une application cassée",
+  "description": "Reprendre une petite application front présentant plusieurs défauts réalistes (débordement mobile, formulaire inaccessible, données lentes/périmées, états d'écran mal gérés, régression) : diagnostiquer chaque problème par la méthode, corriger la vraie cause, et verrouiller par un test. L'objectif est la TRANSFÉRABILITÉ — raisonner, pas recopier.",
+  "category": "incident",
+  "difficulty": 4,
+  "estimatedHours": 6,
+  "context": "Simulation d'analyse déterministe (aucun vrai navigateur : le raisonnement s'évalue sur du code, un document et des exercices, pas sur un rendu réel). On te confie une application front qui « marche » sur l'écran de la personne qui l'a écrite, mais qui casse ailleurs. Tu dois mobiliser tout le socle : HTML sémantique, CSS et mise en page (Flexbox/Grid), responsive, accessibilité, TypeScript, React (état, effets, application), données, tests et performance. Cinq classes de défauts à traiter, chacune par une MÉTHODE (symptômes → hypothèses → observation → cause → correction → prévention) : (1) un bloc déborde horizontalement à 375 px (piste : box model, min-width:0, overflow) ; (2) un formulaire est inutilisable au clavier et muet pour un lecteur d'écran (piste : label associé, vrai bouton, erreurs non colorées) ; (3) une requête est lente ou renvoie des données périmées (piste : cache/revalidation, performance perçue, état de chargement) ; (4) un écran n'affiche que le cas « succès » (piste : les quatre états chargement/vide/erreur/succès) ; (5) une modification a cassé une autre page (piste : état partagé/dérivé, test de non-régression). Tu produis le code corrigé (via les exercices liés), un document de diagnostic par défaut, et une auto-évaluation. Rappel honnête : la validation front est une commodité ; la vérité et les secrets restent côté serveur.",
+  "prerequisites": [
+    "Mise en page et débordements (Flexbox/Grid, min-width:0)",
+    "Accessibilité : clavier, focus, noms accessibles (jour 103)",
+    "Application React : routing, états d'écran (jour 99-104)",
+    "Tests de non-régression (jour 106-111)"
+  ],
+  "skills": [
+    "react",
+    "css",
+    "accessibility",
+    "state",
+    "testing"
+  ],
+  "trackRefs": [
+    "frontend-engineer-v1",
+    "fullstack-typescript"
+  ],
+  "dayRefs": [
+    104,
+    111,
+    117
+  ],
+  "exerciseRefs": [
+    "react-debug-list",
+    "css-box-size",
+    "a11y-accessible-name"
+  ],
+  "deliverables": [
+    {
+      "id": "debug-fix",
+      "kind": "code",
+      "title": "Corriger un défaut de rendu (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "react-debug-list",
+      "hint": "Corrige la vraie cause (key stable, état, rendu) — pas le symptôme."
+    },
+    {
+      "id": "diagnostic-doc",
+      "kind": "document",
+      "title": "Journal de diagnostic (un défaut par section)",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Débordement",
+          "Accessibilité",
+          "Données",
+          "États",
+          "Régression",
+          "Prévention"
+        ],
+        "requireMentions": [
+          "min-width",
+          "clavier",
+          "chargement",
+          "erreur",
+          "non-régression"
+        ],
+        "minLength": 500,
+        "maxLength": 10000
+      },
+      "hint": "Pour CHAQUE défaut : symptômes → hypothèses → observation → cause racine → correction → prévention. Cite la notion mobilisée (box model, label, revalidation, quatre états, état dérivé)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Chaque défaut est diagnostiqué par la MÉTHODE (cause racine, pas symptôme)",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Débordement mobile corrigé à la source (box model / min-width:0 / overflow)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Formulaire rendu accessible (label associé, clavier, erreurs non uniquement colorées)",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Les quatre états d'écran sont gérés (chargement, vide, erreur, succès)",
+      "blocking": false,
+      "category": "functional"
+    },
+    {
+      "label": "Régression verrouillée par un test de non-régression",
+      "blocking": false,
+      "category": "tests"
+    }
+  ],
+  "commonMistakes": [
+    "Corriger le symptôme (masquer le débordement) au lieu de la cause (min-width:0)",
+    "Rendre « accessible » en empilant de l'ARIA au lieu d'utiliser le HTML natif",
+    "Mettre en cache sans revalidation → données périmées",
+    "Ne gérer que le succès (spinner infini, écran blanc, vide sans message)",
+    "Réparer une régression sans ajouter de test qui l'empêche de revenir"
+  ],
+  "status": "published",
+  "version": "1"
+}

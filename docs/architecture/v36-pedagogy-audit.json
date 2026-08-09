@@ -1,0 +1,7 @@
+{
+  "sprint": "V36",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V36 : socle Frontend Web Platform + React durci. Rubrique v20 (16 dimensions, 0-4). Notes HUMAINES portées à la lecture intégrale. Items remplis au CP11.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

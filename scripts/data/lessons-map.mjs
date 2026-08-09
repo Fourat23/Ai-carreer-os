@@ -61,7 +61,7 @@ export const LESSONS = [
   { file: 'transformers.md', title: "Transformers : l'architecture des LLM", cat: 'Python & ML', level: 3, min: 55, skills: ['dl', 'llm'] },
   // ── IA appliquée ──
   { file: 'llm-fundamentals.md', title: 'LLM : comprendre les grands modèles', cat: 'IA appliquée', level: 2, min: 55, skills: ['llm'] },
-  { file: 'prompt-engineering.md', title: 'Prompt engineering (sérieux)', cat: 'IA appliquée', level: 2, min: 45, skills: ['llm'] },
+  { file: 'prompt-engineering.md', title: 'Prompt engineering (sérieux)', cat: 'IA appliquée', level: 2, min: 45, skills: ['llm'], practiceRefs: [{ kind: 'exercise', id: 'rag-structured-validate' }] },
   { file: 'structured-outputs-tools.md', title: 'Sorties structurées et function calling', cat: 'IA appliquée', level: 2, min: 45, skills: ['llm', 'agents'], practiceRefs: [{ kind: 'exercise', id: 'rag-structured-validate' }] },
   { file: 'embeddings.md', title: 'Embeddings', cat: 'IA appliquée', level: 2, min: 40, skills: ['rag', 'dl'], practiceRefs: [{ kind: 'exercise', id: 'rag-cosine-rank' }] },
   { file: 'rag-fundamentals.md', title: 'RAG : retrieval-augmented generation', cat: 'IA appliquée', level: 2, min: 55, skills: ['rag'], practiceRefs: [{ kind: 'exercise', id: 'rag-failure-locate' }] },
@@ -71,7 +71,7 @@ export const LESSONS = [
   { file: 'ai-evaluation.md', title: 'Évaluer un système IA', cat: 'IA appliquée', level: 3, min: 55, skills: ['evalia'], practiceRefs: [{ kind: 'exercise', id: 'rag-failure-locate' }] },
   { file: 'rag-evaluation.md', title: 'Évaluation RAG avancée', cat: 'IA appliquée', level: 3, min: 50, skills: ['evalia', 'rag'], practiceRefs: [{ kind: 'exercise', id: 'rag-failure-locate' }] },
   { file: 'agents-fundamentals.md', title: 'Agents IA : fondamentaux', cat: 'IA appliquée', level: 2, min: 50, skills: ['agents'], practiceRefs: [{ kind: 'exercise', id: 'agent-tool-select' }, { kind: 'exercise', id: 'agent-state-transition' }] },
-  { file: 'agent-workflows-orchestration.md', title: 'Agents avancés et orchestration', cat: 'IA appliquée', level: 3, min: 50, skills: ['agents'], practiceRefs: [{ kind: 'exercise', id: 'agent-loop-detect' }, { kind: 'exercise', id: 'agent-state-transition' }] },
+  { file: 'agent-workflows-orchestration.md', title: 'Agents avancés et orchestration', cat: 'IA appliquée', level: 3, min: 50, skills: ['agents'], practiceRefs: [{ kind: 'exercise', id: 'agent-loop-detect' }, { kind: 'exercise', id: 'agent-state-transition' }, { kind: 'exercise', id: 'agent-tool-validate' }] },
   { file: 'ai-security.md', title: 'Sécurité des systèmes IA', cat: 'IA appliquée', level: 3, min: 50, skills: ['secu'], practiceRefs: [{ kind: 'exercise', id: 'prompt-injection-classify' }] },
   { file: 'prompt-injection-defense.md', title: 'Défense contre la prompt injection', cat: 'IA appliquée', level: 3, min: 45, skills: ['secu'] },
   { file: 'llm-cost-optimization.md', title: "Coûts d'inférence : estimer et optimiser", cat: 'IA appliquée', level: 3, min: 40, skills: ['llm', 'cloud'] },

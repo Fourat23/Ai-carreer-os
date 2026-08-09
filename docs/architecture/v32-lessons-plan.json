@@ -11,7 +11,8 @@
   ],
   "critical": [
     "agents-fundamentals",
-    "agent-workflows-orchestration"
+    "agent-workflows-orchestration",
+    "prompt-engineering"
   ],
   "prereq": {
     "agents-fundamentals": ["llm-fundamentals", "api-design-basics"],

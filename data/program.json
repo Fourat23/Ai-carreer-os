@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T08:24:06.002Z",
+  "generatedAt": "2026-08-09T08:25:53.607Z",
   "skills": [
     {
       "id": "algo",
@@ -6735,6 +6735,12 @@
       "min": 45,
       "skills": [
         "llm"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "rag-structured-validate"
+        }
       ]
     },
     {
@@ -6909,6 +6915,10 @@
         {
           "kind": "exercise",
           "id": "agent-state-transition"
+        },
+        {
+          "kind": "exercise",
+          "id": "agent-tool-validate"
         }
       ]
     },

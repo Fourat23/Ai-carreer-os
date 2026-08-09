@@ -1,0 +1,26 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "agent-tool-validate",
+  "title": "Agent : valider les arguments d'un appel d'outil",
+  "difficulty": 2,
+  "summary": "validateArgs(schema, args) vérifie les arguments qu'un modèle propose pour un outil, AVANT exécution : champ requis manquant → 'missing:<champ>' ; mauvais type → 'type:<champ>' ; valeur hors enum → 'enum:<champ>' ; champ inconnu → 'unknown:<champ>' ; sinon 'ok'. Le modèle PROPOSE, ton code VÉRIFIE : la validation d'arguments est la frontière de confiance d'un agent. SIMULATION : les arguments sont fournis (aucun LLM) — on code la validation de schéma.",
+  "skills": ["conditions", "objects", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Valide les arguments d'un appel d'outil contre son schéma.\n// TODO : vérifier seulement la PRÉSENCE des champs requis laisse passer un\n//        mauvais type (amount='5'), une valeur hors enum, un champ inconnu.\nexport function validateArgs(schema, args) {\n  for (const f of schema.required || []) if (!(f in args)) return 'missing:' + f;\n  return 'ok';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function validateArgs(schema, args) {\n  for (const f of schema.required || []) if (!(f in args)) return 'missing:' + f;\n  for (const f of Object.keys(schema.types || {})) if (f in args && typeof args[f] !== schema.types[f]) return 'type:' + f;\n  for (const f of Object.keys(schema.enums || {})) if (f in args && !schema.enums[f].includes(args[f])) return 'enum:' + f;\n  const known = new Set([...(schema.required || []), ...Object.keys(schema.types || {}), ...Object.keys(schema.enums || {})]);\n  for (const f of Object.keys(args)) if (!known.has(f)) return 'unknown:' + f;\n  return 'ok';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "champ présent mais mauvais type (nombre attendu, texte reçu)", "kind": "call-equals", "export": "validateArgs", "args": [{ "required": ["amount"], "types": { "amount": "number" }, "enums": { "currency": ["EUR", "USD"] } }, { "amount": "5" }], "expected": "type:amount" },
+    { "id": "t2", "name": "champ requis manquant", "kind": "call-equals", "export": "validateArgs", "args": [{ "required": ["amount"], "types": { "amount": "number" } }, {}], "expected": "missing:amount" },
+    { "id": "t3", "name": "valeur hors de l'enum autorisé", "kind": "call-equals", "export": "validateArgs", "args": [{ "required": ["amount"], "types": { "amount": "number" }, "enums": { "currency": ["EUR", "USD"] } }, { "amount": 5, "currency": "BTC" }], "expected": "enum:currency" },
+    { "id": "t4", "name": "champ inconnu injecté dans les arguments", "kind": "call-equals", "export": "validateArgs", "args": [{ "required": ["amount"], "types": { "amount": "number" } }, { "amount": 5, "foo": 1 }], "expected": "unknown:foo", "private": true },
+    { "id": "t5", "name": "arguments conformes", "kind": "call-equals", "export": "validateArgs", "args": [{ "required": ["amount"], "types": { "amount": "number" }, "enums": { "currency": ["EUR", "USD"] } }, { "amount": 5, "currency": "EUR" }], "expected": "ok", "private": true }
+  ]
+}

@@ -2,6 +2,109 @@
   "sprint": "V32",
   "rubricVersion": "1",
   "note": "Registre d'audit pédagogique V32 : chaîne agents / tool use / sûreté câblée à la pratique. Rubrique v20 (16 dimensions, 0-4). Scores APRÈS ; avant/après, matrice complète et walkthrough néophyte dans docs/PEDAGOGICAL-AUDIT-V32.md. Items remplis au CP11.",
-  "scanGlobs": ["curriculum/lessons/*.md"],
-  "items": []
+  "scanGlobs": [
+    "curriculum/lessons/*.md"
+  ],
+  "items": [
+    {
+      "id": "agents-fundamentals",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/agents-fundamentals.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Théorie excellente (boucle, workflow-vs-agent, failure modes, moindre privilège) désormais RELIÉE à la pratique : agent-tool-select + agent-state-transition."
+    },
+    {
+      "id": "agent-workflows-orchestration",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/agent-workflows-orchestration.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 4,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "4 patterns + orchestration + décision chiffrée, reliée à agent-loop-detect, agent-state-transition, agent-tool-validate, agent-retry-policy."
+    },
+    {
+      "id": "prompt-engineering",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/prompt-engineering.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Prompt = spécification vérifiée par le code, reliée à rag-structured-validate (« réponds en JSON ne suffit pas »)."
+    },
+    {
+      "id": "prompt-injection-defense",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/prompt-injection-defense.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 4,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Injection directe/indirecte, défense en couches, suite adverse ; reliée à prompt-injection-classify + agent-hitl-decision."
+    }
+  ]
 }

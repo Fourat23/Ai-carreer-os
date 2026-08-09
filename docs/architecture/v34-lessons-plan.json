@@ -1,0 +1,9 @@
+{
+  "sprint": "V34",
+  "baselineRef": "0587e1f",
+  "note": "Périmètre V34 (cf. ADR-034/HSD-034/TSD-034). Durcissement additif des fondations data + complétion theory→practice (docker relié, llm-fundamentals pratiqué) + réduction honnête des warnings du Curriculum Graph + activation conditionnelle du parcours Data/ML. hardenedLegacy/critical/prereq se remplissent au fil des CP. prereq déclare aussi les prérequis manquants des leçons non-ML concept-without-foundation (CP8). Le gate v34:check valide STRUCTURELLEMENT ; il ne juge jamais la profondeur par la longueur.",
+  "newLessons": [],
+  "hardenedLegacy": [],
+  "critical": [],
+  "prereq": {}
+}

@@ -1,0 +1,7 @@
+{
+  "sprint": "V34",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V34 : fondations data durcies + theory→practice. Rubrique v20 (16 dimensions, 0-4). Items remplis au CP11.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

@@ -1,0 +1,66 @@
+{
+  "id": "ml-imbalance-metric-trap",
+  "domain": "ml",
+  "severityHint": "moyenne",
+  "situation": "L'accuracy est excellente, mais les utilisateurs importants (classe rare : fraude, panne, churn) sont mal classifiés.",
+  "dayRefs": [
+    168,
+    172
+  ],
+  "relatedGlossary": [
+    "precision",
+    "recall",
+    "confusion matrix"
+  ],
+  "symptoms": [
+    "Accuracy très élevée mais plaintes sur les cas critiques.",
+    "La classe rare est presque toujours prédite comme la classe majoritaire.",
+    "Recall de la classe importante très bas."
+  ],
+  "firstChecks": [
+    "Les classes sont-elles déséquilibrées (l'accuracy ment alors) ?",
+    "Quel est le recall sur la classe rare, pas seulement l'accuracy globale ?",
+    "La métrique optimisée correspond-elle au coût métier (rater un positif) ?"
+  ],
+  "containment": [
+    "Rehausser le seuil de décision pour attraper plus de positifs si le coût le justifie.",
+    "Escalade humaine sur les cas incertains critiques."
+  ],
+  "recommendedOrder": [
+    "Changer la métrique de pilotage (recall/precision/F1), puis ré-optimiser, puis re-livrer."
+  ],
+  "communication": [
+    "Expliquer au métier pourquoi l'accuracy trompait et quelle métrique on suit désormais."
+  ],
+  "evidence": [
+    "Matrice de confusion complète, métriques PAR classe, coût métier des erreurs."
+  ],
+  "doNot": [
+    "Piloter par l'accuracy sur des classes déséquilibrées.",
+    "Ignorer les faux négatifs quand rater un positif coûte cher."
+  ],
+  "mitigation": [
+    "Choisir la métrique selon le coût (recall si rater un positif est grave) ; ajuster le seuil."
+  ],
+  "correction": [
+    "Rééquilibrage/pondération, features dédiées à la classe rare, seuil calibré."
+  ],
+  "validation": [
+    "Le recall (ou F1) de la classe critique atteint la cible métier sans effondrer la precision."
+  ],
+  "delivery": [
+    "Livrer avec la métrique métier comme critère d'acceptation."
+  ],
+  "monitoring": [
+    "Suivre les métriques PAR classe, pas seulement l'accuracy globale."
+  ],
+  "documentation": [
+    "Post-mortem : piège de l'accuracy, métrique retenue, seuil calibré."
+  ],
+  "prevention": [
+    "Choisir la métrique d'après le problème métier dès le cadrage ; toujours regarder par classe."
+  ],
+  "exitCriteria": [
+    "Métrique alignée sur le coût métier, classe critique correctement traitée, suivi par classe."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "ml-prediction-regression",
+  "domain": "ml",
+  "severityHint": "élevée",
+  "situation": "Après une nouvelle release (réentraînement ou changement de données), les prédictions se sont dégradées.",
+  "dayRefs": [
+    175,
+    182
+  ],
+  "relatedGlossary": [
+    "regression evaluation",
+    "drift",
+    "holdout"
+  ],
+  "symptoms": [
+    "Baisse de qualité corrélée à une release datée.",
+    "Un segment auparavant correct est maintenant mal traité.",
+    "Retours utilisateurs négatifs depuis la mise à jour."
+  ],
+  "firstChecks": [
+    "Qu'est-ce qui a changé exactement (données, features, hyperparamètres, code) ?",
+    "Le nouveau modèle a-t-il été comparé à l'ancien sur le MÊME jeu d'évaluation ?",
+    "Le jeu d'évaluation a-t-il changé en même temps que le modèle ?"
+  ],
+  "containment": [
+    "Rollback vers la version précédente connue bonne.",
+    "Geler les réentraînements automatiques le temps du diagnostic."
+  ],
+  "recommendedOrder": [
+    "Rollback, isoler LE changement responsable (une variable à la fois), corriger, re-livrer."
+  ],
+  "communication": [
+    "Informer que la version précédente est rétablie et qu'une analyse est en cours."
+  ],
+  "evidence": [
+    "Versionner modèle ↔ données ↔ config ↔ score ; conserver les deux versions et leurs métriques."
+  ],
+  "doNot": [
+    "Changer plusieurs choses à la fois puis re-livrer.",
+    "Comparer sur deux jeux d'évaluation différents.",
+    "Conclure sur du bruit (±quelques points)."
+  ],
+  "mitigation": [
+    "Comparer ancien/nouveau sur un jeu figé (évaluation de non-régression)."
+  ],
+  "correction": [
+    "Corriger la cause isolée (donnée corrompue, feature cassée, hyperparamètre)."
+  ],
+  "validation": [
+    "Le nouveau modèle égale ou dépasse l'ancien sur le jeu de non-régression."
+  ],
+  "delivery": [
+    "Re-livrer derrière une comparaison chiffrée, en canary."
+  ],
+  "monitoring": [
+    "Suivi de qualité par version ; alerte sur régression vs baseline."
+  ],
+  "documentation": [
+    "Post-mortem : changement fautif, évaluation de non-régression ajoutée."
+  ],
+  "prevention": [
+    "Évaluation de non-régression obligatoire avant toute release de modèle ; versionnement score↔commit."
+  ],
+  "exitCriteria": [
+    "Cause isolée, non-régression prouvée sur jeu figé, surveillance par version."
+  ]
+}

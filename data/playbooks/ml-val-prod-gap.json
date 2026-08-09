@@ -1,0 +1,72 @@
+{
+  "id": "ml-val-prod-gap",
+  "domain": "ml",
+  "severityHint": "élevée",
+  "situation": "Le modèle affiche un excellent score en validation, mais se trompe lourdement en production.",
+  "dayRefs": [
+    168,
+    175
+  ],
+  "relatedGlossary": [
+    "leakage",
+    "holdout",
+    "drift"
+  ],
+  "symptoms": [
+    "Écart brutal entre score de validation et performance réelle.",
+    "Erreurs concentrées sur des cas récents ou un segment.",
+    "Les métriques hors-ligne ne se retrouvent pas en ligne."
+  ],
+  "firstChecks": [
+    "Y a-t-il une fuite de données (une feature qui connaît la cible/le futur) ?",
+    "Le split respecte-t-il le temps (pas de futur dans le train) ?",
+    "La distribution de production diffère-t-elle du train (drift) ?",
+    "Le préprocessing de prod est-il identique à celui du train ?"
+  ],
+  "containment": [
+    "Revenir au modèle précédent (rollback) si la dégradation est sévère.",
+    "Basculer sur une règle de repli pour les cas critiques.",
+    "Réduire l'exposition (canary) le temps du diagnostic."
+  ],
+  "recommendedOrder": [
+    "Rollback si besoin, puis chercher la cause (fuite > split > drift > skew) avant de re-livrer."
+  ],
+  "communication": [
+    "Prévenir les équipes métier impactées ; annoncer le repli et le délai d'analyse."
+  ],
+  "evidence": [
+    "Conserver le jeu de validation, la config du split et un échantillon des erreurs de prod.",
+    "Comparer distributions train vs prod."
+  ],
+  "doNot": [
+    "Réentraîner à l'aveugle en espérant que ça passe.",
+    "Regarder uniquement l'accuracy globale.",
+    "Supprimer les cas gênants du jeu d'évaluation."
+  ],
+  "mitigation": [
+    "Détecter et retirer les fuites ; corriger le split (temporel si données datées).",
+    "Aligner le préprocessing train/prod (même Pipeline)."
+  ],
+  "correction": [
+    "Reconstruire l'évaluation pour qu'elle reflète la prod (split temporel, cas réels).",
+    "Ajouter les cas d'échec au jeu d'évaluation."
+  ],
+  "validation": [
+    "Re-mesurer sur un holdout honnête ; l'écart val/prod se referme."
+  ],
+  "delivery": [
+    "Re-livrer en canary, comparer en ligne avant généralisation."
+  ],
+  "monitoring": [
+    "Suivre l'écart entre métriques hors-ligne et en ligne, et la dérive des entrées."
+  ],
+  "documentation": [
+    "Post-mortem : cause (fuite/split/drift/skew), correction, garde-fous."
+  ],
+  "prevention": [
+    "Split honnête dès le départ, Pipeline partagé train/prod, surveillance de drift."
+  ],
+  "exitCriteria": [
+    "Écart val/prod expliqué et refermé, évaluation représentative, surveillance active."
+  ]
+}

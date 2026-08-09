@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T08:27:24.591Z",
+  "generatedAt": "2026-08-09T08:28:39.877Z",
   "skills": [
     {
       "id": "algo",
@@ -6919,6 +6919,10 @@
         {
           "kind": "exercise",
           "id": "agent-tool-validate"
+        },
+        {
+          "kind": "exercise",
+          "id": "agent-retry-policy"
         }
       ]
     },

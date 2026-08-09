@@ -18,7 +18,7 @@ const onDisk = new Set(readdirSync(R('data/exercises')).filter((f) => f.endsWith
 
 const V32_EXERCISES = [
   'agent-tool-select', 'agent-state-transition', 'agent-loop-detect',
-  'agent-tool-validate', 'agent-hitl-decision',
+  'agent-tool-validate', 'agent-hitl-decision', 'agent-retry-policy',
 ];
 
 const tmp = mkdtempSync(join(tmpdir(), 'v32x-'));

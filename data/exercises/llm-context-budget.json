@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "llm-context-budget",
+  "title": "LLM : combien de place reste-t-il pour la réponse ?",
+  "difficulty": 1,
+  "summary": "answerBudget(usage) où usage={promptTokens, limit} calcule le nombre de tokens DISPONIBLES pour la réponse : limit - promptTokens, jamais négatif (0 si le prompt dépasse déjà la fenêtre). La fenêtre de contexte est PARTAGÉE entre le prompt et la réponse : un prompt énorme ne laisse aucune place pour répondre. SIMULATION : les tailles sont fournies (aucun LLM appelé) — le calcul est réellement exécuté en local.",
+  "skills": ["functions", "conditions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Tokens restants pour la réponse dans la fenêtre de contexte.\n// TODO : renvoyer la limite entière ignore que le PROMPT occupe déjà de la\n//        place — la fenêtre est partagée prompt + réponse.\nexport function answerBudget(usage) {\n  return usage.limit;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function answerBudget(usage) {\n  return Math.max(0, usage.limit - usage.promptTokens);\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "prompt de 3000 dans une fenêtre de 4000 → 1000 pour la réponse", "kind": "call-equals", "export": "answerBudget", "args": [{ "promptTokens": 3000, "limit": 4000 }], "expected": 1000 },
+    { "id": "t2", "name": "prompt qui dépasse déjà la fenêtre → 0 (pas de négatif)", "kind": "call-equals", "export": "answerBudget", "args": [{ "promptTokens": 4500, "limit": 4000 }], "expected": 0 },
+    { "id": "t3", "name": "prompt vide → toute la fenêtre disponible", "kind": "call-equals", "export": "answerBudget", "args": [{ "promptTokens": 0, "limit": 8000 }], "expected": 8000, "private": true }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T09:25:44.139Z",
+  "generatedAt": "2026-08-09T10:11:21.664Z",
   "skills": [
     {
       "id": "algo",
@@ -6775,6 +6775,12 @@
       "min": 55,
       "skills": [
         "llm"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "llm-context-budget"
+        }
       ]
     },
     {
@@ -8102,6 +8108,20 @@
       "min": 45,
       "skills": [
         "cloud"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "docker-instruction-order"
+        },
+        {
+          "kind": "exercise",
+          "id": "docker-layer-cache"
+        },
+        {
+          "kind": "exercise",
+          "id": "docker-image-size"
+        }
       ]
     },
     {

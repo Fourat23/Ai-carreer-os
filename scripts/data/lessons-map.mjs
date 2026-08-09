@@ -60,7 +60,7 @@ export const LESSONS = [
   { file: 'neural-networks.md', title: 'Réseaux de neurones : ouvrir la boîte noire', cat: 'Python & ML', level: 3, min: 55, skills: ['dl'], practiceRefs: [{ kind: 'exercise', id: 'nn-forward-neuron' }, { kind: 'exercise', id: 'ml-overfit-diagnose' }] },
   { file: 'transformers.md', title: "Transformers : l'architecture des LLM", cat: 'Python & ML', level: 3, min: 55, skills: ['dl', 'llm'], practiceRefs: [{ kind: 'exercise', id: 'attention-argmax' }] },
   // ── IA appliquée ──
-  { file: 'llm-fundamentals.md', title: 'LLM : comprendre les grands modèles', cat: 'IA appliquée', level: 2, min: 55, skills: ['llm'] },
+  { file: 'llm-fundamentals.md', title: 'LLM : comprendre les grands modèles', cat: 'IA appliquée', level: 2, min: 55, skills: ['llm'], practiceRefs: [{ kind: 'exercise', id: 'llm-context-budget' }] },
   { file: 'prompt-engineering.md', title: 'Prompt engineering (sérieux)', cat: 'IA appliquée', level: 2, min: 45, skills: ['llm'], practiceRefs: [{ kind: 'exercise', id: 'rag-structured-validate' }] },
   { file: 'structured-outputs-tools.md', title: 'Sorties structurées et function calling', cat: 'IA appliquée', level: 2, min: 45, skills: ['llm', 'agents'], practiceRefs: [{ kind: 'exercise', id: 'rag-structured-validate' }] },
   { file: 'embeddings.md', title: 'Embeddings', cat: 'IA appliquée', level: 2, min: 40, skills: ['rag', 'dl'], practiceRefs: [{ kind: 'exercise', id: 'rag-cosine-rank' }] },
@@ -124,7 +124,7 @@ export const LESSONS = [
   { file: 'cloud-finops.md', title: 'FinOps : maîtriser le coût du cloud', cat: 'Cloud, AWS, Azure & IaC', level: 2, min: 45, skills: ['cloud', 'archi'], practiceRefs: [{ kind: 'exercise', id: 'cloud-rightsizing-savings' }, { kind: 'exercise', id: 'cloud-monthly-cost' }, { kind: 'exercise', id: 'cloud-error-budget' }, { kind: 'mission', id: 'cloud-cost-reduction' }] },
   // ── Production & DevOps ──
   { file: 'deployment-secrets.md', title: 'Secrets, environnements et déploiement', cat: 'Production & DevOps', level: 2, min: 40, skills: ['cloud', 'secu'] },
-  { file: 'docker-containers.md', title: 'Docker et conteneurs', cat: 'Production & DevOps', level: 2, min: 45, skills: ['cloud'] },
+  { file: 'docker-containers.md', title: 'Docker et conteneurs', cat: 'Production & DevOps', level: 2, min: 45, skills: ['cloud'], practiceRefs: [{ kind: 'exercise', id: 'docker-instruction-order' }, { kind: 'exercise', id: 'docker-layer-cache' }, { kind: 'exercise', id: 'docker-image-size' }] },
   { file: 'ci-cd.md', title: 'Intégration continue (CI/CD)', cat: 'Production & DevOps', level: 2, min: 40, skills: ['cloud'] },
   { file: 'monitoring-production.md', title: 'Monitoring et production', cat: 'Production & DevOps', level: 3, min: 45, skills: ['cloud', 'archi'] },
   { file: 'llm-observability.md', title: 'LLMOps : observer un système LLM', cat: 'Production & DevOps', level: 3, min: 45, skills: ['cloud', 'llm'], practiceRefs: [{ kind: 'exercise', id: 'llm-cost-estimate' }] },

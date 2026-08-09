@@ -1,0 +1,57 @@
+{
+  "id": "frontend-layout-choice",
+  "title": "Transfert : Flexbox ou Grid ?",
+  "difficulty": 2,
+  "summary": "Objectif (transfert) : appliquer le choix de mise en page à un cas nouveau. Complète chooseLayout({ needsRows, needsColumns }) : si la disposition doit s'aligner à la fois en lignes ET en colonnes (deux dimensions) → 'grid' ; si elle ne concerne qu'un seul axe → 'flexbox'. Raisonne 1D vs 2D.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["css"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Renvoie 'flexbox' (1D) ou 'grid' (2D) selon le besoin d'alignement.\nexport function chooseLayout({ needsRows, needsColumns }) {\n  // BUG : renvoie toujours 'grid'.\n  return 'grid';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function chooseLayout({ needsRows, needsColumns }) {\n  return needsRows && needsColumns ? 'grid' : 'flexbox';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "barre de navigation (un axe) → flexbox",
+      "kind": "call-equals",
+      "export": "chooseLayout",
+      "args": [{ "needsRows": false, "needsColumns": true }],
+      "expected": "flexbox"
+    },
+    {
+      "id": "t2",
+      "name": "galerie / tableau de bord (2D) → grid",
+      "kind": "call-equals",
+      "export": "chooseLayout",
+      "args": [{ "needsRows": true, "needsColumns": true }],
+      "expected": "grid"
+    },
+    {
+      "id": "t3",
+      "name": "pile verticale (un axe) → flexbox",
+      "kind": "call-equals",
+      "export": "chooseLayout",
+      "args": [{ "needsRows": true, "needsColumns": false }],
+      "expected": "flexbox"
+    },
+    {
+      "id": "t4",
+      "name": "aucun besoin d'alignement multi-axes → flexbox",
+      "kind": "call-equals",
+      "export": "chooseLayout",
+      "args": [{ "needsRows": false, "needsColumns": false }],
+      "expected": "flexbox",
+      "private": true
+    }
+  ]
+}

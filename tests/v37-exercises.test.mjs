@@ -16,7 +16,7 @@ const R = (p) => join(ROOT, p);
 const read = (p) => readFileSync(R(p), 'utf8');
 const onDisk = new Set(readdirSync(R('data/exercises')).filter((f) => f.endsWith('.json')).map((f) => f.replace('.json', '')));
 
-const V37_EXERCISES = ['css-specificity-order', 'css-box-size', 'dom-event-delegation', 'a11y-accessible-name'];
+const V37_EXERCISES = ['css-specificity-order', 'css-box-size', 'dom-event-delegation', 'a11y-accessible-name', 'frontend-rendering-choice', 'frontend-layout-choice'];
 
 // Racine d'exécution ISOLÉE (sous data/lab-workspaces, gitignoré) : runExercise
 // matérialise le workspace sous cette racine ; on la nettoie après les tests.

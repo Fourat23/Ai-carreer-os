@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T21:30:08.234Z",
+  "generatedAt": "2026-08-09T21:38:17.849Z",
   "skills": [
     {
       "id": "algo",
@@ -6222,6 +6222,10 @@
       "practiceRefs": [
         {
           "kind": "exercise",
+          "id": "frontend-layout-choice"
+        },
+        {
+          "kind": "exercise",
           "id": "web-card"
         },
         {
@@ -6553,6 +6557,12 @@
       "skills": [
         "jsts",
         "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "frontend-rendering-choice"
+        }
       ]
     },
     {

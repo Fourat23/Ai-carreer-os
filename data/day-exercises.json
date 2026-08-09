@@ -182,7 +182,8 @@
     "react-debug-greeting",
     "dom-event-delegation",
     "css-specificity-order",
-    "css-box-size"
+    "css-box-size",
+    "frontend-layout-choice"
   ],
   "93": [
     "react-counter",
@@ -206,7 +207,8 @@
     "react-reducer-actions"
   ],
   "102": [
-    "perf-budget"
+    "perf-budget",
+    "frontend-rendering-choice"
   ],
   "103": [
     "react-avatar",

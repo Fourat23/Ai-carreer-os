@@ -1,0 +1,66 @@
+{
+  "id": "frontend-rendering-choice",
+  "title": "Transfert : choisir CSR, SSR ou SSG",
+  "difficulty": 3,
+  "summary": "Objectif (transfert) : appliquer la décision de rendu à un cas nouveau. Complète chooseRendering({ isPrivate, needsFreshPerRequest, indexable }) : une page privée et interactive (non indexable) → 'CSR' ; sinon une page indexable qui doit être fraîche à chaque requête → 'SSR' ; sinon (contenu stable et indexable) → 'SSG'. Raisonne le compromis, ne recopie pas la leçon.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["javascript"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Renvoie 'CSR' | 'SSR' | 'SSG' selon les caractéristiques de la page.\nexport function chooseRendering({ isPrivate, needsFreshPerRequest, indexable }) {\n  // BUG : renvoie toujours 'CSR' sans raisonner le cas.\n  return 'CSR';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function chooseRendering({ isPrivate, needsFreshPerRequest, indexable }) {\n  if (isPrivate || !indexable) return 'CSR';\n  if (needsFreshPerRequest) return 'SSR';\n  return 'SSG';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tableau de bord privé → CSR",
+      "kind": "call-equals",
+      "export": "chooseRendering",
+      "args": [{ "isPrivate": true, "needsFreshPerRequest": true, "indexable": false }],
+      "expected": "CSR"
+    },
+    {
+      "id": "t2",
+      "name": "fiche produit fraîche et indexable → SSR",
+      "kind": "call-equals",
+      "export": "chooseRendering",
+      "args": [{ "isPrivate": false, "needsFreshPerRequest": true, "indexable": true }],
+      "expected": "SSR"
+    },
+    {
+      "id": "t3",
+      "name": "page marketing stable et indexable → SSG",
+      "kind": "call-equals",
+      "export": "chooseRendering",
+      "args": [{ "isPrivate": false, "needsFreshPerRequest": false, "indexable": true }],
+      "expected": "SSG"
+    },
+    {
+      "id": "t4",
+      "name": "public mais non indexable → CSR",
+      "kind": "call-equals",
+      "export": "chooseRendering",
+      "args": [{ "isPrivate": false, "needsFreshPerRequest": false, "indexable": false }],
+      "expected": "CSR",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "blog stable indexable → SSG",
+      "kind": "call-equals",
+      "export": "chooseRendering",
+      "args": [{ "isPrivate": false, "needsFreshPerRequest": false, "indexable": true }],
+      "expected": "SSG",
+      "private": true
+    }
+  ]
+}

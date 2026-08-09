@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getCatalogue } from '@/lib/catalogue-server';
+import { getProgram } from '@/lib/program';
 import { getTrack, getTrackModules, isTrackAvailable } from '@/lib/catalogue';
 import { getActiveTrackId } from '@/lib/progress-server';
 import TrackActions from './TrackActions';
@@ -12,6 +13,7 @@ export default function ParcoursPage() {
   const active = getTrack(cat, activeId) ?? cat.tracks[0];
   const modules = getTrackModules(cat, active);
   const techName = (id: string) => cat.technologies.find((t) => t.id === id)?.name ?? id;
+  const lessonTitle = new Map((getProgram().lessons ?? []).map((l: { slug: string; title: string }) => [l.slug, l.title]));
   const others = cat.tracks.filter((t) => t.id !== active.id);
 
   return (
@@ -51,6 +53,17 @@ export default function ParcoursPage() {
                   {m.dayRefs.length} jours · jours {m.dayRefs[0]}–{m.dayRefs[m.dayRefs.length - 1]}
                   {m.dayRefs[0] != null && <> · <Link href={`/day/${m.dayRefs[0]}`}>ouvrir</Link></>}
                 </div>
+                {(m.lessonRefs ?? []).length > 0 && (
+                  <div className="track-mod-lessons">
+                    <span className="track-mod-lessons-label">Leçons à lire :</span>{' '}
+                    {(m.lessonRefs ?? []).map((slug: string, j: number) => (
+                      <span key={slug}>
+                        {j > 0 && ' · '}
+                        <Link href={`/doc/lessons/${slug}`}>{lessonTitle.get(slug) ?? slug}</Link>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ))}

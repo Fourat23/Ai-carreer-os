@@ -12,6 +12,7 @@ export interface Technology { id: string; name: string; area: string }
 export interface Module {
   id: string; title: string; summary: string;
   dayRefs: number[]; skills: string[]; projectRef: string | null;
+  lessonRefs?: string[];
 }
 export interface Track {
   id: string; version: string; status: 'available' | 'announced';

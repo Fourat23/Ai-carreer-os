@@ -922,6 +922,8 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .track-mod-body { min-width: 0; }
 .track-mod-title { font-weight: 600; font-size: var(--fs-base); }
 .track-mod-meta { color: var(--muted); font-size: var(--fs-xs); margin-top: 2px; }
+.track-mod-lessons { font-size: var(--fs-xs); margin-top: 4px; line-height: 1.6; }
+.track-mod-lessons-label { color: var(--muted); }
 .track-list { display: grid; grid-template-columns: 1fr; gap: var(--sp-3); }
 @media (min-width: 1100px) { .track-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1500px) { .track-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

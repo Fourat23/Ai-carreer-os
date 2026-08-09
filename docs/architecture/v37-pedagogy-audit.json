@@ -1,0 +1,7 @@
+{
+  "sprint": "V37",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V37 : profondeur Frontend (splits, durcissements) + Next.js. Rubrique v20 (16 dimensions, 0-4). Notes HUMAINES à la lecture intégrale. Items remplis au CP12.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

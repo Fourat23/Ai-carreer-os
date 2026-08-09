@@ -11,7 +11,8 @@
     "typescript-frontend"
   ],
   "hardenedLegacy": [
-    "browser-dom-rendering"
+    "browser-dom-rendering",
+    "react-fundamentals"
   ],
   "critical": [
     "html-semantic-structure",

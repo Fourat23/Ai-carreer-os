@@ -28,6 +28,7 @@ React n'est supposée.
 ## 📖 Explication complète
 - **Le composant** : une fonction qui reçoit des **props** (entrées, en lecture seule) et retourne du **JSX** (la description de l'UI). L'interface se DÉCOMPOSE en composants réutilisables — c'est la décomposition en fonctions (jour 9), appliquée à l'UI.
 - **Le state** : la mémoire locale d'un composant : `const [count, setCount] = useState(0)`. On ne modifie JAMAIS `count` directement : on appelle `setCount(nouvelleValeur)` → React re-rend le composant. **L'immutabilité est obligatoire** : React détecte les changements par comparaison de RÉFÉRENCES — `liste.push(x)` garde la même référence, React ne voit rien ; `setListe([...liste, x])` crée du neuf, React re-rend. Ta discipline du jour 26 n'était pas un dogme : c'était l'entraînement.
+- **L'état est un INSTANTANÉ, pas une variable mutable** : `setCount(...)` ne change PAS la valeur de `count` dans le rendu courant — `count` reste figé pour tout ce rendu, et React **re-rend** ensuite avec la nouvelle valeur. Conséquence piégeuse : `setCount(count + 1); setCount(count + 1);` n'ajoute que **1** (les deux lisent le MÊME `count`). Quand une mise à jour dépend de la précédente, utilise la **forme fonction** (updater) : `setCount(c => c + 1)` — React applique les mises à jour successives dans l'ordre. « Le setter n'écrit pas la variable, il programme le prochain rendu. »
 - **Où vit l'état** : au plus proche ancêtre COMMUN des composants qui en ont besoin (« lifting state up »). Trop bas : inaccessible aux frères ; trop haut : re-rendus et props inutiles partout.
 - **Listes et clés** : `items.map(i => <Row key={i.id} …/>)` — la `key` STABLE (jamais l'index si la liste bouge) permet à React d'identifier chaque élément entre deux rendus.
 - **State minimal** : ne stocke jamais ce qui se CALCULE (le total se dérive du panier — jour 10, même principe). Le dérivé se recalcule au rendu.
@@ -59,6 +60,7 @@ L'interface de DocQA/DocSense est du React : la liste des sources citées, l'ét
 
 ## ⚠️ Erreurs fréquentes
 - Muter le state (`state.push`) : l'écran ne bouge pas, mystère garanti.
+- Croire que `setState` est immédiat : `setN(n+1); setN(n+1)` n'ajoute que 1 (même `n` lu deux fois) → utilise `setN(c => c+1)`.
 - Stocker le dérivable (total, compteurs) → désynchronisation.
 - `key={index}` sur une liste réordonnée → bugs d'affichage vicieux.
 - État placé au mauvais niveau (drilling infernal ou état inaccessible).
@@ -87,7 +89,7 @@ La logique : décomposer en composants → état minimal au bon niveau → modif
 - Penser en composants = décomposer, comme pour les fonctions.
 
 ## 📚 Vocabulaire
-**composant** · **JSX** · **props** · **state / useState** · **re-rendu** · **key** · **lifting state up** · **état dérivé** · **rendu conditionnel**.
+**composant** · **JSX** · **props** · **state / useState** · **re-rendu** · **instantané (snapshot) d'état** · **forme updater** (`setX(x => …)`) · **key** · **lifting state up** · **état dérivé** · **rendu conditionnel**.
 
 ## 🟢 Checklist « quand suis-je prêt ? »
 - [ ] Je pense en composants et je place l'état au bon niveau.

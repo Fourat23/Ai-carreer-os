@@ -8,7 +8,8 @@
   ],
   "hardenedLegacy": [
     "css-fundamentals",
-    "react-accessibility"
+    "react-accessibility",
+    "frontend-testing"
   ],
   "removedLessons": [
     "css-layout-flexbox-grid"

@@ -73,6 +73,24 @@ Un composant qui `fetch` ne doit pas taper un vrai serveur en test : on SIMULE l
 erreur, liste vide) pour vérifier les quatre états d'écran. On teste ainsi le cas d'erreur et le cas
 vide — précisément ceux qu'on oublie en développant.
 
+### Tests asynchrones et tests instables (flaky)
+Une interface réelle est asynchrone : après un clic, le résultat apparaît PLUS TARD (fetch, état).
+Un test correct **attend** que l'élément attendu apparaisse (une assertion « quand ce sera prêt »)
+au lieu de vérifier immédiatement — sinon il échoue par hasard. Un test **flaky** (instable) passe
+parfois, échoue parfois : causes classiques — attentes fixes en millisecondes (`sleep`), dépendance à
+l'ordre d'exécution, état partagé entre tests, horloge/aléatoire réels non contrôlés, animation non
+désactivée. Un test flaky est un test à RÉPARER (attendre une condition, isoler l'état, figer le
+temps), pas à relancer jusqu'à ce qu'il passe.
+
+### Régression : quand une feature en casse une autre
+Le scénario le plus coûteux : ta modification marche sur SON écran, mais casse une AUTRE page après
+le merge (état partagé, prop modifiée, style global). C'est exactement ce que les tests de
+comportement attrapent — à condition d'en avoir sur les parcours clés. La discipline : après un bug,
+on ajoute un **test de non-régression** qui reproduit le cas ; il échoue avant le correctif, passe
+après, et empêche le retour du bug. Cette boucle rejoint les playbooks professionnels
+`frontend-regression` (une modif React en casse une autre) et `feature-regression` (régression après
+merge) : diagnostiquer, corriger la vraie cause, verrouiller par un test.
+
 ### Accessibilité dans les tests
 Puisqu'on interroge par rôle et nom accessible, un test bien écrit VÉRIFIE indirectement
 l'accessibilité de base : présence d'un nom sur les contrôles, structure atteignable. C'est un
@@ -122,7 +140,8 @@ qu'aucun test ne casse si tu renommes une variable d'état interne. Pratique ass
 
 ## 📚 Vocabulaire
 **test de composant** · **requête par rôle / nom accessible** · **comportement vs implémentation** ·
-**test fragile** · **snapshot** · **mock réseau** · **intégration / E2E** · **pyramide de tests**.
+**test fragile** · **test asynchrone (attente)** · **test instable (flaky)** · **test de
+non-régression** · **snapshot** · **mock réseau** · **intégration / E2E** · **pyramide de tests**.
 
 ## 🧾 À retenir
 Un bon test d'interface se comporte comme un utilisateur : il rend le composant, interagit (clic,

@@ -1,0 +1,69 @@
+{
+  "id": "frontend-infinite-render",
+  "situation": "Un composant React boucle : re-rendus en rafale, page qui gèle ou requêtes réseau à répétition",
+  "domain": "incident",
+  "severityHint": "SEV2 si la page devient inutilisable ou sature une API ; SEV3 si ralentissement localisé",
+  "dayRefs": [95],
+  "relatedGlossary": ["dev-useeffect", "dev-react-hook", "dev-derived-state", "prod-incident", "prod-rollback"],
+  "symptoms": [
+    "La page se fige, l'onglet chauffe, ou le profiler montre des re-rendus incessants.",
+    "L'onglet réseau montre la même requête déclenchée en boucle.",
+    "La console affiche « Maximum update depth exceeded » ou un avertissement de dépendances d'effet."
+  ],
+  "firstChecks": [
+    "Un useEffect met-il à jour un état dont il DÉPEND (déclenchant sa propre relance) ?",
+    "Une dépendance est-elle une valeur RECRÉÉE à chaque rendu (objet/tableau/fonction inline) ?",
+    "Un setState est-il appelé pendant le rendu (hors gestionnaire/effet) ?"
+  ],
+  "containment": [
+    "Si l'API est saturée par la boucle, désactiver la fonctionnalité (feature flag) ou revenir à la version précédente.",
+    "Reproduire sur un cas minimal pour isoler l'effet ou le composant fautif."
+  ],
+  "recommendedOrder": [
+    "Reproduire",
+    "localiser l'effet/composant en boucle",
+    "identifier la dépendance instable ou l'état auto-déclenché",
+    "corriger la cause",
+    "revalider (zéro re-rendu superflu)"
+  ],
+  "communication": [
+    "Signaler l'écran touché et l'éventuelle saturation d'API (impact au-delà du front).",
+    "Indiquer si un rollback ou un flag a été activé."
+  ],
+  "evidence": [
+    "Capturer le message console (profondeur de mise à jour) et une trace du profiler React.",
+    "Conserver le cas de reproduction minimal et le diff suspect."
+  ],
+  "doNot": [
+    "Ne pas « stabiliser » au hasard en ajoutant useMemo/useCallback partout sans comprendre la dépendance en cause.",
+    "Ne pas vider le tableau de dépendances pour masquer le symptôme (réintroduit des bugs d'obsolescence)."
+  ],
+  "mitigation": [
+    "Rollback du déploiement front ou coupure via feature flag tant que la cause n'est pas corrigée."
+  ],
+  "correction": [
+    "Retirer du tableau de dépendances l'état que l'effet met à jour, ou déplacer la logique hors de l'effet (valeur DÉRIVÉE au rendu plutôt qu'un état synchronisé par effet).",
+    "Stabiliser une dépendance réellement nécessaire (mémoïser l'objet/fonction) UNIQUEMENT après avoir identifié qu'elle est recréée à chaque rendu.",
+    "Ne jamais appeler un setState pendant le rendu : le déplacer dans un gestionnaire d'événement ou un effet correctement dépendant."
+  ],
+  "validation": [
+    "Le profiler ne montre plus de re-rendus en rafale ; la requête ne part qu'aux moments attendus.",
+    "Zéro avertissement console ; le cas de reproduction minimal est stable."
+  ],
+  "delivery": [
+    "Redéployer après validation ; réactiver le flag si utilisé."
+  ],
+  "monitoring": [
+    "Surveiller le taux de requêtes de l'API concernée et les erreurs front (journalisation client) après correctif."
+  ],
+  "documentation": [
+    "Noter la cause exacte (effet auto-déclenché, dépendance instable, setState au rendu) et le correctif appliqué."
+  ],
+  "prevention": [
+    "Préférer une valeur DÉRIVÉE au rendu à un état synchronisé par useEffect (moins d'effets = moins de boucles).",
+    "N'utiliser useEffect que pour une vraie synchronisation externe, avec des dépendances justes ; mémoïser seulement après avoir mesuré."
+  ],
+  "exitCriteria": [
+    "Plus de boucle de rendu ni de requêtes répétées, cause documentée, dépendances d'effet correctes."
+  ]
+}

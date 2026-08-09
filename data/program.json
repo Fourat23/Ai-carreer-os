@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T20:05:23.093Z",
+  "generatedAt": "2026-08-09T20:09:38.495Z",
   "skills": [
     {
       "id": "algo",
@@ -6355,6 +6355,10 @@
         {
           "kind": "exercise",
           "id": "react-parent-child"
+        },
+        {
+          "kind": "playbook",
+          "id": "frontend-infinite-render"
         }
       ]
     },

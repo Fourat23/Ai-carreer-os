@@ -1,0 +1,115 @@
+{
+  "id": "frontend-accessible-search",
+  "title": "Construire un écran de recherche accessible et robuste",
+  "description": "Assembler une vraie fonctionnalité front : un écran de recherche qui structure sémantiquement sa page, gère les quatre états d'affichage (chargement, vide, erreur, succès), reste utilisable au clavier et sur mobile, et repose sur un état prévisible — puis documenter les choix.",
+  "category": "documentation",
+  "difficulty": 3,
+  "estimatedHours": 5,
+  "context": "Simulation d'analyse déterministe (aucun vrai navigateur : le raisonnement s'évalue sur du code et un document, pas sur un rendu réel). Tu construis un écran de recherche complet, celui qu'on retrouve dans presque toute application. Un écran « qui marche sur les données de démo » ne suffit pas : il doit être STRUCTURÉ (HTML sémantique — un vrai formulaire avec label associé, un <main>, une liste), COMPLET (les quatre états d'un écran de données : chargement, vide « aucun résultat », erreur avec reprise, succès — pas seulement le cas heureux), ACCESSIBLE (utilisable au clavier, champ et bouton nommés, erreurs annoncées et pas seulement colorées), RESPONSIVE (utilisable de 375 px à grand écran, sans débordement), et PRÉVISIBLE (état géré proprement — état minimal, dérivé calculé, ou reducer si la logique le justifie ; jamais de mutation). Tu produis le code de l'écran et une note d'architecture expliquant tes choix. Rappel honnête : la validation front est une commodité — toute donnée réseau reste à re-vérifier côté serveur.",
+  "prerequisites": [
+    "React consomme l'API : fetch et états async (jour 88)",
+    "Formulaires contrôlés et validation (jour 96)",
+    "Accessibilité et UX de base (jour 103)"
+  ],
+  "skills": [
+    "react",
+    "html",
+    "accessibility",
+    "state"
+  ],
+  "trackRefs": [
+    "fullstack-typescript",
+    "frontend-engineer-v1"
+  ],
+  "dayRefs": [
+    88,
+    96,
+    103
+  ],
+  "exerciseRefs": [
+    "react-search",
+    "react-form-name",
+    "web-semantic"
+  ],
+  "deliverables": [
+    {
+      "id": "search-behavior",
+      "kind": "code",
+      "title": "Recherche fonctionnelle (exercice)",
+      "required": true,
+      "validation": "auto",
+      "exerciseRef": "react-search",
+      "hint": "L'écran filtre/charge selon la saisie et gère la réponse asynchrone sans afficher de résultat périmé."
+    },
+    {
+      "id": "architecture-doc",
+      "kind": "document",
+      "title": "Note d'architecture de l'écran",
+      "required": true,
+      "validation": "structural",
+      "docSpec": {
+        "requiredSections": [
+          "Structure",
+          "États",
+          "Accessibilité",
+          "Responsive",
+          "État",
+          "Limites"
+        ],
+        "requireMentions": [
+          "label",
+          "chargement",
+          "erreur",
+          "vide",
+          "clavier"
+        ],
+        "minLength": 400,
+        "maxLength": 8000
+      },
+      "hint": "Justifie : structure sémantique (formulaire + label + main + liste), les quatre états d'écran, l'accessibilité clavier et les erreurs annoncées, le comportement responsive, et où vit l'état (minimal/dérivé/reducer)."
+    },
+    {
+      "id": "self-review",
+      "kind": "report",
+      "title": "Auto-évaluation guidée",
+      "required": true,
+      "validation": "review"
+    }
+  ],
+  "rubric": [
+    {
+      "label": "Exercice vert : la recherche gère correctement l'asynchrone (pas de résultat périmé)",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Les quatre états d'écran sont traités (chargement, vide, erreur, succès)",
+      "blocking": true,
+      "category": "functional"
+    },
+    {
+      "label": "Accessibilité : champ et bouton nommés, utilisable au clavier, erreurs non uniquement colorées",
+      "blocking": true,
+      "category": "quality"
+    },
+    {
+      "label": "Responsive : utilisable à 375 px, sans débordement horizontal",
+      "blocking": false,
+      "category": "quality"
+    },
+    {
+      "label": "État prévisible : minimal, dérivé calculé, aucune mutation (reducer si justifié)",
+      "blocking": false,
+      "category": "quality"
+    }
+  ],
+  "commonMistakes": [
+    "Ne gérer que le cas « succès » (spinner infini, écran blanc, « rien » sans message quand c'est vide)",
+    "Utiliser un placeholder à la place d'un <label> associé",
+    "Signaler une erreur uniquement par la couleur (invisible pour beaucoup d'utilisateurs)",
+    "Stocker un résultat dérivable dans un second état (désynchronisation)",
+    "Largeurs fixes en pixels qui débordent sur mobile"
+  ],
+  "status": "published",
+  "version": "1"
+}

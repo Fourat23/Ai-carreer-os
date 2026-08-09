@@ -135,6 +135,32 @@ test('audit V32 : un exercice atteignable par une journée n\'est PAS orphelin',
   assert.ok(!rep.anomalies.some((x) => x.type === 'orphan-practice'));
 });
 
+test('audit V33 : foundation-without-practice (prérequis de ≥3, sans pratique) → warning', () => {
+  const g = buildCurriculumGraph({
+    lessons: [
+      { slug: 'base' }, // aucune pratique
+      { slug: 'a' }, { slug: 'b' }, { slug: 'c' },
+    ],
+    prereqPlans: [{ a: ['base'], b: ['base'], c: ['base'] }],
+  });
+  const rep = auditCurriculumGraph(g);
+  assert.ok(rep.anomalies.some((x) => x.type === 'foundation-without-practice' && x.severity === 'warning' && x.subject === 'base'));
+  assert.equal(rep.ok, true); // heuristique → jamais bloquant
+});
+
+test('audit V33 : une fondation AVEC pratique n\'est pas signalée', () => {
+  const g = buildCurriculumGraph({
+    lessons: [
+      { slug: 'base', practiceRefs: [{ kind: 'exercise', id: 'ex' }] },
+      { slug: 'a' }, { slug: 'b' }, { slug: 'c' },
+    ],
+    prereqPlans: [{ a: ['base'], b: ['base'], c: ['base'] }],
+    known: { exercises: ['ex'] },
+  });
+  const rep = auditCurriculumGraph(g);
+  assert.ok(!rep.anomalies.some((x) => x.type === 'foundation-without-practice'));
+});
+
 // ── (b) Intégration sur les vraies données ───────────────────────────────────
 
 function realGraph() {

@@ -1,0 +1,25 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "nn-forward-neuron",
+  "title": "Réseaux de neurones : la passe avant d'un neurone",
+  "difficulty": 2,
+  "summary": "forward(inputs, weights, bias, activation) calcule la sortie d'UN neurone : la somme pondérée z = Σ(inputs[i]·weights[i]) + biais, puis l'activation ('relu' → max(0, z) ; 'step' → 1 si z ≥ 0 sinon 0). Oublier le biais est l'erreur classique. SIMULATION : poids et entrées sont fournis (aucun entraînement) — on calcule réellement la passe avant en local.",
+  "skills": ["arrays", "loops", "functions", "conditions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Passe avant d'un neurone : somme pondérée + biais, puis activation.\n// TODO : ceci oublie le BIAIS et ignore l'activation — un neurone est\n//        activation(Σ inputs·weights + bias).\nexport function forward(inputs, weights, bias, activation) {\n  let z = 0;\n  for (let i = 0; i < inputs.length; i++) z += inputs[i] * weights[i];\n  return z;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function forward(inputs, weights, bias, activation) {\n  let z = bias;\n  for (let i = 0; i < inputs.length; i++) z += inputs[i] * weights[i];\n  return activation === 'relu' ? Math.max(0, z) : (z >= 0 ? 1 : 0);\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "relu sur une somme positive (biais inclus)", "kind": "call-equals", "export": "forward", "args": [[1, 2], [3, -1], 1, "relu"], "expected": 2 },
+    { "id": "t2", "name": "relu écrase une somme négative à 0", "kind": "call-equals", "export": "forward", "args": [[1, 1], [-2, -2], 1, "relu"], "expected": 0 },
+    { "id": "t3", "name": "activation en marche (step) sous le seuil → 0", "kind": "call-equals", "export": "forward", "args": [[1, 1], [1, 1], -3, "step"], "expected": 0, "private": true },
+    { "id": "t4", "name": "step au-dessus du seuil → 1", "kind": "call-equals", "export": "forward", "args": [[2, 2], [1, 1], -3, "step"], "expected": 1, "private": true }
+  ]
+}

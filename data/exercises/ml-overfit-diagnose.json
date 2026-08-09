@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "ml-overfit-diagnose",
+  "title": "ML : diagnostiquer overfitting / underfitting",
+  "difficulty": 2,
+  "summary": "diagnose(scores) où scores={train, val} (0-100) lit les symptômes : train élevé (≥80) ET val nettement plus bas (val < train-15) → 'overfit' (le modèle mémorise) ; train bas (<70) → 'underfit' (il n'apprend pas assez) ; sinon 'good'. On diagnostique par l'ÉCART train/val, pas par un seul chiffre. SIMULATION : les scores sont fournis (aucun entraînement) — on code la règle de lecture.",
+  "skills": ["conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Diagnostique la généralisation à partir des scores train et validation.\n// TODO : ne regarder que la validation rate l'overfitting — il faut comparer\n//        train ET val (un train excellent + val faible = mémorisation).\nexport function diagnose(scores) {\n  return scores.val < 70 ? 'underfit' : 'good';\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function diagnose(scores) {\n  if (scores.train >= 80 && scores.val < scores.train - 15) return 'overfit';\n  if (scores.train < 70) return 'underfit';\n  return 'good';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "train excellent, validation faible → overfit", "kind": "call-equals", "export": "diagnose", "args": [{ "train": 98, "val": 70 }], "expected": "overfit" },
+    { "id": "t2", "name": "les deux bas → underfit", "kind": "call-equals", "export": "diagnose", "args": [{ "train": 60, "val": 58 }], "expected": "underfit" },
+    { "id": "t3", "name": "les deux bons et proches → good", "kind": "call-equals", "export": "diagnose", "args": [{ "train": 88, "val": 85 }], "expected": "good", "private": true }
+  ]
+}

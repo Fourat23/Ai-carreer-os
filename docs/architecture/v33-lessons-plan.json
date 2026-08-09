@@ -5,11 +5,13 @@
   "newLessons": [],
   "hardenedLegacy": [
     "feature-engineering",
-    "scikit-learn-workflow"
+    "scikit-learn-workflow",
+    "neural-networks"
   ],
   "critical": [
     "feature-engineering",
-    "scikit-learn-workflow"
+    "scikit-learn-workflow",
+    "neural-networks"
   ],
   "prereq": {
     "feature-engineering": ["machine-learning-basics", "statistics-for-ml"],

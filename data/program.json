@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T09:17:57.519Z",
+  "generatedAt": "2026-08-09T09:20:02.681Z",
   "skills": [
     {
       "id": "algo",
@@ -6730,6 +6730,16 @@
       "min": 55,
       "skills": [
         "dl"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "nn-forward-neuron"
+        },
+        {
+          "kind": "exercise",
+          "id": "ml-overfit-diagnose"
+        }
       ]
     },
     {

@@ -1,11 +1,30 @@
 <!-- keep -->
 # Leçon — Réseaux de neurones : ouvrir la boîte noire
 
+## 🌍 Le problème d'abord
+« Réseau de neurones », « deep learning », « intelligence artificielle » : les mots
+impressionnent et donnent l'impression d'une magie inaccessible. Pourtant, à la base, il y a
+une idée simple. Imagine une machine avec des milliers de petits boutons à régler, et une
+note qui te dit à quel point elle se trompe. Si tu savais, pour chaque bouton, dans quel sens
+le tourner pour améliorer la note, tu pourrais — en répétant des millions de fois — obtenir
+une machine très performante. C'est EXACTEMENT ce qu'est l'entraînement d'un réseau de
+neurones : des poids (les boutons), une loss (la note), un gradient (le sens du réglage). Pas
+de magie — des maths simples empilées. Cette leçon ouvre la boîte noire pour que tu raisonnes
+sur les réseaux (et plus tard les LLM) au lieu de les subir.
+
 ## 🎯 Objectif
 Comprendre ce qu'est VRAIMENT un réseau de neurones (une composition de fonctions simples optimisée par gradient), savoir en entraîner un petit en PyTorch, et diagnostiquer avec les courbes. Le socle pour comprendre les transformers et les LLM — pas de la magie, des maths simples empilées.
 
 ## 🧠 Modèle mental
 Un réseau de neurones, c'est **une machine à régler des boutons** : des millions de boutons (les poids), une note à chaque essai (la loss), et une méthode pour savoir dans quel sens tourner chaque bouton pour améliorer la note (le gradient). L'entraînement = tourner les boutons petit à petit jusqu'à ce que la note soit bonne.
+
+## 🧩 Prérequis
+Tu dois comprendre ce qu'est un modèle supervisé et son entraînement, la loss et la notion de
+métrique (`/doc/lessons/machine-learning-basics`), ainsi que overfitting / train-validation et
+les réflexes statistiques (`/doc/lessons/statistics-for-ml`, `/doc/lessons/model-evaluation`),
+car un réseau se diagnostique par ses courbes train/validation. Une intuition de la dérivée
+(la pente d'une fonction) aide pour le gradient, mais on la construit ici par l'image de la
+vallée. Aucun framework n'est supposé.
 
 ## 📖 Explication complète
 - **Le neurone** : une somme pondérée + un biais + une **activation** non linéaire (`sortie = f(w·x + b)`). Sans la non-linéarité, empiler des couches ne servirait à rien (une composition de fonctions linéaires reste linéaire) — c'est elle qui permet d'apprendre des formes complexes.

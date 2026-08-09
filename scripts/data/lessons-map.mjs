@@ -57,7 +57,7 @@ export const LESSONS = [
   { file: 'feature-engineering.md', title: 'Feature engineering', cat: 'Python & ML', level: 2, min: 45, skills: ['ml'], practiceRefs: [{ kind: 'exercise', id: 'ml-data-leakage' }, { kind: 'exercise', id: 'ml-feature-encoding' }] },
   { file: 'model-evaluation.md', title: 'Évaluer un modèle ML', cat: 'Python & ML', level: 2, min: 50, skills: ['ml', 'evalia'], practiceRefs: [{ kind: 'exercise', id: 'ml-metric-choice' }] },
   { file: 'scikit-learn-workflow.md', title: 'Le workflow scikit-learn', cat: 'Python & ML', level: 2, min: 45, skills: ['ml', 'python'], practiceRefs: [{ kind: 'exercise', id: 'ml-split-choice' }, { kind: 'exercise', id: 'ml-data-leakage' }] },
-  { file: 'neural-networks.md', title: 'Réseaux de neurones : ouvrir la boîte noire', cat: 'Python & ML', level: 3, min: 55, skills: ['dl'] },
+  { file: 'neural-networks.md', title: 'Réseaux de neurones : ouvrir la boîte noire', cat: 'Python & ML', level: 3, min: 55, skills: ['dl'], practiceRefs: [{ kind: 'exercise', id: 'nn-forward-neuron' }, { kind: 'exercise', id: 'ml-overfit-diagnose' }] },
   { file: 'transformers.md', title: "Transformers : l'architecture des LLM", cat: 'Python & ML', level: 3, min: 55, skills: ['dl', 'llm'] },
   // ── IA appliquée ──
   { file: 'llm-fundamentals.md', title: 'LLM : comprendre les grands modèles', cat: 'IA appliquée', level: 2, min: 55, skills: ['llm'] },

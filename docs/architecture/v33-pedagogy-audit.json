@@ -1,0 +1,7 @@
+{
+  "sprint": "V33",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V33 : chaîne ML → DL → Transformers → LLMOps durcie (on-ramp + prérequis + pratique). Rubrique v20 (16 dimensions, 0-4). Scores APRÈS ; avant/après, matrice complète et walkthrough néophyte dans docs/PEDAGOGICAL-AUDIT-V33.md. Items remplis au CP11.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

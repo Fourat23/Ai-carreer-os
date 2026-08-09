@@ -1,11 +1,28 @@
 <!-- keep -->
 # Leçon — La récursion en profondeur
 
+## 🌍 Le problème d'abord
+On te donne un dossier qui contient des fichiers ET d'autres dossiers, eux-mêmes contenant des
+fichiers et des dossiers, sur une profondeur que tu ne connais pas d'avance. Comment compter
+TOUS les fichiers ? Une boucle simple ne suffit pas : tu ne sais pas combien de niveaux il y a.
+Le même problème revient partout — un JSON profondément imbriqué, un arbre de commentaires,
+l'arborescence d'un site. La récursion est l'outil taillé pour ça : une fonction qui, pour
+résoudre un gros problème, se rappelle elle-même sur un problème plus PETIT, jusqu'à un cas
+trivial. Le piège du débutant est d'y voir une curiosité intimidante ; en réalité c'est un
+outil quotidien, à condition de respecter deux règles simples. Cette leçon te les donne.
+
 ## 🎯 Objectif
 Maîtriser la récursion comme OUTIL (pas comme curiosité) : pile d'appels, confiance récursive, structures imbriquées, backtracking d'introduction, et conversion récursif ↔ itératif. Indispensable pour les arbres, le JSON profond, et les entretiens.
 
 ## 🧠 Modèle mental
 Une fonction récursive, c'est **des poupées russes** : chaque appel ouvre une poupée plus petite, jusqu'à la plus petite (le cas de base), puis on referme en remontant les résultats. Deux règles absolues : une poupée finale existe, et chaque ouverture rapproche d'elle.
+
+## 🧩 Prérequis
+Tu dois maîtriser les fonctions (paramètres, valeur de retour, portée) et les conditions
+(`/doc/lessons/javascript-basics`), et avoir une intuition de la pensée algorithmique — découper
+un problème en sous-problèmes (`/doc/lessons/algorithmic-thinking`). Comprendre qu'un appel de
+fonction « met en pause » l'appelant jusqu'au retour aide à visualiser la pile d'appels. Aucune
+structure de données avancée n'est supposée : on les aborde ici.
 
 ## 📖 Explication complète
 - **La pile d'appels** : chaque appel empile un contexte (SES variables) ; le cas de base atteint, les contextes se dépilent en remontant les résultats. `factorielle(3)` : empile f(3)→f(2)→f(1)=1, puis dépile 2×1=2, 3×2=6. DESSINER cette pile une fois démystifie tout.

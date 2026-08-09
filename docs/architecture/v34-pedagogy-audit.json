@@ -2,6 +2,134 @@
   "sprint": "V34",
   "rubricVersion": "1",
   "note": "Registre d'audit pédagogique V34 : fondations data durcies + theory→practice. Rubrique v20 (16 dimensions, 0-4). Items remplis au CP11.",
-  "scanGlobs": ["curriculum/lessons/*.md"],
-  "items": []
+  "scanGlobs": [
+    "curriculum/lessons/*.md"
+  ],
+  "items": [
+    {
+      "id": "llm-fundamentals",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/llm-fundamentals.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Déjà au standard ; désormais RELIÉ à une pratique (llm-context-budget : fenêtre de contexte partagée prompt+réponse)."
+    },
+    {
+      "id": "pandas-data-wrangling",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/pandas-data-wrangling.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "On-ramp « 50 000 lignes, CA par région » + prérequis (python, sql) ; pratique table-groupby + data-quality-detect."
+    },
+    {
+      "id": "data-cleaning-quality",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/data-cleaning-quality.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "On-ramp « export sale → résultat faux mais crédible » + prérequis ; pratique data-quality-detect + data-missing-strategy."
+    },
+    {
+      "id": "etl-pipelines",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/etl-pipelines.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "On-ramp « pipeline rejouable résistant aux pannes » + prérequis ; pratique etl-pipeline-order."
+    },
+    {
+      "id": "recursion",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/recursion.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Rétroactif V34 (premier-contact Fondations) : on-ramp « compter les fichiers d'une arborescence de profondeur inconnue » + prérequis ; contenu (poupées russes, pile d'appels) conservé ; mini-exercice intégré."
+    }
+  ]
 }

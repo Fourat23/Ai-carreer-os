@@ -1,0 +1,24 @@
+{
+  "runtime": "node-js",
+  "trackRefs": ["ai-engineer-foundations-v1"],
+  "activeFile": "solution.mjs",
+  "id": "attention-argmax",
+  "title": "Attention : quel token reçoit le plus d'attention ?",
+  "difficulty": 2,
+  "summary": "mostAttended(scores) renvoie l'INDEX du token qui reçoit le plus d'attention (le score le plus élevé), les égalités tranchées par l'index le plus petit. Intuition centrale de l'attention : « pour ce token, quelle autre partie du contexte est la plus utile ? » — avant toute formule QKᵀ/√d. SIMULATION : les scores d'attention sont fournis (aucun modèle) — on code la sélection.",
+  "skills": ["arrays", "loops", "conditions", "functions"],
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      { "path": "solution.mjs", "content": "// Renvoie l'index du score d'attention le plus élevé.\n// TODO : renvoyer toujours le dernier index est faux — il faut chercher le\n//        maximum (égalités tranchées par le plus petit index).\nexport function mostAttended(scores) {\n  return scores.length - 1;\n}\n" }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function mostAttended(scores) {\n  let best = 0;\n  for (let i = 1; i < scores.length; i++) {\n    if (scores[i] > scores[best]) best = i;\n  }\n  return best;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "le score max n'est pas le dernier", "kind": "call-equals", "export": "mostAttended", "args": [[1, 7, 3, 2]], "expected": 1 },
+    { "id": "t2", "name": "max en tête", "kind": "call-equals", "export": "mostAttended", "args": [[9, 1, 1]], "expected": 0 },
+    { "id": "t3", "name": "égalité tranchée par le plus petit index", "kind": "call-equals", "export": "mostAttended", "args": [[4, 4, 2]], "expected": 0, "private": true }
+  ]
+}

@@ -6,12 +6,14 @@
   "hardenedLegacy": [
     "feature-engineering",
     "scikit-learn-workflow",
-    "neural-networks"
+    "neural-networks",
+    "transformers"
   ],
   "critical": [
     "feature-engineering",
     "scikit-learn-workflow",
-    "neural-networks"
+    "neural-networks",
+    "transformers"
   ],
   "prereq": {
     "feature-engineering": ["machine-learning-basics", "statistics-for-ml"],

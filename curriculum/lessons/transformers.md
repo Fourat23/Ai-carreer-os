@@ -1,11 +1,30 @@
 <!-- keep -->
 # Leçon — Transformers : l'architecture derrière les LLM
 
+## 🌍 Le problème d'abord
+Prends la phrase « la souris est cassée ». S'agit-il de l'animal ou de l'objet
+informatique ? Impossible de trancher sur le mot seul : c'est le CONTEXTE (« cassée ») qui
+décide. Pendant des années, les machines lisaient les phrases mot à mot, de gauche à droite,
+et peinaient à relier un mot à un autre distant. Le problème à résoudre : comment donner à
+chaque mot un sens qui dépend de tous les autres mots autour de lui, et le faire assez vite
+pour entraîner des modèles gigantesques ? La réponse — l'ATTENTION, puis le TRANSFORMER — a
+déclenché toute la vague des LLM. Cette leçon suit le trajet d'une phrase de bout en bout, au
+niveau intuition solide (schémas d'abord, formules seulement si elles éclairent), pour que tu
+saches expliquer un transformer avec tes propres mots.
+
 ## 🎯 Objectif
 Comprendre le trajet d'une phrase dans un transformer — tokenisation → embeddings → attention → prédiction — au niveau INTUITION SOLIDE (schémas, pas équations). Objectif d'entretien : « explique-moi un transformer » en 3 minutes, avec tes propres mots.
 
 ## 🧠 Modèle mental
 L'attention, c'est **une salle de réunion où chaque mot écoute tous les autres** et décide à qui prêter attention pour préciser son propre sens. Dans « la souris mange le fromage » vs « la souris ne répond plus », le mot « souris » construit son sens en regardant ses voisins. Le transformer, c'est cette réunion, répétée couche après couche.
+
+## 🧩 Prérequis
+Tu dois comprendre un réseau de neurones — couches, poids, activation, entraînement par
+gradient (`/doc/lessons/neural-networks`) — car un transformer EST un réseau particulier, et
+la notion d'embedding : un mot devenu vecteur de sens (`/doc/lessons/embeddings`). Les bases
+de la similarité entre vecteurs (produit scalaire, orientation) aident pour l'attention. Tu
+n'as PAS besoin de savoir dériver les équations : on construit l'intuition d'abord, la
+formule vient seulement si elle éclaire.
 
 ## 📖 Explication complète
 Le trajet d'une phrase, étape par étape :

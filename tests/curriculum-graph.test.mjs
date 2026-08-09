@@ -94,19 +94,62 @@ test('audit : signale une leçon orpheline (info)', () => {
   assert.equal(rep.ok, true);
 });
 
+// ── (a bis) Diagnostics V32 (Curriculum Graph II) ─────────────────────────────
+
+test('audit V32 : advanced-before-prerequisite (prérequis de niveau supérieur) → warning', () => {
+  const g = buildCurriculumGraph({
+    lessons: [{ slug: 'basique', level: 2 }, { slug: 'avance', level: 3 }],
+    prereqPlans: [{ basique: ['avance'] }], // une leçon niv.2 requiert une niv.3
+  });
+  const rep = auditCurriculumGraph(g);
+  assert.ok(rep.anomalies.some((x) => x.type === 'advanced-before-prerequisite' && x.severity === 'warning' && x.subject === 'basique'));
+  assert.equal(rep.ok, true); // heuristique → jamais bloquant
+});
+
+test('audit V32 : concept-without-foundation (leçon niv.≥3 sans prérequis) → warning', () => {
+  const g = buildCurriculumGraph({
+    lessons: [{ slug: 'pointu', level: 3 }],
+    prereqPlans: [], // aucun prérequis déclaré
+  });
+  const rep = auditCurriculumGraph(g);
+  assert.ok(rep.anomalies.some((x) => x.type === 'concept-without-foundation' && x.severity === 'warning' && x.subject === 'pointu'));
+  assert.equal(rep.ok, true);
+});
+
+test('audit V32 : orphan-practice (exercice atteignable nulle part) → info', () => {
+  const g = buildCurriculumGraph({
+    lessons: [{ slug: 'a', practiceRefs: [{ kind: 'exercise', id: 'ex-utilise' }] }],
+    known: { exercises: ['ex-utilise', 'ex-perdu'], reachableExercises: [] },
+  });
+  const rep = auditCurriculumGraph(g);
+  assert.ok(rep.anomalies.some((x) => x.type === 'orphan-practice' && x.severity === 'info' && x.subject === 'exercise:ex-perdu'));
+  assert.ok(!rep.anomalies.some((x) => x.type === 'orphan-practice' && x.subject === 'exercise:ex-utilise'));
+});
+
+test('audit V32 : un exercice atteignable par une journée n\'est PAS orphelin', () => {
+  const g = buildCurriculumGraph({
+    lessons: [{ slug: 'a' }],
+    known: { exercises: ['ex-jour'], reachableExercises: ['ex-jour'] },
+  });
+  const rep = auditCurriculumGraph(g);
+  assert.ok(!rep.anomalies.some((x) => x.type === 'orphan-practice'));
+});
+
 // ── (b) Intégration sur les vraies données ───────────────────────────────────
 
 function realGraph() {
   const program = readJson('data/program.json');
-  const plans = ['v27', 'v28', 'v29', 'v30', 'v31']
+  const plans = ['v27', 'v28', 'v29', 'v30', 'v31', 'v32']
     .map((v) => readJson(`docs/architecture/${v}-lessons-plan.json`).prereq)
     .filter(Boolean);
   const idsOf = (dir) => new Set(readdirSync(R(dir)).filter((f) => f.endsWith('.json')).map((f) => f.replace('.json', '')));
+  const dayLinked = new Set(Object.values(readJson('data/day-exercises.json')).flat());
   const known = {
     exercises: idsOf('data/exercises'),
     missions: idsOf('data/missions'),
     playbooks: idsOf('data/playbooks'),
     labs: new Set(['terminal', 'pipeline', 'cloud-topology', 'kubernetes', 'security', 'cloud-architecture']),
+    reachableExercises: dayLinked,
   };
   return buildCurriculumGraph({ lessons: program.lessons, prereqPlans: plans, known });
 }

@@ -367,7 +367,7 @@ table.list tr:hover td { background: var(--panel); }
 
 /* Forms */
 label.field { display: block; margin: 12px 0 4px; font-size: 13px; color: var(--muted); }
-textarea, input, select {
+textarea, input:not([type="checkbox"]):not([type="radio"]), select {
   width: 100%; background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
   border-radius: 8px; padding: 9px 11px; font-size: 14px; font-family: inherit;
 }
@@ -760,6 +760,9 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .prose.reading {
   max-width: var(--read-max); background: none; border: none; border-radius: 0; padding: 0;
   font-size: var(--fs-read); line-height: var(--lh-read);
+  /* Colonne de lecture : jamais de scroll horizontal de page. Les médias larges
+     (blocs de code, tableaux) gèrent leur propre overflow-x:auto en interne. */
+  overflow-x: clip;
 }
 .prose.reading h1 { font-size: var(--fs-h1); line-height: var(--lh-tight); letter-spacing: -0.02em; margin: 0 0 16px; }
 .prose.reading > h1:first-child { margin-top: 0; }

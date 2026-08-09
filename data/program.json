@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T15:52:28.215Z",
+  "generatedAt": "2026-08-09T20:00:13.795Z",
   "skills": [
     {
       "id": "algo",
@@ -6437,6 +6437,48 @@
         {
           "kind": "exercise",
           "id": "react-debug-list"
+        }
+      ]
+    },
+    {
+      "slug": "frontend-testing",
+      "title": "Tester une interface : comportement, pas implémentation",
+      "cat": "Frontend & React",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "jsts",
+        "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "react-debug-list"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-search"
+        }
+      ]
+    },
+    {
+      "slug": "frontend-performance",
+      "title": "Performance frontend : mesurer avant d'optimiser",
+      "cat": "Frontend & React",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "perf-pair-count"
+        },
+        {
+          "kind": "exercise",
+          "id": "react-search"
         }
       ]
     },

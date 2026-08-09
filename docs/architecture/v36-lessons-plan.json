@@ -9,7 +9,9 @@
     "responsive-design",
     "web-forms-validation",
     "typescript-frontend",
-    "react-application-states"
+    "react-application-states",
+    "frontend-testing",
+    "frontend-performance"
   ],
   "hardenedLegacy": [
     "browser-dom-rendering",
@@ -26,6 +28,8 @@
     "responsive-design": ["css-layout-flexbox-grid", "css-fundamentals"],
     "web-forms-validation": ["html-semantic-structure", "browser-dom-rendering"],
     "typescript-frontend": ["typescript-basics", "async-javascript"],
-    "react-application-states": ["react-hooks-effects", "react-composition-architecture"]
+    "react-application-states": ["react-hooks-effects", "react-composition-architecture"],
+    "frontend-testing": ["testing-foundations", "react-fundamentals"],
+    "frontend-performance": ["react-composition-architecture", "caching-performance"]
   }
 }

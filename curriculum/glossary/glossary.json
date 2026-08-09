@@ -18323,5 +18323,516 @@
       "rag",
       "évaluation"
     ]
+  },
+  {
+    "id": "ai-label",
+    "term": "label",
+    "fullForm": null,
+    "frenchMeaning": "étiquette (la bonne réponse à prédire, en apprentissage supervisé)",
+    "category": "ai",
+    "level": "débutant",
+    "shortDefinition": "La valeur qu'on cherche à prédire pour chaque exemple, connue à l'entraînement (apprentissage supervisé).",
+    "detailedDefinition": "En apprentissage supervisé, chaque exemple a des features (entrées) et un label (la bonne réponse : churn oui/non, prix, catégorie). Le modèle apprend la relation features → label sur des exemples étiquetés, puis prédit le label sur des exemples nouveaux. Sans labels, on parle d'apprentissage non supervisé.",
+    "usageContext": "ML supervisé, préparation de dataset.",
+    "meetingExample": "« Pour prédire le churn, le label est “a résilié dans les 30 jours”. »",
+    "plainTranslation": "« La bonne réponse qu'on montre au modèle pour qu'il apprenne. »",
+    "relatedTerms": [
+      "ai-feature",
+      "ai-ml"
+    ],
+    "aliases": [
+      "target",
+      "cible"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-data-leakage",
+    "term": "data leakage",
+    "fullForm": null,
+    "frenchMeaning": "fuite de données (une info du futur/de la cible entre dans l'entraînement)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Quand de l'information qui ne serait pas disponible au moment de la prédiction entre dans l'entraînement, gonflant artificiellement le score.",
+    "detailedDefinition": "Le piège n°1 du ML : une feature qui « connaît la réponse » (ex. date de résiliation pour prédire la résiliation), ou une transformation calculée sur TOUT le dataset avant le split (le test fuite dans les paramètres). Résultat : un modèle excellent en validation, catastrophique en production. Parade : split honnête d'abord, transformations apprises sur le train seulement (Pipeline), vigilance sur chaque feature.",
+    "usageContext": "Feature engineering, évaluation, incidents ML.",
+    "meetingExample": "« Score à 99 % : suspecte une fuite avant de te réjouir. »",
+    "plainTranslation": "« Laisser sans le vouloir la réponse entrer dans les données d'entraînement. »",
+    "relatedTerms": [
+      "ai-feature",
+      "ai-holdout-split",
+      "ai-train-test-split"
+    ],
+    "aliases": [
+      "fuite de données",
+      "leakage"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-holdout-split",
+    "term": "holdout",
+    "fullForm": null,
+    "frenchMeaning": "jeu réservé (train / validation / test)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Séparer les données en train (apprendre), validation (régler), et test (noter une seule fois, jamais vu).",
+    "detailedDefinition": "On révise sur le cours (train), on s'entraîne sur un examen blanc (validation, pour choisir hyperparamètres et features), et on note sur un examen final jamais vu (test). Le test ne doit JAMAIS guider l'entraînement, sinon le score est illusoire. Sur données temporelles, la séparation se fait par le temps (pas d'aléatoire) pour ne pas laisser fuiter le futur.",
+    "usageContext": "Toute évaluation ML honnête.",
+    "meetingExample": "« On garde 20 % en test, jamais touché avant la mesure finale. »",
+    "plainTranslation": "« Mettre de côté des données jamais vues pour juger honnêtement le modèle. »",
+    "relatedTerms": [
+      "ai-train-test-split",
+      "ai-cross-validation",
+      "ai-data-leakage"
+    ],
+    "aliases": [
+      "train set",
+      "validation set",
+      "test set",
+      "jeu de validation",
+      "jeu de test"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml",
+      "évaluation"
+    ]
+  },
+  {
+    "id": "ai-cross-validation",
+    "term": "cross-validation",
+    "fullForm": null,
+    "frenchMeaning": "validation croisée (évaluer sur plusieurs découpages)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Découper les données en k plis et évaluer k fois (chaque pli servant tour à tour de validation), puis moyenner.",
+    "detailedDefinition": "Un seul découpage train/validation peut être chanceux ou malchanceux. La validation croisée (k-fold) répète l'évaluation sur k découpages différents et moyenne : une estimation plus stable de la performance. Le préprocessing doit être RE-appris dans chaque pli (via un Pipeline) sinon la validation fuite.",
+    "usageContext": "Sélection de modèle, réglage d'hyperparamètres.",
+    "meetingExample": "« CV à 5 plis : le score moyen est plus fiable qu'un split unique. »",
+    "plainTranslation": "« Tester le modèle sur plusieurs découpages et faire la moyenne. »",
+    "relatedTerms": [
+      "ai-holdout-split",
+      "ai-overfitting"
+    ],
+    "aliases": [
+      "validation croisée",
+      "k-fold"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml",
+      "évaluation"
+    ]
+  },
+  {
+    "id": "ai-underfitting",
+    "term": "underfitting",
+    "fullForm": null,
+    "frenchMeaning": "sous-apprentissage (le modèle n'apprend pas assez)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Le modèle est trop simple ou pas assez entraîné : il se trompe même sur les données d'entraînement.",
+    "detailedDefinition": "Symptôme observable : score FAIBLE à la fois sur le train ET la validation (à l'inverse de l'overfitting où le train est bon mais la validation mauvaise). Causes : modèle trop simple, features insuffisantes, entraînement trop court. Remèdes : plus de features utiles, modèle plus expressif, entraîner davantage.",
+    "usageContext": "Diagnostic ML par les courbes.",
+    "meetingExample": "« Train ET validation à 60 % : c'est de l'underfitting, pas de l'overfitting. »",
+    "plainTranslation": "« Le modèle est trop simple : il rate même ce qu'il a déjà vu. »",
+    "relatedTerms": [
+      "ai-overfitting",
+      "ai-bias-variance",
+      "ai-loss"
+    ],
+    "aliases": [
+      "sous-apprentissage"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-bias-variance",
+    "term": "bias-variance tradeoff",
+    "fullForm": null,
+    "frenchMeaning": "compromis biais-variance",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Le compromis entre un modèle trop simple (biais élevé, underfit) et trop sensible aux données (variance élevée, overfit).",
+    "detailedDefinition": "Le BIAIS élevé = hypothèses trop rigides, le modèle rate le signal (underfitting). La VARIANCE élevée = le modèle colle au bruit du train et généralise mal (overfitting). Réduire l'un augmente souvent l'autre : le bon modèle équilibre les deux. Intuition : un débutant qui récite (variance) vs qui simplifie tout (biais).",
+    "usageContext": "Diagnostic et choix de modèle.",
+    "meetingExample": "« On a réduit la variance par de la régularisation sans trop augmenter le biais. »",
+    "plainTranslation": "« Trouver l'équilibre entre trop simple et trop collé aux exemples. »",
+    "relatedTerms": [
+      "ai-overfitting",
+      "ai-underfitting"
+    ],
+    "aliases": [
+      "compromis biais-variance",
+      "biais",
+      "variance"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-confusion-matrix",
+    "term": "confusion matrix",
+    "fullForm": null,
+    "frenchMeaning": "matrice de confusion (vrais/faux positifs et négatifs)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Un tableau 2×2 (en binaire) croisant prédictions et réalité : vrais/faux positifs, vrais/faux négatifs.",
+    "detailedDefinition": "La source de toutes les métriques de classification. On y lit TP (bien prédit positif), FP (fausse alerte), FN (positif raté), TN (bien prédit négatif). Precision = TP/(TP+FP), recall = TP/(TP+FN). Regarder la matrice complète (pas seulement l'accuracy) révèle où le modèle se trompe — crucial en cas de classes déséquilibrées.",
+    "usageContext": "Évaluation de classification.",
+    "meetingExample": "« La matrice montre 90 faux négatifs : on rate les fraudes, l'accuracy le cachait. »",
+    "plainTranslation": "« Un petit tableau qui montre exactement quels types d'erreurs le modèle fait. »",
+    "relatedTerms": [
+      "ai-precision",
+      "ai-recall",
+      "ai-f1-score"
+    ],
+    "aliases": [
+      "matrice de confusion"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml",
+      "évaluation"
+    ]
+  },
+  {
+    "id": "ai-f1-score",
+    "term": "F1 score",
+    "fullForm": null,
+    "frenchMeaning": "score F1 (moyenne harmonique precision/recall)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Une métrique unique combinant precision et recall (leur moyenne harmonique), utile en classes déséquilibrées.",
+    "detailedDefinition": "Quand precision et recall comptent tous deux et que les classes sont déséquilibrées, le F1 les résume : élevé seulement si LES DEUX sont bons (la moyenne harmonique pénalise les déséquilibres). F1 = 2·P·R/(P+R). Il ne remplace pas la lecture de la matrice, il la synthétise.",
+    "usageContext": "Évaluation de classification déséquilibrée.",
+    "meetingExample": "« On pilote au F1 : precision seule laissait passer trop de faux négatifs. »",
+    "plainTranslation": "« Une note unique qui n'est bonne que si le modèle est à la fois précis et complet. »",
+    "relatedTerms": [
+      "ai-precision",
+      "ai-recall",
+      "ai-confusion-matrix"
+    ],
+    "aliases": [
+      "F1",
+      "f1-score"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml",
+      "évaluation"
+    ]
+  },
+  {
+    "id": "ai-loss",
+    "term": "loss",
+    "fullForm": null,
+    "frenchMeaning": "fonction de perte (mesure chiffrée de l'erreur)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "UN nombre qui mesure à quel point le modèle se trompe sur les exemples ; l'entraînement cherche à le minimiser.",
+    "detailedDefinition": "La loss traduit « l'erreur » en un scalaire dérivable. Tout l'entraînement consiste à la faire baisser en ajustant les poids. On suit la loss sur le train ET la validation : les deux baissent = ça apprend ; train baisse mais validation remonte = overfitting. La loss est le seul juge que l'optimisation regarde.",
+    "usageContext": "Entraînement de modèles, réseaux de neurones.",
+    "meetingExample": "« La loss de validation remonte : on arrête (early stopping). »",
+    "plainTranslation": "« La note d'erreur que le modèle essaie de faire baisser. »",
+    "relatedTerms": [
+      "ai-gradient",
+      "ai-overfitting",
+      "ai-backpropagation"
+    ],
+    "aliases": [
+      "fonction de perte",
+      "perte"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml",
+      "dl"
+    ]
+  },
+  {
+    "id": "ai-gradient",
+    "term": "gradient",
+    "fullForm": null,
+    "frenchMeaning": "gradient (sens et pente pour réduire la perte)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Pour chaque poids, l'indication du sens et de l'ampleur du changement qui réduit la loss.",
+    "detailedDefinition": "Intuition : la loss est une vallée ; le gradient donne la pente locale — la direction de descente la plus raide. La descente de gradient fait un petit pas (learning rate) dans le sens opposé au gradient, et recommence. LR trop grand : ça diverge ; trop petit : ça n'avance pas. Le gradient de chaque poids est calculé efficacement par backpropagation.",
+    "usageContext": "Entraînement par descente de gradient.",
+    "meetingExample": "« Le gradient explose : on réduit le learning rate. »",
+    "plainTranslation": "« La pente qui indique dans quel sens régler chaque bouton pour se tromper moins. »",
+    "relatedTerms": [
+      "ai-loss",
+      "ai-backpropagation",
+      "ai-neuron"
+    ],
+    "aliases": [
+      "descente de gradient",
+      "gradient descent"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "dl"
+    ]
+  },
+  {
+    "id": "ai-backpropagation",
+    "term": "backpropagation",
+    "fullForm": null,
+    "frenchMeaning": "rétropropagation (calcul efficace des gradients)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "L'algorithme qui calcule le gradient de la loss par rapport à chaque poids, en propageant l'erreur de la sortie vers l'entrée.",
+    "detailedDefinition": "Un réseau est une composition de fonctions ; la backpropagation applique la règle de dérivation en chaîne, automatisée, pour attribuer à CHAQUE poids sa part de responsabilité dans l'erreur. C'est ce qui rend l'entraînement de gros réseaux possible. Elle fournit les gradients ; la descente de gradient les utilise pour ajuster les poids.",
+    "usageContext": "Entraînement des réseaux de neurones.",
+    "meetingExample": "« La backprop propage l'erreur couche par couche jusqu'aux premiers poids. »",
+    "plainTranslation": "« La méthode qui répartit l'erreur sur tous les boutons pour savoir comment les régler. »",
+    "relatedTerms": [
+      "ai-gradient",
+      "ai-loss",
+      "ai-neuron"
+    ],
+    "aliases": [
+      "rétropropagation",
+      "backprop"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "dl"
+    ]
+  },
+  {
+    "id": "ai-neuron",
+    "term": "neuron",
+    "fullForm": null,
+    "frenchMeaning": "neurone artificiel (somme pondérée + activation)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "L'unité de base d'un réseau : une somme pondérée des entrées + un biais, passée dans une activation non linéaire.",
+    "detailedDefinition": "sortie = activation(Σ entrées·poids + biais). Les POIDS sont les « boutons » réglés à l'entraînement ; l'ACTIVATION non linéaire (ex. ReLU) est indispensable — sans elle, empiler des couches resterait une fonction linéaire, incapable d'apprendre des formes complexes. Un réseau = des couches de neurones.",
+    "usageContext": "Réseaux de neurones, deep learning.",
+    "meetingExample": "« Chaque neurone combine ses entrées puis applique ReLU. »",
+    "plainTranslation": "« Une petite unité qui mélange ses entrées puis décide de s'activer ou non. »",
+    "relatedTerms": [
+      "ai-activation-function",
+      "ai-gradient",
+      "ai-loss"
+    ],
+    "aliases": [
+      "neurone",
+      "poids",
+      "weight"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "dl"
+    ]
+  },
+  {
+    "id": "ai-activation-function",
+    "term": "activation function",
+    "fullForm": null,
+    "frenchMeaning": "fonction d'activation (non-linéarité d'un neurone)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "La fonction non linéaire appliquée à la somme pondérée d'un neurone (ex. ReLU, sigmoïde).",
+    "detailedDefinition": "Sans non-linéarité, un empilement de couches reste une simple fonction linéaire : incapable d'apprendre des motifs complexes. L'activation (ReLU = max(0, z), sigmoïde, etc.) donne au réseau sa puissance d'expression. ReLU est le choix par défaut moderne car simple et efficace à entraîner.",
+    "usageContext": "Architecture des réseaux de neurones.",
+    "meetingExample": "« On utilise ReLU en couches cachées, softmax en sortie de classification. »",
+    "plainTranslation": "« La touche qui rend un neurone capable d'apprendre des choses non triviales. »",
+    "relatedTerms": [
+      "ai-neuron",
+      "ai-loss"
+    ],
+    "aliases": [
+      "fonction d'activation",
+      "ReLU",
+      "activation"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "dl"
+    ]
+  },
+  {
+    "id": "ai-epoch-batch",
+    "term": "epoch",
+    "fullForm": null,
+    "frenchMeaning": "epoch (un passage sur tout le dataset) et batch (un lot d'exemples)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Une epoch = un passage complet sur le dataset ; un batch = le petit lot d'exemples traité à chaque mise à jour des poids.",
+    "detailedDefinition": "On n'ajuste pas les poids sur tout le dataset d'un coup : on avance par BATCHS (lots), chacun donnant une mise à jour. Une EPOCH est atteinte quand tous les batchs ont été vus une fois. On entraîne sur plusieurs epochs, en surveillant la loss de validation pour arrêter avant l'overfitting (early stopping).",
+    "usageContext": "Boucle d'entraînement des réseaux.",
+    "meetingExample": "« Batch de 32, on s'arrête à l'epoch 12 quand la validation remonte. »",
+    "plainTranslation": "« Un tour complet des données (epoch), fait par petits paquets (batch). »",
+    "relatedTerms": [
+      "ai-loss",
+      "ai-gradient",
+      "ai-overfitting"
+    ],
+    "aliases": [
+      "batch",
+      "epoch/batch"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "dl"
+    ]
+  },
+  {
+    "id": "ai-attention",
+    "term": "attention",
+    "fullForm": null,
+    "frenchMeaning": "attention (chaque token pondère l'importance des autres)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Mécanisme par lequel chaque élément d'une séquence décide, pour se comprendre, quelles autres parties du contexte sont les plus utiles.",
+    "detailedDefinition": "Intuition : une salle de réunion où chaque mot écoute les autres pour préciser son sens (« souris » cassée vs qui court). Techniquement, chaque token émet une requête (query), une clé (key) et une valeur (value) ; les requêtes se comparent aux clés → des poids d'attention → chaque token absorbe un mélange pondéré des valeurs. Résultat : des représentations CONTEXTUELLES. C'est le cœur des transformers.",
+    "usageContext": "Transformers, LLM.",
+    "meetingExample": "« L'attention relie “il” à “le client” trois phrases plus haut. »",
+    "plainTranslation": "« Chaque mot regarde les autres pour préciser ce qu'il veut dire. »",
+    "relatedTerms": [
+      "ai-positional-encoding",
+      "ai-embedding",
+      "ai-llm"
+    ],
+    "aliases": [
+      "self-attention",
+      "query key value",
+      "attention mechanism"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "dl",
+      "llm"
+    ]
+  },
+  {
+    "id": "ai-positional-encoding",
+    "term": "positional encoding",
+    "fullForm": null,
+    "frenchMeaning": "encodage positionnel (indiquer l'ordre des tokens)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Information ajoutée aux embeddings pour dire au transformer QUI EST OÙ, puisqu'il traite la séquence en parallèle.",
+    "detailedDefinition": "Un transformer traite tous les tokens en même temps (pas mot à mot) : il perdrait l'ORDRE sans information de position. L'encodage positionnel ajoute à chaque embedding une signature de sa place dans la séquence, pour que « le chien mord l'homme » diffère de « l'homme mord le chien ».",
+    "usageContext": "Architecture transformer.",
+    "meetingExample": "« Sans encodage positionnel, le modèle ignore l'ordre des mots. »",
+    "plainTranslation": "« Coller à chaque mot une étiquette de position, car le modèle regarde tout en même temps. »",
+    "relatedTerms": [
+      "ai-attention",
+      "ai-embedding"
+    ],
+    "aliases": [
+      "encodage positionnel"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "dl",
+      "llm"
+    ]
+  },
+  {
+    "id": "ai-drift",
+    "term": "drift",
+    "fullForm": null,
+    "frenchMeaning": "dérive (les données de production s'éloignent de celles d'entraînement)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Évolution dans le temps des données réelles par rapport à celles d'entraînement, qui dégrade silencieusement un modèle.",
+    "detailedDefinition": "Un modèle entraîné sur le passé suppose que le futur lui ressemble. Quand la distribution des entrées change (nouveaux comportements, saison, marché) — le DRIFT — la performance chute sans que le code ait bougé. On le détecte en surveillant la distribution des entrées et les métriques en ligne, et on y répond par un réentraînement.",
+    "usageContext": "MLOps/LLMOps, monitoring de production.",
+    "meetingExample": "« La dérive des entrées explique la baisse : on réentraîne sur des données récentes. »",
+    "plainTranslation": "« Le monde change, les données changent, et le modèle vieillit sans prévenir. »",
+    "relatedTerms": [
+      "ai-holdout-split",
+      "ai-prompt-regression"
+    ],
+    "aliases": [
+      "dérive",
+      "distribution shift",
+      "data drift"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml",
+      "production"
+    ]
+  },
+  {
+    "id": "ai-ttft",
+    "term": "TTFT",
+    "fullForm": "Time To First Token",
+    "frenchMeaning": "délai jusqu'au premier token (latence perçue d'un LLM)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Le temps entre la requête et le premier token généré — la latence que l'utilisateur ressent en premier.",
+    "detailedDefinition": "Un LLM génère token par token. Le TTFT (délai avant le 1er token) détermine l'impression de réactivité, indépendamment du débit total (tokens/seconde). Le streaming affiche les tokens au fil de l'eau pour masquer la latence totale. En LLMOps, on surveille TTFT et débit comme des métriques de latence distinctes.",
+    "usageContext": "LLMOps, performance perçue.",
+    "meetingExample": "« Le TTFT est à 2 s : on active le streaming pour améliorer le ressenti. »",
+    "plainTranslation": "« Le temps avant que le modèle commence à répondre. »",
+    "relatedTerms": [
+      "ai-llm",
+      "ai-token"
+    ],
+    "aliases": [
+      "time to first token",
+      "délai premier token"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "llm",
+      "production"
+    ]
   }
 ]

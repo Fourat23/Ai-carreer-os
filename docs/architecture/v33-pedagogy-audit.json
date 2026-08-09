@@ -2,6 +2,159 @@
   "sprint": "V33",
   "rubricVersion": "1",
   "note": "Registre d'audit pédagogique V33 : chaîne ML → DL → Transformers → LLMOps durcie (on-ramp + prérequis + pratique). Rubrique v20 (16 dimensions, 0-4). Scores APRÈS ; avant/après, matrice complète et walkthrough néophyte dans docs/PEDAGOGICAL-AUDIT-V33.md. Items remplis au CP11.",
-  "scanGlobs": ["curriculum/lessons/*.md"],
-  "items": []
+  "scanGlobs": [
+    "curriculum/lessons/*.md"
+  ],
+  "items": [
+    {
+      "id": "feature-engineering",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/feature-engineering.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "On-ramp « le levier est dans la présentation de l'information » + prérequis ; contenu (hypothèses, encodage, leakage, Pipeline) conservé ; pratique ml-data-leakage + ml-feature-encoding."
+    },
+    {
+      "id": "scikit-learn-workflow",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/scikit-learn-workflow.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 3,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "On-ramp « le workflow reproductible anti-leakage, pas un catalogue d'API » + prérequis ; pratique ml-split-choice + ml-data-leakage."
+    },
+    {
+      "id": "neural-networks",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/neural-networks.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "On-ramp « une machine à régler des milliers de boutons » + prérequis ; contenu (neurone→loss→gradient→backprop→courbes) conservé ; pratique nn-forward-neuron + ml-overfit-diagnose."
+    },
+    {
+      "id": "transformers",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/transformers.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "On-ramp « la souris cassée : le contexte décide du sens » + prérequis ; contenu (token→embed→QKV→têtes→couches, coût quadratique→RAG) conservé ; pratique attention-argmax."
+    },
+    {
+      "id": "llm-cost-optimization",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/llm-cost-optimization.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "On-ramp « la démo gratuite, la facture qui tombe » + prérequis ; pratique llm-cost-estimate."
+    },
+    {
+      "id": "llm-observability",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/llm-observability.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 4,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 3,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "On-ramp « le client se plaint, aucune trace » + prérequis ; pratique llm-cost-estimate."
+    }
+  ]
 }

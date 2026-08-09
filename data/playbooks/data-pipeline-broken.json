@@ -1,0 +1,74 @@
+{
+  "id": "data-pipeline-broken",
+  "domain": "data",
+  "severityHint": "élevée",
+  "situation": "Les données de production sont soudainement incohérentes : un changement de schéma amont (ou un bug ETL) a chargé des données fausses, et les tableaux de bord / modèles en aval sont corrompus.",
+  "dayRefs": [
+    136,
+    140
+  ],
+  "relatedGlossary": [
+    "data quality",
+    "ETL",
+    "dataset",
+    "concept drift"
+  ],
+  "symptoms": [
+    "Chiffres aberrants dans les dashboards depuis une date précise.",
+    "Colonnes vides, types changés, doublons massifs dans la table cible.",
+    "Un job ETL a réussi « en vert » mais a produit des données fausses."
+  ],
+  "firstChecks": [
+    "Un changement de schéma amont (colonne renommée/supprimée, type modifié) coïncide-t-il ?",
+    "L'ETL a-t-il des contrôles de qualité (comptes de lignes, valeurs nulles, plages) ?",
+    "Depuis quel run les données divergent-elles (comparer aux exécutions précédentes) ?"
+  ],
+  "containment": [
+    "Arrêter le pipeline pour ne plus propager de données fausses.",
+    "Geler/repli sur le dernier instantané connu bon (données de la veille).",
+    "Marquer les données suspectes comme non fiables en aval."
+  ],
+  "recommendedOrder": [
+    "Stopper le pipeline, isoler le run fautif, corriger la transformation, recharger, puis rouvrir l'aval."
+  ],
+  "communication": [
+    "Prévenir les consommateurs des données (analystes, modèles) que les chiffres récents sont suspects.",
+    "Annoncer la période impactée et l'ETA de correction."
+  ],
+  "evidence": [
+    "Conserver l'entrée brute du run fautif, le schéma amont avant/après, et un échantillon des lignes corrompues.",
+    "Noter le run et l'horodatage de la première divergence."
+  ],
+  "doNot": [
+    "Corriger à la main la table de sortie sans corriger le pipeline (le bug reviendra).",
+    "Relancer le pipeline tel quel en espérant que ça passe.",
+    "Faire confiance à un job « vert » sans contrôle de qualité des données."
+  ],
+  "mitigation": [
+    "Ajouter des contrôles de qualité BLOQUANTS (schéma attendu, comptes de lignes, taux de nulls) qui font échouer le run au lieu de charger des données fausses.",
+    "Contrat de schéma explicite avec la source."
+  ],
+  "correction": [
+    "Corriger la transformation pour gérer le nouveau schéma (ou revenir à l'ancien avec la source).",
+    "Recharger la période impactée depuis les données brutes conservées (pipeline idempotent)."
+  ],
+  "validation": [
+    "Rejouer le run corrigé : les contrôles de qualité passent, les chiffres correspondent à l'attendu sur la période.",
+    "Vérifier qu'un run avec le schéma cassé échoue désormais proprement."
+  ],
+  "delivery": [
+    "Redéployer le pipeline avec ses contrôles, rouvrir l'aval après validation."
+  ],
+  "monitoring": [
+    "Surveiller comptes de lignes, taux de nulls, conformité de schéma et fraîcheur à chaque run ; alerter sur écart."
+  ],
+  "documentation": [
+    "Post-mortem : changement de schéma amont, absence de contrôle, contrats/checks ajoutés."
+  ],
+  "prevention": [
+    "Contrats de schéma + contrôles de qualité bloquants dès la conception du pipeline ; pipeline idempotent et reprenable ; tests sur données d'exemple."
+  ],
+  "exitCriteria": [
+    "Données de la période rechargées et validées, contrôles de qualité en place, surveillance active, un schéma cassé échoue proprement."
+  ]
+}

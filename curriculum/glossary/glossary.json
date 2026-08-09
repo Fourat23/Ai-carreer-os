@@ -18834,5 +18834,365 @@
       "llm",
       "production"
     ]
+  },
+  {
+    "id": "data-dataset",
+    "term": "dataset",
+    "fullForm": null,
+    "frenchMeaning": "jeu de données (ensemble d'observations décrites par des variables)",
+    "category": "data",
+    "level": "débutant",
+    "shortDefinition": "Un ensemble organisé de données : des observations (lignes) décrites par des variables (colonnes).",
+    "detailedDefinition": "Le point de départ de tout travail data/ML : un tableau où chaque LIGNE est une observation (un client, une transaction) et chaque COLONNE une variable (âge, montant). En ML supervisé, une ou plusieurs colonnes d'entrée sont les features et une colonne est la target. La qualité du dataset conditionne tout ce qui suit.",
+    "usageContext": "Data, ML, préparation.",
+    "meetingExample": "« Le dataset fait 50 000 lignes et 20 colonnes, dont la target churn. »",
+    "plainTranslation": "« Un tableau de données : une ligne par cas, une colonne par information. »",
+    "relatedTerms": [
+      "ai-feature",
+      "ai-label",
+      "data-data-quality"
+    ],
+    "aliases": [
+      "jeu de données"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "data",
+      "ml"
+    ]
+  },
+  {
+    "id": "data-data-quality",
+    "term": "data quality",
+    "fullForm": null,
+    "frenchMeaning": "qualité des données (fiabilité : complétude, cohérence, unicité)",
+    "category": "data",
+    "level": "intermédiaire",
+    "shortDefinition": "Degré de fiabilité d'un jeu de données : complétude, cohérence des types, absence de doublons, valeurs plausibles.",
+    "detailedDefinition": "« Garbage in, garbage out » : un modèle ou un dashboard ne vaut jamais mieux que ses données. La qualité se diagnostique (manquants, doublons, formats incohérents, aberrations) puis se corrige de façon DOCUMENTÉE. C'est 60-80 % du travail réel en data.",
+    "usageContext": "Nettoyage, préparation, fiabilité ML.",
+    "meetingExample": "« Rapport de qualité : 8 % de manquants sur revenu, 120 doublons d'e-mail. »",
+    "plainTranslation": "« À quel point les données sont propres et fiables. »",
+    "relatedTerms": [
+      "data-imputation",
+      "data-outlier",
+      "ai-data-leakage"
+    ],
+    "aliases": [
+      "qualité des données",
+      "data cleaning",
+      "nettoyage des données"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "data"
+    ]
+  },
+  {
+    "id": "data-imputation",
+    "term": "imputation",
+    "fullForm": null,
+    "frenchMeaning": "imputation (remplacer une valeur manquante par une estimation)",
+    "category": "data",
+    "level": "intermédiaire",
+    "shortDefinition": "Remplacer une valeur manquante par une estimation (moyenne, médiane, valeur la plus fréquente…).",
+    "detailedDefinition": "Face à des manquants, on peut supprimer (lignes/colonnes) ou IMPUTER. Sur une colonne critique, on impute ET on ajoute un indicateur « était manquant » (l'absence est parfois informative). L'imputation s'apprend sur le TRAIN uniquement (sinon fuite). Trop de manquants → mieux vaut abandonner la colonne.",
+    "usageContext": "Nettoyage de données, préparation ML.",
+    "meetingExample": "« On impute l'âge par la médiane, avec un flag de manquant. »",
+    "plainTranslation": "« Boucher les trous des données avec une valeur estimée. »",
+    "relatedTerms": [
+      "data-data-quality",
+      "ai-data-leakage"
+    ],
+    "aliases": [
+      "imputer",
+      "imputation des manquants"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "data",
+      "ml"
+    ]
+  },
+  {
+    "id": "data-outlier",
+    "term": "outlier",
+    "fullForm": null,
+    "frenchMeaning": "valeur aberrante (donnée très éloignée des autres)",
+    "category": "data",
+    "level": "intermédiaire",
+    "shortDefinition": "Une valeur anormalement éloignée du reste (un âge de 999, un montant négatif).",
+    "detailedDefinition": "Un outlier peut être une ERREUR (à corriger/supprimer) ou un signal RÉEL rare (à conserver). On ne le supprime pas mécaniquement : on comprend POURQUOI il est là. Les outliers faussent moyennes et modèles sensibles aux échelles ; d'où l'usage de la médiane ou de la standardisation.",
+    "usageContext": "Nettoyage, statistiques, préparation.",
+    "meetingExample": "« Ces âges à 999 sont des codes de manquant déguisés, pas de vrais outliers. »",
+    "plainTranslation": "« Une donnée bizarre, très loin des autres. »",
+    "relatedTerms": [
+      "data-data-quality",
+      "data-normalization"
+    ],
+    "aliases": [
+      "valeur aberrante",
+      "aberration"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "data",
+      "ml"
+    ]
+  },
+  {
+    "id": "data-encoding",
+    "term": "encoding",
+    "fullForm": null,
+    "frenchMeaning": "encodage (transformer une catégorie en nombres)",
+    "category": "data",
+    "level": "intermédiaire",
+    "shortDefinition": "Transformer une variable catégorielle en nombres exploitables par un modèle (one-hot, ordinal).",
+    "detailedDefinition": "Les modèles veulent des nombres. ONE-HOT crée une colonne 0/1 par catégorie (pour les catégories SANS ordre) ; ORDINAL attribue un rang (pour les catégories ORDONNÉES, ex. petit<moyen<grand). Attention à la haute cardinalité (one-hot explose) : regrouper les valeurs rares. L'encodage appris (fréquences) se calcule sur le train seulement.",
+    "usageContext": "Feature engineering, préparation ML.",
+    "meetingExample": "« La ville en one-hot, la taille de forfait en ordinal. »",
+    "plainTranslation": "« Traduire des catégories en chiffres pour le modèle. »",
+    "relatedTerms": [
+      "ai-feature",
+      "data-normalization"
+    ],
+    "aliases": [
+      "encodage",
+      "one-hot",
+      "ordinal"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "data",
+      "ml"
+    ]
+  },
+  {
+    "id": "data-normalization",
+    "term": "normalization",
+    "fullForm": null,
+    "frenchMeaning": "normalisation / standardisation (mise à l'échelle des variables)",
+    "category": "data",
+    "level": "intermédiaire",
+    "shortDefinition": "Mettre les variables numériques à une échelle comparable (normalisation 0-1, ou standardisation moyenne 0 / écart-type 1).",
+    "detailedDefinition": "Certains modèles (k-means, régressions régularisées, réseaux) sont sensibles aux ÉCHELLES : une variable en milliers écrase une variable en unités. La normalisation ramène tout à une échelle comparable. La STANDARDISATION centre-réduit (moyenne 0, écart-type 1). Les paramètres (min/max, moyenne) s'apprennent sur le TRAIN uniquement (anti-fuite).",
+    "usageContext": "Préparation ML, feature engineering.",
+    "meetingExample": "« On standardise les features avant la régression régularisée. »",
+    "plainTranslation": "« Mettre toutes les colonnes à la même échelle pour ne pas en favoriser une. »",
+    "relatedTerms": [
+      "data-encoding",
+      "ai-feature",
+      "ai-data-leakage"
+    ],
+    "aliases": [
+      "normalisation",
+      "standardization",
+      "standardisation",
+      "mise à l'échelle"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "data",
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-feature-engineering",
+    "term": "feature engineering",
+    "fullForm": null,
+    "frenchMeaning": "ingénierie des features (créer/transformer les variables d'entrée)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Créer, transformer et sélectionner les variables d'entrée pour rendre le signal lisible par le modèle.",
+    "detailedDefinition": "Souvent PLUS rentable que le choix du modèle : une feature bien construite (d'une date → jour de semaine, week-end) rend un signal exploitable. Chaque feature encode une HYPOTHÈSE. Piège central : le leakage (une feature qui connaît la cible/le futur). Les transformations apprises se calculent sur le train seulement (Pipeline).",
+    "usageContext": "ML tabulaire, préparation.",
+    "meetingExample": "« Le gain est venu du feature engineering, pas d'un modèle plus gros. »",
+    "plainTranslation": "« Bien préparer et présenter les variables pour que le modèle comprenne. »",
+    "relatedTerms": [
+      "ai-feature",
+      "ai-data-leakage",
+      "data-encoding"
+    ],
+    "aliases": [
+      "ingénierie des features",
+      "feature eng"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-generalization",
+    "term": "generalization",
+    "fullForm": null,
+    "frenchMeaning": "généralisation (bien performer sur des données jamais vues)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "La capacité d'un modèle à bien performer sur des données NOUVELLES, pas seulement celles d'entraînement.",
+    "detailedDefinition": "Le but du ML n'est pas de mémoriser le train mais de GÉNÉRALISER. On la mesure sur un jeu de test jamais vu. L'overfitting (mémoriser) et l'underfitting (trop simple) sont les deux échecs de généralisation ; le compromis biais-variance en est le cœur.",
+    "usageContext": "Évaluation, diagnostic de modèle.",
+    "meetingExample": "« 98 % en train, 70 % en test : la généralisation est mauvaise (overfit). »",
+    "plainTranslation": "« Bien marcher sur des cas jamais vus, pas seulement sur les exemples appris. »",
+    "relatedTerms": [
+      "ai-overfitting",
+      "ai-underfitting",
+      "ai-holdout-split"
+    ],
+    "aliases": [
+      "généralisation"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-hyperparameter",
+    "term": "hyperparameter",
+    "fullForm": null,
+    "frenchMeaning": "hyperparamètre (réglage fixé AVANT l'entraînement)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "Un réglage choisi avant l'entraînement (profondeur d'un arbre, learning rate, k), par opposition aux paramètres appris.",
+    "detailedDefinition": "Les PARAMÈTRES (poids) sont appris par l'entraînement ; les HYPERPARAMÈTRES sont fixés par toi (learning rate, nombre de couches, k des k-plus-proches-voisins). On les règle sur la VALIDATION (jamais le test), souvent par recherche (grid/random search) englobant tout le pipeline pour éviter la fuite.",
+    "usageContext": "Réglage de modèle, cross-validation.",
+    "meetingExample": "« On règle max_depth et learning_rate en validation croisée. »",
+    "plainTranslation": "« Les boutons qu'on règle à la main avant d'entraîner le modèle. »",
+    "relatedTerms": [
+      "ai-cross-validation",
+      "ai-holdout-split",
+      "ai-gradient"
+    ],
+    "aliases": [
+      "hyperparamètre"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml"
+    ]
+  },
+  {
+    "id": "ai-reproducibility",
+    "term": "reproducibility",
+    "fullForm": null,
+    "frenchMeaning": "reproductibilité (mêmes entrées → mêmes résultats)",
+    "category": "ai",
+    "level": "intermédiaire",
+    "shortDefinition": "La capacité à obtenir le même résultat en rejouant le même processus (seed fixée, pipeline versionné).",
+    "detailedDefinition": "Un notebook dont les cellules s'exécutent dans un ordre magique n'est pas reproductible. On fixe les graines aléatoires (random_state), on encapsule le préprocessing dans un Pipeline, on versionne modèle ↔ données ↔ config. C'est la base de l'évaluation honnête (non-régression) et du passage en production.",
+    "usageContext": "Workflow ML, MLOps, évaluation.",
+    "meetingExample": "« Seed fixée et pipeline joblib : deux exécutions donnent le même score. »",
+    "plainTranslation": "« Pouvoir refaire tourner et retomber exactement sur le même résultat. »",
+    "relatedTerms": [
+      "ai-prompt-regression",
+      "ai-hyperparameter"
+    ],
+    "aliases": [
+      "reproductibilité"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml",
+      "production"
+    ]
+  },
+  {
+    "id": "ai-train-serving-skew",
+    "term": "train-serving skew",
+    "fullForm": null,
+    "frenchMeaning": "écart entraînement-service (préparation différente entre train et prod)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Divergence entre la façon dont les données sont préparées à l'entraînement et en production, qui casse les prédictions.",
+    "detailedDefinition": "Si le préprocessing de production diffère de celui de l'entraînement (autre encodage, autre normalisation, feature calculée différemment), le modèle reçoit des entrées qu'il n'a jamais vues sous cette forme → prédictions dégradées. Parade : PARTAGER exactement le même pipeline (même code) entre train et service.",
+    "usageContext": "MLOps, mise en production, incidents.",
+    "meetingExample": "« La feature était calculée en jours côté train, en heures côté prod : train-serving skew. »",
+    "plainTranslation": "« Préparer les données autrement en prod qu'à l'entraînement, ce qui trompe le modèle. »",
+    "relatedTerms": [
+      "ai-drift",
+      "ai-reproducibility",
+      "ai-data-leakage"
+    ],
+    "aliases": [
+      "écart entraînement-service",
+      "skew train/serving"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml",
+      "production"
+    ]
+  },
+  {
+    "id": "ai-concept-drift",
+    "term": "concept drift",
+    "fullForm": null,
+    "frenchMeaning": "dérive de concept (la relation entrées→cible change dans le temps)",
+    "category": "ai",
+    "level": "avancé",
+    "shortDefinition": "Quand la RELATION entre les entrées et la cible change avec le temps, pas seulement la distribution des entrées.",
+    "detailedDefinition": "Le data drift = les ENTRÉES changent ; le concept drift = la RÈGLE change (ce qui prédisait le churn hier ne le prédit plus). Les deux dégradent un modèle figé. On les détecte en surveillant entrées ET performance en ligne, et on y répond par un réentraînement sur données récentes.",
+    "usageContext": "MLOps, monitoring de production.",
+    "meetingExample": "« Après le changement de tarif, la relation a changé : concept drift, on réentraîne. »",
+    "plainTranslation": "« Les règles du monde changent, donc ce que le modèle avait appris devient faux. »",
+    "relatedTerms": [
+      "ai-drift",
+      "ai-train-serving-skew"
+    ],
+    "aliases": [
+      "dérive de concept"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "ia",
+      "ml",
+      "production"
+    ]
+  },
+  {
+    "id": "data-groupby",
+    "term": "group by",
+    "fullForm": null,
+    "frenchMeaning": "regroupement (agréger par valeur d'une colonne)",
+    "category": "data",
+    "level": "débutant",
+    "shortDefinition": "Regrouper les lignes par la valeur d'une colonne et calculer une agrégation par groupe (compte, somme, moyenne).",
+    "detailedDefinition": "L'opération d'analyse la plus courante, en SQL (GROUP BY) comme en pandas (groupby) : « chiffre d'affaires par région », « nombre de tickets par statut ». On regroupe par une clé, puis on agrège chaque groupe. Base de tout tableau de bord et de toute exploration de données.",
+    "usageContext": "SQL, pandas, exploration de données.",
+    "meetingExample": "« Un group by région + somme du CA donne le classement des régions. »",
+    "plainTranslation": "« Regrouper les lignes qui partagent une valeur et compter/additionner par groupe. »",
+    "relatedTerms": [
+      "data-dataset",
+      "data-data-quality"
+    ],
+    "aliases": [
+      "groupby",
+      "regroupement",
+      "group-by"
+    ],
+    "possibleConfusions": [],
+    "ambiguityNote": null,
+    "tags": [
+      "data",
+      "sql"
+    ]
   }
 ]

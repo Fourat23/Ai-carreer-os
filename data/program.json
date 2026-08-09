@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T21:25:12.920Z",
+  "generatedAt": "2026-08-09T21:30:08.234Z",
   "skills": [
     {
       "id": "algo",
@@ -6528,6 +6528,55 @@
           "kind": "exercise",
           "id": "perf-pair-count"
         },
+        {
+          "kind": "exercise",
+          "id": "react-search"
+        }
+      ]
+    },
+    {
+      "slug": "nextjs-foundations",
+      "title": "Next.js : pourquoi un framework au-dessus de React ?",
+      "cat": "Frontend & React",
+      "level": 3,
+      "min": 45,
+      "skills": [
+        "jsts"
+      ]
+    },
+    {
+      "slug": "nextjs-rendering",
+      "title": "Rendu web : CSR, SSR, SSG et streaming",
+      "cat": "Frontend & React",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "jsts",
+        "archi"
+      ]
+    },
+    {
+      "slug": "nextjs-server-client-components",
+      "title": "Server Components vs Client Components : le modèle mental",
+      "cat": "Frontend & React",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "jsts",
+        "archi"
+      ]
+    },
+    {
+      "slug": "nextjs-data-production",
+      "title": "Next.js : données, états d'erreur et mise en production",
+      "cat": "Frontend & React",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
         {
           "kind": "exercise",
           "id": "react-search"

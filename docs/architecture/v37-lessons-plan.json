@@ -4,7 +4,11 @@
   "note": "Périmètre V37 : split css-layout → css-flexbox + css-grid (approfondis), durcissement css-fundamentals (flux/display/positionnement/overflow) et react-accessibility, pratique Web ciblée, chaîne Next.js fondations. Le gate v37:check valide STRUCTURELLEMENT ; il ne juge jamais la profondeur par la longueur.",
   "newLessons": [
     "css-flexbox",
-    "css-grid"
+    "css-grid",
+    "nextjs-foundations",
+    "nextjs-rendering",
+    "nextjs-server-client-components",
+    "nextjs-data-production"
   ],
   "hardenedLegacy": [
     "css-fundamentals",
@@ -31,6 +35,22 @@
       "css-flexbox",
       "css-grid",
       "css-fundamentals"
+    ],
+    "nextjs-foundations": [
+      "react-application-states",
+      "http-rest-json"
+    ],
+    "nextjs-rendering": [
+      "nextjs-foundations",
+      "frontend-performance"
+    ],
+    "nextjs-server-client-components": [
+      "nextjs-rendering",
+      "typescript-frontend"
+    ],
+    "nextjs-data-production": [
+      "nextjs-server-client-components",
+      "react-application-states"
     ]
   }
 }

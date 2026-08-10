@@ -1,7 +1,135 @@
 {
   "sprint": "V38",
   "rubricVersion": "1",
-  "note": "Registre d'audit pédagogique V38 : Backend II + System Design. Rubrique v20 (16 dimensions). Notes HUMAINES à la lecture intégrale. Items remplis au CP13.",
-  "scanGlobs": ["curriculum/lessons/*.md"],
-  "items": []
+  "note": "Registre d'audit pédagogique V38 : Backend II (API production, async/messaging) + System Design fondations + systèmes distribués + durcissement technical-debt. Notes HUMAINES à la lecture intégrale. Honnêteté : autonomous-practice=3 (pratique notée par modèle déterministe, distribué SIMULÉ) ; evaluation/cognitive-load à 3 sur les leçons denses.",
+  "scanGlobs": [
+    "curriculum/lessons/*.md"
+  ],
+  "items": [
+    {
+      "id": "api-production-contracts",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/api-production-contracts.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 4,
+        "track-coherence": 4
+      },
+      "notes": "Contrat d'API dans le temps : idempotence, pagination offset/curseur, rate limiting, versioning/backward-compat. Relié à http-method-idempotent, api-pagination-choice."
+    },
+    {
+      "id": "async-messaging-queues",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/async-messaging-queues.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 4,
+        "track-coherence": 4
+      },
+      "notes": "P0 comblé : queue/worker, at-least-once → consommateur idempotent, retry/backoff, DLQ, pub/sub vs queue. SIMULATION honnête. Relié à queue-idempotent-consumer, dlq-routing, retry-backoff-delay, playbooks."
+    },
+    {
+      "id": "system-design-scaling",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/system-design-scaling.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 4,
+        "track-coherence": 4
+      },
+      "notes": "Progression débutant-first : une machine → vertical/horizontal → stateless → LB → cache → réplication → partition → SPOF → capacity. Réutilise 4 exercices scaling existants + capacity-estimate + system-design-diagnose."
+    },
+    {
+      "id": "distributed-systems-failures",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/distributed-systems-failures.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 3,
+        "track-coherence": 4
+      },
+      "notes": "Partial failure, cohérence à terme, replication lag, split-brain/quorum, CAP contextualisé, sharding/hotspots. Niveau junior. Relié à replication-lag-reason, cloud-detect-spof."
+    },
+    {
+      "id": "technical-debt",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/technical-debt.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 3,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 3,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 4,
+        "track-coherence": 4
+      },
+      "notes": "Durcie V38 : quatre types de maintenance (corrective/adaptative/préventive/évolutive, ISO 14764) situés par rapport à la dette. Déjà solide sur quadrants/priorisation."
+    }
+  ]
 }

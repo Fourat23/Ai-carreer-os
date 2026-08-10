@@ -83,10 +83,27 @@ rendant la dette VISIBLE : la nommer dans les revues, la tracer (un ticket, un c
 suivi daté et motivé dans le code), et l'intégrer aux décisions plutôt que de la laisser
 s'accumuler en silence.
 
+### Situer la dette dans les quatre types de maintenance
+Rembourser la dette n'est qu'une des formes du travail de maintenance. La classification
+professionnelle (norme ISO/IEC 14764) distingue **quatre types** :
+- **corrective** : réparer un défaut constaté (un bug, un incident) — c'est le bugfix/hotfix.
+- **adaptative** : adapter le logiciel à un CHANGEMENT d'environnement extérieur (nouvelle version
+  d'une dépendance, d'un OS, d'une API tierce, nouvelle réglementation) sans changer les fonctions.
+- **préventive** : agir AVANT la panne pour réduire un risque futur (corriger une faiblesse latente,
+  ajouter des tests, durcir un point fragile) — c'est là que vit une grande part du remboursement de
+  dette.
+- **évolutive** : faire ÉVOLUER les fonctionnalités (ajouter/modifier une capacité à la demande du
+  métier) — la maintenance la plus visible.
+Savoir nommer le type de maintenance en cours aide à prioriser et à communiquer : un correctif urgent
+(corrective) ne se planifie pas comme une montée de version (adaptative) ou un ajout de feature
+(évolutive). La dette technique se rembourse surtout par de la maintenance **préventive**, souvent à
+l'occasion d'une maintenance évolutive (boy-scout rule).
+
 ## Concepts clés
 Dette technique = arbitrage risque/vitesse · principal vs intérêt · quadrants (délibérée/
 accidentelle × prudente/imprudente) · dimensions (code, tests, archi, données, infra, doc) ·
-priorisation par coût × fréquence · remboursement continu (boy-scout) · dette visible et tracée.
+priorisation par coût × fréquence · remboursement continu (boy-scout) · dette visible et tracée ·
+quatre types de maintenance (corrective / adaptative / préventive / évolutive).
 
 ## 🧭 Exemple guidé
 Décider face à une dette, comme un investisseur :
@@ -125,7 +142,8 @@ justification. Tu viens de faire une revue de dette comme en équipe.
 ## 📚 Vocabulaire
 **dette technique** · **principal / intérêt** · **dette délibérée / accidentelle** · **dette
 prudente / imprudente** · **dimensions (code/tests/archi/données/infra/doc)** · **priorisation
-coût × fréquence** · **boy-scout rule** · **dette tracée**.
+coût × fréquence** · **boy-scout rule** · **dette tracée** · **maintenance corrective / adaptative /
+préventive / évolutive**.
 
 ## 🧾 À retenir
 La dette technique n'est pas « du mauvais code » : c'est un arbitrage entre vitesse et coût

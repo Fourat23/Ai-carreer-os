@@ -8,7 +8,9 @@
     "system-design-scaling",
     "distributed-systems-failures"
   ],
-  "hardenedLegacy": [],
+  "hardenedLegacy": [
+    "technical-debt"
+  ],
   "removedLessons": [],
   "critical": [
     "api-production-contracts",

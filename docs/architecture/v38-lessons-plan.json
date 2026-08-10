@@ -5,14 +5,16 @@
   "newLessons": [
     "api-production-contracts",
     "async-messaging-queues",
-    "system-design-scaling"
+    "system-design-scaling",
+    "distributed-systems-failures"
   ],
   "hardenedLegacy": [],
   "removedLessons": [],
   "critical": [
     "api-production-contracts",
     "async-messaging-queues",
-    "system-design-scaling"
+    "system-design-scaling",
+    "distributed-systems-failures"
   ],
   "prereq": {
     "api-production-contracts": [
@@ -26,6 +28,10 @@
     "system-design-scaling": [
       "architecture-basics",
       "networking-proxy-loadbalancing"
+    ],
+    "distributed-systems-failures": [
+      "system-design-scaling",
+      "database-transactions-concurrency"
     ]
   }
 }

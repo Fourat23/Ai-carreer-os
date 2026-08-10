@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T05:58:20.538Z",
+  "generatedAt": "2026-08-10T06:00:51.548Z",
   "skills": [
     {
       "id": "algo",
@@ -6924,6 +6924,30 @@
         {
           "kind": "exercise",
           "id": "cloud-stateful-autoscale"
+        }
+      ]
+    },
+    {
+      "slug": "distributed-systems-failures",
+      "title": "Systèmes distribués : ce qui casse quand on distribue",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "archi"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "cloud-detect-spof"
+        },
+        {
+          "kind": "exercise",
+          "id": "cloud-replica-count"
+        },
+        {
+          "kind": "exercise",
+          "id": "queue-idempotent-consumer"
         }
       ]
     },

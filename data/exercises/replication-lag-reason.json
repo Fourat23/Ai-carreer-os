@@ -1,0 +1,18 @@
+{
+  "id": "replication-lag-reason",
+  "title": "Réplication : cette lecture peut-elle être périmée ?",
+  "difficulty": 2,
+  "summary": "Objectif (raisonnement) : diagnostiquer une lecture potentiellement périmée. SIMULATION déterministe. Complète readFreshness({ fromReplica, justWrote }) : lire un RÉPLICA juste après une écriture peut renvoyer une valeur périmée (retard de réplication) -> 'stale-possible' ; sinon (lecture du primaire, ou pas d'écriture récente) -> 'fresh'.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["conditions", "functions"],
+  "activeFile": "solution.mjs",
+  "workspace": { "entry": "solution.mjs", "files": [ { "path": "solution.mjs", "content": "export function readFreshness({ fromReplica, justWrote }) {\n  // BUG : suppose toujours une lecture fraiche, en ignorant le retard de replication.\n  return 'fresh';\n}\n" } ] },
+  "reference": { "solution.mjs": "export function readFreshness({ fromReplica, justWrote }) {\n  return (fromReplica && justWrote) ? 'stale-possible' : 'fresh';\n}\n" },
+  "tests": [
+    { "id": "t1", "name": "replica juste apres ecriture -> stale-possible", "kind": "call-equals", "export": "readFreshness", "args": [{ "fromReplica": true, "justWrote": true }], "expected": "stale-possible" },
+    { "id": "t2", "name": "primaire apres ecriture -> fresh", "kind": "call-equals", "export": "readFreshness", "args": [{ "fromReplica": false, "justWrote": true }], "expected": "fresh" },
+    { "id": "t3", "name": "replica sans ecriture recente -> fresh", "kind": "call-equals", "export": "readFreshness", "args": [{ "fromReplica": true, "justWrote": false }], "expected": "fresh" },
+    { "id": "t4", "name": "primaire sans ecriture -> fresh", "kind": "call-equals", "export": "readFreshness", "args": [{ "fromReplica": false, "justWrote": false }], "expected": "fresh", "private": true }
+  ]
+}

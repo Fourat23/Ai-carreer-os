@@ -1,0 +1,18 @@
+{
+  "id": "api-pagination-choice",
+  "title": "API : offset ou pagination par curseur ?",
+  "difficulty": 2,
+  "summary": "Objectif (raisonnement) : choisir la stratégie de pagination. Complète choosePagination({ changesDuringBrowsing, largeVolume }) : si les données changent pendant la navigation (insertions/suppressions) OU si le volume est important → 'cursor' (stable et scalable) ; sinon → 'offset' (plus simple).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["conditions", "functions"],
+  "activeFile": "solution.mjs",
+  "workspace": { "entry": "solution.mjs", "files": [ { "path": "solution.mjs", "content": "export function choosePagination({ changesDuringBrowsing, largeVolume }) {\n  // BUG : renvoie toujours 'offset', même sur gros volume ou flux instable.\n  return 'offset';\n}\n" } ] },
+  "reference": { "solution.mjs": "export function choosePagination({ changesDuringBrowsing, largeVolume }) {\n  return (changesDuringBrowsing || largeVolume) ? 'cursor' : 'offset';\n}\n" },
+  "tests": [
+    { "id": "t1", "name": "petite liste stable -> offset", "kind": "call-equals", "export": "choosePagination", "args": [{ "changesDuringBrowsing": false, "largeVolume": false }], "expected": "offset" },
+    { "id": "t2", "name": "flux instable -> cursor", "kind": "call-equals", "export": "choosePagination", "args": [{ "changesDuringBrowsing": true, "largeVolume": false }], "expected": "cursor" },
+    { "id": "t3", "name": "gros volume -> cursor", "kind": "call-equals", "export": "choosePagination", "args": [{ "changesDuringBrowsing": false, "largeVolume": true }], "expected": "cursor" },
+    { "id": "t4", "name": "instable ET volumineux -> cursor", "kind": "call-equals", "export": "choosePagination", "args": [{ "changesDuringBrowsing": true, "largeVolume": true }], "expected": "cursor", "private": true }
+  ]
+}

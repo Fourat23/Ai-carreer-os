@@ -1,0 +1,18 @@
+{
+  "id": "retry-backoff-delay",
+  "title": "Résilience : délai de backoff exponentiel",
+  "difficulty": 2,
+  "summary": "Objectif (raisonnement) : calculer le délai avant un réessai. Complète backoffDelay(attempt, baseMs, maxMs) : le délai double à chaque tentative (backoff exponentiel) — baseMs * 2^attempt — mais ne dépasse jamais maxMs (plafond). attempt commence à 0. Renvoie un entier (ms).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["functions"],
+  "activeFile": "solution.mjs",
+  "workspace": { "entry": "solution.mjs", "files": [ { "path": "solution.mjs", "content": "export function backoffDelay(attempt, baseMs, maxMs) {\n  // BUG : croissance lineaire (base * attempt) et pas de plafond.\n  return baseMs * attempt;\n}\n" } ] },
+  "reference": { "solution.mjs": "export function backoffDelay(attempt, baseMs, maxMs) {\n  return Math.min(baseMs * 2 ** attempt, maxMs);\n}\n" },
+  "tests": [
+    { "id": "t1", "name": "tentative 0 -> base", "kind": "call-equals", "export": "backoffDelay", "args": [0, 100, 10000], "expected": 100 },
+    { "id": "t2", "name": "tentative 3 -> base*8", "kind": "call-equals", "export": "backoffDelay", "args": [3, 100, 10000], "expected": 800 },
+    { "id": "t3", "name": "plafonne a maxMs", "kind": "call-equals", "export": "backoffDelay", "args": [20, 100, 5000], "expected": 5000 },
+    { "id": "t4", "name": "tentative 1 -> base*2", "kind": "call-equals", "export": "backoffDelay", "args": [1, 250, 10000], "expected": 500, "private": true }
+  ]
+}

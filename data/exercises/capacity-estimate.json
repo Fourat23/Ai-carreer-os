@@ -1,0 +1,19 @@
+{
+  "id": "capacity-estimate",
+  "title": "Capacity planning : combien d'instances ?",
+  "difficulty": 2,
+  "summary": "Objectif (raisonnement) : estimer le nombre d'instances. Complète instancesNeeded(rps, perInstance, marginPct) : calcule le minimum d'instances pour tenir rps requetes/seconde quand chaque instance en tient perInstance, puis ajoute une marge (arrondie au superieur). Formule : ceil( ceil(rps / perInstance) * (1 + marginPct/100) ). Renvoie un entier.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["functions"],
+  "activeFile": "solution.mjs",
+  "workspace": { "entry": "solution.mjs", "files": [ { "path": "solution.mjs", "content": "export function instancesNeeded(rps, perInstance, marginPct) {\n  // BUG : division simple, sans arrondi ni marge -> sous-dimensionnement.\n  return rps / perInstance;\n}\n" } ] },
+  "reference": { "solution.mjs": "export function instancesNeeded(rps, perInstance, marginPct) {\n  const base = Math.ceil(rps / perInstance);\n  return Math.ceil(base * (1 + marginPct / 100));\n}\n" },
+  "tests": [
+    { "id": "t1", "name": "1000 rps, 200/inst, marge 0 -> 5", "kind": "call-equals", "export": "instancesNeeded", "args": [1000, 200, 0], "expected": 5 },
+    { "id": "t2", "name": "1000 rps, 200/inst, marge 20% -> 6", "kind": "call-equals", "export": "instancesNeeded", "args": [1000, 200, 20], "expected": 6 },
+    { "id": "t3", "name": "arrondi superieur du besoin (250/300) -> 1 puis marge", "kind": "call-equals", "export": "instancesNeeded", "args": [250, 300, 0], "expected": 1 },
+    { "id": "t4", "name": "450 rps, 100/inst, marge 0 -> 5", "kind": "call-equals", "export": "instancesNeeded", "args": [450, 100, 0], "expected": 5, "private": true },
+    { "id": "t5", "name": "450 rps, 100/inst, marge 50% -> 8", "kind": "call-equals", "export": "instancesNeeded", "args": [450, 100, 50], "expected": 8, "private": true }
+  ]
+}

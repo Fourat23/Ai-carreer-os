@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T06:00:51.548Z",
+  "generatedAt": "2026-08-10T06:03:05.883Z",
   "skills": [
     {
       "id": "algo",
@@ -6154,6 +6154,10 @@
         },
         {
           "kind": "exercise",
+          "id": "api-pagination-choice"
+        },
+        {
+          "kind": "exercise",
           "id": "auth-status-decision"
         },
         {
@@ -6896,6 +6900,10 @@
         {
           "kind": "exercise",
           "id": "dlq-routing"
+        },
+        {
+          "kind": "exercise",
+          "id": "retry-backoff-delay"
         }
       ]
     },
@@ -6919,6 +6927,10 @@
         },
         {
           "kind": "exercise",
+          "id": "capacity-estimate"
+        },
+        {
+          "kind": "exercise",
           "id": "cloud-detect-spof"
         },
         {
@@ -6937,6 +6949,10 @@
         "archi"
       ],
       "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "replication-lag-reason"
+        },
         {
           "kind": "exercise",
           "id": "cloud-detect-spof"

@@ -86,6 +86,9 @@
   "52": [
     "api-router"
   ],
+  "56": [
+    "api-pagination-choice"
+  ],
   "68": [
     "sec-mask-secrets",
     "sec-classify-sensitive",
@@ -140,7 +143,9 @@
     "cloud-compute-choice",
     "cloud-scaling-kind",
     "queue-idempotent-consumer",
-    "dlq-routing"
+    "dlq-routing",
+    "capacity-estimate",
+    "retry-backoff-delay"
   ],
   "81": [
     "cloud-deploy-strategy",
@@ -150,7 +155,8 @@
     "cloud-rpo-meets",
     "cloud-spof-detect",
     "cloud-multi-az",
-    "cloud-prod-ready"
+    "cloud-prod-ready",
+    "replication-lag-reason"
   ],
   "85": [
     "incident-health-rollup",

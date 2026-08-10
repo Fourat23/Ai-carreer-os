@@ -166,6 +166,9 @@
     "sec-networkpolicy-open",
     "sec-image-digest"
   ],
+  "86": [
+    "system-design-diagnose"
+  ],
   "87": [
     "web-semantic",
     "web-card",

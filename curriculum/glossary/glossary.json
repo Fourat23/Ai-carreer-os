@@ -19194,5 +19194,128 @@
       "data",
       "sql"
     ]
+  },
+  {
+    "id": "arch-dead-letter-queue",
+    "term": "Dead Letter Queue",
+    "fullForm": "Dead Letter Queue (DLQ)",
+    "frenchMeaning": "file des messages morts",
+    "category": "arch",
+    "level": "avancé",
+    "shortDefinition": "File à part où l'on isole les messages qui échouent en boucle, pour ne pas bloquer la file principale.",
+    "detailedDefinition": "Dans un système de messages, un message « empoisonné » (donnée corrompue, bug) peut échouer à chaque tentative. Après un nombre maximum de réessais, on le déplace dans une Dead Letter Queue : une file séparée où on l'inspecte, le corrige et le rejoue. La DLQ protège le débit (elle évite qu'un message bloque les autres) et rend les échecs visibles au lieu de les cacher.",
+    "usageContext": "Architectures orientées messages/événements (files, workers). Indispensable dès qu'on traite des messages avec réessais.",
+    "meetingExample": "« Trois messages sont partis en DLQ cette nuit : c'est un format de payload inattendu, je corrige le consommateur. »",
+    "plainTranslation": "« Les messages qu'on n'arrive pas à traiter sont mis de côté dans une file spéciale, au lieu de bloquer tout le reste. »",
+    "relatedTerms": [
+      "res-retry",
+      "dev-idempotency"
+    ],
+    "aliases": [
+      "DLQ",
+      "file de lettres mortes"
+    ]
+  },
+  {
+    "id": "arch-eventual-consistency",
+    "term": "Cohérence à terme",
+    "fullForm": "Eventual consistency",
+    "frenchMeaning": "cohérence à terme (ou cohérence éventuelle)",
+    "category": "arch",
+    "level": "avancé",
+    "shortDefinition": "Propriété d'un système répliqué où les copies finissent par converger, mais pas instantanément.",
+    "detailedDefinition": "Quand une donnée est répliquée sur plusieurs nœuds, une écriture met un peu de temps à se propager. Pendant ce court instant, lire une copie peut renvoyer une valeur périmée. La cohérence à terme garantit que, sans nouvelle écriture, toutes les copies finiront par être d'accord — mais pas immédiatement. C'est un compromis courant qui échange la fraîcheur instantanée contre la disponibilité et la scalabilité.",
+    "usageContext": "Bases répliquées, systèmes distribués, caches. Le contraire de la cohérence forte (toujours à jour, plus coûteuse).",
+    "meetingExample": "« L'avatar met une ou deux secondes à se propager sur les réplicas : c'est de la cohérence à terme, pas un bug. »",
+    "plainTranslation": "« Après une modification, toutes les copies finissent par être identiques, mais il peut y avoir un léger décalage. »",
+    "relatedTerms": [
+      "arch-replication-lag",
+      "cloud-read-replica"
+    ],
+    "aliases": [
+      "eventual consistency",
+      "cohérence éventuelle"
+    ]
+  },
+  {
+    "id": "arch-replication-lag",
+    "term": "Retard de réplication",
+    "fullForm": "Replication lag",
+    "frenchMeaning": "retard de réplication",
+    "category": "arch",
+    "level": "avancé",
+    "shortDefinition": "Délai entre une écriture sur le primaire et sa propagation aux réplicas de lecture.",
+    "detailedDefinition": "Une base répliquée écrit sur un nœud primaire, puis copie les changements vers des réplicas qui servent les lectures. Le retard de réplication est le temps que met un changement à atteindre un réplica. Lire un réplica pendant ce délai renvoie l'ancienne valeur. Quand la fraîcheur est critique, on lit le primaire (read-your-writes) ; sinon on accepte le léger retard.",
+    "usageContext": "Bases de données répliquées mises à l'échelle en lecture. Cause fréquente du « je modifie, je recharge, je vois l'ancien ».",
+    "meetingExample": "« Le lag de réplication est monté à 5 s sous la charge d'écriture : les lectures critiques doivent passer sur le primaire. »",
+    "plainTranslation": "« Les copies de la base servant les lectures ont un peu de retard sur l'originale. »",
+    "relatedTerms": [
+      "arch-eventual-consistency",
+      "cloud-read-replica"
+    ],
+    "aliases": [
+      "replication lag",
+      "lag de réplication"
+    ]
+  },
+  {
+    "id": "arch-sharding",
+    "term": "Sharding",
+    "fullForm": "Sharding (partitionnement horizontal)",
+    "frenchMeaning": "partitionnement des données",
+    "category": "arch",
+    "level": "avancé",
+    "shortDefinition": "Découper les données entre plusieurs bases pour répartir la charge et le volume.",
+    "detailedDefinition": "Le sharding répartit les données sur plusieurs partitions (shards) selon une clé (par plage d'id, par région, par hachage). Chaque shard porte une part des écritures et du volume, ce qui dépasse les limites d'une seule base. Prix à payer : les requêtes couvrant plusieurs shards deviennent complexes, et une clé mal choisie crée un hotspot (une partition surchargée) nécessitant un rééquilibrage.",
+    "usageContext": "Bases de données à très gros volume ou fort débit d'écriture, systèmes distribués.",
+    "meetingExample": "« On shard les commandes par région ; attention à ne pas créer un hotspot sur la région la plus active. »",
+    "plainTranslation": "« On coupe la base en morceaux répartis sur plusieurs machines pour tenir la charge. »",
+    "relatedTerms": [
+      "scale-horizontal",
+      "arch-replication-lag"
+    ],
+    "aliases": [
+      "partitionnement horizontal",
+      "shard"
+    ]
+  },
+  {
+    "id": "arch-quorum",
+    "term": "Quorum",
+    "frenchMeaning": "majorité requise pour décider",
+    "category": "arch",
+    "level": "avancé",
+    "shortDefinition": "Règle exigeant l'accord d'une majorité de nœuds avant de valider une décision.",
+    "detailedDefinition": "Dans un système distribué, si le réseau se coupe, deux groupes de nœuds isolés pourraient prendre des décisions contradictoires (split-brain). Le quorum impose qu'une décision (élire un leader, valider une écriture) ne soit valide que si une MAJORITÉ de nœuds l'approuve. Ainsi, deux moitiés séparées ne peuvent pas toutes deux atteindre la majorité, ce qui empêche les décisions divergentes.",
+    "usageContext": "Systèmes distribués à consensus (élection de leader, bases répliquées). Parade conceptuelle au split-brain.",
+    "meetingExample": "« Sans quorum, nos deux nœuds se sont crus leaders pendant la coupure réseau : split-brain. »",
+    "plainTranslation": "« Il faut qu'une majorité de serveurs soit d'accord pour qu'une décision compte. »",
+    "relatedTerms": [
+      "arch-eventual-consistency"
+    ],
+    "aliases": [
+      "majorité"
+    ]
+  },
+  {
+    "id": "arch-at-least-once",
+    "term": "Livraison at-least-once",
+    "fullForm": "At-least-once delivery",
+    "frenchMeaning": "livraison « au moins une fois »",
+    "category": "arch",
+    "level": "avancé",
+    "shortDefinition": "Garantie qu'un message est livré au moins une fois — donc parfois plusieurs fois.",
+    "detailedDefinition": "La plupart des systèmes de messages garantissent qu'un message ne sera pas perdu : il est livré au moins une fois. La contrepartie est que, en cas de panne d'un worker avant l'accusé de réception, le message est redistribué et peut être traité en double. On rend donc le consommateur idempotent pour que traiter deux fois un message n'ait pas d'effet doublé : at-least-once + consommateur idempotent ≈ exactly-once en pratique.",
+    "usageContext": "Files de messages, systèmes événementiels. À opposer à at-most-once (ne double jamais mais peut perdre).",
+    "meetingExample": "« Le broker est at-least-once : rends le consommateur idempotent, sinon on débitera deux fois. »",
+    "plainTranslation": "« Le message arrivera à coup sûr, quitte à arriver deux fois — donc il faut savoir gérer les doublons. »",
+    "relatedTerms": [
+      "dev-idempotency",
+      "arch-dead-letter-queue"
+    ],
+    "aliases": [
+      "at-least-once",
+      "au moins une fois"
+    ]
   }
 ]

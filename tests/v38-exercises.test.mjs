@@ -16,7 +16,7 @@ const R = (p) => join(ROOT, p);
 const read = (p) => readFileSync(R(p), 'utf8');
 const onDisk = new Set(readdirSync(R('data/exercises')).filter((f) => f.endsWith('.json')).map((f) => f.replace('.json', '')));
 
-const V38_EXERCISES = ['queue-idempotent-consumer', 'dlq-routing', 'api-pagination-choice', 'replication-lag-reason', 'capacity-estimate', 'retry-backoff-delay'];
+const V38_EXERCISES = ['queue-idempotent-consumer', 'dlq-routing', 'api-pagination-choice', 'replication-lag-reason', 'capacity-estimate', 'retry-backoff-delay', 'system-design-diagnose'];
 
 // Racine d'exécution ISOLÉE (sous data/lab-workspaces, gitignoré) : runExercise
 // matérialise le workspace sous cette racine ; on la nettoie après les tests.

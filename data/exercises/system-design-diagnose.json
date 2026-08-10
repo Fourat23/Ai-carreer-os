@@ -1,0 +1,31 @@
+{
+  "id": "system-design-diagnose",
+  "title": "Transfert : diagnostiquer une architecture et choisir le correctif",
+  "difficulty": 4,
+  "summary": "Objectif (transfert) : on te décrit l'état observé d'un système (API + base + cache + file + instances) et tu CHOISIS toi-même le correctif adapté, sans qu'on te souffle le concept. SIMULATION déterministe. Complète diagnose(system) et renvoie l'UNE de ces valeurs : 'idempotent-consumer', 'remove-spof', 'add-read-replica', 'add-cache', 'circuit-breaker', 'scale-horizontal'. Applique cette priorité de diagnostic : traitements dupliqués → idempotent-consumer ; point unique de défaillance → remove-spof ; réessais qui noient une dépendance à terre → circuit-breaker ; lectures qui saturent la base → add-read-replica ; mêmes lectures répétées coûteuses → add-cache ; sinon CPU saturé sur une seule instance → scale-horizontal.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["conditions", "functions"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Choisis le correctif prioritaire selon les signaux observés.\n// system : { duplicateProcessing, singleInstance, retriesFloodingDownDependency,\n//            readsSaturateDb, repeatedExpensiveReads, cpuSaturatedSingleInstance }\nexport function diagnose(system) {\n  // BUG : renvoie toujours 'scale-horizontal' sans lire les signaux.\n  return 'scale-horizontal';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function diagnose(system) {\n  if (system.duplicateProcessing) return 'idempotent-consumer';\n  if (system.singleInstance) return 'remove-spof';\n  if (system.retriesFloodingDownDependency) return 'circuit-breaker';\n  if (system.readsSaturateDb) return 'add-read-replica';\n  if (system.repeatedExpensiveReads) return 'add-cache';\n  if (system.cpuSaturatedSingleInstance) return 'scale-horizontal';\n  return 'scale-horizontal';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "traitements dupliqués", "kind": "call-equals", "export": "diagnose", "args": [{ "duplicateProcessing": true }], "expected": "idempotent-consumer" },
+    { "id": "t2", "name": "point unique de défaillance", "kind": "call-equals", "export": "diagnose", "args": [{ "singleInstance": true }], "expected": "remove-spof" },
+    { "id": "t3", "name": "réessais qui noient une dépendance à terre", "kind": "call-equals", "export": "diagnose", "args": [{ "retriesFloodingDownDependency": true }], "expected": "circuit-breaker" },
+    { "id": "t4", "name": "lectures qui saturent la base", "kind": "call-equals", "export": "diagnose", "args": [{ "readsSaturateDb": true }], "expected": "add-read-replica" },
+    { "id": "t5", "name": "mêmes lectures répétées coûteuses", "kind": "call-equals", "export": "diagnose", "args": [{ "repeatedExpensiveReads": true }], "expected": "add-cache", "private": true },
+    { "id": "t6", "name": "CPU saturé sur une seule instance", "kind": "call-equals", "export": "diagnose", "args": [{ "cpuSaturatedSingleInstance": true }], "expected": "scale-horizontal", "private": true },
+    { "id": "t7", "name": "priorité : duplication avant SPOF", "kind": "call-equals", "export": "diagnose", "args": [{ "duplicateProcessing": true, "singleInstance": true }], "expected": "idempotent-consumer", "private": true }
+  ]
+}

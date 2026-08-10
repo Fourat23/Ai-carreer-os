@@ -1,0 +1,10 @@
+{
+  "sprint": "V38",
+  "baselineRef": "087f738",
+  "note": "Périmètre V38 : API production, async/messaging, System Design fondations, systèmes distribués + playbooks prod. Data/Reliability/Documentation réutilisés (non dupliqués). Le gate v38:check valide STRUCTURELLEMENT.",
+  "newLessons": [],
+  "hardenedLegacy": [],
+  "removedLessons": [],
+  "critical": [],
+  "prereq": {}
+}

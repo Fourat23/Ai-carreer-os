@@ -1,0 +1,7 @@
+{
+  "sprint": "V38",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V38 : Backend II + System Design. Rubrique v20 (16 dimensions). Notes HUMAINES à la lecture intégrale. Items remplis au CP13.",
+  "scanGlobs": ["curriculum/lessons/*.md"],
+  "items": []
+}

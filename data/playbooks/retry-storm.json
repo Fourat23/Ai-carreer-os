@@ -1,0 +1,68 @@
+{
+  "id": "retry-storm",
+  "situation": "Une tempête de réessais (retry storm) : des clients qui réessaient tous en même temps amplifient une panne",
+  "domain": "incident",
+  "severityHint": "SEV1/SEV2 : l'effet boule de neige peut maintenir un service à terre",
+  "dayRefs": [80],
+  "relatedGlossary": ["res-retry", "res-backoff", "res-circuit-breaker", "obs-saturation", "prod-incident"],
+  "symptoms": [
+    "Une dépendance ralentit, puis le trafic de réessais EXPLOSE et l'empêche de récupérer.",
+    "Le taux de requêtes monte en flèche alors que le service est déjà en difficulté.",
+    "La panne persiste même après la cause initiale, entretenue par les réessais."
+  ],
+  "firstChecks": [
+    "Les clients réessaient-ils immédiatement et en boucle (sans backoff) ?",
+    "Y a-t-il un backoff exponentiel ET du jitter, ou tous réessaient-ils en même temps ?",
+    "Un circuit breaker existe-t-il pour cesser d'appeler une dépendance à terre ?"
+  ],
+  "containment": [
+    "Ouvrir le circuit breaker (ou couper les réessais) vers la dépendance en difficulté pour la laisser respirer.",
+    "Réduire le trafic entrant (rate limiting) pendant la récupération."
+  ],
+  "recommendedOrder": [
+    "Stopper l'amplification (couper/limiter les réessais)",
+    "laisser la dépendance récupérer",
+    "rétablir progressivement le trafic",
+    "corriger la politique de réessai",
+    "prévenir la récurrence"
+  ],
+  "communication": [
+    "Signaler que la panne est amplifiée par les réessais et que le trafic est volontairement bridé.",
+    "Prévenir les équipes clientes de l'API concernée."
+  ],
+  "evidence": [
+    "Capturer la courbe du taux de requêtes vs disponibilité de la dépendance.",
+    "Conserver la configuration de retry en cause (pas de backoff/jitter)."
+  ],
+  "doNot": [
+    "Ne pas augmenter les timeouts et les réessais pour « forcer » : cela aggrave la tempête.",
+    "Ne pas relancer tout le trafic d'un coup après récupération (nouvelle tempête)."
+  ],
+  "mitigation": [
+    "Backoff exponentiel + jitter côté clients ; circuit breaker vers la dépendance ; rate limiting."
+  ],
+  "correction": [
+    "Corriger la politique de réessai : backoff exponentiel, jitter, plafond de tentatives, puis DLQ.",
+    "Introduire/valider un circuit breaker qui cesse d'appeler une dépendance à terre."
+  ],
+  "validation": [
+    "Le taux de réessais reste borné même sous panne simulée ; la dépendance récupère sans être noyée.",
+    "Le rétablissement du trafic est progressif, sans rechute."
+  ],
+  "delivery": [
+    "Refermer le circuit breaker progressivement ; lever le rate limiting par paliers."
+  ],
+  "monitoring": [
+    "Surveiller taux de réessais, état des circuit breakers, et disponibilité des dépendances."
+  ],
+  "documentation": [
+    "Noter la politique de réessai avant/après et la logique de circuit breaker retenue."
+  ],
+  "prevention": [
+    "Imposer backoff+jitter et un plafond de tentatives par défaut dans les clients.",
+    "Tester le comportement sous panne (chaos léger) pour éviter les tempêtes."
+  ],
+  "exitCriteria": [
+    "Réessais bornés, dépendance stable, circuit breaker et backoff en place, cause documentée."
+  ]
+}

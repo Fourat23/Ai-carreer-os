@@ -103,6 +103,7 @@ choisit l'arbitrage cohérence/fraîcheur selon l'enjeu métier.
 - Ignorer le split-brain sur un système à leader (pas de quorum) → corruption.
 
 ## 🛠️ Pratique
+Exercices déterministes reliés à cette leçon :
 `cloud-detect-spof` / `cloud-spof-detect` (points uniques de défaillance), `cloud-replica-count`
 (réplicas), et l'idempotence côté consommateur (`queue-idempotent-consumer`) pour la duplication.
 Approfondissement V38 : `replication-lag-reason` (diagnostiquer une lecture périmée). SIMULATIONS

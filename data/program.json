@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T06:03:05.883Z",
+  "generatedAt": "2026-08-10T06:06:59.296Z",
   "skills": [
     {
       "id": "algo",
@@ -6904,6 +6904,14 @@
         {
           "kind": "exercise",
           "id": "retry-backoff-delay"
+        },
+        {
+          "kind": "playbook",
+          "id": "queue-backlog"
+        },
+        {
+          "kind": "playbook",
+          "id": "retry-storm"
         }
       ]
     },
@@ -6964,6 +6972,10 @@
         {
           "kind": "exercise",
           "id": "queue-idempotent-consumer"
+        },
+        {
+          "kind": "playbook",
+          "id": "replication-lag"
         }
       ]
     },

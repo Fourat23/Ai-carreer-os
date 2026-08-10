@@ -112,6 +112,7 @@ Raisonnement : on traite le goulot réel, du levier le moins coûteux (cache) au
 - Dimensionner sans estimer → sur-coût ou panne.
 
 ## 🛠️ Pratique
+Exercices déterministes reliés à cette leçon :
 `cloud-scaling-choice` / `cloud-scaling-kind` (vertical vs horizontal), `cloud-replica-count` (combien
 de réplicas), `cloud-detect-spof` / `cloud-spof-detect` (repérer les SPOF), `cloud-stateful-autoscale`
 (stateless mal mis à l'échelle). SIMULATIONS déterministes — aucun cloud réel exécuté.

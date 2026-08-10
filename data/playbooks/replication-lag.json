@@ -1,0 +1,76 @@
+{
+  "id": "replication-lag",
+  "situation": "Retard de réplication : des lectures renvoient des données périmées après une écriture",
+  "domain": "incident",
+  "severityHint": "SEV2 si des décisions critiques lisent du périmé ; SEV3 si gêne cosmétique",
+  "dayRefs": [
+    81
+  ],
+  "relatedGlossary": [
+    "cloud-read-replica",
+    "cloud-cross-region-replication",
+    "prod-latency",
+    "prod-incident",
+    "scale-horizontal"
+  ],
+  "symptoms": [
+    "Un utilisateur modifie une donnée puis, en rechargeant, voit l'ANCIENNE valeur (par intermittence).",
+    "Des lectures via les réplicas divergent du primaire pendant un court instant.",
+    "Le retard de réplication (lag) mesuré augmente."
+  ],
+  "firstChecks": [
+    "Les lectures concernées viennent-elles d'un réplica, juste après une écriture ?",
+    "Le lag de réplication est-il anormalement élevé (charge d'écriture, réplica lent/saturé) ?",
+    "La fraîcheur est-elle réellement critique pour cette lecture précise ?"
+  ],
+  "containment": [
+    "Pour les lectures critiques en fraîcheur, router temporairement vers le primaire (read-your-writes).",
+    "Réduire la charge d'écriture non essentielle si elle creuse le lag."
+  ],
+  "recommendedOrder": [
+    "Confirmer que c'est du replication lag (réplica vs primaire)",
+    "évaluer la criticité de la fraîcheur",
+    "router les lectures critiques vers le primaire",
+    "réduire le lag (charge/capacité réplica)",
+    "prévenir la récurrence"
+  ],
+  "communication": [
+    "Expliquer que l'incohérence est transitoire (cohérence à terme), pas une perte de données.",
+    "Indiquer quelles lectures sont temporairement servies par le primaire."
+  ],
+  "evidence": [
+    "Capturer la métrique de lag et des exemples de divergence primaire/réplica.",
+    "Conserver l'horodatage écriture vs lecture périmée."
+  ],
+  "doNot": [
+    "Ne pas conclure à une corruption/perte de données : la réplication converge à terme.",
+    "Ne pas router TOUTES les lectures vers le primaire (on perd le bénéfice de scalabilité)."
+  ],
+  "mitigation": [
+    "Lecture des données critiques sur le primaire (read-your-writes) ; allègement de la charge d'écriture."
+  ],
+  "correction": [
+    "Réduire le lag durablement : capacité et santé des réplicas, réduction des écritures en rafale, ou lecture primaire ciblée pour les cas sensibles.",
+    "Adopter un motif explicite (read-your-writes, ou indicateur « mise à jour en cours ») selon la criticité."
+  ],
+  "validation": [
+    "Le lag revient à un niveau normal ; les lectures critiques sont à jour.",
+    "Les lectures non critiques restent servies par les réplicas (scalabilité préservée)."
+  ],
+  "delivery": [
+    "Revenir au routage normal (réplicas) une fois le lag résorbé, sauf lectures critiques."
+  ],
+  "monitoring": [
+    "Surveiller en continu le lag de réplication et l'écart primaire/réplica."
+  ],
+  "documentation": [
+    "Noter la cause du lag et la stratégie de fraîcheur retenue par type de lecture."
+  ],
+  "prevention": [
+    "Alerter sur le lag ; classer les lectures par exigence de fraîcheur dès la conception.",
+    "Dimensionner les réplicas et lisser les écritures en rafale."
+  ],
+  "exitCriteria": [
+    "Lag nominal, lectures critiques à jour, stratégie de fraîcheur documentée, alerte en place."
+  ]
+}

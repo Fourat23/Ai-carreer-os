@@ -1,0 +1,69 @@
+{
+  "id": "queue-backlog",
+  "situation": "Une file de messages accumule du retard : les workers ne suivent plus le rythme des producteurs",
+  "domain": "incident",
+  "severityHint": "SEV2 si le traitement critique prend un retard croissant ; SEV3 si file secondaire",
+  "dayRefs": [80],
+  "relatedGlossary": ["prod-throughput", "res-backpressure", "dev-idempotency", "prod-incident", "cloud-autoscaling"],
+  "symptoms": [
+    "La profondeur de la file (nombre de messages en attente) croît sans redescendre.",
+    "Le délai entre publication et traitement d'un message augmente continûment.",
+    "Les effets attendus (e-mails, encodages, mises à jour) arrivent de plus en plus en retard."
+  ],
+  "firstChecks": [
+    "Le débit d'entrée (producteurs) dépasse-t-il le débit de sortie (workers) ? Comparer les deux.",
+    "Les workers sont-ils en erreur/lents (dépendance externe, requête lente) ou simplement trop peu nombreux ?",
+    "Un pic de trafic récent ou un déploiement précède-t-il le retard ?"
+  ],
+  "containment": [
+    "Augmenter temporairement le nombre de workers (si le traitement est parallélisable et stateless).",
+    "Mettre en pause les producteurs non essentiels pour laisser la file se vider, si acceptable."
+  ],
+  "recommendedOrder": [
+    "Mesurer entrée vs sortie",
+    "identifier le goulot (workers lents ou trop peu nombreux)",
+    "augmenter la capacité de consommation",
+    "réduire l'entrée si nécessaire",
+    "vérifier la résorption",
+    "prévenir la récurrence"
+  ],
+  "communication": [
+    "Indiquer quels traitements sont retardés et l'impact utilisateur (délais, notifications).",
+    "Communiquer une estimation de résorption si possible."
+  ],
+  "evidence": [
+    "Capturer la courbe de profondeur de file et les débits entrée/sortie.",
+    "Conserver les logs des workers lents/en erreur."
+  ],
+  "doNot": [
+    "Ne pas purger la file sans analyse : on perdrait des messages non traités.",
+    "Ne pas multiplier les workers si le goulot est une dépendance en aval (on ne fait qu'aggraver sa charge)."
+  ],
+  "mitigation": [
+    "Scaler les workers (horizontal) et/ou appliquer de la contre-pression côté producteurs (backpressure)."
+  ],
+  "correction": [
+    "Traiter la cause du ralentissement des workers (requête lente, dépendance instable) ou dimensionner durablement la consommation.",
+    "S'assurer que les consommateurs sont idempotents avant d'augmenter le parallélisme (re-livraisons plus probables)."
+  ],
+  "validation": [
+    "La profondeur de file redescend et se stabilise ; le délai de traitement revient à la normale.",
+    "Aucun message perdu ; les effets sont produits une seule fois (idempotence vérifiée)."
+  ],
+  "delivery": [
+    "Réactiver les producteurs mis en pause ; revenir au nombre de workers cible après résorption."
+  ],
+  "monitoring": [
+    "Surveiller en continu profondeur de file, âge du plus vieux message, et ratio entrée/sortie."
+  ],
+  "documentation": [
+    "Noter la cause (pic, worker lent, dépendance) et le dimensionnement retenu."
+  ],
+  "prevention": [
+    "Mettre une alerte sur la profondeur de file et l'âge des messages.",
+    "Prévoir l'autoscaling des workers et de la contre-pression côté production."
+  ],
+  "exitCriteria": [
+    "File résorbée et stable, délais nominaux, cause documentée, alerte en place."
+  ]
+}

@@ -92,6 +92,7 @@ les DEUX champs (`nom` déprécié + `fullName`), documente la dépréciation, p
 - Utiliser l'offset pour un flux qui change vite → lignes sautées ou dupliquées.
 
 ## 🛠️ Pratique
+Exercices déterministes reliés à cette leçon :
 `http-method-idempotent` (quelles méthodes sont idempotentes), `auth-status-decision` (401/403/404/200),
 `api-router` (routeur REST). Approfondissement V38 : `api-idempotency` (rejouer sans doubler),
 `api-pagination-choice` (offset vs curseur).

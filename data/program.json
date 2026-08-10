@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T21:38:17.849Z",
+  "generatedAt": "2026-08-10T05:48:46.972Z",
   "skills": [
     {
       "id": "algo",
@@ -6135,6 +6135,31 @@
       "skills": [
         "archi",
         "se"
+      ]
+    },
+    {
+      "slug": "api-production-contracts",
+      "title": "API de production : idempotence, pagination, limites et versions",
+      "cat": "Web & backend",
+      "level": 3,
+      "min": 50,
+      "skills": [
+        "http",
+        "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "http-method-idempotent"
+        },
+        {
+          "kind": "exercise",
+          "id": "auth-status-decision"
+        },
+        {
+          "kind": "exercise",
+          "id": "api-router"
+        }
       ]
     },
     {

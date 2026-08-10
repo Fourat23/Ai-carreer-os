@@ -138,7 +138,9 @@
     "cloud-replica-count",
     "cloud-stateful-autoscale",
     "cloud-compute-choice",
-    "cloud-scaling-kind"
+    "cloud-scaling-kind",
+    "queue-idempotent-consumer",
+    "dlq-routing"
   ],
   "81": [
     "cloud-deploy-strategy",

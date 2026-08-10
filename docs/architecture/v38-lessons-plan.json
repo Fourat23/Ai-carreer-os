@@ -3,17 +3,23 @@
   "baselineRef": "087f738",
   "note": "Périmètre V38 : API production, async/messaging, System Design fondations, systèmes distribués + playbooks prod. Data/Reliability/Documentation réutilisés (non dupliqués). Le gate v38:check valide STRUCTURELLEMENT.",
   "newLessons": [
-    "api-production-contracts"
+    "api-production-contracts",
+    "async-messaging-queues"
   ],
   "hardenedLegacy": [],
   "removedLessons": [],
   "critical": [
-    "api-production-contracts"
+    "api-production-contracts",
+    "async-messaging-queues"
   ],
   "prereq": {
     "api-production-contracts": [
       "api-design-basics",
       "http-rest-json"
+    ],
+    "async-messaging-queues": [
+      "caching-performance",
+      "resilience-patterns"
     ]
   }
 }

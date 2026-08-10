@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T05:48:46.972Z",
+  "generatedAt": "2026-08-10T05:53:46.690Z",
   "skills": [
     {
       "id": "algo",
@@ -6875,6 +6875,27 @@
         {
           "kind": "lab",
           "id": "cloud-architecture"
+        }
+      ]
+    },
+    {
+      "slug": "async-messaging-queues",
+      "title": "Travail asynchrone : files, workers, retry et idempotence",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "min": 55,
+      "skills": [
+        "archi",
+        "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "queue-idempotent-consumer"
+        },
+        {
+          "kind": "exercise",
+          "id": "dlq-routing"
         }
       ]
     },

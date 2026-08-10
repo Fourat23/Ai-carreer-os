@@ -1,0 +1,135 @@
+{
+  "id": "queue-idempotent-consumer",
+  "title": "File de messages : consommateur idempotent",
+  "difficulty": 3,
+  "summary": "Objectif : rendre un consommateur idempotent face à une livraison at-least-once. SIMULATION déterministe (aucune vraie file/broker). On reçoit une liste de messages { id, amount } où certains id sont livrés PLUSIEURS fois. Complète applyOnce(messages) : additionne amount UNE SEULE FOIS par id (les re-livraisons sont ignorées) et renvoie le total appliqué.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "arrays",
+    "hashmap"
+  ],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Consommateur idempotent : chaque id ne doit produire son effet qu'UNE fois,\n// même si le message est re-livré (livraison at-least-once).\nexport function applyOnce(messages) {\n  // BUG : additionne TOUS les messages, y compris les doublons.\n  let total = 0;\n  for (const m of messages) total += m.amount;\n  return total;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function applyOnce(messages) {\n  const seen = new Set();\n  let total = 0;\n  for (const m of messages) {\n    if (seen.has(m.id)) continue;\n    seen.add(m.id);\n    total += m.amount;\n  }\n  return total;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un doublon est ignoré",
+      "kind": "call-equals",
+      "export": "applyOnce",
+      "args": [
+        [
+          {
+            "id": "a",
+            "amount": 10
+          },
+          {
+            "id": "b",
+            "amount": 5
+          },
+          {
+            "id": "a",
+            "amount": 10
+          }
+        ]
+      ],
+      "expected": 15
+    },
+    {
+      "id": "t2",
+      "name": "aucun doublon : total normal",
+      "kind": "call-equals",
+      "export": "applyOnce",
+      "args": [
+        [
+          {
+            "id": "a",
+            "amount": 3
+          },
+          {
+            "id": "b",
+            "amount": 4
+          }
+        ]
+      ],
+      "expected": 7
+    },
+    {
+      "id": "t3",
+      "name": "toutes re-livraisons du même id",
+      "kind": "call-equals",
+      "export": "applyOnce",
+      "args": [
+        [
+          {
+            "id": "x",
+            "amount": 8
+          },
+          {
+            "id": "x",
+            "amount": 8
+          },
+          {
+            "id": "x",
+            "amount": 8
+          }
+        ]
+      ],
+      "expected": 8
+    },
+    {
+      "id": "t4",
+      "name": "liste vide → 0",
+      "kind": "call-equals",
+      "export": "applyOnce",
+      "args": [
+        []
+      ],
+      "expected": 0,
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "doublons multiples entremêlés",
+      "kind": "call-equals",
+      "export": "applyOnce",
+      "args": [
+        [
+          {
+            "id": "a",
+            "amount": 1
+          },
+          {
+            "id": "b",
+            "amount": 2
+          },
+          {
+            "id": "a",
+            "amount": 1
+          },
+          {
+            "id": "c",
+            "amount": 4
+          },
+          {
+            "id": "b",
+            "amount": 2
+          }
+        ]
+      ],
+      "expected": 7,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "id": "dlq-routing",
+  "title": "File de messages : router vers la dead letter queue",
+  "difficulty": 2,
+  "summary": "Objectif : décider le sort d'un message selon son nombre de tentatives. SIMULATION déterministe (aucune vraie file). Complète route({ attempts, maxAttempts }) : si le message a déjà atteint maxAttempts tentatives échouées → 'dlq' (dead letter queue) ; sinon → 'retry'. Un message empoisonné ne doit jamais boucler indéfiniment.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "conditions",
+    "functions"
+  ],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Après un échec de traitement : réessayer, ou envoyer en DLQ si le plafond est atteint.\nexport function route({ attempts, maxAttempts }) {\n  // BUG : réessaie toujours → un message empoisonné boucle à l'infini.\n  return 'retry';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function route({ attempts, maxAttempts }) {\n  return attempts >= maxAttempts ? 'dlq' : 'retry';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "sous le plafond → retry",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        {
+          "attempts": 1,
+          "maxAttempts": 5
+        }
+      ],
+      "expected": "retry"
+    },
+    {
+      "id": "t2",
+      "name": "plafond atteint → dlq",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        {
+          "attempts": 5,
+          "maxAttempts": 5
+        }
+      ],
+      "expected": "dlq"
+    },
+    {
+      "id": "t3",
+      "name": "au-delà du plafond → dlq",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        {
+          "attempts": 7,
+          "maxAttempts": 5
+        }
+      ],
+      "expected": "dlq"
+    },
+    {
+      "id": "t4",
+      "name": "première tentative → retry",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        {
+          "attempts": 0,
+          "maxAttempts": 3
+        }
+      ],
+      "expected": "retry",
+      "private": true
+    },
+    {
+      "id": "t5",
+      "name": "juste sous le plafond → retry",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        {
+          "attempts": 2,
+          "maxAttempts": 3
+        }
+      ],
+      "expected": "retry",
+      "private": true
+    }
+  ]
+}

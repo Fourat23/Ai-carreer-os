@@ -1,0 +1,57 @@
+{
+  "id": "least-privilege-everywhere",
+  "title": "Le moindre privilège, du système au produit",
+  "sourceSkill": "secu",
+  "skills": ["secu"],
+  "transferLevel": "T5",
+  "bridge": "moindre privilège (n'accorder que les droits strictement nécessaires) → tout contexte où une entité reçoit des permissions : IAM cloud, rôle applicatif, token de CI, agent exécutant des instructions externes",
+  "crossDomain": true,
+  "targetContext": "Un agent logiciel (hors IAM cloud) qui exécute des actions à partir d'instructions fournies par un tiers non fiable.",
+  "lessonRefs": ["authentication", "ai-security"],
+  "simulationNote": "Système décrit pour le raisonnement ; aucune infra réelle.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un agent logiciel reçoit des instructions d'une source externe non fiable et dispose d'un accès LARGE (lecture/écriture/suppression sur tout). Quel principe de sécurité, vu ailleurs, réduit d'abord le risque ?",
+      "options": [
+        "Le moindre privilège : ne lui accorder que les droits strictement nécessaires à sa tâche",
+        "Lui donner tous les droits pour éviter les erreurs",
+        "Augmenter sa mémoire",
+        "Chiffrer l'écran"
+      ],
+      "answer": 0,
+      "explanation": "Même principe qu'en IAM ou pour un token de CI : limiter les permissions au strict nécessaire borne les dégâts si l'entité est détournée. Donner tous les droits fait exactement l'inverse."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles mesures transposent le moindre privilège à cet agent ? (plusieurs)",
+      "options": [
+        "Restreindre ses actions autorisées à un ensemble minimal",
+        "Séparer les rôles : lecture par défaut, écriture seulement quand indispensable",
+        "Ne jamais faire confiance au contenu externe : le valider et le borner",
+        "Lui donner un accès administrateur permanent"
+      ],
+      "answer": [0, 1, 2],
+      "explanation": "Périmètre d'actions minimal, séparation des privilèges, méfiance envers l'entrée externe : le moindre privilège + « never trust input » transposés. L'accès admin permanent est l'anti-pattern."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Généralisation : chaque fois qu'une entité (service, token, agent, utilisateur) reçoit des droits, quelle question poses-tu en premier ?",
+      "options": [
+        "« Quel est le minimum de droits dont elle a réellement besoin pour sa tâche ? »",
+        "« Comment lui donner le plus de droits possible ? »",
+        "« Quelle couleur pour son badge ? »",
+        "« Peut-on ignorer les permissions ? »"
+      ],
+      "answer": 0,
+      "explanation": "Le réflexe transférable du moindre privilège : partir du minimum nécessaire, pas du maximum possible — vrai pour IAM, tokens, rôles applicatifs et agents."
+    }
+  ]
+}

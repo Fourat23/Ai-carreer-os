@@ -1,0 +1,57 @@
+{
+  "id": "stale-value-in-async",
+  "title": "La valeur périmée capturée par une closure asynchrone",
+  "sourceSkill": "jsts",
+  "skills": ["jsts"],
+  "transferLevel": "T5",
+  "bridge": "état périmé capturé par une closure (React, callback async) → tout code différé qui lit une variable figée au moment de sa création plutôt que sa valeur actuelle",
+  "crossDomain": true,
+  "targetContext": "Un script Node (hors React) planifie des tâches différées dans une boucle et elles utilisent toutes la MÊME valeur finale au lieu de leur valeur au moment de la planification.",
+  "lessonRefs": ["async-javascript", "javascript-basics"],
+  "simulationNote": "Comportement décrit pour le raisonnement ; aucun runtime piloté ici.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Une boucle planifie 5 tâches différées ; chacune devait utiliser l'index i au moment de sa création, mais toutes utilisent la valeur finale de i. Quel phénomène, vu ailleurs (état périmé/stale closure), reconnais-tu ?",
+      "options": [
+        "Les tâches capturent une RÉFÉRENCE partagée à i, lue au moment de l'exécution (valeur finale), pas au moment de la création",
+        "Le processeur est trop lent",
+        "Le réseau est en cause",
+        "Un problème de CSS"
+      ],
+      "answer": 0,
+      "explanation": "Même modèle mental que la stale closure : la fonction différée lit la variable au moment où elle S'EXÉCUTE (valeur finale partagée), pas au moment où elle a été créée."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles corrections capturent la BONNE valeur par itération ? (plusieurs)",
+      "options": [
+        "Créer une liaison par itération (portée de bloc, ex. une variable let par tour)",
+        "Passer la valeur courante comme argument figé à la tâche",
+        "Augmenter la RAM",
+        "Utiliser une seule variable partagée mutée dans la boucle"
+      ],
+      "answer": [0, 1],
+      "explanation": "Une liaison par itération (portée de bloc) ou passer la valeur en argument fige la valeur du tour. Une seule variable partagée reproduit exactement le bug ; la RAM n'a rien à voir."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Généralisation : un traitement différé (timer, callback, effet) semble utiliser une donnée « d'un autre moment ». Quel réflexe adoptes-tu ?",
+      "options": [
+        "Vérifier QUAND la valeur est lue (création vs exécution) et figer explicitement la valeur voulue",
+        "Supposer que le langage est buggé",
+        "Ajouter des logs partout sans réfléchir",
+        "Redémarrer la machine"
+      ],
+      "answer": 0,
+      "explanation": "Le cœur transférable : distinguer le moment de CAPTURE du moment de LECTURE, et figer explicitement la valeur voulue — vrai pour React, les timers, les callbacks async."
+    }
+  ]
+}

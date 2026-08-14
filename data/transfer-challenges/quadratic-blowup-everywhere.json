@@ -1,0 +1,51 @@
+{
+  "id": "quadratic-blowup-everywhere",
+  "title": "Reconnaître un coût quadratique loin de l'algorithmique",
+  "sourceSkill": "algo",
+  "skills": ["algo", "ds"],
+  "transferLevel": "T5",
+  "bridge": "boucle imbriquée O(n²) (comparer chaque paire d'éléments) → tout traitement qui, sans structure d'accès direct, recompare tout à chaque élément — endpoint, UI, pipeline",
+  "crossDomain": true,
+  "targetContext": "Un traitement métier (détection de doublons entre deux listes) qui ralentit fortement quand les listes grossissent, sans qu'on parle d'algorithmique.",
+  "lessonRefs": ["algorithmic-thinking", "data-structures-intro"],
+  "simulationNote": "Traitement décrit pour le raisonnement ; aucun benchmark réel.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un script rapproche deux listes de clients (2 000 chacune) en comparant, pour chaque client de la première, TOUS les clients de la seconde. Il devient très lent quand les listes grossissent. Quel phénomène, vu en algorithmique, reconnais-tu ?",
+      "options": [
+        "Un coût quadratique O(n²) : le temps croît comme le carré de la taille",
+        "Un problème de réseau",
+        "Un manque de mémoire vive",
+        "Un bug d'affichage"
+      ],
+      "answer": 0,
+      "explanation": "Comparer chaque élément à tous les autres = O(n²) : doubler la taille quadruple le temps. Aucun rapport avec le réseau, la RAM ou l'affichage ici."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles corrections, transposées de l'algorithmique, ramènent le coût vers du linéaire ? (plusieurs)",
+      "options": [
+        "Indexer la seconde liste dans une structure à accès direct par clé (table de hachage)",
+        "Ne parcourir la seconde liste qu'une fois pour construire l'index, puis chercher en O(1)",
+        "Comparer deux fois chaque paire pour fiabiliser",
+        "Augmenter la taille de l'écran"
+      ],
+      "answer": [0, 1],
+      "explanation": "Construire un index par clé (hachage) puis chercher en temps constant remplace la double boucle : on passe de O(n²) à ~O(n). Doubler les comparaisons ou changer l'écran n'aide pas."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Avec la double boucle, passer de 2 000 à 4 000 éléments par liste multiplie le nombre de comparaisons par combien (ordre de grandeur) ?",
+      "answer": "4",
+      "explanation": "O(n²) : doubler n multiplie le coût par environ 4 (2²). C'est la signature d'un coût quadratique."
+    }
+  ]
+}

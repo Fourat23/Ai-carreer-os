@@ -1,0 +1,57 @@
+{
+  "id": "reconciliation-loop-everywhere",
+  "title": "La boucle de réconciliation hors de Kubernetes",
+  "sourceSkill": "cloud",
+  "skills": ["cloud"],
+  "transferLevel": "T5",
+  "bridge": "boucle de réconciliation Kubernetes (comparer en continu état désiré vs état réel et converger) → tout système auto-réparateur piloté par un état désiré déclaratif (IaC, superviseur de processus, gestionnaire de configuration)",
+  "crossDomain": true,
+  "targetContext": "Un superviseur maison (hors Kubernetes) qui doit garder un ensemble de processus dans un état voulu.",
+  "lessonRefs": ["k8s-why-architecture", "iac-fundamentals"],
+  "simulationNote": "Superviseur décrit pour le raisonnement ; aucune infra réelle exécutée.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Tu écris un superviseur qui doit maintenir « toujours 3 workers actifs ». Une première version lance 3 workers UNE FOIS au démarrage puis ne vérifie plus rien. Quel principe de Kubernetes corrige la fragilité ?",
+      "options": [
+        "Une boucle de réconciliation : comparer EN CONTINU l'état réel (workers vivants) à l'état désiré (3) et agir",
+        "Chiffrer les logs des workers",
+        "Augmenter la RAM des workers",
+        "Lancer 30 workers pour être sûr"
+      ],
+      "answer": 0,
+      "explanation": "Comme un contrôleur Kubernetes : on ne lance pas une fois, on RÉCONCILIE en continu réel vs désiré (relancer un worker mort). Lancer une fois, chiffrer ou sur-provisionner ne rend pas le système auto-réparateur."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles propriétés, transposées de la réconciliation, doit avoir ce superviseur ? (plusieurs)",
+      "options": [
+        "Déclarer l'état DÉSIRÉ (3 workers) séparément de la logique d'action",
+        "Observer périodiquement l'état RÉEL et agir pour combler l'écart",
+        "Converger même après une panne partielle (relancer ce qui manque)",
+        "Ne rien vérifier après le démarrage initial"
+      ],
+      "answer": [0, 1, 2],
+      "explanation": "État désiré déclaratif + observation continue + convergence après panne : les propriétés d'une boucle de réconciliation. « Ne rien vérifier » est précisément la version fragile."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Généralisation : tu veux qu'un système « se répare tout seul » vers un état voulu. Quel schéma adoptes-tu, quel que soit l'outil ?",
+      "options": [
+        "Décrire l'état désiré, observer l'état réel en boucle, agir pour réduire l'écart",
+        "Exécuter un script figé une seule fois",
+        "Attendre qu'un humain corrige à chaque panne",
+        "Supprimer la surveillance pour simplifier"
+      ],
+      "answer": 0,
+      "explanation": "Le schéma transférable de la réconciliation : état désiré + observation continue + action corrective — vrai pour Kubernetes, l'IaC, un superviseur de processus ou un gestionnaire de configuration."
+    }
+  ]
+}

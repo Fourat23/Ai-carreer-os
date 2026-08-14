@@ -7,7 +7,7 @@
   "skills": ["rag", "llm", "evalia"],
   "lessonRefs": ["rag-fundamentals", "rag-evaluation", "chunking-strategies", "retrieval-reranking", "prompt-injection-defense"],
   "exerciseRefs": ["rag-failure-locate", "rag-chunking-overlap", "rag-cosine-rank", "prompt-injection-classify"],
-  "playbookRefs": ["rag-indirect-injection", "ml-prediction-regression"],
+  "playbookRefs": ["rag-retrieval-regression", "rag-indirect-injection", "ml-prediction-regression"],
   "dayRefs": [],
   "simulationNote": "SIMULATION intégrale : chunks, scores de similarité, top-k et traces sont factices. AUCUN LLM n'est appelé, aucun embedding réel n'est calculé.",
   "passThreshold": 0.7,

@@ -1,0 +1,74 @@
+{
+  "id": "rag-retrieval-regression",
+  "domain": "ai",
+  "severityHint": "élevé",
+  "situation": "Un assistant RAG se met à répondre faux à des questions dont la réponse EXISTE pourtant dans le corpus, après un changement du pipeline documentaire (découpage, embeddings, top-k). La génération semble correcte, mais la bonne source n'est plus remontée.",
+  "dayRefs": [216, 219, 223],
+  "relatedGlossary": ["RAG", "chunk", "reranking", "top-k", "grounding", "semantic search"],
+  "symptoms": [
+    "Des questions autrefois correctes deviennent fausses ou « je ne sais pas ».",
+    "La réponse est fluide mais factuellement fausse (l'info existe dans les documents).",
+    "La dégradation coïncide avec un changement du pipeline d'ingestion/récupération."
+  ],
+  "firstChecks": [
+    "Le passage attendu existe-t-il encore dans le corpus indexé ?",
+    "Ce passage figure-t-il dans les top-k récupérés pour la question ?",
+    "En fournissant manuellement le bon passage, la génération répond-elle correctement ?"
+  ],
+  "containment": [
+    "Revenir à la configuration de découpage/récupération précédente si elle était saine (rollback + ré-indexation).",
+    "Pour les questions critiques, servir une réponse de secours ou renvoyer vers la source humaine.",
+    "Geler les changements d'ingestion le temps du diagnostic."
+  ],
+  "recommendedOrder": [
+    "Confirmer que l'info existe, localiser le maillon fautif (récupération vs génération), puis corriger l'étape réellement en cause."
+  ],
+  "communication": [
+    "Prévenir les utilisateurs que certaines réponses peuvent être incomplètes, avec une date de rétablissement estimée.",
+    "Expliquer à l'équipe data que la panne est dans la récupération, pas dans le modèle de génération."
+  ],
+  "evidence": [
+    "Conserver la trace de récupération (top-k et scores) pour la question défaillante.",
+    "Noter le taux de présence du bon passage dans le top-k, avant et après le changement."
+  ],
+  "doNot": [
+    "Ne pas changer le modèle de génération alors que la récupération est fautive.",
+    "Ne pas conclure à une injection sans vérifier ce qui est réellement récupéré.",
+    "Ne pas augmenter aveuglément le budget de tokens : cela ne remonte pas la bonne source."
+  ],
+  "mitigation": [
+    "Rollback du découpage/paramètres de récupération vers la version saine et ré-indexation.",
+    "Augmenter temporairement le top-k pour récupérer plus de candidats en attendant le correctif de fond."
+  ],
+  "correction": [
+    "Rétablir un découpage adapté aux passages précis (taille raisonnable + recouvrement).",
+    "Le cas échéant, ajouter un reranking pour remonter le passage pertinent parmi les candidats.",
+    "Ré-indexer le corpus avec la configuration corrigée."
+  ],
+  "validation": [
+    "Le taux de présence du bon passage dans le top-k remonte à son niveau d'avant.",
+    "Un jeu de questions/réponses de référence repasse au vert (qualité de récupération ET de réponse).",
+    "Les questions signalées redonnent des réponses correctes."
+  ],
+  "delivery": [
+    "Déployer la nouvelle configuration d'ingestion et ré-indexer hors heures de pointe.",
+    "Documenter la configuration de découpage/récupération retenue et pourquoi."
+  ],
+  "monitoring": [
+    "Suivre en continu un indicateur de qualité de récupération (présence du bon passage / groundedness).",
+    "Alerter si le taux passe sous un seuil après tout changement d'ingestion."
+  ],
+  "documentation": [
+    "Consigner l'incident : changement en cause, métrique 92 %→47 %, correctif, prévention.",
+    "Mettre à jour le runbook d'ingestion avec l'étape d'évaluation de récupération obligatoire."
+  ],
+  "prevention": [
+    "Évaluer la qualité de récupération AVANT de déployer tout changement de découpage/embeddings.",
+    "Traiter séparément les questions de sécurité (injection indirecte) : ce sont des problèmes distincts.",
+    "Versionner la configuration d'ingestion et pouvoir revenir en arrière rapidement."
+  ],
+  "exitCriteria": [
+    "Écart de qualité résorbé, jeu de référence au vert, indicateur de récupération sous surveillance.",
+    "Post-mortem rédigé et garde-fou d'évaluation de récupération ajouté au pipeline."
+  ]
+}

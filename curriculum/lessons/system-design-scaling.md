@@ -116,6 +116,8 @@ Exercices déterministes reliés à cette leçon :
 `cloud-scaling-choice` / `cloud-scaling-kind` (vertical vs horizontal), `cloud-replica-count` (combien
 de réplicas), `cloud-detect-spof` / `cloud-spof-detect` (repérer les SPOF), `cloud-stateful-autoscale`
 (stateless mal mis à l'échelle). SIMULATIONS déterministes — aucun cloud réel exécuté.
+**Auto-évaluation** : teste ta compréhension par niveau (jusqu'au transfert) sur `/diagnostics`
+(diagnostic « System Design : monter en charge »).
 
 ## 🧪 Vérification de compréhension
 - Pourquoi ne peut-on pas scaler horizontalement une application qui garde la session en mémoire locale ?

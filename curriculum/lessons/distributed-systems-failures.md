@@ -108,6 +108,8 @@ Exercices déterministes reliés à cette leçon :
 (réplicas), et l'idempotence côté consommateur (`queue-idempotent-consumer`) pour la duplication.
 Approfondissement V38 : `replication-lag-reason` (diagnostiquer une lecture périmée). SIMULATIONS
 déterministes — aucun cluster réel.
+**Auto-évaluation** : teste ta compréhension par niveau (jusqu'au transfert) sur `/diagnostics`
+(diagnostic « Systèmes distribués : modes de panne »).
 
 ## 🧪 Vérification de compréhension
 - Pourquoi une lecture juste après une écriture peut-elle renvoyer l'ancienne valeur ?

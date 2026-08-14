@@ -107,6 +107,8 @@ inspection, sans bloquer les autres paiements.
 `queue-idempotent-consumer` (rendre un consommateur idempotent), `dlq-duplicate` (compter les effets
 réels sous re-livraison / router vers DLQ). Incident associé : playbook `queue-backlog` (file qui
 accumule du retard). SIMULATIONS déterministes — aucun vrai broker.
+**Auto-évaluation** : teste ta compréhension par niveau (jusqu'au transfert) sur `/diagnostics`
+(diagnostic « Travail asynchrone : files, workers et DLQ »).
 
 ## 🧪 Vérification de compréhension
 - Pourquoi une livraison at-least-once impose-t-elle un consommateur idempotent ?

@@ -1569,3 +1569,18 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
   .lx-tl-title { order: 3; grid-column: 1 / -1; }
   .lx-tl-skills { order: 4; grid-column: 1 / -1; }
 }
+
+/* ── Dashboard : « Que faire ensuite » (V41) ────────────────────────────────── */
+.lx-next-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.lx-next-item {
+  display: grid; grid-template-columns: 1fr; gap: 2px; padding: 10px 12px;
+  border: 1px solid var(--border); border-left: 3px solid var(--muted); border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--panel);
+}
+.lx-next-review { border-left-color: var(--warn); }
+.lx-next-remediation { border-left-color: var(--danger); }
+.lx-next-consolidate { border-left-color: var(--warn); }
+.lx-next-demonstrate { border-left-color: var(--accent); }
+.lx-next-practice { border-left-color: var(--accent); }
+.lx-next-action { font-size: var(--fs-sm); font-weight: 600; }
+.lx-next-reason { font-size: var(--fs-xs); color: var(--text); }
+.lx-next-goal { font-size: var(--fs-xs); color: var(--muted); }

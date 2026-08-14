@@ -8,7 +8,8 @@ import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { computeStats, currentSkills } from '@/lib/progress-stats';
 import { resumeReasonText, countStatuses } from '@/lib/resume';
 import { progressPosition } from '@/lib/position';
-import { reviewSummary } from '@/lib/review';
+import { reviewSummary, getDueReviews } from '@/lib/review';
+import { nextBestActions } from '@/lib/learning-experience';
 import StartDayButton from './StartDayButton';
 import Trajectory365 from './Trajectory365';
 
@@ -41,6 +42,10 @@ export default function Dashboard() {
   const currentMonth = program.months.find((m) => m.month === resumeDay?.month);
   const started = resumeStatus !== 'not-started';
   const reviews = reviewSummary(progress.days);
+  // « Que faire ensuite » : actions dérivées (read-model), hors reprise (déjà couverte
+  // par la carte Reprise). Chacune porte une raison + une preuve attendue.
+  const nextActions = nextBestActions(program, progress, { reviews: getDueReviews(progress.days), limit: 4 })
+    .filter((a) => a.kind !== 'resume');
   // Dernière preuve ajoutée (toutes journées confondues).
   let lastEvidence: { day: number; title: string } | null = null;
   let lastAt = '';
@@ -95,6 +100,25 @@ export default function Dashboard() {
               <Link className="btn" href={`/day/${pos.resumeDay}`}>Ouvrir la vue du jour</Link>
             </div>
           </section>
+
+          {nextActions.length > 0 && (
+            <section className="section lx-next">
+              <div className="section-head">
+                <span className="section-label">Que faire ensuite</span>
+                <h2 className="section-title">Prochaines actions</h2>
+                <span className="section-note">dérivé de tes preuves &amp; révisions</span>
+              </div>
+              <ul className="lx-next-list">
+                {nextActions.map((a, i) => (
+                  <li key={i} className={`lx-next-item lx-next-${a.kind}`}>
+                    <Link href={a.href} className="lx-next-action">{a.action}</Link>
+                    <span className="lx-next-reason">{a.reason}</span>
+                    <span className="lx-next-goal">{a.goal} · preuve : {a.expectedEvidence}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           <section className="section">
             <div className="section-head">

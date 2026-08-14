@@ -2,6 +2,7 @@ import { getProgram } from '@/lib/program';
 import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack } from '@/lib/catalogue';
+import Link from 'next/link';
 import { getDueReviews, getUpcomingReviews } from '@/lib/review';
 import ReviewList from './ReviewList';
 
@@ -26,7 +27,8 @@ export default function RevisionsPage() {
           <h1 className="page-title">Révisions</h1>
           <p className="page-sub">
             Les journées marquées « à revoir » reviennent ici à échéance. Après chaque révision,
-            indique où tu en es : la prochaine date est recalculée automatiquement.
+            indique où tu en es : la prochaine date est recalculée automatiquement. Pour un rappel
+            actif, mêle des <Link href="/diagnostics">diagnostics</Link> aux sujets à consolider.
           </p>
         </div>
       </div>

@@ -24,6 +24,7 @@ export default function SkillsPage() {
           <p className="page-sub">
             Niveaux (0 à 5) dérivés de ta progression sur le <strong>parcours actif</strong>.
             Réévalue à chaque revue mensuelle. Détail : <Link href="/doc/rubrics/skills-scorecard">scorecard</Link>.
+            Pour tester une compétence : <Link href="/diagnostics">diagnostics</Link>.
           </p>
         </div>
       </div>

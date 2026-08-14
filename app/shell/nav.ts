@@ -26,6 +26,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/cloud-foundations', label: 'Cloud Architecture Lab', icon: 'Cloud' },
       { href: '/missions', label: 'Missions', icon: 'Target' },
       { href: '/skills', label: 'Compétences', icon: 'Target' },
+      { href: '/diagnostics', label: 'Diagnostics', icon: 'ShieldQuestion' },
       { href: '/projects', label: 'Projets', icon: 'FolderGit2' },
       { href: '/reviews', label: 'Évaluations', icon: 'ClipboardCheck' },
     ],

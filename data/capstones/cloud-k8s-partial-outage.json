@@ -1,0 +1,219 @@
+{
+  "id": "cloud-k8s-partial-outage",
+  "title": "Indisponibilité partielle après un déploiement Kubernetes",
+  "domain": "Cloud / Kubernetes",
+  "difficulty": 4,
+  "estimatedMinutes": 30,
+  "skills": ["cloud", "se"],
+  "lessonRefs": ["k8s-config-probes", "k8s-troubleshooting", "deployment-strategies", "release-incident-recovery"],
+  "exerciseRefs": ["cloud-readiness-routing", "cloud-replica-count", "k8s-config-drift"],
+  "playbookRefs": ["kubernetes-incident", "broken-deploy", "rollback-impossible"],
+  "dayRefs": [],
+  "simulationNote": "SIMULATION intégrale : manifests, événements, états de pods et métriques sont factices. Aucun cluster Kubernetes n'est interrogé (pas de kubectl, pas d'API réelle).",
+  "passThreshold": 0.7,
+  "context": "Tu es en astreinte sur une plateforme interne. Une API tourne sur Kubernetes : un Deployment de 4 réplicas derrière un Service, exposé via un Ingress. L'équipe a lancé un rolling update il y a 15 minutes (nouvelle image applicative). Tout est décrit ci-dessous à partir d'artefacts SIMULÉS (aucun cluster réel).",
+  "signal": "Alerte : le taux de réponses 503 sur l'API est passé de ~0 % à ~30 %, de façon intermittente, depuis le déploiement. Certaines requêtes réussissent, d'autres échouent. Le rollout semble « ne pas finir ».",
+  "artifacts": [
+    { "id": "art-rollout", "kind": "manifest", "title": "État du rollout (simulé)", "content": "deployment api : 4 souhaités, 4 à jour, mais 2/4 disponibles seulement. Le rollout est bloqué depuis 15 min (les nouveaux pods ne deviennent jamais prêts).", "useful": true },
+    { "id": "art-pods", "kind": "manifest", "title": "Liste des pods (simulée)", "content": "api-new-1  Running  0/1 Ready  (redémarrages: 0)\napi-new-2  Running  0/1 Ready  (redémarrages: 0)\napi-old-1  Running  1/1 Ready\napi-old-2  Running  1/1 Ready  (en cours de terminaison)", "useful": true },
+    { "id": "art-events", "kind": "log", "title": "Événements du pod api-new-1 (simulés)", "content": "Readiness probe failed: HTTP probe returned status code 404 (GET http://:8080/healthz). Répété toutes les 10 s. Aucune erreur applicative dans les logs du conteneur.", "useful": true },
+    { "id": "art-probe", "kind": "config", "title": "Extrait du manifest (probes)", "content": "readinessProbe:\n  httpGet: { path: /healthz, port: 8080 }\nlivenessProbe:\n  httpGet: { path: /health, port: 8080 }", "useful": true },
+    { "id": "art-applog", "kind": "log", "title": "Log applicatif du nouveau conteneur (simulé)", "content": "Server started on :8080. Health endpoint exposed at /health (changé depuis /healthz dans cette version). Requêtes métier servies normalement.", "useful": true },
+    { "id": "art-res", "kind": "metrics", "title": "Ressources (simulées)", "content": "CPU et mémoire des nouveaux pods dans les limites ; aucun OOMKilled ; image tirée avec succès (pas d'ErrImagePull).", "useful": true },
+    { "id": "art-hpa", "kind": "config", "title": "Autoscaler horizontal (HPA)", "content": "min 4 / max 10, cible 70 % CPU. Inchangé depuis des semaines.", "useful": false },
+    { "id": "art-node", "kind": "metrics", "title": "Nœuds du cluster (simulés)", "content": "Disque et mémoire des nœuds OK, aucune pression de ressources au niveau nœud.", "useful": false }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Le rollout est bloqué et le taux de 503 grimpe. Quelles causes envisager ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Hypothèses plausibles :",
+          "options": [
+            "Les nouveaux pods ne passent pas leur contrôle de disponibilité et ne reçoivent pas de trafic",
+            "L'application plante au démarrage (crash)",
+            "Les nœuds manquent de ressources",
+            "Le contrôle de disponibilité vise un mauvais endpoint"
+          ],
+          "answer": [0, 3],
+          "explanation": "Les pods sont Running mais 0/1 Ready et le rollout stagne : piste « pas prêts / probe ». L'app ne crashe pas (0 redémarrage, logs sains) et les nœuds vont bien."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Que vérifier pour trancher, et dans quel ordre ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Les pods sont Running mais 0/1 Ready. Quel signal est le plus utile ?",
+          "options": [
+            "Les événements du pod (message d'échec de la probe) et le chemin configuré vs exposé",
+            "La config de l'autoscaler",
+            "L'espace disque des nœuds",
+            "La cible CPU du HPA"
+          ],
+          "answer": 0,
+          "explanation": "« 0/1 Ready » renvoie au contrôle de disponibilité : on lit l'événement (échec de probe) et on compare le chemin configuré au chemin réellement exposé."
+        },
+        {
+          "id": "i2",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "L'événement dit « Readiness probe failed: 404 sur /healthz » et le log applicatif expose /health. Que conclues-tu ?",
+          "options": [
+            "Le chemin du contrôle de disponibilité ne correspond plus à l'endpoint exposé par la nouvelle version",
+            "L'application est en panne",
+            "L'image n'a pas été tirée",
+            "Le nœud est saturé"
+          ],
+          "answer": 0,
+          "explanation": "La nouvelle version expose /health, mais la probe interroge /healthz → 404 → jamais Ready. L'app fonctionne (elle sert /health et les requêtes métier)."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Cause racine ET mécanisme des 503 intermittents.",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Cause racine :",
+          "options": [
+            "Le chemin du contrôle de disponibilité pointe vers un endpoint qui n'existe plus dans la nouvelle version",
+            "Les nouveaux pods sont tués par manque de mémoire",
+            "L'image applicative est corrompue",
+            "L'autoscaler a supprimé des pods"
+          ],
+          "answer": 0,
+          "explanation": "La probe interroge /healthz alors que la version expose /health → les pods ne deviennent jamais Ready. Pas d'OOM, image OK, HPA inchangé."
+        },
+        {
+          "id": "d2",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Pourquoi des 503 INTERMITTENTS plutôt qu'une panne totale ?",
+          "options": [
+            "Le Service ne route que vers les pods prêts (les anciens), en nombre réduit pendant que d'anciens pods se terminent",
+            "La moitié des requêtes sont mal formées",
+            "Le DNS est cassé une fois sur deux",
+            "Le cache répond une fois sur deux"
+          ],
+          "answer": 0,
+          "explanation": "Les nouveaux pods (non prêts) sont exclus des endpoints du Service ; il ne reste que des anciens, en nombre réduit et dont certains se terminent → capacité insuffisante et fenêtres d'échec → 503 intermittents."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Que fais-tu maintenant pour rétablir le service ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Mitigation immédiate la plus sûre :",
+          "options": [
+            "Revenir à la version précédente (les anciens pods sont sains), puis corriger le chemin de la probe à froid",
+            "Augmenter le nombre de réplicas de la nouvelle version qui n'est jamais prête",
+            "Supprimer la readinessProbe en production sans réfléchir",
+            "Redémarrer les nœuds"
+          ],
+          "answer": 0,
+          "explanation": "Les anciens pods sont sains : un rollback restaure la capacité tout de suite. Ajouter des réplicas jamais prêts n'aide pas ; retirer la probe masquerait le problème et enverrait du trafic à des pods potentiellement non prêts."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Correction de fond (hors urgence).",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Correctif durable :",
+          "options": [
+            "Aligner le chemin de la probe sur l'endpoint réellement exposé (/health), et tester le rollout en préproduction",
+            "Mettre la readinessProbe et la livenessProbe sur des chemins différents au hasard",
+            "Désactiver définitivement les probes",
+            "Passer l'app en un seul réplica"
+          ],
+          "answer": 0,
+          "explanation": "On corrige le chemin de la probe pour qu'il corresponde à l'endpoint exposé, et on valide le rollout en préprod (le changement d'endpoint aurait dû s'accompagner d'un ajustement de la probe)."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Comment savoir que c'est réglé ?",
+      "questions": [
+        {
+          "id": "va1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Preuves de rétablissement :",
+          "options": [
+            "Les nouveaux pods passent 1/1 Ready et le rollout se termine (4/4 disponibles)",
+            "Le taux de 503 retombe à ~0 %",
+            "Le contrôle de disponibilité renvoie 200 sur le bon chemin",
+            "On considère que c'est bon dès que les pods sont Running (même 0/1 Ready)"
+          ],
+          "answer": [0, 1, 2],
+          "explanation": "Ready 1/1, rollout complété, 503 à ~0 %, probe en 200. « Running » ne suffit pas : c'est « Ready » qui conditionne le routage."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Compte rendu d'incident.",
+      "questions": [
+        {
+          "id": "co1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Le compte rendu doit inclure :",
+          "options": [
+            "Chronologie (déploiement → 503 → rollback → correctif)",
+            "Cause racine (chemin de probe désaligné avec l'endpoint) et pourquoi 503 intermittents",
+            "Prévention : synchroniser probe et endpoints, valider le rollout en préprod",
+            "Une sanction pour l'auteur du déploiement"
+          ],
+          "answer": [0, 1, 2],
+          "explanation": "Chronologie, cause racine + mécanisme, et prévention concrète. Sans blâme individuel."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "Les pods nouveaux sont Running mais 0/1 Ready et le rollout stagne : le contrôle de disponibilité (readiness) échoue. L'événement montre un 404 sur /healthz tandis que la nouvelle version expose /health : le chemin de la probe n'a pas été mis à jour avec le changement d'endpoint. Comme un pod non-Ready est retiré des endpoints du Service, seuls les anciens pods (en nombre réduit, certains en terminaison) servent le trafic → capacité insuffisante → 503 intermittents. Mitigation : rollback (anciens pods sains). Correctif : aligner le chemin de la probe sur /health et valider le rollout en préprod. Validation : pods 1/1 Ready, rollout complété, 503 ~0 %.",
+    "keySignals": ["pods Running mais 0/1 Ready", "événement : readiness 404 sur /healthz", "log app : endpoint exposé = /health", "rollout bloqué, 2/4 disponibles"],
+    "redHerrings": ["config HPA inchangée", "ressources nœuds OK", "image tirée avec succès (pas ErrImagePull)", "pas d'OOMKilled"],
+    "alternatives": ["Crash au démarrage : écarté (0 redémarrage, logs sains)", "Manque de ressources : écarté (CPU/mémoire OK)", "Image corrompue : écarté (tirée avec succès)"],
+    "tradeoffs": ["Rollback (rapide, sûr) vs corriger la probe en avant (roll-forward, plus lent sous incident)", "Retirer la probe (dangereux) vs corriger son chemin (correct)"],
+    "conceptsMobilized": ["readiness vs liveness probe", "Ready vs Running", "endpoints de Service et routage", "rolling update", "rollback vs roll-forward", "SPOF de capacité pendant un rollout"],
+    "commonMistakes": ["Scaler une version jamais prête", "Supprimer la readinessProbe pour « débloquer »", "Confondre Running et Ready", "Corréler l'incident au HPA ou aux nœuds"]
+  }
+}

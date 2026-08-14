@@ -1,0 +1,57 @@
+{
+  "id": "cache-to-distributed-consistency",
+  "title": "Quand la copie ment : du cache à la cohérence distribuée",
+  "sourceSkill": "archi",
+  "skills": ["archi", "sql"],
+  "transferLevel": "T5",
+  "bridge": "invalidation de cache (une copie devient périmée quand la source change) → cohérence des répliques distribuées (une lecture sur une réplique en retard renvoie une valeur périmée)",
+  "crossDomain": true,
+  "targetContext": "Base de données répliquée avec lectures sur des répliques (aucun cache applicatif en jeu).",
+  "lessonRefs": ["caching-performance", "distributed-systems-failures"],
+  "simulationNote": "Répliques et délais décrits pour le raisonnement ; aucune base distribuée réelle.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un utilisateur met à jour son profil, recharge, et revoit brièvement l'ancienne valeur avant que la nouvelle apparaisse. Aucun cache applicatif n'est utilisé, mais les lectures vont sur des répliques. Quel problème, analogue à une invalidation de cache, reconnais-tu ?",
+      "options": [
+        "Une copie périmée est lue : la réplique n'a pas encore reçu la mise à jour (retard de réplication)",
+        "Un bug du navigateur",
+        "Une injection SQL",
+        "Un manque de CPU"
+      ],
+      "answer": 0,
+      "explanation": "Même modèle mental que « la copie ment » : une réplique en retard joue le rôle d'un cache périmé ; la lecture renvoie une valeur qui n'est plus à jour."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles stratégies, transposées de l'invalidation de cache, réduisent le problème ? (plusieurs)",
+      "options": [
+        "Lire depuis le leader (source à jour) pour les lectures « après écriture » (read-your-writes)",
+        "Accepter un délai borné et l'assumer (comme un TTL) quand le métier tolère la staleness",
+        "Router certaines lectures critiques vers une copie garantie à jour",
+        "Faire confiance à ce que toutes les répliques soient toujours instantanément à jour"
+      ],
+      "answer": [0, 1, 2],
+      "explanation": "Lire la source à jour, borner et assumer la staleness, router les lectures critiques : ce sont les analogues distribués de l'invalidation explicite et du TTL. Supposer une cohérence instantanée est faux."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Le métier tolère qu'un tableau de bord non critique soit périmé de quelques secondes. Quelle décision est la plus raisonnable ?",
+      "options": [
+        "Assumer une staleness bornée (comme un TTL) et lire une réplique, plutôt que surcharger le leader",
+        "Toujours lire le leader, quel que soit le coût",
+        "Supprimer les répliques",
+        "Bloquer toutes les écritures"
+      ],
+      "answer": 0,
+      "explanation": "Comme pour un cache : quand la fraîcheur n'est pas critique, on assume une staleness bornée pour préserver la performance — c'est le compromis fraîcheur/vitesse transféré."
+    }
+  ]
+}

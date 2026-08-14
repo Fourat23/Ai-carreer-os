@@ -1,0 +1,57 @@
+{
+  "id": "leakage-to-evaluation",
+  "title": "La fuite de données comme problème d'ÉVALUATION, pas de modèle",
+  "sourceSkill": "ml",
+  "skills": ["ml", "evalia"],
+  "transferLevel": "T5",
+  "bridge": "fuite de données ML (une variable connue seulement après l'issue gonfle le score hors ligne) → tout dispositif d'évaluation qui donne au testé une information indisponible en conditions réelles",
+  "crossDomain": true,
+  "targetContext": "Un dispositif d'évaluation hors du ML (recrutement, examen, A/B test) où le score de test ne prédit pas la réalité.",
+  "lessonRefs": ["model-evaluation", "machine-learning-basics"],
+  "simulationNote": "Scénarios décrits pour le raisonnement ; aucun modèle réel entraîné.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un test de recrutement prédit « parfaitement » la performance des candidats déjà embauchés, mais échoue sur les nouveaux. En creusant, le test s'appuie sur une donnée renseignée APRÈS l'embauche (ancienneté). Quel phénomène, vu en ML, reconnais-tu ?",
+      "options": [
+        "Une fuite de données : le test utilise une information indisponible au moment de la décision",
+        "Un simple manque de données",
+        "Un problème de vitesse du test",
+        "Une erreur d'affichage"
+      ],
+      "answer": 0,
+      "explanation": "Même modèle mental que la fuite ML : une variable connue seulement après l'issue « triche » à l'évaluation mais est absente au moment réel de la décision."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles corrections rétablissent une évaluation honnête ? (plusieurs)",
+      "options": [
+        "N'utiliser que des informations disponibles AU MOMENT de la décision (évaluation « point-in-time »)",
+        "Retirer la variable renseignée après l'issue",
+        "Chercher à retrouver le score parfait coûte que coûte",
+        "Vérifier que le test reproduit fidèlement les conditions réelles"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Point-in-time, retrait de la variable fuitée, fidélité aux conditions réelles. Rechercher le score parfait réintroduirait la fuite : un score plus bas mais honnête vaut mieux."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Généralisation : un système paraît excellent à l'évaluation puis décevant en réel. Quel premier réflexe, valable bien au-delà du ML ?",
+      "options": [
+        "Vérifier que l'évaluation n'utilise pas d'information absente en conditions réelles",
+        "Conclure que la réalité est cassée",
+        "Augmenter la taille de l'échantillon uniquement",
+        "Changer l'outil qui produit le score final"
+      ],
+      "answer": 0,
+      "explanation": "Un écart évaluation↔réel signale souvent une évaluation non représentative (information disponible en test mais pas en réel) : c'est le cœur transférable de la fuite de données."
+    }
+  ]
+}

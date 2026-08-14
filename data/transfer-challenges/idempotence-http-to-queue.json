@@ -1,0 +1,51 @@
+{
+  "id": "idempotence-http-to-queue",
+  "title": "Reconnaître l'idempotence loin de l'API HTTP",
+  "sourceSkill": "http",
+  "skills": ["http", "archi"],
+  "transferLevel": "T5",
+  "bridge": "idempotence HTTP (rejouer une requête sans dommage) → consommateur de file (traiter deux fois le même message sans double effet)",
+  "crossDomain": true,
+  "targetContext": "Traitement de messages d'une file de travail (aucune API HTTP, aucun code réseau visible).",
+  "lessonRefs": ["api-production-contracts", "async-messaging-queues"],
+  "simulationNote": "File et messages décrits pour le raisonnement ; aucun broker réel.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un worker consomme des messages « débiter 10 € au client X ». Le système de file garantit « au moins une fois » : un même message peut être livré deux fois. On te propose de « réessayer plus agressivement en cas d'échec ». Quel est le vrai risque ignoré ?",
+      "options": [
+        "Réessayer sans rendre le traitement idempotent peut débiter deux fois le même client",
+        "Réessayer est toujours sans danger",
+        "Le problème vient forcément du réseau",
+        "Il faut simplement augmenter la RAM du worker"
+      ],
+      "answer": 0,
+      "explanation": "Le même invariant qu'en HTTP : « au moins une fois » + effet non idempotent = double effet. La parade n'est pas de mieux réessayer, mais de rendre le traitement rejouable sans dommage (dédup par identifiant de message)."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles mesures rendent ce consommateur sûr face aux doublons ? (plusieurs)",
+      "options": [
+        "Enregistrer les identifiants de messages déjà traités et ignorer les répétitions",
+        "Rendre l'opération de débit idempotente (rejouer = même solde final)",
+        "Supprimer la file pour éviter les doublons",
+        "Faire confiance à la file pour ne jamais dupliquer"
+      ],
+      "answer": [0, 1],
+      "explanation": "Déduplication par identifiant + opération idempotente : exactement la transposition de la clé d'idempotence HTTP. Supprimer la file ou faire confiance à une garantie « au moins une fois » ne protège pas."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Le worker reçoit le message « paiement-4711 » trois fois. Avec une déduplication correcte par identifiant, combien de fois le client est-il réellement débité ?",
+      "answer": "1",
+      "explanation": "Une déduplication correcte ne traite l'effet qu'une fois, quelle que soit la répétition de la livraison."
+    }
+  ]
+}

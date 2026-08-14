@@ -1,0 +1,57 @@
+{
+  "id": "isolation-sql-to-concurrency",
+  "title": "Le « lost update » hors de la base de données",
+  "sourceSkill": "sql",
+  "skills": ["sql", "se"],
+  "transferLevel": "T5",
+  "bridge": "concurrence SQL (deux transactions écrivent le même enregistrement et une mise à jour est perdue) → toute ressource partagée modifiée en parallèle (fichier, compteur en mémoire, document collaboratif)",
+  "crossDomain": true,
+  "targetContext": "Deux processus modifient en parallèle un même fichier de configuration partagé (aucune base de données).",
+  "lessonRefs": ["database-transactions-concurrency"],
+  "simulationNote": "Processus et fichier décrits pour le raisonnement ; rien n'est exécuté.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Deux scripts lisent un fichier de configuration, modifient chacun une valeur différente, puis réécrivent tout le fichier. Résultat : une des deux modifications disparaît. Quel phénomène, vu en base de données, reconnais-tu ?",
+      "options": [
+        "Une mise à jour perdue (lost update) par écriture concurrente sans contrôle",
+        "Un simple bug d'affichage",
+        "Une panne réseau",
+        "Un manque de mémoire"
+      ],
+      "answer": 0,
+      "explanation": "Même modèle mental que le lost update SQL : deux écritures concurrentes sur la même ressource, la dernière écrase la précédente sans en tenir compte."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles parades transposent les techniques de concurrence SQL à ce fichier partagé ? (plusieurs)",
+      "options": [
+        "Contrôle optimiste : vérifier que le fichier n'a pas changé depuis la lecture avant d'écrire (version/empreinte)",
+        "Verrouillage : empêcher l'écriture simultanée (verrou de fichier)",
+        "Modification ciblée de la seule clé concernée plutôt que réécriture globale",
+        "Écrire plus vite pour gagner la course"
+      ],
+      "answer": [0, 1, 2],
+      "explanation": "Optimiste (version), pessimiste (verrou), ou écriture ciblée : exactement les stratégies vues en transactions, transposées. « Écrire plus vite » ne fait que déplacer la course."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "On choisit le contrôle optimiste. Que se passe-t-il si, au moment d'écrire, l'empreinte du fichier a changé depuis la lecture ?",
+      "options": [
+        "On détecte le conflit et on relit/réapplique au lieu d'écraser aveuglément",
+        "On écrase quand même : c'est plus simple",
+        "On supprime le fichier",
+        "On ignore l'écriture définitivement"
+      ],
+      "answer": 0,
+      "explanation": "Le contrôle optimiste transforme un écrasement silencieux en conflit DÉTECTÉ, que l'on résout en relisant puis réappliquant — le cœur transférable de l'isolation."
+    }
+  ]
+}

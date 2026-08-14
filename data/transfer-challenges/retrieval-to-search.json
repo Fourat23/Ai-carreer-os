@@ -1,0 +1,57 @@
+{
+  "id": "retrieval-to-search",
+  "title": "Séparer « trouver » de « rédiger » hors du RAG",
+  "sourceSkill": "rag",
+  "skills": ["rag", "se"],
+  "transferLevel": "T5",
+  "bridge": "chaîne RAG récupération→génération (si la bonne source n'est pas remontée, une bonne rédaction ne sauve rien) → tout système « recherche puis synthèse » (support client, moteur interne, assistant documentaire non-LLM)",
+  "crossDomain": true,
+  "targetContext": "Un outil interne « recherche + résumé » SANS LLM (règles + index maison).",
+  "lessonRefs": ["rag-fundamentals", "retrieval-reranking"],
+  "simulationNote": "Traces de recherche décrites ; aucun LLM ni index réel exécuté.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un outil interne « cherche puis résume » donne des réponses fausses alors que l'info existe dans la base. On sait que : le résumé est correct quand on lui fournit le bon passage, mais le bon passage n'apparaît pas dans les résultats de recherche. Où est la panne ?",
+      "options": [
+        "Dans l'étape de RECHERCHE (le bon passage n'est pas remonté)",
+        "Dans l'étape de RÉSUMÉ",
+        "Dans la vitesse du réseau",
+        "Dans la taille de l'écran"
+      ],
+      "answer": 0,
+      "explanation": "Même diagnostic que pour un RAG : info présente + synthèse correcte si on fournit la source → le maillon fautif est la récupération, pas la rédaction."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "L'équipe propose « d'améliorer le module qui rédige le résumé ». Pourquoi est-ce probablement inutile ici ?",
+      "options": [
+        "Parce que si la bonne source n'est pas trouvée, mieux rédiger ne change pas la justesse",
+        "Parce que rédiger est toujours parfait",
+        "Parce que le résumé n'a aucune importance",
+        "Parce qu'il faut d'abord acheter plus de serveurs"
+      ],
+      "answer": 0,
+      "explanation": "Optimiser la synthèse quand la récupération est fautive ne corrige rien : c'est le principe transféré de séparer récupération et génération."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles pistes ciblent la vraie cause ? (plusieurs)",
+      "options": [
+        "Mesurer si le bon passage est présent dans les résultats de recherche",
+        "Améliorer l'indexation / le classement des résultats",
+        "Réécrire uniquement le module de résumé",
+        "Vérifier le découpage des documents (passages trop gros/dilués)"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "On instrumente la présence de la bonne source, on améliore indexation/classement et découpage — exactement les leviers de récupération d'un RAG, transposés."
+    }
+  ]
+}

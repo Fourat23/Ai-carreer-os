@@ -27,6 +27,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/missions', label: 'Missions', icon: 'Target' },
       { href: '/skills', label: 'Compétences', icon: 'Target' },
       { href: '/diagnostics', label: 'Diagnostics', icon: 'ShieldQuestion' },
+      { href: '/capstones', label: 'Capstones', icon: 'Layers' },
       { href: '/projects', label: 'Projets', icon: 'FolderGit2' },
       { href: '/reviews', label: 'Évaluations', icon: 'ClipboardCheck' },
     ],

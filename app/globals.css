@@ -1464,3 +1464,56 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
   font-size: var(--fs-sm); background: var(--panel-2); border: 1px solid var(--border);
   border-radius: var(--r-sm); padding: 3px 9px; color: var(--accent);
 }
+
+/* ── Capstones (V40) : simulation professionnelle ───────────────────────────── */
+.cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--sp-3); }
+.cap-card {
+  display: flex; flex-direction: column; gap: var(--sp-2); text-align: left;
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
+  padding: var(--sp-4); color: var(--text); transition: border-color .12s ease, background .12s ease;
+}
+.cap-card:hover { border-color: var(--border-strong); background: var(--panel-2); text-decoration: none; }
+.cap-card-title { margin: 0; font-size: var(--fs-base); font-weight: 600; line-height: 1.3; }
+.cap-card-meta { margin: 0; color: var(--muted); font-size: var(--fs-xs); }
+.cap-card-skills { margin: 0; color: var(--muted); font-size: var(--fs-sm); }
+.cap-card-cta { margin-top: auto; color: var(--accent); font-size: var(--fs-sm); font-weight: 600; }
+
+.cap-h2 { font-size: var(--fs-h3, 1.1rem); margin: var(--sp-5) 0 var(--sp-2); }
+.cap-hint { font-size: var(--fs-xs); color: var(--muted); font-weight: 400; }
+.cap-brief { margin-bottom: var(--sp-2); }
+.cap-text { margin: 0 0 var(--sp-2); line-height: 1.6; max-width: 75ch; }
+.cap-signal {
+  margin: 0; line-height: 1.6; max-width: 75ch; padding: var(--sp-3) var(--sp-4);
+  background: var(--panel-2); border-left: 3px solid var(--accent); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+.cap-artifacts { display: flex; flex-direction: column; gap: 6px; }
+.cap-artifact { border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--panel); }
+.cap-artifact > summary { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; font-size: var(--fs-sm); }
+.cap-artifact-kind {
+  font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 4px; padding: 0 6px;
+}
+.cap-artifact-content {
+  margin: 0; padding: var(--sp-3) var(--sp-4); border-top: 1px solid var(--border);
+  background: var(--panel-2); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--fs-xs); line-height: 1.5; white-space: pre-wrap; overflow-x: auto; color: var(--text);
+}
+
+.cap-phase { margin-top: var(--sp-6); }
+.cap-phase-head { display: flex; align-items: baseline; gap: var(--sp-2); }
+.cap-phase-num { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .05em; color: var(--accent); font-weight: 600; }
+.cap-phase-title { margin: 0; font-size: var(--fs-h3, 1.1rem); }
+.cap-phase-prompt { margin: var(--sp-1) 0 var(--sp-3); color: var(--muted); }
+
+.cap-debrief { margin-top: var(--sp-3); border-top: 1px dashed var(--border); padding-top: var(--sp-3); }
+.cap-debrief > summary { cursor: pointer; font-weight: 600; }
+.cap-debrief-reason { margin: var(--sp-2) 0; line-height: 1.6; }
+.cap-debrief-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--sp-3); }
+.cap-debrief-block { background: var(--panel-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: var(--sp-3); }
+.cap-debrief-h3 { margin: 0 0 6px; font-size: var(--fs-sm); color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.cap-debrief-block ul { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 4px; }
+.cap-debrief-block li { font-size: var(--fs-sm); line-height: 1.45; }
+
+.cap-remediation { margin-top: var(--sp-3); }
+.cap-remediation-label { display: inline-flex; align-items: center; gap: 5px; font-size: var(--fs-sm); font-weight: 600; }
+.cap-remediation-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }

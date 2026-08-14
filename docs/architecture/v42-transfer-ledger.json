@@ -1,0 +1,24 @@
+{
+  "sprint": "V42",
+  "note": "Registre du dispositif de transfert V42. Défis de transfert profond (T5) réutilisant le modèle d'assessment ; durcissement honnête de 3 questions TRANSFER V39 single-hop en T4 ; misconceptions→remédiation ciblée. Un score de transfert est un PROXY. Les compétences structurantes sans défi de transfert (algo, ds, jsts, secu, cloud) sont une dette assumée pour V43.",
+  "transferChallenges": [
+    { "id": "idempotence-http-to-queue", "level": "T5", "bridge": "idempotence HTTP → consommateur de file", "skills": ["http", "archi"] },
+    { "id": "leakage-to-evaluation", "level": "T5", "bridge": "fuite de données ML → méthodologie d'évaluation générale", "skills": ["ml", "evalia"] },
+    { "id": "retrieval-to-search", "level": "T5", "bridge": "récupération RAG → recherche+synthèse non-LLM", "skills": ["rag", "se"] },
+    { "id": "isolation-sql-to-concurrency", "level": "T5", "bridge": "isolation SQL → ressource partagée (fichier)", "skills": ["sql", "se"] },
+    { "id": "cache-to-distributed-consistency", "level": "T5", "bridge": "invalidation de cache → cohérence des répliques", "skills": ["archi", "sql"] }
+  ],
+  "reclassifiedQuestions": [
+    { "assessment": "containers-kubernetes", "question": "q5", "action": "REWRITE", "from": "T3 (reconnaissance d'analogie)", "to": "T4", "why": "passage en multi avec hypothèses concurrentes (chiffrement, plan figé) + 2e inférence (rejet du faux fix)." },
+    { "assessment": "react-frontend-state", "question": "q5", "action": "REWRITE", "from": "T3", "to": "T4", "why": "hypothèses concurrentes (cache serveur, CSS) à écarter par un raisonnement (le rechargement corrige → écarte le cache)." },
+    { "assessment": "observability-incident", "question": "q5", "action": "REWRITE", "from": "T3", "to": "T4", "why": "multi + 2e inférence (un rappel individuel sans changement systémique ne prévient pas la récidive)." }
+  ],
+  "keptQuestions": {
+    "action": "KEEP",
+    "ids": ["async-messaging-queues::q5", "cloud-devops-delivery::q5", "git-linux-workflow::q5", "system-design-scaling::q6"],
+    "why": "amorces de near-transfert (T3/T4-faible) assumées ; utiles avant les défis T5. Aucun reclassement malhonnête."
+  },
+  "misconceptions": 7,
+  "structuralSkillsWithoutTransfer": ["algo", "ds", "jsts", "secu", "cloud"],
+  "debtV43": "Défis de transfert pour algo/ds/jsts/secu/cloud ; familles de variantes à grande échelle ; variantes de capstones ; UX dédiée aux défis."
+}

@@ -2,9 +2,18 @@
   "id": "react-frontend-state",
   "title": "React : composants, état et rendu",
   "domain": "Frontend",
-  "skills": ["jsts"],
-  "lessonRefs": ["react-fundamentals", "react-hooks-effects", "react-application-states"],
-  "remediation": ["react-fundamentals", "react-application-states"],
+  "skills": [
+    "jsts"
+  ],
+  "lessonRefs": [
+    "react-fundamentals",
+    "react-hooks-effects",
+    "react-application-states"
+  ],
+  "remediation": [
+    "react-fundamentals",
+    "react-application-states"
+  ],
   "passThreshold": 0.7,
   "questions": [
     {
@@ -40,8 +49,18 @@
       "taxonomy": "UNDERSTANDING",
       "kind": "multi",
       "prompt": "Quels états une interface qui charge des données à distance doit-elle gérer ?",
-      "options": ["chargement (loading)", "erreur", "succès avec données", "succès sans données (vide)"],
-      "answer": [0, 1, 2, 3],
+      "options": [
+        "chargement (loading)",
+        "erreur",
+        "succès avec données",
+        "succès sans données (vide)"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
       "explanation": "Loading, erreur, données, et cas vide : les quatre doivent être gérés pour une UX robuste."
     },
     {
@@ -61,16 +80,20 @@
     {
       "id": "q5",
       "taxonomy": "TRANSFER",
-      "kind": "mcq",
-      "prompt": "Dans une interface faite avec un autre outil, un tableau de bord n'affiche pas la donnée mise à jour tant qu'on ne recharge pas. Quel principe, vu en React, cherches-tu ?",
+      "kind": "multi",
+      "prompt": "Dans une interface faite avec un AUTRE outil que React, un tableau de bord n’affiche pas la donnée mise à jour tant qu’on ne recharge pas. Deux collègues proposent : « c’est le cache serveur » et « c’est un problème de CSS ». Quelles affirmations sont correctes ?",
       "options": [
-        "La donnée a changé mais l'affichage n'est pas relié à un état réactif observé par l'UI",
-        "Le serveur est en panne",
-        "Le CSS est mal écrit",
-        "Il manque un index en base"
+        "La vue lit une valeur qui n’est pas observée par le système réactif de l’UI : elle ne se re-rend pas au changement",
+        "Relier le rendu à un état réactif observé corrige durablement le problème",
+        "Le cache serveur expliquerait des données périmées identiques après rechargement — or ici le rechargement les corrige, ce qui l’écarte",
+        "Ajouter une règle CSS résoudrait le problème"
       ],
-      "answer": 0,
-      "explanation": "Le rendu doit être piloté par un état réactif : si la vue lit une valeur non observée, elle ne se met pas à jour — même principe que le state React."
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Même principe que le state React : un rendu doit être piloté par un état observé. Le fait que le rechargement corrige l’affichage ÉCARTE le cache serveur ; le CSS est hors sujet. Il faut relier la vue à un état réactif."
     }
   ]
 }

@@ -2,9 +2,20 @@
   "id": "observability-incident",
   "title": "Observabilité & réponse à incident",
   "domain": "SRE / Production",
-  "skills": ["cloud", "se"],
-  "lessonRefs": ["observability-fundamentals", "metrics-percentiles", "incident-response", "postmortem-rca"],
-  "remediation": ["observability-fundamentals", "incident-response"],
+  "skills": [
+    "cloud",
+    "se"
+  ],
+  "lessonRefs": [
+    "observability-fundamentals",
+    "metrics-percentiles",
+    "incident-response",
+    "postmortem-rca"
+  ],
+  "remediation": [
+    "observability-fundamentals",
+    "incident-response"
+  ],
   "passThreshold": 0.7,
   "questions": [
     {
@@ -60,22 +71,29 @@
         "La désignation d'un responsable à sanctionner",
         "Des actions correctives concrètes et suivies"
       ],
-      "answer": [0, 1, 3],
+      "answer": [
+        0,
+        1,
+        3
+      ],
       "explanation": "Chronologie, cause racine, actions suivies. Le blâme individuel est contre-productif : on corrige le système, pas les personnes."
     },
     {
       "id": "q5",
       "taxonomy": "TRANSFER",
-      "kind": "mcq",
-      "prompt": "Après un accident évité de justesse dans un atelier, l'équipe veut éviter qu'il se reproduise. Quelle démarche, analogue au post-mortem blameless, adopte-t-elle ?",
+      "kind": "multi",
+      "prompt": "Après un accident évité de justesse dans un atelier, le chef d’équipe propose de « rappeler à l’ordre la personne présente » et d’en rester là. En t’inspirant du post-mortem blameless, quelles affirmations sont correctes ?",
       "options": [
-        "Punir la personne présente",
-        "Reconstituer les faits, trouver les causes systémiques et mettre en place des garde-fous durables",
-        "Ne rien documenter pour éviter les tensions",
-        "Interdire de parler de l'incident"
+        "Reconstituer les faits, trouver les causes SYSTÉMIQUES et poser des garde-fous durables",
+        "Un simple rappel à l’ordre, sans changer le système, ne réduit pas la probabilité de récidive",
+        "Blâmer publiquement la personne présente est la bonne approche",
+        "Ne rien documenter pour éviter les tensions"
       ],
-      "answer": 1,
-      "explanation": "Faits + causes systémiques + garde-fous, sans blâme individuel : exactement l'esprit du post-mortem transposé à la sécurité au travail."
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "Le post-mortem blameless corrige le SYSTÈME, pas les personnes : d’où faits + causes systémiques + garde-fous, ET le constat qu’un rappel individuel sans changement systémique ne prévient pas la récidive. Blâmer ou cacher aggrave."
     }
   ]
 }

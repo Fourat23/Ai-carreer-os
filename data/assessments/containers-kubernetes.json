@@ -2,9 +2,18 @@
   "id": "containers-kubernetes",
   "title": "Conteneurs & Kubernetes : fondations",
   "domain": "Cloud / DevOps",
-  "skills": ["cloud"],
-  "lessonRefs": ["docker-containers", "k8s-why-architecture", "k8s-workloads"],
-  "remediation": ["docker-containers", "k8s-why-architecture"],
+  "skills": [
+    "cloud"
+  ],
+  "lessonRefs": [
+    "docker-containers",
+    "k8s-why-architecture",
+    "k8s-workloads"
+  ],
+  "remediation": [
+    "docker-containers",
+    "k8s-why-architecture"
+  ],
   "passThreshold": 0.7,
   "questions": [
     {
@@ -46,7 +55,11 @@
         "Il garantit qu'aucun conteneur ne tombera jamais",
         "Il redémarre/replace automatiquement les pods défaillants"
       ],
-      "answer": [0, 1, 3],
+      "answer": [
+        0,
+        1,
+        3
+      ],
       "explanation": "Le Deployment réconcilie l'état désiré (répliques, rolling update, auto-réparation). Il ne garantit pas l'absence totale de pannes."
     },
     {
@@ -66,16 +79,20 @@
     {
       "id": "q5",
       "taxonomy": "TRANSFER",
-      "kind": "mcq",
-      "prompt": "Un thermostat compare en continu la température mesurée à la consigne et agit pour les faire coïncider. Quel principe de Kubernetes cela illustre-t-il ?",
+      "kind": "multi",
+      "prompt": "Un régulateur de chauffage domestique DÉPASSE la consigne : il lit la température une seule fois au démarrage, puis chauffe selon une durée fixe. On veut le rendre fiable en s’inspirant du principe de Kubernetes (boucle de réconciliation). Quelles affirmations sont correctes ?",
       "options": [
-        "Le chiffrement au repos",
-        "La boucle de réconciliation entre état désiré et état réel",
-        "Le partitionnement de base de données",
-        "Le rate limiting"
+        "Il faut comparer EN CONTINU l’état mesuré à l’état désiré et agir pour les rapprocher",
+        "Chauffer selon une durée fixe indépendante de la température réelle est justement l’anti-pattern à corriger",
+        "Il suffit de chiffrer les données du thermostat",
+        "Le bon comportement CONVERGE en boucle vers la consigne plutôt que d’exécuter un plan figé"
       ],
-      "answer": 1,
-      "explanation": "Le contrôleur Kubernetes est une boucle de réconciliation : il agit en continu pour rapprocher l'état réel de l'état désiré, comme un thermostat."
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "La réconciliation = comparer en continu réel vs désiré ET converger vers l’état désiré ; un plan figé (durée fixe) est précisément ce qu’elle remplace. Le chiffrement est hors sujet. Il faut donc choisir le bon principe ET rejeter le faux."
     }
   ]
 }

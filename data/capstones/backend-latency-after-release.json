@@ -1,0 +1,233 @@
+{
+  "id": "backend-latency-after-release",
+  "title": "L'API des commandes ralentit après une release",
+  "domain": "Backend / Incident",
+  "difficulty": 3,
+  "estimatedMinutes": 30,
+  "skills": ["http", "sql", "se"],
+  "lessonRefs": ["sql-performance-indexing", "database-transactions-concurrency", "incident-response", "metrics-percentiles"],
+  "exerciseRefs": ["fix-nplus1", "latency-percentiles", "api-pagination-choice"],
+  "playbookRefs": ["cloud-latency-regression", "slow-sql-query"],
+  "dayRefs": [],
+  "simulationNote": "Incident reconstitué : logs, métriques et diffs sont factices ; aucune base ni service réel n'est interrogé.",
+  "passThreshold": 0.7,
+  "context": "Tu es ingénieur dans une PME qui vend du matériel de sport en ligne. Le service « Commandes » expose une API HTTP consommée par le site web et l'application mobile. La page qui liste les commandes d'un client est la plus utilisée. L'équipe a livré une release ce matin à 14h00 (nouvelle version de la couche d'accès aux données / ORM). Le service tourne sur 3 instances derrière un load balancer ; une base de données relationnelle unique, avec des réplicas de lecture. Tu prends l'astreinte.",
+  "signal": "Ticket support (14h20) : « Depuis le début d'après-midi, la page \"Mes commandes\" met parfois 3 à 5 secondes à s'afficher, surtout pour les clients qui ont beaucoup de commandes. Avant c'était instantané. » Aucune erreur n'est remontée aux utilisateurs : les pages finissent par s'afficher, mais lentement.",
+  "artifacts": [
+    { "id": "art-p95", "kind": "metrics", "title": "Latence de l'endpoint GET /orders", "content": "p50 : 90 ms → 210 ms ; p95 : 140 ms → 3 100 ms (bascule nette à 14h05). Le p95 explose surtout pour les clients à nombreuses commandes.", "useful": true },
+    { "id": "art-cpu", "kind": "metrics", "title": "Ressources des instances applicatives", "content": "CPU moyen ~35 % (stable avant/après), mémoire stable, pas de swap. Aucune instance saturée.", "useful": true },
+    { "id": "art-sqlcount", "kind": "metrics", "title": "Nombre de requêtes SQL par requête HTTP (GET /orders)", "content": "Avant 14h : 1 à 2 requêtes SQL par appel. Après 14h : 1 requête pour la liste + 1 requête par commande retournée (jusqu'à ~50 pour un gros client).", "useful": true },
+    { "id": "art-diff", "kind": "diff", "title": "Extrait du diff de la release (couche ORM)", "content": "- orders = repo.list_with_customer(page)\n+ orders = repo.list(page)\n+ for o in orders:\n+     o.customer = repo.get_customer(o.customer_id)  # chargé une par une", "useful": true },
+    { "id": "art-dbcpu", "kind": "metrics", "title": "Base de données", "content": "CPU DB ~55 % (vs ~40 % avant), pas de verrou long, pas de deadlock. Les requêtes individuelles restent rapides (< 3 ms chacune).", "useful": true },
+    { "id": "art-migration", "kind": "log", "title": "Migrations appliquées à la release", "content": "Aucune migration de schéma dans cette release. Le dernier index a été ajouté il y a 3 semaines (orders.customer_id est indexé).", "useful": true },
+    { "id": "art-cache", "kind": "config", "title": "Configuration du cache CDN (images produits)", "content": "TTL des images : 24 h. Inchangé depuis 6 mois.", "useful": false },
+    { "id": "art-cron", "kind": "log", "title": "Tâche planifiée nocturne", "content": "Le batch d'export comptable tourne à 02h00. Sans lien horaire avec l'incident de 14h.", "useful": false }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Au vu du signal et des premiers artefacts, quelles causes sont PLAUSIBLES et méritent d'être investiguées ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Coche les hypothèses raisonnables à ce stade (avant conclusion).",
+          "options": [
+            "La release a changé la façon dont les données liées sont chargées",
+            "Le service manque de CPU et doit être scalé horizontalement",
+            "Un index nécessaire a disparu ou n'est pas utilisé",
+            "Le cache CDN des images a expiré"
+          ],
+          "answer": [0, 2],
+          "explanation": "Le changement de release et un souci d'accès aux données (chargement liés / index) sont plausibles. Le CPU applicatif est stable (pas un goulet CPU) et le cache CDN concerne des images statiques, sans rapport avec la lenteur de l'API."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Quel artefact tranche le plus vite entre « trop de requêtes » et « requêtes lentes » ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Pour distinguer un problème de VOLUME de requêtes d'un problème de LENTEUR unitaire, quelle mesure regardes-tu en priorité ?",
+          "options": [
+            "Le nombre de requêtes SQL par requête HTTP, ET la durée unitaire des requêtes",
+            "La configuration du cache CDN",
+            "L'heure de la tâche planifiée nocturne",
+            "La couleur du dashboard"
+          ],
+          "answer": 0,
+          "explanation": "Le couple « nombre de requêtes par appel » + « durée unitaire » sépare nettement les deux mondes : ici les requêtes sont rapides (< 3 ms) mais leur NOMBRE explose (1 → ~50)."
+        },
+        {
+          "id": "i2",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Les requêtes individuelles prennent moins de 3 ms et l'index sur customer_id existe. Qu'est-ce que cela permet d'écarter ?",
+          "options": [
+            "L'hypothèse d'un index manquant / de requêtes unitaires lentes",
+            "L'hypothèse d'un changement dans la release",
+            "L'hypothèse d'un volume de requêtes anormal",
+            "Rien du tout"
+          ],
+          "answer": 0,
+          "explanation": "Des requêtes unitaires rapides + index présent écartent le « requête lente / index manquant ». Le problème est ailleurs : le NOMBRE de requêtes."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Quelle est la cause la plus probable, au vu de TOUTES les preuves ?",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Cause racine la plus probable :",
+          "options": [
+            "Le nouveau code charge chaque entité liée une par une, multipliant les allers-retours à la base",
+            "Un index a été supprimé par la migration de la release",
+            "Les instances applicatives sont saturées en CPU",
+            "Le cache CDN des images a expiré et ralentit l'API"
+          ],
+          "answer": 0,
+          "explanation": "p95 en hausse + CPU applicatif stable + requêtes unitaires rapides + explosion du NOMBRE de requêtes (1 par entité liée) + diff montrant une boucle de chargement : c'est un problème de multiplication des requêtes. Aucune migration n'a touché l'index ; le CPU n'est pas le goulet ; le CDN est hors sujet."
+        },
+        {
+          "id": "d2",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Pourquoi le p95 souffre-t-il plus que le p50 ?",
+          "options": [
+            "Parce que les clients avec BEAUCOUP de commandes déclenchent le plus de requêtes supplémentaires",
+            "Parce que le p95 est toujours faux",
+            "Parce que le CPU sature aux heures creuses",
+            "Parce que le cache est vide la nuit"
+          ],
+          "answer": 0,
+          "explanation": "Le surcoût est proportionnel au nombre d'entités liées : les gros clients (queue de distribution) subissent le plus d'allers-retours, d'où un p95 qui explose plus que le p50."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision d'ingénierie",
+      "prompt": "Il est 14h30, l'impact est réel mais sans perte de données. Que décides-tu ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Décision la plus raisonnable pour arrêter l'hémorragie tout de suite :",
+          "options": [
+            "Revenir à la version précédente (rollback), puis préparer un correctif propre à froid",
+            "Scaler à 20 instances pour absorber la charge",
+            "Attendre la nuit pour voir si ça se résorbe",
+            "Ajouter un nouvel index au hasard en production"
+          ],
+          "answer": 0,
+          "explanation": "La release a introduit la régression et il n'y a pas de migration bloquant le retour arrière : le rollback est la mitigation la plus rapide et la plus sûre. Scaler ne corrige pas la multiplication des requêtes (on paierait juste plus de machines)."
+        },
+        {
+          "id": "de2",
+          "taxonomy": "TRANSFER",
+          "kind": "mcq",
+          "prompt": "Le correctif structurel (hors urgence) consiste à charger les entités liées en une fois. Dans un système SANS ORM (par ex. des appels à un service distant dans une boucle), quel principe équivalent appliques-tu ?",
+          "options": [
+            "Regrouper les récupérations en un seul appel par lot (batch) au lieu d'un appel par élément",
+            "Faire chaque appel deux fois pour fiabiliser",
+            "Supprimer la pagination",
+            "Mettre tout le résultat dans le cache CDN des images"
+          ],
+          "answer": 0,
+          "explanation": "Le principe du N+1 se transpose hors SQL : remplacer N appels unitaires par un appel groupé (batch / IN / jointure). Même raisonnement, autre contexte."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Quelle correction de fond retiens-tu ?",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Correction durable du code :",
+          "options": [
+            "Charger les clients des commandes en une seule requête groupée (jointure ou chargement anticipé)",
+            "Mettre un sleep entre chaque requête pour lisser",
+            "Doubler la taille des instances",
+            "Désactiver la page \"Mes commandes\""
+          ],
+          "answer": 0,
+          "explanation": "On rétablit un chargement groupé (eager/JOIN/IN) : une requête pour la liste + une pour tous les clients concernés, au lieu de N requêtes."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Comment PROUVES-tu que le correctif fonctionne, avant de refermer l'incident ?",
+      "questions": [
+        {
+          "id": "va1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Quelles preuves de validation retiens-tu ?",
+          "options": [
+            "Le nombre de requêtes SQL par appel redescend à un petit nombre constant, indépendant du nombre de commandes",
+            "Le p95 de GET /orders revient à son niveau d'avant 14h",
+            "Un test de non-régression vérifie que lister N commandes ne fait pas N requêtes",
+            "On considère que c'est bon dès que le code compile"
+          ],
+          "answer": [0, 1, 2],
+          "explanation": "Compter les requêtes (constant vs proportionnel), comparer le p95 avant/après, et verrouiller par un test anti-N+1. « Ça compile » ne prouve rien sur la performance."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Tu rédiges un court compte rendu d'incident pour l'équipe.",
+      "questions": [
+        {
+          "id": "co1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Quels éléments un bon compte rendu d'incident doit-il contenir ?",
+          "options": [
+            "Chronologie factuelle (14h00 release → 14h20 signal → 14h30 rollback)",
+            "Cause racine expliquée (multiplication des requêtes introduite par la release)",
+            "Correctif appliqué + preuve de validation",
+            "Le nom de la personne à blâmer"
+          ],
+          "answer": [0, 1, 2],
+          "explanation": "Chronologie, cause racine, correctif et validation. Un post-mortem sain est BLAMELESS : on corrige le système, pas les personnes."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "p95 en forte hausse alors que le CPU applicatif est stable et que les requêtes SQL unitaires restent rapides : le goulet n'est ni le CPU ni une requête lente. L'artefact décisif est le NOMBRE de requêtes SQL par appel HTTP, qui passe de 1-2 à ~1 par commande retournée, confirmé par le diff montrant une boucle de chargement des clients. C'est une multiplication des requêtes (problème N+1) introduite par la release. Mitigation immédiate : rollback (aucune migration ne l'empêche). Correctif de fond : chargement groupé (jointure/eager/IN). Validation : nombre de requêtes constant + p95 rétabli + test anti-régression.",
+    "keySignals": ["p95 explose surtout pour les gros clients", "CPU applicatif stable", "requêtes SQL par appel : 1 → ~50", "diff : boucle de chargement du client par commande"],
+    "redHerrings": ["CPU stable (ce n'est pas un problème de capacité)", "cache CDN des images (hors sujet)", "tâche nocturne à 02h (mauvaise corrélation horaire)", "index customer_id présent (écarte l'index manquant)"],
+    "alternatives": ["Index manquant : plausible a priori, mais écarté car les requêtes unitaires sont rapides et l'index existe", "Saturation CPU : écartée car CPU stable"],
+    "tradeoffs": ["Rollback (rapide, sûr) vs roll-forward avec hotfix (plus risqué en urgence)", "Correctif rapide (eager loading local) vs revue plus large des accès aux données"],
+    "conceptsMobilized": ["problème N+1", "latence p50/p95", "observabilité (nombre de requêtes)", "rollback vs roll-forward", "post-mortem blameless", "transfert du N+1 hors SQL (batch d'appels)"],
+    "commonMistakes": ["Scaler les instances alors que le CPU n'est pas le goulet", "Ajouter un index au hasard sans preuve", "Corréler l'incident à la tâche nocturne par simple coïncidence", "Refermer sans test anti-régression"]
+  }
+}

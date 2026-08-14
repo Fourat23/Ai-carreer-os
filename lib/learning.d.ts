@@ -5,13 +5,13 @@ export const LEARNING_SCHEMA: number;
 export const CORRECTION_STATES: readonly ['locked', 'available', 'viewed', 'acknowledged'];
 export const COMPREHENSIONS: readonly ['understood', 'partial', 'review'];
 export const CONFIDENCES: readonly ['low', 'medium', 'high'];
-export const EVIDENCE_TYPES: readonly ['exercise', 'repo', 'project', 'screenshot', 'note', 'demo', 'other'];
+export const EVIDENCE_TYPES: readonly ['exercise', 'repo', 'project', 'screenshot', 'note', 'demo', 'assessment', 'other'];
 export const DAY_STATUSES: readonly ['not-started', 'in-progress', 'done', 'to-review'];
 
 export type CorrectionState = 'locked' | 'available' | 'viewed' | 'acknowledged';
 export type Comprehension = 'understood' | 'partial' | 'review';
 export type Confidence = 'low' | 'medium' | 'high';
-export type EvidenceType = 'exercise' | 'repo' | 'project' | 'screenshot' | 'note' | 'demo' | 'other';
+export type EvidenceType = 'exercise' | 'repo' | 'project' | 'screenshot' | 'note' | 'demo' | 'assessment' | 'other';
 
 export interface SelfAssessment {
   level: number | null;

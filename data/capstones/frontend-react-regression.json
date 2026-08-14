@@ -1,0 +1,219 @@
+{
+  "id": "frontend-react-regression",
+  "title": "Régression après une release React : lenteur, requêtes doublées, clavier cassé",
+  "domain": "Frontend / React",
+  "difficulty": 3,
+  "estimatedMinutes": 30,
+  "skills": ["jsts", "comm"],
+  "lessonRefs": ["react-hooks-effects", "react-application-states", "react-accessibility", "frontend-testing"],
+  "exerciseRefs": ["react-debug-list", "react-search", "a11y-accessible-name"],
+  "playbookRefs": ["frontend-regression"],
+  "dayRefs": [],
+  "simulationNote": "Régression reconstituée : logs réseau, audit d'accessibilité et diffs sont factices ; aucun navigateur réel n'est piloté ici.",
+  "passThreshold": 0.7,
+  "context": "Tu es développeur front sur une application de gestion de tickets. L'écran « Recherche de tickets » comporte un champ de recherche, une liste de résultats, et un bouton personnalisé « Effacer ». Une release a été livrée ce matin (refonte du composant de recherche avec hooks). Le support et un utilisateur au clavier remontent des problèmes.",
+  "signal": "Deux retours : (1) « La liste clignote et l'appli semble ramer quand je tape. » (2) Un utilisateur qui navigue au clavier : « Je ne peux plus activer le bouton Effacer : il ne réagit ni à Tab ni à Entrée. » Aucune erreur rouge n'apparaît à l'écran.",
+  "artifacts": [
+    { "id": "art-net", "kind": "trace", "title": "Onglet réseau pendant la frappe", "content": "Pour la recherche « abc » : requêtes GET /search?q=a, q=a, q=ab, q=ab, q=abc, q=abc — chaque terme part EN DOUBLE.", "useful": true },
+    { "id": "art-profiler", "kind": "metrics", "title": "Profiler de rendu", "content": "Le composant Résultats se re-rend en boucle même sans nouvelle frappe ; compteur de rendus très élevé après chaque saisie.", "useful": true },
+    { "id": "art-effect", "kind": "diff", "title": "Extrait du diff (hook de recherche)", "content": "const filters = { q, sort: 'date' };            // objet recréé à chaque rendu\nuseEffect(() => { fetchResults(filters); }, [filters]); // dépend d'un objet recréé", "useful": true },
+    { "id": "art-a11y", "kind": "log", "title": "Audit d'accessibilité (bouton Effacer)", "content": "<div class=\"btn\" onClick={clear}>Effacer</div> — élément non focalisable : pas de role, pas de tabindex, pas de gestion clavier (Entrée/Espace).", "useful": true },
+    { "id": "art-states", "kind": "code", "title": "Rendu de la liste", "content": "return <ul>{results.map(r => <li>{r.title}</li>)}</ul> — pas d'état de chargement, pas d'état d'erreur, pas de cas 'aucun résultat'.", "useful": true },
+    { "id": "art-console", "kind": "log", "title": "Console navigateur", "content": "Aucune erreur JS rouge. Un avertissement React sur des enfants de liste sans prop key stable.", "useful": true },
+    { "id": "art-css", "kind": "config", "title": "Feuille de style", "content": "Aucune modification CSS dans cette release.", "useful": false },
+    { "id": "art-analytics", "kind": "log", "title": "Script analytics tiers", "content": "Le script de mesure d'audience s'est chargé normalement, comme d'habitude.", "useful": false }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Deux symptômes coexistent (perf/requêtes doublées + clavier). Quelles pistes investiguer ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Hypothèses raisonnables à ce stade :",
+          "options": [
+            "Un effet se redéclenche en boucle à cause d'une dépendance recréée à chaque rendu",
+            "Le bouton personnalisé n'est pas un vrai élément interactif accessible au clavier",
+            "La feuille de style a cassé la mise en page",
+            "Le script analytics tiers provoque les requêtes en double"
+          ],
+          "answer": [0, 1],
+          "explanation": "Les requêtes doublées + re-renders en boucle pointent vers un effet à dépendance instable ; le clavier pointe vers un élément non accessible. Le CSS est inchangé et l'analytics est sans rapport avec /search."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Quels artefacts confirment chacune des deux pistes ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Pour la piste « requêtes doublées / boucle », l'artefact décisif est :",
+          "options": [
+            "Le diff montrant un objet filters recréé à chaque rendu, utilisé comme dépendance d'effet",
+            "La feuille de style inchangée",
+            "Le chargement du script analytics",
+            "L'absence d'erreur rouge en console"
+          ],
+          "answer": 0,
+          "explanation": "Un objet recréé à chaque rendu change d'identité à chaque fois → l'effet le considère comme « nouveau » et se relance sans fin, doublant les requêtes."
+        },
+        {
+          "id": "i2",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Pour la piste « clavier », l'artefact décisif est :",
+          "options": [
+            "Le bouton implémenté comme un <div> avec onClick, sans role ni gestion clavier",
+            "Le profiler de rendu",
+            "L'onglet réseau",
+            "Le TTL du cache"
+          ],
+          "answer": 0,
+          "explanation": "Un <div> cliquable n'est ni focalisable ni activable au clavier : il faut un vrai <button> (ou role+tabindex+gestion Entrée/Espace)."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Nomme les deux causes racines.",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Cause de la boucle de rendus et des requêtes en double :",
+          "options": [
+            "Une dépendance d'effet instable (objet recréé à chaque rendu) relance l'effet sans cesse",
+            "Le serveur renvoie deux fois chaque réponse",
+            "Le navigateur est trop lent",
+            "Le CSS force un double rendu"
+          ],
+          "answer": 0,
+          "explanation": "La dépendance change d'identité à chaque rendu → l'effet se réexécute → nouvel état → nouveau rendu → boucle, avec requêtes dupliquées."
+        },
+        {
+          "id": "d2",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Cause de l'inaccessibilité au clavier :",
+          "options": [
+            "Un élément non sémantique (div) sert de bouton sans rôle ni gestion clavier",
+            "Le bouton est masqué par le CSS",
+            "Le focus est volé par l'analytics",
+            "Le clavier de l'utilisateur est défectueux"
+          ],
+          "answer": 0,
+          "explanation": "Un div cliquable n'expose ni rôle bouton, ni focalisation, ni activation clavier : les technologies d'assistance et la touche Entrée ne peuvent pas l'actionner."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Comment corriger proprement ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Corrections retenues :",
+          "options": [
+            "Stabiliser la dépendance de l'effet (dépendre des valeurs primitives q/sort, ou mémoïser)",
+            "Remplacer le div cliquable par un vrai <button> (ou role+tabindex+gestion clavier)",
+            "Ajouter les états chargement / erreur / aucun résultat",
+            "Envoyer chaque requête trois fois pour compenser"
+          ],
+          "answer": [0, 1, 2],
+          "explanation": "On stabilise la dépendance, on rétablit un bouton accessible, et on gère les états d'UI (loading/erreur/vide). Multiplier les requêtes aggrave le problème."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Détail de la correction de l'effet.",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Pour éviter la boucle, la dépendance de l'effet doit être :",
+          "options": [
+            "Des valeurs stables (primitifs q et sort), pas un objet recréé à chaque rendu",
+            "Vide, pour que l'effet ne parte jamais",
+            "L'objet filters complet, recréé à chaque rendu",
+            "Une fonction anonyme différente à chaque rendu"
+          ],
+          "answer": 0,
+          "explanation": "Dépendre des primitifs stables (q, sort) — ou mémoïser l'objet — fait que l'effet ne se relance que lors d'un VRAI changement."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Comment prouver que tout est réglé ?",
+      "questions": [
+        {
+          "id": "va1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Preuves de validation :",
+          "options": [
+            "Une seule requête réseau part par terme saisi (plus de doublon)",
+            "Le compteur de rendus se stabilise (plus de boucle)",
+            "Le bouton Effacer est atteignable par Tab et activable par Entrée/Espace",
+            "Un test vérifie loading/erreur/aucun résultat"
+          ],
+          "answer": [0, 1, 2, 3],
+          "explanation": "On vérifie la disparition des requêtes doublées, l'arrêt de la boucle de rendus, l'accessibilité clavier du bouton, et la présence de tests des états d'UI."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Compte rendu de régression pour l'équipe.",
+      "questions": [
+        {
+          "id": "co1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Un bon message de régression contient :",
+          "options": [
+            "Les symptômes observés et leur impact (perf + accessibilité)",
+            "Les deux causes racines identifiées",
+            "Le correctif et la manière de le vérifier (tests, réseau, clavier)",
+            "Une accusation nominative du releaseur"
+          ],
+          "answer": [0, 1, 2],
+          "explanation": "Symptômes/impact, causes, correctif + validation. Le blâme individuel est contre-productif."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "Deux régressions distinctes coexistent. (1) Perf/requêtes doublées : le hook dépend d'un objet filters recréé à chaque rendu ; comme son identité change à chaque fois, l'effet se relance en boucle et double les requêtes. Correctif : dépendre des primitifs stables (q, sort) ou mémoïser. (2) Accessibilité : le bouton Effacer est un <div> cliquable, ni focalisable ni activable au clavier ; correctif : un vrai <button> (ou role+tabindex+gestion Entrée/Espace). On en profite pour ajouter les états loading/erreur/vide manquants. Validation : une requête par terme, rendus stabilisés, bouton atteignable au clavier, tests des états.",
+    "keySignals": ["requêtes GET /search en double par terme", "boucle de re-rendus au profiler", "diff : objet filters recréé + dépendance d'effet", "audit a11y : div cliquable sans rôle ni clavier"],
+    "redHerrings": ["CSS inchangé", "script analytics tiers", "absence d'erreur rouge en console (un bug peut être silencieux)"],
+    "alternatives": ["Croire que le serveur double les réponses (démenti par le diff côté client)", "Attribuer la lenteur au navigateur (démenti par le profiler)"],
+    "tradeoffs": ["Mémoïser l'objet (useMemo) vs dépendre des primitifs (plus simple)", "Vrai <button> (recommandé) vs div + role/tabindex/gestion clavier (plus fragile)"],
+    "conceptsMobilized": ["dépendances d'effet stables", "identité référentielle des objets", "requêtes dupliquées", "HTML sémantique & accessibilité clavier", "états d'UI loading/erreur/vide", "prop key stable"],
+    "commonMistakes": ["Vider le tableau de dépendances (masque le bug)", "Garder un div comme bouton", "Oublier les états d'UI", "Blâmer l'auteur de la release"]
+  }
+}

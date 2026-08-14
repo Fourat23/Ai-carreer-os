@@ -1,0 +1,81 @@
+{
+  "id": "ml-foundations",
+  "title": "Machine learning : fondations et évaluation",
+  "domain": "Machine learning",
+  "skills": ["ml"],
+  "lessonRefs": ["machine-learning-basics", "model-evaluation", "statistics-for-ml"],
+  "remediation": ["machine-learning-basics", "model-evaluation"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Qu'est-ce que le « surapprentissage » (overfitting) ?",
+      "options": [
+        "Le modèle est trop simple pour les données",
+        "Le modèle mémorise le jeu d'entraînement et généralise mal sur des données nouvelles",
+        "Le modèle s'entraîne trop vite",
+        "Le modèle utilise trop peu de mémoire"
+      ],
+      "answer": 1,
+      "explanation": "Overfitting : excellent sur l'entraînement, mauvais sur des données inédites. Le contraire est l'underfitting."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Pourquoi sépare-t-on les données en ensembles d'entraînement et de test ?",
+      "options": [
+        "Pour accélérer l'entraînement",
+        "Pour estimer la performance sur des données que le modèle n'a jamais vues",
+        "Pour réduire la taille des fichiers",
+        "Parce que c'est une convention sans effet"
+      ],
+      "answer": 1,
+      "explanation": "Le jeu de test simule des données futures : il mesure la capacité de GÉNÉRALISATION, pas la mémorisation."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Un détecteur de fraude affiche 99 % d'exactitude, mais seulement 1 % des transactions sont frauduleuses et il rate presque toutes les fraudes. Quelle métrique révèle le problème ?",
+      "options": [
+        "L'exactitude (accuracy) suffit",
+        "Le rappel (recall) sur la classe « fraude »",
+        "La taille du modèle",
+        "Le temps d'entraînement"
+      ],
+      "answer": 1,
+      "explanation": "Sur classes déséquilibrées, l'accuracy trompe : prédire « jamais fraude » donne 99 %. Le rappel montre les fraudes ratées."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "multi",
+      "prompt": "Quelles pratiques réduisent le surapprentissage ?",
+      "options": [
+        "Plus de données d'entraînement représentatives",
+        "Régularisation / modèle moins complexe",
+        "Évaluer uniquement sur les données d'entraînement",
+        "Validation croisée"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Plus de données, régularisation, validation croisée aident. N'évaluer que sur l'entraînement masque justement l'overfitting."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un élève révise en apprenant par cœur les corrigés des annales, puis échoue à l'examen sur des sujets nouveaux. Quel phénomène ML cela illustre-t-il, et quelle parade ?",
+      "options": [
+        "Underfitting ; réviser moins",
+        "Overfitting ; s'entraîner sur des exercices variés et se tester sur des sujets inédits",
+        "Fuite de données ; changer d'école",
+        "Biais matériel ; acheter un ordinateur"
+      ],
+      "answer": 1,
+      "explanation": "Mémoriser les corrigés = overfitting ; s'exercer sur du varié et se tester sur de l'inédit = généralisation + jeu de test."
+    }
+  ]
+}

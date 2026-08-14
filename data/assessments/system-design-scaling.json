@@ -1,0 +1,90 @@
+{
+  "id": "system-design-scaling",
+  "title": "System Design : monter en charge",
+  "domain": "System Design",
+  "skills": ["archi", "se"],
+  "lessonRefs": ["system-design-scaling"],
+  "remediation": ["system-design-scaling"],
+  "simulationNote": "Systèmes décrits pour le raisonnement ; aucun vrai cluster n'est exécuté.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Quelle est la différence entre scaling vertical et horizontal ?",
+      "options": [
+        "Vertical = plus de machines ; horizontal = machine plus puissante",
+        "Vertical = machine plus puissante ; horizontal = plus de machines",
+        "Les deux signifient la même chose",
+        "Vertical concerne le réseau, horizontal le disque"
+      ],
+      "answer": 1,
+      "explanation": "Vertical = grossir une machine ; horizontal = ajouter des machines derrière un répartiteur."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Pourquoi un service doit-il être « stateless » pour scaler horizontalement facilement ?",
+      "options": [
+        "Pour consommer moins de RAM",
+        "Pour qu'une requête puisse être traitée par n'importe quelle instance",
+        "Pour éviter d'écrire des logs",
+        "Pour supprimer le besoin de base de données"
+      ],
+      "answer": 1,
+      "explanation": "Sans état local, toute instance peut servir toute requête : le load balancer répartit librement."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "APPLICATION",
+      "kind": "predict",
+      "prompt": "Trafic 10 000 req/s, une instance tient 800 req/s, on veut 25 % de marge. Combien d'instances (formule ceil(ceil(10000/800) × 1,25)) ?",
+      "answer": "17",
+      "explanation": "ceil(10000/800)=13 ; ceil(13×1,25)=ceil(16,25)=17 instances."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Une seule instance sature à 100 % de CPU aux heures de pointe, la base est loin d'être saturée. Premier levier ?",
+      "options": [
+        "Ajouter un index en base",
+        "Scaler horizontalement le service (plus d'instances + load balancer)",
+        "Réécrire l'application dans un autre langage",
+        "Augmenter la taille du disque"
+      ],
+      "answer": 1,
+      "explanation": "Le goulet est le CPU du service : ajouter des instances derrière un LB répartit la charge."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Après avoir mis 5 instances derrière un load balancer, tout tombe quand la seule base de données s'arrête. Comment nomme-t-on ce risque ?",
+      "options": [
+        "Un point unique de défaillance (SPOF)",
+        "Une race condition",
+        "Un cache miss",
+        "Un déni de service"
+      ],
+      "answer": 0,
+      "explanation": "La base non redondée est un SPOF : sa panne fait tomber tout le système malgré les instances multiples."
+    },
+    {
+      "id": "q6",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Une caisse de supermarché a une file qui s'allonge. Sans qu'on te parle d'informatique, quelle action correspond au « scaling horizontal + répartiteur » ?",
+      "options": [
+        "Demander au caissier de travailler plus vite indéfiniment",
+        "Ouvrir d'autres caisses et diriger les clients vers la moins occupée",
+        "Fermer le magasin plus tôt",
+        "Agrandir le parking"
+      ],
+      "answer": 1,
+      "explanation": "Ouvrir des caisses = ajouter des instances ; orienter vers la moins occupée = load balancing. Accélérer une seule caisse = scaling vertical, borné."
+    }
+  ]
+}

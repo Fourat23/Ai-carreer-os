@@ -1,0 +1,81 @@
+{
+  "id": "containers-kubernetes",
+  "title": "Conteneurs & Kubernetes : fondations",
+  "domain": "Cloud / DevOps",
+  "skills": ["cloud"],
+  "lessonRefs": ["docker-containers", "k8s-why-architecture", "k8s-workloads"],
+  "remediation": ["docker-containers", "k8s-why-architecture"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Quel problème un conteneur résout-il principalement ?",
+      "options": [
+        "Il rend le code plus rapide",
+        "Il empaquette l'application et ses dépendances pour un exécution reproductible",
+        "Il remplace la base de données",
+        "Il chiffre le réseau"
+      ],
+      "answer": 1,
+      "explanation": "Un conteneur fige l'app + ses dépendances : « ça marche pareil » de la machine du dev à la production."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "À quoi sert une « liveness probe » dans Kubernetes ?",
+      "options": [
+        "À mesurer le coût",
+        "À détecter qu'un conteneur est bloqué pour le redémarrer",
+        "À chiffrer les secrets",
+        "À router le DNS"
+      ],
+      "answer": 1,
+      "explanation": "La liveness probe vérifie que le conteneur est vivant ; s'il ne répond plus, Kubernetes le redémarre."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "multi",
+      "prompt": "Pourquoi utiliser un Deployment plutôt que lancer des conteneurs à la main ?",
+      "options": [
+        "Il maintient le nombre de répliques désiré",
+        "Il permet des mises à jour progressives (rolling update)",
+        "Il garantit qu'aucun conteneur ne tombera jamais",
+        "Il redémarre/replace automatiquement les pods défaillants"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Le Deployment réconcilie l'état désiré (répliques, rolling update, auto-réparation). Il ne garantit pas l'absence totale de pannes."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Un pod redémarre en boucle (CrashLoopBackOff). Quelle est la première chose à examiner ?",
+      "options": [
+        "La couleur du dashboard",
+        "Les logs du conteneur et le résultat des probes",
+        "Le prix de l'instance",
+        "Le nom du namespace"
+      ],
+      "answer": 1,
+      "explanation": "CrashLoopBackOff = le conteneur se termine sans cesse : on lit les logs et l'état des probes pour trouver la cause."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un thermostat compare en continu la température mesurée à la consigne et agit pour les faire coïncider. Quel principe de Kubernetes cela illustre-t-il ?",
+      "options": [
+        "Le chiffrement au repos",
+        "La boucle de réconciliation entre état désiré et état réel",
+        "Le partitionnement de base de données",
+        "Le rate limiting"
+      ],
+      "answer": 1,
+      "explanation": "Le contrôleur Kubernetes est une boucle de réconciliation : il agit en continu pour rapprocher l'état réel de l'état désiré, comme un thermostat."
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "id": "cloud-devops-delivery",
+  "title": "Cloud & livraison : déploiement et CI/CD",
+  "domain": "Cloud / DevOps",
+  "skills": ["cloud"],
+  "lessonRefs": ["cloud-fundamentals", "deployment-strategies", "ci-cd"],
+  "remediation": ["deployment-strategies", "ci-cd"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Que fait un pipeline d'intégration continue (CI) à chaque changement de code ?",
+      "options": [
+        "Il déploie forcément en production",
+        "Il construit et teste automatiquement le code",
+        "Il supprime les branches",
+        "Il facture le cloud"
+      ],
+      "answer": 1,
+      "explanation": "La CI construit et exécute les tests à chaque changement, pour détecter tôt les régressions."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Quel est l'intérêt d'un déploiement « blue-green » ?",
+      "options": [
+        "Réduire le coût de stockage",
+        "Basculer le trafic vers une nouvelle version et revenir en arrière vite en cas de problème",
+        "Chiffrer les données au repos",
+        "Éviter d'écrire des tests"
+      ],
+      "answer": 1,
+      "explanation": "Deux environnements ; on bascule le trafic et on peut revenir instantanément à l'ancien si la nouvelle version pose problème."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "multi",
+      "prompt": "Quelles affirmations sur un déploiement canari sont correctes ?",
+      "options": [
+        "On expose la nouvelle version à une petite fraction du trafic d'abord",
+        "On surveille les métriques avant d'étendre",
+        "On envoie 100 % du trafic immédiatement",
+        "On peut arrêter le déploiement si les erreurs augmentent"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Canari = exposition progressive + observation + arrêt possible. Envoyer 100 % d'emblée n'est PAS un canari."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Un déploiement casse la production et il faut 40 minutes pour revenir en arrière manuellement. Quelle amélioration réduit le plus l'impact des futures pannes ?",
+      "options": [
+        "Déployer moins souvent, en gros lots",
+        "Automatiser un rollback rapide et déployer par petits incréments",
+        "Supprimer les tests pour aller plus vite",
+        "Déployer uniquement le vendredi soir"
+      ],
+      "answer": 1,
+      "explanation": "Petits incréments + rollback automatisé réduisent le rayon d'impact et le temps de récupération (MTTR)."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Une chaîne de magasins veut tester un nouvel agencement sans risquer toutes ses ventes. Quelle stratégie, analogue au déploiement progressif, adopte-t-elle ?",
+      "options": [
+        "Changer tous les magasins d'un coup",
+        "Tester dans quelques magasins, mesurer, puis généraliser si les résultats sont bons",
+        "Ne jamais changer l'agencement",
+        "Changer au hasard sans mesurer"
+      ],
+      "answer": 1,
+      "explanation": "Piloter sur un sous-ensemble, mesurer, puis étendre = exactement le canari/rollout progressif transposé au monde physique."
+    }
+  ]
+}

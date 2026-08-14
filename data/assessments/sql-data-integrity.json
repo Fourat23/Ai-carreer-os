@@ -1,0 +1,81 @@
+{
+  "id": "sql-data-integrity",
+  "title": "SQL : intégrité, transactions et performance",
+  "domain": "Données",
+  "skills": ["sql"],
+  "lessonRefs": ["sql-foundations", "database-transactions-concurrency", "sql-performance-indexing"],
+  "remediation": ["database-transactions-concurrency", "sql-performance-indexing"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Que garantit la propriété « Atomicité » d'une transaction (ACID) ?",
+      "options": [
+        "Les lectures sont toujours rapides",
+        "Toutes les opérations réussissent, ou aucune n'est appliquée",
+        "Les données tiennent en mémoire",
+        "Les index sont mis à jour en différé"
+      ],
+      "answer": 1,
+      "explanation": "Atomicité : la transaction est un tout indivisible — commit complet, ou rollback total."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "À quoi sert principalement un index sur une colonne ?",
+      "options": [
+        "À économiser de l'espace disque",
+        "À accélérer les recherches/filtres sur cette colonne",
+        "À chiffrer les données",
+        "À garantir l'atomicité"
+      ],
+      "answer": 1,
+      "explanation": "Un index accélère la lecture ciblée, au prix d'un surcoût en écriture et en stockage."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Une page affiche une liste puis, pour chaque ligne, exécute une requête séparée pour charger son détail : 1 + N requêtes. Comment nomme-t-on ce problème et comment le corriger ?",
+      "options": [
+        "Deadlock ; ajouter des verrous",
+        "Problème N+1 ; charger en une jointure ou un batch",
+        "Race condition ; sérialiser les accès",
+        "Injection SQL ; échapper les entrées"
+      ],
+      "answer": 1,
+      "explanation": "C'est le N+1 : on remplace N requêtes par une jointure ou un chargement groupé (IN / batch)."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "APPLICATION",
+      "kind": "multi",
+      "prompt": "Deux transactions incrémentent le même compteur en même temps et une mise à jour est perdue. Quelles approches préviennent ce « lost update » ?",
+      "options": [
+        "Verrouillage pessimiste (SELECT ... FOR UPDATE)",
+        "Verrouillage optimiste (contrôle de version)",
+        "Ignorer le problème car rare",
+        "Mise à jour atomique côté base (SET x = x + 1)"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Pessimiste, optimiste, ou opération atomique en base préviennent la perte de mise à jour. L'ignorer ne corrige rien."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Hors base de données : deux processus modifient le même fichier de configuration partagé et l'un écrase les changements de l'autre. Quel principe, vu en concurrence SQL, s'applique ?",
+      "options": [
+        "Laisser le dernier qui écrit gagner sans contrôle",
+        "Détecter le conflit via une version/empreinte avant d'écrire (contrôle optimiste)",
+        "Copier le fichier plus souvent",
+        "Augmenter la taille du disque"
+      ],
+      "answer": 1,
+      "explanation": "Le contrôle optimiste par version transpose : vérifier que la base n'a pas changé depuis la lecture avant d'écrire."
+    }
+  ]
+}

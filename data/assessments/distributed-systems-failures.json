@@ -1,0 +1,82 @@
+{
+  "id": "distributed-systems-failures",
+  "title": "Systèmes distribués : modes de panne",
+  "domain": "System Design",
+  "skills": ["archi"],
+  "lessonRefs": ["distributed-systems-failures"],
+  "remediation": ["distributed-systems-failures"],
+  "simulationNote": "Scénarios distribués décrits pour le raisonnement ; aucune vraie base distribuée n'est exécutée.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Qu'est-ce que la « cohérence à terme » (eventual consistency) ?",
+      "options": [
+        "Les données sont toujours identiques partout, instantanément",
+        "Les répliques convergent vers la même valeur après un délai, en l'absence de nouvelle écriture",
+        "Les données ne sont jamais cohérentes",
+        "La cohérence dépend du langage utilisé"
+      ],
+      "answer": 1,
+      "explanation": "Eventual consistency : après propagation, toutes les répliques convergent ; entre-temps, une lecture peut être périmée."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Pourquoi l'affirmation « le théorème CAP dit qu'on choisit 2 propriétés sur 3 » est-elle trompeuse ?",
+      "options": [
+        "Parce que CAP ne concerne que les bases SQL",
+        "Parce que la tolérance au partitionnement n'est pas optionnelle : le vrai choix est entre cohérence et disponibilité PENDANT une partition",
+        "Parce que CAP est faux",
+        "Parce qu'on peut toujours avoir les trois"
+      ],
+      "answer": 1,
+      "explanation": "Sur un système distribué, les partitions réseau arrivent : on ne renonce pas à P. Le choix se joue entre C et A quand la partition survient."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Qu'est-ce qu'un « split-brain » dans une architecture leader/follower ?",
+      "options": [
+        "Une panne de disque",
+        "Deux nœuds se croient simultanément leader après une partition réseau",
+        "Un cache trop volumineux",
+        "Une requête SQL mal formée"
+      ],
+      "answer": 1,
+      "explanation": "Split-brain : une partition fait apparaître deux leaders qui acceptent des écritures divergentes. Le quorum sert à l'éviter."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Un utilisateur met à jour son profil puis, en rechargeant, revoit l'ancienne valeur quelques secondes, avant que la nouvelle apparaisse. Cause la plus probable ?",
+      "options": [
+        "Un bug dans le navigateur",
+        "Une lecture servie par une réplique en retard (replication lag)",
+        "Une injection SQL",
+        "Un dépassement de mémoire"
+      ],
+      "answer": 1,
+      "explanation": "Classique replication lag : la lecture a touché une réplique pas encore à jour. On lit depuis le leader pour du « read-your-writes »."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Deux secrétaires tiennent chacune une copie du même agenda et, après une coupure téléphonique, prennent chacune un rendez-vous sur le même créneau. Quel phénomène distribué cela illustre-t-il, et quelle parade ?",
+      "options": [
+        "Un cache miss ; augmenter la mémoire",
+        "Un split-brain par partition ; exiger une validation majoritaire (quorum) avant de confirmer",
+        "Un deadlock ; ajouter des verrous",
+        "Une fuite mémoire ; redémarrer"
+      ],
+      "answer": 1,
+      "explanation": "Deux copies acceptant des écritures pendant une « partition » = split-brain ; le quorum (accord majoritaire) empêche deux décisions contradictoires."
+    }
+  ]
+}

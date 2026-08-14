@@ -1,0 +1,82 @@
+{
+  "id": "llm-rag-systems",
+  "title": "LLM & RAG : concevoir avec des modèles de langage",
+  "domain": "IA appliquée",
+  "skills": ["llm", "rag"],
+  "lessonRefs": ["llm-fundamentals", "rag-fundamentals", "rag-evaluation"],
+  "remediation": ["rag-fundamentals", "rag-evaluation"],
+  "simulationNote": "Les comportements de modèle sont décrits pour le raisonnement ; aucun appel réel à un LLM n'est effectué.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Que fait une architecture RAG (Retrieval-Augmented Generation) ?",
+      "options": [
+        "Elle entraîne un nouveau modèle à chaque requête",
+        "Elle récupère des documents pertinents et les fournit au modèle comme contexte pour répondre",
+        "Elle remplace la base de données par le modèle",
+        "Elle chiffre les prompts"
+      ],
+      "answer": 1,
+      "explanation": "RAG = récupérer des passages pertinents puis les injecter en contexte : le modèle répond à partir de sources, pas seulement de sa mémoire."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Pourquoi le RAG réduit-il (sans éliminer) les « hallucinations » ?",
+      "options": [
+        "Il rend le modèle plus grand",
+        "Il ancre la réponse sur des documents fournis, vérifiables",
+        "Il supprime toute créativité du modèle",
+        "Il augmente la température"
+      ],
+      "answer": 1,
+      "explanation": "En ancrant la génération sur des sources récupérées, on limite l'invention — mais une mauvaise récupération peut encore induire en erreur."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Un système RAG répond faux alors que la bonne information EXISTE dans la base. Où chercher en premier ?",
+      "options": [
+        "La taille du modèle de génération",
+        "L'étape de récupération : les bons passages sont-ils bien retrouvés et classés ?",
+        "La couleur de l'interface",
+        "Le nom du fichier de prompt"
+      ],
+      "answer": 1,
+      "explanation": "Si l'info existe mais n'est pas remontée, le problème est la récupération (embeddings, découpage, reranking), pas la génération."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "APPLICATION",
+      "kind": "multi",
+      "prompt": "Comment évaluer honnêtement un système RAG ?",
+      "options": [
+        "Mesurer la qualité de récupération (les bons passages sont-ils retrouvés ?)",
+        "Mesurer la fidélité de la réponse aux sources (groundedness)",
+        "Se fier à une seule requête réussie en démo",
+        "Utiliser un jeu de questions/réponses de référence"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "On évalue récupération + fidélité aux sources sur un jeu de référence. Une démo unique ne prouve rien."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un étudiant doit répondre à une question d'examen à livre ouvert. S'il cite le mauvais chapitre, sa réponse sera fausse même s'il rédige bien. Quel maillon RAG cela illustre-t-il ?",
+      "options": [
+        "La génération : mieux rédiger suffirait",
+        "La récupération : trouver le bon passage conditionne toute la réponse",
+        "Le chiffrement du manuel",
+        "La taille de la bibliothèque"
+      ],
+      "answer": 1,
+      "explanation": "Répondre à livre ouvert = RAG : si l'étape de recherche pointe la mauvaise source, une bonne rédaction ne sauve pas la réponse."
+    }
+  ]
+}

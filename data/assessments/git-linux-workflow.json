@@ -1,0 +1,81 @@
+{
+  "id": "git-linux-workflow",
+  "title": "Git & Linux : flux de travail de l'ingénieur",
+  "domain": "Fondations outils",
+  "skills": ["gitlinux"],
+  "lessonRefs": ["git-fundamentals", "git-advanced", "linux-filesystem-permissions"],
+  "remediation": ["git-fundamentals", "linux-filesystem-permissions"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Que représente un commit Git ?",
+      "options": [
+        "Une copie du disque entier",
+        "Un instantané de l'état suivi du projet, avec un parent et un message",
+        "Une branche",
+        "Un fichier de configuration"
+      ],
+      "answer": 1,
+      "explanation": "Un commit est un instantané référencé par un hash, relié à son (ou ses) parent(s), avec auteur et message."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "En permissions Unix, que signifie le mode « 644 » sur un fichier ?",
+      "options": [
+        "Lecture/écriture pour le propriétaire, lecture seule pour groupe et autres",
+        "Tous les droits pour tout le monde",
+        "Exécutable par tous",
+        "Aucun droit"
+      ],
+      "answer": 0,
+      "explanation": "6 = rw- (propriétaire), 4 = r-- (groupe), 4 = r-- (autres). Pas d'exécution."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "multi",
+      "prompt": "Pourquoi travailler sur une branche dédiée plutôt que directement sur la branche principale ?",
+      "options": [
+        "Isoler le travail en cours sans casser la principale",
+        "Permettre la revue via une pull request avant fusion",
+        "Rendre le code automatiquement plus rapide",
+        "Pouvoir abandonner la branche sans impacter la principale"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Une branche isole, permet la revue et peut être abandonnée sans risque. Elle n'a aucun effet sur la vitesse d'exécution."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Un script échoue avec « Permission denied » à l'exécution, alors que le fichier existe. Première vérification ?",
+      "options": [
+        "La taille du disque",
+        "Le bit d'exécution (x) et le propriétaire/permissions du fichier",
+        "La version de Git",
+        "La couleur du terminal"
+      ],
+      "answer": 1,
+      "explanation": "« Permission denied » à l'exécution pointe le bit x manquant ou des permissions/propriétaire inadaptés (chmod +x / chown)."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Tu rédiges un long document important à plusieurs. Tu veux pouvoir revenir à n'importe quelle version passée et fusionner les contributions sans écraser celles des autres. Quel modèle, vu avec Git, adoptes-tu ?",
+      "options": [
+        "Un seul fichier partagé que chacun écrase à tour de rôle",
+        "Un historique de versions immuables + branches par contributeur fusionnées après relecture",
+        "Envoyer le document par e-mail à chaque modification",
+        "Ne garder que la dernière version"
+      ],
+      "answer": 1,
+      "explanation": "Historique immuable + branches + fusion après revue = le modèle Git transposé à l'écriture collaborative."
+    }
+  ]
+}

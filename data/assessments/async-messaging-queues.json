@@ -1,0 +1,82 @@
+{
+  "id": "async-messaging-queues",
+  "title": "Travail asynchrone : files, workers et DLQ",
+  "domain": "Backend",
+  "skills": ["archi", "se"],
+  "lessonRefs": ["async-messaging-queues"],
+  "remediation": ["async-messaging-queues"],
+  "simulationNote": "Files et workers décrits pour le raisonnement ; aucun vrai broker (Redis/Kafka) n'est exécuté.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Dans une architecture producteur → file → worker, à quoi sert la file ?",
+      "options": [
+        "À chiffrer les messages",
+        "À découpler la production de la consommation et absorber les pics",
+        "À accélérer le réseau",
+        "À remplacer la base de données"
+      ],
+      "answer": 1,
+      "explanation": "La file découple : le producteur dépose sans attendre, les workers consomment à leur rythme, les pics sont amortis."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Avec une livraison « at-least-once », que doit garantir le consommateur ?",
+      "options": [
+        "Qu'il ne reçoit jamais de doublon",
+        "Qu'il est idempotent (traiter deux fois le même message n'a pas d'effet supplémentaire)",
+        "Qu'il répond en moins d'une milliseconde",
+        "Qu'il supprime la file après usage"
+      ],
+      "answer": 1,
+      "explanation": "At-least-once peut livrer des doublons : le consommateur doit être idempotent (dédup par identifiant)."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "APPLICATION",
+      "kind": "multi",
+      "prompt": "Un message échoue de façon répétée. Quelles pratiques évitent qu'il bloque la file ou provoque une tempête de retries ?",
+      "options": [
+        "Réessayer avec un backoff exponentiel et du jitter",
+        "Après N échecs, router vers une Dead Letter Queue",
+        "Réessayer immédiatement en boucle serrée",
+        "Plafonner le nombre de tentatives"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Backoff+jitter, plafond de tentatives et DLQ isolent les échecs. Le retry immédiat en boucle crée une tempête."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "La file grossit sans cesse : les producteurs déposent plus vite que les workers ne consomment. Action la plus directe ?",
+      "options": [
+        "Supprimer la file",
+        "Augmenter le nombre de workers (et/ou leur débit), en vérifiant l'idempotence",
+        "Réduire le nombre de workers",
+        "Désactiver les retries"
+      ],
+      "answer": 1,
+      "explanation": "Backlog = capacité de consommation insuffisante : on ajoute des workers / augmente le débit, sans casser l'idempotence."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un restaurant reçoit les commandes plus vite que la cuisine ne les prépare aux heures de pointe. Quel dispositif, analogue à une file + workers, lisse le service ?",
+      "options": [
+        "Refuser toutes les commandes",
+        "Une file de tickets de commande + plusieurs cuisiniers, avec un bac « à revoir » pour les commandes problématiques",
+        "Servir chaque client immédiatement, à la commande, sans file",
+        "Fermer la cuisine"
+      ],
+      "answer": 1,
+      "explanation": "Le rail de tickets = file, les cuisiniers = workers, le bac « à revoir » = DLQ : exactement le découplage producteur/consommateur."
+    }
+  ]
+}

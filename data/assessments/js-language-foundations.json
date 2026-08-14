@@ -1,0 +1,83 @@
+{
+  "id": "js-language-foundations",
+  "title": "JavaScript : valeurs, portée et asynchrone",
+  "domain": "Fondations web",
+  "skills": ["jsts"],
+  "lessonRefs": ["javascript-basics", "async-javascript"],
+  "remediation": ["javascript-basics", "async-javascript"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Quelle différence essentielle entre « let » et « const » ?",
+      "options": [
+        "const crée une variable non réassignable",
+        "let est réservé aux nombres",
+        "const est plus rapide à l'exécution",
+        "let n'existe que dans les navigateurs"
+      ],
+      "answer": 0,
+      "explanation": "const empêche la RÉAFFECTATION de la liaison (l'objet pointé peut toutefois être muté)."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "predict",
+      "prompt": "Que vaut la sortie de : console.log(typeof null) ?",
+      "answer": "object",
+      "explanation": "typeof null renvoie « object » : une bizarrerie historique de JavaScript à connaître."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "APPLICATION",
+      "kind": "predict",
+      "prompt": "Avec [1,2,3,4].filter(x => x % 2 === 0).length, quelle valeur obtient-on ?",
+      "answer": "2",
+      "explanation": "filter garde les pairs (2 et 4) → longueur 2."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "multi",
+      "prompt": "Quelles affirmations sur une Promise sont correctes ?",
+      "options": [
+        "Une Promise représente une valeur future (succès ou échec)",
+        "await met en pause la fonction async jusqu'à résolution",
+        "Une Promise rejetée non gérée est toujours silencieuse et sans risque",
+        "then() permet d'enchaîner un traitement après résolution"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Une rejection non gérée n'est PAS sans risque (unhandledRejection). Les trois autres sont exactes."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Une boucle lance trois appels réseau avec await l'un après l'autre ; le total est trois fois trop lent alors que les appels sont indépendants. Quelle correction ?",
+      "options": [
+        "Supprimer les await",
+        "Lancer les appels en parallèle puis attendre avec Promise.all",
+        "Ajouter un try/catch autour de la boucle",
+        "Convertir la fonction en fonction non-async"
+      ],
+      "answer": 1,
+      "explanation": "Des appels indépendants doivent partir en parallèle (Promise.all) : on attend le plus long, pas la somme."
+    },
+    {
+      "id": "q6",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Dans un autre langage, tu dois télécharger 50 fichiers indépendants le plus vite possible, avec un plafond de connexions simultanées. Quel principe, vu en asynchrone JS, s'applique ?",
+      "options": [
+        "Tout télécharger strictement l'un après l'autre pour rester simple",
+        "Lancer plusieurs téléchargements concurrents, bornés par une limite de parallélisme",
+        "Télécharger deux fois chaque fichier pour fiabiliser",
+        "Attendre que l'utilisateur clique entre chaque fichier"
+      ],
+      "answer": 1,
+      "explanation": "La concurrence bornée (pool) transpose Promise.all + limite : maximiser le parallélisme sans saturer les ressources."
+    }
+  ]
+}

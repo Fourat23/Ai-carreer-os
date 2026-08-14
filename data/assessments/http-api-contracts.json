@@ -1,0 +1,90 @@
+{
+  "id": "http-api-contracts",
+  "title": "HTTP et contrats d'API de production",
+  "domain": "Web & backend",
+  "skills": ["http", "se"],
+  "lessonRefs": ["http-rest-json", "api-design-basics", "api-production-contracts"],
+  "remediation": ["http-rest-json", "api-production-contracts"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Quel code de statut HTTP indique que la ressource demandée n'existe pas ?",
+      "options": ["200", "301", "404", "500"],
+      "answer": 2,
+      "explanation": "404 = Not Found. 200 = succès, 301 = redirection permanente, 500 = erreur serveur."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Que signifie qu'une opération HTTP est « idempotente » ?",
+      "options": [
+        "Elle est toujours rapide",
+        "La rejouer plusieurs fois produit le même effet qu'une seule fois",
+        "Elle ne renvoie jamais d'erreur",
+        "Elle ne modifie jamais de données"
+      ],
+      "answer": 1,
+      "explanation": "Idempotent = répéter la requête n'ajoute pas d'effet. PUT et DELETE le sont ; POST ne l'est pas par défaut."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "APPLICATION",
+      "kind": "multi",
+      "prompt": "Un client peut renvoyer une requête suite à un timeout réseau. Quelles mesures évitent un double paiement ?",
+      "options": [
+        "Faire porter au client une clé d'idempotence (Idempotency-Key)",
+        "Dédupliquer côté serveur sur cette clé",
+        "Réessayer automatiquement sans aucune protection",
+        "Renvoyer 200 même si le traitement a échoué"
+      ],
+      "answer": [0, 1],
+      "explanation": "Clé d'idempotence + déduplication serveur : la 2e requête identique est reconnue et non rejouée."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Une API renvoie 429 avec l'en-tête Retry-After. Que doit faire le client ?",
+      "options": [
+        "Réessayer immédiatement en boucle",
+        "Abandonner définitivement la requête",
+        "Attendre le délai indiqué avant de réessayer",
+        "Changer d'URL"
+      ],
+      "answer": 2,
+      "explanation": "429 = trop de requêtes (rate limiting). Retry-After indique combien de temps patienter avant de réessayer."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "APPLICATION",
+      "kind": "mcq",
+      "prompt": "Tu dois ajouter un champ obligatoire à une réponse d'API consommée par des clients déjà déployés. Quelle approche préserve la compatibilité ascendante ?",
+      "options": [
+        "Renommer les champs existants au passage",
+        "Ajouter le nouveau champ sans retirer ni renommer les anciens",
+        "Supprimer immédiatement les anciens champs",
+        "Changer le type d'un champ existant"
+      ],
+      "answer": 1,
+      "explanation": "Ajouter est rétro-compatible ; renommer/supprimer/retyper casse les clients existants (changement cassant)."
+    },
+    {
+      "id": "q6",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Tu exposes non pas une API HTTP mais une bibliothèque publique dont d'autres équipes dépendent. Comment ajouter une capacité sans casser leur code ?",
+      "options": [
+        "Modifier la signature des fonctions existantes",
+        "Ajouter de nouvelles fonctions/paramètres optionnels et garder l'ancien comportement par défaut",
+        "Supprimer les fonctions jugées obsolètes tout de suite",
+        "Changer les valeurs de retour existantes"
+      ],
+      "answer": 1,
+      "explanation": "Même principe que le versioning d'API : étendre de façon additive, préserver l'ancien contrat, déprécier avant de retirer."
+    }
+  ]
+}

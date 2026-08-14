@@ -1,0 +1,75 @@
+{
+  "id": "foundations-algorithmic-thinking",
+  "title": "Raisonnement algorithmique et coût",
+  "domain": "Fondations",
+  "skills": ["algo", "ds"],
+  "lessonRefs": ["algorithmic-thinking", "data-structures-intro"],
+  "remediation": ["algorithmic-thinking", "data-structures-intro"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Que décrit la notation « O(n) » pour un algorithme ?",
+      "options": [
+        "Le temps exact en secondes",
+        "L'évolution du coût quand la taille de l'entrée grandit",
+        "La quantité de mémoire disque utilisée",
+        "Le nombre de lignes de code"
+      ],
+      "answer": 1,
+      "explanation": "La notation O(...) décrit comment le coût CROÎT avec la taille de l'entrée, pas un temps absolu."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Pourquoi une recherche dans un tableau non trié est-elle en O(n) et non en O(1) ?",
+      "options": [
+        "Parce que les tableaux sont lents par nature",
+        "Parce qu'il faut potentiellement examiner chaque élément pour trouver la cible",
+        "Parce que la mémoire est limitée",
+        "Parce que le tri est toujours obligatoire"
+      ],
+      "answer": 1,
+      "explanation": "Sans ordre ni index, on peut devoir parcourir tous les éléments : le pire cas est proportionnel à n."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "APPLICATION",
+      "kind": "predict",
+      "prompt": "Une boucle imbriquée parcourt toutes les paires distinctes d'une liste de 5 éléments. Combien de paires (i<j) examine-t-elle ?",
+      "answer": "10",
+      "explanation": "Nombre de paires = 5×4/2 = 10. Deux boucles imbriquées sur n donnent un coût en O(n²)."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Un programme cherche 10 000 fois si une valeur appartient à une collection de 100 000 éléments et devient lent. Quelle structure de données corrige d'abord le problème ?",
+      "options": [
+        "Une liste chaînée",
+        "Un tableau trié parcouru linéairement",
+        "Une table de hachage (ensemble/dictionnaire)",
+        "Une pile"
+      ],
+      "answer": 2,
+      "explanation": "L'appartenance répétée est le cas d'usage d'une table de hachage : recherche moyenne en O(1) au lieu de O(n)."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Tu conçois un annuaire téléphonique où l'on cherche très souvent un numéro à partir d'un nom, et où l'on ajoute rarement des contacts. Sans qu'on te nomme la technique, quel choix rend les recherches quasi instantanées ?",
+      "options": [
+        "Garder les contacts dans l'ordre d'ajout et parcourir à chaque recherche",
+        "Indexer les contacts par nom dans une structure à accès direct par clé",
+        "Stocker les contacts dans une file d'attente",
+        "Trier la liste après chaque recherche"
+      ],
+      "answer": 1,
+      "explanation": "Beaucoup de lectures par clé, peu d'écritures : indexer par clé (table de hachage) transpose exactement le principe de la question précédente."
+    }
+  ]
+}

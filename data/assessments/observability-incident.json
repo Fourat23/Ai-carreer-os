@@ -1,0 +1,81 @@
+{
+  "id": "observability-incident",
+  "title": "Observabilité & réponse à incident",
+  "domain": "SRE / Production",
+  "skills": ["cloud", "se"],
+  "lessonRefs": ["observability-fundamentals", "metrics-percentiles", "incident-response", "postmortem-rca"],
+  "remediation": ["observability-fundamentals", "incident-response"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Quels sont les trois piliers classiques de l'observabilité ?",
+      "options": [
+        "Logs, métriques, traces",
+        "CPU, RAM, disque",
+        "Dev, staging, prod",
+        "Git, CI, CD"
+      ],
+      "answer": 0,
+      "explanation": "Logs (événements), métriques (agrégats chiffrés), traces (parcours d'une requête) sont les trois piliers."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Pourquoi la latence p99 est-elle souvent plus parlante que la latence moyenne ?",
+      "options": [
+        "Elle est plus facile à calculer",
+        "Elle révèle l'expérience des requêtes les plus lentes, que la moyenne masque",
+        "Elle est toujours plus basse",
+        "Elle ne dépend pas du trafic"
+      ],
+      "answer": 1,
+      "explanation": "La moyenne cache les pires cas ; le p99 montre ce que vivent les 1 % de requêtes les plus lentes — souvent celles qui font mal."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Un incident est en cours : le service répond en erreur. Quel est le premier objectif ?",
+      "options": [
+        "Trouver le coupable à blâmer",
+        "Rétablir le service (mitigation), puis analyser la cause à froid",
+        "Rédiger le post-mortem avant d'agir",
+        "Attendre que ça passe"
+      ],
+      "answer": 1,
+      "explanation": "En incident, on restaure d'abord (mitigation/rollback), on analyse la cause racine ensuite, sans blâme."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "multi",
+      "prompt": "Qu'est-ce qu'un bon post-mortem « blameless » contient ?",
+      "options": [
+        "Une chronologie factuelle",
+        "L'analyse de la cause racine",
+        "La désignation d'un responsable à sanctionner",
+        "Des actions correctives concrètes et suivies"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Chronologie, cause racine, actions suivies. Le blâme individuel est contre-productif : on corrige le système, pas les personnes."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Après un accident évité de justesse dans un atelier, l'équipe veut éviter qu'il se reproduise. Quelle démarche, analogue au post-mortem blameless, adopte-t-elle ?",
+      "options": [
+        "Punir la personne présente",
+        "Reconstituer les faits, trouver les causes systémiques et mettre en place des garde-fous durables",
+        "Ne rien documenter pour éviter les tensions",
+        "Interdire de parler de l'incident"
+      ],
+      "answer": 1,
+      "explanation": "Faits + causes systémiques + garde-fous, sans blâme individuel : exactement l'esprit du post-mortem transposé à la sécurité au travail."
+    }
+  ]
+}

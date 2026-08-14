@@ -1,0 +1,81 @@
+{
+  "id": "security-fundamentals",
+  "title": "Sécurité applicative : bases et réflexes",
+  "domain": "Sécurité",
+  "skills": ["secu"],
+  "lessonRefs": ["authentication", "networking-http-tls"],
+  "remediation": ["authentication", "networking-http-tls"],
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "RECALL",
+      "kind": "mcq",
+      "prompt": "Quelle différence entre authentification et autorisation ?",
+      "options": [
+        "Ce sont deux mots pour la même chose",
+        "L'authentification prouve QUI tu es ; l'autorisation décide ce que tu as le DROIT de faire",
+        "L'autorisation vient toujours avant l'authentification",
+        "L'authentification concerne uniquement les mots de passe"
+      ],
+      "answer": 1,
+      "explanation": "Authentifier = vérifier l'identité ; autoriser = vérifier les permissions. Deux étapes distinctes."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "UNDERSTANDING",
+      "kind": "mcq",
+      "prompt": "Pourquoi stocke-t-on un HACHAGE salé du mot de passe plutôt que le mot de passe lui-même ?",
+      "options": [
+        "Pour économiser de l'espace",
+        "Pour qu'une fuite de la base ne révèle pas les mots de passe en clair",
+        "Pour accélérer la connexion",
+        "Parce que c'est plus simple à coder"
+      ],
+      "answer": 1,
+      "explanation": "Un hachage salé (bcrypt/argon2) rend une fuite bien moins exploitable : les mots de passe ne sont pas en clair."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "APPLICATION",
+      "kind": "multi",
+      "prompt": "Quelles pratiques réduisent le risque d'injection (SQL, commandes) ?",
+      "options": [
+        "Requêtes paramétrées / préparées",
+        "Concaténer directement l'entrée utilisateur dans la requête",
+        "Valider et typer les entrées",
+        "Faire confiance au client pour envoyer des données propres"
+      ],
+      "answer": [0, 2],
+      "explanation": "Requêtes paramétrées + validation d'entrée. Concaténer l'entrée ou faire confiance au client ouvre l'injection."
+    },
+    {
+      "id": "q4",
+      "taxonomy": "DIAGNOSIS",
+      "kind": "mcq",
+      "prompt": "Une API renvoie des messages d'erreur détaillés (trace, requête SQL, version) aux clients en production. Quel est le risque principal ?",
+      "options": [
+        "Aucun, cela aide les utilisateurs",
+        "Fuite d'informations facilitant une attaque (divulgation)",
+        "Un ralentissement du serveur",
+        "Une perte de données"
+      ],
+      "answer": 1,
+      "explanation": "Les erreurs verbeuses divulguent la structure interne : on journalise en détail côté serveur, on renvoie un message générique au client."
+    },
+    {
+      "id": "q5",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Tu conçois un système qui exécute des instructions fournies par un tiers non fiable (par ex. un modèle de langage recevant du texte externe). Quel principe de sécurité, vu ailleurs, s'applique en premier ?",
+      "options": [
+        "Faire confiance par défaut au contenu externe",
+        "Ne jamais faire confiance à une entrée externe : la valider, la borner, et limiter ses privilèges",
+        "Exécuter le contenu avec les droits maximum pour éviter les erreurs",
+        "Désactiver toute journalisation"
+      ],
+      "answer": 1,
+      "explanation": "« Never trust input » transpose des injections classiques à l'injection de prompt : valider, isoler, appliquer le moindre privilège."
+    }
+  ]
+}

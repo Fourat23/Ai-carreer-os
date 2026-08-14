@@ -1534,3 +1534,38 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .skill-next-label { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--accent); font-weight: 600; }
 .skill-next-action { font-size: var(--fs-sm); font-weight: 600; }
 .skill-next-goal { font-size: var(--fs-xs); color: var(--muted); width: 100%; }
+
+/* ── Learning Experience : jalons & timeline de preuves (V41) ────────────────── */
+.lx-milestones { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.lx-milestone { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--panel); }
+.lx-milestone.done { border-color: color-mix(in srgb, var(--ok) 45%, var(--border)); }
+.lx-ms-check { color: var(--muted); line-height: 1.4; }
+.lx-milestone.done .lx-ms-check { color: var(--ok); }
+.lx-ms-body { display: flex; flex-direction: column; gap: 2px; }
+.lx-ms-label { font-size: var(--fs-sm); font-weight: 600; }
+.lx-ms-state { font-size: var(--fs-xs); font-weight: 500; color: var(--ok); }
+.lx-ms-state.muted { color: var(--muted); }
+.lx-ms-why { font-size: var(--fs-xs); color: var(--muted); line-height: 1.4; }
+
+.lx-timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.lx-tl-item {
+  display: grid; grid-template-columns: 108px 92px 1fr; align-items: baseline; gap: 10px;
+  padding: 8px 4px; border-bottom: 1px solid var(--border); font-size: var(--fs-sm);
+}
+.lx-tl-item:last-child { border-bottom: none; }
+.lx-tl-date { color: var(--muted); font-size: var(--fs-xs); }
+.lx-tl-type {
+  font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .03em; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 4px; padding: 0 6px; text-align: center; justify-self: start;
+}
+.lx-tl-assessment { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+.lx-tl-capstone { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--border)); }
+.lx-tl-title { line-height: 1.4; }
+.lx-tl-skills { grid-column: 3; font-size: var(--fs-xs); color: var(--muted); }
+@media (max-width: 640px) {
+  .lx-tl-item { grid-template-columns: 1fr auto; row-gap: 2px; }
+  .lx-tl-date { order: 2; justify-self: end; }
+  .lx-tl-type { order: 1; }
+  .lx-tl-title { order: 3; grid-column: 1 / -1; }
+  .lx-tl-skills { order: 4; grid-column: 1 / -1; }
+}

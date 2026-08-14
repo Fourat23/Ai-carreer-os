@@ -1517,3 +1517,20 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .cap-remediation { margin-top: var(--sp-3); }
 .cap-remediation-label { display: inline-flex; align-items: center; gap: 5px; font-size: var(--fs-sm); font-weight: 600; }
 .cap-remediation-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+
+/* ── Skills : « pourquoi cet état ? » + prochaine action (V41) ───────────────── */
+.skill-block { border-bottom: 1px solid var(--border); }
+.skill-block:last-child { border-bottom: none; }
+.skill-why { margin: 0 0 var(--sp-2) 0; }
+.skill-why > summary { cursor: pointer; font-size: var(--fs-sm); color: var(--muted); padding: 2px 0; }
+.skill-why > summary:hover { color: var(--text); }
+.skill-why-reasons { margin: var(--sp-2) 0 var(--sp-2) 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 3px; }
+.skill-why-reasons li { font-size: var(--fs-sm); line-height: 1.45; color: var(--text); }
+.skill-next {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px;
+  padding: var(--sp-2) var(--sp-3); background: var(--panel-2);
+  border-left: 3px solid var(--accent); border-radius: 0 var(--r-sm) var(--r-sm) 0; margin-bottom: var(--sp-2);
+}
+.skill-next-label { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--accent); font-weight: 600; }
+.skill-next-action { font-size: var(--fs-sm); font-weight: 600; }
+.skill-next-goal { font-size: var(--fs-xs); color: var(--muted); width: 100%; }

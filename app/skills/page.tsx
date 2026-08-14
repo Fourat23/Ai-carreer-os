@@ -4,6 +4,7 @@ import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack } from '@/lib/catalogue';
 import { skillStats } from '@/lib/skill-state';
+import { explainSkillState } from '@/lib/learning-experience';
 import SkillsBoard from './SkillsBoard';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +14,10 @@ export default function SkillsPage() {
   const progress = readProgress();
   const activeTrack = getTrack(getCatalogue(), getActiveTrackId());
   const rubric = getDocHtml('rubrics/skills-scorecard.md');
-  const stats = Object.fromEntries(skillStats(program, progress).map((s) => [s.id, s]));
+  const rawStats = skillStats(program, progress);
+  const stats = Object.fromEntries(rawStats.map((s) => [s.id, s]));
+  // « Pourquoi cet état ? » + prochaine action, dérivés du read-model pur (aucune vérité propre).
+  const explains = Object.fromEntries(rawStats.map((s) => [s.id, explainSkillState(s)]));
 
   return (
     <>
@@ -28,7 +32,7 @@ export default function SkillsPage() {
           </p>
         </div>
       </div>
-      <SkillsBoard skills={program.skills} initialScores={progress.skills} stats={stats} />
+      <SkillsBoard skills={program.skills} initialScores={progress.skills} stats={stats} explains={explains} />
       {rubric && (
         <details className="solution" style={{ marginTop: 24 }}>
           <summary>Voir la grille détaillée (que signifie chaque niveau)</summary>

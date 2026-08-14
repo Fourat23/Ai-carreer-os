@@ -1,0 +1,110 @@
+{
+  "sprint": "V39",
+  "rubricVersion": "1",
+  "note": "Registre d'audit pédagogique V39 : Mastery Engine RÉUTILISÉ (skill-state + review, aucun second moteur), couche d'ÉVALUATION diagnostique à taxonomie (RECALL→TRANSFER, correction déterministe), reliure leçon→diagnostic→remédiation. Les 4 leçons denses de V38 sont RE-AUDITÉES après reliure : verdict densité = KEEP (thèmes cohérents, complets ; async/distribués déjà à charge cognitive 3, approfondir l'augmenterait). Amélioration HONNÊTE de la dimension evaluation (3→4) : un diagnostic à taxonomie, avec transfert et diagnostic, est désormais relié + remédiation. distributed-systems-failures : retention 3→4 (rappel actif via diagnostic interleavé). autonomous-practice reste 3 (notation par modèle déterministe ; distribué SIMULÉ). Un score de diagnostic est un PROXY, jamais une preuve de maîtrise.",
+  "scanGlobs": [
+    "curriculum/lessons/*.md"
+  ],
+  "items": [
+    {
+      "id": "api-production-contracts",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/api-production-contracts.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 4,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 4,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 4,
+        "track-coherence": 4
+      },
+      "notes": "KEEP (densité). Diagnostic « HTTP et contrats d'API de production » relié (idempotence, pagination, rate limiting, versioning ; transfert vers une bibliothèque publique). Boucle évaluer→remédier fermée → evaluation 3→4, feedback 3→4."
+    },
+    {
+      "id": "async-messaging-queues",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/async-messaging-queues.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 4,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 4,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 4,
+        "track-coherence": 4
+      },
+      "notes": "KEEP (récit unique producteur→DLQ→ordering ; SPLIT injustifié). Diagnostic « Travail asynchrone : files, workers et DLQ » relié (idempotence, backoff, DLQ, backlog ; transfert restaurant). evaluation 3→4, feedback 3→4. Charge cognitive maintenue à 3 (dense, assumé)."
+    },
+    {
+      "id": "system-design-scaling",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/system-design-scaling.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 4,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 4,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 4,
+        "track-coherence": 4
+      },
+      "notes": "KEEP (échelle progressive débutant-first). Diagnostic « System Design : monter en charge » relié (vertical/horizontal, stateless, LB, SPOF, capacity ; transfert caisse de supermarché). evaluation 3→4, feedback 3→4."
+    },
+    {
+      "id": "distributed-systems-failures",
+      "kind": "content",
+      "sourcePath": "curriculum/lessons/distributed-systems-failures.md",
+      "recent": true,
+      "scores": {
+        "technical-accuracy": 4,
+        "objective": 4,
+        "prerequisites": 4,
+        "mental-model": 4,
+        "depth": 4,
+        "progression": 4,
+        "guided-example": 4,
+        "autonomous-practice": 3,
+        "feedback": 4,
+        "common-mistakes": 4,
+        "professional-relevance": 4,
+        "evaluation": 4,
+        "cognitive-load": 3,
+        "accessibility": 4,
+        "retention": 4,
+        "track-coherence": 4
+      },
+      "notes": "KEEP (niveau junior assumé). Diagnostic « Systèmes distribués : modes de panne » relié (eventual consistency, split-brain/quorum, CAP contextualisé, replication lag ; transfert agenda partagé). evaluation 3→4, feedback 3→4, retention 3→4 (rappel actif interleavé)."
+    }
+  ]
+}

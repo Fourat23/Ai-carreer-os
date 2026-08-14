@@ -26,7 +26,7 @@
     "v27:check": "node scripts/v27-check.mjs",
     "v28:check": "node scripts/v28-check.mjs",
     "v29:check": "node scripts/v29-check.mjs",
-    "gates:active": "npm run curriculum:check && npm run curriculum:depth-check && npm run glossary:check && npm run v18:check && npm run v20:pedagogy-check && npm run v26:check && npm run v27:check && npm run v28:check && npm run v29:check && npm run v30:check && npm run v31:check && npm run v32:check && npm run v33:check && npm run v34:check && npm run v35:check && npm run v36:check && npm run v37:check && npm run v38:check",
+    "gates:active": "npm run curriculum:check && npm run curriculum:depth-check && npm run glossary:check && npm run v18:check && npm run v20:pedagogy-check && npm run v26:check && npm run v27:check && npm run v28:check && npm run v29:check && npm run v30:check && npm run v31:check && npm run v32:check && npm run v33:check && npm run v34:check && npm run v35:check && npm run v36:check && npm run v37:check && npm run v38:check && npm run v39:check",
     "gates:historical": "node scripts/v17-coverage-check.mjs; node scripts/v19-coverage-check.mjs; node scripts/v21-check.mjs; node scripts/v22-check.mjs; node scripts/v23-check.mjs; node scripts/v24-check.mjs; node scripts/v25-check.mjs; true",
     "v30:check": "node scripts/v30-check.mjs",
     "v31:check": "node scripts/v31-check.mjs",
@@ -36,7 +36,8 @@
     "v35:check": "node scripts/v35-check.mjs",
     "v36:check": "node scripts/v36-check.mjs",
     "v37:check": "node scripts/v37-check.mjs",
-    "v38:check": "node scripts/v38-check.mjs"
+    "v38:check": "node scripts/v38-check.mjs",
+    "v39:check": "node scripts/v39-check.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",

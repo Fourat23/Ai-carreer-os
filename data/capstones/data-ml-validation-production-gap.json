@@ -1,0 +1,232 @@
+{
+  "id": "data-ml-validation-production-gap",
+  "title": "Un modèle excellent en validation, décevant en production",
+  "domain": "Data / ML",
+  "difficulty": 4,
+  "estimatedMinutes": 30,
+  "skills": ["ml", "evalia"],
+  "lessonRefs": ["model-evaluation", "feature-engineering", "machine-learning-basics", "monitoring-production"],
+  "exerciseRefs": ["ml-data-leakage", "ml-drift-detect", "ml-metric-choice", "ml-split-choice"],
+  "playbookRefs": ["ml-val-prod-gap", "ml-prediction-regression"],
+  "dayRefs": [],
+  "simulationNote": "SIMULATION intégrale : métriques, importances de variables et distributions sont factices. AUCUN modèle n'est entraîné, aucune donnée réelle traitée.",
+  "passThreshold": 0.7,
+  "context": "Tu es data scientist. Une équipe a mis en production un modèle qui prédit si une commande sera « retournée par le client » (pour anticiper la logistique). En validation hors ligne, le modèle est excellent. En production, il est à peine meilleur que le hasard. Personne ne comprend l'écart. Tous les artefacts sont SIMULÉS.",
+  "signal": "Rapport : « Le modèle atteint 0,96 d'AUC sur le jeu de validation, mais en production sur deux semaines, son AUC réelle est ~0,55. Les prédictions ne sont pas exploitables. » L'équipe a pourtant utilisé une métrique adaptée et un jeu de test séparé.",
+  "artifacts": [
+    { "id": "art-metrics", "kind": "metrics", "title": "Performance validation vs production (simulée)", "content": "Validation : AUC 0,96, précision/rappel élevés. Production (2 semaines, étiquettes réelles obtenues après coup) : AUC 0,55.", "useful": true },
+    { "id": "art-importance", "kind": "metrics", "title": "Importance des variables (simulée)", "content": "La variable « statut_remboursement » domine massivement l'importance (≈ 80 %). Les autres variables (montant, catégorie, historique client) contribuent peu.", "useful": true },
+    { "id": "art-feature", "kind": "log", "title": "Origine de la variable « statut_remboursement » (simulée)", "content": "Elle est renseignée par le système de SAV APRÈS qu'un retour a été traité. Au moment de la PRÉDICTION (à la commande), cette valeur n'existe pas encore (elle est vide/inconnue).", "useful": true },
+    { "id": "art-dist", "kind": "metrics", "title": "Distributions des variables d'entrée : train vs production (simulée)", "content": "Montant, catégorie, historique client : distributions quasi identiques entre entraînement et production. Pas de dérive détectable sur ces variables.", "useful": true },
+    { "id": "art-split", "kind": "log", "title": "Méthode de séparation (simulée)", "content": "Séparation train/validation aléatoire (stratifiée sur la cible). Aucune fuite évidente d'une ligne dupliquée entre train et validation.", "useful": true },
+    { "id": "art-balance", "kind": "metrics", "title": "Équilibre des classes (simulé)", "content": "Retours ≈ 18 % des commandes ; métrique AUC choisie justement pour tenir compte du déséquilibre.", "useful": false },
+    { "id": "art-infra", "kind": "config", "title": "Infra de service (simulée)", "content": "Latence de service du modèle stable ; pas d'erreur d'appel ; version du modèle correcte.", "useful": false }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Excellent en validation, nul en production. Quelles causes classiques envisager ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Hypothèses à investiguer :",
+          "options": [
+            "Une variable « fuit » l'information de la cible (disponible en entraînement, pas à la prédiction)",
+            "Les distributions ont dérivé entre entraînement et production",
+            "Le modèle est simplement en surapprentissage",
+            "Un problème d'infrastructure de service"
+          ],
+          "answer": [0, 1],
+          "explanation": "Écart massif val→prod : d'abord la fuite de données et la dérive. Le surapprentissage se verrait DÉJÀ en validation (ici la validation est excellente) ; l'infra est stable."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Quels artefacts confirment ou écartent chaque piste ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "La variable dominante est renseignée APRÈS l'événement à prédire. Qu'est-ce que cela signifie ?",
+          "options": [
+            "Elle n'est pas disponible au moment de la prédiction : elle donne à l'entraînement une information du futur",
+            "Elle est parfaitement légitime",
+            "Elle prouve une dérive de distribution",
+            "Elle indique un problème d'infrastructure"
+          ],
+          "answer": 0,
+          "explanation": "Une variable connue seulement APRÈS l'issue « fuit » la réponse pendant l'entraînement, mais est absente/vide à la prédiction réelle → excellent hors ligne, inutile en production."
+        },
+        {
+          "id": "i2",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Les distributions des autres variables sont stables train↔prod. Qu'écarte-t-on ?",
+          "options": [
+            "L'hypothèse de dérive (drift) des variables d'entrée",
+            "L'hypothèse de fuite de données",
+            "Le choix de la métrique",
+            "La méthode de séparation"
+          ],
+          "answer": 0,
+          "explanation": "Des distributions stables écartent la dérive comme cause principale. Reste la fuite via la variable post-événement."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Cause racine de l'écart validation↔production.",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "La cause la plus probable est :",
+          "options": [
+            "Une variable renseignée après l'issue fournit au modèle une information indisponible à la prédiction",
+            "Les variables d'entrée ont dérivé en production",
+            "La classe minoritaire fausse la métrique",
+            "Le service du modèle est trop lent"
+          ],
+          "answer": 0,
+          "explanation": "« statut_remboursement » domine (80 %) mais est renseignée APRÈS le retour : information du futur en entraînement, vide à la prédiction → 0,96 en validation, 0,55 en production. Distributions stables (pas de dérive), métrique adaptée (déséquilibre géré), infra saine."
+        },
+        {
+          "id": "d2",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Pourquoi la validation ne montrait-elle PAS le problème ?",
+          "options": [
+            "En validation, la variable fuitée était présente et corrélée à la cible ; le modèle s'appuyait dessus",
+            "Parce que la validation est toujours fausse",
+            "Parce que le jeu de validation était trop petit",
+            "Parce que le modèle mémorise le jeu de test"
+          ],
+          "answer": 0,
+          "explanation": "En hors ligne, la variable fuitée est disponible et quasi-déterministe de la cible : le modèle triche sans le savoir. En production, elle est absente → l'illusion s'effondre."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Que décides-tu pour ce modèle en production ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Décision responsable :",
+          "options": [
+            "Retirer le modèle de la décision automatique et le réentraîner SANS la variable fuitée (features disponibles à la prédiction seulement)",
+            "Le laisser en production, il finira par s'améliorer",
+            "Augmenter la taille du modèle",
+            "Changer la métrique pour masquer l'écart"
+          ],
+          "answer": 0,
+          "explanation": "Un modèle qui triche via une fuite n'est pas fiable : on le retire de la boucle de décision et on réentraîne uniquement avec des variables réellement disponibles au moment de la prédiction."
+        },
+        {
+          "id": "de2",
+          "taxonomy": "TRANSFER",
+          "kind": "mcq",
+          "prompt": "Généralisation : un système paraît parfait à l'évaluation puis échoue en conditions réelles. Quel réflexe adoptes-tu, au-delà du ML ?",
+          "options": [
+            "Vérifier que l'évaluation reproduit fidèlement les conditions réelles (mêmes informations disponibles, même temporalité)",
+            "Faire confiance au score d'évaluation",
+            "Refaire l'évaluation avec plus de données seulement",
+            "Supposer que la production est cassée"
+          ],
+          "answer": 0,
+          "explanation": "Un écart évaluation↔réel signale souvent une évaluation non représentative (information disponible en test mais pas en réel). Vrai au-delà du ML : tester dans des conditions fidèles au réel."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Correctif et prévention.",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Mesures retenues :",
+          "options": [
+            "Réentraîner sans les variables indisponibles à la prédiction",
+            "Construire un jeu d'évaluation « point-in-time » (uniquement l'information connue au moment de la prédiction)",
+            "Ajouter un contrôle qui interdit les variables calculées après l'issue",
+            "Garder la variable fuitée mais la pondérer moins"
+          ],
+          "answer": [0, 1, 2],
+          "explanation": "On retire les variables fuitées, on évalue en respectant la temporalité (point-in-time), et on ajoute un garde-fou anti-fuite. Pondérer une variable fuitée ne règle rien."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Comment prouver que le nouveau modèle est honnête ?",
+      "questions": [
+        {
+          "id": "va1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Preuves recherchées :",
+          "options": [
+            "L'écart entre performance hors ligne et performance réelle se réduit fortement",
+            "Aucune variable indisponible à la prédiction n'entre dans le modèle",
+            "L'importance des variables devient cohérente (plus de variable « magique » à 80 %)",
+            "L'AUC hors ligne remonte à 0,96 coûte que coûte"
+          ],
+          "answer": [0, 1, 2],
+          "explanation": "On veut un écart val↔prod faible, aucune variable fuitée, et des importances plausibles. Rechercher 0,96 à tout prix ramènerait la fuite : un score plus BAS mais HONNÊTE est préférable."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Compte rendu pour l'équipe data et le métier.",
+      "questions": [
+        {
+          "id": "co1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Le compte rendu doit contenir :",
+          "options": [
+            "La cause (fuite d'une variable post-événement) et pourquoi la validation ne la voyait pas",
+            "L'impact (décisions basées sur un modèle non fiable) et la mise en retrait",
+            "La prévention (évaluation point-in-time, garde-fou anti-fuite)",
+            "La promesse d'un modèle « parfait » pour rassurer le métier"
+          ],
+          "answer": [0, 1, 2],
+          "explanation": "Cause, impact honnête, prévention. Promettre un modèle parfait serait malhonnête : mieux vaut annoncer une performance réaliste et fiable."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "Un écart énorme entre validation (AUC 0,96) et production (AUC 0,55) alors que la validation méthodologique semble correcte oriente vers une FUITE DE DONNÉES. L'importance des variables est dominée à 80 % par « statut_remboursement », renseignée par le SAV APRÈS le retour : information du futur en entraînement, absente à la prédiction. Les distributions d'entrée sont stables (pas de dérive), la métrique tient compte du déséquilibre, l'infra est saine : ces pistes sont écartées. Correctif : retirer le modèle de la décision automatique, réentraîner sans les variables indisponibles à la prédiction, évaluer en « point-in-time », ajouter un garde-fou anti-fuite. Validation : écart val↔prod faible, importances plausibles. Un score plus bas mais honnête vaut mieux qu'un 0,96 trompeur.",
+    "keySignals": ["AUC 0,96 (val) vs 0,55 (prod)", "une variable domine à 80 % l'importance", "cette variable est renseignée après l'issue", "distributions d'entrée stables train↔prod"],
+    "redHerrings": ["déséquilibre des classes (métrique déjà adaptée)", "infrastructure de service (stable)", "surapprentissage (la validation serait déjà mauvaise)"],
+    "alternatives": ["Dérive de distribution : plausible en général mais écartée (distributions stables)", "Problème de métrique : écarté (AUC adaptée au déséquilibre)"],
+    "tradeoffs": ["Retirer le modèle maintenant (prudent) vs le garder en shadow mode", "Score hors ligne plus bas mais honnête vs score gonflé par la fuite"],
+    "conceptsMobilized": ["fuite de données (target leakage)", "disponibilité point-in-time des variables", "écart validation↔production", "dérive vs fuite", "choix de métrique et déséquilibre", "importance des variables"],
+    "commonMistakes": ["Chercher à retrouver l'AUC de 0,96 (réintroduit la fuite)", "Blâmer la dérive sans vérifier les distributions", "Confondre fuite et surapprentissage", "Laisser le modèle décider malgré l'écart"]
+  }
+}

@@ -193,7 +193,29 @@ python-foundations.
 **Limite déclarée** : `secu/cloud/archi/ml/rag/agents` n'ont pas reçu de nouveaux exercices de code
 (taxonomie, cf. §5) ; leurs leçons restent reliées à labs/assessments/capstones/défis de transfert.
 
-## 10. Verdict
+## 10. Recalibrage conservateur de la readiness (CP13, ADR-044 D7)
+
+Avant V44, 9 compétences atteignaient `strong-junior`, dont **secu, cloud, archi** — alors que leur
+autonomie/pratique venait UNIQUEMENT de labs SIMULÉS (aucun exercice de code exécutable). C'était une
+**surestimation** : un raisonnement simulé ne prouve pas une maîtrise de junior « fort ».
+
+**Correction** : `deriveReadiness` (lib/practice-coverage) exige désormais, pour `strong-junior`, une
+**autonomie EXÉCUTABLE** — au moins un exercice de code réel difficulté ≥ 3, pas seulement des labs.
+Résultat honnête :
+
+| Readiness | Avant | Après |
+|---|---|---|
+| strong-junior | 9 (dont secu/cloud/archi) | **6** (algo, ds, jsts, http, sql, se) |
+| junior-ready | 1 | **4** (gitlinux, archi, secu, cloud) |
+| guided | 1 | 1 (python) |
+| not-ready | 9 | 9 |
+
+Les 6 `strong-junior` restants sont TOUS adossés à des exercices de code exécutés ; secu/cloud/archi
+redescendent à `junior-ready` (labs + assessments + transferts réels, mais pas de code). Verrouillé
+par `tests/v44-readiness-recalibration`. La readiness reste affichée comme **PROXY structurel**, jamais
+« maîtrise professionnelle prouvée ».
+
+## 11. Verdict
 
 La pratique gagne en PROFONDEUR réelle (D4/D5 exécutables), en FEEDBACK (49 exercices reliés à des
 misconceptions), en TRANSFERT (17 défis cross-domain) et en LISIBILITÉ (ladders explicites). Les

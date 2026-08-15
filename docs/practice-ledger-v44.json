@@ -29,8 +29,8 @@
     }
   },
   "coverage": {
-    "withDiagnostic": 17,
-    "withMisconception": 9,
+    "withDiagnostic": 57,
+    "withMisconception": 49,
     "withTransfer": 234,
     "evidenceGenerable": 238
   },
@@ -330,9 +330,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "agent-loop-self-stops"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|escalate",
@@ -361,9 +363,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "agent-loop-self-stops"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L3",
       "dupSignature": "jsts|d3|shouldStop",
@@ -390,9 +394,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "agent-loop-self-stops"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|decide",
@@ -510,9 +516,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "more-alerts-is-better"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|isGoodAlert",
@@ -598,9 +606,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "offset-pagination-scales"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|choosePagination",
@@ -784,9 +794,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "auth-401-equals-403"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "http+jsts|d2|authStatus",
@@ -813,9 +825,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "additive-change-is-safe"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|classifyApiChange",
@@ -1215,9 +1229,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "breaker-equals-retry"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L3",
       "dupSignature": "jsts|d3|nextState",
@@ -1468,9 +1484,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "wildcard-is-convenient"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|excessActions",
@@ -1496,9 +1514,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "wildcard-is-convenient"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|hasWildcard",
@@ -1553,9 +1573,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "replicas-equals-ha"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|isMultiAz",
@@ -1609,9 +1631,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "more-alerts-is-better"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|missingSignals",
@@ -1833,9 +1857,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "backup-equals-recovery"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|meetsRpo",
@@ -1861,9 +1887,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "backup-equals-recovery"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L3",
       "dupSignature": "jsts|d3|rpoMet",
@@ -1889,9 +1917,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "scaling-adds-resources"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|scalingChoice",
@@ -1917,9 +1947,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "scaling-adds-resources"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|scalingKind",
@@ -2001,9 +2033,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "replicas-equals-ha"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|spofs",
@@ -2029,9 +2063,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "scaling-adds-resources"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|isRisky",
@@ -2258,9 +2294,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "replica-reads-are-fresh"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|classifyUpdate",
@@ -3187,9 +3225,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "more-alerts-is-better"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|severity",
@@ -3477,9 +3517,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "latest-tag-is-fine"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|pinned",
@@ -3680,9 +3722,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "replicas-equals-ha"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|haReplicas",
@@ -3708,9 +3752,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "replicas-equals-ha"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L3",
       "dupSignature": "jsts|d3|minAvailable",
@@ -3736,9 +3782,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "k8s-secret-encrypted"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L1",
       "dupSignature": "jsts|d1|placement",
@@ -4031,9 +4079,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "additive-change-is-safe"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|classifyMigration",
@@ -4091,9 +4141,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "leakage-is-rare"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|findLeakage",
@@ -4180,9 +4232,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "accuracy-is-enough"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts+python|d2|chooseMetric",
@@ -4209,9 +4263,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "overfit-equals-bad-data"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|diagnose",
@@ -4238,9 +4294,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "leakage-is-rare"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L1",
       "dupSignature": "jsts|d1|chooseSplit",
@@ -4476,9 +4534,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "injection-is-input-filtering"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|classifyInput",
@@ -4947,9 +5007,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "injection-is-input-filtering"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|validateExtraction",
@@ -4976,9 +5038,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "correlation-equals-causation"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|classify",
@@ -5562,9 +5626,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "replica-reads-are-fresh"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|readFreshness",
@@ -5621,9 +5687,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "breaker-equals-retry"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|shouldRetry",
@@ -5680,9 +5748,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "k8s-secret-encrypted"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L1",
       "dupSignature": "jsts|d1|isSensitive",
@@ -5736,9 +5806,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "latest-tag-is-fine"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|byDigest",
@@ -5766,9 +5838,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "wildcard-is-convenient"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L3",
       "dupSignature": "jsts|d3|extraPerms",
@@ -5794,9 +5868,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "latest-tag-is-fine"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L3",
       "dupSignature": "jsts|d3|changed",
@@ -5880,9 +5956,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "wildcard-is-convenient"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|hasWildcard",
@@ -6083,9 +6161,11 @@
         ]
       },
       "practiceType": "function",
-      "diagnostic": false,
+      "diagnostic": true,
       "transfer": true,
-      "misconception": [],
+      "misconception": [
+        "exit-output-equals-success"
+      ],
       "evidenceGenerable": true,
       "ladderPosition": "L2",
       "dupSignature": "jsts|d2|retryDecision",

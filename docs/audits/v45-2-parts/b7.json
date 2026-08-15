@@ -1,0 +1,798 @@
+{
+  "auditBatch": 7,
+  "range": "097-112",
+  "theme": "Conteneurs/Docker + CI/CD & livraison + Kubernetes + Cloud (intro)",
+  "generatedBy": "V45.2 lecture intégrale",
+  "lessons": [
+    {
+      "slug": "docker-images-layers",
+      "file": "curriculum/lessons/docker-images-layers.md",
+      "curriculumPosition": 97,
+      "wordCount": 1306,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Relie l'ordre des instructions au cache (copier package.json + npm ci AVANT le code) et le PROUVE par la mécanique des couches immuables.",
+        "Corrige une idée fausse coûteuse : supprimer un fichier dans une couche ultérieure ne réduit PAS l'image (il reste masqué dans la couche antérieure)."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire que 'latest' garantit la dernière version reproductible (tag mutable ; deux pull peuvent différer).",
+        "Croire qu'un rm réduit l'image alors que le fichier reste dans une couche antérieure."
+      ],
+      "professionalNotes": [
+        "Rappel d'exactitude : une image n'isole pas comme une VM, les conteneurs partagent le noyau (namespaces/cgroups, pas frontière OS)."
+      ],
+      "evidence": [
+        "Cas métier chiffré : image API de 1,2 Go (base généraliste + caches laissés) → base -slim + nettoyage dans le même RUN → 180 Mo, pulls et déploiements plus rapides.",
+        "Distinction tag/digest opérationnelle : 'docker pull node@sha256:<digest>' tire un contenu EXACT immuable, épinglé pour reproductibilité et sécurité."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "docker-build-dockerfile",
+      "file": "curriculum/lessons/docker-build-dockerfile.md",
+      "curriculumPosition": 98,
+      "wordCount": 1240,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Chaque paire d'instructions (COPY/ADD, CMD/ENTRYPOINT, ARG/ENV) est opposée sur un critère concret, pas juste définie.",
+        "Le Dockerfile multi-stage Node complet montre visiblement que l'image finale ne contient ni devDependencies, ni sources TS, ni cache de build."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Passer un secret via ARG/ENV en dur → il reste inscrit dans les couches, fuité avec l'image.",
+        "Utiliser la forme shell de CMD → mauvaise propagation des signaux, arrêt non gracieux (lien processus/signaux)."
+      ],
+      "professionalNotes": [
+        "Trois leviers cumulables énoncés : multi-stage + base minimale + utilisateur non-root ; secrets au run uniquement."
+      ],
+      "evidence": [
+        "ENTRYPOINT [\"node\"] + CMD [\"server.js\"] présenté avec la justification exec-form (réception correcte des signaux pour l'arrêt gracieux).",
+        "Exemple guidé 'réduire une image de moitié' : .dockerignore (node_modules/.git/.env) + multi-stage compilant dans build et copiant dist + npm ci --omit=dev."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "docker-networking-volumes",
+      "file": "curriculum/lessons/docker-networking-volumes.md",
+      "curriculumPosition": 99,
+      "wordCount": 1084,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Cible LA confusion débutant clé : localhost entre conteneurs désigne le conteneur courant, pas le voisin — on joint par nom de service + port interne.",
+        "Sépare port publié (accès externe) et port interne (entre conteneurs), volume géré (prod) vs bind mount (dev)."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Utiliser localhost entre conteneurs (échec systématique).",
+        "Oublier le volume → perte de données à chaque recréation du conteneur."
+      ],
+      "professionalNotes": [
+        "Réutilise le diagnostic 'par couches' (DNS interne → port → application) déjà enseigné en réseau."
+      ],
+      "evidence": [
+        "Repère précis : entre api et db l'URL est 'db:5432' (nom de service + port interne), JAMAIS localhost ; base tirée par 'db' via le DNS Docker intégré.",
+        "Cas métier : base PostgreSQL exposée par -p 5432:5432 'pour déboguer' → correction retirer la publication, garder la base sur le réseau interne appnet, passer sur volume nommé."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "docker-compose",
+      "file": "curriculum/lessons/docker-compose.md",
+      "curriculumPosition": 100,
+      "wordCount": 1040,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 3,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Distingue nettement 'démarré' de 'prêt' : depends_on garantit l'ordre, pas la disponibilité → healthcheck + condition: service_healthy.",
+        "Annonce honnêtement la limite (Compose = une machine) et le relais Kubernetes, tout en soulignant que le modèle déclaratif se transpose."
+      ],
+      "weaknesses": [
+        "Profils/surcharges survolés (suffisant pour le niveau mais moins développés que le reste)."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire que depends_on rend le service prêt (il gère l'ordre, pas la disponibilité).",
+        "Committer un .env avec de vrais secrets."
+      ],
+      "professionalNotes": [
+        "Valeurs de démo explicitement factices (POSTGRES_PASSWORD: exemple_factice_dev) — hygiène de secrets enseignée par l'exemple."
+      ],
+      "evidence": [
+        "compose.yaml complet : db avec healthcheck pg_isready + api avec depends_on condition: service_healthy → 'api ne démarre qu'une fois la base RÉELLEMENT prête'.",
+        "Exemple guidé 'app crashe au démarrage, base pas prête' identifié comme course au démarrage, résolu par healthcheck + condition, vérifié par down && up (volume nommé survit)."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "docker-production-hardening",
+      "file": "curriculum/lessons/docker-production-hardening.md",
+      "curriculumPosition": 101,
+      "wordCount": 1146,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 3,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 3,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Traite PID 1 et la propagation de SIGTERM — sujet subtil rarement expliqué aux débutants — avec une conséquence concrète (arrêt forcé, requêtes coupées).",
+        "Répète, sans complaisance, que AUCUN durcissement ne transforme un conteneur en frontière VM (noyau partagé) : honnêteté de sécurité soutenue."
+      ],
+      "weaknesses": [
+        "Densité élevée (non-root, minimal, read-only, limites, secrets, PID 1, scan) ; l'accessibilité débutant en pâtit un peu (beginner-accessibility à 3)."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Aucune limite mémoire/CPU → un conteneur affame l'hôte / OOMKilled surprise.",
+        "PID 1 qui ignore SIGTERM → arrêt non gracieux."
+      ],
+      "professionalNotes": [
+        "Relie l'OOMKilled du conteneur à l'OOM killer Linux et au right-sizing/FinOps ; --read-only + tmpfs pour un rootfs immuable."
+      ],
+      "evidence": [
+        "Commande cumulée illustrative : docker run --read-only --tmpfs /tmp --memory=512m --cpus=1 --user 1000:1000 --init, avec secret en 'exemple_factice'.",
+        "Cas métier : service 'instable' = conteneur root + sans limite mémoire (OOMKilled sous charge) + PID 1 en forme shell ignorant SIGTERM → correctifs limite mémoire + gestion signaux."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "ci-cd-pipeline-anatomy",
+      "file": "curriculum/lessons/ci-cd-pipeline-anatomy.md",
+      "curriculumPosition": 102,
+      "wordCount": 1184,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Distinction cache (accélération opportuniste, un manque ne casse pas) vs artefact (livrable du contrat) posée nettement avec les erreurs de confusion.",
+        "Le runner 'environnement propre' est présenté comme la réponse au 'ça marche chez moi', avec la conséquence 'rien ne persiste sans cache ni artefact'."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire qu'un job hérite de l'état d'un autre (chaque runner repart de zéro).",
+        "Mettre les vérifications lentes en premier (pas de fail fast)."
+      ],
+      "professionalNotes": [
+        "Fail fast (lint avant tests longs), matrice pour paralléliser, équilibre vitesse/coût — culture CI réaliste."
+      ],
+      "evidence": [
+        "Workflow YAML : job 'build' avec needs: test (ne construit que si les tests passent) et upload-artifact du dist/ — distinction needs/artefact démontrée.",
+        "Exemple guidé 'pipeline de 25 minutes' : durée par job → activer le cache des dépendances re-téléchargées, paralléliser lint/tests/build, passer par un artefact au lieu de reconstruire."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "ci-cd-quality-gates-artifacts",
+      "file": "curriculum/lessons/ci-cd-quality-gates-artifacts.md",
+      "curriculumPosition": 103,
+      "wordCount": 1222,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Énonce 'build once, deploy many' avec sa justification profonde : reconstruire par environnement casse la garantie que le binaire testé est celui déployé.",
+        "Nuance la couverture ('un signal, pas une religion') : elle mesure le code exécuté, pas la qualité des assertions ; 100 % ne prouve pas l'absence de bug."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Portes 'informatives' qu'on ignore → fausse assurance.",
+        "Reconstruire par environnement → l'objet en prod n'est pas celui testé."
+      ],
+      "professionalNotes": [
+        "Séparer config et artefact, promotion (avancer le même livrable, approbation manuelle possible pour la prod), traçabilité 'artefact 1.4.2 = commit abc123'."
+      ],
+      "evidence": [
+        "Extrait YAML : check-coverage.mjs --min 80 (échoue si < 80 % → BLOQUE) + docker build -t monapi:${{github.sha}} (version = hash de commit relie l'artefact au code).",
+        "Cas métier : reconstruction par environnement, prod échoue alors que staging vert (dépendance transitive changée entre deux builds) → build unique versionné promu tel quel."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "deployment-strategies",
+      "file": "curriculum/lessons/deployment-strategies.md",
+      "curriculumPosition": 104,
+      "wordCount": 1034,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Compare rolling/blue-green/canary/feature-flags par un critère décisionnel (risque, coût, besoin d'observabilité) plutôt qu'en catalogue.",
+        "Identifie 'le point qui casse les beaux plans' : les migrations pendant la cohabitation ancienne/nouvelle version, résolu par expand/contract."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Migration destructive déployée d'un bloc → casse l'ancienne version encore en service.",
+        "Canary sans observabilité → déploiement en aveugle, inutile."
+      ],
+      "professionalNotes": [
+        "Feature flags = activation découplée du déploiement, avec la dette assumée ('les flags s'accumulent → nettoyer')."
+      ],
+      "evidence": [
+        "Cas métier : colonne renommée et déployée dans le même coup → l'ancienne version cherche l'ancien nom pendant le rolling update → 500 ; adoption expand/contract (ajouter, écrire dans les deux, migrer, basculer la lecture, retirer).",
+        "Mini-exercice 'supprimer une colonne encore lue en prod' → expand/contract : déployer d'abord le code qui ne l'utilise plus, retirer la colonne SEULEMENT ensuite."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "release-incident-recovery",
+      "file": "curriculum/lessons/release-incident-recovery.md",
+      "curriculumPosition": 105,
+      "wordCount": 1031,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Fait dépendre le choix rollback/roll-forward/flag d'un critère unique et opérationnel : 'quelle action rétablit le plus vite avec le moins de risque ?'.",
+        "Explique pourquoi une migration destructive FERME la porte du rollback — cohérence forte avec deployment-strategies et postmortem-rca."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Tenter un rollback après une migration destructive → incompatibilité, aggravation.",
+        "Hotfix non reporté sur main → le bug revient à la release suivante."
+      ],
+      "professionalNotes": [
+        "Discipline hotfix : minimal, ciblé, hors cycle MAIS soumis aux portes essentielles et reporté sur main ; traçabilité 'qui a déclenché quoi' conservée même en urgence."
+      ],
+      "evidence": [
+        "Démarche en 5 étapes : détecter/confirmer → rétablir (rollback OU couper le flag OU roll-forward) → communiquer → stabiliser → post-mortem sans blâme.",
+        "Cas métier : release fait grimper les 500, artefacts versionnés, aucune migration destructive → rollback en 2 minutes ; post-mortem ajoute test de non-régression + porte qualité."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "k8s-why-architecture",
+      "file": "curriculum/lessons/k8s-why-architecture.md",
+      "curriculumPosition": 106,
+      "wordCount": 1135,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Place la boucle de réconciliation (désiré vs observé) au centre AVANT toute liste de composants — c'est le vrai modèle mental de K8s.",
+        "Le passage 'impératif → état désiré réconcilié' est explicitement nommé 'la clé de tout le reste' et relié à systemd/IaC."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Supprimer un Pod géré par un Deployment en pensant l'arrêter (le contrôleur le recrée).",
+        "Attendre de la 'magie' : sans ressources/probes correctes, K8s casse pareil, en plus distribué."
+      ],
+      "professionalNotes": [
+        "API server = porte unique à contrôler, etcd = source de vérité (secrets compris) à protéger ; mode pro déclaratif/versionné (GitOps)."
+      ],
+      "evidence": [
+        "Exemple guidé 'pourquoi mon Pod revient après suppression ?' : désiré 3 réplicas, observé tombe à 2, le contrôleur recrée → réduire = changer replicas: 2 dans la DÉCLARATION, pas tuer le Pod.",
+        "Enseigne à lire spec (désiré) ET status (observé) via kubectl get deploy -o yaml : 'lire les deux, c'est lire l'écart que la boucle cherche à combler'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "k8s-workloads",
+      "file": "curriculum/lessons/k8s-workloads.md",
+      "curriculumPosition": 107,
+      "wordCount": 1006,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Pose le Pod comme 'éphémère et jetable, nouvelle IP à la recréation' → 'on ne s'attache pas à un Pod précis', fondation de tout le raisonnement K8s.",
+        "L'exemple guidé 'choisir le bon workload' mappe 4 cas réels sur Deployment/StatefulSet/DaemonSet/Job|CronJob."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Traiter un Pod comme durable (il est jetable ; l'IP change).",
+        "Utiliser un Deployment pour une base qui a besoin d'identité/stockage stables (→ StatefulSet)."
+      ],
+      "professionalNotes": [
+        "Relie le rolling update du Deployment aux stratégies de déploiement CI/CD ; labels/selector cohérents comme condition du lien contrôleur↔Pods."
+      ],
+      "evidence": [
+        "Deployment YAML avec l'avertissement explicite 'labels du template doivent correspondre au selector' + image épinglée (pas latest) ; rollback via kubectl rollout undo deploy/monapi.",
+        "Cas métier : base déployée en Deployment → à chaque rolling update, Pods recréés avec nouvelles identités, stockage mélangé → StatefulSet requis."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "k8s-networking-services",
+      "file": "curriculum/lessons/k8s-networking-services.md",
+      "curriculumPosition": 108,
+      "wordCount": 1122,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Mappe Service = L4 (transport) et Ingress = L7 (application) directement sur la leçon réseau proxy/load-balancing — continuité conceptuelle explicite.",
+        "Le diagnostic 'un service ne répond pas' commence par kubectl get endpoints (vide = aucun Pod sain ne correspond au sélecteur), la vraie première question."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Sélecteur/labels qui ne correspondent pas → Service sans endpoints (silence).",
+        "Confondre port (du Service) et targetPort (du conteneur)."
+      ],
+      "professionalNotes": [
+        "Argumente contre un LoadBalancer par service (coûteux, L4) au profit d'un Ingress partagé (reverse proxy L7, TLS)."
+      ],
+      "evidence": [
+        "Service ClusterIP + Ingress YAML complet (host api.exemple.test, path /, backend service api port 80) ; app cliente joint http://api via le DNS interne.",
+        "Diagnostic chaîné : endpoints vides → vérifier labels vs sélecteur → Pods Ready (readiness) → DNS interne + targetPort correct."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "k8s-config-probes",
+      "file": "curriculum/lessons/k8s-config-probes.md",
+      "curriculumPosition": 109,
+      "wordCount": 1102,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Corrige frontalement une erreur d'exactitude répandue : un Secret K8s est base64 PAS chiffré par défaut, avec les vraies parades (chiffrement au repos etcd, RBAC, gestionnaire externe).",
+        "Distingue liveness (redémarre) / readiness (retire du trafic) / startup (délai au boot) avec les symptômes de confusion."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire qu'un Secret est chiffré (base64 par défaut).",
+        "Confondre liveness et readiness (redémarrer vs retirer du trafic)."
+      ],
+      "professionalNotes": [
+        "requests (le scheduler place) vs limits (plafond : mémoire dépassée → OOMKilled ; CPU dépassé → throttling) reliés à la stabilité ET au coût FinOps."
+      ],
+      "evidence": [
+        "Manifeste complet avec commentaire honnête 'secretRef: base64, PAS chiffré par défaut' + readiness/liveness sur /health et /alive + requests 128Mi/100m limits 256Mi/500m.",
+        "Exemple guidé discriminant : redémarrages en boucle (liveness trop agressive / startup manquante) vs 'pas de trafic' (readiness échoue → hors endpoints) vs OOMKilled (limit mémoire) vs Pending (requests trop hautes)."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "k8s-troubleshooting",
+      "file": "curriculum/lessons/k8s-troubleshooting.md",
+      "curriculumPosition": 110,
+      "wordCount": 1015,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Donne une démarche répétable (get → describe/events → logs --previous → remonter au bon objet) plutôt qu'une liste de symptômes isolés.",
+        "Chaque panne récurrente (ImagePullBackOff, CrashLoopBackOff, Pending, OOMKilled, Service sans endpoints) est associée à ses causes ET à l'outil qui les révèle."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Supprimer/relancer avant d'avoir LU les events et logs (on perd l'indice).",
+        "Prendre un Pending (placement) pour un crash applicatif."
+      ],
+      "professionalNotes": [
+        "Insiste 'ne pas casser en diagnostiquant' : supprimer un Pod le recrée et efface les indices → lire d'abord (describe, logs --previous), corriger la DÉCLARATION."
+      ],
+      "evidence": [
+        "Rôle précis de kubectl logs --previous souligné (les logs du conteneur qui vient de crasher) et de describe (events = pull/scheduling/probes, 'la mine d'or').",
+        "Cas métier : déploiement indisponible, ImagePullBackOff, describe révèle le tag 1.4.3 inexistant (typo) → correction en 2 minutes grâce aux events au lieu de tâtonner."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "k8s-security",
+      "file": "curriculum/lessons/k8s-security.md",
+      "curriculumPosition": 111,
+      "wordCount": 1031,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 3,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 3,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Nomme les fausses sécurités : un namespace n'est PAS une frontière forte à lui seul ; un Secret n'est PAS chiffré par défaut — honnêteté constante.",
+        "RBAC/NetworkPolicy/securityContext présentés comme défense en profondeur cumulée ('suppose qu'une couche peut tomber'), pas comme cases à cocher."
+      ],
+      "weaknesses": [
+        "Densité de contrôles (namespaces, RBAC, NetworkPolicy, securityContext, secrets, supply chain) élevée pour une seule leçon."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Donner cluster-admin par facilité (compromis = total).",
+        "Aucune NetworkPolicy → un Pod compromis atteint tout le cluster."
+      ],
+      "professionalNotes": [
+        "Reprend le durcissement Docker en version déclarative (runAsNonRoot, readOnlyRootFilesystem, drop ALL capabilities, allowPrivilegeEscalation: false)."
+      ],
+      "evidence": [
+        "securityContext YAML durci : runAsNonRoot + runAsUser 1000 + readOnlyRootFilesystem + capabilities drop ALL + image@sha256 digest épinglé.",
+        "NetworkPolicy illustrée par une règle concrète 'seuls les Pods app: api peuvent joindre la base sur le port 5432', avec la mise en garde 'nécessite un plugin réseau qui l'implémente'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "cloud-fundamentals",
+      "file": "curriculum/lessons/cloud-fundamentals.md",
+      "curriculumPosition": 112,
+      "wordCount": 1129,
+      "fullRead": true,
+      "auditBatch": 7,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "IaaS/PaaS/SaaS présentés comme un curseur unique de responsabilité ('je gère presque tout' → 'je ne gère rien'), plus mémorable qu'une liste.",
+        "Le modèle de responsabilité partagée est énoncé avec sa conséquence concrète : une base exposée par mauvaise config est la responsabilité du CLIENT."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire que 'le cloud sécurise tout' (responsabilité PARTAGÉE : données/accès restent à vous).",
+        "Déployer sur une seule AZ et s'étonner d'une panne totale."
+      ],
+      "professionalNotes": [
+        "Vendor lock-in explicitement à peser ; 'préférer le managé pour ne pas réinventer, tout en connaissant les concepts sous-jacents pour rester lucide et portable' — posture du parcours."
+      ],
+      "evidence": [
+        "Distinction opérationnelle région (géographie, latence, conformité) vs zone de disponibilité (centres isolés proches) : multi-AZ pour la HA, multi-région pour proximité/reprise.",
+        "Cas métier : startup sur une seule VM dans une seule AZ → panne du centre = service à terre plusieurs heures → migration service managé multi-AZ derrière équilibreur ('la disponibilité change de catégorie')."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    }
+  ]
+}

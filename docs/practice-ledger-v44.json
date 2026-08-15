@@ -1,0 +1,7364 @@
+{
+  "generatedAt": "V44-CP3",
+  "total": 238,
+  "distributions": {
+    "runtime": {
+      "node-js": 187,
+      "typescript": 16,
+      "python3": 9,
+      "react-tsx": 15,
+      "web": 11
+    },
+    "difficulty": {
+      "1": 21,
+      "2": 142,
+      "3": 69,
+      "4": 6
+    },
+    "ladderPosition": {
+      "L2": 137,
+      "L3": 66,
+      "L4": 14,
+      "L1": 21
+    },
+    "practiceType": {
+      "function": 206,
+      "debug": 10,
+      "component": 13,
+      "web-dom": 9
+    }
+  },
+  "coverage": {
+    "withDiagnostic": 17,
+    "withMisconception": 9,
+    "withTransfer": 234,
+    "evidenceGenerable": 238
+  },
+  "anomalies": {
+    "total": 24,
+    "byType": {
+      "no-private-test": 24
+    },
+    "exercises": [
+      {
+        "id": "array-sum-even",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "async-sum",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "async-user-lookup",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "fizzbuzz",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "greeting",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "k8s-needs-probe",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "k8s-probe-role",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "k8s-recovery-decision",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "k8s-statefulset-pvc",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "py-debug-grades",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "py-list-sum",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "py-report",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "py-temperature",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "py-word-count",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "sec-blast-radius",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "sec-image-digest",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "sec-networkpolicy-open",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "sec-remediation-order",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "sec-sbom-added",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "ts-async-double",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "ts-fizzbuzz",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "ts-greeter",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "validate-user",
+        "anomalies": [
+          "no-private-test"
+        ]
+      },
+      {
+        "id": "word-frequencies",
+        "anomalies": [
+          "no-private-test"
+        ]
+      }
+    ]
+  },
+  "reviewFlags": {
+    "total": 5,
+    "byType": {
+      "float-expected": 6
+    },
+    "exercises": [
+      {
+        "id": "debt-legacy-refactor",
+        "reviewFlags": [
+          "float-expected:t5",
+          "float-expected:t6"
+        ]
+      },
+      {
+        "id": "py-exceptions",
+        "reviewFlags": [
+          "float-expected:t1"
+        ]
+      },
+      {
+        "id": "py-safe-divide",
+        "reviewFlags": [
+          "float-expected:t3"
+        ]
+      },
+      {
+        "id": "slo-burn-rate",
+        "reviewFlags": [
+          "float-expected:t3"
+        ]
+      },
+      {
+        "id": "ts-union-area",
+        "reviewFlags": [
+          "float-expected:t3"
+        ]
+      }
+    ]
+  },
+  "potentialDuplicates": [
+    {
+      "signature": "jsts|d1|component",
+      "ids": [
+        "react-avatar",
+        "react-greeting",
+        "react-hello"
+      ]
+    },
+    {
+      "signature": "jsts|d2|component",
+      "ids": [
+        "react-badge-list",
+        "react-conditional",
+        "react-counter",
+        "react-list",
+        "react-parent-child",
+        "react-toggle"
+      ]
+    },
+    {
+      "signature": "jsts|d2|debug",
+      "ids": [
+        "react-debug-greeting",
+        "react-debug-list",
+        "web-debug-selector",
+        "web-debug-toggle"
+      ]
+    },
+    {
+      "signature": "jsts|d3|component",
+      "ids": [
+        "react-form-name",
+        "react-lift-state",
+        "react-profile",
+        "react-search"
+      ]
+    },
+    {
+      "signature": "jsts|d1|web-dom",
+      "ids": [
+        "web-card",
+        "web-log-init",
+        "web-semantic"
+      ]
+    },
+    {
+      "signature": "jsts|d2|web-dom",
+      "ids": [
+        "web-counter",
+        "web-greeting-form",
+        "web-inline-style",
+        "web-nav"
+      ]
+    }
+  ],
+  "ledger": [
+    {
+      "id": "a11y-accessible-name",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "accessibility"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|accessibleName",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "agent-hitl-decision",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|escalate",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "agent-loop-detect",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays",
+        "loops",
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|shouldStop",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "agent-retry-policy",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|decide",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "agent-state-transition",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "objects",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|nextState",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "agent-tool-select",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions",
+        "arrays",
+        "hof"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|selectTool",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "agent-tool-validate",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "objects",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|validateArgs",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "alert-actionable",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "objects"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|isGoodAlert",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "algo-binary-search",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "algo",
+        "search"
+      ],
+      "programSkills": [
+        "algo"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "algo|d2|binarySearch",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "algo-two-sum",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "algo",
+        "hashmap"
+      ],
+      "programSkills": [
+        "algo",
+        "ds"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "algo+ds|d2|twoSum",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "api-pagination-choice",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|choosePagination",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "api-router",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "http",
+        "node"
+      ],
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 4,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "http+jsts|d3|matchRoute",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "array-sum-even",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "javascript",
+        "algo"
+      ],
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 4,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "algo+jsts|d2|sumEven",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "async-sum",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "javascript",
+        "node"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|sumAsync",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "async-user-lookup",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "javascript",
+        "node"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|fetchUserName",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "attention-argmax",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays",
+        "loops",
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|mostAttended",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "auth-status-decision",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions",
+        "http"
+      ],
+      "programSkills": [
+        "jsts",
+        "http"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "http+jsts|d2|authStatus",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "breaking-change-classify",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|classifyApiChange",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "capacity-estimate",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|instancesNeeded",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-branch-policy",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|canMerge",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-cache-key",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "hashmap"
+      ],
+      "programSkills": [
+        "ds"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "ds|d3|cacheHit",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-critical-path",
+      "runtime": "node-js",
+      "difficulty": 4,
+      "skills": [
+        "algo"
+      ],
+      "programSkills": [
+        "algo"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "algo|d4|criticalPath",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-detect-cycle",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "algo",
+        "debugging"
+      ],
+      "programSkills": [
+        "algo",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "algo+jsts|d3|hasCycle",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-env-promotion",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|canPromote",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-fail-fast",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|failFast",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-global-status",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|globalStatus",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-mask-secrets",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "git",
+        "functions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|maskLog",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-missing-deps",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays",
+        "debugging"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|missingDeps",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-stale-artifact",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "data"
+      ],
+      "programSkills": [
+        "jsts",
+        "python"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts+python|d2|isStale",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-topo-order",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "algo"
+      ],
+      "programSkills": [
+        "algo"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "algo|d3|topoOrder",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cicd-trigger-should-run",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "git",
+        "conditions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|shouldRun",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "circuit-breaker-state",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|nextState",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-blast-radius",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|blastRadius",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "cloud-cidr-overlap",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "algo"
+      ],
+      "programSkills": [
+        "algo"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "algo|d2|cidrOverlap",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-classify-tier",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|tier",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-compute-choice",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|computeChoice",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-deploy-strategy",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|strategy",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-detect-spof",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "hashmap"
+      ],
+      "programSkills": [
+        "ds"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "ds|d3|spofKinds",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-error-budget",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|remainingBudget",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-iam-credential-choice",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|credentialType",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-iam-excess-actions",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|excessActions",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-iam-wildcard",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|hasWildcard",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "cloud-monthly-cost",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|monthlyCost",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-multi-az",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 1,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|isMultiAz",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-multi-zone",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|isMultiZone",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-observability-gap",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|missingSignals",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-prod-ready",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|prodReady",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-provider-map",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "hashmap"
+      ],
+      "programSkills": [
+        "ds"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "ds|d2|awsToAzure",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-public-exposure",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|exposedDbs",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-readiness-routing",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|routable",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-replica-count",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|replicas",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-rightsizing-savings",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 1,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|savings",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-rollback-decision",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|decide",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-rpo-meets",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|meetsRpo",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-rpo-met",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|rpoMet",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-scaling-choice",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|scalingChoice",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-scaling-kind",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 1,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|scalingKind",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-service-model",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|serviceModel",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-sg-port-range",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|portAllowed",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-spof-detect",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|spofs",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-stateful-autoscale",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|isRisky",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-storage-class",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|storageClass",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "cloud-subnet-visibility",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|subnetKind",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "compose-depends-ready",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "objects"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|startupSafe",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "css-box-size",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "css"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|renderedWidth",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "css-specificity-order",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "css"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|winningColor",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "data-missing-strategy",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|chooseMissingStrategy",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "data-quality-detect",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions",
+        "objects"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|dataIssue",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "db-concurrency-risk",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|classifyUpdate",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "debt-audit",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions",
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 6,
+        "public": 3,
+        "private": 3,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|prioritizeDebt",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "debt-legacy-refactor",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "functions",
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 6,
+        "public": 4,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|priceCart",
+      "anomalies": [],
+      "reviewFlags": [
+        "float-expected:t5",
+        "float-expected:t6"
+      ]
+    },
+    {
+      "id": "debug-cart",
+      "runtime": "node-js",
+      "difficulty": 4,
+      "skills": [
+        "javascript",
+        "algo",
+        "testing"
+      ],
+      "programSkills": [
+        "jsts",
+        "algo",
+        "se"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "algo+jsts+se|d4|cartTotal",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "dlq-routing",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [
+        "retry-equals-idempotence"
+      ],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|route",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "dns-record-type-choice",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "http",
+        "objects"
+      ],
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 2,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "http+jsts|d2|recordType",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "dns-ttl-still-cached",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "http",
+        "conditions"
+      ],
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "http+jsts|d2|stillCached",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-cmd-entrypoint",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "conditions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|classifyForm",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-detect-root",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "conditions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|runsAsRoot",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-detect-secret",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "linux",
+        "debugging"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "gitlinux+jsts|d3|findSecretLeaks",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-dockerignore",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|keptFiles",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-exit-diagnosis",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "debugging",
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|diagnose",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-image-size",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "functions",
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|imageSize",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-instruction-order",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "linux",
+        "arrays"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "gitlinux+jsts|d3|optimalOrder",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-layer-cache",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "linux",
+        "algo"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "algo"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "algo+gitlinux|d3|firstInvalidated",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-port-mapping",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "arrays"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|hostPortFor",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "docker-tag-vs-digest",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "conditions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|isReproducible",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "dom-event-delegation",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "dom"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|delegatedMatch",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ds-stack",
+      "runtime": "typescript",
+      "difficulty": 2,
+      "skills": [
+        "ds",
+        "stack",
+        "typescript"
+      ],
+      "programSkills": [
+        "ds",
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "ds+jsts|d2|runStack",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "etl-pipeline-order",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays",
+        "functions",
+        "hof"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 1,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|orderPipeline",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "fix-nplus1",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "hashmap",
+        "arrays"
+      ],
+      "programSkills": [
+        "ds",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [
+        "index-speeds-everything"
+      ],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "ds+jsts|d2|joinLoans",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "fizzbuzz",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "javascript",
+        "algo"
+      ],
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 5,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "algo+jsts|d1|fizzbuzz",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "frontend-layout-choice",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "css"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|chooseLayout",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "frontend-rendering-choice",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|chooseRendering",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "git-commit-grouping",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "arrays",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|commitCount",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "greeting",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "javascript",
+        "linux"
+      ],
+      "programSkills": [
+        "jsts",
+        "gitlinux"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 2,
+        "private": 0,
+        "kinds": [
+          "stdout-equals",
+          "stdout-contains"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "gitlinux+jsts|d1|function",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "http-method-idempotent",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "http",
+        "arrays"
+      ],
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "http+jsts|d2|isIdempotent",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "http-status",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "http",
+        "node"
+      ],
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "http+jsts|d2|statusInfo",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "iac-idempotent-changes",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "objects",
+        "hashmap"
+      ],
+      "programSkills": [
+        "jsts",
+        "ds"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "ds+jsts|d3|plannedChanges",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "iac-plan-destructive",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions",
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|isDestructive",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "incident-health-rollup",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 6,
+        "public": 3,
+        "private": 3,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|aggregateHealth",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "incident-severity",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|severity",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "js-array-objects",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "javascript",
+        "arrays",
+        "objects"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|topScorer",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "js-conditions",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "javascript",
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|categorize",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "js-even-squares",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "javascript",
+        "arrays",
+        "hof"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|evenSquares",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "js-initials",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "javascript",
+        "functions",
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|initials",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "js-loops",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "javascript",
+        "loops"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|sumTo",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "js-pipeline",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "javascript",
+        "hof",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|runPipeline",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-choose-workload",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|chooseWorkload",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-config-drift",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|drift",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-count-kinds",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "hashmap"
+      ],
+      "programSkills": [
+        "ds"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "ds|d1|countKinds",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-image-pinned",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|pinned",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-ingress-backends",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|brokenBackends",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-needs-probe",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|needsReadiness",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-oom-risk",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|oomRisk",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-pod-phase",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|phase",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-probe-role",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|probeFor",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-recovery-decision",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|recover",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "k8s-replicas-ha",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|haReplicas",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-rolling-available",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|minAvailable",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-secret-placement",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|placement",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-selector-match",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|matches",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-service-endpoints",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|endpoints",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "k8s-statefulset-pvc",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|needsPvc",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "latency-percentiles",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [
+        "percentile-equals-mean"
+      ],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|percentiles",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "linux-fd-ulimit",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "conditions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|exceedsUlimit",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "linux-path-traversal-x",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "arrays"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|canReach",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "linux-signal-choice",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "functions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|signalFor",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "llm-context-budget",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "functions",
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|answerBudget",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "llm-cost-estimate",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions",
+        "objects",
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|estimateCents",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "migration-compat",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|classifyMigration",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ml-confusion-metric",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions",
+        "objects"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|metrics",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ml-data-leakage",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions",
+        "arrays",
+        "hof"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|findLeakage",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ml-drift-detect",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|detectDrift",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ml-feature-encoding",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|chooseEncoding",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ml-metric-choice",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions",
+        "data"
+      ],
+      "programSkills": [
+        "jsts",
+        "python"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts+python|d2|chooseMetric",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ml-overfit-diagnose",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|diagnose",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ml-split-choice",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 1,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|chooseSplit",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "net-dns-resolve",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "hashmap",
+        "recursion"
+      ],
+      "programSkills": [
+        "ds",
+        "algo"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "algo+ds|d3|resolve",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "net-first-failure",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "debugging",
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|firstFailure",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "net-http-status-class",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "http",
+        "conditions"
+      ],
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "tests": {
+        "total": 6,
+        "public": 4,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "http+jsts|d1|statusClass",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "net-layer-classify",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "http",
+        "conditions"
+      ],
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "tests": {
+        "total": 6,
+        "public": 4,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "http+jsts|d3|classify",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "nn-forward-neuron",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays",
+        "loops",
+        "functions",
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 2,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|forward",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "perf-budget",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions",
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 6,
+        "public": 3,
+        "private": 3,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|regressionVerdict",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "perf-pair-count",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "hashmap",
+        "algo"
+      ],
+      "programSkills": [
+        "ds",
+        "algo"
+      ],
+      "tests": {
+        "total": 6,
+        "public": 3,
+        "private": 3,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "algo+ds|d3|countPairsWithSum",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "prompt-injection-classify",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|classifyInput",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "py-debug-average",
+      "runtime": "python3",
+      "difficulty": 4,
+      "skills": [
+        "python",
+        "algo",
+        "testing"
+      ],
+      "programSkills": [
+        "python",
+        "algo",
+        "se"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "algo+python+se|d4|average",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "py-debug-grades",
+      "runtime": "python3",
+      "difficulty": 3,
+      "skills": [
+        "python",
+        "algo"
+      ],
+      "programSkills": [
+        "python",
+        "algo"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 4,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "algo+python|d3|to_letter",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "py-exceptions",
+      "runtime": "python3",
+      "difficulty": 2,
+      "skills": [
+        "python",
+        "errors"
+      ],
+      "programSkills": [
+        "python",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts+python|d2|parse_ratio",
+      "anomalies": [],
+      "reviewFlags": [
+        "float-expected:t1"
+      ]
+    },
+    {
+      "id": "py-list-sum",
+      "runtime": "python3",
+      "difficulty": 2,
+      "skills": [
+        "python",
+        "algo"
+      ],
+      "programSkills": [
+        "python",
+        "algo"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "algo+python|d2|sum_positive",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "py-report",
+      "runtime": "python3",
+      "difficulty": 3,
+      "skills": [
+        "python",
+        "data"
+      ],
+      "programSkills": [
+        "python"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 2,
+        "private": 0,
+        "kinds": [
+          "stdout-equals",
+          "stdout-contains"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": false,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "python|d3|function",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "py-safe-divide",
+      "runtime": "python3",
+      "difficulty": 2,
+      "skills": [
+        "python"
+      ],
+      "programSkills": [
+        "python"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": false,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "python|d2|safe_div",
+      "anomalies": [],
+      "reviewFlags": [
+        "float-expected:t3"
+      ]
+    },
+    {
+      "id": "py-slugify",
+      "runtime": "python3",
+      "difficulty": 2,
+      "skills": [
+        "python"
+      ],
+      "programSkills": [
+        "python"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": false,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "python|d2|slugify",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "py-temperature",
+      "runtime": "python3",
+      "difficulty": 1,
+      "skills": [
+        "python",
+        "algo"
+      ],
+      "programSkills": [
+        "python",
+        "algo"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 4,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "algo+python|d1|celsius_to_label",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "py-word-count",
+      "runtime": "python3",
+      "difficulty": 3,
+      "skills": [
+        "python",
+        "algo"
+      ],
+      "programSkills": [
+        "python",
+        "algo"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "algo+python|d3|word_count",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "queue-idempotent-consumer",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays",
+        "hashmap"
+      ],
+      "programSkills": [
+        "jsts",
+        "ds"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [
+        "retry-equals-idempotence"
+      ],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "ds+jsts|d3|applyOnce",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "rag-chunking-overlap",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays",
+        "loops",
+        "functions",
+        "algo"
+      ],
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 2,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "algo+jsts|d2|chunkWindows",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "rag-cosine-rank",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays",
+        "hof",
+        "functions",
+        "algo"
+      ],
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "algo+jsts|d3|rankByCosine",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "rag-failure-locate",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [
+        "retrieval-equals-generation"
+      ],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|locateFailure",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "rag-rrf-fusion",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays",
+        "hof",
+        "objects",
+        "algo"
+      ],
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "algo+jsts|d3|fuse",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "rag-structured-validate",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "objects",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|validateExtraction",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "rca-classify-cause",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|classify",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "react-avatar",
+      "runtime": "react-tsx",
+      "difficulty": 1,
+      "skills": [
+        "react",
+        "jsx",
+        "props",
+        "accessibility"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "selector-exists",
+          "attribute-equals",
+          "accessible-name-equals"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-badge-list",
+      "runtime": "react-tsx",
+      "difficulty": 2,
+      "skills": [
+        "react",
+        "jsx",
+        "props",
+        "components"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "element-count",
+          "list-content"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-conditional",
+      "runtime": "react-tsx",
+      "difficulty": 2,
+      "skills": [
+        "react",
+        "jsx",
+        "props"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "conditional-visible",
+          "text-contains",
+          "element-count"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-counter",
+      "runtime": "react-tsx",
+      "difficulty": 2,
+      "skills": [
+        "react",
+        "state",
+        "events",
+        "hooks"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "text-contains",
+          "accessible-role-exists",
+          "component-renders"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-debug-greeting",
+      "runtime": "react-tsx",
+      "difficulty": 2,
+      "skills": [
+        "react",
+        "jsx",
+        "props"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 1,
+        "public": 1,
+        "private": 0,
+        "kinds": [
+          "text-contains"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [
+        "useeffect-is-lifecycle"
+      ],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d2|debug",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-debug-list",
+      "runtime": "react-tsx",
+      "difficulty": 2,
+      "skills": [
+        "react",
+        "jsx",
+        "components"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 1,
+        "private": 1,
+        "kinds": [
+          "list-content",
+          "element-count"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [
+        "useeffect-is-lifecycle"
+      ],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d2|debug",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-form-name",
+      "runtime": "react-tsx",
+      "difficulty": 3,
+      "skills": [
+        "react",
+        "state",
+        "forms",
+        "events",
+        "hooks"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "attribute-equals",
+          "text-contains"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-greeting",
+      "runtime": "react-tsx",
+      "difficulty": 1,
+      "skills": [
+        "react",
+        "jsx",
+        "props"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "selector-exists",
+          "text-contains"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-hello",
+      "runtime": "react-tsx",
+      "difficulty": 1,
+      "skills": [
+        "react",
+        "jsx"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 2,
+        "private": 0,
+        "kinds": [
+          "selector-exists",
+          "text-contains"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-lift-state",
+      "runtime": "react-tsx",
+      "difficulty": 3,
+      "skills": [
+        "react",
+        "state",
+        "lifting-state",
+        "components",
+        "props"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "text-contains",
+          "element-count"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-list",
+      "runtime": "react-tsx",
+      "difficulty": 2,
+      "skills": [
+        "react",
+        "jsx",
+        "components",
+        "props"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "selector-exists",
+          "element-count",
+          "list-content"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-parent-child",
+      "runtime": "react-tsx",
+      "difficulty": 2,
+      "skills": [
+        "react",
+        "components",
+        "props",
+        "events"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "element-count",
+          "list-content",
+          "accessible-role-exists"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-profile",
+      "runtime": "react-tsx",
+      "difficulty": 3,
+      "skills": [
+        "react",
+        "components",
+        "props",
+        "accessibility"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "selector-exists",
+          "accessible-name-equals",
+          "text-contains",
+          "element-count"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-reducer-actions",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|reducer",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "react-search",
+      "runtime": "react-tsx",
+      "difficulty": 3,
+      "skills": [
+        "react",
+        "components",
+        "forms",
+        "props"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "element-count",
+          "list-content"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "react-toggle",
+      "runtime": "react-tsx",
+      "difficulty": 2,
+      "skills": [
+        "react",
+        "state",
+        "events",
+        "hooks"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 2,
+        "private": 0,
+        "kinds": [
+          "text-contains"
+        ]
+      },
+      "practiceType": "component",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|component",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "refactor-legacy",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions",
+        "purity"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 6,
+        "public": 3,
+        "private": 3,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|slugify",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "replication-lag-reason",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|readFreshness",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "retry-backoff-delay",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [
+        "retry-equals-idempotence"
+      ],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|backoffDelay",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "retry-should",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|shouldRetry",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-blast-radius",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "debugging"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|blastRadius",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "sec-classify-sensitive",
+      "runtime": "node-js",
+      "difficulty": 1,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|isSensitive",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-cve-affected",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|affected",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-image-digest",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|byDigest",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-least-privilege",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|extraPerms",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-lockfile-diff",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "debugging"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|changed",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-mask-secrets",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "git"
+      ],
+      "programSkills": [
+        "gitlinux"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": false,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux|d2|redact",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-networkpolicy-open",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|isOpen",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-rbac-wildcard",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|hasWildcard",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "sec-recovery-decision",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|recover",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "sec-remediation-order",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|ordered",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-sbom-added",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|added",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-secret-response-order",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|nextStep",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-securitycontext",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|isHardened",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sec-typosquat",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "algo"
+      ],
+      "programSkills": [
+        "algo"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "algo|d3|isTyposquat",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sh-exit-retry",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "conditions",
+        "errors"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|retryDecision",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sh-pipeline-run",
+      "runtime": "node-js",
+      "difficulty": 4,
+      "skills": [
+        "arrays",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d4|runPipeline",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "slo-burn-rate",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "functions",
+        "conditions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|burnRate",
+      "anomalies": [],
+      "reviewFlags": [
+        "float-expected:t3"
+      ]
+    },
+    {
+      "id": "sql-inner-join",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays",
+        "hashmap",
+        "objects"
+      ],
+      "programSkills": [
+        "jsts",
+        "ds"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [
+        "index-speeds-everything"
+      ],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "ds+jsts|d2|innerJoin",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ssh-key-perms-accepted",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "conditions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 2,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|keyAccepted",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sys-log-level-counts",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "hashmap",
+        "data"
+      ],
+      "programSkills": [
+        "ds",
+        "python"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "ds+python|d3|countByLevel",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sys-perms-to-octal",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "functions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|toOctal",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sys-perms-to-symbolic",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "functions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|toSymbolic",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sys-port-listener",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "arrays"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|whoListens",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sys-process-top-cpu",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "arrays",
+        "objects"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|topByCpu",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "sys-umask-apply",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "linux",
+        "functions"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "gitlinux+jsts|d3|applyUmask",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "system-design-diagnose",
+      "runtime": "node-js",
+      "difficulty": 4,
+      "skills": [
+        "conditions",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 7,
+        "public": 4,
+        "private": 3,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d4|diagnose",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "systemd-restart-loop",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "linux",
+        "arrays"
+      ],
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "gitlinux+jsts|d2|crashLooping",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "table-groupby",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "arrays",
+        "objects",
+        "loops",
+        "functions"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 1,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|groupCount",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "tls-cert-usable",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "http",
+        "conditions"
+      ],
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "http+jsts|d3|certUsable",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-async-double",
+      "runtime": "typescript",
+      "difficulty": 2,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|doubleLater",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-async-fetch-user",
+      "runtime": "typescript",
+      "difficulty": 3,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|userName",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "ts-debug-discount",
+      "runtime": "typescript",
+      "difficulty": 2,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d2|finalPrice",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-debug-filter-strings",
+      "runtime": "typescript",
+      "difficulty": 3,
+      "skills": [
+        "typescript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d3|onlyStrings",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-debug-positives",
+      "runtime": "typescript",
+      "difficulty": 3,
+      "skills": [
+        "typescript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d3|countPositives",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-fizzbuzz",
+      "runtime": "typescript",
+      "difficulty": 2,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 4,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|fizzbuzz",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-frontend-guard",
+      "runtime": "typescript",
+      "difficulty": 3,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 3,
+        "private": 2,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|userName",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "ts-generic-first",
+      "runtime": "typescript",
+      "difficulty": 3,
+      "skills": [
+        "typescript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|first",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-greeter",
+      "runtime": "typescript",
+      "difficulty": 1,
+      "skills": [
+        "typescript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 2,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|greet",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-interface-cart",
+      "runtime": "typescript",
+      "difficulty": 4,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d4|totalWithTax",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-inventory",
+      "runtime": "typescript",
+      "difficulty": 3,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|totalValue",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-pluck",
+      "runtime": "typescript",
+      "difficulty": 3,
+      "skills": [
+        "typescript",
+        "arrays",
+        "purity"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|pluck",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-typed-average",
+      "runtime": "typescript",
+      "difficulty": 2,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|average",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "ts-union-area",
+      "runtime": "typescript",
+      "difficulty": 3,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|area",
+      "anomalies": [],
+      "reviewFlags": [
+        "float-expected:t3"
+      ]
+    },
+    {
+      "id": "ts-word-frequency",
+      "runtime": "typescript",
+      "difficulty": 3,
+      "skills": [
+        "typescript",
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|frequency",
+      "anomalies": [],
+      "reviewFlags": []
+    },
+    {
+      "id": "validate-user",
+      "runtime": "node-js",
+      "difficulty": 3,
+      "skills": [
+        "javascript",
+        "testing"
+      ],
+      "programSkills": [
+        "jsts",
+        "se"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 4,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts+se|d3|validateUser",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    },
+    {
+      "id": "web-card",
+      "runtime": "web",
+      "difficulty": 1,
+      "skills": [
+        "html",
+        "css",
+        "accessibility"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 4,
+        "private": 1,
+        "kinds": [
+          "selector-exists",
+          "attribute-equals",
+          "text-contains",
+          "selector-count"
+        ]
+      },
+      "practiceType": "web-dom",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|web-dom",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-counter",
+      "runtime": "web",
+      "difficulty": 2,
+      "skills": [
+        "javascript",
+        "dom"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 4,
+        "public": 3,
+        "private": 1,
+        "kinds": [
+          "selector-exists",
+          "text-contains",
+          "event-changes-text"
+        ]
+      },
+      "practiceType": "web-dom",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|web-dom",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-debug-selector",
+      "runtime": "web",
+      "difficulty": 2,
+      "skills": [
+        "javascript",
+        "dom"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 1,
+        "private": 1,
+        "kinds": [
+          "event-changes-text"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d2|debug",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-debug-toggle",
+      "runtime": "web",
+      "difficulty": 2,
+      "skills": [
+        "javascript",
+        "dom"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 1,
+        "public": 1,
+        "private": 0,
+        "kinds": [
+          "event-changes-text"
+        ]
+      },
+      "practiceType": "debug",
+      "diagnostic": true,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L4",
+      "dupSignature": "jsts|d2|debug",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-greeting-form",
+      "runtime": "web",
+      "difficulty": 2,
+      "skills": [
+        "javascript",
+        "dom",
+        "forms"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 1,
+        "private": 1,
+        "kinds": [
+          "event-changes-text"
+        ]
+      },
+      "practiceType": "web-dom",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|web-dom",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-inline-style",
+      "runtime": "web",
+      "difficulty": 2,
+      "skills": [
+        "css"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 2,
+        "public": 2,
+        "private": 0,
+        "kinds": [
+          "selector-exists",
+          "computed-style-equals"
+        ]
+      },
+      "practiceType": "web-dom",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|web-dom",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-list-filter",
+      "runtime": "web",
+      "difficulty": 3,
+      "skills": [
+        "javascript",
+        "dom"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "event-changes-text"
+        ]
+      },
+      "practiceType": "web-dom",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|web-dom",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-log-init",
+      "runtime": "web",
+      "difficulty": 1,
+      "skills": [
+        "javascript"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 1,
+        "public": 1,
+        "private": 0,
+        "kinds": [
+          "console-contains"
+        ]
+      },
+      "practiceType": "web-dom",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|web-dom",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-nav",
+      "runtime": "web",
+      "difficulty": 2,
+      "skills": [
+        "html",
+        "css",
+        "responsive"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "selector-exists",
+          "selector-count"
+        ]
+      },
+      "practiceType": "web-dom",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "jsts|d2|web-dom",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-semantic",
+      "runtime": "web",
+      "difficulty": 1,
+      "skills": [
+        "html",
+        "accessibility"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 5,
+        "public": 4,
+        "private": 1,
+        "kinds": [
+          "selector-exists",
+          "selector-count"
+        ]
+      },
+      "practiceType": "web-dom",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L1",
+      "dupSignature": "jsts|d1|web-dom",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "web-status-text",
+      "runtime": "web",
+      "difficulty": 3,
+      "skills": [
+        "javascript",
+        "dom"
+      ],
+      "programSkills": [
+        "jsts"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 2,
+        "private": 1,
+        "kinds": [
+          "text-contains",
+          "event-changes-text"
+        ]
+      },
+      "practiceType": "web-dom",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L3",
+      "dupSignature": "jsts|d3|web-dom",
+      "anomalies": [],
+      "reviewFlags": [],
+      "potentialDuplicate": true
+    },
+    {
+      "id": "word-frequencies",
+      "runtime": "node-js",
+      "difficulty": 2,
+      "skills": [
+        "javascript",
+        "algo"
+      ],
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "tests": {
+        "total": 3,
+        "public": 3,
+        "private": 0,
+        "kinds": [
+          "call-equals"
+        ]
+      },
+      "practiceType": "function",
+      "diagnostic": false,
+      "transfer": true,
+      "misconception": [],
+      "evidenceGenerable": true,
+      "ladderPosition": "L2",
+      "dupSignature": "algo+jsts|d2|wordCount",
+      "anomalies": [
+        "no-private-test"
+      ],
+      "reviewFlags": []
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "git-conflicting-files",
+  "title": "Git : quels fichiers vont entrer en conflit ?",
+  "difficulty": 3,
+  "summary": "Stratégie : avant une fusion, un fichier ne CONFLICTE que s'il a été modifié des DEUX côtés. Implémente conflictingFiles(oursChanged, theirsChanged) : renvoie la liste TRIÉE, sans doublon, des fichiers modifiés à la fois dans notre branche et la leur. Un fichier modifié d'un seul côté ne conflicte pas.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["git"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Fichiers en conflit potentiel avant une fusion.\nexport function conflictingFiles(oursChanged, theirsChanged) {\n  // BUG : renvoie tout ce qui a changé d'un côté OU de l'autre (union), pas l'intersection.\n  return [...new Set([...oursChanged, ...theirsChanged])].sort();\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function conflictingFiles(oursChanged, theirsChanged) {\n  const theirs = new Set(theirsChanged);\n  return [...new Set(oursChanged.filter((f) => theirs.has(f)))].sort();\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "intersection simple", "kind": "call-equals", "export": "conflictingFiles", "args": [["a.js","b.js"], ["b.js","c.js"]], "expected": ["b.js"] },
+    { "id": "t2", "name": "aucun conflit", "kind": "call-equals", "export": "conflictingFiles", "args": [["x"], ["y"]], "expected": [] },
+    { "id": "t3", "name": "doublons ignorés", "kind": "call-equals", "export": "conflictingFiles", "args": [["a","a","b"], ["b","b","d"]], "expected": ["b"], "private": true },
+    { "id": "t4", "name": "mêmes fichiers, ordre différent", "kind": "call-equals", "export": "conflictingFiles", "args": [["m","n"], ["n","m"]], "expected": ["m","n"], "private": true }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "http-rate-limit-decide",
+  "title": "API : limiteur de débit à fenêtre glissante",
+  "difficulty": 3,
+  "summary": "Stratégie : un limiteur autorise au plus `limit` requêtes par fenêtre de `windowMs`. Implémente rateLimit(limit, windowMs, timestamps). Pour chaque horodatage (croissant), retire d'abord les requêtes ACCEPTÉES trop anciennes (t - windowMs), puis décide : s'il reste de la place, \"allow\" (et on enregistre l'horodatage), sinon \"deny\" (non enregistré). Renvoie le tableau des décisions.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["http"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Limiteur à fenêtre glissante.\nexport function rateLimit(limit, windowMs, timestamps) {\n  const kept = [];\n  const out = [];\n  for (const t of timestamps) {\n    // BUG : ne fait jamais glisser la fenêtre (les vieux horodatages restent).\n    if (kept.length < limit) { kept.push(t); out.push('allow'); }\n    else out.push('deny');\n  }\n  return out;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function rateLimit(limit, windowMs, timestamps) {\n  const kept = [];\n  const out = [];\n  for (const t of timestamps) {\n    while (kept.length && kept[0] <= t - windowMs) kept.shift();\n    if (kept.length < limit) { kept.push(t); out.push('allow'); }\n    else out.push('deny');\n  }\n  return out;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "les vieilles requêtes expirent", "kind": "call-equals", "export": "rateLimit", "args": [2, 10, [0,1,12]], "expected": ["allow","allow","allow"] },
+    { "id": "t2", "name": "saturation dans la fenêtre", "kind": "call-equals", "export": "rateLimit", "args": [1, 5, [0,1,2]], "expected": ["allow","deny","deny"] },
+    { "id": "t3", "name": "expiration partielle", "kind": "call-equals", "export": "rateLimit", "args": [2, 10, [0,5,9,11]], "expected": ["allow","allow","deny","allow"], "private": true },
+    { "id": "t4", "name": "aucune requête", "kind": "call-equals", "export": "rateLimit", "args": [3, 100, []], "expected": [], "private": true }
+  ]
+}

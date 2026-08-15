@@ -1,0 +1,28 @@
+{
+  "id": "algo-coin-change-min",
+  "title": "Algo : nombre minimal de pièces (l'avidité ne suffit pas)",
+  "difficulty": 4,
+  "summary": "Diagnostic : rendre un montant avec le MOINS de pièces possible. L'approche gloutonne (prendre la plus grosse pièce d'abord) DONNE PARFOIS UN MAUVAIS RÉSULTAT selon le jeu de pièces — il faut une programmation dynamique. Implémente minCoins(coins, amount). Renvoie le nombre minimal de pièces, ou -1 si le montant est impossible à composer.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["algo"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Nombre minimal de pièces pour composer `amount`.\nexport function minCoins(coins, amount) {\n  // BUG : stratégie gloutonne — sous-optimale pour certains jeux de pièces.\n  const sorted = [...coins].sort((a, b) => b - a);\n  let count = 0, rem = amount;\n  for (const c of sorted) while (rem >= c) { rem -= c; count += 1; }\n  return rem === 0 ? count : -1;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function minCoins(coins, amount) {\n  const dp = new Array(amount + 1).fill(Infinity);\n  dp[0] = 0;\n  for (let a = 1; a <= amount; a++) for (const c of coins) if (c <= a && dp[a - c] + 1 < dp[a]) dp[a] = dp[a - c] + 1;\n  return dp[amount] === Infinity ? -1 : dp[amount];\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "l'avidité échoue (1,3,4 pour 6)", "kind": "call-equals", "export": "minCoins", "args": [[1,3,4], 6], "expected": 2 },
+    { "id": "t2", "name": "cas standard (1,2,5 pour 11)", "kind": "call-equals", "export": "minCoins", "args": [[1,2,5], 11], "expected": 3 },
+    { "id": "t3", "name": "montant impossible", "kind": "call-equals", "export": "minCoins", "args": [[2], 3], "expected": -1, "private": true },
+    { "id": "t4", "name": "montant nul → 0 pièce", "kind": "call-equals", "export": "minCoins", "args": [[1], 0], "expected": 0, "private": true }
+  ]
+}

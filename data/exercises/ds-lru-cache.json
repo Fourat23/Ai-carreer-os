@@ -1,0 +1,28 @@
+{
+  "id": "ds-lru-cache",
+  "title": "Structures : cache LRU (éviction du moins récemment utilisé)",
+  "difficulty": 4,
+  "summary": "Diagnostic : un cache de capacité fixe doit ÉVICTER le moins récemment utilisé quand il déborde. Implémente lruProcess(capacity, ops). Chaque op est [\"put\", clé, valeur] ou [\"get\", clé]. get renvoie la valeur ou -1 si absente. ATTENTION : un get ET une mise à jour RAFRAÎCHISSENT la récence (l'entrée redevient la plus récente). Renvoie le tableau des résultats des get, dans l'ordre.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["ds"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Cache LRU : capacité fixe, éviction du moins récemment utilisé.\nexport function lruProcess(capacity, ops) {\n  const map = new Map();\n  const out = [];\n  for (const op of ops) {\n    if (op[0] === 'put') {\n      // BUG : n'évince jamais et ne rafraîchit pas la récence.\n      map.set(op[1], op[2]);\n    } else if (op[0] === 'get') {\n      out.push(map.has(op[1]) ? map.get(op[1]) : -1);\n    }\n  }\n  return out;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function lruProcess(capacity, ops) {\n  const map = new Map();\n  const out = [];\n  for (const op of ops) {\n    if (op[0] === 'put') {\n      const [, k, v] = op;\n      if (map.has(k)) map.delete(k);\n      map.set(k, v);\n      if (map.size > capacity) map.delete(map.keys().next().value);\n    } else if (op[0] === 'get') {\n      const [, k] = op;\n      if (!map.has(k)) { out.push(-1); continue; }\n      const v = map.get(k);\n      map.delete(k); map.set(k, v);\n      out.push(v);\n    }\n  }\n  return out;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "éviction simple (capacité 2)", "kind": "call-equals", "export": "lruProcess", "args": [2, [["put",1,10],["put",2,20],["get",1],["put",3,30],["get",2],["get",3]]], "expected": [10,-1,30] },
+    { "id": "t2", "name": "sans éviction (capacité large)", "kind": "call-equals", "export": "lruProcess", "args": [3, [["put",5,50],["get",5],["get",9]]], "expected": [50,-1] },
+    { "id": "t3", "name": "un get rafraîchit la récence", "kind": "call-equals", "export": "lruProcess", "args": [2, [["put",1,1],["put",2,2],["get",1],["put",3,3],["get",1],["get",2]]], "expected": [1,1,-1], "private": true },
+    { "id": "t4", "name": "mettre à jour une clé rafraîchit aussi", "kind": "call-equals", "export": "lruProcess", "args": [2, [["put",1,1],["put",2,2],["put",1,9],["put",3,3],["get",2],["get",1],["get",3]]], "expected": [-1,9,3], "private": true }
+  ]
+}

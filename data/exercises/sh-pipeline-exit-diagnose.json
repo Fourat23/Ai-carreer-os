@@ -1,0 +1,28 @@
+{
+  "id": "sh-pipeline-exit-diagnose",
+  "title": "Shell : diagnostiquer le code de sortie d'un pipeline",
+  "difficulty": 4,
+  "summary": "Diagnostic : dans `a | b | c`, le code de sortie du pipeline dépend de `pipefail`. Sans pipefail, c'est le code du DERNIER maillon. Avec pipefail, c'est le code du DERNIER maillon NON nul (0 si tous réussissent). Implémente pipelineOutcome(exitCodes, pipefail). Renvoie [codeDeSortie, indexDuPremierEchec] où index vaut -1 si aucun maillon n'a échoué.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["linux"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Code de sortie d'un pipeline shell selon pipefail.\nexport function pipelineOutcome(exitCodes, pipefail) {\n  const firstFail = exitCodes.findIndex((c) => c !== 0);\n  // BUG : ignore pipefail — renvoie toujours le code du dernier maillon.\n  return [exitCodes[exitCodes.length - 1], firstFail];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function pipelineOutcome(exitCodes, pipefail) {\n  const firstFail = exitCodes.findIndex((c) => c !== 0);\n  let code;\n  if (pipefail) {\n    let last = 0;\n    for (const c of exitCodes) if (c !== 0) last = c;\n    code = last;\n  } else {\n    code = exitCodes[exitCodes.length - 1];\n  }\n  return [code, firstFail];\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "sans pipefail : code du dernier maillon", "kind": "call-equals", "export": "pipelineOutcome", "args": [[0,2,0], false], "expected": [0,1] },
+    { "id": "t2", "name": "avec pipefail : dernier code non nul", "kind": "call-equals", "export": "pipelineOutcome", "args": [[0,2,0], true], "expected": [2,1] },
+    { "id": "t3", "name": "tous réussissent", "kind": "call-equals", "export": "pipelineOutcome", "args": [[0,0,0], true], "expected": [0,-1], "private": true },
+    { "id": "t4", "name": "plusieurs échecs avec pipefail", "kind": "call-equals", "export": "pipelineOutcome", "args": [[3,0,5], true], "expected": [5,0], "private": true }
+  ]
+}

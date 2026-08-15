@@ -1,0 +1,28 @@
+{
+  "id": "http-cache-policy",
+  "title": "API : choisir une politique de cache selon la ressource",
+  "difficulty": 5,
+  "summary": "Situation pro : la bonne directive Cache-Control dépend de plusieurs propriétés en tension, dans l'ordre. (1) Ressource personnalisée (par utilisateur) → \"private-no-store\" (jamais en cache partagé). (2) Sinon mutable ET revalidable → \"no-cache-etag\" (revalider à chaque fois). (3) Sinon mutable → \"short-ttl\". (4) Sinon (immuable) → \"immutable-long-ttl\". Implémente cachePolicy({ personalized, mutable, revalidatable }).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["http"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Politique de cache selon les propriétés de la ressource.\nexport function cachePolicy({ personalized, mutable, revalidatable }) {\n  // BUG : met tout en cache long, ignore personnalisation et mutabilité.\n  return 'immutable-long-ttl';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function cachePolicy({ personalized, mutable, revalidatable }) {\n  if (personalized) return 'private-no-store';\n  if (mutable && revalidatable) return 'no-cache-etag';\n  if (mutable) return 'short-ttl';\n  return 'immutable-long-ttl';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "personnalisée → private-no-store", "kind": "call-equals", "export": "cachePolicy", "args": [{"personalized":true,"mutable":true,"revalidatable":true}], "expected": "private-no-store" },
+    { "id": "t2", "name": "muable + revalidable → no-cache-etag", "kind": "call-equals", "export": "cachePolicy", "args": [{"personalized":false,"mutable":true,"revalidatable":true}], "expected": "no-cache-etag" },
+    { "id": "t3", "name": "muable non revalidable → short-ttl", "kind": "call-equals", "export": "cachePolicy", "args": [{"personalized":false,"mutable":true,"revalidatable":false}], "expected": "short-ttl", "private": true },
+    { "id": "t4", "name": "immuable → long-ttl", "kind": "call-equals", "export": "cachePolicy", "args": [{"personalized":false,"mutable":false,"revalidatable":false}], "expected": "immutable-long-ttl", "private": true }
+  ]
+}

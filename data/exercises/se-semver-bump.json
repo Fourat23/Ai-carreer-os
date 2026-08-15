@@ -1,0 +1,28 @@
+{
+  "id": "se-semver-bump",
+  "title": "Versioning : choisir le bon incrément SemVer",
+  "difficulty": 3,
+  "summary": "Stratégie : en SemVer, la PRÉCÉDENCE compte. Un changement cassant impose \"major\", même s'il y a aussi des features. Sinon une nouvelle feature impose \"minor\". Sinon un correctif impose \"patch\". Sinon \"none\". Implémente semverBump(changes) où chaque change = { type: \"breaking\" | \"feature\" | \"fix\" }.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["testing"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Incrément SemVer selon la précédence breaking > feature > fix.\nexport function semverBump(changes) {\n  // BUG : mauvaise précédence — vérifie feature avant breaking.\n  if (changes.some((c) => c.type === 'feature')) return 'minor';\n  if (changes.some((c) => c.type === 'breaking')) return 'major';\n  if (changes.some((c) => c.type === 'fix')) return 'patch';\n  return 'none';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function semverBump(changes) {\n  if (changes.some((c) => c.type === 'breaking')) return 'major';\n  if (changes.some((c) => c.type === 'feature')) return 'minor';\n  if (changes.some((c) => c.type === 'fix')) return 'patch';\n  return 'none';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "feature + breaking → major", "kind": "call-equals", "export": "semverBump", "args": [[{"type":"feature"},{"type":"breaking"}]], "expected": "major" },
+    { "id": "t2", "name": "correctif seul → patch", "kind": "call-equals", "export": "semverBump", "args": [[{"type":"fix"}]], "expected": "patch" },
+    { "id": "t3", "name": "aucun changement → none", "kind": "call-equals", "export": "semverBump", "args": [[]], "expected": "none", "private": true },
+    { "id": "t4", "name": "feature + fix → minor", "kind": "call-equals", "export": "semverBump", "args": [[{"type":"feature"},{"type":"fix"}]], "expected": "minor", "private": true }
+  ]
+}

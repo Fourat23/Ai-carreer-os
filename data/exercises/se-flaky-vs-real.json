@@ -1,0 +1,29 @@
+{
+  "id": "se-flaky-vs-real",
+  "title": "Tests : distinguer un test instable d'une vraie régression",
+  "difficulty": 4,
+  "summary": "Diagnostic : à partir de l'historique d'exécutions d'un test (tableau de \"pass\"/\"fail\", du plus ancien au plus récent), classe-le : \"healthy\" (tout vert), \"broken\" (tout rouge), \"regression\" (des verts PUIS uniquement des rouges — une vraie cassure nette), sinon \"flaky\" (résultats qui alternent). Implémente classifyTest(history).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["testing"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Classer un test selon son historique d'exécutions.\nexport function classifyTest(history) {\n  if (history.every((r) => r === 'pass')) return 'healthy';\n  if (history.every((r) => r === 'fail')) return 'broken';\n  // BUG : tout mélange est traité comme instable, sans repérer une régression nette.\n  return 'flaky';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function classifyTest(history) {\n  if (history.every((r) => r === 'pass')) return 'healthy';\n  if (history.every((r) => r === 'fail')) return 'broken';\n  const firstFail = history.indexOf('fail');\n  const monotone = history.slice(0, firstFail).every((r) => r === 'pass') && history.slice(firstFail).every((r) => r === 'fail');\n  return monotone ? 'regression' : 'flaky';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "tout vert → healthy", "kind": "call-equals", "export": "classifyTest", "args": [["pass","pass"]], "expected": "healthy" },
+    { "id": "t2", "name": "verts puis rouges → regression", "kind": "call-equals", "export": "classifyTest", "args": [["pass","pass","fail","fail"]], "expected": "regression" },
+    { "id": "t3", "name": "alternance → flaky", "kind": "call-equals", "export": "classifyTest", "args": [["pass","fail","pass","fail"]], "expected": "flaky", "private": true },
+    { "id": "t4", "name": "tout rouge → broken", "kind": "call-equals", "export": "classifyTest", "args": [["fail","fail"]], "expected": "broken", "private": true },
+    { "id": "t5", "name": "rouge, vert, rouge → flaky", "kind": "call-equals", "export": "classifyTest", "args": [["fail","pass","fail"]], "expected": "flaky", "private": true }
+  ]
+}

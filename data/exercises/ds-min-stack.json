@@ -1,0 +1,28 @@
+{
+  "id": "ds-min-stack",
+  "title": "Structures : pile avec minimum en O(1)",
+  "difficulty": 3,
+  "summary": "Stratégie : une pile doit renvoyer son minimum en temps constant, sans re-parcourir les éléments. Implémente minStackOps(ops). Chaque op est [\"push\", v], [\"pop\"], [\"min\"] ou [\"top\"]. Renvoie le tableau des résultats des pop/min/top (pop renvoie la valeur retirée), dans l'ordre. Astuce : maintiens une pile auxiliaire des minima.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["stack"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Pile avec minimum en O(1) via une pile auxiliaire des minima.\nexport function minStackOps(ops) {\n  const st = [], mins = [], out = [];\n  for (const op of ops) {\n    if (op[0] === 'push') {\n      st.push(op[1]);\n      // BUG : empile la valeur brute au lieu du minimum courant.\n      mins.push(op[1]);\n    } else if (op[0] === 'pop') { out.push(st.pop()); mins.pop(); }\n    else if (op[0] === 'min') { out.push(mins[mins.length - 1]); }\n    else if (op[0] === 'top') { out.push(st[st.length - 1]); }\n  }\n  return out;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function minStackOps(ops) {\n  const st = [], mins = [], out = [];\n  for (const op of ops) {\n    if (op[0] === 'push') {\n      const v = op[1];\n      st.push(v);\n      mins.push(mins.length ? Math.min(v, mins[mins.length - 1]) : v);\n    } else if (op[0] === 'pop') { out.push(st.pop()); mins.pop(); }\n    else if (op[0] === 'min') { out.push(mins[mins.length - 1]); }\n    else if (op[0] === 'top') { out.push(st[st.length - 1]); }\n  }\n  return out;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "min courant", "kind": "call-equals", "export": "minStackOps", "args": [[["push",3],["push",5],["push",2],["min"]]], "expected": [2] },
+    { "id": "t2", "name": "top et pop", "kind": "call-equals", "export": "minStackOps", "args": [[["push",1],["push",2],["top"],["pop"],["top"]]], "expected": [2,2,1] },
+    { "id": "t3", "name": "min correct après un pop", "kind": "call-equals", "export": "minStackOps", "args": [[["push",3],["push",5],["push",2],["min"],["pop"],["min"]]], "expected": [2,2,3], "private": true },
+    { "id": "t4", "name": "doublons du minimum", "kind": "call-equals", "export": "minStackOps", "args": [[["push",5],["push",5],["min"],["pop"],["min"]]], "expected": [5,5,5], "private": true }
+  ]
+}

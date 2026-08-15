@@ -1,0 +1,28 @@
+{
+  "id": "http-idempotency-dedup",
+  "title": "API : déduplication par clé d'idempotence",
+  "difficulty": 4,
+  "summary": "Diagnostic : un client peut réémettre une requête (réseau instable). Une requête portant une clé d'idempotence DÉJÀ vue doit être dédupliquée (effet appliqué une seule fois). Une requête SANS clé (key null) n'est pas idempotente : toujours appliquée. Implémente processRequests(reqs) où chaque requête est { key }. Renvoie le tableau des décisions : \"applied\" ou \"deduped\", dans l'ordre.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["http"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Déduplication par clé d'idempotence.\nexport function processRequests(reqs) {\n  const seen = new Set();\n  return reqs.map((r) => {\n    // BUG : applique tout, ne déduplique jamais.\n    return 'applied';\n  });\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function processRequests(reqs) {\n  const seen = new Set();\n  return reqs.map((r) => {\n    if (r.key == null) return 'applied';\n    if (seen.has(r.key)) return 'deduped';\n    seen.add(r.key);\n    return 'applied';\n  });\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "même clé → dédupliquée", "kind": "call-equals", "export": "processRequests", "args": [[{"key":"a"},{"key":"a"},{"key":"b"}]], "expected": ["applied","deduped","applied"] },
+    { "id": "t2", "name": "sans clé → toujours appliquée", "kind": "call-equals", "export": "processRequests", "args": [[{"key":null},{"key":null}]], "expected": ["applied","applied"] },
+    { "id": "t3", "name": "clés entrelacées", "kind": "call-equals", "export": "processRequests", "args": [[{"key":"x"},{"key":"y"},{"key":"x"},{"key":null},{"key":"y"}]], "expected": ["applied","applied","deduped","applied","deduped"], "private": true },
+    { "id": "t4", "name": "aucune requête", "kind": "call-equals", "export": "processRequests", "args": [[]], "expected": [], "private": true }
+  ]
+}

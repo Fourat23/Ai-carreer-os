@@ -1,0 +1,28 @@
+{
+  "id": "http-resilient-consumer",
+  "title": "Backend : consommateur résilient (idempotence + budget de retry + DLQ)",
+  "difficulty": 5,
+  "summary": "Situation pro : un consommateur de file doit combiner TROIS mécanismes à la fois. (1) Idempotence : un message dont l'id a DÉJÀ été appliqué est \"deduped\". (2) Budget de retry : un message réussit s'il lui faut STRICTEMENT MOINS de tentatives que maxAttempts → \"applied\". (3) Dead letter queue : si le budget est épuisé → \"dlq\". Implémente consume(messages, maxAttempts) où message = { id, failsBeforeOk }. Renvoie la liste des dispositions, dans l'ordre.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["http"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Consommateur : idempotence + budget de retry + DLQ.\nexport function consume(messages, maxAttempts) {\n  // BUG : ni déduplication, ni bonne borne de budget (<= au lieu de <).\n  return messages.map((m) => (m.failsBeforeOk <= maxAttempts ? 'applied' : 'dlq'));\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function consume(messages, maxAttempts) {\n  const applied = new Set();\n  return messages.map((m) => {\n    if (applied.has(m.id)) return 'deduped';\n    if (m.failsBeforeOk < maxAttempts) { applied.add(m.id); return 'applied'; }\n    return 'dlq';\n  });\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "rejeu d'un id appliqué → deduped", "kind": "call-equals", "export": "consume", "args": [[{"id":"a","failsBeforeOk":0},{"id":"a","failsBeforeOk":0}], 3], "expected": ["applied","deduped"] },
+    { "id": "t2", "name": "budget dépassé → dlq", "kind": "call-equals", "export": "consume", "args": [[{"id":"b","failsBeforeOk":5}], 3], "expected": ["dlq"] },
+    { "id": "t3", "name": "borne exacte du budget → dlq", "kind": "call-equals", "export": "consume", "args": [[{"id":"c","failsBeforeOk":3}], 3], "expected": ["dlq"], "private": true },
+    { "id": "t4", "name": "cas mixte", "kind": "call-equals", "export": "consume", "args": [[{"id":"x","failsBeforeOk":1},{"id":"y","failsBeforeOk":9},{"id":"x","failsBeforeOk":0}], 2], "expected": ["applied","dlq","deduped"], "private": true }
+  ]
+}

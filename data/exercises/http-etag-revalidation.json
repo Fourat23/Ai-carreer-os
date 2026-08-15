@@ -1,0 +1,28 @@
+{
+  "id": "http-etag-revalidation",
+  "title": "API : revalidation de cache (ETag / If-None-Match)",
+  "difficulty": 4,
+  "summary": "Diagnostic : un client renvoie ses ETags connus dans If-None-Match pour éviter de retélécharger. Implémente revalidate(currentEtag, ifNoneMatch). Si ifNoneMatch (tableau) contient l'ETag courant OU le joker \"*\", renvoie 304 (Not Modified). Sinon, ou si ifNoneMatch est vide/absent, renvoie 200. Renvoie un entier (200 ou 304).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["http"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Revalidation conditionnelle par ETag.\nexport function revalidate(currentEtag, ifNoneMatch) {\n  // BUG : ignore les ETags du client et renvoie toujours le corps complet.\n  return 200;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function revalidate(currentEtag, ifNoneMatch) {\n  if (!Array.isArray(ifNoneMatch) || ifNoneMatch.length === 0) return 200;\n  if (ifNoneMatch.includes('*') || ifNoneMatch.includes(currentEtag)) return 304;\n  return 200;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "ETag connu → 304", "kind": "call-equals", "export": "revalidate", "args": ["v1", ["v1"]], "expected": 304 },
+    { "id": "t2", "name": "ETag différent → 200", "kind": "call-equals", "export": "revalidate", "args": ["v2", ["v1"]], "expected": 200 },
+    { "id": "t3", "name": "joker * → 304", "kind": "call-equals", "export": "revalidate", "args": ["v1", ["*"]], "expected": 304, "private": true },
+    { "id": "t4", "name": "aucun If-None-Match → 200", "kind": "call-equals", "export": "revalidate", "args": ["v1", null], "expected": 200, "private": true }
+  ]
+}

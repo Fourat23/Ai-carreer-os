@@ -1,0 +1,28 @@
+{
+  "id": "sql-dedup-latest",
+  "title": "SQL : ne garder que la dernière version par clé",
+  "difficulty": 4,
+  "summary": "Diagnostic : dédupliquer des lignes en gardant, pour chaque clé, la version la PLUS RÉCENTE (version max) — indépendamment de l'ordre d'arrivée. Le piège est de garder la dernière ligne LUE au lieu de la plus haute version. Implémente latestPerKey(rows) où row = { key, version, value }. Renvoie un tableau [key, value] trié par key croissant.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["sql"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Garder la version la plus récente par clé.\nexport function latestPerKey(rows) {\n  const best = new Map();\n  // BUG : garde la dernière ligne LUE, sans comparer les versions.\n  for (const r of rows) best.set(r.key, r);\n  return [...best.values()].sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0)).map((r) => [r.key, r.value]);\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function latestPerKey(rows) {\n  const best = new Map();\n  for (const r of rows) {\n    const cur = best.get(r.key);\n    if (!cur || r.version > cur.version) best.set(r.key, r);\n  }\n  return [...best.values()].sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0)).map((r) => [r.key, r.value]);\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "version croissante", "kind": "call-equals", "export": "latestPerKey", "args": [[{"key":"a","version":1,"value":"x"},{"key":"a","version":2,"value":"y"}]], "expected": [["a","y"]] },
+    { "id": "t2", "name": "version max même si lue avant", "kind": "call-equals", "export": "latestPerKey", "args": [[{"key":"a","version":3,"value":"z"},{"key":"a","version":1,"value":"x"}]], "expected": [["a","z"]] },
+    { "id": "t3", "name": "plusieurs clés triées", "kind": "call-equals", "export": "latestPerKey", "args": [[{"key":"b","version":1,"value":"p"},{"key":"a","version":1,"value":"q"}]], "expected": [["a","q"],["b","p"]], "private": true },
+    { "id": "t4", "name": "une seule ligne", "kind": "call-equals", "export": "latestPerKey", "args": [[{"key":"k","version":5,"value":"v"}]], "expected": [["k","v"]], "private": true }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "py-topk-frequent",
+  "title": "Python : les k éléments les plus fréquents",
+  "difficulty": 3,
+  "summary": "Stratégie : compter les occurrences puis trier par fréquence DÉCROISSANTE, et à fréquence égale par valeur CROISSANTE (départage déterministe). Implémente top_k_frequent(nums, k) qui renvoie la liste des k valeurs les plus fréquentes, dans cet ordre. Si k dépasse le nombre de valeurs distinctes, renvoie toutes les valeurs.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python"],
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "# Les k valeurs les plus fréquentes (départage par valeur croissante).\ndef top_k_frequent(nums, k):\n    counts = {}\n    for n in nums:\n        counts[n] = counts.get(n, 0) + 1\n    # BUG : trie seulement par fréquence, sans départage stable par valeur.\n    ordered = sorted(counts, key=lambda v: -counts[v])\n    return ordered[:k]\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def top_k_frequent(nums, k):\n    counts = {}\n    for n in nums:\n        counts[n] = counts.get(n, 0) + 1\n    ordered = sorted(counts, key=lambda v: (-counts[v], v))\n    return ordered[:k]\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "cas simple", "kind": "call-equals", "export": "top_k_frequent", "args": [[1,1,1,2,2,3], 2], "expected": [1,2] },
+    { "id": "t2", "name": "départage par valeur croissante", "kind": "call-equals", "export": "top_k_frequent", "args": [[4,4,3,3,2,2], 2], "expected": [2,3] },
+    { "id": "t3", "name": "k plus grand que le nombre de valeurs", "kind": "call-equals", "export": "top_k_frequent", "args": [[5,5,7], 5], "expected": [5,7], "private": true },
+    { "id": "t4", "name": "toutes distinctes → ordre par valeur", "kind": "call-equals", "export": "top_k_frequent", "args": [[9,1,5], 2], "expected": [1,5], "private": true }
+  ]
+}

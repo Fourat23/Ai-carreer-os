@@ -1,0 +1,29 @@
+{
+  "id": "se-release-decision",
+  "title": "Livraison : décider go / no-go sous contraintes concurrentes",
+  "difficulty": 5,
+  "summary": "Situation pro : décider s'il faut livrer en pesant plusieurs signaux en conflit, dans l'ORDRE de priorité. (1) Un incident Sev1 ouvert → \"block\" quoi qu'il arrive. (2) Sinon un taux d'erreur canari > 5 % → \"rollback\". (3) Sinon une couverture < 60 % OU plus de 3 tests instables → \"hold\". (4) Sinon → \"ship\". Implémente releaseDecision({ coverage, flakyTests, openSev1, canaryErrorRate }).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["testing"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Décision de livraison multi-signaux.\nexport function releaseDecision({ coverage, flakyTests, openSev1, canaryErrorRate }) {\n  // BUG : ne regarde que la couverture, ignore incidents/canari/instabilité.\n  return coverage >= 60 ? 'ship' : 'hold';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function releaseDecision({ coverage, flakyTests, openSev1, canaryErrorRate }) {\n  if (openSev1 > 0) return 'block';\n  if (canaryErrorRate > 5) return 'rollback';\n  if (coverage < 60 || flakyTests > 3) return 'hold';\n  return 'ship';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "Sev1 ouvert → block (priorité absolue)", "kind": "call-equals", "export": "releaseDecision", "args": [{"coverage":90,"flakyTests":0,"openSev1":2,"canaryErrorRate":0}], "expected": "block" },
+    { "id": "t2", "name": "canari dégradé → rollback", "kind": "call-equals", "export": "releaseDecision", "args": [{"coverage":90,"flakyTests":0,"openSev1":0,"canaryErrorRate":10}], "expected": "rollback" },
+    { "id": "t3", "name": "couverture faible → hold", "kind": "call-equals", "export": "releaseDecision", "args": [{"coverage":50,"flakyTests":0,"openSev1":0,"canaryErrorRate":0}], "expected": "hold", "private": true },
+    { "id": "t4", "name": "trop de tests instables → hold", "kind": "call-equals", "export": "releaseDecision", "args": [{"coverage":80,"flakyTests":5,"openSev1":0,"canaryErrorRate":0}], "expected": "hold", "private": true },
+    { "id": "t5", "name": "tout est vert → ship", "kind": "call-equals", "export": "releaseDecision", "args": [{"coverage":80,"flakyTests":0,"openSev1":0,"canaryErrorRate":0}], "expected": "ship", "private": true }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "sql-window-running-total",
+  "title": "SQL : total cumulé par partition (fonction fenêtre)",
+  "difficulty": 4,
+  "summary": "Diagnostic : une fonction fenêtre SUM() OVER (PARTITION BY group ORDER BY seq) calcule un total cumulé INDÉPENDAMMENT par groupe, dans l'ordre de seq — sans réduire le nombre de lignes. Implémente runningTotal(rows) où chaque row = { group, seq, amount }. Renvoie, DANS L'ORDRE D'ENTRÉE, le total cumulé de chaque ligne au sein de son groupe.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["sql"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Total cumulé par partition, ordonné par seq, rendu dans l'ordre d'entrée.\nexport function runningTotal(rows) {\n  // BUG : cumul GLOBAL, sans partition ni tri par seq.\n  let acc = 0;\n  return rows.map((r) => { acc += r.amount; return acc; });\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function runningTotal(rows) {\n  const indexed = rows.map((r, i) => ({ ...r, i }));\n  const groups = new Map();\n  for (const r of indexed) { if (!groups.has(r.group)) groups.set(r.group, []); groups.get(r.group).push(r); }\n  const result = new Array(rows.length);\n  for (const [, list] of groups) {\n    list.sort((a, b) => a.seq - b.seq);\n    let acc = 0;\n    for (const r of list) { acc += r.amount; result[r.i] = acc; }\n  }\n  return result;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "cumul dans un groupe", "kind": "call-equals", "export": "runningTotal", "args": [[{"group":"a","seq":1,"amount":10},{"group":"a","seq":2,"amount":5}]], "expected": [10,15] },
+    { "id": "t2", "name": "deux groupes entrelacés", "kind": "call-equals", "export": "runningTotal", "args": [[{"group":"a","seq":1,"amount":1},{"group":"b","seq":1,"amount":100},{"group":"a","seq":2,"amount":2}]], "expected": [1,100,3] },
+    { "id": "t3", "name": "seq dans le désordre", "kind": "call-equals", "export": "runningTotal", "args": [[{"group":"a","seq":2,"amount":5},{"group":"a","seq":1,"amount":10}]], "expected": [15,10], "private": true },
+    { "id": "t4", "name": "une seule ligne", "kind": "call-equals", "export": "runningTotal", "args": [[{"group":"z","seq":1,"amount":7}]], "expected": [7], "private": true }
+  ]
+}

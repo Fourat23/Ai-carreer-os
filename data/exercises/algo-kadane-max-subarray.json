@@ -1,0 +1,28 @@
+{
+  "id": "algo-kadane-max-subarray",
+  "title": "Algo : somme maximale d'un sous-tableau contigu (Kadane)",
+  "difficulty": 4,
+  "summary": "Diagnostic : trouver la plus grande somme d'un sous-tableau CONTIGU non vide. Le piège classique est d'initialiser le meilleur score à 0 : cela renvoie 0 quand TOUS les nombres sont négatifs, alors qu'il faut renvoyer le moins négatif. Implémente maxSubarray(nums) (le tableau contient au moins un élément).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["algo"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Somme maximale d'un sous-tableau contigu (algorithme de Kadane).\nexport function maxSubarray(nums) {\n  // BUG : initialise à 0 — faux quand tous les nombres sont négatifs.\n  let best = 0, cur = 0;\n  for (const n of nums) { cur = Math.max(0, cur + n); best = Math.max(best, cur); }\n  return best;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function maxSubarray(nums) {\n  let best = nums[0], cur = nums[0];\n  for (let i = 1; i < nums.length; i++) {\n    cur = Math.max(nums[i], cur + nums[i]);\n    best = Math.max(best, cur);\n  }\n  return best;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "cas mixte", "kind": "call-equals", "export": "maxSubarray", "args": [[-2,1,-3,4,-1,2,1,-5,4]], "expected": 6 },
+    { "id": "t2", "name": "tout positif", "kind": "call-equals", "export": "maxSubarray", "args": [[1,2,3]], "expected": 6 },
+    { "id": "t3", "name": "tout négatif → moins négatif", "kind": "call-equals", "export": "maxSubarray", "args": [[-3,-1,-2]], "expected": -1, "private": true },
+    { "id": "t4", "name": "un seul élément négatif", "kind": "call-equals", "export": "maxSubarray", "args": [[-5]], "expected": -5, "private": true }
+  ]
+}

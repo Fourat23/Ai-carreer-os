@@ -1,0 +1,28 @@
+{
+  "id": "sql-index-advice",
+  "title": "SQL : recommander (ou non) un index selon les compromis",
+  "difficulty": 5,
+  "summary": "Situation pro : un index accélère certaines lectures mais coûte en écriture et en stockage. Décider dans l'ordre : (1) plus d'écritures que de lectures → \"no-index\" (charge d'écriture trop pénalisée). (2) Sinon colonne peu sélective → \"no-index\" (l'index n'écarte presque rien). (3) Sinon requêtes par PLAGE → \"btree-index\". (4) Sinon (égalité stricte) → \"hash-index\". Implémente indexAdvice({ reads, writes, selectiveColumn, rangeQueries }).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["sql"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// Recommandation d'index selon lecture/écriture, sélectivité, type de requête.\nexport function indexAdvice({ reads, writes, selectiveColumn, rangeQueries }) {\n  // BUG : recommande toujours un index dès qu'il y a des lectures.\n  return reads > 0 ? 'btree-index' : 'no-index';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function indexAdvice({ reads, writes, selectiveColumn, rangeQueries }) {\n  if (writes > reads) return 'no-index';\n  if (!selectiveColumn) return 'no-index';\n  if (rangeQueries) return 'btree-index';\n  return 'hash-index';\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "lecture + sélectif + plage → btree", "kind": "call-equals", "export": "indexAdvice", "args": [{"reads":100,"writes":5,"selectiveColumn":true,"rangeQueries":true}], "expected": "btree-index" },
+    { "id": "t2", "name": "charge d'écriture → no-index", "kind": "call-equals", "export": "indexAdvice", "args": [{"reads":5,"writes":100,"selectiveColumn":true,"rangeQueries":true}], "expected": "no-index" },
+    { "id": "t3", "name": "colonne peu sélective → no-index", "kind": "call-equals", "export": "indexAdvice", "args": [{"reads":100,"writes":1,"selectiveColumn":false,"rangeQueries":false}], "expected": "no-index", "private": true },
+    { "id": "t4", "name": "égalité stricte → hash", "kind": "call-equals", "export": "indexAdvice", "args": [{"reads":100,"writes":1,"selectiveColumn":true,"rangeQueries":false}], "expected": "hash-index", "private": true }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "sql-group-having",
+  "title": "SQL : GROUP BY puis HAVING",
+  "difficulty": 3,
+  "summary": "Stratégie : GROUP BY agrège par clé ; HAVING filtre les GROUPES (pas les lignes) après agrégation. Implémente groupHaving(rows, minTotal) : somme `amount` par `cat`, puis garde uniquement les catégories dont la somme est ≥ minTotal. Renvoie un tableau [cat, somme] trié par cat croissant.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["sql"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// GROUP BY cat, SUM(amount), HAVING SUM >= minTotal.\nexport function groupHaving(rows, minTotal) {\n  const sums = new Map();\n  for (const r of rows) sums.set(r.cat, (sums.get(r.cat) || 0) + r.amount);\n  // BUG : oublie le HAVING — renvoie tous les groupes.\n  return [...sums.entries()].map(([c, s]) => [c, s]).sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function groupHaving(rows, minTotal) {\n  const sums = new Map();\n  for (const r of rows) sums.set(r.cat, (sums.get(r.cat) || 0) + r.amount);\n  return [...sums.entries()].filter(([, s]) => s >= minTotal).map(([c, s]) => [c, s]).sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "filtre les petits groupes", "kind": "call-equals", "export": "groupHaving", "args": [[{"cat":"a","amount":5},{"cat":"a","amount":5},{"cat":"b","amount":3}], 8], "expected": [["a",10]] },
+    { "id": "t2", "name": "tout passe", "kind": "call-equals", "export": "groupHaving", "args": [[{"cat":"x","amount":10}], 5], "expected": [["x",10]] },
+    { "id": "t3", "name": "rien ne passe", "kind": "call-equals", "export": "groupHaving", "args": [[{"cat":"a","amount":1}], 100], "expected": [], "private": true },
+    { "id": "t4", "name": "tri par catégorie", "kind": "call-equals", "export": "groupHaving", "args": [[{"cat":"b","amount":9},{"cat":"a","amount":9}], 9], "expected": [["a",9],["b",9]], "private": true }
+  ]
+}

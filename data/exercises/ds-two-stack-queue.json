@@ -1,0 +1,28 @@
+{
+  "id": "ds-two-stack-queue",
+  "title": "Structures : une file FIFO (pas une pile LIFO)",
+  "difficulty": 3,
+  "summary": "Stratégie : une file est FIFO (premier entré, premier sorti) — à ne pas confondre avec une pile LIFO. Implémente queueOps(ops). Chaque op est [\"enqueue\", v], [\"dequeue\"] ou [\"peek\"]. dequeue retire et renvoie l'élément le PLUS ANCIEN ; peek le regarde sans le retirer. Renvoie le tableau des résultats des dequeue/peek, dans l'ordre.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["queue"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// File FIFO.\nexport function queueOps(ops) {\n  const q = [], out = [];\n  for (const op of ops) {\n    if (op[0] === 'enqueue') q.push(op[1]);\n    // BUG : se comporte comme une pile LIFO (retire le plus récent).\n    else if (op[0] === 'dequeue') out.push(q.pop());\n    else if (op[0] === 'peek') out.push(q[q.length - 1]);\n  }\n  return out;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function queueOps(ops) {\n  const q = [], out = [];\n  for (const op of ops) {\n    if (op[0] === 'enqueue') q.push(op[1]);\n    else if (op[0] === 'dequeue') out.push(q.shift());\n    else if (op[0] === 'peek') out.push(q[0]);\n  }\n  return out;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "ordre FIFO", "kind": "call-equals", "export": "queueOps", "args": [[["enqueue",1],["enqueue",2],["dequeue"],["peek"]]], "expected": [1,2] },
+    { "id": "t2", "name": "peek ne retire pas", "kind": "call-equals", "export": "queueOps", "args": [[["enqueue",5],["peek"],["dequeue"]]], "expected": [5,5] },
+    { "id": "t3", "name": "deux retraits", "kind": "call-equals", "export": "queueOps", "args": [[["enqueue",1],["enqueue",2],["enqueue",3],["dequeue"],["dequeue"]]], "expected": [1,2], "private": true },
+    { "id": "t4", "name": "entrelacement", "kind": "call-equals", "export": "queueOps", "args": [[["enqueue",9],["dequeue"],["enqueue",8],["peek"]]], "expected": [9,8], "private": true }
+  ]
+}

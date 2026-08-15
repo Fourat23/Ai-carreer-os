@@ -1,0 +1,28 @@
+{
+  "id": "py-sliding-window-max",
+  "title": "Python : maximum sur fenêtre glissante",
+  "difficulty": 4,
+  "summary": "Diagnostic : pour chaque fenêtre contiguë de taille w, renvoyer le maximum. Le piège est la GESTION DES BORDS : si w vaut 0 ou dépasse la longueur, renvoyer une liste vide. Implémente window_max(nums, w) qui renvoie la liste des maxima, une valeur par position de fenêtre (il y a len(nums) - w + 1 fenêtres).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python"],
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "# Maximum de chaque fenetre glissante de taille w.\ndef window_max(nums, w):\n    out = []\n    # BUG : ne gere pas w invalide et depasse les bornes de la liste.\n    for i in range(len(nums)):\n        out.append(max(nums[i:i + w]))\n    return out\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def window_max(nums, w):\n    if w <= 0 or w > len(nums):\n        return []\n    out = []\n    for i in range(len(nums) - w + 1):\n        out.append(max(nums[i:i + w]))\n    return out\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "fenêtre de 3", "kind": "call-equals", "export": "window_max", "args": [[1,3,2,5,4], 3], "expected": [3,5,5] },
+    { "id": "t2", "name": "fenêtre de 1 → chaque élément", "kind": "call-equals", "export": "window_max", "args": [[4,2,7], 1], "expected": [4,2,7] },
+    { "id": "t3", "name": "w plus grand que la liste → vide", "kind": "call-equals", "export": "window_max", "args": [[1,2], 5], "expected": [], "private": true },
+    { "id": "t4", "name": "w = 0 → vide", "kind": "call-equals", "export": "window_max", "args": [[1,2,3], 0], "expected": [], "private": true }
+  ]
+}

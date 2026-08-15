@@ -1,0 +1,28 @@
+{
+  "id": "sql-left-join-nulls",
+  "title": "SQL : LEFT JOIN et lignes sans correspondance",
+  "difficulty": 3,
+  "summary": "Stratégie : un LEFT JOIN garde TOUTES les lignes de gauche, même sans correspondance à droite (les colonnes de droite valent alors null). Implémente leftJoin(users, orders) : pour chaque user { id, name }, une ligne par order { userId, total } correspondant ; s'il n'a aucun order, une seule ligne { name, total: null }. Renvoie le tableau des lignes, users dans l'ordre.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": ["sql"],
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "// LEFT JOIN en mémoire : garder les users sans commande.\nexport function leftJoin(users, orders) {\n  const out = [];\n  // BUG : comportement d'un INNER JOIN — les users sans commande disparaissent.\n  for (const u of users) for (const o of orders) if (o.userId === u.id) out.push({ name: u.name, total: o.total });\n  return out;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function leftJoin(users, orders) {\n  const out = [];\n  for (const u of users) {\n    const matches = orders.filter((o) => o.userId === u.id);\n    if (matches.length === 0) out.push({ name: u.name, total: null });\n    else for (const o of matches) out.push({ name: u.name, total: o.total });\n  }\n  return out;\n}\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "user sans commande → total null", "kind": "call-equals", "export": "leftJoin", "args": [[{"id":1,"name":"A"},{"id":2,"name":"B"}], [{"userId":1,"total":10}]], "expected": [{"name":"A","total":10},{"name":"B","total":null}] },
+    { "id": "t2", "name": "plusieurs commandes → plusieurs lignes", "kind": "call-equals", "export": "leftJoin", "args": [[{"id":1,"name":"A"}], [{"userId":1,"total":5},{"userId":1,"total":7}]], "expected": [{"name":"A","total":5},{"name":"A","total":7}] },
+    { "id": "t3", "name": "aucune commande du tout", "kind": "call-equals", "export": "leftJoin", "args": [[{"id":1,"name":"A"}], []], "expected": [{"name":"A","total":null}], "private": true },
+    { "id": "t4", "name": "commande orpheline ignorée", "kind": "call-equals", "export": "leftJoin", "args": [[{"id":1,"name":"A"}], [{"userId":9,"total":99}]], "expected": [{"name":"A","total":null}], "private": true }
+  ]
+}

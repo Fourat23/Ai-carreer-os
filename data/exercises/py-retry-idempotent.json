@@ -1,0 +1,28 @@
+{
+  "id": "py-retry-idempotent",
+  "title": "Python : rejouer sans dupliquer (idempotence par identifiant)",
+  "difficulty": 4,
+  "summary": "Diagnostic : un client rejoue des événements après une panne réseau. Un événement déjà TRAITÉ (même id) ne doit pas l'être deux fois. Implémente process_events(events) où chaque event = {\"id\": ..., \"amount\": ...}. Renvoie le total des montants EFFECTIVEMENT appliqués (les rejeux du même id sont ignorés). Un id à None n'est jamais idempotent : toujours appliqué.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": ["python"],
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "# Appliquer chaque evenement une seule fois (idempotence par id).\ndef process_events(events):\n    total = 0\n    seen = set()\n    for e in events:\n        # BUG : additionne tout, ne deduplique jamais.\n        total += e[\"amount\"]\n    return total\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def process_events(events):\n    total = 0\n    seen = set()\n    for e in events:\n        key = e.get(\"id\")\n        if key is not None and key in seen:\n            continue\n        if key is not None:\n            seen.add(key)\n        total += e[\"amount\"]\n    return total\n"
+  },
+  "tests": [
+    { "id": "t1", "name": "rejeu du même id ignoré", "kind": "call-equals", "export": "process_events", "args": [[{"id":"a","amount":10},{"id":"a","amount":10},{"id":"b","amount":5}]], "expected": 15 },
+    { "id": "t2", "name": "id None → toujours appliqué", "kind": "call-equals", "export": "process_events", "args": [[{"id":null,"amount":3},{"id":null,"amount":3}]], "expected": 6 },
+    { "id": "t3", "name": "ids entrelacés", "kind": "call-equals", "export": "process_events", "args": [[{"id":"x","amount":1},{"id":"y","amount":2},{"id":"x","amount":1}]], "expected": 3, "private": true },
+    { "id": "t4", "name": "aucun événement", "kind": "call-equals", "export": "process_events", "args": [[]], "expected": 0, "private": true }
+  ]
+}

@@ -1,0 +1,904 @@
+{
+ "generatedAt": "V45.2",
+ "total": 128,
+ "deepAlready": 16,
+ "requiredFullRead": 128,
+ "lessons": [
+  {
+   "slug": "terminal-shell-filesystem",
+   "file": "terminal-shell-filesystem.md",
+   "curriculumPosition": 1,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "git-fundamentals",
+   "file": "git-fundamentals.md",
+   "curriculumPosition": 2,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "javascript-basics",
+   "file": "javascript-basics.md",
+   "curriculumPosition": 3,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "algorithmic-thinking",
+   "file": "algorithmic-thinking.md",
+   "curriculumPosition": 4,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "recursion",
+   "file": "recursion.md",
+   "curriculumPosition": 5,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "data-structures-intro",
+   "file": "data-structures-intro.md",
+   "curriculumPosition": 6,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "typescript-basics",
+   "file": "typescript-basics.md",
+   "curriculumPosition": 7,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "async-javascript",
+   "file": "async-javascript.md",
+   "curriculumPosition": 8,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "git-advanced",
+   "file": "git-advanced.md",
+   "curriculumPosition": 9,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "http-rest-json",
+   "file": "http-rest-json.md",
+   "curriculumPosition": 10,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "api-design-basics",
+   "file": "api-design-basics.md",
+   "curriculumPosition": 11,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "express-backend",
+   "file": "express-backend.md",
+   "curriculumPosition": 12,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "authentication",
+   "file": "authentication.md",
+   "curriculumPosition": 13,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "caching-performance",
+   "file": "caching-performance.md",
+   "curriculumPosition": 14,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "api-production-contracts",
+   "file": "api-production-contracts.md",
+   "curriculumPosition": 15,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "html-semantic-structure",
+   "file": "html-semantic-structure.md",
+   "curriculumPosition": 16,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "css-fundamentals",
+   "file": "css-fundamentals.md",
+   "curriculumPosition": 17,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "css-flexbox",
+   "file": "css-flexbox.md",
+   "curriculumPosition": 18,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "css-grid",
+   "file": "css-grid.md",
+   "curriculumPosition": 19,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "responsive-design",
+   "file": "responsive-design.md",
+   "curriculumPosition": 20,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "web-forms-validation",
+   "file": "web-forms-validation.md",
+   "curriculumPosition": 21,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "typescript-frontend",
+   "file": "typescript-frontend.md",
+   "curriculumPosition": 22,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "browser-dom-rendering",
+   "file": "browser-dom-rendering.md",
+   "curriculumPosition": 23,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "react-fundamentals",
+   "file": "react-fundamentals.md",
+   "curriculumPosition": 24,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "react-hooks-effects",
+   "file": "react-hooks-effects.md",
+   "curriculumPosition": 25,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "react-composition-architecture",
+   "file": "react-composition-architecture.md",
+   "curriculumPosition": 26,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "react-application-states",
+   "file": "react-application-states.md",
+   "curriculumPosition": 27,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "react-accessibility",
+   "file": "react-accessibility.md",
+   "curriculumPosition": 28,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "frontend-testing",
+   "file": "frontend-testing.md",
+   "curriculumPosition": 29,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "frontend-performance",
+   "file": "frontend-performance.md",
+   "curriculumPosition": 30,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "nextjs-foundations",
+   "file": "nextjs-foundations.md",
+   "curriculumPosition": 31,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "nextjs-rendering",
+   "file": "nextjs-rendering.md",
+   "curriculumPosition": 32,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "nextjs-server-client-components",
+   "file": "nextjs-server-client-components.md",
+   "curriculumPosition": 33,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "nextjs-data-production",
+   "file": "nextjs-data-production.md",
+   "curriculumPosition": 34,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "sql-foundations",
+   "file": "sql-foundations.md",
+   "curriculumPosition": 35,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "database-modeling",
+   "file": "database-modeling.md",
+   "curriculumPosition": 36,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "sql-performance-indexing",
+   "file": "sql-performance-indexing.md",
+   "curriculumPosition": 37,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "database-transactions-concurrency",
+   "file": "database-transactions-concurrency.md",
+   "curriculumPosition": 38,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "database-migrations",
+   "file": "database-migrations.md",
+   "curriculumPosition": 39,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "pandas-data-wrangling",
+   "file": "pandas-data-wrangling.md",
+   "curriculumPosition": 40,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "data-cleaning-quality",
+   "file": "data-cleaning-quality.md",
+   "curriculumPosition": 41,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "etl-pipelines",
+   "file": "etl-pipelines.md",
+   "curriculumPosition": 42,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "clean-code",
+   "file": "clean-code.md",
+   "curriculumPosition": 43,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "testing-foundations",
+   "file": "testing-foundations.md",
+   "curriculumPosition": 44,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "error-handling",
+   "file": "error-handling.md",
+   "curriculumPosition": 45,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "design-patterns-intro",
+   "file": "design-patterns-intro.md",
+   "curriculumPosition": 46,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "architecture-basics",
+   "file": "architecture-basics.md",
+   "curriculumPosition": 47,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "async-messaging-queues",
+   "file": "async-messaging-queues.md",
+   "curriculumPosition": 48,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "system-design-scaling",
+   "file": "system-design-scaling.md",
+   "curriculumPosition": 49,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "distributed-systems-failures",
+   "file": "distributed-systems-failures.md",
+   "curriculumPosition": 50,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "refactoring-legacy-code",
+   "file": "refactoring-legacy-code.md",
+   "curriculumPosition": 51,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "technical-debt",
+   "file": "technical-debt.md",
+   "curriculumPosition": 52,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "breaking-changes-compatibility",
+   "file": "breaking-changes-compatibility.md",
+   "curriculumPosition": 53,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "technical-documentation",
+   "file": "technical-documentation.md",
+   "curriculumPosition": 54,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "observability-logging",
+   "file": "observability-logging.md",
+   "curriculumPosition": 55,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "python-foundations",
+   "file": "python-foundations.md",
+   "curriculumPosition": 56,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "statistics-for-ml",
+   "file": "statistics-for-ml.md",
+   "curriculumPosition": 57,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "machine-learning-basics",
+   "file": "machine-learning-basics.md",
+   "curriculumPosition": 58,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "feature-engineering",
+   "file": "feature-engineering.md",
+   "curriculumPosition": 59,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "model-evaluation",
+   "file": "model-evaluation.md",
+   "curriculumPosition": 60,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "scikit-learn-workflow",
+   "file": "scikit-learn-workflow.md",
+   "curriculumPosition": 61,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "neural-networks",
+   "file": "neural-networks.md",
+   "curriculumPosition": 62,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "transformers",
+   "file": "transformers.md",
+   "curriculumPosition": 63,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "llm-fundamentals",
+   "file": "llm-fundamentals.md",
+   "curriculumPosition": 64,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "prompt-engineering",
+   "file": "prompt-engineering.md",
+   "curriculumPosition": 65,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "structured-outputs-tools",
+   "file": "structured-outputs-tools.md",
+   "curriculumPosition": 66,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "embeddings",
+   "file": "embeddings.md",
+   "curriculumPosition": 67,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "rag-fundamentals",
+   "file": "rag-fundamentals.md",
+   "curriculumPosition": 68,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  },
+  {
+   "slug": "chunking-strategies",
+   "file": "chunking-strategies.md",
+   "curriculumPosition": 69,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "vector-databases",
+   "file": "vector-databases.md",
+   "curriculumPosition": 70,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "retrieval-reranking",
+   "file": "retrieval-reranking.md",
+   "curriculumPosition": 71,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "ai-evaluation",
+   "file": "ai-evaluation.md",
+   "curriculumPosition": 72,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "rag-evaluation",
+   "file": "rag-evaluation.md",
+   "curriculumPosition": 73,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "agents-fundamentals",
+   "file": "agents-fundamentals.md",
+   "curriculumPosition": 74,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "agent-workflows-orchestration",
+   "file": "agent-workflows-orchestration.md",
+   "curriculumPosition": 75,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "ai-security",
+   "file": "ai-security.md",
+   "curriculumPosition": 76,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "prompt-injection-defense",
+   "file": "prompt-injection-defense.md",
+   "curriculumPosition": 77,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "llm-cost-optimization",
+   "file": "llm-cost-optimization.md",
+   "curriculumPosition": 78,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "observability-fundamentals",
+   "file": "observability-fundamentals.md",
+   "curriculumPosition": 79,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "logging-structured",
+   "file": "logging-structured.md",
+   "curriculumPosition": 80,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "distributed-tracing",
+   "file": "distributed-tracing.md",
+   "curriculumPosition": 81,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "metrics-percentiles",
+   "file": "metrics-percentiles.md",
+   "curriculumPosition": 82,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "slo-error-budget",
+   "file": "slo-error-budget.md",
+   "curriculumPosition": 83,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "incident-response",
+   "file": "incident-response.md",
+   "curriculumPosition": 84,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "postmortem-rca",
+   "file": "postmortem-rca.md",
+   "curriculumPosition": 85,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "resilience-patterns",
+   "file": "resilience-patterns.md",
+   "curriculumPosition": 86,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "linux-filesystem-permissions",
+   "file": "linux-filesystem-permissions.md",
+   "curriculumPosition": 87,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "linux-processes-signals",
+   "file": "linux-processes-signals.md",
+   "curriculumPosition": 88,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "linux-services-systemd",
+   "file": "linux-services-systemd.md",
+   "curriculumPosition": 89,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "linux-resources-io",
+   "file": "linux-resources-io.md",
+   "curriculumPosition": 90,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "linux-ssh-remote",
+   "file": "linux-ssh-remote.md",
+   "curriculumPosition": 91,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "networking-tcp-ip-model",
+   "file": "networking-tcp-ip-model.md",
+   "curriculumPosition": 92,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "networking-addressing-routing",
+   "file": "networking-addressing-routing.md",
+   "curriculumPosition": 93,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "networking-dns",
+   "file": "networking-dns.md",
+   "curriculumPosition": 94,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "networking-http-tls",
+   "file": "networking-http-tls.md",
+   "curriculumPosition": 95,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "networking-proxy-loadbalancing",
+   "file": "networking-proxy-loadbalancing.md",
+   "curriculumPosition": 96,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "docker-images-layers",
+   "file": "docker-images-layers.md",
+   "curriculumPosition": 97,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "docker-build-dockerfile",
+   "file": "docker-build-dockerfile.md",
+   "curriculumPosition": 98,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "docker-networking-volumes",
+   "file": "docker-networking-volumes.md",
+   "curriculumPosition": 99,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "docker-compose",
+   "file": "docker-compose.md",
+   "curriculumPosition": 100,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "docker-production-hardening",
+   "file": "docker-production-hardening.md",
+   "curriculumPosition": 101,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "ci-cd-pipeline-anatomy",
+   "file": "ci-cd-pipeline-anatomy.md",
+   "curriculumPosition": 102,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "ci-cd-quality-gates-artifacts",
+   "file": "ci-cd-quality-gates-artifacts.md",
+   "curriculumPosition": 103,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "deployment-strategies",
+   "file": "deployment-strategies.md",
+   "curriculumPosition": 104,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "release-incident-recovery",
+   "file": "release-incident-recovery.md",
+   "curriculumPosition": 105,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "k8s-why-architecture",
+   "file": "k8s-why-architecture.md",
+   "curriculumPosition": 106,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "k8s-workloads",
+   "file": "k8s-workloads.md",
+   "curriculumPosition": 107,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "k8s-networking-services",
+   "file": "k8s-networking-services.md",
+   "curriculumPosition": 108,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "k8s-config-probes",
+   "file": "k8s-config-probes.md",
+   "curriculumPosition": 109,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "k8s-troubleshooting",
+   "file": "k8s-troubleshooting.md",
+   "curriculumPosition": 110,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "k8s-security",
+   "file": "k8s-security.md",
+   "curriculumPosition": 111,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "cloud-fundamentals",
+   "file": "cloud-fundamentals.md",
+   "curriculumPosition": 112,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "cloud-networking",
+   "file": "cloud-networking.md",
+   "curriculumPosition": 113,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "cloud-compute-storage",
+   "file": "cloud-compute-storage.md",
+   "curriculumPosition": 114,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "cloud-aws-core",
+   "file": "cloud-aws-core.md",
+   "curriculumPosition": 115,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "cloud-azure-core",
+   "file": "cloud-azure-core.md",
+   "curriculumPosition": 116,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "iac-fundamentals",
+   "file": "iac-fundamentals.md",
+   "curriculumPosition": 117,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "cloud-finops",
+   "file": "cloud-finops.md",
+   "curriculumPosition": 118,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "deployment-secrets",
+   "file": "deployment-secrets.md",
+   "curriculumPosition": 119,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "docker-containers",
+   "file": "docker-containers.md",
+   "curriculumPosition": 120,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "ci-cd",
+   "file": "ci-cd.md",
+   "curriculumPosition": 121,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "monitoring-production",
+   "file": "monitoring-production.md",
+   "curriculumPosition": 122,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "llm-observability",
+   "file": "llm-observability.md",
+   "curriculumPosition": 123,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "readme-documentation",
+   "file": "readme-documentation.md",
+   "curriculumPosition": 124,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "portfolio-github",
+   "file": "portfolio-github.md",
+   "curriculumPosition": 125,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "technical-storytelling",
+   "file": "technical-storytelling.md",
+   "curriculumPosition": 126,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "system-design-interview",
+   "file": "system-design-interview.md",
+   "curriculumPosition": 127,
+   "v45_1_depth": "structural",
+   "v45_2_required": true
+  },
+  {
+   "slug": "interview-preparation",
+   "file": "interview-preparation.md",
+   "curriculumPosition": 128,
+   "v45_1_depth": "deep",
+   "v45_2_required": true
+  }
+ ]
+}

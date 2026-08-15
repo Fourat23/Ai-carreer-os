@@ -1,0 +1,2234 @@
+{
+  "generatedAt": "V45.1-MAP",
+  "tracks": [
+    {
+      "id": "ai-engineer-foundations-v1",
+      "status": "available",
+      "title": "AI Engineer — Fondations",
+      "totalDays": 365,
+      "modules": 12,
+      "technologies": [
+        "git",
+        "linux",
+        "javascript",
+        "typescript",
+        "node",
+        "react",
+        "nextjs",
+        "api",
+        "sql",
+        "testing",
+        "architecture",
+        "docker",
+        "cloud",
+        "python",
+        "llm",
+        "rag",
+        "agents",
+        "evaluation",
+        "ai-security",
+        "security"
+      ]
+    },
+    {
+      "id": "fullstack-typescript",
+      "status": "available",
+      "title": "Full-Stack TypeScript Engineer",
+      "totalDays": 119,
+      "modules": 11,
+      "technologies": [
+        "linux",
+        "git",
+        "javascript",
+        "typescript",
+        "node",
+        "react",
+        "api",
+        "sql",
+        "testing",
+        "architecture"
+      ]
+    },
+    {
+      "id": "frontend-engineer-v1",
+      "status": "available",
+      "title": "Frontend Engineer",
+      "totalDays": 54,
+      "modules": 7,
+      "technologies": [
+        "javascript",
+        "typescript",
+        "react",
+        "testing"
+      ]
+    },
+    {
+      "id": "backend-engineer-v1",
+      "status": "available",
+      "title": "Backend Engineer",
+      "totalDays": 85,
+      "modules": 8,
+      "technologies": [
+        "linux",
+        "git",
+        "javascript",
+        "typescript",
+        "node",
+        "api",
+        "sql",
+        "testing",
+        "architecture"
+      ]
+    },
+    {
+      "id": "systems-cloud-foundations-v1",
+      "status": "available",
+      "title": "Systems & Cloud Foundations",
+      "totalDays": 31,
+      "modules": 8,
+      "technologies": [
+        "linux",
+        "git",
+        "node",
+        "api",
+        "architecture"
+      ]
+    },
+    {
+      "id": "appsec-cloud-security-v1",
+      "status": "available",
+      "title": "AppSec & Cloud Security Foundations",
+      "totalDays": 15,
+      "modules": 7,
+      "technologies": [
+        "git",
+        "linux",
+        "api",
+        "architecture",
+        "docker",
+        "cloud",
+        "security"
+      ]
+    },
+    {
+      "id": "cloud-devops-engineer-v1",
+      "status": "available",
+      "title": "Cloud / DevOps Engineer",
+      "totalDays": 29,
+      "modules": 7,
+      "technologies": [
+        "git",
+        "linux",
+        "api",
+        "architecture",
+        "docker",
+        "cloud",
+        "testing",
+        "security"
+      ]
+    },
+    {
+      "id": "data-ml-v1",
+      "status": "available",
+      "title": "Data / ML Engineer — Foundations",
+      "totalDays": 188,
+      "modules": 7,
+      "technologies": [
+        "python",
+        "sql",
+        "architecture",
+        "llm",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "ai-fullstack-v1",
+      "status": "announced",
+      "title": "Full-stack orienté IA",
+      "totalDays": 0,
+      "modules": 0,
+      "technologies": [
+        "react",
+        "nextjs",
+        "node",
+        "api",
+        "llm"
+      ]
+    }
+  ],
+  "modulesCount": 67,
+  "days": {
+    "total": 365,
+    "byMonth": {
+      "1": 28,
+      "2": 28,
+      "3": 35,
+      "4": 28,
+      "5": 28,
+      "6": 35,
+      "7": 28,
+      "8": 28,
+      "9": 35,
+      "10": 28,
+      "11": 28,
+      "12": 36
+    },
+    "bySkill": {
+      "gitlinux": 7,
+      "jsts": 42,
+      "algo": 11,
+      "ds": 5,
+      "patterns": 2,
+      "se": 14,
+      "autonomy": 23,
+      "http": 13,
+      "sql": 11,
+      "comm": 25,
+      "secu": 23,
+      "archi": 19,
+      "python": 16,
+      "ml": 35,
+      "dl": 15,
+      "llm": 21,
+      "rag": 42,
+      "evalia": 20,
+      "agents": 21
+    }
+  },
+  "skills": [
+    {
+      "id": "algo",
+      "name": "Algorithmie",
+      "exercises": 25
+    },
+    {
+      "id": "ds",
+      "name": "Structures de données",
+      "exercises": 16
+    },
+    {
+      "id": "jsts",
+      "name": "JavaScript / TypeScript",
+      "exercises": 215
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "exercises": 15
+    },
+    {
+      "id": "gitlinux",
+      "name": "Git / Linux",
+      "exercises": 22
+    },
+    {
+      "id": "http",
+      "name": "HTTP / API",
+      "exercises": 14
+    },
+    {
+      "id": "sql",
+      "name": "SQL / Data",
+      "exercises": 5
+    },
+    {
+      "id": "se",
+      "name": "Software engineering",
+      "exercises": 6
+    },
+    {
+      "id": "archi",
+      "name": "Architecture",
+      "exercises": 0
+    },
+    {
+      "id": "patterns",
+      "name": "Design patterns",
+      "exercises": 0
+    },
+    {
+      "id": "ml",
+      "name": "Machine learning",
+      "exercises": 0
+    },
+    {
+      "id": "dl",
+      "name": "Deep learning",
+      "exercises": 0
+    },
+    {
+      "id": "llm",
+      "name": "LLM",
+      "exercises": 0
+    },
+    {
+      "id": "rag",
+      "name": "RAG",
+      "exercises": 0
+    },
+    {
+      "id": "agents",
+      "name": "Agents",
+      "exercises": 0
+    },
+    {
+      "id": "evalia",
+      "name": "Évaluation IA",
+      "exercises": 0
+    },
+    {
+      "id": "secu",
+      "name": "Sécurité",
+      "exercises": 0
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud / DevOps",
+      "exercises": 0
+    },
+    {
+      "id": "comm",
+      "name": "Communication technique",
+      "exercises": 0
+    },
+    {
+      "id": "autonomy",
+      "name": "Autonomie projet",
+      "exercises": 0
+    }
+  ],
+  "lessons": [
+    {
+      "order": 1,
+      "slug": "terminal-shell-filesystem",
+      "cat": "Fondations",
+      "level": 1,
+      "skills": [
+        "gitlinux"
+      ],
+      "practiceRefs": [
+        "lab:terminal",
+        "exercise:sh-pipeline-exit-diagnose"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 2,
+      "slug": "git-fundamentals",
+      "cat": "Fondations",
+      "level": 1,
+      "skills": [
+        "gitlinux"
+      ],
+      "practiceRefs": [
+        "exercise:git-commit-grouping",
+        "exercise:git-conflicting-files"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 3,
+      "slug": "javascript-basics",
+      "cat": "Fondations",
+      "level": 1,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:js-array-objects",
+        "exercise:js-conditions",
+        "exercise:js-loops",
+        "exercise:js-even-squares"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 4,
+      "slug": "algorithmic-thinking",
+      "cat": "Fondations",
+      "level": 1,
+      "skills": [
+        "algo"
+      ],
+      "practiceRefs": [
+        "exercise:algo-two-sum",
+        "exercise:fizzbuzz",
+        "exercise:algo-binary-search",
+        "exercise:algo-interval-merge",
+        "exercise:algo-coin-change-min",
+        "exercise:algo-kadane-max-subarray"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 5,
+      "slug": "recursion",
+      "cat": "Fondations",
+      "level": 2,
+      "skills": [
+        "algo"
+      ],
+      "practiceRefs": [],
+      "execPractice": true
+    },
+    {
+      "order": 6,
+      "slug": "data-structures-intro",
+      "cat": "Fondations",
+      "level": 2,
+      "skills": [
+        "ds"
+      ],
+      "practiceRefs": [
+        "exercise:ds-stack",
+        "exercise:algo-two-sum",
+        "exercise:perf-pair-count",
+        "exercise:ds-min-stack",
+        "exercise:ds-two-stack-queue",
+        "exercise:ds-lru-cache"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 7,
+      "slug": "typescript-basics",
+      "cat": "Fondations",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:ts-greeter",
+        "exercise:ts-interface-cart",
+        "exercise:ts-generic-first",
+        "exercise:ts-debug-positives"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 8,
+      "slug": "async-javascript",
+      "cat": "Fondations",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:async-sum",
+        "exercise:async-user-lookup",
+        "exercise:ts-async-fetch-user"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 9,
+      "slug": "git-advanced",
+      "cat": "Fondations",
+      "level": 3,
+      "skills": [
+        "gitlinux"
+      ],
+      "practiceRefs": [],
+      "execPractice": true
+    },
+    {
+      "order": 10,
+      "slug": "http-rest-json",
+      "cat": "Web & backend",
+      "level": 1,
+      "skills": [
+        "http"
+      ],
+      "practiceRefs": [
+        "exercise:http-status",
+        "exercise:api-router",
+        "exercise:http-idempotency-dedup",
+        "exercise:http-etag-revalidation"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 11,
+      "slug": "api-design-basics",
+      "cat": "Web & backend",
+      "level": 2,
+      "skills": [
+        "http"
+      ],
+      "practiceRefs": [
+        "exercise:api-router",
+        "exercise:http-status",
+        "exercise:http-method-idempotent"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 12,
+      "slug": "express-backend",
+      "cat": "Web & backend",
+      "level": 2,
+      "skills": [
+        "http",
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:api-router",
+        "exercise:validate-user",
+        "exercise:http-status"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 13,
+      "slug": "authentication",
+      "cat": "Web & backend",
+      "level": 2,
+      "skills": [
+        "secu",
+        "http"
+      ],
+      "practiceRefs": [
+        "exercise:auth-status-decision",
+        "exercise:validate-user"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 14,
+      "slug": "caching-performance",
+      "cat": "Web & backend",
+      "level": 3,
+      "skills": [
+        "archi",
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:ds-lru-cache",
+        "exercise:http-cache-policy",
+        "exercise:http-etag-revalidation"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 15,
+      "slug": "api-production-contracts",
+      "cat": "Web & backend",
+      "level": 3,
+      "skills": [
+        "http",
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:http-method-idempotent",
+        "exercise:api-pagination-choice",
+        "exercise:auth-status-decision",
+        "exercise:api-router",
+        "exercise:http-rate-limit-decide",
+        "exercise:http-idempotency-dedup",
+        "exercise:http-resilient-consumer"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 16,
+      "slug": "html-semantic-structure",
+      "cat": "Frontend : Web Platform",
+      "level": 1,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:web-semantic",
+        "exercise:web-nav",
+        "exercise:web-card"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 17,
+      "slug": "css-fundamentals",
+      "cat": "Frontend : Web Platform",
+      "level": 1,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:css-specificity-order",
+        "exercise:css-box-size",
+        "exercise:web-inline-style",
+        "exercise:web-card"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 18,
+      "slug": "css-flexbox",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:web-nav",
+        "exercise:web-card"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 19,
+      "slug": "css-grid",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:frontend-layout-choice",
+        "exercise:web-card",
+        "exercise:web-nav"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 20,
+      "slug": "responsive-design",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:web-nav"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 21,
+      "slug": "web-forms-validation",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:web-greeting-form",
+        "exercise:web-card"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 22,
+      "slug": "typescript-frontend",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:ts-frontend-guard",
+        "exercise:ts-union-area",
+        "exercise:ts-interface-cart",
+        "exercise:react-profile"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 23,
+      "slug": "browser-dom-rendering",
+      "cat": "Frontend & React",
+      "level": 1,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:web-semantic",
+        "exercise:web-counter",
+        "exercise:dom-event-delegation",
+        "exercise:web-debug-selector",
+        "exercise:web-inline-style"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 24,
+      "slug": "react-fundamentals",
+      "cat": "Frontend & React",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:react-hello",
+        "exercise:react-greeting",
+        "exercise:react-conditional",
+        "exercise:react-counter",
+        "exercise:react-list",
+        "exercise:react-lift-state"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 25,
+      "slug": "react-hooks-effects",
+      "cat": "Frontend & React",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:react-toggle",
+        "exercise:react-form-name",
+        "exercise:react-search",
+        "exercise:react-parent-child",
+        "playbook:frontend-infinite-render"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 26,
+      "slug": "react-composition-architecture",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:react-profile",
+        "exercise:react-parent-child",
+        "exercise:react-search",
+        "playbook:frontend-regression"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 27,
+      "slug": "react-application-states",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:react-reducer-actions",
+        "exercise:react-search",
+        "exercise:react-parent-child",
+        "playbook:frontend-regression"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 28,
+      "slug": "react-accessibility",
+      "cat": "Frontend & React",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [
+        "exercise:a11y-accessible-name",
+        "exercise:web-semantic",
+        "exercise:web-card",
+        "exercise:react-avatar",
+        "exercise:react-debug-list"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 29,
+      "slug": "frontend-testing",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:react-debug-list",
+        "exercise:react-search",
+        "playbook:frontend-regression",
+        "playbook:feature-regression"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 30,
+      "slug": "frontend-performance",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:perf-pair-count",
+        "exercise:react-search"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 31,
+      "slug": "nextjs-foundations",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": [],
+      "execPractice": true
+    },
+    {
+      "order": 32,
+      "slug": "nextjs-rendering",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:frontend-rendering-choice"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 33,
+      "slug": "nextjs-server-client-components",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [],
+      "execPractice": true
+    },
+    {
+      "order": 34,
+      "slug": "nextjs-data-production",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:react-search"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 35,
+      "slug": "sql-foundations",
+      "cat": "Data & SQL",
+      "level": 1,
+      "skills": [
+        "sql"
+      ],
+      "practiceRefs": [
+        "exercise:sql-inner-join",
+        "exercise:sys-log-level-counts",
+        "exercise:fix-nplus1",
+        "exercise:sql-left-join-nulls",
+        "exercise:sql-group-having"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 36,
+      "slug": "database-modeling",
+      "cat": "Data & SQL",
+      "level": 2,
+      "skills": [
+        "sql"
+      ],
+      "practiceRefs": [
+        "exercise:sys-log-level-counts",
+        "exercise:fix-nplus1"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 37,
+      "slug": "sql-performance-indexing",
+      "cat": "Data & SQL",
+      "level": 3,
+      "skills": [
+        "sql",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:fix-nplus1",
+        "exercise:perf-pair-count",
+        "playbook:slow-sql-query",
+        "exercise:sql-index-advice",
+        "exercise:sql-window-running-total",
+        "exercise:sql-dedup-latest"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 38,
+      "slug": "database-transactions-concurrency",
+      "cat": "Data & SQL",
+      "level": 3,
+      "skills": [
+        "sql",
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:db-concurrency-risk",
+        "playbook:intermittent-incident"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 39,
+      "slug": "database-migrations",
+      "cat": "Data & SQL",
+      "level": 3,
+      "skills": [
+        "sql",
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:migration-compat"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 40,
+      "slug": "pandas-data-wrangling",
+      "cat": "Data & SQL",
+      "level": 2,
+      "skills": [
+        "python",
+        "sql"
+      ],
+      "practiceRefs": [
+        "exercise:table-groupby",
+        "exercise:data-quality-detect"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 41,
+      "slug": "data-cleaning-quality",
+      "cat": "Data & SQL",
+      "level": 2,
+      "skills": [
+        "python",
+        "sql"
+      ],
+      "practiceRefs": [
+        "exercise:data-quality-detect",
+        "exercise:data-missing-strategy"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 42,
+      "slug": "etl-pipelines",
+      "cat": "Data & SQL",
+      "level": 2,
+      "skills": [
+        "python",
+        "sql"
+      ],
+      "practiceRefs": [
+        "exercise:etl-pipeline-order"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 43,
+      "slug": "clean-code",
+      "cat": "Software engineering & architecture",
+      "level": 1,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:refactor-legacy",
+        "exercise:debug-cart"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 44,
+      "slug": "testing-foundations",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:validate-user",
+        "exercise:debug-cart",
+        "playbook:ci-passes-locally-fails",
+        "exercise:se-flaky-vs-real",
+        "exercise:se-release-decision"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 45,
+      "slug": "error-handling",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:retry-should",
+        "exercise:sh-exit-retry",
+        "playbook:third-party-outage"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 46,
+      "slug": "design-patterns-intro",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "patterns"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    },
+    {
+      "order": 47,
+      "slug": "architecture-basics",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "skills": [
+        "archi"
+      ],
+      "practiceRefs": [
+        "lab:cloud-architecture"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 48,
+      "slug": "async-messaging-queues",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "skills": [
+        "archi",
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:queue-idempotent-consumer",
+        "exercise:dlq-routing",
+        "exercise:retry-backoff-delay",
+        "playbook:queue-backlog",
+        "playbook:retry-storm",
+        "exercise:http-resilient-consumer"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 49,
+      "slug": "system-design-scaling",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-scaling-choice",
+        "exercise:cloud-replica-count",
+        "exercise:capacity-estimate",
+        "exercise:system-design-diagnose",
+        "exercise:cloud-detect-spof",
+        "exercise:cloud-stateful-autoscale"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 50,
+      "slug": "distributed-systems-failures",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "skills": [
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:replication-lag-reason",
+        "exercise:cloud-detect-spof",
+        "exercise:cloud-replica-count",
+        "exercise:queue-idempotent-consumer",
+        "playbook:replication-lag"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 51,
+      "slug": "refactoring-legacy-code",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:refactor-legacy",
+        "exercise:debt-legacy-refactor"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 52,
+      "slug": "technical-debt",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:debt-legacy-refactor"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 53,
+      "slug": "breaking-changes-compatibility",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:breaking-change-classify",
+        "playbook:breaking-api-change",
+        "exercise:se-semver-bump"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 54,
+      "slug": "technical-documentation",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se",
+        "comm"
+      ],
+      "practiceRefs": [
+        "mission:feature-design-docs",
+        "mission:health-incident-postmortem"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 55,
+      "slug": "observability-logging",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    },
+    {
+      "order": 56,
+      "slug": "python-foundations",
+      "cat": "Python & ML",
+      "level": 1,
+      "skills": [
+        "python"
+      ],
+      "practiceRefs": [
+        "exercise:py-list-sum",
+        "exercise:py-word-count",
+        "exercise:py-slugify",
+        "exercise:py-topk-frequent",
+        "exercise:py-sliding-window-max",
+        "exercise:py-retry-idempotent"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 57,
+      "slug": "statistics-for-ml",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml"
+      ],
+      "practiceRefs": [
+        "exercise:ml-split-choice"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 58,
+      "slug": "machine-learning-basics",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml"
+      ],
+      "practiceRefs": [
+        "exercise:ml-metric-choice"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 59,
+      "slug": "feature-engineering",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml"
+      ],
+      "practiceRefs": [
+        "exercise:ml-data-leakage",
+        "exercise:ml-feature-encoding"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 60,
+      "slug": "model-evaluation",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml",
+        "evalia"
+      ],
+      "practiceRefs": [
+        "exercise:ml-metric-choice",
+        "exercise:ml-confusion-metric",
+        "exercise:ml-overfit-diagnose"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 61,
+      "slug": "scikit-learn-workflow",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml",
+        "python"
+      ],
+      "practiceRefs": [
+        "exercise:ml-split-choice",
+        "exercise:ml-data-leakage"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 62,
+      "slug": "neural-networks",
+      "cat": "Python & ML",
+      "level": 3,
+      "skills": [
+        "dl"
+      ],
+      "practiceRefs": [
+        "exercise:nn-forward-neuron",
+        "exercise:ml-overfit-diagnose"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 63,
+      "slug": "transformers",
+      "cat": "Python & ML",
+      "level": 3,
+      "skills": [
+        "dl",
+        "llm"
+      ],
+      "practiceRefs": [
+        "exercise:attention-argmax"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 64,
+      "slug": "llm-fundamentals",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "llm"
+      ],
+      "practiceRefs": [
+        "exercise:llm-context-budget"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 65,
+      "slug": "prompt-engineering",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "llm"
+      ],
+      "practiceRefs": [
+        "exercise:rag-structured-validate"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 66,
+      "slug": "structured-outputs-tools",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "llm",
+        "agents"
+      ],
+      "practiceRefs": [
+        "exercise:rag-structured-validate"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 67,
+      "slug": "embeddings",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "rag",
+        "dl"
+      ],
+      "practiceRefs": [
+        "exercise:rag-cosine-rank"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 68,
+      "slug": "rag-fundamentals",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "rag"
+      ],
+      "practiceRefs": [
+        "exercise:rag-failure-locate"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 69,
+      "slug": "chunking-strategies",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "rag"
+      ],
+      "practiceRefs": [
+        "exercise:rag-chunking-overlap"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 70,
+      "slug": "vector-databases",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "rag"
+      ],
+      "practiceRefs": [
+        "exercise:rag-cosine-rank"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 71,
+      "slug": "retrieval-reranking",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "rag"
+      ],
+      "practiceRefs": [
+        "exercise:rag-rrf-fusion",
+        "exercise:rag-failure-locate"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 72,
+      "slug": "ai-evaluation",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "evalia"
+      ],
+      "practiceRefs": [
+        "exercise:rag-failure-locate"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 73,
+      "slug": "rag-evaluation",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "evalia",
+        "rag"
+      ],
+      "practiceRefs": [
+        "exercise:rag-failure-locate"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 74,
+      "slug": "agents-fundamentals",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "agents"
+      ],
+      "practiceRefs": [
+        "exercise:agent-tool-select",
+        "exercise:agent-state-transition"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 75,
+      "slug": "agent-workflows-orchestration",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "agents"
+      ],
+      "practiceRefs": [
+        "exercise:agent-loop-detect",
+        "exercise:agent-state-transition",
+        "exercise:agent-tool-validate",
+        "exercise:agent-retry-policy"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 76,
+      "slug": "ai-security",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:prompt-injection-classify"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 77,
+      "slug": "prompt-injection-defense",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:prompt-injection-classify",
+        "exercise:agent-hitl-decision"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 78,
+      "slug": "llm-cost-optimization",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "llm",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:llm-cost-estimate"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 79,
+      "slug": "observability-fundamentals",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-observability-gap",
+        "exercise:incident-health-rollup",
+        "exercise:alert-actionable"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 80,
+      "slug": "logging-structured",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "skills": [
+        "archi",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:cicd-mask-secrets"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 81,
+      "slug": "distributed-tracing",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:latency-percentiles"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 82,
+      "slug": "metrics-percentiles",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:latency-percentiles",
+        "exercise:perf-budget",
+        "exercise:cloud-observability-gap"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 83,
+      "slug": "slo-error-budget",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-error-budget",
+        "exercise:slo-burn-rate"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 84,
+      "slug": "incident-response",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:incident-health-rollup",
+        "exercise:cloud-rollback-decision",
+        "exercise:k8s-recovery-decision",
+        "mission:health-incident-postmortem",
+        "exercise:incident-severity"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 85,
+      "slug": "postmortem-rca",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "skills": [
+        "archi",
+        "comm"
+      ],
+      "practiceRefs": [
+        "exercise:sec-recovery-decision",
+        "mission:health-incident-postmortem",
+        "exercise:rca-classify-cause"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 86,
+      "slug": "resilience-patterns",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-detect-spof",
+        "exercise:cloud-multi-az",
+        "exercise:cloud-rpo-met",
+        "mission:cloud-high-availability",
+        "exercise:circuit-breaker-state",
+        "exercise:retry-should"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 87,
+      "slug": "linux-filesystem-permissions",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "skills": [
+        "gitlinux",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:linux-path-traversal-x"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 88,
+      "slug": "linux-processes-signals",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "skills": [
+        "gitlinux"
+      ],
+      "practiceRefs": [
+        "exercise:sys-process-top-cpu",
+        "exercise:docker-exit-diagnosis",
+        "exercise:linux-signal-choice"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 89,
+      "slug": "linux-services-systemd",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "skills": [
+        "gitlinux",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:systemd-restart-loop"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 90,
+      "slug": "linux-resources-io",
+      "cat": "Systèmes & Linux",
+      "level": 3,
+      "skills": [
+        "gitlinux",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:sys-process-top-cpu",
+        "exercise:k8s-oom-risk",
+        "exercise:linux-fd-ulimit"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 91,
+      "slug": "linux-ssh-remote",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "skills": [
+        "gitlinux",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:ssh-key-perms-accepted"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 92,
+      "slug": "networking-tcp-ip-model",
+      "cat": "Réseau",
+      "level": 1,
+      "skills": [
+        "http",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:net-http-status-class",
+        "exercise:net-dns-resolve"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 93,
+      "slug": "networking-addressing-routing",
+      "cat": "Réseau",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-cidr-overlap",
+        "exercise:cloud-subnet-visibility",
+        "exercise:cloud-sg-port-range"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 94,
+      "slug": "networking-dns",
+      "cat": "Réseau",
+      "level": 2,
+      "skills": [
+        "http",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:net-dns-resolve",
+        "exercise:dns-record-type-choice",
+        "exercise:dns-ttl-still-cached"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 95,
+      "slug": "networking-http-tls",
+      "cat": "Réseau",
+      "level": 2,
+      "skills": [
+        "http",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:net-http-status-class",
+        "exercise:http-status",
+        "exercise:tls-cert-usable",
+        "exercise:http-method-idempotent",
+        "mission:incident-dns-tls-http"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 96,
+      "slug": "networking-proxy-loadbalancing",
+      "cat": "Réseau",
+      "level": 3,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-readiness-routing",
+        "exercise:k8s-service-endpoints"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 97,
+      "slug": "docker-images-layers",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "skills": [
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:docker-layer-cache",
+        "exercise:docker-image-size",
+        "exercise:docker-tag-vs-digest"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 98,
+      "slug": "docker-build-dockerfile",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:docker-instruction-order",
+        "exercise:docker-dockerignore",
+        "exercise:docker-cmd-entrypoint"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 99,
+      "slug": "docker-networking-volumes",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:docker-port-mapping"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 100,
+      "slug": "docker-compose",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:docker-port-mapping",
+        "exercise:compose-depends-ready"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 101,
+      "slug": "docker-production-hardening",
+      "cat": "Conteneurs & Docker",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:docker-detect-root",
+        "exercise:docker-detect-secret",
+        "exercise:docker-exit-diagnosis",
+        "mission:docker-container-incident"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 102,
+      "slug": "ci-cd-pipeline-anatomy",
+      "cat": "CI/CD & livraison",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:cicd-critical-path",
+        "exercise:cicd-topo-order",
+        "exercise:cicd-fail-fast",
+        "exercise:cicd-cache-key",
+        "mission:cicd-blocked-delivery"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 103,
+      "slug": "ci-cd-quality-gates-artifacts",
+      "cat": "CI/CD & livraison",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "se"
+      ],
+      "practiceRefs": [
+        "exercise:cicd-stale-artifact",
+        "exercise:cicd-mask-secrets",
+        "exercise:cicd-env-promotion",
+        "exercise:cicd-branch-policy"
+      ],
+      "execPractice": true
+    },
+    {
+      "order": 104,
+      "slug": "deployment-strategies",
+      "cat": "CI/CD & livraison",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-deploy-strategy",
+        "exercise:k8s-rolling-available",
+        "exercise:cloud-readiness-routing",
+        "mission:k8s-rolling-regression"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 105,
+      "slug": "release-incident-recovery",
+      "cat": "CI/CD & livraison",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-rollback-decision",
+        "exercise:k8s-recovery-decision",
+        "exercise:incident-health-rollup",
+        "mission:cloud-broken-release"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 106,
+      "slug": "k8s-why-architecture",
+      "cat": "Kubernetes",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:k8s-count-kinds",
+        "exercise:k8s-pod-phase",
+        "lab:kubernetes"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 107,
+      "slug": "k8s-workloads",
+      "cat": "Kubernetes",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:k8s-choose-workload",
+        "exercise:k8s-replicas-ha",
+        "exercise:k8s-statefulset-pvc",
+        "exercise:k8s-image-pinned",
+        "lab:kubernetes"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 108,
+      "slug": "k8s-networking-services",
+      "cat": "Kubernetes",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:k8s-service-endpoints",
+        "exercise:k8s-selector-match",
+        "exercise:k8s-ingress-backends",
+        "lab:kubernetes"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 109,
+      "slug": "k8s-config-probes",
+      "cat": "Kubernetes",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:k8s-needs-probe",
+        "exercise:k8s-probe-role",
+        "exercise:k8s-oom-risk",
+        "exercise:k8s-secret-placement",
+        "mission:k8s-oomkilled-sizing"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 110,
+      "slug": "k8s-troubleshooting",
+      "cat": "Kubernetes",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:k8s-pod-phase",
+        "exercise:k8s-recovery-decision",
+        "exercise:k8s-config-drift",
+        "lab:kubernetes",
+        "mission:k8s-crashloop",
+        "mission:k8s-service-no-endpoints"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 111,
+      "slug": "k8s-security",
+      "cat": "Kubernetes",
+      "level": 3,
+      "skills": [
+        "secu",
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:sec-networkpolicy-open",
+        "exercise:k8s-secret-placement",
+        "lab:security"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 112,
+      "slug": "cloud-fundamentals",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-service-model",
+        "exercise:cloud-classify-tier",
+        "lab:cloud-architecture",
+        "mission:cloud-three-tier"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 113,
+      "slug": "cloud-networking",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-cidr-overlap",
+        "exercise:cloud-subnet-visibility",
+        "exercise:cloud-sg-port-range",
+        "exercise:cloud-public-exposure",
+        "mission:cloud-secure-exposure"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 114,
+      "slug": "cloud-compute-storage",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-compute-choice",
+        "exercise:cloud-storage-class",
+        "exercise:cloud-scaling-choice",
+        "exercise:cloud-scaling-kind",
+        "mission:cloud-high-availability"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 115,
+      "slug": "cloud-aws-core",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-iam-wildcard",
+        "exercise:cloud-iam-excess-actions",
+        "exercise:cloud-iam-credential-choice",
+        "exercise:cloud-provider-map",
+        "lab:cloud-architecture"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 116,
+      "slug": "cloud-azure-core",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-provider-map",
+        "exercise:cloud-iam-credential-choice",
+        "lab:cloud-architecture"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 117,
+      "slug": "iac-fundamentals",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:k8s-config-drift",
+        "exercise:iac-plan-destructive",
+        "exercise:iac-idempotent-changes",
+        "mission:iac-drift-remediation"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 118,
+      "slug": "cloud-finops",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [
+        "exercise:cloud-rightsizing-savings",
+        "exercise:cloud-monthly-cost",
+        "exercise:cloud-error-budget",
+        "mission:cloud-cost-reduction"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 119,
+      "slug": "deployment-secrets",
+      "cat": "Production & DevOps",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    },
+    {
+      "order": 120,
+      "slug": "docker-containers",
+      "cat": "Production & DevOps",
+      "level": 2,
+      "skills": [
+        "cloud"
+      ],
+      "practiceRefs": [
+        "exercise:docker-instruction-order",
+        "exercise:docker-layer-cache",
+        "exercise:docker-image-size"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 121,
+      "slug": "ci-cd",
+      "cat": "Production & DevOps",
+      "level": 2,
+      "skills": [
+        "cloud"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    },
+    {
+      "order": 122,
+      "slug": "monitoring-production",
+      "cat": "Production & DevOps",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    },
+    {
+      "order": 123,
+      "slug": "llm-observability",
+      "cat": "Production & DevOps",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "llm"
+      ],
+      "practiceRefs": [
+        "exercise:llm-cost-estimate",
+        "exercise:ml-drift-detect"
+      ],
+      "execPractice": false
+    },
+    {
+      "order": 124,
+      "slug": "readme-documentation",
+      "cat": "Portfolio & carrière",
+      "level": 1,
+      "skills": [
+        "comm"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    },
+    {
+      "order": 125,
+      "slug": "portfolio-github",
+      "cat": "Portfolio & carrière",
+      "level": 1,
+      "skills": [
+        "comm"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    },
+    {
+      "order": 126,
+      "slug": "technical-storytelling",
+      "cat": "Portfolio & carrière",
+      "level": 2,
+      "skills": [
+        "comm"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    },
+    {
+      "order": 127,
+      "slug": "system-design-interview",
+      "cat": "Portfolio & carrière",
+      "level": 3,
+      "skills": [
+        "archi",
+        "comm"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    },
+    {
+      "order": 128,
+      "slug": "interview-preparation",
+      "cat": "Portfolio & carrière",
+      "level": 2,
+      "skills": [
+        "comm"
+      ],
+      "practiceRefs": [],
+      "execPractice": false
+    }
+  ]
+}

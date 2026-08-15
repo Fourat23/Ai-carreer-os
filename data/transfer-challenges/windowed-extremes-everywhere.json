@@ -1,0 +1,51 @@
+{
+  "id": "windowed-extremes-everywhere",
+  "title": "Fenêtre glissante d'extrêmes : du code au monitoring",
+  "sourceSkill": "python",
+  "skills": ["python", "se"],
+  "transferLevel": "T5",
+  "bridge": "maximum sur fenêtre glissante (parcourir des fenêtres contiguës de taille w, gérer les bords w=0/w>len) → toute lecture d'un extrême LOCAL sur une série : pic de charge sur 5 min, drawdown maximal, plus longue file d'attente observée",
+  "crossDomain": true,
+  "targetContext": "Une équipe d'exploitation veut alerter sur le PIC de latence des 5 dernières minutes glissantes, pas sur la moyenne — sans parler d'algorithmique ni de Python.",
+  "lessonRefs": ["python-foundations", "metrics-percentiles"],
+  "simulationNote": "Séries décrites pour le raisonnement ; aucune métrique réelle collectée.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Alerter sur le pic de latence des 5 dernières minutes glissantes correspond à quelle opération, transposée du code ?",
+      "options": [
+        "Le maximum sur une fenêtre glissante de taille fixe",
+        "La moyenne globale depuis le démarrage",
+        "La dernière valeur mesurée uniquement",
+        "La somme totale de toutes les mesures"
+      ],
+      "answer": 0,
+      "explanation": "Un pic « sur 5 minutes glissantes » = maximum d'une fenêtre de taille fixe qui se déplace — exactement window_max, pas une moyenne globale ni la dernière valeur."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels pièges de bord du code se retrouvent côté monitoring ? (plusieurs)",
+      "options": [
+        "Une fenêtre plus large que l'historique disponible ne produit aucune valeur",
+        "Le nombre de fenêtres est longueur − taille + 1, pas la longueur",
+        "Un pic local peut être masqué si on regarde la moyenne au lieu du max",
+        "Agrandir la fenêtre supprime forcément tout le bruit sans coût"
+      ],
+      "answer": [0, 1, 2],
+      "explanation": "Fenêtre > historique = rien à afficher ; nombre de positions = n−w+1 ; la moyenne masque les pics. Agrandir la fenêtre lisse mais retarde la détection (compromis, pas gratuit)."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Série de 5 mesures, fenêtre glissante de taille 3 : combien de valeurs de sortie ?",
+      "answer": "3",
+      "explanation": "n − w + 1 = 5 − 3 + 1 = 3 fenêtres, donc 3 maxima — le même calcul de bords que dans l'exercice."
+    }
+  ]
+}

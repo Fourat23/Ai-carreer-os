@@ -161,7 +161,39 @@ vers la SUBSTANCE :
   exposées au lieu d'être masquées.
 - Toute limite (taxonomie secu/cloud/archi, 24 tests privés manquants) est **déclarée**, pas contournée.
 
-## 9. Verdict
+## 9. Hardening académique des leçons (FLOOR G — CP9/CP10)
+
+**Audit ≥ 24 leçons, Data/ML inclus.** Constat MÉTHODIQUE : les 128 leçons portent toutes le
+marqueur `<!-- keep -->` ET une section d'ouverture « 🌍 Le problème d'abord » (intuition/analogie
+AVANT le jargon). La cluster Data/ML auditée en profondeur (machine-learning-basics, statistics-for-ml,
+feature-engineering, model-evaluation, embeddings, neural-networks, transformers) est exemplaire :
+chacune ouvre sur un problème concret (spam, salaire moyen trompeur, résiliation, fraude à 99 %,
+recherche par sens, boutons à régler, souris ambiguë) avant tout terme technique. Fondations et
+SE/archi auditées (algorithmic-thinking, data-structures-intro, recursion, http-rest-json,
+api-production-contracts, async-messaging-queues, breaking-changes-compatibility, caching-performance,
+sql-foundations, sql-performance-indexing, testing-foundations, git-fundamentals,
+terminal-shell-filesystem, python-foundations) : même standard.
+
+**Verdict prose : KEEP.** Réécrire une prose déjà intuition-first pour produire du diff est
+explicitement interdit (ADR-044 D6). **Aucune réécriture cosmétique n'a été faite.**
+
+**Correction RÉELLE et justifiée (anti-scope-collapse — réallocation)** : la dette pédagogique
+concrète au niveau leçon n'était PAS la prose mais le CÂBLAGE concept → pratique délibérée. Les
+24 nouveaux exercices D3/D4/D5 (CP7) étaient orphelins de leur leçon-concept. **13 leçons** ont reçu
+des `practiceRefs` vers ces exercices, dont `caching-performance` qui n'avait AUCUNE pratique reliée
+(vrai trou comblé : ds-lru-cache, http-cache-policy, http-etag-revalidation). Chaque `practiceRef`
+résout vers un exercice réel (vérifié par `tests/v27-e2e`). C'est la « boucle cible » de HSD-044 §3
+rendue navigable : concept → guidé → application → autonomie → diagnostic → transfert.
+
+Leçons câblées : terminal-shell-filesystem, git-fundamentals, algorithmic-thinking,
+data-structures-intro, http-rest-json, caching-performance, api-production-contracts, sql-foundations,
+sql-performance-indexing, testing-foundations, async-messaging-queues, breaking-changes-compatibility,
+python-foundations.
+
+**Limite déclarée** : `secu/cloud/archi/ml/rag/agents` n'ont pas reçu de nouveaux exercices de code
+(taxonomie, cf. §5) ; leurs leçons restent reliées à labs/assessments/capstones/défis de transfert.
+
+## 10. Verdict
 
 La pratique gagne en PROFONDEUR réelle (D4/D5 exécutables), en FEEDBACK (49 exercices reliés à des
 misconceptions), en TRANSFERT (17 défis cross-domain) et en LISIBILITÉ (ladders explicites). Les

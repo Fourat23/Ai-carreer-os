@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T06:13:15.638Z",
+  "generatedAt": "2026-08-15T09:24:47.079Z",
   "skills": [
     {
       "id": "algo",
@@ -5869,6 +5869,10 @@
         {
           "kind": "lab",
           "id": "terminal"
+        },
+        {
+          "kind": "exercise",
+          "id": "sh-pipeline-exit-diagnose"
         }
       ]
     },
@@ -5885,6 +5889,10 @@
         {
           "kind": "exercise",
           "id": "git-commit-grouping"
+        },
+        {
+          "kind": "exercise",
+          "id": "git-conflicting-files"
         }
       ]
     },
@@ -5937,6 +5945,18 @@
         {
           "kind": "exercise",
           "id": "algo-binary-search"
+        },
+        {
+          "kind": "exercise",
+          "id": "algo-interval-merge"
+        },
+        {
+          "kind": "exercise",
+          "id": "algo-coin-change-min"
+        },
+        {
+          "kind": "exercise",
+          "id": "algo-kadane-max-subarray"
         }
       ]
     },
@@ -5971,6 +5991,18 @@
         {
           "kind": "exercise",
           "id": "perf-pair-count"
+        },
+        {
+          "kind": "exercise",
+          "id": "ds-min-stack"
+        },
+        {
+          "kind": "exercise",
+          "id": "ds-two-stack-queue"
+        },
+        {
+          "kind": "exercise",
+          "id": "ds-lru-cache"
         }
       ]
     },
@@ -6053,6 +6085,14 @@
         {
           "kind": "exercise",
           "id": "api-router"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-idempotency-dedup"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-etag-revalidation"
         }
       ]
     },
@@ -6135,6 +6175,20 @@
       "skills": [
         "archi",
         "se"
+      ],
+      "practiceRefs": [
+        {
+          "kind": "exercise",
+          "id": "ds-lru-cache"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-cache-policy"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-etag-revalidation"
+        }
       ]
     },
     {
@@ -6163,6 +6217,18 @@
         {
           "kind": "exercise",
           "id": "api-router"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-rate-limit-decide"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-idempotency-dedup"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-resilient-consumer"
         }
       ]
     },
@@ -6643,6 +6709,14 @@
         {
           "kind": "exercise",
           "id": "fix-nplus1"
+        },
+        {
+          "kind": "exercise",
+          "id": "sql-left-join-nulls"
+        },
+        {
+          "kind": "exercise",
+          "id": "sql-group-having"
         }
       ]
     },
@@ -6688,6 +6762,18 @@
         {
           "kind": "playbook",
           "id": "slow-sql-query"
+        },
+        {
+          "kind": "exercise",
+          "id": "sql-index-advice"
+        },
+        {
+          "kind": "exercise",
+          "id": "sql-window-running-total"
+        },
+        {
+          "kind": "exercise",
+          "id": "sql-dedup-latest"
         }
       ]
     },
@@ -6829,6 +6915,14 @@
         {
           "kind": "playbook",
           "id": "ci-passes-locally-fails"
+        },
+        {
+          "kind": "exercise",
+          "id": "se-flaky-vs-real"
+        },
+        {
+          "kind": "exercise",
+          "id": "se-release-decision"
         }
       ]
     },
@@ -6912,6 +7006,10 @@
         {
           "kind": "playbook",
           "id": "retry-storm"
+        },
+        {
+          "kind": "exercise",
+          "id": "http-resilient-consumer"
         }
       ]
     },
@@ -7036,6 +7134,10 @@
         {
           "kind": "playbook",
           "id": "breaking-api-change"
+        },
+        {
+          "kind": "exercise",
+          "id": "se-semver-bump"
         }
       ]
     },
@@ -7092,6 +7194,18 @@
         {
           "kind": "exercise",
           "id": "py-slugify"
+        },
+        {
+          "kind": "exercise",
+          "id": "py-topk-frequent"
+        },
+        {
+          "kind": "exercise",
+          "id": "py-sliding-window-max"
+        },
+        {
+          "kind": "exercise",
+          "id": "py-retry-idempotent"
         }
       ]
     },

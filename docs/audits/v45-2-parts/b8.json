@@ -1,0 +1,806 @@
+{
+  "auditBatch": 8,
+  "range": "113-128",
+  "theme": "Cloud/AWS/Azure/IaC/FinOps + Production/DevOps + Portfolio & carrière",
+  "generatedBy": "V45.2 lecture intégrale",
+  "lessons": [
+    {
+      "slug": "cloud-networking",
+      "file": "curriculum/lessons/cloud-networking.md",
+      "curriculumPosition": 113,
+      "wordCount": 1068,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Réutilise fidèlement le modèle réseau générique (CIDR, subnet public/privé, NAT privé+sortie) pour VPC/VNet — zéro re-enseignement, pur transfert.",
+        "Distingue proprement le filtrage niveau ressource (SG/NSG, stateful côté AWS) et niveau subnet (NACL) — nuance souvent confondue."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Mettre une base dans un subnet public 'pour y accéder' (surface d'attaque).",
+        "Security group trop ouvert (0.0.0.0/0 sur un port sensible)."
+      ],
+      "professionalNotes": [
+        "Souligne que la plupart des fuites cloud viennent d'une config réseau/accès trop permissive (responsabilité client)."
+      ],
+      "evidence": [
+        "Exemple guidé réseau 3 niveaux : VPC 10.0.0.0/16, subnet public 10.0.1.0/24 (équilibreur), privés 10.0.2.0/24 (app) et 10.0.3.0/24 (base) + NAT, pare-feu 'app n'accepte que l'équilibreur, base n'accepte que l'app'.",
+        "Cas métier : base accessible depuis Internet (subnet public + SG ouvert 0.0.0.0/0) → déplacer en subnet privé + SG restreint au subnet applicatif + NAT pour les MAJ sortantes."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "cloud-compute-storage",
+      "file": "curriculum/lessons/cloud-compute-storage.md",
+      "curriculumPosition": 114,
+      "wordCount": 1044,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Range compute (VM→conteneurs managés→serverless) et stockage (objet/bloc/fichier) sur des axes clairs avec le critère de choix pour chacun.",
+        "Relie 'compute éphémère → données dans un stockage persistant' aux volumes Docker et au stockage des Pods déjà vus."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Utiliser du stockage objet comme un disque de système de fichiers (ou l'inverse) : modèles d'accès différents.",
+        "Écrire des données à conserver sur le disque local d'une instance éphémère."
+      ],
+      "professionalNotes": [
+        "Signale cold start + limites de durée du serverless ; le stockage objet public par erreur comme source récurrente de fuites."
+      ],
+      "evidence": [
+        "Exemple guidé 'placer les briques d'une app' : API événementielle → serverless/conteneurs managés, médias → objet, base relationnelle → managée multi-AZ, disque VM legacy → bloc.",
+        "Cas métier : fichiers uploadés sur le disque local des VMs → disparition à chaque remplacement d'instance (autoscaling) → migration vers stockage objet (données survivent, coût baisse)."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "cloud-aws-core",
+      "file": "curriculum/lessons/cloud-aws-core.md",
+      "curriculumPosition": 115,
+      "wordCount": 1056,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Concentre le poids pédagogique sur IAM (rôles assumés > clés en dur, policies au moindre privilège) plutôt que sur un catalogue de services.",
+        "Rattache chaque service AWS à la catégorie conceptuelle déjà enseignée (S3=objet, EBS=bloc, EFS=fichier, ELB=L4/L7)."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Clés d'accès en dur dans le code au lieu d'un rôle IAM.",
+        "Policies trop larges (Action:* sur Resource:*) → moindre privilège bafoué."
+      ],
+      "professionalNotes": [
+        "Identifiants d'exemple manifestement factices (AKIA_EXEMPLE_FACTICE) ; root verrouillé + MFA ; fuite S3 = incident classique (responsabilité client)."
+      ],
+      "evidence": [
+        "Exemple guidé 'accès à un bucket' : PAS de clés en dur → rôle IAM avec policy s3:GetObject sur le bucket PRÉCIS → attaché au compute (EC2/Lambda/Pod EKS) → l'app agit via le rôle sans secret.",
+        "Cas métier : clés S3 en dur retrouvées dans un dépôt public → révoquer, passer au rôle IAM avec policy minimale sur le seul bucket, rendre le bucket privé."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "cloud-azure-core",
+      "file": "curriculum/lessons/cloud-azure-core.md",
+      "curriculumPosition": 116,
+      "wordCount": 1144,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 3,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Explique la spécificité Azure (management group → subscription → resource group → ressource) et l'héritage RBAC par portée, pas juste une liste de services.",
+        "Table de correspondances AWS↔Azure explicite AVEC l'écueil clé : IAM AWS combine identité ET droits ; Azure sépare Entra ID (annuaire) du RBAC (droits)."
+      ],
+      "weaknesses": [
+        "Beaucoup de noms propres (services + hiérarchie + correspondances) ; charge de mémorisation la plus élevée du batch (cognitive-load à 3)."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Confondre AWS et Azure (S3 ≠ Blob, IAM ≠ Entra ID + RBAC, security group ≠ NSG).",
+        "Attribuer un rôle à la mauvaise portée → trop ou pas assez de droits."
+      ],
+      "professionalNotes": [
+        "Identités managées présentées comme l'équivalent du rôle assumé AWS ; Key Vault pour les secrets ; valeurs d'exemple factices."
+      ],
+      "evidence": [
+        "Exemple guidé 'accès à un stockage' : identité managée activée sur le compute → rôle RBAC minimal (lecture Blob) attribué à cette identité sur la portée précise (le compte de stockage) → accès sans clé.",
+        "Correspondances précises : EBS↔Managed Disks, EFS↔Azure Files, EKS↔AKS, RDS↔Azure SQL, avec la mise en garde sur IAM vs Entra ID+RBAC."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "iac-fundamentals",
+      "file": "curriculum/lessons/iac-fundamentals.md",
+      "curriculumPosition": 117,
+      "wordCount": 1081,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Fait de 'lire le plan avant apply' une règle non négociable en montrant qu'un simple changement peut entraîner un remplacement DESTRUCTIF — sécurité opérationnelle réelle.",
+        "Généralise le déclaratif/idempotence/réconciliation déjà vus (systemd, Kubernetes) : cohérence conceptuelle explicite."
+      ],
+      "weaknesses": [
+        "Coquille mineure ('réutation' pour 'réutilisation') dans un titre de section — n'affecte pas la compréhension (à consigner en backlog, non corrigé : audit read-only)."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Appliquer sans lire le plan → destruction/replacement inattendu.",
+        "Modifier à la main → dérive (drift) ; le prochain apply annule ou casse."
+      ],
+      "professionalNotes": [
+        "Honnêteté explicite : 'cette leçon enseigne les CONCEPTS, ne provisionne aucune ressource réelle et ne prétend pas l'avoir fait' ; state sensible à protéger + verrouiller."
+      ],
+      "evidence": [
+        "Cycle plan→apply enseigné avec le plan qui montre create/update/DESTROY à relire ; state stocké partagé + verrouillé en équipe.",
+        "Cas métier : infra 'cliquée' irreproductible → passage IaC versionné, un plan révèle qu'un changement innocent aurait DÉTRUIT une base → on adapte avant apply."
+      ],
+      "recommendedAction": "MINOR_FIX",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "cloud-finops",
+      "file": "curriculum/lessons/cloud-finops.md",
+      "curriculumPosition": 118,
+      "wordCount": 1069,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Recadre le FinOps comme 'dépenser JUSTE, pas le moins' — un service critique mérite sa redondance : évite l'optimisation qui fragilise.",
+        "Relie le right-sizing aux requests/limits K8s et aux ressources Linux ; l'egress explicitement signalé comme coût sous-estimé."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Mettre une charge critique sur du spot (interruptible).",
+        "Ignorer les coûts de sortie de données (egress)."
+      ],
+      "professionalNotes": [
+        "Angle sécurité fin : un pic de coût peut RÉVÉLER un incident (ressources créées par un attaquant, minage) ; ne pas désactiver la journalisation pour 'économiser'."
+      ],
+      "evidence": [
+        "Trois modèles d'achat opposés sur un critère : à la demande (flexible, cher), réservé (remise contre engagement 1-3 ans, socle stable), spot (bon marché mais interruptible, batch tolérant) — 'on combine'.",
+        "Démarche visibilité→optimisation→gouvernance : tagging, chasser orphelins (disques/IP), éteindre le non-prod la nuit, right-sizer, réservé pour le socle + spot pour le batch, budgets + alertes."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "deployment-secrets",
+      "file": "curriculum/lessons/deployment-secrets.md",
+      "curriculumPosition": 119,
+      "wordCount": 966,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Priorise correctement la réponse à incident : RÉVOQUER d'abord (la clé est brûlée dès qu'elle est vue), le nettoyage d'historique ensuite — l'ordre qui compte vraiment.",
+        "Ancre dans le projet réel (clé Anthropic de DocSense via ANTHROPIC_API_KEY injectée par docker run -e / secrets CI, jamais dans l'image)."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Secret 'supprimé' du dernier commit mais présent dans l'historique.",
+        "Même clé partout (dev = prod) : impossible de révoquer sans tout casser (rayon d'explosion)."
+      ],
+      "professionalNotes": [
+        "Enseigne le concept 12-factor config, .env.example comme documentation, validation au démarrage (variable manquante → exit 1) et l'audit d'historique git log -p | grep."
+      ],
+      "evidence": [
+        "Procédure de fuite en 4 étapes : révoquer chez le fournisseur (immédiat) → régénérer dans .env gitignoré → nettoyer l'historique (filter-repo) 'mais considère la clé brûlée quoi qu'il arrive' → .gitignore + check pre-commit.",
+        "Audit concret proposé : git log -p | grep -iE 'key|secret|password' avant de rendre un repo public + secret GitHub Actions masqué dans les logs."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "docker-containers",
+      "file": "curriculum/lessons/docker-containers.md",
+      "curriculumPosition": 120,
+      "wordCount": 853,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T3",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 3,
+        "explanation-depth": 3,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 3
+      },
+      "strengths": [
+        "Analogie image/conteneur = classe/objet nette et juste ; orientation projet (DocSense livré en 'docker compose up') qui motive la valeur portfolio.",
+        "Insiste sur les invariants clés (secrets au run, volumes pour la persistance, image sur machine propre) avec un exercice de vérification."
+      ],
+      "weaknesses": [
+        "Recouvre en version condensée le contenu de la série Docker profonde (097-101) : ~853 mots vs ~1000-1300 pour les leçons dédiées, moins de profondeur (explanation-depth 3).",
+        "Positionnement curriculaire redondant (une deuxième introduction Docker après la série systématique) — d'où curriculum-positioning à 3."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Mettre des secrets dans l'image ou le Dockerfile.",
+        "Reconstruire l'image entière à chaque petit changement (mauvais ordre des couches)."
+      ],
+      "professionalNotes": [
+        "Bon récapitulatif applicatif du mois 11 (projet final) ; sa valeur est d'ancrage projet, pas d'apport conceptuel nouveau vs 097-101."
+      ],
+      "evidence": [
+        "Exemple guidé : docker run -e API_KEY=$API_KEY -p 3000:3000 monapi ('-e injecte le secret au run, l'image reste partageable') + variante compose app+base+volume.",
+        "Chevauchement documenté : reprend couches/volumes/secrets/compose déjà traités en profondeur dans docker-images-layers, docker-build-dockerfile, docker-networking-volumes, docker-compose (097-100)."
+      ],
+      "recommendedAction": "MINOR_FIX",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "ci-cd",
+      "file": "curriculum/lessons/ci-cd.md",
+      "curriculumPosition": 121,
+      "wordCount": 896,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T3",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 3,
+        "explanation-depth": 3,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 3
+      },
+      "strengths": [
+        "Apporte un angle propre au reste du corpus : l'éval smoke en CI (5 questions en replay) qui attrape les régressions de QUALITÉ d'un système LLM, pas seulement le code.",
+        "Message central juste et martelé : 'une CI qui ne bloque pas est inutile'."
+      ],
+      "weaknesses": [
+        "Recouvre en version condensée ci-cd-pipeline-anatomy (102) et ci-cd-quality-gates-artifacts (103) : ~896 mots, moins de profondeur (cache/artefact, build-once, promotion y sont bien plus développés).",
+        "Deuxième introduction CI/CD après la série systématique → curriculum-positioning à 3."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Une CI qui ne bloque pas (verte quoi qu'il arrive) : inutile.",
+        "Désactiver les tests qui échouent au lieu de les corriger."
+      ],
+      "professionalNotes": [
+        "L'apport durable de cette leçon (éval smoke LLM en CI, mock/replay) mériterait d'être fusionné dans la série CI/CD profonde plutôt que de vivre en doublon."
+      ],
+      "evidence": [
+        "Workflow avec npm ci + npm test + npm run build où 'chaque run échoue → le job échoue → le merge est bloqué', variante 'npm run curriculum:check ou éval smoke'.",
+        "Chevauchement documenté avec ci-cd-pipeline-anatomy (102) et ci-cd-quality-gates-artifacts (103), qui traitent runners/cache/artefacts/portes/promotion en profondeur."
+      ],
+      "recommendedAction": "MINOR_FIX",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "monitoring-production",
+      "file": "curriculum/lessons/monitoring-production.md",
+      "curriculumPosition": 122,
+      "wordCount": 946,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Ajoute aux 4 signaux d'or les axes propres à l'IA (qualité/coût/dérive), ce que les leçons observabilité génériques ne couvrent pas — apport distinct, pas un doublon.",
+        "Exige des alertes ACTIONNABLES (métrique → seuil → action) et combat la fatigue d'alerte ('dashboard de 40 graphes que personne ne regarde')."
+      ],
+      "weaknesses": [
+        "Recoupe partiellement metrics-percentiles (p95 vs moyenne) et observability-fundamentals, mais l'angle production/IA le justifie."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Surveiller la moyenne de latence (le p95 raconte la vraie douleur).",
+        "Découvrir les pannes par les utilisateurs (au lieu du monitoring)."
+      ],
+      "professionalNotes": [
+        "Détection de dérive de modèle par évals versionnées régulières (le score bouge sans changement de code) — réflexe LLMOps rare et pertinent."
+      ],
+      "evidence": [
+        "Exercice 'monitoring minimal en 5 lignes' (métrique, seuil, action si dépassé) + endpoint /health (live + ready) + compteur de coût LLM/jour avec seuil qui coupe/alerte.",
+        "Ancrage projet : le dashboard qualité de DocSense (scores par version, tendance, coût par analyse) couplé aux logs corrélés répond 'la qualité a-t-elle baissé ? depuis quand ? quel changement ?'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "llm-observability",
+      "file": "curriculum/lessons/llm-observability.md",
+      "curriculumPosition": 123,
+      "wordCount": 984,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Modèle mental fort et concret : 'un appel LLM = un reçu' (version, tokens, coût, latence, statut) via un wrapper unique — aucune trace oubliée.",
+        "Enseigne la boucle LLMOps (tracer→agréger→évaluer→comparer baselines→alerter) comme 'monitoring classique + dimension qualité propre à l'IA'."
+      ],
+      "weaknesses": [
+        "Chevauche monitoring-production sur le coût/dérive LLM, mais approfondit l'instrumentation (wrapper, reçu JSON) là où monitoring reste au niveau signaux."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Appels LLM éparpillés sans wrapper → traces incomplètes.",
+        "Évaluer une fois au lancement puis plus jamais (la dérive passe inaperçue)."
+      ],
+      "professionalNotes": [
+        "Interdit de logger PII/secrets dans les échantillons de prompts ; prompts versionnés pour rendre les scores comparables."
+      ],
+      "evidence": [
+        "Reçu JSON réel par appel : {requestId, promptVersion:'extract-v3', model, tokensIn:4200, tokensOut:310, costUsd:0.017, latencyMs:2100, status:'ok'} + wrapper llmTrace() succès/échec.",
+        "Phrase de valeur métier : 'depuis extract-v4, la fidélité a gagné 6 points et le coût par question a baissé de 20 %' — impossible sans LLMOps, croisant traces et harnais d'éval."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "readme-documentation",
+      "file": "curriculum/lessons/readme-documentation.md",
+      "curriculumPosition": 124,
+      "wordCount": 983,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Modèle mental 'README = landing page' avec un ordre de lecture précis (quoi → preuve → essai → sérieux → limites) qui structure toute la fiche.",
+        "Impose une installation TESTÉE sur machine propre et des CHIFFRES + limites honnêtes — critères vérifiables, pas des conseils vagues."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Décrire les features au lieu du PROBLÈME résolu.",
+        "Instructions jamais testées sur machine propre (elles échouent chez le lecteur)."
+      ],
+      "professionalNotes": [
+        "Argument séniorité : documenter les limites est un signal de lucidité ; survendre se détecte et disqualifie. '90 % des visiteurs ne verront que le README'."
+      ],
+      "evidence": [
+        "Bloc 'Installation (5 minutes)' copiable : git clone + npm install + npm run db:init + npm run dev, avec étape de VÉRIFICATION 'curl /books renvoie 5 livres' et collection Postman pour la démo.",
+        "Section CHIFFRES pour un projet IA : tableau d'éval avant/après (rappel, fidélité, coût/requête) 'prouve une démarche d'ingénieur là où les autres listent des features'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "portfolio-github",
+      "file": "curriculum/lessons/portfolio-github.md",
+      "curriculumPosition": 125,
+      "wordCount": 1006,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Modèle 'vitrine, pas grenier' : 6 épinglés couvrant des facettes distinctes (aucun doublon), le reste privé/archivé — critère concret, pas un slogan.",
+        "Relie le portfolio à la construction quotidienne du programme ('il s'accumule chaque jour', dès le jour 6) plutôt qu'à une étape finale."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Repos épinglés par défaut (les plus récents, pas les meilleurs).",
+        "Le faux commit quotidien vide (détectable, décrédibilisant)."
+      ],
+      "professionalNotes": [
+        "Audit secrets AVANT publication rappelé (l'historique n'oublie rien) ; ADRs dans les repos = preuve d'arbitrage, marqueur de séniorité."
+      ],
+      "evidence": [
+        "Ordre de portfolio raisonné (RAG évalué → ChurnScope ML honnête → LivreAPI → BiblioApp full-stack → DataPulse ETL) 'de la cible vers le socle, chaque repo prouve une facette différente'.",
+        "Exercice 'audit GitHub 3 minutes chrono dans la peau d'un recruteur' : noter ce qu'on voit, lister 5 corrections prioritaires (dont audit secrets des repos publics), exécuter."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "technical-storytelling",
+      "file": "curriculum/lessons/technical-storytelling.md",
+      "curriculumPosition": 126,
+      "wordCount": 953,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Applique STAR à un projet IA réel avec décisions ET chiffres (chunking par structure mesuré, retrieval hybride+reranking, fidélité 90 % sur 40 questions) — pas un canevas vide.",
+        "Principe de compression enseigné et exigé : 'si tu peux retirer une phrase sans rien perdre, retire-la' + trois formats 30 s / 90 s / 3 min."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Raconter les features (QUOI) au lieu des décisions (POURQUOI).",
+        "Prétendre que 'tout s'est bien passé' (aucun obstacle = aucune histoire)."
+      ],
+      "professionalNotes": [
+        "'On recrute une façon de PENSER' : décisions et trade-offs (ADR) sont le signal, les adjectifs sont du bruit — posture d'ingénieur."
+      ],
+      "evidence": [
+        "Pitch STAR concret : [T] assistant avec citations vérifiables → [A] chunking par structure (mesuré > taille fixe), retrieval hybride + reranking, éval dès le début → [R] 40 questions, fidélité 90 %, < 2 s, refus quand l'info manque, livré en docker compose up.",
+        "Le différenciateur n°1 énoncé : répondre 'comment sais-tu que ton système marche ?' par un tableau avant/après, pas par 'ça marche bien'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "system-design-interview",
+      "file": "curriculum/lessons/system-design-interview.md",
+      "curriculumPosition": 127,
+      "wordCount": 960,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Méthode en 4 étapes (clarifier → composants/flux → trade-offs → échelle/pannes) avec l'insistance juste : 'la méthode VISIBLE est la réponse, verbalise'.",
+        "Réutilise DocSense comme cas de conception réel (base vectorielle justifiée par 100k chunks, workflow vs agent, monolithe local pour confidentialité) — trade-offs ancrés."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Concevoir sans clarifier (foncer sur une solution).",
+        "Choisir la techno à la mode sans justifier (microservices 'parce que')."
+      ],
+      "professionalNotes": [
+        "Défaut recommandé 'monolithe modulaire, le distribué se justifie par des contraintes précises' + réflexe ×10 (cache, réplicas, files, dégradation gracieuse)."
+      ],
+      "evidence": [
+        "Exemple déroulé avec trade-offs explicites : base vectorielle (100k×chunks justifie l'ANN), workflow pas agent (chemin connu), monolithe modulaire local (confidentialité), + budget latence par étage et réponse dégradée si LLM indisponible.",
+        "Exercice difficile calibré : dérouler 45 min sur 'analyser 10 000 documents/jour et alerter sur anomalies' avec 2 trade-offs explicites et un paragraphe 'à 10× le volume'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "interview-preparation",
+      "file": "curriculum/lessons/interview-preparation.md",
+      "curriculumPosition": 128,
+      "wordCount": 1072,
+      "fullRead": true,
+      "auditBatch": 8,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Traite la préparation comme un SYSTÈME (dossier d'entretien assemblé semaine 51, simulations enregistrées, post-mortems) plutôt que de l'improvisation.",
+        "Donne la réponse d'or à la question inconnue : 'Je ne sais pas, voici comment je chercherais' + raisonnement à voix haute — bat le bluff."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Coder en silence (le recruteur ne peut pas noter une pensée invisible).",
+        "Mémoriser 100 solutions d'algo au lieu de 10 patterns + la méthode."
+      ],
+      "professionalNotes": [
+        "Clôt le parcours en agrégeant toutes les sections 🎤 des leçons IA ; réponse par le VÉCU chiffré 'imbattable face à la théorie récitée'."
+      ],
+      "evidence": [
+        "Histoire STAR chiffrée réutilisable : [A] séparer retrieval/génération → rappel@5 61 % → chunking coupait les idées → 3 stratégies mesurées → [R] rappel@5 61→84 % + réflexe 'diagnostiquer par étage'.",
+        "Simulation calibrée : 60 min enregistrées (1 algo à voix haute + pitch projet + 3 questions IA), auto-évaluée avec grille, 3 axes d'amélioration, refaire une semaine après ; checklist 'grille ≥ 3,5/5'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    }
+  ]
+}

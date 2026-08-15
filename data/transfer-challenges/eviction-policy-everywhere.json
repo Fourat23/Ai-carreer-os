@@ -1,0 +1,51 @@
+{
+  "id": "eviction-policy-everywhere",
+  "title": "L'éviction LRU, bien au-delà d'un cache",
+  "sourceSkill": "ds",
+  "skills": ["ds", "archi"],
+  "transferLevel": "T5",
+  "bridge": "cache LRU (capacité fixe → évincer l'élément le moins récemment utilisé) → toute ressource bornée qui doit libérer de la place : pool de connexions, sessions en mémoire, quotas de fichiers ouverts",
+  "crossDomain": true,
+  "targetContext": "Un service garde en mémoire les sessions actives ; la mémoire est bornée et il faut décider laquelle libérer quand elle est pleine — on ne parle pas de 'cache'.",
+  "lessonRefs": ["data-structures-intro", "caching-performance"],
+  "simulationNote": "Scénarios décrits pour le raisonnement ; aucune mémoire réelle mesurée.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un pool garde au plus 100 sessions en mémoire. À la 101e, laquelle libérer pour minimiser l'impact utilisateur, en transposant le principe LRU ?",
+      "options": [
+        "La session la moins récemment utilisée",
+        "La session la plus récemment utilisée",
+        "Une session au hasard, c'est équivalent",
+        "La session la plus volumineuse"
+      ],
+      "answer": 0,
+      "explanation": "LRU : la moins récemment utilisée est la moins susceptible d'être réutilisée bientôt. Évincer la plus récente (MRU) casse justement l'activité en cours."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels indices trahissent qu'un problème appelle une politique d'éviction (et pas juste 'plus de mémoire') ? (plusieurs)",
+      "options": [
+        "La ressource est intrinsèquement bornée (capacité fixe)",
+        "L'accès est très inégal : peu d'entrées servent souvent, beaucoup rarement",
+        "Il suffit toujours d'ajouter de la RAM sans limite",
+        "On peut prédire quelles entrées resserviront à court terme via la récence"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Capacité bornée + accès inégal + récence prédictive = terrain d'une politique d'éviction. 'Ajouter de la RAM sans limite' nie le problème."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Dans une politique LRU stricte, lire une entrée déjà présente change-t-elle l'ordre d'éviction ? Réponds par oui ou non.",
+      "answer": "oui",
+      "explanation": "Un accès (même en lecture) rafraîchit la récence : l'entrée redevient la plus récente et sera évincée en dernier."
+    }
+  ]
+}

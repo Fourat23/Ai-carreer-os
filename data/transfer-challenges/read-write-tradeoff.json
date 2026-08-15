@@ -1,0 +1,51 @@
+{
+  "id": "read-write-tradeoff",
+  "title": "Accélérer la lecture au prix de l'écriture : un compromis récurrent",
+  "sourceSkill": "sql",
+  "skills": ["sql", "archi"],
+  "transferLevel": "T5",
+  "bridge": "un index SQL accélère les lectures ciblées mais coûte en écriture et en stockage → tout dispositif qui précalcule pour lire vite au prix d'écritures plus lourdes : cache, dénormalisation, vue matérialisée, réplica de lecture",
+  "crossDomain": true,
+  "targetContext": "Une équipe envisage de DÉNORMALISER une donnée (copier un champ pour éviter une jointure) et se demande quand c'est un bon compromis — sans parler d'index.",
+  "lessonRefs": ["sql-performance-indexing", "caching-performance"],
+  "simulationNote": "Charges décrites pour le raisonnement ; aucune base réelle mesurée.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Quel raisonnement, transposé de l'indexation, guide la décision de dénormaliser ?",
+      "options": [
+        "Justifié si les lectures dominent largement les écritures et la donnée est peu volatile",
+        "Toujours justifié : dupliquer accélère toujours tout",
+        "Jamais justifié : la duplication est interdite",
+        "Justifié seulement si la base est petite"
+      ],
+      "answer": 0,
+      "explanation": "Comme un index, la dénormalisation paie surtout quand on lit beaucoup plus qu'on n'écrit et que la donnée change peu — sinon le coût de maintien de la cohérence l'emporte."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels coûts 'côté écriture' partagent index, cache, dénormalisation et vue matérialisée ? (plusieurs)",
+      "options": [
+        "Chaque écriture doit aussi mettre à jour la copie/structure dérivée",
+        "Risque d'incohérence si la dérivée n'est pas synchronisée",
+        "Consommation d'espace supplémentaire",
+        "Ils suppriment tout besoin de penser la cohérence"
+      ],
+      "answer": [0, 1, 2],
+      "explanation": "Tous précalculent : surcoût d'écriture, risque d'incohérence, espace en plus. Aucun ne dispense de penser la cohérence — au contraire."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Charge : 1000 lectures pour 1 écriture, donnée quasi figée. Dénormaliser est-il un bon compromis ? Réponds oui ou non.",
+      "answer": "oui",
+      "explanation": "Lectures massivement dominantes + faible volatilité : le gain en lecture dépasse de loin le coût d'écriture — bon compromis, comme un index bien choisi."
+    }
+  ]
+}

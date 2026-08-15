@@ -1,0 +1,51 @@
+{
+  "id": "budget-then-escalate",
+  "title": "Budget puis escalade : réessayer sans s'acharner",
+  "sourceSkill": "http",
+  "skills": ["http", "agents"],
+  "transferLevel": "T5",
+  "bridge": "consommateur résilient (réessayer dans un budget borné, puis router en dead letter queue) → toute boucle qui doit s'arrêter et escalader au lieu de réessayer indéfiniment : agent avec budget d'étapes puis passage à un humain",
+  "crossDomain": true,
+  "targetContext": "Un agent logiciel tente une tâche et échoue ; il faut décider quand cesser de réessayer et escalader vers un humain — sans parler de file de messages.",
+  "lessonRefs": ["resilience-patterns", "agents-fundamentals"],
+  "simulationNote": "Tentatives décrites pour le raisonnement ; aucun agent réel exécuté.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un agent échoue de façon répétée. Quelle transposition du 'budget de retry puis DLQ' est correcte ?",
+      "options": [
+        "Fixer un budget d'essais, puis escalader vers un humain si épuisé",
+        "Réessayer indéfiniment jusqu'à réussite",
+        "Abandonner silencieusement au premier échec",
+        "Doubler le budget à chaque échec sans limite"
+      ],
+      "answer": 0,
+      "explanation": "Budget borné + escalade = équivalent du retry borné puis DLQ. Réessayer sans fin (ou sans limite de budget) reproduit exactement le risque de boucle non bornée."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels éléments du consommateur résilient se transposent à l'agent ? (plusieurs)",
+      "options": [
+        "Un budget explicite (nombre d'essais / coût) qui borne la boucle",
+        "Une destination d'escalade quand le budget est épuisé (humain = DLQ)",
+        "L'idempotence : ne pas ré-appliquer un effet déjà réalisé",
+        "L'absence totale de limite pour maximiser les chances"
+      ],
+      "answer": [0, 1, 2],
+      "explanation": "Budget, escalade et idempotence se transposent directement. L'absence de limite est précisément l'anti-pattern que le budget corrige."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Budget de 3 essais, tous échouent. Que fait l'agent au 4e temps : réessaie ou escalade ? Réponds réessaie ou escalade.",
+      "answer": "escalade",
+      "explanation": "Budget épuisé → on route vers l'escalade humaine (analogue du passage en DLQ), au lieu de réessayer sans fin."
+    }
+  ]
+}

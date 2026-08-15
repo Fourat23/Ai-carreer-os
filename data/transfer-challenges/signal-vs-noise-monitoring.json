@@ -1,0 +1,51 @@
+{
+  "id": "signal-vs-noise-monitoring",
+  "title": "Signal ou bruit : instable vs vraie régression, partout",
+  "sourceSkill": "se",
+  "skills": ["se"],
+  "transferLevel": "T5",
+  "bridge": "distinguer un test instable (alternance pass/fail) d'une vraie régression (verts puis rouges nets) → tout diagnostic où il faut séparer le bruit aléatoire d'un vrai changement : alertes de monitoring, dérive d'une métrique, résultats d'un test A/B",
+  "crossDomain": true,
+  "targetContext": "Une équipe d'astreinte voit une métrique fluctuer ; elle doit décider si c'est du bruit ou une vraie dégradation — sans parler de tests flaky.",
+  "lessonRefs": ["observability-fundamentals", "monitoring-production"],
+  "simulationNote": "Séries décrites pour le raisonnement ; aucune métrique réelle collectée.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Une métrique passe régulièrement au-dessus puis en dessous du seuil, sans tendance nette. Par analogie avec un test, comment la qualifier ?",
+      "options": [
+        "Du bruit (instable) : agir dessus créerait de la fatigue d'alerte",
+        "Une régression franche à corriger d'urgence",
+        "Une panne totale du service",
+        "Un problème réseau certain"
+      ],
+      "answer": 0,
+      "explanation": "L'alternance sans tendance = bruit, comme un test flaky. Déclencher une alerte à chaque oscillation crée de la fatigue d'alerte sans rien corriger."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels motifs indiquent une VRAIE dégradation (et non du bruit) ? (plusieurs)",
+      "options": [
+        "Une bascule nette : bon jusqu'à un instant, puis durablement mauvais",
+        "Une corrélation avec un déploiement précis",
+        "Des oscillations symétriques autour de la moyenne",
+        "Une tendance monotone qui empire dans le temps"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Bascule nette, corrélation à un changement, tendance monotone = signal. Les oscillations symétriques sont la signature du bruit."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Historique d'un test : pass, pass, fail, fail, fail. Instable ou régression ? Réponds instable ou régression.",
+      "answer": "régression",
+      "explanation": "Des verts PUIS uniquement des rouges = bascule nette : une régression, pas du bruit alternant."
+    }
+  ]
+}

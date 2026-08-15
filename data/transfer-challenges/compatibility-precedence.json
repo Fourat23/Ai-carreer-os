@@ -1,0 +1,51 @@
+{
+  "id": "compatibility-precedence",
+  "title": "Compatibilité : la précédence du changement cassant",
+  "sourceSkill": "se",
+  "skills": ["se", "http"],
+  "transferLevel": "T5",
+  "bridge": "SemVer (cassant > feature > fix) et compatibilité d'API (ajouter un champ optionnel = compatible ; retirer/renommer = cassant) → toute évolution de contrat partagé : schéma de base, format d'événement, contrat de fichier",
+  "crossDomain": true,
+  "targetContext": "Une équipe fait évoluer le SCHÉMA d'un événement partagé entre services ; elle doit juger si un consommateur existant cassera — sans parler de SemVer.",
+  "lessonRefs": ["breaking-changes-compatibility", "database-migrations"],
+  "simulationNote": "Évolutions de schéma décrites pour le raisonnement ; aucun service réel.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "On ajoute un champ OPTIONNEL et on RENOMME un champ existant dans le même changement. Quel verdict de compatibilité, par précédence ?",
+      "options": [
+        "Cassant : le renommage domine, même avec un ajout compatible",
+        "Compatible : l'ajout suffit à rendre l'ensemble sûr",
+        "Neutre : rien ne change pour les consommateurs",
+        "Impossible à juger sans exécuter le code"
+      ],
+      "answer": 0,
+      "explanation": "Comme en SemVer, le changement le plus fort l'emporte : un renommage casse les consommateurs existants, quelle que soit la présence d'ajouts compatibles."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles évolutions sont RÉTROCOMPATIBLES pour un consommateur existant ? (plusieurs)",
+      "options": [
+        "Ajouter un champ optionnel avec valeur par défaut",
+        "Retirer un champ que le consommateur lit",
+        "Rendre obligatoire un champ jusqu'ici optionnel",
+        "Ajouter une nouvelle valeur d'énumération que les anciens ignorent"
+      ],
+      "answer": [0, 3],
+      "explanation": "Ajout optionnel et valeur d'énum ignorable sont compatibles ; retirer un champ lu ou durcir une contrainte casse les clients existants."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Un lot de changements contient : 2 correctifs, 1 ajout optionnel, 1 suppression de champ. Quel niveau global : compatible ou cassant ?",
+      "answer": "cassant",
+      "explanation": "La suppression d'un champ domine par précédence : le lot est globalement cassant, malgré les correctifs et l'ajout compatible."
+    }
+  ]
+}

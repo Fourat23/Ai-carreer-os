@@ -1,0 +1,51 @@
+{
+  "id": "throttling-everywhere",
+  "title": "La fenêtre glissante : limiter bien au-delà d'une API",
+  "sourceSkill": "http",
+  "skills": ["http", "secu"],
+  "transferLevel": "T5",
+  "bridge": "limiteur de débit à fenêtre glissante (au plus N actions par intervalle) → toute protection contre l'abus par fréquence : tentatives de connexion, envois d'e-mails, tempête de réessais",
+  "crossDomain": true,
+  "targetContext": "Un service d'authentification veut bloquer le bourrage d'identifiants (credential stuffing) sans pénaliser un utilisateur légitime — sans qu'on parle de 'rate limit d'API'.",
+  "lessonRefs": ["api-production-contracts", "authentication"],
+  "simulationNote": "Compte d'actions décrit pour le raisonnement ; aucun trafic réel.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Pour freiner le bourrage d'identifiants, quelle transposition du limiteur à fenêtre glissante est la plus juste ?",
+      "options": [
+        "Limiter les tentatives échouées par compte/IP sur une fenêtre de temps",
+        "Bloquer définitivement toute IP après un seul échec",
+        "Ne rien limiter et espérer que ça passe",
+        "Augmenter la longueur minimale des mots de passe uniquement"
+      ],
+      "answer": 0,
+      "explanation": "Une fenêtre glissante sur les échecs récents freine l'attaque en gardant les vrais utilisateurs peu impactés. Le bannissement au premier échec punit les fautes de frappe légitimes."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles propriétés de la fenêtre glissante se transposent telles quelles ? (plusieurs)",
+      "options": [
+        "Les actions trop anciennes sortent de la fenêtre et cessent de compter",
+        "On compte les actions dans un intervalle mobile, pas depuis toujours",
+        "Une action refusée doit toujours réinitialiser tout le compteur",
+        "Le seuil et la durée de fenêtre sont des paramètres à choisir selon le risque"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Expiration des vieux événements, comptage sur intervalle mobile, seuil/fenêtre paramétrables : c'est le cœur du mécanisme. Réinitialiser tout à chaque refus n'en fait pas partie."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Fenêtre de 60 s, seuil 5. Cinq échecs à t=0..4 s, un 6e à t=10 s : accepté ou refusé ? Réponds accepté ou refusé.",
+      "answer": "refusé",
+      "explanation": "Les 5 premiers sont encore dans la fenêtre de 60 s à t=10 s ; le 6e dépasse le seuil et est refusé."
+    }
+  ]
+}

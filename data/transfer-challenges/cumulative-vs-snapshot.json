@@ -1,0 +1,51 @@
+{
+  "id": "cumulative-vs-snapshot",
+  "title": "Cumul vs instantané : le total courant partout",
+  "sourceSkill": "sql",
+  "skills": ["sql", "se"],
+  "transferLevel": "T5",
+  "bridge": "fonction fenêtre SUM() OVER (PARTITION BY ... ORDER BY ...) = total cumulé par groupe dans un ordre → tout indicateur qui se lit soit en instantané, soit en cumul ordonné : solde bancaire, métrique de monitoring, progression",
+  "crossDomain": true,
+  "targetContext": "Un tableau de bord affiche un 'solde' financier ; l'équipe se demande si c'est une valeur instantanée ou un cumul — sans parler de SQL ni de fonctions fenêtre.",
+  "lessonRefs": ["sql-foundations", "metrics-percentiles"],
+  "simulationNote": "Chiffres illustratifs pour le raisonnement ; aucune base de données réelle.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Un solde qui n'a de sens qu'ordonné dans le temps et dépendant de TOUTES les opérations précédentes correspond à quelle notion transposée ?",
+      "options": [
+        "Un total cumulé (running total) ordonné",
+        "Une simple moyenne",
+        "Une valeur instantanée indépendante du passé",
+        "Un maximum global"
+      ],
+      "answer": 0,
+      "explanation": "Le solde est un cumul ordonné : chaque point dépend de la somme ordonnée des précédents — exactement une fonction fenêtre de type running total."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels pièges du cumul ordonné se retrouvent hors SQL ? (plusieurs)",
+      "options": [
+        "Mélanger l'ordre fausse tout le cumul",
+        "Cumuler à travers des groupes qui devraient être séparés (partition oubliée)",
+        "Le cumul réduit forcément le nombre de lignes affichées",
+        "Un point isolé n'a pas de sens sans son historique ordonné"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "L'ordre et la partition sont essentiels, et un point de cumul dépend de son historique. En revanche un running total ne réduit pas les lignes : une valeur par point."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Opérations d'un compte, dans l'ordre : +100, -30, +10. Quel est le solde cumulé final ?",
+      "answer": "80",
+      "explanation": "Cumul ordonné : 100, puis 70, puis 80. Le résultat dépend de la somme ordonnée de toutes les opérations."
+    }
+  ]
+}

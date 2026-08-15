@@ -1,0 +1,51 @@
+{
+  "id": "greedy-is-not-optimal",
+  "title": "Quand 'prendre le plus gros d'abord' se trompe",
+  "sourceSkill": "algo",
+  "skills": ["algo"],
+  "transferLevel": "T5",
+  "bridge": "rendu de monnaie : la stratégie gloutonne (plus grosse pièce d'abord) est parfois sous-optimale → toute décision métier où optimiser localement à chaque étape n'atteint pas l'optimum global",
+  "crossDomain": true,
+  "targetContext": "Un responsable alloue un budget en finançant d'abord le plus gros poste possible à chaque tour, et s'étonne d'un résultat sous-optimal — sans qu'on parle d'algorithmique.",
+  "lessonRefs": ["algorithmic-thinking", "recursion"],
+  "simulationNote": "Décision décrite pour le raisonnement ; aucun solveur exécuté.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Quel principe algorithmique explique qu'une suite de meilleurs choix locaux ne donne pas toujours le meilleur résultat global ?",
+      "options": [
+        "L'approche gloutonne n'est optimale que pour certaines structures de problème",
+        "La récursion est toujours plus lente",
+        "Le tri est inutile ici",
+        "Les tables de hachage résolvent tout"
+      ],
+      "answer": 0,
+      "explanation": "Le glouton n'atteint l'optimum que si le problème a la 'propriété gloutonne' ; sinon il faut explorer les combinaisons (programmation dynamique)."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Dans quels signaux métier faut-il se méfier d'une heuristique gloutonne ? (plusieurs)",
+      "options": [
+        "Les choix ont des interactions (prendre A empêche une meilleure paire B+C)",
+        "Il existe des contraintes qui rendent certains gros choix contre-productifs",
+        "Chaque choix est totalement indépendant des autres",
+        "On observe un résultat pire qu'une combinaison évidente à la main"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Interactions entre choix, contraintes, et un contre-exemple manuel signalent que le glouton rate l'optimum. Si les choix sont vraiment indépendants, le glouton peut suffire."
+    },
+    {
+      "id": "q3",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "Pièces {1,3,4}, rendre 6. Le glouton (4 puis 1 puis 1) utilise 3 pièces. Combien l'optimum en utilise-t-il ?",
+      "answer": "2",
+      "explanation": "3+3 = 6 avec 2 pièces : l'optimum bat le glouton (4+1+1). C'est la signature d'un problème où le glouton se trompe."
+    }
+  ]
+}

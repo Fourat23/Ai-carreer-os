@@ -1,0 +1,6681 @@
+{
+  "generatedAt": "V45-AUDIT",
+  "inventory": {
+    "lessons": 128,
+    "programLessons": 128,
+    "skills": 20,
+    "days": 365,
+    "exercises": 262,
+    "executableExercises": 262,
+    "assessments": 16,
+    "assessmentQuestions": 83,
+    "capstones": 5,
+    "transferChallenges": 18,
+    "missions": 42,
+    "playbooks": 45,
+    "misconceptions": 24,
+    "publicTests": 673,
+    "privateTests": 337
+  },
+  "distributions": {
+    "exerciseDifficulty": {
+      "d2": 142,
+      "d3": 78,
+      "d4": 17,
+      "d1": 21,
+      "d5": 4
+    },
+    "exerciseRuntime": {
+      "node-js": 208,
+      "typescript": 16,
+      "python3": 12,
+      "react-tsx": 15,
+      "web": 11
+    },
+    "exerciseMeasures": {
+      "UNDERSTANDING": 137,
+      "APPLICATION": 75,
+      "DIAGNOSIS": 15,
+      "RECALL": 21,
+      "DEBUGGING": 10,
+      "PROFESSIONAL_JUDGEMENT": 4
+    },
+    "exerciseByProgramSkill": {
+      "jsts": 215,
+      "algo": 25,
+      "ds": 16,
+      "http": 14,
+      "gitlinux": 22,
+      "python": 15,
+      "se": 6,
+      "sql": 5
+    },
+    "lessonByCategory": {
+      "IA appliquée": 15,
+      "Fondations": 9,
+      "Web & backend": 6,
+      "Software engineering & architecture": 13,
+      "Frontend & React": 12,
+      "CI/CD & livraison": 4,
+      "Production & DevOps": 5,
+      "Cloud, AWS, Azure & IaC": 7,
+      "Frontend : Web Platform": 7,
+      "Data & SQL": 8,
+      "Observabilité, SRE & fiabilité": 8,
+      "Conteneurs & Docker": 5,
+      "Python & ML": 8,
+      "Portfolio & carrière": 5,
+      "Kubernetes": 6,
+      "Systèmes & Linux": 5,
+      "Réseau": 5
+    },
+    "lessonByLevel": {
+      "L3": 47,
+      "L2": 67,
+      "L1": 14
+    },
+    "lessonWordBuckets": {
+      "800-1500": 122,
+      "1500-2500": 6
+    }
+  },
+  "quality": {
+    "exercisesFailingContract": [
+      "array-sum-even",
+      "async-sum",
+      "async-user-lookup",
+      "fizzbuzz",
+      "greeting",
+      "k8s-needs-probe",
+      "k8s-probe-role",
+      "k8s-recovery-decision",
+      "k8s-statefulset-pvc",
+      "py-debug-grades",
+      "py-list-sum",
+      "py-report",
+      "py-temperature",
+      "py-word-count",
+      "sec-blast-radius",
+      "sec-image-digest",
+      "sec-networkpolicy-open",
+      "sec-remediation-order",
+      "sec-sbom-added",
+      "ts-async-double",
+      "ts-fizzbuzz",
+      "ts-greeter",
+      "validate-user",
+      "word-frequencies"
+    ],
+    "lessonsWithoutMentalModel": [],
+    "lessonsThinMentalModel": [],
+    "lessonsWithoutProblemFirst": [],
+    "lessonsWithoutRecap": [],
+    "lessonsWithoutTrap": [
+      "agent-workflows-orchestration",
+      "ai-evaluation",
+      "ai-security",
+      "api-design-basics",
+      "api-production-contracts",
+      "architecture-basics",
+      "authentication",
+      "breaking-changes-compatibility",
+      "browser-dom-rendering",
+      "caching-performance",
+      "chunking-strategies",
+      "ci-cd-pipeline-anatomy",
+      "ci-cd",
+      "clean-code",
+      "cloud-azure-core",
+      "cloud-compute-storage",
+      "cloud-finops",
+      "cloud-fundamentals",
+      "data-cleaning-quality",
+      "data-structures-intro",
+      "database-migrations",
+      "database-modeling",
+      "deployment-secrets",
+      "distributed-systems-failures",
+      "distributed-tracing",
+      "docker-build-dockerfile",
+      "docker-compose",
+      "docker-containers",
+      "docker-networking-volumes",
+      "docker-production-hardening",
+      "error-handling",
+      "etl-pipelines",
+      "express-backend",
+      "frontend-performance",
+      "frontend-testing",
+      "git-advanced",
+      "git-fundamentals",
+      "html-semantic-structure",
+      "http-rest-json",
+      "iac-fundamentals",
+      "incident-response",
+      "k8s-config-probes",
+      "k8s-networking-services",
+      "k8s-troubleshooting",
+      "k8s-why-architecture",
+      "k8s-workloads",
+      "linux-processes-signals",
+      "linux-resources-io",
+      "linux-services-systemd",
+      "linux-ssh-remote",
+      "llm-cost-optimization",
+      "llm-fundamentals",
+      "llm-observability",
+      "logging-structured",
+      "machine-learning-basics",
+      "metrics-percentiles",
+      "monitoring-production",
+      "networking-addressing-routing",
+      "networking-http-tls",
+      "networking-proxy-loadbalancing",
+      "networking-tcp-ip-model",
+      "neural-networks",
+      "nextjs-data-production",
+      "nextjs-foundations",
+      "nextjs-rendering",
+      "nextjs-server-client-components",
+      "observability-fundamentals",
+      "observability-logging",
+      "pandas-data-wrangling",
+      "portfolio-github",
+      "postmortem-rca",
+      "prompt-injection-defense",
+      "rag-fundamentals",
+      "react-application-states",
+      "react-composition-architecture",
+      "react-fundamentals",
+      "react-hooks-effects",
+      "readme-documentation",
+      "refactoring-legacy-code",
+      "release-incident-recovery",
+      "resilience-patterns",
+      "responsive-design",
+      "retrieval-reranking",
+      "slo-error-budget",
+      "sql-foundations",
+      "structured-outputs-tools",
+      "system-design-scaling",
+      "technical-debt",
+      "technical-storytelling",
+      "terminal-shell-filesystem",
+      "testing-foundations",
+      "transformers",
+      "typescript-basics",
+      "web-forms-validation"
+    ],
+    "lessonsWithoutPractice": [
+      "ci-cd",
+      "deployment-secrets",
+      "design-patterns-intro",
+      "git-advanced",
+      "interview-preparation",
+      "monitoring-production",
+      "nextjs-foundations",
+      "nextjs-server-client-components",
+      "observability-logging",
+      "portfolio-github",
+      "readme-documentation",
+      "recursion",
+      "system-design-interview",
+      "technical-storytelling"
+    ],
+    "lessonsShort": []
+  },
+  "coverage": [
+    {
+      "skill": "algo",
+      "readiness": "strong-junior",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "full",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "ds",
+      "readiness": "strong-junior",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "full",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "jsts",
+      "readiness": "strong-junior",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "full",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "python",
+      "readiness": "guided",
+      "gaps": [
+        "diagnostic"
+      ],
+      "dims": {
+        "foundation": "full",
+        "practice": "full",
+        "autonomy": "full",
+        "diagnostic": "none",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "gitlinux",
+      "readiness": "junior-ready",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "full",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "partial",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "http",
+      "readiness": "strong-junior",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "full",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "sql",
+      "readiness": "strong-junior",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "full",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "se",
+      "readiness": "strong-junior",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "full",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "archi",
+      "readiness": "junior-ready",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "partial",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "patterns",
+      "readiness": "not-ready",
+      "gaps": [
+        "practice",
+        "autonomy",
+        "variation",
+        "professional"
+      ],
+      "dims": {
+        "foundation": "full",
+        "practice": "none",
+        "autonomy": "none",
+        "diagnostic": "full",
+        "variation": "none",
+        "transfer": "partial",
+        "professional": "none"
+      }
+    },
+    {
+      "skill": "ml",
+      "readiness": "not-ready",
+      "gaps": [
+        "practice",
+        "autonomy"
+      ],
+      "dims": {
+        "foundation": "full",
+        "practice": "none",
+        "autonomy": "none",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "dl",
+      "readiness": "not-ready",
+      "gaps": [
+        "practice",
+        "autonomy",
+        "diagnostic",
+        "variation",
+        "transfer",
+        "professional"
+      ],
+      "dims": {
+        "foundation": "full",
+        "practice": "none",
+        "autonomy": "none",
+        "diagnostic": "none",
+        "variation": "none",
+        "transfer": "none",
+        "professional": "none"
+      }
+    },
+    {
+      "skill": "llm",
+      "readiness": "not-ready",
+      "gaps": [
+        "practice",
+        "autonomy",
+        "variation"
+      ],
+      "dims": {
+        "foundation": "full",
+        "practice": "none",
+        "autonomy": "none",
+        "diagnostic": "full",
+        "variation": "none",
+        "transfer": "partial",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "rag",
+      "readiness": "not-ready",
+      "gaps": [
+        "practice",
+        "autonomy"
+      ],
+      "dims": {
+        "foundation": "full",
+        "practice": "none",
+        "autonomy": "none",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "agents",
+      "readiness": "not-ready",
+      "gaps": [
+        "practice",
+        "autonomy",
+        "professional"
+      ],
+      "dims": {
+        "foundation": "full",
+        "practice": "none",
+        "autonomy": "none",
+        "diagnostic": "partial",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "none"
+      }
+    },
+    {
+      "skill": "evalia",
+      "readiness": "not-ready",
+      "gaps": [
+        "practice",
+        "autonomy"
+      ],
+      "dims": {
+        "foundation": "full",
+        "practice": "none",
+        "autonomy": "none",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "secu",
+      "readiness": "junior-ready",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "partial",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "cloud",
+      "readiness": "junior-ready",
+      "gaps": [],
+      "dims": {
+        "foundation": "full",
+        "practice": "full",
+        "autonomy": "full",
+        "diagnostic": "full",
+        "variation": "full",
+        "transfer": "full",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "comm",
+      "readiness": "not-ready",
+      "gaps": [
+        "practice",
+        "autonomy",
+        "variation",
+        "transfer"
+      ],
+      "dims": {
+        "foundation": "full",
+        "practice": "none",
+        "autonomy": "none",
+        "diagnostic": "full",
+        "variation": "none",
+        "transfer": "none",
+        "professional": "full"
+      }
+    },
+    {
+      "skill": "autonomy",
+      "readiness": "not-ready",
+      "gaps": [
+        "foundation",
+        "practice",
+        "autonomy",
+        "diagnostic",
+        "variation",
+        "transfer",
+        "professional"
+      ],
+      "dims": {
+        "foundation": "none",
+        "practice": "none",
+        "autonomy": "none",
+        "diagnostic": "none",
+        "variation": "none",
+        "transfer": "none",
+        "professional": "none"
+      }
+    }
+  ],
+  "coverageSummary": {
+    "byReadiness": {
+      "not-ready": 9,
+      "foundational": 0,
+      "guided": 1,
+      "junior-ready": 4,
+      "strong-junior": 6
+    },
+    "gapsByDimension": {
+      "foundation": 1,
+      "practice": 9,
+      "autonomy": 9,
+      "diagnostic": 3,
+      "variation": 5,
+      "transfer": 3,
+      "professional": 4
+    },
+    "total": 20
+  },
+  "ladders": [
+    {
+      "skill": "algo",
+      "complete": true,
+      "missing": [],
+      "present": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "ds",
+      "complete": true,
+      "missing": [],
+      "present": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "jsts",
+      "complete": true,
+      "missing": [],
+      "present": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "python",
+      "complete": true,
+      "missing": [],
+      "present": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "gitlinux",
+      "complete": true,
+      "missing": [],
+      "present": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "http",
+      "complete": true,
+      "missing": [],
+      "present": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "sql",
+      "complete": false,
+      "missing": [
+        "L1"
+      ],
+      "present": [
+        "L0",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "se",
+      "complete": false,
+      "missing": [
+        "L1"
+      ],
+      "present": [
+        "L0",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "archi",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "present": [
+        "L0",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "patterns",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "present": [
+        "L0",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "ml",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "present": [
+        "L0",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "dl",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ],
+      "present": [
+        "L0"
+      ]
+    },
+    {
+      "skill": "llm",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "present": [
+        "L0",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "rag",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "present": [
+        "L0",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "agents",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3",
+        "L4"
+      ],
+      "present": [
+        "L0",
+        "L5"
+      ]
+    },
+    {
+      "skill": "evalia",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "present": [
+        "L0",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "secu",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "present": [
+        "L0",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "cloud",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "present": [
+        "L0",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "comm",
+      "complete": false,
+      "missing": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "present": [
+        "L0",
+        "L4",
+        "L5"
+      ]
+    },
+    {
+      "skill": "autonomy",
+      "complete": false,
+      "missing": [
+        "L0",
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ],
+      "present": []
+    }
+  ],
+  "lessonAudit": [
+    {
+      "file": "agent-workflows-orchestration.md",
+      "slug": "agent-workflows-orchestration",
+      "title": "Agents avancés et orchestration",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "agents"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1152,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 118,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "agents-fundamentals.md",
+      "slug": "agents-fundamentals",
+      "title": "Agents IA : fondamentaux",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "agents"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1346,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 159,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "ai-evaluation.md",
+      "slug": "ai-evaluation",
+      "title": "Évaluer un système IA",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "evalia"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1359,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 162,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "ai-security.md",
+      "slug": "ai-security",
+      "title": "Sécurité des systèmes IA",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "secu"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1423,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 150,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "algorithmic-thinking.md",
+      "slug": "algorithmic-thinking",
+      "title": "La pensée algorithmique",
+      "cat": "Fondations",
+      "level": 1,
+      "skills": [
+        "algo"
+      ],
+      "practiceRefs": 6,
+      "keep": true,
+      "words": 1204,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 157,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "api-design-basics.md",
+      "slug": "api-design-basics",
+      "title": "Concevoir une API",
+      "cat": "Web & backend",
+      "level": 2,
+      "skills": [
+        "http"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1092,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 148,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "api-production-contracts.md",
+      "slug": "api-production-contracts",
+      "title": "API de production : idempotence, pagination, limites et versions",
+      "cat": "Web & backend",
+      "level": 3,
+      "skills": [
+        "http",
+        "se"
+      ],
+      "practiceRefs": 7,
+      "keep": true,
+      "words": 1280,
+      "codeBlocks": 0,
+      "headings": 21,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "architecture-basics.md",
+      "slug": "architecture-basics",
+      "title": "Architecture logicielle : les bases",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "skills": [
+        "archi"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1299,
+      "codeBlocks": 0,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 144,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "async-javascript.md",
+      "slug": "async-javascript",
+      "title": "JavaScript asynchrone",
+      "cat": "Fondations",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1076,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 146,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "async-messaging-queues.md",
+      "slug": "async-messaging-queues",
+      "title": "Travail asynchrone : files, workers, retry et idempotence",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "skills": [
+        "archi",
+        "se"
+      ],
+      "practiceRefs": 6,
+      "keep": true,
+      "words": 1409,
+      "codeBlocks": 0,
+      "headings": 22,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 154,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "authentication.md",
+      "slug": "authentication",
+      "title": "Authentification et autorisation",
+      "cat": "Web & backend",
+      "level": 2,
+      "skills": [
+        "secu",
+        "http"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1135,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 132,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "breaking-changes-compatibility.md",
+      "slug": "breaking-changes-compatibility",
+      "title": "Changements cassants et compatibilité",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1261,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 143,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "browser-dom-rendering.md",
+      "slug": "browser-dom-rendering",
+      "title": "Le navigateur, le DOM et le rendu",
+      "cat": "Frontend & React",
+      "level": 1,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1377,
+      "codeBlocks": 3,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 153,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "caching-performance.md",
+      "slug": "caching-performance",
+      "title": "Cache et performance",
+      "cat": "Web & backend",
+      "level": 3,
+      "skills": [
+        "archi",
+        "se"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1146,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 158,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "chunking-strategies.md",
+      "slug": "chunking-strategies",
+      "title": "Stratégies de chunking",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "rag"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1008,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 143,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "ci-cd-pipeline-anatomy.md",
+      "slug": "ci-cd-pipeline-anatomy",
+      "title": "CI/CD : anatomie d'un pipeline",
+      "cat": "CI/CD & livraison",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "se"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1259,
+      "codeBlocks": 1,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 148,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "ci-cd-quality-gates-artifacts.md",
+      "slug": "ci-cd-quality-gates-artifacts",
+      "title": "CI/CD : portes qualité et artefacts versionnés",
+      "cat": "CI/CD & livraison",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "se"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1310,
+      "codeBlocks": 1,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "ci-cd.md",
+      "slug": "ci-cd",
+      "title": "Intégration continue (CI/CD)",
+      "cat": "Production & DevOps",
+      "level": 2,
+      "skills": [
+        "cloud"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 965,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 146,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "clean-code.md",
+      "slug": "clean-code",
+      "title": "Clean code",
+      "cat": "Software engineering & architecture",
+      "level": 1,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1165,
+      "codeBlocks": 1,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 156,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "cloud-aws-core.md",
+      "slug": "cloud-aws-core",
+      "title": "AWS : les services cœur et le modèle IAM",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1119,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 127,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "cloud-azure-core.md",
+      "slug": "cloud-azure-core",
+      "title": "Azure : les services cœur et le modèle d'identité",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1237,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 130,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "cloud-compute-storage.md",
+      "slug": "cloud-compute-storage",
+      "title": "Cloud : compute et stockage",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1121,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "cloud-finops.md",
+      "slug": "cloud-finops",
+      "title": "FinOps : maîtriser le coût du cloud",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1140,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 133,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "cloud-fundamentals.md",
+      "slug": "cloud-fundamentals",
+      "title": "Cloud : concepts fondamentaux",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1213,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "cloud-networking.md",
+      "slug": "cloud-networking",
+      "title": "Cloud : le réseau (VPC/VNet, subnets, pare-feu)",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1133,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 136,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "css-flexbox.md",
+      "slug": "css-flexbox",
+      "title": "CSS Flexbox : aligner et répartir sur un axe",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1278,
+      "codeBlocks": 3,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 141,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "css-fundamentals.md",
+      "slug": "css-fundamentals",
+      "title": "CSS : cascade, spécificité et box model",
+      "cat": "Frontend : Web Platform",
+      "level": 1,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1537,
+      "codeBlocks": 4,
+      "headings": 21,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 162,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "css-grid.md",
+      "slug": "css-grid",
+      "title": "CSS Grid : organiser en lignes et colonnes",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1223,
+      "codeBlocks": 4,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 149,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "data-cleaning-quality.md",
+      "slug": "data-cleaning-quality",
+      "title": "Nettoyage et qualité des données",
+      "cat": "Data & SQL",
+      "level": 2,
+      "skills": [
+        "python",
+        "sql"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 956,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 131,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "data-structures-intro.md",
+      "slug": "data-structures-intro",
+      "title": "Structures de données : choisir son outil",
+      "cat": "Fondations",
+      "level": 2,
+      "skills": [
+        "ds"
+      ],
+      "practiceRefs": 6,
+      "keep": true,
+      "words": 1216,
+      "codeBlocks": 0,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 148,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "database-migrations.md",
+      "slug": "database-migrations",
+      "title": "Migrations de schéma et compatibilité",
+      "cat": "Data & SQL",
+      "level": 3,
+      "skills": [
+        "sql",
+        "se"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1337,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 145,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "database-modeling.md",
+      "slug": "database-modeling",
+      "title": "Modélisation, index et transactions",
+      "cat": "Data & SQL",
+      "level": 2,
+      "skills": [
+        "sql"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1222,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 144,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "database-transactions-concurrency.md",
+      "slug": "database-transactions-concurrency",
+      "title": "Transactions, ACID et concurrence",
+      "cat": "Data & SQL",
+      "level": 3,
+      "skills": [
+        "sql",
+        "se"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1372,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 146,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "deployment-secrets.md",
+      "slug": "deployment-secrets",
+      "title": "Secrets, environnements et déploiement",
+      "cat": "Production & DevOps",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1030,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 137,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "deployment-strategies.md",
+      "slug": "deployment-strategies",
+      "title": "Stratégies de déploiement sans coupure",
+      "cat": "CI/CD & livraison",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1104,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 140,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "design-patterns-intro.md",
+      "slug": "design-patterns-intro",
+      "title": "Design patterns : introduction",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "patterns"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1166,
+      "codeBlocks": 1,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 149,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "distributed-systems-failures.md",
+      "slug": "distributed-systems-failures",
+      "title": "Systèmes distribués : ce qui casse quand on distribue",
+      "cat": "Software engineering & architecture",
+      "level": 3,
+      "skills": [
+        "archi"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1447,
+      "codeBlocks": 0,
+      "headings": 21,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 146,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "distributed-tracing.md",
+      "slug": "distributed-tracing",
+      "title": "Traces distribuées : suivre une requête de bout en bout",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1175,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 163,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "docker-build-dockerfile.md",
+      "slug": "docker-build-dockerfile",
+      "title": "Docker : maîtriser le Dockerfile et le multi-stage",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1309,
+      "codeBlocks": 1,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 138,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "docker-compose.md",
+      "slug": "docker-compose",
+      "title": "Docker Compose : orchestrer une application multi-services",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1121,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 139,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "docker-containers.md",
+      "slug": "docker-containers",
+      "title": "Docker et conteneurs",
+      "cat": "Production & DevOps",
+      "level": 2,
+      "skills": [
+        "cloud"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 918,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 144,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "docker-images-layers.md",
+      "slug": "docker-images-layers",
+      "title": "Docker : images, couches et registre",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "skills": [
+        "cloud"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1380,
+      "codeBlocks": 1,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 144,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "docker-networking-volumes.md",
+      "slug": "docker-networking-volumes",
+      "title": "Docker : réseau et persistance des données",
+      "cat": "Conteneurs & Docker",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1149,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "docker-production-hardening.md",
+      "slug": "docker-production-hardening",
+      "title": "Docker : durcissement pour la production",
+      "cat": "Conteneurs & Docker",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1223,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 135,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "embeddings.md",
+      "slug": "embeddings",
+      "title": "Embeddings",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "rag",
+        "dl"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1026,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "error-handling.md",
+      "slug": "error-handling",
+      "title": "Gestion d'erreurs",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1060,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 134,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "etl-pipelines.md",
+      "slug": "etl-pipelines",
+      "title": "Pipelines ETL",
+      "cat": "Data & SQL",
+      "level": 2,
+      "skills": [
+        "python",
+        "sql"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 930,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 129,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "express-backend.md",
+      "slug": "express-backend",
+      "title": "Backend Express : structure et robustesse",
+      "cat": "Web & backend",
+      "level": 2,
+      "skills": [
+        "http",
+        "se"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1113,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 117,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "feature-engineering.md",
+      "slug": "feature-engineering",
+      "title": "Feature engineering",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1020,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 132,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "frontend-performance.md",
+      "slug": "frontend-performance",
+      "title": "Performance frontend : mesurer avant d'optimiser",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1264,
+      "codeBlocks": 1,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 145,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "frontend-testing.md",
+      "slug": "frontend-testing",
+      "title": "Tester une interface : comportement, pas implémentation",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "se"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1501,
+      "codeBlocks": 2,
+      "headings": 20,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 153,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "git-advanced.md",
+      "slug": "git-advanced",
+      "title": "Git avancé : rebase et historique propre",
+      "cat": "Fondations",
+      "level": 3,
+      "skills": [
+        "gitlinux"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1141,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 143,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "git-fundamentals.md",
+      "slug": "git-fundamentals",
+      "title": "Git : les fondamentaux",
+      "cat": "Fondations",
+      "level": 1,
+      "skills": [
+        "gitlinux"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1131,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 149,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "html-semantic-structure.md",
+      "slug": "html-semantic-structure",
+      "title": "HTML sémantique : structurer une page",
+      "cat": "Frontend : Web Platform",
+      "level": 1,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1239,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 146,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "http-rest-json.md",
+      "slug": "http-rest-json",
+      "title": "HTTP, REST et JSON",
+      "cat": "Web & backend",
+      "level": 1,
+      "skills": [
+        "http"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1140,
+      "codeBlocks": 1,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 154,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "iac-fundamentals.md",
+      "slug": "iac-fundamentals",
+      "title": "Infrastructure as Code : les fondamentaux",
+      "cat": "Cloud, AWS, Azure & IaC",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1160,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "incident-response.md",
+      "slug": "incident-response",
+      "title": "Répondre à un incident : méthode sous pression",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1178,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 145,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "interview-preparation.md",
+      "slug": "interview-preparation",
+      "title": "Préparation à l'entretien IA",
+      "cat": "Portfolio & carrière",
+      "level": 2,
+      "skills": [
+        "comm"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1158,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "javascript-basics.md",
+      "slug": "javascript-basics",
+      "title": "JavaScript : les bases solides",
+      "cat": "Fondations",
+      "level": 1,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1181,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "k8s-config-probes.md",
+      "slug": "k8s-config-probes",
+      "title": "Kubernetes : configuration, secrets, probes et ressources",
+      "cat": "Kubernetes",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1185,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "k8s-networking-services.md",
+      "slug": "k8s-networking-services",
+      "title": "Kubernetes : réseau, Services et Ingress",
+      "cat": "Kubernetes",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1186,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 148,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "k8s-security.md",
+      "slug": "k8s-security",
+      "title": "Kubernetes : sécurité et moindre privilège",
+      "cat": "Kubernetes",
+      "level": 3,
+      "skills": [
+        "secu",
+        "cloud"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1090,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 135,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "k8s-troubleshooting.md",
+      "slug": "k8s-troubleshooting",
+      "title": "Kubernetes : diagnostiquer un incident",
+      "cat": "Kubernetes",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 6,
+      "keep": true,
+      "words": 1083,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 144,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "k8s-why-architecture.md",
+      "slug": "k8s-why-architecture",
+      "title": "Kubernetes : pourquoi et architecture",
+      "cat": "Kubernetes",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1217,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 144,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "k8s-workloads.md",
+      "slug": "k8s-workloads",
+      "title": "Kubernetes : Pods, Deployments et workloads",
+      "cat": "Kubernetes",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1076,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 149,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "linux-filesystem-permissions.md",
+      "slug": "linux-filesystem-permissions",
+      "title": "Linux : système de fichiers et permissions",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "skills": [
+        "gitlinux",
+        "secu"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1335,
+      "codeBlocks": 2,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "linux-processes-signals.md",
+      "slug": "linux-processes-signals",
+      "title": "Linux : processus et signaux",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "skills": [
+        "gitlinux"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1292,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 145,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "linux-resources-io.md",
+      "slug": "linux-resources-io",
+      "title": "Linux : ressources, mémoire et I/O",
+      "cat": "Systèmes & Linux",
+      "level": 3,
+      "skills": [
+        "gitlinux",
+        "archi"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1291,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 146,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "linux-services-systemd.md",
+      "slug": "linux-services-systemd",
+      "title": "Linux : services et systemd",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "skills": [
+        "gitlinux",
+        "cloud"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1174,
+      "codeBlocks": 2,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 151,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "linux-ssh-remote.md",
+      "slug": "linux-ssh-remote",
+      "title": "Linux : SSH et accès distant",
+      "cat": "Systèmes & Linux",
+      "level": 2,
+      "skills": [
+        "gitlinux",
+        "secu"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1409,
+      "codeBlocks": 2,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 152,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "llm-cost-optimization.md",
+      "slug": "llm-cost-optimization",
+      "title": "Coûts d'inférence : estimer et optimiser",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "llm",
+        "cloud"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1161,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 141,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "llm-fundamentals.md",
+      "slug": "llm-fundamentals",
+      "title": "LLM : comprendre les grands modèles",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "llm"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1319,
+      "codeBlocks": 1,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 156,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "llm-observability.md",
+      "slug": "llm-observability",
+      "title": "LLMOps : observer un système LLM",
+      "cat": "Production & DevOps",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "llm"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1061,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 118,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "logging-structured.md",
+      "slug": "logging-structured",
+      "title": "Logs structurés et correlation ID",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "skills": [
+        "archi",
+        "secu"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1025,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 157,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "machine-learning-basics.md",
+      "slug": "machine-learning-basics",
+      "title": "Machine learning : les bases",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1317,
+      "codeBlocks": 1,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 155,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "metrics-percentiles.md",
+      "slug": "metrics-percentiles",
+      "title": "Métriques et percentiles : quand la moyenne ment",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1237,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 161,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "model-evaluation.md",
+      "slug": "model-evaluation",
+      "title": "Évaluer un modèle ML",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml",
+        "evalia"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1007,
+      "codeBlocks": 0,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 136,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "monitoring-production.md",
+      "slug": "monitoring-production",
+      "title": "Monitoring et production",
+      "cat": "Production & DevOps",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1029,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 152,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "networking-addressing-routing.md",
+      "slug": "networking-addressing-routing",
+      "title": "Réseau : adressage IP, CIDR et routage",
+      "cat": "Réseau",
+      "level": 2,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1194,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 144,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "networking-dns.md",
+      "slug": "networking-dns",
+      "title": "Réseau : DNS, la résolution de noms",
+      "cat": "Réseau",
+      "level": 2,
+      "skills": [
+        "http",
+        "cloud"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1218,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "networking-http-tls.md",
+      "slug": "networking-http-tls",
+      "title": "Réseau : HTTP et TLS",
+      "cat": "Réseau",
+      "level": 2,
+      "skills": [
+        "http",
+        "secu"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1243,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "networking-proxy-loadbalancing.md",
+      "slug": "networking-proxy-loadbalancing",
+      "title": "Réseau : proxy, reverse proxy et load balancing",
+      "cat": "Réseau",
+      "level": 3,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1261,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 134,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "networking-tcp-ip-model.md",
+      "slug": "networking-tcp-ip-model",
+      "title": "Réseau : le modèle TCP/IP en couches",
+      "cat": "Réseau",
+      "level": 1,
+      "skills": [
+        "http",
+        "archi"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1195,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "neural-networks.md",
+      "slug": "neural-networks",
+      "title": "Réseaux de neurones : ouvrir la boîte noire",
+      "cat": "Python & ML",
+      "level": 3,
+      "skills": [
+        "dl"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1229,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 134,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "nextjs-data-production.md",
+      "slug": "nextjs-data-production",
+      "title": "Next.js : données, états d'erreur et mise en production",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1266,
+      "codeBlocks": 0,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 159,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "nextjs-foundations.md",
+      "slug": "nextjs-foundations",
+      "title": "Next.js : pourquoi un framework au-dessus de React ?",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1139,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "nextjs-rendering.md",
+      "slug": "nextjs-rendering",
+      "title": "Rendu web : CSR, SSR, SSG et streaming",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1118,
+      "codeBlocks": 0,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 149,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "nextjs-server-client-components.md",
+      "slug": "nextjs-server-client-components",
+      "title": "Server Components vs Client Components : le modèle mental",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1200,
+      "codeBlocks": 0,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 144,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "observability-fundamentals.md",
+      "slug": "observability-fundamentals",
+      "title": "Observabilité : voir ce qui se passe en production",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1235,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 142,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "observability-logging.md",
+      "slug": "observability-logging",
+      "title": "Observabilité et logs structurés",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 928,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 134,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "pandas-data-wrangling.md",
+      "slug": "pandas-data-wrangling",
+      "title": "pandas : manipuler des données",
+      "cat": "Data & SQL",
+      "level": 2,
+      "skills": [
+        "python",
+        "sql"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 918,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 137,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "portfolio-github.md",
+      "slug": "portfolio-github",
+      "title": "Portfolio technique GitHub",
+      "cat": "Portfolio & carrière",
+      "level": 1,
+      "skills": [
+        "comm"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1068,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 155,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "postmortem-rca.md",
+      "slug": "postmortem-rca",
+      "title": "Post-mortem et analyse de cause racine (RCA)",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "skills": [
+        "archi",
+        "comm"
+      ],
+      "practiceRefs": 3,
+      "keep": true,
+      "words": 1141,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "prompt-engineering.md",
+      "slug": "prompt-engineering",
+      "title": "Prompt engineering (sérieux)",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "llm"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1125,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 129,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "prompt-injection-defense.md",
+      "slug": "prompt-injection-defense",
+      "title": "Défense contre la prompt injection",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "secu"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1248,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 136,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "python-foundations.md",
+      "slug": "python-foundations",
+      "title": "Python : les fondations",
+      "cat": "Python & ML",
+      "level": 1,
+      "skills": [
+        "python"
+      ],
+      "practiceRefs": 6,
+      "keep": true,
+      "words": 1141,
+      "codeBlocks": 3,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 139,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "rag-evaluation.md",
+      "slug": "rag-evaluation",
+      "title": "Évaluation RAG avancée",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "evalia",
+        "rag"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1123,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 124,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "rag-fundamentals.md",
+      "slug": "rag-fundamentals",
+      "title": "RAG : retrieval-augmented generation",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "rag"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1351,
+      "codeBlocks": 0,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 158,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "react-accessibility.md",
+      "slug": "react-accessibility",
+      "title": "Accessibilité des interfaces web",
+      "cat": "Frontend & React",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1590,
+      "codeBlocks": 1,
+      "headings": 22,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 143,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "react-application-states.md",
+      "slug": "react-application-states",
+      "title": "De composant à application : routing, useReducer et états d'écran",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1436,
+      "codeBlocks": 4,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 143,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "react-composition-architecture.md",
+      "slug": "react-composition-architecture",
+      "title": "React : composition, architecture d'état et hooks personnalisés",
+      "cat": "Frontend & React",
+      "level": 3,
+      "skills": [
+        "jsts",
+        "archi"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1242,
+      "codeBlocks": 1,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "react-fundamentals.md",
+      "slug": "react-fundamentals",
+      "title": "React : les fondamentaux",
+      "cat": "Frontend & React",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 6,
+      "keep": true,
+      "words": 1214,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 132,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "react-hooks-effects.md",
+      "slug": "react-hooks-effects",
+      "title": "React : effets, données async et hooks",
+      "cat": "Frontend & React",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1129,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 133,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "readme-documentation.md",
+      "slug": "readme-documentation",
+      "title": "Le README recruteur",
+      "cat": "Portfolio & carrière",
+      "level": 1,
+      "skills": [
+        "comm"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1054,
+      "codeBlocks": 2,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 161,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "recursion.md",
+      "slug": "recursion",
+      "title": "La récursion en profondeur",
+      "cat": "Fondations",
+      "level": 2,
+      "skills": [
+        "algo"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1105,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 136,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "refactoring-legacy-code.md",
+      "slug": "refactoring-legacy-code",
+      "title": "Refactoring et code legacy : changer sans casser",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1342,
+      "codeBlocks": 1,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 150,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "release-incident-recovery.md",
+      "slug": "release-incident-recovery",
+      "title": "Reprise après incident : rollback, roll-forward, hotfix",
+      "cat": "CI/CD & livraison",
+      "level": 3,
+      "skills": [
+        "cloud",
+        "archi"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1097,
+      "codeBlocks": 1,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 135,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "resilience-patterns.md",
+      "slug": "resilience-patterns",
+      "title": "Patterns de résilience : survivre aux pannes des autres",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 3,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": 6,
+      "keep": true,
+      "words": 1276,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 134,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "responsive-design.md",
+      "slug": "responsive-design",
+      "title": "Responsive design : une interface pour tous les écrans",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1217,
+      "codeBlocks": 3,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 150,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "retrieval-reranking.md",
+      "slug": "retrieval-reranking",
+      "title": "Retrieval, hybride et reranking",
+      "cat": "IA appliquée",
+      "level": 3,
+      "skills": [
+        "rag"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 984,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 123,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "scikit-learn-workflow.md",
+      "slug": "scikit-learn-workflow",
+      "title": "Le workflow scikit-learn",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml",
+        "python"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1040,
+      "codeBlocks": 2,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 123,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "slo-error-budget.md",
+      "slug": "slo-error-budget",
+      "title": "SLI, SLO et error budget : la fiabilité comme un budget",
+      "cat": "Observabilité, SRE & fiabilité",
+      "level": 2,
+      "skills": [
+        "archi",
+        "cloud"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1331,
+      "codeBlocks": 0,
+      "headings": 16,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 165,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "sql-foundations.md",
+      "slug": "sql-foundations",
+      "title": "SQL : les fondations",
+      "cat": "Data & SQL",
+      "level": 1,
+      "skills": [
+        "sql"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1229,
+      "codeBlocks": 4,
+      "headings": 20,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 149,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "sql-performance-indexing.md",
+      "slug": "sql-performance-indexing",
+      "title": "Performance SQL : index, plans et N+1",
+      "cat": "Data & SQL",
+      "level": 3,
+      "skills": [
+        "sql",
+        "archi"
+      ],
+      "practiceRefs": 6,
+      "keep": true,
+      "words": 1355,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 162,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "statistics-for-ml.md",
+      "slug": "statistics-for-ml",
+      "title": "Statistiques pour le ML",
+      "cat": "Python & ML",
+      "level": 2,
+      "skills": [
+        "ml"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1211,
+      "codeBlocks": 0,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 158,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "structured-outputs-tools.md",
+      "slug": "structured-outputs-tools",
+      "title": "Sorties structurées et function calling",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "llm",
+        "agents"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 989,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 130,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "system-design-interview.md",
+      "slug": "system-design-interview",
+      "title": "L'entretien de design système",
+      "cat": "Portfolio & carrière",
+      "level": 3,
+      "skills": [
+        "archi",
+        "comm"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1059,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 152,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "system-design-scaling.md",
+      "slug": "system-design-scaling",
+      "title": "System Design : passer d'une machine à l'échelle",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "archi"
+      ],
+      "practiceRefs": 6,
+      "keep": true,
+      "words": 1529,
+      "codeBlocks": 0,
+      "headings": 23,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 143,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "technical-debt.md",
+      "slug": "technical-debt",
+      "title": "La dette technique : décider en connaissance de cause",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1556,
+      "codeBlocks": 1,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 153,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "technical-documentation.md",
+      "slug": "technical-documentation",
+      "title": "La documentation technique : quel document, pour qui, quand",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se",
+        "comm"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1581,
+      "codeBlocks": 1,
+      "headings": 20,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 156,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "technical-storytelling.md",
+      "slug": "technical-storytelling",
+      "title": "Storytelling technique",
+      "cat": "Portfolio & carrière",
+      "level": 2,
+      "skills": [
+        "comm"
+      ],
+      "practiceRefs": 0,
+      "keep": true,
+      "words": 1030,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 161,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "terminal-shell-filesystem.md",
+      "slug": "terminal-shell-filesystem",
+      "title": "Terminal, shell et système de fichiers",
+      "cat": "Fondations",
+      "level": 1,
+      "skills": [
+        "gitlinux"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1171,
+      "codeBlocks": 1,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "testing-foundations.md",
+      "slug": "testing-foundations",
+      "title": "Tester son code",
+      "cat": "Software engineering & architecture",
+      "level": 2,
+      "skills": [
+        "se"
+      ],
+      "practiceRefs": 5,
+      "keep": true,
+      "words": 1284,
+      "codeBlocks": 2,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 155,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "transformers.md",
+      "slug": "transformers",
+      "title": "Transformers : l'architecture des LLM",
+      "cat": "Python & ML",
+      "level": 3,
+      "skills": [
+        "dl",
+        "llm"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 1309,
+      "codeBlocks": 1,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 141,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "typescript-basics.md",
+      "slug": "typescript-basics",
+      "title": "TypeScript : typer pour fiabiliser",
+      "cat": "Fondations",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1201,
+      "codeBlocks": 3,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 147,
+      "hasRecap": true,
+      "hasTrap": false
+    },
+    {
+      "file": "typescript-frontend.md",
+      "slug": "typescript-frontend",
+      "title": "TypeScript côté frontend : props, événements et données d'API",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 4,
+      "keep": true,
+      "words": 1248,
+      "codeBlocks": 5,
+      "headings": 17,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 149,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "vector-databases.md",
+      "slug": "vector-databases",
+      "title": "Bases de données vectorielles",
+      "cat": "IA appliquée",
+      "level": 2,
+      "skills": [
+        "rag"
+      ],
+      "practiceRefs": 1,
+      "keep": true,
+      "words": 964,
+      "codeBlocks": 0,
+      "headings": 18,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 135,
+      "hasRecap": true,
+      "hasTrap": true
+    },
+    {
+      "file": "web-forms-validation.md",
+      "slug": "web-forms-validation",
+      "title": "Formulaires web : saisie, validation et accessibilité",
+      "cat": "Frontend : Web Platform",
+      "level": 2,
+      "skills": [
+        "jsts"
+      ],
+      "practiceRefs": 2,
+      "keep": true,
+      "words": 1110,
+      "codeBlocks": 3,
+      "headings": 19,
+      "hasProblemFirst": true,
+      "hasMentalModel": true,
+      "mentalModelWords": 136,
+      "hasRecap": true,
+      "hasTrap": false
+    }
+  ],
+  "exAudit": [
+    {
+      "id": "a11y-accessible-name",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "agent-hitl-decision",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "agent-loop-detect",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "agent-retry-policy",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "agent-state-transition",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "agent-tool-select",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "agent-tool-validate",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "alert-actionable",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "algo-binary-search",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "algo-coin-change-min",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "algo-interval-merge",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "algo-kadane-max-subarray",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "algo-two-sum",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo",
+        "ds"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "api-pagination-choice",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "api-router",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "publicTests": 4,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "array-sum-even",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "publicTests": 4,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "async-sum",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "APPLICATION",
+      "contractOk": false
+    },
+    {
+      "id": "async-user-lookup",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "APPLICATION",
+      "contractOk": false
+    },
+    {
+      "id": "attention-argmax",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "auth-status-decision",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "http"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "breaking-change-classify",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "capacity-estimate",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-branch-policy",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-cache-key",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-critical-path",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-detect-cycle",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-env-promotion",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-fail-fast",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-global-status",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-mask-secrets",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-missing-deps",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-stale-artifact",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "python"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-topo-order",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cicd-trigger-should-run",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "circuit-breaker-state",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-blast-radius",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-cidr-overlap",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-classify-tier",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-compute-choice",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-deploy-strategy",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-detect-spof",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-error-budget",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-iam-credential-choice",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-iam-excess-actions",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-iam-wildcard",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-monthly-cost",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-multi-az",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-multi-zone",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-observability-gap",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-prod-ready",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-provider-map",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-public-exposure",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-readiness-routing",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-replica-count",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-rightsizing-savings",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-rollback-decision",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-rpo-meets",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-rpo-met",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-scaling-choice",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-scaling-kind",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-service-model",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-sg-port-range",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-spof-detect",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-stateful-autoscale",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-storage-class",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "cloud-subnet-visibility",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "compose-depends-ready",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "css-box-size",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "css-specificity-order",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "data-missing-strategy",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "data-quality-detect",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "db-concurrency-risk",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "debt-audit",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 3,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "debt-legacy-refactor",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 4,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "debug-cart",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "algo",
+        "se"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "DEBUGGING",
+      "contractOk": true
+    },
+    {
+      "id": "dlq-routing",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "dns-record-type-choice",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "dns-ttl-still-cached",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "docker-cmd-entrypoint",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "docker-detect-root",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "docker-detect-secret",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "docker-dockerignore",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "docker-exit-diagnosis",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "docker-image-size",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "docker-instruction-order",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "docker-layer-cache",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "docker-port-mapping",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "docker-tag-vs-digest",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "dom-event-delegation",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ds-lru-cache",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "ds-min-stack",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "ds-stack",
+      "difficulty": 2,
+      "runtime": "typescript",
+      "programSkills": [
+        "ds",
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ds-two-stack-queue",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "etl-pipeline-order",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "fix-nplus1",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "fizzbuzz",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "publicTests": 5,
+      "privateTests": 0,
+      "measures": "RECALL",
+      "contractOk": false
+    },
+    {
+      "id": "frontend-layout-choice",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "frontend-rendering-choice",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "git-commit-grouping",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "git-conflicting-files",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "greeting",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "gitlinux"
+      ],
+      "publicTests": 2,
+      "privateTests": 0,
+      "measures": "RECALL",
+      "contractOk": false
+    },
+    {
+      "id": "http-cache-policy",
+      "difficulty": 5,
+      "runtime": "node-js",
+      "programSkills": [
+        "http"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "PROFESSIONAL_JUDGEMENT",
+      "contractOk": true
+    },
+    {
+      "id": "http-etag-revalidation",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "http"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "http-idempotency-dedup",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "http"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "http-method-idempotent",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "http-rate-limit-decide",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "http"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "http-resilient-consumer",
+      "difficulty": 5,
+      "runtime": "node-js",
+      "programSkills": [
+        "http"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "PROFESSIONAL_JUDGEMENT",
+      "contractOk": true
+    },
+    {
+      "id": "http-status",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "iac-idempotent-changes",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "ds"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "iac-plan-destructive",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "incident-health-rollup",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 3,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "incident-severity",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "js-array-objects",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "js-conditions",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "js-even-squares",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "js-initials",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "js-loops",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "js-pipeline",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-choose-workload",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-config-drift",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-count-kinds",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-image-pinned",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-ingress-backends",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-needs-probe",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "k8s-oom-risk",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-pod-phase",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-probe-role",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "k8s-recovery-decision",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "APPLICATION",
+      "contractOk": false
+    },
+    {
+      "id": "k8s-replicas-ha",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-rolling-available",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-secret-placement",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-selector-match",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-service-endpoints",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "k8s-statefulset-pvc",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "latency-percentiles",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "linux-fd-ulimit",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "linux-path-traversal-x",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "linux-signal-choice",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "llm-context-budget",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "llm-cost-estimate",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "migration-compat",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ml-confusion-metric",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ml-data-leakage",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ml-drift-detect",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ml-feature-encoding",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ml-metric-choice",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "python"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ml-overfit-diagnose",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ml-split-choice",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "net-dns-resolve",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds",
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "net-first-failure",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "net-http-status-class",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "publicTests": 4,
+      "privateTests": 2,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "net-layer-classify",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "publicTests": 4,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "nn-forward-neuron",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "perf-budget",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 3,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "perf-pair-count",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds",
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 3,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "prompt-injection-classify",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "py-debug-average",
+      "difficulty": 4,
+      "runtime": "python3",
+      "programSkills": [
+        "python",
+        "algo",
+        "se"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "DEBUGGING",
+      "contractOk": true
+    },
+    {
+      "id": "py-debug-grades",
+      "difficulty": 3,
+      "runtime": "python3",
+      "programSkills": [
+        "python",
+        "algo"
+      ],
+      "publicTests": 4,
+      "privateTests": 0,
+      "measures": "DEBUGGING",
+      "contractOk": false
+    },
+    {
+      "id": "py-exceptions",
+      "difficulty": 2,
+      "runtime": "python3",
+      "programSkills": [
+        "python",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "py-list-sum",
+      "difficulty": 2,
+      "runtime": "python3",
+      "programSkills": [
+        "python",
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "py-report",
+      "difficulty": 3,
+      "runtime": "python3",
+      "programSkills": [
+        "python"
+      ],
+      "publicTests": 2,
+      "privateTests": 0,
+      "measures": "APPLICATION",
+      "contractOk": false
+    },
+    {
+      "id": "py-retry-idempotent",
+      "difficulty": 4,
+      "runtime": "python3",
+      "programSkills": [
+        "python"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "py-safe-divide",
+      "difficulty": 2,
+      "runtime": "python3",
+      "programSkills": [
+        "python"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "py-sliding-window-max",
+      "difficulty": 4,
+      "runtime": "python3",
+      "programSkills": [
+        "python"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "py-slugify",
+      "difficulty": 2,
+      "runtime": "python3",
+      "programSkills": [
+        "python"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "py-temperature",
+      "difficulty": 1,
+      "runtime": "python3",
+      "programSkills": [
+        "python",
+        "algo"
+      ],
+      "publicTests": 4,
+      "privateTests": 0,
+      "measures": "RECALL",
+      "contractOk": false
+    },
+    {
+      "id": "py-topk-frequent",
+      "difficulty": 3,
+      "runtime": "python3",
+      "programSkills": [
+        "python"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "py-word-count",
+      "difficulty": 3,
+      "runtime": "python3",
+      "programSkills": [
+        "python",
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "APPLICATION",
+      "contractOk": false
+    },
+    {
+      "id": "queue-idempotent-consumer",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "ds"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "rag-chunking-overlap",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "rag-cosine-rank",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "rag-failure-locate",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "rag-rrf-fusion",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "rag-structured-validate",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "rca-classify-cause",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "react-avatar",
+      "difficulty": 1,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "react-badge-list",
+      "difficulty": 2,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "react-conditional",
+      "difficulty": 2,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "react-counter",
+      "difficulty": 2,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "react-debug-greeting",
+      "difficulty": 2,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 0,
+      "measures": "DEBUGGING",
+      "contractOk": true
+    },
+    {
+      "id": "react-debug-list",
+      "difficulty": 2,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 1,
+      "measures": "DEBUGGING",
+      "contractOk": true
+    },
+    {
+      "id": "react-form-name",
+      "difficulty": 3,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "react-greeting",
+      "difficulty": 1,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "react-hello",
+      "difficulty": 1,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 0,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "react-lift-state",
+      "difficulty": 3,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "react-list",
+      "difficulty": 2,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "react-parent-child",
+      "difficulty": 2,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "react-profile",
+      "difficulty": 3,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "react-reducer-actions",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "react-search",
+      "difficulty": 3,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "react-toggle",
+      "difficulty": 2,
+      "runtime": "react-tsx",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "refactor-legacy",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 3,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "replication-lag-reason",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "retry-backoff-delay",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "retry-should",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "se-flaky-vs-real",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "se"
+      ],
+      "publicTests": 2,
+      "privateTests": 3,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "se-release-decision",
+      "difficulty": 5,
+      "runtime": "node-js",
+      "programSkills": [
+        "se"
+      ],
+      "publicTests": 2,
+      "privateTests": 3,
+      "measures": "PROFESSIONAL_JUDGEMENT",
+      "contractOk": true
+    },
+    {
+      "id": "se-semver-bump",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "se"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sec-blast-radius",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "APPLICATION",
+      "contractOk": false
+    },
+    {
+      "id": "sec-classify-sensitive",
+      "difficulty": 1,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "sec-cve-affected",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sec-image-digest",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "sec-least-privilege",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sec-lockfile-diff",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sec-mask-secrets",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sec-networkpolicy-open",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "sec-rbac-wildcard",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sec-recovery-decision",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sec-remediation-order",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "APPLICATION",
+      "contractOk": false
+    },
+    {
+      "id": "sec-sbom-added",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "sec-secret-response-order",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sec-securitycontext",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sec-typosquat",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sh-exit-retry",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sh-pipeline-exit-diagnose",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "sh-pipeline-run",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "slo-burn-rate",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sql-dedup-latest",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "sql"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "sql-group-having",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "sql"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sql-index-advice",
+      "difficulty": 5,
+      "runtime": "node-js",
+      "programSkills": [
+        "sql"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "PROFESSIONAL_JUDGEMENT",
+      "contractOk": true
+    },
+    {
+      "id": "sql-inner-join",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "ds"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sql-left-join-nulls",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "sql"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sql-window-running-total",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "sql"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "ssh-key-perms-accepted",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sys-log-level-counts",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "ds",
+        "python"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sys-perms-to-octal",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sys-perms-to-symbolic",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sys-port-listener",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "sys-process-top-cpu",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "sys-umask-apply",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "system-design-diagnose",
+      "difficulty": 4,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 4,
+      "privateTests": 3,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "systemd-restart-loop",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "gitlinux",
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "table-groupby",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "tls-cert-usable",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "http",
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "ts-async-double",
+      "difficulty": 2,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "ts-async-fetch-user",
+      "difficulty": 3,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "ts-debug-discount",
+      "difficulty": 2,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "DEBUGGING",
+      "contractOk": true
+    },
+    {
+      "id": "ts-debug-filter-strings",
+      "difficulty": 3,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "DEBUGGING",
+      "contractOk": true
+    },
+    {
+      "id": "ts-debug-positives",
+      "difficulty": 3,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "DEBUGGING",
+      "contractOk": true
+    },
+    {
+      "id": "ts-fizzbuzz",
+      "difficulty": 2,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 4,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    },
+    {
+      "id": "ts-frontend-guard",
+      "difficulty": 3,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 2,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "ts-generic-first",
+      "difficulty": 3,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "ts-greeter",
+      "difficulty": 1,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 0,
+      "measures": "RECALL",
+      "contractOk": false
+    },
+    {
+      "id": "ts-interface-cart",
+      "difficulty": 4,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "DIAGNOSIS",
+      "contractOk": true
+    },
+    {
+      "id": "ts-inventory",
+      "difficulty": 3,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "ts-pluck",
+      "difficulty": 3,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "ts-typed-average",
+      "difficulty": 2,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "ts-union-area",
+      "difficulty": 3,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "ts-word-frequency",
+      "difficulty": 3,
+      "runtime": "typescript",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "validate-user",
+      "difficulty": 3,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "se"
+      ],
+      "publicTests": 4,
+      "privateTests": 0,
+      "measures": "APPLICATION",
+      "contractOk": false
+    },
+    {
+      "id": "web-card",
+      "difficulty": 1,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 4,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "web-counter",
+      "difficulty": 2,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "web-debug-selector",
+      "difficulty": 2,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 1,
+      "measures": "DEBUGGING",
+      "contractOk": true
+    },
+    {
+      "id": "web-debug-toggle",
+      "difficulty": 2,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 0,
+      "measures": "DEBUGGING",
+      "contractOk": true
+    },
+    {
+      "id": "web-greeting-form",
+      "difficulty": 2,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 1,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "web-inline-style",
+      "difficulty": 2,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "web-list-filter",
+      "difficulty": 3,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "web-log-init",
+      "difficulty": 1,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 1,
+      "privateTests": 0,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "web-nav",
+      "difficulty": 2,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": true
+    },
+    {
+      "id": "web-semantic",
+      "difficulty": 1,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 4,
+      "privateTests": 1,
+      "measures": "RECALL",
+      "contractOk": true
+    },
+    {
+      "id": "web-status-text",
+      "difficulty": 3,
+      "runtime": "web",
+      "programSkills": [
+        "jsts"
+      ],
+      "publicTests": 2,
+      "privateTests": 1,
+      "measures": "APPLICATION",
+      "contractOk": true
+    },
+    {
+      "id": "word-frequencies",
+      "difficulty": 2,
+      "runtime": "node-js",
+      "programSkills": [
+        "jsts",
+        "algo"
+      ],
+      "publicTests": 3,
+      "privateTests": 0,
+      "measures": "UNDERSTANDING",
+      "contractOk": false
+    }
+  ]
+}

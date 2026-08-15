@@ -1,0 +1,806 @@
+{
+  "auditBatch": 6,
+  "range": "081-096",
+  "theme": "Observabilité/SRE (fin) + Systèmes Linux + Réseau",
+  "generatedBy": "V45.2 lecture intégrale",
+  "lessons": [
+    {
+      "slug": "distributed-tracing",
+      "file": "curriculum/lessons/distributed-tracing.md",
+      "curriculumPosition": 81,
+      "wordCount": 1091,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 3,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Positionne la trace comme le correlation ID poussé plus loin (durée par étape) — continuité explicite avec logging-structured.",
+        "Distingue précisément à quelle question répond la trace ('OÙ le temps est passé') vs métriques ('lent globalement')."
+      ],
+      "weaknesses": [
+        "OpenTelemetry cité mais non exécuté (assumé et signalé honnêtement)."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire que les traces remplacent logs et métriques — corrigé explicitement.",
+        "Instrumenter seulement son code et pas les appels sortants — signalé comme anti-pattern."
+      ],
+      "professionalNotes": [
+        "Sampling présenté comme compromis coût/diagnostic réaliste (garder 1 % + toutes les erreurs)."
+      ],
+      "evidence": [
+        "Exemple guidé '2 secondes, mais où ?' : span API 2000 ms dont SQL users 40 ms et appel service paiement 1900 ms → le coupable (paiement) saute aux yeux.",
+        "Limite d'analogie du bordereau de suivi énoncée : une requête peut se diviser en appels parallèles → la trace est un arbre de spans, pas une ligne."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "metrics-percentiles",
+      "file": "curriculum/lessons/metrics-percentiles.md",
+      "curriculumPosition": 82,
+      "wordCount": 1166,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 3,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Construit le percentile depuis zéro (aucune statistique avancée supposée) avec un exemple chiffré qui prouve que la moyenne ment.",
+        "Fournit trois check-lists (RED, USE, Golden Signals) en expliquant leur domaine d'application respectif — pas de name-dropping."
+      ],
+      "weaknesses": [
+        "Beaucoup de concepts (baseline, régression, bottleneck, profiling) en fin de leçon : charge cognitive dense sur la dernière section."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Juger la latence à la moyenne — démonté par le contre-exemple chiffré.",
+        "Croire qu'un nombre absolu (300 ms) est bon ou mauvais sans baseline."
+      ],
+      "professionalNotes": [
+        "Argument fin : un utilisateur fait plusieurs requêtes → forte probabilité qu'au moins une tombe dans les 1 % lents (justifie de surveiller p99)."
+      ],
+      "evidence": [
+        "Exemple chiffré : 100 requêtes, 99 à 50 ms et 1 à 5000 ms → moyenne ≈ 100 ms ('ça va') mais p99 = 5000 ms ('un utilisateur sur cent attend 5 s').",
+        "Exemple guidé : moyenne 120 ms 'OK' mais p50=60/p95=400/p99=6000 ms → diagnostic 'la queue est catastrophique', puis trace sur une requête p99 pour cibler le goulot mesuré."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "slo-error-budget",
+      "file": "curriculum/lessons/slo-error-budget.md",
+      "curriculumPosition": 83,
+      "wordCount": 1218,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T3",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 3,
+        "cognitive-load": 3,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Le modèle mental du budget de dépenses (les pannes = la dépense) rend intuitif un concept SRE abstrait et transforme un conflit dev/ops en arbitrage chiffré.",
+        "Chiffre concrètement chaque 'neuf' en temps d'indispo/mois (99 %→7h12, 99,9 %→43 min, 99,99 %→4,3 min)."
+      ],
+      "weaknesses": [
+        "Distinction SLI/SLO/SLA/error budget/burn rate/toil : beaucoup d'acronymes pour une seule leçon (charge de vocabulaire)."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire que 'viser 100 % de disponibilité' est l'objectif — corrigé (impossible et ruineux).",
+        "Prendre '99,9 %' pour un chiffre marketing plutôt qu'un budget qui se dépense."
+      ],
+      "professionalNotes": [
+        "Règle de décision opérationnelle : budget restant → livrer ; budget épuisé → geler les nouveautés et stabiliser. Alerter sur le burn rate évite la fatigue d'alerte."
+      ],
+      "evidence": [
+        "Error budget chiffré : SLO 99,9 % → 0,1 % d'échecs autorisés ; sur 1 000 000 requêtes/mois, 1000 peuvent échouer sans brûler le contrat.",
+        "Exemple guidé : incident consommant 20 min laisse ~23 min de budget (on livre prudemment) ; un burn rate soudain de 14 (épuisement en ~2 jours) déclenche l'alerte AVANT le zéro."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "incident-response",
+      "file": "curriculum/lessons/incident-response.md",
+      "curriculumPosition": 84,
+      "wordCount": 1085,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Recadre un incident comme un problème d'ORGANISATION sous pression, pas de code — angle mûr et rarement enseigné aux débutants.",
+        "Analogie de l'urgence médicale (stabiliser AVANT de diagnostiquer) portée jusqu'à sa limite (le service permet le rollback, un corps non)."
+      ],
+      "weaknesses": [
+        "Renvoie les mécaniques rollback/hotfix à release-incident-recovery : ici volontairement processus seul (frontière bien tracée mais crée une dépendance)."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Chercher la cause AVANT de limiter l'impact — signalé comme anti-pattern principal.",
+        "Plonger dans le code au hasard ou tenter dix corrections à la fois sous l'adrénaline."
+      ],
+      "professionalNotes": [
+        "Rôles distincts (incident commander, scribe, communications) et discipline de la communication ('des faits, pas des promesses') — exactement la culture SRE en poste."
+      ],
+      "evidence": [
+        "Qualification opérationnelle : severity découle de impact × scope, un SEV1 (prod down pour tous) ne se traite pas comme un SEV3 (bug mineur pour 1 %).",
+        "Exemple guidé '5xx explosent après release' avec timeline horodatée : alerte 15h03 → SEV1 → IC + comms → mitiger AVANT de comprendre (rollback) → service ok 15h18 → preuves gardées pour post-mortem."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "postmortem-rca",
+      "file": "curriculum/lessons/postmortem-rca.md",
+      "curriculumPosition": 85,
+      "wordCount": 1057,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Explique la logique causale du 'sans blâme' (chercher un coupable → les gens cachent l'info → on n'apprend rien) plutôt que de l'énoncer comme un slogan.",
+        "Distingue proprement symptôme / cause racine / facteur contributif et démontre pourquoi corriger le symptôme fait toujours revenir l'incident."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Chercher un coupable — présenté comme l'erreur qui détruit l'apprentissage.",
+        "S'arrêter au symptôme ('on a relancé, c'est réglé') → récidive garantie."
+      ],
+      "professionalNotes": [
+        "Insiste sur des actions PRÉVENTIVES assignées et datées (sinon 'document mort') — le vrai livrable d'un post-mortem en entreprise."
+      ],
+      "evidence": [
+        "Chaîne Five Whys concrète : 5xx → colonne absente → migration destructive → ancienne version la lisait encore → pas de règle expand/contract → pas de check CI ; conclusion 'la vraie cause n'est pas la migration mais rien ne l'empêchait'.",
+        "Distinction correctif vs préventif appliquée : restaurer la colonne (correctif) vs adopter expand/contract + check CI bloquant + alerte burn rate (préventifs)."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "resilience-patterns",
+      "file": "curriculum/lessons/resilience-patterns.md",
+      "curriculumPosition": 86,
+      "wordCount": 1203,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T3",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 3,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 3,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Motive chaque pattern par le mécanisme concret de la panne en cascade (threads bloqués, connexions accumulées, mémoire pleine) plutôt que par une liste.",
+        "Analogie électrique (fusible = circuit breaker, groupe électrogène = failover) cohérente sur tous les patterns."
+      ],
+      "weaknesses": [
+        "Densité élevée : neuf patterns + SPOF/RTO/RPO en une leçon ; l'accessibilité débutant en pâtit un peu (d'où beginner-accessibility à 3)."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire que le retry aide toujours — corrigé (retry immédiat en boucle = ajouter de la charge à un service à terre, 'effet troupeau').",
+        "Retry sur opérations non idempotentes — explicitement proscrit."
+      ],
+      "professionalNotes": [
+        "Règle métier : mieux vaut refuser proprement 10 % (load shedding) que s'écrouler à 100 % ; stateless requis pour un scaling horizontal sain."
+      ],
+      "evidence": [
+        "Exemple guidé 'dépendance externe ralentit' : paiement 100 ms → 8 s, threads bloqués → timeout 2 s + circuit breaker (arrêt d'appel 30 s après N échecs) + graceful degradation ('réessayer plus tard').",
+        "Règles précises pour le retry : idempotence obligatoire + exponential backoff + jitter + nombre limité, pour ne pas aggraver la panne."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "linux-filesystem-permissions",
+      "file": "curriculum/lessons/linux-filesystem-permissions.md",
+      "curriculumPosition": 87,
+      "wordCount": 1253,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Part de zéro ('deux idées suffisent : où est rangé le fichier, qui a le droit') et refuse explicitement le réflexe dangereux d'ouvrir tout par dépit.",
+        "Explique le double sens de rwx sur un répertoire vs un fichier, dont le piège du 'x = traverser' qui cause tant de Permission denied incompris."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire qu'exister suffit pour accéder (le système garde qui a le droit de faire quoi).",
+        "Ouvrir tout (chmod 777) par dépit → trous de sécurité, corrigé par le diagnostic raisonné."
+      ],
+      "professionalNotes": [
+        "Notation octale enseignée fonctionnellement : 644 (rw-r--r--), 755 (script exécutable), 600 (clé privée, standard)."
+      ],
+      "evidence": [
+        "Exemple 'ls -l' réel décodé caractère par caractère : '-rw-r--r-- alice devs rapport.md' et 'drwxr-x--- secret/' (type + trois blocs u/g/o).",
+        "Piège précis énoncé : sans x sur un dossier on ne peut PAS accéder à un fichier rw qu'il contient → diagnostic 'ls -ld sur CHAQUE répertoire du chemin'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "linux-processes-signals",
+      "file": "curriculum/lessons/linux-processes-signals.md",
+      "curriculumPosition": 88,
+      "wordCount": 1199,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Distinction 'programme sur disque inerte' vs 'processus vivant' posée dès le modèle mental, puis PID/PPID/arbre/PID 1 construits dessus.",
+        "Explique le SENS des trois signaux (TERM propre, KILL non interceptable dernier recours, HUP recharger la config) plutôt que de lister des numéros."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Tuer au hasard (kill -9 par réflexe) au lieu d'un arrêt propre (SIGTERM d'abord).",
+        "Croire qu'un zombie consomme du CPU (il n'en consomme pas ; l'accumulation signale un parent sans wait())."
+      ],
+      "professionalNotes": [
+        "Avertit qu'un job en arrière-plan meurt à la fermeture du terminal sauf nohup/disown → 'mieux : un vrai service (systemd)', pont vers la leçon suivante."
+      ],
+      "evidence": [
+        "Exemple guidé 'port 3000 déjà utilisé' : ss -ltnp | grep :3000 → identifier le PID → kill (SIGTERM) → attendre → seulement s'il persiste, kill -9, puis comprendre POURQUOI il restait.",
+        "États précisés avec leur signification opérationnelle : sleeping (attend une I/O, le plus courant), zombie (terminé, pas récupéré par le parent)."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "linux-services-systemd",
+      "file": "curriculum/lessons/linux-services-systemd.md",
+      "curriculumPosition": 89,
+      "wordCount": 1107,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Relie la logique déclarative de systemd ('décrit l'état désiré, compare, agit') à Kubernetes et à l'IaC — cohérence curriculaire forte.",
+        "Fichier .service minimal complet et commenté (User dédié, Restart=on-failure, WantedBy), pas un fragment décoratif."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Confondre start (maintenant) et enable (au boot) → service qui disparaît au reboot, illustré par le cas métier.",
+        "Croire que Restart=always est bénin — signalé comme masquant un crash récurrent."
+      ],
+      "professionalNotes": [
+        "Réflexe de diagnostic 'journalctl -u <service> avant de toucher à quoi que ce soit' ; rapproche le crash-loop systemd du CrashLoopBackOff Kubernetes."
+      ],
+      "evidence": [
+        "Cas métier : après reboot nocturne l'API est down, systemctl status = inactive → cause 'start sans enable' → correctif enable + post-mortem 'ajouter enable au provisionnement IaC'.",
+        "Durcissement concret cité : User=app au moindre privilège, ProtectSystem/NoNewPrivileges/ReadOnlyPaths présentés comme l'équivalent du securityContext d'un Pod."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "linux-resources-io",
+      "file": "curriculum/lessons/linux-resources-io.md",
+      "curriculumPosition": 90,
+      "wordCount": 1197,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Casse deux idées reçues à fort impact opérationnel : la RAM 'presque pleine' (souvent du cache sain) et le load average à lire relativement au nombre de cœurs.",
+        "Sépare nettement disque PLEIN (df, espace) et disque SATURÉ (iostat, débit) — deux problèmes, deux outils."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Paniquer sur une RAM à 95 % alors que c'est le cache disque (il faut regarder RSS/swap).",
+        "Attribuer au CPU une lenteur qui vient de l'I/O (wa dans top)."
+      ],
+      "professionalNotes": [
+        "Relie l'OOM killer Linux au OOMKilled Kubernetes et le right-sizing au FinOps (instance à 5 % de CPU = sur-dimensionnée)."
+      ],
+      "evidence": [
+        "Cas métier : API renvoyant des 500 par intermittence, wa à 40 %, df -h montre / à 100 % → les logs ont rempli le disque → correctif rotation + logrotate + alerte capacité.",
+        "'Too many open files' expliqué par la limite ulimit -n et une fuite de descripteurs (ls /proc/<PID>/fd | wc -l), avec l'anti-pattern 'augmenter ulimit pour masquer la fuite'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "linux-ssh-remote",
+      "file": "curriculum/lessons/linux-ssh-remote.md",
+      "curriculumPosition": 91,
+      "wordCount": 1344,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 3,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Explique le mécanisme cryptographique (défi que seule la privée résout, aucun secret ne transite) plutôt que la recette ssh-keygen seule.",
+        "Traite le TOFU/known_hosts et le message 'REMOTE HOST IDENTIFICATION HAS CHANGED' avec la bonne nuance (réinstall légitime OU MITM — ne pas supprimer la ligne sans comprendre)."
+      ],
+      "weaknesses": [
+        "Leçon longue (1344 mots, la plus dense du batch) : agent, config, scp/rsync, tunnels et durcissement enchaînés."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Partager/committer une clé privée (compromission totale ; seule la publique se partage).",
+        "Croire que changer le port SSH remplace les clés (obscurité cosmétique)."
+      ],
+      "professionalNotes": [
+        "Durcissement serveur réaliste : PasswordAuthentication no, PermitRootLogin no, restreindre le 22 par security group, fail2ban ; tunnel SSH -L au lieu d'exposer une base."
+      ],
+      "evidence": [
+        "Exemple pas à pas : ssh-keygen -t ed25519 → deux fichiers (id_ed25519 privée à ne JAMAIS partager, .pub publique) → ssh-copy-id → première connexion affiche l'empreinte d'hôte à vérifier ; échec 'Permissions too open' résolu par chmod 600.",
+        "Tunnel concret : ssh -L 5432:localhost:5432 prod rend la base accessible en local sans l'exposer sur Internet ; adresses en 203.0.113.10 (plage documentation) explicitement signalées comme exemple."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "networking-tcp-ip-model",
+      "file": "curriculum/lessons/networking-tcp-ip-model.md",
+      "curriculumPosition": 92,
+      "wordCount": 1112,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 4,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Transforme les 4 couches en méthode de diagnostic actionnable ('tester couche par couche, s'arrêter à la première qui échoue') plutôt qu'en récitation théorique.",
+        "Chaque test associé à ce qu'il PROUVE (dig=DNS, ping/traceroute=IP mais souvent filtré, nc/curl -v=TCP, curl -i=HTTP)."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Conclure 'c'est le réseau' sans preuve par couche (souvent DNS ou application 500).",
+        "Se fier au ping : ICMP filtré → 'ne répond pas' ne veut pas dire 'éteint'."
+      ],
+      "professionalNotes": [
+        "Mappe les couches sur le cloud/k8s : security group (transport), LB L4 (transport), LB L7/Ingress (application) — le modèle sert directement pour l'infra."
+      ],
+      "evidence": [
+        "Cas métier : API 'tombe' pour certains ; DNS OK, IP joignable, mais port 443 fermé depuis certaines régions → security group trop restrictif au niveau transport → on corrige la règle, pas l'application.",
+        "Mini-exercice discriminant : nom résout + IP joignable mais curl 'connection refused' sur 443 → couche transport (port fermé), pas application."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "networking-addressing-routing",
+      "file": "curriculum/lessons/networking-addressing-routing.md",
+      "curriculumPosition": 93,
+      "wordCount": 1121,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 3,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "CIDR expliqué par la règle contre-intuitive clé ('plus le nombre est grand, plus le réseau est petit') avec calculs mentaux (/24=256, /16=65536, /25=128).",
+        "L'exemple guidé conçoit un vrai réseau cloud (subnet public LB + subnets privés backends/base + NAT), pas un exercice abstrait."
+      ],
+      "weaknesses": [
+        "Notion de subnet réservé (réseau/gateway/broadcast) survolée ; suffisant au niveau visé mais dense."
+      ],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire que /16 est plus petit que /24 (confusion de taille du préfixe).",
+        "Mettre une base dans un subnet public 'pour y accéder' → surface d'attaque."
+      ],
+      "professionalNotes": [
+        "Explique NAT comme 'entrée impossible, sortie possible' = le modèle 'subnet privé + NAT gateway' du cloud ; VPC/VNet = exactement ce découpage."
+      ],
+      "evidence": [
+        "Cas métier : deux équipes créent chacune 10.0.0.0/16, le peering ne route plus car les plages se chevauchent → leçon 'planifier l'adressage globalement AVANT de créer les réseaux'.",
+        "Mini-exercice de chevauchement : 10.0.1.0/24 vs 10.0.2.0/24 → non ; 10.0.0.0/16 vs 10.0.5.0/24 → oui (le /24 est inclus dans le /16)."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "networking-dns",
+      "file": "curriculum/lessons/networking-dns.md",
+      "curriculumPosition": 94,
+      "wordCount": 1143,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Concentre l'enseignement sur LA source réelle des surprises DNS (TTL + cache à plusieurs niveaux) au lieu d'énumérer platement les types d'enregistrements.",
+        "Enseigne la comparaison autorité (dig @ns) vs resolver récursif comme clé de diagnostic — pratique de terrain."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Oublier le TTL et s'étonner qu'un changement 'ne prenne pas' tout de suite.",
+        "Vider un seul cache (navigateur) en croyant avoir tout vidé (OS/resolver restent)."
+      ],
+      "professionalNotes": [
+        "Signale le dangling DNS / subdomain takeover (enregistrement pointant vers une ressource cloud supprimée) et l'usage des TXT pour prouver la propriété (TLS/cloud)."
+      ],
+      "evidence": [
+        "Procédure 'j'ai changé l'IP mais ça pointe encore vers l'ancienne' : dig +short (mon resolver, peut être en cache) vs dig @autorité (la vérité) → si divergent, c'est du cache/TTL.",
+        "Cas métier : après bascule, 20 % voient encore l'ancien car le TTL était à 24 h → correction de fond 'baisser le TTL 24 h AVANT toute migration DNS planifiée'."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "networking-http-tls",
+      "file": "curriculum/lessons/networking-http-tls.md",
+      "curriculumPosition": 95,
+      "wordCount": 1171,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Énonce explicitement ce que TLS NE garantit PAS (un site de phishing peut avoir un cadenas valide ; le certificat authentifie le domaine, pas la moralité) — honnêteté rare et essentielle.",
+        "Fait de la distinction 4xx (faute client) / 5xx (faute serveur) un outil de tri en incident, pas une simple nomenclature."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Croire que 'cadenas vert = site fiable' (TLS ≠ honnêteté).",
+        "Confondre 4xx et 5xx et chercher un bug serveur alors que c'est un 401 (jeton)."
+      ],
+      "professionalNotes": [
+        "Terminaison TLS au LB L7/Ingress expliquée ; certificat expiré présenté comme incident classique évitable (renouvellement auto + alerte 30 j avant)."
+      ],
+      "evidence": [
+        "Diagnostic curl outillé : curl -i (statut 2xx/4xx/5xx d'abord), curl -v (handshake/certificat), curl -w '%{http_code} %{time_total}' pour statut + latence.",
+        "Cas métier : un dimanche l'API tombe pour tous, curl -v montre 'certificate has expired' → renouvellement oublié → correction de fond automatisation + alerte 30 jours."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    },
+    {
+      "slug": "networking-proxy-loadbalancing",
+      "file": "curriculum/lessons/networking-proxy-loadbalancing.md",
+      "curriculumPosition": 96,
+      "wordCount": 1190,
+      "fullRead": true,
+      "auditBatch": 6,
+      "academicVerdict": "A",
+      "transferVerdict": "T4",
+      "scores": {
+        "technical-accuracy": 4,
+        "prerequisite-honesty": 4,
+        "beginner-accessibility": 4,
+        "concrete-to-abstract-progression": 4,
+        "mental-model-quality": 4,
+        "conceptual-completeness": 4,
+        "explanation-depth": 4,
+        "example-quality": 4,
+        "misconception-handling": 4,
+        "cognitive-load": 4,
+        "vocabulary-clarity": 4,
+        "professional-relevance": 4,
+        "guided-reasoning": 4,
+        "autonomous-thinking": 3,
+        "transfer-preparation": 4,
+        "retention-support": 4,
+        "internal-coherence": 4,
+        "curriculum-positioning": 4
+      },
+      "strengths": [
+        "Distingue clairement proxy (côté client) et reverse proxy (côté serveur), puis L4 (aveugle, rapide) vs L7 (routage HTTP) avec le critère de choix.",
+        "Le health check est présenté avec son revers : mal conçu (trivial), il route vers des instances mortes ou retire des saines."
+      ],
+      "weaknesses": [],
+      "missingPrerequisites": [],
+      "misconceptions": [
+        "Compter sur la sticky session au lieu de rendre le service stateless (condition d'un scaling horizontal sain).",
+        "Diagnostiquer 'le réseau' alors que tous les backends renvoient 500."
+      ],
+      "professionalNotes": [
+        "Mappe ALB/NLB (AWS), Application Gateway (Azure), Service/Ingress Kubernetes sur le même modèle mental L4/L7."
+      ],
+      "evidence": [
+        "Diagnostic outillé : 502/503 au LB → aucun backend sain ; curl -i direct sur 10.0.2.10:8080/health → si 200 en direct mais 503 via LB, c'est le LB/health check.",
+        "Cas métier : après montée de trafic, 30 % de 503 car le health check ne testait que l'ouverture du port (instances saturées 'répondaient') → correctif endpoint /health réel + autoscaling."
+      ],
+      "recommendedAction": "KEEP",
+      "auditConfidence": "high"
+    }
+  ]
+}

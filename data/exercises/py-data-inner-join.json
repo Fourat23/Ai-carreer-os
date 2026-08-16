@@ -1,0 +1,121 @@
+{
+  "id": "py-data-inner-join",
+  "title": "Python/Data : jointure interne",
+  "difficulty": 3,
+  "summary": "Joins deux listes de dicts sur « id ». Renvoie [id, nomA, nomB] pour les id présents DES DEUX côtés, triés par id. Les orphelins sont exclus (INNER JOIN).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "python",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def inner_join(a, b):\n    # TODO : index b par id, ne garder que les id communs, trier par id\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def inner_join(a, b):\n    idx = {r['id']: r['nom'] for r in b}\n    out = []\n    for r in a:\n        if r['id'] in idx:\n            out.append([r['id'], r['nom'], idx[r['id']]])\n    out.sort(key=lambda x: x[0])\n    return out\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un commun",
+      "kind": "call-equals",
+      "export": "inner_join",
+      "args": [
+        [
+          {
+            "id": 1,
+            "nom": "A"
+          },
+          {
+            "id": 2,
+            "nom": "B"
+          }
+        ],
+        [
+          {
+            "id": 2,
+            "nom": "X"
+          }
+        ]
+      ],
+      "expected": [
+        [
+          2,
+          "B",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucun commun",
+      "kind": "call-equals",
+      "export": "inner_join",
+      "args": [
+        [
+          {
+            "id": 1,
+            "nom": "A"
+          }
+        ],
+        [
+          {
+            "id": 9,
+            "nom": "Z"
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux communs triés (privé)",
+      "kind": "call-equals",
+      "export": "inner_join",
+      "args": [
+        [
+          {
+            "id": 3,
+            "nom": "C"
+          },
+          {
+            "id": 1,
+            "nom": "A"
+          }
+        ],
+        [
+          {
+            "id": 1,
+            "nom": "a"
+          },
+          {
+            "id": 3,
+            "nom": "c"
+          }
+        ]
+      ],
+      "expected": [
+        [
+          1,
+          "A",
+          "a"
+        ],
+        [
+          3,
+          "C",
+          "c"
+        ]
+      ],
+      "private": true
+    }
+  ]
+}

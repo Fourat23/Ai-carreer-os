@@ -1,0 +1,77 @@
+{
+  "id": "py-data-parse-records",
+  "title": "Python/Data : parser des enregistrements",
+  "difficulty": 2,
+  "summary": "Parse des lignes « nom,age » en liste [nom, age(int)] triée par nom. Ignore les lignes vides. Utilise str.split et int().",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "python",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def parse(text):\n    # TODO : découper chaque ligne non vide en [nom, int(age)], trier par nom\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def parse(text):\n    rows = []\n    for line in text.splitlines():\n        line = line.strip()\n        if not line:\n            continue\n        nom, age = line.split(',')\n        rows.append([nom, int(age)])\n    rows.sort(key=lambda r: r[0])\n    return rows\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux lignes",
+      "kind": "call-equals",
+      "export": "parse",
+      "args": [
+        "Bob,30\nAda,41"
+      ],
+      "expected": [
+        [
+          "Ada",
+          41
+        ],
+        [
+          "Bob",
+          30
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "ligne vide ignorée",
+      "kind": "call-equals",
+      "export": "parse",
+      "args": [
+        "Zoe,5\n\nAmi,9"
+      ],
+      "expected": [
+        [
+          "Ami",
+          9
+        ],
+        [
+          "Zoe",
+          5
+        ]
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "vide → []",
+      "kind": "call-equals",
+      "export": "parse",
+      "args": [
+        ""
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

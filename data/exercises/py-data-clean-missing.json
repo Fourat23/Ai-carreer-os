@@ -1,0 +1,80 @@
+{
+  "id": "py-data-clean-missing",
+  "title": "Python/Data : valeurs manquantes",
+  "difficulty": 3,
+  "summary": "Nettoie une liste de nombres où None représente une valeur manquante. Renvoie [nb_valides, somme_valides] en IGNORANT les None. Ne comptabilise jamais None comme 0.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "python",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def clean(values):\n    # TODO : ignorer les None (pas les traiter comme 0), renvoyer [count, sum]\n    return [len(values), sum(values)]\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def clean(values):\n    valid = [v for v in values if v is not None]\n    return [len(valid), sum(valid)]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "avec None",
+      "kind": "call-equals",
+      "export": "clean",
+      "args": [
+        [
+          10,
+          null,
+          20,
+          null,
+          30
+        ]
+      ],
+      "expected": [
+        3,
+        60
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "sans None",
+      "kind": "call-equals",
+      "export": "clean",
+      "args": [
+        [
+          5,
+          5
+        ]
+      ],
+      "expected": [
+        2,
+        10
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "que des None (privé)",
+      "kind": "call-equals",
+      "export": "clean",
+      "args": [
+        [
+          null,
+          null
+        ]
+      ],
+      "expected": [
+        0,
+        0
+      ],
+      "private": true
+    }
+  ]
+}

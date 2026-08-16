@@ -1,0 +1,90 @@
+{
+  "id": "py-data-etl-upsert-idempotent",
+  "title": "Python/Data : chargement idempotent (upsert)",
+  "difficulty": 5,
+  "summary": "Charge DEUX FOIS le même lot dans un store (dict par clé). Un run répété ne doit PAS dupliquer : implémente run(store, batch) par UPSERT (clé « id »). Renvoie la taille finale du store après deux chargements du même batch — elle doit égaler le nombre d'id distincts, pas le double.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "python",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "store.py",
+        "content": "def new_store():\n    return {}\n",
+        "readOnly": true
+      },
+      {
+        "path": "solution.py",
+        "content": "from store import new_store\n\ndef load_twice(batch):\n    store = new_store()\n    run(store, batch)\n    run(store, batch)   # relance : ne doit rien dupliquer\n    return len(store)\n\ndef run(store, batch):\n    # TODO : upsert par 'id' (insère ou met à jour) — pas d'append aveugle\n    for row in batch:\n        pass\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from store import new_store\n\ndef load_twice(batch):\n    store = new_store()\n    run(store, batch)\n    run(store, batch)\n    return len(store)\n\ndef run(store, batch):\n    for row in batch:\n        store[row['id']] = row\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "3 id distincts → 3",
+      "kind": "call-equals",
+      "export": "load_twice",
+      "args": [
+        [
+          {
+            "id": 1,
+            "v": "a"
+          },
+          {
+            "id": 2,
+            "v": "b"
+          },
+          {
+            "id": 3,
+            "v": "c"
+          }
+        ]
+      ],
+      "expected": 3
+    },
+    {
+      "id": "t2",
+      "name": "doublon dans le batch → 2",
+      "kind": "call-equals",
+      "export": "load_twice",
+      "args": [
+        [
+          {
+            "id": 1,
+            "v": "a"
+          },
+          {
+            "id": 1,
+            "v": "a2"
+          },
+          {
+            "id": 2,
+            "v": "b"
+          }
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t3",
+      "name": "batch vide → 0 (privé)",
+      "kind": "call-equals",
+      "export": "load_twice",
+      "args": [
+        []
+      ],
+      "expected": 0,
+      "private": true
+    }
+  ]
+}

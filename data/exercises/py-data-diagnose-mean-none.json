@@ -1,0 +1,69 @@
+{
+  "id": "py-data-diagnose-mean-none",
+  "title": "Python/Data : diagnostiquer une moyenne fausse",
+  "difficulty": 4,
+  "summary": "Le code calcule une moyenne mais compte les None comme 0 au dénominateur, faussant le résultat. Corrige mean() pour ignorer les None. Renvoie la moyenne ARRONDIE à l'entier le plus proche (round → int). Si aucune valeur valide, renvoie 0.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "python",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def mean(values):\n    # BUG : None traité comme 0 et compté au dénominateur\n    total = sum(v if v is not None else 0 for v in values)\n    return int(round(total / len(values))) if values else 0\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def mean(values):\n    valid = [v for v in values if v is not None]\n    if not valid:\n        return 0\n    return int(round(sum(valid) / len(valid)))\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "[10,None,20] → 15",
+      "kind": "call-equals",
+      "export": "mean",
+      "args": [
+        [
+          10,
+          null,
+          20
+        ]
+      ],
+      "expected": 15
+    },
+    {
+      "id": "t2",
+      "name": "[4,4] → 4",
+      "kind": "call-equals",
+      "export": "mean",
+      "args": [
+        [
+          4,
+          4
+        ]
+      ],
+      "expected": 4
+    },
+    {
+      "id": "t3",
+      "name": "que des None → 0 (privé)",
+      "kind": "call-equals",
+      "export": "mean",
+      "args": [
+        [
+          null,
+          null
+        ]
+      ],
+      "expected": 0,
+      "private": true
+    }
+  ]
+}

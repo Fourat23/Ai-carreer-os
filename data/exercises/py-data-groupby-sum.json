@@ -1,0 +1,99 @@
+{
+  "id": "py-data-groupby-sum",
+  "title": "Python/Data : regrouper et agréger",
+  "difficulty": 3,
+  "summary": "Regroupe une liste de dicts par « service » et somme « salaire ». Renvoie une liste [service, total] triée par total décroissant puis service. defaultdict recommandé.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "python",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "from collections import defaultdict\n\ndef group_sum(rows):\n    # TODO : sommer salaire par service, trier par total desc puis service asc\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from collections import defaultdict\n\ndef group_sum(rows):\n    acc = defaultdict(int)\n    for r in rows:\n        acc[r['service']] += r['salaire']\n    out = [[s, t] for s, t in acc.items()]\n    out.sort(key=lambda x: (-x[1], x[0]))\n    return out\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "3 lignes",
+      "kind": "call-equals",
+      "export": "group_sum",
+      "args": [
+        [
+          {
+            "service": "tech",
+            "salaire": 100
+          },
+          {
+            "service": "rh",
+            "salaire": 200
+          },
+          {
+            "service": "tech",
+            "salaire": 300
+          }
+        ]
+      ],
+      "expected": [
+        [
+          "tech",
+          400
+        ],
+        [
+          "rh",
+          200
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "égalité → tri alpha",
+      "kind": "call-equals",
+      "export": "group_sum",
+      "args": [
+        [
+          {
+            "service": "b",
+            "salaire": 50
+          },
+          {
+            "service": "a",
+            "salaire": 50
+          }
+        ]
+      ],
+      "expected": [
+        [
+          "a",
+          50
+        ],
+        [
+          "b",
+          50
+        ]
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "vide (privé)",
+      "kind": "call-equals",
+      "export": "group_sum",
+      "args": [
+        []
+      ],
+      "expected": [],
+      "private": true
+    }
+  ]
+}

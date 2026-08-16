@@ -1,0 +1,111 @@
+{
+  "id": "py-data-dedup-latest",
+  "title": "Python/Data : dédupliquer en gardant le plus récent",
+  "difficulty": 4,
+  "summary": "Une liste d'événements {id, ts, val}. Garde, par id, l'événement au ts le plus grand. Renvoie [id, val] triés par id. En cas d'égalité de ts, garde le dernier rencontré.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "python",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def dedup_latest(events):\n    # TODO : par id, garder le val du ts max (dernier gagnant si égalité), trier par id\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def dedup_latest(events):\n    best = {}\n    for e in events:\n        cur = best.get(e['id'])\n        if cur is None or e['ts'] >= cur[0]:\n            best[e['id']] = (e['ts'], e['val'])\n    out = [[k, v[1]] for k, v in best.items()]\n    out.sort(key=lambda x: x[0])\n    return out\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "garde le plus récent",
+      "kind": "call-equals",
+      "export": "dedup_latest",
+      "args": [
+        [
+          {
+            "id": 1,
+            "ts": 1,
+            "val": "a"
+          },
+          {
+            "id": 1,
+            "ts": 2,
+            "val": "b"
+          }
+        ]
+      ],
+      "expected": [
+        [
+          1,
+          "b"
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "deux ids",
+      "kind": "call-equals",
+      "export": "dedup_latest",
+      "args": [
+        [
+          {
+            "id": 2,
+            "ts": 5,
+            "val": "x"
+          },
+          {
+            "id": 1,
+            "ts": 9,
+            "val": "y"
+          }
+        ]
+      ],
+      "expected": [
+        [
+          1,
+          "y"
+        ],
+        [
+          2,
+          "x"
+        ]
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "égalité ts → dernier (privé)",
+      "kind": "call-equals",
+      "export": "dedup_latest",
+      "args": [
+        [
+          {
+            "id": 1,
+            "ts": 3,
+            "val": "old"
+          },
+          {
+            "id": 1,
+            "ts": 3,
+            "val": "new"
+          }
+        ]
+      ],
+      "expected": [
+        [
+          1,
+          "new"
+        ]
+      ],
+      "private": true
+    }
+  ]
+}

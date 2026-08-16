@@ -1,0 +1,96 @@
+{
+  "id": "py-data-validate-schema",
+  "title": "Python/Data : validation de schéma",
+  "difficulty": 4,
+  "summary": "Valide des lignes {nom, age}. Règles : nom non vide (str), age entier 0..120. Renvoie la liste TRIÉE des erreurs « ligne {i}: {champ} » (i = index 0-based). Une ligne peut cumuler plusieurs erreurs.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "python",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def validate(rows):\n    # TODO : renvoyer les erreurs 'ligne {i}: nom' et/ou 'ligne {i}: age', triées\n    errors = []\n    return errors\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def validate(rows):\n    errors = []\n    for i, r in enumerate(rows):\n        nom = r.get('nom')\n        age = r.get('age')\n        if not isinstance(nom, str) or nom == '':\n            errors.append(f'ligne {i}: nom')\n        if not isinstance(age, int) or isinstance(age, bool) or age < 0 or age > 120:\n            errors.append(f'ligne {i}: age')\n    errors.sort()\n    return errors\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "age hors borne",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        [
+          {
+            "nom": "Ada",
+            "age": 200
+          }
+        ]
+      ],
+      "expected": [
+        "ligne 0: age"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "nom vide + age ok",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        [
+          {
+            "nom": "",
+            "age": 30
+          }
+        ]
+      ],
+      "expected": [
+        "ligne 0: nom"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "toutes valides",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        [
+          {
+            "nom": "Bob",
+            "age": 40
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t4",
+      "name": "double erreur (privé)",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        [
+          {
+            "nom": "",
+            "age": -1
+          }
+        ]
+      ],
+      "expected": [
+        "ligne 0: age",
+        "ligne 0: nom"
+      ],
+      "private": true
+    }
+  ]
+}

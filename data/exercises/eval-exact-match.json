@@ -1,0 +1,76 @@
+{
+  "id": "eval-exact-match",
+  "title": "Éval IA : exact match",
+  "difficulty": 3,
+  "summary": "Sur un golden set (liste de {pred, gold}), calcule le taux d'exact match (chaînes égales après strip). Renvoie '%.3f'. Base de toute évaluation de régression.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "evalia"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def exact_match(rows):\n    # TODO : fraction où pred.strip()==gold.strip(), '%.3f'\n    return '0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def exact_match(rows):\n    if not rows:\n        return '0.000'\n    ok = sum(1 for r in rows if r['pred'].strip() == r['gold'].strip())\n    return f'{ok/len(rows):.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "2/3",
+      "kind": "call-equals",
+      "export": "exact_match",
+      "args": [
+        [
+          {
+            "pred": "a",
+            "gold": "a"
+          },
+          {
+            "pred": "b ",
+            "gold": "b"
+          },
+          {
+            "pred": "x",
+            "gold": "y"
+          }
+        ]
+      ],
+      "expected": "0.667"
+    },
+    {
+      "id": "t2",
+      "name": "tous bons",
+      "kind": "call-equals",
+      "export": "exact_match",
+      "args": [
+        [
+          {
+            "pred": "z",
+            "gold": "z"
+          }
+        ]
+      ],
+      "expected": "1.000"
+    },
+    {
+      "id": "t3",
+      "name": "vide (privé)",
+      "kind": "call-equals",
+      "export": "exact_match",
+      "args": [
+        []
+      ],
+      "expected": "0.000",
+      "private": true
+    }
+  ]
+}

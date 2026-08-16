@@ -1,0 +1,115 @@
+{
+  "id": "eval-tool-call-contract",
+  "title": "Éval IA : contrat d’appel d’outil",
+  "difficulty": 4,
+  "summary": "Un LLM émet un appel d'outil {name, args}. Valide contre le contrat {name, required:[...]}. Renvoie 'invalid:name' si le nom ne correspond pas, sinon la liste triée 'missing:arg' des args requis absents, [] si valide.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "evalia",
+    "agents"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def check(call, contract):\n    # TODO : nom faux -> ['invalid:name'] ; sinon missing args triés\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def check(call, contract):\n    if call.get('name') != contract.get('name'):\n        return ['invalid:name']\n    args = call.get('args', {})\n    missing = [f'missing:{a}' for a in contract.get('required', []) if a not in args]\n    missing.sort()\n    return missing\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "nom faux",
+      "kind": "call-equals",
+      "export": "check",
+      "args": [
+        {
+          "name": "x",
+          "args": {}
+        },
+        {
+          "name": "search",
+          "required": [
+            "q"
+          ]
+        }
+      ],
+      "expected": [
+        "invalid:name"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "arg manquant",
+      "kind": "call-equals",
+      "export": "check",
+      "args": [
+        {
+          "name": "search",
+          "args": {}
+        },
+        {
+          "name": "search",
+          "required": [
+            "q"
+          ]
+        }
+      ],
+      "expected": [
+        "missing:q"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "valide",
+      "kind": "call-equals",
+      "export": "check",
+      "args": [
+        {
+          "name": "search",
+          "args": {
+            "q": "a"
+          }
+        },
+        {
+          "name": "search",
+          "required": [
+            "q"
+          ]
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "t4",
+      "name": "deux manquants (privé)",
+      "kind": "call-equals",
+      "export": "check",
+      "args": [
+        {
+          "name": "s",
+          "args": {}
+        },
+        {
+          "name": "s",
+          "required": [
+            "b",
+            "a"
+          ]
+        }
+      ],
+      "expected": [
+        "missing:a",
+        "missing:b"
+      ],
+      "private": true
+    }
+  ]
+}

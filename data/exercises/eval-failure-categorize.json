@@ -1,0 +1,84 @@
+{
+  "id": "eval-failure-categorize",
+  "title": "Éval IA : catégoriser un échec",
+  "difficulty": 4,
+  "summary": "À partir de flags {in_context, correct_format, factually_correct}, catégorise l'échec : 'retrieval-miss' si pas de contexte ; sinon 'format-error' si format incorrect ; sinon 'hallucination' si incorrect malgré contexte+format ; sinon 'ok'. L'analyse d'échecs guide la correction.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "evalia"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def categorize(flags):\n    # TODO : retrieval-miss / format-error / hallucination / ok\n    return 'ok'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def categorize(flags):\n    if not flags.get('in_context'):\n        return 'retrieval-miss'\n    if not flags.get('correct_format'):\n        return 'format-error'\n    if not flags.get('factually_correct'):\n        return 'hallucination'\n    return 'ok'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "pas de contexte",
+      "kind": "call-equals",
+      "export": "categorize",
+      "args": [
+        {
+          "in_context": false,
+          "correct_format": true,
+          "factually_correct": false
+        }
+      ],
+      "expected": "retrieval-miss"
+    },
+    {
+      "id": "t2",
+      "name": "format cassé",
+      "kind": "call-equals",
+      "export": "categorize",
+      "args": [
+        {
+          "in_context": true,
+          "correct_format": false,
+          "factually_correct": true
+        }
+      ],
+      "expected": "format-error"
+    },
+    {
+      "id": "t3",
+      "name": "hallucination",
+      "kind": "call-equals",
+      "export": "categorize",
+      "args": [
+        {
+          "in_context": true,
+          "correct_format": true,
+          "factually_correct": false
+        }
+      ],
+      "expected": "hallucination"
+    },
+    {
+      "id": "t4",
+      "name": "ok (privé)",
+      "kind": "call-equals",
+      "export": "categorize",
+      "args": [
+        {
+          "in_context": true,
+          "correct_format": true,
+          "factually_correct": true
+        }
+      ],
+      "expected": "ok",
+      "private": true
+    }
+  ]
+}

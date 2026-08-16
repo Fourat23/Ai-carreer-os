@@ -1,0 +1,67 @@
+{
+  "id": "llm-cost-per-call",
+  "title": "LLM : estimer le coût d’un appel",
+  "difficulty": 3,
+  "summary": "Coût = tokens_in/1000 * prix_in + tokens_out/1000 * prix_out. Renvoie '%.4f' USD. Un RAG qui injecte 20 chunks paie l'entrée à chaque question : estimer AVANT de lancer.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "llm"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def cost(tokens_in, tokens_out, price_in, price_out):\n    # TODO : (in/1000)*price_in + (out/1000)*price_out, '%.4f'\n    return '0.0000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def cost(tokens_in, tokens_out, price_in, price_out):\n    c = tokens_in / 1000 * price_in + tokens_out / 1000 * price_out\n    return f'{c:.4f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "1000in 500out",
+      "kind": "call-equals",
+      "export": "cost",
+      "args": [
+        1000,
+        500,
+        0.003,
+        0.015
+      ],
+      "expected": "0.0105"
+    },
+    {
+      "id": "t2",
+      "name": "zéro out",
+      "kind": "call-equals",
+      "export": "cost",
+      "args": [
+        2000,
+        0,
+        0.001,
+        0.002
+      ],
+      "expected": "0.0020"
+    },
+    {
+      "id": "t3",
+      "name": "petit (privé)",
+      "kind": "call-equals",
+      "export": "cost",
+      "args": [
+        100,
+        100,
+        0.001,
+        0.001
+      ],
+      "expected": "0.0002",
+      "private": true
+    }
+  ]
+}

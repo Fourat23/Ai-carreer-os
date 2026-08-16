@@ -1,0 +1,59 @@
+{
+  "id": "llm-token-estimate",
+  "title": "LLM : estimer les tokens (PROXY)",
+  "difficulty": 3,
+  "summary": "PROXY déterministe : estime le nombre de tokens ≈ ceil(nombre de caractères / 4). Renvoie l'entier. Utile pour estimer coût et fenêtre AVANT d'appeler. NB : proxy, pas un vrai tokenizer.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "llm"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import math\n\ndef estimate_tokens(text):\n    # TODO : ceil(len(text)/4)\n    return 0\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import math\n\ndef estimate_tokens(text):\n    return math.ceil(len(text) / 4)\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "8 chars → 2",
+      "kind": "call-equals",
+      "export": "estimate_tokens",
+      "args": [
+        "abcdefgh"
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "5 chars → 2",
+      "kind": "call-equals",
+      "export": "estimate_tokens",
+      "args": [
+        "abcde"
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t3",
+      "name": "vide → 0 (privé)",
+      "kind": "call-equals",
+      "export": "estimate_tokens",
+      "args": [
+        ""
+      ],
+      "expected": 0,
+      "private": true
+    }
+  ],
+  "practiceMode": "PROXY"
+}

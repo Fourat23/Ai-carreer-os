@@ -1,0 +1,98 @@
+{
+  "id": "eval-structured-output",
+  "title": "Éval IA : valider une sortie structurée",
+  "difficulty": 3,
+  "summary": "Un LLM renvoie un dict censé suivre un schéma {champ: type} ('str'|'int'|'bool'). Renvoie la liste TRIÉE des erreurs 'manquant:x' / 'type:x'. Une sortie « JSON » non validée casse un jour.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "evalia",
+    "llm"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def validate(out, schema):\n    # TODO : champ manquant / mauvais type -> erreurs triées\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def validate(out, schema):\n    errs = []\n    for f, t in schema.items():\n        if f not in out:\n            errs.append(f'manquant:{f}')\n        else:\n            v = out[f]\n            ok = (t == 'int' and isinstance(v, int) and not isinstance(v, bool)) or (t == 'str' and isinstance(v, str)) or (t == 'bool' and isinstance(v, bool))\n            if not ok:\n                errs.append(f'type:{f}')\n    errs.sort()\n    return errs\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "manquant",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        {
+          "nom": "x"
+        },
+        {
+          "nom": "str",
+          "age": "int"
+        }
+      ],
+      "expected": [
+        "manquant:age"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "mauvais type",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        {
+          "age": "vieux"
+        },
+        {
+          "age": "int"
+        }
+      ],
+      "expected": [
+        "type:age"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "valide",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        {
+          "ok": true
+        },
+        {
+          "ok": "bool"
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "t4",
+      "name": "cumul (privé)",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        {
+          "a": "x"
+        },
+        {
+          "a": "int",
+          "b": "str"
+        }
+      ],
+      "expected": [
+        "manquant:b",
+        "type:a"
+      ],
+      "private": true
+    }
+  ]
+}

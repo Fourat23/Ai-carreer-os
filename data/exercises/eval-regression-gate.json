@@ -1,0 +1,76 @@
+{
+  "id": "eval-regression-gate",
+  "title": "Éval IA : porte de non-régression",
+  "difficulty": 4,
+  "summary": "Compare des scores {métrique: valeur} à une baseline. Renvoie 'regression' si UNE métrique chute de plus de la tolérance (baseline - courant > tol) ; sinon 'pass'. Empêche de livrer une dégradation silencieuse.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "evalia"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def gate(current, baseline, tol):\n    # TODO : 'regression' si une métrique baisse de plus de tol, sinon 'pass'\n    return 'pass'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def gate(current, baseline, tol):\n    for k, base in baseline.items():\n        if base - current.get(k, 0) > tol:\n            return 'regression'\n    return 'pass'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "chute > tol",
+      "kind": "call-equals",
+      "export": "gate",
+      "args": [
+        {
+          "f1": 0.7
+        },
+        {
+          "f1": 0.85
+        },
+        0.05
+      ],
+      "expected": "regression"
+    },
+    {
+      "id": "t2",
+      "name": "stable",
+      "kind": "call-equals",
+      "export": "gate",
+      "args": [
+        {
+          "f1": 0.84
+        },
+        {
+          "f1": 0.85
+        },
+        0.05
+      ],
+      "expected": "pass"
+    },
+    {
+      "id": "t3",
+      "name": "amélioration → pass (privé)",
+      "kind": "call-equals",
+      "export": "gate",
+      "args": [
+        {
+          "f1": 0.95
+        },
+        {
+          "f1": 0.85
+        },
+        0.05
+      ],
+      "expected": "pass",
+      "private": true
+    }
+  ]
+}

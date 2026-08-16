@@ -1,0 +1,87 @@
+{
+  "id": "eval-groundedness-proxy",
+  "title": "Éval IA : ancrage des citations (PROXY)",
+  "difficulty": 4,
+  "summary": "PROXY d'ancrage : pour chaque {claim, chunk_id}, la réponse est ancrée si le chunk_id existe dans le contexte fourni ET le texte du claim est contenu (sous-chaîne) dans ce chunk. Renvoie la fraction ancrée '%.2f'. NB : proxy déterministe, pas une vraie mesure sémantique.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "evalia"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def grounded(claims, context):\n    # context: {chunk_id: texte}. claim ancré si chunk_id existe ET claim in texte.\n    # TODO : fraction ancrée '%.2f'\n    return '0.00'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def grounded(claims, context):\n    if not claims:\n        return '0.00'\n    ok = 0\n    for c in claims:\n        txt = context.get(c['chunk_id'])\n        if txt is not None and c['claim'] in txt:\n            ok += 1\n    return f'{ok/len(claims):.2f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "1/2 ancré",
+      "kind": "call-equals",
+      "export": "grounded",
+      "args": [
+        [
+          {
+            "claim": "préavis deux mois",
+            "chunk_id": "c1"
+          },
+          {
+            "claim": "inventé",
+            "chunk_id": "c1"
+          }
+        ],
+        {
+          "c1": "le préavis deux mois est requis"
+        }
+      ],
+      "expected": "0.50"
+    },
+    {
+      "id": "t2",
+      "name": "chunk absent",
+      "kind": "call-equals",
+      "export": "grounded",
+      "args": [
+        [
+          {
+            "claim": "x",
+            "chunk_id": "zzz"
+          }
+        ],
+        {
+          "c1": "y"
+        }
+      ],
+      "expected": "0.00"
+    },
+    {
+      "id": "t3",
+      "name": "tout ancré (privé)",
+      "kind": "call-equals",
+      "export": "grounded",
+      "args": [
+        [
+          {
+            "claim": "ok",
+            "chunk_id": "c1"
+          }
+        ],
+        {
+          "c1": "ok voila"
+        }
+      ],
+      "expected": "1.00",
+      "private": true
+    }
+  ],
+  "practiceMode": "PROXY"
+}

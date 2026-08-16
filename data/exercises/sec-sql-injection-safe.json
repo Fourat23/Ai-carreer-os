@@ -1,0 +1,67 @@
+{
+  "id": "sec-sql-injection-safe",
+  "title": "Sécurité : injection SQL (paramétrer, pas concaténer)",
+  "difficulty": 3,
+  "summary": "Détermine si une construction de requête est sûre. Renvoie 'safe' si la requête utilise un paramètre '?' et passe la valeur à part ; 'unsafe' si elle CONCATÈNE l'entrée utilisateur dans la chaîne SQL. Entrée : {sql, concatenates_user_input(bool)}.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "secu"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def assess(query):\n    # TODO : 'unsafe' si concatène l'entrée utilisateur, 'safe' si placeholder '?'\n    return 'safe'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def assess(query):\n    if query.get('concatenates_user_input'):\n        return 'unsafe'\n    return 'safe' if '?' in query.get('sql', '') else 'unsafe'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "placeholder → safe",
+      "kind": "call-equals",
+      "export": "assess",
+      "args": [
+        {
+          "sql": "SELECT * FROM u WHERE id=?",
+          "concatenates_user_input": false
+        }
+      ],
+      "expected": "safe"
+    },
+    {
+      "id": "t2",
+      "name": "concaténation → unsafe",
+      "kind": "call-equals",
+      "export": "assess",
+      "args": [
+        {
+          "sql": "SELECT * FROM u WHERE id='",
+          "concatenates_user_input": true
+        }
+      ],
+      "expected": "unsafe"
+    },
+    {
+      "id": "t3",
+      "name": "ni param ni concat → unsafe (privé)",
+      "kind": "call-equals",
+      "export": "assess",
+      "args": [
+        {
+          "sql": "SELECT 1",
+          "concatenates_user_input": false
+        }
+      ],
+      "expected": "unsafe",
+      "private": true
+    }
+  ]
+}

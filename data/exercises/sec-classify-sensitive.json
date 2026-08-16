@@ -1,80 +1,57 @@
 {
-  "runtime": "node-js",
-  "trackRefs": [
-    "systems-cloud-foundations-v1",
-    "ai-engineer-foundations-v1"
-  ],
-  "activeFile": "solution.mjs",
   "id": "sec-classify-sensitive",
-  "title": "Sécurité : un champ est-il sensible ?",
-  "difficulty": 1,
-  "summary": "isSensitive(name) → true si le nom de champ (minuscule) contient \"password\", \"token\", \"secret\", \"apikey\" ou \"key\".",
+  "title": "Sécurité : secret ou configuration ?",
+  "difficulty": 2,
+  "summary": "Classe une clé de configuration : 'secret' si son nom contient password/token/key/secret/credential (insensible à la casse), sinon 'config'. Un secret ne va jamais dans une ConfigMap ni dans le code.",
+  "runtime": "python3",
+  "language": "python",
   "skills": [
-    "conditions"
+    "secu"
   ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
   "workspace": {
-    "entry": "solution.mjs",
+    "entry": "solution.py",
     "files": [
       {
-        "path": "solution.mjs",
-        "content": "export function isSensitive(name) {\n  // TODO\n  return false;\n}\n"
+        "path": "solution.py",
+        "content": "def classify(key):\n    # TODO : 'secret' si nom sensible, sinon 'config'\n    return 'config'\n"
       }
     ]
   },
   "reference": {
-    "solution.mjs": "export function isSensitive(name){const n=String(name).toLowerCase();return [\"password\",\"token\",\"secret\",\"apikey\",\"key\"].some(k=>n.includes(k));}"
+    "solution.py": "def classify(key):\n    k = key.lower()\n    for m in ('password', 'token', 'key', 'secret', 'credential'):\n        if m in k:\n            return 'secret'\n    return 'config'\n"
   },
   "tests": [
     {
       "id": "t1",
-      "name": "password",
+      "name": "API_KEY → secret",
       "kind": "call-equals",
-      "export": "isSensitive",
+      "export": "classify",
       "args": [
-        "db_password"
+        "API_KEY"
       ],
-      "expected": true
+      "expected": "secret"
     },
     {
       "id": "t2",
-      "name": "apiKey",
+      "name": "LOG_LEVEL → config",
       "kind": "call-equals",
-      "export": "isSensitive",
+      "export": "classify",
       "args": [
-        "apiKey"
+        "LOG_LEVEL"
       ],
-      "expected": true
+      "expected": "config"
     },
     {
       "id": "t3",
-      "name": "host",
+      "name": "db_password → secret (privé)",
       "kind": "call-equals",
-      "export": "isSensitive",
+      "export": "classify",
       "args": [
-        "host"
+        "db_password"
       ],
-      "expected": false
-    },
-    {
-      "id": "t4",
-      "name": "accessToken",
-      "kind": "call-equals",
-      "export": "isSensitive",
-      "args": [
-        "accessToken"
-      ],
-      "expected": true,
-      "private": true
-    },
-    {
-      "id": "t5",
-      "name": "name",
-      "kind": "call-equals",
-      "export": "isSensitive",
-      "args": [
-        "name"
-      ],
-      "expected": false,
+      "expected": "secret",
       "private": true
     }
   ]

@@ -1,0 +1,53 @@
+{
+  "note": "Tâches EXTERNAL_ENVIRONMENT_REQUIRED (V46/CP9). NON exécutables dans la plateforme (pas d'infra Docker/K8s/cloud locale). Fournies honnêtement : objectif, prérequis, commandes, preuves attendues, critères de réussite. À réaliser dans un vrai environnement, puis coller la preuve.",
+  "practiceMode": "EXTERNAL_ENVIRONMENT_REQUIRED",
+  "tasks": [
+    {
+      "id": "ext-docker-run-hardened",
+      "skills": ["secu", "cloud"],
+      "title": "Docker : lancer un conteneur durci",
+      "objective": "Exécuter une image en non-root, système de fichiers en lecture seule, avec une limite mémoire, et prouver le durcissement.",
+      "prerequisites": ["Docker installé et démon actif", "une image applicative locale (ex. monapi:1.0)"],
+      "commands": [
+        "docker run --read-only --tmpfs /tmp --memory=256m --user 1000:1000 --name hardened -d monapi:1.0",
+        "docker inspect hardened --format '{{.Config.User}} {{.HostConfig.ReadonlyRootfs}} {{.HostConfig.Memory}}'"
+      ],
+      "expectedEvidence": "La sortie de docker inspect montre User=1000, ReadonlyRootfs=true, Memory=268435456.",
+      "successCriteria": "Le conteneur tourne en non-root, rootfs read-only, limite mémoire = 256Mo, et l'app répond.",
+      "frontier": "SIMULATION locale disponible pour le raisonnement (série docker-*), mais l'exécution réelle exige un démon Docker."
+    },
+    {
+      "id": "ext-k8s-fix-probe",
+      "skills": ["cloud", "secu"],
+      "title": "Kubernetes : corriger une readiness probe",
+      "objective": "Diagnostiquer un Pod qui reçoit du trafic avant d'être prêt, puis corriger la readinessProbe et vérifier qu'il quitte les endpoints tant qu'il n'est pas Ready.",
+      "prerequisites": ["cluster K8s accessible (kind/minikube/managé)", "kubectl configuré"],
+      "commands": [
+        "kubectl get pods -l app=monapi",
+        "kubectl describe pod <pod>",
+        "kubectl get endpoints monapi",
+        "kubectl apply -f deployment-with-readiness.yaml",
+        "kubectl get endpoints monapi -w"
+      ],
+      "expectedEvidence": "Avant correction : Pod Running mais pas Ready et pourtant présent dans les endpoints (ou l'inverse). Après : le Pod n'apparaît dans les endpoints qu'une fois Ready.",
+      "successCriteria": "La readinessProbe pointe un vrai endpoint /health ; un Pod non prêt est retiré des endpoints du Service.",
+      "frontier": "SIMULATION locale disponible (série k8s-* en JS), mais la réconciliation réelle exige un cluster."
+    },
+    {
+      "id": "ext-aws-s3-least-privilege",
+      "skills": ["secu", "cloud"],
+      "title": "AWS : accès S3 au moindre privilège (rôle IAM)",
+      "objective": "Donner à une application l'accès en lecture à UN bucket précis via un rôle IAM (pas de clés en dur), et prouver que l'accès à un autre bucket est refusé.",
+      "prerequisites": ["compte AWS de test", "AWS CLI configuré", "un bucket cible"],
+      "commands": [
+        "aws iam create-role --role-name app-read --assume-role-policy-document file://trust.json",
+        "aws iam put-role-policy --role-name app-read --policy-name s3read --policy-document file://s3-read-one-bucket.json",
+        "aws s3 ls s3://bucket-autorise/ (via le rôle assumé) → OK",
+        "aws s3 ls s3://autre-bucket/ (via le rôle assumé) → AccessDenied"
+      ],
+      "expectedEvidence": "La policy JSON n'autorise que s3:GetObject/ListBucket sur l'ARN du bucket cible ; l'accès à un autre bucket renvoie AccessDenied.",
+      "successCriteria": "Aucune clé en dur ; permissions minimales sur le seul bucket ; l'accès hors périmètre est refusé.",
+      "frontier": "Non simulable localement : nécessite AWS. Le concept (IAM, moindre privilège) est enseigné et raisonné dans le corpus."
+    }
+  ]
+}

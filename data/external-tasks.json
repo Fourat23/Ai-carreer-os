@@ -1,13 +1,19 @@
 {
-  "note": "Tâches EXTERNAL_ENVIRONMENT_REQUIRED (V46/CP9). NON exécutables dans la plateforme (pas d'infra Docker/K8s/cloud locale). Fournies honnêtement : objectif, prérequis, commandes, preuves attendues, critères de réussite. À réaliser dans un vrai environnement, puis coller la preuve.",
+  "note": "Tâches EXTERNAL_ENVIRONMENT_REQUIRED (V46/CP9). NON exécutables dans la plateforme (pas d'infra Docker/K8s/cloud locale). Fournies honnêtement : objectif, prérequis, commandes, preuves attendues, critères de réussite. À réaliser dans un vrai environnement, puis coller la preuve. [V47] Labs pro ajoutés : Docker build/run, Compose healthcheck, K8s endpoints, AWS VPC. Docker daemon ABSENT dans cet environnement -> tous EXTERNAL.",
   "practiceMode": "EXTERNAL_ENVIRONMENT_REQUIRED",
   "tasks": [
     {
       "id": "ext-docker-run-hardened",
-      "skills": ["secu", "cloud"],
+      "skills": [
+        "secu",
+        "cloud"
+      ],
       "title": "Docker : lancer un conteneur durci",
       "objective": "Exécuter une image en non-root, système de fichiers en lecture seule, avec une limite mémoire, et prouver le durcissement.",
-      "prerequisites": ["Docker installé et démon actif", "une image applicative locale (ex. monapi:1.0)"],
+      "prerequisites": [
+        "Docker installé et démon actif",
+        "une image applicative locale (ex. monapi:1.0)"
+      ],
       "commands": [
         "docker run --read-only --tmpfs /tmp --memory=256m --user 1000:1000 --name hardened -d monapi:1.0",
         "docker inspect hardened --format '{{.Config.User}} {{.HostConfig.ReadonlyRootfs}} {{.HostConfig.Memory}}'"
@@ -18,10 +24,16 @@
     },
     {
       "id": "ext-k8s-fix-probe",
-      "skills": ["cloud", "secu"],
+      "skills": [
+        "cloud",
+        "secu"
+      ],
       "title": "Kubernetes : corriger une readiness probe",
       "objective": "Diagnostiquer un Pod qui reçoit du trafic avant d'être prêt, puis corriger la readinessProbe et vérifier qu'il quitte les endpoints tant qu'il n'est pas Ready.",
-      "prerequisites": ["cluster K8s accessible (kind/minikube/managé)", "kubectl configuré"],
+      "prerequisites": [
+        "cluster K8s accessible (kind/minikube/managé)",
+        "kubectl configuré"
+      ],
       "commands": [
         "kubectl get pods -l app=monapi",
         "kubectl describe pod <pod>",
@@ -35,10 +47,17 @@
     },
     {
       "id": "ext-aws-s3-least-privilege",
-      "skills": ["secu", "cloud"],
+      "skills": [
+        "secu",
+        "cloud"
+      ],
       "title": "AWS : accès S3 au moindre privilège (rôle IAM)",
       "objective": "Donner à une application l'accès en lecture à UN bucket précis via un rôle IAM (pas de clés en dur), et prouver que l'accès à un autre bucket est refusé.",
-      "prerequisites": ["compte AWS de test", "AWS CLI configuré", "un bucket cible"],
+      "prerequisites": [
+        "compte AWS de test",
+        "AWS CLI configuré",
+        "un bucket cible"
+      ],
       "commands": [
         "aws iam create-role --role-name app-read --assume-role-policy-document file://trust.json",
         "aws iam put-role-policy --role-name app-read --policy-name s3read --policy-document file://s3-read-one-bucket.json",
@@ -48,6 +67,117 @@
       "expectedEvidence": "La policy JSON n'autorise que s3:GetObject/ListBucket sur l'ARN du bucket cible ; l'accès à un autre bucket renvoie AccessDenied.",
       "successCriteria": "Aucune clé en dur ; permissions minimales sur le seul bucket ; l'accès hors périmètre est refusé.",
       "frontier": "Non simulable localement : nécessite AWS. Le concept (IAM, moindre privilège) est enseigné et raisonné dans le corpus."
+    },
+    {
+      "id": "ext-docker-build-run",
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "title": "Docker : build + run + logs + troubleshooting",
+      "objective": "Construire une image, la lancer, mapper un port, lire les logs, diagnostiquer un conteneur qui redémarre.",
+      "prerequisites": [
+        "Docker daemon actif (absent dans cet environnement CP0)",
+        "un Dockerfile applicatif"
+      ],
+      "commands": [
+        "docker build -t app:1 .",
+        "docker run -d -p 8080:3000 --name app app:1",
+        "docker logs -f app",
+        "docker inspect app --format '{{.State.Status}} {{.RestartCount}}'"
+      ],
+      "expectedEvidence": "docker ps montre app Up ; curl localhost:8080 répond ; logs sans boucle de crash.",
+      "successCriteria": "Image build, conteneur Up, port accessible, cause d'un éventuel restart identifiée (OOM/PID1/port).",
+      "failureModes": [
+        "port déjà utilisé",
+        "OOMKilled (limite mémoire)",
+        "PID 1 ignore SIGTERM"
+      ],
+      "cleanup": [
+        "docker rm -f app",
+        "docker rmi app:1"
+      ],
+      "evidenceMode": "EXTERNAL_ENVIRONMENT_REQUIRED"
+    },
+    {
+      "id": "ext-compose-healthcheck",
+      "skills": [
+        "cloud"
+      ],
+      "title": "Compose : dépendance saine (healthcheck)",
+      "objective": "Démarrer app+db avec depends_on: condition service_healthy et prouver que l'app attend la base prête.",
+      "prerequisites": [
+        "Docker daemon + docker compose actifs"
+      ],
+      "commands": [
+        "docker compose up -d",
+        "docker compose ps",
+        "docker compose logs app | head"
+      ],
+      "expectedEvidence": "db 'healthy' avant que app ne tente sa connexion ; pas d'échec au démarrage.",
+      "successCriteria": "depends_on: {db: {condition: service_healthy}} + healthcheck pg_isready ; app démarre sans course.",
+      "failureModes": [
+        "depends_on sans condition -> course au démarrage"
+      ],
+      "cleanup": [
+        "docker compose down -v"
+      ],
+      "evidenceMode": "EXTERNAL_ENVIRONMENT_REQUIRED"
+    },
+    {
+      "id": "ext-k8s-service-endpoints",
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "title": "Kubernetes : Service sans endpoints (labels)",
+      "objective": "Diagnostiquer un Service qui ne route vers aucun Pod (sélecteur/labels incohérents).",
+      "prerequisites": [
+        "cluster (kind/minikube/managé) + kubectl"
+      ],
+      "commands": [
+        "kubectl get endpoints monapi",
+        "kubectl get pods --show-labels",
+        "kubectl describe svc monapi",
+        "kubectl apply -f service-fixed.yaml"
+      ],
+      "expectedEvidence": "endpoints vides AVANT (labels != selector) ; peuplés APRÈS correction.",
+      "successCriteria": "Le selector du Service correspond aux labels des Pods Ready ; endpoints non vides.",
+      "failureModes": [
+        "selector != labels",
+        "Pods non Ready (readiness)"
+      ],
+      "cleanup": [
+        "kubectl delete -f service-fixed.yaml"
+      ],
+      "evidenceMode": "EXTERNAL_ENVIRONMENT_REQUIRED"
+    },
+    {
+      "id": "ext-aws-vpc-least-exposure",
+      "skills": [
+        "cloud",
+        "secu"
+      ],
+      "title": "AWS : réseau à exposition minimale",
+      "objective": "Placer une base en subnet privé, l'API derrière un LB, et prouver que la base n'est PAS joignable d'Internet.",
+      "prerequisites": [
+        "compte AWS de test + AWS CLI"
+      ],
+      "commands": [
+        "# VPC + subnets public/privé + SG restreints (IaC recommandé)",
+        "aws ec2 describe-security-groups --group-ids <sg-db>",
+        "# tenter une connexion à la base depuis l'extérieur -> refus"
+      ],
+      "expectedEvidence": "SG de la base n'autorise que le SG applicatif ; connexion externe à la base refusée ; API accessible via LB.",
+      "successCriteria": "Base injoignable d'Internet, sortie via NAT, moindre privilège réseau.",
+      "failureModes": [
+        "base en subnet public",
+        "SG 0.0.0.0/0 sur 5432"
+      ],
+      "cleanup": [
+        "détruire la stack (terraform destroy / delete-stack)"
+      ],
+      "evidenceMode": "EXTERNAL_ENVIRONMENT_REQUIRED"
     }
   ]
 }

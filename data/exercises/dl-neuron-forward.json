@@ -1,0 +1,80 @@
+{
+  "id": "dl-neuron-forward",
+  "title": "DL : le forward d’un neurone",
+  "difficulty": 2,
+  "summary": "Calcule la sortie d'un neurone : sigmoid(w·x + b). Renvoie une chaîne à 3 décimales. sigmoid(z)=1/(1+e^-z). C'est LA brique de base d'un réseau.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "dl"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import math\n\ndef forward(w, x, b):\n    # TODO : z = somme(w_i*x_i) + b ; renvoyer f'{sigmoid(z):.3f}'\n    return '0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import math\n\ndef forward(w, x, b):\n    z = sum(wi * xi for wi, xi in zip(w, x)) + b\n    y = 1 / (1 + math.exp(-z))\n    return f'{y:.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "z=0 → 0.500",
+      "kind": "call-equals",
+      "export": "forward",
+      "args": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        0
+      ],
+      "expected": "0.500"
+    },
+    {
+      "id": "t2",
+      "name": "z=2 → 0.881",
+      "kind": "call-equals",
+      "export": "forward",
+      "args": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        0
+      ],
+      "expected": "0.881"
+    },
+    {
+      "id": "t3",
+      "name": "biais négatif (privé)",
+      "kind": "call-equals",
+      "export": "forward",
+      "args": [
+        [
+          2
+        ],
+        [
+          1
+        ],
+        -2
+      ],
+      "expected": "0.500",
+      "private": true
+    }
+  ]
+}

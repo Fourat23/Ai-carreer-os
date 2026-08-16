@@ -1,0 +1,80 @@
+{
+  "id": "dl-diagnose-training",
+  "title": "DL : diagnostiquer un entraînement",
+  "difficulty": 4,
+  "summary": "À partir de la courbe de perte (liste), classe : 'diverging' si la perte finale > perte initiale ; 'not-learning' si elle bouge de moins de 1% (plateau dès le départ) ; sinon 'healthy'. On diagnostique par la courbe, pas au hasard.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "dl"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def diagnose(losses):\n    # TODO : diverging / not-learning / healthy à partir de la courbe\n    return 'healthy'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def diagnose(losses):\n    if not losses:\n        return 'not-learning'\n    first, last = losses[0], losses[-1]\n    if last > first:\n        return 'diverging'\n    if first > 0 and (first - last) / first < 0.01:\n        return 'not-learning'\n    return 'healthy'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "perte qui remonte → diverging",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        [
+          1,
+          2,
+          5
+        ]
+      ],
+      "expected": "diverging"
+    },
+    {
+      "id": "t2",
+      "name": "plateau → not-learning",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        [
+          1,
+          0.999,
+          0.999
+        ]
+      ],
+      "expected": "not-learning"
+    },
+    {
+      "id": "t3",
+      "name": "descente franche → healthy",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        [
+          2,
+          1,
+          0.3
+        ]
+      ],
+      "expected": "healthy"
+    },
+    {
+      "id": "t4",
+      "name": "liste vide (privé)",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        []
+      ],
+      "expected": "not-learning",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "dl-gradient-step",
+  "title": "DL : un pas de descente de gradient",
+  "difficulty": 3,
+  "summary": "Modèle linéaire pred=w*x, perte MSE=(pred-y)^2. Le gradient dL/dw = 2*(pred-y)*x. Fais UN pas : w_new = w - lr*grad. Renvoie w_new à 4 décimales. LR trop grand diverge, trop petit n'avance pas.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "dl"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def step(w, x, y, lr):\n    # TODO : pred=w*x ; grad=2*(pred-y)*x ; w - lr*grad ; f'{w_new:.4f}'\n    return f'{w:.4f}'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def step(w, x, y, lr):\n    pred = w * x\n    grad = 2 * (pred - y) * x\n    w_new = w - lr * grad\n    return f'{w_new:.4f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "w=0 x=2 y=4 lr=0.1",
+      "kind": "call-equals",
+      "export": "step",
+      "args": [
+        0,
+        2,
+        4,
+        0.1
+      ],
+      "expected": "1.6000"
+    },
+    {
+      "id": "t2",
+      "name": "déjà optimal (grad 0)",
+      "kind": "call-equals",
+      "export": "step",
+      "args": [
+        2,
+        2,
+        4,
+        0.1
+      ],
+      "expected": "2.0000"
+    },
+    {
+      "id": "t3",
+      "name": "lr plus grand (privé)",
+      "kind": "call-equals",
+      "export": "step",
+      "args": [
+        0,
+        1,
+        1,
+        0.5
+      ],
+      "expected": "1.0000",
+      "private": true
+    }
+  ]
+}

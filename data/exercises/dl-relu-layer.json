@@ -1,0 +1,84 @@
+{
+  "id": "dl-relu-layer",
+  "title": "DL : activation ReLU",
+  "difficulty": 2,
+  "summary": "Applique ReLU à chaque valeur d'une couche : relu(x)=max(0,x). Renvoie la liste transformée. Sans non-linéarité, empiler des couches ne servirait à rien.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "dl"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def relu(xs):\n    # TODO : max(0, x) pour chaque x\n    return xs\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def relu(xs):\n    return [x if x > 0 else 0 for x in xs]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "négatifs → 0",
+      "kind": "call-equals",
+      "export": "relu",
+      "args": [
+        [
+          -2,
+          -1,
+          0,
+          3,
+          5
+        ]
+      ],
+      "expected": [
+        0,
+        0,
+        0,
+        3,
+        5
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "tous positifs",
+      "kind": "call-equals",
+      "export": "relu",
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "tous négatifs (privé)",
+      "kind": "call-equals",
+      "export": "relu",
+      "args": [
+        [
+          -5,
+          -9
+        ]
+      ],
+      "expected": [
+        0,
+        0
+      ],
+      "private": true
+    }
+  ]
+}

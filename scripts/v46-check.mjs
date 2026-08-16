@@ -23,8 +23,16 @@ const files = readdirSync(exDir).filter((f) => f.endsWith('.json'));
 const exercises = files.map((f) => ({ file: f, ...JSON.parse(readFileSync(join(exDir, f), 'utf8')) }));
 const misconceptions = MISCONCEPTIONS;
 
-const CODE_RUNTIMES = new Set(['node-js', 'python3', 'typescript']);
-const PRACTICE_MODES = new Set([undefined, 'LOCAL_EXECUTABLE', 'SIMULATION', 'EXTERNAL_ENVIRONMENT_REQUIRED']);
+// python-ds exécute du code RÉEL (numpy/pandas/scikit-learn) quand le venv opt-in
+// est provisionné ; il compte donc comme runtime de code.
+const CODE_RUNTIMES = new Set(['node-js', 'python3', 'python-ds', 'typescript']);
+// Étiquettes de preuve honnêtes (V46 + V47). PROXY : mesure locale déterministe
+// approchant un signal non calculable hors ligne. TOOLING_ENVIRONMENT_REQUIRED :
+// code réel dont l'exécution exige un outillage opt-in (venv Data Science).
+const PRACTICE_MODES = new Set([
+  undefined, 'LOCAL_EXECUTABLE', 'SIMULATION', 'PROXY',
+  'EXTERNAL_ENVIRONMENT_REQUIRED', 'TOOLING_ENVIRONMENT_REQUIRED',
+]);
 const errors = [];
 const warns = [];
 

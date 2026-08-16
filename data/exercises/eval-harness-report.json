@@ -1,0 +1,171 @@
+{
+  "id": "eval-harness-report",
+  "title": "Éval IA : rapport de harnais (composition)",
+  "difficulty": 5,
+  "summary": "Compose un vrai rapport d'évaluation : exact match sur un golden set, décision de porte de non-régression contre une baseline, et catégories d'échec triées. C'est le livrable qu'un ingénieur IA produit avant de livrer — trois signaux honnêtes en une sortie déterministe.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "evalia",
+    "llm"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def harness_report(rows, baseline_em, tol):\n    # rows: liste de {pred, gold, category}. Produis un rapport dict :\n    #   'exact_match' : taux d'exact match (pred.strip()==gold.strip()) en '%.3f'\n    #   'gate'        : 'regression' si baseline_em - exact_match > tol, sinon 'pass'\n    #   'top_failures': ['category:count', ...] des catégories en échec,\n    #                   triées par count DÉCROISSANT puis category croissante.\n    # TODO\n    return {'exact_match': '0.000', 'gate': 'pass', 'top_failures': []}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def harness_report(rows, baseline_em, tol):\n    n = len(rows)\n    ok = sum(1 for r in rows if r['pred'].strip() == r['gold'].strip())\n    em = ok / n if n else 0.0\n    fails = {}\n    for r in rows:\n        if r['pred'].strip() != r['gold'].strip():\n            fails[r['category']] = fails.get(r['category'], 0) + 1\n    ordered = sorted(fails.items(), key=lambda kv: (-kv[1], kv[0]))\n    return {\n        'exact_match': f'{em:.3f}',\n        'gate': 'regression' if baseline_em - em > tol else 'pass',\n        'top_failures': [f'{c}:{n}' for c, n in ordered],\n    }\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "em + gate pass + top_failures",
+      "kind": "call-equals",
+      "export": "harness_report",
+      "args": [
+        [
+          {
+            "pred": "a",
+            "gold": "a",
+            "category": "format"
+          },
+          {
+            "pred": "x",
+            "gold": "y",
+            "category": "faux"
+          },
+          {
+            "pred": "z ",
+            "gold": "z",
+            "category": "format"
+          },
+          {
+            "pred": "1",
+            "gold": "2",
+            "category": "faux"
+          },
+          {
+            "pred": "q",
+            "gold": "w",
+            "category": "ancrage"
+          }
+        ],
+        0.42,
+        0.05
+      ],
+      "expected": {
+        "exact_match": "0.400",
+        "gate": "pass",
+        "top_failures": [
+          "faux:2",
+          "ancrage:1"
+        ]
+      }
+    },
+    {
+      "id": "t2",
+      "name": "chute > tol → regression",
+      "kind": "call-equals",
+      "export": "harness_report",
+      "args": [
+        [
+          {
+            "pred": "a",
+            "gold": "a",
+            "category": "format"
+          },
+          {
+            "pred": "x",
+            "gold": "y",
+            "category": "faux"
+          },
+          {
+            "pred": "z ",
+            "gold": "z",
+            "category": "format"
+          },
+          {
+            "pred": "1",
+            "gold": "2",
+            "category": "faux"
+          },
+          {
+            "pred": "q",
+            "gold": "w",
+            "category": "ancrage"
+          }
+        ],
+        0.85,
+        0.05
+      ],
+      "expected": {
+        "exact_match": "0.400",
+        "gate": "regression",
+        "top_failures": [
+          "faux:2",
+          "ancrage:1"
+        ]
+      }
+    },
+    {
+      "id": "t3",
+      "name": "tie-break count égal → tri alpha",
+      "kind": "call-equals",
+      "export": "harness_report",
+      "args": [
+        [
+          {
+            "pred": "a",
+            "gold": "b",
+            "category": "zeta"
+          },
+          {
+            "pred": "c",
+            "gold": "d",
+            "category": "alpha"
+          }
+        ],
+        0.5,
+        0.1
+      ],
+      "expected": {
+        "exact_match": "0.000",
+        "gate": "regression",
+        "top_failures": [
+          "alpha:1",
+          "zeta:1"
+        ]
+      }
+    },
+    {
+      "id": "t4",
+      "name": "aucun échec (privé)",
+      "kind": "call-equals",
+      "export": "harness_report",
+      "args": [
+        [
+          {
+            "pred": "a",
+            "gold": "a",
+            "category": "x"
+          }
+        ],
+        0.9,
+        0.05
+      ],
+      "expected": {
+        "exact_match": "1.000",
+        "gate": "pass",
+        "top_failures": []
+      },
+      "private": true
+    }
+  ]
+}

@@ -1,25 +1,95 @@
 {
   "runtime": "node-js",
-  "trackRefs": ["ai-engineer-foundations-v1"],
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
   "activeFile": "solution.mjs",
   "id": "agent-loop-detect",
   "title": "Agent : détecter une boucle ou un budget dépassé",
   "difficulty": 3,
   "summary": "shouldStop(steps, maxSteps) décide si un agent doit s'arrêter : 'budget' si le nombre d'étapes dépasse maxSteps ; 'loop' s'il répète une action (même action consécutive, ou cycle A,B,A,B) ; sinon 'ok'. Une boucle non bornée est une facture qui court : borne + détection de répétition sont non négociables. SIMULATION : la trace d'actions est fournie — on code la règle d'arrêt.",
-  "skills": ["arrays", "loops", "conditions", "functions"],
+  "skills": [
+    "arrays",
+    "loops",
+    "conditions",
+    "functions",
+    "agents"
+  ],
   "workspace": {
     "entry": "solution.mjs",
     "files": [
-      { "path": "solution.mjs", "content": "// Décide si l'agent doit s'arrêter d'après sa trace d'actions.\n// TODO : ne vérifier QUE le budget laisse passer les boucles A,B,A,B ;\n//        il faut aussi détecter la répétition (progrès nul).\nexport function shouldStop(steps, maxSteps) {\n  if (steps.length > maxSteps) return 'budget';\n  return 'ok';\n}\n" }
+      {
+        "path": "solution.mjs",
+        "content": "// Décide si l'agent doit s'arrêter d'après sa trace d'actions.\n// TODO : ne vérifier QUE le budget laisse passer les boucles A,B,A,B ;\n//        il faut aussi détecter la répétition (progrès nul).\nexport function shouldStop(steps, maxSteps) {\n  if (steps.length > maxSteps) return 'budget';\n  return 'ok';\n}\n"
+      }
     ]
   },
   "reference": {
     "solution.mjs": "export function shouldStop(steps, maxSteps) {\n  if (steps.length > maxSteps) return 'budget';\n  for (let i = 1; i < steps.length; i++) {\n    if (steps[i] === steps[i - 1]) return 'loop';\n    if (i >= 3 && steps[i] === steps[i - 2] && steps[i - 1] === steps[i - 3]) return 'loop';\n  }\n  return 'ok';\n}\n"
   },
   "tests": [
-    { "id": "t1", "name": "cycle A,B,A,B sans progrès → loop", "kind": "call-equals", "export": "shouldStop", "args": [["search", "read", "search", "read"], 10], "expected": "loop" },
-    { "id": "t2", "name": "trop d'étapes → budget", "kind": "call-equals", "export": "shouldStop", "args": [["a", "b", "c", "d"], 3], "expected": "budget" },
-    { "id": "t3", "name": "progression normale → ok", "kind": "call-equals", "export": "shouldStop", "args": [["search", "read", "answer"], 10], "expected": "ok" },
-    { "id": "t4", "name": "même action deux fois de suite → loop", "kind": "call-equals", "export": "shouldStop", "args": [["x", "x"], 10], "expected": "loop", "private": true }
-  ]
+    {
+      "id": "t1",
+      "name": "cycle A,B,A,B sans progrès → loop",
+      "kind": "call-equals",
+      "export": "shouldStop",
+      "args": [
+        [
+          "search",
+          "read",
+          "search",
+          "read"
+        ],
+        10
+      ],
+      "expected": "loop"
+    },
+    {
+      "id": "t2",
+      "name": "trop d'étapes → budget",
+      "kind": "call-equals",
+      "export": "shouldStop",
+      "args": [
+        [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        3
+      ],
+      "expected": "budget"
+    },
+    {
+      "id": "t3",
+      "name": "progression normale → ok",
+      "kind": "call-equals",
+      "export": "shouldStop",
+      "args": [
+        [
+          "search",
+          "read",
+          "answer"
+        ],
+        10
+      ],
+      "expected": "ok"
+    },
+    {
+      "id": "t4",
+      "name": "même action deux fois de suite → loop",
+      "kind": "call-equals",
+      "export": "shouldStop",
+      "args": [
+        [
+          "x",
+          "x"
+        ],
+        10
+      ],
+      "expected": "loop",
+      "private": true
+    }
+  ],
+  "reusedBy": "v46"
 }

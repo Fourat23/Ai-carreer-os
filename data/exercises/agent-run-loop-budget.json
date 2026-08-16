@@ -1,0 +1,83 @@
+{
+  "id": "agent-run-loop-budget",
+  "title": "Agents : boucle avec budget",
+  "difficulty": 3,
+  "summary": "Exécute une liste d'actions planifiées jusqu'à l'action 'final' OU l'épuisement du budget (nombre max d'itérations). Renvoie [n_steps_exécutés, raison] où raison ∈ {'done','budget'}. Un agent sans budget = boucle infinie sur ta facture.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "agents"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def run(actions, budget):\n    # TODO : itérer, s'arrêter à 'final' (done) ou quand budget atteint (budget)\n    return [0, 'done']\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def run(actions, budget):\n    steps = 0\n    for a in actions:\n        if steps >= budget:\n            return [steps, 'budget']\n        steps += 1\n        if a == 'final':\n            return [steps, 'done']\n    return [steps, 'budget'] if steps >= budget else [steps, 'done']\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "final avant budget",
+      "kind": "call-equals",
+      "export": "run",
+      "args": [
+        [
+          "think",
+          "tool",
+          "final",
+          "x"
+        ],
+        10
+      ],
+      "expected": [
+        3,
+        "done"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "budget atteint",
+      "kind": "call-equals",
+      "export": "run",
+      "args": [
+        [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        2
+      ],
+      "expected": [
+        2,
+        "budget"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "jamais de final, budget large (privé)",
+      "kind": "call-equals",
+      "export": "run",
+      "args": [
+        [
+          "a",
+          "b"
+        ],
+        10
+      ],
+      "expected": [
+        2,
+        "done"
+      ],
+      "private": true
+    }
+  ]
+}

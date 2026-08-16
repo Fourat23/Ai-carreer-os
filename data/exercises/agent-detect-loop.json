@@ -1,0 +1,89 @@
+{
+  "id": "agent-detect-loop",
+  "title": "Agents : détecter une boucle",
+  "difficulty": 4,
+  "summary": "Un agent peut refaire sans cesse la même action. À partir de l'historique (liste de [outil, arg]), renvoie l'index de la PREMIÈRE répétition exacte d'une action déjà vue, ou -1. Sans détection, l'agent boucle indéfiniment.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "agents"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def detect_loop(history):\n    # TODO : première action (outil,arg) déjà vue -> son index ; sinon -1\n    return -1\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def detect_loop(history):\n    seen = set()\n    for i, action in enumerate(history):\n        key = tuple(action)\n        if key in seen:\n            return i\n        seen.add(key)\n    return -1\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "répétition en position 2",
+      "kind": "call-equals",
+      "export": "detect_loop",
+      "args": [
+        [
+          [
+            "search",
+            "a"
+          ],
+          [
+            "read",
+            "b"
+          ],
+          [
+            "search",
+            "a"
+          ]
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "aucune répétition → -1",
+      "kind": "call-equals",
+      "export": "detect_loop",
+      "args": [
+        [
+          [
+            "a",
+            "1"
+          ],
+          [
+            "a",
+            "2"
+          ]
+        ]
+      ],
+      "expected": -1
+    },
+    {
+      "id": "t3",
+      "name": "répétition immédiate (privé)",
+      "kind": "call-equals",
+      "export": "detect_loop",
+      "args": [
+        [
+          [
+            "x",
+            "y"
+          ],
+          [
+            "x",
+            "y"
+          ]
+        ]
+      ],
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

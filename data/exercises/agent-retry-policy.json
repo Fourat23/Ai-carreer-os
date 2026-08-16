@@ -1,25 +1,80 @@
 {
   "runtime": "node-js",
-  "trackRefs": ["ai-engineer-foundations-v1"],
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
   "activeFile": "solution.mjs",
   "id": "agent-retry-policy",
   "title": "Agent : réessayer, échouer, ou escalader ?",
   "difficulty": 2,
   "summary": "decide(error) trie une erreur : transitoire (rate-limit, timeout, transient) → 'retry' ; ambiguë ou peu sûre (ambiguous, low-confidence) → 'ask-human' ; tout le reste (invalid-args, permission-denied, not-found) → 'fail'. Réessayer une erreur non-retryable est inutile et dangereux : le tri des erreurs est la base d'une boucle d'agent fiable. SIMULATION : le type d'erreur est fourni (aucun LLM) — on code la politique.",
-  "skills": ["conditions", "functions"],
+  "skills": [
+    "conditions",
+    "functions",
+    "agents"
+  ],
   "workspace": {
     "entry": "solution.mjs",
     "files": [
-      { "path": "solution.mjs", "content": "// Décide quoi faire d'une erreur d'outil dans une boucle d'agent.\n// TODO : réessayer TOUTES les erreurs est faux et dangereux — une permission\n//        refusée ou un argument invalide ne se répare pas en réessayant.\nexport function decide(error) {\n  return 'retry';\n}\n" }
+      {
+        "path": "solution.mjs",
+        "content": "// Décide quoi faire d'une erreur d'outil dans une boucle d'agent.\n// TODO : réessayer TOUTES les erreurs est faux et dangereux — une permission\n//        refusée ou un argument invalide ne se répare pas en réessayant.\nexport function decide(error) {\n  return 'retry';\n}\n"
+      }
     ]
   },
   "reference": {
     "solution.mjs": "export function decide(error) {\n  const t = error.type;\n  if (['rate-limit', 'timeout', 'transient'].includes(t)) return 'retry';\n  if (['ambiguous', 'low-confidence'].includes(t)) return 'ask-human';\n  return 'fail';\n}\n"
   },
   "tests": [
-    { "id": "t1", "name": "permission refusée → échec (non-retryable)", "kind": "call-equals", "export": "decide", "args": [{ "type": "permission-denied" }], "expected": "fail" },
-    { "id": "t2", "name": "rate limit → réessayer (transitoire)", "kind": "call-equals", "export": "decide", "args": [{ "type": "rate-limit" }], "expected": "retry" },
-    { "id": "t3", "name": "argument invalide → échec (non-retryable)", "kind": "call-equals", "export": "decide", "args": [{ "type": "invalid-args" }], "expected": "fail" },
-    { "id": "t4", "name": "confiance faible → escalade humaine", "kind": "call-equals", "export": "decide", "args": [{ "type": "low-confidence" }], "expected": "ask-human", "private": true }
-  ]
+    {
+      "id": "t1",
+      "name": "permission refusée → échec (non-retryable)",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "type": "permission-denied"
+        }
+      ],
+      "expected": "fail"
+    },
+    {
+      "id": "t2",
+      "name": "rate limit → réessayer (transitoire)",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "type": "rate-limit"
+        }
+      ],
+      "expected": "retry"
+    },
+    {
+      "id": "t3",
+      "name": "argument invalide → échec (non-retryable)",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "type": "invalid-args"
+        }
+      ],
+      "expected": "fail"
+    },
+    {
+      "id": "t4",
+      "name": "confiance faible → escalade humaine",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "type": "low-confidence"
+        }
+      ],
+      "expected": "ask-human",
+      "private": true
+    }
+  ],
+  "reusedBy": "v46"
 }

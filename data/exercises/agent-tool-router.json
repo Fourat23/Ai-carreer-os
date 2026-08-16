@@ -1,0 +1,58 @@
+{
+  "id": "agent-tool-router",
+  "title": "Agents : router vers le bon outil",
+  "difficulty": 3,
+  "summary": "Associe une intention à un outil selon des règles : 'meteo'→'weather', 'calcul'→'calculator', 'recherche'→'search'. Toute intention inconnue renvoie 'reject' (ne jamais inventer d'outil). Moindre surprise.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "agents"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def route(intent):\n    # TODO : mapper intent -> outil ; inconnu -> 'reject'\n    return 'reject'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def route(intent):\n    table = {'meteo': 'weather', 'calcul': 'calculator', 'recherche': 'search'}\n    return table.get(intent, 'reject')\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "meteo",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        "meteo"
+      ],
+      "expected": "weather"
+    },
+    {
+      "id": "t2",
+      "name": "inconnu → reject",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        "danse"
+      ],
+      "expected": "reject"
+    },
+    {
+      "id": "t3",
+      "name": "calcul (privé)",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        "calcul"
+      ],
+      "expected": "calculator",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "id": "agent-retry-idempotent",
+  "title": "Agents : réessayer uniquement l’idempotent",
+  "difficulty": 4,
+  "summary": "Décide de réessayer un appel d'outil échoué. Renvoie 'retry' seulement si l'outil est idempotent ET attempts < max_attempts ; sinon 'abort'. Réessayer un POST non idempotent duplique l'effet.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "agents"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def decide(idempotent, attempts, max_attempts):\n    # TODO : retry ssi idempotent ET attempts < max ; sinon abort\n    return 'retry'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def decide(idempotent, attempts, max_attempts):\n    if idempotent and attempts < max_attempts:\n        return 'retry'\n    return 'abort'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "idempotent, encore du budget",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        true,
+        1,
+        3
+      ],
+      "expected": "retry"
+    },
+    {
+      "id": "t2",
+      "name": "non idempotent → abort",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        false,
+        0,
+        3
+      ],
+      "expected": "abort"
+    },
+    {
+      "id": "t3",
+      "name": "plus de tentatives → abort",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        true,
+        3,
+        3
+      ],
+      "expected": "abort"
+    },
+    {
+      "id": "t4",
+      "name": "non idempotent même à 0 (privé)",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        false,
+        0,
+        9
+      ],
+      "expected": "abort",
+      "private": true
+    }
+  ]
+}

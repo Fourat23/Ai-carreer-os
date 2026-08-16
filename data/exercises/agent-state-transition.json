@@ -1,25 +1,77 @@
 {
   "runtime": "node-js",
-  "trackRefs": ["ai-engineer-foundations-v1"],
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
   "activeFile": "solution.mjs",
   "id": "agent-state-transition",
   "title": "Agent : machine à états (transition légale)",
   "difficulty": 2,
   "summary": "nextState(state, event) renvoie l'état suivant d'un agent selon une machine à états explicite (THINK→SELECT_TOOL→VALIDATE→EXECUTE→OBSERVE…), et 'FAILED' pour toute transition ILLÉGALE. Un agent bien conçu n'est pas un while flou : c'est une suite d'états avec des transitions autorisées. SIMULATION : les événements sont fournis (aucun LLM) — on code la table de transitions.",
-  "skills": ["conditions", "objects", "functions"],
+  "skills": [
+    "conditions",
+    "objects",
+    "functions",
+    "agents"
+  ],
   "workspace": {
     "entry": "solution.mjs",
     "files": [
-      { "path": "solution.mjs", "content": "// Table de transitions d'un agent. Renvoie l'état suivant, ou 'FAILED' si la\n// transition (state, event) n'est pas autorisée.\n// TODO : ignorer l'événement et renvoyer toujours 'EXECUTE' est faux ;\n//        seule une transition déclarée est légale, sinon 'FAILED'.\nconst TRANSITIONS = {\n  THINK: { plan: 'SELECT_TOOL', answer: 'COMPLETE' },\n  SELECT_TOOL: { selected: 'VALIDATE' },\n  VALIDATE: { ok: 'EXECUTE', invalid: 'ASK_HUMAN' },\n  EXECUTE: { ok: 'OBSERVE', error: 'RETRY' },\n  OBSERVE: { continue: 'THINK', done: 'COMPLETE' },\n  RETRY: { again: 'EXECUTE', giveup: 'FAILED' },\n  ASK_HUMAN: { approved: 'EXECUTE', rejected: 'FAILED' },\n};\nexport function nextState(state, event) {\n  return 'EXECUTE';\n}\n" }
+      {
+        "path": "solution.mjs",
+        "content": "// Table de transitions d'un agent. Renvoie l'état suivant, ou 'FAILED' si la\n// transition (state, event) n'est pas autorisée.\n// TODO : ignorer l'événement et renvoyer toujours 'EXECUTE' est faux ;\n//        seule une transition déclarée est légale, sinon 'FAILED'.\nconst TRANSITIONS = {\n  THINK: { plan: 'SELECT_TOOL', answer: 'COMPLETE' },\n  SELECT_TOOL: { selected: 'VALIDATE' },\n  VALIDATE: { ok: 'EXECUTE', invalid: 'ASK_HUMAN' },\n  EXECUTE: { ok: 'OBSERVE', error: 'RETRY' },\n  OBSERVE: { continue: 'THINK', done: 'COMPLETE' },\n  RETRY: { again: 'EXECUTE', giveup: 'FAILED' },\n  ASK_HUMAN: { approved: 'EXECUTE', rejected: 'FAILED' },\n};\nexport function nextState(state, event) {\n  return 'EXECUTE';\n}\n"
+      }
     ]
   },
   "reference": {
     "solution.mjs": "const TRANSITIONS = {\n  THINK: { plan: 'SELECT_TOOL', answer: 'COMPLETE' },\n  SELECT_TOOL: { selected: 'VALIDATE' },\n  VALIDATE: { ok: 'EXECUTE', invalid: 'ASK_HUMAN' },\n  EXECUTE: { ok: 'OBSERVE', error: 'RETRY' },\n  OBSERVE: { continue: 'THINK', done: 'COMPLETE' },\n  RETRY: { again: 'EXECUTE', giveup: 'FAILED' },\n  ASK_HUMAN: { approved: 'EXECUTE', rejected: 'FAILED' },\n};\nexport function nextState(state, event) {\n  const row = TRANSITIONS[state];\n  return (row && row[event]) || 'FAILED';\n}\n"
   },
   "tests": [
-    { "id": "t1", "name": "arguments invalides → escalade humaine", "kind": "call-equals", "export": "nextState", "args": ["VALIDATE", "invalid"], "expected": "ASK_HUMAN" },
-    { "id": "t2", "name": "erreur d'exécution → retry", "kind": "call-equals", "export": "nextState", "args": ["EXECUTE", "error"], "expected": "RETRY" },
-    { "id": "t3", "name": "réponse directe depuis THINK → terminé", "kind": "call-equals", "export": "nextState", "args": ["THINK", "answer"], "expected": "COMPLETE" },
-    { "id": "t4", "name": "transition illégale → FAILED", "kind": "call-equals", "export": "nextState", "args": ["THINK", "execute"], "expected": "FAILED", "private": true }
-  ]
+    {
+      "id": "t1",
+      "name": "arguments invalides → escalade humaine",
+      "kind": "call-equals",
+      "export": "nextState",
+      "args": [
+        "VALIDATE",
+        "invalid"
+      ],
+      "expected": "ASK_HUMAN"
+    },
+    {
+      "id": "t2",
+      "name": "erreur d'exécution → retry",
+      "kind": "call-equals",
+      "export": "nextState",
+      "args": [
+        "EXECUTE",
+        "error"
+      ],
+      "expected": "RETRY"
+    },
+    {
+      "id": "t3",
+      "name": "réponse directe depuis THINK → terminé",
+      "kind": "call-equals",
+      "export": "nextState",
+      "args": [
+        "THINK",
+        "answer"
+      ],
+      "expected": "COMPLETE"
+    },
+    {
+      "id": "t4",
+      "name": "transition illégale → FAILED",
+      "kind": "call-equals",
+      "export": "nextState",
+      "args": [
+        "THINK",
+        "execute"
+      ],
+      "expected": "FAILED",
+      "private": true
+    }
+  ],
+  "reusedBy": "v46"
 }

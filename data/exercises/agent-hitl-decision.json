@@ -1,25 +1,92 @@
 {
   "runtime": "node-js",
-  "trackRefs": ["ai-engineer-foundations-v1"],
+  "trackRefs": [
+    "ai-engineer-foundations-v1"
+  ],
   "activeFile": "solution.mjs",
   "id": "agent-hitl-decision",
   "title": "Agent : quand escalader à un humain (human-in-the-loop)",
   "difficulty": 2,
   "summary": "escalate(action) renvoie 'ask-human' si l'action est irréversible OU sensible OU coûteuse (cost > 100) OU à confiance faible (confidence < 0.7) ; sinon 'proceed'. Le human-in-the-loop borne le pire cas : un agent ne doit pas exécuter seul une action à fort enjeu. SIMULATION : les attributs de l'action sont fournis (aucun LLM) — on code la règle d'escalade.",
-  "skills": ["conditions", "functions"],
+  "skills": [
+    "conditions",
+    "functions",
+    "agents"
+  ],
   "workspace": {
     "entry": "solution.mjs",
     "files": [
-      { "path": "solution.mjs", "content": "// Décide si une action doit être validée par un humain avant exécution.\n// TODO : n'escalader que sur la confiance faible est insuffisant ; une action\n//        irréversible, sensible ou coûteuse doit AUSSI passer par un humain.\nexport function escalate(action) {\n  return action.confidence < 0.7 ? 'ask-human' : 'proceed';\n}\n" }
+      {
+        "path": "solution.mjs",
+        "content": "// Décide si une action doit être validée par un humain avant exécution.\n// TODO : n'escalader que sur la confiance faible est insuffisant ; une action\n//        irréversible, sensible ou coûteuse doit AUSSI passer par un humain.\nexport function escalate(action) {\n  return action.confidence < 0.7 ? 'ask-human' : 'proceed';\n}\n"
+      }
     ]
   },
   "reference": {
     "solution.mjs": "export function escalate(action) {\n  if (action.irreversible || action.sensitive || action.cost > 100 || action.confidence < 0.7) return 'ask-human';\n  return 'proceed';\n}\n"
   },
   "tests": [
-    { "id": "t1", "name": "action irréversible, même à confiance élevée → escalade", "kind": "call-equals", "export": "escalate", "args": [{ "irreversible": true, "cost": 0, "sensitive": false, "confidence": 0.99 }], "expected": "ask-human" },
-    { "id": "t2", "name": "action banale et sûre → on procède", "kind": "call-equals", "export": "escalate", "args": [{ "irreversible": false, "cost": 5, "sensitive": false, "confidence": 0.95 }], "expected": "proceed" },
-    { "id": "t3", "name": "action coûteuse → escalade", "kind": "call-equals", "export": "escalate", "args": [{ "irreversible": false, "cost": 500, "sensitive": false, "confidence": 0.95 }], "expected": "ask-human" },
-    { "id": "t4", "name": "action sensible → escalade", "kind": "call-equals", "export": "escalate", "args": [{ "irreversible": false, "cost": 5, "sensitive": true, "confidence": 0.95 }], "expected": "ask-human", "private": true }
-  ]
+    {
+      "id": "t1",
+      "name": "action irréversible, même à confiance élevée → escalade",
+      "kind": "call-equals",
+      "export": "escalate",
+      "args": [
+        {
+          "irreversible": true,
+          "cost": 0,
+          "sensitive": false,
+          "confidence": 0.99
+        }
+      ],
+      "expected": "ask-human"
+    },
+    {
+      "id": "t2",
+      "name": "action banale et sûre → on procède",
+      "kind": "call-equals",
+      "export": "escalate",
+      "args": [
+        {
+          "irreversible": false,
+          "cost": 5,
+          "sensitive": false,
+          "confidence": 0.95
+        }
+      ],
+      "expected": "proceed"
+    },
+    {
+      "id": "t3",
+      "name": "action coûteuse → escalade",
+      "kind": "call-equals",
+      "export": "escalate",
+      "args": [
+        {
+          "irreversible": false,
+          "cost": 500,
+          "sensitive": false,
+          "confidence": 0.95
+        }
+      ],
+      "expected": "ask-human"
+    },
+    {
+      "id": "t4",
+      "name": "action sensible → escalade",
+      "kind": "call-equals",
+      "export": "escalate",
+      "args": [
+        {
+          "irreversible": false,
+          "cost": 5,
+          "sensitive": true,
+          "confidence": 0.95
+        }
+      ],
+      "expected": "ask-human",
+      "private": true
+    }
+  ],
+  "reusedBy": "v46"
 }

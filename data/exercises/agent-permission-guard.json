@@ -1,0 +1,83 @@
+{
+  "id": "agent-permission-guard",
+  "title": "Agents : garde-fou de permission (moindre privilège)",
+  "difficulty": 5,
+  "summary": "Un agent outillé est une surface d'attaque. Autorise un appel d'outil seulement si sa permission requise est dans l'allowlist accordée. 'deny' sinon. Un outil 'shell.exec' n'est jamais autorisé même s'il est demandé (excès d'autonomie). Renvoie 'allow' ou 'deny'.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "agents"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def guard(tool, required_perm, allowlist):\n    # TODO : deny si tool == 'shell.exec' ; sinon allow ssi required_perm dans allowlist\n    return 'allow'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def guard(tool, required_perm, allowlist):\n    if tool == 'shell.exec':\n        return 'deny'\n    return 'allow' if required_perm in allowlist else 'deny'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "permission accordée",
+      "kind": "call-equals",
+      "export": "guard",
+      "args": [
+        "read_file",
+        "fs.read",
+        [
+          "fs.read"
+        ]
+      ],
+      "expected": "allow"
+    },
+    {
+      "id": "t2",
+      "name": "permission absente → deny",
+      "kind": "call-equals",
+      "export": "guard",
+      "args": [
+        "write_file",
+        "fs.write",
+        [
+          "fs.read"
+        ]
+      ],
+      "expected": "deny"
+    },
+    {
+      "id": "t3",
+      "name": "shell.exec toujours deny",
+      "kind": "call-equals",
+      "export": "guard",
+      "args": [
+        "shell.exec",
+        "fs.read",
+        [
+          "fs.read",
+          "shell.exec"
+        ]
+      ],
+      "expected": "deny"
+    },
+    {
+      "id": "t4",
+      "name": "allowlist vide → deny (privé)",
+      "kind": "call-equals",
+      "export": "guard",
+      "args": [
+        "read_file",
+        "fs.read",
+        []
+      ],
+      "expected": "deny",
+      "private": true
+    }
+  ]
+}

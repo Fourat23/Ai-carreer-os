@@ -1,0 +1,99 @@
+{
+  "id": "agent-validate-args",
+  "title": "Agents : valider les arguments d’un outil",
+  "difficulty": 3,
+  "summary": "Valide les args d'un appel d'outil contre un schéma {champ: type} ('int'|'str'). Renvoie la liste TRIÉE des erreurs : 'manquant:{champ}' si absent, 'type:{champ}' si mauvais type. Un LLM appelle parfois un outil avec de mauvais arguments.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "agents"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def validate(args, schema):\n    # TODO : champ manquant -> 'manquant:x' ; mauvais type -> 'type:x' ; trié\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def validate(args, schema):\n    errors = []\n    for field, typ in schema.items():\n        if field not in args:\n            errors.append(f'manquant:{field}')\n        else:\n            v = args[field]\n            ok = (typ == 'int' and isinstance(v, int) and not isinstance(v, bool)) or (typ == 'str' and isinstance(v, str))\n            if not ok:\n                errors.append(f'type:{field}')\n    errors.sort()\n    return errors\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "champ manquant",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        {
+          "ville": "Paris"
+        },
+        {
+          "ville": "str",
+          "jours": "int"
+        }
+      ],
+      "expected": [
+        "manquant:jours"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "mauvais type",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        {
+          "n": "x"
+        },
+        {
+          "n": "int"
+        }
+      ],
+      "expected": [
+        "type:n"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "tout bon → []",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        {
+          "n": 3,
+          "s": "a"
+        },
+        {
+          "n": "int",
+          "s": "str"
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "t4",
+      "name": "cumul manquant+type (privé)",
+      "kind": "call-equals",
+      "export": "validate",
+      "args": [
+        {
+          "a": "x"
+        },
+        {
+          "a": "int",
+          "b": "str"
+        }
+      ],
+      "expected": [
+        "manquant:b",
+        "type:a"
+      ],
+      "private": true
+    }
+  ]
+}

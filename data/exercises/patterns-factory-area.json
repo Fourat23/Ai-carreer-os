@@ -1,0 +1,68 @@
+{
+  "id": "patterns-factory-area",
+  "title": "Patterns : Factory + polymorphisme",
+  "difficulty": 3,
+  "summary": "Une factory calcule l'aire selon la forme sans if/else répété chez l'appelant : area({kind, size}) avec kind ∈ {square, circle}. square→size*size, circle→3*size*size (pi=3 pour un résultat entier). Renvoie l'entier.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "patterns",
+    "jsts"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function area(shape) {\n  // TODO : router par shape.kind via une table de constructeurs/formules\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "const SHAPES = { square: (s) => s * s, circle: (s) => 3 * s * s };\nexport function area(shape) {\n  const fn = SHAPES[shape.kind];\n  if (!fn) throw new Error('forme inconnue: ' + shape.kind);\n  return fn(shape.size);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "carré",
+      "kind": "call-equals",
+      "export": "area",
+      "args": [
+        {
+          "kind": "square",
+          "size": 4
+        }
+      ],
+      "expected": 16
+    },
+    {
+      "id": "t2",
+      "name": "cercle",
+      "kind": "call-equals",
+      "export": "area",
+      "args": [
+        {
+          "kind": "circle",
+          "size": 2
+        }
+      ],
+      "expected": 12
+    },
+    {
+      "id": "t3",
+      "name": "carré 5 (privé)",
+      "kind": "call-equals",
+      "export": "area",
+      "args": [
+        {
+          "kind": "square",
+          "size": 5
+        }
+      ],
+      "expected": 25,
+      "private": true
+    }
+  ]
+}

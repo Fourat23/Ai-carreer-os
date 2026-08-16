@@ -1,0 +1,61 @@
+{
+  "id": "patterns-adapter-legacy",
+  "title": "Patterns : Adapter (isoler un format legacy)",
+  "difficulty": 3,
+  "summary": "Un service legacy renvoie {full_name, yrs}. Le reste du code attend {name, age}. Écris un ADAPTER adapt(legacy) qui traduit — pour que le legacy ne contamine pas le domaine. Renvoie le nouvel objet.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "patterns",
+    "archi"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function adapt(legacy) {\n  // TODO : {full_name, yrs} -> {name, age}\n  return {};\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function adapt(legacy) {\n  return { name: legacy.full_name, age: legacy.yrs };\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "traduction",
+      "kind": "call-equals",
+      "export": "adapt",
+      "args": [
+        {
+          "full_name": "Ada",
+          "yrs": 41
+        }
+      ],
+      "expected": {
+        "name": "Ada",
+        "age": 41
+      }
+    },
+    {
+      "id": "t2",
+      "name": "autre",
+      "kind": "call-equals",
+      "export": "adapt",
+      "args": [
+        {
+          "full_name": "Bob",
+          "yrs": 30
+        }
+      ],
+      "expected": {
+        "name": "Bob",
+        "age": 30
+      },
+      "private": true
+    }
+  ]
+}

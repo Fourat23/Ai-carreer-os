@@ -1,0 +1,65 @@
+{
+  "id": "patterns-strategy-table",
+  "title": "Patterns : Strategy (table de dispatch)",
+  "difficulty": 3,
+  "summary": "Remplace un long switch par une TABLE de stratégies : apply(op, a, b) où op ∈ {add, mul, max}. Ajouter une opération ne doit pas exiger de toucher la logique de dispatch. Renvoie le résultat (entier).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "patterns",
+    "jsts"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function apply(op, a, b) {\n  // TODO : dispatcher via une table { op: (a,b) => ... }, pas une cascade de if\n  return 0;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "const STRATEGIES = { add: (a, b) => a + b, mul: (a, b) => a * b, max: (a, b) => (a > b ? a : b) };\nexport function apply(op, a, b) {\n  const fn = STRATEGIES[op];\n  if (!fn) throw new Error('opération inconnue: ' + op);\n  return fn(a, b);\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "add",
+      "kind": "call-equals",
+      "export": "apply",
+      "args": [
+        "add",
+        2,
+        3
+      ],
+      "expected": 5
+    },
+    {
+      "id": "t2",
+      "name": "mul",
+      "kind": "call-equals",
+      "export": "apply",
+      "args": [
+        "mul",
+        4,
+        5
+      ],
+      "expected": 20
+    },
+    {
+      "id": "t3",
+      "name": "max (privé)",
+      "kind": "call-equals",
+      "export": "apply",
+      "args": [
+        "max",
+        7,
+        2
+      ],
+      "expected": 7,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "id": "arch-idempotent-handler",
+  "title": "Archi : rendre un handler idempotent",
+  "difficulty": 4,
+  "summary": "Un consommateur « au moins une fois » peut recevoir un message deux fois. processOnce(ids) traite une liste d'ids d'événements et renvoie le nombre d'ids RÉELLEMENT traités (chaque id une seule fois, via un ensemble de déduplication). Réessayer ne doit pas dupliquer l'effet.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function processOnce(ids) {\n  // TODO : dédupliquer par id, compter les traitements uniques\n  return ids.length;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function processOnce(ids) {\n  const seen = new Set();\n  let processed = 0;\n  for (const id of ids) {\n    if (seen.has(id)) continue;\n    seen.add(id);\n    processed += 1;\n  }\n  return processed;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "doublons",
+      "kind": "call-equals",
+      "export": "processOnce",
+      "args": [
+        [
+          "a",
+          "b",
+          "a",
+          "c",
+          "b"
+        ]
+      ],
+      "expected": 3
+    },
+    {
+      "id": "t2",
+      "name": "sans doublon",
+      "kind": "call-equals",
+      "export": "processOnce",
+      "args": [
+        [
+          "x",
+          "y"
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t3",
+      "name": "tous identiques (privé)",
+      "kind": "call-equals",
+      "export": "processOnce",
+      "args": [
+        [
+          "z",
+          "z",
+          "z"
+        ]
+      ],
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

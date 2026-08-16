@@ -1,0 +1,80 @@
+{
+  "id": "arch-layer-violation",
+  "title": "Archi : détecter une violation de couches",
+  "difficulty": 4,
+  "summary": "Ordre autorisé des dépendances : presentation → domain → data (une couche ne peut dépendre que d'une couche de rang ≥ au sien vers le bas). check({from, to}) renvoie 'violation' si la dépendance remonte (ex. data → presentation) ou saute vers le haut, sinon 'ok'. Rangs : presentation=0, domain=1, data=2 ; autorisé si rang(to) ≥ rang(from).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function check(edge) {\n  // TODO : rank presentation<domain<data ; ok si rank(to) >= rank(from)\n  return 'ok';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "const RANK = { presentation: 0, domain: 1, data: 2 };\nexport function check(edge) {\n  return RANK[edge.to] >= RANK[edge.from] ? 'ok' : 'violation';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "presentation→domain ok",
+      "kind": "call-equals",
+      "export": "check",
+      "args": [
+        {
+          "from": "presentation",
+          "to": "domain"
+        }
+      ],
+      "expected": "ok"
+    },
+    {
+      "id": "t2",
+      "name": "data→presentation violation",
+      "kind": "call-equals",
+      "export": "check",
+      "args": [
+        {
+          "from": "data",
+          "to": "presentation"
+        }
+      ],
+      "expected": "violation"
+    },
+    {
+      "id": "t3",
+      "name": "domain→data ok",
+      "kind": "call-equals",
+      "export": "check",
+      "args": [
+        {
+          "from": "domain",
+          "to": "data"
+        }
+      ],
+      "expected": "ok"
+    },
+    {
+      "id": "t4",
+      "name": "domain→presentation violation (privé)",
+      "kind": "call-equals",
+      "export": "check",
+      "args": [
+        {
+          "from": "domain",
+          "to": "presentation"
+        }
+      ],
+      "expected": "violation",
+      "private": true
+    }
+  ]
+}

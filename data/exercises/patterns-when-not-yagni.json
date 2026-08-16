@@ -1,0 +1,85 @@
+{
+  "id": "patterns-when-not-yagni",
+  "title": "Patterns : choisir… ou NE PAS sur-concevoir",
+  "difficulty": 5,
+  "summary": "Décision de conception. On te donne {variants, changeFrequency, sharedInterface}. Renvoie 'strategy' seulement si variants>=3 ET sharedInterface===true (la variation justifie l'abstraction) ; 'yagni' si variants<=1 (une abstraction serait de la sur-ingénierie) ; sinon 'inline'. Parfois la bonne réponse est de NE PAS appliquer de pattern.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "patterns",
+    "archi"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function decide(ctx) {\n  // TODO : strategy / yagni / inline selon variants + sharedInterface\n  return 'inline';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function decide(ctx) {\n  if (ctx.variants <= 1) return 'yagni';\n  if (ctx.variants >= 3 && ctx.sharedInterface === true) return 'strategy';\n  return 'inline';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "3 variantes + interface → strategy",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "variants": 4,
+          "changeFrequency": "high",
+          "sharedInterface": true
+        }
+      ],
+      "expected": "strategy"
+    },
+    {
+      "id": "t2",
+      "name": "1 variante → yagni",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "variants": 1,
+          "changeFrequency": "low",
+          "sharedInterface": true
+        }
+      ],
+      "expected": "yagni"
+    },
+    {
+      "id": "t3",
+      "name": "2 variantes → inline",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "variants": 2,
+          "changeFrequency": "low",
+          "sharedInterface": true
+        }
+      ],
+      "expected": "inline"
+    },
+    {
+      "id": "t4",
+      "name": "3 variantes sans interface → inline (privé)",
+      "kind": "call-equals",
+      "export": "decide",
+      "args": [
+        {
+          "variants": 3,
+          "changeFrequency": "high",
+          "sharedInterface": false
+        }
+      ],
+      "expected": "inline",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "patterns-observer-filter",
+  "title": "Patterns : Observer (abonnés filtrés)",
+  "difficulty": 4,
+  "summary": "Implémente un mini bus d'événements : publish(subscribers, events) où chaque subscriber = {name, types:[...]}. Renvoie une liste [name, nb_reçus] triée par name : chaque abonné ne reçoit que les events dont le type est dans ses `types`.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "patterns",
+    "archi"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function publish(subscribers, events) {\n  // TODO : compter par abonné les events dont le type ∈ subscriber.types ; trier par name\n  return [];\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function publish(subscribers, events) {\n  const out = subscribers.map((s) => [s.name, events.filter((e) => s.types.includes(e.type)).length]);\n  out.sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));\n  return out;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "filtrage",
+      "kind": "call-equals",
+      "export": "publish",
+      "args": [
+        [
+          {
+            "name": "log",
+            "types": [
+              "error"
+            ]
+          },
+          {
+            "name": "audit",
+            "types": [
+              "error",
+              "login"
+            ]
+          }
+        ],
+        [
+          {
+            "type": "error"
+          },
+          {
+            "type": "login"
+          },
+          {
+            "type": "error"
+          }
+        ]
+      ],
+      "expected": [
+        [
+          "audit",
+          3
+        ],
+        [
+          "log",
+          2
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucun match",
+      "kind": "call-equals",
+      "export": "publish",
+      "args": [
+        [
+          {
+            "name": "x",
+            "types": [
+              "z"
+            ]
+          }
+        ],
+        [
+          {
+            "type": "a"
+          }
+        ]
+      ],
+      "expected": [
+        [
+          "x",
+          0
+        ]
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "tri par nom (privé)",
+      "kind": "call-equals",
+      "export": "publish",
+      "args": [
+        [
+          {
+            "name": "b",
+            "types": [
+              "t"
+            ]
+          },
+          {
+            "name": "a",
+            "types": [
+              "t"
+            ]
+          }
+        ],
+        [
+          {
+            "type": "t"
+          }
+        ]
+      ],
+      "expected": [
+        [
+          "a",
+          1
+        ],
+        [
+          "b",
+          1
+        ]
+      ],
+      "private": true
+    }
+  ]
+}

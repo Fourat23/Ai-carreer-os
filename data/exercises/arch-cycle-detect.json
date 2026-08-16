@@ -1,0 +1,77 @@
+{
+  "id": "arch-cycle-detect",
+  "title": "Archi : détecter une dépendance circulaire",
+  "difficulty": 4,
+  "summary": "Un graphe de dépendances entre modules {A:[B,C], ...} ne doit pas contenir de cycle. hasCycle(graph) renvoie true s'il existe un cycle, sinon false. Les cycles rendent le système impossible à modifier isolément.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi"
+  ],
+  "sprint": "v47",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function hasCycle(graph) {\n  // TODO : DFS avec pile de récursion pour détecter un cycle\n  return false;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function hasCycle(graph) {\n  const state = {};\n  const visit = (n) => {\n    if (state[n] === 'active') return true;\n    if (state[n] === 'done') return false;\n    state[n] = 'active';\n    for (const m of graph[n] || []) if (visit(m)) return true;\n    state[n] = 'done';\n    return false;\n  };\n  return Object.keys(graph).some((n) => visit(n));\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "acyclique",
+      "kind": "call-equals",
+      "export": "hasCycle",
+      "args": [
+        {
+          "A": [
+            "B"
+          ],
+          "B": [
+            "C"
+          ],
+          "C": []
+        }
+      ],
+      "expected": false
+    },
+    {
+      "id": "t2",
+      "name": "cycle",
+      "kind": "call-equals",
+      "export": "hasCycle",
+      "args": [
+        {
+          "A": [
+            "B"
+          ],
+          "B": [
+            "A"
+          ]
+        }
+      ],
+      "expected": true
+    },
+    {
+      "id": "t3",
+      "name": "auto-cycle (privé)",
+      "kind": "call-equals",
+      "export": "hasCycle",
+      "args": [
+        {
+          "A": [
+            "A"
+          ]
+        }
+      ],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

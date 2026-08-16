@@ -11,3 +11,4 @@ data/progress.backup.json
 # Espaces de travail du laboratoire de code (fichiers utilisateur exécutés localement).
 # Jamais versionnés : contenu volatil, propre à la machine.
 data/lab-workspaces/
+.venv-ds/

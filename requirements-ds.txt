@@ -1,0 +1,5 @@
+# V47 — dépendances Data/ML du track opt-in (.venv-ds). Versions pinnées pour la
+# reproductibilité. Provisionner via scripts/v47-provision-ds-venv.sh.
+numpy==2.4.6
+pandas==2.3.3
+scikit-learn==1.7.2

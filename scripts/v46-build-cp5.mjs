@@ -73,7 +73,7 @@ EX.push(ml('ml-leakage-detect', 4,
   ]));
 
 // 6 — choix de métrique (D4, décision)
-EX.push(ml('ml-metric-choice', 4,
+EX.push(ml('ml-metric-selection', 4,
   'ML : choisir la bonne métrique',
   "Selon le contexte, renvoie la métrique à privilégier : 'recall' si rater un positif est grave (dépistage médical, fraude), 'precision' si une fausse alerte est coûteuse (spam qui bloque un vrai mail), 'accuracy' seulement si les classes sont équilibrées ET les coûts symétriques. Entrée : {balanced: bool, false_negative_cost: 'high'|'low', false_positive_cost: 'high'|'low'}.",
   "def choose_metric(ctx):\n    # TODO : décider recall / precision / accuracy selon les coûts et l'équilibre\n    return 'accuracy'\n",
@@ -86,7 +86,7 @@ EX.push(ml('ml-metric-choice', 4,
   ]));
 
 // 7 — diagnostic overfitting (D5, décision)
-EX.push(ml('ml-overfit-diagnose', 5,
+EX.push(ml('ml-diagnose-overfit', 5,
   'ML : diagnostiquer overfitting / underfitting',
   "À partir des accuracies finales train et validation, classe : 'overfit' si train est bon (>=0.9) mais l'écart train-val est grand (>=0.2) ; 'underfit' si train est faible (<0.7) ; sinon 'ok'. Renvoie la chaîne et sépare bien l'écart (overfit) du niveau bas (underfit).",
   "def diagnose(train_acc, val_acc):\n    # TODO : overfit (train haut + gros écart) / underfit (train bas) / ok\n    return 'ok'\n",

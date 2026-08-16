@@ -1,0 +1,89 @@
+{
+  "id": "rag-rrf-hybrid-fuse",
+  "title": "RAG : fusion hybride (RRF)",
+  "difficulty": 4,
+  "summary": "Fusionne deux classements (listes d'ids) par Reciprocal Rank Fusion : score(id) = somme de 1/(60+rang) sur chaque liste où il apparaît (rang 1-based). Renvoie les ids triés par score décroissant (id croissant si égalité). Hybride = sens (vectoriel) + mots exacts (lexical).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def rrf(list_a, list_b):\n    # TODO : score = 1/(60+rang) cumulé ; trier desc, id asc\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def rrf(list_a, list_b):\n    scores = {}\n    for lst in (list_a, list_b):\n        for rank, did in enumerate(lst, start=1):\n            scores[did] = scores.get(did, 0.0) + 1.0 / (60 + rank)\n    order = sorted(scores.items(), key=lambda kv: (-kv[1], kv[0]))\n    return [did for did, _ in order]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "présent dans les deux remonte",
+      "kind": "call-equals",
+      "export": "rrf",
+      "args": [
+        [
+          "a",
+          "b",
+          "c"
+        ],
+        [
+          "b",
+          "d"
+        ]
+      ],
+      "expected": [
+        "b",
+        "a",
+        "d",
+        "c"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "listes disjointes",
+      "kind": "call-equals",
+      "export": "rrf",
+      "args": [
+        [
+          "x"
+        ],
+        [
+          "y"
+        ]
+      ],
+      "expected": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "égalité → id asc (privé)",
+      "kind": "call-equals",
+      "export": "rrf",
+      "args": [
+        [
+          "m",
+          "n"
+        ],
+        [
+          "m",
+          "n"
+        ]
+      ],
+      "expected": [
+        "m",
+        "n"
+      ],
+      "private": true
+    }
+  ]
+}

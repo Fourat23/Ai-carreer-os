@@ -1,0 +1,72 @@
+{
+  "id": "ml-diagnose-overfit",
+  "title": "ML : diagnostiquer overfitting / underfitting",
+  "difficulty": 5,
+  "summary": "À partir des accuracies finales train et validation, classe : 'overfit' si train est bon (>=0.9) mais l'écart train-val est grand (>=0.2) ; 'underfit' si train est faible (<0.7) ; sinon 'ok'. Renvoie la chaîne et sépare bien l'écart (overfit) du niveau bas (underfit).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def diagnose(train_acc, val_acc):\n    # TODO : overfit (train haut + gros écart) / underfit (train bas) / ok\n    return 'ok'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def diagnose(train_acc, val_acc):\n    if train_acc < 0.7:\n        return 'underfit'\n    if train_acc >= 0.9 and (train_acc - val_acc) >= 0.2:\n        return 'overfit'\n    return 'ok'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "train 0.99 val 0.70 → overfit",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        0.99,
+        0.7
+      ],
+      "expected": "overfit"
+    },
+    {
+      "id": "t2",
+      "name": "train 0.60 val 0.58 → underfit",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        0.6,
+        0.58
+      ],
+      "expected": "underfit"
+    },
+    {
+      "id": "t3",
+      "name": "train 0.88 val 0.85 → ok",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        0.88,
+        0.85
+      ],
+      "expected": "ok"
+    },
+    {
+      "id": "t4",
+      "name": "train 0.95 val 0.90 → ok (petit écart, privé)",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        0.95,
+        0.9
+      ],
+      "expected": "ok",
+      "private": true
+    }
+  ]
+}

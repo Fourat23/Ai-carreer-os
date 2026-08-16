@@ -61,7 +61,7 @@ EX.push(rag('rag-topk-retrieve', 3,
   ]));
 
 // 5 — fusion RRF (D4)
-EX.push(rag('rag-rrf-fusion', 4,
+EX.push(rag('rag-rrf-hybrid-fuse', 4,
   'RAG : fusion hybride (RRF)',
   "Fusionne deux classements (listes d'ids) par Reciprocal Rank Fusion : score(id) = somme de 1/(60+rang) sur chaque liste où il apparaît (rang 1-based). Renvoie les ids triés par score décroissant (id croissant si égalité). Hybride = sens (vectoriel) + mots exacts (lexical).",
   "def rrf(list_a, list_b):\n    # TODO : score = 1/(60+rang) cumulé ; trier desc, id asc\n    return []\n",

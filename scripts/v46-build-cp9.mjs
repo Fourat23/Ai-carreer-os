@@ -12,7 +12,7 @@ const sec = (id, difficulty, title, summary, starter, reference, tests, extra = 
 const EX = [];
 
 // 1 — classer sensible vs config (D2)
-EX.push(sec('sec-classify-sensitive', 2,
+EX.push(sec('sec-secret-vs-config', 2,
   'Sécurité : secret ou configuration ?',
   "Classe une clé de configuration : 'secret' si son nom contient password/token/key/secret/credential (insensible à la casse), sinon 'config'. Un secret ne va jamais dans une ConfigMap ni dans le code.",
   "def classify(key):\n    # TODO : 'secret' si nom sensible, sinon 'config'\n    return 'config'\n",

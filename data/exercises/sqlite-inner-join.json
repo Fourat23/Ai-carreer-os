@@ -1,0 +1,76 @@
+{
+  "id": "sqlite-inner-join",
+  "title": "SQL réel : jointure (JOIN ... ON)",
+  "difficulty": 3,
+  "summary": "Renvoie [titre, auteur] pour chaque livre, trié par titre. INNER JOIN entre livres et auteurs sur auteur_id.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "sql",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "db.py",
+        "readOnly": true,
+        "content": "import sqlite3\n\ndef _conn():\n    c = sqlite3.connect(':memory:')\n    c.executescript(\"CREATE TABLE auteurs(id INTEGER PRIMARY KEY, nom TEXT);\\nCREATE TABLE livres(id INTEGER PRIMARY KEY, titre TEXT, auteur_id INTEGER);\\nINSERT INTO auteurs VALUES (1,'Hugo'),(2,'Zola'),(3,'Sans-Livre');\\nINSERT INTO livres VALUES (10,'Miserables',1),(11,'Germinal',2),(12,'Notre-Dame',1);\")\n    return c\n\ndef q(sql, params=()):\n    c = _conn()\n    try:\n        rows = c.execute(sql, params).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n\ndef explain(sql):\n    c = _conn()\n    try:\n        rows = c.execute('EXPLAIN QUERY PLAN ' + sql).fetchall()\n        return ' | '.join(str(r[-1]) for r in rows)\n    finally:\n        c.close()\n\ndef script_then_query(setup_sql, query_sql):\n    c = _conn()\n    try:\n        c.executescript(setup_sql)\n        rows = c.execute(query_sql).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n"
+      },
+      {
+        "path": "solution.py",
+        "content": "from db import q, explain, script_then_query\n\ndef result():\n    # Écris ta requête SQL ci-dessous.\n    return q(\"SELECT titre, nom FROM livres\")\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from db import q, explain, script_then_query\n\ndef result():\n    return q(\"SELECT l.titre, a.nom FROM livres l JOIN auteurs a ON a.id=l.auteur_id ORDER BY l.titre\")\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "3 livres joints",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "Germinal",
+          "Zola"
+        ],
+        [
+          "Miserables",
+          "Hugo"
+        ],
+        [
+          "Notre-Dame",
+          "Hugo"
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "Sans-Livre exclu (privé)",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "Germinal",
+          "Zola"
+        ],
+        [
+          "Miserables",
+          "Hugo"
+        ],
+        [
+          "Notre-Dame",
+          "Hugo"
+        ]
+      ],
+      "private": true
+    }
+  ]
+}

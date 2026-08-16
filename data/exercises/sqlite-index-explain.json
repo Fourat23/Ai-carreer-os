@@ -1,0 +1,50 @@
+{
+  "id": "sqlite-index-explain",
+  "title": "SQL réel : index & plan d’exécution",
+  "difficulty": 4,
+  "summary": "Crée un index sur emp(service) PUIS écris une requête filtrant sur service='tech'. La fonction renvoie le plan (EXPLAIN QUERY PLAN) : il doit contenir « SEARCH » (via l'index) et non « SCAN ». Diagnostic de performance réel.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "sql",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "db.py",
+        "readOnly": true,
+        "content": "import sqlite3\n\ndef _conn():\n    c = sqlite3.connect(':memory:')\n    c.executescript(\"CREATE TABLE emp(id INTEGER PRIMARY KEY, nom TEXT, service TEXT, salaire INTEGER);\\nINSERT INTO emp VALUES (1,'Ada','tech',300),(2,'Bob','tech',100),(3,'Cy','rh',200),(4,'Di','rh',200),(5,'Eve','tech',400);\")\n    return c\n\ndef q(sql, params=()):\n    c = _conn()\n    try:\n        rows = c.execute(sql, params).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n\ndef explain(sql):\n    c = _conn()\n    try:\n        rows = c.execute('EXPLAIN QUERY PLAN ' + sql).fetchall()\n        return ' | '.join(str(r[-1]) for r in rows)\n    finally:\n        c.close()\n\ndef script_then_query(setup_sql, query_sql):\n    c = _conn()\n    try:\n        c.executescript(setup_sql)\n        rows = c.execute(query_sql).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n"
+      },
+      {
+        "path": "solution.py",
+        "content": "from db import _conn\n\ndef plan_uses_index():\n    c = _conn()\n    try:\n        # TODO : crée un index sur emp(service), puis EXPLAIN QUERY PLAN de la requête filtrée.\n        c.executescript(\"\")  # <- crée l'index ici\n        plan = c.execute(\"EXPLAIN QUERY PLAN SELECT nom FROM emp WHERE service='tech'\").fetchall()\n        text = ' '.join(str(r[-1]) for r in plan)\n        return 'SEARCH' in text\n    finally:\n        c.close()\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from db import _conn\n\ndef plan_uses_index():\n    c = _conn()\n    try:\n        c.executescript(\"CREATE INDEX idx_service ON emp(service);\")\n        plan = c.execute(\"EXPLAIN QUERY PLAN SELECT nom FROM emp WHERE service='tech'\").fetchall()\n        text = ' '.join(str(r[-1]) for r in plan)\n        return 'SEARCH' in text\n    finally:\n        c.close()\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "le plan utilise SEARCH (index)",
+      "kind": "call-equals",
+      "export": "plan_uses_index",
+      "args": [],
+      "expected": true
+    },
+    {
+      "id": "t2",
+      "name": "plan non vide (privé)",
+      "kind": "call-equals",
+      "export": "plan_uses_index",
+      "args": [],
+      "expected": true,
+      "private": true
+    }
+  ]
+}

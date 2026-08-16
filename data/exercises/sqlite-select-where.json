@@ -1,0 +1,68 @@
+{
+  "id": "sqlite-select-where",
+  "title": "SQL réel : filtrer (WHERE)",
+  "difficulty": 2,
+  "summary": "Écris une requête qui renvoie [nom, salaire] des employés du service 'tech' ayant un salaire >= 200, triés par nom. Base SQLite réelle.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "sql",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "db.py",
+        "readOnly": true,
+        "content": "import sqlite3\n\ndef _conn():\n    c = sqlite3.connect(':memory:')\n    c.executescript(\"CREATE TABLE emp(id INTEGER PRIMARY KEY, nom TEXT, service TEXT, salaire INTEGER);\\nINSERT INTO emp VALUES (1,'Ada','tech',300),(2,'Bob','tech',100),(3,'Cy','rh',200),(4,'Di','rh',200),(5,'Eve','tech',400);\")\n    return c\n\ndef q(sql, params=()):\n    c = _conn()\n    try:\n        rows = c.execute(sql, params).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n\ndef explain(sql):\n    c = _conn()\n    try:\n        rows = c.execute('EXPLAIN QUERY PLAN ' + sql).fetchall()\n        return ' | '.join(str(r[-1]) for r in rows)\n    finally:\n        c.close()\n\ndef script_then_query(setup_sql, query_sql):\n    c = _conn()\n    try:\n        c.executescript(setup_sql)\n        rows = c.execute(query_sql).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n"
+      },
+      {
+        "path": "solution.py",
+        "content": "from db import q, explain, script_then_query\n\ndef result():\n    # Écris ta requête SQL ci-dessous.\n    return q(\"SELECT nom, salaire FROM emp\")\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from db import q, explain, script_then_query\n\ndef result():\n    return q(\"SELECT nom, salaire FROM emp WHERE service='tech' AND salaire>=200 ORDER BY nom\")\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tech >=200",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "Ada",
+          300
+        ],
+        [
+          "Eve",
+          400
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "exclut Bob (100) et rh",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "Ada",
+          300
+        ],
+        [
+          "Eve",
+          400
+        ]
+      ],
+      "private": true
+    }
+  ]
+}

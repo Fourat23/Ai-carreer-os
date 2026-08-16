@@ -1,0 +1,68 @@
+{
+  "id": "sqlite-group-having",
+  "title": "SQL réel : GROUP BY / HAVING",
+  "difficulty": 3,
+  "summary": "Renvoie [service, total_salaire] des services dont le total dépasse 300, triés par total décroissant. WHERE filtre les lignes, HAVING filtre les groupes.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "sql",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "db.py",
+        "readOnly": true,
+        "content": "import sqlite3\n\ndef _conn():\n    c = sqlite3.connect(':memory:')\n    c.executescript(\"CREATE TABLE emp(id INTEGER PRIMARY KEY, nom TEXT, service TEXT, salaire INTEGER);\\nINSERT INTO emp VALUES (1,'Ada','tech',300),(2,'Bob','tech',100),(3,'Cy','rh',200),(4,'Di','rh',200),(5,'Eve','tech',400);\")\n    return c\n\ndef q(sql, params=()):\n    c = _conn()\n    try:\n        rows = c.execute(sql, params).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n\ndef explain(sql):\n    c = _conn()\n    try:\n        rows = c.execute('EXPLAIN QUERY PLAN ' + sql).fetchall()\n        return ' | '.join(str(r[-1]) for r in rows)\n    finally:\n        c.close()\n\ndef script_then_query(setup_sql, query_sql):\n    c = _conn()\n    try:\n        c.executescript(setup_sql)\n        rows = c.execute(query_sql).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n"
+      },
+      {
+        "path": "solution.py",
+        "content": "from db import q, explain, script_then_query\n\ndef result():\n    # Écris ta requête SQL ci-dessous.\n    return q(\"SELECT service, SUM(salaire) FROM emp GROUP BY service\")\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from db import q, explain, script_then_query\n\ndef result():\n    return q(\"SELECT service, SUM(salaire) AS t FROM emp GROUP BY service HAVING t>300 ORDER BY t DESC\")\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tech=800 et rh=400 >300",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "tech",
+          800
+        ],
+        [
+          "rh",
+          400
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "ordre par total décroissant (privé)",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "tech",
+          800
+        ],
+        [
+          "rh",
+          400
+        ]
+      ],
+      "private": true
+    }
+  ]
+}

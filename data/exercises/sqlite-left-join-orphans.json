@@ -1,0 +1,58 @@
+{
+  "id": "sqlite-left-join-orphans",
+  "title": "SQL réel : orphelins (LEFT JOIN + IS NULL)",
+  "difficulty": 4,
+  "summary": "Trouve les auteurs SANS livre. Renvoie [nom] trié. Indice : LEFT JOIN livres puis filtrer les lignes où le livre est NULL. La question métier vit souvent dans les orphelins.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "sql",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "db.py",
+        "readOnly": true,
+        "content": "import sqlite3\n\ndef _conn():\n    c = sqlite3.connect(':memory:')\n    c.executescript(\"CREATE TABLE auteurs(id INTEGER PRIMARY KEY, nom TEXT);\\nCREATE TABLE livres(id INTEGER PRIMARY KEY, titre TEXT, auteur_id INTEGER);\\nINSERT INTO auteurs VALUES (1,'Hugo'),(2,'Zola'),(3,'Sans-Livre');\\nINSERT INTO livres VALUES (10,'Miserables',1),(11,'Germinal',2),(12,'Notre-Dame',1);\")\n    return c\n\ndef q(sql, params=()):\n    c = _conn()\n    try:\n        rows = c.execute(sql, params).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n\ndef explain(sql):\n    c = _conn()\n    try:\n        rows = c.execute('EXPLAIN QUERY PLAN ' + sql).fetchall()\n        return ' | '.join(str(r[-1]) for r in rows)\n    finally:\n        c.close()\n\ndef script_then_query(setup_sql, query_sql):\n    c = _conn()\n    try:\n        c.executescript(setup_sql)\n        rows = c.execute(query_sql).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n"
+      },
+      {
+        "path": "solution.py",
+        "content": "from db import q, explain, script_then_query\n\ndef result():\n    # Écris ta requête SQL ci-dessous.\n    return q(\"SELECT a.nom FROM auteurs a JOIN livres l ON l.auteur_id=a.id\")\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from db import q, explain, script_then_query\n\ndef result():\n    return q(\"SELECT a.nom FROM auteurs a LEFT JOIN livres l ON l.auteur_id=a.id WHERE l.id IS NULL ORDER BY a.nom\")\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "Sans-Livre",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "Sans-Livre"
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "ni Hugo ni Zola (privé)",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "Sans-Livre"
+        ]
+      ],
+      "private": true
+    }
+  ]
+}

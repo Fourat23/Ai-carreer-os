@@ -1,0 +1,68 @@
+{
+  "id": "sqlite-subquery-above-avg",
+  "title": "SQL réel : sous-requête (au-dessus de la moyenne)",
+  "difficulty": 4,
+  "summary": "Renvoie [nom, salaire] des employés dont le salaire est STRICTEMENT supérieur à la moyenne globale, triés par salaire décroissant. Utilise une sous-requête scalaire (SELECT AVG...).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "sql",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "db.py",
+        "readOnly": true,
+        "content": "import sqlite3\n\ndef _conn():\n    c = sqlite3.connect(':memory:')\n    c.executescript(\"CREATE TABLE emp(id INTEGER PRIMARY KEY, nom TEXT, service TEXT, salaire INTEGER);\\nINSERT INTO emp VALUES (1,'Ada','tech',300),(2,'Bob','tech',100),(3,'Cy','rh',200),(4,'Di','rh',200),(5,'Eve','tech',400);\")\n    return c\n\ndef q(sql, params=()):\n    c = _conn()\n    try:\n        rows = c.execute(sql, params).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n\ndef explain(sql):\n    c = _conn()\n    try:\n        rows = c.execute('EXPLAIN QUERY PLAN ' + sql).fetchall()\n        return ' | '.join(str(r[-1]) for r in rows)\n    finally:\n        c.close()\n\ndef script_then_query(setup_sql, query_sql):\n    c = _conn()\n    try:\n        c.executescript(setup_sql)\n        rows = c.execute(query_sql).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n"
+      },
+      {
+        "path": "solution.py",
+        "content": "from db import q, explain, script_then_query\n\ndef result():\n    # Écris ta requête SQL ci-dessous.\n    return q(\"SELECT nom, salaire FROM emp WHERE salaire > 200\")\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from db import q, explain, script_then_query\n\ndef result():\n    return q(\"SELECT nom, salaire FROM emp WHERE salaire > (SELECT AVG(salaire) FROM emp) ORDER BY salaire DESC, nom\")\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "moyenne=240 → Ada,Eve",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "Eve",
+          400
+        ],
+        [
+          "Ada",
+          300
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "exclut 200 (privé)",
+      "kind": "call-equals",
+      "export": "result",
+      "args": [],
+      "expected": [
+        [
+          "Eve",
+          400
+        ],
+        [
+          "Ada",
+          300
+        ]
+      ],
+      "private": true
+    }
+  ]
+}

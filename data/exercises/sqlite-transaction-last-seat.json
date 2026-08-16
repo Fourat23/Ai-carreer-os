@@ -1,0 +1,58 @@
+{
+  "id": "sqlite-transaction-last-seat",
+  "title": "SQL réel : transaction atomique (dernier siège)",
+  "difficulty": 5,
+  "summary": "Réserve le dernier siège SANS surbooking. Décrémente places seulement si places>0, dans une transaction. Renvoie [places_restantes, reservation_faite(0/1)] après DEUX tentatives concurrentes simulées séquentiellement : la 2e ne doit PAS réserver (places=0).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "sql",
+    "data"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "db.py",
+        "readOnly": true,
+        "content": "import sqlite3\n\ndef _conn():\n    c = sqlite3.connect(':memory:')\n    c.executescript(\"CREATE TABLE vols(id INTEGER PRIMARY KEY, places INTEGER);\\nINSERT INTO vols VALUES (7, 1);\")\n    return c\n\ndef q(sql, params=()):\n    c = _conn()\n    try:\n        rows = c.execute(sql, params).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n\ndef explain(sql):\n    c = _conn()\n    try:\n        rows = c.execute('EXPLAIN QUERY PLAN ' + sql).fetchall()\n        return ' | '.join(str(r[-1]) for r in rows)\n    finally:\n        c.close()\n\ndef script_then_query(setup_sql, query_sql):\n    c = _conn()\n    try:\n        c.executescript(setup_sql)\n        rows = c.execute(query_sql).fetchall()\n        return [list(r) for r in rows]\n    finally:\n        c.close()\n"
+      },
+      {
+        "path": "solution.py",
+        "content": "from db import _conn\n\n# Réserve un siège si dispo. Renvoie 1 si réservé, 0 sinon.\ndef reserve(c):\n    # TODO : dans une transaction, ne décrémenter QUE si places>0 (garde anti-surbooking)\n    cur = c.execute(\"SELECT places FROM vols WHERE id=7\").fetchone()[0]\n    c.execute(\"UPDATE vols SET places = places - 1 WHERE id=7\")   # BUG : pas de garde\n    return 1\n\ndef two_attempts():\n    c = _conn()\n    try:\n        r1 = reserve(c)\n        r2 = reserve(c)\n        places = c.execute(\"SELECT places FROM vols WHERE id=7\").fetchone()[0]\n        return [places, r1, r2]\n    finally:\n        c.close()\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from db import _conn\n\ndef reserve(c):\n    c.execute(\"BEGIN\")\n    cur = c.execute(\"SELECT places FROM vols WHERE id=7\").fetchone()[0]\n    if cur > 0:\n        c.execute(\"UPDATE vols SET places = places - 1 WHERE id=7\")\n        c.execute(\"COMMIT\")\n        return 1\n    c.execute(\"ROLLBACK\")\n    return 0\n\ndef two_attempts():\n    c = _conn()\n    try:\n        r1 = reserve(c)\n        r2 = reserve(c)\n        places = c.execute(\"SELECT places FROM vols WHERE id=7\").fetchone()[0]\n        return [places, r1, r2]\n    finally:\n        c.close()\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une seule réservation possible",
+      "kind": "call-equals",
+      "export": "two_attempts",
+      "args": [],
+      "expected": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "places finissent à 0 (privé)",
+      "kind": "call-equals",
+      "export": "two_attempts",
+      "args": [],
+      "expected": [
+        0,
+        1,
+        0
+      ],
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "id": "rag-bow-vector",
+  "title": "RAG : représentation sac-de-mots",
+  "difficulty": 2,
+  "summary": "Transforme un texte en dictionnaire {mot: fréquence} (minuscule, split par espaces). Représentation déterministe et pédagogique du sens (à défaut d'un modèle d'embedding local).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def bow(text):\n    # TODO : compter les mots, en minuscule\n    return {}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def bow(text):\n    d = {}\n    for w in text.lower().split():\n        d[w] = d.get(w, 0) + 1\n    return d\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "répétitions",
+      "kind": "call-equals",
+      "export": "bow",
+      "args": [
+        "chat chat chien"
+      ],
+      "expected": {
+        "chat": 2,
+        "chien": 1
+      }
+    },
+    {
+      "id": "t2",
+      "name": "casse ignorée",
+      "kind": "call-equals",
+      "export": "bow",
+      "args": [
+        "Chat chat"
+      ],
+      "expected": {
+        "chat": 2
+      }
+    },
+    {
+      "id": "t3",
+      "name": "vide (privé)",
+      "kind": "call-equals",
+      "export": "bow",
+      "args": [
+        ""
+      ],
+      "expected": {},
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "id": "rag-cosine-similarity",
+  "title": "RAG : similarité cosinus",
+  "difficulty": 3,
+  "summary": "Calcule le cosinus entre deux sacs-de-mots {mot: poids} : produit scalaire / (norme_a * norme_b). Renvoie une chaîne à 3 décimales. '0.000' si une norme est nulle. C'est ce qui rapproche « chat » et « félin ».",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import math\n\ndef cosine(a, b):\n    # TODO : dot / (|a| * |b|) ; formater '%.3f'\n    return '0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import math\n\ndef cosine(a, b):\n    dot = sum(a[k] * b.get(k, 0) for k in a)\n    na = math.sqrt(sum(v * v for v in a.values()))\n    nb = math.sqrt(sum(v * v for v in b.values()))\n    if na == 0 or nb == 0:\n        return '0.000'\n    return f'{dot / (na * nb):.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "identiques → 1.000",
+      "kind": "call-equals",
+      "export": "cosine",
+      "args": [
+        {
+          "chat": 1,
+          "dort": 1
+        },
+        {
+          "chat": 1,
+          "dort": 1
+        }
+      ],
+      "expected": "1.000"
+    },
+    {
+      "id": "t2",
+      "name": "orthogonaux → 0.000",
+      "kind": "call-equals",
+      "export": "cosine",
+      "args": [
+        {
+          "chat": 1
+        },
+        {
+          "boulon": 1
+        }
+      ],
+      "expected": "0.000"
+    },
+    {
+      "id": "t3",
+      "name": "norme nulle (privé)",
+      "kind": "call-equals",
+      "export": "cosine",
+      "args": [
+        {},
+        {
+          "a": 1
+        }
+      ],
+      "expected": "0.000",
+      "private": true
+    }
+  ]
+}

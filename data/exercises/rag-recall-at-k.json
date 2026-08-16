@@ -1,0 +1,100 @@
+{
+  "id": "rag-recall-at-k",
+  "title": "RAG : mesurer le rappel@k",
+  "difficulty": 4,
+  "summary": "Sur un golden set (liste de {retrieved:[ids classés], relevant: id, k}), calcule le rappel@k = fraction des requêtes où le doc pertinent est dans les k premiers. Renvoie une chaîne '%.3f'. Sans mesure, on améliore à l'aveugle.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def recall_at_k(queries):\n    # TODO : pour chaque requête, relevant dans retrieved[:k] ? moyenne, '%.3f'\n    return '0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def recall_at_k(queries):\n    if not queries:\n        return '0.000'\n    hits = 0\n    for q in queries:\n        if q['relevant'] in q['retrieved'][:q['k']]:\n            hits += 1\n    return f'{hits/len(queries):.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "2/2 trouvés",
+      "kind": "call-equals",
+      "export": "recall_at_k",
+      "args": [
+        [
+          {
+            "retrieved": [
+              "a",
+              "b"
+            ],
+            "relevant": "a",
+            "k": 2
+          },
+          {
+            "retrieved": [
+              "c",
+              "d"
+            ],
+            "relevant": "d",
+            "k": 2
+          }
+        ]
+      ],
+      "expected": "1.000"
+    },
+    {
+      "id": "t2",
+      "name": "pertinent hors top-k",
+      "kind": "call-equals",
+      "export": "recall_at_k",
+      "args": [
+        [
+          {
+            "retrieved": [
+              "a",
+              "b",
+              "x"
+            ],
+            "relevant": "x",
+            "k": 2
+          }
+        ]
+      ],
+      "expected": "0.000"
+    },
+    {
+      "id": "t3",
+      "name": "1 sur 2 (privé)",
+      "kind": "call-equals",
+      "export": "recall_at_k",
+      "args": [
+        [
+          {
+            "retrieved": [
+              "a"
+            ],
+            "relevant": "a",
+            "k": 1
+          },
+          {
+            "retrieved": [
+              "b"
+            ],
+            "relevant": "z",
+            "k": 1
+          }
+        ]
+      ],
+      "expected": "0.500",
+      "private": true
+    }
+  ]
+}

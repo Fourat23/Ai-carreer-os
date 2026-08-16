@@ -1,0 +1,74 @@
+{
+  "id": "rag-chunk-by-size",
+  "title": "RAG : découper en chunks (taille + overlap)",
+  "difficulty": 2,
+  "summary": "Découpe un texte en chunks de `size` mots avec `overlap` mots de recouvrement. Renvoie la liste des chunks (chaînes). Le pas = size-overlap. Un mauvais chunking casse tout le retrieval en aval.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def chunk(text, size, overlap):\n    # TODO : mots = text.split() ; fenêtres de `size`, pas = size-overlap\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def chunk(text, size, overlap):\n    words = text.split()\n    step = size - overlap\n    out = []\n    i = 0\n    while i < len(words):\n        out.append(' '.join(words[i:i + size]))\n        i += step\n    return out\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "size2 overlap0",
+      "kind": "call-equals",
+      "export": "chunk",
+      "args": [
+        "a b c d e",
+        2,
+        0
+      ],
+      "expected": [
+        "a b",
+        "c d",
+        "e"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "size3 overlap1",
+      "kind": "call-equals",
+      "export": "chunk",
+      "args": [
+        "a b c d e",
+        3,
+        1
+      ],
+      "expected": [
+        "a b c",
+        "c d e",
+        "e"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "texte court (privé)",
+      "kind": "call-equals",
+      "export": "chunk",
+      "args": [
+        "un",
+        5,
+        0
+      ],
+      "expected": [
+        "un"
+      ],
+      "private": true
+    }
+  ]
+}

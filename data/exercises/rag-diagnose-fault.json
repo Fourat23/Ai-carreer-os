@@ -1,0 +1,80 @@
+{
+  "id": "rag-diagnose-fault",
+  "title": "RAG : diagnostiquer la panne (retrieval vs génération)",
+  "difficulty": 5,
+  "summary": "Un RAG répond mal. À partir de {answer_in_context: bool, answer_correct: bool}, décide : 'retrieval' si le bon passage n'a pas été ramené ; 'generation' si le contexte contenait la réponse mais la sortie est fausse ; 'lucky-guess' si la réponse est correcte SANS être dans le contexte (bonne réponse, mauvaise raison — système à corriger) ; 'ok' sinon.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def diagnose(case):\n    # TODO : retrieval / generation / lucky-guess / ok\n    return 'ok'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def diagnose(case):\n    inctx = case.get('answer_in_context')\n    correct = case.get('answer_correct')\n    if correct and not inctx:\n        return 'lucky-guess'\n    if not inctx:\n        return 'retrieval'\n    if inctx and not correct:\n        return 'generation'\n    return 'ok'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "contexte manquant → retrieval",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        {
+          "answer_in_context": false,
+          "answer_correct": false
+        }
+      ],
+      "expected": "retrieval"
+    },
+    {
+      "id": "t2",
+      "name": "contexte ok mais faux → generation",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        {
+          "answer_in_context": true,
+          "answer_correct": false
+        }
+      ],
+      "expected": "generation"
+    },
+    {
+      "id": "t3",
+      "name": "correct sans contexte → lucky-guess",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        {
+          "answer_in_context": false,
+          "answer_correct": true
+        }
+      ],
+      "expected": "lucky-guess"
+    },
+    {
+      "id": "t4",
+      "name": "contexte ok et correct → ok (privé)",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        {
+          "answer_in_context": true,
+          "answer_correct": true
+        }
+      ],
+      "expected": "ok",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "id": "rag-topk-retrieve",
+  "title": "RAG : retrouver le top-k",
+  "difficulty": 3,
+  "summary": "Étant donné un vecteur requête et des docs {id: vecteur}, renvoie les `k` ids les plus proches par cosinus, du plus proche au moins proche (id croissant en cas d'égalité). Le retrieval est le maillon faible : il faut le mesurer.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import math\n\ndef cos(a, b):\n    dot = sum(a[x] * b.get(x, 0) for x in a)\n    na = math.sqrt(sum(v*v for v in a.values())); nb = math.sqrt(sum(v*v for v in b.values()))\n    return dot/(na*nb) if na and nb else 0.0\n\ndef topk(query, docs, k):\n    # TODO : trier les docs par cosinus décroissant (id croissant si égalité), garder k\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import math\n\ndef cos(a, b):\n    dot = sum(a[x] * b.get(x, 0) for x in a)\n    na = math.sqrt(sum(v*v for v in a.values())); nb = math.sqrt(sum(v*v for v in b.values()))\n    return dot/(na*nb) if na and nb else 0.0\n\ndef topk(query, docs, k):\n    scored = [(cos(query, v), did) for did, v in docs.items()]\n    scored.sort(key=lambda s: (-s[0], s[1]))\n    return [did for _, did in scored[:k]]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "top 1",
+      "kind": "call-equals",
+      "export": "topk",
+      "args": [
+        {
+          "chat": 1
+        },
+        {
+          "d1": {
+            "chat": 1
+          },
+          "d2": {
+            "chien": 1
+          }
+        },
+        1
+      ],
+      "expected": [
+        "d1"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "top 2 ordonné",
+      "kind": "call-equals",
+      "export": "topk",
+      "args": [
+        {
+          "a": 1,
+          "b": 1
+        },
+        {
+          "d1": {
+            "a": 1
+          },
+          "d2": {
+            "a": 1,
+            "b": 1
+          },
+          "d3": {
+            "c": 1
+          }
+        },
+        2
+      ],
+      "expected": [
+        "d2",
+        "d1"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "k>docs (privé)",
+      "kind": "call-equals",
+      "export": "topk",
+      "args": [
+        {
+          "a": 1
+        },
+        {
+          "d1": {
+            "a": 1
+          }
+        },
+        5
+      ],
+      "expected": [
+        "d1"
+      ],
+      "private": true
+    }
+  ]
+}

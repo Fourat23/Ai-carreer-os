@@ -1,0 +1,102 @@
+{
+  "id": "skl-confusion-matrix",
+  "title": "scikit-learn : matrice de confusion",
+  "difficulty": 4,
+  "summary": "Avec sklearn.metrics.confusion_matrix(y_true, y_pred, labels=[0,1]), renvoie la matrice APLATIE [TN, FP, FN, TP] (entiers). Attention à l'ordre des labels de sklearn.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "evalia"
+  ],
+  "sprint": "v47",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "from sklearn.metrics import confusion_matrix\n\ndef cm(y_true, y_pred):\n    # TODO : confusion_matrix(labels=[0,1]).ravel() -> [TN, FP, FN, TP]\n    return [0, 0, 0, 0]\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from sklearn.metrics import confusion_matrix\n\ndef cm(y_true, y_pred):\n    m = confusion_matrix(y_true, y_pred, labels=[0, 1])\n    return [int(x) for x in m.ravel()]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "cas mixte",
+      "kind": "call-equals",
+      "export": "cm",
+      "args": [
+        [
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "expected": [
+        1,
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "parfait",
+      "kind": "call-equals",
+      "export": "cm",
+      "args": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "expected": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "tout faux (privé)",
+      "kind": "call-equals",
+      "export": "cm",
+      "args": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "expected": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "id": "pdx-fix-dtype-sum",
+  "title": "pandas : corriger un type mal parsé",
+  "difficulty": 4,
+  "summary": "Une colonne 'montant' est arrivée en TEXTE ('10','20'). Convertis-la en entier puis renvoie la somme. Un type incorrect fausse toute agrégation. pd.to_numeric est l'outil.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "python"
+  ],
+  "sprint": "v47",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import pandas as pd\n\ndef total_montant(rows):\n    df = pd.DataFrame(rows)\n    # BUG : 'montant' est du texte ; corriger le type avant de sommer\n    return int(df['montant'].sum())\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import pandas as pd\n\ndef total_montant(rows):\n    df = pd.DataFrame(rows)\n    df['montant'] = pd.to_numeric(df['montant'])\n    return int(df['montant'].sum())\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "texte → somme entière",
+      "kind": "call-equals",
+      "export": "total_montant",
+      "args": [
+        [
+          {
+            "montant": "10"
+          },
+          {
+            "montant": "20"
+          },
+          {
+            "montant": "5"
+          }
+        ]
+      ],
+      "expected": 35
+    },
+    {
+      "id": "t2",
+      "name": "un seul",
+      "kind": "call-equals",
+      "export": "total_montant",
+      "args": [
+        [
+          {
+            "montant": "42"
+          }
+        ]
+      ],
+      "expected": 42
+    },
+    {
+      "id": "t3",
+      "name": "zéros (privé)",
+      "kind": "call-equals",
+      "export": "total_montant",
+      "args": [
+        [
+          {
+            "montant": "0"
+          },
+          {
+            "montant": "7"
+          }
+        ]
+      ],
+      "expected": 7,
+      "private": true
+    }
+  ]
+}

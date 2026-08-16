@@ -1,0 +1,96 @@
+{
+  "id": "pdx-merge-inner",
+  "title": "pandas : jointure interne (merge)",
+  "difficulty": 3,
+  "summary": "Avec pandas, fais une jointure INTERNE de deux tables sur 'id'. Renvoie le nombre de lignes du résultat. pd.merge(..., how='inner').",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "python"
+  ],
+  "sprint": "v47",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import pandas as pd\n\ndef join_count(a, b):\n    da, db = pd.DataFrame(a), pd.DataFrame(b)\n    # TODO : merge inner sur 'id', renvoyer le nombre de lignes\n    return 0\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import pandas as pd\n\ndef join_count(a, b):\n    da, db = pd.DataFrame(a), pd.DataFrame(b)\n    m = pd.merge(da, db, on='id', how='inner')\n    return len(m)\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un commun",
+      "kind": "call-equals",
+      "export": "join_count",
+      "args": [
+        [
+          {
+            "id": 1,
+            "x": "a"
+          },
+          {
+            "id": 2,
+            "x": "b"
+          }
+        ],
+        [
+          {
+            "id": 2,
+            "y": "z"
+          }
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "id": "t2",
+      "name": "aucun commun",
+      "kind": "call-equals",
+      "export": "join_count",
+      "args": [
+        [
+          {
+            "id": 1
+          }
+        ],
+        [
+          {
+            "id": 9
+          }
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t3",
+      "name": "doublon → produit (privé)",
+      "kind": "call-equals",
+      "export": "join_count",
+      "args": [
+        [
+          {
+            "id": 1
+          },
+          {
+            "id": 1
+          }
+        ],
+        [
+          {
+            "id": 1
+          }
+        ]
+      ],
+      "expected": 2,
+      "private": true
+    }
+  ]
+}

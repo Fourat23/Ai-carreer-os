@@ -1,0 +1,106 @@
+{
+  "id": "pdx-groupby-mean",
+  "title": "pandas : moyenne par groupe",
+  "difficulty": 3,
+  "summary": "Avec pandas, calcule la moyenne de 'salaire' par 'service'. Renvoie une liste [service, moyenne_entiere] triée par service (moyenne arrondie à l'entier via round puis int).",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "python"
+  ],
+  "sprint": "v47",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import pandas as pd\n\ndef group_mean(rows):\n    df = pd.DataFrame(rows)\n    # TODO : groupby('service')['salaire'].mean(), arrondir, trier par service\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import pandas as pd\n\ndef group_mean(rows):\n    df = pd.DataFrame(rows)\n    g = df.groupby('service')['salaire'].mean()\n    return [[s, int(round(v))] for s, v in sorted(g.items())]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux services",
+      "kind": "call-equals",
+      "export": "group_mean",
+      "args": [
+        [
+          {
+            "service": "tech",
+            "salaire": 100
+          },
+          {
+            "service": "tech",
+            "salaire": 300
+          },
+          {
+            "service": "rh",
+            "salaire": 200
+          }
+        ]
+      ],
+      "expected": [
+        [
+          "rh",
+          200
+        ],
+        [
+          "tech",
+          200
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "un service",
+      "kind": "call-equals",
+      "export": "group_mean",
+      "args": [
+        [
+          {
+            "service": "a",
+            "salaire": 50
+          }
+        ]
+      ],
+      "expected": [
+        [
+          "a",
+          50
+        ]
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "arrondi (privé)",
+      "kind": "call-equals",
+      "export": "group_mean",
+      "args": [
+        [
+          {
+            "service": "x",
+            "salaire": 10
+          },
+          {
+            "service": "x",
+            "salaire": 15
+          }
+        ]
+      ],
+      "expected": [
+        [
+          "x",
+          12
+        ]
+      ],
+      "private": true
+    }
+  ]
+}

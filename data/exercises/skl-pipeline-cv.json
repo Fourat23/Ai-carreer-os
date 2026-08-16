@@ -1,0 +1,151 @@
+{
+  "id": "skl-pipeline-cv",
+  "title": "scikit-learn : Pipeline + cross-validation",
+  "difficulty": 5,
+  "summary": "Construis un Pipeline(StandardScaler, LogisticRegression) et évalue-le par cross_val_score (cv=3) : le scaler est fit DANS chaque pli (anti-leakage outillé). Renvoie la moyenne des scores '%.2f'. Le Pipeline empêche la fuite que ferait un scaling global.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v47",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "from sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import cross_val_score\n\ndef cv_mean(X, y):\n    # TODO : Pipeline([scaler, logreg]) + cross_val_score(cv=3), renvoyer f'{mean:.2f}'\n    return '0.00'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import cross_val_score\n\ndef cv_mean(X, y):\n    pipe = Pipeline([('scaler', StandardScaler()), ('model', LogisticRegression())])\n    scores = cross_val_score(pipe, X, y, cv=3)\n    return f'{scores.mean():.2f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "séparable → 1.00",
+      "kind": "call-equals",
+      "export": "cv_mean",
+      "args": [
+        [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            10
+          ],
+          [
+            11
+          ],
+          [
+            12
+          ],
+          [
+            0.5
+          ],
+          [
+            11.5
+          ],
+          [
+            1.5
+          ],
+          [
+            10.5
+          ],
+          [
+            2.5
+          ],
+          [
+            12.5
+          ]
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "expected": "1.00"
+    },
+    {
+      "id": "t2",
+      "name": "séparable bis (privé)",
+      "kind": "call-equals",
+      "export": "cv_mean",
+      "args": [
+        [
+          [
+            0
+          ],
+          [
+            10
+          ],
+          [
+            1
+          ],
+          [
+            11
+          ],
+          [
+            2
+          ],
+          [
+            12
+          ],
+          [
+            3
+          ],
+          [
+            13
+          ],
+          [
+            0.2
+          ],
+          [
+            10.2
+          ],
+          [
+            1.2
+          ],
+          [
+            11.2
+          ]
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "expected": "1.00",
+      "private": true
+    }
+  ]
+}

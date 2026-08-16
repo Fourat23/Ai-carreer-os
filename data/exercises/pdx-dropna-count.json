@@ -1,0 +1,96 @@
+{
+  "id": "pdx-dropna-count",
+  "title": "pandas : nettoyer les lignes incomplètes",
+  "difficulty": 3,
+  "summary": "Avec pandas, supprime les lignes contenant AU MOINS une valeur manquante (None/NaN). Renvoie [lignes_avant, lignes_apres]. dropna() est l'outil.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "python"
+  ],
+  "sprint": "v47",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import pandas as pd\n\ndef clean(rows):\n    df = pd.DataFrame(rows)\n    # TODO : supprimer les lignes avec au moins un NaN, renvoyer [avant, apres]\n    return [len(df), len(df)]\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import pandas as pd\n\ndef clean(rows):\n    df = pd.DataFrame(rows)\n    before = len(df)\n    df2 = df.dropna()\n    return [before, len(df2)]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "une ligne trouée",
+      "kind": "call-equals",
+      "export": "clean",
+      "args": [
+        [
+          {
+            "a": 1,
+            "b": 2
+          },
+          {
+            "a": 3,
+            "b": null
+          },
+          {
+            "a": 5,
+            "b": 6
+          }
+        ]
+      ],
+      "expected": [
+        3,
+        2
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucune trouée",
+      "kind": "call-equals",
+      "export": "clean",
+      "args": [
+        [
+          {
+            "a": 1,
+            "b": 2
+          }
+        ]
+      ],
+      "expected": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "toutes trouées (privé)",
+      "kind": "call-equals",
+      "export": "clean",
+      "args": [
+        [
+          {
+            "a": null,
+            "b": 1
+          },
+          {
+            "a": 2,
+            "b": null
+          }
+        ]
+      ],
+      "expected": [
+        2,
+        0
+      ],
+      "private": true
+    }
+  ]
+}

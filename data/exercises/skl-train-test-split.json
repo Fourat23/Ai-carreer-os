@@ -1,0 +1,173 @@
+{
+  "id": "skl-train-test-split",
+  "title": "scikit-learn : split reproductible",
+  "difficulty": 3,
+  "summary": "Avec sklearn.model_selection.train_test_split, sépare X (liste de listes) et y avec test_size=0.25 et random_state=42. Renvoie [n_train, n_test]. Le random_state garantit la reproductibilité.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v47",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "from sklearn.model_selection import train_test_split\n\ndef split(X, y):\n    # TODO : train_test_split(test_size=0.25, random_state=42), renvoyer [n_train, n_test]\n    return [len(X), 0]\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from sklearn.model_selection import train_test_split\n\ndef split(X, y):\n    Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.25, random_state=42)\n    return [len(Xtr), len(Xte)]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "8 → 6/2",
+      "kind": "call-equals",
+      "export": "split",
+      "args": [
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ],
+          [
+            6
+          ],
+          [
+            7
+          ],
+          [
+            8
+          ]
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "expected": [
+        6,
+        2
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "4 → 3/1",
+      "kind": "call-equals",
+      "export": "split",
+      "args": [
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        [
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "expected": [
+        3,
+        1
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "12 → 9/3 (privé)",
+      "kind": "call-equals",
+      "export": "split",
+      "args": [
+        [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ],
+          [
+            6
+          ],
+          [
+            7
+          ],
+          [
+            8
+          ],
+          [
+            9
+          ],
+          [
+            10
+          ],
+          [
+            11
+          ],
+          [
+            12
+          ]
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "expected": [
+        9,
+        3
+      ],
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "id": "skl-logreg-accuracy",
+  "title": "scikit-learn : entraîner et évaluer",
+  "difficulty": 4,
+  "summary": "Entraîne une LogisticRegression sur (X_train,y_train), prédit sur X_test, renvoie l'accuracy formatée '%.2f' (accuracy_score). Données séparables → résultat déterministe.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v47",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "from sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n\ndef fit_eval(X_train, y_train, X_test, y_test):\n    # TODO : entraîner LogisticRegression, prédire, renvoyer f'{acc:.2f}'\n    return '0.00'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n\ndef fit_eval(X_train, y_train, X_test, y_test):\n    m = LogisticRegression()\n    m.fit(X_train, y_train)\n    pred = m.predict(X_test)\n    return f'{accuracy_score(y_test, pred):.2f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "séparable → 1.00",
+      "kind": "call-equals",
+      "export": "fit_eval",
+      "args": [
+        [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            10
+          ],
+          [
+            11
+          ],
+          [
+            12
+          ]
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          [
+            1
+          ],
+          [
+            11
+          ]
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "expected": "1.00"
+    },
+    {
+      "id": "t2",
+      "name": "un test correct",
+      "kind": "call-equals",
+      "export": "fit_eval",
+      "args": [
+        [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            10
+          ],
+          [
+            11
+          ]
+        ],
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          [
+            0
+          ]
+        ],
+        [
+          0
+        ]
+      ],
+      "expected": "1.00"
+    },
+    {
+      "id": "t3",
+      "name": "deux tests séparables (privé)",
+      "kind": "call-equals",
+      "export": "fit_eval",
+      "args": [
+        [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            10
+          ],
+          [
+            11
+          ]
+        ],
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          [
+            2
+          ],
+          [
+            9
+          ]
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "expected": "1.00",
+      "private": true
+    }
+  ]
+}

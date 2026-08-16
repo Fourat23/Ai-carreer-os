@@ -26,7 +26,7 @@
     "v27:check": "node scripts/v27-check.mjs",
     "v28:check": "node scripts/v28-check.mjs",
     "v29:check": "node scripts/v29-check.mjs",
-    "gates:active": "npm run curriculum:check && npm run curriculum:depth-check && npm run glossary:check && npm run v18:check && npm run v20:pedagogy-check && npm run v26:check && npm run v27:check && npm run v28:check && npm run v29:check && npm run v30:check && npm run v31:check && npm run v32:check && npm run v33:check && npm run v34:check && npm run v35:check && npm run v36:check && npm run v37:check && npm run v38:check && npm run v39:check && npm run v40:check && npm run v41:check && npm run v42:check && npm run v43:check && npm run v44:check && npm run v46:check",
+    "gates:active": "npm run curriculum:check && npm run curriculum:depth-check && npm run glossary:check && npm run v18:check && npm run v20:pedagogy-check && npm run v26:check && npm run v27:check && npm run v28:check && npm run v29:check && npm run v30:check && npm run v31:check && npm run v32:check && npm run v33:check && npm run v34:check && npm run v35:check && npm run v36:check && npm run v37:check && npm run v38:check && npm run v39:check && npm run v40:check && npm run v41:check && npm run v42:check && npm run v43:check && npm run v44:check && npm run v46:check && npm run v47:check",
     "gates:historical": "node scripts/v17-coverage-check.mjs; node scripts/v19-coverage-check.mjs; node scripts/v21-check.mjs; node scripts/v22-check.mjs; node scripts/v23-check.mjs; node scripts/v24-check.mjs; node scripts/v25-check.mjs; true",
     "v30:check": "node scripts/v30-check.mjs",
     "v31:check": "node scripts/v31-check.mjs",
@@ -43,7 +43,8 @@
     "v42:check": "node scripts/v42-check.mjs",
     "v43:check": "node scripts/v43-check.mjs",
     "v44:check": "node scripts/v44-check.mjs",
-    "v46:check": "node scripts/v46-check.mjs"
+    "v46:check": "node scripts/v46-check.mjs",
+    "v47:check": "node scripts/v47-check.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",

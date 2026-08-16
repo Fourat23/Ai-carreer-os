@@ -1,0 +1,84 @@
+{
+  "id": "ml-baseline-majority",
+  "title": "ML : baseline classe majoritaire",
+  "difficulty": 3,
+  "summary": "Renvoie l'accuracy (chaîne '%.3f') d'un modèle NAÏF qui prédit toujours la classe majoritaire de y. C'est le garde-fou : un vrai modèle doit la battre. Sur un jeu déséquilibré, elle est trompeusement haute.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def baseline_accuracy(y):\n    # TODO : classe majoritaire, accuracy = part de cette classe ; formater '%.3f'\n    return '0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def baseline_accuracy(y):\n    if not y:\n        return '0.000'\n    from collections import Counter\n    c = Counter(y)\n    maj = c.most_common(1)[0][1]\n    return f'{maj/len(y):.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "95% classe 0 (déséquilibré)",
+      "kind": "call-equals",
+      "export": "baseline_accuracy",
+      "args": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "expected": "0.950"
+    },
+    {
+      "id": "t2",
+      "name": "équilibré → 0.500",
+      "kind": "call-equals",
+      "export": "baseline_accuracy",
+      "args": [
+        [
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "expected": "0.500"
+    },
+    {
+      "id": "t3",
+      "name": "vide → 0.000 (privé)",
+      "kind": "call-equals",
+      "export": "baseline_accuracy",
+      "args": [
+        []
+      ],
+      "expected": "0.000",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "ml-leakage-detect",
+  "title": "ML : détecter une fuite de données (leakage)",
+  "difficulty": 4,
+  "summary": "On te donne l'ORDRE des étapes d'un pipeline (liste de chaînes parmi 'fit_scaler_all','split','fit_scaler_train','fit_model','evaluate'). Renvoie l'index (0-based) de la PREMIÈRE étape provoquant une fuite : normaliser sur TOUTES les données ('fit_scaler_all') AVANT 'split'. Renvoie -1 si aucune fuite.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def find_leakage(steps):\n    # TODO : 'fit_scaler_all' avant 'split' = fuite → renvoyer son index ; sinon -1\n    return -1\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def find_leakage(steps):\n    split_i = steps.index('split') if 'split' in steps else len(steps)\n    for i, s in enumerate(steps):\n        if s == 'fit_scaler_all' and i < split_i:\n            return i\n    return -1\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "scaler avant split → fuite en 0",
+      "kind": "call-equals",
+      "export": "find_leakage",
+      "args": [
+        [
+          "fit_scaler_all",
+          "split",
+          "fit_model",
+          "evaluate"
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "id": "t2",
+      "name": "ordre correct → -1",
+      "kind": "call-equals",
+      "export": "find_leakage",
+      "args": [
+        [
+          "split",
+          "fit_scaler_train",
+          "fit_model",
+          "evaluate"
+        ]
+      ],
+      "expected": -1
+    },
+    {
+      "id": "t3",
+      "name": "scaler_all après split → -1 (privé)",
+      "kind": "call-equals",
+      "export": "find_leakage",
+      "args": [
+        [
+          "split",
+          "fit_scaler_all",
+          "fit_model"
+        ]
+      ],
+      "expected": -1,
+      "private": true
+    }
+  ]
+}

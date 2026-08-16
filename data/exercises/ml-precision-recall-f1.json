@@ -1,0 +1,85 @@
+{
+  "id": "ml-precision-recall-f1",
+  "title": "ML : précision, rappel, F1",
+  "difficulty": 3,
+  "summary": "À partir de [TP,FP,FN,TN], renvoie [precision, recall, f1] en CHAÎNES formatées à 3 décimales (ex. '0.800'). Si un dénominateur est nul, renvoie '0.000' pour cette métrique.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def metrics(cm):\n    tp, fp, fn, tn = cm\n    # TODO : precision=tp/(tp+fp), recall=tp/(tp+fn), f1=2PR/(P+R) ; formater '%.3f'\n    return ['0.000', '0.000', '0.000']\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def metrics(cm):\n    tp, fp, fn, tn = cm\n    p = tp / (tp + fp) if (tp + fp) else 0.0\n    r = tp / (tp + fn) if (tp + fn) else 0.0\n    f1 = 2 * p * r / (p + r) if (p + r) else 0.0\n    return [f'{p:.3f}', f'{r:.3f}', f'{f1:.3f}']\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "TP8 FP2 FN2",
+      "kind": "call-equals",
+      "export": "metrics",
+      "args": [
+        [
+          8,
+          2,
+          2,
+          8
+        ]
+      ],
+      "expected": [
+        "0.800",
+        "0.800",
+        "0.800"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "rappel médical (peu de FN)",
+      "kind": "call-equals",
+      "export": "metrics",
+      "args": [
+        [
+          9,
+          3,
+          1,
+          7
+        ]
+      ],
+      "expected": [
+        "0.750",
+        "0.900",
+        "0.818"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "dénominateur nul (privé)",
+      "kind": "call-equals",
+      "export": "metrics",
+      "args": [
+        [
+          0,
+          0,
+          0,
+          5
+        ]
+      ],
+      "expected": [
+        "0.000",
+        "0.000",
+        "0.000"
+      ],
+      "private": true
+    }
+  ]
+}

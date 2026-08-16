@@ -1,24 +1,84 @@
 {
-  "runtime": "node-js",
-  "trackRefs": ["ai-engineer-foundations-v1"],
-  "activeFile": "solution.mjs",
   "id": "ml-metric-choice",
-  "title": "ML : quelle métrique d'évaluation choisir ?",
-  "difficulty": 2,
-  "summary": "chooseMetric(ctx) où ctx={imbalanced, falseNegativeCostly} choisit la métrique adaptée : 'accuracy' si les classes sont équilibrées ; sinon (données déséquilibrées, où l'accuracy MENT) 'recall' quand rater un positif coûte cher (maladie, fraude), 'precision' sinon. Raisonnement d'évaluation, sans entraîner de modèle.",
-  "skills": ["conditions", "functions", "data"],
+  "title": "ML : choisir la bonne métrique",
+  "difficulty": 4,
+  "summary": "Selon le contexte, renvoie la métrique à privilégier : 'recall' si rater un positif est grave (dépistage médical, fraude), 'precision' si une fausse alerte est coûteuse (spam qui bloque un vrai mail), 'accuracy' seulement si les classes sont équilibrées ET les coûts symétriques. Entrée : {balanced: bool, false_negative_cost: 'high'|'low', false_positive_cost: 'high'|'low'}.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
   "workspace": {
-    "entry": "solution.mjs",
+    "entry": "solution.py",
     "files": [
-      { "path": "solution.mjs", "content": "export function chooseMetric(ctx) {\n  // TODO : sur données déséquilibrées, l'accuracy est trompeuse.\n  return 'accuracy';\n}\n" }
+      {
+        "path": "solution.py",
+        "content": "def choose_metric(ctx):\n    # TODO : décider recall / precision / accuracy selon les coûts et l'équilibre\n    return 'accuracy'\n"
+      }
     ]
   },
   "reference": {
-    "solution.mjs": "export function chooseMetric(ctx) {\n  if (!ctx.imbalanced) return 'accuracy';\n  return ctx.falseNegativeCostly ? 'recall' : 'precision';\n}\n"
+    "solution.py": "def choose_metric(ctx):\n    fn = ctx.get('false_negative_cost')\n    fp = ctx.get('false_positive_cost')\n    if fn == 'high' and fp != 'high':\n        return 'recall'\n    if fp == 'high' and fn != 'high':\n        return 'precision'\n    if ctx.get('balanced') and fn == fp:\n        return 'accuracy'\n    return 'f1'\n"
   },
   "tests": [
-    { "id": "t1", "name": "classes équilibrées → accuracy", "kind": "call-equals", "export": "chooseMetric", "args": [{ "imbalanced": false, "falseNegativeCostly": false }], "expected": "accuracy" },
-    { "id": "t2", "name": "déséquilibré + rater un positif coûte cher → recall", "kind": "call-equals", "export": "chooseMetric", "args": [{ "imbalanced": true, "falseNegativeCostly": true }], "expected": "recall" },
-    { "id": "t3", "name": "déséquilibré + faux positifs coûteux → precision", "kind": "call-equals", "export": "chooseMetric", "args": [{ "imbalanced": true, "falseNegativeCostly": false }], "expected": "precision", "private": true }
+    {
+      "id": "t1",
+      "name": "dépistage médical → recall",
+      "kind": "call-equals",
+      "export": "choose_metric",
+      "args": [
+        {
+          "balanced": false,
+          "false_negative_cost": "high",
+          "false_positive_cost": "low"
+        }
+      ],
+      "expected": "recall"
+    },
+    {
+      "id": "t2",
+      "name": "anti-spam → precision",
+      "kind": "call-equals",
+      "export": "choose_metric",
+      "args": [
+        {
+          "balanced": false,
+          "false_negative_cost": "low",
+          "false_positive_cost": "high"
+        }
+      ],
+      "expected": "precision"
+    },
+    {
+      "id": "t3",
+      "name": "équilibré symétrique → accuracy",
+      "kind": "call-equals",
+      "export": "choose_metric",
+      "args": [
+        {
+          "balanced": true,
+          "false_negative_cost": "low",
+          "false_positive_cost": "low"
+        }
+      ],
+      "expected": "accuracy"
+    },
+    {
+      "id": "t4",
+      "name": "déséquilibré coûts égaux → f1 (privé)",
+      "kind": "call-equals",
+      "export": "choose_metric",
+      "args": [
+        {
+          "balanced": false,
+          "false_negative_cost": "high",
+          "false_positive_cost": "high"
+        }
+      ],
+      "expected": "f1",
+      "private": true
+    }
   ]
 }

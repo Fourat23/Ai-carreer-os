@@ -1,0 +1,100 @@
+{
+  "id": "ml-confusion-matrix",
+  "title": "ML : matrice de confusion",
+  "difficulty": 3,
+  "summary": "Compare y_true et y_pred (0/1). Renvoie [TP, FP, FN, TN] (entiers). TP: vrai=1,préd=1 ; FP: vrai=0,préd=1 ; FN: vrai=1,préd=0 ; TN: vrai=0,préd=0.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def confusion(y_true, y_pred):\n    # TODO : compter TP, FP, FN, TN\n    return [0, 0, 0, 0]\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def confusion(y_true, y_pred):\n    tp = fp = fn = tn = 0\n    for t, p in zip(y_true, y_pred):\n        if t == 1 and p == 1: tp += 1\n        elif t == 0 and p == 1: fp += 1\n        elif t == 1 and p == 0: fn += 1\n        else: tn += 1\n    return [tp, fp, fn, tn]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "cas mixte",
+      "kind": "call-equals",
+      "export": "confusion",
+      "args": [
+        [
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "expected": [
+        2,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "parfait",
+      "kind": "call-equals",
+      "export": "confusion",
+      "args": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "expected": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "tout faux (privé)",
+      "kind": "call-equals",
+      "export": "confusion",
+      "args": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "expected": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "id": "ml-train-test-split",
+  "title": "ML : découpage train/test",
+  "difficulty": 2,
+  "summary": "Découpe X et y (alignés) en gardant les DERNIERS test_frac% comme test (déterministe, sans hasard). Renvoie [n_train, n_test]. Le test ne doit jamais fuiter dans l'entraînement.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v46",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def split(X, y, test_frac):\n    # TODO : n_test = floor(len(X)*test_frac) ; test = derniers éléments\n    return [len(X), 0]\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import math\n\ndef split(X, y, test_frac):\n    n = len(X)\n    n_test = math.floor(n * test_frac)\n    n_train = n - n_test\n    return [n_train, n_test]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "10 éléments, 0.2",
+      "kind": "call-equals",
+      "export": "split",
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        0.2
+      ],
+      "expected": [
+        8,
+        2
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "5 éléments, 0.4",
+      "kind": "call-equals",
+      "export": "split",
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        0.4
+      ],
+      "expected": [
+        3,
+        2
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "3 éléments, 0.5 → 1 test (privé)",
+      "kind": "call-equals",
+      "export": "split",
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        0.5
+      ],
+      "expected": [
+        2,
+        1
+      ],
+      "private": true
+    }
+  ]
+}

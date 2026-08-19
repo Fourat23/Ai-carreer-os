@@ -1,0 +1,90 @@
+{
+  "id": "rag-hybrid-rrf",
+  "title": "RAG : fusion hybride (RRF)",
+  "difficulty": 3,
+  "summary": "Deux classements (lexical + sémantique) ont des angles morts différents. Reciprocal Rank Fusion : score(doc)=Σ 1/(k+rang), rang à partir de 1, k=60. Renvoie les ids TRIÉS par score décroissant (id croissant en cas d'égalité).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def rrf(lex, sem, k=60):\n    # lex, sem: listes ordonnées d'ids. TODO: ids triés par score RRF décroissant\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def rrf(lex, sem, k=60):\n    scores = {}\n    for ranking in (lex, sem):\n        for rank, doc in enumerate(ranking, start=1):\n            scores[doc] = scores.get(doc, 0.0) + 1.0 / (k + rank)\n    return sorted(scores, key=lambda d: (-scores[d], d))\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "consensus en tête",
+      "kind": "call-equals",
+      "export": "rrf",
+      "args": [
+        [
+          "a",
+          "b",
+          "c"
+        ],
+        [
+          "a",
+          "c",
+          "d"
+        ]
+      ],
+      "expected": [
+        "a",
+        "c",
+        "b",
+        "d"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "listes identiques",
+      "kind": "call-equals",
+      "export": "rrf",
+      "args": [
+        [
+          "x",
+          "y"
+        ],
+        [
+          "x",
+          "y"
+        ]
+      ],
+      "expected": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "disjointes → alpha (privé)",
+      "kind": "call-equals",
+      "export": "rrf",
+      "args": [
+        [
+          "a"
+        ],
+        [
+          "b"
+        ]
+      ],
+      "expected": [
+        "a",
+        "b"
+      ],
+      "private": true
+    }
+  ]
+}

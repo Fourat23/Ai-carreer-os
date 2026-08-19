@@ -1,0 +1,87 @@
+{
+  "id": "ml-overfit-onset",
+  "title": "ML : repérer le début du surapprentissage",
+  "difficulty": 4,
+  "summary": "Sur les courbes train/val par epoch, le surapprentissage commence quand la val cesse de progresser tandis que le train continue de monter. Renvoie l'epoch (index 0) de la MEILLEURE val ; au-delà, on surapprend (early stopping).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def best_epoch(train_acc, val_acc):\n    # TODO: index de la val maximale (première en cas d'égalité)\n    return 0\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def best_epoch(train_acc, val_acc):\n    best_i, best_v = 0, val_acc[0]\n    for i, v in enumerate(val_acc):\n        if v > best_v:\n            best_v, best_i = v, i\n    return best_i\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "val plafonne à 2",
+      "kind": "call-equals",
+      "export": "best_epoch",
+      "args": [
+        [
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          0.95
+        ],
+        [
+          0.6,
+          0.7,
+          0.75,
+          0.74,
+          0.72
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "val monte tout du long",
+      "kind": "call-equals",
+      "export": "best_epoch",
+      "args": [
+        [
+          0.5,
+          0.6,
+          0.7
+        ],
+        [
+          0.5,
+          0.6,
+          0.7
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t3",
+      "name": "plateau early (privé)",
+      "kind": "call-equals",
+      "export": "best_epoch",
+      "args": [
+        [
+          0.5,
+          0.9
+        ],
+        [
+          0.8,
+          0.8
+        ]
+      ],
+      "expected": 0,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "id": "patterns-dependency-injection",
+  "title": "Choix : injecter une dépendance",
+  "difficulty": 3,
+  "summary": "Règle : une dépendance instanciée en dur (new) qui doit être remplacée en test ou selon l'environnement doit être INJECTÉE ; une dépendance pure/déterministe sans variation peut rester locale. Renvoie 'inject' si (hardCoded && (neededInTest || variesByEnv)), sinon 'keep'.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "patterns",
+    "se"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ hardCoded, neededInTest, variesByEnv }) {\n  // TODO: 'inject' | 'keep'\n  return 'keep';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ hardCoded, neededInTest, variesByEnv }) {\n  return (hardCoded && (neededInTest || variesByEnv)) ? 'inject' : 'keep';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "clock à mocker",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "hardCoded": true,
+          "neededInTest": true,
+          "variesByEnv": false
+        }
+      ],
+      "expected": "inject"
+    },
+    {
+      "id": "t2",
+      "name": "fonction pure",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "hardCoded": true,
+          "neededInTest": false,
+          "variesByEnv": false
+        }
+      ],
+      "expected": "keep"
+    },
+    {
+      "id": "t3",
+      "name": "varie par env (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "hardCoded": true,
+          "neededInTest": false,
+          "variesByEnv": true
+        }
+      ],
+      "expected": "inject",
+      "private": true
+    }
+  ]
+}

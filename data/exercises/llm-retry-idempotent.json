@@ -1,0 +1,89 @@
+{
+  "id": "llm-retry-idempotent",
+  "title": "LLM : retries sans double exécution",
+  "difficulty": 3,
+  "summary": "Un appel réémis avec la MÊME clé d'idempotence ne doit s'exécuter qu'une fois. Étant donné la suite des tentatives (avec clé), renvoie le nombre d'exécutions RÉELLES (clés distinctes). Sans clé, un retry facture/agit deux fois.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "llm",
+    "se"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def executed(attempts):\n    # attempts: [{key}]. TODO: nombre de clés distinctes\n    return 0\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def executed(attempts):\n    return len({a['key'] for a in attempts})\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "3 tentatives, 2 clés",
+      "kind": "call-equals",
+      "export": "executed",
+      "args": [
+        [
+          {
+            "key": "a"
+          },
+          {
+            "key": "a"
+          },
+          {
+            "key": "b"
+          }
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "toutes distinctes",
+      "kind": "call-equals",
+      "export": "executed",
+      "args": [
+        [
+          {
+            "key": "x"
+          },
+          {
+            "key": "y"
+          },
+          {
+            "key": "z"
+          }
+        ]
+      ],
+      "expected": 3
+    },
+    {
+      "id": "t3",
+      "name": "un seul réel (privé)",
+      "kind": "call-equals",
+      "export": "executed",
+      "args": [
+        [
+          {
+            "key": "k"
+          },
+          {
+            "key": "k"
+          },
+          {
+            "key": "k"
+          }
+        ]
+      ],
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

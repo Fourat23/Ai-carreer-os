@@ -1,0 +1,71 @@
+{
+  "id": "arch-repository-boundary",
+  "title": "Choix : introduire un Repository",
+  "difficulty": 4,
+  "summary": "Règle : si l'accès aux données est dispersé dans plusieurs points d'appel ET qu'on doit pouvoir changer de stockage ou tester sans base, isoler derrière un Repository ; pour un seul point d'accès trivial, l'abstraction est prématurée. Renvoie 'repository' si callSites>=2 && (swappableStore || testWithoutDb), sinon 'direct'.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi",
+    "se"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ callSites, swappableStore, testWithoutDb }) {\n  // TODO: 'repository' | 'direct'\n  return 'direct';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ callSites, swappableStore, testWithoutDb }) {\n  return (callSites >= 2 && (swappableStore || testWithoutDb)) ? 'repository' : 'direct';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "dispersé + testable",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "callSites": 4,
+          "swappableStore": false,
+          "testWithoutDb": true
+        }
+      ],
+      "expected": "repository"
+    },
+    {
+      "id": "t2",
+      "name": "un seul accès",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "callSites": 1,
+          "swappableStore": true,
+          "testWithoutDb": true
+        }
+      ],
+      "expected": "direct"
+    },
+    {
+      "id": "t3",
+      "name": "dispersé mais rien à isoler (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "callSites": 3,
+          "swappableStore": false,
+          "testWithoutDb": false
+        }
+      ],
+      "expected": "direct",
+      "private": true
+    }
+  ]
+}

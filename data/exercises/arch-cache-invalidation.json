@@ -1,0 +1,67 @@
+{
+  "id": "arch-cache-invalidation",
+  "title": "Choix : stratégie de cache",
+  "difficulty": 4,
+  "summary": "Règle : lectures >> écritures et tolérance à la péremption → 'cache-aside' ; données qui doivent rester fraîches mais écrites rarement → 'write-through' ; écritures fréquentes et fraîcheur stricte → 'no-cache' (le cache coûterait plus qu'il ne rapporte). Décision : readWriteRatio, stalenessOkSeconds.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ readWriteRatio, stalenessOkSeconds }) {\n  // TODO: 'cache-aside' | 'write-through' | 'no-cache'\n  return 'no-cache';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ readWriteRatio, stalenessOkSeconds }) {\n  if (readWriteRatio < 2) return 'no-cache';\n  if (stalenessOkSeconds > 0) return 'cache-aside';\n  return 'write-through';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "lecture lourde tolérante",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "readWriteRatio": 50,
+          "stalenessOkSeconds": 30
+        }
+      ],
+      "expected": "cache-aside"
+    },
+    {
+      "id": "t2",
+      "name": "écriture lourde",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "readWriteRatio": 1,
+          "stalenessOkSeconds": 0
+        }
+      ],
+      "expected": "no-cache"
+    },
+    {
+      "id": "t3",
+      "name": "lecture lourde fraîche (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "readWriteRatio": 20,
+          "stalenessOkSeconds": 0
+        }
+      ],
+      "expected": "write-through",
+      "private": true
+    }
+  ]
+}

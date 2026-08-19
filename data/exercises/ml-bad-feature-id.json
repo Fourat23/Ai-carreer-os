@@ -1,0 +1,107 @@
+{
+  "id": "ml-bad-feature-id",
+  "title": "ML : écarter constantes et identifiants",
+  "difficulty": 3,
+  "summary": "Une colonne constante n'apporte rien ; une colonne unique par ligne (identifiant) fait sur-apprendre. Renvoie la liste TRIÉE des colonnes à écarter : variance nulle OU autant de valeurs distinctes que de lignes.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "python"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import pandas as pd\n\ndef drop_columns(rows):\n    # TODO: colonnes constantes ou identifiantes (nunique==len), triées.\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import pandas as pd\n\ndef drop_columns(rows):\n    df = pd.DataFrame(rows)\n    n = len(df)\n    out = []\n    for c in df.columns:\n        nu = df[c].nunique(dropna=False)\n        if nu <= 1 or nu == n:\n            out.append(c)\n    return sorted(out)\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "id + constante",
+      "kind": "call-equals",
+      "export": "drop_columns",
+      "args": [
+        [
+          {
+            "id": 1,
+            "region": "a",
+            "x": 5
+          },
+          {
+            "id": 2,
+            "region": "a",
+            "x": 7
+          },
+          {
+            "id": 3,
+            "region": "a",
+            "x": 5
+          }
+        ]
+      ],
+      "expected": [
+        "id",
+        "region"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "rien à écarter",
+      "kind": "call-equals",
+      "export": "drop_columns",
+      "args": [
+        [
+          {
+            "a": 1,
+            "b": 2
+          },
+          {
+            "a": 1,
+            "b": 3
+          },
+          {
+            "a": 2,
+            "b": 2
+          }
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "constante seule (privé)",
+      "kind": "call-equals",
+      "export": "drop_columns",
+      "args": [
+        [
+          {
+            "k": 9,
+            "v": 1
+          },
+          {
+            "k": 9,
+            "v": 2
+          },
+          {
+            "k": 9,
+            "v": 2
+          }
+        ]
+      ],
+      "expected": [
+        "k"
+      ],
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "id": "ml-leakage-temporal",
+  "title": "ML : détecter une fuite (colonne du futur)",
+  "difficulty": 4,
+  "summary": "Une colonne renseignée APRÈS la cible corrèle presque parfaitement avec elle : c'est une fuite. Renvoie la liste TRIÉE des colonnes numériques dont |corr(cible)| >= 0.999 (hors la cible). On les retire AVANT d'entraîner.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "python"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import pandas as pd\n\ndef suspect_leaks(rows, target):\n    # rows: liste de dicts. TODO: colonnes num. avec |corr(target)|>=0.999, triées.\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import pandas as pd\n\ndef suspect_leaks(rows, target):\n    df = pd.DataFrame(rows)\n    num = df.select_dtypes('number')\n    if target not in num:\n        return []\n    out = []\n    for c in num.columns:\n        if c == target:\n            continue\n        corr = num[c].corr(num[target])\n        if corr == corr and abs(corr) >= 0.999:\n            out.append(c)\n    return sorted(out)\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "refund_status fuit",
+      "kind": "call-equals",
+      "export": "suspect_leaks",
+      "args": [
+        [
+          {
+            "age": 20,
+            "refund": 1,
+            "y": 1
+          },
+          {
+            "age": 30,
+            "refund": 0,
+            "y": 0
+          },
+          {
+            "age": 40,
+            "refund": 1,
+            "y": 1
+          },
+          {
+            "age": 50,
+            "refund": 0,
+            "y": 0
+          }
+        ],
+        "y"
+      ],
+      "expected": [
+        "refund"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aucune fuite",
+      "kind": "call-equals",
+      "export": "suspect_leaks",
+      "args": [
+        [
+          {
+            "age": 20,
+            "score": 3,
+            "y": 1
+          },
+          {
+            "age": 30,
+            "score": 9,
+            "y": 0
+          },
+          {
+            "age": 40,
+            "score": 1,
+            "y": 1
+          },
+          {
+            "age": 50,
+            "score": 8,
+            "y": 0
+          }
+        ],
+        "y"
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux colonnes fuient (privé)",
+      "kind": "call-equals",
+      "export": "suspect_leaks",
+      "args": [
+        [
+          {
+            "a": 1,
+            "b": 1,
+            "y": 1
+          },
+          {
+            "a": 0,
+            "b": 0,
+            "y": 0
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "y": 1
+          },
+          {
+            "a": 0,
+            "b": 0,
+            "y": 0
+          }
+        ],
+        "y"
+      ],
+      "expected": [
+        "a",
+        "b"
+      ],
+      "private": true
+    }
+  ]
+}

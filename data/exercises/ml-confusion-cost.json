@@ -1,0 +1,106 @@
+{
+  "id": "ml-confusion-cost",
+  "title": "ML : choisir le seuil au coût métier",
+  "difficulty": 4,
+  "summary": "Un faux négatif (fraude ratée) coûte plus qu'un faux positif (alerte inutile). Pour chaque seuil candidat, calcule FP*cost_fp + FN*cost_fn et renvoie le seuil (2 déc.) de coût MINIMAL (le plus bas en cas d'égalité).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml",
+    "evalia"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def best_threshold(scores, labels, thresholds, cost_fp, cost_fn):\n    # predire 1 si score>=seuil. TODO: seuil de coût minimal -> '%.2f'\n    return '0.00'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def best_threshold(scores, labels, thresholds, cost_fp, cost_fn):\n    best_t, best_c = None, None\n    for t in thresholds:\n        fp = sum(1 for s, y in zip(scores, labels) if s >= t and y == 0)\n        fn = sum(1 for s, y in zip(scores, labels) if s < t and y == 1)\n        c = fp * cost_fp + fn * cost_fn\n        if best_c is None or c < best_c:\n            best_c, best_t = c, t\n    return f'{best_t:.2f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "FN cher → seuil bas",
+      "kind": "call-equals",
+      "export": "best_threshold",
+      "args": [
+        [
+          0.2,
+          0.4,
+          0.6,
+          0.8
+        ],
+        [
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0.3,
+          0.5,
+          0.7
+        ],
+        1,
+        10
+      ],
+      "expected": "0.30"
+    },
+    {
+      "id": "t2",
+      "name": "FP cher → seuil haut",
+      "kind": "call-equals",
+      "export": "best_threshold",
+      "args": [
+        [
+          0.2,
+          0.4,
+          0.6,
+          0.8
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0.3,
+          0.5,
+          0.7
+        ],
+        10,
+        1
+      ],
+      "expected": "0.70"
+    },
+    {
+      "id": "t3",
+      "name": "égalité → premier (privé)",
+      "kind": "call-equals",
+      "export": "best_threshold",
+      "args": [
+        [
+          0.5
+        ],
+        [
+          1
+        ],
+        [
+          0.4,
+          0.6
+        ],
+        1,
+        1
+      ],
+      "expected": "0.40",
+      "private": true
+    }
+  ]
+}

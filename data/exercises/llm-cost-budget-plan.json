@@ -1,0 +1,89 @@
+{
+  "id": "llm-cost-budget-plan",
+  "title": "LLM : tenir un budget mensuel (RAG)",
+  "difficulty": 5,
+  "summary": "Un RAG injecte k chunks par requête. Coût/requête = (tokens_prompt + k*tokens_chunk)*prix_in + tokens_out*prix_out. Estime le coût mensuel (requêtes/mois) et, s'il dépasse le budget, renvoie le LEVIER le plus efficace ('reduce-k'|'smaller-model'|'cache') selon la règle métier ; sinon 'ok'.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "llm",
+    "rag"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def plan(cfg):\n    # cfg: tokens_prompt,tokens_chunk,k,tokens_out,price_in,price_out,rpm,budget,cache_hit\n    # coût mensuel; si > budget -> levier; sinon 'ok'. Voir règle dans le résumé.\n    return 'ok'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def plan(cfg):\n    per = (cfg['tokens_prompt'] + cfg['k'] * cfg['tokens_chunk']) * cfg['price_in'] + cfg['tokens_out'] * cfg['price_out']\n    monthly = per * cfg['rpm']\n    if monthly <= cfg['budget']:\n        return 'ok'\n    # levier: si le contexte domine (>60% du coût d'entrée), reduce-k ; sinon si\n    # un cache aiderait (cache_hit>=0.3), cache ; sinon smaller-model.\n    in_cost = (cfg['tokens_prompt'] + cfg['k'] * cfg['tokens_chunk']) * cfg['price_in']\n    ctx_cost = cfg['k'] * cfg['tokens_chunk'] * cfg['price_in']\n    if in_cost > 0 and ctx_cost / in_cost > 0.6:\n        return 'reduce-k'\n    if cfg.get('cache_hit', 0) >= 0.3:\n        return 'cache'\n    return 'smaller-model'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "contexte domine → reduce-k",
+      "kind": "call-equals",
+      "export": "plan",
+      "args": [
+        {
+          "tokens_prompt": 100,
+          "tokens_chunk": 500,
+          "k": 20,
+          "tokens_out": 100,
+          "price_in": 1,
+          "price_out": 1,
+          "rpm": 1000,
+          "budget": 1000,
+          "cache_hit": 0.5
+        }
+      ],
+      "expected": "reduce-k"
+    },
+    {
+      "id": "t2",
+      "name": "sous budget",
+      "kind": "call-equals",
+      "export": "plan",
+      "args": [
+        {
+          "tokens_prompt": 100,
+          "tokens_chunk": 50,
+          "k": 2,
+          "tokens_out": 50,
+          "price_in": 1,
+          "price_out": 1,
+          "rpm": 1,
+          "budget": 100000,
+          "cache_hit": 0
+        }
+      ],
+      "expected": "ok"
+    },
+    {
+      "id": "t3",
+      "name": "cache aide (privé)",
+      "kind": "call-equals",
+      "export": "plan",
+      "args": [
+        {
+          "tokens_prompt": 900,
+          "tokens_chunk": 10,
+          "k": 1,
+          "tokens_out": 100,
+          "price_in": 1,
+          "price_out": 1,
+          "rpm": 1000,
+          "budget": 1000,
+          "cache_hit": 0.5
+        }
+      ],
+      "expected": "cache",
+      "private": true
+    }
+  ]
+}

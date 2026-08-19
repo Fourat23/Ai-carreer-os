@@ -1,0 +1,107 @@
+{
+  "id": "ml-calibration-ece",
+  "title": "ML : mesurer la sur-confiance (ECE)",
+  "difficulty": 4,
+  "summary": "Un modèle « sûr à 90% » qui n'a raison que 60% du temps est mal calibré. Calcule l'Expected Calibration Error par bacs de largeur 0.2 : moyenne pondérée de |confiance_moyenne - précision| par bac. Renvoie '%.3f'.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "evalia"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import numpy as np\n\ndef ece(probs, labels):\n    # bacs [0,0.2),[0.2,0.4),...,[0.8,1.0]. TODO: ECE '%.3f'\n    return '0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import numpy as np\n\ndef ece(probs, labels):\n    p = np.array(probs, dtype=float)\n    y = np.array(labels, dtype=float)\n    n = len(p)\n    edges = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0001]\n    total = 0.0\n    for lo, hi in zip(edges[:-1], edges[1:]):\n        m = (p >= lo) & (p < hi)\n        if m.sum() == 0:\n            continue\n        conf = p[m].mean()\n        acc = y[m].mean()\n        total += (m.sum() / n) * abs(conf - acc)\n    return f'{total:.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "sur-confiant",
+      "kind": "call-equals",
+      "export": "ece",
+      "args": [
+        [
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected": "0.700"
+    },
+    {
+      "id": "t2",
+      "name": "parfaitement calibré",
+      "kind": "call-equals",
+      "export": "ece",
+      "args": [
+        [
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ]
+      ],
+      "expected": "0.000"
+    },
+    {
+      "id": "t3",
+      "name": "deux bacs (privé)",
+      "kind": "call-equals",
+      "export": "ece",
+      "args": [
+        [
+          0.1,
+          0.1,
+          0.9,
+          0.9
+        ],
+        [
+          0,
+          0,
+          1,
+          0
+        ]
+      ],
+      "expected": "0.250",
+      "private": true
+    }
+  ]
+}

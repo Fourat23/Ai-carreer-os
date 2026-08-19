@@ -1,0 +1,97 @@
+{
+  "id": "llm-structured-output-repair",
+  "title": "LLM : compléter une sortie structurée",
+  "difficulty": 3,
+  "summary": "Un LLM omet des champs OPTIONNELS. Complète la sortie avec les valeurs par défaut du schéma pour les champs manquants (sans écraser les présents). Champ REQUIS absent → lève au lieu de deviner. Renvoie le dict réparé.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "llm",
+    "evalia"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def repair(out, schema):\n    # schema: {field: {required: bool, default?}}. TODO\n    return out\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def repair(out, schema):\n    result = dict(out)\n    for field, spec in schema.items():\n        if field in result:\n            continue\n        if spec.get('required'):\n            raise ValueError('champ requis manquant: ' + field)\n        result[field] = spec.get('default')\n    return result\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "défaut appliqué",
+      "kind": "call-equals",
+      "export": "repair",
+      "args": [
+        {
+          "name": "x"
+        },
+        {
+          "name": {
+            "required": true
+          },
+          "lang": {
+            "required": false,
+            "default": "fr"
+          }
+        }
+      ],
+      "expected": {
+        "name": "x",
+        "lang": "fr"
+      }
+    },
+    {
+      "id": "t2",
+      "name": "présent non écrasé",
+      "kind": "call-equals",
+      "export": "repair",
+      "args": [
+        {
+          "name": "x",
+          "lang": "en"
+        },
+        {
+          "name": {
+            "required": true
+          },
+          "lang": {
+            "required": false,
+            "default": "fr"
+          }
+        }
+      ],
+      "expected": {
+        "name": "x",
+        "lang": "en"
+      }
+    },
+    {
+      "id": "t3",
+      "name": "rien à réparer (privé)",
+      "kind": "call-equals",
+      "export": "repair",
+      "args": [
+        {
+          "a": 1
+        },
+        {
+          "a": {
+            "required": true
+          }
+        }
+      ],
+      "expected": {
+        "a": 1
+      },
+      "private": true
+    }
+  ]
+}

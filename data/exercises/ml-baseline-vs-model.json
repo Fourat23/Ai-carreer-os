@@ -1,0 +1,129 @@
+{
+  "id": "ml-baseline-vs-model",
+  "title": "ML : un modèle bat-il la baseline ?",
+  "difficulty": 3,
+  "summary": "Comparer un modèle à la baseline « classe majoritaire » (DummyClassifier). Renvoie 'no-lift' si l'accuracy du modèle <= baseline, sinon le gain 'lift=+X.XX'. Sans ce recadrage, 0.80 semble bon alors que la baseline fait déjà 0.80.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "evalia"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "from sklearn.dummy import DummyClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n\ndef compare(X, y):\n    # TODO: baseline majoritaire vs LogisticRegression -> 'no-lift' ou 'lift=+X.XX'\n    return 'no-lift'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "from sklearn.dummy import DummyClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n\ndef compare(X, y):\n    base = DummyClassifier(strategy='most_frequent').fit(X, y)\n    b = accuracy_score(y, base.predict(X))\n    m = accuracy_score(y, LogisticRegression().fit(X, y).predict(X))\n    if m <= b:\n        return 'no-lift'\n    return f'lift=+{m-b:.2f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "séparable → lift",
+      "kind": "call-equals",
+      "export": "compare",
+      "args": [
+        [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            10
+          ],
+          [
+            11
+          ],
+          [
+            12
+          ]
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ]
+      ],
+      "expected": "lift=+0.50"
+    },
+    {
+      "id": "t2",
+      "name": "bruit pur → no-lift",
+      "kind": "call-equals",
+      "export": "compare",
+      "args": [
+        [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ],
+        [
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "expected": "no-lift"
+    },
+    {
+      "id": "t3",
+      "name": "léger lift (privé)",
+      "kind": "call-equals",
+      "export": "compare",
+      "args": [
+        [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            10
+          ]
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ]
+      ],
+      "expected": "lift=+0.40",
+      "private": true
+    }
+  ]
+}

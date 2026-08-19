@@ -1,0 +1,70 @@
+{
+  "id": "arch-queue-vs-sync",
+  "title": "Choix : file asynchrone ou synchrone",
+  "difficulty": 4,
+  "summary": "Règle : un travail qui peut être différé, avec des pics de charge et un traitement long, gagne à passer par une FILE (lisse la charge, isole les pannes) ; une réponse dont l'appelant a besoin immédiatement doit rester synchrone. Renvoie 'queue' si canDefer && (spiky || longRunning), sinon 'sync'.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ canDefer, spiky, longRunning }) {\n  // TODO: 'queue' | 'sync'\n  return 'sync';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ canDefer, spiky, longRunning }) {\n  return (canDefer && (spiky || longRunning)) ? 'queue' : 'sync';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "envoi d’email en pic",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "canDefer": true,
+          "spiky": true,
+          "longRunning": false
+        }
+      ],
+      "expected": "queue"
+    },
+    {
+      "id": "t2",
+      "name": "réponse immédiate requise",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "canDefer": false,
+          "spiky": true,
+          "longRunning": true
+        }
+      ],
+      "expected": "sync"
+    },
+    {
+      "id": "t3",
+      "name": "différable mais court/stable (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "canDefer": true,
+          "spiky": false,
+          "longRunning": false
+        }
+      ],
+      "expected": "sync",
+      "private": true
+    }
+  ]
+}

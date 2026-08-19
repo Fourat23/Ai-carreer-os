@@ -1,0 +1,83 @@
+{
+  "id": "agent-transition-guard",
+  "title": "Agent : valider une transition d’état",
+  "difficulty": 3,
+  "summary": "Un agent suit une machine à états. Étant donné les transitions autorisées {from: [to...]}, renvoie 'ok' si (from→to) est permis, sinon 'invalid'. Empêche les sauts d'état incohérents (ex. agir avant d'avoir planifié).",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "agents",
+    "se"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function canTransition(from, to, allowed) {\n  // allowed: { [from]: [to...] }. TODO: 'ok' | 'invalid'\n  return 'invalid';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function canTransition(from, to, allowed) {\n  const outs = allowed[from] || [];\n  return outs.includes(to) ? 'ok' : 'invalid';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "plan→act ok",
+      "kind": "call-equals",
+      "export": "canTransition",
+      "args": [
+        "plan",
+        "act",
+        {
+          "plan": [
+            "act"
+          ],
+          "act": [
+            "observe"
+          ]
+        }
+      ],
+      "expected": "ok"
+    },
+    {
+      "id": "t2",
+      "name": "saut interdit",
+      "kind": "call-equals",
+      "export": "canTransition",
+      "args": [
+        "idle",
+        "act",
+        {
+          "idle": [
+            "plan"
+          ],
+          "plan": [
+            "act"
+          ]
+        }
+      ],
+      "expected": "invalid"
+    },
+    {
+      "id": "t3",
+      "name": "état inconnu (privé)",
+      "kind": "call-equals",
+      "export": "canTransition",
+      "args": [
+        "ghost",
+        "act",
+        {
+          "plan": [
+            "act"
+          ]
+        }
+      ],
+      "expected": "invalid",
+      "private": true
+    }
+  ]
+}

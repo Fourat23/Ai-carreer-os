@@ -1,0 +1,85 @@
+{
+  "id": "llm-tool-route",
+  "title": "LLM : router vers le bon outil",
+  "difficulty": 4,
+  "summary": "Choisir l'outil dont le plus grand nombre de mots-clés apparaissent dans la requête ; 'none' si aucun ne matche. En cas d'égalité, l'outil au nom alphabétiquement premier. Un mauvais routage déclenche une action hors sujet.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "agents",
+    "llm"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def route(query, tools):\n    # tools: {name: [keywords]}. TODO: outil au plus de mots-clés matchés, sinon 'none'\n    return 'none'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def route(query, tools):\n    low = query.lower()\n    best, best_n = 'none', 0\n    for name in sorted(tools):\n        n = sum(1 for k in tools[name] if k.lower() in low)\n        if n > best_n:\n            best, best_n = name, n\n    return best\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "météo",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        "Quel temps fait-il et la température demain ?",
+        {
+          "weather": [
+            "temps",
+            "température"
+          ],
+          "calc": [
+            "addition",
+            "somme"
+          ]
+        }
+      ],
+      "expected": "weather"
+    },
+    {
+      "id": "t2",
+      "name": "aucun",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        "Raconte une blague",
+        {
+          "weather": [
+            "temps"
+          ],
+          "calc": [
+            "somme"
+          ]
+        }
+      ],
+      "expected": "none"
+    },
+    {
+      "id": "t3",
+      "name": "égalité → alpha (privé)",
+      "kind": "call-equals",
+      "export": "route",
+      "args": [
+        "somme et temps",
+        {
+          "weather": [
+            "temps"
+          ],
+          "calc": [
+            "somme"
+          ]
+        }
+      ],
+      "expected": "calc",
+      "private": true
+    }
+  ]
+}

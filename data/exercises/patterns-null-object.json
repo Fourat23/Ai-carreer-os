@@ -1,0 +1,68 @@
+{
+  "id": "patterns-null-object",
+  "title": "Choix : Null Object ou null",
+  "difficulty": 3,
+  "summary": "Règle : si les appelants répètent le même null-check pour un comportement « ne rien faire », un Null Object supprime les branches ; si l'absence exige un traitement distinct, garder null explicite. Renvoie 'null-object' si repeatedNullChecks && !absenceIsMeaningful, sinon 'keep-null'.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "patterns",
+    "archi"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ repeatedNullChecks, absenceIsMeaningful }) {\n  // TODO: 'null-object' | 'keep-null'\n  return 'keep-null';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ repeatedNullChecks, absenceIsMeaningful }) {\n  return (repeatedNullChecks && !absenceIsMeaningful) ? 'null-object' : 'keep-null';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "checks répétés",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "repeatedNullChecks": true,
+          "absenceIsMeaningful": false
+        }
+      ],
+      "expected": "null-object"
+    },
+    {
+      "id": "t2",
+      "name": "absence signifiante",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "repeatedNullChecks": true,
+          "absenceIsMeaningful": true
+        }
+      ],
+      "expected": "keep-null"
+    },
+    {
+      "id": "t3",
+      "name": "pas de répétition (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "repeatedNullChecks": false,
+          "absenceIsMeaningful": false
+        }
+      ],
+      "expected": "keep-null",
+      "private": true
+    }
+  ]
+}

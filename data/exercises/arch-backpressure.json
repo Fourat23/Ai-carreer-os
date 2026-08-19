@@ -1,0 +1,67 @@
+{
+  "id": "arch-backpressure",
+  "title": "Choix : gérer un producteur trop rapide",
+  "difficulty": 4,
+  "summary": "Règle : si le producteur dépasse durablement le consommateur avec mémoire BORNÉE, il faut soit ralentir la source ('backpressure') si elle est contrôlable, soit 'drop' (échantillonner/jeter) si les données sont périssables, soit 'scale' le consommateur si la charge est légitime et durable. Décision : sourceControllable, dataPerishable.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ sourceControllable, dataPerishable }) {\n  // TODO: 'backpressure' | 'drop' | 'scale'\n  return 'scale';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ sourceControllable, dataPerishable }) {\n  if (sourceControllable) return 'backpressure';\n  if (dataPerishable) return 'drop';\n  return 'scale';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "source contrôlable",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "sourceControllable": true,
+          "dataPerishable": false
+        }
+      ],
+      "expected": "backpressure"
+    },
+    {
+      "id": "t2",
+      "name": "métriques périssables",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "sourceControllable": false,
+          "dataPerishable": true
+        }
+      ],
+      "expected": "drop"
+    },
+    {
+      "id": "t3",
+      "name": "charge légitime (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "sourceControllable": false,
+          "dataPerishable": false
+        }
+      ],
+      "expected": "scale",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "id": "rag-retrieval-vs-generation",
+  "title": "RAG : localiser l’étage fautif",
+  "difficulty": 4,
+  "summary": "Une mauvaise réponse RAG vient soit du RETRIEVAL (le bon chunk n'est pas remonté), soit de la GÉNÉRATION (bon chunk remonté mais réponse non ancrée). Renvoie 'retrieval' | 'generation' | 'ok' selon (gold_retrieved, grounded).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag",
+    "evalia"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def diagnose(gold_retrieved, grounded):\n    # TODO: 'ok' si les deux vrais; 'retrieval' si gold pas remonté; sinon 'generation'\n    return 'ok'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def diagnose(gold_retrieved, grounded):\n    if not gold_retrieved:\n        return 'retrieval'\n    if not grounded:\n        return 'generation'\n    return 'ok'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "gold absent",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        false,
+        false
+      ],
+      "expected": "retrieval"
+    },
+    {
+      "id": "t2",
+      "name": "gold là, non ancré",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        true,
+        false
+      ],
+      "expected": "generation"
+    },
+    {
+      "id": "t3",
+      "name": "tout bon (privé)",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        true,
+        true
+      ],
+      "expected": "ok",
+      "private": true
+    }
+  ]
+}

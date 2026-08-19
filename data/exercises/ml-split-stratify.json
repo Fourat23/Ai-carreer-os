@@ -1,0 +1,86 @@
+{
+  "id": "ml-split-stratify",
+  "title": "ML : un split naïf perd-il une classe ?",
+  "difficulty": 4,
+  "summary": "Sur un jeu déséquilibré, un split proportionnel peut allouer ZÉRO exemple d'une classe rare au test (part attendue < 1). Renvoie 'stratify' si une classe risque d'être absente du test (count*test_size < 1), sinon 'ok'. Décision de conception avant d'évaluer.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "ml"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def need_stratify(y, test_size):\n    # 'stratify' si une classe a count*test_size < 1 (risque d'absence au test)\n    return 'ok'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def need_stratify(y, test_size):\n    counts = {}\n    for c in y:\n        counts[c] = counts.get(c, 0) + 1\n    for c, n in counts.items():\n        if n * test_size < 1:\n            return 'stratify'\n    return 'ok'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "minorité (1/8) perdue à 25%",
+      "kind": "call-equals",
+      "export": "need_stratify",
+      "args": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        0.25
+      ],
+      "expected": "stratify"
+    },
+    {
+      "id": "t2",
+      "name": "équilibré à 50%",
+      "kind": "call-equals",
+      "export": "need_stratify",
+      "args": [
+        [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        0.5
+      ],
+      "expected": "ok"
+    },
+    {
+      "id": "t3",
+      "name": "classe rare mais test large (privé)",
+      "kind": "call-equals",
+      "export": "need_stratify",
+      "args": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        0.5
+      ],
+      "expected": "ok",
+      "private": true
+    }
+  ]
+}

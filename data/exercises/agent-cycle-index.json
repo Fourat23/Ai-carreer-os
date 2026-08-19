@@ -1,0 +1,89 @@
+{
+  "id": "agent-cycle-index",
+  "title": "Agent : détecter une boucle",
+  "difficulty": 4,
+  "summary": "Un agent qui répète le même couple (état, action) tourne en rond. Renvoie l'index (0-based) de la PREMIÈRE répétition d'un couple déjà vu, ou -1 si aucune. Sans garde-boucle, l'agent consomme le budget indéfiniment.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "agents"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function firstRepeat(steps) {\n  // steps: [{state, action}]. TODO: index de la 1re répétition d'un (state,action) déjà vu, sinon -1\n  return -1;\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function firstRepeat(steps) {\n  const seen = new Set();\n  for (let i = 0; i < steps.length; i++) {\n    const key = steps[i].state + '|' + steps[i].action;\n    if (seen.has(key)) return i;\n    seen.add(key);\n  }\n  return -1;\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "répétition en 2",
+      "kind": "call-equals",
+      "export": "firstRepeat",
+      "args": [
+        [
+          {
+            "state": "s1",
+            "action": "search"
+          },
+          {
+            "state": "s2",
+            "action": "read"
+          },
+          {
+            "state": "s1",
+            "action": "search"
+          }
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "progresse",
+      "kind": "call-equals",
+      "export": "firstRepeat",
+      "args": [
+        [
+          {
+            "state": "s1",
+            "action": "a"
+          },
+          {
+            "state": "s2",
+            "action": "b"
+          }
+        ]
+      ],
+      "expected": -1
+    },
+    {
+      "id": "t3",
+      "name": "même état action diff (privé)",
+      "kind": "call-equals",
+      "export": "firstRepeat",
+      "args": [
+        [
+          {
+            "state": "s1",
+            "action": "a"
+          },
+          {
+            "state": "s1",
+            "action": "b"
+          }
+        ]
+      ],
+      "expected": -1,
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "id": "arch-circuit-breaker",
+  "title": "Choix : circuit breaker, retry ou fail-fast",
+  "difficulty": 5,
+  "summary": "Règle : face à une dépendance en panne, si les tentatives AMPLIFIENT la charge sur un service déjà à terre, ouvrir un 'circuit-breaker' (couper, laisser respirer) ; si la panne est transitoire ET isolée (pas d'amplification), 'retry' avec backoff ; si aucune valeur à réessayer et pas de repli, 'fail-fast'. Décision : failing, retriesAmplify, transient.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi",
+    "se"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ failing, retriesAmplify, transient }) {\n  // TODO: 'circuit-breaker' | 'retry' | 'fail-fast'\n  return 'fail-fast';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ failing, retriesAmplify, transient }) {\n  if (!failing) return 'fail-fast';\n  if (retriesAmplify) return 'circuit-breaker';\n  if (transient) return 'retry';\n  return 'fail-fast';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "retries aggravent",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "failing": true,
+          "retriesAmplify": true,
+          "transient": true
+        }
+      ],
+      "expected": "circuit-breaker"
+    },
+    {
+      "id": "t2",
+      "name": "transitoire isolé",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "failing": true,
+          "retriesAmplify": false,
+          "transient": true
+        }
+      ],
+      "expected": "retry"
+    },
+    {
+      "id": "t3",
+      "name": "panne dure non amplifiante (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "failing": true,
+          "retriesAmplify": false,
+          "transient": false
+        }
+      ],
+      "expected": "fail-fast",
+      "private": true
+    }
+  ]
+}

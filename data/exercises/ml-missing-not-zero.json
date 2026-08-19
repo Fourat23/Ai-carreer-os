@@ -1,0 +1,72 @@
+{
+  "id": "ml-missing-not-zero",
+  "title": "ML : imputer par 0 fausse la moyenne",
+  "difficulty": 3,
+  "summary": "Remplacer les valeurs manquantes par 0 tire la moyenne vers le bas. Renvoie 'zero=.. skip=..' (2 déc.) : la moyenne en imputant 0 VS en ignorant les NaN, pour montrer le biais introduit.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "python"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import pandas as pd\n\ndef means(values):\n    # values: liste avec des None. TODO: 'zero=.. skip=..'\n    return 'zero=0.00 skip=0.00'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import pandas as pd\n\ndef means(values):\n    s = pd.Series(values, dtype='float')\n    zero = s.fillna(0).mean()\n    skip = s.mean()\n    return f'zero={zero:.2f} skip={skip:.2f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "deux NaN",
+      "kind": "call-equals",
+      "export": "means",
+      "args": [
+        [
+          10,
+          20,
+          null,
+          null
+        ]
+      ],
+      "expected": "zero=7.50 skip=15.00"
+    },
+    {
+      "id": "t2",
+      "name": "aucun NaN",
+      "kind": "call-equals",
+      "export": "means",
+      "args": [
+        [
+          4,
+          6
+        ]
+      ],
+      "expected": "zero=5.00 skip=5.00"
+    },
+    {
+      "id": "t3",
+      "name": "un NaN (privé)",
+      "kind": "call-equals",
+      "export": "means",
+      "args": [
+        [
+          9,
+          null,
+          9
+        ]
+      ],
+      "expected": "zero=6.00 skip=9.00",
+      "private": true
+    }
+  ]
+}

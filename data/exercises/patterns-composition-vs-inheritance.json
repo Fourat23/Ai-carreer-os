@@ -1,0 +1,68 @@
+{
+  "id": "patterns-composition-vs-inheritance",
+  "title": "Choix : composition ou héritage",
+  "difficulty": 3,
+  "summary": "Règle : héritage seulement pour une vraie relation « est-un » STABLE ; si le comportement VARIE selon plusieurs axes ou change souvent, préférer la composition. Renvoie 'inheritance' si isA && !behaviorVaries, sinon 'composition'.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "patterns",
+    "archi"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ isA, behaviorVaries }) {\n  // TODO: 'inheritance' | 'composition'\n  return 'composition';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ isA, behaviorVaries }) {\n  return (isA && !behaviorVaries) ? 'inheritance' : 'composition';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "est-un stable",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "isA": true,
+          "behaviorVaries": false
+        }
+      ],
+      "expected": "inheritance"
+    },
+    {
+      "id": "t2",
+      "name": "comportement varie",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "isA": true,
+          "behaviorVaries": true
+        }
+      ],
+      "expected": "composition"
+    },
+    {
+      "id": "t3",
+      "name": "pas est-un (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "isA": false,
+          "behaviorVaries": false
+        }
+      ],
+      "expected": "composition",
+      "private": true
+    }
+  ]
+}

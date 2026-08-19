@@ -1,0 +1,68 @@
+{
+  "id": "arch-transactional-outbox",
+  "title": "Choix : publier un événement de façon fiable",
+  "difficulty": 5,
+  "summary": "Règle : écrire en base ET publier un événement doivent être atomiques. Le 'dual-write' (écrire puis publier) perd des événements si le process meurt entre les deux. Si un bus est présent et la cohérence exigée, utiliser l'« outbox » (événement écrit dans la même transaction, relayé ensuite). Si aucun consommateur ne dépend de l'événement, 'none'. Décision : needsEvent, mustNotLose.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi",
+    "se"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ needsEvent, mustNotLose }) {\n  // TODO: 'outbox' | 'dual-write' | 'none'\n  return 'none';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ needsEvent, mustNotLose }) {\n  if (!needsEvent) return 'none';\n  return mustNotLose ? 'outbox' : 'dual-write';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "cohérence exigée",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "needsEvent": true,
+          "mustNotLose": true
+        }
+      ],
+      "expected": "outbox"
+    },
+    {
+      "id": "t2",
+      "name": "pas d’événement",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "needsEvent": false,
+          "mustNotLose": true
+        }
+      ],
+      "expected": "none"
+    },
+    {
+      "id": "t3",
+      "name": "perte tolérable (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "needsEvent": true,
+          "mustNotLose": false
+        }
+      ],
+      "expected": "dual-write",
+      "private": true
+    }
+  ]
+}

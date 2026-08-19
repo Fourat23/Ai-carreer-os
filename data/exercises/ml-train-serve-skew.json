@@ -1,0 +1,117 @@
+{
+  "id": "ml-train-serve-skew",
+  "title": "ML : détecter un décalage train/serving",
+  "difficulty": 4,
+  "summary": "Une feature encodée/échelonnée différemment à l'entraînement et en production dégrade silencieusement le modèle. Compare moyennes par colonne ; renvoie la liste TRIÉE des colonnes dont |moyenne_train - moyenne_serve| > tol.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "ml",
+    "python"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import pandas as pd\n\ndef skewed(train, serve, tol):\n    # TODO: colonnes num. communes dont |mean_train-mean_serve|>tol, triées.\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import pandas as pd\n\ndef skewed(train, serve, tol):\n    a = pd.DataFrame(train).select_dtypes('number')\n    b = pd.DataFrame(serve).select_dtypes('number')\n    out = []\n    for c in a.columns:\n        if c in b.columns and abs(a[c].mean() - b[c].mean()) > tol:\n            out.append(c)\n    return sorted(out)\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "income x1000 en prod",
+      "kind": "call-equals",
+      "export": "skewed",
+      "args": [
+        [
+          {
+            "income": 5,
+            "age": 30
+          },
+          {
+            "income": 7,
+            "age": 40
+          }
+        ],
+        [
+          {
+            "income": 5000,
+            "age": 31
+          },
+          {
+            "income": 7000,
+            "age": 39
+          }
+        ],
+        1
+      ],
+      "expected": [
+        "income"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "aligné",
+      "kind": "call-equals",
+      "export": "skewed",
+      "args": [
+        [
+          {
+            "a": 1,
+            "b": 10
+          },
+          {
+            "a": 3,
+            "b": 12
+          }
+        ],
+        [
+          {
+            "a": 1,
+            "b": 11
+          },
+          {
+            "a": 3,
+            "b": 11
+          }
+        ],
+        1
+      ],
+      "expected": []
+    },
+    {
+      "id": "t3",
+      "name": "deux colonnes (privé)",
+      "kind": "call-equals",
+      "export": "skewed",
+      "args": [
+        [
+          {
+            "a": 0,
+            "b": 0
+          }
+        ],
+        [
+          {
+            "a": 5,
+            "b": 9
+          }
+        ],
+        1
+      ],
+      "expected": [
+        "a",
+        "b"
+      ],
+      "private": true
+    }
+  ]
+}

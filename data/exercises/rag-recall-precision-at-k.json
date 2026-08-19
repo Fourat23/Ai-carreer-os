@@ -1,0 +1,85 @@
+{
+  "id": "rag-recall-precision-at-k",
+  "title": "RAG : recall@k et precision@k",
+  "difficulty": 3,
+  "summary": "MESURER avant de conclure. Sur les k premiers résultats et l'ensemble des documents pertinents, renvoie 'r=.. p=..' (2 déc.) : recall@k = pertinents_dans_topk / pertinents_total ; precision@k = pertinents_dans_topk / k.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "rag",
+    "evalia"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def metrics_at_k(retrieved, relevant, k):\n    # retrieved: liste ordonnée; relevant: ensemble (liste). TODO 'r=.. p=..'\n    return 'r=0.00 p=0.00'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def metrics_at_k(retrieved, relevant, k):\n    topk = retrieved[:k]\n    rel = set(relevant)\n    hit = sum(1 for d in topk if d in rel)\n    r = hit / len(rel) if rel else 0.0\n    p = hit / k if k else 0.0\n    return f'r={r:.2f} p={p:.2f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "2 pertinents sur 3, top3",
+      "kind": "call-equals",
+      "export": "metrics_at_k",
+      "args": [
+        [
+          "a",
+          "x",
+          "b",
+          "y"
+        ],
+        [
+          "a",
+          "b",
+          "c"
+        ],
+        3
+      ],
+      "expected": "r=0.67 p=0.67"
+    },
+    {
+      "id": "t2",
+      "name": "parfait",
+      "kind": "call-equals",
+      "export": "metrics_at_k",
+      "args": [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "a",
+          "b"
+        ],
+        2
+      ],
+      "expected": "r=1.00 p=1.00"
+    },
+    {
+      "id": "t3",
+      "name": "rien de pertinent (privé)",
+      "kind": "call-equals",
+      "export": "metrics_at_k",
+      "args": [
+        [
+          "x",
+          "y"
+        ],
+        [
+          "a"
+        ],
+        2
+      ],
+      "expected": "r=0.00 p=0.00",
+      "private": true
+    }
+  ]
+}

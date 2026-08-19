@@ -1,0 +1,67 @@
+{
+  "id": "arch-cqrs-when",
+  "title": "Choix : séparer lecture et écriture (CQRS) ?",
+  "difficulty": 5,
+  "summary": "Règle (contre la sur-ingénierie) : ne séparer les modèles lecture/écriture que si les charges lecture et écriture divergent FORTEMENT et que les modèles de lecture sont réellement différents ; sinon un modèle unique reste plus simple et suffisant. Renvoie 'cqrs' si loadAsymmetryHigh && readModelsDiffer, sinon 'single-model'.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ loadAsymmetryHigh, readModelsDiffer }) {\n  // TODO: 'cqrs' | 'single-model'\n  return 'single-model';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ loadAsymmetryHigh, readModelsDiffer }) {\n  return (loadAsymmetryHigh && readModelsDiffer) ? 'cqrs' : 'single-model';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "asymétrie + modèles distincts",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "loadAsymmetryHigh": true,
+          "readModelsDiffer": true
+        }
+      ],
+      "expected": "cqrs"
+    },
+    {
+      "id": "t2",
+      "name": "charge symétrique",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "loadAsymmetryHigh": false,
+          "readModelsDiffer": true
+        }
+      ],
+      "expected": "single-model"
+    },
+    {
+      "id": "t3",
+      "name": "asymétrique mais même modèle (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "loadAsymmetryHigh": true,
+          "readModelsDiffer": false
+        }
+      ],
+      "expected": "single-model",
+      "private": true
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "id": "agent-excessive-agency",
+  "title": "Agent : garde-fou d’agence excessive",
+  "difficulty": 5,
+  "summary": "Un agent ne doit pas exécuter d'action à fort impact sans contrôle. Selon la politique (allowlist, ensemble nécessitant approbation), renvoie 'block' si l'action n'est pas permise, 'needs-approval' si elle requiert une validation humaine, sinon 'allow'. L'ordre de priorité est block > needs-approval > allow.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "agents",
+    "secu"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function guard(action, policy) {\n  // policy: { allowed: [..], needsApproval: [..] }\n  // TODO: 'block' | 'needs-approval' | 'allow' (priorité block > needs-approval > allow)\n  return 'allow';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function guard(action, policy) {\n  const allowed = new Set(policy.allowed || []);\n  const gated = new Set(policy.needsApproval || []);\n  if (!allowed.has(action)) return 'block';\n  if (gated.has(action)) return 'needs-approval';\n  return 'allow';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "hors allowlist → block",
+      "kind": "call-equals",
+      "export": "guard",
+      "args": [
+        "delete_db",
+        {
+          "allowed": [
+            "read",
+            "search"
+          ],
+          "needsApproval": []
+        }
+      ],
+      "expected": "block"
+    },
+    {
+      "id": "t2",
+      "name": "sensible → approbation",
+      "kind": "call-equals",
+      "export": "guard",
+      "args": [
+        "send_email",
+        {
+          "allowed": [
+            "read",
+            "send_email"
+          ],
+          "needsApproval": [
+            "send_email"
+          ]
+        }
+      ],
+      "expected": "needs-approval"
+    },
+    {
+      "id": "t3",
+      "name": "sûr → allow (privé)",
+      "kind": "call-equals",
+      "export": "guard",
+      "args": [
+        "read",
+        {
+          "allowed": [
+            "read"
+          ],
+          "needsApproval": [
+            "send_email"
+          ]
+        }
+      ],
+      "expected": "allow",
+      "private": true
+    }
+  ]
+}

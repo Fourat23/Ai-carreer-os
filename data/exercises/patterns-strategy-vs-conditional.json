@@ -1,0 +1,68 @@
+{
+  "id": "patterns-strategy-vs-conditional",
+  "title": "Choix : strategy ou simple if",
+  "difficulty": 3,
+  "summary": "Règle : un simple if/switch suffit pour 2 variantes stables ; au-delà de 3 variantes OU si elles changent souvent, extraire une table de stratégies. Renvoie 'strategy' si variants>3 || changesOften, sinon 'inline-if'.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "patterns",
+    "archi"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ variants, changesOften }) {\n  // TODO: 'strategy' | 'inline-if'\n  return 'inline-if';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ variants, changesOften }) {\n  return (variants > 3 || changesOften) ? 'strategy' : 'inline-if';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "5 variantes",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "variants": 5,
+          "changesOften": false
+        }
+      ],
+      "expected": "strategy"
+    },
+    {
+      "id": "t2",
+      "name": "2 stables",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "variants": 2,
+          "changesOften": false
+        }
+      ],
+      "expected": "inline-if"
+    },
+    {
+      "id": "t3",
+      "name": "peu mais changeant (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "variants": 2,
+          "changesOften": true
+        }
+      ],
+      "expected": "strategy",
+      "private": true
+    }
+  ]
+}

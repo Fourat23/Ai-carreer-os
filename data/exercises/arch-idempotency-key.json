@@ -1,0 +1,71 @@
+{
+  "id": "arch-idempotency-key",
+  "title": "Choix : exiger une clé d’idempotence",
+  "difficulty": 4,
+  "summary": "Règle : une opération qui MODIFIE l'état et peut être réémise (retry réseau, webhook rejoué) doit exiger une clé d'idempotence ; une lecture pure ou une opération déjà naturellement idempotente n'en a pas besoin. Renvoie 'idempotency-key' si mutating && retriable && !naturallyIdempotent, sinon 'not-needed'.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi",
+    "se"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ mutating, retriable, naturallyIdempotent }) {\n  // TODO: 'idempotency-key' | 'not-needed'\n  return 'not-needed';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ mutating, retriable, naturallyIdempotent }) {\n  return (mutating && retriable && !naturallyIdempotent) ? 'idempotency-key' : 'not-needed';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "paiement rejoué",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "mutating": true,
+          "retriable": true,
+          "naturallyIdempotent": false
+        }
+      ],
+      "expected": "idempotency-key"
+    },
+    {
+      "id": "t2",
+      "name": "lecture",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "mutating": false,
+          "retriable": true,
+          "naturallyIdempotent": false
+        }
+      ],
+      "expected": "not-needed"
+    },
+    {
+      "id": "t3",
+      "name": "PUT idempotent (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "mutating": true,
+          "retriable": true,
+          "naturallyIdempotent": true
+        }
+      ],
+      "expected": "not-needed",
+      "private": true
+    }
+  ]
+}

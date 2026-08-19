@@ -1,0 +1,112 @@
+{
+  "id": "llm-context-budget-truncate",
+  "title": "LLM : tenir le budget de contexte",
+  "difficulty": 4,
+  "summary": "La fenêtre est limitée. Garde TOUJOURS le message système, puis les plus RÉCENTS qui tiennent dans le budget restant (coût par message fourni). Renvoie la liste des ids gardés dans l'ordre d'origine. Décision sous contrainte, pas troncature aveugle.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "llm"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def fit_context(messages, max_tokens):\n    # messages: [{id, role, tokens}] ordre chronologique. system toujours gardé.\n    # TODO: garder system + plus récents qui tiennent -> ids en ordre d'origine\n    return []\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def fit_context(messages, max_tokens):\n    system = [m for m in messages if m['role'] == 'system']\n    used = sum(m['tokens'] for m in system)\n    kept = set(m['id'] for m in system)\n    for m in reversed(messages):\n        if m['role'] == 'system':\n            continue\n        if used + m['tokens'] <= max_tokens:\n            used += m['tokens']\n            kept.add(m['id'])\n    return [m['id'] for m in messages if m['id'] in kept]\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "garde system + récents",
+      "kind": "call-equals",
+      "export": "fit_context",
+      "args": [
+        [
+          {
+            "id": "s",
+            "role": "system",
+            "tokens": 10
+          },
+          {
+            "id": "a",
+            "role": "user",
+            "tokens": 50
+          },
+          {
+            "id": "b",
+            "role": "assistant",
+            "tokens": 50
+          },
+          {
+            "id": "c",
+            "role": "user",
+            "tokens": 30
+          }
+        ],
+        70
+      ],
+      "expected": [
+        "s",
+        "c"
+      ]
+    },
+    {
+      "id": "t2",
+      "name": "tout tient",
+      "kind": "call-equals",
+      "export": "fit_context",
+      "args": [
+        [
+          {
+            "id": "s",
+            "role": "system",
+            "tokens": 5
+          },
+          {
+            "id": "a",
+            "role": "user",
+            "tokens": 5
+          }
+        ],
+        100
+      ],
+      "expected": [
+        "s",
+        "a"
+      ]
+    },
+    {
+      "id": "t3",
+      "name": "système seul si budget serré (privé)",
+      "kind": "call-equals",
+      "export": "fit_context",
+      "args": [
+        [
+          {
+            "id": "s",
+            "role": "system",
+            "tokens": 90
+          },
+          {
+            "id": "a",
+            "role": "user",
+            "tokens": 50
+          }
+        ],
+        100
+      ],
+      "expected": [
+        "s"
+      ],
+      "private": true
+    }
+  ]
+}

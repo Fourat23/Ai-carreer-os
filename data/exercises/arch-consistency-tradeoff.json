@@ -1,0 +1,64 @@
+{
+  "id": "arch-consistency-tradeoff",
+  "title": "Choix : AP ou CP sous partition réseau",
+  "difficulty": 5,
+  "summary": "Règle (CAP) : en cas de partition réseau, un système ne peut garantir à la fois cohérence et disponibilité. Si une réponse périmée est DANGEREUSE (solde bancaire, stock unique), choisir la cohérence ('CP', refuser plutôt que mentir) ; si l'indisponibilité est pire qu'une donnée légèrement périmée (fil d'actualité, panier), choisir la disponibilité ('AP'). Décision : staleReadHarmful.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "archi"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function choose({ staleReadHarmful }) {\n  // TODO: 'CP' | 'AP'\n  return 'AP';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function choose({ staleReadHarmful }) {\n  return staleReadHarmful ? 'CP' : 'AP';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "solde bancaire",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "staleReadHarmful": true
+        }
+      ],
+      "expected": "CP"
+    },
+    {
+      "id": "t2",
+      "name": "fil d’actualité",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "staleReadHarmful": false
+        }
+      ],
+      "expected": "AP"
+    },
+    {
+      "id": "t3",
+      "name": "stock unique (privé)",
+      "kind": "call-equals",
+      "export": "choose",
+      "args": [
+        {
+          "staleReadHarmful": true
+        }
+      ],
+      "expected": "CP",
+      "private": true
+    }
+  ]
+}

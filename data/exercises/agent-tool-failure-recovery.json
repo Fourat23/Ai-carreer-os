@@ -1,0 +1,68 @@
+{
+  "id": "agent-tool-failure-recovery",
+  "title": "Agent : récupérer d’un échec d’outil",
+  "difficulty": 4,
+  "summary": "Décision sous contrainte : si des tentatives restent → 'retry' ; sinon si un outil de repli existe → 'fallback' ; sinon → 'abort'. Un agent qui réessaie sans limite bloque ; un agent qui abandonne trop tôt échoue inutilement.",
+  "runtime": "node-js",
+  "language": "javascript",
+  "skills": [
+    "agents",
+    "se"
+  ],
+  "sprint": "v48",
+  "activeFile": "solution.mjs",
+  "workspace": {
+    "entry": "solution.mjs",
+    "files": [
+      {
+        "path": "solution.mjs",
+        "content": "export function recover({ attemptsLeft, hasFallback }) {\n  // TODO: 'retry' | 'fallback' | 'abort'\n  return 'abort';\n}\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.mjs": "export function recover({ attemptsLeft, hasFallback }) {\n  if (attemptsLeft > 0) return 'retry';\n  if (hasFallback) return 'fallback';\n  return 'abort';\n}\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "tentatives restantes",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "attemptsLeft": 2,
+          "hasFallback": true
+        }
+      ],
+      "expected": "retry"
+    },
+    {
+      "id": "t2",
+      "name": "plus de tentative, repli",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "attemptsLeft": 0,
+          "hasFallback": true
+        }
+      ],
+      "expected": "fallback"
+    },
+    {
+      "id": "t3",
+      "name": "rien (privé)",
+      "kind": "call-equals",
+      "export": "recover",
+      "args": [
+        {
+          "attemptsLeft": 0,
+          "hasFallback": false
+        }
+      ],
+      "expected": "abort",
+      "private": true
+    }
+  ]
+}

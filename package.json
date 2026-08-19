@@ -44,7 +44,8 @@
     "v43:check": "node scripts/v43-check.mjs",
     "v44:check": "node scripts/v44-check.mjs",
     "v46:check": "node scripts/v46-check.mjs",
-    "v47:check": "node scripts/v47-check.mjs"
+    "v47:check": "node scripts/v47-check.mjs",
+    "v48:check": "node scripts/v48-check.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",

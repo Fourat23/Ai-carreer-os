@@ -1,0 +1,251 @@
+{
+  "id": "legacy-service-refactor",
+  "title": "Architecture : refactor gouverné d’un service historique",
+  "domain": "Architecture / Refactor",
+  "difficulty": 5,
+  "estimatedMinutes": 50,
+  "skills": [
+    "archi",
+    "patterns",
+    "se"
+  ],
+  "lessonRefs": [
+    "refactoring-legacy-code",
+    "architecture-basics",
+    "design-patterns-intro"
+  ],
+  "exerciseRefs": [
+    "arch-repository-boundary",
+    "patterns-strategy-vs-conditional",
+    "arch-idempotency-key",
+    "arch-transactional-outbox"
+  ],
+  "playbookRefs": [],
+  "dayRefs": [],
+  "simulationNote": "Code et contraintes fournis, déterministes.",
+  "passThreshold": 0.7,
+  "context": "Un service de commandes de 4000 lignes concentre tout dans un `switch(type)` géant, accède à la base directement depuis les contrôleurs, et publie un événement « commande payée » APRÈS le commit (parfois perdu si le process meurt). On vous demande de le rendre maintenable sans tout réécrire.",
+  "signal": "3 incidents en un mois : un webhook de paiement rejoué a créé une double commande ; un événement « payée » perdu a bloqué l’expédition ; ajouter un 6e type de commande a cassé deux autres.",
+  "artifacts": [
+    {
+      "id": "switch",
+      "kind": "code",
+      "title": "Le switch géant (extrait simulé)",
+      "useful": true,
+      "content": "switch(type){ case 'std': /*80 lignes*/ case 'gift': /*70*/ case 'sub': /*90*/ ... } // ajouter un type oblige à toucher ce bloc partagé"
+    },
+    {
+      "id": "dao",
+      "kind": "code",
+      "title": "Accès base dans le contrôleur (simulé)",
+      "useful": true,
+      "content": "OrderController: db.query('INSERT ...'); db.query('SELECT ...'); // SQL dispersé dans 7 contrôleurs, impossible à tester sans base"
+    },
+    {
+      "id": "publish",
+      "kind": "code",
+      "title": "Publication d’événement (simulée)",
+      "useful": true,
+      "content": "await db.commit(order);\nawait bus.publish('order.paid', order.id); // si crash entre les deux : événement perdu"
+    },
+    {
+      "id": "retry",
+      "kind": "log",
+      "title": "Webhook de paiement (simulé)",
+      "useful": true,
+      "content": "Le fournisseur RÉÉMET le webhook 'payment.succeeded' en cas de timeout. handlePayment crée une nouvelle commande à chaque appel (pas de clé d’idempotence)."
+    },
+    {
+      "id": "style",
+      "kind": "ci",
+      "title": "Rapport de style (simulé)",
+      "useful": false,
+      "content": "Lint : 42 avertissements de style (indentation, guillemets). Aucune erreur bloquante."
+    }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Trois familles d’incidents. Où sont les vraies faiblesses de conception ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Faiblesses réelles :",
+          "options": [
+            "Webhook rejoué sans clé d’idempotence → doublons",
+            "Événement publié après commit (dual-write) → pertes",
+            "switch partagé → couplage entre types",
+            "Avertissements de style du linter"
+          ],
+          "answer": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Les trois incidents mappent sur idempotence, outbox et couplage. Le style n’est pas la cause (faux indice)."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Quel artefact explique la double commande ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "La double commande vient de :",
+          "options": [
+            "handlePayment sans clé d’idempotence face à un webhook réémis",
+            "Le rapport de lint",
+            "Le switch géant"
+          ],
+          "answer": 0,
+          "explanation": "Le fournisseur réémet ; sans clé d’idempotence, chaque réémission recrée une commande."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Nommer les trois problèmes de conception.",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "multi",
+          "prompt": "Les trois défauts :",
+          "options": [
+            "Absence de clé d’idempotence sur une opération mutante rejouable",
+            "Dual-write commit→publish (perte d’événement possible)",
+            "Logique par type couplée dans un switch partagé",
+            "Trop de commentaires"
+          ],
+          "answer": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Idempotence, outbox transactionnel, extraction de stratégies par type : trois décisions de conception justifiées par les incidents."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Quels changements, JUSTIFIÉS par une contrainte, et lesquels ÉVITER ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Décisions justifiées :",
+          "options": [
+            "Clé d’idempotence sur handlePayment",
+            "Outbox : écrire l’événement dans la transaction, relais ensuite",
+            "Extraire une stratégie par type de commande (table)",
+            "Introduire des micro-services et du CQRS partout"
+          ],
+          "answer": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "On corrige ce que les incidents prouvent. Micro-services + CQRS partout = sur-ingénierie non justifiée (à éviter)."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Isoler l’accès aux données ?",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Le SQL dispersé dans 7 contrôleurs devrait :",
+          "options": [
+            "Passer derrière un Repository (testable sans base, un seul point de changement)",
+            "Rester tel quel",
+            "Être copié dans chaque contrôleur"
+          ],
+          "answer": 0,
+          "explanation": "Accès dispersé + besoin de tester sans base ⇒ Repository justifié (≥2 points d’appel)."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Comment prouver le refactor sûr ?",
+      "questions": [
+        {
+          "id": "v1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Preuve de non-régression :",
+          "options": [
+            "Rejouer un webhook → une seule commande ; tuer le process entre commit et relais → événement non perdu ; ajouter un type sans toucher aux autres",
+            "Le lint est vert",
+            "Le service démarre"
+          ],
+          "answer": 0,
+          "explanation": "On valide chaque incident par un test rejouant précisément le scénario."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Note de décision pour la revue.",
+      "questions": [
+        {
+          "id": "c1",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Le résumé honnête :",
+          "options": [
+            "Trois défauts prouvés par incident : idempotence, outbox, stratégies par type ; Repository pour tester. On N’ajoute PAS micro-services/CQRS (non justifiés).",
+            "On réécrit tout en micro-services.",
+            "On corrige le style et on ferme."
+          ],
+          "answer": 0,
+          "explanation": "Chaque changement est adossé à une contrainte ; on nomme aussi ce qu’on refuse."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "Les trois incidents pointent trois décisions de conception : (1) le webhook de paiement est réémis et handlePayment n’a pas de clé d’idempotence → doublons ; (2) l’événement « payée » est publié APRÈS le commit (dual-write) et se perd si le process meurt → utiliser un outbox transactionnel ; (3) la logique par type vit dans un switch partagé → extraire une stratégie par type pour découpler. Le SQL dispersé dans 7 contrôleurs justifie un Repository (testable sans base). Ce qu’on ÉVITE : micro-services et CQRS partout, non justifiés par les contraintes (sur-ingénierie). Le lint est un faux indice. Validation : un test par incident rejoué.",
+    "keySignals": [
+      "webhook réémis sans idempotence",
+      "publish après commit",
+      "switch partagé entre types",
+      "SQL dans 7 contrôleurs"
+    ],
+    "redHerrings": [
+      "avertissements de style du linter"
+    ],
+    "alternatives": [
+      "Tout réécrire en micro-services : rejeté (risque et coût sans contrainte le justifiant)",
+      "CQRS global : rejeté (pas d’asymétrie de charge démontrée)"
+    ],
+    "tradeoffs": [
+      "Refactor incrémental ciblé (sûr) vs réécriture (risquée)",
+      "Outbox (fiable, un peu plus de code) vs dual-write (simple, fragile)"
+    ]
+  },
+  "sprint": "v48"
+}

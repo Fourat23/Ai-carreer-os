@@ -1,0 +1,235 @@
+{
+  "id": "rag-hallucination-grounding",
+  "title": "RAG : réponses plausibles mais non ancrées",
+  "domain": "Applied AI / RAG",
+  "difficulty": 4,
+  "estimatedMinutes": 40,
+  "skills": [
+    "rag",
+    "llm",
+    "evalia"
+  ],
+  "lessonRefs": [
+    "rag-fundamentals",
+    "rag-evaluation",
+    "ai-evaluation"
+  ],
+  "exerciseRefs": [
+    "rag-retrieval-vs-generation",
+    "rag-recall-precision-at-k",
+    "eval-groundedness-proxy"
+  ],
+  "playbookRefs": [],
+  "dayRefs": [],
+  "simulationNote": "Récupérations et réponses fournies, déterministes. Ancrage mesuré par PROXY.",
+  "passThreshold": 0.7,
+  "context": "Un assistant documentaire répond bien à la plupart des questions, mais sur certaines il invente des chiffres précis et faux, avec un ton assuré. Les utilisateurs perdent confiance.",
+  "signal": "Sur 12 % des questions, la réponse contient une affirmation chiffrée introuvable dans les sources fournies. Les autres réponses sont correctes.",
+  "artifacts": [
+    {
+      "id": "case",
+      "kind": "log",
+      "title": "Cas d’hallucination (simulé)",
+      "useful": true,
+      "content": "Q: « Quel est le délai de rétractation ? »\nTop-k récupéré: [chunk sur les frais, chunk sur la livraison] (le chunk « rétractation » N’EST PAS remonté).\nRéponse: « Le délai est de 30 jours. » (aucune source ne le dit)"
+    },
+    {
+      "id": "recall",
+      "kind": "metrics",
+      "title": "Évaluation de récupération (simulée)",
+      "useful": true,
+      "content": "recall@5 global 0.88, mais sur les questions qui hallucinent : recall@5 = 0.10 (le bon passage n’est presque jamais remonté)."
+    },
+    {
+      "id": "ground",
+      "kind": "metrics",
+      "title": "Ancrage PROXY (simulé)",
+      "useful": true,
+      "content": "Fraction d’affirmations ancrées dans un chunk fourni : 0.98 sur les bonnes réponses, 0.20 sur les cas problématiques."
+    },
+    {
+      "id": "ui",
+      "kind": "log",
+      "title": "Retour cosmétique (simulé)",
+      "useful": false,
+      "content": "Des utilisateurs trouvent la police trop petite. Sans rapport avec l’exactitude."
+    }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Bonnes réponses en général, hallucinations ciblées. Causes ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Hypothèses plausibles :",
+          "options": [
+            "La récupération rate le bon passage sur ces questions",
+            "Le modèle répond sans passage à l’appui (non ancré)",
+            "La police d’écriture est trop petite",
+            "Le modèle est globalement cassé"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "recall bas sur ces cas + ancrage bas expliquent l’hallucination. La typo est un faux indice ; le modèle marche ailleurs."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Retrieval ou génération ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Sur les cas fautifs, le signe décisif :",
+          "options": [
+            "recall@5 = 0.10 : le bon passage n’est pas remonté",
+            "La police trop petite",
+            "Le throughput"
+          ],
+          "answer": 0,
+          "explanation": "Le bon passage n’étant pas remonté, la génération n’a rien pour s’ancrer."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Étage fautif et mécanisme ?",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "La cause est :",
+          "options": [
+            "Échec de RÉCUPÉRATION sur ces questions ; faute de passage, le modèle comble par une invention plausible",
+            "Échec pur de génération alors que le bon passage est fourni",
+            "Données corrompues"
+          ],
+          "answer": 0,
+          "explanation": "gold non récupéré + ancrage bas ⇒ diagnostic « retrieval » (pas génération). Le modèle devrait refuser plutôt qu’inventer."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Quelles corrections ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Mesures :",
+          "options": [
+            "Améliorer la récupération sur ces requêtes (découpage/fusion hybride)",
+            "Exiger une citation : sans passage ancré, répondre « je ne sais pas »",
+            "Augmenter la taille de police",
+            "Laisser le modèle deviner"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "On corrige le retrieval ET on impose l’ancrage (refus si non ancré). Deviner est précisément le défaut."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Éviter la récidive ?",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Le garde-fou durable :",
+          "options": [
+            "Une éval d’ancrage (PROXY) qui bloque les réponses non citées",
+            "Changer la couleur du thème",
+            "Désactiver les logs"
+          ],
+          "answer": 0,
+          "explanation": "Mesurer l’ancrage et refuser le non-ancré empêche l’hallucination assurée."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Preuve que c’est réglé ?",
+      "questions": [
+        {
+          "id": "v1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Preuve :",
+          "options": [
+            "recall@5 rétabli sur les cas fautifs ET ancrage ≥ seuil (sinon refus), 0 affirmation non sourcée",
+            "La police est plus grande",
+            "Le débit augmente"
+          ],
+          "answer": 0,
+          "explanation": "On prouve les deux : récupération rétablie et ancrage garanti."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Message aux utilisateurs.",
+      "questions": [
+        {
+          "id": "c1",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Le résumé honnête :",
+          "options": [
+            "Sur certaines questions, le bon passage n’était pas retrouvé et le modèle inventait ; on a amélioré la récupération et imposé la citation (refus si non ancré).",
+            "Le modèle était cassé, on l’a remplacé.",
+            "C’était un problème d’affichage."
+          ],
+          "answer": 0,
+          "explanation": "Explication exacte et rétablissement de la confiance."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "Les hallucinations sont ciblées : sur ces 12 % de questions, recall@5 tombe à 0.10 (le bon passage n’est pas remonté) et l’ancrage PROXY chute à 0.20. C’est un échec de RÉCUPÉRATION, pas de génération : faute de passage, le modèle comble avec une invention plausible et assurée. La typo est un faux indice ; le modèle répond bien quand le passage est là. Correctif à deux niveaux : améliorer la récupération sur ces requêtes (découpage plus fin, fusion hybride) ET imposer l’ancrage — exiger une citation, refuser (« je ne sais pas ») si aucun passage n’étaye la réponse. Validation : recall rétabli sur les cas fautifs et 0 affirmation non sourcée.",
+    "keySignals": [
+      "hallucinations seulement sur 12 % des questions",
+      "recall@5 0.10 sur ces cas",
+      "ancrage PROXY 0.20 vs 0.98"
+    ],
+    "redHerrings": [
+      "taille de la police",
+      "débit/throughput"
+    ],
+    "alternatives": [
+      "Échec de génération : écarté (le modèle répond bien avec le bon passage)",
+      "Modèle cassé : écarté (98 % des réponses correctes)"
+    ],
+    "tradeoffs": [
+      "Refuser si non ancré (moins de couverture, zéro invention) vs répondre quand même (plus de couverture, risque d’hallucination)"
+    ]
+  },
+  "sprint": "v48"
+}

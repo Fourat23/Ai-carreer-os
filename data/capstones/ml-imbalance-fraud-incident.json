@@ -1,0 +1,237 @@
+{
+  "id": "ml-imbalance-fraud-incident",
+  "title": "ML : fraude — 0.98 en validation, inutile en prod",
+  "domain": "Data / ML",
+  "difficulty": 4,
+  "estimatedMinutes": 45,
+  "skills": [
+    "ml",
+    "evalia"
+  ],
+  "lessonRefs": [
+    "machine-learning-basics",
+    "model-evaluation",
+    "ai-evaluation"
+  ],
+  "exerciseRefs": [
+    "ml-imbalance-metric-trap",
+    "ml-confusion-cost",
+    "ml-baseline-vs-model",
+    "ml-calibration-ece"
+  ],
+  "playbookRefs": [],
+  "dayRefs": [],
+  "simulationNote": "Chiffres et matrices fournis, déterministes. (pandas/sklearn dans la série d’exercices.)",
+  "passThreshold": 0.7,
+  "context": "Un modèle détecte des transactions frauduleuses (0,5 % de fraude). L’équipe annonce « 98 % d’accuracy » et met en prod. Les analystes se plaignent : presque aucune fraude n’est attrapée, et les rares alertes sont surtout fausses.",
+  "signal": "Accuracy validation 0.98. En prod : rappel fraude 0.06, et parmi les alertes, 1 sur 10 est réelle.",
+  "artifacts": [
+    {
+      "id": "cm",
+      "kind": "metrics",
+      "title": "Matrice de confusion (validation, simulée)",
+      "useful": true,
+      "content": "TN=9900 FP=20 FN=47 TP=33 (sur 10000). Accuracy=(9900+33)/10000=0.9933. Mais rappel fraude=33/80=0.41 en validation, pire en prod."
+    },
+    {
+      "id": "baseline",
+      "kind": "metrics",
+      "title": "Baseline « tout légitime » (simulée)",
+      "useful": true,
+      "content": "Prédire toujours 'légitime' → accuracy 0.995 (car 99,5 % sont légitimes). Le modèle à 0.98 fait donc PIRE que ne rien faire, en accuracy."
+    },
+    {
+      "id": "threshold",
+      "kind": "metrics",
+      "title": "Coût métier (simulé)",
+      "useful": true,
+      "content": "Une fraude ratée (FN) coûte 200€ ; une fausse alerte (FP) coûte 2€ de vérification. Le seuil actuel (0.5) est optimisé pour l’accuracy, pas pour le coût."
+    },
+    {
+      "id": "infra",
+      "kind": "log",
+      "title": "Temps d’inférence (simulé)",
+      "useful": false,
+      "content": "Inférence 8 ms/transaction, throughput large. Aucune contrainte de performance."
+    }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Accuracy élevée mais fraude non attrapée. Pourquoi ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Hypothèses plausibles :",
+          "options": [
+            "L’accuracy est trompeuse sur données déséquilibrées",
+            "Le seuil est réglé pour l’accuracy, pas pour le coût métier",
+            "L’inférence est trop lente",
+            "La baseline triviale fait déjà 0.995"
+          ],
+          "answer": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "Le déséquilibre rend l’accuracy inutile ; le seuil ignore le coût ; la baseline expose le piège. La latence est un faux indice."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Quel chiffre disqualifie l’accuracy ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Le chiffre décisif :",
+          "options": [
+            "La baseline « tout légitime » atteint 0.995 (> 0.98 du modèle)",
+            "Le temps d’inférence de 8 ms",
+            "Le nombre de transactions"
+          ],
+          "answer": 0,
+          "explanation": "Si prédire toujours « légitime » bat le modèle en accuracy, l’accuracy ne mesure rien d’utile ici."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Cause racine du fiasco ?",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "La cause est :",
+          "options": [
+            "Mauvaise métrique (accuracy) et mauvais seuil (accuracy) sur un problème déséquilibré à coûts asymétriques",
+            "Le modèle est trop lent",
+            "Les données sont corrompues"
+          ],
+          "answer": 0,
+          "explanation": "Le choix de métrique et de seuil est inadapté ; il faut rappel/précision et un seuil au coût métier."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Quelles métriques et quel seuil ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Décisions :",
+          "options": [
+            "Suivre rappel fraude et précision (pas l’accuracy)",
+            "Choisir le seuil qui minimise FP·2€ + FN·200€",
+            "Garder l’accuracy comme métrique principale",
+            "Comparer systématiquement à la baseline majoritaire"
+          ],
+          "answer": [
+            0,
+            1,
+            3
+          ],
+          "explanation": "On mesure ce qui compte (rappel/précision), on règle le seuil au coût, et on ancre par la baseline. Garder l’accuracy est l’erreur d’origine."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Éviter la récidive ?",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Le garde-fou :",
+          "options": [
+            "Une évaluation qui compare toujours à la baseline et interdit l’accuracy seule en déséquilibre",
+            "Acheter des GPU",
+            "Augmenter la taille du modèle"
+          ],
+          "answer": 0,
+          "explanation": "Le réflexe baseline + métriques adaptées aurait bloqué la mise en prod."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Preuve d’un vrai progrès ?",
+      "questions": [
+        {
+          "id": "v1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Preuve :",
+          "options": [
+            "Rappel fraude et coût total (FP·2€ + FN·200€) au seuil retenu, meilleurs que la baseline",
+            "L’accuracy repasse au-dessus de 0.98",
+            "La latence baisse"
+          ],
+          "answer": 0,
+          "explanation": "On prouve sur les métriques métier, pas sur l’accuracy trompeuse."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Message aux parties prenantes.",
+      "questions": [
+        {
+          "id": "c1",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Le résumé honnête :",
+          "options": [
+            "« 98 % d’accuracy » était trompeur (la baseline fait 99,5 %). On suit désormais rappel/précision et un seuil au coût ; décision fondée sur le coût métier.",
+            "Le modèle était trop lent, on l’a accéléré.",
+            "Les données étaient corrompues."
+          ],
+          "answer": 0,
+          "explanation": "On explique le piège et la correction en langage métier."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "Sur 0,5 % de fraude, l’accuracy est trompeuse : la baseline « tout légitime » atteint 0.995, mieux que le modèle à 0.98. Le vrai problème est double : mauvaise métrique (accuracy au lieu de rappel/précision) et mauvais seuil (optimisé pour l’accuracy, pas pour le coût). Avec FN=200€ et FP=2€, il faut un seuil bas qui attrape la fraude quitte à générer des alertes. La latence est un faux indice. Correctif : suivre rappel/précision, choisir le seuil minimisant FP·2€+FN·200€, ancrer par la baseline, et poser ces règles en garde-fou. Validation : coût total et rappel meilleurs que la baseline.",
+    "keySignals": [
+      "fraude 0,5 % (fort déséquilibre)",
+      "baseline triviale 0.995 > 0.98 du modèle",
+      "coûts asymétriques FN 200€ vs FP 2€"
+    ],
+    "redHerrings": [
+      "temps d’inférence 8 ms",
+      "taille du modèle"
+    ],
+    "alternatives": [
+      "Données corrompues : écartée (le problème est métrique/seuil)",
+      "Modèle plus gros : n’adresse pas le mauvais critère"
+    ],
+    "tradeoffs": [
+      "Rappel élevé (attrape la fraude, plus de fausses alertes) vs précision élevée (moins d’alertes, plus de fraudes ratées) — arbitrer au coût"
+    ]
+  },
+  "sprint": "v48"
+}

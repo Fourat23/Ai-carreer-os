@@ -1,0 +1,235 @@
+{
+  "id": "llm-context-budget-regression",
+  "title": "LLM : régression après un contexte trop gros",
+  "domain": "Applied AI / LLM",
+  "difficulty": 4,
+  "estimatedMinutes": 40,
+  "skills": [
+    "llm",
+    "evalia"
+  ],
+  "lessonRefs": [
+    "llm-cost-optimization",
+    "llm-fundamentals",
+    "ai-evaluation"
+  ],
+  "exerciseRefs": [
+    "llm-context-budget-truncate",
+    "llm-cost-budget-plan",
+    "eval-regression-gate"
+  ],
+  "playbookRefs": [],
+  "dayRefs": [],
+  "simulationNote": "Sorties et coûts fournis, déterministes. Aucun appel de modèle réel.",
+  "passThreshold": 0.7,
+  "context": "Un assistant de support résume les échanges d’un client. Pour « améliorer la qualité », on a augmenté le nombre de messages injectés dans le prompt de 6 à 40. Depuis, la qualité a BAISSÉ et la facture a explosé.",
+  "signal": "Exact-match sur le jeu de référence : 0.82 → 0.67. Coût par requête ×5. Aucune erreur applicative.",
+  "artifacts": [
+    {
+      "id": "diff",
+      "kind": "diff",
+      "title": "Changement du prompt builder",
+      "useful": true,
+      "content": "- history = messages[-6:]\n+ history = messages[:]  # on met tout l’historique"
+    },
+    {
+      "id": "eval",
+      "kind": "metrics",
+      "title": "Évaluation avant/après (simulée)",
+      "useful": true,
+      "content": "exact_match: 0.82 -> 0.67\ntokens_prompt moyen: 900 -> 6200\ncoût/req: 0.004$ -> 0.020$"
+    },
+    {
+      "id": "sample",
+      "kind": "log",
+      "title": "Exemple de sortie dégradée (simulé)",
+      "useful": true,
+      "content": "Le résumé cite un incident vieux de 8 mois, sans rapport avec la demande actuelle. Les messages récents pertinents sont noyés."
+    },
+    {
+      "id": "infra",
+      "kind": "metrics",
+      "title": "Disponibilité de l’API modèle (simulée)",
+      "useful": false,
+      "content": "Uptime 99.98 %, aucune erreur 5xx. Rien à signaler."
+    }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Qualité en baisse ET coût en hausse. Causes ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Hypothèses plausibles :",
+          "options": [
+            "Trop de contexte noie l’information récente pertinente",
+            "Le coût suit la taille du prompt",
+            "Le modèle a été rétrogradé",
+            "L’API est en panne"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "Injecter tout l’historique dilue le signal et multiplie les tokens d’entrée. L’API est saine (faux indice)."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Quel artefact relie qualité et coût ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "L’élément décisif :",
+          "options": [
+            "Le diff passant de messages[-6:] à tout l’historique + tokens 900→6200",
+            "L’uptime de l’API",
+            "Le nombre de clients"
+          ],
+          "answer": 0,
+          "explanation": "Le diff explique simultanément la hausse de tokens (coût) et la dilution (qualité)."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Cause racine ?",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "La cause est :",
+          "options": [
+            "Injecter tout l’historique noie les messages récents pertinents et gonfle les tokens",
+            "Le modèle est cassé",
+            "Le jeu de référence est faux"
+          ],
+          "answer": 0,
+          "explanation": "« Plus de contexte » n’est pas « meilleur » : au-delà du pertinent, on dilue et on paie. Le modèle et l’éval sont sains."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Quelle stratégie de contexte ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Mesures :",
+          "options": [
+            "Garder le système + les N messages récents qui tiennent dans un budget",
+            "Poser une porte de non-régression sur exact-match",
+            "Remettre tout l’historique mais avec un modèle plus cher",
+            "Désactiver l’évaluation"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "On borne le contexte au budget (récence) et on protège par une gate. Rajouter du contexte cher est l’inverse de la solution."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Éviter la récidive ?",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Le garde-fou durable :",
+          "options": [
+            "Une gate qui refuse une baisse d’exact-match > tolérance avant déploiement",
+            "Augmenter le budget mensuel",
+            "Supprimer les tests"
+          ],
+          "answer": 0,
+          "explanation": "Une porte de non-régression aurait bloqué le passage 0.82→0.67 avant la prod."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Preuve que c’est réglé ?",
+      "questions": [
+        {
+          "id": "v1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Preuve :",
+          "options": [
+            "exact-match rétabli ≥ 0.82 ET coût/req revenu proche de 0.004$",
+            "L’uptime reste bon",
+            "Le nombre de clients augmente"
+          ],
+          "answer": 0,
+          "explanation": "On prouve les deux axes dégradés : qualité rétablie et coût maîtrisé."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Note à l’équipe produit.",
+      "questions": [
+        {
+          "id": "c1",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Le résumé honnête :",
+          "options": [
+            "« Tout l’historique » a dilué le pertinent et quintuplé le coût ; on borne au budget de récence + gate de non-régression ; qualité et coût rétablis.",
+            "L’API était en panne.",
+            "Le modèle a été rétrogradé par le fournisseur."
+          ],
+          "answer": 0,
+          "explanation": "Exact et actionnable ; pas de fausse cause."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "Le seul changement corrélé est le prompt builder passant de 6 messages à TOUT l’historique. Effet double : les tokens d’entrée passent de 900 à 6200 (coût ×5) et l’information récente pertinente est noyée sous du vieux contexte (exact-match 0.82→0.67). L’API est saine (faux indice). « Plus de contexte » n’est pas « meilleur ». Correctif : borner le contexte (système + N récents tenant dans un budget) et poser une porte de non-régression qui aurait bloqué la dégradation. Validation : exact-match ≥ 0.82 et coût/req ~0.004$.",
+    "keySignals": [
+      "diff messages[-6:] → tout l’historique",
+      "tokens 900→6200, coût ×5",
+      "exact-match 0.82→0.67",
+      "sortie citant un incident hors sujet"
+    ],
+    "redHerrings": [
+      "uptime de l’API",
+      "nombre de clients"
+    ],
+    "alternatives": [
+      "Modèle rétrogradé : écarté (aucun changement côté fournisseur)",
+      "Éval fausse : écartée (jeu de référence stable)"
+    ],
+    "tradeoffs": [
+      "Récence bornée (simple, efficace) vs résumé hiérarchique de l’historique (plus riche, plus complexe)"
+    ]
+  },
+  "sprint": "v48"
+}

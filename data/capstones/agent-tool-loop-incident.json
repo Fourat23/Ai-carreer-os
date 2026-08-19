@@ -1,0 +1,242 @@
+{
+  "id": "agent-tool-loop-incident",
+  "title": "Agent : boucle d’outil et budget consommé",
+  "domain": "Applied AI / Agents",
+  "difficulty": 5,
+  "estimatedMinutes": 45,
+  "skills": [
+    "agents",
+    "se"
+  ],
+  "lessonRefs": [
+    "agent-workflows-orchestration",
+    "agents-fundamentals"
+  ],
+  "exerciseRefs": [
+    "agent-cycle-index",
+    "agent-tool-failure-recovery",
+    "agent-excessive-agency",
+    "agent-transition-guard"
+  ],
+  "playbookRefs": [],
+  "dayRefs": [],
+  "simulationNote": "Traces d’agent simulées, déterministes. Aucun appel de modèle réel.",
+  "passThreshold": 0.7,
+  "context": "Un agent « assistant de tickets » doit lire un ticket, chercher dans la base de connaissances, puis proposer une réponse. Depuis hier, certains tickets épuisent le budget d’étapes (20) sans jamais répondre, et la facture d’appels a triplé.",
+  "signal": "10 % des exécutions atteignent la limite de 20 étapes sans produire de réponse. Coût par exécution ×3 sur ces cas.",
+  "artifacts": [
+    {
+      "id": "trace",
+      "kind": "trace",
+      "title": "Trace d’un run qui échoue (simulée)",
+      "useful": true,
+      "content": "step1 (state=triage, action=search 'mot de passe')\nstep2 (state=triage, action=search 'mot de passe')\nstep3 (state=triage, action=search 'mot de passe')\n… répété jusqu’à step20 : LIMIT_REACHED, aucune réponse émise."
+    },
+    {
+      "id": "tool",
+      "kind": "log",
+      "title": "Résultat de l’outil search (simulé)",
+      "useful": true,
+      "content": "search('mot de passe') -> [] (0 résultat). L’outil renvoie une liste vide, pas d’erreur. L’agent ne change pas d’état."
+    },
+    {
+      "id": "diff",
+      "kind": "diff",
+      "title": "Changement récent de l’orchestrateur",
+      "useful": true,
+      "content": "- if results.empty(): go_to('ask_human')\n+ # (ligne supprimée par erreur lors d’un refactor)"
+    },
+    {
+      "id": "infra",
+      "kind": "metrics",
+      "title": "CPU des workers (simulé)",
+      "useful": false,
+      "content": "CPU worker moyen 35 %, mémoire 40 %. Rien d’anormal côté ressources."
+    },
+    {
+      "id": "model",
+      "kind": "log",
+      "title": "Latence du modèle (simulée)",
+      "useful": false,
+      "content": "Latence p50 420 ms, p95 900 ms, stable depuis 30 jours."
+    }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "L’agent tourne en rond sur certains tickets. Quelles causes envisager ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Hypothèses plausibles :",
+          "options": [
+            "Aucune transition de sortie quand la recherche est vide",
+            "Pas de garde-boucle (répétition état/action)",
+            "Le modèle est trop lent",
+            "Les workers manquent de CPU"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "Une recherche vide sans transition + l’absence de garde-boucle produisent la répétition. Latence et CPU sont stables (faux indices)."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Quel artefact confirme la boucle ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "L’élément le plus révélateur est :",
+          "options": [
+            "La trace répétant le même (état, action) 20 fois",
+            "Le CPU des workers",
+            "La latence p95 du modèle"
+          ],
+          "answer": 0,
+          "explanation": "La trace montre le même couple (triage, search) répété : boucle caractérisée. CPU/latence sont des diversions."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Cause racine ?",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "La cause racine est :",
+          "options": [
+            "Le refactor a supprimé la transition « résultat vide → demander à un humain », et il n’existe aucun garde-boucle",
+            "Le modèle hallucine",
+            "La base de connaissances est corrompue"
+          ],
+          "answer": 0,
+          "explanation": "Le diff supprime la sortie sur résultat vide ; sans garde-boucle, l’agent répète la même action jusqu’à la limite. Le contenu de la base n’est pas en cause (0 résultat est légitime pour cette requête)."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Quelle correction, sous contrainte de fiabilité ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Mesures à prendre :",
+          "options": [
+            "Rétablir la transition « résultat vide → escalade humaine (HITL) »",
+            "Ajouter un garde-boucle qui coupe si (état, action) se répète",
+            "Augmenter la limite d’étapes à 200",
+            "Supprimer la limite d’étapes"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "On corrige la cause (transition) ET on ajoute une défense en profondeur (garde-boucle). Augmenter/supprimer la limite ne fait qu’aggraver le coût."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Comment éviter la récidive ?",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "La garde la plus générale est :",
+          "options": [
+            "Détecter la répétition d’un (état, action) déjà vu et interrompre",
+            "Prier pour que la base ait toujours des résultats",
+            "Mettre un sleep entre les étapes"
+          ],
+          "answer": 0,
+          "explanation": "Un garde-boucle générique protège de toutes les variantes futures, indépendamment de la cause immédiate."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Comment prouver que c’est réglé ?",
+      "questions": [
+        {
+          "id": "v1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Preuve de non-régression :",
+          "options": [
+            "0 % d’exécutions atteignant la limite sur un jeu rejouant les tickets à recherche vide, et une escalade émise",
+            "Le CPU baisse",
+            "La latence baisse"
+          ],
+          "answer": 0,
+          "explanation": "On rejoue précisément les cas fautifs et on vérifie l’escalade + l’absence de boucle."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Message au reste de l’équipe.",
+      "questions": [
+        {
+          "id": "c1",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Le résumé honnête est :",
+          "options": [
+            "Un refactor a retiré l’escalade sur résultat vide ; sans garde-boucle l’agent bouclait. Transition rétablie + garde-boucle ajouté ; cas fautifs au vert.",
+            "Le modèle était lent, on a mis à l’échelle.",
+            "La base était corrompue, on l’a restaurée."
+          ],
+          "answer": 0,
+          "explanation": "Communication exacte : cause, correctif, preuve. Pas de récit erroné."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "La trace montre le même (état, action) répété 20 fois : c’est une boucle, pas une lenteur. L’outil renvoie légitimement 0 résultat ; le diff a supprimé la transition « vide → escalade humaine », et il n’existe aucun garde-boucle. CPU et latence sont stables (faux indices). Correctif à deux niveaux : rétablir l’escalade (cause) et ajouter un garde-boucle générique détectant la répétition (défense en profondeur). Ne PAS augmenter/supprimer la limite d’étapes (aggrave le coût). Validation : rejouer les tickets à recherche vide → 0 boucle, escalade émise.",
+    "keySignals": [
+      "même (état, action) répété jusqu’à la limite",
+      "search renvoie [] sans erreur",
+      "diff supprimant l’escalade sur résultat vide"
+    ],
+    "redHerrings": [
+      "CPU des workers",
+      "latence du modèle"
+    ],
+    "alternatives": [
+      "Base corrompue : écartée (0 résultat est légitime)",
+      "Modèle hallucinant : écarté (aucune réponse n’est émise)"
+    ],
+    "tradeoffs": [
+      "Correctif ciblé (transition) vs garde générique (boucle) : faire les deux",
+      "Limite d’étapes basse (coût maîtrisé) vs haute (masque le bug)"
+    ]
+  },
+  "sprint": "v48"
+}

@@ -13,8 +13,9 @@ import { getRuntimeAdapter } from '@/lib/runtime.mjs';
 import { hasLabEvidence } from '@/lib/lab-progress';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
 import { stripDayLeadHtml } from '@/lib/day-view';
-import { annotateDayHtml, deriveActivities } from '@/lib/section-family';
+import { annotateDayHtml, deriveActivities, deriveDayPhases } from '@/lib/section-family';
 import { SectionHeader, Status } from '@/app/ui';
+import DayPhases from './DayPhases';
 import DayPanel from './DayPanel';
 import DayHeader from './DayHeader';
 import DayOutline from './DayOutline';
@@ -39,6 +40,7 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
   if (!meta || !rawHtml) notFound();
   const html = annotateDayHtml(stripDayLeadHtml(rawHtml));
   const activities = deriveActivities(html);
+  const phases = deriveDayPhases(html);
   const solution = getSolutionHtml(dayNum);
   const checklist = getDayChecklist(dayNum);
   const progress = getDayProgress(dayNum) ?? { ...EMPTY_DAY_PROGRESS };
@@ -90,6 +92,8 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
           trackTotal={trackTotal}
           trackPosition={trackPosition}
         />
+
+        <DayPhases phases={phases} />
 
         <DayOutline variant="compact" />
 

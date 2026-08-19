@@ -5,13 +5,22 @@
      familles pédagogiques sémantiques. Un seul jeu de tokens, consommé partout.
      ══════════════════════════════════════════════════════════════════════ */
 
-  /* Surfaces (graphite chaud) */
+  /* Surfaces (graphite chaud) — échelle d'élévation V54 :
+     bg < panel < panel-2 < raised. Le PRIMARY FOCUS et les panneaux primaires
+     montent d'un cran ; les surfaces secondaires restent calmes. */
   --bg: #131519;
   --panel: #1a1d23;
   --panel-2: #21252c;
-  --surface-hover: #262b33;
+  --raised: #272c35;       /* surface haute (cockpit / focus) */
+  --surface-hover: #2b303a;
   --border: #2b2f38;
   --border-strong: #3a3f4a;
+  --border-subtle: #23262e; /* séparateur discret intra-surface */
+
+  /* Profondeur (ombres discrètes — jamais de glow néon) */
+  --shadow-1: 0 1px 2px rgba(0,0,0,.28);
+  --shadow-2: 0 6px 22px -8px rgba(0,0,0,.45);
+  --shadow-focus: 0 10px 34px -12px rgba(0,0,0,.55);
 
   /* Texte */
   --text: #e6e8ec;         /* blanc cassé, jamais blanc pur */
@@ -121,10 +130,11 @@ a:hover { text-decoration: underline; }
 .nav-group { display: flex; flex-direction: column; gap: 1px; }
 .nav-link { display: flex; align-items: center; gap: 11px; padding: 8px 10px; border-radius: 7px;
   color: var(--muted); font-size: 14px; position: relative; }
-.nav-link:hover { background: var(--panel-2); color: var(--text); text-decoration: none; }
-.nav-link.active { background: var(--panel-2); color: var(--text); }
-.nav-link.active::before { content: ''; position: absolute; left: 0; top: 7px; bottom: 7px; width: 2.5px;
-  border-radius: 0 2px 2px 0; background: var(--accent); }
+.nav-link:hover { background: var(--surface-hover); color: var(--text); text-decoration: none; }
+.nav-link.active { background: color-mix(in srgb, var(--accent) 14%, var(--panel-2)); color: var(--text); font-weight: 550; }
+.nav-link.active .nav-ico { color: var(--accent); }
+.nav-link.active::before { content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px;
+  border-radius: 0 3px 3px 0; background: var(--accent); }
 .nav-ico { display: grid; place-items: center; width: 18px; height: 18px; flex: none; color: inherit; }
 .nav-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -1692,3 +1702,96 @@ button.dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px
   --swatch-review-bg: #3a2a52; --swatch-review-bd: #533a7a; /* à revoir (violet) */
   --swatch-review-fg: #c39bff;
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V54 — Design System II : profondeur, cockpit, listes denses
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Panel : élévation par défaut discrète ; primaire = surface haute + accent */
+.ui-panel { box-shadow: var(--shadow-1); }
+.ui-panel.is-emphasis { background: color-mix(in srgb, var(--accent) 9%, var(--raised));
+  border-color: color-mix(in srgb, var(--accent) 46%, var(--border)); box-shadow: var(--shadow-2); }
+
+/* PRIMARY FOCUS — bloc cockpit dominant (surface haute + ombre + accent gauche) */
+.ui-focus {
+  position: relative; background: var(--raised); border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--accent); border-radius: var(--r-lg);
+  padding: var(--sp-6) var(--sp-6) var(--sp-5); box-shadow: var(--shadow-focus);
+}
+.ui-focus-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-bottom: var(--sp-2); }
+.ui-focus-eyebrow { margin: 0; font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--accent); }
+.ui-focus-title { margin: 0 0 var(--sp-3); font-size: var(--fs-h1); line-height: var(--lh-tight); letter-spacing: -0.01em; }
+.ui-focus-meta { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap;
+  color: var(--muted); font-size: var(--fs-sm); margin-bottom: var(--sp-3); }
+.ui-focus-reason { margin: 0 0 var(--sp-5); color: var(--muted); font-size: var(--fs-sm); max-width: 60ch; }
+.ui-focus-actions { display: flex; gap: var(--sp-3); flex-wrap: wrap; }
+@media (max-width: 560px) { .ui-focus { padding: var(--sp-5) var(--sp-4); } .ui-focus-title { font-size: var(--fs-h2); } }
+
+/* Bouton primaire renforcé (cockpit) : plus présent, accent plein */
+.btn.cta { padding: 11px 20px; font-size: var(--fs-ui); font-weight: 650; border-radius: var(--r);
+  background: var(--accent); border: 1px solid var(--accent); color: var(--accent-ink); box-shadow: var(--shadow-1); }
+.btn.cta:hover { background: color-mix(in srgb, var(--accent) 88%, #fff); text-decoration: none; }
+
+/* STRUCTURED LIST — lignes denses (missions, révisions, parcours) */
+.ui-list { display: flex; flex-direction: column; gap: 8px; }
+.ui-row {
+  display: flex; align-items: center; gap: var(--sp-4); padding: 13px var(--sp-4);
+  background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--border-strong);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0; color: var(--text); transition: background var(--t), border-color var(--t);
+}
+a.ui-row:hover { background: var(--surface-hover); border-left-color: var(--accent); text-decoration: none; }
+.ui-row.tone-neutral { border-left-color: var(--border-strong); }
+.ui-row.tone-info { border-left-color: var(--info); }
+.ui-row.tone-positive { border-left-color: var(--ok); }
+.ui-row.tone-attention { border-left-color: var(--warn); }
+.ui-row.tone-blocking { border-left-color: var(--danger); }
+.ui-row.tone-accent { border-left-color: var(--accent); }
+.ui-row.is-flat { border-left-width: 1px; }
+.ui-row-main { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.ui-row-title { font-weight: 600; font-size: var(--fs-sm); color: var(--text); }
+.ui-row-desc { font-size: var(--fs-xs); color: var(--muted); overflow: hidden; text-overflow: ellipsis;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.ui-row-meta { display: flex; gap: var(--sp-3); flex-wrap: wrap; font-size: var(--fs-xs); color: var(--faint);
+  font-variant-numeric: tabular-nums; margin-top: 2px; }
+.ui-row-status { flex: none; }
+.ui-row-go { flex: none; color: var(--faint); }
+a.ui-row:hover .ui-row-go { color: var(--accent); }
+@media (max-width: 560px) {
+  .ui-row { flex-wrap: wrap; gap: var(--sp-2); }
+  .ui-row-status { order: 3; }
+}
+
+/* Groupe de liste (missions/révisions) : en-tête d'état/catégorie */
+.ui-listgroup { margin-bottom: var(--sp-6); }
+.ui-listgroup-head { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap;
+  padding-bottom: var(--sp-2); margin-bottom: var(--sp-3); border-bottom: 1px solid var(--border); }
+.ui-listgroup-count { font-size: var(--fs-xs); color: var(--faint); font-variant-numeric: tabular-nums; }
+.ui-listgroup-hint { font-size: var(--fs-xs); color: var(--muted); margin-left: auto; }
+@media (max-width: 640px) { .ui-listgroup-hint { margin-left: 0; flex-basis: 100%; } }
+
+/* Faits du PRIMARY FOCUS (clé + valeur inline) */
+.ui-focus-fact { display: inline-flex; align-items: baseline; gap: 5px; color: var(--text); }
+.ui-focus-fact-k { font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--faint); }
+
+/* ── Day workstation : chemin de phases ──────────────────────────────────────── */
+.day-phases { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap;
+  margin: var(--sp-4) 0 var(--sp-5); padding: var(--sp-3) var(--sp-4);
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow-1); }
+.day-phases-lead { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--faint); flex: none; }
+.day-phases-list { list-style: none; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0; padding: 0; }
+.day-phase a { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: var(--r-pill);
+  border: 1px solid var(--border); background: var(--panel-2); color: var(--muted); font-size: var(--fs-xs); }
+.day-phase a:hover { border-color: var(--accent); color: var(--text); text-decoration: none; background: var(--surface-hover); }
+.day-phase-no { font-family: var(--font-mono); color: var(--faint); font-size: var(--fs-eyebrow); }
+.day-phase[data-family] svg { color: var(--fam-learn); }
+.day-phase[data-family="practice"] svg { color: var(--fam-practice); }
+.day-phase[data-family="apply"] svg { color: var(--fam-apply); }
+.day-phase[data-family="verify"] svg { color: var(--fam-verify); }
+.day-phase[data-family="retain"] svg { color: var(--fam-retain); }
+.day-phase[data-family="observe"] svg { color: var(--fam-observe); }
+.day-phase[data-family="objective"] svg { color: var(--fam-objective); }
+.day-phase[data-family="prepare"] svg { color: var(--fam-prepare); }
+.day-phase-fam { white-space: nowrap; }
+@media (max-width: 700px) { .day-phase-fam { display: none; } .day-phase a { padding: 6px 8px; } }

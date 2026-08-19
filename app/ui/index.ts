@@ -9,3 +9,5 @@ export { ActionRow } from './ActionRow';
 export { EmptyState } from './EmptyState';
 export { InlineNotice } from './InlineNotice';
 export { Panel } from './Panel';
+export { PrimaryFocus } from './PrimaryFocus';
+export { ListRow } from './ListRow';

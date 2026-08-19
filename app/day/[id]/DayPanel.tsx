@@ -49,7 +49,8 @@ export default function DayPanel({
   const [saved, setSaved] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [savedAt, setSavedAt] = useState<string>('');
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dirty = useRef(false);
+  const dirty = useRef(false);   // garde de MONTAGE (ignore le 1er effet)
+  const edited = useRef(false);  // l'utilisateur a RÉELLEMENT modifié le texte
   const latest = useRef<Partial<DayProgress>>({});
 
   const hasActivities = activities.length > 0;
@@ -63,6 +64,7 @@ export default function DayPanel({
   useEffect(() => {
     latest.current = buildPatch();
     if (!dirty.current) { dirty.current = true; return; } // pas de save au montage
+    edited.current = true; // modification réelle post-montage → persistance justifiée
     if (timer.current) clearTimeout(timer.current);
     setSaved('saving');
     timer.current = setTimeout(async () => {
@@ -75,8 +77,11 @@ export default function DayPanel({
   }, [buildPatch, day]);
 
   // Flush avant de quitter la page / changer de journée (garde-fou anti-perte).
+  // P0 V54 : ne JAMAIS écrire si l'utilisateur n'a rien modifié — une simple
+  // consultation (montage puis démontage) ne doit créer aucune progression.
   useEffect(() => {
     const flush = () => {
+      if (!edited.current) return; // consultation seule : aucune écriture
       if (timer.current) clearTimeout(timer.current);
       postDay(day, latest.current, true).catch(() => {});
     };

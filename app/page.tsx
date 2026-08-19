@@ -9,7 +9,7 @@ import { resumeReasonText, countStatuses } from '@/lib/resume';
 import { progressPosition } from '@/lib/position';
 import { reviewSummary, getDueReviews } from '@/lib/review';
 import { nextBestActions } from '@/lib/learning-experience';
-import { PageHeader, SectionHeader, Status, Metric, Panel, ActionRow, EmptyState } from '@/app/ui';
+import { PageHeader, SectionHeader, Status, Metric, Panel, ActionRow, EmptyState, PrimaryFocus } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import StartDayButton from './StartDayButton';
 import Trajectory365 from './Trajectory365';
@@ -75,30 +75,31 @@ export default function Dashboard() {
       <div className="dash-cols">
         {/* Colonne principale : reprise + prochaines actions + trajectoire */}
         <div className="dash-main">
-          <section className="resume">
-            <div className="resume-main">
-              <p className="resume-eyebrow">{pos.resumeReason === 'complete' ? 'Programme terminé' : started ? 'Reprendre où j\'en suis' : 'Commencer'}</p>
-              <div className="resume-line">
-                <span className="resume-day">Jour {pos.resumeDay}</span>
-                <Status tone={st.tone} label={st.label} />
-              </div>
-              <h2 className="resume-title">{resumeDay?.title}</h2>
-              <div className="resume-meta">
+          <PrimaryFocus
+            eyebrow={<>{pos.resumeReason === 'complete' ? 'Programme terminé' : started ? 'Reprendre où j\'en suis' : 'Commencer maintenant'} <span className="sep">·</span> jour {pos.resumeDay} / {pos.total}</>}
+            status={
+              <>
                 {resumeDay?.isReview && <Status tone="attention" label="Revue hebdo" />}
-                <span className="day-skill">{resumeDay?.skillName}</span>
-                <dl className="day-data">
-                  <div><dt>Difficulté</dt><dd>{resumeDay?.difficulty}/5</dd></div>
-                  <div><dt>Durée</dt><dd>{resumeDay?.hours} h</dd></div>
-                  <div><dt>Repères</dt><dd>Mois {resumeDay?.month} · Semaine {resumeDay?.week}</dd></div>
-                </dl>
-              </div>
-              <p className="resume-why">{resumeReasonText(pos.resumeReason)}</p>
-            </div>
-            <div className="resume-actions">
-              <StartDayButton day={pos.resumeDay} label={started ? `Reprendre le jour ${pos.resumeDay}` : `Commencer le jour ${pos.resumeDay}`} />
-              <Link className="btn" href={`/day/${pos.resumeDay}`}>Ouvrir la vue du jour</Link>
-            </div>
-          </section>
+                <Status tone={st.tone} label={st.label} />
+              </>
+            }
+            title={resumeDay?.title}
+            meta={
+              <>
+                <Status tone="accent" label={resumeDay?.skillName ?? '—'} />
+                <span className="ui-focus-fact"><span className="ui-focus-fact-k">Difficulté</span> {resumeDay?.difficulty}/5</span>
+                <span className="ui-focus-fact"><span className="ui-focus-fact-k">Durée</span> {resumeDay?.hours} h</span>
+                <span className="ui-focus-fact"><span className="ui-focus-fact-k">Repères</span> Mois {resumeDay?.month} · Sem. {resumeDay?.week}</span>
+              </>
+            }
+            reason={resumeReasonText(pos.resumeReason)}
+            actions={
+              <>
+                <StartDayButton day={pos.resumeDay} label={started ? `Reprendre le jour ${pos.resumeDay}` : `Commencer le jour ${pos.resumeDay}`} className="btn cta" />
+                <Link className="btn" href={`/day/${pos.resumeDay}`}>Ouvrir la vue du jour</Link>
+              </>
+            }
+          />
 
           {nextActions.length > 0 && (
             <section className="section lx-next">

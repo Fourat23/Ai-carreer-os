@@ -14,3 +14,4 @@ export function annotateDayHtml(html: string): string;
 export const ANSWERABLE_FAMILIES: Set<string>;
 export interface Activity { id: string; family: string; label: string }
 export function deriveActivities(html: string): Activity[];
+export function deriveDayPhases(html: string): Activity[];

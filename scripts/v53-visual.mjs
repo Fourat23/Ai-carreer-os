@@ -31,6 +31,12 @@ const ROUTES = [
   { path: '/day/186', name: 'day-186' },
   { path: '/day/320', name: 'day-320' },
   { path: '/skills', name: 'skills' },
+  { path: '/parcours', name: 'parcours' },
+  { path: '/revisions', name: 'revisions' },
+  { path: '/missions', name: 'missions' },
+  { path: '/projects', name: 'projects' },
+  { path: '/diagnostics', name: 'diagnostics' },
+  { path: '/capstones', name: 'capstones' },
 ];
 const OUT = join(process.cwd(), 'docs', 'audits', 'visual', LABEL);
 mkdirSync(OUT, { recursive: true });

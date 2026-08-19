@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Check, CircleDot, AlertTriangle } from 'lucide-react';
 import type { DayProgress } from '@/lib/types';
 import { completeReview } from '@/lib/review';
+import { SectionHeader, EmptyState } from '@/app/ui';
 
 type DueRow = { day: number; title: string; reason: string; overdueDays: number; review: DayProgress['review'] };
 type UpRow = { day: number; title: string; reason: string; inDays: number };
@@ -42,13 +43,12 @@ export default function ReviewList({ due, upcoming }: { due: DueRow[]; upcoming:
 
   return (
     <>
-      <div className="section-head">
-        <span className="section-label">À revoir</span>
-        <h2 className="section-title">Aujourd'hui &amp; en retard</h2>
-        <span className="section-note">{due.length} révision(s)</span>
-      </div>
+      <SectionHeader label="À revoir" title="Aujourd'hui & en retard" note={`${due.length} révision(s)`} />
       {due.length === 0 ? (
-        <div className="empty">Rien à revoir aujourd'hui. Reviens quand une révision arrive à échéance.</div>
+        <EmptyState
+          title="Rien à revoir aujourd'hui."
+          hint={upcoming.length ? `Ta prochaine révision arrive bientôt (voir « À venir »).` : 'Les journées marquées « à revoir » apparaîtront ici à échéance.'}
+        />
       ) : (
         <div className="rev-list">
           {due.map((r) => (

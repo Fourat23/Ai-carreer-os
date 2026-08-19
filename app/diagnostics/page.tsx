@@ -1,6 +1,7 @@
 import { Eye, ShieldQuestion } from 'lucide-react';
 import { listAssessments } from '@/lib/assessments-server';
 import { getProgram } from '@/lib/program';
+import { PageHeader } from '@/app/ui';
 import DiagnosticsBoard from './DiagnosticsBoard';
 
 export const dynamic = 'force-dynamic';
@@ -16,19 +17,17 @@ export default function DiagnosticsPage() {
 
   return (
     <>
-      <div className="page-head">
-        <div className="page-head-main">
-          <p className="page-eyebrow">Apprendre <span className="sep">/</span> auto-évaluations diagnostiques</p>
-          <h1 className="page-title">Diagnostics</h1>
-          <p className="page-sub">
-            Teste ta compréhension par niveau — te souvenir, expliquer, appliquer, diagnostiquer,
-            transposer. Correction locale et déterministe ; en cas d'écart, la leçon à revoir t'est
-            indiquée.
-            <span className="synth-ro"><Eye size={13} strokeWidth={2} /> Réussir un diagnostic est un
-            INDICE de compréhension, pas une preuve de maîtrise.</span>
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow={<>Apprendre <span className="sep">/</span> auto-évaluations diagnostiques</>}
+        title="Diagnostics"
+        sub={<>
+          Teste ta compréhension par niveau — te souvenir, expliquer, appliquer, diagnostiquer,
+          transposer. Correction locale et déterministe ; en cas d'écart, la leçon à revoir t'est
+          indiquée.
+          <span className="synth-ro"><Eye size={13} strokeWidth={2} /> Réussir un diagnostic est un
+          INDICE de compréhension, pas une preuve de maîtrise.</span>
+        </>}
+      />
 
       {assessments.length === 0 ? (
         <div className="empty">

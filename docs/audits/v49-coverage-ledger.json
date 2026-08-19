@@ -1,7 +1,7 @@
 {
   "note": "Ledger DÉRIVÉ (V49). Recomputable par v49:check ; aucune source de vérité. Ne pas éditer à la main.",
   "generatedFrom": "lib/professional-coverage.mjs",
-  "completeLoops": 11,
+  "completeLoops": 17,
   "totalSkills": 20,
   "matrix": [
     {
@@ -15,7 +15,7 @@
       "d5": 0,
       "localExec": 25,
       "transferCount": 3,
-      "scenarioCount": 0,
+      "scenarioCount": 1,
       "missionCount": 1,
       "externalTask": false,
       "dims": {
@@ -25,11 +25,11 @@
         "diagnostic": true,
         "variation": true,
         "transfer": true,
-        "professional": false,
+        "professional": true,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "OPERATIONAL"
+      "status": "PROFESSIONAL_READY"
     },
     {
       "skill": "ds",
@@ -42,7 +42,7 @@
       "d5": 0,
       "localExec": 16,
       "transferCount": 2,
-      "scenarioCount": 0,
+      "scenarioCount": 1,
       "missionCount": 1,
       "externalTask": false,
       "dims": {
@@ -52,11 +52,11 @@
         "diagnostic": true,
         "variation": true,
         "transfer": true,
-        "professional": false,
+        "professional": true,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "OPERATIONAL"
+      "status": "PROFESSIONAL_READY"
     },
     {
       "skill": "jsts",
@@ -96,7 +96,7 @@
       "d5": 2,
       "localExec": 39,
       "transferCount": 1,
-      "scenarioCount": 0,
+      "scenarioCount": 1,
       "missionCount": 3,
       "externalTask": false,
       "dims": {
@@ -106,11 +106,11 @@
         "diagnostic": true,
         "variation": true,
         "transfer": true,
-        "professional": false,
+        "professional": true,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "OPERATIONAL"
+      "status": "PROFESSIONAL_READY"
     },
     {
       "skill": "gitlinux",
@@ -123,7 +123,7 @@
       "d5": 0,
       "localExec": 22,
       "transferCount": 1,
-      "scenarioCount": 0,
+      "scenarioCount": 1,
       "missionCount": 12,
       "externalTask": false,
       "dims": {
@@ -133,11 +133,11 @@
         "diagnostic": true,
         "variation": true,
         "transfer": true,
-        "professional": false,
+        "professional": true,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "OPERATIONAL"
+      "status": "PROFESSIONAL_READY"
     },
     {
       "skill": "http",
@@ -285,7 +285,7 @@
       "d5": 2,
       "localExec": 25,
       "transferCount": 1,
-      "scenarioCount": 2,
+      "scenarioCount": 3,
       "missionCount": 0,
       "externalTask": false,
       "dims": {
@@ -312,7 +312,7 @@
       "d5": 1,
       "localExec": 12,
       "transferCount": 2,
-      "scenarioCount": 0,
+      "scenarioCount": 1,
       "missionCount": 0,
       "externalTask": false,
       "dims": {
@@ -322,11 +322,11 @@
         "diagnostic": true,
         "variation": true,
         "transfer": true,
-        "professional": false,
+        "professional": true,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "OPERATIONAL"
+      "status": "PROFESSIONAL_READY"
     },
     {
       "skill": "llm",
@@ -447,7 +447,7 @@
       "d5": 1,
       "localExec": 6,
       "transferCount": 3,
-      "scenarioCount": 0,
+      "scenarioCount": 1,
       "missionCount": 0,
       "externalTask": true,
       "dims": {
@@ -457,11 +457,11 @@
         "diagnostic": true,
         "variation": true,
         "transfer": true,
-        "professional": false,
+        "professional": true,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "OPERATIONAL"
+      "status": "PROFESSIONAL_READY"
     },
     {
       "skill": "cloud",

@@ -1,0 +1,242 @@
+{
+  "id": "perf-quadratic-incident",
+  "title": "Perf : un endpoint qui s’effondre à l’échelle",
+  "domain": "Backend / Performance",
+  "difficulty": 5,
+  "estimatedMinutes": 45,
+  "skills": [
+    "algo",
+    "ds",
+    "python"
+  ],
+  "lessonRefs": [
+    "algorithmic-thinking",
+    "data-structures-intro"
+  ],
+  "exerciseRefs": [
+    "perf-pair-count",
+    "ds-lru-cache",
+    "ml-confusion-cost"
+  ],
+  "playbookRefs": [],
+  "dayRefs": [],
+  "simulationNote": "Profils et mesures fournis, déterministes.",
+  "passThreshold": 0.7,
+  "context": "Un endpoint « suggestions » (Python) répond en 40 ms pour 100 utilisateurs de test. En production, à 20 000 utilisateurs, il prend 12 s et sature un CPU. Le code compare chaque utilisateur à tous les autres pour trouver des paires d’intérêts communs.",
+  "signal": "Latence ×300 quand les données ×200. CPU à 100 % sur un cœur. Aucune erreur.",
+  "artifacts": [
+    {
+      "id": "code",
+      "kind": "code",
+      "title": "Boucle de comparaison (simulée)",
+      "useful": true,
+      "content": "for u in users:\n  for v in users:      # O(n^2)\n    if shared_interests(u, v) >= 3:\n      pairs.append((u, v))"
+    },
+    {
+      "id": "scaling",
+      "kind": "metrics",
+      "title": "Mesures d’échelle (simulées)",
+      "useful": true,
+      "content": "n=100 -> 40ms ; n=1000 -> 3.9s ; n=2000 -> 15.6s. Le temps quadruple quand n double : signature O(n^2)."
+    },
+    {
+      "id": "profile",
+      "kind": "trace",
+      "title": "Profil CPU (simulé)",
+      "useful": true,
+      "content": "98 % du temps dans la double boucle ; shared_interests appelé n*n fois. La sérialisation JSON est négligeable (0.5 %)."
+    },
+    {
+      "id": "infra",
+      "kind": "metrics",
+      "title": "Mémoire (simulée)",
+      "useful": false,
+      "content": "Mémoire stable à 300 Mo, pas de fuite. Le GC n’est pas en cause."
+    },
+    {
+      "id": "net",
+      "kind": "log",
+      "title": "Latence réseau (simulée)",
+      "useful": false,
+      "content": "RTT base de données 2 ms, stable. Aucune requête N+1 détectée."
+    }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Latence explose avec la taille. Causes ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Hypothèses plausibles :",
+          "options": [
+            "Complexité algorithmique O(n²)",
+            "Mauvaise structure (parcours linéaire au lieu d’index/hash)",
+            "Fuite mémoire",
+            "Latence réseau"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "Le temps quadruple quand n double → O(n²) ; une hash map par intérêt éviterait la double boucle. Mémoire et réseau sont stables (faux indices)."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Quel artefact confirme la complexité ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Le signe décisif :",
+          "options": [
+            "Le temps quadruple quand n double (40ms→3.9s→15.6s)",
+            "La mémoire stable",
+            "Le RTT base de données"
+          ],
+          "answer": 0,
+          "explanation": "Quadruplement pour un doublement = O(n²). Les autres métriques sont saines."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Cause racine ?",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "La cause est :",
+          "options": [
+            "Une double boucle O(n²) ; on peut indexer les utilisateurs par intérêt (hash) pour ne comparer que les candidats pertinents",
+            "Un manque de CPU",
+            "Une fuite mémoire"
+          ],
+          "answer": 0,
+          "explanation": "Le profil montre 98 % dans la double boucle. Un index par intérêt réduit à ~O(n·k). Ajouter du CPU ne corrige pas la complexité."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Quelle correction sous contrainte (déploiement rapide, exactitude préservée) ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Mesures :",
+          "options": [
+            "Construire un index intérêt → utilisateurs (hash) et ne comparer que les co-occurrents",
+            "Mettre en cache les résultats stables (LRU) si recalcul fréquent",
+            "Ajouter des cœurs CPU sans changer l’algo",
+            "Paralléliser la double boucle O(n²)"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "On change la COMPLEXITÉ (index) et on cache si utile. Paralléliser/ajouter du CPU ne fait que repousser le mur quadratique."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Éviter la récidive ?",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Le garde-fou :",
+          "options": [
+            "Un test de charge qui mesure la croissance du temps avec n (détecte une régression O(n²))",
+            "Prier pour que n reste petit",
+            "Augmenter le timeout"
+          ],
+          "answer": 0,
+          "explanation": "Un test qui vérifie la mise à l’échelle attrape une complexité quadratique avant la prod."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Preuve que c’est réglé ?",
+      "questions": [
+        {
+          "id": "v1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Preuve :",
+          "options": [
+            "Le temps croît ~linéairement avec n après correction, ET les paires trouvées sont identiques à l’ancienne version",
+            "Le CPU baisse",
+            "La mémoire baisse"
+          ],
+          "answer": 0,
+          "explanation": "On prouve la nouvelle complexité ET l’équivalence des résultats (pas de régression fonctionnelle)."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Note à l’équipe.",
+      "questions": [
+        {
+          "id": "c1",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Le résumé honnête :",
+          "options": [
+            "La double boucle O(n²) s’effondrait à l’échelle ; un index par intérêt la ramène à ~linéaire, résultats identiques, test de charge ajouté.",
+            "Le serveur manquait de CPU, on a scalé.",
+            "Fuite mémoire corrigée."
+          ],
+          "answer": 0,
+          "explanation": "Cause, correctif, preuve, prévention. Pas de fausse cause."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "La signature est nette : le temps QUADRUPLE quand n double → O(n²), confirmé par le profil (98 % dans la double boucle). Mémoire et réseau sont sains (faux indices). Ajouter du CPU ou paralléliser ne change pas la complexité : il faut un meilleur ALGORITHME/structure — indexer les utilisateurs par intérêt (hash map) pour ne comparer que les candidats partageant un intérêt, ramenant à ~O(n·k). Cacher (LRU) si recalcul fréquent. Validation : croissance ~linéaire + résultats identiques. Prévention : test de charge mesurant la mise à l’échelle.",
+    "keySignals": [
+      "temps ×4 quand n ×2 (O(n²))",
+      "98 % du temps dans la double boucle",
+      "mémoire et réseau stables"
+    ],
+    "redHerrings": [
+      "mémoire / GC",
+      "latence réseau / N+1"
+    ],
+    "alternatives": [
+      "Manque de CPU : écarté (le problème est la complexité, pas la puissance)",
+      "Fuite mémoire : écartée (mémoire stable)"
+    ],
+    "tradeoffs": [
+      "Index en mémoire (rapide, un peu de RAM) vs recalcul (lent)",
+      "Cache LRU (réponses rapides, risque de péremption) vs calcul frais"
+    ]
+  },
+  "sprint": "v49"
+}

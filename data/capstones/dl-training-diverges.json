@@ -1,0 +1,236 @@
+{
+  "id": "dl-training-diverges",
+  "title": "DL : la perte part en NaN",
+  "domain": "Applied AI / Deep Learning",
+  "difficulty": 4,
+  "estimatedMinutes": 40,
+  "skills": [
+    "dl",
+    "ml"
+  ],
+  "lessonRefs": [
+    "neural-networks",
+    "machine-learning-basics"
+  ],
+  "exerciseRefs": [
+    "dl-lr-stability",
+    "dl-sgd-linear-step",
+    "dl-he-init-std",
+    "dl-generalization-gap"
+  ],
+  "playbookRefs": [],
+  "dayRefs": [],
+  "simulationNote": "Courbes et réglages fournis, déterministes ; aucun entraînement réel.",
+  "passThreshold": 0.7,
+  "context": "Un petit réseau entraîné sur des données tabulaires voit sa perte descendre quelques itérations puis exploser en NaN. Un collègue propose « d’ajouter des couches ». Les features vont de 0 à 100 000, non normalisées.",
+  "signal": "Loss : 2.1 → 1.8 → 1.5 → 3e4 → NaN. Le learning rate est 0.5. Les entrées ne sont pas normalisées.",
+  "artifacts": [
+    {
+      "id": "curve",
+      "kind": "metrics",
+      "title": "Courbe de perte (simulée)",
+      "useful": true,
+      "content": "step0 2.10 ; step1 1.80 ; step2 1.50 ; step3 31000 ; step4 NaN. Divergence brutale, pas un plateau."
+    },
+    {
+      "id": "cfg",
+      "kind": "config",
+      "title": "Configuration (simulée)",
+      "useful": true,
+      "content": "learning_rate=0.5 ; init=uniform(-1,1) ; input_scaling=none ; features range [0, 1e5]"
+    },
+    {
+      "id": "data",
+      "kind": "metrics",
+      "title": "Statistiques des features (simulées)",
+      "useful": true,
+      "content": "revenu: 0..100000 ; age: 18..90 ; solde: -5000..250000. Échelles très hétérogènes, non normalisées."
+    },
+    {
+      "id": "depth",
+      "kind": "ticket",
+      "title": "Proposition d’un collègue (simulée)",
+      "useful": false,
+      "content": "« Ajoutons 5 couches, le modèle sera plus puissant. » — ne traite pas la divergence."
+    }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "La perte diverge en NaN. Causes probables ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Hypothèses plausibles :",
+          "options": [
+            "Learning rate trop grand (pas qui diverge)",
+            "Features non normalisées (gradients énormes)",
+            "Réseau pas assez profond",
+            "Trop peu d’époques"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "LR élevé + entrées à grande échelle font exploser les gradients. La profondeur n’a rien à voir avec une divergence (faux indice)."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Quel signe distingue divergence et surapprentissage ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Le signe décisif :",
+          "options": [
+            "La perte AUGMENTE brutalement puis NaN (divergence), au lieu de baisser puis se dégrader en val (overfit)",
+            "La perte stagne",
+            "La val baisse"
+          ],
+          "answer": 0,
+          "explanation": "Explosion en NaN = divergence numérique, pas surapprentissage. Cause : pas trop grand et/ou entrées non normalisées."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Cause racine ?",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "La cause est :",
+          "options": [
+            "Un pas trop grand (lr=0.5) sur des features non normalisées (0..1e5) fait exploser les gradients",
+            "Le réseau manque de couches",
+            "Les données sont insuffisantes"
+          ],
+          "answer": 0,
+          "explanation": "La combinaison lr élevé × grande échelle d’entrée amplifie chaque pas jusqu’au NaN. Ni la profondeur ni la quantité de données ne sont en cause."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Quelles corrections, avant de toucher à l’architecture ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Mesures :",
+          "options": [
+            "Normaliser/standardiser les features",
+            "Réduire le learning rate (ex. 0.5 → 0.01)",
+            "Utiliser une init adaptée (He) au lieu de uniform(-1,1)",
+            "Ajouter 5 couches"
+          ],
+          "answer": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "On stabilise d’abord : normalisation, pas plus petit, init adaptée. Ajouter des couches n’adresse pas la divergence (et l’aggrave)."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Éviter la récidive ?",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Le réflexe durable :",
+          "options": [
+            "Toujours normaliser les entrées et régler le learning rate avant d’ajouter de la capacité",
+            "Toujours ajouter des couches",
+            "Augmenter le learning rate pour aller plus vite"
+          ],
+          "answer": 0,
+          "explanation": "Normalisation + réglage du pas sont les fondations ; la capacité vient après, une fois l’entraînement stable."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Preuve que c’est réglé ?",
+      "questions": [
+        {
+          "id": "v1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Preuve :",
+          "options": [
+            "La perte décroît régulièrement sans NaN sur plusieurs époques, et l’écart train/val reste raisonnable",
+            "La perte est NaN plus tard",
+            "Le modèle a plus de couches"
+          ],
+          "answer": 0,
+          "explanation": "On prouve la stabilité (pas de NaN, décroissance) et une généralisation saine."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Message à l’équipe.",
+      "questions": [
+        {
+          "id": "c1",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Le résumé honnête :",
+          "options": [
+            "La divergence venait d’un pas trop grand sur des entrées non normalisées ; normalisation + lr réduit + init He stabilisent. « Ajouter des couches » n’était pas la solution.",
+            "Le modèle manquait de profondeur, on a ajouté des couches.",
+            "Il manquait des données."
+          ],
+          "answer": 0,
+          "explanation": "Cause (lr × échelle), correctifs (normalisation/lr/init), et rejet explicite de la fausse solution."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "La perte baisse quelques pas puis EXPLOSE en NaN : c’est une divergence numérique, pas du surapprentissage. Deux causes se conjuguent : un learning rate trop grand (0.5) et des features non normalisées (0..1e5), qui produisent des gradients énormes amplifiés à chaque pas. La proposition « ajouter des couches » est un faux indice : la profondeur ne stabilise pas une divergence (elle l’aggrave). Correctifs, avant toute architecture : normaliser/standardiser les entrées, réduire le pas (0.5→0.01), utiliser une init adaptée (He). Validation : perte qui décroît sans NaN + écart train/val raisonnable.",
+    "keySignals": [
+      "perte qui explose en NaN (divergence)",
+      "lr=0.5",
+      "features 0..1e5 non normalisées"
+    ],
+    "redHerrings": [
+      "« ajouter des couches »",
+      "quantité de données"
+    ],
+    "alternatives": [
+      "Surapprentissage : écarté (la perte diverge, elle ne se dégrade pas en validation)",
+      "Manque de profondeur : écarté (n’explique pas un NaN)"
+    ],
+    "tradeoffs": [
+      "LR petit (stable, plus lent) vs grand (rapide, risque de divergence)",
+      "Normalisation (étape en plus, entraînement stable) vs données brutes (fragile)"
+    ]
+  },
+  "sprint": "v49"
+}

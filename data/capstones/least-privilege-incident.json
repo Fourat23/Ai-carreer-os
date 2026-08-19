@@ -1,0 +1,246 @@
+{
+  "id": "least-privilege-incident",
+  "title": "Sécurité : une clé trop permissive fuit",
+  "domain": "Security / Access",
+  "difficulty": 5,
+  "estimatedMinutes": 45,
+  "skills": [
+    "secu",
+    "gitlinux"
+  ],
+  "lessonRefs": [
+    "deployment-secrets",
+    "linux-filesystem-permissions"
+  ],
+  "exerciseRefs": [
+    "sec-secret-placement",
+    "sec-redact-secret-log",
+    "sec-secret-vs-config"
+  ],
+  "playbookRefs": [],
+  "dayRefs": [],
+  "simulationNote": "Journaux et politiques fournis, déterministes ; aucun cloud réel.",
+  "passThreshold": 0.7,
+  "context": "Une application n’a besoin que de LIRE un bucket de rapports. Un jeton d’accès applicatif, doté de droits d’administration complets, s’est retrouvé dans un log public. Un attaquant a pu lister et supprimer d’autres ressources.",
+  "signal": "Le jeton (droits admin *:*) est apparu en clair dans un log applicatif ; des ressources hors périmètre ont été touchées.",
+  "artifacts": [
+    {
+      "id": "policy",
+      "kind": "config",
+      "title": "Politique du jeton (simulée)",
+      "useful": true,
+      "content": "{ \"Effect\": \"Allow\", \"Action\": \"*\", \"Resource\": \"*\" }  # bien au-delà de « lire un bucket »"
+    },
+    {
+      "id": "log",
+      "kind": "log",
+      "title": "Extrait de log (simulé)",
+      "useful": true,
+      "content": "INFO request headers: Authorization: Bearer AKIA...FULLKEY...  # secret loggué en clair"
+    },
+    {
+      "id": "need",
+      "kind": "ticket",
+      "title": "Besoin réel (simulé)",
+      "useful": true,
+      "content": "L’app doit seulement GET les objets de s3://reports-readonly/. Rien d’autre."
+    },
+    {
+      "id": "ui",
+      "kind": "log",
+      "title": "Retour cosmétique (simulé)",
+      "useful": false,
+      "content": "Des utilisateurs trouvent l’écran de connexion trop terne. Sans rapport avec l’incident."
+    },
+    {
+      "id": "uptime",
+      "kind": "metrics",
+      "title": "Disponibilité (simulée)",
+      "useful": false,
+      "content": "Uptime 99.99 %. L’incident n’est pas une panne de disponibilité."
+    }
+  ],
+  "phases": [
+    {
+      "id": "hypotheses",
+      "kind": "hypotheses",
+      "title": "Hypothèses",
+      "prompt": "Une clé fuit et cause des dégâts larges. Quelles faiblesses ?",
+      "questions": [
+        {
+          "id": "h1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Faiblesses réelles :",
+          "options": [
+            "Le jeton a des droits bien trop larges (admin au lieu de lecture d’un bucket)",
+            "Le secret est loggué en clair",
+            "L’écran de connexion est terne",
+            "L’uptime est insuffisant"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "Sur-permission + secret loggué = la combinaison dangereuse. UI et uptime sont hors sujet."
+        }
+      ]
+    },
+    {
+      "id": "investigation",
+      "kind": "investigation",
+      "title": "Investigation",
+      "prompt": "Qu’est-ce qui transforme une fuite en catastrophe ?",
+      "questions": [
+        {
+          "id": "i1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "L’élément aggravant :",
+          "options": [
+            "La politique Action:* Resource:* (le jeton peut tout faire partout)",
+            "La couleur de l’écran",
+            "Le taux de disponibilité"
+          ],
+          "answer": 0,
+          "explanation": "Un jeton en lecture seule sur un seul bucket aurait limité les dégâts à… presque rien. L’admin universel fait la catastrophe."
+        }
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "kind": "diagnosis",
+      "title": "Diagnostic",
+      "prompt": "Cause racine et facteur aggravant ?",
+      "questions": [
+        {
+          "id": "d1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "multi",
+          "prompt": "Les deux problèmes :",
+          "options": [
+            "Violation du moindre privilège (droits trop larges)",
+            "Secret exposé (loggué en clair)",
+            "Manque de CPU",
+            "Thème d’interface"
+          ],
+          "answer": [
+            0,
+            1
+          ],
+          "explanation": "Moindre privilège violé ET secret exposé : chacun aggrave l’autre."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Décision",
+      "prompt": "Quelles corrections, priorisées ?",
+      "questions": [
+        {
+          "id": "de1",
+          "taxonomy": "APPLICATION",
+          "kind": "multi",
+          "prompt": "Mesures :",
+          "options": [
+            "Révoquer/rotationner le jeton immédiatement",
+            "Restreindre la politique à s3:GetObject sur ce seul bucket",
+            "Cesser de logguer les en-têtes d’autorisation (redaction)",
+            "Changer la couleur du thème"
+          ],
+          "answer": [
+            0,
+            1,
+            2
+          ],
+          "explanation": "Rotation d’urgence, moindre privilège, arrêt du log de secrets. Le thème est hors sujet."
+        }
+      ]
+    },
+    {
+      "id": "remediation",
+      "kind": "remediation",
+      "title": "Remédiation",
+      "prompt": "Éviter la récidive ?",
+      "questions": [
+        {
+          "id": "r1",
+          "taxonomy": "APPLICATION",
+          "kind": "mcq",
+          "prompt": "Le garde-fou durable :",
+          "options": [
+            "Politiques au moindre privilège par défaut + secrets hors du code/logs (gestionnaire de secrets, redaction)",
+            "Interdire les logs",
+            "Donner les droits admin à tout le monde pour uniformiser"
+          ],
+          "answer": 0,
+          "explanation": "Moindre privilège systématique + secrets jamais dans le code/les logs : le principe transféré des permissions Unix à IAM."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "kind": "validation",
+      "title": "Validation",
+      "prompt": "Preuve que c’est réglé ?",
+      "questions": [
+        {
+          "id": "v1",
+          "taxonomy": "DIAGNOSIS",
+          "kind": "mcq",
+          "prompt": "Preuve :",
+          "options": [
+            "Le nouveau jeton ne peut QUE GET ce bucket (accès hors périmètre refusé), et aucun secret n’apparaît dans les logs",
+            "L’uptime remonte",
+            "L’écran est plus joli"
+          ],
+          "answer": 0,
+          "explanation": "On prouve la restriction effective (AccessDenied ailleurs) et l’absence de secret loggué."
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "kind": "communication",
+      "title": "Communication",
+      "prompt": "Message de post-incident.",
+      "questions": [
+        {
+          "id": "c1",
+          "taxonomy": "UNDERSTANDING",
+          "kind": "mcq",
+          "prompt": "Le résumé honnête :",
+          "options": [
+            "Un jeton admin (au lieu de lecture d’un bucket) a été loggué en clair ; rotation, moindre privilège et redaction appliqués ; accès hors périmètre désormais refusé.",
+            "C’était un problème d’affichage.",
+            "C’était une panne d’uptime."
+          ],
+          "answer": 0,
+          "explanation": "Cause (sur-permission + secret loggué), correctifs, preuve. Communication de post-incident honnête."
+        }
+      ]
+    }
+  ],
+  "debrief": {
+    "expectedReasoning": "Deux fautes se combinent : (1) violation du moindre privilège — le jeton a Action:* Resource:* alors que le besoin est GET sur un seul bucket ; (2) le secret est loggué en clair. Isolément gênantes, ensemble catastrophiques : la fuite d’un jeton tout-puissant permet de lister/supprimer hors périmètre. UI et uptime sont des faux indices. Priorité : révoquer/rotationner le jeton, restreindre la politique à s3:GetObject sur ce bucket, cesser de logguer les en-têtes d’autorisation. Prévention : moindre privilège par défaut + secrets hors code/logs. C’est le principe des permissions Unix restreintes transféré à IAM. Validation : accès hors périmètre refusé + aucun secret dans les logs.",
+    "keySignals": [
+      "politique Action:* Resource:*",
+      "Authorization loggué en clair",
+      "besoin réel = GET un seul bucket"
+    ],
+    "redHerrings": [
+      "écran de connexion terne",
+      "uptime"
+    ],
+    "alternatives": [
+      "Problème de disponibilité : écarté (uptime intact)",
+      "Problème d’UI : écarté (sans rapport)"
+    ],
+    "tradeoffs": [
+      "Rotation immédiate (coupe l’accès, petite interruption) vs analyse d’abord (risque prolongé)",
+      "Moindre privilège strict (plus de politiques à gérer) vs droits larges (dette de sécurité)"
+    ]
+  },
+  "sprint": "v49"
+}

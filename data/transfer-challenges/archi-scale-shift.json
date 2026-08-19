@@ -1,0 +1,54 @@
+{
+  "id": "archi-scale-shift",
+  "title": "Quand une contrainte nouvelle rend l’architecture correcte… mauvaise",
+  "sourceSkill": "archi",
+  "skills": [
+    "archi",
+    "sql"
+  ],
+  "transferLevel": "T5",
+  "bridge": "une décision d'architecture est correcte SOUS des contraintes données ; quand une contrainte change (charge ×100, nouvelle exigence de fraîcheur, SPOF inacceptable), la même décision devient mauvaise → savoir expliquer pourquoi T0 était juste et T1 ne l'est plus",
+  "crossDomain": true,
+  "targetContext": "Un compteur global en une seule ligne de base de données marchait très bien au lancement (T0). À T1, le trafic est multiplié par 100 et ce compteur devient un point de contention.",
+  "lessonRefs": [
+    "system-design-scaling",
+    "architecture-basics"
+  ],
+  "simulationNote": "Évolution décrite pour le raisonnement ; aucune infra réelle.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Pourquoi le compteur mono-ligne, correct à T0, devient-il mauvais à T1 ?",
+      "options": [
+        "À T1 la charge en fait un point de contention (écritures concurrentes sérialisées) ; à T0 la charge était trop faible pour que ça compte",
+        "Il était déjà mauvais à T0",
+        "La base est cassée",
+        "Le code a changé"
+      ],
+      "answer": 0,
+      "explanation": "La décision dépend de la contrainte de charge. Correcte sous faible charge, mauvaise sous forte charge (contention) : c’est la contrainte qui bascule, pas le code."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles transpositions du principe « la contrainte fait la décision » sont justes ?",
+      "options": [
+        "Un compteur peut être fragmenté (sharded counters) quand la charge monte",
+        "Une lecture synchrone peut devoir passer en cache/asynchrone quand la latence devient critique",
+        "Un monolithe correct au départ peut devoir se découper quand une partie doit scaler seule",
+        "Il faut toujours choisir dès le départ l’architecture la plus scalable"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "La bonne réponse CHANGE avec la contrainte (charge, latence, isolement). « Toujours le plus scalable » nie le coût de la sur-ingénierie précoce."
+    }
+  ],
+  "sprint": "v49"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "dl-lr-to-stepsize",
+  "title": "Du learning rate au pas d’une optimisation",
+  "sourceSkill": "dl",
+  "skills": [
+    "dl",
+    "algo"
+  ],
+  "transferLevel": "T5",
+  "bridge": "le taux d'apprentissage contrôle la taille du pas d'une descente de gradient (trop grand → divergence/oscillation ; trop petit → lenteur) → tout processus itératif à pas réglable : recherche de racine, ajustement d'un contrôleur, tâtonnement dichotomique du bon incrément",
+  "crossDomain": true,
+  "targetContext": "On règle manuellement un paramètre d'un système par essais successifs : à chaque essai on ajuste d'un certain pas — sans parler de réseau de neurones.",
+  "lessonRefs": [
+    "neural-networks",
+    "algorithmic-thinking"
+  ],
+  "simulationNote": "Comportements décrits pour le raisonnement ; aucun entraînement réel.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Les ajustements oscillent autour de la cible sans converger. Que dit l’analogie du learning rate ?",
+      "options": [
+        "Le pas est trop grand : le réduire pour converger",
+        "Le pas est trop petit : l’augmenter",
+        "Le système est cassé",
+        "Il faut changer complètement de méthode"
+      ],
+      "answer": 0,
+      "explanation": "Oscillation = pas trop grand, exactement comme un learning rate trop élevé qui fait diverger la descente."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels symptômes se transfèrent du learning rate au réglage par pas ?",
+      "options": [
+        "Pas trop grand → oscillation/divergence",
+        "Pas trop petit → convergence très lente",
+        "Un bon pas peut décroître au fil des itérations",
+        "Le pas n’a aucune influence"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Divergence si trop grand, lenteur si trop petit, décroissance du pas utile (learning rate schedule). Le pas est déterminant."
+    }
+  ],
+  "sprint": "v49"
+}

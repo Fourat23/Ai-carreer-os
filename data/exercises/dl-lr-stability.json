@@ -1,0 +1,61 @@
+{
+  "id": "dl-lr-stability",
+  "title": "DL : le learning rate fait-il diverger ?",
+  "difficulty": 4,
+  "summary": "Sur une perte quadratique de courbure c (gradient = c·θ), un pas de gradient multiplie l'erreur par (1 - lr·c). Renvoie 'diverge' si |1-lr·c|>1, 'oscille' si compris dans (-1,0), sinon 'converge'. Trop grand → divergence.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "dl"
+  ],
+  "sprint": "v49",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def stability(lr, c):\n    # r = 1 - lr*c. TODO: 'diverge' | 'oscille' | 'converge'\n    return 'converge'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def stability(lr, c):\n    r = 1 - lr * c\n    if abs(r) > 1:\n        return 'diverge'\n    if r < 0:\n        return 'oscille'\n    return 'converge'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "pas trop grand",
+      "kind": "call-equals",
+      "export": "stability",
+      "args": [
+        1.5,
+        2
+      ],
+      "expected": "diverge"
+    },
+    {
+      "id": "t2",
+      "name": "bon pas",
+      "kind": "call-equals",
+      "export": "stability",
+      "args": [
+        0.1,
+        2
+      ],
+      "expected": "converge"
+    },
+    {
+      "id": "t3",
+      "name": "oscillation amortie (privé)",
+      "kind": "call-equals",
+      "export": "stability",
+      "args": [
+        0.75,
+        2
+      ],
+      "expected": "oscille",
+      "private": true
+    }
+  ]
+}

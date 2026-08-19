@@ -1,0 +1,54 @@
+{
+  "id": "llm-context-to-eviction",
+  "title": "Du budget de contexte à l’éviction bornée",
+  "sourceSkill": "llm",
+  "skills": [
+    "llm",
+    "archi"
+  ],
+  "transferLevel": "T5",
+  "bridge": "garder le système + les éléments les plus utiles dans une capacité bornée (budget de tokens) → toute ressource à capacité fixe qu'il faut peupler par priorité et faire déborder proprement : cache LRU, buffer, fenêtre glissante",
+  "crossDomain": true,
+  "targetContext": "On conçoit un cache en mémoire de taille fixe pour des profils utilisateurs — sans parler de LLM ni de tokens. Quand le cache est plein, il faut décider quoi garder.",
+  "lessonRefs": [
+    "llm-cost-optimization",
+    "architecture-basics"
+  ],
+  "simulationNote": "Situations décrites pour le raisonnement ; aucune exécution.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Le cache de profils est plein. Quelle transposition du « budget de contexte » est correcte ?",
+      "options": [
+        "Garder les entrées prioritaires/récentes et évincer les moins utiles quand la capacité est atteinte",
+        "Refuser toute nouvelle entrée dès que le cache est plein",
+        "Vider entièrement le cache à chaque ajout",
+        "Agrandir le cache indéfiniment"
+      ],
+      "answer": 0,
+      "explanation": "Comme le contexte LLM : capacité bornée, on peuple par priorité et on évince le moins utile — pas de refus global ni de croissance infinie."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels éléments du raisonnement « budget » se transfèrent ?",
+      "options": [
+        "Une capacité fixe force un arbitrage",
+        "On protège les éléments indispensables (comme le message système)",
+        "Le débordement doit être géré explicitement (éviction)",
+        "Plus on remplit, mieux c’est"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Capacité fixe → arbitrage ; on épingle l’indispensable ; on gère l’éviction. « Plus = mieux » est justement l’erreur."
+    }
+  ],
+  "sprint": "v49"
+}

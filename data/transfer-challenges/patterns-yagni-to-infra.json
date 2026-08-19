@@ -1,0 +1,44 @@
+{
+  "id": "patterns-yagni-to-infra",
+  "title": "De « pas de pattern inutile » à « pas de sur-architecture »",
+  "sourceSkill": "patterns",
+  "skills": [
+    "patterns",
+    "archi"
+  ],
+  "transferLevel": "T5",
+  "bridge": "n'introduire un pattern que si une CONTRAINTE le justifie (variantes, changement fréquent) → n'introduire une complexité d'infrastructure (micro-services, sharding, multi-région) que si une contrainte réelle (charge, isolement, latence) l'exige ; sinon c'est de la sur-ingénierie coûteuse",
+  "crossDomain": true,
+  "targetContext": "Une petite équipe démarre un produit et hésite à découper d'emblée en 8 micro-services « pour être prêt » — sans parler de design patterns.",
+  "lessonRefs": [
+    "design-patterns-intro",
+    "system-design-scaling"
+  ],
+  "simulationNote": "Décisions décrites pour le raisonnement ; aucune infra réelle.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Comment transposer le principe « yagni des patterns » à l’infrastructure ?",
+      "options": [
+        "Commencer simple (monolithe) et découper quand une contrainte mesurée l’exige",
+        "Découper en micro-services dès le départ par précaution",
+        "Ne jamais découper",
+        "Choisir l’architecture la plus complexe pour être prêt"
+      ],
+      "answer": 0,
+      "explanation": "Comme pour un pattern : la structure se justifie par une contrainte réelle, pas par anticipation spéculative."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "predict",
+      "prompt": "En un mot : quel principe commun relie « strategy inutile » et « micro-services prématurés » ? (réponds : sur-ingénierie)",
+      "answer": "sur-ingénierie",
+      "explanation": "Les deux ajoutent une complexité non justifiée par une contrainte : sur-ingénierie."
+    }
+  ],
+  "sprint": "v49"
+}

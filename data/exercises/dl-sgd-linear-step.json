@@ -1,0 +1,87 @@
+{
+  "id": "dl-sgd-linear-step",
+  "title": "DL : un pas de descente de gradient",
+  "difficulty": 4,
+  "summary": "Sur une régression linéaire y=w·x+b et perte MSE, applique UN pas de gradient : w -= lr·dW, b -= lr·db. Renvoie 'w=.. b=..' (3 déc.). Le gradient vient du calcul réel, pas d'une intuition.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "dl"
+  ],
+  "sprint": "v49",
+  "activeFile": "solution.py",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import numpy as np\n\ndef step(x, y, w, b, lr):\n    # gradient MSE (moyenne), un pas. TODO -> 'w=.. b=..'\n    return 'w=0.000 b=0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import numpy as np\n\ndef step(x, y, w, b, lr):\n    x = np.array(x, dtype=float); y = np.array(y, dtype=float)\n    n = len(x)\n    pred = w * x + b\n    err = pred - y\n    dW = (2.0 / n) * np.sum(err * x)\n    db = (2.0 / n) * np.sum(err)\n    w -= lr * dW; b -= lr * db\n    return f'w={w:.3f} b={b:.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "un pas",
+      "kind": "call-equals",
+      "export": "step",
+      "args": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        0,
+        0,
+        0.1
+      ],
+      "expected": "w=1.000 b=0.600"
+    },
+    {
+      "id": "t2",
+      "name": "déjà ajusté → gradient ~0",
+      "kind": "call-equals",
+      "export": "step",
+      "args": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        1,
+        0,
+        0.1
+      ],
+      "expected": "w=1.000 b=0.000"
+    },
+    {
+      "id": "t3",
+      "name": "pas plus grand (privé)",
+      "kind": "call-equals",
+      "export": "step",
+      "args": [
+        [
+          1
+        ],
+        [
+          1
+        ],
+        0,
+        0,
+        0.5
+      ],
+      "expected": "w=1.000 b=1.000",
+      "private": true
+    }
+  ]
+}

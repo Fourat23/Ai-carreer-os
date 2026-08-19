@@ -1,0 +1,54 @@
+{
+  "id": "llm-schema-to-api-validation",
+  "title": "De la validation de sortie LLM à la validation d’entrée d’API",
+  "sourceSkill": "llm",
+  "skills": [
+    "llm",
+    "http"
+  ],
+  "transferLevel": "T4",
+  "bridge": "ne jamais consommer une sortie « structurée » d'un LLM sans la valider contre un schéma → ne jamais faire confiance à une entrée d'API cliente sans la valider (types, champs requis, bornes) : la frontière est la douane",
+  "crossDomain": true,
+  "targetContext": "On écrit un endpoint HTTP recevant un JSON d’un client externe — sans parler de LLM.",
+  "lessonRefs": [
+    "api-design-basics",
+    "llm-fundamentals"
+  ],
+  "simulationNote": "Cas décrits pour le raisonnement.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Quel principe de la validation de sortie LLM se transfère à l’entrée d’API ?",
+      "options": [
+        "Valider à la frontière (schéma, types, champs requis) avant d’agir sur la donnée",
+        "Faire confiance au client s’il envoie du JSON",
+        "Valider seulement en cas d’erreur",
+        "Logguer sans valider"
+      ],
+      "answer": 0,
+      "explanation": "Sortie LLM comme entrée client : données non fiables ⇒ validation au schéma à la frontière avant tout usage."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quelles vérifications se transfèrent ?",
+      "options": [
+        "Champs requis présents",
+        "Types corrects",
+        "Valeurs dans des bornes acceptables",
+        "Aucune, le JSON est toujours sûr"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Présence, type, bornes : la validation de schéma. « Toujours sûr » est l’erreur."
+    }
+  ],
+  "sprint": "v49"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "dl-generalization-gap",
+  "title": "DL : sur- ou sous-apprentissage ?",
+  "difficulty": 3,
+  "summary": "À partir des pertes finales train et val : si train est basse mais val bien plus haute (écart > seuil) → 'overfit' ; si les deux sont hautes → 'underfit' ; sinon 'ok'. Diagnostic avant d'agir (régulariser vs augmenter la capacité).",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "dl",
+    "evalia"
+  ],
+  "sprint": "v49",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def diagnose(train_loss, val_loss, high, gap):\n    # TODO: 'overfit' | 'underfit' | 'ok'\n    return 'ok'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def diagnose(train_loss, val_loss, high, gap):\n    if train_loss >= high and val_loss >= high:\n        return 'underfit'\n    if val_loss - train_loss > gap:\n        return 'overfit'\n    return 'ok'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "train basse, val haute",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        0.05,
+        0.6,
+        0.5,
+        0.2
+      ],
+      "expected": "overfit"
+    },
+    {
+      "id": "t2",
+      "name": "les deux hautes",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        0.8,
+        0.85,
+        0.5,
+        0.2
+      ],
+      "expected": "underfit"
+    },
+    {
+      "id": "t3",
+      "name": "sain (privé)",
+      "kind": "call-equals",
+      "export": "diagnose",
+      "args": [
+        0.1,
+        0.15,
+        0.5,
+        0.2
+      ],
+      "expected": "ok",
+      "private": true
+    }
+  ]
+}

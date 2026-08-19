@@ -1,0 +1,54 @@
+{
+  "id": "dl-overfit-to-generalization",
+  "title": "De l’écart train/val à la généralisation",
+  "sourceSkill": "dl",
+  "skills": [
+    "dl",
+    "evalia"
+  ],
+  "transferLevel": "T4",
+  "bridge": "un écart train↑/val↓ signale un surapprentissage : le modèle mémorise au lieu de généraliser → tout système jugé sur les données qui l'ont produit surestime sa performance ; il faut une évaluation hors échantillon",
+  "crossDomain": true,
+  "targetContext": "Une règle métier est « validée » sur les mêmes cas qui ont servi à l’écrire, et marche mal ensuite — sans parler de réseau de neurones.",
+  "lessonRefs": [
+    "neural-networks",
+    "model-evaluation"
+  ],
+  "simulationNote": "Cas décrits pour le raisonnement.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Pourquoi la règle « validée » échoue-t-elle en vrai, par analogie avec le surapprentissage ?",
+      "options": [
+        "Elle a été évaluée sur les données qui l’ont produite (in-sample) et ne généralise pas",
+        "Elle est trop simple",
+        "Le hasard",
+        "Les utilisateurs se trompent"
+      ],
+      "answer": 0,
+      "explanation": "Évaluer sur les données d’entraînement surestime la performance : il faut un jeu hors échantillon, comme la validation en DL."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels remèdes se transfèrent ?",
+      "options": [
+        "Tester sur des cas jamais vus",
+        "Séparer données de conception et d’évaluation",
+        "Se méfier d’un score parfait sur les données sources",
+        "Ajouter plus de règles au hasard"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Hold-out, séparation conception/éval, méfiance du score in-sample : le cœur de la généralisation."
+    }
+  ],
+  "sprint": "v49"
+}

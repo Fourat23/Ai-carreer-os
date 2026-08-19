@@ -1,0 +1,75 @@
+{
+  "id": "dl-vanishing-gradient",
+  "title": "DL : localiser un gradient qui s’évanouit",
+  "difficulty": 5,
+  "summary": "En rétropropagation, le gradient rétropropagé est le PRODUIT cumulé des gradients locaux depuis la sortie. Étant donné ces gradients locaux dans l'ordre SORTIE→ENTRÉE, renvoie le nombre de couches franchies depuis la sortie avant que le produit cumulé devienne négligeable (< seuil) — c.-à-d. l'index (0 = couche la plus proche de la sortie) de la première couche où il s'éteint, sinon -1. Explique pourquoi les couches profondes n'apprennent plus.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "dl"
+  ],
+  "sprint": "v49",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def vanishing(local_grads, threshold):\n    # local_grads dans l'ordre SORTIE->ENTREE. produit cumulé ; renvoie l'index\n    # (0 = proche sortie) de la 1re couche où le produit < seuil, sinon -1.\n    return -1\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def vanishing(local_grads, threshold):\n    prod = 1.0\n    for i, g in enumerate(local_grads):\n        prod *= g\n        if prod < threshold:\n            return i\n    return -1\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "sigmoïdes qui étouffent",
+      "kind": "call-equals",
+      "export": "vanishing",
+      "args": [
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        0.01
+      ],
+      "expected": 2
+    },
+    {
+      "id": "t2",
+      "name": "gradients sains",
+      "kind": "call-equals",
+      "export": "vanishing",
+      "args": [
+        [
+          0.9,
+          0.9,
+          0.9
+        ],
+        0.01
+      ],
+      "expected": -1
+    },
+    {
+      "id": "t3",
+      "name": "évanouit tôt (privé)",
+      "kind": "call-equals",
+      "export": "vanishing",
+      "args": [
+        [
+          0.1,
+          0.05,
+          0.9,
+          0.9
+        ],
+        0.01
+      ],
+      "expected": 1,
+      "private": true
+    }
+  ]
+}

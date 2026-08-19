@@ -1,0 +1,82 @@
+{
+  "id": "dl-mse-loss",
+  "title": "DL : erreur quadratique moyenne",
+  "difficulty": 3,
+  "summary": "Calcule la MSE entre prédictions et cibles : moyenne des (pred-cible)². Renvoie '%.3f'. C'est la perte qui guide la descente de gradient en régression.",
+  "runtime": "python3",
+  "language": "python",
+  "skills": [
+    "dl",
+    "evalia"
+  ],
+  "sprint": "v49",
+  "activeFile": "solution.py",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "def mse(preds, targets):\n    # TODO: moyenne des carrés d'erreur -> '%.3f'\n    return '0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "def mse(preds, targets):\n    n = len(preds)\n    s = sum((p - t) ** 2 for p, t in zip(preds, targets))\n    return f'{s / n:.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "erreurs simples",
+      "kind": "call-equals",
+      "export": "mse",
+      "args": [
+        [
+          2,
+          4
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "expected": "2.500"
+    },
+    {
+      "id": "t2",
+      "name": "parfait",
+      "kind": "call-equals",
+      "export": "mse",
+      "args": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "expected": "0.000"
+    },
+    {
+      "id": "t3",
+      "name": "une erreur (privé)",
+      "kind": "call-equals",
+      "export": "mse",
+      "args": [
+        [
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected": "3.000",
+      "private": true
+    }
+  ]
+}

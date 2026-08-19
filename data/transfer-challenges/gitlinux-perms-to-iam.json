@@ -1,0 +1,54 @@
+{
+  "id": "gitlinux-perms-to-iam",
+  "title": "Des permissions de fichier au moindre privilège IAM",
+  "sourceSkill": "gitlinux",
+  "skills": [
+    "gitlinux",
+    "secu"
+  ],
+  "transferLevel": "T5",
+  "bridge": "n'accorder que les droits nécessaires sur un fichier (lecture/écriture/exécution, propriétaire/groupe/autres) → n'accorder à un rôle cloud que les actions strictement nécessaires sur les ressources strictement nécessaires (moindre privilège IAM)",
+  "crossDomain": true,
+  "targetContext": "On rédige une politique d’accès pour une application qui doit lire un seul bucket — sans parler de chmod ni de fichiers Unix.",
+  "lessonRefs": [
+    "linux-filesystem-permissions",
+    "deployment-secrets"
+  ],
+  "simulationNote": "Politiques décrites pour le raisonnement ; aucun cloud réel.",
+  "passThreshold": 0.7,
+  "questions": [
+    {
+      "id": "q1",
+      "taxonomy": "TRANSFER",
+      "kind": "mcq",
+      "prompt": "Comment transposer « chmod minimal » à une politique IAM ?",
+      "options": [
+        "Autoriser seulement l’action requise (lecture) sur la ressource requise (ce bucket)",
+        "Donner les pleins droits « pour éviter les problèmes »",
+        "Autoriser toutes les actions sur toutes les ressources",
+        "Ne donner aucun droit et contourner par une clé en dur"
+      ],
+      "answer": 0,
+      "explanation": "Moindre privilège : la plus petite permission sur la plus petite portée, exactement comme des droits Unix restreints."
+    },
+    {
+      "id": "q2",
+      "taxonomy": "TRANSFER",
+      "kind": "multi",
+      "prompt": "Quels principes se transfèrent des permissions Unix à IAM ?",
+      "options": [
+        "Restreindre la portée (une ressource, pas *)",
+        "Restreindre l’action (lecture, pas tout)",
+        "Éviter les droits « autres » trop larges (équivalent 0.0.0.0/0 / public)",
+        "Mettre un secret en dur pour simplifier"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Portée, action, éviter le « monde entier » : le secret en dur est l’anti-pattern à rejeter."
+    }
+  ],
+  "sprint": "v49"
+}

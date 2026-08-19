@@ -1,0 +1,137 @@
+{
+  "id": "dl-forward-2layer",
+  "title": "DL : passe avant à deux couches",
+  "difficulty": 4,
+  "summary": "Calcule la sortie d'un réseau à 2 couches : h = relu(W1·x + b1) ; y = sigmoid(W2·h + b2). Renvoie y arrondi à 3 déc. (chaîne). C'est la brique de toute inférence : produit matriciel + non-linéarité.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "dl"
+  ],
+  "sprint": "v49",
+  "activeFile": "solution.py",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import numpy as np\n\ndef forward(x, W1, b1, W2, b2):\n    # relu puis sigmoid. TODO -> '%.3f' de la sortie scalaire\n    return '0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import numpy as np\n\ndef forward(x, W1, b1, W2, b2):\n    x = np.array(x, dtype=float)\n    h = np.maximum(0, np.array(W1, dtype=float) @ x + np.array(b1, dtype=float))\n    z = float((np.array(W2, dtype=float) @ h)[0] + float(np.array(b2, dtype=float)[0]))\n    y = 1.0 / (1.0 + np.exp(-z))\n    return f'{y:.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "passe simple",
+      "kind": "call-equals",
+      "export": "forward",
+      "args": [
+        [
+          1,
+          2
+        ],
+        [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          0
+        ]
+      ],
+      "expected": "0.953"
+    },
+    {
+      "id": "t2",
+      "name": "relu coupe le négatif",
+      "kind": "call-equals",
+      "export": "forward",
+      "args": [
+        [
+          -5,
+          -5
+        ],
+        [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          0
+        ]
+      ],
+      "expected": "0.500"
+    },
+    {
+      "id": "t3",
+      "name": "biais de sortie (privé)",
+      "kind": "call-equals",
+      "export": "forward",
+      "args": [
+        [
+          0,
+          0
+        ],
+        [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        [
+          2
+        ]
+      ],
+      "expected": "0.881",
+      "private": true
+    }
+  ]
+}

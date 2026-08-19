@@ -1,7 +1,7 @@
 {
   "note": "Ledger DÉRIVÉ (V49). Recomputable par v49:check ; aucune source de vérité. Ne pas éditer à la main.",
   "generatedFrom": "lib/professional-coverage.mjs",
-  "completeLoops": 9,
+  "completeLoops": 11,
   "totalSkills": 20,
   "matrix": [
     {
@@ -14,7 +14,7 @@
       "d4": 5,
       "d5": 0,
       "localExec": 25,
-      "transferCount": 2,
+      "transferCount": 3,
       "scenarioCount": 0,
       "missionCount": 1,
       "externalTask": false,
@@ -122,7 +122,7 @@
       "d4": 1,
       "d5": 0,
       "localExec": 22,
-      "transferCount": 0,
+      "transferCount": 1,
       "scenarioCount": 0,
       "missionCount": 12,
       "externalTask": false,
@@ -132,12 +132,12 @@
         "autonomy": true,
         "diagnostic": true,
         "variation": true,
-        "transfer": false,
+        "transfer": true,
         "professional": false,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "FOUNDATIONAL"
+      "status": "OPERATIONAL"
     },
     {
       "skill": "http",
@@ -149,7 +149,7 @@
       "d4": 2,
       "d5": 2,
       "localExec": 14,
-      "transferCount": 4,
+      "transferCount": 5,
       "scenarioCount": 1,
       "missionCount": 10,
       "externalTask": false,
@@ -176,7 +176,7 @@
       "d4": 5,
       "d5": 2,
       "localExec": 13,
-      "transferCount": 4,
+      "transferCount": 5,
       "scenarioCount": 1,
       "missionCount": 0,
       "externalTask": false,
@@ -230,7 +230,7 @@
       "d4": 9,
       "d5": 5,
       "localExec": 18,
-      "transferCount": 4,
+      "transferCount": 7,
       "scenarioCount": 1,
       "missionCount": 0,
       "externalTask": false,
@@ -257,7 +257,7 @@
       "d4": 1,
       "d5": 1,
       "localExec": 9,
-      "transferCount": 0,
+      "transferCount": 1,
       "scenarioCount": 1,
       "missionCount": 0,
       "externalTask": false,
@@ -267,12 +267,12 @@
         "autonomy": true,
         "diagnostic": true,
         "variation": true,
-        "transfer": false,
+        "transfer": true,
         "professional": true,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "OPERATIONAL"
+      "status": "PROFESSIONAL_READY"
     },
     {
       "skill": "ml",
@@ -304,14 +304,14 @@
     {
       "skill": "dl",
       "lessons": 3,
-      "exercises": 5,
+      "exercises": 12,
       "d1": 0,
       "d2": 2,
-      "d3": 2,
-      "d4": 1,
-      "d5": 0,
-      "localExec": 5,
-      "transferCount": 0,
+      "d3": 4,
+      "d4": 5,
+      "d5": 1,
+      "localExec": 12,
+      "transferCount": 2,
       "scenarioCount": 0,
       "missionCount": 0,
       "externalTask": false,
@@ -321,12 +321,12 @@
         "autonomy": true,
         "diagnostic": true,
         "variation": true,
-        "transfer": false,
+        "transfer": true,
         "professional": false,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "FOUNDATIONAL"
+      "status": "OPERATIONAL"
     },
     {
       "skill": "llm",
@@ -338,7 +338,7 @@
       "d4": 3,
       "d5": 2,
       "localExec": 8,
-      "transferCount": 0,
+      "transferCount": 2,
       "scenarioCount": 3,
       "missionCount": 0,
       "externalTask": false,
@@ -348,12 +348,12 @@
         "autonomy": true,
         "diagnostic": true,
         "variation": true,
-        "transfer": false,
+        "transfer": true,
         "professional": true,
         "evidence": true
       },
       "runtime": "REAL",
-      "status": "OPERATIONAL"
+      "status": "PROFESSIONAL_READY"
     },
     {
       "skill": "rag",
@@ -412,14 +412,14 @@
     {
       "skill": "evalia",
       "lessons": 3,
-      "exercises": 15,
+      "exercises": 17,
       "d1": 0,
       "d2": 0,
-      "d3": 5,
+      "d3": 7,
       "d4": 9,
       "d5": 1,
-      "localExec": 14,
-      "transferCount": 1,
+      "localExec": 16,
+      "transferCount": 2,
       "scenarioCount": 5,
       "missionCount": 0,
       "externalTask": false,
@@ -446,7 +446,7 @@
       "d4": 3,
       "d5": 1,
       "localExec": 6,
-      "transferCount": 2,
+      "transferCount": 3,
       "scenarioCount": 0,
       "missionCount": 0,
       "externalTask": true,

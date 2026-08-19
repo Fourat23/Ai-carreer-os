@@ -1,0 +1,59 @@
+{
+  "id": "dl-he-init-std",
+  "title": "DL : écart-type d’initialisation (He)",
+  "difficulty": 4,
+  "summary": "Pour une couche ReLU de fan_in entrées, l'initialisation de He recommande un écart-type sqrt(2/fan_in) : ni trop grand (saturation/explosion) ni trop petit (gradient qui s'éteint). Renvoie '%.3f'.",
+  "runtime": "python-ds",
+  "language": "python",
+  "skills": [
+    "dl"
+  ],
+  "sprint": "v49",
+  "activeFile": "solution.py",
+  "practiceMode": "TOOLING_ENVIRONMENT_REQUIRED",
+  "workspace": {
+    "entry": "solution.py",
+    "files": [
+      {
+        "path": "solution.py",
+        "content": "import numpy as np\n\ndef he_std(fan_in):\n    # TODO: sqrt(2/fan_in) -> '%.3f'\n    return '0.000'\n"
+      }
+    ]
+  },
+  "reference": {
+    "solution.py": "import numpy as np\n\ndef he_std(fan_in):\n    return f'{np.sqrt(2.0 / fan_in):.3f}'\n"
+  },
+  "tests": [
+    {
+      "id": "t1",
+      "name": "fan_in=2",
+      "kind": "call-equals",
+      "export": "he_std",
+      "args": [
+        2
+      ],
+      "expected": "1.000"
+    },
+    {
+      "id": "t2",
+      "name": "fan_in=8",
+      "kind": "call-equals",
+      "export": "he_std",
+      "args": [
+        8
+      ],
+      "expected": "0.500"
+    },
+    {
+      "id": "t3",
+      "name": "fan_in=200 (privé)",
+      "kind": "call-equals",
+      "export": "he_std",
+      "args": [
+        200
+      ],
+      "expected": "0.100",
+      "private": true
+    }
+  ]
+}

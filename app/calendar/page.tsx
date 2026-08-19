@@ -30,9 +30,9 @@ export default function CalendarPage() {
         </div>
       </div>
       <div className="legend">
-        <span><i style={{ background: '#143a2c', borderColor: '#1e5b45' }} /> Terminé</span>
-        <span><i style={{ background: '#2a3550', borderColor: '#2e4a70' }} /> En cours</span>
-        <span><i style={{ background: '#3a2a52', borderColor: '#533a7a' }} /> À revoir</span>
+        <span><i style={{ background: 'var(--swatch-done-bg)', borderColor: 'var(--swatch-done-bd)' }} /> Terminé</span>
+        <span><i style={{ background: 'var(--swatch-prog-bg)', borderColor: 'var(--swatch-prog-bd)' }} /> En cours</span>
+        <span><i style={{ background: 'var(--swatch-review-bg)', borderColor: 'var(--swatch-review-bd)' }} /> À revoir</span>
         <span><i style={{ borderStyle: 'dashed' }} /> Revue hebdo</span>
       </div>
 

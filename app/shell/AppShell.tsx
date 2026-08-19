@@ -95,6 +95,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="app" data-collapsed={collapsed ? 'true' : 'false'}>
+      <a href="#main" className="skip-link">Aller au contenu</a>
       {/* Rail desktop */}
       <aside className="app-rail" aria-label="Navigation">
         <div className="rail-top">

@@ -14,6 +14,7 @@ import { hasLabEvidence } from '@/lib/lab-progress';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
 import { stripDayLeadHtml } from '@/lib/day-view';
 import { annotateDayHtml, deriveActivities } from '@/lib/section-family';
+import { SectionHeader, Status } from '@/app/ui';
 import DayPanel from './DayPanel';
 import DayHeader from './DayHeader';
 import DayOutline from './DayOutline';
@@ -94,10 +95,8 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
 
         {labExercises.length > 0 && (
           <section className="day-lab">
-            <div className="section-head">
-              <span className="section-label">Laboratoire</span>
-              <h2 className="section-title">Exercices de code</h2>
-            </div>
+            <SectionHeader label="Laboratoire" title="Exercices de code" />
+
             <div className="day-lab-list">
               {labExercises.map((x) => (
                 <Link key={x.id} href={`/lab/${x.id}`} className="day-lab-item">
@@ -111,8 +110,8 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
                     {x.difficulty ? <span className="day-lab-diff" title={`Difficulté ${x.difficulty}/5`} aria-label={`Difficulté ${x.difficulty} sur 5`}>{'●'.repeat(x.difficulty)}<span className="day-lab-diff-off">{'●'.repeat(Math.max(0, 5 - x.difficulty))}</span></span> : null}
                   </span>
                   {x.status === 'passed'
-                    ? <span className="badge ok"><Check size={12} /> Réussi</span>
-                    : <span className="badge">À faire</span>}
+                    ? <Status tone="positive" icon={<Check size={12} />} label="Réussi" />
+                    : <Status tone="neutral" label="À faire" />}
                   <ArrowRight size={14} className="day-lab-go" />
                 </Link>
               ))}
@@ -122,10 +121,8 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
 
         {dayMissions.length > 0 && (
           <section className="day-lab day-missions">
-            <div className="section-head">
-              <span className="section-label">Missions</span>
-              <h2 className="section-title">Missions d'ingénierie</h2>
-            </div>
+            <SectionHeader label="Missions" title="Missions d'ingénierie" />
+
             <div className="day-lab-list">
               {dayMissions.map((m) => (
                 <Link key={m.id} href={`/missions/${m.id}`} className="day-lab-item">
@@ -133,7 +130,7 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
                   <span className="day-lab-meta">
                     <span className="day-lab-runtime">{m.category}</span>
                   </span>
-                  {m.done ? <span className="badge ok"><Check size={12} /> Terminé</span> : <span className="badge">{m.statusLabel}</span>}
+                  {m.done ? <Status tone="positive" icon={<Check size={12} />} label="Terminé" /> : <Status tone="neutral" label={m.statusLabel} />}
                   <ArrowRight size={14} className="day-lab-go" />
                 </Link>
               ))}

@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { CalendarDays, NotebookPen, FolderGit2, ClipboardCheck } from 'lucide-react';
-import { Route } from 'lucide-react';
+import { CalendarDays, NotebookPen, FolderGit2, ClipboardCheck, Route } from 'lucide-react';
 import { getProgram } from '@/lib/program';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
@@ -10,16 +9,19 @@ import { resumeReasonText, countStatuses } from '@/lib/resume';
 import { progressPosition } from '@/lib/position';
 import { reviewSummary, getDueReviews } from '@/lib/review';
 import { nextBestActions } from '@/lib/learning-experience';
+import { PageHeader, SectionHeader, Status, Metric, Panel, ActionRow, EmptyState } from '@/app/ui';
+import type { Tone } from '@/app/ui';
 import StartDayButton from './StartDayButton';
 import Trajectory365 from './Trajectory365';
 
 export const dynamic = 'force-dynamic';
 
-const STATUS: Record<string, { label: string; cls: string }> = {
-  'not-started': { label: 'Non commencé', cls: 'idle' },
-  'in-progress': { label: 'En cours', cls: 'prog' },
-  'done': { label: 'Terminé', cls: 'ok' },
-  'to-review': { label: 'À revoir', cls: 'warn' },
+// Statut de journée → libellé + ton produit (jamais couleur seule).
+const DAY_STATUS: Record<string, { label: string; tone: Tone }> = {
+  'not-started': { label: 'Non commencé', tone: 'neutral' },
+  'in-progress': { label: 'En cours', tone: 'info' },
+  'done': { label: 'Terminé', tone: 'positive' },
+  'to-review': { label: 'À revoir', tone: 'attention' },
 };
 
 export default function Dashboard() {
@@ -27,23 +29,21 @@ export default function Dashboard() {
   const progress = readProgress();
   const catalogue = getCatalogue();
   const activeTrack = getTrack(catalogue, getActiveTrackId()) ?? catalogue.tracks[0];
-  // Jours du PARCOURS ACTIF (Fondations = les 365 jours ; un parcours ciblé = son
-  // sous-ensemble ordonné). Toutes les positions/compteurs en découlent.
+  // Jours du PARCOURS ACTIF. Toutes les positions/compteurs en découlent.
   const trackDays = resolveTrackDayObjects(catalogue, activeTrack, program);
-  const stats = computeStats(trackDays, progress);        // livrable suivant (parcours actif)
+  const stats = computeStats(trackDays, progress);
   const counts = countStatuses(trackDays, progress);
-  const pos = progressPosition(trackDays, progress);      // source de vérité des positions (parcours actif)
+  const pos = progressPosition(trackDays, progress);
   const percent = pos.total ? Math.round((pos.currentProgressPosition / pos.total) * 100) : 0;
   const resumeDay = program.days.find((d) => d.day === pos.resumeDay);
   const resumeStatus = progress.days[String(pos.resumeDay)]?.status ?? 'not-started';
-  const st = STATUS[resumeStatus] ?? STATUS['not-started'];
+  const st = DAY_STATUS[resumeStatus] ?? DAY_STATUS['not-started'];
   const skillIds = currentSkills(program, pos.resumeDay);
   const skillNames = program.skills.filter((s) => skillIds.includes(s.id)).map((s) => s.name);
   const currentMonth = program.months.find((m) => m.month === resumeDay?.month);
   const started = resumeStatus !== 'not-started';
   const reviews = reviewSummary(progress.days);
-  // « Que faire ensuite » : actions dérivées (read-model), hors reprise (déjà couverte
-  // par la carte Reprise). Chacune porte une raison + une preuve attendue.
+  // « Que faire ensuite » : actions dérivées (read-model), hors reprise.
   const nextActions = nextBestActions(program, progress, { reviews: getDueReviews(progress.days), limit: 4 })
     .filter((a) => a.kind !== 'resume');
   // Dernière preuve ajoutée (toutes journées confondues).
@@ -54,19 +54,18 @@ export default function Dashboard() {
       if (typeof e.createdAt === 'string' && e.createdAt > lastAt) { lastAt = e.createdAt; lastEvidence = { day: Number(k), title: e.title }; }
     }
   }
+  // Ton du rythme (dérivé, jamais couleur seule : accompagné d'un libellé).
+  const paceTone: Tone = pos.complete ? 'positive' : pos.delay > 0 ? 'attention' : pos.ahead > 0 ? 'accent' : 'positive';
+  const paceLabel = pos.expectedDay === null ? '—' : pos.complete ? 'Terminé'
+    : pos.delay > 0 ? `${pos.delay} j de retard` : pos.ahead > 0 ? `${pos.ahead} j d'avance` : 'À jour';
 
   return (
     <>
-      <div className="page-head">
-        <div className="page-head-main">
-          <p className="page-eyebrow">Mission control <span className="sep">/</span> jour {pos.resumeDay} sur {pos.total}</p>
-          <h1 className="page-title">Tableau de bord</h1>
-          <p className="page-sub">
-            Programme de 12 mois vers des rôles IA appliquée.
-            {progress.startDate ? ` Commencé le ${progress.startDate}.` : ' Lance ta première journée pour démarrer.'}
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow={<>Mission control <span className="sep">/</span> jour {pos.resumeDay} sur {pos.total}</>}
+        title="Tableau de bord"
+        sub={<>Programme de 12 mois vers des rôles IA appliquée.{progress.startDate ? ` Commencé le ${progress.startDate}.` : ' Lance ta première journée pour démarrer.'}</>}
+      />
 
       <p className="track-hint">
         <Route size={13} strokeWidth={2} /> Parcours actif : <strong>{activeTrack.title}</strong>
@@ -74,18 +73,18 @@ export default function Dashboard() {
       </p>
 
       <div className="dash-cols">
-        {/* Colonne principale : reprise + trajectoire + progression */}
+        {/* Colonne principale : reprise + prochaines actions + trajectoire */}
         <div className="dash-main">
           <section className="resume">
             <div className="resume-main">
               <p className="resume-eyebrow">{pos.resumeReason === 'complete' ? 'Programme terminé' : started ? 'Reprendre où j\'en suis' : 'Commencer'}</p>
               <div className="resume-line">
                 <span className="resume-day">Jour {pos.resumeDay}</span>
-                <span className={`day-status ${st.cls}`}>{st.label}</span>
+                <Status tone={st.tone} label={st.label} />
               </div>
               <h2 className="resume-title">{resumeDay?.title}</h2>
               <div className="resume-meta">
-                {resumeDay?.isReview && <span className="badge review">Revue hebdo</span>}
+                {resumeDay?.isReview && <Status tone="attention" label="Revue hebdo" />}
                 <span className="day-skill">{resumeDay?.skillName}</span>
                 <dl className="day-data">
                   <div><dt>Difficulté</dt><dd>{resumeDay?.difficulty}/5</dd></div>
@@ -103,29 +102,24 @@ export default function Dashboard() {
 
           {nextActions.length > 0 && (
             <section className="section lx-next">
-              <div className="section-head">
-                <span className="section-label">Que faire ensuite</span>
-                <h2 className="section-title">Prochaines actions</h2>
-                <span className="section-note">dérivé de tes preuves &amp; révisions</span>
-              </div>
+              <SectionHeader label="Que faire ensuite" title="Prochaines actions" note="dérivé de tes preuves & révisions" />
               <ul className="lx-next-list">
                 {nextActions.map((a, i) => (
-                  <li key={i} className={`lx-next-item lx-next-${a.kind}`}>
-                    <Link href={a.href} className="lx-next-action">{a.action}</Link>
-                    <span className="lx-next-reason">{a.reason}</span>
-                    <span className="lx-next-goal">{a.goal} · preuve : {a.expectedEvidence}</span>
-                  </li>
+                  <ActionRow
+                    key={i}
+                    kind={a.kind}
+                    href={a.href}
+                    action={a.action}
+                    reason={a.reason}
+                    goal={<>{a.goal} · preuve : {a.expectedEvidence}</>}
+                  />
                 ))}
               </ul>
             </section>
           )}
 
           <section className="section">
-            <div className="section-head">
-              <span className="section-label">Trajectoire</span>
-              <h2 className="section-title">{pos.total} jours</h2>
-              <span className="section-note">{percent}% · {counts.done}/{counts.total} jours</span>
-            </div>
+            <SectionHeader label="Trajectoire" title={`${pos.total} jours`} note={`${percent}% · ${counts.done}/${counts.total} jours`} />
             <Trajectory365 days={trackDays} progress={progress} currentDay={pos.resumeDay} />
           </section>
 
@@ -136,68 +130,65 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Colonne secondaire : rythme, livrable, compétences, mois, accès */}
+        {/* Colonne secondaire : révisions (primaire) puis pilotage sobre */}
         <aside className="dash-side" aria-label="Pilotage">
-          <div className="side-block rev-block">
-            <div className="stat-k">Révisions</div>
-            <div className="rev-nums">
-              <span className={`rev-due${reviews.dueToday > 0 ? ' has' : ''}`}>{reviews.dueToday}</span>
-              <span className="stat-sub">à revoir aujourd'hui{reviews.overdue > 0 ? ` · ${reviews.overdue} en retard` : ''}</span>
-            </div>
-            <div className="stat-sub" style={{ marginBottom: 10 }}>
-              {reviews.next ? `Prochaine : jour ${reviews.next.day} dans ${reviews.next.inDays} j` : 'Aucune révision planifiée'}
-            </div>
-            <Link className={`btn small${reviews.dueToday > 0 ? ' primary' : ''}`} href="/revisions">
-              {reviews.dueToday > 0 ? 'Réviser maintenant' : 'Ouvrir les révisions'}
-            </Link>
-          </div>
-          <div className="side-block">
-            <div className="stat-k">Rythme</div>
-            <div className="stat-v sm" style={{ color: pos.complete ? 'var(--ok)' : pos.delay > 0 ? 'var(--warn)' : pos.ahead > 0 ? 'var(--accent)' : 'var(--ok)' }}>
-              {pos.expectedDay === null ? '—' : pos.complete ? 'Terminé' : pos.delay > 0 ? `${pos.delay} j de retard` : pos.ahead > 0 ? `${pos.ahead} j d'avance` : 'À jour'}
-            </div>
-            <div className="stat-sub">
-              {pos.expectedDay === null ? 'compteur non démarré' : `attendu jour ${pos.expectedDay}${pos.nextIncompleteDay ? ` · à faire jour ${pos.nextIncompleteDay}` : ''}`}
-            </div>
-            <div className="side-sep" />
-            <div className="stat-k">En cours / à revoir</div>
-            <div className="stat-v sm">{counts['in-progress'] + counts['to-review']}</div>
-            <div className="stat-sub">{counts['in-progress']} en cours · {counts['to-review']} à revoir</div>
-          </div>
+          <Panel
+            label="Révisions"
+            emphasis={reviews.dueToday > 0}
+            footer={
+              <Link className={`btn small${reviews.dueToday > 0 ? ' primary' : ''}`} href="/revisions">
+                {reviews.dueToday > 0 ? 'Réviser maintenant' : 'Ouvrir les révisions'}
+              </Link>
+            }
+          >
+            <Metric
+              label="À revoir aujourd'hui"
+              value={reviews.dueToday}
+              tone={reviews.dueToday > 0 ? 'attention' : undefined}
+              sub={reviews.overdue > 0 ? `${reviews.overdue} en retard` : (reviews.next ? `prochaine : jour ${reviews.next.day} dans ${reviews.next.inDays} j` : 'aucune révision planifiée')}
+            />
+          </Panel>
 
-          <div className="side-block">
-            <div className="stat-k">Prochain livrable</div>
+          <Panel label="Rythme">
+            <Metric label="Cadence" value={paceLabel} tone={paceTone}
+              sub={pos.expectedDay === null ? 'compteur non démarré' : `attendu jour ${pos.expectedDay}${pos.nextIncompleteDay ? ` · à faire jour ${pos.nextIncompleteDay}` : ''}`} />
+            <div className="ui-panel-sep" />
+            <Metric label="En cours / à revoir" value={counts['in-progress'] + counts['to-review']}
+              sub={`${counts['in-progress']} en cours · ${counts['to-review']} à revoir`} />
+          </Panel>
+
+          <Panel label="Prochain livrable">
             {stats.nextDeliverable ? (
               <>
                 <div className="dash-strong"><Link href={`/day/${stats.nextDeliverable.day}`}>Jour {stats.nextDeliverable.day}</Link> — {stats.nextDeliverable.title}</div>
                 <p className="dash-note">{stats.nextDeliverable.deliverable}</p>
               </>
-            ) : <span className="muted">Tous les livrables sont faits.</span>}
-          </div>
+            ) : <EmptyState title="Tous les livrables sont faits." hint="Rien à produire pour l'instant." />}
+          </Panel>
 
-          <div className="side-block">
-            <div className="stat-k">Compétences actives</div>
-            <div className="row" style={{ gap: 6, marginTop: 6 }}>
-              {skillNames.length ? skillNames.map((n) => <span key={n} className="badge accent">{n}</span>) : <span className="muted">—</span>}
+          <Panel label="Compétences actives">
+            <div className="row" style={{ gap: 6 }}>
+              {skillNames.length ? skillNames.map((n) => <Status key={n} tone="accent" label={n} />) : <span className="muted">—</span>}
             </div>
-            <div className="side-sep" />
-            <div className="stat-k">Dernière preuve</div>
+            <div className="ui-panel-sep" />
+            <div className="ui-panel-label">Dernière preuve</div>
             {lastEvidence ? (
-              <div className="dash-strong" style={{ marginTop: 4 }}>
-                <Link href={`/day/${lastEvidence.day}`}>Jour {lastEvidence.day}</Link> — {lastEvidence.title}
-              </div>
-            ) : <p className="dash-note" style={{ marginTop: 4 }}>Aucune preuve enregistrée pour l'instant.</p>}
-          </div>
+              <div className="dash-strong"><Link href={`/day/${lastEvidence.day}`}>Jour {lastEvidence.day}</Link> — {lastEvidence.title}</div>
+            ) : <p className="dash-note">Aucune preuve enregistrée pour l'instant.</p>}
+          </Panel>
 
-          <div className="side-block">
-            <div className="stat-k">Mois {currentMonth?.month} / 12</div>
+          <Panel
+            label={`Mois ${currentMonth?.month} / 12`}
+            footer={
+              <div className="row" style={{ gap: 8 }}>
+                <Link className="btn small" href={`/month/${currentMonth?.month}`}>Voir le mois</Link>
+                <Link className="btn small" href={`/week/${resumeDay?.week}`}>Semaine {resumeDay?.week}</Link>
+              </div>
+            }
+          >
             <div className="dash-strong">{currentMonth?.title}</div>
             <p className="dash-note">{currentMonth?.summary}</p>
-            <div className="row" style={{ gap: 8, marginTop: 10 }}>
-              <Link className="btn small" href={`/month/${currentMonth?.month}`}>Voir le mois</Link>
-              <Link className="btn small" href={`/week/${resumeDay?.week}`}>Semaine {resumeDay?.week}</Link>
-            </div>
-          </div>
+          </Panel>
 
           <nav className="dash-quick" aria-label="Accès rapides">
             <Link className="btn small" href="/calendar"><CalendarDays size={14} /> Calendrier</Link>

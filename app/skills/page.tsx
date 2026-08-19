@@ -5,6 +5,7 @@ import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack } from '@/lib/catalogue';
 import { skillStats } from '@/lib/skill-state';
 import { explainSkillState } from '@/lib/learning-experience';
+import { PageHeader } from '@/app/ui';
 import SkillsBoard from './SkillsBoard';
 
 export const dynamic = 'force-dynamic';
@@ -21,17 +22,15 @@ export default function SkillsPage() {
 
   return (
     <>
-      <div className="page-head">
-        <div className="page-head-main">
-          <p className="page-eyebrow">Compétences <span className="sep">/</span> parcours actif : {activeTrack?.title ?? '—'}</p>
-          <h1 className="page-title">Compétences</h1>
-          <p className="page-sub">
-            Niveaux (0 à 5) dérivés de ta progression sur le <strong>parcours actif</strong>.
-            Réévalue à chaque revue mensuelle. Détail : <Link href="/doc/rubrics/skills-scorecard">scorecard</Link>.
-            Pour tester une compétence : <Link href="/diagnostics">diagnostics</Link>.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow={<>Compétences <span className="sep">/</span> parcours actif : {activeTrack?.title ?? '—'}</>}
+        title="Compétences"
+        sub={<>
+          Regroupées par <strong>état réel</strong> dérivé de ta progression sur le parcours actif.
+          Réévalue à chaque revue mensuelle. Détail : <Link href="/doc/rubrics/skills-scorecard">scorecard</Link>.
+          Pour tester une compétence : <Link href="/diagnostics">diagnostics</Link>.
+        </>}
+      />
       <SkillsBoard skills={program.skills} initialScores={progress.skills} stats={stats} explains={explains} />
       {rubric && (
         <details className="solution" style={{ marginTop: 24 }}>

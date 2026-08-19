@@ -18,11 +18,14 @@
   --muted: #969ba6;
   --faint: #7d838f;        /* labels très secondaires (contraste AA large) */
 
-  /* Accent + sémantiques */
-  --accent: #63a6a0;       /* teal minéral, froid, utilisé avec retenue */
-  --accent-ink: #08130f;   /* texte sur fond accent */
-  --accent-2: #4fb08a;     /* succès */
-  --ok: #4fb08a;
+  /* Accent + sémantiques
+     V53 : accent de marque = indigo/violet minéral (Linear/IDE), utilisé avec
+     parcimonie (liens, focus, actif, 1 accent par zone). L'accent ne signale
+     JAMAIS un succès — le succès reste --ok (vert), découplé de l'accent. */
+  --accent: #8b8ff5;       /* indigo minéral froid, retenu */
+  --accent-ink: #0d0f1f;   /* texte sombre sur fond accent (AA) */
+  --accent-2: #a78bf5;     /* compagnon violet de l'accent (2e halte rare) */
+  --ok: #4fb08a;           /* succès / terminé / démontré (jamais l'accent) */
   --warn: #d6a44e;         /* avertissement */
   --danger: #d9706b;       /* erreur */
   --info: #7fa8cc;
@@ -360,9 +363,9 @@ table.list tr:hover td { background: var(--panel); }
   background: var(--panel); color: var(--muted);
 }
 .day-cell:hover { border-color: var(--accent); text-decoration: none; color: var(--text); }
-.day-cell.done { background: #143a2c; color: var(--accent-2); border-color: #1e5b45; }
-.day-cell.in-progress { background: #2a3550; color: var(--accent); border-color: #2e4a70; }
-.day-cell.to-review { background: #3a2a52; color: #c39bff; border-color: #533a7a; }
+.day-cell.done { background: var(--swatch-done-bg); color: var(--ok); border-color: var(--swatch-done-bd); }
+.day-cell.in-progress { background: var(--swatch-prog-bg); color: var(--accent); border-color: var(--swatch-prog-bd); }
+.day-cell.to-review { background: var(--swatch-review-bg); color: var(--swatch-review-fg); border-color: var(--swatch-review-bd); }
 .day-cell.review { border-style: dashed; }
 
 /* Forms */
@@ -384,7 +387,7 @@ details.solution[open] > summary { border-radius: 8px 8px 0 0; }
 .skill-row .name { width: 200px; min-width: 200px; }
 .dots { display: flex; gap: 5px; }
 .dot { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--border); background: var(--panel-2); cursor: pointer; }
-.dot.filled { background: var(--accent-2); border-color: var(--accent-2); }
+.dot.filled { background: var(--accent); border-color: var(--accent); }
 
 /* Accessibilité : état de focus clavier visible et cohérent (non intrusif à la souris) */
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
@@ -1584,3 +1587,108 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .lx-next-action { font-size: var(--fs-sm); font-weight: 600; }
 .lx-next-reason { font-size: var(--fs-xs); color: var(--text); }
 .lx-next-goal { font-size: var(--fs-xs); color: var(--muted); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Primitives produit partagées V53 (app/ui/*). Namespace .ui-*.
+   Tons sémantiques : jamais couleur seule (toujours point + libellé).
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Tons — variable de teinte résolue par classe, consommée par les primitives */
+.tone-neutral   { --tone: var(--muted); }
+.tone-info      { --tone: var(--info); }
+.tone-positive  { --tone: var(--ok); }
+.tone-attention { --tone: var(--warn); }
+.tone-blocking  { --tone: var(--danger); }
+.tone-accent    { --tone: var(--accent); }
+
+/* PageHeader : actions alignées à droite du titre */
+.ui-page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-5); flex-wrap: wrap; }
+.ui-page-actions { display: flex; gap: var(--sp-2); flex-wrap: wrap; padding-top: 4px; }
+
+/* Status : point coloré + libellé (le libellé porte toujours le sens) */
+.ui-status { display: inline-flex; align-items: center; gap: 7px; font-size: var(--fs-xs);
+  color: var(--text); border: 1px solid color-mix(in srgb, var(--tone, var(--muted)) 38%, var(--border));
+  background: color-mix(in srgb, var(--tone, var(--muted)) 8%, transparent);
+  padding: 3px 9px; border-radius: var(--r-pill); line-height: 1.3; white-space: nowrap; }
+.ui-status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--tone, var(--muted)); flex: none; }
+.ui-status-icon { display: inline-flex; color: var(--tone, var(--muted)); flex: none; }
+.ui-status-label { color: var(--text); }
+.ui-status.tone-neutral .ui-status-label { color: var(--muted); }
+
+/* Metric : donnée de pilotage réelle */
+.ui-metric { display: flex; flex-direction: column; gap: 2px; }
+.ui-metric-label { font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--faint); }
+.ui-metric-value { font-size: var(--fs-h2); font-weight: 650; color: var(--text); line-height: 1.15; font-variant-numeric: tabular-nums; }
+.ui-metric.is-emphasis .ui-metric-value { font-size: var(--fs-display); }
+.ui-metric.tone-positive .ui-metric-value { color: var(--ok); }
+.ui-metric.tone-attention .ui-metric-value { color: var(--warn); }
+.ui-metric.tone-accent .ui-metric-value { color: var(--accent); }
+.ui-metric-sub { font-size: var(--fs-xs); color: var(--muted); }
+
+/* ActionRow : action → raison → but/preuve (barre d'accent gauche par nature) */
+.ui-action { display: grid; gap: 3px; padding: 11px 13px; border: 1px solid var(--border);
+  border-left: 3px solid var(--muted); border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--panel); }
+.ui-action.kind-review, .ui-action.kind-consolidate { border-left-color: var(--warn); }
+.ui-action.kind-remediation { border-left-color: var(--danger); }
+.ui-action.kind-demonstrate, .ui-action.kind-practice { border-left-color: var(--accent); }
+.ui-action-link { font-size: var(--fs-sm); font-weight: 600; color: var(--text); }
+.ui-action-link:hover { color: var(--accent); }
+.ui-action-reason { font-size: var(--fs-xs); color: var(--text); }
+.ui-action-goal { font-size: var(--fs-xs); color: var(--muted); }
+
+/* EmptyState : vide honnête */
+.ui-empty { text-align: left; padding: var(--sp-5) var(--sp-5); border: 1px dashed var(--border);
+  border-radius: var(--r); background: color-mix(in srgb, var(--panel) 60%, transparent); }
+.ui-empty-title { margin: 0; color: var(--text); font-weight: 600; font-size: var(--fs-sm); }
+.ui-empty-hint { margin: 4px 0 0; color: var(--muted); font-size: var(--fs-xs); }
+.ui-empty-action { margin-top: var(--sp-3); }
+
+/* InlineNotice : avis contextuel */
+.ui-notice { display: flex; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--tone, var(--info)) 34%, var(--border));
+  border-left-width: 3px; border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--tone, var(--info)) 8%, var(--panel)); }
+.ui-notice-tag { flex: none; font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label);
+  color: var(--tone, var(--info)); font-weight: 700; padding-top: 2px; }
+.ui-notice-title { margin: 0 0 2px; font-weight: 600; font-size: var(--fs-sm); color: var(--text); }
+.ui-notice-text { font-size: var(--fs-sm); color: var(--muted); }
+
+/* Panel : surface calme titrée (rail). is-emphasis = panneau primaire */
+.ui-panel { border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); padding: var(--sp-4); }
+.ui-panel.is-emphasis { border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+  background: color-mix(in srgb, var(--accent) 6%, var(--panel)); }
+.ui-panel-label { font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label);
+  color: var(--faint); margin-bottom: var(--sp-3); }
+.ui-panel-body { display: flex; flex-direction: column; gap: var(--sp-2); }
+.ui-panel-footer { margin-top: var(--sp-3); }
+.ui-panel-sep { height: 1px; background: var(--border); margin: var(--sp-3) 0; }
+
+/* ── Compétences V53 : synthèse + groupes par état ──────────────────────────── */
+.skills-summary { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--sp-5);
+  flex-wrap: wrap; padding: var(--sp-4) var(--sp-5); border: 1px solid var(--border);
+  border-radius: var(--r); background: var(--panel); margin-bottom: var(--sp-6); }
+.skills-distribution { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+.skills-group { margin: 0 0 var(--sp-6); }
+.skills-group-head { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap;
+  padding-bottom: var(--sp-2); margin-bottom: var(--sp-2); border-bottom: 1px solid var(--border); }
+.skills-group-count { font-size: var(--fs-xs); color: var(--faint); font-variant-numeric: tabular-nums; }
+.skills-group-hint { font-size: var(--fs-xs); color: var(--muted); margin-left: auto; }
+@media (max-width: 640px) { .skills-group-hint { margin-left: 0; flex-basis: 100%; } }
+
+/* .dot devient un bouton focusable : reset visuel neutre */
+button.dot { padding: 0; appearance: none; -webkit-appearance: none; }
+button.dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Skip link (a11y clavier) ────────────────────────────────────────────────── */
+.skip-link { position: fixed; top: -100px; left: var(--sp-3); z-index: 200;
+  background: var(--panel-2); color: var(--text); border: 1px solid var(--accent);
+  padding: 8px 14px; border-radius: var(--r-sm); transition: top var(--t); }
+.skip-link:focus { top: var(--sp-3); outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Tokens de pastille de statut de journée (consolidation V53 des 6 hex) ────── */
+:root {
+  --swatch-done-bg: #143a2c;   --swatch-done-bd: #1e5b45;   /* terminé (vert) */
+  --swatch-prog-bg: #2a3550;   --swatch-prog-bd: #2e4a70;   /* en cours (indigo) */
+  --swatch-review-bg: #3a2a52; --swatch-review-bd: #533a7a; /* à revoir (violet) */
+  --swatch-review-fg: #c39bff;
+}

@@ -35,6 +35,19 @@ compétence (source de vérité `SKILL_STATE_LABEL`) vers ces tons.
 
 ## État d'adoption (mesuré)
 
-**6 couleurs hex en dur** sur **90 fichiers UI** — adoption quasi complète. Ces 6
-héritées sont tolérées par le gate (ligne de base) et cadrées pour consolidation en
-V53. Toute nouvelle couleur en dur au-delà de 6 fait échouer `v52:check`.
+- **V52** : 6 couleurs hex en dur sur 90 fichiers UI (héritées, cadrées V53).
+- **V53** : **0 couleur hex en dur** dans le TSX (les 6 héritées de `/calendar` +
+  les pastilles `.day-cell` consolidées en tokens `--swatch-*`). `v53:check`
+  impose désormais une base de **0**.
+
+## V53 — évolutions du contrat
+
+- **Accent = indigo/violet** `--accent: #8b8ff5` (auparavant teal `#63a6a0`),
+  `--accent-ink: #0d0f1f`. **Découplé du succès** : `--ok` (vert) reste le seul
+  signal de réussite ; l'accent ne signale jamais un succès.
+- `--accent-2` = compagnon violet `#a78bf5` (2e halte rare), n'est plus un alias
+  de `--ok`.
+- **Primitives** `app/ui/*` (Status, PageHeader, SectionHeader, Metric, ActionRow,
+  EmptyState, InlineNotice, Panel) + classes `.ui-*` + tons `.tone-*`. Présentation
+  pure, aucune source de vérité.
+- **Tokens de pastille** : `--swatch-done-*`, `--swatch-prog-*`, `--swatch-review-*`.

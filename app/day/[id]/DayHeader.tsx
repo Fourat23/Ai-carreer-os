@@ -1,12 +1,14 @@
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { difficultyLabel } from '@/lib/day-view';
+import { Status } from '@/app/ui';
+import type { Tone } from '@/app/ui';
 
-const STATUS: Record<string, { label: string; cls: string }> = {
-  done: { label: 'Terminé', cls: 'ok' },
-  'in-progress': { label: 'En cours', cls: 'prog' },
-  'to-review': { label: 'À revoir', cls: 'warn' },
-  'not-started': { label: 'Non commencé', cls: 'idle' },
+const STATUS: Record<string, { label: string; tone: Tone }> = {
+  done: { label: 'Terminé', tone: 'positive' },
+  'in-progress': { label: 'En cours', tone: 'info' },
+  'to-review': { label: 'À revoir', tone: 'attention' },
+  'not-started': { label: 'Non commencé', tone: 'neutral' },
 };
 
 export default function DayHeader({
@@ -53,7 +55,7 @@ export default function DayHeader({
           <Link href={`/week/${week}`}>Semaine {week}</Link>
           <Link href={`/month/${month}`}>Mois {month}</Link>
         </nav>
-        <span className={`day-status ${st.cls}`}>{st.label}</span>
+        <Status tone={st.tone} label={st.label} />
       </div>
 
       <div className="day-progress">

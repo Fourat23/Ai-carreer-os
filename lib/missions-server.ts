@@ -9,7 +9,10 @@ import { validateMission, publicMissionView } from './mission.mjs';
 import type { Mission } from './mission';
 import { listExercises } from './exercises-server';
 import { getProgram } from './program';
-import { DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID } from './catalogue.mjs';
+import {
+  DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID,
+  DATA_ML_TRACK_ID, FRONTEND_TRACK_ID, APPSEC_CLOUD_TRACK_ID, CLOUD_DEVOPS_TRACK_ID,
+} from './catalogue.mjs';
 import { isKnownSkill } from './skill-taxonomy.mjs';
 
 const DIR = join(process.cwd(), 'data', 'missions');
@@ -24,7 +27,13 @@ function loadAll(): Mission[] {
   const program = getProgram();
   const ctx = {
     validDays: new Set<number>((program.days ?? []).map((d) => d.day)),
-    trackIds: new Set<string>([DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID]),
+    // Tous les parcours DÉFINIS (disponibles + annoncés versionnés) sont des
+    // références de mission valides. Set complet (P0 V52 : le rail « Aujourd'hui »
+    // rendait 500 car des parcours définis manquaient de cette liste blanche).
+    trackIds: new Set<string>([
+      DEFAULT_TRACK_ID, FULLSTACK_TRACK_ID, BACKEND_TRACK_ID, SYSTEMS_CLOUD_TRACK_ID,
+      DATA_ML_TRACK_ID, FRONTEND_TRACK_ID, APPSEC_CLOUD_TRACK_ID, CLOUD_DEVOPS_TRACK_ID,
+    ]),
     skillIds: { has: (s: string) => isKnownSkill(s) },
     exerciseIds: new Set<string>(listExercises().map((e) => e.id)),
   };

@@ -7,11 +7,20 @@
     "sh-exit-retry",
     "sys-log-level-counts"
   ],
+  "3": [
+    "git-conflicting-files"
+  ],
+  "4": [
+    "linux-fd-ulimit"
+  ],
   "5": [
     "js-conditions"
   ],
   "6": [
     "js-loops"
+  ],
+  "7": [
+    "linux-path-traversal-x"
   ],
   "8": [
     "fizzbuzz"
@@ -28,11 +37,32 @@
   "12": [
     "word-frequencies"
   ],
+  "13": [
+    "linux-signal-choice"
+  ],
+  "14": [
+    "ssh-key-perms-accepted"
+  ],
   "15": [
     "validate-user"
   ],
   "16": [
     "algo-binary-search"
+  ],
+  "17": [
+    "rag-chunking-overlap"
+  ],
+  "18": [
+    "systemd-restart-loop"
+  ],
+  "19": [
+    "rag-cosine-rank"
+  ],
+  "20": [
+    "rag-rrf-fusion"
+  ],
+  "21": [
+    "sh-pipeline-exit-diagnose"
   ],
   "22": [
     "js-pipeline"
@@ -43,8 +73,20 @@
   "24": [
     "async-user-lookup"
   ],
+  "25": [
+    "algo-interval-merge"
+  ],
   "26": [
     "async-sum"
+  ],
+  "27": [
+    "git-commit-grouping"
+  ],
+  "28": [
+    "llm-context-budget"
+  ],
+  "29": [
+    "algo-coin-change-min"
   ],
   "30": [
     "debug-cart"
@@ -52,8 +94,17 @@
   "31": [
     "algo-two-sum"
   ],
+  "32": [
+    "algo-kadane-max-subarray"
+  ],
   "33": [
     "ds-stack"
+  ],
+  "34": [
+    "sql-inner-join"
+  ],
+  "35": [
+    "ml-split-choice"
   ],
   "36": [
     "ts-greeter",
@@ -68,10 +119,19 @@
   "38": [
     "ts-interface-cart"
   ],
+  "39": [
+    "patterns-factory-area"
+  ],
+  "40": [
+    "patterns-dependency-injection"
+  ],
   "41": [
     "ts-debug-discount",
     "ts-debug-positives",
     "ts-debug-filter-strings"
+  ],
+  "42": [
+    "alert-actionable"
   ],
   "43": [
     "ts-pluck"
@@ -79,15 +139,66 @@
   "44": [
     "ts-inventory"
   ],
+  "45": [
+    "attention-argmax"
+  ],
+  "46": [
+    "breaking-change-classify"
+  ],
+  "47": [
+    "se-semver-bump"
+  ],
+  "49": [
+    "compose-depends-ready"
+  ],
   "50": [
     "http-status",
     "net-http-status-class"
   ],
+  "51": [
+    "auth-status-decision"
+  ],
   "52": [
     "api-router"
   ],
+  "53": [
+    "dns-record-type-choice"
+  ],
+  "54": [
+    "se-flaky-vs-real"
+  ],
+  "55": [
+    "sql-group-having"
+  ],
   "56": [
     "api-pagination-choice"
+  ],
+  "57": [
+    "sql-left-join-nulls"
+  ],
+  "58": [
+    "sql-dedup-latest"
+  ],
+  "59": [
+    "dns-ttl-still-cached"
+  ],
+  "61": [
+    "http-method-idempotent"
+  ],
+  "62": [
+    "http-rate-limit-decide"
+  ],
+  "63": [
+    "data-missing-strategy"
+  ],
+  "64": [
+    "tls-cert-usable"
+  ],
+  "65": [
+    "se-release-decision"
+  ],
+  "67": [
+    "sec-secret-vs-config"
   ],
   "68": [
     "sec-mask-secrets",
@@ -100,6 +211,9 @@
     "refactor-legacy",
     "debt-legacy-refactor"
   ],
+  "70": [
+    "data-quality-detect"
+  ],
   "71": [
     "net-layer-classify",
     "net-dns-resolve",
@@ -111,6 +225,12 @@
     "sys-umask-apply",
     "sys-process-top-cpu",
     "sys-port-listener"
+  ],
+  "76": [
+    "patterns-adapter-legacy"
+  ],
+  "77": [
+    "db-concurrency-risk"
   ],
   "78": [
     "cloud-classify-tier",
@@ -158,6 +278,14 @@
     "cloud-prod-ready",
     "replication-lag-reason"
   ],
+  "82": [
+    "ml-metric-choice",
+    "py-sliding-window-max"
+  ],
+  "84": [
+    "etl-pipeline-order",
+    "py-data-etl-upsert-idempotent"
+  ],
   "85": [
     "incident-health-rollup",
     "sec-rbac-wildcard",
@@ -187,6 +315,9 @@
     "web-debug-toggle",
     "web-debug-selector"
   ],
+  "91": [
+    "iac-plan-destructive"
+  ],
   "92": [
     "react-hello",
     "react-greeting",
@@ -207,15 +338,30 @@
     "react-list",
     "react-debug-list"
   ],
+  "95": [
+    "incident-severity"
+  ],
   "96": [
     "web-greeting-form",
     "web-list-filter",
     "react-search"
   ],
+  "97": [
+    "llm-cost-estimate"
+  ],
+  "98": [
+    "migration-compat"
+  ],
+  "99": [
+    "ml-confusion-metric"
+  ],
   "100": [
     "react-lift-state",
     "react-parent-child",
     "react-reducer-actions"
+  ],
+  "101": [
+    "ml-data-leakage"
   ],
   "102": [
     "perf-budget",
@@ -226,6 +372,33 @@
     "react-profile",
     "a11y-accessible-name"
   ],
+  "104": [
+    "ml-drift-detect"
+  ],
+  "105": [
+    "ml-feature-encoding"
+  ],
+  "106": [
+    "arch-idempotency-key"
+  ],
+  "107": [
+    "arch-repository-boundary"
+  ],
+  "108": [
+    "arch-circuit-breaker"
+  ],
+  "109": [
+    "arch-transactional-outbox"
+  ],
+  "112": [
+    "ml-overfit-diagnose"
+  ],
+  "119": [
+    "nn-forward-neuron"
+  ],
+  "120": [
+    "sqlite-select-where"
+  ],
   "121": [
     "py-temperature"
   ],
@@ -235,23 +408,359 @@
   "123": [
     "py-list-sum"
   ],
+  "124": [
+    "sqlite-group-having"
+  ],
   "125": [
     "py-word-count"
+  ],
+  "126": [
+    "prompt-injection-classify"
   ],
   "127": [
     "py-slugify"
   ],
+  "128": [
+    "sqlite-inner-join"
+  ],
   "129": [
     "py-safe-divide"
+  ],
+  "130": [
+    "sqlite-top-n"
+  ],
+  "131": [
+    "sqlite-index-explain"
+  ],
+  "132": [
+    "sqlite-left-join-orphans"
+  ],
+  "133": [
+    "rag-failure-locate"
+  ],
+  "134": [
+    "sql-window-running-total"
+  ],
+  "135": [
+    "sqlite-subquery-above-avg"
+  ],
+  "136": [
+    "sql-index-advice"
+  ],
+  "137": [
+    "sqlite-transaction-last-seat"
+  ],
+  "140": [
+    "rag-structured-validate"
+  ],
+  "147": [
+    "rca-classify-cause"
+  ],
+  "148": [
+    "ml-train-test-split"
+  ],
+  "149": [
+    "ml-bad-feature-id"
   ],
   "150": [
     "py-debug-average"
   ],
+  "151": [
+    "ml-baseline-majority"
+  ],
   "152": [
     "py-debug-grades"
   ],
+  "153": [
+    "ml-confusion-matrix"
+  ],
+  "154": [
+    "retry-should"
+  ],
   "155": [
     "py-report"
+  ],
+  "156": [
+    "ml-missing-not-zero"
+  ],
+  "157": [
+    "ml-precision-recall-f1"
+  ],
+  "158": [
+    "pdx-dropna-count"
+  ],
+  "159": [
+    "pdx-groupby-mean"
+  ],
+  "160": [
+    "pdx-merge-inner"
+  ],
+  "161": [
+    "slo-burn-rate"
+  ],
+  "162": [
+    "skl-train-test-split"
+  ],
+  "163": [
+    "ml-leakage-detect"
+  ],
+  "164": [
+    "ml-leakage-temporal"
+  ],
+  "165": [
+    "ml-metric-selection"
+  ],
+  "166": [
+    "ml-overfit-onset"
+  ],
+  "167": [
+    "ml-split-stratify"
+  ],
+  "168": [
+    "table-groupby",
+    "sql-dedup-latest"
+  ],
+  "169": [
+    "ml-train-serve-skew"
+  ],
+  "170": [
+    "pdx-fix-dtype-sum"
+  ],
+  "171": [
+    "skl-logreg-accuracy"
+  ],
+  "172": [
+    "ml-diagnose-overfit"
+  ],
+  "173": [
+    "skl-pipeline-cv"
+  ],
+  "175": [
+    "circuit-breaker-state"
+  ],
+  "182": [
+    "iac-idempotent-changes"
+  ],
+  "183": [
+    "dl-neuron-forward"
+  ],
+  "184": [
+    "dl-relu-layer"
+  ],
+  "185": [
+    "dl-count-params"
+  ],
+  "186": [
+    "dl-gradient-step"
+  ],
+  "187": [
+    "dl-diagnose-training"
+  ],
+  "188": [
+    "dl-forward-2layer"
+  ],
+  "189": [
+    "ds-min-stack"
+  ],
+  "190": [
+    "dl-he-init-std"
+  ],
+  "191": [
+    "dl-lr-stability"
+  ],
+  "192": [
+    "dl-sgd-linear-step"
+  ],
+  "193": [
+    "dl-vanishing-gradient"
+  ],
+  "196": [
+    "ds-two-stack-queue"
+  ],
+  "197": [
+    "llm-prompt-injection-scan"
+  ],
+  "198": [
+    "llm-cost-per-call"
+  ],
+  "199": [
+    "llm-retry-idempotent"
+  ],
+  "200": [
+    "llm-token-estimate"
+  ],
+  "201": [
+    "llm-context-budget-truncate"
+  ],
+  "203": [
+    "ds-lru-cache"
+  ],
+  "210": [
+    "patterns-strategy-table"
+  ],
+  "217": [
+    "http-etag-revalidation",
+    "sql-group-having"
+  ],
+  "218": [
+    "rag-bow-vector"
+  ],
+  "219": [
+    "rag-chunk-by-size"
+  ],
+  "220": [
+    "rag-cosine-similarity"
+  ],
+  "221": [
+    "rag-hybrid-rrf"
+  ],
+  "222": [
+    "rag-topk-retrieve"
+  ],
+  "223": [
+    "rag-recall-at-k"
+  ],
+  "224": [
+    "http-idempotency-dedup"
+  ],
+  "225": [
+    "rag-rrf-hybrid-fuse"
+  ],
+  "226": [
+    "llm-cost-budget-plan"
+  ],
+  "227": [
+    "rag-diagnose-fault"
+  ],
+  "231": [
+    "http-cache-policy"
+  ],
+  "238": [
+    "http-resilient-consumer"
+  ],
+  "245": [
+    "sec-redact-secret-log"
+  ],
+  "252": [
+    "sec-sql-injection-safe"
+  ],
+  "253": [
+    "rag-recall-precision-at-k"
+  ],
+  "254": [
+    "rag-retrieval-vs-generation"
+  ],
+  "255": [
+    "dl-generalization-gap"
+  ],
+  "256": [
+    "dl-mse-loss"
+  ],
+  "257": [
+    "eval-exact-match"
+  ],
+  "258": [
+    "eval-structured-output"
+  ],
+  "259": [
+    "sec-prompt-injection-detect"
+  ],
+  "260": [
+    "sec-secret-placement"
+  ],
+  "266": [
+    "patterns-composition-vs-inheritance",
+    "sql-index-advice"
+  ],
+  "267": [
+    "llm-structured-output-repair"
+  ],
+  "268": [
+    "ml-baseline-vs-model"
+  ],
+  "269": [
+    "eval-failure-categorize"
+  ],
+  "270": [
+    "eval-groundedness-proxy"
+  ],
+  "271": [
+    "eval-regression-gate"
+  ],
+  "272": [
+    "ml-calibration-ece"
+  ],
+  "273": [
+    "patterns-null-object",
+    "api-router"
+  ],
+  "274": [
+    "eval-tool-call-contract",
+    "agent-permission-guard"
+  ],
+  "275": [
+    "agent-hitl-decision"
+  ],
+  "276": [
+    "agent-retry-policy"
+  ],
+  "277": [
+    "agent-state-transition"
+  ],
+  "278": [
+    "agent-tool-select"
+  ],
+  "279": [
+    "agent-tool-validate"
+  ],
+  "280": [
+    "patterns-strategy-vs-conditional"
+  ],
+  "281": [
+    "agent-loop-detect"
+  ],
+  "282": [
+    "agent-run-loop-budget"
+  ],
+  "283": [
+    "agent-tool-router"
+  ],
+  "284": [
+    "agent-transition-guard"
+  ],
+  "285": [
+    "agent-validate-args"
+  ],
+  "286": [
+    "agent-cycle-index"
+  ],
+  "287": [
+    "arch-backpressure"
+  ],
+  "288": [
+    "arch-cache-invalidation"
+  ],
+  "289": [
+    "arch-cycle-detect"
+  ],
+  "290": [
+    "arch-idempotent-handler"
+  ],
+  "291": [
+    "arch-layer-violation"
+  ],
+  "292": [
+    "arch-queue-vs-sync"
+  ],
+  "293": [
+    "patterns-observer-filter"
+  ],
+  "294": [
+    "arch-consistency-tradeoff",
+    "http-cache-policy"
+  ],
+  "295": [
+    "agent-excessive-agency"
   ],
   "298": [
     "sec-lockfile-diff",
@@ -260,6 +769,32 @@
     "sec-cve-affected",
     "sec-blast-radius",
     "sec-recovery-decision"
+  ],
+  "301": [
+    "arch-cqrs-when"
+  ],
+  "302": [
+    "patterns-when-not-yagni"
+  ],
+  "308": [
+    "py-data-parse-records"
+  ],
+  "315": [
+    "py-data-clean-missing",
+    "http-etag-revalidation",
+    "sql-left-join-nulls"
+  ],
+  "316": [
+    "ml-confusion-cost"
+  ],
+  "317": [
+    "ml-imbalance-metric-trap"
+  ],
+  "318": [
+    "skl-confusion-matrix"
+  ],
+  "319": [
+    "eval-harness-report"
   ],
   "320": [
     "docker-instruction-order",
@@ -291,6 +826,15 @@
     "k8s-replicas-ha",
     "k8s-needs-probe"
   ],
+  "322": [
+    "py-data-groupby-sum"
+  ],
+  "323": [
+    "agent-detect-loop"
+  ],
+  "324": [
+    "agent-retry-idempotent"
+  ],
   "325": [
     "cloud-monthly-cost",
     "cloud-rightsizing-savings"
@@ -308,5 +852,30 @@
     "cicd-env-promotion",
     "cicd-fail-fast",
     "cicd-missing-deps"
+  ],
+  "327": [
+    "agent-tool-failure-recovery"
+  ],
+  "328": [
+    "llm-tool-route"
+  ],
+  "329": [
+    "py-data-inner-join"
+  ],
+  "336": [
+    "py-topk-frequent",
+    "http-idempotency-dedup"
+  ],
+  "343": [
+    "py-data-dedup-latest"
+  ],
+  "350": [
+    "py-data-diagnose-mean-none"
+  ],
+  "357": [
+    "py-data-validate-schema"
+  ],
+  "364": [
+    "py-retry-idempotent"
   ]
 }

@@ -1,0 +1,325 @@
+{
+  "note": "Carte temporelle DÉRIVÉE (V50). Recomputable par v50:timeline-map ; aucune source de vérité.",
+  "generatedFrom": "lib/curriculum-timeline.mjs",
+  "totals": {
+    "days": 365,
+    "daysWithPractice": 247,
+    "mappedExercises": 376,
+    "totalExercises": 376,
+    "orphans": 0
+  },
+  "monthlyDistribution": {
+    "1": {
+      "days": 28,
+      "daysWithPractice": 28,
+      "activities": 30
+    },
+    "2": {
+      "days": 28,
+      "daysWithPractice": 27,
+      "activities": 34
+    },
+    "3": {
+      "days": 35,
+      "daysWithPractice": 28,
+      "activities": 89
+    },
+    "4": {
+      "days": 28,
+      "daysWithPractice": 20,
+      "activities": 38
+    },
+    "5": {
+      "days": 28,
+      "daysWithPractice": 20,
+      "activities": 20
+    },
+    "6": {
+      "days": 35,
+      "daysWithPractice": 28,
+      "activities": 29
+    },
+    "7": {
+      "days": 28,
+      "daysWithPractice": 19,
+      "activities": 19
+    },
+    "8": {
+      "days": 28,
+      "daysWithPractice": 13,
+      "activities": 14
+    },
+    "9": {
+      "days": 35,
+      "daysWithPractice": 18,
+      "activities": 20
+    },
+    "10": {
+      "days": 28,
+      "daysWithPractice": 24,
+      "activities": 31
+    },
+    "11": {
+      "days": 28,
+      "daysWithPractice": 17,
+      "activities": 55
+    },
+    "12": {
+      "days": 36,
+      "daysWithPractice": 5,
+      "activities": 6
+    }
+  },
+  "temporalAudit": [
+    {
+      "skill": "gitlinux",
+      "firstExposure": 1,
+      "lastExposure": 73,
+      "exposureDays": 7,
+      "practiceDays": 12,
+      "maxGap": 54,
+      "tailGap": 292
+    },
+    {
+      "skill": "jsts",
+      "firstExposure": 4,
+      "lastExposure": 119,
+      "exposureDays": 42,
+      "practiceDays": 105,
+      "maxGap": 31,
+      "tailGap": 246
+    },
+    {
+      "skill": "algo",
+      "firstExposure": 15,
+      "lastExposure": 48,
+      "exposureDays": 11,
+      "practiceDays": 23,
+      "maxGap": 13,
+      "tailGap": 317
+    },
+    {
+      "skill": "ds",
+      "firstExposure": 30,
+      "lastExposure": 42,
+      "exposureDays": 5,
+      "practiceDays": 14,
+      "maxGap": 8,
+      "tailGap": 323
+    },
+    {
+      "skill": "patterns",
+      "firstExposure": 38,
+      "lastExposure": 39,
+      "exposureDays": 2,
+      "practiceDays": 9,
+      "maxGap": 1,
+      "tailGap": 326
+    },
+    {
+      "skill": "se",
+      "firstExposure": 40,
+      "lastExposure": 111,
+      "exposureDays": 14,
+      "practiceDays": 14,
+      "maxGap": 21,
+      "tailGap": 254
+    },
+    {
+      "skill": "autonomy",
+      "firstExposure": 44,
+      "lastExposure": 365,
+      "exposureDays": 23,
+      "practiceDays": 0,
+      "maxGap": 212,
+      "tailGap": 0
+    },
+    {
+      "skill": "http",
+      "firstExposure": 50,
+      "lastExposure": 91,
+      "exposureDays": 13,
+      "practiceDays": 17,
+      "maxGap": 14,
+      "tailGap": 274
+    },
+    {
+      "skill": "sql",
+      "firstExposure": 55,
+      "lastExposure": 140,
+      "exposureDays": 11,
+      "practiceDays": 17,
+      "maxGap": 50,
+      "tailGap": 225
+    },
+    {
+      "skill": "comm",
+      "firstExposure": 66,
+      "lastExposure": 364,
+      "exposureDays": 25,
+      "practiceDays": 0,
+      "maxGap": 251,
+      "tailGap": 1
+    },
+    {
+      "skill": "secu",
+      "firstExposure": 67,
+      "lastExposure": 336,
+      "exposureDays": 23,
+      "practiceDays": 7,
+      "maxGap": 192,
+      "tailGap": 29
+    },
+    {
+      "skill": "archi",
+      "firstExposure": 76,
+      "lastExposure": 308,
+      "exposureDays": 19,
+      "practiceDays": 18,
+      "maxGap": 207,
+      "tailGap": 57
+    },
+    {
+      "skill": "python",
+      "firstExposure": 82,
+      "lastExposure": 147,
+      "exposureDays": 16,
+      "practiceDays": 38,
+      "maxGap": 38,
+      "tailGap": 218
+    },
+    {
+      "skill": "ml",
+      "firstExposure": 148,
+      "lastExposure": 182,
+      "exposureDays": 35,
+      "practiceDays": 25,
+      "maxGap": 1,
+      "tailGap": 183
+    },
+    {
+      "skill": "dl",
+      "firstExposure": 183,
+      "lastExposure": 203,
+      "exposureDays": 15,
+      "practiceDays": 12,
+      "maxGap": 7,
+      "tailGap": 162
+    },
+    {
+      "skill": "llm",
+      "firstExposure": 197,
+      "lastExposure": 224,
+      "exposureDays": 21,
+      "practiceDays": 10,
+      "maxGap": 7,
+      "tailGap": 141
+    },
+    {
+      "skill": "rag",
+      "firstExposure": 218,
+      "lastExposure": 315,
+      "exposureDays": 42,
+      "practiceDays": 11,
+      "maxGap": 36,
+      "tailGap": 50
+    },
+    {
+      "skill": "evalia",
+      "firstExposure": 253,
+      "lastExposure": 322,
+      "exposureDays": 20,
+      "practiceDays": 17,
+      "maxGap": 44,
+      "tailGap": 43
+    },
+    {
+      "skill": "agents",
+      "firstExposure": 274,
+      "lastExposure": 329,
+      "exposureDays": 21,
+      "practiceDays": 17,
+      "maxGap": 36,
+      "tailGap": 36
+    }
+  ],
+  "anomalies": [
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 1,
+      "reason": "« greeting » (jsts) pratiqué jour 1 avant l'introduction de jsts (jour 4)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 1,
+      "reason": "« sh-pipeline-run » (jsts) pratiqué jour 1 avant l'introduction de jsts (jour 4)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 2,
+      "reason": "« sh-exit-retry » (jsts) pratiqué jour 2 avant l'introduction de jsts (jour 4)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 2,
+      "reason": "« sys-log-level-counts » (ds) pratiqué jour 2 avant l'introduction de ds (jour 30)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 2,
+      "reason": "« sys-log-level-counts » (python) pratiqué jour 2 avant l'introduction de python (jour 82)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 8,
+      "reason": "« fizzbuzz » (algo) pratiqué jour 8 avant l'introduction de algo (jour 15)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 10,
+      "reason": "« array-sum-even » (algo) pratiqué jour 10 avant l'introduction de algo (jour 15)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 12,
+      "reason": "« word-frequencies » (algo) pratiqué jour 12 avant l'introduction de algo (jour 15)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 15,
+      "reason": "« validate-user » (se) pratiqué jour 15 avant l'introduction de se (jour 40)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "practice-before-intro",
+      "day": 30,
+      "reason": "« debug-cart » (se) pratiqué jour 30 avant l'introduction de se (jour 40)",
+      "action": "déplacer à ≥ première exposition"
+    },
+    {
+      "severity": "warning",
+      "kind": "forgetting",
+      "day": 256,
+      "reason": "dl sans pratique après le jour 256 (109 jours)",
+      "action": "ajouter une réactivation tardive (jour de révision)"
+    }
+  ]
+}

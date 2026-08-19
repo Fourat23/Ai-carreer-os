@@ -32,27 +32,27 @@
     "5": {
       "days": 28,
       "daysWithPractice": 20,
-      "activities": 20
+      "activities": 25
     },
     "6": {
       "days": 35,
       "daysWithPractice": 28,
-      "activities": 29
+      "activities": 30
     },
     "7": {
       "days": 28,
       "daysWithPractice": 19,
-      "activities": 19
+      "activities": 20
     },
     "8": {
       "days": 28,
       "daysWithPractice": 13,
-      "activities": 14
+      "activities": 18
     },
     "9": {
       "days": 35,
       "daysWithPractice": 18,
-      "activities": 20
+      "activities": 22
     },
     "10": {
       "days": 28,
@@ -62,7 +62,7 @@
     "11": {
       "days": 28,
       "daysWithPractice": 17,
-      "activities": 55
+      "activities": 57
     },
     "12": {
       "days": 36,
@@ -76,7 +76,7 @@
       "firstExposure": 1,
       "lastExposure": 73,
       "exposureDays": 7,
-      "practiceDays": 12,
+      "practiceDays": 15,
       "maxGap": 54,
       "tailGap": 292
     },
@@ -85,7 +85,7 @@
       "firstExposure": 4,
       "lastExposure": 119,
       "exposureDays": 42,
-      "practiceDays": 105,
+      "practiceDays": 106,
       "maxGap": 31,
       "tailGap": 246
     },
@@ -94,7 +94,7 @@
       "firstExposure": 15,
       "lastExposure": 48,
       "exposureDays": 11,
-      "practiceDays": 23,
+      "practiceDays": 24,
       "maxGap": 13,
       "tailGap": 317
     },
@@ -103,7 +103,7 @@
       "firstExposure": 30,
       "lastExposure": 42,
       "exposureDays": 5,
-      "practiceDays": 14,
+      "practiceDays": 16,
       "maxGap": 8,
       "tailGap": 323
     },
@@ -112,7 +112,7 @@
       "firstExposure": 38,
       "lastExposure": 39,
       "exposureDays": 2,
-      "practiceDays": 9,
+      "practiceDays": 10,
       "maxGap": 1,
       "tailGap": 326
     },
@@ -121,7 +121,7 @@
       "firstExposure": 40,
       "lastExposure": 111,
       "exposureDays": 14,
-      "practiceDays": 14,
+      "practiceDays": 16,
       "maxGap": 21,
       "tailGap": 254
     },
@@ -139,7 +139,7 @@
       "firstExposure": 50,
       "lastExposure": 91,
       "exposureDays": 13,
-      "practiceDays": 17,
+      "practiceDays": 18,
       "maxGap": 14,
       "tailGap": 274
     },
@@ -166,7 +166,7 @@
       "firstExposure": 67,
       "lastExposure": 336,
       "exposureDays": 23,
-      "practiceDays": 7,
+      "practiceDays": 8,
       "maxGap": 192,
       "tailGap": 29
     },
@@ -175,7 +175,7 @@
       "firstExposure": 76,
       "lastExposure": 308,
       "exposureDays": 19,
-      "practiceDays": 18,
+      "practiceDays": 21,
       "maxGap": 207,
       "tailGap": 57
     },
@@ -184,7 +184,7 @@
       "firstExposure": 82,
       "lastExposure": 147,
       "exposureDays": 16,
-      "practiceDays": 38,
+      "practiceDays": 39,
       "maxGap": 38,
       "tailGap": 218
     },
@@ -193,7 +193,7 @@
       "firstExposure": 148,
       "lastExposure": 182,
       "exposureDays": 35,
-      "practiceDays": 25,
+      "practiceDays": 26,
       "maxGap": 1,
       "tailGap": 183
     },
@@ -202,7 +202,7 @@
       "firstExposure": 183,
       "lastExposure": 203,
       "exposureDays": 15,
-      "practiceDays": 12,
+      "practiceDays": 13,
       "maxGap": 7,
       "tailGap": 162
     },
@@ -211,7 +211,7 @@
       "firstExposure": 197,
       "lastExposure": 224,
       "exposureDays": 21,
-      "practiceDays": 10,
+      "practiceDays": 11,
       "maxGap": 7,
       "tailGap": 141
     },
@@ -220,7 +220,7 @@
       "firstExposure": 218,
       "lastExposure": 315,
       "exposureDays": 42,
-      "practiceDays": 11,
+      "practiceDays": 12,
       "maxGap": 36,
       "tailGap": 50
     },
@@ -313,13 +313,6 @@
       "day": 30,
       "reason": "« debug-cart » (se) pratiqué jour 30 avant l'introduction de se (jour 40)",
       "action": "déplacer à ≥ première exposition"
-    },
-    {
-      "severity": "warning",
-      "kind": "forgetting",
-      "day": 256,
-      "reason": "dl sans pratique après le jour 256 (109 jours)",
-      "action": "ajouter une réactivation tardive (jour de révision)"
     }
   ]
 }

@@ -436,7 +436,9 @@
     "sqlite-left-join-orphans"
   ],
   "133": [
-    "rag-failure-locate"
+    "rag-failure-locate",
+    "sec-prompt-injection-detect",
+    "cicd-cache-key"
   ],
   "134": [
     "sql-window-running-total"
@@ -451,10 +453,13 @@
     "sqlite-transaction-last-seat"
   ],
   "140": [
-    "rag-structured-validate"
+    "rag-structured-validate",
+    "docker-detect-secret",
+    "patterns-when-not-yagni"
   ],
   "147": [
-    "rca-classify-cause"
+    "rca-classify-cause",
+    "http-cache-policy"
   ],
   "148": [
     "ml-train-test-split"
@@ -536,7 +541,8 @@
     "skl-pipeline-cv"
   ],
   "175": [
-    "circuit-breaker-state"
+    "circuit-breaker-state",
+    "arch-circuit-breaker"
   ],
   "182": [
     "iac-idempotent-changes"
@@ -575,7 +581,8 @@
     "dl-vanishing-gradient"
   ],
   "196": [
-    "ds-two-stack-queue"
+    "ds-two-stack-queue",
+    "sh-pipeline-exit-diagnose"
   ],
   "197": [
     "llm-prompt-injection-scan"
@@ -600,7 +607,8 @@
   ],
   "217": [
     "http-etag-revalidation",
-    "sql-group-having"
+    "sql-group-having",
+    "ml-diagnose-overfit"
   ],
   "218": [
     "rag-bow-vector"
@@ -621,7 +629,8 @@
     "rag-recall-at-k"
   ],
   "224": [
-    "http-idempotency-dedup"
+    "http-idempotency-dedup",
+    "algo-coin-change-min"
   ],
   "225": [
     "rag-rrf-hybrid-fuse"
@@ -636,7 +645,9 @@
     "http-cache-policy"
   ],
   "238": [
-    "http-resilient-consumer"
+    "http-resilient-consumer",
+    "arch-circuit-breaker",
+    "py-data-etl-upsert-idempotent"
   ],
   "245": [
     "sec-redact-secret-log"
@@ -663,7 +674,9 @@
     "eval-structured-output"
   ],
   "259": [
-    "sec-prompt-injection-detect"
+    "sec-prompt-injection-detect",
+    "ds-lru-cache",
+    "docker-instruction-order"
   ],
   "260": [
     "sec-secret-placement"
@@ -777,7 +790,9 @@
     "patterns-when-not-yagni"
   ],
   "308": [
-    "py-data-parse-records"
+    "py-data-parse-records",
+    "dl-vanishing-gradient",
+    "llm-cost-budget-plan"
   ],
   "315": [
     "py-data-clean-missing",

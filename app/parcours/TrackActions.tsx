@@ -36,10 +36,10 @@ export default function TrackActions({ trackId, active, available, hasActiveOthe
     );
   }
 
-  const label = hasActiveOther ? 'Basculer vers ce parcours' : 'Activer ce parcours';
+  const label = hasActiveOther ? 'Basculer' : 'Activer';
   return (
     <span>
-      <button className="btn small primary" onClick={() => (hasActiveOther ? setConfirming(true) : activate())} disabled={busy}>
+      <button className="btn small" onClick={() => (hasActiveOther ? setConfirming(true) : activate())} disabled={busy}>
         <Play size={14} strokeWidth={2} /> {label}
       </button>
       {err && <span className="track-err" role="status">{err}</span>}

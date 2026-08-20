@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import { Route, Check, Eye, Milestone as MilestoneIcon, Clock } from 'lucide-react';
+import { Route, Eye, Milestone as MilestoneIcon, Clock } from 'lucide-react';
 import { getProgram } from '@/lib/program';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { readProgress, readProgressV3 } from '@/lib/progress-server';
 import { aggregateTracks } from '@/lib/track-aggregate';
 import { evidenceTimeline, milestones } from '@/lib/learning-experience';
+import { PageHeader, Status } from '@/app/ui';
 import TrackActions from '../parcours/TrackActions';
 
 export const dynamic = 'force-dynamic';
@@ -34,55 +35,60 @@ export default function SynthesePage() {
 
   return (
     <>
-      <div className="page-head page-wide">
-        <div className="page-head-main">
-          <p className="page-eyebrow">Pilotage <span className="sep">/</span> vue d’ensemble multi-parcours</p>
-          <h1 className="page-title">Synthèse des parcours</h1>
-          <p className="page-sub">
-            Comparaison des parcours disponibles, chacun avec sa progression propre.
-            <span className="synth-ro"><Eye size={13} strokeWidth={2} /> Lecture seule — aucune action de progression ici.</span>
-          </p>
-        </div>
+      <PageHeader
+        eyebrow={<>Pilotage <span className="sep">/</span> vue d’ensemble multi-parcours</>}
+        title="Synthèse des parcours"
+        sub={<>
+          Comparaison des parcours disponibles, chacun avec sa progression propre.
+          <span className="synth-ro"><Eye size={13} strokeWidth={2} /> Lecture seule — aucune action de progression ici.</span>
+        </>}
+      />
+
+      <div className="synth-table-wrap page-wide" role="region" aria-label="Comparaison des parcours (lecture seule)" tabIndex={0}>
+        <table className="synth-table">
+          <thead>
+            <tr>
+              <th scope="col">Parcours</th>
+              <th scope="col">État</th>
+              <th scope="col">Progression</th>
+              <th scope="col" className="num">Reprise</th>
+              <th scope="col" className="num">En cours</th>
+              <th scope="col" className="num">À revoir</th>
+              <th scope="col" className="num">Révisions</th>
+              <th scope="col" className="num">Compét.</th>
+              <th scope="col">Dernière preuve</th>
+              <th scope="col"><span className="sr-only">Action</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.trackId} className={r.active ? 'is-active' : undefined}>
+                <th scope="row" className="synth-td-track">
+                  <Route size={14} strokeWidth={2} aria-hidden />
+                  <span className="synth-td-title">{r.title}</span>
+                </th>
+                <td>{r.active
+                  ? <Status tone="accent" label="Actif" />
+                  : <Status tone={r.complete ? 'positive' : r.started ? 'info' : 'neutral'} label={r.complete ? 'Terminé' : r.started ? 'En cours' : 'Non démarré'} />}
+                </td>
+                <td className="synth-td-prog">
+                  <div className="synth-bar" aria-hidden="true"><span style={{ width: `${r.percent}%` }} /></div>
+                  <span className="synth-bar-label">{r.completedDays}/{r.totalDays} · {r.percent}%</span>
+                </td>
+                <td className="num">{r.resumeDay != null ? <Link href={`/day/${r.resumeDay}`}>J{r.resumeDay}</Link> : '—'}</td>
+                <td className="num">{r.inProgress}</td>
+                <td className="num">{r.toReview}</td>
+                <td className={`num${r.reviewsDue > 0 ? ' hot' : ''}`}>{r.reviewsDue}</td>
+                <td className="num">{r.skillsCount}</td>
+                <td className="synth-td-ev">{r.lastEvidence
+                  ? <Link href={`/day/${r.lastEvidence.day}`}>J{r.lastEvidence.day} — {r.lastEvidence.title}</Link>
+                  : <span className="muted">—</span>}</td>
+                <td className="synth-td-act"><TrackActions trackId={r.trackId} active={r.active} available hasActiveOther={!r.active} /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-
-      <ul className="synth-grid page-wide" aria-label="Synthèse des parcours (lecture seule)">
-        {rows.map((r) => (
-          <li key={r.trackId} className={`synth-card${r.active ? ' active' : ''}`}>
-            <div className="synth-head">
-              <Route size={16} strokeWidth={2} />
-              <h2 className="synth-title">{r.title}</h2>
-              {r.active
-                ? <span className="track-badge active"><Check size={13} /> Actif</span>
-                : <span className="track-badge">Disponible</span>}
-            </div>
-
-            <div className="synth-prog">
-              <div className="dp-track" aria-hidden="true"><span style={{ width: `${r.percent}%` }} /></div>
-              <span className="synth-prog-label">{r.completedDays}/{r.totalDays} jours · {r.percent}%</span>
-            </div>
-
-            <dl className="synth-metrics">
-              <div><dt>Reprise</dt><dd>{r.resumeDay != null ? <Link href={`/day/${r.resumeDay}`}>Jour {r.resumeDay}</Link> : '—'}</dd></div>
-              <div><dt>En cours</dt><dd>{r.inProgress}</dd></div>
-              <div><dt>À revoir</dt><dd>{r.toReview}</dd></div>
-              <div><dt>Révisions dues</dt><dd>{r.reviewsDue}</dd></div>
-              <div><dt>Compétences</dt><dd>{r.skillsCount}</dd></div>
-              <div><dt>État</dt><dd>{r.complete ? 'Terminé' : r.started ? 'En cours' : 'Non démarré'}</dd></div>
-            </dl>
-
-            {r.lastEvidence && (
-              <p className="synth-evidence">
-                Dernière preuve : <Link href={`/day/${r.lastEvidence.day}`}>Jour {r.lastEvidence.day}</Link> — {r.lastEvidence.title}
-              </p>
-            )}
-
-            <div className="synth-actions">
-              <TrackActions trackId={r.trackId} active={r.active} available hasActiveOther={!r.active} />
-              <Link className="synth-open" href="/parcours">Détails du parcours →</Link>
-            </div>
-          </li>
-        ))}
-      </ul>
 
       <section className="page-wide" style={{ marginTop: 'var(--sp-8)' }}>
         <div className="section-head">

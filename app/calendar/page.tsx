@@ -3,6 +3,8 @@ import { getProgram } from '@/lib/program';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
 import { readProgress, getActiveTrackId } from '@/lib/progress-server';
+import { buildCalendar } from '@/lib/calendar-model';
+import { PageHeader, Status } from '@/app/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,25 +13,29 @@ export default function CalendarPage() {
   const progress = readProgress();
   const catalogue = getCatalogue();
   const activeTrack = getTrack(catalogue, getActiveTrackId()) ?? catalogue.tracks[0];
-  // Le calendrier est généré à partir du PARCOURS ACTIF (Fondations = 365 jours).
+  // Le calendrier reflète le PARCOURS ACTIF (Fondations = les 365 jours).
   const trackDays = resolveTrackDayObjects(catalogue, activeTrack, program);
-
-  const byMonth = new Map<number, typeof program.days>();
-  for (const d of trackDays) {
-    if (!byMonth.has(d.month)) byMonth.set(d.month, []);
-    byMonth.get(d.month)!.push(d);
-  }
+  const cal = buildCalendar(trackDays);
+  const monthTitle = new Map(program.months.map((m) => [m.month, m.title]));
+  // Couverture explicite : le filtre du parcours est annoncé (transparence).
+  const coverage = `${cal.rendered} jour${cal.rendered > 1 ? 's' : ''} · ${cal.months.length} mois`;
+  const contiguous = cal.missing.length === 0;
 
   return (
     <>
-      <div className="page-head">
-        <div className="page-head-main">
-          <p className="page-eyebrow">Vue d'ensemble <span className="sep">/</span> {trackDays.length} jours · {activeTrack.title}</p>
-          <h1 className="page-title">Calendrier</h1>
-          <p className="page-sub">Mois → semaines → jours. Clique un jour pour l'ouvrir.</p>
-        </div>
-      </div>
-      <div className="legend">
+      <PageHeader
+        eyebrow={<>Vue d'ensemble <span className="sep">/</span> {coverage}</>}
+        title="Calendrier"
+        sub={<>Le parcours actif <strong>{activeTrack.title}</strong> — mois → semaines → jours, dans l'ordre chronologique. Clique un jour pour l'ouvrir.</>}
+        actions={
+          <Status
+            tone={contiguous ? 'positive' : 'attention'}
+            label={contiguous ? `${cal.rendered} jours, continu` : `${cal.missing.length} jour(s) hors parcours`}
+          />
+        }
+      />
+
+      <div className="legend" aria-label="Légende des états">
         <span><i style={{ background: 'var(--swatch-done-bg)', borderColor: 'var(--swatch-done-bd)' }} /> Terminé</span>
         <span><i style={{ background: 'var(--swatch-prog-bg)', borderColor: 'var(--swatch-prog-bd)' }} /> En cours</span>
         <span><i style={{ background: 'var(--swatch-review-bg)', borderColor: 'var(--swatch-review-bd)' }} /> À revoir</span>
@@ -37,40 +43,35 @@ export default function CalendarPage() {
       </div>
 
       <div className="cal-months page-wide">
-      {[...byMonth.entries()].map(([month, days]) => {
-        const m = program.months.find((x) => x.month === month);
-        const weeks = new Map<number, typeof days>();
-        for (const d of days) {
-          if (!weeks.has(d.week)) weeks.set(d.week, []);
-          weeks.get(d.week)!.push(d);
-        }
-        return (
-          <div key={month} className="month-block">
-            <h2>
-              <Link href={`/month/${month}`}>Mois {month}</Link>
-              <span className="muted" style={{ fontSize: 14, fontWeight: 400 }}>{m?.title}</span>
+        {cal.months.map((mb) => (
+          <section key={mb.month} className="month-block">
+            <h2 className="month-head">
+              <Link href={`/month/${mb.month}`} className="month-no">Mois {mb.month}</Link>
+              <span className="month-title">{monthTitle.get(mb.month)}</span>
             </h2>
-            {[...weeks.entries()].map(([week, wdays]) => (
-              <div key={week} className="week-row">
-                <Link href={`/week/${week}`} className="week-label">Semaine {week}</Link>
-                {wdays.map((d) => {
-                  const st = progress.days[String(d.day)]?.status ?? 'not-started';
-                  const cls = ['day-cell'];
-                  if (st === 'done') cls.push('done');
-                  else if (st === 'in-progress') cls.push('in-progress');
-                  else if (st === 'to-review') cls.push('to-review');
-                  if (d.isReview) cls.push('review');
-                  return (
-                    <Link key={d.day} href={`/day/${d.day}`} className={cls.join(' ')} title={`Jour ${d.day} — ${d.title}`}>
-                      {d.day}
-                    </Link>
-                  );
-                })}
+            {mb.weeks.map((wb) => (
+              <div key={wb.week} className="cal-week">
+                <Link href={`/week/${wb.week}`} className="week-label">Semaine {wb.week}</Link>
+                <div className="week-days" role="list">
+                  {wb.days.map((d) => {
+                    const st = progress.days[String(d.day)]?.status ?? 'not-started';
+                    const cls = ['day-cell'];
+                    if (st === 'done') cls.push('done');
+                    else if (st === 'in-progress') cls.push('in-progress');
+                    else if (st === 'to-review') cls.push('to-review');
+                    if (d.isReview) cls.push('review');
+                    return (
+                      <Link key={d.day} href={`/day/${d.day}`} role="listitem" className={cls.join(' ')}
+                        title={`Jour ${d.day} — ${d.title}${d.isReview ? ' · revue hebdo' : ''}`}>
+                        {d.day}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
             ))}
-          </div>
-        );
-      })}
+          </section>
+        ))}
       </div>
     </>
   );

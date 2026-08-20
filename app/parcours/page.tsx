@@ -70,23 +70,56 @@ export default function ParcoursPage() {
         </div>
       </section>
 
-      {/* Autres parcours */}
-      <div className="section-head" style={{ marginTop: 'var(--sp-8)' }}>
-        <span className="section-label">Autres parcours</span>
-        <h2 className="section-title">À venir</h2>
-      </div>
-      <div className="track-list">
-        {others.map((t) => (
-          <div className="track-row" key={t.id}>
-            <div className="track-row-main">
-              <div className="track-row-title">{t.title}</div>
-              <div className="track-row-goal">{t.goal}</div>
-              <div className="track-techs">{(t.technologies ?? []).slice(0, 6).map((id) => <span key={id} className="badge">{techName(id)}</span>)}</div>
-            </div>
-            <TrackActions trackId={t.id} active={false} available={isTrackAvailable(t)} hasActiveOther />
-          </div>
-        ))}
-      </div>
+      {/* Autres parcours — séparés : disponibles (activables) vs annoncés */}
+      {(() => {
+        const available = others.filter((t) => isTrackAvailable(t));
+        const announced = others.filter((t) => !isTrackAvailable(t));
+        return (
+          <>
+            {available.length > 0 && (
+              <section style={{ marginTop: 'var(--sp-8)' }}>
+                <div className="section-head">
+                  <span className="section-label">Disponibles</span>
+                  <h2 className="section-title">Autres parcours activables</h2>
+                  <span className="section-note">ta progression de chaque parcours est conservée</span>
+                </div>
+                <div className="track-list">
+                  {available.map((t) => (
+                    <div className="track-row" key={t.id}>
+                      <div className="track-row-main">
+                        <div className="track-row-title">{t.title}</div>
+                        <div className="track-row-goal">{t.goal}</div>
+                        <div className="track-techs">{(t.technologies ?? []).slice(0, 6).map((id) => <span key={id} className="badge">{techName(id)}</span>)}</div>
+                      </div>
+                      <TrackActions trackId={t.id} active={false} available hasActiveOther />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+            {announced.length > 0 && (
+              <section style={{ marginTop: 'var(--sp-8)' }}>
+                <div className="section-head">
+                  <span className="section-label">À venir</span>
+                  <h2 className="section-title">Parcours annoncés</h2>
+                  <span className="section-note">bientôt disponibles</span>
+                </div>
+                <div className="track-list track-list-soon">
+                  {announced.map((t) => (
+                    <div className="track-row is-soon" key={t.id}>
+                      <div className="track-row-main">
+                        <div className="track-row-title">{t.title}</div>
+                        <div className="track-row-goal">{t.goal}</div>
+                      </div>
+                      <TrackActions trackId={t.id} active={false} available={false} hasActiveOther />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
+        );
+      })()}
     </>
   );
 }

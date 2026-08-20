@@ -4,7 +4,7 @@ import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack } from '@/lib/catalogue';
 import Link from 'next/link';
 import { getDueReviews, getUpcomingReviews } from '@/lib/review';
-import { PageHeader, Metric, Status } from '@/app/ui';
+import { PageHeader, Metric, Status, InlineNotice } from '@/app/ui';
 import ReviewList from './ReviewList';
 
 export const dynamic = 'force-dynamic';
@@ -41,6 +41,17 @@ export default function RevisionsPage() {
       </div>
 
       <ReviewList due={due} upcoming={upcoming} />
+
+      <div style={{ marginTop: 'var(--sp-6)' }}>
+        <InlineNotice tone="info" title="Comment cette file se remplit">
+          Quand tu clôtures une journée en indiquant « à revoir » (ou après une révision
+          partielle), elle entre dans une file de <strong>répétition espacée</strong> (algorithme
+          SM-2) : la prochaine échéance est calculée selon ta compréhension déclarée. Elle
+          réapparaît ici le jour venu. En attendant, tu peux entretenir tes acquis avec les{' '}
+          <Link href="/diagnostics">diagnostics</Link>. Aucune révision n'est inventée — la file
+          ne reflète que tes journées réellement marquées.
+        </InlineNotice>
+      </div>
     </>
   );
 }

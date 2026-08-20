@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   LayoutDashboard, CalendarDays, BookOpen, Target, FolderGit2, ClipboardCheck,
   NotebookPen, Library, BookMarked, Briefcase, LifeBuoy, GraduationCap, Bot, Bug,
-  Brain, Network, Menu, X, PanelLeftClose, PanelLeftOpen, Terminal, Search, Database, History, Route, FlaskConical, LayoutGrid, Workflow, Boxes, ShieldAlert, ShieldQuestion, Layers, Cloud,
+  Brain, Network, Menu, X, PanelLeftClose, PanelLeftOpen, Terminal, Search, Database, History, Route, FlaskConical, LayoutGrid, Workflow, Boxes, ShieldAlert, ShieldQuestion, Layers, Cloud, Gauge, ChevronRight,
 } from 'lucide-react';
 import { NAV_GROUPS, type NavItem } from './nav';
 import CommandPalette from './CommandPalette';
@@ -19,7 +19,7 @@ function openPalette() {
 
 const ICONS: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number }>> = {
   LayoutDashboard, CalendarDays, BookOpen, Target, FolderGit2, ClipboardCheck,
-  NotebookPen, Library, BookMarked, Briefcase, LifeBuoy, GraduationCap, Bot, Bug, Brain, Network, Database, History, Route, FlaskConical, LayoutGrid, Workflow, Boxes, ShieldAlert, ShieldQuestion, Layers, Cloud,
+  NotebookPen, Library, BookMarked, Briefcase, LifeBuoy, GraduationCap, Bot, Bug, Brain, Network, Database, History, Route, FlaskConical, LayoutGrid, Workflow, Boxes, ShieldAlert, ShieldQuestion, Layers, Cloud, Gauge,
 };
 
 function isActive(path: string, href: string) {
@@ -47,12 +47,26 @@ function NavLinks({ path, onNavigate }: { path: string; onNavigate?: () => void 
     });
   return (
     <>
-      {NAV_GROUPS.map((g) => (
-        <div key={g.label}>
-          <div className="nav-sect">{g.label}</div>
-          <nav className="nav-group" aria-label={g.label}>{render(g.items)}</nav>
-        </div>
-      ))}
+      {NAV_GROUPS.map((g) => {
+        if (g.collapsible) {
+          const hasActive = g.items.some((it) => isActive(path, it.href));
+          return (
+            <details key={g.label} className="nav-details" open={hasActive}>
+              <summary className="nav-sect nav-sect-toggle">
+                <ChevronRight size={12} strokeWidth={2.4} className="nav-caret" aria-hidden="true" />
+                {g.label}
+              </summary>
+              <nav className="nav-group" aria-label={g.label}>{render(g.items)}</nav>
+            </details>
+          );
+        }
+        return (
+          <div key={g.label}>
+            <div className="nav-sect">{g.label}</div>
+            <nav className="nav-group" aria-label={g.label}>{render(g.items)}</nav>
+          </div>
+        );
+      })}
     </>
   );
 }

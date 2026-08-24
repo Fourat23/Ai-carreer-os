@@ -373,17 +373,27 @@ export default function LabWorkspace({
       {/* ── Zone centrale ── */}
       {showCenter && (
       <section className="wb-center" aria-label="Éditeur">
-        <div className="wb-tabs" role="tablist" aria-label="Onglets de fichiers">
+        {/* V57 · CP11 — `aria-required-children` (critical) : un `tablist` ne
+            peut contenir QUE des `tab`. Cette barre mêlait les onglets de
+            fichiers, les boutons de repli de panneau et les croix de
+            fermeture. Le rôle est donc restreint au conteneur qui ne porte
+            que les onglets ; les outils sortent du groupe. Les croix restent
+            dans l'enveloppe de l'onglet, marquée `presentation`. */}
+        <div className="wb-tabs">
           {!layout.layout.leftOpen && (
             <button className="wb-icon" title="Afficher le panneau gauche" aria-label="Afficher le panneau gauche" onClick={() => layout.toggle('left')}><PanelLeftOpen size={15} /></button>
           )}
+          <div className="wb-tablist" role="tablist" aria-label="Onglets de fichiers">
+            {openTabs.map((path) => (
+              <span key={path} role="presentation" className={`wb-tab${path === active ? ' active' : ''}`}>
+                <button className="wb-tab-btn" role="tab" aria-selected={path === active} onClick={() => { setActive(path); setEditorKey((k) => k + 1); }}>
+                  {path}{dirty.has(path) ? ' ●' : ''}
+                </button>
+              </span>
+            ))}
+          </div>
           {openTabs.map((path) => (
-            <span key={path} className={`wb-tab${path === active ? ' active' : ''}`}>
-              <button className="wb-tab-btn" role="tab" aria-selected={path === active} onClick={() => { setActive(path); setEditorKey((k) => k + 1); }}>
-                {path}{dirty.has(path) ? ' ●' : ''}
-              </button>
-              <button className="wb-tab-x" aria-label={`Fermer ${path}`} onClick={() => closeTab(path)}><X size={12} /></button>
-            </span>
+            <button key={`x-${path}`} className="wb-tab-x" aria-label={`Fermer ${path}`} onClick={() => closeTab(path)} hidden={path !== active}><X size={12} /></button>
           ))}
           {!layout.layout.rightOpen && (
             <button className="wb-icon" style={{ marginLeft: 'auto' }} title="Afficher le panneau droit" aria-label="Afficher le panneau droit" onClick={() => layout.toggle('right')}><PanelRightOpen size={15} /></button>
@@ -417,6 +427,8 @@ export default function LabWorkspace({
       {showRight && (
         <aside className="wb-right" aria-label="Tests, console et aide" ref={resultsRef}>
           <div className="wb-rtabs" role="tablist" aria-label="Panneau de résultats">
+            {/* Le bouton de repli, en fin de barre, est sorti du `tablist` :
+                il n'est pas un onglet (même correction que la barre gauche). */}
             {isWeb && (
               <button role="tab" aria-selected={rightTab === 'preview'} className={`wb-rtab${rightTab === 'preview' ? ' active' : ''}`} onClick={() => setRightTab('preview')}><Eye size={13} /> Preview</button>
             )}
@@ -429,8 +441,8 @@ export default function LabWorkspace({
               <button role="tab" aria-selected={rightTab === 'terminal'} className={`wb-rtab${rightTab === 'terminal' ? ' active' : ''}`} onClick={() => setRightTab('terminal')}><Terminal size={13} /> Terminal</button>
             )}
             <button role="tab" aria-selected={rightTab === 'help'} className={`wb-rtab${rightTab === 'help' ? ' active' : ''}`} onClick={() => setRightTab('help')}><HelpCircle size={13} /> Aide</button>
-            <button className="wb-icon" style={{ marginLeft: 'auto' }} title="Replier le panneau" aria-label="Replier le panneau droit" onClick={() => layout.toggle('right')}><PanelRightClose size={15} /></button>
           </div>
+          <button className="wb-icon wb-rtabs-collapse" title="Replier le panneau" aria-label="Replier le panneau droit" onClick={() => layout.toggle('right')}><PanelRightClose size={15} /></button>
           <div className="wb-rbody" aria-live="polite">
             {/* Preview web : montée en permanence (reste vivante hors onglet) ;
                 masquée quand un autre onglet est actif → continue d'alimenter la Console. */}

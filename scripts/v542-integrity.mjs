@@ -25,6 +25,19 @@ const CASES = [
   { name: 'VISIT_DAY_DOES_NOT_MUTATE_PROGRESS', path: '/day/80' },
   { name: 'VISIT_DOC_DOES_NOT_MUTATE_PROGRESS', path: '/doc/lessons/agents-fundamentals' },
   { name: 'VISIT_SKILLS_DOES_NOT_MUTATE_PROGRESS', path: '/skills' },
+  // V57 — chaque route touchée par ce sprint entre en routine. Toujours AUCUNE
+  // restauration : le fichier doit simplement ne pas être modifié par une visite.
+  { name: 'VISIT_MONTH_DOES_NOT_MUTATE_PROGRESS', path: '/month/3' },
+  { name: 'VISIT_WEEK_DOES_NOT_MUTATE_PROGRESS', path: '/week/12' },
+  { name: 'VISIT_LAB_DOES_NOT_MUTATE_PROGRESS', path: '/lab' },
+  { name: 'VISIT_LAB_EXERCISE_DOES_NOT_MUTATE_PROGRESS', path: '/lab/fizzbuzz' },
+  { name: 'VISIT_DIAGNOSTICS_DOES_NOT_MUTATE_PROGRESS', path: '/diagnostics' },
+  { name: 'VISIT_CAPSTONES_DOES_NOT_MUTATE_PROGRESS', path: '/capstones' },
+  { name: 'VISIT_PROJECTS_DOES_NOT_MUTATE_PROGRESS', path: '/projects' },
+  { name: 'VISIT_REVIEWS_DOES_NOT_MUTATE_PROGRESS', path: '/reviews' },
+  { name: 'VISIT_PIPELINES_DOES_NOT_MUTATE_PROGRESS', path: '/pipelines' },
+  { name: 'VISIT_KUBERNETES_DOES_NOT_MUTATE_PROGRESS', path: '/kubernetes' },
+  { name: 'VISIT_CLOUD_LAB_DOES_NOT_MUTATE_PROGRESS', path: '/cloud-lab' },
 ];
 
 const hash = () => createHash('sha1').update(readFileSync(PROGRESS)).digest('hex');

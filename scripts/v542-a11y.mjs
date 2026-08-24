@@ -27,6 +27,22 @@ const PAGES = [
   { name: 'skills', path: '/skills' },
   { name: 'lessons', path: '/lessons' },
   { name: 'doc-lesson', path: '/doc/lessons/agents-fundamentals' },
+  // V57 — les onze routes recomposées entrent au périmètre, plus /glossary,
+  // dont l'accessibilité n'avait JAMAIS été vérifiée : V56 l'avait déclarée
+  // « page trop lourde pour le harnais » et reportée. Un report renouvelé sans
+  // tentative n'en est pas un ; elle est mesurée ici, avec un délai propre.
+  { name: 'month', path: '/month/3' },
+  { name: 'week', path: '/week/12' },
+  { name: 'lab', path: '/lab' },
+  { name: 'lab-exercise', path: '/lab/fizzbuzz' },
+  { name: 'diagnostics', path: '/diagnostics' },
+  { name: 'capstones', path: '/capstones' },
+  { name: 'projects', path: '/projects' },
+  { name: 'reviews', path: '/reviews' },
+  { name: 'pipelines', path: '/pipelines' },
+  { name: 'kubernetes', path: '/kubernetes' },
+  { name: 'cloud-lab', path: '/cloud-lab' },
+  { name: 'glossary', path: '/glossary', slow: true },
 ];
 
 const browser = await chromium.launch({ executablePath: EXEC, args: ['--no-sandbox', '--disable-gpu'] });
@@ -35,7 +51,11 @@ const structural = [];
 try {
   for (const p of PAGES) {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-    await page.goto(`${BASE}${p.path}`, { waitUntil: 'networkidle', timeout: 30000 });
+    // `slow` : /glossary rend plusieurs centaines d'entrées ; le délai par
+    // défaut ne suffisait pas et c'est la raison pour laquelle V56 l'avait
+    // laissée non vérifiée. Un délai adapté n'assouplit aucun critère : les
+    // seuils axe restent 0 critical et 0 serious.
+    await page.goto(`${BASE}${p.path}`, { waitUntil: 'networkidle', timeout: p.slow ? 180000 : 30000 });
 
     // ── axe-core ──────────────────────────────────────────────────────────
     await page.addScriptTag({ content: AXE_SRC });

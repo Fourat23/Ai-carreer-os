@@ -30,6 +30,24 @@ const theme = EditorView.theme({
   '.cm-selectionBackground, ::selection': { backgroundColor: 'color-mix(in srgb, var(--accent) 28%, transparent)' },
   '&.cm-focused': { outline: 'none' },
   '.cm-scroller': { overflow: 'auto' },
+  // ── V57 · CP11 — trois défauts d'accessibilité mesurés par axe sur
+  // /lab/[exerciseId], route auditée pour la première fois.
+  //
+  // 1) `color-contrast` (serious ×7) : les couleurs par défaut du thème de
+  //    coloration syntaxique tombaient sous 4,5:1 sur le fond de l'éditeur.
+  //    Les commentaires et les mots-clés — les deux jetons les plus fréquents —
+  //    étaient les plus faibles. Les teintes sémantiques du produit sont
+  //    reprises, qui satisfont déjà le contraste ailleurs.
+  '.ͼm, .cm-comment': { color: 'var(--muted)' },
+  // `--accent-2` est défini dans le thème : pas de repli en dur, qui
+  //    échapperait au système de tokens (gate V53).
+  '.ͼb, .cm-keyword': { color: 'var(--accent-2)' },
+  '.ͼc, .cm-string': { color: 'var(--ok)' },
+  '.ͼd, .cm-number': { color: 'var(--warn)' },
+  // Le jeton de définition de fonction (`ͼg`) restait sous le seuil : mesuré
+  // séparément après la première passe, corrigé séparément. On ne déclare pas
+  // « contraste conforme » tant qu'un jeton ne l'est pas.
+  '.ͼg, .cm-def, .cm-variableName': { color: 'var(--text)' },
 }, { dark: true });
 
 export default function CodeMirrorEditor({
@@ -76,6 +94,26 @@ export default function CodeMirrorEditor({
     view.dispatch({ selection: { anchor: pos }, scrollIntoView: true });
     view.focus();
   }, [goto]);
+
+  // 2) `aria-input-field-name` (serious) : CodeMirror pose `role="textbox"` sur
+  //    `.cm-content` sans nom accessible — l'`aria-label` du conteneur ne lui
+  //    est pas transmis. 3) `scrollable-region-focusable` (serious) : le
+  //    `.cm-scroller` défile avec `tabindex="-1"`, donc inatteignable au
+  //    clavier. Les deux se corrigent sur les nœuds RÉELS, une fois la vue
+  //    montée — pas sur le conteneur, où la règle n'aurait aucun effet.
+  useEffect(() => {
+    const root = host.current;
+    if (!root) return;
+    const name = readOnly ? 'Fichier en lecture seule' : 'Éditeur de code';
+    const content = root.querySelector('.cm-content');
+    if (content && !content.getAttribute('aria-label')) content.setAttribute('aria-label', name);
+    const scroller = root.querySelector('.cm-scroller');
+    if (scroller) {
+      scroller.setAttribute('tabindex', '0');
+      scroller.setAttribute('role', 'region');
+      scroller.setAttribute('aria-label', `${name} — zone défilante`);
+    }
+  });
 
   return <div ref={host} className="cm-host" aria-label={readOnly ? 'Fichier en lecture seule' : 'Éditeur de code'} />;
 }

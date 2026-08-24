@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getWeekHtml, getProgram } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
 import { periodModel, periodBounds } from '@/lib/period-model';
+import { annotateProseA11y } from '@/lib/section-family';
 import { PositionRing } from '@/app/ui';
 import PeriodLoad from '../../period/PeriodLoad';
 
@@ -100,7 +101,7 @@ export default async function WeekPage({ params }: { params: Promise<{ id: strin
           <h2 className="period-h">Intention de la semaine</h2>
           <span className="period-h-note">document du curriculum, inchangé</span>
         </div>
-        <article className="prose reading" dangerouslySetInnerHTML={{ __html: html }} />
+        <article className="prose reading" dangerouslySetInnerHTML={{ __html: annotateProseA11y(html) }} />
       </section>
 
       <nav className="period-nav" aria-label="Navigation des semaines">

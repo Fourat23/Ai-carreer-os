@@ -3781,3 +3781,8 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
   .day-view .phase-rail-strip .phase-step-fam,
   .doc-view .phase-rail-strip .phase-step-fam { display: none; }
 }
+
+/* V57 · CP11 — `link-in-text-block` (serious) : le fil d'Ariane introduit dans
+   l'en-tête d'exercice se distinguait du texte par la seule couleur. Même
+   correction qu'en V54.2 sur les liens de prose : un soulignement discret. */
+.lab-eyebrow a { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }

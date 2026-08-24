@@ -9,9 +9,15 @@ const BASE = process.argv[2] ?? 'http://127.0.0.1:3221';
 const WIDTHS = [375, 480, 640, 768, 1024, 1200, 1440, 1600, 1920];
 // V56 — les 5 journées représentatives figées à CP0 entrent dans le balayage :
 // un layout de journée ne peut pas être déclaré stable sur un seul contenu.
+// V57 — les onze routes nouvellement recomposées entrent au balayage, plus
+// /glossary. Une recomposition non vérifiée à toutes les largeurs n'est pas
+// une recomposition.
 const ROUTES = ['/', '/calendar', '/parcours', '/synthese', '/revisions',
   '/day/181', '/day/80', '/day/1', '/day/150', '/day/205',
-  '/skills', '/lessons', '/doc/lessons/agents-fundamentals'];
+  '/skills', '/lessons', '/doc/lessons/agents-fundamentals',
+  '/month/3', '/week/12', '/lab', '/lab/fizzbuzz',
+  '/diagnostics', '/capstones', '/projects', '/reviews',
+  '/pipelines', '/kubernetes', '/cloud-lab', '/glossary'];
 
 function probe() {
   const de = document.documentElement;

@@ -14,9 +14,14 @@ export interface CalendarModel {
   rendered: number;
   missing: number[];
   duplicates: number[];
+  /** Ordre RENDU : mois, semaines et jours strictement croissants. */
   ordered: boolean;
+  /** Diagnostic : la liste reçue était-elle déjà chronologique ? */
+  inputOrdered: boolean;
   weekOrderOk: boolean;
   monthOrderOk: boolean;
+  dayOrderOk: boolean;
+  weekChainOk: boolean;
   weekSpanOk: boolean;
   ok: boolean;
 }

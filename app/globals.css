@@ -362,14 +362,12 @@ table.list th { color: var(--muted); font-weight: 500; font-size: 12px; text-tra
 table.list tr:hover td { background: var(--panel); }
 
 /* Calendar */
-/* Calendrier : les mois s'écoulent en grille sur grand écran (1 → 2 → 3 col),
-   l'ordre DOM et la navigation clavier restant intacts (grid respecte l'ordre). */
-/* V54.1 — Calendrier : maçonnerie de mois (colonnes CSS, plus d'alignement de
-   rangées => plus de trous verticaux) + semaine = grille fixe de 7 jours. */
-.cal-months { column-gap: var(--sp-8); }
-@media (min-width: 900px) { .cal-months { column-count: 2; } }
-@media (min-width: 1400px) { .cal-months { column-count: 3; } }
-.month-block { margin: 0 0 var(--sp-6); break-inside: avoid; -webkit-column-break-inside: avoid;
+/* Calendrier — la disposition des mois est définie dans le bloc V54.2.1 en fin
+   de fichier (grille régulière, ordre de lecture = ordre chronologique).
+   La maçonnerie par colonnes CSS introduite en V54.1 a été RETIRÉE : elle
+   compactait la page au prix d'un ordre de lecture faux (M1 · M5 · M9 …).
+   Ici ne restent que l'apparence d'un bloc-mois et la grille de 7 jours. */
+.month-block {
   padding: var(--sp-4); border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); box-shadow: var(--shadow-1); }
 .month-head { display: flex; align-items: baseline; gap: 8px; margin: 0 0 var(--sp-3); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--border); }
 .month-no { font-size: var(--fs-h3); font-weight: 650; color: var(--text); }
@@ -1572,9 +1570,10 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
    répétition, plus dense). Deux colonnes en desktop large. */
 .lx-milestones { list-style: none; margin: 0; padding: 0;
   border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); overflow: hidden; }
-@media (min-width: 1100px) { .lx-milestones { columns: 2; column-gap: 0; } }
+/* Deux colonnes en desktop large — via une GRILLE (bloc V54.2.1), pas via
+   `columns` : les jalons sont ordonnés et ne doivent pas être réordonnés. */
 .lx-milestone { display: flex; align-items: flex-start; gap: 10px; padding: 9px var(--sp-4);
-  border-bottom: 1px solid var(--border-subtle); break-inside: avoid; }
+  border-bottom: 1px solid var(--border-subtle); }
 .lx-milestones .lx-milestone:last-child { border-bottom: none; }
 .lx-milestone.done { background: color-mix(in srgb, var(--ok) 6%, transparent); }
 .lx-ms-check { color: var(--muted); line-height: 1.4; }
@@ -1986,7 +1985,7 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
 
 /* Seuil relevé à 1400px : en dessous, les 10 colonnes ne tiennent pas sans
    rogner la colonne d'action. On ne garde que les PRIMARY (mesuré, pas supposé). */
-@media (max-width: 1399px) {
+@media (max-width: 1439px) {
   .synth-table .col-s { display: none; }
   .synth-table { min-width: 0; }
   .synth-td-track { min-width: 150px; }
@@ -2062,7 +2061,7 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
 /* V54.2 — la table dépassait son conteneur à 1440 (colonne « action » coupée).
    Les colonnes numériques (chiffres à 1-2 caractères) étaient dimensionnées par
    leurs en-têtes : on resserre leur gouttière et on borne la colonne « preuve ». */
-@media (min-width: 1400px) {
+@media (min-width: 1440px) {
   .synth-table th.num, .synth-table td.num { padding-left: 10px; padding-right: 10px; }
   .synth-table thead th, .synth-table tbody td, .synth-table tbody th { padding-top: 10px; padding-bottom: 10px; }
   .synth-td-track { min-width: 168px; }
@@ -2072,6 +2071,176 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
 }
 /* Les en-têtes numériques peuvent se replier sur 2 lignes : la colonne se
    dimensionne alors sur la donnée (1-2 chiffres) et non sur le mot d'en-tête. */
-@media (min-width: 1400px) {
+@media (min-width: 1440px) {
   .synth-table thead th.num { white-space: normal; max-width: 62px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V54.2.1 — VISUAL INTEGRITY
+   Trois corrections structurelles. Bloc placé en FIN de fichier : les règles
+   de base du calendrier et du dashboard sont déclarées plus haut, et une
+   surcharge placée avant elles serait battue par l'ordre de la cascade
+   (défaut déjà rencontré en V54.1 puis V54.2 sur la table de Synthèse).
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── P0-A · ORDRE DE LECTURE CHRONOLOGIQUE ────────────────────────────────
+   `column-count` remplit les colonnes de haut en bas PUIS passe à la suivante :
+   le DOM restait chronologique (M1…M12) mais la lecture ligne par ligne donnait
+   M1 · M5 · M9 / M2 · M6 · M10 / … Sur une structure TEMPORELLE, c'est une
+   représentation fausse, pas un choix esthétique. Une grille CSS place les
+   éléments dans l'ordre du DOM, ligne par ligne : l'ordre de lecture visuel
+   coïncide alors avec l'ordre chronologique, à toutes les largeurs.
+   Le prix assumé : les rangées s'alignent sur le mois le plus haut (léger
+   crénelage en bas de rangée). La justesse prime sur la compacité.          */
+.cal-months {
+  display: grid; grid-template-columns: 1fr; gap: var(--sp-5);
+  /* `stretch` (défaut) plutôt que `start` : les mois d'une même rangée
+     s'alignent sur le plus haut. Le crénelage inhérent à une grille régulière
+     passe alors À L'INTÉRIEUR des panneaux plutôt qu'entre eux — l'ordre reste
+     juste, et la page ne se remplit pas de trous flottants. */
+}
+@media (min-width: 900px)  { .cal-months { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1400px) { .cal-months { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.cal-months .month-block { margin: 0; }
+/* Réconciliation 365 : la somme est affichée comme un fait vérifiable. */
+.cal-sum {
+  display: inline-block; margin-left: 6px; padding: 1px 8px;
+  font-family: var(--font-mono); font-size: var(--fs-xs); font-variant-numeric: tabular-nums;
+  color: var(--text); background: var(--panel-2);
+  border: 1px solid var(--border); border-radius: var(--r-pill);
+}
+
+/* Même défaut, même correction : les jalons de la Synthèse sont ordonnés
+   (progression pédagogique) et ne doivent pas être réordonnés par la mise en
+   page. `columns: 2` → grille à deux colonnes en ordre de lecture. */
+@media (min-width: 1100px) {
+  .lx-milestones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lx-milestones .lx-milestone:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+}
+
+/* ── P0-B · COLONNES RÉELLEMENT INDÉPENDANTES ─────────────────────────────
+   Le socle (trajectoire) et le pied de contexte vivent maintenant DANS la
+   colonne principale (cf. app/page.tsx). Les deux colonnes du dashboard sont
+   donc deux items de grille alignés en `start` : aucune ne peut pousser
+   l'autre, et le vide structurel sous le focus disparaît par construction —
+   pas par un remplissage, une min-height, ni un positionnement absolu.      */
+.dash-main > .dash-socle, .dash-main > .dash-foot { margin-top: 0; }
+.dash-socle-scope { font-size: var(--fs-sm); font-weight: 400; color: var(--muted); margin-left: 6px; }
+@media (min-width: 1100px) {
+  .dash-cols { align-items: start; }
+  /* Le rail ne s'étire jamais à la hauteur de la colonne principale. */
+  .dash-side { align-self: start; }
+}
+
+/* ── Trajectoire FLUIDE ───────────────────────────────────────────────────
+   Conséquence directe de P0-B : la trajectoire n'occupe plus la pleine largeur
+   de la page mais celle de la colonne principale. Les cellules à taille fixe
+   (15 px) auraient introduit un défilement horizontal permanent. La grille se
+   dimensionne désormais sur la place disponible, avec un plancher qui préserve
+   la cliquabilité — en dessous, le conteneur défile comme auparavant.        */
+.traj { --cell-min: 10px; }
+.traj-inner {
+  display: block; width: 100%;
+  min-width: calc(var(--cols, 52) * var(--cell-min) + (var(--cols, 52) - 1) * var(--cgap));
+}
+.traj-months { grid-template-columns: repeat(var(--cols, 52), minmax(0, 1fr)); }
+.traj-row { display: grid; grid-template-columns: repeat(var(--cols, 52), minmax(0, 1fr)); gap: var(--cgap); }
+.tcell-wrap, .tcell-empty { display: block; width: auto; height: auto; min-width: 0; aspect-ratio: 1 / 1; }
+.tcell { width: 100%; height: 100%; }
+@media (max-width: 640px) { .traj { --cell-min: 13px; } }
+
+/* ── P1 · CTA du Parcours rattaché à son contexte ─────────────────────────
+   Mesuré avant correction : 107 px (1440) entre le CTA et le bloc du parcours
+   actif, et hors de ce bloc dans le DOM. Il est désormais dans le même bloc,
+   à côté de la progression et de la prochaine étape qui le justifient.      */
+.track-resume { display: grid; grid-template-columns: 1fr; gap: var(--sp-4); align-items: end; }
+@media (min-width: 900px) { .track-resume { grid-template-columns: minmax(0, 1fr) auto; } }
+.track-resume-act { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-2); }
+@media (min-width: 900px) { .track-resume-act { align-items: flex-end; } }
+.track-resume-next { margin: 0; font-size: var(--fs-sm); color: var(--text); }
+.track-resume-k {
+  display: block; font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--faint); margin-bottom: 2px;
+}
+.track-scope { font-size: var(--fs-sm); font-weight: 400; color: var(--muted); margin-left: 6px; }
+
+/* ── P1 · Révisions : état vide intentionnel (aucune donnée inventée) ───── */
+.rev-empty {
+  display: grid; grid-template-columns: 1fr; gap: var(--sp-5);
+  margin-top: var(--sp-6); padding: var(--sp-5);
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-lg);
+}
+@media (min-width: 900px) { .rev-empty { grid-template-columns: minmax(0, 1fr) clamp(260px, 26%, 320px); } }
+.rev-empty-lead { color: var(--muted); margin: var(--sp-2) 0 var(--sp-4); max-width: 68ch; }
+.rev-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-3); }
+.rev-step { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--sp-3); align-items: start; }
+.rev-step-n {
+  display: flex; align-items: center; justify-content: center; width: 24px; height: 24px;
+  border-radius: var(--r-pill); border: 1px solid var(--border-strong);
+  font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); background: var(--panel-2);
+}
+.rev-step-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rev-step-t { font-weight: 600; font-size: var(--fs-sm); }
+.rev-step-d { font-size: var(--fs-sm); color: var(--muted); }
+.rev-empty-act {
+  display: flex; flex-direction: column; gap: var(--sp-2); align-items: flex-start;
+  padding: var(--sp-4); border: 1px solid var(--border); border-radius: var(--r); background: var(--raised);
+}
+.rev-empty-next { margin: 0; font-weight: 600; font-size: var(--fs-sm); }
+
+/* ── P2 · Barre de défilement du rail de navigation ───────────────────────
+   Elle restait très contrastée en thème sombre et attirait l'œil plus que la
+   navigation elle-même. Elle est thématisée, jamais supprimée : le défilement
+   clavier, molette et tactile reste intact, et la poignée garde un contraste
+   suffisant pour rester repérable au survol.                                */
+.rail-scroll, .app-rail {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+.rail-scroll::-webkit-scrollbar, .app-rail::-webkit-scrollbar { width: 8px; }
+.rail-scroll::-webkit-scrollbar-track, .app-rail::-webkit-scrollbar-track { background: transparent; }
+.rail-scroll::-webkit-scrollbar-thumb, .app-rail::-webkit-scrollbar-thumb {
+  background: var(--border-strong); border-radius: var(--r-pill); border: 2px solid transparent; background-clip: content-box;
+}
+.rail-scroll::-webkit-scrollbar-thumb:hover, .app-rail::-webkit-scrollbar-thumb:hover {
+  background: var(--muted); background-clip: content-box;
+}
+
+/* Le pied de contexte vit désormais dans la colonne principale (P0-B), donc
+   dans une largeur de ~750 px et non plus 1140 px : la règle « texte | accès
+   rapides » à partir de 900 px y écrasait le résumé du mois sur ~300 px. Il
+   repasse en une seule colonne, le résumé retrouve sa largeur de lecture et
+   les accès rapides s'alignent en dessous. */
+.dash-main > .dash-foot { grid-template-columns: 1fr; }
+.dash-main > .dash-foot .dash-quick { justify-content: flex-start; }
+@media (min-width: 1500px) {
+  .dash-main > .dash-foot { grid-template-columns: minmax(0, 1fr) auto; }
+  .dash-main > .dash-foot .dash-quick { justify-content: flex-end; }
+}
+
+/* ── V54.2.1 · corrections d'accessibilité mesurées (axe-core) ───────────── */
+
+/* La grille de jours du calendrier est désormais une vraie liste : neutraliser
+   les puces et les marges par défaut, la cellule reste l'élément carré. */
+.week-days { list-style: none; margin: 0; padding: 0; }
+.day-slot { display: block; min-width: 0; }
+
+/* `--faint` sur la surface haute `--raised` tombe à 4.42:1 (seuil AA : 4.5).
+   Sur ce fond, le libellé passe en `--muted` — même correction qu'en V54.2
+   pour `.ui-focus-fact-k`, appliquée là où le fond est réellement surélevé. */
+.rev-empty-act .ui-panel-label { color: var(--muted); }
+
+/* `link-in-text-block` : un lien au fil du texte ne peut pas se distinguer par
+   la seule couleur (1,02:1 avec le texte environnant, seuil 3:1). Dans les
+   blocs de prose, il est donc souligné — le repère ne dépend plus de la teinte. */
+.page-sub a, .dash-note a, .ui-notice-text a, .rev-empty-lead a, .rev-step-d a,
+.track-goal a, .section-note a { text-decoration: underline; text-underline-offset: 2px; }
+
+/* Défaut relevé par INSPECTION des captures V54.2.1 (aucune métrique ne l'avait
+   signalé : le texte débordait de façon visible, donc ni « overflow » ni
+   « rogné ») — à 1440, l'en-tête « RÉVISIONS » dépassait sa cellule de 62 px et
+   venait chevaucher « COMPÉT. ». La largeur d'en-tête suit désormais le plus
+   long libellé, et une césure de secours empêche tout recouvrement. */
+@media (min-width: 1440px) {
+  .synth-table thead th.num { max-width: 84px; overflow-wrap: break-word; }
 }

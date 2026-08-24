@@ -1,0 +1,553 @@
+[
+  {
+    "route": "dashboard",
+    "width": 375,
+    "status": 200,
+    "errors": 1,
+    "overflow": 0,
+    "pageH": 2046,
+    "calendar": null,
+    "dashboard": {
+      "focusBottom": 749,
+      "socleTop": 1165,
+      "gapFocusToSocle": 416,
+      "mainBottom": 749,
+      "sideBottom": 1141,
+      "deadSpace": 416,
+      "columnImbalance": 392
+    },
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "dashboard",
+    "width": 768,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1658,
+    "calendar": null,
+    "dashboard": {
+      "focusBottom": 577,
+      "socleTop": 993,
+      "gapFocusToSocle": 416,
+      "mainBottom": 577,
+      "sideBottom": 969,
+      "deadSpace": 416,
+      "columnImbalance": 392
+    },
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "dashboard",
+    "width": 1024,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1682,
+    "calendar": null,
+    "dashboard": {
+      "focusBottom": 525,
+      "socleTop": 941,
+      "gapFocusToSocle": 416,
+      "mainBottom": 525,
+      "sideBottom": 917,
+      "deadSpace": 416,
+      "columnImbalance": 392
+    },
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "dashboard",
+    "width": 1440,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1230,
+    "calendar": null,
+    "dashboard": {
+      "focusBottom": 525,
+      "socleTop": 647,
+      "gapFocusToSocle": 122,
+      "mainBottom": 525,
+      "sideBottom": 623,
+      "deadSpace": 122,
+      "columnImbalance": 98
+    },
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "dashboard",
+    "width": 1920,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1230,
+    "calendar": null,
+    "dashboard": {
+      "focusBottom": 491,
+      "socleTop": 647,
+      "gapFocusToSocle": 155,
+      "mainBottom": 491,
+      "sideBottom": 623,
+      "deadSpace": 155,
+      "columnImbalance": 131
+    },
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "calendar",
+    "width": 375,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 5977,
+    "calendar": {
+      "monthCount": 12,
+      "dayCount": 365,
+      "monthDom": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "monthsRead": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "monthDomOk": true,
+      "monthReadOk": true,
+      "weekDomOk": true,
+      "weekReadOk": true,
+      "dayDomOk": true,
+      "dayReadOk": true,
+      "cssColumns": []
+    },
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "calendar",
+    "width": 768,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 8415,
+    "calendar": {
+      "monthCount": 12,
+      "dayCount": 365,
+      "monthDom": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "monthsRead": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "monthDomOk": true,
+      "monthReadOk": true,
+      "weekDomOk": true,
+      "weekReadOk": true,
+      "dayDomOk": true,
+      "dayReadOk": true,
+      "cssColumns": []
+    },
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "calendar",
+    "width": 1024,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 3113,
+    "calendar": {
+      "monthCount": 12,
+      "dayCount": 365,
+      "monthDom": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "monthsRead": [
+        1,
+        7,
+        2,
+        8,
+        3,
+        9,
+        4,
+        10,
+        5,
+        11,
+        6,
+        12
+      ],
+      "monthDomOk": true,
+      "monthReadOk": false,
+      "weekDomOk": true,
+      "weekReadOk": true,
+      "dayDomOk": true,
+      "dayReadOk": true,
+      "cssColumns": [
+        "cal-months page-wide"
+      ]
+    },
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "calendar",
+    "width": 1440,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 2231,
+    "calendar": {
+      "monthCount": 12,
+      "dayCount": 365,
+      "monthDom": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "monthsRead": [
+        1,
+        5,
+        9,
+        2,
+        6,
+        10,
+        3,
+        7,
+        11,
+        4,
+        8,
+        12
+      ],
+      "monthDomOk": true,
+      "monthReadOk": false,
+      "weekDomOk": true,
+      "weekReadOk": true,
+      "dayDomOk": true,
+      "dayReadOk": true,
+      "cssColumns": [
+        "cal-months page-wide"
+      ]
+    },
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "calendar",
+    "width": 1920,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 2576,
+    "calendar": {
+      "monthCount": 12,
+      "dayCount": 365,
+      "monthDom": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "monthsRead": [
+        1,
+        5,
+        9,
+        2,
+        6,
+        10,
+        3,
+        7,
+        11,
+        4,
+        8,
+        12
+      ],
+      "monthDomOk": true,
+      "monthReadOk": false,
+      "weekDomOk": true,
+      "weekReadOk": true,
+      "dayDomOk": true,
+      "dayReadOk": true,
+      "cssColumns": [
+        "cal-months page-wide"
+      ]
+    },
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "parcours",
+    "width": 375,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 4439,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": {
+      "inContext": false,
+      "distance": 45
+    }
+  },
+  {
+    "route": "parcours",
+    "width": 768,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 2872,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": {
+      "inContext": false,
+      "distance": 45
+    }
+  },
+  {
+    "route": "parcours",
+    "width": 1024,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 2809,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": {
+      "inContext": false,
+      "distance": 45
+    }
+  },
+  {
+    "route": "parcours",
+    "width": 1440,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 2264,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": {
+      "inContext": false,
+      "distance": 107
+    }
+  },
+  {
+    "route": "parcours",
+    "width": 1920,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 2264,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": {
+      "inContext": false,
+      "distance": 107
+    }
+  },
+  {
+    "route": "synthese",
+    "width": 375,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 4772,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "synthese",
+    "width": 768,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1726,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "synthese",
+    "width": 1024,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1631,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "synthese",
+    "width": 1440,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1339,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "synthese",
+    "width": 1920,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1295,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "revisions",
+    "width": 375,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1022,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "revisions",
+    "width": 768,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1000,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "revisions",
+    "width": 1024,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1000,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "revisions",
+    "width": 1440,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1000,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  },
+  {
+    "route": "revisions",
+    "width": 1920,
+    "status": 200,
+    "errors": 0,
+    "overflow": 0,
+    "pageH": 1000,
+    "calendar": null,
+    "dashboard": null,
+    "parcours": null,
+    "cta": null
+  }
+]

@@ -49,10 +49,10 @@ export default function TrajectoryGrid({
   }
 
   return (
-    <div className="traj">
+    <div className="traj" style={{ ['--cols' as string]: cols }}>
       <div className="traj-scroll">
         <div className="traj-inner">
-          <div className="traj-months" style={{ gridTemplateColumns: `repeat(${cols}, var(--cell))` }} aria-hidden="true">
+          <div className="traj-months" aria-hidden="true">
             {months.map((m) => <span key={m.label} className="traj-mlabel" style={{ gridColumn: m.col }}>{m.label}</span>)}
           </div>
           <div

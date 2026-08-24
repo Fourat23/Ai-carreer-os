@@ -9,6 +9,7 @@ import { resumeReasonText, countStatuses } from '@/lib/resume';
 import { progressPosition } from '@/lib/position';
 import { reviewSummary, getDueReviews } from '@/lib/review';
 import { nextBestActions } from '@/lib/learning-experience';
+import { curriculumPartition } from '@/lib/curriculum-partition';
 import { PageHeader, SectionHeader, Status, Metric, Panel, ActionRow, EmptyState, PrimaryFocus, ProgressRail } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import StartDayButton from './StartDayButton';
@@ -35,6 +36,10 @@ export default function Dashboard() {
   const counts = countStatuses(trackDays, progress);
   const pos = progressPosition(trackDays, progress);
   const percent = pos.total ? Math.round((pos.currentProgressPosition / pos.total) * 100) : 0;
+  // Programme global vs parcours actif : UN seul calcul partagé avec /parcours
+  // et /calendar (read-model pur), pour un vocabulaire identique partout.
+  const part = curriculumPartition(program, trackDays.map((d) => d.day));
+  const partial = part.inTrack < part.total;
   const resumeDay = program.days.find((d) => d.day === pos.resumeDay);
   const resumeStatus = progress.days[String(pos.resumeDay)]?.status ?? 'not-started';
   const st = DAY_STATUS[resumeStatus] ?? DAY_STATUS['not-started'];
@@ -62,9 +67,15 @@ export default function Dashboard() {
   return (
     <>
       <PageHeader
-        eyebrow={<>Mission control <span className="sep">/</span> jour {pos.resumeDay} sur {pos.total}</>}
+        eyebrow={<>Mission control <span className="sep">/</span> jour {pos.resumeDay} du parcours actif</>}
         title="Tableau de bord"
-        sub={<>Programme de 12 mois vers des rôles IA appliquée.{progress.startDate ? ` Commencé le ${progress.startDate}.` : ' Lance ta première journée pour démarrer.'}</>}
+        sub={<>
+          Programme global de {part.monthsTotal} mois — <strong>{part.total} jours</strong> — vers des rôles IA appliquée.
+          {partial
+            ? <> Ton parcours en couvre {part.inTrack}.</>
+            : <> Ton parcours les couvre tous.</>}
+          {progress.startDate ? ` Commencé le ${progress.startDate}.` : ' Lance ta première journée pour démarrer.'}
+        </>}
       />
 
       {/* ZONE A — barre de contexte dense (données réelles, aucune invention) */}
@@ -74,11 +85,19 @@ export default function Dashboard() {
           <span className="dash-ctx-track-name">{activeTrack.title}</span>
         </Link>
         <span className="dash-ctx-sep" aria-hidden />
+        {/* Portée du parcours dans le programme global — affichée seulement
+            lorsqu'elle diffère (sinon la mention serait un doublon de bruit). */}
+        {partial && (
+          <>
+            <span className="dash-ctx-item"><span className="dash-ctx-k">Couverture</span> {part.inTrack} des {part.total} jours</span>
+            <span className="dash-ctx-sep" aria-hidden />
+          </>
+        )}
         <span className="dash-ctx-item"><span className="dash-ctx-k">Position</span> jour {pos.resumeDay} / {pos.total}</span>
         <span className="dash-ctx-sep" aria-hidden />
         <span className="dash-ctx-item"><span className="dash-ctx-k">Terminés</span> {counts.done} / {counts.total}</span>
         <span className="dash-ctx-sep" aria-hidden />
-        <span className="dash-ctx-item"><span className="dash-ctx-k">Mois</span> {currentMonth?.month} / 12</span>
+        <span className="dash-ctx-item"><span className="dash-ctx-k">Mois</span> {currentMonth?.month} / {part.monthsTotal}</span>
         {reviews.dueToday > 0 && (
           <span className="dash-ctx-right"><Status tone="attention" label={`${reviews.dueToday} révision(s) due(s)`} /></span>
         )}
@@ -131,6 +150,47 @@ export default function Dashboard() {
             </section>
           )}
 
+          {/* SOCLE — trajectoire + progression fusionnées.
+              V54.2.1 : le socle vit désormais DANS la colonne principale. Il
+              était auparavant un frère de `.dash-cols` et attendait donc la
+              hauteur de la plus haute des deux colonnes — le rail dépassant la
+              colonne principale à l'état « jour 1 », un vide structurel de
+              122 px (1440) à 155 px (1920) s'ouvrait sous le focus. Les deux
+              colonnes progressent maintenant indépendamment : le vide ne peut
+              plus réapparaître quand les contenus changent de longueur. */}
+          <section className="dash-socle" aria-label="Trajectoire du parcours">
+            <header className="dash-socle-head">
+              <div className="dash-socle-title">
+                <span className="section-label">Trajectoire du parcours</span>
+                <h2 className="section-title">
+                  {pos.total} jours{partial && <span className="dash-socle-scope"> sur les {part.total} du programme</span>}
+                </h2>
+              </div>
+              <div className="dash-socle-prog">
+                <ProgressRail percent={percent} sub={`${counts.done} / ${counts.total} jours terminés`} align="right" />
+              </div>
+            </header>
+            <Trajectory365 days={trackDays} progress={progress} currentDay={pos.resumeDay} />
+          </section>
+
+          {/* Pied de contexte, poids faible */}
+          <section className="dash-foot" aria-label="Contexte et accès rapides">
+            <div className="dash-foot-month">
+              <span className="ui-panel-label">Mois {currentMonth?.month} / 12 · Semaine {resumeDay?.week}</span>
+              <div className="dash-strong">{currentMonth?.title}</div>
+              <p className="dash-note">{currentMonth?.summary}</p>
+              <div className="row" style={{ gap: 8, marginTop: 'var(--sp-3)' }}>
+                <Link className="btn small" href={`/month/${currentMonth?.month}`}>Voir le mois</Link>
+                <Link className="btn small" href={`/week/${resumeDay?.week}`}>Semaine {resumeDay?.week}</Link>
+              </div>
+            </div>
+            <nav className="dash-quick" aria-label="Accès rapides">
+              <Link className="btn small" href="/calendar"><CalendarDays size={14} /> Calendrier</Link>
+              <Link className="btn small" href="/projects"><FolderGit2 size={14} /> Projets</Link>
+              <Link className="btn small" href="/reviews"><ClipboardCheck size={14} /> Évaluations</Link>
+              <Link className="btn small" href="/notes"><NotebookPen size={14} /> Notes</Link>
+            </nav>
+          </section>
         </div>
 
         {/* Colonne secondaire : révisions (primaire) puis pilotage sobre */}
@@ -185,41 +245,6 @@ export default function Dashboard() {
 
         </aside>
       </div>
-
-      {/* ZONE C — SOCLE pleine largeur : trajectoire + progression fusionnées.
-          Ferme la page et absorbe le vide des colonnes de hauteurs inégales
-          (règle anti-vide ADR-054.2) — aucune donnée ajoutée, seulement déplacée. */}
-      <section className="dash-socle" aria-label="Trajectoire du parcours">
-        <header className="dash-socle-head">
-          <div className="dash-socle-title">
-            <span className="section-label">Trajectoire</span>
-            <h2 className="section-title">{pos.total} jours</h2>
-          </div>
-          <div className="dash-socle-prog">
-            <ProgressRail percent={percent} sub={`${counts.done} / ${counts.total} jours terminés`} align="right" />
-          </div>
-        </header>
-        <Trajectory365 days={trackDays} progress={progress} currentDay={pos.resumeDay} />
-      </section>
-
-      {/* ZONE D — socle de contexte, poids faible */}
-      <section className="dash-foot" aria-label="Contexte et accès rapides">
-        <div className="dash-foot-month">
-          <span className="ui-panel-label">Mois {currentMonth?.month} / 12 · Semaine {resumeDay?.week}</span>
-          <div className="dash-strong">{currentMonth?.title}</div>
-          <p className="dash-note">{currentMonth?.summary}</p>
-          <div className="row" style={{ gap: 8, marginTop: 'var(--sp-3)' }}>
-            <Link className="btn small" href={`/month/${currentMonth?.month}`}>Voir le mois</Link>
-            <Link className="btn small" href={`/week/${resumeDay?.week}`}>Semaine {resumeDay?.week}</Link>
-          </div>
-        </div>
-        <nav className="dash-quick" aria-label="Accès rapides">
-          <Link className="btn small" href="/calendar"><CalendarDays size={14} /> Calendrier</Link>
-          <Link className="btn small" href="/projects"><FolderGit2 size={14} /> Projets</Link>
-          <Link className="btn small" href="/reviews"><ClipboardCheck size={14} /> Évaluations</Link>
-          <Link className="btn small" href="/notes"><NotebookPen size={14} /> Notes</Link>
-        </nav>
-      </section>
     </>
   );
 }

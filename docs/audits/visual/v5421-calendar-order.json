@@ -1,0 +1,938 @@
+[
+  {
+    "track": "ai-engineer-foundations-v1",
+    "width": 375,
+    "months": 12,
+    "days": 365,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "ai-engineer-foundations-v1",
+    "width": 1024,
+    "months": 12,
+    "days": 365,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "ai-engineer-foundations-v1",
+    "width": 1440,
+    "months": 12,
+    "days": 365,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "ai-engineer-foundations-v1",
+    "width": 1920,
+    "months": 12,
+    "days": 365,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "fullstack-typescript",
+    "width": 375,
+    "months": 4,
+    "days": 119,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "fullstack-typescript",
+    "width": 1024,
+    "months": 4,
+    "days": 119,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "fullstack-typescript",
+    "width": 1440,
+    "months": 4,
+    "days": 119,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "fullstack-typescript",
+    "width": 1920,
+    "months": 4,
+    "days": 119,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "frontend-engineer-v1",
+    "width": 375,
+    "months": 4,
+    "days": 54,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "frontend-engineer-v1",
+    "width": 1024,
+    "months": 4,
+    "days": 54,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "frontend-engineer-v1",
+    "width": 1440,
+    "months": 4,
+    "days": 54,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "frontend-engineer-v1",
+    "width": 1920,
+    "months": 4,
+    "days": 54,
+    "monthDom": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "backend-engineer-v1",
+    "width": 375,
+    "months": 3,
+    "days": 85,
+    "monthDom": [
+      1,
+      2,
+      3
+    ],
+    "monthRead": [
+      1,
+      2,
+      3
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "backend-engineer-v1",
+    "width": 1024,
+    "months": 3,
+    "days": 85,
+    "monthDom": [
+      1,
+      2,
+      3
+    ],
+    "monthRead": [
+      1,
+      2,
+      3
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "backend-engineer-v1",
+    "width": 1440,
+    "months": 3,
+    "days": 85,
+    "monthDom": [
+      1,
+      2,
+      3
+    ],
+    "monthRead": [
+      1,
+      2,
+      3
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "backend-engineer-v1",
+    "width": 1920,
+    "months": 3,
+    "days": 85,
+    "monthDom": [
+      1,
+      2,
+      3
+    ],
+    "monthRead": [
+      1,
+      2,
+      3
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "systems-cloud-foundations-v1",
+    "width": 375,
+    "months": 4,
+    "days": 31,
+    "monthDom": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "systems-cloud-foundations-v1",
+    "width": 1024,
+    "months": 4,
+    "days": 31,
+    "monthDom": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "systems-cloud-foundations-v1",
+    "width": 1440,
+    "months": 4,
+    "days": 31,
+    "monthDom": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "systems-cloud-foundations-v1",
+    "width": 1920,
+    "months": 4,
+    "days": 31,
+    "monthDom": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "appsec-cloud-security-v1",
+    "width": 375,
+    "months": 4,
+    "days": 15,
+    "monthDom": [
+      2,
+      3,
+      10,
+      11
+    ],
+    "monthRead": [
+      2,
+      3,
+      10,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "appsec-cloud-security-v1",
+    "width": 1024,
+    "months": 4,
+    "days": 15,
+    "monthDom": [
+      2,
+      3,
+      10,
+      11
+    ],
+    "monthRead": [
+      2,
+      3,
+      10,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "appsec-cloud-security-v1",
+    "width": 1440,
+    "months": 4,
+    "days": 15,
+    "monthDom": [
+      2,
+      3,
+      10,
+      11
+    ],
+    "monthRead": [
+      2,
+      3,
+      10,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "appsec-cloud-security-v1",
+    "width": 1920,
+    "months": 4,
+    "days": 15,
+    "monthDom": [
+      2,
+      3,
+      10,
+      11
+    ],
+    "monthRead": [
+      2,
+      3,
+      10,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "cloud-devops-engineer-v1",
+    "width": 375,
+    "months": 4,
+    "days": 29,
+    "monthDom": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "cloud-devops-engineer-v1",
+    "width": 1024,
+    "months": 4,
+    "days": 29,
+    "monthDom": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "cloud-devops-engineer-v1",
+    "width": 1440,
+    "months": 4,
+    "days": 29,
+    "monthDom": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "cloud-devops-engineer-v1",
+    "width": 1920,
+    "months": 4,
+    "days": 29,
+    "monthDom": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "data-ml-v1",
+    "width": 375,
+    "months": 10,
+    "days": 188,
+    "monthDom": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "data-ml-v1",
+    "width": 1024,
+    "months": 10,
+    "days": 188,
+    "monthDom": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "data-ml-v1",
+    "width": 1440,
+    "months": 10,
+    "days": 188,
+    "monthDom": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  },
+  {
+    "track": "data-ml-v1",
+    "width": 1920,
+    "months": 10,
+    "days": 188,
+    "monthDom": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "monthRead": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "monthDomOk": true,
+    "monthReadOk": true,
+    "weekDomOk": true,
+    "weekReadOk": true,
+    "dayDomOk": true,
+    "dayReadOk": true,
+    "firstDayBreak": null,
+    "ok": true
+  }
+]

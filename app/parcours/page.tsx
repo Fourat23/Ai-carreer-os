@@ -4,6 +4,7 @@ import { getProgram } from '@/lib/program';
 import { getTrack, getTrackModules, isTrackAvailable, resolveTrackDayObjects } from '@/lib/catalogue';
 import { getActiveTrackId, readProgress } from '@/lib/progress-server';
 import { progressPosition } from '@/lib/position';
+import { curriculumPartition } from '@/lib/curriculum-partition';
 import { PageHeader, Status, ProgressRail } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import TrackActions from './TrackActions';
@@ -32,6 +33,9 @@ export default function ParcoursPage() {
   const progress = readProgress();
   const trackDays = resolveTrackDayObjects(cat, active, program);
   const pos = progressPosition(trackDays, progress);
+  // Même read-model que /calendar et le Dashboard : un seul vocabulaire.
+  const part = curriculumPartition(program, trackDays.map((d) => d.day));
+  const partial = part.inTrack < part.total;
   const isDone = (d: number) => progress.days[String(d)]?.status === 'done';
 
   // Avancement PAR MODULE, dérivé des jours réellement terminés.
@@ -51,10 +55,9 @@ export default function ParcoursPage() {
   return (
     <>
       <PageHeader
-        eyebrow={<>Parcours <span className="sep">/</span> {cat.tracks.filter((t) => isTrackAvailable(t)).length} disponibles · {cat.tracks.length} au total</>}
+        eyebrow={<>Programme global <span className="sep">/</span> {part.total} jours <span className="sep">·</span> {cat.tracks.filter((t) => isTrackAvailable(t)).length} parcours disponibles</>}
         title="Parcours"
         sub="Ta trajectoire actuelle, module par module — et les alternatives si tu veux changer de cap."
-        actions={<Link className="btn cta" href={`/day/${pos.resumeDay}`}>Continuer — jour {pos.resumeDay}</Link>}
       />
 
       {/* Parcours actif — roadmap dominante */}
@@ -71,17 +74,33 @@ export default function ParcoursPage() {
           {active.technologies.slice(0, 12).map((id) => <span key={id} className="badge">{techName(id)}</span>)}
         </div>
 
-        {/* Barre d'avancement du parcours (primitive partagée avec le Dashboard) */}
-        <div className="track-progress">
+        {/* Avancement + ACTION PRINCIPALE, dans le même bloc que le parcours actif.
+            V54.2.1 : le CTA « Continuer » vivait dans l'en-tête de page, à 107 px
+            (mesurés, à 1440) du bloc qu'il concerne — il flottait hors de son
+            contexte. Il est désormais rattaché à la progression et à la prochaine
+            étape, c'est-à-dire aux informations qui le justifient. */}
+        <div className="track-progress track-resume">
           <ProgressRail
             percent={pos.total ? (pos.currentProgressPosition / pos.total) * 100 : 0}
-            sub={<>{doneMods}/{mods.length} modules terminés · jour {pos.resumeDay} / {pos.total}{nextMod ? ` · ensuite : ${nextMod.m.title}` : ''}</>}
+            sub={<>{doneMods}/{mods.length} modules terminés · jour {pos.resumeDay} / {pos.total}{partial ? ` (sur ${part.total} au programme)` : ''}</>}
           />
+          <div className="track-resume-act">
+            {nextMod || currentMod ? (
+              <p className="track-resume-next">
+                <span className="track-resume-k">Prochaine étape</span>
+                {(currentMod ?? nextMod)!.m.title}
+              </p>
+            ) : null}
+            <Link className="btn cta" href={`/day/${pos.resumeDay}`}>Continuer — jour {pos.resumeDay}</Link>
+          </div>
         </div>
 
         <div className="section-head" style={{ marginTop: 'var(--sp-6)' }}>
           <span className="section-label">Roadmap</span>
-          <h3 className="section-title">{modules.length} modules · {active.totalDays} jours</h3>
+          <h3 className="section-title">
+            {modules.length} modules · {part.inTrack} jours
+            {partial && <span className="track-scope"> sur les {part.total} du programme</span>}
+          </h3>
           <span className="section-note">état dérivé de tes journées terminées</span>
         </div>
 

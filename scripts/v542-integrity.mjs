@@ -12,10 +12,14 @@ import { join } from 'node:path';
 const EXEC = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const BASE = process.argv[2] ?? 'http://127.0.0.1:3220';
 const PROGRESS = join(process.cwd(), 'data', 'progress.json');
+// V54.2.1 — étendu aux routes touchées par ce sprint. Toujours AUCUNE
+// restauration : le fichier doit simplement ne pas être modifié par une visite.
 const CASES = [
   { name: 'VISIT_DASHBOARD_DOES_NOT_MUTATE_PROGRESS', path: '/' },
+  { name: 'VISIT_CALENDAR_DOES_NOT_MUTATE_PROGRESS', path: '/calendar' },
   { name: 'VISIT_PARCOURS_DOES_NOT_MUTATE_PROGRESS', path: '/parcours' },
   { name: 'VISIT_SYNTHESE_DOES_NOT_MUTATE_PROGRESS', path: '/synthese' },
+  { name: 'VISIT_REVISIONS_DOES_NOT_MUTATE_PROGRESS', path: '/revisions' },
 ];
 
 const hash = () => createHash('sha1').update(readFileSync(PROGRESS)).digest('hex');
@@ -49,4 +53,4 @@ if (end !== start || failures.length) {
   console.error(`\n❌ Mutation détectée par simple navigation : ${failures.join(', ') || 'écart global'}`);
   process.exit(1);
 }
-console.log('\n✅ Les 3 surfaces de référence ne mutent pas la progression.');
+console.log('\n✅ Aucune des ${CASES.length} routes vérifiées ne mute la progression.');

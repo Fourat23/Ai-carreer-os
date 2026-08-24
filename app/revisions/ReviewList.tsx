@@ -27,7 +27,11 @@ const RESULTS = [
   { key: 'good', label: 'Acquis', Icon: Check, status: 'done' as const },
 ];
 
-export default function ReviewList({ due, upcoming }: { due: DueRow[]; upcoming: UpRow[] }) {
+// `suppressEmpty` : quand la file est TOTALEMENT vide, la page rend une
+// composition d'état vide complète (pourquoi / quand / quoi faire). Afficher en
+// plus un « Rien à revoir aujourd'hui » ferait deux blocs pour la même donnée —
+// exactement la redondance que la loi de composition interdit.
+export default function ReviewList({ due, upcoming, suppressEmpty = false }: { due: DueRow[]; upcoming: UpRow[]; suppressEmpty?: boolean }) {
   const router = useRouter();
   const [busy, setBusy] = useState<number | null>(null);
 
@@ -43,13 +47,15 @@ export default function ReviewList({ due, upcoming }: { due: DueRow[]; upcoming:
 
   return (
     <>
-      <SectionHeader label="À revoir" title="Aujourd'hui & en retard" note={`${due.length} révision(s)`} />
-      {due.length === 0 ? (
+      {!(due.length === 0 && suppressEmpty) && (
+        <SectionHeader label="À revoir" title="Aujourd'hui & en retard" note={`${due.length} révision(s)`} />
+      )}
+      {due.length === 0 ? (suppressEmpty ? null : (
         <EmptyState
           title="Rien à revoir aujourd'hui."
           hint={upcoming.length ? `Ta prochaine révision arrive bientôt (voir « À venir »).` : 'Les journées marquées « à revoir » apparaîtront ici à échéance.'}
         />
-      ) : (
+      )) : (
         <div className="rev-list">
           {due.map((r) => (
             <div className="rev-row" key={r.day}>

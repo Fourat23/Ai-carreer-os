@@ -12,10 +12,15 @@ const AXE_PATH = require.resolve('axe-core/axe.min.js');
 const AXE_SRC = readFileSync(AXE_PATH, 'utf8');
 const EXEC = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const BASE = process.argv[2] ?? 'http://127.0.0.1:3220';
+// V54.2.1 — le périmètre s'étend aux deux surfaces touchées par ce sprint
+// (calendrier et révisions) : une correction de composition doit être vérifiée
+// en accessibilité, pas seulement en apparence.
 const PAGES = [
   { name: 'dashboard', path: '/' },
+  { name: 'calendar', path: '/calendar' },
   { name: 'parcours', path: '/parcours' },
   { name: 'synthese', path: '/synthese' },
+  { name: 'revisions', path: '/revisions' },
 ];
 
 const browser = await chromium.launch({ executablePath: EXEC, args: ['--no-sandbox', '--disable-gpu'] });

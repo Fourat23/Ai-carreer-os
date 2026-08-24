@@ -87,9 +87,19 @@ test('AppSec : classification d’exercice — un exercice sécurité est actif 
 
 test('AppSec : navigation BORNÉE au parcours (non contigu, jamais day±1 hors parcours)', () => {
   const days = resolveTrackDays(cat, APPSEC_CLOUD_TRACK_ID);
-  // 54 → suivant = 71 (saut du reste du programme), pas 55.
+  // 54 → suivant = 67 (saut du reste du programme), pas 55.
+  //
+  // V54.2.1 — cette attente valait 71 jusqu'ici, et c'était l'empreinte d'un
+  // défaut, pas un choix : `resolveTrackDays` rendait les jours dans l'ordre
+  // des MODULES (… 54, 71, 79, 67, 68, 85 …). La navigation « suivant »
+  // sautait donc par-dessus les jours 67 et 68 — pourtant dans le parcours —
+  // pour y revenir plus tard. Les jours sont désormais chronologiques ;
+  // l'intention testée (navigation BORNÉE au parcours, jamais day±1 hors
+  // parcours) est inchangée et mieux servie : 54 → 67, pas 55.
   const n54 = trackNeighbors(days, 54);
-  assert.equal(n54.next, 71, 'après 54, on saute à 71 (borné au parcours)');
+  assert.equal(n54.next, 67, 'après 54, on saute à 67 (borné au parcours, et chronologique)');
+  assert.ok(!days.includes(55), '55 n\'appartient pas au parcours');
+  assert.equal(trackNeighbors(days, 67).next, 68, 'la suite reste chronologique');
   assert.equal(trackNeighbors(days, days[0]).prev, null, 'première journée sans précédent');
   assert.equal(trackNeighbors(days, days[days.length - 1]).next, null, 'dernière journée sans suivant');
 });

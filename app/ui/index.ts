@@ -11,3 +11,4 @@ export { InlineNotice } from './InlineNotice';
 export { Panel } from './Panel';
 export { PrimaryFocus } from './PrimaryFocus';
 export { ListRow } from './ListRow';
+export { ProgressRail } from './ProgressRail';

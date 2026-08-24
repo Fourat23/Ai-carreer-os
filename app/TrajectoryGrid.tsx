@@ -65,18 +65,20 @@ export default function TrajectoryGrid({
               <div className="traj-row" role="row" key={r}>
                 {rowCells.map((c, ci) =>
                   c ? (
-                    <a
-                      key={c.day}
-                      ref={(el) => { if (el) refs.current.set(c.day, el); else refs.current.delete(c.day); }}
-                      href={c.href}
-                      role="gridcell"
-                      className={`tcell s-${c.status}${c.day === currentDay ? ' now' : ''}${c.isReview ? ' rev' : ''}`}
-                      data-family={undefined}
-                      tabIndex={c.day === focusDay ? 0 : -1}
-                      aria-label={`Jour ${c.day}, ${c.title}, ${STATUS_FR[c.status] ?? c.status}`}
-                      aria-current={c.day === currentDay ? 'date' : undefined}
-                      onClick={() => setFocusDay(c.day)}
-                    />
+                    // V54.2 — `gridcell` n'est pas un rôle autorisé sur <a> (axe-core).
+                    // La cellule est le CONTENEUR ; le lien garde sa sémantique propre.
+                    <span key={c.day} role="gridcell" className="tcell-wrap">
+                      <a
+                        ref={(el) => { if (el) refs.current.set(c.day, el); else refs.current.delete(c.day); }}
+                        href={c.href}
+                        className={`tcell s-${c.status}${c.day === currentDay ? ' now' : ''}${c.isReview ? ' rev' : ''}`}
+                        data-family={undefined}
+                        tabIndex={c.day === focusDay ? 0 : -1}
+                        aria-label={`Jour ${c.day}, ${c.title}, ${STATUS_FR[c.status] ?? c.status}`}
+                        aria-current={c.day === currentDay ? 'date' : undefined}
+                        onClick={() => setFocusDay(c.day)}
+                      />
+                    </span>
                   ) : (
                     <span key={`e${r}-${ci}`} className="tcell-empty" role="gridcell" aria-hidden="true" />
                   ),

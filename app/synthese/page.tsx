@@ -5,7 +5,7 @@ import { getCatalogue } from '@/lib/catalogue-server';
 import { readProgress, readProgressV3 } from '@/lib/progress-server';
 import { aggregateTracks } from '@/lib/track-aggregate';
 import { evidenceTimeline, milestones } from '@/lib/learning-experience';
-import { PageHeader, Status } from '@/app/ui';
+import { PageHeader, Status, Metric } from '@/app/ui';
 import TrackActions from '../parcours/TrackActions';
 
 export const dynamic = 'force-dynamic';
@@ -32,6 +32,12 @@ export default function SynthesePage() {
   const activeProgress = readProgress();
   const timeline = evidenceTimeline(activeProgress, program, { limit: 20 });
   const ms = milestones(program, activeProgress);
+  // Repères transversaux — agrégats des lignes déjà calculées (aucune 2e source).
+  const activeRow = rows.find((r) => r.active);
+  const startedCount = rows.filter((r) => r.started).length;
+  const totalDone = rows.reduce((n, r) => n + r.completedDays, 0);
+  const totalDays = rows.reduce((n, r) => n + r.totalDays, 0);
+  const totalReviews = rows.reduce((n, r) => n + r.reviewsDue, 0);
 
   return (
     <>
@@ -42,48 +48,65 @@ export default function SynthesePage() {
           Comparaison des parcours disponibles, chacun avec sa progression propre.
           <span className="synth-ro"><Eye size={13} strokeWidth={2} /> Lecture seule — aucune action de progression ici.</span>
         </>}
+        actions={activeRow?.resumeDay != null
+          ? <Link className="btn cta" href={`/day/${activeRow.resumeDay}`}>Continuer — jour {activeRow.resumeDay}</Link>
+          : undefined}
       />
+
+      {/* Repères transversaux (données réelles agrégées, aucun score inventé) */}
+      <div className="synth-summary page-wide">
+        <Metric label="Parcours suivis" value={`${startedCount} / ${rows.length}`} emphasis
+          sub={activeRow ? `actif : ${activeRow.title}` : 'aucun parcours actif'} />
+        <div className="synth-summary-facts">
+          <Metric label="Jours terminés" value={totalDone} sub={`sur ${totalDays} jours cumulés`} />
+          <Metric label="Révisions dues" value={totalReviews} tone={totalReviews > 0 ? 'attention' : undefined}
+            sub={totalReviews > 0 ? 'à traiter' : 'aucune échéance'} />
+        </div>
+      </div>
 
       <div className="synth-table-wrap page-wide" role="region" aria-label="Comparaison des parcours (lecture seule)" tabIndex={0}>
         <table className="synth-table">
+          {/* Colonnes PRIMARY (col-p) toujours visibles · SECONDARY (col-s) repliées
+              sous 1100px. En mobile, chaque ligne devient un bloc empilé libellé
+              (représentation sémantiquement équivalente — aucune donnée perdue). */}
           <thead>
             <tr>
-              <th scope="col">Parcours</th>
-              <th scope="col">État</th>
-              <th scope="col">Progression</th>
-              <th scope="col" className="num">Reprise</th>
-              <th scope="col" className="num">En cours</th>
-              <th scope="col" className="num">À revoir</th>
-              <th scope="col" className="num">Révisions</th>
-              <th scope="col" className="num">Compét.</th>
-              <th scope="col">Dernière preuve</th>
-              <th scope="col"><span className="sr-only">Action</span></th>
+              <th scope="col" className="col-p">Parcours</th>
+              <th scope="col" className="col-p">État</th>
+              <th scope="col" className="col-p">Progression</th>
+              <th scope="col" className="num col-s">Reprise</th>
+              <th scope="col" className="num col-s">En cours</th>
+              <th scope="col" className="num col-s">À revoir</th>
+              <th scope="col" className="num col-p">Révisions</th>
+              <th scope="col" className="num col-s">Compét.</th>
+              <th scope="col" className="col-s">Dernière preuve</th>
+              <th scope="col" className="col-p"><span className="sr-only">Action</span></th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.trackId} className={r.active ? 'is-active' : undefined}>
-                <th scope="row" className="synth-td-track">
+                <th scope="row" className="synth-td-track col-p">
                   <Route size={14} strokeWidth={2} aria-hidden />
                   <span className="synth-td-title">{r.title}</span>
                 </th>
-                <td>{r.active
+                <td className="col-p" data-label="État">{r.active
                   ? <Status tone="accent" label="Actif" />
                   : <Status tone={r.complete ? 'positive' : r.started ? 'info' : 'neutral'} label={r.complete ? 'Terminé' : r.started ? 'En cours' : 'Non démarré'} />}
                 </td>
-                <td className="synth-td-prog">
+                <td className="synth-td-prog col-p" data-label="Progression">
                   <div className="synth-bar" aria-hidden="true"><span style={{ width: `${r.percent}%` }} /></div>
                   <span className="synth-bar-label">{r.completedDays}/{r.totalDays} · {r.percent}%</span>
                 </td>
-                <td className="num">{r.resumeDay != null ? <Link href={`/day/${r.resumeDay}`}>J{r.resumeDay}</Link> : '—'}</td>
-                <td className="num">{r.inProgress}</td>
-                <td className="num">{r.toReview}</td>
-                <td className={`num${r.reviewsDue > 0 ? ' hot' : ''}`}>{r.reviewsDue}</td>
-                <td className="num">{r.skillsCount}</td>
-                <td className="synth-td-ev">{r.lastEvidence
+                <td className="num col-s" data-label="Reprise">{r.resumeDay != null ? <Link href={`/day/${r.resumeDay}`}>J{r.resumeDay}</Link> : '—'}</td>
+                <td className="num col-s" data-label="En cours">{r.inProgress}</td>
+                <td className="num col-s" data-label="À revoir">{r.toReview}</td>
+                <td className={`num col-p${r.reviewsDue > 0 ? ' hot' : ''}`} data-label="Révisions dues">{r.reviewsDue}</td>
+                <td className="num col-s" data-label="Compétences">{r.skillsCount}</td>
+                <td className="synth-td-ev col-s" data-label="Dernière preuve">{r.lastEvidence
                   ? <Link href={`/day/${r.lastEvidence.day}`}>J{r.lastEvidence.day} — {r.lastEvidence.title}</Link>
                   : <span className="muted">—</span>}</td>
-                <td className="synth-td-act"><TrackActions trackId={r.trackId} active={r.active} available hasActiveOther={!r.active} /></td>
+                <td className="synth-td-act col-p"><TrackActions trackId={r.trackId} active={r.active} available hasActiveOther={!r.active} /></td>
               </tr>
             ))}
           </tbody>

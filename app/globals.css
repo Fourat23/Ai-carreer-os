@@ -25,7 +25,10 @@
   /* Texte */
   --text: #e6e8ec;         /* blanc cassé, jamais blanc pur */
   --muted: #969ba6;
-  --faint: #7d838f;        /* labels très secondaires (contraste AA large) */
+  /* V54.2 — remonté de #7d838f à #8b919d : axe-core mesurait 4.43:1 sur --panel
+     (< 4.5 requis pour du petit texte). Désormais ≈5.2:1 sur --panel et ≈4.9:1
+     sur --panel-2. Les libellés secondaires restent discrets mais lisibles. */
+  --faint: #8b919d;        /* labels très secondaires (AA sur toutes les surfaces) */
 
   /* Accent + sémantiques
      V53 : accent de marque = indigo/violet minéral (Linear/IDE), utilisé avec
@@ -125,8 +128,10 @@ a:hover { text-decoration: underline; }
 .brand-text { font-size: 15px; letter-spacing: -0.01em; }
 .brand-text b { color: var(--accent); font-weight: 700; }
 
-.nav-sect { font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted);
-  margin: 16px 10px 6px; font-family: var(--font-mono); opacity: .75; }
+/* V54.2 — l'opacité .75 ramenait --muted à un effectif #777c85 (4.02:1 < AA).
+   Supprimée : la discrétion vient du token --faint, pas d'une opacité. */
+.nav-sect { font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--faint);
+  margin: 16px 10px 6px; font-family: var(--font-mono); }
 .nav-group { display: flex; flex-direction: column; gap: 1px; }
 .nav-link { display: flex; align-items: center; gap: 11px; padding: 8px 10px; border-radius: 7px;
   color: var(--muted); font-size: 14px; position: relative; }
@@ -956,7 +961,9 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
   padding: var(--sp-3) var(--sp-4); transition: border-color var(--t), background var(--t);
 }
 .track-row:hover { border-color: var(--border-strong); background: var(--surface-hover); }
-.track-row.is-soon { opacity: 0.72; }
+/* V54.2 — plus d'opacité globale (elle faisait tomber le texte à 3.5:1) :
+   la mise en retrait passe par le fond et la bordure, pas par la transparence. */
+.track-row.is-soon { background: color-mix(in srgb, var(--panel) 55%, transparent); border-style: dashed; }
 .track-row-main { min-width: 0; }
 .track-row-title { font-weight: 600; font-size: var(--fs-base); }
 .track-row-goal { color: var(--muted); font-size: var(--fs-sm); margin: 2px 0 var(--sp-2); max-width: 68ch; }
@@ -1561,9 +1568,15 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .skill-next-goal { font-size: var(--fs-xs); color: var(--muted); width: 100%; }
 
 /* ── Learning Experience : jalons & timeline de preuves (V41) ────────────────── */
-.lx-milestones { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.lx-milestone { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--panel); }
-.lx-milestone.done { border-color: color-mix(in srgb, var(--ok) 45%, var(--border)); }
+/* V54.2 — 5 panneaux identiques → UN conteneur, lignes séparées (moins de
+   répétition, plus dense). Deux colonnes en desktop large. */
+.lx-milestones { list-style: none; margin: 0; padding: 0;
+  border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); overflow: hidden; }
+@media (min-width: 1100px) { .lx-milestones { columns: 2; column-gap: 0; } }
+.lx-milestone { display: flex; align-items: flex-start; gap: 10px; padding: 9px var(--sp-4);
+  border-bottom: 1px solid var(--border-subtle); break-inside: avoid; }
+.lx-milestones .lx-milestone:last-child { border-bottom: none; }
+.lx-milestone.done { background: color-mix(in srgb, var(--ok) 6%, transparent); }
 .lx-ms-check { color: var(--muted); line-height: 1.4; }
 .lx-milestone.done .lx-ms-check { color: var(--ok); }
 .lx-ms-body { display: flex; flex-direction: column; gap: 2px; }
@@ -1635,7 +1648,8 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .ui-status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--tone, var(--muted)); flex: none; }
 .ui-status-icon { display: inline-flex; color: var(--tone, var(--muted)); flex: none; }
 .ui-status-label { color: var(--text); }
-.ui-status.tone-neutral .ui-status-label { color: var(--muted); }
+/* V54.2 — le libellé neutre reste en --text : --muted sur le fond de pastille
+   tombait à 4.42:1. La neutralité est portée par le point et la bordure. */
 
 /* Metric : donnée de pilotage réelle */
 .ui-metric { display: flex; flex-direction: column; gap: 2px; }
@@ -1784,7 +1798,9 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
 
 /* Faits du PRIMARY FOCUS (clé + valeur inline) */
 .ui-focus-fact { display: inline-flex; align-items: baseline; gap: 5px; color: var(--text); }
-.ui-focus-fact-k { font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--faint); }
+/* V54.2 — sur la surface HAUTE (--raised), --faint tombe à 4.42:1 : on utilise
+   --muted (4.99:1) ici. Le token --faint reste réservé aux surfaces basses. */
+.ui-focus-fact-k { font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--muted); }
 
 /* ── Day workstation : chemin de phases ──────────────────────────────────────── */
 .day-phases { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap;
@@ -1820,24 +1836,6 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
 
 /* ── Synthèse V54.1 : table comparative (remplace la grille de cards clonées) ── */
 .synth-table-wrap { overflow: auto hidden; max-width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); box-shadow: var(--shadow-1); }
-/* Colonnes secondaires masquées sur écrans étroits : la table reste lisible sans
-   scroll horizontal (les colonnes clés — parcours, état, progression, révisions,
-   action — restent visibles ; le détail complet réapparaît en desktop). */
-@media (max-width: 1100px) {
-  .synth-table th:nth-child(5), .synth-table td:nth-child(5),
-  .synth-table th:nth-child(6), .synth-table td:nth-child(6),
-  .synth-table th:nth-child(8), .synth-table td:nth-child(8),
-  .synth-table th:nth-child(9), .synth-table td:nth-child(9) { display: none; }
-  .synth-table { min-width: 0; }
-}
-@media (max-width: 620px) {
-  .synth-table th:nth-child(3), .synth-table td:nth-child(3),
-  .synth-table th:nth-child(4), .synth-table td:nth-child(4),
-  .synth-table th:nth-child(10), .synth-table td:nth-child(10) { display: none; }
-  .synth-td-track { min-width: 0; }
-  .synth-td-track .synth-td-title { white-space: normal; }
-  .synth-table thead th, .synth-table tbody td, .synth-table tbody th { padding: var(--sp-2); }
-}
 .synth-table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .synth-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); min-width: 860px; }
 .synth-table thead th { text-align: left; font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label);
@@ -1859,3 +1857,221 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
 .synth-td-ev a { display: inline-block; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom; }
 .synth-td-act { white-space: nowrap; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V54.2 — Dashboard workbench : barre de contexte + socle pleine largeur
+   Loi de composition : 1 focus + rail court hiérarchisé + socle qui ferme la page.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ZONE A — barre de contexte dense (remplace track-hint) */
+.dash-context {
+  display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap;
+  padding: 10px var(--sp-4); margin-bottom: var(--sp-5);
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
+  font-size: var(--fs-xs);
+}
+.dash-ctx-track { display: inline-flex; align-items: center; gap: 7px; color: var(--text); font-weight: 600; }
+.dash-ctx-track svg { color: var(--accent); flex: none; }
+.dash-ctx-track:hover { color: var(--accent); text-decoration: none; }
+.dash-ctx-sep { width: 1px; height: 14px; background: var(--border-strong); flex: none; }
+.dash-ctx-item { color: var(--text); font-variant-numeric: tabular-nums; }
+.dash-ctx-k { color: var(--faint); text-transform: uppercase; letter-spacing: var(--tracking-label);
+  font-size: var(--fs-eyebrow); margin-right: 5px; }
+.dash-ctx-right { margin-left: auto; }
+@media (max-width: 640px) { .dash-ctx-right { margin-left: 0; } .dash-ctx-sep { display: none; } }
+
+/* ZONE C — socle : trajectoire + progression fusionnées, pleine largeur */
+.dash-socle {
+  margin-top: var(--sp-6); padding: var(--sp-5);
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+}
+.dash-socle-head { display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--sp-5); flex-wrap: wrap; margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-3); border-bottom: 1px solid var(--border-subtle); }
+.dash-socle-title .section-label { display: block; margin-bottom: 2px; }
+.dash-socle-title .section-title { margin: 0; }
+.dash-socle-prog { min-width: 240px; flex: 1; max-width: 420px; }
+.dash-socle-nums { display: flex; align-items: baseline; gap: var(--sp-3); justify-content: flex-end; }
+.dash-socle-pct { font-size: var(--fs-h2); font-weight: 650; font-variant-numeric: tabular-nums; color: var(--text); }
+.dash-socle-sub { font-size: var(--fs-xs); color: var(--muted); }
+.dash-socle-bar { margin-top: 8px; }
+@media (max-width: 640px) { .dash-socle-nums { justify-content: flex-start; } .dash-socle-prog { max-width: none; } }
+
+/* ZONE D — pied de contexte (poids faible) */
+.dash-foot {
+  display: grid; grid-template-columns: 1fr; gap: var(--sp-4);
+  margin-top: var(--sp-5); padding: var(--sp-4) var(--sp-5);
+  background: color-mix(in srgb, var(--panel) 55%, transparent);
+  border: 1px solid var(--border-subtle); border-radius: var(--r);
+}
+@media (min-width: 900px) { .dash-foot { grid-template-columns: minmax(0, 1fr) auto; align-items: start; } }
+.dash-foot-month .dash-note { max-width: 78ch; }
+.dash-foot .dash-quick { margin-top: 0; justify-content: flex-end; }
+@media (max-width: 900px) { .dash-foot .dash-quick { justify-content: flex-start; } }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V54.2 — Parcours : roadmap du parcours actif + comparaison des alternatives
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Avancement du parcours actif */
+.track-progress { margin-top: var(--sp-5); padding-top: var(--sp-4); border-top: 1px solid var(--border-subtle); }
+.track-progress-nums { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: 8px; }
+.track-progress-pct { font-size: var(--fs-h2); font-weight: 650; font-variant-numeric: tabular-nums; }
+.track-progress-sub { font-size: var(--fs-xs); color: var(--muted); }
+
+/* ROADMAP — séquence verticale avec rail de progression (≠ grille de cartes) */
+.track-roadmap { list-style: none; margin: 0; padding: 0; }
+.track-step { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: var(--sp-3); }
+.track-step-rail { position: relative; display: flex; justify-content: center; }
+.track-step-rail::before { content: ''; position: absolute; top: 0; bottom: 0; width: 2px; background: var(--border); }
+.track-step:first-child .track-step-rail::before { top: 12px; }
+.track-step:last-child .track-step-rail::before { bottom: calc(100% - 12px); }
+.track-step-dot { position: relative; z-index: 1; width: 9px; height: 9px; margin-top: 8px; border-radius: 50%;
+  background: var(--panel-2); border: 2px solid var(--border-strong); flex: none; }
+.track-step.is-done .track-step-dot { background: var(--ok); border-color: var(--ok); }
+.track-step.is-started .track-step-dot { background: var(--info); border-color: var(--info); }
+.track-step.is-current .track-step-dot { background: var(--accent); border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+.track-step.is-done .track-step-rail::before { background: color-mix(in srgb, var(--ok) 45%, var(--border)); }
+.track-step-body { padding: 0 0 var(--sp-4); min-width: 0; }
+.track-step.is-current .track-step-body { background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border)); border-radius: var(--r);
+  padding: var(--sp-3) var(--sp-4); margin-bottom: var(--sp-3); }
+.track-step-head { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; }
+.track-step-n { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--faint); }
+.track-step-title { font-weight: 600; font-size: var(--fs-base); color: var(--text); }
+.track-step.is-upcoming .track-step-title { color: var(--muted); font-weight: 500; }
+.track-step-meta { display: flex; gap: var(--sp-3); flex-wrap: wrap; margin-top: 3px;
+  font-size: var(--fs-xs); color: var(--faint); font-variant-numeric: tabular-nums; }
+.track-step-done { color: var(--ok); }
+.track-step-lessons { margin-top: 5px; font-size: var(--fs-xs); color: var(--muted); }
+
+/* COMPARAISON des alternatives — rangées denses, CTA secondaire */
+.track-compare { display: flex; flex-direction: column; gap: 8px; }
+.track-crow {
+  display: grid; grid-template-columns: minmax(0, 2.2fr) auto minmax(0, 1.4fr) auto;
+  gap: var(--sp-4); align-items: center;
+  padding: var(--sp-3) var(--sp-4); background: var(--panel);
+  border: 1px solid var(--border); border-radius: var(--r);
+  transition: border-color var(--t), background var(--t);
+}
+.track-crow:hover { border-color: var(--border-strong); background: var(--surface-hover); }
+.track-crow-id { min-width: 0; }
+.track-crow-title { font-weight: 600; font-size: var(--fs-sm); color: var(--text); }
+.track-crow-goal { font-size: var(--fs-xs); color: var(--muted); margin-top: 2px;
+  overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.track-crow-facts { display: flex; gap: var(--sp-4); white-space: nowrap; }
+.track-crow-fact { font-size: var(--fs-xs); color: var(--text); font-variant-numeric: tabular-nums; }
+.track-crow-k { display: block; font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--faint); }
+.track-crow-techs { display: flex; gap: 5px; flex-wrap: wrap; }
+.track-crow-more { font-size: var(--fs-xs); color: var(--faint); align-self: center; }
+.track-crow-act { justify-self: end; }
+@media (max-width: 1100px) {
+  .track-crow { grid-template-columns: minmax(0, 1fr) auto; row-gap: var(--sp-2); }
+  .track-crow-techs { grid-column: 1 / -1; }
+  .track-crow-facts { justify-self: end; }
+  .track-crow-act { grid-column: 1 / -1; justify-self: start; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V54.2 — Synthèse responsive (placé APRÈS les règles de base : la cascade
+   doit pouvoir annuler `min-width: 860px`).
+   Colonnes PRIMARY (.col-p) toujours visibles · SECONDARY (.col-s) repliées.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* En-têtes de LIGNE alignés à gauche (défaut `th` = centré : corrigé). */
+.synth-table tbody th[scope="row"] { text-align: left; }
+
+/* Seuil relevé à 1400px : en dessous, les 10 colonnes ne tiennent pas sans
+   rogner la colonne d'action. On ne garde que les PRIMARY (mesuré, pas supposé). */
+@media (max-width: 1399px) {
+  .synth-table .col-s { display: none; }
+  .synth-table { min-width: 0; }
+  .synth-td-track { min-width: 150px; }
+  .synth-td-ev, .synth-td-ev a { max-width: 180px; }
+}
+
+/* MOBILE (≤ 620px) — la table devient une LISTE EMPILÉE sémantiquement
+   équivalente : chaque ligne est un bloc, chaque donnée porte son libellé.
+   Aucune donnée n'est perdue (contrairement au simple repli de colonnes). */
+@media (max-width: 700px) {
+  .synth-table-wrap { border: none; background: none; box-shadow: none; overflow: visible; }
+  .synth-table { display: block; width: 100%; min-width: 0; }
+  .synth-table tbody, .synth-table tr, .synth-table td, .synth-table th { display: block; width: auto; min-width: 0; }
+  .synth-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  .synth-table tbody tr {
+    margin-bottom: var(--sp-3); padding: var(--sp-4);
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
+  }
+  .synth-table tbody tr.is-active {
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+    background: color-mix(in srgb, var(--accent) 8%, var(--panel));
+  }
+  .synth-table tbody tr.is-active th[scope="row"] { box-shadow: none; }
+  .synth-table tbody th[scope="row"] {
+    display: flex; align-items: center; gap: 8px;
+    font-size: var(--fs-ui); padding: 0 0 var(--sp-3); margin-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .synth-table tbody th[scope="row"] .synth-td-title { white-space: normal; }
+  /* Sélecteurs incluant .col-p/.col-s : ils DOIVENT battre la règle de repli
+     `.synth-table .col-s { display:none }` (spécificité 0,2,0) — sinon les
+     cellules secondaires retombent en `block` et libellé+valeur se collent. */
+  .synth-table tbody td.col-p, .synth-table tbody td.col-s {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
+    padding: 5px 0; border: none; text-align: left; width: auto;
+  }
+  .synth-table tbody td::before {
+    content: attr(data-label); flex: none;
+    font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: var(--tracking-label);
+    color: var(--faint);
+  }
+  .synth-table tbody td.num { text-align: right; }
+  .synth-table tbody td.col-p.synth-td-prog, .synth-table tbody td.col-s.synth-td-prog {
+    flex-direction: column; align-items: stretch; gap: 5px;
+  }
+  .synth-table tbody td.synth-td-prog::before { align-self: flex-start; }
+  .synth-td-ev, .synth-td-ev a { max-width: none; white-space: normal; }
+  .synth-table tbody td.col-p.synth-td-act, .synth-table tbody td.col-s.synth-td-act {
+    padding-top: var(--sp-3); justify-content: flex-start;
+  }
+  .synth-table tbody td.synth-td-act::before { content: none; }
+}
+
+/* Primitive ProgressRail (V54.2) — partagée Dashboard socle + Parcours actif */
+.ui-prail-nums { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; }
+.ui-prail.align-right .ui-prail-nums { justify-content: flex-end; }
+.ui-prail-pct { font-size: var(--fs-h2); font-weight: 650; font-variant-numeric: tabular-nums; color: var(--text); }
+.ui-prail-sub { font-size: var(--fs-xs); color: var(--muted); }
+.ui-prail-bar { margin-top: 8px; }
+@media (max-width: 640px) { .ui-prail.align-right .ui-prail-nums { justify-content: flex-start; } }
+/* V54.2 — conteneur de cellule de trajectoire (rôle gridcell porté par le span,
+   le lien reste un lien). Neutre visuellement : la cellule garde sa taille. */
+.tcell-wrap { display: inline-flex; }
+
+/* V54.2 — bandeau de repères de la Synthèse (agrégats réels) */
+.synth-summary { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--sp-6);
+  flex-wrap: wrap; padding: var(--sp-4) var(--sp-5); margin-bottom: var(--sp-5);
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow-1); }
+.synth-summary-facts { display: flex; gap: var(--sp-8); flex-wrap: wrap; }
+/* Ligne active de la table : marquage plus affirmé (bordure gauche pleine) */
+.synth-table tbody tr.is-active th[scope="row"] { box-shadow: inset 3px 0 0 var(--accent); }
+
+/* V54.2 — la table dépassait son conteneur à 1440 (colonne « action » coupée).
+   Les colonnes numériques (chiffres à 1-2 caractères) étaient dimensionnées par
+   leurs en-têtes : on resserre leur gouttière et on borne la colonne « preuve ». */
+@media (min-width: 1400px) {
+  .synth-table th.num, .synth-table td.num { padding-left: 10px; padding-right: 10px; }
+  .synth-table thead th, .synth-table tbody td, .synth-table tbody th { padding-top: 10px; padding-bottom: 10px; }
+  .synth-td-track { min-width: 168px; }
+  .synth-td-ev { max-width: 150px; }
+  .synth-td-ev a { max-width: 150px; }
+  .synth-table { min-width: 0; }
+}
+/* Les en-têtes numériques peuvent se replier sur 2 lignes : la colonne se
+   dimensionne alors sur la donnée (1-2 chiffres) et non sur le mot d'en-tête. */
+@media (min-width: 1400px) {
+  .synth-table thead th.num { white-space: normal; max-width: 62px; }
+}

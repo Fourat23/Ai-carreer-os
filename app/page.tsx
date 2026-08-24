@@ -9,7 +9,7 @@ import { resumeReasonText, countStatuses } from '@/lib/resume';
 import { progressPosition } from '@/lib/position';
 import { reviewSummary, getDueReviews } from '@/lib/review';
 import { nextBestActions } from '@/lib/learning-experience';
-import { PageHeader, SectionHeader, Status, Metric, Panel, ActionRow, EmptyState, PrimaryFocus } from '@/app/ui';
+import { PageHeader, SectionHeader, Status, Metric, Panel, ActionRow, EmptyState, PrimaryFocus, ProgressRail } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import StartDayButton from './StartDayButton';
 import Trajectory365 from './Trajectory365';
@@ -67,13 +67,25 @@ export default function Dashboard() {
         sub={<>Programme de 12 mois vers des rôles IA appliquée.{progress.startDate ? ` Commencé le ${progress.startDate}.` : ' Lance ta première journée pour démarrer.'}</>}
       />
 
-      <p className="track-hint">
-        <Route size={13} strokeWidth={2} /> Parcours actif : <strong>{activeTrack.title}</strong>
-        <span className="sep">·</span> <Link href="/parcours">gérer les parcours</Link>
-      </p>
+      {/* ZONE A — barre de contexte dense (données réelles, aucune invention) */}
+      <div className="dash-context">
+        <Link href="/parcours" className="dash-ctx-track">
+          <Route size={14} strokeWidth={2} aria-hidden />
+          <span className="dash-ctx-track-name">{activeTrack.title}</span>
+        </Link>
+        <span className="dash-ctx-sep" aria-hidden />
+        <span className="dash-ctx-item"><span className="dash-ctx-k">Position</span> jour {pos.resumeDay} / {pos.total}</span>
+        <span className="dash-ctx-sep" aria-hidden />
+        <span className="dash-ctx-item"><span className="dash-ctx-k">Terminés</span> {counts.done} / {counts.total}</span>
+        <span className="dash-ctx-sep" aria-hidden />
+        <span className="dash-ctx-item"><span className="dash-ctx-k">Mois</span> {currentMonth?.month} / 12</span>
+        {reviews.dueToday > 0 && (
+          <span className="dash-ctx-right"><Status tone="attention" label={`${reviews.dueToday} révision(s) due(s)`} /></span>
+        )}
+      </div>
 
       <div className="dash-cols">
-        {/* Colonne principale : reprise + prochaines actions + trajectoire */}
+        {/* Colonne principale : focus + prochaines actions */}
         <div className="dash-main">
           <PrimaryFocus
             eyebrow={<>{pos.resumeReason === 'complete' ? 'Programme terminé' : started ? 'Reprendre où j\'en suis' : 'Commencer maintenant'} <span className="sep">·</span> jour {pos.resumeDay} / {pos.total}</>}
@@ -119,16 +131,6 @@ export default function Dashboard() {
             </section>
           )}
 
-          <section className="section">
-            <SectionHeader label="Trajectoire" title={`${pos.total} jours`} note={`${percent}% · ${counts.done}/${counts.total} jours`} />
-            <Trajectory365 days={trackDays} progress={progress} currentDay={pos.resumeDay} />
-          </section>
-
-          <div className="side-block progress-block">
-            <div className="stat-k">Progression globale</div>
-            <div className="progress-line"><span className="stat-v">{percent}%</span><span className="stat-sub">{counts.done} / {counts.total} jours terminés</span></div>
-            <div className="progressbar" style={{ marginTop: 8 }}><div style={{ width: `${percent}%` }} /></div>
-          </div>
         </div>
 
         {/* Colonne secondaire : révisions (primaire) puis pilotage sobre */}
@@ -150,22 +152,25 @@ export default function Dashboard() {
             />
           </Panel>
 
-          <Panel label="Rythme">
-            <Metric label="Cadence" value={paceLabel} tone={paceTone}
-              sub={pos.expectedDay === null ? 'compteur non démarré' : `attendu jour ${pos.expectedDay}${pos.nextIncompleteDay ? ` · à faire jour ${pos.nextIncompleteDay}` : ''}`} />
-            <div className="ui-panel-sep" />
-            <Metric label="En cours / à revoir" value={counts['in-progress'] + counts['to-review']}
-              sub={`${counts['in-progress']} en cours · ${counts['to-review']} à revoir`} />
-          </Panel>
+          {/* Rythme : affiché UNIQUEMENT si le compteur a démarré (sinon « — » = bruit). */}
+          {pos.expectedDay !== null && (
+            <Panel label="Rythme">
+              <Metric label="Cadence" value={paceLabel} tone={paceTone}
+                sub={`attendu jour ${pos.expectedDay}${pos.nextIncompleteDay ? ` · à faire jour ${pos.nextIncompleteDay}` : ''}`} />
+              <div className="ui-panel-sep" />
+              <Metric label="En cours / à revoir" value={counts['in-progress'] + counts['to-review']}
+                sub={`${counts['in-progress']} en cours · ${counts['to-review']} à revoir`} />
+            </Panel>
+          )}
 
-          <Panel label="Prochain livrable">
-            {stats.nextDeliverable ? (
-              <>
-                <div className="dash-strong"><Link href={`/day/${stats.nextDeliverable.day}`}>Jour {stats.nextDeliverable.day}</Link> — {stats.nextDeliverable.title}</div>
-                <p className="dash-note">{stats.nextDeliverable.deliverable}</p>
-              </>
-            ) : <EmptyState title="Tous les livrables sont faits." hint="Rien à produire pour l'instant." />}
-          </Panel>
+          {/* Prochain livrable : masqué s'il désigne la journée DÉJÀ affichée en focus
+              (anti-redondance : deux blocs pour la même donnée = un de trop). */}
+          {stats.nextDeliverable && stats.nextDeliverable.day !== pos.resumeDay && (
+            <Panel label="Prochain livrable">
+              <div className="dash-strong"><Link href={`/day/${stats.nextDeliverable.day}`}>Jour {stats.nextDeliverable.day}</Link> — {stats.nextDeliverable.title}</div>
+              <p className="dash-note">{stats.nextDeliverable.deliverable}</p>
+            </Panel>
+          )}
 
           <Panel label="Compétences actives">
             <div className="row" style={{ gap: 6 }}>
@@ -178,27 +183,43 @@ export default function Dashboard() {
             ) : <p className="dash-note">Aucune preuve enregistrée pour l'instant.</p>}
           </Panel>
 
-          <Panel
-            label={`Mois ${currentMonth?.month} / 12`}
-            footer={
-              <div className="row" style={{ gap: 8 }}>
-                <Link className="btn small" href={`/month/${currentMonth?.month}`}>Voir le mois</Link>
-                <Link className="btn small" href={`/week/${resumeDay?.week}`}>Semaine {resumeDay?.week}</Link>
-              </div>
-            }
-          >
-            <div className="dash-strong">{currentMonth?.title}</div>
-            <p className="dash-note">{currentMonth?.summary}</p>
-          </Panel>
-
-          <nav className="dash-quick" aria-label="Accès rapides">
-            <Link className="btn small" href="/calendar"><CalendarDays size={14} /> Calendrier</Link>
-            <Link className="btn small" href="/projects"><FolderGit2 size={14} /> Projets</Link>
-            <Link className="btn small" href="/reviews"><ClipboardCheck size={14} /> Évaluations</Link>
-            <Link className="btn small" href="/notes"><NotebookPen size={14} /> Notes</Link>
-          </nav>
         </aside>
       </div>
+
+      {/* ZONE C — SOCLE pleine largeur : trajectoire + progression fusionnées.
+          Ferme la page et absorbe le vide des colonnes de hauteurs inégales
+          (règle anti-vide ADR-054.2) — aucune donnée ajoutée, seulement déplacée. */}
+      <section className="dash-socle" aria-label="Trajectoire du parcours">
+        <header className="dash-socle-head">
+          <div className="dash-socle-title">
+            <span className="section-label">Trajectoire</span>
+            <h2 className="section-title">{pos.total} jours</h2>
+          </div>
+          <div className="dash-socle-prog">
+            <ProgressRail percent={percent} sub={`${counts.done} / ${counts.total} jours terminés`} align="right" />
+          </div>
+        </header>
+        <Trajectory365 days={trackDays} progress={progress} currentDay={pos.resumeDay} />
+      </section>
+
+      {/* ZONE D — socle de contexte, poids faible */}
+      <section className="dash-foot" aria-label="Contexte et accès rapides">
+        <div className="dash-foot-month">
+          <span className="ui-panel-label">Mois {currentMonth?.month} / 12 · Semaine {resumeDay?.week}</span>
+          <div className="dash-strong">{currentMonth?.title}</div>
+          <p className="dash-note">{currentMonth?.summary}</p>
+          <div className="row" style={{ gap: 8, marginTop: 'var(--sp-3)' }}>
+            <Link className="btn small" href={`/month/${currentMonth?.month}`}>Voir le mois</Link>
+            <Link className="btn small" href={`/week/${resumeDay?.week}`}>Semaine {resumeDay?.week}</Link>
+          </div>
+        </div>
+        <nav className="dash-quick" aria-label="Accès rapides">
+          <Link className="btn small" href="/calendar"><CalendarDays size={14} /> Calendrier</Link>
+          <Link className="btn small" href="/projects"><FolderGit2 size={14} /> Projets</Link>
+          <Link className="btn small" href="/reviews"><ClipboardCheck size={14} /> Évaluations</Link>
+          <Link className="btn small" href="/notes"><NotebookPen size={14} /> Notes</Link>
+        </nav>
+      </section>
     </>
   );
 }

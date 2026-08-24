@@ -53,4 +53,4 @@ if (end !== start || failures.length) {
   console.error(`\n❌ Mutation détectée par simple navigation : ${failures.join(', ') || 'écart global'}`);
   process.exit(1);
 }
-console.log('\n✅ Aucune des ${CASES.length} routes vérifiées ne mute la progression.');
+console.log(`\n✅ Aucune des ${CASES.length} routes vérifiées ne mute la progression.`);

@@ -5,7 +5,7 @@ import { getCatalogue } from '@/lib/catalogue-server';
 import { readProgress, readProgressV3 } from '@/lib/progress-server';
 import { aggregateTracks } from '@/lib/track-aggregate';
 import { evidenceTimeline, milestones } from '@/lib/learning-experience';
-import { PageHeader, Status, Metric } from '@/app/ui';
+import { PageHeader, Status, HeroFocus, HeroFact, PositionRing } from '@/app/ui';
 import TrackActions from '../parcours/TrackActions';
 
 export const dynamic = 'force-dynamic';
@@ -48,20 +48,47 @@ export default function SynthesePage() {
           Comparaison des parcours disponibles, chacun avec sa progression propre.
           <span className="synth-ro"><Eye size={13} strokeWidth={2} /> Lecture seule — aucune action de progression ici.</span>
         </>}
-        actions={activeRow?.resumeDay != null
-          ? <Link className="btn cta" href={`/day/${activeRow.resumeDay}`}>Continuer — jour {activeRow.resumeDay}</Link>
-          : undefined}
       />
 
-      {/* Repères transversaux (données réelles agrégées, aucun score inventé) */}
-      <div className="synth-summary page-wide">
-        <Metric label="Parcours suivis" value={`${startedCount} / ${rows.length}`} emphasis
-          sub={activeRow ? `actif : ${activeRow.title}` : 'aucun parcours actif'} />
-        <div className="synth-summary-facts">
-          <Metric label="Jours terminés" value={totalDone} sub={`sur ${totalDays} jours cumulés`} />
-          <Metric label="Révisions dues" value={totalReviews} tone={totalReviews > 0 ? 'attention' : undefined}
-            sub={totalReviews > 0 ? 'à traiter' : 'aucune échéance'} />
-        </div>
+      {/* ── HERO comparatif (V55) — la situation d'ensemble AVANT le détail.
+          Ton `calm` : page de lecture, pas de focus d'action ; le halo d'accent
+          reste réservé au Dashboard. Tous les chiffres sont des agrégats des
+          lignes déjà calculées — aucune seconde source, aucun score inventé. */}
+      <div className="page-wide">
+        <HeroFocus
+          tone="calm"
+          eyebrow="Situation d'ensemble"
+          title={activeRow ? activeRow.title : 'Aucun parcours actif'}
+          lead={activeRow
+            ? `Parcours actif — ${activeRow.completedDays} des ${activeRow.totalDays} journées terminées. Les autres parcours conservent leur propre progression.`
+            : 'Choisis un parcours pour commencer : chacun conserve sa progression propre.'}
+          meta={
+            <>
+              <HeroFact k="Parcours suivis">{startedCount} sur {rows.length}</HeroFact>
+              <HeroFact k="Jours terminés">{totalDone} sur {totalDays} cumulés</HeroFact>
+              <HeroFact k="Révisions dues">
+                {totalReviews > 0
+                  ? <Status tone="attention" label={`${totalReviews} à traiter`} />
+                  : <span className="muted">aucune échéance</span>}
+              </HeroFact>
+            </>
+          }
+          // Le CTA vit DANS le hero, aux côtés des chiffres qui le justifient
+          // (acquis V54.2.1 : il flottait auparavant dans l'en-tête de page).
+          actions={activeRow?.resumeDay != null
+            ? <Link className="btn cta" href={`/day/${activeRow.resumeDay}`}>Continuer — jour {activeRow.resumeDay}</Link>
+            : undefined}
+          aside={activeRow ? (
+            <div className="dash-hero-aside">
+              <PositionRing percent={activeRow.percent} day={activeRow.resumeDay ?? 1}
+                total={activeRow.totalDays} label="Position dans le parcours actif" />
+              <div className="dash-hero-nums">
+                <span className="dash-hero-pct">{activeRow.percent}%</span>
+                <span className="dash-hero-pctk">du parcours actif</span>
+              </div>
+            </div>
+          ) : undefined}
+        />
       </div>
 
       <div className="synth-table-wrap page-wide" role="region" aria-label="Comparaison des parcours (lecture seule)" tabIndex={0}>

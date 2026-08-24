@@ -83,9 +83,12 @@ if (hex > 0) errors.push(`[tokens] ${hex} couleur(s) hex en dur dans le TSX (bas
 for (const p of REF_PAGES) if (!existsSync(R(p))) errors.push(`[ref] page de référence manquante : ${p}`);
 
 const dash = existsSync(R('app/page.tsx')) ? readFileSync(R('app/page.tsx'), 'utf8') : '';
-// Un seul PRIMARY FOCUS par page (jamais deux).
-const focusCount = (dash.match(/<PrimaryFocus\b/g) ?? []).length;
-if (focusCount !== 1) errors.push(`[composition] le Dashboard doit avoir exactement 1 PrimaryFocus (trouvé ${focusCount})`);
+// Un seul POINT FOCAL par page (jamais deux).
+// V55 : la primitive a changé de forme — `PrimaryFocus` (panneau) est devenu
+// `HeroFocus` (hero pleine largeur, cran typographique display). L'intention
+// testée est inchangée : exactement un point focal.
+const focusCount = (dash.match(/<PrimaryFocus\b/g) ?? []).length + (dash.match(/<HeroFocus\b/g) ?? []).length;
+if (focusCount !== 1) errors.push(`[composition] le Dashboard doit avoir exactement 1 point focal (trouvé ${focusCount})`);
 // Socle pleine largeur (règle anti-vide).
 if (!/dash-socle/.test(dash)) errors.push('[composition] Dashboard : socle pleine largeur absent (règle anti-vide)');
 // Anti-redondance : le « prochain livrable » doit être conditionné (≠ jour du focus).

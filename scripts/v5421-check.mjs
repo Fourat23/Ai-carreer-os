@@ -102,26 +102,37 @@ for (const sel of SEQUENTIAL) {
 }
 
 // ── 5) Contrat de composition du Dashboard ────────────────────────────────
-// Le socle et le pied doivent vivre DANS la colonne principale : c'est ce qui
-// rend les deux colonnes indépendantes et supprime le vide structurel.
+// Intention INCHANGÉE depuis V54.2.1 : les deux colonnes doivent rester
+// indépendantes, donc tout ce qui suit le focus vit DANS la colonne principale.
+// La forme, elle, a évolué en V55 : le focus est devenu un `HeroFocus` pleine
+// largeur (hors grille), et le pied de contexte est devenu une barre d'accès
+// rapides pleine largeur. Le gate suit le contrat réel, pas l'ancienne forme.
 const dash = readFileSync(R('app/page.tsx'), 'utf8');
 const mainStart = dash.indexOf('className="dash-main"');
 const asideStart = dash.indexOf('className="dash-side"');
 if (mainStart < 0 || asideStart < 0) errors.push('[dashboard] colonnes .dash-main / .dash-side introuvables');
 else {
   const socle = dash.indexOf('className="dash-socle"');
-  const foot = dash.indexOf('className="dash-foot"');
   if (!(socle > mainStart && socle < asideStart)) errors.push('[dashboard] le socle n\'est pas dans la colonne principale (vide structurel possible)');
-  if (!(foot > mainStart && foot < asideStart)) errors.push('[dashboard] le pied de contexte n\'est pas dans la colonne principale');
 }
-if ((dash.match(/<PrimaryFocus/g) ?? []).length !== 1) errors.push('[dashboard] il doit y avoir exactement 1 PrimaryFocus');
+const focusCount = (dash.match(/<PrimaryFocus/g) ?? []).length + (dash.match(/<HeroFocus/g) ?? []).length;
+if (focusCount !== 1) errors.push(`[dashboard] il doit y avoir exactement 1 focus principal (trouvé ${focusCount})`);
 
-// ── 6) CTA du Parcours dans le bloc du parcours actif ─────────────────────
+// ── 6) CTA du Parcours rattaché à son contexte ────────────────────────────
+// Le défaut corrigé en V54.2.1 était précis : le CTA vivait dans les `actions`
+// de l'en-tête de PAGE, à 107 px (mesurés à 1440) du bloc qu'il concerne.
+// V55 a déplacé ce bloc dans un `HeroFocus` : la forme change, l'interdit non.
+// La distance physique reste vérifiée par scripts/v5421-visual.mjs (CTA_CONTEXT).
 const parc = readFileSync(R('app/parcours/page.tsx'), 'utf8');
-const blockStart = parc.indexOf('className="track-active"');
-const cta = parc.indexOf('btn cta');
-if (blockStart < 0) errors.push('[parcours] bloc .track-active introuvable');
-else if (cta < 0 || cta < blockStart) errors.push('[parcours] le CTA principal doit être DANS le bloc du parcours actif');
+if (!/btn cta/.test(parc)) errors.push('[parcours] aucune action principale');
+{
+  const headStart = parc.indexOf('<PageHeader');
+  const headEnd = headStart >= 0 ? parc.indexOf('/>', headStart) : -1;
+  const cta = parc.indexOf('btn cta');
+  if (headStart >= 0 && headEnd > headStart && cta > headStart && cta < headEnd) {
+    errors.push('[parcours] le CTA principal est retombé dans l\'en-tête de page (hors de son contexte)');
+  }
+}
 
 // ── 7) Vocabulaire partagé programme global / parcours actif ──────────────
 // Une seule source dérivée : les trois surfaces consomment le même read-model.

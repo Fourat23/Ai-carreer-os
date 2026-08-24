@@ -123,7 +123,9 @@ function probe() {
   }
 
   // ── Dashboard : vide structurel entre le focus et le socle ───────────────
-  const focus = document.querySelector('.ui-focus');
+  // V55 : le focus du Dashboard est un `.ui-hero` (hero pleine largeur).
+  // Compat AVANT conservée pour que la comparaison porte sur la même mesure.
+  const focus = document.querySelector('.ui-hero') ?? document.querySelector('.ui-focus');
   const socle = document.querySelector('.dash-socle');
   const main = document.querySelector('.dash-main');
   const side = document.querySelector('.dash-side');
@@ -144,7 +146,9 @@ function probe() {
 
   // ── Parcours : distance du CTA principal à son contexte ──────────────────
   const cta = document.querySelector('.btn.cta');
-  const ctx = document.querySelector('.track-active');
+  // V55 : le bloc du parcours actif est devenu un hero. Le contexte valide est
+  // donc le hero s'il existe, sinon l'ancien `.track-active` (compat AVANT).
+  const ctx = document.querySelector('.ui-hero') ?? document.querySelector('.track-active');
   if (cta && ctx) {
     const c = rectOf(cta), x = rectOf(ctx);
     out.cta = {

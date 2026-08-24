@@ -12,3 +12,6 @@ export { Panel } from './Panel';
 export { PrimaryFocus } from './PrimaryFocus';
 export { ListRow } from './ListRow';
 export { ProgressRail } from './ProgressRail';
+// V55 — identité visuelle : hero dominant + éléments graphiques porteurs de données.
+export { HeroFocus, HeroFact, DifficultyScale } from './HeroFocus';
+export { PositionRing } from './PositionRing';

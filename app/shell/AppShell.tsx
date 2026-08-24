@@ -73,9 +73,17 @@ function NavLinks({ path, onNavigate }: { path: string; onNavigate?: () => void 
 
 function Brand({ compact = false }: { compact?: boolean }) {
   return (
+    // V55 — la marque devient composée : monogramme sur surface d'accent +
+    // nom sur deux lignes (nom du produit / nature du produit). C'est le seul
+    // endroit du shell où l'accent occupe une surface pleine.
     <Link href="/" className="brand" aria-label="AI Career OS — accueil">
-      <span className="brand-mark" aria-hidden="true"><Terminal size={18} strokeWidth={2} /></span>
-      {!compact && <span className="brand-text">AI Career <b>OS</b></span>}
+      <span className="brand-mark" aria-hidden="true"><Terminal size={17} strokeWidth={2.1} /></span>
+      {!compact && (
+        <span className="brand-text">
+          <span className="brand-name">AI Career <b>OS</b></span>
+          <span className="brand-kind">Learning workstation</span>
+        </span>
+      )}
     </Link>
   );
 }

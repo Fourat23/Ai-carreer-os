@@ -5,22 +5,49 @@
      familles pédagogiques sémantiques. Un seul jeu de tokens, consommé partout.
      ══════════════════════════════════════════════════════════════════════ */
 
-  /* Surfaces (graphite chaud) — échelle d'élévation V54 :
-     bg < panel < panel-2 < raised. Le PRIMARY FOCUS et les panneaux primaires
-     montent d'un cran ; les surfaces secondaires restent calmes. */
-  --bg: #131519;
-  --panel: #1a1d23;
-  --panel-2: #21252c;
-  --raised: #272c35;       /* surface haute (cockpit / focus) */
-  --surface-hover: #2b303a;
-  --border: #2b2f38;
-  --border-strong: #3a3f4a;
-  --border-subtle: #23262e; /* séparateur discret intra-surface */
+  /* ── V55 · ÉCHELLE DE SURFACES À SIX CRANS ──────────────────────────────
+     canvas → shell → surface → raised → focus → interactive.
+     La base bascule du graphite chaud (#131519) vers un BLEU-NOIR profond :
+     c'est l'ancrage d'identité du produit, et il remonte mécaniquement le
+     contraste de tous les textes secondaires.
+     Un cran ne se distingue JAMAIS par la seule luminance : il combine fond,
+     bordure, élévation et — pour les crans hauts — un gradient local. */
+  --canvas: #0b0d13;       /* fond applicatif, le plus profond */
+  --shell: #0f1117;        /* chrome : rail de navigation, en-têtes collants */
+  --surface: #14171f;      /* panneau par défaut */
+  --raised: #1a1e28;       /* panneau élevé (support primaire) */
+  --focus-surface: #1f2430;/* surface du focus principal — une seule par page */
+  --interactive: #262c3a;  /* survol / sélection */
 
-  /* Profondeur (ombres discrètes — jamais de glow néon) */
-  --shadow-1: 0 1px 2px rgba(0,0,0,.28);
-  --shadow-2: 0 6px 22px -8px rgba(0,0,0,.45);
-  --shadow-focus: 0 10px 34px -12px rgba(0,0,0,.55);
+  /* Alias historiques : tout le code existant continue de fonctionner et
+     hérite de la nouvelle profondeur sans réécriture de masse. */
+  --bg: var(--canvas);
+  --panel: var(--surface);
+  --panel-2: var(--raised);
+  --surface-hover: var(--interactive);
+
+  --border: #232833;
+  --border-strong: #333a49;
+  --border-subtle: #1b1f28;  /* séparateur discret intra-surface */
+  --border-accent: rgba(139, 143, 245, .30);
+
+  /* Profondeur — quatre crans d'élévation (il n'y en avait que deux utilisés).
+     Jamais de néon : les ombres restent noires et larges, le halo d'accent est
+     réservé à UNE zone par page (le focus principal). */
+  --shadow-1: 0 1px 2px rgba(0,0,0,.34);
+  --shadow-2: 0 6px 22px -8px rgba(0,0,0,.5);
+  --shadow-3: 0 18px 44px -20px rgba(0,0,0,.62);
+  --shadow-focus: 0 26px 60px -28px rgba(0,0,0,.72);
+  --glow-accent: 0 0 0 1px rgba(139,143,245,.16), 0 24px 64px -34px rgba(139,143,245,.42);
+
+  /* Gradients LOCAUX et directionnels (jamais un fond entier coloré). */
+  --grad-surface: linear-gradient(180deg, rgba(255,255,255,.022), transparent 46%);
+  --grad-raised: linear-gradient(180deg, rgba(255,255,255,.034), transparent 52%);
+  --grad-focus: radial-gradient(118% 150% at 0% 0%, rgba(139,143,245,.13), transparent 58%);
+  --grad-accent-edge: linear-gradient(180deg, var(--accent), var(--accent-2));
+  /* Trame technique très légère — sert de repère de « plan de travail »,
+     jamais de décor autonome. */
+  --grid-hairline: rgba(255,255,255,.028);
 
   /* Texte */
   --text: #e6e8ec;         /* blanc cassé, jamais blanc pur */
@@ -65,6 +92,15 @@
   --fs-h2: 21px;
   --fs-h1: 28px;
   --fs-display: 34px;   /* chiffres de pilotage */
+  /* V55 — il manquait un vrai cran DISPLAY : la police la plus grande
+     réellement rendue plafonnait à 28 px, y compris sur un écran de 1920.
+     L'échelle compte désormais sept crans, dont deux fluides. Amplitude
+     display/corps visée ≥ 3,2 (elle valait 2,15). */
+  --fs-display-xl: clamp(30px, 2.6vw + 12px, 50px); /* titre de page dominant */
+  --fs-display-lg: clamp(24px, 1.5vw + 12px, 34px); /* titre de bloc focal */
+  --tracking-display: -0.022em;  /* les grands corps se resserrent */
+  --tracking-title: -0.012em;
+  --lh-display: 1.06;
   --lh-tight: 1.2;
   --lh-body: 1.55;
   --lh-read: 1.72;
@@ -2243,4 +2279,472 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
    long libellé, et une césure de secours empêche tout recouvrement. */
 @media (min-width: 1440px) {
   .synth-table thead th.num { max-width: 84px; overflow-wrap: break-word; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V55 — PRODUCT IDENTITY & VISUAL CONVERGENCE
+   Bloc placé en FIN de fichier : les bases sont déclarées plus haut et une
+   surcharge antérieure serait battue par l'ordre de la cascade.
+   Trois axes : profondeur de surfaces, échelle typographique, identité du shell.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Plan de travail ───────────────────────────────────────────────────────
+   Le fond n'est plus une couleur plate : une trame très faible (28/1000 de
+   blanc) donne une échelle au canvas et une sensation de plan de travail, sans
+   jamais devenir un motif décoratif lisible. Elle disparaît sous 900 px, où la
+   densité d'information rend toute texture parasite. */
+body {
+  background-color: var(--canvas);
+  background-image:
+    linear-gradient(var(--grid-hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-hairline) 1px, transparent 1px);
+  background-size: 64px 64px, 64px 64px;
+  background-position: -1px -1px, -1px -1px;
+  background-attachment: fixed;
+}
+@media (max-width: 900px) { body { background-image: none; } }
+
+/* ── Shell : le rail devient une surface propre, pas un panneau parmi d'autres */
+.app-rail {
+  background: var(--shell);
+  border-right: 1px solid var(--border);
+  box-shadow: inset -1px 0 0 rgba(255,255,255,.02);
+}
+.rail-top { padding: 16px 14px 10px; }
+
+/* Marque composée : monogramme sur accent + nom + nature du produit. */
+.brand { align-items: center; gap: 11px; }
+.brand-mark {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: var(--grad-accent-edge);
+  border: none; color: var(--accent-ink);
+  box-shadow: 0 6px 18px -8px rgba(139,143,245,.75);
+}
+.brand-text { display: flex; flex-direction: column; gap: 1px; line-height: 1.15; }
+.brand-name { font-size: 15px; letter-spacing: -0.015em; font-weight: 640; color: var(--text); }
+.brand-name b { color: var(--accent); font-weight: 750; }
+.brand-kind {
+  font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--faint);
+}
+
+/* Libellés de groupe intégrés : un filet les rattache à leur section au lieu
+   de les laisser flotter en petites capitales isolées. */
+.nav-sect {
+  display: flex; align-items: center; gap: 8px;
+  margin: 18px 10px 7px; color: var(--faint);
+}
+.nav-sect::after {
+  content: ''; flex: 1; height: 1px; background: var(--border-subtle);
+}
+.nav-sect-toggle::after { display: none; }
+
+/* Item actif : plus seulement un fond teinté — barre d'accent pleine hauteur,
+   gradient local orienté depuis cette barre, et poids typographique. */
+.nav-link { border-radius: 8px; transition: background var(--t), color var(--t); }
+.nav-link.active {
+  background:
+    linear-gradient(90deg, rgba(139,143,245,.17), rgba(139,143,245,.05) 62%, transparent),
+    var(--raised);
+  color: var(--text); font-weight: 600;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+.nav-link.active::before {
+  top: 4px; bottom: 4px; width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--grad-accent-edge);
+  box-shadow: 0 0 14px -2px rgba(139,143,245,.8);
+}
+.rail-search {
+  background: var(--surface); border-color: var(--border);
+  border-radius: 9px;
+}
+.rail-search:hover { background: var(--raised); }
+
+/* ── Typographie : un vrai cran display ────────────────────────────────────
+   La police maximale rendue plafonnait à 28 px, y compris à 1920. Le titre de
+   page devient fluide et resserré ; le sous-titre gagne en largeur de lecture. */
+.page-title {
+  font-size: var(--fs-display-xl);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-display);
+  font-weight: 660;
+}
+.page-head { align-items: flex-end; padding-bottom: var(--sp-6); margin-bottom: var(--sp-6); }
+.page-sub { font-size: var(--fs-ui); max-width: 74ch; margin-top: var(--sp-3); }
+.page-eyebrow { color: var(--faint); }
+.page-eyebrow .sep { color: var(--border-strong); }
+
+/* ── Surfaces : chaque panneau reçoit son gradient local ───────────────────
+   La différence entre deux crans ne repose plus sur la seule luminance. */
+.panel, .ui-panel, .month-block, .synth-table-wrap, .rev-empty, .lx-milestones {
+  background-color: var(--surface);
+  background-image: var(--grad-surface);
+}
+.dash-socle, .track-active {
+  background-color: var(--raised);
+  background-image: var(--grad-raised);
+}
+
+/* ── Focus principal : la seule zone à halo de la page ─────────────────────
+   Surface la plus haute + gradient d'accent directionnel + élévation forte.
+   `--glow-accent` n'apparaît nulle part ailleurs : c'est ce qui en fait un
+   point focal et non un panneau de plus. */
+.ui-focus {
+  background-color: var(--focus-surface);
+  background-image: var(--grad-focus), var(--grad-raised);
+  border: 1px solid var(--border-accent);
+  border-left: 3px solid transparent;
+  border-image: none;
+  box-shadow: var(--glow-accent), var(--shadow-focus);
+  padding: var(--sp-8) var(--sp-8) var(--sp-6);
+  overflow: hidden;
+}
+/* Arête d'accent dessinée plutôt que bordée : elle peut porter un gradient. */
+.ui-focus::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--grad-accent-edge);
+}
+.ui-focus-title {
+  font-size: var(--fs-display-lg);
+  line-height: 1.12;
+  letter-spacing: var(--tracking-title);
+  font-weight: 650;
+  max-width: 22ch;
+}
+.ui-focus-eyebrow { color: var(--accent); }
+.ui-focus-reason { font-size: var(--fs-base); max-width: 62ch; }
+@media (max-width: 560px) { .ui-focus { padding: var(--sp-5) var(--sp-4); } }
+
+/* ── Boutons : l'action principale gagne de la présence ───────────────────*/
+.btn.cta {
+  padding: 12px 22px; font-weight: 660;
+  background: var(--grad-accent-edge);
+  border: none; color: var(--accent-ink);
+  box-shadow: 0 10px 26px -12px rgba(139,143,245,.85);
+}
+.btn.cta:hover { filter: brightness(1.08); box-shadow: 0 14px 32px -12px rgba(139,143,245,.95); }
+.btn.cta:active { filter: brightness(.96); }
+
+/* ── Micro-interactions : transitions de surface uniquement, jamais de décor */
+.ui-panel, .month-block, .track-crow, .day-cell, .nav-link, .btn {
+  transition: background-color var(--t), border-color var(--t), box-shadow var(--t), color var(--t);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-panel, .month-block, .track-crow, .day-cell, .nav-link, .btn { transition: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V55 · CP3-CP5 — DASHBOARD « MISSION CONTROL »
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── HERO : pleine largeur, dominant, une seule zone à halo par page ─────── */
+.ui-hero {
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: 1fr; gap: var(--sp-6);
+  padding: var(--sp-8);
+  margin-bottom: var(--sp-5);
+  border-radius: var(--r-lg);
+  background-color: var(--focus-surface);
+  background-image: var(--grad-focus), var(--grad-raised);
+  border: 1px solid var(--border-accent);
+}
+.ui-hero.tone-accent { box-shadow: var(--glow-accent), var(--shadow-focus); }
+.ui-hero.tone-calm {
+  background-image: var(--grad-raised);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-3);
+}
+/* Arête d'accent : dessinée, donc capable de porter un gradient. */
+.ui-hero::before {
+  content: ''; position: absolute; inset: 0 auto 0 0; width: 3px;
+  background: var(--grad-accent-edge);
+}
+.ui-hero.tone-calm::before { background: var(--border-strong); }
+@media (min-width: 1000px) {
+  .ui-hero { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--sp-10); padding: var(--sp-10); }
+}
+.ui-hero-main { min-width: 0; }
+.ui-hero-top { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-3); }
+.ui-hero-eyebrow {
+  margin: 0; font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--accent);
+}
+.ui-hero-status { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+.ui-hero-title {
+  margin: 0 0 var(--sp-3);
+  font-size: var(--fs-display-lg); line-height: 1.1;
+  letter-spacing: var(--tracking-title); font-weight: 650;
+  max-width: 20ch; text-wrap: balance;
+}
+.ui-hero-lead { margin: 0 0 var(--sp-5); color: var(--muted); font-size: var(--fs-base); max-width: 62ch; }
+.ui-hero-meta {
+  display: flex; align-items: center; gap: var(--sp-3) var(--sp-6); flex-wrap: wrap;
+  margin-bottom: var(--sp-6); padding-top: var(--sp-4);
+  border-top: 1px solid var(--border-subtle);
+}
+.ui-hero-fact { display: inline-flex; flex-direction: column; gap: 3px; min-width: 0; }
+.ui-hero-fact-k {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--faint);
+}
+.ui-hero-fact-v { display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-sm); color: var(--text); font-weight: 550; }
+.ui-hero-actions { display: flex; gap: var(--sp-3); flex-wrap: wrap; }
+.ui-hero-aside { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); flex: none; }
+
+/* Échelle de difficulté réelle (n sur max) — cinq crans, jamais une note. */
+.ui-diff { display: inline-flex; gap: 3px; align-items: center; }
+.ui-diff-step { width: 7px; height: 14px; border-radius: 2px; background: var(--border-strong); }
+.ui-diff-step.on { background: var(--grad-accent-edge); }
+.ui-diff-n { font-variant-numeric: tabular-nums; color: var(--muted); font-size: var(--fs-xs); }
+
+/* Anneau de position (SVG, données réelles uniquement) */
+.pos-ring { width: 168px; height: 168px; display: block; }
+.pos-ring-track { stroke: var(--border); }
+.pos-ring-ticks line { stroke: var(--border-strong); }
+.pos-ring-now { fill: var(--accent); stroke: var(--focus-surface); stroke-width: 3; }
+.pos-ring-day { fill: var(--text); font-size: 34px; font-weight: 660; letter-spacing: -0.02em; }
+.pos-ring-total { fill: var(--faint); font-size: 12px; font-family: var(--font-mono); letter-spacing: .06em; }
+.dash-hero-aside { align-items: center; text-align: center; }
+.dash-hero-nums { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.dash-hero-pct { font-size: var(--fs-h2); font-weight: 660; font-variant-numeric: tabular-nums; color: var(--text); }
+.dash-hero-pctk { font-size: var(--fs-xs); color: var(--muted); }
+
+/* ── CARTE DE TRAJECTOIRE : une piste par mois ──────────────────────────── */
+.tmap { --tcell: 14px; --tgap: 3px; display: flex; flex-direction: column; gap: var(--sp-4); }
+.tmap-grid { display: flex; flex-direction: column; gap: 2px; }
+.tmap-lane {
+  display: grid; grid-template-columns: 118px minmax(0, 1fr) 46px;
+  align-items: center; gap: var(--sp-3);
+  padding: 3px var(--sp-2); border-radius: var(--r-sm);
+}
+.tmap-lane:hover { background: rgba(255,255,255,.022); }
+.tmap-lane-head { display: flex; align-items: baseline; gap: 7px; min-width: 0; }
+.tmap-lane-m {
+  font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 600;
+  color: var(--text); flex: none; width: 26px;
+}
+.tmap-lane-t { font-size: var(--fs-xs); color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tmap-lane-n { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--faint); text-align: right; font-variant-numeric: tabular-nums; }
+.tmap-cells { display: grid; grid-template-columns: repeat(var(--tmap-cols, 35), minmax(0, 1fr)); gap: var(--tgap); min-width: 0; }
+.tmap-cell-wrap, .tmap-cell-empty { display: block; aspect-ratio: 1 / 1; min-width: 0; }
+.tmap-cell-empty { border-radius: 3px; background: rgba(255,255,255,.018); }
+.tmap-cell {
+  display: block; width: 100%; height: 100%; border-radius: 3px;
+  background: var(--interactive); border: 1px solid transparent;
+}
+.tmap-cell:hover, .tmap-cell:focus-visible { outline: 2px solid var(--text); outline-offset: 1px; }
+.tmap-cell.s-done { background: color-mix(in srgb, var(--ok) 62%, var(--canvas)); }
+.tmap-cell.s-in-progress { background: color-mix(in srgb, var(--accent) 66%, var(--canvas)); }
+.tmap-cell.s-to-review { background: color-mix(in srgb, var(--warn) 58%, var(--canvas)); }
+.tmap-cell.s-not-started { background: var(--interactive); }
+.tmap-cell.rev { border-color: var(--border-strong); border-style: dashed; }
+.tmap-cell.now { box-shadow: 0 0 0 2px var(--accent), 0 0 16px -2px rgba(139,143,245,.9); position: relative; z-index: 1; }
+.tmap-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap;
+  padding-top: var(--sp-3); border-top: 1px solid var(--border-subtle); }
+.tmap-legend { margin: 0; }
+.tmap-hint { font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--faint); }
+@media (max-width: 760px) {
+  .tmap-lane { grid-template-columns: 62px minmax(0, 1fr); gap: var(--sp-2); }
+  .tmap-lane-t, .tmap-lane-n { display: none; }
+}
+
+.dash-socle-note { margin: 0; font-size: var(--fs-xs); color: var(--faint); }
+.dash-socle-head { align-items: baseline; }
+
+/* ── Barre d'accès rapides : pleine largeur, poids faible ───────────────── */
+.dash-quickbar {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px;
+  margin-top: var(--sp-6);
+  background: var(--border-subtle);
+  border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+}
+@media (min-width: 700px) { .dash-quickbar { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.dash-quicklink {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  padding: 15px var(--sp-4); background: var(--surface);
+  color: var(--muted); font-size: var(--fs-sm); font-weight: 550;
+}
+.dash-quicklink:hover { background: var(--raised); color: var(--text); text-decoration: none; }
+.dash-quicklink svg { color: var(--accent); }
+
+/* Le contexte du mois vit désormais dans le rail : le rail a trois familles
+   réelles, et la colonne droite ne se vide plus (déséquilibre mesuré à 516 px
+   en V54.2.1). */
+.dash-context { margin-bottom: var(--sp-5); }
+
+/* ── Ajustements V55 issus de l'INSPECTION des captures (pas des métriques) ─ */
+
+/* 1. Le titre du hero se repliait sur 4 lignes (max-width 20ch) et laissait un
+      couloir vide entre la colonne de texte et l'aparté. La colonne de texte
+      reprend sa largeur, l'aparté est borné. */
+.ui-hero-title { max-width: 26ch; }
+@media (min-width: 1000px) {
+  .ui-hero { grid-template-columns: minmax(0, 1fr) 210px; gap: var(--sp-8); align-items: start; }
+  .ui-hero-aside { position: sticky; top: var(--sp-6); padding-top: var(--sp-2); }
+}
+@media (min-width: 1500px) { .ui-hero { grid-template-columns: minmax(0, 1fr) 240px; } }
+
+/* 2. L'anneau était trop discret à 0 % : la piste et les graduations manquaient
+      de présence, et le halo du repère de position ne se voyait pas. */
+.pos-ring-track { stroke: rgba(255,255,255,.07); }
+.pos-ring-ticks line { stroke: var(--border-strong); }
+.pos-ring-now { filter: drop-shadow(0 0 6px rgba(139,143,245,.9)); }
+.dash-hero-aside {
+  padding: var(--sp-4); border-radius: var(--r-lg);
+  background: rgba(255,255,255,.025); border: 1px solid var(--border-subtle);
+}
+
+/* 3. Les noms de mois de la carte étaient tronqués trop tôt. */
+@media (min-width: 1200px) { .tmap-lane { grid-template-columns: 168px minmax(0, 1fr) 46px; } }
+@media (min-width: 1700px) { .tmap-lane { grid-template-columns: 220px minmax(0, 1fr) 52px; } }
+.tmap { --tgap: 4px; }
+
+/* 4. Rythme vertical du rail : le libellé de la marque est passé sur deux
+      lignes, la liste de navigation gagne la place correspondante. */
+.rail-top { padding: 14px 14px 10px; }
+
+/* 5. Les cellules « à venir » de la carte étaient presque invisibles sur la
+      surface élevée (--interactive sur --raised, écart de luminance trop
+      faible à cette taille). Elles reçoivent un fond plus affirmé et un filet,
+      et les pistes gagnent de la hauteur : la carte devient lisible ET remplit
+      la colonne principale au lieu de laisser un vide sous elle. */
+.tmap-cell.s-not-started, .tmap-cell {
+  background: #2b3242;
+  border-color: rgba(255,255,255,.05);
+}
+.tmap-cell-empty { background: rgba(255,255,255,.03); }
+.tmap-cell-wrap, .tmap-cell-empty { min-height: 17px; }
+.tmap-lane { padding: 5px var(--sp-2); }
+.tmap-lane-m { font-size: var(--fs-sm); }
+.tmap-lane-t { font-size: var(--fs-sm); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V55 · CP6-CP8 — PARCOURS : hero éditorial, roadmap, comparaison
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Bande de stack sous le hero : dense, poids faible, jamais un pavé de cards. */
+.track-techbar {
+  display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;
+  padding: 10px var(--sp-4); margin-bottom: var(--sp-6);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+}
+.track-techbar-k {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--faint); margin-right: var(--sp-2);
+}
+.track-scope { font-size: .85em; font-weight: 400; color: var(--muted); }
+
+/* Roadmap : un vrai rail de progression relie les modules. L'état n'est plus
+   porté par la seule pastille — le module courant est surélevé, les modules
+   terminés reçoivent une arête pleine, les modules à venir restent en retrait. */
+.track-active { padding: var(--sp-6); border-radius: var(--r-lg); border: 1px solid var(--border); }
+.track-roadmap { position: relative; }
+.track-roadmap::before {
+  content: ''; position: absolute; left: 10px; top: 10px; bottom: 10px; width: 2px;
+  background: linear-gradient(180deg, var(--border-strong), var(--border-subtle));
+}
+.track-step { position: relative; padding: var(--sp-3) 0; }
+.track-step-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--surface); border: 2px solid var(--border-strong); display: block;
+  position: relative; z-index: 1;
+}
+.track-step.is-done .track-step-dot { background: var(--ok); border-color: var(--ok); }
+.track-step.is-started .track-step-dot { background: var(--info); border-color: var(--info); }
+.track-step.is-current .track-step-dot {
+  background: var(--accent); border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(139,143,245,.18), 0 0 14px -1px rgba(139,143,245,.9);
+}
+.track-step.is-current .track-step-body {
+  background: var(--raised); background-image: var(--grad-raised);
+  border: 1px solid var(--border-accent); border-radius: var(--r);
+  padding: var(--sp-4); margin: calc(var(--sp-2) * -1) 0;
+  box-shadow: var(--shadow-2);
+}
+.track-step-n {
+  font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.track-step-title { font-weight: 600; font-size: var(--fs-ui); }
+.track-step.is-upcoming .track-step-title { color: var(--muted); font-weight: 550; }
+
+/* Comparaison des alternatives : rangées denses, jamais des pavés de prose. */
+.track-crow {
+  background: var(--surface); background-image: var(--grad-surface);
+  border: 1px solid var(--border); border-radius: var(--r);
+}
+.track-crow:hover { border-color: var(--border-strong); background-color: var(--raised); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V55 · CP9-CP11 — SYNTHÈSE · CALENDRIER · RÉVISIONS
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Synthèse : la table reste, mais cesse d'être une UI d'administration.
+   Rangées plus hautes, ligne active surélevée avec arête d'accent, barres de
+   progression au gradient d'identité. */
+.synth-table tbody tr { transition: background-color var(--t); }
+.synth-table tbody tr:hover { background: rgba(255,255,255,.022); }
+.synth-table tbody td, .synth-table tbody th { padding-top: 14px; padding-bottom: 14px; }
+.synth-table tbody tr.is-active { background: rgba(139,143,245,.06); }
+.synth-table tbody tr.is-active th[scope="row"] { box-shadow: inset 3px 0 0 var(--accent); }
+.synth-table tbody tr.is-active .synth-td-title { color: var(--text); font-weight: 620; }
+.synth-bar { background: var(--interactive); border-radius: var(--r-pill); overflow: hidden; }
+.synth-bar > span { background: var(--grad-accent-edge); }
+.synth-table thead th {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--faint);
+}
+
+/* ── Calendrier : distinction forte entre mois, continuité temporelle.
+   L'ORDRE reste intangible (contrat V54.2.1) : rien ici ne touche au flux —
+   ni colonnes CSS, ni réordonnancement, uniquement l'apparence des blocs. */
+.month-block {
+  padding: 0; overflow: hidden;
+  border-color: var(--border);
+  background-color: var(--surface); background-image: var(--grad-surface);
+}
+.month-block:hover { border-color: var(--border-strong); }
+.month-head {
+  display: flex; align-items: center; gap: var(--sp-3);
+  margin: 0; padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  border-bottom: none;
+}
+.month-no {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 46px; height: 46px; flex: none; border-radius: var(--r);
+  background: var(--raised); border: 1px solid var(--border-strong); color: var(--text);
+}
+.month-no:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.month-no-k {
+  font-family: var(--font-mono); font-size: 8.5px; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--faint); line-height: 1;
+}
+.month-no-v { font-size: 20px; font-weight: 680; line-height: 1.1; letter-spacing: -0.02em; }
+.month-head-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.month-title { font-size: var(--fs-sm); color: var(--text); font-weight: 550; }
+.month-count { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--faint); }
+/* Repère de progression du mois : une seule barre, pleine largeur du bloc. */
+.month-bar { height: 3px; background: var(--border-subtle); }
+.month-bar > span { display: block; height: 100%; background: var(--grad-accent-edge); }
+.cal-week { margin: 0; padding: var(--sp-3) var(--sp-4) 0; }
+.cal-week:last-child { padding-bottom: var(--sp-4); }
+.week-label { display: block; margin-bottom: 6px; }
+.day-cell {
+  background: var(--raised); border-color: var(--border);
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--faint);
+}
+.day-cell:hover { background: var(--interactive); border-color: var(--accent); color: var(--text); }
+
+/* ── Révisions : la file gagne la profondeur du reste du produit. */
+.rev-empty { background-color: var(--raised); background-image: var(--grad-raised); }
+.rev-empty-act { background: var(--focus-surface); border-color: var(--border-accent); }
+.rev-step-n { background: var(--raised); }
+
+/* Relevé à l'inspection des captures V55 : les rangées de la Synthèse ayant
+   gagné en hauteur, la colonne « Révisions » s'est resserrée et la césure de
+   secours coupait le mot (« RÉVISION / S »). La largeur d'en-tête suit le plus
+   long libellé à cette graisse et cet interlettrage. */
+@media (min-width: 1440px) {
+  .synth-table thead th.num { max-width: 104px; }
 }

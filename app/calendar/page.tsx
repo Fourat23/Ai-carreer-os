@@ -5,7 +5,8 @@ import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
 import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { buildCalendar } from '@/lib/calendar-model';
 import { curriculumPartition } from '@/lib/curriculum-partition';
-import { PageHeader, Status, InlineNotice } from '@/app/ui';
+import { progressPosition } from '@/lib/position';
+import { PageHeader, Status, InlineNotice, HeroFocus, HeroFact } from '@/app/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,6 +23,22 @@ export default function CalendarPage() {
   const part = curriculumPartition(program, trackDays.map((d) => d.day));
   const monthTitle = new Map(program.months.map((m) => [m.month, m.title]));
   const outside = part.before + part.interleaved + part.after;
+  // Avancement PAR MOIS, dérivé des journées réellement terminées du parcours.
+  // Aucune agrégation nouvelle : même statut, même source que partout ailleurs.
+  // Position réelle sur le parcours (même read-model que le Dashboard).
+  const resumeDay = trackDays.length ? progressPosition(trackDays, progress).resumeDay : 1;
+  const currentMonth = program.months.find((m) => m.month === program.days.find((d) => d.day === resumeDay)?.month);
+  const doneTotal = trackDays.filter((d) => progress.days[String(d.day)]?.status === 'done').length;
+  const monthDone = new Map<number, number>();
+  const monthTotal = new Map<number, number>();
+  const monthPct = new Map<number, number>();
+  for (const mb of cal.months) {
+    const days = mb.weeks.flatMap((w) => w.days);
+    const done = days.filter((d) => progress.days[String(d.day)]?.status === 'done').length;
+    monthDone.set(mb.month, done);
+    monthTotal.set(mb.month, days.length);
+    monthPct.set(mb.month, days.length ? Math.round((done / days.length) * 100) : 0);
+  }
 
   return (
     <>
@@ -36,6 +53,28 @@ export default function CalendarPage() {
           />
         }
       />
+
+      {/* ── HERO du calendrier (V55) : la page avait 12 blocs strictement
+          équivalents (dominance mesurée 0,089, rapport 1er/2e = 1,00) et aucune
+          action. Le hero donne un point d'entrée réel — le mois courant, la
+          position, et l'accès direct à la journée de reprise. */}
+      <div className="page-wide">
+        <HeroFocus
+          tone="calm"
+          eyebrow={<>Parcours actif <span className="sep">·</span> {activeTrack.title}</>}
+          title={currentMonth ? `Mois ${currentMonth.month} — ${currentMonth.title}` : 'Calendrier du parcours'}
+          lead={currentMonth?.summary}
+          meta={
+            <>
+              <HeroFact k="Position">jour {resumeDay} sur {part.inTrack}</HeroFact>
+              <HeroFact k="Couverture">{part.inTrack} des {part.total} jours du programme</HeroFact>
+              <HeroFact k="Mois">{part.monthsCovered.length} sur {part.monthsTotal}</HeroFact>
+              <HeroFact k="Terminées">{doneTotal} journées</HeroFact>
+            </>
+          }
+          actions={<Link className="btn cta" href={`/day/${resumeDay}`}>Ouvrir le jour {resumeDay}</Link>}
+        />
+      </div>
 
       {/* Réconciliation explicite : la somme des catégories vaut TOUJOURS le total.
           Avant V54.2.1, seuls les jours « intercalés » étaient comptés, et ceux
@@ -68,10 +107,25 @@ export default function CalendarPage() {
       <div className="cal-months page-wide">
         {cal.months.map((mb) => (
           <section key={mb.month} className="month-block" data-calendar-month={mb.month}>
+            {/* V55 — l'en-tête de mois porte désormais son propre repère de
+                progression, dérivé des journées réellement terminées. Il donne
+                une distinction forte entre mois et rend les mois peu couverts
+                lisibles sans inventer de journées. */}
             <h2 className="month-head">
-              <Link href={`/month/${mb.month}`} className="month-no">Mois {mb.month}</Link>
-              <span className="month-title">{monthTitle.get(mb.month)}</span>
+              <Link href={`/month/${mb.month}`} className="month-no">
+                <span className="month-no-k">Mois</span>
+                <span className="month-no-v">{mb.month}</span>
+              </Link>
+              <span className="month-head-body">
+                <span className="month-title">{monthTitle.get(mb.month)}</span>
+                <span className="month-count">
+                  {monthDone.get(mb.month) ?? 0} / {monthTotal.get(mb.month) ?? 0} journées terminées
+                </span>
+              </span>
             </h2>
+            <div className="month-bar" aria-hidden="true">
+              <span style={{ width: `${monthPct.get(mb.month) ?? 0}%` }} />
+            </div>
             {mb.weeks.map((wb) => (
               <div key={wb.week} className="cal-week" data-calendar-week={wb.week}>
                 <Link href={`/week/${wb.week}`} className="week-label">Semaine {wb.week}</Link>

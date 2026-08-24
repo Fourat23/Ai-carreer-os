@@ -5,7 +5,7 @@ import { getTrack, getTrackModules, isTrackAvailable, resolveTrackDayObjects } f
 import { getActiveTrackId, readProgress } from '@/lib/progress-server';
 import { progressPosition } from '@/lib/position';
 import { curriculumPartition } from '@/lib/curriculum-partition';
-import { PageHeader, Status, ProgressRail } from '@/app/ui';
+import { PageHeader, Status, HeroFocus, HeroFact, PositionRing } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import TrackActions from './TrackActions';
 
@@ -51,6 +51,7 @@ export default function ParcoursPage() {
   const currentMod = mods.find((x) => x.state === 'current');
   const nextMod = currentMod ? mods.find((x) => x.i === currentMod.i + 1) : undefined;
   const doneMods = mods.filter((x) => x.state === 'done').length;
+  const pct = pos.total ? (pos.currentProgressPosition / pos.total) * 100 : 0;
 
   return (
     <>
@@ -60,47 +61,53 @@ export default function ParcoursPage() {
         sub="Ta trajectoire actuelle, module par module — et les alternatives si tu veux changer de cap."
       />
 
-      {/* Parcours actif — roadmap dominante */}
+      {/* ── HERO ÉDITORIAL du parcours actif (V55).
+          Ton `calm` : c'est un hero de contexte, pas un focus d'action — le halo
+          d'accent reste réservé au Dashboard, une seule zone par page.
+          Le CTA reste DANS ce bloc (acquis V54.2.1), aux côtés de la progression
+          et de la prochaine étape qui le justifient. */}
+      <HeroFocus
+        tone="calm"
+        eyebrow={<>Parcours actif <span className="sep">·</span> v{active.version}</>}
+        status={<TrackActions trackId={active.id} active available={isTrackAvailable(active)} />}
+        title={active.title}
+        lead={active.goal}
+        meta={
+          <>
+            <HeroFact k="Durée">{part.inTrack} jours{partial ? <span className="track-scope"> / {part.total}</span> : null}</HeroFact>
+            <HeroFact k="Modules">{doneMods} terminés sur {mods.length}</HeroFact>
+            <HeroFact k="Position">jour {pos.resumeDay} sur {pos.total}</HeroFact>
+            {(currentMod ?? nextMod) && (
+              <HeroFact k="Prochaine étape">{(currentMod ?? nextMod)!.m.title}</HeroFact>
+            )}
+          </>
+        }
+        actions={<Link className="btn cta" href={`/day/${pos.resumeDay}`}>Continuer — jour {pos.resumeDay}</Link>}
+        aside={
+          <div className="dash-hero-aside">
+            <PositionRing percent={pct} day={pos.resumeDay} total={pos.total}
+              months={part.monthsCovered.length || part.monthsTotal} label="Position dans le parcours" />
+            <div className="dash-hero-nums">
+              <span className="dash-hero-pct">{Math.round(pct)}%</span>
+              <span className="dash-hero-pctk">du parcours parcouru</span>
+            </div>
+          </div>
+        }
+      />
+
+      {/* Technologies du parcours — bande dense sous le hero */}
+      <div className="track-techbar" aria-label="Technologies du parcours">
+        <span className="track-techbar-k">Stack</span>
+        {active.technologies.slice(0, 14).map((id) => <span key={id} className="badge">{techName(id)}</span>)}
+      </div>
+
       <section className="track-active">
-        <div className="track-active-head">
-          <div>
-            <p className="dpx-eyebrow">Parcours actif · v{active.version}</p>
-            <h2 className="track-title">{active.title}</h2>
-          </div>
-          <TrackActions trackId={active.id} active available={isTrackAvailable(active)} />
-        </div>
-        <p className="track-goal">{active.goal}</p>
-        <div className="track-techs">
-          {active.technologies.slice(0, 12).map((id) => <span key={id} className="badge">{techName(id)}</span>)}
-        </div>
-
-        {/* Avancement + ACTION PRINCIPALE, dans le même bloc que le parcours actif.
-            V54.2.1 : le CTA « Continuer » vivait dans l'en-tête de page, à 107 px
-            (mesurés, à 1440) du bloc qu'il concerne — il flottait hors de son
-            contexte. Il est désormais rattaché à la progression et à la prochaine
-            étape, c'est-à-dire aux informations qui le justifient. */}
-        <div className="track-progress track-resume">
-          <ProgressRail
-            percent={pos.total ? (pos.currentProgressPosition / pos.total) * 100 : 0}
-            sub={<>{doneMods}/{mods.length} modules terminés · jour {pos.resumeDay} / {pos.total}{partial ? ` (sur ${part.total} au programme)` : ''}</>}
-          />
-          <div className="track-resume-act">
-            {nextMod || currentMod ? (
-              <p className="track-resume-next">
-                <span className="track-resume-k">Prochaine étape</span>
-                {(currentMod ?? nextMod)!.m.title}
-              </p>
-            ) : null}
-            <Link className="btn cta" href={`/day/${pos.resumeDay}`}>Continuer — jour {pos.resumeDay}</Link>
-          </div>
-        </div>
-
-        <div className="section-head" style={{ marginTop: 'var(--sp-6)' }}>
+        <div className="section-head">
           <span className="section-label">Roadmap</span>
-          <h3 className="section-title">
+          <h2 className="section-title">
             {modules.length} modules · {part.inTrack} jours
             {partial && <span className="track-scope"> sur les {part.total} du programme</span>}
-          </h3>
+          </h2>
           <span className="section-note">état dérivé de tes journées terminées</span>
         </div>
 

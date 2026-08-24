@@ -22,3 +22,5 @@ export type { Phase } from './PhaseRail';
 export { EvidenceMark, evidenceLabel } from './EvidenceMark';
 export { YearBand } from './YearBand';
 export type { BandDay } from './YearBand';
+export { SurfaceHead } from './SurfaceHead';
+export type { SurfaceKind, SurfaceFact } from './SurfaceHead';

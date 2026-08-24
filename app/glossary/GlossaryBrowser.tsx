@@ -9,6 +9,27 @@ import type { GlossaryEntry, GlossaryCategory } from '@/lib/glossary-core';
 const ALPHABET = ['#', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')];
 type View = 'compact' | 'detailed';
 
+// V58 · CP2 — Le glossaire devient un EXPLORATEUR À DEUX VOLETS.
+//
+// Cause établie au CP0 : la capacité de filtrage existait déjà (recherche,
+// catégorie, niveau, index A-Z) et fonctionnait. Ce qui manquait n'était pas
+// « chercher » mais « SCANNER » : 711 entrées rendues en cartes pleine largeur
+// de ~157 px, soit 111 686 px de page. On ne parcourt pas un index de
+// connaissances en faisant défiler 78 écrans.
+//
+// Modèle retenu : INDEX → TROUVER → COMPRENDRE → RELIER.
+//   · INDEX     — rail alphabétique + filtres, inchangés dans leur logique.
+//   · TROUVER   — une LISTE DENSE de lignes de ~36 px, groupées par lettre
+//                 avec en-têtes collants, dans une région défilante bornée.
+//   · COMPRENDRE— un volet de détail qui montre l'entrée sélectionnée en
+//                 entier, sans faire défiler la liste.
+//   · RELIER    — les termes liés et les journées associées restent des
+//                 actions du volet, et sélectionnent la cible dans la liste.
+//
+// Aucune donnée supprimée, aucune pagination artificielle : les 711 entrées
+// restent toutes atteignables, et le mode « Détaillé » reste disponible pour
+// qui veut la lecture longue.
+
 export default function GlossaryBrowser({
   entries, categories,
 }: {
@@ -21,6 +42,7 @@ export default function GlossaryBrowser({
   const [letter, setLetter] = useState('');
   const [view, setView] = useState<View>('compact');
   const [focusId, setFocusId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
 
   const catLabel = useMemo(() => {
@@ -69,6 +91,24 @@ export default function GlossaryBrowser({
     return sortEntries(r);
   }, [entries, query, category, level, letter]);
 
+  // Groupement par lettre initiale — dérivé des données, pas d'un tri inventé.
+  const groups = useMemo(() => {
+    const m = new Map<string, GlossaryEntry[]>();
+    for (const e of results) {
+      const L = firstLetter(e);
+      if (!m.has(L)) m.set(L, []);
+      m.get(L)!.push(e);
+    }
+    return [...m.entries()].map(([letter, items]) => ({ letter, items }));
+  }, [results]);
+
+  // Entrée affichée dans le volet. Par défaut la première du résultat : le
+  // volet n'est jamais un vide décoratif dès qu'il y a quelque chose à montrer.
+  const selected = useMemo(() => {
+    if (selectedId) return results.find((e) => e.id === selectedId) ?? entries.find((e) => e.id === selectedId) ?? null;
+    return results[0] ?? null;
+  }, [selectedId, results, entries]);
+
   // Défilement vers une entrée ciblée via un terme lié.
   const listRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -78,12 +118,15 @@ export default function GlossaryBrowser({
   }, [focusId, results]);
 
   function jumpTo(id: string) {
-    // On efface les filtres pour garantir que l'entrée ciblée est visible, puis on la focalise.
+    // On efface les filtres pour garantir que l'entrée ciblée est atteignable,
+    // puis on l'ouvre dans le volet de détail : « RELIER » ne doit pas coûter
+    // un défilement de plusieurs écrans.
     setQuery('');
     setCategory('');
     setLevel('');
     setLetter('');
     setFocusId(id);
+    setSelectedId(id);
   }
 
   function reset() {
@@ -92,6 +135,7 @@ export default function GlossaryBrowser({
     setLevel('');
     setLetter('');
     setFocusId(null);
+    setSelectedId(null);
   }
 
   const hasFilters = Boolean(query || category || level || letter);
@@ -152,32 +196,74 @@ export default function GlossaryBrowser({
         ))}
       </div>
 
-      <div className="gloss-meta">
-        <span aria-live="polite">
-          <strong>{results.length}</strong> terme{results.length > 1 ? 's' : ''}
-          {hasFilters ? ' (filtré)' : ` sur ${entries.length}`}
-        </span>
-        {hasFilters && <button type="button" className="btn small" onClick={reset}>Effacer les filtres</button>}
-      </div>
-
-      <div ref={listRef}>
-        {results.length === 0 ? (
-          <div className="card gloss-empty">
-            <p><strong>Aucun terme ne correspond.</strong></p>
-            <p>Essaie un autre mot-clé, ou <button type="button" className="btn small" onClick={reset}>réinitialise les filtres</button>.</p>
+      {/* ── TROUVER + COMPRENDRE : liste dense et volet de détail ────────── */}
+      <div className="gl-explorer">
+        <div className="gl-list-col">
+          <div className="gl-count" aria-live="polite">
+            <span><strong>{results.length}</strong> terme{results.length > 1 ? 's' : ''}
+              {hasFilters ? ' (filtré)' : ` sur ${entries.length}`}</span>
+            {hasFilters && <button type="button" className="btn small ghost" onClick={reset}>Effacer</button>}
           </div>
-        ) : (
-          results.map((e) => (
-            <GlossaryCard
-              key={e.id}
-              entry={e}
-              view={view}
-              focused={focusId === e.id}
-              catLabel={catLabel}
-              termById={termById}
-              onRelated={jumpTo}
-            />
-          ))
+
+          {results.length === 0 ? (
+            <p className="gl-empty">
+              Aucun terme ne correspond. Essaie un autre mot-clé, ou{' '}
+              <button type="button" className="lk" onClick={reset}>réinitialise les filtres</button>.
+            </p>
+          ) : view === 'detailed' ? (
+            /* Mode « Détaillé » conservé : lecture longue, une entrée après
+               l'autre. C'est un choix de l'utilisateur, pas le défaut. */
+            <div className="gl-longform" ref={listRef}>
+              {results.map((e) => (
+                <GlossaryCard key={e.id} entry={e} view="detailed" focused={focusId === e.id}
+                  catLabel={catLabel} termById={termById} onRelated={jumpTo} />
+              ))}
+            </div>
+          ) : (
+            <div className="gl-scroll" ref={listRef}
+              role="region" aria-label={`Liste des termes — ${results.length} résultats`}>
+              <ol className="gl-rows">
+                {groups.map((g) => (
+                  <li key={g.letter} className="gl-group">
+                    <p className="gl-group-h" aria-hidden="true">{g.letter}</p>
+                    <ol className="gl-group-rows">
+                      {g.items.map((e) => (
+                        <li key={e.id} id={`gloss-${e.id}`}
+                          className={`gl-row${selectedId === e.id ? ' is-sel' : ''}${focusId === e.id ? ' is-focus' : ''}`}>
+                          <button type="button" className="gl-row-btn"
+                            aria-current={selectedId === e.id ? 'true' : undefined}
+                            onClick={() => { setSelectedId(e.id); setFocusId(null); }}>
+                            <span className="gl-row-term">
+                              {e.term}
+                              {e.fullForm && <span className="gl-row-full">{e.fullForm}</span>}
+                            </span>
+                            <span className="gl-row-fr">{e.frenchMeaning}</span>
+                            <span className={`gl-row-lvl l-${levelClass(e.level)}`}>{e.level}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ol>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+        </div>
+
+        {view === 'compact' && (
+          <aside className="gl-detail-col" aria-label="Détail du terme sélectionné">
+            {selected ? (
+              <GlossaryDetail entry={selected} catLabel={catLabel} termById={termById} onRelated={jumpTo} />
+            ) : (
+              <div className="gl-detail-void">
+                <p className="gl-detail-void-t">Sélectionne un terme</p>
+                <p className="gl-detail-void-d">
+                  Chaque entrée dit ce que le terme veut dire, dans quel contexte on l’emploie,
+                  ce qu’on entend en réunion, et à quoi ne pas le confondre.
+                </p>
+              </div>
+            )}
+          </aside>
         )}
       </div>
     </>
@@ -190,18 +276,19 @@ function levelClass(level: string): string {
   return 'accent';
 }
 
-function GlossaryCard({
-  entry, view, focused, catLabel, termById, onRelated,
+// V58 · CP2 — Le corps de détail est extrait pour être partagé par le VOLET
+// (mode compact) et par la lecture longue (mode détaillé). Une seule source de
+// rendu : le volet ne peut pas diverger de la fiche.
+function GlossaryDetailBody({
+  entry, catLabel, termById, onRelated,
 }: {
   entry: GlossaryEntry;
-  view: View;
-  focused: boolean;
   catLabel: (id: string) => string;
   termById: (id: string) => string;
   onRelated: (id: string) => void;
 }) {
   const ambiguous = isAmbiguous(entry);
-  const detail = (
+  return (
     <div className="gloss-detail">
       <Field k="Explication détaillée" v={entry.detailedDefinition} />
       <Field k="Contexte d'utilisation" v={entry.usageContext} />
@@ -210,12 +297,12 @@ function GlossaryCard({
 
       {ambiguous && (entry.senses?.length ?? 0) > 0 && (
         <div className="gloss-field">
-          <span className="k">Sens multiples (attention à l'ambiguïté)</span>
-          {entry.senses!.map((s, i) => (
+          <span className="k">Sens multiples (attention à l&apos;ambiguïté)</span>
+          {entry.senses!.map((sn, i) => (
             <div key={i} className="gloss-sense">
-              <div className="s-meaning">{s.meaning}</div>
-              <div className="s-dom">Domaine : {s.domain} — indice : {s.hint}</div>
-              <div className="v example">« {s.example} »</div>
+              <div className="s-meaning">{sn.meaning}</div>
+              <div className="s-dom">Domaine : {sn.domain} — indice : {sn.hint}</div>
+              <div className="v example">« {sn.example} »</div>
             </div>
           ))}
         </div>
@@ -252,28 +339,70 @@ function GlossaryCard({
           </div>
         </div>
       )}
+      <p className="gloss-cat-note">
+        {catLabel(entry.category)} · niveau {entry.level}
+      </p>
     </div>
   );
+}
+
+/** Volet de détail collant : l'entrée sélectionnée, en entier, sans défiler la liste. */
+function GlossaryDetail({
+  entry, catLabel, termById, onRelated,
+}: {
+  entry: GlossaryEntry;
+  catLabel: (id: string) => string;
+  termById: (id: string) => string;
+  onRelated: (id: string) => void;
+}) {
+  const ambiguous = isAmbiguous(entry);
+  return (
+    <div className="gl-detail">
+      <header className="gl-detail-head">
+        <h2 className="gl-detail-term">{entry.term}</h2>
+        {entry.fullForm && <p className="gl-detail-full">{entry.fullForm}</p>}
+        <p className="gl-detail-fr">{entry.frenchMeaning}</p>
+        <div className="gl-detail-marks">
+          <span className="cat-tag">{catLabel(entry.category)}</span>
+          <span className={`cat-tag l-${levelClass(entry.level)}`}>{entry.level}</span>
+          {ambiguous && <span className="cat-tag l-review" title="Ce terme a plusieurs sens">ambigu</span>}
+        </div>
+      </header>
+      <p className="gl-detail-short">{entry.shortDefinition}</p>
+      <GlossaryDetailBody entry={entry} catLabel={catLabel} termById={termById} onRelated={onRelated} />
+    </div>
+  );
+}
+
+function GlossaryCard({
+  entry, view, focused, catLabel, termById, onRelated,
+}: {
+  entry: GlossaryEntry;
+  view: View;
+  focused: boolean;
+  catLabel: (id: string) => string;
+  termById: (id: string) => string;
+  onRelated: (id: string) => void;
+}) {
+  const ambiguous = isAmbiguous(entry);
+  const detail = <GlossaryDetailBody entry={entry} catLabel={catLabel} termById={termById} onRelated={onRelated} />;
 
   return (
-    <div id={`gloss-${entry.id}`} className={`card gloss-entry ${focused ? 'focused' : ''}`}>
+    <div id={`gloss-${entry.id}`} className={`gloss-entry ${focused ? 'focused' : ''}`}>
       <div className="gloss-head">
         <h3 className="gloss-term">
           {entry.term}
           {entry.fullForm && <span className="full">{entry.fullForm}</span>}
         </h3>
         <div className="gloss-badges">
-          <span className="badge accent">{catLabel(entry.category)}</span>
-          <span className={`badge ${levelClass(entry.level)}`}>{entry.level}</span>
-          {ambiguous && <span className="badge warn" title="Cet acronyme/terme a plusieurs sens">ambigu</span>}
+          <span className="cat-tag">{catLabel(entry.category)}</span>
+          <span className={`cat-tag l-${levelClass(entry.level)}`}>{entry.level}</span>
+          {ambiguous && <span className="cat-tag l-review" title="Ce terme a plusieurs sens">ambigu</span>}
         </div>
       </div>
       <div className="gloss-fr">{entry.frenchMeaning}</div>
       <p className="gloss-short">{entry.shortDefinition}</p>
-
-      {view === 'detailed' || focused ? (
-        detail
-      ) : (
+      {view === 'detailed' || focused ? detail : (
         <details className="gloss-more">
           <summary>Détails, exemple, ambiguïtés et termes liés</summary>
           {detail}
@@ -284,10 +413,16 @@ function GlossaryCard({
 }
 
 function Field({ k, v, example }: { k: string; v: string; example?: boolean }) {
+  // V58 · CP2 — Certaines entrées du corpus portent DÉJÀ leurs guillemets ;
+  // le gabarit en ajoutait une seconde paire (« « … » »). Vu en ouvrant la
+  // capture, pas dans la mesure. Le contenu n'est pas modifié : on n'ajoute
+  // les guillemets que s'ils sont absents.
+  const t = String(v ?? '').trim();
+  const quoted = /^[«"'']/.test(t);
   return (
     <div className="gloss-field">
       <span className="k">{k}</span>
-      <span className={`v${example ? ' example' : ''}`}>{example ? `« ${v} »` : v}</span>
+      <span className={`v${example ? ' example' : ''}`}>{example && !quoted ? `« ${t} »` : t}</span>
     </div>
   );
 }

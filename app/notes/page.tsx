@@ -32,16 +32,6 @@ export default function NotesPage() {
           </>
         }
       />
-      <div className="page-head" hidden>
-        <div className="page-head-main">
-          <p className="page-eyebrow">Journal <span className="sep">/</span> {entries.length} {entries.length > 1 ? 'entrées' : 'entrée'}</p>
-          <h1 className="page-title">Notes</h1>
-          <p className="page-sub">
-            Toutes tes notes personnelles et tes réponses, agrégées depuis les vues Jour.
-            Ton journal d'apprentissage — relis-le aux bilans.
-          </p>
-        </div>
-      </div>
 
       {entries.length === 0 ? (
         <div className="empty">

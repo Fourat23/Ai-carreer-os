@@ -40,19 +40,6 @@ export default function CapstonesPage() {
           </>
         }
       />
-      <div className="page-head" hidden>
-        <div className="page-head-main">
-          <p className="page-eyebrow">Apprendre <span className="sep">/</span> simulation professionnelle</p>
-          <h1 className="page-title">Capstones</h1>
-          <p className="page-sub">
-            Des situations d'ingénieur réalistes : tu reçois un signal, tu explores des artefacts (signal
-            et bruit), tu formules des hypothèses, tu diagnostiques par les preuves, tu décides et tu
-            valides.
-            <span className="synth-ro"><Eye size={13} strokeWidth={2} /> Correction locale et déterministe ·
-            infrastructures SIMULÉES · un score est un indice de raisonnement, pas une maîtrise.</span>
-          </p>
-        </div>
-      </div>
 
       {capstones.length === 0 ? (
         <div className="empty"><Layers size={16} strokeWidth={2} /> Aucun capstone disponible.</div>

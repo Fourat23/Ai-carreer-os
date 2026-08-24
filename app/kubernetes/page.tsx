@@ -8,7 +8,9 @@ export const dynamic = 'force-dynamic';
 // Même grammaire, contenu propre au domaine.
 export default function KubernetesPage() {
   const scenarios = publicManifestSummaries();
-  const resources = scenarios.reduce((n, s) => n + ((s as { resources?: unknown[] }).resources?.length ?? 0), 0);
+  // Même correction qu'ailleurs : le résumé public porte `resourceCount`.
+  const resources = scenarios.reduce((n, s) => n + (s.resourceCount ?? 0), 0);
+  const kinds = new Set(scenarios.flatMap((s) => s.kinds ?? [])).size;
   const skills = new Set(scenarios.flatMap((s) => (s as { skills?: string[] }).skills ?? [])).size;
 
   return (
@@ -26,6 +28,7 @@ export default function KubernetesPage() {
       facts={[
         { k: 'Scénarios', v: scenarios.length },
         { k: 'Ressources décrites', v: resources },
+        { k: 'Types de ressource', v: kinds },
         { k: 'Compétences couvertes', v: skills },
       ]}
       related={[

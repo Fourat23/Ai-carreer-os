@@ -7,7 +7,9 @@ export const dynamic = 'force-dynamic';
 // V57 · CP9 — Troisième surface mesurée à zéro bloc structurant au CP0.
 export default function CloudLabPage() {
   const topologies = publicTopologySummaries();
-  const nodes = topologies.reduce((n, t) => n + ((t as { nodes?: unknown[] }).nodes?.length ?? 0), 0);
+  // Même correction : le résumé public porte `nodeCount` et `edgeCount`.
+  const nodes = topologies.reduce((n, t) => n + (t.nodeCount ?? 0), 0);
+  const edges = topologies.reduce((n, t) => n + (t.edgeCount ?? 0), 0);
   const skills = new Set(topologies.flatMap((t) => (t as { skills?: string[] }).skills ?? [])).size;
 
   return (
@@ -25,6 +27,7 @@ export default function CloudLabPage() {
       facts={[
         { k: 'Topologies', v: topologies.length },
         { k: 'Composants décrits', v: nodes },
+        { k: 'Liaisons', v: edges },
         { k: 'Compétences couvertes', v: skills },
       ]}
       related={[

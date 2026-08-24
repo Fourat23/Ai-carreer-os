@@ -10,7 +10,11 @@ export const dynamic = 'force-dynamic';
 // aucun chiffre n'est écrit à la main.
 export default function PipelinesPage() {
   const pipelines = publicPipelineSummaries();
-  const stages = pipelines.reduce((n, p) => n + ((p as { stages?: unknown[] }).stages?.length ?? 0), 0);
+  // Les résumés publics n'exposent PAS les tableaux internes : ils portent des
+  // compteurs (`stageCount`, `jobCount`). Compter `p.stages.length` rendait 0 —
+  // un chiffre faux affiché comme un fait, trouvé en ouvrant la capture.
+  const stages = pipelines.reduce((n, p) => n + (p.stageCount ?? 0), 0);
+  const jobs = pipelines.reduce((n, p) => n + (p.jobCount ?? 0), 0);
   const skills = new Set(pipelines.flatMap((p) => (p as { skills?: string[] }).skills ?? [])).size;
 
   return (
@@ -28,6 +32,7 @@ export default function PipelinesPage() {
       facts={[
         { k: 'Pipelines', v: pipelines.length },
         { k: 'Étapes au total', v: stages },
+        { k: 'Jobs', v: jobs },
         { k: 'Compétences couvertes', v: skills },
       ]}
       related={[

@@ -3723,3 +3723,61 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
    la barre de filtres et le compteur de niveaux restait à 2 — même piège que
    sur /diagnostics, où --shadow-3 rendait la valeur du hero. */
 .tb-head { box-shadow: var(--shadow-3); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V57 · CP10 (P3) — DURCISSEMENT DE LA JOURNÉE, sur les limites MESURÉES.
+   V56 est la baseline : les quatre zones ne bougent pas, la distinction
+   « je lis / je fais » non plus.
+
+   Dette V56 n° 6 : « rail utile dès 1024 px, ou justification écrite ».
+   JUSTIFICATION ÉCRITE — le rail latéral n'est pas déplaçable à 1024 px. Il
+   occupe 264 px plus 48 px de gouttière ; à 1024 px la colonne principale
+   mesure environ 720 px une fois la barre latérale et les marges déduites, ce
+   qui laisserait environ 408 px de colonne de lecture. Le corps de la journée
+   est à 17 px : 408 px donnent des lignes de 40-45 caractères, sous le seuil
+   de confort. Échanger la lisibilité du texte contre un repère de position
+   serait un mauvais marché sur une page où l'on lit plusieurs heures.
+
+   CE QUI EST CORRIGÉ À LA PLACE : entre 768 et 1199 px, l'apprenant retombait
+   sur une bande d'ICÔNES SEULES — les étiquettes y étaient masquées. On ne se
+   situe pas dans un déroulé de huit phases avec huit pictogrammes. La bande
+   devient donc collante et porte ses étiquettes : même fonction que le rail,
+   dans l'espace disponible.
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .day-view .phase-rail-strip, .doc-view .phase-rail-strip {
+    position: sticky; top: 0; z-index: 5;
+    background-color: var(--shell); background-image: var(--grad-surface);
+    border: 1px solid var(--border); border-radius: var(--r);
+    box-shadow: var(--shadow-2);
+    padding: var(--sp-2) var(--sp-3);
+    margin-bottom: var(--sp-4);
+  }
+  /* Les étiquettes restent masquées DANS la bande : deux tentatives de les y
+     afficher ont été vérifiées en capture et rejetées (troncature à trois
+     lettres, puis chevauchement du texte de la leçon). Le nom de la phase
+     courante est porté par l'en-tête, qui dispose d'une ligne entière. */
+  .day-view .phase-rail-strip .phase-rail-now,
+  .doc-view .phase-rail-strip .phase-rail-now { display: block; }
+  .day-view .phase-rail-strip .phase-step-mark,
+  .doc-view .phase-rail-strip .phase-step-mark { width: 20px; height: 20px; }
+  .day-view .phase-rail-strip .phase-step.is-past > a,
+  .doc-view .phase-rail-strip .phase-step.is-past > a { opacity: .62; }
+}
+
+/* V57 · CP10 — Nom de la phase courante dans l'en-tête du rail. Masqué en
+   variante `rail` (la colonne montre déjà les libellés) et sous 768 px (pas
+   la place), visible sur la bande compacte de 768 à 1199 px : c'est
+   exactement l'intervalle où l'apprenant n'avait que des pictogrammes. */
+.phase-rail-now { display: none; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; font-size: var(--fs-xs); color: var(--accent); font-weight: 650; }
+.phase-rail-head { gap: var(--sp-2); }
+
+/* V57 · CP10 — Dans la bande compacte, les libellés de famille se tronquaient
+   à trois lettres (« CAD », « COM », « OBS ») : moins lisibles qu'un
+   pictogramme, et désormais redondants avec le nom de phase porté par
+   l'en-tête. Ils sont masqués entre 768 et 1199 px. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .day-view .phase-rail-strip .phase-step-fam,
+  .doc-view .phase-rail-strip .phase-step-fam { display: none; }
+}

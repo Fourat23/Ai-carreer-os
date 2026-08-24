@@ -46,18 +46,40 @@ export function PhaseRail({
     if (!phases.length) return;
     const nodes = phases.map((p) => document.getElementById(p.id)).filter(Boolean) as HTMLElement[];
     if (!nodes.length) return;
-    // La phase courante est celle dont le titre est le plus haut encore visible
-    // au-dessus du tiers supérieur : c'est ce que l'œil lit réellement.
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]?.target.id) setActiveId(visible[0].target.id);
-      },
-      { rootMargin: '-12% 0px -70% 0px', threshold: 0 },
-    );
+    // V57 · CP10 — La phase courante est RECALCULÉE à partir des positions
+    // réelles, l'observateur ne servant que de déclencheur bon marché.
+    //
+    // Défaut constaté en capture : après un saut de défilement (ancre, clavier,
+    // restauration de position), l'ancien code restait bloqué sur « 1 / 12 » au
+    // milieu d'un document de 14 000 px. Il ne lisait que les entrées
+    // `isIntersecting` de l'événement ; un saut fait franchir la bande étroite
+    // (-12 % / -70 %) à plusieurs titres d'un coup, sans qu'aucun ne soit
+    // rapporté intersectant. Un rail bloqué sur la première phase est
+    // décoratif, ce que ce motif n'a pas le droit d'être.
+    //
+    // Mesurer donne le même résultat quand tout va bien, et le bon résultat
+    // quand on saute : la phase courante est la DERNIÈRE dont le titre est
+    // passé au-dessus du repère de lecture.
+    const MARK = 0.22;             // repère de lecture, en fraction de hauteur
+    const recompute = () => {
+      const mark = window.innerHeight * MARK;
+      let current = nodes[0];
+      for (const n of nodes) {
+        if (n.getBoundingClientRect().top <= mark) current = n;
+        else break;
+      }
+      if (current?.id) setActiveId(current.id);
+    };
+    const obs = new IntersectionObserver(recompute, { rootMargin: '-12% 0px -70% 0px', threshold: 0 });
     for (const n of nodes) obs.observe(n);
-    return () => obs.disconnect();
+    window.addEventListener('scroll', recompute, { passive: true });
+    window.addEventListener('resize', recompute, { passive: true });
+    recompute();
+    return () => {
+      obs.disconnect();
+      window.removeEventListener('scroll', recompute);
+      window.removeEventListener('resize', recompute);
+    };
   }, [phases]);
 
   if (phases.length < 2) return null;
@@ -65,8 +87,21 @@ export function PhaseRail({
 
   return (
     <nav className={`phase-rail phase-rail-${variant}`} aria-label={title}>
+      {/* V57 · CP10 — L'en-tête porte le NOM de la phase courante.
+          Entre 768 et 1199 px la bande compacte n'affiche que des
+          pictogrammes : on ne se situe pas dans un déroulé de douze phases
+          avec douze icônes. Deux tentatives d'afficher les étiquettes DANS la
+          bande ont été vérifiées en capture et rejetées — douze libellés ne
+          tiennent pas dans 630 px, ils se tronquaient à « CAD », « COM »,
+          « OBS », et l'étiquette de la phase courante chevauchait le texte.
+          L'en-tête, lui, dispose d'une ligne entière : la position y est
+          lisible en toutes lettres, sans rien casser. */}
       <p className="phase-rail-head">
         <span className="phase-rail-title">{title}</span>
+        <span className="phase-rail-now">
+          {FAM_LABEL[phases[activeIdx]?.family] ?? ''}
+          {phases[activeIdx]?.label ? <> — {phases[activeIdx].label}</> : null}
+        </span>
         <span className="phase-rail-pos">{activeIdx + 1} / {phases.length}</span>
       </p>
       <ol className="phase-rail-list">

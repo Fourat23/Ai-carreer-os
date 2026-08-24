@@ -3476,3 +3476,81 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
    qui ne s'applique à rien n'est pas un correctif (leçon V56). */
 .lab-ex-work .wb-cm, .lab-ex-work .wb-console { box-shadow: var(--shadow-1); }
 .lab-ex-work .wb-brief, .lab-ex-work .wb-actions { box-shadow: var(--shadow-3); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V57 · CP7 — GRAMMAIRE DE CATALOGUE PAR DOMAINE (/diagnostics, /capstones)
+   Une seule surface continue, des groupes de domaine à l'intérieur, des
+   LIGNES et non des cartes. Partagée par les deux routes : c'est la même
+   idée à deux contenus près, deux vocabulaires visuels seraient une
+   incohérence, pas une richesse.
+   ══════════════════════════════════════════════════════════════════════════ */
+.cat-index {
+  display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap;
+  margin: var(--sp-5) 0 var(--sp-4);
+  border-top: 1px solid var(--border-subtle); padding-top: var(--sp-4);
+}
+.cat-index-k { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.cat-index-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
+.cat-index-list a {
+  display: inline-flex; align-items: baseline; gap: 5px; text-decoration: none;
+  font-size: var(--fs-xs); color: var(--muted);
+  background-color: var(--raised); border: 1px solid var(--border);
+  border-radius: 999px; padding: 3px 10px;
+}
+.cat-index-list a:hover { color: var(--text); border-color: var(--border-strong); background-color: var(--interactive); }
+.cat-index-n { font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+
+.cat {
+  border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  background-color: var(--surface); background-image: var(--grad-surface);
+  box-shadow: var(--shadow-1);
+}
+.cat-group + .cat-group { border-top: 1px solid var(--border); }
+.cat-group-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background-color: var(--raised); background-image: var(--grad-raised);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.cat-group-name { margin: 0; font-size: var(--fs-sm); font-weight: 650; }
+.cat-group-n { font-size: var(--fs-xs); color: var(--muted); font-variant-numeric: tabular-nums; }
+.cat-rows { list-style: none; margin: 0; padding: 0; }
+.cat-row + .cat-row { border-top: 1px solid var(--border-subtle); }
+.cat-row-link {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--sp-4);
+  align-items: center; width: 100%; text-align: left;
+  padding: var(--sp-3) var(--sp-4); text-decoration: none; color: inherit;
+  background: none; border: none; font: inherit; cursor: pointer;
+}
+.cat-row-link:hover { background: var(--raised); }
+.cat-row-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.cat-row-body { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.cat-row-title { font-size: var(--fs-sm); font-weight: 600; }
+.cat-row-sub { font-size: var(--fs-xs); color: var(--muted); }
+.cat-row-tags { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.cat-tag {
+  font-size: var(--fs-xs); color: var(--muted); background-color: var(--canvas);
+  border: 1px solid var(--border-subtle); border-radius: 999px; padding: 1px 8px; white-space: nowrap;
+}
+.cat-row-n { font-size: var(--fs-xs); font-weight: 600; color: var(--accent); white-space: nowrap; }
+@media (max-width: 767px) {
+  .cat-row-link { grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-2); }
+  .cat-row-tags { grid-column: 1 / -1; justify-content: flex-start; }
+}
+
+/* V57 · CP7 (suite) — Profondeur. Après la correction structurelle,
+   /diagnostics et /capstones mesuraient 5 fonds et 2 ombres : R3 échouait.
+   L'index de domaines devient une vraie bande d'outil (surface + élévation) —
+   c'est un objet d'interface, pas un ornement : il donne accès direct à
+   chacun des 12-14 domaines sans faire défiler la page. */
+.cat-index {
+  background-color: var(--shell); background-image: var(--grad-surface);
+  border: 1px solid var(--border); border-top: 1px solid var(--border);
+  border-radius: var(--r); padding: var(--sp-3) var(--sp-4);
+  box-shadow: var(--shadow-2); margin-bottom: var(--sp-4);
+}
+/* `--shadow-3` rendait exactement la même valeur calculée que le hero : les
+   deux se confondaient et le compteur de niveaux d'ombre restait à 2. Le
+   catalogue garde le premier niveau, distinct du hero (3e) et de la bande
+   d'index (2e) — trois élévations réellement différentes. */
+.cat { box-shadow: var(--shadow-1); }

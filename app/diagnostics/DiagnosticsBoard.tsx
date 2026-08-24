@@ -44,41 +44,69 @@ export default function DiagnosticsBoard({
     return <TakeAssessment assessment={open} skillNames={skillNames} onBack={() => setOpenId(null)} />;
   }
 
+  // V57 · CP7 — Correction STRUCTURELLE, dans le DOM, pas en CSS.
+  //
+  // Cause établie au CP0 : ce composant émettait une <section> par domaine —
+  // 14 sections sœurs de poids quasi égal, le hero (1016×305) plus petit que
+  // la première section de contenu (1016×328). `dominance` étant le rapport
+  // d'aire du plus grand bloc à la somme des blocs de premier niveau, elle
+  // plafonnait mécaniquement à 0,102. Aucune règle de fond, de bordure ou
+  // d'ombre ne pouvait la déplacer : les deux passes CSS de V56 visaient un
+  // défaut de structure. Un seul bloc structurant désormais, les domaines
+  // redeviennent des groupes internes.
+  //
+  // Et les 14 « cartes » mesurées n'étaient pas les items : V56 avait bien
+  // dépouillé .diag-card et donné fond + bordure + rayon au conteneur
+  // .diag-grid. La frontière avait été DÉPLACÉE d'un niveau, pas supprimée.
   return (
     <>
-      {byDomain.map(([domain, list]) => (
-        <section key={domain} style={{ marginBottom: 'var(--sp-6)' }}>
-          <div className="section-head">
-            <span className="section-label">Domaine</span>
-            <h2 className="section-title">{domain}</h2>
-            <span className="section-note">{list.length} diagnostic(s)</span>
-          </div>
-          <div className="diag-grid">
-            {list.map((a) => {
-              const counts = taxonomyCounts(a);
-              return (
-                <button key={a.id} className="diag-card" onClick={() => setOpenId(a.id)}>
-                  <h3 className="diag-card-title">{a.title}</h3>
-                  <p className="diag-card-skills">
-                    {a.skills.map((s) => skillNames[s] ?? s).join(' · ')}
-                  </p>
-                  <div className="diag-taxo">
-                    {TAXONOMY.filter((t) => counts[t] > 0).map((t) => (
-                      <span key={t} className="diag-taxo-chip" title={TAXO_LABEL[t]}>
-                        {TAXO_LABEL[t]} {counts[t]}
+      <nav className="cat-index" aria-label="Domaines">
+        <span className="cat-index-k">Domaines</span>
+        <ul className="cat-index-list">
+          {byDomain.map(([domain, list]) => (
+            <li key={domain}>
+              <a href={`#dom-${slug(domain)}`}>{domain} <span className="cat-index-n">{list.length}</span></a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <section className="cat" aria-label="Catalogue des diagnostics">
+        {byDomain.map(([domain, list]) => (
+          <div key={domain} className="cat-group" id={`dom-${slug(domain)}`}>
+            <div className="cat-group-head">
+              <h2 className="cat-group-name">{domain}</h2>
+              <span className="cat-group-n">{list.length} diagnostic{list.length > 1 ? 's' : ''}</span>
+            </div>
+            <ul className="cat-rows">
+              {list.map((a) => {
+                const counts = taxonomyCounts(a);
+                return (
+                  <li key={a.id} className="cat-row">
+                    <button className="cat-row-link" onClick={() => setOpenId(a.id)}>
+                      <span className="cat-row-body">
+                        <span className="cat-row-title">{a.title}</span>
+                        <span className="cat-row-sub">{a.skills.map((s) => skillNames[s] ?? s).join(' · ')}</span>
                       </span>
-                    ))}
-                  </div>
-                  <span className="diag-card-cta">{a.questions.length} question(s) →</span>
-                </button>
-              );
-            })}
+                      <span className="cat-row-tags">
+                        {TAXONOMY.filter((t) => counts[t] > 0).map((t) => (
+                          <span key={t} className="cat-tag">{TAXO_LABEL[t]} {counts[t]}</span>
+                        ))}
+                      </span>
+                      <span className="cat-row-n">{a.questions.length} q.</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-        </section>
-      ))}
+        ))}
+      </section>
     </>
   );
 }
+
+const slug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 function taxonomyCounts(a: Assessment): Record<Taxonomy, number> {
   const out = { RECALL: 0, UNDERSTANDING: 0, APPLICATION: 0, DIAGNOSIS: 0, TRANSFER: 0 };

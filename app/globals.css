@@ -3206,3 +3206,273 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 .rev-ladder-foot svg { vertical-align: -2px; margin-right: 4px; }
 .rev-rung.is-cap .rev-rung-bar { border-style: dashed; }
 .rev-rung.is-cap .rev-rung-fill { opacity: .5; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V57 · CP3-CP4 — PÉRIODES (/month/[id], /week/[id])
+   Ces deux surfaces ne rendaient qu'un `article.prose` de 632 px : 2 fonds,
+   1 ombre, amplitude 1,65 (CP0). Elles deviennent des vues de pilotage.
+   Grammaire commune, ouverture différente : le mois montre ses semaines dans
+   un TABLEAU, la semaine montre ses journées dans une LISTE ordonnée. Ni l'un
+   ni l'autre n'est une grille de cartes — une ligne de semaine n'a ni action
+   autonome ni cycle de vie propre (ADR-057 §5).
+   ══════════════════════════════════════════════════════════════════════════ */
+.period { display: flex; flex-direction: column; gap: var(--sp-5); }
+
+.period-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-6);
+  align-items: center;
+  background-color: var(--shell); background-image: var(--grad-surface), var(--grid-hairline);
+  border: 1px solid var(--border); border-radius: var(--r-lg, 14px);
+  padding: var(--sp-5); box-shadow: var(--shadow-2);
+}
+.period-eyebrow { margin: 0; font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: .07em; font-weight: 600; }
+.period-eyebrow a { color: var(--muted); }
+.period-title { margin: var(--sp-2) 0 var(--sp-2); font-size: var(--fs-display-xl); line-height: 1.04; letter-spacing: var(--tracking-display); font-weight: 700; }
+.period-lead { margin: 0; color: var(--muted); font-size: var(--fs-base); max-width: 62ch; }
+.period-progress { display: flex; flex-direction: column; gap: 4px; min-width: 220px; }
+.period-progress-k { font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.period-progress-n { font-size: var(--fs-display-lg); font-weight: 700; line-height: 1; letter-spacing: var(--tracking-display); }
+.period-progress-u { font-size: .5em; margin-left: 2px; color: var(--muted); }
+.period-progress-d { font-size: var(--fs-xs); color: var(--muted); }
+.period-bar, .period-next-bar { display: block; height: 6px; background: var(--canvas); border-radius: 999px; overflow: hidden; margin-top: 4px; }
+.period-bar-fill, .period-next-fill { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.period-ring { display: flex; align-items: center; justify-content: center; }
+
+/* Sections éditoriales OUVERTES : filet supérieur, pas de cadre. */
+.period-year, .period-weeks, .period-days, .period-load, .period-proj, .period-doc {
+  border-top: 1px solid var(--border-subtle); padding-top: var(--sp-5);
+}
+.period-sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-4); }
+.period-sec-head-2 { margin-top: var(--sp-5); }
+.period-h { margin: 0; font-size: var(--fs-lg); font-weight: 650; letter-spacing: -0.01em; }
+.period-h-note { font-size: var(--fs-xs); color: var(--muted); }
+
+/* ACTION : la seule frontière justifiée de la page — action autonome. */
+.period-next {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-5); flex-wrap: wrap;
+  background-color: var(--focus-surface); background-image: var(--grad-focus);
+  border: 1px solid var(--border-accent); border-radius: var(--r);
+  padding: var(--sp-4) var(--sp-5); box-shadow: var(--shadow-focus);
+  position: relative;
+}
+.period-next-body { min-width: 0; }
+.period-next-k { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.period-next-t { margin: 4px 0 2px; font-size: var(--fs-lg); font-weight: 650; }
+.period-next-d { margin: 0; font-size: var(--fs-sm); color: var(--muted); }
+.period-next-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 0; margin: 0; }
+
+/* Tableau des semaines — un tableau, pas douze cartes. */
+.period-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.period-table th, .period-table td { text-align: left; padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+.period-table thead th { background-color: var(--raised); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border-bottom-color: var(--border); }
+.period-table tbody tr:hover { background: var(--raised); }
+.period-table tbody th { font-weight: 600; white-space: nowrap; }
+.period-table .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.period-td-sub { color: var(--faint); font-size: var(--fs-xs); margin-left: 6px; }
+.period-td-skills { color: var(--muted); }
+.period-mini { display: inline-block; width: 72px; height: 6px; background: var(--canvas); border-radius: 999px; overflow: hidden; vertical-align: middle; }
+.period-mini-fill { display: block; height: 100%; background: var(--accent); }
+
+/* Liste des journées — des LIGNES sur une surface continue. */
+.period-daylist { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; background-color: var(--surface); background-image: var(--grad-surface); }
+.period-day + .period-day { border-top: 1px solid var(--border-subtle); }
+.period-day-link { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: var(--sp-3); align-items: center; padding: var(--sp-3) var(--sp-4); text-decoration: none; color: inherit; }
+.period-day-link:hover { background: var(--raised); }
+.period-day-n { font-weight: 700; font-size: var(--fs-sm); color: var(--muted); font-variant-numeric: tabular-nums; }
+.period-day-body { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.period-day-t { font-weight: 600; font-size: var(--fs-sm); }
+.period-day-m { font-size: var(--fs-xs); color: var(--muted); }
+.period-day-s { font-size: var(--fs-xs); font-weight: 600; white-space: nowrap; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
+.period-day-s.s-done { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--border)); }
+.period-day-s.s-in-progress { color: var(--accent); border-color: var(--border-accent); }
+.period-day-s.s-to-review { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, var(--border)); }
+.period-day.is-done .period-day-t { color: var(--muted); }
+
+/* Barres de charge — matrices proportionnelles, jamais des cartes. */
+.period-load { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-6); align-items: start; }
+.period-rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.period-row { display: grid; grid-template-columns: minmax(96px, 190px) minmax(50px, 1fr) 52px; gap: var(--sp-3); align-items: center; padding: var(--sp-2) 0; border-bottom: 1px solid var(--border-subtle); }
+.period-row:last-child { border-bottom: none; }
+.period-row-k { font-size: var(--fs-sm); font-weight: 600; min-width: 0; }
+.period-row-bar { height: 10px; background: var(--canvas); border: 1px solid var(--border-subtle); border-radius: 999px; overflow: hidden; }
+.period-row-fill { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.period-row-n { font-size: var(--fs-sm); font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.period-row-proj { grid-template-columns: 90px minmax(0, 1fr); }
+.period-row-txt { font-size: var(--fs-sm); color: var(--muted); }
+
+.period-doc .prose.reading { max-width: 74ch; }
+.period-nav { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; border-top: 1px solid var(--border-subtle); padding-top: var(--sp-4); font-size: var(--fs-sm); }
+.period-nav-off { color: var(--faint); }
+
+@media (max-width: 1023px) {
+  .period-head { grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); }
+  .period-load { grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); }
+  .period-ring { justify-content: flex-start; }
+}
+@media (max-width: 767px) {
+  .period-head { padding: var(--sp-4); }
+  .period-table { display: block; overflow-x: auto; }
+  .period-day-link { grid-template-columns: 44px minmax(0, 1fr); }
+  .period-day-s { grid-column: 2; justify-self: start; }
+  .period-row { grid-template-columns: minmax(0, 1fr) 52px; }
+  .period-row-bar { grid-column: 1 / -1; }
+}
+
+/* V57 · CP3 — Contenu rogné mesuré sur /month/3 à 375 px : un fragment
+   insécable du document (URL ou identifiant long) dépassait `.prose.reading`,
+   dont l'`overflow-x` est masqué. La correction est PRÉSENTATIONNELLE — le
+   texte du curriculum n'est pas touché : les mots trop longs se coupent, et
+   les blocs réellement larges défilent au lieu d'être tronqués. */
+.period-doc .prose.reading { overflow-wrap: anywhere; }
+.period-doc .prose.reading table,
+.period-doc .prose.reading pre { display: block; max-width: 100%; overflow-x: auto; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V57 · CP5 — LABORATOIRE : d'une constellation de 376 cartes à un catalogue
+   groupé et scannable.
+   Cause mesurée du débordement traîné depuis V56 : aucune boîte ne dépassait
+   le viewport ; la grille de 188 rangées voyait son propre `scrollWidth`
+   excéder sa largeur de 37 px par arrondi sous-pixel. 376 items → 5 px ;
+   65 items → 0 ; 19 items → 0. Le nombre d'éléments rendus ÉTAIT la cause.
+   Une ligne d'exercice n'a pas de cycle de vie propre : elle n'est pas une
+   carte (ADR-057 §5).
+   ══════════════════════════════════════════════════════════════════════════ */
+.lab-groups { display: flex; flex-direction: column; gap: var(--sp-3); margin-top: var(--sp-4); }
+.lab-group {
+  border: 1px solid var(--border); border-radius: var(--r);
+  background-color: var(--surface); background-image: var(--grad-surface);
+  box-shadow: var(--shadow-1); overflow: hidden;
+}
+.lab-group-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) 120px auto; gap: var(--sp-3);
+  align-items: center; padding: var(--sp-3) var(--sp-4); cursor: pointer;
+  background-color: var(--raised); background-image: var(--grad-raised);
+  list-style: none; font-size: var(--fs-sm);
+}
+.lab-group-head::-webkit-details-marker { display: none; }
+.lab-group-head::before {
+  content: '▸'; color: var(--muted); font-size: 11px; margin-right: 6px;
+  display: inline-block; transition: transform .12s ease;
+}
+.lab-group[open] .lab-group-head::before { transform: rotate(90deg); }
+.lab-group-head:hover { background-color: var(--interactive); }
+.lab-group-head:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.lab-group-name { font-weight: 650; min-width: 0; }
+.lab-group-bar { height: 8px; background: var(--canvas); border-radius: 999px; overflow: hidden; border: 1px solid var(--border-subtle); }
+.lab-group-fill { display: block; height: 100%; background: var(--ok); border-radius: 999px; }
+.lab-group-n { font-size: var(--fs-xs); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lab-group-track { color: var(--accent); }
+
+.lab-rows { list-style: none; margin: 0; padding: 0; }
+.lab-row { border-top: 1px solid var(--border-subtle); position: relative; }
+.lab-row-link {
+  display: grid; grid-template-columns: 22px minmax(0, 1fr) 34px 108px 104px 16px;
+  gap: var(--sp-3); align-items: center; padding: var(--sp-2) var(--sp-4);
+  text-decoration: none; color: inherit;
+}
+.lab-row-link:hover { background: var(--raised); }
+.lab-row-mark { display: flex; align-items: center; justify-content: center; color: var(--faint); }
+.lab-row.st-ok .lab-row-mark { color: var(--ok); }
+.lab-row.st-prog .lab-row-mark { color: var(--accent); }
+.lab-row-body { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.lab-row-title { font-size: var(--fs-sm); font-weight: 600; }
+.lab-row-sum { font-size: var(--fs-xs); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lab-row-diff { font-size: var(--fs-xs); font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.lab-row-rt, .lab-row-st { font-size: var(--fs-xs); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lab-row-st.ok { color: var(--ok); }
+.lab-row-st.prog { color: var(--accent); }
+.lab-row-go { color: var(--faint); }
+.lab-row-days { position: absolute; right: var(--sp-4); bottom: 2px; display: flex; gap: 4px; }
+.lab-row-days .lab-day-link { font-size: 10px; }
+
+@media (max-width: 900px) {
+  .lab-row-link { grid-template-columns: 22px minmax(0, 1fr) 34px 16px; }
+  .lab-row-rt, .lab-row-st { display: none; }
+  .lab-group-head { grid-template-columns: minmax(0, 1fr) auto; }
+  .lab-group-bar { display: none; }
+}
+
+/* V57 · CP5 (suite) — Structure de premier niveau du Laboratoire.
+   Le CP0 mesurait `topBlocks = 1` et `dominance = 1` : un seul bloc, donc une
+   dominance haute qui ne prouvait rien (limite documentée dans l'addendum).
+   La page émet désormais trois zones réelles : position, action, catalogue. */
+.lab-view { display: flex; flex-direction: column; gap: var(--sp-5); }
+.lab-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-6); align-items: center;
+  background-color: var(--shell); background-image: var(--grad-surface), var(--grid-hairline);
+  border: 1px solid var(--border); border-radius: var(--r-lg, 14px);
+  padding: var(--sp-5); box-shadow: var(--shadow-2);
+}
+.lab-eyebrow { margin: 0; font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: .07em; font-weight: 600; }
+.lab-title { margin: var(--sp-2) 0; font-size: var(--fs-display-xl); line-height: 1.04; letter-spacing: var(--tracking-display); font-weight: 700; }
+.lab-lead { margin: 0; color: var(--muted); max-width: 62ch; }
+.lab-facts { display: grid; grid-template-columns: repeat(2, auto); gap: var(--sp-3) var(--sp-5); margin: 0; }
+.lab-facts dt { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
+.lab-facts dd { margin: 2px 0 0; font-size: var(--fs-display-lg); font-weight: 700; line-height: 1; letter-spacing: var(--tracking-display); }
+.lab-next {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-5); flex-wrap: wrap;
+  background-color: var(--focus-surface); background-image: var(--grad-focus);
+  border: 1px solid var(--border-accent); border-radius: var(--r);
+  padding: var(--sp-4) var(--sp-5); box-shadow: var(--shadow-focus);
+}
+.lab-next-k { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.lab-next-t { margin: 4px 0 2px; font-size: var(--fs-lg); font-weight: 650; }
+.lab-next-d { margin: 0; font-size: var(--fs-sm); color: var(--muted); }
+.lab-catalog-sec { border-top: 1px solid var(--border-subtle); padding-top: var(--sp-5); }
+@media (max-width: 1023px) {
+  .lab-head { grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); }
+  .lab-facts { grid-template-columns: repeat(4, auto); justify-content: start; }
+}
+@media (max-width: 640px) { .lab-facts { grid-template-columns: repeat(2, auto); } .lab-head { padding: var(--sp-4); } }
+
+/* V57 · CP6 — Poste de travail d'exercice (/lab/[exerciseId]).
+   Trois zones : identité + objectif, conditions de travail (environnement,
+   artefact, validation, contexte), puis l'espace d'exécution. Les conditions
+   sont une BANDE de cellules sur surface continue, pas quatre cartes : elles
+   n'ont ni action ni cycle de vie propre (ADR-057 §5). */
+.lab-ex { display: flex; flex-direction: column; gap: var(--sp-4); }
+.lab-ex-head {
+  background-color: var(--shell); background-image: var(--grad-surface), var(--grid-hairline);
+  border: 1px solid var(--border); border-radius: var(--r-lg, 14px);
+  padding: var(--sp-5); box-shadow: var(--shadow-2);
+}
+.lab-ex-title { margin: var(--sp-2) 0; font-size: var(--fs-display-lg); line-height: 1.06; letter-spacing: var(--tracking-display); font-weight: 700; }
+.lab-ex-obj { margin: 0; color: var(--text); font-size: var(--fs-base); max-width: 76ch; display: flex; gap: 8px; align-items: baseline; }
+.lab-ex-obj svg { flex: none; color: var(--accent); }
+.lab-ex-brief {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px;
+  background: var(--border-subtle); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  box-shadow: var(--shadow-1);
+}
+.lab-ex-cell { background-color: var(--raised); background-image: var(--grad-raised); padding: var(--sp-3) var(--sp-4); display: flex; flex-direction: column; gap: 2px; }
+.lab-ex-k { display: flex; align-items: center; gap: 6px; font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.lab-ex-v { margin: 2px 0 0; font-size: var(--fs-sm); font-weight: 650; overflow-wrap: anywhere; }
+.lab-ex-d { margin: 0; font-size: var(--fs-xs); color: var(--muted); }
+.lab-ex-work { border-top: 1px solid var(--border-subtle); padding-top: var(--sp-4); }
+
+/* V57 · CP5-CP6 — deux corrections mesurées, pas cosmétiques.
+
+   1. /lab rendait 42 « cartes » : les 32 conteneurs de groupe. Chacun est
+      justifiable (repli autonome, état autonome), mais 32 objets encadrés
+      reproduisent visuellement la constellation supprimée. Le catalogue
+      devient UNE surface continue dont les groupes sont des sections
+      séparées par un filet. Mesuré ensuite, pas supposé.
+   2. /lab/[exerciseId] échouait R3 (2 niveaux d'ombre) et R4 (amplitude
+      2,62). Le titre passe au palier display supérieur — c'est le titre de la
+      page, il n'y a pas de raison qu'il soit plus petit qu'ailleurs — et les
+      conditions de travail reçoivent le second niveau d'élévation. */
+.lab-groups {
+  gap: 0; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  background-color: var(--surface); background-image: var(--grad-surface); box-shadow: var(--shadow-1);
+}
+.lab-group { border: none; border-radius: 0; box-shadow: none; background: none; }
+.lab-group + .lab-group { border-top: 1px solid var(--border); }
+.lab-group[open] .lab-group-head { border-bottom: 1px solid var(--border-subtle); }
+
+.lab-ex-title { font-size: var(--fs-display-xl); }
+.lab-ex-brief { box-shadow: var(--shadow-2); }
+/* Élévation réelle de l'espace de travail : les classes ciblées sont celles
+   que LabWorkspace émet vraiment (`wb-*`), pas des noms supposés — une règle
+   qui ne s'applique à rien n'est pas un correctif (leçon V56). */
+.lab-ex-work .wb-cm, .lab-ex-work .wb-console { box-shadow: var(--shadow-1); }
+.lab-ex-work .wb-brief, .lab-ex-work .wb-actions { box-shadow: var(--shadow-3); }

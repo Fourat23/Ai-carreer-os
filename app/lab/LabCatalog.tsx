@@ -6,7 +6,7 @@
 import { useMemo, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FlaskConical, ArrowRight, Check, Circle, Dot } from 'lucide-react';
+import { ArrowRight, Check, Circle, Dot } from 'lucide-react';
 import { skillLabel } from '@/lib/skill-taxonomy.mjs';
 
 export type CatalogItem = {
@@ -96,8 +96,42 @@ export default function LabCatalog({ items, activeTrack, availableTracks }: { it
   const reset = useCallback(() => { setQ(''); setLang(''); setKind(''); setDiff(''); setSkill(''); setStatus(''); setTrack(''); setScope(''); }, []);
   const active = q || lang || kind || diff || skill || status || track || scope;
 
+  // V57 · CP5 — Le catalogue est GROUPÉ par compétence au lieu d'être une
+  // constellation de 376 cartes.
+  //
+  // Cause mesurée du débordement horizontal traîné depuis V56 : ce n'était pas
+  // une boîte trop large — aucun élément ne dépassait le viewport. La grille
+  // rendait 376 cartes sur 188 rangées et son `scrollWidth` dépassait sa propre
+  // largeur de 37 px par accumulation d'arrondi sous-pixel. Mesuré : 376 items
+  // → 5 px de débordement à 1440 ; 65 items → 0 ; 19 items → 0. Le `min-width:0`
+  // tenté en V56 ne pouvait rien y faire. Réduire le nombre d'éléments rendus
+  // simultanément supprime la cause au lieu de masquer le symptôme.
+  //
+  // Le groupement n'invente rien : `skills` est un champ réel de chaque
+  // exercice. Un exercice sans compétence déclarée va dans « Non rattachés »,
+  // ce qui est un fait, pas une catégorie fabriquée.
+  const groups = useMemo(() => {
+    const m = new Map<string, CatalogItem[]>();
+    for (const i of filtered) {
+      const k = i.skills[0] ?? '__none__';
+      if (!m.has(k)) m.set(k, []);
+      m.get(k)!.push(i);
+    }
+    return [...m.entries()]
+      .map(([key, list]) => ({
+        key,
+        label: key === '__none__' ? 'Non rattachés à une compétence' : skillLabel(key),
+        items: list,
+        done: list.filter((x) => x.status === 'réussi').length,
+        onTrack: list.filter((x) => x.activeDays.length > 0).length,
+      }))
+      // Ce qui touche le parcours actif d'abord, puis les groupes les plus
+      // fournis : l'ordre reflète l'utilité, pas l'alphabet.
+      .sort((a, b) => b.onTrack - a.onTrack || b.items.length - a.items.length || a.label.localeCompare(b.label));
+  }, [filtered]);
+
   return (
-    <div className="page-wide">
+    <section className="lab-catalog-sec" aria-label="Catalogue des exercices">
       <p className="lab-track-ctx">
         Parcours actif : <strong>{activeTrack.title}</strong>
         <span className="lab-track-hint"> · le corpus global reste visible, filtre par portée pour te concentrer.</span>
@@ -151,43 +185,66 @@ export default function LabCatalog({ items, activeTrack, availableTracks }: { it
       {filtered.length === 0 ? (
         <div className="empty">Aucun exercice ne correspond à ces filtres.</div>
       ) : (
-        <ul className="lab-grid" aria-label="Exercices">
-          {filtered.map((i) => {
-            const st = STATUS_META[i.status] ?? STATUS_META['non commencé'];
-            return (
-              <li key={i.id}>
-                <Link href={`/lab/${i.id}`} className="lab-card">
-                  <div className="lab-card-head">
-                    <FlaskConical size={16} strokeWidth={2} />
-                    <span className="lab-card-title">{i.title}</span>
-                    <span className={`lab-status ${st.cls}`}>
-                      {i.status === 'réussi' ? <Check size={12} /> : i.status === 'en cours' ? <Dot size={14} /> : <Circle size={9} />} {st.label}
-                    </span>
-                  </div>
-                  <p className="lab-card-sum">{i.summary}</p>
-                  <div className="lab-card-meta">
-                    <span className={`badge${i.runtimeAvailable ? '' : ' warn'}`}>{i.runtimeLabel}{i.runtimeAvailable ? '' : ' · indispo.'}</span>
-                    {i.difficulty > 0 && <span className="badge">Difficulté {i.difficulty}/5</span>}
-                    <span className={`badge ctx-${i.badgeKind}`}>{i.badgeLabel}</span>
-                    {i.reachableTracks.length >= 2 && <span className="badge ctx-multi">Multi-parcours</span>}
-                    <span className="lab-card-go">Ouvrir <ArrowRight size={13} /></span>
-                  </div>
-                </Link>
-                {/* Liens de journée(s) — hors du <Link> de carte (HTML valide). */}
-                {i.activeDays.length > 0 ? (
-                  <div className="lab-card-days">
-                    {i.activeDays.slice(0, 4).map((d) => (
-                      <Link key={d} href={`/day/${d}`} className="lab-day-link">Jour {d}</Link>
-                    ))}
-                  </div>
-                ) : i.otherTrackTitles.length > 0 ? (
-                  <div className="lab-card-days"><span className="lab-day-other">Via : {i.otherTrackTitles.join(', ')}</span></div>
-                ) : null}
-              </li>
-            );
-          })}
-        </ul>
+        <div className="lab-groups">
+          {groups.map((g, gi) => (
+            <details
+              key={g.key}
+              className="lab-group"
+              /* Un seul groupe ouvert par défaut — celui du haut, le plus
+                 utile au parcours actif. Ouvrir les 32 groupes reproduirait la
+                 constellation que ce CP vient de supprimer : mesuré, 32 groupes
+                 ouverts = 25 213 px de haut. Quand un filtre est posé,
+                 l'apprenant cherche quelque chose de précis : tout s'ouvre. */
+              open={!!active || gi === 0}
+            >
+              <summary className="lab-group-head">
+                <span className="lab-group-name">{g.label}</span>
+                <span className="lab-group-bar" aria-hidden="true">
+                  <span className="lab-group-fill" style={{ width: `${(g.done / g.items.length) * 100}%` }} />
+                </span>
+                <span className="lab-group-n">
+                  {g.done}/{g.items.length}
+                  {g.onTrack > 0 && <span className="lab-group-track"> · {g.onTrack} sur ton parcours</span>}
+                </span>
+              </summary>
+              <ul className="lab-rows" aria-label={`Exercices — ${g.label}`}>
+                {g.items.map((i) => {
+                  const st = STATUS_META[i.status] ?? STATUS_META['non commencé'];
+                  return (
+                    <li key={i.id} className={`lab-row st-${st.cls}`}>
+                      <Link href={`/lab/${i.id}`} className="lab-row-link">
+                        <span className="lab-row-mark" aria-hidden="true">
+                          {i.status === 'réussi' ? <Check size={13} strokeWidth={2.5} />
+                            : i.status === 'en cours' ? <Dot size={16} /> : <Circle size={9} />}
+                        </span>
+                        <span className="lab-row-body">
+                          <span className="lab-row-title">{i.title}</span>
+                          <span className="lab-row-sum">{i.summary}</span>
+                        </span>
+                        <span className="lab-row-diff" title={`Difficulté ${i.difficulty} sur 5`}>
+                          {i.difficulty > 0 ? `D${i.difficulty}` : '—'}
+                        </span>
+                        <span className="lab-row-rt">
+                          {i.runtimeLabel}{i.runtimeAvailable ? '' : ' · indispo.'}
+                        </span>
+                        <span className={`lab-row-st ${st.cls}`}>{st.label}</span>
+                        <ArrowRight size={13} className="lab-row-go" aria-hidden="true" />
+                      </Link>
+                      {i.activeDays.length > 0 && (
+                        <span className="lab-row-days">
+                          {i.activeDays.slice(0, 3).map((d) => (
+                            <Link key={d} href={`/day/${d}`} className="lab-day-link">J{d}</Link>
+                          ))}
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </details>
+          ))}
+        </div>
       )}
-    </div>
+    </section>
   );
 }

@@ -1,4 +1,4 @@
-import { HeroFocus, HeroFact } from '@/app/ui';
+import Link from 'next/link';
 import { listExercises } from '@/lib/exercises-server';
 import { getRuntimeAdapter, DEFAULT_RUNTIME_ID } from '@/lib/runtime.mjs';
 import { runtimeStatus } from '@/lib/runtime-detect.mjs';
@@ -81,37 +81,52 @@ export default function LabPage() {
   const inTrackCount = items.filter((x) => x.scope === 'active').length;
   const runtimeCount = new Set(items.map((x) => x.runtimeLabel)).size;
 
+  // Action réelle : le premier exercice non réussi qui tombe sur le parcours
+  // actif. Aucun classement inventé — l'ordre est celui du catalogue, filtré
+  // sur des champs existants.
+  const nextItem = items
+    .filter((x) => x.activeDays.length > 0 && x.status !== 'réussi')
+    .sort((a, b) => (a.activeDays[0] ?? 0) - (b.activeDays[0] ?? 0))[0] ?? null;
+
   return (
-    <>
-      <div className="page-wide">
-        <HeroFocus
-          tone="calm"
-          eyebrow="Exécution locale sécurisée"
-          title="Laboratoire de code"
-          lead="Écris du code, lance les tests, vois le résultat immédiatement. Tout s’exécute localement en bac à sable : timeout, sortie bornée, aucun accès réseau requis."
-          meta={
-            <>
-              <HeroFact k="Exercices">{items.length}</HeroFact>
-              <HeroFact k="Réussis">{passedCount}</HeroFact>
-              <HeroFact k="Sur ton parcours">{inTrackCount}</HeroFact>
-              <HeroFact k="Runtimes">{runtimeCount}</HeroFact>
-            </>
-          }
-        />
-      </div>
-      <div className="page-head page-wide" hidden>
-        <div className="page-head-main">
-          <p className="page-eyebrow">Laboratoire <span className="sep">/</span> exécution locale sécurisée</p>
-          <h1 className="page-title">Laboratoire de code</h1>
-          <p className="page-sub">
-            Écris du code, lance les tests et vois le résultat immédiatement. Tout s’exécute
-            localement en bac à sable (timeout, sortie bornée, aucun accès réseau requis).
+    <div className="lab-view page-wide">
+      {/* ── POSITION : ce qu'est le laboratoire, et où l'on en est ────────── */}
+      <section className="lab-head" aria-label="Laboratoire de code">
+        <div className="lab-head-main">
+          <p className="lab-eyebrow">Pratiquer <span className="sep">/</span> exécution locale en bac à sable</p>
+          <h1 className="lab-title">Laboratoire de code</h1>
+          <p className="lab-lead">
+            Écris du code, lance les tests, vois le résultat immédiatement. Tout s’exécute
+            localement : délai borné, sortie bornée, aucun accès réseau requis.
           </p>
         </div>
-      </div>
+        <dl className="lab-facts">
+          <div><dt>Exercices</dt><dd>{items.length}</dd></div>
+          <div><dt>Réussis</dt><dd>{passedCount}</dd></div>
+          <div><dt>Sur ton parcours</dt><dd>{inTrackCount}</dd></div>
+          <div><dt>Runtimes</dt><dd>{runtimeCount}</dd></div>
+        </dl>
+      </section>
+
+      {/* ── ACTION : la seule frontière justifiée — action autonome ───────── */}
+      {nextItem && (
+        <section className="lab-next" aria-label="Prochain exercice">
+          <div className="lab-next-body">
+            <span className="lab-next-k">Prochain exercice non réussi sur ton parcours</span>
+            <p className="lab-next-t">{nextItem.title}</p>
+            <p className="lab-next-d">
+              {nextItem.runtimeLabel}
+              {nextItem.difficulty > 0 ? <> <span className="sep">/</span> difficulté {nextItem.difficulty}/5</> : null}
+              {nextItem.activeDays.length ? <> <span className="sep">/</span> jour {nextItem.activeDays[0]}</> : null}
+            </p>
+          </div>
+          <Link className="btn cta" href={`/lab/${nextItem.id}`}>Ouvrir l’exercice</Link>
+        </section>
+      )}
+
       <Suspense fallback={<div className="lab-count">Chargement…</div>}>
         <LabCatalog items={items} activeTrack={{ id: activeTrackObj.id, title: activeTrackObj.title }} availableTracks={availableTracks} />
       </Suspense>
-    </>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Target, Terminal, CheckCheck, FileCode2 } from 'lucide-react';
+import { skillLabel } from '@/lib/skill-taxonomy.mjs';
 import { getExercise } from '@/lib/exercises-server';
 import { readWorkspaceTree } from '@/lib/workspace-server';
 import { resolveActiveFile } from '@/lib/exercise-files';
@@ -44,16 +45,77 @@ export default async function LabExercisePage({ params }: { params: Promise<{ ex
   const exDays = daysForExercise(getDayExerciseIndex(), ex.id);
   const terminalTasks = tasksForDays(exDays).map(publicTerminalTask);
 
+  const difficulty = typeof (ex as { difficulty?: number }).difficulty === 'number'
+    ? (ex as { difficulty: number }).difficulty : 0;
+  const skills: string[] = (ex as { skills?: string[] }).skills ?? [];
+  // Fichier à produire : le fichier actif non-test, c'est l'artefact attendu.
+  const editables = files.filter((f) => f.editable && !f.hidden);
+  const artefact = editables.find((f) => f.path === initialActive) ?? editables[0] ?? null;
+
   return (
-    <div className="page-workspace">
-      <div className="page-head">
-        <div className="page-head-main">
-          <p className="page-eyebrow"><Link href="/lab"><ChevronLeft size={12} /> Laboratoire</Link></p>
-          <h1 className="page-title">{ex.title}</h1>
-          <p className="page-sub">{ex.summary}</p>
+    <div className="page-workspace lab-ex">
+      {/* ── V57 · CP6 — La page d'exercice devient un POSTE DE TRAVAIL.
+          Elle ne rendait qu'un titre, un résumé et l'éditeur : 0 ombre,
+          1 carte, aucune structure (CP0). Elle expose maintenant, dans
+          l'ordre où l'on en a besoin, ce que le corpus contient déjà —
+          contexte, objectif, environnement, artefact, validation. Rien
+          n'est inventé : aucun nom de test privé n'est révélé. */}
+      <section className="lab-ex-head" aria-label={ex.title}>
+        <div className="lab-ex-head-main">
+          <p className="lab-eyebrow">
+            <Link href="/lab"><ChevronLeft size={12} /> Laboratoire</Link>
+            {skills.length > 0 && <> <span className="sep">/</span> {skills.map(skillLabel).join(' · ')}</>}
+            {difficulty > 0 && <> <span className="sep">/</span> difficulté {difficulty}/5</>}
+          </p>
+          <h1 className="lab-ex-title">{ex.title}</h1>
+          <p className="lab-ex-obj"><Target size={14} strokeWidth={2} /> {ex.summary}</p>
         </div>
-      </div>
-      <LabWorkspace exercise={meta} initialFiles={files} initialActive={initialActive} runtime={runtime} terminalTasks={terminalTasks} />
+      </section>
+
+      <section className="lab-ex-brief" aria-label="Conditions de travail">
+        <div className="lab-ex-cell">
+          <span className="lab-ex-k"><Terminal size={13} strokeWidth={2} /> Environnement</span>
+          <p className="lab-ex-v">{runtime.label}{runtime.version ? ` · ${runtime.version}` : ''}</p>
+          <p className="lab-ex-d">
+            {runtime.available
+              ? <>disponible localement{runtime.compiles ? ' · compilation' : ''}{runtime.preview ? ' · aperçu' : ''}</>
+              : <>indisponible sur cette machine{runtime.error ? ` — ${runtime.error}` : ''}</>}
+          </p>
+        </div>
+        <div className="lab-ex-cell">
+          <span className="lab-ex-k"><FileCode2 size={13} strokeWidth={2} /> Artefact attendu</span>
+          <p className="lab-ex-v">{artefact ? artefact.path : '—'}</p>
+          <p className="lab-ex-d">
+            {editables.length} fichier(s) éditable(s) dans l’espace de travail
+          </p>
+        </div>
+        <div className="lab-ex-cell">
+          <span className="lab-ex-k"><CheckCheck size={13} strokeWidth={2} /> Validation</span>
+          <p className="lab-ex-v">{meta.testCount} test{meta.testCount > 1 ? 's' : ''}</p>
+          <p className="lab-ex-d">
+            {meta.tests.length < meta.testCount
+              ? <>dont {meta.testCount - meta.tests.length} privé(s), non listés</>
+              : <>tous publics, exécutés localement</>}
+          </p>
+        </div>
+        {exDays.length > 0 && (
+          <div className="lab-ex-cell">
+            <span className="lab-ex-k">Contexte</span>
+            <p className="lab-ex-v">
+              {exDays.slice(0, 3).map((d, i) => (
+                <span key={d}>{i > 0 ? ', ' : ''}<Link href={`/day/${d}`}>jour {d}</Link></span>
+              ))}
+            </p>
+            <p className="lab-ex-d">
+              {exDays.length > 3 ? `et ${exDays.length - 3} autre(s) journée(s)` : 'journée(s) du curriculum'}
+            </p>
+          </div>
+        )}
+      </section>
+
+      <section className="lab-ex-work" aria-label="Exécution et vérification">
+        <LabWorkspace exercise={meta} initialFiles={files} initialActive={initialActive} runtime={runtime} terminalTasks={terminalTasks} />
+      </section>
     </div>
   );
 }

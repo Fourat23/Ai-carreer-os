@@ -3963,3 +3963,90 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 .period-head, .rv-head, .proj-head, .tb-head, .lab-head, .gl-head, .lab-ex-head {
   box-shadow: var(--shadow-3);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V58 · CP3 — COQUILLE ÉDITORIALE (.ed)
+   /career, /guide, /resources rendaient un `article.prose` nu : 1 à 3 fonds,
+   ZÉRO ombre, aucun bloc structurant. Le document est désormais tenu par une
+   coquille — contexte, navigation locale, sommaire de lecture, métadonnées
+   réelles. Ce n'est PAS un tableau de bord : la colonne de lecture reste
+   bornée et le sommaire est un support, pas un concurrent.
+   ══════════════════════════════════════════════════════════════════════════ */
+.ed { display: flex; flex-direction: column; gap: var(--sp-5); }
+.ed-nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.ed-nav a {
+  font-size: var(--fs-sm); text-decoration: none; color: var(--muted);
+  background-color: var(--raised); border: 1px solid var(--border);
+  border-radius: 999px; padding: 4px 14px;
+}
+.ed-nav a:hover { color: var(--text); border-color: var(--border-strong); background-color: var(--interactive); }
+.ed-nav a[aria-current="page"] { color: var(--text); background-color: var(--focus-surface); border-color: var(--border-accent); font-weight: 650; }
+
+.ed-body { display: grid; grid-template-columns: minmax(0, var(--read-max, 72ch)) 15rem; gap: var(--sp-6); align-items: start; }
+.ed-doc { min-width: 0; overflow-wrap: anywhere; }
+.ed-doc table, .ed-doc pre { display: block; max-width: 100%; overflow-x: auto; }
+
+/* Sommaire : composant STANDARD (table des matières), pas un motif. */
+.ed-toc {
+  position: sticky; top: var(--sp-5); align-self: start;
+  max-height: calc(100vh - 80px); overflow-y: auto;
+  background-color: var(--surface); background-image: var(--grad-surface);
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: var(--sp-4); box-shadow: var(--shadow-1);
+}
+.ed-toc-h { margin: 0 0 var(--sp-3); font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.ed-toc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.ed-toc-i a {
+  display: block; padding: 4px 0 4px var(--sp-3); font-size: var(--fs-sm);
+  color: var(--muted); text-decoration: none; border-left: 2px solid var(--border-subtle);
+}
+.ed-toc-i.lvl-3 a { padding-left: var(--sp-5); font-size: var(--fs-xs); }
+.ed-toc-i a:hover { color: var(--text); border-left-color: var(--border-strong); }
+.ed-toc-i.is-current a { color: var(--text); border-left-color: var(--accent); font-weight: 650; }
+.ed-toc-i a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--r-sm); }
+.ed-foot { margin: 0; padding-top: var(--sp-4); border-top: 1px solid var(--border-subtle); font-size: var(--fs-xs); color: var(--faint); }
+
+@media (max-width: 1199px) {
+  /* Le sommaire passe en bandeau replié AU-DESSUS du texte : à cette largeur
+     une colonne latérale de 15 rem mangerait la colonne de lecture. Aucune
+     information n'est perdue, elle change de forme. */
+  .ed-body { grid-template-columns: minmax(0, 1fr); }
+  .ed-toc { position: static; max-height: none; order: -1; }
+  .ed-toc-list { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .ed-toc-i a { border-left: none; border: 1px solid var(--border-subtle); border-radius: 999px; padding: 3px 10px; }
+  .ed-toc-i.lvl-3 { display: none; }
+  .ed-toc-i.is-current a { border-color: var(--border-accent); background: var(--focus-surface); }
+}
+
+/* V58 · CP3 (suite) — TRAITEMENT DU CONTENU LONG.
+   Après la mise en coquille, `/career`, `/guide` et `/resources` restaient à
+   2 niveaux d'élévation : la bande et le sommaire. Le DOCUMENT lui-même
+   n'avait aucun traitement — citations et blocs de code rendus à plat dans le
+   flux de texte. C'est un défaut de lecture longue, pas un défaut de sonde :
+   sur un document de 4 000 px, un encadré qui ne se distingue pas du corps
+   n'est pas un encadré.
+   Les citations Markdown deviennent des apartés, les blocs de code une
+   surface technique lisible. Le contenu n'est pas modifié. */
+.ed-doc blockquote {
+  margin: var(--sp-5) 0; padding: var(--sp-4) var(--sp-5);
+  border: none; border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r) var(--r) 0;
+  background-color: var(--raised); background-image: var(--grad-raised);
+  box-shadow: var(--shadow-2);
+  color: var(--text);
+}
+.ed-doc blockquote > :first-child { margin-top: 0; }
+.ed-doc blockquote > :last-child { margin-bottom: 0; }
+.ed-doc pre {
+  background-color: var(--canvas); border: 1px solid var(--border-subtle);
+  border-radius: var(--r); padding: var(--sp-4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03);
+}
+.ed-doc table {
+  border-collapse: collapse; width: 100%; font-size: var(--fs-sm);
+  background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+}
+.ed-doc thead th { background-color: var(--raised); text-align: left; }
+.ed-doc th, .ed-doc td { padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--border-subtle); }
+/* Les liens de prose restent soulignés (règle a11y V54.2, reconduite). */
+.ed-doc a { text-decoration: underline; text-underline-offset: 2px; }

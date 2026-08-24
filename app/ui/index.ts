@@ -24,3 +24,4 @@ export { YearBand } from './YearBand';
 export type { BandDay } from './YearBand';
 export { SurfaceHead } from './SurfaceHead';
 export type { SurfaceKind, SurfaceFact } from './SurfaceHead';
+export { EditorialShell } from './EditorialShell';

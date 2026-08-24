@@ -1,30 +1,43 @@
-import Link from 'next/link';
 import { publicManifestSummaries } from '@/lib/manifests-server';
 import KubernetesCatalogue from './KubernetesCatalogue';
+import TechBench from '../tech/TechBench';
 
 export const dynamic = 'force-dynamic';
 
+// V57 · CP9 — Même constat qu'au CP0 sur /pipelines : zéro bloc structurant.
+// Même grammaire, contenu propre au domaine.
 export default function KubernetesPage() {
   const scenarios = publicManifestSummaries();
+  const resources = scenarios.reduce((n, s) => n + ((s as { resources?: unknown[] }).resources?.length ?? 0), 0);
+  const skills = new Set(scenarios.flatMap((s) => (s as { skills?: string[] }).skills ?? [])).size;
+
   return (
-    <div className="page">
-      <div className="page-head">
-        <div className="page-head-main">
-          <h1 className="page-title">Kubernetes &amp; Orchestration Lab</h1>
-          <p className="page-sub">
-            Laboratoire <strong>déterministe</strong> d’analyse de manifests Kubernetes — analyse la
-            configuration, détecte les défauts, simule un incident (CrashLoopBackOff, OOMKilled…) ou un
-            rollout. Ce n’est pas une console kubectl : aucun cluster, aucun réseau, aucun secret, aucun
-            déploiement réel. Les manifests sont en JSON (équivalents à du YAML).
-          </p>
-        </div>
-      </div>
+    <TechBench
+      eyebrow="Laboratoire · orchestration de conteneurs"
+      title="Kubernetes & Orchestration Lab"
+      lead={<>Analyse une configuration, détecte ses défauts, simule un incident
+        (CrashLoopBackOff, OOMKilled…) ou un rollout. Les manifests sont en JSON,
+        équivalents au YAML que tu écriras en production.</>}
+      limits={[
+        'Ce n’est pas une console kubectl : aucun cluster n’est contacté.',
+        'Aucun accès réseau, aucun secret, aucun déploiement réel.',
+        'Les incidents sont rejoués à l’identique : c’est ce qui les rend analysables.',
+      ]}
+      facts={[
+        { k: 'Scénarios', v: scenarios.length },
+        { k: 'Ressources décrites', v: resources },
+        { k: 'Compétences couvertes', v: skills },
+      ]}
+      related={[
+        { href: '/day/320', label: 'Jour conteneurs' },
+        { href: '/cloud-lab', label: 'Cloud Topology Lab' },
+        { href: '/pipelines', label: 'Pipeline Lab' },
+        { href: '/glossary', label: 'Glossaire' },
+      ]}
+    >
       {scenarios.length === 0
         ? <p className="muted">Aucun scénario pour le moment.</p>
         : <KubernetesCatalogue scenarios={scenarios} />}
-      <p className="muted" style={{ marginTop: 'var(--sp-4)' }}>
-        Pour aller plus loin : <Link href="/day/320">jour conteneurs</Link> · <Link href="/cloud-lab">Cloud Topology Lab</Link> · <Link href="/pipelines">Pipeline Lab</Link> · <Link href="/missions">Missions</Link> · <Link href="/glossary">Glossaire</Link>.
-      </p>
-    </div>
+    </TechBench>
   );
 }

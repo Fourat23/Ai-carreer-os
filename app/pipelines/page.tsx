@@ -1,29 +1,45 @@
-import Link from 'next/link';
 import { publicPipelineSummaries } from '@/lib/pipelines-server';
 import PipelineCatalogue from './PipelineCatalogue';
+import TechBench from '../tech/TechBench';
 
 export const dynamic = 'force-dynamic';
 
+// V57 · CP9 — Le CP0 mesurait ZÉRO bloc structurant sur cette route. Elle
+// reçoit la grammaire de poste de travail (contexte → limites → inventaire →
+// travail → prolongements). Les faits sont comptés sur le catalogue réel :
+// aucun chiffre n'est écrit à la main.
 export default function PipelinesPage() {
   const pipelines = publicPipelineSummaries();
+  const stages = pipelines.reduce((n, p) => n + ((p as { stages?: unknown[] }).stages?.length ?? 0), 0);
+  const skills = new Set(pipelines.flatMap((p) => (p as { skills?: string[] }).skills ?? [])).size;
+
   return (
-    <div className="page">
-      <div className="page-head">
-        <div className="page-head-main">
-          <h1 className="page-title">Pipeline Lab</h1>
-          <p className="page-sub">
-            Simulateur pédagogique <strong>déterministe</strong> de pipelines CI/CD — construis, déclenche,
-            diagnostique et évalue une chaîne de livraison en local. Ce n’est pas un runner CI réel, aucun
-            réseau, aucun secret, aucun déploiement.
-          </p>
-        </div>
-      </div>
+    <TechBench
+      eyebrow="Laboratoire · livraison continue"
+      title="Pipeline Lab"
+      lead={<>Construis, déclenche, diagnostique et évalue une chaîne de livraison en local.
+        La simulation est <strong>déterministe</strong> : les mêmes entrées produisent
+        toujours le même résultat, ce qui rend le diagnostic apprenable.</>}
+      limits={[
+        'Ce n’est pas un runner CI réel : rien n’est exécuté sur une machine distante.',
+        'Aucun accès réseau, aucun secret, aucun jeton.',
+        'Aucun déploiement : les environnements sont des états simulés.',
+      ]}
+      facts={[
+        { k: 'Pipelines', v: pipelines.length },
+        { k: 'Étapes au total', v: stages },
+        { k: 'Compétences couvertes', v: skills },
+      ]}
+      related={[
+        { href: '/day/326', label: 'Jour CI' },
+        { href: '/lab', label: 'Laboratoire' },
+        { href: '/missions', label: 'Missions' },
+        { href: '/glossary', label: 'Glossaire' },
+      ]}
+    >
       {pipelines.length === 0
         ? <p className="muted">Aucun pipeline pour le moment.</p>
         : <PipelineCatalogue pipelines={pipelines} />}
-      <p className="muted" style={{ marginTop: 'var(--sp-4)' }}>
-        Pour aller plus loin : <Link href="/day/326">jour CI</Link> · <Link href="/lab">Laboratoire</Link> · <Link href="/missions">Missions</Link> · <Link href="/glossary">Glossaire</Link>.
-      </p>
-    </div>
+    </TechBench>
   );
 }

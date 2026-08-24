@@ -1,78 +1,145 @@
 import Link from 'next/link';
-import { HeroFocus, HeroFact } from '@/app/ui';
 import { getProgram, getDocHtml } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
+import { EvidenceMark } from '@/app/ui';
 
 export const dynamic = 'force-dynamic';
 
+// V57 · CP8 — /reviews échouait R4 et empilait un hero, un tableau de 52
+// lignes dans une carte, une rangée de 12 boutons de mois et deux documents.
+// Une page d'évaluation doit d'abord servir la DÉCISION : qu'est-ce qui est
+// dû, qu'est-ce qui a été fait, quel écart, quelle remédiation.
+//
+// La page est donc organisée autour de trois échelles réelles de revue —
+// hebdomadaire, mensuelle, entretien — et la première d'entre elles est
+// résolue jusqu'à l'action : la prochaine revue non faite.
+//
+// Aucune note n'est calculée. Une revue reste un rendez-vous avec soi-même :
+// le produit dit ce qui est dû et ce qui est fait, jamais ce que ça vaut.
+//
+// Motif propriétaire : EvidenceMark, pour ce qu'il exprime — la NATURE d'une
+// preuve. Une revue produite est une évaluation (`assessment`), un bilan
+// mensuel en est une autre : le glyphe distingue les deux natures, il ne
+// récompense rien et ne compte rien.
 export default function ReviewsPage() {
   const program = getProgram();
   const progress = readProgress();
   const monthly = getDocHtml('rubrics/monthly-evaluation.md');
   const interview = getDocHtml('rubrics/interview-evaluation.md');
+  const statusOf = (d: number) => progress.days?.[String(d)]?.status ?? 'todo';
 
-  // Jours de revue hebdo = le 7e jour de chaque semaine.
-  const reviewDays = program.days.filter((d) => d.isReview);
-  const doneReviews = reviewDays.filter((d) => progress.days[String(d.day)]?.status === 'done').length;
+  const reviewDays = (program.days as { day: number; week: number; month: number; isReview?: boolean }[])
+    .filter((d) => d.isReview);
+  const done = reviewDays.filter((d) => statusOf(d.day) === 'done');
+  const next = reviewDays.find((d) => statusOf(d.day) !== 'done') ?? null;
+
+  // Revues groupées par mois : c'est l'échelle à laquelle on décide vraiment
+  // (« ce mois-ci, qu'est-ce que je n'ai pas bouclé ? »), pas 52 lignes à plat.
+  const byMonth = [...reviewDays.reduce((m, d) => {
+    const cur = m.get(d.month) ?? [];
+    cur.push(d); m.set(d.month, cur);
+    return m;
+  }, new Map<number, typeof reviewDays>()).entries()].sort((a, b) => a[0] - b[0]);
 
   return (
-    <>
-      <HeroFocus
-        tone="calm"
-        eyebrow="Évaluations"
-        title={`${doneReviews} revue${doneReviews > 1 ? 's' : ''} hebdomadaire${doneReviews > 1 ? 's' : ''} sur ${reviewDays.length}`}
-        lead="Revues hebdomadaires, bilans mensuels et grilles d'entretien. Rien n'est noté automatiquement : ces revues sont des rendez-vous avec toi-même."
-        meta={
-          <>
-            <HeroFact k="Revues hebdo">{reviewDays.length} au programme</HeroFact>
-            <HeroFact k="Terminées">{doneReviews}</HeroFact>
-            <HeroFact k="Grilles">mensuelle et entretien</HeroFact>
-          </>
-        }
-      />
+    <div className="rv">
+      {/* ── POSITION : où en est la boucle d'évaluation ───────────────────── */}
+      <section className="rv-head" aria-label="Évaluations">
+        <div className="rv-head-main">
+          <p className="rv-eyebrow">Évaluer <span className="sep">/</span> trois échelles de revue</p>
+          <h1 className="rv-title">Évaluations</h1>
+          <p className="rv-lead">
+            Rien n’est noté automatiquement. Le produit dit ce qui est dû et ce qui est
+            fait ; ce que ça vaut, c’est toi qui l’écris, avec les grilles ci-dessous.
+          </p>
+        </div>
+        <dl className="rv-facts">
+          <div><dt>Revues hebdo au programme</dt><dd>{reviewDays.length}</dd></div>
+          <div><dt>Terminées</dt><dd>{done.length}</dd></div>
+          <div><dt>Grilles disponibles</dt><dd>{[monthly, interview].filter(Boolean).length}</dd></div>
+        </dl>
+      </section>
 
-      <div className="section-head"><span className="section-label">Hebdo</span><h2 className="section-title">Revues hebdomadaires</h2></div>
-      <div className="card">
-        <table className="list">
-          <thead><tr><th>Semaine</th><th>Jour de revue</th><th>Statut</th><th></th></tr></thead>
-          <tbody>
-            {reviewDays.map((d) => {
-              const st = progress.days[String(d.day)]?.status ?? 'not-started';
-              return (
-                <tr key={d.day}>
-                  <td>Semaine {d.week}</td>
-                  <td>Jour {d.day}</td>
-                  <td>{st === 'done' ? <span className="badge ok">terminée</span> : <span className="badge">à faire</span>}</td>
-                  <td><Link className="btn small" href={`/day/${d.day}`}>Ouvrir</Link></td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      {/* ── DÉCISION : la prochaine revue due, résolue jusqu'à l'action ───── */}
+      {next ? (
+        <section className="rv-next" aria-label="Prochaine revue">
+          <div className="rv-next-body">
+            <span className="rv-next-k">Prochaine revue hebdomadaire non faite</span>
+            <p className="rv-next-t">Semaine {next.week} — jour {next.day}</p>
+            <p className="rv-next-d">
+              {done.length} revue{done.length > 1 ? 's' : ''} derrière toi ·{' '}
+              {reviewDays.length - done.length} restante{reviewDays.length - done.length > 1 ? 's' : ''}
+            </p>
+          </div>
+          <Link className="btn cta" href={`/day/${next.day}`}>Ouvrir la revue</Link>
+        </section>
+      ) : (
+        <section className="rv-next" aria-label="Prochaine revue">
+          <div className="rv-next-body">
+            <span className="rv-next-k">Revues hebdomadaires</span>
+            <p className="rv-next-t">Les {reviewDays.length} revues du programme sont marquées faites.</p>
+          </div>
+        </section>
+      )}
 
-      <div className="section-head" style={{ marginTop: 'var(--sp-8)' }}><span className="section-label">Mensuel</span><h2 className="section-title">Revues mensuelles</h2></div>
-      <div className="card">
-        <div className="row" style={{ flexWrap: 'wrap' }}>
-          {program.months.map((m) => (
-            <Link key={m.month} className="btn small" href={`/month/${m.month}`}>
-              Mois {m.month}
-            </Link>
-          ))}
+      {/* ── ÉCARTS : par mois, l'échelle à laquelle on décide ─────────────── */}
+      <section className="rv-grid" aria-label="Revues hebdomadaires par mois">
+        <div className="rv-sec-head">
+          <h2 className="rv-h">Revues hebdomadaires</h2>
+          <span className="rv-h-note">une par semaine · groupées par mois</span>
+        </div>
+        <ol className="rv-months">
+          {byMonth.map(([month, list]) => {
+            const d = list.filter((x) => statusOf(x.day) === 'done').length;
+            return (
+              <li key={month} className="rv-month">
+                <Link href={`/month/${month}`} className="rv-month-k">Mois {month}</Link>
+                <span className="rv-month-weeks">
+                  {list.map((x) => (
+                    <Link
+                      key={x.day}
+                      href={`/day/${x.day}`}
+                      className={`rv-week s-${statusOf(x.day)}`}
+                      title={`Semaine ${x.week} — jour ${x.day} — ${statusOf(x.day) === 'done' ? 'faite' : 'à faire'}`}
+                    >
+                      S{x.week}
+                    </Link>
+                  ))}
+                </span>
+                <span className="rv-month-n">{d}/{list.length}</span>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
+      {/* ── GRILLES : ce sur quoi on statue, documents inchangés ──────────── */}
+      <section className="rv-rubrics" aria-label="Grilles d’évaluation">
+        <div className="rv-sec-head">
+          <h2 className="rv-h">Grilles</h2>
+          <span className="rv-h-note">documents du curriculum, inchangés</span>
         </div>
         {monthly && (
-          <details className="solution" style={{ marginTop: 16 }}>
-            <summary>Grille d'évaluation mensuelle</summary>
-            <div className="prose" style={{ borderRadius: '0 0 8px 8px', borderTop: 'none' }}
-                 dangerouslySetInnerHTML={{ __html: monthly }} />
+          <details className="rv-rubric">
+            <summary>
+              <EvidenceMark type="assessment" />
+              <span className="rv-rubric-t">Bilan mensuel</span>
+              <span className="rv-rubric-d">à tenir à la fin de chaque mois</span>
+            </summary>
+            <article className="prose reading" dangerouslySetInnerHTML={{ __html: monthly }} />
           </details>
         )}
-      </div>
-
-      <div className="section-head" style={{ marginTop: 'var(--sp-8)' }}><span className="section-label">Entretien</span><h2 className="section-title">Grille d'entretien</h2></div>
-      {interview && (
-        <article className="prose" dangerouslySetInnerHTML={{ __html: interview }} />
-      )}
-    </>
+        {interview && (
+          <details className="rv-rubric">
+            <summary>
+              <EvidenceMark type="assessment" />
+              <span className="rv-rubric-t">Grille d’entretien</span>
+              <span className="rv-rubric-d">se relire comme un recruteur le ferait</span>
+            </summary>
+            <article className="prose reading" dangerouslySetInnerHTML={{ __html: interview }} />
+          </details>
+        )}
+      </section>
+    </div>
   );
 }

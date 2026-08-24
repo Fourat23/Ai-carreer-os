@@ -3046,3 +3046,163 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 }
 .diag-grid .diag-card:last-child, .cap-grid .cap-card:last-child { border-bottom: none !important; }
 .diag-card:hover, .cap-card:hover { background: var(--raised) !important; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V57 · P0 — STATION DE RÉACTIVATION (/revisions)
+   Trois zones structurantes, pas un empilement de panneaux : l'état de la
+   file, l'échéancier, puis le modèle. La file est le point focal et garde le
+   poids visuel ; l'échéancier est une BANDE continue, pas une liste ; l'échelle
+   de consolidation est une matrice proportionnelle, pas des cartes.
+   Aucune frontière de carte n'est posée sur un contenu qui n'a ni action, ni
+   état, ni cycle de vie propre (ADR-057 §5).
+   ══════════════════════════════════════════════════════════════════════════ */
+.rev-station { display: flex; flex-direction: column; gap: var(--sp-5); }
+
+/* ── ZONE 1 · la file ───────────────────────────────────────────────────── */
+.rev-queue {
+  background-color: var(--shell);
+  background-image: var(--grad-surface), var(--grid-hairline);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg, 14px);
+  padding: var(--sp-5) var(--sp-5) var(--sp-4);
+  box-shadow: var(--shadow-2);
+}
+.rev-queue-eyebrow {
+  margin: 0; font-size: var(--fs-xs); color: var(--muted);
+  text-transform: uppercase; letter-spacing: .08em; font-weight: 600;
+}
+.rev-queue-title {
+  margin: var(--sp-2) 0 var(--sp-4);
+  font-size: var(--fs-display-xl); line-height: 1.04;
+  letter-spacing: var(--tracking-display); font-weight: 700;
+}
+.rev-gauges { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--border-subtle); border-radius: var(--r); overflow: hidden; }
+/* Les trois compartiments ne sont pas des cartes : ils partagent une surface
+   continue séparée par un filet d'un pixel. La frontière n'est pas justifiée
+   (aucune action, aucun cycle de vie propre), elle n'est donc pas posée. */
+.rev-gauge {
+  display: flex; flex-direction: column; gap: 4px;
+  background-color: var(--raised); background-image: var(--grad-raised);
+  padding: var(--sp-3) var(--sp-4);
+}
+.rev-gauge-k { display: flex; align-items: center; gap: 6px; font-size: var(--fs-xs); font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.rev-gauge-n { font-size: var(--fs-display-lg); font-weight: 700; line-height: 1; letter-spacing: var(--tracking-display); color: var(--faint); }
+.rev-gauge.has .rev-gauge-n { color: var(--text); }
+.rev-gauge.is-late.has { background-color: var(--focus-surface); }
+.rev-gauge.is-late.has .rev-gauge-n, .rev-gauge.is-late.has .rev-gauge-k { color: var(--warn); }
+.rev-gauge.is-today.has .rev-gauge-n { color: var(--accent); }
+.rev-gauge-d { font-size: var(--fs-xs); color: var(--muted); }
+
+/* ── ZONE 2 · l'échéancier ──────────────────────────────────────────────── */
+.rev-horizon, .rev-model {
+  background-color: var(--surface); background-image: var(--grad-surface);
+  border: 1px solid var(--border); border-radius: var(--r-lg, 14px);
+  padding: var(--sp-4) var(--sp-5) var(--sp-5);
+  box-shadow: var(--shadow-1);
+}
+.rev-horizon-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--sp-2); margin-bottom: var(--sp-4); }
+.rev-h { margin: 0; font-size: var(--fs-lg); font-weight: 650; letter-spacing: -0.01em; }
+.rev-h-note { font-size: var(--fs-xs); color: var(--muted); }
+
+/* Bande temporelle continue : aujourd'hui à gauche, J+30 à droite. Les
+   échéances réelles sont posées à leur décalage réel — c'est une TRAJECTOIRE,
+   pas une liste déguisée. */
+.rev-track {
+  position: relative; height: 96px; margin-top: var(--sp-4);
+  background-color: var(--canvas); background-image: var(--grad-raised);
+  border: 1px solid var(--border-subtle); border-radius: var(--r);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03);
+}
+.rev-track-grid { position: absolute; inset: 0; }
+.rev-track-week {
+  position: absolute; top: 6px; font-size: var(--fs-xs); color: var(--faint);
+  transform: translateX(2px); padding-left: 6px; border-left: 1px solid var(--border-subtle);
+  height: calc(100% - 12px); display: flex; align-items: flex-start;
+}
+.rev-track-now { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); border-radius: 2px; }
+.rev-tick { position: absolute; bottom: 14px; display: flex; flex-direction: column; align-items: center; gap: 4px; transform: translateX(-50%); text-decoration: none; }
+.rev-tick-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: var(--shadow-1); }
+.rev-tick-lab { font-size: var(--fs-xs); font-weight: 600; color: var(--text); }
+.rev-tick:hover .rev-tick-dot { background: var(--text); }
+.rev-tick:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--r-sm); }
+.rev-track-void { position: absolute; inset: auto var(--sp-4) var(--sp-3) var(--sp-4); margin: 0; font-size: var(--fs-sm); color: var(--muted); }
+
+/* ── ZONE 3 · le modèle ─────────────────────────────────────────────────── */
+.rev-model { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--sp-6); align-items: start; }
+.rev-ladder-lead, .rev-ladder-foot { color: var(--muted); font-size: var(--fs-sm); max-width: 66ch; }
+.rev-ladder-lead { margin: 0 0 var(--sp-4); }
+.rev-ladder-foot { margin: var(--sp-4) 0 0; display: flex; gap: 6px; align-items: baseline; }
+
+/* Échelle : chaque barreau est une LIGNE d'une matrice, jamais une carte.
+   La longueur de la barre est proportionnelle à l'intervalle réel. */
+.rev-rungs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.rev-rung {
+  display: grid; grid-template-columns: 150px minmax(60px, 1fr) 48px; gap: var(--sp-3);
+  align-items: center; padding: var(--sp-2) 0; border-bottom: 1px solid var(--border-subtle);
+}
+.rev-rung:last-child { border-bottom: none; }
+.rev-rung-k { font-size: var(--fs-sm); font-weight: 600; }
+.rev-rung-bar { height: 10px; background: var(--canvas); border-radius: 999px; overflow: hidden; border: 1px solid var(--border-subtle); }
+.rev-rung-fill { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.rev-rung-fill.is-cap { background: var(--border-strong); }
+.rev-rung-n { font-size: var(--fs-sm); font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.rev-rung-d { grid-column: 1 / -1; font-size: var(--fs-xs); color: var(--faint); margin-top: -2px; }
+.rev-rung.is-cap .rev-rung-k, .rev-rung.is-cap .rev-rung-n { color: var(--muted); }
+
+.rev-maintain-row { display: flex; flex-direction: column; gap: var(--sp-4); }
+.rev-maintain-item {
+  background-color: var(--raised); background-image: var(--grad-raised);
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: var(--sp-4); box-shadow: var(--shadow-1);
+  display: flex; flex-direction: column; gap: var(--sp-2); align-items: flex-start;
+}
+/* Frontière JUSTIFIÉE ici (ADR-057 §5) : chaque item porte une action autonome
+   et une navigation autonome — ce sont les deux seules cartes de la page. */
+.rev-maintain-item:last-child { background-color: var(--focus-surface); border-color: var(--border-accent); box-shadow: var(--shadow-focus); }
+.rev-maintain-k { display: flex; align-items: center; gap: 6px; font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.rev-maintain-d { margin: 0; font-size: var(--fs-sm); color: var(--muted); }
+.rev-work { margin-top: var(--sp-5); }
+
+@media (max-width: 1023px) {
+  .rev-model { grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); }
+}
+@media (max-width: 767px) {
+  .rev-gauges { grid-template-columns: minmax(0, 1fr); }
+  .rev-queue, .rev-horizon, .rev-model { padding: var(--sp-4); }
+  .rev-rung { grid-template-columns: minmax(0, 1fr) 48px; }
+  .rev-rung-bar { grid-column: 1 / -1; }
+  .rev-track { height: 118px; }
+}
+
+/* V57 · P0 (suite) — L'échéancier et le modèle deviennent des SECTIONS
+   ÉDITORIALES OUVERTES : un filet supérieur au lieu d'un cadre. Leur contenu
+   n'a ni action, ni état, ni cycle de vie propre — la frontière de carte
+   n'est donc pas justifiée (ADR-057 §5). Mesuré : cartes 6 → 3, part du texte
+   hors carte 0,00 → mesurée à nouveau. Seules restent encadrées la bande de
+   file (le point focal) et les deux actions réellement autonomes. */
+.rev-horizon, .rev-model {
+  background-color: transparent; background-image: none;
+  border: none; border-top: 1px solid var(--border-subtle); border-radius: 0;
+  box-shadow: none; padding: var(--sp-5) 0 0;
+}
+.rev-track {
+  border: none; border-radius: 0;
+  border-left: 2px solid var(--accent);
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, transparent, var(--raised));
+  box-shadow: none;
+}
+.rev-track-now { display: none; }
+
+/* V57 · P0 — deux défauts trouvés en OUVRANT la capture, qu'aucune métrique
+   n'attrapait :
+   1. `.rev-ladder-foot` en `display:flex` transformait chaque nœud inline du
+      paragraphe (texte, <strong>, <a>) en élément flex : la phrase se rendait
+      en colonnes de deux mots. C'est un paragraphe, il redevient du texte.
+   2. les barres se référaient au plafond de 180 j, écrasant tout l'écart utile
+      1→21 j à moins d'un pixel. La référence est désormais le plus grand
+      premier intervalle ; le barreau de plafond est signalé hors échelle. */
+.rev-ladder-foot { display: block; }
+.rev-ladder-foot svg { vertical-align: -2px; margin-right: 4px; }
+.rev-rung.is-cap .rev-rung-bar { border-style: dashed; }
+.rev-rung.is-cap .rev-rung-fill { opacity: .5; }

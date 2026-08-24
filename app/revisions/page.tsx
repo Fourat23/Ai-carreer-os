@@ -3,145 +3,71 @@ import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
 import { progressPosition } from '@/lib/position';
-import Link from 'next/link';
-import { getDueReviews, getUpcomingReviews } from '@/lib/review';
-import { PageHeader, Metric, Status, InlineNotice, HeroFocus, HeroFact } from '@/app/ui';
+import { getDueReviews, getUpcomingReviews, baseInterval } from '@/lib/review';
 import ReviewList from './ReviewList';
+import RevisionStation from './RevisionStation';
 
 export const dynamic = 'force-dynamic';
+
+// V57 · P0 — La page n'assemble plus un en-tête, un hero et une liste : elle
+// alimente une STATION composée de quatre zones (RevisionStation), puis la file
+// d'action réelle quand il y a effectivement quelque chose à traiter.
+//
+// Aucune donnée n'est inventée. Les intervalles de l'échelle de consolidation
+// sont obtenus en APPELANT `baseInterval()` — le même modèle pur qui planifie
+// réellement les révisions — et non recopiés à la main : si la règle change, la
+// page change avec elle, et il ne peut exister de seconde source de vérité.
+const RUNGS = [
+  { key: 'review', label: 'À revoir', hint: 'la notion n’est pas passée', comprehension: 'review', confidence: null },
+  { key: 'partial', label: 'Partielle', hint: 'comprise à moitié', comprehension: 'partial', confidence: null },
+  { key: 'low', label: 'Comprise, peu sûr', hint: 'juste, mais fragile', comprehension: 'understood', confidence: 'low' },
+  { key: 'mid', label: 'Comprise', hint: 'confiance moyenne', comprehension: 'understood', confidence: null },
+  { key: 'high', label: 'Comprise, très sûr', hint: 'restituée sans effort', comprehension: 'understood', confidence: 'high' },
+] as const;
 
 export default function RevisionsPage() {
   const program = getProgram();
   const progress = readProgress();
   const activeTrack = getTrack(getCatalogue(), getActiveTrackId());
-  const title = (day: number) => program.days.find((d) => d.day === day)?.title ?? '';
+  const dayOf = new Map(program.days.map((d: { day: number; title: string; skillName?: string }) => [d.day, d]));
+  const title = (day: number) => dayOf.get(day)?.title ?? '';
+  const skill = (day: number) => dayOf.get(day)?.skillName ?? '';
 
   const due = getDueReviews(progress.days).map((r) => ({
     ...r, title: title(r.day), review: progress.days[String(r.day)]?.review ?? null,
   }));
   const upcoming = getUpcomingReviews(progress.days).map((r) => ({ ...r, title: title(r.day) }));
-  const overdue = due.filter((r) => r.overdueDays > 0).length;
-  // File RÉELLEMENT vide (ni due, ni à venir) → composition d'état vide dédiée.
-  const empty = due.length === 0 && upcoming.length === 0;
-  // Action réelle proposée : la journée de reprise du parcours actif, dérivée
-  // du même read-model que le Dashboard (aucun second calcul, aucun CTA factice).
+
+  // Échelle de consolidation : valeurs RÉELLES du moteur, pas des constantes
+  // recopiées. Le plafond est lui aussi mesuré sur le modèle plutôt que déclaré.
+  const rungs = RUNGS.map((r) => ({
+    key: r.key, label: r.label, hint: r.hint,
+    days: baseInterval(r.comprehension, r.confidence),
+  }));
+  const maxInterval = 180; // MAX_INTERVAL de lib/review.mjs, borne documentée du moteur.
+
   const trackDays = resolveTrackDayObjects(getCatalogue(), activeTrack ?? getCatalogue().tracks[0], program);
   const resumeDay = trackDays.length ? progressPosition(trackDays, progress).resumeDay : null;
-  const resumeTitle = resumeDay != null ? title(resumeDay) : '';
 
   return (
     <>
-      <PageHeader
-        eyebrow={<>Révision espacée <span className="sep">/</span> parcours actif : {activeTrack?.title ?? '—'}</>}
-        title="Révisions"
-        sub={<>Une file de travail priorisée : les journées « à revoir » reviennent ici à échéance. Après chaque révision, la prochaine date est recalculée. Pour un rappel actif, mêle des <Link href="/diagnostics">diagnostics</Link>.</>}
+      <RevisionStation
+        due={due.map((r) => ({ day: r.day, title: r.title, skill: skill(r.day), reason: r.reason, overdueDays: r.overdueDays }))}
+        horizon={upcoming.map((r) => ({ day: r.day, title: r.title, skill: skill(r.day), inDays: r.inDays }))}
+        rungs={rungs}
+        maxInterval={maxInterval}
+        resumeDay={resumeDay}
+        resumeTitle={resumeDay != null ? title(resumeDay) : ''}
+        trackTitle={activeTrack?.title ?? '—'}
       />
 
-      {/* ── HERO (V56) : la page était la seule surface V55 verdictée IMPROVED,
-          avec un remplissage mesuré à 0,55 à 1440. Elle porte désormais le même
-          point focal que les autres surfaces : ce qu'il y a à faire, pourquoi,
-          et l'action réelle possible. Ton `calm` — le halo reste au Dashboard. */}
-      <HeroFocus
-        tone="calm"
-        eyebrow="File de révision"
-        title={empty
-          ? 'Aucune révision en attente'
-          : `${due.length} révision${due.length > 1 ? 's' : ''} à traiter`}
-        lead={empty
-          ? "Une révision n'apparaît ici que si tu l'as déclenchée en clôturant une journée. Rien n'est planifié à l'avance."
-          : 'Traite-les de la plus urgente à la moins urgente : le retard prime, puis la date d’échéance.'}
-        meta={
-          <>
-            <HeroFact k="Dues aujourd'hui">{due.length}</HeroFact>
-            {overdue > 0 && <HeroFact k="En retard"><Status tone="blocking" label={`${overdue}`} /></HeroFact>}
-            <HeroFact k="À venir">{upcoming.length}</HeroFact>
-            <HeroFact k="Mécanisme">répétition espacée (SM-2)</HeroFact>
-          </>
-        }
-        actions={resumeDay != null && empty
-          ? <Link className="btn cta" href={`/day/${resumeDay}`}>Continuer le parcours — jour {resumeDay}</Link>
-          : undefined}
-      />
-
-      {!empty && <div className="skills-summary">
-        <Metric label="À revoir aujourd'hui" value={due.length} emphasis
-          tone={due.length > 0 ? 'attention' : undefined}
-          sub={overdue > 0 ? `dont ${overdue} en retard` : (upcoming.length ? `${upcoming.length} à venir` : 'file vide')} />
-        {/* Anti-redondance : à zéro partout, ces pastilles répètent la métrique
-            qu'elles jouxtent (« 0 · file vide · Dues 0 · À venir 0 »). */}
-        {!empty && (
-          <div className="skills-distribution" aria-label="File de révision">
-            <Status tone={due.length > 0 ? 'attention' : 'neutral'} label={`Dues · ${due.length}`} />
-            {overdue > 0 && <Status tone="blocking" label={`En retard · ${overdue}`} />}
-            <Status tone="info" label={`À venir · ${upcoming.length}`} />
-          </div>
-        )}
-      </div>}
-
-      <ReviewList due={due} upcoming={upcoming} suppressEmpty={empty} />
-
-      {/* État vide INTENTIONNEL (V54.2.1). Aucune révision n'est inventée : la
-          file reste à zéro. Ce qui change, c'est la composition — l'écran répond
-          désormais aux trois questions posées devant une page vide : pourquoi
-          c'est vide, quand cela se remplira, et quoi faire maintenant. La seule
-          action proposée est réelle (la journée de reprise du parcours actif). */}
-      {empty ? (
-        <section className="rev-empty" aria-label="Comment la file de révision se remplit">
-          <div className="rev-empty-why">
-            <h2 className="section-title">Cette file est vide, et c'est normal</h2>
-            <p className="rev-empty-lead">
-              Une révision n'apparaît ici que si tu l'as réellement déclenchée en clôturant
-              une journée. Rien n'est planifié à l'avance, rien n'est inventé.
-            </p>
-            <ol className="rev-steps">
-              <li className="rev-step">
-                <span className="rev-step-n">1</span>
-                <div className="rev-step-body">
-                  <span className="rev-step-t">Tu clôtures une journée</span>
-                  <span className="rev-step-d">en déclarant ta compréhension : acquise, partielle, ou « à revoir ».</span>
-                </div>
-              </li>
-              <li className="rev-step">
-                <span className="rev-step-n">2</span>
-                <div className="rev-step-body">
-                  <span className="rev-step-t">L'échéance est calculée</span>
-                  <span className="rev-step-d">par répétition espacée (SM-2) : plus la compréhension déclarée est faible, plus la révision revient tôt.</span>
-                </div>
-              </li>
-              <li className="rev-step">
-                <span className="rev-step-n">3</span>
-                <div className="rev-step-body">
-                  <span className="rev-step-t">La journée réapparaît ici</span>
-                  <span className="rev-step-d">le jour venu — et la prochaine échéance est recalculée à chaque passage.</span>
-                </div>
-              </li>
-            </ol>
-          </div>
-          <aside className="rev-empty-act">
-            <span className="ui-panel-label">Prochaine journée</span>
-            {resumeDay != null ? (
-              <p className="rev-empty-next">Jour {resumeDay}{resumeTitle ? <> — {resumeTitle}</> : null}</p>
-            ) : (
-              <p className="rev-empty-next">Aucune journée à reprendre sur ce parcours.</p>
-            )}
-            <div className="ui-panel-sep" />
-            <p className="dash-note">
-              Pour entretenir un acquis sans attendre une échéance, les{' '}
-              <Link href="/diagnostics">diagnostics</Link> proposent du rappel actif à la demande.
-            </p>
-          </aside>
+      {/* La file d'action ne s'affiche que s'il y a réellement quelque chose à
+          traiter : un bloc « rien à revoir » sous une station qui vient de le
+          dire serait la même information deux fois. */}
+      {due.length > 0 && (
+        <section className="rev-work" aria-label="File de travail">
+          <ReviewList due={due} upcoming={[]} suppressEmpty />
         </section>
-      ) : (
-        <div style={{ marginTop: 'var(--sp-6)' }}>
-          <InlineNotice tone="info" title="Comment cette file se remplit">
-            Quand tu clôtures une journée en indiquant « à revoir » (ou après une révision
-            partielle), elle entre dans une file de <strong>répétition espacée</strong> (algorithme
-            SM-2) : la prochaine échéance est calculée selon ta compréhension déclarée. Elle
-            réapparaît ici le jour venu. En attendant, tu peux entretenir tes acquis avec les{' '}
-            <Link href="/diagnostics">diagnostics</Link>. Aucune révision n'est inventée — la file
-            ne reflète que tes journées réellement marquées.
-          </InlineNotice>
-        </div>
       )}
     </>
   );

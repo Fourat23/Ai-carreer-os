@@ -5,7 +5,7 @@ import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
 import { progressPosition } from '@/lib/position';
 import Link from 'next/link';
 import { getDueReviews, getUpcomingReviews } from '@/lib/review';
-import { PageHeader, Metric, Status, InlineNotice } from '@/app/ui';
+import { PageHeader, Metric, Status, InlineNotice, HeroFocus, HeroFact } from '@/app/ui';
 import ReviewList from './ReviewList';
 
 export const dynamic = 'force-dynamic';
@@ -37,7 +37,33 @@ export default function RevisionsPage() {
         sub={<>Une file de travail priorisée : les journées « à revoir » reviennent ici à échéance. Après chaque révision, la prochaine date est recalculée. Pour un rappel actif, mêle des <Link href="/diagnostics">diagnostics</Link>.</>}
       />
 
-      <div className="skills-summary">
+      {/* ── HERO (V56) : la page était la seule surface V55 verdictée IMPROVED,
+          avec un remplissage mesuré à 0,55 à 1440. Elle porte désormais le même
+          point focal que les autres surfaces : ce qu'il y a à faire, pourquoi,
+          et l'action réelle possible. Ton `calm` — le halo reste au Dashboard. */}
+      <HeroFocus
+        tone="calm"
+        eyebrow="File de révision"
+        title={empty
+          ? 'Aucune révision en attente'
+          : `${due.length} révision${due.length > 1 ? 's' : ''} à traiter`}
+        lead={empty
+          ? "Une révision n'apparaît ici que si tu l'as déclenchée en clôturant une journée. Rien n'est planifié à l'avance."
+          : 'Traite-les de la plus urgente à la moins urgente : le retard prime, puis la date d’échéance.'}
+        meta={
+          <>
+            <HeroFact k="Dues aujourd'hui">{due.length}</HeroFact>
+            {overdue > 0 && <HeroFact k="En retard"><Status tone="blocking" label={`${overdue}`} /></HeroFact>}
+            <HeroFact k="À venir">{upcoming.length}</HeroFact>
+            <HeroFact k="Mécanisme">répétition espacée (SM-2)</HeroFact>
+          </>
+        }
+        actions={resumeDay != null && empty
+          ? <Link className="btn cta" href={`/day/${resumeDay}`}>Continuer le parcours — jour {resumeDay}</Link>
+          : undefined}
+      />
+
+      {!empty && <div className="skills-summary">
         <Metric label="À revoir aujourd'hui" value={due.length} emphasis
           tone={due.length > 0 ? 'attention' : undefined}
           sub={overdue > 0 ? `dont ${overdue} en retard` : (upcoming.length ? `${upcoming.length} à venir` : 'file vide')} />
@@ -50,7 +76,7 @@ export default function RevisionsPage() {
             <Status tone="info" label={`À venir · ${upcoming.length}`} />
           </div>
         )}
-      </div>
+      </div>}
 
       <ReviewList due={due} upcoming={upcoming} suppressEmpty={empty} />
 
@@ -92,12 +118,9 @@ export default function RevisionsPage() {
             </ol>
           </div>
           <aside className="rev-empty-act">
-            <span className="ui-panel-label">Ce que tu peux faire maintenant</span>
+            <span className="ui-panel-label">Prochaine journée</span>
             {resumeDay != null ? (
-              <>
-                <p className="rev-empty-next">Jour {resumeDay}{resumeTitle ? <> — {resumeTitle}</> : null}</p>
-                <Link className="btn cta" href={`/day/${resumeDay}`}>Continuer le parcours</Link>
-              </>
+              <p className="rev-empty-next">Jour {resumeDay}{resumeTitle ? <> — {resumeTitle}</> : null}</p>
             ) : (
               <p className="rev-empty-next">Aucune journée à reprendre sur ce parcours.</p>
             )}

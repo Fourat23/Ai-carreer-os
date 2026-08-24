@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FlaskConical, Check, ArrowRight } from 'lucide-react';
-import { getDay, getDayHtml, getSolutionHtml, getDayChecklist } from '@/lib/program';
+import { getDay, getDayHtml, getSolutionHtml, getDayChecklist, getProgram } from '@/lib/program';
 import { getDayProgress, getActiveTrackId, readProgress } from '@/lib/progress-server';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { resolveTrackDays, trackNeighbors } from '@/lib/catalogue';
@@ -14,11 +14,9 @@ import { hasLabEvidence } from '@/lib/lab-progress';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
 import { stripDayLeadHtml } from '@/lib/day-view';
 import { annotateDayHtml, deriveActivities, deriveDayPhases } from '@/lib/section-family';
-import { SectionHeader, Status } from '@/app/ui';
-import DayPhases from './DayPhases';
+import { SectionHeader, Status, PhaseRail } from '@/app/ui';
 import DayPanel from './DayPanel';
-import DayHeader from './DayHeader';
-import DayOutline from './DayOutline';
+import DayMission from './DayMission';
 import DayCorrection from './DayCorrection';
 import DayEvidence from './DayEvidence';
 
@@ -75,27 +73,69 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
     return { id: m.id, title: m.title, category: MISSION_CAT[m.category] ?? m.category, statusLabel: MISSION_STATUS[st] ?? 'À commencer', done: st === 'done' };
   });
 
+  // Accroche : première phrase du contenu, si le corpus en fournit une. Aucun
+  // texte inventé — si elle n'existe pas, le hero n'en affiche simplement pas.
+  const leadMatch = rawHtml.match(/<p[^>]*>([\s\S]*?)<\/p>/);
+  const lead = leadMatch
+    ? leadMatch[1].replace(/<[^>]+>/g, '').trim().slice(0, 220) || null
+    : null;
+  const monthTitle = getProgram().months.find((m: { month: number }) => m.month === meta.month)?.title;
+  // Une journée « fait faire » si elle porte au moins une activité praticable.
+  const practiceCount = labExercises.length + dayMissions.length;
+
   return (
     <div className="day-view">
       <div className="day-main">
-        <DayHeader
+        {/* ── ZONE 1 · MISSION ─────────────────────────────────────────────
+            La page Journée n'avait jamais reçu le système V55 : 4 fonds,
+            1 niveau d'ombre, 34 px de police maximale, amplitude 2,00. Le
+            hero répond en un écran aux quatre questions de l'apprenant. */}
+        <DayMission
           day={dayNum}
           title={meta.title}
+          lead={lead}
           skillName={meta.skillName}
           difficulty={meta.difficulty}
           hours={meta.hours}
           week={meta.week}
           month={meta.month}
+          monthTitle={monthTitle}
           status={progress.status}
           prevDay={prevDay}
           nextDay={nextDay}
           trackTotal={trackTotal}
           trackPosition={trackPosition}
+          actions={
+            <>
+              <a className="btn cta" href="#travail">
+                {practiceCount > 0 ? `Aller à la pratique (${practiceCount})` : 'Aller au travail du jour'}
+              </a>
+              {solution && <a className="btn" href="#correction">Voir la correction</a>}
+            </>
+          }
         />
 
-        <DayPhases phases={phases} />
+        {/* ── ZONE 2 · DÉROULÉ (motif propriétaire, variante compacte) ───── */}
+        <PhaseRail phases={phases} variant="strip" />
 
-        <DayOutline variant="compact" />
+        {/* ── ZONE 3 · LECTURE ─────────────────────────────────────────────
+            Le cours reste un DOCUMENT : il n'est pas mis en cartes. La mesure
+            `canvasShare` (≥ 0,25) protège cette règle. */}
+        <article className="prose day-read" dangerouslySetInnerHTML={{ __html: html }} />
+
+        {/* ── ZONE 4 · PRATIQUE ────────────────────────────────────────────
+            Rupture visuelle explicite : on passe de « je lis » à « je fais ».
+            La zone porte sa propre surface, son propre en-tête et ses actions. */}
+        <section className="day-work" id="travail" aria-label="Travail du jour">
+          <header className="day-work-head">
+            <span className="day-work-k">Passage à la pratique</span>
+            <h2 className="day-work-title">Le travail du jour</h2>
+            <p className="day-work-sub">
+              {practiceCount > 0
+                ? <>{practiceCount} activité(s) à réaliser, puis la clôture de la journée.</>
+                : <>Aucun exercice de laboratoire sur cette journée : le travail se fait dans la checklist et les preuves ci-dessous.</>}
+            </p>
+          </header>
 
         {labExercises.length > 0 && (
           <section className="day-lab">
@@ -142,18 +182,23 @@ export default async function DayPage({ params }: { params: Promise<{ id: string
           </section>
         )}
 
-        <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+          <DayPanel day={dayNum} nextDay={nextDay} initial={progress} checklist={checklist} activities={activities} />
 
-        <DayPanel day={dayNum} nextDay={nextDay} initial={progress} checklist={checklist} activities={activities} />
+          {solution && (
+            <div id="correction">
+              <DayCorrection day={dayNum} solutionHtml={solution} isReview={!!meta.isReview} initial={progress} />
+            </div>
+          )}
 
-        {solution && (
-          <DayCorrection day={dayNum} solutionHtml={solution} isReview={!!meta.isReview} initial={progress} />
-        )}
-
-        <DayEvidence day={dayNum} initial={progress.evidence ?? []} skillId={meta.skill} skillName={meta.skillName} />
+          <DayEvidence day={dayNum} initial={progress.evidence ?? []} skillId={meta.skill} skillName={meta.skillName} />
+        </section>
       </div>
 
-      <DayOutline variant="rail" />
+      {/* Rail de contexte : le déroulé réel, collant. Affiché seulement s'il a
+          un contenu — jamais rempli pour occuper la colonne. */}
+      <aside className="day-rail" aria-label="Contexte du jour">
+        <PhaseRail phases={phases} variant="rail" />
+      </aside>
     </div>
   );
 }

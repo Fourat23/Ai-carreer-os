@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { HeroFocus, HeroFact } from '@/app/ui';
 import { getProgram } from '@/lib/program';
 
 export const dynamic = 'force-dynamic';
@@ -39,7 +40,20 @@ export default function LessonsPage() {
 
   return (
     <>
-      <div className="page-head">
+      <HeroFocus
+        tone="calm"
+        eyebrow="Théorie réutilisable"
+        title={`${lessons.length} leçons de fond`}
+        lead="L'ordre dans chaque catégorie est l'ordre recommandé — il suit la progression des 12 mois. Chaque journée renvoie vers les siennes."
+        meta={
+          <>
+            <HeroFact k="Volume">≈ {Math.round(totalMin / 60)} h de lecture</HeroFact>
+            <HeroFact k="Catégories">{cats.length}</HeroFact>
+            <HeroFact k="Durée moyenne">{Math.round(totalMin / Math.max(1, lessons.length))} min</HeroFact>
+          </>
+        }
+      />
+      <div className="page-head" hidden>
         <div className="page-head-main">
           <p className="page-eyebrow">Théorie <span className="sep">/</span> {lessons.length} leçons · ~{Math.round(totalMin / 60)} h</p>
           <h1 className="page-title">Leçons de fond</h1>

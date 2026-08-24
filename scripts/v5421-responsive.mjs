@@ -7,7 +7,11 @@ import { chromium } from 'playwright-core';
 const EXEC = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const BASE = process.argv[2] ?? 'http://127.0.0.1:3221';
 const WIDTHS = [375, 480, 640, 768, 1024, 1200, 1440, 1600, 1920];
-const ROUTES = ['/', '/calendar', '/parcours', '/synthese', '/revisions'];
+// V56 — les 5 journées représentatives figées à CP0 entrent dans le balayage :
+// un layout de journée ne peut pas être déclaré stable sur un seul contenu.
+const ROUTES = ['/', '/calendar', '/parcours', '/synthese', '/revisions',
+  '/day/181', '/day/80', '/day/1', '/day/150', '/day/205',
+  '/skills', '/lessons', '/doc/lessons/agents-fundamentals'];
 
 function probe() {
   const de = document.documentElement;

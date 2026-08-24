@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import { listMissions, missionProgressFor } from '@/lib/missions-server';
+import { HeroFocus, HeroFact } from '@/app/ui';
 import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { PageHeader, Status, ListRow, Metric } from '@/app/ui';
 import type { Tone } from '@/app/ui';
@@ -43,9 +45,34 @@ export default function MissionsPage() {
   const groups = [...byStatus.entries()]
     .sort((a, b) => (STATUS[a[0]]?.rank ?? 9) - (STATUS[b[0]]?.rank ?? 9));
   const doneCount = byStatus.get('done')?.length ?? 0;
+  const activeCount = (byStatus.get('in-progress')?.length ?? 0)
+    + (byStatus.get('deliverables-incomplete')?.length ?? 0)
+    + (byStatus.get('ready-for-review')?.length ?? 0);
+  const nextMission = rows.find((r) => r.prog.status === 'in-progress')
+    ?? rows.find((r) => r.prog.status === 'not-started');
 
   return (
     <>
+      <HeroFocus
+        tone="calm"
+        eyebrow="Missions d'ingénierie"
+        title={activeCount > 0
+          ? `${activeCount} mission${activeCount > 1 ? 's' : ''} en cours`
+          : `${missions.length} missions disponibles`}
+        lead="Des situations d'ingénierie réelles : dette, performance, documentation, incident. Chaque mission attend des livrables, pas une réponse."
+        meta={
+          <>
+            <HeroFact k="Disponibles">{missions.length}</HeroFact>
+            <HeroFact k="Terminées">{doneCount}</HeroFact>
+            <HeroFact k="En cours">{activeCount}</HeroFact>
+          </>
+        }
+        actions={nextMission
+          ? <Link className="btn cta" href={`/missions/${nextMission.m.id}`}>
+              {nextMission.prog.status === 'in-progress' ? 'Reprendre' : 'Commencer'} — {nextMission.m.title}
+            </Link>
+          : undefined}
+      />
       <PageHeader
         eyebrow="Missions d'ingénierie"
         title="Missions"

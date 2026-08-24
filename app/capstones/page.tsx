@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { HeroFocus, HeroFact } from '@/app/ui';
 import { Eye, Layers } from 'lucide-react';
 import { listCapstones } from '@/lib/capstones-server';
 import { getProgram } from '@/lib/program';
@@ -21,10 +22,25 @@ export default function CapstonesPage() {
     byDomain.get(d)!.push(c);
   }
   const domains = [...byDomain.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  const totalPhases = capstones.reduce((n, c) => n + (c.phases?.length ?? 0), 0);
+  const coveredSkills = new Set(capstones.flatMap((c) => c.skills ?? [])).size;
 
   return (
     <>
-      <div className="page-head">
+      <HeroFocus
+        tone="calm"
+        eyebrow="Simulation professionnelle"
+        title={`${capstones.length} capstone${capstones.length > 1 ? 's' : ''} sur ${domains.length} domaine${domains.length > 1 ? 's' : ''}`}
+        lead="Des simulations multi-phases, corrigées localement. Réussir un capstone est un indice de raisonnement, pas une preuve de maîtrise."
+        meta={
+          <>
+            <HeroFact k="Phases au total">{totalPhases}</HeroFact>
+            <HeroFact k="Compétences couvertes">{coveredSkills}</HeroFact>
+            <HeroFact k="Correction">locale et déterministe</HeroFact>
+          </>
+        }
+      />
+      <div className="page-head" hidden>
         <div className="page-head-main">
           <p className="page-eyebrow">Apprendre <span className="sep">/</span> simulation professionnelle</p>
           <h1 className="page-title">Capstones</h1>

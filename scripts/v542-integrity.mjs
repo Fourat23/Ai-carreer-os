@@ -20,6 +20,11 @@ const CASES = [
   { name: 'VISIT_PARCOURS_DOES_NOT_MUTATE_PROGRESS', path: '/parcours' },
   { name: 'VISIT_SYNTHESE_DOES_NOT_MUTATE_PROGRESS', path: '/synthese' },
   { name: 'VISIT_REVISIONS_DOES_NOT_MUTATE_PROGRESS', path: '/revisions' },
+  // V56 — la Journée est la surface la plus utilisée : sa non-mutation par
+  // simple consultation était déjà prouvée en V54, elle entre ici en routine.
+  { name: 'VISIT_DAY_DOES_NOT_MUTATE_PROGRESS', path: '/day/80' },
+  { name: 'VISIT_DOC_DOES_NOT_MUTATE_PROGRESS', path: '/doc/lessons/agents-fundamentals' },
+  { name: 'VISIT_SKILLS_DOES_NOT_MUTATE_PROGRESS', path: '/skills' },
 ];
 
 const hash = () => createHash('sha1').update(readFileSync(PROGRESS)).digest('hex');

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { HeroFocus, HeroFact } from '@/app/ui';
 import { getProgram, getDocHtml } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
 
@@ -12,16 +13,23 @@ export default function ReviewsPage() {
 
   // Jours de revue hebdo = le 7e jour de chaque semaine.
   const reviewDays = program.days.filter((d) => d.isReview);
+  const doneReviews = reviewDays.filter((d) => progress.days[String(d.day)]?.status === 'done').length;
 
   return (
     <>
-      <div className="page-head">
-        <div className="page-head-main">
-          <p className="page-eyebrow">Évaluations <span className="sep">/</span> hebdo · mensuel · entretien</p>
-          <h1 className="page-title">Évaluations</h1>
-          <p className="page-sub">Revues hebdomadaires, mensuelles, et grilles d'entretien.</p>
-        </div>
-      </div>
+      <HeroFocus
+        tone="calm"
+        eyebrow="Évaluations"
+        title={`${doneReviews} revue${doneReviews > 1 ? 's' : ''} hebdomadaire${doneReviews > 1 ? 's' : ''} sur ${reviewDays.length}`}
+        lead="Revues hebdomadaires, bilans mensuels et grilles d'entretien. Rien n'est noté automatiquement : ces revues sont des rendez-vous avec toi-même."
+        meta={
+          <>
+            <HeroFact k="Revues hebdo">{reviewDays.length} au programme</HeroFact>
+            <HeroFact k="Terminées">{doneReviews}</HeroFact>
+            <HeroFact k="Grilles">mensuelle et entretien</HeroFact>
+          </>
+        }
+      />
 
       <div className="section-head"><span className="section-label">Hebdo</span><h2 className="section-title">Revues hebdomadaires</h2></div>
       <div className="card">

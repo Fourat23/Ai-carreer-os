@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { HeroFocus, HeroFact } from '@/app/ui';
 import { getProjectHtml } from '@/lib/program';
 
 export const dynamic = 'force-dynamic';
@@ -17,16 +18,23 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
   const { p } = await searchParams;
   const selected = p ?? '01';
   const html = getProjectHtml(selected);
+  const current = PROJECTS.find((x) => x.id === selected);
 
   return (
     <>
-      <div className="page-head">
-        <div className="page-head-main">
-          <p className="page-eyebrow">Portfolio <span className="sep">/</span> 7 projets</p>
-          <h1 className="page-title">Projets</h1>
-          <p className="page-sub">7 projets progressifs. Chacun prouve quelque chose de précis à un recruteur.</p>
-        </div>
-      </div>
+      <HeroFocus
+        tone="calm"
+        eyebrow="Portfolio"
+        title={current?.name ?? 'Projets'}
+        lead={current ? `${current.tag} — chaque projet prouve quelque chose de précis à un recruteur.` : undefined}
+        meta={
+          <>
+            <HeroFact k="Projets">{PROJECTS.length} progressifs</HeroFact>
+            <HeroFact k="Position">{Math.max(1, PROJECTS.findIndex((x) => x.id === selected) + 1)} sur {PROJECTS.length}</HeroFact>
+            <HeroFact k="Nature">livrables portables</HeroFact>
+          </>
+        }
+      />
       <nav className="subnav" aria-label="Projets">
         {PROJECTS.map((pr) => (
           <Link

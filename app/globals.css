@@ -2748,3 +2748,301 @@ body {
 @media (min-width: 1440px) {
   .synth-table thead th.num { max-width: 104px; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V56 — PRODUCT SIGNATURE
+   Trois motifs propriétaires (PhaseRail, EvidenceMark, YearBand) + la
+   recomposition de la Journée en poste de travail.
+   Bloc en FIN de fichier : les bases de `.day-view` sont déclarées plus haut.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── MOTIF · PhaseRail ─────────────────────────────────────────────────────
+   Le déroulé réel de la journée, avec position observée dans le document.
+   Variante `rail` : colonne collante. Variante `strip` : bande compacte. */
+.phase-rail { --pr-line: var(--border-strong); }
+.phase-rail-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3);
+  margin: 0 0 var(--sp-3); padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.phase-rail-title {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--faint);
+}
+.phase-rail-pos { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); font-variant-numeric: tabular-nums; }
+.phase-rail-list { list-style: none; margin: 0; padding: 0; position: relative; }
+
+/* Le fil conducteur : c'est lui qui fait du rail une trajectoire et non une
+   liste de liens. Il relie les phases, et s'arrête à la dernière. */
+.phase-rail-rail .phase-rail-list::before {
+  content: ''; position: absolute; left: 11px; top: 12px; bottom: 12px; width: 2px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--pr-line) var(--pr-progress, 0%), var(--pr-line) 100%);
+}
+.phase-step { position: relative; }
+.phase-step > a {
+  display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--sp-3);
+  align-items: start; padding: 7px 0; color: var(--muted);
+}
+.phase-step > a:hover { color: var(--text); text-decoration: none; }
+.phase-step-mark {
+  display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--border-strong); color: var(--faint);
+  position: relative; z-index: 1;
+}
+.phase-step-body { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.phase-step-fam {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--faint);
+}
+.phase-step-label { font-size: var(--fs-sm); line-height: 1.35; }
+.phase-step.is-past .phase-step-mark { background: var(--raised); border-color: var(--border-strong); color: var(--muted); }
+.phase-step.is-current .phase-step-mark {
+  background: var(--grad-accent-edge); border-color: transparent; color: var(--accent-ink);
+  box-shadow: 0 0 0 4px rgba(139,143,245,.16);
+}
+.phase-step.is-current > a { color: var(--text); }
+.phase-step.is-current .phase-step-label { font-weight: 620; }
+.phase-step.is-current .phase-step-fam { color: var(--accent); }
+.phase-step.is-next .phase-step-mark { opacity: 1; }
+.phase-step.is-next .phase-step-label { color: var(--muted); }
+
+/* Variante bande : horizontale, défilable, sans fil conducteur. */
+.phase-rail-strip {
+  padding: var(--sp-3) var(--sp-4); margin-bottom: var(--sp-6);
+  background: var(--surface); background-image: var(--grad-surface);
+  border: 1px solid var(--border); border-radius: var(--r);
+}
+.phase-rail-strip .phase-rail-list { display: flex; gap: var(--sp-2); overflow-x: auto; padding-bottom: 2px; }
+.phase-rail-strip .phase-step > a {
+  grid-template-columns: auto auto; align-items: center; gap: 7px;
+  padding: 6px 11px; border-radius: var(--r-pill);
+  border: 1px solid var(--border); background: var(--raised); white-space: nowrap;
+}
+.phase-rail-strip .phase-step-mark { width: 18px; height: 18px; border: none; background: none; box-shadow: none; }
+.phase-rail-strip .phase-step-label { display: none; }
+.phase-rail-strip .phase-step.is-current > a { border-color: var(--border-accent); background: var(--focus-surface); }
+
+/* ── MOTIF · EvidenceMark ──────────────────────────────────────────────────
+   Le glyphe NOMME un type de preuve ; il ne récompense rien et n'est jamais
+   le seul porteur de l'information (un libellé l'accompagne toujours). */
+.evi-mark { flex: none; stroke: currentColor; }
+.evi-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 9px 3px 7px; border-radius: var(--r-pill);
+  border: 1px solid var(--border); background: var(--raised);
+  font-size: var(--fs-xs); color: var(--muted); white-space: nowrap;
+}
+.evi-tag-label { font-weight: 550; }
+/* Teintes : sémantiques du produit, jamais une échelle de valeur. */
+.evi-exercise { color: var(--fam-practice); }
+.evi-assessment { color: var(--fam-verify); }
+.evi-capstone { color: var(--fam-apply); }
+.evi-mission { color: var(--fam-prepare); }
+.evi-project { color: var(--fam-observe); }
+.evi-repo, .evi-demo, .evi-note, .evi-other { color: var(--muted); }
+
+/* ── MOTIF · YearBand ──────────────────────────────────────────────────────
+   Une année en une ligne continue. Chaque mois pèse SON nombre réel de
+   journées : un mois de 5 journées occupe cinq segments, pas un douzième. */
+.year-band {
+  padding: var(--sp-4) var(--sp-5); margin-bottom: var(--sp-5);
+  background: var(--raised); background-image: var(--grad-raised);
+  border: 1px solid var(--border); border-radius: var(--r-lg);
+}
+.year-band-track { display: flex; align-items: flex-end; gap: 6px; }
+.year-band-month { display: flex; flex-direction: column; gap: 5px; min-width: 0; flex-basis: 0; }
+.year-band-days { display: flex; gap: 1px; height: 26px; }
+.year-band-day {
+  flex: 1 1 0; min-width: 0; border-radius: 1px; background: var(--interactive);
+}
+.year-band-day.s-done { background: color-mix(in srgb, var(--ok) 66%, var(--canvas)); }
+.year-band-day.s-in-progress { background: color-mix(in srgb, var(--accent) 70%, var(--canvas)); }
+.year-band-day.s-to-review { background: color-mix(in srgb, var(--warn) 62%, var(--canvas)); }
+.year-band-day.now {
+  background: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 12px -1px rgba(139,143,245,.95);
+  position: relative; z-index: 1;
+}
+.year-band-label { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; min-width: 0; }
+.year-band-m { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--muted); }
+.year-band-n { font-family: var(--font-mono); font-size: 9px; color: var(--faint); font-variant-numeric: tabular-nums; }
+@media (max-width: 700px) { .year-band-n { display: none; } .year-band-track { gap: 3px; } }
+
+/* ══ JOURNÉE — poste de travail ══════════════════════════════════════════ */
+
+/* ZONE 1 · Mission : le hero de la journée. */
+.day-mission {
+  position: relative; overflow: hidden;
+  margin: 0 0 var(--sp-6); padding: var(--sp-8);
+  border-radius: var(--r-lg);
+  background-color: var(--focus-surface);
+  background-image: var(--grad-focus), var(--grad-raised);
+  border: 1px solid var(--border-accent);
+  box-shadow: var(--glow-accent), var(--shadow-focus);
+}
+.day-mission::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--grad-accent-edge); }
+.day-mission-top { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-4); }
+.day-mission-ord { display: inline-flex; align-items: baseline; gap: 6px; }
+.day-mission-ord-k {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--accent);
+}
+.day-mission-ord-v { font-size: var(--fs-h2); font-weight: 680; letter-spacing: -0.02em; color: var(--text); }
+.day-mission-pos { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); font-variant-numeric: tabular-nums; }
+.day-mission-pos .sep { color: var(--border-strong); margin: 0 3px; }
+.day-mission .day-turn { margin-left: auto; display: flex; gap: var(--sp-2); }
+.day-mission-title {
+  margin: 0 0 var(--sp-3);
+  font-size: var(--fs-display-lg); line-height: 1.08;
+  letter-spacing: var(--tracking-display); font-weight: 660;
+  max-width: 24ch; text-wrap: balance;
+}
+.day-mission-lead { margin: 0 0 var(--sp-5); color: var(--muted); font-size: var(--fs-base); max-width: 68ch; }
+.day-mission-facts {
+  display: flex; align-items: center; gap: var(--sp-3) var(--sp-6); flex-wrap: wrap;
+  padding-top: var(--sp-4); border-top: 1px solid var(--border-subtle);
+}
+.day-mission-actions { display: flex; gap: var(--sp-3); flex-wrap: wrap; margin-top: var(--sp-5); }
+.day-mission-prog { margin-top: var(--sp-5); }
+@media (max-width: 640px) { .day-mission { padding: var(--sp-5) var(--sp-4); } }
+
+/* ZONE 3 · Lecture : le document reste un document. Aucune carte. */
+.day-view article.prose.day-read { background: none; border: none; padding: 0; }
+
+/* ZONE 4 · Pratique : rupture visuelle explicite « je lis » → « je fais ». */
+.day-work {
+  margin-top: var(--sp-10); padding: var(--sp-6) var(--sp-6) var(--sp-8);
+  border-radius: var(--r-lg);
+  background-color: var(--raised); background-image: var(--grad-raised);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-3);
+}
+.day-work-head { margin-bottom: var(--sp-5); padding-bottom: var(--sp-4); border-bottom: 1px solid var(--border-subtle); }
+.day-work-k {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--accent);
+}
+.day-work-title { margin: var(--sp-2) 0 var(--sp-2); font-size: var(--fs-h2); letter-spacing: var(--tracking-title); }
+.day-work-sub { margin: 0; color: var(--muted); font-size: var(--fs-sm); max-width: 68ch; }
+@media (max-width: 640px) { .day-work { padding: var(--sp-4); } }
+
+/* Rail de contexte collant (desktop large uniquement). */
+.day-rail { display: none; }
+@media (min-width: 1200px) {
+  .day-rail { display: block; position: sticky; top: var(--sp-6); align-self: start; max-height: calc(100vh - 60px); overflow-y: auto; }
+  .day-view .phase-rail-strip { display: none; }
+}
+
+/* Le titre de mission passe au cran display : c'est le hero d'une page où
+   l'apprenant passe 4-5 heures, pas un en-tête de section. */
+.day-mission-title { font-size: var(--fs-display-xl); line-height: 1.04; }
+@media (max-width: 640px) { .day-mission-title { font-size: var(--fs-display-lg); } }
+
+/* Anti-cardification mesurée : la journée 80 porte 13 exercices de laboratoire.
+   Treize CARTES empilées, c'est exactement le motif générique interdit
+   (32 cartes et 16 structures identiques mesurées). Elles deviennent une LISTE
+   DENSE : un seul conteneur, des lignes séparées par un filet. Même
+   information, même cliquabilité, une seule surface. */
+.day-lab-list {
+  gap: 0;
+  border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  background: var(--surface); background-image: var(--grad-surface);
+}
+.day-lab-item {
+  border: none !important; border-radius: 0 !important;
+  background: none !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+.day-lab-list .day-lab-item:last-child { border-bottom: none !important; }
+.day-lab-item:hover { background: var(--raised) !important; }
+
+/* La marque de preuve s'insère dans les puces de type existantes. */
+.evid-type, .lx-tl-type { display: inline-flex; align-items: center; gap: 5px; }
+.evid-type .evi-mark, .lx-tl-type .evi-mark { flex: none; }
+
+/* ── Document (/doc/*) : même architecture que la Journée — corps de lecture
+   et rail de sections collant. La page n'avait ni en-tête ni repérage. */
+.doc-view { display: block; }
+.doc-main { max-width: var(--read-max); }
+@media (min-width: 1200px) {
+  .content:has(.doc-view) { max-width: none; }
+  .doc-view { display: grid; grid-template-columns: minmax(0, var(--read-max)) 16.5rem; gap: 56px; align-items: start; }
+  .doc-main { grid-column: 1; min-width: 0; }
+  .doc-rail { position: sticky; top: var(--sp-6); align-self: start; max-height: calc(100vh - 60px); overflow-y: auto; }
+  .doc-view .phase-rail-strip { display: none; }
+}
+.doc-rail { display: none; }
+.doc-view article.prose.reading { background: none; border: none; padding: 0; }
+.doc-view .prose h1 { display: none; } /* le titre vit dans le hero */
+
+/* Révisions : la page manquait de profondeur (4 fonds, 2 ombres mesurés). */
+.rev-list { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  background: var(--surface); background-image: var(--grad-surface); }
+.rev-row { border: none; border-bottom: 1px solid var(--border-subtle); border-radius: 0; background: none; }
+.rev-list .rev-row:last-child { border-bottom: none; }
+.rev-row:hover { background: var(--raised); }
+.rev-steps { position: relative; }
+.rev-step-n { background: var(--raised); border-color: var(--border-strong); box-shadow: var(--shadow-1); }
+.rev-empty-act { box-shadow: var(--shadow-2); }
+.skills-summary { box-shadow: var(--shadow-1); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V56 · CP10-CP11 — PROPAGATION DE LA PROFONDEUR AUX ROUTES MIGRÉES
+   Ces routes avaient hérité de la palette V55 sans jamais recevoir son système
+   de surfaces : 3 à 5 fonds distincts et UN seul niveau d'ombre, mesurés.
+   Le bloc leur applique la même grammaire qu'aux surfaces de référence —
+   surface + gradient local + élévation + survol — sans les transformer en
+   cartes supplémentaires.
+   ══════════════════════════════════════════════════════════════════════════ */
+.card, .skill-block, .diag-card, .cap-card, .lab-card, .gloss-entry, .pl-card,
+.day-list, .list, .subnav, .lesson-practice {
+  background-color: var(--surface);
+  background-image: var(--grad-surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-1);
+}
+.card:hover, .diag-card:hover, .cap-card:hover, .lab-card:hover, .gloss-entry:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-2);
+}
+/* Les blocs porteurs d'un état actif montent d'un cran plutôt que de changer
+   seulement de teinte. */
+.skill-block, .lesson-practice { box-shadow: var(--shadow-2); }
+.subnav { box-shadow: var(--shadow-1); }
+/* Les en-têtes de section des routes migrées reçoivent le même filet que les
+   surfaces de référence : le vocabulaire visuel devient commun. */
+.section-head { border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--sp-2); }
+
+/* Deuxième cran d'élévation et surface supplémentaire sur les routes migrées :
+   la mesure montrait 5 fonds et 2 ombres — la grammaire des surfaces de
+   référence en compte 6 et 3. Les en-têtes de tableau et les puces passent sur
+   la surface élevée, les conteneurs de filtres et les états vides prennent
+   l'élévation intermédiaire. */
+thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="page"] {
+  background-color: var(--raised);
+}
+.subnav, .empty, .lab-filters, .gloss-nav, .diag-filters { box-shadow: var(--shadow-2); }
+.empty { background-color: var(--surface); background-image: var(--grad-surface); border: 1px solid var(--border); border-radius: var(--r); }
+
+/* /lab débordait de 5 px : le catalogue force une largeur minimale de grille
+   plus large que son conteneur aux largeurs intermédiaires. */
+.lab-grid, .lab-catalog { min-width: 0; }
+.lab-card { min-width: 0; }
+
+/* Anti-cardification mesurée (§12) sur /diagnostics et /capstones : 16 et 13
+   cartes strictement identiques, et un point focal noyé (dominance 0,086 et
+   0,118). Les grilles de cartes deviennent des LISTES DENSES — un conteneur,
+   des lignes séparées par un filet. Même information, une seule surface. */
+.diag-grid, .cap-grid {
+  display: block;
+  border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  background: var(--surface); background-image: var(--grad-surface);
+  box-shadow: var(--shadow-1);
+}
+.diag-card, .cap-card {
+  border: none !important; border-radius: 0 !important;
+  background: none !important; box-shadow: none !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+.diag-grid .diag-card:last-child, .cap-grid .cap-card:last-child { border-bottom: none !important; }
+.diag-card:hover, .cap-card:hover { background: var(--raised) !important; }

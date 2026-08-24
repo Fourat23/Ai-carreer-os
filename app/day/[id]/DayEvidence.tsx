@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Plus, X, ExternalLink } from 'lucide-react';
 import type { DayProgress } from '@/lib/types';
 import { addEvidence, removeEvidence, EVIDENCE_TYPES, type EvidenceType } from '@/lib/learning';
+import { EvidenceMark } from '@/app/ui';
 
 const TYPE_LABEL: Record<string, string> = {
   exercise: 'Exercice', repo: 'Dépôt Git', project: 'Projet', screenshot: 'Capture',
@@ -64,7 +65,12 @@ export default function DayEvidence({
         <ul className="evid-list">
           {list.map((e) => (
             <li className="evid-item" key={e.id}>
-              <span className="evid-type">{TYPE_LABEL[e.type] ?? e.type}</span>
+              {/* MOTIF · EvidenceMark — le type de preuve devient reconnaissable
+                  en balayage ; le libellé reste, la forme n'est jamais seule. */}
+              <span className={`evid-type evi-${e.type}`}>
+                <EvidenceMark type={e.type} size={13} />
+                {TYPE_LABEL[e.type] ?? e.type}
+              </span>
               <span className="evid-title">
                 {e.url
                   ? <a href={e.url} target="_blank" rel="noopener noreferrer nofollow">{e.title} <ExternalLink size={12} /></a>

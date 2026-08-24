@@ -1,4 +1,5 @@
 import { Eye, ShieldQuestion } from 'lucide-react';
+import { HeroFocus, HeroFact } from '@/app/ui';
 import { listAssessments } from '@/lib/assessments-server';
 import { getProgram } from '@/lib/program';
 import { PageHeader } from '@/app/ui';
@@ -14,6 +15,9 @@ export default function DiagnosticsPage() {
   const assessments = listAssessments();
   const program = getProgram();
   const skillName = new Map((program.skills ?? []).map((s: { id: string; name: string }) => [s.id, s.name]));
+  // Agrégats réels du catalogue de diagnostics.
+  const coveredSkills = new Set(assessments.flatMap((a) => a.skills ?? [])).size;
+  const totalQuestions = assessments.reduce((n, a) => n + (a.questions?.length ?? 0), 0);
 
   return (
     <>
@@ -27,6 +31,20 @@ export default function DiagnosticsPage() {
           <span className="synth-ro"><Eye size={13} strokeWidth={2} /> Réussir un diagnostic est un
           INDICE de compréhension, pas une preuve de maîtrise.</span>
         </>}
+      />
+
+      <HeroFocus
+        tone="calm"
+        eyebrow="Auto-évaluation diagnostique"
+        title={`${assessments.length} diagnostic${assessments.length > 1 ? 's' : ''} disponible${assessments.length > 1 ? 's' : ''}`}
+        lead="Correction locale et déterministe. Un score est un indice de compréhension, jamais une preuve de maîtrise."
+        meta={
+          <>
+            <HeroFact k="Compétences couvertes">{coveredSkills}</HeroFact>
+            <HeroFact k="Questions">{totalQuestions}</HeroFact>
+            <HeroFact k="Correction">locale, sans réseau</HeroFact>
+          </>
+        }
       />
 
       {assessments.length === 0 ? (

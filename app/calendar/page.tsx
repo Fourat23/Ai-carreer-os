@@ -6,7 +6,7 @@ import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { buildCalendar } from '@/lib/calendar-model';
 import { curriculumPartition } from '@/lib/curriculum-partition';
 import { progressPosition } from '@/lib/position';
-import { PageHeader, Status, InlineNotice, HeroFocus, HeroFact } from '@/app/ui';
+import { PageHeader, Status, InlineNotice, HeroFocus, HeroFact, YearBand } from '@/app/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -92,6 +92,18 @@ export default function CalendarPage() {
           {' '}<span className="cal-sum">{part.inTrack} + {part.before + part.interleaved + part.after} = {part.total}</span>
         </InlineNotice>
       )}
+
+      {/* ── MOTIF · YearBand — la continuité que douze blocs de mois détruisent.
+          Chaque mois y pèse SON nombre réel de journées : un mois peu couvert
+          apparaît COURT, et non comme un grand panneau vide. */}
+      <div className="page-wide">
+        <YearBand
+          days={trackDays.map((d) => ({ day: d.day, month: d.month, status: progress.days[String(d.day)]?.status ?? 'not-started' }))}
+          currentDay={resumeDay}
+          monthTitles={monthTitle}
+          label={`Année du parcours ${activeTrack.title}`}
+        />
+      </div>
 
       <div className="legend" aria-label="Légende des états">
         <span><i style={{ background: 'var(--swatch-done-bg)', borderColor: 'var(--swatch-done-bd)' }} /> Terminé</span>

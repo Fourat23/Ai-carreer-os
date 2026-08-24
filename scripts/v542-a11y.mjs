@@ -21,6 +21,12 @@ const PAGES = [
   { name: 'parcours', path: '/parcours' },
   { name: 'synthese', path: '/synthese' },
   { name: 'revisions', path: '/revisions' },
+  // V56 — surfaces recomposées ajoutées au périmètre a11y.
+  { name: 'day-1', path: '/day/1' },
+  { name: 'day-80', path: '/day/80' },
+  { name: 'skills', path: '/skills' },
+  { name: 'lessons', path: '/lessons' },
+  { name: 'doc-lesson', path: '/doc/lessons/agents-fundamentals' },
 ];
 
 const browser = await chromium.launch({ executablePath: EXEC, args: ['--no-sandbox', '--disable-gpu'] });

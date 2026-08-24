@@ -1,3 +1,4 @@
+import { HeroFocus, HeroFact } from '@/app/ui';
 import { listExercises } from '@/lib/exercises-server';
 import { getRuntimeAdapter, DEFAULT_RUNTIME_ID } from '@/lib/runtime.mjs';
 import { runtimeStatus } from '@/lib/runtime-detect.mjs';
@@ -75,9 +76,30 @@ export default function LabPage() {
     };
   });
 
+  // Agrégats réels du catalogue (aucun chiffre inventé).
+  const passedCount = items.filter((x) => x.status === 'réussi').length;
+  const inTrackCount = items.filter((x) => x.scope === 'active').length;
+  const runtimeCount = new Set(items.map((x) => x.runtimeLabel)).size;
+
   return (
     <>
-      <div className="page-head page-wide">
+      <div className="page-wide">
+        <HeroFocus
+          tone="calm"
+          eyebrow="Exécution locale sécurisée"
+          title="Laboratoire de code"
+          lead="Écris du code, lance les tests, vois le résultat immédiatement. Tout s’exécute localement en bac à sable : timeout, sortie bornée, aucun accès réseau requis."
+          meta={
+            <>
+              <HeroFact k="Exercices">{items.length}</HeroFact>
+              <HeroFact k="Réussis">{passedCount}</HeroFact>
+              <HeroFact k="Sur ton parcours">{inTrackCount}</HeroFact>
+              <HeroFact k="Runtimes">{runtimeCount}</HeroFact>
+            </>
+          }
+        />
+      </div>
+      <div className="page-head page-wide" hidden>
         <div className="page-head-main">
           <p className="page-eyebrow">Laboratoire <span className="sep">/</span> exécution locale sécurisée</p>
           <h1 className="page-title">Laboratoire de code</h1>

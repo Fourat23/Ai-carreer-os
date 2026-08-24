@@ -1,4 +1,5 @@
 import { getGlossary, CATEGORIES } from '@/lib/glossary';
+import { HeroFocus, HeroFact } from '@/app/ui';
 import GlossaryBrowser from './GlossaryBrowser';
 
 export const dynamic = 'force-dynamic';
@@ -14,7 +15,20 @@ export default function GlossaryPage() {
 
   return (
     <>
-      <div className="page-head">
+      <HeroFocus
+        tone="calm"
+        eyebrow="Vocabulaire"
+        title="Glossaire IT & monde du travail"
+        lead="Décoder les acronymes, anglicismes et expressions entendus en développement, architecture, cloud, data, IA, production et entreprise."
+        meta={
+          <>
+            <HeroFact k="Termes">{entries.length}</HeroFact>
+            <HeroFact k="Acronymes">{acronyms}</HeroFact>
+            <HeroFact k="Catégories">{CATEGORIES.length}</HeroFact>
+          </>
+        }
+      />
+      <div className="page-head" hidden>
         <div className="page-head-main">
           <p className="page-eyebrow">Vocabulaire <span className="sep">/</span> {entries.length} termes · {acronyms} acronymes</p>
           <h1 className="page-title">Glossaire IT &amp; monde du travail</h1>

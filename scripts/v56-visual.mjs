@@ -138,6 +138,22 @@ function probe(motifSelectors) {
     classCount.set(c, (classCount.get(c) ?? 0) + 1);
   }
   const topRepeat = [...classCount.entries()].sort((a, b) => b[1] - a[1])[0] ?? ['—', 0];
+
+  // ── MÉTRIQUE COMPLÉMENTAIRE (ajoutée en cours de V56, jamais en
+  // remplacement — la règle de gel interdit de réécrire un seuil, elle
+  // autorise d'AJOUTER).
+  // Limite constatée de `maxRepeat` : il compte la répétition d'une signature
+  // de classe quelle qu'elle soit. Or la journée 80 porte RÉELLEMENT 16
+  // activités ; seize LIGNES d'une même liste ne sont pas de la cardification,
+  // seize CARTES le sont. `maxRepeatCarded` ne compte donc que la répétition
+  // parmi les éléments réellement « carte ». Les deux valeurs sont reportées.
+  const cardedCount = new Map();
+  for (const el of cardEls) {
+    const c = (el.getAttribute('class') || '').trim();
+    if (!c || c.length > 60) continue;
+    cardedCount.set(c, (cardedCount.get(c) ?? 0) + 1);
+  }
+  const topCarded = [...cardedCount.entries()].sort((a, b) => b[1] - a[1])[0] ?? ['—', 0];
   const surfaceRatio = cards ? +(bgs.size / cards).toFixed(2) : null;
 
   // ── Motifs propriétaires présents ───────────────────────────────────────
@@ -175,7 +191,9 @@ function probe(motifSelectors) {
     blocks: blocks.length, dominance, topStructure,
     surfaces: bgs.size, shadows: shadows.size,
     maxFont, bodyPx, typeRange, fontSteps: scale.length,
-    cards, maxRepeat: topRepeat[1], topRepeatClass: topRepeat[0], canvasShare, surfaceRatio,
+    cards, maxRepeat: topRepeat[1], topRepeatClass: topRepeat[0],
+    maxRepeatCarded: topCarded[1], topCardedClass: topCarded[0],
+    canvasShare, surfaceRatio,
     motifs,
     cta: !!document.querySelector('.btn.cta, .btn.primary'),
   };
@@ -208,13 +226,13 @@ const seen = new Map();
 for (const r of rows) for (const s of r.motifs) seen.set(s, (seen.get(s) ?? new Set()).add(r.route));
 
 console.log(`\n=== V56 SIGNATURE (${LABEL}) — ${BASE} ===`);
-console.log('page@largeur              | ovf rogn | hauteur | dom.  surf omb | typo amp | cartes rép canvas ratio | motifs | CTA');
+console.log('page@largeur              | ovf rogn | hauteur | dom.  surf omb | typo amp | cartes rép/cartées canvas ratio | motifs | CTA');
 for (const r of rows) {
   console.log(
     `${`${r.route}@${r.width}`.padEnd(25)} | ${String(r.overflow).padStart(3)} ${String(r.clipped).padStart(4)} `
     + `| ${String(r.pageH).padStart(7)} | ${String(r.dominance).padStart(5)} ${String(r.surfaces).padStart(4)} ${String(r.shadows).padStart(3)} `
     + `| ${String(r.maxFont).padStart(4)} ${String(r.typeRange).padStart(4)} `
-    + `| ${String(r.cards).padStart(6)} ${String(r.maxRepeat).padStart(3)} ${String(r.canvasShare).padStart(6)} ${String(r.surfaceRatio ?? '—').padStart(5)} `
+    + `| ${String(r.cards).padStart(6)} ${String(r.maxRepeat).padStart(3)}/${String(r.maxRepeatCarded).padEnd(2)} ${String(r.canvasShare).padStart(6)} ${String(r.surfaceRatio ?? '—').padStart(5)} `
     + `| ${String(r.motifs.length).padStart(6)} | ${r.cta ? 'oui' : 'NON'}${r.errors ? ` | err ${r.errors}` : ''}`,
   );
 }

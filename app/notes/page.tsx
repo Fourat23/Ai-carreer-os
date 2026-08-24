@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { HeroFocus, HeroFact } from '@/app/ui';
 import { getProgram } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
 
@@ -16,7 +17,22 @@ export default function NotesPage() {
 
   return (
     <>
-      <div className="page-head">
+      <HeroFocus
+        tone="calm"
+        eyebrow="Journal d'apprentissage"
+        title={entries.length ? `${entries.length} entrée${entries.length > 1 ? 's' : ''} de journal` : 'Aucune note pour l’instant'}
+        lead={entries.length
+          ? "Tes notes personnelles et tes réponses, agrégées depuis les vues Jour. Relis-les aux bilans mensuels."
+          : "Les notes que tu écris dans une journée apparaissent ici, regroupées. Rien n'est ajouté automatiquement."}
+        meta={
+          <>
+            <HeroFact k="Journées annotées">{entries.length}</HeroFact>
+            <HeroFact k="Première">{entries.length ? `jour ${entries[0].day}` : '—'}</HeroFact>
+            <HeroFact k="Dernière">{entries.length ? `jour ${entries[entries.length - 1].day}` : '—'}</HeroFact>
+          </>
+        }
+      />
+      <div className="page-head" hidden>
         <div className="page-head-main">
           <p className="page-eyebrow">Journal <span className="sep">/</span> {entries.length} {entries.length > 1 ? 'entrées' : 'entrée'}</p>
           <h1 className="page-title">Notes</h1>

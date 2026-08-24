@@ -5,7 +5,7 @@ import { getTrack, getTrackModules, isTrackAvailable, resolveTrackDayObjects } f
 import { getActiveTrackId, readProgress } from '@/lib/progress-server';
 import { progressPosition } from '@/lib/position';
 import { curriculumPartition } from '@/lib/curriculum-partition';
-import { PageHeader, Status, HeroFocus, HeroFact, PositionRing } from '@/app/ui';
+import { PageHeader, Status, HeroFocus, HeroFact, PositionRing, YearBand } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import TrackActions from './TrackActions';
 
@@ -93,6 +93,14 @@ export default function ParcoursPage() {
             </div>
           </div>
         }
+      />
+
+      {/* MOTIF · YearBand — la trajectoire complète du parcours en une ligne,
+          juste sous le hero : les modules ci-dessous en sont le détail. */}
+      <YearBand
+        days={trackDays.map((d) => ({ day: d.day, month: d.month, status: progress.days[String(d.day)]?.status ?? 'not-started' }))}
+        currentDay={pos.resumeDay}
+        label={`Année du parcours ${active.title}`}
       />
 
       {/* Technologies du parcours — bande dense sous le hero */}

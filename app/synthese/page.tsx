@@ -5,8 +5,11 @@ import { getCatalogue } from '@/lib/catalogue-server';
 import { readProgress, readProgressV3 } from '@/lib/progress-server';
 import { aggregateTracks } from '@/lib/track-aggregate';
 import { evidenceTimeline, milestones } from '@/lib/learning-experience';
-import { PageHeader, Status, HeroFocus, HeroFact, PositionRing } from '@/app/ui';
+import { PageHeader, Status, HeroFocus, HeroFact, PositionRing, EvidenceMark } from '@/app/ui';
 import TrackActions from '../parcours/TrackActions';
+import TrajectoryMap from '../TrajectoryMap';
+import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
+import { getActiveTrackId } from '@/lib/progress-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,6 +41,10 @@ export default function SynthesePage() {
   const totalDone = rows.reduce((n, r) => n + r.completedDays, 0);
   const totalDays = rows.reduce((n, r) => n + r.totalDays, 0);
   const totalReviews = rows.reduce((n, r) => n + r.reviewsDue, 0);
+  // Journées du parcours actif — même read-model que partout ailleurs.
+  const activeTrack = getTrack(catalogue, getActiveTrackId()) ?? catalogue.tracks[0];
+  const activeDays = resolveTrackDayObjects(catalogue, activeTrack, program);
+  const monthTitles = new Map(program.months.map((m: { month: number; title: string }) => [m.month, m.title]));
 
   return (
     <>
@@ -140,6 +147,23 @@ export default function SynthesePage() {
         </table>
       </div>
 
+      {/* MOTIF · TrajectoryMap — la trajectoire du parcours ACTIF, mois par mois,
+          sous la comparaison. Même représentation que le Dashboard : un apprenant
+          qui a compris l'une comprend l'autre. */}
+      {activeDays.length > 0 && (
+        <section className="dash-socle page-wide" style={{ marginTop: 'var(--sp-8)' }} aria-label="Trajectoire du parcours actif">
+          <header className="dash-socle-head">
+            <div className="dash-socle-title">
+              <span className="section-label">Trajectoire</span>
+              <h2 className="section-title">{activeRow?.title}</h2>
+            </div>
+            <p className="dash-socle-note">Une piste par mois. Clique une journée pour l’ouvrir.</p>
+          </header>
+          <TrajectoryMap days={activeDays} progress={activeProgress}
+            currentDay={activeRow?.resumeDay ?? 1} monthTitles={monthTitles} />
+        </section>
+      )}
+
       <section className="page-wide" style={{ marginTop: 'var(--sp-8)' }}>
         <div className="section-head">
           <span className="section-label"><MilestoneIcon size={13} strokeWidth={2} /> Jalons</span>
@@ -175,7 +199,12 @@ export default function SynthesePage() {
             {timeline.map((e, i) => (
               <li key={i} className="lx-tl-item">
                 <span className="lx-tl-date">{frDate(e.createdAt)}</span>
-                <span className={`lx-tl-type lx-tl-${e.type}`}>{EV_TYPE_LABEL[e.type] ?? e.type}</span>
+                {/* MOTIF · EvidenceMark — le type de preuve devient reconnaissable
+                    en balayage. Le libellé reste affiché : jamais la forme seule. */}
+                <span className={`lx-tl-type lx-tl-${e.type}`}>
+                  <EvidenceMark type={e.type} size={14} />
+                  {EV_TYPE_LABEL[e.type] ?? e.type}
+                </span>
                 <span className="lx-tl-title"><Link href={`/day/${e.day}`}>{e.title || `Jour ${e.day}`}</Link></span>
                 {e.skills.length > 0 && <span className="lx-tl-skills">{e.skills.join(' · ')}</span>}
               </li>

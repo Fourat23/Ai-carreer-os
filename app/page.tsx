@@ -12,7 +12,7 @@ import { nextBestActions } from '@/lib/learning-experience';
 import { curriculumPartition } from '@/lib/curriculum-partition';
 import {
   PageHeader, SectionHeader, Status, Metric, Panel, ActionRow,
-  HeroFocus, HeroFact, DifficultyScale, PositionRing,
+  HeroFocus, HeroFact, DifficultyScale,
 } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import StartDayButton from './StartDayButton';
@@ -83,8 +83,15 @@ export default function Dashboard() {
           Avant : le focus était un panneau à peine plus haut que ses voisins
           (rapport de surface 1er/2e bloc mesuré à 1,20). Il occupe désormais la
           pleine largeur et porte le cran typographique `display`.
-          L'aparté ne contient AUCUN ornement : anneau de position (progression
-          réelle + graduations = mois réels), difficulté et durée de la journée. */}
+          V59 · CP6 — L'aparté est SUPPRIMÉ. Il portait un anneau de position
+          (jour / total / pourcentage) alors que le champ de trajectoire, plus
+          bas sur la même page, répond à la même question avec les 365 jours
+          réels. Deux représentations concurrentes du même intervalle sur une
+          seule page : la grammaire du CP5 l'interdit, et c'était le plus
+          générique des deux qui occupait la carte d'action.
+          La carte ne parle plus que d'AUJOURD'HUI ; la position globale a
+          rejoint le champ de trajectoire, avec les mêmes chiffres et la même
+          source. */}
       <HeroFocus
         eyebrow={<>{pos.resumeReason === 'complete' ? 'Programme terminé' : started ? 'Reprendre où j’en suis' : 'Commencer maintenant'}</>}
         status={
@@ -111,15 +118,6 @@ export default function Dashboard() {
             <StartDayButton day={pos.resumeDay} label={started ? `Reprendre le jour ${pos.resumeDay}` : `Commencer le jour ${pos.resumeDay}`} className="btn cta" />
             <Link className="btn" href={`/day/${pos.resumeDay}`}>Ouvrir la vue du jour</Link>
           </>
-        }
-        aside={
-          <div className="dash-hero-aside">
-            <PositionRing percent={percent} day={pos.resumeDay} total={pos.total} months={part.monthsCovered.length || part.monthsTotal} />
-            <div className="dash-hero-nums">
-              <span className="dash-hero-pct">{percent}%</span>
-              <span className="dash-hero-pctk">{counts.done} / {counts.total} jours terminés</span>
-            </div>
-          </div>
         }
       />
 
@@ -158,8 +156,16 @@ export default function Dashboard() {
                   {partial && <span className="dash-socle-scope"> sur les {part.total} du programme</span>}
                 </h2>
               </div>
-              <p className="dash-socle-note">Une piste par mois. Clique une journée pour l’ouvrir.</p>
+              {/* V59 · CP6 — La position globale vit DANS le champ de
+                  trajectoire, plus dans la carte d'action. Mêmes chiffres,
+                  même source, une seule représentation. */}
+              <dl className="dash-socle-nums">
+                <div><dt>Terminés</dt><dd>{counts.done} <span className="dash-socle-of">/ {counts.total}</span></dd></div>
+                <div><dt>Avancement</dt><dd>{percent} <span className="dash-socle-of">%</span></dd></div>
+                <div><dt>Position</dt><dd>J{pos.resumeDay}</dd></div>
+              </dl>
             </header>
+            <p className="dash-socle-note">Une piste par mois. Clique une journée pour l’ouvrir.</p>
             <TrajectoryMap days={trackDays} progress={progress} currentDay={pos.resumeDay} monthTitles={monthTitles} />
           </section>
 

@@ -4461,3 +4461,13 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 @media (min-width: 1200px) {
   .doc-rail { display: block; }
 }
+
+/* V59 · CP6 — Les chiffres de position globale vivent dans le champ de
+   trajectoire. Ce ne sont pas des cartes : trois faits alignés sur l'en-tête
+   de la section qui les explique. */
+.dash-socle-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-5); flex-wrap: wrap; }
+.dash-socle-nums { display: flex; gap: var(--sp-5); margin: 0; }
+.dash-socle-nums dt { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600; white-space: nowrap; }
+.dash-socle-nums dd { margin: 2px 0 0; font-size: var(--fs-display-lg); font-weight: 700; line-height: 1; letter-spacing: var(--tracking-display); font-variant-numeric: tabular-nums; }
+.dash-socle-of { font-size: .45em; color: var(--muted); font-weight: 600; margin-left: 2px; }
+@media (max-width: 767px) { .dash-socle-nums { gap: var(--sp-4); } }

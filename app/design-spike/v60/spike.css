@@ -1,0 +1,648 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   V60 · SPIKE DE DESIGN — feuille de style des prototypes.
+
+   ISOLÉE : tout est porté par `.v60`. Aucune règle ici ne peut atteindre une
+   route de production. Ce fichier n'est importé que par le layout du spike.
+
+   Invariants de marque communs aux trois directions (§7 du brief) :
+   fond bleu-noir · indigo/violet · le vert UNIQUEMENT pour un succès réel ·
+   monospace parcimonieux pour les métadonnées · aucune couleur décorative.
+
+   Ce qui DIVERGE entre A, B et C est l'architecture spatiale, pas la palette.
+   Si on ne pouvait distinguer les trois qu'à la teinte, le spike aurait
+   échoué (§5).
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.v60 {
+  /* Socle commun — même encre, mêmes familles. */
+  --ink:        #0a0c12;
+  --ink-2:      #0e111a;
+  --ink-3:      #141824;
+  --ink-4:      #1b2030;
+  --line:       #232838;
+  --line-soft:  #1a1e2b;
+  --line-hard:  #333a50;
+  --txt:        #e8eaf2;
+  --txt-2:      #a7adc0;
+  --txt-3:      #6f7690;
+  --txt-4:      #4d5468;
+  --accent:     #7c6cf0;
+  --accent-2:   #a08cff;
+  --accent-dim: #3b3470;
+  --ok:         #57a773;   /* succès RÉEL uniquement */
+  /* Marque de position. Jeton et non littéral : la gate V55 interdit les
+     couleurs en dur dans `app/`, et un prototype n'est pas une raison de
+     desserrer une règle de production. */
+  --now:        #ffffff;
+  --warn:       #c8a15c;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  min-height: 100vh;
+  background: var(--ink);
+  color: var(--txt);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.v60 *, .v60 *::before, .v60 *::after { box-sizing: border-box; }
+.v60 h1, .v60 h2, .v60 h3, .v60 h4, .v60 p, .v60 ul, .v60 ol, .v60 dl, .v60 dd { margin: 0; }
+.v60 ul, .v60 ol { padding: 0; list-style: none; }
+.v60 a { color: inherit; text-decoration: none; }
+.v60 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.v60 .u { text-transform: uppercase; letter-spacing: .14em; }
+
+/* Bandeau signalant que la page N'EST PAS un écran produit. */
+.v60-flag {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 14px;
+  padding: 6px 20px; background: #2a1d10; border-bottom: 1px solid #4a3418;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: #e3b979;
+}
+.v60-flag b { color: #ffd9a0; font-weight: 600; }
+.v60-flag .sp { margin-left: auto; color: #a8813f; text-transform: none; letter-spacing: 0; }
+
+/* Index du spike. */
+.v60-index { max-width: 940px; margin: 0 auto; padding: 64px 24px 96px; }
+.v60-index h1 { font-size: 46px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 660; }
+.v60-index > p { margin-top: 16px; max-width: 62ch; color: var(--txt-2); font-size: 16px; line-height: 1.6; }
+.v60-index section { margin-top: 44px; border-top: 1px solid var(--line); padding-top: 20px; }
+.v60-index h2 { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--txt-3); font-family: var(--mono); }
+.v60-index h2 em { font-style: normal; color: var(--accent-2); }
+.v60-index .lk { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.v60-index .lk a {
+  padding: 9px 16px; border: 1px solid var(--line-hard); font-size: 14px; color: var(--txt);
+}
+.v60-index .lk a:hover { border-color: var(--accent); color: var(--accent-2); }
+.v60-index .note { margin-top: 12px; font-size: 13px; color: var(--txt-3); line-height: 1.6; max-width: 70ch; }
+
+/* Marque « donnée indisponible » — commune, parce que l'honnêteté l'est. */
+.v60 .na {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+  color: var(--txt-4); border: 1px dashed var(--line-hard); padding: 2px 7px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DIRECTION A — MISSION CONTROL
+   ─────────────────────────────────────────────────────────────────────────
+   ARCHITECTURE : des BANDES pleine largeur, bord à bord, séparées par des
+   filets. Aucune carte. La page est un instrument : une bande d'état, un
+   bloc opérationnel dominant, une trajectoire en ARC (et non en grille de
+   petits carrés), puis des registres compacts.
+   Rythme vertical DÉLIBÉRÉMENT inégal : 1 bande fine, 1 bloc énorme,
+   des registres serrés. C'est le contraire d'une pile régulière.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.dir-a { --band: #0c0f17; --band-2: #10141f; }
+
+/* ── bande d'état : fine, mono, bord à bord ───────────────────────────── */
+.a-status {
+  display: flex; align-items: stretch; border-bottom: 1px solid var(--line);
+  background: var(--band); font-family: var(--mono); font-size: 11px;
+}
+.a-status > * {
+  padding: 11px 18px; border-right: 1px solid var(--line-soft);
+  display: flex; align-items: baseline; gap: 9px; white-space: nowrap;
+}
+.a-status .k { color: var(--txt-4); letter-spacing: .12em; text-transform: uppercase; font-size: 10px; }
+.a-status .v { color: var(--txt); font-variant-numeric: tabular-nums; }
+.a-status .grow { flex: 1; border-right: none; justify-content: flex-end; color: var(--txt-4); }
+.a-status .live { color: var(--accent-2); }
+
+/* ── bloc opérationnel dominant : ~58 % de la hauteur du premier écran ── */
+.a-op {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  min-height: 58vh; border-bottom: 1px solid var(--line);
+}
+.a-op-l { padding: 46px 48px 40px; border-right: 1px solid var(--line); display: flex; flex-direction: column; }
+.a-op-tag {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--accent-2); display: flex; align-items: center; gap: 12px;
+}
+.a-op-tag::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
+.a-op h1 {
+  margin-top: 20px; font-size: clamp(34px, 3.6vw, 62px); line-height: 1.02;
+  letter-spacing: -0.035em; font-weight: 640; max-width: 16ch;
+}
+.a-op-obj {
+  margin-top: 22px; max-width: 54ch; font-size: 16px; line-height: 1.62; color: var(--txt-2);
+  border-left: 2px solid var(--accent-dim); padding-left: 18px;
+}
+.a-op-spec { margin-top: auto; padding-top: 34px; display: flex; gap: 0; border-top: 1px solid var(--line-soft); }
+.a-op-spec > div { padding-right: 30px; margin-right: 30px; border-right: 1px solid var(--line-soft); }
+.a-op-spec > div:last-child { border-right: none; }
+.a-op-spec dt { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-4); }
+.a-op-spec dd { margin-top: 6px; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.a-op-spec dd small { font-size: 13px; font-weight: 400; color: var(--txt-3); }
+.a-op-go {
+  margin-top: 28px; display: inline-flex; align-items: center; gap: 14px; align-self: flex-start;
+  padding: 15px 26px; background: var(--accent); color: #0a0714; font-weight: 640; font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.a-op-go span { font-family: var(--mono); font-size: 11px; opacity: .62; letter-spacing: .1em; }
+
+/* ── ARC DE TRAJECTOIRE : PositionRing agrandi et ouvert ────────────────
+   Le motif existant, transformé — un anneau de 1 % de surface devient
+   l'horizon de la mission. Aucun sixième motif : c'est le même. */
+.a-op-r { position: relative; padding: 40px 44px; display: flex; flex-direction: column; background: var(--band-2); }
+.a-arcwrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; }
+.a-arc { width: 100%; max-width: 560px; height: auto; }
+.a-arc .trk { stroke: var(--line-hard); }
+.a-arc .rev { stroke: var(--warn); opacity: .55; }
+.a-arc .proj { stroke: var(--accent-2); }
+.a-arc .now { stroke: var(--now); }
+.a-arc text { font-family: var(--mono); fill: var(--txt-4); font-size: 9px; letter-spacing: .1em; }
+.a-arc .lab-on { fill: var(--txt-2); }
+.a-arc-key { display: flex; gap: 22px; font-family: var(--mono); font-size: 10px; color: var(--txt-4); letter-spacing: .08em; text-transform: uppercase; }
+.a-arc-key i { display: inline-block; width: 14px; height: 2px; margin-right: 7px; vertical-align: middle; }
+.a-arc-cap { margin-bottom: 16px; font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--txt-4); }
+
+/* ── registres : trois colonnes serrées, séparées par des filets ──────── */
+.a-reg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.a-reg > section { border-right: 1px solid var(--line); padding: 26px 30px 30px; }
+.a-reg > section:last-child { border-right: none; }
+.a-reg h2 {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--txt-4); padding-bottom: 12px; border-bottom: 1px solid var(--line-soft);
+  display: flex; justify-content: space-between;
+}
+.a-row { display: flex; align-items: baseline; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--line-soft); font-size: 14px; }
+.a-row:last-child { border-bottom: none; }
+.a-row .n { font-family: var(--mono); font-size: 11px; color: var(--txt-4); min-width: 34px; }
+.a-row .t { flex: 1; color: var(--txt-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.a-row .v { font-family: var(--mono); font-size: 11px; color: var(--txt-3); }
+.a-row.is-next .t { color: var(--txt); }
+
+/* ── DAY : plan de vol ────────────────────────────────────────────────── */
+.a-plan { display: flex; border-bottom: 1px solid var(--line); background: var(--band); }
+.a-plan-seg {
+  flex: 1; padding: 14px 16px 15px; border-right: 1px solid var(--line-soft); position: relative;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--txt-4);
+}
+.a-plan-seg:last-child { border-right: none; }
+.a-plan-seg b { display: block; margin-top: 6px; font-size: 12px; letter-spacing: .04em; color: var(--txt-3); font-weight: 500; text-transform: none; }
+.a-plan-seg.on { background: var(--ink-3); color: var(--accent-2); }
+.a-plan-seg.on b { color: var(--txt); }
+.a-plan-seg.on::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--accent); }
+.a-plan-seg.done { color: var(--txt-4); }
+
+.a-day { display: grid; grid-template-columns: 132px minmax(0, 1fr); }
+.a-gutter { border-right: 1px solid var(--line); position: sticky; top: 0; align-self: start; height: 100vh; padding: 24px 0; background: var(--band); }
+.a-step { position: relative; padding: 9px 14px 9px 34px; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--txt-4); }
+.a-step::before { content: ""; position: absolute; left: 15px; top: 14px; width: 7px; height: 7px; border: 1px solid var(--line-hard); }
+.a-step::after { content: ""; position: absolute; left: 18px; top: 21px; bottom: -9px; width: 1px; background: var(--line-soft); }
+.a-step:last-child::after { display: none; }
+.a-step.on { color: var(--txt); background: var(--ink-3); }
+.a-step.on::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,108,240,.18); }
+.a-main { min-width: 0; }
+.a-sec { border-bottom: 1px solid var(--line); }
+.a-sec-h {
+  display: flex; align-items: baseline; gap: 18px; padding: 15px 40px;
+  background: var(--band-2); border-bottom: 1px solid var(--line-soft);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--txt-3);
+}
+.a-sec-h b { color: var(--accent-2); font-weight: 500; }
+.a-sec-h .r { margin-left: auto; color: var(--txt-4); }
+.a-sec-b { padding: 26px 40px 34px; max-width: 82ch; font-size: 15.5px; line-height: 1.68; color: var(--txt-2); }
+.a-sec-b h3 { margin: 22px 0 8px; font-size: 16px; color: var(--txt); font-weight: 620; }
+.a-sec-b p { margin: 0 0 14px; }
+.a-sec-b ul, .a-sec-b ol { margin: 0 0 14px; padding-left: 20px; list-style: disc; }
+.a-sec-b ol { list-style: decimal; }
+.a-sec-b li { margin: 5px 0; }
+.a-sec-b code { font-family: var(--mono); font-size: 13px; background: var(--ink-3); padding: 1px 5px; }
+.a-sec-b pre { background: var(--ink-2); border: 1px solid var(--line); padding: 14px 16px; overflow-x: auto; margin: 0 0 14px; }
+.a-sec-b pre code { background: none; padding: 0; font-size: 12.5px; line-height: 1.6; }
+.a-sec-b strong { color: var(--txt); }
+.a-sec-b table { width: 100%; border-collapse: collapse; margin: 0 0 14px; font-size: 14px; }
+.a-sec-b th, .a-sec-b td { border-bottom: 1px solid var(--line-soft); padding: 8px 10px; text-align: left; }
+
+/* ── CALENDAR : ruban de l'année en secteurs, pas 12 cartes ───────────── */
+.a-ribbon { padding: 34px 44px 26px; border-bottom: 1px solid var(--line); background: var(--band-2); }
+.a-ribbon-h { display: flex; align-items: baseline; gap: 20px; margin-bottom: 24px; }
+.a-ribbon-h h1 { font-size: clamp(28px, 2.6vw, 44px); letter-spacing: -0.03em; font-weight: 640; }
+.a-ribbon-h .k { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-4); margin-left: auto; }
+.a-band { display: flex; align-items: flex-end; height: 168px; border-bottom: 1px solid var(--line-hard); }
+.a-mo { position: relative; border-right: 1px solid var(--line-soft); display: flex; align-items: flex-end; height: 100%; padding: 0 1px; }
+.a-mo:last-child { border-right: none; }
+.a-dcol { flex: 1; min-width: 0; background: var(--line-hard); opacity: .55; }
+.a-dcol.rv { background: var(--warn); opacity: .5; }
+.a-dcol.pj { background: var(--accent); opacity: .85; }
+.a-molab { display: flex; margin-top: 9px; }
+.a-molab > div { border-right: 1px solid transparent; font-family: var(--mono); font-size: 10px; color: var(--txt-4); letter-spacing: .1em; padding-left: 3px; }
+.a-motab { width: 100%; border-collapse: collapse; font-size: 14px; }
+.a-motab th {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--txt-4); text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--line);
+  background: var(--band); position: sticky; top: 0;
+}
+.a-motab td { padding: 15px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+.a-motab tr:hover td { background: var(--ink-2); }
+.a-motab .m { font-family: var(--mono); font-size: 19px; color: var(--txt-3); font-variant-numeric: tabular-nums; }
+.a-motab .ti { color: var(--txt); font-weight: 560; }
+.a-motab .su { display: block; margin-top: 5px; color: var(--txt-3); font-size: 13px; line-height: 1.55; max-width: 74ch; }
+.a-motab .num { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--txt-2); white-space: nowrap; }
+.a-motab .pr { color: var(--accent-2); font-size: 13px; }
+
+@media (max-width: 900px) {
+  .a-op { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .a-op-l { border-right: none; border-bottom: 1px solid var(--line); padding: 30px 20px 26px; }
+  .a-op-r { padding: 26px 20px; }
+  .a-reg { grid-template-columns: minmax(0, 1fr); }
+  .a-reg > section { border-right: none; border-bottom: 1px solid var(--line); padding: 20px; }
+  .a-status { overflow-x: auto; }
+  .a-day { grid-template-columns: minmax(0, 1fr); }
+  .a-gutter { position: static; height: auto; display: flex; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 0; }
+  .a-step { padding: 12px 14px; white-space: nowrap; }
+  .a-step::before, .a-step::after { display: none; }
+  .a-sec-h, .a-sec-b { padding-left: 20px; padding-right: 20px; }
+  .a-plan { overflow-x: auto; }
+  .a-plan-seg { min-width: 116px; }
+  .a-ribbon { padding: 22px 20px 18px; }
+  .a-band { height: 120px; }
+  .a-motab .su { display: none; }
+  .a-motab th, .a-motab td { padding: 11px 12px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DIRECTION B — LEARNING WORKSTATION
+   ─────────────────────────────────────────────────────────────────────────
+   ARCHITECTURE : des VOLETS d'éditeur. Colonnes accolées, séparées par un
+   filet d'un pixel, aucune gouttière, aucun rayon, aucune ombre — donc
+   aucune « carte flottante ». Une barre d'onglets en haut, une barre d'état
+   en bas, un rail de contexte à gauche, un volet de preuve à droite.
+   La page occupe TOUTE la fenêtre et ne défile pas globalement : ce sont les
+   volets qui défilent, comme dans un IDE.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.dir-b { --pane: #0d1017; --pane-2: #10141d; --pane-3: #151a26; }
+.b-app { display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; height: 100vh; background: var(--pane); }
+
+/* barre d'onglets */
+.b-tabs { display: flex; align-items: stretch; background: var(--pane-2); border-bottom: 1px solid var(--line); }
+.b-tab {
+  padding: 10px 20px; border-right: 1px solid var(--line-soft); font-size: 13px; color: var(--txt-3);
+  display: flex; align-items: center; gap: 10px;
+}
+.b-tab .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--txt-4); }
+.b-tab.on { background: var(--pane); color: var(--txt); box-shadow: inset 0 -1px 0 var(--pane); }
+.b-tab.on .dot { background: var(--accent); }
+.b-tabs .path { margin-left: auto; padding: 10px 20px; font-family: var(--mono); font-size: 11px; color: var(--txt-4); }
+
+/* barre d'état */
+.b-stat { display: flex; align-items: center; background: var(--accent-dim); border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11px; }
+.b-stat > * { padding: 7px 16px; border-right: 1px solid rgba(255,255,255,.07); color: #cfc7ff; white-space: nowrap; }
+.b-stat .grow { flex: 1; border-right: none; text-align: right; color: #9d92d8; }
+
+/* grille de volets — asymétrie forte : contexte 250 / travail 1fr / preuve 330 */
+.b-panes { display: grid; grid-template-columns: 250px minmax(0, 1fr) 330px; min-height: 0; }
+.b-pane { min-width: 0; overflow-y: auto; border-right: 1px solid var(--line); }
+.b-pane:last-child { border-right: none; }
+.b-pane.ctx { background: var(--pane-2); }
+.b-pane.evi { background: var(--pane-2); }
+.b-ph {
+  position: sticky; top: 0; z-index: 2; padding: 9px 16px; background: var(--pane-3);
+  border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 10px;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--txt-4);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.b-ph em { font-style: normal; color: var(--txt-3); letter-spacing: .04em; text-transform: none; }
+
+/* arbre de contexte */
+.b-tree { padding: 8px 0 20px; }
+.b-tnode { display: flex; align-items: baseline; gap: 9px; padding: 5px 16px 5px 16px; font-size: 13px; color: var(--txt-3); }
+.b-tnode .g { font-family: var(--mono); font-size: 10px; color: var(--txt-4); }
+.b-tnode.l2 { padding-left: 30px; }
+.b-tnode.l3 { padding-left: 44px; font-size: 12.5px; }
+.b-tnode.on { background: var(--accent-dim); color: #e4defd; }
+.b-tnode.on .g { color: var(--accent-2); }
+.b-tsec { padding: 16px 16px 6px; font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--txt-4); }
+
+/* volet de travail */
+.b-work { padding: 0; }
+.b-work-hd { padding: 30px 34px 24px; border-bottom: 1px solid var(--line); }
+.b-kicker { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent-2); }
+.b-work-hd h1 { margin-top: 14px; font-size: clamp(26px, 2.4vw, 40px); line-height: 1.08; letter-spacing: -0.028em; font-weight: 620; max-width: 22ch; }
+.b-work-hd p { margin-top: 14px; max-width: 68ch; font-size: 15px; line-height: 1.62; color: var(--txt-2); }
+.b-meta { display: flex; flex-wrap: wrap; gap: 0; margin-top: 22px; border-top: 1px solid var(--line-soft); padding-top: 16px; }
+.b-meta > div { padding-right: 24px; margin-right: 24px; border-right: 1px solid var(--line-soft); }
+.b-meta > div:last-child { border-right: none; }
+.b-meta dt { font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--txt-4); }
+.b-meta dd { margin-top: 5px; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.b-run {
+  display: flex; align-items: center; gap: 12px; margin-top: 24px; padding: 13px 22px;
+  background: var(--accent); color: #0a0714; font-weight: 640; font-size: 14.5px; width: fit-content;
+}
+.b-run kbd { font-family: var(--mono); font-size: 11px; background: rgba(0,0,0,.22); padding: 2px 7px; }
+
+/* sous-volets de travail : LECTURE | ACTION, séparés par un filet plein */
+.b-split { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); min-height: 0; }
+.b-read { padding: 26px 32px 60px; border-right: 1px solid var(--line); min-width: 0; }
+.b-act { background: var(--pane-3); min-width: 0; }
+.b-prose { font-size: 15px; line-height: 1.7; color: var(--txt-2); max-width: 74ch; }
+.b-prose h2 { margin: 26px 0 10px; font-size: 13px; font-family: var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--accent-2); }
+.b-prose h3 { margin: 20px 0 8px; font-size: 15.5px; color: var(--txt); font-weight: 620; }
+.b-prose p { margin: 0 0 13px; }
+.b-prose ul, .b-prose ol { margin: 0 0 13px; padding-left: 20px; list-style: disc; }
+.b-prose ol { list-style: decimal; }
+.b-prose li { margin: 4px 0; }
+.b-prose code { font-family: var(--mono); font-size: 12.5px; background: var(--pane-3); padding: 1px 5px; }
+.b-prose pre { background: var(--ink); border: 1px solid var(--line); padding: 13px 15px; overflow-x: auto; margin: 0 0 13px; }
+.b-prose pre code { background: none; padding: 0; line-height: 1.6; }
+.b-prose strong { color: var(--txt); }
+.b-prose table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 0 0 13px; }
+.b-prose th, .b-prose td { border-bottom: 1px solid var(--line-soft); padding: 7px 9px; text-align: left; }
+
+/* liste d'actions du volet ACTION */
+.b-task { display: flex; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; }
+.b-task .ix { font-family: var(--mono); font-size: 11px; color: var(--txt-4); padding-top: 2px; min-width: 22px; }
+.b-task .bd { min-width: 0; }
+.b-task .bd b { display: block; color: var(--txt); font-weight: 560; }
+.b-task .bd s { display: block; margin-top: 3px; text-decoration: none; color: var(--txt-3); font-family: var(--mono); font-size: 11px; }
+.b-note { padding: 14px 18px; font-size: 13px; line-height: 1.6; color: var(--txt-3); border-bottom: 1px solid var(--line-soft); }
+.b-note b { color: var(--txt-2); }
+
+/* preuve — EvidenceMark, agrandi */
+.b-evi { display: flex; gap: 12px; align-items: flex-start; padding: 13px 16px; border-bottom: 1px solid var(--line-soft); }
+.b-evi svg { flex: none; }
+.b-evi .bd { min-width: 0; font-size: 13px; }
+.b-evi .bd b { display: block; color: var(--txt); font-weight: 560; }
+.b-evi .bd s { display: block; text-decoration: none; color: var(--txt-4); font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; }
+
+/* bande de trajectoire du bas — YearBand transformé en règle d'atelier */
+.b-strip { border-top: 1px solid var(--line); background: var(--pane-2); padding: 12px 16px 14px; }
+.b-strip-h { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-4); margin-bottom: 9px; }
+.b-ruler { display: flex; align-items: flex-end; height: 42px; gap: 1px; }
+.b-tick { flex: 1; min-width: 0; background: var(--line-hard); opacity: .5; }
+.b-tick.rv { background: var(--warn); opacity: .55; }
+.b-tick.pj { background: var(--accent); opacity: .9; }
+.b-tick.now { background: var(--now); opacity: 1; }
+.b-scale { display: flex; margin-top: 6px; font-family: var(--mono); font-size: 9.5px; color: var(--txt-4); }
+.b-scale > span { border-left: 1px solid var(--line); padding-left: 4px; }
+
+/* CALENDAR : planning tabulaire dense */
+.b-plan { padding: 0; overflow: auto; }
+.b-ptab { width: 100%; border-collapse: collapse; font-size: 13px; }
+.b-ptab th {
+  position: sticky; top: 0; z-index: 1; background: var(--pane-3); border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--txt-4); padding: 9px 10px; text-align: left; white-space: nowrap;
+}
+.b-ptab td { border-bottom: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); padding: 0; vertical-align: top; }
+.b-ptab td:last-child { border-right: none; }
+.b-ptab .mo { padding: 10px 12px; white-space: nowrap; background: var(--pane-2); border-right: 1px solid var(--line); }
+.b-ptab .mo b { display: block; font-family: var(--mono); font-size: 15px; color: var(--txt); font-variant-numeric: tabular-nums; }
+.b-ptab .mo s { display: block; text-decoration: none; margin-top: 3px; font-size: 11.5px; color: var(--txt-3); max-width: 26ch; white-space: normal; line-height: 1.4; }
+.b-wk { display: block; padding: 7px 8px; min-height: 54px; }
+.b-wk .n { font-family: var(--mono); font-size: 10px; color: var(--txt-4); }
+.b-wk .th { display: block; margin-top: 3px; font-size: 11.5px; color: var(--txt-2); line-height: 1.35; }
+.b-wk .bars { display: flex; gap: 2px; margin-top: 6px; align-items: flex-end; height: 16px; }
+.b-wk .bars i { flex: 1; background: var(--line-hard); opacity: .6; }
+.b-wk .bars i.rv { background: var(--warn); opacity: .55; }
+.b-wk .bars i.pj { background: var(--accent); opacity: .9; }
+.b-wk.empty { opacity: .3; }
+
+@media (max-width: 1100px) { .b-panes { grid-template-columns: 210px minmax(0, 1fr); } .b-pane.evi { display: none; } }
+@media (max-width: 900px) {
+  .b-app { height: auto; min-height: 100vh; }
+  .b-panes { grid-template-columns: minmax(0, 1fr); }
+  .b-pane { overflow: visible; border-right: none; border-bottom: 1px solid var(--line); }
+  .b-pane.ctx { display: none; }
+  .b-split { grid-template-columns: minmax(0, 1fr); }
+  .b-read { border-right: none; border-bottom: 1px solid var(--line); padding: 20px; }
+  .b-work-hd { padding: 22px 20px 18px; }
+  .b-tabs { overflow-x: auto; }
+  .b-tabs .path { display: none; }
+  .b-stat { overflow-x: auto; }
+  .b-ptab .mo s { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DIRECTION C — CAREER INTELLIGENCE
+   ─────────────────────────────────────────────────────────────────────────
+   ARCHITECTURE : ÉDITORIALE. Le contenu vit sur le canvas, pas dans des
+   boîtes. Marges généreuses, amplitude typographique maximale, filets
+   capillaires. La rupture visuelle ne se fait pas par une carte mais par un
+   RENVERSEMENT DE FOND pleine largeur : lire, travailler et prouver n'ont
+   pas la même encre.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.dir-c { --paper: #0a0c12; --paper-inv: #ece9f7; --rule: #22273a; }
+.dir-c { background: var(--paper); }
+.c-wrap { max-width: 1180px; margin: 0 auto; padding: 0 56px; }
+.c-wide { max-width: 1440px; margin: 0 auto; padding: 0 56px; }
+
+.c-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--txt-4); }
+.c-lede {
+  padding: 52px 0 34px; border-bottom: 1px solid var(--rule);
+}
+/* Relevé sur capture 1440 : à 5,6 vw le titre occupait le premier écran
+   ENTIER et repoussait « la forme de l'année » — la signature même de la
+   direction C — sous la ligne de flottaison. Le brief dit que le premier
+   viewport est le critère principal. L'amplitude reste forte (jusqu'à 72 px,
+   contre 28-34 px dans le produit actuel) mais laisse la portée respirer. */
+.c-lede h1 {
+  margin-top: 22px; font-size: clamp(36px, 4.1vw, 72px); line-height: .98;
+  letter-spacing: -0.042em; font-weight: 600; max-width: 19ch;
+}
+.c-lede h1 em { font-style: normal; color: var(--txt-4); }
+.c-lede .sub { margin-top: 22px; max-width: 62ch; font-size: 17.5px; line-height: 1.55; color: var(--txt-2); }
+
+.c-figs { display: flex; margin-top: 34px; border-top: 1px solid var(--line-soft); padding-top: 22px; }
+.c-figs > div { flex: 1; padding-right: 32px; }
+.c-figs dt { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--txt-4); }
+.c-figs dd { margin-top: 9px; font-size: clamp(26px, 2.5vw, 40px); line-height: 1; letter-spacing: -0.04em; font-weight: 560; font-variant-numeric: tabular-nums; }
+.c-figs dd small { font-size: 15px; letter-spacing: 0; color: var(--txt-3); font-weight: 400; }
+
+/* trajectoire éditoriale — TrajectoryMap redessiné en portée, non en grille */
+.c-staff { padding: 40px 0 40px; border-bottom: 1px solid var(--rule); }
+.c-staff-h { display: flex; align-items: baseline; gap: 20px; margin-bottom: 30px; }
+.c-staff-h h2 { font-size: 22px; letter-spacing: -0.02em; font-weight: 600; }
+.c-staff-h .k { margin-left: auto; }
+/* `align-items: flex-end` sur le conteneur empêchait les colonnes de
+   s'étirer : leur hauteur devenait celle de leur contenu, soit 0, et les
+   pourcentages des barres se résolvaient donc contre 0. Résultat mesuré au
+   navigateur : `.c-mocol` à 89 × 0 px, portée invisible. `stretch` donne aux
+   colonnes la hauteur de la portée, et ce sont les BARRES qui s'alignent en
+   bas. Défaut trouvé sur capture, confirmé à la sonde. */
+.c-lines { display: flex; align-items: stretch; height: 132px; }
+.c-mocol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 5px; border-right: 1px solid var(--line-soft); }
+.c-mocol:last-child { border-right: none; }
+.c-mobar { display: flex; align-items: flex-end; gap: 1px; height: 100%; }
+.c-mobar i { flex: 1; background: var(--txt-4); opacity: .45; }
+.c-mobar i.rv { background: var(--warn); opacity: .5; }
+.c-mobar i.pj { background: var(--accent-2); opacity: .95; }
+.c-moft { display: flex; margin-top: 12px; }
+.c-moft > div { flex: 1; padding: 0 5px; }
+.c-moft .n { font-family: var(--mono); font-size: 12px; color: var(--txt-3); font-variant-numeric: tabular-nums; }
+.c-moft .h { display: block; margin-top: 3px; font-family: var(--mono); font-size: 10px; color: var(--txt-4); }
+
+/* colonnes éditoriales, texte à même le canvas */
+.c-cols { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 64px; padding: 52px 0 64px; }
+.c-art h2 { font-size: 15px; font-family: var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--txt-4); padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+.c-item { padding: 22px 0; border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 22px; }
+.c-item .idx { font-family: var(--mono); font-size: 13px; color: var(--txt-4); font-variant-numeric: tabular-nums; padding-top: 4px; }
+.c-item h3 { font-size: 20px; letter-spacing: -0.018em; font-weight: 580; line-height: 1.25; }
+.c-item p { margin-top: 8px; font-size: 15px; line-height: 1.6; color: var(--txt-2); max-width: 62ch; }
+.c-item .tags { margin-top: 12px; display: flex; gap: 18px; font-family: var(--mono); font-size: 11px; color: var(--txt-4); letter-spacing: .06em; }
+.c-aside h2 { font-size: 12px; font-family: var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--txt-4); padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+.c-aline { display: flex; justify-content: space-between; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--line-soft); font-size: 14px; color: var(--txt-2); }
+.c-aline b { font-family: var(--mono); font-weight: 400; color: var(--txt-3); font-variant-numeric: tabular-nums; }
+.c-cta { margin-top: 26px; margin-bottom: 8px; display: inline-flex; align-items: baseline; gap: 14px; border-bottom: 2px solid var(--accent); padding-bottom: 7px; font-size: 20px; font-weight: 560; letter-spacing: -0.02em; }
+.c-cta span { font-family: var(--mono); font-size: 11px; color: var(--txt-4); letter-spacing: .12em; text-transform: uppercase; }
+
+/* DAY : manuel premium, ruptures par renversement de fond */
+.c-doc { padding: 64px 0 40px; }
+.c-doc h1 { font-size: clamp(34px, 4.4vw, 72px); line-height: 1.0; letter-spacing: -0.042em; font-weight: 600; max-width: 17ch; margin-top: 22px; }
+.c-doc .obj { margin-top: 30px; max-width: 64ch; font-size: 20px; line-height: 1.5; color: var(--txt-2); }
+.c-rule { border: none; border-top: 1px solid var(--rule); margin: 0; }
+.c-body { padding: 18px 0 40px; font-size: 17px; line-height: 1.75; color: var(--txt-2); max-width: 68ch; }
+.c-body h3 { margin: 30px 0 10px; font-size: 21px; color: var(--txt); font-weight: 580; letter-spacing: -0.018em; }
+.c-body p { margin: 0 0 18px; }
+.c-body ul, .c-body ol { margin: 0 0 18px; padding-left: 22px; list-style: disc; }
+.c-body ol { list-style: decimal; }
+.c-body li { margin: 7px 0; }
+.c-body code { font-family: var(--mono); font-size: 14.5px; background: #151a26; padding: 1px 6px; }
+.c-body pre { background: #0d1017; border-left: 2px solid var(--rule); padding: 16px 20px; overflow-x: auto; margin: 0 0 18px; }
+.c-body pre code { background: none; padding: 0; font-size: 13.5px; line-height: 1.65; }
+.c-body strong { color: var(--txt); }
+.c-body table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 0 0 18px; }
+.c-body th, .c-body td { border-bottom: 1px solid var(--line-soft); padding: 10px 12px; text-align: left; }
+.c-mark { display: flex; align-items: baseline; gap: 18px; padding-top: 34px; flex-wrap: wrap; }
+.c-mark .no { font-family: var(--mono); font-size: 12px; letter-spacing: .18em; color: var(--txt-4); }
+.c-mark h2 { font-size: clamp(24px, 2.4vw, 36px); letter-spacing: -0.03em; font-weight: 580; }
+
+/* RUPTURE : la pratique renverse le fond, pleine largeur */
+/* Mesuré sur capture : #12101f contre #0a0c12, l'écart était invisible et la
+   « rupture » n'en était pas une. Le fond de travail devient franchement
+   indigo, avec deux filets d'accent pleine largeur. Il reste sobre — c'est un
+   changement de support, pas un effet. */
+.c-turn { background: #16123a; border-top: 2px solid var(--accent); border-bottom: 2px solid var(--accent); }
+.c-turn .c-mark h2 { color: #f0edff; }
+.c-turn .c-body strong, .c-turn .c-body h3 { color: #f0edff; }
+.c-turn .c-body th, .c-turn .c-body td { border-bottom-color: #322a63; }
+.c-prove { border-top: 2px solid var(--accent); border-bottom: 2px solid var(--accent); }
+.c-turn .c-mark .no { color: var(--accent-2); }
+.c-turn .c-body { color: #c9c3e6; }
+.c-turn .c-body code, .c-turn .c-body pre { background: #191531; }
+.c-prove { background: var(--paper-inv); color: #16131f; }
+.c-prove .c-mark .no { color: #6a5cc4; }
+.c-prove .c-mark h2 { color: #16131f; }
+.c-prove .c-body { color: #3b3550; }
+.c-prove .c-body strong, .c-prove .c-body h3 { color: #16131f; }
+.c-prove .c-body code { background: #ddd8ee; }
+.c-prove .c-body pre { background: #e2ddf1; border-left-color: #c3bbdd; }
+.c-prove .c-body th, .c-prove .c-body td { border-bottom-color: #d3cde6; }
+.c-prove .c-eyebrow { color: #6a5cc4; }
+.c-prove .c-crit { border-color: #cec7e4; }
+.c-crit { margin: 0 0 18px; border-left: 2px solid var(--accent-dim); padding: 4px 0 4px 20px; }
+
+/* CALENDAR : colonnes de densité, honnêtes pour un mois court */
+.c-year { padding: 60px 0 30px; }
+.c-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; align-items: end; min-height: 320px; margin-top: 44px; }
+.c-col { border-right: 1px solid var(--line-soft); padding: 0 8px; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+.c-col:last-child { border-right: none; }
+.c-col .num { font-size: clamp(22px, 2.2vw, 38px); line-height: 1; letter-spacing: -0.04em; font-weight: 560; color: var(--txt-3); font-variant-numeric: tabular-nums; }
+.c-col .stack { margin-top: 14px; display: flex; flex-direction: column-reverse; gap: 2px; }
+.c-col .stack i { display: block; height: 4px; background: var(--txt-4); opacity: .4; }
+.c-col .stack i.rv { background: var(--warn); opacity: .55; }
+.c-col .stack i.pj { background: var(--accent-2); opacity: .95; }
+.c-col .hrs { margin-top: 12px; font-family: var(--mono); font-size: 10px; color: var(--txt-4); }
+.c-mrow { display: grid; grid-template-columns: 82px minmax(0, 1fr) 200px; gap: 30px; padding: 26px 0; border-bottom: 1px solid var(--line-soft); align-items: baseline; }
+.c-mrow .mn { font-family: var(--mono); font-size: 26px; color: var(--txt-4); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.c-mrow h3 { font-size: 21px; letter-spacing: -0.02em; font-weight: 580; }
+.c-mrow p { margin-top: 9px; font-size: 15px; line-height: 1.6; color: var(--txt-2); max-width: 70ch; }
+.c-mrow .pj { margin-top: 11px; font-size: 14px; color: var(--accent-2); }
+.c-mrow .rt { text-align: right; font-family: var(--mono); font-size: 12px; color: var(--txt-4); line-height: 2; }
+.c-mrow .rt b { color: var(--txt-2); font-weight: 400; }
+
+@media (max-width: 1024px) { .c-cols { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+@media (max-width: 900px) {
+  .c-wrap, .c-wide { padding: 0 20px; }
+  .c-lede { padding-top: 42px; padding-bottom: 32px; }
+  .c-figs { flex-wrap: wrap; gap: 22px 0; }
+  .c-figs > div { flex: 0 0 50%; padding-right: 16px; }
+  .c-lines { height: 92px; }
+  .c-moft .h { display: none; }
+  .c-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); min-height: 0; row-gap: 26px; }
+  .c-col { border-right: none; }
+  .c-mrow { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .c-mrow .rt { text-align: left; line-height: 1.8; }
+  .c-item { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .c-doc { padding: 36px 0 26px; }
+  .c-body { padding: 30px 0; font-size: 16px; }
+}
+
+
+/* V60 · A — bande unique du hero de journée, et gouttière lisible.
+   La gouttière à 132 px faisait passer « 01 CADRER » à la ligne : les deux
+   morceaux se chevauchaient. Le numéro prend sa ligne, l'étiquette la
+   sienne, et rien ne se coupe. Défaut vu sur capture 1440. */
+.a-op-solo {
+  display: flex; gap: 56px; align-items: flex-end; justify-content: space-between;
+  padding: 42px 48px 34px; border-bottom: 1px solid var(--line); flex-wrap: wrap;
+}
+.a-op-solo h1 {
+  margin-top: 18px; font-size: clamp(30px, 3.2vw, 54px); line-height: 1.02;
+  letter-spacing: -0.035em; font-weight: 640; max-width: 20ch;
+}
+.a-op-spec-v { margin-top: 0; padding-top: 0; border-top: none; flex: none; }
+.a-step { display: block; white-space: nowrap; padding: 8px 14px 9px 34px; }
+.a-step b { display: block; font-weight: 400; color: var(--txt-3); font-size: 11px; letter-spacing: .08em; }
+.a-step.on b { color: var(--accent-2); }
+.a-gutter { width: 150px; }
+.a-day { grid-template-columns: 150px minmax(0, 1fr); }
+@media (max-width: 900px) {
+  .a-op-solo { padding: 26px 20px 22px; gap: 24px; }
+  .a-day { grid-template-columns: minmax(0, 1fr); }
+  .a-gutter { width: auto; }
+  .a-step { display: inline-block; padding: 10px 14px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V60 · CORRECTIONS MOBILE, relevées sur captures 375
+   ─────────────────────────────────────────────────────────────────────────
+   1. Le bandeau de prototype s'empilait sur six lignes et mangeait 160 px du
+      premier écran. Il se réduit à une seule ligne : la mention longue est
+      pour le desktop.
+   2. `.b-meta` gardait ses séparateurs verticaux en passant à la ligne : des
+      filets orphelins traversaient les valeurs. En colonne, ce sont des
+      filets HORIZONTAUX.
+   3. L'en-tête du volet de lecture était posé en marges négatives calculées
+      pour le desktop ; à 375 il débordait de sa colonne.
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 700px) {
+  .v60-flag { gap: 10px; padding: 6px 14px; font-size: 10px; overflow: hidden; white-space: nowrap; }
+  .v60-flag .sp { display: none; }
+  .v60-flag span:not(.sp):nth-of-type(2) { display: none; }
+
+  .b-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+  .b-meta > div {
+    padding: 10px 0 10px; margin-right: 0; border-right: none;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .b-meta > div:nth-child(odd) { padding-right: 16px; border-right: 1px solid var(--line-soft); }
+
+  .b-read > .b-ph { margin: 0 0 16px !important; }
+  .b-read { padding: 0 16px 30px; }
+  .b-read > .b-ph { margin-left: -16px !important; margin-right: -16px !important; }
+
+  .a-op-spec { flex-wrap: wrap; gap: 0; }
+  .a-op-spec > div {
+    flex: 0 0 50%; padding: 10px 16px 10px 0; margin-right: 0;
+    border-right: none; border-bottom: 1px solid var(--line-soft);
+  }
+  .a-op-spec > div:nth-child(odd) { border-right: 1px solid var(--line-soft); padding-right: 16px; }
+
+  .c-figs > div { padding-right: 14px; }
+  .c-figs dd { font-size: 26px; }
+}
+
+@media (max-width: 700px) {
+  /* « Architecture » débordait sur « 3/5 » : la colonne n'avait pas de
+     min-width et la valeur ne se coupait nulle part. Mesuré sur capture 375. */
+  .b-meta > div, .a-op-spec > div { min-width: 0; }
+  .b-meta dd, .a-op-spec dd { overflow-wrap: anywhere; font-size: 15px; }
+  .b-meta dd { font-size: 15px; }
+  .b-read > .b-ph { width: auto; }
+}

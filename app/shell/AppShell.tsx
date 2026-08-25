@@ -115,6 +115,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
   }, [drawer]);
 
+  // V60 — SPIKE DE DESIGN, ISOLÉ DU PRODUIT.
+  //
+  // Les prototypes de `/design-spike/v60/**` ne sont pas des routes métier :
+  // ils servent à comparer trois architectures visuelles sur un canvas plein,
+  // sans le rail ni la marque — ce que le test à l'aveugle exige de toute
+  // façon. Aucune page de production n'emprunte cette branche, et aucun lien
+  // du produit ne mène ici : la seule entrée est l'URL, tapée à la main.
+  //
+  // Ce spike NE MIGRE RIEN. Si aucune direction n'est retenue, supprimer
+  // `app/design-spike/` et ces cinq lignes rend l'état d'avant à l'identique.
+  if (path.startsWith('/design-spike')) return <>{children}</>;
+
   return (
     <div className="app" data-collapsed={collapsed ? 'true' : 'false'}>
       <a href="#main" className="skip-link">Aller au contenu</a>

@@ -31,7 +31,7 @@
 // que le corpus porte déjà. Aucune seconde taxonomie n'est créée.
 import { notFound } from 'next/navigation';
 import { cwData, cwDay, ACTION_FAMILIES, FAMILY_LABEL } from '../../data';
-import { SystemLine, FactsLine, ProtoNotice, Inline, isBlind } from '../../shell';
+import { SystemLine, FactsLine, ProtoNotice, Inline, isBlind, PaneSwitch, paneOf } from '../../shell';
 import { PhaseRail, YearBand, EvidenceMark } from '../../motifs';
 
 export const dynamic = 'force-dynamic';
@@ -52,10 +52,14 @@ export default async function CwDay({
   const { id } = await params;
   const dayNum = Number(id);
   if (!Number.isInteger(dayNum) || dayNum < 1 || dayNum > 365) notFound();
-  const blind = isBlind(await searchParams);
+  const sp = await searchParams;
+  const blind = isBlind(sp);
+  // En écran étroit, un seul volet à la fois. En grand écran, la CSS ignore
+  // cette valeur et affiche les trois.
+  const pane = paneOf(sp, ['lire', 'faire', 'plan']);
 
   const d = cwData();
-  const { meta, sections, read, act, week, month } = cwDay(dayNum);
+  const { meta, sections, read, act, proofSection, week, month } = cwDay(dayNum);
   if (!meta) notFound();
 
   // L'objectif est REMONTÉ dans l'en-tête et retiré de la colonne de lecture :
@@ -66,9 +70,9 @@ export default async function CwDay({
   const weekDays = d.days.filter((x) => x.week === meta.week);
   const prev = d.days.find((x) => x.day === dayNum - 1);
   const nextDay = d.days.find((x) => x.day === dayNum + 1);
-  const objText = objective
-    ? objective.body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
-    : null;
+  const objText = objective ? objective.text : null;
+  // Le livrable replié reste une section de la colonne FAIRE : il est compté.
+  const actCount = act.length + (proofSection ? 1 : 0);
 
   return (
     <div className="cw-app">
@@ -84,9 +88,9 @@ export default async function CwDay({
         tail={week?.theme}
       />
 
-      <div className="cw-body cw-day">
+      <div className={`cw-body cw-day cw-v-${pane}`}>
         {/* ── CONTEXTE — étroit, persistant, navigable ─────────────────── */}
-        <aside className="cw-day-ctx" aria-label="Contexte de la journée">
+        <aside className="cw-day-ctx" aria-label="Contexte de la journée" tabIndex={0}>
           <div className="cw-zh">
             <span>Semaine {meta.week}</span>
             <em>{weekDays.length} journées</em>
@@ -129,26 +133,47 @@ export default async function CwDay({
                 {objText}
               </p>
             )}
+            {/* La ligne de navigation portait un « LIVRABLE ATTENDU » poussé à
+                l'extrême droite par un ressort, à ~800 px des boutons : une
+                étiquette orpheline au-dessus d'un vide. Les trois éléments
+                sont désormais contigus et de même nature — des repères de
+                déplacement, groupés à gauche. */}
             <nav className="cw-day-nav" aria-label="Journées voisines">
               {prev && <a className="cw-go2" href={`/design-spike/v60-1/day/${prev.day}`}>← J{prev.day}</a>}
               {nextDay && <a className="cw-go2" href={`/design-spike/v60-1/day/${nextDay.day}`}>J{nextDay.day} →</a>}
-              <span className="cw-day-nav-sp" />
-              <span className="cw-eyebrow">{meta.deliverable ? 'livrable attendu' : 'sans livrable déclaré'}</span>
+              {/* Nature de la journée — donnée réelle du programme, dite
+                  nulle part ailleurs sur cet écran. Rien n'est affiché quand
+                  la journée n'est ni une révision ni un jalon de projet :
+                  pas d'étiquette vide pour meubler. */}
+              {meta.isReview && <span className="cw-day-nav-tag cw-rev">journée de révision</span>}
+              {meta.project != null && (
+                <span className="cw-day-nav-tag">projet {meta.project} · {month?.project?.name}</span>
+              )}
             </nav>
           </header>
 
+          <PaneSwitch
+            base={`/design-spike/v60-1/day/${dayNum}${blind ? '?blind=1' : ''}`}
+            current={pane}
+            panes={[
+              { v: 'lire', label: 'Lire', n: readBody.length },
+              { v: 'faire', label: 'Faire', n: actCount },
+              { v: 'plan', label: 'Plan', n: sections.length },
+            ]}
+          />
+
           <div className="cw-day-split">
             {/* LIRE — fond du canvas, mesure de lecture confortable */}
-            <section className="cw-day-read" aria-labelledby="day-read-h">
+            <section className="cw-day-read" aria-labelledby="day-read-h" tabIndex={0}>
               <div className="cw-zh">
                 <span id="day-read-h">Lire · référence</span>
                 <em>{readBody.length} sections</em>
               </div>
               <div className="cw-day-prose">
-                {readBody.map((s, i) => (
+                {readBody.map((s) => (
                   <article key={s.id} id={s.id}>
                     <h2 className="cw-day-sec">
-                      <span className="cw-mono cw-n">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="cw-mono cw-n">{String(s.n).padStart(2, '0')}</span>
                       <span className="cw-t">{s.label}</span>
                       {s.family && <span className="cw-mono cw-f">{FAMILY_LABEL[s.family]}</span>}
                     </h2>
@@ -161,17 +186,31 @@ export default async function CwDay({
             {/* FAIRE — MATIÈRE DIFFÉRENTE : autre fond, arête d'accent,
                 affordances propres. Le changement de geste est porté par la
                 surface, pas par une étiquette. */}
-            <section className="cw-day-do" aria-labelledby="day-do-h">
+            <section className="cw-day-do" aria-labelledby="day-do-h" tabIndex={0}>
               <div className="cw-zh cw-do">
                 <span id="day-do-h"><b>Faire</b> · produire</span>
-                <em>{act.length} sections</em>
+                <em>{actCount} sections</em>
               </div>
 
-              <div className="cw-day-proof">
-                <p className="cw-day-proof-h cw-mono">Preuve attendue</p>
+              {/* Le bloc de preuve est l'emplacement UNIQUE du livrable : il
+                  porte l'ancre de la section du corpus, son numéro de rang et
+                  son texte. Sans ce repli, la même phrase apparaissait deux
+                  fois sur le même écran (mesuré : J326, y = 357 et y = 857,
+                  chaîne identique). */}
+              <div className="cw-day-proof" id={proofSection?.id}>
+                {/* Le bloc porte le NOM que le corpus donne à la section, pas
+                    un synonyme : le rail dit « 05 Livrable attendu », le bloc
+                    doit dire la même chose sous le même numéro. */}
+                <p className="cw-day-proof-h cw-mono">
+                  {proofSection && (
+                    <span className="cw-day-proof-n">{String(proofSection.n).padStart(2, '0')}</span>
+                  )}
+                  {proofSection ? proofSection.label : 'Preuve attendue'}
+                </p>
                 {meta.deliverable && (
                   <p className="cw-day-proof-d"><Inline text={meta.deliverable} /></p>
                 )}
+                <p className="cw-day-proof-k cw-mono">Preuve attendue</p>
                 <ul className="cw-day-proof-l">
                   {EVIDENCE.map((e) => (
                     <li key={e.kind}>
@@ -182,10 +221,10 @@ export default async function CwDay({
                 </ul>
               </div>
 
-              {act.map((s, i) => (
+              {act.map((s) => (
                 <article key={s.id} id={s.id} className="cw-day-task">
                   <h2 className="cw-day-task-h">
-                    <span className="cw-mono cw-n">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="cw-mono cw-n">{String(s.n).padStart(2, '0')}</span>
                     <span className="cw-t">{s.label}</span>
                     {s.family && <span className="cw-mono cw-f">{FAMILY_LABEL[s.family]}</span>}
                   </h2>
@@ -208,7 +247,7 @@ export default async function CwDay({
         facts={[
           `J${dayNum} / ${d.totalDays}`,
           `${sections.length} sections`,
-          `lire ${readBody.length} · faire ${act.length}`,
+          `lire ${readBody.length} · faire ${actCount}`,
           `${meta.hours} h`,
         ]}
         band={<YearBand days={d.days} now={dayNum} />}

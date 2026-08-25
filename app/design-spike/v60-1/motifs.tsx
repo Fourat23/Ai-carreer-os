@@ -52,9 +52,16 @@ export function TrajectoryMap({
 }
 
 /* ── YearBand ──────────────────────────────────────────────────────────────
-   La même année, compactée en une ligne de quelques pixels. Sa fonction est
-   d'être une RÈGLE DE POSITION permanente, pas une visualisation : elle vit
-   dans la ligne de faits, en pied d'écran, où elle ne concurrence rien. */
+   La même année, compactée en une LIGNE. Sa fonction est d'être une RÈGLE DE
+   POSITION, pas une visualisation.
+
+   Elle existe à DEUX ÉCHELLES, et c'est le même objet :
+     · `band` — quelques pixels, dans la ligne de faits, en pied d'écran, où
+       elle ne concurrence rien (Dashboard, Day) ;
+     · `rule` — pleine hauteur lisible, en tête du Calendrier, où elle devient
+       le sujet de l'écran et le SEUL endroit où les 365 journées sont
+       dessinées. Le Calendrier abandonne alors sa règle de pied : le motif
+       n'apparaît pas deux fois sur le même écran. */
 export function YearBand({ days, now }: { days: CwDay[]; now: number }) {
   return (
     <span className="cw-yband" role="img"
@@ -67,6 +74,49 @@ export function YearBand({ days, now }: { days: CwDay[]; now: number }) {
   );
 }
 
+/**
+ * YearBand à l'échelle `rule` : la règle de l'année, lisible.
+ * Les mois sont des SEGMENTS PROPORTIONNELS à leur nombre réel de journées —
+ * 28, 35 ou 36 selon le mois. Rien n'est complété pour égaliser : c'est le
+ * constat de la direction C, conservé tel quel.
+ */
+export function YearRule({
+  days, now, months, selected,
+}: {
+  days: CwDay[]; now: number;
+  months: { month: number; days: CwDay[] }[];
+  selected: number;
+}) {
+  // Le conteneur ne porte PAS `role="img"` : il contient douze liens, et un
+  // rôle graphique sur un élément à descendants focalisables est signalé par
+  // axe-core (`nested-interactive`) — l'objet serait annoncé comme une image
+  // alors qu'il est un ensemble de commandes. La description d'ensemble passe
+  // donc par un texte hors écran, et chaque mois porte son propre intitulé.
+  return (
+    <div className="cw-yrule">
+      <p className="cw-sr">
+        {`Règle de l'année : ${days.length} journées réparties en ${months.length} mois de longueurs inégales. Journée courante ${now}. Mois affiché ${selected}. Chaque mois est un lien.`}
+      </p>
+      <div className="cw-yrule-b">
+        {months.map((m) => (
+          <a key={m.month} href={`?m=${m.month}`}
+             className={`cw-yrule-mo${m.month === selected ? ' cw-on' : ''}`}
+             style={{ flex: m.days.length }}
+             aria-label={`Mois ${m.month}, ${m.days.length} journées`}>
+            <span className="cw-yrule-days">
+              {m.days.map((d) => (
+                <i key={d.day}
+                   className={d.day === now ? 'cw-now' : d.project != null ? 'cw-pj' : d.isReview ? 'cw-rv' : ''} />
+              ))}
+            </span>
+            <span className="cw-yrule-n cw-mono">{String(m.month).padStart(2, '0')}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ── PhaseRail ─────────────────────────────────────────────────────────────
    La position dans un document, NAVIGABLE. Ce sont de vrais liens d'ancre :
    le rail est un instrument, pas une décoration. La famille vient de
@@ -75,7 +125,7 @@ export function YearBand({ days, now }: { days: CwDay[]; now: number }) {
 export function PhaseRail({
   sections, current, actionSet, familyLabel,
 }: {
-  sections: { id: string; label: string; family: string | null }[];
+  sections: { id: string; label: string; family: string | null; n?: number }[];
   current: string | null;
   actionSet: Set<string>;
   familyLabel: Record<string, string>;
@@ -89,13 +139,17 @@ export function PhaseRail({
             <a href={`#${s.id}`}
                className={`cw-prail-i${isAction ? ' cw-act' : ''}${current === s.id ? ' cw-on' : ''}`}
                aria-current={current === s.id ? 'true' : undefined}>
-              <span className="cw-prail-n cw-mono">{String(i + 1).padStart(2, '0')}</span>
+              <span className="cw-prail-n cw-mono">{String(s.n ?? i + 1).padStart(2, '0')}</span>
               <span className="cw-prail-b">
                 <span className="cw-prail-t">{s.label}</span>
-                <span className="cw-prail-f cw-mono">
-                  {s.family ? familyLabel[s.family] ?? '—' : '—'}
-                  {isAction && ' · action'}
-                </span>
+                {/* Un tiret cadratin seul sous un intitulé se lit comme une
+                    donnée manquante. Quand le corpus ne déclare pas de
+                    famille, la ligne n'existe simplement pas. */}
+                {s.family && familyLabel[s.family] && (
+                  <span className="cw-prail-f cw-mono">
+                    {familyLabel[s.family]}{isAction && ' · action'}
+                  </span>
+                )}
               </span>
             </a>
           </li>

@@ -26,10 +26,25 @@
   --line-soft:   #171c28;
   --line-hard:   #2f3750;
 
+  /* ── QUATRE NIVEAUX DE TEXTE, TOUS AA ────────────────────────────────
+     Mesuré au CP12 avec axe-core : `--txt-4` à #4f5670 donnait 2,64:1 sur le
+     plan structurel et 1,99:1 dans le bloc de preuve — très en dessous des
+     4,5:1 exigés, sur 40 à 50 nœuds par écran. `--txt-3` à #737b93 tombait à
+     3,43:1 dans le bloc de preuve.
+     Les deux registres sourds sont donc relevés au-dessus du seuil sur TOUS
+     les fonds du système, y compris le plus clair (#232b40) :
+       --txt-3 #9ba3bd → de 5,61:1 à 7,88:1
+       --txt-4 #8f97b5 → de 4,87:1 à 6,84:1
+     Conséquence assumée : sur ce fond, l'AA n'admet pas quatre gris
+     franchement distincts. L'écart entre le registre secondaire et le
+     registre micro n'est donc plus porté par la valeur seule, mais par la
+     TAILLE, la CASSE, l'APPROCHE et la FAMILLE — mono capitale espacée contre
+     sans-serif bas-de-casse. C'est une distinction plus solide qu'un écart de
+     luminance, et elle survit au niveau de gris.                            */
   --txt:         #eaecf3;
   --txt-2:       #a9b0c4;
-  --txt-3:       #737b93;
-  --txt-4:       #4f5670;
+  --txt-3:       #9ba3bd;
+  --txt-4:       #8f97b5;
 
   --accent:      #7b6bf2;   /* action · position · focus · changement d'état */
   --accent-2:    #a495ff;
@@ -120,7 +135,14 @@
   display: flex; align-items: stretch; background: var(--plane);
   border-bottom: 1px solid var(--line);
   font-family: var(--mono); font-size: var(--fs-mono);
+  /* Mesuré au CP10 : à 1024 px, la ligne de système débordait de la fenêtre
+     (queue à 1217 px pour 1024 de large) sur le Dashboard ET sur le Day. Les
+     champs sont en `nowrap` par nature — ce sont des valeurs, pas du texte.
+     La ligne défile donc latéralement, et sa queue se tronque. */
+  overflow-x: auto; scrollbar-width: none;
 }
+.cw-sys::-webkit-scrollbar { display: none; }
+.cw-sys > * { flex: 0 0 auto; }
 .cw-sys > * {
   padding: 10px 18px; border-right: 1px solid var(--line-soft);
   display: flex; align-items: baseline; gap: 9px; white-space: nowrap;
@@ -129,7 +151,10 @@
              letter-spacing: var(--track-mono); text-transform: uppercase; }
 .cw-sys .cw-v { color: var(--txt); }
 .cw-sys .cw-v.cw-pos { color: var(--accent-2); }
-.cw-sys .cw-grow { flex: 1; border-right: none; justify-content: flex-end; color: var(--txt-4); }
+.cw-sys .cw-grow { flex: 1 1 auto; min-width: 0; border-right: none;
+                  justify-content: flex-end; color: var(--txt-4);
+                  overflow: hidden; text-overflow: ellipsis; display: block;
+                  text-align: right; }
 .cw-sys .cw-warn { color: var(--amber); }
 
 /* ── ligne de faits, héritée de B : le bas de l'écran dit l'état ─────── */
@@ -137,11 +162,14 @@
   display: flex; align-items: center; background: var(--plane);
   border-top: 1px solid var(--line);
   font-family: var(--mono); font-size: var(--fs-mono); color: var(--txt-3);
+  overflow-x: auto; scrollbar-width: none;
 }
-.cw-facts > * { padding: 8px 16px; border-right: 1px solid var(--line-soft); white-space: nowrap; }
-.cw-facts .cw-grow { flex: 1; border-right: none; text-align: right; color: var(--txt-4);
-                  overflow: hidden; text-overflow: ellipsis; }
-.cw-facts .cw-band { flex: 1; border-right: none; padding: 0 16px; min-width: 0; }
+.cw-facts::-webkit-scrollbar { display: none; }
+.cw-facts > * { flex: 0 0 auto; padding: 8px 16px;
+              border-right: 1px solid var(--line-soft); white-space: nowrap; }
+.cw-facts .cw-grow { flex: 1 1 auto; min-width: 0; border-right: none; text-align: right;
+                  color: var(--txt-4); overflow: hidden; text-overflow: ellipsis; }
+.cw-facts .cw-band { flex: 1 1 auto; border-right: none; padding: 0 16px; min-width: 0; }
 
 /* ── grammaire de zones : PLANS accolés, jamais de cartes ───────────── */
 .cw-zones { display: grid; min-height: 0; }
@@ -194,14 +222,24 @@
 .cw-figs dd.cw-txt { font-size: var(--fs-h2); letter-spacing: -0.015em; }
 
 /* action principale — une seule par écran */
-.cw-go {
+/* `.cw-go` était écrit sans le préfixe de portée : à specificité (0,1,0) il
+   perdait contre `.cw a { color: inherit }` (0,1,1), et l'action principale
+   se rendait en #eaecf3 sur #7b6bf2 — 3,4:1, mesuré par axe-core au CP12,
+   sur le bouton le plus important du produit. Encre sombre sur l'accent :
+   4,83:1, et le bouton devient l'objet le plus contrasté de l'écran. */
+.cw .cw-go {
   display: inline-flex; align-items: center; gap: 14px;
-  padding: 14px 24px; background: var(--accent); color: #0a0714;
+  padding: 14px 24px; background: var(--accent); color: #0b0d14;
   font-weight: 640; font-size: var(--fs-ui); letter-spacing: -0.01em;
 }
-.cw-go:hover { background: var(--accent-2); }
-.cw-go .cw-sub { font-family: var(--mono); font-size: var(--fs-mono);
-              opacity: .62; letter-spacing: .08em; }
+.cw .cw-go:hover { background: var(--accent-2); }
+/* L'accent ne vaut que 4,83:1 contre une encre quasi noire : il n'y a pas la
+   place pour DEUX niveaux d'encre sur ce fond sans tomber sous le seuil
+   (essai à #241d55 : 3,78:1). La nuance secondaire du bouton est donc portée
+   par la famille, la taille et l'approche — mono, 11,5 px, espacé — et non
+   par la valeur. Même arbitrage que pour les gris de texte. */
+.cw .cw-go .cw-sub { font-family: var(--mono); font-size: var(--fs-mono);
+                 color: inherit; letter-spacing: .08em; }
 .cw-go2 {
   display: inline-flex; align-items: center; gap: 12px; padding: 11px 18px;
   border: 1px solid var(--line-hard); color: var(--txt-2); font-size: var(--fs-sm);
@@ -352,26 +390,22 @@
 .cw .cw-dash-field { padding: 20px 40px 16px; border-bottom: 1px solid var(--line); background: var(--plane); }
 .cw .cw-dash-field-h { display: flex; align-items: baseline; gap: 8px 22px; margin-bottom: 16px; flex-wrap: wrap; }
 .cw .cw-dash-field-cap { flex: 1; min-width: 22ch; }
-.cw .cw-dash-legend { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-left: auto; }
-.cw .cw-dash-legend li {
+/* Légende — élément du SYSTÈME, pas du Dashboard : le Calendrier code ses
+   journées avec exactement les mêmes quatre valeurs et lit donc la même
+   légende. C'est une des choses qui fait que les deux écrans appartiennent au
+   même produit. */
+.cw .cw-legend { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-left: auto; }
+.cw .cw-legend li {
   display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
   font-family: var(--mono); font-size: var(--fs-micro);
   letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--txt-3);
 }
-.cw .cw-dash-legend .cw-lg { display: inline-block; width: 14px; height: 3px; flex: none; }
-.cw .cw-dash-legend .cw-lg.cw-dy { background: #4a5474; }
-.cw .cw-dash-legend .cw-lg.cw-rv { background: var(--amber); opacity: .6; }
-.cw .cw-dash-legend .cw-lg.cw-pj { background: var(--accent); }
-.cw .cw-dash-legend .cw-lg.cw-nw { background: var(--now); }
+.cw .cw-legend .cw-lg { display: inline-block; width: 14px; height: 3px; flex: none; }
+.cw .cw-legend .cw-lg.cw-dy { background: #4a5474; }
+.cw .cw-legend .cw-lg.cw-rv { background: var(--amber); opacity: .6; }
+.cw .cw-legend .cw-lg.cw-pj { background: var(--accent); }
+.cw .cw-legend .cw-lg.cw-nw { background: var(--now); }
 .cw .cw-dash-h2 { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.02em; }
-.cw .cw-dash-field-h .cw-lg { margin-left: 14px; }
-.cw .cw-dash-field-h .cw-lg::before {
-  content: ""; display: inline-block; width: 12px; height: 3px; margin-right: 6px;
-  vertical-align: middle; background: var(--line-hard);
-}
-.cw .cw-dash-field-h .cw-lg.cw-rv::before { background: var(--amber); }
-.cw .cw-dash-field-h .cw-lg.cw-pj::before { background: var(--accent); }
-.cw .cw-dash-field-h .cw-lg.cw-nw::before { background: var(--now); }
 
 /* ── registre 3 : le socle. Trois colonnes de filets, pas trois cartes. ─ */
 .cw .cw-dash-socle { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--ground); }
@@ -429,16 +463,30 @@
             border-bottom: 1px solid var(--line); position: relative; }
 .cw .cw-day-head::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0;
                     width: 3px; background: var(--accent); }
+/* Mesuré au CP14 : avec `clamp(24px, 2.4vw, 40px)`, le titre du Day plafonnait
+   à 34,6 px pour un corps de 15 px — ratio 2,30, SOUS la cible gelée de
+   3,3–4,5, alors que le Dashboard la tenait. Le Day est l'écran le plus lu du
+   produit : c'est précisément là que l'échelle typographique devait porter.
+   Le seuil étant gelé, c'est le dessin qui bouge, pas la cible.
+     à 1440 : 3,5 vw = 50,4 px → 3,36
+     à 1920 : plafond 56 px    → 3,73                                        */
 .cw .cw-day-title {
-  margin-top: 10px; font-size: clamp(24px, 2.4vw, 40px); line-height: 1.06;
-  letter-spacing: -0.03em; font-weight: 620; max-width: 26ch;
+  margin-top: 10px; font-size: clamp(32px, 3.5vw, 56px); line-height: 1.04;
+  letter-spacing: -0.032em; font-weight: 620; max-width: 22ch;
 }
 .cw .cw-day-obj { margin-top: 14px; max-width: 88ch; font-size: var(--fs-read);
            line-height: 1.5; color: var(--txt-2); }
 .cw .cw-day-obj-k { display: inline-block; margin-right: 12px; font-size: var(--fs-micro);
              letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--txt-4); }
 .cw .cw-day-nav { margin-top: 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.cw .cw-day-nav-sp { flex: 1; }
+/* Étiquette d'état, contiguë aux boutons. Le ressort `cw-day-nav-sp` qui la
+   projetait à l'extrême droite a été retiré au CP7 : il ouvrait un vide de
+   ~800 px sous un en-tête déjà large. */
+.cw .cw-day-nav-tag { margin-left: 4px; padding: 5px 10px; font-size: var(--fs-micro);
+              font-family: var(--mono); letter-spacing: var(--track-mono);
+              text-transform: uppercase; color: var(--txt-3);
+              border: 1px solid var(--line-hard); }
+.cw .cw-day-nav-tag.cw-rev { color: var(--amber); border-color: #4a3d24; }
 
 .cw .cw-day-split { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); min-height: 0; }
 
@@ -482,14 +530,20 @@
 .cw .cw-day-proof { padding: 16px 20px 18px; border-bottom: 1px solid #2c3450; background: #202940; }
 .cw .cw-day-proof-h { font-size: var(--fs-micro); letter-spacing: var(--track-mono);
                text-transform: uppercase; color: var(--accent-2); }
+/* Le rang de la section repliée : le bloc de preuve EST la section du corpus,
+   il en porte donc le numéro, comme toutes les autres sections de l'écran. */
+.cw .cw-day-proof-n { margin-right: 9px; color: #7f88ab; }
 .cw .cw-day-proof-d { margin-top: 9px; font-size: var(--fs-sm); line-height: 1.55; color: #d7dbea; }
-.cw .cw-day-proof-l { margin-top: 13px; display: flex; flex-direction: column; gap: 9px; }
+.cw .cw-day-proof-k { margin-top: 15px; padding-top: 12px; border-top: 1px solid #2c3450;
+               font-size: var(--fs-micro); letter-spacing: var(--track-mono);
+               text-transform: uppercase; color: var(--txt-4); }
+.cw .cw-day-proof-l { margin-top: 11px; display: flex; flex-direction: column; gap: 9px; }
 .cw .cw-day-proof-l li { display: flex; gap: 12px; align-items: flex-start; }
 .cw .cw-day-proof-l .cw-g { color: var(--accent-2); flex: none; padding-top: 1px; }
 .cw .cw-day-proof-l .cw-b { font-size: var(--fs-sm); color: var(--txt); min-width: 0; }
 .cw .cw-day-proof-l .cw-b i { display: block; margin-top: 2px; font-style: normal;
                     font-family: var(--mono); font-size: var(--fs-micro);
-                    letter-spacing: .05em; color: #8f97b5; }
+                    letter-spacing: .05em; color: var(--txt-4); }
 
 .cw .cw-day-task { border-bottom: 1px solid #2c3450; }
 .cw .cw-day-task-h { display: flex; align-items: baseline; gap: 11px; padding: 12px 20px 10px;
@@ -497,7 +551,7 @@
 .cw .cw-day-task-h .cw-n { font-size: var(--fs-mono); color: var(--accent-2); }
 .cw .cw-day-task-h .cw-t { font-size: var(--fs-h3); font-weight: 620; letter-spacing: -0.015em; color: var(--txt); }
 .cw .cw-day-task-h .cw-f { margin-left: auto; font-size: var(--fs-micro); letter-spacing: var(--track-mono);
-                 text-transform: uppercase; color: #8f97b5; }
+                 text-transform: uppercase; color: var(--txt-4); }
 .cw .cw-day-task-b { padding: 14px 20px 18px; font-size: var(--fs-sm); line-height: 1.65; color: #c3c9dc; }
 .cw .cw-day-task-b p { margin: 0 0 11px; }
 .cw .cw-day-task-b ul, .cw .cw-day-task-b ol { margin: 0 0 11px; padding-left: 20px; list-style: disc; }
@@ -512,4 +566,290 @@
 .cw .cw-day-task-b table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); margin: 0 0 11px; }
 .cw .cw-day-task-b th, .cw .cw-day-task-b td { border-bottom: 1px solid #2c3450; padding: 7px 9px; text-align: left; }
 .cw .cw-day-task-b input[type="checkbox"] { accent-color: var(--accent); }
-.cw .cw-day-empty { padding: 20px; font-size: var(--fs-sm); line-height: 1.6; color: #8f97b5; }
+.cw .cw-day-empty { padding: 20px; font-size: var(--fs-sm); line-height: 1.6; color: var(--txt-4); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CALENDAR — trois granularités, trois registres, aucune donnée redite.
+   ══════════════════════════════════════════════════════════════════════════ */
+.cw .cw-cal { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+
+/* ── registre 1 : la règle de l'année. Granularité : la journée. ────────── */
+.cw .cw-cal-rule { flex: none; padding: 20px 40px 18px; background: var(--plane);
+             border-bottom: 1px solid var(--line); }
+/* Mesuré au CP14 : le Calendrier plafonnait à 2,02 (1440) et 2,40 (1920) —
+   il n'avait AUCUN caractère à l'échelle display, quand le Dashboard et le Day
+   en avaient un. Sur le triptyque à l'aveugle, son en-tête paraissait de ce
+   fait appartenir à un autre produit, plus administratif.
+   Chaque surface porte désormais UN élément à l'échelle display, et un seul :
+   celui qui nomme son sujet. */
+.cw .cw-cal-rule-h { margin-bottom: 16px; }
+.cw .cw-cal-h1 { font-size: clamp(32px, 3.5vw, 56px); line-height: 1.04;
+           font-weight: 620; letter-spacing: -0.032em; color: var(--txt); }
+.cw .cw-cal-rule-sub { display: flex; align-items: baseline; gap: 8px 22px;
+                 margin-top: 12px; flex-wrap: wrap; }
+.cw .cw-cal-rule-cap { flex: 1; min-width: 26ch; }
+
+/* La première version donnait à chaque journée la même hauteur et le même
+   gris moyen : 365 barres identiques, c'est-à-dire un CODE-BARRES, où les
+   marques réelles (révision, jalon, position) se noyaient dans la masse.
+   Une règle graduée ne se lit pas ainsi. La masse des journées ordinaires est
+   donc rendue basse et sourde ; seules les marques montent à pleine hauteur
+   et prennent une encre. Les segments de mois sont séparés par un vrai
+   intervalle et le mois affiché reçoit un fond. */
+.cw .cw-yrule-b { display: flex; align-items: stretch; gap: 7px; }
+.cw .cw-yrule-mo { flex: 1; min-width: 0; display: block; padding: 5px 4px 3px;
+             border-bottom: 1px solid var(--line-hard); text-decoration: none; }
+.cw .cw-yrule-mo:hover { background: var(--plane-2); border-bottom-color: var(--txt-4); }
+.cw .cw-yrule-mo.cw-on { background: var(--focal); border-bottom-color: var(--accent); }
+.cw .cw-yrule-days { display: flex; align-items: flex-end; gap: 1px; height: 46px; }
+/* Premier réglage : journées ordinaires à 38 % et #333c54, révisions à 66 %
+   en ambre plein. Mesure sur capture : la masse disparaissait et il restait
+   52 traits ambre réguliers — un peigne, pas une année. Les journées
+   ordinaires SONT la matière de la règle et doivent se voir ; la révision est
+   un accent, pas le sujet. */
+.cw .cw-yrule-days i { flex: 1; min-width: 1px; height: 62%; background: #4a5474; }
+.cw .cw-yrule-mo.cw-on .cw-yrule-days i { background: #5a6688; }
+.cw .cw-yrule-days i.cw-rv { height: 80%; background: var(--amber); opacity: .40; }
+.cw .cw-yrule-days i.cw-pj { height: 100%; background: var(--accent); }
+.cw .cw-yrule-days i.cw-now { height: 100%; min-width: 2px; background: var(--now);
+                        position: relative; }
+.cw .cw-yrule-days i.cw-now::after {
+  content: ""; position: absolute; left: 50%; top: -7px; width: 5px; height: 5px;
+  margin-left: -2.5px; background: var(--now);
+}
+.cw .cw-yrule-n { display: block; margin-top: 8px; font-size: var(--fs-mono);
+            letter-spacing: var(--track-mono); color: var(--txt-4); }
+.cw .cw-yrule-mo.cw-on .cw-yrule-n { color: var(--accent-2); }
+
+/* ── registres 2 et 3 : la grille des semaines et le panneau de mois. ──── */
+.cw .cw-cal-body { flex: 1 1 auto; min-height: 0;
+             display: grid; grid-template-columns: minmax(0, 1fr) 340px; }
+.cw .cw-cal-grid-w { min-width: 0; min-height: 0; display: flex; flex-direction: column;
+               border-right: 1px solid var(--line-hard); background: var(--ground); }
+.cw .cw-cal-grid { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+
+.cw .cw-cal-row { display: grid; grid-template-columns: 56px minmax(0, 1fr);
+            border-bottom: 1px solid var(--line-soft); }
+.cw .cw-cal-row.cw-on { background: var(--plane); }
+.cw .cw-cal-mo { display: flex; flex-direction: column; justify-content: center; gap: 4px;
+           padding: 10px 14px; border-right: 1px solid var(--line);
+           text-decoration: none; }
+.cw .cw-cal-mo-n { font-size: var(--fs-h2); color: var(--txt-3); letter-spacing: .02em; }
+.cw .cw-cal-row.cw-on .cw-cal-mo-n { color: var(--accent-2); }
+.cw .cw-cal-mo:hover .cw-cal-mo-n { color: var(--txt); }
+.cw .cw-cal-mo-d { font-size: var(--fs-micro); letter-spacing: var(--track-mono);
+             color: var(--txt-4); }
+
+/* Le nombre de colonnes est fixé par le mois le plus long. Les mois plus
+   courts N'ONT PAS de cellule de remplissage : la ligne s'arrête, et ce qui
+   reste à droite est le fait exact — ce mois est plus court. */
+.cw .cw-cal-wks { display: grid; }
+.cw .cw-cal-wk { padding: 9px 13px 10px; border-right: 1px solid var(--line-soft);
+           min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.cw .cw-cal-wk:last-child { border-right: none; }
+.cw .cw-cal-wk-h { display: flex; align-items: baseline; gap: 8px;
+             font-size: var(--fs-micro); letter-spacing: var(--track-mono); }
+.cw .cw-cal-wk-h { flex-wrap: wrap; }
+.cw .cw-cal-wk-h b { color: var(--txt-3); font-weight: 400; }
+.cw .cw-cal-wk-h i { font-style: normal; text-transform: uppercase; }
+.cw .cw-cal-wk-h i.cw-odd { color: var(--amber); }
+.cw .cw-cal-wk-h i.cw-pj { color: var(--accent-2); }
+.cw .cw-cal-wk-t { font-size: var(--fs-sm); line-height: 1.4; color: var(--txt-2); }
+.cw .cw-cal-wk.cw-pj { background: rgba(123, 107, 242, .07); }
+.cw .cw-cal-wk.cw-pj .cw-cal-wk-h b { color: var(--accent-2); }
+.cw .cw-cal-wk.cw-now { box-shadow: inset 2px 0 0 var(--now); }
+.cw .cw-cal-wk.cw-now .cw-cal-wk-t { color: var(--txt); }
+
+/* ── registre 3 : le mois, composé comme un texte. ─────────────────────── */
+.cw .cw-cal-mopanel { min-height: 0; display: flex; flex-direction: column;
+               background: var(--plane); }
+.cw .cw-cal-mp { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 20px 26px 40px; }
+.cw .cw-cal-mp-t { font-size: var(--fs-h1); font-weight: 620;
+             line-height: 1.12; letter-spacing: -0.028em; color: var(--txt); }
+.cw .cw-cal-mp-s { margin-top: 14px; font-size: var(--fs-ui); line-height: 1.62;
+             color: var(--txt-2); }
+.cw .cw-cal-mp-pj { margin-top: 16px; padding: 11px 14px; background: var(--focal);
+              border-left: 2px solid var(--accent); font-size: var(--fs-sm);
+              line-height: 1.5; color: var(--txt); }
+.cw .cw-cal-mp-pj .cw-mono { display: block; margin-bottom: 4px;
+                       font-size: var(--fs-micro); letter-spacing: var(--track-mono);
+                       text-transform: uppercase; color: var(--accent-2); }
+.cw .cw-cal-mp-f { margin-top: 20px; }
+.cw .cw-cal-mp-k { margin-top: 22px; padding-bottom: 9px;
+             border-bottom: 1px solid var(--line); font-size: var(--fs-micro);
+             letter-spacing: var(--track-mono); text-transform: uppercase;
+             color: var(--txt-4); }
+.cw .cw-cal-mp-sk { margin-top: 11px; display: flex; flex-direction: column; gap: 9px; }
+.cw .cw-cal-mp-sk li { display: grid; grid-template-columns: minmax(0, 1fr) auto;
+                 gap: 3px 10px; align-items: baseline; }
+.cw .cw-cal-mp-sk .cw-t { font-size: var(--fs-sm); color: var(--txt-2); min-width: 0; }
+.cw .cw-cal-mp-sk .cw-v { font-size: var(--fs-mono); color: var(--txt-4); }
+.cw .cw-cal-mp-sk .cw-bar { grid-column: 1 / -1; height: 2px; background: var(--accent);
+                      opacity: .55; min-width: 2px; }
+.cw .cw-cal-mp-go { margin-top: 24px; display: inline-block; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SÉLECTEUR DE VOLET — invisible en grand écran, structurel en écran étroit.
+   ══════════════════════════════════════════════════════════════════════════ */
+.cw .cw-panes { display: none; }
+.cw .cw-pane-b {
+  flex: 1; display: flex; align-items: baseline; justify-content: center; gap: 8px;
+  padding: 13px 10px; min-height: 46px;
+  border-right: 1px solid var(--line); border-bottom: 2px solid transparent;
+  font-family: var(--mono); font-size: var(--fs-mono);
+  letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--txt-3);
+}
+.cw .cw-pane-b:last-child { border-right: none; }
+.cw .cw-pane-b .cw-mono { font-size: var(--fs-micro); color: var(--txt-4); }
+.cw .cw-pane-b.cw-on { color: var(--txt); background: var(--focal);
+                 border-bottom-color: var(--accent); }
+.cw .cw-pane-b.cw-on .cw-mono { color: var(--accent-2); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — 1920 · 1440 · 1024 · 768 · 375
+   La page reste BORNÉE à toutes les largeurs. Aucune largeur ne dégrade la
+   station en pile de plusieurs milliers de pixels : sous 900 px, un volet à
+   la fois, choisi par le sélecteur ci-dessus.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1280 : la colonne de contexte du Day et le panneau de mois se serrent ─ */
+@media (max-width: 1279px) {
+  .cw .cw-day { grid-template-columns: 210px minmax(0, 1fr); }
+  .cw .cw-day-split { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+  .cw .cw-cal-body { grid-template-columns: minmax(0, 1fr) 300px; }
+  .cw .cw-dash-focal { grid-template-columns: minmax(0, 1fr) 280px; }
+  .cw .cw-day-head { padding: 18px 24px 16px; }
+  .cw .cw-cal-rule, .cw .cw-dash-field { padding-left: 24px; padding-right: 24px; }
+  .cw .cw-socle-col { padding-left: 20px; padding-right: 20px; }
+}
+
+/* ── 1024 : le Dashboard perd sa colonne droite, le socle passe à deux ──── */
+@media (max-width: 1023px) {
+  .cw .cw-dash-focal { grid-template-columns: minmax(0, 1fr); }
+  .cw .cw-dash-focal-r { border-left: none; border-top: 1px solid var(--line);
+                   display: flex; flex-wrap: wrap; gap: 22px 34px; align-items: center; }
+  .cw .cw-dash-socle { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cw .cw-socle-col:nth-child(2) { border-right: none; }
+  .cw .cw-socle-col:nth-child(3) { grid-column: 1 / -1; border-top: 1px solid var(--line);
+                             border-right: none; }
+  .cw .cw-cal-body { grid-template-columns: minmax(0, 1fr) 270px; }
+  .cw .cw-day { grid-template-columns: 190px minmax(0, 1fr); }
+}
+
+/* ══ SOUS 900 px — UN VOLET À LA FOIS ═══════════════════════════════════════
+   C'est ici que se joue la question posée par le barème : le modèle étroit
+   ne doit PAS être un empilement. La page garde sa hauteur de fenêtre, sa
+   ligne de système, sa ligne de faits ; ce qui change, c'est qu'une seule
+   colonne est montée à la fois, et que le sélecteur dit laquelle. */
+@media (max-width: 899px) {
+  .cw .cw-panes { display: flex; background: var(--plane-2);
+            border-bottom: 1px solid var(--line); flex: none; }
+
+  /* Les lignes de système et de faits défilent latéralement plutôt que de
+     déborder ou de se replier en trois rangées. */
+  .cw-facts .cw-band, .cw-facts .cw-grow { flex: 0 0 auto; min-width: 140px; }
+
+  /* ── DAY ─────────────────────────────────────────────────────────────── */
+  .cw .cw-day { display: flex; flex-direction: column; }
+  .cw .cw-day-work { order: 1; display: flex; flex-direction: column;
+               min-height: 0; flex: 1 1 auto; }
+  .cw .cw-day-ctx { order: 2; flex: 1 1 auto; border-right: none; }
+  .cw .cw-day-split { flex: 1 1 auto; grid-template-columns: minmax(0, 1fr); }
+  .cw .cw-day-read { border-right: none; }
+  .cw .cw-day-title { font-size: clamp(21px, 5.6vw, 30px); max-width: none; }
+  .cw .cw-day-prose { padding: 16px 20px 60px; max-width: none; }
+
+  .cw .cw-v-lire  .cw-day-ctx,  .cw .cw-v-lire  .cw-day-do   { display: none; }
+  .cw .cw-v-faire .cw-day-ctx,  .cw .cw-v-faire .cw-day-read { display: none; }
+  .cw .cw-v-plan  .cw-day-split { display: none; }
+  .cw .cw-v-plan  .cw-day-work { flex: none; }
+
+  /* ── CALENDAR ────────────────────────────────────────────────────────── */
+  .cw .cw-cal-body { display: flex; flex-direction: column; }
+  .cw .cw-cal-grid-w, .cw .cw-cal-mopanel { flex: 1 1 auto; border-right: none; }
+  .cw .cw-v-grille .cw-cal-mopanel { display: none; }
+  .cw .cw-v-mois   .cw-cal-grid-w  { display: none; }
+  .cw .cw-cal-row { grid-template-columns: 44px minmax(0, 1fr); }
+  /* Les cellules de semaine s'empilent en deux colonnes : la ligne de mois
+     reste une ligne, mais ses semaines tiennent sur la largeur. */
+  .cw .cw-cal-wks { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .cw .cw-cal-wk { border-bottom: 1px solid var(--line-soft); }
+  .cw .cw-cal-h1 { font-size: var(--fs-h2); }
+  /* 365 graduations dans 343 px donnent 0,94 px par journée : la règle
+     devenait une bavure, et les traits débordaient de 8 px (mesuré au CP10).
+     Elle devient donc un objet à défilement latéral, avec une largeur
+     minimale qui garantit ~2 px par journée. */
+  .cw .cw-cal-rule { overflow-x: auto; scrollbar-width: thin; }
+  .cw .cw-yrule-b { min-width: 760px; }
+
+  /* ── DASHBOARD ───────────────────────────────────────────────────────── */
+  .cw .cw-dash-socle { grid-template-columns: minmax(0, 1fr); }
+  .cw .cw-socle-col { border-right: none; border-top: 1px solid var(--line); }
+  .cw .cw-socle-col:first-child { border-top: none; }
+  .cw .cw-dash-focal { padding: 20px 20px 22px; }
+  .cw .cw-dash-field { padding: 16px 20px 14px; }
+}
+
+/* ── 480 : téléphone. Le champ de trajectoire et la règle de l'année
+   restent des objets pleine largeur, mais leurs graduations se resserrent. ─ */
+@media (max-width: 479px) {
+  .cw { --fs-display: clamp(28px, 8.4vw, 36px); }
+  .cw .cw-dash-focal, .cw .cw-cal-rule { padding-left: 16px; padding-right: 16px; }
+  .cw .cw-day-head { padding: 14px 16px 14px; }
+  .cw .cw-day-prose { padding: 14px 16px 50px; }
+  .cw .cw-socle-col { padding: 14px 16px 18px; }
+  .cw .cw-tmap-scale span b, .cw .cw-yrule-n { font-size: var(--fs-micro); }
+  .cw .cw-yrule-b { gap: 3px; }
+  .cw .cw-yrule-mo { padding-left: 1px; padding-right: 1px; }
+  /* Une graduation sur deux porte son numéro : douze nombres de 11 px sur
+     375 px se chevauchaient. */
+  .cw .cw-yrule-mo:nth-child(even) .cw-yrule-n { visibility: hidden; }
+  .cw .cw-cal-wks { grid-template-columns: minmax(0, 1fr) !important; }
+  .cw .cw-figs > div { padding-right: 18px; margin-right: 18px; }
+  .cw .cw-legend { margin-left: 0; gap: 5px 14px; }
+}
+
+/* Les liens ÉCRITS PAR LE CORPUS, dans la prose et dans les tâches.
+   `.cw a { text-decoration: none }` les rendait indiscernables du texte
+   courant — un lien invisible n'est pas un lien. Ils sont donc soulignés et
+   encrés. Leur hauteur reste celle de la ligne : ce sont des liens dans une
+   phrase, cas explicitement exclu du critère de taille de cible (WCAG 2.5.8),
+   et les élargir déformerait la composition du texte. */
+.cw .cw-day-prose a, .cw .cw-day-task-b a {
+  color: var(--accent-2); text-decoration: underline;
+  text-decoration-color: var(--accent-dim); text-underline-offset: 3px;
+}
+.cw .cw-day-prose a:hover, .cw .cw-day-task-b a:hover {
+  text-decoration-color: var(--accent-2);
+}
+
+/* ── Correctifs mesurés au CP11, sur captures ──────────────────────────── */
+@media (max-width: 899px) {
+  /* Le numéro de mois était centré verticalement sur une ligne de 300 px de
+     haut (les semaines s'y empilent) : il flottait au milieu d'un vide, sans
+     rapport visible avec la première semaine de son mois. */
+  .cw .cw-cal-mo { justify-content: flex-start; padding-top: 11px; }
+
+  /* Le bandeau de prototype occupait 78 px sur 812 — presque 10 % de l'écran
+     avant le premier fait. Il se resserre. */
+  .cw .cw-proto { padding: 6px 12px; gap: 4px 10px; line-height: 1.35; }
+}
+
+@media (max-width: 479px) {
+  /* Mesuré sur capture : à 375 px, le titre display prenait quatre lignes et
+     poussait l'action principale du Dashboard SOUS la ligne de flottaison —
+     sur l'écran dont la fonction est justement de dire quoi faire. Le display
+     reste le plus grand caractère de l'écran, mais il cesse d'occuper la
+     totalité du premier écran. */
+  .cw { --fs-display: clamp(24px, 6.6vw, 30px); }
+  .cw .cw-dash-title { max-width: none; }
+  .cw .cw-dash-figs-l { margin-top: 16px; }
+  .cw .cw-dash-act { margin-top: 18px; }
+  /* Le livrable occupait six lignes entre le titre et l'action. Sur un
+     téléphone, la question du Dashboard est « quelle journée, et je l'ouvre » ;
+     la description du livrable est la réponse d'après. Elle passe donc APRÈS
+     l'action — l'ordre du DOM, lui, ne change pas : c'est l'ordre de lecture
+     du document qui reste la référence pour la synthèse vocale et le clavier. */
+  .cw .cw-dash-deliv { order: 5; margin-top: 20px; padding-top: 18px;
+                 border-top: 1px solid var(--line); }
+}

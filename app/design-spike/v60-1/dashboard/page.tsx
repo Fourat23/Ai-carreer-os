@@ -58,7 +58,7 @@ export default async function CwDashboard({
         tail={<NoProgress recorded={d.progress.recordedDays} />}
       />
 
-      <div className="cw-body cw-dash">
+      <div className="cw-body cw-dash" tabIndex={0}>
         {/* ── REGISTRE 1 · le focal. Une seule surface élevée de l'écran. ── */}
         <section className="cw-dash-focal" aria-labelledby="dash-h">
           <div className="cw-dash-focal-l">
@@ -113,7 +113,7 @@ export default async function CwDashboard({
             <p className="cw-eyebrow cw-dash-field-cap">
               une colonne = une journée réelle · hauteur = difficulté réelle
             </p>
-            <ul className="cw-dash-legend">
+            <ul className="cw-legend">
               <li><span className="cw-lg cw-dy" />journée</li>
               <li><span className="cw-lg cw-rv" />révision</li>
               <li><span className="cw-lg cw-pj" />jalon de projet</li>

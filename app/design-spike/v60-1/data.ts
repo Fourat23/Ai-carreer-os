@@ -82,8 +82,18 @@ export function cwData() {
 
 export type CwSection = {
   id: string; family: string | null; label: string; body: string;
+  /**
+   * Rang de la section dans la journée, 1..n. UN SEUL numéro par section, pour
+   * TOUT l'écran. Défaut relevé au CP7 : le rail numérotait globalement
+   * (« 04 Pratique autonome ») pendant que les colonnes renumérotaient
+   * localement (« 01 Pratique autonome ») — la même section portait deux
+   * numéros différents à 900 px d'écart sur la même image.
+   */
+  n: number;
   /** Longueur réelle du corps, en caractères de texte. Sert à équilibrer. */
   weight: number;
+  /** Corps réduit au texte. Sert à détecter les doublons verbatim. */
+  text: string;
 };
 
 /**
@@ -117,26 +127,46 @@ export function cwDay(dayNum: number) {
   let m: RegExpExecArray | null;
   while ((m = re.exec(html))) hits.push({ s: m.index, e: re.lastIndex, attrs: m[1], inner: m[2] });
 
+  const flat = (s: string) => s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+
   const sections: CwSection[] = hits.map((h, i) => {
     const textSpan = /<span class="h2-text">([\s\S]*?)<\/span>/.exec(h.inner);
     const body = html.slice(h.e, i + 1 < hits.length ? hits[i + 1].s : html.length);
+    const text = decodeEntities(flat(body));
     return {
       id: /id="([^"]+)"/.exec(h.attrs)?.[1] ?? `s${i}`,
       family: /data-family="([^"]+)"/.exec(h.attrs)?.[1] ?? null,
       label: decodeEntities((textSpan ? textSpan[1] : h.inner).replace(/<[^>]+>/g, ' '))
         .replace(/\s+/g, ' ').trim(),
-      body,
-      weight: body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().length,
+      body, text, n: i + 1,
+      weight: text.length,
     };
   });
 
+  /**
+   * La section « Livrable attendu » du corpus ne contient QUE la chaîne
+   * `deliverable` du programme, mot pour mot — vérifié sur les cinq journées
+   * du CP6 (18 à 70 caractères, égalité stricte). Elle était donc affichée
+   * deux fois sur le même écran : une fois dans le bloc de preuve, une fois
+   * comme section. Elle est ici REPLIÉE dans le bloc de preuve, qui devient
+   * son emplacement unique. Rien n'est masqué : le texte reste affiché, en
+   * tête de la colonne FAIRE, et le rail continue de l'atteindre par son
+   * ancre.
+   */
+  const delivText = meta?.deliverable ? flat(String(meta.deliverable)) : null;
+  const proofSection = delivText
+    ? sections.find((s) => s.family === 'apply' && s.text === delivText) ?? null
+    : null;
+
   const read = sections.filter((s) => !s.family || !ACTION_FAMILIES.has(s.family));
-  const act = sections.filter((s) => s.family && ACTION_FAMILIES.has(s.family));
+  const act = sections.filter(
+    (s) => s.family && ACTION_FAMILIES.has(s.family) && s !== proofSection,
+  );
 
   const week = (program.weeks ?? []).find((w) => w.week === meta?.week) ?? null;
   const month = (program.months ?? []).find((mo) => mo.month === meta?.month) ?? null;
 
-  return { meta, sections, read, act, week, month };
+  return { meta, sections, read, act, proofSection, week, month };
 }
 
 /**

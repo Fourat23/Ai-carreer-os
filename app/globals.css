@@ -4050,3 +4050,73 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 .ed-doc th, .ed-doc td { padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--border-subtle); }
 /* Les liens de prose restent soulignés (règle a11y V54.2, reconduite). */
 .ed-doc a { text-decoration: underline; text-underline-offset: 2px; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V58 · CP4 — POSTE DE TRAVAIL TECHNIQUE, DÉTAIL (.wbs)
+   Les cinq routes de détail rendaient un `.page-head` puis un flux à deux
+   colonnes SANS section : 2-3 fonds, ZÉRO ombre, et le diagnostic — la sortie
+   principale — sans cadre ni élévation.
+   La zone ÉTAT + DIAGNOSTIC donne au verdict la part dominante : c'est ce
+   qu'on lit en premier sur un poste d'analyse.
+   ══════════════════════════════════════════════════════════════════════════ */
+.wbs { display: flex; flex-direction: column; gap: var(--sp-5); }
+.wbs-h { margin: 0; font-size: var(--fs-lg); font-weight: 650; letter-spacing: -0.01em; }
+.wbs-h-note { font-size: var(--fs-xs); color: var(--muted); }
+
+.wbs-state { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: var(--sp-5); align-items: stretch; }
+.wbs-sys {
+  background-color: var(--surface); background-image: var(--grad-surface);
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: var(--sp-4); box-shadow: var(--shadow-1);
+}
+.wbs-sys-list { margin: var(--sp-3) 0 0; display: flex; flex-direction: column; }
+.wbs-sys-i { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: var(--sp-3); padding: var(--sp-2) 0; border-bottom: 1px solid var(--border-subtle); }
+.wbs-sys-i:last-child { border-bottom: none; }
+.wbs-sys-i dt { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.wbs-sys-i dd { margin: 0; font-size: var(--fs-sm); }
+/* Le ton n'est jamais porté par la seule couleur : le libellé le dit aussi. */
+.wbs-sys-i.t-warn dd { color: var(--warn); }
+.wbs-sys-i.t-ok dd { color: var(--ok); }
+
+/* Diagnostic : la sortie de la page. Surface focale, deuxième élévation. */
+.wbs-diag {
+  background-color: var(--focus-surface); background-image: var(--grad-focus);
+  border: 1px solid var(--border-accent); border-radius: var(--r);
+  padding: var(--sp-4) var(--sp-5); box-shadow: var(--shadow-2);
+  display: flex; flex-direction: column; gap: var(--sp-3);
+}
+.wbs-diag-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; }
+.wbs-sev { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border-subtle); border-radius: var(--r); overflow: hidden; }
+.wbs-sev-i { background-color: var(--canvas); padding: var(--sp-3); display: flex; flex-direction: column; gap: 2px; }
+.wbs-sev-n { font-size: var(--fs-display-lg); font-weight: 700; line-height: 1; letter-spacing: var(--tracking-display); color: var(--faint); }
+.wbs-sev-k { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.wbs-sev-i.has .wbs-sev-n { color: var(--text); }
+.wbs-sev-i.s-blk.has { background-color: var(--raised); }
+.wbs-sev-i.s-blk.has .wbs-sev-n, .wbs-sev-i.s-blk.has .wbs-sev-k { color: var(--danger, var(--warn)); }
+.wbs-sev-i.s-rsk.has .wbs-sev-n { color: var(--warn); }
+.wbs-diag-note { margin: 0; font-size: var(--fs-sm); color: var(--muted); }
+
+.wbs-limits {
+  background-color: var(--raised); background-image: var(--grad-raised);
+  border: 1px solid var(--border); border-left: 3px solid var(--warn);
+  border-radius: var(--r); padding: var(--sp-4) var(--sp-5); box-shadow: var(--shadow-1);
+}
+.wbs-limit-list { list-style: none; margin: var(--sp-2) 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.wbs-limit-list li { font-size: var(--fs-sm); color: var(--muted); padding-left: 16px; position: relative; }
+.wbs-limit-list li::before { content: '—'; position: absolute; left: 0; color: var(--warn); }
+
+.wbs-work { border-top: 1px solid var(--border-subtle); padding-top: var(--sp-5); }
+.wbs-related { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; border-top: 1px solid var(--border-subtle); padding-top: var(--sp-4); }
+.wbs-related-k { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.wbs-related a { font-size: var(--fs-sm); }
+
+@media (max-width: 1023px) {
+  /* Le diagnostic passe EN PREMIER sur écran étroit : c'est ce qu'on vient
+     chercher. L'état système le suit, aucune information n'est perdue. */
+  .wbs-state { grid-template-columns: minmax(0, 1fr); }
+  .wbs-diag { order: -1; }
+}
+@media (max-width: 640px) {
+  .wbs-sev { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wbs-sys-i { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}

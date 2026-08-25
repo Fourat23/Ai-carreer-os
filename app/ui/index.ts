@@ -25,3 +25,5 @@ export type { BandDay } from './YearBand';
 export { SurfaceHead } from './SurfaceHead';
 export type { SurfaceKind, SurfaceFact } from './SurfaceHead';
 export { EditorialShell } from './EditorialShell';
+export { WorkbenchShell } from './WorkbenchShell';
+export type { SeverityCounts } from './WorkbenchShell';

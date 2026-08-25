@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HeroFocus, HeroFact } from '@/app/ui';
+import { SurfaceHead } from '@/app/ui';
 import { getProgram } from '@/lib/program';
 
 export const dynamic = 'force-dynamic';
@@ -38,45 +38,71 @@ export default function LessonsPage() {
   const cats = [...CAT_ORDER.filter((c) => byCat.has(c)), ...[...byCat.keys()].filter((c) => !CAT_ORDER.includes(c))];
   const totalMin = lessons.reduce((t, l) => t + (l.min ?? 0), 0);
 
+  const slug = (t: string) => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  // V58 · CP6 — Grammaire de catalogue `cat-*`, éprouvée en V57 sur
+  // /diagnostics et /capstones. Le CP0 mesurait ici topBlocks 1, dominance 1
+  // (dégénérée), 5 fonds, 2 ombres et 17 cartes `.card` — une par catégorie,
+  // chacune contenant des lignes bricolées en styles en ligne.
+  // Une catégorie n'a ni action autonome, ni cycle de vie propre : ce n'est
+  // pas une carte, c'est un groupe. Une seule surface continue désormais.
   return (
-    <>
-      <HeroFocus
-        tone="calm"
-        eyebrow="Théorie réutilisable"
+    <div className="cat-view page-wide">
+      <SurfaceHead
+        kind="catalog"
+        eyebrow={<>Apprendre <span className="sep">/</span> théorie réutilisable</>}
         title={`${lessons.length} leçons de fond`}
-        lead="L'ordre dans chaque catégorie est l'ordre recommandé — il suit la progression des 12 mois. Chaque journée renvoie vers les siennes."
-        meta={
-          <>
-            <HeroFact k="Volume">≈ {Math.round(totalMin / 60)} h de lecture</HeroFact>
-            <HeroFact k="Catégories">{cats.length}</HeroFact>
-            <HeroFact k="Durée moyenne">{Math.round(totalMin / Math.max(1, lessons.length))} min</HeroFact>
-          </>
-        }
+        lead="L'ordre dans chaque catégorie est l'ordre recommandé — il suit la progression des douze mois. Chaque journée renvoie vers les siennes."
+        facts={[
+          { k: 'Volume', v: `≈ ${Math.round(totalMin / 60)} h` },
+          { k: 'Catégories', v: cats.length },
+          { k: 'Durée moyenne', v: `${Math.round(totalMin / Math.max(1, lessons.length))} min` },
+        ]}
       />
-      
-      {cats.map((cat) => (
-        <div key={cat} className="card" style={{ marginBottom: 14 }}>
-          <h3>{cat}</h3>
-          {byCat.get(cat)!.map((l, i) => {
-            const lvl = LEVEL_LABEL[l.level ?? 2] ?? LEVEL_LABEL[2];
-            return (
-              <div key={l.slug} className="row" style={{ padding: '6px 0', justifyContent: 'space-between', borderBottom: '1px solid var(--border)' }}>
-                <div className="row" style={{ gap: 10 }}>
-                  <span className="muted" style={{ width: 18, textAlign: 'right' }}>{i + 1}.</span>
-                  <Link href={`/doc/lessons/${l.slug}`}>{l.title}</Link>
-                </div>
-                <div className="row" style={{ gap: 6 }}>
-                  {(l.skills ?? []).map((s) => (
-                    <span key={s} className="badge" title="Compétence associée">{skillName(s)}</span>
-                  ))}
-                  <span className={`badge ${lvl.cls}`}>{lvl.label}</span>
-                  <span className="badge">~{l.min} min</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ))}
-    </>
+
+      <nav className="cat-index" aria-label="Catégories">
+        <span className="cat-index-k">Catégories</span>
+        <ul className="cat-index-list">
+          {cats.map((c) => (
+            <li key={c}>
+              <a href={`#cat-${slug(c)}`}>{c} <span className="cat-index-n">{byCat.get(c)!.length}</span></a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <section className="cat" aria-label="Catalogue des leçons">
+        {cats.map((cat) => (
+          <div key={cat} className="cat-group" id={`cat-${slug(cat)}`}>
+            <div className="cat-group-head">
+              <h2 className="cat-group-name">{cat}</h2>
+              <span className="cat-group-n">{byCat.get(cat)!.length} leçon{byCat.get(cat)!.length > 1 ? 's' : ''}</span>
+            </div>
+            <ul className="cat-rows">
+              {byCat.get(cat)!.map((l, i) => {
+                const lvl = LEVEL_LABEL[l.level ?? 2] ?? LEVEL_LABEL[2];
+                return (
+                  <li key={l.slug} className="cat-row">
+                    <Link href={`/doc/lessons/${l.slug}`} className="cat-row-link">
+                      <span className="cat-row-ord" aria-hidden="true">{i + 1}</span>
+                      <span className="cat-row-body">
+                        <span className="cat-row-title">{l.title}</span>
+                        <span className="cat-row-sub">{(l.skills ?? []).map(skillName).join(' · ')}</span>
+                      </span>
+                      <span className="cat-row-tags">
+                        <span className={`cat-tag l-${lvl.cls}`}>{lvl.label}</span>
+                        <span className="cat-tag">~{l.min} min</span>
+                      </span>
+                      <span className="cat-row-n">Lire →</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </section>
+    </div>
   );
 }

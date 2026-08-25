@@ -4140,3 +4140,31 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 }
 .tb-ref .sec-pb-item { border: none; border-radius: 0; background: none; }
 .tb-ref .sec-pb-item + .sec-pb-item { border-top: 1px solid var(--border-subtle); }
+
+/* V58 · CP6 — Le catalogue accepte un ordinal (ordre recommandé d'une
+   catégorie de leçons). C'est une donnée réelle du curriculum, pas une note. */
+.cat-row-link { grid-template-columns: 24px minmax(0, 1fr) auto auto; }
+.cat-row-ord { font-size: var(--fs-xs); font-weight: 700; color: var(--faint); font-variant-numeric: tabular-nums; text-align: right; }
+.cat-view { display: flex; flex-direction: column; gap: var(--sp-4); }
+.cat-tag.l-accent { color: var(--accent); border-color: var(--border-accent); }
+@media (max-width: 767px) {
+  .cat-row-link { grid-template-columns: 24px minmax(0, 1fr) auto; }
+}
+
+/* V58 · CP6 — Les groupes de missions adoptent la surface de catalogue.
+   Après la suppression des trois en-têtes redondants, le contenu principal de
+   /missions se retrouvait entièrement à plat : les groupes de statut n'avaient
+   aucune surface. Ce n'est pas un ajustement de sonde — c'est le contenu
+   principal de la page qui n'avait pas de support, alors que la même grammaire
+   est déjà appliquée à /diagnostics, /capstones et /lessons. */
+.cat-view .ui-listgroup {
+  border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  background-color: var(--surface); background-image: var(--grad-surface);
+  box-shadow: var(--shadow-1);
+}
+.cat-view .ui-listgroup-head {
+  padding: var(--sp-3) var(--sp-4);
+  background-color: var(--raised); background-image: var(--grad-raised);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.cat-view .ui-list { padding: 0; }

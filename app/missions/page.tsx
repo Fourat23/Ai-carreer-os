@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { listMissions, missionProgressFor } from '@/lib/missions-server';
-import { HeroFocus, HeroFact } from '@/app/ui';
 import { readProgress, getActiveTrackId } from '@/lib/progress-server';
-import { PageHeader, Status, ListRow, Metric } from '@/app/ui';
+import { SurfaceHead, Status, ListRow } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 
 export const dynamic = 'force-dynamic';
@@ -51,42 +50,33 @@ export default function MissionsPage() {
   const nextMission = rows.find((r) => r.prog.status === 'in-progress')
     ?? rows.find((r) => r.prog.status === 'not-started');
 
+  // V58 · CP6 — Le CP0 classait /missions « intermédiaire » : 4 fonds,
+  // 3 ombres. Le vrai défaut n'était pas la profondeur mais la REDONDANCE —
+  // la page portait un hero, PUIS un en-tête de page répétant le même titre,
+  // PUIS une rangée de pastilles répétant la répartition par statut que les
+  // groupes affichent déjà juste en dessous. Trois blocs pour une information.
+  // Un seul en-tête désormais, et le statut n'est dit qu'une fois : par le
+  // groupe qui porte les missions.
   return (
-    <>
-      <HeroFocus
-        tone="calm"
-        eyebrow="Missions d'ingénierie"
+    <div className="cat-view">
+      <SurfaceHead
+        kind="catalog"
+        eyebrow={<>Pratiquer <span className="sep">/</span> missions d’ingénierie <span className="sep">/</span> parcours {activeTrack}</>}
         title={activeCount > 0
           ? `${activeCount} mission${activeCount > 1 ? 's' : ''} en cours`
           : `${missions.length} missions disponibles`}
-        lead="Des situations d'ingénierie réelles : dette, performance, documentation, incident. Chaque mission attend des livrables, pas une réponse."
-        meta={
-          <>
-            <HeroFact k="Disponibles">{missions.length}</HeroFact>
-            <HeroFact k="Terminées">{doneCount}</HeroFact>
-            <HeroFact k="En cours">{activeCount}</HeroFact>
-          </>
-        }
+        lead="Des situations d’ingénierie réelles — dette, performance, documentation, incident. On y analyse, diagnostique, arbitre, modifie sous contrôle : chaque mission attend des livrables, pas une réponse."
+        facts={[
+          { k: 'Publiées', v: missions.length },
+          doneCount > 0 && { k: 'Terminées', v: doneCount },
+          activeCount > 0 && { k: 'En cours', v: activeCount },
+        ]}
         actions={nextMission
           ? <Link className="btn cta" href={`/missions/${nextMission.m.id}`}>
               {nextMission.prog.status === 'in-progress' ? 'Reprendre' : 'Commencer'} — {nextMission.m.title}
             </Link>
           : undefined}
       />
-      <PageHeader
-        eyebrow="Missions d'ingénierie"
-        title="Missions"
-        sub={<>Des scénarios réalistes : analyser, diagnostiquer, arbitrer, modifier sous contrôle, produire des livrables (auto-corrigé, validé structurellement ou revue humaine). Preuves créées dans le parcours actif ({activeTrack}).</>}
-      />
-
-      <div className="skills-summary">
-        <Metric label="Missions publiées" value={missions.length} emphasis sub={`${doneCount} terminée${doneCount > 1 ? 's' : ''}`} />
-        <div className="skills-distribution" aria-label="Répartition par statut">
-          {groups.map(([status, list]) => (
-            <Status key={status} tone={STATUS[status]?.tone ?? 'neutral'} label={`${STATUS[status]?.label ?? status} · ${list.length}`} />
-          ))}
-        </div>
-      </div>
 
       {groups.map(([status, list]) => (
         <section key={status} className="ui-listgroup">
@@ -118,6 +108,6 @@ export default function MissionsPage() {
           </div>
         </section>
       ))}
-    </>
+    </div>
   );
 }

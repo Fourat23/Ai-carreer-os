@@ -5,7 +5,7 @@ import { getTrack, getTrackModules, isTrackAvailable, resolveTrackDayObjects } f
 import { getActiveTrackId, readProgress } from '@/lib/progress-server';
 import { progressPosition } from '@/lib/position';
 import { curriculumPartition } from '@/lib/curriculum-partition';
-import { PageHeader, Status, HeroFocus, HeroFact, PositionRing, YearBand } from '@/app/ui';
+import { PageHeader, Status, HeroFocus, HeroFact, YearBand } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import TrackActions from './TrackActions';
 
@@ -83,10 +83,14 @@ export default function ParcoursPage() {
           </>
         }
         actions={<Link className="btn cta" href={`/day/${pos.resumeDay}`}>Continuer — jour {pos.resumeDay}</Link>}
+        // V59 · CP8 — L'aparté portait un PositionRing (position + pourcentage
+        // du parcours) alors que le YearBand qui suit IMMÉDIATEMENT montre le
+        // même parcours entier, jour par jour. Deux représentations
+        // concurrentes du même intervalle, à quelques pixels l'une de l'autre :
+        // la grammaire du CP5 l'interdit, et c'est le motif générique qui
+        // cédait la place au champ de jours réels.
         aside={
           <div className="dash-hero-aside">
-            <PositionRing percent={pct} day={pos.resumeDay} total={pos.total}
-              months={part.monthsCovered.length || part.monthsTotal} label="Position dans le parcours" />
             <div className="dash-hero-nums">
               <span className="dash-hero-pct">{Math.round(pct)}%</span>
               <span className="dash-hero-pctk">du parcours parcouru</span>

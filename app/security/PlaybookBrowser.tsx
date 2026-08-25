@@ -27,7 +27,12 @@ export default function PlaybookBrowser({ playbooks }: { playbooks: PlaybookLike
     // opérationnels ») : deux en-têtes empilés pour un seul contenu, et le
     // dernier `page-head-main` — primitive héritée — encore rendu à l'écran.
     // Ne reste que ce que le titre ne dit pas : ce qu'un playbook contient.
-    <section className="sec-pb-browser" aria-label="Playbooks opérationnels">
+    // V59 · CP13 — L'étiquette est retirée, pas renommée : la section
+    // englobante s'appelle déjà « Playbooks opérationnels ». Deux repères de
+    // navigation portant le même nom, l'un dans l'autre, n'aident personne —
+    // axe le signalait (`landmark-unique`) et un lecteur d'écran annonçait la
+    // même région deux fois. Ce bloc redevient un simple conteneur.
+    <section className="sec-pb-browser">
       <p className="sec-pb-note">
         <LifeBuoy size={14} aria-hidden /> Chaque cas donne symptômes, premières vérifications,
         actions immédiates, ordre recommandé, qui prévenir, preuves à conserver, pièges,

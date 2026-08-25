@@ -4551,3 +4551,14 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
   padding-top: 0;
   margin-top: 0;
 }
+
+/* V59 · CP13 — CIBLE TACTILE DU BARÈME 0-5.
+   Mesuré à 375 px : `button.dot` rendait 20 × 20 px, sous le minimum de
+   24 × 24 (WCAG 2.2 SC 2.5.8). C'est le seul contrôle réellement fiddly du
+   produit — cent pastilles, six par compétence, qu'on vise au pouce.
+   Le disque visible reste à 20 px ; c'est la SURFACE CLIQUABLE qui grandit,
+   par une boîte transparente. La composition de la grille ne bouge pas. */
+button.dot { position: relative; }
+button.dot::after {
+  content: ""; position: absolute; inset: -2px; border-radius: 50%;
+}

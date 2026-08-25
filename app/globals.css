@@ -4186,3 +4186,96 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
    pas dix objets indépendants. Un filet les sépare sur une surface continue. */
 .cap-phases { display: flex; flex-direction: column; }
 .cap-phases .cap-phase + .cap-phase { border-top: 1px solid var(--border-subtle); margin-top: var(--sp-5); padding-top: var(--sp-5); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V58 · CP8 — PARAMÈTRES (.set)
+   Le CP0 mesurait ZÉRO bloc structurant sur /settings. La page reçoit une
+   composition de paramètres : catégories → état → contrôles. Ce sont des
+   GROUPES, pas des cartes : ils n'ont ni cycle de vie ni navigation propre.
+   ══════════════════════════════════════════════════════════════════════════ */
+.set { display: flex; flex-direction: column; gap: var(--sp-5); }
+.set-group { border-top: 1px solid var(--border-subtle); padding-top: var(--sp-4); }
+.set-group-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-3); }
+.set-h { margin: 0; font-size: var(--fs-lg); font-weight: 650; letter-spacing: -0.01em; }
+.set-h-note { font-size: var(--fs-xs); color: var(--muted); }
+.set-text { margin: 0; font-size: var(--fs-sm); color: var(--muted); max-width: 72ch; }
+.set-facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; margin: 0;
+  background: var(--border-subtle); border: 1px solid var(--border); border-radius: var(--r);
+  overflow: hidden; box-shadow: var(--shadow-1);
+}
+.set-facts > div { background-color: var(--raised); background-image: var(--grad-raised); padding: var(--sp-3) var(--sp-4); }
+.set-facts dt { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
+.set-facts dd { margin: 2px 0 0; font-size: var(--fs-display-lg); font-weight: 700; line-height: 1; letter-spacing: var(--tracking-display); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V58 · CP8 — JOURNAL D'APPRENTISSAGE (.jn)
+   Famille CATALOGUE, pas éditoriale : les entrées sont des saisies de
+   l'apprenant, pas un document. Elles vivent sur une surface CONTINUE,
+   groupée par mois du curriculum, séparée par des filets — ce ne sont pas
+   des objets indépendants avec un cycle de vie propre (ADR-057 §4).
+   ══════════════════════════════════════════════════════════════════════════ */
+.jn { display: flex; flex-direction: column; gap: var(--sp-5); }
+.jn-h { margin: 0; font-size: var(--fs-lg); font-weight: 650; letter-spacing: -0.01em; }
+.jn-h-note { font-size: var(--fs-xs); color: var(--muted); }
+.jn-sec-head, .jn-month-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--sp-3); flex-wrap: wrap;
+}
+
+/* ── État vide : le mécanisme réel, en trois étapes ────────────────────── */
+.jn-start {
+  display: flex; flex-direction: column; gap: var(--sp-4);
+  padding: var(--sp-5);
+  background-color: var(--surface); background-image: var(--grad-surface);
+  border: 1px solid var(--border); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-2);
+}
+.jn-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--border-subtle); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.jn-steps > li {
+  display: flex; gap: var(--sp-4); align-items: flex-start;
+  padding: var(--sp-4);
+  background-color: var(--raised); background-image: var(--grad-raised);
+}
+.jn-step-n {
+  flex: none; width: 28px; height: 28px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 700;
+  color: var(--accent-ink); background: var(--accent);
+}
+.jn-step-t { margin: 0; font-size: var(--fs-base); font-weight: 600; }
+.jn-step-d { margin: 4px 0 0; font-size: var(--fs-sm); color: var(--muted); max-width: 68ch; }
+.jn-actions { display: flex; gap: var(--sp-3); flex-wrap: wrap; }
+.jn-foot { margin: 0; font-size: var(--fs-sm); color: var(--muted); max-width: 78ch; }
+
+/* ── Flux : mois → entrées ─────────────────────────────────────────────── */
+.jn-stream { display: flex; flex-direction: column; gap: var(--sp-5); }
+.jn-month { display: flex; flex-direction: column; gap: var(--sp-3); }
+.jn-month-t { font-weight: 400; color: var(--muted); }
+.jn-entries {
+  background-color: var(--surface); background-image: var(--grad-surface);
+  border: 1px solid var(--border); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1); overflow: hidden;
+}
+.jn-entry { padding: var(--sp-4) var(--sp-5); }
+.jn-entry + .jn-entry { border-top: 1px solid var(--border-subtle); }
+.jn-entry-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; }
+.jn-entry-day { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; min-width: 0; }
+.jn-entry-n { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--faint); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.jn-entry-t { font-size: var(--fs-base); font-weight: 600; color: var(--text); }
+.jn-field { margin-top: var(--sp-3); }
+.jn-field-k {
+  margin: 0 0 4px; font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--faint);
+}
+.jn-entry pre {
+  margin: 0; padding: var(--sp-3) var(--sp-4); white-space: pre-wrap;
+  font-family: inherit; font-size: var(--fs-sm); color: var(--text);
+  background-color: var(--raised); background-image: var(--grad-raised);
+  border: 1px solid var(--border-subtle); border-left: 3px solid var(--accent);
+  border-radius: var(--r);
+}
+@media (max-width: 767px) {
+  .jn-start { padding: var(--sp-4); }
+  .jn-entry { padding: var(--sp-4); }
+}

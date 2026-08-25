@@ -518,16 +518,32 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
    pédagogiques distinguées par un repère latéral + eyebrow (pas de carte). */
 .day-main { max-width: var(--read-max); }
 
-.day-view .prose { font-size: var(--fs-read); line-height: var(--lh-read); }
-.day-view .prose p { margin: 0 0 var(--sp-4); }
-.day-view .prose ul, .day-view .prose ol { padding-left: 24px; margin: 2px 0 var(--sp-4); }
-.day-view .prose li { margin: var(--sp-1) 0; }
-.day-view .prose li > ul, .day-view .prose li > ol { margin: var(--sp-1) 0; }
+/* ── GRAMMAIRE DE LECTURE DU CURRICULUM ────────────────────────────────────
+   V59 · CP3 — Ce bloc était verrouillé sur `.day-view`. Or `/doc/[...slug]`
+   rend EXACTEMENT le même corpus, annoté par la même fonction
+   (`annotateDayHtml`), avec le même balisage : `h2.fam-h2`, `data-family`,
+   `data-sec`, et les deux `span` `h2-eyebrow` / `h2-text`.
+
+   Conséquence mesurée au CP0 : sur /doc les deux span restaient en ligne, on
+   lisait « 01Le problème d'abord » sans espace, sans couleur de famille et
+   sans filet latéral ; `h2-text` ne recevait jamais `--fs-h2`, d'où
+   typeRange = 2,00 — la valeur la plus basse du produit.
+
+   Ce n'est pas un nouveau design : c'est une grammaire propriétaire déjà
+   payée, appliquée à la route qui en avait le plus besoin. Une seule
+   définition, deux surfaces — même raisonnement que la bande d'identité. */
+.day-view .prose, .doc-view .prose { font-size: var(--fs-read); line-height: var(--lh-read); }
+.day-view .prose p, .doc-view .prose p { margin: 0 0 var(--sp-4); }
+.day-view .prose ul, .day-view .prose ol,
+.doc-view .prose ul, .doc-view .prose ol { padding-left: 24px; margin: 2px 0 var(--sp-4); }
+.day-view .prose li, .doc-view .prose li { margin: var(--sp-1) 0; }
+.day-view .prose li > ul, .day-view .prose li > ol,
+.doc-view .prose li > ul, .doc-view .prose li > ol { margin: var(--sp-1) 0; }
 .day-view .prose h1 { font-size: var(--fs-h1); line-height: var(--lh-tight); margin: 2px 0 12px; letter-spacing: -0.02em; }
-.day-view .prose h3 { font-size: var(--fs-h3); line-height: 1.4; margin: 22px 0 8px; font-weight: 650; }
-.day-view .prose code { font-size: 0.88em; }
-.day-view .prose pre { font-size: 13.5px; line-height: 1.55; }
-.day-view .prose blockquote { font-size: var(--fs-base); padding: 8px 14px; margin: 10px 0 18px; }
+.day-view .prose h3, .doc-view .prose h3 { font-size: var(--fs-h3); line-height: 1.4; margin: 22px 0 8px; font-weight: 650; }
+.day-view .prose code, .doc-view .prose code { font-size: 0.88em; }
+.day-view .prose pre, .doc-view .prose pre { font-size: 13.5px; line-height: 1.55; }
+.day-view .prose blockquote, .doc-view .prose blockquote { font-size: var(--fs-base); padding: 8px 14px; margin: 10px 0 18px; }
 
 .day-view { display: block; }
 
@@ -536,19 +552,20 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 
 /* Repère de famille pédagogique : filet latéral coloré + eyebrow mono numéroté.
    --fam est posé par les règles [data-family] plus bas (partagé avec le rail). */
-.day-view article.prose h2.fam-h2 {
+.day-view article.prose h2.fam-h2, .doc-view article.prose h2.fam-h2 {
   font-size: inherit; font-weight: inherit; border-top: none;
   margin: 40px 0 14px; padding: 0 0 0 15px;
   border-left: 3px solid var(--fam, var(--border-strong));
 }
-.day-view article.prose > .fam-h2:first-child { margin-top: 4px; }
-.day-view .prose .h2-eyebrow {
+.day-view article.prose > .fam-h2:first-child,
+.doc-view article.prose > .fam-h2:first-child { margin-top: 4px; }
+.day-view .prose .h2-eyebrow, .doc-view .prose .h2-eyebrow {
   display: block; font-family: var(--font-mono); font-size: var(--fs-eyebrow);
   font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase;
   color: var(--fam, var(--muted)); margin-bottom: 5px;
 }
-.day-view .prose .h2-eyebrow.neutral { color: var(--faint); }
-.day-view .prose .h2-text {
+.day-view .prose .h2-eyebrow.neutral, .doc-view .prose .h2-eyebrow.neutral { color: var(--faint); }
+.day-view .prose .h2-text, .doc-view .prose .h2-text {
   display: block; font-size: var(--fs-h2); line-height: 1.28;
   font-weight: 700; letter-spacing: -0.01em; color: var(--text);
 }
@@ -4415,3 +4432,18 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 }
 .ed-toc-i.is-current a { color: var(--text); font-weight: 650; }
 .ed-toc-i.is-current .ed-toc-n { color: var(--muted); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V59 · CP3 — LE RAIL DE SECTIONS DE /doc N'ÉTAIT JAMAIS AFFICHÉ
+   `.doc-rail { display: none }` était écrit APRÈS la media query censée le
+   révéler : la règle de base gagnait à toutes les largeurs. Résultat mesuré
+   au CP0 : `.doc-view` est bien une grille à deux colonnes, mais la seconde
+   (506 px à 1440) restait vide, et le motif PhaseRail — rendu deux fois dans
+   le DOM, en `rail` et en `strip` — n'était visible sous AUCUNE des deux
+   formes. D'où `motifShare = 0` sur une route qui déclare pourtant le motif.
+   Une leçon de fond de 5 800 px se lisait donc sans aucun repérage de
+   section, sur un document qui en compte quinze.
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+  .doc-rail { display: block; }
+}

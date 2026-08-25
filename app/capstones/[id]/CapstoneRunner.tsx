@@ -50,15 +50,15 @@ export default function CapstoneRunner({
 
   return (
     <>
-      <div className="page-head">
-        <div className="page-head-main">
-          <p className="page-eyebrow">{capstone.domain} <span className="sep">/</span> {capstone.skills.map((s) => skillNames[s] ?? s).join(' · ')}</p>
-          <h1 className="page-title">{capstone.title}</h1>
-          {capstone.simulationNote && (
-            <p className="page-sub"><span className="diag-sim">SIMULATION</span> {capstone.simulationNote}</p>
-          )}
-        </div>
-      </div>
+      {/* V58 · CP7 — L'en-tête local est remplacé par la bande d'identité
+          fournie par la page (serveur). Ne reste ici que l'avertissement de
+          SIMULATION, qui est une information de fiabilité et doit rester
+          proche du travail, pas dans le bandeau de titre. */}
+      {capstone.simulationNote && (
+        <p className="det-sim">
+          <span className="diag-sim">SIMULATION</span> {capstone.simulationNote}
+        </p>
+      )}
 
       {result && <CapstoneResultPanel capstone={capstone} result={result} onReset={reset} />}
 
@@ -81,8 +81,15 @@ export default function CapstoneRunner({
         </div>
       </section>
 
+      {/* V58 · CP7 — Les phases étaient autant de <section> SŒURS de premier
+          niveau : sept phases + le brief + les artefacts donnaient dix blocs de
+          poids équivalent, et `dominance` plafonnait mécaniquement à 0,117.
+          C'est exactement la cause identifiée sur /diagnostics au CP0 de V57,
+          et elle se corrige de la même façon : dans le DOM, pas en CSS.
+          Un seul bloc structurant, les phases redeviennent des groupes. */}
+      <section className="cap-phases" aria-label="Déroulé du capstone">
       {capstone.phases.map((phase, pi) => (
-        <section key={phase.id} className="cap-phase">
+        <div key={phase.id} className="cap-phase">
           <div className="cap-phase-head">
             <span className="cap-phase-num">Phase {pi + 1}</span>
             <h2 className="cap-phase-title">{PHASE_LABEL[phase.kind] ?? phase.title}</h2>
@@ -149,8 +156,9 @@ export default function CapstoneRunner({
               );
             })}
           </ol>
-        </section>
+        </div>
       ))}
+      </section>
 
       {!result ? (
         <button className="btn primary" onClick={submit}>Corriger la simulation</button>

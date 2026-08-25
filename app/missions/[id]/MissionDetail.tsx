@@ -66,19 +66,19 @@ export default function MissionDetail({ mission, context, prerequisites, commonM
   const dStatus = (id: string) => state.deliverables?.[id]?.status ?? 'todo';
 
   return (
-    <div className="page mission-detail">
-      <header className="page-head">
-        <p className="page-eyebrow"><Link href="/missions">Missions</Link> · {mission.category}</p>
-        <h1>{mission.title}</h1>
-        <p className="page-sub">{mission.description}</p>
-        <div className="mission-meta">
-          <span className={`badge ${progress.status === 'done' ? 'ok' : progress.status === 'not-started' ? '' : 'review'}`}>{STATUS_LABEL[progress.status] ?? progress.status}</span>
-          <span>Difficulté {mission.difficulty}/5</span>
-          <span>≈ {mission.estimatedHours} h</span>
-          <span>{progress.requiredDone}/{progress.requiredTotal} livrables requis</span>
-          <span>Jours {mission.dayRefs.join(', ')}</span>
-        </div>
-      </header>
+    <div className="det mission-detail">
+      {/* V58 · CP7 — La bande d'identité est fournie par la page (serveur) :
+          ce composant garde le TRAVAIL. L'en-tête local disparaît, il faisait
+          double emploi et portait le titre au cran le plus bas du produit
+          (amplitude typographique 1,87 mesurée au CP0 — la plus faible des
+          36 routes). Les faits d'état restent ici parce qu'ils dépendent de
+          l'état client (livrables cochés), qui n'existe pas côté serveur. */}
+      <div className="det-state" role="status">
+        <span className={`cat-tag ${progress.status === 'done' ? 'l-ok' : progress.status === 'not-started' ? '' : 'l-review'}`}>
+          {STATUS_LABEL[progress.status] ?? progress.status}
+        </span>
+        <span className="det-state-i">{progress.requiredDone}/{progress.requiredTotal} livrables requis</span>
+      </div>
 
       {!started && (
         <button className="btn primary" disabled={busy} onClick={() => call({ action: 'start' })}>Démarrer la mission</button>

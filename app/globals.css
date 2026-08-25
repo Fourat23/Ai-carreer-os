@@ -4168,3 +4168,21 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
   border-bottom: 1px solid var(--border-subtle);
 }
 .cat-view .ui-list { padding: 0; }
+
+/* V58 · CP7 — Détails learner-facing : /missions/[id] et /capstones/[id].
+   L'identité remonte à la bande partagée ; ne restent ici que les faits qui
+   dépendent réellement de l'état client ou de la fiabilité de la simulation. */
+.det { display: flex; flex-direction: column; gap: var(--sp-4); }
+.det-state { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.det-state-i { font-size: var(--fs-sm); color: var(--muted); }
+.det-sim {
+  margin: 0; padding: var(--sp-3) var(--sp-4); font-size: var(--fs-sm); color: var(--muted);
+  background-color: var(--raised); background-image: var(--grad-raised);
+  border: 1px solid var(--border); border-left: 3px solid var(--warn);
+  border-radius: var(--r); box-shadow: var(--shadow-1);
+}
+
+/* V58 · CP7 — Les phases d'un capstone sont des GROUPES d'une même épreuve,
+   pas dix objets indépendants. Un filet les sépare sur une surface continue. */
+.cap-phases { display: flex; flex-direction: column; }
+.cap-phases .cap-phase + .cap-phase { border-top: 1px solid var(--border-subtle); margin-top: var(--sp-5); padding-top: var(--sp-5); }

@@ -1,4 +1,5 @@
 // V57 · P0 — Station de réactivation.
+// V58 · CP9 — ORDRE PILOTÉ PAR L'ÉTAT, et bande d'identité partagée.
 //
 // V56 avait ajouté un hero à une vieille page : blind-difference échoué (2/5).
 // Ce n'était pas une migration. La page est ici REcomposée : quatre zones qui
@@ -9,6 +10,23 @@
 //   3. L'ÉCHELLE      — le modèle rendu perceptible : les intervalles réels
 //                       renvoyés par `baseInterval()`, appelée pour de bon.
 //   4. L'ENTRETIEN    — action réellement disponible quand la file est vide.
+//
+// ── Ce que le CP9 corrige, constaté sur capture 1440 avec une file CHARGÉE ──
+//
+// L'ordre était FIXE. Avec 6 journées dues dont 4 en retard, la liste de
+// travail se retrouvait tout en bas, sous l'explication de SM-2 et sous une
+// zone intitulée « Entretenir sans attendre une échéance » — c'est-à-dire que
+// la page expliquait quoi faire quand rien n'est dû alors que six choses
+// l'étaient, et que le bouton le plus proéminent de l'écran (`btn cta`,
+// « Jour 89 ») pointait ailleurs que sur le travail à faire.
+//
+// La station n'a pas un ordre : elle en a DEUX, selon son état réel.
+//
+//   file chargée : identité → jauges → TRAVAIL → échéancier → modèle (référence)
+//   file vide    : identité → jauges → échéancier → modèle + entretien
+//
+// L'identité passe sur la bande partagée (SurfaceHead, famille « pilot ») :
+// c'était l'une des onze bandes recopiées à la main que le CP2 a unifiées.
 //
 // Honnêteté de l'état vide : zéro révision affiche zéro révision. Aucune tâche,
 // aucun compteur, aucune échéance n'est fabriqué. Ce qui reste visible quand la
@@ -22,8 +40,10 @@
 // cinq choses ; en forcer un aurait été un ornement, ce que l'ADR interdit.
 // La page se distingue par sa composition — bandes continues et échelle
 // proportionnelle — et non par un motif emprunté.
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, CalendarClock, CircleDot, Gauge, Repeat2 } from 'lucide-react';
+import { SurfaceHead } from '@/app/ui';
 
 export type QueueRow = { day: number; title: string; skill: string; reason: string; overdueDays: number };
 export type HorizonRow = { day: number; title: string; skill: string; inDays: number };
@@ -34,7 +54,7 @@ export type Rung = { key: string; label: string; hint: string; days: number };
 const HORIZON_DAYS = 30;
 
 export default function RevisionStation({
-  due, horizon, rungs, maxInterval, resumeDay, resumeTitle, trackTitle,
+  due, horizon, rungs, maxInterval, resumeDay, resumeTitle, trackTitle, work,
 }: {
   due: QueueRow[];
   horizon: HorizonRow[];
@@ -43,10 +63,14 @@ export default function RevisionStation({
   resumeDay: number | null;
   resumeTitle: string;
   trackTitle: string;
+  /** La file de travail réelle. Rendue juste sous les jauges quand il y a
+      quelque chose à traiter — c'est l'objet de la page, pas son annexe. */
+  work?: ReactNode;
 }) {
   const overdue = due.filter((r) => r.overdueDays > 0);
   const onTime = due.filter((r) => r.overdueDays === 0);
   const empty = due.length === 0 && horizon.length === 0;
+  const hasWork = due.length > 0;
   // L'échelle des barres se réfère au plus grand PREMIER intervalle (21 j), pas
   // au plafond (180 j) : rapporté à 180, tout l'écart utile 1→21 s'écrase à
   // moins d'un pixel et la comparaison devient illisible. Les valeurs affichées
@@ -54,23 +78,23 @@ export default function RevisionStation({
   // plafond est explicitement signalé comme hors échelle.
   const longest = Math.max(...rungs.map((r) => r.days));
 
-  return (
-    <div className="rev-station">
-      {/* ── ZONE 1 · LA FILE ────────────────────────────────────────────────
-          Bande pleine largeur en trois compartiments réels. Elle n'est pas
-          une carte : c'est l'état de la file, lisible d'un coup d'œil. À zéro,
-          les trois compartiments RESTENT — c'est la structure qui informe. */}
+  // ── ZONE 1 · LA FILE ──────────────────────────────────────────────────
+  // Bande pleine largeur en trois compartiments réels. Elle n'est pas une
+  // carte : c'est l'état de la file, lisible d'un coup d'œil. À zéro, les
+  // trois compartiments RESTENT — c'est la structure qui informe.
+  const queueBand = (
       <section className="rev-queue" aria-label="État de la file de révision">
-        <header className="rev-queue-head">
-          <p className="rev-queue-eyebrow">
-            Réactivation <span className="sep">/</span> parcours actif : {trackTitle}
-          </p>
-          <h1 className="rev-queue-title">
-            {empty
-              ? 'Rien à réactiver aujourd’hui'
-              : `${due.length} journée${due.length > 1 ? 's' : ''} à réactiver`}
-          </h1>
-        </header>
+        <SurfaceHead
+          kind="pilot"
+          eyebrow={<>Réactivation <span className="sep">/</span> parcours actif : {trackTitle}</>}
+          title={empty
+            ? 'Rien à réactiver aujourd’hui'
+            : `${due.length} journée${due.length > 1 ? 's' : ''} à réactiver`}
+          lead={hasWork
+            ? <>La file est ci-dessous, dans l’ordre du retard. Chaque réponse replanifie
+              l’échéance à partir du modèle décrit plus bas.</>
+            : undefined}
+        />
 
         <div className="rev-gauges">
           <div className={`rev-gauge is-late${overdue.length ? ' has' : ''}`}>
@@ -100,12 +124,14 @@ export default function RevisionStation({
           </div>
         </div>
       </section>
+  );
 
-      {/* ── ZONE 2 · L'ÉCHÉANCIER ───────────────────────────────────────────
-          Bande temporelle continue, aujourd'hui → J+30, graduée par semaine.
-          Chaque échéance réelle est posée à son décalage réel. Vide, la bande
-          reste graduée : l'horizon existe même sans rien dessus, et le dire
-          vaut mieux que de masquer la zone. */}
+  // ── ZONE 2 · L'ÉCHÉANCIER ─────────────────────────────────────────────
+  // Bande temporelle continue, aujourd'hui → J+30, graduée par semaine.
+  // Chaque échéance réelle est posée à son décalage réel. Vide, la bande
+  // reste graduée : l'horizon existe même sans rien dessus, et le dire
+  // vaut mieux que de masquer la zone.
+  const horizonBand = (
       <section className="rev-horizon" aria-label={`Échéancier des ${HORIZON_DAYS} prochains jours`}>
         <div className="rev-horizon-head">
           <h2 className="rev-h">Échéancier</h2>
@@ -147,14 +173,17 @@ export default function RevisionStation({
           )}
         </div>
       </section>
+  );
 
-      {/* ── ZONE 3 · LE MODÈLE ──────────────────────────────────────────────
-          Une seule zone structurante, deux colonnes : à gauche l'échelle qui
-          rend la mécanique perceptible, à droite ce qu'on fait quand rien n'est
-          dû. Les regrouper est un choix de composition — ce sont deux réponses
-          à la même question (« et maintenant ? ») — et cela laisse à la file le
-          poids visuel qui lui revient. */}
-      <section className="rev-model" aria-label="Modèle de répétition espacée et entretien">
+  // ── ZONE 3 · LE MODÈLE ────────────────────────────────────────────────
+  // Une seule zone structurante : à gauche l'échelle qui rend la mécanique
+  // perceptible, à droite — SEULEMENT quand rien n'est dû — ce qu'on fait
+  // sans échéance. La zone d'entretien s'adresse explicitement au cas « rien
+  // n'est dû » ; l'afficher au-dessus de six révisions en retard contredisait
+  // l'état de la page (constat CP9). Quand il y a du travail, le modèle passe
+  // en RÉFÉRENCE, après la file et l'échéancier.
+  const modelZone = (
+      <section className={`rev-model${hasWork ? ' is-reference' : ''}`} aria-label="Modèle de répétition espacée">
       <div className="rev-ladder">
         <div className="rev-horizon-head">
           <h2 className="rev-h">Échelle de consolidation</h2>
@@ -196,7 +225,9 @@ export default function RevisionStation({
 
       {/* ── ZONE 4 · ENTRETENIR SANS ÉCHÉANCE ───────────────────────────────
           Ce que l'on fait réellement quand rien n'est dû. Deux actions
-          existantes, aucune fabriquée. */}
+          existantes, aucune fabriquée. Masquée dès qu'il y a du travail : le
+          titre lui-même dit « sans attendre une échéance ». */}
+      {!hasWork && (
       <div className="rev-maintain">
         <div className="rev-horizon-head">
           <h2 className="rev-h">Entretenir sans attendre une échéance</h2>
@@ -230,7 +261,19 @@ export default function RevisionStation({
           </div>
         </div>
       </div>
+      )}
       </section>
+  );
+
+  // ── ORDRE PILOTÉ PAR L'ÉTAT ───────────────────────────────────────────
+  // Ce n'est pas une variante cosmétique : quand six journées sont dues, la
+  // première chose sous les jauges doit être ce qu'il y a à faire. Quand rien
+  // n'est dû, la même page redevient une explication du mécanisme et propose
+  // l'entretien. Une seule composition, deux ordres justifiés par l'état réel.
+  return (
+    <div className={`rev-station${hasWork ? ' has-work' : ''}`}>
+      {queueBand}
+      {hasWork ? <>{work}{horizonBand}{modelZone}</> : <>{horizonBand}{modelZone}</>}
     </div>
   );
 }

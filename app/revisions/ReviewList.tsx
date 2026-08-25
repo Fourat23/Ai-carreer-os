@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Check, CircleDot, AlertTriangle } from 'lucide-react';
 import type { DayProgress } from '@/lib/types';
 import { completeReview } from '@/lib/review';
-import { SectionHeader, EmptyState } from '@/app/ui';
+import { EmptyState } from '@/app/ui';
 
 type DueRow = { day: number; title: string; reason: string; overdueDays: number; review: DayProgress['review'] };
 type UpRow = { day: number; title: string; reason: string; inDays: number };
@@ -34,6 +34,7 @@ const RESULTS = [
 export default function ReviewList({ due, upcoming, suppressEmpty = false }: { due: DueRow[]; upcoming: UpRow[]; suppressEmpty?: boolean }) {
   const router = useRouter();
   const [busy, setBusy] = useState<number | null>(null);
+  const overdue = due.filter((r) => r.overdueDays > 0).length;
 
   async function complete(row: DueRow, result: string, status: 'to-review' | 'done') {
     setBusy(row.day);
@@ -47,8 +48,18 @@ export default function ReviewList({ due, upcoming, suppressEmpty = false }: { d
 
   return (
     <>
+      {/* V58 · CP9 — En-tête aligné sur la grammaire de la station (`rev-h` /
+          `rev-h-note`) plutôt que sur le `SectionHeader` générique, et libellé
+          au vrai nombre : « 6 révision(s) » était la dernière formulation
+          parenthésée du produit. */}
       {!(due.length === 0 && suppressEmpty) && (
-        <SectionHeader label="À revoir" title="Aujourd'hui & en retard" note={`${due.length} révision(s)`} />
+        <div className="rev-work-head">
+          <h2 className="rev-h">À réactiver maintenant</h2>
+          <span className="rev-h-note">
+            {due.length} journée{due.length > 1 ? 's' : ''}
+            {overdue > 0 ? ` · ${overdue} en retard` : ' · aucune en retard'}
+          </span>
+        </div>
       )}
       {due.length === 0 ? (suppressEmpty ? null : (
         <EmptyState
@@ -66,13 +77,25 @@ export default function ReviewList({ due, upcoming, suppressEmpty = false }: { d
                   {r.overdueDays > 0 && <span className="rev-late">{r.overdueDays} j de retard</span>}
                 </div>
               </div>
+              {/* V58 · CP9 — La conséquence de chaque réponse est affichée AU
+                  MOMENT du choix. L'intervalle vient de `completeReview()`, le
+                  moteur qui replanifiera réellement l'échéance au clic : c'est
+                  la même fonction, appelée en lecture. Aucune valeur recopiée,
+                  aucune seconde source de vérité. */}
               <div className="rev-actions" role="group" aria-label={`Résultat de la révision du jour ${r.day}`}>
-                {RESULTS.map(({ key, label, Icon, status }) => (
-                  <button key={key} className={`btn small rev-${key}`} disabled={busy === r.day}
-                    onClick={() => complete(r, key, status)} title={label} aria-label={label}>
-                    <Icon size={14} strokeWidth={2} /> <span className="rev-btn-txt">{label}</span>
-                  </button>
-                ))}
+                {RESULTS.map(({ key, label, Icon, status }) => {
+                  const next = completeReview(r.review ?? null, key, new Date()).interval;
+                  return (
+                    <button key={key} className={`btn small rev-${key}`} disabled={busy === r.day}
+                      onClick={() => complete(r, key, status)}
+                      title={`${label} — prochaine échéance dans ${next} j`}
+                      aria-label={`${label} — prochaine échéance dans ${next} jours`}>
+                      <Icon size={14} strokeWidth={2} />
+                      <span className="rev-btn-txt">{label}</span>
+                      <span className="rev-btn-next" aria-hidden="true">+{next} j</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           ))}

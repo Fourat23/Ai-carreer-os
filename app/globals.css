@@ -4279,3 +4279,48 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
   .jn-start { padding: var(--sp-4); }
   .jn-entry { padding: var(--sp-4); }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V58 · CP9 — RÉVISIONS : ORDRE PILOTÉ PAR L'ÉTAT
+   Constat sur capture 1440 avec une file CHARGÉE (6 dues, 4 en retard) : la
+   liste de travail était en bas de page, sous l'explication de SM-2 et sous
+   une zone « Entretenir sans attendre une échéance » qui contredisait l'état.
+   Le correctif est structurel (ordre + suppression conditionnelle) ; le CSS
+   ci-dessous ne fait qu'accompagner ces deux ordres.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* La bande d'identité passe sur la primitive partagée : le titre de la file
+   garde son cran display, l'écart avec les jauges reste celui de la station. */
+.rev-queue .sh { padding: 0; border: 0; background: none; box-shadow: none; margin-bottom: var(--sp-4); }
+.rev-queue .sh::before { display: none; }
+
+/* En-tête de la file de travail, dans la grammaire de la station. */
+.rev-work-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-3);
+}
+
+/* Quand il y a du travail, le modèle devient une RÉFÉRENCE : il reste lisible
+   et complet, mais il ne dispute plus la priorité à ce qu'il faut faire. */
+.rev-model.is-reference { border-top: 1px solid var(--border-subtle); padding-top: var(--sp-5); }
+.rev-model.is-reference .rev-ladder-lead, .rev-model.is-reference .rev-rung-d { color: var(--faint); }
+
+/* Conséquence de chaque réponse, au moment du choix. Valeur réelle du moteur. */
+.rev-btn-next {
+  margin-left: 6px; padding: 1px 5px; border-radius: 999px;
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 600;
+  color: var(--muted); background: var(--interactive); border: 1px solid var(--border-subtle);
+}
+.btn:hover .rev-btn-next { color: var(--text); }
+
+/* Rangée de file : la grille est FIXE. Avant, `flex-wrap` faisait passer les
+   actions sous le titre pour les seules journées au titre long — deux mises
+   en page pour un même type de rangée sur le même écran. */
+@media (min-width: 768px) {
+  .rev-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; flex-wrap: nowrap; }
+  .rev-actions { flex-wrap: nowrap; }
+  .rev-title { display: block; overflow-wrap: anywhere; }
+}
+@media (max-width: 560px) {
+  .rev-btn-next { margin-left: 4px; }
+}

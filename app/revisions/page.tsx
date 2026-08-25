@@ -50,25 +50,25 @@ export default function RevisionsPage() {
   const resumeDay = trackDays.length ? progressPosition(trackDays, progress).resumeDay : null;
 
   return (
-    <>
-      <RevisionStation
-        due={due.map((r) => ({ day: r.day, title: r.title, skill: skill(r.day), reason: r.reason, overdueDays: r.overdueDays }))}
-        horizon={upcoming.map((r) => ({ day: r.day, title: r.title, skill: skill(r.day), inDays: r.inDays }))}
-        rungs={rungs}
-        maxInterval={maxInterval}
-        resumeDay={resumeDay}
-        resumeTitle={resumeDay != null ? title(resumeDay) : ''}
-        trackTitle={activeTrack?.title ?? '—'}
-      />
-
-      {/* La file d'action ne s'affiche que s'il y a réellement quelque chose à
-          traiter : un bloc « rien à revoir » sous une station qui vient de le
-          dire serait la même information deux fois. */}
-      {due.length > 0 && (
+    <RevisionStation
+      due={due.map((r) => ({ day: r.day, title: r.title, skill: skill(r.day), reason: r.reason, overdueDays: r.overdueDays }))}
+      horizon={upcoming.map((r) => ({ day: r.day, title: r.title, skill: skill(r.day), inDays: r.inDays }))}
+      rungs={rungs}
+      maxInterval={maxInterval}
+      resumeDay={resumeDay}
+      resumeTitle={resumeDay != null ? title(resumeDay) : ''}
+      trackTitle={activeTrack?.title ?? '—'}
+      // V58 · CP9 — La file d'action est REMISE À SA PLACE : elle n'est plus
+      // rendue sous la station, après l'explication du modèle, mais confiée à
+      // la station qui la pose juste sous les jauges. Elle ne s'affiche
+      // toujours que s'il y a réellement quelque chose à traiter : un bloc
+      // « rien à revoir » sous une station qui vient de le dire serait la même
+      // information deux fois.
+      work={due.length > 0 ? (
         <section className="rev-work" aria-label="File de travail">
           <ReviewList due={due} upcoming={[]} suppressEmpty />
         </section>
-      )}
-    </>
+      ) : null}
+    />
   );
 }

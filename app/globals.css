@@ -4120,3 +4120,23 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
   .wbs-sev { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .wbs-sys-i { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
+
+/* V58 · CP5 — Zone secondaire des laboratoires techniques. /security plaçait
+   45 playbooks dans la même zone que ses 4 scénarios : la hiérarchie était
+   inversée, le référentiel écrasant le travail. Il a désormais sa zone, après,
+   et visiblement subordonnée. */
+.tb-ref { border-top: 1px solid var(--border-subtle); padding-top: var(--sp-5); }
+.tb-ref .tb-h { font-size: var(--fs-base); }
+
+/* V58 · CP5 — Dé-cardification du référentiel de playbooks.
+   45 items encadrés côte à côte reproduisent la constellation supprimée sur
+   /lab en V57. Même correction, éprouvée : UNE surface continue, des lignes
+   séparées par un filet. Chaque item garde son état de repli — la frontière
+   reste justifiée en tant que comportement — mais elle cesse d'être une
+   frontière VISUELLE répétée quarante-cinq fois. */
+.tb-ref .sec-pb-list {
+  gap: 0; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  background-color: var(--surface); background-image: var(--grad-surface); box-shadow: var(--shadow-1);
+}
+.tb-ref .sec-pb-item { border: none; border-radius: 0; background: none; }
+.tb-ref .sec-pb-item + .sec-pb-item { border-top: 1px solid var(--border-subtle); }

@@ -27,7 +27,7 @@ import Link from 'next/link';
 export type Fact = { k: string; v: ReactNode };
 
 export default function TechBench({
-  eyebrow, title, lead, limits, facts, children, related,
+  eyebrow, title, lead, limits, facts, children, related, after,
 }: {
   eyebrow: string;
   title: string;
@@ -37,6 +37,10 @@ export default function TechBench({
   facts: Fact[];
   children: ReactNode;
   related: { href: string; label: string }[];
+  /** Zone SECONDAIRE, après le travail : référentiel, annexes, consultation.
+      V58 · CP5 — /security avait 45 playbooks dans la même zone que ses
+      4 scénarios, ce qui inversait la hiérarchie. */
+  after?: ReactNode;
 }) {
   return (
     <div className="tb">
@@ -67,6 +71,8 @@ export default function TechBench({
         </div>
         {children}
       </section>
+
+      {after}
 
       <nav className="tb-related" aria-label="Pour aller plus loin">
         <span className="tb-related-k">Pour aller plus loin</span>

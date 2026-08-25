@@ -4471,3 +4471,22 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 .dash-socle-nums dd { margin: 2px 0 0; font-size: var(--fs-display-lg); font-weight: 700; line-height: 1; letter-spacing: var(--tracking-display); font-variant-numeric: tabular-nums; }
 .dash-socle-of { font-size: .45em; color: var(--muted); font-weight: 600; margin-left: 2px; }
 @media (max-width: 767px) { .dash-socle-nums { gap: var(--sp-4); } }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V59 · CP7 — JOURNÉE COURTE : NE PAS RÉSERVER UNE COLONNE VIDE
+   Constat sur /day/364 (journée de clôture, 2 titres, aucune phase annotée) :
+   `.day-view` restait une grille à deux colonnes et réservait un rail de
+   HAUTEUR 0 — soit 264 px de colonne plus 56 px de gouttière perdus sur une
+   page de 4 961 px, pendant que la colonne de lecture restait bridée à
+   632 px. Le même défaut existe sur /doc pour un document sans phase.
+   Mesuré sur journée courte ET journée longue, comme le sprint l'exige :
+     jour   1  rail h=603  11 étapes  → deux colonnes justifiées
+     jour  80  rail h=652  12 étapes  → deux colonnes justifiées
+     jour 364  rail h=  0   0 étape   → colonne réservée pour rien
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+  .day-view:not(:has(.day-rail .phase-step)) { grid-template-columns: minmax(0, 1fr); }
+  .day-view:not(:has(.day-rail .phase-step)) .day-main { max-width: none; }
+  .doc-view:not(:has(.doc-rail .phase-step)) { grid-template-columns: minmax(0, 1fr); }
+  .doc-view:not(:has(.doc-rail .phase-step)) .doc-main { max-width: var(--read-max); }
+}

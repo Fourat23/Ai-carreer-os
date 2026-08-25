@@ -69,7 +69,10 @@
   --danger: #d9706b;       /* erreur */
   --info: #7fa8cc;
 
-  /* Familles pédagogiques (teintes mesurées, mi-luminance) */
+  /* Familles PÉDAGOGIQUES — la nature d'une activité d'apprentissage.
+     Une seule signification par jeton : cadrer, comprendre, observer,
+     pratiquer, produire, préparer, vérifier, réviser. Dérivées du corpus
+     (`data-family`), consommées par les titres de section et par PhaseRail. */
   --fam-objective: #5fa89f;
   --fam-learn:     #6f9bd0;
   --fam-observe:   #8f86cf;
@@ -78,6 +81,17 @@
   --fam-prepare:   #b98ac9;
   --fam-verify:    #cf7f7c;
   --fam-retain:    #93b06a;
+
+  /* Familles de SURFACE — le type fonctionnel d'une page.
+     V59 · CP5 : ces quatre valeurs empruntaient les jetons pédagogiques.
+     La même teinte signifiait donc deux choses — « comprendre » sur une
+     section de Journée, « catalogue » sur une bande d'identité. Un code de
+     couleur qui a deux sens ne s'apprend pas : il n'a plus valeur de
+     grammaire. Les deux taxonomies ont désormais chacune la sienne. */
+  --surf-catalog:   #6f8fa6;
+  --surf-detail:    #a68a6f;
+  --surf-workbench: #8f9c72;
+  --surf-editorial: #8a7fa6;
 
   /* Typographie */
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -3885,10 +3899,10 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
   background: var(--sh-mark, var(--border-strong));
 }
 .sh-pilot     { --sh-mark: var(--accent); }
-.sh-catalog   { --sh-mark: var(--fam-learn, var(--border-strong)); }
-.sh-detail    { --sh-mark: var(--fam-apply, var(--border-strong)); }
-.sh-workbench { --sh-mark: var(--fam-practice, var(--border-strong)); }
-.sh-editorial { --sh-mark: var(--fam-observe, var(--border-strong)); }
+.sh-catalog   { --sh-mark: var(--surf-catalog, var(--border-strong)); }
+.sh-detail    { --sh-mark: var(--surf-detail, var(--border-strong)); }
+.sh-workbench { --sh-mark: var(--surf-workbench, var(--border-strong)); }
+.sh-editorial { --sh-mark: var(--surf-editorial, var(--border-strong)); }
 
 .sh-main { min-width: 0; }
 .sh-eyebrow { margin: 0; font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: .07em; font-weight: 600; }

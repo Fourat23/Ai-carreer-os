@@ -4,7 +4,7 @@ import { getMonthHtml, getProgram } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
 import { periodModel, periodBounds } from '@/lib/period-model';
 import { annotateProseA11y } from '@/lib/section-family';
-import { YearBand } from '@/app/ui';
+import { YearBand, SurfaceHead } from '@/app/ui';
 import PeriodLoad from '../../period/PeriodLoad';
 
 export const dynamic = 'force-dynamic';
@@ -40,26 +40,27 @@ export default async function MonthPage({ params }: { params: Promise<{ id: stri
 
   return (
     <div className="period">
-      {/* ── POSITION : de quoi il s'agit, où c'est dans l'année ──────────── */}
-      <section className="period-head" aria-label={`Mois ${month}`}>
-        <div className="period-head-main">
-          <p className="period-eyebrow">
-            Parcours <span className="sep">/</span> mois {month} sur {max}
-            <span className="sep">/</span> jours {m.first} à {m.last}
-          </p>
-          <h1 className="period-title">Mois {month}</h1>
-          <p className="period-lead">
-            {m.count} journées, {m.hours} h de travail prévues, réparties sur{' '}
-            {m.weeks.length} semaines et {m.skills.length} compétences.
-          </p>
-        </div>
-        <div className="period-progress">
-          <span className="period-progress-k">Progression réelle</span>
-          <span className="period-progress-n">{m.percent}<span className="period-progress-u">%</span></span>
-          <span className="period-progress-d">{m.done} journée{m.done > 1 ? 's' : ''} terminée{m.done > 1 ? 's' : ''} sur {m.count}</span>
-          <span className="period-bar" aria-hidden="true"><span className="period-bar-fill" style={{ width: `${m.percent}%` }} /></span>
-        </div>
-      </section>
+      {/* ── POSITION : de quoi il s'agit, où c'est dans l'année ────────────
+          V58 · CP10 — bande d'identité partagée (famille « catalog » : un mois
+          est un regroupement de journées). La progression réelle reste en
+          `aside`, à la place que la primitive réserve au visuel porteur de
+          donnée — elle n'est pas transformée en simple « fait ». */}
+      <SurfaceHead
+        kind="catalog"
+        eyebrow={<>Parcours <span className="sep">/</span> mois {month} sur {max}
+          <span className="sep">/</span> jours {m.first} à {m.last}</>}
+        title={`Mois ${month}`}
+        lead={<>{m.count} journées, {m.hours} h de travail prévues, réparties sur{' '}
+          {m.weeks.length} semaines et {m.skills.length} compétences.</>}
+        aside={
+          <div className="period-progress">
+            <span className="period-progress-k">Progression réelle</span>
+            <span className="period-progress-n">{m.percent}<span className="period-progress-u">%</span></span>
+            <span className="period-progress-d">{m.done} journée{m.done > 1 ? 's' : ''} terminée{m.done > 1 ? 's' : ''} sur {m.count}</span>
+            <span className="period-bar" aria-hidden="true"><span className="period-bar-fill" style={{ width: `${m.percent}%` }} /></span>
+          </div>
+        }
+      />
 
       {/* ── TRAJECTOIRE : la position du mois dans l'année réelle ─────────── */}
       <section className="period-year" aria-label="Position dans l’année">

@@ -22,16 +22,18 @@ export default function PlaybookBrowser({ playbooks }: { playbooks: PlaybookLike
   }, [q, playbooks]);
 
   return (
-    <section className="sec-pb-browser" aria-labelledby="pb-heading">
-      <div className="page-head-main" style={{ marginBottom: 'var(--sp-2)' }}>
-        <h2 id="pb-heading" className="section-label"><LifeBuoy size={15} /> Que faire dans ce cas ?</h2>
-        <p className="page-sub">
-          Playbooks opérationnels pour les situations courantes — chaque cas donne symptômes,
-          premières vérifications, actions immédiates, ordre recommandé, qui prévenir, preuves à
-          conserver, pièges, mitigation, correction, validation, livraison, surveillance,
-          documentation, prévention et critères de sortie.
-        </p>
-      </div>
+    // V58 · CP10 — Le titre interne « Que faire dans ce cas ? » redisait le
+    // titre de la section qui contient déjà ce navigateur (« Playbooks
+    // opérationnels ») : deux en-têtes empilés pour un seul contenu, et le
+    // dernier `page-head-main` — primitive héritée — encore rendu à l'écran.
+    // Ne reste que ce que le titre ne dit pas : ce qu'un playbook contient.
+    <section className="sec-pb-browser" aria-label="Playbooks opérationnels">
+      <p className="sec-pb-note">
+        <LifeBuoy size={14} aria-hidden /> Chaque cas donne symptômes, premières vérifications,
+        actions immédiates, ordre recommandé, qui prévenir, preuves à conserver, pièges,
+        mitigation, correction, validation, livraison, surveillance, documentation,
+        prévention et critères de sortie.
+      </p>
 
       <div className="sec-pb-search">
         <Search size={14} aria-hidden />

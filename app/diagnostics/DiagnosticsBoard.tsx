@@ -9,6 +9,7 @@ import { useMemo, useState } from 'react';
 import { Check, X, ChevronLeft, GraduationCap, RotateCcw } from 'lucide-react';
 import { gradeAssessment, TAXONOMY } from '@/lib/assessment';
 import type { Assessment, AssessmentResult, Taxonomy } from '@/lib/assessment';
+import { SurfaceHead } from '@/app/ui';
 
 const TAXO_LABEL: Record<Taxonomy, string> = {
   RECALL: 'Se souvenir',
@@ -157,15 +158,20 @@ function TakeAssessment({
         <ChevronLeft size={14} strokeWidth={2} /> Tous les diagnostics
       </button>
 
-      <div className="page-head">
-        <div className="page-head-main">
-          <p className="page-eyebrow">{assessment.domain} <span className="sep">/</span> {assessment.skills.map((s) => skillNames[s] ?? s).join(' · ')}</p>
-          <h1 className="page-title">{assessment.title}</h1>
-          {assessment.simulationNote && (
-            <p className="page-sub"><span className="diag-sim">SIMULATION</span> {assessment.simulationNote}</p>
-          )}
-        </div>
-      </div>
+      {/* V58 · CP10 — Dernier `page-head` réellement rendu du produit. Cette
+          sous-vue est le DÉTAIL d'un diagnostic : elle prend la bande d'identité
+          partagée, famille « detail », comme /missions/[id] et /capstones/[id]. */}
+      <SurfaceHead
+        kind="detail"
+        eyebrow={<>{assessment.domain} <span className="sep">/</span> {assessment.skills.map((s) => skillNames[s] ?? s).join(' · ')}</>}
+        title={assessment.title}
+        lead={assessment.simulationNote
+          ? <><span className="diag-sim">SIMULATION</span> {assessment.simulationNote}</>
+          : undefined}
+        facts={[
+          { k: 'Questions', v: assessment.questions.length },
+        ]}
+      />
 
       {result && <ResultPanel assessment={assessment} result={result} onReset={reset} />}
 

@@ -12,6 +12,7 @@ import { trackDaySets, classifyExercise, contextBadge } from '@/lib/exercise-con
 import { hasLabEvidence } from '@/lib/lab-progress';
 import { Suspense } from 'react';
 import { workspaceExists } from '@/lib/workspace-server';
+import { SurfaceHead } from '@/app/ui';
 import LabCatalog, { type CatalogItem } from './LabCatalog';
 
 export const dynamic = 'force-dynamic';
@@ -90,23 +91,22 @@ export default function LabPage() {
 
   return (
     <div className="lab-view page-wide">
-      {/* ── POSITION : ce qu'est le laboratoire, et où l'on en est ────────── */}
-      <section className="lab-head" aria-label="Laboratoire de code">
-        <div className="lab-head-main">
-          <p className="lab-eyebrow">Pratiquer <span className="sep">/</span> exécution locale en bac à sable</p>
-          <h1 className="lab-title">Laboratoire de code</h1>
-          <p className="lab-lead">
-            Écris du code, lance les tests, vois le résultat immédiatement. Tout s’exécute
-            localement : délai borné, sortie bornée, aucun accès réseau requis.
-          </p>
-        </div>
-        <dl className="lab-facts">
-          <div><dt>Exercices</dt><dd>{items.length}</dd></div>
-          <div><dt>Réussis</dt><dd>{passedCount}</dd></div>
-          <div><dt>Sur ton parcours</dt><dd>{inTrackCount}</dd></div>
-          <div><dt>Runtimes</dt><dd>{runtimeCount}</dd></div>
-        </dl>
-      </section>
+      {/* ── POSITION : ce qu'est le laboratoire, et où l'on en est ──────────
+          V58 · CP10 — bande d'identité partagée (famille « workbench » : on
+          vient ici pour exécuter du code, pas pour parcourir un référentiel). */}
+      <SurfaceHead
+        kind="workbench"
+        eyebrow={<>Pratiquer <span className="sep">/</span> exécution locale en bac à sable</>}
+        title="Laboratoire de code"
+        lead={<>Écris du code, lance les tests, vois le résultat immédiatement. Tout s’exécute
+          localement : délai borné, sortie bornée, aucun accès réseau requis.</>}
+        facts={[
+          { k: 'Exercices', v: items.length },
+          { k: 'Réussis', v: passedCount },
+          { k: 'Sur ton parcours', v: inTrackCount },
+          { k: 'Runtimes', v: runtimeCount },
+        ]}
+      />
 
       {/* ── ACTION : la seule frontière justifiée — action autonome ───────── */}
       {nextItem && (

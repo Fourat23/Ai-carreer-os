@@ -10,6 +10,7 @@ import { runtimeStatus } from '@/lib/runtime-detect.mjs';
 import { getDayExerciseIndex } from '@/lib/day-exercises-server';
 import { daysForExercise } from '@/lib/day-exercises';
 import { tasksForDays, publicTerminalTask } from '@/lib/terminal-tasks-server';
+import { SurfaceHead } from '@/app/ui';
 import LabWorkspace from './LabWorkspace';
 
 export const dynamic = 'force-dynamic';
@@ -60,17 +61,19 @@ export default async function LabExercisePage({ params }: { params: Promise<{ ex
           l'ordre où l'on en a besoin, ce que le corpus contient déjà —
           contexte, objectif, environnement, artefact, validation. Rien
           n'est inventé : aucun nom de test privé n'est révélé. */}
-      <section className="lab-ex-head" aria-label={ex.title}>
-        <div className="lab-ex-head-main">
-          <p className="lab-eyebrow">
-            <Link href="/lab"><ChevronLeft size={12} /> Laboratoire</Link>
-            {skills.length > 0 && <> <span className="sep">/</span> {skills.map(skillLabel).join(' · ')}</>}
-            {difficulty > 0 && <> <span className="sep">/</span> difficulté {difficulty}/5</>}
-          </p>
-          <h1 className="lab-ex-title">{ex.title}</h1>
-          <p className="lab-ex-obj"><Target size={14} strokeWidth={2} /> {ex.summary}</p>
-        </div>
-      </section>
+      {/* V58 · CP10 — bande d'identité partagée, famille « workbench » : on
+          vient ici pour écrire du code et lancer des tests. C'était la dernière
+          copie manuelle du bloc (`lab-ex-head`). */}
+      <SurfaceHead
+        kind="workbench"
+        eyebrow={<>
+          <Link href="/lab"><ChevronLeft size={12} /> Laboratoire</Link>
+          {skills.length > 0 && <> <span className="sep">/</span> {skills.map(skillLabel).join(' · ')}</>}
+          {difficulty > 0 && <> <span className="sep">/</span> difficulté {difficulty}/5</>}
+        </>}
+        title={ex.title}
+        lead={<><Target size={14} strokeWidth={2} /> {ex.summary}</>}
+      />
 
       <section className="lab-ex-brief" aria-label="Conditions de travail">
         <div className="lab-ex-cell">

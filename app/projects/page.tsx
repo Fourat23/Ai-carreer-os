@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getProjectHtml, getProgram } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
-import { EvidenceMark } from '@/app/ui';
+import { EvidenceMark, SurfaceHead } from '@/app/ui';
 import { annotateProseA11y } from '@/lib/section-family';
 
 export const dynamic = 'force-dynamic';
@@ -58,35 +58,23 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
 
   return (
     <div className="proj">
-      {/* ── POSITION : quel projet, où il se situe, ce qu'il prouve ───────── */}
-      <section className="proj-head" aria-label={current.name}>
-        <div className="proj-head-main">
-          <p className="proj-eyebrow">
-            Portfolio <span className="sep">/</span> projet{' '}
-            {PROJECTS.findIndex((x) => x.id === selected) + 1} sur {PROJECTS.length}
-            <span className="sep">/</span> {current.tag}
-          </p>
-          <h1 className="proj-title">{current.name}</h1>
-          <p className="proj-lead">
-            Un projet de portefeuille prouve quelque chose de précis à un recruteur :
-            ce qu’il produit est portable, relisible et défendable en entretien.
-          </p>
-        </div>
-        <dl className="proj-facts">
-          <div>
-            <dt>Journées rattachées</dt>
-            <dd>{days.length}</dd>
-          </div>
-          <div>
-            <dt>Terminées</dt>
-            <dd>{days.length ? done : '—'}</dd>
-          </div>
-          <div>
-            <dt>Compétences</dt>
-            <dd>{skills.length || '—'}</dd>
-          </div>
-        </dl>
-      </section>
+      {/* ── POSITION : quel projet, où il se situe, ce qu'il prouve ─────────
+          V58 · CP10 — bande d'identité partagée (famille « detail » : on
+          regarde UN projet, sélectionné par la navigation locale ci-dessous). */}
+      <SurfaceHead
+        kind="detail"
+        eyebrow={<>Portfolio <span className="sep">/</span> projet{' '}
+          {PROJECTS.findIndex((x) => x.id === selected) + 1} sur {PROJECTS.length}
+          <span className="sep">/</span> {current.tag}</>}
+        title={current.name}
+        lead={<>Un projet de portefeuille prouve quelque chose de précis à un recruteur :
+          ce qu’il produit est portable, relisible et défendable en entretien.</>}
+        facts={[
+          { k: 'Journées rattachées', v: days.length },
+          { k: 'Terminées', v: days.length ? done : '—' },
+          { k: 'Compétences', v: skills.length || '—' },
+        ]}
+      />
 
       <nav className="proj-nav" aria-label="Projets">
         {PROJECTS.map((pr) => (

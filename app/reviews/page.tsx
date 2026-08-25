@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getProgram, getDocHtml } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
-import { EvidenceMark } from '@/app/ui';
+import { EvidenceMark, SurfaceHead } from '@/app/ui';
 import { annotateProseA11y } from '@/lib/section-family';
 
 export const dynamic = 'force-dynamic';
@@ -44,22 +44,21 @@ export default function ReviewsPage() {
 
   return (
     <div className="rv">
-      {/* ── POSITION : où en est la boucle d'évaluation ───────────────────── */}
-      <section className="rv-head" aria-label="Évaluations">
-        <div className="rv-head-main">
-          <p className="rv-eyebrow">Évaluer <span className="sep">/</span> trois échelles de revue</p>
-          <h1 className="rv-title">Évaluations</h1>
-          <p className="rv-lead">
-            Rien n’est noté automatiquement. Le produit dit ce qui est dû et ce qui est
-            fait ; ce que ça vaut, c’est toi qui l’écris, avec les grilles ci-dessous.
-          </p>
-        </div>
-        <dl className="rv-facts">
-          <div><dt>Revues hebdo au programme</dt><dd>{reviewDays.length}</dd></div>
-          <div><dt>Terminées</dt><dd>{done.length}</dd></div>
-          <div><dt>Grilles disponibles</dt><dd>{[monthly, interview].filter(Boolean).length}</dd></div>
-        </dl>
-      </section>
+      {/* ── POSITION : où en est la boucle d'évaluation ─────────────────────
+          V58 · CP10 — bande d'identité partagée (famille « pilot » : cette
+          surface pilote une boucle, elle ne catalogue pas des objets). */}
+      <SurfaceHead
+        kind="pilot"
+        eyebrow={<>Évaluer <span className="sep">/</span> trois échelles de revue</>}
+        title="Évaluations"
+        lead={<>Rien n’est noté automatiquement. Le produit dit ce qui est dû et ce qui est
+          fait ; ce que ça vaut, c’est toi qui l’écris, avec les grilles ci-dessous.</>}
+        facts={[
+          { k: 'Revues hebdo au programme', v: reviewDays.length },
+          { k: 'Terminées', v: done.length },
+          { k: 'Grilles disponibles', v: [monthly, interview].filter(Boolean).length },
+        ]}
+      />
 
       {/* ── DÉCISION : la prochaine revue due, résolue jusqu'à l'action ───── */}
       {next ? (

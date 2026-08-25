@@ -4,7 +4,7 @@ import { getWeekHtml, getProgram } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
 import { periodModel, periodBounds } from '@/lib/period-model';
 import { annotateProseA11y } from '@/lib/section-family';
-import { PositionRing } from '@/app/ui';
+import { PositionRing, SurfaceHead } from '@/app/ui';
 import PeriodLoad from '../../period/PeriodLoad';
 
 export const dynamic = 'force-dynamic';
@@ -43,31 +43,31 @@ export default async function WeekPage({ params }: { params: Promise<{ id: strin
 
   return (
     <div className="period">
-      <section className="period-head" aria-label={`Semaine ${week}`}>
-        <div className="period-head-main">
-          <p className="period-eyebrow">
-            Parcours <span className="sep">/</span>{' '}
-            <Link href={`/month/${month}`}>mois {month}</Link>
-            <span className="sep">/</span> semaine {week} sur {max}
-            <span className="sep">/</span> jours {w.first} à {w.last}
-          </p>
-          <h1 className="period-title">Semaine {week}</h1>
-          <p className="period-lead">
-            {w.count} journées, {w.hours} h de travail prévues,{' '}
-            {w.skills.length} compétence{w.skills.length > 1 ? 's' : ''} travaillée{w.skills.length > 1 ? 's' : ''}
-            {w.deliverables > 0 ? <>, {w.deliverables} livrable{w.deliverables > 1 ? 's' : ''} attendu{w.deliverables > 1 ? 's' : ''}</> : null}.
-          </p>
-        </div>
-        <div className="period-ring">
-          <PositionRing
-            percent={Math.round((doneAll / total) * 100)}
-            day={w.first}
-            total={total}
-            months={months}
-            label={`Position dans le programme au début de la semaine ${week}`}
-          />
-        </div>
-      </section>
+      {/* V58 · CP10 — bande d'identité partagée. Le motif PositionRing reste
+          en `aside` : c'est exactement l'emplacement que la primitive réserve
+          au motif propriétaire porteur de donnée. */}
+      <SurfaceHead
+        kind="catalog"
+        eyebrow={<>Parcours <span className="sep">/</span>{' '}
+          <Link href={`/month/${month}`}>mois {month}</Link>
+          <span className="sep">/</span> semaine {week} sur {max}
+          <span className="sep">/</span> jours {w.first} à {w.last}</>}
+        title={`Semaine ${week}`}
+        lead={<>{w.count} journées, {w.hours} h de travail prévues,{' '}
+          {w.skills.length} compétence{w.skills.length > 1 ? 's' : ''} travaillée{w.skills.length > 1 ? 's' : ''}
+          {w.deliverables > 0 ? <>, {w.deliverables} livrable{w.deliverables > 1 ? 's' : ''} attendu{w.deliverables > 1 ? 's' : ''}</> : null}.</>}
+        aside={
+          <div className="period-ring">
+            <PositionRing
+              percent={Math.round((doneAll / total) * 100)}
+              day={w.first}
+              total={total}
+              months={months}
+              label={`Position dans le programme au début de la semaine ${week}`}
+            />
+          </div>
+        }
+      />
 
       <section className="period-next" aria-label="Prochaine action">
         {w.next ? (

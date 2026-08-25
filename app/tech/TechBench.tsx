@@ -21,8 +21,15 @@
 //
 // Aucun motif propriétaire : aucun des cinq n'exprime « inventaire de
 // scénarios de simulation ». En poser un ici serait un ornement (ADR-057 §4).
+//
+// V58 · CP10 — La bande d'identité passe sur la primitive partagée. Elle était
+// ici la sixième copie manuelle du même bloc (`tb-head` / `tb-eyebrow` /
+// `tb-title` / `tb-lead` / `tb-facts`), avec sa propre définition CSS. Famille
+// « catalog » : ces pages listent des scénarios ; le poste de travail
+// proprement dit est la route de détail, qui porte la famille « workbench ».
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { SurfaceHead } from '@/app/ui';
 
 export type Fact = { k: string; v: ReactNode };
 
@@ -44,18 +51,7 @@ export default function TechBench({
 }) {
   return (
     <div className="tb">
-      <section className="tb-head" aria-label={title}>
-        <div className="tb-head-main">
-          <p className="tb-eyebrow">{eyebrow}</p>
-          <h1 className="tb-title">{title}</h1>
-          <p className="tb-lead">{lead}</p>
-        </div>
-        <dl className="tb-facts">
-          {facts.map((f) => (
-            <div key={f.k}><dt>{f.k}</dt><dd>{f.v}</dd></div>
-          ))}
-        </dl>
-      </section>
+      <SurfaceHead kind="catalog" eyebrow={eyebrow} title={title} lead={lead} facts={facts} />
 
       <section className="tb-limits" aria-label="Limites de la simulation">
         <h2 className="tb-h">Ce que ce laboratoire ne fait pas</h2>

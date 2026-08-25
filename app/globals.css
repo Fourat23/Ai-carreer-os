@@ -4081,13 +4081,23 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 .tb-ref .sec-pb-item + .sec-pb-item { border-top: 1px solid var(--border-subtle); }
 
 /* V58 · CP6 — Le catalogue accepte un ordinal (ordre recommandé d'une
-   catégorie de leçons). C'est une donnée réelle du curriculum, pas une note. */
-.cat-row-link { grid-template-columns: 24px minmax(0, 1fr) auto auto; }
+   catégorie de leçons). C'est une donnée réelle du curriculum, pas une note.
+
+   V58 · CP11 — CORRECTION D'UNE RÉGRESSION INTRODUITE ICI AU CP6.
+   Cette règle était écrite sans condition : elle imposait QUATRE colonnes à
+   TOUTES les rangées de catalogue, y compris /capstones et /diagnostics qui
+   n'ont pas d'ordinal et n'en ont que trois. Leur titre tombait alors dans la
+   colonne de 24 px et se coupait à un mot par ligne. La sonde ne voyait rien
+   (`overflow = 0`, `clipped = 0`, dominance et typographie inchangées) : c'est
+   la navigation aléatoire du tirage V58-1440 qui l'a trouvé, sur capture.
+   La grille à quatre colonnes est désormais réservée aux rangées qui portent
+   réellement un ordinal. */
+.cat-row-link:has(.cat-row-ord) { grid-template-columns: 24px minmax(0, 1fr) auto auto; }
 .cat-row-ord { font-size: var(--fs-xs); font-weight: 700; color: var(--faint); font-variant-numeric: tabular-nums; text-align: right; }
 .cat-view { display: flex; flex-direction: column; gap: var(--sp-4); }
 .cat-tag.l-accent { color: var(--accent); border-color: var(--border-accent); }
 @media (max-width: 767px) {
-  .cat-row-link { grid-template-columns: 24px minmax(0, 1fr) auto; }
+  .cat-row-link:has(.cat-row-ord) { grid-template-columns: 24px minmax(0, 1fr) auto; }
 }
 
 /* V58 · CP6 — Les groupes de missions adoptent la surface de catalogue.

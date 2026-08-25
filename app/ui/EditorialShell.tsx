@@ -2,7 +2,7 @@
 
 // V58 · CP3 — COQUILLE ÉDITORIALE PARTAGÉE.
 //
-// Constat du CP0 : `/career`, `/guide` et `/resources` rendaient un
+// Constat du CP0 V58 : `/career`, `/guide` et `/resources` rendaient un
 // `article.prose` nu dans le canvas — 1 à 3 fonds, **zéro ombre**, aucun bloc
 // structurant. Le document flottait, sans contexte ni repère de progression
 // dans la lecture.
@@ -18,13 +18,31 @@
 //
 // Le sommaire est un composant STANDARD (table des matières), pas un motif
 // propriétaire : l'ensemble reste fermé à cinq.
-import { useEffect, useState } from 'react';
+//
+// ── V59 · CP2 — CE QUE LE SOMMAIRE DEVIENT, ET POURQUOI ────────────────────
+//
+// Constat sur capture 1440 au CP0 V59 : sur un document de 3 270 px, le
+// sommaire s'arrêtait après 430 px et laissait ~700 px de canvas vide sur
+// toute la hauteur restante. Il indiquait la section courante mais pas la
+// PROGRESSION dans la lecture — or c'est la question qu'on se pose au milieu
+// d'un document long, et c'est exactement celle à laquelle le produit répond
+// partout ailleurs (PhaseRail sur la Journée, TrajectoryMap sur le pilotage).
+//
+// Le sommaire devient donc un RAIL DE LECTURE : il occupe la hauteur de la
+// fenêtre, marque la position réelle, et affiche pour chaque section ce
+// qu'elle contient quand le document est un catalogue (`items`, dérivé).
+//
+// Ce n'est PAS un sixième motif propriétaire : c'est la même table des
+// matières, tenue à la hauteur du document qu'elle sert. Aucun `data-family`
+// n'existe sur ces documents — PhaseRail y serait un ornement, il n'est donc
+// pas employé.
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import type { DocSection } from '@/lib/doc-sections';
 
 export function EditorialShell({
-  head, nav, html, sections, footNote,
+  head, nav, html, sections, footNote, itemLabel,
 }: {
   /** La bande d'identité (SurfaceHead), fournie par la page. */
   head: ReactNode;
@@ -33,8 +51,13 @@ export function EditorialShell({
   html: string;
   sections: DocSection[];
   footNote?: ReactNode;
+  /** Nom de l'unité comptée par section, quand le document est un catalogue.
+      Omis ⇒ les compteurs ne sont pas affichés. */
+  itemLabel?: string;
 }) {
   const [active, setActive] = useState<string | null>(sections[0]?.id ?? null);
+  const [read, setRead] = useState(0);
+  const docRef = useRef<HTMLElement | null>(null);
 
   // Position de lecture : recalculée à partir des positions réelles, comme le
   // rail de la Journée depuis V57. Un sommaire bloqué sur la première section
@@ -51,6 +74,17 @@ export function EditorialShell({
         else break;
       }
       if (current?.id) setActive(current.id);
+
+      // Part réellement parcourue du document. Dérivée des positions, pas du
+      // défilement de la page : le document ne commence pas en haut de page et
+      // ne finit pas en bas.
+      const doc = docRef.current;
+      if (doc) {
+        const r = doc.getBoundingClientRect();
+        const span = r.height - window.innerHeight;
+        const done = span > 0 ? (-r.top) / span : 1;
+        setRead(Math.max(0, Math.min(1, done)));
+      }
     };
     window.addEventListener('scroll', recompute, { passive: true });
     window.addEventListener('resize', recompute, { passive: true });
@@ -61,19 +95,32 @@ export function EditorialShell({
     };
   }, [sections]);
 
+  const pct = Math.round(read * 100);
+
   return (
     <div className="ed">
       {head}
       {nav && <nav className="ed-nav" aria-label="Documents de cette section">{nav}</nav>}
       <div className="ed-body">
-        <article className="prose reading ed-doc" dangerouslySetInnerHTML={{ __html: html }} />
+        <article ref={docRef} className="prose reading ed-doc" dangerouslySetInnerHTML={{ __html: html }} />
         {sections.length >= 2 && (
           <aside className="ed-toc" aria-label="Sommaire du document">
-            <p className="ed-toc-h">Sommaire</p>
+            <div className="ed-toc-head">
+              <p className="ed-toc-h">Sommaire</p>
+              <span className="ed-toc-pct" aria-hidden="true">{pct} %</span>
+            </div>
+            <span className="ed-toc-bar" aria-hidden="true">
+              <span className="ed-toc-fill" style={{ height: `${pct}%` }} />
+            </span>
             <ol className="ed-toc-list">
               {sections.map((s) => (
                 <li key={s.id} className={`ed-toc-i lvl-${s.level}${active === s.id ? ' is-current' : ''}`}>
-                  <a href={`#${s.id}`} aria-current={active === s.id ? 'true' : undefined}>{s.label}</a>
+                  <a href={`#${s.id}`} aria-current={active === s.id ? 'true' : undefined}>
+                    <span className="ed-toc-lab">{s.label}</span>
+                    {itemLabel && s.items > 0 && (
+                      <span className="ed-toc-n" aria-label={`${s.items} ${itemLabel}`}>{s.items}</span>
+                    )}
+                  </a>
                 </li>
               ))}
             </ol>

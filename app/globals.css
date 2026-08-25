@@ -4372,3 +4372,46 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 @media (max-width: 767px) {
   .prose table > thead, .prose table > tbody { display: table; width: max-content; min-width: 100%; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V59 · CP2 — RAIL DE LECTURE ÉDITORIAL (.ed-toc)
+   Constat CP0 : sur un document de 3 270 px, le sommaire s'arrêtait après
+   430 px et n'indiquait aucune PROGRESSION — la seule question qu'on se pose
+   au milieu d'un document long. Il devient un rail : hauteur de fenêtre,
+   position réelle, et compte par section quand le document est un catalogue.
+   Ce n'est pas un sixième motif : c'est la même table des matières, tenue à
+   la hauteur du document qu'elle sert.
+   ══════════════════════════════════════════════════════════════════════════ */
+.ed-toc {
+  display: grid; grid-template-columns: 3px minmax(0, 1fr);
+  grid-template-areas: "head head" "bar list";
+  gap: 0 var(--sp-4); align-content: start;
+}
+.ed-toc-head {
+  grid-area: head; display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--sp-3); margin-bottom: var(--sp-3);
+}
+.ed-toc-h { margin: 0; }
+.ed-toc-pct {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 700;
+  letter-spacing: var(--tracking-label); color: var(--faint); font-variant-numeric: tabular-nums;
+}
+/* Piste de lecture : la part parcourue du document, dérivée des positions
+   réelles. Elle remplace le filet gauche que chaque entrée portait seule. */
+.ed-toc-bar { grid-area: bar; position: relative; background: var(--border-subtle); border-radius: 2px; }
+.ed-toc-fill {
+  position: absolute; inset: 0 0 auto 0; background: var(--accent);
+  border-radius: 2px; transition: height .12s linear;
+}
+.ed-toc-list { grid-area: list; }
+.ed-toc-i a {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3);
+  border-left: none; padding-left: 0;
+}
+.ed-toc-lab { min-width: 0; }
+.ed-toc-n {
+  flex: none; font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  color: var(--faint); font-variant-numeric: tabular-nums;
+}
+.ed-toc-i.is-current a { color: var(--text); font-weight: 650; }
+.ed-toc-i.is-current .ed-toc-n { color: var(--muted); }

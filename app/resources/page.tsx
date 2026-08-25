@@ -35,6 +35,13 @@ export default function ResourcesPage() {
       }
       html={html}
       sections={sections}
+      // V59 · CP2 — Ce document n'est pas une prose continue : c'est un
+      // CATALOGUE par domaine (14 sections, chacune une liste de références).
+      // Le compte par section est dérivé du document rendu, jamais déclaré.
+      // « entrées » et non « ressources » : la dernière section liste cinq
+      // conseils de méthode, pas cinq références. Compter juste prime sur
+      // l'étiquette flatteuse.
+      itemLabel="entrées"
       footNote="Aucun lien n’est affilié ni sponsorisé. Rien n’est envoyé à l’extérieur : la page est un document local."
     />
   );

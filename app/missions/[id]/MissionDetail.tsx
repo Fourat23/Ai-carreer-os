@@ -149,7 +149,11 @@ export default function MissionDetail({ mission, context, prerequisites, commonM
       <section className="card mission-review-panel">
         <h2>Bilan</h2>
         <p className="muted">Un taux de <strong>complétion</strong> des livrables requis — <strong>pas</strong> une note de qualité. La justesse du fond relève de ta revue et d'une relecture humaine.</p>
-        <div className="mission-review-bar" aria-label={`Complétion ${Math.round(review.completion * 100)} %`}>
+        {/* V58 · CP13 — axe : `aria-prohibited-attr` (serious). Un `div` sans
+            rôle ne peut pas porter `aria-label`. La valeur est déjà énoncée en
+            toutes lettres juste en dessous : la barre est donc décorative et
+            sort de l'arbre d'accessibilité au lieu d'y entrer mal étiquetée. */}
+        <div className="mission-review-bar" aria-hidden="true">
           <div className="mission-review-fill" style={{ width: `${Math.round(review.completion * 100)}%` }} />
         </div>
         <p>Complétion des livrables requis : {Math.round(review.completion * 100)} %</p>

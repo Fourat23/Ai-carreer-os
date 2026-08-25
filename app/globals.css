@@ -4313,3 +4313,62 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
    et le séparateur avait donc perdu son espacement partout — « mois 3/ semaine
    12 » au lieu de « mois 3 / semaine 12 ». Défaut réel, visible sur capture. */
 .sh-eyebrow .sep { color: var(--faint); margin: 0 6px; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V58 · CP12 — RESPONSIVE : deux défauts réels trouvés à 375 px
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* 1. PERTE DE DONNÉES dans la bande d'identité partagée.
+   À 375 px, `.sh-facts dt { white-space: nowrap }` faisait déborder la
+   colonne de faits de 19 px, coupée par l'`overflow: hidden` de la bande :
+   sur /lessons, « DURÉE MOYENNE » s'affichait « DURÉE MOYEN ». Une étiquette
+   tronquée est une perte d'information, pas un ajustement de mise en page.
+   Le défaut touchait TOUTES les surfaces qui affichent trois faits ou plus. */
+@media (max-width: 640px) {
+  .sh-facts dt { white-space: normal; }
+  .sh-facts { grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: var(--sp-3); width: 100%; }
+  .sh-facts dd { font-size: var(--fs-h2, var(--fs-lg)); }
+}
+
+/* 2. CIBLES TACTILES du saut alphabétique du glossaire.
+   Vingt-sept pastilles de 27 px de haut, collées, sur un écran tactile de
+   375 px : c'est la navigation principale de la liste et elle est difficile à
+   viser. Portées à 34 px sur les largeurs tactiles, sans changer le desktop. */
+@media (max-width: 767px) {
+  .gloss-letter { min-height: 34px; min-width: 34px; }
+}
+
+/* 3. ÉCHELLE DE SÉVÉRITÉ à 1024 px : quatre compteurs au cran `display` dans
+   une colonne rétrécie par la barre latérale — les chiffres débordaient de
+   12 px, coupés par l'`overflow: hidden` de la grille. Deux colonnes en
+   dessous de 1100 px : l'information reste entière. */
+@media (max-width: 1100px) and (min-width: 768px) {
+  .wbs-sev { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* 4. GRILLES D'ÉVALUATION à 375 px : le résumé mettait le titre et sa
+   description sur deux colonnes, ce qui réduisait « Bilan mensuel » à une
+   colonne de ~70 px sur trois lignes. Empilement en dessous de 560 px. */
+@media (max-width: 560px) {
+  .rv-rubric summary { flex-wrap: wrap; }
+  .rv-rubric-d { flex-basis: 100%; }
+}
+
+/* 5. Code EN LIGNE très long dans un document du curriculum : à 375 px un
+   `code` de 610 px dépassait la colonne de lecture. Le corpus est gelé — la
+   coupure est un traitement d'affichage, pas une modification de contenu. */
+.prose code { overflow-wrap: anywhere; }
+
+/* 6. TABLEAUX DU CURRICULUM à 375 px : `.prose table { display: block }` faisait
+   perdre la mise en page de tableau, et les cellules s'écrasaient à 63–106 px
+   au lieu de défiler — 55 cellules illisibles sur /reviews (grilles d'évaluation).
+   Le corpus est gelé : la colonne garde sa largeur naturelle et c'est le
+   conteneur qui défile, traitement normal d'un tableau large sur mobile.
+   Borné à 767 px. L'élargir à 1100 px a été essayé puis ANNULÉ : cela ne
+   corrigeait rien de plus (les cellules étroites mesurées à 768-1024 px sur
+   /day/[id] et /doc/[...slug] ne sont pas des cellules de tableau mais les
+   étiquettes accessibles du PhaseRail en mode compact) et faisait déborder
+   les tableaux de /reviews sur ces mêmes largeurs. */
+@media (max-width: 767px) {
+  .prose table > thead, .prose table > tbody { display: table; width: max-content; min-width: 100%; }
+}

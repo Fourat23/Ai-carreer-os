@@ -12,7 +12,7 @@ export default function ResourcesPage() {
   const raw = getDocHtml('resources/resources.md');
   if (!raw) notFound();
 
-  const { html, sections } = extractSections(annotateProseA11y(raw));
+  const { html, sections, title } = extractSections(annotateProseA11y(raw));
   const words = html.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
   // Liens externes réellement présents dans le document — compté, pas estimé.
   const links = (html.match(/<a\s[^>]*href="https?:/g) ?? []).length;
@@ -42,6 +42,10 @@ export default function ResourcesPage() {
       // conseils de méthode, pas cinq références. Compter juste prime sur
       // l'étiquette flatteuse.
       itemLabel="entrées"
+      // V59 · CP11 — Le document s'intitule « Ressources », exactement comme
+      // la surface : le titre était donc imprimé deux fois, l'un sous l'autre.
+      // Il ne l'est plus. La comparaison est faite, pas supposée.
+      docTitle={title && title !== 'Ressources' ? title : undefined}
       footNote="Aucun lien n’est affilié ni sponsorisé. Rien n’est envoyé à l’extérieur : la page est un document local."
     />
   );

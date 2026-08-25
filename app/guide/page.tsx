@@ -21,7 +21,7 @@ export default async function GuidePage({ searchParams }: { searchParams: Promis
   const raw = getDocHtml(current.file);
   if (!raw) notFound();
 
-  const { html, sections } = extractSections(annotateProseA11y(raw));
+  const { html, sections, title } = extractSections(annotateProseA11y(raw));
   const words = html.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
 
   return (
@@ -46,6 +46,8 @@ export default async function GuidePage({ searchParams }: { searchParams: Promis
       ))}
       html={html}
       sections={sections}
+      // V59 · CP11 — Même correction que /career : un seul `h1` par page.
+      docTitle={title && title !== 'Mode d’emploi' ? title : undefined}
     />
   );
 }

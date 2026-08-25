@@ -28,7 +28,7 @@ export default async function CareerPage({ searchParams }: { searchParams: Promi
     );
   }
 
-  const { html, sections } = extractSections(annotateProseA11y(raw));
+  const { html, sections, title } = extractSections(annotateProseA11y(raw));
   const words = html.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
 
   return (
@@ -53,6 +53,11 @@ export default async function CareerPage({ searchParams }: { searchParams: Promi
       ))}
       html={html}
       sections={sections}
+      // V59 · CP11 — Le document porte son propre titre (« Stratégie CV /
+      // LinkedIn / GitHub »), qui n'est pas celui de la surface (« Carrière ») :
+      // il est conservé, mais au rang h2. Deux `h1` sur une page, c'est une
+      // hiérarchie fausse, pas une emphase.
+      docTitle={title && title !== 'Carrière' ? title : undefined}
     />
   );
 }

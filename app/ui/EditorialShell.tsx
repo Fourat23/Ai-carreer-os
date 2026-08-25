@@ -42,7 +42,7 @@ import type { ReactNode } from 'react';
 import type { DocSection } from '@/lib/doc-sections';
 
 export function EditorialShell({
-  head, nav, html, sections, footNote, itemLabel,
+  head, nav, html, sections, footNote, itemLabel, docTitle,
 }: {
   /** La bande d'identité (SurfaceHead), fournie par la page. */
   head: ReactNode;
@@ -50,6 +50,10 @@ export function EditorialShell({
   nav?: ReactNode;
   html: string;
   sections: DocSection[];
+  /** Titre propre du document affiché, quand il dit autre chose que le titre
+      de surface. Rendu au rang h2 : le `h1` de la page est celui de la bande
+      d'identité, et il n'y en a qu'un. */
+  docTitle?: string;
   footNote?: ReactNode;
   /** Nom de l'unité comptée par section, quand le document est un catalogue.
       Omis ⇒ les compteurs ne sont pas affichés. */
@@ -102,7 +106,10 @@ export function EditorialShell({
       {head}
       {nav && <nav className="ed-nav" aria-label="Documents de cette section">{nav}</nav>}
       <div className="ed-body">
-        <article ref={docRef} className="prose reading ed-doc" dangerouslySetInnerHTML={{ __html: html }} />
+        <div className="ed-col">
+          {docTitle && <h2 className="ed-doctitle">{docTitle}</h2>}
+          <article ref={docRef} className="prose reading ed-doc" dangerouslySetInnerHTML={{ __html: html }} />
+        </div>
         {sections.length >= 2 && (
           <aside className="ed-toc" aria-label="Sommaire du document">
             <div className="ed-toc-head">

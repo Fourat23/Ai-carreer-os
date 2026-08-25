@@ -5,6 +5,7 @@ import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack } from '@/lib/catalogue';
 import { skillStats } from '@/lib/skill-state';
+import { demoteDocTitle } from '@/lib/doc-sections';
 import { explainSkillState } from '@/lib/learning-experience';
 import { PageHeader } from '@/app/ui';
 import SkillsBoard from './SkillsBoard';
@@ -62,7 +63,7 @@ export default function SkillsPage() {
         <details className="solution" style={{ marginTop: 24 }}>
           <summary>Voir la grille détaillée (que signifie chaque niveau)</summary>
           <div className="prose" style={{ borderRadius: '0 0 8px 8px', borderTop: 'none' }}
-               dangerouslySetInnerHTML={{ __html: rubric }} />
+               dangerouslySetInnerHTML={{ __html: demoteDocTitle(rubric) }} />
         </details>
       )}
     </>

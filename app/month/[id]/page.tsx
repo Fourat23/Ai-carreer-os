@@ -4,6 +4,7 @@ import { getMonthHtml, getProgram } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
 import { periodModel, periodBounds } from '@/lib/period-model';
 import { annotateProseA11y } from '@/lib/section-family';
+import { demoteDocTitle } from '@/lib/doc-sections';
 import { YearBand, SurfaceHead } from '@/app/ui';
 import PeriodLoad from '../../period/PeriodLoad';
 
@@ -103,7 +104,7 @@ export default async function MonthPage({ params }: { params: Promise<{ id: stri
           <h2 className="period-h">Intention du mois</h2>
           <span className="period-h-note">document du curriculum, inchangé</span>
         </div>
-        <article className="prose reading" dangerouslySetInnerHTML={{ __html: annotateProseA11y(html) }} />
+        <article className="prose reading" dangerouslySetInnerHTML={{ __html: demoteDocTitle(annotateProseA11y(html)) }} />
       </section>
 
       <nav className="period-nav" aria-label="Navigation des mois">

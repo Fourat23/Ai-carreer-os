@@ -27,6 +27,11 @@ export default function CapstonesPage() {
 
   return (
     <>
+      {/* V59 · CP11 — `HeroFocus` porte son titre au rang h2 : cette page
+          était la seule des 36 à ne posséder AUCUN h1. Le titre du hero
+          dépend du décompte (« 5 capstones sur 4 domaines ») ; le nom de la
+          surface est stable, il est donc exposé ici comme /doc le fait. */}
+      <h1 className="sr-only">Capstones</h1>
       <HeroFocus
         tone="calm"
         eyebrow="Simulation professionnelle"

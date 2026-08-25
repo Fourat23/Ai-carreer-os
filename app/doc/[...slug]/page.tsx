@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getDocHtml, getProgram } from '@/lib/program';
 import { annotateDayHtml, deriveDayPhases } from '@/lib/section-family';
+import { decodeEntities } from '@/lib/doc-sections';
 import { HeroFocus, HeroFact, PhaseRail } from '@/app/ui';
 import type { PracticeRef } from '@/lib/types';
 
@@ -50,13 +51,22 @@ export default async function DocPage({ params }: { params: Promise<{ slug: stri
   // V56 — le document reçoit la même annotation de sections que la Journée :
   // le PhaseRail y devient utilisable, et les leçons de fond (documents longs)
   // gagnent le repérage qui leur manquait. Le CONTENU n'est pas touché.
-  const html = annotateDayHtml(raw);
+  // V59 · CP11 — Le `h1` du document est retiré de la prose : la page en
+  // expose déjà un (accessible) et le hero affiche le même texte juste
+  // au-dessus. Il était donc écrit deux fois, à deux rangs différents.
+  const html = annotateDayHtml(raw).replace(/<h1\b[^>]*>[\s\S]*?<\/h1>\s*/, '');
   const phases = deriveDayPhases(html);
   // Titre et accroche : extraits du document réel, jamais inventés.
+  // V59 · CP11 — Le CP2 avait décodé les entités des intitulés de sections mais
+  // PAS celles du hero : l'accroche affichait « qu&#39;est-ce que c&#39;est »
+  // en toutes lettres sur les leçons de fond. Même fonction, même endroit :
+  // le texte est décodé une fois, après le retrait des balises.
   const h1 = raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
-  const docTitle = h1 ? h1[1].replace(/<[^>]+>/g, '').trim() : slug[slug.length - 1].replace(/-/g, ' ');
+  const docTitle = h1
+    ? decodeEntities(h1[1].replace(/<[^>]+>/g, '')).trim()
+    : slug[slug.length - 1].replace(/-/g, ' ');
   const p1 = raw.replace(/<h1[\s\S]*?<\/h1>/, '').match(/<p[^>]*>([\s\S]*?)<\/p>/);
-  const docLead = p1 ? p1[1].replace(/<[^>]+>/g, '').trim().slice(0, 240) : null;
+  const docLead = p1 ? decodeEntities(p1[1].replace(/<[^>]+>/g, '')).trim().slice(0, 240) : null;
   const words = raw.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
 
   // Pour une leçon de fond, expose la pratique associée (lecture seule, minimale).

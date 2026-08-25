@@ -3,6 +3,7 @@ import { getProjectHtml, getProgram } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
 import { EvidenceMark, SurfaceHead } from '@/app/ui';
 import { annotateProseA11y } from '@/lib/section-family';
+import { demoteDocTitle } from '@/lib/doc-sections';
 
 export const dynamic = 'force-dynamic';
 
@@ -158,7 +159,7 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
           <span className="proj-h-note">document du curriculum, inchangé</span>
         </div>
         {html
-          ? <article className="prose reading" dangerouslySetInnerHTML={{ __html: annotateProseA11y(html) }} />
+          ? <article className="prose reading" dangerouslySetInnerHTML={{ __html: demoteDocTitle(annotateProseA11y(html)) }} />
           : <p className="proj-void">Fiche projet introuvable.</p>}
       </section>
     </div>

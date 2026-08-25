@@ -62,7 +62,7 @@ export default function SecurityCatalogue({ scenarios }: { scenarios: Summary[] 
                 <span className="pl-card-desc">{s.description}</span>
                 <span className="pl-card-meta">
                   <span className="wb-badge">{DOMAIN_LABEL[s.domain] ?? s.domain}</span>
-                  <span className="wb-badge"><Layers size={11} /> {s.artifactCount} artefacts</span>
+                  <span className="wb-badge"><Layers size={11} /> {s.artifactCount} artefact{s.artifactCount > 1 ? 's' : ''}</span>
                   {s.incident && <span className="wb-badge">incident</span>}
                   {s.difficulty ? <span className="wb-badge">difficulté {s.difficulty}</span> : null}
                 </span>

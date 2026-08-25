@@ -103,6 +103,22 @@
   --fs-ui: 15px;
   --fs-read: 16.5px;    /* corps de lecture (prose) */
   --fs-h3: 17px;
+  /* V59 · CP11 — JETON MANQUANT, TREIZE FOIS APPELÉ.
+     `--fs-lg` était référencé par onze titres de bloc et deux figures
+     (.rev-h, .period-h, .period-next-t, .lab-next-t, .proj-h, .rv-h,
+     .rv-next-t, .tb-h, .gl-detail-void-t, .set-h, .jn-h, .wbs-h,
+     .sh-editorial .sh-facts dd) — et n'était défini nulle part.
+     `font-size: var(--fs-lg)` sans repli est une déclaration invalide :
+     la propriété retombe sur `unset`, donc, pour une propriété héritée,
+     sur la taille du parent. Mesuré au navigateur avant correction :
+       .rev-h /revisions · .period-h /month/3 · .lab-next-t /lab
+       .proj-h /projects · .rv-h /reviews · .tb-h /pipelines
+       .set-h /settings  · .jn-h /notes    · sh-facts dd /glossary
+       → TOUS à 15 px, c'est-à-dire à la taille du texte d'interface
+         qui les entoure. Seule la graisse 650 les en distinguait.
+     18 px n'est pas un cran inventé : c'est celui que `.prose h2` code
+     déjà en dur depuis V52. Le jeton nomme un rang qui existait. */
+  --fs-lg: 18px;        /* titre de bloc */
   --fs-h2: 21px;
   --fs-h1: 28px;
   --fs-display: 34px;   /* chiffres de pilotage */
@@ -4495,3 +4511,43 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
    Il ne change pas d'apparence : il porte simplement le niveau qui lui revient
    dans le plan du document. */
 .ui-listgroup-h { margin: 0; font-size: inherit; font-weight: inherit; line-height: inherit; display: inline-flex; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V59 · CP11 — LE TITRE DU DOCUMENT, À SON RANG RÉEL
+   ─────────────────────────────────────────────────────────────────────────
+   Relevé en test aveugle : les quatre surfaces éditoriales rendaient DEUX
+   `h1` — celui de la bande d'identité et celui du document, l'un sous
+   l'autre. Sur /resources les deux disaient littéralement « Ressources ».
+   Le titre du document est désormais retiré de la prose et rendu au rang h2,
+   uniquement quand il dit autre chose que le titre de surface.
+   ══════════════════════════════════════════════════════════════════════════ */
+.ed-col { min-width: 0; display: flex; flex-direction: column; gap: var(--sp-4); }
+/* `--fs-h1` et non un pas inventé : le titre du document doit dominer les
+   titres de ses propres sections (18 px dans la prose), sans disputer son
+   rang à la bande d'identité (échelle display). Premier essai écrit avec un
+   jeton `--fs-lg` qui n'existe pas dans l'échelle : la déclaration était
+   invalide et le titre ressortait plus PETIT que ses sections. Mesuré sur
+   capture, corrigé. */
+.ed-doctitle {
+  margin: 0;
+  font-size: var(--fs-h1);
+  font-weight: 680;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Le titre propre d'un document du corpus, rétrogradé au rang h2 par
+   `demoteDocTitle` : il garde son rôle de titre de document, au-dessus des
+   titres de ses sections (18 px), sous la bande d'identité. */
+.prose h2.doc-h1 {
+  font-size: var(--fs-h1);
+  font-weight: 680;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}

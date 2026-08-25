@@ -3,6 +3,7 @@ import { getProgram, getDocHtml } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
 import { EvidenceMark, SurfaceHead } from '@/app/ui';
 import { annotateProseA11y } from '@/lib/section-family';
+import { demoteDocTitle } from '@/lib/doc-sections';
 
 export const dynamic = 'force-dynamic';
 
@@ -126,7 +127,7 @@ export default function ReviewsPage() {
               <span className="rv-rubric-t">Bilan mensuel</span>
               <span className="rv-rubric-d">à tenir à la fin de chaque mois</span>
             </summary>
-            <article className="prose reading" dangerouslySetInnerHTML={{ __html: annotateProseA11y(monthly) }} />
+            <article className="prose reading" dangerouslySetInnerHTML={{ __html: demoteDocTitle(annotateProseA11y(monthly)) }} />
           </details>
         )}
         {interview && (
@@ -136,7 +137,7 @@ export default function ReviewsPage() {
               <span className="rv-rubric-t">Grille d’entretien</span>
               <span className="rv-rubric-d">se relire comme un recruteur le ferait</span>
             </summary>
-            <article className="prose reading" dangerouslySetInnerHTML={{ __html: annotateProseA11y(interview) }} />
+            <article className="prose reading" dangerouslySetInnerHTML={{ __html: demoteDocTitle(annotateProseA11y(interview)) }} />
           </details>
         )}
       </section>

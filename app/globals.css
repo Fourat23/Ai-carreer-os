@@ -4490,3 +4490,8 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
   .doc-view:not(:has(.doc-rail .phase-step)) { grid-template-columns: minmax(0, 1fr); }
   .doc-view:not(:has(.doc-rail .phase-step)) .doc-main { max-width: var(--read-max); }
 }
+
+/* V59 · CP9 — Le titre d'un groupe de catalogue est un vrai titre de section.
+   Il ne change pas d'apparence : il porte simplement le niveau qui lui revient
+   dans le plan du document. */
+.ui-listgroup-h { margin: 0; font-size: inherit; font-weight: inherit; line-height: inherit; display: inline-flex; }

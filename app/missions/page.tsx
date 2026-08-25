@@ -79,9 +79,15 @@ export default function MissionsPage() {
       />
 
       {groups.map(([status, list]) => (
-        <section key={status} className="ui-listgroup">
+        // V59 · CP9 — Le groupe de statut est une SECTION du catalogue, mais son
+        // en-tête n'était qu'un `div` : /missions mesurait `h2 = 0`, soit aucun
+        // plan de document sur un catalogue de 42 missions. Le libellé de statut
+        // devient le titre réel de sa section — même rendu, plan restauré.
+        <section key={status} className="ui-listgroup" aria-labelledby={`grp-${status}`}>
           <div className="ui-listgroup-head">
-            <Status tone={STATUS[status]?.tone ?? 'neutral'} label={STATUS[status]?.label ?? status} />
+            <h2 id={`grp-${status}`} className="ui-listgroup-h">
+              <Status tone={STATUS[status]?.tone ?? 'neutral'} label={STATUS[status]?.label ?? status} />
+            </h2>
             <span className="ui-listgroup-count">{list.length} mission{list.length > 1 ? 's' : ''}</span>
             <span className="ui-listgroup-hint">{GROUP_HINT[status] ?? ''}</span>
           </div>

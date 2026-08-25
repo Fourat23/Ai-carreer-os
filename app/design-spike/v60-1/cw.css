@@ -1,0 +1,515 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   V60.1 · CAREER WORKSTATION — système local du spike.
+
+   ISOLÉ : tout est porté par `.cw`. Aucune règle ici ne peut atteindre une
+   route de production. Ce fichier n'est importé que par le layout du spike.
+
+   TROIS COUCHES, une seule grammaire :
+     A → la ligne de système, le bloc focal, le champ de trajectoire
+     B → la page BORNÉE, les zones accolées, la ligne de faits
+     C → l'échelle typographique, la respiration, le renversement de matière
+
+   Ce qui rend les trois surfaces un même produit, c'est la COQUILLE :
+   même ligne de système en tête, même ligne de faits en pied, même grammaire
+   de zones entre les deux. Le corps change ; le cadre jamais.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.cw {
+  /* ── ENCRES. Bleu-noir / graphite froid, hérité de V60. ─────────────── */
+  --ground:      #080a10;   /* le canvas, jamais rempli sans raison        */
+  --plane:       #0c0f17;   /* plan structurel : une zone de la page       */
+  --plane-2:     #11151f;   /* plan de travail : on y agit                 */
+  --focal:       #151a27;   /* surface focale : un seul par écran          */
+  --state:       #1c2233;   /* état interactif                             */
+
+  --line:        #202636;
+  --line-soft:   #171c28;
+  --line-hard:   #2f3750;
+
+  --txt:         #eaecf3;
+  --txt-2:       #a9b0c4;
+  --txt-3:       #737b93;
+  --txt-4:       #4f5670;
+
+  --accent:      #7b6bf2;   /* action · position · focus · changement d'état */
+  --accent-2:    #a495ff;
+  --accent-dim:  #2e2860;
+  --amber:       #c79a56;   /* temps · révision · temporalité                */
+  --ok:          #57a773;   /* succès RÉEL uniquement                        */
+  --now:         #ffffff;   /* marque de position                            */
+
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* ── ÉCHELLE TYPOGRAPHIQUE ──────────────────────────────────────────────
+     Cible du barème gelé : ratio display / corps entre 3,3 et 4,5.
+     Mesuré au CP0 : B plafonnait à 2,13 (plat), C montait à 6,02 (criard).
+     Corps d'interface 15 px · display fluide 36 → 64 px.
+       à 1440 : 3,8 vw = 54,7 px → ratio 3,65
+       à 1920 : plafond 64 px    → ratio 4,27
+     Les deux tombent dans la cible, et le display s'applique au TEXTE, pas
+     seulement aux chiffres.                                                */
+  --fs-micro:   10.5px;   /* étiquette mono                     */
+  --fs-mono:    11.5px;   /* métadonnée mono                    */
+  --fs-sm:      13px;
+  --fs-ui:      15px;     /* corps d'interface — la référence   */
+  --fs-read:    16.5px;   /* corps de lecture longue            */
+  --fs-h3:      17px;
+  --fs-h2:      21px;
+  --fs-h1:      27px;
+  --fs-display: clamp(36px, 3.8vw, 64px);
+  --fs-fig:     clamp(24px, 2.1vw, 36px);   /* chiffre de pilotage */
+
+  --track-display: -0.035em;
+  --track-mono: .13em;
+
+  min-height: 100vh;
+  background: var(--ground);
+  color: var(--txt);
+  font-family: var(--sans);
+  font-size: var(--fs-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+.cw *, .cw *::before, .cw *::after { box-sizing: border-box; }
+.cw h1, .cw h2, .cw h3, .cw h4, .cw p, .cw ul, .cw ol, .cw dl, .cw dd, .cw figure { margin: 0; }
+.cw ul, .cw ol { padding: 0; list-style: none; }
+.cw a { color: inherit; text-decoration: none; }
+.cw button { font: inherit; color: inherit; background: none; border: none; padding: 0; }
+
+/* Focus visible, commun à tout le spike. */
+.cw a:focus-visible, .cw button:focus-visible, .cw [tabindex]:focus-visible {
+  outline: 2px solid var(--accent-2); outline-offset: 2px; border-radius: 2px;
+}
+
+.cw .cw-mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.cw .cw-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+          overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cw *, .cw *::before, .cw *::after {
+    animation-duration: .001ms !important; transition-duration: .001ms !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   LA COQUILLE — identique sur les trois surfaces
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Page BORNÉE, héritée de B : la fenêtre EST la surface de travail.
+   Ce sont les zones qui défilent, pas la page.
+   ─────────────────────────────────────────────────────────────────────────
+   Première version en `grid-template-rows: auto minmax(0, 1fr) auto`. Elle
+   supposait TROIS enfants ; il y en a quatre quand le bandeau de prototype
+   est présent. La ligne de système héritait alors de la rangée `1fr` et se
+   faisait écraser par le corps, placé dans une rangée automatique.
+   Mesuré au navigateur : `.cw-sys` rendait 1440 × 1 px — la ligne de système
+   était INVISIBLE sur les deux écrans, y compris sur le Dashboard où je
+   l'avais crue présente sur capture.
+   Le flux en colonne ne fait aucune hypothèse sur le nombre d'enfants : seul
+   le corps s'étire, et il est le seul à le déclarer. */
+.cw-app {
+  display: flex; flex-direction: column;
+  height: 100vh; background: var(--ground);
+}
+.cw-app > .cw-body { flex: 1 1 auto; min-height: 0; }
+.cw-app > .cw-proto, .cw-app > .cw-sys, .cw-app > .cw-facts { flex: 0 0 auto; }
+
+/* ── ligne de système, héritée de A : mono, bord à bord, fine ────────── */
+.cw-sys {
+  display: flex; align-items: stretch; background: var(--plane);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: var(--fs-mono);
+}
+.cw-sys > * {
+  padding: 10px 18px; border-right: 1px solid var(--line-soft);
+  display: flex; align-items: baseline; gap: 9px; white-space: nowrap;
+}
+.cw-sys .cw-k { color: var(--txt-4); font-size: var(--fs-micro);
+             letter-spacing: var(--track-mono); text-transform: uppercase; }
+.cw-sys .cw-v { color: var(--txt); }
+.cw-sys .cw-v.cw-pos { color: var(--accent-2); }
+.cw-sys .cw-grow { flex: 1; border-right: none; justify-content: flex-end; color: var(--txt-4); }
+.cw-sys .cw-warn { color: var(--amber); }
+
+/* ── ligne de faits, héritée de B : le bas de l'écran dit l'état ─────── */
+.cw-facts {
+  display: flex; align-items: center; background: var(--plane);
+  border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: var(--fs-mono); color: var(--txt-3);
+}
+.cw-facts > * { padding: 8px 16px; border-right: 1px solid var(--line-soft); white-space: nowrap; }
+.cw-facts .cw-grow { flex: 1; border-right: none; text-align: right; color: var(--txt-4);
+                  overflow: hidden; text-overflow: ellipsis; }
+.cw-facts .cw-band { flex: 1; border-right: none; padding: 0 16px; min-width: 0; }
+
+/* ── grammaire de zones : PLANS accolés, jamais de cartes ───────────── */
+.cw-zones { display: grid; min-height: 0; }
+.cw-zone { min-width: 0; overflow-y: auto; border-right: 1px solid var(--line); }
+.cw-zone:last-child { border-right: none; }
+.cw-zone.cw-plane { background: var(--plane); }
+.cw-zone.cw-work { background: var(--plane-2); }
+.cw-zone.cw-ground { background: var(--ground); }
+
+/* en-tête de zone : une ligne, pas un titre de carte */
+.cw-zh {
+  position: sticky; top: 0; z-index: 3; display: flex; align-items: center;
+  justify-content: space-between; gap: 14px;
+  padding: 9px 18px; background: var(--plane-2); border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--txt-4);
+}
+.cw-zh b { color: var(--accent-2); font-weight: 500; }
+.cw-zh em { font-style: normal; text-transform: none; letter-spacing: 0;
+            font-size: var(--fs-mono); color: var(--txt-3);
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── typographie éditoriale, héritée de C ───────────────────────────── */
+.cw-eyebrow {
+  font-family: var(--mono); font-size: var(--fs-mono);
+  letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--txt-3);
+}
+.cw-display {
+  font-size: var(--fs-display); line-height: 1.02;
+  letter-spacing: var(--track-display); font-weight: 620;
+}
+.cw-lede { font-size: var(--fs-read); line-height: 1.6; color: var(--txt-2); max-width: 60ch; }
+
+/* faits chiffrés : figures éditoriales sur filet, jamais des cartes de KPI */
+.cw-figs { display: flex; flex-wrap: wrap; border-top: 1px solid var(--line-soft); }
+.cw-figs > div {
+  padding: 14px 26px 14px 0; margin-right: 26px; border-right: 1px solid var(--line-soft);
+  min-width: 0;
+}
+.cw-figs > div:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+.cw-figs dt {
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: var(--track-mono);
+  text-transform: uppercase; color: var(--txt-4);
+}
+.cw-figs dd {
+  margin-top: 7px; font-size: var(--fs-fig); line-height: 1;
+  letter-spacing: -0.03em; font-weight: 580; font-variant-numeric: tabular-nums;
+}
+.cw-figs dd small { font-size: var(--fs-sm); font-weight: 400; color: var(--txt-3); letter-spacing: 0; }
+.cw-figs dd.cw-txt { font-size: var(--fs-h2); letter-spacing: -0.015em; }
+
+/* action principale — une seule par écran */
+.cw-go {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 14px 24px; background: var(--accent); color: #0a0714;
+  font-weight: 640; font-size: var(--fs-ui); letter-spacing: -0.01em;
+}
+.cw-go:hover { background: var(--accent-2); }
+.cw-go .cw-sub { font-family: var(--mono); font-size: var(--fs-mono);
+              opacity: .62; letter-spacing: .08em; }
+.cw-go2 {
+  display: inline-flex; align-items: center; gap: 12px; padding: 11px 18px;
+  border: 1px solid var(--line-hard); color: var(--txt-2); font-size: var(--fs-sm);
+}
+.cw-go2:hover { border-color: var(--accent); color: var(--txt); }
+
+/* mention obligatoire du prototype */
+.cw-proto {
+  display: flex; align-items: center; gap: 12px; padding: 5px 18px;
+  background: #241a0e; border-bottom: 1px solid #46331a;
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: .1em; text-transform: uppercase; color: #dcb277;
+}
+.cw-proto b { color: #ffd9a0; font-weight: 600; }
+.cw-proto .cw-sp { margin-left: auto; text-transform: none; letter-spacing: 0; color: #a8813f; }
+
+/* donnée réellement absente — dite, jamais estimée */
+.cw-na {
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: .05em;
+  color: var(--txt-4); border: 1px dashed var(--line-hard); padding: 2px 7px;
+  white-space: nowrap;
+}
+
+/* texture technique : une trame de coordonnées très basse, jamais décorative */
+.cw-grid-tex {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.016) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.016) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MOTIFS — rendus partagés
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* TrajectoryMap — le champ de l'année */
+.cw .cw-tmap { display: flex; flex-direction: column; }
+.cw .cw-tmap-field { display: flex; align-items: flex-end; gap: 2px; border-bottom: 1px solid var(--line-hard); }
+.cw .cw-tmap-mo { display: flex; align-items: flex-end; height: 100%; gap: 1px; min-width: 0;
+           padding: 0 3px; border-right: 1px solid var(--line-soft); }
+.cw .cw-tmap-mo:last-child { border-right: none; }
+/* Relevé sur capture 1440 : les 52 journées de révision, en ambre vif sur des
+   journées normales en #2f3750 sombre, occupaient visuellement un tiers du
+   champ. On lisait un code-barres, pas une année. La MASSE revient aux
+   journées ordinaires — ce sont elles qui dessinent le profil de difficulté —
+   et la révision redevient une teinte de repérage. */
+.cw .cw-tmap-d { flex: 1; min-width: 0; background: #4a5474; }
+.cw .cw-tmap-d.cw-rv { background: var(--amber); opacity: .42; }
+.cw .cw-tmap-d.cw-pj { background: var(--accent); }
+.cw .cw-tmap-d.cw-now { background: var(--now); height: 100% !important; }
+.cw .cw-tmap-scale { display: flex; margin-top: 8px; }
+.cw .cw-tmap-scale > span { flex: 1; min-width: 0; padding-left: 4px;
+                     font-family: var(--mono); font-size: var(--fs-micro); color: var(--txt-4); }
+.cw .cw-tmap-scale b { color: var(--txt-3); font-weight: 400; }
+
+/* YearBand — la règle de position, en pied d'écran */
+.cw .cw-yband { display: flex; align-items: stretch; gap: 1px; height: 14px; width: 100%; }
+.cw .cw-yband i { flex: 1; min-width: 0; background: var(--line-hard); opacity: .55; }
+.cw .cw-yband i.cw-rv { background: var(--amber); opacity: .5; }
+.cw .cw-yband i.cw-pj { background: var(--accent); opacity: .9; }
+.cw .cw-yband i.cw-now { background: var(--now); opacity: 1; }
+
+/* PositionRing — un intervalle borné, jamais l'année */
+.cw .cw-pring .cw-pring-trk { stroke: var(--line-hard); }
+.cw .cw-pring .cw-pring-val { stroke: var(--accent); }
+.cw .cw-pring .cw-pring-n { fill: var(--txt); font-family: var(--mono); font-size: 21px; font-weight: 600; }
+.cw .cw-pring .cw-pring-o { fill: var(--txt-4); font-family: var(--mono); font-size: 10px; }
+
+/* EvidenceMark — la nature d'une preuve, en forme et non en couleur */
+.cw .cw-evi { flex: none; }
+
+/* PhaseRail — la position dans un document, navigable */
+.cw .cw-prail { display: flex; flex-direction: column; }
+.cw .cw-prail-i { display: flex; gap: 11px; padding: 8px 16px; align-items: baseline;
+           border-left: 2px solid transparent; }
+.cw .cw-prail-i:hover { background: var(--state); }
+.cw .cw-prail-i.cw-on { background: var(--state); border-left-color: var(--accent); }
+.cw .cw-prail-i.cw-act { border-left-color: var(--accent-dim); }
+.cw .cw-prail-i.cw-act.cw-on { border-left-color: var(--accent); }
+.cw .cw-prail-n { font-size: var(--fs-micro); color: var(--txt-4); padding-top: 2px; }
+.cw .cw-prail-i.cw-on .cw-prail-n { color: var(--accent-2); }
+.cw .cw-prail-b { min-width: 0; }
+.cw .cw-prail-t { display: block; font-size: var(--fs-sm); color: var(--txt-2); line-height: 1.35; }
+.cw .cw-prail-i.cw-on .cw-prail-t { color: var(--txt); }
+.cw .cw-prail-f { display: block; margin-top: 2px; font-size: var(--fs-micro);
+           letter-spacing: .08em; text-transform: uppercase; color: var(--txt-4); }
+.cw .cw-prail-i.cw-act .cw-prail-f { color: var(--accent-2); opacity: .78; }
+
+.cw-code { font-size: .92em; background: var(--state); padding: 1px 5px; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DASHBOARD — trois registres d'amplitude inégale
+   ══════════════════════════════════════════════════════════════════════════ */
+/* Première tentative : trois rangées en fractions (46/30/24) dans une grille
+   à hauteur fixe. Mesuré au navigateur : le focal recevait 385 px de rangée
+   pour 609 px de contenu, et son bouton d'action se peignait PAR-DESSUS le
+   champ de trajectoire. Une rangée `fr` ne se contente pas de comprimer : elle
+   laisse déborder. Les rangées sont donc dimensionnées par leur contenu, et
+   c'est le conteneur qui défile — la page reste bornée, ce qui est le point. */
+.cw-dash { display: block; min-height: 0; overflow-y: auto; }
+
+/* ── registre 1 : le focal, seule surface élevée de l'écran ───────────── */
+.cw .cw-dash-focal {
+  display: grid; grid-template-columns: minmax(0, 1fr) 400px; min-height: 44vh;
+  background: var(--focal); border-bottom: 1px solid var(--line);
+  position: relative;
+}
+.cw .cw-dash-focal::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent);
+}
+.cw .cw-dash-focal-l { padding: 34px 40px 30px; display: flex; flex-direction: column; min-width: 0; }
+.cw .cw-dash-title { margin-top: 14px; max-width: 24ch; }
+/* `display: flex` ici était un piège : `Inline` émet UN SPAN PAR FRAGMENT de
+   texte pour rendre le code inline du corpus, et chacun devenait un élément
+   flex. Mesuré : 8 enfants, 230 px de haut, le livrable rendu en colonnes
+   verticales illisibles. Le texte reste du texte en flux ; seule l'étiquette
+   est détachée. */
+.cw .cw-dash-deliv {
+  margin-top: 18px; max-width: 62ch; font-size: var(--fs-read);
+  line-height: 1.55; color: var(--txt-2);
+}
+.cw .cw-dash-deliv-k {
+  display: block; margin-bottom: 6px;
+  font-size: var(--fs-micro); letter-spacing: var(--track-mono); text-transform: uppercase;
+  color: var(--txt-4);
+}
+.cw .cw-dash-figs-l { margin-top: 22px; }
+.cw .cw-dash-act { margin-top: auto; padding-top: 24px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+/* La colonne droite portait deux blocs séparés par ~200 px de vide mesuré.
+   Elle est désormais centrée sur son seul sujet : la position dans le mois. */
+.cw .cw-dash-focal-r {
+  padding: 30px 34px; border-left: 1px solid var(--line);
+  display: flex; flex-direction: column; justify-content: center; gap: 22px;
+}
+.cw .cw-dash-focal-r .cw-socle-h { border-bottom-color: var(--line); }
+.cw .cw-dash-week { font-size: var(--fs-sm); line-height: 1.6; color: var(--txt-2); }
+.cw .cw-dash-week b { display: block; font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--txt-4);
+  margin-bottom: 5px; font-weight: 400; }
+.cw .cw-dash-figs { border-top: none; padding-top: 0; }
+.cw .cw-dash-figs > div { padding-top: 0; padding-bottom: 0; }
+.cw .cw-dash-ring { display: flex; gap: 20px; align-items: center; }
+.cw .cw-dash-ring-c { font-size: var(--fs-sm); line-height: 1.6; color: var(--txt-3); min-width: 0; }
+.cw .cw-dash-ring-c b { color: var(--txt); font-weight: 600; }
+.cw .cw-dash-ring-c .cw-mono { font-size: var(--fs-mono); color: var(--txt-4); }
+
+/* ── registre 2 : le champ. Un seul objet de trajectoire, large. ──────── */
+.cw .cw-dash-field { padding: 20px 40px 16px; border-bottom: 1px solid var(--line); background: var(--plane); }
+.cw .cw-dash-field-h { display: flex; align-items: baseline; gap: 8px 22px; margin-bottom: 16px; flex-wrap: wrap; }
+.cw .cw-dash-field-cap { flex: 1; min-width: 22ch; }
+.cw .cw-dash-legend { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-left: auto; }
+.cw .cw-dash-legend li {
+  display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--txt-3);
+}
+.cw .cw-dash-legend .cw-lg { display: inline-block; width: 14px; height: 3px; flex: none; }
+.cw .cw-dash-legend .cw-lg.cw-dy { background: #4a5474; }
+.cw .cw-dash-legend .cw-lg.cw-rv { background: var(--amber); opacity: .6; }
+.cw .cw-dash-legend .cw-lg.cw-pj { background: var(--accent); }
+.cw .cw-dash-legend .cw-lg.cw-nw { background: var(--now); }
+.cw .cw-dash-h2 { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.02em; }
+.cw .cw-dash-field-h .cw-lg { margin-left: 14px; }
+.cw .cw-dash-field-h .cw-lg::before {
+  content: ""; display: inline-block; width: 12px; height: 3px; margin-right: 6px;
+  vertical-align: middle; background: var(--line-hard);
+}
+.cw .cw-dash-field-h .cw-lg.cw-rv::before { background: var(--amber); }
+.cw .cw-dash-field-h .cw-lg.cw-pj::before { background: var(--accent); }
+.cw .cw-dash-field-h .cw-lg.cw-nw::before { background: var(--now); }
+
+/* ── registre 3 : le socle. Trois colonnes de filets, pas trois cartes. ─ */
+.cw .cw-dash-socle { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--ground); }
+.cw .cw-socle-col { padding: 16px 26px 22px; border-right: 1px solid var(--line); min-width: 0; }
+.cw .cw-socle-col:last-child { border-right: none; }
+.cw .cw-socle-h {
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: var(--track-mono);
+  text-transform: uppercase; color: var(--txt-4);
+  padding-bottom: 10px; border-bottom: 1px solid var(--line-soft);
+  display: flex; justify-content: space-between; gap: 10px;
+}
+.cw .cw-socle-row {
+  display: flex; align-items: baseline; gap: 12px; padding: 9px 0;
+  border-bottom: 1px solid var(--line-soft); font-size: var(--fs-sm);
+}
+.cw .cw-socle-row:last-child { border-bottom: none; }
+.cw a.cw-socle-row:hover .cw-socle-t { color: var(--txt); }
+.cw a.cw-socle-row:hover { background: var(--plane); }
+.cw .cw-socle-n { font-size: var(--fs-micro); color: var(--txt-4); min-width: 32px; flex: none; }
+.cw .cw-socle-t { flex: 1; min-width: 0; color: var(--txt-2); overflow: hidden;
+           text-overflow: ellipsis; white-space: nowrap; }
+.cw .cw-socle-row.cw-first .cw-socle-t { color: var(--txt); }
+.cw .cw-socle-row.cw-first .cw-socle-n { color: var(--accent-2); }
+.cw .cw-socle-v { font-size: var(--fs-micro); color: var(--txt-4); flex: none; }
+.cw .cw-socle-sum { margin-top: 12px; font-size: var(--fs-sm); line-height: 1.62; color: var(--txt-2); }
+.cw .cw-socle-skills { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: var(--fs-sm); }
+.cw .cw-socle-skills b { font-weight: 500; color: var(--txt-2); }
+.cw .cw-socle-skills i { font-style: normal; font-size: var(--fs-micro); color: var(--txt-4); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DAY — la station de travail
+   ─────────────────────────────────────────────────────────────────────────
+   Contexte étroit + travail dominant. Le travail se coupe en deux MATIÈRES :
+   LIRE sur le fond du canvas, FAIRE sur une surface franchement plus claire.
+   Les trois colonnes défilent indépendamment — la page reste bornée.
+   ══════════════════════════════════════════════════════════════════════════ */
+.cw-day { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: 0; }
+
+/* ── contexte ─────────────────────────────────────────────────────────── */
+.cw .cw-day-ctx { background: var(--plane); border-right: 1px solid var(--line); overflow-y: auto; min-width: 0; }
+.cw .cw-day-week { display: flex; flex-direction: column; }
+.cw .cw-day-wd { display: flex; gap: 10px; align-items: baseline; padding: 7px 16px;
+          border-left: 2px solid transparent; font-size: var(--fs-sm); }
+.cw .cw-day-wd:hover { background: var(--state); }
+.cw .cw-day-wd.cw-on { background: var(--state); border-left-color: var(--accent); }
+.cw .cw-day-wd .cw-n { font-size: var(--fs-micro); color: var(--txt-4); flex: none; }
+.cw .cw-day-wd.cw-on .cw-n { color: var(--accent-2); }
+.cw .cw-day-wd .cw-t { color: var(--txt-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cw .cw-day-wd.cw-on .cw-t { color: var(--txt); }
+
+/* ── travail ──────────────────────────────────────────────────────────── */
+.cw .cw-day-work { display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 0; min-width: 0; }
+
+.cw .cw-day-head { padding: 22px 32px 18px; background: var(--focal);
+            border-bottom: 1px solid var(--line); position: relative; }
+.cw .cw-day-head::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+                    width: 3px; background: var(--accent); }
+.cw .cw-day-title {
+  margin-top: 10px; font-size: clamp(24px, 2.4vw, 40px); line-height: 1.06;
+  letter-spacing: -0.03em; font-weight: 620; max-width: 26ch;
+}
+.cw .cw-day-obj { margin-top: 14px; max-width: 88ch; font-size: var(--fs-read);
+           line-height: 1.5; color: var(--txt-2); }
+.cw .cw-day-obj-k { display: inline-block; margin-right: 12px; font-size: var(--fs-micro);
+             letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--txt-4); }
+.cw .cw-day-nav { margin-top: 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.cw .cw-day-nav-sp { flex: 1; }
+
+.cw .cw-day-split { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); min-height: 0; }
+
+/* LIRE — fond du canvas, mesure confortable, respiration héritée de C */
+.cw .cw-day-read { overflow-y: auto; min-width: 0; background: var(--ground);
+            border-right: 1px solid var(--line-hard); }
+.cw .cw-day-prose { padding: 20px 30px 60px; font-size: var(--fs-read); line-height: 1.7;
+             color: var(--txt-2); max-width: 74ch; }
+.cw .cw-day-sec { display: flex; align-items: baseline; gap: 12px; margin: 30px 0 12px;
+           padding-bottom: 9px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
+.cw .cw-day-prose > article:first-child .cw-day-sec { margin-top: 4px; }
+.cw .cw-day-sec .cw-n { font-size: var(--fs-mono); color: var(--txt-4); }
+.cw .cw-day-sec .cw-t { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.018em; color: var(--txt); }
+.cw .cw-day-sec .cw-f { margin-left: auto; font-size: var(--fs-micro); letter-spacing: var(--track-mono);
+              text-transform: uppercase; color: var(--txt-4); }
+.cw .cw-day-prose p { margin: 0 0 14px; }
+.cw .cw-day-prose ul, .cw .cw-day-prose ol { margin: 0 0 14px; padding-left: 22px; list-style: disc; }
+.cw .cw-day-prose ol { list-style: decimal; }
+.cw .cw-day-prose li { margin: 6px 0; }
+.cw .cw-day-prose h3 { margin: 22px 0 8px; font-size: var(--fs-h3); color: var(--txt); font-weight: 620; }
+.cw .cw-day-prose strong { color: var(--txt); }
+.cw .cw-day-prose code { font-family: var(--mono); font-size: .88em; background: var(--state); padding: 1px 5px; }
+.cw .cw-day-prose pre { background: var(--plane); border-left: 2px solid var(--line-hard);
+                 padding: 14px 16px; overflow-x: auto; margin: 0 0 14px; }
+.cw .cw-day-prose pre code { background: none; padding: 0; font-size: 13px; line-height: 1.6; }
+.cw .cw-day-prose table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); margin: 0 0 14px; }
+.cw .cw-day-prose th, .cw .cw-day-prose td { border-bottom: 1px solid var(--line-soft); padding: 8px 10px; text-align: left; }
+.cw .cw-day-prose img { max-width: 100%; height: auto; }
+
+/* FAIRE — MATIÈRE DIFFÉRENTE.
+   La leçon de V60 C : un renversement dark-on-dark trop léger n'est pas une
+   rupture, c'est un bruit. L'écart de fond est donc franc (#1b2233 contre
+   #080a10), doublé d'une arête d'accent pleine hauteur et d'affordances
+   propres à la production. */
+.cw .cw-day-do { overflow-y: auto; min-width: 0; background: #1b2233; position: relative; }
+.cw .cw-day-do::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+                  width: 2px; background: var(--accent); z-index: 4; }
+.cw-zh.cw-do { background: #232b40; color: var(--accent-2); }
+.cw-zh.cw-do em { color: #b9b2e8; }
+
+.cw .cw-day-proof { padding: 16px 20px 18px; border-bottom: 1px solid #2c3450; background: #202940; }
+.cw .cw-day-proof-h { font-size: var(--fs-micro); letter-spacing: var(--track-mono);
+               text-transform: uppercase; color: var(--accent-2); }
+.cw .cw-day-proof-d { margin-top: 9px; font-size: var(--fs-sm); line-height: 1.55; color: #d7dbea; }
+.cw .cw-day-proof-l { margin-top: 13px; display: flex; flex-direction: column; gap: 9px; }
+.cw .cw-day-proof-l li { display: flex; gap: 12px; align-items: flex-start; }
+.cw .cw-day-proof-l .cw-g { color: var(--accent-2); flex: none; padding-top: 1px; }
+.cw .cw-day-proof-l .cw-b { font-size: var(--fs-sm); color: var(--txt); min-width: 0; }
+.cw .cw-day-proof-l .cw-b i { display: block; margin-top: 2px; font-style: normal;
+                    font-family: var(--mono); font-size: var(--fs-micro);
+                    letter-spacing: .05em; color: #8f97b5; }
+
+.cw .cw-day-task { border-bottom: 1px solid #2c3450; }
+.cw .cw-day-task-h { display: flex; align-items: baseline; gap: 11px; padding: 12px 20px 10px;
+              background: #202940; flex-wrap: wrap; }
+.cw .cw-day-task-h .cw-n { font-size: var(--fs-mono); color: var(--accent-2); }
+.cw .cw-day-task-h .cw-t { font-size: var(--fs-h3); font-weight: 620; letter-spacing: -0.015em; color: var(--txt); }
+.cw .cw-day-task-h .cw-f { margin-left: auto; font-size: var(--fs-micro); letter-spacing: var(--track-mono);
+                 text-transform: uppercase; color: #8f97b5; }
+.cw .cw-day-task-b { padding: 14px 20px 18px; font-size: var(--fs-sm); line-height: 1.65; color: #c3c9dc; }
+.cw .cw-day-task-b p { margin: 0 0 11px; }
+.cw .cw-day-task-b ul, .cw .cw-day-task-b ol { margin: 0 0 11px; padding-left: 20px; list-style: disc; }
+.cw .cw-day-task-b ol { list-style: decimal; }
+.cw .cw-day-task-b li { margin: 5px 0; }
+.cw .cw-day-task-b h3 { margin: 16px 0 7px; font-size: var(--fs-ui); color: var(--txt); font-weight: 620; }
+.cw .cw-day-task-b strong { color: var(--txt); }
+.cw .cw-day-task-b code { font-family: var(--mono); font-size: .88em; background: #2a3350; padding: 1px 5px; }
+.cw .cw-day-task-b pre { background: #141a29; border-left: 2px solid var(--accent-dim);
+                  padding: 12px 14px; overflow-x: auto; margin: 0 0 11px; }
+.cw .cw-day-task-b pre code { background: none; padding: 0; font-size: 12.5px; line-height: 1.6; }
+.cw .cw-day-task-b table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); margin: 0 0 11px; }
+.cw .cw-day-task-b th, .cw .cw-day-task-b td { border-bottom: 1px solid #2c3450; padding: 7px 9px; text-align: left; }
+.cw .cw-day-task-b input[type="checkbox"] { accent-color: var(--accent); }
+.cw .cw-day-empty { padding: 20px; font-size: var(--fs-sm); line-height: 1.6; color: #8f97b5; }

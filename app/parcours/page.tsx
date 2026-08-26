@@ -5,7 +5,7 @@ import { getTrack, getTrackModules, isTrackAvailable, resolveTrackDayObjects } f
 import { getActiveTrackId, readProgress } from '@/lib/progress-server';
 import { progressPosition } from '@/lib/position';
 import { curriculumPartition } from '@/lib/curriculum-partition';
-import { PageHeader, Status, HeroFocus, HeroFact, YearBand } from '@/app/ui';
+import { PageHeader, Status, HeroFocus, HeroFact, YearBand, ContextLine } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import TrackActions from './TrackActions';
 
@@ -55,6 +55,16 @@ export default function ParcoursPage() {
 
   return (
     <>
+      <ContextLine
+        label="Position dans le parcours"
+        facts={[
+          { k: 'Parcours actif', v: active.title },
+          { k: 'Horizon', v: `${pos.total} journées` },
+          { k: 'Position', v: `jour ${pos.resumeDay}`, here: true },
+          { k: 'Programme', v: `${part.total} jours · ${cat.tracks.filter((t) => isTrackAvailable(t)).length} parcours` },
+        ]}
+      />
+
       <PageHeader
         eyebrow={<>Programme global <span className="sep">/</span> {part.total} jours <span className="sep">·</span> {cat.tracks.filter((t) => isTrackAvailable(t)).length} parcours disponibles</>}
         title="Parcours"

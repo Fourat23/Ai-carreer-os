@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HeroFocus, HeroFact } from '@/app/ui';
+import { HeroFocus, HeroFact, ContextLine, PageHeader } from '@/app/ui';
 import { Eye, Layers } from 'lucide-react';
 import { listCapstones } from '@/lib/capstones-server';
 import { getProgram } from '@/lib/program';
@@ -27,16 +27,36 @@ export default function CapstonesPage() {
 
   return (
     <>
-      {/* V59 · CP11 — `HeroFocus` porte son titre au rang h2 : cette page
-          était la seule des 36 à ne posséder AUCUN h1. Le titre du hero
-          dépend du décompte (« 5 capstones sur 4 domaines ») ; le nom de la
-          surface est stable, il est donc exposé ici comme /doc le fait. */}
-      <h1 className="sr-only">Capstones</h1>
+      <ContextLine
+        label="État des capstones"
+        facts={[
+          { k: 'Capstones', v: `${capstones.length}`, here: true },
+          { k: 'Domaines', v: `${domains.length}` },
+          { k: 'Phases', v: `${totalPhases}` },
+          { k: 'Compétences couvertes', v: `${coveredSkills}` },
+        ]}
+      />
+      {/* V59 · CP11 avait résolu l'absence de h1 par un titre HORS ÉCRAN : le
+          plan du document était juste, mais la page restait la seule des 36
+          sans titre visible à l'échelle display — ratio typographique 2,24
+          contre 3,30 partout ailleurs, mesuré au CP0 de V61.
+          V61 · elle reçoit le même en-tête que les autres surfaces. Le titre
+          n'est plus caché : il est simplement là, comme partout. */}
+      <PageHeader
+        eyebrow={<>Évaluer <span className="sep">/</span> simulation professionnelle</>}
+        title="Capstones"
+        sub="Des simulations multi-phases, corrigées localement."
+      />
       <HeroFocus
         tone="calm"
         eyebrow="Simulation professionnelle"
         title={`${capstones.length} capstone${capstones.length > 1 ? 's' : ''} sur ${domains.length} domaine${domains.length > 1 ? 's' : ''}`}
-        lead="Des simulations multi-phases, corrigées localement. Réussir un capstone est un indice de raisonnement, pas une preuve de maîtrise."
+        lead="Réussir un capstone est un indice de raisonnement, pas une preuve de maîtrise."
+        actions={capstones[0]
+          ? <Link className="btn cta" href={`/capstones/${capstones[0].id}`}>
+              Ouvrir — {capstones[0].title}
+            </Link>
+          : undefined}
         meta={
           <>
             <HeroFact k="Phases au total">{totalPhases}</HeroFact>

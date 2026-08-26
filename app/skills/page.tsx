@@ -7,7 +7,7 @@ import { getTrack } from '@/lib/catalogue';
 import { skillStats } from '@/lib/skill-state';
 import { demoteDocTitle } from '@/lib/doc-sections';
 import { explainSkillState } from '@/lib/learning-experience';
-import { PageHeader } from '@/app/ui';
+import { PageHeader, ContextLine } from '@/app/ui';
 import SkillsBoard from './SkillsBoard';
 
 export const dynamic = 'force-dynamic';
@@ -29,6 +29,17 @@ export default function SkillsPage() {
   const untouched = rawStats.length - demonstrated - practising - learning;
 
   return (
+    <>
+      <ContextLine
+        label="État des compétences"
+        facts={[
+          { k: 'Compétences', v: `${rawStats.length}` },
+          { k: 'Démontrées', v: `${demonstrated}`, here: true },
+          { k: 'En pratique', v: `${practising}` },
+          { k: 'En apprentissage', v: `${learning}` },
+          { k: 'Non commencées', v: `${untouched}` },
+        ]}
+      />
     <>
       <PageHeader
         eyebrow={<>Compétences <span className="sep">/</span> parcours actif : {activeTrack?.title ?? '—'}</>}
@@ -66,6 +77,7 @@ export default function SkillsPage() {
                dangerouslySetInnerHTML={{ __html: demoteDocTitle(rubric) }} />
         </details>
       )}
+    </>
     </>
   );
 }

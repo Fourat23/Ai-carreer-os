@@ -5,7 +5,7 @@ import { getCatalogue } from '@/lib/catalogue-server';
 import { readProgress, readProgressV3 } from '@/lib/progress-server';
 import { aggregateTracks } from '@/lib/track-aggregate';
 import { evidenceTimeline, milestones } from '@/lib/learning-experience';
-import { PageHeader, Status, HeroFocus, HeroFact, PositionRing, EvidenceMark } from '@/app/ui';
+import { PageHeader, Status, HeroFocus, HeroFact, PositionRing, EvidenceMark, ContextLine } from '@/app/ui';
 import TrackActions from '../parcours/TrackActions';
 import TrajectoryMap from '../TrajectoryMap';
 import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
@@ -48,6 +48,17 @@ export default function SynthesePage() {
 
   return (
     <>
+      <ContextLine
+        label="Vue d’ensemble des parcours"
+        facts={[
+          { k: 'Parcours', v: `${rows.length}` },
+          { k: 'Actif', v: activeTrack.title, here: true },
+          { k: 'Commencés', v: `${startedCount} / ${rows.length}` },
+          { k: 'Journées', v: `${totalDone} / ${totalDays}` },
+          { k: 'Révisions dues', v: `${totalReviews}` },
+        ]}
+      />
+
       <PageHeader
         eyebrow={<>Pilotage <span className="sep">/</span> vue d’ensemble multi-parcours</>}
         title="Synthèse des parcours"

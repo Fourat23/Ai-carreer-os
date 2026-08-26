@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getProjectHtml, getProgram } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
-import { EvidenceMark, SurfaceHead } from '@/app/ui';
+import { EvidenceMark, SurfaceHead, ContextLine } from '@/app/ui';
 import { annotateProseA11y } from '@/lib/section-family';
 import { demoteDocTitle } from '@/lib/doc-sections';
 
@@ -58,6 +58,16 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
   const next = days.find((d) => statusOf(d.day) !== 'done') ?? null;
 
   return (
+    <>
+      <ContextLine
+        label="Position dans les projets"
+        facts={[
+          { k: 'Projets', v: `${PROJECTS.length}` },
+          { k: 'Projet affiché', v: `${PROJECTS.findIndex((x) => x.id === selected) + 1} / ${PROJECTS.length}`, here: true },
+          { k: 'Journées rattachées', v: `${days.length}` },
+          { k: 'Terminées', v: `${done} / ${days.length}` },
+        ]}
+      />
     <div className="proj">
       {/* ── POSITION : quel projet, où il se situe, ce qu'il prouve ─────────
           V58 · CP10 — bande d'identité partagée (famille « detail » : on
@@ -163,5 +173,6 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
           : <p className="proj-void">Fiche projet introuvable.</p>}
       </section>
     </div>
+    </>
   );
 }

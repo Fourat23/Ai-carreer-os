@@ -12,7 +12,7 @@ import { trackDaySets, classifyExercise, contextBadge } from '@/lib/exercise-con
 import { hasLabEvidence } from '@/lib/lab-progress';
 import { Suspense } from 'react';
 import { workspaceExists } from '@/lib/workspace-server';
-import { SurfaceHead } from '@/app/ui';
+import { SurfaceHead, ContextLine } from '@/app/ui';
 import LabCatalog, { type CatalogItem } from './LabCatalog';
 
 export const dynamic = 'force-dynamic';
@@ -91,6 +91,14 @@ export default function LabPage() {
 
   return (
     <div className="lab-view page-wide">
+      <ContextLine
+        label="État du laboratoire"
+        facts={[
+          { k: 'Exercices', v: `${exercises.length}` },
+          { k: 'Réussis', v: `${passedCount} / ${items.length}`, here: true },
+          { k: 'Parcours', v: activeTrackObj.title },
+        ]}
+      />
       {/* ── POSITION : ce qu'est le laboratoire, et où l'on en est ──────────
           V58 · CP10 — bande d'identité partagée (famille « workbench » : on
           vient ici pour exécuter du code, pas pour parcourir un référentiel). */}

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { listMissions, missionProgressFor } from '@/lib/missions-server';
 import { readProgress, getActiveTrackId } from '@/lib/progress-server';
-import { SurfaceHead, Status, ListRow } from '@/app/ui';
+import { SurfaceHead, Status, ListRow, ContextLine } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 
 export const dynamic = 'force-dynamic';
@@ -26,6 +26,11 @@ const GROUP_HINT: Record<string, string> = {
   'ready-for-review': 'Prêtes pour la revue finale.',
   'not-started': 'Non entamées.',
   done: 'Terminées — preuves à l\'appui.',
+};
+
+const CATEGORY_LABEL: Record<string, string> = {
+  'debt-maintenance': 'Dette & maintenance', performance: 'Performance',
+  documentation: 'Documentation', incident: 'Incident',
 };
 
 export default function MissionsPage() {
@@ -58,6 +63,15 @@ export default function MissionsPage() {
   // Un seul en-tête désormais, et le statut n'est dit qu'une fois : par le
   // groupe qui porte les missions.
   return (
+    <>
+      <ContextLine
+        label="État des missions"
+        facts={[
+          { k: 'Missions', v: `${missions.length}` },
+          { k: 'Terminées', v: `${doneCount}`, here: true },
+          { k: 'En cours', v: `${activeCount}` },
+        ]}
+      />
     <div className="cat-view">
       <SurfaceHead
         kind="catalog"
@@ -91,8 +105,26 @@ export default function MissionsPage() {
             <span className="ui-listgroup-count">{list.length} mission{list.length > 1 ? 's' : ''}</span>
             <span className="ui-listgroup-hint">{GROUP_HINT[status] ?? ''}</span>
           </div>
-          <div className="ui-list">
-            {list.map(({ m, prog }) => (
+          {/* V61 · à progression nulle, 42 missions sur 42 tombent dans le
+              même groupe de statut : mesuré, ce groupe occupait 86 % de la
+              page en un seul bloc. La CATÉGORIE — dette, performance,
+              documentation, incident — est une donnée réelle du corpus, et
+              c'est la seule qui distingue ces missions entre elles tant qu'on
+              n'en a commencé aucune. Elle sous-divise le groupe au lieu de
+              laisser une liste de 42 lignes indifférenciées. */}
+          {[...new Map(list.map((r) => [r.m.category, null])).keys()]
+            .sort()
+            .map((cat) => {
+              const sub = list.filter((r) => r.m.category === cat);
+              return (
+          <div key={cat} className="ui-list">
+            {list.length > 6 && (
+              <p className="ui-list-cat">
+                {CATEGORY_LABEL[cat] ?? cat}
+                <span className="ui-list-cat-n">{sub.length}</span>
+              </p>
+            )}
+            {sub.map(({ m, prog }) => (
               <ListRow
                 key={m.id}
                 href={`/missions/${m.id}`}
@@ -112,8 +144,11 @@ export default function MissionsPage() {
               />
             ))}
           </div>
+              );
+            })}
         </section>
       ))}
     </div>
+    </>
   );
 }

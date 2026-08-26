@@ -24,9 +24,12 @@ type Responses = Record<string, number | number[] | string>;
 export default function DiagnosticsBoard({
   assessments,
   skillNames,
+  /** Ancre du catalogue : l'action principale de la page y mène. */
+  anchorId,
 }: {
   assessments: Assessment[];
   skillNames: Record<string, string>;
+  anchorId?: string;
 }) {
   const [openId, setOpenId] = useState<string | null>(null);
   const open = assessments.find((a) => a.id === openId) ?? null;
@@ -61,7 +64,7 @@ export default function DiagnosticsBoard({
   // .diag-grid. La frontière avait été DÉPLACÉE d'un niveau, pas supprimée.
   return (
     <>
-      <nav className="cat-index" aria-label="Domaines">
+      <nav className="cat-index" id={anchorId} aria-label="Domaines">
         <span className="cat-index-k">Domaines</span>
         <ul className="cat-index-list">
           {byDomain.map(([domain, list]) => (

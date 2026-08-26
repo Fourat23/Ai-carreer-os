@@ -2,7 +2,7 @@ import { Eye, ShieldQuestion } from 'lucide-react';
 import { HeroFocus, HeroFact } from '@/app/ui';
 import { listAssessments } from '@/lib/assessments-server';
 import { getProgram } from '@/lib/program';
-import { PageHeader } from '@/app/ui';
+import { PageHeader, ContextLine } from '@/app/ui';
 import DiagnosticsBoard from './DiagnosticsBoard';
 
 export const dynamic = 'force-dynamic';
@@ -21,6 +21,14 @@ export default function DiagnosticsPage() {
 
   return (
     <>
+      <ContextLine
+        label="État des diagnostics"
+        facts={[
+          { k: 'Diagnostics', v: `${assessments.length}`, here: true },
+          { k: 'Questions', v: `${totalQuestions}` },
+          { k: 'Compétences couvertes', v: `${coveredSkills}` },
+        ]}
+      />
       <PageHeader
         eyebrow={<>Apprendre <span className="sep">/</span> auto-évaluations diagnostiques</>}
         title="Diagnostics"
@@ -38,6 +46,13 @@ export default function DiagnosticsPage() {
         eyebrow="Auto-évaluation diagnostique"
         title={`${assessments.length} diagnostic${assessments.length > 1 ? 's' : ''} disponible${assessments.length > 1 ? 's' : ''}`}
         lead="Correction locale et déterministe. Un score est un indice de compréhension, jamais une preuve de maîtrise."
+        // Un diagnostic s'ouvre dans le tableau ci-dessous, côté client : il
+        // n'existe pas de route `/diagnostics/[id]`. L'action pointe donc sur
+        // le catalogue, comme `/day` pointe sur `#travail` — un lien qui ne
+        // mène nulle part est pire que pas de lien.
+        actions={assessments.length > 0
+          ? <a className="btn cta" href="#catalogue">Choisir un diagnostic</a>
+          : undefined}
         meta={
           <>
             <HeroFact k="Compétences couvertes">{coveredSkills}</HeroFact>
@@ -53,6 +68,7 @@ export default function DiagnosticsPage() {
         </div>
       ) : (
         <DiagnosticsBoard
+          anchorId="catalogue"
           assessments={assessments}
           skillNames={Object.fromEntries(skillName)}
         />

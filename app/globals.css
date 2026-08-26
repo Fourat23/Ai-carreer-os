@@ -1870,8 +1870,14 @@ a.ui-row:hover { background: var(--surface-hover); border-left-color: var(--acce
 .ui-row.is-flat { border-left-width: 1px; }
 .ui-row-main { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; }
 .ui-row-title { font-weight: 600; font-size: var(--fs-sm); color: var(--text); }
+/* V61 · la coupe à deux lignes est faite pour une rangée LARGE. Mesuré à
+   375 px : 42 descriptions tronquées sur /missions — sur un téléphone, aucune
+   description de mission n'était lisible. En écran étroit la place verticale
+   est bon marché et la place horizontale ne l'est pas : la coupe se desserre
+   au lieu de se resserrer. */
 .ui-row-desc { font-size: var(--fs-xs); color: var(--muted); overflow: hidden; text-overflow: ellipsis;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
 .ui-row-meta { display: flex; gap: var(--sp-3); flex-wrap: wrap; font-size: var(--fs-xs); color: var(--faint);
   font-variant-numeric: tabular-nums; margin-top: 2px; }
 .ui-row-status { flex: none; }
@@ -2053,8 +2059,14 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
 .track-crow:hover { border-color: var(--border-strong); background: var(--surface-hover); }
 .track-crow-id { min-width: 0; }
 .track-crow-title { font-weight: 600; font-size: var(--fs-sm); color: var(--text); }
+/* V61 · le but d'un parcours n'était JAMAIS lisible en entier : la coupe à
+   deux lignes tronquait les cinq objectifs, à toutes les largeurs (37 px
+   affichés pour 74 à 112 px réels, mesuré au CP0). Or la page sert justement
+   à comparer des parcours et à juger du coût d'un changement. Le texte se
+   déroule ; les rangées cessent d'avoir toutes la même hauteur, ce qui est un
+   gain de rythme et non une perte. */
 .track-crow-goal { font-size: var(--fs-xs); color: var(--muted); margin-top: 2px;
-  overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  line-height: 1.5; max-width: 62ch; }
 .track-crow-facts { display: flex; gap: var(--sp-4); white-space: nowrap; }
 .track-crow-fact { font-size: var(--fs-xs); color: var(--text); font-variant-numeric: tabular-nums; }
 .track-crow-k { display: block; font-size: var(--fs-eyebrow); text-transform: uppercase;
@@ -3088,7 +3100,7 @@ body {
    surface + gradient local + élévation + survol — sans les transformer en
    cartes supplémentaires.
    ══════════════════════════════════════════════════════════════════════════ */
-.card, .skill-block, .diag-card, .cap-card, .lab-card, .gloss-entry, .pl-card,
+.card, .diag-card, .cap-card, .lab-card, .gloss-entry, .pl-card,
 .day-list, .list, .subnav, .lesson-practice {
   background-color: var(--surface);
   background-image: var(--grad-surface);
@@ -3101,7 +3113,13 @@ body {
 }
 /* Les blocs porteurs d'un état actif montent d'un cran plutôt que de changer
    seulement de teinte. */
-.skill-block, .lesson-practice { box-shadow: var(--shadow-2); }
+/* V61 · vingt ombres portées identiques ne sont pas vingt objets : ce sont
+   vingt fois le même. Mesuré au CP0 sur /skills : 24 objets « carte », dont
+   20 de signature strictement identique — même rayon, même bordure, même
+   ombre, même largeur, chacun portant « 0/5 ». Une compétence est une RANGÉE
+   d'une liste comparable, pas un panneau. Le filet suffit à la séparer. */
+.skill-block { box-shadow: none; }
+.lesson-practice { box-shadow: var(--shadow-2); }
 .subnav { box-shadow: var(--shadow-1); }
 /* Les en-têtes de section des routes migrées reçoivent le même filet que les
    surfaces de référence : le vocabulaire visuel devient commun. */
@@ -4854,3 +4872,22 @@ button.dot::after {
   border-left: 2px solid var(--border-strong); background: var(--panel-2);
   color: var(--muted); font-size: var(--fs-sm); line-height: 1.6; max-width: 74ch;
 }
+
+/* Sous-titre de catégorie dans un groupe de liste long. Un filet et une
+   étiquette : ce n'est pas une carte de plus, c'est une respiration. */
+.ui-list-cat {
+  display: flex; align-items: baseline; gap: 10px;
+  margin: var(--sp-5) 0 var(--sp-2); padding-bottom: 5px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  letter-spacing: .13em; text-transform: uppercase; color: var(--muted);
+}
+.ui-list-cat:first-child { margin-top: 0; }
+.ui-list-cat-n { color: var(--faint); }
+/* V61 · la coupe à deux lignes tronquait 42 descriptions à 375 px, 15 à 768,
+   14 à 1024 et 3 à 1440. Une description de mission fait une à trois lignes :
+   la coupe ne gagnait presque rien et coûtait la lisibilité à toutes les
+   largeurs. Les rangées cessent d'avoir la même hauteur — c'est un gain de
+   rythme, pas une perte. */
+.ui-row-desc { -webkit-line-clamp: unset; display: block; overflow: visible;
+               line-height: 1.5; max-width: 88ch; }

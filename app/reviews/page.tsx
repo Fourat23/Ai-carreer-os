@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getProgram, getDocHtml } from '@/lib/program';
 import { readProgress } from '@/lib/progress-server';
-import { EvidenceMark, SurfaceHead } from '@/app/ui';
+import { EvidenceMark, SurfaceHead, ContextLine } from '@/app/ui';
 import { annotateProseA11y } from '@/lib/section-family';
 import { demoteDocTitle } from '@/lib/doc-sections';
 
@@ -45,6 +45,15 @@ export default function ReviewsPage() {
 
   return (
     <div className="rv">
+      <ContextLine
+        label="État de la boucle d’évaluation"
+        facts={[
+          { k: 'Revues hebdo', v: `${reviewDays.length}` },
+          { k: 'Terminées', v: `${done.length}`, here: true },
+          { k: 'Restantes', v: `${reviewDays.length - done.length}` },
+          { k: 'Grilles', v: `${[monthly, interview].filter(Boolean).length}` },
+        ]}
+      />
       {/* ── POSITION : où en est la boucle d'évaluation ─────────────────────
           V58 · CP10 — bande d'identité partagée (famille « pilot » : cette
           surface pilote une boucle, elle ne catalogue pas des objets). */}

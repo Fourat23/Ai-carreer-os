@@ -27,3 +27,4 @@ export type { SurfaceKind, SurfaceFact } from './SurfaceHead';
 export { EditorialShell } from './EditorialShell';
 export { WorkbenchShell } from './WorkbenchShell';
 export type { SeverityCounts } from './WorkbenchShell';
+export { ContextLine, type ContextFact } from './ContextLine';

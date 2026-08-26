@@ -6,7 +6,7 @@ import { readProgress, getActiveTrackId } from '@/lib/progress-server';
 import { buildCalendar } from '@/lib/calendar-model';
 import { curriculumPartition } from '@/lib/curriculum-partition';
 import { progressPosition } from '@/lib/position';
-import { PageHeader, Status, InlineNotice, HeroFocus, HeroFact, YearBand } from '@/app/ui';
+import { PageHeader, Status, InlineNotice, HeroFocus, HeroFact, YearBand, ContextLine } from '@/app/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,6 +42,19 @@ export default function CalendarPage() {
 
   return (
     <>
+      {/* V61 · même ligne de contexte que /day, /month et /week : c'est elle
+          qui fait reconnaître ces surfaces comme un seul produit. */}
+      <ContextLine
+        label="Structure du programme"
+        facts={[
+          { k: 'Programme', v: `${part.monthsTotal} mois · ${part.total} jours` },
+          { k: 'Parcours', v: `${part.inTrack} jours`, here: true },
+          { k: 'Position', v: `jour ${resumeDay}` },
+          { k: 'Terminées', v: `${doneTotal}` },
+        ]}
+        tail={currentMonth?.title}
+      />
+
       <PageHeader
         eyebrow={<>Programme global <span className="sep">/</span> {part.total} jours <span className="sep">·</span> {part.monthsTotal} mois</>}
         title="Calendrier"
@@ -128,6 +141,9 @@ export default function CalendarPage() {
                 <span className="month-no-k">Mois</span>
                 <span className="month-no-v">{mb.month}</span>
               </Link>
+              <div className="month-bar" aria-hidden="true">
+                <span style={{ width: `${monthPct.get(mb.month) ?? 0}%` }} />
+              </div>
               <span className="month-head-body">
                 <span className="month-title">{monthTitle.get(mb.month)}</span>
                 <span className="month-count">
@@ -135,9 +151,7 @@ export default function CalendarPage() {
                 </span>
               </span>
             </h2>
-            <div className="month-bar" aria-hidden="true">
-              <span style={{ width: `${monthPct.get(mb.month) ?? 0}%` }} />
-            </div>
+            <div className="month-weeks">
             {mb.weeks.map((wb) => (
               <div key={wb.week} className="cal-week" data-calendar-week={wb.week}>
                 <Link href={`/week/${wb.week}`} className="week-label">Semaine {wb.week}</Link>
@@ -165,6 +179,7 @@ export default function CalendarPage() {
                 </ul>
               </div>
             ))}
+            </div>
           </section>
         ))}
       </div>

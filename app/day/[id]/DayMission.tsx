@@ -43,9 +43,9 @@ export default function DayMission({
           <span className="day-mission-ord-k">Jour</span>
           <span className="day-mission-ord-v">{day}</span>
         </span>
-        <span className="day-mission-pos">
-          {trackPosition != null ? <>{posInTrack} <span className="sep">/</span> {total} du parcours</> : <>{day} <span className="sep">/</span> 365 du programme</>}
-        </span>
+        {/* V61 · la position est portée par la ligne de contexte, en tête de
+            page. Elle rendait ici « JOUR 80 80 365 du parcours » — le numéro
+            du jour deux fois de suite, à trois caractères d'écart. */}
         <Status tone={st.tone} label={st.label} />
         <nav className="day-turn" aria-label="Navigation entre les jours du parcours">
           {prevDay != null && (
@@ -64,19 +64,16 @@ export default function DayMission({
       <h1 className="day-mission-title">{title}</h1>
       {lead && <p className="day-mission-lead">{lead}</p>}
 
+      {/* V61 · compétence, difficulté, durée et module sont désormais dans la
+          ligne de contexte. Ne restent ici que les REPÈRES, qui ne sont pas
+          des faits mais des liens : le mois et la semaine sont des surfaces
+          où l'on va. */}
       <div className="day-mission-facts">
-        <Status tone="accent" label={skillName} />
-        <HeroFact k="Difficulté">
-          <DifficultyScale value={difficulty} />
-          <span className="ui-diff-n">{difficultyLabel(difficulty)}</span>
-        </HeroFact>
-        <HeroFact k="Durée">{hours} h</HeroFact>
         <HeroFact k="Repères">
           <Link href={`/month/${month}`}>Mois {month}</Link>
           <span className="sep">·</span>
           <Link href={`/week/${week}`}>Semaine {week}</Link>
         </HeroFact>
-        {monthTitle && <HeroFact k="Module">{monthTitle}</HeroFact>}
       </div>
 
       {actions && <div className="day-mission-actions">{actions}</div>}

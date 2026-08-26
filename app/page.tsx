@@ -12,7 +12,7 @@ import { nextBestActions } from '@/lib/learning-experience';
 import { curriculumPartition } from '@/lib/curriculum-partition';
 import {
   PageHeader, SectionHeader, Status, Metric, Panel, ActionRow,
-  HeroFocus, HeroFact, DifficultyScale,
+  HeroFocus, HeroFact, DifficultyScale, ContextLine,
 } from '@/app/ui';
 import type { Tone } from '@/app/ui';
 import StartDayButton from './StartDayButton';
@@ -70,6 +70,21 @@ export default function Dashboard() {
 
   return (
     <>
+      {/* V61 · ligne de contexte partagée. Même objet, même place, mêmes
+          registres que /day, /month, /week et /calendar : c'est ce qui fait
+          qu'on reconnaît ces surfaces comme un seul produit avant même de
+          lire un titre. */}
+      <ContextLine
+        label="Position dans le parcours"
+        facts={[
+          { k: 'Parcours', v: activeTrack.title },
+          { k: 'Horizon', v: `${part.inTrack} journées` },
+          { k: 'Position', v: `J${pos.resumeDay} · M${program.days.find((d: { day: number; month: number }) => d.day === pos.resumeDay)?.month ?? 1}`, here: true },
+          { k: 'Terminées', v: `${counts.done} / ${part.inTrack}` },
+          { k: 'Rythme', v: paceLabel },
+        ]}
+      />
+
       <PageHeader
         eyebrow={<>Mission control <span className="sep">/</span> {activeTrack.title}</>}
         title="Tableau de bord"

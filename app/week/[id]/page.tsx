@@ -5,7 +5,7 @@ import { readProgress } from '@/lib/progress-server';
 import { periodModel, periodBounds } from '@/lib/period-model';
 import { annotateProseA11y } from '@/lib/section-family';
 import { demoteDocTitle } from '@/lib/doc-sections';
-import { PositionRing, SurfaceHead } from '@/app/ui';
+import { PositionRing, SurfaceHead, ContextLine } from '@/app/ui';
 import PeriodLoad from '../../period/PeriodLoad';
 
 export const dynamic = 'force-dynamic';
@@ -44,6 +44,19 @@ export default async function WeekPage({ params }: { params: Promise<{ id: strin
 
   return (
     <div className="period">
+      {/* V61 · ligne de contexte partagée — même objet, même place, mêmes
+          registres que /day, /month et /calendar. */}
+      <ContextLine
+        label="Position de la semaine"
+        facts={[
+          { k: 'Semaine', v: `${week} / ${max}`, here: true },
+          { k: 'Mois', v: `${month} / ${months}` },
+          { k: 'Journées', v: `${w.first} à ${w.last}` },
+          { k: 'Volume', v: `${w.count} j · ${w.hours} h` },
+          { k: 'Terminées', v: `${w.done} / ${w.count}` },
+        ]}
+      />
+
       {/* V58 · CP10 — bande d'identité partagée. Le motif PositionRing reste
           en `aside` : c'est exactement l'emplacement que la primitive réserve
           au motif propriétaire porteur de donnée. */}

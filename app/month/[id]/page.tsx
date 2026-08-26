@@ -5,7 +5,7 @@ import { readProgress } from '@/lib/progress-server';
 import { periodModel, periodBounds } from '@/lib/period-model';
 import { annotateProseA11y } from '@/lib/section-family';
 import { demoteDocTitle } from '@/lib/doc-sections';
-import { YearBand, SurfaceHead } from '@/app/ui';
+import { YearBand, SurfaceHead, ContextLine } from '@/app/ui';
 import PeriodLoad from '../../period/PeriodLoad';
 
 export const dynamic = 'force-dynamic';
@@ -46,6 +46,18 @@ export default async function MonthPage({ params }: { params: Promise<{ id: stri
           est un regroupement de journées). La progression réelle reste en
           `aside`, à la place que la primitive réserve au visuel porteur de
           donnée — elle n'est pas transformée en simple « fait ». */}
+      {/* V61 · ligne de contexte partagée — même objet, même place, mêmes
+          registres que /day, /week et /calendar. */}
+      <ContextLine
+        label="Position du mois"
+        facts={[
+          { k: 'Mois', v: `${month} / 12`, here: true },
+          { k: 'Journées', v: `${m.first} à ${m.last}` },
+          { k: 'Volume', v: `${m.count} j · ${m.hours} h` },
+          { k: 'Terminées', v: `${m.done} / ${m.count}` },
+        ]}
+      />
+
       <SurfaceHead
         kind="catalog"
         eyebrow={<>Parcours <span className="sep">/</span> mois {month} sur {max}

@@ -15,6 +15,8 @@
 //
 // Réutilisée sur : /calendar (continuité de l'année), /parcours (trajectoire).
 
+import { bandMarkHeight } from '@/lib/day-view';
+
 export type BandDay = {
   day: number; month: number; status: string;
   /**
@@ -92,7 +94,7 @@ export function YearBand({
                      la marque reste pleine hauteur et la bande n'annonce
                      aucun relief. */
                   style={hasRelief
-                    ? { height: `${20 + ((d.difficulty ?? 1) - 1) * 20}%` }
+                    ? { height: `${bandMarkHeight(d.difficulty ?? 1)}%` }
                     : undefined}
                   title={`Jour ${d.day}${monthTitles?.get(d.month) ? ` — ${monthTitles.get(d.month)}` : ''}`
                     + (d.difficulty ? ` · difficulté ${d.difficulty}/5` : '')}

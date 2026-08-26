@@ -433,9 +433,21 @@ table.list tr:hover td { background: var(--panel); }
    La maçonnerie par colonnes CSS introduite en V54.1 a été RETIRÉE : elle
    compactait la page au prix d'un ordre de lecture faux (M1 · M5 · M9 …).
    Ici ne restent que l'apparence d'un bloc-mois et la grille de 7 jours. */
+/* ── V61 · LE CALENDRIER N'EST PLUS UNE CONSTELLATION DE CARTES ────────────
+   Mesuré au CP0 : 15 objets « carte » sur la page, dont 12 partageant la MÊME
+   signature — même rayon, même bordure, même ombre, même largeur. Douze
+   panneaux de poids identique, c'est-à-dire aucune hiérarchie et aucun rythme :
+   exactement ce que le brief V61 §11 interdit.
+   Les douze mois deviennent douze RANGÉES d'un même tableau continu, séparées
+   par un filet. L'ORDRE DU DOM EST INCHANGÉ — l'invariant
+   DATA ORDER = DOM ORDER = READING ORDER de V54.2.1 tient par construction,
+   puisque seule la présentation change. */
 .month-block {
-  padding: var(--sp-4); border: 1px solid var(--border); border-radius: var(--r); background: var(--panel); box-shadow: var(--shadow-1); }
-.month-head { display: flex; align-items: baseline; gap: 8px; margin: 0 0 var(--sp-3); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--border); }
+  padding: var(--sp-4) 0; border: none; border-radius: 0; background: none; box-shadow: none;
+  border-bottom: 1px solid var(--border);
+}
+.cal-months .month-block:last-child { border-bottom: none; }
+.month-head { display: flex; align-items: baseline; gap: 8px; margin: 0 0 var(--sp-3); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--border-soft, var(--border)); }
 .month-no { font-size: var(--fs-h3); font-weight: 650; color: var(--text); }
 .month-no:hover { color: var(--accent); text-decoration: none; }
 .month-title { font-size: var(--fs-xs); color: var(--muted); font-weight: 400; }
@@ -2175,16 +2187,31 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
    coïncide alors avec l'ordre chronologique, à toutes les largeurs.
    Le prix assumé : les rangées s'alignent sur le mois le plus haut (léger
    crénelage en bas de rangée). La justesse prime sur la compacité.          */
-.cal-months {
-  display: grid; grid-template-columns: 1fr; gap: var(--sp-5);
-  /* `stretch` (défaut) plutôt que `start` : les mois d'une même rangée
-     s'alignent sur le plus haut. Le crénelage inhérent à une grille régulière
-     passe alors À L'INTÉRIEUR des panneaux plutôt qu'entre eux — l'ordre reste
-     juste, et la page ne se remplit pas de trous flottants. */
-}
-@media (min-width: 900px)  { .cal-months { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1400px) { .cal-months { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* V61 · UNE SEULE COLONNE, DOUZE RANGÉES.
+   La grille à deux puis trois colonnes de panneaux mensuels produisait douze
+   objets de poids strictement égal, disposés en damier. On y comparait des
+   cartes ; on n'y lisait pas une année. En une colonne, le mois devient une
+   RANGÉE — son étiquette à gauche, ses semaines déroulées à droite — et la
+   lecture verticale redevient chronologique, ce qui est le sujet de la page.
+   L'ordre du DOM ne change pas : l'invariant DATA = DOM = READING tient. */
+.cal-months { display: block; }
 .cal-months .month-block { margin: 0; }
+@media (min-width: 1000px) {
+  .month-block {
+    display: grid; grid-template-columns: 168px minmax(0, 1fr);
+    gap: var(--sp-5); align-items: start;
+  }
+  .month-head {
+    flex-direction: column; align-items: flex-start; gap: 4px;
+    margin: 0; padding: 0; border-bottom: none; position: sticky; top: var(--sp-4);
+  }
+  /* Les semaines du mois se déroulent côte à côte : un mois de 4 semaines
+     occupe quatre blocs, un mois de 5 en occupe cinq. Rien n'est complété
+     pour égaliser — un mois court RESTE court. */
+  .month-weeks { display: flex; flex-wrap: wrap; gap: var(--sp-4) var(--sp-5); }
+  .cal-week { margin-bottom: 0; flex: 0 0 auto; }
+  .week-days { grid-template-columns: repeat(7, 26px); }
+}
 /* Réconciliation 365 : la somme est affichée comme un fait vérifiable. */
 .cal-sum {
   display: inline-block; margin-left: 6px; padding: 1px 8px;
@@ -2926,11 +2953,10 @@ body {
 .year-band.has-relief .year-band-day.at {
   box-shadow: 0 3px 0 0 var(--text);
 }
-.year-band-day.now {
-  background: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent), 0 0 12px -1px rgba(139,143,245,.95);
-  position: relative; z-index: 1;
-}
+/* V61 · `.year-band-day.now` est retirée : le composant n'émet plus `now`
+   mais `at`, et le halo de position qu'elle portait appartient désormais à
+   TrajectoryMap seul. Une règle morte qui porte exactement ce que le contrat
+   des motifs interdit n'est pas un vestige, c'est une dette. */
 .year-band-label { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; min-width: 0; }
 .year-band-m { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--muted); }
 .year-band-n { font-family: var(--font-mono); font-size: 9px; color: var(--faint); font-variant-numeric: tabular-nums; }
@@ -4671,4 +4697,160 @@ button.dot::after {
 
 @media (prefers-reduced-motion: reduce) {
   .tmap-spine, .tmap-spine-node, .tmap-here { transition: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V61 · /day/[id] — L'ATELIER DE LA JOURNÉE.
+
+   Mesuré au CP0 : 14 340 px de page, UN bloc de premier niveau, dominance
+   0,941, une colonne de lecture de 632 px et un rail de 652 px flottant à
+   côté de 14 260 px de texte. La direction A du spike V60 faisait 9 331 px et
+   avait été jugée inacceptable ; la direction C 11 720. Le produit faisait
+   pire que les deux.
+
+   La journée devient un poste de travail BORNÉ — la même grammaire que `.wb`
+   (V58), déjà en place sur `/lab` et sur les cinq routes de détail technique.
+   Rien n'est masqué : les trois zones montent tout le contenu et défilent
+   indépendamment.
+   ══════════════════════════════════════════════════════════════════════════ */
+.day-shop { display: flex; flex-direction: column; gap: var(--sp-5); margin-top: var(--sp-6); }
+
+.day-zone-head {
+  position: sticky; top: 0; z-index: 3;
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-4);
+  padding: 10px var(--sp-5); background: var(--panel-2);
+  border-bottom: 1px solid var(--border);
+}
+.day-zone-t {
+  margin: 0; font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 500;
+}
+.day-zone-head.is-do .day-zone-t { color: var(--accent-2, var(--accent)); }
+.day-zone-n {
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  letter-spacing: .1em; text-transform: uppercase; color: var(--faint);
+}
+
+.day-shop-ctx, .day-shop-read, .day-shop-do { min-width: 0; }
+.day-shop-read { background: var(--bg); }
+/* FAIRE — MATIÈRE DIFFÉRENTE. La leçon de V60 : un renversement dark-on-dark
+   trop léger n'est pas une rupture, c'est un bruit. L'écart de fond est franc
+   et doublé d'une arête d'accent pleine hauteur. */
+.day-shop-do { background: var(--raised); position: relative; }
+.day-shop-do::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--accent); z-index: 4;
+}
+.day-shop-read .day-read, .day-shop-do > .prose, .day-shop-do > section,
+.day-shop-do > div, .day-shop-do > form { padding-left: var(--sp-5); padding-right: var(--sp-5); }
+.day-shop-read .day-read { padding-top: var(--sp-4); padding-bottom: var(--sp-10); }
+.day-shop-do > * + * { margin-top: var(--sp-6); }
+.day-shop-do > :last-child { margin-bottom: var(--sp-8); }
+.day-do-prose { font-size: var(--fs-base); }
+
+/* ── ≥ 1100 px : l'atelier est BORNÉ ──────────────────────────────────────
+   La fenêtre devient la surface de travail. Même formule de hauteur que `.wb`,
+   pour que les deux postes de travail du produit se comportent pareil. */
+@media (min-width: 1100px) {
+  .day-shop {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1.25fr) minmax(0, 1fr);
+    height: clamp(560px, calc(100vh - 260px), 1200px);
+    border: 1px solid var(--border-strong); border-radius: var(--r-lg);
+    overflow: hidden; background: var(--panel);
+  }
+  .day-shop-ctx, .day-shop-read, .day-shop-do { overflow-y: auto; }
+  .day-shop-ctx { border-right: 1px solid var(--border); background: var(--panel); padding: var(--sp-3); }
+  .day-shop-read { border-right: 1px solid var(--border-strong); }
+  /* Le rail de contexte hérité n'a plus à se coller : sa zone défile déjà. */
+  .day-shop-ctx .phase-rail { position: static; max-height: none; }
+  .day-view .phase-rail-strip { display: none; }
+}
+
+/* ── < 1100 px : UN VOLET À LA FOIS ──────────────────────────────────────
+   Mesuré : l'atelier déroulé faisait 12 397 px à 768 et 21 860 px à 375. Une
+   station à trois zones n'a que deux issues en écran étroit — tout empiler,
+   ou n'afficher qu'un volet. Le sélecteur ci-dessous dit lequel ; il est en
+   liens d'URL, donc sans JavaScript, et chaque volet reste atteignable. */
+.day-panes { display: none; }
+.day-pane-b {
+  flex: 1; display: flex; align-items: baseline; justify-content: center; gap: 8px;
+  padding: 13px 10px; min-height: 46px; text-decoration: none;
+  border-right: 1px solid var(--border); border-bottom: 2px solid transparent;
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.day-pane-b:last-child { border-right: none; }
+.day-pane-n { color: var(--faint); }
+.day-pane-b.is-on { color: var(--text); background: var(--panel-2); border-bottom-color: var(--accent); }
+.day-pane-b.is-on .day-pane-n { color: var(--accent-2, var(--accent)); }
+
+@media (max-width: 1099px) {
+  .day-panes {
+    display: flex; margin-top: var(--sp-6);
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--r) var(--r) 0 0; border-bottom: none;
+  }
+  .day-shop { margin-top: 0; }
+  .day-shop-read, .day-shop-do, .day-shop-ctx {
+    border: 1px solid var(--border); border-radius: 0 0 var(--r-lg) var(--r-lg); overflow: hidden;
+  }
+  .day-shop.v-lire  .day-shop-ctx, .day-shop.v-lire  .day-shop-do   { display: none; }
+  .day-shop.v-faire .day-shop-ctx, .day-shop.v-faire .day-shop-read { display: none; }
+  .day-shop.v-plan  .day-shop-read, .day-shop.v-plan .day-shop-do   { display: none; }
+  .day-shop-ctx { padding: var(--sp-3); }
+  .day-shop-read .day-read, .day-shop-do > .prose, .day-shop-do > section,
+  .day-shop-do > div, .day-shop-do > form { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+  .day-view .phase-rail-strip { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V61 · PRIMITIVE — LIGNE DE CONTEXTE.
+
+   L'objet que le prototype de référence appelait « ligne de système ». Au test
+   aveugle de V60.1, sans logo ni barre latérale, c'est LUI qui faisait
+   reconnaître trois écrans très différents comme un seul produit. Il est ici
+   industrialisé et partagé.
+   ══════════════════════════════════════════════════════════════════════════ */
+.ctx-line {
+  display: flex; align-items: stretch;
+  margin-bottom: var(--sp-5);
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  overflow-x: auto; scrollbar-width: none;
+}
+.ctx-line::-webkit-scrollbar { display: none; }
+.ctx-cell {
+  flex: 0 0 auto; display: flex; align-items: baseline; gap: 8px;
+  padding: 9px 16px; border-right: 1px solid var(--border); white-space: nowrap;
+}
+.ctx-k { letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+.ctx-v { color: var(--text); font-variant-numeric: tabular-nums; }
+.ctx-v.is-here { color: var(--accent-2, var(--accent)); font-weight: 700; }
+.ctx-tail {
+  flex: 1 1 auto; min-width: 0; padding: 9px 16px; text-align: right;
+  color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ctx-line:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* La liste d'exercices était dessinée pour une colonne pleine largeur : dans
+   la colonne FAIRE de l'atelier (≈ 380 px à 1440), le titre, le badge de rôle,
+   le runtime, la difficulté et le statut se chevauchaient sur une seule ligne.
+   Dans l'atelier, l'item se replie en deux registres — l'intitulé, puis ses
+   attributs — au lieu de se comprimer. */
+.day-shop-do .day-lab-item {
+  flex-wrap: wrap; align-items: flex-start; row-gap: 7px;
+}
+.day-shop-do .day-lab-title { flex: 1 1 100%; min-width: 0; order: 1; }
+.day-shop-do .day-lab-item > svg:first-child { order: 0; margin-top: 2px; }
+.day-shop-do .day-lab-meta { order: 2; flex-wrap: wrap; row-gap: 5px; }
+.day-shop-do .day-lab-item .ui-status { order: 3; margin-left: auto; }
+.day-shop-do .day-lab-go { order: 4; align-self: center; }
+
+/* L'absence d'échéance est dite une fois, sur une ligne, et n'occupe pas le
+   tiers supérieur de l'écran avec trois zéros de même poids. */
+.rev-quiet {
+  margin: 0; padding: var(--sp-3) var(--sp-4);
+  border-left: 2px solid var(--border-strong); background: var(--panel-2);
+  color: var(--muted); font-size: var(--fs-sm); line-height: 1.6; max-width: 74ch;
 }

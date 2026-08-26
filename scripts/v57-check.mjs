@@ -91,8 +91,12 @@ const day = readFileSync(R('app/day/[id]/page.tsx'), 'utf8');
 for (const [needle, label] of [
   ['<DayMission', 'zone 1 · mission'],
   ['<PhaseRail', 'zone 2 · déroulé'],
+  // V61 · la zone de lecture et la zone de pratique sont devenues les deux
+  // colonnes de l'atelier borné (`day-shop-read` / `day-shop-do`). Les QUATRE
+  // zones restent exigées : seul le nom de la classe a suivi la recomposition.
   ['className="prose day-read"', 'zone 3 · lecture'],
-  ['className="day-work"', 'zone 4 · pratique'],
+  ['className="day-shop-do"', 'zone 4 · pratique'],
+  ['className="day-shop-read"', 'zone 3b · colonne de lecture'],
 ]) {
   if (!day.includes(needle)) errors.push(`[journée] ${label} absente — V56 est la baseline, elle ne se démonte pas`);
 }

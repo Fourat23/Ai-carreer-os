@@ -96,33 +96,50 @@ export default function RevisionStation({
             : undefined}
         />
 
-        <div className="rev-gauges">
-          <div className={`rev-gauge is-late${overdue.length ? ' has' : ''}`}>
-            <span className="rev-gauge-k"><AlertTriangle size={13} strokeWidth={2} /> En retard</span>
-            <span className="rev-gauge-n">{overdue.length}</span>
-            <span className="rev-gauge-d">
-              {overdue.length
-                ? `échéance dépassée de ${overdue[0].overdueDays} j au plus`
-                : 'aucune échéance dépassée'}
-            </span>
+        {/* V61 · TROIS ZÉROS CÔTE À CÔTE NE SONT PAS TROIS INFORMATIONS.
+            Mesuré au CP0 : la station affichait « 0 » trois fois, en trois
+            jauges de même poids, chacune suivie d'une phrase disant la même
+            chose autrement. À l'état neuf — qui est l'état RÉEL du produit,
+            `progress.json` ne contenant aucune journée — c'est le tiers
+            supérieur de l'écran occupé par l'absence.
+            Quand rien n'est dû, la file le dit UNE fois, en une ligne. Quand
+            quelque chose est dû, les jauges reprennent leur rôle : ce sont
+            alors trois nombres différents, et trois décisions différentes. */}
+        {hasWork ? (
+          <div className="rev-gauges">
+            <div className={`rev-gauge is-late${overdue.length ? ' has' : ''}`}>
+              <span className="rev-gauge-k"><AlertTriangle size={13} strokeWidth={2} /> En retard</span>
+              <span className="rev-gauge-n">{overdue.length}</span>
+              <span className="rev-gauge-d">
+                {overdue.length
+                  ? `échéance dépassée de ${overdue[0].overdueDays} j au plus`
+                  : 'aucune échéance dépassée'}
+              </span>
+            </div>
+            <div className={`rev-gauge is-today${onTime.length ? ' has' : ''}`}>
+              <span className="rev-gauge-k"><CircleDot size={13} strokeWidth={2} /> À échéance aujourd’hui</span>
+              <span className="rev-gauge-n">{onTime.length}</span>
+              <span className="rev-gauge-d">
+                {onTime.length ? 'à traiter dans la journée' : 'rien n’arrive à échéance'}
+              </span>
+            </div>
+            <div className={`rev-gauge is-soon${horizon.length ? ' has' : ''}`}>
+              <span className="rev-gauge-k"><CalendarClock size={13} strokeWidth={2} /> Sous {HORIZON_DAYS} jours</span>
+              <span className="rev-gauge-n">{horizon.length}</span>
+              <span className="rev-gauge-d">
+                {horizon.length
+                  ? `la prochaine dans ${horizon[0].inDays} j`
+                  : 'aucune échéance programmée'}
+              </span>
+            </div>
           </div>
-          <div className={`rev-gauge is-today${onTime.length ? ' has' : ''}`}>
-            <span className="rev-gauge-k"><CircleDot size={13} strokeWidth={2} /> À échéance aujourd’hui</span>
-            <span className="rev-gauge-n">{onTime.length}</span>
-            <span className="rev-gauge-d">
-              {onTime.length ? 'à traiter dans la journée' : 'rien n’arrive à échéance'}
-            </span>
-          </div>
-          <div className={`rev-gauge is-soon${horizon.length ? ' has' : ''}`}>
-            <span className="rev-gauge-k"><CalendarClock size={13} strokeWidth={2} /> Sous {HORIZON_DAYS} jours</span>
-            <span className="rev-gauge-n">{horizon.length}</span>
-            <span className="rev-gauge-d">
-              {horizon.length
-                ? `la prochaine dans ${horizon[0].inDays} j`
-                : 'aucune échéance programmée'}
-            </span>
-          </div>
-        </div>
+        ) : (
+          <p className="rev-quiet">
+            Aucune échéance : ni en retard, ni aujourd’hui, ni dans les
+            {' '}{HORIZON_DAYS} prochains jours. La file se remplira à la
+            clôture de ta première journée.
+          </p>
+        )}
       </section>
   );
 

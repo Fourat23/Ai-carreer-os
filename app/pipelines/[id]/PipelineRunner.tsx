@@ -96,7 +96,10 @@ export default function PipelineRunner({ pipeline }: { pipeline: PipelineView })
       {/* ── Visualisation stages/jobs (DAG) ── */}
       <section className="pl-panel" aria-label="Pipeline">
         <h2 className="section-label">Pipeline · {stages.length} stages · {pipeline.jobs.length} jobs</h2>
-        <div className="pl-dag" role="list">
+        {/* V61 · CP13 — le graphe défile horizontalement : il doit pouvoir
+            recevoir le focus pour être parcouru au clavier
+            (`scrollable-region-focusable`, relevé à 375 px). */}
+        <div className="pl-dag" role="list" tabIndex={0} aria-label={`Graphe du pipeline — ${stages.length} stages`}>
           {stages.map((st) => (
             <div className="pl-stage" role="listitem" key={st.id}>
               <div className="pl-stage-head">{st.name}</div>

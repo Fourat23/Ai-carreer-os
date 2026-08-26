@@ -2369,6 +2369,13 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
    Le défaut est corpus-large — il vaut pour les douze mois, les 52 semaines et
    les fiches projet, pas pour une route. Il se corrige donc sur `.prose`. */
 .prose a { text-decoration: underline; text-underline-offset: 2px; }
+/* V61 · CP13 — le tirage au sort a trouvé le MÊME défaut sur quatre routes que
+   V61 n'avait pas migrées : `/security/[id]`, `/cloud-lab/[id]`,
+   `/cloud-foundations/[id]` renvoient tous vers la théorie par un lien « jour N »
+   au fil d'une phrase, dans un `<p class="muted">`. Un seul conteneur, une
+   seule règle — et la démonstration que le défaut n'était jamais propre à
+   `/month/3`. */
+.muted a { text-decoration: underline; text-underline-offset: 2px; }
 /* Les liens qui sont déjà des OBJETS (ligne de journée, puce, bouton) portent
    leur propre repère : les souligner ajouterait un trait sous un bloc entier. */
 .prose a.dl-row, .prose a.btn, .prose a.day-cell { text-decoration: none; }

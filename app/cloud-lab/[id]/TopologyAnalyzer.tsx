@@ -75,7 +75,11 @@ export default function TopologyAnalyzer({
       {/* Colonne gauche : composants + connexions. */}
       <section className="cl-col" aria-label="Architecture">
         <h2 className="section-label"><Server size={14} /> Composants ({topo.nodes.length})</h2>
-        <table className="cl-table">
+        {/* V61 · CP13 — `tabIndex` : ces tableaux défilent horizontalement en
+            écran étroit. Sans lui, on ne peut pas atteindre leurs dernières
+            colonnes au clavier (`scrollable-region-focusable`, relevé à 375 px
+            par le tirage au sort). */}
+        <table className="cl-table" tabIndex={0} aria-label={`Composants de l’architecture (${topo.nodes.length})`}>
           <thead><tr><th>Composant</th><th>Type</th><th>Zone</th><th>Env.</th></tr></thead>
           <tbody>
             {topo.nodes.map((n) => (
@@ -90,7 +94,7 @@ export default function TopologyAnalyzer({
         </table>
 
         <h2 className="section-label" style={{ marginTop: 'var(--sp-4)' }}><Share2 size={14} /> Connexions ({topo.edges.length})</h2>
-        <table className="cl-table">
+        <table className="cl-table" tabIndex={0} aria-label={`Connexions entre composants (${topo.edges.length})`}>
           <thead><tr><th>De</th><th>Flux</th><th>Vers</th></tr></thead>
           <tbody>
             {topo.edges.map((e) => (

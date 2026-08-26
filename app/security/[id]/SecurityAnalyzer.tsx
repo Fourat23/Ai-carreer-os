@@ -112,7 +112,11 @@ export default function SecurityAnalyzer({
           {scenario.artifacts.map((a) => (
             <div key={a.id} className="sec-artifact">
               <div className="sec-artifact-head"><code>{a.kind}</code> {a.path && <span className="muted">· {a.path}</span>}</div>
-              <pre className="sec-code">{pretty(a.content)}</pre>
+              {/* V61 · CP13 — une zone qui défile doit être atteignable au
+                  clavier, sinon un utilisateur sans souris ne peut pas en lire
+                  la fin. Même correctif que `.lab-groups`, ici imposé par le
+                  tirage au sort : `scrollable-region-focusable`, à 375 px. */}
+              <pre className="sec-code" tabIndex={0} aria-label={`Artefact ${a.kind}${a.path ? ` — ${a.path}` : ''}`}>{pretty(a.content)}</pre>
             </div>
           ))}
         </section>

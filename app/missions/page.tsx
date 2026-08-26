@@ -6,12 +6,6 @@ import type { Tone } from '@/app/ui';
 
 export const dynamic = 'force-dynamic';
 
-const CAT_LABEL: Record<string, string> = {
-  'debt-maintenance': 'Dette & maintenance',
-  performance: 'Performance',
-  documentation: 'Documentation',
-  incident: 'Incident & post-mortem',
-};
 // Statut → libellé + ton + rang d'affichage (actionnable d'abord, terminé en dernier).
 const STATUS: Record<string, { label: string; tone: Tone; rank: number }> = {
   'in-progress': { label: 'En cours', tone: 'info', rank: 0 },
@@ -20,17 +14,18 @@ const STATUS: Record<string, { label: string; tone: Tone; rank: number }> = {
   'not-started': { label: 'À commencer', tone: 'neutral', rank: 3 },
   done: { label: 'Terminé', tone: 'positive', rank: 4 },
 };
-const GROUP_HINT: Record<string, string> = {
-  'in-progress': 'Reprends là où tu t\'es arrêté.',
-  'deliverables-incomplete': 'Des livrables restent à produire.',
-  'ready-for-review': 'Prêtes pour la revue finale.',
-  'not-started': 'Non entamées.',
-  done: 'Terminées — preuves à l\'appui.',
-};
-
 const CATEGORY_LABEL: Record<string, string> = {
-  'debt-maintenance': 'Dette & maintenance', performance: 'Performance',
-  documentation: 'Documentation', incident: 'Incident',
+  'debt-maintenance': 'Dette & maintenance',
+  performance: 'Performance',
+  documentation: 'Documentation',
+  incident: 'Incident & post-mortem',
+};
+// Ce que la catégorie DÉSIGNE — la nature du travail attendu, pas un slogan.
+const CAT_HINT: Record<string, string> = {
+  'debt-maintenance': 'Modifier un code existant sous contrainte, sans le réécrire.',
+  performance: 'Mesurer d\'abord, arbitrer ensuite, prouver le gain.',
+  documentation: 'Rendre lisible pour quelqu\'un d\'autre que soi.',
+  incident: 'Diagnostiquer à chaud, puis écrire ce qui a réellement eu lieu.',
 };
 
 export default function MissionsPage() {
@@ -48,6 +43,35 @@ export default function MissionsPage() {
   }
   const groups = [...byStatus.entries()]
     .sort((a, b) => (STATUS[a[0]]?.rank ?? 9) - (STATUS[b[0]]?.rank ?? 9));
+
+  // V61 · CP11 — La page était structurée par STATUT au premier niveau. Mesuré
+  // à 1440 : un seul `section.ui-listgroup` de 5 156 px sur 5 594 px de page,
+  // soit une dominance de 0,867 pour un plafond gelé à 0,80. La cause n'est pas
+  // cosmétique : à progression nulle, 42 missions sur 42 portent le MÊME
+  // statut. L'axe de tête ne distinguait donc rien — il produisait un mur.
+  //
+  // La CATÉGORIE — dette, performance, documentation, incident — est la
+  // taxonomie réelle du corpus et la seule qui sépare ces missions quel que
+  // soit l'état d'avancement. Elle passe au premier niveau ; le statut reste
+  // dit deux fois, là où il informe vraiment : dans l'index de tête (combien
+  // dans chaque état) et sur chaque ligne. À l'intérieur d'une catégorie,
+  // l'ordre reste celui du rang de statut — l'actionnable d'abord, comme en
+  // V58. Aucune donnée ajoutée, aucune donnée retirée.
+  const byCategory = new Map<string, typeof rows>();
+  for (const r of rows) {
+    const key = r.m.category || 'autres';
+    if (!byCategory.has(key)) byCategory.set(key, []);
+    byCategory.get(key)!.push(r);
+  }
+  const categories = [...byCategory.entries()]
+    .sort((a, b) => (CATEGORY_LABEL[a[0]] ?? a[0]).localeCompare(CATEGORY_LABEL[b[0]] ?? b[0]))
+    .map(([cat, list]) => [
+      cat,
+      [...list].sort((a, b) =>
+        (STATUS[a.prog.status]?.rank ?? 9) - (STATUS[b.prog.status]?.rank ?? 9)
+        || a.m.title.localeCompare(b.m.title)),
+    ] as const);
+
   const doneCount = byStatus.get('done')?.length ?? 0;
   const activeCount = (byStatus.get('in-progress')?.length ?? 0)
     + (byStatus.get('deliverables-incomplete')?.length ?? 0)
@@ -92,60 +116,53 @@ export default function MissionsPage() {
           : undefined}
       />
 
-      {groups.map(([status, list]) => (
-        // V59 · CP9 — Le groupe de statut est une SECTION du catalogue, mais son
-        // en-tête n'était qu'un `div` : /missions mesurait `h2 = 0`, soit aucun
-        // plan de document sur un catalogue de 42 missions. Le libellé de statut
-        // devient le titre réel de sa section — même rendu, plan restauré.
-        <section key={status} className="ui-listgroup" aria-labelledby={`grp-${status}`}>
+      {/* Le statut n'a plus de section à lui : il est dit ICI, une fois, avec
+          son décompte réel, et sur chaque ligne. Un état qui ne concerne aucune
+          mission n'apparaît pas — on n'affiche pas de zéro décoratif. */}
+      <nav className="cat-index" aria-label="Répartition par état">
+        <span className="cat-index-k">États</span>
+        <ul className="cat-index-list">
+          {groups.map(([status, list]) => (
+            <li key={status}>
+              <span className="ms-state">
+                <Status tone={STATUS[status]?.tone ?? 'neutral'} label={STATUS[status]?.label ?? status} />
+                <span className="cat-index-n">{list.length}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* V59 · CP9 — le titre de section reste un `h2` réel : le plan du
+          document d'un catalogue de 42 missions doit exister. Seul l'AXE
+          change en V61 — catégorie plutôt que statut (voir le modèle). */}
+      {categories.map(([cat, list]) => (
+        <section key={cat} className="ui-listgroup" aria-labelledby={`grp-${cat}`}>
           <div className="ui-listgroup-head">
-            <h2 id={`grp-${status}`} className="ui-listgroup-h">
-              <Status tone={STATUS[status]?.tone ?? 'neutral'} label={STATUS[status]?.label ?? status} />
-            </h2>
+            <h2 id={`grp-${cat}`} className="ui-listgroup-h">{CATEGORY_LABEL[cat] ?? cat}</h2>
             <span className="ui-listgroup-count">{list.length} mission{list.length > 1 ? 's' : ''}</span>
-            <span className="ui-listgroup-hint">{GROUP_HINT[status] ?? ''}</span>
+            <span className="ui-listgroup-hint">{CAT_HINT[cat] ?? ''}</span>
           </div>
-          {/* V61 · à progression nulle, 42 missions sur 42 tombent dans le
-              même groupe de statut : mesuré, ce groupe occupait 86 % de la
-              page en un seul bloc. La CATÉGORIE — dette, performance,
-              documentation, incident — est une donnée réelle du corpus, et
-              c'est la seule qui distingue ces missions entre elles tant qu'on
-              n'en a commencé aucune. Elle sous-divise le groupe au lieu de
-              laisser une liste de 42 lignes indifférenciées. */}
-          {[...new Map(list.map((r) => [r.m.category, null])).keys()]
-            .sort()
-            .map((cat) => {
-              const sub = list.filter((r) => r.m.category === cat);
-              return (
-          <div key={cat} className="ui-list">
-            {list.length > 6 && (
-              <p className="ui-list-cat">
-                {CATEGORY_LABEL[cat] ?? cat}
-                <span className="ui-list-cat-n">{sub.length}</span>
-              </p>
-            )}
-            {sub.map(({ m, prog }) => (
+          <div className="ui-list">
+            {list.map(({ m, prog }) => (
               <ListRow
                 key={m.id}
                 href={`/missions/${m.id}`}
-                tone={STATUS[status]?.tone}
+                tone={STATUS[prog.status]?.tone}
                 title={m.title}
                 desc={m.description}
                 meta={
                   <>
-                    <span>{CAT_LABEL[m.category] ?? m.category}</span>
                     <span>Difficulté {m.difficulty}/5</span>
                     <span>≈ {m.estimatedHours} h</span>
                     <span>{prog.requiredDone}/{prog.requiredTotal} livrables</span>
                     <span>Jours {m.dayRefs.join(', ')}</span>
                   </>
                 }
-                status={<Status tone={STATUS[status]?.tone ?? 'neutral'} label={STATUS[status]?.label ?? status} />}
+                status={<Status tone={STATUS[prog.status]?.tone ?? 'neutral'} label={STATUS[prog.status]?.label ?? prog.status} />}
               />
             ))}
           </div>
-              );
-            })}
         </section>
       ))}
     </div>

@@ -131,12 +131,25 @@ export default function LabCatalog({ items, activeTrack, availableTracks }: { it
   }, [filtered]);
 
   return (
-    <section className="lab-catalog-sec" aria-label="Catalogue des exercices">
+    // V61 · CP11 — Le catalogue n'était qu'UNE section : filtres, décompte et
+    // 32 groupes dans le même bloc. Mesuré à 1440, ce bloc faisait 6 520 px sur
+    // 7 002 px de page — dominance 0,882 pour un plafond gelé à 0,80. Et le
+    // défaut d'usage était le même que la mesure : en descendant dans les
+    // résultats, on perdait de vue les filtres qui les avaient produits.
+    //
+    // Deux régions, pas une : les CONTRÔLES (recherche, portée, parcours,
+    // langage, difficulté, compétence, statut) et les RÉSULTATS. C'est la
+    // grammaire d'atelier borné que la référence a déjà fixée pour /day et
+    // pour l'exercice lui-même — la commande reste, le contenu défile.
+    // Le bornage ne s'applique qu'au-delà de 1000 px : sur un téléphone, un
+    // défilement dans un défilement est un piège, pas un confort.
+    <>
+    <section className="lab-controls" role="search" aria-label="Filtrer les exercices">
       <p className="lab-track-ctx">
         Parcours actif : <strong>{activeTrack.title}</strong>
         <span className="lab-track-hint"> · le corpus global reste visible, filtre par portée pour te concentrer.</span>
       </p>
-      <div className="lab-filters" role="search">
+      <div className="lab-filters">
         <input
           className="lab-search" type="search" placeholder="Rechercher un exercice…"
           aria-label="Rechercher un exercice" value={q} onChange={(e) => setQ(e.target.value)}
@@ -181,11 +194,15 @@ export default function LabCatalog({ items, activeTrack, availableTracks }: { it
       </div>
 
       <p className="lab-count" aria-live="polite">{filtered.length} exercice{filtered.length > 1 ? 's' : ''}{active ? ' (filtrés)' : ''}</p>
+    </section>
 
+    <section className="lab-results" aria-label="Catalogue des exercices">
       {filtered.length === 0 ? (
         <div className="empty">Aucun exercice ne correspond à ces filtres.</div>
       ) : (
-        <div className="lab-groups">
+        // `tabIndex` : une zone qui défile doit être atteignable au clavier —
+        // sans lui, un utilisateur sans souris ne peut pas la faire défiler.
+        <div className="lab-groups" tabIndex={0}>
           {groups.map((g, gi) => (
             <details
               key={g.key}
@@ -246,5 +263,6 @@ export default function LabCatalog({ items, activeTrack, availableTracks }: { it
         </div>
       )}
     </section>
+    </>
   );
 }

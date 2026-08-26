@@ -43,7 +43,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, CalendarClock, CircleDot, Gauge, Repeat2 } from 'lucide-react';
-import { SurfaceHead } from '@/app/ui';
+import { SurfaceHead, ContextLine } from '@/app/ui';
 
 export type QueueRow = { day: number; title: string; skill: string; reason: string; overdueDays: number };
 export type HorizonRow = { day: number; title: string; skill: string; inDays: number };
@@ -289,6 +289,19 @@ export default function RevisionStation({
   // l'entretien. Une seule composition, deux ordres justifiés par l'état réel.
   return (
     <div className={`rev-station${hasWork ? ' has-work' : ''}`}>
+      {/* V61 · dernière des quinze surfaces à recevoir la ligne de contexte.
+          Sans elle, /revisions était la seule à ne pas se présenter comme les
+          autres — et la sonde d'identité le voyait. */}
+      <ContextLine
+        label="État de la file de réactivation"
+        facts={[
+          { k: 'Parcours', v: trackTitle },
+          { k: 'À réactiver', v: `${due.length}`, here: true },
+          { k: 'En retard', v: `${overdue.length}` },
+          { k: 'Horizon 30 j', v: `${horizon.length}` },
+          { k: 'Plafond', v: `${maxInterval} j` },
+        ]}
+      />
       {queueBand}
       {hasWork ? <>{work}{horizonBand}{modelZone}</> : <>{horizonBand}{modelZone}</>}
     </div>

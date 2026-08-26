@@ -176,6 +176,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Drawer mobile */}
       <div className={`drawer-overlay${drawer ? ' open' : ''}`} onClick={() => setDrawer(false)} aria-hidden="true" />
+      {/* V61 · CP12 — axe-core relevait `aria-hidden-focus` en SERIOUS sur les
+          quinze routes migrées à 375 px, et sur elles seules : le drawer était
+          marqué `aria-hidden` à la fermeture tout en gardant ses liens dans
+          l'ordre de tabulation. Un utilisateur au clavier tabulait donc dans
+          une navigation que la synthèse vocale déclarait absente.
+          `inert` retire l'élément À LA FOIS de l'arbre d'accessibilité et de
+          l'ordre de tabulation — c'est exactement ce que l'état fermé veut
+          dire. Un seul correctif, quinze routes. */}
       <aside
         id="app-drawer"
         className={`app-drawer${drawer ? ' open' : ''}`}
@@ -183,6 +191,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         aria-modal="true"
         aria-label="Navigation"
         aria-hidden={drawer ? undefined : true}
+        inert={drawer ? undefined : true}
       >
         <div className="drawer-head">
           <Brand />

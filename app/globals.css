@@ -2358,6 +2358,21 @@ a.ui-row:hover .ui-row-go { color: var(--accent); }
 .page-sub a, .dash-note a, .ui-notice-text a, .rev-empty-lead a, .rev-step-d a,
 .track-goal a, .section-note a { text-decoration: underline; text-underline-offset: 2px; }
 
+/* V61 · CP12 — la règle ci-dessus énumérait des conteneurs de l'INTERFACE et
+   oubliait le seul endroit du produit où l'on écrit vraiment des phrases : les
+   documents du curriculum eux-mêmes. `/month/3` à 375 px relevait six
+   `link-in-text-block` — cinq liens de semaine dans une liste à puces, un lien
+   de fiche projet au fil d'un paragraphe — tous issus de `curriculum/*.md`,
+   donc rendus dans `.prose`, pas dans une primitive d'UI.
+   J'avais d'abord corrigé `.period-table th a` : le tableau desktop est en
+   `display: none` à cette largeur, la correction ne touchait rien de visible.
+   Le défaut est corpus-large — il vaut pour les douze mois, les 52 semaines et
+   les fiches projet, pas pour une route. Il se corrige donc sur `.prose`. */
+.prose a { text-decoration: underline; text-underline-offset: 2px; }
+/* Les liens qui sont déjà des OBJETS (ligne de journée, puce, bouton) portent
+   leur propre repère : les souligner ajouterait un trait sous un bloc entier. */
+.prose a.dl-row, .prose a.btn, .prose a.day-cell { text-decoration: none; }
+
 /* Défaut relevé par INSPECTION des captures V54.2.1 (aucune métrique ne l'avait
    signalé : le texte débordait de façon visible, donc ni « overflow » ni
    « rogné ») — à 1440, l'en-tête « RÉVISIONS » dépassait sa cellule de 62 px et
@@ -3505,8 +3520,27 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 .lab-next-k { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .lab-next-t { margin: 4px 0 2px; font-size: var(--fs-lg); font-weight: 650; }
 .lab-next-d { margin: 0; font-size: var(--fs-sm); color: var(--muted); }
-.lab-catalog-sec { border-top: 1px solid var(--border-subtle); padding-top: var(--sp-5); }
-@media (max-width: 1023px) {
+/* V61 · CP11 — Le catalogue du laboratoire se sépare en deux régions :
+   les CONTRÔLES et les RÉSULTATS. Cf. `LabCatalog.tsx` pour la mesure qui
+   l'impose. Seule la première garde le filet de séparation du haut. */
+.lab-controls { border-top: 1px solid var(--border-subtle); padding-top: var(--sp-5); }
+.lab-results { margin-top: var(--sp-3); }
+/* Atelier borné — même grammaire que `.day-shop` et que le poste d'exercice :
+   au-delà de 1000 px, les filtres restent en vue et les résultats défilent
+   dans leur propre cadre. En dessous, la page défile d'un seul tenant. */
+@media (min-width: 1000px) {
+  .lab-results > .lab-groups {
+    height: clamp(480px, calc(100vh - 300px), 980px);
+    overflow-y: auto; overscroll-behavior: contain;
+  }
+  /* `.lab-groups` est une colonne flex. Une hauteur fixe sur un conteneur flex
+     FAIT RÉTRÉCIR ses enfants au lieu de les faire déborder : mesuré juste
+     après la première tentative, le groupe ouvert passait de 3 707 px à
+     347 px et son contenu était réellement coupé — 32 états en défaut, et la
+     sonde avait raison. `flex-shrink: 0` rend aux groupes leur hauteur
+     naturelle ; c'est alors le CADRE qui défile, ce qui était l'intention. */
+  .lab-results > .lab-groups > .lab-group { flex-shrink: 0; }
+  .lab-results > .lab-groups:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 }
 
 /* V57 · CP6 — Poste de travail d'exercice (/lab/[exerciseId]).
@@ -3583,6 +3617,15 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 }
 .cat-index-list a:hover { color: var(--text); border-color: var(--border-strong); background-color: var(--interactive); }
 .cat-index-n { font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+/* V61 · CP11 — variante NON CLIQUABLE du même jeton d'index. Sur /missions,
+   l'index de tête ne mène nulle part : il énonce combien de missions sont dans
+   chaque état. Lui donner l'apparence d'un lien mentirait sur ce qu'il fait. */
+.cat-index-list .ms-state {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  font-size: var(--fs-xs); color: var(--muted);
+  background-color: var(--raised); border: 1px solid var(--border);
+  border-radius: 999px; padding: 3px 10px;
+}
 
 .cat {
   border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
@@ -4891,3 +4934,24 @@ button.dot::after {
    rythme, pas une perte. */
 .ui-row-desc { -webkit-line-clamp: unset; display: block; overflow: visible;
                line-height: 1.5; max-width: 88ch; }
+
+/* ── V61 · CP12 — UN LIEN NE DOIT PAS ÊTRE IDENTIFIABLE PAR LA SEULE COULEUR.
+   axe-core relevait `link-in-text-block` : le contraste entre le lien et le
+   texte qui l'entoure valait 1,02:1 — c'est-à-dire aucun. Sans soulignement,
+   ces liens n'existaient que pour qui distingue la teinte.
+   Portée explicite, jamais `a { }` global : la leçon de `.page-head` est
+   permanente.
+
+   L'en-tête de rangée EST le lien : lui donner l'accent faisait porter
+   l'information par la seule couleur, dans une rangée dont toutes les autres
+   cellules sont en couleur de texte. Le lien reprend la couleur de son
+   contexte et se distingue par son trait — c'est l'exigence WCAG 1.4.1
+   elle-même : ne rien confier à la teinte seule. */
+.period-table th a { color: var(--text); }
+.rev-ladder-foot a,
+.period-table th a,
+.period-table td a {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 3px;
+}

@@ -104,13 +104,23 @@ const notes = [];
     ['app/month/[id]/page.tsx', 'mois'],
     ['app/week/[id]/page.tsx', 'semaine'],
     ['app/calendar/page.tsx', 'calendrier'],
+    ['app/revisions/RevisionStation.tsx', 'révisions'],
+    ['app/parcours/page.tsx', 'parcours'],
+    ['app/synthese/page.tsx', 'synthèse'],
+    ['app/skills/page.tsx', 'compétences'],
+    ['app/missions/page.tsx', 'missions'],
+    ['app/projects/page.tsx', 'projets'],
+    ['app/diagnostics/page.tsx', 'diagnostics'],
+    ['app/capstones/page.tsx', 'capstones'],
+    ['app/reviews/page.tsx', 'évaluations'],
+    ['app/lab/page.tsx', 'laboratoire'],
   ];
   for (const [file, label] of REQUIRED) {
     if (!/<ContextLine[\s/>]/.test(read(file))) {
       errors.push(`[identité] ligne de contexte absente de « ${label} » (${file})`);
     }
   }
-  notes.push(`ligne de contexte : ${REQUIRED.length} surfaces quotidiennes`);
+  notes.push(`ligne de contexte : ${REQUIRED.length} surfaces migrées`);
 }
 
 // ── 5) LE CONTRAT DES DEUX MOTIFS DE TRAJECTOIRE ─────────────────────────

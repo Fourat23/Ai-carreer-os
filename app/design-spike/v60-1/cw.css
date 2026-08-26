@@ -853,3 +853,13 @@
   .cw .cw-dash-deliv { order: 5; margin-top: 20px; padding-top: 18px;
                  border-top: 1px solid var(--line); }
 }
+
+/* V61 · alignement du prototype de référence sur le contrat des deux motifs.
+   Le champ de trajectoire reçoit ses bornes d'orientation : sans elles, 365
+   colonnes se lisent comme un relief, c'est-à-dire comme YearBand. */
+.cw .cw-tmap-orient {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  margin-bottom: 9px; font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--txt-4);
+}
+.cw .cw-tmap-here-k { color: var(--now); }

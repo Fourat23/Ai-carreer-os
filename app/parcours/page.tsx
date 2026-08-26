@@ -102,7 +102,7 @@ export default function ParcoursPage() {
       {/* MOTIF · YearBand — la trajectoire complète du parcours en une ligne,
           juste sous le hero : les modules ci-dessous en sont le détail. */}
       <YearBand
-        days={trackDays.map((d) => ({ day: d.day, month: d.month, status: progress.days[String(d.day)]?.status ?? 'not-started' }))}
+        days={trackDays.map((d) => ({ day: d.day, month: d.month, difficulty: d.difficulty, status: progress.days[String(d.day)]?.status ?? 'not-started' }))}
         currentDay={pos.resumeDay}
         label={`Année du parcours ${active.title}`}
       />

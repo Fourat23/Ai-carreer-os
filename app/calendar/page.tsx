@@ -98,7 +98,7 @@ export default function CalendarPage() {
           apparaît COURT, et non comme un grand panneau vide. */}
       <div className="page-wide">
         <YearBand
-          days={trackDays.map((d) => ({ day: d.day, month: d.month, status: progress.days[String(d.day)]?.status ?? 'not-started' }))}
+          days={trackDays.map((d) => ({ day: d.day, month: d.month, difficulty: d.difficulty, status: progress.days[String(d.day)]?.status ?? 'not-started' }))}
           currentDay={resumeDay}
           monthTitles={monthTitle}
           label={`Année du parcours ${activeTrack.title}`}

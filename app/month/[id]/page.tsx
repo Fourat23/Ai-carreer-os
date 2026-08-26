@@ -34,8 +34,8 @@ export default async function MonthPage({ params }: { params: Promise<{ id: stri
   const m = periodModel(program, progress, 'month', month);
   if (!m) notFound();
 
-  const bandDays = program.days.map((d: { day: number; month: number }) => ({
-    day: d.day, month: d.month,
+  const bandDays = program.days.map((d: { day: number; month: number; difficulty: number }) => ({
+    day: d.day, month: d.month, difficulty: d.difficulty,
     status: progress.days?.[String(d.day)]?.status ?? 'todo',
   }));
 

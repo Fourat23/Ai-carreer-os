@@ -24,9 +24,19 @@ export function TrajectoryMap({
   days, now, height = 190, labels = true,
 }: { days: CwDay[]; now: number; height?: number; labels?: boolean }) {
   const months = Array.from({ length: 12 }, (_, i) => days.filter((d) => d.month === i + 1));
+  const here = days.find((d) => d.day === now);
   return (
     <div className="cw-tmap" role="img"
-         aria-label={`Trajectoire : ${days.length} journées réparties sur 12 mois, hauteur proportionnelle à la difficulté, ${days.filter((d) => d.isReview).length} journées de révision, ${new Set(days.filter((d) => d.project != null).map((d) => d.project)).size} jalons de projet`}>
+         aria-label={`Trajectoire : un trajet de ${days.length} journées en 12 mois, position actuelle jour ${now}, hauteur proportionnelle à la difficulté, ${days.filter((d) => d.isReview).length} journées de révision, ${new Set(days.filter((d) => d.project != null).map((d) => d.project)).size} jalons de projet`}>
+      {/* V61 · le trajet est ORIENTÉ. Sans ces deux bornes, un champ de 365
+          colonnes se lit comme une carte — c'est le rôle de YearBand, pas
+          celui-ci. Le contrat des deux motifs est aligné sur celui du produit
+          (`docs/V61-CRITERIA-FROZEN.md` §2). */}
+      <div className="cw-tmap-orient" aria-hidden="true">
+        <span>Départ · J1</span>
+        <span className="cw-tmap-here-k">Vous êtes ici · J{now}{here ? ` · M${here.month}` : ''}</span>
+        <span>Fin · J{days.length}</span>
+      </div>
       <div className="cw-tmap-field" style={{ height }}>
         {months.map((md, i) => (
           <div key={i} className="cw-tmap-mo" style={{ flex: md.length }}>

@@ -2898,13 +2898,34 @@ body {
 }
 .year-band-track { display: flex; align-items: flex-end; gap: 6px; }
 .year-band-month { display: flex; flex-direction: column; gap: 5px; min-width: 0; flex-basis: 0; }
-.year-band-days { display: flex; gap: 1px; height: 26px; }
+/* V61 · YearBand = LE RELIEF.
+   Mesuré au CP0 : la bande rendait 1138 × 82 px, ratio 13,9, toutes ses
+   marques à la même hauteur — une frise, c'est-à-dire l'objet le plus
+   DIRECTIONNEL du produit, alors que son rôle est cartographique.
+   Les marques s'alignent désormais sur la base et leur hauteur porte la
+   difficulté réelle. On y lit une charge, pas un trajet. */
+.year-band-days { display: flex; align-items: flex-end; gap: 1px; height: 26px; }
+.year-band.has-relief .year-band-days { height: 52px; }
+.year-band.has-relief .year-band-day { align-self: flex-end; }
+/* Sur fond `--raised` (#1a1e28), les marques en `--interactive` (#262c3a) ne
+   se détachaient pas : le relief existait dans le DOM et pas à l'œil. Puisque
+   la HAUTEUR est désormais l'information de cet objet, elle doit se voir. */
+.year-band.has-relief .year-band-day { background: #49536e; }
+.year-band.has-relief .year-band-day.s-done { background: color-mix(in srgb, var(--ok) 72%, var(--canvas)); }
+.year-band.has-relief .year-band-day.s-in-progress { background: color-mix(in srgb, var(--accent) 76%, var(--canvas)); }
+.year-band.has-relief .year-band-day.s-to-review { background: color-mix(in srgb, var(--warn) 68%, var(--canvas)); }
 .year-band-day {
   flex: 1 1 0; min-width: 0; border-radius: 1px; background: var(--interactive);
 }
 .year-band-day.s-done { background: color-mix(in srgb, var(--ok) 66%, var(--canvas)); }
 .year-band-day.s-in-progress { background: color-mix(in srgb, var(--accent) 70%, var(--canvas)); }
 .year-band-day.s-to-review { background: color-mix(in srgb, var(--warn) 62%, var(--canvas)); }
+/* La position reste indiquée — savoir où l'on est reste utile — mais elle
+   cesse d'être la marque dominante : ce n'est pas ce que cet objet raconte.
+   Un trait sous la base, pas un halo par-dessus. */
+.year-band.has-relief .year-band-day.at {
+  box-shadow: 0 3px 0 0 var(--text);
+}
 .year-band-day.now {
   background: var(--accent);
   box-shadow: 0 0 0 1px var(--accent), 0 0 12px -1px rgba(139,143,245,.95);
@@ -4561,4 +4582,93 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 button.dot { position: relative; }
 button.dot::after {
   content: ""; position: absolute; inset: -2px; border-radius: 50%;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V61 · P0 — TrajectoryMap = LE CHEMIN.
+
+   Mesuré au CP0 : `.tmap` rendait 730 × 431 px, ratio 1,7, DOUZE PISTES
+   INDÉPENDANTES. Rien ne reliait la fin d'un mois au début du suivant : on y
+   comparait des barres, on n'y suivait pas un trajet. C'est une carte — et la
+   carte est le rôle de YearBand.
+
+   Trois ajouts, aucun motif nouveau :
+     · une ÉPINE continue, du départ à la fin du programme ;
+     · une TÊTE DE POSITION nommée, marque dominante de l'objet ;
+     · une asymétrie franche entre le parcouru et le à-venir.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Orientation — deux mots, sans lesquels douze pistes n'ont pas de sens de
+   lecture. Ils sont alignés sur l'épine, pas sur le contenu. */
+.tmap-orient {
+  display: flex; align-items: baseline; gap: 8px; padding-left: 26px;
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--faint);
+}
+.tmap-orient-start { margin-bottom: 6px; }
+/* La tête de position est posée AU-DESSUS de sa cellule : sans réserve en tête
+   de grille, elle sortait de l'objet sur la première piste. */
+.tmap-grid { padding-top: 20px; }
+.tmap-orient-end { margin-top: 6px; }
+.tmap-orient-k { color: var(--muted); }
+
+/* L'ÉPINE. Un segment vertical par mois ; bout à bout, ils forment un trait
+   continu qui traverse les douze pistes. C'est lui qui fait le trajet. */
+.tmap-lane { position: relative; }
+.tmap-spine {
+  position: absolute; left: 10px; top: 0; bottom: -2px; width: 2px;
+  background: var(--border-strong);
+}
+.tmap-grid > .tmap-lane:first-child .tmap-spine { top: 0; }
+.tmap-grid > .tmap-lane:last-child .tmap-spine { bottom: 0; }
+.tmap-spine-node {
+  position: absolute; left: 50%; top: 50%; width: 8px; height: 8px;
+  margin: -4px 0 0 -4px; border-radius: 50%;
+  background: var(--canvas); border: 2px solid var(--border-strong);
+}
+/* Ce qui est derrière la position est un trajet CONSOMMÉ : trait plein,
+   nœud plein. Ce qui est devant est un trajet OUVERT : trait sourd, nœud
+   creux. Avec zéro journée enregistrée tout est devant, et l'objet le dit —
+   c'est le cas honnête, pas celui qu'on masque. */
+.tmap-lane.is-behind .tmap-spine { background: var(--accent); }
+.tmap-lane.is-behind .tmap-spine-node { border-color: var(--accent); background: var(--accent); }
+.tmap-lane.is-here .tmap-spine { background: linear-gradient(var(--accent) 50%, var(--border-strong) 50%); }
+.tmap-lane.is-here .tmap-spine-node {
+  width: 12px; height: 12px; margin: -6px 0 0 -6px;
+  border-color: var(--accent); background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.tmap-lane.is-ahead .tmap-lane-m,
+.tmap-lane.is-ahead .tmap-lane-t { color: var(--faint); }
+.tmap-lane.is-here .tmap-lane-m { color: var(--accent-text, var(--text)); font-weight: 700; }
+
+/* Les pistes laissent la place à l'épine. */
+.tmap-lane { padding-left: 26px; }
+
+/* TÊTE DE POSITION — la marque dominante. Nommée : un point fort anonyme
+   n'oriente pas. Elle est plus large que toute autre marque de l'objet. */
+.tmap-cell-wrap { position: relative; }
+.tmap-here {
+  position: absolute; left: 50%; bottom: calc(100% + 5px); transform: translateX(-50%);
+  padding: 2px 7px; white-space: nowrap; z-index: 3;
+  background: var(--accent); color: #0b0d14;
+  font-family: var(--font-mono); font-size: var(--fs-eyebrow); font-weight: 700;
+  letter-spacing: .06em; border-radius: 3px;
+}
+.tmap-here::after {
+  content: ""; position: absolute; left: 50%; top: 100%; margin-left: -3px;
+  border: 3px solid transparent; border-top-color: var(--accent);
+}
+/* Le parcouru se distingue du à-venir jusque dans les cellules. */
+.tmap-cell.behind { opacity: .72; }
+
+@media (max-width: 700px) {
+  .tmap-orient { padding-left: 20px; }
+  .tmap-lane { padding-left: 20px; }
+  .tmap-spine { left: 7px; }
+  .tmap-here { font-size: 9px; padding: 1px 5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmap-spine, .tmap-spine-node, .tmap-here { transition: none !important; }
 }

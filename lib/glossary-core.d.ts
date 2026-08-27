@@ -44,11 +44,23 @@ export const REQUIRED_FIELDS: string[];
 export function normalizeText(s: unknown): string;
 export function searchableText(entry: GlossaryEntry): string;
 export function entryMatches(entry: GlossaryEntry, query: string): boolean;
-export function filterEntries(
-  entries: GlossaryEntry[],
+/**
+ * V62 · CP6 — Ces trois fonctions ne lisent QUE des champs légers : `term`,
+ * `fullForm`, `aliases`, `frenchMeaning`, `tags`, `category`, `level`
+ * (cf. `strongText` / `weakText`). Elles sont donc génériques sur la forme
+ * minimale qu'elles touchent réellement, ce qui permet de les appliquer à
+ * l'index léger du glossaire aussi bien qu'aux entrées complètes — sans
+ * élargir la signature au-delà de ce que le code lit vraiment.
+ */
+export type GlossarySearchable = {
+  term: string; fullForm?: string | null; frenchMeaning: string;
+  category: string; level: string; aliases?: string[]; tags?: string[];
+};
+export function filterEntries<T extends GlossarySearchable>(
+  entries: T[],
   opts?: { query?: string; category?: string; level?: string },
-): GlossaryEntry[];
-export function sortEntries(entries: GlossaryEntry[]): GlossaryEntry[];
+): T[];
+export function sortEntries<T extends GlossarySearchable>(entries: T[]): T[];
 export function isAmbiguous(entry: GlossaryEntry): boolean;
-export function firstLetter(entry: GlossaryEntry): string;
+export function firstLetter(entry: GlossarySearchable): string;
 export function validateGlossary(entries: unknown): { errors: string[] };

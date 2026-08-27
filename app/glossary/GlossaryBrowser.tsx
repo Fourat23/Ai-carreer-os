@@ -5,6 +5,7 @@ import {
   filterEntries, sortEntries, firstLetter, isAmbiguous, normalizeText, LEVELS,
 } from '@/lib/glossary-core';
 import type { GlossaryEntry, GlossaryCategory } from '@/lib/glossary-core';
+import type { GlossaryIndexEntry } from '@/lib/glossary';
 
 const ALPHABET = ['#', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')];
 type View = 'compact' | 'detailed';
@@ -30,10 +31,29 @@ type View = 'compact' | 'detailed';
 // restent toutes atteignables, et le mode « Détaillé » reste disponible pour
 // qui veut la lecture longue.
 
+// ── V62 · CP6 — INDEX LÉGER + DÉTAIL À LA DEMANDE ─────────────────────────
+//
+// Mesuré au CP0 : 1 073 Ko d'HTML, la route la plus lourde du produit — plus
+// lourde que /lab. Cause exacte : les 711 entrées étaient sérialisées avec
+// leurs 17 champs vers ce composant client (778 Ko), alors que la liste n'en
+// affiche que cinq et que le volet n'en montre qu'UNE à la fois.
+//
+// Le composant reçoit désormais l'INDEX (108 Ko) et charge l'entrée complète
+// quand on la sélectionne. Le filtrage est rigoureusement identique : la
+// recherche du glossaire ne porte que sur term, fullForm, aliases,
+// frenchMeaning et tags, tous présents dans l'index.
+//
+// Le mode « Détaillé » — qui affiche réellement toutes les entrées en entier —
+// charge le corpus complet une seule fois, à la demande. Il paie son poids
+// quand l'utilisateur le réclame, pas à chaque visite.
+//
+// Aucune entrée n'est retirée : les 711 restent listées, filtrables,
+// atteignables. `display:none` n'aurait rien réglé — le poids était dans le
+// payload, pas dans l'affichage.
 export default function GlossaryBrowser({
   entries, categories,
 }: {
-  entries: GlossaryEntry[];
+  entries: GlossaryIndexEntry[];
   categories: GlossaryCategory[];
 }) {
   const [query, setQuery] = useState('');
@@ -44,6 +64,9 @@ export default function GlossaryBrowser({
   const [focusId, setFocusId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
+  const [detail, setDetail] = useState<GlossaryEntry | null>(null);
+  const [fullEntries, setFullEntries] = useState<GlossaryEntry[] | null>(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
 
   const catLabel = useMemo(() => {
     const m = new Map(categories.map((c) => [c.id, c.label]));
@@ -93,7 +116,7 @@ export default function GlossaryBrowser({
 
   // Groupement par lettre initiale — dérivé des données, pas d'un tri inventé.
   const groups = useMemo(() => {
-    const m = new Map<string, GlossaryEntry[]>();
+    const m = new Map<string, GlossaryIndexEntry[]>();
     for (const e of results) {
       const L = firstLetter(e);
       if (!m.has(L)) m.set(L, []);
@@ -108,6 +131,33 @@ export default function GlossaryBrowser({
     if (selectedId) return results.find((e) => e.id === selectedId) ?? entries.find((e) => e.id === selectedId) ?? null;
     return results[0] ?? null;
   }, [selectedId, results, entries]);
+
+  // Charge l'entrée complète du terme sélectionné. Lecture locale seule.
+  useEffect(() => {
+    const id = selected?.id;
+    if (!id) { setDetail(null); return; }
+    if (detail?.id === id) return;
+    let cancelled = false;
+    setLoadingDetail(true);
+    fetch(`/api/glossary/${encodeURIComponent(id)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (!cancelled) setDetail(d); })
+      .catch(() => { if (!cancelled) setDetail(null); })
+      .finally(() => { if (!cancelled) setLoadingDetail(false); });
+    return () => { cancelled = true; };
+  }, [selected?.id, detail?.id]);
+
+  // Le mode « Détaillé » a besoin de TOUTES les entrées complètes : il les
+  // demande une fois, quand on l'active, et jamais avant.
+  useEffect(() => {
+    if (view !== 'detailed' || fullEntries) return;
+    let cancelled = false;
+    fetch('/api/glossary/all')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (!cancelled && Array.isArray(d)) setFullEntries(d); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [view, fullEntries]);
 
   // Défilement vers une entrée ciblée via un terme lié.
   const listRef = useRef<HTMLDivElement>(null);
@@ -214,10 +264,17 @@ export default function GlossaryBrowser({
             /* Mode « Détaillé » conservé : lecture longue, une entrée après
                l'autre. C'est un choix de l'utilisateur, pas le défaut. */
             <div className="gl-longform" ref={listRef}>
-              {results.map((e) => (
-                <GlossaryCard key={e.id} entry={e} view="detailed" focused={focusId === e.id}
-                  catLabel={catLabel} termById={termById} onRelated={jumpTo} />
-              ))}
+              {fullEntries === null ? (
+                <p className="gl-empty">Chargement des {results.length} fiches complètes…</p>
+              ) : (
+                results.map((r) => {
+                  const e = fullEntries.find((f) => f.id === r.id);
+                  return e ? (
+                    <GlossaryCard key={e.id} entry={e} view="detailed" focused={focusId === e.id}
+                      catLabel={catLabel} termById={termById} onRelated={jumpTo} />
+                  ) : null;
+                })
+              )}
             </div>
           ) : (
             <div className="gl-scroll" ref={listRef}
@@ -252,8 +309,11 @@ export default function GlossaryBrowser({
 
         {view === 'compact' && (
           <aside className="gl-detail-col" aria-label="Détail du terme sélectionné">
-            {selected ? (
-              <GlossaryDetail entry={selected} catLabel={catLabel} termById={termById} onRelated={jumpTo} />
+            {selected && detail ? (
+              <GlossaryDetail entry={detail} catLabel={catLabel} termById={termById} onRelated={jumpTo} />
+            ) : selected && loadingDetail ? (
+              <div className="gl-detail-void"><p className="gl-detail-void-t">{selected.term}</p>
+                <p className="gl-detail-void-d">Chargement de la fiche…</p></div>
             ) : (
               <div className="gl-detail-void">
                 <p className="gl-detail-void-t">Sélectionne un terme</p>

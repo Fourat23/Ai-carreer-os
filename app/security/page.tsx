@@ -20,8 +20,19 @@ export default function SecurityPage() {
     (n, s) => n + ((s as { artifactCount?: number }).artifactCount ?? 0), 0,
   );
 
+  // V62 · CP2 — La suite logique de cette page est son PREMIER SCÉNARIO,
+  // pris dans le catalogue réel. Aucune invention : si le catalogue est
+  // vide, `next` reste absent et la coquille n'affiche aucune action.
+  const first = scenarios[0];
+  const next = first
+    ? { href: `/security/${first.id}`, label: first.title,
+        hint: (first as { summary?: string }).summary }
+    : undefined;
+
   return (
     <TechBench
+      contextLabel="État du laboratoire de sécurité"
+      next={next}
       eyebrow="Laboratoire · sécurité et réponse à incident"
       title="Security & Incident Lab"
       lead={<>Analyse de sécurité sur fixtures locales — secrets, chaîne d’approvisionnement,

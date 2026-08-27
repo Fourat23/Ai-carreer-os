@@ -1,4 +1,4 @@
-import { getGlossary, CATEGORIES } from '@/lib/glossary';
+import { getGlossaryIndex, getGlossary, CATEGORIES } from '@/lib/glossary';
 import { SurfaceHead } from '@/app/ui';
 import GlossaryBrowser from './GlossaryBrowser';
 
@@ -10,8 +10,9 @@ export const metadata = {
 };
 
 export default function GlossaryPage() {
-  const entries = getGlossary();
+  const entries = getGlossaryIndex();
   const acronyms = entries.filter((e) => e.fullForm).length;
+  void getGlossary; // le corpus complet reste servi par /api/glossary/[id]
 
   return (
     <div className="gl page-wide">

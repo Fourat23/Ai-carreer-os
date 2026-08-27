@@ -1,6 +1,8 @@
 import Link from 'next/link';
-import { SurfaceHead } from '@/app/ui';
+import { SurfaceHead, ContextLine } from '@/app/ui';
 import { getProgram } from '@/lib/program';
+import { readProgress } from '@/lib/progress-server';
+import LessonsCatalog, { type LessonRow } from './LessonsCatalog';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,15 +20,18 @@ const CAT_ORDER = [
   'Portfolio & carrière',
 ];
 
-const LEVEL_LABEL: Record<number, { label: string; cls: string }> = {
-  1: { label: 'débutant', cls: 'ok' },
-  2: { label: 'intermédiaire', cls: 'accent' },
-  3: { label: 'avancé', cls: 'review' },
-};
-
+// V58 · CP6 — Grammaire de catalogue `cat-*`. Une catégorie n'a ni action
+// autonome ni cycle de vie propre : ce n'est pas une carte, c'est un groupe.
+//
+// V62 · CP3 — La page recevait la bonne composition mais aucune navigation :
+// 18 762 px à 375 px, dominance 0,90, et rien pour remonter vers l'index une
+// fois entré dans les 128 leçons. Elle gagne une ligne de contexte, une SUITE
+// réelle et un catalogue navigable (`LessonsCatalog`). Le corpus est intact :
+// les 128 leçons restent rendues et atteignables.
 export default function LessonsPage() {
   const program = getProgram();
   const lessons = program.lessons ?? [];
+  const progress = readProgress();
   const skillName = (id: string) => program.skills.find((s) => s.id === id)?.name ?? id;
 
   const byCat = new Map<string, typeof lessons>();
@@ -35,20 +40,47 @@ export default function LessonsPage() {
     if (!byCat.has(cat)) byCat.set(cat, []);
     byCat.get(cat)!.push(l);
   }
-  const cats = [...CAT_ORDER.filter((c) => byCat.has(c)), ...[...byCat.keys()].filter((c) => !CAT_ORDER.includes(c))];
+  const cats = [
+    ...CAT_ORDER.filter((c) => byCat.has(c)),
+    ...[...byCat.keys()].filter((c) => !CAT_ORDER.includes(c)),
+  ];
   const totalMin = lessons.reduce((t, l) => t + (l.min ?? 0), 0);
 
-  const slug = (t: string) => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  // ── LA SUITE, DÉRIVÉE DU CORPUS ────────────────────────────────────────
+  // La journée courante porte une compétence ; la leçon suivante est la
+  // première leçon de cette compétence, dans l'ordre recommandé. Rien n'est
+  // inventé : si aucune leçon ne couvre la compétence du jour, on retombe sur
+  // la première leçon de la première catégorie — l'ordre que la page annonce
+  // déjà comme « l'ordre recommandé ».
+  const days = program.days ?? [];
+  const currentDay = days.find(
+    (d: { day: number }) => (progress.days?.[String(d.day)]?.status ?? 'todo') !== 'done',
+  ) ?? days[0];
+  const daySkill = currentDay?.skill;
+  const nextLesson = (daySkill && lessons.find((l) => (l.skills ?? []).includes(daySkill)))
+    ?? (cats[0] ? byCat.get(cats[0])![0] : undefined);
+  const nextReason = daySkill && nextLesson && (nextLesson.skills ?? []).includes(daySkill)
+    ? `compétence du jour ${currentDay.day} — ${currentDay.skillName ?? daySkill}`
+    : 'première leçon de l’ordre recommandé';
 
-  // V58 · CP6 — Grammaire de catalogue `cat-*`, éprouvée en V57 sur
-  // /diagnostics et /capstones. Le CP0 mesurait ici topBlocks 1, dominance 1
-  // (dégénérée), 5 fonds, 2 ombres et 17 cartes `.card` — une par catégorie,
-  // chacune contenant des lignes bricolées en styles en ligne.
-  // Une catégorie n'a ni action autonome, ni cycle de vie propre : ce n'est
-  // pas une carte, c'est un groupe. Une seule surface continue désormais.
+  const rows: LessonRow[] = lessons.map((l) => ({
+    slug: l.slug, title: l.title, cat: l.cat ?? 'Autres',
+    level: l.level ?? 2, min: l.min ?? 0,
+    skillNames: (l.skills ?? []).map(skillName),
+  }));
+
   return (
     <div className="cat-view page-wide">
+      <ContextLine
+        label="État du corpus de leçons"
+        facts={[
+          { k: 'Leçons', v: `${lessons.length}`, here: true },
+          { k: 'Catégories', v: `${cats.length}` },
+          { k: 'Volume', v: `≈ ${Math.round(totalMin / 60)} h` },
+          { k: 'Durée moyenne', v: `${Math.round(totalMin / Math.max(1, lessons.length))} min` },
+        ]}
+      />
+
       <SurfaceHead
         kind="catalog"
         eyebrow={<>Apprendre <span className="sep">/</span> théorie réutilisable</>}
@@ -61,48 +93,20 @@ export default function LessonsPage() {
         ]}
       />
 
-      <nav className="cat-index" aria-label="Catégories">
-        <span className="cat-index-k">Catégories</span>
-        <ul className="cat-index-list">
-          {cats.map((c) => (
-            <li key={c}>
-              <a href={`#cat-${slug(c)}`}>{c} <span className="cat-index-n">{byCat.get(c)!.length}</span></a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <section className="cat" aria-label="Catalogue des leçons">
-        {cats.map((cat) => (
-          <div key={cat} className="cat-group" id={`cat-${slug(cat)}`}>
-            <div className="cat-group-head">
-              <h2 className="cat-group-name">{cat}</h2>
-              <span className="cat-group-n">{byCat.get(cat)!.length} leçon{byCat.get(cat)!.length > 1 ? 's' : ''}</span>
-            </div>
-            <ul className="cat-rows">
-              {byCat.get(cat)!.map((l, i) => {
-                const lvl = LEVEL_LABEL[l.level ?? 2] ?? LEVEL_LABEL[2];
-                return (
-                  <li key={l.slug} className="cat-row">
-                    <Link href={`/doc/lessons/${l.slug}`} className="cat-row-link">
-                      <span className="cat-row-ord" aria-hidden="true">{i + 1}</span>
-                      <span className="cat-row-body">
-                        <span className="cat-row-title">{l.title}</span>
-                        <span className="cat-row-sub">{(l.skills ?? []).map(skillName).join(' · ')}</span>
-                      </span>
-                      <span className="cat-row-tags">
-                        <span className={`cat-tag l-${lvl.cls}`}>{lvl.label}</span>
-                        <span className="cat-tag">~{l.min} min</span>
-                      </span>
-                      <span className="cat-row-n">Lire →</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+      {nextLesson && (
+        <section className="tb-next" aria-label="Prochaine action">
+          <div className="tb-next-body">
+            <span className="tb-next-k">Par où commencer</span>
+            <p className="tb-next-t">{nextLesson.title}</p>
+            <p className="tb-next-d">
+              {nextReason} <span className="sep">/</span> ~{nextLesson.min} min
+            </p>
           </div>
-        ))}
-      </section>
+          <Link className="btn cta" href={`/doc/lessons/${nextLesson.slug}`}>Lire la leçon</Link>
+        </section>
+      )}
+
+      <LessonsCatalog lessons={rows} cats={cats} />
     </div>
   );
 }

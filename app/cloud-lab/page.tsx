@@ -12,8 +12,19 @@ export default function CloudLabPage() {
   const edges = topologies.reduce((n, t) => n + (t.edgeCount ?? 0), 0);
   const skills = new Set(topologies.flatMap((t) => (t as { skills?: string[] }).skills ?? [])).size;
 
+  // V62 · CP2 — La suite logique de cette page est son PREMIER SCÉNARIO,
+  // pris dans le catalogue réel. Aucune invention : si le catalogue est
+  // vide, `next` reste absent et la coquille n'affiche aucune action.
+  const first = topologies[0];
+  const next = first
+    ? { href: `/cloud-lab/${first.id}`, label: first.title,
+        hint: (first as { summary?: string }).summary }
+    : undefined;
+
   return (
     <TechBench
+      contextLabel="État du laboratoire de topologie"
+      next={next}
       eyebrow="Laboratoire · architecture de déploiement"
       title="Cloud Topology Lab"
       lead={<>Compose ou analyse une topologie, détecte les défauts, simule un incident,

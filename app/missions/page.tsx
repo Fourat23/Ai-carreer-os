@@ -136,13 +136,19 @@ export default function MissionsPage() {
       {/* V59 · CP9 — le titre de section reste un `h2` réel : le plan du
           document d'un catalogue de 42 missions doit exister. Seul l'AXE
           change en V61 — catégorie plutôt que statut (voir le modèle). */}
-      {categories.map(([cat, list]) => (
-        <section key={cat} className="ui-listgroup" aria-labelledby={`grp-${cat}`}>
-          <div className="ui-listgroup-head">
+      {categories.map(([cat, list], ci) => (
+        // V62 · CP4 — 13 776 px à 375 px : les quatre sections de catégorie
+        // s'empilaient entièrement. Elles deviennent dépliables, la première
+        // ouverte — le MÊME idiome que les groupes de /lab et les catégories
+        // de /lessons. Le produit n'apprend pas trois façons de dire
+        // « replié ». Aucune mission n'est retirée : les 42 restent rendues,
+        // comptées, et une catégorie s'ouvre d'un clic.
+        <details key={cat} className="ui-listgroup les-group" open={ci === 0}>
+          <summary className="ui-listgroup-head les-group-head">
             <h2 id={`grp-${cat}`} className="ui-listgroup-h">{CATEGORY_LABEL[cat] ?? cat}</h2>
             <span className="ui-listgroup-count">{list.length} mission{list.length > 1 ? 's' : ''}</span>
             <span className="ui-listgroup-hint">{CAT_HINT[cat] ?? ''}</span>
-          </div>
+          </summary>
           <div className="ui-list">
             {list.map(({ m, prog }) => (
               <ListRow
@@ -163,7 +169,7 @@ export default function MissionsPage() {
               />
             ))}
           </div>
-        </section>
+        </details>
       ))}
     </div>
     </>

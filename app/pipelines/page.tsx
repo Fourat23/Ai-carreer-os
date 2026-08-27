@@ -17,8 +17,19 @@ export default function PipelinesPage() {
   const jobs = pipelines.reduce((n, p) => n + (p.jobCount ?? 0), 0);
   const skills = new Set(pipelines.flatMap((p) => (p as { skills?: string[] }).skills ?? [])).size;
 
+  // V62 · CP2 — La suite logique de cette page est son PREMIER SCÉNARIO,
+  // pris dans le catalogue réel. Aucune invention : si le catalogue est
+  // vide, `next` reste absent et la coquille n'affiche aucune action.
+  const first = pipelines[0];
+  const next = first
+    ? { href: `/pipelines/${first.id}`, label: first.title,
+        hint: (first as { summary?: string }).summary }
+    : undefined;
+
   return (
     <TechBench
+      contextLabel="État du laboratoire de livraison"
+      next={next}
       eyebrow="Laboratoire · livraison continue"
       title="Pipeline Lab"
       lead={<>Construis, déclenche, diagnostique et évalue une chaîne de livraison en local.

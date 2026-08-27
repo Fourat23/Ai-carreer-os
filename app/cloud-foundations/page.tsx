@@ -23,8 +23,19 @@ export default function CloudFoundationsPage() {
     (n, a) => n + ((a as { resourceCount?: number }).resourceCount ?? 0), 0,
   );
 
+  // V62 · CP2 — La suite logique de cette page est son PREMIER SCÉNARIO,
+  // pris dans le catalogue réel. Aucune invention : si le catalogue est
+  // vide, `next` reste absent et la coquille n'affiche aucune action.
+  const first = architectures[0];
+  const next = first
+    ? { href: `/cloud-foundations/${first.id}`, label: first.title,
+        hint: (first as { summary?: string }).summary }
+    : undefined;
+
   return (
     <TechBench
+      contextLabel="État du laboratoire cloud"
+      next={next}
       eyebrow="Laboratoire · architecture cloud"
       title="Cloud Architecture Lab"
       lead={<>Raisonnement d’architecture cloud sur fixtures locales — IAM, réseau, compute,

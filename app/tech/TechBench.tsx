@@ -27,14 +27,28 @@
 // `tb-title` / `tb-lead` / `tb-facts`), avec sa propre définition CSS. Famille
 // « catalog » : ces pages listent des scénarios ; le poste de travail
 // proprement dit est la route de détail, qui porte la famille « workbench ».
+// V62 · CP2 — La coquille gagne les deux moitiés manquantes de la grammaire
+// CONTEXTE → TRAVAIL COURANT → SUITE.
+//
+// Mesuré au CP0 : les cinq laboratoires techniques répondaient « où suis-je »
+// (surtitre) et « qu'est-ce que je regarde » (titre), mais AUCUN ne répondait
+// « quelle est la suite ». Classe B, cinq fois, pour la même raison — donc une
+// seule correction, dans la coquille partagée, et non cinq rustines.
+//
+// La suite n'est pas un bouton décoratif ajouté pour satisfaire une sonde :
+// c'est le PREMIER SCÉNARIO RÉEL du laboratoire, nommé, avec son adresse réelle.
+// Chaque page la calcule depuis son propre catalogue ; si le catalogue est vide,
+// il n'y a pas d'action, et la page le dit au lieu de mentir.
 import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { SurfaceHead } from '@/app/ui';
+import { SurfaceHead, ContextLine } from '@/app/ui';
 
 export type Fact = { k: string; v: ReactNode };
+/** L'action suivante, dérivée du catalogue réel. `href` doit exister. */
+export type TechNext = { href: string; label: string; hint?: ReactNode };
 
 export default function TechBench({
-  eyebrow, title, lead, limits, facts, children, related, after,
+  eyebrow, title, lead, limits, facts, children, related, after, next, contextLabel,
 }: {
   eyebrow: string;
   title: string;
@@ -48,10 +62,31 @@ export default function TechBench({
       V58 · CP5 — /security avait 45 playbooks dans la même zone que ses
       4 scénarios, ce qui inversait la hiérarchie. */
   after?: ReactNode;
+  /** Absente si le catalogue est vide — on n'invente pas une suite. */
+  next?: TechNext;
+  contextLabel: string;
 }) {
   return (
     <div className="tb">
+      {/* Même objet, même place, mêmes registres que les quinze surfaces
+          migrées en V61 : c'est ce qui fait que ces pages appartiennent au
+          même produit. Les faits sont ceux du catalogue, pas des ajouts. */}
+      <ContextLine
+        label={contextLabel}
+        facts={facts.map((f, i) => ({ k: f.k, v: f.v, here: i === 0 }))}
+      />
       <SurfaceHead kind="catalog" eyebrow={eyebrow} title={title} lead={lead} facts={facts} />
+
+      {next && (
+        <section className="tb-next" aria-label="Prochaine action">
+          <div className="tb-next-body">
+            <span className="tb-next-k">Par où commencer</span>
+            <p className="tb-next-t">{next.label}</p>
+            {next.hint ? <p className="tb-next-d">{next.hint}</p> : null}
+          </div>
+          <Link className="btn cta" href={next.href}>Ouvrir le scénario</Link>
+        </section>
+      )}
 
       <section className="tb-limits" aria-label="Limites de la simulation">
         <h2 className="tb-h">Ce que ce laboratoire ne fait pas</h2>

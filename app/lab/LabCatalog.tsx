@@ -58,6 +58,31 @@ export default function LabCatalog({ items, activeTrack, availableTracks }: { it
   const [status, setStatus] = useState(params.get('status') ?? '');
   const [track, setTrack] = useState(params.get('track') ?? '');
   const [scope, setScope] = useState(params.get('scope') ?? '');
+
+  // ── V62 · CP6 — DETTE DE DOM : LA CAUSE, PAS LE SYMPTÔME ────────────────
+  //
+  // Mesuré au CP0 : 6 438 nœuds dans `main`, dont **5 264 (82 %)** à
+  // l'intérieur de `<details>` FERMÉS. Un `<details>` replié rend quand même
+  // tous ses enfants dans le DOM : 376 lignes d'exercice, 752 nœuds SVG et
+  // 3 179 `<span>` existaient pour du contenu que personne ne pouvait voir.
+  //
+  // La solution correspond à ce problème mesuré et à rien d'autre : **on ne
+  // rend les lignes que des groupes réellement ouverts**. Ce n'est pas du
+  // `display:none` (qui ne retire rien du DOM), et ce n'est pas de la
+  // virtualisation — le brief l'autorise mais aucune mesure ne la justifie ici.
+  //
+  // Ce que cela NE change pas : les 376 exercices restent tous atteignables,
+  // le compte affiché reste le compte réel, les filtres portent sur le corpus
+  // entier, et un groupe s'ouvre en un clic. Le `<summary>` de chaque groupe —
+  // nom, progression, nombre — reste rendu, donc la structure complète du
+  // catalogue est lisible et navigable sans rien déplier.
+  const [openKeys, setOpenKeys] = useState<Set<string>>(() => new Set());
+  const toggleGroup = (key: string, isOpen: boolean) =>
+    setOpenKeys((prev) => {
+      const n = new Set(prev);
+      if (isOpen) n.add(key); else n.delete(key);
+      return n;
+    });
   const hasPreview = useMemo(() => items.some((i) => i.execKind === 'preview'), [items]);
 
   const languages = useMemo(() => uniqSorted(items.map((i) => i.language)), [items]);
@@ -212,7 +237,15 @@ export default function LabCatalog({ items, activeTrack, availableTracks }: { it
                  constellation que ce CP vient de supprimer : mesuré, 32 groupes
                  ouverts = 25 213 px de haut. Quand un filtre est posé,
                  l'apprenant cherche quelque chose de précis : tout s'ouvre. */
-              open={!!active || gi === 0}
+              /* V62 · CP6 — plus d'ouverture automatique. Mesuré : le groupe
+                 le plus fourni est classé en tête (tri par utilité), et à
+                 375 px son dépliage à lui seul faisait 9 637 px. Le catalogue
+                 s'ouvre donc sur ses 32 EN-TÊTES — nom, progression, compte —
+                 qui sont exactement l'index dont on a besoin pour choisir.
+                 L'action « prochain exercice », en tête de page, reste le
+                 chemin direct pour qui ne veut pas choisir. */
+              open={!!active || openKeys.has(g.key)}
+              onToggle={(e) => toggleGroup(g.key, (e.currentTarget as HTMLDetailsElement).open)}
             >
               <summary className="lab-group-head">
                 <span className="lab-group-name">{g.label}</span>
@@ -224,6 +257,7 @@ export default function LabCatalog({ items, activeTrack, availableTracks }: { it
                   {g.onTrack > 0 && <span className="lab-group-track"> · {g.onTrack} sur ton parcours</span>}
                 </span>
               </summary>
+              {(active || openKeys.has(g.key)) && (
               <ul className="lab-rows" aria-label={`Exercices — ${g.label}`}>
                 {g.items.map((i) => {
                   const st = STATUS_META[i.status] ?? STATUS_META['non commencé'];
@@ -258,6 +292,7 @@ export default function LabCatalog({ items, activeTrack, availableTracks }: { it
                   );
                 })}
               </ul>
+              )}
             </details>
           ))}
         </div>

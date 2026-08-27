@@ -13,8 +13,19 @@ export default function KubernetesPage() {
   const kinds = new Set(scenarios.flatMap((s) => s.kinds ?? [])).size;
   const skills = new Set(scenarios.flatMap((s) => (s as { skills?: string[] }).skills ?? [])).size;
 
+  // V62 · CP2 — La suite logique de cette page est son PREMIER SCÉNARIO,
+  // pris dans le catalogue réel. Aucune invention : si le catalogue est
+  // vide, `next` reste absent et la coquille n'affiche aucune action.
+  const first = scenarios[0];
+  const next = first
+    ? { href: `/kubernetes/${first.id}`, label: first.title,
+        hint: (first as { summary?: string }).summary }
+    : undefined;
+
   return (
     <TechBench
+      contextLabel="État du laboratoire Kubernetes"
+      next={next}
       eyebrow="Laboratoire · orchestration de conteneurs"
       title="Kubernetes & Orchestration Lab"
       lead={<>Analyse une configuration, détecte ses défauts, simule un incident

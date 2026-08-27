@@ -4874,9 +4874,24 @@ button.dot::after {
   .day-shop-read, .day-shop-do, .day-shop-ctx {
     border: 1px solid var(--border); border-radius: 0 0 var(--r-lg) var(--r-lg); overflow: hidden;
   }
-  .day-shop.v-lire  .day-shop-ctx, .day-shop.v-lire  .day-shop-do   { display: none; }
-  .day-shop.v-faire .day-shop-ctx, .day-shop.v-faire .day-shop-read { display: none; }
+  /* V62 · CP3 — À 375 px, /day/80 mesure 13 425 px : le volet LIRE seul
+     porte 12 802 px, et c'est le COURS. Le brief interdit d'en retirer une
+     ligne, et il a raison : ce n'est pas un mur, c'est la journée.
+     Ce qui manquait n'était pas de la place, c'était un moyen d'y naviguer —
+     le déroulé, qui ancre les douze sections, n'était visible que dans le
+     volet « Plan », donc jamais EN MÊME TEMPS que la lecture.
+     Le déroulé reste donc affiché au-dessus des deux autres volets. La
+     hauteur ne change pas ; la fatigue de navigation, si. */
+  .day-shop.v-lire  .day-shop-do   { display: none; }
+  .day-shop.v-faire .day-shop-read { display: none; }
   .day-shop.v-plan  .day-shop-read, .day-shop.v-plan .day-shop-do   { display: none; }
+  .day-shop-ctx { border-radius: 0; border-bottom: none; }
+  .day-shop.v-plan .day-shop-ctx { border-radius: 0 0 var(--r-lg) var(--r-lg); border-bottom: 1px solid var(--border); }
+  /* Replié à une hauteur de consultation : le déroulé oriente, il ne prend
+     pas la place du contenu qu'il indexe. */
+  .day-shop.v-lire .day-shop-ctx, .day-shop.v-faire .day-shop-ctx {
+    max-height: 168px; overflow-y: auto;
+  }
   .day-shop-ctx { padding: var(--sp-3); }
   .day-shop-read .day-read, .day-shop-do > .prose, .day-shop-do > section,
   .day-shop-do > div, .day-shop-do > form { padding-left: var(--sp-4); padding-right: var(--sp-4); }
@@ -4973,3 +4988,59 @@ button.dot::after {
   text-decoration-color: currentColor;
   text-underline-offset: 3px;
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   V62 — PRODUCT MIGRATION II · UX CLOSURE
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── CP2 · LA SUITE LOGIQUE DES LABORATOIRES TECHNIQUES ───────────────────
+   Mesuré au CP0 : les cinq laboratoires répondaient « où » et « quoi », jamais
+   « et ensuite ». Une bande d'action, pas une carte : c'est une CONTINUATION
+   du flux de la page, pas un objet séparé (cf. §3, une frontière ne se dessine
+   que si elle sépare deux objets réellement distincts). Même forme que
+   `.lab-next` et `.period-next`, déjà en place ailleurs — le produit n'apprend
+   pas un sixième vocabulaire pour dire la même chose. */
+.tb-next {
+  display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap;
+  border-left: 2px solid var(--accent); padding: var(--sp-4) var(--sp-5);
+  background-color: var(--raised); border-radius: 0 var(--r) var(--r) 0;
+  margin: var(--sp-4) 0;
+}
+.tb-next-body { flex: 1 1 320px; min-width: 0; }
+.tb-next-k { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase;
+             letter-spacing: .06em; color: var(--muted); }
+.tb-next-t { margin: 4px 0 2px; font-size: var(--fs-lg); font-weight: 650; }
+.tb-next-d { margin: 0; font-size: var(--fs-sm); color: var(--muted); max-width: 80ch; }
+@media (max-width: 640px) { .tb-next .btn { flex: 1 1 auto; justify-content: center; } }
+
+/* ── CP3 · /lessons : NAVIGUER DANS LE CONTENU, PAS LE FAIRE DISPARAÎTRE ───
+   Les 128 leçons restent toutes rendues. Ce qui change est la navigation.
+   La barre d'outils reprend la leçon de V61 : la base de formulaire déclare
+   `select { width: 100% }`, il faut donc rendre sa largeur au menu, sinon
+   chaque champ occupe une ligne entière — le défaut trouvé sur /lab. */
+.les-controls { margin: var(--sp-4) 0 var(--sp-3); }
+.les-filters { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center;
+               margin-bottom: var(--sp-3); }
+.les-filters select { width: auto; min-width: 150px; max-width: 100%; }
+.les-search { flex: 1 1 260px; min-width: 180px; width: auto; }
+.les-count { color: var(--muted); font-size: var(--fs-xs); margin: var(--sp-2) 0 0; }
+/* L'index collant : le retour vers la structure qui manquait. Il ne colle
+   qu'au-delà de 700 px de haut — sur un écran court il volerait la page. */
+@media (min-height: 700px) {
+  .les-index { position: sticky; top: 0; z-index: 3; }
+}
+/* Une catégorie repliée reste une SECTION, pas une carte : pas d'ombre, pas de
+   rayon propre, seulement un filet entre sœurs. */
+.les-group { border: none; border-radius: 0; background: none; box-shadow: none; }
+.les-group + .les-group { border-top: 1px solid var(--border); }
+.les-group-head { cursor: pointer; list-style: none; }
+.les-group-head::-webkit-details-marker { display: none; }
+.les-group-head::after {
+  content: ''; margin-left: auto; width: 7px; height: 7px;
+  border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted);
+  transform: rotate(-45deg); transition: transform .15s;
+}
+.les-group[open] > .les-group-head::after { transform: rotate(45deg); }
+.les-group-head:hover::after { border-color: var(--text); }
+.les-group-head:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .les-group-head::after { transition: none; } }

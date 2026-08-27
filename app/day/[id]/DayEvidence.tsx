@@ -5,23 +5,16 @@
 // sont neutralisés (safeUrl) et rien n'est jamais exécuté.
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Plus, X, ExternalLink } from 'lucide-react';
+import { Plus, X, ExternalLink, AlertTriangle } from 'lucide-react';
 import type { DayProgress } from '@/lib/types';
-import { addEvidence, removeEvidence, EVIDENCE_TYPES, type EvidenceType } from '@/lib/learning';
+import { EVIDENCE_TYPES, type EvidenceType } from '@/lib/learning';
 import { EvidenceMark } from '@/app/ui';
+import { sendCommand, announceProgressChanged } from '@/app/progress-command';
 
 const TYPE_LABEL: Record<string, string> = {
   exercise: 'Exercice', repo: 'Dépôt Git', project: 'Projet', screenshot: 'Capture',
   note: 'Note technique', demo: 'Démonstration', other: 'Autre',
 };
-
-async function patchDay(day: number, patch: Partial<DayProgress>) {
-  const res = await fetch('/api/progress', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: 'day', payload: { day, patch } }),
-  });
-  if (!res.ok) throw new Error('save failed');
-}
 
 export default function DayEvidence({
   day, initial, skillId, skillName,
@@ -35,23 +28,33 @@ export default function DayEvidence({
   const [type, setType] = useState<EvidenceType>('exercise');
   const [url, setUrl] = useState('');
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  async function persist(next: NonNullable<DayProgress['evidence']>) {
-    setList(next); setBusy(true);
-    try { await patchDay(day, { evidence: next }); window.dispatchEvent(new CustomEvent('progress-changed')); router.refresh(); }
-    finally { setBusy(false); }
-  }
-
+  // V64 : les commandes sont CIBLÉES. Avant, le client renvoyait le tableau
+  // complet des preuves — il pouvait donc effacer une preuve produite par le
+  // laboratoire. Désormais il ne peut qu'ajouter, ou retirer une preuve nommée.
   async function add() {
     if (!title.trim()) return;
-    const d = addEvidence({ evidence: list }, { title, type, url, description: '', skills: skillId ? [skillId] : [], createdAt: new Date().toISOString() });
+    setBusy(true); setError(null);
+    const r = await sendCommand({
+      type: 'ADD_EVIDENCE', day,
+      evidence: { title, type, url, description: '', skills: skillId ? [skillId] : [] },
+    });
+    setBusy(false);
+    if (!r.ok) { setError(r.error); return; }
     setTitle(''); setUrl(''); setType('exercise'); setOpen(false);
-    await persist(d.evidence ?? []);
+    announceProgressChanged();
+    router.refresh(); // la liste faisant foi revient du serveur
   }
 
   async function remove(id: string) {
-    const d = removeEvidence({ evidence: list }, id);
-    await persist(d.evidence ?? []);
+    setBusy(true); setError(null);
+    const r = await sendCommand({ type: 'REMOVE_EVIDENCE', day, evidenceId: id });
+    setBusy(false);
+    if (!r.ok) { setError(r.error); return; }
+    setList((prev) => prev.filter((e) => e.id !== id));
+    announceProgressChanged();
+    router.refresh();
   }
 
   return (
@@ -98,6 +101,10 @@ export default function DayEvidence({
             <button className="btn ghost small" type="button" onClick={() => setOpen(false)} disabled={busy}>Annuler</button>
           </div>
         </div>
+      )}
+
+      {error && (
+        <p className="cmd-error" role="alert"><AlertTriangle size={13} strokeWidth={2} /> {error}</p>
       )}
     </section>
   );

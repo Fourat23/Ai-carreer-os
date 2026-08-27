@@ -7,24 +7,23 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Check, CircleDot, AlertTriangle } from 'lucide-react';
 import type { DayProgress } from '@/lib/types';
-import { completeReview } from '@/lib/review';
+import { updateReviewSchedule } from '@/lib/review';
 import { EmptyState } from '@/app/ui';
+import { sendCommand, announceProgressChanged } from '@/app/progress-command';
 
-type DueRow = { day: number; title: string; reason: string; overdueDays: number; review: DayProgress['review'] };
+type DueRow = {
+  day: number; title: string; reason: string; overdueDays: number;
+  review: DayProgress['review']; confidence?: 'low' | 'medium' | 'high' | null;
+};
 type UpRow = { day: number; title: string; reason: string; inDays: number };
 
-async function patchDay(day: number, patch: Partial<DayProgress>) {
-  const res = await fetch('/api/progress', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: 'day', payload: { day, patch } }),
-  });
-  if (!res.ok) throw new Error('save failed');
-}
-
+// V64 : le résultat d'une révision est une COMPRÉHENSION déclarée. La nouvelle
+// échéance est recalculée par le moteur, côté serveur — le client ne compose
+// plus l'objet `review` qu'il envoie, et n'impose plus de statut.
 const RESULTS = [
-  { key: 'hard', label: 'Toujours difficile', Icon: AlertTriangle, status: 'to-review' as const },
-  { key: 'partial', label: 'Partiellement acquis', Icon: CircleDot, status: 'to-review' as const },
-  { key: 'good', label: 'Acquis', Icon: Check, status: 'done' as const },
+  { key: 'hard', label: 'Toujours difficile', Icon: AlertTriangle, comprehension: 'review' as const },
+  { key: 'partial', label: 'Partiellement acquis', Icon: CircleDot, comprehension: 'partial' as const },
+  { key: 'good', label: 'Acquis', Icon: Check, comprehension: 'understood' as const },
 ];
 
 // `suppressEmpty` : quand la file est TOTALEMENT vide, la page rend une
@@ -34,20 +33,28 @@ const RESULTS = [
 export default function ReviewList({ due, upcoming, suppressEmpty = false }: { due: DueRow[]; upcoming: UpRow[]; suppressEmpty?: boolean }) {
   const router = useRouter();
   const [busy, setBusy] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const overdue = due.filter((r) => r.overdueDays > 0).length;
 
-  async function complete(row: DueRow, result: string, status: 'to-review' | 'done') {
-    setBusy(row.day);
-    const review = completeReview(row.review ?? null, result, new Date());
-    try {
-      await patchDay(row.day, { review, status });
-      window.dispatchEvent(new CustomEvent('progress-changed'));
-      router.refresh();
-    } finally { setBusy(null); }
+  async function complete(row: DueRow, comprehension: 'review' | 'partial' | 'understood') {
+    setBusy(row.day); setError(null);
+    const r = await sendCommand({ type: 'SET_COMPREHENSION', day: row.day, value: comprehension });
+    setBusy(null);
+    if (!r.ok) { setError(`Journée ${row.day} : ${r.error}`); return; }
+    announceProgressChanged();
+    router.refresh();
   }
 
   return (
     <>
+      {/* V64 · un échec de replanification doit se VOIR : sans ce bloc, le clic
+          restait sans effet visible — exactement l'anomalie A10 du CP0, que le
+          gate v64:check a retrouvée ici au premier test négatif. */}
+      {error && (
+        <p className="cmd-error" role="alert">
+          <AlertTriangle size={13} strokeWidth={2} /> {error}
+        </p>
+      )}
       {/* V58 · CP9 — En-tête aligné sur la grammaire de la station (`rev-h` /
           `rev-h-note`) plutôt que sur le `SectionHeader` générique, et libellé
           au vrai nombre : « 6 révision(s) » était la dernière formulation
@@ -83,11 +90,13 @@ export default function ReviewList({ due, upcoming, suppressEmpty = false }: { d
                   la même fonction, appelée en lecture. Aucune valeur recopiée,
                   aucune seconde source de vérité. */}
               <div className="rev-actions" role="group" aria-label={`Résultat de la révision du jour ${r.day}`}>
-                {RESULTS.map(({ key, label, Icon, status }) => {
-                  const next = completeReview(r.review ?? null, key, new Date()).interval;
+                {RESULTS.map(({ key, label, Icon, comprehension }) => {
+                  const next = updateReviewSchedule(r.review ?? null, {
+                    comprehension, confidence: r.confidence ?? null, now: new Date(),
+                  }).interval;
                   return (
                     <button key={key} className={`btn small rev-${key}`} disabled={busy === r.day}
-                      onClick={() => complete(r, key, status)}
+                      onClick={() => complete(r, comprehension)}
                       title={`${label} — prochaine échéance dans ${next} j`}
                       aria-label={`${label} — prochaine échéance dans ${next} jours`}>
                       <Icon size={14} strokeWidth={2} />

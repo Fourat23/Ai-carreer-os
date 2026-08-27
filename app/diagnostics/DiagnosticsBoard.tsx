@@ -6,7 +6,7 @@
 // preuve/proxy est rappelée explicitement.
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { Check, X, ChevronLeft, GraduationCap, RotateCcw } from 'lucide-react';
+import { Check, X, ChevronLeft, GraduationCap, RotateCcw, Save } from 'lucide-react';
 import { gradeAssessment, TAXONOMY } from '@/lib/assessment';
 import type { Assessment, AssessmentResult, Taxonomy } from '@/lib/assessment';
 import { SurfaceHead } from '@/app/ui';
@@ -129,6 +129,9 @@ function TakeAssessment({
 }) {
   const [responses, setResponses] = useState<Responses>({});
   const [result, setResult] = useState<AssessmentResult | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [offline, setOffline] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
 
   function setMcq(qid: string, idx: number) {
     setResponses((r) => ({ ...r, [qid]: idx }));
@@ -144,13 +147,53 @@ function TakeAssessment({
     setResponses((r) => ({ ...r, [qid]: val }));
   }
 
-  function submit() {
-    setResult(gradeAssessment(assessment, responses));
+  // V64 · la correction est demandée au SERVEUR. Un score qui sera conservé
+  // doit être calculé par le produit, jamais transmis par le client. Si le
+  // serveur est injoignable, on corrige localement — même fonction pure — et
+  // on le DIT : le résultat est alors affiché, mais non conservable.
+  async function submit() {
+    setBusy(true); setNotice(null);
+    try {
+      const res = await fetch(`/api/assessments/${encodeURIComponent(assessment.id)}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ responses }),
+      });
+      const j = await res.json();
+      if (res.ok && j.ok) { setResult(j.result); setOffline(false); }
+      else { setResult(gradeAssessment(assessment, responses)); setOffline(true); }
+    } catch {
+      setResult(gradeAssessment(assessment, responses)); setOffline(true);
+    }
+    setBusy(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  // Conserver le résultat est une ACTION EXPLICITE. Rien n'est enregistré au
+  // seul fait d'avoir répondu.
+  async function keep() {
+    setBusy(true); setNotice(null);
+    try {
+      const res = await fetch(`/api/assessments/${encodeURIComponent(assessment.id)}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ responses, record: true }),
+      });
+      const j = await res.json();
+      if (res.ok && j.ok && j.recorded) {
+        setNotice(`Résultat rattaché à la journée ${j.day}.${j.evidence ? ' Une preuve a été créée.' : ' Aucune preuve : le seuil n’est pas atteint.'}`);
+        window.dispatchEvent(new CustomEvent('progress-changed'));
+      } else {
+        setNotice(j?.reason ?? 'Le résultat n’a pas pu être conservé.');
+      }
+    } catch {
+      setNotice('Le résultat n’a pas pu être conservé — réessaie.');
+    }
+    setBusy(false);
+  }
+
   function reset() {
     setResponses({});
     setResult(null);
+    setNotice(null);
   }
 
   const resById = new Map(result?.results.map((r) => [r.id, r]) ?? []);
@@ -176,7 +219,10 @@ function TakeAssessment({
         ]}
       />
 
-      {result && <ResultPanel assessment={assessment} result={result} onReset={reset} />}
+      {result && (
+        <ResultPanel assessment={assessment} result={result} onReset={reset}
+          onKeep={offline ? null : keep} busy={busy} notice={notice} />
+      )}
 
       <ol className="diag-questions">
         {assessment.questions.map((q, qi) => {
@@ -243,7 +289,7 @@ function TakeAssessment({
       </ol>
 
       {!result ? (
-        <button className="btn primary" onClick={submit}>Corriger mes réponses</button>
+        <button className="btn primary" onClick={submit} disabled={busy}>{busy ? 'Correction…' : 'Corriger mes réponses'}</button>
       ) : (
         <button className="btn ghost" onClick={reset}><RotateCcw size={14} strokeWidth={2} /> Recommencer</button>
       )}
@@ -255,10 +301,16 @@ function ResultPanel({
   assessment,
   result,
   onReset,
+  onKeep,
+  busy,
+  notice,
 }: {
   assessment: Assessment;
   result: AssessmentResult;
   onReset: () => void;
+  onKeep: (() => void) | null;
+  busy: boolean;
+  notice: string | null;
 }) {
   const pct = Math.round(result.ratio * 100);
   return (
@@ -278,6 +330,15 @@ function ResultPanel({
         Ce résultat est un <strong>indice</strong> de compréhension, pas une preuve de maîtrise :
         il n'est pas enregistré automatiquement dans ta progression.
       </p>
+      {/* V64 · le conserver est un geste explicite, jamais un effet de bord. */}
+      {onKeep && (
+        <div className="diag-keep">
+          <button className="btn small" onClick={onKeep} disabled={busy}>
+            <Save size={13} strokeWidth={2} /> Conserver ce résultat dans ma journée en cours
+          </button>
+          {notice && <span className="diag-keep-note" role="status">{notice}</span>}
+        </div>
+      )}
       {!result.passedOverall && (assessment.remediation?.length ?? 0) > 0 && (
         <div className="diag-remediation">
           <span className="diag-remediation-label"><GraduationCap size={14} strokeWidth={2} /> À revoir :</span>

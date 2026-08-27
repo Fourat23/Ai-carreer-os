@@ -9,16 +9,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Lock, ClipboardCheck, Check, CircleDot, AlertTriangle } from 'lucide-react';
 import type { DayProgress } from '@/lib/types';
-import { recordAttempt, setCorrectionState } from '@/lib/learning';
-import { updateReviewSchedule } from '@/lib/review';
-
-async function patchDay(day: number, patch: Partial<DayProgress>) {
-  const res = await fetch('/api/progress', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: 'day', payload: { day, patch } }),
-  });
-  if (!res.ok) throw new Error('save failed');
-}
+import { sendCommand, announceProgressChanged } from '@/app/progress-command';
 
 const COMPREHENSION_LABEL: Record<string, string> = {
   understood: 'Compris', partial: 'Partiellement', review: 'À revoir',
@@ -33,29 +24,31 @@ export default function DayCorrection({
   const [state, setState] = useState(initial.correctionState ?? 'locked');
   const [comprehension, setComprehension] = useState(initial.comprehension ?? null);
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const revealed = state !== 'locked';
 
+  // Déclarer une tentative est une ACTION : elle enregistre l'essai et ouvre la
+  // correction. Le calcul de révision se fait côté serveur, dans le moteur —
+  // le client ne compose plus l'état qu'il envoie.
   async function confirmAttempt() {
-    setBusy(true);
-    const next = recordAttempt(setCorrectionState(initial, 'viewed'), { at: new Date().toISOString(), outcome: 'attempted' });
-    try { await patchDay(day, { correctionState: 'viewed', attempts: next.attempts }); setState('viewed'); }
-    finally { setBusy(false); }
+    setBusy(true); setError(null);
+    const a = await sendCommand({ type: 'RECORD_ATTEMPT', day, outcome: 'attempted' });
+    if (!a.ok) { setBusy(false); setError(a.error); return; }
+    const r = await sendCommand({ type: 'SET_CORRECTION_STATE', day, value: 'viewed' });
+    setBusy(false);
+    if (!r.ok) { setError(r.error); return; }
+    setState('viewed');
   }
 
   async function chooseComprehension(value: 'understood' | 'partial' | 'review') {
-    setBusy(true);
+    setBusy(true); setError(null);
     setComprehension(value);
-    const review = updateReviewSchedule(initial.review ?? null, {
-      comprehension: value, confidence: initial.selfAssessment?.confidence ?? null, now: new Date(),
-    });
-    const patch: Partial<DayProgress> = { comprehension: value, correctionState: 'acknowledged', review };
-    if (value === 'review') patch.status = 'to-review';
-    try {
-      await patchDay(day, patch);
-      setState('acknowledged');
-      window.dispatchEvent(new CustomEvent('progress-changed'));
-      router.refresh();
-    } finally { setBusy(false); }
+    const r = await sendCommand({ type: 'SET_COMPREHENSION', day, value });
+    setBusy(false);
+    if (!r.ok) { setError(r.error); return; }
+    setState('acknowledged');
+    announceProgressChanged();
+    router.refresh();
   }
 
   const title = isReview ? "Grille d'évaluation" : 'Correction';
@@ -93,10 +86,13 @@ export default function DayCorrection({
                 );
               })}
             </div>
-            {comprehension && (
+            {comprehension && !error && (
               <p className="corr-assess-note">
                 {comprehension === 'review' ? 'Ajouté à ta file de révision.' : 'Enregistré — prochaine révision planifiée.'}
               </p>
+            )}
+            {error && (
+              <p className="cmd-error" role="alert"><AlertTriangle size={13} strokeWidth={2} /> {error}</p>
             )}
           </div>
         </details>

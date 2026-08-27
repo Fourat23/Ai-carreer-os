@@ -63,8 +63,55 @@ export interface Program {
 
 export type DayStatus = 'not-started' | 'in-progress' | 'done' | 'to-review';
 
+// ── Learning Engine (V64, ADR-064) ─────────────────────────────────────────
+// La session est la SOURCE DE VÉRITÉ du travail d'une journée ; `status`
+// ci-dessous n'en est qu'une PROJECTION, maintenue pour les read-models
+// existants et écrite uniquement par le moteur.
+
+export type SessionState = 'not_started' | 'active' | 'paused' | 'completed';
+export type StepState = 'pending' | 'in_progress' | 'done';
+export type SubmissionKind = 'text' | 'exercise' | 'assessment';
+export type ValidationStatus = 'passed' | 'failed' | 'pending' | 'manual';
+export type ValidationKind = 'exercise-tests' | 'assessment-grade' | 'self';
+
+export interface LearningStep {
+  state: StepState;
+  updatedAt: string | null;
+}
+
+export interface LearningSession {
+  state: SessionState;
+  startedAt: string | null;
+  lastActiveAt: string | null;
+  completedAt: string | null;
+  reopenCount: number;
+  steps: Record<string, LearningStep>;
+}
+
+export interface Validation {
+  status: ValidationStatus;
+  kind: ValidationKind;
+  checkedAt: string | null;
+  detail: string;
+  score: { passed: number; total: number } | null;
+}
+
+export interface Submission {
+  id: string;
+  stepId: string;
+  kind: SubmissionKind;
+  /** TEXTE brut de l'apprenant. Jamais rendu en HTML (ADR-064 §9). */
+  content: string;
+  submittedAt: string;
+  validation: Validation | null;
+}
+
 export interface DayProgress {
   status: DayStatus;
+  /** V64 : présente après normalisation ; dérivée du statut si absente sur disque. */
+  session?: LearningSession;
+  /** V64 : ajoutées, jamais écrasées. */
+  submissions?: Submission[];
   selfScore: number | null; // 0-5 (legacy V5)
   answer: string;           // réponse globale (legacy V5)
   notes: string;

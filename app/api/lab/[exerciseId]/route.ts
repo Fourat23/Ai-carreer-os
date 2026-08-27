@@ -9,6 +9,7 @@ import { getDayExerciseIndex } from '@/lib/day-exercises-server';
 import { daysForExercise } from '@/lib/day-exercises';
 import { readProgress, writeProgress } from '@/lib/progress-server';
 import { recordExerciseSuccess } from '@/lib/lab-progress';
+import { applyCommand } from '@/lib/learning-engine';
 import {
   readWorkspaceTree, writeWorkspaceFile, resetWorkspace, resetWorkspaceFile, runExercise, buildReactPreview,
 } from '@/lib/workspace-server';
@@ -81,19 +82,56 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       const privateIds = new Set(ex.tests.filter((t) => (t as { private?: boolean }).private).map((t) => t.id));
       const { publicResults, privateSummary } = splitAttempt(attempt, privateIds);
       attempt.results = publicResults;
-      // Réussite → preuve de compétence dans la progression (jours liés).
+      // ── V64 · la validation déterministe rejoint la session de journée ──
+      // Le verdict `allPassed` vient de TESTS RÉELS exécutés en bac à sable :
+      // c'est la validation automatique du produit, pas une note attribuée.
+      //
+      // Deux effets, dans cet ordre :
+      //   1. la preuve + le relèvement de compétence (mécanisme V27 inchangé,
+      //      idempotent par URL) ;
+      //   2. pour chaque journée liée dont la SESSION EST OUVERTE, une
+      //      soumission horodatée portant cette validation.
+      //
+      // Une journée non commencée n'est PAS démarrée d'office : on peut
+      // s'entraîner au laboratoire sans ouvrir la journée. Le moteur refuserait
+      // d'ailleurs la commande, et un refus n'écrit rien.
       let recorded = false;
+      let sessionsUpdated = 0;
       if (attempt.allPassed) {
         const dayRefs = daysForExercise(getDayExerciseIndex(), ex.id);
         if (dayRefs.length) {
-          const next = recordExerciseSuccess(readProgress(), {
+          let progress = recordExerciseSuccess(readProgress(), {
             exerciseId: ex.id, title: ex.title, skills: ex.skills ?? [], dayRefs,
           });
-          writeProgress(next);
+          const checkedAt = new Date().toISOString();
+          for (const d of dayRefs) {
+            const r = applyCommand(progress, {
+              type: 'SUBMIT',
+              day: d,
+              stepId: `lab-${ex.id}`,
+              kind: 'exercise',
+              content: `Exercice ${ex.id} — tous les tests passent.`,
+              validation: {
+                status: 'passed',
+                kind: 'exercise-tests',
+                checkedAt,
+                detail: `${attempt.passed}/${attempt.total} tests`,
+                score: { passed: attempt.passed, total: attempt.total },
+              },
+              // Même identifiant de preuve que `recordExerciseSuccess` : les
+              // deux chemins convergent sur UNE preuve, jamais deux.
+              evidenceId: `lab-${ex.id}`,
+              evidenceTitle: `Exercice réussi : ${ex.title}`,
+              evidenceUrl: `/lab/${ex.id}`,
+              skills: ex.skills ?? [],
+            }, { now: new Date() });
+            if (r.ok) { progress = r.progress; sessionsUpdated += 1; }
+          }
+          writeProgress(progress);
           recorded = true;
         }
       }
-      return NextResponse.json({ ok: true, attempt, privateSummary, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded });
+      return NextResponse.json({ ok: true, attempt, privateSummary, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded, sessionsUpdated });
     }
     return NextResponse.json({ error: 'Action inconnue.' }, { status: 400 });
   } catch (e: unknown) {

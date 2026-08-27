@@ -1,133 +1,167 @@
 'use client';
 
-// Espace de travail actif de la Vue Jour : réponses PAR SECTION (dérivées du
-// contenu, jamais du HTML sauvegardé), notes globales, workflow de statut.
-// Sauvegarde debouncée + flush avant de quitter ; une erreur API n'efface jamais
-// le texte local. Un seul modèle de progression (data/progress.json via l'API).
+// Poste de travail de la journée — V64 · Learning Engine (ADR-064).
+//
+// La journée a désormais une SESSION : un état (`not_started | active | paused
+// | completed`), une heure de début réelle, des ÉTAPES dérivées du corpus et
+// des SOUMISSIONS ajoutées, jamais écrasées.
+//
+// Deux gestes distincts, et la distinction compte :
+//   • le BROUILLON est sauvegardé en continu et n'ouvre PAS la session —
+//     écrire n'est pas commencer ;
+//   • RENDRE est un acte explicite qui crée une soumission horodatée.
+//
+// Toute mutation passe par une commande nommée. Aucun patch libre : le serveur
+// refuse un statut imposé par le client.
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Play, Check, RotateCcw, AlertTriangle, ArrowRight } from 'lucide-react';
-import type { DayProgress, DayStatus } from '@/lib/types';
+import { Play, Check, RotateCcw, AlertTriangle, ArrowRight, Pause, Send, CircleDot } from 'lucide-react';
+import type { DayProgress } from '@/lib/types';
+import type { SessionView, SessionState, StepState } from '@/lib/learning-engine';
 import type { Activity } from '@/lib/section-family';
-import { nextStatusFor } from '@/lib/resume';
-import { updateReviewSchedule } from '@/lib/review';
+import { sendCommand, announceProgressChanged } from '@/app/progress-command';
 
 const FAMILY_LABEL: Record<string, string> = {
   practice: 'Pratiquer', apply: 'Appliquer', prepare: 'Préparer', retain: 'Retenir',
 };
-const STATUS_LABEL: Record<DayStatus, string> = {
-  'not-started': 'Non commencée', 'in-progress': 'En cours', 'done': 'Terminée', 'to-review': 'À revoir',
+const SESSION_LABEL: Record<SessionState, string> = {
+  not_started: 'Non commencée', active: 'En cours', paused: 'En pause', completed: 'Terminée',
+};
+const SESSION_TONE: Record<SessionState, string> = {
+  not_started: 'not-started', active: 'in-progress', paused: 'paused', completed: 'done',
+};
+const STEP_LABEL: Record<StepState, string> = {
+  pending: 'À faire', in_progress: 'Rendu', done: 'Validée',
 };
 
-async function postDay(day: number, patch: Partial<DayProgress>, keepalive = false) {
-  const res = await fetch('/api/progress', {
-    method: 'POST', keepalive,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: 'day', payload: { day, patch } }),
-  });
-  if (!res.ok) throw new Error('save failed');
-}
-
 export default function DayPanel({
-  day, nextDay, initial, checklist, activities,
+  day, nextDay, initial, checklist, activities, session,
 }: {
   day: number;
   nextDay?: number | null;
   initial: DayProgress;
   checklist: string[];
   activities: Activity[];
+  session: SessionView;
 }) {
   const router = useRouter();
-  const [status, setStatus] = useState<DayStatus>(initial.status);
+  const [view, setView] = useState<SessionView>(session);
   const [answers, setAnswers] = useState<Record<string, string>>(initial.answers ?? {});
   const [legacyAnswer, setLegacyAnswer] = useState(initial.answer ?? '');
   const [notes, setNotes] = useState(initial.notes ?? '');
-  const [selfScore, setSelfScore] = useState<number | null>(initial.selfScore ?? null);
-  const [checks, setChecks] = useState<Record<string, boolean>>(initial.checklist ?? {});
   const [confidence, setConfidence] = useState<string | null>(initial.selfAssessment?.confidence ?? null);
+  const [selfLevel, setSelfLevel] = useState<number | null>(initial.selfAssessment?.level ?? initial.selfScore ?? null);
   const [saved, setSaved] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
-  const [savedAt, setSavedAt] = useState<string>('');
+  const [savedAt, setSavedAt] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [busyStep, setBusyStep] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dirty = useRef(false);   // garde de MONTAGE (ignore le 1er effet)
+  const mounted = useRef(false); // garde de MONTAGE : le 1er effet n'écrit pas
   const edited = useRef(false);  // l'utilisateur a RÉELLEMENT modifié le texte
-  const latest = useRef<Partial<DayProgress>>({});
+  const latest = useRef<Record<string, unknown>>({});
 
   const hasActivities = activities.length > 0;
+  const stepState = (id: string): StepState =>
+    view.steps.find((s) => s.id === id)?.state ?? 'pending';
 
-  // Contenu utilisateur courant (jamais de HTML rendu).
-  const buildPatch = useCallback((): Partial<DayProgress> => (
+  // Brouillon courant (jamais de HTML rendu, jamais le corpus).
+  const buildDraft = useCallback(() => (
     hasActivities ? { answers, notes } : { answer: legacyAnswer, notes }
   ), [hasActivities, answers, legacyAnswer, notes]);
 
-  // Sauvegarde debouncée du texte ; l'échec n'efface pas le texte local.
+  // ── Sauvegarde debouncée du brouillon ────────────────────────────────────
+  // Un échec n'efface jamais le texte local, et il est DIT.
   useEffect(() => {
-    latest.current = buildPatch();
-    if (!dirty.current) { dirty.current = true; return; } // pas de save au montage
-    edited.current = true; // modification réelle post-montage → persistance justifiée
+    latest.current = buildDraft();
+    if (!mounted.current) { mounted.current = true; return; }
+    edited.current = true;
     if (timer.current) clearTimeout(timer.current);
     setSaved('saving');
     timer.current = setTimeout(async () => {
-      try {
-        await postDay(day, latest.current);
-        setSaved('saved'); setSavedAt(new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
-      } catch { setSaved('error'); }
+      const r = await sendCommand({ type: 'SAVE_DRAFT', day, ...latest.current });
+      if (r.ok) {
+        setSaved('saved'); setError(null);
+        setSavedAt(new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
+      } else {
+        setSaved('error'); setError(r.error);
+      }
     }, 700);
     return () => { if (timer.current) clearTimeout(timer.current); };
-  }, [buildPatch, day]);
+  }, [buildDraft, day]);
 
-  // Flush avant de quitter la page / changer de journée (garde-fou anti-perte).
-  // P0 V54 : ne JAMAIS écrire si l'utilisateur n'a rien modifié — une simple
-  // consultation (montage puis démontage) ne doit créer aucune progression.
+  // Flush avant de quitter. P0 V54, toujours en vigueur : ne JAMAIS écrire si
+  // l'utilisateur n'a rien modifié — une consultation ne crée aucune progression.
   useEffect(() => {
     const flush = () => {
-      if (!edited.current) return; // consultation seule : aucune écriture
+      if (!edited.current) return;
       if (timer.current) clearTimeout(timer.current);
-      postDay(day, latest.current, true).catch(() => {});
+      void sendCommand({ type: 'SAVE_DRAFT', day, ...latest.current }, { keepalive: true });
     };
     window.addEventListener('pagehide', flush);
     return () => { window.removeEventListener('pagehide', flush); flush(); };
   }, [day]);
 
-  async function setStatusAction(action: 'start' | 'complete' | 'reopen' | 'review') {
-    if (action === 'reopen' && !confirm('Rouvrir cette journée ? Son statut repassera à « en cours ». Tes réponses et notes sont conservées.')) return;
-    const next = nextStatusFor(action, status);
-    setStatus(next);
-    try { await postDay(day, { status: next }); } catch { setSaved('error'); return; }
-    window.dispatchEvent(new CustomEvent('progress-changed'));
+  // ── Commandes ────────────────────────────────────────────────────────────
+
+  async function send(command: Record<string, unknown>, optimistic?: Partial<SessionView>) {
+    setError(null);
+    const r = await sendCommand({ ...command, day });
+    if (!r.ok) { setError(r.error); setSaved('error'); return false; }
+    if (optimistic) setView((v) => ({ ...v, ...optimistic }));
+    announceProgressChanged();
     router.refresh();
+    return true;
   }
 
-  async function immediate(patch: Partial<DayProgress>) {
-    setSaved('saving');
-    try { await postDay(day, patch); setSaved('saved'); } catch { setSaved('error'); }
+  async function lifecycle(type: 'START' | 'PAUSE' | 'RESUME' | 'REOPEN') {
+    if (type === 'REOPEN' && !confirm('Rouvrir cette journée ? Son état repassera à « en cours ». Tes réponses, soumissions et preuves sont conservées.')) return;
+    const next: SessionState = type === 'PAUSE' ? 'paused' : 'active';
+    await send({ type }, { state: next, canStart: false, canResume: next === 'paused', canComplete: true });
+  }
+
+  async function closeDay(mode: 'done' | 'review-later' | 'keep-open') {
+    if (mode === 'keep-open') return; // rien à écrire : la session est déjà ouverte
+    const ok = await send(
+      { type: 'COMPLETE', ...(mode === 'review-later' ? { scheduleReview: true, comprehension: 'partial' } : {}) },
+      { state: 'completed', canComplete: false, canStart: false, canResume: false },
+    );
+    if (ok) setSaved('saved');
+  }
+
+  async function submitStep(stepId: string, kind: string) {
+    const content = (answers[stepId] ?? '').trim();
+    if (!content) { setError('Écris d’abord ta réponse : une soumission vide n’est pas enregistrée.'); return; }
+    setBusyStep(stepId);
+    const r = await sendCommand({ type: 'SUBMIT', day, stepId, kind, content });
+    setBusyStep(null);
+    if (!r.ok) { setError(r.error); return; }
+    setError(null);
+    setView((v) => ({
+      ...v,
+      submissions: v.submissions + 1,
+      steps: v.steps.map((s) => (s.id === stepId ? { ...s, state: 'in_progress' as StepState, submissions: s.submissions + 1 } : s)),
+      stepsDone: v.stepsDone,
+    }));
+    announceProgressChanged();
+    router.refresh();
   }
 
   async function chooseConfidence(v: 'low' | 'medium' | 'high') {
     setConfidence(v);
-    const sa = initial.selfAssessment ?? { level: null, confidence: null, criteria: {}, comment: '' };
-    await immediate({ selfAssessment: { ...sa, confidence: v } });
+    await send({ type: 'SET_SELF_ASSESSMENT', confidence: v });
   }
 
-  // Clôture explicite : terminer / terminer et revoir / laisser en cours.
-  async function closeDay(mode: 'done' | 'review-later' | 'in-progress') {
-    const now = new Date().toISOString();
-    const patch: Partial<DayProgress> =
-      mode === 'in-progress' ? { status: 'in-progress' }
-        : { status: 'done', completedAt: now };
-    if (mode === 'review-later') {
-      patch.review = updateReviewSchedule(initial.review ?? null, { comprehension: 'partial', confidence, now: new Date() });
-    }
-    setStatus(patch.status as DayStatus);
-    try { await postDay(day, patch); } catch { setSaved('error'); return; }
-    window.dispatchEvent(new CustomEvent('progress-changed'));
-    router.refresh();
+  async function chooseLevel(n: number) {
+    setSelfLevel(n);
+    await send({ type: 'SET_SELF_ASSESSMENT', level: n });
   }
 
-  // Synthèse dérivée (client) pour la clôture.
+  // ── Synthèse dérivée pour la clôture ─────────────────────────────────────
   const answeredCount = activities.filter((a) => (answers[a.id] ?? '').trim()).length;
   const unanswered = Math.max(0, activities.length - answeredCount);
   const correctionViewed = initial.correctionState === 'viewed' || initial.correctionState === 'acknowledged';
+  const state = view.state;
 
   const savedText = saved === 'saving' ? 'Enregistrement…'
     : saved === 'error' ? 'Échec de sauvegarde — texte conservé'
@@ -137,50 +171,100 @@ export default function DayPanel({
     <section className="day-panel" aria-label="Suivi de la journée">
       <div className="dpx-head">
         <div>
-          <p className="dpx-eyebrow">Mon suivi</p>
-          <div className={`dpx-state s-${status}`} aria-live="polite">
-            <span className="dot" aria-hidden="true" /> {STATUS_LABEL[status]}
+          <p className="dpx-eyebrow">Ma session</p>
+          <div className={`dpx-state s-${SESSION_TONE[state]}`} aria-live="polite">
+            <span className="dot" aria-hidden="true" /> {SESSION_LABEL[state]}
+            {view.stepsTotal > 0 && (
+              <span className="dpx-steps">· {view.stepsDone}/{view.stepsTotal} étapes</span>
+            )}
           </div>
         </div>
         <span className={`dpx-saved${saved === 'error' ? ' err' : ''}`} aria-live="polite">{savedText}</span>
       </div>
 
       <div className="dpx-actions">
-        {status === 'not-started' && (
-          <button className="btn primary" onClick={() => setStatusAction('start')}><Play size={15} strokeWidth={2.2} /> Commencer la journée</button>
+        {state === 'not_started' && (
+          <button className="btn primary" onClick={() => lifecycle('START')}>
+            <Play size={15} strokeWidth={2.2} /> Commencer la journée
+          </button>
         )}
-        {status === 'done' && (
-          <span className="dpx-done"><Check size={15} strokeWidth={2.2} /> Journée terminée</span>
+        {state === 'active' && (
+          <button className="btn" onClick={() => lifecycle('PAUSE')}>
+            <Pause size={14} strokeWidth={2} /> Mettre en pause
+          </button>
         )}
-        {status === 'done' && (
-          <button className="btn" onClick={() => setStatusAction('reopen')}><RotateCcw size={14} strokeWidth={2} /> Rouvrir</button>
+        {state === 'paused' && (
+          <button className="btn primary" onClick={() => lifecycle('RESUME')}>
+            <Play size={15} strokeWidth={2.2} /> Reprendre
+          </button>
+        )}
+        {state === 'completed' && (
+          <>
+            <span className="dpx-done"><Check size={15} strokeWidth={2.2} /> Journée terminée</span>
+            <button className="btn" onClick={() => lifecycle('REOPEN')}>
+              <RotateCcw size={14} strokeWidth={2} /> Rouvrir
+            </button>
+          </>
         )}
         {nextDay != null && (
           <a className="btn ghost dpx-next" href={`/day/${nextDay}`}>Jour suivant <ArrowRight size={14} strokeWidth={2} /></a>
         )}
       </div>
 
-      {/* Espace de travail : une réponse par activité, ou une réponse globale */}
+      {error && (
+        <p className="cmd-error" role="alert">
+          <AlertTriangle size={13} strokeWidth={2} /> {error}
+        </p>
+      )}
+
+      {/* Espace de travail : un brouillon par activité + un geste « rendre ».
+          Les commandes de soumission sont posées DANS le champ (position
+          absolue) : elles n'ajoutent aucune hauteur au flux — la Vue Jour ne
+          doit pas s'allonger d'un pixel (critère de clôture UX 10). */}
       <div className="dpx-work">
         {hasActivities ? (
-          activities.map((a) => (
-            <div className="work-item" key={a.id}>
-              <label className="work-label" htmlFor={`ans-${a.id}`}>
-                <span className="work-fam" data-family={a.family}>{FAMILY_LABEL[a.family] ?? a.family}</span>
-                {a.label}
-              </label>
-              <textarea
-                id={`ans-${a.id}`}
-                className="work-textarea"
-                value={answers[a.id] ?? ''}
-                onChange={(e) => setAnswers((prev) => ({ ...prev, [a.id]: e.target.value }))}
-                placeholder="Ta réponse, ton raisonnement, ton code…"
-              />
-            </div>
-          ))
+          activities.map((a) => {
+            const st = stepState(a.id);
+            const count = view.steps.find((s) => s.id === a.id)?.submissions ?? 0;
+            const canSubmit = state === 'active' || state === 'paused';
+            return (
+              <div className={`work-item st-${st}`} key={a.id}>
+                <label className="work-label" htmlFor={`ans-${a.id}`}>
+                  <span className="work-fam" data-family={a.family}>{FAMILY_LABEL[a.family] ?? a.family}</span>
+                  {a.label}
+                </label>
+                <div className="work-field">
+                  <textarea
+                    id={`ans-${a.id}`}
+                    className="work-textarea"
+                    value={answers[a.id] ?? ''}
+                    onChange={(e) => setAnswers((prev) => ({ ...prev, [a.id]: e.target.value }))}
+                    placeholder="Ta réponse, ton raisonnement, ton code…"
+                  />
+                  <div className="work-foot">
+                    {count > 0 && (
+                      <span className={`work-st st-${st}`}>
+                        {st === 'done' ? <Check size={11} strokeWidth={2.4} /> : <CircleDot size={11} strokeWidth={2.2} />}
+                        {STEP_LABEL[st]}{count > 1 ? ` · ${count}` : ''}
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      className="btn small work-submit"
+                      disabled={!canSubmit || busyStep === a.id}
+                      title={canSubmit ? 'Enregistrer ce travail comme soumission horodatée' : 'Commence la journée pour rendre un travail'}
+                      onClick={() => submitStep(a.id, 'text')}
+                    >
+                      <Send size={12} strokeWidth={2.2} /> {busyStep === a.id ? '…' : 'Rendre'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })
         ) : (
           <div className="work-item">
-            <label className="work-label" htmlFor="ans-global">Ma réponse <span className="muted">(d'abord seul, sans copier-coller l'IA)</span></label>
+            <label className="work-label" htmlFor="ans-global">Ma réponse <span className="muted">(d&apos;abord seul, sans copier-coller l&apos;IA)</span></label>
             <textarea id="ans-global" className="work-textarea" value={legacyAnswer} onChange={(e) => setLegacyAnswer(e.target.value)} placeholder="Ta solution, ton raisonnement, ton code…" />
           </div>
         )}
@@ -191,13 +275,17 @@ export default function DayPanel({
       </div>
 
       {/* Clôture de journée — explicite, non aveugle */}
-      {status !== 'not-started' && (
+      {state !== 'not_started' && (
         <div className="day-close">
           <p className="dpx-eyebrow">Clôturer la journée</p>
           <div className="dc-summary">
             {activities.length > 0 && <span className="dc-chip">{answeredCount}/{activities.length} activités répondues</span>}
+            {view.submissions > 0 && <span className="dc-chip">{view.submissions} soumission(s)</span>}
             <span className="dc-chip">Correction {correctionViewed ? 'consultée' : 'non consultée'}</span>
-            {initial.evidence && initial.evidence.length > 0 && <span className="dc-chip">{initial.evidence.length} preuve(s)</span>}
+            {view.evidenceCount > 0 && <span className="dc-chip">{view.evidenceCount} preuve(s)</span>}
+            {view.startedAt && (
+              <span className="dc-chip">Commencée le {new Date(view.startedAt).toLocaleDateString('fr-FR')}</span>
+            )}
           </div>
           {unanswered > 0 && (
             <p className="dc-warn"><AlertTriangle size={13} strokeWidth={2} /> {unanswered} activité(s) sans réponse — tu peux terminer quand même.</p>
@@ -209,11 +297,11 @@ export default function DayPanel({
                 onClick={() => chooseConfidence(v)}>{v === 'low' ? 'Faible' : v === 'medium' ? 'Moyenne' : 'Élevée'}</button>
             ))}
           </div>
-          {status !== 'done' && (
+          {view.canComplete && (
             <div className="dc-actions">
               <button className="btn primary" onClick={() => closeDay('done')}><Check size={15} strokeWidth={2.2} /> Terminer</button>
               <button className="btn" onClick={() => closeDay('review-later')}><AlertTriangle size={14} strokeWidth={2} /> Terminer et revoir plus tard</button>
-              <button className="btn ghost" onClick={() => closeDay('in-progress')}>Laisser en cours</button>
+              <button className="btn ghost" onClick={() => closeDay('keep-open')}>Laisser en cours</button>
             </div>
           )}
         </div>
@@ -225,23 +313,20 @@ export default function DayPanel({
           <label className="field">Auto-évaluation (0-5)</label>
           <div className="row" role="group" aria-label="Auto-évaluation de 0 à 5">
             {[0, 1, 2, 3, 4, 5].map((n) => (
-              <button key={n} className={`btn small ${selfScore === n ? 'primary' : ''}`} aria-pressed={selfScore === n}
-                onClick={() => { setSelfScore(n); immediate({ selfScore: n }); }}>{n}</button>
+              <button key={n} className={`btn small ${selfLevel === n ? 'primary' : ''}`} aria-pressed={selfLevel === n}
+                onClick={() => chooseLevel(n)}>{n}</button>
             ))}
           </div>
           {checklist.length > 0 && (
             <>
               <label className="field">Checklist de validation</label>
-              {checklist.map((item, i) => {
-                const key = String(i);
-                return (
-                  <label key={key} className="row" style={{ cursor: 'pointer', margin: '4px 0' }}>
-                    <input type="checkbox" style={{ width: 'auto' }} checked={!!checks[key]}
-                      onChange={(e) => { const n = { ...checks, [key]: e.target.checked }; setChecks(n); immediate({ checklist: n }); }} />
-                    <span>{item}</span>
-                  </label>
-                );
-              })}
+              <ul className="dpx-checklist">
+                {checklist.map((item, i) => <li key={String(i)}>{item}</li>)}
+              </ul>
+              <p className="muted dpx-legacy-note">
+                Cette checklist est une grille de relecture issue du corpus. Depuis V64, ce
+                qui est enregistré, c&apos;est la soumission de chaque activité — pas une case cochée.
+              </p>
             </>
           )}
         </div>

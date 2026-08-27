@@ -35,6 +35,10 @@ export default function RevisionsPage() {
 
   const due = getDueReviews(progress.days).map((r) => ({
     ...r, title: title(r.day), review: progress.days[String(r.day)]?.review ?? null,
+    // V64 : la confiance déclarée entre dans le calcul d'intervalle du moteur.
+    // Elle est passée ici pour que l'échéance ANNONCÉE au clic soit exactement
+    // celle qui sera écrite — même fonction, mêmes entrées.
+    confidence: progress.days[String(r.day)]?.selfAssessment?.confidence ?? null,
   }));
   const upcoming = getUpcomingReviews(progress.days).map((r) => ({ ...r, title: title(r.day) }));
 

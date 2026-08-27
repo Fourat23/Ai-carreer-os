@@ -8,6 +8,7 @@ import type { SkillExplanation } from '@/lib/learning-experience';
 import { skillStatusToken, STATUS_DISPLAY_ORDER, statusRank } from '@/lib/skill-vocabulary.mjs';
 import { Status, Metric } from '@/app/ui';
 import type { Tone } from '@/app/ui';
+import { sendCommand } from '@/app/progress-command';
 
 // Regroupement des compétences par ÉTAT sémantique (ordre V52, aucune 2e source).
 const GROUP_HINT: Record<string, string> = {
@@ -27,18 +28,27 @@ export default function SkillsBoard({
   explains?: Record<string, SkillExplanation>;
 }) {
   const [scores, setScores] = useState<Record<string, number>>(initialScores);
+  const [error, setError] = useState<string | null>(null);
 
   async function setScore(skill: string, score: number) {
+    const previous = scores[skill];
     setScores((s) => ({ ...s, [skill]: score }));
-    await fetch('/api/progress', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'skill', payload: { skill, score } }),
-    });
+    setError(null);
+    const r = await sendCommand({ type: 'SET_SKILL', skill, score });
+    if (!r.ok) {
+      // Un échec ne laisse pas un score affiché qui n'existe pas sur disque.
+      setScores((s) => ({ ...s, [skill]: previous }));
+      setError(r.error);
+    }
   }
 
-  const avg = skills.length === 0 ? 0
-    : skills.reduce((sum, s) => sum + (scores[s.id] ?? 0), 0) / skills.length;
+  // V64 · dette P0-1 de V63. Tant qu'AUCUNE compétence n'a été auto-évaluée,
+  // « 0.0 / 5 » n'est pas une moyenne : c'est une valeur inventée qui a le poids
+  // visuel d'une donnée réelle. Une donnée qui n'existe pas s'affiche
+  // « non renseigné » — jamais estimée (invariant §1 « Données »).
+  const rated = skills.filter((s) => Number.isFinite(scores[s.id]) && scores[s.id] > 0);
+  const avg = rated.length === 0 ? null
+    : rated.reduce((sum, s) => sum + scores[s.id], 0) / rated.length;
 
   // Groupes ordonnés par STATUS_DISPLAY_ORDER (état → compétences).
   const byState = new Map<string, Skill[]>();
@@ -58,9 +68,15 @@ export default function SkillsBoard({
 
   return (
     <>
+      {error && <p className="cmd-error" role="alert">{error}</p>}
       <div className="skills-summary">
-        <Metric label="Auto-évaluation moyenne" value={`${avg.toFixed(1)} / 5`} emphasis
-          sub="Honnêteté : ne compte que ce que tu peux produire seul et expliquer." />
+        <Metric
+          label="Auto-évaluation moyenne"
+          value={avg === null ? 'non renseigné' : `${avg.toFixed(1)} / 5`}
+          emphasis={avg !== null}
+          sub={avg === null
+            ? 'Aucune compétence auto-évaluée pour l’instant. Les états ci-dessous sont dérivés de tes preuves, pas de cette note.'
+            : `Moyenne des ${rated.length} compétence${rated.length > 1 ? 's' : ''} que tu as notée${rated.length > 1 ? 's' : ''}. Honnêteté : ne compte que ce que tu peux produire seul et expliquer.`} />
         <div className="skills-distribution" aria-label="Répartition par état">
           {distribution.map((d) => (
             <Status key={d.token.state} tone={d.token.tone as Tone} label={`${d.token.label} · ${d.n}`} />

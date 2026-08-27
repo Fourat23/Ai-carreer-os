@@ -951,6 +951,42 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 }
 .work-textarea { min-height: 88px; resize: vertical; font-family: inherit; line-height: 1.55; }
 
+/* ── V64 · soumission d'une étape ──────────────────────────────────────────
+   Les commandes vivent DANS le champ, en position absolue. Contrainte de
+   clôture UX 10 : la Vue Jour ne doit pas gagner un pixel de hauteur. Le
+   champ garde sa `min-height` (box-sizing: border-box), et sa réserve basse
+   accueille la barre d'actions. Rien n'est ajouté au flux. */
+.work-field { position: relative; display: flex; flex-direction: column; }
+.work-field .work-textarea { padding-bottom: 32px; }
+.work-foot {
+  position: absolute; right: 8px; bottom: 7px; z-index: 1;
+  display: flex; align-items: center; gap: 8px; pointer-events: none;
+}
+.work-foot > * { pointer-events: auto; }
+.work-st {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--muted); white-space: nowrap;
+}
+.work-st.st-done { color: var(--ok); }
+.work-st.st-in_progress { color: var(--accent); }
+.btn.small.work-submit { padding: 3px 9px; font-size: 11px; }
+/* Une étape validée se lit sur le champ lui-même : aucune ligne en plus. */
+.work-item.st-done .work-textarea { border-color: color-mix(in oklab, var(--ok) 45%, var(--border)); }
+.work-item.st-in_progress .work-textarea { border-color: color-mix(in oklab, var(--accent) 35%, var(--border)); }
+
+.dpx-steps { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); font-weight: 400; }
+.dpx-state.s-paused { color: var(--warn); }
+.dpx-checklist { margin: 4px 0 0; padding-left: 20px; font-size: var(--fs-sm); color: var(--muted); }
+.dpx-checklist li { margin: 3px 0; }
+.dpx-legacy-note { font-size: var(--fs-xs); margin-top: 8px; }
+
+/* Message d'échec d'une commande : un clic sans effet est un défaut produit. */
+.cmd-error {
+  display: flex; align-items: center; gap: 6px; margin: 10px 0 0;
+  font-size: var(--fs-sm); color: var(--danger);
+}
+
 /* ── Vue Jour : correction interactive ── */
 .day-corr { margin-top: 22px; }
 .corr-lock { border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: var(--r); background: var(--panel); padding: var(--sp-4) var(--sp-5); }
@@ -5130,3 +5166,7 @@ button.dot::after {
      s'y étend, ce qui suffit à rendre le titre à une ou deux lignes. */
   .doc-view { grid-template-columns: minmax(0, 1fr) 16.5rem; }
 }
+
+/* ── V64 · diagnostic : conservation explicite du résultat ── */
+.diag-keep { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.diag-keep-note { font-size: var(--fs-sm); color: var(--muted); }

@@ -3,8 +3,8 @@
 // contrairement à localStorage.
 
 import { cache } from 'react';
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, renameSync, openSync, fsyncSync, closeSync, unlinkSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import type { Progress, DayProgress } from './types';
 import {
   migrateToV7, activeTrackProgress, writeActiveTrack, enrollTrack, setActiveTrack,
@@ -12,8 +12,20 @@ import {
 } from './progress-store';
 
 const ROOT = process.cwd();
-const FILE = join(ROOT, 'data', 'progress.json');
-const SNAPSHOT = join(ROOT, 'data', 'progress.backup.json');
+
+// PERSISTANCE INJECTABLE (ADR-064 §8.3, brief §29). Les tests mutatifs pointent
+// AICOS_PROGRESS_FILE vers une fixture isolée. Aucun test ne doit sauvegarder
+// puis restaurer data/progress.json : ce procédé masque la mutation au lieu de
+// l'empêcher. Par défaut, le fichier réel du propriétaire.
+const FILE = process.env.AICOS_PROGRESS_FILE
+  ? (process.env.AICOS_PROGRESS_FILE.startsWith('/') ? process.env.AICOS_PROGRESS_FILE : join(ROOT, process.env.AICOS_PROGRESS_FILE))
+  : join(ROOT, 'data', 'progress.json');
+const SNAPSHOT = `${FILE.replace(/\.json$/, '')}.backup.json`;
+
+/** Chemin réellement utilisé — exposé pour les tests et les gates. */
+export function progressFilePath(): string {
+  return FILE;
+}
 
 export function emptyProgress(): Progress {
   return { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
@@ -55,10 +67,25 @@ export function readProgress(): Progress {
   return activeTrackProgress(readProgressV3());
 }
 
+// ÉCRITURE ATOMIQUE (ADR-064 §8.1). `writeFileSync` direct laissait, en cas
+// d'interruption, un JSON tronqué que `readProgressV3` interprète comme une
+// progression VIDE — soit une perte totale silencieuse. On écrit dans un
+// fichier temporaire du MÊME répertoire, on force le vidage sur disque, puis on
+// renomme : le rename est atomique sur un même système de fichiers, donc le
+// lecteur voit soit l'ancien fichier intact, soit le nouveau complet.
 function writeV3(v3: ProgressV3): void {
-  const dir = join(ROOT, 'data');
+  const dir = dirname(FILE);
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-  writeFileSync(FILE, JSON.stringify(v3, null, 2));
+  const tmp = `${FILE}.${process.pid}.tmp`;
+  try {
+    writeFileSync(tmp, JSON.stringify(v3, null, 2));
+    const fd = openSync(tmp, 'r+');
+    try { fsyncSync(fd); } finally { closeSync(fd); }
+    renameSync(tmp, FILE);
+  } catch (e) {
+    try { if (existsSync(tmp)) unlinkSync(tmp); } catch { /* best-effort */ }
+    throw e;
+  }
 }
 
 /** Écrit la structure multi-parcours v3 complète (import de sauvegarde V9). */

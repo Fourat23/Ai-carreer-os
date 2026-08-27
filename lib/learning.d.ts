@@ -1,7 +1,14 @@
 // Types pour lib/learning.mjs (modèle Active Learning pur, extension V6).
-import type { Progress, DayProgress } from './types';
+import type { Progress, DayProgress, LearningSession, Validation } from './types';
 
 export const LEARNING_SCHEMA: number;
+export const SESSION_STATES: readonly ['not_started', 'active', 'paused', 'completed'];
+export const STEP_STATES: readonly ['pending', 'in_progress', 'done'];
+export const SUBMISSION_KINDS: readonly ['text', 'exercise', 'assessment'];
+export const VALIDATION_STATUSES: readonly ['passed', 'failed', 'pending', 'manual'];
+export const VALIDATION_KINDS: readonly ['exercise-tests', 'assessment-grade', 'self'];
+export function normalizeSession(session: unknown, day?: Partial<DayProgress>): LearningSession;
+export function normalizeValidation(v: unknown): Validation | null;
 export const CORRECTION_STATES: readonly ['locked', 'available', 'viewed', 'acknowledged'];
 export const COMPREHENSIONS: readonly ['understood', 'partial', 'review'];
 export const CONFIDENCES: readonly ['low', 'medium', 'high'];

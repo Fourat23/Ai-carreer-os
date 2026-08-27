@@ -14,6 +14,7 @@ import { hasLabEvidence } from '@/lib/lab-progress';
 import { EMPTY_DAY_PROGRESS } from '@/lib/types';
 import { stripDayLeadHtml, splitDayHtml, isDayMetaLine } from '@/lib/day-view';
 import { annotateDayHtml, deriveActivities, deriveDayPhases } from '@/lib/section-family';
+import { sessionView } from '@/lib/learning-engine';
 import { SectionHeader, Status, PhaseRail, ContextLine } from '@/app/ui';
 import DayPanel from './DayPanel';
 import DayMission from './DayMission';
@@ -57,6 +58,10 @@ export default async function DayPage({ params, searchParams }: {
   const solution = getSolutionHtml(dayNum);
   const checklist = getDayChecklist(dayNum);
   const progress = getDayProgress(dayNum) ?? { ...EMPTY_DAY_PROGRESS };
+  // V64 · l'état de travail de la journée, DÉRIVÉ (ADR-064). Une lecture ne
+  // mute jamais rien : `sessionView` est une fonction pure sur la progression
+  // déjà lue, elle ne crée aucune session au passage.
+  const session = sessionView(progress, activities);
 
   // Navigation BORNÉE au parcours actif : précédent/suivant sont les journées
   // voisines dans resolveTrackDays (jamais day±1). Si la journée est hors du
@@ -247,7 +252,7 @@ export default async function DayPage({ params, searchParams }: {
             <article className="prose day-do-prose" dangerouslySetInnerHTML={{ __html: split.act }} />
           )}
 
-          <DayPanel day={dayNum} nextDay={nextDay} initial={progress} checklist={checklist} activities={activities} />
+          <DayPanel day={dayNum} nextDay={nextDay} initial={progress} checklist={checklist} activities={activities} session={session} />
 
           {solution && (
             <div id="correction">

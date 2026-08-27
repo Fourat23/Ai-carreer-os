@@ -4881,23 +4881,44 @@ button.dot::after {
   .day-shop-read, .day-shop-do, .day-shop-ctx {
     border: 1px solid var(--border); border-radius: 0 0 var(--r-lg) var(--r-lg); overflow: hidden;
   }
-  /* V62 · CP3 — À 375 px, /day/80 mesure 13 425 px : le volet LIRE seul
-     porte 12 802 px, et c'est le COURS. Le brief interdit d'en retirer une
-     ligne, et il a raison : ce n'est pas un mur, c'est la journée.
-     Ce qui manquait n'était pas de la place, c'était un moyen d'y naviguer —
-     le déroulé, qui ancre les douze sections, n'était visible que dans le
-     volet « Plan », donc jamais EN MÊME TEMPS que la lecture.
-     Le déroulé reste donc affiché au-dessus des deux autres volets. La
-     hauteur ne change pas ; la fatigue de navigation, si. */
-  .day-shop.v-lire  .day-shop-do   { display: none; }
-  .day-shop.v-faire .day-shop-read { display: none; }
+  /* ── V63 · CORRECTION CAUSALE DE LA RÉGRESSION DE +188 px ────────────────
+     V62 avait rendu le déroulé visible EN PLUS du volet de lecture, pour
+     répondre à un vrai manque : à 375 px, /day/80 déroule 12 802 px de cours
+     sans moyen de sauter d'une section à l'autre.
+     Mesuré au CP0 de V63, l'addition est exacte : `.day-shop-ctx` occupait
+     168 px, plus ~20 px de bordure et de marge — soit les 188 px de
+     régression, au pixel près.
+
+     Le défaut de ce remède : un bloc statique en tête d'un document de
+     12 800 px disparaît après le premier écran. Il coûtait une hauteur
+     permanente pour un service qui s'arrêtait au bout de 2 % du défilement.
+
+     La correction rend au déroulé sa place d'origine (volet « Plan ») et rend
+     à la place le SÉLECTEUR DE VOLET collant. Il existait déjà — 47 px, dans
+     V61 comme dans V62 — donc il ne coûte RIEN de plus, et « Plan » devient
+     atteignable à n'importe quelle profondeur de défilement au lieu du seul
+     haut de page. Plus de navigation qu'en V62, pour zéro pixel ajouté. */
+  .day-shop.v-lire  .day-shop-ctx, .day-shop.v-lire  .day-shop-do   { display: none; }
+  .day-shop.v-faire .day-shop-ctx, .day-shop.v-faire .day-shop-read { display: none; }
   .day-shop.v-plan  .day-shop-read, .day-shop.v-plan .day-shop-do   { display: none; }
-  .day-shop-ctx { border-radius: 0; border-bottom: none; }
-  .day-shop.v-plan .day-shop-ctx { border-radius: 0 0 var(--r-lg) var(--r-lg); border-bottom: 1px solid var(--border); }
-  /* Replié à une hauteur de consultation : le déroulé oriente, il ne prend
-     pas la place du contenu qu'il indexe. */
-  .day-shop.v-lire .day-shop-ctx, .day-shop.v-faire .day-shop-ctx {
-    max-height: 168px; overflow-y: auto;
+  .day-panes {
+    /* La barre supérieure de l'application est ELLE-MÊME collante
+       (`--topbar-h`, z-index 30). Un `top: 0` ici faisait glisser le sélecteur
+       DERRIÈRE elle : mesuré, il était à top=0 mais invisible, et ma première
+       sonde l'a déclaré « visible » parce qu'elle vérifiait la géométrie et
+       non l'occlusion. Il s'ancre donc SOUS la barre. */
+    position: sticky; top: var(--topbar-h); z-index: 5;
+    background-color: var(--bg); background-image: var(--grad-surface);
+    /* Séparation par OMBRE et non par bordure : une bordure ajouterait 1 px
+       au flux, et 1 px de plus que la référence reste 1 px de plus. */
+    box-shadow: 0 1px 0 var(--border);
+  }
+  /* Deux bandes collantes empilées mesurent ~100 px. Sans marge de
+     défilement, la cible du focus au clavier se range juste dessous et
+     disparaît. Mesuré : 5 arrêts de tabulation sur 43 étaient recouverts. */
+  .day-shop-read :is(a, button, [tabindex]),
+  .day-shop-do :is(a, button, input, textarea, select, [tabindex]) {
+    scroll-margin-top: calc(var(--topbar-h) + 60px);
   }
   .day-shop-ctx { padding: var(--sp-3); }
   .day-shop-read .day-read, .day-shop-do > .prose, .day-shop-do > section,

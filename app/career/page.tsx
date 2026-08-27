@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getDocHtml } from '@/lib/program';
-import { SurfaceHead, EditorialShell } from '@/app/ui';
+import { SurfaceHead, EditorialShell, ContextLine } from '@/app/ui';
 import { extractSections } from '@/lib/doc-sections';
 import { annotateProseA11y } from '@/lib/section-family';
 
@@ -33,6 +33,28 @@ export default async function CareerPage({ searchParams }: { searchParams: Promi
 
   return (
     <EditorialShell
+      context={
+        <ContextLine
+          label="Position dans les documents de carrière"
+          facts={[
+            { k: 'Document', v: current.label, here: true },
+            { k: 'Sur', v: `${DOCS.length}` },
+            { k: 'Mots', v: words.toLocaleString('fr-FR') },
+            { k: 'Lecture', v: `~${Math.max(1, Math.round(words / 220))} min` },
+          ]}
+        />
+      }
+      /* La suite d'un document de carrière est l'AUTRE document de la même
+         famille — ils forment une séquence réelle : préparer le dossier, puis
+         préparer l'entretien. Sur le dernier, la suite est le mois 12, où le
+         parcours place ce travail. */
+      next={(() => {
+        const i = DOCS.findIndex((d) => d.id === selected);
+        const nxt = DOCS[i + 1];
+        return nxt
+          ? { href: `/career?doc=${nxt.id}`, label: nxt.label, hint: 'Document suivant de la séquence carrière.' }
+          : { href: '/month/12', label: 'Mois 12 — le mois où ce travail se fait', hint: 'Revenir à la séquence du parcours.' };
+      })()}
       head={
         <SurfaceHead
           kind="editorial"

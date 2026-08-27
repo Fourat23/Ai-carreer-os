@@ -4630,7 +4630,14 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
   .day-view:not(:has(.day-rail .phase-step)) { grid-template-columns: minmax(0, 1fr); }
   .day-view:not(:has(.day-rail .phase-step)) .day-main { max-width: none; }
   .doc-view:not(:has(.doc-rail .phase-step)) { grid-template-columns: minmax(0, 1fr); }
-  .doc-view:not(:has(.doc-rail .phase-step)) .doc-main { max-width: var(--read-max); }
+  /* V62 · CP10 — Sans rail de sections, la colonne restait bornée à la mesure
+     de LECTURE (632 px) en entier, en-tête compris : le titre d'un document
+     se cassait sur quatre lignes tandis que 500 px de canevas restaient vides
+     à sa droite. Vu sur la capture à l'aveugle, invisible à toute sonde.
+     La mesure de lecture appartient au TEXTE COURANT, pas au titre : elle
+     descend donc sur la prose, et l'en-tête reprend la largeur — exactement ce
+     que fait EditorialShell sur /career, /guide et /resources. */
+  .doc-view:not(:has(.doc-rail .phase-step)) .doc-main { max-width: 1000px; }
 }
 
 /* V59 · CP9 — Le titre d'un groupe de catalogue est un vrai titre de section.
@@ -5044,3 +5051,61 @@ button.dot::after {
 .les-group-head:hover::after { border-color: var(--text); }
 .les-group-head:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { .les-group-head::after { transition: none; } }
+
+/* ── CP13 · ANTI-CARTIFICATION — LES CINQ CATALOGUES TECHNIQUES ───────────
+   Mesuré au CP0, et vu sur la capture de /security avant d'être mesuré : une
+   grille de cartes à trois colonnes, hauteurs inégales, une carte orpheline
+   seule sur la deuxième rangée. `/cloud-foundations` portait six signatures
+   de carte identiques — le plus haut du produit.
+
+   La question du §3 : « cette frontière représente-t-elle réellement un objet
+   différent ? » Un scénario de catalogue n'a ni action autonome ni cycle de
+   vie propre. C'est une LIGNE. C'est exactement le raisonnement que V57 avait
+   appliqué à /capstones et /diagnostics ; il n'avait jamais atteint la famille
+   technique.
+
+   Une seule règle, cinq catalogues : `.pl-cards` cesse d'être une grille de
+   cartes et devient une liste de lignes, sur une surface continue. Aucun TSX
+   modifié — la structure était déjà correcte, c'est la présentation qui
+   fabriquait des objets là où il n'y en avait pas. */
+.pl-cards {
+  display: block; border: 1px solid var(--border); border-radius: var(--r);
+  overflow: hidden; background-color: var(--surface);
+  background-image: var(--grad-surface); box-shadow: var(--shadow-1);
+}
+.pl-cards > .pl-card + .pl-card { border-top: 1px solid var(--border); }
+.pl-cards > .pl-card > .pl-card-link {
+  border: none; border-radius: 0; background: none; box-shadow: none;
+  height: auto; align-items: baseline;
+  border-left: 2px solid transparent; padding: var(--sp-3) var(--sp-4);
+}
+.pl-cards > .pl-card > .pl-card-link:hover {
+  border-color: transparent; border-left-color: var(--accent);
+  background-color: var(--surface-hover);
+}
+.pl-cards > .pl-card > .pl-card-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* En ligne, le libellé et la description tiennent sur la même colonne large ;
+   les marques passent à droite quand la place existe. */
+@media (min-width: 900px) {
+  .pl-cards > .pl-card > .pl-card-link { display: grid; grid-template-columns: auto 1fr auto; gap: var(--sp-3); }
+  .pl-cards .pl-card-meta { justify-content: flex-end; margin-top: 0; }
+}
+.pl-cards .pl-card-desc { max-width: 92ch; }
+
+/* ── CP10 · /doc — L'EN-TÊTE PREND LA LARGEUR, LE TEXTE GARDE SA MESURE ────
+   Vu sur la capture à l'aveugle, après la première correction : le titre du
+   document se cassait encore sur quatre lignes, parce que `.doc-main` borne
+   TOUTE la colonne à la mesure de lecture, en-tête compris. Les trois autres
+   routes éditoriales (/career, /guide, /resources) font l'inverse via
+   EditorialShell : l'en-tête occupe la largeur, seul le corps est borné.
+   C'est cette règle-là qui est la bonne — un titre n'est pas du texte courant,
+   il n'a pas à respecter une mesure de lecture — et /doc l'adopte.
+   La mesure du CORPS est inchangée : c'est elle qui porte la lisibilité. */
+.doc-main { max-width: none; }
+.doc-view article.prose.reading,
+.doc-view .lesson-practice { max-width: var(--read-max); }
+@media (min-width: 1200px) {
+  /* En grille, la colonne principale garde sa largeur de gouttière ; l'en-tête
+     s'y étend, ce qui suffit à rendre le titre à une ou deux lignes. */
+  .doc-view { grid-template-columns: minmax(0, 1fr) 16.5rem; }
+}

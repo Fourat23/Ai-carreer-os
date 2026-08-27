@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getDocHtml } from '@/lib/program';
-import { SurfaceHead, EditorialShell } from '@/app/ui';
+import { SurfaceHead, EditorialShell, ContextLine } from '@/app/ui';
 import { extractSections } from '@/lib/doc-sections';
 import { annotateProseA11y } from '@/lib/section-family';
 
@@ -26,6 +26,24 @@ export default async function GuidePage({ searchParams }: { searchParams: Promis
 
   return (
     <EditorialShell
+      context={
+        <ContextLine
+          label="Position dans le manuel"
+          facts={[
+            { k: 'Document', v: current.label, here: true },
+            { k: 'Sur', v: `${DOCS.length}` },
+            { k: 'Mots', v: words.toLocaleString('fr-FR') },
+            { k: 'Lecture', v: `~${Math.max(1, Math.round(words / 220))} min` },
+          ]}
+        />
+      }
+      /* Le mode d'emploi a une suite évidente : commencer. Sur le standard de
+         qualité, la suite est l'autre document du manuel. */
+      next={current.id === 'use'
+        ? { href: '/', label: 'Tableau de bord — commencer le parcours',
+            hint: 'Le manuel est lu : la suite est le programme lui-même.' }
+        : { href: '/guide?doc=use', label: 'Mode d’emploi 12 mois',
+            hint: 'Document suivant du manuel.' }}
       head={
         <SurfaceHead
           kind="editorial"

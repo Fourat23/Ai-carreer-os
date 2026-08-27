@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getDocHtml, getProgram } from '@/lib/program';
 import { annotateDayHtml, deriveDayPhases } from '@/lib/section-family';
 import { decodeEntities } from '@/lib/doc-sections';
-import { HeroFocus, HeroFact, PhaseRail } from '@/app/ui';
+import { SurfaceHead, PhaseRail, ContextLine } from '@/app/ui';
 import type { PracticeRef } from '@/lib/types';
 
 // Libellés des dossiers de contenu, pour situer le document lu.
@@ -76,35 +76,83 @@ export default async function DocPage({ params }: { params: Promise<{ slug: stri
     practice = lesson?.practiceRefs ?? [];
   }
 
+  // ── V62 · CP10 — LA SEULE ROUTE DE CLASSE C DU PRODUIT ─────────────────
+  //
+  // Mesuré au CP0, et vu sur la capture avant d'être mesuré : le hero flottait
+  // dans une carte d'environ 630 px au milieu d'un canevas de 1 170, titre
+  // cassé sur quatre lignes, corps du document dessous à une autre mesure.
+  // Le `h1` était HORS ÉCRAN (`sr-only`) — exactement le défaut que V59 avait
+  // introduit sur /capstones et que V61 y a corrigé ; il avait survécu ici.
+  // Conséquence chiffrée : ratio typographique 2,24, seule route du produit
+  // sous 3,3, parce que le titre visible n'était qu'un h2 à l'étroit.
+  //
+  // Elle reçoit la bande d'identité partagée — donc un h1 RÉEL et visible à
+  // l'échelle display — la ligne de contexte, et une suite.
+  //
+  // La suite d'un document dépend de ce qu'il est : une leçon de fond mène à
+  // sa pratique associée, qui est une donnée réelle du corpus ; les autres
+  // documents ramènent à l'index de leur famille. Aucun lien inventé : une
+  // référence sans route (playbook) n'en produit pas.
+  const firstPractice = practice.map((r) => ({ ref: r, href: hrefFor(r) }))
+    .find((x) => x.href !== null);
+  const FAMILY_INDEX: Record<string, { href: string; label: string }> = {
+    lessons: { href: '/lessons', label: 'Toutes les leçons de fond' },
+    methodology: { href: '/guide', label: 'Le mode d’emploi du programme' },
+    resources: { href: '/resources', label: 'Toutes les ressources' },
+    career: { href: '/career', label: 'Les documents de carrière' },
+    rubrics: { href: '/reviews', label: 'Les évaluations' },
+    'year-overview': { href: '/parcours', label: 'Le parcours complet' },
+  };
+  const family = FAMILY_INDEX[slug[0]];
+  const next = firstPractice
+    ? { href: firstPractice.href!, label: `${KIND_LABEL[firstPractice.ref.kind]} · ${firstPractice.ref.id}`,
+        hint: 'Mettre cette leçon en pratique tout de suite.' }
+    : family
+      ? { href: family.href, label: family.label, hint: 'Revenir à la séquence.' }
+      : null;
+
   return (
     <div className="doc-view">
       <div className="doc-main">
-        {/* Le titre visible vit dans le hero (h2) : un h1 accessible est exposé
-            pour que la page garde une hiérarchie de titres correcte. */}
-        <h1 className="sr-only">{docTitle}</h1>
-        {/* Hero de document : le lecteur sait ce qu'il lit, d'où ça vient et
-            combien de temps ça prend, avant la première ligne. */}
-        <HeroFocus
-          tone="calm"
+        <ContextLine
+          label="Position dans le corpus"
+          facts={[
+            { k: 'Document', v: KIND[slug[0]] ?? 'Document', here: true },
+            { k: 'Longueur', v: `${words.toLocaleString('fr-FR')} mots` },
+            { k: 'Lecture', v: `≈ ${Math.max(1, Math.round(words / 200))} min` },
+            ...(phases.length > 1 ? [{ k: 'Sections', v: `${phases.length}` }] : []),
+            ...(practice.length > 0 ? [{ k: 'Pratique associée', v: `${practice.length}` }] : []),
+          ]}
+        />
+        <SurfaceHead
+          kind="editorial"
           eyebrow={KIND[slug[0]] ?? 'Document'}
           title={docTitle}
           lead={docLead}
-          meta={
-            <>
-              <HeroFact k="Longueur">{words.toLocaleString('fr-FR')} mots</HeroFact>
-              <HeroFact k="Lecture">≈ {Math.max(1, Math.round(words / 200))} min</HeroFact>
-              {phases.length > 1 && <HeroFact k="Sections">{phases.length}</HeroFact>}
-              {practice.length > 0 && <HeroFact k="Pratique associée">{practice.length}</HeroFact>}
-            </>
-          }
+          facts={[
+            { k: 'Longueur', v: `${words.toLocaleString('fr-FR')} mots` },
+            { k: 'Lecture', v: `≈ ${Math.max(1, Math.round(words / 200))} min` },
+            ...(phases.length > 1 ? [{ k: 'Sections', v: phases.length }] : []),
+          ]}
         />
+
+        {next && (
+          <section className="tb-next" aria-label="Prochaine action">
+            <div className="tb-next-body">
+              <span className="tb-next-k">Ensuite</span>
+              <p className="tb-next-t">{next.label}</p>
+              <p className="tb-next-d">{next.hint}</p>
+            </div>
+            <Link className="btn cta" href={next.href}>Ouvrir</Link>
+          </section>
+        )}
 
         <PhaseRail phases={phases} variant="strip" title="Sections" />
 
         <article className="prose reading" dangerouslySetInnerHTML={{ __html: html }} />
       {practice.length > 0 && (
         <aside className="lesson-practice" aria-label="Pratique associée">
-          <h2>🎯 Pratique associée</h2>
+          <h2>Pratique associée</h2>
           <p className="lesson-practice__hint">
             Mets en pratique cette leçon avec ces activités (exercices, Labs et missions existants).
           </p>

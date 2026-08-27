@@ -84,7 +84,7 @@ export default function PipelineRunner({ pipeline }: { pipeline: PipelineView })
               <input type="checkbox" checked={approved} onChange={(e) => setApproved(e.target.checked)} /> Approbation accordée
             </label>
           )}
-          <button className="btn btn-primary" onClick={trigger} disabled={running}>
+          <button className="btn primary" onClick={trigger} disabled={running}>
             {running ? <Loader2 size={13} className="spin" /> : <Play size={13} />} Lancer
           </button>
           <button className="btn" onClick={reset} disabled={running}><RotateCcw size={13} /> Réinitialiser</button>

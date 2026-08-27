@@ -24,6 +24,7 @@
 // contrat réellement partagé par les trois moteurs d'analyse purs.
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { ContextLine } from './ContextLine';
 import { SurfaceHead, type SurfaceFact } from './SurfaceHead';
 
 export type SeverityCounts = Partial<Record<'blocking' | 'risk' | 'warning' | 'observation', number>>;
@@ -62,6 +63,23 @@ export function WorkbenchShell({
 
   return (
     <div className="wbs">
+      {/* V62 · CP11 — La ligne de contexte descend dans la coquille de poste
+          de travail : cinq routes de détail technique la reçoivent d'un coup,
+          avec les FAITS que chaque page calcule déjà — rien n'est ajouté au
+          modèle, seul le registre commun l'est. La provenance (« ← retour »)
+          reste dans la bande d'identité : c'est elle qui porte la navigation,
+          la ligne de contexte porte l'état. */}
+      {(() => {
+        // `SurfaceFact` accepte `false | null` pour les faits conditionnels :
+        // on ne garde que les faits réellement présents.
+        const real = facts.filter((f): f is { k: string; v: ReactNode } => Boolean(f));
+        return real.length > 0 ? (
+          <ContextLine
+            label={`État — ${title}`}
+            facts={real.map((f, i) => ({ k: f.k, v: f.v, here: i === 0 }))}
+          />
+        ) : null;
+      })()}
       <SurfaceHead
         kind="workbench"
         eyebrow={<><Link href={backHref}>← {backLabel}</Link>{eyebrowExtra ? <> <span className="sep">/</span> {eyebrowExtra}</> : null}</>}

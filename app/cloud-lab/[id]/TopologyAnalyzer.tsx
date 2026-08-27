@@ -170,7 +170,7 @@ export default function TopologyAnalyzer({
                 </select>
               </label>
             )}
-            <button type="button" className="btn" onClick={runScenario} disabled={busy || ((activeScen?.needsNode || activeScen?.needsZone) && !target)}>
+            <button type="button" className="btn primary" onClick={runScenario} disabled={busy || ((activeScen?.needsNode || activeScen?.needsZone) && !target)}>
               {busy ? 'Simulation…' : 'Simuler'}
             </button>
             {scenario && <button type="button" className="btn ghost" onClick={() => { setScenario(null); setErr(''); }}><RotateCcw size={13} /> Effacer</button>}

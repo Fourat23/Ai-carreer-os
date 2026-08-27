@@ -41,8 +41,17 @@ import type { ReactNode } from 'react';
 
 import type { DocSection } from '@/lib/doc-sections';
 
+// ── V62 · CP9 — CONTEXTE ET SUITE POUR LA FAMILLE ÉDITORIALE ──────────────
+//
+// Mesuré au CP0 : /career, /guide et /resources répondaient « où » et « quoi »
+// mais jamais « et ensuite » — classe B, trois fois, pour la même raison.
+// Comme pour TechBench au CP2, la correction est dans la coquille partagée.
+//
+// `context` et `next` sont fournis par chaque page depuis SES données réelles.
+// Une page sans suite légitime n'en affiche pas : on n'invente pas une action
+// pour satisfaire une sonde.
 export function EditorialShell({
-  head, nav, html, sections, footNote, itemLabel, docTitle,
+  head, nav, html, sections, footNote, itemLabel, docTitle, context, next,
 }: {
   /** La bande d'identité (SurfaceHead), fournie par la page. */
   head: ReactNode;
@@ -55,6 +64,10 @@ export function EditorialShell({
       d'identité, et il n'y en a qu'un. */
   docTitle?: string;
   footNote?: ReactNode;
+  /** Ligne de contexte partagée, rendue au-dessus de la bande d'identité. */
+  context?: ReactNode;
+  /** La suite logique — adresse réelle, libellé issu du contenu. */
+  next?: { href: string; label: string; hint?: string } | null;
   /** Nom de l'unité comptée par section, quand le document est un catalogue.
       Omis ⇒ les compteurs ne sont pas affichés. */
   itemLabel?: string;
@@ -103,8 +116,19 @@ export function EditorialShell({
 
   return (
     <div className="ed">
+      {context}
       {head}
       {nav && <nav className="ed-nav" aria-label="Documents de cette section">{nav}</nav>}
+      {next && (
+        <section className="tb-next" aria-label="Prochaine action">
+          <div className="tb-next-body">
+            <span className="tb-next-k">Ensuite</span>
+            <p className="tb-next-t">{next.label}</p>
+            {next.hint ? <p className="tb-next-d">{next.hint}</p> : null}
+          </div>
+          <a className="btn cta" href={next.href}>Ouvrir</a>
+        </section>
+      )}
       <div className="ed-body">
         <div className="ed-col">
           {docTitle && <h2 className="ed-doctitle">{docTitle}</h2>}

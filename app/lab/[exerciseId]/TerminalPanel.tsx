@@ -102,7 +102,7 @@ export default function TerminalPanel({ tasks }: { tasks: TerminalTaskView[] }) 
         </div>
 
         <div className="wb-terminal-actions">
-          <button className="btn btn-primary" onClick={run} disabled={running}>
+          <button className="btn primary" onClick={run} disabled={running}>
             {running ? <Loader2 size={13} className="spin" /> : <Play size={13} />} Exécuter
           </button>
           <button className="btn" onClick={cancel} disabled={!running}><Square size={13} /> Annuler</button>

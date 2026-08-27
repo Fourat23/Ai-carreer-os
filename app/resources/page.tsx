@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getDocHtml } from '@/lib/program';
-import { SurfaceHead, EditorialShell } from '@/app/ui';
+import { SurfaceHead, EditorialShell, ContextLine } from '@/app/ui';
 import { extractSections } from '@/lib/doc-sections';
 import { annotateProseA11y } from '@/lib/section-family';
 
@@ -19,6 +19,21 @@ export default function ResourcesPage() {
 
   return (
     <EditorialShell
+      context={
+        <ContextLine
+          label="Position dans les références"
+          facts={[
+            { k: 'Document', v: 'Ressources', here: true },
+            { k: 'Mots', v: words.toLocaleString('fr-FR') },
+            { k: 'Liens externes', v: `${links}` },
+            { k: 'Sections', v: `${sections.length}` },
+          ]}
+        />
+      }
+      /* « Lis peu, code beaucoup » : la suite d'une page de ressources ne peut
+         pas être une autre page de lecture. C'est le laboratoire. */
+      next={{ href: '/lab', label: 'Laboratoire de code',
+              hint: 'Lis peu, code beaucoup — la pratique est la suite.' }}
       head={
         <SurfaceHead
           kind="editorial"

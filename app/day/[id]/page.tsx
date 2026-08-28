@@ -122,7 +122,14 @@ export default async function DayPage({ params, searchParams }: {
           { k: 'Position', v: `M${meta.month} · S${meta.week}` },
           { k: 'Compétence', v: meta.skillName },
           { k: 'Difficulté', v: `${meta.difficulty} / 5` },
-          { k: 'Durée', v: `${meta.hours} h` },
+          // V67 · CP11 — Deux grandeurs, jamais confondues. `hours` est
+          // l'ENGAGEMENT quotidien que le programme demande (4,5 h, identique
+          // pour les 365 journées) ; `readingMinutes` est le temps de lecture
+          // MESURÉ sur le contenu réel de cette journée-ci. Le reste est du
+          // travail autonome, décrit par le livrable et les critères, et qu'on
+          // se garde de chiffrer faussement.
+          { k: 'Engagement', v: `${meta.hours} h` },
+          { k: 'Dont lecture', v: `~${meta.readingMinutes} min` },
         ]}
         tail={monthTitle}
       />

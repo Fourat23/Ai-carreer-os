@@ -35,7 +35,15 @@ const warns = [];
 // demandée du corpus. Il constate qu'une modification autorisée a eu lieu, ce
 // qui est exactement ce pour quoi il existe — il a d'ailleurs rougi au premier
 // essai, sans qu'on ait eu à le lui demander.
-const FROZEN_CORPUS_SHA1 = 'e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2';
+// V67 · CP3-CP8 — RE-GEL, TROISIÈME. Le corpus des leçons a de nouveau changé,
+// et de nouveau sur autorisation explicite : 44 des 45 leçons de famille C
+// étaient privées de correction, de cas professionnel, de transfert et de
+// récupération active, et 17 leçons passaient sous le seuil de profondeur.
+// V67 a traité ce stock. Le gel a rougi de lui-même, comme en V66, ce qui est
+// exactement sa fonction ; il est mis à jour ici et jamais silencieusement.
+//   V66 -> e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2
+//   V67 -> 7c9db74f739f1fd68cee2af588a905cb110b4b48
+const FROZEN_CORPUS_SHA1 = '7c9db74f739f1fd68cee2af588a905cb110b4b48';
 const FROZEN_PROGRESS_BLOB = '323604021055588a9528a86875f36598dbdc7758';
 
 const readJsonDir = (dir) => {

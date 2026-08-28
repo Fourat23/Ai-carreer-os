@@ -22,7 +22,14 @@ const warns = [];
 // 9 leçons durcies + une clôture de bloc réparée dans rag-evaluation.md.
 // Inventaire ligne à ligne : docs/audits/V66-FLAGSHIPS.md. Le gel n'est pas
 // assoupli : il a rougi comme prévu sur une modification autorisée.
-const FROZEN_CORPUS = 'e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2';
+// V67 · CP3-CP8 — RE-GEL, TROISIEME, sur autorisation explicite. 44 des 45
+// lecons de famille C etaient privees de correction, de cas professionnel, de
+// transfert et de recuperation active ; 17 lecons passaient sous le seuil de
+// profondeur. V67 a traite ce stock. Le gel a rougi de lui-meme, ce qui est sa
+// fonction ; il est mis a jour ici, jamais silencieusement.
+//   V66 -> e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2
+//   V67 -> 7c9db74f739f1fd68cee2af588a905cb110b4b48
+const FROZEN_CORPUS = '7c9db74f739f1fd68cee2af588a905cb110b4b48';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 const PILOTS = ['app/page.tsx', 'app/day/[id]/page.tsx', 'app/skills/page.tsx'];
 const CORE = ['app/missions/page.tsx', 'app/revisions/page.tsx', 'app/diagnostics/page.tsx'];

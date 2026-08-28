@@ -261,6 +261,23 @@ function buildDay(n) {
   };
 }
 
+/**
+ * V67 · CP11 — Les specs de projet citées par leur CHEMIN DE FICHIER.
+ *
+ * Seize journées écrivent « spec complète dans curriculum/projects/project-02.md ».
+ * Dans l'application, ce n'est pas un lien : c'est du texte désignant un fichier
+ * que l'apprenant ne peut pas ouvrir. Le jour 91 en est l'exemple extrême — sa
+ * section « Test pratique » ne contient QUE ce renvoi, onze mots, et c'est la
+ * seule journée du corpus à violer la condition 5 du barème gelé.
+ *
+ * La spec existe pourtant et est rendue par `/projects?p=<id>`
+ * (`lib/program.ts:99`). On remplace donc le chemin par le lien qui fonctionne.
+ */
+const lierSpecsProjets = (md) => md.replace(
+  /`?curriculum\/projects\/project-([0-9]{2}|final)\.md`?/g,
+  (_, id) => `[la spécification du projet ${id === 'final' ? 'final' : Number(id)}](/projects?p=${id})`,
+);
+
 // ── Rendu Markdown d'un jour ──
 function renderDay(day) {
   const L = [];
@@ -715,19 +732,58 @@ ensureDir(join(CUR, 'days'));
 ensureDir(join(CUR, 'solutions'));
 ensureDir(join(ROOT, 'data'));
 
+/**
+ * V67 · CP11 — Minutes de LECTURE d'une journée, calculées depuis son contenu.
+ *
+ * Les 365 journées annoncent toutes 4,5 h. Ce n'est pas une estimation par
+ * journée : c'est l'ENGAGEMENT QUOTIDIEN que le programme demande, et le
+ * contenu de chaque journée est dimensionné pour le remplir. Rien, dans le
+ * produit, ne disait laquelle des deux choses ce chiffre était — si bien qu'un
+ * apprenant lisait « 4,5 h » sur le jour 1 (installer son environnement) comme
+ * sur le jour 232 (évaluer un pipeline RAG) sans pouvoir les distinguer.
+ *
+ * On publie donc, à côté, la seule grandeur réellement calculable : le temps
+ * de LECTURE de ce que la journée fournit. Modèle repris à l'identique du CP0,
+ * jamais réajusté : 150 mots/minute pour la prose, 20 lignes/minute pour le
+ * code. Mesuré sur l'année : ~169 h de lecture pour 1 642 h annoncées — le
+ * reste est du travail autonome, qui ne se chronomètre pas et qu'on se garde
+ * d'inventer. C'est exactement ce que le principe 7 du contrat gelé exige :
+ * mieux vaut ne rien annoncer que d'annoncer faux.
+ */
+function minutesDeLecture(md) {
+  const sansCode = md.replace(/```[\s\S]*?```/g, ' ').replace(/`[^`]*`/g, ' ');
+  const mots = sansCode.split(/\s+/).filter(Boolean).length;
+  const lignesCode = [...md.matchAll(/```[\s\S]*?```/g)]
+    .map((m) => Math.max(0, m[0].split('\n').length - 2)).reduce((a, b) => a + b, 0);
+  return Math.max(1, Math.round(mots / 150 + lignesCode / 20));
+}
+
 const programDays = [];
 for (let n = 1; n <= 365; n++) {
   const day = buildDay(n);
-  writeMd(join(CUR, 'days', `day-${pad3(n)}.md`), renderDay(day));
+  const mdJour = lierSpecsProjets(renderDay(day));
+  writeMd(join(CUR, 'days', `day-${pad3(n)}.md`), mdJour);
   // Chaque jour a une correction : une vraie correction pour les jours de travail,
   // une grille d'évaluation pour les jours de revue.
-  writeMd(join(CUR, 'solutions', `day-${pad3(n)}-solution.md`),
-    day.isReview ? renderReviewSolution(day) : renderSolution(day));
+  const mdSolution = day.isReview ? renderReviewSolution(day) : renderSolution(day);
+  writeMd(join(CUR, 'solutions', `day-${pad3(n)}-solution.md`), mdSolution);
+
+  // Le périmètre de lecture est celui du CP0, repris À L'IDENTIQUE : la journée,
+  // les leçons de fond qu'elle lie, et sa correction. Compter la seule page de
+  // la journée donnerait 9 minutes en médiane et 58 h sur l'année — un chiffre
+  // exact et trompeur, puisque la journée envoie explicitement lire ses leçons.
+  // Le périmètre complet donne 33 minutes en médiane, ce que le CP0 a publié.
+  const lecons = [...new Set([...mdJour.matchAll(/\/doc\/lessons\/([a-z0-9-]+)/g)].map((m) => m[1]))]
+    .map((s) => join(CUR, 'lessons', `${s}.md`))
+    .filter((p) => existsSync(p))
+    .map((p) => readFileSync(p, 'utf8'));
+  day.readingMinutes = minutesDeLecture([mdJour, ...lecons, mdSolution].join('\n'));
   // Entrée d'index (légère) pour l'app.
   programDays.push({
     day: n, week: day.week, month: day.month,
     title: day.title, skill: day.skill, skillName: skillName(day.skill),
     difficulty: day.difficulty, hours: day.hours,
+    readingMinutes: day.readingMinutes,
     isReview: !!day.isReview, detailed: !!day.detailed,
     deliverable: day.deliverable ?? null,
     project: day.project ?? null,

@@ -15,7 +15,14 @@ export interface ProgramDay {
   skill: SkillId;
   skillName: string;
   difficulty: number;
+  /** Engagement quotidien demandé par le programme — 4,5 h pour les 365 journées. */
   hours: number;
+  /**
+   * Temps de LECTURE calculé depuis le contenu réel de la journée (150 mots/min,
+   * 20 lignes de code/min). À distinguer de `hours` : l'un est un engagement,
+   * l'autre une mesure. V67 · CP11.
+   */
+  readingMinutes: number;
   isReview: boolean;
   detailed: boolean;
   deliverable: string | null;

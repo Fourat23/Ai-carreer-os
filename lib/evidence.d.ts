@@ -74,7 +74,13 @@ export function safeId(v: unknown, max?: number): string | null;
 export function safeUrlish(u: unknown): string | null;
 export function isQualifying(evidence: unknown): boolean;
 export function evidenceKey(evidence: unknown): string;
-export function deterministicId(sourceType: string, sourceId: string): string;
+/**
+ * Identifiant déterministe. `qualifying` porte le MÊME discriminant que la clé
+ * métier : sans lui, une tentative ratée puis réussie sur la même source
+ * produisait deux preuves de même id, et la garde d'unicité rejetait la
+ * réussite.
+ */
+export function deterministicId(sourceType: string, sourceId: string, qualifying?: boolean): string;
 export function makeEvidence(input: EvidenceInput | Record<string, unknown>, ctx?: { now?: string | Date }): MakeEvidenceResult;
 export function normalizeEvidenceRecord(raw: unknown): Evidence | null;
 export function appendEvidence(list: Evidence[] | undefined, evidence: Evidence): {

@@ -55,6 +55,7 @@ const HORIZON_DAYS = 30;
 
 export default function RevisionStation({
   due, horizon, rungs, maxInterval, resumeDay, resumeTitle, trackTitle, work,
+  flagged = [],
 }: {
   due: QueueRow[];
   horizon: HorizonRow[];
@@ -66,6 +67,13 @@ export default function RevisionStation({
   /** La file de travail réelle. Rendue juste sous les jauges quand il y a
       quelque chose à traiter — c'est l'objet de la page, pas son annexe. */
   work?: ReactNode;
+  /**
+   * V65.1 · CP11 — les COMPÉTENCES que ces échéances concernent, dérivées des
+   * preuves (`getReviewCandidates`). Le pont existait dans le modèle depuis V65
+   * mais n'était lu par aucune surface : la page parlait de journées, /skills
+   * parlait de compétences, et rien ne reliait les deux à l'écran.
+   */
+  flagged?: Array<{ competencyId: string; name: string; reasons: string[]; lastQualifiedEvidenceAt: string | null }>;
 }) {
   const overdue = due.filter((r) => r.overdueDays > 0);
   const onTime = due.filter((r) => r.overdueDays === 0);
@@ -181,19 +189,30 @@ export default function RevisionStation({
             ))}
           </div>
           <span className="rev-track-now" aria-hidden="true" />
-          {horizon.map((h) => (
-            <Link
-              key={h.day}
-              href={`/day/${h.day}`}
-              aria-label={`Jour ${h.day} — ${h.title}, à revoir dans ${h.inDays} jour${h.inDays > 1 ? 's' : ''}`}
-              className="rev-tick"
-              style={{ left: `${Math.min(100, (h.inDays / HORIZON_DAYS) * 100)}%` }}
-              title={`Jour ${h.day} — ${h.title} · dans ${h.inDays} j`}
-            >
-              <span className="rev-tick-dot" aria-hidden="true" />
-              <span className="rev-tick-lab">J{h.day}</span>
-            </Link>
-          ))}
+          {/* V65.1 — DÉCALAGE VERTICAL des étiquettes trop proches. Deux échéances
+              séparées de moins de 4 % de l'horizon rendaient leurs libellés l'un
+              sur l'autre : on lisait « J1J12 » à 1440 (CP0, P1-2). Le défaut est
+              resté invisible tant que l'échéancier était vide — la même leçon
+              que le `role="img"` de V57. On ne cache aucune échéance : on
+              alterne le niveau du libellé. */}
+          {horizon.map((h, i) => {
+            const pct = Math.min(100, (h.inDays / HORIZON_DAYS) * 100);
+            const prev = i > 0 ? Math.min(100, (horizon[i - 1].inDays / HORIZON_DAYS) * 100) : -Infinity;
+            const crowded = pct - prev < 4;
+            return (
+              <Link
+                key={h.day}
+                href={`/day/${h.day}`}
+                aria-label={`Jour ${h.day} — ${h.title}, à revoir dans ${h.inDays} jour${h.inDays > 1 ? 's' : ''}`}
+                className={`rev-tick${crowded ? ' is-stacked' : ''}`}
+                style={{ left: `${pct}%` }}
+                title={`Jour ${h.day} — ${h.title} · dans ${h.inDays} j`}
+              >
+                <span className="rev-tick-dot" aria-hidden="true" />
+                <span className="rev-tick-lab">J{h.day}</span>
+              </Link>
+            );
+          })}
           {!horizon.length && (
             <p className="rev-track-void">
               L’horizon est vide : aucune journée n’a d’échéance dans les {HORIZON_DAYS} prochains jours.
@@ -210,6 +229,35 @@ export default function RevisionStation({
   // n'est dû » ; l'afficher au-dessus de six révisions en retard contredisait
   // l'état de la page (constat CP9). Quand il y a du travail, le modèle passe
   // en RÉFÉRENCE, après la file et l'échéancier.
+  // ── PONT VERS LES COMPÉTENCES (V65.1 · CP11) ──────────────────────────
+  // Ce que la révision fait, et surtout ce qu'elle NE fait pas. Une révision
+  // produit une trace NON QUALIFIANTE : elle atteste d'un réentraînement, pas
+  // d'une démonstration, et ne fait donc jamais progresser un état. Le dire ici
+  // ferme la frontière au bon endroit — devant l'apprenant, pas seulement dans
+  // le moteur.
+  const bridgeZone = flagged.length > 0 ? (
+    <section className="rev-bridge" aria-labelledby="rev-bridge-h">
+      <div className="rev-horizon-head">
+        <h2 className="rev-h" id="rev-bridge-h">Compétences signalées</h2>
+        <span className="rev-h-note">dérivé de tes preuves, pas du compteur de révisions</span>
+      </div>
+      <ul className="rev-bridge-list">
+        {flagged.map((f) => (
+          <li key={f.competencyId} className="rev-bridge-row">
+            <Link className="rev-bridge-name" href={`/skills/${f.competencyId}`}>{f.name}</Link>
+            <span className="rev-bridge-why">{f.reasons.join(' · ')}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="rev-bridge-note">
+        Réviser enregistre une <strong>trace non qualifiante</strong> : cela atteste d’un
+        réentraînement, jamais d’une démonstration. Un état de compétence ne change que
+        par une <strong>validation réussie</strong> — un exercice, un diagnostic, une
+        mission ou un capstone.
+      </p>
+    </section>
+  ) : null;
+
   const modelZone = (
       <section className={`rev-model${hasWork ? ' is-reference' : ''}`} aria-label="Modèle de répétition espacée">
       <div className="rev-ladder">
@@ -314,7 +362,7 @@ export default function RevisionStation({
         ]}
       />
       {queueBand}
-      {hasWork ? <>{work}{horizonBand}{modelZone}</> : <>{horizonBand}{modelZone}</>}
+      {hasWork ? <>{work}{horizonBand}{bridgeZone}{modelZone}</> : <>{horizonBand}{bridgeZone}{modelZone}</>}
     </div>
   );
 }

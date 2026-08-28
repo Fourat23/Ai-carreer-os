@@ -8,8 +8,11 @@
 import Link from 'next/link';
 import { Play, Send, ShieldCheck, Check, RotateCcw } from 'lucide-react';
 import { getLearningHistory } from '@/lib/learner-read-models';
-import type { HistoryEvent } from '@/lib/learner-history';
+import { getProgram } from '@/lib/program';
+import { HISTORY_EVENT_LABEL, groupHistoryByDate } from '@/lib/learner-history';
+import type { HistoryEvent, HistoryEventType } from '@/lib/learner-history';
 import { PageHeader, ContextLine } from '@/app/ui';
+import HistoryFilters from './HistoryFilters';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,8 +34,43 @@ function longDate(date: string) {
   });
 }
 
-export default function HistoryPage() {
-  const { groups, summary } = getLearningHistory(300);
+export default async function HistoryPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string; competence?: string }>;
+}) {
+  const sp = await searchParams;
+  const { events, summary } = getLearningHistory(300);
+  const program = getProgram();
+  const skillName = new Map<string, string>(
+    (program.skills as Array<{ id: string; name: string }>).map((s) => [s.id, s.name]),
+  );
+
+  // ── FILTRES (V65.1 · CP6) ────────────────────────────────────────────────
+  // 84 événements en un seul mur : l'historique était factuel mais inexploitable
+  // (CP0, P1-3). Les filtres vivent dans l'URL — une vue rechargeable, pas un
+  // état client — et ne créent évidemment aucun événement.
+  const activeType = sp?.type && sp.type in HISTORY_EVENT_LABEL ? sp.type as HistoryEventType : null;
+  const activeCompetency = sp?.competence && skillName.has(sp.competence) ? sp.competence : null;
+
+  // Les décomptes portent sur les événements RÉELS, pas sur une liste théorique.
+  const typeCounts = new Map<string, number>();
+  const compCounts = new Map<string, number>();
+  for (const e of events) {
+    typeCounts.set(e.type, (typeCounts.get(e.type) ?? 0) + 1);
+    for (const c of e.competencyIds ?? []) compCounts.set(c, (compCounts.get(c) ?? 0) + 1);
+  }
+  const typeOptions = [...typeCounts.entries()]
+    .map(([value, count]) => ({ value, label: HISTORY_EVENT_LABEL[value as HistoryEventType] ?? value, count }))
+    .sort((a, b) => b.count - a.count);
+  const competencyOptions = [...compCounts.entries()]
+    .map(([value, count]) => ({ value, label: skillName.get(value) ?? value, count }))
+    .sort((a, b) => b.count - a.count);
+
+  const visible = events.filter((e) =>
+    (activeType === null || e.type === activeType)
+    && (activeCompetency === null || (e.competencyIds ?? []).includes(activeCompetency)));
+  const groups = groupHistoryByDate(visible);
   const empty = summary.total === 0;
 
   return (
@@ -72,6 +110,20 @@ export default function HistoryPage() {
           </div>
         </section>
       ) : (
+        <>
+        <HistoryFilters
+          types={typeOptions}
+          competencies={competencyOptions}
+          activeType={activeType}
+          activeCompetency={activeCompetency}
+          total={summary.total}
+          shown={visible.length}
+        />
+        {visible.length === 0 ? (
+          <p className="hist-nores">
+            Aucun événement ne correspond à ce filtre. <Link href="/history">Retirer les filtres</Link>
+          </p>
+        ) : (
         <div className="hist">
           {groups.map((g) => (
             <section key={g.date} className="hist-day" aria-labelledby={`h-${g.date}`}>
@@ -93,7 +145,12 @@ export default function HistoryPage() {
                       </span>
                       {e.detail && <span className="hist-detail">{e.detail}</span>}
                       {e.competencyIds && e.competencyIds.length > 0 && (
-                        <span className="hist-comp">{e.competencyIds.join(' · ')}</span>
+                        /* Le NOM de la compétence du programme, pas son
+                           identifiant : /skills dit « JavaScript / TypeScript »,
+                           l'historique disait « jsts ». */
+                        <span className="hist-comp">
+                          {e.competencyIds.map((c) => skillName.get(c) ?? c).join(' · ')}
+                        </span>
                       )}
                     </li>
                   );
@@ -102,6 +159,8 @@ export default function HistoryPage() {
             </section>
           ))}
         </div>
+        )}
+        </>
       )}
     </>
   );

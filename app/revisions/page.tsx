@@ -4,6 +4,7 @@ import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
 import { progressPosition } from '@/lib/position';
 import { getDueReviews, getUpcomingReviews, baseInterval } from '@/lib/review';
+import { getReviewCandidates } from '@/lib/learner-read-models';
 import ReviewList from './ReviewList';
 import RevisionStation from './RevisionStation';
 
@@ -58,8 +59,16 @@ export default function RevisionsPage() {
   const trackDays = resolveTrackDayObjects(getCatalogue(), activeTrack ?? getCatalogue().tracks[0], program);
   const resumeDay = trackDays.length ? progressPosition(trackDays, progress).resumeDay : null;
 
+  // V65.1 · CP11 — les compétences signalées par les PREUVES, pas par les
+  // journées. Ce read-model existait depuis V65 et n'était lu nulle part.
+  const flagged = getReviewCandidates().map((c) => ({
+    competencyId: c.competencyId, name: c.name, reasons: c.reasons,
+    lastQualifiedEvidenceAt: c.lastQualifiedEvidenceAt,
+  }));
+
   return (
     <RevisionStation
+      flagged={flagged}
       due={due.map((r) => ({ day: r.day, title: r.title, skill: skill(r.day), reason: r.reason, overdueDays: r.overdueDays }))}
       horizon={upcoming.map((r) => ({ day: r.day, title: r.title, skill: skill(r.day), inDays: r.inDays }))}
       rungs={rungs}

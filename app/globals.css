@@ -3316,6 +3316,10 @@ thead th, .list thead th, .badge, .pill, .lab-count, .subnav a[aria-current="pag
 .rev-tick { position: absolute; bottom: 14px; display: flex; flex-direction: column; align-items: center; gap: 4px; transform: translateX(-50%); text-decoration: none; }
 .rev-tick-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: var(--shadow-1); }
 .rev-tick-lab { font-size: var(--fs-xs); font-weight: 600; color: var(--text); }
+/* Une échéance voisine monte d'un cran : les deux restent lisibles et
+   cliquables, et aucune n'est masquée. */
+.rev-tick.is-stacked { bottom: 40px; }
+.rev-tick.is-stacked .rev-tick-dot { box-shadow: var(--shadow-1), 0 14px 0 -4px var(--border-subtle); }
 .rev-tick:hover .rev-tick-dot { background: var(--text); }
 .rev-tick:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--r-sm); }
 .rev-track-void { position: absolute; inset: auto var(--sp-4) var(--sp-3) var(--sp-4); margin: 0; font-size: var(--fs-sm); color: var(--muted); }
@@ -5293,13 +5297,22 @@ button.dot::after {
 .hist-icon { display: inline-flex; color: var(--muted); }
 .hist-item.t-evidence_created .hist-icon { color: var(--ok); }
 .hist-item.t-day_completed .hist-icon { color: var(--accent); }
-.hist-label { font-weight: 500; }
+.hist-label { font-weight: 500; min-width: 0; overflow-wrap: anywhere; }
 .hist-detail { color: var(--muted); min-width: 0; overflow-wrap: anywhere; }
-.hist-comp, .hist-tag {
-  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
-  letter-spacing: var(--tracking-label); color: var(--faint); white-space: nowrap;
+/* V65.1 — la colonne des compétences porte désormais les NOMS français
+   (« Design patterns · JavaScript / TypeScript ») et non plus les identifiants
+   (« PATTERNS · JSTS »). En capitales et sans retour à la ligne, elle
+   débordait de 8 px à 375 et poussait toute la page. Les noms propres ne se
+   capitalisent pas, et une valeur longue doit pouvoir passer à la ligne. */
+.hist-comp {
+  font-size: var(--fs-xs); color: var(--faint);
+  min-width: 0; overflow-wrap: anywhere;
 }
-.hist-tag { margin-left: 6px; color: var(--muted); }
+.hist-tag {
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: var(--tracking-label); white-space: nowrap;
+  margin-left: 6px; color: var(--muted);
+}
 
 @media (max-width: 720px) {
   .hist-item { grid-template-columns: 5.5ch 18px 1fr; }
@@ -5388,3 +5401,68 @@ button.dot::after {
   font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted);
 }
 .cat-row-hist.is-passed { color: var(--ok); }
+
+/* ── Filtres de l'historique (V65.1 · CP6) ─────────────────────────────────
+   Des liens, pas des boutons : chaque vue a son URL. L'état actif se lit par
+   `aria-current` et par un fond plein — jamais par la couleur seule. */
+.hist-filters {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-top: var(--sp-5); padding-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--border);
+}
+.hist-filter-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.hist-filter-k {
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: var(--tracking-label); color: var(--faint);
+  flex: 0 0 14ch;
+}
+.hist-filter-list { list-style: none; display: flex; gap: 6px; flex-wrap: wrap; margin: 0; padding: 0; min-width: 0; }
+.hist-chip {
+  display: inline-flex; align-items: baseline; gap: 5px;
+  padding: 3px 9px; border: 1px solid var(--border); border-radius: 999px;
+  font-size: var(--fs-xs); color: var(--muted); text-decoration: none; white-space: nowrap;
+}
+.hist-chip:hover { color: var(--fg); border-color: var(--muted); }
+.hist-chip.is-on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.hist-chip-n { font-family: var(--font-mono); font-size: 10px; opacity: .8; }
+.hist-filter-note { margin: 0; font-size: var(--fs-sm); color: var(--muted); }
+.hist-nores { margin: var(--sp-5) 0; font-size: var(--fs-sm); color: var(--muted); }
+@media (max-width: 640px) {
+  .hist-filter-row { flex-direction: column; gap: 6px; }
+  .hist-filter-k { flex: none; }
+}
+
+/* ── Pont révision → compétence (V65.1 · CP11) ─────────────────────────── */
+.rev-bridge { margin-top: var(--sp-6); }
+.rev-bridge-list { list-style: none; margin: var(--sp-3) 0 0; padding: 0; display: flex; flex-direction: column; }
+.rev-bridge-row {
+  display: grid; grid-template-columns: minmax(14ch, 22ch) minmax(0, 1fr);
+  gap: 4px 16px; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px solid var(--border);
+}
+.rev-bridge-row:last-child { border-bottom: none; }
+.rev-bridge-name { font-weight: 500; }
+.rev-bridge-why { font-size: var(--fs-sm); color: var(--muted); overflow-wrap: anywhere; }
+.rev-bridge-note { margin: var(--sp-4) 0 0; font-size: var(--fs-sm); color: var(--muted); max-width: 72ch; }
+@media (max-width: 640px) {
+  .rev-bridge-row { grid-template-columns: 1fr; }
+}
+
+/* ── V65.1 · CP13 — un lien dans un bloc de texte se distingue AUTREMENT que
+   par la couleur (WCAG 1.4.1). axe l'a relevé en « serious » sur les surfaces
+   nouvelles du sprint : le fil d'ariane du détail de compétence et le
+   « Retirer les filtres » de l'historique. Le soulignement décalé garde le
+   texte lisible tout en rendant le lien identifiable en niveaux de gris. */
+.page-eyebrow a,
+.hist-filter-note a,
+.hist-nores a,
+.cmpd-note a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 55%, transparent);
+}
+.page-eyebrow a:hover,
+.hist-filter-note a:hover,
+.hist-nores a:hover,
+.cmpd-note a:hover { text-decoration-color: currentColor; }

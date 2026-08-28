@@ -144,6 +144,30 @@ export function counterExample(text) {
   };
 }
 
+/**
+ * V66 · CP15 — MESURE AJOUTÉE, la précédente n'est PAS modifiée.
+ *
+ * `counterExample` est gelée depuis le CP1 et le reste : elle ne cherche une
+ * approche fautive MONTRÉE que dans une section intitulée « contre-exemple »,
+ * « anti-pattern » ou « mauvaise approche ». C'était un choix défendable au CP0,
+ * et il s'avère trop étroit : le durcissement du CP8 a placé ses réfutations
+ * dans « Erreurs fréquentes », l'endroit où le corpus les attend. La métrique
+ * gelée est donc STRUCTURELLEMENT incapable de voir le changement.
+ *
+ * Deux façons de traiter ça. Élargir `counterExample` — interdit par la règle
+ * absolue 4, et malhonnête : on ne retouche pas une mesure après avoir vu son
+ * résultat. Ou ajouter une mesure NOUVELLE, nommée, publiée à côté de
+ * l'ancienne, en disant ce que chacune voit. C'est la seconde qui est retenue.
+ *
+ * Les deux chiffres sont publiés ensemble au CP15, avec cette explication.
+ */
+export function refutationMontree(text) {
+  const sections = [...text.matchAll(/^##[^\n]*(?:erreurs fréquentes|contre-exemple|anti-pattern|mauvaise approche)[\s\S]*?(?=^## |\Z)/gim)]
+    .map((m) => m[0]);
+  const dansCode = sections.some((s) => /```/.test(s) && /(?:❌|🚫|FAUX|INUTILE|LENT)/.test(s));
+  return { refutationMontree: dansCode, sections: sections.length };
+}
+
 // ── Correction ───────────────────────────────────────────────────────────
 // « Réponse : B car B est correcte » est invalide (brief §16). Une correction
 // utile dit pourquoi la bonne réponse est bonne ET pourquoi les autres non.

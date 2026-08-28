@@ -14,9 +14,27 @@ Lesson Hardening
 |---|---|---|
 | CP0 | Audit pédagogique forensique, lecture seule | ✅ `docs/audits/V66-CP0-AUDIT.md` |
 | CP1 | Gel : échantillon, seed, barème, seuils, défauts, protocoles, BEFORE | ✅ ce commit |
-| CP2–CP7 | Retention Engine I | ⏳ |
-| CP8–CP12 | Durcissement de 8–12 flagships + tests mots-clés / Feynman + gates | ⏳ |
-| CP13–CP15 | Walkthrough, intégrité, rapport final, 25+1 questions, prompt V67 | ⏳ |
+| CP2–CP7 | Retention Engine I | ✅ `lib/retention.mjs` · `/retention` · gate `v66:check` |
+| CP8–CP12 | 9 flagships durcis + tests mots-clés / Feynman + gel du corpus regelé | ✅ `docs/audits/V66-FLAGSHIPS.md` |
+| CP13–CP15 | Glossaire atteignable, walkthrough 5 largeurs, intégrité, rapport, 25+1 questions, prompt V67 | ✅ `docs/audits/V66-FINAL-REPORT.md` |
+
+## Clôture
+
+**Verdicts : `RETENTION_ENGINE_FOUNDATION_READY` et
+`ACADEMIC_BASELINE_ESTABLISHED` (avec dette déclarée).**
+`ACADEMIC_QUALITY_READY` **non prononcé** — 9 leçons durcies sur 128.
+
+Note au barème gelé : **2,83 / 5**. 22 tests négatifs vus échouer, 0 trou.
+6 faux positifs de mesure écartés et publiés.
+
+**Dette laissée ouverte, sans arrangement :**
+- PED-14 / PED-15 — 25 % du temps annoncé est décrit, 267 journées sur 365 sans
+  budget d'activité, 52 revues hebdomadaires à 3 %. **La plus lourde du produit.**
+- 62 leçons de famille A non durcies (noyau médian 265 mots).
+- Aucune conclusion de rétention possible : le moteur n'a mesuré personne.
+
+Suite proposée : `docs/V66-PROMPT-V67.md` — **à ne pas lancer sans décision
+humaine.**
 
 ## Ce qui est GELÉ et ne sera pas rouvert
 
@@ -32,9 +50,11 @@ Lesson Hardening
 
 | Dossier | Empreinte |
 |---|---|
-| `curriculum/` | `a2099b51db9d75a6db74f5547c5a60681ff69bac9f7be14fdf3c4684ae7a2edf` |
-| `curriculum/lessons/` | `65301c3bcdde6a7caaf1095a7e4adbb1642526171545ec6eedb7b7c929adadd3` |
-| `curriculum/days/` | `761d6d80768d7b13059667c9ca9708db987c5270ce335e579877683a0e430787` |
+| `curriculum/` au gel CP1 | `a2099b51db9d75a6db74f5547c5a60681ff69bac9f7be14fdf3c4684ae7a2edf` |
+| `curriculum/` en clôture (10 fichiers modifiés, inventoriés) | `e58ff1c42ac062cb…` |
+| `curriculum/lessons/` au gel CP1 | `65301c3bcdde6a7caaf1095a7e4adbb1642526171545ec6eedb7b7c929adadd3` |
+| `curriculum/lessons/` en clôture (10 fichiers) | `88ebb15b70980a76…` — SHA-1 des portes : `e34b1c76…` |
+| `curriculum/days/` (INCHANGÉ tout le sprint) | `761d6d80768d7b13059667c9ca9708db987c5270ce335e579877683a0e430787` |
 | `data/` | `e7bcbd163a871a7a51c27e78493ba3734829380ceee1415ef768ca8e4d70208d` |
 
 ## Résultats BEFORE — les chiffres qui serviront de référence au CP15

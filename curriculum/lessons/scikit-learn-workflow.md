@@ -33,6 +33,14 @@ aucune connaissance préalable de scikit-learn n'est supposée.
 - **Cross-validation intégrée** : `cross_val_score(pipe, X, y, cv=5)` refait fit/transform DANS chaque pli — la bonne évaluation sans effort. `GridSearchCV(pipe, params, cv=5)` cherche les hyperparamètres proprement (la recherche voit le pipeline entier, donc zéro fuite).
 - **Reproductibilité** : `random_state` fixé partout, le pipeline sauvegardé (joblib) = le MÊME objet sert en entraînement et en production (mêmes transformations, mêmes encodages, gestion des catégories inconnues).
 
+**Ce que `cv=5` veut dire réellement**, parce qu'on l'écrit partout sans que personne ne l'explique. On découpe les données d'entraînement en 5 paquets de taille égale, appelés **plis**. On entraîne sur 4 d'entre eux et on évalue sur le 5ᵉ ; puis on recommence en changeant le pli d'évaluation, cinq fois. Chaque ligne sert donc exactement une fois à évaluer et quatre fois à entraîner, et l'on obtient **cinq scores**.
+
+Ces cinq scores valent bien mieux qu'un seul, et pour deux raisons distinctes. Leur moyenne est plus fiable qu'un score unique, qui dépend du hasard d'une séparation. Mais surtout, **leur dispersion est une information en soi** : cinq scores à 0,81 / 0,82 / 0,80 / 0,81 / 0,82 décrivent un modèle stable ; 0,91 / 0,62 / 0,88 / 0,55 / 0,84 — même moyenne, 0,76 — décrivent un modèle qui dépend énormément des données sur lesquelles il tombe, donc imprévisible en production. Ne regarder que la moyenne d'une cross-validation, c'est reproduire exactement l'erreur que la leçon de statistiques dénonce.
+
+**La syntaxe `étape__param`** n'est pas une bizarrerie à mémoriser : un `Pipeline` est un objet unique dont les réglages appartiennent à ses étapes internes. `model__max_depth` se lit « le paramètre `max_depth` de l'étape nommée `model` », et `prep__cat__handle_unknown` descend de deux crans. Le double tiret bas est simplement le séparateur de chemin — c'est ce qui permet à `GridSearchCV` de régler n'importe quoi dans la chaîne sans la connaître à l'avance.
+
+**Le piège qui reste APRÈS le Pipeline, et il en attrape beaucoup.** `GridSearchCV` essaie cinquante combinaisons et retient la meilleure. Rapporter son `best_score_` comme la performance du modèle est optimiste : ce score a été **choisi pour être le meilleur** parmi cinquante, donc il a capté une part de chance propre à ces données. C'est la même faute que d'évaluer sur le train, déplacée d'un cran. La parade : mettre de côté un jeu de test AVANT toute recherche, n'y toucher qu'une seule fois, à la fin, et rapporter CE score-là. Le Pipeline supprime la fuite de prétraitement ; il ne supprime pas la fuite par sélection.
+
 ## 🔧 Exemple simple
 ```python
 pipe = Pipeline([("scaler", StandardScaler()), ("model", LogisticRegression())])

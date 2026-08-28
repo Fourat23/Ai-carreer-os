@@ -87,6 +87,43 @@ Les LLM (mois 7) sont du ML géant : mêmes concepts (données d'entraînement, 
 ## Mini-exercice
 Sur un dataset public de classification déséquilibrée : établis la baseline (classe majoritaire), entraîne une régression logistique, produis la matrice de confusion, et réponds par écrit : quelle métrique est pertinente ICI et pourquoi ? Que coûte un faux positif vs un faux négatif dans ce contexte métier ?
 
+## ✅ Correction attendue
+**La démarche** : baseline d'abord, toujours. Sur un jeu déséquilibré à 5 % de positifs, la classe majoritaire donne **95 % d'accuracy** sans rien apprendre. C'est ce chiffre — écrit noir sur blanc avant tout modèle — qui empêche de se réjouir d'un 96 %.
+
+**L'erreur probable, et elle est presque universelle chez les débutants.** La régression logistique sort une accuracy de 0,96, supérieure à la baseline de 0,95, et l'on conclut que le modèle fonctionne. Puis on regarde la matrice de confusion : sur 100 positifs réels, le modèle en trouve 12.
+
+Le piège tient à ce que l'accuracy **améliore effectivement** la baseline — d'un point. Ce point vient presque entièrement des négatifs, qui représentent 95 % des cas et que le modèle classe très bien. La question qui intéresse le métier — trouve-t-on les positifs ? — n'a jamais été posée. Ce n'est pas que le chiffre soit faux : il répond honnêtement à une question sans intérêt.
+
+Il y a plus vicieux encore, et il faut le savoir : par défaut, un classifieur décide à un seuil de 0,5. Sur des classes très déséquilibrées, presque aucun exemple n'atteint ce score, et le modèle prédit « négatif » quasiment partout — **alors même qu'il a parfaitement appris à ordonner les cas par risque**. Un modèle jugé inutile peut n'avoir qu'un seuil mal placé. Regarder l'AUC avant de conclure évite de jeter un modèle qui marche.
+
+**Alternative défendable** au rééquilibrage des classes : ne rien rééquilibrer et ajuster le seuil de décision. Le sur-échantillonnage de la classe rare fabrique des exemples qui n'existent pas et dégrade souvent la calibration des probabilités ; déplacer le seuil ne touche pas aux données et se pilote directement par le coût métier. Rééquilibrer se justifie quand la classe rare est si peu représentée que le modèle ne peut rien en apprendre.
+
+**Vérifie seul, sans corrigé** :
+1. Ta baseline est-elle écrite AVANT le score du modèle, dans cet ordre, dans ton compte rendu ? Écrite après, elle sert d'excuse plutôt que de garde-fou.
+2. Ta matrice de confusion contient-elle des vrais positifs ? Si la colonne « positif prédit » est presque vide, ton modèle ne fait rien d'utile quel que soit son score.
+3. Ta réponse écrite sur le coût des erreurs cite-t-elle des conséquences concrètes — un client perdu, un examen inutile, une fraude non détectée — ou seulement « les faux négatifs sont plus graves » ? La seconde formulation ne permet de choisir aucun seuil.
+4. Réentraîne en incluant volontairement une colonne qui contient la réponse. Le score doit devenir presque parfait. **Avoir vu cette illusion une fois** est ce qui te fera reconnaître un leakage en production, où personne ne te préviendra.
+
+## 🏢 Cas professionnel
+Une équipe met en production un modèle de prédiction de résiliation à 0,94 d'AUC en validation. En production, il ne prédit presque plus rien de juste. L'enquête met trois semaines et trouve deux causes, toutes deux invisibles dans les scores.
+
+D'abord une fuite temporelle : le `train_test_split` aléatoire avait mélangé les mois, si bien que le modèle s'entraînait sur novembre pour prédire octobre. En production, l'avenir n'est pas disponible. Ensuite un décalage plus profond : le modèle avait appris sur une période promotionnelle, dont les comportements d'achat ne ressemblaient à aucune autre. Les données d'entraînement décrivaient un monde qui n'existait plus.
+
+La leçon générale dépasse le ML tabulaire : **un jeu de test ne valide que ce qu'il ressemble.** Il répond à « mon modèle généralise-t-il à des données tirées de la même distribution ? », jamais à « le monde va-t-il rester le même ? ». C'est pourquoi les équipes sérieuses surveillent en production la distribution des entrées autant que la performance, et réévaluent périodiquement sur des données fraîches. Un modèle n'est pas livré une fois ; il se surveille comme un service.
+
+## 🎤 Questions d'entretien
+- « Qu'est-ce que l'overfitting, et comment le détectes-tu ? » → Le modèle mémorise le bruit : excellent sur l'entraînement, médiocre en test. Se lit sur l'écart entre les deux courbes.
+- « Ton modèle fait 96 %, la baseline 95 %. Bon modèle ? » → Presque certainement non. Il faut la matrice de confusion : le point gagné vient probablement de la classe majoritaire.
+- « Cite trois façons de fuiter des données. » → Une feature qui contient la cible ; un prétraitement calculé avant le split ; une séparation aléatoire sur des données temporelles.
+- « Pourquoi une baseline ? » → Parce qu'un score n'a de sens que comparé. Sans elle, on ne sait pas si le modèle a appris quoi que ce soit.
+- « Ton modèle marchait en validation et pas en production. Que cherches-tu ? » → Une fuite, un décalage de distribution, ou une différence entre les données d'entraînement et celles réellement disponibles au moment de prédire.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] J'écris ma baseline avant d'entraîner quoi que ce soit.
+- [ ] Je ne conclus jamais d'un score agrégé sans regarder la matrice de confusion.
+- [ ] Je sais nommer trois mécanismes de fuite et les repérer dans un notebook.
+- [ ] Je regarde une dizaine d'erreurs réelles avant de décider quoi améliorer.
+
 ## 📚 Vocabulaire
 **modèle** · **feature / cible** · **split / leakage** · **baseline** · **overfitting / underfitting** · **régularisation** · **cross-validation** · **matrice de confusion** · **précision / rappel / F1 / AUC** · **pipeline** · **hyperparamètre**.
 

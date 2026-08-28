@@ -33,6 +33,15 @@ Le feature engineering transforme des données brutes en variables prédictives 
 - **Mise à l'échelle** : normaliser/standardiser quand le modèle est sensible aux échelles (k-means, régressions régularisées).
 Le piège central : le **leakage par feature** — une feature qui contient (directement ou indirectement) l'information du futur ou de la cible. Exemple : « date du dernier paiement » pour prédire le churn peut fuiter le résultat. Et toutes les transformations APPRISES (moyennes d'encodage, paramètres de normalisation) doivent être calculées sur le TRAIN uniquement, puis appliquées au test — d'où le **Pipeline** scikit-learn qui l'automatise.
 
+**Le leakage se reconnaît à un symptôme, et il faut le connaître par cœur** : un score anormalement bon. Un modèle à 0,99 d'AUC sur un problème réputé difficile n'est pas une réussite, c'est une alerte. Le réflexe correct n'est jamais de célébrer mais de demander « qu'est-ce que ce modèle sait qu'il ne devrait pas savoir ? ».
+
+Il prend trois formes, et la troisième est la plus difficile à voir.
+1. **La cible déguisée.** `montant_remboursement` pour prédire la fraude : la colonne n'existe QUE parce que la fraude a été constatée. En production, au moment où l'on doit décider, elle est vide. Test simple et infaillible : *cette colonne est-elle remplie à l'instant où je dois prédire ?* Si elle se remplit après, elle est interdite.
+2. **La fuite par prétraitement.** Normaliser, imputer ou encoder par fréquence sur l'ensemble du jeu avant de séparer : les statistiques du test entrent dans l'entraînement. C'est ce que le `Pipeline` empêche par construction — il apprend au `fit`, applique au `transform`, et ne peut donc pas regarder le test.
+3. **La fuite temporelle**, la plus sournoise. Un `train_test_split` aléatoire sur des données datées met des lignes de mars dans le test et des lignes d'avril dans l'entraînement : le modèle apprend le futur pour prédire le passé. Le score est excellent, la production catastrophique. Sur toute donnée temporelle, la séparation se fait **par date**, jamais au hasard — on entraîne sur avant, on teste sur après, comme la réalité l'imposera.
+
+Un dernier mot sur l'encodage par fréquence, mentionné en variante plus bas : il faut aussi décider ce qu'on fait d'une catégorie **jamais vue** à l'entraînement. Le jour où une nouvelle ville apparaît en production, sa fréquence est inconnue. Prévoir cette valeur par défaut fait partie de la feature, pas des détails d'implémentation.
+
 ## 🔧 Exemple simple
 D'une colonne `date_achat`, créer `est_weekend` (booléen) : si l'hypothèse « on achète plus le week-end » est vraie, cette feature simple booste le modèle.
 

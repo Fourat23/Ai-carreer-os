@@ -33,6 +33,17 @@ Le nettoyage suit un ordre : **inspecter d'abord** (sinon on rate les vrais prob
 - **Aberrations (outliers)** : une valeur extrême est-elle une erreur (âge = 999) ou un vrai cas rare (un très gros client) ? On ne supprime pas sans comprendre.
 Chaque décision se DOCUMENTE (un rapport avant/après), et rien ne se modifie SILENCIEUSEMENT. En production, ce nettoyage devient des **fonctions pures testables** (pas un notebook jetable).
 
+**Le « pourquoi ça manque » a trois réponses, et elles n'appellent pas le même geste.** C'est la question la plus rentable du nettoyage, et la plus souvent sautée.
+- La donnée manque **au hasard**, sans lien avec quoi que ce soit — un capteur qui saute une mesure, une case oubliée sans raison. C'est le cas confortable : imputer ou supprimer déforme peu.
+- La donnée manque **pour une raison qu'on observe ailleurs** : les clients inscrits par l'application mobile n'ont pas de champ « fax », parce que le formulaire mobile ne le demande pas. Le manque s'explique par une AUTRE colonne. Imputer globalement mélange deux populations ; imputer par groupe respecte la structure.
+- La donnée manque **à cause de sa propre valeur** : les très hauts revenus refusent de déclarer leur revenu. C'est le cas dangereux, et aucune imputation ne le répare — la médiane remplacera des revenus élevés par une valeur moyenne, et **effacera précisément le signal recherché**. Ici, la seule réponse honnête est de créer une colonne « revenu non déclaré » et de laisser le modèle en tirer ce qu'il peut.
+
+Aucune de ces trois situations ne se distingue en regardant le nombre de manquants. Elles se distinguent en regardant **qui** manque — d'où « inspecter d'abord ».
+
+**L'ordre par rapport au split, et pourquoi il n'est pas négociable.** Imputer avec la médiane calculée sur le jeu complet AVANT de séparer entraînement et test paraît anodin : c'est une médiane, elle bouge à peine. Mais cette médiane a été calculée en regardant les lignes de test. Une information venue du test est donc entrée dans les données d'entraînement — c'est la **fuite de données** (*leakage*).
+
+La conséquence est vicieuse : le modèle obtient un meilleur score en test qu'il n'en obtiendra jamais en production, et **rien n'a l'air anormal**. Aucune erreur, aucun avertissement, juste un chiffre trop beau qu'on prend pour une réussite. La règle qui protège : on sépare d'abord, on calcule les statistiques de nettoyage (médiane, moyenne, catégories connues, bornes) **uniquement sur l'entraînement**, et on les APPLIQUE au test. Le test doit rester ce qu'il simule : des données qu'on n'a jamais vues.
+
 ## 🔧 Exemple simple
 Une colonne « prix » contient `"1 200,50 €"` : il faut retirer l'espace, le €, remplacer la virgule par un point, convertir en nombre — sinon toute somme échoue.
 

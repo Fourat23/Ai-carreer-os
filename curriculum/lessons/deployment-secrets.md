@@ -20,6 +20,12 @@ Le code est **PUBLIC par défaut** (partagé, commité, copié) ; les secrets so
 - **Le circuit d'un secret** : créé chez le fournisseur → stocké dans le gestionnaire (env local, secrets GitHub Actions, vault) → injecté au run → JAMAIS loggé, JAMAIS renvoyé au client, JAMAIS dans une image Docker.
 - **Déployer simple** : pour un projet local/perso, « déployer » = une machine qui a Docker + les variables d'env + `docker compose up`. Les plateformes managées automatisent ce circuit, mais le principe est identique.
 
+**Une variable d'environnement n'est PAS un coffre-fort**, et c'est la nuance qui manque à la plupart des explications. C'est le canal standard parce qu'il sépare la configuration du code — ce qui est déjà l'essentiel — mais sa valeur reste largement visible : elle apparaît dans la liste des processus sur certains systèmes, elle est héritée par tous les sous-processus lancés par l'application, elle finit dans un vidage mémoire après un plantage, et un `console.log(process.env)` posé pour déboguer l'écrit intégralement dans les journaux. Les fuites réelles passent bien plus souvent par là que par un dépôt Git.
+
+Les conséquences pratiques sont simples et se tiennent : ne jamais journaliser l'environnement en bloc, ne jamais renvoyer un message d'erreur qui contienne une valeur de configuration, et sur un projet sérieux, faire lire le secret **au démarrage** par un gestionnaire dédié plutôt que de le laisser dans l'environnement du processus toute sa vie.
+
+**La rotation est la partie que tout le monde saute.** Un secret n'est pas un objet permanent : il doit pouvoir être remplacé sans interruption de service, et c'est ce qui rend un incident supportable. La conception qui le permet tient en une phrase — **le système doit accepter deux secrets valides à la fois** pendant la transition : on ajoute le nouveau, on redéploie, on vérifie que tout fonctionne, puis seulement on révoque l'ancien. Une architecture qui n'accepte qu'un seul secret transforme chaque rotation en coupure, ce qui garantit qu'on ne fera jamais de rotation — et donc qu'un secret compromis le restera. C'est aussi ce qui permet de répondre « en dix minutes » plutôt que « il faut qu'on voie » le jour où une clé fuite.
+
 ## 🔧 Exemple simple
 ```bash
 # .env (gitignoré)          # .env.example (committé)

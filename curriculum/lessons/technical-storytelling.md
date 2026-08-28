@@ -22,6 +22,26 @@ La structure **STAR** organise n'importe quel récit de projet :
 On y ajoute l'**apprentissage** : un vrai obstacle rencontré et comment tu l'as résolu — la preuve vivante de ta valeur.
 Trois formats à préparer : 30 s (accroche), 90 s (standard), 3-5 min (détaillé avec schéma). Et un README qui raconte la même chose par écrit (problème → démo → chiffres → archi → install). Les CHIFFRES et les DÉCISIONS sont le signal ; « motivé et passionné » est du bruit.
 
+**Un récit STAR complet, puisqu'une structure ne s'apprend pas en lisant ses initiales.** Voici la version 90 secondes, telle qu'elle se dit à voix haute :
+
+> **[Situation]** « Dans mon projet DocSense, l'objectif était de répondre à des questions sur une documentation interne de 400 pages. La première version marchait en démonstration, mais dès que je posais des questions un peu détournées, elle inventait des réponses avec beaucoup d'aplomb.
+>
+> **[Tâche]** Il fallait que je sache d'abord *où* ça cassait, avant de tenter quoi que ce soit — je n'avais aucun moyen de dire si le problème venait de la recherche ou de la génération.
+>
+> **[Action]** J'ai construit un jeu d'évaluation de 40 questions, dont 8 volontairement sans réponse dans le corpus, pour tester le refus. J'ai mesuré séparément la récupération et la génération : le rappel@5 était à 61 %, la fidélité à 88 %. Le diagnostic était donc clair — huit fois sur dix, l'erreur venait de la récupération, pas du modèle. J'ai changé le découpage, en passant d'une taille fixe à un découpage par sections, parce que la documentation était très structurée et que je coupais des tableaux en deux. J'ai aussi ajouté une recherche par mots-clés en parallèle du vectoriel, les questions contenant souvent des références de procédure exactes que les vecteurs rataient.
+>
+> **[Résultat]** Le rappel@5 est passé de 61 % à 87 %, la fidélité de 88 % à 91 %, et le taux de refus correct sur les questions sans réponse de 3/8 à 7/8. Le tout mesuré sur le même jeu, à chaque version.
+>
+> **[Apprentissage]** Ce que j'en retiens, c'est que j'avais commencé par améliorer le prompt — c'était visible, gratifiant, et ça ne servait à rien : le bon passage n'était pas dans le contexte. Maintenant je mesure avant de toucher à quoi que ce soit. »
+
+**Ce qu'il faut observer dans ce récit**, parce que c'est reproductible sur n'importe quel projet :
+- La **Situation** dure deux phrases. C'est la partie que tout le monde étire, et celle qui intéresse le moins.
+- L'**Action** occupe plus de la moitié, et elle est faite de **décisions justifiées** — « par sections *parce que* la documentation était structurée » — jamais d'une liste de technologies employées.
+- Le **Résultat** donne un avant ET un après. « J'ai amélioré la qualité » ne vaut rien ; « 61 % à 87 % sur le même jeu » se vérifie et se discute.
+- L'**Apprentissage** admet une erreur réelle. C'est contre-intuitif en entretien, et c'est pourtant le passage qui distingue le plus : il prouve qu'on sait diagnostiquer sa propre démarche.
+
+**La version 30 secondes n'est pas ce récit raccourci**, c'est sa Situation plus son Résultat : « J'ai construit un assistant sur 400 pages de documentation interne ; en mesurant récupération et génération séparément, j'ai fait passer le rappel de 61 à 87 %. » On garde le problème et le chiffre, on laisse l'interlocuteur demander la suite.
+
 ## 🔧 Exemple simple
 Faible : « J'ai créé un chatbot RAG. »
 Fort : « J'ai construit un assistant Q&R sur des docs techniques ; en ajoutant un reranking mesuré sur un golden set de 40 questions, la fidélité est passée de 72 % à 90 %. »

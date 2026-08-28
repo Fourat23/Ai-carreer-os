@@ -21,6 +21,18 @@ Les 4 étapes, à énoncer à voix haute :
 4. **Échelle et pannes** : « et à 10× le trafic ? » (cache, réplicas, file), « et si ce composant tombe ? » (résilience, dégradation), et les **coûts** (l'inférence LLM coûte).
 Pour un système IA, ajouter les spécificités : le LLM est non déterministe/coûteux/faillible (validation, cache, fallback), le RAG quand la connaissance dépasse le contexte, workflow vs agent selon le besoin, l'évaluation intégrée dès le début, la sécurité (prompt injection).
 
+**L'estimation à la louche, qui est la compétence réellement testée à l'étape 1.** Un candidat qui répond « beaucoup d'utilisateurs » a perdu ; un candidat qui convertit en ordres de grandeur a gagné, même avec des chiffres approximatifs. La conversion se fait toujours dans le même sens — d'un chiffre annoncé vers une **charge par seconde** :
+
+> 1 million d'utilisateurs, dont 10 % actifs par jour, chacun faisant 5 requêtes :
+> 500 000 requêtes/jour ÷ 86 400 s ≈ **6 requêtes/seconde** en moyenne.
+> Le trafic n'est jamais uniforme : on applique un facteur de pointe de 3 à 5 → **20 à 30 req/s**.
+
+Ce petit calcul change tout le reste de l'entretien. Trente requêtes par seconde tiennent sur une machine ; on n'a besoin ni de microservices, ni de file, ni de sharding, et le dire est un point pour toi, pas contre toi. Les deux repères à retenir pour ne pas être perdu : une journée fait ~**86 400 secondes** (arrondir à 100 000 est parfaitement acceptable et se calcule de tête), et un service web ordinaire encaisse quelques **centaines** de requêtes par seconde par instance.
+
+**Le calcul de volume se fait sur le même modèle** : 500 000 requêtes/jour × 2 Ko journalisés = 1 Go/jour, soit ~365 Go/an — ce qui décide de la rétention bien mieux qu'une intuition. Et pour un système IA, un troisième calcul s'ajoute, souvent décisif : 500 000 requêtes × 4 000 jetons de contexte, c'est 2 milliards de jetons par jour. **Le goulot d'un système IA est presque toujours le coût ou la latence de l'inférence, jamais le débit HTTP** — le dire spontanément montre qu'on a déjà construit quelque chose.
+
+**Le piège classique de cette étape** : donner un chiffre précis. Personne n'attend l'exactitude, et prétendre à la précision sur des hypothèses inventées est un mauvais signal. On annonce ses hypothèses à voix haute (« je pars sur 10 % d'actifs quotidiens, dites-moi si c'est loin de la réalité »), on arrondit franchement, et on garde l'**ordre de grandeur** — c'est lui qui décide de l'architecture, pas la deuxième décimale.
+
 ## 🔧 Exemple simple
 « Conçois un système de recherche documentaire » → clarifier (combien de docs ? quelle fraîcheur ?) AVANT de dessiner ingestion → index → retrieval → génération.
 

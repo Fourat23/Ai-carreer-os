@@ -20,6 +20,10 @@ L'observabilité, c'est **la boîte noire d'un avion** : quand quelque chose se 
 - **Ce qu'on ne logge jamais** : mots de passe, tokens, données personnelles sensibles, prompts contenant des données privées. Un log est une base de données que tout le monde lit.
 - **Métriques** : compteurs et latences agrégés (requêtes/min, p95). Les logs disent « quoi », les métriques disent « combien et à quelle vitesse ».
 
+**Comment le correlation id se propage réellement**, parce que « propagé dans tous les logs » cache la seule difficulté du sujet. À l'intérieur d'un service, il faut que chaque fonction qui logue puisse y accéder — soit on le passe en paramètre partout, ce qui pollue toutes les signatures, soit on l'attache à un contexte lié à la requête (`AsyncLocalStorage` en Node) que le logger consulte tout seul. Entre services, il ne se propage pas par magie : **le service appelant doit le mettre dans un en-tête HTTP** (`X-Request-Id` ou le standard `traceparent`), et le service appelé doit le lire au lieu d'en générer un nouveau. Un seul maillon qui oublie de transmettre, et la chaîne se casse en deux à cet endroit précis — sans erreur, sans alerte, juste une enquête qui s'arrête net le jour où on en a besoin.
+
+**Le volume est un vrai problème, et l'ignorer coûte cher.** À quelques milliers de requêtes par seconde, tout journaliser en `info` produit des téraoctets et une facture supérieure à celle du service lui-même. Trois leviers, dans cet ordre : **le niveau** (`info` en production, `debug` activable temporairement), **l'échantillonnage** (journaliser 1 % des requêtes réussies, mais **100 % des erreurs** — les échecs sont rares et c'est eux qu'on relit), et la **rétention** (garder 7 jours en accès rapide, archiver le reste). Le principe qui guide : on journalise ce qu'on relira, avec la certitude de garder ce qui est rare et grave.
+
 ## 🔧 Exemple simple
 ```json
 {"ts":"2026-07-05T10:12:03Z","level":"error","requestId":"a1b2","msg":"parse LLM output failed","attempt":2}

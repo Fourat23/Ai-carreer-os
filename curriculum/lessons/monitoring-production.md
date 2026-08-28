@@ -20,6 +20,12 @@ Le monitoring, c'est **le tableau de bord d'une voiture** : jauges (métriques) 
 - **Health checks** : un endpoint `/health` que la supervision interroge ; distinguer « vivant » (le process répond) de « prêt » (les dépendances — base, LLM — répondent).
 - La boucle complète : mesurer → seuils → alerter → diagnostiquer (via les logs corrélés) → corriger → post-mortem.
 
+**Tableau de bord et alerte ne servent pas à la même chose**, et les confondre produit la moitié des systèmes de supervision inutiles. Un tableau de bord se consulte quand on cherche quelque chose ; il peut afficher trente courbes sans nuire. Une alerte **interrompt un humain**, éventuellement à trois heures du matin. Le critère de tri est donc brutal : une alerte n'existe que si quelqu'un doit AGIR immédiatement. Tout le reste — utile mais pas urgent — appartient au tableau de bord, ou à un ticket créé automatiquement.
+
+**Ce qui rend une alerte utilisable**, au-delà d'être actionnable : elle dit ce qui est cassé du point de vue de l'utilisateur, et elle pointe vers un **runbook** — quelques lignes écrites à l'avance qui disent quoi vérifier en premier, quoi faire en attendant, et qui prévenir. Une alerte sans runbook réveille quelqu'un pour qu'il improvise. C'est ce qui explique que les équipes matures aient peu d'alertes et beaucoup de tableaux de bord, tandis que les équipes qui débutent font l'inverse et finissent par toutes les ignorer.
+
+**Le seuil fixe a un défaut qu'il faut connaître.** « Taux d'erreur > 2 % pendant 5 minutes » se déclenche identiquement à 3 h du matin sur dix requêtes — où une seule erreur fait 10 % — et en pleine journée sur cent mille. Le premier cas est du bruit statistique, le second une panne majeure. Deux corrections simples : exiger un **volume minimum** avant d'évaluer le taux, et raisonner sur la consommation du budget d'erreur plutôt que sur un pourcentage instantané. C'est le lien direct avec les SLO : un budget se consomme d'autant plus vite que le trafic est élevé, ce qui pondère naturellement l'urgence par l'impact réel.
+
 ## 🔧 Exemple simple
 Un compteur d'erreurs par minute et une alerte « > 5 erreurs/min pendant 5 min » suffisent à attraper 80 % des incidents d'une petite API.
 

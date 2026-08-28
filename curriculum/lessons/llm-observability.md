@@ -34,6 +34,14 @@ Les trois problèmes que ça résout :
 3. **La dérive fournisseur** : le modèle est mis à jour côté API, tes scores bougent sans changement de code — détectable par des évals régulières comparées à la baseline.
 La boucle LLMOps : tracer → agréger → évaluer régulièrement → comparer aux baselines → alerter/corriger. C'est le monitoring classique + la dimension QUALITÉ, propre à l'IA.
 
+**« Versionner » veut dire quelque chose de précis**, et c'est le point sur lequel tout le reste repose. Un score n'a de sens qu'attaché à ce qui l'a produit, c'est-à-dire à un **quadruplet** : la version du prompt, l'identifiant exact du modèle (pas son alias — un alias change sous toi), la configuration de récupération (taille des chunks, `k`, méthode de fusion), et la version du jeu d'évaluation lui-même. Faire varier l'un des quatre sans l'enregistrer rend toute comparaison ultérieure impossible : on constatera une baisse sans pouvoir dire lequel des quatre a bougé.
+
+C'est aussi ce qui explique un incident très courant : la qualité chute, l'équipe suspecte le dernier changement de prompt, et la cause réelle est le jeu d'évaluation qu'on avait enrichi de huit questions plus difficiles la semaine précédente. **Le jeu d'évaluation est du code**, il se versionne comme le reste, et un changement de jeu invalide toutes les comparaisons antérieures.
+
+**Ce qui distingue vraiment la supervision d'un système LLM de la supervision classique** tient en une phrase : les défaillances y sont **silencieuses**. Une API qui tombe renvoie un 500, et le taux d'erreur le voit. Un système LLM qui se dégrade continue de répondre 200, avec des phrases bien formées et fausses. Aucun signal technique ne bouge — ni latence, ni taux d'erreur, ni saturation. C'est pourquoi l'évaluation régulière n'est pas un supplément de confort : elle est **le seul détecteur de panne** de la partie qui compte, et un système LLM sans évaluation périodique n'est pas supervisé, quelle que soit la richesse de ses tableaux de bord techniques.
+
+Deux signaux mécaniques rattrapent tout de même une part du problème, et méritent une alerte : le **taux d'échec de parsing** (le modèle ne rend plus le format attendu) et le **taux de refus** — s'il s'effondre, le système a peut-être cessé de refuser ce qu'il devrait refuser ; s'il explose, la récupération ne trouve plus rien.
+
 ## 🔧 Exemple simple
 ```json
 {"requestId":"a1b2","promptVersion":"extract-v3","model":"claude-sonnet-5",

@@ -24,6 +24,14 @@ La structure qui convertit (dans cet ordre, car c'est l'ordre des questions du l
 7. **Ce que j'ai appris** (projets de portfolio) : 3-5 puces lucides — les recruteurs la lisent.
 Le test de qualité : suivre SES PROPRES instructions sur une machine propre, à la lettre. Chaque écart est un bug de documentation. Et le duo description GitHub + topics rend le repo trouvable et pro.
 
+**Pourquoi presque tous les README ratent, et ce n'est pas par paresse.** Celui qui écrit le README est la seule personne au monde à qui il est inutile. Il connaît le contexte, il a déjà les dépendances installées, ses variables d'environnement sont posées depuis des semaines, et il sait ce que fait le projet sans avoir à le lire. Il écrit donc, sans s'en rendre compte, pour quelqu'un qui sait déjà — et produit des instructions qui ne fonctionnent que sur sa machine.
+
+Ce biais porte un nom, la **malédiction du savoir**, et il ne se corrige pas par un effort d'attention : on ne peut pas se souvenir de ce qu'on ignorait. Il se corrige **mécaniquement**, en se replaçant dans l'ignorance : cloner son propre dépôt dans un dossier neuf, ou mieux, dans un conteneur vide, et suivre ses instructions à la lettre sans jamais s'autoriser un « ah oui, il faut aussi… ». Chaque fois qu'on est tenté d'ajouter une étape de tête, on vient de trouver un bug de documentation.
+
+**Ce que fait réellement un lecteur**, et qui commande l'ordre des sections. Un recruteur ou un collègue accorde quelques dizaines de secondes et cherche à répondre à trois questions, dans cet ordre : *qu'est-ce que c'est ?*, *est-ce que ça marche vraiment ?*, *est-ce que je peux l'essayer maintenant ?* Il ne fait presque jamais défiler la page jusqu'en bas. C'est pour cela que la démonstration visuelle est placée en haut plutôt qu'après l'architecture : une capture répond à la deuxième question sans lire une ligne, alors qu'un paragraphe d'explication demande un effort qu'on n'accorde qu'après avoir été convaincu.
+
+Et c'est aussi pourquoi les **limites honnêtes** ne coûtent rien : elles sont lues par ceux qui sont déjà intéressés, et à ce stade elles rassurent — quelqu'un qui connaît les faiblesses de son projet est quelqu'un qui l'a mesuré.
+
 ## 🔧 Exemple simple
 Faible : « Projet de RAG avec LangChain. »
 Fort : « **DocSense** — assistant qui répond aux questions sur vos documents techniques, avec citations vérifiables et refus quand l'information n'existe pas. Fidélité 90 % sur 40 questions d'évaluation. `docker compose up` et c'est parti. »

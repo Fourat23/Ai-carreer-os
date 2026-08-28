@@ -147,6 +147,48 @@ directement les composants React typés (`/doc/lessons/react-fundamentals`,
 l'erreur de compilation. Pratique associée : `ts-union-area`, `ts-interface-cart`, `ts-pluck`,
 `react-profile`.
 
+## ✅ Correction attendue
+**La démarche** : typer les props en premier (c'est le contrat du composant), les événements ensuite, et traiter la frontière API en dernier — parce que c'est la seule des trois où le typage statique ne protège de rien.
+
+**L'erreur probable, et elle est massivement répandue.** À la frontière, presque tout le monde écrit :
+
+```ts
+const data = await res.json() as User;   // ⚠️
+```
+
+Le code compile, l'autocomplétion fonctionne, `data.name` est proposé — tout **semble** typé. En réalité `as` ne vérifie rien : c'est une affirmation adressée au compilateur, pas un contrôle. Si l'API renvoie `{ id: "42", nom: "Lina" }`, TypeScript reste silencieux et le programme plante plus loin, sur `data.name.toUpperCase()`, avec un message qui ne mentionne ni l'API ni le champ manquant.
+
+Le piège séduit pour une raison précise : `as` produit exactement la même expérience d'édition qu'un type honnête. On croit avoir typé parce qu'on voit les propriétés s'afficher. **La règle qui protège tient en une phrase : `as` sert à convertir ce qu'on sait déjà, jamais à découvrir ce qu'on reçoit.** À une frontière, la seule réponse est `unknown` suivi d'un contrôle qui s'exécute — le prédicat `v is User` de la leçon.
+
+Second réflexe fautif, plus subtil : écrire le type guard et oublier la branche `else`. On vérifie, on est content, et si la vérification échoue on ne fait rien — le composant reste vide sans que personne ne sache pourquoi. Une validation sans traitement de l'échec ne fait que déplacer le silence.
+
+**Alternative défendable** aux prédicats écrits à la main : une bibliothèque de validation de schéma, qui génère à la fois le contrôle d'exécution ET le type TypeScript à partir d'une seule déclaration. C'est ce que font la plupart des équipes, et cela supprime le risque de désynchronisation entre le type et le guard — le défaut principal de l'écriture manuelle, où l'on ajoute un champ au type sans l'ajouter au prédicat. Écrire un guard à la main reste l'exercice utile pour comprendre ce que la bibliothèque fait à ta place.
+
+**Vérifie seul, sans corrigé** :
+1. Cherche `as` dans ton code. Chaque occurrence à une frontière est un bug qui attend.
+2. Fais renvoyer volontairement une forme incorrecte par ton API simulée. Ton interface doit afficher une erreur maîtrisée — pas un écran blanc, pas une exception dans la console.
+3. Ajoute un champ à ton type `User` sans toucher au guard. Si tout compile encore, tu viens de créer la désynchronisation décrite ci-dessus : c'est le cas exact où une bibliothèque de schéma gagne.
+4. Passe une valeur invalide à `tone`. Le compilateur doit refuser. Sinon, l'union littérale n'en est pas une.
+
+## 🏢 Cas professionnel
+Une équipe front consomme une API interne. Tous les appels sont écrits en `as`, parce que « les types du backend sont connus ». Un jour, le backend renomme `name` en `fullName` dans une réponse — un changement rétrocompatible côté serveur, puisque l'ancien champ reste temporairement.
+
+Le front ne compile pas moins bien, il ne signale rien, et affiche `undefined` à des milliers d'utilisateurs. Le ticket met deux jours à remonter, et l'enquête commence côté backend, qui n'a rien cassé de son point de vue.
+
+Ce que cet incident enseigne dépasse TypeScript : **les types du front décrivent une hypothèse sur un système que le front ne contrôle pas.** Un type est une promesse tenue par le compilateur à l'intérieur de ton code, et par personne à sa frontière. Deux pratiques en découlent chez les équipes qui ont vécu cela : la validation à l'exécution sur toute réponse d'API, et une alerte quand le taux d'échec de validation augmente — car ce taux est le seul signal qui détecte un changement de contrat avant les utilisateurs.
+
+## 🎤 Questions d'entretien
+- « `as User` ou un type guard ? » → `as` est une affirmation non vérifiée ; le type guard est un contrôle qui s'exécute. À une frontière, seul le second protège.
+- « Pourquoi typer les événements React ? » → Pour connaître l'élément source et accéder sûrement à ses propriétés — `e.target.value` n'existe pas sur tous les éléments.
+- « Qu'est-ce qu'une union discriminée ? » → Une union dont chaque variante porte un champ littéral distinctif ; tester ce champ suffit au compilateur pour savoir quelles propriétés existent.
+- « Le typage protège-t-il des données d'une API ? » → Non. Il disparaît à la compilation ; seule une validation à l'exécution vérifie ce qui arrive vraiment.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Aucun `as` sur une donnée venue de l'extérieur.
+- [ ] Chaque validation a une branche d'échec qui fait quelque chose de visible.
+- [ ] Mes props utilisent des unions littérales plutôt que `string` pour les ensembles finis.
+- [ ] Je sais expliquer pourquoi un type ne protège pas une frontière.
+
 ## 📚 Vocabulaire
 **props typées** · **union littérale** · **événement typé** (`MouseEvent`/`ChangeEvent`) ·
 **`unknown` vs `any`** · **type guard** (`v is T`) · **narrowing** · **union discriminée** ·

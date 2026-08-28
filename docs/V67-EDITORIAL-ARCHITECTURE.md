@@ -40,8 +40,25 @@ Elle n'est ni éditoriale ni pédagogique. Elle tient en trois lignes de code.
   à **56 leçons distinctes sur 128**.
 - Aucune journée ne porte la compétence `cloud`, alors que `LESSON_BY_SKILL`
   lui réserve une entrée : les 32 leçons Linux / Docker / K8s / réseau /
-  observabilité / CI-CD / IaC / FinOps sont inatteignables **par
-  construction**.
+  observabilité / CI-CD / IaC / FinOps ne sont programmées par aucune journée
+  **par construction**.
+
+> **Précision nécessaire, contre ma propre formulation.** « Orpheline » ne veut
+> pas dire « inatteignable ». Les 128 leçons sont toutes listées et navigables
+> sur `/lessons`, rangées en 17 catégories. Une leçon orpheline est **non
+> programmée**, pas invisible : un apprenant qui explore le catalogue la
+> trouvera. Ce qui reste vrai, et c'est le principe 10 du contrat gelé, c'est
+> qu'un apprenant qui SUIT les 365 journées ne la rencontrera jamais.
+> J'avais écrit « inatteignables » ; c'est plus fort que ce que la mesure
+> autorise.
+
+Les catégories du catalogue disent d'ailleurs ce qui s'est passé :
+« Observabilité, SRE & fiabilité » (8), « Systèmes & Linux » (5), « Réseau »
+(5), « Conteneurs & Docker » (5), « CI/CD & livraison » (4), « Kubernetes »
+(6), « Cloud, AWS, Azure & IaC » (7) — **40 leçons d'un rayon infrastructure
+constitué par des sprints ultérieurs, et jamais raccordé au plan des 365
+journées**, qui, lui, était figé avant. Ce n'est pas une erreur de câblage
+isolée : c'est un étage entier du corpus resté hors du parcours.
 
 Le mécanisme d'échappement existe pourtant déjà : le champ `lessons` de
 `DAYS_ENRICH` alimente `lessonsOverride`. Il est documenté dans

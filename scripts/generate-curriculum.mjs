@@ -76,6 +76,30 @@ for (const src of REFLECTION_SOURCES) {
   }
 }
 import { LESSON_BY_SKILL, FUTURE_BY_SKILL, INTERVIEW_BY_SKILL, CASE_BY_SKILL, LESSONS } from './data/lessons-map.mjs';
+import { LESSONS_V67 } from './data/days-lessons-v67.mjs';
+
+/**
+ * V67 · P0 — Leçons de fond d'une journée, résolues UNE fois.
+ *
+ * Deux corrections en une :
+ *
+ * 1. UNION, jamais remplacement. `LESSONS_V67` s'ajoute à ce que la journée
+ *    liait déjà (son propre `lessons`, sinon le défaut de sa compétence). Un
+ *    rattachement ne peut donc pas retirer un lien existant.
+ *
+ * 2. UNE SEULE SOURCE. Le rappel « Approfondis via la leçon de fond » de
+ *    `deriveTakeaways` lisait `LESSON_BY_SKILL[day.skill]` en ignorant
+ *    `lessonsOverride`, que l'affichage des liens honorait pourtant. Les deux
+ *    passaient par la compétence d'un côté et par la journée de l'autre : 38
+ *    journées renvoyaient vers des leçons sans rapport avec leur sujet — le
+ *    jour 79, consacré à l'observabilité, vers « Cache et performance » ; le
+ *    jour 87, consacré à React, vers « JavaScript asynchrone ». Les deux
+ *    appellent désormais cette fonction.
+ */
+function lessonsOf(day) {
+  const base = day.lessonsOverride ?? LESSON_BY_SKILL[day.skill] ?? [];
+  return [...new Set([...base, ...(LESSONS_V67[day.day] ?? [])])];
+}
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.
 const DATA_AI_SKILLS = new Set(['sql', 'python', 'ml', 'dl', 'llm', 'rag', 'agents', 'evalia', 'secu', 'cloud', 'http']);
@@ -332,7 +356,7 @@ function renderDay(day) {
     L.push(day.theoryExtra);
     L.push('');
   }
-  const lessons = day.lessonsOverride ?? LESSON_BY_SKILL[day.skill] ?? [];
+  const lessons = lessonsOf(day);
   if (lessons.length) {
     L.push('**Leçon(s) de fond à lire/relire :**');
     for (const f of lessons) L.push(`- [${lessonTitle(f)}](/doc/lessons/${f.replace(/\.md$/, '')})`);
@@ -456,7 +480,11 @@ function renderDay(day) {
 function deriveTakeaways(day) {
   const out = [];
   if (day.concepts?.length) out.push('Concepts clés du jour : ' + day.concepts.slice(0, 5).join(', ') + '.');
-  const lessons = LESSON_BY_SKILL[day.skill] ?? [];
+  // Le rappel cite au plus trois leçons — comme la ligne au-dessus borne les
+  // concepts à cinq. Rattacher cinq leçons au jour 79 rendait la phrase
+  // illisible ; la liste complète reste affichée en tête de journée, sous
+  // « Leçon(s) de fond à lire/relire ».
+  const lessons = lessonsOf(day).slice(0, 3);
   if (lessons.length) out.push('Approfondis via la leçon de fond : ' + lessons.map(lessonTitle).join(', ') + '.');
   out.push('Je dois pouvoir REFAIRE l\'exercice seul demain et l\'EXPLIQUER à l\'oral — sinon ce n\'est pas encore acquis.');
   return out;

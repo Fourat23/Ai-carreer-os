@@ -80,6 +80,8 @@
     "v651:fixture": "node scripts/v651-fixture.mjs",
     "v66:check": "node scripts/v66-check.mjs",
     "v66:render": "node scripts/v66-render-integrity.mjs",
+    "v66:integrity": "node scripts/v66-integrity.mjs",
+    "v66:walkthrough": "node scripts/v66-walkthrough.mjs",
     "v66:negative": "bash scripts/v66-negative.sh",
     "v66:sample": "node scripts/v66-sample.mjs",
     "v66:pedagogy": "node scripts/v66-pedagogy-metrics.mjs --sample",

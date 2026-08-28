@@ -110,7 +110,19 @@ export function PhaseRail({
           const state = i < activeIdx ? 'past' : i === activeIdx ? 'current' : 'next';
           return (
             <li key={p.id} className={`phase-step is-${state}`} data-family={p.family}>
-              <a href={`#${p.id}`} aria-current={state === 'current' ? 'true' : undefined}>
+              {/* V66 · CP13 — nom accessible EXPLICITE.
+                  Trouvé par le walkthrough navigateur, sur les 128 pages de
+                  leçon : en variante `strip` (768 et 1024 px), le CSS masque
+                  le libellé et l'icône porte `aria-hidden`. Le lien n'avait
+                  alors AUCUN nom accessible — axe le signalait « serious »,
+                  douze fois par page, et un lecteur d'écran annonçait
+                  « lien » douze fois de suite. Le nom ne peut pas dépendre
+                  d'un texte que le CSS a le droit de cacher. */}
+              <a
+                href={`#${p.id}`}
+                aria-label={`${FAM_LABEL[p.family] ?? p.family} — ${p.label}`}
+                aria-current={state === 'current' ? 'true' : undefined}
+              >
                 <span className="phase-step-mark" aria-hidden="true">
                   <Icon size={13} strokeWidth={2} />
                 </span>

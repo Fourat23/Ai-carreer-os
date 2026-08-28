@@ -21,8 +21,10 @@ export default function RetentionPage() {
   const s = getRetentionSummary(now);
   const prompts = s.queue.map(getRecallPrompt);
 
-  const testes = s.totalConcepts - s.counts.nouveau - s.notYetReached;
+  // Deux grandeurs DISJOINTES, et leur somme vaut le total — sinon la page se
+  // contredit (défaut trouvé au CP14 en lisant la page réelle).
   const rencontres = s.totalConcepts - s.notYetReached;
+  const testes = rencontres - s.counts.nouveau;
 
   return (
     <>

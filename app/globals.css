@@ -5547,3 +5547,36 @@ button.dot::after {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: var(--sp-4); margin-top: var(--sp-6);
 }
+
+/* Lien de glossaire posé automatiquement dans un cours (V66 · CP13).
+   Discret par construction : une ligne pointillée sous le mot, pas une couleur
+   de lien. Un cours dont un mot sur dix est bleu vif devient illisible, et le
+   défaut qu'on corrige était l'absence de définition, pas l'absence d'accent
+   visuel. Le mot reste dans la couleur du texte ; seul le soulignement dit
+   qu'il mène quelque part. */
+.gloss-link {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--faint, var(--muted));
+}
+.gloss-link:hover,
+.gloss-link:focus-visible {
+  text-decoration-style: solid;
+  text-decoration-color: currentColor;
+}
+
+/* Tableau d'un document du curriculum : défilement horizontal atteignable au
+   clavier (V66 · CP13).
+   Avant, `.prose table` portait lui-même `display: block; overflow-x: auto` :
+   le TABLEAU était la zone qui défile, et une zone qui défile sans être
+   focalisable est inaccessible à qui n'utilise pas de souris (axe
+   `scrollable-region-focusable`, serious, à 375 px). On ne peut pas rendre le
+   tableau focalisable sans lui poser un `role` qui détruirait sa sémantique de
+   tableau ; c'est donc l'ENVELOPPE qui défile, et le tableau redevient un
+   tableau. Le contour de focus est visible : c'est le seul indice qu'un
+   lecteur au clavier a pour savoir qu'il peut faire défiler. */
+.doc-table-scroll { overflow-x: auto; max-width: 100%; }
+.doc-table-scroll:focus-visible { outline: 2px solid var(--border-accent, currentColor); outline-offset: 2px; }
+.prose .doc-table-scroll > table { display: table; overflow: visible; width: max-content; min-width: 100%; }

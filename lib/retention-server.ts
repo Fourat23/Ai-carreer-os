@@ -16,6 +16,7 @@ import { getProgram } from './program';
 import { readProgress } from './progress-server';
 import {
   projectRetention, buildReviewQueue, retentionCounts, availableFormats, nextFormat,
+  isEncountered,
 } from './retention';
 import type { RetentionProjection, RecallFormat, RetentionStateId } from './retention';
 
@@ -110,7 +111,10 @@ export function getRetentionSummary(now: string = new Date().toISOString()): Ret
     projection,
     counts: retentionCounts(projection) as Record<RetentionStateId, number>,
     queue: buildReviewQueue(projection, { now }) as RetentionProjection[],
-    notYetReached: projection.filter((p) => !p.exposure.exposed).length,
+    // « Pas encore rencontré » et les cinq états sont deux grandeurs DISJOINTES :
+    // leur somme vaut exactement le nombre de notions du programme. Sans cette
+    // disjonction, la page comptait les mêmes notions deux fois (CP14).
+    notYetReached: projection.filter((p) => !isEncountered(p)).length,
     totalConcepts: projection.length,
     attemptCount: attempts.length,
   };

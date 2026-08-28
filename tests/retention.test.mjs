@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import {
   normalizeAttempt, normalizeAttempts, projectRecall, projectSchedule,
   projectExposures, projectRetentionState, projectRetention, interleave,
-  buildReviewQueue, availableFormats, nextFormat, retentionCounts,
+  buildReviewQueue, availableFormats, nextFormat, retentionCounts, isEncountered,
   INTERVALS, RETAINED_MIN_SPAN_DAYS,
 } from '../lib/retention.mjs';
 import { applyCommand } from '../lib/learning-engine.mjs';
@@ -294,4 +294,43 @@ test('retentionCounts couvre les cinq états, même à zéro', () => {
   const c = retentionCounts([]);
   assert.deepEqual(Object.keys(c).sort(), ['a_revoir', 'en_consolidation', 'fragile', 'nouveau', 'retenu']);
   assert.ok(Object.values(c).every((n) => n === 0));
+});
+
+// ── Décompte disjoint (défaut trouvé au CP14, en lisant la page rendue) ──
+
+test('les états ne comptent QUE les notions rencontrées', () => {
+  // Avec une progression vierge, /retention affichait « Nouveau 127 » ET
+  // « 128 notions pas encore dans le décompte » : les mêmes notions comptées
+  // des deux côtés, et la légende de la page (« Nouveau — RENCONTRÉ, jamais
+  // mis à l'épreuve ») contredite par son propre nombre.
+  const proj = projectRetention({
+    concepts: [{ id: 'vu', title: 'Vu' }, { id: 'jamais', title: 'Jamais' }],
+    conceptDays: { vu: [1], jamais: [99] },
+    days: { 1: { startedAt: d(1) } },
+    attempts: [],
+    now: d(5),
+  });
+  const c = retentionCounts(proj);
+  const total = Object.values(c).reduce((n, x) => n + x, 0);
+  assert.equal(total, 1, 'seule la notion rencontrée est comptée');
+  assert.equal(c.nouveau, 1);
+  const nonRencontrees = proj.filter((p) => !isEncountered(p)).length;
+  assert.equal(total + nonRencontrees, proj.length, 'les deux grandeurs sont disjointes et couvrent tout');
+});
+
+test('une notion jamais présentée mais déjà tentée compte comme rencontrée', () => {
+  // Elle a été mise à l'épreuve : l'exclure la ferait disparaître des deux
+  // grandeurs à la fois.
+  const proj = projectRetention({
+    concepts: [{ id: 'x', title: 'X' }],
+    conceptDays: { x: [99] }, days: {},
+    attempts: [A('x', d(1), 'failed')], now: d(2),
+  });
+  assert.equal(isEncountered(proj[0]), true);
+  // À d(2), l'échéance d'un échec de d(1) (+1 jour) est exactement atteinte :
+  // l'état est « à revoir », pas « fragile ». Peu importe lequel des deux —
+  // ce qui compte ici est qu'elle soit comptée QUELQUE PART, et une seule fois.
+  const c = retentionCounts(proj);
+  assert.equal(Object.values(c).reduce((n, x) => n + x, 0), 1);
+  assert.equal(c.a_revoir, 1, JSON.stringify(c));
 });

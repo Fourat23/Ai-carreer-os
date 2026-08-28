@@ -98,3 +98,5 @@ export declare function buildReviewQueue(
 export declare function availableFormats(sectionTitles: string[]): RecallFormat[];
 export declare function nextFormat(recall: ConceptRecall | null, formats: RecallFormat[]): RecallFormat | null;
 export declare function retentionCounts(projection: RetentionProjection[]): Record<RetentionStateId, number>;
+/** Le produit a-t-il présenté cette notion, ou l'apprenant l'a-t-il déjà tentée ? */
+export declare function isEncountered(p: RetentionProjection): boolean;

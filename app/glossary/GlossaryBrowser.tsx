@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   filterEntries, sortEntries, firstLetter, isAmbiguous, normalizeText, LEVELS,
 } from '@/lib/glossary-core';
@@ -62,7 +63,14 @@ export default function GlossaryBrowser({
   const [letter, setLetter] = useState('');
   const [view, setView] = useState<View>('compact');
   const [focusId, setFocusId] = useState<string | null>(null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  // V66 · CP13 — arrivée depuis une leçon : `/glossary?terme=<id>` ouvre
+  // directement la définition. Sans ce paramètre, les 1 600 liens posés dans
+  // les cours atterriraient sur un catalogue de 711 entrées où l'apprenant
+  // devrait RECHERCHER le mot sur lequel il vient de cliquer — c'est-à-dire
+  // exactement le travail qu'on prétendait lui épargner.
+  const params = useSearchParams();
+  const initialId = params.get('terme');
+  const [selectedId, setSelectedId] = useState<string | null>(initialId);
   const [ready, setReady] = useState(false);
   const [detail, setDetail] = useState<GlossaryEntry | null>(null);
   const [fullEntries, setFullEntries] = useState<GlossaryEntry[] | null>(null);

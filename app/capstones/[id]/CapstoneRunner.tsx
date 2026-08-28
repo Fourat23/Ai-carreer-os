@@ -2,11 +2,19 @@
 
 // Runner de capstone : contexte + signal + artefacts consultables (signal + bruit),
 // puis phases de raisonnement. Correction locale DÉTERMINISTE (gradeCapstone, modèle
-// pur), puis debrief + remédiation. N'écrit RIEN dans la progression ; la frontière
-// preuve/proxy et la nature SIMULÉE sont rappelées.
+// pur), puis debrief + remédiation.
+//
+// V65.1 · CP9 — le résultat peut désormais être CONSERVÉ, par un geste
+// explicite, comme une preuve canonique. Auparavant ce composant n'écrivait
+// rien : `capstone` était pourtant un type de source QUALIFIANT au contrat V65,
+// `capstoneToEvidence` existait depuis V40 sans aucun appelant, et le jalon
+// « Premier capstone terminé » était donc structurellement inatteignable.
+// Rien n'est enregistré au seul fait d'avoir répondu ; la correction reste faite
+// PAR LE SERVEUR (`/api/capstones/[id]`), jamais transmise par le client.
+// La frontière preuve/proxy et la nature SIMULÉE restent rappelées.
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { Check, X, RotateCcw, FileText, GraduationCap, FlaskConical, BookOpen } from 'lucide-react';
+import { Check, X, RotateCcw, FileText, GraduationCap, FlaskConical, BookOpen, Save } from 'lucide-react';
 import { gradeCapstone } from '@/lib/capstone';
 import type { Capstone, CapstoneResult } from '@/lib/capstone';
 import type { Taxonomy } from '@/lib/assessment';
@@ -45,8 +53,35 @@ export default function CapstoneRunner({
   }
   function setPredict(qid: string, v: string) { setResponses((r) => ({ ...r, [qid]: v })); }
 
+  const [busy, setBusy] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
+
   function submit() { setResult(gradeCapstone(capstone, responses)); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-  function reset() { setResponses({}); setResult(null); }
+  function reset() { setResponses({}); setResult(null); setNotice(null); }
+
+  // Conserver le résultat est une ACTION EXPLICITE. La note d'échec est
+  // affichée : un clic sans effet visible est l'anomalie A10 du CP0 de V64.
+  async function keep() {
+    setBusy(true); setNotice(null);
+    try {
+      const res = await fetch(`/api/capstones/${encodeURIComponent(capstone.id)}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ responses, record: true }),
+      });
+      const j = await res.json();
+      if (res.ok && j.ok && j.recorded) {
+        setNotice(j.qualifying
+          ? 'Preuve enregistrée. Elle soutient les compétences de ce capstone.'
+          : 'Résultat enregistré. Le seuil n’est pas atteint : il compte comme pratique, pas comme démonstration.');
+        window.dispatchEvent(new CustomEvent('progress-changed'));
+      } else {
+        setNotice(j?.reason ?? 'Le résultat n’a pas pu être conservé.');
+      }
+    } catch {
+      setNotice('Le résultat n’a pas pu être conservé — réessaie.');
+    }
+    setBusy(false);
+  }
 
   return (
     <>
@@ -60,7 +95,7 @@ export default function CapstoneRunner({
         </p>
       )}
 
-      {result && <CapstoneResultPanel capstone={capstone} result={result} onReset={reset} />}
+      {result && <CapstoneResultPanel capstone={capstone} result={result} onReset={reset} onKeep={keep} busy={busy} notice={notice} />}
 
       <section className="cap-brief">
         <h2 className="cap-h2">Contexte</h2>
@@ -170,10 +205,13 @@ export default function CapstoneRunner({
 }
 
 function CapstoneResultPanel({
-  capstone, result, onReset,
+  capstone, result, onReset, onKeep, busy = false, notice = null,
 }: {
   capstone: Capstone;
   result: CapstoneResult;
+  onKeep?: () => void;
+  busy?: boolean;
+  notice?: string | null;
   onReset: () => void;
 }) {
   const pct = Math.round(result.ratio * 100);
@@ -194,6 +232,14 @@ function CapstoneResultPanel({
         Ce résultat est un <strong>indice de raisonnement</strong>, pas une preuve de maîtrise :
         il n'est pas enregistré automatiquement dans ta progression. Les infrastructures décrites sont simulées.
       </p>
+      {onKeep && (
+        <div className="diag-keep">
+          <button className="btn small" onClick={onKeep} disabled={busy}>
+            <Save size={13} strokeWidth={2} /> Conserver ce résultat comme preuve
+          </button>
+          {notice && <span className="diag-keep-note" role="status">{notice}</span>}
+        </div>
+      )}
 
       <details className="cap-debrief" open>
         <summary>Debrief — raisonnement attendu &amp; pistes</summary>

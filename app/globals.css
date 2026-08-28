@@ -5214,7 +5214,9 @@ button.dot::after {
 .cmp-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
 .cmp-row {
   display: grid; align-items: center; gap: 8px 16px;
-  grid-template-columns: minmax(12ch, 1.4fr) auto auto;
+  /* V65.1 · CP8 — quatrième colonne : le lien vers le détail de la compétence.
+     Sans elle, le lien créait une colonne implicite et décalait la ligne. */
+  grid-template-columns: minmax(12ch, 1.4fr) auto auto auto;
   padding: 12px 0; border-bottom: 1px solid var(--border);
 }
 .cmp-main { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
@@ -5231,7 +5233,7 @@ button.dot::after {
   letter-spacing: var(--tracking-label); color: var(--faint); white-space: nowrap;
 }
 .cmp-facts dd { margin: 0; font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
-.cmp-why { justify-self: end; white-space: nowrap; }
+.cmp-why, .cmp-detail-link { justify-self: end; white-space: nowrap; }
 
 /* — Détail : les preuves elles-mêmes — */
 .cmp-detail { grid-column: 1 / -1; padding: 12px 0 4px; border-top: 1px dashed var(--border); }
@@ -5261,9 +5263,16 @@ button.dot::after {
 .cmp-ev-item.is-q .cmp-ev-val { color: var(--ok); }
 
 @media (max-width: 720px) {
-  .cmp-row { grid-template-columns: 1fr auto; }
+  .cmp-row { grid-template-columns: 1fr auto auto; }
   .cmp-facts { grid-column: 1 / -1; gap: 14px; }
   .cmp-why { grid-column: 2; grid-row: 1; }
+  .cmp-detail-link { grid-column: 3; grid-row: 1; }
+}
+@media (max-width: 480px) {
+  /* Sous 480 px, les deux boutons ne tiennent pas à côté du nom : ils passent
+     sous les faits, côte à côte. */
+  .cmp-row { grid-template-columns: 1fr; }
+  .cmp-why, .cmp-detail-link { grid-column: 1; grid-row: auto; justify-self: start; }
 }
 
 /* — Historique : une trace, pas un journal de navigation — */
@@ -5299,3 +5308,83 @@ button.dot::after {
 
 /* Compétence sans aucune trace : on le DIT, on n'aligne pas des zéros. */
 .cmp-none { font-size: var(--fs-sm); color: var(--faint); font-style: italic; }
+
+/* ── Détail d'une compétence (V65.1 · CP8) ─────────────────────────────────
+   Deux colonnes : ce qui EXPLIQUE l'état à gauche, ce qu'on peut EN FAIRE à
+   droite. Sous 900 px, le rail passe au-dessus : la prochaine action est ce
+   qu'on vient chercher sur mobile. */
+.cmpd-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--sp-6); margin-top: var(--sp-5); align-items: start;
+}
+.cmpd-main { display: flex; flex-direction: column; gap: var(--sp-6); min-width: 0; }
+.cmpd-rail { display: flex; flex-direction: column; gap: var(--sp-4); }
+@media (max-width: 900px) {
+  .cmpd-grid { grid-template-columns: 1fr; }
+  .cmpd-rail { order: -1; }
+}
+
+.cmpd-state { margin-bottom: 8px; }
+.cmpd-rule { margin: 0 0 6px; font-size: var(--fs-sm); }
+.cmpd-fact { margin: 0 0 4px; font-size: var(--fs-sm); color: var(--muted); }
+.cmpd-review { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.cmpd-review li {
+  display: flex; align-items: center; gap: 6px;
+  font-size: var(--fs-xs); color: var(--warn, var(--muted));
+}
+
+.cmpd-sec { min-width: 0; }
+.cmpd-h { margin: 0 0 10px; font-size: var(--fs-base); }
+.cmpd-none { margin: 0; font-size: var(--fs-sm); color: var(--muted); }
+
+.cmpd-ev { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.cmpd-ev-item {
+  display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content;
+  align-items: baseline; gap: 4px 12px;
+  padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--panel); font-size: var(--fs-sm);
+}
+/* La preuve qualifiante se distingue par une BORDURE et par son libellé de
+   validation — jamais par la seule couleur. */
+.cmpd-ev-item.is-q { border-left: 3px solid var(--ok); }
+.cmpd-ev-src {
+  font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .03em;
+  color: var(--muted); white-space: nowrap;
+}
+.cmpd-ev-title { min-width: 0; overflow-wrap: anywhere; }
+.cmpd-ev-date { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); white-space: nowrap; }
+.cmpd-ev-day { grid-column: 1; font-size: var(--fs-xs); }
+.cmpd-ev-val {
+  grid-column: 2 / -1; display: flex; align-items: center; gap: 5px;
+  font-size: var(--fs-xs); color: var(--muted);
+}
+.cmpd-ev-prov {
+  grid-column: 1 / -1; font-family: var(--font-mono); font-size: var(--fs-xs);
+  color: var(--faint); overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .cmpd-ev-item { grid-template-columns: minmax(0, 1fr); }
+  .cmpd-ev-day, .cmpd-ev-val, .cmpd-ev-prov { grid-column: 1; }
+}
+
+.cmpd-next-a { font-weight: 600; margin-bottom: 4px; }
+.cmpd-next-r, .cmpd-next-e, .cmpd-next-g { margin: 0 0 6px; font-size: var(--fs-sm); color: var(--muted); }
+.cmpd-note {
+  margin: 8px 0 0; font-size: var(--fs-sm); color: var(--muted);
+  display: flex; align-items: flex-start; gap: 6px; flex-wrap: wrap;
+}
+.cmpd-reach { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.cmpd-reach > div { display: flex; flex-direction: column; gap: 1px; }
+.cmpd-reach dt {
+  font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .03em; color: var(--muted);
+}
+.cmpd-reach dd { margin: 0; font-family: var(--font-mono); font-size: var(--fs-base); }
+
+/* V65.1 · CP9 — le catalogue de diagnostics connaît son lecteur. L'état est
+   porté par un MOT (« Réussi », « Passé, non réussi »), jamais par la couleur
+   seule ; un diagnostic jamais passé n'affiche rien du tout. */
+.cat-row-hist {
+  display: block; margin-top: 3px;
+  font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted);
+}
+.cat-row-hist.is-passed { color: var(--ok); }

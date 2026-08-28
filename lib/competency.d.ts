@@ -112,6 +112,8 @@ export interface CompetencyNextAction {
   goal: string;
   expectedEvidence: string;
   href: string;
+  /** Libellé du bouton : ce qui se passe au clic, jamais l'intention. */
+  cta: string;
 }
 
 export function nextActionForCompetency(

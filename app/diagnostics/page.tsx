@@ -3,6 +3,7 @@ import { HeroFocus, HeroFact } from '@/app/ui';
 import { listAssessments } from '@/lib/assessments-server';
 import { getProgram } from '@/lib/program';
 import { PageHeader, ContextLine } from '@/app/ui';
+import { getHistoryBySource } from '@/lib/learner-read-models';
 import DiagnosticsBoard from './DiagnosticsBoard';
 
 export const dynamic = 'force-dynamic';
@@ -18,6 +19,11 @@ export default function DiagnosticsPage() {
   // Agrégats réels du catalogue de diagnostics.
   const coveredSkills = new Set(assessments.flatMap((a) => a.skills ?? [])).size;
   const totalQuestions = assessments.reduce((n, a) => n + (a.questions?.length ?? 0), 0);
+  // V65.1 · CP9 — ce que l'APPRENANT a réellement fait ici. Le catalogue était
+  // identique qu'on en ait passé zéro ou seize (CP0, P0-4).
+  const history = getHistoryBySource('assessment');
+  const takenCount = Object.keys(history).length;
+  const passedCount = Object.values(history).filter((h) => h.passed).length;
 
   return (
     <>
@@ -27,6 +33,8 @@ export default function DiagnosticsPage() {
           { k: 'Diagnostics', v: `${assessments.length}`, here: true },
           { k: 'Questions', v: `${totalQuestions}` },
           { k: 'Compétences couvertes', v: `${coveredSkills}` },
+          { k: 'Passés', v: takenCount === 0 ? 'aucun' : `${takenCount} / ${assessments.length}` },
+          { k: 'Réussis', v: takenCount === 0 ? '—' : `${passedCount}` },
         ]}
       />
       <PageHeader
@@ -58,6 +66,10 @@ export default function DiagnosticsPage() {
             <HeroFact k="Compétences couvertes">{coveredSkills}</HeroFact>
             <HeroFact k="Questions">{totalQuestions}</HeroFact>
             <HeroFact k="Correction">locale, sans réseau</HeroFact>
+            {/* On n'affiche « 0 » nulle part pour dire « jamais passé » : on le dit. */}
+            <HeroFact k="Ton historique">
+              {takenCount === 0 ? 'aucun diagnostic passé' : `${takenCount} passé${takenCount > 1 ? 's' : ''}, ${passedCount} réussi${passedCount > 1 ? 's' : ''}`}
+            </HeroFact>
           </>
         }
       />
@@ -71,6 +83,7 @@ export default function DiagnosticsPage() {
           anchorId="catalogue"
           assessments={assessments}
           skillNames={Object.fromEntries(skillName)}
+          history={history}
         />
       )}
     </>

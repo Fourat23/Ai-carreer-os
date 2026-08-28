@@ -10,6 +10,7 @@ import { Check, X, ChevronLeft, GraduationCap, RotateCcw, Save } from 'lucide-re
 import { gradeAssessment, TAXONOMY } from '@/lib/assessment';
 import type { Assessment, AssessmentResult, Taxonomy } from '@/lib/assessment';
 import { SurfaceHead } from '@/app/ui';
+import type { SourceHistory } from '@/lib/learner-read-models';
 
 const TAXO_LABEL: Record<Taxonomy, string> = {
   RECALL: 'Se souvenir',
@@ -26,10 +27,17 @@ export default function DiagnosticsBoard({
   skillNames,
   /** Ancre du catalogue : l'action principale de la page y mène. */
   anchorId,
+  /**
+   * V65.1 · CP9 — ce que l'apprenant a DÉJÀ fait ici, dérivé du ledger. Le
+   * catalogue était rigoureusement identique qu'on ait passé zéro diagnostic
+   * ou seize, alors que /history et /skills en portaient la trace.
+   */
+  history = {},
 }: {
   assessments: Assessment[];
   skillNames: Record<string, string>;
   anchorId?: string;
+  history?: Record<string, SourceHistory>;
 }) {
   const [openId, setOpenId] = useState<string | null>(null);
   const open = assessments.find((a) => a.id === openId) ?? null;
@@ -85,12 +93,23 @@ export default function DiagnosticsBoard({
             <ul className="cat-rows">
               {list.map((a) => {
                 const counts = taxonomyCounts(a);
+                const h = history[a.id] ?? null;
                 return (
                   <li key={a.id} className="cat-row">
                     <button className="cat-row-link" onClick={() => setOpenId(a.id)}>
                       <span className="cat-row-body">
                         <span className="cat-row-title">{a.title}</span>
                         <span className="cat-row-sub">{a.skills.map((s) => skillNames[s] ?? s).join(' · ')}</span>
+                        {/* Un diagnostic jamais passé n'affiche RIEN — pas un
+                            « 0 », pas un tiret : l'absence reste l'absence. */}
+                        {h && h.last && (
+                          <span className={`cat-row-hist${h.passed ? ' is-passed' : ''}`}>
+                            {h.passed ? 'Réussi' : 'Passé, non réussi'}
+                            {' · '}{frShort(h.last.createdAt)}
+                            {h.last.detail ? ` · ${h.last.detail}` : ''}
+                            {h.attempts.length > 1 ? ` · ${h.attempts.length} tentatives` : ''}
+                          </span>
+                        )}
                       </span>
                       <span className="cat-row-tags">
                         {TAXONOMY.filter((t) => counts[t] > 0).map((t) => (
@@ -109,6 +128,11 @@ export default function DiagnosticsBoard({
     </>
   );
 }
+
+const frShort = (iso: string) => {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+};
 
 const slug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 

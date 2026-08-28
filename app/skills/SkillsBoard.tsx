@@ -77,7 +77,12 @@ export default function SkillsBoard({
                 return (
                   <li key={c.competencyId} className={`cmp-row${isOpen ? ' is-open' : ''}`}>
                     <div className="cmp-main">
-                      <span className="cmp-name">{c.name ?? skillNames[c.competencyId] ?? c.competencyId}</span>
+                      {/* V65.1 · CP8 — la liste répond « où j'en suis » ; le détail
+                          répond « qu'est-ce qui soutient cet état, et que faire ».
+                          Le nom devient donc le chemin vers la seconde question. */}
+                      <Link className="cmp-name" href={`/skills/${c.competencyId}`}>
+                        {c.name ?? skillNames[c.competencyId] ?? c.competencyId}
+                      </Link>
                       {c.needsReview && (
                         <span className="cmp-flag" title={c.needsReviewReasons.join(' · ')}>
                           <AlertTriangle size={12} strokeWidth={2.2} /> à revoir
@@ -111,6 +116,9 @@ export default function SkillsBoard({
                     >
                       {isOpen ? 'Masquer' : c.evidenceCount > 0 ? 'Voir les preuves' : 'Pourquoi cet état'}
                     </button>
+                    <Link className="btn small cmp-detail-link" href={`/skills/${c.competencyId}`}>
+                      Détail
+                    </Link>
 
                     {isOpen && why && (
                       <div className="cmp-detail" id={`cmp-d-${c.competencyId}`}>

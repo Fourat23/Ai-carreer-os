@@ -176,6 +176,26 @@ const WRITERS = clientComponents().filter((f) => {
     `[clients] les ${fileOps.length} opérations de fichier affichent leur échec`,
     mute.join(', '));
 
+  // Troisième catégorie d'écrivain : les CORRECTEURS SERVEUR
+  // (`{ record: true }` vers /api/assessments/[id] ou /api/capstones/[id]).
+  // Ils ne passent pas par sendCommand — et c'est correct : le client n'envoie
+  // que ses réponses, le serveur calcule le score et construit la preuve. Mais
+  // ils écrivent bel et bien dans la progression, donc ils doivent MONTRER leur
+  // échec comme les autres. Sans cette règle, la catégorie n'était surveillée
+  // par rien : `DiagnosticsBoard` écrivait depuis V65 sans qu'aucun gate ne le
+  // sache.
+  const graders = clientComponents().filter((f) => /record:\s*true/.test(code(f)));
+  must(graders.length >= 1,
+    '[clients] les correcteurs serveur sont détectés',
+    'aucun composant ne conserve de résultat — la règle ne mesure rien');
+  const silentGraders = graders.filter((f) => {
+    const src = code(f);
+    return !(/setNotice\(/.test(src) && /\{\s*notice\s*&&/.test(src));
+  });
+  must(silentGraders.length === 0,
+    `[clients] les ${graders.length} correcteurs serveur affichent leur échec`,
+    silentGraders.join(', '));
+
   // N12 — le gate se surveille lui-même. Si quelqu'un réénumère les écrivains,
   // la règle redevient une photo du code au lieu d'un invariant, et le trou
   // P0-0 se rouvre. On cherche un tableau littéral de ≥ 3 chemins `.tsx`.

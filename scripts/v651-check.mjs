@@ -233,10 +233,25 @@ safe(() => {
   must(c.state === 'practiced' && c.qualifyingEvidenceCount === 0,
     '[C11] une révision seule ne démontre rien');
 
-  // Invariant 25 : pas de second moteur de répétition espacée.
-  const extra = walk('lib').filter((f) => /sm-?2|spaced|retention/i.test(f) && f !== 'lib/review.mjs');
+  // Invariant 25, RETARGETÉ EN V66 — et il faut dire pourquoi, sinon cette
+  // ligne ressemble à un assouplissement de confort.
+  //
+  // En V65.1, la règle interdisait TOUT second moteur de répétition espacée :
+  // le Retention Engine n'était pas autorisé, et la tentation de le commencer
+  // « en passant » était réelle. Le sprint V66 l'autorise explicitement et le
+  // construit. La règle ne disparaît donc pas : elle protège désormais ce
+  // qu'elle protégeait vraiment — qu'il n'existe pas TROIS moteurs, ni un
+  // quatrième qui se glisserait sous un autre nom.
+  //
+  // Deux moteurs sont admis, nommément, et aucun autre :
+  //   lib/review.mjs     — planifie une JOURNÉE depuis la compréhension déclarée ;
+  //   lib/retention.mjs  — planifie un CONCEPT depuis des tentatives réelles.
+  // Leur étanchéité est vérifiée séparément par la règle R11 de `v66:check`.
+  const MOTEURS_AUTORISES = new Set(['lib/review.mjs', 'lib/retention.mjs', 'lib/retention.d.ts', 'lib/retention-server.ts']);
+  const extra = walk('lib')
+    .filter((f) => /sm-?2|spaced|retention/i.test(f) && !MOTEURS_AUTORISES.has(f));
   must(extra.length === 0,
-    '[C11] aucun moteur de répétition espacée supplémentaire',
+    '[C11] aucun TROISIÈME moteur de répétition espacée',
     extra.join(', '));
 }, '[C11] pont révision');
 

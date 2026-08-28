@@ -12,6 +12,8 @@ export const VALIDATION_KINDS: readonly ['exercise-tests', 'assessment-grade', '
 export type SessionState = 'not_started' | 'active' | 'paused' | 'completed';
 export type StepState = 'pending' | 'in_progress' | 'done';
 
+import type { RecallOutcome, RecallFormat } from './retention';
+
 export type Command =
   | { type: 'START' | 'PAUSE' | 'RESUME' | 'REOPEN'; day: number }
   | { type: 'COMPLETE'; day: number; comprehension?: string; confidence?: string; scheduleReview?: boolean }
@@ -28,7 +30,10 @@ export type Command =
   | { type: 'REMOVE_EVIDENCE'; day: number; evidenceId: string }
   | { type: 'SET_SKILL'; skill: string; score: number }
   | { type: 'SET_WEEKLY_REVIEW'; week: string; patch: Record<string, unknown> }
-  | { type: 'SET_MONTHLY_REVIEW'; month: string; patch: Record<string, unknown> };
+  | { type: 'SET_MONTHLY_REVIEW'; month: string; patch: Record<string, unknown> }
+  // V66 — la seule écriture du Retention Engine. Concept, pas journée : une
+  // tentative de rappel porte sur une notion, pas sur une date du calendrier.
+  | { type: 'RECORD_RECALL'; conceptId: string; outcome: RecallOutcome; format?: RecallFormat; sourceRef?: string };
 
 export type CommandResult =
   | { ok: true; progress: Progress; effects: string[] }

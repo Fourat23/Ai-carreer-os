@@ -15,6 +15,10 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/synthese', label: 'Synthèse', icon: 'LayoutGrid' },
       { href: '/calendar', label: 'Calendrier', icon: 'CalendarDays' },
       { href: '/revisions', label: 'Révisions', icon: 'History' },
+      // V66 · Réactivation — voisine de « Révisions » et distincte d'elle :
+      // Révisions planifie des JOURNÉES depuis une compréhension déclarée,
+      // Réactivation mesure des NOTIONS depuis des tentatives réelles.
+      { href: '/retention', label: 'Réactivation', icon: 'Repeat' },
       // V65 · l'historique de travail : ce qui a été fait, avec ses preuves.
       { href: '/history', label: 'Historique', icon: 'ScrollText' },
     ],

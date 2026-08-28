@@ -166,6 +166,12 @@ export interface Progress {
   monthlyReviews: Record<string, { done: boolean; note: string; score: number | null }>;
   /** V65 · REGISTRE CANONIQUE DE PREUVES — l'unique source de la compétence. */
   evidence?: import('./evidence').Evidence[];
+  /**
+   * V66 · TENTATIVES DE RAPPEL — l'unique source de l'état de rétention.
+   * Une liste de FAITS datés ; aucun état de rétention n'est stocké ici, ni
+   * ailleurs. Voir `lib/retention.mjs`.
+   */
+  recallAttempts?: import('./retention').RecallAttempt[];
   /** V18 · état des missions d'ingénierie (additif, optionnel). */
   missions?: Record<string, unknown>;
 }

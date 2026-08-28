@@ -83,7 +83,11 @@ test('tracksMeta : métadonnées légères', () => {
 });
 
 test('emptyFlat : forme V6 vide', () => {
-  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [] });
+  // `recallAttempts` s'ajoute en V66 au même titre que `evidence` en V65 : une
+  // progression vide porte une liste de faits VIDE, jamais l'absence de liste
+  // — un consommateur ne doit pas avoir à distinguer « pas de tentative » de
+  // « champ manquant ».
+  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [] });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
 

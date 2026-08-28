@@ -5466,3 +5466,84 @@ button.dot::after {
 .hist-filter-note a:hover,
 .hist-nores a:hover,
 .cmpd-note a:hover { text-decoration-color: currentColor; }
+
+/* ── Réactivation (V66 · CP6) ──────────────────────────────────────────────
+   Même grammaire que le détail de compétence : ce qu'on FAIT à gauche, ce qui
+   l'EXPLIQUE à droite. Aucun motif visuel nouveau, aucun sixième motif
+   propriétaire (plafond ADR-056 §1) — la surface réutilise Panel, ContextLine
+   et Metric. */
+.ret-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--sp-6); margin-top: var(--sp-5); align-items: start;
+}
+.ret-main { display: flex; flex-direction: column; gap: var(--sp-6); min-width: 0; }
+.ret-rail { display: flex; flex-direction: column; gap: var(--sp-4); }
+@media (max-width: 900px) {
+  .ret-grid { grid-template-columns: 1fr; }
+  /* Sur mobile, la file d'action reste EN PREMIER : contrairement au détail de
+     compétence, ce qu'on vient chercher ici est le geste, pas l'explication. */
+  .ret-rail { order: 1; }
+}
+
+.ret-note { margin: 8px 0 0; font-size: var(--fs-sm); color: var(--muted); }
+.ret-note:first-child { margin-top: 0; }
+.ret-note a { text-decoration: underline; text-underline-offset: 2px; }
+.ret-error {
+  margin: 0 0 10px; padding: 10px 12px; font-size: var(--fs-sm);
+  border: 1px solid var(--warn, var(--border)); border-left-width: 3px;
+  border-radius: var(--r); color: var(--warn, var(--fg));
+}
+
+.ret-counts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.ret-counts > div { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.ret-counts dt {
+  font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .03em;
+  color: var(--muted); overflow-wrap: anywhere;
+}
+.ret-counts dd { margin: 0; font-family: var(--font-mono); font-size: var(--fs-base); }
+
+.ret-rule { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.ret-rule li { font-size: var(--fs-sm); color: var(--muted); }
+.ret-rule strong { color: var(--fg); }
+
+.ret-queue { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-3); }
+.ret-card {
+  padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--panel); min-width: 0;
+}
+/* La carte ouverte se distingue par une bordure épaissie, jamais par la seule
+   couleur : le contraste de couleur ne porte aucune information ici. */
+.ret-card.is-open { border-left: 3px solid var(--accent, var(--fg)); }
+.ret-card-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.ret-card-title { margin: 0; font-size: var(--fs-base); min-width: 0; overflow-wrap: anywhere; }
+.ret-card-state {
+  font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .03em;
+  color: var(--muted); white-space: nowrap;
+}
+.ret-card-why { margin: 3px 0 10px; font-size: var(--fs-xs); color: var(--faint, var(--muted)); }
+.ret-card-format {
+  margin: 0 0 3px; font-size: var(--fs-xs); text-transform: uppercase;
+  letter-spacing: .03em; color: var(--muted);
+}
+.ret-card-prompt { margin: 0 0 12px; font-size: var(--fs-sm); }
+.ret-card-after { margin-top: 12px; }
+.ret-card-check { margin: 0 0 10px; font-size: var(--fs-sm); color: var(--muted); }
+.ret-card-check a { text-decoration: underline; text-underline-offset: 2px; }
+
+.ret-card-outcomes { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+.ret-out { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.ret-out-hint { font-size: var(--fs-xs); color: var(--muted); }
+@media (max-width: 640px) {
+  /* Les trois issues doivent rester également atteignables au pouce : elles
+     passent en colonne pleine largeur plutôt qu'en trois boutons serrés. */
+  .ret-card-outcomes { flex-direction: column; align-items: stretch; }
+  .ret-out { justify-content: flex-start; }
+}
+
+.ret-metrics {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--sp-4); margin-top: var(--sp-6);
+}

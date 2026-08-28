@@ -101,6 +101,26 @@ function lessonsOf(day) {
   return [...new Set([...base, ...(LESSONS_V67[day.day] ?? [])])];
 }
 
+/**
+ * V67 · CP13 — Les 52 revues ne liaient AUCUNE leçon.
+ *
+ * Trouvé au navigateur, pas à la lecture : sur les huit natures de journée
+ * testées à cinq largeurs, les deux journées de revue étaient les seules sans
+ * un seul lien de leçon. Une journée dont l'objet est de RÉVISER une semaine
+ * n'offrait aucun chemin vers ce qu'il faut réviser.
+ *
+ * Le correctif ne fabrique rien : les leçons d'une revue sont l'UNION de celles
+ * que les journées de sa semaine ont réellement liées. Si la semaine n'a lié
+ * aucune leçon, la revue n'en lie aucune — on ne comble pas un vide par une
+ * suggestion. Le contrat gelé interdit de recomposer les revues ; ceci ne les
+ * recompose pas, cela leur rend accessible ce que la semaine a déjà enseigné.
+ */
+function lessonsDeLaRevue(semaine, joursDeLaSemaine) {
+  const u = new Set();
+  for (const d of joursDeLaSemaine) if (!d.isReview) for (const f of lessonsOf(d)) u.add(f);
+  return [...u];
+}
+
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.
 const DATA_AI_SKILLS = new Set(['sql', 'python', 'ml', 'dl', 'llm', 'rag', 'agents', 'evalia', 'secu', 'cloud', 'http']);
 
@@ -318,6 +338,15 @@ function renderDay(day) {
       L.push('');
       L.push('### Exercice de réflexion architecturale');
       L.push(r.archiExercise);
+      L.push('');
+    }
+    // V67 · CP13 — Les leçons à réviser, union de celles que la semaine a
+    // réellement liées. Trouvé au navigateur : les 52 revues n'offraient aucun
+    // chemin vers ce qu'elles demandent de réviser.
+    const aReviser = lessonsOf(day);
+    if (aReviser.length) {
+      L.push('### Leçons de fond à relire cette semaine');
+      for (const f of aReviser) L.push(`- [${lessonTitle(f)}](/doc/lessons/${f.replace(/\.md$/, '')})`);
       L.push('');
     }
     // Enrichissement optionnel des revues (synthèse, grille de notation,
@@ -761,6 +790,15 @@ function minutesDeLecture(md) {
 const programDays = [];
 for (let n = 1; n <= 365; n++) {
   const day = buildDay(n);
+  // Une revue lie ce que sa semaine a enseigné (V67 · CP13). On reconstruit les
+  // journées de la semaine pour en prendre l'union, sans rien inventer.
+  if (day.isReview) {
+    const debut = (day.week - 1) * 7 + 1;
+    const semaine = [];
+    for (let d = debut; d < debut + 7 && d <= 365; d++) if (d !== n) semaine.push(buildDay(d));
+    const l = lessonsDeLaRevue(day.week, semaine);
+    if (l.length) day.lessonsOverride = l;
+  }
   const mdJour = lierSpecsProjets(renderDay(day));
   writeMd(join(CUR, 'days', `day-${pad3(n)}.md`), mdJour);
   // Chaque jour a une correction : une vraie correction pour les jours de travail,

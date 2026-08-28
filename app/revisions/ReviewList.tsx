@@ -14,6 +14,8 @@ import { sendCommand, announceProgressChanged } from '@/app/progress-command';
 type DueRow = {
   day: number; title: string; reason: string; overdueDays: number;
   review: DayProgress['review']; confidence?: 'low' | 'medium' | 'high' | null;
+  /** Compétence de la journée, LUE DANS LE CORPUS — jamais devinée (V65). */
+  skill?: string | null;
 };
 type UpRow = { day: number; title: string; reason: string; inDays: number };
 
@@ -38,7 +40,12 @@ export default function ReviewList({ due, upcoming, suppressEmpty = false }: { d
 
   async function complete(row: DueRow, comprehension: 'review' | 'partial' | 'understood') {
     setBusy(row.day); setError(null);
-    const r = await sendCommand({ type: 'SET_COMPREHENSION', day: row.day, value: comprehension });
+    const r = await sendCommand({
+      type: 'SET_COMPREHENSION', day: row.day, value: comprehension,
+      // V65 : la révision produit une PREUVE (non qualifiante) sur cette
+      // compétence ; elle ne modifie jamais un état directement.
+      skills: row.skill ? [row.skill] : [],
+    });
     setBusy(null);
     if (!r.ok) { setError(`Journée ${row.day} : ${r.error}`); return; }
     announceProgressChanged();

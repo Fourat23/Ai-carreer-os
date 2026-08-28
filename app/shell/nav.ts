@@ -15,6 +15,8 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/synthese', label: 'Synthèse', icon: 'LayoutGrid' },
       { href: '/calendar', label: 'Calendrier', icon: 'CalendarDays' },
       { href: '/revisions', label: 'Révisions', icon: 'History' },
+      // V65 · l'historique de travail : ce qui a été fait, avec ses preuves.
+      { href: '/history', label: 'Historique', icon: 'ScrollText' },
     ],
   },
   {

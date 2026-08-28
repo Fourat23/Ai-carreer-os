@@ -135,7 +135,8 @@ test('mission auto-only → done sans revue humaine ; preuve créée', () => {
   const f2 = recordMissionCompletion(f, def);
   const ev = (f2.days['69']?.evidence ?? []).filter((e) => e.url === '/missions/demo-mission');
   assert.equal(ev.length, 1);
-  assert.equal(f2.skills.functions, 3);
+  // V65 : la mission produit une PREUVE, elle n'écrit plus de niveau (P2).
+  assert.ok((f2.evidence ?? []).some((e) => e.competencyIds.includes('algo')), 'preuve de mission projetée sur algo');
 });
 
 test('anti-régression : un livrable validé ne redescend pas (sauf rejet)', () => {

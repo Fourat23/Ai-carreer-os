@@ -119,7 +119,7 @@ test('AppSec : enrôlement, bascule aller/retour et ISOLATION de la progression'
   // Isolation : la progression AppSec ne fuit PAS dans Foundations.
   assert.equal(v3.tracks[APPSEC_CLOUD_TRACK_ID].days['68'].status, 'done');
   assert.ok((v3.tracks[APPSEC_CLOUD_TRACK_ID].days['68'].evidence ?? []).some((e) => e.id === 'lab-sec-secret-response-order'), 'preuve d’exercice enregistrée');
-  assert.equal(v3.tracks[APPSEC_CLOUD_TRACK_ID].skills.secu >= 1, true, 'compétence secu créditée par la preuve');
+  assert.ok((activeTrackProgress(v3).evidence ?? []).some((e) => e.competencyIds.includes('secu')), 'compétence secu créditée par une PREUVE (V65)');
   assert.equal(v3.tracks[DEFAULT_TRACK_ID].days['68'], undefined, 'aucune fuite AppSec → Foundations');
   assert.equal(v3.tracks[DEFAULT_TRACK_ID].days['1'].status, 'done', 'Foundations conserve sa progression');
   assert.equal(v3.tracks[APPSEC_CLOUD_TRACK_ID].days['1'], undefined, 'aucune fuite Foundations → AppSec');
@@ -135,7 +135,7 @@ test('AppSec : enrôlement, bascule aller/retour et ISOLATION de la progression'
   assert.ok(parsed.ok);
   const acs = parsed.v3.tracks[APPSEC_CLOUD_TRACK_ID];
   assert.equal(acs.days['68'].status, 'done');
-  assert.ok(acs.skills.secu >= 1);
+  assert.ok((acs.evidence ?? []).some((e) => e.competencyIds.includes('secu')));
 });
 
 test('AppSec : indexé dans la recherche globale, sans fuite de données privées', () => {

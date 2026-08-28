@@ -158,9 +158,19 @@ export default function RevisionStation({
               : 'aucune échéance programmée'}
           </span>
         </div>
-        <div className="rev-track" role="img"
+        {/* V65 · `role="img"` était posé sur un conteneur qui abrite des LIENS.
+            axe le refuse à juste titre (nested-interactive, serious) : une image
+            est un objet unique, elle ne peut pas contenir des cibles focusables.
+            Le défaut existait depuis V57 mais restait invisible — l'échéancier
+            n'affichait aucun lien tant qu'aucune révision n'était planifiée, et
+            aucune fixture ne l'avait jamais rempli. C'est l'ajout de données
+            réelles en V65 qui l'a fait apparaître.
+            Correction : le conteneur redevient un GROUPE navigable, et la
+            description textuelle est portée par un résumé lisible par lecteur
+            d'écran — sans retirer un seul lien. */}
+        <div className="rev-track" role="group"
           aria-label={horizon.length
-            ? `Échéancier : ${horizon.map((h) => `jour ${h.day} dans ${h.inDays} jours`).join(', ')}`
+            ? `Échéancier des révisions sur ${HORIZON_DAYS} jours : ${horizon.length} journée${horizon.length > 1 ? 's' : ''} planifiée${horizon.length > 1 ? 's' : ''}`
             : `Échéancier vide sur ${HORIZON_DAYS} jours`}
         >
           <div className="rev-track-grid" aria-hidden="true">
@@ -175,6 +185,7 @@ export default function RevisionStation({
             <Link
               key={h.day}
               href={`/day/${h.day}`}
+              aria-label={`Jour ${h.day} — ${h.title}, à revoir dans ${h.inDays} jour${h.inDays > 1 ? 's' : ''}`}
               className="rev-tick"
               style={{ left: `${Math.min(100, (h.inDays / HORIZON_DAYS) * 100)}%` }}
               title={`Jour ${h.day} — ${h.title} · dans ${h.inDays} j`}

@@ -156,9 +156,18 @@ export interface DayProgress {
 export interface Progress {
   startDate: string | null; // ISO date où l'utilisateur a commencé le jour 1
   days: Record<string, DayProgress>;
-  skills: Record<SkillId, number>; // score 0-5 auto-évalué
+  /**
+   * V65 · AUTO-ÉVALUATION DÉCLARÉE (0-5). Ce n'est PAS un état de compétence :
+   * elle n'entre pas dans la projection. L'état vient des preuves, et d'elles
+   * seules (contrat §6).
+   */
+  skills: Record<SkillId, number>;
   weeklyReviews: Record<string, { done: boolean; note: string; score: number | null }>;
   monthlyReviews: Record<string, { done: boolean; note: string; score: number | null }>;
+  /** V65 · REGISTRE CANONIQUE DE PREUVES — l'unique source de la compétence. */
+  evidence?: import('./evidence').Evidence[];
+  /** V18 · état des missions d'ingénierie (additif, optionnel). */
+  missions?: Record<string, unknown>;
 }
 
 export const EMPTY_DAY_PROGRESS: DayProgress = {

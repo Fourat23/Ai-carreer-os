@@ -1,22 +1,25 @@
-// V64 · Correction SERVEUR d'un diagnostic, et conservation du résultat.
+// V65 · Correction SERVEUR d'un diagnostic → PREUVE CANONIQUE.
 //
-// Avant V64, `/diagnostics` corrigeait dans le navigateur et gardait tout dans
-// `useState` : un rechargement effaçait le diagnostic (anomalie A9 du CP0).
+// Dette V64 corrigée ici : un diagnostic devait emprunter « la session ouverte
+// la plus avancée » pour exister, parce qu'une preuve ne pouvait pas vivre hors
+// d'une journée. Le rattachement était une commodité de stockage, pas un fait.
+//
+// Depuis V65, une preuve est un objet autonome : un diagnostic pris hors de
+// toute journée a `dayId: null`, et c'est un FAIT, pas un trou.
 //
 // Deux raisons de corriger côté serveur :
 //   1. la persistance — un résultat qui disparaît n'est pas un résultat ;
 //   2. l'intégrité — un score persisté doit être CALCULÉ par le produit, jamais
-//      transmis par le client. `gradeAssessment` est une fonction pure, déjà
-//      testée ; elle reste la seule autorité.
+//      transmis par le client. `gradeAssessment` reste la seule autorité.
 //
-// Réserve pédagogique, tenue dans le libellé de la preuve elle-même :
+// Réserve pédagogique, portée par la preuve elle-même :
 // un score est un INDICE, pas une preuve de maîtrise.
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getAssessment } from '@/lib/assessments-server';
 import { gradeAssessment } from '@/lib/assessment';
 import { readProgress, writeProgress } from '@/lib/progress-server';
-import { applyCommand, openSessions } from '@/lib/learning-engine';
+import { makeEvidence, appendEvidence } from '@/lib/evidence';
 import type { Progress } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -45,42 +48,50 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ ok: true, result, recorded: false });
   }
 
-  // ── Conservation explicite du résultat ──
-  // Une preuve vit dans une journée. On la rattache à la session OUVERTE ; s'il
-  // n'y en a aucune, on ne devine pas une journée : on le dit.
+  // ── Conservation explicite du résultat, SANS journée d'emprunt ──
   const progress = readProgress();
-  const open = openSessions(progress);
-  if (open.length === 0) {
-    return NextResponse.json({
-      ok: true, result, recorded: false,
-      reason: 'Aucune journée ouverte : commence une journée pour y rattacher ce résultat.',
-    });
-  }
-  const day = open[open.length - 1].day; // la plus avancée des sessions ouvertes
+  const now = new Date().toISOString();
 
-  const passed = result.passedOverall;
-  const r = applyCommand(progress, {
-    type: 'SUBMIT',
-    day,
-    stepId: `diag-${assessment.id}`,
-    kind: 'assessment',
-    content: `Diagnostic « ${assessment.title} » — ${result.passed}/${result.total}.`,
+  const ev = makeEvidence({
+    sourceType: 'assessment',
+    sourceId: assessment.id,
+    competencyIds: assessment.skills ?? [],
+    // Le seuil est celui de la fixture (`passThreshold`, défaut 0,7) — déjà en
+    // vigueur avant V65 et déjà testé. Aucun seuil n'est inventé ici.
     validation: {
-      status: passed ? 'passed' : 'failed',
+      status: result.passedOverall ? 'passed' : 'failed',
       kind: 'assessment-grade',
-      checkedAt: new Date().toISOString(),
+      checkedAt: now,
       detail: `${result.passed}/${result.total} · un score est un indice, pas une preuve de maîtrise`,
       score: { passed: result.passed, total: result.total },
     },
-    evidenceId: `diag-${assessment.id}`,
-    evidenceTitle: `Diagnostic réussi : ${assessment.title}`,
-    evidenceUrl: '/diagnostics',
-    skills: assessment.skills ?? [],
-  }, { now: new Date() });
+    title: `Diagnostic : ${assessment.title}`,
+    provenance: {
+      producer: 'assessment-grader',
+      method: 'assessment-grade',
+      note: 'Correction déterministe côté serveur (gradeAssessment).',
+    },
+    assessmentId: assessment.id,
+    // AUCUN dayId : ce diagnostic n'appartient à aucune journée, et le produit
+    // le dit au lieu d'en fabriquer un.
+  }, { now });
 
-  if (!r.ok) {
-    return NextResponse.json({ ok: true, result, recorded: false, reason: r.error });
+  if (!ev.ok) {
+    return NextResponse.json({ ok: true, result, recorded: false, reason: ev.error });
   }
-  writeProgress(r.progress as Progress);
-  return NextResponse.json({ ok: true, result, recorded: true, day, evidence: passed });
+
+  const before = (progress.evidence ?? []).length;
+  const appended = appendEvidence(progress.evidence ?? [], ev.evidence);
+  if (!appended.added) {
+    // Rejouer le même diagnostic ne crée pas une seconde preuve.
+    return NextResponse.json({ ok: true, result, recorded: false, reason: 'Ce résultat est déjà enregistré.', duplicate: true });
+  }
+
+  writeProgress({ ...progress, evidence: appended.evidence } as Progress);
+  return NextResponse.json({
+    ok: true, result, recorded: true,
+    evidenceId: ev.evidence.id,
+    qualifying: result.passedOverall,
+    ledgerSize: before + 1,
+  });
 }

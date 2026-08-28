@@ -16,9 +16,9 @@ const COMPREHENSION_LABEL: Record<string, string> = {
 };
 
 export default function DayCorrection({
-  day, solutionHtml, isReview, initial,
+  day, solutionHtml, isReview, initial, skillId,
 }: {
-  day: number; solutionHtml: string; isReview: boolean; initial: DayProgress;
+  day: number; solutionHtml: string; isReview: boolean; initial: DayProgress; skillId?: string;
 }) {
   const router = useRouter();
   const [state, setState] = useState(initial.correctionState ?? 'locked');
@@ -43,7 +43,10 @@ export default function DayCorrection({
   async function chooseComprehension(value: 'understood' | 'partial' | 'review') {
     setBusy(true); setError(null);
     setComprehension(value);
-    const r = await sendCommand({ type: 'SET_COMPREHENSION', day, value });
+    const r = await sendCommand({
+      type: 'SET_COMPREHENSION', day, value,
+      skills: skillId ? [skillId] : [],
+    });
     setBusy(false);
     if (!r.ok) { setError(r.error); return; }
     setState('acknowledged');

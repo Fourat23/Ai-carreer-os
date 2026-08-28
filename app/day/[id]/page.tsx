@@ -256,7 +256,7 @@ export default async function DayPage({ params, searchParams }: {
 
           {solution && (
             <div id="correction">
-              <DayCorrection day={dayNum} solutionHtml={solution} isReview={!!meta.isReview} initial={progress} />
+              <DayCorrection day={dayNum} solutionHtml={solution} isReview={!!meta.isReview} initial={progress} skillId={meta.skill} />
             </div>
           )}
 

@@ -1,150 +1,160 @@
 'use client';
 
+// Liste dense des compétences — V65.
+//
+// Ce n'est plus une grille de curseurs d'auto-évaluation : c'est une lecture
+// de PREUVES. Pour chaque compétence : l'état projeté, combien de preuves le
+// soutiennent, la dernière, s'il faut réviser, et POURQUOI cet état — le tout
+// dérivé, jamais déclaré.
+//
+// L'explication vient du moteur (`whyCompetencyState`). Aucun texte explicatif
+// n'est écrit en dur ici (exigence CP6).
+
 import Link from 'next/link';
 import { useState } from 'react';
-import type { Skill } from '@/lib/types';
-import { SKILL_STATE_LABEL, type SkillStat } from '@/lib/skill-state';
-import type { SkillExplanation } from '@/lib/learning-experience';
-import { skillStatusToken, STATUS_DISPLAY_ORDER, statusRank } from '@/lib/skill-vocabulary.mjs';
-import { Status, Metric } from '@/app/ui';
+import { Check, CircleDot, Circle, Layers, AlertTriangle, ExternalLink } from 'lucide-react';
+import type { CompetencyProjection, CompetencyExplanation, CompetencyState } from '@/lib/competency';
+import { Status } from '@/app/ui';
 import type { Tone } from '@/app/ui';
-import { sendCommand } from '@/app/progress-command';
 
-// Regroupement des compétences par ÉTAT sémantique (ordre V52, aucune 2e source).
-const GROUP_HINT: Record<string, string> = {
-  'demonstrated': 'Solides — preuves à l\'appui, aucune action requise.',
-  'to-consolidate': 'Fragiles — à retravailler en priorité.',
-  'practiced': 'Pratiquées — en cours de consolidation.',
-  'discovered': 'Découvertes — première exposition, pas encore pratiquées.',
-  'not-started': 'Non abordées — pas encore dans le parcours suivi.',
+const STATE_ORDER: CompetencyState[] = ['reinforced', 'demonstrated', 'practiced', 'unassessed'];
+
+const STATE_META: Record<CompetencyState, { label: string; tone: Tone; hint: string; Icon: typeof Check }> = {
+  reinforced: {
+    label: 'Consolidée', tone: 'positive', Icon: Layers,
+    hint: 'Plusieurs preuves qualifiantes, de sources et de jours différents.',
+  },
+  demonstrated: {
+    label: 'Démontrée', tone: 'positive', Icon: Check,
+    hint: 'Au moins une validation réussie par un validateur du produit.',
+  },
+  practiced: {
+    label: 'Pratiquée', tone: 'accent', Icon: CircleDot,
+    hint: 'Des traces existent, mais aucune validation réussie.',
+  },
+  unassessed: {
+    label: 'Non évaluée', tone: 'neutral', Icon: Circle,
+    hint: 'Aucune preuve — le produit ne se prononce pas.',
+  },
 };
 
+function shortDate(iso: string | null) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
 export default function SkillsBoard({
-  skills, initialScores, stats = {}, explains = {},
+  competencies, explanations, skillNames,
 }: {
-  skills: Skill[];
-  initialScores: Record<string, number>;
-  stats?: Record<string, SkillStat>;
-  explains?: Record<string, SkillExplanation>;
+  competencies: CompetencyProjection[];
+  explanations: Record<string, CompetencyExplanation>;
+  skillNames: Record<string, string>;
 }) {
-  const [scores, setScores] = useState<Record<string, number>>(initialScores);
-  const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState<string | null>(null);
 
-  async function setScore(skill: string, score: number) {
-    const previous = scores[skill];
-    setScores((s) => ({ ...s, [skill]: score }));
-    setError(null);
-    const r = await sendCommand({ type: 'SET_SKILL', skill, score });
-    if (!r.ok) {
-      // Un échec ne laisse pas un score affiché qui n'existe pas sur disque.
-      setScores((s) => ({ ...s, [skill]: previous }));
-      setError(r.error);
-    }
-  }
-
-  // V64 · dette P0-1 de V63. Tant qu'AUCUNE compétence n'a été auto-évaluée,
-  // « 0.0 / 5 » n'est pas une moyenne : c'est une valeur inventée qui a le poids
-  // visuel d'une donnée réelle. Une donnée qui n'existe pas s'affiche
-  // « non renseigné » — jamais estimée (invariant §1 « Données »).
-  const rated = skills.filter((s) => Number.isFinite(scores[s.id]) && scores[s.id] > 0);
-  const avg = rated.length === 0 ? null
-    : rated.reduce((sum, s) => sum + scores[s.id], 0) / rated.length;
-
-  // Groupes ordonnés par STATUS_DISPLAY_ORDER (état → compétences).
-  const byState = new Map<string, Skill[]>();
-  for (const s of skills) {
-    const state = stats[s.id]?.state ?? 'not-started';
-    if (!byState.has(state)) byState.set(state, []);
-    byState.get(state)!.push(s);
-  }
-  const groups = [...byState.entries()]
-    .sort((a, b) => statusRank(a[0]) - statusRank(b[0]))
-    .map(([state, list]) => ({ state, list, token: skillStatusToken(state) }));
-
-  // Répartition (donnée réelle) pour l'en-tête.
-  const distribution = STATUS_DISPLAY_ORDER
-    .map((state) => ({ token: skillStatusToken(state), n: byState.get(state)?.length ?? 0 }))
-    .filter((d) => d.n > 0);
+  const groups = STATE_ORDER
+    .map((state) => ({ state, list: competencies.filter((c) => c.state === state) }))
+    .filter((g) => g.list.length > 0);
 
   return (
-    <>
-      {error && <p className="cmd-error" role="alert">{error}</p>}
-      <div className="skills-summary">
-        <Metric
-          label="Auto-évaluation moyenne"
-          value={avg === null ? 'non renseigné' : `${avg.toFixed(1)} / 5`}
-          emphasis={avg !== null}
-          sub={avg === null
-            ? 'Aucune compétence auto-évaluée pour l’instant. Les états ci-dessous sont dérivés de tes preuves, pas de cette note.'
-            : `Moyenne des ${rated.length} compétence${rated.length > 1 ? 's' : ''} que tu as notée${rated.length > 1 ? 's' : ''}. Honnêteté : ne compte que ce que tu peux produire seul et expliquer.`} />
-        <div className="skills-distribution" aria-label="Répartition par état">
-          {distribution.map((d) => (
-            <Status key={d.token.state} tone={d.token.tone as Tone} label={`${d.token.label} · ${d.n}`} />
-          ))}
-        </div>
-      </div>
+    <div className="cmp-board">
+      {groups.map(({ state, list }) => {
+        const meta = STATE_META[state];
+        return (
+          <section key={state} className="cmp-group" aria-labelledby={`cmp-h-${state}`}>
+            <div className="cmp-group-head">
+              <h2 id={`cmp-h-${state}`} className="cmp-group-t">
+                <Status tone={meta.tone} label={meta.label} />
+              </h2>
+              <span className="cmp-group-n">{list.length}</span>
+              <span className="cmp-group-hint">{meta.hint}</span>
+            </div>
 
-      {groups.map(({ state, list, token }) => (
-        <section key={state} className="skills-group">
-          <div className="skills-group-head">
-            <Status tone={token.tone as Tone} label={token.label} />
-            <span className="skills-group-count">{list.length} compétence{list.length > 1 ? 's' : ''}</span>
-            <span className="skills-group-hint">{GROUP_HINT[state] ?? ''}</span>
-          </div>
-          {list.map((s) => {
-            const val = scores[s.id] ?? 0;
-            const st = stats[s.id];
-            const ex = explains[s.id];
-            const hasWhy = ex && (ex.reasons.length > 0 || ex.nextAction);
-            return (
-              <div key={s.id} className="skill-block">
-                <div className="skill-row">
-                  <div className="name">
-                    {s.name}
-                    {st && (
-                      <span className="skill-meta">
-                        {st.daysDone > 0 && <span className="skill-sub">{st.daysDone}/{st.daysAssociated} j</span>}
-                        {st.evidenceCount > 0 && <span className="skill-sub">{st.evidenceCount} preuve{st.evidenceCount > 1 ? 's' : ''}</span>}
-                      </span>
+            <ul className="cmp-list">
+              {list.map((c) => {
+                const why = explanations[c.competencyId];
+                const isOpen = open === c.competencyId;
+                return (
+                  <li key={c.competencyId} className={`cmp-row${isOpen ? ' is-open' : ''}`}>
+                    <div className="cmp-main">
+                      <span className="cmp-name">{c.name ?? skillNames[c.competencyId] ?? c.competencyId}</span>
+                      {c.needsReview && (
+                        <span className="cmp-flag" title={c.needsReviewReasons.join(' · ')}>
+                          <AlertTriangle size={12} strokeWidth={2.2} /> à revoir
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Des grandeurs RÉELLES : des décomptes et des dates, jamais un
+                        pourcentage. Et RIEN quand il n'y a rien : une compétence non
+                        évaluée n'affiche pas trois zéros et un tiret. Vu à l'œil sur la
+                        capture 1440 — quinze compétences non évaluées produisaient
+                        quarante-cinq zéros alignés, avec le poids visuel d'une donnée
+                        réelle. C'est la dette P0-1 de V63 sous une autre forme ; les
+                        sondes, elles, étaient vertes. */}
+                    {c.evidenceCount > 0 ? (
+                      <dl className="cmp-facts">
+                        <div><dt>Preuves qualifiantes</dt><dd>{c.qualifyingEvidenceCount}</dd></div>
+                        <div><dt>Traces au total</dt><dd>{c.evidenceCount}</dd></div>
+                        <div><dt>Dernière preuve</dt><dd>{shortDate(c.lastQualifiedEvidenceAt ?? c.lastEvidenceAt)}</dd></div>
+                      </dl>
+                    ) : (
+                      <span className="cmp-none">aucune trace enregistrée</span>
                     )}
-                  </div>
-                  <div className="dots" role="group" aria-label={`Auto-évaluation ${s.name} : ${val} sur 5`}>
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <button
-                        key={n}
-                        type="button"
-                        className={`dot ${n <= val ? 'filled' : ''}`}
-                        title={`${n}/5`}
-                        aria-label={`Mettre ${n} sur 5`}
-                        aria-pressed={n <= val}
-                        onClick={() => setScore(s.id, n === val ? n - 1 : n)}
-                      />
-                    ))}
-                  </div>
-                  <div className="muted" style={{ width: 40 }}>{val}/5</div>
-                </div>
-                {hasWhy && (
-                  <details className="skill-why">
-                    <summary>Pourquoi cet état ? &amp; quoi faire</summary>
-                    {ex.reasons.length > 0 && (
-                      <ul className="skill-why-reasons">
-                        {ex.reasons.map((r, i) => <li key={i}>{r}</li>)}
-                      </ul>
-                    )}
-                    {ex.nextAction && (
-                      <div className="skill-next">
-                        <span className="skill-next-label">Prochaine action</span>
-                        <Link href={ex.nextAction.href} className="skill-next-action">{ex.nextAction.action}</Link>
-                        <span className="skill-next-goal">{ex.nextAction.goal} · preuve attendue : {ex.nextAction.expectedEvidence}</span>
+
+                    <button
+                      type="button"
+                      className="btn small cmp-why"
+                      aria-expanded={isOpen}
+                      aria-controls={`cmp-d-${c.competencyId}`}
+                      onClick={() => setOpen(isOpen ? null : c.competencyId)}
+                    >
+                      {isOpen ? 'Masquer' : c.evidenceCount > 0 ? 'Voir les preuves' : 'Pourquoi cet état'}
+                    </button>
+
+                    {isOpen && why && (
+                      <div className="cmp-detail" id={`cmp-d-${c.competencyId}`}>
+                        <p className="cmp-rule">{why.rule}</p>
+                        {why.facts.map((f, i) => <p key={i} className="cmp-fact">{f}</p>)}
+
+                        {why.needsReview && why.needsReviewReasons.length > 0 && (
+                          <ul className="cmp-review">
+                            {why.needsReviewReasons.map((r, i) => (
+                              <li key={i}><AlertTriangle size={12} strokeWidth={2} /> {r}</li>
+                            ))}
+                          </ul>
+                        )}
+
+                        {why.evidence.length > 0 && (
+                          <ul className="cmp-ev">
+                            {why.evidence.map((e) => (
+                              <li key={e.id} className={`cmp-ev-item${e.qualifying ? ' is-q' : ''}`}>
+                                <span className="cmp-ev-src">{e.sourceLabel}</span>
+                                <span className="cmp-ev-title">
+                                  {e.artifactRef
+                                    ? <Link href={e.artifactRef}>{e.title || e.sourceId} <ExternalLink size={11} /></Link>
+                                    : (e.title || e.sourceId)}
+                                </span>
+                                {e.dayId != null && <Link className="cmp-ev-day" href={`/day/${e.dayId}`}>Jour {e.dayId}</Link>}
+                                <span className="cmp-ev-date">{shortDate(e.createdAt)}</span>
+                                <span className="cmp-ev-val">
+                                  {e.qualifying
+                                    ? <><Check size={11} strokeWidth={2.4} /> {e.validationDetail || 'validée'}</>
+                                    : 'non qualifiante'}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     )}
-                  </details>
-                )}
-              </div>
-            );
-          })}
-        </section>
-      ))}
-    </>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        );
+      })}
+    </div>
   );
 }

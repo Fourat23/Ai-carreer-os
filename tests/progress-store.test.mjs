@@ -29,7 +29,7 @@ test('migrateToV7 : V6 plat → v3 sous le parcours par défaut, actif', () => {
   assert.equal(t.days['1'].answers['sec-a'], 'ma réponse'); // réponse conservée
   assert.equal(t.days['1'].evidence[0].title, 'Repo');       // preuve conservée
   assert.equal(t.days['1'].review.interval, 3);              // révision conservée
-  assert.equal(t.skills.rag, 3);
+  assert.equal(t.skills.rag, 3); // auto-évaluation DÉCLARÉE : conservée telle quelle (V65)
   assert.ok(t.enrolledAt && t.lastOpenedAt);
 });
 
@@ -44,7 +44,7 @@ test('activeTrackProgress : vue plate V6 du parcours actif', () => {
   const flat = activeTrackProgress(migrateToV7(v6, NOW));
   assert.equal(flat.days['1'].answers['sec-a'], 'ma réponse');
   assert.equal(flat.startDate, '2026-06-15');
-  assert.equal(flat.skills.rag, 3);
+  assert.equal(flat.skills.rag, 3); // auto-évaluation déclarée
 });
 
 test('writeActiveTrack : réécrit le parcours actif, préserve les autres', () => {
@@ -83,7 +83,7 @@ test('tracksMeta : métadonnées légères', () => {
 });
 
 test('emptyFlat : forme V6 vide', () => {
-  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} });
+  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [] });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
 
@@ -107,7 +107,7 @@ test('migrateToV7 : V4 plat legacy → v3 sous parcours par défaut (aucune pert
   assert.equal(t.startDate, '2026-01-10');
   assert.equal(t.days['3'].status, 'done');
   assert.equal(t.days['3'].answer, 'texte legacy'); // champ cœur conservé
-  assert.equal(t.skills.git, 2);
+  assert.equal(t.skills.git, 2); // auto-évaluation déclarée : conservée telle quelle
   // champs Active Learning matérialisés par la migration (jamais undefined)
   assert.ok(t.days['3'].answers && typeof t.days['3'].answers === 'object');
 });
@@ -126,6 +126,11 @@ test('activeTrackProgress : vue plate lisible depuis V4 et V5', () => {
 
 // ── CP5 (V14) : isolation stricte entre deux parcours (scénario complet) ─────
 import { recordExerciseSuccess } from '../lib/lab-progress.mjs';
+
+// V65 : la compétence n'est plus un niveau écrit mais une PREUVE dans le registre.
+// L'isolation entre parcours se vérifie donc sur le registre, pas sur skills[].
+const hasEv = (flat, skill) => (flat.evidence ?? []).some((e) => e.competencyIds.includes(skill));
+
 import { FULLSTACK_TRACK_ID } from '../lib/catalogue.mjs';
 
 test('isolation : progression indépendante entre Fondations et Full-Stack', () => {
@@ -152,15 +157,15 @@ test('isolation : progression indépendante entre Fondations et Full-Stack', () 
   assert.equal(foundAfter.days['3'].answer, 'fondations j3');
   assert.equal(foundAfter.days['3'].notes, 'note F');
   assert.equal(foundAfter.days['50'], undefined); // l'activité FS n'a PAS contaminé Fondations
-  assert.equal(foundAfter.skills.http, undefined); // la compétence FS n'est pas dans Fondations
-  assert.equal(foundAfter.skills.rag, 3);
+  assert.equal(hasEv(foundAfter, 'http'), false, 'la preuve FS ne fuit pas dans Fondations');
+  assert.equal(foundAfter.skills.rag, 3, 'l’auto-évaluation déclarée de Fondations est restée');
 
   // 6-7) Retour à Full-Stack : progression correctement restaurée.
   v3 = setActiveTrack(v3, FULLSTACK_TRACK_ID, NOW);
   const fsAfter = activeTrackProgress(v3);
   assert.equal(fsAfter.days['50'].answer, 'fullstack j50');
   assert.equal(fsAfter.days['50'].evidence.length, 1);
-  assert.equal(fsAfter.skills.http, 3); // preuve → compétence PRACTICED dans FS uniquement
+  assert.ok(hasEv(fsAfter, 'http'), 'preuve → compétence projetée dans FS uniquement');
   assert.equal(fsAfter.days['3'], undefined); // Fondations n'a pas fuité dans FS
 });
 
@@ -195,20 +200,20 @@ test('isolation : Backend n’altère ni Fondations ni Full-Stack', () => {
   assert.equal(f.days['3'].answer, 'F3');
   assert.equal(f.days['50'], undefined);
   assert.equal(f.days['52'], undefined);
-  assert.equal(f.skills.http, undefined);
+  assert.equal(hasEv(f, 'http'), false);
 
   // Full-Stack strictement inchangé.
   const fs = v3.tracks[FULLSTACK_TRACK_ID];
   assert.equal(fs.days['92'].answer, 'FS92');
   assert.equal(fs.days['50'], undefined);
-  assert.equal(fs.skills.react, 3);
-  assert.equal(fs.skills.http, undefined);
+  assert.equal(fs.skills.react, 3, 'auto-évaluation déclarée du parcours FS');
+  assert.equal(hasEv(fs, 'http'), false);
 
   // Backend possède sa propre progression + preuve + compétence.
   const b = v3.tracks[BACKEND_TRACK_ID];
   assert.equal(b.days['50'].answer, 'BE50');
   assert.equal(b.days['52'].evidence.length, 1);
-  assert.equal(b.skills.http, 3);
+  assert.ok(hasEv(b, 'http'));
   assert.equal(b.days['3'], undefined);   // Fondations n'a pas fuité
   assert.equal(b.days['92'], undefined);  // Full-Stack n'a pas fuité
 });

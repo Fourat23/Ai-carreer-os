@@ -91,26 +91,34 @@ test('la fixture lie des exercices web à des journées frontend', () => {
   for (let i = 1; i < day87.length; i++) assert.ok(day87[i - 1].difficulty <= day87[i].difficulty);
 });
 
-test('recordExerciseSuccess : réussite web → preuve + compétences (logique partagée)', () => {
+test('recordExerciseSuccess : réussite web → preuve canonique, AUCUNE mutation de compétence (V65)', () => {
   const flatWeb = { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
   const next = recordExerciseSuccess(flatWeb, { exerciseId: 'web-card', title: 'Carte', skills: ['html', 'css', 'accessibility'], dayRefs: [87] });
   assert.equal(hasLabEvidence(next.days['87'], 'web-card'), true);
   assert.equal(next.days['87'].evidence[0].url, '/lab/web-card');
   assert.equal(next.days['87'].evidence[0].type, 'exercise'); // même type que Node/Python/TS
-  assert.equal(next.skills.html, 3);
-  assert.equal(next.skills.css, 3);
+  // V65 : recordExerciseSuccess n'écrit plus AUCUN niveau de compétence (P2).
+  assert.deepEqual(next.skills ?? {}, flat.skills ?? {}, 'aucune mutation directe de compétence');
+  assert.ok((next.evidence ?? []).length > 0, 'une preuve canonique est créée à la place');
+  // V65 : recordExerciseSuccess n'écrit plus AUCUN niveau de compétence (P2).
+  assert.deepEqual(next.skills ?? {}, flat.skills ?? {}, 'aucune mutation directe de compétence');
+  assert.ok((next.evidence ?? []).length > 0, 'une preuve canonique est créée à la place');
 });
 
 const flat = { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
 
-test('recordExerciseSuccess : ajoute preuve aux jours liés + relève compétences', () => {
+test('recordExerciseSuccess : ajoute preuve aux jours liés, sans relever aucun niveau (V65)', () => {
   const next = recordExerciseSuccess(flat, { exerciseId: 'fizzbuzz', title: 'FizzBuzz', skills: ['javascript', 'algo'], dayRefs: [8] });
   const d = next.days['8'];
   assert.ok(hasLabEvidence(d, 'fizzbuzz'));
   assert.equal(d.evidence[0].url, labEvidenceUrl('fizzbuzz'));
   assert.equal(d.evidence[0].type, 'exercise');
-  assert.equal(next.skills.javascript, 3);
-  assert.equal(next.skills.algo, 3);
+  // V65 : recordExerciseSuccess n'écrit plus AUCUN niveau de compétence (P2).
+  assert.deepEqual(next.skills ?? {}, flat.skills ?? {}, 'aucune mutation directe de compétence');
+  assert.ok((next.evidence ?? []).length > 0, 'une preuve canonique est créée à la place');
+  // V65 : recordExerciseSuccess n'écrit plus AUCUN niveau de compétence (P2).
+  assert.deepEqual(next.skills ?? {}, flat.skills ?? {}, 'aucune mutation directe de compétence');
+  assert.ok((next.evidence ?? []).length > 0, 'une preuve canonique est créée à la place');
 });
 
 test('recordExerciseSuccess : idempotent (pas de preuve en double)', () => {
@@ -120,7 +128,7 @@ test('recordExerciseSuccess : idempotent (pas de preuve en double)', () => {
   assert.equal(twice, once); // aucune modification → même référence renvoyée
 });
 
-test('recordExerciseSuccess : ne rétrograde pas une compétence déjà élevée', () => {
+test('recordExerciseSuccess : l’auto-évaluation déclarée n’est jamais touchée (V65)', () => {
   const start = { ...flat, skills: { javascript: 5 } };
   const next = recordExerciseSuccess(start, { exerciseId: 'greeting', title: 'G', skills: ['javascript'], dayRefs: [1] });
   assert.equal(next.skills.javascript, 5); // reste à 5, pas ramené à 3
@@ -131,7 +139,7 @@ test('recordExerciseSuccess : sans jours liés → progression inchangée', () =
 });
 
 // ── CP8 : les réussites Python produisent les mêmes preuves que Node ──
-test('recordExerciseSuccess : exercice Python multi-compétences → preuve + compétences (logique partagée)', () => {
+test('recordExerciseSuccess : Python multi-compétences → preuve canonique, aucun niveau écrit (V65)', () => {
   const flatPy = { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
   const next = recordExerciseSuccess(flatPy, {
     exerciseId: 'py-debug-average', title: 'Débogage moyenne',
@@ -141,9 +149,15 @@ test('recordExerciseSuccess : exercice Python multi-compétences → preuve + co
   assert.equal(hasLabEvidence(d, 'py-debug-average'), true);
   assert.equal(d.evidence[0].url, '/lab/py-debug-average');
   assert.equal(d.evidence[0].type, 'exercise'); // même type que Node
-  assert.equal(next.skills.python, 3);
-  assert.equal(next.skills.algo, 3);
-  assert.equal(next.skills.testing, 3);
+  // V65 : recordExerciseSuccess n'écrit plus AUCUN niveau de compétence (P2).
+  assert.deepEqual(next.skills ?? {}, flat.skills ?? {}, 'aucune mutation directe de compétence');
+  assert.ok((next.evidence ?? []).length > 0, 'une preuve canonique est créée à la place');
+  // V65 : recordExerciseSuccess n'écrit plus AUCUN niveau de compétence (P2).
+  assert.deepEqual(next.skills ?? {}, flat.skills ?? {}, 'aucune mutation directe de compétence');
+  assert.ok((next.evidence ?? []).length > 0, 'une preuve canonique est créée à la place');
+  // V65 : recordExerciseSuccess n'écrit plus AUCUN niveau de compétence (P2).
+  assert.deepEqual(next.skills ?? {}, flat.skills ?? {}, 'aucune mutation directe de compétence');
+  assert.ok((next.evidence ?? []).length > 0, 'une preuve canonique est créée à la place');
   // idempotent : relancer ne duplique pas la preuve
   const again = recordExerciseSuccess(next, { exerciseId: 'py-debug-average', title: 'x', skills: ['python'], dayRefs: [150] });
   assert.equal(again.days['150'].evidence.length, 1);

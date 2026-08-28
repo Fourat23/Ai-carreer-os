@@ -179,7 +179,10 @@ function TakeAssessment({
       });
       const j = await res.json();
       if (res.ok && j.ok && j.recorded) {
-        setNotice(`Résultat rattaché à la journée ${j.day}.${j.evidence ? ' Une preuve a été créée.' : ' Aucune preuve : le seuil n’est pas atteint.'}`);
+        // V65 : la preuve existe par elle-même — aucune journée n'est empruntée.
+        setNotice(j.qualifying
+          ? 'Preuve enregistrée. Elle soutient les compétences de ce diagnostic.'
+          : 'Résultat enregistré. Le seuil n’est pas atteint : il compte comme pratique, pas comme démonstration.');
         window.dispatchEvent(new CustomEvent('progress-changed'));
       } else {
         setNotice(j?.reason ?? 'Le résultat n’a pas pu être conservé.');
@@ -334,7 +337,7 @@ function ResultPanel({
       {onKeep && (
         <div className="diag-keep">
           <button className="btn small" onClick={onKeep} disabled={busy}>
-            <Save size={13} strokeWidth={2} /> Conserver ce résultat dans ma journée en cours
+            <Save size={13} strokeWidth={2} /> Conserver ce résultat comme preuve
           </button>
           {notice && <span className="diag-keep-note" role="status">{notice}</span>}
         </div>

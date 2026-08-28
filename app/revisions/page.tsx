@@ -29,9 +29,13 @@ export default function RevisionsPage() {
   const program = getProgram();
   const progress = readProgress();
   const activeTrack = getTrack(getCatalogue(), getActiveTrackId());
-  const dayOf = new Map(program.days.map((d: { day: number; title: string; skillName?: string }) => [d.day, d]));
+  const dayOf = new Map(program.days.map((d: { day: number; title: string; skill?: string; skillName?: string }) => [d.day, d]));
   const title = (day: number) => dayOf.get(day)?.title ?? '';
   const skill = (day: number) => dayOf.get(day)?.skillName ?? '';
+  // V65 · l'IDENTIFIANT de compétence, pas son libellé. `skillName` vaut
+  // « Git / Linux » ; seul `skill` (« gitlinux ») est un identifiant de
+  // programme, et le moteur refuse tout le reste.
+  const skillId = (day: number) => dayOf.get(day)?.skill ?? null;
 
   const due = getDueReviews(progress.days).map((r) => ({
     ...r, title: title(r.day), review: progress.days[String(r.day)]?.review ?? null,
@@ -39,6 +43,7 @@ export default function RevisionsPage() {
     // Elle est passée ici pour que l'échéance ANNONCÉE au clic soit exactement
     // celle qui sera écrite — même fonction, mêmes entrées.
     confidence: progress.days[String(r.day)]?.selfAssessment?.confidence ?? null,
+    skill: skillId(r.day),
   }));
   const upcoming = getUpcomingReviews(progress.days).map((r) => ({ ...r, title: title(r.day) }));
 

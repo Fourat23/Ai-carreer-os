@@ -82,6 +82,46 @@ Le retrieval RAG (mois 8-9) est un top-k par similarité : tri, sélection, stru
 ## Mini-exercice
 Avec la méthode COMPLÈTE (aucune étape sautée) : « renvoyer les deux nombres d'un tableau dont la somme vaut une cible ». Version naïve d'abord (double boucle), puis version Map. Donne le Big O des deux et vérifie par un mini-benchmark sur 100 000 éléments.
 
+## ✅ Correction attendue
+**La démarche**, et elle compte plus que la solution. Étape 2 avant tout : sur `[2, 7, 11, 15]` cible `9`, écris à la main ce que tu fais — tu vois `2`, il te manque `7`, tu cherches `7`. **C'est en formulant « il me manque » que l'algorithme apparaît** : à chaque élément, la question n'est pas « quel autre élément essayer ? » mais « ai-je déjà croisé son complément ? ». La Map n'est pas une astuce plaquée après coup, elle est la réponse littérale à cette question.
+
+Naïve : deux boucles, O(n²). Map : une seule passe, on demande `map.has(cible - x)` avant de ranger `x`, O(n) en temps contre O(n) en mémoire.
+
+**L'erreur probable, et pourquoi elle survit aux tests.** La version Map s'écrit très souvent en deux temps : d'abord remplir la Map avec tous les éléments, ensuite la parcourir pour chercher les compléments. Ça donne le bon résultat sur presque toutes les entrées — et ça échoue sur `[3, 5]` avec cible `6` : `3` cherche `3`, le trouve dans la Map… lui-même. On renvoie deux fois le même élément. Le piège est vicieux parce qu'il exige la conjonction d'un doublon apparent et d'une cible paire ; on peut lancer vingt tests aléatoires sans le rencontrer. Ranger `x` APRÈS l'avoir interrogé supprime le cas d'un seul geste : au moment où on demande, `x` n'est pas encore dans la Map.
+
+**Alternative défendable** : trier puis avancer deux curseurs depuis les deux bouts — O(n log n) en temps, mais **O(1) en mémoire**. Plus lent en théorie, et pourtant le bon choix quand le tableau est déjà trié, ou quand il est trop gros pour qu'une Map de n entrées tienne en mémoire. C'est l'échange temps/mémoire de la section « mémoriser le vu », vu depuis l'autre côté : ici on paie du temps pour économiser de la mémoire.
+
+**Vérifie seul, sans corrigé** — quatre entrées que ta solution doit traiter :
+1. `[3, 5]`, cible `6` → aucune paire (et surtout pas `[0, 0]`).
+2. `[3, 3]`, cible `6` → une paire valide, les deux indices distincts.
+3. Un tableau sans solution → un retour explicite, pas un plantage.
+4. Pour le benchmark : place la solution **à la toute fin** du tableau. Si tu la mets au début, tu mesures le meilleur cas et la version naïve paraîtra excellente — c'est exactement l'erreur que la section « erreurs fréquentes » annonce, et il est facile de la commettre en la lisant.
+
+## 🏢 Cas professionnel
+Une équipe d'ingestion documentaire dédoublonne ses fichiers avant indexation. Le code tient en trois lignes et se lit très bien :
+
+```js
+for (const doc of documents) {
+  if (!vus.includes(doc.hash)) vus.push(doc.hash);
+}
+```
+
+Sur les 500 documents du jeu de test, l'ingestion prend deux secondes. En production, sur 200 000 documents, elle ne se termine pas — et rien dans ce code ne ressemble à une boucle imbriquée. `includes` en est une : elle parcourt `vus` à chaque appel. Le coût réel est O(n²), soit vingt milliards de comparaisons. Remplacer `vus` par un `Set` et `includes` par `has` ramène l'ingestion sous la seconde, sans changer une ligne de logique.
+
+C'est le motif le plus courant du métier : **le code lent ne ressemble pas à du code lent**. Savoir lire le coût caché derrière une méthode toute faite vaut beaucoup plus, au quotidien, que de connaître par cœur le tri fusion.
+
+## 🎤 Questions d'entretien
+- « Quelle est la complexité de ta solution, et pourquoi ? » → Compte les parcours du tableau et ce que chaque opération interne coûte vraiment. Une réponse qui oublie le coût de `includes` ou d'un `indexOf` est fausse.
+- « Peux-tu faire mieux ? » → La question sous-jacente est presque toujours : « que peux-tu MÉMORISER pour ne pas recalculer ? » — c'est le passage O(n²) → O(n) par une Map ou un Set.
+- « Quels cas limites testes-tu ? » → Tableau vide, un seul élément, aucun résultat, doublons, cible atteignable par un élément avec lui-même. Les citer spontanément pèse plus que la solution.
+- « O(n log n) ou O(n) : lequel choisis-tu ? » → Pas automatiquement O(n). S'il exige une structure de la taille des données et que la mémoire est la contrainte, le O(n log n) en place gagne. Une complexité se choisit en regard d'une contrainte, pas dans l'absolu.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Je fabrique trois exemples à la main AVANT d'écrire une ligne de code, y compris un cas limite.
+- [ ] Je donne le Big O d'un code que je lis, en tenant compte des boucles cachées dans les méthodes.
+- [ ] Je sais nommer le pattern que j'applique, pas seulement le faire marcher.
+- [ ] Je teste le PIRE cas, pas celui qui m'arrange.
+
 ## 📚 Vocabulaire
 **complexité** · **pire cas** · **pseudo-code** · **cas limite** · **invariant** · **diviser pour régner** · **fenêtre glissante** · **mémoïsation** · **oracle** · **trace**.
 

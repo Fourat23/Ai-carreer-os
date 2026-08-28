@@ -104,6 +104,39 @@ Tes systèmes IA en sont truffés : **Strategy** = interchanger les modèles LLM
 ## Mini-exercice
 Fouille TON code des mois 1-2 et trouve : une Strategy (une fonction passée en paramètre qui change le comportement), un début d'Adapter (une fonction qui uniformise un format), une occasion de Factory (une création dupliquée). Nomme-les en commentaire. C'est l'exercice inverse du cours magistral — et le plus formateur.
 
+## ✅ Correction attendue
+**La démarche** : tu ne cherches pas des classes, tu cherches des INTENTIONS déjà présentes. La Strategy est n'importe quelle fonction que tu as passée en paramètre pour faire varier un comportement — un comparateur de `sort`, un prédicat de `filter`. L'Adapter est n'importe quelle fonction qui prend une forme de données et en rend une autre, pour que la suite du code n'ait à connaître qu'un seul format. La Factory est le troisième endroit où tu as recopié les mêmes cinq lignes de construction en changeant un champ.
+
+**L'erreur probable, et c'est la plus instructive de cette leçon.** Beaucoup ne trouvent rien et concluent « mon code est trop simple pour avoir des patterns ». C'est presque toujours faux, et la cause est une confusion sur ce qu'est un pattern : on cherche des `class`, des `interface`, des noms en majuscules — la FORME apprise dans les livres. Or un pattern est une intention, pas une syntaxe. `taches.sort((a, b) => a.priorite - b.priorite)` **est** une Strategy, complète et correcte, sans une seule classe.
+
+Le piège vient de ce que les exemples canoniques sont écrits en Java, langage où l'on ne peut pas passer une fonction : les classes y sont un contournement, pas le pattern. En JavaScript, la moitié des patterns du livre sont devenus une ligne — c'est un progrès du langage, pas une absence de conception.
+
+**Alternative défendable, et il faut savoir la choisir** : ne rien nommer du tout. Introduire une Factory là où deux constructions existent ajoute un niveau d'indirection pour supprimer une répétition qui ne coûte rien. La leçon le dit dès son modèle mental — douleur d'abord, nom ensuite. À l'exercice, la bonne réponse peut parfaitement être « j'ai trouvé une Strategy et un Adapter, et j'ai décidé de ne PAS extraire de Factory : deux occurrences ne font pas une duplication ».
+
+**Vérifie seul, sans corrigé** :
+1. Pour chaque pattern nommé, écris en une phrase le PROBLÈME qu'il résout dans TON code. Si tu n'y arrives pas, tu as posé une étiquette, pas reconnu un pattern.
+2. Pour la Factory repérée : compte les occurrences réelles. Moins de trois ? Note-le et n'extrais rien.
+3. Épreuve décisive : pour ta Strategy, ajoute un nouveau comportement. Si tu dois modifier le code qui l'utilise, ce n'en était pas une — la Strategy se juge à ce que l'appelant ne bouge pas.
+
+## 🏢 Cas professionnel
+Une équipe branche son produit sur un fournisseur de LLM et appelle son SDK directement depuis une quinzaine d'endroits. Six mois plus tard, il faut ajouter un second fournisseur — pour le coût, pour la disponibilité, ou parce qu'un client l'exige. Les quinze endroits connaissent la forme des messages du premier fournisseur, ses noms de paramètres, sa façon de signaler une erreur. Le chantier dure des semaines et introduit des bugs dans du code qui n'avait rien demandé.
+
+L'équipe voisine avait défini son propre type de requête et de réponse, et une fonction de traduction par fournisseur — un Adapter. Ajouter le second a demandé un fichier et une ligne de configuration.
+
+Ce qu'il faut en retenir n'est pas « mettez toujours un Adapter » : au premier jour, l'équipe voisine a écrit du code en plus sans bénéfice visible, et si le second fournisseur n'était jamais venu, elle aurait payé pour rien. **Le pattern est un pari sur un changement à venir.** La question utile n'est pas « quel pattern appliquer ? » mais « ce changement est-il assez probable pour que je paie maintenant ? ». Pour un fournisseur externe de LLM en 2026, la réponse est oui ; pour la couleur d'un bouton, non.
+
+## 🎤 Questions d'entretien
+- « Cite un pattern que tu as utilisé et pourquoi. » → Décris le problème d'abord, le nom ensuite. Un candidat qui récite Strategy sans nommer la douleur qu'elle soulage n'a pas convaincu.
+- « Quand ne PAS utiliser un pattern ? » → Quand son problème n'existe pas encore. La sur-ingénierie est un anti-pattern, et c'est la faute typique de qui vient de les apprendre.
+- « Que reproche-t-on au Singleton ? » → C'est un état global déguisé : couplage invisible, ordre d'initialisation fragile, tests difficiles à isoler.
+- « Composition ou héritage ? » → Composition par défaut : elle assemble des comportements sans figer une hiérarchie qu'on regrette dès le troisième cas particulier.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Je reconnais Strategy, Factory, Adapter et Observer dans du code qui ne les nomme pas.
+- [ ] Je pars du problème, jamais du pattern.
+- [ ] Je sais expliquer ce qu'un pattern COÛTE, pas seulement ce qu'il apporte.
+- [ ] Je sais dire non à un pattern et justifier ce refus.
+
 ## 📚 Vocabulaire
 **pattern / anti-pattern** · **Strategy** · **Factory** · **Adapter** · **Observer** · **Singleton** · **open/closed** · **inversion de dépendance** · **polymorphisme** · **composition vs héritage** · **god object**.
 

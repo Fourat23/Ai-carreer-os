@@ -84,6 +84,57 @@ L'**index inversé** (mot → ensemble de documents) est le cœur de la recherch
 ## Mini-exercice
 Sur 20 phrases : construis un index inversé (Map mot → Set d'indices), puis `rechercher(mot1, mot2)` qui renvoie les phrases contenant LES DEUX (intersection de Sets). Tu viens d'écrire le cœur d'un moteur de recherche.
 
+## ✅ Correction attendue
+**La démarche** : l'index se construit en une passe. Pour chaque phrase, pour chaque mot, on ajoute l'indice de la phrase au `Set` associé au mot. La recherche à deux mots est une **intersection** : on prend le plus petit des deux ensembles et on ne garde que ses éléments présents dans l'autre.
+
+```js
+const index = new Map();
+phrases.forEach((p, i) => {
+  for (const mot of p.toLowerCase().split(/\W+/).filter(Boolean)) {
+    if (!index.has(mot)) index.set(mot, new Set());
+    index.get(mot).add(i);
+  }
+});
+```
+
+**L'erreur probable, et pourquoi elle rend le résultat FAUX plutôt que lent.** L'intersection s'écrit très souvent comme ceci :
+
+```js
+const a = index.get(mot1), b = index.get(mot2);
+return [...a].filter((i) => b.has(i));
+```
+
+Ça marche… tant que les deux mots existent. Si l'un est absent de l'index, `index.get` renvoie `undefined`, et `[...undefined]` lève une exception. Le piège est redoutable parce qu'un moteur de recherche reçoit **par nature** des mots absents — c'est le cas le plus fréquent en production, et c'est celui qu'on ne teste jamais parce qu'on essaie ses propres mots. Le bon réflexe : `index.get(mot) ?? new Set()`, et un ensemble vide donne une intersection vide, ce qui est la bonne réponse.
+
+Deuxième erreur, silencieuse celle-là : oublier `toLowerCase()`. « Chat » et « chat » deviennent deux entrées, la recherche marche pour l'une et pas pour l'autre, et rien ne signale l'anomalie. La **normalisation** est un choix de conception, pas un détail — c'est déjà la question que tu te reposeras sur le chunking de ton RAG.
+
+**Alternative défendable** : `Map<mot, number[]>` au lieu de `Map<mot, Set>`. Un tableau consomme moins de mémoire et se sérialise directement en JSON — c'est ce que font les vrais index sur disque. En échange, l'intersection exige des listes triées et une fusion, au lieu du `has` en O(1). Set pour un index en mémoire qu'on interroge ; tableau trié pour un index qu'on stocke et qu'on relit.
+
+**Vérifie seul, sans corrigé** :
+1. `rechercher('mot-inexistant', 'chat')` renvoie une liste vide — pas une exception.
+2. `rechercher('Chat', 'souris')` donne le même résultat que `rechercher('chat', 'souris')`.
+3. Une phrase contenant deux fois le même mot n'apparaît qu'une fois dans le résultat — c'est le `Set` qui te l'offre gratuitement.
+4. Compare avec la version naïve (deux boucles imbriquées sur les phrases) sur 20 000 phrases : les deux doivent rendre **exactement** le même résultat. C'est le test par oracle du jour 20, appliqué ici.
+
+## 🏢 Cas professionnel
+Une équipe stocke les identifiants d'utilisateurs autorisés dans un tableau et vérifie l'accès par `autorises.includes(id)` à chaque requête. Avec 200 utilisateurs, personne ne remarque rien. À 50 000 utilisateurs et 3 000 requêtes par seconde, le serveur passe l'essentiel de son temps à parcourir ce tableau. Le correctif tient en un mot — `new Set(autorises)` et `.has(id)` — et divise la latence par cent.
+
+Ce qui rend l'histoire instructive n'est pas la solution, c'est **pourquoi personne ne l'a vue venir** : le code était correct, lisible, testé, et il l'est resté. Seule l'échelle a changé. C'est le sens de la phrase d'ouverture de cette leçon — la même information, rangée autrement. Un `includes` dans une boucle chaude est probablement le défaut de performance le plus répandu du métier, et il ne se voit jamais sur les données de développement.
+
+La contrepartie, elle, est réelle : le `Set` occupe de la mémoire en plus et doit être reconstruit quand la liste change. Choisir une structure, c'est accepter un coût pour en supprimer un autre — jamais obtenir quelque chose gratuitement.
+
+## 🎤 Questions d'entretien
+- « Quelle structure choisis-tu, et pourquoi ? » → Nomme d'abord l'opération DOMINANTE de ton problème, puis la structure qui la rend peu coûteuse. Une réponse qui commence par le nom d'une structure a sauté le raisonnement.
+- « Comment une hash map fait-elle du O(1) ? » → Une fonction de hachage transforme la clé en position ; on ne cherche pas, on calcule où regarder. Le coût est la mémoire et la gestion des collisions.
+- « Quand un tableau vaut-il mieux qu'un Set ? » → Quand l'ordre compte, quand on accède par index, quand la collection est petite, ou quand la mémoire est plus contrainte que le temps.
+- « Pourquoi marquer les nœuds visités dans un parcours de graphe ? » → Parce qu'un graphe peut contenir des cycles : sans mémoire des nœuds déjà vus, le parcours boucle indéfiniment. C'est ce qui distingue un graphe d'un arbre.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Devant un problème, je nomme l'opération dominante AVANT de choisir une structure.
+- [ ] Je repère un `includes` ou un `indexOf` dans une boucle et je sais ce qu'il coûte.
+- [ ] Je sais dire ce que je paie en échange de ce que je gagne, pour chaque structure.
+- [ ] J'ai écrit un index inversé de mes propres mains au moins une fois.
+
 ## 📚 Vocabulaire
 **hachage** · **collision** · **LIFO / FIFO** · **nœud / pointeur** · **racine / feuille / profondeur** · **BST** · **équilibrage** · **DFS / BFS** · **graphe / cycle** · **index inversé** · **LRU**.
 

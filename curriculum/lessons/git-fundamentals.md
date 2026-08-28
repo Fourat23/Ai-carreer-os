@@ -58,6 +58,16 @@ Git est LOCAL (tout fonctionne sans réseau). GitHub héberge une copie distante
 commit · staging · working directory · `.gitignore` (dépendances, secrets, fichiers générés) · branche · merge (fast-forward vs commit de fusion) · conflit · remote / push / pull · message de commit à l'impératif.
 
 ## 🧭 Exemple guidé
+**Énoncé** : ajouter la validation d'un formulaire sans jamais rendre `main` instable, même à mi-parcours.
+
+**Raisonnement, décision par décision.**
+
+1. On ne travaille pas sur `main`. Pas par cérémonie : parce que tant que le travail est incomplet, `main` doit rester démontrable — c'est la version qu'on lance pour un recruteur ou qu'on déploie en urgence. `git switch -c feat/validation` coûte quelques millisecondes, puisqu'une branche n'est qu'une étiquette.
+2. On code, et **on ne commite pas tout d'un bloc**. `git add -p` présente chaque morceau modifié et demande si on le prend. Deux bénéfices, dont le second est le vrai : on compose un commit cohérent, et surtout on **relit son propre code** avant de le figer. C'est la revue de code la moins chère du métier.
+3. Le message se rédige à l'impératif et dit l'intention, pas la manipulation : « Valide les entrées du formulaire de contact », jamais « update form ». Six mois plus tard, c'est cette phrase qu'on lira dans `git log` pour retrouver ce commit.
+4. Retour sur `main`, puis `git merge`. `main` reçoit le travail terminé — et seulement terminé.
+5. `git branch -d` supprime l'étiquette. Les commits, eux, restent : on jette le marque-page, pas les pages.
+
 ```bash
 git switch -c feat/validation      # nouvelle branche
 # ... modifications ...
@@ -67,7 +77,10 @@ git switch main
 git merge feat/validation          # fusion
 git branch -d feat/validation      # l'étiquette disparaît, les commits restent
 ```
-`git add -p` est le meilleur professeur de staging : il te montre chaque bloc modifié et te force à relire ton propre code avant de le committer.
+
+**La règle de décision qui reste** : `main` est toujours démontrable ; tout le reste se passe sur une branche dont la suppression ne coûte rien.
+
+**Variante qui déplace le problème** : et si, à mi-chemin, un bug urgent tombait sur `main` ? Tu ne peux pas commiter du travail à moitié fait, et tu ne veux pas le perdre. C'est précisément le trou que `git stash` comble — mettre de côté, corriger, revenir. Chercher cette commande **au moment où le besoin apparaît** est la bonne façon d'apprendre Git ; en mémoriser trente d'avance ne sert à rien.
 
 ## ⚠️ Erreurs fréquentes
 - **`git add .` systématique** : tu finiras par committer un secret ou un fichier de debug. Stage sélectivement.
@@ -80,6 +93,40 @@ La CI (mois 11) se déclenche sur tes push : Git est le bouton de départ de tou
 
 ## Mini-exercice
 Dans un dépôt de test : crée une branche, fais 2 commits, retourne sur `main`, modifie la MÊME ligne qu'un des commits de la branche, commite, merge → résous le conflit proprement. Vérifie avec `git log --oneline --graph` que tu comprends la forme obtenue (le losange).
+
+## ✅ Correction attendue
+**La démarche** : `git switch -c`, deux commits, retour sur `main`, un commit qui touche la même ligne, `git merge`. Git s'arrête et te pose une question — il ne s'est rien passé de grave.
+
+Le losange du `--graph` se lit ainsi : les deux branches partent d'un ancêtre commun, chacune avance de son côté, et le commit de fusion a **deux parents**. C'est la seule forme de commit qui en a deux, et c'est ce qui rend l'historique navigable dans les deux sens.
+
+**L'erreur probable, et pourquoi elle est presque inévitable la première fois.** Face aux marqueurs, le réflexe est de supprimer la partie qui n'est pas la sienne, retirer les `<<<<<<<`, `add`, `commit` — et c'est terminé en trente secondes. Deux choses ont mal tourné sans que rien ne proteste. D'abord, le travail de l'autre branche a disparu silencieusement : Git valide n'importe quelle résolution, il ne vérifie que l'absence de marqueurs. Ensuite, personne n'a relancé le programme. **Un fichier sans marqueur n'est pas un fichier qui fonctionne** — c'est très exactement la même illusion que le code qui compile sans marcher.
+
+Le piège séduit parce que la résolution *ressemble* à une opération Git, alors que c'est une décision de code : on choisit ce que le programme doit faire, pas quelle version du texte garder.
+
+**Alternative défendable** : `git rebase` au lieu de `git merge`. Il rejoue tes commits par-dessus `main` et donne un historique linéaire, sans losange — plus facile à lire, mais il RÉÉCRIT les commits, donc jamais sur une branche déjà partagée avec quelqu'un. Le losange est plus fidèle à ce qui s'est passé ; la ligne droite est plus agréable à relire. Les équipes tranchent différemment, et les deux réponses se défendent.
+
+**Vérifie seul, sans corrigé** :
+1. Après résolution, `git log --oneline --graph` montre bien un commit de fusion à deux parents.
+2. `grep -r '<<<<<<<' .` ne renvoie rien.
+3. **Le programme tourne encore** — c'est le seul critère qui compte vraiment.
+4. Refais le conflit et tape `git merge --abort` au milieu : tu dois retrouver ton dépôt exactement comme avant. Le faire une fois délibérément est ce qui fait disparaître la peur.
+
+## 🏢 Cas professionnel
+Un développeur pousse une clé d'API dans un commit, s'en aperçoit dix minutes plus tard, la supprime et pousse un second commit « remove key ». La clé est toujours là : le premier commit existe encore dans l'historique, et il a été poussé — donc cloné par l'intégration continue, par les collègues, et indexé par les robots qui scrutent GitHub en permanence. La seule réponse correcte n'est pas de nettoyer l'historique, c'est de **révoquer la clé** ; le nettoyage vient après.
+
+C'est la conséquence directe du modèle : *rien n'est jamais perdu*. C'est ce qui rend Git sûr, et c'est ce qui rend le `.gitignore` et le `git add -p` non négociables. La discipline de staging ne sert pas à faire joli — elle est ce qui empêche un secret d'entrer dans un historique dont, par construction, on ne le retire pas.
+
+## 🎤 Questions d'entretien
+- « À quoi sert le staging ? » → À composer des commits cohérents : on choisit ce qui entre dans la photo, pour qu'un commit raconte une seule chose et reste annulable isolément.
+- « Merge ou rebase ? » → Merge conserve l'histoire réelle et ne réécrit rien ; rebase donne un historique linéaire mais réécrit les commits, donc jamais sur une branche partagée.
+- « Tu as poussé un secret. Que fais-tu ? » → Je le révoque d'abord. Réécrire l'historique ensuite, mais un secret poussé doit être considéré comme compromis.
+- « Qu'est-ce qu'une branche, techniquement ? » → Un simple pointeur mobile vers un commit. C'est pourquoi en créer une est instantané, et pourquoi supprimer une branche ne supprime aucun commit.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Je sais dessiner les trois zones et dire ce que fait `add` et ce que fait `commit`.
+- [ ] J'ai résolu un vrai conflit, relancé le programme après, et utilisé `merge --abort` au moins une fois.
+- [ ] Mes messages disent quoi et pourquoi, jamais « fix » ni « update ».
+- [ ] Je n'utilise pas `git add .` par défaut, et je sais pourquoi.
 
 ## 📚 Vocabulaire
 **commit** · **staging** · **branche** · **merge** · **fast-forward** · **conflit** · **remote / origin** · **push / pull / clone** · **.gitignore** · **HEAD** (où tu es).

@@ -86,6 +86,40 @@ Les pipelines RAG (mois 8-9) sont des chaînes de transformations : la disciplin
 ## Mini-exercice
 Prends ta plus grosse fonction du mois 1. Applique dans l'ordre : (1) renommer pour l'intention, (2) guard clauses, (3) extraire les blocs commentables en fonctions nommées, (4) séparer calcul et affichage. Compare avant/après à voix haute : lequel expliques-tu le plus vite ?
 
+## ✅ Correction attendue
+**La démarche**, et l'ordre n'est pas décoratif. Renommer d'abord : c'est sans risque, et une fois les noms justes, la moitié des problèmes de structure deviennent visibles — on VOIT qu'une fonction fait deux choses quand son nom honnête contient « et ». Guards ensuite, pour aplatir. Extraction après, parce qu'on sait enfin quoi extraire. Séparation calcul/affichage en dernier, parce que c'est la seule étape qui change vraiment la forme du programme.
+
+**L'erreur probable, et elle est structurelle, pas esthétique.** Le réflexe le plus courant est d'extraire en découpant par POSITION : les trente premières lignes deviennent `partie1()`, les vingt suivantes `partie2()`. La fonction d'origine tient maintenant à l'écran, chaque morceau est court, tous les compteurs sont au vert — et le code est devenu **plus difficile** à lire. `partie1` ne se comprend pas sans `partie2`, elles se passent six variables, et on doit désormais sauter entre trois endroits pour suivre ce qu'on lisait d'une traite.
+
+Le piège séduit parce qu'il satisfait la règle énoncée (« des fonctions courtes ») en trahissant sa raison d'être (« une fonction = une idée nommable »). Le test qui départage est simple : **si tu ne peux pas nommer le morceau extrait sans dire « la suite de » ou « la deuxième partie de », tu as coupé au mauvais endroit.** Découpe par responsabilité, jamais par longueur.
+
+**Alternative défendable** : ne pas extraire du tout. Une fonction de quinze lignes qui se lit de haut en bas, sans imbrication, avec de bons noms, est souvent supérieure à quatre fonctions de quatre lignes éparpillées. La lisibilité est le juge ; « courte » n'est qu'un indice, et la leçon le dit déjà dans ses anti-patterns. Face à deux versions, choisis celle que tu peux expliquer le plus vite à voix haute — c'est exactement ce que demande la dernière étape de l'exercice.
+
+**Vérifie seul, sans corrigé** :
+1. Donne à chaque fonction extraite un nom sans « et », sans « partie », sans « suite ». Si tu n'y arrives pas, la découpe est mauvaise.
+2. Compte les niveaux d'imbrication : tu dois être passé de trois ou quatre à un ou deux.
+3. Relis chaque commentaire survivant : s'il dit CE QUE fait le code, supprime-le ou remplace-le par un nom.
+4. **Le comportement n'a pas changé.** Si tu n'as pas de test, écris-en un AVANT de refactorer — sinon tu ne nettoies pas, tu paries.
+
+## 🏢 Cas professionnel
+Une équipe reprend un service de tarification écrit par quelqu'un parti depuis. Une fonction de 400 lignes, des noms comme `tmp2` et `flagB`, aucun test. Personne n'ose y toucher : chaque évolution demandée est chiffrée en semaines, puis contournée par un `if` supplémentaire au début — ce qui rend la fonction encore plus longue à chaque passage.
+
+Ce cercle a un nom, et c'est le seul argument qui compte vraiment pour le clean code : **le coût d'un changement est proportionnel à ce qu'il faut comprendre avant de le faire.** Du code illisible ne coûte rien à écrire et se paie à chaque lecture, pendant des années. C'est aussi ce qui rend la *boy-scout rule* rentable : personne n'obtiendra jamais le budget d'un « grand nettoyage », alors que nettoyer les vingt lignes qu'on touche aujourd'hui ne demande l'autorisation de personne.
+
+Ce que les équipes en tirent en pratique : on ne refactorise pas un fichier parce qu'il est laid, on le refactorise **quand on doit le modifier** — et on y laisse les noms et les tests qui rendront la prochaine modification moins chère.
+
+## 🎤 Questions d'entretien
+- « Qu'est-ce qu'un bon nom ? » → Un nom qui révèle l'intention, de longueur proportionnelle à sa portée, et qui rend un commentaire inutile.
+- « Quand commentes-tu ? » → Pour un POURQUOI qu'on ne peut pas déduire du code : une contrainte, un compromis, une décision. Jamais pour paraphraser.
+- « DRY jusqu'où ? » → Jusqu'à la duplication de CONNAISSANCE. Deux morceaux qui se ressemblent mais évolueront pour des raisons différentes doivent rester séparés : la mauvaise abstraction coûte plus cher que la duplication.
+- « Comment refactorises-tu sans casser ? » → Avec un filet de tests d'abord, par petites étapes, en vérifiant que le comportement observable ne change pas.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Je nomme mes fonctions sans avoir besoin d'un « et ».
+- [ ] Mes cas invalides sortent en guard clause plutôt qu'en pyramide de `if`.
+- [ ] Mes commentaires expliquent des décisions, pas des lignes.
+- [ ] Je sais dire quand NE PAS factoriser deux blocs qui se ressemblent.
+
 ## 📚 Vocabulaire
 **intention** · **responsabilité unique** · **niveau d'abstraction** · **guard clause** · **code smell** · **refactoring** · **dette technique** · **DRY** · **couplage** · **boy-scout rule**.
 

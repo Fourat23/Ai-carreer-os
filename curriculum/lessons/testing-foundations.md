@@ -93,6 +93,43 @@ Tester du code qui appelle un LLM (mois 11) = pousser le mock un cran plus loin 
 ## Mini-exercice
 Écris 6 tests sur ta fonction de validation la plus riche (jour 5 ou mois 3) : 2 chemins heureux, 3 cas limites, 1 cas d'erreur. Puis sabote la fonction de 3 façons différentes et vérifie que la suite rougit à chaque fois. Si un sabotage passe : il te manque un test — écris-le.
 
+## ✅ Correction attendue
+**La démarche** : six tests, chacun nommé par le COMPORTEMENT qu'il vérifie. Puis trois sabotages, et la suite doit rougir trois fois. Ce second temps n'est pas une formalité — c'est lui qui dit si tes tests existent.
+
+**L'erreur probable, et c'est la plus coûteuse du sujet.** Le sabotage qui passe au vert est presque toujours le même : on a testé que la fonction ne plante pas, au lieu de tester ce qu'elle répond.
+
+```js
+test('valide un email', () => {
+  const r = valider({ email: 'a@b.fr' });
+  assert.ok(r);                      // ⚠️ ne teste presque rien
+});
+```
+
+`assert.ok(r)` est vrai pour `true`, pour `{ valide: false }`, pour `"erreur"`, pour n'importe quel objet. Inverse la condition dans `valider` : le test reste **vert**. Le piège séduit parce que le test a toutes les apparences d'un test — un nom, un appel, une assertion — et parce qu'il passe du premier coup, ce qu'on prend pour une bonne nouvelle. Un test qui n'a jamais été rouge n'a jamais rien prouvé.
+
+L'assertion utile porte sur la valeur exacte attendue : `assert.deepEqual(r, { valide: true, erreurs: [] })`.
+
+**Alternative défendable** : plutôt que six tests écrits à la main, un test paramétré parcourant un tableau de cas `{ entrée, attendu }`. Beaucoup plus dense, très agréable à étendre — mais quand il casse, le message dit « cas 4 » et non ce que le cas 4 signifiait. Table pour les validations nombreuses et régulières ; tests nommés pour les règles métier dont l'échec doit se lire sans réfléchir.
+
+**Vérifie seul, sans corrigé** : le seul critère qui compte est le sabotage. Casse ta fonction de trois façons **différentes** — inverse une condition, renvoie une constante, supprime un cas limite. Trois rouges attendus. Un sabotage qui passe ne signifie pas que ton test est un peu faible : il désigne un comportement que **personne ne vérifie**. Écris le test manquant, et recommence.
+
+## 🏢 Cas professionnel
+Une équipe affiche fièrement 92 % de couverture. Une refonte du calcul de facturation passe la suite au vert et part en production ; les factures de fin de mois sont fausses. L'enquête montre que les tests appelaient bien le code de facturation — d'où les 92 % — mais que leurs assertions vérifiaient surtout que la fonction ne levait pas d'exception.
+
+La couverture mesure **quelles lignes ont été exécutées**, jamais si quelqu'un a regardé le résultat. C'est une métrique utile pour repérer ce qui n'est pas testé du tout, et trompeuse dès qu'on la prend pour une mesure de qualité — d'autant qu'elle pousse à écrire des tests faciles sur du code trivial pour faire monter le chiffre. Les équipes qui ont vécu cet incident changent de question : elles ne demandent plus « quelle est notre couverture ? » mais « quand avons-nous vu ces tests rouges pour la dernière fois ? ». C'est le test du test, transformé en pratique d'équipe — et c'est exactement le genre de métrique-qui-ment que tu retrouveras en évaluation de systèmes IA.
+
+## 🎤 Questions d'entretien
+- « Comment sais-tu qu'un test est utile ? » → En le faisant échouer volontairement. Un test qui n'a jamais été rouge ne prouve rien.
+- « Que penses-tu de la couverture de code ? » → Bon détecteur de zones non testées, mauvais indicateur de qualité : elle compte les lignes exécutées, pas les assertions pertinentes.
+- « Unitaire, intégration ou e2e ? » → Beaucoup d'unitaires sur les règles métier, quelques intégrations sur le câblage — la classe de bugs que l'unitaire ne peut pas voir — et très peu de e2e, lents et fragiles.
+- « Pourquoi mocker ? » → Pour isoler ce qu'on teste de ce qui est lent, distant ou non déterministe. Et si mocker est pénible, c'est en général le découpage qu'il faut corriger, pas le test.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Chacun de mes tests a déjà été vu rouge, au moins une fois, délibérément.
+- [ ] Mes noms de test décrivent un comportement, pas un nom de fonction.
+- [ ] J'assertie une valeur attendue, jamais seulement l'absence de plantage.
+- [ ] Mes tests passent dans n'importe quel ordre, et sans base de données de développement.
+
 ## 📚 Vocabulaire
 **assertion** · **cas limite** · **fixture** (données de test) · **mock / fake / stub** · **injection de dépendance** · **couverture** · **régression** · **oracle** · **propriété / invariant** · **TDD** · **replay**.
 

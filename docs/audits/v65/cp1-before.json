@@ -1,0 +1,45 @@
+{
+  "sprint": "V65",
+  "checkpoint": "CP1",
+  "capturedAt": "2026-08-28",
+  "head": "75b42c16927a9e9367e8fe8d66d3fb080822aa68",
+  "invariants": {
+    "curriculumSha": "176ecde82cfd156fec0aa146ae0aeae8e75481d3e4e76220f5e8922812b80cec",
+    "dataSha": "27c1e532036c4f086cdd917e2d606908c8b1a48ffd55d96c7b18ec2062432968",
+    "progressSha": "73c1ee39a255c87972f4f42b36873b1081081d6f278bd767089c0cef1fc6e7a6",
+    "days": 365,
+    "orderMd5": "20be438d43c38549fb8b1fda8680a1d9",
+    "programCompetencies": 20
+  },
+  "baseline": {
+    "tests": 1330,
+    "gates": 42,
+    "tscErrors": 0
+  },
+  "competencyRulesBefore": {
+    "3 journées terminées, 0 preuve": "practiced",
+    "1 journée commencée, 0 preuve": "discovered",
+    "1 preuve quelconque non validée": "demonstrated"
+  },
+  "metricsBefore": {
+    "competingCompetencyModels": 3,
+    "directSkillStateWrites": 3,
+    "evidenceProducers": 3,
+    "distinctDedupKeys": 2,
+    "evidenceWithStructuredProvenance": 0,
+    "evidenceWithIdentityOutsideDay": 0,
+    "historyEventTypes": 0,
+    "historyRoutes": 0,
+    "exercisesTotal": 376,
+    "exercisesCreditingNoCompetency": 204,
+    "competenciesReachableWithoutValidation": 20
+  },
+  "v64DebtStatus": {
+    "history": "OPEN",
+    "diagnosticAttachment": "OPEN",
+    "emptyStateZeros": "PARTIAL",
+    "setStepUnexposed": "OPEN",
+    "missionsOutOfTypes": "OPEN",
+    "resolveResumeVsOpenSessions": "OPEN"
+  }
+}

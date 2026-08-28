@@ -85,6 +85,40 @@ Appeler un LLM (mois 8), c'est LITTÉRALEMENT ceci : un POST avec un header d'au
 ## Mini-exercice
 Avec curl uniquement : GET une API publique, provoque un 404, un 400 (corps invalide), suis une redirection (-L), affiche les headers (-i). Note pour chaque réponse : statut, 2 headers intéressants, forme du corps.
 
+## ✅ Correction attendue
+**La démarche** : `curl -i` sur chaque appel, et on lit la réponse AVANT de conclure. Un 404 s'obtient sur une ressource inexistante (`/livres/999999`) ; un 400 en envoyant un corps que le serveur ne peut pas interpréter ; `-L` révèle qu'une redirection est une réponse 3xx assortie d'un header `Location`, et que curl ne la suit pas de lui-même.
+
+**L'erreur probable, et c'est le malentendu fondateur du sujet.** Beaucoup obtiennent un 404 en tapant une adresse au hasard (`/api/nimportequoi`) et cochent la case. Le piège est qu'on croit avoir provoqué « l'erreur 404 », alors qu'on n'a pas su la distinguer d'un vrai 404 métier. Ce sont deux situations très différentes qu'un client doit traiter différemment : « cette route n'existe pas » est un bug d'intégration à corriger tout de suite, « ce livre n'existe pas » est un cas normal qu'il faut afficher à l'utilisateur.
+
+Le malentendu est entretenu par le protocole lui-même — HTTP ne fournit qu'un seul code pour les deux. La réponse professionnelle consiste à regarder le CORPS, pas seulement le statut : une API bien conçue renvoie un objet d'erreur qui dit laquelle des deux situations s'applique. C'est exactement ce que la leçon appelle « choisir le bon statut EST de la conception » — et sa limite : le statut ne suffit jamais seul.
+
+**Alternative défendable** : Postman ou un client graphique plutôt que curl. Plus confortable, historisé, partageable. Mais il masque justement ce qu'on cherche à voir ici, et il est absent des serveurs. On apprend avec curl, on travaille avec ce qu'on veut — et l'on garde curl pour le jour où l'on débogue depuis une machine sans écran.
+
+**Vérifie seul, sans corrigé** :
+1. Tu sais dire, pour chacune de tes cinq réponses, à quoi sert **chaque** header que tu as retenu — pas seulement son nom.
+2. Ton 400 vient bien du corps envoyé, pas d'une URL fautive. Si tu changes le corps et que le statut change, c'est prouvé.
+3. Sans `-L`, tu obtiens un 3xx et un header `Location`. Avec `-L`, un 200. Si tu ne vois pas cette différence, `-L` n'a rien démontré.
+4. Épreuve finale : fais un `GET` avec un corps JSON. Observe qu'il part sans erreur, et que le serveur l'ignore. Comprendre pourquoi — un `GET` demande, il ne transporte pas d'intention de modification — vaut mieux que retenir la liste des méthodes.
+
+## 🏢 Cas professionnel
+Une API renvoie `200 OK` pour tout, en mettant `{"success": false, "error": "..."}` dans le corps quand ça échoue. L'argument de départ tient debout : « c'est plus simple, le client lit un seul champ ». Les conséquences arrivent en cascade.
+
+Le cache HTTP mémorise les réponses 200 : les erreurs sont mises en cache et resservies. Le client HTTP ne lève plus d'exception sur échec, donc chaque appelant doit penser à tester `success` — et un seul oubli fait passer une erreur pour une donnée. La supervision, qui compte les 5xx, affiche un taux d'erreur de 0 % pendant une panne. Et le mécanisme de retry, qui ne rejoue que les échecs, ne rejoue plus rien.
+
+L'ensemble de l'infrastructure — caches, proxys, clients, sondes, disjoncteurs — lit le **statut**, jamais le corps. Choisir un statut, ce n'est pas décorer une réponse : c'est parler à une douzaine de composants qu'on n'a pas écrits et qui n'ouvriront jamais le corps du message. C'est ce qui rend le 401/403 ou le 409 utiles, et le 200 universel coûteux.
+
+## 🎤 Questions d'entretien
+- « Que se passe-t-il quand tu tapes une URL dans un navigateur ? » → DNS, puis TCP, puis TLS, puis la requête HTTP et la réponse. Chaque étape coûte des allers-retours : c'est là qu'est la latence.
+- « 401 ou 403 ? » → 401 : je ne sais pas qui tu es (authentifie-toi). 403 : je le sais, et c'est non. Le premier invite à réessayer autrement, le second non.
+- « Pourquoi peut-on rejouer un PUT et pas un POST ? » → PUT est idempotent : il écrit un état voulu, le rejouer donne le même résultat. POST crée : le rejouer crée deux fois.
+- « Que veut dire "HTTP est sans état" ? » → Chaque requête est autonome ; le serveur ne se souvient de rien entre deux appels. C'est ce qui permet à n'importe quelle instance de répondre — et ce qui oblige à renvoyer le jeton d'authentification à chaque fois.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Je choisis un statut en pensant aux caches, aux retries et à la supervision, pas seulement au client.
+- [ ] Je sais nommer chaque partie d'une requête que je lis dans un log.
+- [ ] Je distingue latence et bande passante, et je sais laquelle un serveur plus proche améliore.
+- [ ] Je ne mets jamais de secret dans une URL, et je sais pourquoi.
+
 ## 📚 Vocabulaire
 **sans état** · **header** · **corps (body)** · **idempotence** · **statut** · **ressource** · **collection** · **query string** · **sérialisation** · **latence** · **TLS / certificat**.
 

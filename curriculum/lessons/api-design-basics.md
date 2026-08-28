@@ -83,6 +83,42 @@ Tes systèmes IA SONT des APIs : DocQA expose `POST /questions`, DocSense `POST 
 ## Mini-exercice
 Conçois sur papier le contrat complet d'une API de blog : articles, commentaires, tags, brouillons vs publiés. Endpoints, verbes, statuts (y compris : commenter un article inexistant ? publier un brouillon déjà publié ?), format d'erreur, pagination. Puis fais-le critiquer (ou critique-le toi-même 24 h plus tard).
 
+## ✅ Correction attendue
+**La démarche** : lister les ressources (articles, commentaires, tags), puis les relations (un commentaire appartient à un article → sous-ressource `/articles/12/commentaires`), puis les états (brouillon / publié), et seulement ensuite les endpoints. Les deux questions piégées de l'énoncé se traitent par le statut : commenter un article inexistant → **404** (la ressource parente n'existe pas) ; publier un brouillon déjà publié → **409** (la requête est bien formée, c'est l'état qui s'y oppose).
+
+**L'erreur probable, et elle vient d'une bonne intention.** Le statut « publié » se modélise presque toujours comme un endpoint dédié : `POST /articles/12/publier`. C'est expressif, ça se lit bien, et ça viole la règle que la leçon vient d'énoncer — un verbe dans l'URL. Le piège séduit parce qu'on a un vrai problème : *publier* n'est pas *modifier*, il y a une transition, des règles, peut-être un e-mail à envoyer. « Mettre à jour un champ » semble trahir cette richesse.
+
+Deux sorties honnêtes, et il faut savoir les défendre. Soit on modélise l'ÉTAT : `PATCH /articles/12 { statut: "publie" }`, et le serveur refuse en 409 les transitions interdites — cohérent avec le reste de l'API, et le client n'a rien de nouveau à apprendre. Soit on modélise la TRANSITION comme une ressource : `POST /articles/12/publications`, ce qui reste un nom, et donne en prime un historique des publications si on en a besoin un jour.
+
+**Ce qu'il ne faut pas faire, en revanche, c'est mélanger les deux dans la même API.** Un consommateur qui a compris `PATCH` pour le statut d'un article ne devinera jamais `POST /commentaires/5/approuver`. C'est le sens de « la cohérence prime sur l'élégance locale » : le second endpoint, isolé, est peut-être plus joli ; l'ensemble est plus coûteux à intégrer.
+
+**Alternative défendable** : ne pas exposer de sous-ressource du tout et tout mettre à plat (`GET /commentaires?articleId=12`). Plus simple à implémenter, et c'est le bon choix si les commentaires se consultent aussi indépendamment des articles. La hiérarchie d'URL n'est pas une vertu, c'est une affirmation sur la manière dont les données sont réellement consultées.
+
+**Vérifie seul, sans corrigé** :
+1. Fais lire ton contrat par quelqu'un — ou par toi 24 h plus tard — et demande de DEVINER l'URL pour « les commentaires du troisième article ». Si la personne se trompe, l'API n'est pas prévisible.
+2. Compte tes formats d'erreur. Il doit y en avoir **un**.
+3. Cherche un verbe dans tes URLs. S'il y en a, choisis explicitement l'une des deux sorties ci-dessus, et applique-la partout.
+4. Pour chaque collection, demande-toi ce qui se passe à 100 000 éléments. Si tu n'as pas de réponse, il manque la pagination — et l'ajouter plus tard cassera tes clients.
+
+## 🏢 Cas professionnel
+Une API renvoie l'objet utilisateur complet sur `GET /utilisateurs/42`, tel qu'il sort de la base : `email`, `motDePasseHash`, `role`, `interne_score_fraude`. Le front n'affiche que le nom, donc personne ne s'en inquiète pendant deux ans.
+
+Le jour où l'API s'ouvre à un partenaire, trois problèmes arrivent ensemble. Le hash de mot de passe est exposé à un tiers. Le score de fraude interne, qui n'aurait jamais dû sortir, devient une donnée que le partenaire commence à utiliser — et donc un engagement de fait. Et l'équipe qui veut renommer une colonne découvre qu'elle ne le peut plus : la structure de sa base est devenue son contrat public, sans que personne ne l'ait jamais décidé.
+
+C'est le sens exact de « moindre exposition ». Ce n'est pas d'abord une règle de sécurité — c'est une règle de **liberté** : tout champ qu'on expose devient une promesse qu'on ne peut plus retirer sans casser quelqu'un. Une API qui renvoie une projection explicite (`{ id, nom, inscritLe }`) laisse sa base évoluer librement ; une API qui renvoie ses lignes de base a signé un contrat qu'elle n'a pas lu.
+
+## 🎤 Questions d'entretien
+- « Design une API pour un blog. » → Commence par les ressources et les relations, pas par les endpoints. Nomme les états, les statuts d'erreur, le format d'erreur unique, et mentionne la pagination sans qu'on te la demande.
+- « Où mets-tu la validation ? » → À la frontière, en entrée, avant toute logique — et elle renvoie la liste complète des problèmes, pas seulement le premier.
+- « Comment fais-tu évoluer une API sans casser tes clients ? » → Ajouter est sûr, retirer et renommer ne le sont pas. On ajoute, on déprécie avec un délai annoncé, on versionne quand la rupture est inévitable.
+- « 404 ou 409 ? » → 404 si la ressource visée n'existe pas ; 409 si elle existe mais que son état interdit l'opération. La distinction permet au client de savoir s'il doit corriger son adresse ou son scénario.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Quelqu'un peut deviner mes URLs sans documentation.
+- [ ] J'ai un seul format d'erreur, et un seul endroit qui le produit.
+- [ ] Je ne renvoie que les champs choisis, jamais l'objet de base tel quel.
+- [ ] Je sais dire, pour chaque endpoint, ce qui est un ajout sûr et ce qui casserait un client.
+
 ## 📚 Vocabulaire
 **contrat** · **endpoint** · **ressource / sous-ressource** · **payload** · **validation** · **erreur opérationnelle vs bug** · **pagination** · **versionnement** · **rétrocompatibilité** · **moindre exposition**.
 

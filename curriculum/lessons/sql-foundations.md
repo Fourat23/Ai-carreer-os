@@ -95,6 +95,55 @@ Ton RAG hybride (mois 9) utilisera SQLite FTS5 (recherche lexicale = du SQL), et
 ## Mini-exercice
 Sur une base livres/auteurs/emprunts : (1) les livres jamais empruntés (LEFT JOIN + IS NULL), (2) le nombre d'emprunts par membre trié décroissant, (3) les auteurs ayant plus de 2 livres (HAVING). Vérifie chaque résultat à la main sur des données de test réduites.
 
+## ✅ Correction attendue
+**La démarche**, et elle est identique pour les trois questions : de quelles tables ai-je besoin ? comment se relient-elles ? est-ce que je veux garder les lignes SANS correspondance ? est-ce que je compte des lignes ou des groupes ?
+
+```sql
+-- (1) livres jamais empruntés : on garde les orphelins, puis on ne garde QU'EUX
+SELECT l.titre FROM livres l
+LEFT JOIN emprunts e ON e.livre_id = l.id
+WHERE e.id IS NULL;
+```
+
+**L'erreur probable, et elle annule silencieusement le LEFT JOIN.** Presque tout le monde écrit d'abord la condition dans le `ON` plutôt que dans le `WHERE`, ou pire, écrit `WHERE e.livre_id IS NULL` en pensant filtrer et obtient un résultat qui *semble* plausible. Le cas vraiment vicieux est celui-ci :
+
+```sql
+LEFT JOIN emprunts e ON e.livre_id = l.id
+WHERE e.date_retour IS NOT NULL     -- ⚠️ transforme le LEFT en INNER
+```
+
+Toute condition `WHERE` portant sur la table de DROITE élimine les lignes orphelines — puisque, pour un orphelin, toutes ses colonnes valent `NULL` et échouent à n'importe quel test. Le `LEFT JOIN` est toujours écrit, il ne sert plus à rien, et la requête renvoie des résultats sans jamais protester. Le piège séduit parce que la ligne fautive est syntaxiquement irréprochable et qu'elle se trouve **loin** du `JOIN` qu'elle annule.
+
+La règle qui en sort : une condition sur la table de droite va dans le `ON` ; seul le test `IS NULL` de détection d'orphelins va dans le `WHERE`.
+
+**Alternative défendable** pour la question (1) : `WHERE NOT EXISTS (SELECT 1 FROM emprunts e WHERE e.livre_id = l.id)`. Elle exprime l'intention plus littéralement — « aucun emprunt n'existe » — et beaucoup de moteurs l'optimisent aussi bien, voire mieux, car ils s'arrêtent au premier emprunt trouvé au lieu de construire toute la jointure. Le `LEFT JOIN ... IS NULL` reste plus courant ; `NOT EXISTS` est souvent plus lisible dès que la condition se complique.
+
+**Vérifie seul, sans corrigé** :
+1. Fabrique un jeu de test **minuscule** : 3 livres dont 1 jamais emprunté, 2 membres, 4 emprunts. Calcule les trois réponses à la main d'abord. Une requête qui ne correspond pas à ton calcul manuel est fausse — même si son résultat a l'air raisonnable.
+2. Pour la (1) : le livre jamais emprunté doit apparaître, et lui seul. Remplace `LEFT` par `INNER` : le résultat doit devenir vide. Si rien ne change, ton `WHERE` avait déjà tué le `LEFT`.
+3. Pour la (3) : ajoute un auteur avec exactement 2 livres. Il ne doit PAS apparaître — c'est le test qui distingue `> 2` de `>= 2`, et l'erreur la plus banale du `HAVING`.
+4. Remplace `HAVING COUNT(*) > 2` par `WHERE COUNT(*) > 2` : la base doit refuser. Comprendre le message d'erreur vaut mieux que mémoriser la règle.
+
+## 🏢 Cas professionnel
+Une équipe branche un tableau de bord sur sa base de production. Une des requêtes fait une jointure sur `commandes.client_id`, une colonne non indexée. Sur les 5 000 commandes de l'environnement de test, la page s'affiche instantanément. En production, sur 12 millions de lignes, la requête prend 40 secondes — et comme le tableau de bord se rafraîchit automatiquement, plusieurs de ces requêtes s'empilent, saturent les connexions disponibles, et **l'application cliente cesse de répondre**. Un tableau de bord de consultation a mis à genoux un service de vente.
+
+Trois choses valent d'être retenues. D'abord, l'index manquant ne se voit jamais sur des données de développement : c'est la même leçon que le `includes` dans une boucle, appliquée aux bases. Ensuite, `EXPLAIN` devant une requête révèle si le moteur parcourt toute la table ou passe par un index — c'est un geste de trente secondes que peu de gens font avant de livrer. Enfin, l'incident n'est pas venu d'une erreur de calcul mais d'un **partage de ressource** : les lectures analytiques et les écritures transactionnelles se disputaient la même base, ce qui est précisément la raison d'être des réplicas de lecture.
+
+Et le contre-poids reste vrai : indexer davantage aurait ralenti les écritures. On n'indexe pas « au cas où », on indexe ce que les requêtes réelles filtrent et joignent.
+
+## 🎤 Questions d'entretien
+- « WHERE ou HAVING ? » → `WHERE` filtre les lignes avant regroupement, `HAVING` filtre les groupes après. Un agrégat ne peut apparaître que dans `HAVING`.
+- « INNER ou LEFT JOIN ? » → `LEFT` quand la question porte sur l'ABSENCE : clients sans commande, livres jamais empruntés. Et attention à ne pas l'annuler par une condition `WHERE` sur la table de droite.
+- « Comment protèges-tu contre l'injection SQL ? » → Requêtes paramétrées, sans exception. L'entrée utilisateur est une donnée, jamais du code. Échapper à la main n'est pas une défense.
+- « Faut-il indexer toutes les colonnes ? » → Non : chaque index accélère des lectures et ralentit toutes les écritures. On indexe ce qui est réellement filtré ou joint, et on le vérifie avec `EXPLAIN`.
+- « À quoi sert une transaction ? » → À rendre un groupe d'opérations tout-ou-rien. Sans elle, une panne au milieu laisse la base dans un état qu'aucune règle métier n'autorise.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Je traduis une question métier en requête sans passer par du code impératif.
+- [ ] Je sais quand un `LEFT JOIN` est nécessaire — et ce qui peut l'annuler sans erreur.
+- [ ] Je vérifie mes requêtes sur un jeu de test que j'ai calculé à la main.
+- [ ] Je n'écris jamais de SQL par concaténation, même « juste pour tester ».
+
 ## 📚 Vocabulaire
 **clé primaire / étrangère** · **jointure** · **agrégat** · **HAVING** · **sous-requête** · **normalisation / dénormalisation** · **index** · **transaction / ACID / rollback** · **requête paramétrée** · **injection SQL**.
 

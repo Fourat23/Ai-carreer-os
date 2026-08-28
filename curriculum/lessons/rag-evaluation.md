@@ -45,7 +45,7 @@ Rapport en 4 lignes : `rappel@5 = 84 % (26/31, échecs : Q7 Q12 Q19 Q23 Q28) · 
    OUI → problème génération. Le chunk était là mais la réponse le trahit :
          prompt de génération, fidélité, format.
 2. Le fix validé sur Q12 est adopté SEULEMENT si le score GLOBAL ne régresse pas.
-\```
+```
 **Explication** : le cas individuel guide, le golden set décide — jamais l'inverse (sur-adapter à un cas dégrade le reste). **Variante** : fais ce diagnostic sur un vrai échec de ton DocQA.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)

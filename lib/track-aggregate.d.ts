@@ -15,8 +15,16 @@ export interface TrackAggregate {
   inProgress: number;
   toReview: number;
   reviewsDue: number;
-  lastEvidence: { day: number; title: string; at: string } | null;
-  skillsCount: number;
+  /** Dernière preuve du LEDGER canonique. `day` est null pour une preuve hors journée. */
+  lastEvidence: { day: number | null; title: string; at: string; qualifying: boolean } | null;
+  /** Compétences portant ≥ 1 preuve qualifiante. Jamais un niveau déclaré. */
+  demonstratedCount: number;
+  /** Compétences portant ≥ 1 trace, qualifiante ou non. */
+  assessedCount: number;
+  /** Niveaux auto-déclarés — une DÉCLARATION, jamais une preuve. */
+  declaredCount: number;
+  /** Nombre d'enregistrements de preuve (pas une somme de crédits). */
+  evidenceCount: number;
   started: boolean;
   complete: boolean;
 }

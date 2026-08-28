@@ -108,35 +108,90 @@ function must(cond, msg, detail = '') {
 }
 
 // ── 5. Tous les écrivains passent par le client de commandes ──────────────
+//
+// V65.1 · P0-0. Cette vérification énumérait ses écrivains à la main. V65 a
+// recomposé `SkillsBoard.tsx` en surface de LECTURE SEULE — le composant
+// n'écrit plus rien — mais il figurait encore dans la liste : le gate a exigé
+// `sendCommand` d'un composant qui n'a aucune raison de l'avoir, et
+// `gates:active` est resté ROUGE pendant toute la clôture de V65.
+//
+// Une liste codée en dur mesure l'état du code au jour où elle a été écrite,
+// pas l'invariant. La liste est donc DÉRIVÉE : est écrivain tout composant
+// client qui émet une commande, reconnu à la FORME de ce qu'il émet — la
+// même leçon qu'au CP0 de V64, où chercher `sendCommand({ … status: … })`
+// laissait passer un `send()` local.
+function clientComponents() {
+  const out = [];
+  const walk = (dir) => {
+    for (const e of readdirSync(join(ROOT, dir), { withFileTypes: true })) {
+      const rel = `${dir}/${e.name}`;
+      if (e.isDirectory()) walk(rel);
+      else if (e.name.endsWith('.tsx')) out.push(rel);
+    }
+  };
+  walk('app');
+  return out;
+}
+
+// La ROUTE DE COMMANDES, et elle seule : `/api/progress` sans segment après.
+// `/api/progress/import`, `/export` et `/reset` sont des opérations de fichier
+// assumées, avec leurs propres routes et leur propre validation — ce ne sont
+// pas des commandes d'apprentissage et elles n'ont pas à passer par
+// `sendCommand`. Sans cette distinction, le premier essai de la règle dérivée
+// accusait `SettingsPanel` d'« appeler la route à la main ».
+const CMD_ROUTE = /fetch\(\s*['"`]\/api\/progress['"`?]/;
+const FILE_ROUTE = /\/api\/progress\/(import|export|reset)/;
+
+const WRITERS = clientComponents().filter((f) => {
+  const src = code(f);
+  // Une commande se reconnaît à sa FORME : `{ type: 'UPPERCASE' … }`, quel que
+  // soit le nom de la fonction qui l'envoie — au CP0 de V64, chercher
+  // `sendCommand({ … })` laissait passer un `send()` local.
+  return /\{\s*type:\s*['"][A-Z_]{3,}['"]/.test(src) || CMD_ROUTE.test(src);
+});
+
 {
-  const writers = [
-    'app/StartDayButton.tsx',
-    'app/day/[id]/DayPanel.tsx',
-    'app/day/[id]/DayCorrection.tsx',
-    'app/day/[id]/DayEvidence.tsx',
-    'app/revisions/ReviewList.tsx',
-    'app/skills/SkillsBoard.tsx',
-  ];
+  must(WRITERS.length >= 5,
+    '[clients] la liste des écrivains est dérivée du code, pas énumérée',
+    `${WRITERS.length} écrivain(s) détecté(s) — un produit qui écrit en a plusieurs`);
+
   const raw = [];
-  for (const w of writers) {
+  for (const w of WRITERS) {
     const src = code(w);
-    if (/fetch\(\s*['"`]\/api\/progress/.test(src)) raw.push(w);
+    if (CMD_ROUTE.test(src)) raw.push(`${w} (appelle la route de commandes à la main)`);
     if (!/sendCommand/.test(src)) raw.push(`${w} (n’utilise pas sendCommand)`);
   }
   must(raw.length === 0,
-    `[clients] les ${writers.length} écrivains passent par sendCommand`,
+    `[clients] les ${WRITERS.length} écrivains passent par sendCommand`,
     raw.join(', '));
+
+  // Les opérations de fichier restent surveillées, séparément : elles mutent la
+  // progression en entier et doivent montrer leur échec comme les autres.
+  const fileOps = clientComponents().filter((f) => FILE_ROUTE.test(code(f)));
+  const mute = fileOps.filter((f) => {
+    const src = code(f);
+    return !(/setError\(/.test(src) && /\{\s*error\s*&&/.test(src));
+  });
+  must(mute.length === 0,
+    `[clients] les ${fileOps.length} opérations de fichier affichent leur échec`,
+    mute.join(', '));
+
+  // N12 — le gate se surveille lui-même. Si quelqu'un réénumère les écrivains,
+  // la règle redevient une photo du code au lieu d'un invariant, et le trou
+  // P0-0 se rouvre. On cherche un tableau littéral de ≥ 3 chemins `.tsx`.
+  const self = code('scripts/v64-check.mjs');
+  const hardcoded = self.match(/\[[^\]]*?(?:['"]app\/[^'"]*\.tsx['"][^\]]*?){3,}\]/s);
+  must(!hardcoded,
+    '[gate] la liste des écrivains n’est pas réénumérée à la main',
+    'un tableau de chemins .tsx est réapparu dans le gate');
 }
 
 // ── 6. Un échec de commande est VISIBLE (brief §22) ───────────────────────
 // Régression visée : le retour d'un clic sans effet — l'anomalie A10 du CP0.
 {
-  const surfaced = [
-    'app/StartDayButton.tsx', 'app/day/[id]/DayPanel.tsx',
-    'app/day/[id]/DayCorrection.tsx', 'app/day/[id]/DayEvidence.tsx',
-    'app/revisions/ReviewList.tsx', 'app/skills/SkillsBoard.tsx',
-  ];
-  const silent = surfaced.filter((f) => {
+  // Même liste dérivée qu'en 5 : qui écrit doit montrer son échec, et
+  // seulement qui écrit.
+  const silent = WRITERS.filter((f) => {
     const src = code(f);
     return !(/setError\(/.test(src) && /\{\s*error\s*&&/.test(src));
   });

@@ -4,11 +4,13 @@ import { getProgram } from '@/lib/program';
 import { getCatalogue } from '@/lib/catalogue-server';
 import { getTrack, resolveTrackDayObjects } from '@/lib/catalogue';
 import { readProgress, getActiveTrackId } from '@/lib/progress-server';
-import { computeStats, currentSkills } from '@/lib/progress-stats';
+import { computeStats } from '@/lib/progress-stats';
 import { resumeReasonText, countStatuses } from '@/lib/resume';
 import { progressPosition } from '@/lib/position';
 import { reviewSummary, getDueReviews } from '@/lib/review';
 import { nextBestActions } from '@/lib/learning-experience';
+import { getCompetencySummary, getRecentEvidence } from '@/lib/learner-read-models';
+import { COMPETENCY_STATE_LABEL, COMPETENCY_STATE_TONE } from '@/lib/competency';
 import { curriculumPartition } from '@/lib/curriculum-partition';
 import {
   PageHeader, SectionHeader, Status, Metric, Panel, ActionRow,
@@ -42,8 +44,6 @@ export default function Dashboard() {
   const resumeDay = program.days.find((d) => d.day === pos.resumeDay);
   const resumeStatus = progress.days[String(pos.resumeDay)]?.status ?? 'not-started';
   const st = DAY_STATUS[resumeStatus] ?? DAY_STATUS['not-started'];
-  const skillIds = currentSkills(program, pos.resumeDay);
-  const skillNames = program.skills.filter((s) => skillIds.includes(s.id)).map((s) => s.name);
   const currentMonth = program.months.find((m) => m.month === resumeDay?.month);
   const started = resumeStatus !== 'not-started';
   const reviews = reviewSummary(progress.days);
@@ -55,14 +55,19 @@ export default function Dashboard() {
   // « Que faire ensuite » : actions dérivées (read-model), hors reprise.
   const nextActions = nextBestActions(program, progress, { reviews: getDueReviews(progress.days), limit: 4 })
     .filter((a) => a.kind !== 'resume');
-  // Dernière preuve ajoutée (toutes journées confondues).
-  let lastEvidence: { day: number; title: string } | null = null;
-  let lastAt = '';
-  for (const k of Object.keys(progress.days)) {
-    for (const e of (progress.days[k]?.evidence ?? [])) {
-      if (typeof e.createdAt === 'string' && e.createdAt > lastAt) { lastAt = e.createdAt; lastEvidence = { day: Number(k), title: e.title }; }
-    }
-  }
+  // ── COMPÉTENCES & PREUVES — le MÊME read-model que /skills ───────────────
+  // V65.1 · P0-1. Ce bloc affichait `currentSkills(program, resumeDay)`, c'est-à-dire
+  // les compétences de la JOURNÉE COURANTE, sous un titre « Compétences & preuves » :
+  // au CP0, deux pastilles pour un apprenant qui en avait huit d'évaluées. Et la
+  // « dernière preuve » était cherchée dans `days[N].evidence[]`, si bien qu'une
+  // preuve hors journée — un diagnostic passé depuis /diagnostics — restait
+  // invisible ici alors que /history et /skills la connaissaient.
+  const competencySummary = getCompetencySummary();
+  const lastEvidence = getRecentEvidence(1)[0] ?? null;
+  const topCompetencies = [...competencySummary.competencies]
+    .filter((c) => c.state !== 'unassessed')
+    .sort((a, b) => (b.lastQualifiedEvidenceAt ?? b.lastEvidenceAt ?? '').localeCompare(a.lastQualifiedEvidenceAt ?? a.lastEvidenceAt ?? ''))
+    .slice(0, 4);
   // Ton du rythme (dérivé, jamais couleur seule : accompagné d'un libellé).
   const paceTone: Tone = pos.complete ? 'positive' : pos.delay > 0 ? 'attention' : pos.ahead > 0 ? 'accent' : 'positive';
   const paceLabel = pos.expectedDay === null ? '—' : pos.complete ? 'Terminé'
@@ -236,13 +241,43 @@ export default function Dashboard() {
           </Panel>
 
           <Panel label="Compétences & preuves">
-            <div className="row" style={{ gap: 6 }}>
-              {skillNames.length ? skillNames.map((n) => <Status key={n} tone="accent" label={n} />) : <span className="muted">—</span>}
-            </div>
+            {competencySummary.evidenceCount === 0 ? (
+              // ÉTAT VIDE HONNÊTE : aucune preuve n'est pas « zéro compétence ».
+              <p className="dash-note">
+                Aucune preuve enregistrée pour l&apos;instant — le produit ne se prononce sur
+                aucune compétence. <Link href="/lab">Faire un exercice</Link> ou{' '}
+                <Link href="/diagnostics">passer un diagnostic</Link>.
+              </p>
+            ) : (
+              <>
+                <div className="row" style={{ gap: 6 }}>
+                  {topCompetencies.map((c) => (
+                    <Status
+                      key={c.competencyId}
+                      tone={COMPETENCY_STATE_TONE[c.state] as Tone}
+                      label={`${c.name ?? c.competencyId} · ${COMPETENCY_STATE_LABEL[c.state]}`}
+                    />
+                  ))}
+                </div>
+                <p className="dash-note">
+                  <strong>{competencySummary.assessedCount}</strong> compétence
+                  {competencySummary.assessedCount > 1 ? 's' : ''} sur {competencySummary.totalCount} repose
+                  {competencySummary.assessedCount > 1 ? 'nt' : ''} sur au moins une trace ·{' '}
+                  <strong>{competencySummary.qualifyingEvidenceCount}</strong> preuve
+                  {competencySummary.qualifyingEvidenceCount > 1 ? 's' : ''} qualifiante
+                  {competencySummary.qualifyingEvidenceCount > 1 ? 's' : ''} sur {competencySummary.evidenceCount} enregistrée
+                  {competencySummary.evidenceCount > 1 ? 's' : ''}. <Link href="/skills">Tout voir</Link>
+                </p>
+              </>
+            )}
             <div className="ui-panel-sep" />
             <div className="ui-panel-label">Dernière preuve</div>
             {lastEvidence ? (
-              <div className="dash-strong"><Link href={`/day/${lastEvidence.day}`}>Jour {lastEvidence.day}</Link> — {lastEvidence.title}</div>
+              <div className="dash-strong">
+                {lastEvidence.dayId != null
+                  ? <><Link href={`/day/${lastEvidence.dayId}`}>Jour {lastEvidence.dayId}</Link> — {lastEvidence.title}</>
+                  : <Link href="/history">{lastEvidence.title}</Link>}
+              </div>
             ) : <p className="dash-note">Aucune preuve enregistrée pour l&apos;instant.</p>}
             {/* Prochain livrable : masqué s'il désigne la journée DÉJÀ en focus
                 (anti-redondance) ; fusionné ici plutôt qu'en panneau séparé. */}

@@ -13,7 +13,7 @@
 |---|---|---|
 | CP0 | Baseline forensique, captures BEFORE, cartographie | ✅ `docs/audits/V65-1-CP0-AUDIT.md` |
 | CP1 | Critères gelés | ⏳ |
-| CP2 | Audit domaine + consolidation du modèle | ⏳ |
+| CP2 | Audit domaine + consolidation du modèle | ✅ ancien modèle SUPPRIMÉ |
 | CP3 | Fermeture de la taxonomie | ⏳ |
 | CP4 | Evidence ledger | ⏳ |
 | CP5 | Explicabilité | ⏳ |
@@ -21,7 +21,7 @@
 | CP7 | Recomposition Compétences | ⏳ |
 | CP8 | Skill Detail (surface nouvelle) | ⏳ |
 | CP9 | Convergence diagnostics | ⏳ |
-| CP10 | Dashboard + Synthèse — dette P0 V65 | ⏳ |
+| CP10 | Dashboard + Synthèse — dette P0 V65 | ✅ fait en avance avec CP2 |
 | CP11 | Pont révisions | ⏳ |
 | CP12 | Matrice de cohérence transverse | ⏳ |
 | CP13 | UX / responsive / a11y | ⏳ |
@@ -32,15 +32,22 @@
 
 | | Sujet | État |
 |---|---|---|
-| P0-0 | `gates:active` rouge à HEAD (`v64:check`, liste d'écrivains codée en dur) | ouvert |
-| P0-1 | Dashboard + Synthèse sur l'ancien modèle — 20/20 divergences, 8 sémantiques | ouvert |
-| P0-2 | « 28 preuves qualifiantes sur 30 » — somme de crédits présentée comme un décompte | ouvert |
-| P0-3 | Deux vocabulaires de compétence affichés côte à côte | ouvert |
+| P0-0 | `gates:active` rouge à HEAD (`v64:check`, liste d'écrivains codée en dur) | ✅ **fermé** — liste dérivée, 2 tests négatifs vus échouer |
+| P0-1 | Dashboard + Synthèse sur l'ancien modèle — 20/20 divergences, 8 sémantiques | ✅ **fermé** — sonde transverse : 0 écart |
+| P0-2 | « 28 preuves qualifiantes sur 30 » — somme de crédits présentée comme un décompte | ✅ **fermé** — 14/30, deux grandeurs nommées séparément |
+| P0-3 | Deux vocabulaires de compétence affichés côte à côte | ✅ **fermé** — noms français du programme partout |
 | P0-4 | `/diagnostics` aveugle à l'historique de l'apprenant | ouvert |
 | P1-1 | Aucune surface de détail par compétence | ouvert |
 | P1-2 | Étiquettes superposées dans l'échéancier `/revisions` | ouvert |
 | P1-3 | `/history` sans filtre ni regroupement | ouvert |
-| P2-1 | Identifiants d'état anglais visibles sur le Dashboard | ouvert |
+| P2-1 | Identifiants d'état anglais visibles sur le Dashboard | ✅ **fermé** — sonde DOM sur 4 surfaces |
+
+## Trouvailles ajoutées en cours de sprint
+
+| | Sujet | État |
+|---|---|---|
+| P0-5 | Un capstone réussi ne produit **aucune preuve** : `CapstoneRunner` n'écrit rien, `capstoneToEvidence` n'a aucun appelant. Le jalon « Premier capstone terminé » est donc inatteignable. | ouvert — CP9 |
+| P1-4 | `app/settings/SettingsPanel.tsx` appelle `/api/progress/import` et `/reset` : opérations de fichier assumées, désormais surveillées séparément par le gate. | ✅ documenté |
 
 ## Outils de mesure du sprint
 

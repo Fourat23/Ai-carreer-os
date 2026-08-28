@@ -11,6 +11,7 @@ import { getProgram } from './program';
 import { readProgress } from './progress-server';
 import { createLedger, projectCompetencies, whyCompetencyState } from './competency';
 import type { CompetencyProjection, CompetencyExplanation, EvidenceLedger } from './competency';
+import { isQualifying } from './evidence';
 import type { Evidence } from './evidence';
 import { getDueReviews } from './review';
 import { buildHistory, groupHistoryByDate, historySummary } from './learner-history';
@@ -34,8 +35,16 @@ export interface CompetencySummary {
   /** Nombre de compétences réellement évaluées — jamais un pourcentage inventé. */
   assessedCount: number;
   totalCount: number;
+  /** Nombre d'ENREGISTREMENTS de preuve. */
   evidenceCount: number;
+  /** Nombre d'enregistrements QUALIFIANTS. Comparable à `evidenceCount`. */
   qualifyingEvidenceCount: number;
+  /**
+   * Somme des crédits par compétence : une preuve qui en crédite trois compte
+   * trois fois. Ce N'EST PAS un décompte de preuves et ne doit jamais être
+   * affiché comme tel — voir la note dans `getCompetencySummary`.
+   */
+  competencyCreditCount: number;
   lastEvidenceAt: string | null;
 }
 
@@ -57,6 +66,13 @@ export function getCompetencySummary(): CompetencySummary {
   for (const c of competencies) counts[c.state] = (counts[c.state] ?? 0) + 1;
 
   const all = ledger.all();
+
+  // V65.1 · P0-2 — `qualifyingEvidenceCount` était la SOMME DES CRÉDITS
+  // (`competencies.reduce(…)`). Une preuve créditant trois compétences comptait
+  // trois fois. /skills affichait « 28 preuves qualifiantes sur 30
+  // enregistrées » pour 14 preuves qualifiantes réelles : une somme de crédits
+  // mise en regard d'un décompte d'enregistrements, dans la même phrase.
+  // Invariants 6 et 22. Les deux grandeurs sont désormais nommées séparément.
   return {
     competencies,
     explanations,
@@ -64,7 +80,8 @@ export function getCompetencySummary(): CompetencySummary {
     assessedCount: competencies.filter((c) => c.state !== 'unassessed').length,
     totalCount: competencies.length,
     evidenceCount: all.length,
-    qualifyingEvidenceCount: competencies.reduce((n, c) => n + c.qualifyingEvidenceCount, 0),
+    qualifyingEvidenceCount: all.filter(isQualifying).length,
+    competencyCreditCount: competencies.reduce((n, c) => n + c.qualifyingEvidenceCount, 0),
     lastEvidenceAt: all.length ? all[all.length - 1].createdAt : null,
   };
 }
@@ -127,6 +144,7 @@ export function getLearnerOverview() {
     counts: summary.counts,
     evidenceCount: summary.evidenceCount,
     qualifyingEvidenceCount: summary.qualifyingEvidenceCount,
+    competencyCreditCount: summary.competencyCreditCount,
     lastEvidenceAt: summary.lastEvidenceAt,
     activeDays: history.summary.activeDays,
     reviewCandidates: summary.competencies.filter((c) => c.needsReview).length,

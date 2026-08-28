@@ -1728,25 +1728,37 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 
 .lx-timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
 .lx-tl-item {
-  display: grid; grid-template-columns: 108px 92px 1fr; align-items: baseline; gap: 10px;
+  /* V65.1 — la colonne de type était figée à 92 px, dimensionnée pour
+     « EXERCICE ». Les libellés canoniques sont plus longs (« DIAGNOSTIC »,
+     « TRAVAIL RENDU ») et débordaient sur le titre : on lisait
+     « DIAGNOSTIQDiagnostic : … ». La colonne suit désormais son contenu. */
+  display: grid; grid-template-columns: 108px auto 1fr; align-items: baseline; gap: 10px;
   padding: 8px 4px; border-bottom: 1px solid var(--border); font-size: var(--fs-sm);
 }
 .lx-tl-item:last-child { border-bottom: none; }
 .lx-tl-date { color: var(--muted); font-size: var(--fs-xs); }
 .lx-tl-type {
   font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .03em; color: var(--muted);
-  border: 1px solid var(--border); border-radius: 4px; padding: 0 6px; text-align: center; justify-self: start;
+  border: 1px solid var(--border); border-radius: 4px; padding: 0 6px; text-align: center;
+  justify-self: start; white-space: nowrap;
 }
 .lx-tl-assessment { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
 .lx-tl-capstone { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--border)); }
 .lx-tl-title { line-height: 1.4; }
 .lx-tl-skills { grid-column: 3; font-size: var(--fs-xs); color: var(--muted); }
+/* V65.1 · une trace qui ne démontre rien le DIT — en mots, jamais par la seule
+   absence d'une couleur. */
+.lx-tl-nq {
+  grid-column: 3; justify-self: start; font-size: var(--fs-xs); color: var(--muted);
+  border: 1px dashed var(--border); border-radius: 4px; padding: 0 6px;
+}
 @media (max-width: 640px) {
   .lx-tl-item { grid-template-columns: 1fr auto; row-gap: 2px; }
   .lx-tl-date { order: 2; justify-self: end; }
   .lx-tl-type { order: 1; }
   .lx-tl-title { order: 3; grid-column: 1 / -1; }
-  .lx-tl-skills { order: 4; grid-column: 1 / -1; }
+  .lx-tl-nq { order: 4; grid-column: 1 / -1; }
+  .lx-tl-skills { order: 5; grid-column: 1 / -1; }
 }
 
 /* ── Dashboard : « Que faire ensuite » (V41) ────────────────────────────────── */

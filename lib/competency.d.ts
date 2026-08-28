@@ -88,3 +88,32 @@ export function whyCompetencyState(
   projection: CompetencyProjection,
   ledger: EvidenceLedger,
 ): CompetencyExplanation | null;
+
+// ── Présentation et prochaine action (V65.1 · CP2) ────────────────────────
+
+export type CompetencyTone = 'neutral' | 'accent' | 'positive';
+
+export const COMPETENCY_STATE_TONE: Record<CompetencyState, CompetencyTone>;
+
+export interface CompetencyStatusToken {
+  state: CompetencyState;
+  label: string;
+  tone: CompetencyTone;
+  requiresExplanation: true;
+}
+
+export function competencyStatusToken(state: string): CompetencyStatusToken;
+export function allCompetencyStatusTokens(): CompetencyStatusToken[];
+
+export interface CompetencyNextAction {
+  competencyId: string;
+  action: string;
+  reason: string;
+  goal: string;
+  expectedEvidence: string;
+  href: string;
+}
+
+export function nextActionForCompetency(
+  projection: CompetencyProjection,
+): CompetencyNextAction | null;

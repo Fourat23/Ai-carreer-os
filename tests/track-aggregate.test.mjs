@@ -34,10 +34,18 @@ test('trois parcours : progression indépendante, chaque ligne conserve trackId'
   const fs = rows.find((r) => r.trackId === FULLSTACK_TRACK_ID);
   assert.equal(f.completedDays, 2);
   assert.equal(f.inProgress, 1);
-  assert.equal(f.skillsCount, 1);
+  // V65.1 · CP2 — `skillsCount` comptait les NIVEAUX AUTO-DÉCLARÉS et
+  // s'appelait « Compét. » dans la Synthèse. Une déclaration n'est pas une
+  // preuve (invariant 9) : la colonne compte désormais les compétences
+  // portant au moins une preuve qualifiante, et la déclaration reste
+  // comptée séparément sous son vrai nom.
+  assert.equal(f.declaredCount, 1);
+  assert.equal(f.demonstratedCount, 0, 'un niveau déclaré ne démontre rien');
+  assert.equal(f.evidenceCount, 0);
   assert.equal(b.completedDays, 1);   // j50 dans Backend
   assert.equal(b.totalDays, 85);
-  assert.equal(b.skillsCount, 1);     // http
+  assert.equal(b.declaredCount, 1);   // http, DÉCLARÉ
+  assert.equal(b.demonstratedCount, 0, 'aucune preuve enregistrée sur ce parcours');
   assert.equal(fs.started, false);    // Full-Stack non démarré
   assert.equal(b.active, true);       // Backend actif
   // Chaque ligne conserve son trackId ; aucune contamination.

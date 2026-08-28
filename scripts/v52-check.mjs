@@ -62,9 +62,24 @@ for (const tk of ['--bg', '--panel', '--border', '--accent', '--muted', '--ok', 
   if (!css.includes(`${tk}:`)) errors.push(`[design-system] token « ${tk} » absent de globals.css`);
 }
 
-// 6) Anti-seconde-source : le vocabulaire réutilise la vérité skill-state.
-const vocab = existsSync(R('lib/skill-vocabulary.mjs')) ? readFileSync(R('lib/skill-vocabulary.mjs'), 'utf8') : '';
-if (vocab && !/from '\.\/skill-state\.mjs'/.test(vocab)) errors.push('[second-source] skill-vocabulary doit réutiliser skill-state (pas de redéfinition d\'états)');
+// 6) Anti-seconde-source : un SEUL fichier définit les états de compétence.
+//    V65.1 · CP2 — la règle exigeait auparavant que `lib/skill-vocabulary.mjs`
+//    réutilise `lib/skill-state.mjs`. Les deux fichiers ont été supprimés : ils
+//    portaient un second modèle à cinq états dont les libellés chevauchaient
+//    ceux du modèle canonique en désignant autre chose. Écrite comme elle
+//    l'était (`if (vocab && …)`), la règle serait devenue muette au lieu de
+//    protéger son intention. Elle vérifie donc maintenant l'intention.
+{
+  const owners = [];
+  for (const f of readdirSync(R('lib'))) {
+    if (!f.endsWith('.mjs')) continue;
+    const src = readFileSync(R(join('lib', f)), 'utf8');
+    if (/\b(COMPETENCY_STATES|COMPETENCY_STATE_LABEL|SKILL_STATES|SKILL_STATE_LABEL)\s*=/.test(src)) owners.push(f);
+  }
+  if (owners.length !== 1 || owners[0] !== 'competency.mjs') {
+    errors.push(`[second-source] les états de compétence doivent être définis dans lib/competency.mjs et nulle part ailleurs — trouvés dans : ${owners.join(', ') || 'aucun fichier'}`);
+  }
+}
 
 console.log('── Gate V52 (Product UX & Design System)');
 console.log(`Fichiers UI : ${tsxFiles.length} · hex en dur : ${hex} (base ${HEX_BASELINE}) · routes pilotes : OK`);

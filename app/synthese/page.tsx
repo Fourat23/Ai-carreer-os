@@ -13,9 +13,12 @@ import { getActiveTrackId } from '@/lib/progress-server';
 
 export const dynamic = 'force-dynamic';
 
+// Libellés des SEPT types de source canoniques (contrat V65 §2). Un type absent
+// de cette table serait une source inventée : on affiche alors l'identifiant tel
+// quel plutôt qu'une étiquette rassurante.
 const EV_TYPE_LABEL: Record<string, string> = {
-  exercise: 'Exercice', assessment: 'Diagnostic', capstone: 'Capstone', mission: 'Mission',
-  project: 'Projet', repo: 'Dépôt', demo: 'Démo', screenshot: 'Capture', note: 'Note', other: 'Autre',
+  exercise: 'Exercice', assessment: 'Diagnostic', mission: 'Mission', capstone: 'Capstone',
+  submission: 'Travail rendu', declared: 'Preuve déclarée', review: 'Révision',
 };
 function frDate(iso: string): string {
   if (!iso) return '—';
@@ -34,7 +37,12 @@ export default function SynthesePage() {
   // Historique de preuves + jalons du PARCOURS ACTIF — dérivés (read-model), lecture seule.
   const activeProgress = readProgress();
   const timeline = evidenceTimeline(activeProgress, program, { limit: 20 });
+  const evidenceTotal = evidenceTimeline(activeProgress, program, { limit: 100000 }).length;
   const ms = milestones(program, activeProgress);
+  // Nom FRANÇAIS d'une compétence du programme. La chronologie affichait les
+  // identifiants du ledger (« jsts · gitlinux ») quand /skills affichait
+  // « JavaScript / TypeScript » : même donnée, deux langues (CP0, P0-3).
+  const skillName = new Map<string, string>(program.skills.map((s: { id: string; name: string }) => [s.id, s.name]));
   // Repères transversaux — agrégats des lignes déjà calculées (aucune 2e source).
   const activeRow = rows.find((r) => r.active);
   const startedCount = rows.filter((r) => r.started).length;
@@ -123,7 +131,7 @@ export default function SynthesePage() {
               <th scope="col" className="num col-s">En cours</th>
               <th scope="col" className="num col-s">À revoir</th>
               <th scope="col" className="num col-p">Révisions</th>
-              <th scope="col" className="num col-s">Compét.</th>
+              <th scope="col" className="num col-s" title="Compétences reposant sur au moins une preuve qualifiante">Démontrées</th>
               <th scope="col" className="col-s">Dernière preuve</th>
               <th scope="col" className="col-p"><span className="sr-only">Action</span></th>
             </tr>
@@ -147,9 +155,19 @@ export default function SynthesePage() {
                 <td className="num col-s" data-label="En cours">{r.inProgress}</td>
                 <td className="num col-s" data-label="À revoir">{r.toReview}</td>
                 <td className={`num col-p${r.reviewsDue > 0 ? ' hot' : ''}`} data-label="Révisions dues">{r.reviewsDue}</td>
-                <td className="num col-s" data-label="Compétences">{r.skillsCount}</td>
+                {/* V65.1 · P0-1 — cette colonne affichait `Object.keys(flat.skills)`,
+                    soit les NIVEAUX AUTO-DÉCLARÉS : 2 pour un apprenant ayant
+                    déclaré deux niveaux et démontré huit compétences. On compte
+                    désormais les compétences portant ≥ 1 preuve qualifiante — le
+                    même critère que /skills. */}
+                <td className="num col-s" data-label="Démontrées">{r.demonstratedCount}</td>
                 <td className="synth-td-ev col-s" data-label="Dernière preuve">{r.lastEvidence
-                  ? <Link href={`/day/${r.lastEvidence.day}`}>J{r.lastEvidence.day} — {r.lastEvidence.title}</Link>
+                  ? (r.lastEvidence.day != null
+                    ? <Link href={`/day/${r.lastEvidence.day}`}>J{r.lastEvidence.day} — {r.lastEvidence.title}</Link>
+                    /* Une preuve hors journée — un diagnostic passé depuis /diagnostics —
+                       n'a pas de jour. On ne fabrique pas un « J0 » : on renvoie à
+                       l'historique, qui la porte. */
+                    : <Link href="/history">{r.lastEvidence.title}</Link>)
                   : <span className="muted">—</span>}</td>
                 <td className="synth-td-act col-p"><TrackActions trackId={r.trackId} active={r.active} available hasActiveOther={!r.active} /></td>
               </tr>
@@ -201,14 +219,19 @@ export default function SynthesePage() {
         <div className="section-head">
           <span className="section-label"><Clock size={13} strokeWidth={2} /> Preuves</span>
           <h2 className="section-title">D'où vient ta progression</h2>
-          <span className="section-note">{timeline.length} preuve(s) récente(s)</span>
+          {/* Dire ce qu'on montre : 20 lignes affichées sur N enregistrées. La
+              page annonçait « 14 preuve(s) récente(s) » sans préciser qu'elle en
+              cachait le reste. */}
+          <span className="section-note">
+            {timeline.length} affichée{timeline.length > 1 ? 's' : ''} sur {evidenceTotal} enregistrée{evidenceTotal > 1 ? 's' : ''}
+          </span>
         </div>
         {timeline.length === 0 ? (
           <div className="empty">Aucune preuve enregistrée pour l'instant. Termine un exercice, un diagnostic ou un capstone pour commencer ton historique.</div>
         ) : (
           <ol className="lx-timeline">
             {timeline.map((e, i) => (
-              <li key={i} className="lx-tl-item">
+              <li key={e.id} className="lx-tl-item">
                 <span className="lx-tl-date">{frDate(e.createdAt)}</span>
                 {/* MOTIF · EvidenceMark — le type de preuve devient reconnaissable
                     en balayage. Le libellé reste affiché : jamais la forme seule. */}
@@ -216,8 +239,19 @@ export default function SynthesePage() {
                   <EvidenceMark type={e.type} size={14} />
                   {EV_TYPE_LABEL[e.type] ?? e.type}
                 </span>
-                <span className="lx-tl-title"><Link href={`/day/${e.day}`}>{e.title || `Jour ${e.day}`}</Link></span>
-                {e.skills.length > 0 && <span className="lx-tl-skills">{e.skills.join(' · ')}</span>}
+                <span className="lx-tl-title">
+                  {e.day != null
+                    ? <Link href={`/day/${e.day}`}>{e.title || `Jour ${e.day}`}</Link>
+                    : <Link href="/history">{e.title || e.sourceId}</Link>}
+                </span>
+                {/* Une trace qui ne démontre rien doit le DIRE. Sans cette
+                    mention, une révision et un exercice validé se ressemblent. */}
+                {!e.qualifying && <span className="lx-tl-nq">non qualifiante</span>}
+                {e.skills.length > 0 && (
+                  <span className="lx-tl-skills">
+                    {e.skills.map((s) => skillName.get(s) ?? s).join(' · ')}
+                  </span>
+                )}
               </li>
             ))}
           </ol>

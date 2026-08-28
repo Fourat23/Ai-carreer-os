@@ -7,18 +7,24 @@
 //      progression-v2/mastery-engine-v2) ;
 //   2. AUCUN marqueur d'XP/monnaie/niveau/streak arbitraire dans le read-model ;
 //   3. chaque next-best-action porte une RAISON et une PREUVE ATTENDUE ;
-//   4. explainSkillState ne renvoie que des états ∈ SKILL_STATES ;
+//   4. toute action de compétence cite un état ∈ COMPETENCY_STATES ;
 //   5. chaque milestone « achieved » porte un « why » ;
-//   6. aucune sortie ne contient de champ xp/points/level/streak.
+//   6. aucune sortie ne contient de champ xp/points/level/streak ;
+//   7. aucune sortie ne laisse fuir un identifiant d'état anglais (V65.1 · C4).
+//
+// V65.1 · CP2 : le read-model est désormais adossé au modèle CANONIQUE
+// (preuve → projection). Les données stub portent donc des PREUVES, pas des
+// statuts de journée : l'ancien modèle faisait « 3 journées terminées =
+// pratiquée », ce que les invariants 10 et 11 interdisent.
 // Lecture seule ; exit 1 au moindre problème. Déterministe (données stub internes).
 
 import { existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  explainSkillState, nextBestActions, milestones, experienceSummary, evidenceTimeline,
+  nextBestActions, milestones, experienceSummary, evidenceTimeline,
 } from '../lib/learning-experience.mjs';
-import { SKILL_STATES } from '../lib/skill-state.mjs';
+import { COMPETENCY_STATES, COMPETENCY_STATE_LABEL } from '../lib/competency.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const R = (p) => join(ROOT, p);
@@ -60,12 +66,28 @@ const program = {
     { day: 4, skill: 'sql' }, { day: 5, skill: 'archi' }, { day: 6, skill: 'jsts' },
   ],
 };
+// Progression stub : des PREUVES, pas des statuts. `sql` porte une validation
+// réussie (donc démontrée) ; `archi` une trace non qualifiante (donc pratiquée) ;
+// `http` et `jsts` rien du tout (donc non évaluées).
 const progress = {
   days: {
     1: { status: 'done' }, 2: { status: 'done' }, 3: { status: 'done' },
-    4: { status: 'in-progress', evidence: [{ type: 'assessment', title: 'Diag SQL', skills: ['sql'], createdAt: '2026-08-05T00:00:00.000Z' }] },
     5: { status: 'to-review' }, 6: { status: 'in-progress' },
   },
+  evidence: [
+    {
+      id: 'ev-sql-1', sourceType: 'assessment', sourceId: 'diag-sql', competencyIds: ['sql'],
+      createdAt: '2026-08-05T00:00:00.000Z', title: 'Diag SQL',
+      validation: { status: 'passed', kind: 'assessment-grade', checkedAt: '2026-08-05T00:00:00.000Z', detail: '5/5' },
+      provenance: { producer: 'assessment-runner', method: 'assessment-grade', note: 'stub' },
+    },
+    {
+      id: 'ev-archi-1', sourceType: 'submission', sourceId: 'sub-archi-1', competencyIds: ['archi'],
+      createdAt: '2026-08-06T00:00:00.000Z', title: 'Note d’architecture',
+      validation: null,
+      provenance: { producer: 'learning-engine', method: 'submission', note: 'stub' },
+    },
+  ],
 };
 
 const actions = nextBestActions(program, progress, { now: new Date('2026-08-10T00:00:00Z') });
@@ -76,9 +98,13 @@ for (const a of actions) {
   if (!a.href || !a.href.startsWith('/')) errors.push(`next-action sans lien actionnable : « ${a.action} »`);
 }
 
-for (const st of ['not-started', 'discovered', 'practiced', 'demonstrated', 'to-consolidate']) {
-  const ex = explainSkillState({ id: 'x', name: 'X', state: st, daysDone: 3, evidenceCount: st === 'demonstrated' ? 1 : 0 });
-  if (!SKILL_STATES.includes(ex.state)) errors.push(`explainSkillState renvoie un état hors SKILL_STATES : ${ex.state}`);
+// 4. Le read-model ne connaît que les états canoniques. Une action portant un
+//    `competencyId` doit désigner une compétence réellement projetée.
+const knownSkills = new Set(program.skills.map((s) => s.id));
+for (const a of actions) {
+  if (a.competencyId && !knownSkills.has(a.competencyId)) {
+    errors.push(`action sur une compétence inconnue : ${a.competencyId}`);
+  }
 }
 
 for (const m of milestones(program, progress)) {
@@ -94,6 +120,21 @@ for (const forbidden of ['"xp"', '"points"', '"level"', '"streak"', '"coins"']) 
   if (blob.includes(forbidden)) errors.push(`champ interdit présent dans une sortie : ${forbidden}`);
 }
 
+// 7. V65.1 · C4 — aucun identifiant d'état anglais ne doit atteindre un texte
+//    lisible. Le Dashboard affichait « practiced → demonstrated » en clair.
+const readable = [
+  ...actions.flatMap((a) => [a.action, a.reason, a.goal, a.expectedEvidence]),
+  ...milestones(program, progress).map((m) => `${m.label} ${m.description} ${m.why}`),
+].join(' ').toLowerCase();
+for (const st of [...COMPETENCY_STATES, 'not-started', 'discovered', 'to-consolidate']) {
+  if (new RegExp(`\\b${st}\\b`).test(readable)) {
+    errors.push(`identifiant d'état anglais visible dans un texte : « ${st} »`);
+  }
+}
+if (!Object.values(COMPETENCY_STATE_LABEL).every((l) => typeof l === 'string' && l.length > 0)) {
+  errors.push('un état canonique n’a pas de libellé français');
+}
+
 console.log(`Next-actions (stub) : ${actions.length}`);
 console.log(`Milestones (stub)   : ${milestones(program, progress).filter((m) => m.achieved).length} atteint(s) / ${milestones(program, progress).length}`);
 
@@ -102,4 +143,4 @@ if (errors.length) {
   for (const e of errors) console.error(`   • ${e}`);
   process.exit(1);
 }
-console.log('\n✅ V41 valide : read-model dérivé, actions explicables (raison + preuve), états SKILL_STATES, aucun XP/source concurrente.');
+console.log('\n✅ V41 valide : read-model dérivé du modèle canonique, actions explicables (raison + preuve), aucun identifiant d’état anglais visible, aucun XP/source concurrente.');

@@ -70,6 +70,15 @@ Dans chaque branche, TypeScript AFFINE le type selon tes tests. Tes guard clause
 `tsc`, `tsconfig`, mode `strict` · annotations de signatures · inférence · `interface` vs `type` · unions et littéraux · optionnels `?` · `readonly` · génériques · `any` vs `unknown` · narrowing.
 
 ## 🧭 Exemple guidé
+**Énoncé** : marquer une tâche comme terminée, sans modifier la liste d'origine, et faire vérifier les deux contraintes par le compilateur plutôt que par ta vigilance.
+
+**Raisonnement, décision par décision.**
+
+1. Le statut ne peut valoir que deux choses. Le déclarer `string` accepterait `'don'`, `'DONE'`, `'terminé'` — trois bugs qui compilent. Une union littérale ferme la porte : `type Statut = 'pending' | 'done'`.
+2. « Sans modifier l'origine » est une contrainte qu'on peut oublier de respecter. `readonly Task[]` la confie au compilateur : `tasks.push(...)` devient une erreur de compilation, pas une revue de code à espérer.
+3. Le type de retour `Task[]` (sans `readonly`) dit quelque chose de précis : j'accepte de ne pas toucher ce qu'on me donne, et je rends un tableau neuf dont l'appelant fait ce qu'il veut.
+4. À l'intérieur, plus rien à annoter : `map` et le spread sont inférés. On annote la frontière, pas le ventre de la fonction.
+
 ```ts
 type Statut = 'pending' | 'done';
 interface Task { id: number; titre: string; statut: Statut }
@@ -78,7 +87,10 @@ function terminer(tasks: readonly Task[], id: number): Task[] {
   return tasks.map((t) => (t.id === id ? { ...t, statut: 'done' } : t));
 }
 ```
-`readonly` fait vérifier l'immutabilité par le compilateur : `tasks.push(...)` est une erreur. Ta discipline du jour 26, devenue contrat outillé.
+
+Ta discipline du jour 26 est devenue un contrat outillé : ce que tu devais te rappeler, le compilateur te le rappelle.
+
+**Variante qui déplace le problème** : ajoute `'archived'` à `Statut`. Le code ci-dessus continue de compiler — normal, il n'énumère pas les statuts. Mais écris maintenant une fonction qui rend une couleur par statut avec un `switch`, et donne-lui un type de retour explicite : le compilateur signale que le cas `'archived'` ne renvoie rien. **C'est là que l'union littérale paie vraiment** : elle ne protège pas seulement contre les typos, elle te DÉSIGNE tous les endroits à mettre à jour le jour où le domaine change.
 
 ## ⚠️ Erreurs fréquentes
 - `any` pour faire taire une erreur : tu viens de payer TypeScript pour le débrancher. Cherche le vrai type, ou utilise `unknown` + validation.
@@ -91,6 +103,38 @@ Le pattern central de tes apps LLM (mois 8+) : définir le type attendu de la so
 
 ## Mini-exercice
 Modélise une commande e-commerce : `Produit`, `LigneCommande`, `Commande` (statut en union littérale). Écris `total(commande): number` et une fonction générique `chercher<T>(arr: T[], p: (x: T) => boolean): T | undefined`. Tout doit compiler en strict, zéro `any`. Puis introduis volontairement une typo de statut et constate l'erreur.
+
+## ✅ Correction attendue
+**La démarche** : modéliser les données d'abord (`Produit`, `LigneCommande`, `Commande`), le statut en union littérale ; puis annoter les seules signatures ; puis laisser l'inférence faire le reste.
+
+**L'erreur probable, et pourquoi elle est presque irrésistible.** Au moment de déclarer le statut, `statut: string` s'écrit tout seul — c'est plus court, ça compile, et rien ne proteste. Le problème n'apparaît qu'à la dernière étape de l'exercice : tu introduis volontairement la typo `'expédiee'`… et **le compilateur ne dit rien**. Beaucoup en concluent que « TypeScript ne sert à rien » ou que leur configuration est cassée. Non : `string` accepte toutes les chaînes, tu as demandé au compilateur de ne rien vérifier. Le piège séduit parce que `string` est *techniquement exact* — un statut EST une chaîne — alors que le type utile n'est pas le plus vrai, c'est le plus RESTRICTIF qui reste vrai.
+
+Deuxième erreur classique, sur `chercher` : écrire `chercher(arr: any[], p: (x: any) => boolean): any`. Ça compile, ça marche, et le résultat n'a plus de type — tous les appelants perdent la vérification. Le générique `<T>` existe pour ne pas avoir à choisir entre « réutilisable » et « typé ».
+
+**Alternative défendable à l'union littérale** : un objet figé par `as const` dont on dérive le type. Plus verbeux, mais on obtient en prime une valeur à parcourir à l'exécution (pour peupler un menu déroulant, par exemple), ce que le type seul ne permet pas — il n'existe plus à l'exécution.
+
+**Vérifie seul, sans corrigé** — trois épreuves, chacune doit ÉCHOUER à la compilation :
+1. Écris `commande.statut = 'expédiee'` (avec la typo). Erreur attendue.
+2. Écris une fonction `couleur(s: Statut): string` avec un `switch` où il manque un cas. Erreur attendue.
+3. Cherche `any` dans ton fichier. Zéro occurrence attendue.
+Si l'une des trois compile sans broncher, ce n'est pas TypeScript qui a échoué : c'est que tu as typé trop large.
+
+## 🏢 Cas professionnel
+Une équipe ajoute un statut `'remboursee'` à ses commandes. Avec un statut en `string`, la modification se fait en une minute — et le bug se déclare trois semaines plus tard : un écran d'export affiche « statut inconnu », un calcul de chiffre d'affaires compte les remboursements comme des ventes, une relance automatique part vers des clients déjà remboursés. Personne n'avait la liste des endroits à mettre à jour ; il fallait la reconstituer de mémoire.
+
+Avec l'union littérale et des `switch` exhaustifs, la même modification échoue à compiler, et **le compilateur imprime la liste** : sept fichiers, sept endroits, aucun oublié. Le typage n'a pas seulement empêché une typo — il a transformé « se souvenir de tout » en « suivre une liste ». C'est la raison pour laquelle les équipes acceptent le coût du typage sur les projets qui durent : la valeur n'est pas au premier jour, elle est au vingtième changement.
+
+## 🎤 Questions d'entretien
+- « TypeScript valide-t-il les données reçues d'une API ? » → Non. Les types disparaissent à la compilation ; une réponse d'API est un `unknown` qu'il faut valider avec du code qui s'exécute vraiment.
+- « `any` ou `unknown` ? » → `any` désactive la vérification et se propage silencieusement ; `unknown` la reporte et FORCE une vérification avant usage. `unknown` aux frontières, `any` jamais.
+- « Qu'apporte une union littérale par rapport à `string` ? » → Elle rend les valeurs invalides incompilables, et surtout elle rend les `switch` vérifiables exhaustivement : ajouter un cas désigne mécaniquement tous les sites à mettre à jour.
+- « Qu'est-ce que le narrowing ? » → L'affinage du type par le compilateur à l'intérieur d'une branche conditionnelle : après `if (typeof x === 'string')`, il sait que `x` est une string et autorise `.toUpperCase()`.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Je sais expliquer pourquoi un type ne protège PAS une réponse d'API.
+- [ ] J'écris mes ensembles de valeurs finies en union littérale, jamais en `string`.
+- [ ] J'annote les signatures et je laisse l'inférence travailler à l'intérieur.
+- [ ] Je n'écris pas `any` pour faire taire une erreur — je cherche le type, ou je passe par `unknown` + validation.
 
 ## 📚 Vocabulaire
 **compilation** · **inférence** · **contrat / signature** · **union littérale** · **narrowing** · **générique** · **strict mode** · **`unknown`** · **validation runtime** (≠ typage statique).

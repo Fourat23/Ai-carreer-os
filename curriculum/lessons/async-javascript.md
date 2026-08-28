@@ -17,6 +17,8 @@ Comprendre pourquoi JS est asynchrone, maîtriser Promises et async/await, gére
 ## 🧠 Modèle mental
 JS est **un serveur de restaurant seul en salle** : il ne reste jamais planté devant une table en attendant que le plat soit prêt (I/O). Il prend la commande, la passe en cuisine, sert d'autres tables, et REVIENT quand la cuisine sonne. L'asynchrone, c'est cette organisation : ne jamais bloquer pendant qu'on attend.
 
+**Limite de l'analogie, et c'est la confusion la plus coûteuse de tout le sujet.** Un vrai serveur peut porter deux assiettes à la fois ; JavaScript, jamais. Il n'exécute JAMAIS deux de tes fonctions en même temps. Ce qui se déroule en parallèle, c'est **l'attente** — la cuisine, c'est-à-dire le réseau, le disque, le système — pas ton code. D'où la conséquence pratique qui surprend tout le monde : `Promise.all` sur cinq appels réseau divise le temps par cinq, alors que `Promise.all` sur cinq calculs lourds ne gagne **rien du tout** et fige l'application exactement comme une boucle bloquante. L'asynchrone accélère ce qui attend, jamais ce qui calcule.
+
 ## 🧩 Prérequis
 Tu dois savoir écrire des fonctions et des callbacks (fonctions passées en argument) en
 JavaScript (`/doc/lessons/javascript-basics`), car une opération asynchrone consiste à
@@ -26,11 +28,12 @@ fournir « la suite à exécuter quand ce sera prêt ». Une intuition de ce qu'
 
 ## 📖 Explication complète
 - **Pourquoi** : JS n'a qu'UN fil d'exécution. Une attente bloquante (réseau : des dizaines de ms ; LLM : des secondes) gèlerait tout — l'UI, le serveur entier. Les opérations lentes sont donc DÉLÉGUÉES, et ton code fournit « la suite à exécuter quand c'est prêt ».
-- **La Promise** : un reçu pour une valeur FUTURE. Trois états : en attente → tenue (resolved) ou rompue (rejected). `.then` branche la suite, `.catch` l'échec.
+- **La Promise** : un reçu pour une valeur FUTURE. Trois états : en attente → tenue (resolved) ou rompue (rejected). `.then` branche la suite, `.catch` l'échec. Tu connais déjà le geste : au jour 22, tu passais une fonction en argument pour dire « voilà quoi faire ensuite ». Une Promise fait la même chose, avec une différence décisive — cette « suite » devient une VALEUR qu'on peut stocker, retourner, mettre dans un tableau. C'est précisément ce qui rend `Promise.all([a, b])` écrivable ; avec des callbacks nus, il fallait les imbriquer à la main.
 - **async/await** : le sucre qui rend l'asynchrone lisible comme du synchrone. `await` suspend LA FONCTION (pas le programme !) jusqu'à la résolution. Une fonction `async` retourne toujours une Promise.
 - **Les erreurs** : `try/catch` autour des `await` (l'équivalent du `.catch`). Une Promise rejetée non attrapée = crash différé — toujours un chemin d'erreur.
 - **Séquentiel vs parallèle** : deux `await` à la suite = l'un APRÈS l'autre (2 × la latence). Indépendants ? `Promise.all([a, b])` les lance ENSEMBLE (1 × la latence). `Promise.all` échoue si UNE échoue ; `Promise.allSettled` rapporte tout.
 - **L'ordre d'exécution** : le code synchrone se termine d'abord, PUIS les suites asynchrones s'exécutent (event loop). D'où le piège : `console.log` après un fetch non attendu s'affiche AVANT la réponse.
+- **Ce que fait réellement l'event loop**, parce que « event loop » est un nom, pas une explication. Deux endroits : la **pile d'exécution**, où la fonction en cours se déroule, et une **file d'attente**, où patientent les suites prêtes à repartir. Quand tu écris `await`, le moteur découpe ta fonction en deux : ce qui précède s'exécute maintenant, et **tout ce qui suit est mis de côté** comme une suite à reprendre. La fonction rend la main immédiatement. Le moteur ne va PAS chercher une suite dans la file tant que la pile n'est pas vide — c'est la règle unique dont tout le reste découle. Elle explique le `1, 3, 2` du mini-exercice : `1` et `3` sont sur la pile, `2` attend dans la file que la pile se vide. Et elle explique un bug bien plus vicieux : une boucle `while` de calcul qui tourne cinq secondes ne laisse jamais la pile se vider, donc **aucune** suite ne repart — les réponses réseau sont arrivées, personne ne peut les traiter.
 
 ## 🔧 Exemple simple
 ```js
@@ -74,7 +77,24 @@ Prédis l'ordre d'affichage : `console.log(1); fetch(url).then(() => console.log
 Écris `parLots(items, n, fn)` : exécute fn sur tous les items, parallélisés par lots de n, en collectant résultats ET échecs (allSettled). Mesure le gain vs séquentiel sur une fonction lente simulée.
 
 ## ✅ Correction attendue
-(1, 3, 2 — le synchrone d'abord, la suite async ensuite.) La logique : Promise = valeur future ; await suspend la fonction ; indépendant → paralléliser ; toujours un chemin d'erreur. Vérifie : ton parLots respecte n, rapporte les échecs sans tout annuler, et le gain est mesuré.
+(1, 3, 2 — le synchrone d'abord, la suite async ensuite.) La logique : Promise = valeur future ; await suspend la fonction ; indépendant → paralléliser ; toujours un chemin d'erreur.
+
+**L'erreur probable sur `parLots`, et pourquoi elle est tentante.** Presque tout le monde écrit d'abord ceci :
+
+```js
+const lots = decouper(items, n);
+const resultats = await Promise.all(lots.map((lot) => Promise.all(lot.map(fn))));
+```
+
+C'est élégant, ça a l'air de respecter les lots, et **ça ne les respecte pas du tout** : le `map` extérieur lance tous les lots au même instant. Les `n` items d'un lot sont bien groupés, mais les lots ne s'attendent pas entre eux — les 100 appels partent ensemble et l'API répond 429. Le piège séduit parce que `Promise.all` imbriqué RESSEMBLE à du séquençage ; en réalité, rien dans ce code ne dit « attends le lot précédent ». Le séquençage exige une vraie boucle :
+
+```js
+for (const lot of lots) resultats.push(...await Promise.allSettled(lot.map(fn)));
+```
+
+**Alternative défendable** : plutôt que des lots figés, un pool de `n` ouvriers qui piochent dans une file — même plafond de parallélisme, mais aucun temps mort à attendre le traînard d'un lot. Plus rapide, plus difficile à écrire ; à choisir seulement si la latence des items varie beaucoup.
+
+**Vérifie seul** : lance ton `parLots` avec `n = 2` sur 6 items et journalise l'heure de départ de chacun — tu dois voir trois vagues de deux, pas six départs simultanés. Ensuite : les échecs sont rapportés sans annuler le reste, et le gain contre le séquentiel est mesuré, pas supposé.
 
 ## 🎤 Questions d'entretien
 - « Que fait `await` exactement ? » → Suspend la fonction courante jusqu'à résolution ; le programme continue (un seul fil, jamais bloqué).

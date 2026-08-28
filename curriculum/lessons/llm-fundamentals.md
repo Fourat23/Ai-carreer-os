@@ -83,6 +83,46 @@ Tout ton dernier trimestre est bâti sur cette leçon : le RAG (mois 8-9) contou
 ## Mini-exercice
 Avec une API LLM : (1) pose 5 fois la même question à température 0 puis 1 — observe ; (2) provoque une hallucination (question précise sur un sujet inventé plausible) et explique le mécanisme ; (3) compte les tokens d'un de tes prompts et calcule le coût de 10 000 appels/jour. Trois manipulations, trois piliers du métier.
 
+## ✅ Correction attendue
+**Ce que les trois manipulations doivent te montrer**, et ce n'est pas ce à quoi on s'attend.
+
+Sur la température : à 0, les cinq réponses sont identiques ou presque. À 1, elles varient. Le piège de lecture est d'en conclure que « température 0 = réponse vraie ». Non : **température 0 rend le modèle reproductible, jamais correct**. Si le modèle se trompe, il se trompera cinq fois de la même façon — c'est même très exactement ce qui rend l'erreur difficile à repérer.
+
+Sur l'hallucination : le point de l'exercice n'est pas d'obtenir une invention, c'est de constater que **rien dans la forme de la réponse ne la distingue** d'une réponse juste. Même assurance, même syntaxe, même absence d'hésitation. Le mécanisme est celui de l'exemple guidé : le modèle produit le mot suivant le plus plausible, et « plausible » n'a jamais voulu dire « vrai ». C'est de là que découle toute la suite du programme — sources, citations, refus, évaluation.
+
+Sur les coûts, **l'erreur probable est presque universelle** : on compte les jetons du prompt, on multiplie par 10 000, et on obtient un chiffre rassurant. Trois oublis, chacun capable de multiplier la facture.
+1. **La sortie coûte plus cher que l'entrée** chez la plupart des fournisseurs, souvent trois à cinq fois. Ne compter que l'entrée sous-estime systématiquement.
+2. **Une conversation renvoie tout son historique à chaque tour.** Un échange de dix tours ne coûte pas dix fois un tour mais bien davantage, puisque le contexte grossit à chaque fois. Le coût d'une conversation est quadratique, pas linéaire.
+3. **Le RAG injecte du contexte**, et c'est lui qui domine : 4 000 jetons de chunks pour une question de 20 jetons. Le levier d'économie n°1 n'est jamais de raccourcir les réponses, c'est d'injecter moins et mieux.
+
+**Alternative défendable** au comptage manuel : demander l'usage réel au fournisseur, que la réponse d'API renvoie systématiquement. Plus fiable qu'une estimation — les jetons ne se comptent pas en mots — et c'est ce qu'on branche en production. L'estimation manuelle reste utile pour dimensionner AVANT d'écrire le code.
+
+**Vérifie seul, sans corrigé** :
+1. À température 0, tes cinq réponses sont-elles vraiment identiques ? Souvent elles ne le sont pas tout à fait : l'inférence distribuée n'est pas parfaitement déterministe. Constater cela vaut mieux que croire à une garantie qui n'existe pas.
+2. Montre ton hallucination à quelqu'un qui ignore le sujet. S'il ne peut pas dire laquelle des deux réponses est inventée, tu as compris le problème.
+3. Ton calcul de coût distingue-t-il entrée et sortie ? Sinon, refais-le.
+4. Estime le coût d'une conversation de 10 tours et compare-le à 10 fois le coût d'un tour. L'écart est l'information.
+
+## 🏢 Cas professionnel
+Une équipe met en production un assistant et fixe `temperature: 0` « pour la fiabilité ». Six mois plus tard, le fournisseur met à jour le modèle sous le même nom. Les prompts n'ont pas changé, la température non plus, et pourtant les sorties changent : un format légèrement différent casse un parsing, une consigne autrefois bien suivie l'est moins.
+
+C'est la **dérive de modèle**, et elle rappelle une chose que le vocabulaire de cette leçon nomme sans qu'on en mesure la portée : un appel LLM est une **dépendance externe versionnée par quelqu'un d'autre**. On ne traite pas cela autrement qu'une autre dépendance critique — on épingle une version du modèle quand le fournisseur le permet, on garde un jeu d'évaluation qu'on rejoue avant et après tout changement, et on valide les sorties côté code plutôt que d'espérer un format.
+
+La contrepartie, elle aussi réelle : épingler une version indéfiniment finit par coûter cher, en argent comme en qualité, puisque les modèles récents sont souvent meilleurs et moins chers. La bonne pratique n'est pas de figer, c'est de pouvoir **mesurer** ce qu'un changement de modèle fait à ton système. Sans jeu d'évaluation, tu ne peux ni migrer sereinement ni rester immobile en confiance.
+
+## 🎤 Questions d'entretien
+- « Pourquoi un LLM hallucine-t-il ? » → Parce qu'il produit le jeton le plus plausible, sans notion de vérité ni accès à une source. La confiance apparente n'est pas un signal de fiabilité.
+- « À quoi sert la température ? » → À régler l'aléa du choix des jetons. 0 rend reproductible, pas exact.
+- « Un LLM se souvient-il de la conversation ? » → Non. C'est ton code qui renvoie l'historique à chaque appel — d'où le coût qui grimpe à mesure que l'échange s'allonge.
+- « Où part l'argent dans une application LLM ? » → Presque toujours dans les jetons d'ENTRÉE, à cause du contexte injecté. Réduire le contexte rapporte plus que raccourcir les réponses.
+- « Le modèle exécute-t-il les outils qu'il appelle ? » → Non : il demande. Ton code décide, valide et exécute.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Je sais expliquer une hallucination par le mécanisme, pas par « le modèle s'est trompé ».
+- [ ] Je ne confonds pas reproductible et correct.
+- [ ] J'estime un coût en distinguant entrée et sortie, et je sais pourquoi une conversation coûte plus cher qu'elle n'en a l'air.
+- [ ] Je traite un modèle comme une dépendance externe qui peut changer sans moi.
+
 ## 📚 Vocabulaire
 **token** · **fenêtre de contexte** · **inférence** · **température / top-p** · **hallucination** · **system prompt** · **structured output** · **function calling / tool use** · **streaming** · **coût par token** · **dérive de modèle**.
 

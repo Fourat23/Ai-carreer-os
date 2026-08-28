@@ -86,6 +86,43 @@ C'est le transfert direct du ML (mois 6) : golden set = jeu de test, fidélité 
 ## Mini-exercice
 Construis un golden set de 10 questions sur un mini-corpus (3 documents) : 5 factuelles, 2 de synthèse, 1 ambiguë, 2 sans réponse. Pour chacune, note le chunk qui contient la réponse. Écris le script qui mesure le rappel@3 de ton retrieval. Tu as un harnais minimal — le reste n'est que de l'extension.
 
+## ✅ Correction attendue
+**La démarche** : les 10 questions d'abord, le script ensuite. Et la composition demandée n'est pas arbitraire — 5 factuelles pour mesurer le cas normal, 2 de synthèse parce qu'elles exigent PLUSIEURS chunks et cassent les retrievals qui n'en ramènent qu'un bon, 1 ambiguë pour voir si le système demande une précision ou devine, **2 sans réponse parce que c'est le seul moyen de tester le refus**.
+
+Le rappel@3 se mesure sans aucun LLM : pour chaque question, le chunk noté comme contenant la réponse est-il dans les trois retournés ? Un booléen, une moyenne. C'est délibérément la métrique la plus simple du harnais, et c'est celle qui explique 80 % des échecs.
+
+**L'erreur probable, et elle vide le golden set de sa valeur.** On écrit les 10 questions **en lisant les documents**. Elles reprennent alors les mots exacts du corpus — « quelle est la durée du préavis de démission ? » quand le document dit « le préavis de démission est de deux mois ». Le retrieval affiche un rappel proche de 100 %, et l'on croit son système excellent.
+
+Un vrai utilisateur écrira « si je pars, je dois rester combien de temps ? ». Aucun mot commun, et c'est précisément ce que le retrieval sémantique est censé résoudre — mais on ne l'a jamais testé. Le piège séduit parce qu'écrire des questions en lisant la source est mille fois plus rapide, et parce que le résultat est flatteur. La parade : formuler la question **avant** de vérifier où est la réponse, ou mieux, la faire écrire par quelqu'un qui n'a pas lu les documents.
+
+**Alternative défendable** aux 10 questions écrites à la main : générer des questions avec un LLM à partir du corpus. Beaucoup plus rapide, et acceptable pour obtenir du volume — mais un LLM génère des questions calquées sur la formulation source, ce qui reproduit exactement le biais ci-dessus, en pire. Utilisable comme complément après avoir écrit à la main un noyau de questions réalistes ; jamais comme fondation.
+
+**Vérifie seul, sans corrigé** :
+1. Combien de tes 10 questions partagent trois mots consécutifs avec le document qui les contient ? Si c'est la majorité, ton golden set mesure une recherche par mots-clés déguisée.
+2. Tes 2 questions sans réponse déclenchent-elles un refus, ou une réponse inventée ? C'est le test le plus rentable du harnais et le plus souvent absent.
+3. Change **une seule** chose — la taille des chunks — et relance. Un seul chiffre doit bouger de façon explicable. Si trois bougent, tu ne sauras rien attribuer.
+4. Ton script rend-il la LISTE des questions échouées, ou seulement un pourcentage ? Sans la liste, l'évaluation note mais n'enseigne rien.
+
+## 🏢 Cas professionnel
+Une équipe pilote son assistant sur un score de fidélité produit par un LLM juge. Au fil des semaines, le score monte de 0,78 à 0,91, et l'équipe communique sur l'amélioration. Une revue humaine sur trente réponses conclut pourtant que la qualité perçue n'a pas bougé.
+
+L'enquête montre que les modifications successives ont surtout **raccourci et prudencié** les réponses. Or les juges LLM sont connus pour deux biais que le vocabulaire de cette leçon nomme : ils favorisent les réponses longues et bien structurées, et ils notent mieux ce qui ressemble à ce qu'ils auraient écrit. En optimisant le score du juge, l'équipe avait optimisé le juge, pas le produit.
+
+C'est la loi de Goodhart, et elle s'applique brutalement aux systèmes IA : **une mesure qui devient un objectif cesse d'être une bonne mesure.** Trois pratiques la contiennent. Calibrer le juge en mesurant son accord avec des jugements humains sur un échantillon, et republier cet accord chaque fois que le juge change. Garder quelques métriques **non jugées par un LLM** — le rappel@k en est une, purement mécanique. Et relire périodiquement des réponses à la main : rien ne remplace vingt minutes de lecture pour découvrir que le système est devenu évasif.
+
+## 🎤 Questions d'entretien
+- « Comment évalues-tu un système RAG ? » → Séparément : rappel@k pour le retrieval, sans LLM ; fidélité et pertinence pour la génération. Sur un golden set qui contient des questions sans réponse.
+- « Peut-on faire confiance à un LLM juge ? » → Seulement calibré : on mesure son accord avec l'humain sur un échantillon, et on connaît ses biais de verbosité et de position.
+- « Tu as changé trois choses et le score a monté. Qu'as-tu appris ? » → Rien d'attribuable. Une modification à la fois, ou une ablation pour démêler.
+- « Pourquoi des questions sans réponse dans un golden set ? » → Parce que c'est la seule façon de tester le refus, et que sans refus le système hallucine dès que le corpus est muet.
+- « Le rappel@k monte quand k augmente. Est-ce une amélioration ? » → Non : on noie la génération sous du contexte. Les métriques se lisent ensemble, jamais isolément.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Mon golden set contient des questions sans réponse et des reformulations qui n'empruntent pas les mots de la source.
+- [ ] Je change une chose à la fois et je sais attribuer chaque variation.
+- [ ] Je calibre mes juges LLM contre un jugement humain, et je connais leurs biais.
+- [ ] Mon harnais rend la liste des échecs, pas seulement une moyenne.
+
 ## 📚 Vocabulaire
 **golden set** · **rappel@k** · **fidélité (groundedness)** · **pertinence** · **LLM-as-judge** · **calibration** · **biais de position / verbosité** · **baseline** · **ablation** · **régression de qualité** · **éval smoke** (version rapide en CI).
 

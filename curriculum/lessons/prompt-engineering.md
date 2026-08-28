@@ -37,6 +37,20 @@ Un prompt efficace combine quelques éléments :
 
 Le prompt engineering « sérieux » n'est pas une collection d'astuces magiques (« je vais te donner 100 $ ») mais une **discipline d'ingénierie** : spécifier, tester, mesurer, itérer.
 
+**Le message système et le message utilisateur ne sont pas la même chose**, et le vocabulaire de cette leçon le mentionne sans l'expliquer. Une conversation est une SUITE de messages étiquetés par leur rôle : *system* porte les instructions durables que tu écris, toi, développeur ; *user* porte ce que la personne tape ; *assistant* porte les réponses précédentes. Deux conséquences pratiques. La consigne stable (« tu extrais des informations, tu réponds en JSON, tu mets `null` si absent ») va dans le système, où elle n'a pas à être répétée à chaque tour. Et surtout, **le modèle accorde plus de poids au système sans pour autant le rendre inviolable** : c'est une priorité, pas une barrière. Une instruction de sécurité placée dans le système reste contournable par un texte utilisateur suffisamment insistant — d'où le fait que la sécurité ne se joue jamais dans le prompt seul.
+
+**Laisser au modèle la place de raisonner.** Demander « donne la réponse » sur un problème à plusieurs étapes force le modèle à tout produire d'un coup ; demander de dérouler les étapes avant de conclure améliore nettement les tâches de raisonnement. La raison n'a rien de mystique : un modèle produit un jeton à la fois, chaque jeton produit devient une entrée pour le suivant, et les étapes intermédiaires sont **l'endroit où le calcul se fait**. Sans elles, il n'y a pas d'espace pour calculer — seulement pour deviner.
+
+Deux conséquences opérationnelles qu'on oublie souvent : ce raisonnement coûte des jetons de sortie, donc de l'argent et de la latence ; et il ne doit pas être montré à l'utilisateur ni mélangé aux données. En pratique on le range dans un champ dédié (`{"raisonnement": "...", "resultat": {...}}`) et le code ne lit que `resultat`.
+
+**Ce qui change vraiment un taux de réussite, dans l'ordre.** Sur les prompts qui échouent, la cause est presque toujours l'une de celles-ci, et rarement la formulation :
+1. **La tâche est ambiguë** — deux lectures possibles de la consigne, et le modèle choisit la mauvaise une fois sur trois. Un exemple résolu lève l'ambiguïté mieux qu'un paragraphe d'explication.
+2. **Le cas limite n'est pas spécifié** : que faire si le champ est absent, si le document est vide, si la question sort du sujet ? Non dit, le modèle improvise — et improvise différemment à chaque appel.
+3. **La sortie n'est pas contrainte**, donc elle varie de forme même quand le fond est juste.
+4. **Le contexte est trop long ou mal ordonné**, et l'information utile se noie.
+
+Reformuler poliment, promettre une récompense ou insister en majuscules n'apparaît nulle part dans cette liste. C'est ce qui sépare la discipline de la superstition : **on ne peut pas savoir si un prompt s'est amélioré sans un jeu de cas et un taux mesuré**, et beaucoup d'astuces populaires ne survivent pas à cette mesure.
+
 ## 🔧 Exemple simple
 Faible : `"Résume ce texte."`
 Fort : `"Résume le texte ci-dessous en 3 puces factuelles, sans opinion, en français. Si le texte est vide, réponds exactement: AUCUN CONTENU."`

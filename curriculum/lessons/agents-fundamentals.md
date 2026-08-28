@@ -87,6 +87,44 @@ DocSense (mois 11) utilisera un WORKFLOW explicite pour l'analyse de documents �
 ## Mini-exercice
 Pour 5 tâches — tri de mails entrants, veille quotidienne résumée, migration d'un format de données, support niveau 1, investigation d'un bug inconnu — décide : script simple, workflow LLM, ou agent ? Justifie chaque choix par coût / fiabilité / besoin d'adaptation. (Réponses défendables : script, workflow, script, workflow avec escalade humaine, agent.)
 
+## ✅ Correction attendue
+**La démarche** : une seule question tranche, et il faut la poser dans cet ordre. *Le chemin est-il connu d'avance ?* Si oui, aucun LLM n'est nécessaire pour décider quoi faire ensuite — c'est un script, ou un workflow si chaque étape demande de comprendre du langage. Si non, si la suite dépend de ce qu'on découvre en route, alors seulement l'agent se justifie.
+
+Sur les cinq tâches : le tri de mails est un **script** si les règles sont fixes, un **workflow** s'il faut comprendre le contenu ; la veille résumée est un **workflow** (les étapes sont connues, seul le contenu varie) ; la migration de format est un **script** — déterministe, vérifiable, et un LLM n'y ajouterait que du risque et du coût ; le support niveau 1 est un **workflow avec escalade humaine** ; l'investigation d'un bug inconnu est le seul vrai cas d'**agent**, parce que la prochaine action dépend de ce que la précédente a révélé.
+
+**L'erreur probable, et elle est presque toujours la même.** Sur la migration de format, beaucoup répondent « workflow LLM » — parce que la tâche touche à des données textuelles, et que le réflexe acquis est « données textuelles → LLM ». Or une migration a une définition exacte, un résultat vérifiable, un coût nul et un déterminisme parfait en code classique. Y mettre un LLM, c'est remplacer une fonction testable par une dépendance payante, non déterministe et faillible.
+
+Le piège séduit parce que la leçon porte sur les agents, donc on cherche où les placer. **La bonne réponse à « agent ou workflow ? » est très souvent « ni l'un ni l'autre ».** C'est la réponse la plus difficile à donner quand on vient d'apprendre les deux, et c'est celle qui distingue un ingénieur d'un enthousiaste.
+
+**Alternative défendable** sur le support niveau 1 : un agent avec des outils en LECTURE SEULE et une escalade obligatoire dès qu'une action modifie quoi que ce soit. On garde la souplesse d'exploration là où elle est utile — chercher dans la documentation, croiser des tickets — sans jamais laisser la boucle agir. C'est le moindre privilège appliqué à l'autonomie : l'agent peut chercher, il ne peut pas décider.
+
+**Vérifie seul, sans corrigé** :
+1. Pour chaque choix, écris le COÛT d'une exécution. Si tu ne sais pas le calculer, c'est un agent — et c'est précisément son principal défaut.
+2. Pour chaque choix « agent », demande-toi ce que fait le système quand il se trompe cinq fois de suite. Si la réponse est « il continue », il manque un budget.
+3. Épreuve décisive : pour chacune des cinq, essaie d'écrire l'enchaînement d'étapes à l'avance. **Tout ce que tu arrives à écrire n'a pas besoin d'un agent.**
+4. Reprends ton verdict sur la migration. Si tu as répondu « workflow », relis pourquoi.
+
+## 🏢 Cas professionnel
+Une équipe déploie un agent de support client capable de consulter les commandes et d'émettre des remboursements. En recette, il traite correctement 9 cas sur 10 — jugé suffisant pour un niveau 1. En production, deux problèmes apparaissent dès la première semaine.
+
+Le premier est arithmétique : 90 % de réussite par étape sur une tâche qui en compte cinq donne **59 %** de réussite de bout en bout. Les taux se multiplient, et une chaîne d'étapes « très bonnes » est médiocre. C'est le calcul que personne ne fait avant de déployer.
+
+Le second est plus grave : un client formule sa demande de façon à ce que l'agent enchaîne deux remboursements. Aucune règle ne l'interdisait, l'outil était disponible, l'agent a raisonné correctement à chaque étape et abouti à un résultat que personne n'aurait autorisé. **Un agent ne fait pas d'erreur de calcul, il fait des enchaînements que personne n'a prévus.**
+
+Ce que les équipes en retirent : la limite ne se met pas dans le prompt mais dans l'OUTIL — un plafond de montant, une idempotence par identifiant de commande, une confirmation humaine au-delà d'un seuil. Un garde-fou formulé en langage naturel est une suggestion ; un garde-fou codé dans l'outil est une garantie. Et le taux de réussite se mesure de bout en bout, sur des cas réels, jamais par étape.
+
+## 🎤 Questions d'entretien
+- « Agent ou workflow ? » → Workflow si le chemin est connu d'avance : coût prévisible, testable, reproductible. Agent seulement si la prochaine action dépend de ce qu'on découvre. Et souvent, ni l'un ni l'autre.
+- « Comment sécurises-tu un agent ? » → Par les outils : moindre privilège, arguments validés, actions plafonnées, idempotence, budget d'itérations. Jamais par une consigne dans le prompt.
+- « Ton agent réussit 9 fois sur 10, c'est bon ? » → Pas sur une tâche à plusieurs étapes : les taux se multiplient. 90 % sur cinq étapes, c'est 59 %.
+- « Comment déboguer un agent ? » → Avec des traces complètes : chaque appel, chaque outil, chaque observation. Sans elles, le comportement est inexplicable, et donc incorrigible.
+
+## 🟢 Checklist « quand suis-je prêt ? »
+- [ ] Je commence par demander si le chemin est connu d'avance, avant de parler d'agent.
+- [ ] Je sais dire non à un agent et défendre ce refus par le coût et la fiabilité.
+- [ ] Mes garde-fous vivent dans les outils, pas dans les prompts.
+- [ ] Je mesure un taux de réussite de bout en bout, pas par étape.
+
 ## 📚 Vocabulaire
 **boucle agentique** · **outil / tool use** · **observation** · **budget** · **trace** · **workflow** · **chaînage / routage / parallélisation / évaluateur-optimiseur** · **dérive d'objectif** · **moindre privilège** · **taux de réussite**.
 

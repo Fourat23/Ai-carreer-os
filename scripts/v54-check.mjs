@@ -18,7 +18,11 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const R = (p) => join(ROOT, p);
 const errors = [];
 const warns = [];
-const FROZEN_CORPUS = '4c1f3028ed1303e0e0c5f8220215e8c88a99fdb3';
+// Empreinte des leçons REGELÉE au V66 · CP8 (précédente : e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2).
+// 9 leçons durcies + une clôture de bloc réparée dans rag-evaluation.md.
+// Inventaire ligne à ligne : docs/audits/V66-FLAGSHIPS.md. Le gel n'est pas
+// assoupli : il a rougi comme prévu sur une modification autorisée.
+const FROZEN_CORPUS = 'e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 const PILOTS = ['app/page.tsx', 'app/day/[id]/page.tsx', 'app/skills/page.tsx'];
 const CORE = ['app/missions/page.tsx', 'app/revisions/page.tsx', 'app/diagnostics/page.tsx'];

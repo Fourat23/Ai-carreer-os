@@ -25,11 +25,52 @@ ici, est approfondie dans l'évaluation (`/doc/lessons/rag-evaluation`). Aucun m
 recherche particulier n'est supposé.
 
 ## 📖 Explication complète
-- **Recherche vectorielle** : par SENS (embeddings). Attrape les reformulations, rate parfois les termes exacts (références, noms propres, codes).
-- **Recherche lexicale** (BM25 / SQLite FTS5) : par MOTS. Attrape les termes exacts, rate les synonymes.
-- **Hybride** : combiner les deux et fusionner les scores (ex. **RRF**, Reciprocal Rank Fusion) — on récupère le meilleur des deux mondes.
-- **Reranking** : après avoir récupéré un top-20 large, un modèle plus fin (cross-encoder ou LLM) RÉORDONNE pour remonter les 3-5 vraiment pertinents. Coûteux, donc appliqué seulement au sous-ensemble déjà filtré.
-Chaque étage s'ÉVALUE : sur un golden set, mesurer « le bon passage est-il dans le top-k ? » (rappel@k) à chaque étage révèle où ça pèche. Un **tableau d'ablation** (vectoriel seul / lexical seul / hybride / hybride+rerank) montre le gain de chaque ajout.
+
+**Deux façons de chercher, qui échouent sur des choses différentes.** La recherche
+**vectorielle** compare des directions de sens : elle relie « congés » à « vacances » sans
+qu'aucun mot ne soit partagé. Elle rate en revanche ce qui n'a pas de sens à proprement parler
+— une référence `ART-4412`, un nom propre rare, un code d'erreur : ces chaînes n'ont pas de
+voisinage sémantique, leur vecteur ne veut rien dire. La recherche **lexicale** (BM25, ou FTS5
+dans SQLite) fait l'inverse : elle compte les mots partagés entre la question et le document,
+en pondérant les mots rares plus fort que les mots courants. Elle trouve `ART-4412` sans
+hésiter, et rate complètement une reformulation.
+
+**Leurs échecs ne se recouvrent pas, et c'est tout l'intérêt.** Là où deux méthodes ratent les
+mêmes cas, en combiner deux n'apporte rien. Ici, chacune couvre l'angle mort de l'autre : c'est
+ce qui rend l'**hybride** rentable, et non un simple empilement.
+
+**Comment on fusionne deux classements dont les scores ne sont pas comparables.** Un score
+cosinus vaut entre 0 et 1 ; un score BM25 peut valoir 3, ou 47. Les additionner n'a aucun sens.
+La **RRF** (*Reciprocal Rank Fusion*) contourne le problème en ignorant les scores et en ne
+gardant que les RANGS : chaque document reçoit `1 / (60 + rang)` dans chaque liste, et on
+additionne. Un document 1ᵉʳ en lexical et 30ᵉ en vectoriel obtient
+`1/61 + 1/90 ≈ 0,027` ; un document 5ᵉ dans les deux obtient `2 × 1/65 ≈ 0,031` et passe
+devant. La méthode récompense donc ce qui est **bien classé par les deux** plutôt que ce qui
+est premier chez un seul. Le 60 est une constante d'usage : elle amortit l'écart entre les
+premiers rangs.
+
+**Le reranking, et pourquoi il vient en dernier.** Les deux recherches précédentes comparent la
+question et le document SÉPARÉMENT — chacun a été transformé en nombres de son côté. Un
+**cross-encoder** fait autre chose : il lit la question ET le passage ENSEMBLE, et juge la
+pertinence de la paire. C'est nettement plus juste, et beaucoup plus cher : il faut un passage
+du modèle par candidat, sans rien pouvoir précalculer. D'où l'ordre imposé : on récupère
+large et vite (top-20 hybride), puis on réordonne finement ce petit lot pour n'en garder que
+3 à 5. Reranker un million de documents n'est pas « lent » : c'est irréalisable.
+
+**Chaque étage se mesure séparément.** Sur un jeu de questions dont on connaît le bon passage,
+le **rappel@k** dit si ce passage figure parmi les k remontés. Le mesurer à chaque étage montre
+OÙ ça pèche : si le bon passage n'est déjà pas dans le top-20, aucun reranker ne le fera
+apparaître — il ne réordonne que ce qu'on lui donne. Un **tableau d'ablation** (vectoriel seul,
+lexical seul, hybride, hybride + rerank) chiffre l'apport de chaque ajout, et révèle
+régulièrement qu'un étage coûteux n'apporte rien sur CE corpus.
+
+## 🔎 Décomposition
+- « Pourquoi la reformulation passe ? » → recherche vectorielle.
+- « Pourquoi la référence exacte passe ? » → recherche lexicale.
+- « Pourquoi combiner ? » → parce que leurs angles morts ne se recouvrent pas.
+- « Comment additionner des scores incomparables ? » → on ne les additionne pas : RRF, par rang.
+- « Pourquoi reranker à la fin ? » → le cross-encoder lit les paires, donc il coûte par candidat.
+- « Où ça pèche ? » → rappel@k étage par étage, jamais globalement.
 
 ## 🔧 Exemple simple
 Question « erreur ORA-00942 » : la vectorielle peut ramener des passages sur « erreurs de base de données » ; la lexicale trouve le passage EXACT contenant « ORA-00942 ». L'hybride ramène les deux.
@@ -48,10 +89,42 @@ trier les docs par score décroissant
 Dans DocSense, l'ordre est : hybride (vectoriel + FTS5, fusionnés par RRF) → reranking du top-20 vers top-5 → génération. Chaque étage est mesuré ; le budget latence (< 3 s) est réparti par étage, et le reranking (le plus cher) ne s'applique qu'au sous-ensemble.
 
 ## ⚠️ Erreurs fréquentes
-- Diagnostiquer la génération alors que le problème est le retrieval (toujours vérifier le retrieval d'abord).
-- Reranker AVANT de filtrer (coûteux et inutile).
-- Améliorer « au feeling » sans mesurer chaque étage.
-- Oublier que le lexical attrape ce que le vectoriel rate (et inversement).
+
+**La fusion qui a l'air raisonnable, montrée.** C'est le premier réflexe de tout le monde :
+
+```python
+# ❌ FAUX : on additionne des scores qui ne vivent pas sur la même échelle.
+for doc in candidats:
+    doc.score = doc.score_cosinus + doc.score_bm25   # 0,82 + 34,7
+classement = sorted(candidats, key=lambda d: -d.score)
+```
+
+Le cosinus vit entre 0 et 1 ; BM25 n'a pas de borne haute et dépasse couramment 30. La somme
+est donc, en pratique, le score BM25 seul avec un bruit de troisième décimale : la recherche
+vectorielle est présente dans le code, absente du résultat. Le système paraît hybride, se
+comporte comme un système lexical, et personne ne s'en aperçoit — le classement reste
+plausible.
+
+```python
+# ✅ JUSTE : on fusionne les RANGS, pas les scores.
+K = 60
+scores = {}
+for liste in (classement_vectoriel, classement_lexical):
+    for rang, doc in enumerate(liste, start=1):
+        scores[doc.id] = scores.get(doc.id, 0) + 1 / (K + rang)
+classement = sorted(scores, key=lambda d: -scores[d])
+```
+
+Le test qui attrape le premier cas : retire complètement la liste vectorielle et re-mesure le
+rappel@k. Si le score ne bouge quasiment pas, l'étage vectoriel ne servait à rien — soit à
+cause de ce bug, soit parce qu'il n'apporte réellement rien sur ce corpus. Les deux méritent
+d'être sus.
+
+Les autres :
+- Diagnostiquer la génération quand le problème est le retrieval : vérifier d'abord que le bon
+  passage était présent. S'il ne l'était pas, tout le travail sur le prompt est perdu.
+- Reranker avant de filtrer : le coût est proportionnel au nombre de candidats.
+- Améliorer au feeling, sans mesurer étage par étage.
 
 ## 🚫 Anti-patterns
 - Tout miser sur la vectorielle et s'étonner de rater les termes exacts.
@@ -77,7 +150,9 @@ La logique : le retrieval se mesure par étage (rappel@k) ; l'hybride comble les
 - Reranking = affiner le top-k, après filtrage, sous budget de latence.
 
 ## 📚 Vocabulaire
-**retrieval** · **BM25 / FTS5** · **recherche hybride** · **RRF** · **reranking / cross-encoder** · **rappel@k** · **ablation** · **budget de latence**.
+**retrieval** · **BM25 / FTS5** · **recherche hybride** · **RRF** (fusion par rangs) ·
+**reranking / cross-encoder** · **rappel@k** · **ablation** · **budget de latence**. Tous
+définis dans le corps de la leçon.
 
 ## 🟢 Checklist « quand suis-je prêt ? »
 - [ ] Je sais diagnostiquer retrieval vs génération.

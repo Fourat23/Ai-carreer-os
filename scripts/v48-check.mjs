@@ -22,7 +22,20 @@ const R = (p) => join(ROOT, p);
 const errors = [];
 const warns = [];
 
-const FROZEN_CORPUS_SHA1 = '4c1f3028ed1303e0e0c5f8220215e8c88a99fdb3';
+// Empreinte du corpus des leçons, REGELÉE au V66 · CP8 — et il faut dire quoi
+// et pourquoi, sinon cette ligne est un contournement déguisé en mise à jour.
+//
+// Valeur précédente : 4c1f3028ed1303e0e0c5f8220215e8c88a99fdb3 (gel V48).
+// Ce qui a changé, et rien d'autre : 9 leçons durcies au CP8 de V66, plus la
+// réparation d'une clôture de bloc de code dans `rag-evaluation.md` qui faisait
+// disparaître 11 de ses 18 sections au rendu. L'inventaire exact, ligne à ligne,
+// est publié dans `docs/audits/V66-FLAGSHIPS.md`.
+//
+// Le gel n'est PAS assoupli : sa fonction reste d'interdire toute dérive non
+// demandée du corpus. Il constate qu'une modification autorisée a eu lieu, ce
+// qui est exactement ce pour quoi il existe — il a d'ailleurs rougi au premier
+// essai, sans qu'on ait eu à le lui demander.
+const FROZEN_CORPUS_SHA1 = 'e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2';
 const FROZEN_PROGRESS_BLOB = '323604021055588a9528a86875f36598dbdc7758';
 
 const readJsonDir = (dir) => {

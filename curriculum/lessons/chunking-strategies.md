@@ -24,12 +24,56 @@ sera vectorisé (`/doc/lessons/embeddings`). Aucune bibliothèque particulière 
 le chunking se raisonne d'abord sur le texte brut.
 
 ## 📖 Explication complète
-Le LLM ne peut pas ingérer 10 000 documents : on récupère seulement les extraits pertinents. La qualité de ces extraits dépend du découpage :
-- **Taille fixe (+ overlap)** : découper tous les ~500-1000 caractères, avec un chevauchement (~10-20 %) pour ne pas couper une idée en deux. Simple, robuste, un bon défaut.
-- **Par structure** : suivre les titres/sections/paragraphes du document (Markdown, HTML). Souvent MEILLEUR sur de la doc technique, car un chunk = une section cohérente.
-- **Par phrases / sémantique** : regrouper des phrases liées. Plus fin, plus coûteux.
-Chaque chunk garde ses **métadonnées** (source, page, section) : elles fondent les citations et le filtrage.
-Il n'y a pas de « meilleure » taille dans l'absolu : ça dépend des documents et des questions. D'où la règle : **mesurer** (le bon chunk est-il dans le top-k ? rappel@k) sur un golden set, et comparer 2-3 stratégies.
+
+**Pourquoi on découpe, exactement.** Un LLM ne lit qu'une quantité limitée de texte à la fois,
+et on ne lui envoie de toute façon que quelques passages : les 10 000 documents restent dans la
+base. Le découpage décide donc de l'UNITÉ que le système est capable de retrouver et de
+montrer. Un chunk est ce qu'on récupère en entier ou pas du tout — il n'y a pas de demi-chunk.
+Tout le reste découle de cette contrainte.
+
+**Le double effet de la taille, dans les deux sens.** Un chunk trop GROS contient la réponse,
+mais noyée : le vecteur qui le représente est la moyenne de plusieurs idées, il ne pointe
+franchement vers aucune, et la question s'en rapproche mal. Une fois récupéré, il occupe la
+place de deux autres passages et dilue l'attention du modèle. Un chunk trop PETIT pointe très
+précisément, mais peut être privé de ce qui le rend compréhensible — un « Il doit alors
+notifier le locataire sous 15 jours » sans le paragraphe qui dit de qui et de quoi on parle.
+Le bon chunk est donc celui qui reste **autonome** : lu seul, il se comprend seul.
+
+**L'overlap répare une frontière arbitraire.** Découper tous les 500 caractères coupe
+forcément quelque part, et parfois au milieu de la phrase qui portait la réponse. Le
+chevauchement — répéter les 100 derniers caractères du chunk précédent au début du suivant —
+garantit qu'une idée à cheval sur une frontière se retrouve ENTIÈRE dans au moins un des deux.
+On paie ce filet en volume stocké : 20 % d'overlap, c'est environ 20 % de vecteurs en plus.
+
+**Trois stratégies, et ce qui les départage.**
+- **Taille fixe + overlap** : on avance par pas de (taille − overlap). Simple, robuste, marche
+  sur n'importe quel texte, ignore complètement le sens. Bon défaut.
+- **Par structure** : on suit les titres, sections ou paragraphes du document. Un chunk devient
+  « Article 4 — Préavis » au lieu de « …fin du paragraphe 3 + début du 5 ». Sur de la
+  documentation technique ou juridique, c'est presque toujours meilleur, pour une raison
+  simple : l'auteur a DÉJÀ fait le travail de regrouper une idée par section.
+- **Par phrases ou par sens** : on regroupe des phrases voisines tant qu'elles se ressemblent.
+  Plus fin, plus coûteux (il faut embedder pour décider), utile sur du texte sans structure.
+
+**Les métadonnées voyagent avec le morceau.** Chaque chunk garde d'où il vient : fichier, page,
+section. Sans elles, impossible de filtrer (« cherche seulement dans les contrats de 2024 ») et
+impossible de citer — donc impossible de vérifier une réponse. C'est le champ le plus souvent
+oublié et le plus difficile à rajouter après coup.
+
+**Aucune taille n'est bonne dans l'absolu.** Elle dépend de tes documents et de tes questions.
+La seule façon honnête de choisir est de mesurer le **rappel@k** : pour un jeu de questions
+dont tu connais déjà le bon passage, dans quelle proportion ce passage figure-t-il parmi les k
+morceaux remontés ? Trois questions sur quatre donnent 0,75. On compare deux ou trois
+stratégies sur LE MÊME jeu, et le gagnant est celui qui a le meilleur nombre — pas celui qui
+paraît le plus élégant. Ce jeu de questions à réponse connue s'appelle un **golden set** ;
+`/doc/lessons/rag-evaluation` explique comment le construire pour qu'il soit exigeant.
+
+## 🔎 Décomposition
+- « Quelle unité mon système peut-il retrouver ? » → le chunk, entier ou pas du tout.
+- « Pourquoi ma réponse est-elle noyée ? » → chunks trop gros, vecteur moyenné.
+- « Pourquoi ce passage est-il incompréhensible ? » → chunk trop petit, contexte coupé.
+- « Pourquoi cet overlap ? » → parce que la frontière est arbitraire et coupe parfois mal.
+- « Comment je tranche entre deux stratégies ? » → rappel@k sur le même golden set.
 
 ## 🔧 Exemple simple
 Un contrat de 12 pages découpé par « article » donne des chunks autonomes (« Article 4 — Préavis… »), bien plus utiles que des tranches de 500 caractères qui coupent au milieu d'une phrase.
@@ -50,10 +94,47 @@ tant que i < len(texte):
 Dans DocSense, on compare (mesuré sur un golden set) le chunking par taille fixe vs par structure Markdown sur 10 questions : « le passage qui contient la réponse est-il dans le top-3 ? ». La stratégie gagnante est adoptée, chiffres à l'appui — c'est exactement ce qui distingue un RAG d'ingénieur d'un RAG de démo.
 
 ## ⚠️ Erreurs fréquentes
-- Ne jamais LIRE ses chunks (ils sont souvent pleins de débris d'extraction PDF).
-- Chunker sans overlap → idées coupées.
-- Une taille unique pour tous types de documents.
-- Ignorer les métadonnées → pas de citations possibles.
+
+**Le chunker que tout le monde écrit d'abord, et ce qu'il produit.** Il a l'air juste :
+
+```python
+# ❌ FAUX : l'overlap est déclaré mais jamais appliqué.
+def chunker(texte, taille=500, overlap=100):
+    morceaux = []
+    i = 0
+    while i < len(texte):
+        morceaux.append(texte[i:i + taille])
+        i += taille              # ← on avance de 500, pas de 400
+    return morceaux
+```
+
+La variable `overlap` existe, le paramètre est documenté, la fonction rend des morceaux : rien
+ne signale l'erreur. Sur le texte « …le bailleur doit notifier le locataire sous 15 jours… »,
+si la frontière tombe entre « sous 15 » et « jours », la phrase n'existe ENTIÈRE dans aucun
+chunk. Aucune requête ne la retrouvera jamais, et le rappel@k baissera sans qu'on sache
+pourquoi.
+
+```python
+# ✅ JUSTE : on avance du pas, pas de la taille.
+def chunker(texte, taille=500, overlap=100):
+    morceaux = []
+    pas = taille - overlap       # 400
+    i = 0
+    while i < len(texte):
+        morceaux.append(texte[i:i + taille])
+        i += pas
+    return morceaux
+```
+
+Le test qui l'attrape tient en une ligne : deux morceaux consécutifs doivent partager du
+texte. `assert morceaux[0][-overlap:] == morceaux[1][:overlap]`.
+
+Les autres :
+- Ne jamais LIRE ses propres chunks. Une extraction de PDF produit des en-têtes répétés, des
+  numéros de page au milieu des phrases, des tableaux transformés en bouillie. Cinq minutes de
+  lecture révèlent ce que des heures de réglage ne trouveront pas.
+- Une taille unique pour des documents de natures différentes.
+- Ignorer les métadonnées, donc perdre toute possibilité de filtrer et de citer.
 
 ## 🚫 Anti-patterns
 - Choisir la taille au hasard et ne jamais la mesurer.
@@ -79,7 +160,9 @@ La logique : le chunking sert le RETRIEVAL, donc on l'évalue par le retrieval (
 - Le chunking se CHOISIT par la mesure, pas au feeling.
 
 ## 📚 Vocabulaire
-**chunk** · **overlap / chevauchement** · **chunking par structure** · **métadonnées** · **rappel@k** · **golden set**.
+**chunk** · **overlap / chevauchement** · **chunking par structure** · **métadonnées** ·
+**rappel@k** · **golden set**. Tous définis dans le corps de la leçon, à l'endroit où ils
+servent.
 
 ## 🟢 Checklist « quand suis-je prêt ? »
 - [ ] Je sais implémenter un chunker taille-fixe + overlap et un par structure.

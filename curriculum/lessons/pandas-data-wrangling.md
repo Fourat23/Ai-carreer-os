@@ -26,13 +26,41 @@ colonnes = variables) aide, mais on le rappelle ici. Aucune expérience préalab
 n'est supposée.
 
 ## 📖 Explication complète
-pandas repose sur deux objets : la **Series** (une colonne) et le **DataFrame** (un tableau). Les gestes fondamentaux, identiques à SQL et à tes pipelines JS :
-- **Inspecter** : `df.info()`, `df.describe()`, `df.head()`, `df["col"].value_counts()` — TOUJOURS avant de transformer.
-- **Sélectionner / filtrer** : `df[df["age"] > 30]` (masque booléen vectorisé) — c'est le WHERE de SQL, le filter de JS.
-- **Transformer** : créer une colonne `df["ttc"] = df["ht"] * 1.2` (vectorisé, pas de boucle).
-- **Agréger** : `df.groupby("service")["salaire"].mean()` — le GROUP BY de SQL, le reduce de JS.
-- **Joindre** : `df1.merge(df2, on="id")` — le JOIN de SQL.
-La règle d'or : **penser vectorisé**, pas en boucles. Une boucle `for` sur les lignes d'un DataFrame est presque toujours le signe qu'on rate l'outil vectorisé équivalent (100× plus lent).
+
+**Deux objets, et un seul vraiment nouveau.** Une **Series** est une colonne : une suite de
+valeurs de même type, plus un **index** — l'étiquette de chaque ligne. Un **DataFrame** est un
+ensemble de Series qui partagent le même index, autrement dit un tableau. L'index est la seule
+notion qui n'a pas d'équivalent en JavaScript : ce n'est pas une position, c'est une clé, et
+c'est lui qui aligne les données quand on combine deux objets.
+
+**Ce que « vectorisé » veut dire, concrètement.** Écrire `df["ht"] * 1.2` ne demande pas à
+Python de parcourir les lignes. L'opération est transmise en une fois à du code compilé qui
+travaille sur un bloc de mémoire contigu, sans repasser par l'interpréteur à chaque valeur.
+C'est de là que vient le facteur 50 à 100 : ce n'est pas que la boucle soit « mal écrite »,
+c'est qu'elle paie un coût d'interprétation par ligne que l'opération vectorisée ne paie
+qu'une fois. La conséquence pratique : dès qu'on écrit `for` sur les lignes d'un DataFrame, il
+existe presque toujours une opération vectorisée équivalente qu'on n'a pas trouvée.
+
+**Le masque booléen, qui déroute au début.** `df["age"] > 30` ne rend pas des lignes : cela
+rend une Series de `True`/`False`, une par ligne. C'est ensuite `df[masque]` qui garde les
+lignes marquées `True`. Comprendre cette étape intermédiaire débloque tout le reste, parce que
+les masques se combinent : `df[(df["age"] > 30) & (df["ville"] == "Lyon")]`. Les parenthèses
+sont obligatoires — `&` a priorité sur `>` en Python.
+
+**Les cinq gestes, avec leur équivalent que tu connais déjà.**
+- **Inspecter** — `df.info()`, `df.describe()`, `df.head()`, `df["col"].value_counts()`.
+  Toujours AVANT de transformer : c'est là qu'on voit les valeurs manquantes et les types faux.
+- **Filtrer** — `df[df["age"] > 30]`, le `WHERE` de SQL, le `.filter()` de JS.
+- **Transformer** — `df["ttc"] = df["ht"] * 1.2`, une colonne calculée d'un coup.
+- **Agréger** — `df.groupby("service")["salaire"].mean()`, le `GROUP BY` de SQL.
+- **Joindre** — `df1.merge(df2, on="id")`, le `JOIN` de SQL.
+
+## 🔎 Décomposition
+- « Qu'est-ce qui aligne mes données ? » → l'index, pas la position.
+- « Pourquoi ma boucle est-elle lente ? » → un coût d'interprétation par ligne.
+- « Pourquoi `df["age"] > 30` ne rend-il pas des lignes ? » → c'est un masque, pas un filtre.
+- « Pourquoi ces parenthèses partout ? » → `&` est prioritaire sur les comparaisons.
+- « Par quoi je commence, toujours ? » → inspecter.
 
 ## 🔧 Exemple simple
 `df.groupby("categorie")["prix"].mean()` donne le prix moyen par catégorie en une ligne — l'équivalent d'un GROUP BY.
@@ -51,10 +79,37 @@ ca = df.groupby("mois")["montant"].sum().sort_index()
 Avant tout modèle ML, on prépare les données avec pandas : charger, nettoyer, créer les features, encoder les catégories. Un pipeline RAG peut aussi utiliser pandas pour préparer et inspecter un corpus (statistiques de longueur des chunks, doublons).
 
 ## ⚠️ Erreurs fréquentes
-- Boucler sur les lignes (`for i in range(len(df))`) au lieu de vectoriser.
-- Le `SettingWithCopyWarning` : modifier une vue au lieu d'une copie (`df.loc[...]` pour affecter proprement).
-- Transformer avant d'inspecter (on rate les problèmes).
-- Confondre `df["col"]` (Series) et `df[["col"]]` (DataFrame).
+
+**L'affectation qui ne s'applique pas, montrée.** C'est l'erreur la plus coûteuse de pandas,
+parce qu'elle ne lève pas d'exception :
+
+```python
+# ❌ FAUX : on modifie peut-être une COPIE temporaire, pas le DataFrame.
+adultes = df[df["age"] > 18]
+adultes["categorie"] = "majeur"      # SettingWithCopyWarning… ou rien du tout
+```
+
+`df[df["age"] > 18]` peut rendre une vue sur le tableau d'origine ou une copie indépendante,
+selon la disposition des données en mémoire. Dans le second cas, l'affectation modifie un objet
+temporaire que plus personne ne référence : `df` est inchangé, aucune erreur n'est levée, et le
+script continue avec des données qu'il croit avoir corrigées. Sur un pipeline de nettoyage,
+cela produit un jeu de données faux sans une seule ligne rouge.
+
+```python
+# ✅ JUSTE : une seule opération, qui désigne explicitement lignes ET colonne.
+df.loc[df["age"] > 18, "categorie"] = "majeur"
+```
+
+`.loc[lignes, colonne]` s'adresse au DataFrame d'origine et lève une vraie erreur si la
+demande est impossible. Règle pratique : dès qu'une affectation suit un filtrage, elle doit
+passer par `.loc`.
+
+Les autres :
+- Boucler sur les lignes au lieu de vectoriser — 50 à 100 fois plus lent, pour un code plus
+  long.
+- Transformer avant d'inspecter : on découvre les valeurs manquantes après les avoir moyennées.
+- Confondre `df["col"]` (une Series) et `df[["col"]]` (un DataFrame d'une colonne) : les
+  méthodes disponibles ne sont pas les mêmes, et le message d'erreur ne le dit pas.
 
 ## 🚫 Anti-patterns
 - Réimplémenter en boucle ce que pandas fait vectorisé.

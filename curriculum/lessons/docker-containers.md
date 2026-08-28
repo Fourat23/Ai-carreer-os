@@ -14,11 +14,53 @@ Tu dois savoir utiliser un terminal et comprendre qu'une application a des DÉPE
 Un conteneur, c'est **une boîte qui emporte ton application ET tout son environnement** (dépendances, version de langage, config) pour qu'elle tourne à l'identique partout. Pas « ça marche chez moi » : « ça marche dans la boîte, donc partout ».
 
 ## 📖 Explication complète
-- Une **image** est un modèle figé (l'appli + son environnement), construit depuis un **Dockerfile** (une recette : partir d'une base, copier le code, installer, définir la commande de démarrage).
-- Un **conteneur** est une instance qui tourne d'une image (comme un objet est une instance d'une classe).
-- Un **volume** persiste des données hors du conteneur (une base, des fichiers) — sinon tout disparaît à l'arrêt.
-- **docker-compose** orchestre plusieurs conteneurs (app + base + …) en un fichier, lancés par `docker compose up`.
-Les **secrets** (clés d'API) passent par des variables d'environnement, jamais dans l'image (une image se partage). Le `.dockerignore` évite de copier `node_modules`, `.env`, `.git` dans l'image.
+
+**L'image est une pile de couches, et c'est toute l'astuce.** Une **image** est le modèle figé
+de ton application avec son environnement. Elle se construit depuis un **Dockerfile**, une
+recette lue de haut en bas. Chaque instruction de cette recette produit une **couche** : une
+photo des différences apportées par cette seule ligne. `FROM node:20-slim` pose la première
+couche (un système minimal avec Node) ; `COPY package*.json ./` en pose une deuxième (deux
+fichiers) ; `RUN npm ci` une troisième (le dossier des dépendances installées) ; et ainsi de
+suite. L'image finale est cet empilement.
+
+**Pourquoi cet empilement change tout : le cache.** Quand tu reconstruis, Docker réutilise
+telle quelle chaque couche dont l'entrée n'a pas changé, et ne recalcule qu'à partir de la
+PREMIÈRE couche modifiée — puis tout ce qui suit, obligatoirement, puisque chaque couche est
+posée sur la précédente. D'où la règle qui gouverne tout Dockerfile : **ce qui change rarement
+en haut, ce qui change souvent en bas.** Le fichier des dépendances change une fois par mois,
+ton code trente fois par jour. Les copier dans cet ordre — `package*.json`, puis `npm ci`,
+puis le reste du code — fait que modifier une ligne de code ne réinstalle rien. L'ordre inverse
+réinstalle tout, à chaque fois.
+
+**`npm ci` plutôt que `npm install`.** Les deux installent les dépendances ; `npm ci` les
+installe à la version EXACTE inscrite dans `package-lock.json`, et refuse de modifier ce
+fichier. C'est ce qui rend la construction reproductible : la même recette rend la même image
+la semaine prochaine. `npm install` peut, lui, accepter une version plus récente et faire
+diverger silencieusement l'image de ce que tu as testé.
+
+**Le conteneur est l'exécution de l'image.** Une image ne tourne pas, elle se copie ; un
+**conteneur** est une instance en cours d'exécution, avec une couche supplémentaire, celle-là
+inscriptible. Tout ce que le programme écrit va dans cette couche — et disparaît avec le
+conteneur. C'est exactement pourquoi un **volume** existe : un dossier de la machine hôte
+monté dans le conteneur, hors de la pile de couches, qui survit à l'arrêt. Une base de données
+sans volume perd ses données à chaque redémarrage, sans erreur ni avertissement.
+
+**Ce qui n'entre jamais dans une image.** Une image se partage, se publie, se télécharge : tout
+ce qu'elle contient est lisible par qui l'obtient, y compris les couches intermédiaires — une
+clé supprimée par une instruction ultérieure reste présente dans la couche qui l'a introduite.
+Les **secrets** passent donc par des variables d'environnement au démarrage, jamais par le
+Dockerfile. Le `.dockerignore` empêche de son côté `node_modules`, `.env` et `.git` d'être
+copiés : inutile, lourd, et dangereux pour les deux derniers.
+
+**docker-compose** décrit enfin plusieurs conteneurs (l'application, sa base, son index) et
+leurs liens dans un seul fichier, lancés ensemble par `docker compose up`.
+
+## 🔎 Décomposition
+- « Pourquoi ça marche partout ? » → l'environnement voyage avec l'application, en couches.
+- « Pourquoi mon build est lent ? » → une couche haute change trop souvent ; réordonne.
+- « Où vont mes données ? » → dans la couche du conteneur, donc perdues — sauf volume.
+- « Où va ma clé d'API ? » → dans l'environnement au run, jamais dans une couche.
+- « Pourquoi `npm ci` ? » → pour que la même recette rende la même image demain.
 
 ## 🔧 Exemple simple
 Dockerfile minimal Node :
@@ -45,14 +87,47 @@ docker run -e API_KEY=$API_KEY -p 3000:3000 monapi
 DocSense (projet final) se livre en `docker compose up` : un conteneur app + un conteneur base vectorielle + un volume pour l'index. Le recruteur clone, lance une commande, tout tourne — c'est ce qui transforme un POC en produit démontrable, et un critère de qualité du projet final.
 
 ## ⚠️ Erreurs fréquentes
-- Mettre des secrets dans l'image ou le Dockerfile.
-- Copier `node_modules`/`.git` dans l'image (pas de `.dockerignore`).
-- Oublier les volumes → perte de données à l'arrêt.
-- Image énorme (partir d'une base lourde, ne pas utiliser `npm ci`).
+
+**L'erreur de couches, montrée.** Voici le Dockerfile que presque tout le monde écrit d'abord.
+Il est correct — l'image produite fonctionne — et il rend le développement pénible :
+
+```dockerfile
+# ❌ LENT : le code est copié AVANT l'installation.
+FROM node:20-slim
+WORKDIR /app
+COPY . .          # ← cette couche change à CHAQUE modification de code
+RUN npm ci        # ← donc celle-ci est recalculée à chaque fois
+CMD ["npm", "start"]
+```
+
+Change une virgule dans un commentaire : la couche `COPY . .` change, donc `RUN npm ci` est
+invalidée, donc les dépendances sont réinstallées entièrement. Trente à quatre-vingt-dix
+secondes, à chaque itération.
+
+```dockerfile
+# ✅ RAPIDE : seul ce qui décrit les dépendances est copié avant de les installer.
+FROM node:20-slim
+WORKDIR /app
+COPY package*.json ./   # ← ne change que si les dépendances changent
+RUN npm ci              # ← réutilisée telle quelle le reste du temps
+COPY . .                # ← la couche qui change souvent, tout en bas
+CMD ["npm", "start"]
+```
+
+Même image finale, mêmes fichiers, même comportement. Une seule différence : l'ordre. La
+seconde reconstruit en une à deux secondes.
+
+Les autres, plus classiques :
+- Mettre un secret dans le Dockerfile : il reste dans la couche, même supprimé plus loin.
+- Copier `node_modules`/`.git` faute de `.dockerignore` : image lourde, et historique exposé.
+- Oublier le volume : les données de la base disparaissent à l'arrêt, en silence.
+- Partir d'une image de base complète (`node:20`, ~1 Go) au lieu de `node:20-slim` (~200 Mo)
+  quand rien ne l'exige.
 
 ## 🚫 Anti-patterns
 - Tout dans un seul conteneur géant au lieu de services séparés quand ça a du sens.
-- Reconstruire l'image entière à chaque petit changement (mal ordonner les couches du Dockerfile).
+- Reconstruire l'image entière à chaque petit changement, faute d'avoir ordonné les couches
+  (voir le Dockerfile fautif ci-dessus).
 
 ## ✍️ Mini-exercice
 Écris un Dockerfile pour un de tes projets et lance-le. Vérifie qu'il tourne sur une machine « propre » (sans tes dépendances installées globalement).
@@ -61,7 +136,24 @@ DocSense (projet final) se livre en `docker compose up` : un conteneur app + un 
 Écris un `docker-compose.yml` à 2 services (app + base), avec un volume persistant et des secrets par variables d'environnement. Prouve que `docker compose down && up` conserve les données.
 
 ## ✅ Correction attendue
-La logique : Dockerfile = recette reproductible ; secrets au run, pas dans l'image ; volumes pour la persistance ; compose pour l'orchestration. Vérifie : l'image ne contient aucun secret, l'appli tourne sur machine propre, les données survivent à un redémarrage (volume).
+
+**L'erreur de raisonnement à corriger d'abord**, parce qu'elle produit toutes les autres :
+croire qu'un Dockerfile est une liste d'instructions dont l'ORDRE n'a d'importance que pour la
+logique. Il décrit en réalité une pile, et chaque ligne dépend de toutes celles au-dessus. Tant
+qu'on ne pense pas en couches, on écrit des Dockerfile qui marchent et qu'on déteste utiliser.
+
+Deuxième erreur de raisonnement : croire qu'un fichier supprimé dans une image a disparu. Une
+couche ne défait pas la précédente, elle s'ajoute par-dessus. Un `COPY .env` suivi d'un
+`RUN rm .env` laisse le secret parfaitement lisible dans la couche intermédiaire.
+
+Vérifie ensuite, sur ton propre Dockerfile :
+- modifier une ligne de code ne relance PAS l'installation des dépendances ;
+- `docker history` sur ton image ne montre aucune couche contenant un secret ;
+- l'application tourne sur une machine où rien n'est installé globalement ;
+- les données de la base survivent à `docker compose down` puis `up`.
+
+Si l'un des quatre échoue, la cause est presque toujours dans l'ordre des couches ou dans
+l'absence de volume — pas dans l'application.
 
 ## 🎤 Questions d'entretien
 - « Différence entre une image et un conteneur ? » → L'image est le modèle figé, le conteneur une instance qui tourne (comme classe vs objet).

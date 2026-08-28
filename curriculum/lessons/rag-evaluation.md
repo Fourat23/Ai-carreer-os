@@ -52,11 +52,41 @@ Rapport en 4 lignes : `rappel@5 = 84 % (26/31, échecs : Q7 Q12 Q19 Q23 Q28) · 
 Le dashboard qualité de DocSense affiche l'HISTOIRE des scores par version : « chunking structure : rappel +9 · hybride : +6 · rerank : fidélité +4 ». Ce tableau EST ta réponse à « comment sais-tu que ton système marche ? » — la question d'entretien qui trie les candidats RAG.
 
 ## ⚠️ Erreurs fréquentes
-- Golden set sans cas « sans réponse » (le refus n'est jamais testé).
-- Juge non calibré (chiffres précis, faux).
-- Changer trois choses puis mesurer (effet indémêlable).
+
+**Le juge non calibré, montré.** Ce prompt de jugement paraît raisonnable. Il produit des
+chiffres précis, stables, et faux :
+
+```
+❌ FAUX
+« Note de 1 à 10 la qualité de cette réponse par rapport à la question. »
+```
+
+Trois défauts se cumulent. Le mot « qualité » n'est pas défini : le modèle arbitre entre
+exactitude, style et longueur sans qu'on sache lequel il a privilégié. L'échelle sur 10 est
+illusoirement fine — un même cas oscille entre 6 et 8 d'une exécution à l'autre, sans qu'aucun
+fait n'ait changé. Et rien ne relie la note aux SOURCES : une réponse élégante et inventée
+obtient 8. Le harnais rend alors « qualité moyenne : 7,4 », un nombre qui a l'air d'une mesure
+et qui n'est le reflet d'aucune propriété.
+
+```
+✅ JUSTE — trois questions binaires, chacune vérifiable sur les sources
+1. Chaque affirmation de la réponse est-elle soutenue par un passage fourni ?  OUI / NON
+2. La réponse traite-t-elle la question posée (et non une question voisine) ?  OUI / NON
+3. La réponse contredit-elle un passage fourni ?                              OUI / NON
+```
+
+Chaque question a une réponse défendable qu'un humain peut contester sur pièces. On CALIBRE
+ensuite en jugeant soi-même 20 à 30 cas, puis en mesurant l'**accord** juge/humain : sur
+combien de cas la machine dit-elle la même chose que toi ? En dessous de 80 %, le juge n'est
+pas utilisable — on retravaille les critères, on remesure. Ce chiffre d'accord doit être publié
+à côté de chaque score : sans lui, « fidélité 91 % » ne veut rien dire.
+
+Les autres :
+- Golden set sans cas « sans réponse dans le corpus » : le refus n'est jamais testé, et un RAG
+  qui n'a jamais appris à dire « je ne sais pas » invente.
+- Changer trois choses puis mesurer : l'effet est indémêlable, on ne sait pas quoi garder.
 - Conclure sur ±2 points de bruit.
-- Sur-adapter au golden set (c'est un échantillon, pas la vérité).
+- Sur-adapter au golden set : c'est un échantillon, pas la vérité.
 
 ## 🚫 Anti-patterns
 - « L'éval, on la fera à la fin » (elle doit piloter dès le début).
@@ -75,6 +105,13 @@ La logique : set exigeant et vivant → étages séparés → juge calibré → 
 - « Comment évalues-tu un RAG ? » → Golden set typé, rappel@k programmatique pour le retrieval, juge calibré pour la génération, ablation, versionnement.
 - « Comment fais-tu confiance à ton juge LLM ? » → Accord mesuré avec des jugements humains sur un échantillon ; critères binaires étroits.
 - « +2 points après ton changement : tu conclus quoi ? » → Rien encore : bruit possible — relancer, regarder quelles questions ont basculé.
+
+## 🔎 Décomposition
+- « Ma réponse est mauvaise : d'où vient la panne ? » → le bon passage était-il remonté ?
+- « Comment mesurer sans LLM ? » → rappel@k et MRR, sur le retrieval, gratuitement.
+- « Comment faire confiance à un juge LLM ? » → critères binaires, puis accord humain mesuré.
+- « +2 points, j'adopte ? » → pas avant d'avoir écarté le bruit.
+- « Quel composant sert vraiment ? » → l'ablation, étage par étage.
 
 ## 🧾 À retenir
 - Évaluer PAR ÉTAGE : rappel@k d'abord (gratuit, fiable), fidélité ensuite (juge calibré).

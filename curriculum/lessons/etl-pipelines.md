@@ -24,12 +24,43 @@ d'erreurs (`/doc/lessons/error-handling`) sont réutilisées ici pour rendre le 
 Aucun orchestrateur particulier n'est supposé : on raisonne sur la structure du pipeline.
 
 ## 📖 Explication complète
-- **Extract** : récupérer depuis la source (CSV, API, base). Point fragile : la source peut être absente, changer de format, être incomplète.
-- **Transform** : nettoyer, normaliser, enrichir. À écrire en **fonctions pures** (testables, sans effet de bord) — c'est le cœur métier.
-- **Load** : écrire dans la destination (base, entrepôt), idéalement de façon **transactionnelle** (tout ou rien).
-Les deux propriétés qui distinguent un pipeline pro d'un script jetable :
-- **Idempotence** : relancer le pipeline ne DUPLIQUE pas les données (via upsert, ou vérification d'existence). Un pipeline qui double les données à chaque run est cassé.
-- **Résistance à l'échec partiel** : si le chargement plante au milieu, la base ne reste pas à moitié remplie (transaction + reprise). On log chaque étape pour diagnostiquer.
+
+**Trois étapes, séparées pour une raison précise.** *Extract* récupère depuis la source,
+*Transform* nettoie et enrichit, *Load* écrit dans la destination. Le découpage n'est pas
+décoratif : il isole la seule partie qu'on peut tester sans rien brancher. Extraire et charger
+touchent le monde extérieur — un fichier, une API, une base — et ne se testent qu'avec ce monde
+disponible. La transformation, elle, peut être écrite en **fonctions pures** : mêmes entrées,
+mêmes sorties, aucun effet de bord. On lui donne dix lignes en mémoire, on vérifie les dix
+lignes qui sortent. C'est là que vit toute la logique métier, et c'est la seule partie qu'on
+puisse réellement mettre sous tests.
+
+**L'idempotence, et pourquoi c'est LA propriété du pipeline.** Un traitement est idempotent
+quand l'exécuter deux fois donne le même état final qu'une seule. Ce n'est pas un raffinement :
+un pipeline se relance. Il se relance parce que le réseau a coupé, parce que la source est
+arrivée en retard, parce qu'on corrige un bug et qu'on rejoue hier. Un `INSERT` simple
+duplique à chaque relance ; un **upsert** — insérer si absent, mettre à jour sinon, sur une
+clé qui identifie la ligne — donne le même résultat quel que soit le nombre d'exécutions. Sans
+cette propriété, la seule façon de relancer sans danger est de vider la table d'abord, ce qui
+interdit tout traitement incrémental.
+
+**L'échec partiel, la panne à laquelle personne ne pense.** Le chargement écrit 40 000 lignes
+sur 50 000, puis la connexion tombe. Sans précaution, la base contient un état qui n'a jamais
+existé : ni l'ancien, ni le nouveau. Le prochain calcul lira ces données mixtes et rendra un
+chiffre faux, sans le moindre message d'erreur. Une **transaction** répond exactement à cela :
+les écritures ne deviennent visibles qu'à la validation finale, et une interruption ramène la
+base à son état d'avant (**rollback**). C'est du tout ou rien, et « rien » est un état correct
+— contrairement à « la moitié ».
+
+**Les journaux, qui ne servent qu'après coup.** On écrit à chaque étape ce qui est entré, ce
+qui est sorti, et combien de temps cela a pris. Cela ne sert à rien tant que tout marche, et
+c'est la seule chose qui compte le jour où un traitement nocturne a échoué et où personne n'a
+regardé l'écran.
+
+## 🔎 Décomposition
+- « Quelle partie puis-je tester ? » → la transformation, si elle est pure.
+- « Puis-je relancer sans danger ? » → seulement si le chargement est idempotent.
+- « Que se passe-t-il si ça coupe au milieu ? » → sans transaction, un état qui n'existe pas.
+- « Pourquoi ce run a-t-il échoué cette nuit ? » → les journaux, ou rien.
 
 ## 🔧 Exemple simple
 Un pipeline nocturne : lire le CSV du jour → nettoyer → insérer en base, en évitant de réinsérer les lignes déjà présentes (idempotence par clé).
@@ -55,10 +86,47 @@ def run(source, db):
 L'**ingestion d'un RAG EST un ETL** : extract (lire PDF/Markdown) → transform (chunker, embedder) → load (base vectorielle). Les mêmes exigences s'appliquent : idempotence (ré-ingérer un document mis à jour sans dupliquer), résistance aux fichiers moches, logs.
 
 ## ⚠️ Erreurs fréquentes
-- Pipeline non idempotent (duplique à chaque run).
-- Transform mêlé aux I/O (intestable).
-- Pas de transaction → base incohérente si échec au milieu.
-- Aucun log → impossible de diagnostiquer un run raté.
+
+**Le pipeline qui double les données, montré.** Il fonctionne parfaitement la première fois :
+
+```python
+# ❌ FAUX : relancer ce pipeline duplique tout ce qu'il a déjà chargé.
+for ligne in lignes_transformees:
+    curseur.execute(
+        "INSERT INTO ventes (id_vente, client, montant) VALUES (?, ?, ?)",
+        (ligne["id"], ligne["client"], ligne["montant"]),
+    )
+connexion.commit()
+```
+
+Premier passage : 50 000 lignes, tout va bien. Le lendemain, la source arrive en retard et on
+relance : 100 000 lignes. Le total du chiffre d'affaires double. Personne ne le voit tout de
+suite, parce qu'aucune erreur n'est levée et que le tableau de bord affiche simplement un très
+bon mois.
+
+```python
+# ✅ JUSTE : idempotent (upsert sur la clé métier) ET tout-ou-rien.
+try:
+    for ligne in lignes_transformees:
+        curseur.execute(
+            "INSERT INTO ventes (id_vente, client, montant) VALUES (?, ?, ?) "
+            "ON CONFLICT(id_vente) DO UPDATE SET client=excluded.client, montant=excluded.montant",
+            (ligne["id"], ligne["client"], ligne["montant"]),
+        )
+    connexion.commit()          # rien n'est visible avant cette ligne
+except Exception:
+    connexion.rollback()        # et en cas d'échec, rien ne l'aura jamais été
+    raise
+```
+
+Le test qui l'attrape tient en trois lignes : lancer le pipeline deux fois de suite sur les
+mêmes données, et vérifier que le nombre de lignes en base est identique après le second
+passage. Aucun pipeline ne devrait partir en production sans ce test.
+
+Les autres :
+- Mêler la transformation aux entrées/sorties : plus rien n'est testable sans base.
+- Charger sans transaction : un échec au milieu laisse un état qui n'a jamais existé.
+- Aucun journal : un run nocturne raté devient indiagnosticable.
 
 ## 🚫 Anti-patterns
 - Le « gros script » monolithique qui fait tout dans une fonction.

@@ -1,0 +1,1190 @@
+{
+  "seed": 20260828,
+  "n": 43,
+  "days": [
+    {
+      "day": 1,
+      "week": 1,
+      "month": 1,
+      "title": "Installation de l'environnement et premiers pas au terminal",
+      "skill": "gitlinux",
+      "skillName": "Git / Linux",
+      "difficulty": 1,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "Le dossier `ia-lab/` avec l'arborescence finale + `commandes.md` + une capture (ou copie du texte) de ton historique de commandes (`history`).",
+      "project": null,
+      "dayW": 1513,
+      "lessons": [
+        "terminal-shell-filesystem",
+        "git-fundamentals",
+        "git-advanced"
+      ],
+      "lessonW": 3263,
+      "solW": 400,
+      "total": 5176,
+      "exos": 2,
+      "code": 4,
+      "strates": [
+        "difficulté:faible",
+        "enrichie:oui"
+      ]
+    },
+    {
+      "day": 2,
+      "week": 1,
+      "month": 1,
+      "title": "Terminal avancé et premier vrai script JavaScript",
+      "skill": "gitlinux",
+      "skillName": "Git / Linux",
+      "difficulty": 1,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "`inventaire.txt`, `rapport.txt`, `salut.js` fonctionnel avec les 3 comportements + le bonus si atteint.",
+      "project": null,
+      "dayW": 1532,
+      "lessons": [
+        "terminal-shell-filesystem",
+        "git-fundamentals",
+        "git-advanced"
+      ],
+      "lessonW": 3263,
+      "solW": 346,
+      "total": 5141,
+      "exos": 2,
+      "code": 6,
+      "strates": [
+        "difficulté:faible",
+        "enrichie:oui"
+      ]
+    },
+    {
+      "day": 3,
+      "week": 1,
+      "month": 1,
+      "title": "Git : sauvegarder et raconter l'histoire de ton code",
+      "skill": "gitlinux",
+      "skillName": "Git / Linux",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "Le dépôt ia-lab avec au moins 4 commits propres, un .gitignore fonctionnel, et jour-03.md contenant ton schéma des 3 zones (texte ou photo) + tes réponses.",
+      "project": null,
+      "dayW": 1355,
+      "lessons": [
+        "terminal-shell-filesystem",
+        "git-fundamentals",
+        "git-advanced"
+      ],
+      "lessonW": 3263,
+      "solW": 421,
+      "total": 5039,
+      "exos": 1,
+      "code": 8,
+      "strates": [
+        "domaine:git-linux",
+        "difficulté:faible",
+        "enrichie:oui"
+      ]
+    },
+    {
+      "day": 7,
+      "week": 1,
+      "month": 1,
+      "title": "Revue hebdomadaire — semaine 1",
+      "skill": "gitlinux",
+      "skillName": "Git / Linux",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": true,
+      "detailed": false,
+      "deliverable": null,
+      "project": null,
+      "dayW": 1360,
+      "lessons": [],
+      "lessonW": 0,
+      "solW": 481,
+      "total": 1841,
+      "exos": 1,
+      "code": 0,
+      "strates": [
+        "enrichie:non",
+        "nature:théorie"
+      ]
+    },
+    {
+      "day": 9,
+      "week": 2,
+      "month": 1,
+      "title": "Fonctions : découper les problèmes en morceaux nommés",
+      "skill": "jsts",
+      "skillName": "JavaScript / TypeScript",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "fonctions.js, facture.js avec sa sortie propre (colle un exemple de sortie en commentaire de fin de fichier), commit.",
+      "project": null,
+      "dayW": 1383,
+      "lessons": [
+        "javascript-basics",
+        "typescript-basics",
+        "async-javascript"
+      ],
+      "lessonW": 3248,
+      "solW": 443,
+      "total": 5074,
+      "exos": 1,
+      "code": 8,
+      "strates": [
+        "domaine:fondations-m1"
+      ]
+    },
+    {
+      "day": 13,
+      "week": 2,
+      "month": 1,
+      "title": "Mini-projet : l'annuaire — assembler tout ce que tu sais",
+      "skill": "jsts",
+      "skillName": "JavaScript / TypeScript",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "annuaire.js complet, contacts.json avec 5+ vrais contacts de test, historique Git de 5-6 commits progressifs, et dans tes notes : ton découpage papier initial vs ce qui s'est vraiment passé.",
+      "project": null,
+      "dayW": 1564,
+      "lessons": [
+        "javascript-basics",
+        "typescript-basics",
+        "async-javascript"
+      ],
+      "lessonW": 3248,
+      "solW": 536,
+      "total": 5348,
+      "exos": 1,
+      "code": 0,
+      "strates": [
+        "nature:théorie"
+      ]
+    },
+    {
+      "day": 14,
+      "week": 2,
+      "month": 1,
+      "title": "Revue hebdomadaire — semaine 2",
+      "skill": "jsts",
+      "skillName": "JavaScript / TypeScript",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": true,
+      "detailed": false,
+      "deliverable": null,
+      "project": null,
+      "dayW": 1215,
+      "lessons": [],
+      "lessonW": 0,
+      "solW": 406,
+      "total": 1621,
+      "exos": 1,
+      "code": 0,
+      "strates": [
+        "enrichie:non",
+        "nature:théorie"
+      ]
+    },
+    {
+      "day": 20,
+      "week": 3,
+      "month": 1,
+      "title": "Journée katas : consolider sous chrono",
+      "skill": "algo",
+      "skillName": "Algorithmie",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "Les 8 fichiers katas + le tableau de scores (kata, temps cible, temps réel, ressenti, verdict) dans notes/bilan-j20.md + le plan de rattrapage (3 lignes : quoi refaire, quand).",
+      "project": null,
+      "dayW": 1565,
+      "lessons": [
+        "algorithmic-thinking",
+        "recursion"
+      ],
+      "lessonW": 2261,
+      "solW": 557,
+      "total": 4383,
+      "exos": 1,
+      "code": 5,
+      "strates": [
+        "domaine:algo-ds"
+      ]
+    },
+    {
+      "day": 21,
+      "week": 3,
+      "month": 1,
+      "title": "Revue hebdomadaire — semaine 3",
+      "skill": "algo",
+      "skillName": "Algorithmie",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": true,
+      "detailed": false,
+      "deliverable": null,
+      "project": null,
+      "dayW": 1247,
+      "lessons": [],
+      "lessonW": 0,
+      "solW": 454,
+      "total": 1701,
+      "exos": 1,
+      "code": 0,
+      "strates": [
+        "enrichie:non"
+      ]
+    },
+    {
+      "day": 25,
+      "week": 4,
+      "month": 1,
+      "title": "La récursion : les fonctions qui s'appellent elles-mêmes",
+      "skill": "algo",
+      "skillName": "Algorithmie",
+      "difficulty": 4,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "recursion.js (gamme + conversions), arborescence.js (les 2 fonctions + ta structure de test), les dessins de pile dans les notes, commit.",
+      "project": null,
+      "dayW": 1665,
+      "lessons": [
+        "algorithmic-thinking",
+        "recursion"
+      ],
+      "lessonW": 2261,
+      "solW": 581,
+      "total": 4507,
+      "exos": 1,
+      "code": 8,
+      "strates": [
+        "difficulté:élevée"
+      ]
+    },
+    {
+      "day": 29,
+      "week": 5,
+      "month": 2,
+      "title": "Récursion niveau 2 : structures imbriquées réelles",
+      "skill": "algo",
+      "skillName": "Algorithmie",
+      "difficulty": 4,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "recursion2.js (les 8 fonctions testées sur ta structure d'entreprise), le JSON de test riche, notes sur les 3 comparaisons de copie, commit.",
+      "project": null,
+      "dayW": 1676,
+      "lessons": [
+        "algorithmic-thinking",
+        "recursion"
+      ],
+      "lessonW": 2261,
+      "solW": 517,
+      "total": 4454,
+      "exos": 1,
+      "code": 10,
+      "strates": [
+        "difficulté:élevée"
+      ]
+    },
+    {
+      "day": 32,
+      "week": 5,
+      "month": 2,
+      "title": "Récursion consolidée : backtracking d'introduction",
+      "skill": "algo",
+      "skillName": "Algorithmie",
+      "difficulty": 4,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "backtracking.ts : les 3 générateurs + l'arbre de décision dessiné.",
+      "project": null,
+      "dayW": 1698,
+      "lessons": [
+        "recursion",
+        "algorithmic-thinking"
+      ],
+      "lessonW": 2261,
+      "solW": 584,
+      "total": 4543,
+      "exos": 1,
+      "code": 36,
+      "strates": [
+        "difficulté:élevée",
+        "nature:code"
+      ]
+    },
+    {
+      "day": 34,
+      "week": 5,
+      "month": 2,
+      "title": "Linked lists, arbres BST : coûts et parcours",
+      "skill": "ds",
+      "skillName": "Structures de données",
+      "difficulty": 4,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "linked-list.ts + bst.ts (parcours testés, inorder prouvé trié).",
+      "project": null,
+      "dayW": 1897,
+      "lessons": [
+        "data-structures-intro",
+        "algorithmic-thinking"
+      ],
+      "lessonW": 2420,
+      "solW": 635,
+      "total": 4952,
+      "exos": 1,
+      "code": 46,
+      "strates": [
+        "nature:code"
+      ]
+    },
+    {
+      "day": 51,
+      "week": 8,
+      "month": 2,
+      "title": "REST design : concevoir une API qu'on comprend",
+      "skill": "http",
+      "skillName": "HTTP / API",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "api-design.md : le contrat complet (endpoints, verbes, statuts, exemples).",
+      "project": null,
+      "dayW": 1678,
+      "lessons": [
+        "api-design-basics",
+        "http-rest-json"
+      ],
+      "lessonW": 2163,
+      "solW": 550,
+      "total": 4391,
+      "exos": 1,
+      "code": 14,
+      "strates": [
+        "domaine:fondations-m2",
+        "domaine:backend-api"
+      ]
+    },
+    {
+      "day": 53,
+      "week": 8,
+      "month": 2,
+      "title": "Express : routes, middlewares, structure en couches",
+      "skill": "http",
+      "skillName": "HTTP / API",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "API citations structurée en couches + collection Postman.",
+      "project": null,
+      "dayW": 1726,
+      "lessons": [
+        "express-backend",
+        "architecture-basics"
+      ],
+      "lessonW": 2274,
+      "solW": 556,
+      "total": 4556,
+      "exos": 1,
+      "code": 37,
+      "strates": [
+        "nature:code"
+      ]
+    },
+    {
+      "day": 54,
+      "week": 8,
+      "month": 2,
+      "title": "Validation, erreurs centralisées, robustesse d'API",
+      "skill": "se",
+      "skillName": "Software engineering",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "API durcie + 10 requêtes malveillantes et leurs réponses correctes.",
+      "project": null,
+      "dayW": 1879,
+      "lessons": [
+        "error-handling",
+        "api-design-basics"
+      ],
+      "lessonW": 2018,
+      "solW": 586,
+      "total": 4483,
+      "exos": 1,
+      "code": 27,
+      "strates": [
+        "domaine:software-engineering"
+      ]
+    },
+    {
+      "day": 78,
+      "week": 12,
+      "month": 3,
+      "title": "Architecture 3-tiers et MVC : structurer une application",
+      "skill": "archi",
+      "skillName": "Architecture",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": true,
+      "deliverable": "Cartographie 3-tiers/MVC de tes projets + architecture cible justifiée.",
+      "project": null,
+      "dayW": 2533,
+      "lessons": [
+        "architecture-basics"
+      ],
+      "lessonW": 1299,
+      "solW": 627,
+      "total": 4459,
+      "exos": 11,
+      "code": 16,
+      "strates": [
+        "aléatoire:seed20260828"
+      ]
+    },
+    {
+      "day": 91,
+      "week": 13,
+      "month": 3,
+      "title": "Revue hebdomadaire — semaine 13",
+      "skill": "http",
+      "skillName": "HTTP / API",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": true,
+      "detailed": false,
+      "deliverable": null,
+      "project": null,
+      "dayW": 905,
+      "lessons": [],
+      "lessonW": 0,
+      "solW": 383,
+      "total": 1288,
+      "exos": 1,
+      "code": 0,
+      "strates": [
+        "volume:court"
+      ]
+    },
+    {
+      "day": 95,
+      "week": 14,
+      "month": 4,
+      "title": "Effets et fetch (useEffect)",
+      "skill": "jsts",
+      "skillName": "JavaScript / TypeScript",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "App qui fetch, 3 états gérés, zéro warning.",
+      "project": null,
+      "dayW": 1326,
+      "lessons": [
+        "react-hooks-effects"
+      ],
+      "lessonW": 1027,
+      "solW": 343,
+      "total": 2696,
+      "exos": 1,
+      "code": 17,
+      "strates": [
+        "domaine:frontend-react"
+      ]
+    },
+    {
+      "day": 120,
+      "week": 18,
+      "month": 5,
+      "title": "Python : syntaxe et structures",
+      "skill": "python",
+      "skillName": "Python",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "5 scripts Python idiomatiques + venv.",
+      "project": null,
+      "dayW": 1399,
+      "lessons": [
+        "python-foundations"
+      ],
+      "lessonW": 1047,
+      "solW": 327,
+      "total": 2773,
+      "exos": 1,
+      "code": 21,
+      "strates": [
+        "domaine:python"
+      ]
+    },
+    {
+      "day": 126,
+      "week": 18,
+      "month": 5,
+      "title": "Revue hebdomadaire — semaine 18",
+      "skill": "python",
+      "skillName": "Python",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": true,
+      "detailed": false,
+      "deliverable": null,
+      "project": null,
+      "dayW": 880,
+      "lessons": [],
+      "lessonW": 0,
+      "solW": 394,
+      "total": 1274,
+      "exos": 1,
+      "code": 0,
+      "strates": [
+        "volume:court"
+      ]
+    },
+    {
+      "day": 134,
+      "week": 20,
+      "month": 5,
+      "title": "SQL avancé : normalisation",
+      "skill": "sql",
+      "skillName": "SQL / Data",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Schéma 3NF justifié.",
+      "project": null,
+      "dayW": 1381,
+      "lessons": [
+        "database-modeling"
+      ],
+      "lessonW": 1183,
+      "solW": 322,
+      "total": 2886,
+      "exos": 1,
+      "code": 15,
+      "strates": [
+        "domaine:sql-data"
+      ]
+    },
+    {
+      "day": 147,
+      "week": 21,
+      "month": 5,
+      "title": "Revue hebdomadaire — semaine 21",
+      "skill": "python",
+      "skillName": "Python",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": true,
+      "detailed": false,
+      "deliverable": null,
+      "project": null,
+      "dayW": 908,
+      "lessons": [],
+      "lessonW": 0,
+      "solW": 368,
+      "total": 1276,
+      "exos": 2,
+      "code": 0,
+      "strates": [
+        "volume:court"
+      ]
+    },
+    {
+      "day": 165,
+      "week": 24,
+      "month": 6,
+      "title": "Cross-validation",
+      "skill": "ml",
+      "skillName": "Machine learning",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Cross-validation + courbes.",
+      "project": null,
+      "dayW": 1442,
+      "lessons": [
+        "model-evaluation"
+      ],
+      "lessonW": 1007,
+      "solW": 325,
+      "total": 2774,
+      "exos": 1,
+      "code": 14,
+      "strates": [
+        "aléatoire:seed20260828"
+      ]
+    },
+    {
+      "day": 180,
+      "week": 26,
+      "month": 6,
+      "title": "Projet 5 — Analyse d'erreurs et rapport",
+      "skill": "ml",
+      "skillName": "Machine learning",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "ChurnScope : rapport 2 pages.",
+      "project": null,
+      "dayW": 1587,
+      "lessons": [
+        "model-evaluation"
+      ],
+      "lessonW": 1007,
+      "solW": 349,
+      "total": 2943,
+      "exos": 0,
+      "code": 10,
+      "strates": [
+        "domaine:machine-learning"
+      ]
+    },
+    {
+      "day": 194,
+      "week": 28,
+      "month": 7,
+      "title": "Classification de texte",
+      "skill": "dl",
+      "skillName": "Deep learning",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Classificateur de texte fonctionnel.",
+      "project": null,
+      "dayW": 827,
+      "lessons": [
+        "neural-networks",
+        "transformers"
+      ],
+      "lessonW": 2408,
+      "solW": 202,
+      "total": 3437,
+      "exos": 0,
+      "code": 7,
+      "strates": [
+        "domaine:deep-learning"
+      ]
+    },
+    {
+      "day": 201,
+      "week": 29,
+      "month": 7,
+      "title": "Hallucinations",
+      "skill": "llm",
+      "skillName": "LLM",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "3 hallucinations documentées + mécanisme.",
+      "project": null,
+      "dayW": 982,
+      "lessons": [
+        "llm-fundamentals",
+        "prompt-engineering",
+        "structured-outputs-tools",
+        "llm-cost-optimization"
+      ],
+      "lessonW": 4410,
+      "solW": 269,
+      "total": 5661,
+      "exos": 1,
+      "code": 9,
+      "strates": [
+        "domaine:llm"
+      ]
+    },
+    {
+      "day": 232,
+      "week": 34,
+      "month": 8,
+      "title": "Préparation Projet 6 : DocQA évalué",
+      "skill": "rag",
+      "skillName": "RAG",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Cadrage DocQA évalué.",
+      "project": null,
+      "dayW": 1103,
+      "lessons": [
+        "rag-fundamentals",
+        "embeddings",
+        "chunking-strategies",
+        "retrieval-reranking",
+        "vector-databases",
+        "rag-evaluation"
+      ],
+      "lessonW": 6310,
+      "solW": 322,
+      "total": 7735,
+      "exos": 0,
+      "code": 19,
+      "strates": [
+        "domaine:rag"
+      ]
+    },
+    {
+      "day": 249,
+      "week": 36,
+      "month": 9,
+      "title": "Tableau d'ablation",
+      "skill": "rag",
+      "skillName": "RAG",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Tableau d'ablation complet.",
+      "project": null,
+      "dayW": 1156,
+      "lessons": [
+        "rag-fundamentals",
+        "embeddings",
+        "chunking-strategies",
+        "retrieval-reranking",
+        "vector-databases",
+        "rag-evaluation"
+      ],
+      "lessonW": 6310,
+      "solW": 333,
+      "total": 7799,
+      "exos": 0,
+      "code": 15,
+      "strates": [
+        "aléatoire:seed20260828"
+      ]
+    },
+    {
+      "day": 255,
+      "week": 37,
+      "month": 9,
+      "title": "LLM-as-judge",
+      "skill": "evalia",
+      "skillName": "Évaluation IA",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "LLM-as-judge calibré.",
+      "project": null,
+      "dayW": 1201,
+      "lessons": [
+        "ai-evaluation",
+        "rag-evaluation",
+        "model-evaluation"
+      ],
+      "lessonW": 3350,
+      "solW": 348,
+      "total": 4899,
+      "exos": 1,
+      "code": 22,
+      "strates": [
+        "domaine:evaluation-ia"
+      ]
+    },
+    {
+      "day": 273,
+      "week": 39,
+      "month": 9,
+      "title": "Revue hebdomadaire — semaine 39",
+      "skill": "rag",
+      "skillName": "RAG",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": true,
+      "detailed": false,
+      "deliverable": null,
+      "project": null,
+      "dayW": 844,
+      "lessons": [],
+      "lessonW": 0,
+      "solW": 386,
+      "total": 1230,
+      "exos": 2,
+      "code": 0,
+      "strates": [
+        "volume:court"
+      ]
+    },
+    {
+      "day": 286,
+      "week": 41,
+      "month": 10,
+      "title": "Consolidation workflows",
+      "skill": "agents",
+      "skillName": "Agents",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Doctrine agent/workflow écrite.",
+      "project": null,
+      "dayW": 1308,
+      "lessons": [
+        "agents-fundamentals",
+        "agent-workflows-orchestration",
+        "structured-outputs-tools"
+      ],
+      "lessonW": 3353,
+      "solW": 350,
+      "total": 5011,
+      "exos": 1,
+      "code": 15,
+      "strates": [
+        "domaine:agents"
+      ]
+    },
+    {
+      "day": 287,
+      "week": 41,
+      "month": 10,
+      "title": "Revue hebdomadaire — semaine 41",
+      "skill": "agents",
+      "skillName": "Agents",
+      "difficulty": 2,
+      "hours": 4.5,
+      "isReview": true,
+      "detailed": false,
+      "deliverable": null,
+      "project": null,
+      "dayW": 866,
+      "lessons": [],
+      "lessonW": 0,
+      "solW": 427,
+      "total": 1293,
+      "exos": 1,
+      "code": 0,
+      "strates": [
+        "volume:court"
+      ]
+    },
+    {
+      "day": 303,
+      "week": 44,
+      "month": 11,
+      "title": "DocSense : architecture (ADRs)",
+      "skill": "archi",
+      "skillName": "Architecture",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "ARCHITECTURE.md + 4 ADRs.",
+      "project": null,
+      "dayW": 1323,
+      "lessons": [
+        "architecture-basics",
+        "caching-performance",
+        "system-design-interview"
+      ],
+      "lessonW": 3350,
+      "solW": 344,
+      "total": 5017,
+      "exos": 0,
+      "code": 14,
+      "strates": [
+        "domaine:architecture"
+      ]
+    },
+    {
+      "day": 309,
+      "week": 45,
+      "month": 11,
+      "title": "DocSense : ingestion multi-format",
+      "skill": "rag",
+      "skillName": "RAG",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Ingestion robuste (testée sur 5 PDF réels).",
+      "project": null,
+      "dayW": 1324,
+      "lessons": [
+        "rag-fundamentals",
+        "embeddings",
+        "chunking-strategies",
+        "retrieval-reranking",
+        "vector-databases",
+        "rag-evaluation"
+      ],
+      "lessonW": 6310,
+      "solW": 358,
+      "total": 7992,
+      "exos": 0,
+      "code": 15,
+      "strates": [
+        "volume:long"
+      ]
+    },
+    {
+      "day": 310,
+      "week": 45,
+      "month": 11,
+      "title": "DocSense : RAG core (architecture cible)",
+      "skill": "rag",
+      "skillName": "RAG",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "RAG core en architecture cible.",
+      "project": null,
+      "dayW": 1372,
+      "lessons": [
+        "rag-fundamentals",
+        "embeddings",
+        "chunking-strategies",
+        "retrieval-reranking",
+        "vector-databases",
+        "rag-evaluation"
+      ],
+      "lessonW": 6310,
+      "solW": 364,
+      "total": 8046,
+      "exos": 0,
+      "code": 12,
+      "strates": [
+        "volume:long"
+      ]
+    },
+    {
+      "day": 312,
+      "week": 45,
+      "month": 11,
+      "title": "DocSense : génération avec citations",
+      "skill": "rag",
+      "skillName": "RAG",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Génération citée et fiable.",
+      "project": null,
+      "dayW": 1350,
+      "lessons": [
+        "rag-fundamentals",
+        "embeddings",
+        "chunking-strategies",
+        "retrieval-reranking",
+        "vector-databases",
+        "rag-evaluation"
+      ],
+      "lessonW": 6310,
+      "solW": 367,
+      "total": 8027,
+      "exos": 0,
+      "code": 8,
+      "strates": [
+        "volume:long"
+      ]
+    },
+    {
+      "day": 313,
+      "week": 45,
+      "month": 11,
+      "title": "DocSense : spikes exécutés",
+      "skill": "rag",
+      "skillName": "RAG",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "3 spikes exécutés et documentés.",
+      "project": null,
+      "dayW": 1342,
+      "lessons": [
+        "rag-fundamentals",
+        "embeddings",
+        "chunking-strategies",
+        "retrieval-reranking",
+        "vector-databases",
+        "rag-evaluation"
+      ],
+      "lessonW": 6310,
+      "solW": 368,
+      "total": 8020,
+      "exos": 0,
+      "code": 8,
+      "strates": [
+        "volume:long"
+      ]
+    },
+    {
+      "day": 314,
+      "week": 45,
+      "month": 11,
+      "title": "DocSense : jalon RAG bout-en-bout",
+      "skill": "rag",
+      "skillName": "RAG",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Jalon 45 démontré + revue d'archi.",
+      "project": null,
+      "dayW": 1357,
+      "lessons": [
+        "rag-fundamentals",
+        "embeddings",
+        "chunking-strategies",
+        "retrieval-reranking",
+        "vector-databases",
+        "rag-evaluation"
+      ],
+      "lessonW": 6310,
+      "solW": 368,
+      "total": 8035,
+      "exos": 0,
+      "code": 9,
+      "strates": [
+        "volume:long"
+      ]
+    },
+    {
+      "day": 334,
+      "week": 48,
+      "month": 12,
+      "title": "DocSense : rapport qualité v1.0",
+      "skill": "secu",
+      "skillName": "Sécurité",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Rapport qualité v1.0 (avant/après).",
+      "project": null,
+      "dayW": 1344,
+      "lessons": [
+        "ai-security",
+        "prompt-injection-defense",
+        "authentication"
+      ],
+      "lessonW": 3597,
+      "solW": 333,
+      "total": 5274,
+      "exos": 0,
+      "code": 14,
+      "strates": [
+        "domaine:securite"
+      ]
+    },
+    {
+      "day": 338,
+      "week": 49,
+      "month": 12,
+      "title": "Démo vidéo de DocSense",
+      "skill": "comm",
+      "skillName": "Communication technique",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Démo vidéo DocSense 3 min.",
+      "project": null,
+      "dayW": 1350,
+      "lessons": [
+        "technical-storytelling",
+        "readme-documentation",
+        "portfolio-github",
+        "interview-preparation"
+      ],
+      "lessonW": 4075,
+      "solW": 338,
+      "total": 5763,
+      "exos": 0,
+      "code": 8,
+      "strates": [
+        "domaine:communication"
+      ]
+    },
+    {
+      "day": 351,
+      "week": 51,
+      "month": 12,
+      "title": "Révision algo pour entretien",
+      "skill": "comm",
+      "skillName": "Communication technique",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "2 exercices algo enregistrés.",
+      "project": null,
+      "dayW": 1387,
+      "lessons": [
+        "technical-storytelling",
+        "readme-documentation",
+        "portfolio-github",
+        "interview-preparation"
+      ],
+      "lessonW": 4075,
+      "solW": 361,
+      "total": 5823,
+      "exos": 0,
+      "code": 9,
+      "strates": [
+        "aléatoire:seed20260828"
+      ]
+    },
+    {
+      "day": 355,
+      "week": 51,
+      "month": 12,
+      "title": "Dossier d'entretien complet",
+      "skill": "comm",
+      "skillName": "Communication technique",
+      "difficulty": 3,
+      "hours": 4.5,
+      "isReview": false,
+      "detailed": false,
+      "deliverable": "Dossier d'entretien complet.",
+      "project": null,
+      "dayW": 1344,
+      "lessons": [
+        "technical-storytelling",
+        "readme-documentation",
+        "portfolio-github",
+        "interview-preparation"
+      ],
+      "lessonW": 4075,
+      "solW": 339,
+      "total": 5758,
+      "exos": 0,
+      "code": 8,
+      "strates": [
+        "aléatoire:seed20260828"
+      ]
+    }
+  ]
+}

@@ -77,14 +77,94 @@ Zone serveur (données/secrets, pas d'interactivité) vs zone client (interactiv
 Server Component · Client Component · frontière · **props sérialisables** · « préférer le serveur, îlots
 clients aux feuilles » · concept stable vs syntaxe de marquage évolutive.
 
-## 🧭 Exemple guidé
-Une page « détail produit » avec un bouton « Ajouter au panier ». Découpage : un **Server Component**
-lit le produit en base (avec la clé secrète, non exposée) et rend le contenu ; il passe les données du
-produit (sérialisables) à un petit **Client Component** « bouton d'ajout » qui, lui, gère l'état et le
-clic. Raisonnement : les données et le secret restent au serveur ; seule la partie interactive (le
-bouton) part côté client, avec juste les données dont elle a besoin. Résultat : léger, sûr, interactif
-au bon endroit. Tenter de tout mettre côté client exposerait le secret ; tout mettre côté serveur
-supprimerait l'interactivité du bouton.
+## 🧭 Exemple guidé — quatre erreurs devant la frontière, et ce que chacune apprend
+
+La règle « les composants serveur pour les données, les composants client pour
+l'interactivité » se retient en une phrase et ne suffit à rien décider. Ce qui apprend,
+c'est de voir **où passe exactement la frontière** — et on ne le voit qu'en la
+franchissant mal.
+
+Page « détail produit », un bouton « Ajouter au panier ». Quatre tentatives.
+
+### Tentative 1 — tout côté client
+
+On met `"use client"` en haut de la page et on récupère le produit depuis le composant.
+Ça marche en développement. Deux problèmes, dont un grave.
+
+La clé d'API se retrouve **dans le paquet JavaScript envoyé au navigateur**. Non pas
+« potentiellement visible » : littéralement lisible en ouvrant les outils de
+développement. Un composant client est du code exécuté chez l'utilisateur, donc tout ce
+qu'il contient est public — variables, chaînes de caractères, clés.
+
+Second problème : la page arrive vide, puis se remplit. Le contenu n'est pas dans le
+HTML initial.
+
+**Ce que ça apprend :** la frontière n'est pas une préférence d'architecture, c'est une
+**limite de confidentialité**. Ce qui est côté client est public.
+
+### Tentative 2 — tout côté serveur
+
+On retire `"use client"` partout. La clé est protégée, le HTML est complet. Et le bouton
+ne fait rien.
+
+L'erreur est instructive : un composant serveur s'exécute **une fois, sur le serveur**,
+et envoie le résultat. Il n'existe plus quand l'utilisateur clique. Il n'y a ni état, ni
+gestionnaire d'événement, ni cycle de vie — rien de ce qui rend une interface vivante.
+
+**Ce que ça apprend :** ce n'est pas « le serveur est plus sûr donc mettons-y tout ». Il
+existe une classe de choses que seul le client peut faire, et l'interactivité en fait
+partie.
+
+### Tentative 3 — le composant client englobe tout
+
+On garde le composant serveur pour lire les données, mais on enveloppe l'affichage
+complet dans un composant client, en lui passant le produit.
+
+Ça fonctionne, la clé est protégée, le bouton marche. Alors pourquoi est-ce mauvais ?
+
+Parce que **tout ce qui se trouve à l'intérieur d'un composant client devient client**.
+La description, la galerie de photos, le tableau de caractéristiques — du contenu
+purement statique — sont maintenant rendus par du JavaScript expédié au navigateur. On
+paie en poids de téléchargement et en temps d'exécution pour du texte qui ne bouge
+jamais.
+
+**Ce que ça apprend :** la frontière est **contagieuse vers le bas**. On ne la place pas
+au niveau de la page, on la place **le plus bas possible** — sur le plus petit
+composant qui a réellement besoin d'être interactif.
+
+### Tentative 4 — la bonne, et la question qui reste
+
+Le composant serveur lit le produit et rend tout le contenu. Il importe un petit
+composant client `BoutonAjout`, auquel il passe l'identifiant et le prix.
+
+Reste une question que personne ne se pose avant de tomber dessus : **qu'est-ce qui a
+le droit de traverser la frontière ?**
+
+Uniquement ce qui est **sérialisable** — nombres, chaînes, tableaux, objets simples. Pas
+une fonction, pas une classe, pas une connexion à la base, pas une date sous forme
+d'objet dans certains cas. La raison est mécanique : les données traversent en étant
+converties en texte pour voyager sur le réseau. Une fonction ne se convertit pas en
+texte.
+
+D'où l'erreur suivante, très fréquente et dont le message est déroutant : passer un
+gestionnaire `onAjout={...}` d'un composant serveur à un composant client. Le serveur ne
+peut pas envoyer une fonction. Il faut inverser le sens — le composant client définit
+son propre comportement, ou reçoit une action serveur, qui est un mécanisme
+spécifiquement conçu pour ça.
+
+### La règle utilisable
+
+Ne demande pas « serveur ou client ? » pour une page. Demande, **pour chaque petit
+morceau** :
+
+1. **a-t-il besoin d'un état, d'un événement, ou d'une API du navigateur ?** → client ;
+2. **touche-t-il un secret ou une source de données privée ?** → serveur, obligatoirement ;
+3. **si les deux répondent oui**, c'est qu'il faut le couper en deux — et c'est presque
+   toujours possible.
+
+Le troisième point est celui qui débloque les cas difficiles. « Ce composant lit la base
+**et** gère un formulaire » n'est pas un dilemme : c'est un composant qui en contient
+deux.
 
 ## ⚠️ Erreurs fréquentes
 - Mettre `useState`/`useEffect`/un gestionnaire d'événement dans un composant serveur → interdit
@@ -101,12 +181,129 @@ Cette leçon suit `/doc/lessons/nextjs-rendering` et s'appuie sur la frontière 
 `/doc/lessons/nextjs-data-production` (récupérer les données côté serveur, gérer erreurs et secrets).
 Le principe « petits îlots interactifs » rejoint la composition de `/doc/lessons/react-composition-architecture`.
 
+## 🛠️ Pratique — placer la frontière sur un écran qui existe déjà
+
+**Contexte.** Une équipe reprend l'écran « Tableau de bord commercial » d'une application
+interne. L'écran actuel porte `"use client"` en première ligne du fichier de page : tout
+est client. Il est lent à charger sur mobile et l'audit de sécurité a relevé une clé
+d'API visible dans le paquet JavaScript.
+
+Voici ce que l'écran contient, dans l'ordre d'affichage :
+
+| # | Morceau | Ce qu'il fait |
+|---|---------|---------------|
+| 1 | En-tête | Affiche le nom du commercial connecté (lu en base) |
+| 2 | Bandeau chiffres | Chiffre d'affaires du mois, lu via une API interne authentifiée par clé |
+| 3 | Filtre de période | Trois boutons « 7 j / 30 j / 90 j », change l'affichage sans recharger |
+| 4 | Tableau des affaires | 40 lignes, données lues en base, tri à la volée en cliquant sur une colonne |
+| 5 | Bouton « Exporter en CSV » | Déclenche un téléchargement dans le navigateur |
+| 6 | Notes internes | Texte long, éditorial, identique pour tous les utilisateurs |
+| 7 | Widget « Aide » | Bulle qui s'ouvre et se ferme au clic |
+
+**Ta production.** Un tableau à cinq colonnes, une ligne par morceau :
+
+`morceau` · `serveur / client / coupé en deux` · `la question de la règle qui tranche (1, 2 ou 3)` ·
+`si client ou coupé : quelles props sérialisables traversent la frontière` · `ce qui ne doit
+surtout pas traverser`.
+
+Puis, sous le tableau, trois phrases :
+
+- **A.** Le morceau où tu as hésité le plus longtemps, et pourquoi.
+- **B.** Un morceau que la solution naïve (« c'est interactif donc tout le bloc est
+  client ») rendrait client alors qu'il peut rester majoritairement serveur — nomme
+  précisément ce qui reste serveur.
+- **C.** L'ordre de grandeur : combien des sept morceaux envoient encore du JavaScript au
+  navigateur après ton découpage, contre sept aujourd'hui.
+
+**Critère de réussite.** Ton tableau est bon si : (a) aucune ligne « client » ne reçoit la
+clé d'API ni un objet de connexion ; (b) au moins un morceau est *coupé en deux* plutôt
+que classé en bloc ; (c) pour chaque ligne client, tu peux nommer les props sans employer
+le mot « le produit » ou « les données » — il faut des champs précis.
+
+**Durée.** 25 à 35 minutes. Papier ou fichier texte, aucune exécution nécessaire.
+
+## ✅ Correction
+
+### La démarche, avant les réponses
+
+On ne classe pas les morceaux dans l'ordre d'affichage. On les trie d'abord par la
+question **2** (touche-t-il un secret ou une source privée ?), parce que celle-là n'admet
+aucun compromis : si la réponse est oui, la lecture est serveur, point. Ensuite seulement
+on regarde la question **1** (état, événement, API navigateur ?). Les morceaux où les deux
+répondent oui sont ceux où se trouve tout le travail réel — c'est la question **3**.
+
+Fait dans cet ordre, l'exercice se résout ; fait dans l'ordre d'affichage, on hésite sur
+le tableau des affaires pendant dix minutes.
+
+### Le tableau
+
+| # | Morceau | Verdict | Règle | Props qui traversent | Ne traverse jamais |
+|---|---------|---------|-------|----------------------|--------------------|
+| 1 | En-tête | **serveur** | 2 | — | la session, la connexion base |
+| 2 | Bandeau chiffres | **serveur** | 2 | — | la clé d'API |
+| 3 | Filtre de période | **client** | 1 | `valeurActive: "7j"\|"30j"\|"90j"` | rien d'autre |
+| 4 | Tableau des affaires | **coupé en deux** | 3 | `lignes: {id, client, montant, statut, dateISO}[]` | la requête, la connexion |
+| 5 | Export CSV | **coupé en deux** | 3 | `url: string` (ou rien, voir plus bas) | le contenu du fichier, la clé |
+| 6 | Notes internes | **serveur** | ni 1 ni 2 | — | — |
+| 7 | Widget Aide | **client** | 1 | `texte: string` | — |
+
+### Pourquoi ça marche : les trois lignes qui apprennent quelque chose
+
+**Le tableau des affaires (4)** est le cœur de l'exercice. « Les données viennent de la
+base » dit serveur ; « on trie en cliquant » dit client. Ce n'est pas un conflit, c'est
+une couture mal placée : la **lecture** est serveur, le **tri** est client. Le composant
+serveur lit les 40 lignes et les passe, déjà mises en forme, à un petit composant client
+qui ne fait que réordonner un tableau qu'il a déjà en mémoire. Le JavaScript envoyé au
+navigateur est celui d'une fonction de tri, pas celui d'un accès aux données.
+
+Remarque le détail `dateISO` dans les props. Une date passée comme objet `Date` est un
+cas classique de valeur qui traverse mal ; une chaîne au format ISO traverse sans
+ambiguïté et se reformate côté client. C'est exactement le genre de décision qui
+n'apparaît qu'au moment où on écrit les props précisément — d'où le critère (c).
+
+**Les notes internes (6)** sont le piège inverse. Elles sont *dans* l'écran, donc la
+solution naïve les emporte côté client avec le reste. Or elles ne répondent ni à la
+question 1 ni à la question 2 : ni interactivité, ni secret. Elles restent serveur, et le
+navigateur reçoit du HTML au lieu de JavaScript. C'est la réponse attendue en **B** — ou,
+plus fin, le tableau des affaires : les 40 lignes de contenu sont rendues côté serveur,
+seul l'entête cliquable est client.
+
+**L'export CSV (5)** est celui où le verdict dépend d'une information qu'on n'a pas
+donnée, et c'est volontaire. Si le fichier est fabriqué à partir de données déjà
+présentes à l'écran, un composant client suffit. S'il rappelle l'API authentifiée pour
+récupérer l'historique complet, la génération est serveur et le client ne reçoit qu'une
+URL à ouvrir. Répondre « client » sans poser cette question est une réponse incomplète,
+pas une réponse fausse.
+
+### La mauvaise solution plausible
+
+La plus fréquente : classer 3, 4, 5 et 7 en « client » et s'arrêter là, en trouvant que
+c'est déjà mieux qu'avant. C'est vrai — mais quatre morceaux sur sept envoient encore du
+JavaScript, dont le plus gros de tous (le tableau et ses 40 lignes). Le découpage correct
+laisse **trois îlots clients minuscules** : trois boutons de filtre, un entête de tri,
+une bulle d'aide. Réponse attendue en **C** : trois morceaux au lieu de sept, et surtout
+un volume de JavaScript sans commune mesure, parce que ce sont les trois plus petits.
+
+La seconde erreur plausible : faire du composant client de filtre (3) le parent des
+morceaux 2 et 4, « pour qu'il puisse leur transmettre la période choisie ». La frontière
+est contagieuse vers le bas — le bandeau chiffres redeviendrait client, avec sa clé. Le
+changement de période se propage par l'URL ou par une action serveur, pas en remontant la
+frontière.
+
+### Généralisation
+
+Cette méthode ne dépend pas de Next.js. Chaque fois qu'un système a une zone de confiance
+et une zone publique — un serveur et un navigateur, un back-office et une application
+mobile, un service et son client — la même question se pose : quelle est la plus petite
+chose qui doit vraiment vivre du côté public ? La réponse est presque toujours plus
+petite qu'on ne le croit, et la trouver consiste presque toujours à **couper en deux un
+morceau qu'on croyait indivisible**.
+
 ## Mini-exercice
 Prends une page « profil utilisateur » qui affiche des infos (venant d'une base, avec une clé secrète)
 et un bouton « Modifier » interactif. Sur papier : (1) quelle partie est un Server Component et
 pourquoi ; (2) quelle partie est un Client Component et pourquoi ; (3) quelles données (sérialisables)
-traversent la frontière ; (4) qu'est-ce qui NE doit jamais la traverser. Exercice de modèle mental,
-sans exécution.
+traversent la frontière ; (4) qu'est-ce qui NE doit jamais la traverser.
 
 ## 📚 Vocabulaire
 **Server Component** · **Client Component** · **frontière serveur/client** · **sérialisable** ·

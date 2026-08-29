@@ -82,13 +82,89 @@ contenu, pas d'un dogme.
 Endroit (serveur/navigateur) × moment (build/requête/après) · **CSR** · **SSR** · **SSG** ·
 revalidation · **hydratation** · **streaming** · compromis vitesse/référencement/fraîcheur/coût.
 
-## 🧭 Exemple guidé
-Une application a trois pages. (1) La page marketing (contenu stable, à indexer) → **SSG** : générée au
-build, servie instantanément. (2) La fiche produit avec stock en temps réel (fraîche, à indexer) →
-**SSR** : rendue à la requête pour un HTML rempli et à jour. (3) Le tableau de bord après connexion
-(privé, dynamique) → **CSR** : inutile de le pré-rendre côté serveur. Raisonnement : on choisit CHAQUE
-page selon fraîcheur, référencement et interactivité — pas une seule stratégie pour tout. C'est le
-type de décision que Next.js rend possible page par page.
+## 🧭 Exemple guidé — les trois questions, et le piège de la fiche produit
+
+Trois pages, trois stratégies de rendu. Le tableau de correspondance est facile à
+retenir et il ne dit pas comment on décide. Voici les questions qui décident, dans
+l'ordre où elles éliminent des options.
+
+### Question 1 — un moteur de recherche doit-il lire cette page ?
+
+C'est la question la plus tranchante, parce qu'elle **élimine** une option au lieu de
+la classer.
+
+Un robot d'indexation demande une page et lit ce qu'il reçoit. Avec un rendu
+entièrement côté client, il reçoit une page presque vide et un script — le contenu
+n'apparaît qu'après exécution du JavaScript. Les moteurs principaux savent aujourd'hui
+exécuter du JavaScript, mais plus lentement et moins systématiquement.
+
+Donc : **page à indexer → le HTML doit contenir le contenu**. Cela élimine le rendu
+côté client, et il ne reste qu'à choisir *quand* le HTML est fabriqué.
+
+La page marketing et la fiche produit passent ce filtre. Le tableau de bord privé, non
+— personne ne l'indexera jamais, il est derrière une authentification.
+
+### Question 2 — le contenu peut-il être fabriqué à l'avance ?
+
+Formulée autrement, et c'est la formulation utile : **entre le moment où on fabrique la
+page et le moment où quelqu'un la lit, le contenu peut-il changer ?**
+
+La page marketing : non. Elle change quand on la modifie, c'est-à-dire au déploiement.
+On peut donc la générer **une fois, au build**, et servir un fichier statique. C'est la
+solution la plus rapide et la moins chère — pas de calcul par visiteur.
+
+La fiche produit : oui, le stock bouge. D'où le réflexe « rendu à la requête ».
+
+### Le piège de la fiche produit
+
+C'est ici que le tableau de correspondance induit en erreur. « Stock en temps réel donc
+rendu serveur à chaque requête » fait payer un calcul complet **à chaque visiteur**,
+pour une page dont 95 % du contenu — nom, description, photos, prix — ne change presque
+jamais. Seul le stock est volatil.
+
+La bonne question n'est pas « la page est-elle dynamique ? » mais : **quelle *partie*
+est dynamique, et à quelle fréquence ?**
+
+Trois réponses possibles, du meilleur au moins bon selon le cas :
+
+- **régénération périodique** : la page est statique, mais reconstruite automatiquement
+  toutes les N secondes. Le stock a jusqu'à N secondes de retard. Si N vaut 60, est-ce
+  grave ? Pour la plupart des commerces, non — et on garde la vitesse du statique.
+- **statique + une requête client pour le stock seul** : la page arrive instantanément
+  et complète pour l'indexation, et le seul chiffre volatil se met à jour ensuite.
+- **rendu à la requête**, si le stock doit être exact à la seconde — un système de
+  réservation de places, par exemple, où afficher un siège libre qui ne l'est plus a un
+  coût réel.
+
+**La décision ne se prend pas sur la technologie, elle se prend sur la question :
+quel retard est acceptable ?** Et cette question-là n'est pas technique : elle se pose
+au métier.
+
+### Question 3 — que coûte chaque choix quand ça marche mal ?
+
+Souvent oubliée, et elle départage les cas limites.
+
+Le statique **survit à une panne de base de données** : les pages sont déjà fabriquées.
+Le rendu à la requête, non — si la base tombe, chaque page tombe.
+
+Le rendu à la requête **coûte du calcul serveur proportionnel au trafic**. Une page
+d'accueil statique encaisse un pic de trafic sans rien faire ; la même en rendu serveur
+demande de dimensionner pour le pic.
+
+### Le tableau de bord privé
+
+Rendu côté client, et pour une raison qui n'est pas celle qu'on donne d'habitude. Ce
+n'est pas « parce qu'il est dynamique » : c'est parce qu'il est **personnel**. Le
+pré-rendre côté serveur n'apporte rien — le contenu diffère pour chaque utilisateur,
+il n'y a rien à mettre en cache ni à indexer — et cela consomme du calcul serveur pour
+un gain nul.
+
+### Ce qu'il faut retenir de la démarche
+
+Trois questions, dans l'ordre : **indexation** (élimine), **fraîcheur acceptable**
+(choisit), **coût en panne et en charge** (départage). Et une règle qui vaut au-delà de
+ce framework : le choix se fait **par page**, parfois **par morceau de page**, jamais
+une fois pour toute l'application.
 
 ## ⚠️ Erreurs fréquentes
 - Croire qu'une seule stratégie convient à toute l'application : on mélange selon le contenu.
@@ -102,11 +178,88 @@ Cette leçon suit `/doc/lessons/nextjs-foundations` et `/doc/lessons/frontend-pe
 vs exécution, performance perçue), et prépare `/doc/lessons/nextjs-server-client-components` (qui
 s'exécute où) et `/doc/lessons/nextjs-data-production` (récupérer les données selon la stratégie).
 
-## Mini-exercice
-Prends trois pages réelles (une page d'accueil marketing, une page de résultats de recherche, un
-tableau de bord privé). Pour chacune, choisis CSR, SSR ou SSG et JUSTIFIE en une phrase (fraîcheur,
-référencement, interactivité, coût). Puis indique celle qui bénéficierait du streaming et pourquoi.
-Exercice de raisonnement — aucune exécution.
+## Mini-exercice — la fiche de rendu d'un site réel
+
+**Contexte.** Un site de petites annonces immobilières, six pages :
+
+| page | ce qu'on sait |
+|---|---|
+| accueil marketing | change une fois par mois |
+| liste des annonces d'une ville | nouvelles annonces plusieurs fois par jour, indexée |
+| détail d'une annonce | prix et disponibilité peuvent changer, indexée, très visitée |
+| résultats de recherche filtrée | combinaisons infinies de filtres |
+| tableau de bord d'un annonceur | privé |
+| page « mentions légales » | change une fois par an |
+
+**Ce que tu produis.** Pour chacune des six : la stratégie choisie, **la contrainte
+précise de l'énoncé qui la dicte**, et — c'est la colonne notée — **le retard maximal
+acceptable sur la donnée la plus volatile de la page**, exprimé en secondes, minutes ou
+jours.
+
+Ajoute pour chaque page : *« si la base de données tombe, cette page … »*.
+
+**Livrable.** Un tableau de six lignes × quatre colonnes.
+
+**Critère de réussite.** Deux vérifications seul : (1) au moins une de tes six pages
+doit mélanger deux stratégies — si tu as attribué une stratégie unique à chaque page,
+tu es resté au tableau de correspondance ; (2) la colonne « retard acceptable » ne doit
+contenir aucune case vide, y compris pour les pages que tu as jugées statiques.
+
+**Piège.** Une des six pages ne peut être ni statique ni régénérée périodiquement, pour
+une raison qui n'est ni la fraîcheur ni le référencement. Trouve laquelle.
+
+## ✅ Correction attendue
+
+**La démarche.** Les trois questions de l'exemple guidé, dans l'ordre : indexation,
+fraîcheur acceptable, coût en panne et en charge.
+
+**Accueil marketing.** Statique, généré au déploiement. Retard acceptable : un mois —
+c'est sa fréquence de changement. En panne de base : elle s'affiche normalement, elle
+ne dépend de rien.
+
+**Mentions légales.** Statique. Retard acceptable : un an. C'est le cas le plus simple,
+et il est là pour rappeler qu'une page qui ne change jamais ne mérite aucun calcul.
+
+**Liste des annonces d'une ville.** Régénération périodique. Indexée, donc le HTML doit
+contenir le contenu. Nouvelles annonces plusieurs fois par jour : un retard de 5 à
+15 minutes est sans conséquence pour un acheteur qui parcourt des annonces
+immobilières. En panne de base : la dernière version reste servie — un avantage réel.
+
+**Détail d'une annonce.** C'est la page qui doit **mélanger deux stratégies**, et c'est
+le point central de l'exercice. La description, les photos, la surface, l'adresse ne
+changent quasiment jamais : statique avec régénération. Le prix et le statut
+« disponible / sous compromis » peuvent changer : ces deux valeurs se rafraîchissent
+côté client, ou justifient un délai de régénération court.
+
+Retard acceptable : long pour la description, court pour la disponibilité. **C'est
+exactement pourquoi une stratégie unique par page est le mauvais grain de décision.**
+
+**Résultats de recherche filtrée.** **C'est le piège.** La raison n'est ni la fraîcheur
+ni le référencement : c'est la **cardinalité**. Trois filtres à dix valeurs chacun font
+mille combinaisons ; cinq filtres en font cent mille. On ne peut pas pré-générer ce
+qu'on ne peut pas énumérer. Rendu à la requête, ou côté client. Retard acceptable :
+sans objet — la page est calculée à la demande, il n'y a pas de version stockée qui
+vieillit.
+
+**Tableau de bord annonceur.** Rendu côté client. Privé, donc rien à indexer et rien à
+mutualiser en cache. En panne de base : il est vide, et c'est acceptable pour une page
+d'administration.
+
+**L'erreur probable, et elle est de granularité.** Attribuer une stratégie unique à la
+page de détail — presque toujours « rendu à la requête, parce que le prix change ». On
+paie alors un calcul complet à chaque visiteur, sur la page la plus visitée du site,
+pour maintenir à jour deux valeurs. Sur un site d'annonces, c'est la page qui concentre
+le trafic : le surcoût est maximal là où il fait le plus mal.
+
+**Les indices qui font reconnaître ce type de problème.** Trois formulations dans un
+cahier des charges : *« temps réel »* — presque toujours négociable, demander en
+secondes · *« beaucoup de filtres »* — élimine la pré-génération · *« page publique »* —
+impose que le contenu soit dans le HTML.
+
+**Quand la réponse changerait.** Si le site passait à un modèle d'enchères où le prix
+change toutes les secondes, la page de détail basculerait entièrement en rendu à la
+requête, voire en connexion permanente. **Ce n'est pas la nature de la page qui décide,
+c'est la vitesse à laquelle sa donnée la plus volatile se périme.**
 
 ## 📚 Vocabulaire
 **CSR** · **SSR** · **SSG** · **revalidation** · **hydratation** · **streaming** · **référencement

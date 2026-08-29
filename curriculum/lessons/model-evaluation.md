@@ -55,9 +55,84 @@ Les noms ci-dessus ne servent à rien tant qu'on ne les a pas vus sortir de vrai
 Détecteur de fraude : 1 % de fraudes. Un modèle qui prédit toujours « pas de fraude » a 99 % d'accuracy et 0 % de rappel — inutile. La matrice de confusion le révèle immédiatement.
 
 ## 🧭 Exemple guidé
-**Énoncé** : choisir la métrique pour un test médical (maladie rare).
-**Raisonnement** : le coût d'un MALADE raté (faux négatif) est énorme ; on privilégie le rappel.
-**Solution** : optimiser le **rappel** (quitte à baisser la précision), en abaissant le seuil de décision, et surveiller la précision pour ne pas alerter tout le monde. **Explication** : le coût asymétrique des erreurs dicte la métrique. **Variante** : pour un filtre anti-spam, inverse le raisonnement (précision d'abord).
+
+Un dépistage. Maladie présente chez **1 % de la population**, 100 000 personnes testées —
+donc 1 000 malades et 99 000 personnes saines. Le modèle annonce **99 % de justesse**.
+Faut-il le déployer ?
+
+**Décision 1 — d'abord, à quoi se compare ce 99 % ?** Construis le modèle qui ne fait rien :
+il répond « sain » à tout le monde, sans regarder les données.
+
+```
+Modèle "toujours sain"
+  malades détectés : 0 sur 1 000
+  justesse (accuracy) = 0,990
+```
+
+**Il obtient 99 % lui aussi.** Le chiffre annoncé ne prouvait donc rien du tout : sur des
+classes déséquilibrées, la justesse récompense la classe majoritaire, et ne pas chercher est
+une stratégie gagnante. C'est le premier réflexe à acquérir, et il ne coûte rien :
+**calcule toujours ce que fait le modèle nul avant de te réjouir d'un score.**
+
+**Décision 2 — quelle erreur veut-on éviter, et à quel prix ?** Il y a deux façons de se
+tromper, et elles n'ont pas le même coût. Rater un malade (faux négatif) peut être fatal ;
+alarmer une personne saine (faux positif) coûte un examen de contrôle et de l'angoisse. Le
+raisonnement classique est donc « privilégier le rappel ». Regardons ce que cela donne
+vraiment en abaissant le seuil de décision :
+
+| réglage | rappel | malades ratés | faux positifs | justesse | **précision** |
+|---|---|---|---|---|---|
+| seuil haut | 50 % | 500 | 990 | 0,985 | **33,6 %** |
+| seuil bas | 95 % | 50 | 9 900 | 0,900 | **8,8 %** |
+| seuil très bas | 99 % | 10 | 49 500 | 0,505 | **2,0 %** |
+
+Lis la ligne du milieu, celle que la règle « privilégier le rappel » recommande. Elle rate
+50 malades au lieu de 500 : c'est un vrai progrès, et c'est ce qu'on voulait. Mais elle
+convoque **10 850 personnes pour en trouver 950**. Autrement dit : **une personne déclarée
+positive n'a que 8,8 % de risque d'être malade** — plus de neuf sur dix des personnes
+alarmées ne sont pas malades.
+
+Ce n'est pas un argument contre le choix ; c'est le prix du choix, et le connaître change la
+conversation. La question à poser au médecin ou au responsable produit n'est pas « quelle
+métrique optimiser ? » — question technique dont il n'a que faire — mais : *« avez-vous la
+capacité de faire 10 850 examens de contrôle, et acceptez-vous d'inquiéter 9 900 personnes
+pour en sauver 450 de plus ? »* Formulée ainsi, la décision revient à qui elle appartient.
+Remarque aussi que la justesse **baisse** quand le modèle devient plus utile : c'est la
+preuve définitive qu'elle ne mesurait pas la bonne chose.
+
+**Décision 3 — la précision n'est pas une propriété du modèle.** Voici le point que la
+plupart des cours omettent, et qui est le plus important de la leçon. Prends **exactement le
+même test**, sensibilité 95 % et spécificité 90 %, mais applique-le à une population où la
+maladie touche 20 % des gens — par exemple des patients déjà orientés par un médecin, au
+lieu d'un dépistage de masse.
+
+```
+prévalence  1 %  →  précision =  8,8 %
+prévalence 20 %  →  précision = 70,4 %
+```
+
+Le test n'a pas changé d'un iota. Sensibilité et spécificité sont identiques. Seule la
+population a changé, et la valeur pratique du résultat positif passe de « presque toujours
+une fausse alerte » à « probablement vrai ». **La précision dépend de la prévalence ; le
+rappel et la spécificité n'en dépendent pas.** C'est pour cette raison qu'un modèle
+excellent en laboratoire devient inutilisable en production quand la fréquence réelle de
+l'événement est plus faible que dans le jeu de test — et c'est l'explication la plus fréquente
+du « ça marchait très bien chez nous ».
+
+**La règle de méthode.** Ne demande jamais « quelle est la meilleure métrique ». Demande :
+*quelles sont mes deux erreurs, combien coûte chacune, et à quelle fréquence l'événement
+arrive-t-il réellement ?* Les trois réponses déterminent la métrique et le seuil ; l'ordre
+inverse ne fonctionne pas. Et présente toujours la matrice de confusion en **effectifs**,
+pas en pourcentages : « 9 900 faux positifs » se discute, « 90 % de spécificité » endort.
+
+**Variante qui déplace le problème.** Un filtre anti-spam. L'asymétrie s'inverse : laisser
+passer un spam est une nuisance, classer en spam un devis client est une perte sèche. On
+privilégie donc la précision, quitte à laisser passer du courrier indésirable. Même
+raisonnement, conclusion opposée — ce qui montre bien que « rappel d'abord » n'était pas une
+règle du domaine, mais la conséquence d'un coût. Le cas vraiment intéressant est celui où
+les deux erreurs coûtent cher : c'est là qu'on cesse de bouger un seuil et qu'on introduit
+une **troisième sortie**, « incertain, à faire vérifier par un humain » — souvent la seule
+réponse honnête, et elle n'apparaît sur aucune courbe.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 C'est le socle de l'évaluation des systèmes LLM/RAG (mois 9) : le rappel@k du retrieval est un RAPPEL classique ; choisir « fidélité » comme métrique clé d'un RAG, c'est choisir selon le coût d'erreur (une réponse inventée est pire qu'une réponse prudente). Même raisonnement, autre objet.

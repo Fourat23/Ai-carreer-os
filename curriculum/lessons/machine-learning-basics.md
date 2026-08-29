@@ -62,17 +62,99 @@ Les **features** (variables d'entrée) comptent souvent plus que le choix du mod
 Supervisé / non supervisé · régression, classification, clustering · train/test split · leakage · baseline · overfitting / underfitting · régularisation · cross-validation · matrice de confusion · précision / rappel / F1 / AUC · MAE / RMSE · feature engineering · Pipeline.
 
 ## 🧭 Exemple guidé
-Le workflow honnête, en squelette :
+
+Voici le squelette du workflow honnête. Chaque ligne encode une décision — et la plus
+importante d'entre elles ne se voit pas du tout dans ce code.
+
 ```python
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 baseline = y_train.mean()                       # à battre !
 pipe = Pipeline([("scaler", StandardScaler()),  # transfos DANS le pipeline
                  ("model", Ridge())])
-scores = cross_val_score(pipe, X_train, y_train, cv=5)   # évaluation robuste
+scores = cross_val_score(pipe, X_train, y_train, cv=5)
 pipe.fit(X_train, y_train)
 evaluation_finale = pipe.score(X_test, y_test)  # le test, UNE fois, à la fin
 ```
-Chaque ligne encode une leçon d'honnêteté : split d'abord, baseline, transfos encapsulées, cross-validation, test intouché jusqu'au bout.
+
+**Le problème, c'est qu'on peut faire mieux.** Un modèle qui obtient 87 % là où le tien
+plafonne à 59 % a l'air meilleur. Voyons donc ce que vaut cette phrase.
+
+**L'expérience.** Prends 100 individus et 2 000 variables **tirées au hasard**, puis une
+étiquette tirée à pile ou face. Il n'y a, par construction, **aucun lien** entre les
+variables et l'étiquette : le score honnête d'un modèle ne peut être que le hasard, autour
+de 50 %. Ce jeu de données est un détecteur de mensonge — tout score notablement supérieur
+à 50 % est nécessairement fabriqué.
+
+Maintenant, le geste que tout le monde fait : 2 000 variables, c'est beaucoup, on commence
+par garder les 20 plus corrélées à l'étiquette, puis on évalue en validation croisée.
+
+```python
+# A) sélection des variables AVANT la validation croisée
+sel   = SelectKBest(f_classif, k=20).fit(X, y)
+X_sel = sel.transform(X)
+cross_val_score(LogisticRegression(), X_sel, y, cv=5).mean()
+
+# B) sélection À L'INTÉRIEUR du pipeline, donc refaite à chaque pli
+pipe = Pipeline([("sel", SelectKBest(f_classif, k=20)),
+                 ("mod", LogisticRegression())])
+cross_val_score(pipe, X, y, cv=5).mean()
+```
+
+Résultats mesurés :
+
+```
+A) sélection avant la validation croisée : 0.870
+B) sélection dans le pipeline            : 0.590
+```
+
+**87 % de justesse sur des données qui ne contiennent rien.** Aucune erreur de code, aucun
+avertissement. Si tu présentes ce chiffre en réunion, personne dans la salle ne pourra dire
+qu'il est faux — et il l'est entièrement.
+
+**Décision 1 — comprendre le mécanisme, pas mémoriser l'interdit.** Pourquoi 87 % ? Parmi
+2 000 variables aléatoires, quelques-unes ressemblent à l'étiquette **par pur hasard** — sur
+100 individus, ça arrive forcément. En les sélectionnant avec l'étiquette de tout le jeu de
+données sous les yeux, on a choisi précisément celles dont le hasard s'étend aussi aux
+individus qui serviront de test. La validation croisée découpe ensuite bien proprement,
+mais elle découpe des variables **déjà choisies en connaissance du test**. La règle qui en
+sort n'est pas « mettre les choses dans un pipeline » : c'est **toute opération qui regarde
+l'étiquette doit être refaite à l'intérieur de chaque pli**. Le pipeline est le moyen, pas
+le principe.
+
+Note au passage que B donne 0,59 et non 0,50 : avec 100 individus, cinq plis fluctuent. Un
+score isolé, même honnête, porte une incertitude qu'il faut regarder avant de conclure quoi
+que ce soit.
+
+**Décision 2 — toutes les fuites ne se valent pas.** La même expérience avec la
+normalisation, cette fois, et non la sélection :
+
+```
+scaler ajusté sur toutes les données : 0.520
+scaler à l'intérieur du pipeline     : 0.540
+```
+
+Presque rien. Ce n'est pas une invitation à normaliser n'importe comment, mais c'est une
+information utile : la normalisation ne transporte que deux nombres par variable (moyenne,
+écart-type) et **ne regarde jamais l'étiquette**, alors que la sélection choisit *quelles
+variables existent* en fonction de la réponse. La leçon pratique : quand tu cherches une
+fuite dans un projet réel, commence par les étapes qui ont vu `y`. C'est là que se cachent
+les écarts à trois chiffres.
+
+**Décision 3 — quelle défense, concrètement ?** Trois, par ordre d'efficacité. *La
+baseline* : `y_train.mean()` ou « prédire toujours la classe majoritaire ». Un modèle qui ne
+la bat pas nettement n'a rien appris — et, dans notre expérience, la baseline à 50 % aurait
+immédiatement rendu le 87 % suspect. *Le jeu de test intouché*, évalué une seule fois, tout
+à la fin : c'est la seule mesure dont l'honnêteté ne dépend pas de la discipline de tes
+étapes intermédiaires. *Le scepticisme calibré* : sur des données réelles et bruitées, un
+score très élevé est plus souvent le symptôme d'une fuite que la preuve d'un bon modèle.
+**Un résultat trop beau est une hypothèse à tester, pas un succès à annoncer.**
+
+**Variante qui déplace le problème.** Tes données sont temporelles — des ventes, des
+journaux, des mesures. Le découpage aléatoire devient lui-même une fuite : entraîner sur
+mars et juin pour prédire avril, c'est utiliser le futur pour deviner le passé, ce que la
+production ne permettra jamais. Il faut un découpage **chronologique**, et les scores
+chutent souvent beaucoup en passant de l'un à l'autre. Cette chute n'est pas une régression :
+c'est la première mesure honnête que tu obtiens.
 
 ## ⚠️ Erreurs fréquentes
 - Évaluer sur le train (score illusoire).

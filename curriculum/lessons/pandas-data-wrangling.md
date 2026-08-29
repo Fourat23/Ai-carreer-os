@@ -66,14 +66,96 @@ sont obligatoires — `&` a priorité sur `>` en Python.
 `df.groupby("categorie")["prix"].mean()` donne le prix moyen par catégorie en une ligne — l'équivalent d'un GROUP BY.
 
 ## 🧭 Exemple guidé
-**Énoncé** : sur des ventes, calculer le CA par mois trié chronologiquement.
-**Raisonnement** : extraire le mois, grouper, sommer, trier.
-**Solution** :
+**Énoncé** : sur un export de ventes, calculer le chiffre d'affaires par mois.
+
+La réponse tient en deux lignes, et c'est exactement le problème :
+
 ```python
-df["mois"] = df["date"].str[:7]          # "2024-03"
+df["mois"] = df["date"].str[:7]
 ca = df.groupby("mois")["montant"].sum().sort_index()
 ```
-**Explication** : `.str[:7]` extrait "AAAA-MM" (les dates ISO se trient chronologiquement) ; groupby+sum agrège ; sort_index ordonne. **Variante** : ajoute l'évolution en % d'un mois à l'autre avec `.pct_change()`.
+
+Ces deux lignes sont justes — sur des données propres. Voici un export réel, tel qu'un
+service comptable le produit :
+
+```
+date          montant   client
+2024-03-05    120.50    Dupont
+2024-03-17    89        dupont
+2024-1-9      (vide)    Martin
+2024-04-02    210.00    MARTIN
+05/04/2024    45,90     Nkolo
+2024-04-11    1 300     Nkolo
+(vide)        75        Sow
+```
+
+**Décision 1 — regarder les types avant de calculer quoi que ce soit.** La colonne `montant`
+n'est pas numérique : c'est du texte. Et `sum()` sur du texte ne lève aucune erreur — il
+**concatène** :
+
+```
+'120.5089210.0045,901 30075'
+```
+
+Un total de ventes qui ressemble à un numéro de série. Ici, c'est visible ; dans un tableau
+de bord agrégé, ça ne le serait pas. D'où le premier geste, avant toute analyse :
+`df.dtypes`, `df.head()`, `df.describe()`. **Trente secondes de lecture évitent des heures
+de conclusions fausses**, et c'est le seul moment où l'on peut encore les éviter facilement.
+
+**Décision 2 — convertir, oui, mais mesurer ce que la conversion détruit.** La solution
+standard est `pd.to_numeric(..., errors="coerce")`, qui remplace par « valeur manquante »
+tout ce qu'il ne sait pas lire. Pratique. Regarde le résultat :
+
+```
+[120.5, 89.0, nan, 210.0, nan, nan, 75.0]     →  3 valeurs perdues sur 7
+somme obtenue :  494,50
+somme réelle  : 1 840,40
+```
+
+Le total est faux de 73 %, et aucun avertissement n'a été émis. Les valeurs perdues sont
+`45,90` et `1 300` — la virgule décimale et l'espace des milliers, c'est-à-dire **la
+notation française**. Après nettoyage du format, on retrouve les 1 840,40 attendus.
+
+La règle qui en découle est la plus utile de la leçon : `errors="coerce"` est un excellent
+outil à condition d'être suivi d'un **comptage**. `m.isna().sum()` avant et après, et l'on
+sait immédiatement si l'on a converti ou détruit. Un silence n'est pas un succès.
+
+**Décision 3 — l'ambiguïté qui ne se signale jamais.** Convertissons les dates :
+
+```
+'05/04/2024'  →  2024-05-04
+```
+
+Lis bien. La date française du **5 avril** est devenue le **4 mai**. Pandas n'a pas eu tort :
+`05/04/2024` est réellement ambigu, et il a choisi la convention mois-jour. Personne ne sera
+prévenu ; simplement, une vente changera de mois, et le chiffre d'affaires d'avril et de mai
+seront tous deux faux. C'est la classe d'erreurs la plus dangereuse en traitement de
+données — **pas une valeur manquante, une valeur plausible et fausse**. La parade est
+d'imposer le format explicitement (`format="%d/%m/%Y"`) plutôt que de laisser deviner, et de
+vérifier ensuite l'étendue des dates obtenues : un minimum ou un maximum surprenant est
+souvent le seul symptôme visible.
+
+**Décision 4 — sur quoi groupe-t-on, exactement ?** La colonne `client` contient `Dupont`,
+`dupont ` (avec une espace finale), `Martin`, `MARTIN`. Un `groupby` compte **6 clients**
+distincts là où il n'y en a que 4. Rien ne le signale, et les moyennes par client sont
+fausses en silence. `.str.strip().str.lower()` règle ce cas — mais le principe est plus
+large : **toute clé de regroupement doit être normalisée avant de servir de clé**, faute de
+quoi on agrège des lignes qui devraient l'être ensemble sous des étiquettes différentes.
+
+**Ce que l'exemple enseigne vraiment.** Les deux lignes du début n'étaient pas fausses ;
+elles étaient prématurées. Le travail réel n'est pas le `groupby`, c'est tout ce qui le
+précède — et il se termine par une vérification que trop peu de gens font : compare la somme
+totale à un ordre de grandeur connu, et le nombre de lignes avant et après chaque étape.
+**Un pipeline de données sans compteurs est un pipeline dont personne ne sait s'il a perdu
+quelque chose.**
+
+**Variante qui déplace le problème.** Une ligne a une date vide. Faut-il l'exclure, la
+rattacher à un mois « inconnu », ou remonter chercher l'information à la source ? Les trois
+se défendent, et le choix n'est pas technique : exclure fausse le total, un mois « inconnu »
+le préserve mais oblige le lecteur du tableau à traiter le cas, remonter à la source coûte
+du temps mais est la seule option qui produise une donnée juste. Ce qui ne se défend pas,
+c'est de laisser `dropna()` trancher sans le dire. **Une valeur manquante est une question
+posée au métier, pas un déchet à supprimer discrètement.**
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Avant tout modèle ML, on prépare les données avec pandas : charger, nettoyer, créer les features, encoder les catégories. Un pipeline RAG peut aussi utiliser pandas pour préparer et inspecter un corpus (statistiques de longueur des chunks, doublons).

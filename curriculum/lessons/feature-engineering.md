@@ -46,14 +46,75 @@ Un dernier mot sur l'encodage par fréquence, mentionné en variante plus bas : 
 D'une colonne `date_achat`, créer `est_weekend` (booléen) : si l'hypothèse « on achète plus le week-end » est vraie, cette feature simple booste le modèle.
 
 ## 🧭 Exemple guidé
-**Énoncé** : encoder une colonne `ville` (catégorielle) pour un modèle.
-**Raisonnement** : pas d'ordre entre les villes → one-hot ; mais si trop de villes, la matrice explose.
-**Solution** :
-```python
-df = pd.get_dummies(df, columns=["ville"])   # one-hot
-# Si haute cardinalité : regrouper les villes rares en "Autre" d'abord.
+Tu dois encoder une colonne `ville` pour un modèle. Elle a l'air inoffensive. Regarde-la
+d'abord — c'est le geste que l'on saute et qui décide de tout :
+
 ```
-**Explication** : one-hot évite d'imposer un faux ordre ; regrouper les rares limite l'explosion de colonnes. **Variante** : encode plutôt par la fréquence, en calculant les fréquences sur le TRAIN seulement (anti-leakage).
+3 000 lignes, 604 villes distinctes
+les 4 villes les plus fréquentes couvrent 80 % des lignes
+600 villes n'apparaissent qu'UNE seule fois
+```
+
+Voilà le vrai énoncé du problème, et il n'est pas « comment encoder une catégorie » mais
+« comment traiter une longue traîne ».
+
+**Décision 1 — pourquoi pas un simple numéro ?** Écrire Paris = 1, Lyon = 2, Marseille = 3
+serait le plus court. C'est faux, et il faut savoir dire pourquoi : le modèle traite ces
+colonnes comme des **nombres**, donc il lira que Marseille > Lyon > Paris, et qu'un point de
+Lyon est « à mi-chemin » entre Paris et Marseille. On aurait inventé un ordre et des
+distances qui n'existent pas. C'est le sens réel de « pas d'ordre entre les catégories » :
+non pas une convenance, mais une affirmation fausse injectée dans les données.
+
+**Décision 2 — le one-hot, et son coût mesuré.** L'encodage un-parmi-N crée une colonne
+booléenne par ville, ce qui n'affirme rien de faux. Mais :
+
+```
+one-hot brut                              → 604 colonnes
+regroupement des rares en "Autre", puis   →   5 colonnes
+```
+
+Une colonne d'entrée est devenue 604. Au-delà de la mémoire, le problème est statistique :
+600 de ces colonnes ne valent 1 que pour **une seule ligne**. Un modèle qui dispose d'une
+variable active sur un unique individu peut apprendre cet individu par cœur — c'est du
+surapprentissage servi sur un plateau. Regrouper la longue traîne en « Autre » ne perd donc
+presque rien (ces villes ne portent aucune statistique exploitable) et supprime le risque.
+Le seuil de regroupement est un choix à documenter, pas une constante universelle : garde
+ce qui apparaît assez souvent pour qu'une moyenne y ait un sens.
+
+**Décision 3 — l'encodage par la cible, ou comment fabriquer un score.** Une technique
+séduisante consiste à remplacer chaque ville par le taux de la cible observé dans cette
+ville. Elle donne souvent d'excellents résultats. Testons-la sur des données où la ville
+n'a, par construction, **aucun lien** avec la cible — le score honnête est donc 0,50 :
+
+```
+C) encodage par la cible, calculé sur tout le jeu : 0,610
+D) encodage par la fréquence                      : 0,479
+```
+
+L'encodage par la cible trouve du signal là où il n'y en a pas. Le mécanisme est limpide une
+fois vu : pour les 600 villes qui n'apparaissent qu'une fois, « la moyenne de la cible dans
+cette ville » **est la valeur de la cible de cette ligne**. On a littéralement recopié la
+réponse dans une colonne d'entrée. L'encodage par la fréquence, lui, ne regarde jamais la
+cible et rend bien 0,479 — c'est-à-dire du bruit, ce qui est la bonne réponse.
+
+Cela ne condamne pas la technique : elle est utile et largement employée. Cela dit **à
+quelles conditions** — la moyenne doit être calculée uniquement sur le pli d'entraînement,
+et lissée vers la moyenne globale d'autant plus fortement que la catégorie est rare. Ces
+deux précautions ne sont pas des raffinements : sans elles, la technique ne mesure plus rien.
+
+**Le principe qui traverse la leçon.** Une transformation de variables est un endroit où
+l'on peut, sans écrire une seule ligne fausse, faire trois choses différentes : ajouter une
+information vraie, affirmer quelque chose de faux (l'ordre des villes), ou recopier la
+réponse (l'encodage par la cible non protégé). Avant d'adopter un encodage, pose-lui la
+question : **qu'est-ce que celui-ci affirme, et qu'a-t-il eu le droit de regarder ?**
+
+**Variante qui déplace le problème.** Une ville jamais vue à l'entraînement apparaît en
+production. Le one-hot ne sait pas quoi en faire, l'encodage par la cible n'a pas de moyenne
+à lui donner. Ce n'est pas un cas limite exotique, c'est la situation ordinaire de tout
+système qui vit. Décide-le à la conception — une catégorie « inconnu » explicitement prévue
+et présente dès l'entraînement, plutôt qu'une valeur manquante découverte en pleine
+production. La bonne question, ici encore, arrive avant l'incident : **que fait mon encodage
+face à quelque chose qu'il n'a jamais vu ?**
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 En ML tabulaire (mois 6), améliorer un modèle par les features (sans changer le modèle) est souvent le gain le plus rentable. Le raisonnement « bien présenter l'information » se retrouve aussi côté LLM : structurer un prompt, c'est présenter l'information pour qu'elle soit exploitable.

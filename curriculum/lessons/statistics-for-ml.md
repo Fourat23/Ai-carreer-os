@@ -60,7 +60,78 @@ Un échantillon BIAISÉ produit des conclusions fausses avec une grande confianc
 Moyenne / médiane / mode · variance, écart-type · distribution, histogramme, boxplot · quantiles / percentiles (p95 de latence !) · aberration (outlier) · corrélation (et sa force) · confondant · biais de sélection / du survivant · probabilité conditionnelle · Bayes (l'intuition).
 
 ## 🧭 Exemple guidé
-Latence d'une API : moyenne 120 ms — « tout va bien » ? L'histogramme montre 95 % à 80 ms et 5 % à 900 ms (timeouts). La moyenne noie le problème ; le **p95/p99** le révèle. C'est pour ça que les SLA se définissent en percentiles, jamais en moyennes — et que ton dashboard qualité RAG (mois 9) regardera la distribution des scores, pas juste leur moyenne.
+
+Ton tableau de bord affiche « latence moyenne : 121 ms ». Le service est réputé rapide,
+personne ne s'en inquiète — et le support reçoit des plaintes. Voici les mêmes 10 000
+requêtes, résumées autrement :
+
+```
+moyenne         121 ms
+médiane (p50)    81 ms
+p95             153 ms
+p99             955 ms
+maximum        1081 ms
+```
+
+**Décision 1 — pourquoi la moyenne ment-elle ici ?** Parce que la distribution a deux
+bosses : 95 % des requêtes autour de 80 ms, 5 % autour de 900 ms. La moyenne calcule le
+centre de gravité d'une population qui n'a pas de centre — aucune requête ne dure 121 ms.
+La médiane (81 ms) décrit correctement le cas courant, la moyenne ne décrit rien. La règle
+générale : **la moyenne n'est un bon résumé que d'une distribution à une seule bosse et à
+peu près symétrique** ; avant de la citer, regarde l'histogramme, toujours.
+
+**Décision 2 — quel percentile, et c'est un vrai piège.** Le réflexe enseigné est « prends
+le p95 ». Regarde le tableau : le p95 vaut **153 ms**. Rassurant. Et faux — il passe juste
+en dessous du groupe lent, parce que ce groupe fait exactement 5 % du total. Le p99, lui,
+révèle les 955 ms. Retiens le mécanisme plutôt que le chiffre : **un percentile ne voit rien
+au-delà de lui-même**. Choisir p95 quand 5 % des requêtes sont pathologiques revient à
+placer le projecteur pile à la limite de la zone d'ombre. C'est pourquoi on regarde
+plusieurs percentiles, et pourquoi les équipes sérieuses surveillent aussi p99,9.
+
+**Décision 3 — 5 %, est-ce beaucoup ?** C'est la question qui tranche, et l'intuition se
+trompe complètement. Un utilisateur ne fait pas une requête : une session en enchaîne des
+dizaines. Probabilité d'en rencontrer **au moins une** lente :
+
+```
+ 1 requête   →  5,0 %
+ 5 requêtes  → 22,6 %
+10 requêtes  → 40,1 %
+20 requêtes  → 64,2 %
+50 requêtes  → 92,3 %
+```
+
+Un défaut qui touche 5 % des requêtes touche **92 % des utilisateurs** un peu actifs. Voilà
+pourquoi le support a des plaintes que le tableau de bord ne montre pas : le tableau de bord
+compte des requêtes, les plaintes viennent de personnes. **Choisis toujours consciemment
+l'unité que tu mesures** — requête, session, utilisateur — parce qu'elle change les
+conclusions plus sûrement que la statistique employée.
+
+**Décision 4 — le piège de l'agrégation, qui vaut pour tout le reste de ta carrière.** Tu
+compares deux modèles de réponse, A et B, sur 350 requêtes chacun. Par catégorie :
+
+| | modèle A | modèle B |
+|---|---|---|
+| requêtes faciles | **93,1 %** (81/87) | 86,7 % (234/270) |
+| requêtes dures | **73,0 %** (192/263) | 68,8 % (55/80) |
+| **total** | 78,0 % (273/350) | **82,6 %** (289/350) |
+
+Lis-le deux fois : **A est meilleur sur les faciles, meilleur sur les dures, et perd au
+total.** Ce n'est pas une erreur de calcul, c'est le paradoxe de Simpson. L'explication tient
+aux effectifs : B a été surtout évalué sur des requêtes faciles (270 sur 350), A surtout sur
+des dures (263 sur 350). Le total ne compare pas les modèles, il compare deux mélanges
+différents.
+
+Ce cas n'a rien d'exotique — il apparaît dès que les groupes comparés n'ont pas la même
+composition, ce qui est la situation normale des données réelles. La parade est un réflexe
+simple : **avant d'accepter un chiffre agrégé, demande de quoi il est la moyenne, et
+regarde-le par sous-groupe.** Si les sous-groupes disent l'inverse du total, c'est le total
+qu'il faut jeter.
+
+**Le lien avec la suite.** Ces quatre décisions sont exactement celles que tu prendras sur
+ton tableau de bord de qualité RAG : ne pas résumer les scores par leur moyenne, regarder
+la queue de distribution des mauvaises réponses, compter par question et non par document,
+et se méfier d'un score global qui s'améliore pendant qu'une catégorie de questions se
+dégrade.
 
 ## ⚠️ Erreurs fréquentes
 - Résumer une distribution asymétrique par sa moyenne.

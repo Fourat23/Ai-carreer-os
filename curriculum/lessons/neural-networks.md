@@ -38,19 +38,75 @@ vallée. Aucun framework n'est supposé.
 Un neurone unique avec sigmoïde peut apprendre le ET logique : 4 exemples, quelques dizaines d'itérations de gradient — la loss descend, les poids convergent. Le faire UNE fois en NumPy pur démystifie tout le domaine.
 
 ## 🧭 Exemple guidé
-**Énoncé** : la boucle d'entraînement PyTorch minimale.
-**Raisonnement** : les 5 gestes canoniques, dans l'ordre, à connaître de tête.
-**Solution** :
+**Énoncé** : la boucle d'entraînement minimale — et ce qui se passe quand on en retire une
+ligne.
+
 ```python
 for epoch in range(10):
     for X, y in loader:                 # par batchs
         optimizer.zero_grad()           # 1. remettre les gradients à zéro
         pred = model(X)                 # 2. prédire (forward)
-        loss = critere(pred, y)         # 3. mesurer
-        loss.backward()                 # 4. rétropropager (gradients)
-        optimizer.step()                # 5. mettre à jour les poids
+        loss = critere(pred, y)         # 3. mesurer l'écart
+        loss.backward()                 # 4. rétropropager : de combien chaque poids est fautif
+        optimizer.step()                # 5. faire un petit pas dans la bonne direction
 ```
-**Explication** : `backward()` calcule le gradient de la loss par rapport à CHAQUE poids ; `step()` fait le petit pas. Oublier `zero_grad()` accumule les gradients — LE bug classique du débutant PyTorch. **Variante** : trace loss train/val par epoch et provoque un overfitting (petit dataset, gros réseau) pour VOIR les courbes diverger.
+
+Ces cinq gestes se récitent facilement. Ce qu'il faut, c'est comprendre pourquoi ils sont
+**cinq et pas quatre** — parce que la première ligne est celle que tout le monde oublie, et
+qu'elle est la seule dont l'absence ne provoque aucune erreur.
+
+**Décision 1 — lire la boucle comme un cycle, pas comme une liste.** Chaque tour dit :
+« voici ma prédiction (2), voilà à quel point je me trompe (3), voilà de combien chaque
+poids est responsable de cette erreur (4), je corrige un peu (5) ». `backward()` ne modifie
+aucun poids : il **calcule et dépose** une dérivée à côté de chaque poids. `step()` est le
+seul qui touche aux poids, et il lit ce que `backward()` a déposé. Une fois cette
+répartition claire, la première ligne devient évidente.
+
+**Décision 2 — que se passe-t-il si on retire `zero_grad()` ?** Non pas une erreur, non pas
+un plantage : les dérivées **s'additionnent** d'un batch au suivant au lieu d'être
+remplacées. Chaque pas est donc calculé à partir de la somme de tous les batchs vus depuis
+le début. Voici l'effet, reproduit sur une régression minuscule dont on connaît la réponse
+exacte (`y = 3x + 1`) :
+
+```
+AVEC remise à zéro   w = 2,998   b =  1,003   perte : 1,09 → 0,01
+SANS remise à zéro   w = 4,204   b = -7,016   perte : 9,98 → 64,90
+```
+
+**La perte a été multipliée par six pendant que le modèle « s'entraînait ».** Et regarde la
+trajectoire, c'est elle le vrai enseignement :
+
+```
+9,98   9,23   8,65   8,57   8,98   10,20   12,16   15,15 …
+```
+
+Les quatre premières époques **s'améliorent**. Quelqu'un qui lance un entraînement, voit la
+perte descendre et part déjeuner revient devant un modèle divergent. C'est pour cela que ce
+bug est le plus classique de tous : il ne ressemble pas à un bug, il ressemble à un
+entraînement qui commence bien.
+
+**Décision 3 — comment le détecter, et la règle générale.** Trace la perte à chaque époque,
+et regarde-la. Une perte qui **monte** ne signifie qu'une petite famille de choses : un pas
+d'apprentissage trop grand, des gradients accumulés, ou des données mal normalisées. Une
+perte qui stagne en dit une autre. La courbe de perte est à l'entraînement ce que le test
+rouge est au code : **le seul retour d'information qui ne ment pas**, à condition de le
+regarder. Un entraînement lancé sans courbe est un programme lancé sans tests.
+
+**Décision 4 — pourquoi cette accumulation existe-t-elle ?** Parce que ce n'est pas un
+défaut, c'est une fonctionnalité. Elle permet de simuler un grand batch sur une machine qui
+n'a pas la mémoire pour le contenir : on accumule les gradients de quatre petits batchs,
+puis on fait un seul pas. C'est une technique courante et utile. Retiens la leçon générale,
+qui dépasse largement ce cas : **beaucoup de « pièges » d'une bibliothèque sont des
+fonctionnalités vues par quelqu'un qui n'en avait pas besoin.** Chercher à quoi sert un
+comportement surprenant est presque toujours plus rentable que de mémoriser qu'il faut s'en
+méfier.
+
+**Variante qui déplace le problème.** Ta courbe de perte d'entraînement descend
+magnifiquement — et celle de validation remonte à partir de la cinquième époque. Rien n'est
+cassé cette fois : le modèle apprend le jeu d'entraînement **par cœur**. C'est le
+surapprentissage, et il se voit uniquement parce qu'on trace **deux** courbes. Provoque-le
+volontairement une fois, avec un très petit jeu de données et un réseau surdimensionné :
+voir les deux courbes se séparer de ses propres yeux vaut toutes les définitions.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Un LLM est exactement ceci, à grande échelle : des milliards de « boutons », entraînés par la même descente de gradient à prédire le token suivant. Comprendre la mécanique te permet de raisonner sur les LLM (pourquoi ils généralisent, pourquoi ils hallucinent) au lieu de les subir — et de répondre en entretien à « explique la backpropagation avec les mains ».

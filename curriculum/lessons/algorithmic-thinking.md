@@ -64,11 +64,88 @@ Règles d'analyse : boucles imbriquées se MULTIPLIENT, successives s'ADDITIONNE
 ## Concepts clés
 La méthode en 6 étapes · Big O (O(1), O(log n), O(n), O(n log n), O(n²)) · pire cas · les 6 patterns · invariant · trace d'exécution manuelle · test par oracle (comparer à une référence fiable sur des entrées aléatoires).
 
-## 🧭 Exemple guidé
-« Trouver la période de k jours consécutifs la plus chaude » :
-- Naïf : pour chaque position, resommer k éléments → O(n×k).
-- Fenêtre glissante : première somme, puis à chaque pas `somme += temp[i] - temp[i-k]` → O(n).
-La différence n'est pas de l'astuce : c'est la question « que puis-je RÉUTILISER du calcul précédent ? » — posable sur des dizaines de problèmes.
+## 🧭 Exemple guidé — la période de sept jours la plus chaude
+
+**La situation.** Tu as `temp`, un tableau de 3 650 relevés — dix ans de températures
+quotidiennes. On te demande la période de **sept jours consécutifs** dont la moyenne est la
+plus élevée, et l'indice de son premier jour.
+
+**Décision 1 — écrire d'abord la version évidente, et la garder.**
+
+Un débutant expérimenté ne cherche pas la solution rapide tout de suite. Il écrit celle
+qu'il est sûr de comprendre :
+
+```js
+let meilleur = -Infinity, debut = 0;
+for (let i = 0; i + 7 <= temp.length; i++) {
+  let somme = 0;
+  for (let j = i; j < i + 7; j++) somme += temp[j];   // je resomme sept valeurs
+  if (somme > meilleur) { meilleur = somme; debut = i; }
+}
+```
+
+Elle est correcte. Elle sert de **référence** : quelle que soit la version rapide qu'on
+écrira ensuite, elle devra donner exactement le même résultat sur les mêmes données. Sans
+cette référence, on optimise à l'aveugle et on ne saura jamais si l'on a cassé quelque
+chose.
+
+**Décision 2 — compter avant de juger.**
+
+« C'est lent » n'est pas une observation, c'est une impression. On compte : pour chacune des
+≈ 3 650 positions, on additionne 7 valeurs. Environ **25 000 additions**. Sur une machine
+moderne, c'est instantané — et c'est important de le dire, parce que **cette version est
+parfaitement acceptable telle quelle.**
+
+Ce qui change tout, c'est la façon dont ce nombre grandit. Pour n relevés et une fenêtre de
+k jours, on fait n × k additions. Doubler l'historique double le travail ; passer à une
+fenêtre de 30 jours le quadruple. On écrit **O(n × k)** — non pas pour classer l'algorithme,
+mais pour savoir **ce qui le fera souffrir**.
+
+**Décision 3 — chercher ce qui est recalculé pour rien.**
+
+C'est la question qui débloque, et elle est réutilisable bien au-delà de ce cas :
+
+> *Entre deux tours de boucle, qu'est-ce que je recalcule alors que je le connaissais déjà ?*
+
+Les fenêtres `[i, i+7[` et `[i+1, i+8[` partagent **six valeurs sur sept**. On les
+additionne deux fois. Passer de l'une à l'autre ne demande en réalité que deux opérations :
+retirer celle qui sort, ajouter celle qui entre.
+
+```js
+let somme = 0;
+for (let j = 0; j < 7; j++) somme += temp[j];        // une seule fois : la fenêtre initiale
+let meilleur = somme, debut = 0;
+
+for (let i = 7; i < temp.length; i++) {
+  somme += temp[i] - temp[i - 7];                     // entre - sort : la fenêtre glisse
+  if (somme > meilleur) { meilleur = somme; debut = i - 6; }
+}
+```
+
+Le `i - 6` mérite un arrêt : `i` est l'indice de la valeur qui **entre**, donc la fenêtre
+couvre `[i-6, i]`, et son premier jour est `i - 6`. C'est exactement le genre de décalage
+d'un cran qu'on se trompe la première fois — et c'est pourquoi la version naïve, gardée,
+sert à vérifier.
+
+**Comment tu sais que ça marche.** Deux vérifications, dans cet ordre. D'abord, les deux
+versions doivent rendre **le même `debut`** sur les mêmes données — c'est le rôle de la
+référence. Ensuite, teste les bords : un tableau d'exactement 7 éléments (une seule fenêtre
+possible), et un tableau de 6 (aucune). Si la seconde version plante ou rend `0` au lieu de
+signaler l'impossibilité, le bug est dans l'initialisation, pas dans la boucle.
+
+**Ce que ça t'a appris.** Le gain n'est pas une astuce à mémoriser. Il vient d'une question
+qu'on peut poser à presque tout algorithme à deux boucles imbriquées : **qu'est-ce que je
+recalcule ?** Ici, la réponse était « six additions sur sept ». Le passage de O(n × k) à O(n)
+en découle mécaniquement.
+
+**Variante qui déplace le problème.** On ne demande plus la somme mais le **maximum** de
+chaque fenêtre de sept jours. Repose la question : que puis-je réutiliser ? Cette fois, la
+réponse est décevante — retirer une valeur d'un maximum est impossible, car si la valeur qui
+sort **était** le maximum, on ne sait pas quel est le nouveau sans regarder les six autres.
+La soustraction marchait pour la somme parce qu'elle est réversible ; le maximum ne l'est
+pas. Il faut donc une structure qui retienne les candidats — et c'est là que les leçons sur
+les structures de données deviennent nécessaires. **La bonne question ne donne pas toujours
+la même réponse : elle dit surtout quand l'astuce précédente ne s'applique plus.**
 
 ## ⚠️ Erreurs fréquentes
 - Coder immédiatement sans exemples à la main : l'enlisement garanti sur tout problème non trivial.

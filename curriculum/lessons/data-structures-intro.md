@@ -63,14 +63,92 @@ Quand les liens ne sont plus hiérarchiques (réseaux sociaux, dépendances, car
 ## Concepts clés
 Coût par opération · hachage · Map vs objet (clés de tout type, `.size`, itération) · Set · LIFO/FIFO · liste chaînée (pointeurs) · arbre, BST, équilibre · DFS/BFS · graphe, cycle, « déjà visité » · index inversé (mot → documents qui le contiennent).
 
-## 🧭 Exemple guidé
-Choisir en une phrase :
-- Historique back/forward d'un navigateur → **deux stacks** (LIFO naturel).
-- File d'impression → **queue** (premier arrivé, premier servi).
-- « Ce pseudo est-il pris ? » sur 10M de comptes → **Set** (O(1)).
-- Autocomplétion triée → **arbre** (données ordonnées dynamiques).
-- Compter les mots d'un corpus → **Map** de compteurs.
-Chaque choix se justifie par UNE opération dominante et son coût.
+## 🧭 Exemple guidé — dédoublonner un million de lignes
+
+**La situation.** Un fichier d'export contient 1 000 000 d'adresses e-mail, avec des
+doublons. Tu dois produire la liste des adresses uniques, dans l'ordre de première
+apparition.
+
+**Décision 1 — le premier réflexe, et pourquoi il ne tient pas.**
+
+Presque tout le monde écrit ceci, et c'est un code correct :
+
+```js
+const uniques = [];
+for (const email of emails) {
+  if (!uniques.includes(email)) uniques.push(email);   // ❌ le piège est ici
+}
+```
+
+Le problème n'est pas visible à la lecture, parce que `includes` **ressemble** à une
+opération élémentaire. Elle ne l'est pas : pour savoir si une valeur est dans un tableau,
+il faut la comparer à chaque élément, un par un. C'est O(n).
+
+Et cet appel est **dans** une boucle qui parcourt le million. Au millième e-mail, `includes`
+en compare mille ; au cent-millième, cent mille. Le nombre total de comparaisons est de
+l'ordre de n²/2, soit **cinq cents milliards**. Le programme ne plante pas : il ne finit
+jamais, ce qui est plus difficile à diagnostiquer.
+
+**Le repère à emporter : une recherche linéaire à l'intérieur d'une boucle est un O(n²) qui
+ne se voit pas**, parce que la boucle intérieure est cachée dans un nom de méthode.
+
+**Décision 2 — nommer l'opération dominante avant de choisir.**
+
+C'est le geste central de cette leçon. On ne se demande pas « quelle structure est la
+meilleure », on se demande **ce que le programme fait le plus souvent**.
+
+Ici, une seule opération est répétée un million de fois : *« ai-je déjà vu cette valeur ? »*
+C'est une **appartenance**. Ni un tri, ni un accès par position, ni un parcours ordonné —
+une appartenance.
+
+Et il se trouve qu'une structure existe dont c'est précisément le métier : la table de
+hachage, exposée en JavaScript sous les noms `Set` et `Map`. Elle calcule à partir de la
+valeur une position dans un tableau interne, et va directement voir si quelque chose s'y
+trouve. Le temps de réponse ne dépend **pas** du nombre d'éléments déjà stockés : c'est
+O(1).
+
+```js
+const vus = new Set();
+const uniques = [];
+for (const email of emails) {
+  if (!vus.has(email)) { vus.add(email); uniques.push(email); }
+}
+```
+
+Un million d'appels à `has`, chacun à coût constant. On passe de cinq cents milliards de
+comparaisons à un million d'opérations — un facteur cinq cent mille, obtenu en changeant
+une structure, pas un algorithme.
+
+**Décision 3 — pourquoi garder le tableau à côté du Set.**
+
+On pourrait croire que `[...new Set(emails)]` suffit. C'est vrai ici, parce que les `Set`
+JavaScript conservent l'ordre d'insertion — mais c'est une **garantie du langage, pas une
+propriété des tables de hachage**. Dans beaucoup de langages, l'ordre d'un ensemble est
+arbitraire, et la contrainte « ordre de première apparition » serait perdue.
+
+Garder les deux rend l'intention explicite : le `Set` répond à la question, le tableau
+détient le résultat. C'est aussi ce qui permettra, si la spécification change, de trier
+autrement sans toucher à la logique de dédoublonnage.
+
+**Comment tu sais que ça marche.** Chronomètre les deux versions sur 50 000 lignes — pas un
+million, tu n'attendrais pas la fin de la première. Tu dois observer un écart de plusieurs
+ordres de grandeur, et **le même résultat exactement** : même longueur, même ordre. Si les
+longueurs diffèrent, c'est une histoire de normalisation (`Alice@x.com` et `alice@x.com`
+sont deux valeurs distinctes pour un `Set`), et cette décision-là est métier, pas technique.
+
+**Ce que ça t'a appris.** Choisir une structure de données, ce n'est pas connaître un tableau
+de complexités. C'est **nommer l'opération que le programme répète le plus**, puis prendre
+la structure qui la rend peu coûteuse. Toutes les autres opérations deviennent secondaires —
+on accepte qu'elles soient lentes, parce qu'elles sont rares.
+
+**Variante qui déplace le problème.** On ne veut plus les adresses uniques, mais les **dix
+plus fréquentes**. Repose la question : quelle opération domine ? Ce n'est plus
+l'appartenance mais le **comptage** — donc une `Map` de compteurs, un million d'incréments à
+coût constant. Puis vient une seconde opération, exécutée **une seule fois** : trouver les
+dix plus grands parmi les compteurs. Trier l'ensemble coûte O(m log m), ce qui est
+parfaitement acceptable pour une opération unique. **Une structure ne se choisit jamais sur
+l'opération rare, et une opération rare ne justifie presque jamais une structure
+compliquée.**
 
 ## ⚠️ Erreurs fréquentes
 - Tout faire au tableau + `includes` : des O(n²) déguisés partout.

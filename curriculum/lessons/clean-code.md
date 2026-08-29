@@ -56,15 +56,67 @@ Le cœur du clean code structurel (jour 26) : la LOGIQUE en fonctions pures (tes
 ## Concepts clés
 Nommage d'intention · une fonction = une responsabilité · niveau d'abstraction cohérent · guard clauses · commentaire = pourquoi · DRY vs mauvaise abstraction · code smells (fonction géante, paramètres en rafale, imbrication profonde, noms menteurs, duplication) · boy-scout rule (laisser le code un peu plus propre qu'on l'a trouvé).
 
-## 🧭 Exemple guidé
+## 🧭 Exemple guidé — quatre passes sur une fonction hostile
+
+**La situation.** Tu ouvres un fichier et tu tombes sur ceci. Le code marche, il est en
+production, et personne ne sait exactement ce qu'il fait.
+
 ```js
-// ❌ avant
 function proc(u, d) {
   if (u) { if (u.act) { let t = 0; for (let i = 0; i < d.length; i++) {
     if (d[i].uid == u.id && d[i].st != 'x') t += d[i].mt; } return t; } }
   return null;
 }
-// ✅ après
+```
+
+**Ce qui rend le cas non trivial.** On ne peut pas « rendre ce code propre » en une fois :
+on ne sait pas encore ce qu'il fait. Chaque passe doit donc **révéler quelque chose** sans
+rien changer au comportement — et l'ordre des passes n'est pas indifférent.
+
+**Passe 1 — comprendre avant de toucher, en nommant.**
+
+Le premier geste n'est pas de restructurer, c'est de **lire et renommer**. `u` a un champ
+`act` et un `id` ; les éléments de `d` ont `uid`, `st`, `mt`, et on additionne `mt`. On
+devine : un utilisateur, des commandes, un montant.
+
+```js
+function proc(utilisateur, commandes) {
+  if (utilisateur) { if (utilisateur.actif) { let total = 0;
+    for (let i = 0; i < commandes.length; i++) {
+      if (commandes[i].utilisateurId == utilisateur.id && commandes[i].statut != 'x')
+        total += commandes[i].montant; } return total; } }
+  return null;
+}
+```
+
+Rien n'a bougé structurellement, et pourtant la fonction vient de devenir lisible. **Le
+renommage n'est pas de la cosmétique : c'est l'outil de compréhension le moins cher qui
+existe**, et il se fait sans risque puisqu'un éditeur le vérifie.
+
+Reste une inconnue : `'x'`. On ne peut pas la deviner — il faut chercher dans le code ou la
+base. Supposons qu'on trouve `'annulee'`. **On ne renomme jamais une valeur qu'on n'a pas
+vérifiée** : c'est là qu'un refactoring introduit un bug.
+
+**Passe 2 — aplatir les conditions imbriquées.**
+
+Deux `if` emboîtés, et le vrai retour est au fond. La transformation standard est la **guard
+clause** : on traite les cas de sortie d'abord, et le corps se retrouve au niveau supérieur.
+
+```js
+if (!utilisateur || !utilisateur.actif) return null;
+// ... le reste, dégagé de deux niveaux d'indentation
+```
+
+Ce n'est pas seulement plus plat. Le lecteur apprend en deux lignes ce que la fonction
+refuse de traiter, avant d'avoir à comprendre ce qu'elle fait.
+
+**Passe 3 — nommer l'intention de la boucle.**
+
+La boucle fait deux choses : elle **sélectionne** (les commandes de cet utilisateur, non
+annulées) puis elle **additionne**. Les séparer met l'intention dans le code au lieu de la
+laisser dans la tête du lecteur :
+
+```js
 function totalCommandesActives(utilisateur, commandes) {
   if (!utilisateur?.actif) return null;
   return commandes
@@ -72,7 +124,40 @@ function totalCommandesActives(utilisateur, commandes) {
     .reduce((total, c) => total + c.montant, 0);
 }
 ```
-Même logique, zéro commentaire nécessaire : les noms et la structure PORTENT le sens.
+
+Le nom de la fonction vient en dernier, et c'est normal : **on ne peut nommer correctement
+qu'une fois qu'on a compris.** `proc` était un aveu d'ignorance de l'auteur ; `totalCommandesActives`
+dit ce qu'on obtient.
+
+**Passe 4 — la seule qui change réellement quelque chose.**
+
+`==` est devenu `===`. Ce n'est pas un détail de style : `==` convertit les types, donc
+`utilisateurId == "42"` est vrai pour l'utilisateur 42. Si des identifiants arrivent en
+chaîne depuis une API, l'ancienne version comptait des commandes qui ne sont pas les
+siennes.
+
+**Cette passe modifie le comportement.** Elle ne fait donc pas partie du refactoring : elle
+mérite son propre commit, son propre test, et une vérification que rien ne dépendait de
+l'ancien laxisme. Confondre les deux est la manière la plus fiable de rendre une régression
+introuvable.
+
+**Comment tu sais que ça marche.** Avant la passe 1, écris deux ou trois tests de
+caractérisation sur la fonction d'origine — un utilisateur inactif (`null`), un utilisateur
+avec deux commandes dont une annulée, un utilisateur sans commande (`0`, pas `null`). Ils
+doivent rester verts après les passes 1 à 3. S'ils rougissent à la passe 4, c'est **normal**
+et c'est l'information : tu viens de mesurer ce que `==` laissait passer.
+
+**Ce que ça t'a appris.** Le code propre ne s'obtient pas en visant la propreté. Il s'obtient
+par une suite de gestes dont chacun **révèle** le suivant : nommer permet de voir la
+structure, aplatir permet de voir l'intention, séparer permet de nommer la fonction. Et
+l'on garde soigneusement à part le seul geste qui change le comportement.
+
+**Variante qui déplace le problème.** La même fonction, mais la boucle contient un
+`console.log` et un `await sauvegarder(...)`. Rejoue les quatre passes : tu buteras à la
+passe 3, parce qu'on ne transforme pas en `filter`/`reduce` une boucle qui produit des
+**effets**. Le geste devient un autre — séparer d'abord le calcul de l'effet, en deux
+fonctions dont l'une est pure. **La technique de refactoring ne se choisit pas sur la forme
+du code mais sur ce qu'il fait au monde extérieur.**
 
 ## ⚠️ Erreurs fréquentes
 - Sur-commenter l'évident et sous-commenter les décisions.

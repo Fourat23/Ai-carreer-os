@@ -118,20 +118,158 @@ Règle (sélecteur + déclarations) · sélecteurs type/classe/id · héritage �
 spécificité → ordre) · **spécificité** (id > classe > type) · **box model** (contenu/padding/border/
 margin) · `box-sizing: border-box` · unités `px`/`%`/`rem`/`em`.
 
-## 🧭 Exemple guidé
-« Pourquoi mon bouton n'est-il pas bleu ? »
-```html
-<button class="btn" id="envoyer">Envoyer</button>
+## 🧭 Exemple guidé — la barre de défilement horizontale, et l'enquête qui la trouve
+
+Un site s'affiche correctement sur un ordinateur. Sur téléphone, une barre de défilement
+horizontale apparaît : on peut pousser la page vers la gauche et découvrir une bande vide.
+Rien de cassé, mais l'impression d'amateurisme est immédiate.
+
+C'est le bug CSS le plus fréquent et le plus mal débogué. Il se résout en quatre minutes
+avec la bonne méthode, et en deux heures d'essais aléatoires sans elle. Faisons-le
+proprement.
+
+### Ce qu'on sait déjà, avant de toucher au code
+
+Une barre de défilement horizontale signifie une seule chose : **quelque chose est plus
+large que la fenêtre**. Pas « le CSS est bizarre » — un élément, précisément mesurable, sort
+du cadre. L'enquête consiste à trouver lequel, puis à comprendre pourquoi.
+
+Deux erreurs de méthode courantes, à écarter tout de suite :
+
+- Ajouter `overflow-x: hidden` sur `<body>`. Ça fait disparaître la barre, donc le symptôme.
+  Le contenu qui dépasse est toujours là, mais devenu invisible et inatteignable. On a caché
+  le corps, pas résolu le meurtre.
+- Réduire les largeurs au hasard jusqu'à ce que ça rentre. Ça fonctionne parfois, et on ne
+  sait jamais lequel des huit changements a agi.
+
+### Étape 1 — trouver le coupable
+
+Le navigateur peut répondre à la question directement. Dans la console des outils de
+développement :
+
+```js
+document.querySelectorAll('*').forEach(el => {
+  if (el.getBoundingClientRect().right > document.documentElement.clientWidth) {
+    console.log(el.tagName, el.className, Math.round(el.getBoundingClientRect().right));
+  }
+});
 ```
+
+On liste tous les éléments dont le bord droit dépasse la largeur visible. Sur notre page,
+avec une fenêtre de 375 px, la console affiche exactement une ligne :
+
+```
+DIV carte 407
+```
+
+*(Mesure réelle. Chromium, fenêtre 375 px, `<div class="carte">` avec `width: 100%` et
+`padding: 16px` dans une section pleine largeur : `getBoundingClientRect().right` vaut 407 et
+`document.documentElement.scrollWidth` vaut 407 contre 375 pour `clientWidth`.)*
+
+Un seul élément, et c'est déjà un enseignement. On s'attendrait à voir aussi la `<section>`
+qui contient la carte — elle n'apparaît pas. Sa propre boîte fait bien 375 px : un enfant qui
+déborde **ne redimensionne pas son parent**, il sort de lui. La sonde désigne donc directement
+le coupable, sans la chaîne de ses ancêtres, ce qui est précisément ce qu'on veut.
+
+Dépassement : **407 − 375 = 32 pixels**.
+
+Retiens ce chiffre. Un nombre rond comme 32 n'est presque jamais un hasard en CSS ; c'est
+une somme d'espacements qu'on a écrits soi-même.
+
+### Étape 2 — d'où viennent les 32 pixels
+
+Le CSS de la carte :
+
 ```css
-button       { background: grey; }   /* spécificité : type (faible) */
-.btn         { background: green; }  /* spécificité : classe (moyenne) */
-#envoyer     { background: navy; }   /* spécificité : id (forte) → GAGNE */
+.carte {
+  width: 100%;
+  padding: 16px;
+  border: 0;
+}
 ```
-Raisonnement : les trois règles ciblent le même bouton. L'id `#envoyer` a la spécificité la plus
-forte → le bouton est **navy**, quel que soit l'ordre. Si tu voulais imposer le vert sans changer le
-HTML, tu n'ajouterais PAS `!important` : tu réduirais la spécificité de la règle id, ou tu ciblerais
-`.btn` plus précisément. La cascade s'explique, elle ne se force pas.
+
+`width: 100%` semble être exactement la précaution qu'il fallait prendre : « la carte fait la
+largeur de son parent ». Et pourtant elle dépasse de 32 px, soit exactement `16 + 16` —
+le padding gauche et le padding droit.
+
+Voilà le box model dans sa version qui fait mal. Par défaut, `width` ne mesure **que le
+contenu**. La largeur réellement occupée est :
+
+```
+largeur occupée = width + padding-gauche + padding-droit + border-gauche + border-droite
+                = 375 + 16 + 16 + 0 + 0
+                = 407
+```
+
+`width: 100%` ne veut donc pas dire « occupe toute la largeur du parent ». Ça veut dire
+« que mon **contenu** fasse toute la largeur du parent » — après quoi on ajoute le padding
+par-dessus, et on déborde de la somme des paddings. La formulation par défaut du CSS est
+contre-intuitive, et c'est pour cela que ce bug est universel.
+
+### Étape 3 — la correction
+
+Trois corrections sont possibles. Elles ne se valent pas.
+
+**a. Retirer le padding.** La carte rentre, et le texte colle aux bords. On a supprimé le
+symptôme en supprimant la fonctionnalité.
+
+**b. Calculer soi-même :** `width: calc(100% - 32px)`. C'est exact, et c'est une dette : le
+jour où quelqu'un passe le padding à 24 px, il faut penser à modifier le `calc`. Deux
+endroits à garder synchronisés à la main, c'est un bug programmé.
+
+**c. Changer la définition de `width` :**
+
+```css
+*, *::before, *::after { box-sizing: border-box; }
+```
+
+Avec `border-box`, `width` inclut désormais le padding et la bordure. `width: 100%` signifie
+enfin ce que tout le monde croyait qu'il signifiait : la boîte entière fait 375 px, et le
+contenu s'ajuste à `375 − 32 = 343 px`. La carte rentre, le padding reste, et il n'y a rien
+à maintenir.
+
+*(Même page, même mesure, après ajout de ces trois lignes : la sonde ne renvoie plus aucun
+élément, `scrollWidth` retombe à 375, et la largeur de la carte passe de 407 à 375.)*
+
+C'est pourquoi ces trois lignes se trouvent en tête de pratiquement tous les projets
+professionnels. Ce n'est pas une astuce : c'est le choix d'un modèle de mesure plus proche de
+la façon dont un humain pense une boîte.
+
+### Étape 4 — pourquoi l'ordinateur ne montrait rien
+
+Une question reste, et elle est instructive : pourquoi le bug n'apparaissait-il que sur
+téléphone ?
+
+Sur un écran large, la carte est dans une colonne centrale qui laisse des marges vides de
+part et d'autre. Les 32 px de dépassement mordent sur cet espace disponible et ne créent
+aucun défilement. À 375 px de large, il n'y a plus de marge à mordre.
+
+Enseignement général : **un défaut de mise en page ne se manifeste qu'aux largeurs où il n'y
+a plus de mou.** C'est la raison pour laquelle on vérifie une page sur une fenêtre étroite,
+et non parce que « le mobile est important » — c'est parce que la fenêtre étroite est le
+révélateur.
+
+### Le lien avec la cascade
+
+Un dernier détail sur ce cas, que tu rencontreras. Supposons que la règle de réinitialisation
+soit bien présente dans le projet, mais que la carte déborde quand même. Le panneau des
+styles du navigateur montrerait :
+
+```
+.carte      box-sizing: border-box;   ← barré
+.grille .carte  box-sizing: content-box;
+```
+
+La déclaration barrée est celle qui a perdu l'arbitrage. Ici, `.grille .carte` est composé de
+deux classes, contre une seule pour `.carte` : il est plus spécifique, il gagne, quel que
+soit l'ordre d'écriture dans le fichier.
+
+C'est tout l'intérêt du panneau des styles : il ne montre pas seulement ce qui s'applique, il
+montre **ce qui a été écarté et par quoi**. Le réflexe utile n'est pas d'ajouter une règle
+plus forte, c'est de lire la règle barrée et de trouver qui l'a battue. Dans ce cas précis, la
+bonne correction est de supprimer le `content-box` de `.grille .carte`, pas d'ajouter un
+`!important` à `.carte` — lequel gagnerait aujourd'hui et perdrait demain contre le prochain
+`!important`.
 
 ## ⚠️ Erreurs fréquentes
 - Dégainer `!important` au lieu de comprendre la spécificité → dette qui empire à chaque écran.
@@ -148,12 +286,241 @@ mise en page (`/doc/lessons/css-flexbox`, `/doc/lessons/css-grid`) et le respons
 (`/doc/lessons/responsive-design`), qui supposent le box model acquis. Les bugs d'overflow que tu
 rencontreras (y compris dans cette plateforme) se diagnostiquent avec ces notions.
 
+## 🛠️ Pratique — prédire avant de tester
+
+C'est la pratique la plus utile de cette leçon, et la seule qui dise honnêtement si tu as
+compris : **tu écris tes prédictions, puis tu mesures.** Le désaccord entre les deux est
+l'information. Tricher en regardant d'abord ne trompe personne d'autre que toi.
+
+**Le fichier.** Crée `cascade.html` avec exactement ceci :
+
+```html
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 16px; }
+body { margin: 0; }
+
+main            { width: 300px; color: #333333; }
+.panneau        { color: #00aa00; padding: 1rem; }
+.sombre .carte  { background: #222222; color: #eeeeee; }
+.carte          { background: #ffffff; color: #111111;
+                  width: 100%; padding: 24px; border: 2px solid #000000; }
+#app .carte     { padding: 8px; }
+.carte[data-etat="actif"] { border-width: 6px; }
+article.carte   { width: 320px; }
+h2              { font-size: 2em; }
+.titre          { font-size: 1.5rem; }
+</style></head><body>
+  <main id="app">
+    <section class="panneau sombre">
+      <article class="carte" data-etat="actif">
+        <h2 class="titre">Rapport</h2>
+        <p class="texte">Contenu</p>
+      </article>
+    </section>
+  </main>
+</body></html>
+```
+
+**Étape 1 — prédis, par écrit, sans ouvrir le fichier.** Un tableau à trois colonnes :
+`ce qui est demandé` · `ma prédiction` · `la règle qui gagne, et pourquoi elle gagne`.
+
+Neuf lignes :
+
+1. la couleur de fond de `.carte` ;
+2. la couleur du texte de `.carte` ;
+3. le `padding` de `.carte` ;
+4. l'épaisseur de bordure de `.carte` ;
+5. la largeur **occupée** par `.carte`, en pixels ;
+6. la largeur de la **zone de contenu** de `.carte`, en pixels ;
+7. la couleur du `<p class="texte">` ;
+8. la taille de police du `<h2 class="titre">`, en pixels ;
+9. `.carte` dépasse-t-elle le bord droit de `<main>` ? Si oui, de combien ?
+
+Pour la colonne « pourquoi », une justification par **spécificité** ou par **héritage** est
+attendue. « Parce que c'est écrit plus bas » n'est recevable que si tu as d'abord vérifié
+que les spécificités sont égales.
+
+**Étape 2 — mesure.** Ouvre le fichier, puis dans la console des outils de développement :
+
+```js
+const c = document.querySelector('.carte'), s = getComputedStyle(c);
+console.table({
+  fond: s.backgroundColor, texte: s.color, padding: s.padding,
+  bordure: s.borderTopWidth,
+  occupee: c.getBoundingClientRect().width,
+  contenu: c.getBoundingClientRect().width
+           - parseFloat(s.paddingLeft) * 2 - parseFloat(s.borderLeftWidth) * 2,
+  p: getComputedStyle(document.querySelector('.texte')).color,
+  h2: getComputedStyle(document.querySelector('.titre')).fontSize,
+  depassement: c.getBoundingClientRect().right
+             - document.querySelector('main').getBoundingClientRect().right,
+});
+```
+
+**Étape 3 — ta production finale.** Complète le tableau avec une quatrième colonne, `mesure`,
+puis écris trois choses :
+
+- **A.** Combien de lignes sur neuf tu as prédites juste. Écris le chiffre réel.
+- **B.** Pour chaque erreur : la règle que tu croyais gagnante, celle qui gagne vraiment, et
+  en une phrase la croyance fausse que ton erreur révèle. C'est la partie qui a de la valeur.
+- **C.** Une modification d'**une seule ligne** du CSS qui ferait passer la carte au fond
+  blanc, **sans** `!important` et **sans** toucher au HTML. Explique pourquoi elle marche.
+
+**Critère de réussite.** Non, ce n'est pas « neuf sur neuf ». C'est : (a) tes neuf prédictions
+sont écrites avant la mesure ; (b) chaque justification nomme une règle précise du fichier,
+pas un principe général ; (c) pour la ligne 6, ton calcul est posé, pas deviné ; (d) la
+proposition C tient en une ligne et n'emploie pas `!important`.
+
+**Durée.** 35 à 45 minutes.
+
+## ✅ Correction
+
+> Les valeurs ci-dessous ne sont pas déduites : elles sont **mesurées**. Le script
+> `scripts/v70-verifications/css-cascade-boxmodel.mjs` rend cette page dans Chromium et
+> imprime chaque nombre publié ici.
+
+### La démarche
+
+Pour chaque propriété, la méthode tient en trois temps, toujours dans cet ordre :
+
+1. **Lister les règles qui la fixent sur cet élément.** Beaucoup d'erreurs viennent d'une
+   règle qu'on n'a pas vue, pas d'un arbitrage mal compris.
+2. **Calculer la spécificité de chacune**, avec le barème à trois nombres
+   `(identifiants, classes/attributs/pseudo-classes, éléments)`. On compare de gauche à
+   droite : le premier nombre qui diffère tranche, et il tranche définitivement — cent classes
+   ne battent pas un identifiant.
+3. **Départager par l'ordre du fichier uniquement en cas d'égalité stricte.**
+
+Et une quatrième question, à part : *cette propriété est-elle héritée ?* Une valeur héritée
+est battue par **n'importe quelle** déclaration portant directement sur l'élément, aussi
+faible soit-elle. L'héritage n'est pas au bas du classement de spécificité : il est hors
+concours.
+
+### Les spécificités du fichier
+
+| Sélecteur | Calcul | Score |
+|-----------|--------|-------|
+| `#app .carte` | 1 identifiant, 1 classe | **(1,1,0)** |
+| `.sombre .carte` | 2 classes | (0,2,0) |
+| `.carte[data-etat="actif"]` | 1 classe + 1 attribut | (0,2,0) |
+| `article.carte` | 1 classe + 1 élément | (0,1,1) |
+| `.carte`, `.panneau`, `.titre` | 1 classe | (0,1,0) |
+| `main`, `h2` | 1 élément | (0,0,1) |
+
+### Le tableau des réponses
+
+| # | Demandé | Mesure | Règle gagnante | Pourquoi |
+|---|---------|--------|----------------|----------|
+| 1 | fond de `.carte` | `rgb(34,34,34)` | `.sombre .carte` | (0,2,0) bat (0,1,0) |
+| 2 | texte de `.carte` | `rgb(238,238,238)` | `.sombre .carte` | (0,2,0) bat (0,1,0) ; les couleurs héritées sont hors concours |
+| 3 | `padding` | `8px` | `#app .carte` | (1,1,0) : l'identifiant tranche au premier nombre |
+| 4 | bordure | `6px` | `.carte[data-etat="actif"]` | (0,2,0) bat le raccourci `border` de `.carte` (0,1,0) |
+| 5 | largeur occupée | `320px` | `article.carte` | (0,1,1) bat (0,1,0) |
+| 6 | largeur de contenu | `292px` | — | `320 − (8 × 2) − (6 × 2)` |
+| 7 | couleur du `<p>` | `rgb(238,238,238)` | aucune | héritée de `.carte` |
+| 8 | police du `<h2>` | `24px` | `.titre` | (0,1,0) bat `h2` (0,0,1) |
+| 9 | dépassement | **36 px** | — | voir plus bas |
+
+### Les quatre lignes où l'on se trompe
+
+**Ligne 2 — le vert n'a jamais eu sa chance.** `.panneau` fixe `color: #00aa00` sur le
+parent, et beaucoup prédisent du vert en raisonnant « le parent transmet sa couleur ». C'est
+vrai en l'absence de règle locale. Ici, deux règles portent directement sur `.carte` ; elles
+s'affrontent entre elles, et la valeur héritée n'entre même pas dans l'arbitrage. La couleur
+verte du panneau ne s'applique en fait à aucun texte visible de cette page.
+
+**Ligne 3 — l'identifiant écrase tout.** `#app .carte` a une seule classe de plus que
+`.carte`, mais il porte un identifiant : le premier nombre du score est 1 contre 0, et la
+comparaison s'arrête là. C'est la raison pour laquelle styler par identifiant est déconseillé
+— non pas parce que ça ne marche pas, mais parce que ça marche trop bien : plus rien ne peut
+le surcharger sans employer un identifiant à son tour, ou `!important`. La spécificité est
+une dette : elle se paie au moment où quelqu'un veut modifier ton style.
+
+**Ligne 4 — le piège du raccourci.** `border: 2px solid #000000` est un **raccourci** qui fixe
+trois propriétés distinctes, dont `border-width`. Il n'est pas « plus fort » parce qu'il est
+plus long à écrire : sa spécificité est celle de son sélecteur, `.carte`, soit (0,1,0). La
+règle `.carte[data-etat="actif"]` marque (0,2,0) grâce au sélecteur d'attribut, et gagne sur
+`border-width` seul — la couleur et le style de bordure, eux, restent ceux du raccourci. Une
+seule des trois sous-propriétés a changé de propriétaire.
+
+**Ligne 5 — `width: 100%` ne gagne pas.** C'est l'erreur la plus fréquente du lot, parce que
+`100%` a l'air d'être « la valeur souple » et `320px` « la valeur rigide ». La cascade
+n'évalue jamais les valeurs, seulement les sélecteurs : `article.carte` marque (0,1,1) contre
+(0,1,0), le `320px` l'emporte, et c'est ce qui déclenche le dépassement de la ligne 9.
+
+### La ligne 6, posée
+
+Le fichier commence par `box-sizing: border-box`. Donc `width: 320px` décrit la boîte
+**entière**, bordure comprise. La zone de contenu se déduit en retirant les deux paddings et
+les deux bordures :
+
+```
+320 − (8 + 8) − (6 + 6) = 292 px
+```
+
+Sans `border-box`, le même CSS donnerait une boîte occupant `320 + 16 + 12 = 348 px` pour une
+zone de contenu de 320 px. Même déclaration, deux résultats, selon une ligne écrite en tête
+de fichier. C'est ce qui rend le débogage CSS déroutant quand on n'a pas vérifié quel modèle
+est actif.
+
+### La ligne 9, et ce qu'elle apprend
+
+`<main>` fait 300 px. `.panneau` a `padding: 1rem`, soit 16 px, ce qui laisse **268 px** de
+zone de contenu. Et `.carte` mesure 320 px, fixes.
+
+La carte commence à 16 px du bord gauche et s'étend sur 320 px : son bord droit est à 336,
+celui de `<main>` à 300. **Dépassement : 36 px.**
+
+Le détail qui fait la différence : `box-sizing: border-box` n'a rien empêché ici. On le
+présente souvent comme le remède au débordement — il ne l'est que pour les largeurs
+**relatives**. Une largeur fixe supérieure à l'espace disponible déborde toujours, quel que
+soit le modèle de boîte. Le vrai remède pour une carte est `max-width: 320px` avec
+`width: 100%` : demander « au plus 320 px, et moins si la place manque ».
+
+Dernière observation, et elle explique bien des heures perdues : cette page ne montre
+**aucune barre de défilement horizontale**. Sur une fenêtre de 1024 px, les 36 px de
+dépassement se perdent dans l'espace vide à droite de `<main>`. Le défaut existe, il est
+mesurable, et il est invisible — jusqu'au jour où quelqu'un ouvre la page sur un téléphone.
+
+### La proposition C
+
+Une ligne, sans `!important`, sans toucher au HTML. Plusieurs réponses sont correctes :
+
+```css
+#app .carte { background: #ffffff; }     /* (1,1,0) — bat le (0,2,0) de .sombre .carte */
+```
+
+ou, plus sobre :
+
+```css
+.panneau.sombre .carte { background: #ffffff; }   /* (0,3,0) */
+```
+
+Les deux gagnent l'arbitrage. La seconde est préférable : elle reste dans le registre des
+classes et laisse la porte ouverte à une surcharge future. La première introduit un
+identifiant de plus dans la feuille de style et rend la prochaine modification plus coûteuse.
+
+La **mauvaise** réponse plausible, et elle est instructive : déplacer la règle `.carte` en fin
+de fichier, après `.sombre .carte`. Cela paraît raisonnable — « la dernière gagne ». Mais
+l'ordre ne départage qu'à spécificité **égale**, et (0,1,0) reste inférieur à (0,2,0).
+Déplacer la règle ne change rien du tout, et l'on conclut souvent, à tort, que « le CSS ne
+marche pas ». Il marche : c'est le modèle mental qui manquait.
+
+### Généralisation
+
+Ce que cette pratique installe n'est pas une liste de scores, c'est un réflexe : devant un
+style qui ne s'applique pas, **ne rien ajouter avant d'avoir lu ce qui a gagné**. Le panneau
+des styles du navigateur barre les déclarations perdantes et affiche le sélecteur vainqueur —
+la réponse est déjà à l'écran. Ajouter une règle plus spécifique sans lire cette information,
+c'est répondre à une question qu'on n'a pas posée, et c'est exactement le mécanisme par lequel
+une feuille de style devient impossible à modifier au bout de deux ans.
+
 ## Mini-exercice
-Prends une carte simple (`<article class="carte">` avec un titre et un texte). Donne-lui
-`box-sizing: border-box`, un `padding`, une `border` et une `width`, et vérifie dans les outils du
-navigateur que la largeur réelle correspond bien à `width` (et non `width + padding + border`).
-Ensuite, écris trois règles de spécificités différentes sur le même élément et prédis laquelle gagne
-AVANT de tester. Pratique associée : `web-inline-style`, `web-card`.
+Sur la page de ton choix, ouvre les outils de développement, sélectionne un élément et trouve dans le
+panneau des styles **une déclaration barrée**. Note : quelle propriété, quel sélecteur perdant, quel
+sélecteur gagnant, et par quel critère (importance, spécificité, ou ordre).
 
 ## 📚 Vocabulaire
 **règle / sélecteur / déclaration** · **héritage** · **cascade** · **spécificité** · **`!important`**

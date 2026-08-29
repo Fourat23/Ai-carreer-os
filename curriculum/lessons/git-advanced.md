@@ -13,13 +13,118 @@ Tu dois maîtriser les fondamentaux de Git — commit, branche, merge, remote, r
 ## 🧠 Modèle mental
 `merge` **fusionne deux histoires** (et garde la trace du croisement) ; `rebase` **réécrit ton histoire** comme si tu avais commencé plus tard (linéaire, propre). Réécrire SON brouillon local : sain. Réécrire une histoire DÉJÀ PARTAGÉE : interdit — tu corromprais celle des autres.
 
-## 📖 Explication complète
-- **rebase** : rejoue tes commits par-dessus une base à jour (`git rebase main` depuis ta branche). Résultat : un historique linéaire, sans losanges de merge. Les conflits se résolvent commit par commit (et `git rebase --abort` annule tout).
-- **rebase interactif** (`rebase -i`) : l'outil de nettoyage AVANT de partager — `squash` (fusionner les « wip », « fix », « fix2 » en un commit cohérent), `reword` (réécrire un message), `drop`, réordonner. Cinq brouillons deviennent deux commits racontables.
-- **LA règle de sécurité** : ne JAMAIS rebaser des commits poussés/partagés. Rebase = avant de partager ; merge = après. (Exception encadrée : ta propre branche de PR, avec `push --force-with-lease`.)
-- **git bisect** : retrouve LE commit qui a introduit un bug par recherche binaire dans l'historique (ta leçon du jour 16, appliquée à ton propre passé) — magique sur « ça marchait la semaine dernière ».
-- **La pull request** : la branche se propose au merge avec une DESCRIPTION (contexte, changements, comment vérifier) ; on discute, on revoit, on merge. Même en solo, rédiger des PRs t'entraîne au standard des équipes — et un reviewer lit d'abord ton HISTORIQUE : commits atomiques, messages clairs, pas de bruit.
-- **Boîte à outils du quotidien** : `stash` (mettre de côté pour changer de contexte), `cherry-pick` (rejouer UN commit ailleurs), `reflog` (le filet de sécurité ultime : Git n'oublie presque rien, même « perdu »).
+## Explication complète
+
+### Ce qu'un commit est vraiment, et pourquoi ça décide de tout le reste
+
+Un commit n'est pas une modification. C'est une **photo complète** de l'arborescence, plus un
+pointeur vers le commit précédent. Git ne stocke pas « j'ai ajouté trois lignes » ; il stocke
+l'état entier, et calcule les différences quand tu les demandes.
+
+Cette photo est identifiée par un hachage calculé sur son contenu **et** sur son parent.
+Conséquence directe, dont découle tout ce qui suit : **si tu changes le parent d'un commit,
+son identifiant change.** Ce n'est plus le même commit — c'en est une copie.
+
+Retiens cette phrase, elle explique à elle seule le rebase, la règle de sécurité, et
+pourquoi le `--force` existe.
+
+### Le rebase : rejouer, pas déplacer
+
+Ta branche est partie de `main` il y a trois jours. Depuis, `main` a avancé. Deux façons de
+récupérer ce retard.
+
+Le **merge** fabrique un commit supplémentaire dont les deux parents sont ta branche et
+`main`. L'histoire garde sa forme réelle : deux lignes qui divergent puis se rejoignent — le
+losange qu'on voit dans `git log --graph`.
+
+Le **rebase** fait autre chose : il prend chacun de tes commits, l'un après l'autre, et le
+**rejoue** au bout de `main` à jour. Le résultat ressemble à ce qui se serait passé si tu
+avais commencé ton travail aujourd'hui. L'historique devient une ligne droite.
+
+Mais chaque commit rejoué a maintenant un nouveau parent. Donc, par la règle du dessus, un
+**nouvel identifiant**. Tes commits d'origine existent encore quelque part, plus rien ne
+pointe vers eux, et ce que tu appelles « ta branche » est en réalité une suite de copies.
+
+C'est pour cela qu'un conflit de rebase se résout **commit par commit** — Git rejoue le
+premier, s'arrête si ça coince, attend un `git rebase --continue`, puis passe au suivant. Un
+merge, lui, ne présente qu'un seul conflit global. Les deux ont leur intérêt : le rebase te
+fait résoudre plusieurs petits problèmes, le merge un seul gros. Et `git rebase --abort`
+remet tout comme avant, à tout instant.
+
+### La règle de sécurité, et sa raison
+
+**Ne rebase jamais des commits que quelqu'un d'autre a déjà récupérés.**
+
+La raison n'est pas une convention d'équipe. Si un collègue a `abc123` dans son dépôt et que
+tu le rejoues en `def456`, vous avez deux historiques qui racontent le même travail avec des
+identifiants différents. Sa prochaine synchronisation essaiera de **réconcilier** les deux —
+et il se retrouvera avec chaque commit en double.
+
+D'où la formule qui tient : **rebase avant de partager, merge après.**
+
+L'exception est encadrée et courante : ta propre branche de pull request, que personne
+d'autre ne construit. On la republie alors avec `git push --force-with-lease` — et non
+`--force`. La différence compte : `--force-with-lease` refuse d'écraser si quelqu'un a poussé
+entre-temps, ce qui est précisément la situation qu'on veut éviter. `--force` écrase sans
+poser de question.
+
+### Le rebase interactif : réécrire avant de montrer
+
+Ton travail réel ressemble à ça : `ajoute la recherche`, `wip`, `fix typo`, `ajoute les
+filtres`, `fix`. C'est le journal honnête de ta journée, et c'est illisible pour quelqu'un
+d'autre.
+
+`git rebase -i HEAD~5` ouvre la liste de ces cinq commits et te laisse décider du sort de
+chacun : `pick` le garde, `squash` le fusionne dans celui du dessus, `reword` change son
+message, `drop` le supprime, et l'ordre des lignes est l'ordre de rejeu.
+
+L'intention est de séparer deux choses qu'on confond : **comment tu as travaillé** et **ce
+que tu as fait**. La première n'intéresse personne ; la seconde est ce qu'on relira dans six
+mois. Cinq hoquets deviennent deux changements racontables.
+
+### `git bisect` : la dichotomie appliquée à ton passé
+
+« Ça marchait la semaine dernière » est une information plus précieuse qu'elle n'en a l'air :
+elle borne le problème. Si le bug est absent au commit d'il y a sept jours et présent
+maintenant, il a été introduit par **un** des commits entre les deux.
+
+`git bisect` fait la recherche binaire pour toi : tu marques un commit `good`, un `bad`, et
+il te place au milieu. Tu testes, tu réponds `good` ou `bad`, il recommence sur la moitié
+restante. Sur 1 000 commits, dix tests suffisent — c'est log₂(1000) ≈ 10, exactement la
+dichotomie de ton cours d'algorithmique, appliquée à ton propre historique.
+
+La condition d'usage : il te faut un **test rapide et fiable** pour répondre `good`/`bad`.
+Si ce test est manuel et prend cinq minutes, dix itérations coûtent une heure — encore
+largement rentable face à une lecture de diff.
+
+### La pull request, et ce qu'un relecteur regarde en premier
+
+Une pull request propose de fusionner une branche, avec une description : le contexte, ce
+qui change, et comment le vérifier. La discussion a lieu avant la fusion, pas après.
+
+Ce qui surprend quand on commence : **un relecteur regarde d'abord l'historique, pas le
+diff.** Des commits atomiques avec des messages clairs lui permettent de relire ton travail
+étape par étape. Un seul commit de 800 lignes intitulé `update` l'oblige à tout reconstruire
+lui-même — et il relira moins bien.
+
+C'est la raison pratique de la section précédente : le rebase interactif n'est pas de la
+cosmétique, c'est ce qui rend ton travail relisible.
+
+### Trois outils qu'on utilise tous les jours
+
+**`git stash`** met de côté tes modifications non commitées pour te rendre un répertoire
+propre — quand un correctif urgent tombe au milieu de ton travail. `git stash pop` les
+remet.
+
+**`git cherry-pick <hash>`** rejoue **un** commit précis sur ta branche courante. Utile pour
+récupérer un correctif isolé sans emporter le reste d'une branche.
+
+**`git reflog`** est le filet. Il enregistre tous les déplacements de `HEAD` — y compris ceux
+qu'un rebase ou un `reset --hard` a rendus invisibles. Les commits « perdus » y figurent
+presque toujours, et `git reset --hard <hash-du-reflog>` les ramène. Git ne jette
+véritablement un commit qu'après des semaines, lors d'un nettoyage automatique.
+
+À retenir dans le bon ordre : avant de paniquer, `git reflog`.
 
 ## 🔧 Exemple simple
 ```bash
@@ -28,21 +133,90 @@ git rebase main            # ma branche repart du main à jour, linéaire
 # conflits éventuels : résoudre, git add, git rebase --continue
 ```
 
-## 🧭 Exemple guidé
-**Énoncé** : nettoyer 5 commits brouillons (« wip », « fix typo », …) en 2 commits propres avant la PR.
-**Raisonnement** : rebase interactif sur les 5 derniers commits, squash + reword.
-**Solution** :
-```bash
-git rebase -i HEAD~5
-# Dans l'éditeur :
-pick  a1 Ajoute la recherche par titre
-squash b2 wip
-squash c3 fix typo
-pick  d4 Ajoute les filtres combinables
-squash e5 fix
-# → 2 commits ; réécrire les messages proprement.
+## 🧭 Exemple guidé — rendre relisibles cinq commits de travail
+
+**La situation.** Tu as passé la journée sur une branche `feat/recherche`. `git log --oneline`
+donne ceci, du plus ancien au plus récent :
+
 ```
-**Explication** : `pick` garde, `squash` fusionne dans le commit du dessus ; l'histoire finale raconte DEUX changements cohérents, pas cinq hoquets. **Variante** : provoque un conflit pendant un rebase et résous-le (`--continue`), puis teste `--abort` pour voir le retour arrière propre.
+a1  Ajoute la recherche par titre
+b2  wip
+c3  fix typo
+d4  Ajoute les filtres combinables
+e5  fix
+```
+
+Tu veux ouvrir une pull request. Personne ne doit avoir à deviner ce que `wip` contenait.
+
+**Ce qui rend le cas non trivial.** Ces cinq commits ne se regroupent pas mécaniquement. `b2`
+et `c3` complètent `a1` — ce sont des retouches de la recherche. `e5` complète `d4`. Mais
+rien dans les messages ne le dit : c'est **toi** qui le sais, et c'est justement cette
+information qu'il s'agit d'inscrire dans l'historique.
+
+**Décision 1 — combien de commits vises-tu, et pourquoi pas un seul ?**
+
+Tout écraser en un commit serait plus simple. Ce serait aussi une perte : un relecteur ne
+pourrait plus lire la recherche indépendamment des filtres, et un futur `git bisect` ne
+pourrait plus distinguer laquelle des deux fonctionnalités a cassé quelque chose.
+
+La règle qui décide : **un commit = un changement qu'on pourrait annuler seul et qui laisse
+le projet cohérent.** Ici, deux — la recherche, puis les filtres.
+
+**Décision 2 — squash ou fixup ?**
+
+`squash` fusionne le commit dans celui du dessus **et** te propose de combiner les deux
+messages dans l'éditeur. `fixup` fait la même fusion mais **jette** le message du commit
+absorbé.
+
+Pour `b2` (« wip »), le message n'a aucune valeur : `fixup` évite d'avoir à le supprimer à la
+main. Pour un commit dont le message dit quelque chose d'utile, `squash` permet de récupérer
+la phrase. Ici, les trois absorbés sont du bruit : `fixup` partout.
+
+**Décision 3 — jusqu'où remonter ?**
+
+`HEAD~5` désigne les cinq derniers commits. Attention à la borne : **le commit
+`HEAD~5` lui-même n'est pas dans la liste** — il sert de base, et c'est par-dessus lui que
+les cinq autres sont rejoués. Se tromper d'un cran est l'erreur la plus fréquente ; le
+contrôle est simple, l'éditeur doit afficher exactement cinq lignes.
+
+Et une vérification avant de lancer : `git status` doit être propre. Un rebase avec des
+modifications non commitées s'interrompt immédiatement.
+
+```bash
+git status                    # propre ? sinon : git stash
+git rebase -i HEAD~5
+```
+
+Dans l'éditeur — l'ordre est chronologique, du plus ancien au plus récent :
+
+```
+pick   a1 Ajoute la recherche par titre
+fixup  b2 wip
+fixup  c3 fix typo
+pick   d4 Ajoute les filtres combinables
+fixup  e5 fix
+```
+
+**Comment tu sais que ça a marché.** `git log --oneline` doit afficher exactement deux
+commits. Puis — et c'est la vérification que presque personne ne fait — `git diff
+main..HEAD` doit être **identique** à ce qu'il était avant le rebase. Réécrire l'historique
+ne doit rien changer au code final ; si le diff a bougé, tu as perdu du travail dans une
+absorption.
+
+**Ce que ça t'a appris.** L'historique est une **narration** que tu écris pour un lecteur,
+pas un journal automatique de ta journée. Les outils qui le réécrivent ne sont dangereux que
+tant que le travail est partagé — sur ta propre branche non publiée, tu peux le remanier
+autant que nécessaire.
+
+**Variante qui déplace le problème.** Refais l'opération, mais cette fois un des commits
+absorbés touche **le même fichier, à la même ligne** qu'un commit ultérieur. Le rebase
+s'arrête sur un conflit au milieu de la séquence. Tu es alors dans un état particulier :
+`git status` te dit « interactive rebase in progress », une partie des commits est rejouée
+et le reste attend. Résous le conflit, `git add`, puis `git rebase --continue`. Puis
+recommence l'exercice et tape `git rebase --abort` au milieu : tu dois retrouver tes cinq
+commits d'origine, intacts. **Faire cet abort une fois volontairement est ce qui fait
+disparaître la peur du rebase** — tu sais désormais que la sortie de secours existe et
+qu'elle est propre.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Sur DocSense, chaque score d'évaluation est lié à un commit (leçon LLMOps) : un historique propre rend l'archéologie de qualité possible (« la fidélité a chuté à ce commit précis » + `git bisect` pour le confirmer). Et ton portfolio est jugé sur ses historiques : des commits atomiques racontent ta rigueur mieux qu'un CV.

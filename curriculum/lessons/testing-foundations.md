@@ -65,21 +65,95 @@ Quand une référence fiable existe (le sort natif face à ton tri maison), comp
 ## Concepts clés
 Arrange/Act/Assert · test unitaire / intégration / e2e · cas limites et d'erreur · comportement vs implémentation · le test du test (rougir quand on sabote) · mock / fake / injection de dépendance · base de test isolée et réinitialisée · oracle et propriétés · TDD (écrire le test d'abord — à connaître, pratiquer à ta guise).
 
-## 🧭 Exemple guidé
-Tester la logique du projet 1 SANS toucher au disque :
+## 🧭 Exemple guidé — écrire un test qui sait échouer
+
+**La situation.** Ton gestionnaire de tâches a une fonction `marquerFaite(store, id)` qui
+lit les tâches, change le statut de l'une d'elles, et enregistre. Elle passe par un `store`
+qui écrit dans un fichier JSON. Tu veux la tester.
+
+**Ce qui rend le cas non trivial.** Le premier réflexe — appeler la fonction et regarder le
+fichier — produit un test qui écrit sur disque, laisse des traces entre deux exécutions, et
+échoue différemment selon l'ordre des tests. On ne teste plus la logique : on teste la
+logique **et** le disque, et quand ça rougit on ne sait pas lequel des deux est en cause.
+
+**Décision 1 — que remplacer, exactement.**
+
+On ne remplace pas « le disque ». On remplace **la dépendance que la fonction utilise**,
+c'est-à-dire l'objet `store`. Cela n'est possible que si `marquerFaite` la **reçoit** au lieu
+d'aller la chercher elle-même :
+
 ```js
-function fakeStore(initial = []) {          // un Store en mémoire
-  let tasks = [...initial];
+marquerFaite(store, 1)          // ✅ testable : je décide quel store
+marquerFaite(1)                 // ❌ va chercher le vrai store à l'intérieur
+```
+
+C'est tout ce que signifie « inversion de dépendance », et l'on voit ici pourquoi c'est
+utile : **la testabilité n'est pas une propriété du test, c'est une propriété du code
+testé.** Un code impossible à tester est presque toujours un code qui va chercher lui-même
+ce dont il dépend.
+
+**Décision 2 — un double aussi simple que possible.**
+
+Il n'y a besoin ni de bibliothèque, ni de mock sophistiqué. Le `store` a deux méthodes ; on
+en écrit une version qui garde les tâches dans une variable :
+
+```js
+function fakeStore(initial = []) {
+  let tasks = [...initial];                 // copie : le test ne modifie pas ses propres données
   return { all: () => tasks, save: (t) => { tasks = t; } };
 }
-test('done marque la tâche sans muter les autres', () => {
+```
+
+Le `[...initial]` mérite l'attention : sans lui, `save` remplacerait le tableau que le test
+a écrit, et deux tests partageant le même tableau initial se contamineraient.
+
+**Décision 3 — qu'affirmer, et pourquoi deux assertions.**
+
+La première est évidente : la tâche 1 est passée à `done`. La seconde l'est moins, et c'est
+la plus utile :
+
+```js
+test('done marque la tâche visée sans toucher aux autres', () => {
   const store = fakeStore([{ id: 1, statut: 'pending' }, { id: 2, statut: 'pending' }]);
+
   marquerFaite(store, 1);
-  assert.equal(store.all()[0].statut, 'done');
-  assert.equal(store.all()[1].statut, 'pending');
+
+  assert.equal(store.all()[0].statut, 'done');      // ce que je voulais
+  assert.equal(store.all()[1].statut, 'pending');   // ce que je ne voulais PAS
 });
 ```
-L'interface `Store` du jour 44 rend ce test possible : l'inversion de dépendance ET la testabilité sont la même médaille.
+
+Un test qui n'affirme que l'effet voulu passe aussi sur une implémentation qui marque
+**toutes** les tâches. La deuxième assertion est ce qui distingue « ça a fait quelque chose »
+de « ça a fait exactement ça ». Le nom du test dit d'ailleurs les deux — c'est à cela qu'on
+reconnaît un bon nom.
+
+**Le test du test — l'étape que presque personne ne fait.**
+
+Le test est vert. Cela ne prouve encore rien : il pourrait être vert **parce qu'il ne teste
+rien**. On le vérifie en cassant volontairement la fonction :
+
+```js
+// dans marquerFaite, temporairement :
+if (t.id === id) t.statut = 'pending';   // au lieu de 'done'
+```
+
+Le test doit **rougir**. S'il reste vert, il ne sert à rien et il faut comprendre pourquoi
+avant d'aller plus loin. Puis on répare, on revérifie le vert, et on peut faire confiance.
+
+**Ce que ça t'a appris.** Un test a deux propriétés indépendantes : il doit **passer quand le
+code est bon**, et **échouer quand il ne l'est pas**. La première se constate gratuitement,
+la seconde se provoque. C'est la seconde qui donne sa valeur au test — et c'est la seule que
+la couverture de code ne mesure jamais.
+
+**Variante qui déplace le problème.** La dépendance n'est plus un store mais **l'horloge** :
+`estEnRetard(tache)` compare `tache.echeance` à `Date.now()`. Le test devient dépendant du
+jour où on le lance — vert aujourd'hui, rouge dans six mois, sans qu'une ligne ait changé.
+Le même raisonnement s'applique, et la solution est identique : la fonction doit **recevoir**
+l'instant courant (`estEnRetard(tache, maintenant)`) au lieu d'aller le chercher. Tu peux
+alors tester la veille, le jour même et le lendemain en trois assertions. **Toute dépendance
+au monde extérieur — disque, réseau, horloge, aléatoire — se teste de la même façon : en la
+faisant entrer par la porte au lieu de la laisser passer par la fenêtre.**
 
 ## ⚠️ Erreurs fréquentes
 - Tester sur la base de dev (pollution, tests non rejouables) : toujours une base de test réinitialisée.

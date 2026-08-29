@@ -45,17 +45,85 @@ async function chargerLivre(id) {
 ```
 `await` suspend la fonction, le reste de l'app continue de tourner.
 
-## 🧭 Exemple guidé
-**Énoncé** : charger 5 documents — séquentiel vs parallèle.
-**Raisonnement** : indépendants → parallèle ; mesurer pour le prouver.
-**Solution** :
+## 🧭 Exemple guidé — charger cent documents sans se faire couper
+
+**La situation.** Une fonction `charger(id)` va chercher un document sur une API. Chaque
+appel prend environ 200 ms. On te donne 100 identifiants et on te demande tous les
+documents.
+
+**Ce qui rend le cas non trivial.** L'API accepte au plus **10 requêtes simultanées** ;
+au-delà, elle répond `429 Too Many Requests`. Les deux réponses évidentes échouent donc
+toutes les deux, pour des raisons opposées.
+
+**Décision 1 — pourquoi la boucle `await` est inacceptable.**
+
 ```js
-// Séquentiel : ~5 × 200 ms = 1 s
-for (const id of ids) docs.push(await charger(id));
-// Parallèle : ~200 ms au total
-const docs = await Promise.all(ids.map((id) => charger(id)));
+for (const id of ids) docs.push(await charger(id));   // 100 × 200 ms = 20 secondes
 ```
-**Explication** : `map` lance les 5 Promises immédiatement, `Promise.all` attend le tout. **Variante** : 100 documents avec une API à rate limit → paralléliser par LOTS de 10 (boucle sur les lots, `Promise.all` dans le lot).
+
+Chaque `await` attend la réponse avant de lancer la suivante. Le mot important est
+**attend** : pendant ces 200 ms, ton programme ne fait rien du tout, et il recommence cent
+fois. Vingt secondes pour un travail qui, en soi, n'occupe le processeur que quelques
+millisecondes.
+
+C'est le piège de `async/await` : il rend l'asynchrone si lisible qu'on écrit du séquentiel
+sans s'en apercevoir. **Un `await` dans une boucle mérite toujours qu'on se demande si les
+tours sont vraiment dépendants les uns des autres.**
+
+**Décision 2 — pourquoi tout lancer d'un coup échoue aussi.**
+
+```js
+const docs = await Promise.all(ids.map((id) => charger(id)));   // 100 requêtes simultanées
+```
+
+`map` n'attend rien : il appelle `charger` cent fois de suite, et cent requêtes partent
+**immédiatement**. Le total serait de 200 ms — sauf que l'API en refuse quatre-vingt-dix.
+Pire, `Promise.all` rejette dès qu'**une seule** promesse échoue : tu perds aussi les dix qui
+avaient réussi.
+
+Le point à retenir dépasse cet exemple : **une promesse démarre à sa création, pas à son
+`await`.** `map` a déjà tout lancé avant que `Promise.all` ne soit appelé.
+
+**Décision 3 — la forme qui tient : des lots.**
+
+Il faut du parallélisme, mais **borné**. On découpe en tranches de dix, et on attend la fin
+d'une tranche avant de lancer la suivante :
+
+```js
+async function chargerTout(ids, taille = 10) {
+  const docs = [];
+  for (let i = 0; i < ids.length; i += taille) {
+    const lot = ids.slice(i, i + taille);
+    const resultats = await Promise.all(lot.map((id) => charger(id)));
+    docs.push(...resultats);            // ...  : on aplatit, sinon on empile des tableaux
+  }
+  return docs;
+}
+```
+
+Il reste un `await` dans une boucle — et cette fois c'est **voulu** : les tours sont
+réellement dépendants, puisque le lot suivant ne doit partir qu'une fois le précédent
+terminé.
+
+**Comment tu sais que ça marche.** Chronomètre : dix lots de 200 ms font environ **2
+secondes**, contre 20 en séquentiel et un échec en tout-parallèle. Vérifie aussi que
+`docs.length === 100` — si tu obtiens 10, c'est que tu as écrit `docs.push(resultats)` sans
+les trois points, et tu as empilé dix tableaux au lieu de cent documents.
+
+**Ce que ça t'a appris.** La question n'est jamais « séquentiel ou parallèle ». Elle est :
+**qu'est-ce qui contraint le débit ?** Ici, une limite imposée par autrui. Ailleurs, ce sera
+la mémoire, un pool de connexions, ou une facturation. Le parallélisme se règle sur cette
+contrainte, il ne se maximise pas.
+
+**Variante qui déplace le problème.** Trois documents sur cent sont indisponibles. Avec le
+code ci-dessus, le lot qui les contient rejette et `chargerTout` s'arrête : tu perds tout,
+y compris les quatre-vingt-dix-sept documents valides. Remplace `Promise.all` par
+`Promise.allSettled`, qui attend **toutes** les promesses et rend pour chacune
+`{status: 'fulfilled', value}` ou `{status: 'rejected', reason}`. Tu dois alors trier
+toi-même les deux cas et décider quoi faire des échecs — réessayer, ignorer, signaler. C'est
+plus de code, et c'est le comportement qu'on veut presque toujours en production :
+**`Promise.all` convient quand tout est indispensable, `allSettled` quand le travail partiel
+a de la valeur.**
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Ton pipeline RAG embedde 50 chunks : en séquentiel, 50 × 300 ms = 15 s ; par lots parallèles, ~2 s. Tes appels LLM sont des Promises avec timeout et retry (leçon error-handling). Le streaming des réponses LLM est de l'asynchrone incrémental. Maîtriser cette leçon = des pipelines 10× plus rapides.

@@ -77,20 +77,86 @@ God object (une classe/fichier qui fait tout) · spaghetti (tout appelle tout) �
 ## Concepts clés
 Pattern = problème + solution nommée · Strategy, Factory, Adapter, Observer, Singleton · open/closed · inversion de dépendance · composition > héritage · anti-patterns.
 
-## 🧭 Exemple guidé
+## 🧭 Exemple guidé — reconnaître un pattern au lieu de l'appliquer
+
+Cette leçon dit qu'un pattern se **reconnaît** quand son problème apparaît. Le montrer
+suppose donc de partir du problème, pas de la solution. Voici le code tel qu'on l'écrit
+vraiment la première fois — il est correct, et il n'a rien de honteux :
+
 ```ts
-interface Notifieur { envoyer(msg: string): void }           // le contrat
-class Email implements Notifieur { envoyer(m) { /* ... */ } }
-class SMS implements Notifieur { envoyer(m) { /* ... */ } }
-
-const creerNotifieur = (type: 'email' | 'sms'): Notifieur =>  // Factory
-  type === 'email' ? new Email() : new SMS();
-
-function alerter(notifieurs: Notifieur[], msg: string) {      // polymorphisme
-  for (const n of notifieurs) n.envoyer(msg);                 // Strategy en action
+function alerter(msg: string, canal: 'email' | 'sms') {
+  if (canal === 'email') envoyerEmail(msg);
+  else envoyerSMS(msg);
 }
 ```
-Ajouter Slack : une classe + une ligne de Factory. `alerter` ne bouge PAS — open/closed en pratique.
+
+**Décision 1 — faut-il changer quelque chose ? Pour l'instant, non.**
+
+Deux canaux, un `if`. C'est lisible, testable, et personne n'y perd de temps. Introduire une
+interface et deux classes ici serait de la sur-ingénierie : plus de fichiers, plus
+d'indirections, aucun bénéfice. **Le premier réflexe correct est de ne rien faire.**
+
+Le pattern n'existe pas encore parce que son problème n'existe pas encore.
+
+**Décision 2 — le problème apparaît, et on le nomme avant d'agir.**
+
+Trois mois plus tard : Slack, puis les notifications push, puis un webhook client. Le `if`
+est devenu une chaîne de cinq branches. Surtout, un deuxième endroit du code a besoin de la
+même liste, et un troisième d'un sous-ensemble. Et l'on constate ceci :
+
+> Chaque ajout de canal oblige à modifier `alerter`, qui n'a pourtant rien à voir avec la
+> façon d'envoyer un message.
+
+C'est **ça**, le problème — pas « le code est moche ». Il porte un nom, et le nom vient
+avec sa solution : ce que `alerter` fait varier, c'est un **comportement**, et un
+comportement qui varie s'injecte au lieu de se brancher. C'est Strategy.
+
+**Décision 3 — quel pattern, et pourquoi pas l'autre.**
+
+Deux besoins distincts se sont accumulés, et il faut les séparer pour choisir :
+
+- *Comment envoyer* varie → **Strategy** : `alerter` reçoit des objets qui savent envoyer, et
+  cesse de connaître leurs noms.
+- *Choisir lequel construire à partir d'une chaîne de configuration* → **Factory** : une
+  fonction unique traduit `'slack'` en l'objet correspondant.
+
+On aurait pu ne prendre que Strategy et laisser chaque appelant construire son objet — c'est
+défendable tant qu'il n'y a qu'un appelant. Dès qu'il y en a trois, la logique de
+construction se duplique, et c'est exactement le problème que Factory résout.
+
+```ts
+interface Notifieur { envoyer(msg: string): void }            // le contrat
+
+class Email implements Notifieur { envoyer(m: string) { envoyerEmail(m); } }
+class SMS   implements Notifieur { envoyer(m: string) { envoyerSMS(m); } }
+
+const creerNotifieur = (type: 'email' | 'sms'): Notifieur =>  // Factory : le seul endroit
+  type === 'email' ? new Email() : new SMS();                 // qui connaît la liste
+
+function alerter(notifieurs: Notifieur[], msg: string) {      // Strategy : ne connaît
+  for (const n of notifieurs) n.envoyer(msg);                 // que le contrat
+}
+```
+
+**Comment tu sais que c'est mieux.** Le test tient en une phrase : **ajoute Slack et compte
+les fichiers modifiés.** Une classe nouvelle, une ligne dans `creerNotifieur`. `alerter` n'est
+pas touché — et c'est vérifiable, pas une impression. C'est ce que le principe
+ouvert/fermé signifie concrètement : ouvert à l'extension, fermé à la modification.
+
+**Ce que ça t'a appris.** Un pattern ne rend pas le code « meilleur » dans l'absolu : il
+**déplace le coût du changement** vers l'endroit où le changement arrive. Si le changement
+n'arrive jamais, tu as payé l'indirection pour rien. C'est pourquoi l'ordre — douleur
+d'abord, nom ensuite — n'est pas une précaution pédagogique mais la seule façon de savoir
+si le pattern est rentable.
+
+**Variante qui déplace le problème.** Le besoin change de nature : il ne s'agit plus
+d'envoyer sur plusieurs canaux, mais que **dix parties du système réagissent** quand une
+commande est payée — envoyer un e-mail, mettre à jour le stock, notifier la comptabilité,
+recalculer des statistiques. Reprends le raisonnement depuis le problème. Tu verras que
+Strategy ne convient pas : il faudrait que le code de paiement reçoive et connaisse les dix.
+Ce qu'il faut ici, c'est qu'il **n'en connaisse aucun** — il publie « commande payée », les
+intéressés s'abonnent. C'est Observer. **Le pattern se lit dans la forme du couplage qu'on
+veut supprimer, jamais dans le vocabulaire du domaine.**
 
 ## ⚠️ Erreurs fréquentes
 - Appliquer un pattern « parce qu'on l'a appris » : la sur-ingénierie EST un anti-pattern.

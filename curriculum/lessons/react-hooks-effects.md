@@ -47,20 +47,122 @@ return <Liste livres={state.data!} />;
 ```
 
 ## 🧭 Exemple guidé
-**Énoncé** : une recherche qui refetch quand le terme change, sans réponse obsolète.
-**Raisonnement** : effet dépendant de `terme` + cleanup pour ignorer les réponses périmées (l'utilisateur tape vite : la réponse de « ch » peut arriver APRÈS celle de « chat »).
-**Solution** :
+
+Un champ de recherche qui interroge l'API à chaque frappe. Le code fait exactement ce que
+la documentation suggère : un effet, une dépendance, trois états.
+
 ```tsx
 useEffect(() => {
-  let actif = true;                       // drapeau de fraîcheur
+  if (!terme) return;
+  setState({ status: 'loading' });
+  api.chercher(terme)
+    .then((data) => setState({ status: 'ok', data }))
+    .catch(() => setState({ status: 'error' }));
+}, [terme]);
+```
+
+Un utilisateur tape « chat », lettre par lettre, à une vitesse normale — environ 80 ms entre
+deux frappes. Quatre requêtes partent donc : `c`, `ch`, `cha`, `chat`. Voici les instants
+d'arrivée réels, mesurés dans un navigateur :
+
+```
+réponse de "chat" arrive à t = 401 ms
+réponse de "cha"  arrive à t = 449 ms
+réponse de "ch"   arrive à t = 556 ms
+réponse de "c"    arrive à t = 561 ms
+→ à l'écran : « 7 résultats pour "c" »
+```
+
+Le champ affiche `chat`, la liste affiche les résultats de `c`. Et ce n'est pas un cas
+tordu : les réponses sont arrivées dans l'ordre **exactement inverse** de leur départ,
+parce que la requête la plus large est celle qui demande le plus de travail au serveur.
+Plus l'utilisateur tape vite et plus sa recherche est précise, plus il a de chances de voir
+un résultat faux.
+
+**Décision 1 — nommer le problème correctement.** La tentation est de dire « il faut un
+debounce ». Un debounce réduit le nombre de requêtes ; il ne garantit rien. Avec 300 ms
+d'attente, l'utilisateur qui marque une pause après « ch » puis complète en « chat » relance
+deux requêtes, et la course reste possible — plus rare, donc plus difficile à reproduire et
+à diagnostiquer. **Ce qui est rare n'est pas corrigé, c'est déguisé.** Le vrai énoncé est :
+*plusieurs requêtes sont en vol simultanément et n'importe laquelle peut écrire dans le même
+état.* Formulé ainsi, la solution devient évidente — il faut qu'une réponse sache si elle
+est encore d'actualité.
+
+**Décision 2 — qui décide qu'une réponse est périmée ?** On ne peut pas annuler le passé,
+mais on peut refuser de l'écouter. React donne le point d'accroche : la fonction retournée
+par l'effet s'exécute **avant** le prochain effet. On s'en sert pour lever un drapeau que la
+réponse en retard consultera :
+
+```tsx
+useEffect(() => {
+  if (!terme) return;
+  let actif = true;                       // vrai tant que CET effet est le courant
   setState({ status: 'loading' });
   api.chercher(terme)
     .then((data) => { if (actif) setState({ status: 'ok', data }); })
     .catch(() => { if (actif) setState({ status: 'error' }); });
-  return () => { actif = false; };        // cleanup : périme l'ancienne requête
+  return () => { actif = false; };        // le prochain terme périme celui-ci
 }, [terme]);
 ```
-**Explication** : chaque changement de `terme` périme l'effet précédent (cleanup) — la réponse en retard est ignorée. C'est LE pattern anti-course. **Variante** : ajoute un debounce (attendre 300 ms de silence avant de fetch).
+
+Le point subtil, et c'est lui qu'il faut avoir compris : **chaque exécution de l'effet a son
+propre `actif`**. Ce n'est pas une variable partagée qu'on remettrait à `true` — c'est une
+variable locale capturée par la fermeture de chaque `.then()`. Quatre requêtes en vol, quatre
+`actif` distincts, dont un seul vaut encore `true`. Si tu déclarais `actif` en dehors de
+l'effet, tout s'effondrerait : la dernière requête remettrait le drapeau à `true` pour tout
+le monde.
+
+Même scénario, même code sauf ces trois lignes :
+
+```
+réponse de "chat" arrive à t = 381 ms   → affichée
+réponse de "cha"  arrive à t = 429 ms   → ignorée (périmée)
+réponse de "ch"   arrive à t = 539 ms   → ignorée (périmée)
+réponse de "c"    arrive à t = 546 ms   → ignorée (périmée)
+→ à l'écran : « 28 résultats pour "chat" »
+```
+
+**Décision 3 — et le debounce, alors ?** Il redevient utile, mais pour ce qu'il fait
+vraiment : économiser des requêtes. Quatre appels au lieu d'un pour un mot de quatre
+lettres, c'est quatre fois la charge serveur et, sur une API facturée, quatre fois le coût.
+Debounce et drapeau de fraîcheur répondent à deux questions distinctes — *combien de
+requêtes envoyer ?* et *quelle réponse a le droit d'écrire à l'écran ?* — et l'erreur
+courante est de croire que la première réponse dispense de la seconde.
+
+**Ce que ça t'apprend sur `useEffect` en général.** Le cleanup n'est pas un accessoire pour
+les abonnements et les timers : il est la manière dont un effet dit « je ne suis plus le
+courant ». Chaque fois qu'un effet démarre quelque chose qui peut se terminer *après* que
+ses dépendances ont changé — un fetch, un timer, une écoute d'événement, une animation — la
+question à se poser est la même : que doit-il se passer si ma valeur arrive trop tard ?
+S'il n'y a pas de réponse, il manque un cleanup.
+
+**Une inquiétude légitime, qu'il vaut mieux lever en l'essayant.** L'utilisateur tape
+« chat » puis efface tout. `terme` redevient `''`, l'effet sort par le `if (!terme) return`
+sans rien déclarer ni retourner de cleanup — et la réponse de « chat », partie avant, est
+toujours en route. Va-t-elle s'afficher sous un champ vide ? Non, et la raison mérite d'être
+sue : **React exécute le cleanup de l'effet précédent avant de lancer le suivant.** Le
+`actif = false` de « chat » a donc déjà eu lieu quand le nouvel effet démarre. Journal
+d'exécution réel :
+
+```
+effet : lance la requête "chat"
+cleanup de "chat" : actif = false
+effet : terme vide, return anticipé
+  réponse "chat" arrive → actif = false, ignorée
+```
+
+L'ordre cleanup-puis-effet est ce qui rend le motif fiable ; sans lui, il faudrait
+coordonner les effets entre eux à la main.
+
+**Variante qui déplace le problème.** Même écran, mais l'utilisateur quitte la page pendant
+le chargement. Le composant est démonté, la requête est toujours en vol. Le drapeau protège
+là aussi — le cleanup s'exécute au démontage exactement comme au changement de dépendance,
+donc rien n'est écrit dans un composant disparu. Mais une question nouvelle apparaît : la
+requête, elle, continue de consommer du réseau et du temps serveur pour un résultat que
+personne ne lira jamais. C'est le moment d'`AbortController`, et il faut voir qu'il répond à
+autre chose que le drapeau : le drapeau garantit la **justesse** de l'affichage, l'abandon
+récupère des **ressources**. Sur une recherche à chaque frappe, la différence se voit sur la
+facture ; sur la justesse, elle ne change rien.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 L'UI de DocSense : la question part (loading), la réponse streame (data incrémentale), l'API LLM échoue (error + retry). Le hook `useQuestion()` encapsule ce cycle. Les 3 états async sont EXACTEMENT la gestion d'erreurs de la leçon error-handling, côté interface.

@@ -43,17 +43,91 @@ function Compteur() {
 Cliquer → setN → nouvel état → React re-rend → le texte reflète n. Jamais de manipulation manuelle du DOM.
 
 ## 🧭 Exemple guidé
-**Énoncé** : une liste de tâches avec ajout et cochage, sans mutation.
-**Raisonnement** : le state est la source de vérité ; chaque modification retourne du NEUF.
-**Solution** :
+
+Une liste de tâches. Trois lignes, une case à cocher et un bouton de suppression par ligne.
+Le code paraît irréprochable — rien n'est muté, `filter` renvoie bien un nouveau tableau :
+
 ```tsx
-const [taches, setTaches] = useState<Tache[]>([]);
-const ajouter = (titre: string) =>
-  setTaches([...taches, { id: crypto.randomUUID(), titre, faite: false }]);
-const basculer = (id: string) =>
-  setTaches(taches.map((t) => (t.id === id ? { ...t, faite: !t.faite } : t)));
+function Liste() {
+  const [taches, setTaches] = useState([
+    { id: 'a', titre: 'Acheter du pain' },
+    { id: 'b', titre: 'Appeler le médecin' },
+    { id: 'c', titre: 'Payer le loyer' },
+  ]);
+  const supprimer = (id) => setTaches(taches.filter((t) => t.id !== id));
+
+  return (
+    <ul>
+      {taches.map((t, i) => (
+        <Ligne key={i} titre={t.titre} onSupprimer={() => supprimer(t.id)} />
+      ))}
+    </ul>
+  );
+}
+// <Ligne> affiche : <input type="checkbox" /> {titre} <button>x</button>
 ```
-**Explication** : `[...taches, x]` et `map + spread` créent de nouvelles références → React voit et re-rend. Ce sont EXACTEMENT tes patterns immuables du jour 26. **Variante** : `supprimer(id)` avec `filter`, et le compteur « restantes » DÉRIVÉ (`taches.filter(t => !t.faite).length`), pas stocké.
+
+Un utilisateur coche « Acheter du pain », puis la supprime. Voici ce qui s'affiche
+réellement, mesuré dans un navigateur :
+
+```
+départ              [ ] Acheter du pain | [ ] Appeler le médecin | [ ] Payer le loyer
+il coche "pain"     [x] Acheter du pain | [ ] Appeler le médecin | [ ] Payer le loyer
+il supprime "pain"  [x] Appeler le médecin | [ ] Payer le loyer
+```
+
+**La coche a changé de tâche.** L'utilisateur a supprimé une course et s'est retrouvé avec
+un rendez-vous médical marqué comme fait. Aucune erreur en console.
+
+**Décision 1 — ne pas chercher le bug là où il n'est pas.** Le premier réflexe est de
+suspecter `supprimer` ou `filter`. Le geste qui fait gagner une heure est de vérifier
+d'abord **le state**, séparément de l'écran : affiche `taches` après la suppression. Il
+contient exactement deux éléments, les bons, dans le bon ordre. Le modèle est juste, donc
+le bug est dans le passage du modèle à l'écran. Ce partage — *les données sont-elles
+fausses, ou seulement leur affichage ?* — est la première question à se poser devant
+n'importe quel bug d'interface, et elle divise le champ de recherche en deux.
+
+**Décision 2 — comprendre ce que React fait vraiment.** React ne reconstruit pas la liste
+à partir de rien : il compare l'ancien rendu au nouveau et applique le minimum de
+modifications au DOM. Pour cela, il doit apparier les anciens éléments aux nouveaux, et
+c'est **la `key` qui dit lequel est lequel**. Avec `key={i}`, on lui a annoncé : « voici les
+éléments 0, 1, 2 ». Après suppression : « voici les éléments 0, 1 ». React en conclut, très
+logiquement, qu'il reste les deux premiers et que le troisième a disparu — il conserve donc
+les nœuds DOM 0 et 1, et se contente d'y **changer le texte**. La case à cocher du nœud 0,
+elle, n'a aucune raison de changer : elle était cochée, elle le reste. Le titre a bougé, la
+case est restée. Rien n'a « sauté » : c'est nous qui avons donné à React une identité
+fausse.
+
+Une `key` n'est donc pas un identifiant technique réclamé par le framework pour faire taire
+un avertissement. C'est une **affirmation** : *cet élément-ci du nouveau rendu est le même
+que celui-là de l'ancien.* Écrire l'index revient à affirmer « la deuxième ligne est
+toujours la même chose », ce qui est faux dès qu'on insère, supprime ou trie.
+
+**Décision 3 — quelle clé, alors ?** Trois candidats, et deux sont des pièges.
+`key={t.titre}` fonctionne… jusqu'à deux tâches homonymes, où React reçoit deux fois la même
+affirmation d'identité et se comporte de façon incohérente. `key={Math.random()}` fait
+disparaître le symptôme et c'est le pire des trois : une clé différente à chaque rendu
+signifie « tous ces éléments sont nouveaux », donc React détruit et recrée tout le DOM à
+chaque frappe — l'écran est correct, la page rame, et le focus du clavier saute. La bonne
+clé est **stable dans le temps et unique parmi ses frères** : `key={t.id}`. Avec elle, la
+même séquence donne `[ ] Appeler le médecin | [ ] Payer le loyer` — la coche est bien partie
+avec la tâche supprimée.
+
+**Le vrai enseignement est plus profond que la clé.** Demande-toi *pourquoi ce bug était
+possible*. Parce qu'une information — « cette tâche est cochée » — vivait dans le DOM, dans
+l'`<input>`, et non dans `taches`. Elle était donc hors de portée de React, qui n'a pas pu la
+déplacer avec la ligne à laquelle elle appartenait. Corriger la clé soigne le symptôme ;
+mettre `faite: false` dans l'objet tâche supprime la catégorie entière de bugs, parce que
+l'état redevient entièrement dérivable du modèle. C'est exactement ce que promet
+« UI = f(state) » : tout ce que l'écran montre doit être calculable depuis l'état — sinon il
+existe un second état, invisible, que personne ne maintient.
+
+**Variante qui déplace le problème.** Ajoute un champ de saisie par ligne pour renommer une
+tâche, et une fonction de tri par titre. Le tri ne supprime rien, ne modifie aucun texte —
+et pourtant, avec des clés par index, le texte à moitié tapé dans une ligne se retrouve dans
+une autre. Même mécanisme, sans suppression : réordonner suffit. C'est le test à faire
+mentalement sur toute liste que tu écris — *si je réordonne, qu'est-ce qui reste sur place
+alors que ça aurait dû suivre ?*
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 L'interface de DocQA/DocSense est du React : la liste des sources citées, l'état de la question (envoi → streaming → réponse), le dashboard qualité. « UI = f(state) » est aussi un principe d'architecture général : une seule source de vérité, des vues dérivées — tu le retrouveras côté serveur.

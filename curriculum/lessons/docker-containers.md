@@ -74,14 +74,96 @@ CMD ["npm", "start"]
 ```
 
 ## 🧭 Exemple guidé
-**Énoncé** : conteneuriser une API qui lit une clé d'API.
-**Raisonnement** : la clé ne doit PAS être dans l'image ; on la passe au run.
-**Solution** :
+
+Ton API appelle un service payant et a besoin d'une clé. Tu dois la conteneuriser. La
+question « où mettre la clé ? » a quatre réponses courantes ; **trois sont des fuites**, et
+deux d'entre elles ont l'air parfaitement sûres. C'est cet écart qui rend l'exercice
+intéressant.
+
+**Candidat 1 — l'écrire dans le Dockerfile.**
+
+```dockerfile
+ENV API_KEY=sk-live-8f3a...
+```
+
+Personne ne le défend une fois dit à voix haute, mais tout le monde l'écrit « juste pour
+tester ». La clé est dans l'image, donc dans le dépôt d'images, donc chez quiconque la
+télécharge — et `docker history` l'affiche sans effort particulier. Écarté.
+
+**Candidat 2 — la copier puis l'effacer.** Là, l'intuition se retourne contre toi :
+
+```dockerfile
+COPY .env /app/.env
+RUN node build.js && rm /app/.env      # on nettoie derrière soi
+```
+
+Le fichier n'est plus là. `docker run ... ls /app` ne le montre pas. Et pourtant la clé est
+toujours récupérable. Une image n'est pas un dossier : c'est une **pile de différences
+empilées**, chacune conservée telle quelle. La ligne `COPY` a créé une couche contenant le
+fichier ; la ligne `RUN ... rm` a créé une couche suivante qui dit « ce fichier n'existe
+plus ». La seconde masque la première, elle ne l'efface pas — les deux voyagent ensemble
+dans l'image publiée. Qui obtient l'image peut extraire la couche intermédiaire et lire le
+fichier.
+
+C'est le mécanisme qu'il faut retenir, parce qu'il ne s'apprend pas en lisant la sortie de
+`docker run` : **supprimer dans une couche ultérieure ne retire rien de l'image.** La règle
+qui en découle est plus large qu'il n'y paraît : un secret qui a été présent une seule fois
+pendant la construction y reste. C'est aussi vrai d'un `git clone` avec un jeton dans l'URL,
+ou d'un fichier de configuration copié par erreur.
+
+Vérifie-le toi-même plutôt que de me croire : construis cette image, puis lance
+`docker history --no-trunc` dessus et lis les instructions couche par couche. C'est un
+exercice de trois minutes et il vaccine durablement.
+
+**Candidat 3 — un argument de construction.**
+
+```dockerfile
+ARG API_KEY
+RUN echo "clé reçue" && ./configurer.sh
+```
+
+`ARG` semble être la bonne réponse : c'est prévu pour passer des valeurs au moment du build,
+et la variable n'existe plus à l'exécution. Le piège est que la valeur passée avec
+`--build-arg` est **enregistrée dans les métadonnées de l'image** et reste consultable par
+qui l'inspecte. `ARG` est fait pour des paramètres — un numéro de version, une architecture
+cible — pas pour des secrets.
+
+**Candidat 4 — ne jamais la faire entrer dans l'image.**
+
 ```bash
 docker build -t monapi .
-docker run -e API_KEY=$API_KEY -p 3000:3000 monapi
+docker run -e API_KEY="$API_KEY" -p 3000:3000 monapi
 ```
-**Explication** : `-e` injecte le secret à l'exécution (l'image reste partageable) ; `-p` mappe le port. **Variante** : mets ça dans un `docker-compose.yml` avec un service base de données et un volume.
+
+L'image ne contient que du code ; la clé n'existe que pendant l'exécution du conteneur.
+La même image part en recette, en production et chez un collègue, avec une clé différente
+à chaque fois — ce qui est d'ailleurs un bénéfice indépendant de la sécurité : **une image
+qui contient sa configuration n'est plus la même image d'un environnement à l'autre**, et on
+perd la garantie que ce qui a été testé est ce qui est déployé.
+
+**La limite, qu'il faut connaître pour ne pas s'endormir dessus.** `-e` n'est pas un
+coffre-fort. La valeur apparaît dans `docker inspect`, et sur l'hôte dans
+`/proc/<pid>/environ` — donc pour tout utilisateur suffisamment privilégié de la machine.
+Elle traîne aussi dans l'historique de ton shell si tu l'as tapée en clair. C'est
+acceptable en développement ; en production on monte un fichier de secret ou l'on passe par
+un gestionnaire dédié, dont le conteneur lit la valeur au démarrage. La progression est
+toujours la même : d'abord ne pas mettre le secret dans l'artefact partagé, ensuite réduire
+qui peut le lire sur la machine qui l'exécute.
+
+**Le piège de fin de parcours.** Ton Dockerfile contient `COPY . .`. Si un fichier `.env`
+traîne dans ton dossier de travail, il vient d'entrer dans l'image — et tu retombes sur le
+candidat 2 sans l'avoir choisi. Un `.dockerignore` listant `.env`, `.git` et `node_modules`
+n'est donc pas une optimisation de taille : c'est ce qui empêche une décision correcte
+d'être annulée par un fichier oublié.
+
+**Variante qui déplace le problème.** Ajoute une base de données avec `docker compose`. La
+question du secret revient, mais accompagnée d'une autre : le mot de passe de la base doit
+être connu de **deux** conteneurs, qui démarrent en même temps. Et une nouvelle catégorie de
+perte apparaît, silencieuse celle-là — sans volume déclaré, la base écrit dans la couche
+inscriptible du conteneur, qui disparaît à chaque `docker compose down`. Aucune erreur,
+aucun avertissement : juste une base vide au redémarrage. Les deux problèmes ont la même
+racine, et c'est le modèle mental à emporter : **ce qui doit survivre au conteneur doit
+vivre en dehors de lui**, qu'il s'agisse d'un secret ou de données.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 DocSense (projet final) se livre en `docker compose up` : un conteneur app + un conteneur base vectorielle + un volume pour l'index. Le recruteur clone, lance une commande, tout tourne — c'est ce qui transforme un POC en produit démontrable, et un critère de qualité du projet final.

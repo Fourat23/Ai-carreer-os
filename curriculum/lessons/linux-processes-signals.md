@@ -80,12 +80,81 @@ nohup ./long.sh &       # survivre à la fermeture du terminal
 ```
 
 ## 🧭 Exemple guidé — « le port 3000 est déjà utilisé »
-1. Trouver qui l'occupe : `ss -ltnp | grep :3000` (ou `lsof -i :3000`).
-2. Identifier le PID et vérifier que c'est bien un ancien processus à moi.
-3. Arrêter proprement : `kill <PID>` (SIGTERM). Attendre.
-4. S'il ne meurt pas (bloqué), alors seulement `kill -9 <PID>`.
-5. Comprendre POURQUOI il restait : oublié en arrière-plan ? mal arrêté ? → passer à
-   un vrai service (systemd) pour un usage durable.
+
+Tu lances ton serveur, et tu reçois `EADDRINUSE: address already in use :::3000`. Quelqu'un
+occupe le port. Ce message très banal cache trois décisions, et la façon dont on les prend
+sépare celui qui bricole de celui qui comprend.
+
+**Décision 1 — savoir qui, avant de tuer quoi que ce soit.**
+
+```bash
+ss -ltnp | grep :3000        # ou : lsof -i :3000
+```
+
+La colonne `users:(("node",pid=4399,…))` donne le nom et le PID. Prends la peine de le
+regarder. Le raccourci qui circule partout — `pkill -f node` — tue *tous* les processus dont
+la ligne de commande contient « node » : ton serveur oublié, mais aussi la compilation qui
+tourne dans un autre terminal, et sur une machine partagée, le travail de quelqu'un d'autre.
+**Un motif n'est pas une identité.** Le PID en est une, et il ne coûte que la lecture d'une
+ligne.
+
+**Décision 2 — `kill` ou `kill -9` ?** C'est la décision réelle, et la plupart des gens
+tapent `-9` par habitude sans savoir ce qu'ils échangent. Voici les trois cas, avec ce que
+le shell rapporte à chaque fois :
+
+```
+Cas A — le serveur gère SIGTERM
+  kill <pid>   → "SIGTERM reçu. Je termine les connexions en cours puis je ferme."
+               → code de sortie 0
+
+Cas B — le serveur ne gère rien (comportement par défaut)
+  kill <pid>   → "Terminated"
+               → code de sortie 143
+
+Cas C — le serveur ignore SIGTERM
+  kill <pid>   → "SIGTERM reçu... et ignoré."   (il reste vivant)
+  kill -9 <pid> → "Killed"
+               → code de sortie 137
+```
+
+Les deux nombres méritent d'être compris une fois pour toutes : un processus tué par un
+signal sort avec **128 + le numéro du signal**. SIGTERM vaut 15, donc `143` ; SIGKILL vaut 9,
+donc `137`. Tu reverras ces deux nombres partout — dans les journaux de conteneurs, dans les
+tableaux de bord d'orchestrateurs — et ils te disent précisément *comment* le processus est
+mort : `143`, on lui a demandé de partir et il n'avait rien prévu ; `137`, on l'a abattu.
+
+La différence de fond est visible dans le cas A. `SIGTERM` est **une demande** : le
+processus la reçoit, et c'est *lui* qui décide de finir sa requête en cours, de vider ses
+tampons sur le disque, de fermer sa connexion à la base. `SIGKILL` n'est pas une demande —
+il n'atteint jamais le programme. Le noyau retire le processus, point. Rien n'est vidé, rien
+n'est fermé. Ce n'est pas une version « plus forte » du premier : c'est une opération d'une
+autre nature.
+
+Et ce n'est pas une question de politesse du programme : `SIGKILL` est **techniquement
+non interceptable**. Un programme qui essaie de l'écouter est refusé par le système —
+en Node, la tentative échoue avec `EINVAL`. C'est justement ce qui en fait le dernier
+recours fiable : aucun processus ne peut s'en protéger.
+
+**Décision 3 — la question que la recette escamote.** « S'il ne meurt pas, alors `kill -9` »
+est un geste, pas un diagnostic. Un processus qui survit à SIGTERM te dit quelque chose, et
+il n'y a que deux réponses possibles. Soit il l'a reçu et l'a ignoré — c'est un bug, ton code
+capture le signal et ne termine jamais son arrêt, et cela se reproduira à chaque déploiement.
+Soit il ne l'a même pas reçu, parce qu'il est bloqué dans un appel système non
+interruptible : attente sur un disque en panne, un montage réseau disparu. Dans ce second
+cas, `kill -9` lui-même ne fera rien — et si `kill -9` ne suffit pas, tu viens d'apprendre
+que ton problème n'est pas un processus récalcitrant mais du matériel ou du stockage.
+
+**Le même mécanisme, vu de l'autre côté.** Tu as sûrement remarqué qu'un conteneur met
+parfois dix secondes à s'arrêter au déploiement, puis meurt brutalement. C'est exactement
+ceci : l'orchestrateur envoie SIGTERM, attend un délai de grâce, puis envoie SIGKILL. Un
+arrêt qui prend systématiquement la durée entière du délai signifie que **personne n'écoute
+SIGTERM** dans le conteneur — chaque déploiement coupe donc les requêtes en cours. Le
+correctif n'est pas d'allonger le délai, c'est d'ajouter le gestionnaire.
+
+**Ce que tu dois retenir du cas de départ.** Le port occupé n'était pas le problème, c'était
+le symptôme : un processus lancé à la main avait survécu à la fermeture du terminal. Tuer le
+processus règle l'instant ; lui donner un vrai gestionnaire de service, qui sait le démarrer,
+l'arrêter proprement et le relancer, règle la catégorie.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

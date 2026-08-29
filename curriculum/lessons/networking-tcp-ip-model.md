@@ -70,13 +70,77 @@ Chaque étape monte d'une couche. On s'arrête à la première qui échoue : c'e
 le problème.
 
 ## 🧭 Exemple guidé — « le service est inaccessible »
-1. Le nom résout-il en IP ? (`dig`) — sinon problème DNS, inutile d'aller plus loin.
-2. L'IP est-elle joignable/routée ? (`traceroute`) — attention, ICMP est souvent
-   bloqué : un ping sans réponse ne prouve pas que la machine est morte.
-3. Le port TCP répond-il ? (`nc -zv host 443` ou `curl -v`) — sinon service arrêté ou
-   pare-feu/security group.
-4. L'application répond-elle correctement ? (`curl -i`) — un 502/503 pointe vers le
-   backend, pas le réseau.
+
+Un collègue signale : « l'API ne répond plus ». C'est tout ce que tu as. La tentation est de
+redémarrer quelque chose au hasard ; la méthode est de monter les couches une par une et de
+s'arrêter à la première qui échoue.
+
+1. **Le nom résout-il en IP ?** (`dig api.exemple.fr`) — sinon, c'est du DNS, et tester le
+   reste ne sert à rien.
+2. **L'IP est-elle routée ?** (`traceroute`) — avec une réserve importante, voir plus bas.
+3. **Le port TCP répond-il ?** (`nc -zv api.exemple.fr 443`)
+4. **L'application répond-elle correctement ?** (`curl -i`) — un 502 ou 503 désigne le
+   service derrière, pas le réseau.
+
+**Décision 1 — l'échec le plus utile est celui qu'on sait lire.** À l'étape 3, la même
+commande peut échouer de deux façons, et beaucoup de gens les traitent comme équivalentes.
+Elles ne le sont pas. Mesuré sur une machine, avec un service en écoute puis sans :
+
+```
+port 3777, un service écoute   → connexion établie          en   4 ms
+port 3778, personne n'écoute   → "connection refused"       en   2 ms
+```
+
+Un **refus** est une réponse. La machine est vivante, joignable, et son système répond
+activement « il n'y a personne sur ce port » — c'est pour cela qu'il arrive instantanément.
+Diagnostic : le service est arrêté, ou il écoute sur un autre port, ou il n'écoute que sur
+`127.0.0.1` au lieu de toutes les interfaces. C'est un problème **de service**.
+
+Un **timeout** est une absence de réponse. Personne ne dit rien, et ton client attend
+jusqu'à sa propre limite avant d'abandonner — d'où une durée longue, de l'ordre de plusieurs
+secondes. Diagnostic : quelque chose jette les paquets en silence, ce qui est le
+comportement normal d'un pare-feu ou d'un *security group* correctement configuré. C'est un
+problème **de chemin**.
+
+D'où une règle utilisable immédiatement : **la durée de l'échec est ton premier
+diagnostic.** Instantané = quelqu'un a répondu non. Long = personne n'a répondu. Tu peux
+trancher entre « le service est tombé » et « le pare-feu bloque » avant même d'ouvrir une
+console d'administration.
+
+**Décision 2 — se méfier de l'outil le plus utilisé.** `ping serveur.exemple` ne renvoie
+rien : la plupart des gens en concluent que le serveur est mort. C'est un raisonnement
+invalide, pour deux raisons cumulées. `ping` utilise ICMP, un protocole différent de celui
+de ton application, et ICMP est très souvent bloqué par défaut sur les hébergeurs — un
+silence est donc le comportement attendu d'une machine en parfaite santé. Et à l'inverse, un
+`ping` qui répond ne prouve pas davantage que ton service fonctionne : il prouve que le
+noyau de la machine est vivant, ce qui n'a jamais suffi à servir une requête. La conclusion
+est presque la même que pour un test unitaire mal écrit : **un outil qui ne mesure pas la
+chose qui t'intéresse ne t'apprend rien**, quel que soit son résultat.
+
+**Décision 3 — depuis où testes-tu ?** C'est la question que les débutants oublient et qui
+résout la moitié des cas. « Ça marche chez moi » et « ça ne marche pas depuis le serveur »
+ne sont pas contradictoires : ce sont deux points de vue différents sur le réseau. Ton poste
+sort peut-être par un VPN, le serveur non ; le nom résout peut-être vers une IP interne
+depuis le centre de données et publique depuis l'extérieur. Rejoue donc **la même commande
+depuis la machine qui a réellement le problème**, pas depuis la tienne. Le même `curl`, au
+même moment, depuis deux endroits, sépare immédiatement un problème de service d'un problème
+d'accès.
+
+**Décision 4 — savoir quand on a quitté le réseau.** Si l'étape 4 renvoie un `502 Bad
+Gateway`, le diagnostic réseau est terminé et il est positif : le DNS a résolu, la route
+existe, le port a répondu, et un serveur HTTP t'a construit une réponse. Ce serveur te dit
+simplement qu'il n'a pas réussi à joindre le service derrière lui. Continuer à inspecter des
+routes à ce stade, c'est chercher ses clés sous le lampadaire. **Un code HTTP est déjà une
+preuve que le réseau a fonctionné.**
+
+**Variante qui déplace le problème.** Le service répond, mais une requête sur deux échoue.
+La démarche ci-dessus ne mord pas : chaque test isolé peut réussir. L'intermittence oriente
+vers autre chose — un nom qui résout vers plusieurs adresses dont une seule est en panne
+(vérifiable en relançant `dig` et en regardant l'ensemble des IP retournées), un
+répartiteur de charge devant plusieurs instances dont une est cassée, ou une table de
+correspondance d'adresses saturée. La leçon générale : une panne totale se diagnostique
+couche par couche, une panne intermittente se diagnostique en cherchant **ce qui varie
+d'une tentative à l'autre**.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

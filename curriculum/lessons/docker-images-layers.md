@@ -77,14 +77,85 @@ docker pull node@sha256:<digest> # tirer un contenu EXACT (immuable)
 `docker history` est l'outil clé pour comprendre « pourquoi mon image est
 grosse » : il montre la contribution de chaque instruction.
 
-## 🧭 Exemple guidé — « le build est lent à chaque petit changement »
-1. `docker history` : les couches lourdes sont-elles l'installation des
-   dépendances ?
-2. Vérifier l'ordre du Dockerfile : le code est-il copié AVANT `npm ci` ? Si oui,
-   toute modif de code invalide l'installation.
-3. Réordonner : copier `package*.json`, installer, PUIS copier le reste. Le cache
-   d'installation survit tant que les dépendances ne changent pas.
-4. Mesurer : un second build après une modif de code ne réinstalle plus.
+## 🧭 Exemple guidé — « le build est lent, et l'image est énorme »
+
+Deux plaintes qui arrivent toujours ensemble, et qui ont la même cause : on n'a pas compris
+ce qu'est une couche. Voici le Dockerfile en question.
+
+```dockerfile
+FROM node:20
+WORKDIR /app
+COPY . .                                    # (1)
+RUN npm ci                                  # (2)
+RUN apt-get update && apt-get install -y curl
+RUN apt-get clean                           # (3) « pour alléger »
+CMD ["npm", "start"]
+```
+
+**Décision 1 — la lenteur : quelle couche invalide quoi ?** Le cache de construction suit
+une règle unique, et tout en découle : Docker réutilise chaque couche tant que son entrée
+n'a pas changé, et recalcule **tout ce qui suit la première couche modifiée**. Ici, tu
+changes une ligne de code : la couche (1) change, donc (2) est recalculée, donc `npm ci`
+réinstalle l'intégralité des dépendances. Chaque virgule corrigée te coûte une installation
+complète.
+
+La correction n'ajoute rien, elle réordonne :
+
+```dockerfile
+COPY package*.json ./
+RUN npm ci                                  # ne dépend QUE des dépendances
+COPY . .                                    # le code arrive après
+```
+
+Le principe est plus général que Docker : **ce qui change rarement en haut, ce qui change
+souvent en bas.** Ton fichier de dépendances change une fois par mois, ton code trente fois
+par jour ; les mettre dans cet ordre fait que la partie coûteuse survit à la partie qui
+bouge. Vérifie avec un second build après une simple modification de code : plus aucune
+réinstallation.
+
+**Décision 2 — le poids : pourquoi `apt-get clean` ne sert à rien ici.** C'est le passage
+contre-intuitif, et c'est le même mécanisme que pour un secret copié puis effacé. La ligne
+(3) est une **instruction séparée**, donc une couche séparée. Elle ne supprime rien : elle
+ajoute une couche qui déclare que certains fichiers n'existent plus. Les fichiers du cache
+`apt` restent dans la couche précédente, qui reste dans l'image. Résultat : l'image ne
+maigrit pas d'un octet — elle grossit légèrement, puisqu'on lui a ajouté une couche.
+
+Pour que le nettoyage compte, il doit avoir lieu **dans la même instruction** que la
+salissure, avant que la couche ne soit figée :
+
+```dockerfile
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends curl \
+ && rm -rf /var/lib/apt/lists/*
+```
+
+Ici, la couche produite ne contient jamais le cache : il a été créé et supprimé pendant le
+calcul de cette même couche. La formulation à retenir est celle-ci : **on ne peut pas
+retirer quelque chose d'une couche déjà écrite ; on peut seulement éviter de l'y mettre.**
+
+**Décision 3 — la vraie question, c'est l'image de base.** Avant d'optimiser des dizaines
+de mégaoctets, regarde d'où tu pars : `node:20` embarque une distribution complète avec sa
+chaîne de compilation, quand `node:20-slim` fournit le même exécutable Node sur une base
+réduite. L'écart se compte en centaines de mégaoctets — sans discussion possible avec les
+quelques mégaoctets grattés sur un cache `apt`. Il faut cependant le dire honnêtement :
+une base réduite peut manquer d'une bibliothèque système dont dépend un module natif, et
+le diagnostic est alors désagréable. La décision se prend donc en connaissance de cause,
+pas par réflexe — et se vérifie en construisant.
+
+**Décision 4 — pourquoi tout ça compte au-delà du confort.** Une image légère se télécharge
+plus vite à chaque déploiement et sur chaque machine, ce qui se voit directement dans la
+durée d'une mise en production. Et elle contient moins de choses : un compilateur, `curl` ou
+un gestionnaire de paquets présents dans l'image finale sont autant d'outils offerts à qui
+obtiendrait un accès au conteneur. **Réduire une image, c'est réduire une surface d'attaque
+autant qu'un temps de transfert** — c'est d'ailleurs le raisonnement qui mène aux
+constructions multi-étapes, où l'on compile dans une image outillée puis on ne copie que le
+résultat dans une image nue.
+
+**Le geste de vérification.** `docker history --no-trunc` liste les couches avec leur taille
+et l'instruction qui les a produites. Deux minutes de lecture répondent aux deux questions
+d'un coup : quelle couche pèse, et quelle couche est recalculée trop souvent. Personne ne
+devrait optimiser un Dockerfile sans avoir lu cette sortie — sinon on optimise ce qu'on
+imagine, pas ce qui coûte.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

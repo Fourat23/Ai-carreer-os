@@ -102,6 +102,84 @@ Ajouter une règle à une fonction legacy sans tests, en sécurité :
 À aucun moment tu n'as « deviné » : le filet t'a garanti que réorganiser n'a rien changé, puis
 le nouveau test a prouvé le nouveau comportement.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Tu dois modifier une fonction de 400 lignes, sans tests, que personne ne comprend.
+   Pour la tester il faudrait la découper ; pour la découper en sécurité il faudrait des
+   tests. Comment sors-tu de là ?
+2. En refactorant, tu découvres un bug vieux de trois ans. Le corriges-tu dans le même
+   commit ?
+3. Tes tests passent après ton refactoring. Cela prouve-t-il que tu n'as rien cassé ?
+4. Une fonction s'appelle `traiterDonnees`. Qu'est-ce que ce nom t'apprend ?
+
+## ✅ Correction attendue
+
+**La démarche.** Une casquette à la fois. Refactorer, c'est changer la structure **sans**
+changer le comportement ; si le comportement change, ce n'est plus un refactoring, et cela
+doit être annoncé, testé et commité séparément.
+
+**L'erreur probable, et c'est le blocage qui fait renoncer.** Face au cercle vicieux de la
+première question, la réponse spontanée est l'une des deux mauvaises : « je vais faire
+attention » — et l'on refactore sans filet, en espérant — ou « on ne peut pas y toucher »
+— et le code pourrit un an de plus.
+
+La sortie existe, et elle passe par un renversement : **écrire un test qui décrit ce que
+le code FAIT, pas ce qu'il devrait faire.** C'est un *test de caractérisation*. On appelle
+la fonction avec des entrées représentatives, on observe la sortie réelle, et **on grave
+cette sortie dans le test** — même si elle est manifestement fautive.
+
+```
+// Le test ne dit pas « c'est correct ». Il dit « c'est ce qui se passe aujourd'hui ».
+// L'arrondi ci-dessous est probablement un bug. Il est GARDÉ, exprès :
+// on refactore d'abord, on corrigera ensuite, séparément.
+assert(calculerRemise(100, 'VIP') === 84.99);
+```
+
+Ce filet ne valide rien. Il détecte **le changement**, ce qui est précisément ce dont on a
+besoin : un refactoring réussi laisse ces tests verts. Et le bug de l'arrondi, une fois le
+code découpé et compris, se corrige dans un commit à lui, où la modification de
+l'assertion est visible et discutable.
+
+Le piège séduit parce qu'**écrire un test qui affirme un comportement faux ressemble à une
+faute professionnelle**. On a appris qu'un test exprime une intention correcte ; en graver
+un bug donne l'impression de l'entériner. C'est la résistance à franchir, et c'est ce qui
+fait que la technique reste peu employée alors qu'elle débloque la situation en une heure.
+
+**Sur les autres questions.** Le bug vieux de trois ans **ne se corrige pas dans le même
+commit** — et pour une raison très pratique : si le comportement change en même temps que
+la structure, plus rien ne permet d'attribuer une régression. Elle vient du découpage ou de
+la correction ? Personne ne peut le dire, et l'on relit trois cents lignes de diff. Deux
+commits, deux intentions, deux revues. C'est la règle des deux casquettes appliquée au
+niveau du commit.
+
+Des tests verts après refactoring **ne prouvent pas** l'absence de casse : ils prouvent que
+ce qui était couvert n'a pas changé. Sur du code legacy, la couverture est justement le
+problème. Le contrôle complémentaire est de **vérifier que les tests savent échouer** —
+casser volontairement une branche et s'assurer qu'un test rougit. Un filet dont on n'a pas
+vérifié les mailles n'est pas un filet.
+
+Enfin, `traiterDonnees` n'apprend **rien**, et c'est une information en soi : un nom vague
+signale presque toujours une fonction qui fait plusieurs choses. On ne peut pas la nommer
+parce qu'il n'y a pas *une* chose à nommer. **L'incapacité à trouver un nom précis est le
+diagnostic**, pas un manque d'imagination — et le renommage n'est pas cosmétique : c'est
+souvent le premier pas qui révèle le découpage.
+
+**Alternative défendable.** Face à du code très abîmé, **réécrire** plutôt que refactorer
+est parfois le bon choix — quand la spécification est claire, le périmètre limité, et le
+code sans valeur historique. C'est un pari risqué et il faut le nommer comme tel : une
+réécriture perd toutes les corrections de cas particuliers accumulées, dont personne ne se
+souvient et qui ne sont écrites nulle part. **Le code laid contient souvent des années de
+réponses à des problèmes réels.**
+
+**Vérifie seul, sans corrigé** :
+1. Prends ta fonction la plus redoutée. Écris trois tests de caractérisation, y compris sur
+   un comportement qui te semble faux. Le blocage disparaît en général à ce moment-là.
+2. Casse volontairement une ligne et relance. Un test rougit-il ? Sinon, ton filet est
+   décoratif.
+3. Ouvre ton dernier commit de refactoring. Contient-il un changement de comportement ? Si
+   oui, il aurait dû être deux commits.
+
 ## ⚠️ Erreurs fréquentes
 - Refactorer ET changer le comportement dans le même commit → impossible de savoir ce qui a
   cassé quoi.

@@ -104,6 +104,75 @@ Raisonnement : on traite le goulot réel, du levier le moins coûteux (cache) au
 - Réplication : plus de lectures ↔ retard de réplication (lecture potentiellement périmée).
 - Partitionnement : plus d'écritures/volume ↔ complexité (requêtes inter-partitions, hotspots).
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton API sature. Tu passes de 2 à 20 instances. Les temps de réponse s'aggravent.
+   Comment est-ce possible ?
+2. Ton application est parfaitement sans état. Est-elle pour autant extensible
+   horizontalement sans limite ?
+3. Tu ajoutes un cache devant la base. Quel nouveau problème viens-tu de créer ?
+4. Quelle est la première question à poser avant toute décision de mise à l'échelle ?
+
+## ✅ Correction attendue
+
+**La démarche.** On ne met pas à l'échelle « une application » : on met à l'échelle **la
+ressource qui sature**. Sans avoir identifié laquelle, toute décision est un pari.
+
+**L'erreur probable, et elle aggrave la panne qu'elle prétend résoudre.** Multiplier les
+instances est la réponse enseignée, et elle est juste — quand le goulot est dans les
+instances. Si le goulot est la **base de données partagée**, on vient de faire passer le
+nombre de clients qui la martèlent de 2 à 20.
+
+Chaque instance ouvre son propre pool de connexions. Vingt instances à dix connexions font
+deux cents connexions demandées à une base qui en accepte peut-être cent. Les premières
+saturent le serveur, les suivantes attendent, les délais d'attente expirent, et **les temps
+de réponse augmentent**. Le système a moins de capacité utile qu'avec deux instances.
+
+C'est le principe qu'il faut retenir : **le scaling horizontal ne supprime pas le goulot,
+il le déplace.** On l'enlève de l'application et on le pose sur la première ressource
+partagée en aval — base, cache, file, service tiers. Une architecture n'est extensible que
+jusqu'à sa ressource partagée la moins extensible.
+
+Le piège séduit parce que le lien de causalité paraît direct : « plus de charge, donc plus
+de machines ». C'est le raisonnement le plus enseigné du domaine, il fonctionne dans la
+majorité des cas, et surtout **c'est le seul levier qu'on actionne en une commande**.
+Diagnostiquer la saturation demande de lire des métriques ; ajouter des instances demande
+de changer un nombre. La disponibilité de l'action oriente le diagnostic, au lieu de
+l'inverse.
+
+**Sur les autres questions.** Une application parfaitement sans état n'est **pas**
+extensible sans limite : elle l'est jusqu'à ce que la première ressource partagée cède.
+« Sans état » est une condition **nécessaire** du scaling horizontal, jamais suffisante. La
+question suivante est toujours : *qu'est-ce que toutes mes instances partagent ?*
+
+Le cache devant la base résout un problème et en crée trois : la **cohérence** (une donnée
+modifiée en base et encore présente au cache est servie périmée — combien de temps est-ce
+acceptable ?), l'**invalidation** (qui efface l'entrée, et sait-on le faire de façon
+fiable ?), et le **redémarrage à froid** — un cache vide au démarrage envoie soudain
+100 % du trafic à la base, ce qui peut la faire tomber au pire moment, juste après un
+incident. Un cache est une base de données de plus, avec ses propres modes de panne.
+
+Enfin, la première question avant toute décision est : **quelle ressource sature, et
+comment le sais-je ?** CPU, mémoire, entrées-sorties, connexions à la base, bande passante,
+quota d'un service tiers. La réponse dicte le levier, et chacune en appelle un différent.
+Sans elle, on ajoute des machines à un problème de disque.
+
+**Alternative défendable.** Le scaling **vertical** — une machine plus grosse — est
+souvent le meilleur choix jusqu'à un point bien plus tardif qu'on ne le croit : aucun
+changement de code, aucun état à externaliser, aucune complexité opérationnelle, et le
+matériel moderne va très loin. Sa vraie limite n'est pas la puissance, c'est qu'il reste
+**un point unique de défaillance**. C'est la disponibilité, pas la capacité, qui impose
+généralement de passer à l'horizontal.
+
+**Vérifie seul, sans corrigé** :
+1. Sous charge, quelle ressource atteint 100 % en premier ? Si tu ne peux pas répondre,
+   c'est le premier travail — avant toute décision.
+2. Multiplie ton nombre d'instances par la taille de leur pool de connexions. Compare à ce
+   que ta base accepte.
+3. Vide ton cache en pleine journée. Ce qui se passe alors est ce qui se passera après un
+   redémarrage — dans les pires conditions possibles.
+
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - « Distribuer » tout dès le départ (micro-services, sharding) sans contrainte réelle → complexité inutile.
 - Scaler horizontalement une app à état (session en mémoire) → l'utilisateur « perd » sa session.

@@ -104,6 +104,76 @@ Exercices déterministes reliés à cette leçon :
 - Un défilement infini sur des données qui changent souvent : offset ou curseur, et pourquoi ?
 - Ajouter un champ optionnel à une réponse : cassant ou compatible ? Et le rendre obligatoire ?
 
+## ✅ Correction attendue
+
+**La démarche.** Chaque propriété d'une API de production répond à une défaillance
+précise du monde réel — le réseau échoue, les données grossissent, les clients survivent
+au code. Vérifier une conception, c'est vérifier que chaque défaillance a sa réponse.
+
+**L'erreur probable, et elle produit exactement le doublon qu'on croyait avoir éliminé.**
+On implémente la clé d'idempotence de la façon la plus naturelle : à l'arrivée de la
+requête, on enregistre la clé, puis on exécute l'opération.
+
+```
+1. recevoir Idempotency-Key: abc-123
+2. cette clé existe déjà ?  →  oui : refuser (409)
+3. enregistrer abc-123
+4. créer le paiement
+5. répondre 201
+```
+
+Deux défauts, et ils se manifestent tous les deux le même jour.
+
+Si le serveur tombe **entre 3 et 4**, la clé est enregistrée et le paiement n'existe pas.
+Le client réessaie, sa clé est reconnue, et l'API **refuse** de créer le paiement qui n'a
+jamais eu lieu. On a transformé une panne récupérable en perte définitive.
+
+Et si le serveur tombe **entre 4 et 5**, le paiement existe, la réponse n'est jamais
+partie. Le client réessaie, la clé est reconnue — et l'API n'a **rien à renvoyer**, parce
+qu'on a mémorisé la clé mais pas le **résultat**. Le client ne saura jamais quel
+identifiant de paiement a été créé.
+
+Ce qu'il faut mémoriser n'est pas la clé, c'est **le couple clé → réponse complète**, écrit
+dans la même transaction que l'opération elle-même. Un rejeu renvoie alors la réponse
+d'origine, à l'identique, avec son statut et son corps — et le client ne peut pas
+distinguer le rejeu de l'original. C'est le but recherché.
+
+Le piège séduit parce que le nom de la chose oriente l'implémentation : on l'appelle
+« clé d'idempotence », donc on stocke une **clé**, et on la vérifie comme un verrou. Le
+raisonnement est cohérent avec le vocabulaire. Ce qu'il manque, c'est que l'idempotence
+porte sur **l'effet observable** — donc sur la réponse autant que sur l'action.
+
+**Sur les questions de la vérification.** Un `POST` a besoin d'une clé et un `PUT` n'en a
+pas besoin parce que `PUT` est idempotent **par nature** : il décrit un état cible
+(« que la ressource 42 soit ceci »), et l'appliquer dix fois donne le même résultat. `POST`
+décrit une action (« crée une commande »), et dix actions font dix commandes. La clé
+d'idempotence ne fait rien d'autre que **redonner à `POST` la propriété que `PUT` a
+gratuitement**.
+
+Sur des données qui changent souvent, c'est le **curseur** qu'il faut, pour une raison
+mécanique : l'offset compte des positions dans un résultat qui bouge. Si trois éléments
+sont insérés pendant que l'utilisateur lit la page 1, la page 2 en offset recommence trois
+crans trop tôt — il **revoit** trois éléments. Si trois sont supprimés, il en **saute**
+trois, définitivement, sans jamais le savoir. Le curseur dit « ce qui vient après cet
+élément précis », et cette phrase reste vraie quoi qu'il arrive autour.
+
+Enfin, ajouter un champ **optionnel** est compatible ; le rendre **obligatoire** est
+cassant, puisque tout appelant existant, qui ne l'envoie pas, se met à échouer. La règle
+générale : **assouplir est compatible, contraindre ne l'est pas.**
+
+**Alternative défendable.** Certaines API évitent complètement la clé d'idempotence en
+faisant **créer l'identifiant par le client** : `PUT /paiements/{uuid-choisi-par-le-client}`.
+L'opération devient un `PUT` idempotent par construction, sans mécanisme séparé à
+maintenir. C'est plus élégant, et cela demande que les clients sachent générer des
+identifiants uniques — ce qui n'est pas toujours acquis pour une API publique.
+
+**Vérifie seul, sans corrigé** :
+1. Ton implémentation d'idempotence mémorise-t-elle la **réponse**, ou seulement la clé ?
+2. Coupe ton serveur juste après l'écriture en base et avant l'envoi de la réponse. Que
+   reçoit le client au rejeu ?
+3. Prends ta pagination et insère des éléments entre deux pages. Compte ce que
+   l'utilisateur voit deux fois, et ce qu'il ne voit jamais.
+
 ## 💼 Cas professionnel
 Une API de paiement DOIT être idempotente : la finance ne tolère pas les doublons. Les API publiques
 (GitHub, Stripe…) paginent par curseur et imposent des quotas (429). Toute API avec des clients mobiles

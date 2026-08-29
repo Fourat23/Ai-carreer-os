@@ -103,6 +103,83 @@ jobs:
 4. Un job reconstruit-il ce qu'un précédent avait déjà produit → passer par un
    **artefact**.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton job « build » produit un binaire, ton job « deploy » en a besoin. Tu passes par le
+   cache. Que peut-il arriver ?
+2. Ton pipeline passe en CI et échoue en production. Cite deux causes qui n'ont rien à
+   voir avec ton code.
+3. Une suite de tests met 40 minutes. Tu la parallélises sur 8 runners. Que gagnes-tu
+   réellement, et que payes-tu ?
+4. Pourquoi un runner jetable attrape-t-il le « ça marche chez moi » ?
+
+## ✅ Correction attendue
+
+**La démarche.** Un pipeline est une suite d'environnements **jetables**. Tout ce qui doit
+survivre d'un job à l'autre doit être transmis explicitement, et la façon de le transmettre
+change tout.
+
+**L'erreur probable, et elle produit des déploiements non reproductibles.** Passer un
+livrable par le cache fonctionne — c'est ce qui la rend difficile à débusquer — parce que
+le cache et l'artefact stockent tous deux des fichiers entre deux jobs. Leurs **contrats**
+n'ont pourtant rien à voir :
+
+| | cache | artefact |
+|---|---|---|
+| garantie | **aucune** — peut être vide, périmé, évincé | le fichier est là, tel qu'il a été produit |
+| but | accélérer (reconstructible) | transmettre (résultat) |
+| en cas d'absence | le job doit encore fonctionner, plus lentement | le job doit échouer |
+| portée | partagée, souvent entre branches | cette exécution |
+
+Le cache est **une optimisation dont l'absence doit être sans conséquence**. En y mettant
+un binaire, on déploie ce qui s'y trouve : une version évincée le matin, ou pire, celle
+déposée par une **autre branche** qui partageait la clé. Le déploiement réussit, les tests
+sont verts, et la production tourne un artefact qui ne correspond à aucun commit. Le jour
+où il faudra comprendre un bug, personne ne saura ce qui est déployé.
+
+La règle : **cache pour ce qu'on peut reconstruire** — dépendances téléchargées, compilation
+incrémentale. **Artefact pour ce qu'on ne veut pas reconstruire** — le livrable, parce qu'on
+veut déployer exactement ce qui a été testé.
+
+Le piège séduit parce que **les deux mécanismes se ressemblent à l'usage** : on déclare un
+chemin, on lui donne une clé, on le récupère au job suivant. La différence n'est pas dans
+l'interface, elle est dans la **garantie**, et une garantie ne se voit pas quand elle est
+tenue. Le cache tient parole des centaines de fois avant de faillir une fois.
+
+**Sur les autres questions.** Un pipeline vert et une production cassée : la cause la plus
+fréquente n'est pas le code mais l'**environnement** — une variable présente en CI et
+absente en production, une version de runtime différente, un service accessible depuis le
+runner et pas depuis la production, une migration jamais jouée. Vient ensuite la
+**différence de données** : la CI teste sur un jeu propre et minuscule, la production a
+huit ans d'historique, des valeurs nulles, des doublons et des cas que personne n'a
+imaginés.
+
+Paralléliser 40 minutes sur 8 runners donne rarement 5 minutes : il faut compter le
+démarrage de chaque runner, l'installation des dépendances, la répartition inégale des
+tests. On atteint 8 à 12 minutes, ce qui reste excellent. On paye huit fois plus de
+minutes de calcul — le coût ne baisse pas, il est simplement échangé contre du temps
+humain, ce qui est presque toujours un bon échange.
+
+Enfin, le runner jetable attrape le « ça marche chez moi » parce qu'il **part de rien** :
+aucun outil installé de longue date, aucune variable d'environnement héritée, aucune
+dépendance globale, aucun fichier oublié et non commité. Tout ce qui manque au dépôt
+manque au runner, immédiatement et bruyamment. C'est un environnement neutre parce qu'il
+n'a pas d'histoire.
+
+**Alternative défendable.** Sur un petit projet, un pipeline en **un seul job séquentiel**
+est parfaitement raisonnable : pas de transmission entre jobs, donc ni cache ni artefact à
+gérer, et une durée totale acceptable. Le découpage en jobs se justifie par le parallélisme
+et la lisibilité des échecs — pas par principe.
+
+**Vérifie seul, sans corrigé** :
+1. Cherche dans ton pipeline ce qui transite entre jobs. Est-ce du cache ou de l'artefact ?
+   Chaque livrable en cache est un déploiement non traçable.
+2. Vide ton cache et relance. Le pipeline passe-t-il encore ? Sinon, ce n'était pas un
+   cache.
+3. Liste les différences entre ton runner et ta production. Chacune est une panne
+   possible que la CI ne verra jamais.
+
 ## ⚠️ Erreurs fréquentes
 - Croire qu'un job **hérite** de l'état d'un autre (chaque runner repart de zéro).
 - Confondre **cache** (accélération opportuniste) et **artefact** (livrable du

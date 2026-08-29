@@ -81,6 +81,85 @@ La version par hash de commit relie sans ambiguïté l'artefact au code source.
 4. Promouvoir ce même artefact vers staging puis prod, config injectée à part.
 5. Vérifier la traçabilité : « quel artefact tourne où ? ».
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton pipeline construit l'image en préproduction, la teste, puis la reconstruit pour la
+   production à partir du même commit. Où est le risque ?
+2. Ta porte de couverture exige 80 %. Un développeur ajoute des tests sans assertion pour
+   passer. Que révèle cet épisode ?
+3. Une porte « informative » signale des vulnérabilités depuis six mois. Que vaut-elle ?
+4. Comment fais-tu un rollback en trente secondes ?
+
+## ✅ Correction attendue
+
+**La démarche.** Une porte n'a de valeur que si elle bloque ; un artefact n'a de valeur que
+s'il est **le même** partout. Ces deux principes couvrent l'essentiel des incidents de
+livraison.
+
+**L'erreur probable : reconstruire à chaque étape au lieu de promouvoir.** Le raisonnement
+paraît solide — même commit, même Dockerfile, même pipeline, donc même image. Il est faux,
+et la liste de ce qui peut différer entre deux constructions du même commit est longue :
+
+- une **dépendance transitive** publie une nouvelle version dans l'intervalle, et rien ne
+  l'épinglait ;
+- l'**image de base** (`node:20-slim`) a été redéployée sur un autre contenu — un tag est
+  mutable ;
+- un paquet système est mis à jour dans le registre de la distribution ;
+- l'ordre des fichiers, les horodatages, un identifiant généré au build diffèrent.
+
+Résultat : **on déploie en production un artefact que personne n'a jamais testé.** Il est
+probablement identique. « Probablement » est le mot qui coûte cher, parce que le jour où il
+diffère, on cherchera le bug dans le code — le seul endroit où il n'est pas.
+
+D'où le principe **construire une fois, déployer partout** : l'artefact est construit une
+seule fois, identifié par un **digest** immuable, testé, puis **promu** tel quel de
+préproduction vers production. Ce qui a été validé est exactement ce qui tourne, et la
+phrase « la production tourne l'artefact `sha256:abc…` = commit `abc123` » devient
+vérifiable.
+
+Le piège séduit parce que **reconstruire est plus simple à écrire**. Chaque environnement
+a son job, chaque job fait son build, la configuration est symétrique et lisible. Promouvoir
+demande de transporter un identifiant d'artefact entre les étapes, donc un peu de
+plomberie. On choisit la symétrie apparente contre une garantie invisible — jusqu'à ce
+qu'elle manque.
+
+**Sur les autres questions.** Le développeur qui ajoute des tests sans assertion pour
+franchir la porte de couverture ne révèle pas un problème de personne, mais un problème de
+**mesure** : la couverture compte les lignes **exécutées**, pas les lignes **vérifiées**.
+Un test qui appelle une fonction et n'affirme rien couvre parfaitement et ne teste rien.
+Toute métrique transformée en cible cesse d'être une bonne métrique, et celle-ci est
+particulièrement facile à satisfaire sans rien apporter. Un seuil reste utile comme
+garde-fou contre les régressions grossières ; il ne remplace pas la revue des assertions.
+
+Une porte informative ignorée depuis six mois vaut **moins que rien** : elle donne
+l'impression que les vulnérabilités sont surveillées, alors qu'elles ne sont que
+comptées. C'est le pire des deux mondes — le coût de l'outil, l'illusion de la protection,
+et une équipe entraînée à ignorer un signal rouge. Deux issues honnêtes : la rendre
+bloquante, ou la supprimer en assumant qu'on ne traite pas ce risque aujourd'hui. La
+laisser clignoter est le seul choix indéfendable.
+
+Enfin, un rollback en trente secondes suppose trois choses réunies : l'artefact précédent
+**existe encore** dans le registre ; il est **identifié précisément** (digest, pas
+`latest`) ; et le déploiement consiste à **désigner** une version plutôt qu'à reconstruire.
+Si l'une manque, le rollback devient un redéploiement — quelques minutes dans le meilleur
+cas, et l'espoir que le build passe encore. Et si une migration destructive a été appliquée
+entre-temps, le rollback du code ne suffit plus : c'est ce que traite `expand/contract`.
+
+**Alternative défendable.** Le **roll-forward systématique** — on ne revient jamais en
+arrière, on corrige et on redéploie — est une politique tenable, et c'est celle de beaucoup
+d'équipes à haute fréquence de livraison. Elle suppose un pipeline très rapide et une
+grande confiance dans les tests. Son avantage réel : elle évite la fausse sécurité d'un
+rollback jamais éprouvé.
+
+**Vérifie seul, sans corrigé** :
+1. L'image qui tourne en production a-t-elle été construite pour la production, ou promue
+   depuis la préproduction ? La réponse est dans ton pipeline.
+2. Tes déploiements référencent-ils un digest ou un tag ? Un tag ne te dit pas ce qui
+   tourne.
+3. Fais un rollback maintenant, sur un environnement de test. Chronomètre. C'est ton vrai
+   temps de rétablissement, pas celui que tu annonces.
+
 ## ⚠️ Erreurs fréquentes
 - Portes « informatives » qu'on ignore → fausse assurance.
 - **Reconstruire par environnement** → l'objet en prod n'est pas celui testé.

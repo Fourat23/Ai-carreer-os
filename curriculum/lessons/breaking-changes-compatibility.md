@@ -100,6 +100,78 @@ Renommer un champ d'API `nom` → `nomComplet` sans casser les clients existants
 C'est exactement le motif expand/contract des migrations de base, appliqué à un contrat d'API :
 on élargit, on laisse migrer, on rétrécit — jamais de rupture sèche.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. « Ajouter un champ à une réponse est toujours compatible. » Vrai ou faux ?
+2. Tu corriges un bug : une fonction qui renvoyait `null` renvoie désormais un tableau
+   vide. Quelle version poses-tu — correctif, mineure ou majeure ?
+3. Tu changes le libellé d'une erreur, de « Utilisateur introuvable » à « Compte
+   introuvable ». Cassant ?
+4. Tu déprécies une fonction. Combien de temps la gardes-tu ?
+
+## ✅ Correction attendue
+
+**La démarche.** Une seule question, posée du point de vue de l'appelant, jamais du
+tien : *le code écrit hier fonctionne-t-il encore sans être modifié ?* Tout le reste en
+découle.
+
+**L'erreur probable : appliquer « additif = compatible » comme une règle sans exception.**
+C'est la bonne heuristique, elle est vraie la plupart du temps, et c'est ce qui rend ses
+exceptions coûteuses. Ajouter un champ **peut** casser :
+
+- si un consommateur valide la réponse contre un schéma **strict** — beaucoup de
+  générateurs de clients produisent une validation qui rejette tout champ inconnu ;
+- s'il **itère** sur les champs pour construire un affichage ou une ligne de fichier : le
+  nouveau champ apparaît là où personne ne l'attendait ;
+- si la réponse est **sérialisée puis signée**, ou comparée à une empreinte : l'ajout
+  change la signature ;
+- si le champ **porte le même nom** qu'un champ que le client ajoutait lui-même en local.
+
+Le piège séduit parce que la règle est enseignée sous forme absolue, qu'elle est vraie
+dans quatre-vingt-quinze pour cent des cas, et surtout parce qu'**on ne peut pas vérifier
+la contrainte depuis chez soi** : ce qui casse est chez le consommateur, dans un code
+qu'on ne lit pas.
+
+La formulation correcte n'est donc pas « l'additif est sûr », mais : **la compatibilité
+est une propriété de la relation entre deux codes, pas d'un changement pris isolément.**
+D'où la pratique qui règle le problème : publier un **contrat explicite** (schéma
+versionné), documenter que les champs inconnus doivent être ignorés — le principe de
+robustesse — et, pour une API interne, savoir qui sont ses consommateurs et les tester.
+
+**Sur les autres questions.** `null` devenant un tableau vide est une correction de bug
+qui est **cassante** : tout appelant qui écrivait `if (r === null)` cesse de fonctionner,
+silencieusement — un tableau vide n'est pas `null`, et le test échoue sans erreur. C'est
+donc une version **majeure**, et c'est la situation la plus inconfortable du versionnement
+sémantique : *corriger un bug peut exiger une version majeure*, parce que du code s'est
+adapté au comportement fautif. SemVer décrit la **compatibilité**, pas la justesse.
+
+Changer un libellé d'erreur n'est en principe pas cassant — mais l'est en pratique dès que
+quelqu'un compare la chaîne. C'est exactement pourquoi une erreur d'API doit porter un
+**code stable** (`USER_NOT_FOUND`) à côté de son message : le code est le contrat, le
+message est pour l'humain et peut changer, y compris de langue.
+
+Enfin, la durée de dépréciation ne se compte pas en mois mais en **cycles de mise à jour
+des consommateurs**. Pour une bibliothèque interne dont on connaît les appelants, quelques
+semaines suffisent — on peut le vérifier. Pour une API publique avec des clients mobiles,
+c'est un an ou plus, parce qu'**on ne force pas la mise à jour d'une application
+installée**. La bonne question n'est pas « combien de temps » mais « comment saurai-je que
+plus personne ne l'utilise » : sans télémétrie d'usage, la réponse est « jamais », et l'on
+choisit une date par superstition.
+
+**Alternative défendable.** Certaines équipes renoncent au versionnement sémantique pour
+un versionnement **par date** ou par numéro incrémental, et compensent par une
+documentation des changements et un engagement de support. C'est défendable quand la
+distinction majeur/mineur devient un débat permanent — SemVer suppose un consensus sur ce
+qui est cassant, et ce consensus est parfois plus coûteux que ce qu'il apporte.
+
+**Vérifie seul, sans corrigé** :
+1. Prends ton dernier changement « additif ». Comment sais-tu qu'aucun consommateur ne
+   valide strictement ?
+2. Tes erreurs portent-elles un code stable, ou seulement un message ?
+3. Sur ta dernière dépréciation : sais-tu combien d'appels utilisent encore l'ancienne
+   voie ? Sinon, ta date de retrait est arbitraire.
+
 ## ⚠️ Erreurs fréquentes
 - Renommer/supprimer un champ ou un paramètre utilisé, d'un coup, en croyant que « c'est un
   détail » : ça casse tous les appelants.

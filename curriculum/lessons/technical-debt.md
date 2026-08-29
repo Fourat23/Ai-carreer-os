@@ -118,6 +118,84 @@ même laideur, intérêt quasi nul → on laisse.
 ```
 La laideur ne décide pas : c'est l'intérêt (coût récurrent × fréquence) qui décide.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Deux zones de code. L'une est atroce et n'a pas été modifiée depuis deux ans. L'autre
+   est correcte mais un peu confuse, et cinq personnes y travaillent chaque semaine.
+   Laquelle rembourses-tu ?
+2. « On n'a pas le temps de bien faire, on nettoiera après. » Dans quel quadrant es-tu, et
+   qu'est-ce qui déciderait entre deux d'entre eux ?
+3. Comment justifies-tu un remboursement de dette auprès de quelqu'un qui ne lit pas de
+   code ?
+4. Une dette peut-elle être un bon investissement ?
+
+## ✅ Correction attendue
+
+**La démarche.** Une dette se juge sur son **intérêt** — le surcoût qu'elle prélève à
+chaque passage — et non sur son principal, encore moins sur la répulsion qu'elle inspire.
+
+**L'erreur probable : prioriser par la laideur.** La réponse spontanée est « la zone
+atroce, évidemment ». C'est la seconde qu'il faut traiter, et l'écart n'est pas un détail
+de méthode : il est d'un ou deux ordres de grandeur.
+
+Un code atroce que **personne ne touche** ne prélève rien. Son intérêt est nul. Le
+rembourser coûte des semaines et fait économiser zéro — c'est de la dépense pure, avec en
+prime le risque d'introduire une régression dans du code qui fonctionnait. Un code un peu
+confus traversé **cinq fois par semaine par cinq personnes** prélève, lui, à chaque
+passage : dix minutes de compréhension, une hésitation, un bug de temps en temps. Sur un
+an, ces dix minutes deviennent des semaines.
+
+La formule à retenir : **intérêt ≈ coût par passage × fréquence des passages.** La
+fréquence est le facteur qu'on oublie, et c'est celui qui domine.
+
+Le piège séduit parce que **la répulsion est un signal fort et immédiat**. Ouvrir un
+fichier horrible produit une réaction physique, et cette réaction se présente comme un
+jugement technique. La fréquence de modification, elle, ne se ressent pas : elle se
+mesure — et personne ne la mesure. On priorise donc sur l'émotion disponible plutôt que
+sur le coût réel.
+
+Cette mesure existe pourtant et tient dans une commande : l'historique du dépôt donne le
+nombre de modifications par fichier. **Croiser « souvent modifié » et « difficile à
+modifier » désigne la dette à rembourser en premier**, et le résultat contredit
+régulièrement l'intuition de l'équipe.
+
+**Sur les autres questions.** « On n'a pas le temps, on nettoiera après » est **délibéré**
+— on sait qu'on prend un raccourci. Ce qui décide entre *prudent* et *imprudent* n'est
+pas l'intention mais la **trace** : la dette est-elle écrite quelque part, avec ce qu'il
+faudrait faire et pourquoi on ne l'a pas fait ? Si oui, c'est de la dette prudente, et
+c'est une décision d'ingénierie légitime. Sinon, la phrase est un vœu, personne ne s'en
+souviendra dans trois mois, et le raccourci devient un fait permanent que le prochain
+prendra pour une intention.
+
+Pour justifier un remboursement auprès d'un non-technicien, on ne parle **jamais** du
+code. On parle du **coût constaté** : « cette fonctionnalité a pris trois semaines au lieu
+d'une à cause de ce module ; trois demandes similaires sont prévues ce trimestre ;
+deux jours de nettoyage en économisent une quinzaine ». Des jours, une fréquence, une
+projection. C'est le langage de la décision, et il est bien plus convaincant que
+« le code est sale » — qui ne se distingue pas, pour l'auditeur, d'une préférence
+esthétique.
+
+Enfin, oui : une dette peut être un excellent investissement. Livrer vite pour valider un
+marché, quitte à jeter, est souvent la bonne décision — **on ne rembourse pas la dette d'un
+produit qu'on abandonne**. Ce qui distingue l'investissement du naufrage est la lucidité :
+savoir qu'on emprunte, à quel taux, et pour quoi.
+
+**Alternative défendable.** Certaines équipes ne tiennent aucun registre de dette et
+appliquent la **règle du boy-scout** — laisser le code un peu meilleur qu'on l'a trouvé, à
+chaque passage. C'est efficace et cela résout automatiquement le problème de priorisation :
+on améliore ce qu'on traverse, donc ce qui est fréquenté. La limite est qu'aucune dette
+structurelle ne se rembourse ainsi : un mauvais découpage ne se corrige pas par petites
+touches.
+
+**Vérifie seul, sans corrigé** :
+1. `git log --format=format: --name-only | sort | uniq -c | sort -rn | head -20`. Ces
+   fichiers sont ceux dont la dette coûte réellement.
+2. Ta dernière dette délibérée est-elle écrite quelque part ? Sinon elle est imprudente,
+   quelle qu'ait été ton intention.
+3. Chiffre une dette en jours perdus par trimestre. Si tu n'y arrives pas, tu ne pourras
+   pas la défendre — et tu ne sais peut-être pas si elle en vaut la peine.
+
 ## ⚠️ Erreurs fréquentes
 - Confondre « dette technique » et « mauvais code » : la dette peut être un choix malin et
   assumé.

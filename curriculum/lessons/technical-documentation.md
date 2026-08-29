@@ -115,6 +115,84 @@ Livraison : « la v2 change le format des messages » → changelog (changement 
 Aucun de ces documents ne remplace les autres : chacun répond à une question, pour une
 audience, à un moment.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Un ADR de 2024 dit « nous choisissons PostgreSQL ». En 2026 vous migrez vers autre
+   chose. Modifies-tu l'ADR ?
+2. Ta documentation décrit précisément le fonctionnement d'un module. Six mois plus tard,
+   quel est son état le plus probable ?
+3. Quelle information un ADR contient-il que le code ne contiendra jamais ?
+4. Tu dois documenter un système. Par quoi commences-tu ?
+
+## ✅ Correction attendue
+
+**La démarche.** Documenter, c'est écrire ce que le code **ne peut pas** dire. Tout ce
+qu'il dit déjà mieux que toi n'a pas à être écrit — et sera faux dans trois mois.
+
+**L'erreur probable, et elle détruit précisément ce qui avait de la valeur.** Devant un
+ADR devenu caduc, le réflexe est de le mettre à jour : on corrige la ligne « nous
+choisissons PostgreSQL », on écrit le nouveau choix, la documentation redevient exacte.
+**On vient de perdre l'information.**
+
+Un ADR n'est pas une description de l'état actuel du système — pour cela, il y a le code
+et les schémas. C'est un **enregistrement daté d'une décision** : ce qu'on savait à ce
+moment-là, les options qu'on avait envisagées, les contraintes du moment, et ce qu'on
+acceptait comme conséquences. C'est un document **historique**, et un document historique
+ne se corrige pas.
+
+Ce qu'on détruit en le modifiant se voit sur un cas concret. Deux ans plus tard, quelqu'un
+propose de revenir à PostgreSQL. La seule question utile est : *les raisons qui nous
+avaient fait le quitter tiennent-elles encore ?* Si l'ADR d'origine a été réécrit, cette
+question n'a **aucune** réponse. On rediscutera pendant trois réunions ce qui avait déjà
+été tranché, avec des arguments qu'on croira nouveaux.
+
+La règle est donc : **un ADR ne se modifie jamais ; il se remplace.** On écrit un nouvel
+ADR daté, qui référence l'ancien, explique ce qui a changé — le contexte, les contraintes,
+ce qu'on a appris — et on marque l'ancien comme « remplacé par ». Les deux restent
+lisibles, et leur succession raconte l'histoire du système, ce qu'aucun des deux ne fait
+seul.
+
+Le piège séduit parce que **la documentation périmée est un défaut réel**, qu'on nous
+apprend à corriger. Le réflexe « ce document est faux, je le corrige » est le bon dans
+99 % des cas — pour un README, un guide d'installation, un schéma d'architecture. L'ADR est
+l'exception, et rien dans son apparence ne le signale : c'est un fichier Markdown comme les
+autres, dans le même dossier.
+
+**Sur les autres questions.** Une documentation qui décrit précisément le fonctionnement
+d'un module sera, six mois plus tard, **fausse et crue**. Fausse parce que le code aura
+changé sans elle. Crue parce qu'elle a l'air officielle et que personne ne va vérifier.
+**Une documentation périmée est plus dangereuse que pas de documentation du tout** : sans
+elle, on lit le code ; avec elle, on lui fait confiance. C'est la raison pour laquelle on
+documente peu et haut — le « pourquoi » et les frontières vieillissent lentement, le
+« comment » vieillit à chaque commit.
+
+Ce qu'un ADR contient et que le code ne contiendra jamais : **les options qu'on n'a pas
+retenues, et pourquoi.** Le code montre ce qui existe ; il ne montre jamais les trois
+solutions écartées, ni la contrainte qui les a écartées — un délai, une compétence
+absente, une licence, une intégration existante. C'est exactement l'information qui manque
+à celui qui arrive et se demande « pourquoi diable ont-ils fait ça ? ». Neuf fois sur dix,
+la réponse est bonne et perdue.
+
+Enfin, on commence par le **lecteur** : qui va lire, et quelle décision doit-il pouvoir
+prendre après ? Un nouvel arrivant qui doit être productif en une journée, un architecte
+qui évalue une intégration, un opérateur à trois heures du matin n'ont besoin d'aucun des
+mêmes documents. Écrire sans avoir répondu à cette question produit un texte exhaustif que
+personne ne lit — le mode de défaillance le plus courant de la documentation technique.
+
+**Alternative défendable.** Certaines équipes documentent presque exclusivement par des
+**tests lisibles** et des exemples exécutables. C'est solide : un test ne peut pas mentir
+plus de quelques minutes, puisqu'il échoue quand il devient faux. Cela couvre très bien le
+« comment » — et pas du tout le « pourquoi », qui reste à écrire ailleurs.
+
+**Vérifie seul, sans corrigé** :
+1. Ouvre ta documentation la plus ancienne. Est-elle encore vraie ? Depuis quand ne l'est
+   plus, et qui s'en est aperçu ?
+2. Prends une décision d'architecture de ton projet. Peux-tu citer les options écartées ?
+   Sinon, elle sera rediscutée.
+3. Compte tes documents qui décrivent COMMENT le code fonctionne. Chacun est un
+   engagement de maintenance que personne n'a pris.
+
 ## ⚠️ Erreurs fréquentes
 - Écrire « une doc » fourre-tout au lieu du bon artefact pour la question posée.
 - Documenter le QUOI (que le code dit déjà) et oublier le POURQUOI (qui se perd).

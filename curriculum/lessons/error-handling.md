@@ -44,9 +44,11 @@ try {
 ```
 
 ## 🧭 Exemple guidé
-**Énoncé** : appeler une API LLM avec timeout, retry et dégradation.
-**Raisonnement** : l'appel peut être lent (timeout), échouer transitoirement (retry borné) ou durablement (fallback).
-**Solution (pseudo)** :
+
+Voici la fonction que tout le monde écrit pour appeler un service externe — un LLM, ici. Elle
+est raisonnable : timeout, retry borné, backoff exponentiel, dégradation. Elle contient
+pourtant une erreur de conception qui ne se voit qu'en panne.
+
 ```js
 async function appelRobuste(prompt) {
   for (let essai = 1; essai <= 3; essai++) {
@@ -54,13 +56,70 @@ async function appelRobuste(prompt) {
       return await avecTimeout(llm(prompt), 30_000);
     } catch (err) {
       if (!estTransitoire(err) || essai === 3) break;   // 429/503 → retry, 401 → non
-      await attendre(1000 * 2 ** essai);                 // backoff exponentiel
+      await attendre(1000 * 2 ** essai);                // backoff exponentiel
     }
   }
   return { degrade: true, message: "Service IA indisponible, réessayez." };
 }
 ```
-**Explication** : on ne retry que le transitoire, borné, avec backoff ; au bout, une réponse DÉGRADÉE utilisable, pas un crash. **Variante** : logge chaque tentative avec le correlation id.
+
+**Fais-la tourner mentalement sur quatre pannes différentes**, en additionnant les durées.
+C'est l'exercice que presque personne ne fait, et c'est lui qui révèle tout.
+
+| Ce qui se passe côté service | Ce que fait la fonction | Temps total |
+|---|---|---|
+| Clé d'API invalide (401) | abandonne au 1er essai | **0,1 s** |
+| Hoquet : refuse une fois, puis répond en 2 s | réessaie, réussit | **4,0 s** |
+| Saturé, refuse vite (503 × 3) | 3 essais + attentes | **6,2 s** |
+| Ne répond plus du tout | 3 timeouts + attentes | **96 s** |
+
+La deuxième ligne est la raison d'être du retry : le hoquet est absorbé, l'utilisateur n'a
+rien vu. La dernière ligne est le problème. **96 secondes**, pour une fonction dont le
+timeout affiché est de 30. Personne n'a écrit 96 nulle part : c'est
+30 + 2 + 30 + 4 + 30, et ça n'apparaît qu'en additionnant.
+
+**Première décision : de quel budget parle-t-on ?** Le `30_000` du code est un budget *par
+tentative*. Or ce qui compte n'appartient pas à cette fonction — c'est le temps que
+l'appelant peut attendre. Si c'est une requête HTTP dont le client abandonne à 30 s, alors
+dès la deuxième tentative la fonction travaille pour personne : elle occupe une connexion,
+tient de la mémoire, et produira une réponse que plus rien n'attend. Le retry est devenu du
+gaspillage pur. La règle à retenir se formule dans l'autre sens : **on ne fixe pas un délai
+par essai, on reçoit un budget total et on le dépense.** Concrètement, la fonction prend une
+échéance en paramètre, la compare avant chaque tentative, et renvoie la réponse dégradée dès
+qu'il ne reste pas de quoi tenter honnêtement.
+
+**Deuxième décision : « transitoire » suffit-il à décider ?** `estTransitoire` met 429 et 503
+dans le même sac, et c'est trop grossier. Un `503` veut dire « je suis tombé, reviens
+plus tard » — le backoff aveugle est correct. Un `429` veut dire « tu vas trop vite », et il
+s'accompagne très souvent d'un en-tête `Retry-After` qui indique **combien de temps**
+attendre. Ignorer cette valeur pour appliquer son propre backoff, c'est répondre à une
+information précise par une devinette — et généralement revenir trop tôt, donc reprendre un
+429. Quand le service te dit quoi faire, obéis-lui plutôt que de recalculer.
+
+**Troisième décision, la moins intuitive : faut-il réessayer du tout ?** Compte les requêtes,
+pas les secondes. Chaque appel client génère 3 requêtes vers le service. Avec 200 utilisateurs
+simultanés, tu envoies **600 requêtes** à un service qui est déjà à terre. Ton mécanisme de
+robustesse est devenu, du point de vue du service en panne, une attaque par déni de service
+— et il l'empêche de redémarrer. C'est exactement ce que résout le disjoncteur décrit plus
+haut : après N échecs il s'ouvre, et les appels suivants échouent en quelques millisecondes
+sans même partir. Retry et disjoncteur répondent à deux questions différentes — *cet appel-ci
+peut-il réussir en réessayant ?* et *ce service est-il encore là ?* — et il faut les deux.
+
+**Comment vérifier que tu as raison.** Ne teste pas l'échec, teste le *temps* de l'échec.
+Un faux service qui ne répond jamais, un chronomètre autour de `appelRobuste`, et une
+assertion : la durée doit rester sous le budget annoncé. Ce test échoue sur la version
+ci-dessus, et c'est ce qui prouve que le défaut est réel plutôt que théorique. Un second test
+mesure le nombre d'appels reçus par le faux service quand vingt appels partent en parallèle :
+c'est celui qui vérifie le disjoncteur.
+
+**Variante qui déplace le problème.** Remplace le LLM par un `POST /paiements`. Tout ce qui
+précède reste vrai, mais un cas nouveau apparaît et il est plus grave : le timeout ne dit pas
+si l'opération a eu lieu. Un service qui ne répond pas dans les 30 s peut très bien avoir
+débité le client à la 31ᵉ. Réessayer, c'est risquer un double débit ; ne pas réessayer,
+c'est risquer de perdre un paiement réussi. Aucune des deux options n'est bonne — parce que
+la question n'est plus « faut-il réessayer ? » mais « comment rendre le second essai
+inoffensif ? ». C'est là que la clé d'idempotence cesse d'être une bonne pratique abstraite :
+elle est la seule chose qui permet de réessayer sans choisir entre deux dégâts.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 DocSense doit survivre à : LLM down (réponse dégradée), document corrompu (ingestion qui signale et continue), sortie non parsable (retry puis refus propre), question vide (400 clair). La liste des 10 scénarios d'erreur testés un par un est un critère de qualité du projet final.

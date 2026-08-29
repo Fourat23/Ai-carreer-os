@@ -63,15 +63,104 @@ JSON (JavaScript Object Notation) transporte des données structurées en texte 
 ## Concepts clés
 Requête/réponse · sans état · headers (Content-Type, Authorization) · méthodes et idempotence · statuts par famille · DNS → TCP → TLS → HTTP · latence vs bande passante · ressources REST · query string · sérialisation JSON.
 
-## 🧭 Exemple guidé
+## 🧭 Exemple guidé — lire un échange, puis décider d'une réponse
+
+**Première partie : lire.** Voici un échange complet. L'objectif n'est pas de le retenir mais
+de savoir **nommer chaque morceau**, parce que c'est ce qui permet ensuite de dire où ça
+coince.
+
 ```bash
 curl -i -X POST https://api.example.com/livres \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
+  -H "Authorization: Bearer eyJhbGci..." \
   -d '{"titre": "Dune", "auteurId": 3}'
-# ← HTTP/1.1 201 Created  +  le livre créé avec son id
 ```
-Chaque morceau est nommable : méthode, URL de collection, deux headers, corps JSON, statut de création.
+
+Quatre décisions sont déjà prises dans ces quatre lignes, et chacune a une raison.
+
+`POST` **sur `/livres`**, au pluriel, et non `/creerLivre`. En REST, l'URL désigne une
+**ressource** — une chose — et le verbe HTTP dit ce qu'on en fait. Mettre l'action dans
+l'URL revient à réinventer un vocabulaire là où il en existe déjà un.
+
+`Content-Type` annonce le format du **corps envoyé**. Sans lui, le serveur reçoit une suite
+d'octets et doit deviner ; la plupart refusent. C'est une déclaration sur ce que **tu**
+envoies, pas une demande sur ce que tu veux recevoir — cette dernière s'appelle `Accept`, et
+la confusion entre les deux est constante.
+
+`Authorization: Bearer <jeton>` place l'identité dans un **en-tête**, jamais dans l'URL. La
+raison est concrète : les URL sont écrites dans les journaux du serveur, du proxy, du
+navigateur, et dans l'historique. Un jeton dans une URL est un jeton publié.
+
+Et la réponse :
+
+```
+HTTP/1.1 201 Created
+Location: /livres/42
+Content-Type: application/json
+
+{"id": 42, "titre": "Dune", "auteurId": 3}
+```
+
+`201` et non `200` : la création a un code à elle, et `Location` dit **où** la ressource
+vit désormais. Le corps renvoie l'objet créé avec son `id` — que le client ne pouvait pas
+connaître, puisque c'est le serveur qui l'attribue.
+
+**Deuxième partie : décider.** Le même appel, mais l'auteur `3` n'existe pas. Que
+réponds-tu ?
+
+**Décision 1 — quelle famille ?** `4xx` ou `5xx` ? La question à poser est : *qui doit
+changer quelque chose pour que ça marche ?* Ici, c'est le client — il a envoyé un
+identifiant invalide. Donc `4xx`. Un `5xx` dirait « je suis cassé », enverrait le client
+réessayer à l'identique, et déclencherait une alerte chez toi pour rien.
+
+**Décision 2 — lequel des 4xx ?** Trois candidats plausibles, et le choix se raisonne :
+
+- `400 Bad Request` — la requête est **mal formée**. Ce n'est pas le cas : le JSON est
+  valide et les champs attendus sont là.
+- `404 Not Found` — **la ressource demandée** n'existe pas. Piège fréquent : ici, la
+  ressource demandée est `/livres`, et elle existe. C'est une *référence dans le corps* qui
+  est introuvable, ce qui n'est pas la même chose.
+- `422 Unprocessable Content` — la requête est bien formée mais **sémantiquement**
+  inacceptable. C'est exactement le cas.
+
+`422` est le plus juste. Cela dit, beaucoup d'API renvoient `400` pour tout ce qui est
+invalide, et c'est un choix défendable : moins de codes à documenter, moins d'hésitations
+dans l'équipe. **Ce qui n'est pas défendable, c'est de mélanger les deux sans règle** — le
+client ne peut alors plus rien traiter automatiquement.
+
+**Décision 3 — que met-on dans le corps ?** Un statut seul ne suffit pas : le client doit
+pouvoir afficher quelque chose d'utile, et le développeur corriger.
+
+```json
+{ "error": "auteur_introuvable",
+  "message": "L'auteur 3 n'existe pas.",
+  "champ": "auteurId" }
+```
+
+Trois éléments, trois destinataires. `error` est un **code stable** que le code client peut
+tester — il ne changera pas quand on réécrira le message. `message` est pour un humain et
+peut être traduit. `champ` permet à un formulaire de surligner la bonne case. Renvoyer
+uniquement `{"error": "Erreur"}` oblige chaque client à faire de la comparaison de chaînes,
+et casse le jour où l'on corrige une faute de frappe.
+
+**Comment tu sais que c'est bon.** Rejoue l'appel avec `curl -i` et vérifie trois choses : le
+code de statut correspond à qui doit agir ; le corps contient un code stable ; et — le test
+que personne ne fait — **coupe la base de données et refais l'appel**. Tu dois obtenir `503`
+ou `500`, pas `422`. Si tu obtiens `422`, ton code confond « donnée invalide » et « je n'ai
+pas pu vérifier », et le client réagira de travers.
+
+**Ce que ça t'a appris.** Un code de statut n'est pas une étiquette décorative : c'est une
+**instruction au client** sur ce qu'il doit faire ensuite — corriger sa requête, réessayer
+plus tard, ou renoncer. Choisir le code, c'est choisir le comportement de tous les
+programmes qui t'appellent.
+
+**Variante qui déplace le problème.** L'appel réussit, mais un livre du même titre existe
+déjà pour cet auteur, et ta règle métier l'interdit. Reprends les trois décisions. La famille
+reste `4xx`. Mais ni `400` ni `422` ne conviennent vraiment : la requête est bien formée
+**et** sémantiquement valide — elle entre en conflit avec l'**état actuel** du serveur.
+C'est précisément ce que `409 Conflict` désigne. Et note la conséquence : contrairement au
+`422`, ce refus pourrait **disparaître de lui-même** si l'autre livre était supprimé. Un
+code de statut renseigne aussi sur la **stabilité** du refus.
 
 ## ⚠️ Erreurs fréquentes
 - Tout répondre en 200 (même les erreurs) : le client ne peut plus réagir correctement.

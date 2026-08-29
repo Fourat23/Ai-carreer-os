@@ -72,15 +72,111 @@ Les requêtes **paramétrées** (`WHERE nom = ?` + valeur passée séparément) 
 Table, ligne, colonne typée · clé primaire / étrangère · SELECT / WHERE / ORDER BY / LIMIT · JOIN (INNER / LEFT, condition ON) · GROUP BY, agrégats, HAVING · sous-requêtes · normalisation 1-3NF, dénormalisation · index (coût/bénéfice) · transaction, ACID · requêtes paramétrées.
 
 ## 🧭 Exemple guidé
-« Les 3 services qui coûtent le plus cher » :
-```sql
-SELECT service, SUM(salaire) AS cout
-FROM employes
-GROUP BY service
-ORDER BY cout DESC
-LIMIT 3;
+
+Reprenons la question du début : **« nos meilleurs clients »**. On y ajoute une demande
+banale — le marketing veut aussi, sur le même tableau, le nombre d'avis laissés par chacun.
+Une seule requête pour les deux, ça paraît économique.
+
+Travaillons sur des données assez petites pour être vérifiées à la main :
+
 ```
-Compare mot à mot avec ta version JS du jour 11 (regrouper → sommer → trier → découper) : QUATRE syntaxes dans l'année (JS, SQL, pandas, et l'agrégation d'éval RAG), UN modèle mental.
+clients            commandes (client_id, montant)     avis (client_id)
+1 Dupont           1 → 100, 1 → 200                   1, 1, 1   (trois avis)
+2 Martin           2 → 500                            2         (un avis)
+3 Nkolo            3 → 50                             —
+```
+
+À la main : Dupont a dépensé **300** et laissé **3** avis ; Martin **500** et **1** avis ;
+Nkolo **50** et **0**. Le meilleur client est Martin. Retiens ces six nombres, ils vont
+servir de juge.
+
+La requête que tout le monde écrit :
+
+```sql
+SELECT c.nom, SUM(cmd.montant) AS total, COUNT(a.id) AS nb_avis
+FROM clients c
+JOIN commandes cmd ON cmd.client_id = c.id
+LEFT JOIN avis    a ON a.client_id  = c.id
+GROUP BY c.id
+ORDER BY total DESC;
+```
+
+Elle s'exécute sans erreur et renvoie :
+
+| nom | total | nb_avis |
+|---|---|---|
+| Dupont | **900** | **6** |
+| Martin | 500 | 1 |
+| Nkolo | 50 | 0 |
+
+Trois des six nombres sont faux, et surtout **le classement est inversé** : la requête
+désigne Dupont comme meilleur client alors qu'il a dépensé 300 contre 500. Aucun message
+d'erreur. Livré tel quel, ce tableau oriente une décision commerciale sur un chiffre triple
+de la réalité.
+
+**Décision 1 — diagnostiquer avant de corriger.** Le réflexe est de bricoler la requête
+jusqu'à ce que les nombres tombent juste. Le geste utile est autre : **retirer le `GROUP BY`
+et regarder les lignes brutes** que la jointure produit pour Dupont.
+
+```
+Dupont | commande 10 (100) | avis 20      ← 2 commandes × 3 avis
+Dupont | commande 10 (100) | avis 21        = 6 lignes,
+Dupont | commande 10 (100) | avis 22        où chaque montant
+Dupont | commande 11 (200) | avis 20        apparaît 3 fois
+Dupont | commande 11 (200) | avis 21
+Dupont | commande 11 (200) | avis 22
+```
+
+Tout s'explique d'un coup : 100 compté 3 fois plus 200 compté 3 fois font 900, et 6 lignes
+donnent 6 avis. C'est le **produit cartésien local** — joindre deux tables « plusieurs »
+depuis un même parent multiplie leurs lignes entre elles. La leçon générale dépasse SQL :
+une agrégation fausse se comprend toujours en regardant **ce qui est agrégé** avant de
+regarder l'agrégat.
+
+**Décision 2 — quel correctif ? Et méfie-toi du premier qui marche.** Une recherche rapide
+suggère `DISTINCT`. Essayons : `SUM(DISTINCT cmd.montant)` donne 300 pour Dupont,
+`COUNT(DISTINCT a.id)` donne 3. Tout est juste. Tentant de s'arrêter là.
+
+Ajoute alors un quatrième client, Sow, avec **deux commandes de 100 € chacune** et deux avis.
+Son vrai total est 200. La requête gonflée dit 400 ; la version `SUM(DISTINCT)` dit… **100**.
+`DISTINCT` a dédoublonné les *valeurs*, pas les lignes — et deux commandes du même montant ne
+sont plus qu'une. Le correctif était faux depuis le début ; il donnait simplement le bon
+résultat sur un jeu de données où aucun montant ne se répétait. `COUNT(DISTINCT a.id)`, lui,
+reste correct, parce qu'il dédoublonne des identifiants uniques. **Un correctif validé sur un
+seul jeu de données n'est pas validé** : c'est ce que le hasard des données de test punit le
+plus souvent.
+
+**Décision 3 — la forme juste : agréger AVANT de joindre.** Le problème vient de ce qu'on a
+mélangé deux comptages indépendants dans un même produit de lignes. On les sépare :
+
+```sql
+SELECT c.nom, COALESCE(t.total, 0) AS total, COALESCE(v.nb_avis, 0) AS nb_avis
+FROM clients c
+LEFT JOIN (SELECT client_id, SUM(montant) AS total  FROM commandes GROUP BY client_id) t
+       ON t.client_id = c.id
+LEFT JOIN (SELECT client_id, COUNT(*)     AS nb_avis FROM avis     GROUP BY client_id) v
+       ON v.client_id = c.id
+ORDER BY total DESC;
+```
+
+Chaque sous-requête réduit sa table à **une ligne par client** avant la jointure : plus rien
+à multiplier. Les six nombres tombent juste, Sow compris, et Martin retrouve sa place.
+`COALESCE` traduit « aucun avis » par 0 plutôt que par `NULL` — un client sans avis a bien
+zéro avis, et c'est au SQL de le dire, pas au code d'appel de le deviner.
+
+**Le réflexe à emporter**, plus durable que la syntaxe : *dès qu'une requête joint deux
+tables « plusieurs » et agrège, soupçonne la multiplication.* Le test coûte dix secondes —
+compare `COUNT(*)` avec le nombre de lignes que tu attendais. S'il est plus grand, tes
+sommes sont déjà fausses.
+
+**Variante qui déplace le problème.** Le marketing revient : il veut la même chose, mais
+seulement sur le dernier trimestre. Où mettre `WHERE date >= '2026-07-01'` ? Sur la requête
+extérieure, la condition porte sur une colonne qui n'existe plus — elle a disparu dans
+l'agrégation. Il faut la placer **dans** la sous-requête des commandes. Et une question de
+métier surgit aussitôt : un client sans aucune commande sur le trimestre doit-il apparaître
+avec 0, ou disparaître du tableau ? Les deux se codent (`LEFT JOIN` ou `JOIN`), aucune n'est
+plus juste que l'autre — c'est le marketing qui doit trancher. Beaucoup de « bugs SQL » sont
+en réalité des questions métier que personne n'a posées.
 
 ## ⚠️ Erreurs fréquentes
 - JOIN sans ON : explosion cartésienne.

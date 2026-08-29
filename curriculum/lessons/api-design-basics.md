@@ -61,15 +61,70 @@ Une API vit : nouveaux champs (ajout non cassant — les clients ignorent l'inco
 Contrat d'abord · ressources et sous-ressources · statuts sémantiques (dont 409) · format d'erreur uniforme · validation aux frontières · erreurs centralisées sans fuite · pagination/filtres/tri · idempotence · versionnement · moindre exposition (ne renvoyer que le nécessaire).
 
 ## 🧭 Exemple guidé
-Design d'un endpoint d'emprunt (le cas intéressant : une ACTION métier, pas un simple CRUD) :
+
+Une bibliothèque veut exposer l'emprunt d'un livre. C'est le cas intéressant : ce n'est pas
+« créer une fiche », c'est une action métier avec des règles. Tu écris un premier jet en
+trente secondes, comme tout le monde :
+
 ```
-POST /loans          { bookId, memberId }
-→ 201 + l'emprunt créé          (succès)
-→ 400 + détails                  (entrée invalide)
-→ 404                            (livre ou membre inconnu)
-→ 409 + { error: "book_already_borrowed" }   (règle métier)
+POST /livres/42/emprunter    { membreId: 7 }
+→ 200 OK
 ```
-L'action est modélisée comme la CRÉATION d'une ressource « emprunt » — le pattern REST pour les verbes métier. Le retour : `POST /loans/42/return` (ou PATCH du statut) — les deux se défendent, la COHÉRENCE tranche.
+
+Ça se lit très bien. Et c'est en le faisant lire à celui qui va l'utiliser — le développeur
+de l'appli mobile — que le contrat se met à parler. Il pose quatre questions. Chacune est
+une décision de conception que le premier jet avait esquivée.
+
+**« C'est quoi, l'objet que je viens de créer ? »** Il en a besoin : il veut afficher une
+date de retour, et plus tard permettre d'annuler. Le premier jet ne lui renvoie rien —
+`200 OK` dit « c'est fait », pas « voilà quoi ». Or il *s'est* passé quelque chose de
+durable : il existe maintenant un emprunt, avec une date, une échéance, un état. Cet objet
+mérite un nom et une adresse. Donc `POST /emprunts { livreId, membreId }` qui répond
+`201` avec `{ id: 991, livreId: 42, membreId: 7, echeanceLe: "2026-09-19" }`. La règle
+n'est pas « pas de verbes dans les URLs » par esthétique : c'est que la plupart des verbes
+métier cachent un nom qu'on n'a pas encore nommé. Quand tu trouves ce nom, l'annulation
+(`DELETE /emprunts/991`) et la consultation (`GET /membres/7/emprunts`) deviennent gratuites.
+
+**« Et si le livre est déjà emprunté ? »** Le réflexe est `400`. Il est faux, et c'est
+subtil : la requête est parfaitement bien formée. Le `livreId` existe, le `membreId` existe,
+les types sont bons. Ce n'est pas *ce qu'il a envoyé* qui pose problème, c'est *l'état du
+monde au moment où il l'envoie*. Un `400` dit au client « corrige ta requête » — il ne peut
+pas, elle est correcte. `409 Conflict` dit « ta requête est valide mais elle entre en
+conflit avec l'état actuel », ce qui déclenche la bonne réaction côté mobile : ne pas
+réessayer à l'identique, afficher « déjà emprunté ». Note bien la ligne de partage, elle
+resservira partout : **400/422 = le client doit changer sa requête ; 409 = le client doit
+attendre ou changer de scénario ; 404 = il doit changer d'adresse.**
+
+**« Si je double-clique, j'ai deux emprunts ? »** Silence gêné. Oui. `POST` n'est pas
+idempotent : deux appels identiques créent deux ressources. Sur un réseau mobile, ce n'est
+pas un cas rare — la requête part, la réponse se perd, l'appli réessaie, et le membre a
+emprunté le même livre deux fois. Trois sorties, et il faut choisir explicitement. (a) Le
+serveur détecte le doublon métier : un membre ne peut pas avoir deux emprunts ouverts sur le
+même livre → le second appel repart en `409`, ce qui est correct et gratuit ici. (b) Le
+client fournit une clé : en-tête `Idempotency-Key` (convention largement adoptée, pas un
+standard HTTP), et le serveur rejoue la même réponse pour la même clé. (c) On ne fait rien
+et on documente. On retient (a) : la contrainte métier existe déjà, autant s'en servir. Mais
+tu remarques que (a) marche parce que la règle métier a la bonne forme — sur un `POST
+/paiements`, elle ne l'aurait pas, et il faudrait (b).
+
+**« Comment je rends le livre ? »** `POST /emprunts/991/rendre` revient au verbe. En
+appliquant ce qu'on vient de faire, deux réponses tiennent : `PATCH /emprunts/991
+{ etat: "rendu" }`, ou `POST /emprunts/991/retours` — un retour est, lui aussi, un objet
+avec une date. Les deux sont défendables ; ce qui ne l'est pas, c'est d'en choisir une ici
+et l'autre pour la prolongation.
+
+Le contrat final n'est pas plus long que le premier jet. Il est simplement passé par
+quelqu'un qui allait s'en servir. C'est tout ce que veut dire « empathie technique » :
+non pas être gentil, mais tester le contrat contre les questions qu'un consommateur pose
+forcément.
+
+**Variante qui déplace le problème.** Ajoute une file d'attente : si le livre est pris, on
+réserve. Le `409` devient discutable — le service *peut* faire quelque chose de la requête.
+Faut-il un `202 Accepted` avec une réservation créée ? Ou garder `409` et exiger un appel
+explicite à `POST /reservations` ? Le second, sauf demande contraire : une API qui fait
+silencieusement autre chose que ce qu'on lui a demandé est ingérable côté client. Un statut
+d'erreur n'est pas un échec du design — c'est souvent l'endroit où l'API refuse de décider
+à la place de son utilisateur.
 
 ## ⚠️ Erreurs fréquentes
 - Verbes dans les URLs (`/getLivres`, `/creerLivre`) : le contrat devient une liste de fonctions ad hoc.

@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Cloud : le réseau (VPC/VNet, subnets, pare-feu)
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Dans le cloud, vos machines ont besoin d'un réseau : lesquelles peuvent se parler ?
 lesquelles sont joignables depuis Internet ? laquelle doit rester cachée (la base de

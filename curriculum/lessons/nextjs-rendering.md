@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Rendu web : CSR, SSR, SSG et streaming
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Une application React « classique » envoie au navigateur une page presque vide + un gros paquet de
 JavaScript ; l'écran reste blanc tant que ce JS n'est pas téléchargé et exécuté. Sur mobile ou réseau

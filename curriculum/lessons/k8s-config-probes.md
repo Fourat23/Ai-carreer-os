@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Kubernetes : configuration, secrets, probes et ressources
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Un même conteneur doit se comporter différemment en test et en production (autre base
 de données, autres réglages), sans le reconstruire. Comment lui passer sa

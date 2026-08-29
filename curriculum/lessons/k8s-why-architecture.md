@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Kubernetes : pourquoi et architecture
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Vous savez lancer un conteneur, et même plusieurs avec Docker Compose, sur UNE
 machine. Mais en vrai : et si la machine tombe ? et s'il faut 20 exemplaires de

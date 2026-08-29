@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Next.js : pourquoi un framework au-dessus de React ?
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Tu sais construire une application React. Puis les vraies questions de production arrivent : comment
 avoir plusieurs pages avec de vraies URL (partageables, indexables) ? Comment afficher du contenu vite

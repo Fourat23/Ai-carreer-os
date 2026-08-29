@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Cloud : compute et stockage
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Deux questions reviennent pour toute application dans le cloud : « où va tourner mon
 code ? » et « où vais-je ranger mes données ? ». Pour le code, faut-il une machine

@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Azure : les services cœur et le modèle d'identité
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Azure repose sur les MÊMES concepts que n'importe quel cloud (machines, stockage,
 réseau, identité) — mais avec une organisation et un vocabulaire qui lui sont

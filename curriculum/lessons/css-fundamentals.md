@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — CSS : cascade, spécificité et box model
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Tu écris une règle CSS pour colorer un bouton en bleu… et rien ne change. Ou pire : un autre style
 que tu n'as jamais écrit s'applique à sa place. Tu ajoutes `!important` par dépit, ça marche une

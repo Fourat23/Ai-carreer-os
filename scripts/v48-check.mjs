@@ -42,13 +42,13 @@ const warns = [];
 // V67 a traité ce stock. Le gel a rougi de lui-même, comme en V66, ce qui est
 // exactement sa fonction ; il est mis à jour ici et jamais silencieusement.
 //   V66 -> e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2
-//   V67 -> b5ed5aee786fb513589b918159b7e73ba24c9937
+//   V67 -> 7a3fd01729c0d01fde1edb3a0064dd21b5e7adfe
 // Re-gelé par V68 (CP15). Le corpus de leçons a changé parce que les 41 leçons du
 // parcours qui n'avaient AUCUNE correction en ont désormais une, et que
 // metrics-percentiles portait un p99 faux d'un facteur 50. Voir
 // docs/V68-CP0-AUDIT.md et docs/V68-FINAL-REPORT.md. Aucune journée n'a été
 // réordonnée ; data/progress.json est inchangé.
-const FROZEN_CORPUS_SHA1 = 'b5ed5aee786fb513589b918159b7e73ba24c9937';
+const FROZEN_CORPUS_SHA1 = '7a3fd01729c0d01fde1edb3a0064dd21b5e7adfe';
 const FROZEN_PROGRESS_BLOB = '323604021055588a9528a86875f36598dbdc7758';
 
 const readJsonDir = (dir) => {

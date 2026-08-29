@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — FinOps : maîtriser le coût du cloud
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Dans le cloud, on ne paie pas une fois : on paie EN CONTINU, tant qu'une ressource
 existe — qu'elle serve ou non. D'où la mésaventure classique : une facture qui double

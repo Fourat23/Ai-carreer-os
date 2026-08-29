@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Next.js : données, états d'erreur et mise en production
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Ton application affiche des données. En développement, tout va bien. En production : l'API est parfois
 lente (que voit l'utilisateur pendant ce temps ?), parfois en erreur (500 ? page blanche ?), une URL

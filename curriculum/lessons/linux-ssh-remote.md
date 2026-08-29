@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Linux : SSH et accès distant
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Votre serveur est dans un datacenter à des milliers de kilomètres, ou c'est une
 machine louée dans le cloud. Vous devez y taper des commandes comme si vous étiez

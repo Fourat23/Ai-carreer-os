@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — CSS Flexbox : aligner et répartir sur un axe
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Tu veux une barre : un logo à gauche, des liens à droite, le tout aligné verticalement au centre. Tu
 essaies `float`, `display: inline-block`, des marges qui « tombent juste »… puis un lien passe à la

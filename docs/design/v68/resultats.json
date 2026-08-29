@@ -1,0 +1,318 @@
+{
+ "resultats": [
+  {
+   "nom": "lessons",
+   "chemin": "/lessons",
+   "largeur": 375,
+   "but": "catalogue : les 25 hors parcours sont-elles listées ?",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ]
+  },
+  {
+   "nom": "lessons",
+   "chemin": "/lessons",
+   "largeur": 768,
+   "but": "catalogue : les 25 hors parcours sont-elles listées ?",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lessons",
+   "chemin": "/lessons",
+   "largeur": 1024,
+   "but": "catalogue : les 25 hors parcours sont-elles listées ?",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lessons",
+   "chemin": "/lessons",
+   "largeur": 1440,
+   "but": "catalogue : les 25 hors parcours sont-elles listées ?",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lessons",
+   "chemin": "/lessons",
+   "largeur": 1920,
+   "but": "catalogue : les 25 hors parcours sont-elles listées ?",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-p0",
+   "chemin": "/doc/lessons/metrics-percentiles",
+   "largeur": 375,
+   "but": "la leçon P0 refaite",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-p0",
+   "chemin": "/doc/lessons/metrics-percentiles",
+   "largeur": 768,
+   "but": "la leçon P0 refaite",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-p0",
+   "chemin": "/doc/lessons/metrics-percentiles",
+   "largeur": 1024,
+   "but": "la leçon P0 refaite",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-p0",
+   "chemin": "/doc/lessons/metrics-percentiles",
+   "largeur": 1440,
+   "but": "la leçon P0 refaite",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-p0",
+   "chemin": "/doc/lessons/metrics-percentiles",
+   "largeur": 1920,
+   "but": "la leçon P0 refaite",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-etagere",
+   "chemin": "/doc/lessons/css-flexbox",
+   "largeur": 375,
+   "but": "une leçon hors parcours, excellente",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-etagere",
+   "chemin": "/doc/lessons/css-flexbox",
+   "largeur": 768,
+   "but": "une leçon hors parcours, excellente",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-etagere",
+   "chemin": "/doc/lessons/css-flexbox",
+   "largeur": 1024,
+   "but": "une leçon hors parcours, excellente",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-etagere",
+   "chemin": "/doc/lessons/css-flexbox",
+   "largeur": 1440,
+   "but": "une leçon hors parcours, excellente",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-etagere",
+   "chemin": "/doc/lessons/css-flexbox",
+   "largeur": 1920,
+   "but": "une leçon hors parcours, excellente",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-tableau",
+   "chemin": "/doc/lessons/react-application-states",
+   "largeur": 375,
+   "but": "le tableau des 8 combinaisons",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-tableau",
+   "chemin": "/doc/lessons/react-application-states",
+   "largeur": 768,
+   "but": "le tableau des 8 combinaisons",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-tableau",
+   "chemin": "/doc/lessons/react-application-states",
+   "largeur": 1024,
+   "but": "le tableau des 8 combinaisons",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-tableau",
+   "chemin": "/doc/lessons/react-application-states",
+   "largeur": 1440,
+   "but": "le tableau des 8 combinaisons",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-tableau",
+   "chemin": "/doc/lessons/react-application-states",
+   "largeur": 1920,
+   "but": "le tableau des 8 combinaisons",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-avert",
+   "chemin": "/doc/lessons/incident-response",
+   "largeur": 375,
+   "but": "l'avertissement « étagère de référence »",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-avert",
+   "chemin": "/doc/lessons/incident-response",
+   "largeur": 768,
+   "but": "l'avertissement « étagère de référence »",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-avert",
+   "chemin": "/doc/lessons/incident-response",
+   "largeur": 1024,
+   "but": "l'avertissement « étagère de référence »",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-avert",
+   "chemin": "/doc/lessons/incident-response",
+   "largeur": 1440,
+   "but": "l'avertissement « étagère de référence »",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "lecon-avert",
+   "chemin": "/doc/lessons/incident-response",
+   "largeur": 1920,
+   "but": "l'avertissement « étagère de référence »",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "jour-79",
+   "chemin": "/day/79",
+   "largeur": 375,
+   "but": "une journée qui programme metrics-percentiles",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "jour-79",
+   "chemin": "/day/79",
+   "largeur": 768,
+   "but": "une journée qui programme metrics-percentiles",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "jour-79",
+   "chemin": "/day/79",
+   "largeur": 1024,
+   "but": "une journée qui programme metrics-percentiles",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "jour-79",
+   "chemin": "/day/79",
+   "largeur": 1440,
+   "but": "une journée qui programme metrics-percentiles",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  },
+  {
+   "nom": "jour-79",
+   "chemin": "/day/79",
+   "largeur": 1920,
+   "but": "une journée qui programme metrics-percentiles",
+   "deborde": false,
+   "a11y": [],
+   "erreursJs": []
+  }
+ ],
+ "atteignables": [
+  "cloud-aws-core",
+  "cloud-azure-core",
+  "cloud-compute-storage",
+  "cloud-finops",
+  "cloud-fundamentals",
+  "cloud-networking",
+  "css-flexbox",
+  "css-fundamentals",
+  "css-grid",
+  "deployment-strategies",
+  "iac-fundamentals",
+  "k8s-config-probes",
+  "k8s-networking-services",
+  "k8s-security",
+  "k8s-troubleshooting",
+  "k8s-why-architecture",
+  "k8s-workloads",
+  "linux-services-systemd",
+  "linux-ssh-remote",
+  "nextjs-data-production",
+  "nextjs-foundations",
+  "nextjs-rendering",
+  "nextjs-server-client-components",
+  "release-incident-recovery",
+  "responsive-design"
+ ],
+ "signaleHorsParcours": true,
+ "rendu": {
+  "verification": true,
+  "correction": true,
+  "erreurProbable": true,
+  "verifieSeul": true,
+  "p99Correct": true,
+  "p99FauxAbsent": true
+ },
+ "tableau": [
+  {
+   "scrollable": true,
+   "deborde": true
+  }
+ ]
+}

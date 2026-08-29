@@ -1,6 +1,12 @@
 <!-- keep -->
 # Leçon — Server Components vs Client Components : le modèle mental
 
+> **📚 Étagère de référence — cette leçon n'est programmée par aucune des 365 journées.**
+> Tu ne l'as pas manquée : le parcours ne t'y enverra jamais, et aucune journée ne suppose
+> que tu l'as lue. Elle est là pour être ouverte quand tu en as besoin — par curiosité, pour
+> un projet, ou parce qu'une leçon du parcours y renvoie pour approfondir un point.
+
+
 ## 🌍 Le problème d'abord
 Dans une application Next.js moderne, certains composants s'exécutent sur le SERVEUR, d'autres dans le
 NAVIGATEUR — et un débutant ne voit pas la frontière. Il met un `useState` dans un composant serveur

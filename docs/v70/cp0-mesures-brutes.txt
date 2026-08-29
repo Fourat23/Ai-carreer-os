@@ -1,0 +1,203 @@
+=== STATS ===
+=== LONGUEURS (mots) ===
+leçon entière            min   921 | P10  1069 | P25  1211 | méd  1810 | P75  2061 | P90  2505 | max  3080
+noyau explicatif         min   183 | P10   244 | P25   281 | méd   347 | P75   429 | P90   532 | max  1208
+exemple guidé            min    16 | P10    54 | P25    73 | méd   103 | P75   669 | P90   777 | max   927
+pratique (exos)          min     0 | P10    23 | P25    31 | méd    46 | P75    52 | P90    58 | max    93
+correction               min     0 | P10     0 | P25    38 | méd   299 | P75   567 | P90   610 | max   733
+cas professionnel        min     0 | P10     0 | P25     0 | méd    35 | P75    54 | P90   173 | max   216
+
+=== PRÉSENCE DES FONCTIONS PÉDAGOGIQUES (sur 128) ===
+   modèle mental            128/128  (  0 absentes)
+   exemple guidé            128/128  (  0 absentes)
+   pratique                 123/128  (  5 absentes)
+   correction               103/128  ( 25 absentes)
+   cas professionnel         66/128  ( 62 absentes)
+   erreurs fréquentes       128/128  (  0 absentes)
+   transfert/liens          128/128  (  0 absentes)
+   vérif. compréhension      43/128  ( 85 absentes)
+   questions entretien      101/128  ( 27 absentes)
+   à retenir                128/128  (  0 absentes)
+   vocabulaire              128/128  (  0 absentes)
+
+=== PARCOURS ===
+   programmées : 103/128 | hors parcours : 25
+      cloud-aws-core
+      cloud-azure-core
+      cloud-compute-storage
+      cloud-finops
+      cloud-fundamentals
+      cloud-networking
+      css-flexbox
+      css-fundamentals
+      css-grid
+      deployment-strategies
+      iac-fundamentals
+      k8s-config-probes
+      k8s-networking-services
+      k8s-security
+      k8s-troubleshooting
+      k8s-why-architecture
+      k8s-workloads
+      linux-services-systemd
+      linux-ssh-remote
+      nextjs-data-production
+      nextjs-foundations
+      nextjs-rendering
+      nextjs-server-client-components
+      release-incident-recovery
+      responsive-design
+
+=== SEUILS DE PAUVRETÉ ===
+   exemple guidé absent                             0/128
+   exemple guidé < 120 mots (pseudo-exemple)       77/128
+   exemple guidé < 250 mots                        83/128
+   noyau explicatif < 300 mots                     44/128
+   pratique absente                                 5/128
+   pratique < 40 mots                              38/128
+   pratique sans verbe de production               65/128
+   correction absente                              25/128
+   correction < 60 mots (réponse seule)            35/128
+   correction sans raisonnement explicite          33/128
+   cas professionnel absent                        62/128
+   aucun bloc de code                              16/128
+
+=== ÉDITORIAL / TEMPLATE ===
+   séquences de titres distinctes : 65 pour 128 leçons
+   leçons partageant leur séquence exacte avec au moins une autre : 73
+      18 leçons : le probleme d abord / objectif / modele mental / prerequis / explication complete / exemple simple…
+      14 leçons : le probleme d abord / objectif / prerequis / modele mental / pourquoi c est important / explication complete…
+      13 leçons : le probleme d abord / objectif / prerequis / modele mental / pourquoi c est important / explication complete…
+      8 leçons : le probleme d abord / objectif / prerequis / modele mental / explication complete / exemple simple…
+      6 leçons : le probleme d abord / objectif / modele mental / prerequis / explication complete / decomposition…
+   nombre de sections : 13→6 14→2 15→14 16→20 17→25 18→46 19→15
+   gabarit « Énoncé/Raisonnement »        : 19/128
+   étiquette « Décision N »               : 33/128
+   titre « Variante qui déplace »         : 44/128
+
+=== TEMPS PÉDAGOGIQUE ===
+   journées non-revue : 309 | durée annoncée médiane : 4.5 h
+
+=== JARGON/PREREQ/TEMPS ===
+=== ACRONYMES employés sans développement ni entrée de vocabulaire ===
+   103 acronymes distincts concernés
+   VM         5 leçon(s)  ex. docker-build-dockerfile, docker-images-layers, docker-networking-volumes
+   VPC        4 leçon(s)  ex. cloud-azure-core, networking-addressing-routing, networking-dns
+   ADR        3 leçon(s)  ex. agent-workflows-orchestration, database-modeling, portfolio-github
+   SDK        3 leçon(s)  ex. architecture-basics, design-patterns-intro, http-rest-json
+   JSX        3 leçon(s)  ex. frontend-testing, html-semantic-structure, typescript-frontend
+   POC        2 leçon(s)  ex. ai-security, docker-containers
+   IAM        2 leçon(s)  ex. cloud-azure-core, linux-filesystem-permissions
+   SIGTERM    2 leçon(s)  ex. docker-build-dockerfile, linux-services-systemd
+   ISO        2 leçon(s)  ex. http-rest-json, technical-debt
+   SRE        2 leçon(s)  ex. metrics-percentiles, observability-fundamentals
+   WAF        2 leçon(s)  ex. networking-http-tls, networking-proxy-loadbalancing
+   EUR        2 leçon(s)  ex. prompt-engineering, structured-outputs-tools
+   DESC       2 leçon(s)  ex. sql-foundations, sql-performance-indexing
+   OWASP      1 leçon(s)  ex. agents-fundamentals
+   MVC        1 leçon(s)  ex. architecture-basics
+
+=== EMPHASE EN CAPITALES (mots français écrits en majuscules) ===
+   128/128 leçons | 3797 occurrences | moyenne 29.7 par leçon
+
+=== TOURNURES MINIMISANTES ("il suffit de", "évidemment"…) ===
+   36/128 leçons en contiennent | total 53 occurrences
+     4  web-forms-validation
+     3  algorithmic-thinking
+     3  embeddings
+     3  recursion
+     2  async-messaging-queues
+     2  authentication
+     2  database-transactions-concurrency
+     2  incident-response
+
+=== PRÉREQUIS ===
+   chaînes de prérequis cassées : 40
+   cloud-fundamentals                 déclarée prérequis par 7 leçon(s), jamais programmée
+   deployment-strategies              déclarée prérequis par 3 leçon(s), jamais programmée
+   k8s-config-probes                  déclarée prérequis par 3 leçon(s), jamais programmée
+   css-fundamentals                   déclarée prérequis par 3 leçon(s), jamais programmée
+   k8s-workloads                      déclarée prérequis par 3 leçon(s), jamais programmée
+   cloud-networking                   déclarée prérequis par 2 leçon(s), jamais programmée
+   cloud-compute-storage              déclarée prérequis par 2 leçon(s), jamais programmée
+   cloud-aws-core                     déclarée prérequis par 2 leçon(s), jamais programmée
+   css-flexbox                        déclarée prérequis par 2 leçon(s), jamais programmée
+   k8s-why-architecture               déclarée prérequis par 2 leçon(s), jamais programmée
+
+=== TEMPS PÉDAGOGIQUE (journées non-revue) ===
+   309 journées | lecture seule : méd 36 min | P90 67 | max 110
+   durée ANNONCÉE : méd 270 min
+   ratio lecture / annoncé (médiane) : 13 %
+   → il reste 234 min à couvrir par la pratique, la correction et le projet.
+   mots d'exercice par journée : méd 138 | P90 339
+   journées sans AUCUN mot d'exercice dans leurs leçons : 0
+
+=== CLASSEMENT ===
+=== LES 20 LEÇONS LES PLUS DÉFICIENTES ===
+
+ 1. interview-preparation              défaut 12 | guidé 108 | exo  51 | corr  38
+    exemple guidé squelettique (<120 mots) · gabarit Énoncé/Raisonnement/Solution · correction = réponse seule (<60 mots) · pratique sans production observable · aucun cas professionnel · noyau explicatif mince (<250 mots)
+ 2. portfolio-github                   défaut 12 | guidé 111 | exo  53 | corr  38
+    exemple guidé squelettique (<120 mots) · gabarit Énoncé/Raisonnement/Solution · correction = réponse seule (<60 mots) · pratique sans production observable · aucun cas professionnel · noyau explicatif mince (<250 mots)
+ 3. cloud-aws-core                     défaut 11 | guidé  55 | exo  30 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · noyau explicatif mince (<250 mots) · hors parcours
+ 4. nextjs-rendering                   défaut 11 | guidé  88 | exo  49 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · aucun cas professionnel · aucun bloc de code ni exemple concret · hors parcours
+ 5. nextjs-server-client-components    défaut 11 | guidé 100 | exo  62 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · aucun cas professionnel · aucun bloc de code ni exemple concret · hors parcours
+ 6. cloud-compute-storage              défaut 10 | guidé  39 | exo  32 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · aucun bloc de code ni exemple concret · hors parcours
+ 7. cloud-fundamentals                 défaut 10 | guidé  45 | exo  27 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · aucun bloc de code ni exemple concret · hors parcours
+ 8. cloud-networking                   défaut 10 | guidé  58 | exo  25 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · aucun bloc de code ni exemple concret · hors parcours
+ 9. css-fundamentals                   défaut 10 | guidé  94 | exo  65 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · aucun cas professionnel · hors parcours
+10. nextjs-foundations                 défaut 10 | guidé  94 | exo  74 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · aucun cas professionnel · noyau explicatif mince (<250 mots) · hors parcours
+11. technical-storytelling             défaut 10 | guidé  97 | exo  46 | corr  40
+    exemple guidé squelettique (<120 mots) · gabarit Énoncé/Raisonnement/Solution · correction = réponse seule (<60 mots) · pratique sans production observable · aucun cas professionnel
+12. agent-workflows-orchestration      défaut 10 | guidé 101 | exo  62 | corr  47
+    exemple guidé squelettique (<120 mots) · gabarit Énoncé/Raisonnement/Solution · correction = réponse seule (<60 mots) · aucun cas professionnel · noyau explicatif mince (<250 mots)
+13. etl-pipelines                      défaut 10 | guidé 102 | exo  46 | corr  36
+    exemple guidé squelettique (<120 mots) · gabarit Énoncé/Raisonnement/Solution · correction = réponse seule (<60 mots) · pratique sans production observable · aucun cas professionnel
+14. llm-cost-optimization              défaut 10 | guidé 104 | exo  58 | corr  41
+    exemple guidé squelettique (<120 mots) · gabarit Énoncé/Raisonnement/Solution · correction = réponse seule (<60 mots) · aucun cas professionnel · noyau explicatif mince (<250 mots)
+15. deployment-secrets                 défaut 10 | guidé 105 | exo  50 | corr  38
+    exemple guidé squelettique (<120 mots) · gabarit Énoncé/Raisonnement/Solution · correction = réponse seule (<60 mots) · pratique sans production observable · aucun cas professionnel
+16. rag-evaluation                     défaut 10 | guidé 116 | exo  41 | corr  44
+    exemple guidé squelettique (<120 mots) · gabarit Énoncé/Raisonnement/Solution · correction = réponse seule (<60 mots) · aucun cas professionnel · noyau explicatif mince (<250 mots)
+17. caching-performance                défaut 10 | guidé 119 | exo  50 | corr  41
+    exemple guidé squelettique (<120 mots) · gabarit Énoncé/Raisonnement/Solution · correction = réponse seule (<60 mots) · aucun cas professionnel · noyau explicatif mince (<250 mots)
+18. k8s-workloads                      défaut  9 | guidé  31 | exo  21 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · hors parcours
+19. k8s-troubleshooting                défaut  9 | guidé  47 | exo  30 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · hors parcours
+20. cloud-azure-core                   défaut  9 | guidé  51 | exo  27 | corr   0
+    exemple guidé squelettique (<120 mots) · aucune correction · pratique sans production observable · hors parcours
+
+=== LES 10 LEÇONS LES PLUS SOLIDES (score de défaut le plus bas) ===
+
+ 1. machine-learning-basics            défaut  0 | guidé 781 | exo  45 | corr 428
+ 2. clean-code                         défaut  0 | guidé 757 | exo  42 | corr 375
+ 3. ai-security                        défaut  0 | guidé 756 | exo  56 | corr 466
+ 4. rag-fundamentals                   défaut  0 | guidé 739 | exo  50 | corr 465
+ 5. api-design-basics                  défaut  0 | guidé 704 | exo  43 | corr 432
+ 6. design-patterns-intro              défaut  0 | guidé 617 | exo  48 | corr 383
+ 7. git-fundamentals                   défaut  0 | guidé 333 | exo  44 | corr 347
+ 8. web-forms-validation               défaut  1 | guidé 812 | exo  54 | corr 573
+    reste : aucun cas professionnel
+ 9. react-application-states           défaut  1 | guidé 705 | exo  55 | corr 534
+    reste : aucun cas professionnel
+10. data-structures-intro              défaut  1 | guidé 696 | exo  34 | corr 400
+    reste : pratique trop maigre (<40 mots)
+
+=== RÉPARTITION PAR PRIORITÉ ===
+   PASS  (aucun défaut observable)      7/128
+   P3    (mineur)                      20/128
+   P2    (trop synthétique)            38/128
+   P1    (insuffisant)                 35/128
+   P0    (bloquant)                    28/128
+
+   → à réécrire (P0+P1+P2) : 101/128
+   → à examiner sans forcément réécrire : 27

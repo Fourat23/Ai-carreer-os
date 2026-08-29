@@ -95,6 +95,84 @@ guident les choix de redondance et de sauvegarde.
 Voir la pratique associée : détecter un SPOF, vérifier la redondance multi-zone,
 raisonner RTO/RPO, décider d'une reprise.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton service appelle une dépendance avec un timeout de 2 s, trois tentatives et un
+   backoff exponentiel. Quel est le temps d'attente maximal vu par l'utilisateur ?
+2. Une dépendance tombe complètement. Ton retry est-il utile ? Que fait-il au service
+   en panne ?
+3. Tu ajoutes un circuit breaker devant une dépendance. Quel comportement nouveau
+   ton service doit-il désormais savoir produire, et qui doit l'écrire ?
+4. Un timeout et un retry protègent l'appelant. Lequel des motifs de cette leçon
+   protège l'appelé ?
+
+## ✅ Correction attendue
+
+**La démarche.** Chaque motif répond à une panne précise et en crée une autre. Les
+poser, c'est choisir quelle défaillance on préfère — jamais les supprimer toutes.
+
+**L'erreur probable : additionner les protections sans additionner leurs délais.** La
+première question a une réponse que presque personne ne calcule avant de la voir en
+production :
+
+```
+tentative 1 : 2 s de timeout   puis attente 1 s
+tentative 2 : 2 s de timeout   puis attente 2 s
+tentative 3 : 2 s de timeout
+                              ──────────────────
+total                          9 s
+```
+
+**Neuf secondes.** L'utilisateur a quitté la page depuis longtemps, et pendant ces neuf
+secondes le thread — ou la connexion — reste occupé. Le timeout de 2 s avait
+précisément pour but d'éviter cela ; le retry vient de le multiplier par 4,5 sans que
+personne ne le décide.
+
+Le piège séduit parce que **chaque motif est individuellement correct**. Le timeout est
+recommandé, le retry est recommandé, le backoff est recommandé. On les empile en toute
+bonne foi, chacun documenté, et l'on obtient un comportement que personne n'a choisi.
+C'est le mode de défaillance propre aux bonnes pratiques : elles s'ajoutent, leurs
+effets se multiplient.
+
+Le repère : **un budget de temps global**, décidé en premier et imposé à tout
+l'enchaînement. « Cet appel dispose de 3 secondes, retries compris » — puis on en
+déduit le timeout unitaire et le nombre de tentatives, dans cet ordre. Le raisonnement
+part de ce que l'utilisateur peut supporter, pas de ce que chaque motif recommande.
+
+**Sur les autres questions.** Face à une dépendance **complètement** tombée, le retry
+est non seulement inutile — elle ne répondra pas davantage à la troisième tentative —
+mais nuisible : il triple la charge sur un service déjà à terre, et retarde son
+redémarrage. C'est l'effet de troupeau, et c'est pourquoi le circuit breaker existe :
+il est la reconnaissance qu'à partir d'un certain point, **la meilleure aide qu'on
+puisse apporter à un service en panne est d'arrêter de l'appeler.**
+
+Ajouter un circuit breaker oblige le service à savoir répondre **quand le circuit est
+ouvert** — c'est-à-dire immédiatement, sans la dépendance. Ce chemin de code n'existe
+généralement pas, et c'est le vrai coût du motif : il ne s'installe pas dans la
+configuration, il s'écrit dans le métier. Qui doit l'écrire ? Celui qui sait ce qui est
+optionnel : afficher la page sans les recommandations est une décision produit, pas une
+décision d'infrastructure.
+
+Et le motif qui protège l'**appelé** plutôt que l'appelant : le **rate limiting** en
+entrée, et le **load shedding** quand la capacité est dépassée. Le circuit breaker
+protège les deux à la fois, ce qui explique sa popularité.
+
+**Alternative défendable.** Sur beaucoup de systèmes, **un timeout court et zéro
+retry** est un meilleur choix que la panoplie complète : échouer vite, laisser
+l'utilisateur ou la file de messages réessayer, et garder un comportement qu'on peut
+prédire de tête. La résilience se paie en complexité, et un système simple dont on
+comprend les défaillances est souvent plus disponible qu'un système protégé dont
+personne ne sait ce qu'il fait sous charge.
+
+**Vérifie seul, sans corrigé** :
+1. Calcule le temps d'attente maximal réel de ton appel le plus critique, retries et
+   backoff compris. Compare-le à ce que ton utilisateur accepte.
+2. Coupe une dépendance non critique en local. Ton service affiche-t-il une version
+   dégradée, ou une erreur ? Si c'est une erreur, le chemin dégradé n'existe pas.
+3. Tes retries s'appliquent-ils à des opérations **idempotentes** ? Un `POST` de
+   paiement rejoué trois fois est un problème plus grave que la panne qu'on évitait.
+
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - **Pas de timeout** → une dépendance lente épuise tout (cascade).
 - **Retry agressif** (immédiat, illimité, non idempotent) → on achève le service

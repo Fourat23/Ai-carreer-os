@@ -79,6 +79,69 @@ base, à l'étape 3 ».
 Voir la pratique associée : lire un ensemble de métriques/percentiles pour localiser
 une lenteur, et raisonner sur ce qui manque pour diagnostiquer.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Une trace affiche : `API` 2 000 ms, contenant `SQL` 40 ms et `paiement` 1 900 ms.
+   Combien de millisecondes ne sont couvertes par AUCUN span enfant, et que
+   pourrait-il s'y passer ?
+2. Deux spans enfants durent 800 ms chacun et leur parent 900 ms. Comment est-ce
+   possible ?
+3. Ton service appelle un service B qui appelle un service C. La trace s'arrête à B.
+   Qu'est-ce qui manque, et où précisément ?
+4. Tu échantillonnes 1 % des traces. Un bug touche une requête sur mille. Combien de
+   traces de ce bug verras-tu par million de requêtes, et que faut-il changer ?
+
+## ✅ Correction attendue
+
+**La démarche.** Lire une trace, c'est répondre à trois questions dans l'ordre : où
+part le temps, qu'est-ce qui n'est pas instrumenté, et qu'est-ce qui s'exécute en
+parallèle. Le classement des spans par durée ne vient qu'après.
+
+**L'erreur probable : accuser le span le plus long.** Devant la trace de l'exemple,
+la réponse immédiate est « c'est le paiement, 1 900 ms ». C'est souvent juste — mais
+c'est une conclusion tirée du mauvais raisonnement, et le raisonnement se venge dès
+que la trace est moins simple.
+
+**Un span parent CONTIENT ses enfants.** Sa durée n'est pas son propre travail : c'est
+le temps total, attente comprise. Dire « `API` prend 2 000 ms » ne désigne aucun
+coupable, puisque `API` ne fait qu'attendre. Ce qui accuse réellement, c'est le
+**temps non couvert** : 2 000 − 40 − 1 900 = **60 ms** ici, ce qui est sain. Quand ce
+reste devient gros, il désigne du travail que personne n'a instrumenté — sérialisation
+JSON, attente d'une connexion dans le pool, garbage collector — et c'est très souvent
+là que se cache un problème durable, précisément parce qu'aucun span ne le montre.
+
+Le piège séduit parce qu'une visualisation de trace **dessine** les barres par ordre
+de longueur. L'œil suit la plus grande, et l'outil récompense ce réflexe. On lit un
+graphique au lieu de lire un raisonnement.
+
+**Sur les autres questions.** Deux enfants de 800 ms dans un parent de 900 ms : ils
+s'exécutent **en parallèle** — c'est le cas normal, et c'est pourquoi additionner les
+durées des spans n'a aucun sens. La trace qui s'arrête à B signifie que B n'a pas
+**propagé** le contexte dans son appel sortant vers C : ce n'est pas B qui manque
+d'instrumentation, c'est son client HTTP. Et l'échantillonnage à 1 % sur un bug à
+0,1 % donne **une trace par million de requêtes** : inexploitable. La parade est
+l'échantillonnage **par la queue** (*tail-based*), qui décide de garder la trace après
+coup, en fonction de ce qu'elle contient — toutes les erreurs, toutes les lentes.
+
+**Comment reconnaître le problème la prochaine fois.** Avant d'accuser, additionne les
+enfants et compare au parent. Si la somme est proche du parent, le temps est expliqué.
+Si elle est bien inférieure, cherche le trou. Si elle est supérieure, il y a du
+parallélisme et ton intuition d'addition est fausse.
+
+**Alternative défendable.** Sur un service à faible trafic, tracer 100 % et ne rien
+échantillonner est parfaitement raisonnable : le coût est nul et on ne rate rien.
+L'échantillonnage est une réponse à un problème de volume, pas une bonne pratique en
+soi. Ne l'adopte pas avant d'avoir le problème.
+
+**Vérifie seul, sans corrigé** :
+1. Ouvre une trace réelle de ton service et calcule le temps non couvert par les
+   enfants. S'il dépasse 20 %, tu viens de trouver ton prochain span à ajouter.
+2. Coupe une dépendance externe et regarde la trace. Le span porte-t-il l'erreur, ou
+   se contente-t-il d'être long ? Un span sans statut d'erreur ne sert qu'à moitié.
+3. Suis un `requestId` depuis les logs jusqu'à la trace. Si tu ne peux pas faire ce
+   trajet, tes trois piliers ne sont pas reliés.
+
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - **Oublier la propagation** du contexte → traces fragmentées, inutiles.
 - **Tracer 100 %** sans réfléchir au coût (préférer un sampling + garder les erreurs).

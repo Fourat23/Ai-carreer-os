@@ -86,6 +86,75 @@ serviront au post-mortem. Ne pas « nettoyer » un incident sans avoir gardé le
 Voir la pratique associée : agréger l'état de santé, prioriser les symptômes, décider
 rollback vs roll-forward.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Il est 15 h 02, les 5xx explosent après une release de 15 h 00. Quelle est ta
+   première action, et pourquoi celle-là plutôt qu'une autre ?
+2. Cinq ingénieurs compétents sont sur l'incident. Pourquoi faut-il en désigner un qui
+   ne répare rien ?
+3. Tu ne sais pas encore quoi dire aux clients parce que tu ne comprends pas la panne.
+   Communiques-tu quand même ? Que dis-tu ?
+4. Le service est rétabli à 15 h 18 par un rollback. L'incident est-il terminé ?
+
+## ✅ Correction attendue
+
+**La démarche.** Un incident se traite dans un ordre qui n'est pas celui de la
+curiosité : **qualifier, mitiger, communiquer, comprendre.** L'envie de comprendre
+arrive naturellement en premier et c'est précisément ce qu'il faut différer.
+
+**L'erreur probable : chercher la cause avant de réduire l'impact.** Devant les 5xx, le
+réflexe d'un bon ingénieur est d'ouvrir les logs. C'est du travail utile, fait
+correctement, par la personne compétente — et c'est la mauvaise action à 15 h 02.
+
+Pendant qu'on lit les logs, les utilisateurs continuent de subir la panne. Or
+**rétablir et comprendre sont deux tâches séparables**, et l'une des deux est urgente.
+Le rollback ne demande pas de savoir *pourquoi* la release a cassé : il suffit de
+savoir *qu'elle* a cassé, ce que la corrélation temporelle établit en dix secondes. On
+rétablit d'abord, on enquête ensuite — avec les preuves conservées, sans la pression,
+et sans les utilisateurs en attente.
+
+Le piège séduit parce que **comprendre paraît plus sérieux que rétablir**. Rollbacker
+sans savoir pourquoi ressemble à de la magie honteuse, et il reste toujours la crainte
+de « masquer » le problème. C'est confondre deux temps : la mitigation ne remplace pas
+le post-mortem, elle lui laisse le temps d'être fait correctement. Une équipe qui
+enquête pendant l'incident produit un mauvais diagnostic **et** une longue panne.
+
+**Sur les autres questions.** L'incident commander ne répare rien parce que c'est
+justement ce qui lui permet de décider : il tient l'état d'ensemble, arbitre les
+hypothèses concurrentes, et sait qui fait quoi. Sans lui, cinq personnes compétentes
+testent trois hypothèses en double, deux d'entre elles modifient la production
+simultanément, et plus personne ne sait ce qui a produit quel effet. **Le rôle existe
+parce que la compétence technique ne se coordonne pas toute seule** — et il est
+d'autant plus nécessaire que les gens sont bons, puisque chacun a une piste crédible.
+
+Communiquer sans comprendre : **oui, immédiatement**, et c'est contre-intuitif. On ne
+communique pas une explication, on communique des faits et un rythme : *« Depuis 15 h 02,
+les paiements échouent pour une partie des utilisateurs. Nous investiguons. Prochaine
+mise à jour à 15 h 20. »* Trois informations, aucune promesse. Le silence, lui, est
+interprété comme de l'incompétence ou de la dissimulation, et il déclenche des appels
+qui consomment le temps de ceux qui réparent.
+
+Enfin, l'incident **n'est pas terminé** à 15 h 18. Le service est rétabli, ce qui est
+autre chose : la cause est intacte, la release est toujours à livrer, et la migration
+destructive qui a empêché le rollback est encore là. Confondre « rétabli » et
+« résolu » est ce qui produit le même incident deux semaines plus tard.
+
+**Alternative défendable.** Le **roll-forward** — corriger et redéployer plutôt que
+revenir en arrière — est le bon choix quand le retour arrière est impossible (migration
+destructive déjà appliquée) ou plus risqué que la correction. Ce n'est pas un aveu
+d'échec : c'est le calcul honnête entre deux risques. Ce qui n'est jamais défendable,
+c'est de choisir entre les deux **sans avoir vérifié que le rollback fonctionne** — la
+plupart des équipes découvrent qu'il ne fonctionne pas au pire moment.
+
+**Vérifie seul, sans corrigé** :
+1. Ton dernier incident : combien de temps entre la détection et la première action de
+   mitigation ? Combien entre la détection et la première communication ?
+2. Ton rollback a-t-il été testé cette année, en conditions réelles ? Si la réponse est
+   non, tu n'as pas de rollback, tu as une intention.
+3. Écris à l'avance le message de communication des trois premières minutes, avec les
+   trous à remplir. Le rédiger sous stress est la pire façon de le rédiger.
+
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - **Chercher la cause AVANT de limiter l'impact** (l'utilisateur attend).
 - **Pas d'incident commander** → chaos, actions contradictoires.

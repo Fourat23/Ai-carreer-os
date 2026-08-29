@@ -84,6 +84,79 @@ Un bon post-mortem produit surtout des actions PRÉVENTIVES, avec un responsable
 Voir la pratique associée : reconstruire une chaîne symptôme→cause, décider
 rollback/roll-forward, agréger l'état de santé.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Un post-mortem conclut : « cause racine — un développeur a lancé une migration
+   destructive en production ». Qu'est-ce qui ne va pas dans cette phrase ?
+2. Les cinq pourquoi de l'exemple s'arrêtent à « pas de revue des migrations ni de
+   check en CI ». Pourquoi s'arrêter là plutôt qu'à quatre ou à six ?
+3. Un post-mortem produit huit actions. Six mois plus tard, l'incident se reproduit.
+   Quelle est l'hypothèse la plus probable, et comment la vérifies-tu ?
+4. Ton équipe est petite et tout le monde se connaît. Le « sans blâme » est-il encore
+   nécessaire ?
+
+## ✅ Correction attendue
+
+**La démarche.** Reconstituer les faits horodatés, séparer symptôme / cause /
+facteurs contributifs, puis remonter par les cinq pourquoi jusqu'à un niveau où
+l'action possible est **systémique** et non individuelle.
+
+**L'erreur probable : s'arrêter à la personne.** « Un développeur a lancé une
+migration destructive » est factuellement exact et pourtant inutilisable. Ce n'est pas
+une cause racine : c'est **l'endroit où l'enquête s'est arrêtée**.
+
+Le test qui tranche : *l'action corrective désigne-t-elle un comportement, ou un
+système ?* « Faire attention aux migrations » est un vœu ; « refuser en CI toute
+migration destructive non précédée d'un déploiement compatible » est un mécanisme. Le
+premier repose sur la vigilance permanente d'êtres humains fatigués à 15 h un
+vendredi ; le second fonctionne même quand personne ne fait attention.
+
+Le piège séduit pour deux raisons qui se renforcent. D'abord, **l'enquête se termine
+naturellement quand on trouve quelqu'un** : il y a une réponse, elle est
+vérifiable, on peut fermer le ticket. Ensuite, le blâme est **rassurant** — si c'est la
+faute de quelqu'un, alors le système va bien, et il suffira que cette personne soit
+plus prudente. C'est exactement l'inverse qui est vrai : si une seule inattention
+suffisait à casser la production, c'est le système qui est fautif, et la prochaine
+inattention viendra de quelqu'un d'autre.
+
+C'est aussi la raison profonde du « sans blâme », et elle n'est pas de politesse : une
+enquête qui cherche un coupable **reçoit moins d'informations**. Les gens taisent ce
+qu'ils ont réellement fait, les hypothèses embarrassantes ne sont pas formulées, et le
+post-mortem produit un récit propre et faux.
+
+**Sur les autres questions.** Les cinq pourquoi s'arrêtent quand on atteint **le
+premier niveau où l'on a le pouvoir d'agir durablement** — ni avant (on corrigerait un
+symptôme), ni après (« pourquoi n'avons-nous pas de culture d'ingénierie ? » est vrai,
+et inactionnable). « Cinq » est une indication, pas une règle : certaines chaînes
+s'arrêtent à trois, d'autres continuent à sept.
+
+Huit actions et une récidive : l'hypothèse la plus probable est que **les actions
+n'ont pas été faites**, pas qu'elles étaient mauvaises. C'est le mode de défaillance
+numéro un du post-mortem — le document est excellent, chacun approuve, et rien n'a de
+responsable ni de date. Vérification directe : ouvre le post-mortem précédent et
+compte les actions effectivement livrées. Un post-mortem sans nom et sans échéance en
+face de chaque action est un texte de littérature.
+
+Et le « sans blâme » dans une petite équipe soudée : **encore plus nécessaire**,
+justement parce qu'on se connaît. Le blâme n'a pas besoin d'être formulé pour opérer ;
+il suffit qu'une personne pense que l'incident sera associé à son nom pour qu'elle
+omette un détail. La taille de l'équipe ne change rien au mécanisme.
+
+**Alternative défendable.** Toutes les organisations ne pratiquent pas les cinq
+pourquoi. L'approche **par facteurs contributifs multiples** — on renonce à *la* cause
+racine et on liste les conditions qui, ensemble, ont rendu l'incident possible — est
+plus fidèle à la réalité des systèmes complexes, où il n'y a presque jamais une cause
+unique. Elle est moins facile à communiquer, et c'est son seul vrai défaut.
+
+**Vérifie seul, sans corrigé** :
+1. Reprends ton dernier post-mortem. Chaque action a-t-elle un nom et une date ?
+   Combien sont livrées ?
+2. Relis ta cause racine. Contient-elle le nom ou le rôle d'une personne ? Si oui,
+   pose un pourquoi de plus.
+3. Pour chaque action préventive, demande : *si personne n'y pense, est-ce que ça
+   marche quand même ?* Si non, ce n'est pas une action préventive.
+
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - **Chercher un coupable** → les gens cachent l'info, aucune leçon tirée.
 - S'arrêter au **symptôme** (« on a relancé, c'est réglé ») → récidive garantie.

@@ -81,6 +81,74 @@ préparé ».
 Voir la pratique associée : identifier ce qui MANQUE pour diagnostiquer une panne
 (quel pilier absent ?), et lire un récapitulatif de santé de service.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton équipe a quarante tableaux de bord et vingt alertes. Est-elle observable ?
+   Qu'est-ce qui te permettrait de trancher ?
+2. Un incident survient. Quelle question dois-tu pouvoir poser à tes données que tu
+   n'avais pas anticipée ? Donne un exemple concret sur un service que tu connais.
+3. Métrique, log, trace : laquelle répond à « combien », laquelle à « où », laquelle à
+   « pourquoi » ? Et pourquoi aucune ne suffit seule ?
+4. Un tableau de bord est vert pendant qu'un client ne peut pas payer. Nomme deux
+   raisons structurellement différentes à cela.
+
+## ✅ Correction attendue
+
+**La démarche.** L'observabilité ne se mesure pas au nombre d'écrans. Elle se mesure à
+une seule chose : **le nombre de questions nouvelles auxquelles tes données peuvent
+répondre sans redéployer.**
+
+**L'erreur probable : confondre couverture et observabilité.** La réponse spontanée à
+la première question est « oui, quarante tableaux de bord, c'est bien couvert ». Elle
+est fausse, et pour une raison qui mérite d'être nommée : **un tableau de bord est la
+réponse figée à une question que quelqu'un s'est déjà posée.** Quarante tableaux de
+bord, ce sont quarante pannes anticipées. L'incident qui te coûtera ta nuit sera le
+quarante-et-unième — celui que personne n'a imaginé, donc celui pour lequel aucun
+écran n'existe.
+
+Le piège séduit parce que **les tableaux de bord sont du travail visible**. On les
+montre, on les compte, ils rassurent en réunion. L'observabilité, elle, est une
+propriété invisible tant qu'on n'en a pas besoin : elle se paie en instrumentation
+(cardinalité maîtrisée, contexte propagé, champs utiles) et ne se voit que le jour de
+la panne inédite.
+
+Le test décisif, à poser à n'importe quelle équipe : *« Hier, une requête sur mille a
+échoué pour un seul client, sur une seule région, entre 14 h 02 et 14 h 09. Peux-tu me
+dire pourquoi, maintenant, sans déployer quoi que ce soit ? »* Si la réponse est
+« il faudrait que j'ajoute un log », le système n'est pas observable — quel que soit le
+nombre d'écrans.
+
+**Sur les autres questions.** La métrique répond à **combien** et **depuis quand** (une
+tendance agrégée, bon marché, sans détail) ; la trace répond à **où** (quel composant,
+dans quel ordre) ; le log répond à **quoi exactement** (le message d'erreur, la valeur
+fautive). Aucune ne suffit seule parce que chacune jette ce que les autres gardent :
+la métrique perd l'individu, la trace perd le détail, le log perd la vue d'ensemble.
+
+Le tableau de bord vert pendant qu'un client ne peut pas payer a deux causes
+**structurellement** différentes, et les confondre coûte cher. Soit **on mesure la
+mauvaise chose** — le taux de succès HTTP est à 100 % parce que l'API répond `200` avec
+un corps d'erreur, ou parce qu'on mesure la santé de l'infrastructure et pas celle du
+parcours utilisateur. Soit **on mesure la bonne chose mais on l'agrège trop** — un
+client sur dix mille disparaît dans une moyenne, et un incident régional disparaît
+dans un total mondial. Le premier se corrige en changeant l'indicateur, le second en
+changeant sa granularité.
+
+**Alternative défendable.** Certaines équipes matures suppriment volontairement des
+tableaux de bord pour n'en garder que trois ou quatre, et investissent le temps gagné
+dans l'instrumentation et les requêtes ad hoc. C'est défendable et souvent supérieur :
+un écran que personne ne regarde coûte en maintenance sans rien apprendre. Mais cela
+suppose que l'équipe sache écrire des requêtes sous pression, à trois heures du matin —
+ce qui n'est pas donné et doit être entraîné.
+
+**Vérifie seul, sans corrigé** :
+1. Pose le test décisif ci-dessus à ton propre service. La réponse honnête est
+   généralement « il faudrait que j'ajoute un log ».
+2. Compte tes tableaux de bord, puis compte ceux qui ont été ouverts lors du dernier
+   incident. L'écart est ton coût de maintenance inutile.
+3. Prends ta métrique principale. Quelle panne réelle pourrait-elle laisser passer sans
+   bouger ? Si tu n'en trouves aucune, tu n'as pas assez cherché.
+
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - **Confondre monitoring et observability** : avoir des alertes ne garantit pas de
   pouvoir comprendre une panne inédite.

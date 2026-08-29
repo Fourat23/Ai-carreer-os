@@ -115,6 +115,69 @@ déterministes — aucun cluster réel.
 - Pourquoi une lecture juste après une écriture peut-elle renvoyer l'ancienne valeur ?
 - Que signifie CAP « pendant une partition » pour une banque vs un fil d'actualité ?
 - Qu'est-ce qu'un split-brain, et quelle idée (conceptuelle) l'empêche ?
+- Un appel réseau renvoie un timeout. Que sais-tu de ce qui s'est passé côté serveur ?
+
+## ✅ Correction attendue
+
+**La démarche.** En système distribué, chaque symptôme « bizarre » ou « aléatoire » est
+en réalité **prévisible** dès qu'on nomme la propriété qui le produit. Le travail
+consiste à remplacer « ça arrive parfois » par « ça arrive quand », puis à décider si
+c'est acceptable **pour ce cas métier précis**.
+
+**L'erreur probable, et elle coûte des doublons de paiement.** Sur la quatrième
+question, la réponse spontanée est : « le serveur n'a pas reçu ma requête, ou n'a pas
+pu la traiter ». La bonne réponse est : **on ne sait rien du tout.**
+
+Un timeout signifie uniquement que **la réponse n'est pas arrivée à temps**. Quatre
+scénarios sont compatibles avec ce silence, et rien ne permet de les distinguer depuis
+l'appelant :
+
+1. la requête n'est jamais arrivée ;
+2. elle est arrivée, le serveur l'a traitée, la réponse s'est perdue ;
+3. elle est arrivée, le serveur la traite encore et finira par la valider ;
+4. le serveur est tombé au milieu du traitement.
+
+Dans les cas 2 et 3, **l'opération a eu lieu.** Réessayer crée un second paiement, une
+seconde commande, un second envoi. C'est le mode de défaillance le plus coûteux du
+métier, et il naît d'une conclusion que le réseau n'autorise pas.
+
+Le piège séduit parce que dans la vie ordinaire, **une absence de réponse signifie une
+absence d'action** : si personne ne répond au téléphone, rien ne s'est passé.
+L'intuition physique est ici trompeuse, et elle est renforcée par le vocabulaire — le
+mot « échec » suggère que quelque chose n'a pas eu lieu, alors qu'il désigne seulement
+notre ignorance.
+
+**La conséquence pratique**, qui est le vrai enseignement de la leçon : puisqu'on ne
+peut pas savoir, on cesse d'essayer de savoir et **on rend l'opération rejouable sans
+dommage**. C'est exactement l'idempotence — une clé d'idempotence sur le paiement, un
+consommateur de file qui ignore un message déjà traité. Non pas pour éviter les
+doublons, mais parce que **les doublons sont inévitables** et qu'il faut qu'ils soient
+sans effet.
+
+**Sur les autres questions.** La lecture périmée après écriture vient du fait que
+l'écriture va au primaire et la lecture à un réplica en retard : ce n'est pas un bug,
+c'est le prix payé pour la disponibilité en lecture. Sous partition, CAP force le
+choix : une banque refuse la transaction (cohérence, on préfère l'indisponibilité à un
+solde faux), un fil d'actualité affiche une version un peu ancienne (disponibilité, un
+post manquant est sans gravité). **Le même arbitrage n'a pas la même bonne réponse
+selon ce qu'on perd.** Et le split-brain — deux moitiés d'un cluster se croyant chacune
+seule maîtresse — s'empêche par le **quorum** : n'agir que si l'on détient la majorité,
+puisque deux majorités ne peuvent pas coexister.
+
+**Alternative défendable.** Plutôt que l'idempotence côté serveur, certains systèmes
+choisissent la **réconciliation différée** : on accepte les doublons, et un traitement
+périodique les détecte et les annule. C'est plus simple à écrire, et c'est la norme dans
+certains domaines financiers où l'annulation existe de toute façon. Le coût est un
+délai pendant lequel l'état est faux, et un utilisateur qui voit deux lignes.
+
+**Vérifie seul, sans corrigé** :
+1. Prends l'appel réseau le plus critique de ton système. Que se passe-t-il exactement
+   si tu le rejoues deux fois ? Écris la réponse ; si tu hésites, c'est déjà un défaut.
+2. Ton code distingue-t-il « erreur 500 » et « timeout » ? La première autorise parfois
+   un retry, la seconde jamais sans idempotence.
+3. Provoque un retard de réplication en local et lis juste après une écriture.
+   Constater la valeur périmée une fois vaut mieux que dix lectures sur la cohérence à
+   terme.
 
 ## 💼 Cas professionnel
 Toute architecture répliquée/partitionnée vit ces phénomènes : incohérences transitoires, doublons au

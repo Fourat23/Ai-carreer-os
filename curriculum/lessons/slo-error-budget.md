@@ -91,6 +91,76 @@ fiabilité. Un SLO tenu à coups de toil n'est pas soutenable.
 Voir la pratique associée : calculer l'error budget restant à partir du SLO et des
 échecs observés.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton service tourne à 99,95 % de succès depuis six mois. Quel SLO poses-tu, et
+   pourquoi ?
+2. Un SLO à 99,9 % sur 30 jours : combien de minutes d'indisponibilité cela autorise-t-il ?
+   Refais le calcul pour 99,99 %.
+3. L'error budget du mois est intact au 28 du mois. Bonne ou mauvaise nouvelle ?
+4. Ton SLI est « le taux de réponses HTTP 2xx ». Nomme une panne totale du point de vue
+   de l'utilisateur que cet indicateur ne verrait pas.
+
+## ✅ Correction attendue
+
+**La démarche.** Un SLO n'est pas une mesure, c'est une **décision** : le niveau de
+fiabilité en dessous duquel on arrête de livrer des nouveautés. Il se pose donc en
+partant de ce dont les utilisateurs ont besoin et de ce que l'entreprise est prête à
+payer — jamais en partant de ce que le graphique affiche.
+
+**L'erreur probable : poser le SLO au niveau qu'on atteint déjà.** « On fait 99,95 %,
+donc notre SLO est 99,95 %. » C'est la réponse la plus fréquente et elle vide
+l'exercice de tout contenu, de deux façons à la fois.
+
+D'abord, **elle ne décide de rien.** Un SLO égal à la performance actuelle produit un
+budget nul en pratique : le moindre incident le dépasse, l'équipe gèle ses livraisons,
+et comme ce gel est intenable, on finit par ignorer le SLO. Un indicateur qu'on ignore
+est pire qu'aucun indicateur, parce qu'il donne l'illusion d'un garde-fou.
+
+Ensuite, **elle inverse le raisonnement.** Le SLO est censé dire « voilà ce dont nos
+utilisateurs ont besoin », ce qui permet ensuite de constater qu'on fait mieux — et
+donc qu'on peut dépenser cette marge en vélocité. Le poser sur la mesure, c'est
+transformer une cible en description, et perdre exactement l'information qui rendait
+l'outil utile : **de combien de marge dispose-t-on ?**
+
+Le piège séduit parce que la mesure est le seul chiffre disponible, et qu'il paraît
+objectif — donc défendable en réunion. Choisir 99,5 % quand on fait 99,95 % demande
+d'assumer devant sa hiérarchie qu'on s'autorise à faire moins bien qu'aujourd'hui. La
+bonne réponse est presque toujours **un SLO strictement inférieur à la performance
+observée**, et l'écart est précisément ce qu'on a le droit de dépenser.
+
+**Sur les autres questions.** 30 jours font 43 200 minutes ; 0,1 % en fait **43,2**, et
+0,01 % en fait **4,3** — passer de trois à quatre neufs divise le budget par dix et
+multiplie le coût d'ingénierie bien davantage. C'est le calcul qui rend concrète la
+phrase « viser 100 % est ruineux ».
+
+Un budget **intact au 28 du mois** est une mauvaise nouvelle, et c'est le point le plus
+contre-intuitif de la leçon : cela signifie qu'on a été plus prudent que nécessaire.
+Le budget n'est pas une réserve de sécurité à préserver, c'est une **autorisation de
+dépense** — de la vélocité qu'on n'a pas prise, des livraisons qu'on n'a pas faites,
+des risques utiles qu'on a refusés. Un budget systématiquement inutilisé signale un SLO
+mal posé, trop bas ou trop haut selon le cas.
+
+Enfin, un SLI fondé sur les `2xx` rate une panne totale évidente : **l'API qui répond
+`200` avec un corps vide, ou avec une page d'erreur.** Elle rate aussi la lenteur — une
+réponse correcte en 30 secondes est un `2xx`. C'est pourquoi un bon SLI combine
+presque toujours succès **et** latence : « % de requêtes réussies **sous 300 ms** ».
+
+**Alternative défendable.** Pour un service interne, un produit jeune ou un outil sans
+engagement contractuel, ne pas poser de SLO du tout est une position tenable — mieux
+vaut aucun SLO qu'un SLO décoratif que personne n'applique. Ce qui n'est pas défendable
+est d'en afficher un et de continuer à livrer quand il est épuisé : cela apprend à
+l'équipe que les indicateurs sont négociables, et cette leçon-là se retient.
+
+**Vérifie seul, sans corrigé** :
+1. Calcule le budget en minutes de ton SLO actuel. Si tu ne connais pas ton SLO, c'est
+   la réponse.
+2. Regarde le dernier mois : le budget a-t-il été consommé ? Si non, qu'as-tu refusé de
+   livrer et pourquoi ?
+3. Demande à ton SLI : quelle panne visible par un utilisateur le laisserait vert ?
+   Écris-la. C'est ton prochain indicateur.
+
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - **Viser 100 %** : impossible, ruineux, et cache que la vraie question est « combien
   de neuf a-t-on VRAIMENT besoin ? ».

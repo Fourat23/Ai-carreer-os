@@ -157,6 +157,17 @@ d'un coup : quelle couche pèse, et quelle couche est recalculée trop souvent. 
 devrait optimiser un Dockerfile sans avoir lu cette sortie — sinon on optimise ce qu'on
 imagine, pas ce qui coûte.
 
+**Variante qui déplace le problème.** Ton Dockerfile est parfaitement ordonné, et pourtant
+le cache ne sert à rien : chaque construction repart de zéro. La cause n'est pas dans le
+fichier — c'est que la construction tourne sur un agent d'intégration continue **neuf à
+chaque fois**, qui ne possède aucune couche antérieure. Toute la règle « ce qui change
+rarement en haut » suppose un cache local qui, là, n'existe pas. Il faut alors le fournir
+explicitement : un cache de construction partagé, ou une image de base intermédiaire
+construite à part et publiée. Le raisonnement à emporter dépasse Docker : **une optimisation
+repose toujours sur une hypothèse d'environnement, et elle disparaît en silence quand
+l'hypothèse cesse d'être vraie.** Avant d'accuser un réglage, demande-toi si la machine qui
+exécute ressemble encore à celle pour laquelle tu as optimisé.
+
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
 

@@ -156,6 +156,19 @@ le symptôme : un processus lancé à la main avait survécu à la fermeture du 
 processus règle l'instant ; lui donner un vrai gestionnaire de service, qui sait le démarrer,
 l'arrêter proprement et le relancer, règle la catégorie.
 
+**Variante qui déplace le problème.** Même symptôme, mais `ss -ltnp` ne montre **aucun**
+processus sur le port 3000 — et pourtant l'application refuse de démarrer avec la même
+erreur. Le raisonnement précédent ne mord plus, puisqu'il n'y a personne à tuer. Deux causes
+possibles, et toutes deux instructives. Soit le processus appartient à un autre utilisateur
+et tu ne vois pas son nom faute de droits — `ss` n'affiche que ce qu'il a le droit de
+montrer, et une sortie vide peut signifier « rien » comme « rien de visible par toi ». Soit
+il n'y a réellement plus de processus, mais une connexion précédente occupe encore le port
+dans un état d'attente le temps que le système s'assure qu'aucun paquet retardataire ne
+traîne ; le port se libère alors tout seul après un délai, et l'option de réutilisation
+d'adresse existe précisément pour ce cas. **Une absence dans une sortie de commande n'est
+pas une preuve d'absence dans le système** — c'est la première question à se poser quand un
+outil de diagnostic ne montre rien.
+
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
 

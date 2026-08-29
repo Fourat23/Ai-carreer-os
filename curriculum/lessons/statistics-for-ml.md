@@ -133,6 +133,15 @@ la queue de distribution des mauvaises réponses, compter par question et non pa
 et se méfier d'un score global qui s'améliore pendant qu'une catégorie de questions se
 dégrade.
 
+**Variante qui déplace le problème.** Tu corriges la latence, et le p99 passe de 955 ms à
+120 ms. Victoire ? Regarde d'abord **qui a disparu de la mesure**. Si les requêtes les plus
+lentes expiraient avant d'être enregistrées, elles n'ont jamais figuré dans ta distribution :
+en accélérant le service, tu as peut-être simplement fait entrer dans les statistiques des
+requêtes qui en étaient exclues — ou l'inverse. C'est le biais du survivant, et il ne se
+détecte par aucun calcul sur les données présentes, seulement en se demandant **comment
+elles ont été collectées**. La question à poser avant toute analyse, et qu'aucune
+statistique ne posera à ta place : *qui manque dans cet échantillon, et pourquoi ?*
+
 ## ⚠️ Erreurs fréquentes
 - Résumer une distribution asymétrique par sa moyenne.
 - Conclure une causalité d'une corrélation (sans chercher les confondants).

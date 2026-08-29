@@ -47,9 +47,53 @@ parce que : (1) la moyenne cache la queue ; (2) un utilisateur fait souvent plus
 requêtes — la probabilité qu'AU MOINS UNE tombe dans les 1 % lents est élevée. Règle :
 on parle de latence en p95/p99, pas en moyenne.
 
+**Comment on calcule un percentile, concrètement.** Trois gestes, et aucune formule à
+retenir :
+
+1. **Trier** les mesures de la plus petite à la plus grande.
+2. **Compter** combien il faut en garder : pour le pXX de `n` mesures, c'est le rang
+   `XX % × n`, arrondi au supérieur.
+3. **Lire** la valeur à ce rang.
+
+Sur douze latences en millisecondes — `40 45 50 50 55 60 60 70 90 120 400 900` (déjà
+triées) :
+
+| | rang | valeur |
+|---|---|---|
+| **p50** | 50 % × 12 = 6 | **60 ms** |
+| **p95** | 95 % × 12 = 11,4 → 12 | **900 ms** |
+
+On lit donc : la moitié des requêtes répondent en 60 ms ou moins, et 5 % dépassent…
+eh bien, il n'y en a qu'une au-dessus du rang 11, donc le p95 tombe sur la plus
+lente. **Avec douze mesures, le p95 n'a presque aucun sens** : il désigne une seule
+requête. C'est la première chose à vérifier devant un percentile — *combien de
+mesures y a-t-il derrière ?* Un p99 calculé sur 50 requêtes ne décrit rien.
+
+Les outils de monitoring emploient parfois une interpolation entre les deux valeurs
+qui encadrent le rang, ce qui donne un nombre légèrement différent. Cela ne change ni
+la lecture ni les décisions ; ne t'en préoccupe que si tu compares deux outils entre
+eux.
+
 **Exemple chiffré (la moyenne ment).** 100 requêtes : 99 à 50 ms, 1 à 5 000 ms.
-Moyenne ≈ 100 ms (« ça va »). p99 = 5 000 ms (« un utilisateur sur cent attend 5 s »).
-Le p99 dit la vérité que la moyenne cache.
+Moyenne ≈ 100 ms (« ça va »), alors qu'**aucune requête réelle n'a jamais pris
+100 ms** : la moyenne décrit une expérience que personne n'a vécue. C'est le premier
+enseignement.
+
+Le second est plus subtil, et c'est celui sur lequel presque tout le monde se trompe.
+Applique les trois gestes : rang du p99 = 99 % × 100 = 99, et la 99ᵉ valeur triée
+vaut **50 ms**. Donc **p99 = 50 ms**, pas 5 000. La requête à 5 000 ms est la
+centième : c'est le **maximum**, le p100.
+
+Autrement dit : sur cet échantillon, **même le p99 ne voit pas le problème.** Un seul
+utilisateur sur cent souffre, et il faut regarder le maximum — ou compter les
+requêtes au-dessus d'un seuil — pour le découvrir. Retiens la règle générale : **un
+percentile ne peut pas révéler un incident qui touche moins de requêtes que sa propre
+marge.** Le p99 est aveugle en dessous de 1 %.
+
+Change une seule chose et tout bascule : si **cinq** requêtes sur cent prennent
+5 000 ms, alors le rang du p99 est toujours 99, mais les valeurs 96 à 100 valent
+désormais 5 000 — et p99 = 5 000 ms. Le p95, lui, vaut encore 50 ms. Le percentile
+qui « voit » un problème dépend directement de la fraction d'utilisateurs touchés.
 
 **Trois cadres pour ne rien oublier.**
 - **RED** (pour les services orientés requêtes) : **R**ate (trafic), **E**rrors,
@@ -68,23 +112,100 @@ l'intérêt de comparer AVANT/APRÈS, pas de juger dans l'absolu.
 **goulot d'étranglement** (bottleneck). Le **profiling** mesure où le CPU/le temps
 est réellement dépensé DANS le code. On optimise le goulot, pas au hasard.
 
+**La cardinalité, ou pourquoi on ne peut pas tout étiqueter.** Une métrique porte des
+**étiquettes** (labels) qui permettent de la découper : latence *par endpoint*, *par
+code de statut*, *par région*. La **cardinalité** est le nombre de combinaisons
+distinctes d'étiquettes — et le système de monitoring stocke **une série temporelle
+par combinaison**. Trois endpoints × quatre statuts × deux régions = 24 séries :
+tranquille.
+
+Le piège apparaît quand on ajoute une étiquette dont les valeurs sont nombreuses.
+Étiqueter la latence par `user_id` sur 100 000 utilisateurs crée 100 000 séries par
+combinaison des autres étiquettes. Le stockage explose, les requêtes ralentissent,
+et le système de monitoring devient lui-même l'incident. La règle : **une étiquette
+doit avoir peu de valeurs possibles, et ces valeurs doivent être connues d'avance.**
+Identifiants, adresses, chemins d'URL complets, messages d'erreur : jamais en
+étiquette. Pour retrouver un cas individuel, ce sont les **traces** et les **logs**
+qui servent, pas les métriques.
+
 ## 🔎 Décomposition
 - métrique = un nombre dans le temps ; moyenne = résumé trompeur si distribution
   asymétrique.
-- p50 = typique ; p95/p99 = la queue qui fait mal.
+- percentile = trier, rang `XX % × n` arrondi au supérieur, lire la valeur.
+- p50 = typique ; p95/p99 = la queue qui fait mal ; **le p99 est aveugle sous 1 %**.
 - RED (requêtes), USE (ressources), Golden Signals = check-lists de couverture.
 - baseline = la normale ; régression = écart significatif vs baseline.
+- cardinalité = nombre de séries créées par les étiquettes ; elle borne ce qu'on a le
+  droit de mesurer.
+
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction. Aucune de ces réponses n'est dans le texte
+ci-dessus telle quelle.
+
+1. Un service traite 200 requêtes par minute. Son tableau de bord affiche un p99 par
+   minute. Que vaut ce nombre, et pourquoi ?
+2. Ton p95 et ton p99 sont tous deux égaux à 2 000 ms, et ton maximum aussi. Qu'est-ce
+   que cela t'apprend sur la forme de la distribution ?
+3. On te demande d'ajouter une étiquette `pays` (une trentaine de valeurs) puis une
+   étiquette `session_id`. Laquelle acceptes-tu, et qu'arrive-t-il si tu acceptes
+   l'autre ?
+4. Une release fait passer le p50 de 60 à 65 ms et le p99 de 6 000 à 900 ms. Est-ce
+   une amélioration ? Pour qui ?
 
 ## 🛠 Exemple guidé — « la moyenne est bonne, les clients râlent »
-1. Moyenne latence : 120 ms → semble OK.
-2. On regarde les percentiles : p50 = 60 ms, p95 = 400 ms, **p99 = 6 000 ms**.
-3. Diagnostic : la queue est catastrophique — 1 % des requêtes sont inutilisables.
-4. Trace sur une requête p99 (cf. tracing) : le temps part dans un appel non mis en
-   cache. On cible CE goulot, mesuré, pas une optimisation au hasard.
+
+**La situation.** Le tableau de bord affiche « latence moyenne : 120 ms », stable
+depuis des mois. Le support remonte chaque semaine des plaintes de lenteur, jamais
+reproductibles. Les deux camps ont raison et personne ne se comprend.
+
+**Première tentative, celle que tout le monde fait.** On ouvre le code de l'endpoint
+le plus appelé et on cherche ce qui pourrait être lent. On trouve une requête SQL sans
+index, on l'indexe, on déploie. Une semaine plus tard : moyenne à 118 ms, et les
+plaintes continuent, identiques.
+
+**Ce que cette tentative a coûté, et pourquoi elle était raisonnable.** Une semaine,
+et surtout la conviction d'avoir agi. Elle était raisonnable parce qu'on a bien trouvé
+un vrai défaut et bien fait une vraie correction. Le problème est ailleurs : **on n'a
+jamais vérifié que ce défaut était CELUI dont se plaignaient les utilisateurs.** On a
+optimisé ce qu'on savait trouver, pas ce qui faisait mal.
+
+**On repart de la mesure.** Les percentiles, cette fois :
+
+```
+p50 =  60 ms      p95 = 400 ms      p99 = 6 000 ms
+```
+
+**Ce que ces trois nombres disent, lus ensemble.** Le p50 à 60 ms confirme que le cas
+courant va bien — l'index n'a rien cassé. Le p95 à 400 ms montre que la dégradation
+commence bien avant la queue extrême. Le p99 à 6 000 ms dit qu'une requête sur cent
+est inutilisable.
+
+Et la moyenne à 120 ms ? Elle se situe **entre le p50 et le p95**, dans une zone où
+presque aucune requête ne tombe. Elle ne décrivait aucun utilisateur. C'est pour cela
+qu'elle ne bougeait pas quand on corrigeait, et pour cela qu'elle était stable et
+rassurante.
+
+**L'observation qui change le diagnostic.** Une requête sur cent semble négligeable —
+1 % d'utilisateurs mécontents. Mais une page déclenche typiquement vingt appels. La
+probabilité qu'aucun des vingt ne tombe dans le mauvais 1 % est `0,99²⁰ ≈ 0,82`.
+**Un chargement de page sur cinq contient donc au moins une requête à 6 secondes.**
+Le « 1 % » des requêtes est 18 % des sessions. Voilà pourquoi le support voit ce que
+le tableau de bord ne voit pas.
+
+**On cible, maintenant qu'on sait où.** Une trace sur une requête effectivement lente
+(pas sur une prise au hasard) montre où part le temps. On corrige ce goulot-là, puis
+**on re-mesure le p99, pas la moyenne** — c'est le nombre qui doit bouger.
+
+**L'enseignement qui dépasse le cas.** Une métrique n'est pas un score, c'est une
+question posée aux données. « Quelle est la latence moyenne ? » est une mauvaise
+question : elle a toujours une réponse et cette réponse ne décide de rien. « Quelle
+est la pire latence que subit un utilisateur sur vingt, et combien de fois par
+session ? » est une bonne question. Change la question avant de changer le code.
 
 ## 🧪 Mise en pratique
-Voir la pratique associée : calculer p50/p95/p99 d'un échantillon, rendre un verdict
-de régression vs baseline, repérer un signal d'observabilité manquant.
+Calculer p50/p95/p99 d'un échantillon avec les trois gestes ci-dessus (trier, rang,
+lire), rendre un verdict de régression vs baseline, repérer un signal d'observabilité
+manquant. Voir la pratique associée.
 
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - **Juger la latence à la moyenne** → on rate la queue (p95/p99).
@@ -109,12 +230,62 @@ index) : p99 divisé par 10, churn en baisse. La moyenne ne l'aurait jamais mont
   si la métrique revient.
 - **Prévenir** : porte de perf en CI (comparer à la baseline), alerte sur p95/p99.
 
+## ✅ Correction attendue
+
+**La démarche.** Trier, calculer le rang, lire la valeur. Puis, avant toute
+interprétation, se demander **sur combien de mesures** le percentile est calculé et
+**quelle fraction d'utilisateurs** il laisse hors de son champ.
+
+**L'erreur probable, et elle survit à des années de carrière.** Devant l'échantillon
+« 99 requêtes à 50 ms, 1 à 5 000 ms », la réponse spontanée est `p99 = 5 000 ms`. Elle
+est fausse : le p99 vaut 50 ms, et 5 000 ms est le maximum.
+
+Le piège séduit pour une raison précise, et il faut la nommer parce qu'elle ne
+disparaît pas toute seule : **on entend « p99 » comme « le pire centième », alors que
+la définition dit « la valeur que 99 % ne dépassent pas ».** Ce sont deux bornes
+opposées du même intervalle. La formulation courante « le p99, c'est ce que vivent
+les 1 % les plus malchanceux » entretient la confusion — elle est utile comme image et
+fausse comme définition.
+
+**Comment reconnaître le problème la prochaine fois.** Un réflexe suffit : *le pXX est
+toujours l'une des valeurs de l'échantillon, et c'est toujours l'une des plus grandes
+— mais jamais la plus grande, sauf si XX % × n arrondi tombe sur le dernier rang.*
+Si ton p99 est égal à ton maximum, tu as soit trop peu de mesures, soit une queue plus
+épaisse que 1 %.
+
+**Alternative défendable au pilotage par percentiles.** Compter les requêtes au-dessus
+d'un **seuil absolu** — « combien de requêtes ont dépassé 1 seconde aujourd'hui ? ».
+C'est moins élégant, mais cela répond directement à la question métier, cela reste
+lisible avec peu de trafic, et cela ne devient pas aveugle sous 1 % comme le p99. Les
+budgets d'erreur des SLO fonctionnent exactement ainsi. Les deux approches se
+complètent : le percentile pour la tendance, le comptage au seuil pour l'engagement.
+
+**Vérifie seul, sans corrigé** :
+1. Reprends tes douze latences et calcule le p90 à la main. Puis retire la valeur à
+   900 ms et recalcule. Si le p90 ne bouge pas, tu as compris pourquoi les percentiles
+   élevés sont instables sur de petits échantillons.
+2. Prends le p99 de ton service. Combien de requêtes y a-t-il derrière sur la fenêtre
+   affichée ? Si c'est moins de quelques centaines, ce nombre est du bruit — et
+   pourtant il est affiché avec trois décimales.
+3. Sur ton tableau de bord : la moyenne tombe-t-elle entre ton p50 et ton p95 ? Si
+   oui, elle ne décrit aucune requête réelle, et tu peux la retirer de l'écran.
+4. Un incident touche 0,3 % des requêtes. Lequel de tes indicateurs actuels le
+   verrait ? Si la réponse est « aucun », c'est le trou à combler.
+
 ## 🎤 Questions d'entretien
-- « Pourquoi la moyenne trompe-t-elle ? » → elle écrase la queue ; p95/p99 révèlent
-  les cas graves.
-- « Que signifie p99 = 800 ms ? » → 99 % des requêtes sous 800 ms, 1 % au-dessus.
-- « RED vs USE ? » → signaux orientés requêtes (Rate/Errors/Duration) vs ressources
-  (Utilization/Saturation/Errors).
+- « Pourquoi la moyenne trompe-t-elle ? » → Parce qu'une distribution de latences est
+  asymétrique : la moyenne tombe entre la masse et la queue, dans une zone où presque
+  aucune requête ne se trouve. Elle décrit une expérience que personne ne vit.
+- « Que signifie p99 = 800 ms ? » → Que 99 % des requêtes répondent en 800 ms ou
+  moins. Ce n'est PAS la latence des 1 % restants : celle-là peut valoir n'importe
+  quoi au-dessus, et seul le maximum la borne.
+- « Un utilisateur sur cent est lent, est-ce grave ? » → Presque toujours oui, parce
+  qu'une page enchaîne des dizaines de requêtes : 1 % des requêtes fait couramment
+  15 à 20 % des sessions dégradées. Les taux par requête et par session sont deux
+  choses différentes.
+- « RED vs USE ? » → Rate/Errors/Duration décrit un service vu de l'extérieur ;
+  Utilization/Saturation/Errors décrit une ressource vue de l'intérieur. On a besoin
+  des deux : le premier dit qu'on souffre, le second dit pourquoi.
 
 ## ✅ À retenir
 - La moyenne ment sur les distributions asymétriques : piloter en p95/p99.

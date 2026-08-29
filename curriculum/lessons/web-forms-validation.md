@@ -113,6 +113,76 @@ champ nommé et cliquable ; `aria-describedby` relie un message d'erreur que l'o
 `checkValidity()` échoue. À la soumission, on `preventDefault`, on laisse le navigateur signaler les
 erreurs, puis on envoie — et le serveur re-valide. Rien n'est recodé inutilement, tout est accessible.
 
+**Reste à savoir ce que cette validation native garantit exactement.** C'est là que se
+prennent les décisions, et la seule façon honnête de trancher est de mesurer. Voici ce que
+Chromium accepte réellement pour ce champ `type="email"` :
+
+| saisie | verdict du navigateur |
+|---|---|
+| `alice@exemple.fr` | accepté |
+| `a@b` | **accepté** |
+| `alice@exemple` (sans extension) | **accepté** |
+| `alice@127.0.0.1` | accepté |
+| `alice+promo@exemple.fr` | accepté |
+| `  alice@exemple.fr  ` | accepté — les espaces autour sont supprimés |
+| `alice@@exemple.fr` | refusé |
+| `alice@exemple..fr` | refusé |
+| `"a b"@exemple.fr` | **refusé**, alors que cette forme est valide selon la norme |
+
+**Décision 1 — que fait-on de ça ?** Deux conclusions opposées circulent, et les deux sont
+fausses. « `type="email"` ne sert à rien puisqu'il laisse passer `a@b` » : faux, il attrape
+les vraies fautes de frappe, déclenche le bon clavier sur mobile et affiche un message
+traduit, gratuitement. « `type="email"` valide l'adresse » : faux aussi, il vérifie une
+**forme**, pas une existence. La bonne lecture est qu'il n'y a rien à durcir ici : aucune
+expression régulière ne dira si une boîte aux lettres existe. La seule vérification qui
+compte est **l'envoi d'un message de confirmation**, et elle n'appartient ni au navigateur
+ni même au formulaire. Beaucoup d'équipes passent des heures sur une regex d'e-mail
+« parfaite » — qui, au passage, rejette des adresses légitimes comme la dernière ligne du
+tableau — au lieu d'implémenter la seule chose qui tranche.
+
+**Décision 2 — le piège que personne n'attend.** Ajoute un champ quantité :
+
+```html
+<input id="quantite" name="quantite" type="number" min="1" max="10" />
+```
+
+Mesuré dans le même navigateur : saisir `0` est refusé, `11` est refusé, `3,5` est refusé —
+et saisir `abc` est **accepté**. Ce n'est pas un bug : quand le contenu n'est pas un nombre,
+le navigateur considère le champ comme vide, `input.value` vaut `""`, et un champ vide sans
+`required` est parfaitement valide. Le danger est dans la suite du code : `Number("")` vaut
+`0`. Une saisie absurde traverse donc la validation, puis devient une quantité de zéro sans
+que rien n'ait signalé quoi que ce soit. La parade tient en deux gestes — mettre `required`,
+et lire `input.valueAsNumber` (qui vaut `NaN`, donc se trahit) plutôt que `input.value`.
+Retiens surtout la méthode : **un champ valide n'est pas un champ rempli**, et la seule
+manière de le savoir était d'essayer.
+
+**Décision 3 — le message d'erreur est-il perçu par tout le monde ?** Afficher le
+paragraphe `#mail-err` en rouge ne suffit pas : un utilisateur de lecteur d'écran, dont le
+curseur est resté dans le champ, n'apprend rien. Il faut deux choses, et elles sont
+indépendantes. `aria-describedby` — déjà présent dans le balisage ci-dessus — fait lire le
+message **quand on entre dans le champ**. `aria-invalid="true"`, posé au moment de l'échec,
+fait annoncer que le champ est en erreur. Sans le second, le message existe mais rien
+n'indique qu'il y a un problème ; sans le premier, on sait qu'il y a un problème mais pas
+lequel. Et la couleur ne peut jamais porter l'information seule — c'est aussi pourquoi le
+message est du texte, pas seulement une bordure rouge.
+
+**Décision 4 — et le bouton d'envoi désactivé tant que tout n'est pas valide ?** C'est une
+idée séduisante et généralement mauvaise. L'utilisateur qui ne comprend pas pourquoi rien ne
+se passe n'a aucun moyen de le découvrir : un bouton désactivé n'explique rien, ne reçoit pas
+le focus au clavier dans plusieurs navigateurs, et ne déclenche aucun message. Laisse le
+bouton actif, laisse la tentative d'envoi échouer, et affiche les erreurs — toutes, pas
+seulement la première. **Un refus doit être une information, pas un mur silencieux.**
+
+**Variante qui déplace le problème.** Le formulaire passe la validation, part au serveur, et
+celui-ci répond que l'adresse est déjà utilisée. Aucun attribut HTML ne pouvait le savoir :
+c'est une contrainte qui dépend de l'état de la base, pas de la forme de la saisie. Il faut
+donc que le serveur puisse renvoyer ses erreurs **dans le même vocabulaire que le
+formulaire** — un code, un message, et le nom du champ concerné — pour que l'interface les
+affiche exactement au même endroit que les erreurs natives. C'est le point de rencontre avec
+la conception d'API : si le serveur répond une phrase libre, le formulaire ne peut que
+l'afficher en haut de page, loin du champ fautif, et la qualité de l'expérience s'effondre
+sur le dernier mètre.
+
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
 

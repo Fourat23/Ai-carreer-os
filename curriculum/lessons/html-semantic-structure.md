@@ -113,6 +113,74 @@ dans un `<nav>` nommé ; l'article est autonome avec son propre titre `<h2>` sou
 page. Résultat : navigable au clavier, compréhensible par un lecteur d'écran, lisible par Google
 — **avant même** d'avoir écrit une ligne de CSS.
 
+**Jusqu'ici, c'est une affirmation. Voici comment la vérifier — et ce que ça coûte de se
+tromper.** Ajoutons un bouton d'action à cette page. Deux versions, visuellement identiques
+une fois stylées :
+
+```html
+<div onclick="envoyer()" class="bouton">Envoyer</div>
+<button onclick="envoyer()">Envoyer</button>
+```
+
+Mesuré dans un navigateur, sur les mêmes deux éléments :
+
+| | `<div onclick>` | `<button>` |
+|---|---|---|
+| compté comme bouton par les aides techniques | **non** | oui |
+| `tabIndex` | **−1** | 0 |
+| atteignable par la touche Tab | **non** | oui |
+| se déclenche avec Entrée puis Espace | **0 fois sur 2** | 2 fois sur 2 |
+| se déclenche au clic souris | oui | oui |
+
+Le `<div>` fonctionne parfaitement — pour qui utilise une souris et voit l'écran. Pour tous
+les autres, ce bouton **n'existe pas**. Et c'est un bug qu'aucun test manuel ordinaire ne
+révèle, puisque celui qui teste clique dessus.
+
+**Décision 1 — « je vais le réparer ».** C'est le raisonnement qu'il faut suivre jusqu'au
+bout, parce que c'est celui que tout le monde tient. Ajoute `tabindex="0"` : l'élément
+devient atteignable. Ajoute `role="button"` : il est annoncé comme un bouton. Ajoute un
+gestionnaire `keydown` qui filtre Entrée **et** Espace, en pensant à `preventDefault` sur
+Espace pour que la page ne défile pas. Il reste encore : l'état désactivé (`disabled`
+empêche vraiment le déclenchement, `aria-disabled` ne fait que l'annoncer), la soumission
+d'un formulaire par la touche Entrée, le comportement en mode contraste élevé. Tu as écrit
+une dizaine de lignes pour réobtenir, imparfaitement, ce que six caractères donnaient. **Le
+HTML sémantique n'est pas une bonne pratique morale : c'est du comportement déjà écrit,
+testé et cohérent entre navigateurs.** La question à se poser n'est donc jamais « quelle
+balise a la bonne apparence ? » mais « quelle balise a le bon comportement ? » — l'apparence,
+c'est le rôle du CSS, et un `<button>` se restyle entièrement.
+
+**Décision 2 — le contre-piège, et il attrape ceux qui ont compris la leçon trop vite.**
+Ayant appris que `<div>` n'est pas sémantique, on remplace machinalement tous ses `<div>` par
+des `<section>`. Mesure du résultat : sur une page contenant un `<div>`, une `<section>` nue
+et une `<section aria-label="Résultats">`, les outils ne trouvent **qu'une seule** région —
+la troisième. Une `<section>` sans nom accessible n'apporte strictement rien de plus qu'un
+`<div>` ; elle est seulement plus longue à écrire. Le sens ne vient pas du nom de la balise,
+il vient de ce que la balise **permet d'affirmer**, et une section anonyme n'affirme rien.
+Le bon réflexe : garder `<div>` quand on regroupe pour styler — c'est exactement son rôle,
+et il est légitime — et n'employer `<section>` que lorsqu'on peut lui donner un titre.
+
+**Décision 3 — les niveaux de titre ne sont pas des tailles.** Le sous-titre paraît trop
+gros, on passe de `<h2>` à `<h4>`. Visuellement, c'est réglé. Structurellement, on vient de
+créer un trou : la page annonce un niveau 4 sans niveau 3, et l'utilisateur qui navigue de
+titre en titre — un mode de lecture courant avec un lecteur d'écran — perd le fil de la
+hiérarchie. Les titres forment un **plan**, comme celui d'un mémoire ; leur numéro dit la
+profondeur, pas la taille de la police. La taille, elle, se règle en CSS, et il faut le dire
+franchement : c'est une ligne de CSS contre une structure de document cassée.
+
+**Le test qui ne coûte rien.** Range ta souris et parcours ta page à la touche Tab.
+Peux-tu atteindre chaque chose cliquable ? Vois-tu toujours où tu es ? Arrives-tu à valider
+avec Entrée ? Trois minutes, aucune installation, et ce test attrape la majorité des défauts
+de ce genre — y compris ceux que les outils automatiques ne signalent pas, comme un focus
+invisible parce qu'un `outline: none` traîne dans la feuille de style.
+
+**Variante qui déplace le problème.** Ton menu déroulant est fait de vrais `<button>` et
+d'une vraie liste, tout est sémantique — mais quand il s'ouvre, rien n'annonce qu'il est
+ouvert, et la touche Échap ne le ferme pas. Ici, aucune balise HTML ne porte la notion
+« déployé ou replié » : il faut la déclarer soi-même avec `aria-expanded`, et gérer le
+clavier. C'est la limite honnête de la sémantique native — elle couvre les éléments, pas
+les comportements composés. La règle qui en découle vaut pour toute la suite : utilise ce
+que le HTML sait faire, et n'écris à la main que ce qu'il ne sait pas.
+
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
 

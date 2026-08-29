@@ -123,6 +123,85 @@ Remarque la double étape manuelle (état PUIS DOM). Imagine dix affichages dép
 `compteur` : tu devrais penser à les dix à chaque clic. C'est exactement ce que le rendu
 déclaratif automatise.
 
+**Maintenant, passe à une liste — et le raccourci évident se retourne contre toi.** Une
+liste de tâches, chacune avec un champ modifiable. À chaque changement, on redessine :
+
+```js
+liste.innerHTML = taches
+  .map((t) => `<li><input value="${t.titre}"><button>ok</button></li>`)
+  .join('');
+```
+
+Une ligne, ça marche du premier coup, et c'est ce que tout le monde écrit. Voici ce qui se
+passe réellement quand l'utilisateur est en train de taper dans un champ et que la liste se
+rafraîchit — mesuré dans un navigateur :
+
+```
+avant le rafraîchissement : le champ contient le texte que l'utilisateur vient de taper,
+                            le curseur y clignote
+après le rafraîchissement : le champ a repris son ancienne valeur, le focus a disparu
+```
+
+Sa saisie est perdue. Le même test avec des nœuds réutilisés plutôt que recréés la conserve.
+
+**Décision 1 — comprendre avant de contourner.** Le réflexe est de sauvegarder la valeur
+avant, de la restaurer après. Mauvaise piste : il faudrait aussi restaurer le focus, la
+position du curseur, la sélection, le défilement, l'état ouvert/fermé de chaque menu… La
+liste des choses à restaurer n'a pas de fin, parce que le problème n'est pas la valeur du
+champ. Écrire dans `innerHTML` **détruit les anciens nœuds et en crée de nouveaux** : ce ne
+sont plus les mêmes objets, seulement des objets qui se ressemblent. Tout ce que le
+navigateur attachait aux anciens — focus, curseur, valeur saisie, écouteurs d'événements —
+est parti avec eux. Retiens la formulation, elle resservira : ce n'est pas la valeur qui est
+perdue, c'est **l'identité** des éléments.
+
+C'est aussi pourquoi les boutons cessent de réagir si tu avais posé tes `addEventListener`
+avant le rafraîchissement — les boutons visibles à l'écran ne sont plus ceux que tu avais
+écoutés.
+
+**Décision 2 — une faille s'est ouverte au passage.** Une tâche dont le titre est
+`"><img src=x onerror="…">` n'est pas affichée comme du texte : ce titre a été **concaténé
+dans du HTML**, donc le navigateur l'interprète comme du balisage. Le code de l'attaquant
+s'exécute, dans ta page, avec l'accès de ton utilisateur. Un test rapide montre pourquoi ce
+piège attrape même les gens prudents :
+
+| ce qu'on injecte via `innerHTML` | s'exécute ? |
+|---|---|
+| `<script>…</script>` | **non** |
+| `<img src=x onerror="…">` | **oui** |
+| `<iframe srcdoc="…">` | **oui** |
+
+Beaucoup de développeurs testent avec une balise `<script>`, constatent qu'elle ne part pas,
+et concluent qu'`innerHTML` est sûr. Il ne l'est pas : la spécification interdit seulement
+l'exécution des `<script>` insérés ainsi, pas celle des gestionnaires d'événements portés
+par d'autres balises. **Un test négatif sur un seul cas ne démontre rien.**
+
+**Décision 3 — quel correctif ?** Trois candidats. *Échapper à la main* les caractères
+dangereux : à éviter, c'est un exercice où l'on perd toujours contre plus inventif que soi.
+*Une bibliothèque d'assainissement* : légitime quand on doit vraiment accepter du HTML riche
+(un éditeur de texte), coûteux et inutile ici. *Ne jamais faire passer une donnée par du
+HTML* : `element.textContent = t.titre` place la chaîne comme du **texte**, quelle que soit
+sa forme — vérifié, le titre malveillant s'affiche alors littéralement, tel quel, sans rien
+exécuter. C'est le bon choix par défaut, et il est plus simple que les deux autres.
+
+La règle générale est celle-ci : `innerHTML` sert à poser du balisage que **tu** as écrit ;
+dès qu'une donnée venue d'ailleurs entre dans la page, elle passe par `textContent` ou par
+un attribut, jamais par une concaténation de chaînes.
+
+**Le lien avec la suite du programme.** Réunis les deux problèmes : il faut mettre à jour
+l'affichage sans détruire les nœuds existants, donc savoir lesquels réutiliser, donc pouvoir
+dire « cet élément affiché correspond à cette donnée ». Tu viens de reconstituer, à la main,
+le problème que résolvent les bibliothèques de rendu déclaratif — et tu comprendras
+pourquoi React réclame une `key` sur chaque élément de liste : c'est précisément la réponse
+à la question d'identité que `innerHTML` évacue en détruisant tout.
+
+**Variante qui déplace le problème.** Ta liste ne fait plus deux lignes mais deux mille, et
+tu insères les nouvelles une par une avec `appendChild` dans une boucle. Tout est correct,
+rien n'est détruit — et la page se fige une seconde. Chaque insertion peut obliger le
+navigateur à recalculer la mise en page ; multipliée par deux mille, l'opération devient
+visible. C'est la même leçon qu'en algorithmique : un geste anodin répété est un coût, et la
+parade (préparer les nœuds hors du document, puis les insérer en une fois) consiste à
+réduire le nombre de fois où l'on dérange le navigateur, pas à écrire du code plus malin.
+
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
 

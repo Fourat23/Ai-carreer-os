@@ -103,24 +103,104 @@ Routing (URL = source de vérité de la vue, paramètres, navigation) · `useRed
 d'écran (chargement/vide/erreur/succès) · error boundary · immutabilité (rappel).
 
 ## 🧭 Exemple guidé
-Un écran de recherche complet, avec ses quatre états et un reducer pour l'état de requête :
-```tsx
-type S = { status: 'idle'|'loading'|'error'|'ok'; items: Livre[]; q: string };
-type A = { type: 'search'; q: string } | { type: 'ok'; items: Livre[] } | { type: 'error' };
 
-function reducer(s: S, a: A): S {
+Un écran de recherche de livres. Personne ne commence par un reducer — on commence par ça,
+et c'est raisonnable :
+
+```tsx
+const [loading, setLoading] = useState(false);
+const [error, setError]     = useState<string | null>(null);
+const [items, setItems]     = useState<Livre[] | null>(null);
+```
+
+Un testeur remonte un bug étrange : « quand une recherche échoue et que je relance, j'ai mes
+résultats **et** le message d'erreur en même temps ». Le code fautif est celui-ci, et il
+paraît complet :
+
+```tsx
+setLoading(true);
+api.chercher(q)
+  .then((r) => { setItems(r); setLoading(false); })          // on oublie setError(null)
+  .catch((e) => { setError(e.message); setLoading(false); });
+```
+
+**Décision 1 — traiter le symptôme ou la cause ?** Le correctif immédiat est d'ajouter
+`setError(null)` dans le `then`. Il marche. Fais-le, puis pose la vraie question : *combien
+d'autres oublis de ce type le code permet-il ?* Compte les combinaisons. Trois variables
+donnent **huit** états représentables :
+
+| loading | error | items | ce que ça signifie |
+|---|---|---|---|
+| non | non | absent | rien n'a encore été cherché — légitime |
+| oui | non | absent | premier chargement — légitime |
+| non | non | vide | aucun résultat — légitime |
+| non | non | présent | succès — légitime |
+| non | oui | absent | échec — légitime |
+| **non** | **oui** | **présent** | **résultats + erreur : le bug du testeur** |
+| oui | oui | absent | on recharge après un échec — affiche-t-on encore l'erreur ? |
+| oui | non | présent | on recharge en gardant l'ancienne liste — voulu, ou accident ? |
+
+Cinq états ont un sens clair, un est franchement contradictoire, et deux dépendent d'une
+intention que personne n'a écrite nulle part. Le bug n'était pas un oubli isolé : le modèle
+**autorisait** l'incohérence, et il l'autorisera encore la prochaine fois.
+
+**Décision 2 — rendre l'état impossible plutôt que le corriger.** Si les trois informations
+ne peuvent pas varier indépendamment, elles ne doivent pas être trois variables
+indépendantes :
+
+```tsx
+type Etat =
+  | { statut: 'repos' }
+  | { statut: 'chargement' }
+  | { statut: 'erreur'; message: string }
+  | { statut: 'succes'; items: Livre[] };
+```
+
+Quatre états, et l'incohérence n'est plus exprimable : il n'existe aucune valeur de ce type
+portant à la fois un `message` d'erreur et des `items`. Le compilateur refuse même d'écrire
+le bug. Note ce qui vient de se passer — on n'a pas ajouté de garde, on a **retiré la
+possibilité**. C'est le même mouvement que la contrainte en base plutôt que la vérification
+dans le service : le meilleur endroit pour traiter un cas invalide, c'est là où il cesse
+d'exister.
+
+**Décision 3 — a-t-on besoin d'un reducer ?** Non, pas encore, et c'est important : le type
+ci-dessus suffit à supprimer le bug, avec un simple `useState<Etat>`. Le reducer devient
+utile quand les transitions elles-mêmes ont des règles — « on ne peut pas relancer une
+recherche pendant un chargement », « une annulation ne s'applique que si l'on chargeait » —
+parce qu'il rassemble ces règles en une fonction pure, lisible d'un seul tenant et testable
+sans monter le moindre composant :
+
+```tsx
+function reducer(e: Etat, a: Action): Etat {
   switch (a.type) {
-    case 'search': return { ...s, status: 'loading', q: a.q };
-    case 'ok':     return { ...s, status: 'ok', items: a.items };
-    case 'error':  return { ...s, status: 'error' };
+    case 'chercher': return e.statut === 'chargement' ? e : { statut: 'chargement' };
+    case 'succes':   return { statut: 'succes', items: a.items };
+    case 'erreur':   return { statut: 'erreur', message: a.message };
   }
 }
-// À l'affichage : status 'loading' -> Spinner ; 'error' -> Erreur+retry ;
-// 'ok' && items.length===0 -> AucunResultat ; sinon -> Liste.
 ```
-Raisonnement : la requête a une logique d'états (idle → loading → ok/error) → un reducer la rend
-lisible et testable. À l'affichage, on couvre les quatre cas explicitement. La vue « détail d'un
-livre » serait une ROUTE `/livres/:id` : l'URL, pas un `useState`, décide de l'écran.
+
+`reducer({statut:'chargement'}, {type:'chercher'})` doit rendre l'état inchangé : un test de
+trois lignes, sans navigateur, sans rendu. Choisis le reducer pour ça — pas parce qu'il fait
+plus professionnel.
+
+**La limite de la solution, qu'il faut connaître avant de la rencontrer.** En mettant `items`
+dans la variante `succes`, on a rendu inexprimable non seulement le bug, mais aussi la
+dernière ligne du tableau : afficher l'ancienne liste grisée pendant qu'on recharge. C'est
+une contrainte réelle, pas un détail — beaucoup d'interfaces la veulent. Il faut alors
+l'exprimer exprès, par exemple `{ statut: 'chargement'; precedents?: Livre[] }`. Le principe
+tient toujours : **un état légitime doit être déclaré, pas obtenu par accident.** Un modèle
+trop serré se corrige ; un modèle trop permissif produit des bugs qu'on ne voit qu'en
+production.
+
+**Variante qui déplace le problème.** L'utilisateur cherche « dune », ouvre un résultat,
+puis clique sur « retour ». Il revient sur un écran `repos`, sa recherche effacée. Le
+reducer n'y peut rien : le terme cherché n'est pas un état d'écran, c'est une **destination**
+— il appartient à l'URL (`/recherche?q=dune`). La règle de partage est celle-ci : ce qu'on
+doit pouvoir partager par lien, recharger ou retrouver avec le bouton retour va dans l'URL ;
+ce qui n'a de sens que pendant la vie de l'écran reste dans l'état local. Se tromper de côté
+ne produit pas d'erreur — seulement une application qui « perd » ce que l'utilisateur
+croyait acquis.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

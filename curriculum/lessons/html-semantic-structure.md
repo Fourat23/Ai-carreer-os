@@ -113,6 +113,80 @@ dans un `<nav>` nommé ; l'article est autonome avec son propre titre `<h2>` sou
 page. Résultat : navigable au clavier, compréhensible par un lecteur d'écran, lisible par Google
 — **avant même** d'avoir écrit une ligne de CSS.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Tu as appris que `<div>` n'est pas sémantique. Tu remplaces tous tes `<div>` par des
+   `<section>`. Qu'as-tu amélioré ?
+2. Ton sous-titre doit être plus petit. Tu passes de `<h2>` à `<h4>`. Quel est le
+   problème, et comment l'aurais-tu résolu ?
+3. Un `<div onclick>` stylisé en bouton : cite trois comportements que tu viens de
+   perdre.
+4. Pourquoi `<main>` ne doit-il apparaître qu'une fois ?
+
+## ✅ Correction attendue
+
+**La démarche.** Devant chaque élément, poser une seule question : *qu'est-ce que c'est ?*
+— pas *à quoi je veux qu'il ressemble*. La réponse désigne la balise ; le CSS s'occupe du
+reste.
+
+**L'erreur probable, et c'est une règle à moitié apprise qui produit un résultat pire que
+le point de départ.** Remplacer tous les `<div>` par des `<section>` **dégrade**
+l'accessibilité au lieu de l'améliorer.
+
+`<section>` n'est pas « un `<div>` de meilleure qualité ». C'est un élément qui affirme
+quelque chose : *ceci est une région thématique de la page*. Les outils d'assistance la
+prennent au mot et l'ajoutent au plan du document. Une page avec quarante `<section>`
+présente donc à un utilisateur de lecteur d'écran quarante régions à parcourir, dont
+trente-cinq n'ont aucune existence pour lui. Le plan devient inutilisable — et il l'était
+moins avec des `<div>`.
+
+Pire, une `<section>` sans **nom accessible** — sans titre ni `aria-label` — n'est
+souvent même pas annoncée comme une région : on a payé le bruit sans obtenir le repère.
+
+Le piège séduit parce que la règle apprise est vraie dans un sens et fausse dans l'autre.
+« Utilise l'élément qui porte le sens » ne signifie pas « n'utilise jamais d'élément
+neutre ». **`<div>` est le bon choix quand il n'y a rien à signifier** : un conteneur de
+mise en page, un wrapper pour une grille, un groupe purement visuel. Un `<div>` là où il
+n'y a pas de sens est correct ; une `<section>` là où il n'y en a pas est un mensonge
+adressé aux outils qui te font confiance.
+
+Le test qui tranche : *est-ce que je peux donner un titre à ce bloc ?* Si oui, c'est
+peut-être une `<section>` — et alors donne-lui ce titre. Si non, c'est un `<div>`.
+
+**Sur les autres questions.** Passer de `<h2>` à `<h4>` pour obtenir une taille plus
+petite casse le **plan** du document : un lecteur d'écran qui navigue de titre en titre
+comprend qu'il manque un niveau et que la structure est incohérente. La taille est
+l'affaire du CSS — `h2 { font-size: 1.1rem }` règle le problème sans toucher au sens. La
+hiérarchie décrit l'organisation des idées, pas l'apparence.
+
+Un `<div onclick>` perd au minimum : **le focus clavier** (Tab ne l'atteint pas, faute
+d'être focalisable), **l'activation** par Entrée et par Espace, et **l'annonce du rôle**
+(le lecteur d'écran ne dit pas « bouton », donc l'utilisateur ignore qu'il y a une action
+possible). S'y ajoutent l'état désactivé, la participation à la soumission d'un
+formulaire, et le comportement au clic droit. Tout cela est gratuit avec `<button>`, et
+demande une vingtaine de lignes fragiles à reconstituer.
+
+Enfin, `<main>` est unique parce que c'est un **repère de destination** : il permet le
+« aller au contenu principal », le raccourci le plus utilisé par ceux qui naviguent au
+clavier ou au lecteur d'écran. Deux `<main>`, et la destination devient ambiguë : le
+raccourci ne sait plus où aller, et le seul mécanisme qui permettait de sauter la
+navigation cesse de fonctionner.
+
+**Alternative défendable.** `<div>` avec un `role` ARIA explicite est parfois nécessaire
+— pour des composants qui n'ont pas d'équivalent natif, un onglet, un arbre. C'est
+légitime **et** coûteux : le rôle ARIA n'apporte que l'annonce, jamais le comportement,
+qu'il faut alors écrire entièrement. La première règle d'ARIA reste : ne pas utiliser
+ARIA quand un élément natif existe.
+
+**Vérifie seul, sans corrigé** :
+1. Ouvre ta page et navigue uniquement au clavier. Ce que tu ne peux pas atteindre est
+   inaccessible, sans exception.
+2. Liste tes titres dans l'ordre. Le plan obtenu ressemble-t-il à une table des matières
+   sensée ?
+3. Compte tes `<section>`. Peux-tu donner un titre à chacune ? Celles pour lesquelles tu
+   n'y arrives pas sont des `<div>`.
+
 ## ⚠️ Erreurs fréquentes
 - La « soupe de div » : `<div>` partout au lieu des repères sémantiques → page muette.
 - Choisir un titre par sa TAILLE (`<h3>` « parce que c'est plus petit ») au lieu de son NIVEAU.

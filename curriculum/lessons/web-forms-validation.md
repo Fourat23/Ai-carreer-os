@@ -113,6 +113,76 @@ champ nommé et cliquable ; `aria-describedby` relie un message d'erreur que l'o
 `checkValidity()` échoue. À la soumission, on `preventDefault`, on laisse le navigateur signaler les
 erreurs, puis on envoie — et le serveur re-valide. Rien n'est recodé inutilement, tout est accessible.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton formulaire valide tout côté client : `required`, `type="email"`, `pattern`. Le
+   serveur peut-il faire confiance aux données reçues ?
+2. Tu désactives le bouton d'envoi tant que le formulaire est invalide. Bonne idée ?
+3. Un `placeholder="E-mail"` remplace-t-il un `<label>` ?
+4. Ton message d'erreur s'affiche en rouge sous le champ. Un utilisateur de lecteur
+   d'écran l'apprend-il ?
+
+## ✅ Correction attendue
+
+**La démarche.** La validation client sert le **confort** : signaler tôt, éviter un
+aller-retour. La validation serveur sert la **correction** des données. Les deux
+existent, elles ne se remplacent jamais, et confondre leurs rôles produit soit une faille,
+soit une interface pénible.
+
+**L'erreur probable, et c'est celle qui coûte le plus cher.** À la première question, la
+réponse spontanée est « oui, rien d'invalide ne peut être envoyé ». Le serveur ne peut
+faire confiance à **rien**.
+
+Les contraintes HTML s'appliquent au formulaire affiché dans un navigateur. Elles ne
+s'appliquent pas à `curl`, à un script, à un client mobile, à une requête forgée, ni au
+même navigateur avec les outils de développement ouverts — où l'attribut `required`
+s'enlève en un clic. La validation client est du code qui s'exécute **sur la machine de
+l'utilisateur**, donc sous son contrôle total.
+
+Le piège séduit parce que **le formulaire est la seule voie d'accès que le développeur ait
+jamais empruntée.** On teste par l'interface, la contrainte tient à chaque essai, et
+l'expérience confirme la croyance à chaque fois. L'existence d'un autre chemin vers
+l'endpoint n'est pas ignorée : elle n'est simplement jamais rencontrée. C'est la même
+illusion que le champ caché ou le bouton désactivé — la protection est réelle contre les
+utilisateurs ordinaires, et inexistante contre quiconque décide d'y regarder.
+
+La règle, sans exception : **toute contrainte qui compte est vérifiée côté serveur.** Le
+client la duplique pour le confort.
+
+**Sur les autres questions.** Désactiver le bouton d'envoi est une mauvaise idée
+répandue, et pour une raison que peu de gens anticipent : un bouton `disabled` n'est
+**pas atteignable au clavier** et n'est pas annoncé. L'utilisateur qui ne voit pas les
+messages d'erreur — parce qu'il navigue au lecteur d'écran, ou parce qu'ils sont hors
+écran — se retrouve devant un formulaire qui **ne réagit pas**, sans savoir pourquoi.
+Mieux vaut laisser le bouton actif, laisser la soumission avoir lieu, et **afficher les
+erreurs en déplaçant le focus** sur la première d'entre elles.
+
+Un `placeholder` ne remplace pas un `<label>`, pour quatre raisons cumulées : il
+**disparaît** dès la première frappe, donc l'utilisateur ne peut plus vérifier de quel
+champ il s'agit ; son contraste est délibérément faible ; il n'est pas lu de façon fiable
+par tous les lecteurs d'écran ; et cliquer dessus ne focalise pas le champ. C'est une
+**indication de format** (« jean@exemple.fr »), pas un nom.
+
+Enfin, un message d'erreur simplement affiché en rouge sous le champ n'est **pas** annoncé.
+Il faut le relier au champ par `aria-describedby`, et signaler l'état par
+`aria-invalid="true"` — le lecteur d'écran annonce alors « E-mail, invalide, e-mail
+invalide » au lieu de « E-mail ». La couleur seule ne transmet d'ailleurs rien à personne
+qui ne la distingue pas : tout message d'erreur doit porter du **texte**.
+
+**Alternative défendable.** Valider **au moment de quitter le champ** (`blur`) plutôt qu'à
+chaque frappe est souvent supérieur : signaler « e-mail invalide » pendant que
+l'utilisateur est en train de le taper est agressif et inutile. Une validation à la sortie
+du champ, puis à la soumission, respecte le rythme de la saisie tout en signalant tôt.
+
+**Vérifie seul, sans corrigé** :
+1. Envoie une requête directement à ton endpoint avec des données invalides, sans passer
+   par le formulaire. Que répond le serveur ?
+2. Retire l'attribut `required` dans les outils de développement et soumets. Le temps que
+   cela prend est la mesure exacte de la protection qu'il offre.
+3. Provoque une erreur et écoute la page avec un lecteur d'écran, ou vérifie simplement la
+   présence de `aria-describedby` et `aria-invalid`.
+
 ## ⚠️ Erreurs fréquentes
 - Utiliser un `placeholder` comme label (disparaît, mal lu par l'assistance).
 - `type="text"` pour un e-mail/nombre au lieu du type dédié → mauvais clavier, validation manuelle inutile.

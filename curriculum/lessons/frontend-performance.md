@@ -99,6 +99,77 @@ const resultats = useMemo(
 Raisonnement : on a MESURÉ (5 000 lignes re-rendues), COMPRIS la cause, puis appliqué le levier
 ADAPTÉ — pas saupoudré des `useMemo` au hasard. On re-mesure ensuite pour confirmer le gain.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ta page met quatre secondes à s'afficher. Tu ajoutes `useMemo` sur tes calculs et
+   `memo` sur tes composants. Combien de temps gagnes-tu ?
+2. `useMemo(() => a + b, [a, b])`. Bonne ou mauvaise idée ?
+3. Une liste de 5 000 lignes saccade. Tu mémoïses la ligne. Est-ce le bon levier ?
+4. Comment sais-tu qu'une optimisation a marché ?
+
+## ✅ Correction attendue
+
+**La démarche.** Mesurer, identifier le goulot, appliquer **un** levier adapté à **ce**
+goulot, re-mesurer. Les trois étapes comptent, et c'est la première qu'on saute.
+
+**L'erreur probable : appliquer un levier d'exécution à un problème de chargement.** Face
+à une page lente, la mémoïsation est le premier outil qui vient — c'est le plus enseigné,
+le plus discuté, et il donne l'impression d'optimiser. Sur les quatre secondes décrites,
+il fait gagner **zéro milliseconde**.
+
+Ces quatre secondes se passent avant que le moindre composant ne se rende : télécharger le
+bundle, l'analyser, l'exécuter, chercher les données, charger les images. `useMemo` évite
+de recalculer une valeur **pendant** un rendu — il agit sur un temps qui n'a pas encore
+commencé.
+
+La leçon insiste sur cette séparation parce que c'est elle qui gouverne le choix du
+levier :
+
+| Symptôme | Nature | Leviers |
+|---|---|---|
+| la page met du temps à **apparaître** | chargement | bundle, code splitting, images, réseau, cache |
+| la page réagit mal **pendant** l'usage | exécution | architecture d'état, mémoïsation ciblée, virtualisation |
+
+Le piège séduit parce que **« lent » est un seul mot pour deux phénomènes** qui n'ont rien
+en commun. L'utilisateur dit « c'est lent » dans les deux cas, le développeur entend un
+problème unique, et il attrape l'outil dont il a le plus entendu parler. La cause la plus
+fréquente d'une page lente reste d'ailleurs une image mal dimensionnée : un fichier de
+4 Mo coûte plus cher que tous les rendus React de la page réunis.
+
+**Sur les autres questions.** `useMemo(() => a + b, [a, b])` est une **mauvaise** idée, et
+c'est net : mémoriser une addition coûte plus cher que l'addition. Il faut allouer le
+tableau de dépendances, le comparer élément par élément, retenir le résultat. Une addition
+est de l'ordre de la nanoseconde ; la machinerie du `useMemo` est plus lourde. On a
+ajouté du code, un risque de dépendance oubliée, et on a rendu le programme **plus lent**.
+`useMemo` se justifie pour un calcul réellement coûteux — un tri de dix mille éléments,
+une agrégation — ou pour stabiliser une **identité** dont dépend un `memo` ou un effet.
+
+Mémoïser la ligne d'une liste de 5 000 éléments n'est pas le bon levier : même
+parfaitement mémoïsées, **5 000 lignes existent dans le DOM**, et c'est le navigateur qui
+peine — mise en page, peinture, mémoire. Le levier adapté est la **virtualisation** : ne
+rendre que la vingtaine de lignes visibles et recycler les nœuds au défilement. On passe
+de 5 000 éléments à 20, ce qu'aucune mémoïsation ne peut approcher.
+
+Enfin, on sait qu'une optimisation a marché **en re-mesurant la métrique qui avait
+motivé le travail**, dans les mêmes conditions — même appareil, même réseau simulé, même
+jeu de données. Sans mesure d'après, on ne sait rien : ni si le gain existe, ni s'il vient
+du bon changement. C'est aussi le seul moyen de découvrir qu'on a dégradé autre chose.
+
+**Alternative défendable.** Optimiser la performance **perçue** plutôt que la performance
+réelle est souvent le meilleur rapport effort/résultat : un squelette de contenu affiché
+immédiatement, un rendu progressif, une réponse optimiste à un clic. La page n'est pas
+plus rapide et l'expérience est nettement meilleure — parce que ce que l'utilisateur
+mesure n'est pas une durée, c'est une attente pendant laquelle il ne se passe rien.
+
+**Vérifie seul, sans corrigé** :
+1. Ouvre l'onglet réseau, recharge, et regarde le poids total. Compare-le à ton temps de
+   rendu React. Lequel des deux domine ?
+2. Cherche tes `useMemo`. Pour chacun, le calcul mémorisé est-il plus coûteux que la
+   comparaison des dépendances ?
+3. Mesure avant, change **une** chose, mesure après. Si tu changes deux choses, tu
+   n'apprendras rien de l'écart.
+
 ## ⚠️ Erreurs fréquentes
 - Optimiser sans mesurer : ajouter `useMemo`/`memo` partout « au cas où » → complexité, bugs, gain nul.
 - Ignorer les vrais goulots (images énormes, bundle massif) au profit de micro-optimisations React.

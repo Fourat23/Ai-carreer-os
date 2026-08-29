@@ -122,6 +122,85 @@ Raisonnement : la requête a une logique d'états (idle → loading → ok/error
 lisible et testable. À l'affichage, on couvre les quatre cas explicitement. La vue « détail d'un
 livre » serait une ROUTE `/livres/:id` : l'URL, pas un `useState`, décide de l'écran.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Tu gères une requête avec `const [loading, setLoading] = useState(false)`,
+   `[error, setError]` et `[data, setData]`. Combien de combinaisons ces trois états
+   permettent-ils, et combien sont valides ?
+2. Une recherche échoue, l'utilisateur relance, elle réussit. Que voit-il si tu as oublié
+   quelque chose ?
+3. Tu stockes l'onglet actif dans un `useState`. L'utilisateur partage l'URL de la page.
+   Que reçoit son destinataire ?
+4. L'utilisateur tape « ab », puis « abc ». La réponse de « ab » arrive après celle de
+   « abc ». Qu'affiche la liste ?
+
+## ✅ Correction attendue
+
+**La démarche.** Avant d'écrire un `useState`, énumérer les états dans lesquels
+l'interface a le droit de se trouver. C'est ce dénombrement, et non le confort de
+l'écriture, qui décide de la structure.
+
+**L'erreur probable : trois booléens indépendants pour un état qui n'en est qu'un.** Le
+trio `loading` / `error` / `data` est la première solution qui vient, chacun de ces états
+est réellement nécessaire, et c'est ce qui la rend si difficile à remettre en cause.
+
+Le dénombrement est pourtant sans appel. Trois valeurs indépendantes produisent
+**huit combinaisons**, dont **quatre** correspondent à quelque chose :
+
+| loading | error | data | sens |
+|---|---|---|---|
+| ✅ | — | — | chargement |
+| — | ✅ | — | erreur |
+| — | — | ✅ | résultat |
+| — | — | — | état initial |
+| ✅ | ✅ | — | **impossible** : ça charge et ça a échoué |
+| ✅ | — | ✅ | **ambigu** : anciens résultats pendant un rechargement ? |
+| — | ✅ | ✅ | **le bug de la question 2** |
+| ✅ | ✅ | ✅ | **incohérent** |
+
+Quatre états valides sur huit représentables : **la moitié du domaine ne veut rien dire**,
+et rien n'empêche l'interface d'y tomber. Un seul état à quatre valeurs —
+`'idle' | 'loading' | 'error' | 'ok'` — rend ces combinaisons **inexprimables**. C'est
+exactement ce que le reducer de cette leçon apporte : il ne range pas du code, il
+**supprime des états impossibles**.
+
+Le piège séduit parce que chaque `useState` est ajouté **au moment où on en a besoin**,
+un par un, et qu'aucune de ces additions n'est fautive prise isolément. Le défaut naît de
+leur accumulation, jamais d'une décision qu'on aurait pu discuter. C'est ce qui le rend
+invisible en revue de code : chaque ligne se défend.
+
+**Sur les autres questions.** L'utilisateur dont la recherche échoue puis réussit voit
+**le message d'erreur ET les résultats** — la ligne `— ✅ ✅` du tableau. On a bien pensé
+à `setData` au succès, on a oublié `setError(null)`. C'est l'oubli le plus banal de React,
+et il disparaît structurellement avec un état unique, puisque passer à `'ok'` **est** la
+disparition de l'erreur.
+
+L'onglet actif dans un `useState` produit une URL qui ne décrit pas ce qu'on regarde : le
+destinataire du lien atterrit sur l'onglet par défaut. Cassés du même coup : le bouton
+retour, le rechargement, la mise en favori. **L'URL est un état**, le seul que
+l'utilisateur peut copier, et le mettre ailleurs revient à en créer une seconde source.
+
+Enfin, la réponse tardive de « ab » **écrase** celle de « abc » : la liste affiche les
+résultats d'une requête que l'utilisateur a déjà abandonnée, sans aucun message d'erreur.
+C'est la *race condition* classique du frontend. La parade est d'annuler la requête
+précédente (`AbortController`) ou d'ignorer toute réponse qui ne correspond plus à la
+requête courante — vérifier, avant d'écrire dans l'état, que le terme n'a pas changé.
+
+**Alternative défendable.** Pour un chargement unique et simple — une page qui lit une
+ressource et n'en change plus — deux `useState` sont parfaitement acceptables : le coût
+d'un reducer ne se justifie pas. Et dans une application réelle, une bibliothèque de
+gestion de données serveur traite d'un coup les états, le cache, l'annulation et les
+courses : c'est le choix le plus courant, et savoir pourquoi elle existe vaut mieux que
+de réécrire son contenu.
+
+**Vérifie seul, sans corrigé** :
+1. Compte tes `useState` dans ton composant le plus chargé. Multiplie leurs valeurs
+   possibles. Combien de combinaisons ont un sens ?
+2. Provoque une erreur, puis relance avec succès. Le message d'erreur disparaît-il ?
+3. Change d'onglet, copie l'URL, ouvre-la dans une autre fenêtre. Retrouves-tu le même
+   écran ?
+
 ## ⚠️ Erreurs fréquentes
 - Stocker « quel écran est affiché » dans un `useState` au lieu de l'URL → bouton retour et partage
   de lien cassés.

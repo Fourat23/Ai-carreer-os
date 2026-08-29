@@ -124,6 +124,87 @@ Un bouton icône, mal puis bien fait :
 Le second est atteignable par Tab, s'active à Entrée/Espace, et est annoncé « Fermer la
 fenêtre, bouton ». Aucune ligne de JavaScript en plus — juste la bonne balise et un nom.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Tu ajoutes `role="button"` et `tabIndex={0}` à ton `<div>` cliquable. Est-il
+   accessible ?
+2. Ton audit automatique ne remonte aucune erreur. Ton interface est-elle accessible ?
+3. Une image de graphique porte `alt="graphique"`. Est-ce suffisant ?
+4. Le contour de focus « fait moche » sur ta maquette. Que fais-tu ?
+
+## ✅ Correction attendue
+
+**La démarche.** Choisir l'élément natif d'abord, ARIA seulement pour ce qu'aucun élément
+natif ne couvre. L'ordre compte : ARIA ajoute de l'information, jamais du comportement.
+
+**L'erreur probable, et elle est commise avec les meilleures intentions.**
+`role="button"` et `tabIndex={0}` sur un `<div>` : la réponse spontanée est « oui,
+maintenant il a le rôle et il est focusable, c'est bon ». Il ne l'est pas — **il ne
+s'active pas au clavier.**
+
+Ce qui manque, et qu'il faut écrire soi-même :
+
+```tsx
+// ❌ ce qu'on croit suffisant
+<div role="button" tabIndex={0} onClick={fermer}>✕</div>
+
+// ce qu'il faudrait VRAIMENT écrire pour égaler un <button>
+<div
+  role="button"
+  tabIndex={0}
+  onClick={fermer}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter') fermer();
+    if (e.key === ' ') { e.preventDefault(); fermer(); }  // sinon la page défile
+  }}
+>✕</div>
+```
+
+Et ce n'est encore pas équivalent : il manque l'état désactivé, la soumission de
+formulaire, le comportement au clic droit, et la gestion correcte du clic *long*. Un
+`<button>` fournit tout cela, gratuitement, testé par tous les navigateurs.
+
+Le piège séduit pour une raison structurelle : **ARIA a le nom du domaine.** Quand on
+cherche à rendre une interface accessible, on trouve ARIA, et ajouter un attribut ARIA
+donne le sentiment très net d'avoir fait de l'accessibilité. Or ARIA ne fait **que**
+décrire : il dit au lecteur d'écran « traite ceci comme un bouton ». Il ne rend rien
+focusable, ne câble aucune touche, ne change aucun comportement. Un `role="button"` sans
+gestion du clavier crée exactement la pire situation : **l'utilisateur est informé qu'il
+y a un bouton, et ne peut pas l'actionner.** C'est le sens de la première règle d'ARIA :
+ne pas utiliser ARIA.
+
+**Sur les autres questions.** Un audit automatique sans erreur ne prouve presque rien :
+les outils détectent bien les contrastes, les `alt` manquants, les champs sans label —
+soit environ un tiers des problèmes réels. Ils ne peuvent pas juger si un `alt` est
+*pertinent*, si l'ordre de focus est *logique*, si un message d'erreur est *annoncé*, ou
+si une modale *piège* correctement le focus. Le test qui vaut vraiment tient en une
+phrase : **range la souris et fais la tâche complète au clavier.**
+
+`alt="graphique"` est insuffisant : il décrit le contenant, pas le contenu. L'utilisateur
+apprend qu'il y a un graphique, ce qu'il devinait, et rien de ce qu'il dit. Un `alt` utile
+porte **l'information** — « Ventes 2024 : croissance de 12 % au premier trimestre, recul
+en août » — ou renvoie à une description longue quand les données sont riches.
+
+Enfin, le contour de focus ne se supprime jamais : il se **remplace**. `outline: none`
+seul rend l'interface inutilisable au clavier — on ne sait plus où l'on est. On dessine
+donc un indicateur conforme à la maquette, visible sur tous les fonds, en s'appuyant sur
+`:focus-visible` pour qu'il n'apparaisse qu'à la navigation clavier et jamais au clic
+souris. La demande esthétique est légitime ; c'est la méthode qui doit changer.
+
+**Alternative défendable.** Les bibliothèques de composants sans style (*headless*)
+fournissent des primitives accessibles — modale, menu, onglets — déjà correctes sur le
+clavier, le focus et les annonces. Les utiliser plutôt que réécrire est souvent le bon
+choix : ces comportements sont bien plus subtils qu'ils n'en ont l'air, et les
+réimplémenter mal est la règle plutôt que l'exception.
+
+**Vérifie seul, sans corrigé** :
+1. Débranche ta souris et accomplis le parcours principal de ton application. Ce que tu
+   ne peux pas faire, un utilisateur au clavier ne le peut pas non plus.
+2. Cherche `role=` dans ton code. Chaque occurrence sur un élément non natif est une
+   dette de comportement à écrire à la main.
+3. Tabule dans ta page. Vois-tu toujours où tu es ? L'ordre suit-il la lecture ?
+
 ## ⚠️ Erreurs fréquentes
 - Faux boutons/liens en `<div>` cliquables : inutilisables au clavier et muets pour le
   lecteur d'écran.

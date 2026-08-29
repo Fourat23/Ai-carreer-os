@@ -108,6 +108,91 @@ function Annuaire({ personnes }: { personnes: Personne[] }) {
 orchestre. Le résultat filtré est dérivé (jamais un second `useState`), donc toujours
 cohérent.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Pour éviter le prop drilling, tu mets l'état de l'application dans un `context`
+   unique. Que se passe-t-il quand une seule de ses valeurs change ?
+2. Tu enveloppes un composant dans `memo` et tu lui passes `style={{ color: 'red' }}`.
+   Le `memo` sert-il à quelque chose ?
+3. Tu stockes `resultats` dans un `useState` et tu le mets à jour dans un `useEffect`
+   qui écoute `terme`. Nomme deux bugs que cela produit.
+4. À quel moment un composant devient-il « trop gros » ?
+
+## ✅ Correction attendue
+
+**La démarche.** Deux questions, dans cet ordre : **où doit vivre cette donnée** (au plus
+proche ancêtre commun de ceux qui en ont besoin), et **est-elle stockée ou dérivée**. Tout
+le reste — context, hooks personnalisés, mémoïsation — n'intervient qu'après.
+
+**L'erreur probable, et elle transforme un inconfort en problème de performance.** Le
+prop drilling est pénible, `context` le supprime, la conclusion « mettons tout dans un
+context » s'impose d'elle-même. Ce qu'elle produit :
+
+**tout consommateur d'un context se re-rend lorsque la VALEUR du context change — quelle
+que soit la partie qu'il utilise.** React ne sait pas que ton composant ne lit que
+`context.theme` : il compare la valeur entière, par identité. Un context qui contient
+`{ user, theme, panier, notifications }` re-rend donc l'intégralité des consommateurs à
+chaque ajout au panier, y compris ceux qui n'affichent que le thème.
+
+S'y ajoute un piège d'identité que presque tout le monde rencontre :
+
+```tsx
+// ❌ un objet neuf à CHAQUE rendu du provider → tous les consommateurs se re-rendent,
+//    même si user et theme n'ont pas bougé d'un octet
+<AppContext.Provider value={{ user, theme }}>
+```
+
+La valeur est un **littéral d'objet** : une nouvelle référence à chaque rendu. La
+comparaison par identité échoue toujours, et le context notifie tout le monde en
+permanence.
+
+Les parades : **découper en plusieurs contexts** selon la fréquence de changement — un
+pour le thème, qui ne bouge jamais ; un pour le panier, qui bouge souvent — et
+**stabiliser la valeur** avec `useMemo`. C'est d'ailleurs l'un des rares cas où
+`useMemo` se justifie sans avoir mesuré : il ne sert pas ici à gagner du temps de calcul,
+il sert à **préserver une identité**, ce qui est un problème de correction et non de
+performance.
+
+Le piège séduit parce que le prop drilling est **visible et pénible** — dix niveaux de
+props qu'on écrit à la main — tandis que le coût du context est **invisible** : rien
+n'échoue, rien ne ralentit tant que l'application est petite. On échange un inconfort
+qu'on ressent contre une dette qu'on ne perçoit pas. La règle utile : le context sert à
+**diffuser ce qui change rarement**, pas à ranger l'état.
+
+**Sur les autres questions.** `memo` avec un `style={{...}}` en ligne ne sert à **rien** :
+l'objet littéral crée une nouvelle référence à chaque rendu du parent, la comparaison
+superficielle des props échoue systématiquement, et le composant se re-rend toujours. On a
+ajouté un `memo`, une comparaison à chaque rendu, et de la complexité, pour un gain
+exactement nul. C'est le cas le plus fréquent de mémoïsation inutile, et il est
+indétectable sans profiler — le code a l'air optimisé.
+
+Stocker `resultats` dans un `useState` alimenté par un `useEffect` produit deux bugs
+distincts. D'abord un **rendu de trop avec des données périmées** : au premier rendu après
+la frappe, `resultats` contient encore l'ancien filtrage, et l'utilisateur voit brièvement
+le résultat précédent. Ensuite, une **désynchronisation durable** dès qu'un autre chemin
+modifie `personnes` sans passer par cet effet : deux sources de vérité pour la même
+information, et rien ne garantit qu'elles s'accordent. Calculer au rendu supprime les deux
+d'un coup, parce qu'il n'y a plus qu'une source.
+
+Enfin, un composant est « trop gros » non pas à un nombre de lignes, mais **quand on ne
+peut plus le nommer d'un seul mot**. Si sa description demande un « et » — « il affiche la
+liste **et** gère le formulaire **et** appelle l'API » — il y a autant de composants que de
+« et ». Le seuil est sémantique, pas typographique.
+
+**Alternative défendable.** Pour un état vraiment global et très mouvant, une bibliothèque
+de gestion d'état à abonnement sélectif est supérieure au context : chaque composant
+s'abonne à la **tranche** qui l'intéresse et ne se re-rend que si elle change, ce que le
+context ne sait pas faire nativement. C'est le bon outil pour un panier, un éditeur
+collaboratif, un tableau de bord temps réel — et de la complexité gratuite pour un thème.
+
+**Vérifie seul, sans corrigé** :
+1. Ouvre le profiler React et tape une lettre dans un champ. Quels composants se
+   re-rendent ? Ceux qui n'ont rien à voir avec ce champ désignent un context trop large.
+2. Cherche `value={{` dans tes providers. Chaque occurrence est une valeur neuve à chaque
+   rendu.
+3. Prends ton plus gros composant et décris-le en une phrase. Compte les « et ».
+
 ## ⚠️ Erreurs fréquentes
 - Le composant « Dieu » de 300 lignes qui fait tout : décompose en sous-composants nommés.
 - Stocker un dérivé dans un `useState` (puis un `useEffect` pour le tenir à jour) → double

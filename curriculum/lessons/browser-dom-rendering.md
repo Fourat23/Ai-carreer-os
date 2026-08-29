@@ -123,6 +123,79 @@ Remarque la double étape manuelle (état PUIS DOM). Imagine dix affichages dép
 `compteur` : tu devrais penser à les dix à chaque clic. C'est exactement ce que le rendu
 déclaratif automatise.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Pour rafraîchir une liste, tu écris `liste.innerHTML = items.map(...).join('')`. Cite
+   deux choses que l'utilisateur perd, et une faille que tu ouvres.
+2. Dans le compteur de l'exemple, tu ajoutes un second affichage du total ailleurs dans
+   la page. Que se passe-t-il, et pourquoi est-ce inévitable ?
+3. `document.querySelector('.carte')` renvoie `null` alors que l'élément existe dans ton
+   HTML. Donne deux causes possibles.
+4. Qu'est-ce que le rendu déclaratif automatise, exactement ?
+
+## ✅ Correction attendue
+
+**La démarche.** Manipuler le DOM à la main, c'est tenir soi-même la correspondance entre
+un **état** et un **affichage**. Toute la difficulté — et tout l'intérêt des frameworks —
+tient dans le mot « soi-même ».
+
+**L'erreur probable : reconstruire par `innerHTML`.** C'est une ligne, ça marche
+visuellement, et c'est le raccourci que tout le monde emprunte. Ce qu'il détruit :
+
+- **le focus** — si l'utilisateur était dans un champ de cette zone, le nœud est détruit
+  et recréé : le curseur disparaît, et au clavier on est renvoyé au début de la page ;
+- **l'état non déclaré du DOM** — texte saisi, position de défilement, case cochée,
+  élément sélectionné, vidéo en cours de lecture : tout cela vit dans les nœuds, et les
+  nœuds n'existent plus ;
+- **les écouteurs d'événements** attachés aux anciens éléments, qui partent avec eux —
+  d'où le classique « ça marche au premier affichage, plus après ».
+
+Et la faille : si l'une des valeurs vient d'un utilisateur, `innerHTML` **interprète le
+HTML qu'elle contient**. Un `<img src=x onerror=...>` dans un nom d'utilisateur s'exécute.
+C'est une injection de script (XSS), et elle est ouverte par la commodité même de la
+méthode. `textContent` n'a pas ce problème : il pose du texte, jamais du balisage.
+
+Le piège séduit parce que **le résultat est visuellement parfait**. La liste est à jour,
+rien ne clignote, aucune erreur en console. Tous les dégâts portent sur des choses
+invisibles à l'inspection : le focus qu'on ne regardait pas, la saisie qu'on n'avait pas
+commencée, l'écouteur dont on n'a pas encore reproduit l'usage. Ils se manifestent chez
+l'utilisateur, jamais chez celui qui a écrit la ligne.
+
+**Sur les autres questions.** Ajouter un second affichage du compteur oblige à **penser à
+le mettre à jour aussi**, dans le même gestionnaire de clic. Rien ne le rappellera, et
+c'est inévitable parce que la correspondance état → affichage n'est écrite **nulle part** :
+elle n'existe que dans la tête de celui qui a écrit le `addEventListener`. Avec dix
+affichages, il faut se souvenir des dix, à chaque endroit qui modifie le compteur. C'est
+précisément la charge que le rendu déclaratif supprime.
+
+Un `querySelector` qui renvoie `null` sur un élément existant a deux causes principales :
+le script s'exécute **avant** que l'élément ne soit dans le DOM — balise `<script>` placée
+dans le `<head>` ou avant l'élément, sans `defer` ; ou l'élément est **créé plus tard**,
+dynamiquement, et la recherche a eu lieu avant sa création. Dans les deux cas le sélecteur
+est correct : c'est le moment qui ne l'est pas.
+
+Enfin, ce que le rendu déclaratif automatise se dit en une phrase : **il calcule le DOM à
+partir de l'état, au lieu de te demander de le modifier**. Tu décris « voici à quoi la page
+doit ressembler pour cet état » ; il compare avec l'existant et n'applique que les
+différences — en préservant les nœuds inchangés, donc le focus, la saisie et le
+défilement. C'est le même raisonnement que le `plan/apply` d'un outil d'infrastructure :
+on déclare la cible, la machine calcule le chemin.
+
+**Alternative défendable.** Pour une page simple — une poignée d'interactions, aucun état
+partagé — le DOM à la main est parfaitement raisonnable, plus léger, et sans dépendance.
+Le seuil n'est pas la taille de la page mais le **nombre d'affichages qui dépendent du même
+état**. À un ou deux, la main suffit. À dix, elle ne suffit plus, et c'est un fait
+d'expérience avant d'être un argument de framework.
+
+**Vérifie seul, sans corrigé** :
+1. Mets un `<input>` dans ta liste, tape dedans, déclenche un rafraîchissement par
+   `innerHTML`. Regarde où va ta saisie.
+2. Cherche `innerHTML` dans ton code. Chacune de ces occurrences reçoit-elle des données
+   d'un utilisateur ?
+3. Ajoute un second affichage d'une valeur déjà affichée. Combien d'endroits dois-tu
+   modifier ? Ce nombre est ta dette.
+
 ## ⚠️ Erreurs fréquentes
 - Utiliser `<div onclick>` au lieu d'un vrai `<button>` : cassé au clavier, illisible pour
   les lecteurs d'écran (préfère la balise sémantique).

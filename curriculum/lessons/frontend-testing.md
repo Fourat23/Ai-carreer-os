@@ -117,6 +117,81 @@ Raisonnement : on rend, on agit comme un utilisateur (saisie dans le champ trouv
 vérifie le RÉSULTAT VISIBLE. Aucune mention de `useState`, de nom de composant ou de classe CSS : on
 peut réécrire entièrement l'intérieur, le test tient tant que le comportement est correct.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. `expect(queryByText('Alan')).toBeNull()` passe. Le filtrage fonctionne-t-il ?
+2. Ton composant charge des données. Le test cherche le résultat juste après le rendu et
+   ne le trouve pas. Que fais-tu, et qu'est-ce que tu ne fais surtout pas ?
+3. Ton test cherche le bouton par `getByRole('button', { name: /ajouter/i })` et échoue.
+   Que t'apprend cet échec, au-delà du test ?
+4. Tu as 400 tests unitaires et zéro test bout-en-bout. Que ne sais-tu pas ?
+
+## ✅ Correction attendue
+
+**La démarche.** Un test doit échouer pour la bonne raison et passer pour la bonne
+raison. Le second point est le plus souvent négligé, parce qu'un test vert ne se relit
+jamais.
+
+**L'erreur probable : croire qu'une assertion négative qui passe prouve quelque chose.**
+`queryByText('Alan')).toBeNull()` passe si « Alan » n'est pas affiché. Elle passe donc
+aussi si :
+
+- le composant a levé une exception et n'a **rien** rendu ;
+- la liste est vide parce que les données n'ont jamais été passées ;
+- le nom est mal orthographié dans le test ;
+- le composant affiche un état de chargement à la place, indéfiniment.
+
+Autrement dit, **elle passe brillamment sur un composant entièrement cassé.** Un test
+qui n'affirme que des absences ne peut pas distinguer « le filtrage marche » de « rien ne
+s'affiche ».
+
+La parade tient en une règle : **toute assertion négative doit être accompagnée d'une
+assertion positive.** Vérifier qu'« Alan » a disparu **et** qu'« Ada » est toujours là.
+La seconde échoue immédiatement si le composant est mort, et c'est elle qui donne son
+sens à la première.
+
+Le piège séduit parce que **l'assertion exprime exactement l'intention**. On veut vérifier
+que le filtrage retire les non-correspondants, on écrit qu'il n'y a plus de
+non-correspondant, c'est littéralement ce qu'on voulait dire. Rien dans la formulation ne
+signale qu'elle est satisfaite par un ensemble de causes bien plus large que celle qu'on
+avait en tête. S'y ajoute le fait qu'**un test vert ne demande jamais d'explication** : on
+ne relit que ceux qui échouent.
+
+Le contrôle qui vaut pour toute la suite de tests : **casse volontairement le composant**
+et regarde combien de tests rougissent. Ceux qui restent verts ne testaient rien.
+
+**Sur les autres questions.** Face au résultat asynchrone absent, on **attend** avec une
+requête asynchrone (`findBy…`, ou `waitFor`) qui réessaie jusqu'à apparition. Ce qu'il ne
+faut surtout pas faire, c'est ajouter une **pause fixe** : elle rend la suite lente, et
+surtout instable — trop courte sur une machine chargée, elle produit un test qui échoue
+une fois sur vingt, et l'on finit par le désactiver.
+
+Un `getByRole('button', { name: /ajouter/i })` qui échoue t'apprend quelque chose qui
+dépasse le test : **si la requête ne trouve pas le bouton par son rôle et son nom, un
+lecteur d'écran ne le trouvera pas non plus.** C'est un `<div>` cliquable, ou un bouton
+sans nom accessible. Le test vient de détecter un défaut d'accessibilité, gratuitement,
+et c'est la raison principale d'interroger le DOM comme un utilisateur plutôt que par
+classes CSS.
+
+Enfin, 400 tests unitaires et aucun test bout-en-bout laissent une ignorance précise : on
+ne sait pas si **les pièces s'assemblent**. Chaque unité est correcte, le routage peut
+être cassé, le formulaire peut ne rien envoyer, la variable d'environnement peut manquer,
+le déploiement peut servir une version qui ne démarre pas. Trois tests bout-en-bout sur
+les parcours critiques couvrent ce que quatre cents tests unitaires ne verront jamais.
+
+**Alternative défendable.** Sur un composant purement visuel dont le rendu est le produit,
+un **test de rendu de référence** (snapshot) est acceptable : il détecte tout changement
+non voulu. Le prix est connu et il faut l'assumer : ces tests échouent à chaque
+modification légitime, on prend l'habitude de les valider sans les lire, et ils cessent
+alors de détecter quoi que ce soit.
+
+**Vérifie seul, sans corrigé** :
+1. Commente le corps de ton composant et relance la suite. Les tests qui passent encore
+   ne testent rien.
+2. Cherche tes assertions négatives. Chacune a-t-elle une assertion positive à côté ?
+3. Cherche les pauses fixes dans tes tests. Chacune est un test instable en attente.
+
 ## ⚠️ Erreurs fréquentes
 - Tester l'état interne ou les appels de fonctions (`setX` appelé) → casse au refactoring, ne prouve rien.
 - Sélectionner par classe CSS ou structure du DOM → fragile et illisible.

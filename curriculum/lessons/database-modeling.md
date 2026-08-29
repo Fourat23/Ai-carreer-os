@@ -36,20 +36,95 @@ d'index n'est supposée.
 `livres(auteur TEXT)` avec le nom en toutes lettres = 40 lignes à corriger au premier renommage (et des variantes d'orthographe). `livres(auteur_id → auteurs.id)` = une seule vérité.
 
 ## 🧭 Exemple guidé
-**Énoncé** : modéliser « un membre emprunte des livres ».
-**Raisonnement** : N-N dans le temps (un membre, plusieurs livres ; un livre, plusieurs membres successifs) + des données propres à la relation → table de liaison.
-**Solution** :
+
+« Un membre emprunte des livres. » La première moitié du travail est mécanique et se fait en
+deux minutes : c'est du N-N dans le temps — un membre emprunte plusieurs livres, un livre
+passe entre plusieurs membres — et la relation porte ses propres données, les dates. Donc
+une table de liaison, où l'emprunt devient une entité à part entière.
+
 ```sql
-CREATE TABLE loans (
+CREATE TABLE emprunts (
   id INTEGER PRIMARY KEY,
-  book_id   INTEGER NOT NULL REFERENCES books(id),
-  member_id INTEGER NOT NULL REFERENCES members(id),
-  borrowed_at TEXT NOT NULL,
-  returned_at TEXT              -- NULL = en cours
+  livre_id    INTEGER NOT NULL REFERENCES livres(id),
+  membre_id   INTEGER NOT NULL REFERENCES membres(id),
+  emprunte_le TEXT NOT NULL,
+  rendu_le    TEXT               -- NULL = emprunt en cours
 );
-CREATE INDEX idx_loans_book ON loans(book_id);
 ```
-**Explication** : l'emprunt EST une entité (avec ses dates) ; les clés étrangères garantissent l'existence des deux côtés ; l'index sert la question fréquente « ce livre est-il emprunté ? ». **Variante** : la règle « pas de double emprunt en cours » — contrainte partielle ou vérification transactionnelle dans le service ?
+
+`rendu_le NULL` encode l'état « en cours » sans colonne booléenne supplémentaire — une seule
+information, un seul endroit. Jusqu'ici, rien de discutable.
+
+**La vraie question arrive maintenant : où vit la règle « un livre ne peut pas être emprunté
+deux fois en même temps » ?** Trois endroits sont possibles, et le choix n'est pas affaire de
+goût.
+
+**Candidat 1 — dans le service.** On lit, on vérifie, on écrit :
+
+```js
+const enCours = await db.get(`SELECT 1 FROM emprunts WHERE livre_id=? AND rendu_le IS NULL`, id);
+if (enCours) throw httpError(409, 'Déjà emprunté');
+await db.run(`INSERT INTO emprunts (livre_id, membre_id, emprunte_le) VALUES (?,?,?)`, …);
+```
+
+C'est lisible, testable, et ça donne un beau message d'erreur. C'est aussi **faux dès qu'il y
+a deux utilisateurs**. Entre le `SELECT` et l'`INSERT`, il s'écoule un temps — quelques
+millisecondes suffisent. Deux requêtes qui arrivent ensemble lisent toutes les deux « aucun
+emprunt en cours », concluent toutes les deux que c'est libre, et insèrent toutes les deux.
+La base contient alors deux emprunts simultanés du même livre, et aucun bug n'est visible
+dans le code : chaque exécution, prise seule, est correcte. C'est le défaut classique
+*vérifier-puis-agir*, et il ne se reproduit presque jamais en développement, où l'on est
+seul à cliquer.
+
+**Candidat 2 — une contrainte d'unicité.** Le réflexe est d'écrire :
+
+```sql
+CREATE UNIQUE INDEX u ON emprunts(livre_id, rendu_le);
+```
+
+Vérifie-la avant de la croire, parce qu'elle se trompe **dans les deux sens**. Trois emprunts
+du même livre, tous en cours, passent sans broncher : les trois ont `rendu_le = NULL`, et en
+SQL `NULL` n'est jamais égal à `NULL` — deux lignes contenant `NULL` ne sont donc pas des
+doublons pour l'index, quel que soit leur nombre. Symétriquement, la contrainte **refuse**
+quelque chose de parfaitement légitime : deux exemplaires rendus le même jour, puisque là
+les valeurs sont égales pour de bon. Une contrainte qui autorise exactement ce qu'on
+interdit et interdit exactement ce qu'on autorise. Retiens le mécanisme plutôt que le cas :
+`NULL` signifie *inconnu*, et deux inconnus ne sont pas réputés identiques.
+
+**Candidat 3 — l'index unique partiel.** On ne contraint que les lignes qui nous intéressent :
+
+```sql
+CREATE UNIQUE INDEX u_emprunt_en_cours ON emprunts(livre_id) WHERE rendu_le IS NULL;
+```
+
+Là, ça tient. Le premier emprunt passe, le second est refusé par la base — même si les deux
+requêtes arrivent en même temps, parce que la vérification n'est plus séparée de l'écriture :
+c'est le moteur qui les fait ensemble. Et l'historique reste intact : une fois `rendu_le`
+renseigné, la ligne sort du champ de l'index et le livre redevient empruntable. Une seule
+ligne de SQL exprime « au plus un emprunt ouvert par livre, autant de clos qu'on veut ».
+
+**Ce que ça change pour le service.** Le candidat 1 n'est pas à jeter, il est à
+*rétrograder* : il reste utile pour produire un message clair dans le cas courant, mais il
+n'est plus ce qui garantit la règle. Le service attrape désormais la violation de contrainte
+et la traduit en `409`. C'est la logique du « dernier rempart » : l'application optimise
+l'expérience, la base garantit l'invariant. Quand les deux disent la même chose, seule la
+base a le droit d'avoir raison.
+
+**Une vérification que peu de gens font.** Les clés étrangères de ce schéma ne sont pas
+forcément actives : SQLite, pour raisons de compatibilité historique, peut les ignorer
+silencieusement selon le pilote utilisé — un `INSERT` référençant un livre inexistant passe
+alors sans erreur. Un `PRAGMA foreign_keys` répond `0` ou `1` et règle la question en deux
+secondes. Une contrainte qu'on croit posée mais qui n'est pas appliquée est pire que pas de
+contrainte du tout, puisqu'on cesse de vérifier.
+
+**Variante qui déplace le problème.** La bibliothèque achète trois exemplaires du même
+titre. L'index partiel devient faux : il n'autorise qu'un emprunt en cours par `livre_id`,
+alors qu'on en veut trois. Et le correctif n'est pas dans l'index — il est dans le modèle.
+« Livre » désignait jusqu'ici deux choses différentes : l'œuvre (titre, auteur, ISBN) et
+l'objet physique qu'on emprunte. Il faut les séparer : `oeuvres` et `exemplaires`, l'emprunt
+pointant vers un exemplaire. La contrainte redevient juste sans être modifiée. C'est le
+scénario le plus fréquent en modélisation : un invariant qui résiste mal n'est pas
+un problème de contrainte, c'est le signe qu'une entité en cache deux.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Le modèle de données de DocSense : documents, chunks (avec source/page — la matière des citations), évaluations (version × question × scores — l'historique du dashboard qualité), sessions. Un RAG bien modélisé se debugge ; un RAG aux données plates se subit. Et le feature engineering ML (mois 6) commence toujours par comprendre le schéma.

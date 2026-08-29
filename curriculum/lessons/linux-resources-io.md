@@ -108,6 +108,12 @@ des logs vers un agrégateur.
 - « Comment savoir si un disque est le goulot ? » → `wa` dans `top`, `iostat`.
 - « Origine d'un OOMKilled ? » → mémoire épuisée, le noyau tue le plus gourmand.
 
+## ✍️ Mini-exercice
+Sur une machine de test : crée un fichier de 1 Go (`fallocate -l 1G /tmp/gros`), ouvre-le
+avec un processus qui le garde ouvert (`tail -f /tmp/gros` dans un autre terminal), puis
+supprime-le. Compare `du -sh /tmp` et la ligne correspondante de `df -h`. Ferme le processus
+et recompare. Tu viens de reproduire la panne la plus déroutante de cette leçon.
+
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
 

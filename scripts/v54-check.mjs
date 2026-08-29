@@ -28,8 +28,13 @@ const warns = [];
 // profondeur. V67 a traite ce stock. Le gel a rougi de lui-meme, ce qui est sa
 // fonction ; il est mis a jour ici, jamais silencieusement.
 //   V66 -> e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2
-//   V67 -> 7c9db74f739f1fd68cee2af588a905cb110b4b48
-const FROZEN_CORPUS = '7c9db74f739f1fd68cee2af588a905cb110b4b48';
+//   V67 -> b5ed5aee786fb513589b918159b7e73ba24c9937
+// Re-gelé par V68 (CP15). Le corpus de leçons a changé parce que les 41 leçons du
+// parcours qui n'avaient AUCUNE correction en ont désormais une, et que
+// metrics-percentiles portait un p99 faux d'un facteur 50. Voir
+// docs/V68-CP0-AUDIT.md et docs/V68-FINAL-REPORT.md. Aucune journée n'a été
+// réordonnée ; data/progress.json est inchangé.
+const FROZEN_CORPUS = 'b5ed5aee786fb513589b918159b7e73ba24c9937';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 const PILOTS = ['app/page.tsx', 'app/day/[id]/page.tsx', 'app/skills/page.tsx'];
 const CORE = ['app/missions/page.tsx', 'app/revisions/page.tsx', 'app/diagnostics/page.tsx'];

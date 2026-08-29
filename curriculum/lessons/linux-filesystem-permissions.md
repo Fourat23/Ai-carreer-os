@@ -102,7 +102,8 @@ stat fichier          # métadonnées détaillées (inode, droits, horodatages)
 2. Un fichier est en `rw-r--r--` et t'appartient. Tu ne peux pourtant pas le lire. Où
    est le problème ?
 3. Que signifie exactement `x` sur un **répertoire** ?
-4. Pourquoi `chmod 777` est-il pire que « ça marche enfin » ?
+4. `chmod 777` est un anti-pattern dangereux qu'il ne faut jamais appliquer : au-delà du
+   risque évident d'ouvrir tous les droits à tous, qu'est-ce que ce geste **masque** ?
 
 ## ✅ Correction attendue
 
@@ -146,18 +147,24 @@ autres causes possibles sont un point de montage en lecture seule ou une couche 
 contrôle d'accès supplémentaire (SELinux, AppArmor), mais le parent vient en premier :
 `ls -ld` sur chaque niveau depuis `/`.
 
-`chmod 777` est pire que « ça marche » parce qu'il **fait disparaître la question** au
-lieu d'y répondre. Il accorde l'écriture à tout utilisateur de la machine, y compris
-tout processus compromis, et sur un exécutable ou un script cela signifie que n'importe
-qui peut remplacer le code par le sien. Surtout, il masque la cause réelle — presque
-toujours une histoire de propriétaire ou de groupe — qui reviendra ailleurs, et qu'on
-« corrigera » de la même manière.
+Le danger de `chmod 777` — à ne jamais utiliser — est double, et le second est le pire.
+D'abord le risque direct : il accorde l'écriture **à tous** les comptes de la machine, y
+compris à tout processus compromis, et sur un exécutable ou un script cela signifie que
+n'importe qui peut remplacer le code par le sien.
+
+Ensuite, et c'est ce qui en fait un anti-pattern et pas seulement une imprudence : **il
+fait disparaître la question au lieu d'y répondre.** La cause réelle — presque toujours
+une histoire de propriétaire ou de groupe — reste entière, invisible, et reviendra
+ailleurs. On la « corrigera » alors de la même manière, et l'on aura ouvert deux trous au
+lieu d'un.
 
 **Alternative défendable.** Plutôt que d'ajuster des droits fichier par fichier, la
 solution habituelle en équipe est le **groupe** : on place les utilisateurs concernés
 dans un groupe commun, on donne les droits au groupe, et on pose le bit `setgid` sur le
-répertoire pour que tout nouveau fichier hérite du groupe. Cela résout durablement ce
-que `chmod 777` ne fait que contourner.
+répertoire pour que tout nouveau fichier hérite du groupe. C'est la bonne réponse au besoin
+réel — partager entre quelques personnes — là où l'anti-pattern `chmod 777`, dangereux
+parce qu'il ouvre tous les droits à tous les comptes de la machine, ne fait que contourner
+la question sans jamais y répondre.
 
 **Vérifie seul, sans corrigé** :
 1. Crée un dossier, mets-y un fichier lisible, retire `x` du dossier, essaie de lire le

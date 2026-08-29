@@ -111,6 +111,12 @@ passe sur un volume nommé, les données survivent aux redéploiements.
 - « Pourquoi `localhost` ne marche pas entre conteneurs ? » → il désigne le
   conteneur courant, pas le voisin.
 
+## ✍️ Mini-exercice
+Monte une API et une base dans un même `compose.yaml`. Fais volontairement pointer l'API sur
+`localhost:5432` et lis le message d'erreur exact. Corrige avec le nom de service, puis
+supprime le conteneur de base et recrée-le : tes données doivent survivre. Trois
+manipulations, trois mécanismes.
+
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
 

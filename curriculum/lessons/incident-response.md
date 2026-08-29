@@ -20,9 +20,20 @@ le rôle de l'**incident commander** et de la **communication**, et documenter u
 ## 🧩 Prérequis
 Tu dois savoir lire des signaux d'observabilité (`/doc/lessons/observability-fundamentals`,
 `/doc/lessons/metrics-percentiles`) et connaître la notion d'**error budget**
-(`/doc/lessons/slo-error-budget`) qui aide à décider de la gravité. Les mécaniques de
-retour en arrière (rollback/hotfix) sont vues dans
-`/doc/lessons/release-incident-recovery` — ici on couvre le PROCESSUS.
+(`/doc/lessons/slo-error-budget`) qui aide à décider de la gravité. Ici on couvre le
+PROCESSUS de réponse, pas les mécaniques de retour en arrière.
+
+Ce qu'il faut savoir de ces mécaniques pour lire cette leçon, en trois phrases : **revenir en
+arrière (rollback)**, c'est redéployer la version précédente — possible seulement si son
+artefact existe encore et si aucune migration destructive n'a été appliquée depuis ;
+**aller de l'avant (roll-forward)**, c'est corriger et redéployer, ce qu'on choisit quand le
+retour est impossible ou plus risqué ; et un **correctif à chaud (hotfix)** est un
+roll-forward minimal, limité à la ligne qui casse. C'est tout ce dont cette leçon a besoin.
+
+> **Où trouver le détail.** `/doc/lessons/release-incident-recovery` approfondit ces
+> mécaniques. Elle est sur **l'étagère de référence** : aucune des 365 journées ne la
+> programme, tu peux l'ouvrir quand tu veux, et rien dans le parcours ne suppose que tu l'as
+> lue.
 
 ## 🧠 Modèle mental
 Un incident se gère comme une urgence médicale, pas comme une enquête tranquille. Aux

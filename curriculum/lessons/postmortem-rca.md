@@ -18,9 +18,12 @@ et produire des **actions correctives et préventives** qui empêchent la récid
 
 ## 🧩 Prérequis
 Tu dois connaître le déroulé d'un incident et l'importance de la **timeline** et des
-**preuves** (`/doc/lessons/incident-response`). Utile : les mécaniques de
-correction (`/doc/lessons/release-incident-recovery`) puisque les actions correctives
-s'y réfèrent.
+**preuves** (`/doc/lessons/incident-response`). 
+> **Étagère de référence.** `/doc/lessons/release-incident-recovery` détaille les mécaniques
+> de retour arrière auxquelles les actions correctives se réfèrent. Elle n'est programmée par
+> aucune des 365 journées. L'essentiel est rappelé dans les prérequis de
+> `/doc/lessons/incident-response`, qui est programmée : rollback si l'artefact précédent
+> existe encore et qu'aucune migration destructive n'a eu lieu, roll-forward sinon.
 
 ## 🧠 Modèle mental
 Pense à l'aviation. Après un incident aérien, on n'emprisonne pas le pilote par

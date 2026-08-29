@@ -55,7 +55,7 @@ la réalité s'écarte du code : c'est la **dérive**. L'outil la détecte au pl
 suivant. La discipline : tout changement passe par le code (sinon la prochaine
 application peut ANNULER la modification manuelle, ou échouer).
 
-**Modules et réutation.** On factorise des ensembles réutilisables (un
+**Modules et réutilisation.** On factorise des ensembles réutilisables (un
 **module** « réseau standard », « service web ») paramétrés par des variables.
 Cela évite la duplication et diffuse les bonnes pratiques. Les environnements
 (dev/staging/prod) réutilisent les mêmes modules avec des variables différentes.

@@ -20,9 +20,18 @@ ni perte de données.
 ## 🧩 Prérequis
 Tu dois savoir modéliser un schéma et connaître les contraintes (`/doc/lessons/database-modeling`),
 et comprendre le versionnement du code (`/doc/lessons/git-fundamentals`), car une migration
-est au schéma ce qu'un commit est au code. La notion de compatibilité descendante prolonge la
-sécurité de livraison (`/doc/lessons/deployment-strategies` si tu l'as vue). Aucune
+est au schéma ce qu'un commit est au code. Aucune
 connaissance préalable des outils de migration n'est supposée.
+
+Ce que tu dois savoir du **déploiement progressif** pour lire cette leçon tient en une
+phrase : lors d'une mise à jour, les instances sont remplacées une par une, donc **l'ancienne
+et la nouvelle version du code tournent en même temps pendant quelques minutes**, sur la même
+base. C'est cette cohabitation qui rend une migration dangereuse, et c'est tout ce dont la
+leçon a besoin.
+
+> **Où trouver le détail.** `/doc/lessons/deployment-strategies` compare les stratégies
+> (rolling, blue-green, canary). Elle est sur **l'étagère de référence** : aucune des 365
+> journées ne la programme, et rien ici ne suppose que tu l'as lue.
 
 ## 🧠 Modèle mental
 Pense les migrations comme le « Git de la structure de la base ». Chaque changement de schéma

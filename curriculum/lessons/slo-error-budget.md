@@ -20,8 +20,18 @@ le **burn rate**, et pourquoi la fiabilité est un ARBITRAGE, pas un « toujours
 ## 🧩 Prérequis
 Tu dois savoir lire des **métriques** et des **percentiles** (latence, taux
 d'erreur — `/doc/lessons/metrics-percentiles`), car un SLI est une métrique choisie.
-Utile : la notion de disponibilité vue en architecture
-(`/doc/lessons/cloud-fundamentals`). Aucune formule de fiabilité n'est supposée.
+Aucune formule de fiabilité n'est supposée.
+
+La seule notion de disponibilité nécessaire ici tient en une phrase : **la disponibilité est
+la part du temps pendant laquelle le service rend le service attendu**, et on l'exprime en
+« neuf » — 99 % (deux neuf) autorise environ 7 heures d'indisponibilité par mois, 99,9 %
+(trois neuf) 43 minutes, 99,99 % (quatre neuf) 4 minutes. Chaque neuf supplémentaire divise
+le budget par dix et multiplie le coût d'ingénierie bien davantage. C'est tout ce que la
+leçon utilise.
+
+> **Où trouver le détail.** `/doc/lessons/cloud-fundamentals` situe la disponibilité parmi
+> les autres propriétés d'une architecture. Elle est sur **l'étagère de référence** : aucune
+> des 365 journées ne la programme.
 
 ## 🧠 Modèle mental
 Pense à un **budget de dépenses**. Tu ne dépenses pas « le moins possible » ni « sans

@@ -19,9 +19,13 @@ contrat (fonction, API, format) via un **cycle de dépréciation** plutôt qu'un
 ## 🧩 Prérequis
 Tu dois comprendre ce qu'est un contrat de code — une signature de fonction, un contrat d'API
 (`/doc/lessons/typescript-basics`, `/doc/lessons/http-rest-json`, `/doc/lessons/api-design-basics`
-si tu l'as vue) — car un changement cassant est une rupture de ce contrat. Les notions de
-migration de schéma (`/doc/lessons/database-migrations`) et de déploiement progressif
-(`/doc/lessons/deployment-strategies`) sont des applications voisines de la même idée.
+si tu l'as vue) — car un changement cassant est une rupture de ce contrat. La migration de schéma
+(`/doc/lessons/database-migrations`, programmée au mois 5) est une application voisine de la
+même idée.
+
+> **Étagère de référence.** `/doc/lessons/deployment-strategies` applique la compatibilité au
+> déploiement lui-même. Elle n'est programmée par aucune des 365 journées — tu peux l'ouvrir
+> librement, et rien ici ne suppose que tu l'as lue.
 
 ## 🧠 Modèle mental
 Tout code réutilisé expose un **contrat** : ce que les autres tiennent pour acquis (les

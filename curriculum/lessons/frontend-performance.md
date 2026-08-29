@@ -18,8 +18,12 @@ tomber dans l'optimisation prématurée.
 ## 🧩 Prérequis
 Tu dois comprendre le rendu et les re-rendus React (`/doc/lessons/react-fundamentals`), la
 mémoïsation et l'architecture d'état (`/doc/lessons/react-composition-architecture`), et les bases du
-réseau/HTTP et du cache (`/doc/lessons/http-rest-json`, `/doc/lessons/caching-performance`). Le
-responsive (`/doc/lessons/responsive-design`) aide pour la performance perçue sur mobile.
+réseau/HTTP et du cache (`/doc/lessons/http-rest-json`, `/doc/lessons/caching-performance`). 
+> **Étagère de référence.** `/doc/lessons/responsive-design` traite la performance perçue sur
+> mobile. Elle n'est programmée par aucune des 365 journées — rien dans cette leçon ne suppose
+> que tu l'as lue. Le seul point utile ici : sur mobile, le réseau et le processeur sont
+> plusieurs fois plus lents que sur ton poste, donc **c'est là que se joue la performance de
+> chargement**, et c'est la configuration qu'il faut simuler pour mesurer.
 
 ## 🧠 Modèle mental
 La performance n'est pas une intuition, c'est une MESURE. Avant toute optimisation, pose deux

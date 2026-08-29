@@ -89,14 +89,111 @@ spec:
         capabilities: { drop: ["ALL"] }
 ```
 
-## 🧭 Exemple guidé — durcir un déploiement existant
-1. RBAC : le ServiceAccount du Pod a-t-il des droits au-delà du nécessaire ?
-   réduire.
-2. Réseau : une NetworkPolicy limite-t-elle qui peut joindre ce Pod / ce qu'il
-   peut joindre ? sinon en ajouter une restrictive.
-3. Pod : non-root ? rootfs en lecture seule ? capabilities abandonnées ? pas de
-   `privileged` ?
-4. Secrets : chiffrement au repos + RBAC en lecture ; images épinglées/scannées.
+## 🧭 Exemple guidé — ce qu'un attaquant trouve dans les trente premières secondes
+
+Une faille dans ton application permet d'exécuter des commandes à l'intérieur d'un Pod.
+La question n'est plus « comment est-il entré ? » mais **« que peut-il faire
+maintenant ? »**.
+
+Déroulons ses trente premières secondes sur un déploiement par défaut — c'est-à-dire
+sans aucun durcissement. Chaque découverte correspond à une protection qu'on aurait pu
+poser.
+
+### Seconde 1 — il regarde qui il est
+
+```
+$ id
+uid=0(root) gid=0(root)
+```
+
+**Il est root.** Pas root sur la machine hôte — la conteneurisation l'en empêche — mais
+root dans le conteneur, ce qui est déjà beaucoup : il installe des outils, modifie des
+fichiers, lit tout ce que le conteneur contient.
+
+Rien ne l'imposait. La plupart des applications n'ont aucun besoin de root après leur
+démarrage. Le contexte de sécurité du Pod permet de fixer un utilisateur non
+privilégié, et **ce simple réglage transforme la suite de son exploration**.
+
+### Seconde 5 — il cherche des identifiants, et il en trouve
+
+```
+$ cat /var/run/secrets/kubernetes.io/serviceaccount/token
+eyJhbGciOiJSUzI1NiIsImtpZCI6...
+```
+
+C'est la découverte que peu de gens anticipent. **Kubernetes monte automatiquement, dans
+chaque Pod, un jeton d'accès à sa propre API.** Personne ne l'a demandé : c'est le
+comportement par défaut.
+
+Ce que ce jeton permet dépend entièrement des droits du compte de service associé. Et
+c'est là que se joue tout :
+
+- si ce compte n'a **aucun droit**, le jeton ne sert à rien ;
+- s'il a le droit de **lire les secrets de son espace de noms**, l'attaquant récupère
+  les mots de passe de la base et les clés d'API ;
+- s'il a le droit de **créer des Pods**, il peut démarrer un conteneur privilégié et
+  tenter de sortir vers l'hôte.
+
+Deux protections, indépendantes. Désactiver le montage automatique du jeton quand
+l'application n'appelle pas l'API — ce qui est le cas de l'écrasante majorité des
+applications. Et n'accorder au compte de service que le strict nécessaire, ce qui est
+souvent **rien**.
+
+### Seconde 10 — il regarde qui il peut joindre
+
+Par défaut, dans un cluster, **tout Pod peut joindre tout autre Pod**. Il balaie donc le
+réseau interne et découvre la base de données, le cache, les autres services, y compris
+ceux d'autres applications.
+
+C'est le rôle des politiques réseau, et il faut connaître leur particularité : elles
+fonctionnent en **liste d'autorisation**. Tant qu'aucune politique ne sélectionne un
+Pod, il est totalement ouvert ; dès qu'une politique le sélectionne, seul ce qu'elle
+autorise passe. Il n'y a pas d'état intermédiaire.
+
+Conséquence pratique importante : la première politique à écrire est celle qui **refuse
+tout** dans l'espace de noms, et on ouvre ensuite. Sans elle, ajouter des politiques
+sur quelques Pods laisse tous les autres grands ouverts.
+
+Autre point à vérifier avant de compter dessus : les politiques réseau ne sont
+appliquées que si le module réseau du cluster les prend en charge. Sur certains
+clusters, elles sont acceptées et **silencieusement ignorées** — on croit être protégé
+et on ne l'est pas.
+
+### Seconde 20 — il essaie d'écrire
+
+```
+$ echo 'malveillant' > /usr/local/bin/outil
+```
+
+Si le système de fichiers racine est en lecture seule, cela échoue. C'est une gêne
+sérieuse pour un attaquant : il ne peut pas installer d'outil persistant, pas modifier
+de binaire. Il devra tout faire en mémoire, ce qui est plus difficile et disparaît au
+redémarrage.
+
+Le coût pour toi est faible : déclarer un volume temporaire pour les rares répertoires
+où l'application écrit réellement.
+
+### Seconde 30 — le bilan
+
+| protection | présente par défaut ? | ce qu'elle lui retire |
+|---|---|---|
+| utilisateur non privilégié | **non** | l'installation d'outils, la lecture de tout |
+| jeton d'API non monté | **non** | l'accès à l'API du cluster |
+| compte de service sans droits | **non**, il en a par défaut | les secrets, la création de Pods |
+| politique réseau restrictive | **non** | le balayage du réseau interne |
+| racine en lecture seule | **non** | la persistance |
+
+**Aucune n'est active par défaut.** C'est le point à retenir : Kubernetes est conçu pour
+fonctionner immédiatement, pas pour être sûr immédiatement. Le durcissement est un
+travail à faire, et il se fait presque entièrement dans le manifeste — quelques lignes
+de contexte de sécurité, un `automountServiceAccountToken: false`, une politique réseau.
+
+### Le raisonnement à transposer
+
+Ne demande jamais « est-ce sécurisé ? ». Demande : **« si quelqu'un obtient
+l'exécution de code ici, que trouve-t-il dans ses trente premières secondes ? »** Cette
+question a des réponses concrètes, vérifiables, et chacune désigne une protection
+précise. La première n'en a aucune.
 
 ## ⚠️ Erreurs fréquentes
 - Donner `cluster-admin` par facilité (compromis = total).
@@ -127,10 +224,156 @@ au repos. Le rayon d'impact d'une faille chute drastiquement.
 - « Un namespace isole-t-il de façon sûre ? » → il cloisonne logiquement ; la
   sécurité vient des contrôles posés dessus (RBAC, réseau, securityContext).
 
-## ✍️ Mini-exercice
-Un Pod n'a besoin de joindre que la base. Quelle couche empêche qu'il balaie tout
-le cluster s'il est compromis ? → une NetworkPolicy restrictive (par défaut, tout
-est joignable).
+## ✍️ Mini-exercice — durcir un manifeste, et chiffrer ce que ça retire
+
+**Contexte.** Voici le manifeste tel qu'il est déployé aujourd'hui. Il fonctionne.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: api, namespace: production }
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - name: api
+          image: monentreprise/api:latest
+          env:
+            - name: DB_PASSWORD
+              value: "Pr0d-2026!"
+          ports: [{ containerPort: 8080 }]
+```
+
+L'application est une API web. Elle lit et écrit dans PostgreSQL, écrit des fichiers
+temporaires dans `/tmp`, et **n'appelle jamais l'API de Kubernetes**.
+
+**Ce que tu produis, en trois parties.**
+
+1. **Six défauts de sécurité**, classés par gravité. Pour chacun : ce qu'un attaquant
+   ayant l'exécution de code en tire, en une phrase concrète.
+2. **Le manifeste corrigé**, complet.
+3. **Le tableau avant/après** : pour chacune des cinq protections du tableau de
+   l'exemple guidé, ce que l'attaquant obtient avant, puis après.
+
+**Livrable.** La liste des six défauts, le YAML corrigé, le tableau comparatif.
+
+**Critère de réussite.** Vérifications à faire seul : (1) après correction, le mot de
+passe ne doit apparaître **nulle part** dans le manifeste ; (2) tu dois pouvoir écrire,
+en une phrase, ce que l'attaquant peut encore faire après durcissement — s'il ne peut
+plus **rien**, tu t'es trompé quelque part, il reste toujours quelque chose ; (3) ton
+manifeste doit continuer à permettre l'écriture dans `/tmp`.
+
+**Piège.** Deux des six défauts ne se corrigent **pas** dans ce fichier. Identifie-les
+et dis où ils se corrigent.
+
+## ✅ Correction attendue
+
+**La démarche.** On parcourt le manifeste en se demandant, pour chaque ligne et pour
+chaque **absence** de ligne : *qu'est-ce que ça donne à quelqu'un qui est déjà à
+l'intérieur ?* Les défauts les plus graves d'un manifeste sont presque toujours des
+absences, ce qui les rend difficiles à voir en relecture.
+
+**Défaut 1 — le mot de passe en clair.** Le plus grave. Il est lisible par quiconque
+peut lire le Deployment, il est dans Git, il est dans l'historique des commits, il
+apparaît dans les journaux d'audit. Correction : le sortir dans un objet Secret
+référencé par `secretKeyRef`.
+
+Et il faut le dire honnêtement : un Secret Kubernetes n'est encodé qu'en base64, ce qui
+**n'est pas du chiffrement**. Il vaut mieux qu'une valeur en clair — il n'est plus dans
+le Deployment, il a ses propres droits d'accès, il n'est pas dans Git — mais quelqu'un
+qui peut lire les secrets de l'espace de noms lit le mot de passe. Le chiffrement au
+repos et une gestion externe des secrets sont les étapes suivantes.
+
+**Défaut 2 — le jeton d'API monté sans raison.** L'énoncé dit que l'application
+n'appelle jamais l'API. Correction : `automountServiceAccountToken: false`. Une ligne,
+et l'attaquant perd tout accès à l'API du cluster.
+
+**Défaut 3 — aucun contexte de sécurité.** Le conteneur tourne en root, avec un système
+de fichiers inscriptible et toutes les capacités par défaut.
+
+**Défaut 4 — l'étiquette `latest`.** Personne ne sait quelle version tourne, deux Pods
+peuvent exécuter des images différentes, et le retour arrière est impossible. Ce n'est
+pas qu'un défaut de sécurité, c'est un défaut d'exploitation — mais en sécurité il est
+décisif : on ne peut pas répondre à « cette version contient-elle la faille corrigée
+mardi ? ». Correction : une étiquette immuable, idéalement une empreinte.
+
+**Défaut 5 — aucune limite de ressources.** Un conteneur compromis peut consommer toute
+la mémoire et le processeur du nœud, ce qui affecte les autres applications. Ce n'est
+pas de l'exfiltration, c'est du déni de service latéral.
+
+**Les deux défauts qui ne se corrigent pas ici.**
+
+**Défaut 6 — aucune politique réseau.** C'est un objet **séparé**, pas un champ du
+Deployment. Il faut créer une politique de refus par défaut dans l'espace de noms, puis
+autoriser explicitement l'API à joindre PostgreSQL. Beaucoup d'équipes durcissent le
+manifeste et oublient cette moitié, parce qu'elle n'est pas dans le fichier qu'elles
+ont sous les yeux.
+
+**Défaut 7 — les droits du compte de service.** Ils se définissent dans des objets
+`Role` et `RoleBinding`, également séparés. Ici, le compte de service par défaut de
+l'espace de noms devrait n'avoir aucun droit — et il faut le vérifier, pas le supposer.
+
+**Le manifeste corrigé.**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: api, namespace: production }
+spec:
+  replicas: 3
+  template:
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: api
+          image: monentreprise/api@sha256:3f2a...        # empreinte, pas "latest"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: db-credentials, key: password }
+          ports: [{ containerPort: 8080 }]
+          resources:
+            requests: { cpu: 100m, memory: 128Mi }
+            limits:   { memory: 512Mi }
+          volumeMounts:
+            - { name: tmp, mountPath: /tmp }             # /tmp reste inscriptible
+      volumes:
+        - name: tmp
+          emptyDir: {}
+```
+
+Le volume `emptyDir` est le détail qui fait fonctionner le reste : sans lui,
+`readOnlyRootFilesystem: true` casse l'application, on retire le réglage, et le
+durcissement est abandonné. **Une protection qui casse l'application est une protection
+qui sera désactivée** — c'est pour cela qu'elle s'accompagne toujours de l'ouverture
+minimale nécessaire.
+
+**Ce que l'attaquant peut encore faire après durcissement.** Il exécute du code dans le
+processus de l'API. Il peut donc lire le mot de passe de la base **en mémoire**, et
+faire tout ce que l'application elle-même a le droit de faire sur PostgreSQL — lire,
+écrire, supprimer des données métier. C'est exactement ce que le durcissement ne peut
+pas empêcher, et c'est pourquoi il ne remplace ni la correction de la faille, ni les
+droits restreints de l'application **dans** la base.
+
+**L'erreur probable.** Croire que le durcissement du manifeste rend l'application sûre.
+Il **borne les dégâts**, il ne supprime pas la vulnérabilité initiale. C'est la même
+distinction que dans la leçon sur le réseau cloud : réduire un rayon d'explosion n'est
+pas empêcher l'explosion.
+
+**Quand la réponse changerait.** Si l'application appelait réellement l'API de
+Kubernetes — un opérateur, un contrôleur maison —, le jeton devrait rester monté, et
+c'est alors le `Role` qui devient la protection principale : autoriser exactement les
+verbes et les ressources nécessaires, dans un seul espace de noms, jamais au niveau du
+cluster.
 
 ## 🧾 À retenir
 - Sécurité = superposition de moindres privilèges (RBAC, réseau, Pod, secrets,

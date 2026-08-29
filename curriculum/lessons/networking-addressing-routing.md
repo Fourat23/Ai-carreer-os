@@ -33,6 +33,22 @@ routage** est le plan qui dit « pour telle destination, prends telle sortie ».
 un réseau, c'est découper des quartiers (subnets) et décider qui a une sortie vers
 Internet.
 
+**Les limites de l'analogie, et il faut les connaître avant qu'elles ne coûtent cher.**
+Elle est utile sur trois points — les adresses sont hiérarchiques, les quartiers sont
+contigus, on sort par une porte — et elle trompe sur trois autres :
+
+1. **Un quartier n'a pas de murs.** Dans une ville, changer de quartier demande de se
+   déplacer ; dans un réseau, deux subnets d'un même VPC se joignent **par défaut**, sans
+   rien faire. Le découpage en subnets organise l'adressage, il n'isole rien. C'est le
+   pare-feu (security group, NACL) qui isole, pas le subnet.
+2. **« Privé » ne veut pas dire « protégé ».** Un subnet privé n'a pas de route vers
+   Internet — c'est tout. Il reste joignable par n'importe quelle machine du même réseau.
+3. **Les frontières sont invisibles et exactes.** Une rue peut appartenir à deux
+   quartiers dans le langage courant ; un chevauchement de plages CIDR, lui, casse
+   immédiatement le routage. Il n'y a pas d'approximation possible.
+
+Retiens la première : c'est celle qui produit les vrais incidents de sécurité.
+
 ## 📖 Explication complète
 **IPv4 et notation.** Une IPv4 tient sur 32 bits, notée en quatre octets
 (`10.0.5.23`). Chaque octet va de 0 à 255. Certaines plages sont **privées** (non
@@ -107,9 +123,78 @@ les réseaux (une plage par environnement/équipe).
 - « À quoi sert le NAT ? » → laisser sortir des ressources privées sans les rendre
   joignables depuis l'extérieur.
 
-## ✍️ Mini-exercice
-`10.0.1.0/24` et `10.0.2.0/24` se chevauchent-ils ? → non (quartiers distincts). Et
-`10.0.0.0/16` avec `10.0.5.0/24` ? → oui (le `/24` est inclus dans le `/16`).
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. `10.0.1.0/24` et `10.0.2.0/24` se chevauchent-ils ? Et `10.0.0.0/16` avec
+   `10.0.5.0/24` ?
+2. Ta base est dans un subnet privé. Un serveur web du subnet public est compromis.
+   Que peut atteindre l'attaquant ?
+3. Pourquoi `/25` désigne-t-il un réseau DEUX FOIS plus petit que `/24`, alors que 25
+   est plus grand que 24 ?
+4. Tu prévois trois environnements et deux régions. Quel espace d'adressage choisis-tu,
+   et qu'est-ce qui rend cette décision difficile à corriger plus tard ?
+
+## ✅ Correction attendue
+
+**La démarche.** Un CIDR se lit en bits : le nombre après le slash compte les bits
+**fixés**. Tout le reste — taille, chevauchement, découpage — en découle mécaniquement.
+
+**L'erreur probable, et c'est une faille de sécurité, pas une erreur de calcul.** À la
+deuxième question, la réponse spontanée est « rien, la base est dans un subnet privé,
+elle est protégée ». Elle est fausse, et dangereusement.
+
+**« Privé » qualifie une route, pas une protection.** Un subnet privé se définit par une
+seule propriété : il n'a pas de route vers l'Internet Gateway. Cela empêche exactement
+une chose — qu'on l'atteigne depuis Internet. Cela n'empêche en rien une machine **du
+même réseau** de la joindre, puisque tous les subnets d'un VPC se routent mutuellement
+par défaut. L'attaquant qui contrôle le serveur web atteint donc la base directement, et
+le mot « privé » n'aura rien fait pour l'en empêcher.
+
+Ce qui protège réellement est une couche différente : un **security group** sur la base
+qui n'autorise le port 5432 qu'en provenance du security group des backends. C'est cela,
+et seulement cela, qui refuse la connexion.
+
+Le piège séduit parce que **le mot est juste à moitié**, et que la moitié vraie est
+spectaculaire : la base n'est effectivement pas exposée à Internet, ce qui est un progrès
+réel et mesurable. On généralise donc une protection vérifiée en protection générale.
+S'ajoute la géométrie de tous les schémas d'architecture, où le subnet privé est dessiné
+**à l'intérieur** d'un rectangle — l'image suggère un enclos, et il n'y en a pas.
+
+**Sur les autres questions.** `10.0.1.0/24` et `10.0.2.0/24` ne se chevauchent pas : le
+troisième octet diffère, ce sont deux plages disjointes. `10.0.0.0/16` et `10.0.5.0/24`
+se chevauchent en revanche complètement, le second étant **entièrement contenu** dans le
+premier — un `/16` fixe `10.0.`, donc il couvre tout ce qui commence ainsi.
+
+Le paradoxe du `/25` disparaît dès qu'on se souvient de ce que compte le nombre : il
+compte les bits **imposés**, pas les adresses disponibles. Plus on impose de bits, moins
+il en reste de libres, et chaque bit fixé supplémentaire **divise par deux** l'espace
+restant. `/24` laisse 8 bits libres, donc 2⁸ = 256 adresses ; `/25` en laisse 7, donc
+128. Grand préfixe = petit réseau, toujours.
+
+Le plan d'adressage pour trois environnements et deux régions demande des plages
+**disjointes dès le départ** — par exemple un `/16` distinct par couple
+environnement-région, taillé dans un `/8` privé réservé. Ce qui rend la décision
+difficile à corriger est simple et brutal : **on ne renumérote pas un réseau en
+production.** Chaque machine, chaque règle de pare-feu, chaque configuration porte ces
+adresses. Deux réseaux qui se chevauchent ne pourront jamais être appairés, et la seule
+issue sera de reconstruire l'un des deux.
+
+**Alternative défendable.** Certaines équipes ne segmentent pas du tout par subnets et
+s'appuient uniquement sur l'identité et les politiques réseau applicatives — c'est la
+logique du *zero trust* et des maillages de services. C'est cohérent et parfois
+supérieur : le réseau n'est plus un périmètre de confiance, chaque appel s'authentifie.
+Le coût est un outillage bien plus lourd, et cela reste rare hors des grandes
+organisations.
+
+**Vérifie seul, sans corrigé** :
+1. Prends ta base de données la plus sensible. Quelle règle **précise** empêche une
+   machine compromise du même réseau de s'y connecter ? Si tu ne peux pas la citer, elle
+   n'existe pas.
+2. Calcule le nombre d'adresses d'un `/22` et d'un `/28` sans regarder de table. Si tu
+   passes par les bits libres, c'est acquis.
+3. Écris ton plan d'adressage pour les trois prochaines années sur une feuille. Le
+   moment de le faire est avant de créer le premier réseau.
 
 ## 🧾 À retenir
 - IP = adresse ; CIDR `/n` = n bits de préfixe fixe (grand n = petit réseau).

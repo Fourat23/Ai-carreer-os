@@ -84,6 +84,91 @@ curl -i http://10.0.2.10:8080/health        # tester une instance backend direct
 4. Cause fréquente : instances saturées (voir ressources/I-O) retirées par vagues → le
    LB manque de capacité. Corriger la capacité/l'autoscaling, pas le LB seul.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton endpoint `/health` vérifie que la base de données répond. La base a un
+   ralentissement de dix secondes. Que fait le load balancer ?
+2. Un `/health` qui renvoie toujours `200` tant que le processus vit : quel est son
+   défaut opposé ?
+3. Ton application garde la session en mémoire. Tu passes de une à trois instances.
+   Que voient les utilisateurs, et quelles sont les deux réponses possibles ?
+4. Un L4 peut-il router `/api` vers un backend et `/` vers un autre ?
+
+## ✅ Correction attendue
+
+**La démarche.** Un load balancer prend une décision toutes les quelques secondes à
+partir d'une seule information : la réponse au health check. La qualité de cette
+information détermine tout le reste — et c'est presque toujours là que se joue la
+disponibilité réelle.
+
+**L'erreur probable, et elle transforme une panne partielle en panne totale.** À la
+première question, la réponse spontanée est « il retire les instances qui ne répondent
+plus, c'est son rôle, tout va bien ». En réalité : **la base ralentit pour tout le monde
+en même temps, donc toutes les instances échouent leur health check en même temps, donc
+le load balancer les retire toutes — et il ne reste aucune capacité.**
+
+Un ralentissement de la base aurait dégradé le service. Le health check l'a transformé
+en **indisponibilité complète**, et il l'a fait en appliquant exactement la règle qu'on
+lui avait donnée. Pire : les instances retirées cessent de recevoir du trafic, la base
+se repose, les checks repassent au vert, tout le trafic revient d'un coup, la base
+retombe. Le système se met à osciller, et le graphe montre une panne qui va et vient
+sans cause apparente.
+
+Le piège séduit parce que **la logique est impeccable** : un service qui ne peut pas
+joindre sa base ne peut effectivement pas répondre correctement. Vérifier les
+dépendances dans le health check paraît plus rigoureux, plus complet, plus
+professionnel. L'erreur n'est pas dans le raisonnement mais dans le fait qu'il est
+appliqué **simultanément par toutes les instances sur une dépendance partagée** : ce
+qui est vrai individuellement devient catastrophique collectivement.
+
+La distinction qui règle le problème, et qu'il vaut la peine de retenir sous ces deux
+noms :
+
+- **liveness** — « ce processus est-il irrécupérable ? » Si oui, on le redémarre. Ne
+  teste que soi-même, jamais une dépendance.
+- **readiness** — « puis-je servir du trafic maintenant ? » Peut consulter une
+  dépendance **critique**, mais jamais une dépendance partagée par toutes les instances
+  sans garde-fou.
+
+Un service dont la base ralentit devrait rester **présent** et répondre en mode dégradé
+ou avec une erreur claire — pas disparaître.
+
+**Sur les autres questions.** Le health check qui renvoie toujours `200` a le défaut
+exactement inverse et tout aussi coûteux : le processus vit, le load balancer route, et
+chaque requête échoue. **L'instance est morte fonctionnellement et considérée saine.**
+Entre les deux excès, un bon check teste ce que l'instance peut faire *par elle-même* —
+sa configuration est chargée, ses caches sont initialisés, son pool de connexions
+existe.
+
+La session en mémoire avec trois instances : les utilisateurs sont **déconnectés au
+hasard**, environ deux fois sur trois, sans logique apparente — le symptôme le plus
+déroutant qui soit pour le support. Deux réponses : la **sticky session**, qui épingle
+chaque client à une instance (rapide à mettre en place, mais la panne d'une instance
+déconnecte ses utilisateurs, et la répartition devient inégale) ; ou l'**externalisation
+de l'état** dans un cache partagé, qui est la vraie solution et la condition du scaling
+horizontal. La première est une rustine assumée, la seconde un changement d'architecture.
+
+Enfin, un L4 **ne peut pas** router par chemin : il ne lit que l'enveloppe TCP —
+adresses et ports — et le chemin `/api` vit dans le contenu HTTP, une couche au-dessus.
+Router par URL exige de lire le HTTP, donc un L7. C'est aussi pourquoi un L7 doit
+terminer le TLS pour faire son travail : on ne lit pas un contenu chiffré.
+
+**Alternative défendable.** Certaines équipes n'ont volontairement **aucun health check
+applicatif** et se contentent d'un test de port TCP. C'est défendable pour un service
+sans état et sans initialisation : moins de code, aucun risque d'amplification, et les
+vraies pannes sont détectées par les métriques d'erreur plutôt que par le load balancer.
+Le prix est une détection plus lente d'une instance abîmée mais vivante.
+
+**Vérifie seul, sans corrigé** :
+1. Lis ton endpoint de santé. Interroge-t-il une dépendance partagée par toutes tes
+   instances ? Si oui, tu as l'amplification décrite ci-dessus, en attente d'un
+   ralentissement.
+2. Coupe ta base en local et appelle `/health`. La réponse te paraît-elle proportionnée
+   à la panne ?
+3. Combien d'instances peuvent être retirées avant que la capacité restante ne suffise
+   plus ? Si tu ne connais pas ce nombre, ton autoscaling est décoratif.
+
 ## ⚠️ Erreurs fréquentes
 - **Confondre proxy et reverse proxy** (client vs serveur).
 - Choisir L4 quand on a besoin de router par URL (ou payer un L7 pour du TCP brut).

@@ -80,6 +80,75 @@ une réponse vide = pas d'enregistrement de ce type.
 3. Regarder le TTL restant : attendre son expiration, ou vider les caches accessibles.
 4. Pour la prochaine fois : baisser le TTL AVANT la migration.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Tu dois migrer une IP demain. Le TTL actuel est de 3 600 s. Tu le passes à 60 s ce
+   matin. Dans combien de temps la migration pourra-t-elle se propager en une minute ?
+2. `dig` sur ton poste renvoie la nouvelle IP, mais un collègue voit encore l'ancienne.
+   Qui a raison, et que fais-tu ?
+3. Ton application Node tourne depuis six jours. Tu changes l'IP, tous les TTL ont
+   expiré, et elle continue d'appeler l'ancienne adresse. Que se passe-t-il ?
+4. Pourquoi ne peut-on pas mettre un CNAME sur `exemple.test` (la racine du domaine) ?
+
+## ✅ Correction attendue
+
+**La démarche.** Un problème DNS se diagnostique en comparant deux sources : ce que dit
+le serveur **faisant autorité** et ce que renvoie le **resolver** qu'on interroge. Tout
+écart entre les deux est du cache, et tout cache a une durée qu'on peut lire.
+
+**L'erreur probable, et elle fait rater des migrations soigneusement préparées.** À la
+première question, la réponse spontanée est « dans une minute, puisque le TTL est
+maintenant de 60 s ». Elle est fausse, et la vraie réponse est **dans une heure**.
+
+Le mécanisme est le suivant, et c'est le point à comprendre une fois pour toutes : **la
+modification du TTL est elle-même soumise à l'ancien TTL.** Les resolvers qui ont
+interrogé ton domaine il y a dix minutes ont mis en cache l'enregistrement *avec sa
+durée de 3 600 s*. Ils ne reviendront pas te demander la nouvelle valeur avant
+l'expiration de cette heure-là. Le TTL à 60 s ne s'appliquera qu'à partir du moment où
+tout le monde aura rafraîchi — c'est-à-dire une heure plus tard.
+
+D'où la règle opérationnelle : **baisser le TTL une durée au moins égale à l'ancien TTL
+avant la migration**, pas le matin même. Pour un TTL d'une heure, on le baisse la
+veille ; pour un TTL de 24 h, deux jours avant.
+
+Le piège séduit parce qu'un changement DNS **paraît instantané côté émetteur** : on
+modifie l'enregistrement, `dig @autorité` confirme aussitôt, tout semble fait. Ce qu'on
+observe est la source ; ce qui compte est la centaine de milliers de caches répartis
+dans le monde, et ceux-là ne se voient pas.
+
+**Sur les autres questions.** Ton collègue et toi avez raison tous les deux : vous
+interrogez des resolvers différents, dont les caches ont expiré à des moments
+différents. Ce n'est pas un désaccord à trancher, c'est une propagation en cours — et
+la seule vérité est le serveur d'autorité, que `dig @ns` interroge directement.
+
+L'application Node qui persiste après expiration de tous les TTL révèle un cache que
+personne ne surveille : **beaucoup de bibliothèques et de runtimes mettent en cache la
+résolution pour la durée de vie du processus**, en ignorant complètement le TTL. Vider
+le cache du système d'exploitation ne les atteint pas. La seule solution est souvent de
+redémarrer le processus — et c'est une raison sérieuse de préférer un nom stable devant
+un load balancer plutôt que de compter sur le DNS pour basculer du trafic.
+
+Enfin, le CNAME à la racine est interdit parce qu'un CNAME dit « ce nom est un alias, va
+chercher tout ailleurs » — or la racine d'un domaine doit obligatoirement porter ses
+enregistrements **NS** et **SOA**. Un alias et des enregistrements propres ne peuvent
+pas coexister sur le même nom. Les fournisseurs contournent cela avec des
+enregistrements non standard (ALIAS, ANAME, « CNAME plat ») qui résolvent côté serveur.
+
+**Alternative défendable.** Pour basculer du trafic, beaucoup d'équipes **n'utilisent
+pas le DNS du tout** : elles gardent un nom fixe et changent la cible derrière le load
+balancer. C'est instantané, réversible en une seconde, et cela évite entièrement le
+problème des caches. Le DNS reste utile pour les bascules rares et planifiées — un
+changement de fournisseur, une migration de région.
+
+**Vérifie seul, sans corrigé** :
+1. Regarde le TTL de ton enregistrement principal (`dig` l'affiche). Combien de temps
+   te faudrait-il pour basculer aujourd'hui ?
+2. Compare `dig +short nom` et `dig @<autorité> +short nom`. Un écart signifie que tu
+   es en train de regarder le passé.
+3. Ton application met-elle en cache ses résolutions ? Cherche-le dans sa
+   documentation ; presque personne ne le sait avant d'en avoir souffert.
+
 ## ⚠️ Erreurs fréquentes
 - **Oublier le TTL** : changer un enregistrement et s'étonner que « ça ne prend pas »
   tout de suite.

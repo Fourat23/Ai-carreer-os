@@ -78,6 +78,76 @@ le problème.
 4. L'application répond-elle correctement ? (`curl -i`) — un 502/503 pointe vers le
    backend, pas le réseau.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. `ping serveur.exemple` ne renvoie rien. Qu'as-tu appris ?
+2. `curl https://api.exemple` échoue avec « connection refused », et sur une autre
+   machine avec « connection timed out ». Ces deux messages disent-ils la même chose ?
+3. Un nom résout bien, la machine répond au ping, et le service est injoignable. Quelle
+   couche testes-tu ensuite, et avec quoi ?
+4. Pourquoi un routeur n'a-t-il pas besoin de comprendre HTTP pour acheminer une
+   requête HTTP ?
+
+## ✅ Correction attendue
+
+**La démarche.** Tester **couche par couche**, de bas en haut, et ne monter qu'après
+avoir validé le niveau précédent. Chaque outil interroge une couche précise : `dig`
+l'application, `traceroute` l'internet, `nc` le transport, `curl -i` l'application à
+nouveau, mais côté sens.
+
+**L'erreur probable, et c'est le premier outil que tout le monde apprend.** À la
+première question, la réponse spontanée est « la machine est morte » ou « le réseau est
+coupé ». La bonne réponse est : **tu n'as appris presque rien.**
+
+`ping` n'utilise ni TCP ni UDP : il utilise **ICMP**, un protocole distinct. Or ICMP est
+bloqué par défaut dans la plupart des configurations de pare-feu, et notamment dans les
+groupes de sécurité par défaut des fournisseurs cloud. Une machine parfaitement saine,
+qui sert du HTTPS à des milliers de clients, ne répondra pas au ping. **L'absence de
+réponse ICMP ne dit rien sur l'état du port 443.**
+
+Le piège séduit pour trois raisons qui se cumulent. `ping` est le premier outil réseau
+qu'on apprend, donc le plus familier. Il donne une réponse **binaire**, ce qui est
+reposant quand on cherche à trancher. Et surtout, **il a longtemps eu raison** : sur un
+réseau local sans filtrage, un ping muet signifiait vraiment une machine éteinte.
+L'intuition a été correcte pendant des années, puis le monde a mis des pare-feu partout
+et l'outil a cessé de mesurer ce qu'on croit qu'il mesure.
+
+Le remplaçant est le test de la couche qui t'intéresse vraiment : `nc -zv hôte 443` ou
+`curl -v`. Tester le port, pas la machine.
+
+**Sur les autres questions.** « Connection refused » et « connection timed out » sont
+deux diagnostics **opposés**, et les confondre coûte des heures. *Refused* signifie que
+le paquet est arrivé et que la machine a activement répondu « aucun service n'écoute
+sur ce port » : le réseau fonctionne, c'est le service qui est arrêté. *Timed out*
+signifie que rien n'est revenu : le paquet est tombé dans le vide — pare-feu qui rejette
+silencieusement, route absente, machine injoignable. Le premier t'envoie regarder le
+processus, le second le réseau.
+
+Quand le nom résout et que la machine répond, la couche suivante est le **transport** :
+`nc -zv hôte port`. C'est le test qui distingue « le service n'écoute pas » de « le
+service écoute mais répond mal », et il coûte une seconde.
+
+Enfin, le routeur ignore HTTP à cause de l'**encapsulation** : les octets HTTP sont
+enfermés dans un segment TCP, lui-même dans un paquet IP. Le routeur ne lit que
+l'enveloppe IP — l'adresse de destination — et fait suivre sans jamais ouvrir le
+contenu. C'est exactement ce qui rend Internet possible : chaque couche ne connaît que
+la sienne, et l'on peut inventer un nouveau protocole applicatif sans changer un seul
+routeur au monde.
+
+**Alternative défendable.** Certaines équipes autorisent ICMP à l'intérieur de leur
+réseau privé, précisément pour que le ping redevienne un diagnostic fiable entre leurs
+propres machines. C'est raisonnable et courant. Ce qui ne l'est pas est d'en déduire
+que l'outil vaut aussi vers l'extérieur.
+
+**Vérifie seul, sans corrigé** :
+1. Pingue un grand service public. Beaucoup ne répondent pas, et fonctionnent
+   parfaitement — tu viens de vérifier la leçon en dix secondes.
+2. Sur ta machine, lance `nc -zv` vers un port ouvert puis vers un port fermé. Note la
+   différence exacte des messages : c'est celle de la question 2.
+3. Sur ton dernier incident réseau : quelle couche as-tu testée en premier ? Étais-tu
+   parti du bas, ou de ton hypothèse ?
+
 ## ⚠️ Erreurs fréquentes
 - **Conclure « c'est le réseau » sans preuve par couche** : c'est souvent
   l'application (500) ou le DNS.

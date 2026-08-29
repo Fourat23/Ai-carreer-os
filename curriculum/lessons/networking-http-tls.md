@@ -88,6 +88,81 @@ TLS (certificat expiré, nom qui ne correspond pas, CA inconnue).
    viennent de là.
 4. Reproduire minimalement avec `curl` avant d'accuser le code.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Tu déploies un nouveau certificat. `curl https://api.exemple` fonctionne depuis ton
+   poste. Le déploiement est-il correct ?
+2. Une API renvoie `401` puis, après correction du jeton, `403`. Qu'as-tu appris entre
+   les deux ?
+3. Un site de hameçonnage affiche un cadenas vert. Le navigateur ment-il ?
+4. Ton service renvoie `502`. Où regardes-tu, et où ne regardes-tu pas ?
+
+## ✅ Correction attendue
+
+**La démarche.** Reproduire minimalement avec `curl -i` (le code et les en-têtes) puis
+`curl -v` (la négociation TLS) **avant** d'ouvrir le code applicatif. La grande majorité
+des « bugs d'API » se lisent dans ces deux sorties.
+
+**L'erreur probable : conclure de « ça marche chez moi » que le certificat est bien
+installé.** C'est le classique absolu de TLS, et il touche des ingénieurs
+expérimentés.
+
+Un certificat de serveur n'est presque jamais signé directement par une autorité
+racine : il est signé par un certificat **intermédiaire**, lui-même signé par la racine.
+Le client doit pouvoir reconstituer cette **chaîne** entière pour valider. Le serveur a
+donc l'obligation d'envoyer **son certificat ET les intermédiaires**.
+
+S'il n'envoie que le sien, cela fonctionne quand même — pour toi. Parce que ton
+navigateur ou ton système a déjà rencontré cet intermédiaire ailleurs et l'a mis en
+cache. Ton test réussit, tu déploies, et l'échec frappe ceux qui n'ont pas ce cache :
+une machine fraîchement provisionnée, un conteneur minimal, un client Java, un mobile
+Android. **Le service est cassé pour une fraction des utilisateurs, et impossible à
+reproduire depuis le poste de celui qui a déployé.**
+
+Le piège séduit parce que le test **est réel** : la connexion s'établit vraiment, le
+cadenas s'affiche vraiment. Ce n'est pas une négligence, c'est une expérience réussie
+dont on tire une conclusion trop large. Le défaut n'est pas dans le résultat mais dans
+l'échantillon : un seul client, et le plus équipé de tous.
+
+Le remède : vérifier la chaîne, pas la connexion. `openssl s_client -connect
+hôte:443 -showcerts` affiche ce que le serveur envoie réellement, et un testeur SSL
+public le fait depuis une machine qui n'a pas ton cache.
+
+**Sur les autres questions.** Passer de `401` à `403` est une bonne nouvelle
+déguisée en échec : `401` signifie « je ne sais pas qui tu es » — l'authentification a
+échoué ; `403` signifie « je sais qui tu es, et tu n'as pas le droit » —
+l'authentification a réussi, c'est l'autorisation qui refuse. Tu as donc franchi une
+étape, et le problème a changé de nature : ce n'est plus un jeton, c'est une permission.
+
+Le cadenas sur un site de hameçonnage : **le navigateur ne ment pas, il dit autre chose
+que ce qu'on croit lire.** Il affirme que la connexion est chiffrée et que le serveur
+prouve posséder le domaine affiché. Il n'affirme rien sur l'honnêteté de ce domaine.
+N'importe qui peut obtenir un certificat valide pour un domaine qu'il possède, y compris
+`ma-banque-securite.example`. TLS authentifie **le domaine, pas l'intention** — et c'est
+pourquoi lire l'URL reste indispensable.
+
+Enfin, `502` est émis par un **intermédiaire** — reverse proxy, load balancer,
+passerelle — qui dit : « j'ai contacté le backend et je n'ai pas obtenu de réponse
+valide ». On regarde donc les logs du backend et son état de santé. On ne regarde **pas**
+le code qui a produit la requête, ni le client : ils n'ont rien fait de mal, et c'est
+justement ce que le code de statut annonce.
+
+**Alternative défendable.** `curl -k` (ignorer la validation du certificat) est un outil
+de diagnostic légitime : il permet de savoir en une seconde si le problème est TLS ou
+applicatif. Ce qui n'est jamais défendable, c'est de le laisser dans un script, un
+client HTTP ou une configuration — il désactive précisément la protection contre
+l'interception, et il le fait silencieusement pour toujours.
+
+**Vérifie seul, sans corrigé** :
+1. Lance `openssl s_client -connect ton-domaine:443 -showcerts`. Combien de certificats
+   le serveur envoie-t-il ? S'il n'y en a qu'un, tu as la panne décrite ci-dessus, en
+   attente d'un client sans cache.
+2. Cherche `-k`, `verify=False`, `rejectUnauthorized: false` dans ton code. Chaque
+   occurrence est une interception rendue possible.
+3. Quelle est la date d'expiration de ton certificat, et qu'est-ce qui t'alertera avant
+   ? Si la réponse est « rien », note-la dans un calendrier maintenant.
+
 ## ⚠️ Erreurs fréquentes
 - **Confondre 4xx et 5xx** : chercher un bug serveur alors que c'est un 401 (jeton).
 - Croire que « cadenas vert = site fiable » : TLS ≠ honnêteté.

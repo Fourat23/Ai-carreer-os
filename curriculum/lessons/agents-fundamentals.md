@@ -69,10 +69,88 @@ L'« historique » de la boucle EST la mémoire de l'agent — et il grossit à 
 Boucle plan → act → observe · function calling · budget (itérations, coût, temps) · arrêt propre · traces · workflow vs agent (le critère : chemin connu ?) · les 4 patterns de workflow · modes d'échec · moindre privilège · mémoire/état.
 
 ## 🧭 Exemple guidé
-« Vérifier la cohérence de la documentation » :
-- **Version agent** : outils lire_fichier + chercher ; le LLM explore, décide, signale. Coût variable, découvertes possibles, résultats variables d'une exécution à l'autre.
-- **Version workflow** : lister les docs → extraire les affirmations de chacun (n appels parallèles) → comparer les paires → rapporter. Coût CONNU d'avance, testable étape par étape, reproductible.
-Pour un rapport quotidien fiable : le workflow gagne. Pour une investigation ponctuelle ouverte : l'agent se défend. LE réflexe : comparer les deux AVEC des chiffres (coût, latence, fiabilité) — c'est exactement ton exercice du mois 10.
+
+Tâche : « vérifier la cohérence de la documentation », 40 documents. Deux architectures
+possibles, et la bonne façon de choisir n'est pas d'avoir un avis — c'est de poser les
+chiffres. Faisons-le (tarifs illustratifs, 3 € par million de tokens en entrée, 15 € en
+sortie).
+
+**Version workflow** — un chemin fixé d'avance : extraire les affirmations de chaque
+document, puis comparer les paires.
+
+```
+appels : 79   (nombre FIXE, connu avant de lancer)
+coût   : 0,64 €   — identique à chaque exécution
+```
+
+**Version agent** — on donne au modèle `lire_fichier` et `chercher`, et il décide de son
+chemin. Chaque itération lui renvoie tout l'historique accumulé, donc le contexte grossit à
+mesure :
+
+```
+12 itérations → 0,32 €
+25 itérations → 1,25 €
+40 itérations → 3,08 €
+60 itérations → 6,79 €
+```
+
+**Décision 1 — lire ce que ces chiffres disent vraiment.** Le point important n'est pas que
+l'agent soit plus cher : à 12 itérations, il est **moins** cher que le workflow. Le point est
+que **l'écart entre sa meilleure et sa pire exécution est d'un facteur 21**, et que tu ne
+sais pas, avant de lancer, dans quel cas tu te trouves. Le workflow coûte 0,64 € aujourd'hui,
+demain et le mois prochain. L'agent coûte entre 0,32 € et 6,79 €, selon l'humeur d'un
+processus non déterministe.
+
+Remarque aussi la forme de la croissance : le coût de l'agent n'augmente pas linéairement
+avec le nombre d'itérations, mais **quadratiquement**, puisque chaque itération relit tout
+ce qui précède. Doubler la longueur d'une exploration en quadruple à peu près le prix. C'est
+le même phénomène que le contexte qui grandit dans une conversation, et c'est ce qui rend
+les agents longs si coûteux.
+
+**Décision 2 — la fiabilité, et c'est l'argument décisif.** Un agent enchaîne des étapes dont
+chacune peut échouer. Même en supposant 95 % de réussite par étape — optimiste :
+
+```
+ 5 étapes → 77,4 % de réussite bout en bout
+10 étapes → 59,9 %
+20 étapes → 35,8 %
+40 étapes → 12,9 %
+```
+
+Les taux se **multiplient**. Une chaîne de 20 étapes à 95 % chacune échoue presque deux fois
+sur trois. C'est une propriété arithmétique, pas un défaut des modèles actuels : elle ne
+disparaîtra pas avec la prochaine génération, elle se déplacera seulement. La conséquence de
+conception est nette : **plus une tâche compte d'étapes, plus il faut que chacune soit
+vérifiable et reprenable** — ce qui est exactement ce qu'un workflow permet et qu'un agent
+libre ne permet pas.
+
+**Décision 3 — le critère, alors.** Pas « lequel est le plus intelligent », mais : **le
+chemin est-il connu d'avance ?** S'il l'est — et il l'est bien plus souvent qu'on ne le
+croit — le workflow gagne sur tous les tableaux : coût prévisible, étapes testables une par
+une, exécution reproductible, panne localisable. L'agent se justifie quand le chemin dépend
+réellement de ce qu'on découvre en route : une investigation ponctuelle, un diagnostic
+ouvert, une exploration. Pour un rapport quotidien qui doit être fiable, le workflow gagne
+sans discussion.
+
+L'erreur courante n'est pas de choisir l'agent, c'est de le choisir **par défaut**, parce
+que c'est le mot qu'on entend partout. Décrire ta tâche en étapes est le test : si tu y
+arrives sur une feuille, tu n'as pas besoin d'un agent — tu viens d'écrire ton workflow.
+
+**Décision 4 — si tu prends l'agent, ce que tu dois construire en plus.** Trois choses non
+négociables, et elles découlent des chiffres ci-dessus. Un **budget** — en itérations, en
+euros, en temps — avec une sortie explicite quand il est épuisé, jamais une réponse
+inventée. Des **traces** de chaque étape : sans elles, un comportement étrange est
+indiagnosticable, puisqu'il ne se reproduit pas à l'identique. Et des **outils étroits** :
+un agent qui déraille ne peut faire que ce que ses outils permettent, donc le périmètre des
+dégâts se décide au moment où tu écris la liste des outils, pas après.
+
+**Variante qui déplace le problème.** L'architecture la plus utile en pratique n'est ni l'une
+ni l'autre : c'est un **workflow dont une seule étape est un agent**. Le chemin global est
+fixe, testable et prévisible ; la partie réellement ouverte — par exemple « lire ce document
+et en extraire les affirmations, quelle que soit sa forme » — est confiée à un modèle, dans
+un périmètre borné et avec une sortie validée. Tu gardes la prévisibilité là où elle compte
+et la souplesse là où elle est nécessaire. Poser la question « quelle *partie* de ma tâche a
+un chemin inconnu ? » plutôt que « agent ou workflow ? » est le vrai saut de maturité.
 
 ## ⚠️ Erreurs fréquentes
 - L'agent par défaut (« c'est plus intelligent ») : plus cher, moins fiable, pour rien si le chemin est connu.

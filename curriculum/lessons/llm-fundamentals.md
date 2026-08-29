@@ -61,14 +61,67 @@ Cinq propriétés qui dictent ton code appelant : **non-déterministe** (→ val
 Token · fenêtre de contexte · system/user prompts · prédiction du token suivant · hallucination (mécanisme) · température, top-p · structured outputs (JSON contraint + validation côté code) · function calling (le modèle DEMANDE, ton code EXÉCUTE) · coûts entrée/sortie · streaming · dérive.
 
 ## 🧭 Exemple guidé
+
+D'abord le mécanisme, en deux lignes qui disent l'essentiel :
+
 ```
 Entrée : "La capitale de la France est"
-Le modèle calcule : P("Paris") = 0.92, P("une") = 0.03, ...
-Température 0 → "Paris". 
-Maintenant : "La capitale de la Zorbaquie est"
-→ le modèle produit un nom PLAUSIBLE avec le même aplomb.
+  → P("Paris") = 0,92, P("une") = 0,03, …   température 0 → "Paris"
+Entrée : "La capitale de la Zorbaquie est"
+  → le modèle produit un nom PLAUSIBLE, avec le même aplomb
 ```
-Même mécanique dans les deux cas — c'est exactement pourquoi la confiance apparente d'un LLM n'est PAS un signal de vérité, et pourquoi tes systèmes exigeront des sources.
+
+Même calcul dans les deux cas. Le modèle ne distingue pas « je sais » de « je complète » :
+c'est pourquoi son assurance n'est jamais un signal de vérité.
+
+**Maintenant, la conséquence en ingénierie**, car c'est là que ce cours te sera utile. Tu
+construis un assistant interne : 5 000 questions par jour sur un manuel de 80 000 tokens. Le
+modèle accepte un contexte largement suffisant pour tout avaler. **Faut-il le faire ?**
+
+**Décision 1 — la fenêtre de contexte est un budget, pas une capacité.** Avec des tarifs
+illustratifs de 3 € par million de tokens en entrée et 15 € en sortie — vérifie toujours les
+tarifs courants, ils changent souvent :
+
+| ce qu'on envoie | tokens/appel | coût/appel | coût/mois |
+|---|---|---|---|
+| tout le manuel | 80 300 | 0,24 € | **36 675 €** |
+| les 6 passages pertinents | 3 300 | 0,01 € | **2 025 €** |
+| les 6 passages + l'historique | 5 300 | 0,02 € | 2 925 € |
+
+**Dix-huit fois plus cher pour répondre à la même question.** Un choix d'architecture qui
+tient en une ligne de code — quoi mettre dans le contexte — se lit directement sur la facture
+mensuelle, à hauteur de 34 000 € par mois. Retiens la reformulation : **« ça rentre dans la
+fenêtre » ne veut pas dire « c'est une bonne idée de l'y mettre »**. C'est la même différence
+qu'entre « la requête SQL fonctionne » et « la requête SQL passe à l'échelle ».
+
+**Décision 2 — et ce n'est pas seulement une question d'argent.** Trois autres coûts
+s'ajoutent, dans le même sens. La **latence** croît avec le contexte : l'utilisateur attend.
+La **qualité** peut se dégrader — sur de très longs contextes, l'information utile noyée au
+milieu est moins bien exploitée que la même information isolée ; c'est contre-intuitif et
+c'est mesuré. Et la **confidentialité** : tout ce qui entre dans le contexte quitte ton
+infrastructure. Le fait remarquable est que les quatre critères — coût, latence, qualité,
+sécurité — pointent ici dans la même direction. Quand cela arrive, la décision est facile ;
+c'est justement le moment de la prendre explicitement plutôt que par défaut.
+
+**Décision 3 — les cinq propriétés, appliquées.** La liste plus haut n'est utile que
+traduite en gestes de code. Non déterministe → je valide la sortie, je ne fais pas confiance
+au format. Faillible → timeout, une relance bornée, une réponse dégradée utilisable.
+Latent → je diffuse la réponse en flux plutôt que de faire attendre devant un écran vide.
+Coûteux → je mets en cache ce qui se répète et je ne mets dans le contexte que le
+nécessaire. Sujet à dérive → **j'ai un jeu d'évaluation versionné**, parce que le
+fournisseur mettra à jour son modèle sans me demander mon avis, et que je dois pouvoir
+répondre à « est-ce que ça s'est dégradé ? » autrement qu'à l'intuition.
+
+Cette dernière propriété est la plus sous-estimée. Un composant logiciel ordinaire fait
+demain ce qu'il faisait hier ; un modèle distant, non. **C'est la seule dépendance de ton
+système qui peut changer de comportement sans que rien ne bouge dans ton dépôt.**
+
+**Variante qui déplace le problème.** Ton assistant doit maintenant tenir une conversation :
+il faut renvoyer l'historique à chaque tour, puisque le modèle n'a aucune mémoire entre deux
+appels. Le contexte grandit donc à chaque échange, et le coût d'un tour de conversation
+croît avec sa longueur — une discussion de trente messages coûte bien plus que trente fois
+le premier. D'où les stratégies de troncature ou de résumé de l'historique, et une question
+de conception que personne ne peut trancher à ta place : **qu'a-t-on le droit d'oublier ?**
 
 ## ⚠️ Erreurs fréquentes
 - Traiter le LLM comme une base de connaissances fiable (il est un générateur plausible).

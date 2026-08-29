@@ -40,20 +40,80 @@ La limite structurelle : l'attention compare chaque token à chaque autre — co
 « La banque a refusé mon prêt » vs « La banque du fleuve était boueuse » : le vecteur de « banque » diffère à la sortie, parce que l'attention l'a mélangé à « prêt » dans un cas, à « fleuve » dans l'autre. C'est ÇA, une représentation contextuelle.
 
 ## 🧭 Exemple guidé
-**Énoncé** : dérouler le trajet de « Le chat dort » jusqu'au token suivant.
-**Raisonnement** : suivre les 5 étapes, une par une.
-**Solution (trace)** :
+**Énoncé** : dérouler le trajet de « Le chat dort » jusqu'au token suivant — et calculer
+l'étape d'attention, au lieu de la raconter.
+
 ```
 1. Tokens      : [Le] [chat] [dort]
-2. Embeddings  : 3 vecteurs + positions (1,2,3)
-3. Attention   : « dort » regarde « chat » (qui dort ?) → son vecteur
-                 intègre l'idée « sommeil-d'un-chat »
+2. Embeddings  : 3 vecteurs + une information de position
+3. Attention   : chaque token en regarde d'autres          ← on ouvre cette boîte
 4. ×N couches  : représentations de plus en plus contextuelles
-5. Sortie      : distribution sur le vocabulaire pour le token suivant :
-                 « paisiblement » 0.21, « profondément » 0.14, « . » 0.11, …
-                 → température 0 : on prend le plus probable.
+5. Sortie      : une distribution de probabilité sur tout le vocabulaire
 ```
-**Explication** : chaque étape est mécanique — aucune « compréhension » magique, une géométrie du contexte. **Variante** : dessine ce trajet À LA MAIN (c'est le livrable du mois 7, et ton support d'entretien).
+
+**Décision 1 — ouvrir l'étape 3, parce que c'est la seule qui compte.** « Dort regarde
+chat » est une phrase qu'on lit partout et qui n'apprend rien. Voici le calcul réel, sur des
+vecteurs de dimension 4 choisis à la main. Chaque token produit trois vecteurs : ce qu'il
+**cherche** (Q), ce qu'il **offre** (K), ce qu'il **apporte** (V). On confronte les
+recherches aux offres par produit scalaire, on divise par √d, on applique un softmax pour
+obtenir des poids qui somment à 1 :
+
+```
+             Le      chat     dort
+   Le      1,000    0,000    0,000
+ chat      0,378    0,622    0,000
+ dort      0,268    0,420    0,311
+```
+
+Lis ce tableau, il contient tout le mécanisme. `dort` répartit son attention : 42 % sur
+`chat`, 31 % sur lui-même, 27 % sur `Le`. Puis son nouveau vecteur devient la **moyenne
+pondérée** des V par ces poids :
+
+```
+vecteur de "dort" avant : [0,000  0,100  0,800  0,000]
+vecteur de "dort" après : [0,027  0,410  0,291  0,000]
+```
+
+La composante qui portait « chat » est passée de 0,10 à 0,41. Voilà ce que veut dire
+« intégrer le contexte » : **une moyenne pondérée dont les poids sont calculés par produit
+scalaire.** Rien d'autre. Si tu peux réexpliquer ce tableau et cette moyenne, tu as compris
+l'attention mieux que la plupart des gens qui en parlent.
+
+**Décision 2 — pourquoi la moitié du tableau est-elle vide ?** `Le` n'accorde d'attention
+qu'à lui-même, `chat` ne regarde que `Le` et lui-même. C'est le **masque causal** : pendant
+la génération, un token ne peut pas voir ce qui vient après lui, sinon le modèle
+tricherait en s'entraînant à prédire un mot qu'il a déjà lu. Cette contrainte explique une
+propriété que tu constateras tous les jours — un modèle génératif traite le texte de gauche
+à droite et ne peut pas revenir en arrière sur ce qu'il a déjà produit. Les modèles conçus
+pour *comprendre* plutôt que *générer* n'ont pas ce masque et voient toute la phrase :
+c'est la même architecture, avec un triangle en moins.
+
+**Décision 3 — pourquoi diviser par √d ?** Parce que le produit scalaire de deux vecteurs de
+dimension *d* grandit avec *d*. Sans cette division, les scores deviennent grands, le
+softmax sature — un poids à 1, les autres à 0 — et le gradient s'annule : le modèle
+n'apprend plus. Ce n'est donc pas une décoration mathématique, c'est ce qui maintient les
+poids dans une zone où l'entraînement fonctionne. Retiens la forme du raisonnement, elle
+resservira : **beaucoup de constantes bizarres dans les architectures existent pour garder
+une quantité dans la plage où le calcul reste stable.**
+
+**Décision 4 — l'étape 5, et le piège de la confiance.** La sortie n'est pas un mot, c'est
+une **distribution** sur tout le vocabulaire : `paisiblement` 0,21 · `profondément` 0,14 ·
+`.` 0,11 … On en tire un token, on le rajoute à l'entrée, et on recommence. Deux choses en
+découlent. D'abord, la température ne rend pas le modèle « plus créatif » au sens humain :
+elle aplatit ou accentue cette distribution avant le tirage. Ensuite, et c'est le point qui
+compte pour ton travail : ce mécanisme produit **exactement la même chose** pour une
+question dont il connaît la réponse et pour une question sur un sujet inventé. Les
+probabilités portent sur la plausibilité de la suite, jamais sur sa vérité. **L'assurance
+d'un modèle n'est pas un signal de fiabilité** — et c'est démontré ici, par l'architecture,
+et non par une opinion sur les LLM.
+
+**Variante qui déplace le problème.** Reprends le tableau et ajoute cinq tokens au lieu de
+trois : il passe de 3×3 à 8×8. Chaque token doit se comparer à tous les autres, donc le coût
+croît comme le **carré** de la longueur du contexte. C'est la raison pour laquelle doubler la
+fenêtre de contexte coûte quatre fois plus, pourquoi les longs contextes sont chers, et
+pourquoi une partie entière de la recherche vise à approcher cette matrice sans la calculer
+entièrement. Une propriété de produit que tu paies chaque mois se lit directement dans la
+forme d'un tableau.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Cette leçon explique tes contraintes d'ingénieur : la fenêtre bornée (→ RAG, chunking), le coût par token (l'attention se paie), les embeddings réutilisés seuls pour le retrieval, et l'échantillonnage (température) comme source du non-déterminisme à encadrer. Comprendre le mécanisme = prédire les limites.

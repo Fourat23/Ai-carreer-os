@@ -63,11 +63,82 @@ Taille des chunks, overlap, k, modèle d'embedding, format du prompt, seuil/refu
 Ingestion · chunking (taille fixe / structure, overlap) · métadonnées · embedding · similarité cosinus · vector DB · top-k · recherche lexicale (BM25) · hybrid search, RRF · reranking · génération ancrée, citations, refus · rappel@k, fidélité · fine-tuning vs RAG (fraîcheur, coût, traçabilité).
 
 ## 🧭 Exemple guidé
-Question : « Quelle est la durée de préavis en cas de démission ? »
-- Vectorisée → top-4 chunks (dont « contrat-type.pdf, p.12, §Préavis... deux mois... »).
-- Prompt : consignes + les 4 chunks sourcés + la question.
-- Réponse : « Le préavis est de deux mois [contrat-type.pdf, p.12]. »
-Si la réponse est fausse : le chunk p.12 était-il dans le top-4 ? NON → problème de retrieval (chunking ? embedding ? hybride ?). OUI → problème de génération (prompt ? fidélité ?). Le diagnostic binaire, toujours.
+
+Question : « Quelle est la durée de préavis en cas de démission ? » Le pipeline nominal :
+question vectorisée → top-4 chunks → prompt (consignes + chunks sourcés + question) →
+« Le préavis est de deux mois [contrat-type.pdf, p.12]. »
+
+Et un jour le système répond « je ne trouve pas », alors que l'information est bel et bien
+dans le corpus.
+
+**Décision 1 — le diagnostic binaire, avant toute hypothèse.** Une seule question à poser, et
+elle partage le problème en deux : **le bon passage était-il dans le top-4 ?** S'il n'y était
+pas, c'est la *recherche* ; s'il y était, c'est la *génération*. Ne saute jamais cette étape :
+c'est elle qui évite de passer une journée à retoucher un prompt alors que le passage
+n'arrivait même pas jusqu'à lui. Journalise systématiquement les chunks retenus — sans cette
+trace, tu n'as aucun moyen de trancher, et tu débogues à l'aveugle.
+
+**Décision 2 — ici, c'était la recherche. Regardons pourquoi.** Le document source dit :
+
+> *Article 7 - Préavis. En cas de démission, le salarié est tenu de respecter un préavis. La
+> durée de ce préavis est fixée à deux mois pour les cadres…*
+
+Découpé en morceaux de taille fixe, sans chevauchement :
+
+```
+[0] "Article 7 - Préavis. En cas de démission, le salarié est tenu…"
+[1] "à deux mois pour les cadres et à un mois pour les autres caté…"
+[2] "…acquiert 2,5 jours ouvrables par mois de travail effectif."
+
+morceaux contenant à la fois "démission/préavis" ET "deux mois" : 0
+```
+
+**Aucun morceau ne contient à la fois la question et sa réponse.** Le chunk [0] parle de
+démission sans donner de durée ; le chunk [1] donne « deux mois » sans dire de quoi il
+s'agit. La recherche par similarité, elle, fonctionne parfaitement : c'est le découpage qui a
+séparé la question de sa réponse. Aucun réglage de `k`, aucun changement de modèle
+d'embedding ne réparera ça.
+
+Deux correctifs, mesurés sur le même texte :
+
+```
+chevauchement de 40 caractères  → 1 morceau contient les deux
+découpage par structure (Article) → 1 morceau contient les deux
+```
+
+Le chevauchement est le rustine générique : il fonctionne, au prix d'une redondance dans
+l'index. Le découpage **par la structure du document** est meilleur quand celle-ci existe —
+ici, un article de contrat est une unité de sens complète, et le respecter donne des chunks
+qui se tiennent tout seuls. La règle à emporter : **un chunk doit pouvoir être lu et compris
+isolément**, puisque c'est exactement dans cet état qu'il arrivera au modèle. Un morceau
+qui commence par « à deux mois pour les cadres » n'a de sens pour personne.
+
+**Décision 3 — l'autre branche du diagnostic.** Si le bon passage *était* dans le top-4 et
+que la réponse est quand même fausse, ne touche pas au découpage. Regarde ce que fait le
+modèle : a-t-il ignoré le passage ? l'a-t-il mal lu ? a-t-il répondu de sa mémoire
+d'entraînement plutôt que des sources ? Ce dernier cas est le plus pernicieux, parce que la
+réponse peut être *juste en général* et fausse pour cette entreprise-ci. La parade est la
+même que partout ailleurs dans ce programme — vérifier par du code que l'affirmation figure
+réellement dans la source citée — avec la limite déjà rencontrée : cela contrôle la fidélité
+à la source, pas la fiabilité de la source.
+
+**Décision 4 — le refus est une fonctionnalité.** « L'information ne figure pas dans le
+corpus » doit être une réponse que ton système sait produire, qui est spécifiée, et qui est
+**testée**. Sans elle, la seule issue possible pour le modèle face à une question sans
+réponse est d'inventer — non par malice, mais parce qu'il complète du texte, et qu'aucune
+suite plausible ne dit « je ne sais pas » si on ne lui a pas appris que c'est une sortie
+acceptable. Un RAG qui ne refuse jamais rien n'est pas un RAG confiant : c'est un RAG dont
+personne n'a écrit le cas d'échec.
+
+**Variante qui déplace le problème.** La question devient « quelle est la différence de
+préavis entre un cadre et un employé ? ». Si les deux informations vivent dans deux
+documents séparés, aucun chunk ne contient la réponse — elle n'existe nulle part, il faut la
+**composer**. La recherche par similarité ne sait pas faire ça : elle rapporte des passages,
+elle ne fait pas de synthèse entre sources. C'est la limite structurelle du RAG simple, et
+la reconnaître vaut mieux que de la contourner par des réglages. Les questions qui exigent
+d'agréger ou de comparer plusieurs sources appellent une autre architecture — et la première
+compétence est de savoir, en lisant une question, si ton système peut y répondre par
+construction.
 
 ## ⚠️ Erreurs fréquentes
 - Empiler un framework sans comprendre : au premier échec, tu es aveugle. (Ton premier RAG : SANS framework.)

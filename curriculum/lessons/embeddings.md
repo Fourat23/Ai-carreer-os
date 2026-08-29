@@ -79,15 +79,85 @@ c'est ce déplacement de question qui fait fonctionner le retrieval d'un RAG.
 `cos("chat", "félin")` élevé ; `cos("chat", "boulon")` faible. Même sans partage de lettres, le sens rapproche les premiers.
 
 ## 🧭 Exemple guidé
-**Énoncé** : classer 3 phrases par proximité de sens à une requête.
-**Raisonnement** : embedder tout, calculer le cosinus requête↔phrase, trier.
-**Solution (pseudo)** :
+
+Le classement lui-même tient en trois lignes, et ce n'est pas là qu'est la difficulté :
+
 ```
 q = embed("comment poser mes congés ?")
-for p in phrases: score[p] = cosinus(q, embed(p))
-trier phrases par score décroissant
+pour chaque phrase p : score[p] = cosinus(q, embed(p))
+trier par score décroissant
 ```
-La phrase « procédure de demande de vacances » sortira en tête, même sans le mot « congés ». **Explication** : le classement suit le SENS, pas les mots. **Variante** : ajoute une phrase piège qui partage des mots mais pas le sens (« congés maladie ») et observe.
+
+« Procédure de demande de vacances » sort en tête sans partager un seul mot avec la
+question : c'est toute la promesse des embeddings. Le vrai travail commence à la question
+suivante, celle que tout le monde se pose au moment de brancher ça dans un système :
+**« à partir de quel score dois-je considérer que c'est pertinent ? »** On voit circuler
+0,7, ou 0,8. Ces nombres sont vides de sens tant qu'on n'a pas répondu à une question
+préalable.
+
+**Décision 1 — que vaut un cosinus « faible » ?** Mesurons ce que donnent **deux vecteurs
+tirés complètement au hasard**, donc sans aucun rapport, selon le nombre de dimensions :
+
+| dimensions | écart-type du cosinus | deux vecteurs au hasard dépassent 0,30 |
+|---|---|---|
+| 2 | 0,71 | **80,6 %** des cas |
+| 10 | 0,32 | 37,1 % |
+| 100 | 0,099 | 0,22 % |
+| 768 | 0,036 | **0,00 %** |
+| 1536 | 0,025 | 0,00 % |
+
+C'est l'un des résultats les plus contre-intuitifs du domaine. En grande dimension — et les
+modèles d'embedding travaillent en 768, 1 536 ou davantage — **deux textes sans aucun
+rapport ont un cosinus proche de zéro**, à quelques centièmes près. Un score de 0,30 y est
+donc déjà un signal massif, alors qu'en dimension 2 il arrive quatre fois sur cinq par
+hasard.
+
+Conséquence pratique immédiate : **un seuil recopié d'un tutoriel ne vaut rien**, parce
+qu'il dépend du modèle, de sa dimension et de la manière dont il a été entraîné. La bonne
+démarche est empirique et coûte une heure : prends trente questions réelles, regarde les
+scores des passages que *toi* tu juges pertinents, et ceux des passages hors sujet. Le seuil
+est là où les deux nuages se séparent — et s'ils ne se séparent pas, aucun seuil ne te
+sauvera, c'est le découpage ou le modèle qu'il faut revoir.
+
+**Décision 2 — cosinus ou distance ?** Les deux mesurent une « proximité », et ils ne
+classent pas pareil. Trois documents comparés à une même requête :
+
+| document | cosinus | distance euclidienne |
+|---|---|---|
+| A — même direction, vecteur court | **1,000** | 1,00 |
+| B — même direction, vecteur long | **1,000** | 8,00 |
+| C — direction différente | 0,707 | 1,46 |
+
+Par cosinus, A et B sont **identiques** et C arrive dernier. Par distance, A gagne, C est
+deuxième et **B est bon dernier**. Le cosinus ne regarde que la *direction* ; la distance
+tient compte de la *longueur*. Pour du texte, la longueur du vecteur reflète souvent des
+choses sans intérêt sémantique — la longueur du passage, sa fréquence lexicale — d'où le
+choix habituel du cosinus. Mais c'est un choix, pas une évidence, et il faut savoir le
+justifier : *je compare des sens, pas des intensités.* Note au passage que sur des vecteurs
+**normalisés**, les deux mesures donnent le même classement : beaucoup de bases vectorielles
+normalisent pour cette raison, et la question disparaît alors d'elle-même.
+
+**Décision 3 — le piège que le cosinus ne verra jamais.** Ajoute au corpus la phrase
+« congés maladie : justificatif à fournir sous 48 h ». Face à « comment poser mes congés ? »,
+elle obtiendra un très bon score : même champ lexical, même domaine, sens réellement
+voisin. Et c'est une mauvaise réponse. **La similarité sémantique n'est pas la pertinence.**
+Un embedding sait dire « ces deux textes parlent de la même chose » ; il ne sait pas dire
+« ce texte répond à cette question ». C'est exactement pourquoi un RAG sérieux ne s'arrête
+pas au plus proche voisin : il rappelle large, puis **reclasse** avec un modèle qui, lui,
+évalue la relation question-réponse, et non le voisinage thématique.
+
+**Décision 4 — ce que ça implique pour ton évaluation.** Puisque le score n'est pas la
+pertinence, tu ne peux pas juger ton système sur la moyenne des cosinus. La mesure honnête
+est : *pour mes questions de référence, le bon passage est-il dans les k premiers ?* C'est un
+taux, mesuré sur des questions dont tu connais la réponse — et c'est la seule chose qui te
+dira si changer de modèle d'embedding a amélioré quoi que ce soit.
+
+**Variante qui déplace le problème.** Ton corpus est en français, tu changes pour un modèle
+multilingue, et les scores globaux montent. Formidable ? Pas nécessairement : si tout monte,
+y compris pour les passages hors sujet, la **séparation** entre pertinent et non pertinent
+peut s'être dégradée alors que la moyenne s'améliore. C'est la même erreur que de juger une
+distribution par sa moyenne : ce qui compte ici n'est pas le niveau des scores, c'est
+l'écart entre les deux populations.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Dans un RAG, on découpe d'abord les documents en **chunks** — des morceaux de quelques

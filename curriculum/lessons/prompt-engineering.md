@@ -57,8 +57,10 @@ Fort : `"Résume le texte ci-dessous en 3 puces factuelles, sans opinion, en fra
 
 ## 🧭 Exemple guidé
 **Énoncé** : extraire `{ nom, email, montant }` d'un texte libre, en JSON strict.
-**Raisonnement** : je spécifie le schéma, je donne un exemple, je prévois les absents, et je valide côté code.
-**Prompt** :
+
+Le prompt est correct et contient déjà les quatre bons réflexes — schéma explicite, exemple,
+traitement des absents, interdiction de bavarder :
+
 ```
 Tu extrais des informations. Réponds UNIQUEMENT par un JSON de la forme
 {"nom": string|null, "email": string|null, "montant": number|null}.
@@ -66,7 +68,83 @@ Si un champ est absent, mets null. Aucune autre sortie.
 Exemple: "Facture de Lina (lina@x.com) : 240€" -> {"nom":"Lina","email":"lina@x.com","montant":240}
 Texte: "..."
 ```
-**Côté code** : `JSON.parse` dans un try/catch → si échec, on relance UNE fois en ajoutant « ta réponse précédente n'était pas un JSON valide ». **Variante** : ajouter un champ `devise` et le rendre obligatoire.
+
+**Et pourtant ce prompt échouera.** Pas parce qu'il est mal écrit : parce qu'un prompt est
+une consigne, pas une garantie. Voici neuf sorties que ce prompt produit réellement en
+production, et ce que le code en fait :
+
+| ce que renvoie le modèle | `JSON.parse` | conforme au schéma |
+|---|---|---|
+| `{"nom":"Lina","montant":240}` | ✅ | ✅ |
+| entouré de <code>\`\`\`json … \`\`\`</code> | ❌ | — |
+| `Voici le résultat :` puis le JSON | ❌ | — |
+| `{"nom":"Lina","montant":"240"}` | ✅ | **❌** |
+| `{"nom":"Lina","montant":"240 EUR"}` | ✅ | **❌** |
+| `{"nom":"Lina","montant":240,}` | ❌ | — |
+| `{"nom":"Lina"}` (champ absent) | ✅ | **❌** |
+| `{"nom":"Lina","montant":"null"}` | ✅ | **❌** |
+| `{…,"confiance":0.9}` (champ en trop) | ✅ | ✅ |
+
+```
+JSON.parse direct réussit sur              6 / 9
+après nettoyage des clôtures et du bavardage : 8 / 9
+respectent réellement le schéma demandé :   4 / 9
+```
+
+**Décision 1 — la défense évidente protège du mauvais danger.** Le réflexe enseigné est
+`JSON.parse` dans un `try/catch`, avec une relance si ça échoue. Regarde la colonne de
+droite : **cinq sorties sur neuf passent le `JSON.parse` et sont fausses quand même.** Le
+`try/catch` ne se déclenchera jamais pour elles. Une facture de `"240 EUR"` traversera le
+système et se retrouvera dans une base, ou dans un total. La leçon dépasse largement les
+LLM : **savoir lire une donnée n'est pas savoir qu'elle est correcte**, et confondre les deux
+est la même erreur que de croire qu'un fichier JSON bien formé contient les bons champs.
+
+**Décision 2 — valider la forme, pas seulement la syntaxe.** Il faut un contrôle qui vérifie
+les **types**, pas la présence :
+
+```js
+const valide = (o) =>
+  o && typeof o.nom === "string"
+    && typeof o.montant === "number" && Number.isFinite(o.montant);
+```
+
+Trois lignes, et les cinq sorties trompeuses tombent. Note ce qui distingue les deux cas
+piégeux : `"240"` est une chaîne qui *ressemble* à un nombre, `"null"` est une chaîne qui
+*ressemble* à une absence. Un modèle produit du texte ; tout ce qu'il rend est du texte,
+y compris ce qui a l'air de ne pas l'être. En pratique on emploie une bibliothèque de schéma
+plutôt que des `typeof` à la main, mais l'important est le principe : **le schéma vit dans
+ton code, pas dans ton prompt.** Le prompt demande, le code exige.
+
+**Décision 3 — que faire des trois échecs de parsing ?** Deux d'entre eux — la clôture
+<code>\`\`\`json</code> et la phrase d'introduction — se réparent trivialement en extrayant
+ce qui se trouve entre la première `{` et la dernière `}`. Cela fait passer le taux de 6 à 8
+sur 9, sans relancer le modèle : gratuit, instantané, et sans coût d'API. Faut-il le faire ?
+Oui, à une condition : que ce nettoyage soit **explicite et journalisé**, pas caché. Sinon
+tu ne verras jamais que ton modèle a changé de comportement le jour où il se mettra à
+bavarder systématiquement.
+
+Le neuvième cas, la virgule finale, résiste. Là, relancer se justifie — mais uniquement en
+disant **quoi corriger** : « ta réponse précédente n'était pas un JSON valide, renvoie
+uniquement l'objet ». Et une seule fois. Une relance qui répète la même consigne sans
+information nouvelle a peu de raisons de mieux marcher, et double le coût.
+
+**Décision 4 — quand la bonne réponse n'est pas un meilleur prompt.** Si l'extraction doit
+être fiable, la vraie décision est de ne plus s'en remettre au texte libre : la plupart des
+API proposent aujourd'hui un mode où le schéma est **imposé au décodage**, ce qui supprime
+d'un coup les trois échecs de parsing et une partie des erreurs de type. Il faut savoir le
+dire clairement : **beaucoup de problèmes de prompt engineering se résolvent mieux en
+changeant de mécanisme qu'en ajoutant des phrases.** Le prompt reste utile pour le reste —
+ce qu'il faut extraire, comment traiter l'ambiguïté — c'est-à-dire pour la sémantique, pas
+pour la syntaxe.
+
+**Variante qui déplace le problème.** Ajoute un champ `devise` obligatoire, et donne au
+modèle un texte qui n'en mentionne aucune. Il en inventera une — probablement `"EUR"`, parce
+que c'est plausible. Le JSON sera valide, le schéma respecté, et la donnée fausse. Aucune
+validation technique ne peut attraper ça : c'est un problème de **conception du schéma**, pas
+de format. Rendre un champ obligatoire, c'est forcer le modèle à le remplir, donc à deviner.
+La bonne réponse est de garder `null` autorisé et de traiter l'absence en aval — car « je ne
+sais pas » est une réponse dont ton système a besoin, et qu'un champ obligatoire lui
+interdit d'exprimer.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Dans un RAG, le prompt de génération impose : « réponds UNIQUEMENT à partir des extraits fournis, cite les sources [id], et si l'information n'y est pas, dis-le ». Ce prompt + la validation des citations = ta première ligne de défense contre l'hallucination.

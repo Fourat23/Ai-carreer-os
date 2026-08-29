@@ -46,9 +46,10 @@ Même avec le troisième, **la validation côté code reste obligatoire** — et
 Structuré : imposer `{"sentiment":"positif|neutre|négatif"}` et valider que la valeur est dans l'ensemble. Outil : déclarer `chercher_doc(query: string)` que le modèle peut appeler.
 
 ## 🧭 Exemple guidé
-**Énoncé** : boucle de function calling pour un outil `calculer(expression)`.
-**Raisonnement** : appeler le modèle ; s'il demande l'outil, l'exécuter, renvoyer le résultat, rappeler ; sinon, c'est la réponse finale.
-**Solution (pseudo)** :
+**Énoncé** : une boucle de *function calling* pour un outil `calculer(expression)`.
+
+La boucle, d'abord — elle est simple, et il faut la connaître par cœur :
+
 ```
 messages = [question]
 boucle (max 5 fois):
@@ -59,7 +60,60 @@ boucle (max 5 fois):
     sinon:
         retourner r.texte
 ```
-**Explication** : le budget d'itérations évite les boucles infinies ; c'est mon code qui exécute et valide. **Variante** : gère le cas où l'outil échoue (renvoyer l'erreur au modèle).
+
+**Décision 1 — bien comprendre qui fait quoi, parce que le nom trompe.** « Function
+calling » laisse croire que le modèle exécute une fonction. Il n'exécute rien. Il produit
+**du texte structuré** qui dit « je voudrais qu'on appelle `calculer` avec cet argument »,
+et c'est ton programme qui décide s'il obéit. Cette distinction n'est pas un détail de
+vocabulaire : elle est l'endroit exact où se trouvent toute la sécurité et toute la
+fiabilité du système. Le modèle propose, ton code dispose — et tout ce qui suit découle de
+là.
+
+**Décision 2 — l'argument arrive de l'extérieur.** `r.args.expression` est une chaîne
+produite par un modèle, éventuellement influencé par un document que tu n'as pas écrit. Si
+`calculer` est implémenté avec un `eval`, tu viens d'offrir l'exécution de code arbitraire à
+quiconque peut glisser du texte dans ton contexte. Le raisonnement est **exactement** celui
+de l'injection SQL, transposé : une valeur venue d'ailleurs ne doit jamais devenir du code.
+D'où la règle qui gouverne l'écriture d'un outil : valide l'argument **comme si un attaquant
+l'avait écrit**, parce que c'est parfois le cas. Ici : accepter une expression arithmétique
+restreinte, avec une grammaire explicite, et refuser tout le reste — jamais `eval`.
+
+C'est aussi pourquoi un outil doit être **étroit**. `calculer(expression)` est défendable ;
+`executer_commande(shell)` ne l'est pas, quel que soit le prompt qui l'entoure. Tu ne
+sécurises pas un outil dangereux avec des consignes, tu ne lui donnes pas l'outil.
+
+**Décision 3 — que faire quand l'outil échoue ?** Trois options, et le choix dépend de qui
+peut réparer. Si l'erreur est **corrigeable par le modèle** — expression mal formée,
+paramètre manquant —, renvoie-lui le message d'erreur comme résultat d'outil : il reformule
+et souvent ça passe. Si l'erreur est **de ton côté** — base indisponible, quota dépassé —, le
+renvoyer au modèle est inutile et coûteux : il ne peut rien y faire, il va soit réessayer en
+boucle, soit inventer une réponse pour être serviable. Et s'il s'agit d'une erreur que tu
+n'attendais pas, arrête la boucle et remonte-la. **Le critère est toujours le même :
+quelqu'un peut-il agir sur cette erreur, et qui ?** — la même question qu'on se pose pour
+choisir entre un `400` et un `503`.
+
+**Décision 4 — le budget d'itérations n'est pas une précaution, c'est une décision de
+conception.** Le `max 5` empêche la boucle infinie, mais il pose une question qu'il ne
+faut pas esquiver : **que renvoie-t-on quand le budget est épuisé ?** Répondre le dernier
+texte produit par le modèle est le pire choix : c'est précisément une réponse qu'il n'a pas
+finie d'étayer, donc la plus susceptible d'être inventée. La sortie honnête est un échec
+explicite — « je n'ai pas abouti en 5 étapes » — que l'appelant peut traiter. Un budget qui
+se termine en silence par une réponse plausible transforme une limite technique en
+hallucination.
+
+**Ce que la sortie structurée change vraiment.** L'appel d'outil et le JSON strict de la
+leçon précédente sont le même geste : contraindre le modèle à produire quelque chose que du
+code peut **vérifier**, au lieu d'une prose que seul un humain peut juger. C'est ce qui rend
+un système testable — tu peux écrire une assertion sur un appel d'outil, tu ne peux pas en
+écrire une sur un paragraphe.
+
+**Variante qui déplace le problème.** Donne au modèle deux outils, `chercher_client` et
+`envoyer_email`. La boucle est identique, la nature du risque ne l'est pas : le premier
+est réversible, le second ne l'est pas. Une injection réussie dans un document te coûte au
+pire une mauvaise réponse avec le premier, un courriel parti au nom de l'entreprise avec le
+second. La conclusion n'est pas d'interdire les outils qui agissent, mais de les traiter
+différemment — validation stricte des arguments, journalisation, et confirmation humaine
+pour l'irréversible. **Classe tes outils par ce qu'ils cassent, pas par ce qu'ils font.**
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Extracteur de factures : le LLM renvoie `{fournisseur, montant, date}` en JSON validé (structured output). Assistant documentaire : le LLM appelle un outil `rechercher(query)` sur ta base (function calling), ton code exécute la recherche et lui renvoie les extraits. Ces deux patterns sont la base des apps LLM et des agents.

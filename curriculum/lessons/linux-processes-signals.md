@@ -87,6 +87,81 @@ nohup ./long.sh &       # survivre à la fermeture du terminal
 5. Comprendre POURQUOI il restait : oublié en arrière-plan ? mal arrêté ? → passer à
    un vrai service (systemd) pour un usage durable.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Un service ne s'arrête pas. Tu tapes `kill -9`. Qu'est-ce que tu viens d'empêcher ?
+2. `kill -9` ne fonctionne pas non plus. Que peux-tu en déduire sur l'état du processus ?
+3. Ton conteneur met dix secondes à s'arrêter à chaque déploiement, puis meurt
+   brutalement. Que se passe-t-il ?
+4. Tu vois quarante processus zombies. Consomment-ils du CPU ? Faut-il les tuer ?
+
+## ✅ Correction attendue
+
+**La démarche.** Toujours `SIGTERM` d'abord, attendre, et n'employer `SIGKILL` que si
+l'on a compris pourquoi le processus n'a pas obéi. La question n'est pas « comment le
+tuer » mais « pourquoi ne se termine-t-il pas ».
+
+**L'erreur probable, et c'est le réflexe le plus répandu du métier.** `kill -9` est
+souvent la première commande tapée, parce qu'elle marche toujours. C'est précisément ce
+qui la rend dangereuse : **elle marche toujours parce que le processus n'a pas son mot à
+dire.**
+
+`SIGKILL` est l'un des deux seuls signaux qu'un programme ne peut ni intercepter, ni
+ignorer, ni retarder. Il est exécuté par le noyau, sans que le processus en soit averti.
+Concrètement, ce que tu viens d'empêcher :
+
+- les écritures encore en tampon ne sont **jamais** envoyées sur le disque — données
+  perdues, fichier tronqué ;
+- les requêtes en cours sont coupées net, au milieu de leur réponse ;
+- les connexions à la base ne sont pas fermées et resteront occupées jusqu'à leur
+  expiration côté serveur ;
+- les fichiers de verrou, sockets et fichiers temporaires ne sont pas nettoyés — d'où
+  le « il refuse de redémarrer, un verrou traîne » du lendemain.
+
+`SIGTERM`, lui, est une **demande** : le programme reçoit le signal, termine sa requête
+en cours, vide ses tampons, ferme ce qu'il doit fermer, et sort. C'est la différence
+entre demander à quelqu'un de partir et couper le courant du bâtiment.
+
+Le piège séduit pour une raison simple et honnête : **`kill` ordinaire semble parfois ne
+rien faire.** On tape la commande, le processus est toujours là une seconde plus tard,
+on conclut qu'elle a échoué et l'on passe au `-9`. En réalité l'arrêt propre prend
+souvent quelques secondes — c'est même son but. L'impatience est le vrai mécanisme de
+l'erreur, pas l'ignorance.
+
+**Sur les autres questions.** Si `kill -9` lui-même reste sans effet, le processus est
+presque certainement en état **D**, *uninterruptible sleep* : il attend une opération
+d'entrée-sortie que le noyau ne peut pas interrompre — un disque défaillant, un montage
+réseau (NFS) qui ne répond plus. Le signal est bien enregistré, mais il ne sera traité
+qu'au retour de l'I/O. Aucune commande ne débloquera cela : le problème est le stockage,
+pas le processus, et `ps` le montre avec un `D` dans la colonne d'état.
+
+Le conteneur qui met dix secondes puis meurt brutalement décrit exactement ce cycle :
+l'orchestrateur envoie `SIGTERM`, attend son délai de grâce — dix secondes par défaut —
+puis envoie `SIGKILL`. Si cela se produit à chaque déploiement, **le processus n'a pas
+reçu ou pas traité le `SIGTERM`** : soit il est lancé via un shell qui ne le transmet
+pas, soit le code ne l'écoute pas. À chaque livraison, des requêtes en cours sont donc
+coupées.
+
+Enfin, les zombies **ne consomment aucun CPU ni mémoire** : il ne reste d'eux qu'une
+entrée dans la table des processus, conservée jusqu'à ce que leur parent lise leur code
+de sortie. On ne peut pas les tuer — ils sont déjà morts. Ce qu'il faut traiter est le
+**parent**, qui n'appelle pas `wait()`. Leur seul danger est l'épuisement de la table des
+PID quand ils s'accumulent par milliers.
+
+**Alternative défendable.** Dans un conteneur jetable et sans état — un job de calcul,
+un outil de build — `SIGKILL` immédiat est parfaitement acceptable et plus rapide : il
+n'y a rien à préserver. La règle n'est pas « ne jamais tuer », c'est « savoir ce qu'on
+détruit ».
+
+**Vérifie seul, sans corrigé** :
+1. Lance ton service, envoie-lui `SIGTERM`, et regarde ses logs. Écrit-il quelque chose
+   avant de sortir ? Sinon, il ne gère pas l'arrêt.
+2. `ps -eo pid,stat,comm | grep ' D'`. Tout processus en `D` t'apprend quelque chose sur
+   ton stockage.
+3. Mesure le temps d'arrêt de ton conteneur. S'il est exactement égal au délai de grâce,
+   c'est un `SIGKILL` déguisé à chaque déploiement.
+
 ## ⚠️ Erreurs fréquentes
 - **Dégainer `kill -9` d'emblée** : empêche l'arrêt propre (fichiers corrompus,
   connexions non fermées). Toujours SIGTERM d'abord.

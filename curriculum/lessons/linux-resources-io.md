@@ -108,9 +108,78 @@ des logs vers un agrégateur.
 - « Comment savoir si un disque est le goulot ? » → `wa` dans `top`, `iostat`.
 - « Origine d'un OOMKilled ? » → mémoire épuisée, le noyau tue le plus gourmand.
 
-## ✍️ Mini-exercice
-`top` montre CPU à 30% mais `wa` à 50% et le service est lent. Quelle ressource
-suspecter ? → l'I/O disque (attente), pas le CPU.
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. `top` montre le CPU à 30 % mais `wa` à 50 %, et le service est lent. Quelle
+   ressource suspectes-tu ?
+2. `df -h` annonce `/var` plein à 100 %. Tu supprimes un fichier de log de 8 Go.
+   `df -h` affiche toujours 100 %. Que s'est-il passé ?
+3. `df -h` affiche 60 % d'occupation et pourtant les écritures échouent avec « No
+   space left on device ». Comment est-ce possible ?
+4. Un load average de 8 est-il un problème ?
+
+## ✅ Correction attendue
+
+**La démarche.** Toujours conclure avec un chiffre et l'unité qui va avec, et toujours
+demander à quoi ce chiffre se compare. Un nombre seul — 8, 100 %, 50 % — ne décide de
+rien.
+
+**L'erreur probable, et elle fait perdre des heures en pleine nuit.** Sur la deuxième
+question, la réponse spontanée est « le système de fichiers met du temps à se
+rafraîchir » ou « il faut redémarrer ». Ni l'un ni l'autre : **l'espace n'a pas été
+libéré, et il ne le sera pas.**
+
+Sous Linux, supprimer un fichier ne fait que retirer son **nom** du répertoire. Les
+blocs de données ne sont rendus que lorsque le dernier lien disparaît **et** que plus
+aucun processus ne le tient ouvert. Or le service qui écrivait dans ce log l'a toujours
+ouvert : il détient un descripteur, il continue même d'y écrire — dans un fichier qui
+n'a plus de nom. Les 8 Go restent occupés jusqu'à ce que ce processus ferme le
+descripteur ou se termine.
+
+Le symptôme qui signe ce cas est un désaccord entre deux outils : **`du` ne voit plus
+le fichier — il parcourt les noms — tandis que `df` le compte toujours — il interroge le
+système de fichiers.** Quand `du` et `df` divergent nettement, cherche un fichier
+supprimé mais encore ouvert : `lsof +L1` les liste exactement.
+
+Le piège séduit parce que **la suppression a visiblement réussi** : aucune erreur, le
+fichier a disparu de `ls`, la commande a fait ce qu'on lui demandait. On cherche donc
+l'explication du côté d'un délai ou d'un cache, c'est-à-dire du côté d'un phénomène
+temporaire — alors que la situation est stable et le restera.
+
+La bonne action n'est d'ailleurs pas de tuer le service : c'est de le faire **rouvrir**
+son fichier de log (un `SIGHUP` sur beaucoup de démons, ce que fait `logrotate`), ou, en
+urgence absolue, de vider le fichier sans le supprimer — `truncate -s 0` ou `> fichier`
+— ce qui libère les blocs **sans** casser le descripteur ouvert.
+
+**Sur les autres questions.** Un `wa` à 50 % avec un CPU à 30 % désigne l'**attente
+d'I/O** : les processeurs ne calculent pas, ils patientent. Le goulot est le disque (ou
+le réseau vers un stockage), et ajouter du CPU n'y changerait rien.
+
+Un disque à 60 % qui refuse les écritures a presque toujours épuisé ses **inodes**, pas
+ses blocs. Chaque fichier consomme un inode, et leur nombre est fixé à la création du
+système de fichiers. Des millions de petits fichiers — sessions, caches, mails —
+saturent la table sans remplir l'espace. `df -i` l'affiche, et c'est la commande que
+personne ne tape avant d'avoir été mordu une fois.
+
+Enfin, un load average de 8 ne veut **rien dire** hors contexte : saturé sur 4 cœurs,
+confortable sur 16. `nproc` donne le dénominateur, et sous Linux ce chiffre inclut aussi
+les processus en attente d'I/O — un load élevé peut donc signaler un disque lent et non
+un CPU chargé.
+
+**Alternative défendable.** Sur un serveur moderne, beaucoup d'équipes ne regardent plus
+le load average du tout et pilotent uniquement sur les métriques par ressource
+(utilisation CPU, latence disque, mémoire disponible). C'est défendable : le load
+mélange deux phénomènes distincts et son interprétation demande un contexte que les
+autres métriques donnent directement.
+
+**Vérifie seul, sans corrigé** :
+1. Compare `du -sh /var/log` et la ligne `/var` de `df -h`. Un écart important est un
+   fichier supprimé encore ouvert.
+2. Lance `df -i`. Connaissais-tu ce pourcentage ? C'est la panne que tu n'as pas encore
+   eue.
+3. Sur ton serveur : `uptime` puis `nproc`. Le rapport des deux est le seul chiffre qui
+   compte.
 
 ## 🧾 À retenir
 - Quatre ressources : CPU, mémoire, disque (espace + débit), descripteurs.

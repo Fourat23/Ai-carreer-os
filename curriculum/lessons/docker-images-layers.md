@@ -86,6 +86,78 @@ grosse » : il montre la contribution de chaque instruction.
    d'installation survit tant que les dépendances ne changent pas.
 4. Mesurer : un second build après une modif de code ne réinstalle plus.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton Dockerfile fait `RUN curl -o cle.pem https://...` puis, dans une instruction
+   `RUN` suivante, `rm cle.pem`. `docker run … ls` ne montre rien. La clé est-elle
+   partie de l'image ?
+2. Ton image pèse 1,2 Go. Tu ajoutes `RUN apt-get clean` en dernière ligne. De combien
+   descend-elle ?
+3. Deux collègues font `docker pull monapi:1.4.2` à une semaine d'intervalle. Ont-ils la
+   même image ?
+4. Pourquoi copier `package.json` avant le reste du code accélère-t-il les builds ?
+
+## ✅ Correction attendue
+
+**La démarche.** Une image n'est pas un dossier, c'est **une pile de diffs immuables**.
+Tout raisonnement sur la taille ou le contenu doit porter sur les couches, jamais sur ce
+que `ls` affiche à l'intérieur du conteneur.
+
+**L'erreur probable, et c'est une fuite de secret qui passe toutes les revues.** À la
+première question, la réponse spontanée est « oui, je l'ai supprimée, `ls` le
+confirme ». La clé est **toujours dans l'image**, et n'importe qui disposant de l'image
+peut l'extraire.
+
+Le mécanisme : chaque instruction crée une couche **immuable**. La couche 4 contient la
+clé. La couche 5 enregistre « ce fichier est supprimé » — un marqueur d'effacement
+(*whiteout*). L'union filesystem empile les deux et présente une arborescence où le
+fichier n'apparaît plus. Mais la couche 4 est intacte, elle voyage avec l'image, et
+`docker save image.tar` suivi d'un `tar -x` la rend directement lisible. Aucun outil
+n'a besoin d'être sophistiqué.
+
+Le piège séduit parce que **la vérification est faite, et elle est concluante** :
+`docker run … ls` ne montre rien, ce qui est vrai. On teste la vue présentée par le
+conteneur, alors que ce qui est distribué est la pile complète. C'est exactement
+l'équivalent d'un secret retiré du dernier commit d'un dépôt Git : disparu de la
+version courante, présent dans l'historique.
+
+Les deux seules parades : **ne jamais faire entrer le secret dans une couche** — le
+fournir au moment de l'exécution, ou utiliser un montage de secret de build qui n'est
+pas persisté — et, si c'est déjà arrivé, **révoquer le secret**, exactement comme pour un
+commit Git. Reconstruire l'image sans lui ne suffit pas : l'ancienne existe déjà.
+
+**Sur les autres questions.** `RUN apt-get clean` en dernière ligne fait gagner
+**zéro octet**, pour la même raison : les fichiers qu'il supprime ont été ajoutés par une
+couche antérieure, qui reste. Le nettoyage doit avoir lieu **dans la même instruction
+`RUN`** que l'installation, pour que la couche produite ne les ait jamais contenus :
+`RUN apt-get install … && rm -rf /var/lib/apt/lists/*`.
+
+Deux `docker pull monapi:1.4.2` à une semaine d'écart ne garantissent **pas** la même
+image : un tag est une étiquette **mutable**, que quiconque a le droit d'écriture sur le
+registre peut redéployer sur un autre contenu. Seul le **digest**
+(`monapi@sha256:…`) identifie un contenu exact — d'où l'épinglage par digest en
+production, et la raison pour laquelle « ça marche en préproduction et pas en
+production » est parfois littéralement une image différente.
+
+Enfin, copier `package.json` en premier exploite le cache : la couche du `npm ci` reste
+valide tant que **ses entrées** n'ont pas changé. Si le code est copié avant, la moindre
+modification d'une ligne invalide cette couche et toutes les suivantes, donc réinstalle
+tout. L'ordre des instructions est un choix de performance, pas de style.
+
+**Alternative défendable.** Pour une image de développement rebâtie vingt fois par jour,
+il est raisonnable de tout copier d'un coup et d'ignorer l'optimisation du cache : la
+lisibilité du Dockerfile compte plus que trente secondes. Ce compromis ne tient pas en
+intégration continue, où le même build est rejoué à chaque commit.
+
+**Vérifie seul, sans corrigé** :
+1. `docker history --no-trunc ton-image`. Quelle instruction pèse le plus ? Est-ce celle
+   à laquelle tu pensais ?
+2. Cherche un secret dans tes couches : `docker save img -o i.tar && tar -xf i.tar` puis
+   fouille. Le faire une fois change durablement la façon d'écrire un Dockerfile.
+3. Tes déploiements référencent-ils un tag ou un digest ? Si c'est un tag, tu ne sais pas
+   exactement ce qui tourne.
+
 ## ⚠️ Erreurs fréquentes
 - **Copier tout le code avant d'installer** les dépendances → cache inutile.
 - Croire qu'un `rm` d'un fichier réduit l'image (il reste dans une couche

@@ -94,6 +94,79 @@ stat fichier          # métadonnées détaillées (inode, droits, horodatages)
 4. Corriger au plus juste : donner le droit minimal nécessaire, ne **jamais** faire
    `chmod 777` (voir Erreurs fréquentes).
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Tu veux que les fichiers d'un projet ne soient lisibles que par toi. Tu lances
+   `chmod -R 600 monprojet/`. Que se passe-t-il, et pourquoi ?
+2. Un fichier est en `rw-r--r--` et t'appartient. Tu ne peux pourtant pas le lire. Où
+   est le problème ?
+3. Que signifie exactement `x` sur un **répertoire** ?
+4. Pourquoi `chmod 777` est-il pire que « ça marche enfin » ?
+
+## ✅ Correction attendue
+
+**La démarche.** Un problème de permission ne se diagnostique jamais sur le fichier
+seul : il se diagnostique sur **tout le chemin**, avec `ls -ld` sur chaque répertoire
+traversé, et en comparant le propriétaire au résultat de `id`.
+
+**L'erreur probable, et elle rend un dossier entier inaccessible en une commande.** À la
+première question, la réponse spontanée est « les fichiers deviennent privés, c'est ce
+que je voulais ». Le résultat réel : **plus rien n'est accessible du tout, pas même par
+toi.**
+
+La raison tient en une phrase : **`chmod -R` applique les mêmes droits aux fichiers et
+aux répertoires, alors que `x` n'y signifie pas la même chose.** Sur un fichier, `x`
+veut dire « exécutable comme un programme » — un fichier de données n'en a pas besoin.
+Sur un **répertoire**, `x` veut dire « traversable » : sans lui, on ne peut pas entrer
+dedans, ni atteindre quoi que ce soit à l'intérieur, **même un fichier dont on est
+propriétaire et qu'on a le droit de lire**. En retirant `x` de `monprojet/`, tu as fermé
+la porte de la maison ; l'état des serrures intérieures n'a plus aucune importance.
+
+Le piège séduit parce que **le nombre paraît décrire une intention** — « 600, donc
+lecture et écriture pour moi seul » — et que cette intention est correcte pour les
+fichiers. Rien dans la commande ne signale qu'on vient d'appliquer une règle de fichier
+à des répertoires. Elle réussit silencieusement, et l'effet ne se voit qu'au prochain
+accès.
+
+La forme correcte distingue les deux, et c'est le geste à retenir :
+
+```bash
+find monprojet -type d -exec chmod 700 {} +   # répertoires : traversables
+find monprojet -type f -exec chmod 600 {} +   # fichiers    : ni exécutables ni publics
+```
+
+`chmod -R u+rwX,go-rwx monprojet/` fait la même chose plus brièvement : le **`X`
+majuscule** n'ajoute `x` qu'aux répertoires et aux fichiers qui l'avaient déjà. C'est
+précisément ce que le `x` minuscule ne sait pas faire.
+
+**Sur les autres questions.** Un fichier `rw-r--r--` t'appartenant et pourtant illisible
+désigne presque toujours **un répertoire parent sans `x`** — le même mécanisme. Les
+autres causes possibles sont un point de montage en lecture seule ou une couche de
+contrôle d'accès supplémentaire (SELinux, AppArmor), mais le parent vient en premier :
+`ls -ld` sur chaque niveau depuis `/`.
+
+`chmod 777` est pire que « ça marche » parce qu'il **fait disparaître la question** au
+lieu d'y répondre. Il accorde l'écriture à tout utilisateur de la machine, y compris
+tout processus compromis, et sur un exécutable ou un script cela signifie que n'importe
+qui peut remplacer le code par le sien. Surtout, il masque la cause réelle — presque
+toujours une histoire de propriétaire ou de groupe — qui reviendra ailleurs, et qu'on
+« corrigera » de la même manière.
+
+**Alternative défendable.** Plutôt que d'ajuster des droits fichier par fichier, la
+solution habituelle en équipe est le **groupe** : on place les utilisateurs concernés
+dans un groupe commun, on donne les droits au groupe, et on pose le bit `setgid` sur le
+répertoire pour que tout nouveau fichier hérite du groupe. Cela résout durablement ce
+que `chmod 777` ne fait que contourner.
+
+**Vérifie seul, sans corrigé** :
+1. Crée un dossier, mets-y un fichier lisible, retire `x` du dossier, essaie de lire le
+   fichier. Le faire une fois vaut mieux que dix relectures.
+2. Sur ton système : `find / -perm -002 -type f 2>/dev/null | head`. Chaque fichier
+   listé est modifiable par n'importe qui.
+3. Devant ton prochain « permission denied », remonte tout le chemin avec `ls -ld` avant
+   de toucher au fichier lui-même.
+
 ## ⚠️ Erreurs fréquentes
 - **`chmod 777` « pour que ça marche »** (à éviter, danger) : ouvre le fichier à tous
   en écriture — trou de sécurité, et masque le vrai problème (souvent un `x` de dossier).

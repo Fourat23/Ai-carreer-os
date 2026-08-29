@@ -92,6 +92,86 @@ nettement plus sûr et prévisible.
 4. Vérifier au passage : tourne-t-on en non-root ? rootfs en lecture seule
    possible ?
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Tu limites ton conteneur Node à `--memory 512m`. Il est tué au bout de vingt minutes
+   sous charge. Fuite mémoire ?
+2. Tu passes en image `distroless`. Ton conteneur plante et tu ne peux pas y ouvrir de
+   shell. Qu'as-tu échangé contre quoi ?
+3. `--read-only` casse ton application, qui écrit des fichiers temporaires. Renonces-tu ?
+4. Pourquoi tourner non-root dans un conteneur, puisque le conteneur est déjà isolé ?
+
+## ✅ Correction attendue
+
+**La démarche.** Chaque mesure de durcissement retire une capacité. La question n'est
+jamais « faut-il l'appliquer » mais « qu'est-ce que cela m'empêche de faire, et
+l'accepté-je ».
+
+**L'erreur probable, et elle envoie chercher un bug qui n'existe pas.** Un conteneur tué
+après vingt minutes est presque toujours diagnostiqué comme une fuite mémoire. Dans le
+cas décrit, c'est plus souvent autre chose : **le runtime ne connaît pas la limite qu'on
+lui a fixée.**
+
+Une limite `--memory` est appliquée par le noyau, via les cgroups. Elle ne modifie pas ce
+que le processus **croit** disponible. Un runtime qui dimensionne ses caches ou son tas
+en observant la mémoire de la machine — 32 Go, par exemple — va tranquillement croître
+vers plusieurs gigaoctets, en toute logique et sans aucune fuite. À 512 Mo, le noyau le
+tue. Le processus n'a rien fait de mal ; il a raisonné sur un chiffre qui n'était pas le
+sien.
+
+La signature est nette : le conteneur meurt **exactement** à la limite, de façon
+reproductible, avec un code de sortie 137 et `OOMKilled: true` dans `docker inspect`. Une
+vraie fuite, elle, croît indéfiniment quelle que soit la limite et se déplace quand on
+l'augmente.
+
+La correction n'est donc pas de chercher un bug ni de doubler la limite, mais de **dire
+au runtime ce qu'il a le droit d'utiliser** — une option de taille de tas, une variable
+d'environnement, un drapeau qui lui fait lire la limite cgroup. La règle générale à
+retenir : **limiter une ressource sans en informer le processus produit un processus qui
+raisonne sur un monde qui n'existe pas.**
+
+Le piège séduit parce que « tué pour cause de mémoire » et « fuite mémoire » sont deux
+énoncés qui se ressemblent au point qu'on saute de l'un à l'autre sans s'en apercevoir.
+Le symptôme est réel, l'observation est correcte, seule l'inférence de cause est fausse —
+et elle envoie relire du code pendant des jours.
+
+**Sur les autres questions.** L'image `distroless` échange **du confort de débogage
+contre de la surface d'attaque**. Sans shell, un attaquant qui obtient l'exécution de code
+n'a ni interpréteur, ni `curl`, ni gestionnaire de paquets pour aller plus loin. En
+contrepartie tu ne peux plus « entrer voir » : il faut que les logs, les métriques et les
+traces soient suffisants — c'est pourquoi durcissement et observabilité vont ensemble, et
+non l'un après l'autre. On peut aussi attacher temporairement un conteneur de débogage
+partageant les mêmes espaces de noms, ce qui garde l'image propre.
+
+`--read-only` ne se renonce pas : on **monte un `tmpfs`** sur les répertoires qui doivent
+être inscriptibles (`/tmp`, un cache). L'écriture reste possible là où elle est
+légitime, en mémoire, et disparaît à l'arrêt — ce qui est précisément le comportement
+souhaité pour du temporaire. Le reste du système de fichiers demeure immuable, donc un
+attaquant ne peut ni remplacer un binaire ni déposer une porte dérobée persistante.
+
+Enfin, non-root **parce que le conteneur n'est pas une machine virtuelle** : tous les
+conteneurs d'un hôte partagent le même noyau. L'isolation est faite d'espaces de noms et
+de cgroups, pas d'une frontière matérielle. Root dans le conteneur, c'est l'UID 0 sur le
+noyau de l'hôte — et toute faille d'échappement, tout montage mal configuré, tout socket
+Docker exposé se joue alors avec les pleins pouvoirs. Non-root ne rend pas l'évasion
+impossible ; il la rend beaucoup plus difficile, et c'est tout ce qu'on demande à une
+couche de défense.
+
+**Alternative défendable.** Sur un cluster où l'on maîtrise la charge et où l'on préfère
+une marge à un réglage fin, **ne pas fixer de limite mémoire** et surveiller la
+consommation réelle est tenable — cela évite les OOMKilled inexpliqués au prix du risque
+qu'un conteneur affame ses voisins. Le choix dépend de qui partage la machine, pas d'un
+principe général.
+
+**Vérifie seul, sans corrigé** :
+1. `docker inspect --format '{{.State.OOMKilled}} {{.State.ExitCode}}' ton-conteneur`.
+   `true` et `137` désignent la limite, pas ton code.
+2. Dans ton conteneur limité à 512 Mo, demande au runtime combien de mémoire il croit
+   avoir. Si ce n'est pas 512 Mo, tu tiens ton explication.
+3. Lance ton image avec `--read-only`. Ce qui casse t'apprend exactement où ton
+   application écrit — une information que peu d'équipes possèdent.
+
 ## ⚠️ Erreurs fréquentes
 - Tourner en **root** sans nécessité.
 - Image pleine d'outils inutiles (surface d'attaque).

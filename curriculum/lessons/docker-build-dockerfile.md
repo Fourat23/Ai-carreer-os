@@ -97,6 +97,76 @@ le cache de build : seulement le nécessaire pour tourner.
 4. Installer uniquement les dépendances de production (`--omit=dev`).
 5. Re-mesurer : l'atelier a disparu de l'image livrée.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. `CMD npm start` et `CMD ["npm", "start"]` : quelle différence à l'arrêt du
+   conteneur ?
+2. Tu passes un jeton avec `ARG TOKEN` pendant le build et tu ne l'écris nulle part.
+   Est-il récupérable dans l'image ?
+3. `docker build .` prend deux minutes rien qu'à démarrer, avant la première
+   instruction. Pourquoi ?
+4. À quoi sert `COPY --from=build` et qu'est-ce que cela retire de l'image finale ?
+
+## ✅ Correction attendue
+
+**La démarche.** Un Dockerfile décrit deux choses distinctes qu'on confond volontiers :
+**comment l'image est construite** et **comment le processus est lancé**. La plupart des
+surprises en production viennent de la seconde.
+
+**L'erreur probable, et elle ne se manifeste jamais en développement.** La forme
+`CMD npm start` — la forme *shell* — paraît identique à `CMD ["npm", "start"]`. Elle ne
+l'est pas, et la différence apparaît uniquement lors d'un arrêt orchestré.
+
+Avec la forme shell, Docker exécute en réalité `/bin/sh -c "npm start"`. Le **PID 1** du
+conteneur devient donc `sh`, et ton application est son enfant. Or `sh` ne transmet pas
+les signaux qu'il reçoit. Quand l'orchestrateur envoie `SIGTERM` pour un arrêt propre,
+le signal arrive à `sh`, qui ne fait rien, et l'application ne le voit jamais. Après le
+délai de grâce — dix secondes par défaut — le `SIGKILL` tombe et coupe tout net.
+
+La conséquence est discrète et permanente : **chaque déploiement coupe les requêtes en
+cours.** Sur une mise à jour progressive de dix instances, ce sont dix coupures, à
+chaque livraison, plusieurs fois par semaine. Personne n'ouvre de ticket parce que
+chaque incident est minuscule et invisible dans les moyennes.
+
+Le piège séduit parce qu'**en développement, tout se passe bien**. On lance
+`docker run`, on fait `Ctrl-C`, et le conteneur s'arrête immédiatement : le terminal
+envoie `SIGINT` à tout le groupe de processus, donc l'application le reçoit directement.
+Le mécanisme fautif est court-circuité par la façon même dont on teste. Le bug n'existe
+que dans le mode d'exécution qu'on ne pratique pas localement.
+
+La règle : **forme exec partout** (`["exécutable", "arg"]`), et si le processus principal
+lance lui-même des enfants, ajouter un vrai init (`--init`, ou `tini`) pour récupérer les
+orphelins et propager les signaux.
+
+**Sur les autres questions.** Un jeton passé par `ARG` est **récupérable**, même sans
+l'avoir écrit dans un fichier : les arguments de build sont conservés dans les
+métadonnées de l'image et `docker history` les affiche. `ARG` limite la portée dans le
+temps du build, il n'apporte **aucune confidentialité**. Les secrets se fournissent à
+l'exécution, ou via un montage de secret de build prévu pour ne pas être persisté.
+
+Le build qui met deux minutes avant sa première instruction envoie le **contexte** au
+moteur : tout le contenu du répertoire, `node_modules` et `.git` compris. Un
+`.dockerignore` règle cela en une ligne, et évite au passage qu'un `.env` traînant ne
+finisse dans l'image via un `COPY . .`.
+
+Enfin, `COPY --from=build` récupère un artefact d'une étape précédente sans emporter
+l'étape elle-même : compilateurs, dépendances de développement, code source, caches de
+paquets, historique. L'image finale contient le livrable et son environnement d'exécution
+— rien de l'atelier. Le gain est double : une image plus petite **et** une surface
+d'attaque réduite, puisqu'un attaquant n'y trouve ni shell, ni compilateur, ni sources.
+
+**Alternative défendable.** La forme shell reste légitime quand on a réellement besoin du
+shell — une substitution de variable, un enchaînement avec `&&`. Dans ce cas on l'assume
+et on met `exec` devant la commande finale (`CMD ["sh", "-c", "exec npm start"]`) : `exec`
+remplace le shell par le programme, qui devient PID 1 et reçoit les signaux.
+
+**Vérifie seul, sans corrigé** :
+1. `docker inspect --format '{{.Config.Cmd}}' ton-image`. Vois-tu `/bin/sh -c` ? Si oui,
+   ton arrêt n'est pas gracieux.
+2. Chronomètre `docker stop`. Dix secondes pile signifient que le délai de grâce a expiré.
+3. `docker history` sur une image construite avec `ARG`. Cherche ta valeur.
+
 ## ⚠️ Erreurs fréquentes
 - Pas de `.dockerignore` → contexte énorme, secrets/`node_modules` embarqués.
 - **Secret dans un `ARG`/`ENV`** codé en dur → présent dans les couches, fuité

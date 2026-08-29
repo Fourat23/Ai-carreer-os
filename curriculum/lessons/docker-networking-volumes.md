@@ -111,9 +111,76 @@ passe sur un volume nommé, les données survivent aux redéploiements.
 - « Pourquoi `localhost` ne marche pas entre conteneurs ? » → il désigne le
   conteneur courant, pas le voisin.
 
-## ✍️ Mini-exercice
-Votre API doit joindre une base sur le même réseau Docker. Quelle URL ? →
-`db:5432` (nom de service + port interne), pas `localhost` ni le port publié.
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Votre API doit joindre une base sur le même réseau Docker. Quelle URL, et pourquoi
+   pas les deux autres candidates évidentes ?
+2. Vous publiez `-p 5432:5432` pour votre base. L'API la joint désormais. Est-ce la
+   bonne solution ?
+3. Vous supprimez et recréez le conteneur de base. Les données sont là. Étaient-elles
+   dans un volume ?
+4. Volume nommé ou bind mount pour la base de données de production ?
+
+## ✅ Correction attendue
+
+**La démarche.** Deux questions séparées, qu'on mélange souvent : **qui peut joindre
+qui** (réseau) et **qu'est-ce qui survit** (volumes). Un symptôme relève toujours de
+l'une des deux.
+
+**L'erreur probable : publier un port pour résoudre un problème de réseau interne.**
+C'est le raccourci le plus fréquent, et il a le mérite de marcher — ce qui est
+exactement le problème.
+
+Quand l'API ne joint pas la base, le réflexe est d'ajouter `-p 5432:5432` et de pointer
+sur `localhost:5432`. Le trafic sort alors du conteneur, remonte jusqu'à l'hôte,
+redescend par le port publié. **Ça fonctionne**, et l'on croit avoir corrigé la
+configuration réseau.
+
+Ce qu'on a réellement fait : **exposer sa base de données sur toutes les interfaces de la
+machine.** Sur un poste de développement c'est déjà discutable ; sur un serveur avec une
+adresse publique, c'est une base de données ouverte sur Internet — l'une des causes les
+plus banales de compromission. Le port publié ne sert jamais à la communication entre
+conteneurs ; il sert uniquement à l'accès **depuis l'hôte**, par exemple pour brancher un
+client SQL le temps d'un débogage.
+
+La bonne réponse est `db:5432` : **nom de service** (résolu par le DNS interne du réseau
+Docker) et **port interne** (celui sur lequel le service écoute réellement, indépendant
+de toute publication). Aucune publication n'est nécessaire, et la base reste invisible de
+l'extérieur.
+
+Le piège séduit parce que **`localhost` a toujours fonctionné avant**. Hors conteneur,
+sur une seule machine, tout était sur `localhost` — l'habitude est ancienne et n'a jamais
+été prise en défaut. Or dans un conteneur, `localhost` désigne **ce conteneur** : chacun a
+sa propre pile réseau, donc son propre `localhost`. Pointer vers `localhost:5432` depuis
+l'API revient à chercher une base à l'intérieur de l'API elle-même. Le message d'erreur
+— *connection refused* — est d'ailleurs exact : personne n'écoute là.
+
+**Sur les autres questions.** Des données qui survivent à la suppression du conteneur
+étaient nécessairement **hors** de sa couche inscriptible, donc dans un volume ou un bind
+mount — c'est la définition même. Si elles avaient été dans le conteneur, elles auraient
+disparu avec lui, et c'est la mésaventure fondatrice de tous ceux qui apprennent Docker.
+
+Volume nommé ou bind mount en production : **volume nommé**. Il est géré par Docker, ne
+dépend d'aucun chemin de l'hôte, gère correctement les permissions, se sauvegarde comme
+une unité, et peut s'appuyer sur un pilote de stockage adapté. Le bind mount est l'outil
+du développement : il donne un chemin précis sur la machine, ce qui est exactement ce
+qu'on veut pour éditer du code en direct, et exactement ce qu'on ne veut pas pour des
+données de production.
+
+**Alternative défendable.** Publier le port de la base **en le liant explicitement à la
+boucle locale** — `-p 127.0.0.1:5432:5432` — est un compromis raisonnable en
+développement : on garde le confort d'un client SQL local sans exposer quoi que ce soit
+au réseau. La différence avec `-p 5432:5432` tient à une adresse écrite, et elle sépare
+un poste de travail commode d'une base publiée sur Internet.
+
+**Vérifie seul, sans corrigé** :
+1. `docker compose ps` : quels ports sont publiés ? Chacun est une porte ouverte sur
+   l'hôte. Sont-ils tous nécessaires ?
+2. Depuis un conteneur, `getent hosts db`. Le nom résout-il ? C'est le test qui distingue
+   un problème de réseau d'un problème de service.
+3. Supprime ton conteneur de base et recrée-le. Si tu hésites à le faire, c'est que tu ne
+   sais pas où vivent tes données.
 
 ## 🧾 À retenir
 - Même réseau + nom de service = communication inter-conteneurs (DNS intégré).

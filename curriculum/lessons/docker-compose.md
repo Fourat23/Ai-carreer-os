@@ -98,6 +98,79 @@ volumes:
    prête.
 4. Vérifier `docker compose down && up` : les données survivent (volume nommé).
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton API échoue au premier démarrage puis fonctionne après un redémarrage manuel. Tu
+   ajoutes `depends_on: db` avec `condition: service_healthy`. Le problème est-il résolu ?
+2. Ton API se connecte à `localhost:5432`. Ça marchait hors conteneur. Pourquoi plus
+   maintenant ?
+3. Tu montes `.:/app` pour le rechargement à chaud, et l'application ne trouve plus ses
+   dépendances. Que s'est-il passé ?
+4. `docker compose down` puis `up` : tes données sont-elles là ?
+
+## ✅ Correction attendue
+
+**La démarche.** Compose décrit un réseau, des dépendances et des durées de vie. Chaque
+symptôme se rattache à l'un de ces trois plans, et il vaut mieux savoir lequel avant de
+modifier le fichier.
+
+**L'erreur probable, et elle ressemble à une bonne pratique appliquée.** Ajouter
+`condition: service_healthy` résout bien le symptôme observé : l'API attend désormais que
+la base accepte les connexions. La question est de savoir si le **problème** est résolu,
+et la réponse est non.
+
+Ce qu'on vient de corriger, c'est la course au démarrage — un cas particulier. Ce qui
+reste entier : **la base redémarrera un jour pendant que l'application tourne.** Une mise
+à jour, un basculement, un redémarrage de conteneur, un incident réseau de trois
+secondes. À ce moment-là il n'y a plus aucun `depends_on` — cette directive n'existe qu'à
+la création — et l'application se retrouve exactement dans la situation qu'on croyait
+avoir traitée, avec cette fois de vrais utilisateurs.
+
+La vraie correction est **dans l'application** : réessayer la connexion avec un délai
+croissant, et ne pas considérer une dépendance indisponible comme une raison de mourir.
+Une application qui sait faire cela n'a plus besoin de `depends_on` du tout — elle
+démarre dans n'importe quel ordre, en local comme en production.
+
+Le piège séduit parce que **le correctif fonctionne, immédiatement et de façon
+vérifiable**. On relance, l'erreur a disparu, le ticket se ferme. C'est le mode de
+défaillance le plus courant du travail d'ingénierie : traiter le symptôme là où il est
+apparu, plutôt que là où il vit. Le fait que Compose offre précisément l'outil qui
+soulage renforce la conviction d'avoir fait le bon geste.
+
+`depends_on` avec condition de santé reste utile — il rend le démarrage local propre et
+les logs lisibles. Ce n'est simplement pas une stratégie de résilience, et il ne faut pas
+lui laisser croire qu'on en a une.
+
+**Sur les autres questions.** `localhost` à l'intérieur d'un conteneur désigne **ce
+conteneur**, pas la machine ni le voisin. Chaque service a sa propre pile réseau : la
+base est joignable par son **nom de service** (`db:5432`), résolu par le DNS interne du
+réseau Compose. Et c'est le **port interne** qu'on vise, pas le port publié — la
+publication ne concerne que les accès depuis l'hôte.
+
+Le montage `.:/app` qui casse les dépendances est un classique : le bind mount
+**remplace** le contenu de `/app` par celui de l'hôte, y compris le `node_modules`
+installé pendant le build. Si l'hôte n'en a pas — ou en a un compilé pour un autre
+système — l'application ne trouve plus rien. La parade habituelle est un volume anonyme
+qui protège ce sous-dossier : `- /app/node_modules` après le bind mount.
+
+Enfin, `down` puis `up` **conserve** les données si elles sont dans un **volume nommé**,
+et les perd si elles vivaient dans la couche inscriptible du conteneur. `docker compose
+down -v` supprime aussi les volumes — c'est le drapeau qu'on tape une fois de trop.
+
+**Alternative défendable.** Pour un environnement de démonstration ou un tutoriel,
+`depends_on` seul, sans condition ni retry, est acceptable : on relance à la main si
+besoin, et la simplicité du fichier a une valeur pédagogique réelle. Ce qui n'est pas
+défendable est de transposer ce fichier en production en le croyant complet.
+
+**Vérifie seul, sans corrigé** :
+1. Lance `docker compose up`, puis redémarre uniquement la base
+   (`docker compose restart db`). Ton API survit-elle ? C'est le vrai test.
+2. Cherche `localhost` dans ta configuration de services. Chaque occurrence est
+   suspecte.
+3. `docker compose down && docker compose up` : tes données sont-elles là ? Si tu ne sais
+   pas répondre sans essayer, tu ne sais pas où elles sont stockées.
+
 ## ⚠️ Erreurs fréquentes
 - Croire que `depends_on` garantit que le service est **prêt** (il garantit
   l'ordre, pas la disponibilité) → ajouter un healthcheck.

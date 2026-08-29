@@ -96,6 +96,82 @@ inspection, sans bloquer les autres paiements.
 - Ordering strict : cohérence ↔ parallélisme réduit (partition par clé).
 - File vs pub/sub : répartir un travail ↔ diffuser un événement à plusieurs systèmes.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton worker consomme une file de paiements. Il traite un message puis tombe avant
+   d'accuser réception. Que se passe-t-il, et combien de fois le client est-il débité ?
+2. Un message échoue systématiquement — données malformées. Ton worker le rejette et le
+   remet en file. Que devient ta file ?
+3. Tu passes de un à cinq workers pour aller plus vite. Les messages sont-ils encore
+   traités dans l'ordre ?
+4. L'API publie dans la file puis écrit en base. La publication réussit, l'écriture
+   échoue. Quel est l'état du système ?
+
+## ✅ Correction attendue
+
+**La démarche.** Une file échange une garantie contre une autre : on gagne le découplage
+et la reprise, on perd l'ordre strict et l'unicité. Concevoir avec une file, c'est
+concevoir **pour** ces pertes.
+
+**L'erreur probable : traiter la duplication comme un défaut à corriger.** Le premier
+réflexe, quand on découvre qu'un message peut arriver deux fois, est de chercher comment
+l'empêcher — un accusé de réception plus rapide, une transaction, un verrou.
+
+**On ne peut pas.** Le worker doit traiter puis accuser réception ; entre les deux, il
+existe toujours un instant où il peut tomber. Accuser d'abord ne résout rien : on perdrait
+alors des messages, ce qui est pire. Le choix n'est pas entre duplication et perfection,
+il est **entre duplication et perte** — et pour un paiement, on préfère mille fois un
+débit à traiter en double qu'un débit oublié.
+
+D'où le renversement qui est le cœur du sujet : **on ne cherche pas à empêcher le doublon,
+on le rend sans effet.** Le worker note l'identifiant des messages déjà traités, ou écrit
+de façon naturellement idempotente — un `UPSERT` sur une clé métier plutôt qu'un `INSERT`,
+un débit enregistré sous la référence unique de la transaction. Le message peut alors
+arriver dix fois : le neuvième et le dixième ne font rien.
+
+Le piège séduit parce que **« au moins une fois » se lit comme une imperfection
+technique**, une limite qu'un meilleur système corrigerait. On cherche donc la
+configuration ou la bibliothèque qui donnerait « exactement une fois ». Or c'est une
+propriété du monde, pas de l'outil : dès qu'un accusé de réception traverse un réseau, il
+peut se perdre, et l'émetteur ne peut pas distinguer « perdu avant » de « perdu après ».
+Les systèmes qui annoncent « exactly-once » font exactement ce qui est décrit ici — de la
+déduplication — simplement à un autre endroit.
+
+**Sur les autres questions.** Le message systématiquement en échec, rejeté et remis en
+file, produit une **boucle infinie** : il revient, échoue, revient. Il consomme les workers,
+retarde tous les autres messages, et peut à lui seul paralyser la file — c'est le
+*poison message*. La parade est une **file de rebut** (*dead letter queue*) : après N
+tentatives, le message est mis de côté pour inspection humaine, et la file principale
+repart. Sans elle, un seul message malformé arrête le système.
+
+Passer à cinq workers **perd l'ordre global**, définitivement : cinq consommateurs tirent
+en parallèle et terminent quand ils terminent. Si l'ordre compte pour un sous-ensemble —
+tous les événements d'un même client — la solution n'est pas de revenir à un worker, mais
+de **partitionner par clé** : tous les messages d'un client donné vont sur la même
+partition, donc au même consommateur. On garde le parallélisme entre clients et l'ordre à
+l'intérieur de chacun.
+
+Enfin, publier puis écrire en base laisse le système **incohérent** : un message annonce
+un travail dont la base n'a aucune trace. C'est le problème de la double écriture, et il
+n'a pas de solution simple — deux systèmes ne peuvent pas être commités ensemble. Le motif
+usuel est la **boîte d'envoi transactionnelle** (*outbox*) : on écrit le message dans une
+table de la même base, **dans la même transaction** que la donnée métier, et un processus
+séparé le publie ensuite. Une seule transaction, donc plus de désaccord possible.
+
+**Alternative défendable.** Pour un traitement court et non critique — envoyer un e-mail
+de bienvenue — le faire de façon synchrone dans la requête est souvent supérieur : pas de
+file à exploiter, pas d'idempotence à écrire, pas de file de rebut à surveiller. Une file
+est une infrastructure ; elle se justifie par un besoin de découplage, de débit ou de
+reprise, pas par principe.
+
+**Vérifie seul, sans corrigé** :
+1. Rejoue deux fois le même message dans ton worker. L'effet est-il identique ? Sinon, tu
+   as un doublon en attente d'un redémarrage.
+2. Ta file a-t-elle une file de rebut ? Sinon, un seul message malformé peut l'arrêter.
+3. Publies-tu un message et écris-tu en base dans la même opération ? Si oui, cherche
+   laquelle des deux peut échouer seule.
+
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - Consommateur NON idempotent sur une livraison at-least-once → effets doublés (paiements, e-mails).
 - Retry immédiat en boucle sans backoff → retry storm qui aggrave la panne.

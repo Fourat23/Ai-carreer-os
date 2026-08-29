@@ -105,6 +105,81 @@ ALTER TABLE clients DROP COLUMN nom;
 À chaque étape, le code en production voit un schéma qu'il comprend : aucun instant de casse.
 Un `DROP COLUMN nom` fait d'un seul coup, lui, aurait planté l'ancien code encore en ligne.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Tu dois renommer la colonne `nom` en `nom_complet`. Ta migration fait
+   `ALTER TABLE … RENAME COLUMN`. Que se passe-t-il pendant un déploiement progressif ?
+2. Ta migration a un `down` qui fait `DROP COLUMN`. Est-elle réversible ?
+3. Tu ajoutes `ALTER TABLE commandes ADD COLUMN statut TEXT NOT NULL DEFAULT 'nouveau'`
+   sur 80 millions de lignes. Que crains-tu ?
+4. Deux développeurs créent une migration le même jour. Que peut-il arriver ?
+
+## ✅ Correction attendue
+
+**La démarche.** Une migration ne s'exécute jamais dans un monde vide : pendant qu'elle
+tourne, **du code ancien et du code nouveau parlent à la même base**. Toute migration se
+juge donc sur cette cohabitation, pas sur l'état final.
+
+**L'erreur probable, et elle casse la production pendant chaque déploiement.** Renommer
+une colonne en une seule migration paraît propre : un seul changement, un seul script, un
+schéma correct à l'arrivée. La chronologie réelle est la suivante.
+
+Un déploiement progressif remplace les instances une par une. Pendant plusieurs minutes,
+d'anciennes instances tournent encore. La migration s'applique — la colonne s'appelle
+désormais `nom_complet` — et **toutes les anciennes instances plantent instantanément**,
+puisqu'elles demandent `nom`. Si l'on tente un retour arrière, c'est pire : le code
+revenu en arrière cherche `nom`, qui n'existe plus, et **le rollback ne rétablit rien**.
+
+Le motif qui règle cela s'appelle **expand / contract**, et il tient en trois
+déploiements séparés :
+
+1. **Expand** — ajouter `nom_complet` sans toucher à `nom`. Les deux existent, le code
+   ancien continue de fonctionner.
+2. **Migrer** — déployer le code qui écrit dans les deux et lit `nom_complet`, puis
+   recopier les données existantes.
+3. **Contract** — une fois qu'aucune instance ne lit plus `nom`, et seulement alors, le
+   supprimer.
+
+C'est trois fois plus de travail, et c'est le prix d'un déploiement qui ne coupe rien.
+
+Le piège séduit parce que **la migration est correcte** : elle produit exactement le
+schéma voulu, elle passe en local, elle passe en préproduction — où l'on déploie
+généralement d'un bloc, sans cohabitation. Le défaut n'apparaît que sous une condition
+qu'aucun environnement de test ne reproduit : **deux versions du code en même temps.**
+
+**Sur les autres questions.** Un `down` qui fait `DROP COLUMN` n'est pas réversible : il
+restaure la **structure**, pas les **données**. Descendre puis remonter perd le contenu de
+la colonne définitivement. Un `down` de ce type est un filet de sécurité pour le schéma,
+jamais pour les données — et il faut l'écrire noir sur blanc dans la migration.
+
+L'ajout d'une colonne `NOT NULL DEFAULT` sur 80 millions de lignes est le cas où
+**la migration elle-même devient l'incident** : selon la base et sa version, l'opération
+peut réécrire toute la table en tenant un verrou, pendant lequel plus rien n'écrit. Les
+bases récentes traitent ce cas par une simple entrée de métadonnées, mais la prudence
+consiste à vérifier pour **sa** version, et sinon à procéder en plusieurs temps — colonne
+nullable, remplissage par lots, puis contrainte.
+
+Enfin, deux migrations créées le même jour entrent en conflit sur leur **ordre** : deux
+numéros identiques, ou deux ordres différents selon la machine. Le schéma obtenu dépend
+alors de qui a fusionné en premier, ce qui est exactement ce que le versionnement devait
+éviter. Les outils modernes emploient des horodatages plutôt que des compteurs pour cette
+raison, et la revue de code doit traiter un conflit de migration comme un conflit de code.
+
+**Alternative défendable.** Sur une application à une seule instance, arrêtée pendant le
+déploiement, la migration directe est parfaitement acceptable : il n'y a pas de
+cohabitation, donc pas de problème à résoudre. La fenêtre d'indisponibilité est le prix
+payé, et il est souvent négligeable pour un outil interne. **Le motif expand/contract est
+une réponse au déploiement sans coupure, pas une règle universelle.**
+
+**Vérifie seul, sans corrigé** :
+1. Prends ta dernière migration. L'ancien code aurait-il survécu à son application ? Si
+   non, tu as eu une coupure que personne n'a mesurée.
+2. Ton `down` restaure-t-il les données, ou seulement les colonnes ? Écris la réponse dans
+   le fichier.
+3. Combien de temps dure ta plus grosse migration sur un volume de production ? Si tu ne
+   l'as jamais mesuré sur une copie, tu le découvriras en production.
+
 ## ⚠️ Erreurs fréquentes
 - Modifier le schéma à la main en prod (non reproductible, intraçable).
 - Un changement cassant en une étape sur une base vivante → l'ancien code plante pendant le

@@ -127,6 +127,102 @@ si deux likes arrivent en même temps. Propose DEUX solutions : (1) `UPDATE post
 likes + 1` (incrément atomique côté base) ; (2) un verrouillage optimiste avec numéro de
 version. Explique laquelle tu choisis et pourquoi.
 
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton code lit `SELECT solde`, calcule `solde - 100` en JavaScript, puis fait
+   `UPDATE comptes SET solde = 900`. Le tout dans une transaction. Es-tu protégé d'une
+   mise à jour perdue ?
+2. Tu passes en `Serializable` pour être sûr. Que dois-tu désormais gérer dans ton code
+   que tu n'avais pas à gérer avant ?
+3. Une transaction reste ouverte pendant un appel HTTP de 3 secondes. Quel est le coût
+   réel, au-delà de la lenteur ?
+4. Deux transactions se bloquent mutuellement. Qui décide, et que doit faire ton code ?
+
+## ✅ Correction attendue
+
+**La démarche.** Une transaction garantit le **tout ou rien** face aux pannes. Elle ne dit
+rien, par elle-même, sur ce que font les autres transactions au même moment : c'est le
+niveau d'isolation et les verrous qui s'en occupent. Confondre les deux est l'erreur mère
+du sujet.
+
+**L'erreur probable : croire qu'« être dans une transaction » protège de la concurrence.**
+Le scénario de la première question est le plus courant du métier, et la réponse spontanée
+est « oui, c'est atomique, c'est dans un `BEGIN`/`COMMIT` ». **Non.**
+
+Déroulons deux exécutions simultanées en `Read Committed`, le niveau par défaut de la
+plupart des bases :
+
+```
+T1 : BEGIN ; SELECT solde → 1000
+T2 : BEGIN ; SELECT solde → 1000        ← lit la MÊME valeur, rien ne l'en empêche
+T1 : (en JS) 1000 - 100 = 900 ; UPDATE solde = 900 ; COMMIT
+T2 : (en JS) 1000 - 100 = 900 ; UPDATE solde = 900 ; COMMIT
+```
+
+Deux retraits de 100 ont eu lieu, le solde a baissé de 100. Cent euros ont disparu, sans
+erreur, sans exception, avec deux transactions parfaitement valides. **L'atomicité était
+respectée** — chaque transaction a bien été tout ou rien. Ce n'est simplement pas ce dont
+on avait besoin.
+
+Le mécanisme : le calcul a lieu **dans l'application**, sur une valeur lue avant. Entre la
+lecture et l'écriture, la base n'a aucune raison de retenir quoi que ce soit — personne ne
+le lui a demandé.
+
+Trois parades, par ordre de préférence :
+
+```sql
+-- 1. Ne jamais faire l'aller-retour : que la base calcule.
+UPDATE comptes SET solde = solde - 100 WHERE id = 7 AND solde >= 100;
+-- 2. Verrou pessimiste explicite, si un calcul applicatif est indispensable.
+SELECT solde FROM comptes WHERE id = 7 FOR UPDATE;
+-- 3. Verrou optimiste : on écrit sous condition que rien n'ait bougé.
+UPDATE comptes SET solde = 900, version = 4 WHERE id = 7 AND version = 3;
+--    0 ligne affectée = conflit : on relit et on rejoue.
+```
+
+Le piège séduit parce que le mot **« transaction » promet la sécurité**, et il tient sa
+promesse — sur un autre danger. ACID protège des **pannes** ; l'isolation protège des
+**autres**. Les deux sont dans le même acronyme, arrivent dans la même leçon, s'obtiennent
+avec le même `BEGIN`, et l'on transfère naturellement la confiance de l'un à l'autre.
+S'ajoute que **rien n'échoue** : aucun test ne rougit, le bug ne se manifeste que sous
+charge réelle, et il se présente comme une incohérence comptable inexplicable.
+
+**Sur les autres questions.** Passer en `Serializable` déplace le travail sans le
+supprimer : la base détecte désormais les conflits et **rejette** une des transactions
+avec une erreur de sérialisation. Ton code doit donc **savoir rejouer** — attraper cette
+erreur précise et retenter l'opération. Un `Serializable` sans logique de rejeu transforme
+un bug silencieux en erreurs visibles pour l'utilisateur ; c'est un progrès, mais le
+travail n'est fait qu'à moitié.
+
+Une transaction ouverte pendant un appel HTTP de 3 secondes coûte bien plus que de la
+lenteur : elle **tient ses verrous** pendant tout ce temps, bloquant les autres
+transactions sur les mêmes lignes ; elle **occupe une connexion** du pool, ressource
+limitée et partagée ; et si le service distant ralentit, ces trois secondes deviennent
+trente, le pool se vide, et **toute l'application s'arrête** — alors qu'une seule
+dépendance était lente. La règle : aucun appel réseau à l'intérieur d'une transaction.
+
+Enfin, l'interblocage est détecté et tranché par **la base**, qui tue arbitrairement l'une
+des deux transactions. Ton code doit s'attendre à cette erreur et **rejouer**, exactement
+comme pour un conflit de sérialisation. Un interblocage n'est pas un bug à éliminer mais
+une condition normale à gérer — on peut en réduire la fréquence en accédant toujours aux
+lignes dans le même ordre.
+
+**Alternative défendable.** Renoncer aux transactions pour ce genre de compteur et
+s'appuyer sur une opération atomique dédiée — l'incrément d'un cache en mémoire, une
+structure conçue pour cela — est un choix courant et raisonnable quand le volume est
+énorme et l'exactitude à la seconde près non critique. Un compteur de « likes » n'est pas
+un solde bancaire, et la première question à poser reste : **que coûte réellement une
+erreur ici ?**
+
+**Vérifie seul, sans corrigé** :
+1. Cherche dans ton code un `SELECT` suivi d'un calcul puis d'un `UPDATE` de la même
+   ligne. Chaque occurrence est une mise à jour perdue en attente de charge.
+2. Cherche un appel réseau entre un `BEGIN` et un `COMMIT`. Chacun est une panne totale en
+   attente d'une dépendance lente.
+3. Ton code attrape-t-il les erreurs de sérialisation et d'interblocage pour rejouer ? Si
+   non, ton niveau d'isolation élevé produit des erreurs utilisateur au lieu de sûreté.
+
 ## 📚 Vocabulaire
 **transaction** · **ACID** · **`COMMIT` / `ROLLBACK`** · **isolation** · **dirty read** ·
 **lost update** · **niveau d'isolation (Read Committed, Serializable)** · **verrou pessimiste

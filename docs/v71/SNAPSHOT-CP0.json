@@ -1,0 +1,642 @@
+[
+ {
+  "slug": "agent-workflows-orchestration",
+  "total": 2480,
+  "sha": "1eefdec97796e4dc292a6fb8cafa436c054798f0"
+ },
+ {
+  "slug": "agents-fundamentals",
+  "total": 3359,
+  "sha": "8f7619186d79a83e77d0bbe6840c4dcdf75e9978"
+ },
+ {
+  "slug": "ai-evaluation",
+  "total": 2656,
+  "sha": "fc5fb407b576371dd5ffd4a11b963126dab7d310"
+ },
+ {
+  "slug": "ai-security",
+  "total": 3885,
+  "sha": "57e704ed8d048afe4c263673744fdce13b1a72de"
+ },
+ {
+  "slug": "algorithmic-thinking",
+  "total": 3169,
+  "sha": "af851c2b716b4eb709ba4a3c1311f5872ed85d8f"
+ },
+ {
+  "slug": "api-design-basics",
+  "total": 2409,
+  "sha": "9739df50b77fb4ce7de6703bb3d86b5f2d04e0ea"
+ },
+ {
+  "slug": "api-production-contracts",
+  "total": 2556,
+  "sha": "b75b3e6e3018980b1c0e0b3dc505027cb585a08f"
+ },
+ {
+  "slug": "architecture-basics",
+  "total": 3374,
+  "sha": "ddd520402a5d3e433b218eee1d3d0f970d5fceee"
+ },
+ {
+  "slug": "async-javascript",
+  "total": 2985,
+  "sha": "5d4862346f93307b5a92e6dd88f8f21388d4dbe9"
+ },
+ {
+  "slug": "async-messaging-queues",
+  "total": 2812,
+  "sha": "f564368b81c5de1c4ad0bfbbd1195bc39d7f68ac"
+ },
+ {
+  "slug": "authentication",
+  "total": 3280,
+  "sha": "721e1270623bc088865db0778d6cb552bdf0749a"
+ },
+ {
+  "slug": "breaking-changes-compatibility",
+  "total": 3216,
+  "sha": "e26279deb96290eb165b2af609422d9668fbf946"
+ },
+ {
+  "slug": "browser-dom-rendering",
+  "total": 3917,
+  "sha": "bbdde78e96599d0767b661ddd045a83f34829b97"
+ },
+ {
+  "slug": "caching-performance",
+  "total": 3041,
+  "sha": "2d588c7d94d33c7c56424c2815d366a24f19184b"
+ },
+ {
+  "slug": "chunking-strategies",
+  "total": 3114,
+  "sha": "c3a62e4e0e6674e36da57b8039bc99531fe7e7ab"
+ },
+ {
+  "slug": "ci-cd",
+  "total": 3061,
+  "sha": "7d3cabcd76f1010519a2cff549862e95f282c0f2"
+ },
+ {
+  "slug": "ci-cd-pipeline-anatomy",
+  "total": 3510,
+  "sha": "aadedda2470cd6939801d64d254c41c765181bff"
+ },
+ {
+  "slug": "ci-cd-quality-gates-artifacts",
+  "total": 3293,
+  "sha": "92178395533c1255f7e870ff292de3e7177765ae"
+ },
+ {
+  "slug": "clean-code",
+  "total": 3519,
+  "sha": "fa3d3b39d3410699568fd27bbec11790bb3459f3"
+ },
+ {
+  "slug": "cloud-aws-core",
+  "total": 2327,
+  "sha": "93790e1f169a2d83e404b2b51ae97685bbbad31e"
+ },
+ {
+  "slug": "cloud-azure-core",
+  "total": 2475,
+  "sha": "50f0820f3facd262b6e7757cfd1c20aa8dbd1fd4"
+ },
+ {
+  "slug": "cloud-compute-storage",
+  "total": 2524,
+  "sha": "a6c9452b0a366b50cc210074eaae71ccf450ecdb"
+ },
+ {
+  "slug": "cloud-finops",
+  "total": 2544,
+  "sha": "713ff97a0df0dd8b7f623cdc004c8aeab422b5ad"
+ },
+ {
+  "slug": "cloud-fundamentals",
+  "total": 2669,
+  "sha": "4813369770aecdb6ab91a25c8ebc75eef5b7839f"
+ },
+ {
+  "slug": "cloud-networking",
+  "total": 2633,
+  "sha": "8e4e1aba2ad8085e2bc3ad144291fe878da241ff"
+ },
+ {
+  "slug": "css-flexbox",
+  "total": 4456,
+  "sha": "bf9760089ebc1a9e557794100168c841cbcab86a"
+ },
+ {
+  "slug": "css-fundamentals",
+  "total": 4049,
+  "sha": "69e3673bada0637e5541a4dde2fae61c12323a1e"
+ },
+ {
+  "slug": "css-grid",
+  "total": 3717,
+  "sha": "f1817f508640dbe6afe651fd37cdcb938d36d8b7"
+ },
+ {
+  "slug": "data-cleaning-quality",
+  "total": 3072,
+  "sha": "9f6293027b532f0c436177093a2d2adc0dc588fd"
+ },
+ {
+  "slug": "data-structures-intro",
+  "total": 3691,
+  "sha": "2eff4896441c3b79ec057954b7aef61c25663bb8"
+ },
+ {
+  "slug": "database-migrations",
+  "total": 2805,
+  "sha": "ac33fe3975b962656de1b8ea7bd71c59e245e2a3"
+ },
+ {
+  "slug": "database-modeling",
+  "total": 2927,
+  "sha": "0de1dcb4e08a406af9d1ab4ef7192c7b9faa8714"
+ },
+ {
+  "slug": "database-transactions-concurrency",
+  "total": 3770,
+  "sha": "829211c4b52697362f39f7b9dd3c91d6ffcba48a"
+ },
+ {
+  "slug": "deployment-secrets",
+  "total": 2901,
+  "sha": "77f96d7b4a98bdbbb3831dbc26f6faeb6d12d813"
+ },
+ {
+  "slug": "deployment-strategies",
+  "total": 2765,
+  "sha": "6671963cea828bbe187392002d97c750b918dea5"
+ },
+ {
+  "slug": "design-patterns-intro",
+  "total": 3355,
+  "sha": "22fcd4f0d10d448929c6bc64d6ad6514355fbc5b"
+ },
+ {
+  "slug": "distributed-systems-failures",
+  "total": 2704,
+  "sha": "d430b19c41da541f70b1155e6849a7cd52e5d230"
+ },
+ {
+  "slug": "distributed-tracing",
+  "total": 3082,
+  "sha": "18f9cd8bbd6573871d903cb7035d5a2e0afac146"
+ },
+ {
+  "slug": "docker-build-dockerfile",
+  "total": 3346,
+  "sha": "e0dda24645be4113f497d0af69c46a54b891e788"
+ },
+ {
+  "slug": "docker-compose",
+  "total": 2941,
+  "sha": "c06eec38a8441322223a078e0de2741a65c0ee85"
+ },
+ {
+  "slug": "docker-containers",
+  "total": 3056,
+  "sha": "9e72df0dc8c8f70b912a1737cdd8ef1bcdc617d3"
+ },
+ {
+  "slug": "docker-images-layers",
+  "total": 3369,
+  "sha": "a48d42f0f8fb7f96e5acb724cc32f3f58e6bb37f"
+ },
+ {
+  "slug": "docker-networking-volumes",
+  "total": 2256,
+  "sha": "239db11ec2029e2a04162b9db0ea50d2454fc1c8"
+ },
+ {
+  "slug": "docker-production-hardening",
+  "total": 3354,
+  "sha": "99fad3e7e1e8a1256c6a5fe527355d88ea300bc0"
+ },
+ {
+  "slug": "embeddings",
+  "total": 3185,
+  "sha": "0360939328f8e0d4f4b1bc83a2c6b90f286fc0c8"
+ },
+ {
+  "slug": "error-handling",
+  "total": 2998,
+  "sha": "e88828128ee0e63f57e36df8b74a9f1a6aba2b6c"
+ },
+ {
+  "slug": "etl-pipelines",
+  "total": 3231,
+  "sha": "e99f0d731740cfe31160be605d15bf9e5c18fd13"
+ },
+ {
+  "slug": "express-backend",
+  "total": 3309,
+  "sha": "c3db29821dd41d9908c8a6a33ae49a89bef6045d"
+ },
+ {
+  "slug": "feature-engineering",
+  "total": 2745,
+  "sha": "6262b30fd49bf63eabbe5d8d86095a1b53172f92"
+ },
+ {
+  "slug": "frontend-performance",
+  "total": 3967,
+  "sha": "7efb2a7bba1a8da87804a8a791db155d3edfb3f1"
+ },
+ {
+  "slug": "frontend-testing",
+  "total": 4119,
+  "sha": "0f44469f4dc43c4039b00f0d1d642a56adb1a6d2"
+ },
+ {
+  "slug": "git-advanced",
+  "total": 3140,
+  "sha": "6102f94de948924bc547bc2f78eacd66d57eb074"
+ },
+ {
+  "slug": "git-fundamentals",
+  "total": 2948,
+  "sha": "cbb958a2456f72d7e387f7cd14282cc0ffd8f8aa"
+ },
+ {
+  "slug": "html-semantic-structure",
+  "total": 4177,
+  "sha": "4b8e0f1a4a7aa139093afe137a426ce237a9bf12"
+ },
+ {
+  "slug": "http-rest-json",
+  "total": 3297,
+  "sha": "777a8dcd6ba05dd7aca837df360ecc09c2020b81"
+ },
+ {
+  "slug": "iac-fundamentals",
+  "total": 2644,
+  "sha": "df77355e5e9390004445ab810dcae94b379644a5"
+ },
+ {
+  "slug": "incident-response",
+  "total": 3458,
+  "sha": "b6d72726078a01e425dc5b8c8e0070311852d55b"
+ },
+ {
+  "slug": "interview-preparation",
+  "total": 2378,
+  "sha": "212b7e5e7548db5778d17a51a93b5d27feadad64"
+ },
+ {
+  "slug": "javascript-basics",
+  "total": 3553,
+  "sha": "b279df21d587da0310c2b418d3d22c002d84ef4e"
+ },
+ {
+  "slug": "k8s-config-probes",
+  "total": 2538,
+  "sha": "caeffce5f29668384957ea2ea41182c7e60b94d6"
+ },
+ {
+  "slug": "k8s-networking-services",
+  "total": 2453,
+  "sha": "5b7844976d20edc472893814ad0b24fda4c26607"
+ },
+ {
+  "slug": "k8s-security",
+  "total": 2598,
+  "sha": "90d0e46689a879f1c5e8c627ae777359f376d937"
+ },
+ {
+  "slug": "k8s-troubleshooting",
+  "total": 2406,
+  "sha": "7b31fd3694d23a7ca86dc10c296c295e89b04f4e"
+ },
+ {
+  "slug": "k8s-why-architecture",
+  "total": 2545,
+  "sha": "73538df6c5b43bb4ecb3a57fc10b823f7783cd1a"
+ },
+ {
+  "slug": "k8s-workloads",
+  "total": 2348,
+  "sha": "424775e4c897c3d5012fb63f9a1ff35110851fab"
+ },
+ {
+  "slug": "linux-filesystem-permissions",
+  "total": 3559,
+  "sha": "dcc50e97c7811a5a5b9b3f3be9a26fa12c8aadf4"
+ },
+ {
+  "slug": "linux-processes-signals",
+  "total": 3350,
+  "sha": "e00b577dbe472d38c2f36c853bb2db1789f2f689"
+ },
+ {
+  "slug": "linux-resources-io",
+  "total": 2740,
+  "sha": "7751cd8e8a06755c66e390b2726c2e3f4ad5b303"
+ },
+ {
+  "slug": "linux-services-systemd",
+  "total": 2899,
+  "sha": "672f576cce445268992ba3107f93aa840f114014"
+ },
+ {
+  "slug": "linux-ssh-remote",
+  "total": 3026,
+  "sha": "0c73261cccdbf20dd255acbcc2233207c4a7b113"
+ },
+ {
+  "slug": "llm-cost-optimization",
+  "total": 2448,
+  "sha": "2abacf5b8b84fcedf4e21e74953afc170a888920"
+ },
+ {
+  "slug": "llm-fundamentals",
+  "total": 3206,
+  "sha": "530502804b4221b2dade0d7e1815c8dee10422b4"
+ },
+ {
+  "slug": "llm-observability",
+  "total": 2702,
+  "sha": "cdc3edb1682b6877aaab2ee7c6081c3128bb1247"
+ },
+ {
+  "slug": "logging-structured",
+  "total": 2753,
+  "sha": "1d042017ca2d3ca77a1a6e079c2f04387bf8458f"
+ },
+ {
+  "slug": "machine-learning-basics",
+  "total": 2666,
+  "sha": "29891a9b6f5185aafb50754149392d8ec0eb43d1"
+ },
+ {
+  "slug": "metrics-percentiles",
+  "total": 3398,
+  "sha": "0ef016cb06c5ab34ec98144b9f2d9319b157e0e3"
+ },
+ {
+  "slug": "model-evaluation",
+  "total": 3025,
+  "sha": "02895e79c0e680797b894b441df62bdc4585029f"
+ },
+ {
+  "slug": "monitoring-production",
+  "total": 2537,
+  "sha": "fd04eb1ab1899ab55f4bc87fcedb779ad7f9fb8a"
+ },
+ {
+  "slug": "networking-addressing-routing",
+  "total": 3542,
+  "sha": "79fac364c62273e0ea4b1b3f16d37441daae7b1a"
+ },
+ {
+  "slug": "networking-dns",
+  "total": 3201,
+  "sha": "7ba36f7ca8b52b87cb934a4d40ca43c93fae902b"
+ },
+ {
+  "slug": "networking-http-tls",
+  "total": 3171,
+  "sha": "e044f446b598e12f615ed527a74f5ef573f6f4c9"
+ },
+ {
+  "slug": "networking-proxy-loadbalancing",
+  "total": 3433,
+  "sha": "08e71e5ea0210c526bb70ab0aac7d8bc2a543c9f"
+ },
+ {
+  "slug": "networking-tcp-ip-model",
+  "total": 3130,
+  "sha": "b9d2371badf152e70a152fd73c75e82fbbc02ad3"
+ },
+ {
+  "slug": "neural-networks",
+  "total": 2491,
+  "sha": "22c9af408e931c97fa13abf312fea8a6d25453ef"
+ },
+ {
+  "slug": "nextjs-data-production",
+  "total": 4174,
+  "sha": "9a18fa791d31eb6ec8a5a2bb0f6e6429bf6e4cb6"
+ },
+ {
+  "slug": "nextjs-foundations",
+  "total": 3090,
+  "sha": "725c5e804aabb8d3e37dc707dc50c7b94efa636a"
+ },
+ {
+  "slug": "nextjs-rendering",
+  "total": 2303,
+  "sha": "53022392fbbc56166f250929d2493a5d59b2b8b8"
+ },
+ {
+  "slug": "nextjs-server-client-components",
+  "total": 2802,
+  "sha": "4b9ae7cb0ee9e4913bf861ce7999822558e95ea5"
+ },
+ {
+  "slug": "observability-fundamentals",
+  "total": 3016,
+  "sha": "806007a84f4fccd0432e586b28319ee84b220169"
+ },
+ {
+  "slug": "observability-logging",
+  "total": 2479,
+  "sha": "bfbcc1673741673897604bf3c4c77714d707cbae"
+ },
+ {
+  "slug": "pandas-data-wrangling",
+  "total": 3024,
+  "sha": "d0ba3b0a853d5dd3110688b5e4faf0137e3562ae"
+ },
+ {
+  "slug": "portfolio-github",
+  "total": 2345,
+  "sha": "5af0ecb5d4989a12e3af904c13ed11458015edce"
+ },
+ {
+  "slug": "postmortem-rca",
+  "total": 3074,
+  "sha": "9c3e7a54b963fd07b7100deb0396234b5b71453a"
+ },
+ {
+  "slug": "prompt-engineering",
+  "total": 2949,
+  "sha": "9448c675aa3b56af6f7bb861d7be4922f6ec7029"
+ },
+ {
+  "slug": "prompt-injection-defense",
+  "total": 2928,
+  "sha": "4bef2790a278df648836e1d311baaa64170a1572"
+ },
+ {
+  "slug": "python-foundations",
+  "total": 2487,
+  "sha": "282f0e5e1cd4db561ca551a004ab9d03b1ef46ad"
+ },
+ {
+  "slug": "rag-evaluation",
+  "total": 2762,
+  "sha": "fee63a93716ababd4c03b073062c8783310fe38a"
+ },
+ {
+  "slug": "rag-fundamentals",
+  "total": 4088,
+  "sha": "5db272f21dfb86f04192030b87807fc812496e06"
+ },
+ {
+  "slug": "react-accessibility",
+  "total": 4205,
+  "sha": "c56000e514a4533ae77239231349c1e00f822a2d"
+ },
+ {
+  "slug": "react-application-states",
+  "total": 3969,
+  "sha": "173b2225f8757bba210d56156811ba6d1bafff33"
+ },
+ {
+  "slug": "react-composition-architecture",
+  "total": 3875,
+  "sha": "f571752040ef4e22105d059523d5bfb626a43281"
+ },
+ {
+  "slug": "react-fundamentals",
+  "total": 2908,
+  "sha": "421b19adb678de588719bf870fd6770ab88eacb7"
+ },
+ {
+  "slug": "react-hooks-effects",
+  "total": 2996,
+  "sha": "bbd1b95ebf4da871ab40495540a659b59a33ffc2"
+ },
+ {
+  "slug": "readme-documentation",
+  "total": 2678,
+  "sha": "acc39be767aadcab99d529245a34cda0875178e2"
+ },
+ {
+  "slug": "recursion",
+  "total": 3080,
+  "sha": "1d7f3b0d408ef768b9a7ae57c93d860b503948c8"
+ },
+ {
+  "slug": "refactoring-legacy-code",
+  "total": 2727,
+  "sha": "87925e9d4a5979b69ff23aa3cc9dceba833eebf8"
+ },
+ {
+  "slug": "release-incident-recovery",
+  "total": 2786,
+  "sha": "cb77392e59c18001c5e32e678ba7cad611feb3e7"
+ },
+ {
+  "slug": "resilience-patterns",
+  "total": 3506,
+  "sha": "6bfc4e4ec960d2dae35e6af562447b42c254f18f"
+ },
+ {
+  "slug": "responsive-design",
+  "total": 3318,
+  "sha": "7e19fd14dca4f7576e502ecd2750f71ca0787aed"
+ },
+ {
+  "slug": "retrieval-reranking",
+  "total": 3217,
+  "sha": "301915e9f6d9b19a76b61b10460202c1d6ca5a68"
+ },
+ {
+  "slug": "scikit-learn-workflow",
+  "total": 3142,
+  "sha": "ae3fe27b0453772e222e189070e2d84fb61d5406"
+ },
+ {
+  "slug": "slo-error-budget",
+  "total": 3374,
+  "sha": "f923e32bcd05ef3e51fa872710dfd27a0e10a3a5"
+ },
+ {
+  "slug": "sql-foundations",
+  "total": 3480,
+  "sha": "bf2b1d0cf8fb84c94189b30579f4087695ddbd4c"
+ },
+ {
+  "slug": "sql-performance-indexing",
+  "total": 2872,
+  "sha": "dfb6848cd107b5ca5e2f4d5898b717ae35db3b38"
+ },
+ {
+  "slug": "statistics-for-ml",
+  "total": 3711,
+  "sha": "668faf5abd24f98c46f68f6fb95312a51c0d464c"
+ },
+ {
+  "slug": "structured-outputs-tools",
+  "total": 2856,
+  "sha": "886a317436ad07a47d08967e17f00116f0acd327"
+ },
+ {
+  "slug": "system-design-interview",
+  "total": 2790,
+  "sha": "0ef7fae14a245dc0278c8d17ff9fedfbb7c49c79"
+ },
+ {
+  "slug": "system-design-scaling",
+  "total": 2888,
+  "sha": "876953bc267243c483a0a3c15db2392b1a74991c"
+ },
+ {
+  "slug": "technical-debt",
+  "total": 3610,
+  "sha": "27dc4f953e6decc5d33511e1826c68de726215aa"
+ },
+ {
+  "slug": "technical-documentation",
+  "total": 2773,
+  "sha": "009dd1180a145013135671dc4231cffd2daf9cf3"
+ },
+ {
+  "slug": "technical-storytelling",
+  "total": 2553,
+  "sha": "c415735cae941e9b26f662a9cd87f57f637ba276"
+ },
+ {
+  "slug": "terminal-shell-filesystem",
+  "total": 3201,
+  "sha": "8896706ea7a2d3e31026827d9c398dc910c2427d"
+ },
+ {
+  "slug": "testing-foundations",
+  "total": 2732,
+  "sha": "62f8c76c581cc1b410237037198a2cdf042b833f"
+ },
+ {
+  "slug": "transformers",
+  "total": 2611,
+  "sha": "8eb73bf2bb64bb24f2683a49caab42f9ea44e57c"
+ },
+ {
+  "slug": "typescript-basics",
+  "total": 2941,
+  "sha": "9b42c63d1c94c6c125a4e7ae211c8fd3efe1bdeb"
+ },
+ {
+  "slug": "typescript-frontend",
+  "total": 3671,
+  "sha": "3b17489cc13f521969c229da2a081f7d30ddad30"
+ },
+ {
+  "slug": "vector-databases",
+  "total": 2840,
+  "sha": "a67b298e9e260c0e0283205ab3396993d407628b"
+ },
+ {
+  "slug": "web-forms-validation",
+  "total": 3825,
+  "sha": "a7ca1c7715ca15d501f5a1eac875bfe2462413f2"
+ }
+]

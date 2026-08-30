@@ -1,0 +1,5883 @@
+[
+ {
+  "slug": "agent-workflows-orchestration",
+  "total": 2617,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 198,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 817,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 67
+  },
+  "correction": 953,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "agents-fundamentals",
+  "total": 3595,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "pratique construire une boucle d agent et la voir derailler",
+   "correction attendue",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 412,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 4.9
+  },
+  "guide": 769,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 255
+  },
+  "correction": 1052,
+  "nCorrections": 2,
+  "metier": 229,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "ai-evaluation",
+  "total": 2786,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 432,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 4.6
+  },
+  "guide": 740,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 56
+  },
+  "correction": 445,
+  "nCorrections": 1,
+  "metier": 212,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "ai-security",
+  "total": 4119,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide la fuite pas l injection",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "exercice plus difficile",
+   "verification de comprehension",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 500,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2
+  },
+  "guide": 816,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 326
+  },
+  "correction": 1253,
+  "nCorrections": 1,
+  "metier": 232,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "algorithmic-thinking",
+  "total": 3328,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide la periode de sept jours la plus chaude",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "pratique raisonner sur le cout avant d optimiser",
+   "correction attendue",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 439,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 4.6
+  },
+  "guide": 732,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 249
+  },
+  "correction": 969,
+  "nCorrections": 2,
+  "metier": 157,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "api-design-basics",
+  "total": 2582,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 301,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 756,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 46
+  },
+  "correction": 468,
+  "nCorrections": 1,
+  "metier": 201,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "api-production-contracts",
+  "total": 2689,
+  "nSections": 16,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "exemple guide le train qui passe dans un tunnel",
+   "trade offs",
+   "erreurs frequentes anti patterns",
+   "pratique",
+   "verification de comprehension",
+   "correction attendue",
+   "cas professionnel",
+   "entretien",
+   "a retenir",
+   "vocabulaire",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 324,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 3.1
+  },
+  "guide": 927,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 49
+  },
+  "correction": 670,
+  "nCorrections": 1,
+  "metier": 49,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "architecture-basics",
+  "total": 3555,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide le meme besoin trois architectures et le calcul qui tranche",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "pratique decider ecrire et assumer les consequences",
+   "correction attendue",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 426,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.3
+  },
+  "guide": 786,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 228
+  },
+  "correction": 1052,
+  "nCorrections": 2,
+  "metier": 220,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "async-javascript",
+  "total": 3133,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide charger cent documents sans se faire couper",
+   "exemple applique ia data architecture",
+   "ce que la boucle d evenements fait reellement mesure",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 432,
+   "defs": 0,
+   "rais": 4,
+   "densDef": 0,
+   "densRais": 9.3
+  },
+  "guide": 616,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 57
+  },
+  "correction": 818,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "async-messaging-queues",
+  "total": 2953,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "exemple guide un paiement de 30 et quatre facons de le debiter",
+   "trade offs",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes anti patterns",
+   "pratique",
+   "verification de comprehension",
+   "cas professionnel",
+   "entretien",
+   "a retenir",
+   "vocabulaire",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 404,
+   "defs": 0,
+   "rais": 3,
+   "densDef": 0,
+   "densRais": 7.4
+  },
+  "guide": 886,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 48
+  },
+  "correction": 688,
+  "nCorrections": 1,
+  "metier": 39,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "authentication",
+  "total": 3475,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 328,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 6.1
+  },
+  "guide": 803,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 55
+  },
+  "correction": 1690,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "breaking-changes-compatibility",
+  "total": 3398,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "pratique casser un contrat puis apprendre a ne plus le casser",
+   "correction attendue",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 360,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.8
+  },
+  "guide": 810,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 230
+  },
+  "correction": 1181,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "browser-dom-rendering",
+  "total": 4162,
+  "nSections": 16,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique la liste de courses et le compte des endroits a ne pas oublier",
+   "correction",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 524,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 3.8
+  },
+  "guide": 863,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 471
+  },
+  "correction": 1557,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "caching-performance",
+  "total": 3181,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide le cache qui ne sert a rien et ce qu il fallait faire",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 217,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 1181,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 56
+  },
+  "correction": 1129,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "chunking-strategies",
+  "total": 3248,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "decomposition",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 551,
+   "defs": 2,
+   "rais": 5,
+   "densDef": 3.6,
+   "densRais": 9.1
+  },
+  "guide": 914,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 56
+  },
+  "correction": 860,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "ci-cd",
+  "total": 3213,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "decomposition",
+   "exemple simple",
+   "exemple guide la ci est rouge une fois sur cinq on relance",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique construire une ci puis prouver qu elle protege",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 443,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 4.5
+  },
+  "guide": 855,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 267
+  },
+  "correction": 642,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "ci-cd-pipeline-anatomy",
+  "total": 3660,
+  "nSections": 21,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple jobs paralleles puis deploiement conditionnel",
+   "exemple guide le pipeline prend 25 minutes on va paralleliser",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "que faire dans ce cas le pipeline echoue seulement en production",
+   "questions d entretien",
+   "mini exercice",
+   "pratique instrumenter ton pipeline avant de l optimiser",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 290,
+   "defs": 6,
+   "rais": 0,
+   "densDef": 20.7,
+   "densRais": 0
+  },
+  "guide": 874,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 311
+  },
+  "correction": 1334,
+  "nCorrections": 2,
+  "metier": 155,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "ci-cd-quality-gates-artifacts",
+  "total": 3456,
+  "nSections": 21,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques",
+   "exemple guide la porte est a 90 de couverture on est proteges",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "que faire dans ce cas le pipeline passe mais l appli ne demarre pas",
+   "questions d entretien",
+   "mini exercice",
+   "pratique mesurer ce que tes portes protegent reellement",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 295,
+   "defs": 5,
+   "rais": 0,
+   "densDef": 16.9,
+   "densRais": 0
+  },
+  "guide": 834,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 232
+  },
+  "correction": 1209,
+  "nCorrections": 2,
+  "metier": 190,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "clean-code",
+  "total": 3710,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide quatre passes sur une fonction hostile",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "exercice plus difficile",
+   "verification de comprehension",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 382,
+   "defs": 0,
+   "rais": 3,
+   "densDef": 0,
+   "densRais": 7.9
+  },
+  "guide": 813,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 277
+  },
+  "correction": 1235,
+  "nCorrections": 1,
+  "metier": 191,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "cloud-aws-core",
+  "total": 2467,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes illustratifs non executes",
+   "exemple guide d ou vient le mot de passe qui n existe pas",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice ecrire quatre politiques et une qui refuse",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 249,
+   "defs": 4,
+   "rais": 0,
+   "densDef": 16.1,
+   "densRais": 0
+  },
+  "guide": 667,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 239
+  },
+  "correction": 564,
+  "nCorrections": 1,
+  "metier": 53,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "cloud-azure-core",
+  "total": 2614,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes illustratifs non executes",
+   "exemple guide la permission qu on n a pas donnee et qui existe quand meme",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice dessiner la hierarchie avant d attribuer un seul role",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 301,
+   "defs": 4,
+   "rais": 0,
+   "densDef": 13.3,
+   "densRais": 0
+  },
+  "guide": 671,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 251
+  },
+  "correction": 621,
+  "nCorrections": 1,
+  "metier": 59,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "cloud-compute-storage",
+  "total": 2650,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes multi fournisseurs",
+   "exemple guide trois facons de se tromper de stockage",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice placer six charges et defendre chaque choix",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 294,
+   "defs": 3,
+   "rais": 1,
+   "densDef": 10.2,
+   "densRais": 3.4
+  },
+  "guide": 779,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 250
+  },
+  "correction": 612,
+  "nCorrections": 1,
+  "metier": 47,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "cloud-finops",
+  "total": 2683,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes demarche multi fournisseurs",
+   "exemple guide une facture a 1 885 et par ou commencer",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice le plan de reduction avec ses risques",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 293,
+   "defs": 7,
+   "rais": 0,
+   "densDef": 23.9,
+   "densRais": 0
+  },
+  "guide": 777,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 294
+  },
+  "correction": 585,
+  "nCorrections": 1,
+  "metier": 55,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "cloud-fundamentals",
+  "total": 2823,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes conceptuels multi fournisseurs",
+   "exemple guide une migration et les quatre questions qu elle pose",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice ecrire la fiche de decision d une migration",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 333,
+   "defs": 5,
+   "rais": 0,
+   "densDef": 15,
+   "densRais": 0
+  },
+  "guide": 852,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 298
+  },
+  "correction": 575,
+  "nCorrections": 1,
+  "metier": 59,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "cloud-networking",
+  "total": 2791,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes multi fournisseurs",
+   "exemple guide le meme reseau vu par un attaquant",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice auditer un reseau par le rayon d explosion",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 287,
+   "defs": 6,
+   "rais": 1,
+   "densDef": 20.9,
+   "densRais": 3.5
+  },
+  "guide": 811,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 277
+  },
+  "correction": 652,
+  "nCorrections": 1,
+  "metier": 57,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "css-flexbox",
+  "total": 4646,
+  "nSections": 16,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide ou passent les 600 pixels",
+   "contre exemple",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique l en tete qui ne tient pas ses promesses",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 356,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.8
+  },
+  "guide": 1174,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 594
+  },
+  "correction": 1806,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "css-fundamentals",
+  "total": 4231,
+  "nSections": 15,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide la barre de defilement horizontale et l enquete qui la trouve",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique predire avant de tester",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 602,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 3.3
+  },
+  "guide": 1082,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 572
+  },
+  "correction": 1246,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "css-grid",
+  "total": 3865,
+  "nSections": 16,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide deux mots qui different d une syllabe",
+   "contre exemple",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique la trame d un ecran reel et ses seuils",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 312,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 1130,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 466
+  },
+  "correction": 1265,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "data-cleaning-quality",
+  "total": 3231,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide 17 lignes sur 1 040 et 4 5 ans d ecart",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 496,
+   "defs": 0,
+   "rais": 7,
+   "densDef": 0,
+   "densRais": 14.1
+  },
+  "guide": 1053,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 47
+  },
+  "correction": 1098,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "data-structures-intro",
+  "total": 3889,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide dedoublonner un million de lignes",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "exercice plus difficile",
+   "verification de comprehension",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 388,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.6
+  },
+  "guide": 744,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 284
+  },
+  "correction": 1324,
+  "nCorrections": 1,
+  "metier": 191,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "database-migrations",
+  "total": 2942,
+  "nSections": 15,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 378,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.6
+  },
+  "guide": 980,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 53
+  },
+  "correction": 641,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "database-modeling",
+  "total": 3077,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 199,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 857,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 61
+  },
+  "correction": 1322,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "database-transactions-concurrency",
+  "total": 3995,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide 100 30 50 50 et les trois facons d obtenir 20",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "verification de comprehension",
+   "correction attendue",
+   "pratique reproduire les anomalies plutot que les lire",
+   "correction attendue sur la pratique a e",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 400,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 1088,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 233
+  },
+  "correction": 1450,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "deployment-secrets",
+  "total": 3044,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide j ai supprime le fichier au commit suivant c est regle",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique auditer prouver et poser un garde fou",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 465,
+   "defs": 0,
+   "rais": 5,
+   "densDef": 0,
+   "densRais": 10.8
+  },
+  "guide": 779,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 333
+  },
+  "correction": 683,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "deployment-strategies",
+  "total": 2887,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques conceptuels",
+   "exemple guide pourquoi un canari protege et de quoi il ne protege pas",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique livrer un renommage de colonne sans coupure",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 294,
+   "defs": 5,
+   "rais": 1,
+   "densDef": 17,
+   "densRais": 3.4
+  },
+  "guide": 895,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 261
+  },
+  "correction": 735,
+  "nCorrections": 1,
+  "metier": 62,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "design-patterns-intro",
+  "total": 3546,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide reconnaitre un pattern au lieu de l appliquer",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "exercice plus difficile",
+   "verification de comprehension",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 377,
+   "defs": 4,
+   "rais": 0,
+   "densDef": 10.6,
+   "densRais": 0
+  },
+  "guide": 678,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 350
+  },
+  "correction": 1088,
+  "nCorrections": 1,
+  "metier": 208,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "distributed-systems-failures",
+  "total": 2855,
+  "nSections": 16,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "exemple guide",
+   "trade offs",
+   "erreurs frequentes anti patterns",
+   "pratique",
+   "verification de comprehension",
+   "correction attendue",
+   "cas professionnel",
+   "entretien",
+   "a retenir",
+   "vocabulaire",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 457,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 962,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 53
+  },
+  "correction": 627,
+  "nCorrections": 1,
+  "metier": 37,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "distributed-tracing",
+  "total": 3271,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "decomposition",
+   "exemple guide pourquoi il faut un identifiant et pas seulement des horodatages",
+   "mise en pratique poser la correlation puis mesurer ce qu elle change",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes anti patterns",
+   "cas metier",
+   "que faire dans ce cas une dependance externe est lente",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "pratique associee",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 265,
+   "defs": 5,
+   "rais": 2,
+   "densDef": 18.9,
+   "densRais": 7.5
+  },
+  "guide": 857,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 240
+  },
+  "correction": 1116,
+  "nCorrections": 1,
+  "metier": 140,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "docker-build-dockerfile",
+  "total": 3513,
+  "nSections": 21,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple dockerfile multi stage node",
+   "exemple guide reduire une image de moitie",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "que faire dans ce cas l image marche en local mais pas en ci",
+   "pratique mesurer le cache et faire fondre une image",
+   "correction attendue",
+   "questions d entretien",
+   "mini exercice",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 289,
+   "defs": 6,
+   "rais": 1,
+   "densDef": 20.8,
+   "densRais": 3.5
+  },
+  "guide": 913,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 218
+  },
+  "correction": 1190,
+  "nCorrections": 2,
+  "metier": 185,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "docker-compose",
+  "total": 3082,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple app base avec sante",
+   "exemple guide l app crashe au demarrage la base n est pas prete",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "pratique deux services et tout ce qui rate au demarrage",
+   "correction attendue",
+   "questions d entretien",
+   "mini exercice",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 259,
+   "defs": 5,
+   "rais": 0,
+   "densDef": 19.3,
+   "densRais": 0
+  },
+  "guide": 605,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 222
+  },
+  "correction": 1223,
+  "nCorrections": 2,
+  "metier": 50,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "docker-containers",
+  "total": 3241,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "decomposition",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique voir le mecanisme des couches de tes propres yeux",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 479,
+   "defs": 3,
+   "rais": 3,
+   "densDef": 6.3,
+   "densRais": 6.3
+  },
+  "guide": 841,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 326
+  },
+  "correction": 780,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "docker-images-layers",
+  "total": 3550,
+  "nSections": 21,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques",
+   "exemple guide le build est lent et l image est enorme",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "que faire dans ce cas le build docker est devenu tres lent",
+   "pratique exercer le mecanisme des couches sans docker",
+   "correction attendue",
+   "questions d entretien",
+   "mini exercice",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 325,
+   "defs": 5,
+   "rais": 0,
+   "densDef": 15.4,
+   "densRais": 0
+  },
+  "guide": 829,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 285
+  },
+  "correction": 1164,
+  "nCorrections": 2,
+  "metier": 156,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "docker-networking-volumes",
+  "total": 2369,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques",
+   "exemple guide mon api ne joint pas la base",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "verification de comprehension",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 264,
+   "defs": 4,
+   "rais": 0,
+   "densDef": 15.2,
+   "densRais": 0
+  },
+  "guide": 656,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 49
+  },
+  "correction": 609,
+  "nCorrections": 1,
+  "metier": 50,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "docker-production-hardening",
+  "total": 3553,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques",
+   "exemple guide le conteneur redemarre tout seul et s arrete mal",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "pratique decider les trois reglages qu on ne decide jamais",
+   "correction attendue",
+   "questions d entretien",
+   "mini exercice",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 348,
+   "defs": 7,
+   "rais": 0,
+   "densDef": 20.1,
+   "densRais": 0
+  },
+  "guide": 716,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 224
+  },
+  "correction": 1480,
+  "nCorrections": 2,
+  "metier": 56,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "embeddings",
+  "total": 3329,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "decomposition",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 497,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2
+  },
+  "guide": 788,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 101
+  },
+  "correction": 868,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "error-handling",
+  "total": 3170,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 527,
+   "defs": 0,
+   "rais": 3,
+   "densDef": 0,
+   "densRais": 5.7
+  },
+  "guide": 805,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 53
+  },
+  "correction": 1228,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "etl-pipelines",
+  "total": 3392,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "decomposition",
+   "exemple simple",
+   "exemple guide le pipeline qu on relance et ce qu il devient",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 400,
+   "defs": 0,
+   "rais": 4,
+   "densDef": 0,
+   "densRais": 10
+  },
+  "guide": 1066,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 52
+  },
+  "correction": 1085,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "express-backend",
+  "total": 3498,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 523,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 3.8
+  },
+  "guide": 953,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 56
+  },
+  "correction": 1371,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "feature-engineering",
+  "total": 2907,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique un journal de variables avec des gains mesures",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 474,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 4.2
+  },
+  "guide": 710,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 277
+  },
+  "correction": 855,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "frontend-performance",
+  "total": 4187,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide deux boucles identiques un facteur 420",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique le compte rendu d optimisation",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 405,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 1048,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 479
+  },
+  "correction": 1486,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "frontend-testing",
+  "total": 4336,
+  "nSections": 16,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide deux tests du meme comportement et un remaniement",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique ecris les tests puis casse le composant expres",
+   "correction",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 571,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 3.5
+  },
+  "guide": 885,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 537
+  },
+  "correction": 1551,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "git-advanced",
+  "total": 3289,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide rendre relisibles cinq commits de travail",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique construire un depot jetable et observer",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 1021,
+   "defs": 0,
+   "rais": 3,
+   "densDef": 0,
+   "densRais": 2.9
+  },
+  "guide": 654,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 240
+  },
+  "correction": 810,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "git-fundamentals",
+  "total": 3110,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "exercice plus difficile",
+   "verification de comprehension",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 317,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 6.3
+  },
+  "guide": 353,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 257
+  },
+  "correction": 1154,
+  "nCorrections": 1,
+  "metier": 150,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "html-semantic-structure",
+  "total": 4422,
+  "nSections": 16,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique la page qu on ne peut pas parcourir",
+   "correction",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 345,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 867,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 561
+  },
+  "correction": 1891,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "http-rest-json",
+  "total": 3477,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide lire un echange puis decider d une reponse",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "pratique concevoir une api puis l attaquer",
+   "correction attendue",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 407,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.5
+  },
+  "guide": 839,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 212
+  },
+  "correction": 1063,
+  "nCorrections": 2,
+  "metier": 182,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "iac-fundamentals",
+  "total": 2811,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes illustratifs non executes",
+   "exemple guide le vendredi soir ou le code d infrastructure supprime la base",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice lire un plan avant de l appliquer",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 323,
+   "defs": 7,
+   "rais": 1,
+   "densDef": 21.7,
+   "densRais": 3.1
+  },
+  "guide": 797,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 243
+  },
+  "correction": 702,
+  "nCorrections": 1,
+  "metier": 63,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "incident-response",
+  "total": 3662,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "decomposition",
+   "exemple guide les 5xx explosent apres une mise en production",
+   "mise en pratique chiffrer ton propre dispositif",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes anti patterns",
+   "cas metier",
+   "que faire dans ce cas incident declare tout le monde s affole",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "pratique associee",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 307,
+   "defs": 6,
+   "rais": 1,
+   "densDef": 19.5,
+   "densRais": 3.3
+  },
+  "guide": 890,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 244
+  },
+  "correction": 1339,
+  "nCorrections": 1,
+  "metier": 130,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "interview-preparation",
+  "total": 2513,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide preparer c est produire des artefacts pas relire",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique produire les quatre artefacts",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 247,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 947,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 206
+  },
+  "correction": 534,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "javascript-basics",
+  "total": 3716,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "checklist quand suis je pret",
+   "cas professionnel",
+   "pratique les tableaux les objets et ce qui se partage",
+   "correction attendue sur la pratique a e",
+   "questions d entretien",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 481,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.1
+  },
+  "guide": 838,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 213
+  },
+  "correction": 1281,
+  "nCorrections": 2,
+  "metier": 141,
+  "verif": false,
+  "repetition": {
+   "blocs": 3,
+   "motsDupliques": 114
+  }
+ },
+ {
+  "slug": "k8s-config-probes",
+  "total": 2642,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple config secret probes ressources",
+   "exemple guide l application qui se tue elle meme toutes les nuits",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice ecrire les deux points d acces et regler les trois sondes",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 303,
+   "defs": 4,
+   "rais": 0,
+   "densDef": 13.2,
+   "densRais": 0
+  },
+  "guide": 695,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 290
+  },
+  "correction": 643,
+  "nCorrections": 1,
+  "metier": 56,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "k8s-networking-services",
+  "total": 2579,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple service clusterip ingress",
+   "exemple guide remonter une chaine de six maillons en trois commandes",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice cinq pannes une methode",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 294,
+   "defs": 5,
+   "rais": 1,
+   "densDef": 17,
+   "densRais": 3.4
+  },
+  "guide": 713,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 202
+  },
+  "correction": 604,
+  "nCorrections": 1,
+  "metier": 51,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "k8s-security",
+  "total": 2762,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple securitycontext durci",
+   "exemple guide ce qu un attaquant trouve dans les trente premieres secondes",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice durcir un manifeste et chiffrer ce que ca retire",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 270,
+   "defs": 6,
+   "rais": 2,
+   "densDef": 22.2,
+   "densRais": 7.4
+  },
+  "guide": 761,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 240
+  },
+  "correction": 787,
+  "nCorrections": 1,
+  "metier": 52,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "k8s-troubleshooting",
+  "total": 2536,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques",
+   "exemple guide l etat du pod est deja la moitie du diagnostic",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice ecrire ton arbre de decision puis le tester",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 260,
+   "defs": 4,
+   "rais": 2,
+   "densDef": 15.4,
+   "densRais": 7.7
+  },
+  "guide": 590,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 258
+  },
+  "correction": 716,
+  "nCorrections": 1,
+  "metier": 45,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "k8s-why-architecture",
+  "total": 2673,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques",
+   "exemple guide trois choses qui ne marchent pas et une seule explication",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice ecrire la chaine de responsabilite de six pannes",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 293,
+   "defs": 6,
+   "rais": 1,
+   "densDef": 20.5,
+   "densRais": 3.4
+  },
+  "guide": 677,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 277
+  },
+  "correction": 640,
+  "nCorrections": 1,
+  "metier": 45,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "k8s-workloads",
+  "total": 2470,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple un deployment sans etat",
+   "exemple guide sans etat et comment savoir si c est vrai",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice l audit sans etat d une application reelle",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 287,
+   "defs": 7,
+   "rais": 1,
+   "densDef": 24.4,
+   "densRais": 3.5
+  },
+  "guide": 745,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 235
+  },
+  "correction": 508,
+  "nCorrections": 1,
+  "metier": 46,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "linux-filesystem-permissions",
+  "total": 3701,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "commandes essentielles",
+   "exemple guide diagnostiquer un permission denied",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique eprouver les droits au lieu de les reciter",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 341,
+   "defs": 5,
+   "rais": 0,
+   "densDef": 14.7,
+   "densRais": 0
+  },
+  "guide": 1017,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 238
+  },
+  "correction": 1256,
+  "nCorrections": 2,
+  "metier": 52,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "linux-processes-signals",
+  "total": 3548,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "commandes essentielles",
+   "exemple guide le port 3000 est deja utilise",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "vers le conteneur",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique regarder un processus vivre et mourir",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 306,
+   "defs": 5,
+   "rais": 0,
+   "densDef": 16.3,
+   "densRais": 0
+  },
+  "guide": 940,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 249
+  },
+  "correction": 1229,
+  "nCorrections": 2,
+  "metier": 48,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "linux-resources-io",
+  "total": 2854,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "commandes essentielles",
+   "exemple guide le serveur rame et les quatre chiffres qu on lit mal",
+   "erreurs frequentes",
+   "vers le conteneur et le cloud",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "verification de comprehension",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 335,
+   "defs": 5,
+   "rais": 0,
+   "densDef": 14.9,
+   "densRais": 0
+  },
+  "guide": 1036,
+  "pratique": {
+   "classe": "D",
+   "sections": 1,
+   "mots": 63
+  },
+  "correction": 616,
+  "nCorrections": 1,
+  "metier": 45,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "linux-services-systemd",
+  "total": 3042,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "commandes essentielles",
+   "exemple guide mon service ne demarre pas et pourquoi le redemarrage automatique aggrave",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique ecrire un superviseur pour comprendre celui qu on utilise",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 276,
+   "defs": 5,
+   "rais": 0,
+   "densDef": 18.1,
+   "densRais": 0
+  },
+  "guide": 939,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 304
+  },
+  "correction": 731,
+  "nCorrections": 1,
+  "metier": 41,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "linux-ssh-remote",
+  "total": 3175,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "commandes essentielles",
+   "exemple guide etablir un acces distant et savoir pourquoi",
+   "durcissement du serveur",
+   "erreurs frequentes",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique l acces distant de la theorie a la machine",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 319,
+   "defs": 6,
+   "rais": 2,
+   "densDef": 18.8,
+   "densRais": 6.3
+  },
+  "guide": 1145,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 273
+  },
+  "correction": 583,
+  "nCorrections": 1,
+  "metier": 51,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "llm-cost-optimization",
+  "total": 2570,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 192,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 790,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 64
+  },
+  "correction": 894,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "llm-fundamentals",
+  "total": 3409,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "pratique chiffrer avant de construire",
+   "correction attendue",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 448,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.2
+  },
+  "guide": 644,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 254
+  },
+  "correction": 983,
+  "nCorrections": 2,
+  "metier": 214,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "llm-observability",
+  "total": 2842,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 508,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2
+  },
+  "guide": 721,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 50
+  },
+  "correction": 994,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "logging-structured",
+  "total": 2893,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "decomposition",
+   "exemple guide le journal texte donne souvent la bonne reponse et c est le probleme",
+   "mise en pratique convertir puis prouver que c etait necessaire",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes anti patterns",
+   "cas metier",
+   "que faire dans ce cas un secret a ete trouve dans les logs",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "pratique associee",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 226,
+   "defs": 4,
+   "rais": 0,
+   "densDef": 17.7,
+   "densRais": 0
+  },
+  "guide": 709,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 225
+  },
+  "correction": 1016,
+  "nCorrections": 1,
+  "metier": 126,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "machine-learning-basics",
+  "total": 2805,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 444,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.3
+  },
+  "guide": 822,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 46
+  },
+  "correction": 448,
+  "nCorrections": 1,
+  "metier": 191,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "metrics-percentiles",
+  "total": 3537,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "decomposition",
+   "verification de comprehension",
+   "exemple guide la moyenne est bonne les clients ralent",
+   "mise en pratique",
+   "erreurs frequentes anti patterns",
+   "cas metier",
+   "que faire dans ce cas le p95 explose apres une release",
+   "correction attendue",
+   "pratique faire dire la verite a des mesures",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "pratique associee",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 871,
+   "defs": 6,
+   "rais": 5,
+   "densDef": 6.9,
+   "densRais": 5.7
+  },
+  "guide": 481,
+  "pratique": {
+   "classe": "P",
+   "sections": 3,
+   "mots": 233
+  },
+  "correction": 1002,
+  "nCorrections": 2,
+  "metier": 135,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "model-evaluation",
+  "total": 3173,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique mesurer et savoir quand un ecart n existe pas",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 553,
+   "defs": 0,
+   "rais": 4,
+   "densDef": 0,
+   "densRais": 7.2
+  },
+  "guide": 768,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 230
+  },
+  "correction": 1046,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "monitoring-production",
+  "total": 2666,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 463,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.2
+  },
+  "guide": 760,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 47
+  },
+  "correction": 853,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "networking-addressing-routing",
+  "total": 3711,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques",
+   "exemple guide concevoir un petit reseau cloud",
+   "erreurs frequentes",
+   "vers le cloud",
+   "cas metier",
+   "questions d entretien",
+   "verification de comprehension",
+   "correction attendue",
+   "pratique concevoir un plan d adressage et le verifier",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 319,
+   "defs": 5,
+   "rais": 0,
+   "densDef": 15.7,
+   "densRais": 0
+  },
+  "guide": 877,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 201
+  },
+  "correction": 1338,
+  "nCorrections": 2,
+  "metier": 49,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "networking-dns",
+  "total": 3377,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "diagnostic avec dig",
+   "exemple guide j ai change l ip mais le site pointe encore vers l ancienne",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "securite cloud",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique observer le cache et la repartition",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 279,
+   "defs": 4,
+   "rais": 1,
+   "densDef": 14.3,
+   "densRais": 3.6
+  },
+  "guide": 838,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 229
+  },
+  "correction": 1169,
+  "nCorrections": 2,
+  "metier": 52,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "networking-http-tls",
+  "total": 3332,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "diagnostic avec curl",
+   "exemple guide l api renvoie une erreur",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "vers le cloud et kubernetes",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique inspecter une connexion securisee de l interieur",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 338,
+   "defs": 6,
+   "rais": 1,
+   "densDef": 17.8,
+   "densRais": 3
+  },
+  "guide": 804,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 207
+  },
+  "correction": 1182,
+  "nCorrections": 2,
+  "metier": 35,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "networking-proxy-loadbalancing",
+  "total": 3571,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques",
+   "exemple guide le site renvoie 503 par intermittence",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "vers le cloud et kubernetes",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique repartir et decouvrir ce que la repartition casse",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 325,
+   "defs": 6,
+   "rais": 1,
+   "densDef": 18.5,
+   "densRais": 3.1
+  },
+  "guide": 831,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 233
+  },
+  "correction": 1376,
+  "nCorrections": 2,
+  "metier": 50,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "networking-tcp-ip-model",
+  "total": 3286,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "diagnostic par couches ce que chaque test prouve",
+   "exemple guide le service est inaccessible",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "vers le cloud et kubernetes",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique mesurer chaque couche d une requete",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 258,
+   "defs": 4,
+   "rais": 2,
+   "densDef": 15.5,
+   "densRais": 7.8
+  },
+  "guide": 803,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 255
+  },
+  "correction": 1165,
+  "nCorrections": 2,
+  "metier": 47,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "neural-networks",
+  "total": 2604,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique ecrire un reseau a la main et le voir echouer",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 214,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 676,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 266
+  },
+  "correction": 785,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "nextjs-data-production",
+  "total": 4429,
+  "nSections": 15,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide la journee de mise en ligne heure par heure",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique la revue avant mise en ligne",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 376,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.7
+  },
+  "guide": 1425,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 485
+  },
+  "correction": 1420,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "nextjs-foundations",
+  "total": 3280,
+  "nSections": 15,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide reconstruire le framework a la main et compter ce qu on doit ecrire",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique la note de decision framework ou pas",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 258,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 932,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 414
+  },
+  "correction": 950,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "nextjs-rendering",
+  "total": 2418,
+  "nSections": 14,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide les trois questions et le piege de la fiche produit",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice la fiche de rendu d un site reel",
+   "correction attendue",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 307,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 704,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 226
+  },
+  "correction": 506,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "nextjs-server-client-components",
+  "total": 2949,
+  "nSections": 15,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide quatre erreurs devant la frontiere et ce que chacune apprend",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique placer la frontiere sur un ecran qui existe deja",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 295,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 709,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 425
+  },
+  "correction": 775,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "observability-fundamentals",
+  "total": 3196,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "decomposition",
+   "exemple guide c est lent parfois ca plante",
+   "mise en pratique",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes anti patterns",
+   "cas metier",
+   "que faire dans ce cas incident reel mais dashboard vert",
+   "pratique rendre un service interrogeable",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "pratique associee",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 244,
+   "defs": 4,
+   "rais": 2,
+   "densDef": 16.4,
+   "densRais": 8.2
+  },
+  "guide": 710,
+  "pratique": {
+   "classe": "P",
+   "sections": 3,
+   "mots": 213
+  },
+  "correction": 1214,
+  "nCorrections": 2,
+  "metier": 141,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "observability-logging",
+  "total": 2603,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide trois questions qu un journal doit savoir repondre",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique rendre une api reellement interrogeable",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 398,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.5
+  },
+  "guide": 831,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 285
+  },
+  "correction": 530,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "pandas-data-wrangling",
+  "total": 3164,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "decomposition",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 347,
+   "defs": 1,
+   "rais": 1,
+   "densDef": 2.9,
+   "densRais": 2.9
+  },
+  "guide": 763,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 51
+  },
+  "correction": 1212,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "portfolio-github",
+  "total": 2470,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide ce qu un recruteur voit reellement et en combien de temps",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique auditer son profil comme le ferait un inconnu",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 192,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 974,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 228
+  },
+  "correction": 529,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "postmortem-rca",
+  "total": 3277,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "decomposition",
+   "exemple guide la cause racine n existe pas",
+   "mise en pratique ecrire un compte rendu qui change quelque chose",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes anti patterns",
+   "cas metier",
+   "que faire dans ce cas le meme incident se repete",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "pratique associee",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 292,
+   "defs": 4,
+   "rais": 8,
+   "densDef": 13.7,
+   "densRais": 27.4
+  },
+  "guide": 792,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 226
+  },
+  "correction": 1193,
+  "nCorrections": 1,
+  "metier": 122,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "prompt-engineering",
+  "total": 3090,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 622,
+   "defs": 1,
+   "rais": 2,
+   "densDef": 1.6,
+   "densRais": 3.2
+  },
+  "guide": 817,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 65
+  },
+  "correction": 953,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "prompt-injection-defense",
+  "total": 3073,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 232,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 4.3
+  },
+  "guide": 943,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 55
+  },
+  "correction": 1192,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "python-foundations",
+  "total": 2622,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 393,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 814,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 52
+  },
+  "correction": 444,
+  "nCorrections": 1,
+  "metier": 207,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "rag-evaluation",
+  "total": 2906,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "decomposition",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 211,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 813,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 48
+  },
+  "correction": 931,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "rag-fundamentals",
+  "total": 4268,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "exercice plus difficile",
+   "verification de comprehension",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 661,
+   "defs": 0,
+   "rais": 3,
+   "densDef": 0,
+   "densRais": 4.5
+  },
+  "guide": 777,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 334
+  },
+  "correction": 1270,
+  "nCorrections": 1,
+  "metier": 232,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "react-accessibility",
+  "total": 4486,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide la meme fenetre modale parcourue sans souris",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique le parcours au clavier chronometre et ecrit",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 681,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 1.5
+  },
+  "guide": 917,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 548
+  },
+  "correction": 1554,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "react-application-states",
+  "total": 4229,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique les etats impossibles et comment les rendre inexprimables",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 413,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.4
+  },
+  "guide": 759,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 458
+  },
+  "correction": 1770,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "react-composition-architecture",
+  "total": 4115,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide le composant qui a grossi decoupe sous tes yeux",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique le rapport de decoupage",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 428,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.3
+  },
+  "guide": 942,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 462
+  },
+  "correction": 1562,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "react-fundamentals",
+  "total": 3073,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 291,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 814,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 47
+  },
+  "correction": 1313,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "react-hooks-effects",
+  "total": 3152,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 207,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 997,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 115
+  },
+  "correction": 1239,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "readme-documentation",
+  "total": 2849,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide un readme ne se relit pas il s execute",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique executer son propre readme",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 494,
+   "defs": 0,
+   "rais": 3,
+   "densDef": 0,
+   "densRais": 6.1
+  },
+  "guide": 892,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 275
+  },
+  "correction": 609,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "recursion",
+  "total": 3251,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide retrouver le chemin d un fichier",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "verification de comprehension",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 1286,
+   "defs": 0,
+   "rais": 15,
+   "densDef": 0,
+   "densRais": 11.7
+  },
+  "guide": 675,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 68
+  },
+  "correction": 550,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "refactoring-legacy-code",
+  "total": 2872,
+  "nSections": 15,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 433,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 935,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 54
+  },
+  "correction": 685,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "release-incident-recovery",
+  "total": 2950,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "reperes pratiques demarche",
+   "exemple guide on a un bouton retour arriere donc on est couverts",
+   "erreurs frequentes",
+   "securite",
+   "cas metier",
+   "questions d entretien",
+   "mini exercice",
+   "pratique ecrire et eprouver un manuel de retablissement",
+   "correction attendue",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 266,
+   "defs": 6,
+   "rais": 3,
+   "densDef": 22.6,
+   "densRais": 11.3
+  },
+  "guide": 902,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 283
+  },
+  "correction": 684,
+  "nCorrections": 1,
+  "metier": 56,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "resilience-patterns",
+  "total": 3725,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "decomposition",
+   "exemple guide 6 600 ms d attente 600 appels et comment tomber a 5",
+   "mise en pratique",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes anti patterns",
+   "cas metier",
+   "que faire dans ce cas une dependance critique est lente instable",
+   "pratique provoquer les pannes puis les absorber",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "pratique associee",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 412,
+   "defs": 8,
+   "rais": 0,
+   "densDef": 19.4,
+   "densRais": 0
+  },
+  "guide": 1060,
+  "pratique": {
+   "classe": "P",
+   "sections": 3,
+   "mots": 215
+  },
+  "correction": 1263,
+  "nCorrections": 2,
+  "metier": 124,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "responsive-design",
+  "total": 3461,
+  "nSections": 15,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide arreter de choisir les seuils et les mesurer",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique l audit responsive d une page que tu n as pas ecrite",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 271,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 982,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 483
+  },
+  "correction": 974,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "retrieval-reranking",
+  "total": 3358,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "decomposition",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 493,
+   "defs": 1,
+   "rais": 3,
+   "densDef": 2,
+   "densRais": 6.1
+  },
+  "guide": 995,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 59
+  },
+  "correction": 932,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "scikit-learn-workflow",
+  "total": 3268,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide mon modele fait 97 et ce que ce chiffre vaut",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique reproduire les cinq mesures",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 557,
+   "defs": 0,
+   "rais": 5,
+   "densDef": 0,
+   "densRais": 9
+  },
+  "guide": 1129,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 250
+  },
+  "correction": 746,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "slo-error-budget",
+  "total": 3574,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "decomposition",
+   "exemple guide poser un slo et l exploiter",
+   "mise en pratique",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes anti patterns",
+   "cas metier",
+   "que faire dans ce cas le slo est consomme trop vite burn rate eleve",
+   "pratique poser un objectif et l exploiter",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "pratique associee",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 397,
+   "defs": 7,
+   "rais": 1,
+   "densDef": 17.6,
+   "densRais": 2.5
+  },
+  "guide": 890,
+  "pratique": {
+   "classe": "P",
+   "sections": 3,
+   "mots": 181
+  },
+  "correction": 1221,
+  "nCorrections": 2,
+  "metier": 142,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "sql-foundations",
+  "total": 3607,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "pratique interroger puis prouver que la requete est juste",
+   "correction attendue",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 401,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 864,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 241
+  },
+  "correction": 1034,
+  "nCorrections": 2,
+  "metier": 232,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "sql-performance-indexing",
+  "total": 3024,
+  "nSections": 15,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide 200 000 lignes cinq requetes et le plan qui explique tout",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 408,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.5
+  },
+  "guide": 1160,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 58
+  },
+  "correction": 589,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "statistics-for-ml",
+  "total": 3897,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "exercice plus difficile",
+   "verification de comprehension",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 366,
+   "defs": 0,
+   "rais": 3,
+   "densDef": 0,
+   "densRais": 8.2
+  },
+  "guide": 754,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 321
+  },
+  "correction": 1303,
+  "nCorrections": 1,
+  "metier": 181,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "structured-outputs-tools",
+  "total": 3016,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 645,
+   "defs": 1,
+   "rais": 6,
+   "densDef": 1.6,
+   "densRais": 9.3
+  },
+  "guide": 739,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 52
+  },
+  "correction": 1011,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "system-design-interview",
+  "total": 2940,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide le dimensionnement a la louche fait en entier",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique s entrainer sur des calculs verifiables",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 528,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 1012,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 286
+  },
+  "correction": 595,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "system-design-scaling",
+  "total": 3063,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication progressive",
+   "exemple guide",
+   "trade offs",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes anti patterns",
+   "pratique",
+   "verification de comprehension",
+   "cas professionnel",
+   "entretien",
+   "a retenir",
+   "vocabulaire",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 492,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 1081,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 51
+  },
+  "correction": 615,
+  "nCorrections": 1,
+  "metier": 48,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "technical-debt",
+  "total": 3819,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "pratique chiffrer la dette au lieu de s en plaindre",
+   "correction attendue",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 584,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 909,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 247
+  },
+  "correction": 1267,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "technical-documentation",
+  "total": 2927,
+  "nSections": 16,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide quatre documents quatre questions quatre durees de vie",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "que faire dans ce cas",
+   "mini exercice",
+   "liens avec le programme",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 495,
+   "defs": 0,
+   "rais": 3,
+   "densDef": 0,
+   "densRais": 6.1
+  },
+  "guide": 752,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 54
+  },
+  "correction": 724,
+  "nCorrections": 1,
+  "metier": 91,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "technical-storytelling",
+  "total": 2748,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "explication complete",
+   "exemple simple",
+   "exemple guide la meme histoire racontee trois fois",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique constituer et affuter sa banque d histoires",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 623,
+   "defs": 0,
+   "rais": 4,
+   "densDef": 0,
+   "densRais": 6.4
+  },
+  "guide": 840,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 217
+  },
+  "correction": 494,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "terminal-shell-filesystem",
+  "total": 3354,
+  "nSections": 20,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "l echec silencieux mesure",
+   "pratique rendre visibles les echecs qui ne le sont pas",
+   "correction sur la pratique a e",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 368,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 358,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 251
+  },
+  "correction": 811,
+  "nCorrections": 2,
+  "metier": 162,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "testing-foundations",
+  "total": 2874,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide ecrire un test qui sait echouer",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 395,
+   "defs": 0,
+   "rais": 0,
+   "densDef": 0,
+   "densRais": 0
+  },
+  "guide": 712,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 54
+  },
+  "correction": 700,
+  "nCorrections": 1,
+  "metier": 180,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "transformers",
+  "total": 2763,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "pratique calculer une attention a la main",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 244,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 4.1
+  },
+  "guide": 767,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 268
+  },
+  "correction": 806,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "typescript-basics",
+  "total": 3115,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "mini exercice",
+   "pratique typer un domaine puis attaquer la frontiere",
+   "correction attendue",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 396,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.5
+  },
+  "guide": 591,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 223
+  },
+  "correction": 941,
+  "nCorrections": 2,
+  "metier": 154,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "typescript-frontend",
+  "total": 3866,
+  "nSections": 18,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide cinq lignes soumises au compilateur et les deux qui passent",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique la frontiere et les six reponses hostiles",
+   "corrige de la pratique",
+   "correction attendue",
+   "cas professionnel",
+   "questions d entretien",
+   "checklist quand suis je pret",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 313,
+   "defs": 0,
+   "rais": 2,
+   "densDef": 0,
+   "densRais": 6.4
+  },
+  "guide": 1240,
+  "pratique": {
+   "classe": "P",
+   "sections": 1,
+   "mots": 425
+  },
+  "correction": 455,
+  "nCorrections": 1,
+  "metier": 180,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "vector-databases",
+  "total": 2987,
+  "nSections": 19,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "modele mental",
+   "prerequis",
+   "explication complete",
+   "decomposition",
+   "exemple simple",
+   "exemple guide",
+   "exemple applique ia data architecture",
+   "erreurs frequentes",
+   "anti patterns",
+   "mini exercice",
+   "exercice plus difficile",
+   "correction attendue",
+   "questions d entretien",
+   "a retenir",
+   "vocabulaire",
+   "checklist quand suis je pret",
+   "liens avec le programme"
+  ],
+  "noyau": {
+   "mots": 426,
+   "defs": 2,
+   "rais": 1,
+   "densDef": 4.7,
+   "densRais": 2.3
+  },
+  "guide": 741,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 55
+  },
+  "correction": 915,
+  "nCorrections": 1,
+  "metier": 0,
+  "verif": false,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ },
+ {
+  "slug": "web-forms-validation",
+  "total": 4041,
+  "nSections": 17,
+  "titres": [
+   "le probleme d abord",
+   "objectif",
+   "prerequis",
+   "modele mental",
+   "pourquoi c est important",
+   "explication complete",
+   "concepts cles",
+   "exemple guide",
+   "verification de comprehension",
+   "correction attendue",
+   "erreurs frequentes",
+   "liens avec le programme",
+   "pratique le formulaire puis l attaque de son propre formulaire",
+   "correction",
+   "mini exercice",
+   "vocabulaire",
+   "a retenir"
+  ],
+  "noyau": {
+   "mots": 351,
+   "defs": 0,
+   "rais": 1,
+   "densDef": 0,
+   "densRais": 2.8
+  },
+  "guide": 861,
+  "pratique": {
+   "classe": "P",
+   "sections": 2,
+   "mots": 541
+  },
+  "correction": 1612,
+  "nCorrections": 2,
+  "metier": 0,
+  "verif": true,
+  "repetition": {
+   "blocs": 0,
+   "motsDupliques": 0
+  }
+ }
+]

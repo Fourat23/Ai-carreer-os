@@ -183,8 +183,193 @@ Branche une liste sur ton API (mois 3) avec les 3 états rendus, puis coupe le s
 ## 🔥 Exercice plus difficile
 Écris `useFetch<T>(url)` : les 3 états, le cleanup anti-course, le retry — puis utilise-le dans 2 composants différents.
 
-## ✅ Correction attendue
-La logique : effet = synchronisation externe ; deps justes ; cleanup ; 3 états rendus ; dérivés hors effets. Vérifie : zéro warning React, l'app survit au serveur coupé, la recherche rapide n'affiche jamais une réponse périmée, et ton hook est réutilisé tel quel.
+**Le protocole de vérification est imposé**, parce que le défaut visé ne se voit pas en usage
+normal. Une fois ton hook écrit, fabrique la course délibérément : une URL qui répond en
+300 ms, une autre en 50 ms, et un changement d'URL 30 ms après le premier rendu. Journalise
+chaque écriture d'état. Ton livrable comprend **le journal obtenu**, pas seulement le code.
+
+## ✅ Correction
+
+> Les journaux de cette correction ne sont pas rédigés : ils sont **produits**. Le script
+> `scripts/v70-verifications/react-usefetch-course.mjs` exécute réellement ce code dans
+> Chromium avec React 18 et imprime les trois traces ci-dessous.
+
+### La démarche : commencer par le défaut, pas par le code
+
+L'ordre naturel est d'écrire le hook, puis de vérifier qu'il marche. Il conduit à un hook qui
+marche — et qui contient le bug, parce que le bug ne se manifeste pas quand tout va bien.
+
+L'ordre efficace est inverse : **fabrique d'abord la situation qui casse**, constate qu'elle
+casse, puis écris la protection. Tu sauras alors ce que ta protection protège, et tu auras un
+test que tu peux rejouer.
+
+La situation qui casse ici s'appelle une **course** (en anglais *race condition*) : deux
+requêtes lancées dans un ordre, deux réponses qui reviennent dans l'autre.
+
+### Étape 1 — la version naïve, et sa trace
+
+```jsx
+function useFetch(url) {
+  const [etat, setEtat] = useState({ statut: 'chargement', donnees: null });
+  useEffect(() => {
+    setEtat({ statut: 'chargement', donnees: null });
+    charger(url).then((d) => setEtat({ statut: 'succès', donnees: d }));
+  }, [url]);
+  return etat;
+}
+```
+
+Ce code est correct au sens où il n'a ni faute de syntaxe, ni dépendance manquante, ni
+avertissement de React. Il passerait une relecture rapide.
+
+Scénario : l'utilisateur demande `/lent` (300 ms), change d'avis au bout de 30 ms et demande
+`/rapide` (50 ms). Trace mesurée :
+
+```
+effet /lent | nettoyage /lent | effet /rapide | écrit /rapide | écrit /lent
+```
+
+Affichage final : **`données de /lent`**.
+
+Lis la fin de la ligne. `écrit /rapide` arrive à 80 ms, `écrit /lent` à 330 ms. La dernière
+écriture gagne, et la dernière écriture est celle de la requête **abandonnée**. L'utilisateur
+regarde une page qui affiche le résultat d'une demande qu'il a annulée.
+
+C'est le défaut typique du champ de recherche : on tape « pa », puis « paris », et l'écran
+affiche les résultats de « pa » parce que cette requête-là a mis plus longtemps. Personne ne
+le signale comme un bug — les gens croient avoir mal tapé.
+
+### Étape 2 — la protection, et pourquoi elle marche
+
+```jsx
+function useFetch(url) {
+  const [etat, setEtat] = useState({ statut: 'chargement', donnees: null });
+  useEffect(() => {
+    let vivant = true;                                    // ① propre à CETTE exécution
+    setEtat({ statut: 'chargement', donnees: null });
+    charger(url)
+      .then((d) => { if (vivant) setEtat({ statut: 'succès', donnees: d }); })
+      .catch((e) => { if (vivant) setEtat({ statut: 'erreur', erreur: e }); });
+    return () => { vivant = false; };                     // ② le nettoyage la périme
+  }, [url]);
+  return etat;
+}
+```
+
+Trace mesurée, même scénario :
+
+```
+effet /lent | nettoyage /lent | effet /rapide | écrit /rapide | ignoré /lent
+```
+
+Affichage final : **`données de /rapide`**.
+
+Le mécanisme tient en deux points, et c'est le seul endroit de cette correction qu'il faut
+vraiment comprendre :
+
+**① `vivant` est déclaré *dans* la fonction de l'effet.** Ce n'est donc pas une variable
+partagée : chaque exécution de l'effet crée la sienne. Les deux requêtes n'ont pas le même
+drapeau, elles ont chacune le leur. Une variable déclarée en dehors du `useEffect` — ou pire,
+un `useRef` unique — casserait tout, parce que les deux requêtes se marcheraient dessus.
+
+**② Le nettoyage retourné capture cette variable-là.** Quand React démonte l'ancien effet, il
+exécute sa fonction de nettoyage, qui met à `false` le drapeau *de cette exécution* — pas
+celui de la nouvelle. La réponse tardive de `/lent` trouve son propre drapeau à `false` et se
+tait.
+
+Note la ligne `nettoyage /lent` dans la trace, **avant** `effet /rapide`. C'est une garantie de
+React, pas un hasard d'ordonnancement : le nettoyage de l'exécution précédente est joué avant
+le lancement de la suivante. C'est ce qui rend le motif fiable — au moment où la nouvelle
+requête part, l'ancienne est déjà désarmée.
+
+### Étape 3 — StrictMode, et ce que la trace révèle
+
+En développement, React exécute les effets deux fois pour révéler ceux qui ne se nettoient pas.
+Trace mesurée du même hook sous `StrictMode` :
+
+```
+effet /lent | nettoyage /lent | effet /lent | nettoyage /lent | effet /rapide
+            | écrit /rapide | ignoré /lent | ignoré /lent
+```
+
+Trois choses s'y lisent :
+
+- **le doublement est visible** : `effet /lent` apparaît deux fois ;
+- **le nettoyage s'intercale systématiquement** entre les deux ;
+- **deux réponses sont ignorées** au lieu d'une, et l'affichage reste correct.
+
+C'est exactement le diagnostic que StrictMode est censé produire. Sans le drapeau, cette même
+trace se terminerait par deux écritures périmées au lieu de deux mises au silence — et le
+comportement en développement serait *pire* qu'en production, ce qui déroute beaucoup de
+débutants. Le double appel n'est pas un défaut de React : c'est un test qui échoue bruyamment.
+
+### Le retry, et le piège de sa dépendance
+
+```jsx
+const [essai, setEssai] = useState(0);
+useEffect(() => { /* … */ }, [url, essai]);
+const reessayer = () => setEssai((n) => n + 1);
+```
+
+`essai` est dans les dépendances parce que sa modification doit **relancer** l'effet. C'est
+l'usage légitime d'une dépendance qui n'est pas une donnée : un compteur dont la seule fonction
+est de déclencher une réexécution.
+
+Le piège à éviter : appeler directement la fonction de chargement dans le gestionnaire du
+bouton. Ça marche, et ça duplique la logique — deux chemins pour charger, deux endroits à
+corriger, dont un qui oubliera le drapeau. Le bouton ne charge pas : il **demande à l'effet de
+se rejouer**.
+
+### La mauvaise solution plausible
+
+`AbortController` à la place du drapeau :
+
+```jsx
+useEffect(() => {
+  const ctrl = new AbortController();
+  fetch(url, { signal: ctrl.signal }).then(/* … */);
+  return () => ctrl.abort();
+}, [url]);
+```
+
+Ce n'est pas une erreur — c'est même meilleur sur un point : la requête réseau est réellement
+annulée, alors que le drapeau la laisse se terminer et jette le résultat. Sur une liste
+paginée ou un téléchargement, la différence est réelle.
+
+Mais deux précisions manquent presque toujours dans les réponses d'entretien :
+
+1. l'annulation fait **rejeter** la promesse avec une erreur `AbortError`. Un `catch` naïf la
+   traitera comme une panne réseau et affichera « une erreur est survenue » à un utilisateur
+   dont tout va bien. Il faut l'écarter explicitement ;
+2. `AbortController` ne s'applique qu'à ce qui l'accepte. Un client maison, une bibliothèque
+   ancienne, une lecture de base locale : le drapeau reste la seule protection.
+
+La bonne réponse est donc « les deux » : `AbortController` quand c'est possible, drapeau
+toujours, parce que le drapeau protège contre l'écriture d'état — qui est le vrai problème —
+et l'annulation contre le trafic inutile.
+
+### Auto-évaluation
+
+Ton hook est bon si tu peux répondre par « oui » à ces cinq points, chacun vérifiable :
+
+| Vérification | Comment |
+|---|---|
+| aucune écriture périmée | la trace se termine par `ignoré`, pas par `écrit` de l'URL abandonnée |
+| les trois états sont **rendus** | coupe le serveur : un message d'erreur s'affiche, pas un écran vide |
+| le retry passe par l'effet | le gestionnaire du bouton ne contient aucun appel réseau |
+| aucun avertissement React | console propre, dépendances complètes |
+| réutilisable tel quel | deux composants l'emploient sans copier-coller ni paramètre ajouté |
+
+### Généralisation
+
+Le motif « déclarer un jeton propre à cette exécution, l'invalider à la sortie, ignorer ce qui
+revient d'un jeton invalidé » n'a rien de spécifique à React. C'est la réponse standard à toute
+opération asynchrone qui peut être supplantée : une requête de recherche, un calcul lancé sur
+un fil d'exécution séparé, un rafraîchissement périodique, une souscription à un flux.
+
+La question à se poser, chaque fois que du code démarre quelque chose de long : **si on me
+redemande la même chose avant que j'aie fini, qui gagne ?** Si la réponse est « celui qui
+finit en dernier », il y a un bug qui attend son jour.
 
 ## 🎤 Questions d'entretien
 - « Quand utilises-tu useEffect — et quand pas ? » → Synchroniser avec l'externe ; jamais pour un dérivé (calcul au rendu) ni un événement (handler).

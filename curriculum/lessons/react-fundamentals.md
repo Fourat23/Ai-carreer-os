@@ -149,8 +149,187 @@ Construis le compteur avancé : pas configurable, min/max, reset — state minim
 ## 🔥 Exercice plus difficile
 Un mini-Kanban 3 colonnes (à faire / en cours / fait) avec déplacement de cartes — état immuable, et réponds par écrit : OÙ vit l'état et pourquoi ?
 
-## ✅ Correction attendue
-La logique : décomposer en composants → état minimal au bon niveau → modifications immuables → dérivés calculés au rendu. Vérifie : aucune mutation (relis chaque setter), les keys sont stables, et déplacer une carte ne perd aucune donnée.
+## ✅ Correction
+
+> Les nombres de rendus et les contenus de DOM cités ici sont **mesurés** : le script
+> `scripts/v70-verifications/react-mutation-rerendu.mjs` exécute ce composant dans Chromium
+> avec React 18 et imprime chaque résultat.
+
+### La démarche : trois questions, dans l'ordre
+
+Un Kanban paraît compliqué parce qu'on l'imagine tout de suite comme un problème de
+glisser-déposer. Ce n'en est pas un — le déplacement d'une carte est un changement de valeur
+dans une donnée. Trois questions le résolvent, et leur **ordre** est ce qui fait la différence
+entre une heure et une soirée :
+
+1. **Quelle est la donnée minimale ?** — pas les composants, pas l'affichage : la donnée.
+2. **Où doit-elle vivre ?** — au plus proche ancêtre commun de ceux qui la lisent ou la
+   modifient.
+3. **Comment la modifie-t-on ?** — en produisant une nouvelle valeur, jamais en retouchant
+   l'ancienne.
+
+Commencer par le découpage en composants est l'erreur d'ordre classique : on obtient une jolie
+arborescence, puis on découvre que l'état est au mauvais endroit et il faut tout défaire.
+
+### Question 1 — la donnée minimale
+
+Deux formes possibles :
+
+```js
+// Forme A — imbriquée : les colonnes contiennent les cartes
+[{ id: 'afaire', titre: 'À faire', cartes: [{ id: 'c1', titre: '…' }] }, …]
+
+// Forme B — plate : chaque carte porte sa colonne
+[{ id: 'c1', titre: 'Écrire la spec', colonne: 'afaire' }, …]
+```
+
+La forme B est préférable ici, pour une raison concrète : **déplacer une carte y est un
+changement d'un seul champ**, alors qu'en forme A c'est un retrait dans un tableau et une
+insertion dans un autre — deux opérations à garder cohérentes, et l'occasion de perdre une
+carte en chemin.
+
+Ce qui **ne doit pas** être dans l'état : le nombre de cartes par colonne, la liste des cartes
+d'une colonne, le fait qu'une colonne soit vide. Tout cela se **calcule au rendu** :
+
+```jsx
+const parColonne = (col) => cartes.filter((c) => c.colonne === col);
+```
+
+Chaque valeur stockée qu'on aurait pu calculer est une valeur qu'il faudra penser à mettre à
+jour, et qu'on oubliera un jour. La règle : *si je peux le déduire, je ne le stocke pas.*
+
+### Question 2 — où vit l'état
+
+Les trois colonnes lisent la même liste, et une carte déplacée quitte une colonne pour une
+autre. Il n'existe donc aucun endroit plus bas que le tableau lui-même où cet état puisse
+vivre : c'est le **plus proche ancêtre commun**.
+
+Réponse écrite attendue : *l'état vit dans `<Tableau>`, parce que deux colonnes au moins
+doivent le lire et qu'un déplacement concerne deux colonnes à la fois ; une colonne ne peut
+pas posséder une donnée que sa voisine doit modifier.*
+
+Le corollaire, qui est le vrai enseignement : **une colonne ne possède rien.** Elle reçoit ses
+cartes en props et un moyen de signaler un déplacement. Elle est remplaçable, testable, et ne
+sait pas qu'il existe d'autres colonnes.
+
+### Question 3 — l'immuabilité, mesurée
+
+C'est ici que se joue la correction, et l'affirmation « il ne faut pas muter » mérite mieux
+qu'une règle à retenir. Voici ce qui se passe **réellement**.
+
+**Cas A — muter et passer la même référence :**
+
+```jsx
+cartes[0].colonne = 'encours';
+setCartes(cartes);            // même tableau
+```
+
+Mesure :
+
+| | valeur |
+|---|---|
+| rendus déclenchés | **0** |
+| ce qu'affiche le DOM | `Écrire la spec → afaire` |
+| ce que contient l'état | `c1:encours` |
+
+Regarde les deux dernières lignes. **L'état a changé et l'écran ne le sait pas.** React compare
+la nouvelle valeur à l'ancienne par identité de référence ; c'est le même tableau, donc « rien
+n'a changé », donc pas de rendu. La modification est bien là, invisible.
+
+C'est pire qu'un plantage. Un plantage se signale ; ceci produit une interface qui ment, et le
+développeur conclut que « le clic ne marche pas » alors que le clic a parfaitement marché.
+
+**Cas B — muter puis copier :**
+
+```jsx
+cartes[1].colonne = 'encours';
+setCartes([...cartes]);       // nouvelle référence du tableau
+```
+
+Mesure : **1 rendu**, et le DOM affiche :
+
+```
+Écrire la spec → encours     ← la mutation du cas A, restée cachée jusqu'ici
+Relire le devis → encours
+```
+
+Voilà la conséquence à laquelle personne ne pense. La mutation invisible du cas A **n'a pas
+disparu** : elle attendait qu'un rendu quelconque la révèle. Elle refait surface à l'occasion
+d'une action sans rapport, et le symptôme apparaît donc **loin de sa cause**, ce qui rend le
+diagnostic très coûteux.
+
+C'est la raison profonde de la règle. Ce n'est pas « React n'aime pas les mutations » : c'est
+que muter découple le moment où le bug est créé du moment où il devient visible.
+
+**Cas C — la bonne version :**
+
+```jsx
+setCartes((cs) => cs.map((c) => (c.id === id ? { ...c, colonne: cible } : c)));
+```
+
+Mesure : **1 rendu**, DOM conforme, aucune surprise différée.
+
+Trois détails de cette ligne méritent qu'on s'y arrête :
+
+- `map` **retourne un nouveau tableau** : la référence change, React voit le changement ;
+- `{ ...c, colonne: cible }` crée un **nouvel objet carte** pour celle qui bouge ; les autres
+  cartes gardent leur objet d'origine, ce qui permettra plus tard à `React.memo` de ne pas les
+  redessiner ;
+- la forme fonctionnelle `setCartes((cs) => …)` reçoit l'état le plus à jour. Elle évite le
+  défaut du déplacement rapide de deux cartes, où la seconde mise à jour partirait d'une valeur
+  périmée.
+
+### Les clés
+
+```jsx
+{parColonne('afaire').map((c) => <Carte key={c.id} carte={c} />)}
+```
+
+`key={c.id}`, jamais `key={index}`. La clé sert à React pour reconnaître un élément d'un rendu
+au suivant. Avec l'index, retirer la première carte fait glisser tous les index d'un cran :
+React croit que la carte 2 est devenue la carte 1, et **réutilise son état interne** — le
+contenu d'un champ de saisie, une case cochée, un état de repli se retrouvent sur la mauvaise
+carte.
+
+Le symptôme est mémorable : on supprime une ligne d'un formulaire et c'est le texte d'une autre
+ligne qui disparaît. Avec des identifiants stables, ça ne peut pas arriver.
+
+### La mauvaise solution plausible
+
+Placer l'état dans chaque colonne, et faire remonter la carte au parent au moment du
+déplacement pour qu'il la redescende dans la bonne colonne.
+
+Ce n'est pas absurde — c'est même ce que suggère l'intuition « chaque colonne gère ses
+cartes ». Le problème est qu'il existe alors **trois sources de vérité** et un instant, pendant
+le déplacement, où la carte est retirée d'une colonne sans être encore dans l'autre. Si quoi
+que ce soit échoue à ce moment-là, la carte est perdue — et c'est exactement ce que le critère
+« déplacer une carte ne perd aucune donnée » vérifie.
+
+Un déplacement dans la forme B n'a pas cet instant : `colonne` passe de `'afaire'` à
+`'encours'` en une seule écriture. Il n'existe aucun moment intermédiaire où la carte n'est
+nulle part. C'est ce qu'on appelle une opération atomique, et le choisir dès la modélisation
+évite une classe entière de bugs.
+
+### Auto-évaluation
+
+| Vérification | Comment |
+|---|---|
+| aucune mutation | relis chaque setter : y a-t-il un `=` sur une case, un `push`, un `splice`, un `sort` ? |
+| état minimal | y a-t-il une valeur stockée que `filter` ou `length` pourrait donner ? |
+| état au bon niveau | une colonne peut-elle être supprimée du code sans casser les autres ? |
+| clés stables | aucune `key={index}` dans le fichier |
+| aucune perte | déplace 20 fois la même carte entre les trois colonnes : elles sont toujours 20 ? |
+
+### Généralisation
+
+« Ne modifie pas, produis une nouvelle valeur » dépasse largement React. C'est le principe des
+messages en file d'attente, des commits Git, des lignes d'un journal d'événements, des
+migrations de base de données. Partout, le même bénéfice : **un changement devient un objet
+qu'on peut observer, comparer, rejouer ou annuler**, au lieu d'un effet de bord qu'on ne peut
+que constater après coup.
+
+React ne fait qu'appliquer ce principe à l'interface, et le rendre obligatoire — ce qui, une
+fois compris, est plutôt un service.
 
 ## 🎤 Questions d'entretien
 - « Pourquoi ne faut-il pas muter le state ? » → React compare les références ; une mutation est invisible → pas de re-rendu.

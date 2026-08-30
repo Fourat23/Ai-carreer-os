@@ -74,11 +74,109 @@ Lire la section ANSWER (l'IP renvoyée + le TTL) ; un `NXDOMAIN` = le nom n'exis
 une réponse vide = pas d'enregistrement de ce type.
 
 ## 🧭 Exemple guidé — « j'ai changé l'IP mais le site pointe encore vers l'ancienne »
-1. `dig +short api.exemple.test` : quelle IP renvoie MON resolver ? (peut être en cache)
-2. `dig @<serveur-autorité> api.exemple.test` : quelle est la vérité ? Si elle est
-   correcte mais le resolver renvoie l'ancienne → c'est du **cache/TTL**.
-3. Regarder le TTL restant : attendre son expiration, ou vider les caches accessibles.
-4. Pour la prochaine fois : baisser le TTL AVANT la migration.
+« J'ai changé l'adresse IP il y a deux heures. Ça marche chez moi, pas chez le client. »
+
+C'est le symptôme le plus caractéristique du DNS, et il a une propriété que peu de pannes
+partagent : **il dépend de qui pose la question**. Deux personnes obtiennent deux réponses
+différentes, toutes deux correctes de leur point de vue.
+
+### Ce qu'il faut comprendre avant de diagnostiquer
+
+Une résolution de nom passe par **plusieurs caches empilés**, chacun avec sa propre durée de
+vie :
+
+```
+navigateur → système d'exploitation → résolveur du fournisseur → serveurs faisant autorité
+   (secondes)      (minutes)              (jusqu'au TTL)              (la vérité)
+```
+
+Un changement d'adresse ne se propage pas : **il expire**. Tant qu'un cache intermédiaire
+détient l'ancienne réponse et que sa durée de vie n'est pas écoulée, il la sert — et il a
+raison de le faire, c'est exactement son rôle.
+
+D'où la question que le diagnostic doit trancher : **où, dans cette chaîne, est la réponse que
+je vois ?**
+
+### La bissection, en trois commandes
+
+```bash
+dig +short api.exemple.test              # ① ce que voit MON résolveur (peut être en cache)
+dig @ns1.exemple.test api.exemple.test   # ② la VÉRITÉ, demandée à l'autorité
+dig api.exemple.test | grep -A1 ';; ANSWER'   # ③ le TTL restant sur la réponse en cache
+```
+
+Trois résultats possibles, trois causes distinctes :
+
+| ① résolveur | ② autorité | Diagnostic |
+|---|---|---|
+| ancienne IP | **nouvelle** IP | **cache** : attendre l'expiration du TTL, ou vider le cache local |
+| ancienne IP | **ancienne** IP | **la modification n'a pas été appliquée** — vérifier la zone, la bonne zone |
+| nouvelle IP | nouvelle IP | le DNS n'est pas en cause : chercher ailleurs (route, pare-feu, certificat) |
+
+La troisième ligne est aussi précieuse que les deux autres : **éliminer le DNS en trente
+secondes** évite d'y passer une heure. C'est le principal service que rend cette bissection.
+
+### Le TTL, et la décision qu'on prend trop tard
+
+La durée de vie est un compromis, et il se décide **avant** la migration, pas pendant :
+
+| TTL | Ce qu'il donne | Ce qu'il coûte |
+|---|---|---|
+| 86 400 s (24 h) | peu de requêtes, résolveurs déchargés | **une migration prend une journée** |
+| 3 600 s (1 h) | équilibre courant | une heure de propagation |
+| 60 s | bascule quasi immédiate | beaucoup plus de requêtes DNS |
+
+La manœuvre professionnelle est en trois temps, et elle est la vraie réponse à « comment
+migrer sans coupure » :
+
+```
+J-2  : abaisser le TTL à 60 s          ← il faut attendre l'ANCIEN TTL pour que ce soit effectif
+J    : changer l'enregistrement        ← propagation en une minute
+J+2  : remonter le TTL à 3 600 s
+```
+
+Le piège de l'étape 1 : abaisser le TTL n'a d'effet qu'une fois l'ancien TTL expiré. Si l'on
+abaisse à 60 s le matin de la migration alors que l'ancien TTL était de 24 h, les résolveurs
+continueront à servir l'ancienne adresse pendant vingt-quatre heures. **Le TTL se baisse au
+moins un ancien-TTL à l'avance.**
+
+### Les types d'enregistrements, et le seul choix qui fait réfléchir
+
+| Type | Ce qu'il associe | Usage |
+|---|---|---|
+| `A` / `AAAA` | un nom → une adresse IPv4 / IPv6 | le cas courant |
+| `CNAME` | un nom → **un autre nom** | pointer vers un service géré dont l'IP change |
+| `MX` | un domaine → un serveur de courrier | courriel |
+| `TXT` | un nom → du texte libre | preuve de possession, politique d'envoi |
+
+Le choix qui compte est `A` contre `CNAME`, et il se pose à chaque intégration d'un service
+externe.
+
+Un `CNAME` délègue la résolution : si le fournisseur change ses adresses, tu n'as rien à faire.
+C'est la bonne réponse pour un service géré. Sa contrainte, souvent découverte au mauvais
+moment : **un `CNAME` ne peut pas coexister avec d'autres enregistrements sur le même nom**, ce
+qui l'interdit à la racine d'un domaine — `exemple.fr` a besoin d'un `MX`, donc ne peut pas
+être un `CNAME`. C'est pourquoi tant de sites vivent sur `www.` et redirigent la racine.
+
+### Ce que le DNS ne fait pas
+
+Trois confusions fréquentes, qui envoient chercher au mauvais endroit :
+
+- **le DNS ne vérifie pas que le serveur répond.** Un enregistrement peut pointer vers une
+  machine éteinte : la résolution réussit, la connexion échoue. Le symptôme est un délai
+  d'attente, pas une erreur de nom ;
+- **le DNS n'a rien à voir avec le certificat.** Un nom correctement résolu vers un serveur dont
+  le certificat porte un autre nom produit une erreur TLS. Ce sont deux systèmes indépendants
+  qui utilisent tous deux des noms de domaine ;
+- **le DNS ne fait pas de répartition de charge fiable.** Plusieurs enregistrements `A` pour un
+  même nom distribuent grossièrement, sans contrôle de santé : une machine morte continue de
+  recevoir sa part du trafic tant que l'enregistrement existe et que les caches n'ont pas
+  expiré.
+
+Le dernier point explique pourquoi on met un répartiteur de charge derrière un nom unique
+plutôt que plusieurs adresses dans le DNS — le sujet de
+`/doc/lessons/networking-proxy-loadbalancing`.
+
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

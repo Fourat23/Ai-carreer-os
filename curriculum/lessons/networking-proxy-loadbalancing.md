@@ -77,12 +77,102 @@ curl -i http://10.0.2.10:8080/health        # tester une instance backend direct
 ```
 
 ## 🧭 Exemple guidé — « le site renvoie 503 par intermittence »
-1. Le DNS résout et le LB répond → couche transport OK.
-2. `curl` en direct sur les instances : lesquelles renvoient 200 ? Certaines sont-elles
-   mortes mais toujours routées (health check trop laxiste) ?
-3. Regarder le health check : teste-t-il un vrai endpoint de santé ? seuils cohérents ?
-4. Cause fréquente : instances saturées (voir ressources/I-O) retirées par vagues → le
-   LB manque de capacité. Corriger la capacité/l'autoscaling, pas le LB seul.
+« Le site répond une fois sur trois. » Symptôme classique, et il désigne presque toujours la
+même chose : **un répartiteur de charge qui envoie du trafic à une instance morte.**
+
+Voyons pourquoi le contrôle de santé ne l'a pas détectée — c'est là que se trouve la vraie
+leçon.
+
+### Le diagnostic, du dehors vers le dedans
+
+```bash
+curl -s -o /dev/null -w '%{http_code}\n' https://app.exemple.fr    # ① via le répartiteur
+for i in 1 2 3; do curl -s -o /dev/null -w '%{http_code}\n' http://10.0.2.$i:8080/health; done   # ② chaque instance
+```
+
+Si ① alterne entre 200 et 502 pendant que ② montre une instance en erreur, la cause est
+identifiée : **une instance dégradée reçoit encore sa part du trafic**.
+
+La question qui suit n'est pas « comment la retirer » — le répartiteur sait le faire — mais
+**« pourquoi ne l'a-t-il pas retirée tout seul ? »**.
+
+### La réponse : ce que teste le contrôle de santé
+
+C'est le cœur de cette leçon, et le tableau suivant explique la quasi-totalité des cas.
+
+| Ce que teste le contrôle | Ce qu'il détecte | Ce qu'il laisse passer |
+|---|---|---|
+| le port TCP est ouvert | processus mort | processus vivant mais **incapable de répondre** |
+| `GET /` renvoie 200 | serveur web debout | base injoignable, cache vide, disque plein |
+| `GET /health` **avec ses dépendances** | l'instance ne peut pas servir | (le bon niveau) |
+
+Un contrôle trop **laxiste** — le port répond — garde en rotation une instance dont la base est
+inaccessible. Un contrôle trop **strict** provoque le défaut inverse, et il est pire : si le
+contrôle de santé teste la base et que la base tombe, **toutes** les instances sont déclarées
+mortes simultanément, le répartiteur n'a plus rien à qui envoyer, et une panne partielle devient
+totale.
+
+C'est la même distinction que dans `/doc/lessons/monitoring-production` :
+
+- **vivant** : le processus tourne — ne dépend d'aucune dépendance externe ;
+- **prêt** : il peut servir — vérifie ses dépendances, et sort l'instance de la rotation sans
+  la tuer.
+
+Le contrôle du répartiteur doit interroger la **disponibilité**, et l'orchestrateur la
+**vivacité**. Les brancher à l'envers est une cause fréquente de panne totale.
+
+### Les trois réglages qui décident du comportement réel
+
+| Réglage | Trop bas | Trop haut |
+|---|---|---|
+| **intervalle** (fréquence des contrôles) | charge inutile | une instance morte reste en rotation longtemps |
+| **seuil d'échec** (nombre d'échecs avant retrait) | retrait sur un simple hoquet — **oscillation** | détection lente |
+| **délai d'attente** du contrôle | une instance lente est déclarée morte | on attend trop pour constater |
+
+Le calcul qui manque presque toujours : **temps de détection = intervalle × seuil d'échec**.
+Un contrôle toutes les 30 secondes avec un seuil de 3 laisse une instance morte servir du
+trafic pendant **90 secondes**. Si cela paraît long, ce sont les réglages qu'il faut changer,
+pas le répartiteur.
+
+Et l'oscillation mérite d'être nommée : un seuil de 1 avec un service au comportement irrégulier
+produit des instances qui sortent et rentrent en boucle. Chaque retour purge les connexions
+établies, et la qualité de service est pire qu'avec l'instance dégradée.
+
+### Ce qu'un répartiteur fait d'autre, et qui explique des pannes
+
+Un répartiteur n'est pas qu'un distributeur ; il **termine** souvent la connexion et en ouvre
+une nouvelle. Cela a trois conséquences pratiques :
+
+- **l'adresse IP vue par l'application est celle du répartiteur.** Les journaux montrent tous
+  la même adresse, la limitation de débit par IP ne fonctionne plus, la géolocalisation est
+  fausse. C'est l'en-tête `X-Forwarded-For` qui porte l'adresse d'origine — et il faut la
+  **configurer explicitement**, sinon elle n'apparaît nulle part ;
+- **TLS est souvent terminé au répartiteur.** L'application parle en clair derrière ; si elle
+  génère des URL absolues, elle produit du `http://` alors que le client est en `https://` —
+  d'où les boucles de redirection et les avertissements de contenu mixte. `X-Forwarded-Proto`
+  est ce qui le corrige ;
+- **les connexions de longue durée** — WebSocket, événements serveur, téléversements — se font
+  couper par le délai d'inactivité du répartiteur, souvent réglé à 60 secondes par défaut.
+  L'application n'y est pour rien et n'en voit rien.
+
+Ces trois points sont responsables d'un très grand nombre d'heures perdues, précisément parce
+que le code applicatif est correct et que le problème est dans une couche que le développeur ne
+regarde pas.
+
+### Répartir : les algorithmes, et quand ils cessent de convenir
+
+| Algorithme | Comment | Quand il échoue |
+|---|---|---|
+| tour de rôle | à tour de rôle | requêtes de coûts très inégaux |
+| moins de connexions | vers la moins chargée | requêtes courtes et nombreuses |
+| par hachage de l'IP | même client → même instance | déséquilibre si un client domine |
+
+Le troisième existe pour les applications à **état** — sessions en mémoire. C'est un pansement,
+et il vaut mieux le dire : il empêche l'équilibrage réel, complique les déploiements, et perd
+les sessions au moindre redémarrage. La bonne réponse est celle de
+`/doc/lessons/system-design-scaling` : **sortir l'état du processus**, et rendre les instances
+interchangeables.
+
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

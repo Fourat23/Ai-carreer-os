@@ -80,13 +80,104 @@ curl -w "%{http_code} %{time_total}s\n" -o /dev/null -s https://api.exemple.test
 TLS (certificat expiré, nom qui ne correspond pas, CA inconnue).
 
 ## 🧭 Exemple guidé — « l'API renvoie une erreur »
-1. `curl -i` : quel code ? 4xx (ma requête : mauvais chemin, jeton manquant/expiré,
-   payload invalide) ou 5xx (le serveur : regarder les logs du backend) ?
-2. Si erreur TLS (`curl -v`) : certificat expiré ? nom qui ne correspond pas ? CA non
-   reconnue ?
-3. Vérifier les en-têtes envoyés (`Authorization`, `Content-Type`) — beaucoup de 400/401
-   viennent de là.
-4. Reproduire minimalement avec `curl` avant d'accuser le code.
+« L'API ne répond pas. » Cette phrase recouvre au moins six pannes différentes, et la
+première compétence est de savoir **laquelle** en trois commandes.
+
+### La bissection, du plus bas au plus haut
+
+```bash
+ping api.exemple.fr            # ① la machine est-elle joignable ?
+nc -vz api.exemple.fr 443      # ② le port est-il ouvert ?
+curl -v https://api.exemple.fr # ③ la poignée de main TLS aboutit-elle ?
+curl -i https://api.exemple.fr/v1/commandes -H 'Authorization: Bearer …'   # ④ et l'application ?
+```
+
+Chaque commande teste **une couche de plus** que la précédente. La première qui échoue désigne
+le niveau du problème, et rend inutile de chercher au-dessus.
+
+| Échec à | Ce que ça veut dire | Où chercher |
+|---|---|---|
+| ① | nom non résolu, ou machine injoignable | DNS, route, pare-feu |
+| ② | port fermé ou filtré | pare-feu, service non démarré, mauvais port |
+| ③ | problème de certificat | expiration, nom, autorité |
+| ④ | l'application répond, mal | code de statut, corps, journaux |
+
+L'erreur de méthode ordinaire est de commencer par ④ — parce que c'est là qu'on travaille — et
+de passer une heure sur un jeton d'authentification alors que le port est fermé.
+
+### Le code de statut, et ce qu'il dit de qui doit agir
+
+C'est la lecture la plus rentable d'une réponse HTTP, et elle tient en une question :
+**qui doit corriger ?**
+
+| Famille | Signification | Qui agit |
+|---|---|---|
+| **2xx** | succès | personne |
+| **3xx** | ailleurs | le client suit la redirection |
+| **4xx** | **ta requête est fautive** | **le client** |
+| **5xx** | **le serveur a échoué** | **le serveur** |
+
+Cette frontière décide de la suite du diagnostic. Un 4xx dit « ne regarde pas les journaux du
+serveur, regarde ce que tu envoies » — chemin, jeton, en-têtes, corps. Un 5xx dit l'inverse.
+
+Les distinctions fines à connaître, parce qu'elles sont mal utilisées :
+
+- **401 contre 403** — 401 : *je ne sais pas qui tu es* (le client doit s'authentifier et peut
+  réessayer). 403 : *je sais qui tu es, et c'est non* (réessayer ne servira à rien). Renvoyer
+  401 à la place de 403 met les clients dans une boucle de reconnexion inutile ;
+- **404 contre 410** — 404 : introuvable, peut-être temporairement. 410 : a existé, n'existera
+  plus. Les moteurs de recherche traitent les deux différemment ;
+- **502 contre 503 contre 504** — 502 : la passerelle a reçu une réponse invalide de l'amont.
+  503 : le service est indisponible, souvent volontairement. 504 : l'amont n'a pas répondu **à
+  temps**. Les trois désignent des endroits différents de la chaîne, et un 504 pointe presque
+  toujours un délai d'attente mal réglé.
+
+### TLS : ce que la poignée de main vérifie réellement
+
+`curl -v` affiche les trois vérifications, et les trois pannes correspondantes :
+
+| Vérification | Panne typique | Message |
+|---|---|---|
+| le certificat n'est pas expiré | renouvellement automatique cassé | `certificate has expired` |
+| le nom demandé figure dedans | `api.exemple.fr` sur un certificat émis pour `exemple.fr` | `certificate name mismatch` |
+| l'autorité est reconnue | certificat auto-signé, ou chaîne incomplète | `unable to get local issuer certificate` |
+
+La troisième mérite un mot, car c'est celle qui produit le symptôme le plus déroutant : **ça
+marche dans le navigateur et pas en `curl`**. Le serveur n'envoie pas la chaîne intermédiaire
+complète ; les navigateurs la complètent souvent d'eux-mêmes, les clients en ligne de commande
+non. Le certificat n'est pas « à moitié valide » — il est mal installé, et le navigateur
+masquait le défaut.
+
+### Ce que TLS protège, et ce qu'il ne protège pas
+
+| TLS garantit | TLS ne garantit **pas** |
+|---|---|
+| le contenu est chiffré en transit | que le serveur soit honnête |
+| l'interlocuteur possède ce nom de domaine | que ton application soit sûre |
+| le contenu n'a pas été modifié en route | que les données soient chiffrées **au repos** |
+
+La deuxième colonne est celle qui compte pour un développeur : **le cadenas ne dit rien de la
+qualité du site.** Un site d'hameçonnage a un certificat valide — ils sont gratuits. Le cadenas
+prouve qu'on parle bien au propriétaire de `paypaI-secure.example`, pas que ce soit PayPal.
+
+Et la troisième ligne explique une confusion courante en entretien : « les données sont
+chiffrées » est une phrase incomplète. En transit, au repos, en mémoire : trois protections
+différentes, dont TLS n'assure que la première.
+
+### Les en-têtes qui expliquent un comportement bizarre
+
+Quatre en-têtes valent d'être connus, parce qu'ils causent des pannes que le code ne montre pas :
+
+- **`Cache-Control`** — une réponse mise en cache par un intermédiaire explique un « il voit
+  encore l'ancienne version » ;
+- **`Content-Type`** — une API qui renvoie du JSON avec `text/html` fait échouer le parsage
+  côté client ;
+- **`Location`** avec un 3xx — une redirection non suivie explique un « je reçois du vide » :
+  `curl` sans `-L` s'arrête là ;
+- **`Retry-After`** avec un 429 ou un 503 — le serveur dit **combien de temps attendre**. Un
+  client qui l'ignore et réessaie immédiatement aggrave la situation, exactement comme dans
+  `/doc/lessons/resilience-patterns`.
+
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

@@ -91,13 +91,123 @@ Calcul mental utile : `/24` → 256 adresses (254 hôtes), `/16` → 65 536, `/2
 est inclus dans le premier).
 
 ## 🧭 Exemple guidé — concevoir un petit réseau cloud
-1. Choisir un espace privé : `10.0.0.0/16` (65 536 adresses).
-2. Découper en subnets disjoints : `10.0.1.0/24` **public** (load balancer),
-   `10.0.2.0/24` **privé** (backends), `10.0.3.0/24` **privé** (base).
-3. Route : le subnet public a une route `0.0.0.0/0` vers l'Internet Gateway ; les subnets
-   privés ont une route sortante via une NAT gateway (sortie seule).
-4. Vérifier : aucune plage ne se chevauche ; la base n'est joignable que depuis les
-   backends (règles de pare-feu), pas d'Internet.
+On te demande de « poser le réseau » d'une application à trois étages : un répartiteur de
+charge, des serveurs applicatifs, une base de données. Trois décisions, et une seule question
+les gouverne toutes : **qui doit pouvoir parler à qui ?**
+
+### Étape 1 — l'espace d'adressage, et le calcul du masque
+
+```
+10.0.0.0/16   →  65 536 adresses  (10.0.0.0 à 10.0.255.255)
+```
+
+Le `/16` signifie que les **16 premiers bits sont fixes** et identifient le réseau ; les 16
+suivants sont libres pour les machines. D'où l'arithmétique, qui est tout ce qu'il faut
+retenir :
+
+| Masque | Adresses | Utilisables | Usage typique |
+|---|---:|---:|---|
+| `/16` | 65 536 | 65 531 | tout un environnement |
+| `/24` | 256 | 251 | un sous-réseau |
+| `/28` | 16 | 11 | un petit groupe de machines |
+| `/32` | 1 | 1 | **une seule machine** — sert dans les règles de pare-feu |
+
+Deux détails qui font trébucher tout le monde :
+
+- **quelques adresses sont réservées** dans chaque sous-réseau : l'adresse de réseau, celle de
+  diffusion, et généralement trois de plus prises par l'infrastructure du fournisseur. Un `/28`
+  n'offre pas 16 machines mais 11 ;
+- **plus le nombre après la barre est grand, plus le réseau est petit.** C'est
+  contre-intuitif, et c'est la cause de la moitié des erreurs de découpage.
+
+Choisir `/16` pour l'ensemble laisse la place pour 256 sous-réseaux en `/24`. On ne consomme
+rien en réservant large — les adresses privées sont gratuites —, alors qu'un espace trop
+étroit se re-découpe très difficilement une fois des machines dedans.
+
+### Étape 2 — le découpage, dicté par l'exposition
+
+```
+10.0.1.0/24   PUBLIC   — répartiteur de charge uniquement
+10.0.2.0/24   PRIVÉ    — serveurs applicatifs
+10.0.3.0/24   PRIVÉ    — base de données
+```
+
+Le découpage ne suit pas l'organigramme ni le nombre de machines : il suit **le degré
+d'exposition**. Un sous-réseau est public ou privé, et c'est la seule question qui décide de
+son existence.
+
+Ce que « public » veut dire précisément, et c'est là que la confusion s'installe : **un
+sous-réseau public n'est pas un sous-réseau accessible depuis Internet.** C'est un sous-réseau
+dont la table de routage contient une route vers la passerelle Internet. L'accessibilité, elle,
+dépend en plus des règles de pare-feu.
+
+Deux mécanismes indépendants, et il faut les deux :
+
+| Mécanisme | Ce qu'il décide |
+|---|---|
+| **route** | *par où* un paquet peut sortir ou entrer |
+| **pare-feu** | *ce qui* a le droit de passer |
+
+### Étape 3 — les routes, et la sortie sans entrée
+
+```
+sous-réseau public  : 0.0.0.0/0  →  passerelle Internet
+sous-réseau privé   : 0.0.0.0/0  →  passerelle de traduction d'adresses (NAT)
+```
+
+`0.0.0.0/0` signifie « toutes les destinations » : c'est la route par défaut, celle qu'on suit
+quand aucune autre ne correspond.
+
+La deuxième ligne est celle qui résout un besoin apparemment contradictoire : **les serveurs
+applicatifs doivent pouvoir sortir** — mises à jour, appels d'API tierces — **sans être
+joignables depuis l'extérieur**.
+
+La traduction d'adresses rend cela possible par asymétrie : elle réécrit l'adresse source des
+connexions sortantes et mémorise l'association, ce qui lui permet de router les réponses. Une
+connexion **entrante** non sollicitée n'a aucune association et n'a nulle part où aller.
+
+Retiens cette phrase, elle résume le rôle : *sortir, oui ; entrer, seulement en réponse.*
+
+### La règle de pare-feu, écrite comme il faut
+
+```
+répartiteur   ← 0.0.0.0/0        sur 443     (tout Internet)
+applicatifs   ← 10.0.1.0/24      sur 8080    (le sous-réseau du répartiteur, pas plus)
+base          ← 10.0.2.0/24      sur 5432    (le sous-réseau applicatif, pas plus)
+```
+
+Chaque ligne nomme **une source précise et un port précis**. Aucune ne dit `0.0.0.0/0` sauf la
+première, qui est le point d'entrée assumé.
+
+C'est le principe du moindre privilège appliqué au réseau, et sa valeur se voit au moment d'un
+incident : si un serveur applicatif est compromis, l'attaquant hérite de ses droits réseau — et
+ceux-ci se limitent au port 5432 de la base. Il ne peut pas balayer le réseau, ni atteindre les
+autres environnements.
+
+La faute symétrique, très répandue : autoriser `10.0.0.0/16` — « tout le réseau interne » —
+parce que c'est plus simple. On a alors un réseau **plat**, où toute machine compromise donne
+accès à toutes les autres. La segmentation existait sur le papier et n'existait pas en pratique.
+
+### Le diagnostic, quand ça ne passe pas
+
+Quatre causes, dans l'ordre où il faut les tester :
+
+1. **la route** — le sous-réseau a-t-il un chemin vers la destination ? `ip route` ;
+2. **le pare-feu sortant** — la source a-t-elle le droit d'émettre ? ;
+3. **le pare-feu entrant** — la destination a-t-elle le droit de recevoir de cette source ? ;
+4. **le service** — écoute-t-il vraiment, et sur quelle interface ?
+
+Le point 4 est celui qu'on oublie, et il produit un symptôme trompeur : un service qui écoute
+sur `127.0.0.1` au lieu de `0.0.0.0` fonctionne parfaitement **depuis la machine** et refuse
+toute connexion venue d'ailleurs. Réseau, routes et pare-feu sont corrects ; c'est
+l'application qui n'écoute pas au bon endroit.
+
+```bash
+ss -tlnp | grep 8080     # 127.0.0.1:8080 → local seulement ; 0.0.0.0:8080 → accessible
+```
+
+Une commande, et une heure de recherche évitée.
+
 
 ## ⚠️ Erreurs fréquentes
 - **Confondre la taille du préfixe** : croire que `/16` est plus petit que `/24`.

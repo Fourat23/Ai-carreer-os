@@ -268,12 +268,249 @@ prépare le CSS (`/doc/lessons/css-fundamentals`), les formulaires web et surtou
 (`/doc/lessons/react-accessibility`), qui REPOSE sur un HTML sémantique correct. En React, tu
 écriras du JSX qui produit exactement ces balises : les bons réflexes pris ici te suivront.
 
-## Mini-exercice
-Reprends une page faite de `<div>` (ou pars d'une page de profil : nom, menu, bio, liens) et
-réécris-la avec les repères sémantiques (`header`/`nav`/`main`/`footer`), une hiérarchie de titres
-correcte, et de vrais `<a>`/`<button>`. Vérifie mentalement : un lecteur d'écran saurait-il nommer
-chaque région ? Peux-tu tout atteindre au clavier ? Pratique associée : `web-semantic`, `web-nav`,
-`web-card`.
+## 🛠️ Pratique — la page qu'on ne peut pas parcourir
+
+**Contexte.** Voici une page de profil, écrite comme la moitié du web l'est.
+
+```html
+<div class="page">
+  <div class="top">
+    <div class="logo">Réseau Pro</div>
+    <div class="menu">
+      <div class="lien" onclick="aller('/accueil')">Accueil</div>
+      <div class="lien" onclick="aller('/messages')">Messages</div>
+    </div>
+  </div>
+  <div class="contenu">
+    <div class="gros-titre">Lina Berger</div>
+    <div class="sous">Ingénieure plateforme · Lyon</div>
+    <div class="bloc">
+      <div class="titre-bloc">À propos</div>
+      <div class="texte">Douze ans d'infrastructure…</div>
+    </div>
+    <div class="bloc">
+      <div class="titre-bloc">Expériences</div>
+      <div class="item"><div class="titre-item">Architecte</div><div>2021 – aujourd'hui</div></div>
+      <div class="item"><div class="titre-item">Développeuse</div><div>2016 – 2021</div></div>
+    </div>
+    <div class="bouton" onclick="contacter()">Contacter</div>
+  </div>
+  <div class="bas">© 2026 Réseau Pro</div>
+</div>
+```
+
+Elle s'affiche parfaitement. Aucun outil ne s'en plaint. Et elle est, littéralement,
+**imparcourable** : c'est ce que cette pratique va te faire mesurer avant de la corriger.
+
+**Ta production, en quatre parties.**
+
+**1. Le diagnostic par extraction.** Colle cette page dans un fichier, ouvre-la, et exécute ces
+trois sondes dans la console. Publie ce que chacune renvoie.
+
+```js
+// a. les repères de la page — ce sur quoi un lecteur d'écran propose de sauter
+document.querySelectorAll('header, nav, main, aside, footer').length
+
+// b. le plan du document — la table des matières
+[...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].map(h => h.tagName + ' ' + h.textContent)
+
+// c. tout ce qui est atteignable au clavier
+[...document.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')].length
+```
+
+Pour chacune : le résultat, et **ce que ça signifie pour l'utilisateur**. La sonde (b) est la
+plus parlante — c'est exactement la liste qu'un lecteur d'écran propose pour naviguer dans la
+page.
+
+**2. La réécriture.** Réécris la page en HTML sémantique. Exigences :
+
+- un seul `<h1>`, et une hiérarchie de titres **sans saut de niveau** ;
+- les repères `header` / `nav` / `main` / `footer`, avec un nom sur la navigation s'il y en a
+  plusieurs ;
+- les faux liens deviennent de vrais `<a href>`, le faux bouton un vrai `<button>` ;
+- la liste d'expériences devient une vraie liste, et chaque expérience un `<article>` ;
+- les dates utilisent `<time datetime="…">` ;
+- **aucune classe CSS supprimée** — l'apparence doit rester identique, c'est la contrainte qui
+  rend l'exercice réaliste.
+
+**3. Les mêmes sondes, après.** Rejoue les trois. Publie le tableau avant/après.
+
+**4. Les trois questions.**
+
+- **A.** Pourquoi « Accueil » doit-il être un `<a href>` et « Contacter » un `<button>` ? La
+  règle en une phrase, et ce que perd l'utilisateur dans chaque cas si on se trompe.
+- **B.** Ta page a-t-elle besoin d'un `<section>` ou d'un `<article>` pour le bloc « À propos » ?
+  Justifie — l'un des deux est un mauvais choix ici, et beaucoup les emploient au hasard.
+- **C.** Le `<h1>` doit-il être « Réseau Pro » ou « Lina Berger » ? Il n'y a qu'une bonne
+  réponse et elle se déduit d'un principe, pas d'un goût.
+
+**Critère de réussite.** (a) Les six mesures (trois sondes × avant/après) sont publiées ;
+(b) la sonde (c) passe de 0 à au moins 3 ; (c) le plan de la page se lit comme une table des
+matières compréhensible sans voir la page ; (d) les trois questions sont répondues avec un
+principe, pas une préférence.
+
+**Durée.** 45 à 60 minutes.
+
+## ✅ Correction
+
+> Les six mesures de cette correction sont **exécutées** : le script
+> `scripts/v70-verifications/html-semantique-sondes.mjs` rend les deux versions de la page
+> dans Chromium et imprime le résultat des trois sondes pour chacune.
+
+### Partie 1 — ce que disent les sondes, avant
+
+| Sonde | Résultat | Ce que ça signifie |
+|---|---|---|
+| (a) repères | **0** | un lecteur d'écran ne peut proposer aucun saut : ni « aller au contenu », ni « aller à la navigation ». L'utilisateur doit parcourir la page depuis le début, à chaque visite |
+| (b) plan | **`[]`** | la page n'a **aucune** structure. Ni titre, ni sous-titre. Pour un moteur de recherche comme pour un lecteur d'écran, c'est un bloc de texte indifférencié |
+| (c) atteignable au clavier | **0** | ni les liens de menu, ni le bouton « Contacter ». La page est en lecture seule pour qui n'a pas de souris — le bouton principal est inatteignable |
+
+Le zéro de la sonde (b) est le plus révélateur. Un lecteur d'écran propose habituellement de
+naviguer de titre en titre : c'est le mode de lecture le plus utilisé, l'équivalent du survol
+visuel d'une page. Ici, cette navigation ne renvoie rien. Le contenu est présent, il est
+correct, et il n'est pas **parcourable**.
+
+Le zéro de la sonde (c) est le plus grave en pratique : l'action principale de la page ne peut
+pas être déclenchée.
+
+### Partie 2 — la réécriture
+
+```html
+<header class="top">
+  <div class="logo">Réseau Pro</div>
+  <nav class="menu" aria-label="Navigation principale">
+    <a class="lien" href="/accueil">Accueil</a>
+    <a class="lien" href="/messages">Messages</a>
+  </nav>
+</header>
+
+<main class="contenu">
+  <h1 class="gros-titre">Lina Berger</h1>
+  <p class="sous">Ingénieure plateforme · Lyon</p>
+
+  <section class="bloc" aria-labelledby="t-apropos">
+    <h2 class="titre-bloc" id="t-apropos">À propos</h2>
+    <p class="texte">Douze ans d'infrastructure…</p>
+  </section>
+
+  <section class="bloc" aria-labelledby="t-exp">
+    <h2 class="titre-bloc" id="t-exp">Expériences</h2>
+    <ul>
+      <li><article class="item">
+        <h3 class="titre-item">Architecte</h3>
+        <p><time datetime="2021">2021</time> – aujourd'hui</p>
+      </article></li>
+      <li><article class="item">
+        <h3 class="titre-item">Développeuse</h3>
+        <p><time datetime="2016">2016</time> – <time datetime="2021">2021</time></p>
+      </article></li>
+    </ul>
+  </section>
+
+  <button class="bouton" type="button" onclick="contacter()">Contacter</button>
+</main>
+
+<footer class="bas">© 2026 Réseau Pro</footer>
+```
+
+Toutes les classes sont conservées : l'apparence est identique au pixel près. C'est le point
+qui rend cette correction applicable en vrai — on ne demande pas de refaire le CSS, on demande
+de remplacer le contenant.
+
+### Partie 3 — après
+
+| Sonde | Avant | Après |
+|---|---|---|
+| (a) repères | 0 | **4** (`header`, `nav`, `main`, `footer`) |
+| (b) plan | `[]` | `H1 Lina Berger` · `H2 À propos` · `H2 Expériences` · `H3 Architecte` · `H3 Développeuse` |
+| (c) atteignable au clavier | 0 | **3** (deux liens, un bouton) |
+
+Lis la colonne « après » de la sonde (b) **sans regarder la page**. Tu sais de qui parle ce
+document, quelles sections il contient et ce qu'elles contiennent. C'est précisément
+l'expérience d'un utilisateur de lecteur d'écran, et c'est le meilleur test de qualité d'une
+structure : **un plan qui se lit seul est une page bien structurée.**
+
+### Question A — lien ou bouton
+
+**La règle : un lien change d'endroit, un bouton déclenche une action.** « Accueil » vous
+emmène ailleurs ; « Contacter » fait quelque chose ici.
+
+Ce que perd l'utilisateur si on se trompe :
+
+- **un faux lien** (un `<div>` avec `onclick` qui navigue) : plus d'ouverture dans un nouvel
+  onglet, plus de clic milieu, plus de copie d'adresse, plus de survol montrant la destination,
+  plus d'indexation de la cible. Toutes ces fonctions viennent de l'attribut `href`, pas du
+  clic ;
+- **un vrai lien utilisé comme bouton** (`<a href="#">` avec un `onclick`) : le lecteur d'écran
+  annonce « lien » et l'utilisateur s'attend à changer de page ; il reçoit une action. Et un
+  `href="#"` fait remonter la page en haut si le gestionnaire échoue.
+
+Le raccourci qui tranche : **si tu peux imaginer quelqu'un vouloir l'ouvrir dans un nouvel
+onglet, c'est un lien.**
+
+### Question B — `section` ou `article`
+
+`<section>` pour « À propos ». `<article>` serait un mauvais choix, et voici pourquoi.
+
+Un `<article>` est un contenu **autonome** : il garde son sens sorti de son contexte, comme un
+billet de blog, un commentaire, une fiche produit, une offre d'emploi. Le test : *peut-on le
+publier ailleurs tel quel et le comprendre ?*
+
+« À propos » sans « Lina Berger » ne veut rien dire — c'est une **partie** de la page, pas un
+contenu autonome. C'est un `<section>`.
+
+En revanche, chaque **expérience** est un bon `<article>` : « Architecte, 2021 – aujourd'hui »
+garde son sens dans une liste de résultats de recherche ou un flux d'actualité. C'est le
+découpage retenu dans la correction, et c'est aussi ce qui explique la liste `<ul>` : plusieurs
+choses de même nature, dont le **nombre** est une information — un lecteur d'écran annonce
+« liste de 2 éléments ».
+
+Dernier point : `<section>` n'apporte réellement quelque chose que s'il est **nommé**. Une
+section sans titre associé n'est pas annoncée comme une région et ne vaut pas mieux qu'un
+`<div>`. D'où le `aria-labelledby` qui pointe le `<h2>` — on ne duplique pas le titre, on le
+désigne.
+
+### Question C — quel `<h1>`
+
+**« Lina Berger ».**
+
+Le principe : le `<h1>` nomme **le contenu de cette page**, pas le site. Le nom du site est
+déjà dans le titre de l'onglet, dans l'en-tête, dans l'URL. S'il est aussi le `<h1>`, alors
+toutes les pages du site ont le même titre principal — et le plan de chaque page commence par
+une information sans valeur.
+
+Le test : *si je ne lis que le `<h1>`, est-ce que je sais où je suis ?* « Réseau Pro » ne le dit
+pas ; « Lina Berger » le dit.
+
+C'est aussi la raison du `<h2>` pour les sections : un saut direct du `<h1>` au `<h3>` casserait
+la hiérarchie, et les niveaux de titre décrivent **l'imbrication logique**, jamais la taille du
+texte. La taille est une affaire de CSS.
+
+### La mauvaise solution plausible
+
+Garder les `<div>` et ajouter des rôles ARIA : `role="banner"`, `role="navigation"`,
+`role="main"`, `role="heading" aria-level="1"`.
+
+Techniquement, la sonde (a) remonterait. Mais on a écrit quatre attributs pour obtenir ce que
+quatre balises donnent gratuitement, et surtout : `role="heading"` sur un `<div>` ne le rend
+pas cliquable au clavier, `role="link"` ne crée pas d'`href`. La sonde (c) resterait à **0**.
+
+La première règle d'ARIA est de ne pas utiliser ARIA quand une balise fait le travail. Ici, les
+balises font tout le travail, et le HTML final est plus court que l'original.
+
+### Généralisation
+
+La sonde (b) — extraire le plan des titres — est le contrôle qualité le plus rentable qui soit
+sur n'importe quelle page web, et il tient en une ligne de console. Un plan illisible signale
+en même temps un problème d'accessibilité, un problème de référencement, et le plus souvent un
+problème de **conception** : si tu n'arrives pas à écrire une hiérarchie de titres cohérente,
+c'est en général que la page elle-même n'a pas de structure claire.
+
+C'est le cas particulier d'un principe qui vaut partout : **une structure explicite est ce qui
+rend un contenu exploitable par autre chose que des yeux humains** — un lecteur d'écran, un
+moteur de recherche, un aperçu de partage, un lecteur de flux, un outil d'extraction. Le HTML
+sémantique n'est pas une politesse envers les personnes handicapées : c'est ce qui rend une page
+lisible par des machines, et les personnes handicapées en sont les premières bénéficiaires.
 
 ## 📚 Vocabulaire
 **sémantique** · **repère / landmark** (`header`/`nav`/`main`/`footer`) · **`article`/`section`/`aside`**

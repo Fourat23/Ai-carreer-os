@@ -502,6 +502,10 @@ que le découpage sera contesté, souvent par quelqu'un qui préfère celui qu'i
 Un rapport qui dit d'où vient chaque décision transforme un débat de goûts en une
 conversation sur des faits.
 
+## Mini-exercice
+Ouvre le plus gros composant de ton projet et décris-le en **une** phrase, à voix haute. Compte les
+« et ». Puis, pour chacun, dis s'il deviendrait un composant, un hook, ou une fonction pure.
+
 ## 📚 Vocabulaire
 **composition** · **`children`** · **prop drilling** · **lifting state up** · **état dérivé**
 · **`context`** · **hook personnalisé** · **mémoïsation** · **responsabilité unique**.

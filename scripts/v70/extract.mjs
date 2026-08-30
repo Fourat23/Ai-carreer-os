@@ -123,7 +123,31 @@ export function analyser(slug) {
     blocsCode: (txt.match(/```/g) || []).length / 2,
     puces: (txt.match(/^\s*[-*]\s/gm) || []).length,
     // pratique
-    exoLivrable: /\b(écris|écrire|implémente|construis|mesure|refactor|dessine|code|ajoute|corrige|répare|compare|teste|conçois|modifie|produis)\b/i.test(exoTxt),
+    // CORRECTION DE SONDE — V70 CP5, documentée (brief §6).
+    // La version d'origine utilisait \b, dont la définition est ASCII en
+    // JavaScript : aucun verbe à initiale accentuée ne pouvait matcher.
+    // « Écris », « écris », « écrire », « implémente » renvoyaient tous false,
+    // y compris en milieu de phrase, parce que « é » n'est pas un caractère de
+    // mot au sens ASCII et qu'aucune frontière n'est donc détectée avant lui.
+    // Vérifié : /\b(écris)\b/i.test('Écris un tableau') === false.
+    // Remplacé par une frontière définie sur \p{L} avec le drapeau u.
+    // IMPACT MESURÉ sur le corpus figé au commit d5d2cd9 (128 leçons) :
+    //   sonde d'origine : 58 leçons  |  sonde corrigée : 70 leçons  |  net +12
+    //   +15 gagnées (verbes à initiale accentuée enfin reconnus)
+    //    -3 perdues : breaking-changes-compatibility,
+    //       database-transactions-concurrency, nextjs-data-production.
+    //   Ces trois-là ne matchaient QUE par un faux positif : « Décris »
+    //   contient la sous-chaîne « écris », et \b la trouvait parce que la
+    //   frontière tombait entre « D » (mot ASCII) et « é » (non-mot ASCII).
+    //   La sonde corrigée refuse cette sous-chaîne, ce qui est le bon
+    //   comportement.
+    // La liste de verbes n'est PAS élargie : ajouter « décris » après avoir
+    // constaté qu'il coûte trois leçons serait exactement le déplacement de
+    // seuil a posteriori que le brief interdit.
+    // Le CP0 avait donc SOUS-ESTIMÉ de 12 le nombre de pratiques à production
+    // observable. Chiffre publié au mini-statut CP5 et repris au CP15 ; le
+    // rapport CP0 n'est pas réécrit.
+    exoLivrable: /(^|[^\p{L}])(écris|écrire|implémente|construis|mesure|refactor|dessine|code|ajoute|corrige|répare|compare|teste|conçois|modifie|produis)([^\p{L}]|$)/iu.test(exoTxt),
     exoPassif: /^\s*(qu'est-ce que|explique en une phrase|cite|liste|nomme)/i.test(exoTxt.trim()),
     // correction
     corrRaisonne: /(la démarche|l'erreur probable|pourquoi|alternative|défendable|se défend)/i.test(corrTxt),

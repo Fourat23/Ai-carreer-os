@@ -267,12 +267,213 @@ Cette leçon s'appuie sur `/doc/lessons/html-semantic-structure` et
 approfondie est traitée dans `/doc/lessons/react-accessibility`. La règle client≠serveur rejoint
 `/doc/lessons/authentication` et la validation d'API.
 
+## 🛠️ Pratique — le formulaire, puis l'attaque de son propre formulaire
+
+**Contexte.** Un formulaire de contact : nom (requis, au moins 2 caractères), courriel (requis,
+format valide), message (requis, au moins 20 caractères), et une case « J'accepte d'être
+recontacté ».
+
+Cette pratique se fait en deux temps qui ne se ressemblent pas. Le premier est de la
+construction ; le second consiste à **attaquer ce que tu viens d'écrire**, et c'est celui qui
+enseigne la seule chose vraiment importante de cette leçon.
+
+### Temps 1 — construis le formulaire
+
+Exigences, toutes vérifiables :
+
+- chaque champ a un `<label>` **associé** (`for` / `id`), et cliquer sur le libellé place le
+  curseur dans le champ — c'est le test que l'association existe vraiment ;
+- chaque champ a le `type` adapté et au moins une **contrainte native** (`required`,
+  `minlength`, `type="email"`) ;
+- la soumission est interceptée : `checkValidity()` d'abord, `reportValidity()` si invalide,
+  envoi sinon ;
+- chaque message d'erreur est relié à son champ par `aria-describedby`, et le champ invalide
+  porte `aria-invalid="true"` ;
+- l'erreur apparaît **après** la première tentative de soumission, pas à chaque frappe dès le
+  premier caractère ;
+- tout se remplit, se corrige et se soumet **au clavier seul**.
+
+### Temps 2 — attaque-le
+
+Ton formulaire est valide. Prouve maintenant qu'il ne protège rien.
+
+Sans toucher au code, envoie une soumission qui **viole toutes les contraintes** : nom vide,
+courriel `pas-un-courriel`, message d'un caractère, case décochée. Trois chemins, choisis-en
+au moins **deux** :
+
+```js
+// 1. depuis la console de la page, en contournant le formulaire
+fetch('/api/contact', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ nom: '', courriel: 'pas-un-courriel', message: 'x', accepte: false }),
+});
+
+// 2. en désactivant la validation native, toujours depuis la console
+document.querySelector('form').noValidate = true;
+document.querySelector('form').requestSubmit();
+
+// 3. en retirant les attributs à la main
+document.querySelectorAll('[required]').forEach((e) => e.removeAttribute('required'));
+```
+
+**Ta production, en cinq parties.**
+
+1. Le code du formulaire.
+2. Le **résultat de chaque attaque** : la requête est-elle partie ? Avec quel contenu ? Publie
+   ce que tu vois dans l'onglet réseau.
+3. Une phrase qui répond à : **à quoi sert donc la validation côté client, si elle se contourne
+   en une ligne ?** Cette phrase est le cœur de la pratique.
+4. Ce que le **serveur** doit vérifier, champ par champ. Un tableau : `champ` · `règle` ·
+   `vérifiée côté client` · `vérifiée côté serveur` · `que se passe-t-il si seul le client la
+   vérifie`.
+5. Le **parcours clavier** : la suite exacte des touches pour remplir et soumettre, en partant
+   du chargement de la page. S'il te faut la souris à un moment, c'est un défaut : nomme-le.
+
+**Critère de réussite.** (a) Au moins deux attaques ont réellement abouti et tu l'as constaté
+dans l'onglet réseau ; (b) ta phrase de la partie 3 ne dit pas que la validation client est
+inutile ; (c) le tableau de la partie 4 comporte au moins une règle que **seul** le serveur
+peut vérifier ; (d) le parcours clavier est écrit touche par touche.
+
+**Durée.** 60 à 75 minutes.
+
+## ✅ Correction
+
+### Temps 2 — ce qui s'est passé
+
+Les trois attaques **aboutissent**, et c'est le résultat attendu.
+
+- **Attaque 1** : la requête part avec les données invalides. Le formulaire n'a pas été
+  consulté — on ne s'en est pas servi.
+- **Attaque 2** : `noValidate = true` désactive toute la validation native. Le navigateur
+  soumet sans un mot.
+- **Attaque 3** : retirer `required` fait exactement ce que le mot dit.
+
+Trois lignes de console. Et il ne s'agit même pas d'un contournement sophistiqué : n'importe
+quel outil en ligne de commande envoie cette requête sans jamais charger ta page.
+
+Le constat à formuler nettement : **tout ce qui s'exécute dans le navigateur de l'utilisateur
+appartient à l'utilisateur.** Ce n'est pas une faille à corriger, c'est la nature de
+l'architecture web. Le HTML, le JavaScript, les attributs de validation : tout cela est un
+document qu'on lui envoie et qu'il peut modifier.
+
+### Partie 3 — la phrase
+
+La réponse fausse et fréquente : « la validation client ne sert à rien, seul le serveur
+compte ». C'est faux et ça conduit à des formulaires détestables.
+
+La bonne formulation :
+
+> **La validation côté client sert au confort, jamais à la sécurité. La validation côté serveur
+> sert à la sécurité, jamais au confort.**
+
+Ce sont deux fonctions distinctes, qui répondent à deux questions différentes :
+
+| | Question à laquelle elle répond | Public |
+|---|---|---|
+| **client** | « comment aider l'utilisateur à réussir du premier coup ? » | l'utilisateur de bonne foi, qui se trompe |
+| **serveur** | « comment garantir que rien d'invalide n'entre dans le système ? » | tout le monde, y compris qui contourne |
+
+Sans validation client, un utilisateur de bonne foi remplit huit champs, soumet, attend, et
+reçoit une page d'erreur : c'est un mauvais produit. Sans validation serveur, n'importe qui
+insère ce qu'il veut : c'est un système compromis.
+
+Les deux sont nécessaires, et il faut accepter la conséquence : **certaines règles seront
+écrites deux fois**. C'est le prix, et essayer de l'éviter en supprimant l'une des deux
+validations est toujours une erreur.
+
+### Partie 4 — le tableau
+
+| Champ | Règle | Client | Serveur | Si seul le client la vérifie |
+|---|---|---|---|---|
+| nom | requis, ≥ 2 caractères | ✅ | ✅ | des enregistrements vides en base, des courriels adressés à personne |
+| courriel | requis, format plausible | ✅ | ✅ | envoi impossible, rebonds, et une adresse inutilisable stockée |
+| courriel | **le domaine existe vraiment** | ❌ impossible | ✅ | — |
+| message | requis, ≥ 20 caractères | ✅ | ✅ | des messages vides à traiter à la main |
+| message | **longueur maximale** (ex. 5 000) | ✅ | ✅ **obligatoire** | un message de 40 Mo, base saturée, service indisponible |
+| accepte | doit être coché | ✅ | ✅ | consentement non recueilli — un problème **juridique**, pas technique |
+| — | **pas plus de 5 envois par heure et par adresse IP** | ❌ impossible | ✅ | formulaire transformé en outil d'envoi massif |
+| — | **le contenu n'est pas du code exécutable** | ❌ insuffisant | ✅ | injection dans l'outil qui affiche les messages |
+
+Les quatre lignes marquées « impossible » côté client sont le vrai enseignement de ce tableau :
+ce sont des règles qui **ne peuvent pas** exister dans le navigateur, parce qu'elles supposent
+une connaissance ou une autorité que le client n'a pas — l'existence d'un domaine, l'historique
+des envois, la sécurité du stockage.
+
+La ligne de la longueur maximale est celle qu'on oublie le plus. Un `maxlength` côté client est
+confortable ; sans limite côté serveur, une seule requête peut saturer une base de données. Ce
+n'est pas une hypothèse d'école : c'est l'une des façons les plus simples de mettre un petit
+service à genoux.
+
+### Partie 5 — le parcours clavier
+
+Le parcours attendu, sur un formulaire correct :
+
+```
+Tab      → focus sur « Nom »          (le libellé est annoncé : « Nom, requis, zone de texte »)
+[saisie]
+Tab      → « Courriel »
+[saisie]
+Tab      → « Message »
+[saisie]
+Tab      → la case « J'accepte »
+Espace   → coche la case
+Tab      → bouton « Envoyer »
+Entrée   → soumet
+```
+
+Neuf étapes, aucune souris. Trois défauts fréquents à repérer :
+
+- **une étape supplémentaire inexpliquée** : le focus passe par un élément décoratif, en
+  général une icône rendue focusable par un `tabindex="0"` inutile ;
+- **la case ne réagit pas à Espace** : c'est un `<div>` déguisé, pas un `<input type="checkbox">` ;
+- **après une erreur, le focus reste sur le bouton** : l'utilisateur entend « le formulaire
+  contient des erreurs » et ne sait pas où elles sont. Le focus doit aller sur le **premier
+  champ invalide** :
+
+```js
+form.addEventListener('submit', (e) => {
+  if (!form.checkValidity()) {
+    e.preventDefault();
+    form.querySelector(':invalid')?.focus();   // amener l'utilisateur à l'erreur
+    form.reportValidity();
+  }
+});
+```
+
+Cette ligne unique change complètement l'expérience d'un formulaire long, et elle est presque
+toujours absente.
+
+### La mauvaise solution plausible
+
+Renforcer la validation client après avoir constaté les attaques : intercepter la soumission
+avec du JavaScript plus strict, vérifier le format du courriel avec une expression régulière
+plus élaborée, désactiver le bouton tant que tout n'est pas valide.
+
+Tout cela améliore le **confort**, et n'apporte rigoureusement rien à la sécurité :
+l'attaque 1 ne passe toujours pas par le formulaire. On a répondu à une objection de sécurité
+par du travail sur le confort, ce qui donne l'impression d'avoir traité le problème.
+
+Le détail du bouton désactivé mérite un mot : c'est un choix discutable même du point de vue du
+confort. Un bouton grisé sans explication laisse l'utilisateur sans indice sur ce qui manque.
+Un bouton actif qui, une fois cliqué, désigne le premier champ fautif est plus utile.
+
+### Généralisation
+
+La règle *le client pour le confort, le serveur pour la vérité* est un cas particulier d'un
+principe qui vaut partout : **la vérification doit être faite par la partie qui a un intérêt à
+ce qu'elle soit faite.**
+
+Un client mobile, un script, un partenaire qui appelle ton API, une bibliothèque tierce
+intégrée à ton produit : tous sont « côté client » au sens de ce principe, et aucun ne peut
+porter une garantie. Chaque fois que tu écris une vérification, pose la question : *qui
+l'exécute, et cette personne a-t-elle une raison de la laisser en place ?* Si la réponse est
+« pas nécessairement », la vérification est un confort, et la garantie doit exister ailleurs.
+
 ## Mini-exercice
-Construis un formulaire de contact (nom requis ≥ 2 caractères, e-mail requis, message requis) : chaque
-champ a un `<label>` associé, un `type` adapté et une contrainte native. Intercepte `submit`, utilise
-`checkValidity()`/`reportValidity()`, et affiche un message d'erreur relié par `aria-describedby`.
-Vérifie que tout se remplit et se soumet au clavier seul. Pratique associée : `web-greeting-form`,
-`web-card`.
+Sur un formulaire que tu as écrit, exécute `document.querySelector('form').noValidate = true` dans la
+console, puis soumets-le vide. Note ce qui part sur le réseau. C'est ce que ton serveur reçoit dans le
+pire des cas — et c'est donc ce qu'il doit savoir refuser.
 
 ## 📚 Vocabulaire
 **`<label>` associé** · **`type` d'input** · **validation native** (`required`/`pattern`/`min`) ·

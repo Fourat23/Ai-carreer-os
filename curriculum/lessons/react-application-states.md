@@ -296,12 +296,220 @@ Cette leçon assemble `/doc/lessons/react-fundamentals`, `/doc/lessons/react-hoo
 quatre états rejoint la gestion d'erreur robuste vue en hooks, et le raisonnement « état = machine »
 fait écho à `/doc/lessons/architecture-basics`.
 
+## 🛠️ Pratique — les états impossibles, et comment les rendre inexprimables
+
+**Contexte.** Voici l'état d'un écran de recherche, tel qu'on l'écrit spontanément :
+
+```jsx
+const [chargement, setChargement] = useState(false);
+const [erreur, setErreur] = useState(null);
+const [resultats, setResultats] = useState([]);
+```
+
+Trois variables indépendantes. Cette pratique consiste à démontrer, par le calcul, que cette
+forme est **fausse** — pas maladroite : fausse — puis à la corriger, puis à mesurer le gain.
+
+**Ta production, en cinq parties.**
+
+**1. Le dénombrement.** Combien d'états distincts ces trois variables peuvent-elles représenter ?
+Traite `chargement` comme un booléen, `erreur` comme *présente ou absente*, `resultats` comme
+*vide ou non vide*. Écris le calcul, pas seulement le résultat.
+
+**2. Le tableau de vérité.** Énumère **toutes** ces combinaisons. Pour chacune :
+`ce que ça signifie` · `possible ou impossible` · `si impossible, ce que l'utilisateur verrait
+si elle survenait`.
+
+Trois d'entre elles au moins sont des états que le produit ne doit jamais atteindre. Nomme-les.
+
+**3. La reformulation.** Réécris cet état sous une forme où les états impossibles ne sont plus
+**exprimables**. La contrainte : une seule variable d'état pour la requête, et le compilateur
+ou la structure doit rendre la faute impossible, pas seulement improbable. Compte les états
+représentables après reformulation.
+
+**4. Le rendu des quatre issues.** Écris le rendu correspondant. Les quatre issues doivent être
+**explicitement** traitées — chargement, vide, erreur, succès — et le vide doit être distingué
+de l'erreur. Pour chacune, écris en une phrase ce que l'utilisateur voit et **ce qu'il peut
+faire** : une erreur sans action possible est un cul-de-sac.
+
+**5. L'URL comme source de vérité.** Ajoute une vue détail. Deux versions à comparer :
+
+- **V1** : `const [idOuvert, setIdOuvert] = useState(null)` ;
+- **V2** : l'identifiant vit dans l'URL (`/recherche/detail/42`), la vue en est dérivée.
+
+Puis remplis ce tableau, en testant réellement les six situations sur ta V1 :
+
+| Situation | V1 (état local) | V2 (URL) |
+|---|---|---|
+| l'utilisateur actualise la page | | |
+| il copie le lien et l'envoie à un collègue | | |
+| il appuie sur « précédent » | | |
+| il ouvre le détail dans un nouvel onglet | | |
+| il met la page en favori | | |
+| tu veux reproduire un bug qu'il t'a signalé | | |
+
+**Critère de réussite.** (a) Ton dénombrement de la partie 1 est un calcul explicite ; (b) tu as
+nommé au moins trois combinaisons impossibles ; (c) après reformulation, le nombre d'états
+représentables est strictement égal au nombre d'états réels ; (d) le tableau de la partie 5 est
+rempli à partir d'essais, pas de suppositions.
+
+**Durée.** 45 à 60 minutes.
+
+## ✅ Correction
+
+### Partie 1 — le calcul
+
+```
+chargement : 2 valeurs (true, false)
+erreur     : 2 valeurs (présente, absente)
+resultats  : 2 valeurs (vide, non vide)
+
+2 × 2 × 2 = 8 états représentables
+```
+
+Combien d'états le produit possède-t-il réellement ? **Quatre** : on charge, c'est vide, ça a
+échoué, on a des résultats.
+
+**Huit représentables pour quatre réels.** Quatre combinaisons sur huit décrivent des situations
+qui ne devraient jamais exister — et pourtant le code peut les produire, parce que rien ne
+l'en empêche.
+
+C'est le cœur de cette pratique, et c'est un changement de regard : un état mal modélisé n'est
+pas « un peu lâche ». Il rend certains bugs **atteignables**. Le rapport 8/4 est la mesure
+exacte de la dette.
+
+### Partie 2 — le tableau de vérité
+
+| chargement | erreur | résultats | Signification | Verdict |
+|---|---|---|---|---|
+| `false` | absente | vide | rien n'est encore demandé, ou zéro résultat | **ambigu** |
+| `true` | absente | vide | chargement en cours | valide |
+| `false` | absente | non vide | succès | valide |
+| `false` | présente | vide | échec | valide |
+| `true` | **présente** | vide | « ça charge, et ça a échoué » | **impossible** |
+| `true` | absente | **non vide** | « ça charge, et voici les résultats » | **impossible** |
+| `true` | **présente** | **non vide** | les trois à la fois | **impossible** |
+| `false` | **présente** | **non vide** | « ça a échoué, et voici les résultats » | **impossible** |
+
+Quatre impossibles, et un cinquième cas — le premier — qui est le plus perfide de tous : il
+confond **« aucune recherche lancée »** et **« recherche lancée, zéro résultat »**. Ce sont
+deux situations que l'utilisateur vit très différemment, et qui produisent ici le même état.
+C'est la cause directe de l'écran vide sans explication, où l'on ne sait pas si le formulaire
+a fonctionné.
+
+Ce que verrait l'utilisateur si les impossibles survenaient :
+
+- `chargement + erreur` : un indicateur de chargement qui tourne indéfiniment **par-dessus** un
+  message d'erreur. On voit ça régulièrement en production, et c'est la signature exacte de ce
+  défaut de modélisation ;
+- `erreur + résultats` : un message « une erreur est survenue » au-dessus d'une liste de
+  données parfaitement valides. L'utilisateur ne sait pas s'il peut se fier à ce qu'il lit.
+
+Et ces états surviennent réellement : il suffit d'une erreur suivie d'une nouvelle recherche
+qui réussit, sans que `setErreur(null)` ait été appelé. Un oubli d'une ligne, et l'écran ment.
+
+### Partie 3 — rendre l'impossible inexprimable
+
+```ts
+type EtatRecherche =
+  | { statut: 'inactif' }
+  | { statut: 'chargement' }
+  | { statut: 'erreur'; message: string }
+  | { statut: 'succes'; resultats: Produit[] };
+
+const [etat, setEtat] = useState<EtatRecherche>({ statut: 'inactif' });
+```
+
+**Quatre états représentables, quatre états réels.** Le rapport est de 1 à 1.
+
+Trois propriétés valent d'être remarquées :
+
+- `message` n'existe **que** dans la branche erreur, et `resultats` **que** dans la branche
+  succès. Écrire `etat.resultats` sans avoir vérifié `etat.statut === 'succes'` est refusé par
+  le compilateur. Ce n'est plus une convention à respecter : c'est mécaniquement impossible ;
+- `'inactif'` est distinct de `'succes'` avec zéro résultat. L'ambiguïté du premier cas
+  disparaît ;
+- il n'y a **plus rien à remettre à zéro**. Chaque transition remplace l'état entier, donc
+  aucun résidu d'un état précédent ne peut subsister. L'oubli de `setErreur(null)` n'existe
+  plus, parce que la ligne n'existe plus.
+
+Ce motif porte un nom, *l'union discriminée* : plusieurs formes possibles, distinguées par un
+champ commun — ici `statut`. C'est l'outil standard pour modéliser « une chose parmi
+plusieurs ».
+
+Quand les transitions se compliquent — annulation, nouvelle tentative, pagination — on passe à
+`useReducer`, qui garde ce même type d'état mais centralise les transitions en un endroit
+lisible : `dispatch({ type: 'echec', message })` au lieu de trois setters éparpillés dans des
+gestionnaires.
+
+### Partie 4 — les quatre issues, et ce qu'on peut faire
+
+| Statut | Ce que l'utilisateur voit | Ce qu'il peut faire |
+|---|---|---|
+| `inactif` | « Saisissez un terme pour lancer la recherche » | taper |
+| `chargement` | une structure grise à la place des résultats | attendre, ou annuler |
+| `erreur` | « La recherche n'a pas abouti » + le motif si connu | **réessayer** |
+| `succes`, 0 résultat | « Aucun résultat pour *lampe* » + une suggestion | modifier sa recherche |
+| `succes`, n résultats | la liste | consulter |
+
+Le point qu'on rate le plus souvent est la troisième ligne. Un message d'erreur sans bouton
+« Réessayer » laisse l'utilisateur devant un mur : sa seule option est d'actualiser la page,
+ce qui perd sa saisie. Une issue non heureuse doit toujours proposer une sortie.
+
+Le cinquième cas — succès avec zéro résultat — mérite le mot exact tapé par l'utilisateur dans
+le message. « Aucun résultat » est correct ; « Aucun résultat pour *lampe de bureau* » lui
+apprend en plus que sa recherche a bien été prise en compte, et lui rappelle ce qu'il a
+cherché.
+
+### Partie 5 — l'URL
+
+| Situation | V1 (état local) | V2 (URL) |
+|---|---|---|
+| actualise la page | le détail se referme, retour à la liste | le détail est toujours ouvert |
+| copie le lien | le collègue arrive sur la liste | le collègue arrive sur le bon détail |
+| bouton « précédent » | quitte la page entière, ou ne fait rien | referme le détail |
+| ouvre dans un nouvel onglet | impossible, il n'y a rien à ouvrir | fonctionne |
+| met en favori | le favori pointe la liste | le favori pointe le détail |
+| reproduire un bug signalé | il faut demander la suite de clics | il suffit de l'URL |
+
+La dernière ligne est celle qu'on ne mentionne jamais et qui coûte le plus cher en équipe. Un
+état qui vit dans l'URL est un état **communicable** : un rapport de bug tient dans un lien, un
+test automatique se positionne directement sur le cas, un collègue vérifie en trois secondes.
+Un état local n'est reproductible que par la description d'un parcours, que personne ne rédige
+correctement.
+
+**La règle :** si un état décrit *ce que l'utilisateur regarde* — quelle page, quel élément
+ouvert, quel filtre, quel onglet, quelle page de pagination — il appartient à l'URL. S'il
+décrit *ce qu'il est en train de faire* — le contenu d'un champ pas encore validé, un menu
+déroulant ouvert, la position d'un curseur — il reste local.
+
+### La mauvaise solution plausible
+
+Garder les trois booléens et ajouter des garde-fous : un `useEffect` qui remet `erreur` à
+`null` dès que `resultats` change, un `if` qui masque le chargement quand une erreur est
+présente.
+
+Ça fonctionne — jusqu'à la prochaine transition qu'on ajoute sans penser au garde-fou. On a
+préservé les huit états représentables et ajouté du code dont le seul rôle est d'en interdire
+quatre à l'exécution. C'est plus de code pour un résultat moins sûr.
+
+Le principe général : **quand un état ne doit pas exister, la bonne réponse est de le rendre
+inexprimable, pas de le surveiller.** Un garde-fou peut être oublié ; un type ne peut pas.
+
+### Généralisation
+
+Le dénombrement de la partie 1 — *combien d'états mon modèle peut-il représenter, combien
+existent vraiment* — s'applique bien au-delà de React. Une table de base de données avec quatre
+colonnes nullables représente seize combinaisons dont douze sont peut-être absurdes. Un fichier
+de configuration avec cinq drapeaux booléens indépendants en représente trente-deux, dont on
+n'en teste jamais que trois.
+
+Chaque fois que ce rapport est supérieur à 1, l'écart mesure le nombre de bugs que le modèle
+**autorise**. Les réduire n'est pas de l'élégance : c'est enlever de la place aux erreurs.
+
 ## Mini-exercice
-Reprends une liste chargée depuis une API. (1) Transforme son état de requête en `useReducer`
-(actions `search`/`ok`/`error`). (2) Affiche EXPLICITEMENT les quatre états (chargement, vide, erreur
-avec bouton réessayer, succès). (3) Ajoute (conceptuellement) une route `/detail/:id` et fais dériver
-la vue de l'URL, pas d'un `useState`. Pratique associée : `react-search`, `react-parent-child`,
-playbook `frontend-regression`.
+Prends un écran de ton projet et compte : combien d'états ton modèle peut-il représenter (le produit
+des valeurs possibles de chaque variable d'état), et combien en existe-t-il réellement ? Si le
+rapport dépasse 1, nomme une combinaison impossible que ton code peut pourtant produire.
 
 ## 📚 Vocabulaire
 **routing** · **URL comme source de vérité** · **`useReducer`** · **action / `dispatch`** ·

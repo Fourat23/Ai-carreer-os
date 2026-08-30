@@ -459,6 +459,12 @@ laquelle a agi) et **nommer le coût permanent** (sinon on ne compte que le gain
 qui exige ces deux points sur chaque optimisation n'accumule pas de complexité inutile ; une
 équipe qui ne les exige pas en accumule à chaque sprint.
 
+## Mini-exercice
+Cherche `useMemo` et `memo` dans ton projet. Pour la première occurrence trouvée, réponds à deux
+questions sans exécuter quoi que ce soit : quelle mesure a justifié son ajout, et quelle prop non
+stable pourrait l'annuler aujourd'hui ? Si tu ne peux répondre à la première, tu viens de trouver une
+optimisation non mesurée.
+
 ## 📚 Vocabulaire
 **profiling / mesure** · **chargement vs exécution** · **re-rendu inutile** · **`useMemo`/`useCallback`/`memo`**
 · **code splitting / lazy loading** · **poids d'image / `loading="lazy"`** · **cache** · **performance

@@ -200,7 +200,7 @@ Voici ce que l'écran contient, dans l'ordre d'affichage :
 | 6 | Notes internes | Texte long, éditorial, identique pour tous les utilisateurs |
 | 7 | Widget « Aide » | Bulle qui s'ouvre et se ferme au clic |
 
-**Ta production.** Un tableau à cinq colonnes, une ligne par morceau :
+**Ta production.** Écris un tableau à cinq colonnes, une ligne par morceau :
 
 `morceau` · `serveur / client / coupé en deux` · `la question de la règle qui tranche (1, 2 ou 3)` ·
 `si client ou coupé : quelles props sérialisables traversent la frontière` · `ce qui ne doit

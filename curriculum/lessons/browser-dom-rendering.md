@@ -289,11 +289,170 @@ n'est que l'automatisation du cycle événement → état → DOM que tu viens d
 L'accessibilité (`/doc/lessons/react-accessibility`) part du HTML sémantique introduit ici.
 Et toute interface de tes apps LLM (mois 8+) s'affiche via ce même DOM.
 
-## Mini-exercice
-Sans framework : une liste de courses. Un champ + un bouton « Ajouter » qui insère un `<li>`
-dans un `<ul>` (crée le nœud avec `createElement`), et un compteur « N articles » qui se met
-à jour à chaque ajout. Puis compte combien d'endroits du DOM tu dois penser à mettre à jour
-— c'est la motivation de la prochaine leçon.
+## 🛠️ Pratique — la liste de courses, et le compte des endroits à ne pas oublier
+
+**Contexte.** Tu vas écrire une petite application **sans aucune bibliothèque** : un fichier
+HTML, du JavaScript, rien d'autre. Le but n'est pas d'apprendre à s'en passer — c'est de
+**mesurer soi-même** le problème que les bibliothèques d'interface résolvent. Tant qu'on n'a
+pas compté, on prend React pour une mode ; après avoir compté, on comprend ce qu'on achète.
+
+**Étape 1 — construis la version qui marche.**
+
+Une liste de courses avec :
+
+- un champ de saisie et un bouton « Ajouter » — un article s'ajoute à la liste ;
+- chaque ligne a une case à cocher « acheté » et un bouton « Supprimer » ;
+- un compteur en haut : « 3 articles, 1 acheté » ;
+- un bouton « Vider les achetés », désactivé quand aucun ne l'est ;
+- un message « Votre liste est vide » quand il n'y a rien.
+
+Contraintes : les nœuds sont créés avec `document.createElement`, le texte est inséré avec
+`textContent` — **jamais** avec `innerHTML` à partir d'une saisie utilisateur — et les
+écouteurs sont posés avec `addEventListener`.
+
+**Étape 2 — dénombre, et c'est ta production principale.**
+
+Écris la **matrice de synchronisation** : les actions en lignes, les endroits du DOM à mettre à
+jour en colonnes, une croix à chaque intersection.
+
+| Action \ Endroit | liste | compteur total | compteur achetés | bouton Vider | message vide |
+|---|---|---|---|---|---|
+| ajouter un article | | | | | |
+| cocher « acheté » | | | | | |
+| décocher | | | | | |
+| supprimer un article | | | | | |
+| vider les achetés | | | | | |
+
+Puis trois nombres :
+- **N** = le total de croix, c'est-à-dire le nombre de mises à jour que tu dois écrire **et
+  ne jamais oublier** ;
+- **C** = le nombre de lignes de code consacrées à ces mises à jour ;
+- **T** = le nombre de lignes consacrées à la *logique* (ajouter, cocher, supprimer).
+
+Le rapport `C / T` est le résultat de l'exercice.
+
+**Étape 3 — casse-le exprès.** Retire **une seule** croix de ta matrice : supprime la mise à
+jour correspondante dans le code. Décris précisément ce que voit l'utilisateur. Puis remets-la.
+
+Fais-le pour trois croix différentes, dont au moins une qui produit une incohérence
+**silencieuse** — l'écran affiche une information fausse sans que rien ne signale un problème.
+
+**Étape 4 — la réécriture mentale.** Sans l'écrire, décris en dix lignes comment la même
+application se structure avec une bibliothèque qui redessine à partir de l'état. Combien de
+croix la matrice contient-elle alors ? Quelle est la nouvelle valeur de `C` ?
+
+**Critère de réussite.** (a) L'application marche vraiment, tous les cas compris ; (b) la
+matrice est remplie à partir de ton code, pas de ton intention ; (c) `N` est un nombre à deux
+chiffres — si tu obtiens moins de 10, tu as oublié des croix ; (d) l'étape 3 comporte une
+incohérence silencieuse décrite précisément.
+
+**Durée.** 90 minutes environ. C'est la pratique la plus longue du lot, et la seule qui
+justifie tout ce qui suit dans le programme.
+
+## ✅ Correction
+
+### La matrice attendue
+
+| Action \ Endroit | liste | total | achetés | bouton Vider | message vide |
+|---|---|---|---|---|---|
+| ajouter | ✕ | ✕ | | ✕ | ✕ |
+| cocher | ✕ | | ✕ | ✕ | |
+| décocher | ✕ | | ✕ | ✕ | |
+| supprimer | ✕ | ✕ | ✕ | ✕ | ✕ |
+| vider les achetés | ✕ | ✕ | ✕ | ✕ | ✕ |
+
+**N = 21.** Vingt et une mises à jour à écrire, pour une application de cinq actions et cinq
+zones d'affichage.
+
+Deux remarques sur ce tableau.
+
+**Il croît en produit, pas en somme.** Cinq actions et cinq zones donnent jusqu'à 25 croix.
+Ajouter une sixième zone — un total en euros, un filtre « masquer les achetés » — n'ajoute pas
+une ligne de code : elle en ajoute **cinq**, une par action. C'est ce qui explique la sensation
+bien connue qu'une application sans structure devient exponentiellement pénible : le coût d'une
+fonctionnalité dépend de tout ce qui existe déjà.
+
+**Certaines croix sont contre-intuitives.** « Cocher un article » doit mettre à jour le bouton
+« Vider les achetés » — parce qu'il passe de désactivé à actif au premier article coché. Peu de
+gens la placent du premier coup, et c'est exactement le genre de croix qu'on oublie dans du
+vrai code.
+
+Le rapport typique mesuré : **`C / T` entre 2 et 4**. Autrement dit, deux à quatre fois plus de
+code pour *tenir l'écran à jour* que pour *faire ce que l'application fait*. La logique métier
+— ajouter un élément à un tableau, changer un booléen — tient en quelques lignes ; tout le reste
+est de la synchronisation.
+
+### Étape 3 — les trois pannes
+
+**Croix retirée : « supprimer » → compteur total.** L'utilisateur supprime un article ; il
+disparaît de la liste, et le compteur affiche toujours « 4 articles » alors qu'il en reste
+trois. C'est une incohérence **visible** : elle se voit tout de suite, on la corrige.
+
+**Croix retirée : « cocher » → bouton Vider.** L'utilisateur coche son premier article ; le
+bouton « Vider les achetés » reste grisé. Il ne comprend pas pourquoi, essaie de cliquer,
+abandonne. Rien n'est faux à l'écran — c'est une **fonctionnalité devenue inaccessible**, ce
+qui n'est jamais signalé par un utilisateur autrement que par « votre truc ne marche pas ».
+
+**Croix retirée : « vider les achetés » → compteur achetés.** C'est l'incohérence
+**silencieuse** demandée. La liste se vide correctement, le total se met à jour, et le compteur
+d'achetés continue d'afficher « 2 achetés » alors qu'il n'en reste aucun. Aucune erreur, aucune
+alerte, un écran plausible qui affiche une donnée fausse.
+
+C'est la catégorie la plus coûteuse : personne ne la signale, parce que personne ne la remarque.
+Elle se découvre des mois plus tard, quand quelqu'un se fie au chiffre.
+
+### Pourquoi c'est structurellement inévitable
+
+Le défaut n'est pas dans ton code. Il est dans la **méthode** : tu décris à la machine
+*comment passer d'un écran au suivant*, action par action. C'est ce qu'on appelle
+l'impératif.
+
+Le problème de l'impératif appliqué à une interface : le nombre de transitions à décrire est
+le produit du nombre d'actions par le nombre de zones, et il n'existe aucun mécanisme pour
+signaler qu'il t'en manque une. Un oubli ne produit ni erreur de compilation, ni exception, ni
+test rouge — seulement un écran légèrement faux.
+
+### Étape 4 — ce que change l'approche déclarative
+
+Avec une bibliothèque qui redessine l'écran à partir de l'état, on n'écrit plus les
+transitions. On écrit **deux choses** :
+
+1. l'état : `articles = [{ nom, achete }]` ;
+2. à quoi ressemble l'écran **pour un état donné** : la liste, `articles.length` articles,
+   `articles.filter(a => a.achete).length` achetés, le bouton actif si ce nombre est supérieur
+   à zéro, le message si le tableau est vide.
+
+Les actions se contentent alors de modifier l'état. Rien d'autre.
+
+**La matrice contient zéro croix.** Non pas parce que le travail a disparu — la bibliothèque le
+fait — mais parce qu'il n'est plus **à ta charge**, donc plus oubliable. `C` tombe à zéro ligne
+de synchronisation ; il ne reste que `T`, la logique.
+
+C'est cela qu'on achète, et c'est la seule bonne raison d'adopter une bibliothèque
+d'interface : **supprimer une classe entière de bugs en supprimant le code qui les portait.**
+Pas « c'est plus moderne », pas « c'est ce qu'on demande en entretien ». Vingt et une occasions
+d'erreur ramenées à zéro.
+
+### Ce que cette pratique ne dit pas
+
+Elle ne dit pas qu'il ne faut jamais manipuler le DOM directement. Pour une page statique avec
+un menu qui s'ouvre, vingt lignes de JavaScript sont une meilleure réponse qu'une bibliothèque
+de 40 kilo-octets — la matrice y contient deux croix.
+
+Le seuil n'est pas la taille de la page, c'est le **nombre de zones qui dépendent d'un même
+état**. Une zone, aucun problème. Cinq, la matrice devient ingérable. C'est le calcul que tu
+viens de faire, et c'est celui qui répond à « ai-je besoin de ça ici ? ».
+
+### Généralisation
+
+Cette matrice est un outil, pas un exercice. Elle se dessine dès que plusieurs endroits doivent
+refléter une même vérité : plusieurs caches à invalider, plusieurs tables dénormalisées à
+tenir cohérentes, plusieurs services qui recopient une donnée maîtresse.
+
+Et la conclusion est toujours la même : **chaque copie d'une vérité est une occasion de
+diverger**. On ne les supprime pas toutes — parfois la copie est nécessaire — mais on doit les
+avoir comptées, parce que le nombre de croix de la matrice est le nombre d'endroits où le
+système peut se mettre à mentir.
 
 ## 📚 Vocabulaire
 **HTML / balise** · **CSS / sélecteur** · **DOM** · **nœud** · **`querySelector`** ·

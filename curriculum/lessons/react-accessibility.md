@@ -498,6 +498,11 @@ La compétence commune s'appelle **changer de conditions d'observation**, et c'e
 rares qui distingue durablement un développeur expérimenté : il sait que son environnement de
 travail est le moins représentatif de tous ceux où son produit va tourner.
 
+## Mini-exercice
+Sur la page que tu as sous les yeux, appuie sur Tab cinq fois. À chaque arrêt, réponds à deux
+questions : est-ce que je vois où je suis, et est-ce que je saurais dire ce que fait cet élément sans
+regarder autour ? Note le premier arrêt où la réponse est non.
+
 ## 📚 Vocabulaire
 **accessibilité (a11y)** · **HTML sémantique** · **nom accessible** · **texte alternatif
 (`alt`)** · **`<label>`** · **focus / ordre de tabulation** · **`tabindex` (0 / -1)** ·

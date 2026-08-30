@@ -7,7 +7,7 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **prochaine action EXACTE** : CP3 — lot 3/16 (day-051 : api-design-basics, api-production-contracts, express-backend, error-handling, sql-foundations, database-modeling, technical-storytelling, authentication). Lire les 128 leçons par lots de 8,
+- **prochaine action EXACTE** : CP3 — lot 6/16 (monitoring-production, observability-fundamentals, observability-logging, slo-error-budget, caching-performance, technical-debt, python-foundations, portfolio-github).
   noter D1→D14 selon `V71-ACADEMIC-CONTRACT-FROZEN.md`, alimenter
   `docs/v71/LEDGER-128.json` après chaque lot, committer par lot.
 
@@ -40,11 +40,11 @@
 
 ## Avancement de la notation
 
-- leçons réellement lues : **16 / 128**
-- notations D1→D14 complètes : **16 / 128**
+- leçons réellement lues : **40 / 128**
+- notations D1→D14 complètes : **40 / 128**
 - P0 ouverts : **0**
 - P1 ouverts : **0**
-- P2 ouverts : **2**
+- P2 ouverts : **3**
 
 ## Lots
 

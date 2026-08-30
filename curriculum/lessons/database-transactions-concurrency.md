@@ -92,20 +92,154 @@ durabilité) · anomalies (dirty read, non-repeatable read, lost update, phantom
 d'isolation (Read Committed → Serializable) · verrou pessimiste vs optimiste · interblocage
 (deadlock) · granularité (transactions courtes).
 
-## 🧭 Exemple guidé
-Réserver le dernier siège sans double réservation :
-```sql
-BEGIN;                                            -- ouvre la transaction
--- Verrou pessimiste : personne d'autre ne peut modifier cette ligne jusqu'au COMMIT.
-SELECT places_restantes FROM vols WHERE id = 7 FOR UPDATE;
--- (l'application vérifie : places_restantes > 0 ?)
-UPDATE vols SET places_restantes = places_restantes - 1 WHERE id = 7;
-INSERT INTO reservations (vol_id, client_id) VALUES (7, 42);
-COMMIT;                                            -- tout devient permanent, d'un coup
+## 🧭 Exemple guidé — 100 − 30 − 50 = 50, et les trois façons d'obtenir 20
+
+La concurrence est le domaine où « ça marche chez moi » est le plus trompeur : seul, tout
+fonctionne, toujours. Le défaut n'apparaît que lorsque deux choses arrivent en même temps —
+c'est-à-dire en production, rarement, et de façon irreproductible.
+
+Alors provoquons-le exprès, et regardons le nombre.
+
+> Les quatre résultats de cette section sont **mesurés** : le script
+> `scripts/v70-verifications/sql-mise-a-jour-perdue.mjs` ouvre deux connexions sur une vraie
+> base, entrelace leurs opérations à la main et imprime le solde obtenu.
+
+### Le décor
+
+Un compte avec **100 €**. Deux opérations simultanées : A retire 30, B retire 50. La réponse
+attendue est **20**, et il n'y a pas de débat là-dessus.
+
+### A. Le code que tout le monde écrit
+
+```js
+const compte = await db.get('SELECT solde FROM comptes WHERE id = 1');   // lit 100
+const nouveau = compte.solde - montant;                                   // calcule
+await db.run('UPDATE comptes SET solde = ? WHERE id = 1', nouveau);       // écrit
 ```
-Le `FOR UPDATE` sérialise les réservations concurrentes sur ce vol : la seconde transaction
-attend la première et voit alors `places_restantes` à jour. Sans cela, deux clients
-réserveraient le même dernier siège (mise à jour perdue).
+
+Lire, calculer, écrire. C'est lisible, testable, et faux.
+
+```
+attendu : 20   |   obtenu : 50   ← MISE À JOUR PERDUE
+```
+
+Déroulons ce qui s'est passé, ligne à ligne :
+
+| Temps | A | B | Solde en base |
+|---|---|---|---|
+| 1 | lit **100** | | 100 |
+| 2 | | lit **100** | 100 |
+| 3 | écrit `100 − 30 = 70` | | 70 |
+| 4 | | écrit `100 − 50 = 50` | **50** |
+
+Le retrait de A a **disparu**. Pas échoué : disparu. Aucune erreur, aucune exception, aucun
+journal. Le client a bien reçu « retrait effectué », et l'argent est toujours là.
+
+C'est ce qu'on appelle une **mise à jour perdue**, et c'est le défaut de concurrence
+fondamental. Sa cause tient en une phrase : **B a pris sa décision à partir d'une valeur
+devenue périmée entre le moment où il l'a lue et le moment où il a écrit.**
+
+Note que ce n'est pas un problème de vitesse. L'intervalle entre les lignes 2 et 4 peut être
+d'une milliseconde ; il suffit qu'il existe.
+
+### B. La correction la plus simple : ne pas lire
+
+```sql
+UPDATE comptes SET solde = solde - 30 WHERE id = 1;
+```
+
+```
+attendu : 20   |   obtenu : 20
+```
+
+Une seule instruction, et le problème s'évapore. Pourquoi ? Parce qu'il n'y a plus d'intervalle
+entre la lecture et l'écriture : la base lit `solde` et écrit `solde - 30` **à l'intérieur de
+la même opération**, qu'elle garantit atomique. Aucun tiers ne peut s'intercaler.
+
+C'est la réponse à privilégier chaque fois qu'elle est possible, parce qu'elle ne demande ni
+transaction, ni verrou, ni nouvelle tentative. La règle à retenir : **quand la nouvelle valeur
+se déduit de l'ancienne, exprime-la en SQL au lieu de la calculer dans ton code.**
+
+Sa limite est réelle : elle ne convient qu'aux opérations exprimables en une instruction. Dès
+qu'il faut **décider** — « retirer 30 seulement si le solde le permet », « réserver le dernier
+siège puis créer la réservation » — il faut autre chose.
+
+### C. Le verrou : la transaction pessimiste
+
+```sql
+BEGIN IMMEDIATE;                                        -- je prends le verrou d'écriture
+SELECT solde FROM comptes WHERE id = 1;                 -- je lis, protégé
+-- l'application vérifie : solde >= 30 ?
+UPDATE comptes SET solde = ? WHERE id = 1;
+COMMIT;                                                 -- je relâche
+```
+
+Mesure : pendant que A tient le verrou, la tentative de B est **refusée** (`ERR_SQLITE_ERROR`).
+B rejoue après, et le solde final est **20**.
+
+Le principe est de supposer le conflit **probable** et de l'empêcher : personne d'autre ne
+touche à cette ligne tant que je n'ai pas fini. C'est ce que fait `SELECT … FOR UPDATE` sur
+PostgreSQL ou MySQL, avec la même intention.
+
+Le prix est réel, et il faut le connaître :
+
+- pendant le verrou, les autres **attendent** — le débit chute si la transaction est longue ;
+- une transaction qui englobe un appel réseau (paiement, courriel, appel à un tiers) tient le
+  verrou pendant toute la latence de ce tiers. C'est l'une des causes les plus fréquentes de
+  blocage généralisé en production ;
+- deux transactions qui verrouillent deux lignes dans des ordres opposés peuvent s'attendre
+  mutuellement — un **interblocage**, que la base tranche en tuant l'une des deux.
+
+D'où la discipline : **une transaction contient des accès à la base, et rien d'autre.** Les
+appels externes se font avant, ou après.
+
+### D. La version : le verrouillage optimiste
+
+```sql
+UPDATE comptes SET solde = ?, version = version + 1
+ WHERE id = 1 AND version = ?;      -- ← la version que j'avais lue
+```
+
+Mesure — le nombre de lignes réellement modifiées :
+
+```
+A = 1 ligne modifiée      B = 0 ligne modifiée
+```
+
+Cette ligne à `0` est tout le mécanisme. B a lu la version 1, A a commis entre-temps et l'a
+fait passer à 2 : la condition `version = 1` ne correspond plus à rien, l'`UPDATE` ne modifie
+**aucune** ligne. B l'apprend par ce zéro, relit, et rejoue. Solde final : **20**.
+
+Le principe est inverse du précédent : on suppose le conflit **rare**, on ne verrouille rien,
+et on **détecte** l'écrasement au moment d'écrire. D'où le nom d'optimiste.
+
+Le point à ne pas manquer : **ce mécanisme n'existe que si l'application vérifie le nombre de
+lignes modifiées.** Un code qui lance l'`UPDATE` sans regarder ce qu'il retourne a exactement
+le comportement de la version A — il croira avoir réussi. La protection n'est pas dans le SQL,
+elle est dans le fait de lire la réponse.
+
+### Choisir
+
+| Situation | Réponse |
+|---|---|
+| la nouvelle valeur se déduit de l'ancienne | **B** — un seul `UPDATE` atomique |
+| il faut décider entre lire et écrire, conflits fréquents | **C** — transaction avec verrou |
+| il faut décider, conflits rares, ou un humain édite un formulaire | **D** — version optimiste |
+
+Le cas de l'humain mérite un mot : quand quelqu'un ouvre un formulaire d'édition, réfléchit
+trois minutes et enregistre, un verrou pessimiste est exclu — on ne bloque pas une ligne
+pendant trois minutes. La version optimiste donne exactement le bon comportement : « cette
+fiche a été modifiée par quelqu'un d'autre pendant votre saisie », ce qui est bien plus
+honnête qu'un écrasement silencieux.
+
+### La limite de cette démonstration, déclarée
+
+Elle est menée sur SQLite, qui sérialise les écritures au niveau du fichier. Sur PostgreSQL ou
+MySQL, les **mécanismes** sont identiques — mise à jour perdue, écriture atomique, verrou,
+version — mais les niveaux d'isolation, les erreurs renvoyées et la granularité des verrous
+diffèrent. Ce qu'il faut retenir n'est pas un code d'erreur : c'est que **lire puis écrire est
+faux dès qu'on est deux**, et qu'il existe trois façons différentes d'y remédier selon ce
+qu'on a le droit de supposer sur la fréquence des conflits.
 
 ## ⚠️ Erreurs fréquentes
 - Opérations liées (argent, stock) HORS transaction → incohérence à la première panne.

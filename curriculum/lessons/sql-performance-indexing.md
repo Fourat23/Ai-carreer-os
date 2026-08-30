@@ -83,21 +83,176 @@ Parcours complet (full scan) vs recherche indexée · plan d'exécution (`EXPLAI
 mono/multi-colonnes · préfixe d'index · coût des index (espace + écritures) · N+1 (détection
 et correction par requête groupée) · pagination par décalage vs par curseur · index couvrant.
 
-## 🧭 Exemple guidé
-Diagnostiquer puis corriger, sans deviner :
+## 🧭 Exemple guidé — 200 000 lignes, cinq requêtes, et le plan qui explique tout
+
+On ne devine pas la performance d'une requête : on demande à la base ce qu'elle compte faire,
+puis on chronomètre. Faisons-le sur une vraie table.
+
+> Tout ce qui suit est **mesuré**, pas illustratif : le script
+> `scripts/v70-verifications/sql-index-et-plan.mjs` crée une base SQLite de **200 000
+> commandes**, exécute chaque requête et imprime son plan et sa durée. Les valeurs absolues
+> dépendent de la machine ; les plans et les rapports, non.
+
+### Le décor
+
 ```sql
--- 1) La requête est lente. On demande le plan AVANT de toucher quoi que ce soit.
-EXPLAIN SELECT * FROM commandes WHERE client_id = 42 ORDER BY date DESC;
---    → "SEQ SCAN on commandes"  ← elle lit toute la table : index manquant.
-
--- 2) On pose l'index qui sert le filtre ET le tri.
-CREATE INDEX idx_commandes_client_date ON commandes(client_id, date);
-
--- 3) On re-mesure : le plan doit maintenant montrer un INDEX SCAN, et le temps chuter.
-EXPLAIN SELECT * FROM commandes WHERE client_id = 42 ORDER BY date DESC;
+CREATE TABLE commandes (
+  id        INTEGER PRIMARY KEY,
+  client_id INTEGER NOT NULL,
+  statut    TEXT    NOT NULL,     -- payee, en_attente, annulee, remboursee
+  email     TEXT    NOT NULL,
+  montant   REAL    NOT NULL,
+  creee_le  TEXT    NOT NULL
+);
 ```
-La démarche est TOUJOURS : mesurer (plan) → agir (index ciblé) → re-mesurer. Jamais « poser
-des index au hasard ».
+
+Et la requête qui nous intéresse, celle d'une page « mes commandes payées » :
+
+```sql
+SELECT id, montant FROM commandes WHERE client_id = ? AND statut = ?;
+```
+
+### Sans index
+
+```
+plan  : SCAN commandes
+durée : 7,819 ms
+```
+
+`SCAN` est le mot à reconnaître : la base **lit les 200 000 lignes**, une par une, et jette
+celles qui ne correspondent pas. Elle en garde une poignée. Le travail est proportionnel à la
+taille de la table — donc il double quand la table double, et cette requête sera huit fois plus
+lente quand tu auras 1,6 million de commandes.
+
+Note qu'à 7,8 ms, **rien ne semble anormal** en développement. C'est tout le problème des
+requêtes non indexées : elles ne font pas mal tout de suite.
+
+### Avec l'index qui correspond
+
+```sql
+CREATE INDEX idx_cmd_client_statut ON commandes(client_id, statut);
+```
+
+```
+plan  : SEARCH commandes USING INDEX idx_cmd_client_statut (client_id=? AND statut=?)
+durée : 0,012 ms
+```
+
+**652 fois plus rapide**, et le plan a changé de verbe : `SEARCH` au lieu de `SCAN`. C'est la
+seule chose à lire dans un plan d'exécution quand on débute — *cherche-t-elle, ou parcourt-elle ?*
+
+Et ce n'est pas seulement « plus rapide » : c'est **d'un autre ordre de complexité**. Un index
+est un arbre trié ; y trouver une valeur coûte à peu près le logarithme du nombre de lignes.
+Passer de 200 000 à 1,6 million de commandes ajoutera trois comparaisons, pas 1,4 million de
+lectures.
+
+### Trois requêtes où l'index existe et ne sert à rien
+
+C'est ici que se joue la vraie compétence. L'index est là, il est correct, et pourtant :
+
+**1. Une fonction appliquée à la colonne.**
+
+```sql
+SELECT id FROM commandes WHERE lower(email) = 'client1@exemple.fr';
+```
+```
+plan  : SCAN commandes        durée : 21,728 ms
+```
+
+L'index contient `email`, pas `lower(email)`. Pour savoir si `lower(email)` vaut quelque
+chose, il faut calculer `lower` sur **chaque ligne** — donc les lire toutes. Toute
+transformation de la colonne dans la clause `WHERE` — `lower()`, `date()`, une concaténation,
+un `CAST` — désactive l'index.
+
+La parade : transformer la **valeur cherchée** plutôt que la colonne (stocker l'e-mail déjà
+normalisé et comparer directement), ou créer un index sur l'expression quand la base le
+permet.
+
+**2. Un motif ouvert à gauche.**
+
+```sql
+SELECT id FROM commandes WHERE email LIKE '%@Exemple.fr';
+```
+```
+plan  : SCAN commandes        durée : 180,389 ms
+```
+
+Un index est un annuaire trié : il sait répondre à « les mots qui commencent par… ». Il ne sait
+pas répondre à « les mots qui finissent par… », exactement comme un annuaire papier ne permet
+pas de chercher les gens dont le nom finit par « ski ». Un `%` en tête interdit l'index.
+
+**3. La deuxième colonne d'un index composé, seule.**
+
+```sql
+SELECT id FROM commandes WHERE statut = 'payee';
+```
+```
+plan  : SCAN commandes USING COVERING INDEX idx_cmd_client_statut     durée : 32,916 ms
+```
+
+C'est le cas le plus contre-intuitif, et le plus fréquent en entretien. L'index
+`(client_id, statut)` **contient** bien la colonne `statut` — et il ne peut pas servir à la
+chercher seule.
+
+L'analogie qui règle la question définitivement : un annuaire trié par **nom puis prénom**
+permet de trouver « Berger, Lina » instantanément, et ne sert à rien pour trouver « tous les
+Lina ». L'ordre est *nom d'abord* ; sans le nom, la position du prénom est inconnue.
+
+C'est la **règle du préfixe gauche** : un index `(a, b, c)` sert les recherches sur `a`,
+sur `(a, b)`, sur `(a, b, c)` — jamais sur `b` seul ni sur `(b, c)`.
+
+Remarque le plan tout de même : `SCAN … USING COVERING INDEX`. La base parcourt quand même
+l'index plutôt que la table, parce qu'il est plus petit et qu'il contient déjà les colonnes
+demandées. C'est une consolation, pas une recherche : le verbe reste `SCAN`.
+
+### Ce que l'index coûte, parce qu'il coûte
+
+Un index n'est pas gratuit — sinon on en mettrait partout, et la question ne se poserait pas.
+Mesure sur 20 000 insertions :
+
+| | Durée |
+|---|---|
+| sans index | 27 ms |
+| avec deux index | 50 ms |
+
+**Environ 1,85 fois plus lent en écriture.** Chaque insertion doit mettre à jour chaque index,
+et chaque index occupe de l'espace disque et de la mémoire cache.
+
+D'où la règle de conception : **on indexe ce qu'on cherche souvent, pas tout.** Une table
+d'audit écrite mille fois par seconde et lue une fois par mois ne veut presque aucun index ;
+une table de référence lue en permanence et modifiée une fois par trimestre en veut plusieurs.
+
+### Une mesure qui contredit la règle apprise
+
+Dernière mesure, et elle est publiée telle quelle parce qu'elle apprend quelque chose de plus
+utile que la règle qu'elle contredit. Avec un index sur `email` :
+
+| Requête | Plan | Durée |
+|---|---|---|
+| `email LIKE 'Client1%'` (ancré à gauche) | `SCAN … USING COVERING INDEX` | 107,9 ms |
+| `email LIKE '%Exemple%'` (ouvert) | `SCAN … USING COVERING INDEX` | 276,7 ms |
+
+On enseigne habituellement qu'un `LIKE` ancré à gauche **peut** utiliser un index. Ici, il ne
+le fait pas : dans SQLite, `LIKE` est insensible à la casse par défaut, alors que l'index est
+construit sur une comparaison sensible à la casse. Les deux ne parlent pas la même langue,
+donc l'index n'est pas utilisable pour ce filtre — il sert seulement de version compacte de la
+table à parcourir.
+
+Enseignement, et il vaut plus que la règle : **une règle sur les index est toujours
+conditionnée par la collation, le type et le moteur.** C'est précisément pourquoi la seule
+méthode fiable est de demander le plan à **ta** base, avec **tes** données. « Un `LIKE` ancré
+utilise l'index » est vrai quelque part et faux ici, et seul `EXPLAIN` le dit.
+
+### La méthode, en trois temps
+
+1. **Demander le plan** avant de toucher à quoi que ce soit. Cherche le verbe : `SCAN` ou
+   `SEARCH` ?
+2. **Poser un index ciblé**, dont les colonnes correspondent, dans l'ordre, à ce que le `WHERE`
+   filtre puis à ce que l'`ORDER BY` trie.
+3. **Re-mesurer** — le plan **et** la durée. Un index créé qui n'apparaît pas dans le nouveau
+   plan est un index inutile qui ralentit tes écritures.
+
+Jamais : « ajoutons un index sur toutes les colonnes du `WHERE`, on verra bien ».
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

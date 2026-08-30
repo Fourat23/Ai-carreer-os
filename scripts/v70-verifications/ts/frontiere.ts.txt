@@ -1,0 +1,34 @@
+// V70 — fichier compilé par ts-frontiere.mjs pour produire les messages
+// d'erreur publiés dans curriculum/lessons/typescript-frontend.md.
+// Certains cas sont VOLONTAIREMENT sans erreur : c'est la démonstration.
+
+type User = { id: number; name: string; email?: string };
+
+// 1. le cast : accepté sans un mot
+async function chargeCast(id: number): Promise<User> {
+  const res = await fetch(`/api/users/${id}`);
+  return (await res.json()) as User;
+}
+
+// 2. unknown : l'usage direct est refusé
+async function chargeUnknown(id: number) {
+  const res = await fetch(`/api/users/${id}`);
+  const data: unknown = await res.json();
+  return data.name;
+}
+
+// 3. propriété absente du type
+function afficher(u: User) {
+  return u.nom;
+}
+
+// 4. prop manquante sur un composant
+type Props = { user: User; onBuy: (id: number) => void };
+declare function Fiche(p: Props): unknown;
+const x = Fiche({ user: { id: 1, name: 'Ada' } });
+
+// 5. le cast ment, et rien ne proteste
+const faux = { id: '42', name: 123 } as unknown as User;
+const majuscules = faux.name.toUpperCase();
+
+export { chargeCast, chargeUnknown, afficher, x, majuscules };

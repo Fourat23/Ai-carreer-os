@@ -102,28 +102,166 @@ Props typées (objets, `?` optionnel, unions littérales) · événements typés
 `ChangeEvent`, `MouseEvent` DOM) · frontière de confiance (`unknown` vs `any`) · type guard
 (`v is T`) · narrowing (`typeof`/`in`/null) · union discriminée · `as` = supposer (à éviter à la frontière).
 
-## 🧭 Exemple guidé
-Consommer une API utilisateur en sécurité :
+## 🧭 Exemple guidé — cinq lignes soumises au compilateur, et les deux qui passent
+
+TypeScript inspire une confiance qu'il ne mérite pas toujours, et la raison est simple :
+**il ne vérifie que ce qui existe au moment de la compilation.** Une réponse réseau arrive
+plus tard, quand le compilateur n'est plus là depuis longtemps.
+
+Pour voir exactement où passe la limite, on ne va pas en discuter : on va soumettre cinq
+situations au compilateur et lire ce qu'il dit — et surtout ce qu'il ne dit pas.
+
+> Les messages ci-dessous sont la **sortie brute** de `tsc --strict`, produite par
+> `scripts/v70-verifications/ts-frontiere.mjs`. Le fichier compilé contient des erreurs
+> volontaires ; il est stocké en `.ts.txt` pour ne pas casser la vérification de types du
+> projet.
+
+### Les cinq situations
+
 ```ts
 type User = { id: number; name: string; email?: string };
 
+// 1. le cast sur une réponse réseau
+async function chargeCast(id: number): Promise<User> {
+  const res = await fetch(`/api/users/${id}`);
+  return (await res.json()) as User;
+}
+
+// 2. la même chose, en unknown
+async function chargeUnknown(id: number) {
+  const data: unknown = await (await fetch(`/api/users/${id}`)).json();
+  return data.name;
+}
+
+// 3. une faute de frappe sur un nom de propriété
+function afficher(u: User) { return u.nom; }
+
+// 4. une prop oubliée à l'appel d'un composant
+type Props = { user: User; onBuy: (id: number) => void };
+const x = Fiche({ user: { id: 1, name: 'Ada' } });
+
+// 5. le cast qui ment
+const faux = { id: '42', name: 123 } as unknown as User;
+const majuscules = faux.name.toUpperCase();
+```
+
+### Ce que dit le compilateur
+
+```
+frontiere.ts(17,10): error TS18046: 'data' is of type 'unknown'.
+frontiere.ts(22,12): error TS2339: Property 'nom' does not exist on type 'User'.
+frontiere.ts(28,17): error TS2345: Argument of type '{ user: { id: number; name: string; }; }'
+  is not assignable to parameter of type 'Props'.
+  Property 'onBuy' is missing in type '{ user: …; }' but required in type 'Props'.
+
+3 erreur(s) sur 5 cas.
+```
+
+**Trois erreurs sur cinq.** Les cas 1 et 5 passent en silence, et ce sont exactement les deux
+qui produisent un plantage en production.
+
+### Ce que TypeScript fait très bien : les cas 2, 3 et 4
+
+Le cas 3 est la valeur quotidienne du typage : une faute de frappe sur `u.nom` est signalée à
+la ligne où elle est écrite, avant même d'enregistrer le fichier. Sans types, cette erreur
+serait apparue à l'exécution, sur un écran, chez quelqu'un.
+
+Le cas 4 est le même service rendu aux composants : oublier `onBuy` est refusé, avec le nom de
+la prop manquante dans le message. C'est ce qui rend un composant typé réellement
+documenté — sa signature dit ce qu'il attend, et le compilateur le fait respecter.
+
+Le cas 2 est le plus intéressant, parce que l'erreur est **désirée**. `'data' is of type
+'unknown'` n'est pas un obstacle : c'est le compilateur qui refuse de deviner, et qui
+t'oblige à vérifier avant d'utiliser. `unknown` veut dire « je ne sais pas ce que c'est »,
+et la seule façon d'en sortir est de le prouver.
+
+### Ce que TypeScript ne peut pas faire : les cas 1 et 5
+
+Le cas 1 est la ligne la plus dangereuse du fichier, et c'est celle qu'on écrit le plus
+souvent :
+
+```ts
+return (await res.json()) as User;
+```
+
+`as` n'est pas une vérification. C'est une **affirmation** adressée au compilateur : « fais-moi
+confiance, c'est un `User` ». Il te croit — c'est son rôle — et se tait.
+
+Or `res.json()` renvoie ce que le serveur a envoyé, pas ce que tu espérais. Si l'API a renommé
+`name` en `fullName` la semaine dernière, si elle renvoie une page d'erreur HTML, si le champ
+est `null` pour les comptes désactivés, le `as` ne le remarquera jamais.
+
+Le cas 5 le montre sans réseau, en trois lignes :
+
+```ts
+const faux = { id: '42', name: 123 } as unknown as User;
+const majuscules = faux.name.toUpperCase();
+```
+
+`id` est une chaîne au lieu d'un nombre, `name` un nombre au lieu d'une chaîne. Aucune erreur
+de compilation. À l'exécution : `faux.name.toUpperCase is not a function`.
+
+Et note **où** ça casse : pas à la ligne du `as`, mais à la ligne suivante — et dans un vrai
+projet, quinze fichiers plus loin, dans un composant qui n'a rien fait de mal. C'est ce qui
+rend ces bugs si coûteux : le message d'erreur désigne la victime, jamais le coupable.
+
+### La correction : vérifier au lieu d'affirmer
+
+```ts
 function isUser(v: unknown): v is User {
   return !!v && typeof v === 'object'
-    && typeof (v as any).id === 'number'
-    && typeof (v as any).name === 'string';
+    && typeof (v as Record<string, unknown>).id === 'number'
+    && typeof (v as Record<string, unknown>).name === 'string';
 }
 
 async function loadUser(id: number): Promise<User | null> {
   const res = await fetch(`/api/users/${id}`);
-  if (!res.ok) return null;               // gérer l'échec réseau
-  const data: unknown = await res.json(); // NE PAS présumer du type
-  return isUser(data) ? data : null;      // vérifier PUIS rétrécir
+  if (!res.ok) return null;                 // l'échec réseau est un cas, pas une exception
+  const data: unknown = await res.json();   // on ne présume rien
+  return isUser(data) ? data : null;        // on vérifie, PUIS on rétrécit
 }
 ```
-Raisonnement : la réponse réseau est `unknown`, pas `User`. On la valide avec un type guard ; si elle
-ne correspond pas, on renvoie `null` (l'appelant affichera un état d'erreur) au lieu de laisser un
-`undefined.name` exploser dans un composant. Le type protège À L'INTÉRIEUR, la vérification protège À
-LA FRONTIÈRE.
+
+Trois points méritent d'être vus.
+
+**Le type de retour `User | null`.** Il oblige tout appelant à traiter le cas d'échec — le
+compilateur refusera un `user.name` sans vérification préalable. La discipline se propage
+d'elle-même, sans qu'on ait à y penser.
+
+**La signature `v is User`.** C'est ce qu'on appelle une *garde de type* : elle dit au
+compilateur « si cette fonction renvoie `true`, alors la valeur est un `User` ». Après le
+`isUser(data) ?`, dans la branche vraie, `data` **est** un `User` pour le compilateur. On n'a
+pas menti : on a prouvé.
+
+**Le `as Record<string, unknown>` à l'intérieur de la garde.** Il reste un `as`, et c'est
+assumé : c'est le seul endroit où l'on manipule une valeur non encore vérifiée, et il est
+confiné à quatre lignes qu'on relit une fois. La différence avec le cas 1 n'est pas la
+présence du mot `as`, c'est **ce qu'on affirme** : ici, seulement « c'est un objet avec des
+clés », ce qu'on vient de tester ; là-bas, « c'est exactement un `User` », ce qu'on n'a pas
+testé du tout.
+
+### La règle qui résume tout
+
+> **Le type protège à l'intérieur. La vérification protège à la frontière.**
+
+Une frontière est tout point où une donnée entre dans ton code sans que ton compilateur ait pu
+la voir : une réponse d'API, un `localStorage`, un paramètre d'URL, un fichier téléversé, un
+message d'une autre fenêtre, une variable d'environnement.
+
+À l'intérieur, fais confiance aux types : c'est leur métier, et le cas 3 montre qu'ils le font
+bien. À la frontière, ne fais confiance à rien — et si tu écris `as`, demande-toi ce que tu
+viens exactement d'affirmer, et qui l'a vérifié.
+
+### Ce que cet exemple ne dit pas
+
+Il ne dit pas qu'il faut écrire ses gardes à la main. Pour un objet de trois champs, c'est
+raisonnable ; pour une réponse d'API de quarante champs imbriqués, c'est du travail fastidieux
+et faux à la première évolution.
+
+Les bibliothèques de validation de schéma existent pour ça : on décrit la forme attendue une
+fois, et l'on obtient **à la fois** la vérification à l'exécution et le type TypeScript, dérivé
+automatiquement du même schéma. Le principe reste identique — vérifier à la frontière — mais
+les deux ne peuvent plus diverger, ce qui est le défaut principal des gardes écrites à la main.
 
 ## ⚠️ Erreurs fréquentes
 - Poser `as User` sur `res.json()` sans vérifier → faux type ; plantage lointain et obscur.
@@ -139,13 +277,115 @@ directement les composants React typés (`/doc/lessons/react-fundamentals`,
 `/doc/lessons/react-hooks-effects`) et rejoint la validation client≠serveur de
 `/doc/lessons/web-forms-validation`.
 
-## Mini-exercice
-Écris un type `Product = { id: number; title: string; price: number }`, un type guard
-`isProduct(v: unknown): v is Product`, et une fonction `loadProduct(id)` qui `fetch` puis renvoie
-`Product | null` selon la vérification. Ajoute un composant (pseudo-JSX) dont les `props` sont
-`{ product: Product; onBuy: (id: number) => void }` et fais échouer volontairement une prop pour voir
-l'erreur de compilation. Pratique associée : `ts-union-area`, `ts-interface-cart`, `ts-pluck`,
-`react-profile`.
+## 🛠️ Pratique — la frontière, et les six réponses hostiles
+
+**Contexte.** Une API produit, dont tu ne contrôles pas le code. Tu écris le client TypeScript
+qui la consomme. Le point de cette pratique : **une API ne renvoie pas toujours ce que sa
+documentation promet**, et la question n'est pas de savoir si ça arrivera mais ce que ton
+interface fera ce jour-là.
+
+**Écris les quatre livrables suivants** dans un fichier `.ts` que tu compiles avec
+`npx tsc --noEmit --strict`.
+
+**1. Le type et la garde.**
+
+```ts
+type Product = { id: number; title: string; price: number; tag?: 'promo' | 'nouveau' };
+function isProduct(v: unknown): v is Product { /* à écrire */ }
+```
+
+Note l'union littérale sur `tag` : elle fait partie du contrat, donc la garde doit la vérifier
+aussi.
+
+**2. La fonction de chargement.**
+
+```ts
+async function loadProduct(id: number): Promise<Product | null>
+```
+
+Le type de retour est imposé. Elle doit traiter l'échec réseau, la réponse non conforme, et
+n'exposer à l'appelant qu'un `Product` valide ou `null`.
+
+**3. Le composant.** En pseudo-JSX, avec des props typées
+`{ product: Product; onBuy: (id: number) => void }`. Appelle-le une fois **en oubliant
+volontairement `onBuy`**, et copie dans ton rendu le message exact du compilateur.
+
+**4. Le tableau des six réponses hostiles.** C'est le livrable principal. Fabrique ces six
+réponses (une constante `as unknown` suffit, inutile d'un vrai serveur), passe chacune à
+`isProduct`, et remplis :
+
+| # | Réponse renvoyée par l'API | `isProduct` répond | Ce que voit l'utilisateur | Est-ce le bon comportement ? |
+|---|---|---|---|---|
+| 1 | `{ id: 1, title: "Lampe", price: 39 }` | | | |
+| 2 | `{ id: "1", title: "Lampe", price: 39 }` — `id` en chaîne | | | |
+| 3 | `{ id: 1, name: "Lampe", price: 39 }` — champ renommé | | | |
+| 4 | `null` | | | |
+| 5 | `{ id: 1, title: "Lampe", price: 39, tag: "solde" }` — valeur hors union | | | |
+| 6 | `"<!DOCTYPE html><html>…"` — une page d'erreur HTML | | | |
+
+**5. Les trois questions à répondre par écrit :**
+
+- **A.** Pour chacune des six, ton interface affiche-t-elle quelque chose de compréhensible,
+  ou un écran vide ? `null` sans traitement de l'échec est un écran vide.
+- **B.** Ajoute un champ obligatoire `stock: number` au type `Product` **sans toucher à
+  `isProduct`**. Le projet compile-t-il encore ? Que s'est-il passé, et pourquoi est-ce
+  dangereux ?
+- **C.** Remplace ta garde par `as Product`. Combien des six réponses hostiles sont encore
+  détectées ?
+
+**Critère de réussite.** (a) Les six lignes du tableau sont remplies avec le résultat réel, pas
+prédit ; (b) le cas 5 est traité — si ta garde ignore `tag`, dis-le et corrige ; (c) la réponse
+à B est un constat inquiétant, pas rassurant ; (d) la réponse à C est un nombre.
+
+**Durée.** 45 à 60 minutes.
+
+## ✅ Corrigé de la pratique
+
+**Les six réponses.**
+
+| # | `isProduct` | Pourquoi |
+|---|---|---|
+| 1 | `true` | conforme |
+| 2 | `false` | `typeof id === 'number'` échoue sur `"1"` |
+| 3 | `false` | `title` absent |
+| 4 | `false` | le `!!v` initial l'écarte — **et c'est la raison de ce `!!v`** : `typeof null === 'object'` en JavaScript, sans lui la garde planterait |
+| 5 | `true` **si ta garde ignore `tag`** — c'est le piège | une union littérale non vérifiée laisse passer n'importe quelle chaîne |
+| 6 | `false`, **ou une exception** avant même la garde | `res.json()` sur du HTML lève une erreur de parsage : si ton `await res.json()` n'est pas dans un `try`, la fonction rejette au lieu de renvoyer `null` |
+
+Les cas 5 et 6 sont ceux qui distinguent une garde écrite avec soin d'une garde écrite vite.
+
+Le cas 5 : un champ optionnel doit être vérifié **quand il est présent**.
+
+```ts
+(v.tag === undefined || v.tag === 'promo' || v.tag === 'nouveau')
+```
+
+Sans cette ligne, `tag: "solde"` traverse la frontière, et le composant qui fait
+`tag === 'promo' ? … : 'nouveau'` affichera « nouveau » sur un article en solde. Aucune erreur,
+juste une information fausse à l'écran — le pire des deux mondes.
+
+Le cas 6 rappelle que la frontière commence **avant** la garde. `res.ok` d'abord, `try` autour
+du parsage ensuite, garde en dernier. Trois filets, dans cet ordre.
+
+**Réponse à B — et c'est le constat le plus important de la pratique.** Le projet **compile
+encore**. Ajouter `stock: number` au type ne provoque aucune erreur dans `isProduct`, parce
+qu'une garde n'est qu'une fonction qui renvoie un booléen : rien n'oblige le compilateur à
+vérifier qu'elle teste tous les champs du type qu'elle prétend prouver.
+
+Tu viens de créer une **garde qui ment** : elle affirme `v is Product` alors qu'elle ne vérifie
+plus la totalité de `Product`. Le compilateur fait ensuite confiance à cette affirmation
+partout, et `product.stock` sera `undefined` dans un code où le type dit qu'il est un nombre.
+
+C'est le défaut structurel des gardes manuscrites, et c'est l'argument décisif en faveur des
+bibliothèques de validation de schéma : elles **dérivent** le type du schéma, ce qui rend la
+désynchronisation impossible par construction. On ne peut pas oublier de valider un champ qu'on
+vient d'ajouter, puisque le champ n'existe que dans le schéma.
+
+**Réponse à C.** Avec `as Product` : **zéro sur six**. Aucune détection, aucune erreur de
+compilation, aucune trace. Les cinq réponses invalides traversent, et le plantage survient
+plus tard, ailleurs, sur une ligne innocente.
+
+C'est le chiffre à retenir de toute cette leçon.
 
 ## ✅ Correction attendue
 **La démarche** : typer les props en premier (c'est le contrat du composant), les événements ensuite, et traiter la frontière API en dernier — parce que c'est la seule des trois où le typage statique ne protège de rien.

@@ -90,12 +90,143 @@ L'image finale ne contient ni les devDependencies, ni les sources TypeScript, ni
 le cache de build : seulement le nécessaire pour tourner.
 
 ## 🧭 Exemple guidé — réduire une image de moitié
-1. Constater la taille et les couches (`docker history`).
-2. Ajouter un `.dockerignore` (`node_modules`, `.git`, `.env`, tests).
-3. Introduire un multi-stage : compiler dans `build`, copier `dist` dans l'image
-   finale.
-4. Installer uniquement les dépendances de production (`--omit=dev`).
-5. Re-mesurer : l'atelier a disparu de l'image livrée.
+Une image fait **1,2 Go** et sa construction prend quatre minutes à chaque modification d'une
+ligne de code. Les deux problèmes ont la même cause, et elle tient en une phrase :
+
+> **Un `Dockerfile` n'est pas un script d'installation. C'est une suite de couches mises en
+> cache, et l'ordre des instructions décide de tout.**
+
+### Le mécanisme : une instruction, une couche
+
+Chaque instruction produit une **couche** empilée sur la précédente. Deux conséquences que rien
+d'autre n'explique :
+
+**1. Le cache est invalidé en cascade.** Si la couche 4 change, les couches 5 et suivantes sont
+reconstruites — même si leur instruction est identique. Une seule ligne modifiée en haut du
+fichier annule tout le cache en dessous.
+
+**2. Ce qui entre dans une couche y reste.** Supprimer un fichier dans une couche ultérieure
+ne le retire pas de l'image : il devient invisible, et continue d'occuper de la place. Un
+secret copié puis effacé est **toujours dans l'image**, et se récupère en inspectant les
+couches.
+
+Ces deux propriétés dictent tout ce qui suit.
+
+### Le diagnostic : lire les couches avant de toucher au fichier
+
+```bash
+docker history mon-image:latest      # la taille de CHAQUE couche, et l'instruction qui l'a créée
+```
+
+C'est le geste de départ, et il évite d'optimiser au hasard. On y lit presque toujours la même
+chose : une ou deux couches représentent 90 % du poids, et ce sont elles seules qu'il faut
+traiter.
+
+*(Limite déclarée : ces commandes ne sont pas exécutées dans le corps de cette leçon — le
+démon Docker n'est pas disponible dans l'environnement où elle a été rédigée. Les tailles
+citées ci-dessous sont des ordres de grandeur typiques, pas des mesures. Le geste, lui, est
+celui à faire sur tes propres images.)*
+
+### Correction 1 — `.dockerignore`, avant tout le reste
+
+```
+node_modules
+.git
+.env
+*.log
+tests/
+```
+
+Sans ce fichier, le `COPY . .` envoie **tout** au moteur de construction : l'historique Git
+complet, les dépendances déjà installées localement, les fichiers d'environnement.
+
+Trois effets, et le troisième est un défaut de sécurité :
+
+- la construction commence par transférer des centaines de mégaoctets ;
+- `node_modules` copié depuis la machine locale peut contenir des binaires compilés pour un
+  autre système, qui écraseront ceux de l'image ;
+- **un `.env` copié dans l'image y reste**, lisible par quiconque récupère l'image.
+
+C'est la modification la plus rentable du domaine : cinq lignes, aucun risque.
+
+### Correction 2 — l'ordre des instructions, dicté par la fréquence de changement
+
+```dockerfile
+# ❌ le cache est inutilisable
+COPY . .
+RUN npm ci                # ← recalculé à CHAQUE modification de code
+
+# ✅ du plus stable au plus changeant
+COPY package*.json ./
+RUN npm ci                # ← recalculé seulement si les dépendances changent
+COPY . .
+```
+
+La règle générale : **place les instructions dans l'ordre inverse de leur fréquence de
+changement.** Les dépendances évoluent une fois par semaine, le code vingt fois par jour ; les
+dépendances doivent donc être installées **avant** que le code n'entre dans l'image.
+
+C'est ce qui fait passer une reconstruction de quatre minutes à quelques secondes, sans changer
+une ligne de code applicatif.
+
+### Correction 3 — la construction en plusieurs étapes
+
+```dockerfile
+FROM node:22 AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci                       # dépendances de développement comprises
+COPY . .
+RUN npm run build                # compilation
+
+FROM node:22-slim                # ← une image NEUVE, on repart de zéro
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev            # dépendances d'exécution seulement
+COPY --from=build /app/dist ./dist
+CMD ["node", "dist/serveur.js"]
+```
+
+Le principe : **ce qui sert à construire n'a rien à faire dans ce qui s'exécute.** Compilateurs,
+outils de développement, code source, dépendances de test — tout cela reste dans la première
+étape et n'existe pas dans l'image finale.
+
+Le gain habituel est d'un facteur 3 à 10 sur la taille. Et il est autant un gain de
+**sécurité** que de place : une image sans compilateur, sans `git`, sans gestionnaire de
+paquets offre beaucoup moins à quelqu'un qui obtiendrait un accès.
+
+### Correction 4 — l'image de base, et son compromis
+
+| Base | Taille | Ce que ça change |
+|---|---|---|
+| `node:22` | ~1 Go | tout est là, rien à débugger |
+| `node:22-slim` | ~200 Mo | il manque des bibliothèques système ; certains paquets natifs échouent |
+| `node:22-alpine` | ~130 Mo | bibliothèque C différente ; **des paquets natifs cassent** |
+
+Le tableau se lit du haut vers le bas comme un compromis taille/compatibilité, et non comme un
+classement. Choisir la plus petite par principe conduit à passer une journée sur une erreur de
+compilation obscure pour économiser 70 Mo.
+
+La démarche raisonnable : partir de `slim`, mesurer, et n'aller plus bas que si la taille est
+un vrai problème — sur un déploiement fréquent ou une flotte de nombreuses machines, elle peut
+l'être.
+
+### Ce que la construction ne doit jamais contenir
+
+```dockerfile
+# ❌ le secret est dans une couche, définitivement
+ARG NPM_TOKEN
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc && npm ci && rm .npmrc
+```
+
+Le `rm` ne sert à rien : le fichier existe dans la couche du `RUN`, et l'inspection des couches
+le retrouve. C'est la conséquence directe de la propriété n° 2 énoncée au début.
+
+Les réponses correctes utilisent un mécanisme qui **ne crée pas de couche** — le montage de
+secret au moment de la construction — ou déplacent l'authentification hors de l'image. Et la
+règle générale à retenir : **rien de secret ne doit jamais apparaître dans une instruction de
+construction**, ni en argument, ni en fichier temporaire.
+
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

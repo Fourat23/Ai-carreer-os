@@ -90,13 +90,103 @@ volumes:
 `api` joint `db` par son nom, et ne démarre qu'une fois la base RÉELLEMENT prête.
 
 ## 🧭 Exemple guidé — « l'app crashe au démarrage, la base n'est pas prête »
-1. Symptôme : l'API échoue à la première connexion, puis marche après un
-   redémarrage manuel → course au démarrage.
-2. La base a-t-elle un **healthcheck** ? `depends_on` utilise-t-il
-   `condition: service_healthy` ?
-3. Ajouter le healthcheck + la condition. L'API attend désormais que la base soit
-   prête.
-4. Vérifier `docker compose down && up` : les données survivent (volume nommé).
+« L'API plante au démarrage. Je la redémarre à la main, et tout fonctionne. »
+
+Ce symptôme est si caractéristique qu'il permet de nommer la cause avant d'ouvrir un fichier :
+**une course au démarrage**. Le service est parti avant que sa dépendance ne soit prête.
+
+### Ce que `depends_on` fait, et ce qu'il ne fait pas
+
+```yaml
+services:
+  api:
+    depends_on: [db]      # ⚠️ attend que le conteneur soit DÉMARRÉ
+  db:
+    image: postgres:16
+```
+
+`depends_on` garantit **l'ordre de démarrage des conteneurs**, rien de plus. Or un conteneur
+PostgreSQL est « démarré » en quelques millisecondes et **prêt à accepter des connexions** dix
+à trente secondes plus tard — le temps d'initialiser ses fichiers, de rejouer son journal, de
+créer la base au premier lancement.
+
+Entre les deux, l'API se connecte et échoue.
+
+Et c'est pourquoi le redémarrage manuel « corrige » : au deuxième essai, la base est prête
+depuis longtemps. Le défaut est donc **invisible en développement** — on ne redémarre pas
+souvent — et systématique en intégration continue, où tout part de zéro à chaque exécution.
+
+### Les deux réponses, et pourquoi il faut la seconde
+
+**Réponse 1 — la condition de disponibilité :**
+
+```yaml
+services:
+  db:
+    image: postgres:16
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+  api:
+    depends_on:
+      db:
+        condition: service_healthy     # ← attend la DISPONIBILITÉ, pas le démarrage
+```
+
+Cela résout le cas du démarrage. Cela ne résout pas le cas où la base **redevient**
+indisponible en cours de route — redémarrage, bascule, coupure réseau.
+
+**Réponse 2 — l'application réessaie :**
+
+```js
+async function connecterAvecReprise(essais = 10) {
+  for (let i = 0; i < essais; i++) {
+    try { return await connecter(); }
+    catch (e) { await attendre(2 ** i * 100); }        // recul exponentiel
+  }
+  throw new Error('base injoignable après 10 tentatives');
+}
+```
+
+C'est la réponse robuste, et elle est indépendante de l'orchestrateur. Une application qui sait
+attendre sa base fonctionne sous Compose, sous Kubernetes, en machine virtuelle, et survit à un
+redémarrage de la base en pleine journée.
+
+**Les deux ensemble** : le contrôle de disponibilité rend le démarrage propre et rapide ; la
+reprise applicative rend le système robuste. L'un sans l'autre laisse un trou.
+
+### Ce que Compose apporte réellement
+
+Au-delà de « lancer plusieurs conteneurs », trois choses qui règlent des problèmes concrets :
+
+| Ce que Compose fournit | Le problème que ça résout |
+|---|---|
+| un **réseau** commun, avec résolution par nom de service | `db` est joignable depuis `api` sans connaître d'adresse IP |
+| des **volumes** nommés | les données de la base survivent à `docker compose down` |
+| des **variables d'environnement** par service | la même image se configure différemment selon l'environnement |
+
+Le premier point est celui qui déroute le plus au début : depuis le conteneur `api`, la base
+n'est **pas** sur `localhost` mais sur `db`, au **port interne** — celui que le conteneur écoute,
+pas celui publié sur la machine hôte. Écrire `localhost:5433` parce que c'est ce qui fonctionne
+depuis son terminal est l'erreur numéro un.
+
+```
+depuis la machine hôte   →  localhost:5433   (le port publié)
+depuis le conteneur api  →  db:5432          (nom de service, port interne)
+```
+
+### Le fichier qui ne doit pas servir en production
+
+Compose est excellent pour le développement et l'intégration continue, et il faut savoir dire
+pourquoi il ne suffit pas ensuite : pas de redémarrage automatique sur plusieurs machines, pas
+de déploiement progressif, pas de bascule en cas de panne d'un hôte.
+
+Ce n'est pas un défaut — c'est un périmètre. Et le connaître évite les deux fautes symétriques :
+déployer une application critique avec Compose sur un seul serveur, ou installer un
+orchestrateur complet pour développer sur un portable.
+
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

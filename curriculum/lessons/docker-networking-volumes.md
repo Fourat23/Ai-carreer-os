@@ -76,12 +76,108 @@ Entre `api` et `db`, l'URL est `db:5432` (nom de service + port interne), jamais
 `localhost`.
 
 ## 🧭 Exemple guidé — « mon API ne joint pas la base »
-1. Les deux conteneurs sont-ils sur le MÊME réseau ? (`docker network inspect`)
-2. L'URL utilise-t-elle le **nom de service** (`db`) et le **port interne**, pas
-   `localhost` ni le port publié ?
-3. La base écoute-t-elle bien sur son port interne ? (diagnostic par couches :
-   DNS interne → port → application.)
-4. Les données survivent-elles à un redémarrage ? Sinon, il manque un **volume**.
+Deux pannes reviennent sans cesse avec les conteneurs, et elles ont la même origine : **on
+raisonne comme si le conteneur était la machine.** Il ne l'est pas — ni pour le réseau, ni pour
+le disque.
+
+### Panne 1 — « connection refused » vers un autre conteneur
+
+```js
+const db = connecter('postgres://localhost:5433/app');   // ❌ depuis un conteneur
+```
+
+`localhost`, à l'intérieur d'un conteneur, désigne **le conteneur lui-même**. La base n'y est
+pas. Et `5433` est le port **publié sur la machine hôte**, qui n'existe pas dans le réseau
+interne.
+
+```js
+const db = connecter('postgres://db:5432/app');          // ✅ nom de service, port interne
+```
+
+Deux notions à séparer clairement :
+
+| | Depuis la machine hôte | Depuis un conteneur voisin |
+|---|---|---|
+| adresse | `localhost` | **le nom du service** (`db`) |
+| port | le port **publié** (`5433`) | le port **interne** (`5432`) |
+
+Le nom du service fonctionne parce que le réseau créé par l'orchestrateur fournit une
+résolution de noms interne. D'où le premier contrôle du diagnostic : **les deux conteneurs
+sont-ils sur le même réseau ?**
+
+```bash
+docker network inspect <reseau>     # la liste des conteneurs attachés
+```
+
+Deux conteneurs sur deux réseaux distincts ne se voient pas, quel que soit le nom employé — et
+c'est précisément le cas quand on lance deux fichiers Compose séparés, chacun créant son propre
+réseau.
+
+### Panne 2 — les données ont disparu
+
+```bash
+docker compose down && docker compose up      # et la base est vide
+```
+
+Le système de fichiers d'un conteneur est **éphémère** : il vit et meurt avec lui. Tout ce qui
+doit survivre doit être écrit ailleurs.
+
+```yaml
+services:
+  db:
+    image: postgres:16
+    volumes:
+      - donnees_db:/var/lib/postgresql/data     # volume nommé
+volumes:
+  donnees_db:
+```
+
+Trois façons de monter des données, et elles ne se valent pas :
+
+| Type | Écriture | Usage |
+|---|---|---|
+| **volume nommé** | géré par le moteur | **les données de production** |
+| **montage de répertoire hôte** | un chemin de ta machine | le **code source en développement**, pour le rechargement à chaud |
+| **rien** | dans la couche du conteneur | tout est perdu à la suppression |
+
+Le montage de répertoire hôte est très pratique en développement et pose deux problèmes en
+production : il dépend de l'arborescence de la machine, et il fait apparaître des questions de
+droits — l'utilisateur du conteneur n'a pas le même identifiant numérique que celui de l'hôte,
+d'où des « permission denied » sur des fichiers pourtant présents.
+
+C'est le même mécanisme que dans `/doc/lessons/linux-filesystem-permissions` : les droits sont
+attachés à des **identifiants numériques**, pas à des noms d'utilisateur. Un fichier appartenant
+à l'UID 1000 sur l'hôte appartient à l'UID 1000 dans le conteneur — qui peut y désigner
+quelqu'un d'autre, ou personne.
+
+### Ce que « éphémère » implique vraiment
+
+La conséquence dépasse la base de données, et c'est la partie qu'on découvre tard :
+
+- **les journaux écrits dans un fichier disparaissent** avec le conteneur. Un conteneur écrit
+  ses journaux sur la sortie standard, et c'est l'infrastructure qui les collecte ;
+- **les fichiers téléversés par les utilisateurs** disparaissent aussi. Ils vont dans un
+  stockage objet, pas sur le disque du conteneur ;
+- **les données de session en mémoire** disparaissent à chaque redéploiement — c'est le
+  prérequis de la mise à l'échelle horizontale de `/doc/lessons/system-design-scaling`.
+
+Ces trois points ne sont pas des contraintes de Docker : ce sont les conséquences de
+l'**instance jetable**, qui est précisément ce qui rend possible le déploiement sans coupure et
+la mise à l'échelle.
+
+### Le diagnostic, en quatre commandes
+
+```bash
+docker network inspect <reseau>            # ① même réseau ?
+docker exec -it api getent hosts db        # ② le nom se résout-il ?
+docker exec -it api nc -vz db 5432         # ③ le port répond-il ?
+docker volume inspect donnees_db           # ④ le volume existe-t-il, et est-il monté ?
+```
+
+Elles se lisent comme la bissection réseau de `/doc/lessons/networking-http-tls`, appliquée à
+l'intérieur : chacune teste une couche de plus. La première qui échoue désigne la cause, et
+rend inutile de chercher au-dessus.
+
 
 ## ⚠️ Erreurs fréquentes
 - Utiliser **`localhost`** entre conteneurs (localhost = le conteneur lui-même).

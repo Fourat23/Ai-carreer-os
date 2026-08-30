@@ -85,12 +85,107 @@ Ces options CUMULÉES (non-root, read-only, limites, init) donnent un conteneur
 nettement plus sûr et prévisible.
 
 ## 🧭 Exemple guidé — « le conteneur redémarre tout seul et s'arrête mal »
-1. Redémarrages inexpliqués → vérifier la mémoire : est-ce un **OOMKilled** ?
-   (limite trop basse ou fuite mémoire.)
-2. Arrêt lent/forcé → le PID 1 gère-t-il `SIGTERM` ? Forme exec ? `--init` ?
-3. Ajuster la limite mémoire au besoin réel, corriger la gestion des signaux.
-4. Vérifier au passage : tourne-t-on en non-root ? rootfs en lecture seule
-   possible ?
+Un conteneur qui fonctionne en développement échoue en production de trois façons, et aucune
+des trois n'apparaît sur un poste de développeur. Les voici, avec ce qui les cause.
+
+### Panne 1 — « il redémarre tout seul, sans erreur dans les journaux »
+
+```bash
+docker inspect <conteneur> --format '{{.State.OOMKilled}} {{.State.ExitCode}}'
+# true 137
+```
+
+`OOMKilled: true`, code de sortie **137**. Le processus n'a pas planté : **le noyau l'a tué**
+parce qu'il a dépassé sa limite de mémoire.
+
+C'est pourquoi les journaux applicatifs ne montrent rien. Un processus tué par le signal `KILL`
+n'a aucune occasion d'écrire quoi que ce soit — pas de dernière ligne, pas de trace, pas de
+nettoyage.
+
+Le code 137 se lit d'ailleurs : `128 + 9`, où 9 est le numéro du signal `KILL`. Sur le même
+principe, **143** vaut `128 + 15`, soit un arrêt propre par `TERM` — et savoir distinguer les
+deux fait gagner beaucoup de temps.
+
+Deux causes possibles, et il faut trancher :
+
+| Observation | Diagnostic |
+|---|---|
+| la mémoire monte puis se stabilise, la limite est juste en dessous | **limite trop basse** |
+| la mémoire monte continûment jusqu'à la limite, à chaque cycle | **fuite mémoire** — augmenter la limite ne fait que reculer l'échéance |
+
+Le contrôle qui les sépare : relever la limite et observer. Si le conteneur tient une semaine,
+c'était un dimensionnement ; s'il retombe au même endroit deux jours plus tard, c'est une fuite.
+
+### Panne 2 — « l'arrêt prend dix secondes et coupe les requêtes en cours »
+
+```dockerfile
+CMD npm start          # ❌ forme "shell"
+CMD ["node", "serveur.js"]   # ✅ forme "exec"
+```
+
+La forme *shell* lance un interpréteur, qui devient le processus 1, et lance ton application
+comme un enfant. Or **le signal d'arrêt est envoyé au processus 1** — donc au shell, qui ne le
+transmet pas. L'application ne reçoit rien, ne s'arrête pas, et le moteur la tue de force après
+dix secondes.
+
+Ce qu'on perd pendant ces dix secondes : les requêtes en cours, coupées net. Et le
+redéploiement produit alors des erreurs visibles côté client à **chaque** mise à jour, ce qu'on
+attribue souvent à autre chose.
+
+L'arrêt propre a deux moitiés, et il faut les deux :
+
+```dockerfile
+CMD ["node", "serveur.js"]        # ① l'application EST le processus 1
+```
+```js
+process.on('SIGTERM', async () => {                    // ② elle sait s'arrêter
+  serveur.close();                    // on cesse d'accepter de nouvelles connexions
+  await terminerRequetesEnCours();    // on laisse finir celles qui sont là
+  await fermerBase();
+  process.exit(0);
+});
+```
+
+Sans ① le signal n'arrive pas ; sans ② il arrive et ne sert à rien.
+
+### Panne 3 — l'audit de sécurité
+
+Trois constats reviennent systématiquement, avec leur correction :
+
+| Constat | Correction |
+|---|---|
+| le conteneur tourne en **root** | `USER app` après avoir créé l'utilisateur |
+| l'image contient un shell, `curl`, un gestionnaire de paquets | image de base minimale, construction en plusieurs étapes |
+| le système de fichiers est **inscriptible** | démarrer en lecture seule, avec un volume temporaire pour ce qui doit être écrit |
+
+Le premier point mérite d'être compris plutôt que suivi. Un conteneur n'est pas une machine
+virtuelle : c'est un processus isolé par le noyau de l'hôte. Être root **dans** le conteneur,
+c'est être root sur ce noyau, avec quelques restrictions. Une faille d'évasion — il en existe —
+donne alors la machine entière.
+
+```dockerfile
+RUN useradd --system --uid 10001 app
+USER 10001
+```
+
+L'identifiant numérique explicite n'est pas un détail : c'est lui qui compte pour les
+permissions des volumes montés, comme vu dans `/doc/lessons/docker-networking-volumes`.
+
+### Ce qui doit être décidé, pas subi
+
+Trois réglages qu'on laisse par défaut et qui décident du comportement en incident :
+
+- **les limites de mémoire et de processeur.** Sans limite, un conteneur qui fuit consomme
+  toute la machine et emporte ses voisins. Avec une limite, il meurt seul — un incident
+  circonscrit ;
+- **la politique de redémarrage.** `unless-stopped` remet le service debout après un
+  redémarrage de la machine. Par défaut, il ne revient pas ;
+- **le délai avant l'arrêt forcé.** Dix secondes par défaut ; si tes requêtes les plus longues
+  durent trente secondes, il faut l'allonger — sinon l'arrêt propre que tu viens d'écrire est
+  interrompu au milieu.
+
+Le dernier est le plus souvent ignoré, et il annule tout le travail de la panne 2.
+
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

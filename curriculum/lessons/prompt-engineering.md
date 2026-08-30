@@ -167,7 +167,128 @@ Dans un RAG, le prompt de génération impose : « réponds UNIQUEMENT à partir
 Construis un mini banc d'essai : 15 cas (dont pièges), un script qui appelle le LLM, valide la sortie, et affiche un taux de réussite. Améliore le prompt jusqu'à > 90 %, en notant chaque version.
 
 ## ✅ Correction attendue
-La logique : spécifier → exemple → format validé → retry sur échec → mesurer. La solution robuste sépare le PROMPT (fichier versionné) de la LOGIQUE (parse, validation, retry, log). Vérifie : que se passe-t-il sur une entrée vide, une entrée piège, une sortie non-JSON ? Chaque cas doit être géré, pas planté.
+### La démarche
+
+*Spécifier → montrer un exemple → imposer un format validé → réessayer sur échec → mesurer.*
+
+La cinquième étape est celle qui transforme le sujet : sans mesure, « améliorer un prompt » est
+une activité sans critère d'arrêt, où l'on tourne en rond en changeant des mots.
+
+### La séparation qui structure tout
+
+```
+prompts/classification.v3.txt      ← le PROMPT : un fichier, versionné
+lib/classifier.js                  ← la LOGIQUE : appel, parsing, validation,
+                                     nouvelle tentative, journalisation
+tests/classification.cases.json    ← les CAS : 15 entrées et leurs réponses attendues
+```
+
+Trois fichiers, trois responsabilités, et deux bénéfices immédiats :
+
+- **le prompt devient diffable.** On voit ce qui a changé entre la v2 et la v3, et on peut
+  revenir en arrière. Un prompt en chaîne de caractères au milieu du code est un prompt que
+  personne ne relit ;
+- **la logique est testable sans appeler le modèle.** Le parsing, la validation et la
+  re-tentative se testent avec des réponses fabriquées à la main — y compris les réponses
+  malformées, qui sont les plus importantes et les plus difficiles à obtenir d'un vrai modèle.
+
+### « Que se passe-t-il si le modèle répond n'importe quoi ? »
+
+C'est la question du critère, et elle a quatre réponses à écrire, pas une :
+
+| Réponse du modèle | Ce que fait ton code |
+|---|---|
+| JSON valide, catégorie attendue | on l'utilise |
+| JSON valide, catégorie **inconnue** | rejet + nouvelle tentative avec le message d'erreur |
+| texte avant/après le JSON | extraction du bloc, puis validation |
+| JSON invalide, ou vide, ou une excuse | nouvelle tentative, **bornée** |
+| échec après N tentatives | **valeur de repli explicite** + journalisation + alerte |
+
+La dernière ligne est celle qu'on omet, et c'est la seule qui garantisse que le système ne
+plante pas. La valeur de repli n'est pas un choix par défaut arbitraire : c'est `INCERTAIN`,
+c'est-à-dire l'aveu — qui sera traité par un humain ou par une règle.
+
+Deux tentatives suffisent en général. Au-delà, on paie trois appels pour une réponse qui
+n'arrivera pas, et le **budget** de tentatives est aussi un budget de coût et de latence : voir
+le calcul de `/doc/lessons/llm-cost-optimization`.
+
+### La catégorie `INCERTAIN`, et pourquoi elle change la nature du système
+
+Un classifieur qui doit toujours choisir parmi quatre catégories se trompe sur les cas
+ambigus — par construction, puisqu'on lui interdit de dire qu'il ne sait pas.
+
+Ajouter `INCERTAIN` transforme le problème : les erreurs deviennent des **abstentions**, et une
+abstention se route vers un humain, tandis qu'une erreur silencieuse se propage.
+
+Le compromis se pose alors correctement :
+
+```
+sans INCERTAIN : 88 % correct, 12 % faux et invisibles
+avec INCERTAIN : 84 % correct, 13 % en attente humaine, 3 % faux
+```
+
+Le second système a un « taux de réussite » inférieur et il est bien meilleur : il a converti
+neuf points d'erreur invisible en travail humain identifié. **C'est un arbitrage produit, pas
+une performance de modèle**, et c'est le genre de raisonnement qu'on attend de quelqu'un qui
+met de l'IA en production.
+
+### Le banc d'essai : les quinze cas et la faute qui l'invalide
+
+Composition attendue : cinq cas nominaux, cinq cas limites, **trois cas ambigus** dont la
+réponse attendue est `INCERTAIN`, et deux cas hors domaine.
+
+La faute qui invalide tout : **modifier les cas de test pour qu'ils passent.** Elle se commet
+sans mauvaise foi — « en fait ce cas n'était pas si ambigu » — et elle détruit la mesure. Les
+cas sont écrits **avant**, et ne changent qu'avec une justification écrite, comme un
+changement de spécification.
+
+Et le protocole d'amélioration :
+
+```
+v1 → 62 %   v2 (ajout d'un exemple) → 78 %   v3 (format contraint) → 91 %
+```
+
+**Un changement à la fois**, et la trace des versions. Sans ça, on ne sait pas ce qui a agi, et
+l'on garde des instructions inutiles pendant des mois — chacune coûtant des jetons à chaque
+appel.
+
+### La mauvaise solution plausible
+
+Améliorer le prompt en regardant quelques sorties, jusqu'à ce que ça « ait l'air bon ».
+
+C'est ce que fait presque tout le monde, et le problème n'est pas le manque de rigueur : c'est
+que **les modèles sont non déterministes**. Deux exécutions du même prompt donnent des résultats
+différents. Sur cinq cas regardés à l'œil, l'écart entre deux versions est indiscernable du
+bruit.
+
+D'où deux exigences que le banc d'essai satisfait et que l'œil ne peut pas satisfaire : **un
+nombre de cas suffisant** pour que la différence sorte du bruit, et **plusieurs exécutions** du
+même cas quand la température n'est pas nulle. Un passage de 78 % à 82 % sur quinze cas n'est
+pas une amélioration : c'est un ou deux cas qui ont basculé.
+
+### Auto-évaluation
+
+| Vérification | Comment |
+|---|---|
+| prompt versionné | il est dans un fichier, et `git log` montre son histoire |
+| logique testable sans modèle | tes tests de parsing tournent hors ligne |
+| sortie non conforme gérée | un test avec une réponse malformée passe |
+| budget de tentatives | la boucle ne peut pas tourner indéfiniment |
+| repli explicite | l'échec produit `INCERTAIN`, pas une exception ni une valeur inventée |
+| mesure reproductible | tu peux donner le score de chaque version du prompt |
+
+### Généralisation
+
+Ce que cette leçon installe : **un prompt est du code**, avec les mêmes exigences — versionné,
+testé, mesuré, avec une gestion d'erreur. Ce qui le distingue est qu'il produit un résultat
+**non déterministe**, ce qui rend la mesure plus nécessaire encore, pas moins.
+
+Et la conséquence pour la conception : puisque la sortie n'est pas garantie, **la garantie doit
+venir du code qui l'entoure** — schéma validé, nouvelle tentative bornée, repli explicite. Le
+prompt propose, le code dispose. C'est le même principe que la validation à la frontière de
+`/doc/lessons/typescript-frontend` : ce qui vient de l'extérieur se vérifie, quelle que soit
+la confiance qu'on lui accorde.
+
 
 ## 🎤 Questions d'entretien
 - « Pourquoi “réponds en JSON” ne suffit-il pas ? » → Le LLM est non déterministe ; il faut parser + valider + retry côté code.

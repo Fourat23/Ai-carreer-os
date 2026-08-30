@@ -233,7 +233,111 @@ C'est la mesure de base d'un retrieval, et elle ne demande aucun LLM
 (`/doc/lessons/rag-evaluation` la détaille). Compare deux modèles d'embedding si tu peux.
 
 ## ✅ Correction attendue
-La logique : embedder une fois, comparer par cosinus, trier. Vérifie : `cosinus(v, v) = 1`, symétrie `cosinus(a,b)=cosinus(b,a)`, et que tes cas « même mots / sens différent » et « sens proche / mots différents » se comportent comme attendu — c'est le test qui prouve que tu mesures bien du SENS.
+### La démarche
+
+*Vectoriser une fois, comparer par cosinus, trier.* Le « une fois » n'est pas un détail de
+performance : vectoriser à chaque requête coûte, et surtout produit des vecteurs qui peuvent
+changer si le modèle est mis à jour — ce qui rend les comparaisons incohérentes entre elles.
+
+### Les trois contrôles de la fonction cosinus
+
+```js
+assert(Math.abs(cosinus(v, v) - 1) < 1e-9);            // ① un vecteur avec lui-même
+assert(Math.abs(cosinus(a, b) - cosinus(b, a)) < 1e-9); // ② symétrie
+assert(cosinus(a, b) >= -1 && cosinus(a, b) <= 1);      // ③ borné
+```
+
+Le contrôle ① attrape l'erreur la plus fréquente : diviser par **une seule** norme au lieu du
+produit des deux. La fonction renvoie alors quelque chose de plausible — les classements
+paraissent corrects — et `cosinus(v, v)` vaut la norme de `v` au lieu de 1. Le défaut est
+invisible jusqu'au jour où l'on compare des scores entre requêtes.
+
+Le contrôle ③ attrape les erreurs de type et les divisions par zéro : un vecteur nul donne
+`NaN`, et `NaN` propage silencieusement dans tout un classement — la comparaison avec `NaN`
+étant toujours fausse, le document se retrouve en fin de liste sans que rien ne le signale.
+
+### Pourquoi le cosinus, et pas la distance
+
+Mesure, sur des vecteurs de 384 dimensions :
+
+| Paire | Cosinus | Distance euclidienne |
+|---|---:|---:|
+| même direction, longueurs différentes (×7) | **1,0000** | **6,000** |
+| directions différentes, mêmes longueurs | −0,0142 | 1,424 |
+
+*(Calculé par `scripts/v70-verifications/rag-chunking-et-metriques.py`.)*
+
+Deux vecteurs strictement colinéaires ont un cosinus de 1 — ils sont « identiques » au sens du
+sens — et une distance euclidienne de 6, qui les déclare très éloignés.
+
+Pourquoi cela compte : **la longueur d'un vecteur d'embedding dépend en partie de la longueur
+du texte.** Un paragraphe de 400 mots et une phrase de 12 mots sur le même sujet produisent des
+vecteurs de normes différentes. La distance euclidienne les sépare ; le cosinus, qui ne compare
+que des **directions**, les rapproche.
+
+C'est la réponse complète à « pourquoi le cosinus ? » : non pas « c'est la convention », mais
+*parce qu'on veut comparer des sujets, pas des longueurs*.
+
+### Les deux cas de test qui font la leçon
+
+Le mini-exercice demande de construire deux paires précises, et elles ne sont pas décoratives :
+
+**« mêmes mots, sens différent »** — *« le chat mange la souris »* / *« la souris mange le
+chat »*. Les deux phrases partagent tout leur vocabulaire. Un système lexical les juge
+identiques ; un embedding devrait les distinguer.
+
+Résultat honnête, et il faut le publier : **il les distingue mal.** Les embedding de phrases
+capturent le sujet bien mieux que la structure grammaticale, et la similarité reste élevée.
+C'est une limite réelle de la méthode, pas un défaut de ton implémentation — et c'est
+exactement pourquoi certaines questions exigent une recherche lexicale ou un modèle de
+reclassement qui, lui, lit les deux textes ensemble.
+
+**« sens proche, mots différents »** — *« comment annuler ma commande »* / *« procédure de
+résiliation d'un achat »*. Zéro mot en commun. C'est ici que l'embedding gagne franchement
+contre le lexical, et c'est sa vraie valeur ajoutée.
+
+Ces deux cas, pris ensemble, donnent la carte complète : **l'embedding excelle sur la
+reformulation et échoue sur ce qui distingue deux phrases faites des mêmes mots.**
+
+### Le rappel@3, et pourquoi on commence par là
+
+```
+rappel@3 = (nombre de requêtes dont la bonne réponse est dans le top 3) / (nombre de requêtes)
+```
+
+Quatre sur cinq donne 0,8. Cette mesure ne demande **ni modèle de langage, ni jugement
+humain, ni budget** : cinq requêtes, cinq bonnes réponses connues d'avance, vingt lignes de
+code.
+
+C'est ce qui en fait le premier outil à construire dans tout projet de recherche sémantique.
+Tant qu'on ne l'a pas, chaque décision — quel modèle, quelle taille de morceau, hybride ou non —
+se prend au ressenti. Une fois qu'on l'a, elles se prennent en dix minutes chacune.
+
+### La mauvaise solution plausible
+
+Juger la qualité des embeddings en regardant les scores de similarité : « 0,87, c'est bon ».
+
+Un score de cosinus n'a pas de signification absolue. Sa distribution dépend du modèle : sur
+certains, deux textes sans aucun rapport obtiennent déjà 0,7, et 0,87 est médiocre ; sur
+d'autres, la distribution est centrée sur 0,1 et 0,5 est excellent.
+
+Ce qui a un sens, c'est le **classement** — le bon document est-il devant les autres ? — et
+c'est précisément ce que le rappel@k mesure. Le seul usage légitime des scores bruts est
+comparatif à l'intérieur d'une même requête, et éventuellement un seuil de rejet **calibré sur
+tes données**, jamais repris d'un article.
+
+### Généralisation
+
+L'idée centrale de cette leçon dépasse le texte : **transformer un objet en vecteur permet de
+mesurer une ressemblance qu'aucune règle n'aurait su écrire.** C'est ce qui fait fonctionner
+la recommandation, la détection de doublons, la recherche d'images, le regroupement de tickets
+de support.
+
+Et la limite est toujours la même : **le vecteur ne capture que ce que le modèle a appris à
+capturer.** Il ignorera ce qui compte pour toi si personne ne le lui a montré — d'où
+l'obligation de vérifier sur **tes** paires, avec **tes** questions, plutôt que de faire
+confiance à un classement générique.
+
 
 ## 🎤 Questions d'entretien
 - « Qu'est-ce qu'un embedding, géométriquement ? » → Un vecteur où la proximité encode le sens.

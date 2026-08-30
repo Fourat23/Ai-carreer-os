@@ -135,7 +135,145 @@ Extracteur de factures : le LLM renvoie `{fournisseur, montant, date}` en JSON v
 Implémente un mini-assistant à 2 outils (une recherche mockée + un calcul) avec la boucle complète, un budget d'itérations, et la gestion d'un outil qui échoue.
 
 ## ✅ Correction attendue
-La logique : structurer = imposer un schéma + valider + retry ; outiller = déclarer, laisser le modèle DEMANDER, exécuter côté code, renvoyer, boucler avec budget. Vérifie : sortie non-JSON gérée, argument d'outil invalide rejeté, boucle bornée, outil en échec renvoyé proprement au modèle.
+### La démarche
+
+Deux mécanismes distincts, qu'on confond souvent parce qu'ils apparaissent ensemble :
+
+- **structurer une sortie** = imposer un schéma, valider ce qui revient, réessayer si non
+  conforme ;
+- **outiller un modèle** = déclarer ce qu'il peut demander, le laisser **demander**, exécuter
+  soi-même, lui renvoyer le résultat, boucler.
+
+Le point commun, et il est le cœur de la leçon : **dans les deux cas, le modèle ne fait rien
+lui-même.** Il produit du texte que ton code interprète et exécute. Cette phrase, prise au
+sérieux, dicte toute l'architecture.
+
+### Le schéma : imposer, valider, réessayer
+
+```js
+const schema = { note: 'entier entre 1 et 5' };
+
+const r = await appeler(prompt, { format: 'json' });
+const parse = valider(r);                        // ← le code, pas le modèle
+if (!parse.ok) {
+  return await appeler(prompt + `\nErreur : ${parse.erreur}. Corrige.`, { format: 'json' });
+}
+```
+
+Trois cas à traiter, et le troisième est celui qu'on oublie :
+
+| Sortie | Traitement |
+|---|---|
+| pas du JSON du tout | nouvelle tentative avec le message d'erreur |
+| JSON valide, schéma non respecté (`note: 7`) | nouvelle tentative — c'est **le cas oublié** |
+| JSON valide, schéma respecté | on l'utilise |
+
+Le deuxième cas est celui qui passe silencieusement quand on se contente d'un `JSON.parse`.
+`{"note": 7}` est du JSON parfaitement valide, et c'est une note hors barème. Sans validation
+de **schéma** — pas seulement de syntaxe —, la valeur entre dans ton système et y produit un
+défaut plus loin, sans qu'on sache d'où il vient.
+
+Même quand le fournisseur propose un mode « sortie structurée » garanti par construction : **la
+validation reste dans ton code.** C'est la même règle qu'à toute frontière — la garantie de
+quelqu'un d'autre ne dispense pas de vérifier ce qui entre chez toi.
+
+### La boucle d'outils, décomposée
+
+```
+1. tu déclares les outils disponibles (nom, description, schéma des arguments)
+2. le modèle répond soit du texte, soit « j'aimerais appeler recherche({q: "..."}) »
+3. TON CODE décide s'il exécute, l'exécute, et renvoie le résultat
+4. le modèle reprend avec ce résultat
+5. retour en 2, jusqu'à une réponse finale OU l'épuisement du budget
+```
+
+L'étape 3 est celle qui porte toute la sécurité, et elle est écrite en majuscules pour une
+raison : **le modèle ne peut rien exécuter.** Il émet une demande, sous forme de texte. Ce qui
+s'exécute, c'est ton code, avec les droits de ton code.
+
+Trois conséquences immédiates :
+
+- **les arguments sont validés comme n'importe quelle entrée utilisateur.** Un outil
+  `lireFichier(chemin)` avec un chemin non validé est une faille, exactement comme un formulaire
+  web non validé — le modèle est ici un utilisateur potentiellement manipulé, voir
+  `/doc/lessons/prompt-injection-defense` ;
+- **un outil dangereux se confirme.** Suppression, envoi, paiement : le code demande une
+  confirmation humaine, ou l'outil n'existe pas ;
+- **les droits sont ceux du strict nécessaire.** Un outil de recherche accède en lecture à un
+  index, pas à la base de production.
+
+### Le budget d'itérations, et ce qu'il empêche
+
+```js
+for (let i = 0; i < MAX_ITERATIONS; i++) { /* … */ }
+throw new ErreurBudget('agent non convergent');
+```
+
+Sans lui, un modèle qui redemande indéfiniment le même outil tourne jusqu'à épuisement du
+compte. Ce n'est pas théorique : la boucle « je cherche, le résultat ne me satisfait pas, je
+cherche à nouveau » est le mode d'échec le plus courant d'un agent, et il coûte un appel à
+chaque tour.
+
+Le budget doit être **double** : un nombre d'itérations **et** un plafond de jetons cumulés. Le
+premier borne les tours, le second borne le coût — et ils ne sont pas équivalents, puisque le
+contexte grossit à chaque tour.
+
+Et l'épuisement du budget n'est pas une erreur technique : c'est un **résultat**, à journaliser
+et à surveiller. Un taux d'épuisement qui monte signale que les outils ne répondent pas à ce
+que le modèle cherche.
+
+### Quand un outil échoue
+
+```
+outil → exception  →  renvoyer au modèle : { erreur: "service indisponible" }
+```
+
+Contre-intuitif, et pourtant correct dans la plupart des cas : **on renvoie l'erreur au modèle**
+plutôt que de faire échouer toute la boucle. Il peut alors essayer autrement, ou répondre « je
+n'ai pas pu vérifier ce point ».
+
+Avec deux garde-fous : le message d'erreur renvoyé est **neutre** — pas de trace d'appels, pas
+de nom de table, pour la même raison qu'on ne les envoie pas à un client HTTP — et l'échec
+compte dans le budget, sinon un outil définitivement cassé produit une boucle infinie de
+tentatives.
+
+### La mauvaise solution plausible
+
+Extraire la sortie structurée par une expression régulière plutôt que par un schéma.
+
+```js
+const note = r.match(/"note"\s*:\s*(\d)/)?.[1];      // ⚠️
+```
+
+Ça marche sur les sorties bien formées — c'est-à-dire sur celles qu'on a regardées en écrivant
+le code. Ça échoue silencieusement sur `{"note": 10}` (capture `1`), sur une note écrite en
+toutes lettres, sur un JSON imbriqué où `note` apparaît deux fois.
+
+L'expression régulière ne valide rien : elle **prélève**. Et son échec ne se signale pas — il
+produit une valeur plausible et fausse, qui est le défaut le plus coûteux de toute cette série
+de leçons.
+
+### Auto-évaluation
+
+| Vérification | Comment |
+|---|---|
+| sortie non-JSON gérée | test avec une réponse en texte libre |
+| schéma validé, pas seulement la syntaxe | test avec `{"note": 7}` |
+| arguments d'outil validés | test avec un argument hors domaine ou malveillant |
+| budget d'itérations **et** de jetons | la boucle ne peut ni tourner ni coûter indéfiniment |
+| échec d'outil non fatal | test avec un outil qui lève, la boucle continue |
+| aucun outil dangereux sans confirmation | relis la liste des outils déclarés |
+
+### Généralisation
+
+La boucle d'outils est un motif ancien sous un nom neuf : **un composant propose, un composant
+autorisé exécute.** C'est l'architecture d'un shell et de son noyau, d'un client et d'une API,
+d'un formulaire et d'un serveur.
+
+Et la règle de sécurité est la même partout : **la frontière est là où l'exécution a lieu, pas
+là où la demande est formulée.** Un modèle de langage bien intégré n'a pas plus de pouvoir
+qu'un utilisateur anonyme — il a seulement une manière plus convaincante de demander.
+
 
 ## 🎤 Questions d'entretien
 - « Qui exécute les outils, le modèle ou ton code ? » → Ton code ; le modèle ne fait que demander.

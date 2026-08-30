@@ -282,6 +282,106 @@ avant qu'elle accepte les connexions. L'ajout d'un healthcheck sur `db` et d'une
 `condition: service_healthy` sur `depends_on` a rendu le démarrage
 déterministe — plus de flakiness au lancement.
 
+## 🔥 Pratique — deux services, et tout ce qui rate au démarrage
+
+**A. La composition minimale.** Écris une composition à deux services :
+application et base de données. L'application doit se connecter au démarrage.
+Livrable : le fichier, et la trace du premier démarrage.
+
+**B. Faire échouer le démarrage, exprès.** Lance la composition depuis un état
+vide, où la base met plusieurs secondes à accepter des connexions. Livrable : ce
+que fait l'application, et le message d'erreur exact.
+
+**C. Les deux remèdes, séparément.** Ajoute d'abord un contrôle de santé sur la
+base et une dépendance conditionnée à ce contrôle. Puis, **séparément**, ajoute
+une reprise sur échec côté application. Teste chacun seul. Livrable : ce que
+chacun règle, et ce qu'il ne règle pas.
+
+**D. Le nom d'hôte et le port.** Depuis l'application, connecte-toi à la base par
+son nom de service. Depuis ta machine, connecte-toi à la même base. Livrable :
+les deux chaînes de connexion, et l'explication de leur différence.
+
+**E. La persistance.** Prouve que les données survivent à l'arrêt et à la
+recréation des conteneurs, puis trouve la commande qui les détruit vraiment.
+Livrable : les deux séquences.
+
+## ✅ Correction attendue
+
+> **Limite déclarée.** Le démon Docker n'est pas disponible dans
+> l'environnement de rédaction de ce cours : **aucune commande `docker` n'a été
+> exécutée**. Les sorties ci-dessous sont présentées comme attendues, jamais
+> comme mesurées. En revanche le mécanisme sous-jacent — la superposition de
+> systèmes de fichiers — a été exercé réellement
+> (`scripts/v70-verifications/couches-overlay.sh`), et les chiffres qui en
+> viennent sont signalés comme mesurés.
+
+**A et B — pourquoi ça rate.** Le comportement attendu : l'application démarre
+avant que la base n'accepte des connexions, échoue, et selon sa configuration
+s'arrête ou boucle.
+
+Le point à comprendre est que **la déclaration de dépendance attend le
+démarrage, pas la disponibilité.** Le conteneur de base de données est
+« démarré » dès que son processus existe — c'est-à-dire plusieurs secondes avant
+qu'il n'accepte la moindre connexion, le temps de son initialisation.
+
+C'est exactement le même écart que celui **mesuré** dans
+`linux-services-systemd` avec un superviseur minimal :
+
+```
+ 50 ms après le lancement : processus vivant = true · service prêt = false
+950 ms après le lancement : processus vivant = true · service prêt = true
+```
+
+800 millisecondes entre les deux états, sur un cas volontairement simple. Sur
+une base de données réelle, c'est plusieurs secondes.
+
+**C — les deux remèdes, et pourquoi les deux.**
+
+Le **contrôle de santé** transforme « le processus existe » en « le service
+répond ». Il résout le cas du premier démarrage. Ce qu'il ne résout pas : la
+base qui redémarre **en cours de vie**, ou qui devient momentanément
+indisponible. À ce moment-là, plus personne ne vérifie.
+
+La **reprise applicative** couvre tout le reste de la vie du système. Ce qu'elle
+ne résout pas élégamment : le premier démarrage, où elle produit une rafale
+d'erreurs dans les journaux avant que ça ne marche.
+
+**Les deux sont nécessaires, et ils ne traitent pas le même problème.** Le
+contrôle de santé supprime le cas courant ; la reprise couvre l'imprévu. Une
+équipe qui n'en met qu'un aura toujours la moitié du problème — et c'est le même
+raisonnement que pour le signal de disponibilité de `linux-services-systemd`.
+
+Sur la forme de la reprise : un délai **croissant**, pas fixe. La mesure du
+superviseur minimal donne 63 tentatives en 10 s à délai fixe contre **7** avec un
+délai doublant. Et une limite, faute de quoi une application qui ne se
+connectera jamais remplit les journaux indéfiniment.
+
+**D — le nom et le port.** Deux chaînes différentes pour la même base :
+
+```
+depuis l application  : db:5432        <- nom de service, port interne
+depuis ta machine     : localhost:5433 <- port publié sur l hôte
+```
+
+Le nom du service est résolu **par le réseau de la composition**, qui n'existe
+pas depuis ta machine. Et le port publié n'a aucune raison d'être le même que le
+port interne — c'est même souhaitable, pour éviter un conflit avec une base
+installée localement.
+
+L'erreur qui en découle : copier la chaîne de connexion de son terminal dans la
+configuration de l'application. `localhost` désigne alors le conteneur
+lui-même, pas l'hôte. C'est la même confusion que celle traitée dans
+`docker-networking-volumes`.
+
+**E — la persistance.** Les données survivent à l'arrêt et à la recréation des
+conteneurs **si et seulement si** elles vivent dans un volume nommé. Sans
+volume, elles sont dans la couche d'écriture du conteneur, qui disparaît avec
+lui — c'est le mécanisme mesuré dans `docker-containers`.
+
+La commande qui détruit vraiment est celle qui supprime **aussi les volumes**.
+La distinction mérite d'être connue avant l'incident : `down` seul conserve les
+données ; l'option qui retire les volumes ne demande aucune confirmation.
+
 ## 🎤 Questions d'entretien
 - « `depends_on` garantit-il que le service est prêt ? » → non, seulement l'ordre
   ; il faut un healthcheck + condition.

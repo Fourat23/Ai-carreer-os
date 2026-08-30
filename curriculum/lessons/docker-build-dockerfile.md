@@ -333,6 +333,115 @@ déplacé vers le gestionnaire de secrets injecté au run.
 - **Prévention** : construire localement dans un dossier propre (comme le fait la CI)
   avant de pousser ; garder un `.dockerignore` juste (ni trop, ni trop peu).
 
+## 🔥 Pratique — mesurer le cache et faire fondre une image
+
+**A. Chronométrer le cache.** Sur un projet réel, construis l'image, modifie une
+ligne de code, reconstruis. Puis inverse l'ordre des instructions de copie et
+recommence. Livrable : les quatre durées, et l'étape qui se relance dans chaque
+cas.
+
+**B. Le fichier d'exclusion.** Mesure la taille du contexte de construction avec
+et sans exclusions. Livrable : les deux tailles, et la liste de ce qui partait
+inutilement.
+
+**C. La construction multi-étapes.** Transforme une construction en une seule
+étape en une construction à deux étapes, l'une pour compiler, l'autre pour
+exécuter. Livrable : les deux tailles d'image finale.
+
+**D. Le fichier qui ne disparaît pas.** Fabrique une image qui télécharge une
+archive de 5 Mio, l'utilise, puis la supprime dans une instruction **ultérieure**.
+Compare sa taille à la version qui fait les trois dans une seule instruction.
+Livrable : les deux tailles.
+
+**E. Chercher un secret dans une image.** Construis volontairement une image
+contenant un faux secret supprimé plus tard, puis retrouve-le. Livrable : la
+commande qui l'exhume.
+
+## ✅ Correction attendue
+
+> **Limite déclarée.** Le démon Docker n'est pas disponible dans
+> l'environnement de rédaction de ce cours : **aucune commande `docker` n'a été
+> exécutée**. Les sorties ci-dessous sont présentées comme attendues, jamais
+> comme mesurées. En revanche le mécanisme sous-jacent — la superposition de
+> systèmes de fichiers — a été exercé réellement
+> (`scripts/v70-verifications/couches-overlay.sh`), et les chiffres qui en
+> viennent sont signalés comme mesurés.
+
+**A — l'ordre des instructions.** Le résultat attendu : avec la copie du code
+**avant** l'installation des dépendances, toute modification d'une ligne
+relance l'installation complète. Avec l'ordre inverse, elle ne la relance pas.
+
+Le mécanisme à énoncer : **le cache d'une instruction est invalidé dès qu'une
+instruction précédente l'est.** Il n'y a donc pas de « cache par instruction »
+indépendant ; il y a une chaîne, et une invalidation en amont emporte tout
+l'aval.
+
+La règle qui en découle est simple à appliquer : **ordonner les instructions de
+la moins changeante à la plus changeante.** L'image de base change tous les
+mois, les dépendances quand on en ajoute une, le code à chaque commit.
+
+**B — le contexte.** Sans exclusions, `node_modules`, `.git` et les fichiers
+locaux partent au démon à chaque construction. Deux effets : le transfert est
+long, et surtout **toute modification de n'importe lequel de ces fichiers
+invalide le cache** — y compris un fichier temporaire d'éditeur, ce qui produit
+des invalidations de cache apparemment inexplicables.
+
+**C — le multi-étapes.** L'écart attendu est important : une image de
+construction contient un compilateur, des outils et des dépendances de
+développement dont l'exécution n'a aucun besoin. L'image finale ne reçoit que le
+produit de la compilation.
+
+Le bénéfice n'est pas seulement la taille : **c'est une réduction de la surface
+d'attaque.** Un compilateur présent dans une image de production est un outil
+disponible pour qui obtiendrait l'exécution de code dedans.
+
+**D — le fichier qui ne disparaît pas.** C'est ici que la mesure réelle
+s'applique. Le mécanisme d'image est une pile de systèmes de fichiers superposés,
+et `scripts/v70-verifications/couches-overlay.sh` l'exerce directement :
+
+```
+avant suppression : couche1 5132 Kio · couche2 8 · couche3 4
+apres suppression : couche1 5132 Kio · couche2 8 · couche3 4
+total des couches : 5144 Kio
+```
+
+**Rien n'a maigri.** La couche du dessous garde les 5 Mio, et la couche
+supérieure a même **grossi** d'un fichier de masquage. Une image ne rétrécit
+jamais par suppression : elle ne fait que s'allonger.
+
+La formulation exacte du remède compte : le fichier ne doit pas être *supprimé*,
+il doit **ne jamais exister à la fin d'une instruction**. D'où la forme :
+
+```dockerfile
+RUN curl -o outils.tar.gz https://exemple/outils.tar.gz \
+ && tar xf outils.tar.gz \
+ && rm outils.tar.gz
+```
+
+**E — le secret exhumé.** La même vérification montre ce qu'écrit réellement une
+suppression dans une couche supérieure :
+
+```
+c--------- 2 root root 0, 0 .env
+```
+
+Un fichier spécial de type caractère, appelé *whiteout* : ce n'est pas une
+suppression, c'est un **marqueur de masquage**. Et la couche du dessous est
+intacte :
+
+```
+SECRET=sk_live_abc123
+```
+
+Le secret n'apparaît dans aucun conteneur démarré depuis l'image — **ce qui est
+précisément le piège**, puisqu'on vérifie en démarrant un conteneur. Il est dans
+la couche, et quiconque obtient l'image obtient les couches.
+
+La conclusion opérationnelle rejoint `deployment-secrets` : un secret ne se
+fournit pas à la construction, il se fournit au **démarrage du conteneur**. Et
+si un secret est parti dans une image publiée, l'ordre est le même que pour git :
+**révoquer d'abord**, reconstruire ensuite.
+
 ## 🎤 Questions d'entretien
 - « À quoi sert un multi-stage build ? » → construire dans une étape riche, ne
   livrer qu'un artefact minimal.

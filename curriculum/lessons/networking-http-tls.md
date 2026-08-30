@@ -283,6 +283,96 @@ de fond : automatiser le renouvellement + alerte 30 jours avant expiration.
 Une requête renvoie 502. Est-ce plutôt un problème de votre requête ou du serveur ? →
 du serveur (famille 5xx : backend indisponible ou en erreur).
 
+## 🔥 Pratique — inspecter une connexion sécurisée de l'intérieur
+
+**A. Ce qui est négocié.** Écris un programme qui ouvre une connexion chiffrée
+vers un hôte et affiche : la version du protocole retenue, la suite de
+chiffrement, et le nom porté par le certificat présenté. Livrable : les trois
+valeurs pour trois hôtes différents.
+
+**B. Le coût de la négociation.** Mesure séparément la durée de l'établissement
+de la connexion et celle de la négociation du chiffrement. Livrable : les deux
+durées et leur rapport.
+
+**C. Le nom demandé décide du certificat.** Connecte-toi à la même adresse en
+annonçant deux noms différents et compare les certificats reçus. Livrable : les
+deux noms de certificat, et ton explication.
+
+**D. Faire échouer la vérification, exprès.** Provoque trois échecs distincts :
+certificat expiré, nom qui ne correspond pas, autorité inconnue. Livrable : le
+message d'erreur exact de chacun, et ce que chacun signifie pour la sécurité.
+
+**E. Les en-têtes qui changent le comportement.** Sur une requête réelle,
+observe les en-têtes de mise en cache, de compression et de connexion persistante
+renvoyés par le serveur. Livrable : leurs valeurs et l'effet de chacun.
+
+## ✅ Correction attendue
+
+> Valeurs mesurées par `scripts/v70-verifications/reseau-mesures.mjs`.
+
+**A — ce qui est négocié.** Sortie obtenue :
+
+```
+protocole négocié : TLSv1.3 · chiffrement : TLS_AES_256_GCM_SHA384
+certificat présenté pour : example.com
+```
+
+Trois choses sont **négociées à chaque connexion** et non fixées d'avance : la
+version du protocole (le plus élevé que les deux parties acceptent), la suite
+cryptographique, et l'identité prouvée par le serveur. Un serveur qui accepte
+encore d'anciennes versions négociera à la baisse avec un client ancien — d'où
+l'intérêt de désactiver explicitement ce qu'on ne veut plus, plutôt que
+d'espérer que les clients soient à jour.
+
+**B — le coût.** Sur la mesure :
+
+```
+établissement de la connexion :  2,8 ms
+négociation du chiffrement    : 12,0 ms   (×4,3)
+```
+
+La négociation coûte plusieurs fois l'établissement. C'est un coût **par
+connexion**, pas par requête — ce qui explique en une phrase pourquoi la
+réutilisation de connexion fait passer une moyenne de 19,7 ms à 5,5 ms dans la
+mesure jumelle. Le chiffrement n'est pas cher à l'usage ; il est cher à
+l'installation.
+
+**C — le nom décide.** Une même adresse peut héberger des centaines de sites.
+Le client annonce le nom qu'il demande **avant** que le serveur ne présente son
+certificat — sans quoi le serveur ne saurait pas lequel envoyer.
+
+Conséquence de diagnostic : un outil qui se connecte par adresse sans annoncer
+le nom reçoit le certificat par défaut, souvent celui d'un autre site, et
+produit une erreur de correspondance qui n'existe pas pour un vrai navigateur.
+C'est une cause classique de faux diagnostic.
+
+**D — les trois échecs, et ce que chacun signifie.**
+
+- **Certificat expiré** : la preuve d'identité n'est plus valable. Le risque
+  réel est faible dans l'immédiat — mais l'expiration est le symptôme d'un
+  renouvellement non automatisé, donc d'un incident programmé.
+- **Nom qui ne correspond pas** : le serveur prouve une identité, mais **pas
+  celle demandée**. C'est l'échec le plus grave des trois : c'est exactement la
+  forme qu'aurait une interception.
+- **Autorité inconnue** : le certificat est peut-être valide, mais rien ne
+  permet de le vérifier. Fréquent en interne avec une autorité maison, et c'est
+  pourquoi on installe l'autorité plutôt que de désactiver la vérification.
+
+Le point qui compte : **désactiver la vérification supprime la seule protection
+contre l'interception**, et elle est le plus souvent désactivée « en attendant »
+sur un environnement de développement, puis oubliée en production.
+
+**E — les en-têtes.** Les trois familles à savoir lire :
+
+- **mise en cache** — décide si une réponse est réutilisable, par qui et pendant
+  combien de temps. Une réponse d'API sans directive explicite peut être mise en
+  cache par un intermédiaire, avec des conséquences que personne n'a prévues.
+- **compression** — négociée par le client, appliquée par le serveur. Un gain
+  souvent supérieur à toute optimisation applicative, et gratuit.
+- **connexion persistante** — c'est ce qui rend possible le gain mesuré en B.
+  Un serveur qui ferme la connexion après chaque réponse force à repayer les
+  12 ms de négociation à chaque appel.
+
 ## 🧾 À retenir
 - HTTP : requête (méthode, chemin, en-têtes, corps) → réponse (statut, en-têtes, corps), sans état.
 - Statuts par famille : 2xx OK, 3xx redir, 4xx client, 5xx serveur.

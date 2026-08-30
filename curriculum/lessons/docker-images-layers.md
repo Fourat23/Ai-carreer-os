@@ -274,6 +274,124 @@ vulnérabilités.
 - **Prévention** : ranger du plus stable (dépendances) au plus changeant (code) ;
   vérifier avec un second build qu'il ne réinstalle plus.
 
+## 🔥 Pratique — exercer le mécanisme des couches sans Docker
+
+Le format d'image est une pile de systèmes de fichiers superposés. Ce mécanisme
+est disponible directement dans le noyau Linux : tu peux l'exercer, et rien n'y
+est caché.
+
+**A. Monter une pile.** Crée trois répertoires de couches, un répertoire de
+travail et un point de fusion, puis monte la superposition. Mets un fichier dans
+la couche du bas et une version différente dans celle du dessus. Livrable : ce
+que montre le point de fusion, et ta prédiction écrite **avant** de regarder.
+
+**B. Supprimer, puis chercher.** Supprime un fichier depuis le point de fusion,
+puis réponds par une commande à chacune de ces questions : est-il encore visible
+depuis la fusion ? qu'a-t-on écrit dans la couche supérieure ? que contient
+encore la couche du bas ? Livrable : les trois réponses.
+
+**C. Mesurer le poids.** Place un fichier de 5 Mio dans la couche du bas, mesure
+les trois couches, supprime-le depuis la fusion, remesure. Livrable : les deux
+mesures et le total.
+
+**D. Traduire en instructions.** À partir de A, B et C, explique en quatre lignes
+pourquoi supprimer un fichier dans une instruction ultérieure ne réduit pas la
+taille d'une image, et écris la forme qui, elle, fonctionne.
+
+**E. L'ordre par fréquence.** Réécris un fichier de construction pour qu'une
+modification de code ne relance pas l'installation des dépendances. Livrable : le
+fichier et la justification de chaque position.
+
+## ✅ Correction attendue
+
+> **Limite déclarée.** Le démon Docker n'est pas disponible dans
+> l'environnement de rédaction : **aucune commande `docker` n'a été exécutée**.
+> Les sorties présentées comme attendues le sont explicitement. Le mécanisme
+> sous-jacent — la superposition de systèmes de fichiers du noyau Linux — a en
+> revanche été exercé réellement
+> (`scripts/v70-verifications/couches-overlay.sh`), et ces chiffres-là sont
+> mesurés.
+
+**A — quelle couche gagne.** La fusion montre la version de la couche
+**supérieure**. Attention à l'ordre de déclaration des couches inférieures : il
+se lit de la plus haute à la plus basse, ce qui surprend et inverse la
+démonstration si l'on se trompe.
+
+La règle transposée : quand deux instructions touchent le même chemin, c'est la
+dernière qui décide du contenu visible.
+
+**B — ce qu'écrit vraiment une suppression.** Vu depuis la fusion, le fichier a
+disparu. Dans la couche supérieure :
+
+```
+c--------- 2 root root 0, 0 .env
+```
+
+Le premier caractère est `c` : un **fichier spécial en mode caractère**, de
+numéros majeur 0 et mineur 0. Ce n'est pas une suppression, c'est un **marqueur
+de masquage**. Et la couche du dessous est intacte :
+
+```
+SECRET=sk_live_abc123
+```
+
+Deux conséquences directes. Un secret copié puis supprimé reste **lisible dans
+la couche**, et quiconque obtient l'image obtient les couches — même si aucun
+conteneur démarré depuis cette image ne le montre. Et la parenté avec
+l'historique git est exacte : dans les deux cas, on manipule une suite d'états
+immuables où l'opération « retirer » n'existe pas, seulement « ajouter un état
+où la chose n'est plus visible ».
+
+**C — le poids.** Mesuré :
+
+```
+avant suppression : couche1 5132 Kio · couche2 8 · couche3 4
+apres suppression : couche1 5132 Kio · couche2 8 · couche3 4
+total des couches : 5144 Kio
+```
+
+Rien n'a maigri, et la couche supérieure a **grossi**.
+
+**D — la traduction.** La formulation qui compte : le fichier ne doit pas être
+*supprimé*, il doit **ne jamais exister à la fin d'une instruction**.
+
+```dockerfile
+# ❌ l archive pèse dans l image, définitivement
+RUN curl -o outils.tar.gz https://exemple/outils.tar.gz
+RUN tar xf outils.tar.gz
+RUN rm outils.tar.gz
+
+# ✅ elle n existe qu à l intérieur d une seule couche
+RUN curl -o outils.tar.gz https://exemple/outils.tar.gz \
+ && tar xf outils.tar.gz \
+ && rm outils.tar.gz
+```
+
+Et pour un secret, la même logique va plus loin : même dans une instruction
+unique, il est présent pendant son exécution et peut apparaître dans les
+journaux de construction. Un secret se fournit **au démarrage du conteneur**.
+
+**E — l'ordre.** Du plus stable au plus changeant :
+
+```dockerfile
+FROM node:20-slim               # change tous les mois
+WORKDIR /app
+COPY package*.json ./           # change quand une dépendance change
+RUN npm ci                      # l instruction coûteuse
+COPY . .                        # change à chaque commit
+CMD ["node", "serveur.js"]
+```
+
+Le mécanisme : **le cache d'une instruction est invalidé dès qu'une instruction
+précédente l'est.** Placer la copie du code avant l'installation fait donc
+réinstaller toutes les dépendances à chaque ligne modifiée. L'image reste
+correcte, la construction devient dix fois plus lente, et rien ne signale
+l'erreur — seulement de l'attente.
+
+Complément indispensable : un fichier d'exclusion, sans quoi la copie du contexte
+embarque les dépendances installées localement et l'historique git, et **toute**
+modification dans ces répertoires invalide le cache.
+
 ## 🎤 Questions d'entretien
 - « Différence entre un tag et un digest ? » → étiquette mutable vs identifiant de
   contenu immuable.

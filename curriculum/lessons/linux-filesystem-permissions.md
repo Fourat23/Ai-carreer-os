@@ -343,6 +343,101 @@ Sans exécuter : quelle notation octale pour « le proprio lit/écrit, le groupe
 personne d'autre » ? → `640`. Et pour un script exécutable par tous mais modifiable
 par le seul proprio ? → `755`.
 
+## 🔥 Pratique — éprouver les droits au lieu de les réciter
+
+Les droits Unix se comprennent en essayant, parce que plusieurs de leurs
+comportements sont contre-intuitifs. Attention à un piège de méthode : **il faut
+tester avec un utilisateur non privilégié.** En superutilisateur, tout est
+autorisé et l'exercice ne démontre rien.
+
+**A. Le contournement.** Crée un fichier sans aucun droit, puis tente de le lire
+en superutilisateur, puis avec un utilisateur ordinaire. Livrable : les deux
+résultats.
+
+**B. Lire, écrire, exécuter sur un fichier.** Pour chaque combinaison de droits
+sur un script, note si on peut le lire, l'écrire, et l'exécuter. Livrable : le
+tableau des huit combinaisons.
+
+**C. Les mêmes lettres sur un répertoire.** Refais le tableau, mais sur un
+répertoire : que permettent respectivement `r`, `w` et `x` ? Livrable : le
+tableau, et la paire de cas qui te surprend.
+
+**D. Supprimer ce qu'on ne peut pas lire.** Place un fichier sans aucun droit
+dans un répertoire ouvert en écriture, et tente de le supprimer avec un
+utilisateur ordinaire. Livrable : le résultat, et ton explication.
+
+**E. Un conteneur écrit sur ton disque.** Vérifie quels fichiers d'un répertoire
+partagé sont modifiables selon l'identifiant numérique du processus qui écrit.
+Livrable : ta conclusion sur ce qui est comparé.
+
+## ✅ Correction attendue
+
+> Valeurs mesurées par `scripts/v70-verifications/linux-permissions.sh`,
+> exécuté avec abaissement de privilèges vers un utilisateur non privilégié.
+
+**A — le contournement, et pourquoi c'est la première chose à savoir.** En
+superutilisateur, **tous** les accès sont autorisés, y compris sur un fichier
+sans aucun droit. Les bits de permission ne sont pas consultés.
+
+Ce n'est pas une anecdote : c'est ce qui rend inutile tout durcissement de droits
+sur un service qui tourne en superutilisateur, et c'est pourquoi
+`linux-services-systemd` et `docker-production-hardening` insistent tous deux sur
+un utilisateur dédié. Un fichier en `600` ne protège de rien si le processus qui
+pourrait le lire a déjà tous les droits.
+
+C'est aussi le premier piège méthodologique de cet exercice : la première
+version du script de vérification tournait en superutilisateur et affichait
+« autorisé » partout, ne démontrant rien.
+
+**B — sur un fichier.** Le résultat qui surprend : **`--x` seul ne suffit pas
+pour exécuter un script.** Un script est lu par un interpréteur, qui a besoin du
+droit de lecture. Il faut `r-x`. Un binaire compilé, lui, s'exécute avec `--x`
+seul, parce qu'il est chargé directement par le noyau.
+
+Second piège de mesure, rencontré en écrivant la vérification : si le test
+d'écriture ajoute une ligne au script qu'on va ensuite exécuter, l'exécution
+échoue pour une **erreur de syntaxe**, pas pour un refus de droits. Le script
+recrée donc le fichier à chaque itération, et cette précaution est commentée dans
+son code. C'est un rappel général : **un test qui modifie son propre sujet ne
+mesure pas ce qu'il croit.**
+
+**C — sur un répertoire, et la paire qui surprend.** Les mêmes lettres n'ont pas
+le même sens :
+
+- `r` : lister les noms — mais **pas** accéder à ce qu'ils désignent ;
+- `x` : traverser, donc accéder à un fichier dont on connaît déjà le nom — mais
+  **pas** lister ;
+- `w` : créer et supprimer des entrées.
+
+La paire qui surprend est `r--` contre `--x`, et ils sont **opposés** : avec
+`r--` on voit les noms sans pouvoir ouvrir quoi que ce soit ; avec `--x` on peut
+tout ouvrir à condition de connaître les noms, sans pouvoir en lister aucun.
+
+C'est exactement ce qui explique un répertoire personnel en `701` : personne ne
+peut lister son contenu, mais un chemin connu reste accessible. Beaucoup de
+configurations de serveur web reposent sur ce comportement.
+
+**D — supprimer ce qu'on ne peut pas lire.** Mesuré : **oui, c'est possible.**
+Un fichier en `000` dans un répertoire en `777` est supprimable par n'importe qui.
+
+L'explication tient en une phrase, et elle est le cœur du modèle : **supprimer un
+fichier n'est pas une opération sur le fichier, c'est une opération sur le
+répertoire qui le nomme.** Le droit consulté est donc celui du répertoire.
+
+C'est ce qui rend `chmod 600` insuffisant en soi : la protection d'un fichier
+dépend des droits du répertoire qui le contient, et de tous ceux au-dessus.
+
+**E — l'identifiant numérique.** Les droits sont comparés à un **numéro**, jamais
+à un nom. Le nom n'existe que dans un fichier de correspondance local, et rien ne
+garantit que deux systèmes utilisent le même.
+
+D'où le comportement, déroutant la première fois, d'un conteneur écrivant sur un
+répertoire partagé avec l'hôte : les fichiers créés appartiennent à l'identifiant
+du processus **dans le conteneur**, qui peut correspondre à un tout autre
+utilisateur côté hôte — souvent à personne. C'est pourquoi
+`docker-production-hardening` demande un identifiant **numérique et explicite**
+plutôt qu'un simple nom d'utilisateur.
+
 ## 🧾 À retenir
 - Tout est fichier ; un chemin est une adresse dans l'arbre `/`.
 - Le nom pointe vers un inode (métadonnées + données).

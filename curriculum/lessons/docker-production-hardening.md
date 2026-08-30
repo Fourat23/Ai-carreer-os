@@ -291,6 +291,118 @@ charge) et PID 1 en forme shell ignorant `SIGTERM`. Correctifs : limite mémoire
 ajustée, forme exec + `--init`, bascule non-root et rootfs en lecture seule. Le
 service devient stable et s'arrête proprement lors des déploiements.
 
+## 🔥 Pratique — décider les trois réglages qu'on ne décide jamais
+
+**A. Le code de sortie.** Fais dépasser volontairement la limite de mémoire d'un
+conteneur, puis arrête-en un proprement. Note le code de sortie dans chaque cas.
+Livrable : les deux codes et leur décomposition.
+
+**B. La forme de la commande de démarrage.** Lance le même programme une fois en
+forme shell et une fois en forme exec, puis envoie un signal d'arrêt aux deux.
+Livrable : lequel reçoit le signal, lequel ne le reçoit pas, et pourquoi.
+
+**C. L'utilisateur.** Fais tourner un conteneur sans utilisateur déclaré, puis
+avec un utilisateur non privilégié à identifiant numérique explicite. Vérifie
+dans chaque cas quels fichiers de l'hôte montés en volume sont modifiables.
+Livrable : les deux résultats.
+
+**D. Les limites de ressources.** Fixe une limite de mémoire et une limite de
+processeur, puis fais dépasser chacune. Livrable : les deux comportements, qui
+ne sont pas symétriques.
+
+**E. L'arrêt propre.** Fais en sorte que ton conteneur termine ses requêtes en
+cours avant de s'arrêter, et mesure le nombre de requêtes interrompues avec et
+sans. Livrable : les deux nombres.
+
+## ✅ Correction attendue
+
+> **Limite déclarée.** Le démon Docker n'est pas disponible dans
+> l'environnement de rédaction : **aucune commande `docker` n'a été exécutée**.
+> Les sorties présentées comme attendues le sont explicitement. Le mécanisme
+> sous-jacent — la superposition de systèmes de fichiers du noyau Linux — a en
+> revanche été exercé réellement
+> (`scripts/v70-verifications/couches-overlay.sh`), et ces chiffres-là sont
+> mesurés.
+
+**A — les codes de sortie.** Les deux valeurs attendues sont **137** et **143**,
+et la règle qui les produit est `128 + N`, où N est le numéro du signal :
+
+- **137** = 128 + 9 : tué sans possibilité de réagir. C'est le code du
+  dépassement de mémoire.
+- **143** = 128 + 15 : arrêt **demandé**, que le processus a pu traiter. C'est un
+  arrêt normal.
+
+Cette arithmétique est vérifiée dans `linux-services-systemd`, où le même calcul
+apparaît sur un superviseur écrit à la main. Elle vaut pour tout processus tué
+par un signal, conteneur ou non.
+
+La conséquence de diagnostic : **137 n'est pas un plantage applicatif.** Chercher
+l'erreur dans les journaux de l'application est une perte de temps — le processus
+n'a rien pu écrire, il a été tué. C'est une question de mémoire, et la réponse est
+dans les limites, pas dans le code.
+
+**B — shell contre exec.** En forme shell, la commande est enveloppée dans un
+interpréteur qui devient le processus 1 ; ton programme est son enfant. Le signal
+d'arrêt va au processus 1, c'est-à-dire à l'interpréteur, **qui ne le transmet
+pas**. Ton programme n'apprend jamais qu'on lui demande de s'arrêter, et il est
+tué de force après le délai de grâce — sortie 137 au lieu de 143.
+
+En forme exec, ton programme **est** le processus 1 et reçoit le signal
+directement.
+
+Ce défaut est parfaitement silencieux en développement : le conteneur s'arrête
+dans les deux cas. Il ne se voit qu'en production, sous la forme de requêtes
+coupées à chaque déploiement — et personne ne fait le lien avec la syntaxe de la
+commande de démarrage.
+
+Corollaire moins connu : être processus 1 impose une responsabilité, celle de
+récupérer les processus orphelins. Si ton programme lance des sous-processus, il
+faut soit qu'il les gère, soit un petit gestionnaire d'initialisation dédié.
+
+**C — l'utilisateur.** Sans déclaration, le conteneur tourne en superutilisateur.
+Sur un volume monté depuis l'hôte, il peut donc écrire et modifier ce que
+l'utilisateur de l'hôte protège — et la vérification
+`scripts/v70-verifications/linux-permissions.sh` montre pourquoi de façon
+directe : **le superutilisateur contourne tous les contrôles de droits**, y
+compris ceux qu'on croit avoir posés.
+
+Deux exigences dans la réponse. L'utilisateur doit être **non privilégié**, et
+son identifiant doit être **numérique et explicite** : les droits sur un volume
+sont vérifiés sur le numéro, pas sur le nom, et le nom n'existe pas côté hôte.
+Un conteneur déclarant `USER appli` sans identifiant fixe produit des erreurs de
+droits qui changent d'une machine à l'autre.
+
+**D — les deux limites ne sont pas symétriques.** C'est le point que la
+correction attend, parce qu'il est contre-intuitif :
+
+- **Mémoire** : dépasser est **fatal**. Le noyau tue le processus, sortie 137. Il
+  n'y a pas de dégradation, il y a une mort.
+- **Processeur** : dépasser est **ralentissant**. Le processus est freiné, il
+  continue de tourner, et rien ne le signale sauf une latence qui monte.
+
+D'où deux conduites différentes. Une limite de mémoire trop basse produit un
+incident franc, facile à diagnostiquer une fois qu'on connaît le code 137. Une
+limite de processeur trop basse produit une lenteur diffuse que personne
+n'attribue à la configuration — c'est le cas « charge élevée, processeur bas »
+de `linux-resources-io`, transposé au conteneur.
+
+**E — l'arrêt propre.** Sans traitement du signal, les requêtes en cours sont
+coupées net : le client reçoit une connexion fermée, sans code d'erreur
+exploitable — donc irréessayable en toute sécurité, puisqu'on ne sait pas si le
+traitement a eu lieu.
+
+La séquence attendue, dans l'ordre :
+
+1. à réception du signal d'arrêt, **cesser d'accepter** de nouvelles connexions ;
+2. se déclarer hors service pour que le répartiteur cesse d'envoyer du trafic ;
+3. **terminer** les requêtes en cours ;
+4. sortir avec le code 0.
+
+Et le paramètre qui manque presque toujours : le **délai de grâce** doit être
+supérieur à la durée de la requête la plus longue. En dessous, l'étape 3 est
+interrompue par une mort forcée, et tout le travail des étapes 1 et 2 ne sert à
+rien.
+
 ## 🎤 Questions d'entretien
 - « Un conteneur isole-t-il comme une VM ? » → non : noyau partagé, isolation par
   namespaces/cgroups.

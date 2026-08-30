@@ -278,6 +278,101 @@ politique « TTL bas 24 h avant toute migration DNS planifiée ».
 Vous prévoyez de changer l'IP d'un service dans deux jours. Quel réglage DNS faites-vous
 AUJOURD'HUI pour une propagation rapide le jour J ? → baisser le TTL de l'enregistrement A.
 
+## 🔥 Pratique — observer le cache et la répartition
+
+**A. Mesurer le cache.** Résous le même nom deux fois de suite en chronométrant,
+sur trois domaines différents. Livrable : les six durées.
+
+**B. Un nom, combien d'adresses ?** Interroge les enregistrements d'adresse de
+plusieurs domaines et compte-les. Livrable : le nombre par domaine, et ce que
+tu en déduis sur leur infrastructure.
+
+**C. Simuler un changement d'adresse.** Sur une entrée que tu contrôles (ton
+fichier d'hôtes local suffit), change la valeur et observe combien de temps
+l'ancienne continue d'être servie par les différents niveaux de cache.
+Livrable : la chronologie.
+
+**D. Calculer la fenêtre d'un changement.** Pour une durée de vie
+d'enregistrement donnée, calcule le temps maximal pendant lequel une partie des
+clients utilisera encore l'ancienne adresse. Puis calcule ce que devient cette
+fenêtre si tu abaisses la durée de vie 48 h avant la bascule. Livrable : les
+deux fenêtres.
+
+**E. Diagnostiquer.** Écris un script qui, pour un nom donné, affiche : ce que
+répond le résolveur système, ce que répond un résolveur public, et les
+enregistrements faisant autorité. Livrable : le script et sa sortie sur un nom
+dont l'adresse vient de changer.
+
+## ✅ Correction attendue
+
+> Valeurs mesurées par `scripts/v70-verifications/reseau-mesures.mjs`.
+
+**A — le cache.**
+
+```
+registry.npmjs.org -> 104.16.0.34     1re 21,3 ms   2e 18,5 ms
+github.com         -> 140.82.112.4    1re 17,5 ms   2e  3,1 ms
+example.com        -> 172.66.147.243  1re 28,9 ms   2e 15,2 ms
+```
+
+La deuxième résolution est plus rapide, mais **pas systématiquement d'un facteur
+énorme** — et c'est un résultat honnête à publier plutôt que d'annoncer « le
+cache rend la seconde instantanée ». Selon le niveau qui répond (cache du
+processus, du système, du résolveur), le gain va de quelques millisecondes à un
+facteur cinq.
+
+Ce que cette mesure explique vraiment : **une panne de résolution de nom se
+manifeste en différé.** Tant que les caches tiennent, tout fonctionne ; la panne
+apparaît à l'expiration, souvent des minutes ou des heures après la cause. C'est
+pourquoi « ça marchait il y a une heure » n'exclut pas une modification faite
+il y a une heure.
+
+**B — plusieurs adresses.**
+
+```
+registry.npmjs.org : 12 adresses — 104.16.8.34, 104.16.10.34, 104.16.3.34…
+github.com         :  1 adresse  — 140.82.114.3
+example.com        :  2 adresses — 104.20.23.154, 172.66.147.243
+```
+
+Plusieurs adresses pour un nom, c'est la forme la plus simple de répartition de
+charge : le résolveur rend une liste, le client en choisit une. Sans état, sans
+équipement dédié.
+
+Mais la limite est essentielle et souvent tue : **aucun contrôle de santé.**
+Une adresse morte reste distribuée jusqu'à ce qu'on retire l'enregistrement — et
+le retrait met du temps à se propager, pour la raison mesurée en A. C'est pour
+cela que la répartition par noms ne remplace pas un répartiteur de charge, qui
+lui retire une instance défaillante en quelques secondes.
+
+**C et D — la fenêtre de bascule.** La règle : après un changement, une partie
+des clients utilise l'ancienne adresse pendant **au plus la durée de vie de
+l'ancien enregistrement**, comptée depuis leur dernière résolution. Avec une
+durée de vie de 24 h, la fenêtre est de 24 h.
+
+D'où la manœuvre standard, qui est la vraie réponse attendue : **abaisser la
+durée de vie à quelques minutes 48 heures avant la bascule**, attendre que
+l'ancienne valeur ait expiré partout, basculer, puis remonter la durée de vie.
+La fenêtre passe alors de 24 h à quelques minutes.
+
+Ce qui rend cette manœuvre non négociable : elle doit être décidée **avant**. Le
+jour de la bascule, il est trop tard — la durée de vie qui s'applique est celle
+déjà distribuée.
+
+**E — le diagnostic à trois niveaux.** Le script doit distinguer trois réponses
+possibles, et l'écart entre elles **est** le diagnostic :
+
+- résolveur système et résolveur public **d'accord**, serveur faisant autorité
+  **différent** → le changement est fait, il se propage, il faut attendre ;
+- résolveur système **différent** des deux autres → cache local, à vider ;
+- serveur faisant autorité **différent de ce que tu as configuré** → le
+  changement n'a pas été enregistré là où tu le crois, souvent parce que la
+  délégation pointe vers d'autres serveurs que ceux que tu modifies.
+
+Le troisième cas est le plus fréquent en incident réel et le plus long à
+trouver, parce qu'on cherche un problème de propagation alors qu'il n'y a rien à
+propager.
+
 ## 🧾 À retenir
 - DNS = annuaire nom → IP ; la résolution précède tout échange.
 - Types : A/AAAA (IP), CNAME (alias), MX (mail), TXT (vérif/preuve), NS (autorité).

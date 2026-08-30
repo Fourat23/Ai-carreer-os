@@ -306,6 +306,110 @@ organisations.
 3. Écris ton plan d'adressage pour les trois prochaines années sur une feuille. Le
    moment de le faire est avant de créer le premier réseau.
 
+## 🔥 Pratique — concevoir un plan d'adressage et le vérifier
+
+**A. Découper un espace.** Tu disposes de l'espace `10.0.0.0/16` pour un
+environnement à trois zones : publique, applicative, base de données, réparties
+sur deux zones de disponibilité. Produis le découpage complet : préfixe, plage
+d'adresses, nombre d'adresses utilisables par sous-réseau. Livrable : le tableau
+des six sous-réseaux.
+
+**B. Vérifier par le calcul.** Écris un script qui, pour chaque sous-réseau,
+calcule la première et la dernière adresse, et **vérifie qu'aucun ne chevauche
+un autre**. Livrable : le script et sa sortie.
+
+**C. Prévoir la croissance.** Recalcule ton découpage en réservant de la place
+pour une quatrième zone et une troisième zone de disponibilité. Livrable : le
+nouveau tableau, et ce que tu aurais dû faire dès A.
+
+**D. Les règles de circulation.** Pour chaque paire de zones, écris si le trafic
+doit être autorisé, dans quel sens, et sur quels ports. Livrable : la matrice,
+avec la justification des refus.
+
+**E. Diagnostiquer une absence de route.** Depuis une machine, détermine par
+quelle interface et quelle passerelle passe le trafic vers une adresse donnée.
+Puis explique ce qui se passe si cette passerelle disparaît. Livrable : la
+sortie des commandes et ton analyse.
+
+## ✅ Correction attendue
+
+**A — le découpage.** La forme attendue, avec un préfixe /24 par zone et par
+zone de disponibilité :
+
+```
+publique   AZ-a : 10.0.0.0/24    10.0.0.1   – 10.0.0.254     254 adresses
+publique   AZ-b : 10.0.1.0/24    10.0.1.1   – 10.0.1.254     254
+applicative AZ-a: 10.0.10.0/24   10.0.10.1  – 10.0.10.254    254
+applicative AZ-b: 10.0.11.0/24   10.0.11.1  – 10.0.11.254    254
+données    AZ-a : 10.0.20.0/24   10.0.20.1  – 10.0.20.254    254
+données    AZ-b : 10.0.21.0/24   10.0.21.1  – 10.0.21.254    254
+```
+
+Deux points que la correction attend. Le nombre d'adresses **utilisables** est
+inférieur au nombre total : la première identifie le réseau, la dernière sert à
+la diffusion, et les fournisseurs de cloud en réservent généralement quelques
+autres. Compter 256 conduit à un manque d'adresses tardif et difficile à
+corriger.
+
+Et l'**espacement des numéros** — 0, 10, 20 plutôt que 0, 1, 2 — n'est pas
+cosmétique : il laisse la place d'insérer des sous-réseaux dans une zone sans
+tout renuméroter. C'est la réponse à la question C, et elle doit être prise en A.
+
+**B — la vérification par le calcul.** Le point technique : deux plages se
+chevauchent si le début de l'une est inférieur ou égal à la fin de l'autre
+**et** réciproquement. Le calcul se fait sur les adresses converties en entiers,
+jamais sur les chaînes de caractères — comparer `"10.0.9.0"` et `"10.0.10.0"`
+comme du texte donne un résultat faux, pour la même raison que le tri
+lexicographique de nombres mesuré dans `javascript-basics`.
+
+Pourquoi ce script mérite d'être écrit : **un chevauchement d'adressage ne
+produit pas d'erreur au moment de la création.** Il produit des paquets qui
+partent au mauvais endroit, des mois plus tard, sur un flux qu'on n'avait pas
+prévu. C'est une des erreurs les plus coûteuses à corriger en production, parce
+que corriger un plan d'adressage impose de renuméroter des machines en service.
+
+**C — la croissance.** Le vrai enseignement est que **le découpage est un choix
+difficilement réversible**, au sens de la leçon `architecture-basics`. Élargir un
+sous-réseau existant est rarement possible ; on en crée un nouveau, ce qui
+disperse une même zone sur des plages non contiguës et complique toutes les
+règles de filtrage.
+
+D'où la règle : réserver large. Un espace inutilisé ne coûte rien en adressage
+privé, alors qu'un manque d'espace coûte une migration.
+
+**D — la matrice.** L'ossature attendue :
+
+```
+publique    -> applicative : AUTORISÉ, ports applicatifs uniquement
+applicative -> données     : AUTORISÉ, port de la base uniquement
+publique    -> données     : REFUSÉ
+données     -> publique    : REFUSÉ (une base n a rien à initier vers l extérieur)
+données     -> internet    : REFUSÉ, sauf sortie contrôlée pour les mises à jour
+```
+
+Ce qui fait la valeur de cette matrice, ce sont les **refus** et leur
+justification. « La base n'a aucune raison d'initier une connexion vers
+l'extérieur » est une règle qui limite les dégâts d'une compromission : un
+attaquant qui obtient l'exécution de code sur la base ne peut pas exfiltrer
+directement.
+
+Le sens compte autant que le fait : autoriser applicative → données ne dit rien
+sur données → applicative, et beaucoup de configurations autorisent les deux par
+inadvertance en raisonnant en « ces deux zones communiquent ».
+
+**E — la route.** La commande affiche l'interface, la passerelle et la source
+choisies pour une destination donnée. Ce qu'il faut savoir en tirer : la
+décision de routage se prend sur la destination, en retenant **le préfixe le
+plus spécifique** qui correspond — une route vers `/24` l'emporte sur une route
+par défaut.
+
+Si la passerelle disparaît, le comportement dépend de ce qui reste : s'il existe
+une route par défaut, le trafic y bascule et sort peut-être par un chemin non
+prévu, ce qui est pire qu'une panne franche parce que cela fonctionne en partie.
+S'il n'en existe aucune, le système répond immédiatement « réseau
+inaccessible » — une réponse instantanée, à distinguer du délai d'attente d'un
+paquet filtré, comme le détaille `networking-tcp-ip-model`.
+
 ## 🧾 À retenir
 - IP = adresse ; CIDR `/n` = n bits de préfixe fixe (grand n = petit réseau).
 - Subnet = quartier ; gateway = sortie ; route par défaut `0.0.0.0/0` ; la plus

@@ -51,7 +51,7 @@ const warns = [];
 // Ce n'est pas un contournement du gate : le gate protège contre une
 // modification NON DÉCLARÉE du corpus, et celle-ci est déclarée, committée
 // et mesurée (mini-statut CP5).
-const FROZEN_CORPUS = '2a1cdf70b0a6782173ed3780f2bdd1a94d470fa5';
+const FROZEN_CORPUS = '38e65b73ec3c1782f006db4ea9c796ce5c6fa2f5';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 
 const readDir = (dir) => existsSync(R(dir)) ? readdirSync(R(dir)).filter((f) => f.endsWith('.json')).map((f) => {

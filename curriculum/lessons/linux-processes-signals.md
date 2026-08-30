@@ -275,6 +275,95 @@ Un service refuse de s'arrêter avec `kill`. Quel est le bon réflexe AVANT `kil
 → vérifier qu'il n'est pas en train de finir une tâche/une I/O, laisser un court délai
 au SIGTERM, puis seulement forcer.
 
+## 🔥 Pratique — regarder un processus vivre et mourir
+
+**A. Les codes de sortie.** Écris un programme qui s'arrête normalement, un qui
+échoue, et un que tu tues par signal. Note le code de sortie de chacun.
+Livrable : les trois codes et la règle qui produit les deux derniers.
+
+**B. Deux signaux, deux comportements.** Envoie à un même programme le signal
+d'arrêt demandé, puis le signal de terminaison forcée. Livrable : ce que le
+programme peut faire dans chaque cas, et les deux codes observés.
+
+**C. L'arrêt propre.** Fais en sorte que ton programme, à réception du signal
+d'arrêt, cesse d'accepter du travail, termine ce qu'il a en cours, puis sorte
+avec 0. Mesure le temps entre le signal et la sortie. Livrable : le code et la
+durée.
+
+**D. Le processus 1.** Lance un programme via un interpréteur qui l'appelle en
+sous-processus, puis directement. Envoie le signal d'arrêt au processus principal
+dans les deux cas. Livrable : lequel reçoit le signal.
+
+**E. L'orphelin et le zombie.** Fabrique un processus dont le parent meurt avant
+lui, puis un processus terminé dont le parent ne lit jamais le code de sortie.
+Livrable : à qui est rattaché le premier, et ce qu'occupe encore le second.
+
+## ✅ Correction attendue
+
+> La règle `128 + N` et les comportements de supervision ci-dessous sont
+> **mesurés** par `scripts/v70-verifications/supervision-redemarrage.mjs`, qui
+> implémente un superviseur minimal et observe ses enfants.
+
+**A — les trois codes.** `0` pour un arrêt normal, une valeur non nulle choisie
+par le programme pour un échec, et **`128 + N`** pour une mort par signal.
+
+Quelques valeurs à reconnaître immédiatement : `137` = 128 + 9, tué de force ;
+`143` = 128 + 15, arrêt demandé et traité ; `78` par convention pour une erreur
+de configuration.
+
+Le code de sortie est **la seule information** qu'un processus mort transmet à
+son superviseur. Un programme qui sort avec 0 en cas d'erreur rend toute
+supervision aveugle — et c'est un défaut fréquent dans les scripts de démarrage.
+
+**B — les deux signaux.** Le signal d'arrêt **demandé** peut être intercepté : le
+programme choisit ce qu'il fait, et combien de temps il prend. Le signal de
+terminaison **forcée** ne peut être ni intercepté, ni ignoré, ni retardé : le
+noyau tue le processus, qui n'exécute plus une ligne.
+
+Conséquence pratique : tout ce qui doit être fait avant de mourir — vider un
+tampon, fermer une transaction, se déclarer hors service — doit l'être en
+réponse au **premier**. Après le second, il est trop tard, par construction.
+
+**C — l'arrêt propre.** La séquence, dans cet ordre :
+
+1. cesser d'accepter du nouveau travail ;
+2. se déclarer hors service auprès de ce qui distribue le trafic ;
+3. terminer le travail en cours ;
+4. sortir avec 0.
+
+La durée mesurée doit être inférieure au **délai de grâce** accordé par le
+superviseur, sans quoi l'étape 3 est interrompue par une terminaison forcée et le
+travail des étapes 1 et 2 ne sert à rien. C'est le paramètre qu'on oublie le plus
+souvent, et il se règle sur la durée de la requête la plus longue, pas sur une
+valeur ronde.
+
+**D — le processus 1.** Lancé via un interpréteur, c'est **l'interpréteur** qui
+est le processus principal et qui reçoit le signal — et il ne le transmet
+généralement pas. Le programme n'apprend jamais qu'on lui demande de s'arrêter,
+et il est tué de force après le délai de grâce : sortie 137 au lieu de 143.
+
+Le défaut est parfaitement silencieux en développement, puisque le processus
+s'arrête dans les deux cas. Il ne se voit qu'en production, sous forme de travail
+interrompu à chaque déploiement — et c'est exactement la distinction entre forme
+shell et forme exec traitée dans `docker-production-hardening`.
+
+**E — orphelin et zombie.** Deux états distincts qu'on confond souvent :
+
+- **Orphelin** : son parent est mort, il est vivant. Il est rattaché au processus
+  d'initialisation, qui le récupérera. Ce n'est pas un problème.
+- **Zombie** : il est mort, mais son parent n'a pas lu son code de sortie. Il
+  n'occupe ni mémoire ni processeur — **seulement une entrée dans la table des
+  processus**, qui conserve son code de sortie.
+
+Un zombie isolé est sans conséquence. Une accumulation de zombies signale un
+parent qui ne récupère jamais ses enfants, et elle finit par épuiser la table
+des processus — panne rare et déroutante, où plus rien ne peut démarrer alors que
+la mémoire et le processeur sont libres.
+
+C'est ce mécanisme qui justifie qu'un programme devenu processus 1 dans un
+conteneur ait besoin soit de récupérer lui-même ses enfants, soit d'un petit
+gestionnaire d'initialisation dédié.
+
 ## 🧾 À retenir
 - Programme = inerte ; processus = programme en exécution (PID, PPID, mémoire).
 - États : running/sleeping/stopped/zombie ; l'arbre a PID 1 pour racine.

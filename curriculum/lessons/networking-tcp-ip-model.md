@@ -243,6 +243,114 @@ Le nom résout, l'IP est joignable, mais `curl` renvoie « connection refused »
 À quelle couche est le problème ? → transport (port fermé : service arrêté ou pare-feu),
 pas l'application.
 
+## 🔥 Pratique — mesurer chaque couche d'une requête
+
+Les couches ne sont pas une abstraction scolaire : chacune coûte du temps, et on
+peut le chronométrer séparément. Le script
+`scripts/v70-verifications/reseau-mesures.mjs` le fait ; refais-le toi-même.
+
+**A. Décomposer une requête.** Écris un programme qui mesure séparément, pour un
+hôte de ton choix : la résolution du nom, l'établissement de la connexion, la
+négociation du chiffrement. Affiche chaque durée et son pourcentage du total.
+Livrable : le tableau, et l'étape la plus coûteuse.
+
+**B. Le coût de ne pas réutiliser.** Fais cinq requêtes en recréant la connexion
+à chaque fois, puis cinq en la réutilisant. Compare les moyennes, et isole la
+première requête du lot réutilisé. Livrable : les trois moyennes.
+
+**C. Compter les segments.** À partir de la taille d'unité de transmission
+usuelle, calcule combien de segments demandent une réponse de 800 octets, une
+page de 60 Ko, une image de 400 Ko. Livrable : les trois nombres.
+
+**D. Observer une connexion refusée contre une connexion filtrée.** Tente de te
+connecter à un port fermé sur ta propre machine, puis à un port qu'un pare-feu
+bloque (ou simule-le). Compare le comportement. Livrable : les deux
+symptômes et le temps écoulé dans chaque cas.
+
+**E. Lire un échange.** Capture le trafic d'une requête simple et identifie les
+trois premiers paquets. Livrable : les indicateurs présents sur chacun.
+
+## ✅ Correction attendue
+
+> Valeurs mesurées par `scripts/v70-verifications/reseau-mesures.mjs`. Cet
+> environnement passe par un mandataire sortant : les durées absolues en
+> dépendent, seuls les **rapports** entre étapes sont exploitables.
+
+**A — la décomposition.** Sortie obtenue pour `example.com` :
+
+```
+résolution du nom        :  21,8 ms  (60 %)
+établissement TCP        :   2,8 ms  ( 8 %)
+poignée de main TLS      :  12,0 ms  (33 %)
+total avant le 1er octet :  36,7 ms
+protocole négocié : TLSv1.3 · chiffrement : TLS_AES_256_GCM_SHA384
+```
+
+Le point à formuler : **aucun octet applicatif n'a encore circulé.** Ces
+36,7 ms sont payées avant la première requête, et payées **à nouveau** à chaque
+nouvelle connexion.
+
+Le résultat qui surprend est la part de la résolution de nom — 60 % ici. On
+l'oublie systématiquement parce qu'elle n'apparaît dans aucun journal
+applicatif. C'est aussi ce qui explique qu'une panne de résolution se manifeste
+comme « le service est lent » avant de se manifester comme « le service est
+inaccessible ».
+
+**B — la réutilisation.**
+
+```
+5 requêtes SANS réutilisation : 28, 10, 26, 11, 23 ms — moyenne 19,7 ms
+5 requêtes AVEC réutilisation : 11,  4,  4,  5,  4 ms — moyenne  5,5 ms
+la 1re avec réutilisation : 11 ms · les suivantes : 4,2 ms
+```
+
+L'isolement de la première requête est le résultat qui compte : **elle paie la
+mise en place, les suivantes ne la paient plus.** C'est le même mécanisme qui
+explique un client HTTP recréé à chaque appel — lent, sans qu'aucune requête ne
+soit lente, et donc invisible dans un chronométrage par requête.
+
+**C — les segments.**
+
+```
+1500 octets d unité de transmission, moins 40 d en-têtes = 1460 utiles
+réponse JSON de     800 o ->   1 segment
+page HTML de     60 000 o ->  42 segments
+image de        400 000 o -> 274 segments
+```
+
+La conclusion actionnable : **réduire une réponse sous le seuil du segment a un
+effet mesurable ; la réduire de 60 à 55 Ko n'en a presque aucun.** Les gains
+sont par paliers, pas continus — et c'est ce qui rend l'optimisation d'une
+réponse d'API très rentable et celle d'une page HTML beaucoup moins.
+
+**D — refusée contre filtrée.** Deux symptômes qu'il faut savoir distinguer,
+parce qu'ils orientent vers des causes opposées :
+
+- **Refusée** : réponse immédiate, quelques millisecondes. Quelque chose écoute
+  à cette adresse et a répondu « pas ce port ». La machine est joignable ; c'est
+  le service qui n'est pas là.
+- **Filtrée** : aucune réponse, la tentative expire après plusieurs secondes.
+  Un équipement a supprimé le paquet sans rien dire. La machine peut être
+  parfaitement saine derrière.
+
+**Le délai d'attente est l'information.** Une réponse instantanée dit « le
+service est arrêté » ; un silence de trente secondes dit « regarde le
+pare-feu ». Confondre les deux fait redémarrer un service qui n'a jamais été en
+cause.
+
+**E — les trois premiers paquets.** L'échange initial en trois temps :
+demande de synchronisation, accusé de la demande accompagné de sa propre
+demande, puis accusé final. Ce sont **trois** allers-retours partiels avant le
+moindre octet applicatif, et c'est exactement le poste « établissement » mesuré
+en A.
+
+Ce que cette structure explique : pourquoi une latence élevée pénalise bien plus
+que proportionnellement. Sur un lien à 150 ms d'aller-retour, l'établissement
+seul coûte déjà 150 ms, la négociation du chiffrement en ajoute autant ou plus,
+et la première réponse arrive après un demi-second — c'est le calcul de la leçon
+`system-design-interview` qui plafonne un service en série à sept requêtes par
+seconde.
+
 ## 🧾 À retenir
 - Quatre couches : liaison → internet (IP) → transport (TCP/UDP, ports) → application.
 - Encapsulation : chaque couche emballe la précédente ; chaque équipement lit « sa » couche.

@@ -288,6 +288,113 @@ l'autoscaling pour ajouter de la capacité.
 Vous devez router `/api` vers un backend et `/` vers un frontend, sur le même domaine.
 L4 ou L7 ? → L7 (routage par chemin, il faut comprendre le HTTP).
 
+## 🔥 Pratique — répartir, et découvrir ce que la répartition casse
+
+**A. Un répartiteur minimal.** Écris un programme qui écoute sur un port et
+relaie chaque requête vers l'une de trois instances, à tour de rôle. Chaque
+instance répond avec son identifiant. Livrable : le code, et la trace de dix
+requêtes montrant la rotation.
+
+**B. Le contrôle de santé.** Ajoute une vérification périodique et retire
+automatiquement une instance qui ne répond plus. Arrête une instance en cours de
+route. Livrable : le nombre de requêtes servies en erreur entre l'arrêt et le
+retrait, et ce qui détermine ce nombre.
+
+**C. Ce que la répartition casse.** Ajoute une session en mémoire à chaque
+instance et connecte-toi plusieurs fois. Livrable : ce que tu observes, et deux
+solutions différentes avec leurs compromis.
+
+**D. Comparer aux adresses multiples.** Ta mesure de `networking-dns` montre
+qu'un nom peut porter douze adresses. Compare cette répartition à celle de A sur
+trois critères : temps de retrait d'une instance morte, granularité, et
+équipement nécessaire. Livrable : le tableau comparatif.
+
+**E. Le drainage.** Fais en sorte qu'une instance qu'on arrête finisse de servir
+ses requêtes en cours avant de disparaître. Mesure le nombre de requêtes
+interrompues avec et sans. Livrable : les deux nombres.
+
+## ✅ Correction attendue
+
+**A — le tour de rôle.** La rotation stricte est le point de départ, et elle
+suppose que **toutes les requêtes coûtent la même chose** — ce qui est faux dès
+qu'une route est plus lourde que les autres. La stratégie « vers l'instance qui
+a le moins de connexions ouvertes » corrige cela sans rien connaître du métier,
+et c'est pourquoi elle est le défaut raisonnable en pratique.
+
+**B — la fenêtre d'erreur.** Le chiffre obtenu dépend de deux paramètres, et la
+réponse attendue les nomme :
+
+```
+requêtes servies en erreur ≈ débit × (intervalle de vérification × seuil d échecs)
+```
+
+Avec une vérification toutes les 10 s et deux échecs requis avant retrait, une
+instance morte reçoit du trafic pendant **jusqu'à 20 secondes**. À 200 requêtes
+par seconde réparties sur trois instances, cela fait environ 1 300 requêtes en
+erreur.
+
+Le compromis à formuler : réduire l'intervalle réduit la fenêtre mais augmente
+la charge de vérification et le risque de retirer une instance **saine** lors
+d'un pic passager. Un seuil de deux échecs consécutifs existe exactement pour
+cela — et c'est le même arbitrage que celui du disjoncteur dans
+`resilience-patterns`.
+
+Le contrôle de santé doit par ailleurs vérifier ce dont le service **dépend**
+— sa base, ses dépendances critiques — et non se contenter de répondre « je suis
+vivant ». Un contrôle qui répond toujours vrai ne retire jamais rien.
+
+**C — ce que ça casse.** Tu observeras une session perdue une fois sur trois :
+elle vit en mémoire d'une instance, et la requête suivante part ailleurs.
+
+Deux solutions, avec des compromis opposés :
+
+- **L'affinité de session** : le répartiteur renvoie toujours le même client vers
+  la même instance. Simple, et cela **annule une partie du bénéfice** — la charge
+  se déséquilibre, et l'arrêt d'une instance déconnecte ses utilisateurs.
+- **Sortir l'état des instances** (base, cache partagé, jeton signé). Plus de
+  travail, et cela rend les instances **interchangeables**, ce qui est la
+  propriété qu'on cherchait en répartissant.
+
+La seconde est presque toujours la bonne, et pour une raison qui dépasse ce
+sujet : **une instance interchangeable peut être arrêtée, redémarrée, remplacée
+et multipliée sans conséquence.** C'est ce qui rend possibles le déploiement
+progressif, le retour arrière et la mise à l'échelle automatique — trois choses
+que l'affinité de session complique toutes.
+
+**D — comparaison avec les adresses multiples.** Le tableau attendu, en
+s'appuyant sur la mesure de `networking-dns` (12 adresses pour un même nom) :
+
+| critère | plusieurs adresses pour un nom | répartiteur |
+|---|---|---|
+| retrait d'une instance morte | **lent** — limité par la durée de vie des enregistrements et les caches | **rapide** — quelques secondes |
+| granularité | par client, à la résolution | par requête |
+| contrôle de santé | **aucun** | oui |
+| équipement | aucun | un composant à exploiter |
+
+La conclusion : les deux se combinent plutôt qu'ils ne s'opposent. Les adresses
+multiples répartissent entre **régions** ou entre répartiteurs ; le répartiteur
+répartit entre **instances**. Utiliser les adresses multiples seules revient à
+accepter qu'une instance morte reste distribuée pendant des heures — ce que la
+mesure de propagation de `networking-dns` rend concret.
+
+**E — le drainage.** Sans drainage, les requêtes en cours sur l'instance arrêtée
+sont interrompues : le client reçoit une connexion coupée, sans code d'erreur
+exploitable, ce qui est le pire cas — irréessayable automatiquement en toute
+sécurité, puisqu'on ne sait pas si le traitement a eu lieu.
+
+La séquence correcte compte quatre temps, et l'ordre est ce qui compte :
+
+1. l'instance se déclare **hors service** à son contrôle de santé ;
+2. le répartiteur cesse de lui envoyer du **nouveau** trafic ;
+3. l'instance **termine** ses requêtes en cours ;
+4. seulement alors, le processus s'arrête.
+
+Sauter l'étape 1 fait sauter les trois autres — et c'est le défaut le plus
+fréquent, parce qu'un arrêt de conteneur ou de service déclenche directement
+l'étape 4. C'est exactement le mécanisme de propagation des signaux mesuré dans
+`linux-services-systemd` et `docker-production-hardening` : le service doit
+recevoir le signal d'arrêt et avoir le droit de prendre son temps.
+
 ## 🧾 À retenir
 - Proxy = côté client ; reverse proxy = côté serveur (point d'entrée, TLS, routage).
 - Load balancer = reverse proxy qui répartit + retire les instances malsaines.

@@ -92,16 +92,7 @@ Ta discipline du jour 26 est devenue un contrat outillé : ce que tu devais te r
 
 **Variante qui déplace le problème** : ajoute `'archived'` à `Statut`. Le code ci-dessus continue de compiler — normal, il n'énumère pas les statuts. Mais écris maintenant une fonction qui rend une couleur par statut avec un `switch`, et donne-lui un type de retour explicite : le compilateur signale que le cas `'archived'` ne renvoie rien. **C'est là que l'union littérale paie vraiment** : elle ne protège pas seulement contre les typos, elle te DÉSIGNE tous les endroits à mettre à jour le jour où le domaine change.
 
-## ⚠️ Erreurs fréquentes
-- `any` pour faire taire une erreur : tu viens de payer TypeScript pour le débrancher. Cherche le vrai type, ou utilise `unknown` + validation.
-- Statut en `string` au lieu d'union littérale : toute la protection s'évapore.
-- Croire que TS valide À L'EXÉCUTION : les annotations disparaissent à la compilation. Les données externes exigent une validation runtime (code qui vérifie vraiment).
-- Sur-typer l'interne : annote les frontières, laisse l'inférence vivre.
-
-## 🔗 Liens avec le programme
-Le pattern central de tes apps LLM (mois 8+) : définir le type attendu de la sortie du modèle, parser en `unknown`, VALIDER, puis seulement utiliser. Le LLM est un composant faillible ; le typage est la douane à sa frontière. DocSense (mois 11) sera intégralement typé : ports et adapters de l'architecture hexagonale sont... des interfaces TypeScript.
-
-## 🧪 Où s'arrête TypeScript — mesuré
+### Où s'arrête TypeScript — mesuré
 
 La question la plus utile sur TypeScript n'est pas « comment écrire ce type »
 mais **« jusqu'où va la vérification ? »**. Le script
@@ -139,8 +130,115 @@ lequel toute cette cohérence interne s'échappe, et il se propage silencieuseme
 est le cas le plus dangereux — il est exactement à l'endroit où le contrôle
 manquait déjà.
 
+## ⚠️ Erreurs fréquentes
+- `any` pour faire taire une erreur : tu viens de payer TypeScript pour le débrancher. Cherche le vrai type, ou utilise `unknown` + validation.
+- Statut en `string` au lieu d'union littérale : toute la protection s'évapore.
+- Croire que TS valide À L'EXÉCUTION : les annotations disparaissent à la compilation. Les données externes exigent une validation runtime (code qui vérifie vraiment).
+- Sur-typer l'interne : annote les frontières, laisse l'inférence vivre.
+
+## 🔗 Liens avec le programme
+Le pattern central de tes apps LLM (mois 8+) : définir le type attendu de la sortie du modèle, parser en `unknown`, VALIDER, puis seulement utiliser. Le LLM est un composant faillible ; le typage est la douane à sa frontière. DocSense (mois 11) sera intégralement typé : ports et adapters de l'architecture hexagonale sont... des interfaces TypeScript.
+
 ## Mini-exercice
-Modélise une commande e-commerce : `Produit`, `LigneCommande`, `Commande` (statut en union littérale). Écris `total(commande): number` et une fonction générique `chercher<T>(arr: T[], p: (x: T) => boolean): T | undefined`. Tout doit compiler en strict, zéro `any`. Puis introduis volontairement une typo de statut et constate l'erreur.
+Sans relire : `JSON.parse` renvoie une valeur que tu affectes à un champ
+`age: number`. Que vérifie le compilateur ?
+
+## 🔥 Pratique — typer un domaine, puis attaquer la frontière
+
+**A. Modéliser.** Écris `Produit`, `LigneCommande` et `Commande`, avec le statut
+en union de littéraux. Écris `total(commande): number` et une fonction générique
+`chercher<T>(tableau: T[], predicat: (x: T) => boolean): T | undefined`. Mode
+strict, zéro `any`. Livrable : le fichier qui compile.
+
+**B. Faire échouer le compilateur, exprès.** Écris trois erreurs qui **doivent**
+être refusées à la compilation : une faute de frappe dans un statut, l'oubli de
+traiter le cas `undefined` du retour de `chercher`, et un champ manquant à la
+construction d'une commande. Livrable : les trois messages d'erreur exacts.
+
+**C. Mesurer ce que `string` te coûte.** Remplace l'union de littéraux par
+`statut: string` et recompile les trois erreurs de B. Livrable : combien sont
+encore détectées.
+
+**D. La frontière.** Écris une fonction qui reçoit du JSON et rend une
+`Commande`. Fais-lui d'abord confiance (`as Commande`), passe-lui un JSON
+invalide, et observe ce qui se produit à l'exécution. Puis écris une vraie
+validation qui s'exécute. Livrable : les deux comportements.
+
+**E. Traquer les `any` implicites.** Active les options de compilation les plus
+strictes, recompile, et compte les erreurs. Livrable : le nombre, et les trois
+endroits les plus fréquents dans ton code.
+
+## ✅ Correction attendue
+
+**A — modéliser d'abord.** La démarche : les données d'abord, puis les seules
+signatures de fonctions, puis laisser l'inférence faire le reste. Annoter chaque
+variable locale est du bruit — le compilateur déduit mieux et plus vite que toi.
+
+Sur `chercher`, l'erreur classique est `chercher(t: any[], p: (x: any) => boolean): any`.
+Ça compile, ça marche, et **le résultat n'a plus de type** : tous les appelants
+perdent la vérification. Le générique existe exactement pour ne pas avoir à
+choisir entre « réutilisable » et « typé ».
+
+Sur le retour `T | undefined` : il est délibéré. Une fonction de recherche peut
+ne rien trouver, et le type l'annonce, ce qui force l'appelant à traiter le cas.
+Renvoyer `T` en promettant qu'on trouvera toujours est un mensonge que le
+compilateur croira.
+
+**B — les trois refus.** Les messages attendus mentionnent le type littéral
+attendu pour la faute de frappe, la possibilité d'`undefined` pour l'accès non
+gardé, et le nom du champ manquant. Si l'une des trois **compile**, c'est que la
+modélisation est plus laxiste que tu ne le croyais — et c'est le vrai résultat de
+l'exercice.
+
+**C — ce que `string` coûte, mesuré chez toi.** Avec `statut: string`, la faute
+de frappe n'est plus détectée : `string` accepte toutes les chaînes. Le piège est
+séduisant parce que `string` est **techniquement exact** — un statut *est* une
+chaîne. Mais le type utile n'est pas le plus vrai, c'est **le plus restrictif qui
+reste vrai**.
+
+Le bénéfice de l'union de littéraux dépasse la détection de fautes de frappe : le
+compilateur peut vérifier qu'un `switch` couvre **tous** les cas, et te signaler
+le jour où un statut est ajouté. Avec `string`, cette vérification est
+impossible, et l'ajout d'un statut passe silencieusement.
+
+**Alternative défendable** : un objet figé par `as const` dont on dérive le type.
+Plus verbeux, mais il fournit en prime une **valeur** parcourable à l'exécution —
+pour peupler un menu déroulant, par exemple — ce que le type seul ne permet pas,
+puisqu'il n'existe plus.
+
+**D — la frontière, et ce que la mesure montre.** Avec `as Commande`, la sortie
+mesurée dans la section précédente s'applique :
+
+```
+JSON.parse rend : {"age":"trente"}
+typeof depuisJson.age = string
+depuisJson.age * 2 = NaN
+```
+
+Le programme compile, la revue passe, et le calcul produit `NaN` en production.
+`as` n'est pas une conversion ni une vérification : c'est une **affirmation** que
+tu fais au compilateur, et qu'il croit sur parole.
+
+La validation attendue est du code qui s'exécute : elle inspecte chaque champ,
+vérifie son type réel, et **lève une erreur explicite** en cas d'écart. Ce que le
+langage garantit, c'est la cohérence **à l'intérieur** du programme une fois les
+données entrées — ce qui est énorme, et ce n'est pas la même chose que valider
+l'entrée.
+
+La liste des frontières à traiter, qu'une bonne réponse énumère : réponses
+d'API, contenu de fichiers, paramètres d'URL, stockage local du navigateur,
+variables d'environnement, et messages reçus d'une file. Toutes ont en commun
+d'être écrites par quelqu'un d'autre.
+
+**E — les `any` implicites.** Les trois endroits les plus fréquents : les
+paramètres de fonctions de rappel non annotées, les résultats de bibliothèques
+sans types, et les blocs `catch` — dont la variable est `unknown` en mode strict,
+ce qui oblige à vérifier avant d'accéder à `.message`.
+
+Le point de fond : **chaque `any` est un trou par lequel la cohérence interne
+s'échappe**, et il se propage silencieusement à tout ce qu'il touche. Le cas le
+plus dangereux est précisément celui de D — un `any` sur une valeur venant de
+l'extérieur, c'est-à-dire exactement là où le contrôle manquait déjà.
 
 ## ✅ Correction attendue
 **La démarche** : modéliser les données d'abord (`Produit`, `LigneCommande`, `Commande`), le statut en union littérale ; puis annoter les seules signatures ; puis laisser l'inférence faire le reste.

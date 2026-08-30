@@ -88,7 +88,9 @@ ssh -L 5432:localhost:5432 prod           # tunnel local -> service distant priv
 ssh-add ~/.ssh/id_ed25519                 # charger la clé dans l'agent
 ```
 
-## 🧭 Exemple guidé — première connexion par clé (pas à pas)
+## 🧭 Exemple guidé — établir un accès distant, et savoir pourquoi
+
+### Première connexion par clé, pas à pas
 **Situation.** Vous venez de louer une machine et vous voulez vous y connecter sans
 mot de passe, de façon sûre.
 1. **Générer une paire de clés** (une fois pour toutes) : `ssh-keygen -t ed25519`.
@@ -108,7 +110,7 @@ mot de passe, de façon sûre.
    chiffré. Si ça échoue par « Permissions … are too open », c'est que la clé privée
    n'est pas en `600` (cf. la leçon permissions) : `chmod 600 ~/.ssh/id_ed25519`.
 
-## 🧪 Pourquoi une clé, plutôt qu'un mot de passe — vérifié
+### Pourquoi une clé, plutôt qu'un mot de passe — vérifié
 
 > **Limite déclarée.** Ni le client ni le serveur OpenSSH ne sont installés dans
 > l'environnement où ce cours a été écrit (`which ssh` : introuvable ;

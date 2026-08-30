@@ -243,6 +243,71 @@ for (const lot of lots) resultats.push(...await Promise.allSettled(lot.map(fn)))
 
 **Vérifie seul** : lance ton `parLots` avec `n = 2` sur 6 items et journalise l'heure de départ de chacun — tu dois voir trois vagues de deux, pas six départs simultanés. Ensuite : les échecs sont rapportés sans annuler le reste, et le gain contre le séquentiel est mesuré, pas supposé.
 
+
+### Les quatre erreurs que les mesures rendent visibles
+
+**1. La boucle avec `await` sur des appels indépendants.** Mesuré : 552,7 ms
+contre 150,8 ms pour les mêmes cinq appels, soit ×3,67. La boucle attend la
+somme, `Promise.all` attend le plus long.
+
+Le critère de décision n'est pas « toujours paralléliser » : **si l'appel *n+1*
+a besoin du résultat de l'appel *n*, la boucle est correcte et nécessaire.** Le
+défaut est de l'écrire par réflexe sans se poser la question.
+
+Et une nuance que la version parallèle apporte : `Promise.all` lance **tout** en
+même temps. Sur cent éléments et une API limitée en débit, c'est une façon de se
+faire couper. D'où l'exercice `parLots` : paralléliser **par lots** est le
+compromis réel, et il demande de choisir la taille du lot en fonction de la
+limite du service appelé — pas au hasard.
+
+**2. Confondre `all` et `allSettled`.** Mesuré : `Promise.all` rejette dès le
+premier échec et **perd les résultats déjà obtenus** ; `allSettled` rend
+`fulfilled, rejected, fulfilled`.
+
+Ce n'est pas « l'un est meilleur ». C'est une décision entre **tout ou rien** et
+**ce qu'on a pu obtenir**. Pour une opération transactionnelle, `all` est
+correct — un échec partiel n'a pas de sens. Pour un tableau de bord agrégeant six
+sources, `allSettled` : une source indisponible ne doit pas vider la page.
+
+**3. Croire que `setTimeout(f, 0)` exécute `f` tout de suite.** L'ordre mesuré :
+
+```
+1 synchrone → 2 synchrone (fin) → 3 microtâche → 4 promesse → 5 setTimeout 0
+```
+
+Tout le synchrone d'abord, puis **toutes** les microtâches, puis seulement les
+macrotâches. Le zéro est un minimum d'attente, pas une promesse d'immédiateté.
+C'est pourquoi la réponse au mini-exercice est `1, 3, 2` : la suite d'une
+promesse est une microtâche, elle passe après tout le code synchrone.
+
+**4. Bloquer la boucle sans qu'aucune fonction ne soit lente.** Mesuré : 20 000
+microtâches enchaînées, et le `setTimeout(0)` posé **avant** n'a toujours pas
+tourné.
+
+Une microtâche qui en programme une autre crée une chaîne que la boucle vide
+**entièrement** avant de regarder les macrotâches — dont font partie le rendu,
+les clics et les animations. **Une page figée n'est pas une tâche lente : c'est
+une file qui ne se vide jamais.**
+
+Le remède est de rendre la main volontairement : découper le travail et
+replanifier la suite via une macrotâche, ce qui laisse le navigateur respirer
+entre deux tranches. C'est aussi, en sens inverse, ce qui rend `await` en boucle
+si trompeur — il **rend** la main, donc l'interface reste vivante, et rien ne
+signale que le travail prend cinq fois trop longtemps.
+
+### Le chemin d'erreur, qui n'a pas de mesure mais coûte le plus cher
+
+Une promesse rejetée sans gestionnaire ne déclenche aucune erreur visible dans
+beaucoup de contextes. La vérification de la leçon `error-handling` l'a mesuré
+sur un serveur : avec Express 4, une fonction asynchrone qui rejette produit
+**aucune réponse du tout** — la requête reste suspendue jusqu'à expiration, et le
+processus signale un rejet non géré.
+
+La règle qui en découle : toute promesse a un chemin d'erreur, explicitement.
+`try/catch` autour de l'`await`, ou `.catch()` sur la chaîne. Et sur un service,
+un gestionnaire global de rejets non gérés qui journalise plutôt que de laisser
+disparaître.
+
 ## 🎤 Questions d'entretien
 - « Que fait `await` exactement ? » → Suspend la fonction courante jusqu'à résolution ; le programme continue (un seul fil, jamais bloqué).
 - « Deux appels indépendants : comment les optimiser ? » → `Promise.all` (latence divisée) ; par lots si rate limit.

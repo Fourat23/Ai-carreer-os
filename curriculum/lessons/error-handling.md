@@ -140,8 +140,172 @@ Liste les 5 erreurs possibles d'une de tes routes API et, pour chacune : attendu
 ## 🔥 Exercice plus difficile
 Implémente `appelRobuste` pour de vrai (timeout + retry idempotent + fallback), et prouve chaque branche par un test (mock qui échoue N fois, qui traîne, qui échoue durablement).
 
-## ✅ Correction attendue
-La logique : classer (attendu/bug) → traiter au bon niveau → centraliser la réponse → prévoir la panne des dépendances. Vérifie : aucun catch vide, aucun détail interne chez le client, retry borné et idempotent, un mode dégradé UTILISABLE, et chaque scénario d'erreur testé.
+## ✅ Correction
+
+### La démarche : classer avant de traiter
+
+La question « comment gérer cette erreur ? » n'a pas de réponse tant qu'on n'a pas répondu à
+« **quelle sorte d'erreur est-ce ?** ». Deux familles, et elles n'appellent pas le même
+traitement :
+
+| | Erreur **attendue** (opérationnelle) | **Bug** (erreur de programmation) |
+|---|---|---|
+| exemples | ressource absente, saisie invalide, droits insuffisants, service tiers indisponible | `undefined` déréférencé, invariant violé, mauvais type |
+| est-ce prévisible ? | oui, elle fait partie du fonctionnement normal | non, elle ne devrait jamais arriver |
+| que fait-on ? | on la traite : 404, 400, 403, nouvelle tentative, mode dégradé | on la journalise et on échoue proprement (500 générique) |
+| faut-il alerter ? | non, sauf si le taux augmente | oui, chacune est un défaut à corriger |
+
+Le test qui tranche : **est-ce que je peux écrire un message utile à l'utilisateur ?** « Cette
+commande n'existe pas » est un message utile — erreur attendue. « Impossible de lire la
+propriété `total` de `undefined` » ne l'est pas — bug.
+
+Confondre les deux produit les deux défauts symétriques les plus courants : un 500 pour une
+ressource absente (qui déclenche des alertes pour rien et fait paniquer l'astreinte), et un
+400 poli pour un bug (qui le rend invisible et le laisse en production pendant des mois).
+
+### `appelRobuste` : les trois protections, et leurs pièges
+
+```js
+async function appelRobuste(fn, { timeoutMs = 2000, essais = 3, repli } = {}) {
+  for (let i = 0; i < essais; i++) {
+    const ctrl = new AbortController();
+    const minuteur = setTimeout(() => ctrl.abort(), timeoutMs);
+    try {
+      return await fn(ctrl.signal);
+    } catch (e) {
+      if (!estTransitoire(e) || i === essais - 1) {
+        if (repli) return repli();      // mode dégradé
+        throw e;                        // on échoue, mais on échoue clairement
+      }
+      await attendre(2 ** i * 200 + Math.random() * 100);   // recul + bruit
+    } finally {
+      clearTimeout(minuteur);
+    }
+  }
+}
+```
+
+**Le délai d'attente d'abord.** C'est la protection la plus importante et la plus oubliée. Sans
+lui, une dépendance qui ne répond plus — sans refuser la connexion, juste sans répondre —
+immobilise ton fil d'exécution indéfiniment. Une seconde ligne de défense s'accumule : dix
+requêtes bloquées, puis cent, puis le service entier est indisponible **alors que rien chez
+toi n'est en panne**.
+
+Retiens la formulation : *sans délai d'attente, la lenteur d'un tiers devient ta panne.*
+
+**La nouvelle tentative ensuite, sous deux conditions strictes.** Réessayer n'est licite que
+si l'erreur est **transitoire** (une coupure réseau, un 503, un verrou temporaire — pas un
+400 ni un 404, qui échoueront identiquement) **et** si l'opération est **idempotente**, c'est-à-dire
+qu'on peut la refaire sans effet supplémentaire.
+
+Lire est idempotent. Supprimer par identifiant l'est. **Créer ne l'est pas** : réessayer un
+paiement dont la réponse s'est perdue peut débiter deux fois. La parade professionnelle est
+une **clé d'idempotence** — un identifiant unique fourni par l'appelant, que le serveur
+mémorise pour reconnaître un doublon et renvoyer le résultat de la première tentative.
+
+Deux détails du code ci-dessus méritent d'être vus :
+
+- `2 ** i * 200` : le **recul exponentiel**. Réessayer immédiatement, trois fois, revient à
+  frapper trois fois plus fort un service déjà en difficulté ;
+- `+ Math.random() * 100` : le **bruit**. Sans lui, mille clients qui échouent à la même
+  seconde réessaient tous exactement à la même milliseconde. On appelle ça un troupeau
+  tonitruant, et il transforme une microcoupure en panne longue.
+
+**Le repli enfin, et le critère qui le rend valable.** Un mode dégradé doit être **utilisable**,
+pas seulement présent. « Afficher les recommandations en cache d'hier » l'est ; « afficher un
+bloc vide » ne l'est pas — c'est le même écran qu'une panne, sans le message d'erreur.
+
+Question à poser à chaque repli : *l'utilisateur peut-il terminer ce qu'il était venu faire ?*
+Si oui, c'est un mode dégradé. Sinon, c'est une panne déguisée, et il vaut mieux dire
+franchement que le service est indisponible.
+
+### Ce que le client reçoit, ce que le journal reçoit
+
+```js
+// ❌ deux fautes en une ligne
+catch (e) { res.status(500).json({ erreur: e.message }); }
+
+// ✅
+catch (e) {
+  const ref = req.id;
+  logger.error({ ref, err: e, route: req.path });      // tout, ici
+  res.status(500).json({ erreur: 'Erreur interne', ref });  // rien, là
+}
+```
+
+Le client reçoit un message neutre **et une référence**. Cette référence est ce qui rend le
+support possible : l'utilisateur cite `a3f9`, on retrouve la trace exacte en trois secondes.
+Sans elle, le support demande « pouvez-vous décrire ce que vous faisiez ? » et personne ne
+sait répondre.
+
+Le journal reçoit tout : la trace d'appels, la route, l'identifiant de l'utilisateur, les
+paramètres — **sauf les secrets et les données personnelles**. Un mot de passe ou un jeton
+journalisé est un secret qui vient de fuiter dans un système que beaucoup de gens peuvent
+lire, et qui est conservé des mois.
+
+### La mauvaise solution plausible
+
+Le `catch` qui avale :
+
+```js
+try { await notifier(user); } catch (e) { /* pas grave */ }
+```
+
+L'intention est bonne — une notification ratée ne doit pas faire échouer une commande. Le
+problème n'est pas de continuer, c'est de **ne rien dire** : le jour où le service de
+notification tombe, plus personne ne reçoit rien et aucune alerte ne se déclenche. La panne
+est silencieuse, et on la découvre par une réclamation trois semaines plus tard.
+
+La version correcte a exactement le même comportement métier :
+
+```js
+try { await notifier(user); }
+catch (e) { logger.warn({ err: e, user: user.id }, 'notification échouée'); metrics.inc('notif_echec'); }
+```
+
+Le principe : **on a le droit de continuer, jamais le droit de ne pas savoir.** Un `catch` vide
+n'est pas de la robustesse, c'est un aveuglement volontaire.
+
+Variante plus subtile, et tout aussi fréquente : le `catch` qui transforme tout en erreur
+générique.
+
+```js
+catch (e) { throw new Error('Erreur lors du traitement'); }   // ⚠️ la cause a disparu
+```
+
+L'erreur d'origine est perdue — trace d'appels comprise. Utilise le chaînage :
+`throw new Error('Traitement impossible', { cause: e })`, qui conserve l'erreur initiale.
+
+### Prouver chaque branche
+
+L'exercice demandait un test par branche. Ils s'écrivent avec une dépendance factice qui
+échoue **à la demande** :
+
+| Branche | Comment la provoquer | Ce qu'on affirme |
+|---|---|---|
+| succès du premier coup | dépendance qui réussit | un seul appel, la valeur revient |
+| succès après deux échecs | échoue 2 fois puis réussit | **3 appels**, la valeur revient |
+| échec durable | échoue toujours | exactement `essais` appels, puis l'erreur remonte |
+| délai dépassé | dépendance qui traîne 10 s | échec après ~`timeoutMs`, **pas après 10 s** |
+| non-idempotent | erreur transitoire sur une création | **1 seul appel** — pas de nouvelle tentative |
+| repli | échec durable + repli fourni | la valeur du repli, aucune exception |
+
+La quatrième ligne est celle qui attrape le bug le plus courant : un délai d'attente écrit mais
+jamais vérifié, qui ne se déclenche pas parce que le minuteur n'annule rien réellement. On ne
+le découvre qu'en mesurant **combien de temps** l'appel a duré.
+
+La cinquième est celle que personne n'écrit, et c'est celle qui empêche le double paiement.
+
+### Généralisation
+
+Les trois protections — délai d'attente, nouvelle tentative bornée, repli — ne sont pas des
+techniques de code : ce sont les trois réponses possibles à une question de conception,
+*« que fait mon système quand ce dont il dépend ne répond pas ? »*.
+
+Elle se pose à chaque appel sortant, et la réponse par défaut, quand personne ne l'a écrite,
+est toujours la même : **attendre indéfiniment**. C'est ainsi qu'une lenteur chez un
+prestataire devient une panne totale chez toi — non pas parce que quelque chose s'est cassé,
+mais parce que rien n'avait été décidé.
 
 ## 🎤 Questions d'entretien
 - « Erreur opérationnelle vs bug ? » → L'attendue se gère (400/404/retry) ; le bug se logge et échoue proprement (500 générique).

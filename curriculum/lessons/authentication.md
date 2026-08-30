@@ -144,8 +144,217 @@ Ajoute un middleware `requireAuth` à ton API et prouve les 3 cas : sans token �
 ## 🔥 Exercice plus difficile
 Implémente login (hachage bcrypt) + délivrance de token + une règle d'AuthZ de propriété (mes notes seulement), avec les tests des cas 401/403/404 et un rate limit sur /login.
 
-## ✅ Correction attendue
-La logique : AuthN au middleware (401), AuthZ au service près de la donnée (403), mots de passe hachés lents+salés, token en header sur HTTPS. Vérifie : les 3 cas du middleware, l'IDOR impossible (accéder à la ressource d'un autre par son id), le message de login neutre.
+## ✅ Correction
+
+### La démarche : deux questions, deux endroits
+
+L'authentification (**AuthN** — *qui es-tu ?*) et l'autorisation (**AuthZ** — *as-tu le droit
+de faire ceci ?*) sont deux questions distinctes, et le fait de les traiter à deux endroits
+différents n'est pas une préférence d'organisation : c'est ce qui rend l'une des deux
+impossible à oublier.
+
+| | Question | Où | Réponse en cas d'échec |
+|---|---|---|---|
+| **AuthN** | l'identité est-elle établie ? | un middleware, **avant** toutes les routes protégées | **401** |
+| **AuthZ** | cette identité a-t-elle le droit ? | dans le service, **au plus près de la donnée** | **403** |
+
+Le raisonnement derrière ce placement :
+
+- l'AuthN est **la même pour toutes les routes** : un middleware unique la garantit, et une
+  nouvelle route en hérite automatiquement. C'est ce qui la rend non oubliable ;
+- l'AuthZ **dépend de la donnée** : « puis-je lire cette note ? » ne se répond qu'en sachant à
+  qui la note appartient. Une vérification placée dans la route, avant d'avoir lu la donnée,
+  ne peut pas poser la bonne question.
+
+401 et 403 ne sont pas interchangeables. **401** dit « je ne sais pas qui tu es » — le client
+doit s'authentifier, et un client bien écrit rafraîchit son jeton et réessaie. **403** dit « je
+sais qui tu es, et c'est non » — réessayer ne servira à rien. Renvoyer 401 à la place de 403
+met les clients dans une boucle de reconnexion inutile.
+
+### Le hachage : pourquoi « lent » est une qualité
+
+Le mot de passe n'est jamais stocké, ni en clair, ni chiffré — **chiffré** implique
+déchiffrable, donc une clé, donc une clé qui fuit un jour. Il est **haché** : une
+transformation à sens unique, dont on ne peut pas revenir en arrière.
+
+Reste la question qui décide de tout : *quelle fonction de hachage ?* On lit souvent « pas
+SHA-256, utilisez bcrypt ». Voici pourquoi, en chiffres.
+
+> Mesuré par `scripts/v70-verifications/hachage-lent.mjs`, sur une seule machine, sans carte
+> graphique. Les valeurs absolues dépendent du matériel ; l'ordre de grandeur du rapport, non.
+
+| Fonction | Débit mesuré | Durée d'un hachage |
+|---|---|---|
+| SHA-256 | **681 015 hachages/s** | 0,0015 ms |
+| scrypt (N=16384, r=8, p=1) | **23,6 hachages/s** | 42,4 ms |
+
+Un rapport de **28 857**.
+
+Ce que ça donne face à un attaquant qui a volé ta base et essaie un dictionnaire de dix
+millions de mots de passe courants :
+
+| Base hachée en… | Temps pour tout essayer |
+|---|---|
+| SHA-256 | **14,7 secondes** |
+| scrypt | **4,9 jours** |
+
+Voilà l'argument entier. Une base en SHA-256 n'est pas « moins bien protégée » : elle est,
+en pratique, **non protégée** — quatorze secondes sur un ordinateur portable, et un attaquant
+équipé de cartes graphiques fait bien mieux.
+
+La lenteur n'est donc pas un effet secondaire qu'on tolère : c'est **la fonctionnalité**. Elle
+ne coûte rien à ton service — 42 ms une fois par connexion — et coûte des jours à quelqu'un qui
+doit la payer dix millions de fois. C'est une asymétrie construite exprès.
+
+Deux compléments indispensables :
+
+- **le sel** : une valeur aléatoire différente **par utilisateur**, stockée à côté du haché. Sans
+  lui, deux personnes ayant le même mot de passe ont le même haché, et une table
+  précalculée casse toute la base d'un coup. Avec lui, l'attaquant doit refaire le travail pour
+  chaque compte, ce qui multiplie les 4,9 jours par le nombre d'utilisateurs ;
+- **le paramètre de coût** : il est stocké dans le haché lui-même, ce qui permet de l'augmenter
+  au fil des années sans invalider les anciens mots de passe — on rehache à la connexion
+  suivante.
+
+En pratique on utilise **argon2** ou **bcrypt** plutôt que scrypt directement ; le principe
+mesuré ci-dessus est le même pour les trois.
+
+### Le message de login, et le détail qui trahit
+
+```js
+// ❌ deux messages différents
+if (!utilisateur) return res.status(401).json({ erreur: "Cet e-mail n'existe pas" });
+if (!ok)          return res.status(401).json({ erreur: 'Mot de passe incorrect' });
+
+// ✅ un seul
+return res.status(401).json({ erreur: 'Identifiants invalides' });
+```
+
+La version fautive transforme ton formulaire de connexion en **service de vérification
+d'adresses** : on y teste une liste de courriels et on apprend lesquels ont un compte. C'est
+une information monnayable, et le point de départ d'un hameçonnage ciblé.
+
+Il y a plus subtil, et c'est ce qui distingue une réponse d'entretien correcte d'une réponse
+excellente : **le temps de réponse trahit aussi**. Si l'utilisateur n'existe pas, on répond
+tout de suite ; s'il existe, on vérifie le mot de passe pendant 42 ms. L'écart est mesurable
+de l'extérieur, et il redonne exactement l'information qu'on venait de masquer.
+
+La parade : **hacher quand même**, contre un haché factice, quand l'utilisateur n'existe pas.
+Les deux chemins prennent alors le même temps.
+
+Le même principe s'applique à la comparaison du jeton :
+
+```
+timingSafeEqual(a, b)  → compare TOUS les octets, durée constante
+a === b                → peut s'arrêter au premier octet différent
+```
+
+Une comparaison naïve fuit, octet par octet, la position de la première différence. Pour tout
+secret comparé — jeton, signature, clé d'API — on utilise une comparaison à temps constant.
+
+### L'IDOR, la faille que l'exercice doit rendre impossible
+
+**IDOR** — *Insecure Direct Object Reference*, référence directe à un objet non sécurisée : je
+remplace `/notes/42` par `/notes/43` et je lis la note de quelqu'un d'autre.
+
+C'est la faille la plus fréquente des API, et sa cause est presque toujours la même : on a
+vérifié l'AuthN, on a oublié l'AuthZ. L'utilisateur est bien connecté — simplement, il n'est
+pas le propriétaire.
+
+```js
+// ❌ authentifié ≠ autorisé
+const note = await depot.lire(req.params.id);
+res.json(note);
+
+// ✅ la règle de propriété, au plus près de la donnée
+const note = await depot.lire(id);
+if (!note) throw new ErreurHttp(404);
+if (note.proprietaire !== utilisateur.id) throw new ErreurHttp(404);   // ← 404, pas 403
+```
+
+Le détail qui compte : **404 plutôt que 403**. Un 403 confirme que la note 43 existe. Pour une
+ressource privée, le fait même de son existence est une information ; on répond donc comme si
+elle n'existait pas. Un 403 reste correct quand l'existence n'est pas secrète — « ce document
+public existe, tu n'as pas le droit de le modifier ».
+
+Meilleure encore, la formulation qui rend l'oubli impossible :
+
+```js
+const note = await depot.lireDeUtilisateur(id, utilisateur.id);   // le filtre est DANS la requête
+```
+
+La règle n'est plus un `if` qu'on peut oublier d'écrire : elle fait partie de la manière dont
+la donnée est lue. C'est le même principe que dans la leçon sur les états impossibles —
+**quand une faute ne doit pas arriver, on la rend inexprimable plutôt que surveillée**.
+
+### JWT ou jeton opaque : le compromis, sans dogme
+
+| | **JWT** (jeton signé, auto-porteur) | **Jeton opaque** (référence en base) |
+|---|---|---|
+| vérification | signature seule, aucun accès base | nécessite une lecture serveur |
+| révocation | **difficile** : valide jusqu'à expiration | immédiate : on supprime la ligne |
+| changement de droits | pris en compte à la prochaine émission | immédiat |
+| passage à l'échelle | excellent | dépend du magasin de sessions |
+
+Il n'y a pas de bonne réponse absolue, seulement une conséquence à assumer. Avec un JWT, un
+compte désactivé **reste actif** jusqu'à expiration du jeton — d'où les durées courtes (quelques
+minutes) accompagnées d'un jeton de rafraîchissement, lui révocable. Répondre « JWT, c'est
+moderne » en entretien est une mauvaise réponse ; répondre « JWT court + rafraîchissement
+révocable, parce qu'on ne peut pas se permettre qu'un compte licencié reste ouvert une heure »
+en est une bonne.
+
+Trois points communs aux deux, non négociables : **HTTPS toujours** (un jeton en clair sur le
+réseau est un jeton volé), **jamais dans l'URL** (elle finit dans les journaux, l'historique et
+l'en-tête `Referer`), et **jamais de secret dans le corps d'un JWT** — il est signé, pas
+chiffré : n'importe qui peut le lire.
+
+### La mauvaise solution plausible
+
+Placer la vérification de propriété dans le middleware, avec le reste de l'AuthN :
+
+```js
+app.use('/notes/:id', async (req, res, next) => {
+  const note = await depot.lire(req.params.id);
+  if (note.proprietaire !== req.user.id) return res.sendStatus(403);
+  next();
+});
+```
+
+Ça marche, et ça a l'air plus propre — tout est au même endroit. Deux problèmes apparaissent
+plus tard :
+
+1. **la donnée est lue deux fois** : une fois pour vérifier, une fois dans le service. Sur une
+   route très sollicitée, c'est le double de charge pour rien ;
+2. surtout, **la règle ne suit pas la donnée**. Le jour où un autre chemin accède aux notes —
+   un traitement par lots, un export, une seconde API — il ne passe pas par ce middleware, et
+   la règle disparaît sans que personne ne s'en aperçoive.
+
+Une règle d'autorisation attachée à une route protège la route. Une règle attachée à la lecture
+de la donnée protège la donnée. C'est la donnée qu'on cherche à protéger.
+
+### Auto-évaluation
+
+| Vérification | Comment |
+|---|---|
+| les trois cas du middleware | sans jeton → 401, jeton invalide → 401, jeton valide → succès |
+| IDOR impossible | connecte-toi en A, demande la ressource de B par son identifiant : tu dois recevoir 404 |
+| message neutre | compare la réponse pour un courriel inconnu et pour un mot de passe faux : identiques |
+| temps neutre | chronomètre les deux cas : l'écart doit être négligeable |
+| hachage lent | une connexion prend quelques dizaines de millisecondes, pas une fraction de milliseconde |
+| limite de débit sur `/login` | six tentatives ratées d'affilée doivent être refusées |
+
+### Généralisation
+
+Le principe qui traverse toute cette correction : **une vérification de sécurité doit être
+placée là où on ne peut pas l'oublier.** Un middleware pour ce qui est universel, la requête
+elle-même pour ce qui dépend de la donnée — jamais un `if` isolé qu'un développeur pressé
+recopiera de travers dans la prochaine route.
+
+Et le second, qui vaut au-delà de l'authentification : **ce qui est mesurable de l'extérieur
+est une information publique.** Un message d'erreur, un temps de réponse, un statut HTTP, la
+taille d'une réponse : tout cela sort de ton système et peut être comparé. Se demander « qu'est-ce
+que ma réponse apprend à quelqu'un qui n'a pas le droit de savoir ? » est un réflexe qui
+distingue immédiatement, en entretien comme en revue de code.
 
 ## 🎤 Questions d'entretien
 - « 401 vs 403 ? » → 401 : identité non établie ; 403 : identité connue, action interdite.

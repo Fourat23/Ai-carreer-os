@@ -165,8 +165,181 @@ Dessine la chaîne complète de guichets d'une de tes APIs (dans l'ordre réel d
 ## 🔥 Exercice plus difficile
 Refactore une API « tout-dans-les-routes » en 3 couches, puis écris 5 tests du service SANS serveur (data fake) — le refactor est réussi si c'est facile.
 
-## ✅ Correction attendue
-La logique : chaîne ordonnée de middlewares, 3 couches étanches, validation aux frontières, erreurs centralisées sans fuite. Vérifie : aucune règle métier dans les routes, une erreur async atteint bien le guichet final (teste-le), les 10 requêtes malveillantes reçoivent des réponses propres.
+## ✅ Correction
+
+> Les résultats de la première section sont **mesurés** : le script
+> `scripts/v70-verifications/express-erreur-async.mjs` démarre un vrai serveur, envoie de
+> vraies requêtes, et imprime ce que le client reçoit — sur Express 4 **et** sur Express 5.
+
+### La démarche
+
+Dans l'ordre, et l'ordre compte :
+
+1. **Vérifier que la chaîne est complète** — le gestionnaire d'erreurs est-il vraiment le
+   dernier maillon déclaré ?
+2. **Vérifier que les erreurs y arrivent** — c'est une question différente de la précédente,
+   et c'est celle que presque personne ne teste.
+3. **Vérifier ce qu'elles y deviennent** — statut correct, et aucun détail interne qui sorte.
+4. **Vérifier que les couches sont étanches** — le service se teste-t-il sans serveur ?
+
+Le point 2 mérite qu'on s'y arrête, parce qu'il produit la panne la plus déroutante du
+développement backend.
+
+### Le test que presque personne ne fait
+
+Quatre routes, un gestionnaire d'erreurs final, et une question simple : **le client
+reçoit-il quelque chose ?**
+
+| Route | Ce qu'elle fait |
+|---|---|
+| `/sync` | `throw` synchrone dans le gestionnaire |
+| `/async` | gestionnaire `async` dont la promesse rejette, **sans** `try/catch` |
+| `/async-ok` | le même, avec `try/catch` + `next(err)` |
+| `/apres` | envoie la réponse, **puis** appelle `next(err)` |
+
+Résultats mesurés :
+
+| Route | Express 4 | Express 5 |
+|---|---|---|
+| `/sync` | `500 {"erreur":"Erreur interne"}` | `500 {"erreur":"Erreur interne"}` |
+| `/async` | **AUCUNE RÉPONSE** — la requête reste suspendue | `500 {"erreur":"Erreur interne"}` |
+| `/async-ok` | `500 {"erreur":"Erreur interne"}` | `500 {"erreur":"Erreur interne"}` |
+| `/apres` | `200 {"ok":true}` puis erreur dans le guichet | idem |
+| guichet atteint pour | `/sync`, `/async-ok`, `/apres` | `/sync`, `/async`, `/async-ok`, `/apres` |
+| rejets de promesse non gérés | **`['panne async']`** | `[]` |
+
+### Ce que dit la ligne `/async` sur Express 4
+
+Le gestionnaire d'erreurs **n'est jamais atteint**, et le client ne reçoit **rien du tout** —
+pas un 500, pas un 502 : la connexion reste ouverte jusqu'à ce que quelqu'un abandonne.
+
+La raison est mécanique. Express 4 entoure l'appel du gestionnaire d'un `try/catch`
+**synchrone**. Un `throw` synchrone est attrapé ; un rejet de promesse survient plus tard, à
+un moment où ce `try/catch` est terminé depuis longtemps. Personne n'attrape rien, personne
+n'appelle `next`, et la requête n'a plus de suite.
+
+Et la mesure ajoute un second effet, plus grave : la ligne `rejets de promesse non gérés`
+contient `panne async`. Sur les versions récentes de Node, un rejet non géré **termine le
+processus** par défaut. Autrement dit, cette route ne se contente pas de suspendre une
+requête : elle peut faire tomber le serveur pour tous les autres utilisateurs.
+
+C'est pourquoi le motif suivant existe dans presque tous les projets Express 4 :
+
+```js
+const asyncH = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
+app.get('/commandes', asyncH(async (req, res) => { /* … */ }));
+```
+
+Cinq mots utiles : *transformer un rejet en appel à `next`*. Sans ce genre d'enveloppe — ou
+sans un `try/catch` explicite comme dans `/async-ok` — la chaîne de guichets ne sert à rien
+pour tout ce qui est asynchrone, c'est-à-dire pour l'essentiel d'une API.
+
+**Sur Express 5, le comportement a changé** : les rejets sont acheminés vers le gestionnaire
+d'erreurs, et l'enveloppe devient inutile. C'est une différence de version, pas une question
+de style — et c'est exactement le genre de chose qu'il faut vérifier plutôt que supposer, car
+un tutoriel écrit pour l'une des deux versions donne un conseil faux pour l'autre.
+
+### Ce que dit la ligne `/apres`
+
+Le client reçoit `200 {"ok":true}`. La réponse était déjà partie quand l'erreur est survenue ;
+le gestionnaire d'erreurs s'exécute bien, mais il ne peut plus rien écrire.
+
+Sans précaution, il tente d'envoyer un 500 et provoque `ERR_HTTP_HEADERS_SENT` — une seconde
+erreur, dans le code censé traiter les erreurs. D'où le réflexe qui manque presque toujours :
+
+```js
+app.use((err, req, res, next) => {
+  journaliser(err, { chemin: req.path, requete: req.id });
+  if (res.headersSent) return next(err);   // trop tard : Express coupera la connexion
+  res.status(err.statut || 500).json({ erreur: err.public || 'Erreur interne' });
+});
+```
+
+Et la leçon plus générale : **le client a déjà reçu un succès alors que l'opération a échoué.**
+Quand une action est réellement importante — un paiement, une écriture en base — la réponse
+ne doit partir qu'**après** que tout ait abouti, jamais avant.
+
+### La réponse envoyée au client
+
+Trois propriétés, dans les mesures ci-dessus :
+
+- **un statut correct** : 500 pour un bug, et non un 200 avec `{ "erreur": … }` dans le corps.
+  Un client, un cache, une supervision lisent le statut ;
+- **aucun détail interne** : `{"erreur":"Erreur interne"}`. Pas de trace d'appels, pas de
+  message d'exception SQL, pas de chemin de fichier. Une trace d'appels renseigne un attaquant
+  sur ta version, tes bibliothèques et ta structure ;
+- **le détail existe malgré tout — dans le journal.** L'erreur n'est pas perdue, elle est
+  envoyée là où l'on peut la lire sans la publier. Avec un identifiant de requête, qu'on peut
+  donner au client : « erreur interne, référence a3f9 » permet de retrouver la trace exacte.
+
+### Les trois couches, et le test qui les valide
+
+```
+route (HTTP)      → lit la requête, valide la forme, appelle le service, renvoie le statut
+service (métier)  → applique les règles, ne connaît ni req ni res
+dépôt (données)   → parle à la base, ne connaît aucune règle métier
+```
+
+Le critère d'étanchéité n'est pas esthétique, il est vérifiable en une phrase : **puis-je
+tester le service sans démarrer de serveur HTTP ?**
+
+```js
+// aucun serveur, aucune base : des données fabriquées
+const service = creerServiceCommandes({ depot: depotFactice });
+assert.rejects(() => service.annuler('cmd-1', { role: 'lecteur' }), /interdit/);
+```
+
+Si ce test exige un `req` ou un `res`, c'est que du HTTP a fui dans le métier. Si le test d'une
+règle métier exige une base de données, c'est que la règle vit dans le dépôt.
+
+L'exercice demandait cinq tests du service sans serveur : **s'ils ont été faciles à écrire, le
+découpage est réussi ; s'ils ont été pénibles, le découpage ne l'est pas.** La difficulté du
+test est ici la mesure, pas une conséquence de la mesure.
+
+### La mauvaise solution plausible
+
+Attraper les erreurs dans chaque route et y répondre sur place :
+
+```js
+app.get('/commandes/:id', async (req, res) => {
+  try { res.json(await service.lire(req.params.id)); }
+  catch (e) { res.status(500).json({ erreur: e.message }); }   // ⚠️
+});
+```
+
+Ça fonctionne, et ça pose trois problèmes qui apparaissent tous plus tard :
+
+1. **`e.message` part chez le client.** Un jour, ce message contiendra le nom d'une table ou
+   une chaîne de connexion ;
+2. **le format des erreurs diverge** entre les routes, parce que chacune est écrite un jour
+   différent. Les clients de l'API doivent gérer plusieurs formes ;
+3. **une route oubliée n'a plus aucun filet** — et il n'y a aucun moyen de savoir lesquelles
+   sont couvertes sans les relire toutes.
+
+Le guichet unique final résout les trois d'un coup : un seul endroit qui décide du format, du
+statut et de ce qui sort. Les routes se contentent de **signaler**, avec `next(err)`.
+
+### Auto-évaluation
+
+| Vérification | Comment |
+|---|---|
+| le gestionnaire d'erreurs est atteint pour l'async | provoque un rejet dans une vraie route, et regarde ce que reçoit le client |
+| aucune fuite | provoque une erreur SQL et lis le corps de la réponse : contient-il un mot de ton schéma ? |
+| couches étanches | un test de service qui n'importe ni `express` ni le pilote de base |
+| ordre de la chaîne | le gestionnaire d'erreurs est la **dernière** ligne `app.use` du fichier |
+| réponse déjà envoyée | une route qui répond puis échoue ne doit pas produire de seconde erreur |
+
+### Généralisation
+
+La chaîne de guichets d'Express est un cas particulier d'un motif qu'on retrouve partout :
+intercepteurs HTTP, filtres de servlets, pipeline de traitement de messages, chaîne de
+handlers d'un ordonnanceur. À chaque fois, deux propriétés décident de tout : **l'ordre de
+déclaration** et **ce qui a le droit d'interrompre la chaîne**.
+
+Et à chaque fois, la même question se pose et se teste de la même façon : *ce filet attrape-t-il
+vraiment ce qu'il est censé attraper ?* La réponse ne se lit pas dans le code — Express 4 et
+Express 5 ont exactement le même code de gestionnaire d'erreurs, et deux comportements
+opposés. Elle se mesure en provoquant la panne.
 
 ## 🎤 Questions d'entretien
 - « Qu'est-ce qu'un middleware Express ? » → Un maillon (req, res, next) d'une chaîne ordonnée ; il traite puis passe, ou répond.

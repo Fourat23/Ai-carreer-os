@@ -36,23 +36,119 @@ Et c'est aussi pourquoi les **limites honnêtes** ne coûtent rien : elles sont 
 Faible : « Projet de RAG avec LangChain. »
 Fort : « **DocSense** — assistant qui répond aux questions sur vos documents techniques, avec citations vérifiables et refus quand l'information n'existe pas. Fidélité 90 % sur 40 questions d'évaluation. `docker compose up` et c'est parti. »
 
-## 🧭 Exemple guidé
-**Énoncé** : rédiger la section « Installation » de LivreAPI.
-**Raisonnement** : prérequis explicites, commandes copiables, vérification finale.
-**Solution** :
-```markdown
-## Installation (5 minutes)
-Prérequis : Node.js 20+.
-\```bash
-git clone … && cd livreapi
-npm install
-npm run db:init      # crée la base et les données de démo
-npm run dev          # → http://localhost:3000
-\```
-Vérifier : `curl http://localhost:3000/books` renvoie 5 livres.
-Tester : importer `postman/livreapi.json` et lancer la collection.
+## 🧭 Exemple guidé — un README ne se relit pas, il s'exécute
+
+La question « mon README est-il bon ? » n'a pas de réponse tant qu'on la traite
+comme une question de rédaction. Elle en a une dès qu'on la reformule :
+**quelqu'un qui ne connaît pas le projet peut-il le faire tourner en suivant le
+texte à la lettre, sans rien deviner ?** Cette question s'exécute.
+
+Le script `scripts/v70-verifications/readme-executable.sh` applique le protocole
+d'un inconnu au dépôt de ce cours lui-même : cloner à neuf, suivre le README à la
+lettre, ne rien supposer, chronométrer.
+
+### 1. Les prérequis sont-ils vérifiables ?
+
 ```
-**Explication** : chaque commande est copiable, l'étape de vérification prouve le succès, la collection Postman fait la démo. **Variante** : ajoute une section « Problèmes fréquents » (port occupé, version Node).
+  ## Prérequis
+  - Node.js 20+ (testé sur Node 22) et npm.
+  - Rien d'autre : pas de base de données à installer, pas de compte, pas de clé.
+
+  version réellement présente : node v22.22.2, npm 10.9.7
+```
+*(extrait du README audité, indenté ici pour ne pas être confondu avec un titre
+de cette leçon)*
+
+Deux qualités à relever. La version est **un nombre**, pas « une version
+récente » — donc vérifiable en une commande. Et la seconde ligne dit ce qui
+n'est **pas** nécessaire, ce qui répond d'avance à la question qu'on se pose
+toujours : « est-ce qu'il faut installer une base de données pour essayer ? »
+
+### 2. Chaque commande annoncée fonctionne-t-elle ?
+
+```
+npm install       : SUCCÈS en 23 s
+npm test          : OK      (35 s)
+npm run build     : OK      (65 s)
+npm run generate  : OK      ( 1 s)
+```
+
+Quatre sur quatre. C'est le résultat qu'on espère et il est plus rare qu'on ne
+croit : un README vieillit à chaque commit qui renomme un script, et personne ne
+le remarque parce que les auteurs, eux, connaissent les vraies commandes.
+
+**La seule façon de savoir est de repartir d'un clone neuf.** Sur ta machine de
+travail, `npm test` fonctionne peut-être grâce à quelque chose d'installé il y a
+six mois et jamais documenté.
+
+### 3. Le résultat inconfortable : ça marche, et c'est insuffisant
+
+L'audit continue au-delà des commandes, et trouve cinq manques :
+
+```
+- aucune section sur la manière de contribuer
+- aucune licence : le droit de réutilisation est indéterminé
+- aucune capture d écran : on ne sait pas à quoi ressemble le produit
+- le README ne dit pas quoi faire APRÈS npm run dev (par où commencer)
+- aucun .env.example : les variables attendues ne sont pas documentées
+```
+
+Les quatre premiers sont des manques réels. **Le cinquième est un faux positif**,
+et il vaut la peine de s'y arrêter : le contrôle cherche mécaniquement un
+`.env.example`, mais ce projet n'a besoin d'aucune variable d'environnement — et
+son README le dit explicitement (« pas de compte, pas de clé »). Le contrôle
+mécanique a signalé une absence qui est une propriété du projet, pas un défaut.
+
+C'est le rappel qui accompagne toute liste de contrôle automatique : **elle
+signale des absences, elle ne juge pas leur pertinence.** Un README qui
+satisferait tous les contrôles mécaniques en ajoutant un `.env.example` vide
+serait moins bon, pas meilleur.
+
+Les quatre vrais manques se hiérarchisent. L'absence de **licence** est la plus
+grave et la moins visible : sans licence explicite, le droit d'auteur par défaut
+s'applique et personne n'a le droit de réutiliser le code. « C'est public sur
+GitHub » ne donne aucun droit. Vient ensuite l'absence de **capture d'écran** :
+un lecteur qui doit installer pour savoir à quoi ressemble le produit
+n'installera pas. Puis l'absence de **« et maintenant ? »** — la commande
+fonctionne, l'application s'ouvre, et le lecteur ne sait pas par où commencer.
+
+### 4. La métrique la plus utile, et elle est mécanique
+
+```
+lignes : 219 · mots : 1817 · blocs de code : 10
+1er bloc de code à la ligne : 16
+```
+
+**Combien de lignes faut-il lire avant de pouvoir taper quelque chose ?** Ici,
+seize. C'est court, et c'est la bonne cible : un lecteur qui doit lire soixante
+lignes de contexte avant la première commande a déjà fermé l'onglet.
+
+Cette métrique se mesure en une commande sur n'importe quel README, la tienne
+comprise. Elle capture ce qui compte — la distance entre l'arrivée et la première
+action — bien mieux que la longueur totale, qui ne dit rien.
+
+### 5. L'ordre du README, dérivé de ce qui précède
+
+Le lecteur pose ses questions dans un ordre, et le README y répond dans le même :
+
+1. **Qu'est-ce que c'est ?** Une phrase, en haut, qui dit ce que fait le projet
+   et pour qui. Pas l'historique, pas la motivation.
+2. **À quoi ça ressemble ?** Une capture, un extrait de sortie, un exemple
+   d'appel. C'est ce qui décide de la suite.
+3. **Comment je l'essaie ?** Prérequis chiffrés, commandes copiables, et une
+   **étape de vérification** qui prouve que ça a marché — « `curl
+   localhost:3000/livres` renvoie 5 livres » vaut mieux que « l'application
+   démarre ».
+4. **Et maintenant ?** La première chose à faire une fois que ça tourne.
+5. **Est-ce sérieux ?** Tests, intégration continue, décisions d'architecture.
+6. **Quelles sont les limites ?** Ce que le projet ne fait pas, et pourquoi.
+   Cette section est celle qui inspire le plus confiance, et c'est la plus
+   souvent absente.
+7. **Puis-je m'en servir ?** La licence.
+
+Les points 3 et 6 sont ceux qui distinguent un README professionnel. Le premier
+parce qu'il s'exécute ; le second parce qu'il montre qu'on connaît son propre
+projet.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Pour un projet IA, la section CHIFFRES est ton arme : le tableau d'éval avant/après (rappel, fidélité, coût/requête) prouve une démarche d'ingénieur là où les autres candidats listent des features. Le README de DocSense suit exactement cette structure — c'est un critère de qualité du projet final.
@@ -68,13 +164,101 @@ Pour un projet IA, la section CHIFFRES est ton arme : le tableau d'éval avant/a
 - Le pavé de 400 lignes qui noie l'essentiel (la doc détaillée va dans /docs).
 
 ## ✍️ Mini-exercice
-Réécris le titre + la première phrase + les 3 chiffres de ton meilleur projet. Teste sur quelqu'un : comprend-il en 30 secondes ?
+Sans relire : quelle métrique d'un README se mesure en une commande et prédit le
+mieux qu'un inconnu essaiera le projet ?
 
-## 🔥 Exercice plus difficile
-Refonds un README complet selon la structure, puis suis tes propres instructions sur un clone frais. Corrige chaque friction rencontrée.
+## 🔥 Pratique — exécuter son propre README
+
+**A. Le test du clone neuf.** Clone ton meilleur projet dans un répertoire vide
+et suis ton README **à la lettre**, en t'interdisant d'utiliser ce que tu sais.
+Chronomètre. Chaque fois que tu dois deviner, chercher ailleurs ou corriger une
+commande, note-le. Livrable : le temps jusqu'à « ça tourne », et la liste des
+frictions.
+
+**B. L'audit mécanique.** Écris un script qui, sur un dépôt quelconque, mesure :
+le nombre de lignes avant le premier bloc de code, le nombre de blocs de code, la
+présence d'une licence, d'une capture, d'une étape de vérification, d'une section
+sur les limites. Livrable : le script, sa sortie sur deux de tes dépôts, et pour
+chaque signalement ta décision — vrai manque ou faux positif justifié.
+
+**C. Vérifier chaque commande.** Écris un script qui extrait les commandes des
+blocs `bash` de ton README et tente de les exécuter dans un clone neuf. Livrable :
+le tableau commande / résultat / durée.
+
+**D. Réécrire.** Refonds le README selon l'ordre en sept points, avec au moins
+une étape de vérification observable et une section « limites » honnête. Refais A
+et B. Livrable : les deux mesures avant/après.
+
+**E. Le test des trente secondes.** Fais lire ta première phrase et ta capture à
+quelqu'un qui ne connaît pas le projet, chronomètre trente secondes, puis
+demande-lui de te dire ce que fait le projet et pour qui. Livrable : ce qu'il a
+compris, mot pour mot, et ce que tu changes en conséquence.
 
 ## ✅ Correction attendue
-La logique : répondre aux questions du lecteur dans l'ordre (quoi → preuve → essai → sérieux → limites). Vérifie : un inconnu comprend le projet en 30 s (montre-le à quelqu'un), l'installation marche à la lettre sur machine propre, et il y a au moins 3 chiffres et 2 limites honnêtes.
+
+**A — les frictions.** Presque personne n'obtient zéro. Les frictions les plus
+fréquentes, par ordre : une commande renommée depuis la rédaction du README (le
+défaut le plus courant, parce qu'il est invisible pour l'auteur) ; une variable
+d'environnement nécessaire mais non documentée ; une dépendance système supposée
+présente (une base de données, un outil de compilation) ; un port déjà occupé,
+sans que le README dise comment en changer.
+
+Le point à formuler : **tu ne peux pas trouver ces frictions en relisant.** Ton
+cerveau complète automatiquement ce qu'il sait. Seul un clone neuf, suivi à la
+lettre, les révèle — et si tu ne peux pas t'interdire ton savoir, fais-le faire
+par quelqu'un d'autre.
+
+**B — l'audit, et ses faux positifs.** Un bon script signale les six éléments.
+Une bonne **réponse** justifie chaque signalement, parce qu'un contrôle mécanique
+détecte des absences sans savoir si elles comptent : l'absence de `.env.example`
+est un défaut sur un projet qui a des secrets et une non-information sur un
+projet qui n'en a pas — c'est exactement le faux positif produit par la mesure de
+la section guidée.
+
+Si ta réponse déclare « six manques » sans les trier, tu as construit un
+générateur de tâches inutiles. La discipline attendue est la même que pour une
+porte de qualité : **savoir ce que le contrôle mesure et ce qu'il ne mesure
+pas.**
+
+L'exception : l'absence de licence n'est **jamais** un faux positif. Sans licence
+explicite, le droit d'auteur par défaut interdit la réutilisation. Un dépôt
+public sans licence est visible et juridiquement inutilisable — ce que très peu
+d'auteurs réalisent.
+
+**C — extraire et exécuter.** Deux difficultés que la correction attend que tu
+rencontres. Les blocs de code contiennent souvent des commandes **non
+exécutables** telles quelles : des invites (`$`), des espaces réservés
+(`<ton-token>`), des commentaires. Et certaines commandes sont **destructives** ou
+bloquantes (`npm run dev` ne rend jamais la main) — l'extraction automatique doit
+les exclure explicitement, ce qui oblige à les identifier.
+
+Cette contrainte a une retombée qui est le vrai bénéfice de l'exercice : elle
+pousse à écrire des commandes **réellement copiables**, sans invite ni espace
+réservé non signalé. Un README dont les commandes sont automatiquement
+exécutables est un README dont les commandes sont copiables par un humain.
+
+**D — l'avant/après.** L'amélioration attendue porte sur deux chiffres : le temps
+jusqu'à « ça tourne » et le nombre de lignes avant le premier bloc de code.
+Attention au second : le réduire en supprimant la phrase d'introduction serait
+une régression. La bonne réduction vient de **remonter** le bloc d'installation,
+pas de supprimer le contexte.
+
+Sur la section « limites », le contenu attendu est concret : ce que le projet ne
+fait pas, ce qui n'est pas testé, l'échelle à laquelle il n'a pas été essayé.
+« Ce projet n'a jamais été testé au-delà de 10 000 lignes » inspire plus
+confiance que le silence, parce qu'un lecteur expérimenté sait qu'il existe des
+limites et se demande seulement si tu les connais.
+
+**E — les trente secondes.** Le résultat utile est **ce que la personne a
+compris, mot pour mot**, et non « oui, c'était clair ». Note sa formulation. Si
+elle diffère de la tienne, c'est ta phrase qu'il faut changer, pas son
+interprétation.
+
+L'écart typique : l'auteur écrit ce que le projet **est** techniquement
+(« une application Next.js avec un moteur de rendu Markdown ») et le lecteur
+cherche ce qu'il **fait** et pour qui. La formulation qui marche répond aux deux
+en une phrase — c'est exactement ce que fait la première ligne du README audité
+plus haut.
 
 ## 🎤 Questions d'entretien
 - « Qu'est-ce qui fait un bon README ? » → Une phrase claire, une démo visuelle, des chiffres, une installation en 5 min testée, l'architecture, les limites.

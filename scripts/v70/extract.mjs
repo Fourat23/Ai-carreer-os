@@ -56,10 +56,37 @@ export function analyser(slug) {
     guide:     TROUVE(secs, /exemple guide/),
     applique:  TROUVE(secs, /exemple applique/),
     erreurs:   TROUVE(secs, /erreurs frequentes/, /anti patterns/),
-    exo:       TROUVE(secs, /mini exercice/, /mise en pratique/, /pratique associee/),
+    // ------------------------------------------------------------------------
+    // CORRECTION DE SONDE — V70 CP5, documentée conformément à la règle de
+    // non-triche du brief (§6 : « modifier une sonde uniquement parce qu'elle
+    // produit une mauvaise note sans démontrer qu'elle est fausse » est
+    // interdit ; la démonstration suit).
+    //
+    // 1. `correction` ne reconnaissait que le titre exact « Correction
+    //    attendue ». Une section intitulée « ✅ Correction » — le titre
+    //    naturel, et celui du standard gelé V70 — était comptée à zéro mot
+    //    alors qu'elle existe et contient le texte.
+    //    Impact sur les chiffres du CP0 : NUL. Vérifié sur le corpus figé au
+    //    commit d5d2cd9 : 103 leçons portaient « Correction attendue », ZÉRO
+    //    portait « Correction » seul. Aucun chiffre du rapport CP0 ne change.
+    //
+    // 2. `exo` ne reconnaissait pas le titre « Pratique » seul.
+    //    Impact sur les chiffres du CP0 : RÉEL et déclaré. Quatre leçons du
+    //    corpus figé portaient « 🛠️ Pratique » et étaient comptées comme
+    //    dépourvues d'exercice. Le CP0 a donc sous-estimé de 4 le nombre de
+    //    leçons pourvues d'une pratique. Ce delta est publié dans le
+    //    mini-statut CP5 et repris au CP15 ; les chiffres du rapport CP0
+    //    ne sont PAS réécrits.
+    //
+    // Non ajouté volontairement : « Repères pratiques » (9 occurrences au
+    // CP0). Ce n'est pas un exercice — aucun livrable, aucune consigne — et
+    // l'inclure gonflerait le taux de couverture de la pratique sans qu'une
+    // seule leçon ait gagné un exercice.
+    // ------------------------------------------------------------------------
+    exo:       TROUVE(secs, /mini exercice/, /mise en pratique/, /pratique associee/, /^pratique$/, /^pratique /),
     exoDur:    TROUVE(secs, /exercice plus difficile/),
     verif:     TROUVE(secs, /verification de comprehension/),
-    correction:TROUVE(secs, /correction attendue/),
+    correction:TROUVE(secs, /correction attendue/, /^correction$/, /^correction /),
     metier:    TROUVE(secs, /cas (metier|professionnel)/),
     entretien: TROUVE(secs, /questions d entretien/),
     transfert: TROUVE(secs, /liens avec le programme/),

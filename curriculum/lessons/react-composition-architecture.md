@@ -87,26 +87,160 @@ stocké vs dérivé · `context` (données transversales, pas entrepôt global) 
 · `useMemo`/`useCallback`/`memo` (seulement après mesure) · responsabilité unique d'un
 composant.
 
-## 🧭 Exemple guidé
-Une recherche filtrée, bien architecturée :
+## 🧭 Exemple guidé — le composant qui a grossi, découpé sous tes yeux
+
+Personne n'écrit un composant de 300 lignes d'un coup. On écrit 40 lignes qui vont bien,
+puis on ajoute un filtre, puis un tri, puis un export, et un jour quelqu'un dit « il
+faudrait découper ça ». La question intéressante n'est pas *s'il faut* découper — c'est
+**où couper**, et il existe une méthode.
+
+Voici l'annuaire d'entreprise, tel qu'il est réellement écrit après six mois.
+
 ```tsx
-// État minimal : on stocke la liste et le terme ; le résultat est DÉRIVÉ.
 function Annuaire({ personnes }: { personnes: Personne[] }) {
   const [terme, setTerme] = useState('');
-  const resultats = personnes.filter((p) =>          // dérivé, pas stocké
-    p.nom.toLowerCase().includes(terme.toLowerCase())
-  );
+  const [resultats, setResultats] = useState<Personne[]>(personnes);   // ①
+  const [nbResultats, setNbResultats] = useState(personnes.length);    // ②
+  const [triCroissant, setTriCroissant] = useState(true);
+  const [selection, setSelection] = useState<string | null>(null);
+
+  useEffect(() => {                                                    // ③
+    const filtrees = personnes.filter((p) =>
+      p.nom.toLowerCase().includes(terme.toLowerCase()),
+    );
+    setResultats(filtrees);
+    setNbResultats(filtrees.length);
+  }, [terme, personnes]);
+
   return (
     <section>
-      <ChampRecherche valeur={terme} onChange={setTerme} />  {/* callback qui remonte */}
-      <ListePersonnes personnes={resultats} />               {/* props qui descendent */}
+      <input value={terme} onChange={(e) => setTerme(e.target.value)} />
+      <button onClick={() => setTriCroissant((t) => !t)}>Trier</button>
+      <p>{nbResultats} personne(s)</p>
+      <ul>
+        {[...resultats]
+          .sort((a, b) => (triCroissant ? 1 : -1) * a.nom.localeCompare(b.nom))
+          .map((p) => (
+            <li key={p.id} onClick={() => setSelection(p.id)}>{p.nom}</li>
+          ))}
+      </ul>
+      {selection && <FichePersonne id={selection} />}
     </section>
   );
 }
 ```
-`ChampRecherche` et `ListePersonnes` sont de petits composants réutilisables ; `Annuaire`
-orchestre. Le résultat filtré est dérivé (jamais un second `useState`), donc toujours
-cohérent.
+
+Il fonctionne. Il n'a aucun avertissement. C'est important de le dire : ce code passerait
+en production, et c'est précisément pour ça qu'on ne le corrige jamais.
+
+### Premier passage : quel état est réellement de l'état ?
+
+Avant de découper quoi que ce soit, on trie les cinq `useState`. Une seule question :
+**cette valeur peut-elle être calculée à partir d'une autre ?**
+
+| Valeur | Verdict | Pourquoi |
+|---|---|---|
+| `terme` | **état** | vient de l'utilisateur, rien ne permet de la deviner |
+| `triCroissant` | **état** | idem |
+| `selection` | **état** | idem |
+| `resultats` ① | **dérivé** | c'est `personnes` filtré par `terme` |
+| `nbResultats` ② | **dérivé** | c'est `resultats.length` |
+
+Trois états, deux copies. Le rapport est presque toujours celui-là quand on n'a jamais posé
+la question.
+
+Les deux dérivés disparaissent, et l'effet ③ avec eux :
+
+```tsx
+const resultats = personnes.filter((p) =>
+  p.nom.toLowerCase().includes(terme.toLowerCase()),
+);
+const nbResultats = resultats.length;
+```
+
+Deux lignes de calcul à la place de deux états et d'un effet. Ce n'est pas seulement plus
+court : c'est **impossible à désynchroniser**. Avant, il existait un instant — le rendu qui
+suit la frappe, avant que l'effet ne s'exécute — où `nbResultats` annonçait un nombre et la
+liste en affichait un autre. Un utilisateur rapide voyait « 12 personnes » au-dessus de
+4 lignes. Après, ce moment n'existe plus, parce qu'il n'y a plus deux valeurs à accorder.
+
+**Retiens l'ordre :** on supprime les états superflus **avant** de découper. Découper
+d'abord aurait figé les deux copies dans deux composants différents, et on aurait alors
+« besoin » d'un context pour les partager. Beaucoup d'architectures compliquées sont nées
+d'un état dérivé qu'on n'a pas vu.
+
+### Deuxième passage : où couper
+
+Maintenant on découpe. Le critère n'est pas le nombre de lignes — c'est le **test du
+« et »** : décris le composant en une phrase, et compte les « et ».
+
+> « Il gère la saisie de recherche **et** filtre **et** trie **et** affiche la liste **et**
+> ouvre la fiche. »
+
+Quatre « et », donc cinq responsabilités. Mais elles ne se valent pas, et c'est le point
+que la plupart des découpages ratent : **certaines veulent devenir des composants, d'autres
+veulent devenir des fonctions.**
+
+| Responsabilité | Devient | Pourquoi |
+|---|---|---|
+| saisir un terme | `<ChampRecherche>` | a un rendu propre, réutilisable ailleurs |
+| afficher la liste | `<ListePersonnes>` | idem |
+| afficher une fiche | `<FichePersonne>` | déjà séparé |
+| filtrer | une fonction pure | aucun rendu, aucun état |
+| trier | une fonction pure | idem |
+
+Filtrer et trier n'ont pas d'interface. En faire des composants serait une erreur
+symétrique de celle qu'on vient de corriger : on emballerait du calcul dans une machinerie
+de rendu. Ce sont des fonctions ordinaires, qu'on peut tester sans navigateur.
+
+### Le résultat
+
+```tsx
+const filtrer = (ps: Personne[], t: string) =>
+  ps.filter((p) => p.nom.toLowerCase().includes(t.toLowerCase()));
+
+const trier = (ps: Personne[], croissant: boolean) =>
+  [...ps].sort((a, b) => (croissant ? 1 : -1) * a.nom.localeCompare(b.nom));
+
+function Annuaire({ personnes }: { personnes: Personne[] }) {
+  const [terme, setTerme] = useState('');
+  const [triCroissant, setTriCroissant] = useState(true);
+  const [selection, setSelection] = useState<string | null>(null);
+
+  const affichees = trier(filtrer(personnes, terme), triCroissant);   // dérivé
+
+  return (
+    <section>
+      <ChampRecherche valeur={terme} onChange={setTerme} />
+      <BasculeTri croissant={triCroissant} onBascule={setTriCroissant} />
+      <p>{affichees.length} personne(s)</p>
+      <ListePersonnes personnes={affichees} onSelection={setSelection} />
+      {selection && <FichePersonne id={selection} />}
+    </section>
+  );
+}
+```
+
+`Annuaire` ne fait plus qu'une chose : **orchestrer**. Il détient les trois états, calcule
+ce qui en découle, et distribue. Il n'affiche presque rien lui-même, et sa description tient
+maintenant sans « et » : *« il coordonne la recherche dans l'annuaire »*.
+
+Note la direction des flèches, parce que c'est tout le modèle : **les données descendent**
+en props (`personnes={affichees}`), **les intentions remontent** en fonctions de rappel
+(`onSelection={setSelection}`). `ListePersonnes` ne sait pas ce qu'est une sélection ; elle
+signale qu'on a cliqué sur quelqu'un, et c'est l'orchestrateur qui décide de ce que ça veut
+dire. C'est ce qui la rend réutilisable dans un autre écran où le clic ferait autre chose.
+
+### Ce que cet exemple ne dit pas
+
+Il ne dit pas qu'il faut découper tôt. Un composant de 60 lignes qui fait une chose n'a
+aucun besoin d'être coupé, et le découper produit une arborescence de fichiers qui coûte
+plus à lire qu'elle ne rapporte.
+
+Le bon moment est celui où la **description** devient composée, pas celui où le fichier
+devient long. Un composant de 200 lignes qui affiche un tableau complexe est parfaitement
+sain ; un composant de 50 lignes qui charge des données **et** gère un formulaire mérite
+d'être coupé en deux.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
@@ -206,11 +340,167 @@ côté UI et `/doc/lessons/architecture-basics` (frontières, dépendances) à l
 frontend. L'interface de DocSense (mois 11) applique tout ceci : petits composants, état
 minimal au bon niveau, un `useQuestion()` réutilisé, un `context` pour l'utilisateur.
 
-## Mini-exercice
-Reprends un composant que tu as écrit et qui dépasse ~80 lignes. (1) Extrais-en deux
-sous-composants nommés. (2) Identifie un état dérivé stocké à tort et supprime-le au profit
-d'un calcul au rendu. (3) Extrais une logique répétée en un hook `useNomDeHook`. Explique à voix
-haute OÙ vit chaque état et pourquoi.
+## 🛠️ Pratique — le rapport de découpage
+
+**Contexte.** Prends le plus gros composant que **tu** as écrit — celui devant lequel tu
+hésites avant d'ouvrir le fichier. À défaut, prends celui-ci : un écran « Commandes » qui
+charge une liste depuis une API, offre un filtre par statut, un tri par date, une sélection
+multiple avec cases à cocher, un bouton « Exporter la sélection » et un panneau de détail
+qui s'ouvre à droite.
+
+Cette pratique produit un **rapport de découpage** : le document qu'on écrit avant de
+toucher au code, et qu'on fait relire. C'est exactement ce qu'on attend d'un développeur
+qui propose une refonte, et c'est ce qui distingue une refonte d'un grand remaniement à
+l'aveugle.
+
+**Écris les cinq parties suivantes.**
+
+**1. L'inventaire de l'état.** Un tableau : `valeur` · `état ou dérivé` · `si dérivé, de
+quoi` · `si état, d'où elle vient`. Une ligne par `useState`, `useReducer` et `useRef` du
+composant. Aucune ligne ne doit rester sans verdict.
+
+**2. Le test du « et ».** Écris la description du composant en **une** phrase, telle
+qu'elle sort naturellement, avec ses « et ». Puis la liste numérotée des responsabilités
+qu'elle révèle.
+
+**3. Le tri composant / fonction.** Pour chaque responsabilité : `deviendra un composant`
+ou `deviendra une fonction pure`, avec la raison. Rappel du critère : une responsabilité
+sans rendu propre n'est pas un composant.
+
+**4. Le découpage proposé.** L'arborescence cible, avec pour chaque nouveau composant :
+son nom, ses props entrantes, ses fonctions de rappel sortantes, et — la colonne qui
+compte — **l'état qu'il ne possède pas**. Écris ensuite en une phrase où vit chaque état
+restant et pourquoi il ne peut pas descendre plus bas.
+
+**5. Le coût et l'ordre.** Trois choses :
+- ce que le découpage **ne corrigera pas** (il y a toujours quelque chose) ;
+- le **premier** changement à faire, et pourquoi celui-là d'abord ;
+- une chose que tu ne découpes **pas** délibérément, avec ta justification.
+
+**Critère de réussite.** (a) Ton inventaire contient au moins un état qui se révèle dérivé —
+si aucun ne l'est, relis-le, c'est très rare ; (b) au moins une responsabilité devient une
+fonction et non un composant ; (c) pour chaque état conservé, tu peux nommer les deux
+composants au moins qui le lisent, sinon il est trop haut ; (d) la partie 5 est écrite, y
+compris le « je ne découpe pas ceci ».
+
+**Durée.** 45 à 60 minutes. Aucun code n'est écrit — c'est volontaire : la valeur de cette
+pratique est de constater que la décision se prend **avant** l'éditeur, et qu'elle
+s'argumente.
+
+## ✅ Correction
+
+Cette pratique portant sur ton propre code, la correction donne la grille de relecture, le
+corrigé de l'écran « Commandes » proposé en repli, et les trois erreurs de raisonnement qui
+reviennent.
+
+### Le corrigé de l'écran « Commandes »
+
+**1. Inventaire de l'état**
+
+| Valeur | Verdict | Détail |
+|---|---|---|
+| `commandes` | état | vient de l'API |
+| `chargement`, `erreur` | état | issus de la même requête |
+| `statutFiltre` | état | choix de l'utilisateur |
+| `triDate` | état | choix de l'utilisateur |
+| `idsSelectionnes` | état | choix de l'utilisateur |
+| `detailOuvert` | état | choix de l'utilisateur |
+| `commandesAffichees` | **dérivé** | `commandes` filtré puis trié |
+| `nbSelectionnees` | **dérivé** | `idsSelectionnes.size` |
+| `toutSelectionne` | **dérivé** | `idsSelectionnes.size === commandesAffichees.length` |
+| `exportPossible` | **dérivé** | `idsSelectionnes.size > 0` |
+
+Six états, quatre dérivés. `toutSelectionne` mérite un mot : c'est l'état de la case à
+cocher de l'en-tête, et le stocker est **le** bug classique de ce type d'écran. Stocké, il
+reste à `true` après un changement de filtre qui a fait apparaître de nouvelles lignes non
+cochées : l'en-tête affirme que tout est sélectionné, ce qui est faux, et l'export part avec
+la mauvaise liste. Dérivé, l'incohérence est impossible.
+
+**2. Le test du « et »**
+
+> « Il charge les commandes **et** les filtre **et** les trie **et** gère une sélection
+> multiple **et** exporte la sélection **et** affiche le détail d'une commande. »
+
+Six responsabilités.
+
+**3. Le tri**
+
+| Responsabilité | Devient | Pourquoi |
+|---|---|---|
+| charger | un hook `useCommandes()` | logique avec état, sans rendu |
+| filtrer, trier | deux fonctions pures | ni rendu ni état |
+| barre de filtres | `<BarreFiltres>` | rendu propre |
+| tableau + sélection | `<TableauCommandes>` | rendu propre |
+| bouton export | `<BoutonExport>` | rendu propre |
+| détail | `<PanneauDetail>` | rendu propre |
+
+Noter le hook. C'est la troisième catégorie, celle qu'on oublie : une responsabilité qui a
+de l'**état** mais pas de **rendu**. En faire un composant obligerait à inventer un rendu
+inutile ; en faire une fonction pure est impossible, il y a un `useEffect` dedans. Le hook
+personnalisé existe exactement pour ce cas.
+
+**4. Le découpage**
+
+```
+<EcranCommandes>                    ← détient les 6 états, calcule les 4 dérivés
+  useCommandes()                    ← charge : {commandes, chargement, erreur, recharger}
+  <BarreFiltres statut onStatut />
+  <TableauCommandes
+      lignes={commandesAffichees}   ← dérivé, jamais un état
+      selection={idsSelectionnes}
+      toutCoche={toutSelectionne}   ← dérivé
+      onBasculerLigne onBasculerTout onOuvrirDetail />
+  <BoutonExport actif={exportPossible} onExport />
+  {detailOuvert && <PanneauDetail id={detailOuvert} onFermer />}
+```
+
+Pourquoi `idsSelectionnes` ne peut pas descendre dans `<TableauCommandes>` : parce que
+`<BoutonExport>` en a besoin aussi. C'est la règle du plus proche ancêtre commun, appliquée
+littéralement. Si l'export était rendu *à l'intérieur* du tableau, la sélection pourrait y
+descendre — la position de l'état dépend de la forme de l'arbre, pas d'un principe abstrait.
+
+**5. Coût et ordre**
+
+- **Ce que ça ne corrige pas :** la lenteur si l'API renvoie 5 000 commandes. Le découpage
+  n'a jamais accéléré quoi que ce soit ; il rend seulement lisible l'endroit où ajouter une
+  pagination.
+- **Le premier changement :** supprimer les quatre dérivés. C'est le seul qui corrige un
+  **bug** — celui de `toutSelectionne` — et il se fait sans déplacer une seule ligne de JSX,
+  donc sans risque.
+- **Ce qu'on ne découpe pas :** l'intérieur de `<PanneauDetail>`, même s'il fait 150 lignes,
+  parce qu'il fait une seule chose. La longueur n'est pas le critère.
+
+### Les trois erreurs de raisonnement
+
+**Découper avant de trier l'état.** L'erreur la plus coûteuse, et la plus fréquente. On
+répartit les six responsabilités en six composants, chacun emportant les états qu'il
+utilise — dont les dérivés. Deux composants détiennent alors deux copies de la même
+information, et il faut « les synchroniser ». On introduit un context, ou pire un effet qui
+recopie l'un dans l'autre. Le résultat est une architecture qui a l'air sophistiquée et dont
+la complexité entière vient d'un `.length` qu'on aurait pu calculer.
+
+**Croire que « découper » veut dire « faire des composants ».** Trois catégories, pas une :
+composant (rendu), hook (état sans rendu), fonction pure (ni l'un ni l'autre). Un découpage
+qui ne produit que des composants a raté au moins une extraction, et probablement la plus
+facile à tester.
+
+**Placer l'état « en haut, on verra bien ».** Tout mettre dans le composant racine ou dans un
+context global supprime la question, et la remplace par un problème de rendu : chaque frappe
+dans le filtre re-rend l'écran entier. La règle « au plus proche ancêtre commun » se lit dans
+les deux sens — *aussi bas que possible*, et pas plus bas.
+
+### Généralisation
+
+Ce rapport n'a de spécifique à React que son vocabulaire. Le même document, avec d'autres
+mots, s'écrit avant de découper un service devenu trop gros : *quelles données possède-t-il
+réellement, lesquelles ne fait-il que recopier, quelles responsabilités porte-t-il, laquelle
+mérite un service à part et laquelle n'est qu'une bibliothèque, et qu'est-ce qui restera
+cassé après.*
+
+La compétence n'est pas « savoir découper ». C'est **savoir défendre un découpage** — parce
+que le découpage sera contesté, souvent par quelqu'un qui préfère celui qu'il aurait fait.
+Un rapport qui dit d'où vient chaque décision transforme un débat de goûts en une
+conversation sur des faits.
 
 ## 📚 Vocabulaire
 **composition** · **`children`** · **prop drilling** · **lifting state up** · **état dérivé**

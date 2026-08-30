@@ -1,0 +1,898 @@
+[
+ {
+  "slug": "git-advanced",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 8,
+  "j1": "day-001"
+ },
+ {
+  "slug": "git-fundamentals",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 8,
+  "j1": "day-001"
+ },
+ {
+  "slug": "terminal-shell-filesystem",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 8,
+  "j1": "day-001"
+ },
+ {
+  "slug": "async-javascript",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 19,
+  "j1": "day-004"
+ },
+ {
+  "slug": "javascript-basics",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 17,
+  "j1": "day-004"
+ },
+ {
+  "slug": "typescript-basics",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 25,
+  "j1": "day-004"
+ },
+ {
+  "slug": "algorithmic-thinking",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 23,
+  "j1": "day-015"
+ },
+ {
+  "slug": "recursion",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 12,
+  "j1": "day-015"
+ },
+ {
+  "slug": "data-structures-intro",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 5,
+  "j1": "day-030"
+ },
+ {
+  "slug": "design-patterns-intro",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 5,
+  "j1": "day-038"
+ },
+ {
+  "slug": "clean-code",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 18,
+  "j1": "day-040"
+ },
+ {
+  "slug": "testing-foundations",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 17,
+  "j1": "day-041"
+ },
+ {
+  "slug": "architecture-basics",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 37,
+  "j1": "day-044"
+ },
+ {
+  "slug": "readme-documentation",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 31,
+  "j1": "day-047"
+ },
+ {
+  "slug": "interview-preparation",
+  "dom": "Carrière",
+  "prog": true,
+  "nJours": 28,
+  "j1": "day-048"
+ },
+ {
+  "slug": "http-rest-json",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 7,
+  "j1": "day-050"
+ },
+ {
+  "slug": "api-design-basics",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 13,
+  "j1": "day-051"
+ },
+ {
+  "slug": "api-production-contracts",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-051"
+ },
+ {
+  "slug": "express-backend",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 8,
+  "j1": "day-052"
+ },
+ {
+  "slug": "error-handling",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 10,
+  "j1": "day-054"
+ },
+ {
+  "slug": "sql-foundations",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 10,
+  "j1": "day-055"
+ },
+ {
+  "slug": "database-modeling",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 13,
+  "j1": "day-057"
+ },
+ {
+  "slug": "technical-storytelling",
+  "dom": "Carrière",
+  "prog": true,
+  "nJours": 27,
+  "j1": "day-066"
+ },
+ {
+  "slug": "authentication",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 26,
+  "j1": "day-067"
+ },
+ {
+  "slug": "deployment-secrets",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-068"
+ },
+ {
+  "slug": "refactoring-legacy-code",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-069"
+ },
+ {
+  "slug": "networking-addressing-routing",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-071"
+ },
+ {
+  "slug": "networking-dns",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-071"
+ },
+ {
+  "slug": "networking-http-tls",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-071"
+ },
+ {
+  "slug": "networking-tcp-ip-model",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-071"
+ },
+ {
+  "slug": "system-design-interview",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 26,
+  "j1": "day-071"
+ },
+ {
+  "slug": "linux-filesystem-permissions",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-072"
+ },
+ {
+  "slug": "linux-processes-signals",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-072"
+ },
+ {
+  "slug": "linux-resources-io",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-072"
+ },
+ {
+  "slug": "technical-documentation",
+  "dom": "Carrière",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-074"
+ },
+ {
+  "slug": "breaking-changes-compatibility",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-076"
+ },
+ {
+  "slug": "networking-proxy-loadbalancing",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-078"
+ },
+ {
+  "slug": "distributed-tracing",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 4,
+  "j1": "day-079"
+ },
+ {
+  "slug": "logging-structured",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-079"
+ },
+ {
+  "slug": "metrics-percentiles",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 4,
+  "j1": "day-079"
+ },
+ {
+  "slug": "monitoring-production",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-079"
+ },
+ {
+  "slug": "observability-fundamentals",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-079"
+ },
+ {
+  "slug": "observability-logging",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 4,
+  "j1": "day-079"
+ },
+ {
+  "slug": "slo-error-budget",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-079"
+ },
+ {
+  "slug": "caching-performance",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 20,
+  "j1": "day-080"
+ },
+ {
+  "slug": "technical-debt",
+  "dom": "Carrière",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-081"
+ },
+ {
+  "slug": "python-foundations",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 8,
+  "j1": "day-082"
+ },
+ {
+  "slug": "portfolio-github",
+  "dom": "Carrière",
+  "prog": true,
+  "nJours": 26,
+  "j1": "day-083"
+ },
+ {
+  "slug": "browser-dom-rendering",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-087"
+ },
+ {
+  "slug": "react-fundamentals",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 17,
+  "j1": "day-087"
+ },
+ {
+  "slug": "react-hooks-effects",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 11,
+  "j1": "day-088"
+ },
+ {
+  "slug": "react-application-states",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-095"
+ },
+ {
+  "slug": "web-forms-validation",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-096"
+ },
+ {
+  "slug": "typescript-frontend",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-097"
+ },
+ {
+  "slug": "frontend-performance",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-102"
+ },
+ {
+  "slug": "html-semantic-structure",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-103"
+ },
+ {
+  "slug": "react-accessibility",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-103"
+ },
+ {
+  "slug": "react-composition-architecture",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-104"
+ },
+ {
+  "slug": "frontend-testing",
+  "dom": "Frontend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-107"
+ },
+ {
+  "slug": "pandas-data-wrangling",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 8,
+  "j1": "day-127"
+ },
+ {
+  "slug": "data-cleaning-quality",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 7,
+  "j1": "day-128"
+ },
+ {
+  "slug": "sql-performance-indexing",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-135"
+ },
+ {
+  "slug": "database-transactions-concurrency",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-136"
+ },
+ {
+  "slug": "etl-pipelines",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 6,
+  "j1": "day-138"
+ },
+ {
+  "slug": "database-migrations",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-139"
+ },
+ {
+  "slug": "statistics-for-ml",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 9,
+  "j1": "day-148"
+ },
+ {
+  "slug": "machine-learning-basics",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 13,
+  "j1": "day-155"
+ },
+ {
+  "slug": "scikit-learn-workflow",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 12,
+  "j1": "day-155"
+ },
+ {
+  "slug": "model-evaluation",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 38,
+  "j1": "day-157"
+ },
+ {
+  "slug": "feature-engineering",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 6,
+  "j1": "day-169"
+ },
+ {
+  "slug": "neural-networks",
+  "dom": "Données & ML",
+  "prog": true,
+  "nJours": 14,
+  "j1": "day-183"
+ },
+ {
+  "slug": "transformers",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 14,
+  "j1": "day-183"
+ },
+ {
+  "slug": "llm-cost-optimization",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 21,
+  "j1": "day-197"
+ },
+ {
+  "slug": "llm-fundamentals",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 21,
+  "j1": "day-197"
+ },
+ {
+  "slug": "prompt-engineering",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 21,
+  "j1": "day-197"
+ },
+ {
+  "slug": "structured-outputs-tools",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 42,
+  "j1": "day-197"
+ },
+ {
+  "slug": "chunking-strategies",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 42,
+  "j1": "day-218"
+ },
+ {
+  "slug": "embeddings",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 42,
+  "j1": "day-218"
+ },
+ {
+  "slug": "rag-evaluation",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 63,
+  "j1": "day-218"
+ },
+ {
+  "slug": "rag-fundamentals",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 42,
+  "j1": "day-218"
+ },
+ {
+  "slug": "retrieval-reranking",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 42,
+  "j1": "day-218"
+ },
+ {
+  "slug": "vector-databases",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 42,
+  "j1": "day-218"
+ },
+ {
+  "slug": "ai-evaluation",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 21,
+  "j1": "day-253"
+ },
+ {
+  "slug": "ai-security",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 21,
+  "j1": "day-260"
+ },
+ {
+  "slug": "prompt-injection-defense",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 21,
+  "j1": "day-260"
+ },
+ {
+  "slug": "agent-workflows-orchestration",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 21,
+  "j1": "day-274"
+ },
+ {
+  "slug": "agents-fundamentals",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 21,
+  "j1": "day-274"
+ },
+ {
+  "slug": "async-messaging-queues",
+  "dom": "Web & Backend",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-290"
+ },
+ {
+  "slug": "distributed-systems-failures",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-291"
+ },
+ {
+  "slug": "system-design-scaling",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-291"
+ },
+ {
+  "slug": "ci-cd",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 4,
+  "j1": "day-307"
+ },
+ {
+  "slug": "ci-cd-pipeline-anatomy",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-307"
+ },
+ {
+  "slug": "docker-build-dockerfile",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-320"
+ },
+ {
+  "slug": "docker-compose",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-320"
+ },
+ {
+  "slug": "docker-containers",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-320"
+ },
+ {
+  "slug": "docker-images-layers",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-320"
+ },
+ {
+  "slug": "docker-networking-volumes",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-320"
+ },
+ {
+  "slug": "docker-production-hardening",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-320"
+ },
+ {
+  "slug": "llm-observability",
+  "dom": "IA appliquée",
+  "prog": true,
+  "nJours": 4,
+  "j1": "day-325"
+ },
+ {
+  "slug": "ci-cd-quality-gates-artifacts",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-326"
+ },
+ {
+  "slug": "resilience-patterns",
+  "dom": "Fondations",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-331"
+ },
+ {
+  "slug": "incident-response",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-332"
+ },
+ {
+  "slug": "postmortem-rca",
+  "dom": "Systèmes",
+  "prog": true,
+  "nJours": 2,
+  "j1": "day-332"
+ },
+ {
+  "slug": "cloud-aws-core",
+  "dom": "Cloud",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "cloud-azure-core",
+  "dom": "Cloud",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "cloud-compute-storage",
+  "dom": "Cloud",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "cloud-finops",
+  "dom": "Cloud",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "cloud-fundamentals",
+  "dom": "Cloud",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "cloud-networking",
+  "dom": "Cloud",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "css-flexbox",
+  "dom": "Frontend-hors",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "css-fundamentals",
+  "dom": "Frontend-hors",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "css-grid",
+  "dom": "Frontend-hors",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "deployment-strategies",
+  "dom": "Systèmes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "iac-fundamentals",
+  "dom": "Cloud",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "k8s-config-probes",
+  "dom": "Kubernetes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "k8s-networking-services",
+  "dom": "Kubernetes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "k8s-security",
+  "dom": "Kubernetes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "k8s-troubleshooting",
+  "dom": "Kubernetes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "k8s-why-architecture",
+  "dom": "Kubernetes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "k8s-workloads",
+  "dom": "Kubernetes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "linux-services-systemd",
+  "dom": "Systèmes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "linux-ssh-remote",
+  "dom": "Systèmes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "nextjs-data-production",
+  "dom": "Frontend-hors",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "nextjs-foundations",
+  "dom": "Frontend-hors",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "nextjs-rendering",
+  "dom": "Frontend-hors",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "nextjs-server-client-components",
+  "dom": "Frontend-hors",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "release-incident-recovery",
+  "dom": "Systèmes",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ },
+ {
+  "slug": "responsive-design",
+  "dom": "Frontend-hors",
+  "prog": false,
+  "nJours": 0,
+  "j1": null
+ }
+]

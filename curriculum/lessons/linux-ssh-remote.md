@@ -108,6 +108,108 @@ mot de passe, de façon sûre.
    chiffré. Si ça échoue par « Permissions … are too open », c'est que la clé privée
    n'est pas en `600` (cf. la leçon permissions) : `chmod 600 ~/.ssh/id_ed25519`.
 
+## 🧪 Pourquoi une clé, plutôt qu'un mot de passe — vérifié
+
+> **Limite déclarée.** Ni le client ni le serveur OpenSSH ne sont installés dans
+> l'environnement où ce cours a été écrit (`which ssh` : introuvable ;
+> l'installation par le gestionnaire de paquets échoue). **Aucune commande `ssh`
+> ni `ssh-keygen` n'a été exécutée.** Les commandes de la section précédente sont
+> donc données sans exécution. En revanche, la question de fond — pourquoi une
+> paire de clés remplace un mot de passe — repose sur de la cryptographie et de
+> l'arithmétique, toutes deux vérifiables :
+> `scripts/v70-verifications/cles-vs-mots-de-passe.mjs`.
+
+### Le serveur vérifie sans jamais connaître le secret
+
+C'est le cœur du mécanisme, et il est plus simple qu'il n'en a l'air. Le script
+génère une paire Ed25519 — **44 octets** pour la clé publique, **48** pour la
+privée — puis rejoue l'échange :
+
+```
+défi envoyé par le serveur   : 005ad053b7201c23ed21b7c3…   (32 octets aléatoires)
+signature renvoyée           : 64 octets
+vérification par le serveur  : true
+la même signature sur un AUTRE défi : false
+```
+
+Le serveur tire un nombre au hasard, le client le signe avec sa clé privée, et le
+serveur vérifie **avec la seule clé publique**. Deux propriétés en découlent
+directement.
+
+**Le secret ne traverse jamais le réseau.** Un serveur compromis apprend une clé
+publique — qui est publique — et une signature valable pour un défi déjà utilisé.
+Avec un mot de passe, le même serveur compromis apprend le mot de passe.
+
+**La signature ne se rejoue pas.** La même signature sur un autre défi est
+refusée. C'est ce qui rend l'interception inutile : ce qui a été capturé ne
+resservira pas.
+
+### L'arithmétique, y compris ce qu'elle contredit
+
+Il faut publier ce calcul en entier, parce qu'il corrige un argument qu'on
+entend souvent et qui est faux.
+
+| secret | possibilités | en ligne (100 essais/s) | hors ligne (681 015/s) |
+|---|---|---|---|
+| 8 caractères minuscules | 2,09 × 10¹¹ | 33 ans | **1,8 jour** |
+| 8 caractères mixtes + chiffres | 2,18 × 10¹⁴ | 3,5 × 10⁴ ans | 5 ans |
+| 12 caractères mixtes | 3,23 × 10²¹ | 5,1 × 10¹¹ ans | 7,5 × 10⁷ ans |
+| clé Ed25519 (2¹²⁸) | 3,40 × 10³⁸ | 5,4 × 10²⁸ ans | 7,9 × 10²⁴ ans |
+
+La cadence hors ligne n'est pas inventée : c'est la valeur **mesurée** sur la
+machine de rédaction par la vérification `hachage-lent.mjs`, 681 015 empreintes
+SHA-256 par seconde.
+
+**L'argument courant est faux.** On lit partout qu'un mot de passe tombe en
+quelques heures par force brute et qu'il faut donc passer aux clés. La colonne
+« en ligne » dit le contraire : même huit caractères minuscules tiennent 33 ans à
+cent essais par seconde. Un serveur qui répond limite naturellement la cadence.
+**La force brute en ligne n'est pas la menace**, et il faut le dire.
+
+Ce qui rend les mots de passe dangereux est ailleurs, et se lit dans les deux
+autres colonnes.
+
+**Hors ligne, après fuite.** Si une base d'empreintes fuite — la vôtre, ou celle
+d'un autre service où vous avez utilisé le même mot de passe — les mêmes huit
+caractères tombent en **1,8 jour**. Le secret que vous tapez sur ce serveur
+protège aussi vos autres comptes, et vous ne contrôlez pas la sécurité de tous.
+
+**Personne n'attaque par force brute.** On attaque par dictionnaire. La même
+vérification `hachage-lent.mjs` a mesuré **14,7 secondes** pour un mot de passe
+courant contre 4,9 jours de force brute. Les durées du tableau sont donc des
+**majorants très optimistes** pour un mot de passe choisi par un humain.
+
+**Et une clé n'a rien à deviner.** La colonne « hors ligne » y est sans objet :
+il n'existe aucune empreinte à faire fuir, puisque le serveur ne détient qu'une
+clé publique. Ce n'est pas un curseur déplacé, c'est un changement de nature. La
+bonne formulation de l'argument est donc : **la clé ne rend pas l'attaque plus
+difficile, elle la rend sans objet.**
+
+### Ce qu'une clé ne protège pas
+
+Trois limites, que la clé ne couvre pas et qu'il faut traiter séparément.
+
+**La clé privée est un fichier.** Copiée, elle donne l'accès — sans essai, sans
+délai, sans bruit. D'où deux exigences : elle est chiffrée par une phrase de
+passe (sinon quiconque lit le disque a l'accès), et ses droits sont restreints à
+son propriétaire. Le client refuse d'ailleurs de l'utiliser si elle est lisible
+par d'autres, ce qui est une des rares vérifications de droits qu'un outil fait
+pour vous.
+
+**Déposer une clé ne ferme aucune porte.** Un serveur qui accepte encore les
+mots de passe reste attaquable par mot de passe, clé ou pas. L'authentification
+par mot de passe doit être **désactivée explicitement** — le durcissement
+ci-dessous n'est donc pas optionnel, il est ce qui rend la clé utile.
+
+**La clé authentifie le client, pas le serveur.** Elle ne dit rien de la machine
+à laquelle vous parlez. C'est l'empreinte de la clé d'hôte, mémorisée dans
+`known_hosts`, qui protège de l'interception — et c'est précisément ce qu'on
+accepte à l'aveugle la première fois, en tapant `yes` sans vérifier. Cette
+première connexion est le seul moment où la chaîne de confiance repose sur une
+vérification humaine, et c'est aussi le seul moment où presque personne ne la
+fait. Corollaire : **un avertissement de changement d'empreinte s'enquête, il ne
+se contourne pas** en supprimant la ligne.
+
 ## 🔐 Durcissement du serveur
 Réglages classiques (`/etc/ssh/sshd_config`) : `PasswordAuthentication no` (clés
 uniquement), `PermitRootLogin no` (pas de connexion root directe — on passe par un
@@ -139,9 +241,93 @@ la surface d'attaque.
   MITM ?) avant d'accepter.
 
 ## ✍️ Mini-exercice
-Vous devez donner un accès de déploiement à un collègue sur un serveur. Que lui
-demandez-vous, et que déposez-vous où ? → sa clé PUBLIQUE, ajoutée à
-`~/.ssh/authorized_keys` du serveur (jamais sa privée).
+Sans relire : un collègue te demande un accès de déploiement. Que lui
+demandes-tu, et que déposes-tu où ?
+
+## 🔥 Pratique — l'accès distant, de la théorie à la machine
+
+**A. Refaire le protocole à la main.** Sans utiliser `ssh`, écris un programme
+qui génère une paire Ed25519, simule un serveur qui envoie un défi aléatoire,
+signe ce défi côté client, et vérifie côté serveur **avec la seule clé
+publique**. Vérifie ensuite que la même signature est refusée sur un autre défi.
+Livrable : le code et les deux résultats de vérification.
+
+**B. Chiffrer les durées pour ton cas.** Reprends le tableau de la section
+précédente avec la longueur et la composition du mot de passe que **tu** utilises
+réellement. Calcule les deux colonnes. Livrable : tes deux durées, et ta
+conclusion.
+
+**C. Mettre en place l'accès.** Sur une machine distante (une machine virtuelle
+locale suffit), génère une paire, dépose la clé publique, connecte-toi sans mot
+de passe. Puis rends la clé privée lisible par tout le monde et note **le message
+exact** que le client renvoie. Livrable : les deux traces.
+
+**D. Durcir, et le prouver.** Désactive l'authentification par mot de passe et la
+connexion directe en superutilisateur. Puis **prouve** que c'est effectif :
+tente une connexion par mot de passe et garde le refus. Sans cette preuve, tu as
+modifié un fichier de configuration, pas fermé une porte.
+
+**E. Le tunnel.** Ouvre un tunnel vers un service non exposé (une base de
+données), connecte-toi en local à travers lui, et vérifie depuis l'extérieur que
+le port distant reste bien fermé. Livrable : la commande, la connexion réussie
+localement, et le refus depuis l'extérieur.
+
+## ✅ Correction attendue
+
+**A — le protocole.** L'erreur la plus instructive est de vérifier la signature
+avec l'objet de clé privée, parce qu'on l'a sous la main. La correction consiste
+à **reconstruire la clé publique depuis ses seuls octets** avant de vérifier —
+c'est le seul moyen d'être certain de ce que le serveur connaît réellement. Une
+démonstration qui utilise la clé privée des deux côtés ne démontre rien.
+
+Le second résultat compte autant que le premier : la signature refusée sur un
+autre défi. C'est lui qui explique pourquoi capturer le trafic ne sert à rien, et
+donc pourquoi le protocole tient même sur un réseau hostile.
+
+**B — tes durées.** Le résultat attendu n'est pas un chiffre mais un
+raisonnement. Si tu conclus « mon mot de passe de 12 caractères est sûr », relis
+la ligne sur le dictionnaire : ces durées supposent une recherche exhaustive
+aveugle, alors que les attaques réelles commencent par les mots de passe déjà vus
+ailleurs. Un mot de passe de 12 caractères **choisi par un humain** n'a pas
+3,23 × 10²¹ possibilités ; il en a l'ordre de grandeur d'un dictionnaire, soit
+quelques milliards au mieux. La bonne conclusion porte donc sur la façon dont le
+secret a été **produit**, pas sur sa longueur.
+
+**C — le message de refus.** Le client refuse une clé privée trop permissive, et
+ce refus est instructif : c'est le programme, et non le système d'exploitation,
+qui applique la règle. Le noyau autoriserait parfaitement la lecture. La leçon
+générale, celle qui dépasse SSH : **certains contrôles de sécurité sont
+appliqués par les outils, pas par le système** — donc un autre programme lisant
+le même fichier ne les appliquera pas.
+
+C'est aussi la raison pour laquelle une clé privée dans un dépôt git est un
+incident et non une négligence : rien ne l'y protège, et la leçon
+`deployment-secrets` mesure qu'elle y reste lisible après suppression. La réponse
+est la même : révoquer d'abord — c'est-à-dire retirer la clé publique
+correspondante des serveurs — puis régénérer, puis nettoyer.
+
+**D — la preuve du durcissement.** C'est le cœur de l'exercice, et l'étape que
+presque personne ne fait. Modifier une ligne de configuration et redémarrer le
+service ne prouve rien : la directive peut être écrasée plus bas dans le fichier,
+un bloc conditionnel peut la rendre inopérante pour certains utilisateurs, ou le
+service peut avoir échoué à recharger sa configuration.
+
+La seule vérification qui vaut est la tentative refusée. C'est exactement le
+même principe que pour une CI (« casse un test, regarde si elle rougit ») et pour
+une porte qualité : **un contrôle qu'on n'a jamais vu refuser n'est pas un
+contrôle vérifié.**
+
+**E — le tunnel.** Le point de conception : le tunnel n'ouvre rien sur le
+serveur. Le port distant reste fermé au monde ; le trafic emprunte le canal
+chiffré déjà authentifié. La surface d'attaque n'augmente pas d'un port.
+
+Deux détails qu'une bonne réponse relève. D'abord, `-L 5432:localhost:5432` fait
+résoudre `localhost` **depuis le serveur**, pas depuis ton poste — c'est la
+source d'erreur numéro un, et la même confusion que dans un conteneur (voir
+`docker-networking-volumes`). Ensuite, le tunnel donne l'accès à la base à
+quiconque peut atteindre le port local sur ton poste, y compris un autre
+programme qui tourne dessus ; se lier explicitement à `127.0.0.1` et non à toutes
+les interfaces n'est pas un détail sur un réseau partagé.
 
 ## 🧾 À retenir
 - SSH = canal chiffré ; le serveur prouve son identité (clé d'hôte), vous la vôtre (clé).

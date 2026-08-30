@@ -30,21 +30,111 @@ L'observabilité, c'est **la boîte noire d'un avion** : quand quelque chose se 
 ```
 Une ligne : quand, quoi, pour quelle requête, à quelle tentative.
 
-## 🧭 Exemple guidé
-**Énoncé** : ajouter un correlation id à une API Express.
-**Raisonnement** : le générer au premier middleware, le porter dans `req`, l'inclure dans chaque log.
-**Solution** :
-```js
-app.use((req, res, next) => {
-  req.id = crypto.randomUUID();
-  log('info', { requestId: req.id, msg: `${req.method} ${req.path}` });
-  next();
-});
-function log(level, fields) {
-  console.log(JSON.stringify({ ts: new Date().toISOString(), level, ...fields }));
-}
+## 🧭 Exemple guidé — trois questions qu'un journal doit savoir répondre
+
+Le mot « observabilité » est vague, et le vague empêche de décider quoi
+journaliser. Une définition opérationnelle le remplace avantageusement : **un
+système est observable si tu peux répondre à une question que tu n'avais pas
+prévue, sans redéployer.** C'est ce critère qu'on va appliquer à trois questions
+réelles, chacune mesurée par
+`scripts/v70-verifications/journaux-et-correlation.mjs`.
+
+### Question 1 — « combien d'erreurs ont pour motif un refus de la banque ? »
+
+On pose la question à deux journaux qui décrivent **la même réalité** : l'un en
+texte lisible, l'autre structuré. Un tiers des messages d'erreur contient un
+retour à la ligne, parce que le motif vient de la banque.
+
 ```
-**Explication** : chaque log de la requête inclut `req.id` ; `grep a1b2` reconstitue toute la session. **Variante** : ajoute la durée (mesurée au `res.on('finish')`).
+réponse vraie     : 58
+réponse via JSON  : 58
+réponse via texte : 37   (écart : −21)
+```
+
+Trente-six pour cent de sous-estimation, **sans aucun signal d'erreur**.
+L'expression régulière rejette les lignes de continuation ; elles n'ont ni
+horodatage ni niveau ; elles disparaissent du décompte.
+
+Et le détail qui rend le défaut si difficile à repérer : sur une autre question
+posée au même journal — « combien d'erreurs sur `/paiement` au-delà de 300 ms ? »
+— le journal texte donne **la bonne réponse** (9 contre 9), tout en ayant rejeté
+24 lignes. La fiabilité dépend de la question, ce qui revient à dire qu'on ne
+peut pas s'y fier : pendant un incident, on pose justement les questions qu'on
+n'avait pas prévues.
+
+**Conséquence pour la conception :** tout ce sur quoi on filtrera doit être un
+**champ**, jamais du texte dans une phrase. `"ms": 88` se compare ; « a pris
+88ms » se cherche.
+
+### Question 2 — « que s'est-il passé pour CETTE requête, dans les trois services ? »
+
+L'objection habituelle est raisonnable : les horodatages sont précis à la
+milliseconde, on peut recoller par proximité temporelle. Mesure sur 200 requêtes
+traversant trois services, en faisant varier la concurrence :
+
+```
+ 1 requête simultanée   : par proximité temporelle 200/200 · par identifiant 200/200
+ 5 requêtes simultanées : par proximité temporelle   1/200 · par identifiant 200/200
+20 requêtes simultanées : par proximité temporelle   1/200 · par identifiant 200/200
+```
+
+Parfait sans concurrence — ce qui est la situation d'un poste de développement,
+et donc la raison pour laquelle la méthode survit. Inutilisable dès cinq requêtes
+simultanées, c'est-à-dire dès le plus petit trafic réel.
+
+Le pire n'est pas l'échec : c'est qu'il est **silencieux**. La méthode ne dit
+jamais « je ne sais pas ». Elle rend une reconstitution plausible, avec des
+services dans le bon ordre et des durées cohérentes, composée de morceaux de
+requêtes différentes. On analyse une requête qui n'a jamais existé.
+
+**Conséquence pour la conception :** un identifiant de corrélation, généré **une
+fois** à la frontière d'entrée et propagé dans un en-tête. Deux erreurs
+l'annulent : chaque service génère le sien (il y en a trois, ils ne relient
+rien), ou un service oublie de propager (la chaîne se coupe exactement là).
+
+### Question 3 — « ce défaut rare, l'ai-je enregistré ? »
+
+Tout conserver coûte cher, donc on échantillonne. Ce que l'échantillonnage
+uniforme retire est calculable :
+
+```
+taux  10 % · défaut survenu  1 fois -> capturé au moins une fois :  10,0 %
+taux  10 % · défaut survenu 50 fois -> capturé au moins une fois :  99,5 %
+taux   1 % · défaut survenu  5 fois -> capturé au moins une fois :   4,9 %
+taux   1 % · défaut survenu 50 fois -> capturé au moins une fois :  39,5 %
+```
+
+À 1 %, un défaut survenu cinquante fois est manqué six fois sur dix. Or ce qu'on
+veut absolument garder — les erreurs, les requêtes lentes — est exactement ce qui
+est rare, donc ce que l'échantillonnage uniforme supprime en priorité.
+
+**Conséquence pour la conception :** on échantillonne **le succès, pas l'échec**.
+Cent pour cent des erreurs et des requêtes lentes ; 1 % ou moins des requêtes
+rapides et réussies, qui sont nombreuses et se ressemblent. Cette décision se
+prend avant l'incident : pendant, la trace cherchée n'a simplement jamais été
+écrite.
+
+### Ce que ces trois questions imposent, ensemble
+
+Un journal utile n'est pas « un journal en JSON ». C'est un journal qui porte,
+sur **chaque ligne** :
+
+- l'**horodatage** en temps universel, avec les millisecondes ;
+- le **niveau**, choisi pour vouloir dire quelque chose (voir plus bas) ;
+- l'**identifiant de corrélation**, sans lequel les deux tiers des questions
+  n'ont pas de réponse ;
+- le **service** et sa **version**, sans quoi « depuis quel déploiement ? » est
+  sans réponse ;
+- les **valeurs sur lesquelles on filtrera**, chacune dans son champ ;
+- **rien de secret ni de personnel** — un journal est conservé longtemps, copié
+  chez un agrégateur, et lu par plus de monde que la base de données.
+
+Sur les niveaux, une convention qui évite le débat : `error` signifie « quelqu'un
+doit regarder », `warn` « ça a dégradé mais on a continué », `info` « un événement
+métier a eu lieu », `debug` « pour comprendre le code ». Le test qui les
+départage : si personne ne regarde jamais tes `error`, ce ne sont pas des
+erreurs — c'est du bruit qui a usurpé le niveau, et il rendra les vraies erreurs
+invisibles.
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Dans DocSense, chaque question loggue : requestId, question (si non sensible), chunks retenus (ids), tokens entrée/sortie, coût, latence par étage, verdict de validation. Résultat : « pourquoi cette réponse étrange hier à 15 h ? » se répond en rejouant les logs — c'est aussi la matière première du dashboard qualité.
@@ -60,13 +150,87 @@ Dans DocSense, chaque question loggue : requestId, question (si non sensible), c
 - Logger tellement que plus personne ne lit (bruit = cécité).
 
 ## ✍️ Mini-exercice
-Ajoute des logs JSON avec correlation id à une de tes APIs, puis reconstitue une session complète avec un seul grep.
+Sans relire : cite une question à laquelle un journal texte répond juste, et une
+à laquelle il répond faux — sur le même journal.
 
-## 🔥 Exercice plus difficile
-Ajoute des métriques (compteur de requêtes, latence p95 par endpoint) exposées sur un endpoint `/metrics`, et détecte un endpoint lent par les chiffres.
+## 🔥 Pratique — rendre une API réellement interrogeable
+
+**A. Poser la corrélation.** Sur une de tes API, génère un identifiant au premier
+intergiciel, porte-le sur l'objet requête, et inclus-le dans chaque ligne de
+journal, y compris celles émises depuis les couches profondes. Livrable : la
+reconstitution complète d'une requête par un seul filtre sur l'identifiant.
+
+**B. Mesurer avant d'optimiser.** Ajoute la durée mesurée à la fin de la réponse,
+puis expose un point d'entrée qui publie, par route : le nombre de requêtes, le
+nombre d'erreurs, et les centiles 50, 95 et 99 de la latence. Livrable : la
+sortie, et la route la plus lente identifiée par un chiffre.
+
+**C. Prouver que la moyenne ment.** Sur les mêmes données, compare la latence
+moyenne et le centile 95. Fabrique un jeu où la moyenne est excellente et où le
+centile 95 est mauvais. Livrable : les deux nombres, et le nombre d'utilisateurs
+concernés par le centile 95 sur ton volume réel.
+
+**D. Interdire la fuite.** Écris un test qui parcourt un échantillon de tes
+journaux et échoue s'il y trouve un motif de secret ou de donnée personnelle
+(`authorization`, `token`, une adresse électronique, un numéro de carte).
+Livrable : le test, et son résultat sur tes journaux actuels.
+
+**E. Décider ton échantillonnage.** À partir de ton volume et de ton taux
+d'erreur, calcule ce que trois taux uniformes te feraient perdre sur un défaut
+touchant une requête sur mille. Écris la règle que tu retiens.
 
 ## ✅ Correction attendue
-La logique : JSON + niveaux + correlation id propagé + zéro secret. Vérifie : une session entière se reconstitue par son id ; les erreurs contiennent le contexte utile (pas la stack au client !) ; une relecture ne trouve aucun secret/PII.
+
+**A — la corrélation.** Le point qui départage : l'identifiant doit être
+accessible **depuis les couches profondes** sans être passé en argument à chaque
+fonction. Passer `requestId` de main en main à travers dix appels est possible et
+ingérable ; en pratique on utilise un stockage de contexte lié à la requête
+(`AsyncLocalStorage` en Node) que la fonction de journalisation consulte
+elle-même. Une réponse qui journalise correctement dans l'intergiciel mais pas
+dans la couche d'accès aux données n'a pas résolu le problème : les lignes qui
+manqueront pendant l'incident sont précisément les profondes.
+
+La vérification honnête n'est pas « mes journaux contiennent un identifiant » :
+c'est **« puis-je reconstituer une requête complète avec un seul filtre ? »**.
+Fais-le sur une requête qui a échoué, pas sur une qui a réussi.
+
+**B — les centiles.** La forme attendue expose au moins trois compteurs par route
+et trois centiles. Le piège fréquent : calculer les centiles sur une fenêtre
+glissante mal définie, ou les moyenner entre instances — **un centile ne
+s'additionne pas et ne se moyenne pas**. La moyenne de deux centiles 95 n'est pas
+le centile 95 de l'ensemble. Il faut agréger les observations (ou des histogrammes)
+et calculer le centile ensuite.
+
+**C — ce que la moyenne cache.** Un jeu typique : 95 % des requêtes à 50 ms, 5 %
+à 3 000 ms. Moyenne : 197 ms, ce qui paraît correct. Centile 95 : 3 000 ms.
+Et la conversion qui rend le chiffre parlant : sur un million de requêtes par
+jour, **cinquante mille personnes attendent trois secondes**. C'est le calcul à
+savoir faire en entretien comme en réunion — un centile est un pourcentage, un
+nombre d'utilisateurs est un argument.
+
+Corollaire : le centile 99 concerne souvent les utilisateurs les plus actifs, qui
+font le plus de requêtes et ont donc la plus forte probabilité d'en rencontrer
+une lente. Le centile 99 n'est pas « 1 % des gens » : c'est « 1 % des requêtes »,
+et ces deux quantités ne se ressemblent pas.
+
+**D — la fuite.** Attends-toi à trouver quelque chose. Les sources habituelles :
+un objet journalisé en entier (`log(req.body)`), un message d'erreur d'une
+bibliothèque qui inclut la requête SQL avec ses paramètres, une pile d'exécution
+contenant une valeur, un en-tête `Authorization` journalisé avec les autres.
+
+Le test attendu échoue sur ces motifs. Et la conclusion à formuler : ce test
+protège de l'erreur d'inattention, pas d'un adversaire. Il se double d'un
+caviardage à l'émission, d'un contrôle côté agrégateur, et d'une durée de
+conservation courte — parce qu'un journal, contrairement à une base, est copié
+partout et supprimé nulle part.
+
+**E — l'échantillonnage.** La règle attendue conserve 100 % des erreurs et des
+requêtes lentes, et descend fortement sur le reste. Le point technique : la
+décision se prend à l'entrée, avant de savoir si la requête échouera. Il faut
+donc soit garder les lignes en mémoire tampon et décider à la fin, soit propager
+la décision aux services suivants — sans quoi on obtient des enregistrements à
+trous, où un service a gardé sa ligne et son voisin non. C'est pire qu'une
+absence, parce que ça a l'air complet.
 
 ## 🎤 Questions d'entretien
 - « Logs, métriques, traces : quelle différence ? » → Événements / agrégats / parcours d'une requête.

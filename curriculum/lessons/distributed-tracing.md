@@ -67,17 +67,130 @@ base, à l'étape 3 ».
 - propagation = passer l'ID de trace au service suivant.
 - sampling = quelle fraction on conserve.
 
-## 🛠 Exemple guidé — « 2 secondes, mais où ? »
-1. On ouvre la trace d'une requête lente. Total : 2 000 ms.
-2. Spans : `API` 2 000 ms → dont `SQL users` 40 ms, `appel service paiement` 1 900 ms.
-3. Le coupable saute aux yeux : le service de paiement (1,9 s), pas notre code ni la
-   base.
-4. On zoome : le span « paiement » attend un service externe → problème de dépendance
-   externe (voir résilience : timeout, circuit breaker).
+## 🛠 Exemple guidé — pourquoi il faut un identifiant, et pas seulement des horodatages
 
-## 🧪 Mise en pratique
-Voir la pratique associée : lire un ensemble de métriques/percentiles pour localiser
-une lenteur, et raisonner sur ce qui manque pour diagnostiquer.
+Avant de lire une trace, il faut comprendre pourquoi une trace existe. L'objection
+naturelle est raisonnable : « mes trois services journalisent avec un horodatage
+précis à la milliseconde ; je peux reconstituer une requête en regardant ce qui
+s'est passé au même moment. » Cette méthode marche. C'est le problème.
+
+Le script `scripts/v70-verifications/journaux-et-correlation.mjs` fabrique 200
+requêtes traversant trois services — `passerelle`, `commandes`, `paiement` —
+chacune durant environ 30 ms. On fait varier une seule chose : combien de requêtes
+sont en vol en même temps. Puis on reconstitue chaque requête de deux façons : par
+proximité temporelle, et par identifiant de corrélation.
+
+```
+ 1 requête simultanée  : par proximité temporelle 200/200 · par identifiant 200/200
+ 5 requêtes simultanées : par proximité temporelle   1/200 · par identifiant 200/200
+20 requêtes simultanées : par proximité temporelle   1/200 · par identifiant 200/200
+```
+
+### Ce que ces trois lignes disent
+
+**Sans concurrence, deviner par le temps est parfait.** Deux cents sur deux cents.
+C'est exactement la situation d'un poste de développement, où l'on envoie une
+requête et où l'on regarde les journaux. La méthode fonctionne, on l'adopte, on la
+trouve suffisante.
+
+**Dès cinq requêtes simultanées, elle s'effondre : une sur deux cents.** Pas
+« moins fiable » — inutilisable. Il suffit que les requêtes se chevauchent pour
+que « le premier appel de `commandes` après le début de cette requête » désigne
+la requête d'à côté. Cinq requêtes simultanées est un trafic minuscule.
+
+**Et l'effondrement est silencieux.** C'est le point qui compte plus que les
+chiffres. La méthode ne renvoie pas « je ne sais pas » : elle renvoie une
+reconstitution parfaitement plausible, avec des durées cohérentes et des services
+dans le bon ordre. **On analyse ensuite une requête qui n'a jamais existé.** On
+mesure la latence d'un appel entre deux morceaux de requêtes différentes, on
+conclut, et la conclusion est fausse sans qu'aucun signal ne l'indique.
+
+Le remède ne demande aucune infrastructure : un identifiant unique généré **à la
+frontière d'entrée** — le tout premier service qui reçoit la requête — puis
+propagé dans un en-tête à chaque appel suivant, et journalisé par chacun. Deux
+cents sur deux cents, à toutes les concurrences.
+
+Deux erreurs annulent le bénéfice, et elles sont fréquentes. Si **chaque service
+génère son propre identifiant**, il y en a trois et ils ne relient rien. Et si un
+service **oublie de propager l'en-tête**, la chaîne se coupe à cet endroit
+précis — c'est la cause presque systématique de « la trace s'arrête au service B ».
+
+### Lire une trace, ensuite
+
+Une fois la corrélation acquise, une trace est une hiérarchie de segments
+(*spans*), chacun avec un début et une durée. Exemple :
+
+```
+API                2 000 ms
+├─ SQL users          40 ms
+└─ appel paiement  1 900 ms
+```
+
+Le réflexe est de désigner le paiement. C'est probablement juste, mais la lecture
+complète pose trois questions, dans cet ordre :
+
+1. **Où part le temps ?** 1 900 ms sur 2 000, côté paiement.
+2. **Qu'est-ce qui n'est couvert par aucun segment enfant ?** 2 000 − 40 − 1 900 =
+   **60 ms non instrumentées**. Ce n'est pas du néant : c'est de la sérialisation,
+   de l'attente de connexion, du code non instrumenté. Sur cette trace c'est
+   négligeable ; sur une trace où le trou fait la moitié du temps, **le trou est
+   le diagnostic** — et c'est le seul cas que le classement des segments par durée
+   ne trouvera jamais, puisque le trou n'est pas un segment.
+3. **Qu'est-ce qui s'exécute en parallèle ?** Si deux enfants de 800 ms tiennent
+   dans un parent de 900 ms, ils se recouvrent. Additionner les durées des
+   enfants n'a alors aucun sens, et « optimiser le plus long » ne gagne que la
+   différence, pas les 800 ms.
+
+### L'échantillonnage, qui décide de ce que tu pourras voir
+
+Conserver toutes les traces coûte cher, donc on échantillonne. Le calcul de ce
+qu'on perd est une simple probabilité, et il est brutal :
+
+```
+taux  10 % · défaut survenu  1 fois -> capturé au moins une fois :  10,0 %
+taux  10 % · défaut survenu 50 fois -> capturé au moins une fois :  99,5 %
+taux   1 % · défaut survenu  1 fois -> capturé au moins une fois :   1,0 %
+taux   1 % · défaut survenu  5 fois -> capturé au moins une fois :   4,9 %
+taux   1 % · défaut survenu 50 fois -> capturé au moins une fois :  39,5 %
+```
+
+Un échantillonnage uniforme à 1 % rate **six fois sur dix** un défaut survenu
+cinquante fois. Or ce qu'on veut absolument garder — les erreurs, les requêtes
+lentes — est justement ce qui est rare, donc ce que l'échantillonnage uniforme
+supprime en priorité.
+
+La conclusion n'est pas « ne pas échantillonner » : c'est **échantillonner le
+succès, pas l'échec**. On garde 100 % des traces en erreur et des traces
+au-dessus d'un seuil de latence, et on descend très bas — 1 %, 0,1 % — sur les
+requêtes rapides et réussies, qui sont nombreuses et se ressemblent toutes.
+Cette décision est prise à la conception ; elle ne se rattrape pas pendant
+l'incident, parce que la trace qu'on cherche n'a alors jamais été enregistrée.
+
+## 🧪 Mise en pratique — poser la corrélation, puis mesurer ce qu'elle change
+
+**A. Reproduire l'effondrement.** Écris un script qui simule N requêtes
+traversant trois services, avec un paramètre de concurrence. Reconstitue chaque
+requête par proximité temporelle et compte les reconstitutions correctes pour
+une concurrence de 1, 5 et 20. Livrable : le tableau, et le taux d'erreur.
+
+**B. Poser l'identifiant.** Sur deux services que tu contrôles (deux processus
+suffisent), génère un identifiant à l'entrée, propage-le dans un en-tête, et
+journalise-le des deux côtés. Livrable : les journaux des deux services filtrés
+sur un même identifiant.
+
+**C. Casser la chaîne exprès.** Retire la propagation dans un seul appel, puis
+essaie de reconstituer une requête. Livrable : ce que tu vois dans la trace, et
+comment tu localises l'endroit exact où l'en-tête a été perdu.
+
+**D. Mesurer le trou.** Sur une requête réelle, instrumente le parent et deux
+enfants, puis calcule le temps non couvert. Livrable : le chiffre, et ton
+hypothèse sur ce qui s'y passe — puis une instrumentation supplémentaire qui la
+confirme ou l'infirme.
+
+**E. Décider ton échantillonnage.** Estime ton volume de requêtes et ton taux
+d'erreur. Calcule, pour trois taux d'échantillonnage uniforme, la probabilité de
+capturer un défaut qui touche une requête sur mille. Puis écris la règle
+d'échantillonnage que tu retiens et ce qu'elle garde à 100 %.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
@@ -141,6 +254,58 @@ soi. Ne l'adopte pas avant d'avoir le problème.
    se contente-t-il d'être long ? Un span sans statut d'erreur ne sert qu'à moitié.
 3. Suis un `requestId` depuis les logs jusqu'à la trace. Si tu ne peux pas faire ce
    trajet, tes trois piliers ne sont pas reliés.
+
+### Sur la mise en pratique A → E
+
+**A — l'effondrement.** Le résultat attendu suit la forme mesurée : parfait à
+concurrence 1, quasi nul dès 5. Si ton script reste bon à concurrence 5, vérifie
+que tes requêtes se chevauchent réellement — c'est le paramètre qui compte, pas
+leur nombre. Le chiffre à publier n'est pas seulement le taux d'erreur : c'est
+**le taux de reconstitutions fausses non détectées**, qui est le même chiffre lu
+autrement, et qui est le vrai danger.
+
+**B — l'identifiant.** Trois propriétés font la différence entre un identifiant
+qui sert et un identifiant décoratif. Il est généré **une seule fois**, à la
+frontière d'entrée. Il est **propagé** dans un en-tête (`traceparent` du standard
+W3C, ou un en-tête maison — l'essentiel est qu'il soit unique dans le système).
+Et il est **journalisé par tous les services**, y compris ceux qui ne font que
+relayer.
+
+**C — la chaîne cassée.** Ce que tu vois : la trace s'arrête net au dernier
+service qui avait l'en-tête. La localisation est plus simple qu'il n'y paraît —
+le dernier service qui a journalisé l'identifiant est celui qui n'a pas
+transmis, et c'est donc **son** code d'appel sortant qu'il faut regarder, pas
+celui du service suivant. C'est contre-intuitif : on cherche naturellement chez
+celui qui n'apparaît pas.
+
+La cause la plus fréquente en pratique : un client HTTP interne construit
+ailleurs (une fonction utilitaire partagée, un client généré) qui ne recopie pas
+les en-têtes de la requête entrante. Le service « oublie » sans qu'aucune ligne
+de son propre code ne soit en cause.
+
+**D — le trou.** L'écart entre la durée du parent et la somme des enfants est la
+mesure la plus utile d'une trace, et la plus ignorée. Les causes typiques, par
+fréquence : du code applicatif non instrumenté entre deux appels ; l'attente
+d'une connexion disponible dans un pool ; la sérialisation ou la désérialisation
+d'une réponse volumineuse ; l'attente dans une file d'exécution.
+
+Le piège méthodologique : ne pas confondre le trou avec du parallélisme. Si deux
+enfants se recouvrent, la somme de leurs durées dépasse celle du parent et le
+« trou » devient négatif — ce qui ne signifie pas que le temps a disparu, mais
+que l'addition n'était pas la bonne opération. Il faut alors raisonner sur les
+intervalles (début, fin) et non sur les durées.
+
+**E — l'échantillonnage.** La règle attendue conserve à 100 % : les traces
+contenant une erreur, les traces dépassant un seuil de latence, et — détail
+qu'on oublie — **toutes les traces d'une requête dont un seul segment est en
+erreur**. C'est le point technique de l'exercice : la décision d'échantillonner
+se prend à l'entrée, avant de savoir si la requête va échouer. Deux réponses
+existent, et une bonne copie en cite au moins une : l'échantillonnage **différé**
+(on garde tout en mémoire tampon et on décide à la fin de la requête), ou la
+**propagation de la décision** dans l'en-tête pour que tous les services fassent
+le même choix. Sans l'un des deux, on obtient des traces à trous, où un service
+a gardé son segment et son voisin non — pire qu'une trace absente, parce
+qu'elle a l'air complète.
 
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - **Oublier la propagation** du contexte → traces fragmentées, inutiles.

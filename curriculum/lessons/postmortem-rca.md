@@ -74,18 +74,137 @@ Un bon post-mortem produit surtout des actions PRÉVENTIVES, avec un responsable
 - Five Whys : creuser jusqu'au systémique.
 - actions préventives assignées + datées, sinon inutiles.
 
-## 🛠 Exemple guidé — post-mortem d'un déploiement cassé
-1. **Timeline** (depuis l'incident) : release 15 h 00, 5xx 15 h 02, rollback tenté
-   15 h 05 (échoue : migration destructive), roll-forward 15 h 20.
-2. **Symptôme** : 5xx massifs. **Cause racine** : migration destructive incompatible
-   avec la version en cours. **Facteurs** : rollback impossible, pas d'alerte precoce.
-3. **Five Whys** → « rien n'empêchait une migration destructive non rétro-compatible ».
-4. **Actions préventives** : adopter expand/contract, check CI bloquant, alerte burn
-   rate — chacune avec un responsable et une date.
+## 🛠 Exemple guidé — « la » cause racine n'existe pas
 
-## 🧪 Mise en pratique
-Voir la pratique associée : reconstruire une chaîne symptôme→cause, décider
-rollback/roll-forward, agréger l'état de santé.
+La méthode des cinq pourquoi est enseignée partout, et elle a un défaut qu'on
+mentionne rarement : **elle produit une réponse différente selon la personne qui
+pose les questions**, sur exactement le même incident. Ce n'est pas un défaut
+d'exécution, c'est une propriété de la méthode, et savoir cela change la façon
+d'écrire un compte rendu.
+
+**L'incident**, unique et factuel : après une mise en production, le service a
+renvoyé des erreurs 500 pendant 37 minutes.
+
+Le script `scripts/v70-verifications/incidents-arithmetique.mjs` déroule trois
+chaînes de « pourquoi », toutes correctes, toutes partant du même fait.
+
+**Chemin A — on interroge le code.**
+
+```
+· le service a renvoyé des erreurs 500
+↳ une requête SQL a échoué
+↳ une colonne attendue n existait pas
+↳ la migration n avait pas été appliquée
+↳ le script de déploiement ne lance pas les migrations
+=> action : le déploiement applique les migrations
+```
+
+**Chemin B — on interroge le processus.**
+
+```
+· le service a renvoyé des erreurs 500
+↳ une version incompatible avec le schéma est partie en production
+↳ personne n a vérifié la compatibilité avant la mise en production
+↳ la revue ne demande pas de vérifier les migrations
+↳ la liste de contrôle de mise en production n a jamais été relue
+=> action : la revue exige une vérification de compatibilité
+```
+
+**Chemin C — on interroge la détection.**
+
+```
+· le service a renvoyé des erreurs 500
+↳ la panne a duré 37 minutes
+↳ personne n a vu les erreurs pendant 6 minutes
+↳ aucune alerte ne surveille le taux d erreur par version
+↳ le tableau de bord n est pas découpé par version déployée
+=> action : alerter sur le taux d erreur par version
+```
+
+### Ce que ça implique
+
+Les trois chaînes sont valides et mènent à trois actions correctives
+**différentes et non redondantes**. Il n'y a pas de chaîne fausse à éliminer : il
+y a un **arbre** de causes, et les cinq pourquoi n'en explorent qu'une branche —
+celle que choisit la personne qui pose les questions, généralement sans le savoir.
+
+En pratique, l'ingénieur qui a corrigé le bug prend le chemin A, parce que c'est
+celui qu'il vient de parcourir. Le compte rendu produit alors une seule action —
+« le déploiement applique les migrations » — qui est juste, utile, et qui laisse
+intactes les deux autres branches. Le prochain incident aura une autre cause
+technique, ne sera pas plus vite détecté, et ne sera pas plus vite attrapé en
+revue.
+
+**Un compte rendu utile explore donc trois axes, systématiquement :**
+
+1. **Ce qui a cassé** — la cause technique. C'est celle qu'on trouve toujours.
+2. **Ce qui l'a laissé passer** — la barrière absente ou franchie. Test, revue,
+   porte qualité, environnement de recette.
+3. **Ce qui a retardé la détection et le rétablissement** — c'est l'axe le plus
+   négligé et souvent le plus rentable, parce qu'il protège aussi des incidents
+   qu'on n'a pas imaginés.
+
+### Le calcul qui justifie l'axe 3
+
+Sur six occurrences par an d'un incident de 37 minutes, soit 3,7 heures par an :
+
+```
+corriger le bug de cette fois        : 3,1 h/an  (−17 %)
+diviser le temps de diagnostic par 2 : 2,6 h/an  (−30 %)
+les deux                             : 2,2 h/an  (−41 %)
+```
+
+**Corriger le bug ne protège que de ce bug.** Réduire le temps de diagnostic
+protège de tous les incidents à venir, y compris de ceux qu'on ne peut pas
+prévoir — et c'est précisément la catégorie qui compte, puisque par définition on
+ne les a pas anticipés.
+
+Ce calcul n'invite pas à ne plus corriger les bugs : la correction est moins
+chère et se fait de toute façon. Il tranche sur l'action **supplémentaire** qu'on
+choisit de financer, et il explique pourquoi une équipe qui produit chaque fois
+un compte rendu impeccable peut ne jamais voir sa fiabilité s'améliorer.
+
+### Sans blâme — et pourquoi ce n'est pas de la politesse
+
+L'interdiction de nommer une personne n'est pas une convenance sociale : c'est un
+choix d'ingénierie, et il a une justification opérationnelle.
+
+Une cause racine ne peut pas être « une erreur humaine ». Cela décrit ce qui
+s'est passé, pas **pourquoi le système l'a permis**. La question qui remplace
+utilement le blâme : « qu'est-ce qui a rendu cette erreur facile à commettre et
+difficile à détecter ? » — et elle produit des actions, ce que le blâme ne fait
+jamais.
+
+La conséquence pratique est celle qui devrait convaincre les plus sceptiques :
+quand un compte rendu désigne un coupable, **les incidents suivants cessent
+d'être déclarés**. On répare discrètement, on ne dit rien, et l'organisation perd
+sa seule source d'information sur ses propres défaillances. Un incident non
+déclaré est un incident dont on ne tire rien et qui se reproduira.
+
+## 🧪 Mise en pratique — écrire un compte rendu qui change quelque chose
+
+**A. Explorer trois branches.** Prends un incident réel (ou celui de la section
+guidée) et construis **trois** chaînes de « pourquoi » distinctes : le code, le
+processus, la détection. Livrable : les trois chaînes et les trois actions
+correctives, toutes différentes.
+
+**B. La chronologie.** Reconstitue la chronologie horodatée en distinguant trois
+instants : quand le défaut est **entré** en production, quand il a été
+**détecté**, quand le service a été **rétabli**. Livrable : les trois horodatages
+et les deux écarts.
+
+**C. Des actions vérifiables.** Réécris chaque action corrective de A sous une
+forme dont on peut constater l'existence sans demander à personne. Livrable :
+pour chacune, la phrase et le moyen de vérifier qu'elle est en place.
+
+**D. Chiffrer.** Estime le nombre d'occurrences par an de ce type d'incident et
+sa durée moyenne. Calcule ce que rapporterait chaque action de A sur un an.
+Livrable : le tableau, et l'action que tu finances en premier.
+
+**E. Le test du blâme.** Relis ton compte rendu et supprime tout nom de personne
+ainsi que toute formulation qui en désigne une implicitement (« l'auteur de la
+demande de fusion », « celui qui était d'astreinte »). Si un paragraphe devient
+vide, c'est qu'il ne contenait pas d'analyse.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
@@ -159,6 +278,70 @@ unique. Elle est moins facile à communiquer, et c'est son seul vrai défaut.
    pose un pourquoi de plus.
 3. Pour chaque action préventive, demande : *si personne n'y pense, est-ce que ça
    marche quand même ?* Si non, ce n'est pas une action préventive.
+
+### Sur la mise en pratique A → E
+
+**A — les trois branches.** Le critère de réussite est que les trois actions
+soient **non redondantes** : si tes trois chaînes mènent à la même action, tu as
+posé trois fois la même question sous des formes différentes. Le repère est
+qu'une branche remonte au code, une aux barrières (test, revue, recette), une au
+temps (détection, diagnostic, rétablissement).
+
+Si une branche te paraît impossible à construire, c'est souvent une information :
+« aucune barrière n'aurait pu attraper ça » signifie qu'il n'y a pas de barrière,
+pas qu'elle a bien fonctionné.
+
+**B — les trois instants.** L'écart le plus souvent omis est le premier — entre
+l'entrée du défaut et sa détection — parce qu'il est gênant : il peut se compter
+en jours pour un défaut silencieux, et il ne figure dans aucune métrique
+habituelle. C'est pourtant le seul des deux écarts qui se réduise directement par
+l'outillage, et donc le plus actionnable.
+
+Le piège de reconstitution : on ne peut pas retrouver ces instants de mémoire,
+surtout l'ordre exact des actions pendant l'incident. D'où l'importance du
+journal horodaté tenu **pendant**, mentionné dans la leçon `incident-response`.
+Si ton exercice bute ici, c'est le vrai résultat de l'exercice.
+
+**C — la vérifiabilité.** Le test : peut-on constater l'existence de l'action
+sans demander à personne ?
+
+- « être plus vigilant sur les migrations » — non vérifiable ;
+- « ajouter une étape dans la liste de contrôle » — vérifiable, mais rien ne
+  garantit qu'elle sera suivie ;
+- « la CI refuse toute migration contenant `DROP COLUMN` sans étiquette
+  d'approbation explicite » — vérifiable **et** contraignante.
+
+L'échelle a trois barreaux et il faut savoir les nommer : une action peut être
+non vérifiable, vérifiable, ou automatiquement appliquée. Chaque barreau coûte
+plus cher que le précédent, et chaque compte rendu ne peut pas financer le
+troisième pour tout. Le choix se justifie par D.
+
+Ajout attendu d'une bonne réponse : chaque action a un **propriétaire** et une
+**échéance**. Une action corrective sans les deux n'est pas une action, c'est un
+souhait — et la relecture des comptes rendus de l'année précédente est le moyen
+le plus rapide de mesurer combien de souhaits une équipe produit.
+
+**D — le chiffrage.** Les ordres de grandeur du calcul : −17 % pour la correction
+du bug, −30 % pour la réduction du temps de diagnostic, −41 % pour les deux. La
+conclusion attendue n'est pas « le diagnostic d'abord » dans l'absolu : c'est que
+**le calcul doit être fait**, parce que l'intuition privilégie systématiquement
+la correction technique, qui est la plus visible et la plus satisfaisante.
+
+Une nuance à ne pas manquer : les actions du deuxième type (détection,
+diagnostic) sont **mutualisées** entre incidents. Leur bénéfice doit donc être
+compté sur l'ensemble des incidents de l'année, pas sur celui-ci seul — ce qui
+les rend nettement plus rentables que ne le suggère un calcul mené sur un seul
+incident.
+
+**E — le test du blâme.** Ce qui reste après suppression des noms est l'analyse ;
+ce qui disparaît était du récit. Un paragraphe qui devient vide n'était pas
+neutre : il expliquait l'incident par une personne, ce qui ne produit aucune
+action.
+
+La reformulation attendue transforme « X a oublié d'appliquer la migration » en
+« le déploiement n'applique pas les migrations et rien ne le signale ». La
+seconde phrase est vérifiable, produit une action, et reste vraie quelle que soit
+la personne concernée — ce qui est le test le plus simple de sa qualité.
 
 ## ⚠️ Erreurs fréquentes / anti-patterns
 - **Chercher un coupable** → les gens cachent l'info, aucune leçon tirée.

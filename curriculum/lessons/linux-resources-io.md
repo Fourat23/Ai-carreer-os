@@ -75,13 +75,137 @@ ls /proc/$PID/fd | wc -l          # descripteurs ouverts d'un processus
 dmesg -T | grep -i "out of memory" # traces de l'OOM killer
 ```
 
-## 🧭 Exemple guidé — « le serveur rame »
-1. `top` : le CPU est-il à 100% (us/sy) ou l'attente I/O (`wa`) est-elle haute ?
-2. Si CPU : quel processus ? est-ce du calcul légitime ou une boucle ?
-3. Si mémoire : `free -h` (swap actif ?), `dmesg` (OOM killer ?).
-4. Si `wa` haut : `iostat -x` (disque saturé ?), `df -h` (disque plein ?).
-5. « Too many open files » : `ulimit -n` et compter les fd du processus (fuite ?).
-6. Conclure avec un CHIFFRE, pas une impression, puis corriger la cause.
+## 🧭 Exemple guidé — « le serveur rame », et les quatre chiffres qu'on lit mal
+
+Le diagnostic d'une machine lente échoue presque toujours au même endroit : on
+lit un chiffre correct et on en tire une conclusion fausse, parce qu'on croit
+qu'il mesure autre chose que ce qu'il mesure. Les quatre confusions ci-dessous
+sont mesurées par `scripts/v70-verifications/linux-ressources.sh`, exécuté sur
+la machine où ce cours a été écrit.
+
+### 1. « Il ne reste plus de mémoire »
+
+```
+               total   used    free   shared   buff/cache   available
+Mem:           16075    619   14624        5         1099       15455
+```
+
+Deux colonnes sont candidates et elles ne disent pas la même chose.
+**`free`** compte la mémoire qui ne sert à **rien** — ni aux applications, ni au
+cache. **`available`** compte celle qu'une nouvelle application peut réellement
+obtenir : elle inclut le cache, parce que le noyau le libérera si besoin.
+
+Sur une machine en service depuis quelques jours, `free` est presque toujours
+bas et `available` presque toujours haut. Lire `free` conduit à conclure
+« saturée » sur une machine parfaitement saine. **C'est `available` qu'il faut
+lire**, et la règle tient en une ligne : `available` haut avec `free` bas est la
+situation normale, pas une alerte.
+
+### 2. Le cache n'est pas de la mémoire gaspillée
+
+On écrit un fichier de 400 Mio, on vide le cache, puis on le lit deux fois :
+
+```
+1re lecture (disque) : 655 ms
+2e lecture  (cache)  :  61 ms
+rapport              : ×10
+```
+
+Un facteur dix, uniquement parce que la seconde lecture n'a pas touché le
+disque. Cette mémoire « consommée » par le cache est exactement ce qui rend la
+machine rapide. La vider pour « récupérer de la mémoire » revient à échanger de
+la mémoire inutilisée contre des lectures dix fois plus lentes — c'est le pire
+marché possible, et il est proposé sur beaucoup de forums.
+
+### 3. La charge (*load average*) ne mesure pas un pourcentage
+
+C'est la confusion la plus répandue, parce que le chiffre ressemble à un
+pourcentage. On lance 12 processus de calcul pur sur une machine à **4 cœurs** :
+
+```
+coeurs disponibles : 4
+charge au repos    : 1,41
+apres 30 s : charge 5,58   executables/total : 13/135
+apres 60 s : charge 8,11   executables/total : 13/135
+apres 90 s : charge 9,64   executables/total : 13/135
+```
+
+Trois choses à lire.
+
+D'abord, **la charge tend vers 12, pas vers 100**. Elle compte des processus qui
+veulent tourner, et elle n'a **pas de maximum**. Une charge de 12 sur 4 cœurs
+signifie « trois fois plus de travail que de cœurs », donc environ trois fois
+plus lent. La même charge de 12 sur 16 cœurs signifierait une machine
+confortable. **La charge ne se lit jamais seule : elle se lit rapportée à
+`nproc`.**
+
+Ensuite, **elle est lente**. Après 30 secondes de charge constante, elle
+n'affiche que 5,58 ; il lui faut plus d'une minute et demie pour approcher la
+réalité. C'est une moyenne mobile exponentielle sur une minute, cinq minutes et
+quinze minutes. Conséquence opérationnelle : pendant un incident, la charge
+montre l'état d'il y a une minute. Une charge qui redescend ne prouve pas que le
+problème est réglé, et une charge encore basse ne prouve pas qu'il n'a pas
+commencé.
+
+Enfin, le troisième chiffre, `13/135`, se lit « 13 processus exécutables sur 135
+existants ». C'est lui qui donne l'état instantané, sans la moyenne.
+
+> **Mécanisme non reproduit ici, déclaré comme tel.** Sous Linux — et
+> contrairement aux autres systèmes UNIX — la charge compte aussi les processus
+> bloqués en attente d'entrées-sorties ininterruptibles (état `D`). Le stockage
+> de la machine utilisée est trop rapide pour maintenir un processus en état `D`
+> assez longtemps : la tentative a donné une charge de 2,19 sans aucun processus
+> en état `D`. Le mécanisme est donc énoncé sans mesure à l'appui. Sa
+> conséquence pratique, elle, ne dépend pas de la mesure : **une charge élevée
+> avec un pourcentage de processeur bas désigne une attente — disque, réseau,
+> verrou — et non un manque de puissance.** Ajouter des cœurs n'y changerait
+> rien.
+
+### 4. « J'ai supprimé les logs et le disque est toujours plein »
+
+Un fichier de 300 Mio, gardé ouvert par un processus, puis supprimé :
+
+```
+utilise avant creation    : 11130 Mio
+apres creation de 300 Mio : 11430 Mio
+apres rm (fichier ouvert) : 11430 Mio   <- df
+du sur le repertoire      :     0 Mio   <- du
+le fichier est-il visible ? 0 entree(s)
+descripteur encore ouvert :
+  3 -> /tmp/.../gros.log (deleted)
+apres fermeture du processus : 11130 Mio
+```
+
+`du` dit 0, `df` dit 300 Mio, le fichier n'apparaît dans aucun listage, **et les
+deux commandes ont raison**. `du` parcourt l'arborescence des noms ; `df`
+interroge le système de fichiers. Un fichier supprimé mais encore ouvert n'a
+plus de nom, mais ses blocs restent alloués tant que le dernier descripteur
+n'est pas fermé — ce que `/proc/<pid>/fd` montre avec la mention `(deleted)`.
+
+L'espace revient à la fermeture du processus, pas à la suppression du fichier.
+D'où la seule action qui marche : redémarrer ou recharger le processus qui
+écrivait dans le fichier. Supprimer d'autres fichiers ne sert à rien, et c'est
+pourtant ce qu'on fait pendant vingt minutes avant de trouver.
+
+### La démarche qui en découle
+
+1. **`available`, pas `free`.** Et si `available` est bas *et* le cache bas,
+   alors seulement la mémoire est réellement consommée.
+2. **La charge rapportée à `nproc`**, jamais seule, et en sachant qu'elle
+   retarde d'une minute.
+3. **Charge élevée + processeur bas** = attente. Chercher qui attend quoi
+   (disque, réseau, verrou), pas ajouter de la puissance.
+4. **Disque plein malgré des suppressions** : chercher les descripteurs ouverts
+   sur des fichiers supprimés avant toute autre chose.
+5. **Conclure avec un chiffre et son unité**, jamais avec une impression. « Le
+   disque est saturé » n'est pas un diagnostic ; « 40 % du temps passé en
+   attente d'entrées-sorties, et le disque est à 100 % d'utilisation » en est un.
+
+Et une distinction qui traverse tout ce qui précède : **plein** et **saturé**
+sont deux pannes différentes. Plein est une question d'espace (`df`, et
+l'histoire du descripteur ouvert) ; saturé est une question de débit (`iostat`,
+le temps d'attente). Les outils, les symptômes et les corrections diffèrent, et
+les confondre fait chercher au mauvais endroit.
 
 ## ⚠️ Erreurs fréquentes
 - **Paniquer sur une RAM « presque pleine »** : c'est le cache disque, sain.

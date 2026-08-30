@@ -93,6 +93,75 @@ const augmentes = employes.map((e) =>
 
 **Variante qui déplace le problème** : et si l'employé était `{ nom, service, contact: { email } }` et qu'il fallait changer l'email ? `{ ...e, contact: { ...e.contact, email } }`. Le spread ne copie qu'UN niveau : `{ ...e, contact: { email } }` perdrait tous les autres champs de `contact`, et `e.contact.email = x` modifierait l'original. Copier en profondeur se fait niveau par niveau.
 
+### Trois vérifications à faire une fois, et à ne plus jamais oublier
+
+Avant de manipuler des salaires et des listes, trois comportements de JavaScript qu'aucune
+intuition ne donne. Ils sont **exécutés** par `scripts/v70-verifications/js-pieges.mjs` ; ouvre
+une console et refais-les toi-même, ça prend deux minutes.
+
+**1. Les nombres à virgule ne sont pas ceux de l'école.**
+
+```
+0.1 + 0.2              ->  0.30000000000000004
+0.1 + 0.2 === 0.3      ->  false
+19.99 * 100            ->  1998.9999999999998
+Math.round(19.99 * 100)->  1999
+```
+
+Ce n'est pas un défaut de JavaScript : c'est la représentation binaire des décimaux, commune à
+presque tous les langages. Un dixième ne s'écrit pas exactement en base deux, comme un tiers ne
+s'écrit pas exactement en base dix.
+
+La conséquence pratique est directe et elle concerne ton code de tous les jours : **ne stocke
+jamais un montant en euros dans un nombre à virgule.** Stocke des centimes, en entiers —
+`1999` et non `19.99` — et divise seulement à l'affichage. C'est la règle de tous les systèmes
+qui manipulent de l'argent, et son absence produit des écarts d'un centime qui, en
+comptabilité, sont des écarts.
+
+Second effet, moins connu : au-delà de `Number.MAX_SAFE_INTEGER` (**9 007 199 254 740 991**),
+les entiers cessent d'être distincts. La mesure le montre : `9007199254740993 ===
+9007199254740992` renvoie **`true`**. Un identifiant venu d'une base sur 64 bits n'est donc pas
+manipulable en `Number` — il se transporte en chaîne de caractères, ou en `BigInt`.
+
+**2. `sort()` sans argument ne trie pas des nombres.**
+
+```
+[10, 9, 100, 1].sort()                 ->  [1, 10, 100, 9]
+[10, 9, 100, 1].sort((a, b) => a - b)  ->  [1, 9, 10, 100]
+```
+
+Par défaut, `sort` convertit chaque élément **en texte** et compare des chaînes : `"10"` vient
+avant `"9"` comme « ba » vient avant « c ». Le tri par défaut n'est correct que pour des mots.
+
+Et même pour des mots, il faut se méfier en français :
+
+```
+['Émile','Alice','Zoé','Édouard'].sort()                       -> Alice, Zoé, Édouard, Émile
+… .sort((a, b) => a.localeCompare(b, 'fr'))                    -> Alice, Édouard, Émile, Zoé
+```
+
+Le tri par défaut compare des codes de caractères : les lettres accentuées, situées plus loin
+dans la table, arrivent **après le Z**. `localeCompare` connaît les règles de la langue. Toute
+liste de noms affichée à un utilisateur francophone doit l'utiliser.
+
+**3. `==` compare après conversion ; `===` compare vraiment.**
+
+```
+'' == 0        ->  true          '' === 0    ->  false
+'0' == 0       ->  true          '' == '0'   ->  false
+[] == false    ->  true          NaN === NaN ->  false
+```
+
+Regarde les deux premières lignes de la colonne de gauche : `''` égale `0`, `'0'` égale `0`, et
+pourtant `''` **n'égale pas** `'0'`. L'égalité lâche n'est pas transitive — elle ne se
+mémorise pas, elle ne se raisonne pas.
+
+D'où la règle sans exception : **toujours `===`.** La seule utilisation défendable de `==` est
+`x == null`, qui teste `null` **et** `undefined` d'un coup.
+
+Note aussi `NaN === NaN` qui vaut `false` : c'est la seule valeur du langage qui n'est pas
+égale à elle-même. Pour la tester, `Number.isNaN(x)`.
+
 ## ⚠️ Erreurs fréquentes
 - `const b = a; b.push(x)` → a change aussi (référence partagée).
 - `[10, 9, 1].sort()` → `[1, 10, 9]` (tri ALPHABÉTIQUE sans comparateur).

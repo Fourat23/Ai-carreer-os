@@ -106,17 +106,118 @@ priorisation par coût × fréquence · remboursement continu (boy-scout) · det
 quatre types de maintenance (corrective / adaptative / préventive / évolutive).
 
 ## 🧭 Exemple guidé
-Décider face à une dette, comme un investisseur :
+Quatre dettes sur la table, deux jours pour en rembourser une. Laquelle ?
+
+C'est la situation réelle, et c'est celle où le mot « dette » cesse d'être une métaphore
+décorative pour devenir un outil de décision. Comparons-les avec la même grille.
+
+### Les quatre candidates
+
+| # | Dette | Ce qu'elle coûte quand on y touche | Fréquence de modification |
+|---|---|---|---|
+| A | module de paiement dupliqué en 3 endroits | chaque évolution tarifaire à faire 3 fois, risque d'oubli → erreur de facturation | ~1 fois par mois |
+| B | fonction de 600 lignes, illisible, mais correcte | 2 h de relecture avant toute modification | ~2 fois par an |
+| C | pas de tests sur le module d'export | chaque modification est un pari ; 1 régression sur 3 environ | ~1 fois par trimestre |
+| D | duplication dans un script d'archivage annuel | il faut modifier 2 endroits | **1 fois par an** |
+
+Les quatre sont de la vraie dette. Aucune ne relève du goût.
+
+### La grille : principal, intérêt, fréquence
+
+L'analogie financière n'est pas une image — elle donne trois quantités distinctes, et c'est le
+fait de les séparer qui permet de décider.
+
+| | Définition | Comment l'estimer |
+|---|---|---|
+| **principal** | ce qu'il faudrait payer une fois pour l'éliminer | en jours de travail |
+| **intérêt** | le surcoût payé **à chaque fois** qu'on touche cette zone | en heures, ou en probabilité de bug |
+| **fréquence** | combien de fois par an on y touche | dans l'historique du dépôt |
+
+Et la seule formule qui compte :
+
 ```
-Situation : le module de paiement est dupliqué en 3 endroits légèrement différents.
-- Principal : unifier derrière une seule fonction bien testée (~2 jours).
-- Intérêt : chaque évolution de tarif doit être faite 3 fois, avec un risque d'oubli
-  (bugs de facturation) — et ce module change ~tous les mois.
-Décision : intérêt élevé (code fréquemment touché + risque financier) → on rembourse
-maintenant. À comparer avec une duplication dans un script lancé une fois par an :
-même laideur, intérêt quasi nul → on laisse.
+coût annuel de la dette  =  intérêt × fréquence
 ```
-La laideur ne décide pas : c'est l'intérêt (coût récurrent × fréquence) qui décide.
+
+Le principal ne décide de rien : il dit ce que coûte le remboursement, pas ce que coûte de ne
+pas rembourser.
+
+### Le tableau, rempli
+
+| # | Principal | Intérêt | Fréquence | **Coût annuel** | Décision |
+|---|---|---|---|---|---|
+| A | 2 j | 3 h + risque de facturation | 12 / an | **36 h + risque financier** | **rembourser maintenant** |
+| B | 4 j | 2 h de relecture | 2 / an | 4 h | plus tard |
+| C | 3 j | 1 régression sur 3, ~1 j de correction | 4 / an | **~10 j** | **rembourser maintenant** |
+| D | 0,5 j | 30 min | 1 / an | 0,5 h | **jamais** |
+
+Trois observations, et ce sont elles la leçon.
+
+**B est la plus laide, et elle attend.** Six cents lignes illisibles font mal aux yeux de tout
+le monde ; leur coût annuel est de quatre heures. C'est le piège principal du domaine : **la
+laideur est visible, le coût ne l'est pas**, et une équipe qui priorise à l'œil rembourse
+toujours la mauvaise dette.
+
+**D ne sera jamais remboursée, et c'est une décision, pas une négligence.** Une demi-journée
+de travail pour économiser trente minutes par an ne se rentabilise qu'au bout de huit ans.
+Écrire « on ne rembourse pas, et voici pourquoi » est un résultat d'analyse — pas un aveu.
+
+**C est celle qu'on sous-estime.** Son intérêt n'est pas du temps, c'est une **probabilité**.
+Une régression sur trois modifications, quatre modifications par an, une journée de correction
+chacune : dix jours par an, pour un principal de trois. Les dettes dont l'intérêt est un risque
+sont systématiquement sous-évaluées parce qu'elles ne coûtent rien **certains** trimestres.
+
+### Le chiffre qu'on n'invente pas : la fréquence
+
+C'est la seule colonne du tableau qui ne repose pas sur une estimation. Elle se lit dans
+l'historique :
+
+```bash
+git log --since="1 year ago" --format= --name-only | sort | uniq -c | sort -rn | head -20
+```
+
+Les fichiers les plus modifiés de l'année. Croise cette liste avec celle des zones que tout le
+monde trouve pénibles : **l'intersection est ta liste de dettes à rembourser**, dans l'ordre.
+
+Un fichier horrible qui n'apparaît pas dans les vingt premiers n'est pas une priorité, quelle
+que soit l'insistance de celui qui vient de le lire.
+
+### La dette n'est pas toujours une faute
+
+Point que les discussions d'équipe manquent presque toujours : **contracter une dette peut être
+la bonne décision.** Livrer une version simplifiée pour valider un marché, quitte à réécrire si
+ça marche, est un arbitrage rationnel — on échange de la qualité future contre de
+l'information présente.
+
+Ce qui distingue une dette assumée d'une dette subie n'est pas sa nature, c'est qu'elle soit
+**écrite** :
+
+```
+// DETTE — dupliqué avec facturation/tarifs.js
+// Assumée le 12/03 pour tenir la date de la campagne.
+// Intérêt : toute évolution tarifaire est à faire deux fois.
+// Condition de remboursement : à la prochaine modification des tarifs.
+```
+
+Quatre lignes, et la dette devient visible, datée, chiffrée, et associée à un déclencheur. Sans
+elles, elle devient dans six mois « du code bizarre que personne n'ose toucher », ce qui est le
+même code avec un coût bien supérieur.
+
+### La conversation avec un responsable
+
+Dernier point, et c'est celui qui rend cette leçon utile en poste. « Il faudrait refactorer, le
+code est sale » n'obtient jamais de temps, et c'est normal : la phrase parle d'esthétique à
+quelqu'un qui arbitre des priorités.
+
+La version qui obtient du temps porte sur les mêmes faits, dans l'autre unité :
+
+> *« Le module de paiement est dupliqué en trois endroits. On y touche une fois par mois, et
+> chaque évolution tarifaire prend trois heures au lieu d'une, avec un risque d'oubli qui a
+> déjà produit deux erreurs de facturation. Deux jours de travail suppriment ce surcoût. »*
+
+Aucun jugement, deux nombres, un risque déjà réalisé. C'est la même demande, exprimée dans
+l'unité de celui qui décide — et c'est exactement ce que la grille principal / intérêt /
+fréquence permet de produire.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

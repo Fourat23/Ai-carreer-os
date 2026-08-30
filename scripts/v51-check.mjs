@@ -26,7 +26,7 @@ const warns = [];
 // profondeur. V67 a traite ce stock. Le gel a rougi de lui-meme, ce qui est sa
 // fonction ; il est mis a jour ici, jamais silencieusement.
 //   V66 -> e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2
-//   V67 -> d8b7dc354abb1bec61acb8bc86259a0332d55199
+//   V67 -> 8c049363e243c57be0be76f1d745005d47400682
 // Re-gelé par V68 (CP15). Le corpus de leçons a changé parce que les 41 leçons du
 // parcours qui n'avaient AUCUNE correction en ont désormais une, et que
 // metrics-percentiles portait un p99 faux d'un facteur 50. Voir
@@ -40,11 +40,11 @@ const warns = [];
 // Lot Frontend / Next.js / CSS : 19 leçons réécrites en profondeur (exemples
 // guidés reconstruits, pratiques avec production observable, corrections
 // raisonnées). Le gel passe de 64748e1522904dbc811bb486409d6fb53dc0ec75
-// à d8b7dc354abb1bec61acb8bc86259a0332d55199.
+// à 8c049363e243c57be0be76f1d745005d47400682.
 // Ce n'est pas un contournement du gate : le gate protège contre une
 // modification NON DÉCLARÉE du corpus, et celle-ci est déclarée, committée
 // et mesurée (mini-statut CP5).
-const FROZEN_CORPUS = 'd8b7dc354abb1bec61acb8bc86259a0332d55199';
+const FROZEN_CORPUS = '8c049363e243c57be0be76f1d745005d47400682';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 const BASELINE_PBI = 10;        // pratique-avant-intro héritée (on-ramps jours 1-30)
 const BASELINE_EXCESSIVE = 7;   // journées thématiques denses héritées (>6 exercices)

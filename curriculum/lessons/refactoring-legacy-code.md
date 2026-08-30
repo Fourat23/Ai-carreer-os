@@ -89,18 +89,140 @@ Refactoring (structure sans comportement) · comportement observable · règle d
 (seam) / injection de dépendance · petits pas réversibles · code smells (rappel clean-code).
 
 ## 🧭 Exemple guidé
-Ajouter une règle à une fonction legacy sans tests, en sécurité :
+On te demande d'ajouter une règle de remise à `calculPrix()`. La fonction fait 240 lignes,
+elle n'a aucun test, et elle est en production depuis six ans.
+
+La question n'est pas « comment la réécrire proprement ». C'est : **comment ne pas casser ce
+qui marche, alors que je ne sais pas ce que ça fait ?**
+
+### Le problème, énoncé correctement
+
+Tu ne peux pas tester ce que tu ne comprends pas, et tu ne peux pas comprendre 240 lignes sans
+les modifier pour les explorer. C'est circulaire, et c'est ce qui rend le code hérité
+intimidant.
+
+La sortie de cette boucle tient en une inversion : **tu n'as pas besoin de comprendre ce que le
+code fait pour capturer ce qu'il fait.**
+
+### Étape 1 — le filet : capturer, pas juger
+
+```js
+// caracterisation.test.js — ce ne sont PAS des tests de spécification
+test('panier standard', () => {
+  expect(calculPrix(PANIER_1)).toBe(127.44);   // ← valeur OBSERVÉE, pas attendue
+});
+test('panier avec code promo', () => {
+  expect(calculPrix(PANIER_2)).toBe(89.90);
+});
+test('panier vide', () => {
+  expect(calculPrix(PANIER_3)).toBe(0);
+});
+test('panier avec quantité négative', () => {
+  expect(calculPrix(PANIER_4)).toBe(-15.00);   // ← oui, c'est bizarre. On le fige quand même.
+});
+test('client sans adresse', () => {
+  expect(calculPrix(PANIER_5)).toBe(142.10);
+});
 ```
-1. CARACTÉRISER : appeler calculPrix() avec 5 paniers types, noter les sorties réelles,
-   les figer en tests (même si un résultat te paraît bizarre : on capture l'EXISTANT).
-   → filet en place, tous verts.
-2. CASQUETTE REFACTORING : extraire le calcul de remise dans une fonction nommée,
-   sans rien changer d'autre. Relancer les tests → toujours verts (comportement intact).
-3. CASQUETTE FONCTIONNALITÉ : ajouter la nouvelle règle de remise + son test dédié.
-   Relancer → le nouveau test passe, les anciens restent verts (aucune régression).
+
+Ces tests s'appellent des **tests de caractérisation**, et leur propriété est déroutante :
+**ils ne disent pas ce que le code devrait faire, ils disent ce qu'il fait.** On exécute, on
+lit la valeur, on la fige.
+
+Le quatrième mérite un arrêt. Un prix négatif est manifestement un bug. La tentation est de le
+corriger tout de suite — et c'est l'erreur. Cette valeur est peut-être compensée ailleurs ; un
+export comptable en dépend peut-être ; un client l'utilise peut-être depuis six ans. **Corriger
+un comportement pendant qu'on réorganise du code rend impossible de savoir laquelle des deux
+actions a cassé quoi.**
+
+On note le bug, on l'ouvre comme un ticket séparé, et on fige la valeur bizarre. Le filet
+protège le comportement **existant**, y compris ses défauts.
+
+Comment choisir les cinq paniers : le cas nominal, un cas limite (vide), un cas extrême
+(quantité énorme), un cas absurde (négatif), un cas incomplet (champ manquant). Cinq entrées
+qui font passer le code par ses branches principales. Si l'outil le permet, une mesure de
+couverture indique lesquelles restent inexplorées.
+
+### Étape 2 — la casquette « réorganisation »
+
+Une seule règle, et c'est toute la discipline de cette leçon : **une seule casquette à la
+fois.**
+
+```js
+// AVANT — au milieu des 240 lignes
+if (client.type === 'pro' && total > 500) { total = total * 0.85; }
+else if (client.anciennete > 3) { total = total * 0.95; }
+
+// APRÈS — extrait, nommé, rien d'autre n'a changé
+function tauxDeRemise(client, total) {
+  if (client.type === 'pro' && total > 500) return 0.85;
+  if (client.anciennete > 3) return 0.95;
+  return 1;
+}
+total = total * tauxDeRemise(client, total);
 ```
-À aucun moment tu n'as « deviné » : le filet t'a garanti que réorganiser n'a rien changé, puis
-le nouveau test a prouvé le nouveau comportement.
+
+On relance les cinq tests. **Ils doivent tous rester verts.** S'ils le sont, la réorganisation
+n'a rien changé — c'est démontré, pas espéré. Si l'un rougit, on annule et on recommence plus
+petit : le rouge dit exactement que l'on vient de modifier un comportement en croyant ne
+réorganiser que la forme.
+
+C'est la définition rigoureuse du mot : **réorganiser, c'est changer la structure sans changer
+le comportement.** Un changement qui modifie le comportement n'est pas une réorganisation,
+quelle que soit son intention.
+
+### Étape 3 — la casquette « fonctionnalité »
+
+Maintenant seulement, la nouvelle règle :
+
+```js
+function tauxDeRemise(client, total) {
+  if (client.type === 'pro' && total > 500) return 0.85;
+  if (client.codeParrainage) return 0.90;          // ← la nouveauté
+  if (client.anciennete > 3) return 0.95;
+  return 1;
+}
+
+test('remise de parrainage', () => {
+  expect(tauxDeRemise({ codeParrainage: 'ABC' }, 100)).toBe(0.90);
+});
+```
+
+Deux choses à vérifier, et elles ne disent pas la même chose :
+
+- **le nouveau test passe** → la fonctionnalité fonctionne ;
+- **les cinq anciens restent verts** → rien d'autre n'a bougé.
+
+Note l'ordre des conditions dans la fonction : le parrainage est placé **après** la remise pro.
+Ce n'est pas anodin — un client pro avec un code de parrainage garde 15 % au lieu de 10 %. Cet
+ordre est une **décision métier**, qu'il faut poser à quelqu'un plutôt que trancher seul. Dans
+la version d'origine, noyée dans 240 lignes, cette question ne se voyait même pas.
+
+C'est un bénéfice inattendu de l'extraction : **rendre visibles des décisions qui étaient
+implicites.**
+
+### Ce que la méthode garantit, et ce qu'elle ne garantit pas
+
+**Elle garantit** que tu n'as pas introduit de régression sur les cinq comportements capturés.
+C'est peu et c'est énorme : c'est la différence entre modifier du code hérité et jouer aux dés.
+
+**Elle ne garantit pas** que les cinq paniers couvrent tous les cas. Une branche jamais
+exécutée par tes tests peut casser sans que rien ne rougisse. C'est pourquoi la mesure de
+couverture n'est pas un ornement ici : elle dit quelles parties du code ton filet ne protège
+pas.
+
+La formulation honnête, celle qu'on donne en revue : *« ce changement est couvert par cinq
+tests de caractérisation qui exercent 68 % des lignes ; la branche des commandes
+internationales n'est pas couverte. »* C'est une phrase qu'on peut discuter — contrairement à
+« j'ai fait attention ».
+
+### La règle en une ligne
+
+> **Ne jamais réorganiser et modifier le comportement dans le même commit.**
+
+Quand les deux sont mêlés et qu'un test casse, il n'existe aucun moyen de savoir laquelle des
+deux actions est en cause — sinon défaire les deux. Séparées, un test rouge après une
+réorganisation ne peut avoir qu'une seule explication.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

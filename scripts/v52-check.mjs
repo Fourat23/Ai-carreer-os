@@ -43,7 +43,7 @@ const warns = [];
 // Ce n'est pas un contournement du gate : le gate protège contre une
 // modification NON DÉCLARÉE du corpus, et celle-ci est déclarée, committée
 // et mesurée (mini-statut CP5).
-const FROZEN_CORPUS = '1e5a7d762bec5e0c163e1dbaa41e926f050d8574';
+const FROZEN_CORPUS = 'a61e15153eb0837707ec2934a5bcf11e74019e45';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 const HEX_BASELINE = 6; // couleurs hex en dur tolérées dans app/**.tsx (héritées)
 

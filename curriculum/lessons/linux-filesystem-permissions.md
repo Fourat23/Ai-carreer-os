@@ -85,14 +85,151 @@ stat fichier          # métadonnées détaillées (inode, droits, horodatages)
 ```
 
 ## 🧭 Exemple guidé — diagnostiquer un « Permission denied »
-1. Reproduire précisément : quelle commande, sur quel chemin, en tant que quel
-   utilisateur (`whoami`, `id`) ?
-2. `ls -l` sur le fichier ET `ls -ld` sur CHAQUE répertoire du chemin (le blocage est
-   souvent un `x` manquant sur un dossier parent, pas sur le fichier).
-3. Comparer le propriétaire/groupe du fichier avec `id` : suis-je le proprio ? membre
-   du groupe ? sinon je tombe dans « others ».
-4. Corriger au plus juste : donner le droit minimal nécessaire, ne **jamais** faire
-   `chmod 777` (voir Erreurs fréquentes).
+« Permission denied ». Trois mots qui arrêtent tout, et sur lesquels on tourne en rond parce
+que le message ne dit ni **quel** droit manque, ni **sur quoi**.
+
+Cette leçon donne les deux, et elle le fait en exécutant les cas plutôt qu'en les décrivant.
+
+> Toutes les lignes « AUTORISÉ / REFUSÉ » ci-dessous sont **réelles** : le script
+> `scripts/v70-verifications/linux-permissions.sh` crée les fichiers, applique les droits et
+> tente les opérations. Chaque refus est un refus du noyau.
+>
+> **Détail qui n'en est pas un :** le script s'exécute en `root` et se **rabaisse** à un
+> utilisateur ordinaire pour chaque tentative. Sans cela, tout serait autorisé — root
+> contourne les vérifications de permissions. C'est le premier enseignement : *tester des
+> droits en root ne teste rien.*
+
+### Les trois bits sur un FICHIER
+
+| Droits (autrui) | lire | écrire | exécuter |
+|---|---|---|---|
+| `---` (000) | REFUSÉ | REFUSÉ | REFUSÉ |
+| `r--` (004) | **AUTORISÉ** | REFUSÉ | REFUSÉ |
+| `-w-` (002) | REFUSÉ | **AUTORISÉ** | REFUSÉ |
+| `rw-` (006) | AUTORISÉ | AUTORISÉ | REFUSÉ |
+| `--x` (001) | REFUSÉ | REFUSÉ | **REFUSÉ** |
+| `r-x` (005) | AUTORISÉ | REFUSÉ | **AUTORISÉ** |
+
+Sans surprise, sauf **la ligne `--x`**. Le bit d'exécution est là, et l'exécution est refusée.
+
+La raison : le fichier testé est un **script**. Pour l'exécuter, le système doit le donner à
+lire à un interpréteur — il faut donc `r` **et** `x`. Un programme compilé, lui, s'exécute
+avec `--x` seul, ce qui permet de le faire tourner sans pouvoir le copier.
+
+C'est la première leçon qu'aucune table de correspondance ne donne : **les droits nécessaires
+dépendent de ce qu'on fait, pas seulement du bit qui porte le nom de l'action.**
+
+### Les mêmes trois bits sur un RÉPERTOIRE
+
+C'est ici que se joue l'essentiel, parce que les bits **changent de sens** :
+
+| Droits | lister le contenu | lire un fichier connu | créer un fichier |
+|---|---|---|---|
+| `---` (000) | REFUSÉ | REFUSÉ | REFUSÉ |
+| `r--` (004) | **AUTORISÉ** | **REFUSÉ** | REFUSÉ |
+| `--x` (001) | **REFUSÉ** | **AUTORISÉ** | REFUSÉ |
+| `r-x` (005) | AUTORISÉ | AUTORISÉ | REFUSÉ |
+| `-wx` (003) | REFUSÉ | AUTORISÉ | **AUTORISÉ** |
+| `rwx` (007) | AUTORISÉ | AUTORISÉ | AUTORISÉ |
+
+Lis les deux lignes du milieu, elles sont exactement opposées :
+
+- **`r--` sur un répertoire** : je vois les **noms** des fichiers, et je ne peux en ouvrir
+  **aucun** ;
+- **`--x` sur un répertoire** : je ne vois **rien**, et j'ouvre parfaitement les fichiers dont
+  je connais le nom.
+
+La traduction correcte est donc :
+
+| Bit | Sur un fichier | **Sur un répertoire** |
+|---|---|---|
+| `r` | lire le contenu | **lire la liste des noms** |
+| `w` | modifier le contenu | **ajouter ou retirer des entrées** |
+| `x` | exécuter | **traverser — accéder à ce qu'il contient** |
+
+Un répertoire est un **annuaire** : `r` permet de lire l'annuaire, `x` permet de suivre ce
+qu'il indique. Ce sont deux opérations différentes, et c'est pourquoi `--x` existe et est
+utile : `/home/alice` en `--x` laisse tout le monde ouvrir
+`/home/alice/public/cv.pdf` sans permettre de **lister** ce que contient le dossier.
+
+Noter aussi la ligne `-wx` : on peut **créer** un fichier sans pouvoir lister le répertoire.
+Créer demande `w` (modifier l'annuaire) **et** `x` (y accéder) — jamais `r`.
+
+### La conséquence qui explique la moitié des « Permission denied »
+
+Le droit d'ouvrir un fichier dépend de **tous les répertoires du chemin**. Pour lire
+`/a/b/c/fichier.txt`, il faut `x` sur `/a`, sur `/a/b`, sur `/a/b/c`, **et** `r` sur le
+fichier.
+
+D'où le geste de diagnostic, qui remplace une heure de tâtonnement :
+
+```bash
+namei -l /a/b/c/fichier.txt      # affiche les droits de CHAQUE segment du chemin
+```
+
+Un seul `x` manquant sur un répertoire intermédiaire produit exactement le même message que
+si le fichier lui-même était interdit. Regarder uniquement `ls -l fichier.txt` — le réflexe
+naturel — ne peut donc pas trouver la cause.
+
+### Le cas qui prend tout le monde : supprimer un fichier
+
+Deux mesures, opposées :
+
+```
+fichier en 000 (aucun droit pour personne), répertoire en 777
+   → rm     : AUTORISÉ
+
+fichier en 666 (tout le monde peut écrire), répertoire en 555 (pas de w)
+   → écrire : AUTORISÉ
+   → rm     : REFUSÉ
+```
+
+**Supprimer un fichier ne demande aucun droit sur le fichier.** La suppression retire une
+entrée de l'annuaire : elle modifie le **répertoire**, et c'est donc `w` sur le répertoire qui
+décide.
+
+C'est la source d'un contresens de sécurité fréquent : mettre un fichier en lecture seule pour
+« le protéger » ne protège pas contre sa suppression. Ce qu'il faut protéger, c'est le
+répertoire qui le contient.
+
+*(C'est aussi pourquoi `/tmp` porte le bit collant `t` : il est en `rwx` pour tous — chacun
+doit pouvoir y créer — et ce bit rétablit la règle « on ne supprime que ses propres
+fichiers ».)*
+
+### `umask` : pourquoi un fichier neuf n'est jamais exécutable
+
+| `umask` | Fichier créé | Répertoire créé |
+|---|---|---|
+| 022 | 644 | 755 |
+| 077 | 600 | 700 |
+| 002 | 664 | 775 |
+| **000** | **666** | **777** |
+
+Deux choses à voir. D'abord le principe : `umask` **retire** des droits par défaut ; c'est un
+masque, pas une valeur.
+
+Ensuite la dernière ligne : même avec `umask 000`, un fichier est créé en **666**, jamais en
+777. Le bit d'exécution n'est **jamais** accordé automatiquement, quelle que soit la
+configuration — c'est une protection du système, et elle explique pourquoi un script fraîchement
+téléchargé ou copié doit toujours recevoir son `chmod +x` explicitement.
+
+### La méthode de diagnostic, en quatre gestes
+
+1. **`id`** — qui suis-je réellement ? Le cas le plus fréquent est de tester en root et de
+   déployer sous un autre compte, ou l'inverse.
+2. **`namei -l` sur le chemin complet** — quel segment bloque ? C'est un `x` de répertoire
+   intermédiaire dans la plupart des cas.
+3. **Comparer propriétaire/groupe avec `id`** — suis-je le propriétaire, membre du groupe, ou
+   « autrui » ? Un seul de ces trois jeux de droits s'applique, et c'est le premier qui
+   correspond.
+4. **Nommer l'opération exacte** — lire, écrire, traverser, lister, créer, supprimer. Chacune
+   demande des bits différents, à des endroits différents.
+
+Le point 3 mérite une précision qui surprend : les trois jeux ne se cumulent pas. Si tu es le
+propriétaire et que le fichier est en `044` — rien pour le propriétaire, lecture pour le
+groupe et autrui —, **tu ne peux pas le lire**, alors que tout le monde le peut. Le noyau
+choisit le jeu applicable et s'arrête là.
+
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

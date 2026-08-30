@@ -79,16 +79,123 @@ paraît le plus élégant. Ce jeu de questions à réponse connue s'appelle un *
 Un contrat de 12 pages découpé par « article » donne des chunks autonomes (« Article 4 — Préavis… »), bien plus utiles que des tranches de 500 caractères qui coupent au milieu d'une phrase.
 
 ## 🧭 Exemple guidé
-**Énoncé** : chunker un texte en tranches de 500 caractères avec 100 de chevauchement.
-**Raisonnement** : avancer par pas de (taille − overlap) pour que chaque chunk recouvre le précédent.
-**Solution (pseudo)** :
+On lit partout « découpez en morceaux de 500 caractères avec 100 de recouvrement ». D'où
+sortent ces nombres ? De nulle part — ce sont ceux du premier tutoriel, recopiés depuis.
+
+Le découpage n'est pourtant pas un réglage esthétique : c'est un **arbitrage chiffrable**
+entre trois quantités qui s'opposent. Calculons-les.
+
+> Tous les nombres de cette section sont **calculés** par
+> `scripts/v70-verifications/rag-chunking-et-metriques.py`, sur un document de **12 000 mots**.
+
+### Les trois quantités qui s'opposent
+
+| Quantité | Ce qui l'améliore | Ce que ça coûte |
+|---|---|---|
+| **précision du contexte** — la part du morceau réellement utile | des morceaux **petits** | plus de morceaux, plus de coupures |
+| **intégrité du sens** — une idée n'est pas coupée en deux | des morceaux **grands**, du recouvrement | du stockage, du contexte inutile |
+| **coût** — stockage, vectorisation, jetons envoyés au modèle | des morceaux grands, **sans** recouvrement | les deux autres se dégradent |
+
+Aucun réglage ne maximise les trois. C'est la définition d'un compromis, et c'est pourquoi
+« la bonne taille de morceau » n'existe pas dans l'absolu.
+
+### Ce que coûte le recouvrement, exactement
+
+| Taille | Recouvrement | Morceaux | Mots stockés | Surcoût |
+|---:|---:|---:|---:|---:|
+| 200 | 0 | 60 | 12 000 | 0 % |
+| 200 | 20 (10 %) | 67 | 13 400 | **+12 %** |
+| 200 | 50 (25 %) | 80 | 16 000 | **+33 %** |
+| 800 | 0 | 15 | 12 000 | 0 % |
+| 800 | 80 (10 %) | 17 | 13 600 | +13 % |
+| 800 | 200 (25 %) | 20 | 16 000 | **+33 %** |
+| 1600 | 400 (25 %) | 10 | 16 000 | +33 % |
+
+Premier fait, et il est net : **le surcoût du recouvrement ne dépend que de son pourcentage,
+pas de la taille des morceaux.** Un recouvrement de 25 % coûte 33 % de stockage
+supplémentaire, que les morceaux fassent 200 ou 1 600 mots.
+
+Ce chiffre se multiplie ensuite par tout ce qui suit : 33 % de vecteurs en plus à calculer,
+33 % de mémoire en plus dans l'index, 33 % de coût de vectorisation. Sur un corpus de dix
+millions de mots, ce n'est plus un détail — c'est une ligne budgétaire.
+
+D'où la première question à poser avant de choisir : **qu'est-ce que ce recouvrement achète ?**
+
+### Ce que le recouvrement achète
+
+Une phrase de 30 mots tombe à cheval sur une frontière avec une probabilité d'environ
+`30 / pas`, où le pas vaut `taille − recouvrement`.
+
+| Taille | Recouvrement | Pas | Phrases coupées | Morceaux |
+|---:|---:|---:|---:|---:|
+| 200 | 0 | 200 | **15,0 %** | 60 |
+| 400 | 40 | 360 | 8,3 % | 34 |
+| 800 | 200 | 600 | 5,0 % | 20 |
+| 1600 | 400 | 1200 | **2,5 %** | 10 |
+
+Quinze pour cent des phrases coupées avec des morceaux de 200 mots sans recouvrement. C'est
+énorme : une phrase sur sept est amputée, et si c'est celle qui contient la réponse, aucun
+système de recherche ne pourra la retrouver entière.
+
+Mais regarde bien la colonne « pas » : **c'est elle qui gouverne le taux de coupure, pas le
+recouvrement.** Un morceau de 1 600 mots sans recouvrement a un pas de 1 600 et coupe 1,9 %
+des phrases — mieux qu'un morceau de 200 avec 25 % de recouvrement, et sans surcoût de
+stockage.
+
+Conclusion contre-intuitive, et elle vaut d'être retenue : **agrandir les morceaux réduit les
+coupures plus efficacement que le recouvrement.** Le recouvrement ne se justifie vraiment que
+lorsqu'on veut des morceaux petits — pour la précision du contexte — tout en limitant la casse.
+
+### La réponse qui rend une partie de ce calcul inutile
+
+Tout ce qui précède suppose qu'on coupe **à l'aveugle**, tous les N mots. Or les documents ont
+une structure : des paragraphes, des titres, des sections, des cellules de tableau.
+
+```python
+# ❌ coupe où ça tombe
+morceaux = [texte[i:i+800] for i in range(0, len(texte), 600)]
+
+# ✅ coupe où le document se coupe déjà
+morceaux = decouper_aux_titres(texte, niveau_max=2)      # ## et ###
+# puis, seulement pour les sections trop longues, subdiviser aux paragraphes
 ```
-i = 0
-tant que i < len(texte):
-    chunk = texte[i : i+500]
-    i += 400   # 500 - 100 overlap
+
+Un découpage structurel ramène le taux de phrases coupées **près de zéro**, sans aucun
+recouvrement — parce qu'il ne coupe jamais au milieu d'une phrase, par construction. Son
+inconvénient est la variabilité : les sections font 80 mots ou 3 000 selon le document, ce qui
+complique la budgétisation du contexte.
+
+La combinaison qu'emploient la plupart des systèmes sérieux : **structurel d'abord, taille fixe
+en repli** pour les sections trop longues.
+
+### Ce qui se perd toujours, et la vraie parade
+
+Quel que soit le découpage, un morceau extrait de son document perd son contexte. « Le taux
+est de 3,5 % » ne veut rien dire sans savoir de quel contrat il s'agit.
+
+La parade ne coûte presque rien et change tout : **conserver des métadonnées avec chaque
+morceau** — titre du document, chemin des sections parentes, date, version — et les préfixer au
+texte au moment de le donner au modèle.
+
 ```
-**Explication** : l'overlap évite qu'une idée à cheval sur deux chunks disparaisse. **Variante** : coupe plutôt aux frontières de paragraphes (\n\n) pour ne jamais casser une phrase.
+[Contrat de prêt 2024-118 > Section 3 > Taux applicables]
+Le taux est de 3,5 % pour les échéances postérieures à…
+```
+
+Cette ligne de contexte améliore à la fois la recherche (le vecteur contient le sujet) et la
+génération (le modèle sait de quoi il parle). C'est le meilleur rapport effort/résultat de
+toute la chaîne, et c'est presque toujours ce qui manque dans un premier système.
+
+### Comment décider, pour de bon
+
+On ne choisit pas une taille de morceau : **on la mesure**. La leçon
+`/doc/lessons/rag-evaluation` donne l'outil — un jeu de questions dont on connaît la réponse,
+et le rappel@k comme critère.
+
+La démarche : trois découpages candidats, le **même** jeu de questions pour les trois, et l'on
+retient celui qui obtient le meilleur rappel@5 à coût acceptable. Trois heures de travail, et
+la question « quelle taille ? » cesse définitivement d'être une affaire de goût.
+
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Dans DocSense, on compare (mesuré sur un golden set) le chunking par taille fixe vs par structure Markdown sur 10 questions : « le passage qui contient la réponse est-il dans le top-3 ? ». La stratégie gagnante est adoptée, chiffres à l'appui — c'est exactement ce qui distingue un RAG d'ingénieur d'un RAG de démo.
@@ -147,7 +254,109 @@ Implémente un chunker taille-fixe + overlap, applique-le à un vrai document, e
 Implémente un chunker par structure (découpe aux titres Markdown) et compare-le au taille-fixe sur 10 questions : pour chacune, le bon passage est-il dans le top-3 ? Conclus par les chiffres.
 
 ## ✅ Correction attendue
-La logique : le chunking sert le RETRIEVAL, donc on l'évalue par le retrieval (rappel@k), pas à l'œil. Vérifie que ton overlap fonctionne (deux chunks consécutifs partagent bien du texte), que les métadonnées suivent chaque chunk, et que ta comparaison utilise LES MÊMES questions pour être juste.
+### La démarche
+
+Le découpage ne se juge pas à l'œil. Il sert la **recherche** — donc il s'évalue par la
+recherche, avec le rappel@k mesuré sur un jeu de questions dont on connaît les réponses.
+
+Formulé autrement : la question « ce découpage est-il bon ? » n'a pas de sens. La question qui
+en a est : **« sur mes questions, ce découpage retrouve-t-il plus souvent le bon passage que
+l'autre ? »**
+
+### Ce que la lecture de cinq morceaux apprend malgré tout
+
+Le mini-exercice demande de **lire** cinq morceaux avant toute mesure, et cette étape n'est pas
+décorative : elle révèle des défauts qu'aucune métrique ne montre.
+
+Ce que tu vas trouver, dans l'ordre de fréquence :
+
+| Ce que tu vois | Ce que ça signifie |
+|---|---|
+| une phrase amputée en début ou fin de morceau | le pas est trop grand par rapport aux phrases — voir le tableau de l'exemple guidé |
+| un tableau coupé en deux, colonnes orphelines | le découpage à l'aveugle ignore les blocs indivisibles |
+| un morceau qui commence par « Il » ou « Celui-ci » | le référent est dans le morceau précédent : le morceau est incompréhensible seul |
+| un en-tête ou un pied de page répété partout | des débris d'extraction qui polluent tous les vecteurs |
+| un morceau entièrement composé d'une table des matières | il sera retrouvé pour toutes les questions, et n'aidera jamais |
+
+Les deux derniers sont les plus coûteux et les plus faciles à corriger : ils relèvent du
+nettoyage du texte **avant** découpage, pas du découpage. Un en-tête répété sur 400 pages crée
+400 vecteurs presque identiques, qui remontent en tête pour n'importe quelle question et
+occupent la place des vrais résultats.
+
+Le troisième — le morceau qui commence par un pronom — est la démonstration concrète que le
+contexte se perd. C'est exactement ce que les métadonnées préfixées corrigent.
+
+### La comparaison, et la faute qui l'invalide
+
+Le critère central : **les deux découpages doivent être comparés sur exactement les mêmes
+questions.** Changer de questions entre deux mesures rend la comparaison vide, et c'est une
+faute qu'on commet sans s'en rendre compte — on ajoute deux questions « pour mieux tester »
+entre les deux essais.
+
+Le protocole minimal :
+
+```
+1. Écrire 10 à 15 questions AVANT de découper quoi que ce soit, et noter pour chacune
+   le passage du document qui contient la réponse.
+2. Découpage A → indexer → mesurer le rappel@5 sur les 15 questions.
+3. Découpage B → indexer → mesurer le rappel@5 sur LES MÊMES 15 questions.
+4. Comparer. Regarder les questions où A gagne et où B gagne : elles sont différentes,
+   et c'est là qu'est l'information.
+```
+
+Le point 4 est ce qui distingue une mesure d'un classement. Si le découpage structurel gagne
+sur 11 questions et perd sur 4, regarde ces quatre-là : elles ont souvent un point commun —
+une réponse répartie sur deux sections, un tableau, une définition isolée — et ce point commun
+te dit quoi améliorer.
+
+### Vérifier que le recouvrement fait ce qu'on croit
+
+Contrôle en une ligne, et il attrape une erreur d'implémentation très courante :
+
+```python
+assert morceaux[0][-recouvrement:] == morceaux[1][:recouvrement], "le recouvrement ne recouvre rien"
+```
+
+L'erreur classique est d'avancer de `taille` au lieu de `taille - recouvrement` : le découpage
+fonctionne, produit le bon nombre de morceaux à peu près, et **le recouvrement est nul**. On
+paie alors le raisonnement sans le bénéfice — et, plus vicieux, on paie parfois le stockage
+sans le bénéfice, si le nombre de morceaux a été calculé avec le bon pas.
+
+Deuxième contrôle, sur les métadonnées :
+
+```python
+assert all(m.get("source") and m.get("section") for m in morceaux)
+```
+
+Un morceau sans métadonnées est un morceau qu'on ne pourra ni citer, ni filtrer, ni situer. Et
+la citation de la source est ce qui rend une réponse vérifiable par l'utilisateur — c'est-à-dire
+la seule chose qui distingue un système utilisable d'un générateur d'affirmations.
+
+### La mauvaise solution plausible
+
+Régler la taille des morceaux en regardant la qualité des **réponses finales** du système.
+
+C'est le réflexe naturel — c'est la sortie qui compte — et il rend le diagnostic impossible.
+Une mauvaise réponse peut venir du découpage, de la recherche, du reclassement, du prompt ou
+du modèle. En jugeant sur la sortie, on change un maillon et l'on observe une variation qui
+peut venir de n'importe lequel des cinq.
+
+La règle, développée dans `/doc/lessons/rag-evaluation` : **mesurer chaque étage séparément.**
+Le découpage et la recherche se mesurent par le rappel@k, indépendamment de toute génération —
+et cette mesure est stable, reproductible et gratuite, contrairement à un jugement sur des
+réponses.
+
+### Généralisation
+
+Ce que cette leçon installe dépasse le RAG : **un paramètre qu'on ne mesure pas est un
+paramètre qu'on a copié.** 500 caractères, 100 de recouvrement, top-5, température 0,7 : ces
+valeurs circulent d'un projet à l'autre sans que personne ne les ait jamais confrontées à ses
+propres données.
+
+Le geste professionnel n'est pas de connaître les bonnes valeurs — elles dépendent du corpus.
+C'est de savoir **construire la mesure qui les départage**, et d'accepter d'y passer trois
+heures avant de régler quoi que ce soit.
+
 
 ## 🎤 Questions d'entretien
 - « Comment choisis-tu la taille des chunks et l'overlap ? » → Par la mesure (rappel@k) sur un golden set, selon les documents ; overlap pour ne pas couper une idée.

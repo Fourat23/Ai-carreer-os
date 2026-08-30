@@ -165,3 +165,64 @@ Priorités : **P0** ≥9 · **P1** 6-8 · **P2** 3-5 · **P3** 1-2 · **PASS** 0
 | `git-fundamentals` | Fondations | **PASS** | — | — | 333 | 44 | 347 | oui | aucun |
 | `machine-learning-basics` | Données & ML | **PASS** | — | — | 781 | 45 | 428 | oui | aucun |
 | `rag-fundamentals` | IA appliquée | **PASS** | — | — | 739 | 50 | 465 | oui | aucun |
+
+---
+
+## Clôture au CP15 — ce que le plan de lots a réellement produit
+
+Le classement ci-dessus a été établi au CP3, **avant** toute réécriture. Cette section est
+écrite **après**, et confronte le plan au résultat mesuré par `git log`. Elle n'efface rien
+du tableau : elle dit où le plan ne s'est pas exécuté.
+
+### Le plan n'a pas été suivi sur cinq leçons
+
+| leçon | priorité CP3 | lot annoncé | traitée pendant ce lot ? |
+|---|---|---|---|
+| `data-structures-intro` | P3 | CP6 | **non** — rattrapée au CP15 |
+| `statistics-for-ml` | P3 | CP6 | **non** — rattrapée au CP15 |
+| `recursion` | P3 | CP9 | **non** — toujours non traitée, décision assumée |
+| `api-design-basics` | PASS | — | traitée quand même |
+| `machine-learning-basics` | PASS | — | traitée quand même |
+
+Les deux dernières lignes ne sont pas un défaut : une leçon classée PASS pouvait être
+touchée par une passe transverse (jargon, pratique, correction). Les trois premières le
+sont : elles portaient une priorité, un lot leur était assigné, et le lot ne les a pas
+traitées. Deux ont été rattrapées au CP15 ; `recursion` ne l'a pas été.
+
+**Pourquoi `recursion` reste non traitée.** Sa correction fait 523 mots, sous la médiane du
+corpus (644). Elle possède déjà ses deux sections de pratique et sa vérification de
+compréhension — les manques comblés ailleurs n'existent pas ici. Je n'ai pas trouvé de
+défaut réel à corriger, et allonger sa correction pour la ramener au-dessus d'une médiane
+serait exactement l'allongement que le contrat interdit. Le chiffre bas est publié ; il
+n'est pas maquillé.
+
+### Les sept PASS du CP3, revus au CP15
+
+Le CP3 avait déclaré sept leçons sans défaut. C'était exact au CP3 et faux au CP14 : le
+corpus a monté autour d'elles. Six des sept avaient, au début du CP15, une correction sous
+la médiane et une seule section de pratique là où le reste du corpus en avait deux.
+
+**PASS voulait dire « aucun défaut au barème du CP3 », pas « au niveau du corpus ».** La
+distinction n'était pas visible tant que le corpus n'avait pas bougé. C'est la principale
+leçon de méthode de ce ledger : un classement de priorité établi avant le travail se périme
+pendant le travail, et il faut le rejouer à la fin.
+
+Les huit leçons jamais touchées entre `35c3c79` et le CP15 étaient : `ai-security`,
+`clean-code`, `data-structures-intro`, `design-patterns-intro`, `git-fundamentals`,
+`rag-fundamentals`, `recursion`, `statistics-for-ml`. Sept ont été approfondies au CP15.
+
+### État du corpus à la clôture
+
+| métrique | CP0 (`35c3c79`) | CP15 |
+|---|---|---|
+| mots par leçon — min / médiane | 956 / 1 900 | **2 256 / 3 026** |
+| correction — min / p10 / médiane | 0 / 0 / 316 | **302 / 449 / 644** |
+| exemple guidé — min / médiane | 18 / 109 | **333 / 775** |
+| leçons avec ≥ 2 sections de pratique | 47 / 128 | **94 / 128** |
+| leçons sans aucune pratique | 1 / 128 | **0 / 128** |
+| corrections réduites à la réponse | — | **0 / 128** |
+| termes techniques sans définition | — | **0 leçon, 0 occurrence** |
+| plus grande série à titres identiques | — | **6** (seuil ≤ 6) |
+
+Verdict complet, conditions du contrat une par une, dettes nommées et proposition de
+rattachement des 25 leçons hors parcours : `docs/audits/V70-CP15-FINAL-REPORT.md`.

@@ -129,13 +129,147 @@ Cette leçon explique tes contraintes d'ingénieur : la fenêtre bornée (→ RA
 - Prétendre en entretien qu'on saurait implémenter un transformer si c'est faux — l'intuition solide et honnête vaut mieux.
 
 ## ✍️ Mini-exercice
-Tokenise 5 phrases (tiktoken) et observe les surprises (mots coupés, accents, espaces). Compte les tokens d'un de tes prompts réels.
+Sans relire : si on double la longueur du contexte, par combien le calcul de
+l'attention est-il multiplié, et pourquoi ?
 
-## 🔥 Exercice plus difficile
-Rédige ta note illustrée « le trajet d'une phrase dans un transformer » avec TES schémas (tokenisation → embeddings+position → attention Q/K/V → couches → distribution), puis explique-la à voix haute en 3 minutes, enregistré.
+## 🔥 Pratique — calculer une attention à la main
+
+L'attention se comprend en la calculant. Le mécanisme complet tient en cinq
+lignes d'algèbre linéaire ; ce qui est difficile, c'est de savoir ce qu'il
+démontre et ce qu'il ne démontre pas.
+
+**A. L'attention, ligne à ligne.** Avec numpy seul, prends une phrase de sept
+mots, construis des représentations de dimension 8, trois matrices de projection,
+et calcule : les requêtes, les clés, les valeurs, les scores, la normalisation
+softmax, et la sortie. Livrable : le code, les poids d'attention d'un mot, et la
+vérification que leur somme vaut 1.
+
+**B. Ce que ton résultat démontre.** Regarde les poids obtenus. Correspondent-ils
+à ce que tu attendais sémantiquement ? Livrable : ta réponse honnête, et ta
+conclusion sur ce que le calcul prouve.
+
+**C. Le coût quadratique.** Calcule le nombre de paires pour des longueurs de 512
+à 131 072, et le facteur multiplicatif par rapport à 512. Livrable : le tableau,
+et le facteur pour un contexte de 128 000 unités.
+
+**D. La division par la racine.** Mesure l'écart-type des scores bruts pour des
+dimensions de 8, 64 et 512, puis après division par la racine de la dimension.
+Livrable : les six nombres, et ton explication de ce qui arriverait à la softmax
+sans la division.
+
+**E. La conservation de la dimension.** Vérifie que la sortie de l'attention a la
+même dimension que l'entrée. Livrable : les deux dimensions, et ce que cette
+propriété rend possible.
 
 ## ✅ Correction attendue
-La logique : 5 étapes mécaniques, l'attention comme mélange pondéré par pertinence, le sens affiné couche après couche, une distribution en sortie. Vérifie : ton analogie de l'attention tient debout face à « et pourquoi trois rôles Q/K/V ? » ; ta note explique POURQUOI la fenêtre est bornée ; tes 3 minutes tiennent sans jargon creux.
+
+> Les valeurs ci-dessous viennent de
+> `scripts/v70-verifications/reseaux-et-attention.py`, exécuté avec numpy 2.4.6,
+> sans aucune bibliothèque d'apprentissage profond.
+
+**A — le mécanisme.** Les cinq lignes qui constituent l'attention :
+
+```python
+Q, K, V = E @ Wq, E @ Wk, E @ Wv          # trois projections de la même entrée
+scores  = Q @ K.T / np.sqrt(d)            # chaque mot contre chaque mot
+poids   = softmax(scores, axe=1)          # devient une distribution
+sortie  = poids @ V                       # mélange pondéré des valeurs
+```
+
+La somme des poids d'une ligne doit valoir exactement 1 — c'est ce que garantit
+la softmax, et c'est le contrôle qui prouve que ton implémentation est correcte.
+
+Le mot « attention » décrit ceci et rien d'autre : **chaque mot calcule un score
+avec chaque autre mot, puis récupère un mélange de leurs valeurs pondéré par ces
+scores.** Il n'y a ni mémoire, ni raisonnement, ni intention dans le mécanisme.
+
+**B — le résultat honnête, et c'est le cœur de l'exercice.** Avec des projections
+non entraînées, les poids mesurés pour le mot « banque » dans « la banque de la
+rivière était boueuse » :
+
+```
+la      : 70,6 %
+de      : 18,2 %
+riviere :  8,6 %
+boueuse :  2,4 %
+```
+
+Le mot qui désambiguïserait « banque » — « rivière » — n'arrive **pas** en tête.
+Et c'est exactement ce qu'il faut publier.
+
+Il serait facile de truquer les représentations jusqu'à obtenir l'illustration
+parfaite. Ce serait mentir sur ce que le calcul démontre. La distinction à
+retenir :
+
+- **Ce que le script démontre** : le mécanisme. Le calcul des scores, la
+  distribution de probabilité, le mélange pondéré. C'est de l'algèbre linéaire,
+  entièrement vérifiable.
+- **Ce qu'il ne démontre pas** : que les poids ont un sens. Le sens vient
+  **entièrement** des matrices Wq, Wk et Wv, ici tirées au hasard et, dans un
+  vrai modèle, apprises sur des milliards de mots.
+
+**L'architecture ne comprend rien. Elle offre une forme de calcul dans laquelle
+la compréhension peut être apprise.** C'est la phrase à retenir de toute la
+leçon, et elle explique pourquoi les schémas d'attention colorés qu'on voit
+partout sont trompeurs quand ils ne précisent pas qu'ils viennent d'un modèle
+entraîné.
+
+**C — le coût quadratique.**
+
+```
+longueur | paires calculées | multiplication par rapport à 512
+     512 |          262 144 | ×1
+   1 024 |        1 048 576 | ×4
+   2 048 |        4 194 304 | ×16
+   8 192 |       67 108 864 | ×256
+  32 768 |    1 073 741 824 | ×4 096
+ 131 072 |   17 179 869 184 | ×65 536
+```
+
+**Doubler la longueur quadruple le calcul**, puisque chaque mot est comparé à
+chaque mot. Pour 128 000 unités environ, le facteur est de 65 536 par rapport à
+512.
+
+Deux conséquences pratiques. La longueur de contexte est une **contrainte
+d'ingénierie et de coût**, pas un réglage — c'est pourquoi les modèles à très
+long contexte sont facturés différemment, et pourquoi une grande partie de la
+recherche cherche des formes d'attention de coût inférieur. Et c'est la
+justification arithmétique de la recherche documentaire : si l'on peut ne
+soumettre que les cinq passages pertinents au lieu de tout le corpus, on ne gagne
+pas un peu de coût, on en gagne des ordres de grandeur.
+
+**D — la division par la racine.**
+
+```
+dimension   8 : écart-type des scores bruts  2,75 → après division 0,97
+dimension  64 : écart-type des scores bruts  8,04 → après division 1,01
+dimension 512 : écart-type des scores bruts 22,67 → après division 1,00
+```
+
+Le produit scalaire de deux vecteurs aléatoires de dimension *d* a un écart-type
+qui croît comme √*d*. Après division par √*d*, il est ramené à 1 dans les trois
+cas — c'est exactement la propriété recherchée, et la mesure le confirme.
+
+Ce qui arriverait sans la division : des scores très étalés rendent la softmax
+quasi binaire, un seul mot capte presque tout le poids, et les gradients des
+autres deviennent négligeables. **La division n'est pas cosmétique : elle
+maintient les scores dans la zone où la softmax reste dérivable utilement.**
+
+C'est un exemple, parmi beaucoup, où un détail d'apparence arbitraire dans une
+architecture répond en fait à une contrainte d'optimisation précise. Le réflexe
+utile en lisant une architecture : devant un facteur qui semble décoratif,
+chercher ce qui casserait sans lui.
+
+**E — la conservation de la dimension.** La sortie a la même dimension que
+l'entrée — 8 dans la mesure. Ce n'est pas un hasard : c'est cette propriété qui
+permet d'**empiler** les couches d'attention, chaque couche prenant en entrée ce
+que la précédente a produit.
+
+C'est aussi ce qui rend possibles les connexions résiduelles, où l'entrée d'une
+couche est ajoutée à sa sortie — un remède direct au problème du gradient qui
+s'évanouit mesuré dans `neural-networks`, puisqu'il ouvre un chemin où le
+gradient traverse la couche sans être multiplié. Les deux leçons décrivent le
+même problème arithmétique et deux réponses différentes.
 
 ## 🎤 Questions d'entretien
 - « Explique un transformer en 3 minutes. » → Les 5 étapes, avec l'analogie de l'attention et un exemple de mot ambigu.

@@ -48,19 +48,152 @@ pipe.fit(X_train, y_train)
 pipe.score(X_test, y_test)   # le scaler du TRAIN s'applique au test, automatiquement
 ```
 
-## 🧭 Exemple guidé
-**Énoncé** : pipeline complet avec colonnes mixtes (numériques + catégorielles).
-**Raisonnement** : ColumnTransformer pour router par type, Pipeline pour tout englober, cross-validation pour évaluer.
-**Solution** :
-```python
-prep = ColumnTransformer([
-    ("num", StandardScaler(), ["age", "revenu"]),
-    ("cat", OneHotEncoder(handle_unknown="ignore"), ["ville", "segment"]),
-])
-pipe = Pipeline([("prep", prep), ("model", RandomForestClassifier(random_state=42))])
-scores = cross_val_score(pipe, X_train, y_train, cv=5, scoring="f1")
+## 🧭 Exemple guidé — « mon modèle fait 97 % », et ce que ce chiffre vaut
+
+Le script `scripts/v70-verifications/ml-pieges-mesures.py` construit un jeu de
+détection de fraude : 4 000 lignes, 106 fraudes, soit 2,6 %. Il est exécuté avec
+scikit-learn 1.9.0, pandas 3.0.5 et numpy 2.4.6, avec une graine fixe pour que
+les chiffres soient reproductibles.
+
+### 1. La référence, que presque personne ne calcule
+
+Avant de regarder un modèle, il faut savoir ce que vaut le fait de ne rien faire.
+
 ```
-**Explication** : chaque pli de la CV re-apprend le préprocessing sur SA partie train — zéro fuite ; `handle_unknown="ignore"` gère les catégories jamais vues (la réalité de la prod). **Variante** : ajoute un GridSearchCV sur `model__max_depth` (la syntaxe `étape__param`).
+toujours « pas fraude »            : exactitude 97,33 % · rappel  0,0 %
+au hasard, proportions respectées  : exactitude 94,42 % · rappel  3,1 %
+```
+
+**97,33 % d'exactitude est le score d'un modèle qui ne prédit jamais de fraude.**
+Annoncer « mon modèle fait 97 % » sans annoncer ce chiffre-là revient à annoncer
+un nombre qui ne dit rien. La référence n'est pas une formalité de rigueur
+académique : c'est ce qui rend le score du modèle interprétable, et elle coûte
+deux lignes de code.
+
+### 2. Le vrai modèle — un résultat qu'il faut lire tel quel
+
+```
+exactitude : 97,33 %
+précision  :  0,0 %      rappel : 0,0 %      F1 : 0,0 %
+aire ROC   : 79,3 %
+matrice    : vrais négatifs 1168, faux positifs 0, faux négatifs 32, vrais positifs 0
+```
+
+Au seuil par défaut de 0,5, la régression logistique ne prédit **aucune fraude**.
+Sa matrice de confusion est exactement celle du modèle « toujours pas fraude », et
+son exactitude aussi — 97,33 % dans les deux cas.
+
+Et pourtant **elle n'est pas équivalente** : son aire sous la courbe ROC est de
+79,3 %, contre 50 % pour le hasard. Elle **classe** correctement — elle donne aux
+fraudes des probabilités plus élevées qu'aux non-fraudes — mais elle ne **décide**
+pas, parce qu'aucune probabilité n'atteint 0,5.
+
+Ces deux capacités sont distinctes, et une seule dépend du seuil. C'est la leçon
+centrale : **sur des classes déséquilibrées, l'exactitude ne distingue pas un
+modèle qui a tout appris d'un modèle qui n'a rien appris.** Il faut la matrice de
+confusion, qui montre les quatre cas, et une métrique indépendante du seuil.
+
+Le vocabulaire, une fois pour toutes, sur ce cas concret :
+
+- **précision** : parmi les fraudes annoncées, combien en sont réellement. Elle
+  répond au coût des fausses alertes.
+- **rappel** : parmi les fraudes réelles, combien ont été trouvées. Il répond au
+  coût des fraudes manquées.
+- **aire sous la courbe ROC** : la probabilité que le modèle donne un score plus
+  élevé à une fraude tirée au hasard qu'à une non-fraude tirée au hasard. Elle ne
+  dépend d'aucun seuil.
+
+### 3. Le seuil est une décision métier, pas un réglage par défaut
+
+```
+seuil | précision | rappel | fraudes trouvées | fausses alertes
+ 0,50 |     0,0 % |  0,0 % |                0 |               0
+ 0,20 |     0,0 % |  0,0 % |                0 |               5
+ 0,10 |    12,2 % | 15,6 % |                5 |              36
+ 0,05 |     9,3 % | 43,8 % |               14 |             137
+ 0,03 |     6,9 % | 65,6 % |               21 |             283
+```
+
+Le même modèle, sans un octet de réentraînement, trouve 0 fraude ou 21 selon un
+nombre qu'on choisit. **0,5 n'est pas un choix, c'est un défaut** hérité de la
+convention des classes équilibrées.
+
+Le bon seuil dépend de deux quantités que le modèle ne peut pas connaître : le
+coût d'une fraude manquée et le coût d'une fausse alerte. Si vérifier une alerte
+coûte cinq minutes et qu'une fraude coûte 200 €, alors passer de 0,10 à 0,03
+achète 16 fraudes de plus (3 200 €) contre 247 alertes de plus (environ 20 heures
+de vérification). **Ce calcul se fait avec le métier, pas dans le carnet de
+notes.**
+
+### 4. La fuite de données, et un résultat qui contredit l'intuition
+
+La règle « ne jamais ajuster une transformation sur l'ensemble du jeu avant la
+séparation » est universellement enseignée. On la met à l'épreuve :
+
+```
+normaliseur ajusté sur TOUT (fuite)   : aire ROC 79,25 %
+normaliseur dans le pipeline (propre) : aire ROC 79,25 %
+écart : +0,00 point
+```
+
+**Zéro.** Il faut publier ce résultat et le comprendre plutôt que le cacher : une
+normalisation ne transporte du jeu de test vers l'entraînement que deux nombres,
+la moyenne et l'écart-type de chaque variable. Sur 4 000 lignes, cela ne
+représente presque aucune information.
+
+La conclusion n'est donc **pas** « la fuite est sans gravité ». Elle est : **la
+gravité d'une fuite dépend de la quantité d'information qui fuit.** Voici l'autre
+extrémité du spectre — une variable construite à partir de la cible :
+
+```
+variable construite À PARTIR de la cible : aire ROC 97,93 %
+écart avec le modèle propre : +18,68 points
+```
+
+Voilà la fuite qui compte. Le score est excellent et le modèle est
+**inutilisable** : en production, cette variable n'existe pas encore au moment où
+il faut prédire. C'est le piège le plus coûteux du métier, parce qu'il ne
+ressemble pas à une erreur — il ressemble à une réussite.
+
+Le réflexe à acquérir : **un score anormalement bon est un signal d'alerte, pas
+une victoire.** Devant une aire ROC de 98 % sur un problème réputé difficile, la
+première action est de chercher la fuite, pas de préparer la présentation.
+
+Et le corollaire sur la méthode : on garde le pipeline (`make_pipeline`) non pas
+parce que la fuite de normalisation est grave — elle ne l'est pas ici — mais
+parce que le pipeline rend **structurellement impossible** toute une famille de
+fuites, y compris celles qui, elles, seraient graves. On ne raisonne pas au cas
+par cas sur ce qui fuit : on choisit une construction où la question ne se pose
+plus.
+
+### 5. Un seul découpage ne mesure rien de stable
+
+```
+20 découpages différents du MÊME jeu, MÊME modèle :
+min 70,26 % · médiane 77,52 % · max 81,30 % · écart 11,04 points
+validation croisée 5 blocs : 77,03 % ± 6,39
+```
+
+Onze points d'écart entre le pire et le meilleur découpage, **sans qu'une seule
+ligne du modèle change**. Annoncer 81,30 % revient donc à annoncer un choix de
+graine aléatoire.
+
+C'est ce qui rend la validation croisée nécessaire, et surtout ce qui rend
+l'**écart-type** aussi important que la moyenne : c'est lui qui dit si la
+différence entre deux modèles est réelle ou dans le bruit. Un modèle à 79 % ± 6
+et un modèle à 77 % ± 6 ne se départagent pas — et sur un seul découpage, on
+aurait « prouvé » que le premier est meilleur.
+
+### La démarche complète
+
+1. **Calculer la référence** avant tout modèle.
+2. **Regarder la matrice de confusion**, jamais la seule exactitude.
+3. **Choisir une métrique indépendante du seuil** pour comparer des modèles.
+4. **Choisir le seuil séparément**, à partir des coûts métier.
+5. **Tout enchaîner dans un pipeline**, pour rendre les fuites impossibles par
+   construction.
+6. **Valider en croisé**, et publier la moyenne **et** la dispersion.
+7. **Se méfier d'un score trop bon.**
 
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Le Pipeline EST une leçon d'architecture : encapsuler une chaîne de transformations derrière une interface unique (fit/predict), versionnable et déployable telle quelle. Tu retrouveras ce pattern dans tes pipelines RAG (ingest→chunk→embed→index) : mêmes exigences de reproductibilité, autre domaine.
@@ -76,13 +209,119 @@ Le Pipeline EST une leçon d'architecture : encapsuler une chaîne de transforma
 - GridSearch massif avant d'avoir une baseline et des features sensées.
 
 ## ✍️ Mini-exercice
-Prends un de tes modèles « à plat » (scaler séparé du modèle) et refactore-le en Pipeline. Vérifie que le score ne change pas — mais que le code, si.
+Sans relire : ton modèle a 97 % d'exactitude et 0 % de rappel. Qu'a-t-il appris,
+et comment le sais-tu ?
 
-## 🔥 Exercice plus difficile
-Pipeline complet ColumnTransformer + modèle + GridSearchCV sur 2 hyperparamètres, avec `random_state` partout, sauvegardé en joblib et rechargé pour prédire sur des données « neuves » contenant une catégorie inconnue.
+## 🔥 Pratique — reproduire les cinq mesures
+
+**A. La référence et la matrice.** Sur un jeu déséquilibré (fabrique-le si
+besoin), entraîne un classifieur de référence et un modèle réel. Produis pour
+chacun : exactitude, précision, rappel, matrice de confusion, aire ROC. Livrable :
+le tableau des six nombres pour les deux.
+
+**B. La courbe des seuils.** Fais varier le seuil de décision de 0,5 à 0,01 et
+produis le tableau seuil / précision / rappel / vrais positifs / faux positifs.
+Puis, en te donnant un coût par fraude manquée et un coût par fausse alerte,
+calcule le seuil qui minimise le coût total. Livrable : le tableau et le seuil
+retenu, avec le calcul.
+
+**C. Les deux fuites.** Reproduis la fuite par normalisation puis la fuite par
+variable construite depuis la cible. Mesure l'écart dans chaque cas. Livrable :
+les deux écarts, et ton explication de leur différence de grandeur.
+
+**D. La dispersion.** Entraîne le même modèle sur vingt découpages aléatoires
+différents et publie min, médiane, max. Compare à une validation croisée en cinq
+blocs. Livrable : les quatre nombres, et ta réponse à « le modèle A à 79 %
+est-il meilleur que le modèle B à 77 % ? ».
+
+**E. Le détecteur de fuite.** Écris une fonction qui, avant tout entraînement,
+signale les variables dont la corrélation avec la cible dépasse un seuil élevé.
+Teste-la sur le jeu de C. Livrable : la sortie, et les limites que tu identifies.
 
 ## ✅ Correction attendue
-La logique : la grammaire fit/predict/transform, le Pipeline comme garant anti-leakage, la CV qui englobe TOUT. Vérifie : aucun `fit` ne touche le test ; la catégorie inconnue ne crashe pas ; deux exécutions donnent le même résultat (seed) ; le pipeline rechargé prédit à l'identique.
+
+**A — les six nombres.** Le résultat attendu est celui mesuré : une exactitude
+identique entre la référence et le modèle (97,33 %), une matrice identique au
+seuil 0,5, et une aire ROC très différente (50 % contre 79,3 %).
+
+Ce que tu dois savoir formuler : **classer et décider sont deux capacités
+distinctes.** Un modèle peut avoir parfaitement appris à ordonner les exemples et
+ne rien décider, si aucune probabilité n'atteint le seuil. L'exactitude confond
+les deux et n'en mesure aucune correctement sur des classes déséquilibrées.
+
+Erreur classique dans le tableau : oublier `zero_division` et laisser un
+avertissement transformer silencieusement une précision indéfinie (0 prédiction
+positive) en 0. Ce ne sont pas la même chose, et la distinction est justement ce
+que la matrice révèle.
+
+**B — le seuil optimal.** Le calcul attendu est explicite :
+
+```
+coût total(seuil) = (fraudes manquées × coût d une fraude)
+                  + (fausses alertes × coût d une vérification)
+```
+
+Avec 200 € par fraude et 5 minutes à 30 €/h (soit 2,50 €) par vérification, on
+compare ligne à ligne. Le point important n'est pas le résultat numérique, c'est
+que **le seuil sort d'un calcul de coûts et non d'une métrique**. Optimiser le F1
+revient à supposer que précision et rappel ont la même valeur, ce qui est
+rarement vrai et n'est presque jamais vérifié.
+
+Une nuance qu'une bonne réponse ajoute : ces coûts varient dans le temps
+(fraude plus chère en période de forte activité, vérification plus chère quand
+l'équipe est réduite). Le seuil n'est donc pas fixé une fois pour toutes ; c'est
+un paramètre d'exploitation, pas une constante du modèle.
+
+**C — les deux fuites.** Les écarts mesurés : **+0,00 point** pour la
+normalisation, **+18,68 points** pour la variable dérivée de la cible.
+
+L'explication attendue porte sur la **quantité d'information transportée**. Une
+normalisation transporte deux nombres par variable ; une variable construite à
+partir de la cible transporte la réponse elle-même. Une réponse qui se contente
+de « la fuite est grave » a manqué l'exercice, parce que la mesure montre
+précisément qu'elle peut ne pas l'être.
+
+Ce qui ne change pas malgré ce résultat : on garde le pipeline. Non par
+superstition, mais parce qu'il rend une **famille entière** de fuites impossible
+par construction — y compris celles qui seraient graves, comme un remplissage de
+valeurs manquantes par la médiane globale, ou une sélection de variables faite
+sur tout le jeu. Raisonner au cas par cas sur « celle-ci est-elle grave ? » est
+une stratégie qui échoue une fois sur dix, ce qui suffit.
+
+**D — la dispersion.** Les valeurs mesurées : min 70,26 %, médiane 77,52 %, max
+81,30 %, soit 11,04 points d'écart. La validation croisée donne 77,03 % ± 6,39.
+
+La réponse à la question posée est **non** : un modèle à 79 % ± 6 et un modèle à
+77 % ± 6 ne se départagent pas. Les intervalles se recouvrent largement, et
+l'écart de deux points est bien inférieur à la dispersion.
+
+C'est le point le plus utile de tout l'exercice, parce qu'il s'oppose à une
+pratique très répandue : comparer deux modèles sur un seul découpage et conclure.
+Sur ce jeu, **le choix de la graine aléatoire produit un écart cinq fois plus
+grand que la différence qu'on cherchait à mesurer.**
+
+**E — le détecteur.** Une fonction utile calcule la corrélation (ou l'information
+mutuelle, plus générale) entre chaque variable et la cible, et signale ce qui
+dépasse un seuil élevé.
+
+Les limites attendues, et elles sont importantes :
+
+- **Faux positifs légitimes.** Une variable peut être très corrélée à la cible
+  sans être une fuite — c'est même le but d'une bonne variable. Le détecteur
+  signale, il ne juge pas.
+- **Faux négatifs.** Une fuite peut passer par une combinaison de variables dont
+  aucune n'est individuellement suspecte, ou par une corrélation non linéaire que
+  la corrélation de Pearson ne voit pas.
+- **Le seul test qui tranche est temporel** : cette variable est-elle disponible,
+  avec cette valeur, **au moment où il faudra prédire** ? C'est une question sur
+  le système d'information, pas sur les données — et aucun script ne peut y
+  répondre à ta place.
+
+C'est pourquoi la protection principale contre les fuites n'est pas un détecteur
+mais une **séparation temporelle** de l'évaluation : entraîner sur le passé,
+évaluer sur le futur. Toute variable indisponible à l'instant de la prédiction
+détruit alors le score, ce qui rend la fuite visible au lieu de la rendre
+flatteuse.
 
 ## 🎤 Questions d'entretien
 - « Pourquoi un Pipeline plutôt que des étapes séparées ? » → Anti-leakage par construction, CV correcte, un seul objet pour train et prod.

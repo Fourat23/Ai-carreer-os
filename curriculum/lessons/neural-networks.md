@@ -122,13 +122,137 @@ Un LLM est exactement ceci, à grande échelle : des milliards de « boutons »,
 - Copier une boucle d'entraînement sans savoir ce que fait chaque ligne.
 
 ## ✍️ Mini-exercice
-Implémente UN neurone (poids, biais, sigmoïde) en NumPy et entraîne-le sur le ET logique par descente de gradient manuelle. Trace la loss.
+Sans relire : pourquoi empiler dix couches linéaires ne vaut-il pas mieux qu'une
+seule ?
 
-## 🔥 Exercice plus difficile
-MLP PyTorch sur MNIST : DataLoader, boucle maison, courbes train/val, early stopping, et un tableau d'expériences (largeur × dropout × LR, une variable à la fois, seed fixée) avec conclusion.
+## 🔥 Pratique — écrire un réseau à la main, et le voir échouer
+
+Le seul moyen de ne pas confondre un réseau avec une boîte noire est d'en écrire
+un. Trente lignes suffisent, sans aucune bibliothèque d'apprentissage profond.
+
+**A. Le réseau minimal.** Implémente, avec numpy seul, un réseau à une couche
+cachée qui apprend le OU exclusif : passe avant, calcul de l'erreur,
+rétropropagation, mise à jour. Livrable : le code, et les quatre sorties après
+entraînement.
+
+**B. La preuve par l'absence.** Entraîne le même problème **sans** couche cachée,
+aussi longtemps que tu veux. Livrable : les quatre sorties et l'erreur finale, et
+ton explication de pourquoi l'entraînement n'y changera rien.
+
+**C. La non-linéarité est le tout.** Remplace l'activation par l'identité (donc
+plus de non-linéarité) en gardant la couche cachée. Mesure. Puis vérifie
+numériquement que le produit de deux matrices aléatoires a le rang de la plus
+petite. Livrable : l'erreur obtenue et le rang mesuré.
+
+**D. Le gradient qui s'évanouit.** Calcule l'amplitude du gradient après 1, 5,
+10, 20 et 50 couches, pour une activation dont la dérivée est majorée par 0,25 et
+pour une dérivée de 1. Livrable : le tableau, et le nombre de couches à partir
+duquel l'entraînement devient impossible en pratique.
+
+**E. Le neurone mort.** Entraîne la version ReLU sur vingt initialisations
+différentes et compte les échecs. Pour chaque échec, compte les neurones qui ne
+s'activent jamais. Livrable : le taux d'échec et le nombre de neurones morts.
 
 ## ✅ Correction attendue
-La logique : neurone → loss → gradient → petit pas → répéter ; diagnostic par les courbes. Vérifie : ton neurone NumPy converge (loss décroissante) ; > 95 % sur MNIST test ; un overfitting provoqué PUIS corrigé (dropout/early stopping) avec les courbes à l'appui.
+
+> Toutes les valeurs ci-dessous sont produites par
+> `scripts/v70-verifications/reseaux-et-attention.py`, exécuté avec numpy 2.4.6
+> et une graine fixe. Aucune bibliothèque d'apprentissage profond n'est utilisée :
+> la rétropropagation y est écrite à la main pour que le mécanisme soit visible.
+
+**A — le réseau.** La sortie attendue avec une activation sigmoïde et quatre
+neurones cachés :
+
+```
+[0.    0.999 0.999 0.001]     erreur quadratique 0,000001
+attendu : [0, 1, 1, 0]
+```
+
+Le point de compréhension n'est pas le résultat mais la **rétropropagation** :
+l'erreur calculée en sortie remonte couche par couche, chaque couche recevant la
+part de responsabilité que la règle de dérivation en chaîne lui attribue. Si tu
+as réussi à l'écrire, tu sais ce que fait une bibliothèque d'apprentissage
+profond ; sinon tu utilises un outil dont tu ignores le mécanisme.
+
+**B — l'échec sans couche cachée.**
+
+```
+sans couche cachée : [0.5 0.5 0.5 0.5]     erreur 0,2500
+```
+
+Toutes les sorties à 0,5, c'est-à-dire aucune décision. Et ce résultat **ne
+s'améliore pas** avec plus d'itérations, un pas plus fin ou une meilleure
+initialisation, parce qu'il n'est pas un problème d'optimisation : il est
+structurel. Une régression logistique trace une seule frontière droite, et aucune
+droite ne sépare les points du OU exclusif.
+
+C'est le plus petit exemple qui justifie l'existence des couches cachées, et
+c'est pour cela qu'on l'utilise depuis cinquante ans.
+
+**C — la non-linéarité.** Avec une activation identité, l'erreur retombe à 0,25 :
+la couche cachée n'apporte rien. La vérification numérique le montre autrement —
+le rang du produit d'une matrice 2×8 par une matrice 8×3 est **2** :
+
+```
+rang de (A @ B) : 2 — deux couches linéaires équivalent à UNE matrice 2x3
+```
+
+Empiler des transformations linéaires produit une transformation linéaire. Ce
+qu'apporte une « couche » n'est donc pas la matrice, c'est **la fonction non
+linéaire qui la suit**. Une réponse qui attribue la puissance des réseaux à la
+profondeur sans mentionner ce point a manqué l'essentiel.
+
+**D — le gradient.**
+
+```
+ 1 couche  · dérivée ≤ 0,25 : ×2,500e-01     dérivée = 1 : ×1,000e+00
+ 5 couches · dérivée ≤ 0,25 : ×9,766e-04     dérivée = 1 : ×1,000e+00
+10 couches · dérivée ≤ 0,25 : ×9,537e-07     dérivée = 1 : ×1,000e+00
+20 couches · dérivée ≤ 0,25 : ×9,095e-13     dérivée = 1 : ×1,000e+00
+50 couches · dérivée ≤ 0,25 : ×7,889e-31     dérivée = 1 : ×1,000e+00
+```
+
+Le gradient est un **produit** d'une dérivée par couche. Avec une sigmoïde, dont
+la dérivée ne dépasse jamais 0,25, ce produit s'effondre : sur vingt couches il
+vaut 9,1 × 10⁻¹³. Les premières couches ne reçoivent plus rien et n'apprennent
+pas.
+
+**C'est un fait arithmétique, pas une malchance ni un défaut d'implémentation.**
+Voilà pourquoi les réseaux profonds ont échoué pendant des décennies, et pourquoi
+le passage à une activation de dérivée 1 sur sa partie active a été un
+changement de régime plutôt qu'une optimisation. Le seuil pratique se situe
+généralement autour de dix couches, mais le tableau montre que la dégradation est
+continue et commence bien avant.
+
+**E — le neurone mort, résultat négatif publié.** Sur le problème du OU exclusif
+avec quatre neurones :
+
+```
+activation ReLU : [0.5 0.5 1.  0. ]   erreur 0,125000   (2/4 neurones morts)
+sur 20 initialisations différentes : ReLU échoue 7 fois
+```
+
+**Sept échecs sur vingt.** Ce n'est pas une erreur de code, et on ne le corrige
+pas en cherchant la graine qui donne un bon résultat.
+
+Le mécanisme : la dérivée de ReLU vaut **exactement zéro** pour toute entrée
+négative. Un neurone que la mise à jour a poussé du mauvais côté ne reçoit plus
+aucun gradient, ne peut plus bouger, et reste définitivement inutile. Sur quatre
+neurones, en perdre deux suffit à rendre le problème insoluble — et le réseau
+converge vers un optimum local qu'il ne quittera jamais.
+
+Ce que cela enseigne dépasse le cas : **ReLU résout le problème de la section D
+et en introduit un autre.** Il n'y a pas de choix d'activation gratuit, seulement
+des compromis. Les remèdes usuels — initialisation adaptée à la taille des
+couches, pas d'apprentissage plus petit, davantage de neurones, ou une variante à
+pente non nulle du côté négatif — traitent chacun un aspect du problème sans le
+faire disparaître.
+
+Et une leçon de méthode : un entraînement qui échoue une fois sur trois échoue
+silencieusement. Sans avoir compté sur vingt initialisations, tu aurais conclu de
+ton unique essai que « ReLU ne marche pas » ou que « ReLU marche », selon la
+graine. **Un seul essai ne mesure rien sur un procédé stochastique** — c'est le
+même raisonnement que la dispersion des découpages dans `model-evaluation`.
 
 ## 🎤 Questions d'entretien
 - « Explique la descente de gradient avec les mains. » → La loss est une vallée ; le gradient donne la pente ; on descend à petits pas (learning rate).

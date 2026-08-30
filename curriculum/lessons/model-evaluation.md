@@ -148,10 +148,32 @@ C'est le socle de l'évaluation des systèmes LLM/RAG (mois 9) : le rappel@k du 
 - Choisir la métrique après coup pour flatter le modèle.
 
 ## ✍️ Mini-exercice
-Sur un dataset déséquilibré, calcule accuracy, précision, rappel et F1, et explique laquelle est trompeuse et pourquoi.
+Sans relire : deux modèles obtiennent 79 % et 77 %. Quelle information te manque
+pour dire lequel est meilleur ?
 
-## 🔥 Exercice plus difficile
-Trace la matrice de confusion, fais varier le seuil de décision, et montre l'arbitrage précision/rappel. Choisis un seuil justifié par un coût métier que tu définis.
+## 🔥 Pratique — mesurer, et savoir quand un écart n'existe pas
+
+**A. La référence, la matrice, l'aire.** Sur un jeu déséquilibré, produis pour un
+classifieur de référence et pour un modèle réel : exactitude, précision, rappel,
+F1, matrice de confusion, aire sous la courbe ROC. Livrable : le tableau
+comparatif, et la ligne qui montre que l'exactitude ne les distingue pas.
+
+**B. Le coût avant la courbe.** Écris, **avant** de tracer quoi que ce soit, le
+coût d'un faux négatif et celui d'un faux positif dans ton contexte. Puis calcule
+le seuil qui minimise le coût total, et compare-le au seuil qui maximise le F1.
+Livrable : les deux seuils et l'écart de coût entre eux.
+
+**C. La dispersion.** Entraîne le même modèle sur vingt découpages aléatoires et
+publie min, médiane, max, puis la validation croisée avec son écart-type.
+Livrable : les cinq nombres, et ta règle pour décider qu'un écart entre deux
+modèles est réel.
+
+**D. Dix erreurs, une par une.** Extrais dix cas que ton modèle rate et
+regarde-les individuellement. Livrable : ce qu'ils ont en commun, et la variable
+manquante que tu en déduis.
+
+**E. Le test de mémorisation.** Recalcule tes métriques sur le jeu
+d'entraînement. Livrable : l'écart entrainement/test, et ce que tu en conclus.
 
 ## ✅ Correction attendue
 La logique : baseline → métrique choisie selon le coût d'erreur → matrice de confusion → seuil ajusté → évaluation sur test/cross-validation.
@@ -167,6 +189,75 @@ Le F1 maximal ne répond à aucune question métier : il suppose que rater une f
 2. Écris le coût des deux types d'erreur **avant** de tracer quoi que ce soit. Si tu n'y arrives pas, va poser la question ; c'est une information métier, pas une décision technique.
 3. Regarde dix erreurs réelles, une par une. Les chiffres agrégés ne disent jamais QUE le modèle rate systématiquement les fraudes de petit montant, ou celles du week-end.
 4. Épreuve décisive : recalcule tes métriques sur le jeu d'entraînement. Si les scores sont nettement meilleurs qu'en test, tu mesurais de la mémorisation.
+
+### Sur la pratique A → E
+
+**A — l'exactitude qui ne distingue rien.** Le résultat attendu, tel que la
+vérification `ml-pieges-mesures.py` le produit sur un jeu à 2,6 % de positifs :
+le modèle réel et la référence « toujours négatif » ont **la même exactitude
+(97,33 %) et la même matrice de confusion** au seuil 0,5 — précision 0 %, rappel
+0 %, zéro vrai positif.
+
+Et pourtant l'aire sous la courbe ROC vaut 79,3 % contre 50 % pour le hasard : le
+modèle **classe** correctement même s'il ne **décide** rien. Savoir énoncer cette
+distinction est l'objectif de l'exercice. Une seule des deux capacités dépend du
+seuil, et c'est celle que l'exactitude mesure mal.
+
+**B — les deux seuils.** L'écart entre le seuil de coût minimal et le seuil de F1
+maximal est le résultat qui compte, et il est presque toujours important. Le F1
+suppose que précision et rappel ont la même valeur ; c'est une hypothèse, et elle
+est rarement vraie.
+
+Le point de méthode : les coûts s'écrivent **avant** de voir les courbes. Écrits
+après, ils sont choisis pour justifier un seuil déjà retenu — c'est le même
+défaut qu'un seuil de qualité ajusté après avoir vu le résultat. Si tu ne peux
+pas chiffrer les deux coûts, va poser la question : c'est une information métier,
+pas une décision technique, et la refuser revient à décider à la place du métier
+sans le dire.
+
+Alternative défendable, à connaître : ne pas fixer de seuil et livrer un score
+continu, à charge pour l'équipe de traiter les dossiers par risque décroissant
+jusqu'à épuisement de sa capacité du jour. En détection de fraude comme en
+dépistage, la contrainte réelle est souvent « combien de dossiers pouvons-nous
+examiner » et non « où est la bonne barre ». Le modèle ordonne, l'humain décide
+où il s'arrête.
+
+**C — la règle de décision.** Les valeurs mesurées : min 70,26 %, médiane
+77,52 %, max 81,30 % sur vingt découpages, et 77,03 % ± 6,39 en validation
+croisée. **Onze points d'écart sans qu'une ligne du modèle change.**
+
+La règle attendue : un écart entre deux modèles n'est réel que s'il dépasse
+nettement la dispersion. Deux points entre un modèle à 79 % ± 6 et un à 77 % ± 6
+ne prouvent rien. Une réponse plus fine évalue les deux modèles **sur les mêmes
+découpages** et compare les écarts appariés, ce qui élimine la variabilité du
+découpage et rend un petit écart détectable.
+
+La conséquence pratique est celle qui coûte le plus cher quand on l'ignore : sur
+ce jeu, **le choix de la graine aléatoire produit un écart cinq fois plus grand
+que la différence qu'on cherchait à mesurer.** Comparer deux modèles sur un seul
+découpage revient à tirer à pile ou face avec une étape supplémentaire.
+
+**D — les dix erreurs.** C'est l'exercice le moins technique et le plus
+rentable. Les chiffres agrégés ne disent jamais que le modèle rate
+systématiquement les fraudes de petit montant, celles du week-end, ou celles d'un
+canal particulier — et c'est exactement ce genre de motif qui indique la variable
+manquante.
+
+Ce que tu dois produire n'est pas « le modèle se trompe sur les cas difficiles »
+mais une caractéristique commune **nommable**, qui se traduise en une variable à
+construire. Si les dix erreurs n'ont rien en commun, c'est une information aussi :
+le signal manque, et aucune variable ne le comblera.
+
+**E — la mémorisation.** Un écart important entre entraînement et test signale du
+surapprentissage : le modèle a mémorisé au lieu de généraliser. Mais l'inverse
+mérite attention aussi — des scores identiques et **médiocres** des deux côtés
+indiquent un sous-apprentissage, soit un modèle trop simple, soit des variables
+qui ne portent pas le signal.
+
+Le piège de mesure : recalculer sur l'entraînement **après** un pipeline ajusté
+sur l'entraînement est correct ; le faire après une transformation ajustée sur
+tout le jeu ne mesure rien. C'est une raison de plus de tout enchaîner dans un
+pipeline, comme le détaille `scikit-learn-workflow`.
 
 ## 🎤 Questions d'entretien
 - « Ton modèle fait 99 % d'accuracy, content ? » → Pas sans baseline ni équilibre des classes ; regarder précision/rappel selon le coût.

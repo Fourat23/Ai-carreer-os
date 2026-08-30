@@ -130,13 +130,127 @@ En ML tabulaire (mois 6), améliorer un modèle par les features (sans changer l
 - Croire qu'un modèle plus complexe compense de mauvaises features.
 
 ## ✍️ Mini-exercice
-À partir d'une colonne date, crée 3 features (jour de semaine, mois, week-end) et mesure si l'une améliore un modèle simple.
+Sans relire : quelle question, à laquelle aucun script ne peut répondre, décide
+si une variable est une fuite ?
 
-## 🔥 Exercice plus difficile
-Améliore le score d'un modèle UNIQUEMENT par le feature engineering (pas le modèle), avec un journal des tentatives et de leur effet mesuré, et vérifie l'absence de leakage.
+## 🔥 Pratique — un journal de variables, avec des gains mesurés
+
+Le travail sur les variables se juge à un seul critère : **as-tu mesuré ce que
+chaque variable apporte ?** Cette pratique produit un journal, pas une intuition.
+
+**A. Le journal.** Sur un jeu de ton choix, pars d'un modèle de référence et
+ajoute les variables **une par une**. Pour chacune, note : l'hypothèse qu'elle
+encode, la métrique avant, la métrique après, et ta décision (garder ou retirer).
+Livrable : le journal, au moins huit lignes, y compris les variables retirées.
+
+**B. Les dates.** À partir d'une seule colonne d'horodatage, construis au moins
+cinq variables — jour de la semaine, heure, mois, indicateur de week-end,
+ancienneté en jours — et mesure l'apport de chacune séparément. Livrable : le
+tableau des cinq gains.
+
+**C. Les catégories.** Encode une variable catégorielle de trois façons :
+ordinale, indicatrice (une colonne par valeur), et par regroupement des valeurs
+rares. Mesure les trois. Livrable : les trois scores, le nombre de colonnes
+produites par chaque encodage, et ce que l'encodage ordinal impose au modèle.
+
+**D. Fabriquer une fuite, exprès.** Construis une variable dérivée de la cible et
+mesure le gain. Puis pose la question temporelle : cette variable existe-t-elle,
+avec cette valeur, au moment où il faudra prédire ? Livrable : le gain, et ta
+réponse à la question.
+
+**E. Vérifier que rien ne fuit.** Vérifie que toutes tes transformations sont
+apprises sur l'entraînement seul, en les plaçant dans un pipeline. Puis mesure
+l'écart entre la version avec fuite et la version propre. Livrable : les deux
+scores.
 
 ## ✅ Correction attendue
-La logique : chaque feature encode une hypothèse ; encoder les catégories sans imposer d'ordre faux ; calculer les transformations apprises sur le train seulement (Pipeline). Vérifie : pas de leakage (aucune feature ne connaît la cible/le futur), gain MESURÉ par feature, transformations dans un Pipeline.
+
+**A — le journal, et les lignes négatives.** Le critère de qualité du journal est
+le nombre de lignes « retirée ». Un journal où toutes les variables ont été
+gardées n'est pas un journal de travail : c'est une liste de ce qui a été
+construit, et il révèle qu'aucune décision n'a été prise.
+
+Ce qu'il faut savoir formuler : **une variable encode une hypothèse sur le
+problème.** « Le jour de la semaine influence l'achat » est une hypothèse
+testable ; l'ajouter sans la mesurer, c'est faire une supposition et l'appeler du
+travail. Le journal transforme une intuition en résultat.
+
+Attention au piège de mesure, et il est sévère : la leçon `scikit-learn-workflow`
+mesure **11,04 points d'écart** entre le meilleur et le pire découpage aléatoire
+du même jeu, pour le même modèle. Un gain de deux points sur un seul découpage
+n'est donc pas un gain — c'est du bruit. **Chaque ligne du journal doit reposer
+sur une validation croisée**, et le gain doit être comparé à la dispersion. Sans
+cela, tu passeras des heures à sélectionner des variables au hasard tout en ayant
+l'impression d'optimiser.
+
+**B — les dates.** Le point technique : une date brute est presque toujours
+inutilisable telle quelle, parce que le modèle ne peut pas en extraire la
+périodicité. Ce qui compte est ce qu'on en **dérive**.
+
+Un détail que la correction attend : les variables cycliques (heure, mois, jour
+de la semaine) posent un problème d'encodage. En ordinal, l'heure 23 et l'heure 0
+sont à 23 unités l'une de l'autre alors qu'elles sont voisines. Deux solutions
+correctes : l'encodage indicateur (une colonne par heure), ou l'encodage
+trigonométrique (sinus et cosinus de l'angle correspondant), qui préserve la
+proximité.
+
+Et une variable souvent oubliée et souvent la plus utile : l'**ancienneté**, soit
+la différence entre l'horodatage et une date de référence. Elle capture une
+tendance que les variables cycliques ne voient pas.
+
+**C — les catégories.** Les trois encodages ne coûtent pas la même chose et ne
+supposent pas la même chose :
+
+- **ordinal** : une colonne, mais il **impose un ordre** au modèle. Codant
+  `petit=0, moyen=1, grand=2`, c'est correct. Codant `Paris=0, Lyon=1, Nice=2`,
+  on affirme que Lyon est entre Paris et Nice, ce qui est faux et que le modèle
+  exploitera.
+- **indicateur** : autant de colonnes que de valeurs, aucun ordre imposé. Le coût
+  explose quand la variable a beaucoup de valeurs distinctes — mille codes
+  postaux font mille colonnes, presque toutes vides.
+- **regroupement des valeurs rares** : les valeurs sous un seuil deviennent une
+  catégorie « autre ». C'est la réponse habituelle à la cardinalité élevée, et
+  elle a un effet secondaire précieux : elle traite d'avance les valeurs
+  **inconnues en production**, celles qui n'existaient pas à l'entraînement.
+
+Ce dernier point est le vrai sujet et il est presque toujours oublié : que fait
+ton encodeur quand il rencontre une valeur qu'il n'a jamais vue ? Sans réponse
+explicite, il plante en production ou produit silencieusement des zéros partout.
+
+**D — la fuite fabriquée.** Le gain mesuré dans la vérification jumelle est de
+**+18,68 points d'aire ROC**, ce qui produit un score de 97,93 % sur un problème
+où le modèle honnête plafonne à 79 %.
+
+La réponse à la question temporelle est ce qui compte, et c'est elle qui rend la
+fuite évidente : non, cette variable n'existe pas au moment de prédire. Elle est
+calculée à partir de ce qu'on cherche justement à déterminer.
+
+**Le test de la fuite est temporel, pas statistique.** Aucun script ne peut y
+répondre à ta place, parce que la réponse porte sur ton système d'information :
+quand cette donnée est-elle écrite, par qui, et est-elle disponible à l'instant
+de la prédiction ? Un détecteur par corrélation aide, mais il signale aussi les
+bonnes variables (qui sont corrélées par construction) et rate les fuites
+diffuses réparties sur plusieurs colonnes.
+
+Le réflexe à retenir : **un score anormalement bon est un signal d'alerte.**
+Devant un bond de dix-huit points, la première action est de chercher la fuite.
+
+**E — le pipeline.** L'écart mesuré pour une fuite par normalisation est de
+**+0,00 point** — et c'est un résultat qu'il faut publier plutôt que d'affirmer
+le contraire. Une normalisation transporte deux nombres par variable ; ce n'est
+presque rien.
+
+La conclusion n'est pas « le pipeline est inutile ». Elle est que **le pipeline
+protège d'une famille de fuites dont certaines sont graves**, et qu'on ne veut
+pas avoir à décider au cas par cas laquelle l'est. Les transformations
+réellement dangereuses ajustées hors pipeline : la sélection de variables faite
+sur tout le jeu, le remplissage de valeurs manquantes par une statistique
+globale, l'encodage par la moyenne de la cible, et le rééquilibrage de classes
+appliqué avant la séparation. Chacune transporte beaucoup plus que deux nombres.
+
+Le raisonnement de conception à retenir dépasse l'apprentissage automatique :
+**quand une erreur est difficile à détecter, on choisit une construction où elle
+ne peut pas se produire, plutôt qu'une vigilance à répéter.**
 
 ## 🎤 Questions d'entretien
 - « Modèle ou features, qu'est-ce qui compte le plus ? » → Souvent les features : elles rendent le signal lisible.

@@ -45,7 +45,7 @@ Tout le reste en découle. L'UI change pour des raisons d'ergonomie, les règles
 - **MVC** organise la présentation : Modèle (données + logique), Vue (rendu), Contrôleur (orchestration des actions). Tes routes Express sont des contrôleurs.
 - **Clean / hexagonale (ports & adapters)** : le CŒUR métier au centre, sans dépendance à rien de concret ; les détails (UI, DB, LLM, vector store) branchés via des **ports** (interfaces) et des **adapters** (implémentations). Le test de vérité : « changer de base de données = changer UN fichier ». Ton interface `Store` du projet 1 en était le germe.
 - **Monolithe modulaire** : UN déploiement, des modules à frontières nettes dedans. Le bon défaut pour 90 % des projets — dont DocSense.
-- **Microservices** : des services déployés indépendamment. Puissants (équipes autonomes, scaling ciblé) mais au prix ÉLEVÉ du distribué : réseau faillible, cohérence difficile, observabilité complexe. À justifier, jamais par défaut.
+- **Microservices** : des services déployés indépendamment. Puissants (équipes autonomes, scaling ciblé) mais au prix ÉLEVÉ du distribué : réseau faillible, cohérence difficile, **observabilité** complexe — répondre à une question imprévue sans redéployer devient coûteux. À justifier, jamais par défaut.
 - **Event-driven** : les composants réagissent à des ÉVÉNEMENTS via un bus/broker. Découplage maximal (l'émetteur ignore les consommateurs), raisonnement plus dur (qui a traité quoi, quand ?).
 
 ### Les briques transverses

@@ -49,7 +49,7 @@ AVANT tout modèle : quelle performance atteint la prédiction NAÏVE (la moyenn
 ### Overfitting / underfitting : LE concept central
 - **Overfitting** : le modèle mémorise le bruit du train au lieu d'apprendre le signal — score train excellent, score test médiocre. Analogie : l'étudiant qui apprend le corrigé PAR CŒUR et échoue dès que l'énoncé change.
 - **Underfitting** : le modèle est trop simple pour capturer le signal — mauvais partout.
-Le diagnostic se lit sur les courbes train vs validation ; les remèdes à l'overfitting : plus de données, moins de complexité, régularisation. La **cross-validation** (k découpages, k évaluations, moyenne) rend l'évaluation robuste au hasard d'un split unique.
+Le diagnostic se lit sur les courbes train vs validation ; les remèdes à l'overfitting : plus de données, moins de complexité, **régularisation** — contraindre le modèle pour l'empêcher de trop coller aux données d'entraînement. La **cross-validation** (k découpages, k évaluations, moyenne) rend l'évaluation robuste au hasard d'un split unique.
 
 ### Les métriques : dire la vérité utile
 - Régression : **MAE/RMSE** (l'erreur en unités réelles — des euros, des degrés).

@@ -35,7 +35,7 @@ d'apprendre AWS « par cœur ».
 ## 🧠 Modèle mental
 AWS est un catalogue immense, mais quelques services portent l'essentiel. Le fil
 conducteur pour NE PAS se perdre : ranger chaque service dans une catégorie
-(compute, stockage, réseau, base, identité, observabilité) déjà apprise en
+(compute, stockage, réseau, base, identité, **observabilité** — la capacité à répondre à une question imprévue sur un système en marche) déjà apprise en
 concepts. Le point qui distingue les bons ingénieurs AWS des autres n'est pas la
 liste des services, c'est la maîtrise d'**IAM** : le contrôle d'accès y est
 central et transverse.

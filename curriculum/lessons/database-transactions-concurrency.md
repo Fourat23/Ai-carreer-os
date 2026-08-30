@@ -390,6 +390,8 @@ technique employée.
 > `scripts/v70-verifications/sql-mise-a-jour-perdue.mjs` et
 > `scripts/v70-verifications/etl-idempotence.mjs`.
 
+L'**idempotence** dont il est question ici est la propriété d'une opération qu'on peut rejouer sans changer le résultat.
+
 **A — la mise à jour perdue.** Le stock final vaut **50** au lieu de 20 attendus,
 et **les deux connexions ont cru réussir**. Aucune erreur, aucun avertissement.
 

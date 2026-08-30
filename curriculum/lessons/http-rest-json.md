@@ -61,7 +61,7 @@ REST modélise l'API en **ressources** nommées (des noms au pluriel) manipulée
 JSON (JavaScript Object Notation) transporte des données structurées en texte : objets `{}`, tableaux `[]`, strings, nombres, booléens, null. `JSON.stringify` sérialise, `JSON.parse` désérialise — et peut ÉCHOUER (toujours dans un try/catch aux frontières). Limites à connaître : pas de dates (des strings ISO), pas de fonctions, pas de commentaires.
 
 ## Concepts clés
-Requête/réponse · sans état · headers (Content-Type, Authorization) · méthodes et idempotence · statuts par famille · DNS → TCP → TLS → HTTP · latence vs bande passante · ressources REST · query string · sérialisation JSON.
+Requête/réponse · sans état · headers (Content-Type, Authorization) · méthodes et **idempotence** (une opération qu'on peut rejouer sans changer le résultat) · statuts par famille · DNS → TCP → TLS → HTTP · latence vs bande passante · ressources REST · query string · **sérialisation** JSON (conversion d'un objet en une forme transmissible).
 
 ## 🧭 Exemple guidé — lire un échange, puis décider d'une réponse
 

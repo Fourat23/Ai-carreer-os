@@ -323,7 +323,7 @@ est proportionnelle à ce qui est irremplaçable derrière** — et c'est aussi 
 séparer les environnements dans des états distincts est la première protection.
 
 ## 🧾 À retenir
-- IaC = état désiré déclaré, versionné, rejouable ; idempotent.
+- IaC = état désiré déclaré, versionné, rejouable ; **idempotent** : appliquer deux fois donne le même état qu'une fois.
 - plan → apply : toujours LIRE le plan (destructions/remplacements).
 - State = mémoire du réel : sensible, critique, partagé/verrouillé en équipe.
 - Dérive = changements manuels ; tout passe par le code. Pas de secret en dur.

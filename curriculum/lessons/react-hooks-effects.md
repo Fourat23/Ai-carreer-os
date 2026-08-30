@@ -28,7 +28,7 @@ ici.
 ## 📖 Explication complète
 - **useEffect(fn, deps)** : fn s'exécute APRÈS le rendu ; le tableau `deps` dit QUAND rejouer (`[]` = au montage ; `[id]` = quand id change). Le **cleanup** (la fonction retournée) nettoie avant le prochain effet/démontage (annuler un abonnement, un timer).
 - **Les 3 états async** : toute donnée distante a TROIS états à rendre explicitement — `loading` (indicateur), `error` (message + retry), `data` (le contenu). Les oublier = pages blanches et spinners éternels. Modéliser en un seul état discriminé (`{status: 'loading' | 'error' | 'ok', data?}`) rend les états impossibles à mélanger.
-- **StrictMode double appel** : en dev, React monte chaque composant DEUX fois exprès — si ton effet casse, il lui manque un cleanup ou il n'est pas idempotent. C'est un détecteur, pas un bug.
+- **StrictMode double appel** : en dev, React monte chaque composant DEUX fois exprès — si ton effet casse, il lui manque un cleanup ou il n'est pas **idempotent**, c'est-à-dire rejouable sans effet supplémentaire. C'est un détecteur, pas un bug.
 - **« You might not need an effect »** : une valeur dérivée du state se calcule PENDANT le rendu (pas dans un effet + state doublon) ; un événement utilisateur se gère dans le handler. Les effets superflus sont la source n°1 de bugs React.
 - **Formulaires contrôlés** : le state est la source de vérité des champs (`value={v} onChange={e => setV(e.target.value)}`) — validation et soumission deviennent triviales.
 - **Hooks personnalisés** : extraire une logique réutilisable (`useFetch(url)` qui gère les 3 états) — la factorisation (jour 22), appliquée aux composants.

@@ -35,7 +35,7 @@ réponse d'API et savoir ce qu'un cadenas prouve (et ne prouve pas).
 ## 📖 Explication complète
 **Une requête HTTP.** Elle a une **méthode**, un **chemin**, des **en-têtes** et
 parfois un **corps**. Méthodes : `GET` (lire, sans effet de bord), `POST` (créer/agir),
-`PUT`/`PATCH` (mettre à jour), `DELETE` (supprimer). Idempotence : `GET`/`PUT`/`DELETE`
+`PUT`/`PATCH` (mettre à jour), `DELETE` (supprimer). **Idempotence** — rejouer l'appel ne change rien de plus : `GET`/`PUT`/`DELETE`
 répétés donnent le même état ; `POST` répété peut créer plusieurs fois.
 
 **Les codes de statut.** Ils se lisent par famille :

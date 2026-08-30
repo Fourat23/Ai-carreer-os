@@ -5,7 +5,7 @@
 Ton RAG répond mal. Réflexe du débutant : « le modèle est nul, changeons de LLM ». Mais dans
 la grande majorité des cas, le vrai coupable est AVANT le modèle : le bon passage n'a jamais
 été retrouvé, donc le modèle ne pouvait pas répondre correctement — il n'avait pas la réponse
-sous les yeux. La recherche sémantique pure (par embeddings) attrape le sens mais rate parfois
+sous les yeux. La recherche sémantique pure (par **embeddings** : des listes de nombres où deux textes de sens proche sont proches) attrape le sens mais rate parfois
 les termes EXACTS (un numéro de référence, un nom propre) ; à l'inverse, la recherche par
 mots-clés rate les reformulations. Comment ramener FIABLEMENT le bon extrait ? Cette leçon
 attaque le maillon faible de la plupart des RAG : le retrieval, sa version hybride, et le

@@ -29,7 +29,7 @@ n'est supposée : on raisonne sur les transformations, pas sur une API.
 ## 📖 Explication complète
 Le feature engineering transforme des données brutes en variables prédictives :
 - **Features dérivées** : d'une date → jour de semaine, mois, week-end ; de deux colonnes → un ratio métier (dépense/revenu). Chaque feature encode une HYPOTHÈSE (« le week-end influence l'achat »).
-- **Encodage des catégories** : les modèles veulent des nombres. **One-hot** (une colonne 0/1 par catégorie) pour les catégories sans ordre ; **ordinal** pour celles ordonnées. Attention aux catégories à très haute cardinalité.
+- **Encodage des catégories** : les modèles veulent des nombres. **One-hot** (une colonne 0/1 par catégorie) pour les catégories sans ordre ; **ordinal** pour celles ordonnées. Attention aux catégories à très haute **cardinalité**, c'est-à-dire comportant un très grand nombre de valeurs distinctes.
 - **Mise à l'échelle** : normaliser/standardiser quand le modèle est sensible aux échelles (k-means, régressions régularisées).
 Le piège central : le **leakage par feature** — une feature qui contient (directement ou indirectement) l'information du futur ou de la cible. Exemple : « date du dernier paiement » pour prédire le churn peut fuiter le résultat. Et toutes les transformations APPRISES (moyennes d'encodage, paramètres de normalisation) doivent être calculées sur le TRAIN uniquement, puis appliquées au test — d'où le **Pipeline** scikit-learn qui l'automatise.
 
@@ -76,7 +76,7 @@ regroupement des rares en "Autre", puis   →   5 colonnes
 Une colonne d'entrée est devenue 604. Au-delà de la mémoire, le problème est statistique :
 600 de ces colonnes ne valent 1 que pour **une seule ligne**. Un modèle qui dispose d'une
 variable active sur un unique individu peut apprendre cet individu par cœur — c'est du
-surapprentissage servi sur un plateau. Regrouper la longue traîne en « Autre » ne perd donc
+**surapprentissage** — le modèle mémorise au lieu de généraliser — servi sur un plateau. Regrouper la longue traîne en « Autre » ne perd donc
 presque rien (ces villes ne portent aucune statistique exploitable) et supprime le risque.
 Le seuil de regroupement est un choix à documenter, pas une constante universelle : garde
 ce qui apparaît assez souvent pour qu'une moyenne y ait un sens.

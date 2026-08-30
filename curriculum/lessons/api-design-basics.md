@@ -58,7 +58,7 @@ Un middleware d'erreurs final distingue :
 Une API vit : nouveaux champs (ajout non cassant — les clients ignorent l'inconnu), champs supprimés/renommés (CASSANT → versionner `/v2` ou déprécier progressivement). Règle : être libéral sur ce qu'on accepte en plus, strict sur ce qu'on promet.
 
 ## Concepts clés
-Contrat d'abord · ressources et sous-ressources · statuts sémantiques (dont 409) · format d'erreur uniforme · validation aux frontières · erreurs centralisées sans fuite · pagination/filtres/tri · idempotence · versionnement · moindre exposition (ne renvoyer que le nécessaire).
+Contrat d'abord · ressources et sous-ressources · statuts sémantiques (dont 409) · format d'erreur uniforme · validation aux frontières · erreurs centralisées sans fuite · pagination/filtres/tri · **idempotence** (rejouer une opération ne change rien de plus) · versionnement · moindre exposition (ne renvoyer que le nécessaire).
 
 ## 🧭 Exemple guidé
 

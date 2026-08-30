@@ -59,19 +59,56 @@ const TERMES = [
 
 // Marqueurs d'une définition à proximité : glose, deux-points explicatif,
 // mise en gras du terme (convention du corpus), ou lien vers le glossaire.
+// CORRECTION DE SONDE — V70 CP14, trouvée par un TEST NÉGATIF et documentée.
+//
+// DÉFAUT DÉMONTRÉ. La correction du CP11 avait ajouté `|Vocabulaire` à la liste
+// des marqueurs de définition, avec l'intention « un terme en gras dans la
+// section Vocabulaire compte comme défini ». L'implémentation cherchait le MOT
+// « Vocabulaire » dans une fenêtre de ±260/400 caractères autour du terme.
+// Or ce mot est un titre de section présent dans les 128 leçons sur 128.
+// Conséquence : tout terme apparaissant à moins de 400 caractères de ce titre
+// était déclaré défini, quelle qu'en soit la raison.
+//
+// Le test négatif 9 (`scripts/v70/tests-negatifs.mjs`) l'a révélé : trois
+// termes crus — « mémoïsation », « hoisting », « quorum » — injectés dans une
+// leçon n'ont PAS été signalés. Une sonde qui ne refuse pas une dégradation
+// délibérée ne mesure rien, exactement comme une porte de CI qu'on n'a jamais
+// vue rougir.
+//
+// CORRECTIF : `|Vocabulaire` retiré. La convention réelle du corpus — le terme
+// en gras — était déjà couverte par le premier motif (`**terme**`), qui lui
+// vérifie bien la mise en forme du terme lui-même et non la proximité d'un
+// titre. Le marqueur ajouté au CP11 était donc à la fois faux et redondant.
+//
+// IMPACT MESURÉ ET PUBLIÉ : voir la sortie recomptée ci-dessous.
 const defini = (txt, terme, pos) => {
   const fenetre = txt.slice(Math.max(0, pos - 260), pos + 400);
   const t = terme.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // CORRECTION DE SONDE — V70 CP14, seconde, trouvée par un TEST NÉGATIF.
+  //
+  // DÉFAUT DÉMONTRÉ. Le marqueur « parenthèse explicative » était
+  // `\(([^)]{10,120})\)` cherché n'importe où dans une fenêtre de 660
+  // caractères. Une parenthèse SANS AUCUN RAPPORT avec le terme le blanchissait
+  // donc. Cas prouvant le défaut, relevé en injectant « mémoïsation » dans
+  // css-grid : la parenthèse « (colonnes/lignes) », située 60 caractères plus
+  // loin et portant sur les pistes CSS, suffisait à déclarer « mémoïsation »
+  // défini. Trois termes crus injectés n'étaient pas signalés.
+  //
+  // CORRECTIF : la parenthèse et la reformulation ne comptent que si elles
+  // SUIVENT IMMÉDIATEMENT le terme (au plus 60 caractères après), et non si
+  // elles apparaissent quelque part alentour. Une définition qui précède le
+  // terme de 260 caractères n'en est pas une non plus.
+  const apres = txt.slice(pos, pos + 200);
   return new RegExp(
     `\\*\\*${t}[^*]*\\*\\*`                      // terme en gras
-    + `|${t}[^.\\n]{0,40}\\s*[:,—–-]\\s*[a-zà-ÿ]` // glose immédiate
-    + `|c(?:'|’)est-à-dire`                       // reformulation
-    + `|autrement dit`
-    + `|\\(([^)]{10,120})\\)`                     // parenthèse explicative
-    + `|/doc/lessons/`                            // renvoi vers une leçon
-    + `|/glossary`
-    + `|Vocabulaire`,
-    'i').test(fenetre);
+    + `|/doc/lessons/`                            // renvoi vers une leçon amont
+    + `|/glossary`,
+    'i').test(fenetre)
+    || new RegExp(
+      `${t}[^.\\n]{0,40}\\s*[:,—–-]\\s*[a-zà-ÿ]`   // glose immédiate
+      + `|${t}[^.\\n]{0,20}\\([^)]{10,120}\\)`      // parenthèse ACCOLÉE au terme
+      + `|${t}[^.\\n]{0,30}(c(?:'|’)est-à-dire|autrement dit)`,
+      'i').test(apres);
 };
 
 const resultats = [];

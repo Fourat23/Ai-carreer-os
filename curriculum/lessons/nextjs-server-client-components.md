@@ -169,7 +169,7 @@ deux.
 ## ⚠️ Erreurs fréquentes
 - Mettre `useState`/`useEffect`/un gestionnaire d'événement dans un composant serveur → interdit
   (pas d'interactivité côté serveur).
-- Faire passer une fonction ou un secret à travers la frontière → erreur de sérialisation / fuite.
+- Faire passer une fonction ou un secret à travers la frontière → erreur de **sérialisation** — la conversion serveur vers navigateur refuse certains types — ou fuite.
 - Rendre TOUT client « pour simplifier » → bundle lourd, données/secrets exposés.
 - Confondre « composant serveur » et « SSR » : le rendu serveur est une stratégie ; le Server
   Component est un type de composant (complémentaires, pas identiques).

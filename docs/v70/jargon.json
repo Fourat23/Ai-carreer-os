@@ -193,9 +193,7 @@
  },
  {
   "slug": "database-transactions-concurrency",
-  "termesNus": [
-   "idempotence"
-  ],
+  "termesNus": [],
   "prerequisMots": 43,
   "prerequisRenvoie": true
  },

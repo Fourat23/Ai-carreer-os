@@ -18,7 +18,7 @@ Les 4 étapes, à énoncer à voix haute :
 1. **Clarifier les besoins et contraintes** : combien d'utilisateurs / de documents ? lecture ou écriture intensive ? latence acceptable ? budget ? local ou cloud ? Et le **hors-scope**. Concevoir sans questions est éliminatoire.
 2. **Composants et flux de données** : dessiner les grands blocs (client, API, base, cache, file, service LLM…) et le trajet d'une donnée de bout en bout. Un schéma structure la discussion.
 3. **Choisir en TRADE-OFFS** : pour chaque décision, exposer les options et choisir selon les contraintes de l'étape 1 (« monolithe modulaire car le volume ne justifie pas le distribué »).
-4. **Échelle et pannes** : « et à 10× le trafic ? » (cache, réplicas, file), « et si ce composant tombe ? » (résilience, dégradation), et les **coûts** (l'inférence LLM coûte).
+4. **Échelle et pannes** : « et à 10× le trafic ? » (cache, réplicas, file), « et si ce composant tombe ? » (résilience, dégradation), et les **coûts** (l'**inférence** — le calcul qui produit une réponse à partir du modèle — coûte).
 Pour un système IA, ajouter les spécificités : le LLM est non déterministe/coûteux/faillible (validation, cache, fallback), le RAG quand la connaissance dépasse le contexte, workflow vs agent selon le besoin, l'évaluation intégrée dès le début, la sécurité (prompt injection).
 
 **L'estimation à la louche, qui est la compétence réellement testée à l'étape 1.** Un candidat qui répond « beaucoup d'utilisateurs » a perdu ; un candidat qui convertit en ordres de grandeur a gagné, même avec des chiffres approximatifs. La conversion se fait toujours dans le même sens — d'un chiffre annoncé vers une **charge par seconde** :

@@ -2,7 +2,7 @@
 # Leçon — Bases de données vectorielles
 
 ## 🌍 Le problème d'abord
-Tu as transformé tes documents en milliers de vecteurs (embeddings). À chaque question, tu dois
+Tu as transformé tes documents en milliers de vecteurs (**embeddings** : des listes de nombres où deux textes de sens proche donnent deux listes proches). À chaque question, tu dois
 trouver les quelques vecteurs les PLUS PROCHES de celui de la question. Facile avec 100
 vecteurs : tu les compares un par un. Mais avec un MILLION de vecteurs, les comparer tous à
 chaque question devient trop lent. Comment retrouver les plus proches presque instantanément,

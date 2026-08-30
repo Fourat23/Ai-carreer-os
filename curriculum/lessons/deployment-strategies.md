@@ -53,7 +53,7 @@ environnements.
 **Canary.** On envoie une PETITE fraction du trafic (1 %, 5 %) vers la nouvelle
 version et on OBSERVE (erreurs, latence, métriques métier). Si tout va bien, on
 augmente progressivement ; sinon on retire la canary. C'est la stratégie qui
-limite le mieux le rayon d'impact — à condition d'avoir de l'observabilité pour
+limite le mieux le rayon d'impact — à condition d'avoir de l'**observabilité** — de quoi répondre à une question imprévue sans redéployer — pour
 décider.
 
 **Feature flags.** Découpler le DÉPLOIEMENT du code de son ACTIVATION : on livre

@@ -88,7 +88,7 @@ schéma qu'il ne comprend pas. C'est ainsi qu'on modifie une base sans coupure.
 ### Migrations de données vs de schéma
 Changer la STRUCTURE (colonnes, tables) et TRANSFORMER les données existantes (backfill,
 nettoyage) sont deux choses. Les migrations de données doivent gérer le VOLUME (traiter par
-lots pour ne pas verrouiller une table entière des heures) et être idempotentes autant que
+lots pour ne pas verrouiller une table entière des heures) et être **idempotentes** — rejouables sans double effet — autant que
 possible (rejouables sans double effet).
 
 ## Concepts clés

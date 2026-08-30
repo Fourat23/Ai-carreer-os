@@ -44,7 +44,7 @@ d'images officielles fournissent déjà un utilisateur non privilégié.
 paquets, outils), moins il y a de vulnérabilités et d'outils exploitables. Les
 images `distroless` ou `-slim` réduisent drastiquement la surface. Contrepartie :
 plus difficile à déboguer « à chaud » (pas de shell) — d'où l'importance des logs
-et de l'observabilité.
+et de l'**observabilité** : pouvoir répondre à une question imprévue sans modifier l'image.
 
 **Système de fichiers en lecture seule.** Lancer le conteneur avec un rootfs en
 lecture seule (`--read-only`) et n'autoriser l'écriture que sur des volumes

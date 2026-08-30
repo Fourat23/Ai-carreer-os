@@ -153,6 +153,43 @@ Le RAG mobilise TOUT ton apprentissage : ingestion = pipeline de données (mois 
 ## Mini-exercice
 Sans framework, sur 5 documents texte : découpe en chunks (500 caractères, overlap 100), obtiens leurs embeddings via API, implémente la similarité cosinus TOI-MÊME, retrouve le top-3 pour 5 questions, et VÉRIFIE À L'ŒIL si le bon passage y est. Tu viens de construire — et surtout de savoir DIAGNOSTIQUER — un RAG.
 
+## 🔥 Exercice plus difficile
+Le mini-exercice t'a fait vérifier « à l'œil » si le bon passage remonte. Cela ne passe pas
+à l'échelle et ne se compare pas d'une version à l'autre. Tu vas donc **remplacer ton œil
+par des chiffres**, et découvrir que le premier chiffre auquel on pense est le mauvais.
+
+**A — le jeu de vérité.** Écris 15 questions sur tes 5 documents et note, pour chacune, le
+ou les morceaux qui contiennent réellement la réponse. C'est le travail le plus ingrat de
+la journée et c'est celui sans lequel rien n'est mesurable. Livrable : un fichier JSON
+question → identifiants des morceaux attendus.
+
+**B — trois métriques, à la main.** Implémente **rappel@k** (le bon morceau est-il dans les
+k premiers ?), **MRR** (l'inverse du rang du premier bon morceau) et **précision@3**.
+Mesure ton système sur les trois. Livrable : le tableau.
+
+**C — la mesure qui trompe.** Prends ton classement et déplace le bon morceau du rang 1 au
+rang 8. Recalcule les trois métriques pour k = 3, 5 et 10. Livrable : la ligne de métriques
+qui **ne bouge pas du tout**, et l'explication de pourquoi elle ne bouge pas.
+
+**D — le découpage.** Redécoupe tes documents avec quatre réglages : 200/0, 400/40, 800/200
+et 1600/400 (taille en mots / recouvrement). Pour chacun, mesure trois choses : le nombre de
+morceaux, le **surcoût de stockage** dû au recouvrement, et ton rappel@3. Livrable : le
+tableau à quatre lignes et le réglage que tu retiens, avec sa justification.
+
+**Critère de réussite** : tu peux dire lequel de tes deux systèmes est meilleur **sans**
+relire les résultats, et tu sais nommer la métrique qui aurait conclu l'inverse.
+
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Ton rappel@10 vaut 1,00 dans les deux versions de ton système. L'une des deux répond
+   nettement mieux. Comment est-ce possible, et quelle métrique le montre ?
+2. Pourquoi compare-t-on des embeddings par similarité cosinus plutôt que par distance
+   euclidienne ? Quel cas concret sépare les deux ?
+3. Un recouvrement de 25 % coûte environ 33 % de stockage en plus. Qu'achète-t-on avec ?
+4. Ton système répond faux. Quelle est la **première** chose à regarder, et pourquoi
+   celle-là avant toute autre ?
+
 ## ✅ Correction attendue
 **La démarche** : découper, embarquer, calculer la similarité, classer, puis **regarder de ses yeux**. La dernière étape est l'exercice ; les quatre premières ne sont que de la plomberie.
 
@@ -169,6 +206,82 @@ C'est la confusion centrale du RAG, et elle est structurelle : la similarité ve
 2. Lis trois chunks au hasard, en entier. S'ils contiennent des en-têtes, des numéros de page ou des phrases coupées en deux, ton problème est à l'ingestion — pas dans ton choix d'embedding.
 3. Pose une question dont la réponse **n'est pas** dans le corpus. Regarde ce que remonte le top-3 : il remontera quand même trois chunks, avec des scores honorables. Un retrieval ne dit jamais « je ne sais pas » — c'est ton code qui doit décider d'un seuil et d'un refus.
 4. Pose la même question en changeant un mot pour un synonyme. Si le top-3 change complètement, ton chunking est trop fin ou ton corpus trop petit.
+
+### Correction de l'exercice difficile
+
+> Chiffres produits par `scripts/v70-verifications/rag-chunking-et-metriques.py`, exécuté
+> sur un corpus de test. Les tiens seront différents ; les phénomènes, non.
+
+**A — le jeu de vérité.** Il n'y a pas de correction à donner : c'est ton corpus. Un seul
+point de méthode, et il est décisif. Écris les questions **avant** de regarder ce que ton
+système renvoie. Écrites après, elles épousent ce qu'il sait déjà faire, et ton évaluation
+te donnera toujours raison. C'est le même défaut que la grille rédigée après
+l'enregistrement dans `interview-preparation`.
+
+**B et C — la mesure qui trompe.** Voici deux versions du même système, mesurées :
+
+| | rappel@3 | rappel@5 | rappel@10 | préc@3 | MRR | nDCG@5 |
+|---|---|---|---|---|---|---|
+| recherche lexicale seule | 0,33 | 0,67 | **1,00** | 0,33 | 0,50 | 0,48 |
+| après reclassement | 0,67 | 1,00 | **1,00** | 0,67 | 1,00 | 0,97 |
+
+**Le rappel@10 est identique — 1,00 dans les deux cas.** C'est la ligne qui ne bouge pas,
+et c'est celle que l'exercice te demandait de trouver. Les bons documents étaient déjà là
+dans les deux versions ; ce que le reclassement change, c'est l'**ordre**.
+
+Or ton modèle ne voit pas dix morceaux : tu lui en donnes trois, ou cinq. Le rappel@3
+passe de 0,33 à 0,67 et le MRR de 0,50 à 1,00. **Le rappel@10 mesure ce que ton index
+contient ; le rappel@3 et le MRR mesurent ce que ton modèle reçoit.** Seul le second
+décide de la réponse.
+
+**L'erreur probable, et elle est confortable.** On choisit le rappel@10 parce qu'il est le
+plus flatteur — c'est presque toujours le plus haut. On l'affiche, il est excellent, et il
+reste excellent quand le système se dégrade. Une métrique qui ne bouge jamais n'est pas
+une bonne métrique : c'est une métrique aveugle. **Mesure toujours à la valeur de k que
+tu envoies réellement au modèle**, pas à celle qui donne le plus beau chiffre.
+
+**D — le découpage.** Sur un document de 12 000 mots :
+
+| taille / recouvrement | morceaux | mots stockés | surcoût | phrases coupées |
+|---|---|---|---|---|
+| 200 / 0 | 60 | 12 000 | 0 % | 15,0 % |
+| 400 / 40 | 34 | 13 600 | 13 % | 8,3 % |
+| 800 / 200 | 20 | 16 000 | 33 % | 5,0 % |
+| 1 600 / 400 | 10 | 16 000 | 33 % | 2,5 % |
+
+La dernière colonne est celle qu'on oublie. Une phrase de 30 mots tombe à cheval sur une
+frontière avec une probabilité d'environ 30/pas, où le pas vaut taille − recouvrement.
+À 200/0, **une phrase sur sept est coupée en deux** ; chacune produit deux moitiés dont
+aucune ne répond à la question.
+
+**Ce que le recouvrement achète** est donc précisément cela : il ne « donne pas de
+contexte » vaguement, il **réduit la probabilité qu'une idée soit tranchée en son
+milieu**, de 15 % à 2,5 %. Le prix est 33 % de stockage et d'appels d'embedding en plus.
+C'est un arbitrage chiffrable, pas une question de goût — et sur un petit corpus, 33 %
+d'un petit chiffre reste un petit chiffre.
+
+**Alternative défendable** : le découpage par structure, déjà évoqué plus haut, rend cet
+arbitrage sans objet — une section n'est jamais coupée au milieu, donc le recouvrement ne
+sert plus à rien. À réserver aux corpus qui ont une structure fiable.
+
+### Correction de la vérification de compréhension
+
+1. Parce que le rappel@10 mesure la présence dans l'index, pas la position. Les deux
+   systèmes contiennent les bons morceaux ; l'un les place en tête et l'autre en huitième
+   position. Le **MRR** (0,50 contre 1,00) et le **rappel@3** (0,33 contre 0,67) le
+   montrent ; le rappel@10 ne le montrera jamais.
+2. Parce que le cosinus mesure une **direction** et ignore la longueur du vecteur. Le cas
+   qui sépare : deux textes sur le même sujet, l'un de dix mots et l'autre de trois cents.
+   Mesuré : même sens et longueurs différentes donne un cosinus de **1,0000** et une
+   distance euclidienne de **6,000** — l'euclidienne les déclare éloignés alors qu'ils
+   parlent de la même chose.
+3. Une chute des phrases coupées de 15 % à 2,5 % (voir D). Pas « du contexte » en général :
+   une probabilité mesurable qu'une réponse ne soit pas tranchée en deux morceaux.
+4. **Le retrieval, avant tout le reste** : les morceaux envoyés au modèle contiennent-ils
+   la réponse, oui ou non ? Parce que si la réponse n'y est pas, aucun réglage de
+   génération — température, consigne, modèle plus gros — ne peut la faire apparaître.
+   Régler la génération sans avoir vérifié le retrieval est le temps le plus sûrement
+   perdu du domaine.
 
 ## 🏢 Cas professionnel
 Une équipe livre un assistant documentaire. En démonstration, il est excellent. Trois semaines après la mise en production, les utilisateurs l'ont abandonné. L'analyse des questions réelles montre pourquoi : en démonstration, on posait des questions **dont on savait qu'elles avaient une réponse**. Les vrais utilisateurs posent des questions ambiguës, hors périmètre, mal orthographiées, ou dont la réponse se trouve dans deux documents qui se contredisent — parce que l'un est obsolète et que rien ne le dit.

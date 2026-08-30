@@ -171,6 +171,42 @@ Les pipelines RAG (mois 8-9) sont des chaînes de transformations : la disciplin
 ## Mini-exercice
 Prends ta plus grosse fonction du mois 1. Applique dans l'ordre : (1) renommer pour l'intention, (2) guard clauses, (3) extraire les blocs commentables en fonctions nommées, (4) séparer calcul et affichage. Compare avant/après à voix haute : lequel expliques-tu le plus vite ?
 
+## 🔥 Exercice plus difficile
+« Ce code est plus lisible » est une opinion. Tu vas construire l'outil qui en mesure
+une partie — et découvrir précisément quelle partie lui échappe.
+
+**A — l'instrument.** Écris trois fonctions de mesure sur une chaîne de code source :
+la **complexité cyclomatique** (1, plus un par point de décision : `if`, `else if`, `for`,
+`while`, `case`, `catch`, `&&`, `||`, `??`, ternaire), la **profondeur d'imbrication**
+maximale (compte les accolades ouvrantes et fermantes), et le **nombre de lignes non
+vides**. Une trentaine de lignes suffit.
+
+**B — avant/après.** Applique-les à ta fonction du mini-exercice, dans ses deux versions.
+Livrable : un tableau à six cases. Puis la question qui compte : compare la complexité
+**maximale d'une seule fonction** et la complexité **totale du fichier**. Que constates-tu ?
+
+**C — le test négatif de ton propre instrument.** Prends une fonction courte et bien
+nommée, et réécris-la à l'identique en renommant tout en `proc`, `x`, `y`, `t`, `v`.
+Mesure les deux. Livrable : la conclusion écrite sur ce que ton instrument ne voit pas.
+
+**D — le faux positif.** Fabrique une fonction que ton instrument signale (complexité
+supérieure à 10) et qui se lit pourtant sans le moindre effort. Livrable : le code, ses
+chiffres, et la mesure qui permet de rattraper le faux positif.
+
+**Critère de réussite** : tu peux répondre à « faut-il refuser une fusion sur un seuil de
+complexité ? » en citant tes propres chiffres du C et du D.
+
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Après extraction en quatre fonctions, la complexité totale du fichier a-t-elle beaucoup
+   baissé ? Si non, qu'est-ce qui s'est amélioré ?
+2. Pourquoi la profondeur d'imbrication est-elle un meilleur indicateur de charge mentale
+   que le nombre de branches ?
+3. Une porte d'intégration continue refuse toute fonction au-dessus de 10 de complexité.
+   Cite un cas où elle bloque du bon code, et un cas où elle laisse passer du mauvais.
+4. Les *guard clauses* réduisent la profondeur. Réduisent-elles la complexité cyclomatique ?
+
 ## ✅ Correction attendue
 **La démarche**, et l'ordre n'est pas décoratif. Renommer d'abord : c'est sans risque, et une fois les noms justes, la moitié des problèmes de structure deviennent visibles — on VOIT qu'une fonction fait deux choses quand son nom honnête contient « et ». Guards ensuite, pour aplatir. Extraction après, parce qu'on sait enfin quoi extraire. Séparation calcul/affichage en dernier, parce que c'est la seule étape qui change vraiment la forme du programme.
 
@@ -185,6 +221,98 @@ Le piège séduit parce qu'il satisfait la règle énoncée (« des fonctions co
 2. Compte les niveaux d'imbrication : tu dois être passé de trois ou quatre à un ou deux.
 3. Relis chaque commentaire survivant : s'il dit CE QUE fait le code, supprime-le ou remplace-le par un nom.
 4. **Le comportement n'a pas changé.** Si tu n'as pas de test, écris-en un AVANT de refactorer — sinon tu ne nettoies pas, tu paries.
+
+### Correction de l'exercice difficile
+
+> Chiffres produits par `scripts/v70-verifications/lisibilite-mesuree.mjs`, sur une
+> fonction de calcul de commande écrite dans les deux styles. Les tiens différeront ;
+> les rapports entre les colonnes, non.
+
+**B — avant/après.**
+
+| | complexité | profondeur | lignes |
+|---|---|---|---|
+| avant, une fonction | 14 | **8** | 32 |
+| après, quatre fonctions | 10 (fichier) | **2** | 22 |
+
+Et le détail, qui est le vrai résultat :
+
+| fonction | complexité | profondeur |
+|---|---|---|
+| `verifierCommande` | 3 | 1 |
+| `verifierLigne` | 3 | 1 |
+| `appliquerRemise` | 4 | 1 |
+| `totalCommande` | 3 | 2 |
+
+Complexité **maximale d'une fonction** : 14 → **4**. Complexité **totale** : 14 → **13**.
+
+*Pourquoi deux chiffres différents pour l'après — 10 et 13 ?* Parce que la formule part
+de 1 (le chemin qui traverse sans brancher) et ajoute les points de décision. Mesuré comme
+un seul bloc, le fichier compte **un** chemin de base : 1 + 9 = 10. Mesuré fonction par
+fonction, chacune compte le sien : quatre chemins de base au lieu d'un, soit 10 + 3 = 13.
+Les deux sont exacts ; ils ne répondent pas à la même question. Si un chiffre te surprend,
+c'est presque toujours qu'il répond à une autre question que celle que tu poses — et
+vérifier laquelle vaut mieux que le recopier.
+
+**Le constat qui doit te rester** : la refactorisation n'a supprimé qu'un point de
+complexité sur quatorze. Elle ne l'a pas fait disparaître, elle l'a **répartie**. La
+logique métier est la même, elle a toujours autant de cas ; ce qui a changé, c'est la
+quantité qu'il faut tenir en tête d'un seul coup. La profondeur passe de 8 à 2.
+
+C'est la raison profonde pour laquelle on découpe : **pas pour simplifier le programme,
+mais pour tenir dans une mémoire de travail humaine.** Une machine exécute les deux
+versions à la même vitesse. Si tu retiens une phrase de cette leçon, prends celle-là —
+elle explique aussi pourquoi une découpe qui produit quatre fonctions dépendantes les unes
+des autres n'améliore rien : la charge revient au moment où il faut les lire ensemble.
+
+**C — ce que l'instrument ne voit pas.** Les deux versions suivantes mesurent
+**exactement pareil** : complexité 3, profondeur 1, 5 lignes.
+
+```js
+function appliquerRemise(montant, remise) { … }   // complexité 3
+function proc(x, y) { … }                          // complexité 3
+```
+
+Aucune des trois mesures ne distingue un nom d'intention d'un nom opaque. Or le nommage
+est le premier facteur de lisibilité — c'est le point 1 de cette leçon. **La partie la
+plus importante de la propreté du code est invisible à toute métrique automatique.**
+
+**D — le faux positif.** Un `switch` de douze cas plats atteint une complexité de **13**,
+au-dessus du seuil habituel de 10, avec une profondeur de **2**. Il se lit pourtant
+instantanément : les douze branches sont indépendantes et ne s'imbriquent pas.
+
+**L'erreur probable, et elle est institutionnelle.** On installe une porte « complexité
+≤ 10 » et l'on croit avoir mis de la qualité. Les mesures ci-dessus montrent qu'elle fait
+les deux erreurs à la fois : elle **bloque** le `switch` parfaitement clair (D) et
+**laisse passer** `proc(x, y)` sans un mot (C). Le piège séduit parce qu'un seuil chiffré
+paraît objectif, et parce qu'il est le seul critère qu'on puisse appliquer sans lire.
+
+**Alternative défendable** : garder la porte, mais sur la **profondeur** plutôt que sur la
+complexité, avec un seuil de 3 ou 4. La profondeur suit bien mieux la charge mentale, ne
+sanctionne pas les branches plates, et se contourne moins facilement. Elle reste aveugle
+au nommage — aucune métrique ne le voit — donc elle ne remplace pas la relecture ; elle
+choisit seulement ce qu'on automatise et ce qu'on laisse aux humains. C'est la même
+discipline que dans `readme-documentation` : savoir ce que le contrôle mesure et ce qu'il
+ne mesure pas.
+
+### Correction de la vérification de compréhension
+
+1. **Non** : 14 → 13, un point. Ce qui a changé est la complexité **par unité de lecture**,
+   14 → 4, et la profondeur, 8 → 2. On ne supprime pas la complexité d'un problème en
+   déplaçant du code ; on la découpe en morceaux qui tiennent dans la tête.
+2. Parce que des branches plates se lisent l'une après l'autre et s'oublient aussitôt
+   traitées, tandis qu'une imbrication oblige à retenir **toutes les conditions
+   englobantes en même temps** pour comprendre la ligne qu'on lit. À la profondeur 8, il
+   faut tenir huit conditions simultanément — au-delà de ce qu'une mémoire de travail
+   humaine retient.
+3. Elle bloque le `switch` plat de douze cas (complexité 13, profondeur 2), qui est du bon
+   code. Elle laisse passer `proc(x, y)` (complexité 3), qui est du mauvais code. Un seuil
+   automatique se trompe dans les deux sens ; il sert à **attirer l'attention**, jamais à
+   trancher.
+4. **Non.** Une *guard clause* transforme `if (ok) { … }` en `if (!ok) return;` — même
+   point de décision, même chemin. La mesure le confirme : la complexité totale bouge à
+   peine (14 → 13) alors que la profondeur est divisée par quatre. Les deux quantités
+   mesurent des choses différentes, et c'est précisément pourquoi il en faut deux.
 
 ## 🏢 Cas professionnel
 Une équipe reprend un service de tarification écrit par quelqu'un parti depuis. Une fonction de 400 lignes, des noms comme `tmp2` et `flagB`, aucun test. Personne n'ose y toucher : chaque évolution demandée est chiffrée en semaines, puis contournée par un `if` supplémentaire au début — ce qui rend la fonction encore plus longue à chaque passage.

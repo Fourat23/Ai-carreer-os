@@ -170,6 +170,53 @@ Tes systèmes IA en sont truffés : **Strategy** = interchanger les modèles LLM
 ## Mini-exercice
 Fouille TON code des mois 1-2 et trouve : une Strategy (une fonction passée en paramètre qui change le comportement), un début d'Adapter (une fonction qui uniformise un format), une occasion de Factory (une création dupliquée). Nomme-les en commentaire. C'est l'exercice inverse du cours magistral — et le plus formateur.
 
+## 🔥 Exercice plus difficile
+Le mini-exercice te faisait **reconnaître** des patterns. Celui-ci te fait mesurer ce
+qu'ils coûtent et ce qu'ils rapportent — parce qu'un pattern n'est jamais gratuit.
+
+**A — la même fonctionnalité, trois écritures.** Prends un cas concret : calculer les frais
+de port selon le mode de livraison (standard, express, point relais, retrait en magasin).
+Écris-le trois fois :
+1. une chaîne de `if / else if` ;
+2. un objet de correspondance `{ standard: fn, express: fn, … }` ;
+3. une Strategy « complète » — interface, une classe par mode, une Factory qui choisit.
+
+Livrable : les trois versions et, pour chacune, le nombre de lignes et le nombre de
+fichiers ou de blocs à ouvrir pour comprendre ce qui se passe pour `express`.
+
+**B — l'épreuve du changement.** Applique à chacune des trois versions, chronomètre en
+main, ces trois modifications :
+- ajouter un mode « livraison le dimanche » ;
+- changer la formule du mode express uniquement ;
+- faire dépendre le tarif du poids **et** de la région pour tous les modes.
+
+Livrable : un tableau 3 modifications × 3 versions, où chaque case dit **quels fichiers tu
+as ouverts**. C'est cela qui départage, pas une opinion sur l'élégance.
+
+**C — le coût, pas seulement le bénéfice.** Pour la troisième modification, réponds par
+écrit : la version 3 t'a-t-elle aidé, ou t'a-t-elle obligé à modifier chaque classe ?
+
+**D — la marche arrière.** Choisis un pattern présent dans ton propre code et **retire-le**.
+Reviens à la version directe. Livrable : le code avant/après et la réponse à « le code
+est-il pire ? ». Si la réponse est non, tu viens de trouver de la sur-ingénierie chez toi
+— c'est le résultat le plus utile de la journée.
+
+**Critère de réussite** : tu peux nommer, pour chacun des trois, la **condition précise**
+qui rendrait ce choix le bon, sans employer le mot « propre ».
+
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Le principe ouvert/fermé dit « ouvert à l'extension, fermé à la modification ». Dans
+   l'exercice B, laquelle des trois modifications le met vraiment à l'épreuve ?
+2. `taches.sort((a, b) => a.priorite - b.priorite)` est présenté comme une Strategy
+   complète. Qu'est-ce qui, dans cette ligne, joue le rôle de l'interface ?
+3. Une Factory pour deux cas est de la sur-ingénierie. À partir de combien de cas
+   change-t-on d'avis, et pourquoi ce nombre n'est-il pas une règle ?
+4. Le Singleton est le pattern le plus enseigné et le plus critiqué. Quel problème
+   introduit-il dans les tests, et pourquoi ce problème n'apparaît-il jamais en
+   développement local ?
+
 ## ✅ Correction attendue
 **La démarche** : tu ne cherches pas des classes, tu cherches des INTENTIONS déjà présentes. La Strategy est n'importe quelle fonction que tu as passée en paramètre pour faire varier un comportement — un comparateur de `sort`, un prédicat de `filter`. L'Adapter est n'importe quelle fonction qui prend une forme de données et en rend une autre, pour que la suite du code n'ait à connaître qu'un seul format. La Factory est le troisième endroit où tu as recopié les mêmes cinq lignes de construction en changeant un champ.
 
@@ -183,6 +230,72 @@ Le piège vient de ce que les exemples canoniques sont écrits en Java, langage 
 1. Pour chaque pattern nommé, écris en une phrase le PROBLÈME qu'il résout dans TON code. Si tu n'y arrives pas, tu as posé une étiquette, pas reconnu un pattern.
 2. Pour la Factory repérée : compte les occurrences réelles. Moins de trois ? Note-le et n'extrais rien.
 3. Épreuve décisive : pour ta Strategy, ajoute un nouveau comportement. Si tu dois modifier le code qui l'utilise, ce n'en était pas une — la Strategy se juge à ce que l'appelant ne bouge pas.
+
+### Correction de l'exercice difficile
+
+**A — les trois écritures.** Les ordres de grandeur attendus, pour quatre modes :
+
+| version | lignes | endroits à ouvrir pour comprendre `express` |
+|---|---|---|
+| chaîne de `if` | ~12 | **1** |
+| objet de correspondance | ~14 | **1** |
+| Strategy + Factory | ~45 | **3** (interface, classe, fabrique) |
+
+Le troisième chiffre est le vrai coût, et il est presque toujours passé sous silence :
+l'indirection se paie **à chaque lecture**, par tout le monde, pour toujours. Elle
+n'est rentable que si elle épargne quelque chose d'au moins équivalent.
+
+**B — l'épreuve du changement.** Le tableau attendu :
+
+| modification | chaîne de `if` | objet | Strategy + Factory |
+|---|---|---|---|
+| ajouter « dimanche » | 1 fichier, +3 lignes | 1 fichier, +1 entrée | 1 fichier neuf, +1 ligne dans la fabrique |
+| changer la formule d'`express` | 1 fichier, il faut trouver la branche | 1 fichier, la clé mène droit au code | 1 fichier, isolé |
+| poids **et** région pour tous | 1 fichier, tout est sous les yeux | 1 fichier, toutes les entrées | **toutes** les classes, une par une |
+
+**C — le coût.** La ligne qui compte est la troisième. Face à un changement qui traverse
+tous les cas, la version « bien conçue » est la **plus coûteuse** : la Strategy isole les
+variations les unes des autres, donc elle rend chère toute modification qui les concerne
+toutes. Elle n'a pas échoué — elle a fait exactement ce pour quoi elle est faite. C'est le
+choix qui était mal posé.
+
+**La règle de décision qui reste** : un pattern optimise **un axe de changement**. La
+Strategy suppose que ce qui varie, c'est le *jeu de comportements*. Si en réalité ce qui
+varie c'est la *signature commune*, elle multiplie le travail. Avant de choisir un pattern,
+la question n'est donc pas « est-ce plus propre ? » mais **« qu'est-ce qui va changer, et
+dans quelle direction ? »** — et l'on se trompe souvent, ce qui est une raison de plus de
+ne pas payer l'indirection trop tôt.
+
+**D — la marche arrière.** L'exercice n'a pas de corrigé, mais il a un résultat typique :
+sur du code personnel, retirer un pattern rend le code **plus court et aussi clair** dans
+la majorité des cas. Si c'est ce que tu observes, tu n'as pas mal appris les patterns —
+tu as appris ce que « douleur d'abord, nom ensuite » veut dire concrètement.
+
+Savoir **retirer** une abstraction est plus rare et plus utile que savoir en ajouter une.
+Les bases de code se dégradent surtout par accumulation d'abstractions que plus personne
+n'ose enlever.
+
+### Correction de la vérification de compréhension
+
+1. **La première** — ajouter un mode. C'est le seul changement qui soit une *extension* :
+   la Strategy le traite par un fichier neuf, sans toucher à l'existant. Les deux autres
+   sont des *modifications* et le principe ne promet rien à leur sujet. La troisième le
+   met même en défaut, comme le montre le tableau du B.
+2. **La signature de la fonction** : `(a, b) => number`. C'est elle le contrat. `sort` ne
+   connaît rien du comparateur sinon qu'il prend deux éléments et rend un nombre — ce
+   qu'une interface déclare dans un langage typé, une signature le déclare ici. Le pattern
+   est une **intention** ; `interface` en est une des formes possibles, pas la définition.
+3. **Trois est un repère, pas une règle**, parce que ce qui décide n'est pas le nombre
+   d'occurrences mais leur **destin commun** : vont-elles changer ensemble ? Trois copies
+   qui évoluent indépendamment ne doivent pas être fusionnées — les unifier crée une
+   abstraction que le prochain changement fera diverger, et l'on obtient alors le pire des
+   deux mondes : une fonction commune truffée de paramètres booléens.
+4. Il introduit un **état global partagé entre les tests** : le premier test qui modifie
+   l'instance la laisse modifiée pour les suivants, et l'ordre d'exécution se met à
+   compter. Cela n'apparaît pas en développement local parce qu'on lance un test à la fois,
+   ou toujours dans le même ordre. Le défaut se révèle en intégration continue, quand les
+   tests sont parallélisés ou mélangés — exactement la dépendance à l'ordre mesurée dans
+   la leçon `ci-cd`.
 
 ## 🏢 Cas professionnel
 Une équipe branche son produit sur un fournisseur de LLM et appelle son SDK directement depuis une quinzaine d'endroits. Six mois plus tard, il faut ajouter un second fournisseur — pour le coût, pour la disponibilité, ou parce qu'un client l'exige. Les quinze endroits connaissent la forme des messages du premier fournisseur, ses noms de paramètres, sa façon de signaler une erreur. Le chantier dure des semaines et introduit des bugs dans du code qui n'avait rien demandé.

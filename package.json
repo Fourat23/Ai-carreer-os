@@ -85,7 +85,10 @@
     "v66:negative": "bash scripts/v66-negative.sh",
     "v66:sample": "node scripts/v66-sample.mjs",
     "v66:pedagogy": "node scripts/v66-pedagogy-metrics.mjs --sample",
-    "v66:load": "node scripts/v66-load.mjs --sample"
+    "v66:load": "node scripts/v66-load.mjs --sample",
+    "v70:verify": "node scripts/v70/rejouer-verifications.mjs",
+    "v70:jargon": "node scripts/v70/jargon.mjs",
+    "v70:extract": "node scripts/v70/extract.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",

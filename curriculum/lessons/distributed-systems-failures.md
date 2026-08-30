@@ -79,14 +79,121 @@ dorment. On choisit alors une clé de partition qui RÉPARTIT bien, et on **ré�
 se déséquilibrent.
 
 ## 🔬 Exemple guidé
-« Je change mon avatar, je recharge, l'ancien s'affiche parfois. » Diagnostic distribué :
-1. L'écriture va sur le PRIMAIRE ; la lecture tombe sur un RÉPLICA en léger retard (**replication
-   lag**) → cohérence à terme.
-2. Est-ce grave ? Pour un avatar, non (ça converge en une seconde). Pour un solde bancaire, oui.
-3. Correctif selon la criticité : accepter (afficher un indicateur « mise à jour en cours »), OU lire
-   sur le primaire juste après une écriture (« read-your-writes »), OU attendre la convergence.
-Raisonnement : le bug n'est pas « aléatoire », c'est une propriété PRÉVISIBLE de la réplication ; on
-choisit l'arbitrage cohérence/fraîcheur selon l'enjeu métier.
+« Je change mon avatar, je recharge, et l'ancien s'affiche. Parfois. »
+
+C'est le ticket le plus déroutant qu'on puisse recevoir. Il n'est pas reproductible, il ne
+concerne que certains utilisateurs, et le code qui écrit l'avatar est manifestement correct.
+La tentation est de le classer « non reproductible » et de passer à autre chose.
+
+C'est une erreur de méthode : **en système distribué, « parfois » n'est pas un mot vague, c'est
+une piste.** Il désigne une classe de causes bien identifiée, et l'on peut la nommer avant
+même d'ouvrir un journal.
+
+### Ce que « parfois » veut dire
+
+Un comportement intermittent vient presque toujours de l'une de ces quatre causes, et la
+question qui les distingue est écrite en face :
+
+| Cause | La question qui la teste |
+|---|---|
+| plusieurs machines répondent | *toutes les instances ont-elles la même donnée ?* |
+| plusieurs copies de la donnée | *où est écrite la vérité, où est-elle lue ?* |
+| un cache quelque part | *entre le client et la base, qui garde une copie ?* |
+| une course entre deux opérations | *deux choses peuvent-elles arriver dans les deux ordres ?* |
+
+Pour notre avatar, une seule mesure tranche : **répéter la même requête vingt fois et compter
+les réponses différentes.**
+
+```bash
+for i in $(seq 20); do curl -s /api/profil | jq -r .avatar; done | sort | uniq -c
+#   14 avatar-nouveau.png
+#    6 avatar-ancien.png
+```
+
+Le « parfois » vient de disparaître : il vaut **6 fois sur 20**. Le bug est devenu un nombre,
+donc reproductible, donc corrigible.
+
+Et ce nombre en dit plus qu'il n'y paraît — il est proche de la proportion de réplicas en
+lecture. Trois réplicas, une lecture sur trois environ tombe sur celui qui traîne : le rapport
+désigne déjà la cause.
+
+### La cause : le retard de réplication
+
+L'écriture va sur le **primaire**. La lecture est distribuée sur des **réplicas**, qui reçoivent
+les modifications avec un décalage — quelques millisecondes en temps normal, plusieurs secondes
+sous charge.
+
+Ce décalage porte un nom, le **retard de réplication** (*replication lag*), et il faut insister
+sur un point : **ce n'est pas un défaut de configuration, c'est le fonctionnement normal.** La
+réplication asynchrone est exactement ce qui permet d'encaisser dix fois plus de lectures. Le
+retard est le prix de cette capacité, pas un dysfonctionnement à réparer.
+
+D'où la conséquence, appelée **cohérence à terme** : après une écriture, les lectures
+convergent vers la nouvelle valeur — mais pas immédiatement, et pas toutes en même temps.
+
+### La vraie question n'est pas technique
+
+« Comment supprimer le retard ? » n'a pas de bonne réponse — on peut le réduire, jamais
+l'annuler. La question utile est : **combien de retard cette donnée tolère-t-elle ?**
+
+| Donnée | Retard acceptable | Pourquoi |
+|---|---|---|
+| avatar, préférence d'affichage | une à deux secondes | l'utilisateur ne le remarque pas, et si oui, il recharge |
+| nombre de « j'aime » | quelques secondes | l'ordre de grandeur suffit |
+| stock affiché sur une fiche produit | quelques secondes, **mais pas au moment d'acheter** | on vérifie au panier |
+| solde d'un compte, droits d'accès | **aucun** | on lit le primaire, ou on refuse de répondre |
+
+C'est une décision de **produit**, pas d'infrastructure. Et elle doit être prise explicitement,
+parce que l'absence de décision équivaut à « n'importe quel retard est acceptable » — ce qui
+est faux pour la dernière ligne.
+
+### Les trois corrections, et ce qu'elles coûtent
+
+**1. Accepter, et le dire.** Pour l'avatar, la bonne réponse est souvent de ne rien changer au
+stockage et de traiter le symptôme côté interface : afficher immédiatement la nouvelle image
+choisie par l'utilisateur, sans attendre la relecture. Il voit son avatar changer ; la
+convergence se fait pendant ce temps.
+
+Coût : nul. Le meilleur rapport de tout le tableau, et celui qu'on n'envisage jamais parce
+qu'on cherche une correction « technique ».
+
+**2. Lire ses propres écritures.** Après une écriture, diriger **cet utilisateur** vers le
+primaire pendant quelques secondes. Il voit toujours ses modifications ; les autres tolèrent le
+retard.
+
+Coût : un peu de charge sur le primaire, et un mécanisme à écrire — un marqueur dans la session
+ou un jeton de position dans le flux de réplication.
+
+Cette garantie est plus faible que la cohérence forte, et c'est justement ce qui la rend
+intéressante : **elle ne corrige que ce que l'utilisateur peut constater.** Que le voisin voie
+l'ancien avatar pendant deux secondes n'a aucune conséquence — il ne sait pas qu'il a changé.
+
+**3. Exiger la cohérence forte.** Lire systématiquement le primaire, ou attendre la
+confirmation d'un quorum de réplicas.
+
+Coût : réel, et il faut l'annoncer. On perd le bénéfice des réplicas en lecture, la latence
+augmente, et surtout : si le primaire est indisponible, **on ne peut plus répondre du tout**.
+
+Ce dernier point est le compromis fondamental des systèmes distribués : *en cas de partition
+du réseau, il faut choisir entre répondre avec une donnée possiblement périmée, et ne pas
+répondre.* On ne peut pas avoir les deux. Pour un avatar, on répond ; pour un virement, on
+refuse.
+
+### Ce que ce cas apprend au-delà des avatars
+
+Trois réflexes, qui valent pour tout comportement intermittent :
+
+- **transformer « parfois » en fréquence.** Vingt requêtes, un `sort | uniq -c`, et le vague
+  devient mesurable ;
+- **chercher les copies avant de chercher le bug.** Réplicas, caches, instances, sessions : un
+  système distribué a plusieurs endroits où la même vérité est stockée, et l'intermittence
+  vient presque toujours de leur désaccord ;
+- **poser la question métier avant la question technique.** « Combien de retard est
+  acceptable ? » se répond avec le produit ; sans cette réponse, on ne peut pas choisir entre
+  trois corrections dont les coûts diffèrent d'un facteur cent.
+
+Et la phrase à retenir : **le bug n'était pas aléatoire.** Il était la conséquence prévisible
+d'une architecture qu'on avait choisie, sans avoir écrit ce qu'elle impliquait.
 
 ## ⚖️ Trade-offs
 - Cohérence forte ↔ disponibilité/latence : lire le primaire (frais) coûte en charge et en latence ;

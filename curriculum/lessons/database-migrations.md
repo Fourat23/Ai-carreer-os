@@ -97,22 +97,136 @@ compatible (additif) vs cassant · compatibilité descendante · motif expand/co
 backfill · migration de données par lots · zéro interruption (zero-downtime).
 
 ## 🧭 Exemple guidé
-Renommer `nom` en `nom_complet` sur une table vivante, sans coupure (expand/contract) :
+Renommer `nom` en `nom_complet` sur une table vivante, sans coupure.
+
+Ce qui rend l'exercice difficile n'est pas le SQL — `RENAME COLUMN` existe et fonctionne. C'est
+qu'au moment où la migration s'exécute, **l'ancien code tourne encore**. Un déploiement n'est
+jamais instantané : la migration passe, puis les instances applicatives sont remplacées une par
+une, sur plusieurs minutes.
+
+Alors mesurons ce que voit ce code pendant l'opération.
+
+> Les résultats sont **exécutés** par
+> `scripts/v70-verifications/migration-expand-contract.mjs` : à chaque étape, les requêtes de
+> l'ancienne version **et** de la nouvelle sont réellement jouées contre la base.
+
+### A. La migration en une instruction
+
 ```sql
--- Migration 012 (expand) : ajouter la nouvelle colonne, compatible avec l'ancien code.
+ALTER TABLE clients RENAME COLUMN nom TO nom_complet;
+```
+
+| Instant | `ancien.lire` | `ancien.écrire` | `nouveau.lire` |
+|---|---|---|---|
+| avant | OK | OK | échec : `no such column: nom_complet` |
+| **après le RENAME** | **échec : `no such column: nom`** | **échec** | OK |
+
+Une instruction, et **l'ancien code est mort d'un coup** — en lecture comme en écriture. Toutes
+les instances pas encore remplacées renvoient des erreurs, pour toutes les requêtes touchant
+cette table.
+
+La durée de la panne n'est pas celle de la migration (quelques millisecondes) : c'est celle du
+**déploiement**, soit plusieurs minutes. Et si le déploiement échoue et qu'il faut revenir en
+arrière, l'ancien code revient sur un schéma qu'il ne comprend plus — la panne devient longue.
+
+Retiens la formulation : **une migration n'est jamais seule.** Elle est jouée dans un système
+où deux versions du code coexistent, et c'est cette coexistence qu'il faut rendre possible.
+
+### B. Élargir, remplir, rétrécir
+
+Quatre étapes, et la mesure à chacune :
+
+| Étape | `ancien.lire` | `ancien.écrire` | `nouveau.lire` |
+|---|---|---|---|
+| 0. avant | OK | OK | échec |
+| **1. `ADD COLUMN nom_complet`** | **OK** | **OK** | **OK** |
+| 2. `UPDATE … SET nom_complet = nom` | OK | OK | OK |
+| 3. *déploiement du nouveau code* | OK | OK | OK |
+| **4. `DROP COLUMN nom`** | échec | échec | OK |
+
+La ligne 1 est le cœur du motif. **Ajouter une colonne ne casse personne** : l'ancien code ne
+la connaît pas et ne la demande pas, le nouveau code peut déjà l'utiliser. C'est la seule
+opération de schéma qui laisse les deux versions fonctionner, et c'est pourquoi toute migration
+compatible commence par une addition.
+
+L'ancien code ne casse qu'à l'étape 4 — **après avoir été retiré de la production**. Le schéma
+n'a jamais, à aucun instant, été incompatible avec le code qui tournait.
+
+```sql
+-- 012 (expand)   : personne ne casse
 ALTER TABLE clients ADD COLUMN nom_complet TEXT;
 
--- (déploiement du code qui écrit nom ET nom_complet, et lit nom_complet)
-
--- Migration 013 (backfill) : copier l'existant, par lots si la table est énorme.
+-- 013 (backfill) : copier l'existant
 UPDATE clients SET nom_complet = nom WHERE nom_complet IS NULL;
 
--- (une fois qu'aucun code n'utilise plus `nom`)
--- Migration 014 (contract) : supprimer l'ancienne colonne.
+-- déploiement du code qui ÉCRIT les deux colonnes et LIT nom_complet
+-- ... puis on attend. Des jours, si nécessaire.
+
+-- 014 (contract) : seulement quand plus aucun code ne lit `nom`
 ALTER TABLE clients DROP COLUMN nom;
 ```
-À chaque étape, le code en production voit un schéma qu'il comprend : aucun instant de casse.
-Un `DROP COLUMN nom` fait d'un seul coup, lui, aurait planté l'ancien code encore en ligne.
+
+### Les deux détails qui font échouer ce motif en vrai
+
+**Le code intermédiaire doit écrire les DEUX colonnes.** C'est l'étape que l'on oublie, et elle
+est indispensable : entre le déploiement et le `DROP`, des instances de l'ancienne version
+écrivent encore dans `nom` seul. Si le nouveau code n'écrit pas les deux, les lignes créées
+pendant cette fenêtre auront un `nom_complet` vide — un trou de données que personne ne
+remarquera avant des mois.
+
+**Le moment du `DROP` se décide sur une mesure, pas sur un calendrier.** « Plus aucun code ne
+lit `nom` » est une hypothèse tant qu'on ne l'a pas vérifiée : un compteur sur la lecture du
+champ, ou une recherche dans le code de tous les services — y compris les tâches planifiées,
+les exports, les tableaux de bord d'analyse et le script de quelqu'un qui interroge la base
+directement.
+
+C'est exactement la même exigence que la dépréciation d'un champ d'API dans
+`/doc/lessons/api-production-contracts` : **sans compteur, on ne sait jamais si l'on peut
+retirer.**
+
+### Le remplissage : un seul `UPDATE` ou par lots ?
+
+Question qui se pose dès que la table est grosse. Mesure sur **500 000 lignes** :
+
+| Méthode | Durée totale | Ce qui se passe |
+|---|---|---|
+| un seul `UPDATE` | **125 ms** | une transaction, verrou tenu du début à la fin |
+| par lots de 10 000 | **884 ms** | 50 transactions courtes |
+
+Le traitement par lots est **sept fois plus lent au total** — et c'est celui qu'il faut choisir
+en production.
+
+La raison n'apparaît pas dans la colonne « durée totale », et c'est tout l'intérêt de la
+mesure : ce qui compte n'est pas le temps total, c'est **la durée de la plus longue
+transaction**. Le seul `UPDATE` tient un verrou pendant toute son exécution ; ici 125 ms, mais
+sur 50 millions de lignes et une vraie base sous charge, ce sont plusieurs minutes pendant
+lesquelles les écritures des utilisateurs attendent.
+
+Cinquante transactions de quelques millisecondes laissent, entre chacune, la place aux requêtes
+normales. On paie 759 ms de plus, et personne ne s'en aperçoit.
+
+Généralisation utile bien au-delà des migrations : **quand une opération longue bloque les
+autres, la découper la rend plus lente et le système plus disponible.** C'est un arbitrage
+qu'on retrouve partout — traitements par lots, indexation, purge d'archives.
+
+### Le retour arrière, et pourquoi il est asymétrique
+
+Dernière propriété du motif, et elle est décisive : à quelles étapes peut-on revenir en
+arrière ?
+
+| Étape | Réversible ? |
+|---|---|
+| 1. `ADD COLUMN` | oui, sans perte |
+| 2. remplissage | oui, sans perte |
+| 3. déploiement du nouveau code | oui — l'ancien code fonctionne encore |
+| 4. `DROP COLUMN` | **non — la donnée est perdue** |
+
+Trois étapes réversibles, une définitive. C'est pour cela que le `DROP` est **séparé** des
+autres et joué bien plus tard : on découpe la migration de manière que tout ce qui est risqué
+soit repoussé au moment où l'on est sûr.
+
+Le principe, applicable à tout changement délicat : **regroupe ce qui est réversible, isole ce
+qui ne l'est pas, et exécute l'irréversible en dernier, séparément.**
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

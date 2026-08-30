@@ -30,7 +30,7 @@ const warns = [];
 // profondeur. V67 a traite ce stock. Le gel a rougi de lui-meme, ce qui est sa
 // fonction ; il est mis a jour ici, jamais silencieusement.
 //   V66 -> e34b1c76dc7f9e7be1cc40f7f8fcd0b7733811f2
-//   V67 -> 25f97ebad1ca1130486cdd4d12a926c43b91cf8a
+//   V67 -> d8b7dc354abb1bec61acb8bc86259a0332d55199
 // Re-gelé par V68 (CP15). Le corpus de leçons a changé parce que les 41 leçons du
 // parcours qui n'avaient AUCUNE correction en ont désormais une, et que
 // metrics-percentiles portait un p99 faux d'un facteur 50. Voir
@@ -40,15 +40,15 @@ const warns = [];
 // (docs/V69-FINAL-REPORT.md, docs/V69-LESSON-LEDGER.md). Le gel protège contre une
 // dérive SILENCIEUSE du corpus, pas contre une réécriture décidée et documentée.
 // Chaîne des empreintes : 7c9db74f -> b5ed5aee -> 7a3fd017 -> 64748e15.
-// RE-GEL V70 CP5 — le corpus des 128 leçons a été modifié volontairement.
+// RE-GEL V70 CP5 puis CP6 — le corpus des 128 leçons a été modifié volontairement.
 // Lot Frontend / Next.js / CSS : 19 leçons réécrites en profondeur (exemples
 // guidés reconstruits, pratiques avec production observable, corrections
 // raisonnées). Le gel passe de 64748e1522904dbc811bb486409d6fb53dc0ec75
-// à 25f97ebad1ca1130486cdd4d12a926c43b91cf8a.
+// à d8b7dc354abb1bec61acb8bc86259a0332d55199.
 // Ce n'est pas un contournement du gate : le gate protège contre une
 // modification NON DÉCLARÉE du corpus, et celle-ci est déclarée, committée
 // et mesurée (mini-statut CP5).
-const FROZEN_CORPUS = '25f97ebad1ca1130486cdd4d12a926c43b91cf8a';
+const FROZEN_CORPUS = 'd8b7dc354abb1bec61acb8bc86259a0332d55199';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 const HEX_BASELINE = 0; // V53 : plus aucune couleur hex en dur dans le TSX.
 const PILOTS = ['app/page.tsx', 'app/day/[id]/page.tsx', 'app/skills/page.tsx'];

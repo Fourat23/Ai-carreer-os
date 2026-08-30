@@ -86,16 +86,124 @@ Avant de dimensionner, on ESTIME : combien de requêtes/seconde ? combien une in
 décider. Estimer évite le sur-dimensionnement (coût) comme le sous-dimensionnement (panne).
 
 ## 🔬 Exemple guidé
-Une API passe de 100 à 50 000 requêtes/minute et sature.
-1. **Diagnostic** : le CPU des instances est à 100 % (pas le disque) → problème de calcul/charge.
-2. **Cache** d'abord : 70 % des requêtes sont des lectures identiques → un cache les absorbe (levier le
-   moins cher).
-3. **Horizontal** : on rend l'app stateless (sessions en cache partagé) et on passe de 1 à 4 instances
-   derrière un **load balancer** avec health checks.
-4. **Base** : les lectures saturent la base → on ajoute des **réplicas de lecture**.
-5. **SPOF** : le load balancer est unique → on le redonde.
-Raisonnement : on traite le goulot réel, du levier le moins coûteux (cache) au plus structurant
-(réplication), en éliminant les SPOF. On n'a pas « tout distribué » d'emblée.
+Une API passe de 100 à 50 000 requêtes par minute et sature.
+
+La question qu'on pose alors — « comment on scale ? » — n'a pas de réponse. Elle en a
+seulement une fois qu'on sait **ce qui sature**, et c'est presque toujours l'étape qu'on saute
+pour aller directement à une solution qu'on connaît déjà.
+
+### Étape 0 — la mesure qui oriente tout
+
+Trois chiffres suffisent à séparer quatre familles de problèmes complètement différentes :
+
+| Ce qui est saturé | Cause probable | Ce qui aiderait | Ce qui n'aiderait PAS |
+|---|---|---|---|
+| **processeur** à 100 % | calcul, sérialisation, chiffrement | cache, plus d'instances | plus de mémoire |
+| **mémoire** pleine, échanges disque | fuite, objets trop gros, cache local démesuré | corriger la fuite | plus d'instances (elles fuiront aussi) |
+| **disque** saturé, files d'attente d'E/S | base non indexée, journaux excessifs | index, moins d'écritures | plus de processeur |
+| **rien n'est saturé**, et c'est lent | attente d'un tiers, verrous, N+1 | délais d'attente, corriger le N+1 | **plus de machines** |
+
+La dernière ligne est celle qui coûte le plus cher dans la vraie vie. Un service dont les fils
+d'exécution attendent une dépendance lente ne va pas plus vite avec quatre instances : il
+attend simplement à quatre endroits, pour quatre fois le prix. Et c'est pourtant la première
+chose qu'on fait, parce que c'est la plus facile.
+
+Dans notre cas, la mesure dit : **processeur à 100 %, disque calme, mémoire stable.** On est
+sur la première ligne.
+
+### Étape 1 — le levier le moins cher : ne pas faire le travail
+
+Seconde mesure, et elle est aussi importante que la première : **quelle est la répartition des
+requêtes ?**
+
+```
+70 %  GET /produits/:id      — lectures, contenu identique pour tous
+20 %  GET /recherche?q=...   — lectures, contenu variable
+10 %  POST /commandes        — écritures
+```
+
+Soixante-dix pour cent des requêtes demandent **la même chose**. Avant d'ajouter la moindre
+machine, on arrête de recalculer ces réponses : un cache les absorbe.
+
+Ce que ça donne, en ordre de grandeur : si 70 % du trafic est servi depuis le cache, la charge
+qui atteint réellement l'application tombe à 30 %. **On vient de diviser le besoin en machines
+par trois pour le prix d'un cache** — et sans rien changer à l'architecture.
+
+C'est le principe de la mise à l'échelle, et il est contre-intuitif : *la première question
+n'est pas « comment faire plus », c'est « que puis-je ne pas refaire ».* Cache, index, requête
+groupée à la place d'un N+1 (mesuré à **51 requêtes contre 1** dans
+`/doc/lessons/caching-performance`) : tout cela réduit le travail au lieu d'ajouter des
+ressources.
+
+Rappel de la même leçon, pour ne pas croire le cache magique : un cache ne sert que si les
+mêmes clés reviennent. Ici c'est vérifié — 70 % des requêtes portent sur les mêmes fiches
+produit. Sur la recherche, où chaque requête est différente, il ne servirait à rien.
+
+### Étape 2 — l'horizontal, et son prérequis
+
+Les 30 % restants saturent encore. On ajoute des instances.
+
+Mais on ne peut pas le faire tant qu'une condition n'est pas remplie : **l'application doit
+être sans état**. Si la session d'un utilisateur est en mémoire dans une instance, il faut que
+toutes ses requêtes retombent sur celle-là — ce qu'on appelle des sessions collantes — et l'on
+perd l'essentiel du bénéfice : plus d'équilibrage réel, et une instance qui redémarre
+déconnecte ses utilisateurs.
+
+La transformation est simple à énoncer et structurante : **tout ce qui doit survivre à une
+requête sort du processus.** Sessions dans un magasin partagé, fichiers téléversés dans un
+stockage objet, tâches en attente dans une file. L'instance devient interchangeable et
+jetable.
+
+C'est le vrai contenu de l'étape « horizontale », et c'est la raison pour laquelle elle est
+douloureuse dans les applications anciennes : le travail n'est pas d'ajouter des machines,
+c'est de **retirer l'état** des machines existantes.
+
+Le répartiteur de charge a alors deux fonctions, et la seconde compte autant que la première :
+distribuer, et **sortir de la rotation une instance qui ne répond plus** grâce à un contrôle de
+santé. Sans ce contrôle, une instance en panne continue de recevoir un quart du trafic.
+
+### Étape 3 — la base, dernier goulot
+
+Les instances tiennent, la base sature. C'est l'ordre habituel : on peut multiplier les
+serveurs applicatifs presque à volonté, jamais la base d'écriture.
+
+| Levier | Ce qu'il résout | Ce qu'il coûte |
+|---|---|---|
+| **index** | des lectures qui parcourent toute la table | 1,85× en écriture (mesuré dans `sql-performance-indexing`) |
+| **réplicas de lecture** | le volume de lectures | le **retard de réplication**, et ses effets « parfois » |
+| **partitionnement** | le volume d'**écritures** | requêtes entre partitions difficiles, choix de clé irréversible |
+
+L'ordre est celui du tableau, et il est strict : les index sont gratuits en comparaison et
+souvent suffisants ; les réplicas introduisent la cohérence à terme décrite dans
+`/doc/lessons/distributed-systems-failures` ; le partitionnement est une décision structurelle
+qu'on ne défait pas.
+
+### Étape 4 — ce que l'ajout de machines a créé
+
+Une instance unique n'avait aucun point de défaillance unique : elle **était** le service.
+Quatre instances derrière un répartiteur en créent un — **le répartiteur**. Le cache partagé en
+est un autre : s'il tombe, les 70 % de trafic qu'il absorbait arrivent d'un coup sur une
+application dimensionnée pour 30 %, et tout s'effondre.
+
+C'est l'enseignement le moins intuitif de toute la leçon : **la mise à l'échelle crée des modes
+de panne qui n'existaient pas.** Chaque composant ajouté est un composant qui peut tomber, et
+le système devient plus disponible **seulement si** on redonde ce qu'on a ajouté et si l'on
+prévoit ce qui se passe quand chaque pièce disparaît.
+
+D'où la question à poser après chaque étape, et pas à la fin : *qu'est-ce qui tombe si ceci
+tombe ?*
+
+### La méthode, en une phrase par étape
+
+1. **Mesurer** ce qui sature — processeur, mémoire, disque, ou rien du tout.
+2. **Réduire le travail** avant d'ajouter des ressources : cache, index, N+1.
+3. **Retirer l'état** des instances, puis les multiplier.
+4. **Traiter la base** en dernier, du moins cher au plus irréversible.
+5. **Redonder ce qu'on vient d'ajouter**, et savoir ce qui tombe avec.
+
+Ce qu'il ne faut surtout pas faire : commencer par l'étape 3. C'est le réflexe le plus répandu,
+et il produit des architectures distribuées coûteuses pour des problèmes qu'un index ou un
+cache aurait réglés en une journée.
 
 ## ⚖️ Trade-offs
 - Vertical : simple, zéro refactor ↔ plafond, prix, reste un SPOF.

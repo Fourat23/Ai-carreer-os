@@ -219,6 +219,96 @@ export function analyser(slug) {
     // correction
     corrRaisonne: /(la démarche|l'erreur probable|pourquoi|alternative|défendable|se défend)/i.test(corrTxt),
     corrSeuleReponse: m('correction') > 0 && m('correction') < 60,
+
+    // SONDE ADDITIONNELLE — V70 CP15, documentée conformément à §6.
+    //
+    // DÉFAUT DÉMONTRÉ. `corrRaisonne` teste six chaînes littérales. Or le
+    // français exprime le même raisonnement par bien d'autres tournures, et
+    // neuf leçons du corpus le font. Extraits RÉELS de leurs corrections,
+    // recopiés avant toute modification de sonde :
+    //
+    //   linux-services-systemd (727 mots, zéro marqueur d'origine) :
+    //     « la relance ne répare que les pannes transitoires. Ici la cause est
+    //      une variable absente ; aucune quantité de relances ne la fera
+    //      apparaître. » — c'est l'élément D9-2 (pourquoi ça marche).
+    //     « C'est contre-intuitif : on préférerait un superviseur tenace. » —
+    //      c'est l'élément D9-3 (mauvaise solution plausible).
+    //     « la même arithmétique 128 + N explique par ailleurs le code 137
+    //      d'un conteneur tué pour dépassement de mémoire » — D9-5
+    //      (généralisation).
+    //   technical-storytelling : « La raison pour laquelle ce point compte
+    //     tant … », « Erreur à éviter : présenter l'échec comme une faute ».
+    //   ci-cd : « `install` peut résoudre une version différente de celle que
+    //     tu as testée, ce qui rend la CI verte sur un assemblage que personne
+    //     n'a vérifié », « c'est une confusion fréquente en entretien ».
+    //
+    // Aucune de ces phrases ne contient « pourquoi », « la démarche »,
+    // « alternative », « défendable » ni « l'erreur probable ». La sonde
+    // d'origine produit donc un FAUX NÉGATIF, et non un constat de faiblesse.
+    //
+    // POURQUOI LA SONDE D'ORIGINE N'EST PAS MODIFIÉE. La corriger ferait
+    // monter un chiffre déjà publié sans que le lecteur puisse voir de combien.
+    // Elle reste donc telle quelle, et cette seconde sonde est ajoutée à côté.
+    // Les DEUX chiffres sont publiés au CP15.
+    //
+    // CE QUE LA SONDE ÉTENDUE MESURE. Les cinq éléments de D9 du contrat gelé,
+    // chacun cherché par une FAMILLE de tournures et non par un mot unique. Le
+    // seuil — au moins trois éléments sur cinq — est celui du contrat gelé au
+    // CP1 ; il n'a pas été choisi après la mesure.
+    //
+    // IMPACT MESURÉ sur le corpus au commit 59644bc :
+    //   corrRaisonne     (sonde CP0, inchangée) : 119 / 128
+    //   corrD9 >= 3      (sonde CP15, ajoutée)  : 118 / 128
+    //
+    // ─────────────────────────────────────────────────────────────────────
+    // VERDICT SUR CETTE SONDE : ELLE NE MESURE PAS D9. À PUBLIER TEL QUEL.
+    // ─────────────────────────────────────────────────────────────────────
+    // La sonde étendue devait corriger la sonde d'origine. Elle ne la corrige
+    // pas : elle se trompe autant, dans les deux sens, et sur d'autres leçons.
+    // Les DIX leçons qu'elle place sous le seuil ont été LUES intégralement au
+    // CP15. Les dix contiennent les cinq éléments de D9. Contre-exemples :
+    //
+    //   deployment-strategies — noté 1/5. Contient « Trois erreurs de détail à
+    //     éviter », « cinq migrations au lieu d'une », « Le point de conception
+    //     qui départage une bonne réponse ». La famille 3 cherche « erreur à
+    //     éviter » d'un seul tenant et « au lieu de » ; le texte écrit
+    //     « erreurs de détail à éviter » et « au lieu d'une ». Deux échecs
+    //     d'appariement sur une élision et un mot intercalé.
+    //   async-javascript — noté 2/5 par la sonde étendue, mais VRAI pour la
+    //     sonde d'origine : sa correction contient littéralement « L'erreur
+    //     probable » et « Alternative défendable ». Les deux sondes se
+    //     contredisent sur la même leçon.
+    //   machine-learning-basics, react-accessibility, design-patterns-intro —
+    //     notées 2/5, alors que chacune ouvre sur « La démarche » et
+    //     « L'erreur probable » en toutes lettres.
+    //
+    // CE QUE J'EN CONCLUS, ET CE QUE JE REFUSE DE FAIRE. Je pourrais élargir
+    // les familles jusqu'à ce que les 128 passent. Ce serait exactement le
+    // geste interdit par le brief : ajuster une sonde jusqu'à obtenir la note
+    // voulue. Une expression régulière sur de la prose française ne sait pas
+    // reconnaître un raisonnement ; elle reconnaît des mots. Le contrat gelé
+    // le prévoyait d'ailleurs (§6 « ce que ce barème ne sait pas faire »).
+    //
+    // La sonde reste donc dans le code, avec ce verdict, comme instrument de
+    // DÉGROSSISSAGE et non de notation. La condition 7 du contrat — « aucune
+    // correction réduite à la réponse » — est mesurée par `corrSeuleReponse`,
+    // qui compte des mots et non des tournures, et vaut 0/128.
+    // D9 est notée par LECTURE. Voir le rapport final, section corrections.
+    corrD9: (() => {
+      const e = [
+        // 1 — la démarche : comment on arrive à la réponse
+        /(la démarche|on commence par|première étape|le calcul attendu|la forme attendue|le raisonnement|on cherche d'abord|la méthode)/i,
+        // 2 — pourquoi la solution correcte fonctionne
+        /(pourquoi|parce que|la raison pour laquelle|ce qui (?:rend|permet|garantit|explique)|c'est ce qui|d'où (?:la|le|l'))/i,
+        // 3 — une mauvaise solution plausible et sa raison d'échec
+        /(erreur (?:à éviter|systématique|fréquente|classique)|le piège|contre-intuitif|on préférerait|au lieu de|plutôt que|n'est pas « |ce n'est pas |à ne pas)/i,
+        // 4 — les indices qui font reconnaître ce type de problème
+        /(indice|signe|se reconnaît|tu sauras|le symptôme|ce qui doit t'alerter|à chercher|si tu (?:vois|observes|constates))/i,
+        // 5 — généralisation, ou cas où la réponse changerait
+        /(en général|de manière générale|le même|la même|par ailleurs|s'applique aussi|dans un autre|si (?:en revanche|au contraire)|cela vaut aussi)/i,
+      ].filter((re) => re.test(corrTxt)).length;
+      return e;
+    })(),
     guideTxt, corrTxt, exoTxt, secs: secs.map((s) => s.titre),
   };
 }

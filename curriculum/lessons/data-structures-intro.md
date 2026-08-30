@@ -162,6 +162,43 @@ L'**index inversé** (mot → ensemble de documents) est le cœur de la recherch
 ## Mini-exercice
 Sur 20 phrases : construis un index inversé (Map mot → Set d'indices), puis `rechercher(mot1, mot2)` qui renvoie les phrases contenant LES DEUX (intersection de Sets). Tu viens d'écrire le cœur d'un moteur de recherche.
 
+## 🔥 Exercice plus difficile
+Cette leçon t'a donné des coûts. **Ne les crois pas : mesure-les.** Trois mesures, un
+banc d'essai que tu écris toi-même. Chauffe toujours la fonction une fois avant de
+chronométrer, sinon tu mesures la compilation du moteur et non ton code.
+
+**A — la classe de coût.** Pour n = 100, 1 000, 10 000 et 100 000, compare la recherche
+d'un élément **absent** dans un tableau (`.includes`) et dans un `Set` (`.has`). Livrable :
+le tableau des quatre rapports. Le chiffre à interpréter n'est pas la durée mais **la
+façon dont le rapport évolue quand n est multiplié par dix**.
+
+**B — le seuil de rentabilité.** Construire un `Set` coûte aussi. À n = 10 000 fixé,
+compare « k recherches dans le tableau » à « construire le Set + k recherches », pour
+k = 1, 5, 20, 50, 100, 200, 500, 1 000. Livrable : le k à partir duquel le `Set` devient
+gagnant. Prédis-le **avant** de lancer, et note ta prédiction.
+
+**C — la file d'attente.** Vide une file de n éléments de deux façons : `while (f.length)
+s += f.shift()` d'un côté, un index de tête qui avance de l'autre. Fais-le pour
+n = 10 000, puis 100 000. **Prévois du temps** : l'une des deux versions va te surprendre,
+et il faut la laisser finir pour voir de combien.
+
+**Critère de réussite** : tu peux répondre par écrit à « une structure asymptotiquement
+meilleure est-elle toujours le bon choix ? » en citant **ton propre** chiffre du B.
+
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. `.includes` sur 100 éléments prend 0,00045 ms, `.has` prend 0,00006 ms. Pourquoi ce
+   rapport de 8 ne prouve-t-il presque rien, alors que le même rapport mesuré à n = 100 000
+   prouve quelque chose ?
+2. Dans le B, pourquoi la ligne « Set + construction » reste-t-elle à peu près constante
+   quand k passe de 1 à 2 000, alors que la ligne « tableau » est multipliée par plus de
+   mille ?
+3. Un objet ordinaire et une `Map` sont tous deux annoncés en coût constant. Peuvent-ils
+   avoir des vitesses différentes ? Si oui, que signifie exactement « coût constant » ?
+4. Ton index inversé associe un mot à un `Set` d'indices. Pourquoi un `Set` et non un
+   tableau, et à partir de quand la différence devient-elle visible ?
+
 ## ✅ Correction attendue
 **La démarche** : l'index se construit en une passe. Pour chaque phrase, pour chaque mot, on ajoute l'indice de la phrase au `Set` associé au mot. La recherche à deux mots est une **intersection** : on prend le plus petit des deux ensembles et on ne garde que ses éléments présents dans l'autre.
 
@@ -193,6 +230,99 @@ Deuxième erreur, silencieuse celle-là : oublier `toLowerCase()`. « Chat » et
 2. `rechercher('Chat', 'souris')` donne le même résultat que `rechercher('chat', 'souris')`.
 3. Une phrase contenant deux fois le même mot n'apparaît qu'une fois dans le résultat — c'est le `Set` qui te l'offre gratuitement.
 4. Compare avec la version naïve (deux boucles imbriquées sur les phrases) sur 20 000 phrases : les deux doivent rendre **exactement** le même résultat. C'est le test par oracle du jour 20, appliqué ici.
+
+### Correction de l'exercice difficile
+
+> Mesures produites par `scripts/v70-verifications/structures-couts-mesures.mjs`
+> sur Node.js 22. **Tes durées absolues seront différentes** — autre machine, autre
+> charge. Les rapports, eux, tiendront.
+
+**A — la classe de coût.** Recherche d'un élément absent :
+
+| n | `.includes` | `.has` | rapport |
+|---|---|---|---|
+| 100 | 0,00045 ms | 0,00006 ms | ×8 |
+| 1 000 | 0,00158 ms | 0,00004 ms | ×35 |
+| 10 000 | 0,01067 ms | 0,00005 ms | ×222 |
+| 100 000 | 0,15021 ms | 0,00004 ms | ×3 494 |
+
+La lecture correcte n'est aucune de ces lignes prise seule. C'est la **colonne `.has`** :
+elle ne bouge pas quand n est multiplié par mille. Et c'est la **colonne `.includes`** :
+elle est multipliée par dix quand n l'est. Voilà ce que « constant » et « linéaire »
+veulent dire — pas « rapide » et « lent », mais « indépendant de n » et « proportionnel
+à n ». Un rapport unique ne dit rien ; c'est la **pente** qui identifie la classe.
+
+**B — le seuil, et c'est là que la surprise arrive.** À n = 10 000 :
+
+| k recherches | tableau | Set + construction | gagnant |
+|---|---|---|---|
+| 1 | 0,0015 ms | 0,9270 ms | tableau |
+| 5 | 0,0069 ms | 0,8591 ms | tableau |
+| 20 | 0,0827 ms | 0,8462 ms | tableau |
+| 50 | 0,6314 ms | 0,8534 ms | **tableau** |
+| 100 | 1,1987 ms | 0,8126 ms | **Set** |
+| 1 000 | 12,3808 ms | 0,8327 ms | Set |
+
+Le basculement est **entre 50 et 100 recherches**. En dessous, la structure
+« asymptotiquement mauvaise » gagne — et elle gagne largement : à une seule recherche, le
+tableau est six cents fois plus rapide que la solution savante.
+
+**L'erreur probable, et elle est encouragée par les cours d'algorithmique.** On apprend
+que le `Set` est meilleur, on en déduit qu'il faut toujours l'utiliser, et l'on construit
+un `Set` de dix mille éléments pour faire trois recherches. La théorie décrit un
+**comportement à l'infini** ; ton programme, lui, s'exécute sur des tailles finies avec
+des constantes réelles. « Meilleure complexité » ne veut pas dire « plus rapide ici », et
+la seule façon de savoir est celle que tu viens d'employer : mesurer.
+
+Le piège séduit parce que la complexité asymptotique est enseignable et vérifiable à la
+lecture, alors que la constante ne se connaît qu'en exécutant. On préfère le critère
+qu'on peut appliquer sans se lever.
+
+**C — la file d'attente.**
+
+| n | `shift()` | index de tête | rapport |
+|---|---|---|---|
+| 10 000 | 1,61 ms | 0,71 ms | ×2 |
+| 100 000 | **12 280 ms** | 6,32 ms | ×1 943 |
+| 200 000 | **50 096 ms** | 9,61 ms | ×5 212 |
+
+Douze secondes, puis cinquante. Ce n'est pas une lenteur, c'est un changement de nature :
+en doublant n, le temps est multiplié par quatre — la signature d'un coût quadratique.
+`shift()` décale tous les éléments restants d'un cran ; le faire n fois coûte n²/2
+déplacements. L'index de tête, lui, n'écrit rien : il avance un compteur.
+
+Et la vraie leçon est dans la première ligne : à n = 10 000, l'écart n'est que de ×2.
+**Le défaut est invisible pendant les tests et catastrophique en production**, parce que
+la volumétrie de test est presque toujours un ordre de grandeur en dessous. C'est le même
+mécanisme que la requête N+1 de la leçon `sql-performance-indexing`.
+
+**Généralisation.** Ces trois mesures disent la même chose sous trois angles : la
+complexité te dit **comment le coût évolue**, jamais **combien il coûte**. Les deux
+questions sont utiles et il faut les poser dans cet ordre — d'abord la pente, parce
+qu'elle décide de ce qui arrivera quand les données grossiront ; ensuite la constante,
+parce qu'elle décide de ce qui se passe aujourd'hui.
+
+### Correction de la vérification de compréhension
+
+1. À n = 100, le rapport de 8 peut venir d'à peu près n'importe quoi — coût d'appel,
+   optimisation du moteur, bruit de mesure. À n = 100 000, un rapport de 3 494 ne peut
+   plus s'expliquer par une constante : il faut un terme qui grandit avec n. **Un rapport
+   isolé ne démontre rien ; une série de rapports croissants démontre une classe de coût.**
+2. Parce que le coût de la ligne « Set » est presque entièrement celui de la
+   **construction**, payé une fois quel que soit k ; les k recherches qui suivent sont
+   gratuites à l'échelle du graphique. La ligne « tableau » n'a pas de coût fixe mais paie
+   k fois un parcours complet. C'est un coût fixe contre un coût variable — le même
+   arbitrage qu'entre un index de base de données et un balayage de table.
+3. **Oui, et c'est mesuré** : insertion 20,1 ms contre 15,3 ms (×1,32), lecture 6,3 ms
+   contre 5,2 ms (×1,23), à 100 000 clés. « Coût constant » ne signifie pas « même
+   vitesse » ni « instantané » : il signifie que la durée **ne dépend pas du nombre
+   d'éléments**. Deux structures en coût constant peuvent différer d'un facteur mesurable,
+   et le seul moyen de connaître ce facteur est de le chronométrer.
+4. Un `Set` parce que la même phrase peut contenir deux fois le mot, et parce que
+   l'intersection interroge l'appartenance en boucle. Avec un tableau, chaque `includes`
+   de l'intersection redevient un parcours : d'après le tableau du B, la différence
+   devient visible au-delà d'une centaine d'interrogations — soit, pour un index, dès la
+   première requête à deux mots un peu fréquents.
 
 ## 🏢 Cas professionnel
 Une équipe stocke les identifiants d'utilisateurs autorisés dans un tableau et vérifie l'accès par `autorises.includes(id)` à chaque requête. Avec 200 utilisateurs, personne ne remarque rien. À 50 000 utilisateurs et 3 000 requêtes par seconde, le serveur passe l'essentiel de son temps à parcourir ce tableau. Le correctif tient en un mot — `new Set(autorises)` et `.has(id)` — et divise la latence par cent.

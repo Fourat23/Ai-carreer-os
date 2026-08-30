@@ -154,6 +154,47 @@ Le choix de métrique ML (mois 6) est une décision statistique : précision vs 
 ## Mini-exercice
 Sur les données de ton projet 4 : calcule moyenne ET médiane d'une variable asymétrique (constate l'écart et explique-le), trace son histogramme, trouve une corrélation entre deux variables et écris les TROIS explications possibles (X→Y, Y→X, Z→les deux) avec ton verdict argumenté.
 
+## 🔥 Exercice plus difficile
+Trois affirmations circulent dans toutes les équipes. Tu vas les **fabriquer toi-même**,
+en Python, avec numpy — pour découvrir qu'on peut produire chacune sans qu'aucun effet
+réel n'existe.
+
+**A — « Notre nouveau traitement est moins bon. »** Construis deux traitements A et B,
+et deux sous-populations (cas bénins, cas graves). Choisis les effectifs de sorte que
+**A batte B dans chaque sous-population** et que **B batte A au total**. Tu ne peux pas
+inventer les chiffres au hasard : il faut comprendre le levier. Livrable : le tableau à
+six cases, les deux taux agrégés, et une phrase disant quelle variable produit
+l'inversion.
+
+**B — « Le soutien scolaire fonctionne. »** Tire deux séries de notes **indépendantes**
+pour 1 000 élèves (`normal(50, 10)`). Vérifie que leur corrélation est nulle. Sélectionne
+les 10 % les plus faibles à la première épreuve, puis mesure leur moyenne à la seconde.
+Livrable : les deux moyennes, l'écart, et l'explication du mécanisme. Refais ensuite la
+même chose sur les 10 % les plus forts.
+
+**C — « Le variant gagne de 10 points. »** Simule deux processus **rigoureusement
+identiques** (`p = 0,5`). Pour n = 20, 100, 1 000 et 10 000 tirages par groupe, répète
+10 000 fois et mesure l'écart médian observé entre les deux taux, ainsi que l'écart
+dépassé une fois sur vingt. Livrable : le tableau à quatre lignes.
+
+**Critère de réussite** : pour chacune des trois, tu peux écrire en une phrase la question
+à poser à quelqu'un qui te présente ce résultat comme une preuve. Si tu ne trouves que
+« il faut plus de données », relis : deux des trois ne se règlent pas par plus de données.
+
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Le p95 de latence vaut 153 ms et le p99 vaut 955 ms. Ton alerte est réglée sur le p95.
+   Combien de temps peut durer une dégradation touchant 4 % du trafic avant que quiconque
+   ne soit prévenu ?
+2. Dans l'exercice A, si l'on t'interdit de regarder la gravité des cas, peux-tu détecter
+   l'inversion dans les données agrégées seules ? Pourquoi ?
+3. Dans l'exercice B, la deuxième épreuve était indépendante de la première. Dans la vraie
+   vie, deux épreuves d'un même élève sont corrélées. Le phénomène disparaît-il ?
+4. Une équipe teste 20 variantes d'un bouton, et l'une d'elles ressort « significative
+   à 5 % ». Quel est le nombre de découvertes de ce type attendu si aucune variante n'a
+   d'effet ?
+
 ## ✅ Correction attendue
 **La démarche** : histogramme d'abord, résumé ensuite. Sur une variable asymétrique, moyenne > médiane, et l'écart entre les deux mesure la traîne — c'est un diagnostic de forme, pas une curiosité. Pour la corrélation, écrire les trois explications AVANT de choisir, puis argumenter.
 
@@ -178,6 +219,90 @@ Refais-le avec une prévalence de 1 sur 10 : tu obtiens ~92 %. **Même test, mê
 2. Pour ta corrélation : cite explicitement **un** confondant plausible, nommé. Si tu n'en trouves aucun, c'est en général que tu n'as pas cherché.
 3. Refais le calcul de Bayes avec une prévalence de 1/10 et une autre de 1/10 000. Si les trois résultats ne te surprennent plus, l'intuition est acquise.
 4. Sur ta variable asymétrique : retire les 1 % de valeurs les plus hautes et recalcule. La moyenne bouge beaucoup, la médiane à peine. Voir ce déplacement vaut mieux que lire « robuste aux extrêmes ».
+
+### Correction de l'exercice difficile
+
+> Chiffres produits par `scripts/v70-verifications/statistiques-paradoxes.py`
+> (numpy 2.4.6, graine fixe). Tes effectifs peuvent différer ; les mécanismes, non.
+
+**A — l'inversion.** Un jeu qui fonctionne :
+
+| | traitement A | traitement B |
+|---|---|---|
+| cas bénins | 81/87 = **93,1 %** | 234/270 = 86,7 % |
+| cas graves | 192/263 = **73,0 %** | 55/80 = 68,8 % |
+| **total** | 273/350 = 78,0 % | 289/350 = **82,6 %** |
+
+A gagne les deux lignes et perd le total. Le levier n'est pas dans les taux : il est dans
+la **répartition des effectifs**. A traite 75,1 % de cas graves, B seulement 22,9 %. La
+moyenne agrégée de A porte donc la difficulté de ses patients, pas son efficacité.
+
+La démarche pour en fabriquer un : choisis d'abord les quatre taux avec A partout devant,
+puis déplace les effectifs jusqu'à ce que le groupe **où tout le monde réussit moins bien**
+soit surreprésenté chez A. Une moyenne agrégée est une moyenne pondérée ; on la manipule
+par les poids, pas par les valeurs.
+
+Pourquoi cela arrive en vrai, et sans mauvaise foi : on affecte le traitement qu'on croit
+le meilleur aux cas les plus difficiles. Le paradoxe n'est pas un artefact de laboratoire,
+c'est la conséquence d'une pratique médicale raisonnable.
+
+**B — le retour à la moyenne.** Mesuré : le groupe des 10 % les plus faibles passe de
+**33,03** à **49,95**, soit **+16,92 points**. Les 10 % les plus forts passent de 66,96 à
+49,83, soit **−17,13 points**. Corrélation entre les deux épreuves : **+0,021** — nulle.
+Aucun soutien scolaire, aucune démotivation. Rien ne s'est produit entre les deux mesures.
+
+Le mécanisme : une note faible à l'épreuve 1 est le produit d'un niveau et d'un mauvais
+tirage. En sélectionnant sur la note, on sélectionne aussi les mauvais tirages — qui ne se
+reproduisent pas. La seconde mesure ne peut donc que remonter.
+
+**La limite de cette démonstration, et il faut la dire :** ici les deux épreuves sont
+totalement indépendantes, ce qui rend le retour **complet** (le groupe revient exactement
+à 50). Dans la réalité, deux épreuves du même élève sont corrélées — disons 0,7 — et le
+retour n'est que **partiel** : il vaut environ (1 − r) fois l'écart initial. Le phénomène
+ne disparaît pas, il s'atténue. Une démonstration à corrélation nulle montre le mécanisme
+en grand ; elle ne donne pas l'amplitude d'un cas réel.
+
+**C — la largeur du bruit.** Deux processus strictement identiques (p = 0,500), 10 000
+répétitions :
+
+| n par groupe | écart médian | écart dépassé 1 fois sur 20 |
+|---|---|---|
+| 20 | 10,00 pts | 30,00 pts |
+| 100 | 5,00 pts | 14,00 pts |
+| 1 000 | 1,50 pts | 4,30 pts |
+| 10 000 | 0,48 pts | 1,39 pts |
+
+À n = 20, deux choses identiques affichent **couramment** 10 points d'écart, et 30 points
+une fois sur vingt. « Le variant gagne de 10 points » sur 20 visiteurs par branche n'est
+pas un résultat faible : c'est la valeur la plus banale que le hasard produise.
+
+**La question à poser dans les trois cas** — c'est le vrai livrable :
+- pour A : *« sur quelle variable les deux groupes diffèrent-ils, à part le traitement ? »*
+- pour B : *« comment les membres du groupe ont-ils été choisis ? »*
+- pour C : *« combien d'observations par branche ? »*
+
+Et la remarque qui compte : seule la troisième se règle par plus de données. A et B sont
+des défauts de **construction** ; les augmenter les rend plus précis, pas plus vrais. Un
+paradoxe de Simpson mesuré sur un million de cas reste un paradoxe de Simpson.
+
+### Correction de la vérification de compréhension
+
+1. **Indéfiniment.** Une dégradation qui touche 4 % du trafic ne franchit jamais le p95,
+   par construction : le p95 ignore les 5 % les plus lents. C'est le mécanisme de la
+   décision 2 de l'exemple guidé, appliqué à l'alerte au lieu du tableau de bord.
+2. **Non.** L'agrégat 78,0 % contre 82,6 % est un couple de nombres parfaitement ordinaire ;
+   rien en lui ne signale qu'il cache une inversion. C'est la propriété gênante du
+   paradoxe : il n'est pas détectable dans les données agrégées, seulement dans les données
+   qu'on n'a pas regardées. D'où la règle pratique — avant de comparer deux taux globaux,
+   demander comment les deux populations ont été composées.
+3. **Non, il s'atténue.** Voir la limite énoncée en B : le retour vaut environ (1 − r) fois
+   l'écart. À r = 0,7, un groupe sélectionné 17 points sous la moyenne en regagne environ 5
+   sans aucune intervention. Assez pour qu'un dispositif inefficace paraisse marcher.
+4. **Une.** Vingt tests indépendants à 5 % donnent 20 × 0,05 = **1** faux positif attendu,
+   et la probabilité d'en observer au moins un est de **64,2 %** (1 − 0,95²⁰). Trouver
+   « une variante significative sur vingt » est donc l'issue la plus probable quand aucune
+   ne fonctionne. C'est le même geste que dans `ai-evaluation` : on décide du critère avant
+   de regarder, pas après.
 
 ## 🏢 Cas professionnel
 Une équipe surveille son API sur la latence moyenne : 120 ms, stable, tableau de bord vert depuis des mois. Le support, lui, reçoit chaque semaine des plaintes de lenteur — jamais reproductibles. Les deux camps ont raison, et personne ne se comprend.

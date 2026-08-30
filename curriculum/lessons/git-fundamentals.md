@@ -94,6 +94,45 @@ La CI (mois 11) se déclenche sur tes push : Git est le bouton de départ de tou
 ## Mini-exercice
 Dans un dépôt de test : crée une branche, fais 2 commits, retourne sur `main`, modifie la MÊME ligne qu'un des commits de la branche, commite, merge → résous le conflit proprement. Vérifie avec `git log --oneline --graph` que tu comprends la forme obtenue (le losange).
 
+## 🔥 Exercice plus difficile
+Le cas professionnel plus bas affirme qu'un secret poussé ne se retire pas. Ne le crois
+pas : **prouve-le, ou réfute-le.**
+
+Dans un dépôt jetable — jamais dans un vrai dépôt — commite un fichier `.env` contenant
+une fausse clé reconnaissable, puis trois commits ordinaires par-dessus. Simule ensuite
+un partage : `git clone --bare . ../origine` puis `git remote add origin ../origine` et
+`git push origin master`. Tu as maintenant la situation réelle — le secret est parti
+ailleurs.
+
+Essaie alors de le faire disparaître, dans cet ordre, en **mesurant après chaque étape**
+avec `git log -p --all | grep -c 'ta-fausse-cle'` :
+
+1. `git rm .env` puis un commit « remove secret ».
+2. `git reflog expire --expire=now --all && git gc --prune=now --aggressive`.
+3. Une réécriture d'historique (`git filter-branch --index-filter` ou `git filter-repo`).
+4. Après la réécriture : recompte sur la branche courante, **puis** sur `--all`, puis
+   liste `git for-each-ref --format='%(refname)'` et regarde ce qui reste.
+5. Compte enfin dans `../origine`.
+
+**Livrable** : un tableau à deux colonnes — étape / nombre d'occurrences restantes — et,
+en dessous, la réponse écrite à une seule question : *à quel moment le secret
+a-t-il cessé d'être un problème ?*
+
+**Critère de réussite** : ton compteur ne tombe pas à zéro partout, et tu sais dire
+précisément pourquoi à chaque ligne.
+
+## 🧪 Vérification de compréhension
+À traiter avant de lire la correction.
+
+1. Une branche « n'est qu'une étiquette ». Alors que supprime exactement `git branch -d`,
+   et pourquoi l'opération est-elle sans risque ?
+2. Tu as résolu un conflit, `grep '<<<<<<<'` ne renvoie rien, le commit est passé. Qu'est-ce
+   que cela ne prouve pas ?
+3. `git rebase` produit un historique plus lisible que `git merge`. Pourquoi ne l'utilise-t-on
+   pourtant jamais sur une branche déjà poussée et partagée ?
+4. Dans l'exercice difficile : après une réécriture d'historique réussie, pourquoi le compte
+   sur `--all` reste-t-il supérieur au compte sur la branche courante ?
+
 ## ✅ Correction attendue
 **La démarche** : `git switch -c`, deux commits, retour sur `main`, un commit qui touche la même ligne, `git merge`. Git s'arrête et te pose une question — il ne s'est rien passé de grave.
 
@@ -110,6 +149,75 @@ Le piège séduit parce que la résolution *ressemble* à une opération Git, al
 2. `grep -r '<<<<<<<' .` ne renvoie rien.
 3. **Le programme tourne encore** — c'est le seul critère qui compte vraiment.
 4. Refais le conflit et tape `git merge --abort` au milieu : tu dois retrouver ton dépôt exactement comme avant. Le faire une fois délibérément est ce qui fait disparaître la peur.
+
+### Correction de l'exercice difficile
+
+> Les chiffres ci-dessous viennent de `scripts/v70-verifications/secret-dans-git.sh`,
+> exécuté réellement. **Les comptes d'occurrences seront les mêmes chez toi** : ils
+> dépendent du mécanisme, pas de ton dépôt. **Les identifiants de commit, non** —
+> un identifiant Git est le condensat du contenu *et* de la date, donc il change à
+> chaque exécution. Deux lancements du script d'affilée donnent ici `5305b33 → a55da47`
+> puis `2e22a12 → 05c0266`. C'est vérifié, pas supposé : si un cours te promet un
+> identifiant de commit reproductible, il ne l'a pas exécuté.
+
+Le tableau attendu, étape par étape :
+
+| étape | occurrences restantes | pourquoi |
+|---|---|---|
+| après `git rm` + commit « remove secret » | **2** | le commit fautif existe toujours ; on a ajouté un commit, on n'en a retiré aucun |
+| après `reflog expire` + `gc --prune=now` | **2** | le ramasse-miettes n'efface que les objets **inatteignables** ; celui-ci est référencé par un commit de la branche |
+| après réécriture, compté sur la branche | **0** | c'est le chiffre qui donne l'illusion d'avoir réussi |
+| après réécriture, compté sur `--all` | **2** | `filter-branch` conserve une sauvegarde sous `refs/original/`, et `refs/remotes/origin/master` pointe encore l'ancien historique |
+| après suppression de `refs/original` + `gc` | **2** | il reste `refs/remotes/origin/master` — la copie de ce que le serveur a, pas encore mise à jour |
+| dans `../origine` | **2** | le dépôt distant n'a rien reçu de tout cela |
+
+**La démarche à retenir** est le passage de la troisième ligne à la quatrième. Compter sur
+la branche courante répond à « mon historique est-il propre ? ». Compter sur `--all` répond
+à « le secret est-il encore lisible ? ». Ce sont deux questions différentes, et seule la
+seconde est celle qui compte. Le nettoyage qui s'arrête à la première est la panne la plus
+fréquente de cet exercice — et elle est silencieuse.
+
+**L'erreur probable, et pourquoi elle est raisonnable.** On croit que `gc --prune=now`
+efface. Il n'efface que ce que plus rien n'atteint. Tant qu'un commit atteignable référence
+l'objet, le ramasse-miettes le protège — c'est sa fonction, et c'est la même garantie qui
+rend Git sûr le reste du temps. Le mécanisme qui te protège de perdre ton travail est
+exactement celui qui t'empêche d'effacer ton secret. Ce n'est pas une contradiction : c'est
+une seule propriété vue depuis deux situations.
+
+**Le coût de la réécriture, mesuré** : `HEAD` change — `5305b33` devient `a55da47` sur
+l'exécution citée plus haut. Tous les identifiants de commit changent, parce qu'un
+identifiant Git est le condensat du contenu **et** de l'historique. Conséquence pratique : toute personne ayant cloné doit re-cloner,
+et toute branche non fusionnée doit être rebasée. Sur un dépôt d'équipe, cela se planifie ;
+cela ne se fait pas un vendredi soir.
+
+**La réponse à la question unique.** Le secret a cessé d'être un problème au moment où il
+a été **révoqué**, et à aucun autre. Aucune commande de ce tableau ne répond à la seule
+question qui décide : quelqu'un l'a-t-il lu entre-temps ? Git ne le sait pas et ne peut pas
+le savoir. C'est pourquoi l'ordre correct est *révoquer d'abord, nettoyer ensuite* — et
+pourquoi le nettoyage, seul, n'est pas une réponse à un incident.
+
+**Généralisation.** Le même raisonnement vaut hors de Git : dans un journal applicatif
+recopié vers un agrégateur, dans une sauvegarde de base, dans le cache d'un serveur
+d'intégration continue. Un secret n'est pas un fichier, c'est une **information diffusée** ;
+on la révoque, on ne la reprend pas.
+
+### Correction de la vérification de compréhension
+
+1. `git branch -d` supprime **l'étiquette**, c'est-à-dire un fichier contenant l'identifiant
+   d'un commit. Les commits ne bougent pas. L'opération est sans risque tant que ces commits
+   restent atteignables autrement — d'où le refus de Git quand la branche n'est pas fusionnée,
+   et le `-D` majuscule qui passe outre.
+2. Cela prouve seulement que le **texte** est syntaxiquement propre. Cela ne prouve pas que
+   la logique des deux branches a été conciliée, ni que le programme fonctionne. C'est le
+   point 3 de « vérifie seul » et c'est le seul qui tranche.
+3. Parce que `rebase` fabrique de **nouveaux** commits avec de nouveaux identifiants. Les
+   collègues ont encore les anciens ; leur `git pull` voit deux historiques divergents pour
+   le même travail, et la fusion qui en résulte duplique tous les commits concernés.
+4. Parce que la réécriture ne déplace que la référence sur laquelle on l'a appliquée.
+   `refs/original/` (la sauvegarde automatique) et `refs/remotes/origin/master` (la copie
+   locale de l'état du serveur) pointent toujours l'ancien historique, et suffisent à rendre
+   l'objet atteignable. La leçon `deployment-secrets` mesure la même chose sur un secret
+   d'application.
 
 ## 🏢 Cas professionnel
 Un développeur pousse une clé d'API dans un commit, s'en aperçoit dix minutes plus tard, la supprime et pousse un second commit « remove key ». La clé est toujours là : le premier commit existe encore dans l'historique, et il a été poussé — donc cloné par l'intégration continue, par les collègues, et indexé par les robots qui scrutent GitHub en permanence. La seule réponse correcte n'est pas de nettoyer l'historique, c'est de **révoquer la clé** ; le nettoyage vient après.

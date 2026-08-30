@@ -203,8 +203,171 @@ Charge un CSV, affiche `info()` et `describe()`, filtre les lignes d'une catégo
 ## 🔥 Exercice plus difficile
 Reproduis en pandas les 10 requêtes que tu avais faites en JS (jour 11) : filtres, tri, top N, regroupements, moyenne par groupe. Compare la lisibilité JS / SQL / pandas.
 
-## ✅ Correction attendue
-La logique : inspecter → filtrer (masque booléen) → transformer (vectorisé) → agréger (groupby) → joindre (merge). Vérifie que tu n'as AUCUNE boucle sur les lignes, que tes agrégats se recoupent (somme des groupes = total), et que tu as inspecté avant d'agir.
+## ✅ Correction
+
+### La démarche
+
+*Inspecter → filtrer → transformer → agréger → joindre.* L'ordre importe pour une raison
+pratique : chaque étape réduit ou fiabilise ce que traite la suivante. Filtrer après avoir
+agrégé, c'est agréger des lignes qu'on va jeter ; transformer après avoir joint, c'est
+transformer les mêmes valeurs plusieurs fois.
+
+Mais le vrai contenu de cette correction est ailleurs, dans le premier verbe : **inspecter**.
+C'est l'étape qu'on saute, et celle qui décide de la justesse du résultat.
+
+### Inspecter, concrètement
+
+`info()` et `describe()` ne sont pas des formalités. Voici ce que chaque ligne de leur sortie
+peut t'apprendre :
+
+| Ce que tu regardes | Ce que ça révèle |
+|---|---|
+| `Dtype` d'une colonne numérique = `object` | il y a du texte dedans — une virgule décimale, un `N/A`, un espace |
+| `Non-Null Count` inférieur au total | des valeurs manquantes, et combien exactement |
+| `min` négatif sur une quantité | une sentinelle, ou un signe inversé |
+| `max` absurde (999, 1900-01-01) | une sentinelle déguisée en donnée |
+| `count` d'une catégorielle très supérieur au nombre attendu de modalités | des variantes de casse ou d'espaces |
+
+Le dernier point se vérifie en une ligne, et c'est le contrôle le plus rentable du domaine :
+
+```python
+df["ville"].value_counts()
+```
+
+Il révèle immédiatement `Lyon`, `lyon`, `  Lyon ` et `LYON` comme quatre catégories distinctes.
+La leçon `/doc/lessons/data-cleaning-quality` mesure ce que ça coûte : une ville fantôme
+emportant **2 294 €** absents du total de Lyon, dans un rapport que personne ne remet en cause.
+
+### « Aucune boucle sur les lignes » : pourquoi, vraiment
+
+Le critère est souvent justifié par la performance, et c'est la moins importante des deux
+raisons.
+
+```python
+# ❌ boucle
+resultats = []
+for _, ligne in df.iterrows():
+    resultats.append(ligne["prix"] * ligne["quantite"])
+df["total"] = resultats
+
+# ✅ vectorisé
+df["total"] = df["prix"] * df["quantite"]
+```
+
+La version vectorisée est effectivement bien plus rapide — le calcul se fait dans du code
+compilé, sur des tableaux contigus, sans créer un objet Python par ligne.
+
+Mais la raison qui compte le plus est **la lisibilité et la justesse**. La seconde version dit
+ce qu'elle fait : *le total est le produit du prix par la quantité*. La première décrit une
+mécanique dans laquelle on peut se tromper d'index, oublier une ligne, ou muter le tableau
+qu'on parcourt. Le code vectorisé exprime une **relation entre colonnes** ; la boucle exprime
+une procédure.
+
+Nuance honnête : il existe des cas où la boucle est acceptable — une centaine de lignes, une
+logique irréductiblement séquentielle, un appel externe par ligne. Le critère n'est pas
+« jamais de boucle » mais **« pas de boucle pour ce qui s'exprime comme une opération sur des
+colonnes »**.
+
+### Le contrôle de cohérence : « la somme des groupes = le total »
+
+C'est le critère le plus important de l'exercice, et le moins pratiqué.
+
+```python
+total = df["montant"].sum()
+par_groupe = df.groupby("ville")["montant"].sum()
+assert abs(par_groupe.sum() - total) < 0.01, f"{par_groupe.sum()} ≠ {total}"
+```
+
+Quand cette assertion échoue, elle désigne presque toujours l'une de ces trois causes :
+
+1. **des valeurs manquantes dans la colonne de regroupement** — par défaut, `groupby` **exclut**
+   les lignes dont la clé est `NaN`. Elles disparaissent silencieusement du résultat. C'est le
+   piège numéro un du domaine, et `dropna=False` le lève ;
+2. **une jointure qui a dupliqué des lignes** — un `merge` avec une clé non unique du côté droit
+   multiplie les lignes de gauche, et la somme gonfle ;
+3. **un filtre appliqué à un seul des deux calculs**, souvent parce qu'il a été ajouté plus tard
+   à un endroit et pas à l'autre.
+
+La règle générale à emporter : **après chaque `groupby` et chaque `merge`, vérifie que le total
+se conserve.** Deux lignes de contrôle qui attrapent la majorité des erreurs d'analyse — et qui
+sont, dans un notebook, ce qui remplace les tests automatiques qu'on n'y écrit pas.
+
+Pour un `merge`, le contrôle équivalent est le nombre de lignes :
+
+```python
+avant = len(gauche)
+joint = gauche.merge(droite, on="client_id", how="left", validate="many_to_one")
+assert len(joint) == avant, "la jointure a dupliqué des lignes"
+```
+
+Le paramètre `validate="many_to_one"` fait mieux que l'assertion : il **échoue au moment du
+`merge`**, avec un message qui nomme le problème, au lieu de laisser passer des lignes
+dupliquées qu'on découvrira dans un total faux.
+
+### La comparaison JS / SQL / pandas
+
+L'exercice difficile demande de comparer la lisibilité des trois. La réponse attendue n'est pas
+un classement, mais une observation sur **ce que chaque langage rend facile** :
+
+| | Ce qu'il exprime naturellement | Ce qu'il rend pénible |
+|---|---|---|
+| **JavaScript** | une transformation ligne à ligne, une logique métier arbitraire | les agrégations multi-clés, les jointures |
+| **SQL** | filtrer, regrouper, joindre, sur des données déjà en base | les transformations séquentielles, l'itératif |
+| **pandas** | l'exploration : inspecter, essayer, pivoter, tracer | la reproductibilité, si l'on reste dans un notebook |
+
+L'observation qui a le plus de valeur en entretien : **SQL et pandas expriment les mêmes
+opérations** — `WHERE` et masque booléen, `GROUP BY` et `groupby`, `JOIN` et `merge`. Ce ne
+sont pas deux compétences, c'est la même, dans deux syntaxes. Ce qui les sépare est le lieu du
+calcul : SQL le fait là où sont les données, pandas les rapatrie en mémoire.
+
+D'où la règle de choix, qui n'est pas une question de goût : **si les données sont en base et
+que le résultat est plus petit que la source, fais le travail en SQL.** Rapatrier dix millions
+de lignes pour en agréger douze est un aller-retour coûteux et inutile.
+
+### La mauvaise solution plausible
+
+Enchaîner les transformations sans jamais réassigner, ou en réassignant partiellement :
+
+```python
+df[df["montant"] > 100]["remise"] = 0.1     # ⚠️ ne modifie rien de durable
+```
+
+Cette ligne ne produit pas d'erreur — au mieux un avertissement — et **ne modifie pas `df`**.
+Elle agit sur une copie temporaire, immédiatement jetée. On relit le code, il a l'air correct,
+et la colonne `remise` reste vide.
+
+La forme correcte est explicite :
+
+```python
+df.loc[df["montant"] > 100, "remise"] = 0.1
+```
+
+Le principe à retenir : **quand tu modifies un sous-ensemble, désigne-le en une seule
+expression `.loc[lignes, colonnes]`.** Deux crochets successifs signifient deux opérations, et
+la seconde peut agir sur une copie.
+
+### Auto-évaluation
+
+| Vérification | Comment |
+|---|---|
+| inspecté avant d'agir | tu peux citer un défaut trouvé par `info()`, `describe()` ou `value_counts()` |
+| aucune boucle superflue | pas d'`iterrows` pour un calcul entre colonnes |
+| agrégats cohérents | la somme des groupes égale le total, **vérifié** |
+| jointures contrôlées | `validate=` sur chaque `merge`, ou une assertion sur le nombre de lignes |
+| pas de manquants avalés | tu sais si `groupby` a exclu des lignes, et combien |
+| modifications effectives | aucune affectation via un double crochet |
+
+### Généralisation
+
+Ce que cette leçon installe au-delà de pandas : **une manipulation de données doit se
+contrôler, pas se relire.** Un code de transformation a la particularité désagréable d'être
+presque toujours syntaxiquement correct et parfois numériquement faux — il n'y a pas
+d'exception, pas de plantage, juste un chiffre.
+
+Les deux contrôles de cette correction — *la somme se conserve-t-elle ?* et *le nombre de
+lignes a-t-il changé ?* — coûtent deux lignes chacun et remplacent une relecture attentive qui,
+elle, ne détecte rien. C'est le même réflexe que la comptabilité en partie double, et pour la
+même raison : on ne vérifie pas un calcul en le regardant, on le vérifie en le recoupant.
 
 ## 🎤 Questions d'entretien
 - « Différence entre une Series et un DataFrame ? » → Une colonne vs un tableau ; le DataFrame est un ensemble de Series alignées sur un index.

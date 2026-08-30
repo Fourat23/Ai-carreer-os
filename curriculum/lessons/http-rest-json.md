@@ -196,6 +196,104 @@ Le cache HTTP mémorise les réponses 200 : les erreurs sont mises en cache et r
 
 L'ensemble de l'infrastructure — caches, proxys, clients, sondes, disjoncteurs — lit le **statut**, jamais le corps. Choisir un statut, ce n'est pas décorer une réponse : c'est parler à une douzaine de composants qu'on n'a pas écrits et qui n'ouvriront jamais le corps du message. C'est ce qui rend le 401/403 ou le 409 utiles, et le 200 universel coûteux.
 
+## 🔥 Pratique — concevoir une API, puis l'attaquer
+
+**A. Les sept opérations.** Conçois les points d'entrée d'une ressource
+« commande » : lister, lire une, créer, modifier entièrement, modifier
+partiellement, supprimer, et une action métier qui n'est pas un verbe de gestion
+de ressource (annuler, par exemple). Livrable : les sept lignes, avec méthode,
+chemin et code de retour attendu.
+
+**B. Les codes de retour.** Pour chacune, écris le code du cas nominal **et** de
+trois cas d'erreur : donnée invalide, ressource absente, action interdite dans
+l'état courant. Livrable : le tableau complet.
+
+**C. Le format d'erreur.** Écris une réponse d'erreur exploitable par un client
+qui doit afficher un message à l'utilisateur **et** décider s'il peut réessayer.
+Livrable : le corps de réponse, et ce que chaque champ permet.
+
+**D. L'idempotence.** Envoie deux fois la même création. Livrable : ce qui se
+passe, et le mécanisme qui rend le second envoi sans effet.
+
+**E. La pagination.** Fais lister dix mille commandes. Livrable : ta solution, et
+ce qui se passe si une commande est créée entre deux pages.
+
+## ✅ Correction attendue
+
+**A — les sept opérations.** La forme attendue s'appuie sur des **noms de
+ressources** au pluriel et laisse la méthode porter le verbe. `POST /commandes`
+plutôt que `POST /creerCommande` : le chemin dit **quoi**, la méthode dit
+**quelle action**.
+
+L'action métier est le point intéressant, parce que c'est là que la règle
+s'arrête. « Annuler une commande » n'est ni une modification ni une suppression :
+c'est une transition d'état avec ses propres règles. Deux réponses défendables —
+un sous-chemin d'action (`POST /commandes/42/annulation`), ou une modification
+partielle du statut. La première est plus explicite et se prête mieux aux
+autorisations ; la seconde est plus régulière. **Ce qui compte est de choisir et
+de s'y tenir**, pas de trouver la seule bonne réponse : il n'y en a pas.
+
+**B — les codes.** Les distinctions qui départagent :
+
+- **400 contre 422** : la requête est mal formée contre elle est bien formée mais
+  métier-invalide. Beaucoup d'API renvoient 400 pour tout, ce qui prive le client
+  de l'information la plus utile — a-t-il un bogue, ou l'utilisateur a-t-il mal
+  saisi ?
+- **401 contre 403** : je ne sais pas qui tu es contre je sais qui tu es et tu
+  n'as pas le droit. Confondre les deux fait boucler un client sur une
+  réauthentification qui ne changera rien.
+- **404 contre 403** sur une ressource existante mais interdite : c'est une
+  décision de sécurité. Renvoyer 404 masque l'existence de la ressource ;
+  renvoyer 403 la révèle. À décider explicitement, pas par défaut.
+- **409** pour une action interdite dans l'état courant — annuler une commande
+  déjà livrée. C'est le code que presque personne n'utilise, et c'est exactement
+  celui qui correspond.
+
+**C — le format d'erreur.** Un corps utile contient trois choses **distinctes** :
+un code stable et lisible par la machine, un message destiné à l'humain, et
+l'information sur la **reprise possible**.
+
+```json
+{ "code": "stock_insuffisant",
+  "message": "Il ne reste que 2 exemplaires de cet article.",
+  "reessayable": false,
+  "champ": "quantite" }
+```
+
+Le code est stable et le message ne l'est pas : un client ne doit **jamais**
+tester le contenu du message, sinon toute reformulation casse les intégrations.
+Et le champ `reessayable` est ce qui manque presque toujours — sans lui, un
+client ne peut pas distinguer « inutile de réessayer » de « réessaie dans une
+seconde », et il choisit mal dans les deux sens.
+
+**D — l'idempotence.** Sans mécanisme, la seconde création crée une seconde
+commande. Ce n'est pas théorique : c'est ce qui se produit quand un client
+réessaie après un délai d'attente **alors que la première requête avait
+réussi** — il n'a pas reçu la réponse, il ne peut pas savoir.
+
+Le mécanisme attendu : une **clé d'idempotence** fournie par le client, que le
+serveur enregistre avec le résultat. Un second envoi portant la même clé renvoie
+le résultat mémorisé sans rien recréer.
+
+C'est exactement le mécanisme mesuré dans `etl-pipelines`, où une insertion
+rejouée sans clé produit **2000 lignes et une somme de 299000** au lieu des
+valeurs attendues. Le même raisonnement, un contexte différent.
+
+**E — la pagination.** La solution par numéro de page est simple et a un défaut
+que l'exercice fait apparaître : si une commande est créée entre deux pages, les
+éléments décalent, et le client **voit deux fois** le même élément ou **en rate
+un** — sans qu'aucune erreur ne l'indique.
+
+La pagination par curseur — « donne-moi les 50 suivants après cet
+identifiant » — n'a pas ce défaut, parce que la position est ancrée sur un
+élément et non sur un rang. Son coût : on ne peut plus sauter directement à la
+page 47.
+
+Le choix suit l'usage : par numéro pour une interface de navigation humaine où le
+décalage est sans conséquence, par curseur pour toute consommation programmatique
+qui doit être exhaustive. Une synchronisation qui rate silencieusement une ligne
+sur mille est un défaut qu'on découvre très tard.
+
 ## 🎤 Questions d'entretien
 - « Que se passe-t-il quand tu tapes une URL dans un navigateur ? » → DNS, puis TCP, puis TLS, puis la requête HTTP et la réponse. Chaque étape coûte des allers-retours : c'est là qu'est la latence.
 - « 401 ou 403 ? » → 401 : je ne sais pas qui tu es (authentifie-toi). 403 : je le sais, et c'est non. Le premier invite à réessayer autrement, le second non.

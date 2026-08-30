@@ -272,6 +272,89 @@ complètent : le percentile pour la tendance, le comptage au seuil pour l'engage
 4. Un incident touche 0,3 % des requêtes. Lequel de tes indicateurs actuels le
    verrait ? Si la réponse est « aucun », c'est le trou à combler.
 
+## 🔥 Pratique — faire dire la vérité à des mesures
+
+**A. La moyenne qui ment.** Fabrique un jeu de latences où la moyenne est
+excellente et le centile 95 mauvais. Livrable : les deux valeurs, et le nombre
+d'utilisateurs concernés sur un million de requêtes par jour.
+
+**B. Calculer un centile.** Implémente le calcul à partir d'une liste triée,
+puis vérifie-le sur un jeu dont tu connais la réponse. Livrable : le code et la
+vérification.
+
+**C. Ce qui ne s'additionne pas.** Prends deux instances ayant chacune un centile
+95, calcule leur moyenne, puis calcule le centile 95 de l'ensemble des
+observations. Compare. Livrable : les deux nombres.
+
+**D. Compteur, jauge, histogramme.** Pour chacun des trois types, donne une
+métrique de ton service et dis ce qu'on peut et ne peut pas en déduire.
+Livrable : le tableau.
+
+**E. Le taux d'erreur qui trompe.** Construis un cas où le taux d'erreur global
+est bon et où une route est cassée. Livrable : les deux chiffres, et ce qui
+manque à la métrique globale.
+
+## ✅ Correction attendue
+
+**A — la moyenne.** Un jeu typique : 95 % des requêtes à 50 ms, 5 % à 3 000 ms.
+Moyenne **197 ms**, ce qui paraît correct. Centile 95 : **3 000 ms**.
+
+La conversion qui rend le chiffre parlant : sur un million de requêtes par jour,
+**cinquante mille personnes attendent trois secondes**. C'est ce calcul qu'il faut
+savoir faire en réunion — un centile est un pourcentage, un nombre d'utilisateurs
+est un argument.
+
+Nuance à connaître : le centile 99 n'est pas « 1 % des gens ». C'est 1 % des
+**requêtes**, et les utilisateurs les plus actifs en font le plus — donc ils ont
+la plus forte probabilité d'en rencontrer une lente. La proportion d'utilisateurs
+touchés est nettement supérieure à 1 %.
+
+**B — le calcul.** Sur une liste triée de *n* valeurs, le centile *p* est la
+valeur à l'indice `p × n`. Le piège est le traitement des bords et
+l'interpolation entre deux indices — d'où la vérification sur un jeu dont on
+connaît la réponse, qui n'est pas une formalité : c'est le seul moyen de savoir
+si ta convention correspond à celle de ton outil de mesure.
+
+**C — les centiles ne se moyennent pas.** C'est le résultat central de
+l'exercice, et il surprend systématiquement. La moyenne de deux centiles 95
+**n'est pas** le centile 95 de l'ensemble.
+
+La raison : un centile est une position dans une distribution, pas une quantité
+additive. Deux instances dont l'une est lente et l'autre rapide produisent un
+centile global qui n'a aucune raison d'être entre les deux.
+
+La conséquence pratique est sévère : un tableau de bord qui affiche « centile 95
+moyen sur les instances » affiche un nombre **qui ne correspond à rien**. La
+bonne méthode est d'agréger les observations — ou des histogrammes — et de
+calculer le centile ensuite.
+
+**D — les trois types.**
+
+| type | exemple | ce qu'on peut en déduire | ce qu'on ne peut pas |
+|---|---|---|---|
+| compteur | requêtes servies | un **taux** par dérivation | la valeur instantanée n'a pas de sens |
+| jauge | connexions ouvertes | l'état à un instant | ce qui s'est passé entre deux mesures |
+| histogramme | latences | des **centiles**, agrégeables | la valeur d'une requête précise |
+
+Le piège de la jauge mérite d'être nommé : entre deux relevés, elle a pu monter à
+dix fois sa valeur et redescendre. Une jauge relevée toutes les minutes **ne peut
+pas** détecter un pic de dix secondes, et son graphique plat est trompeur.
+
+**E — le taux global.** Le cas à construire : neuf routes à 0,1 % d'erreur, une
+route cassée à 100 %, mais qui ne représente que 1 % du trafic. Le taux global
+vaut environ 1,1 % — un chiffre qui ne déclenche aucune alerte.
+
+Ce qui manque à la métrique globale est la **ventilation**. Une métrique agrégée
+est faite pour être découpée : par route, par version, par client. Sans étiquettes
+pour le faire, elle ne peut détecter que les pannes qui touchent tout le monde —
+c'est-à-dire les seules qu'on aurait vues de toute façon.
+
+Réserve à connaître : la ventilation a un coût, et il est traité dans
+`observability-fundamentals` sous le nom de cardinalité. Découper par route et
+par version est raisonnable ; découper par identifiant d'utilisateur fait tomber
+le système de métriques. La ventilation utile est celle qui a peu de valeurs
+distinctes et qui correspond à une décision.
+
 ## 🎤 Questions d'entretien
 - « Pourquoi la moyenne trompe-t-elle ? » → Parce qu'une distribution de latences est
   asymétrique : la moyenne tombe entre la masse et la queue, dans une zone où presque

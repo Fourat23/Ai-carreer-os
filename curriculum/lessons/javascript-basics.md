@@ -265,6 +265,124 @@ Une équipe corrige un bug de panier : le total ne correspond plus aux articles 
 
 C'est le scénario typique : le bug de référence ne casse pas au moment de la faute, il casse **ailleurs et plus tard**, chez quelqu'un d'autre. D'où la règle que beaucoup d'équipes écrivent noir sur blanc dans leur guide de style : **une fonction ne modifie pas ce qu'on lui donne**. Le coût de la discipline est un spread ; le coût de son absence est une enquête.
 
+## 🔥 Pratique — les tableaux, les objets, et ce qui se partage
+
+**A. Les quatre opérations.** Sur un tableau de dix produits `{nom, prix,
+categorie}` : les noms sous 20 €, le prix total, une remise de 10 % sur une
+catégorie **sans modifier l'original**, et un regroupement par catégorie. Fais-le
+en boucles, puis avec les fonctions de tableau. Livrable : les deux versions.
+
+**B. Prouver la non-modification.** Pour la remise, **prouve** que l'original est
+intact — pas « je crois », une vérification. Livrable : la preuve.
+
+**C. La copie qui ne copie pas.** Reproduis le cas d'un objet de configuration
+copié superficiellement, dont un niveau imbriqué est partagé. Livrable : la
+sortie qui le montre, et la correction.
+
+**D. Les résultats qui surprennent.** Exécute les dix expressions de la
+correction ci-dessous et, pour chacune, écris ta prédiction **avant**. Livrable :
+tes prédictions, les résultats, et la règle derrière chaque écart.
+
+**E. Le tri.** Trie un tableau de nombres avec et sans fonction de comparaison,
+puis un tableau d'objets par deux critères. Livrable : les trois résultats.
+
+## ✅ Correction attendue — sur la pratique A → E
+
+> Les valeurs de C et D sont **exécutées** par
+> `scripts/v70-verifications/js-async-et-types.mjs`.
+
+**A — la démarche.** L'ordre qui organise les quatre opérations : **choisir**
+(filtrer), **transformer** (appliquer), **agréger** (réduire). Le regroupement est
+une réduction dont l'accumulateur est un objet dont les clés sont les catégories.
+
+La version en boucles n'est pas un exercice de style : elle est là pour que tu
+saches ce que font les fonctions de tableau. Si tu ne peux pas écrire la version
+en boucles, tu utilises un outil dont tu ignores le mécanisme.
+
+**B — la preuve de non-modification.** L'erreur presque universelle :
+
+```js
+const soldes = produits.map((p) => {
+  if (p.categorie === "jeux") p.prix = p.prix * 0.9;   // ⚠️ modifie l original
+  return p;
+});
+```
+
+La fonction de transformation rend un **nouveau tableau**, mais elle contient les
+**mêmes objets**. Modifier une propriété modifie l'original, et le nouveau tableau
+donne l'illusion du contraire.
+
+La forme correcte construit un nouvel objet :
+
+```js
+const soldes = produits.map((p) =>
+  p.categorie === "jeux" ? { ...p, prix: p.prix * 0.9 } : p);
+```
+
+Et la preuve n'est pas « je vois que ça marche » : c'est une comparaison
+explicite de l'original avant et après. Ce défaut est invisible tant qu'on ne
+regarde que le résultat.
+
+**C — la copie d'un seul niveau.** Mesuré :
+
+```
+apres { ...d1 } puis modification de la copie :
+  d1.nom             = "defaut"   <- inchangé
+  d1.options.verbeux = true       <- MODIFIÉ
+
+apres structuredClone(d2) puis modification du clone :
+  d2.options.verbeux = false      <- inchangé
+```
+
+L'opérateur de décomposition copie **un niveau**. Les objets imbriqués restent
+partagés, et une modification les traverse.
+
+Le cas le plus coûteux en pratique : un objet de configuration par défaut, copié
+superficiellement pour chaque utilisateur. La première modification contamine
+tout le monde, et **le défaut ne se manifeste qu'au deuxième utilisateur** —
+donc jamais en développement.
+
+Ce n'est pas un piège du langage : c'est la distinction entre valeur et
+référence, présente dans presque tous les langages. Savoir la **nommer** vaut
+mieux que mémoriser une liste de cas.
+
+**D — les dix expressions.**
+
+```
+0.1 + 0.2 === 0.3                  -> false
+0.1 + 0.2                          -> 0.30000000000000004
+[10, 9, 100].sort()                -> [10, 100, 9]
+[10, 9, 100].sort((a,b) => a-b)    -> [9, 10, 100]
+[] == false                        -> true
+[] === false                       -> false
+typeof null                        -> "object"
+NaN === NaN                        -> false
+Object.is(NaN, NaN)                -> true
+["1","2","3"].map(parseInt)        -> [1, NaN, NaN]
+```
+
+Les règles derrière, à retenir plutôt que les résultats :
+
+- les nombres sont en binaire à virgule flottante, et 0,1 n'a pas de
+  représentation binaire finie. **On ne stocke jamais de l'argent en nombre à
+  virgule** : on stocke des centimes en entier ;
+- le tri sans argument **convertit en chaînes** et trie lexicographiquement ;
+- `==` convertit avant de comparer, `===` non — d'où l'usage de `===` par défaut ;
+- `typeof null` est un défaut historique conservé pour compatibilité ;
+- `NaN === NaN` est faux par spécification ; on teste avec `Number.isNaN` ;
+- la fonction de transformation passe **trois** arguments et `parseInt` en accepte
+  **deux**, le second étant la base de numération. D'où la règle : **ne passe
+  jamais directement une fonction dont tu ne connais pas l'arité**.
+
+**E — le tri.** Le résultat sans fonction de comparaison est la démonstration
+directe du troisième point ci-dessus. Sur des objets à deux critères, la forme
+attendue compare le second critère seulement quand le premier est à égalité.
+
+Un piège que la correction attend que tu connaisses : **le tri modifie le tableau
+d'origine.** Si tu tries pour afficher, tu viens de réordonner la donnée de
+quelqu'un d'autre. Trier une copie est la règle sûre, et c'est le même sujet que
+B et C.
+
 ## 🎤 Questions d'entretien
 - « Quelle est la différence entre valeur et référence en JavaScript ? » → Les primitifs se copient à l'affectation ; objets et tableaux se partagent. Passer un objet à une fonction, c'est l'autoriser à le modifier.
 - « `{ ...obj }` fait-il une copie ? » → Oui, sur un seul niveau. Les objets imbriqués restent partagés — c'est une copie superficielle, et c'est la source des bugs qu'on croit avoir évités.

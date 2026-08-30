@@ -321,6 +321,101 @@ d'une dégradation gracieuse, la même panne tierce devient invisible pour l'uti
 - **Prévenir** : suivre la latence/erreurs de chaque dépendance ; tester la
   résilience (que se passe-t-il si X tombe ?) ; supprimer les SPOF.
 
+## 🔥 Pratique — provoquer les pannes, puis les absorber
+
+**A. La dépendance qui tombe.** Fabrique un service qui appelle une dépendance,
+et fais tomber la dépendance. Compte les appels émis pendant la panne et mesure
+le temps d'attente moyen. Livrable : les deux nombres.
+
+**B. Le délai d'attente.** Ajoute un délai maximal d'attente. Compare le temps
+d'attente moyen avant et après. Livrable : les deux valeurs, et ce qui décide de
+la durée choisie.
+
+**C. Le disjoncteur.** Ajoute un disjoncteur qui s'ouvre après N échecs. Compte
+les appels émis vers la dépendance en panne, et le temps d'attente moyen.
+Livrable : les nombres, et le rapport avec A.
+
+**D. La reprise, et ce qu'elle aggrave.** Ajoute une reprise sur échec sans
+délai, puis avec un délai croissant et une part d'aléatoire. Mesure la charge
+imposée à la dépendance au moment où elle revient. Livrable : les trois charges.
+
+**E. La dégradation.** Fais en sorte que ton service rende un résultat utile même
+quand la dépendance est morte. Livrable : ce que tu rends, et ce que l'appelant
+peut en faire.
+
+## ✅ Correction attendue
+
+> Les valeurs de A et C sont **mesurées** par
+> `scripts/v70-verifications/disjoncteur-et-attente.mjs`.
+
+**A — sans protection.** Mesuré : **600 appels** émis vers un service en panne, et
+un temps d'attente moyen de **6600 ms**.
+
+Deux dégâts distincts, et il faut les séparer. Le service en panne reçoit 600
+appels qu'il ne peut pas servir — ce qui l'empêche de se rétablir. Et l'appelant
+immobilise une ressource pendant 6,6 secondes par appel : ses fils d'exécution,
+ses connexions, sa mémoire. **La panne se propage vers le haut**, et c'est ainsi
+qu'une dépendance secondaire fait tomber tout un système.
+
+**B — le délai d'attente.** Le point de conception : **une absence de délai
+maximal est un délai infini**, et c'est presque toujours le défaut des clients
+HTTP et des pilotes de base de données. Il faut le poser explicitement.
+
+Ce qui décide de sa durée : le centile 99 de la latence normale de la dépendance,
+plus une marge. Trop court, on abandonne des requêtes qui allaient aboutir ; trop
+long, on immobilise des ressources pour rien. **La valeur se mesure, elle ne se
+choisit pas au hasard** — et elle se remesure quand la dépendance change.
+
+**C — le disjoncteur.** Mesuré : **5 appels** au lieu de 600, et **56 ms** de
+temps d'attente moyen au lieu de 6600. Un facteur 120 sur les appels, un facteur
+118 sur l'attente.
+
+Le mécanisme à énoncer : après N échecs, le disjoncteur **cesse d'essayer** et
+échoue immédiatement, sans toucher le réseau. Périodiquement, il laisse passer un
+appel de test pour savoir si le service est revenu.
+
+Ce qu'il achète et qu'un simple délai d'attente n'achète pas : il protège
+**l'appelant** de l'épuisement de ses ressources, et il protège **l'appelé** de la
+charge qui l'empêche de se rétablir. C'est le seul motif qui traite les deux
+côtés.
+
+Sa contrepartie doit être dite : un disjoncteur ouvert refuse aussi les requêtes
+qui **auraient pu** réussir. C'est un choix assumé — échouer vite et pour tout le
+monde plutôt que lentement et pour une partie.
+
+**D — la reprise, et l'effet de troupeau.** La reprise sans délai est le pire des
+trois cas, et pour une raison contre-intuitive : au moment où le service revient,
+**tous les clients réessaient simultanément** et le remettent immédiatement à
+terre. Une panne de trente secondes devient une panne de dix minutes, par
+oscillation.
+
+Le délai croissant réduit la fréquence. Mais il ne suffit pas seul : si tous les
+clients ont commencé à échouer au même instant, leurs délais doublent en cadence
+et ils réessaient **encore** simultanément. C'est la part d'aléatoire qui casse la
+synchronisation, et c'est l'élément qu'on omet presque toujours.
+
+La règle complète tient en trois mots : **délai croissant, plafonné, aléatoire.**
+Sans plafond, un client qui a échoué quinze fois attend des heures et ne se
+rétablit jamais d'une panne pourtant réparée.
+
+Et une exigence qui prime sur tout : **ne réessayer que ce qui est
+réessayable.** Une opération non idempotente rejouée peut débiter deux fois. C'est
+le mécanisme de clé d'idempotence de `http-rest-json`, et il est la condition de
+la reprise, pas une option.
+
+**E — la dégradation.** Le principe : **une réponse dégradée mais annoncée vaut
+mieux qu'une erreur.** Des recommandations génériques plutôt que personnalisées,
+un prix en cache plutôt qu'aucun prix, une liste sans le compteur.
+
+La condition est dans le mot « annoncée » : l'appelant doit **savoir** que la
+réponse est dégradée, sinon il traite une donnée périmée comme une donnée fraîche
+et le défaut devient silencieux. Un champ explicite dans la réponse, ou un
+en-tête.
+
+Ce que la dégradation exige à la conception : avoir décidé **à l'avance** ce qui
+est essentiel et ce qui est accessoire. Cette décision ne se prend pas pendant
+l'incident, et elle est métier avant d'être technique.
+
 ## 🎤 Questions d'entretien
 - « À quoi sert un circuit breaker ? » → arrêter d'appeler un service défaillant pour
   éviter l'épuisement et une cascade.

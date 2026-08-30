@@ -191,6 +191,97 @@ Le second est plus grave : un client formule sa demande de façon à ce que l'ag
 
 Ce que les équipes en retirent : la limite ne se met pas dans le prompt mais dans l'OUTIL — un plafond de montant, une idempotence par identifiant de commande, une confirmation humaine au-delà d'un seuil. Un garde-fou formulé en langage naturel est une suggestion ; un garde-fou codé dans l'outil est une garantie. Et le taux de réussite se mesure de bout en bout, sur des cas réels, jamais par étape.
 
+## 🔥 Pratique — construire une boucle d'agent et la voir dérailler
+
+Un agent est une boucle : observer, décider, agir, recommencer. La difficulté
+n'est pas de l'écrire — elle est de la borner.
+
+**A. La boucle minimale.** Écris un agent avec deux outils simples (une
+calculatrice et une recherche dans une liste locale), une boucle de décision, et
+un journal de chaque tour. Livrable : le code, et la trace d'une tâche résolue en
+plusieurs tours.
+
+**B. La faire dérailler.** Donne-lui une tâche impossible à accomplir avec ses
+outils. Livrable : ce qu'il fait, le nombre de tours avant que tu l'arrêtes, et
+le coût cumulé.
+
+**C. Les trois bornes.** Ajoute une limite de tours, une limite de coût, et une
+détection de boucle (le même appel d'outil répété). Refais B. Livrable : le
+comportement avec chaque borne, séparément.
+
+**D. L'outil qui échoue.** Fais échouer un outil de trois façons : erreur
+franche, réponse vide, réponse plausible mais fausse. Livrable : le comportement
+de l'agent dans chaque cas, et lequel est le plus dangereux.
+
+**E. Le journal exploitable.** Rends la trace de ton agent utilisable pour
+répondre à « pourquoi a-t-il fait cela ? » deux jours plus tard. Livrable : ce
+que tu journalises à chaque tour.
+
+## ✅ Correction attendue
+
+**A — la boucle.** Ce qu'il faut avoir compris en l'écrivant : **l'agent ne
+« comprend » pas la tâche, il produit à chaque tour une décision à partir de tout
+ce qui précède.** Le contexte grossit à chaque tour, ce qui a deux conséquences
+immédiates — le coût croît de façon non linéaire, et l'information du début
+s'éloigne.
+
+**B — le déraillement.** Le comportement attendu face à une tâche impossible :
+l'agent **ne s'arrête pas**. Il reformule, réessaie le même outil avec des
+arguments légèrement différents, ou invente une conclusion. Il n'a aucun moyen
+propre de conclure « je ne peux pas ».
+
+Le coût cumulé est le chiffre à publier, parce qu'il rend le problème concret :
+une boucle non bornée sur une tâche impossible consomme jusqu'à ce que quelqu'un
+l'arrête, et personne ne regarde en permanence.
+
+**C — les trois bornes, et pourquoi les trois.**
+
+- **Limite de tours** : simple et indispensable, mais elle ne dit rien du coût —
+  vingt tours sur un long contexte coûtent bien plus que vingt tours au début.
+- **Limite de coût** : c'est la borne qui protège la facture, et c'est celle qui
+  manque le plus souvent. Elle se compte en unités consommées, cumulées sur la
+  session.
+- **Détection de boucle** : le même appel d'outil avec les mêmes arguments
+  n'apportera pas un résultat différent. La détecter permet d'arrêter **tôt**,
+  au lieu d'attendre l'épuisement d'une des deux autres bornes.
+
+Les trois sont nécessaires parce qu'elles échouent différemment. C'est le même
+raisonnement que pour le disjoncteur et le délai d'attente dans
+`resilience-patterns` : chaque borne couvre un mode de dérive que les autres ne
+voient pas.
+
+Et une exigence qui prime : **atteindre une borne doit produire un résultat
+explicite** — « je n'ai pas abouti, voici où j'en suis » — et non un silence ou
+une réponse inventée. Un agent qui s'arrête sans le dire est pire qu'un agent qui
+boucle, parce que l'appelant traite sa dernière sortie comme une conclusion.
+
+**D — l'outil qui échoue, et lequel est le plus dangereux.**
+
+L'**erreur franche** est le cas facile : l'agent la voit et peut réagir. La
+**réponse vide** est ambiguë — « rien trouvé » et « la recherche a échoué » se
+ressemblent, et l'agent conclut souvent à l'absence.
+
+La **réponse plausible mais fausse est de loin la plus dangereuse**, et c'est la
+réponse attendue. L'agent n'a aucun moyen de la mettre en doute : elle a le bon
+format, le bon type, et une valeur crédible. Il la propage dans tous les tours
+suivants, et le raisonnement entier repose sur elle.
+
+La conséquence de conception : **la validation des sorties d'outils est la
+responsabilité de l'appelant, pas du modèle.** Vérifier les bornes, les types,
+la cohérence — comme on valide une entrée d'API dans `typescript-basics`, et pour
+la même raison : ce qui entre dans le programme n'est garanti par personne.
+
+**E — le journal.** Ce qu'il faut journaliser à chaque tour : l'identifiant de
+session, le numéro de tour, l'outil appelé avec ses arguments, la réponse reçue,
+et le coût cumulé.
+
+Le point qui rend ce journal réellement exploitable est le même que dans
+`logging-structured` et `distributed-tracing` : **des champs, pas une phrase**, et
+un identifiant de corrélation. Sans lui, deux sessions concurrentes sont
+inséparables — la mesure de `distributed-tracing` donne **1 reconstitution
+correcte sur 200** dès cinq requêtes simultanées quand on tente de recoller par
+horodatage.
+
 ## 🎤 Questions d'entretien
 - « Agent ou workflow ? » → Workflow si le chemin est connu d'avance : coût prévisible, testable, reproductible. Agent seulement si la prochaine action dépend de ce qu'on découvre. Et souvent, ni l'un ni l'autre.
 - « Comment sécurises-tu un agent ? » → Par les outils : moindre privilège, arguments validés, actions plafonnées, idempotence, budget d'itérations. Jamais par une consigne dans le prompt.

@@ -271,6 +271,108 @@ localise, le log explique.
 - **Prévenir** : partir des besoins UTILISATEUR pour choisir quoi mesurer, pas de ce
   qui est facile à mesurer.
 
+## 🔥 Pratique — rendre un service interrogeable
+
+**A. Les trois familles.** Sur un service que tu contrôles, expose : des
+journaux structurés, au moins trois métriques, et une trace corrélée à travers
+deux composants. Livrable : un exemple de chacune.
+
+**B. La question imprévue.** Écris trois questions qu'on te poserait pendant un
+incident, dont au moins une que tu n'avais pas anticipée en instrumentant. Puis
+essaie d'y répondre avec ce que tu as. Livrable : celles auxquelles tu peux
+répondre, et ce qui manque pour les autres.
+
+**C. La cardinalité.** Ajoute une métrique étiquetée par identifiant
+d'utilisateur, puis calcule combien de séries temporelles distinctes cela
+produit sur ton volume. Livrable : le nombre, et ta décision.
+
+**D. L'échantillonnage.** Calcule ce qu'un échantillonnage uniforme à 10 % puis à
+1 % te ferait perdre sur un défaut touchant une requête sur mille. Livrable : les
+deux probabilités et ta règle.
+
+**E. L'alerte utile.** Écris deux alertes : une bonne et une mauvaise. Justifie
+en deux critères. Livrable : les deux, et le coût quotidien de la mauvaise.
+
+## ✅ Correction attendue
+
+> Les valeurs de B, D et E sont **mesurées** par
+> `scripts/v70-verifications/journaux-et-correlation.mjs` et
+> `scripts/v70-verifications/incidents-arithmetique.mjs`.
+
+**A — les trois familles, et ce que chacune ne fait pas.** Les métriques disent
+**qu'il se passe quelque chose** — un taux d'erreur qui monte — et ne disent
+jamais quoi. Les journaux disent **ce qui s'est passé** sur un événement, et ne
+donnent aucune vue d'ensemble. Les traces disent **où le temps est parti** dans
+une requête, et ne servent à rien sans identifiant de corrélation.
+
+La définition opérationnelle qui remplace le mot « observabilité » : **un système
+est observable si tu peux répondre à une question que tu n'avais pas prévue, sans
+redéployer.**
+
+**B — la question imprévue.** C'est le vrai test, et il échoue souvent. La mesure
+jumelle le montre sur un même journal : à la question « combien d'erreurs sur
+`/paiement` au-delà de 300 ms », le format texte répond **juste** (9 contre 9) ; à
+la question « combien ont pour motif un refus de la banque », il répond **37 au
+lieu de 58**, soit 36 % de sous-estimation, sans aucun signal.
+
+La conclusion à formuler : **la fiabilité d'un journal non structuré dépend de la
+question posée**, ce qui revient à dire qu'on ne peut pas s'y fier — puisque
+pendant un incident, on pose précisément les questions qu'on n'avait pas prévues.
+
+D'où la règle de conception : tout ce sur quoi on filtrera doit être un **champ**,
+jamais du texte dans une phrase.
+
+**C — la cardinalité.** Le calcul est le résultat : une métrique étiquetée par
+utilisateur produit **autant de séries que d'utilisateurs**, multiplié par toutes
+les autres combinaisons d'étiquettes. Cent mille utilisateurs et cinq routes font
+cinq cent mille séries.
+
+Ce n'est pas une question de coût de stockage seulement : c'est ce qui fait
+tomber un système de métriques. La décision attendue est de **ne pas** étiqueter
+par identifiant. L'identifiant appartient aux journaux et aux traces, où il est
+un champ ; il n'appartient pas aux métriques, qui sont des agrégats.
+
+**D — l'échantillonnage.** Mesuré :
+
+```
+taux 10 % · défaut survenu  5 fois -> capturé au moins une fois : 41,0 %
+taux  1 % · défaut survenu  5 fois -> capturé au moins une fois :  4,9 %
+taux  1 % · défaut survenu 50 fois -> capturé au moins une fois : 39,5 %
+```
+
+Un échantillonnage uniforme à 1 % rate **six fois sur dix** un défaut survenu
+cinquante fois. Or ce qu'on veut absolument garder — erreurs, requêtes lentes —
+est justement ce qui est rare, donc ce que l'échantillonnage uniforme supprime en
+priorité.
+
+La règle attendue : **échantillonner le succès, pas l'échec.** Cent pour cent des
+erreurs et des requêtes au-delà d'un seuil de latence ; 1 % ou moins des requêtes
+rapides et réussies, qui sont nombreuses et se ressemblent.
+
+**E — l'alerte utile.** Deux critères la définissent : elle décrit un **symptôme
+pour l'utilisateur**, et elle est **actionnable**.
+
+« Le taux d'erreur de la route de paiement dépasse 2 % depuis 5 minutes » satisfait
+les deux. « L'utilisation processeur dépasse 80 % » n'en satisfait aucun : ce
+n'est ni un symptôme utilisateur — la machine peut être à 80 % et tout servir
+correctement — ni une action.
+
+Le coût de la mauvaise alerte se chiffre, et le résultat surprend :
+
+```
+200 contrôles · 1 % de faux par contrôle et par heure -> 48 fausses alertes/jour
+                                                      -> 6,4 h/jour de vérification
+```
+
+Plus de six heures par jour à vérifier des alertes qui ne sont rien. Personne ne
+tient : on cesse de les vérifier, et **c'est ainsi qu'une vraie alerte est
+ignorée** — non par négligence, mais parce que la charge rendait la vigilance
+impossible.
+
+Corollaire contre-intuitif : **une alerte qui n'a jamais rien attrapé se
+retire.** L'objection « mais elle pourrait servir un jour » est exactement le
+raisonnement qui produit les six heures.
+
 ## 🎤 Questions d'entretien
 - « Monitoring vs observability ? » → savoir QUE ça casse vs pouvoir comprendre
   POURQUOI, y compris des pannes non anticipées.

@@ -318,6 +318,100 @@ principal (que faudrait-il faire ?), intérêt (quel surcoût à chaque modif ?)
 modification de cette zone, et ta décision (rembourser maintenant / plus tard / jamais) avec sa
 justification. Tu viens de faire une revue de dette comme en équipe.
 
+## 🔥 Pratique — chiffrer la dette au lieu de s'en plaindre
+
+Une dette qu'on ne chiffre pas ne sera jamais priorisée, parce qu'elle perd
+toujours contre une fonctionnalité qui, elle, est chiffrée.
+
+**A. L'inventaire.** Liste dix endroits de ton projet que tu qualifierais de
+dette. Pour chacun : ce que ça coûte **aujourd'hui**, à quelle fréquence, et à
+qui. Livrable : le tableau, avec une unité de coût réelle (minutes, incidents,
+euros) — pas un ressenti.
+
+**B. Distinguer la dette du reste.** Reclasse tes dix entrées en trois
+catégories : dette délibérée, dette subie, et « code que je n'aime pas ».
+Livrable : la répartition, et ce que tu retires de la liste.
+
+**C. Le coût de l'intérêt.** Pour les trois entrées les plus coûteuses, calcule
+ce qu'elles coûteront sur douze mois si rien n'est fait. Livrable : les trois
+montants annualisés.
+
+**D. Le coût du remboursement.** Estime le travail nécessaire pour chacune, et
+calcule en combien de temps il est amorti. Livrable : les trois durées
+d'amortissement, et ton ordre de priorité.
+
+**E. La dette qu'on ne rembourse pas.** Identifie une entrée qu'il faut
+délibérément **garder**. Livrable : laquelle et pourquoi.
+
+## ✅ Correction attendue
+
+**A — le chiffrage, et pourquoi il est la totalité du travail.** Le point qui
+départage une réponse utile : chaque ligne porte une **unité réelle**. « Le code
+d'authentification est illisible » n'est pas chiffré ; « toute modification de
+l'authentification demande une demi-journée au lieu d'une heure, et cela arrive
+une fois par mois » l'est.
+
+L'unité change selon la dette : minutes de développement, minutes d'incident,
+nombre de personnes qui peuvent intervenir, euros de facture. Toutes sont
+acceptables ; l'absence d'unité ne l'est pas.
+
+Sans ce chiffrage, la dette perd systématiquement l'arbitrage contre une
+fonctionnalité — non par mauvaise foi, mais parce qu'un coût non chiffré vaut
+zéro dans une comparaison.
+
+**B — les trois catégories.** La distinction n'est pas académique : elle change
+la conversation.
+
+- **Délibérée** : on a choisi une solution imparfaite pour livrer, en sachant ce
+  qu'on remettait à plus tard. C'est un emprunt, et il est légitime — à condition
+  d'être **écrit**, sinon il devient de la dette subie six mois plus tard, quand
+  personne ne se souvient que c'était un choix.
+- **Subie** : le contexte a changé — nouvelle échelle, nouveau besoin, dépendance
+  abandonnée. Le code était bon, il ne l'est plus. Personne n'a fait d'erreur.
+- **Code que je n'aime pas** : différence de style, convention datée, choix qu'on
+  aurait fait autrement. **Ce n'est pas de la dette**, et le retirer de la liste
+  est le principal apport de l'exercice.
+
+Le test qui tranche entre la troisième catégorie et les deux autres : **est-ce
+que ça coûte quelque chose de mesurable ?** Si la réponse est non, c'est une
+préférence.
+
+**C et D — l'intérêt et l'amortissement.** Le calcul attendu est explicite :
+
+```
+coût annuel      = coût par occurrence × fréquence annuelle
+amortissement    = coût du remboursement / coût annuel
+```
+
+Une dette qui coûte 4 h par mois, soit 48 h par an, et qui demande 40 h de
+travail, est amortie en **dix mois**. Une qui coûte 20 minutes par an et qui
+demande une semaine ne le sera jamais.
+
+Ce que ce calcul apporte et qu'aucun argument ne remplace : il permet de dire
+« celle-ci est remboursée en dix mois, celle-là en quatorze ans » — et c'est une
+phrase qu'une direction entend, contrairement à « le code est sale ».
+
+Un raffinement qu'une bonne réponse ajoute : le coût d'une dette n'est pas
+constant. Certaines **s'aggravent** — chaque nouvelle fonctionnalité qui s'appuie
+dessus augmente le coût du remboursement futur. Ce sont celles-là qu'il faut
+traiter en premier, même si leur amortissement immédiat est moins bon, et
+l'argument doit être explicite : rembourser aujourd'hui coûte X, dans un an il
+coûtera 2X.
+
+**E — la dette qu'on garde.** C'est la partie la plus mature de l'exercice, et
+son absence dans une réponse est révélatrice.
+
+On garde délibérément : la dette dans du code **qui ne change jamais** — son coût
+réel est nul quel que soit son aspect ; la dette dans un composant **dont la
+suppression est déjà décidée** ; et la dette dont le remboursement coûterait plus
+que ce qu'elle coûtera sur toute la durée de vie restante du produit.
+
+Le point à formuler : **la dette technique n'est pas une faute morale à
+expier.** C'est un poste de coût comme un autre, qu'on arbitre. Une équipe qui
+rembourse tout ne livre plus rien ; une équipe qui ne rembourse rien finit par ne
+plus pouvoir livrer. Le travail consiste à savoir laquelle est laquelle, et ce
+travail est un calcul.
+
 ## 📚 Vocabulaire
 **dette technique** · **principal / intérêt** · **dette délibérée / accidentelle** · **dette
 prudente / imprudente** · **dimensions (code/tests/archi/données/infra/doc)** · **priorisation

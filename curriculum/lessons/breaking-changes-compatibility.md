@@ -286,6 +286,91 @@ On te demande de changer une fonction `envoyerEmail(dest, sujet, corps)` en
 dépréciation et à quelle version tu retirerais l'ancienne signature. Rédige la ligne de
 changelog correspondante.
 
+## 🔥 Pratique — casser un contrat, puis apprendre à ne plus le casser
+
+**A. Recenser les ruptures.** Prends une API réelle (la tienne) et écris dix
+modifications possibles. Pour chacune, décide si elle casse un client existant.
+Livrable : le tableau, avec pour chaque « oui » le client-type qui casse et
+comment.
+
+**B. Prouver qu'une modification casse.** Écris un client, fige-le, puis applique
+une modification que tu as classée « cassante ». Livrable : l'erreur exacte
+obtenue côté client.
+
+**C. La même évolution, sans rupture.** Obtiens le même résultat fonctionnel que
+B par une séquence non cassante. Livrable : les étapes, et pour chacune ce qui
+tourne encore de l'ancienne version.
+
+**D. Mesurer qui utilise quoi.** Sans cela, tu ne peux pas savoir quand retirer
+l'ancien. Ajoute une trace qui compte les appels par version et par champ
+utilisé. Livrable : le mécanisme, et ce que tu regardes avant de retirer.
+
+**E. Le champ ajouté.** Ajoute un champ obligatoire dans une réponse, puis dans
+une requête. Livrable : lequel des deux casse, et pourquoi ce n'est pas
+symétrique.
+
+## ✅ Correction attendue
+
+**A — ce qui casse et ce qui ne casse pas.** La règle qui organise tout le
+tableau : **ajouter est généralement sûr, retirer et renommer ne le sont
+jamais.** Et ce qui casse dépend du sens.
+
+Cassant : retirer un champ d'une réponse, renommer quoi que ce soit, rendre un
+champ de requête obligatoire, restreindre un domaine de valeurs, changer un type,
+changer un code de retour, changer le sens d'une valeur à format constant.
+
+Non cassant : ajouter un champ **optionnel** en requête, ajouter un champ en
+réponse, ajouter un point d'entrée, élargir un domaine de valeurs.
+
+Le cas piège, et il mérite d'être nommé : **changer le sens sans changer le
+format.** Une durée qui passe de secondes à millisecondes ne casse aucun analyseur
+et fausse tous les calculs. C'est la rupture la plus dangereuse parce qu'aucun
+outil ne peut la détecter.
+
+**B — l'erreur côté client.** Le point de méthode : le client doit être **figé**
+avant la modification. Un client qu'on met à jour en même temps ne démontre rien,
+et c'est exactement la situation qui rend les équipes aveugles à leurs propres
+ruptures — elles testent avec le client qu'elles viennent d'adapter.
+
+**C — la séquence non cassante.** C'est le même motif d'expansion puis
+contraction que celui mesuré dans `deployment-strategies` sur un schéma de base :
+
+1. **ajouter** le nouveau champ à côté de l'ancien, sans rien retirer ;
+2. **remplir les deux** pendant toute la transition ;
+3. **annoncer** l'ancien comme déprécié, avec une date ;
+4. **attendre** que la mesure de D montre plus aucun usage ;
+5. **retirer** l'ancien.
+
+L'étape 4 est celle qu'on saute, et c'est la seule qui transforme la séquence en
+garantie. Sans mesure, l'étape 5 est un pari.
+
+Et comme pour le schéma, l'étape 5 est la **seule irréversible** : elle ne doit
+jamais partager une fenêtre de livraison avec un changement de code.
+
+**D — la mesure d'usage.** Il faut compter par **version** et par **champ**, pas
+seulement le volume global. Un champ utilisé par 0,1 % des appels reste utilisé
+par quelqu'un, et ce quelqu'un est peut-être le client le plus important.
+
+Ce qu'on regarde avant de retirer : zéro appel sur la période la plus longue de
+ton cycle client. Si un client synchronise mensuellement, une semaine de silence
+ne prouve rien.
+
+**E — l'asymétrie.** Un champ obligatoire ajouté **en réponse** ne casse
+généralement pas : les clients ignorent ce qu'ils ne connaissent pas. Un champ
+obligatoire ajouté **en requête** casse tous les clients existants
+immédiatement, puisqu'aucun ne l'envoie.
+
+L'explication de l'asymétrie tient au sens du contrat : **tu contrôles ce que tu
+produis, tu ne contrôles pas ce que tu reçois.** D'où la règle générale — un
+nouveau champ de requête est **optionnel avec une valeur par défaut**, et il ne
+devient obligatoire, s'il doit l'être, qu'au terme de la séquence de C.
+
+Réserve : « les clients ignorent ce qu'ils ne connaissent pas » n'est vrai que si
+les clients sont tolérants. Un client qui valide strictement la réponse contre un
+schéma fermé casse sur un champ ajouté. C'est pourquoi la tolérance à l'inconnu
+en lecture est une propriété qui se demande explicitement aux consommateurs, et
+se documente dans le contrat.
+
 ## 📚 Vocabulaire
 **contrat** · **changement cassant (breaking)** · **compatible / rétro-compatible** ·
 **versionnement sémantique (SemVer)** · **majeur / mineur / correctif** · **dépréciation** ·

@@ -198,6 +198,22 @@ export function analyser(slug) {
     exoLivrable: /(^|[^\p{L}])(écris|écrire|implémente|construis|mesure|refactor|dessine|code|ajoute|corrige|répare|compare|teste|conçois|modifie|produis)([^\p{L}]|$)/iu.test(exoTxt),
     // Même expression, appliquée au texte COMPLET de pratique (sonde CP8).
     // `exoLivrable` ci-dessus est inchangé et reste la mesure comparable au CP0.
+    // OBSERVATION V70 CP10, consignée sans modification de sonde (brief §6).
+    // Au terme du CP10, UNE SEULE leçon reste à pratiqueLivrable = false :
+    // html-semantic-structure. Vérifié par lecture intégrale de sa pratique
+    // (528 mots) : elle exige une réécriture complète d'une page, trois sondes
+    // exécutées avant et après, un tableau comparatif et un critère de réussite
+    // chiffré (« la sonde (c) passe de 0 à au moins 3 »). C'est une production
+    // observable, sans ambiguïté possible.
+    // La sonde la rate parce que ses verbes — « Réécris », « Rejoue »,
+    // « Publie », « Colle » — sont hors de la liste gelée. Noter que
+    // « Réécris » ne peut pas concorder avec « écris » : l'expression exige un
+    // non-caractère-lettre avant le verbe, et « é » est une lettre. C'est le
+    // comportement voulu de l'expression, pas un défaut.
+    // LA LISTE DE VERBES N'EST PAS ÉLARGIE. L'élargir maintenant reviendrait à
+    // modifier une sonde après avoir vu quelle leçon elle coûte, ce que le
+    // brief interdit explicitement. Le chiffre publié au CP15 est donc
+    // 127/128, avec ce faux négatif unique déclaré ici et repris au rapport.
     pratiqueLivrable: /(^|[^\p{L}])(écris|écrire|implémente|construis|mesure|refactor|dessine|code|ajoute|corrige|répare|compare|teste|conçois|modifie|produis)([^\p{L}]|$)/iu.test(pratTxt),
     exoPassif: /^\s*(qu'est-ce que|explique en une phrase|cite|liste|nomme)/i.test(exoTxt.trim()),
     // correction

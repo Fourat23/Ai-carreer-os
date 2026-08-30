@@ -163,6 +163,96 @@ C'est la **dérive de modèle**, et elle rappelle une chose que le vocabulaire d
 
 La contrepartie, elle aussi réelle : épingler une version indéfiniment finit par coûter cher, en argent comme en qualité, puisque les modèles récents sont souvent meilleurs et moins chers. La bonne pratique n'est pas de figer, c'est de pouvoir **mesurer** ce qu'un changement de modèle fait à ton système. Sans jeu d'évaluation, tu ne peux ni migrer sereinement ni rester immobile en confiance.
 
+## 🔥 Pratique — chiffrer avant de construire
+
+**A. Compter les unités.** Prends trois textes réels de ton domaine et compte
+leurs unités de découpage. Compare au nombre de mots et au nombre de caractères.
+Livrable : les trois rapports, et le facteur que tu retiens pour estimer.
+
+**B. Le coût mensuel.** Pour un service à mille requêtes par jour, avec une
+entrée et une sortie de tailles typiques, calcule le coût mensuel. Puis fais
+varier la taille de l'entrée. Livrable : le tableau, et la part de l'entrée dans
+le coût.
+
+**C. Entrée contre sortie.** Calcule la part des unités d'entrée et de sortie
+dans le volume total, puis leur part dans le coût. Livrable : les quatre
+pourcentages, et l'explication de l'écart.
+
+**D. Les deux leviers.** Applique deux réductions de coût — une mise en cache des
+requêtes répétées, et un modèle plus petit sur les cas simples — et chiffre
+chacune séparément puis ensemble. Livrable : les trois montants.
+
+**E. La limite de contexte.** Calcule ce que coûte, en calcul d'attention, un
+contexte de 128 000 unités par rapport à un contexte de 512. Livrable : le
+facteur, et ce que tu en déduis sur la recherche documentaire.
+
+## ✅ Correction attendue
+
+> Les valeurs de C, D et E sont **mesurées** ou **calculées** par
+> `scripts/v70-verifications/llm-cout-et-vecteurs.py` et
+> `scripts/v70-verifications/reseaux-et-attention.py`.
+
+**A — les unités.** Le rapport dépend fortement de la langue et du contenu : un
+texte français ordinaire, du code, ou des identifiants ne se découpent pas de la
+même façon. Le facteur que tu retiens doit venir de **tes** textes, pas d'une
+règle générale — et c'est le seul enseignement de A.
+
+Une conséquence pratique souvent ignorée : les langues autres que l'anglais
+consomment généralement plus d'unités pour le même contenu, ce qui renchérit le
+même service à contenu égal.
+
+**B et C — le coût, et l'asymétrie.** Le résultat mesuré :
+
+```
+les unités de SORTIE représentent 12 % du volume et 41 % du coût
+```
+
+L'écart vient du prix unitaire : la sortie coûte plusieurs fois l'entrée. La
+conséquence est contre-intuitive et gouverne toute l'optimisation : **réduire la
+verbosité des réponses rapporte davantage que réduire la taille du contexte**,
+alors que l'intuition pousse à l'inverse parce que le contexte est visiblement
+plus gros.
+
+D'où deux actions concrètes : demander explicitement des réponses courtes, et
+imposer un format structuré plutôt qu'une prose explicative quand la sortie est
+consommée par un programme.
+
+**D — les deux leviers.** Mesuré : de **900 € à 5 € par mois**, un facteur 196.
+
+Ce facteur ne vient pas d'une astuce mais de la combinaison, et il faut savoir la
+décomposer. La mise en cache supprime le coût des requêtes **identiques**, dont
+la proportion est bien plus élevée qu'on ne l'imagine dans un service réel. Le
+routage vers un modèle plus petit sur les cas simples réduit le prix unitaire là
+où la difficulté ne le justifie pas.
+
+Le point de conception à formuler : **ces deux leviers supposent qu'on ait
+mesuré la distribution des requêtes** — combien sont identiques, combien sont
+simples. Sans cette mesure, on ne peut ni dimensionner le cache ni définir le
+critère de routage, et l'optimisation reste une intention.
+
+**E — le coût du contexte.** Calculé :
+
+```
+longueur | paires calculées | multiplication par rapport à 512
+     512 |          262 144 | ×1
+   2 048 |        4 194 304 | ×16
+ 131 072 |   17 179 869 184 | ×65 536
+```
+
+Doubler la longueur **quadruple** le calcul, puisque chaque unité est comparée à
+chaque unité. Pour environ 128 000 unités, le facteur est de 65 536 par rapport à
+512.
+
+Ce que tu dois en déduire sur la recherche documentaire est la conclusion
+attendue : si l'on peut ne soumettre que les cinq passages pertinents au lieu du
+corpus entier, **on ne gagne pas un peu de coût, on en gagne des ordres de
+grandeur**. La recherche documentaire n'est pas une astuce d'économie ; elle est
+la conséquence arithmétique du coût quadratique de l'attention.
+
+Réserve honnête : ce calcul porte sur le coût **de calcul** de l'attention, pas
+directement sur le prix facturé, qui suit sa propre grille. Les deux évoluent
+dans le même sens sans être proportionnels.
+
 ## 🎤 Questions d'entretien
 - « Pourquoi un LLM hallucine-t-il ? » → Parce qu'il produit le jeton le plus plausible, sans notion de vérité ni accès à une source. La confiance apparente n'est pas un signal de fiabilité.
 - « À quoi sert la température ? » → À régler l'aléa du choix des jetons. 0 rend reproductible, pas exact.

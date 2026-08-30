@@ -307,6 +307,101 @@ opinion, c'est un chiffre.
 - **Prévenir** : alerte sur le burn rate (pas sur chaque erreur), post-mortem si
   incident majeur.
 
+## 🔥 Pratique — poser un objectif et l'exploiter
+
+**A. Le budget en minutes.** Pour 99 %, 99,9 % et 99,99 %, calcule le temps
+d'indisponibilité autorisé par mois et par an. Livrable : le tableau des six
+valeurs.
+
+**B. Ce qu'un incident consomme.** Prends une durée d'incident réaliste pour ton
+service et calcule quelle part du budget mensuel il consomme, aux trois niveaux
+de A. Livrable : les trois pourcentages.
+
+**C. Définir « disponible ».** Écris la définition exacte de ce qui compte comme
+succès pour ton service. Livrable : la définition, et trois cas limites que tu
+as dû trancher.
+
+**D. Mesurer depuis le bon endroit.** Compare ce que dirait la mesure prise sur
+ton serveur et celle prise depuis le client. Livrable : deux situations où les
+deux divergent.
+
+**E. La décision.** Écris la règle qui lie l'état du budget à une décision
+d'équipe. Livrable : la règle, et ce qu'elle interdit concrètement.
+
+## ✅ Correction attendue
+
+> Les valeurs de A et B sont **calculées** par
+> `scripts/v70-verifications/slo-budget-erreur.py`.
+
+**A — le budget.** Les valeurs mesurées, par mois de 30 jours :
+
+```
+99 %     : 7 h 12 min      par mois
+99,9 %   :   43 min        par mois
+99,99 %  :    4,3 min      par mois
+```
+
+Le résultat à faire sentir : **chaque neuf supplémentaire divise le budget par
+dix**, et le coût pour l'obtenir, lui, augmente bien plus vite. Le passage de
+99,9 % à 99,99 % fait tomber le budget à quatre minutes par mois — ce qui exclut
+toute intervention humaine dans la boucle de rétablissement, et impose donc une
+architecture entièrement différente.
+
+**B — ce qu'un incident consomme.** Mesuré : **un seul incident de 20 minutes
+consomme 800 % du budget mensuel à 99,9 %.**
+
+Ce chiffre est le cœur de la leçon. Il rend concret ce que « trois neuf »
+signifie : non pas « on peut avoir quelques incidents », mais **un incident de
+vingt minutes par trimestre est déjà hors budget**. Un objectif s'écrit donc à
+partir de ce calcul, pas à partir d'un nombre de neuf qui sonne bien.
+
+**C — définir « disponible ».** C'est la partie que tout le monde saute, et elle
+détermine tout le reste. Les trois cas limites qu'on doit trancher explicitement :
+
+- une réponse **lente mais correcte** — au-delà de quel seuil compte-t-elle comme
+  échec ? Sans seuil, un service qui répond en trente secondes est « disponible ».
+- une **erreur du client** (requête invalide) — elle ne devrait pas consommer ton
+  budget, mais elle apparaît dans le taux d'erreur brut.
+- une **dégradation partielle** — la page s'affiche sans les recommandations.
+  Succès ou échec ? Il n'y a pas de bonne réponse universelle ; il y a une
+  décision à prendre et à écrire.
+
+**D — depuis où on mesure.** Les deux divergences qui comptent :
+
+Le serveur ne voit pas ce qui ne l'atteint pas. Une panne de résolution de nom,
+un répartiteur en panne, un problème de réseau côté client : le serveur affiche
+100 % de disponibilité pendant que personne ne peut se connecter. C'est le cas le
+plus grave, parce qu'il produit un tableau de bord vert pendant une panne totale.
+
+Inversement, une mesure côté client inclut des échecs qui ne sont pas les tiens —
+le réseau mobile de l'utilisateur. Sans distinction, on consomme du budget pour
+des causes sur lesquelles on n'a aucune prise.
+
+La réponse pratique : **mesurer au plus près de l'utilisateur tout en excluant
+explicitement ce qui n'est pas de ton ressort**, et savoir dire lequel des deux
+points de mesure produit le chiffre qu'on publie.
+
+**E — la décision, qui est la seule raison d'avoir un budget.** Un objectif sans
+conséquence est un chiffre décoratif. La règle attendue lie l'état du budget à
+une action :
+
+```
+budget consommé < 50 %  : rythme normal, on livre
+budget entre 50 et 100 %: on ralentit, on priorise la fiabilité
+budget épuisé           : gel des livraisons non correctives jusqu au
+                          rétablissement du budget
+```
+
+Ce que cette règle **interdit concrètement** est le point important : quand le
+budget est épuisé, on ne livre plus de fonctionnalités. C'est une contrainte
+réelle sur le travail de l'équipe, et c'est ce qui transforme la fiabilité d'un
+souhait en une priorité.
+
+Le corollaire est moins intuitif et tout aussi important : **un budget largement
+inutilisé signale un objectif trop conservateur.** On paie de la fiabilité que
+personne n'a demandée, au prix de fonctionnalités non livrées. Un budget est fait
+pour être **consommé**, pas économisé.
+
 ## 🎤 Questions d'entretien
 - « SLI vs SLO vs SLA ? » → mesure vs objectif interne vs engagement contractuel.
 - « Pourquoi ne pas viser 100 % ? » → impossible/ruineux ; l'error budget rend le

@@ -200,6 +200,97 @@ Le point important n'est pas que les microservices soient mauvais — ils résol
 
 La contrepartie mérite d'être dite aussi : le monolithe modulaire ne tient sa promesse que si les frontières internes sont réellement respectées. Sans discipline — ou sans un contrôle automatique interdisant à un module d'importer les entrailles d'un autre — il devient en dix-huit mois le plat de spaghettis que les microservices prétendaient éviter. Les deux styles échouent par la même cause : des frontières que personne ne fait respecter.
 
+## 🔥 Pratique — décider, écrire, et assumer les conséquences
+
+**A. Le même besoin, trois architectures.** Prends un besoin réel de ton projet
+et décris-le en monolithe modulaire, en services séparés, et en pilotage par
+événements. Pour chacun : ce qu'il achète, et ce qu'il coûte. Livrable : le
+tableau à trois colonnes.
+
+**B. Chiffrer le coût du découpage.** Pour l'option en services, chiffre à partir
+des mesures existantes du programme : latence supplémentaire par appel, effet
+d'un accès par élément, nombre de versions cohabitant lors d'un déploiement, et
+capacité à reconstituer une requête sans identifiant de corrélation. Livrable :
+les quatre chiffres et leurs sources.
+
+**C. La question qui tranche.** Réponds à « combien d'équipes doivent déployer
+indépendamment ? » pour ton projet, et déduis-en ton choix. Livrable : la réponse
+et la décision.
+
+**D. Trier réversible et irréversible.** Classe dix décisions de ton projet en
+deux colonnes. Livrable : le tableau, et le temps que tu as passé sur chacune.
+
+**E. Écrire la décision.** Rédige le document d'une décision réelle : contexte,
+options avec leurs coûts, décision, conséquences bonnes **et** mauvaises.
+Livrable : le document, en une page.
+
+## ✅ Correction attendue
+
+**A — les trois colonnes.** Ce qui distingue une bonne réponse : la colonne
+« coût » est aussi remplie que la colonne « bénéfice ». Une architecture décrite
+sans ses coûts n'a pas été instruite.
+
+**B — les quatre chiffres, et ils viennent de mesures.** C'est le cœur de
+l'exercice, parce qu'il transforme une intuition en argument :
+
+- **latence** : un appel de fonction coûte ~0,1 µs en mémoire, un aller-retour
+  dans un centre de données ~500 µs — un facteur **cinq mille**
+  (`system-design-interview`). Une chaîne de cinq appels internes devient une
+  chaîne de cinq allers-retours.
+- **accès par élément** : 51 requêtes là où une seule suffisait
+  (`sql-performance-indexing`). Sur un appel de fonction c'est regrettable ; sur
+  un appel réseau, chaque unité devient un aller-retour.
+- **versions cohabitant** : trois services déployables séparément, ce sont trois
+  versions simultanées. `release-incident-recovery` mesure ce que cela produit
+  avec un schéma mal conçu : `ACCEPTÉ, devise = ""`, une écriture silencieusement
+  fausse.
+- **corrélation** : reconstituer une requête à travers trois services par
+  proximité temporelle donne **1 reconstitution correcte sur 200** dès cinq
+  requêtes simultanées (`distributed-tracing`), et l'échec est silencieux.
+
+À quoi s'ajoute la panne partielle : sans disjoncteur, 600 appels vers un service
+en panne au lieu de 5 (`resilience-patterns`).
+
+La conclusion à formuler : **le découpage en services n'achète pas de la
+propreté, il achète de l'indépendance de déploiement — et il la paie en
+complexité de panne.**
+
+**C — la question qui tranche.** Elle n'est pas technique. Une seule équipe →
+monolithe modulaire, sans discussion : l'indépendance de déploiement n'a aucune
+valeur pour des gens qui déploient ensemble, et les coûts de B sont bien réels.
+Plusieurs équipes qui se bloquent à chaque livraison → le découpage se justifie,
+et **la frontière suit l'organisation**, pas le schéma technique.
+
+**D — réversible et irréversible.** Le classement attendu :
+
+*Réversible* — le découpage en services, le cadre applicatif, l'hébergeur, le
+format des journaux. Ces choix se changent au prix d'un travail borné.
+
+*Irréversible* — le modèle de données, le contrat public d'une API, le choix
+synchrone ou asynchrone sur un flux central, la stratégie d'identifiants.
+`breaking-changes-compatibility` explique pourquoi : dès qu'un tiers dépend de ton
+contrat, tu ne le changes plus, tu en publies un second.
+
+La colonne « temps passé » est la partie révélatrice de l'exercice. **L'erreur la
+plus répandue est d'investir son temps d'architecture sur la première liste** —
+de longues discussions sur le découpage en services, et une décision de modèle de
+données prise en dix minutes en début de projet.
+
+**E — le document.** La section qui fait la valeur du document est
+**« conséquences mauvaises »**. Une décision sans conséquences négatives écrites
+n'a pas été instruite : toute architecture a un coût, et ne pas le nommer
+signifie soit qu'on ne l'a pas cherché, soit qu'on le cache.
+
+L'autre section indispensable est **les options écartées et pourquoi**. C'est
+exactement ce que le code ne contiendra jamais : il montre ce qui a été fait, il
+ne dit pas qu'on a envisagé autre chose ni pour quelle raison on y a renoncé. Et
+c'est la question que posera, dans deux ans, la personne qui proposera de revenir
+en arrière.
+
+Enfin, on ne modifie pas ce document quand la décision change : on en écrit un
+nouveau qui remplace le précédent. Modifier détruirait la seule information qu'il
+contenait — que ce choix a été fait, à cette date, avec ces informations-là.
+
 ## 🎤 Questions d'entretien
 - « Conçois un système qui analyse des documents. » → Clarifier d'abord (volumes, latence, échec), schématiser ensuite, arbitrer explicitement, finir par l'échelle et les pannes. On évalue la démarche, pas la réponse.
 - « Monolithe ou microservices ? » → Monolithe modulaire par défaut. Microservices quand des équipes ou des besoins de scaling réellement indépendants le justifient — et en acceptant le coût du distribué.

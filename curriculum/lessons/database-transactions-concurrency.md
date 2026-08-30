@@ -357,6 +357,103 @@ erreur ici ?**
 3. Ton code attrape-t-il les erreurs de sérialisation et d'interblocage pour rejouer ? Si
    non, ton niveau d'isolation élevé produit des erreurs utilisateur au lieu de sûreté.
 
+## 🔥 Pratique — reproduire les anomalies plutôt que les lire
+
+Les anomalies de concurrence se comprennent en les provoquant. Deux connexions
+suffisent.
+
+**A. La mise à jour perdue.** Deux connexions lisent le même stock à 100, en
+retirent chacune 40, et écrivent. Livrable : la valeur finale, celle qu'on
+attendait, et le nombre de connexions qui ont cru réussir.
+
+**B. La corriger de deux façons.** D'abord par une écriture relative, ensuite par
+un verrouillage explicite à la lecture. Mesure la valeur finale dans chaque cas.
+Livrable : les deux valeurs, et le compromis entre les deux méthodes.
+
+**C. L'interruption au milieu.** Écris une séquence qui insère mille lignes sans
+transaction, interromps-la en cours, puis compte. Recommence dans une
+transaction. Livrable : les deux décomptes.
+
+**D. L'étreinte fatale.** Fabrique deux connexions qui verrouillent deux
+ressources dans l'ordre inverse. Livrable : le message d'erreur, quelle
+connexion est sacrifiée, et la règle qui évite le cas.
+
+**E. Le compteur juste.** Écris un compteur incrémenté par cent opérations
+concurrentes et prouve qu'il vaut exactement cent. Livrable : la valeur et la
+technique employée.
+
+## ✅ Correction attendue — sur la pratique A → E
+
+> Les valeurs de A et C sont **mesurées** par
+> `scripts/v70-verifications/sql-mise-a-jour-perdue.mjs` et
+> `scripts/v70-verifications/etl-idempotence.mjs`.
+
+**A — la mise à jour perdue.** Le stock final vaut **50** au lieu de 20 attendus,
+et **les deux connexions ont cru réussir**. Aucune erreur, aucun avertissement.
+
+Le mécanisme : chacune a lu 100, calculé 60 dans son propre processus, et écrit
+60. La seconde écriture écrase la première, dont le travail disparaît. C'est
+l'anomalie la plus coûteuse parce qu'elle est **silencieuse** — elle ne se
+découvre qu'à l'inventaire, des semaines plus tard, et il est alors impossible de
+savoir combien d'opérations ont été perdues.
+
+Le point à formuler : **le défaut n'est pas dans la base, il est dans le schéma
+« lire, calculer dans l'application, écrire ».** Toute séquence de cette forme est
+vulnérable, quel que soit le moteur.
+
+**B — les deux remèdes, et leur compromis.**
+
+L'**écriture relative** — demander à la base de soustraire, au lieu de lui donner
+un résultat calculé ailleurs — supprime le problème par construction : la lecture
+et l'écriture n'existent plus séparément. C'est la meilleure réponse quand elle
+est applicable, et elle ne coûte rien.
+
+Le **verrouillage à la lecture** rend la valeur lue exclusive jusqu'à la fin de
+la transaction. Il devient nécessaire dès que le calcul intermédiaire ne peut pas
+s'exprimer dans la requête d'écriture — une décision métier, une validation. Son
+coût est réel : les autres connexions attendent, et l'attente peut devenir une
+étreinte fatale (point D).
+
+La règle de choix : **écriture relative si le calcul tient dans la requête,
+verrou sinon.** Verrouiller par précaution là où une écriture relative suffirait
+est une perte de débit gratuite.
+
+**C — l'interruption.** Mesuré : sans transaction, l'interruption laisse **617
+lignes sur 1000 et une somme de 96 006**. La base n'est ni vide ni complète : elle
+est dans un état intermédiaire qu'aucune partie du code n'a prévu.
+
+Avec transaction, le décompte est 0 ou 1000. Rien d'autre n'est possible.
+
+Ce qu'il faut savoir énoncer : **une transaction ne rend pas l'opération plus
+sûre, elle rend l'état intermédiaire inobservable.** C'est ce qui permet d'écrire
+le reste du programme sans se demander, à chaque lecture, si une écriture a été
+interrompue au milieu.
+
+**D — l'étreinte fatale.** Le moteur détecte le cycle d'attente et sacrifie l'une
+des deux connexions, qui reçoit une erreur explicite. La transaction sacrifiée
+est annulée entièrement.
+
+Deux enseignements. Le premier : **c'est un comportement normal, pas une panne.**
+Une application correcte réessaie la transaction annulée, et cette reprise fait
+partie du code attendu, pas d'un traitement exceptionnel.
+
+Le second, qui est la vraie prévention : **verrouiller toujours dans le même
+ordre.** Si toutes les transactions prennent les ressources par ordre
+d'identifiant croissant, aucun cycle ne peut se former. C'est une convention
+d'équipe, pas un réglage — et elle doit être écrite quelque part, sinon elle sera
+violée par le premier code qui itère dans un autre ordre.
+
+**E — le compteur juste.** La bonne réponse n'est pas un verrou : c'est de faire
+faire l'incrément **par la base**, dans la requête d'écriture. Cent opérations
+concurrentes donnent alors exactement cent, sans verrou explicite et sans
+attente.
+
+Le raisonnement à retenir dépasse les bases de données : **quand une valeur est
+partagée, on ne la lit pas pour la recalculer ailleurs ; on décrit la
+modification à faire.** C'est le même principe que l'opération atomique en
+programmation concurrente, et la même famille de raisonnement que l'idempotence
+mesurée dans `etl-pipelines`.
+
 ## 📚 Vocabulaire
 **transaction** · **ACID** · **`COMMIT` / `ROLLBACK`** · **isolation** · **dirty read** ·
 **lost update** · **niveau d'isolation (Read Committed, Serializable)** · **verrou pessimiste

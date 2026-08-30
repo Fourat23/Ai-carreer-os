@@ -187,6 +187,92 @@ Sur les 500 documents du jeu de test, l'ingestion prend deux secondes. En produc
 
 C'est le motif le plus courant du métier : **le code lent ne ressemble pas à du code lent**. Savoir lire le coût caché derrière une méthode toute faite vaut beaucoup plus, au quotidien, que de connaître par cœur le tri fusion.
 
+## 🔥 Pratique — raisonner sur le coût avant d'optimiser
+
+**A. Compter avant de mesurer.** Pour cinq fonctions de ton code, écris le nombre
+d'opérations en fonction de la taille de l'entrée, **sans** exécuter. Puis mesure
+sur trois tailles croissantes. Livrable : tes prédictions et les mesures.
+
+**B. Le passage de l'imbriqué au dictionnaire.** Prends une recherche par boucles
+imbriquées et remplace-la par un dictionnaire. Mesure sur 100, 1 000 et 10 000
+éléments. Livrable : les six durées et les deux rapports.
+
+**C. Le seuil réel.** Trouve, par la mesure, la taille d'entrée à partir de
+laquelle la version « optimisée » devient plus rapide que la version naïve.
+Livrable : le seuil, et ta conclusion sur les petites entrées.
+
+**D. La complexité qui se cache dans une bibliothèque.** Trouve une opération que
+tu croyais peu coûteuse et qui ne l'est pas — une insertion en tête de tableau,
+une concaténation en boucle, une recherche dans une liste. Mesure. Livrable :
+l'opération, la mesure, et ce que tu aurais utilisé à la place.
+
+**E. Le cas où la complexité n'est pas le problème.** Trouve dans ton code un
+endroit lent dont la cause n'est pas algorithmique. Livrable : la cause réelle et
+le gain obtenu.
+
+## ✅ Correction attendue
+
+**A — prédire puis mesurer.** L'exercice porte sur l'écart. Deux causes typiques
+quand la prédiction est fausse : une opération de bibliothèque plus coûteuse
+qu'on ne croyait (point D), et un facteur constant qui domine sur les tailles
+testées.
+
+Ce qu'il faut savoir énoncer : **la notation asymptotique décrit le comportement
+quand la taille croît, pas la durée sur ton jeu de données.** Un algorithme
+quadratique avec un petit facteur bat un algorithme linéaire avec un gros facteur
+sur mille éléments. Les deux informations sont utiles et elles ne répondent pas à
+la même question.
+
+**B — l'imbriqué et le dictionnaire.** Les rapports attendus croissent avec la
+taille : négligeable à 100, net à 1 000, écrasant à 10 000. C'est **la forme de la
+progression** qui est le résultat, pas les valeurs — un rapport constant
+signalerait une erreur de protocole.
+
+Le mécanisme : la boucle imbriquée refait une recherche complète pour chaque
+élément ; le dictionnaire la fait une fois, puis répond en temps constant. C'est
+exactement le même raisonnement que le passage de 51 requêtes à 1 mesuré dans
+`sql-performance-indexing` — un accès par élément contre un accès groupé.
+
+**C — le seuil, et la conclusion contre-intuitive.** Il existe presque toujours
+une taille en dessous de laquelle la version naïve gagne, parce que la structure
+optimisée coûte à construire.
+
+La conclusion attendue : **sur de petites entrées, la version simple est souvent
+la bonne** — plus lisible, moins de code, moins de bogues. Optimiser une boucle
+qui traite dix éléments est du travail correctement fait au mauvais endroit.
+
+Corollaire à ne pas manquer : ce seuil justifie d'optimiser **quand même** si
+l'entrée peut croître. Le coût de la version optimisée est payé une fois ; le coût
+de découvrir le problème en production ne l'est pas.
+
+**D — la complexité cachée.** Les cas les plus fréquents, et le remède :
+
+- **insertion en tête d'un tableau** — décale tous les éléments à chaque appel,
+  donc quadratique en boucle. Remède : accumuler à la fin et inverser une fois.
+- **concaténation de chaînes en boucle** — recopie l'accumulateur à chaque
+  itération dans beaucoup de langages. Remède : accumuler dans une liste et
+  joindre une fois.
+- **recherche dans une liste** — linéaire. Remède : dictionnaire ou ensemble.
+
+Le point général : **une opération peut être coûteuse sans en avoir l'air**,
+parce que sa syntaxe est aussi courte que celle d'une opération peu coûteuse. La
+seule protection est de connaître le coût des opérations de base de son langage,
+ou de mesurer.
+
+**E — quand la complexité n'est pas le problème.** C'est le point le plus utile
+de l'exercice, parce qu'il est le cas le plus fréquent en pratique.
+
+Les causes réelles les plus courantes, aucune n'étant algorithmique : un accès
+réseau ou base par élément dans une boucle (le N+1, mesuré à 51 requêtes contre
+1) ; un accès disque non groupé (mesuré à 9088,7 ms contre 21,6 ms selon l'ordre
+des lectures et écritures dans `frontend-performance`) ; une donnée relue à chaque
+itération alors qu'elle est constante ; une attente d'une durée fixe au lieu d'un
+événement.
+
+La règle de méthode : **mesurer avant d'optimiser, et mesurer où le temps part
+réellement.** Un algorithme parfait autour d'un appel réseau par élément reste
+lent, et c'est l'appel qu'il fallait regarder.
+
 ## 🎤 Questions d'entretien
 - « Quelle est la complexité de ta solution, et pourquoi ? » → Compte les parcours du tableau et ce que chaque opération interne coûte vraiment. Une réponse qui oublie le coût de `includes` ou d'un `indexOf` est fausse.
 - « Peux-tu faire mieux ? » → La question sous-jacente est presque toujours : « que peux-tu MÉMORISER pour ne pas recalculer ? » — c'est le passage O(n²) → O(n) par une Map ou un Set.

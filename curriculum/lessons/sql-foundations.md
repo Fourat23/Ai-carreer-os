@@ -227,6 +227,93 @@ Trois choses valent d'être retenues. D'abord, l'index manquant ne se voit jamai
 
 Et le contre-poids reste vrai : indexer davantage aurait ralenti les écritures. On n'indexe pas « au cas où », on indexe ce que les requêtes réelles filtrent et joignent.
 
+## 🔥 Pratique — interroger, puis prouver que la requête est juste
+
+**A. Le jeu de départ.** Crée trois tables — clients, commandes, lignes — et
+insère assez de données pour que les cas limites existent : un client sans
+commande, une commande sans ligne, un client avec dix commandes. Livrable : le
+script de création et les décomptes.
+
+**B. Les cinq questions.** Écris une requête pour chacune : le chiffre d'affaires
+par client ; les clients **sans** commande ; la commande la plus chère par
+client ; le nombre de commandes par mois ; les clients dont le total dépasse une
+valeur. Livrable : les cinq requêtes et leurs résultats.
+
+**C. Faire échouer une jointure.** Écris volontairement la jointure qui perd les
+clients sans commande, puis celle qui les garde. Compare les décomptes.
+Livrable : les deux nombres et l'explication de l'écart.
+
+**D. Le piège du filtre.** Sur une jointure externe, place une condition sur la
+table de droite d'abord dans la clause de filtrage, puis dans la condition de
+jointure. Compare. Livrable : les deux résultats et pourquoi ils diffèrent.
+
+**E. Vérifier une agrégation.** Pour une de tes requêtes de B, prouve son
+résultat par un second calcul obtenu autrement. Livrable : les deux valeurs.
+
+## ✅ Correction attendue
+
+**A — les cas limites d'abord.** Un jeu de test où chaque client a exactement une
+commande ne révèle aucune des erreurs de B, C et D. **Les cas limites ne sont pas
+un raffinement, ils sont le jeu de test** : le client sans commande et la
+commande sans ligne sont précisément ce qui distingue une jointure correcte d'une
+jointure fausse.
+
+**B — les cinq requêtes.** Deux points de méthode qui reviennent dans les cinq.
+
+Le premier : la clause qui filtre **avant** le regroupement et celle qui filtre
+**après** ne sont pas interchangeables. « Les clients dont le total dépasse une
+valeur » se filtre après agrégation, puisque le total n'existe pas avant. Écrire
+ce filtre au mauvais endroit produit soit une erreur de syntaxe, soit — plus
+grave — un résultat plausible et faux.
+
+Le second, sur « la commande la plus chère par client » : c'est le cas où une
+agrégation simple ne suffit pas. Le maximum du montant s'obtient facilement ;
+récupérer **la ligne** qui porte ce maximum demande une fonction de fenêtrage ou
+une sous-requête corrélée. Mélanger une colonne non agrégée avec une agrégation
+est accepté par certains moteurs et rend alors une valeur **arbitraire** — un
+défaut silencieux classique.
+
+**C — la jointure qui perd des lignes.** Une jointure interne ne conserve que les
+lignes ayant une correspondance des deux côtés : les clients sans commande
+disparaissent. Une jointure externe les conserve, avec des valeurs absentes.
+
+L'écart de décompte est le résultat attendu, et il faut savoir en tirer la règle
+générale : **une jointure interne est un filtre déguisé.** Beaucoup de rapports
+« il manque des clients » viennent de là, et le symptôme est trompeur parce que
+la requête ne produit aucune erreur.
+
+Conséquence sur l'agrégation : un dénombrement sur la table de droite compte les
+lignes existantes et rend **zéro** pour un client sans commande, alors qu'un
+dénombrement générique compterait la ligne produite par la jointure externe et
+rendrait **un**. C'est la même requête à un mot près, avec deux réponses
+différentes.
+
+**D — le filtre qui annule la jointure externe.** C'est le piège le plus fréquent
+et le plus difficile à voir.
+
+Une condition sur la table de droite placée dans la clause de filtrage est
+évaluée **après** la jointure. Les lignes sans correspondance ont des valeurs
+absentes, la condition n'est pas satisfaite, elles sont éliminées — et la
+jointure externe se comporte exactement comme une jointure interne.
+
+La même condition placée dans la condition de jointure est évaluée **pendant**,
+et les lignes sans correspondance survivent.
+
+**Ce n'est pas une subtilité de syntaxe : c'est l'ordre d'évaluation.** Le retenir
+sous cette forme — filtrer après ou pendant — évite d'avoir à mémoriser une règle
+sans mécanisme.
+
+**E — la vérification croisée.** Le principe dépasse SQL : **un résultat obtenu
+d'une seule façon n'est pas vérifié.** Une somme par client se recoupe avec la
+somme globale ; un dénombrement par mois se recoupe avec le total sur la période.
+
+Ce que ce recoupement attrape le plus souvent : la multiplication de lignes par
+une jointure. Joindre commandes et lignes puis sommer le montant de la commande
+compte **une fois par ligne de commande** — une commande à trois lignes est
+comptée trois fois. Le total par client paraît normal, le total général est
+gonflé, et rien ne le signale. C'est le même défaut, sous une autre forme, que
+celui que `sql-performance-indexing` mesure en nombre de requêtes.
+
 ## 🎤 Questions d'entretien
 - « WHERE ou HAVING ? » → `WHERE` filtre les lignes avant regroupement, `HAVING` filtre les groupes après. Un agrégat ne peut apparaître que dans `HAVING`.
 - « INNER ou LEFT JOIN ? » → `LEFT` quand la question porte sur l'ABSENCE : clients sans commande, livres jamais empruntés. Et attention à ne pas l'annuler par une condition `WHERE` sur la table de droite.

@@ -63,15 +63,90 @@ Le rituel qui rend tout le reste utile : (1) BASELINE chiffrée ; (2) UN changem
 Golden set (varié, représentatif, vivant) · évaluation par étage · rappel@k / précision@k · fidélité / pertinence / exactitude · LLM-as-judge, biais (position, verbosité, auto-préférence) · calibration juge/humain · baseline · ablation (mesurer chaque étage) · versionnement des scores · tests adverses (les cas hostiles DANS le harnais).
 
 ## 🧭 Exemple guidé
-Ton harnais en une commande :
+Une équipe modifie son système d'IA. La question qui suit chaque modification est toujours la
+même : **est-ce mieux ?**
+
+Sans harnais, la réponse s'obtient en regardant quelques sorties, et elle a la valeur d'une
+impression. Avec un harnais, elle s'obtient en une commande et elle a la valeur d'un fait.
+Voici ce que cette commande doit produire.
+
+### La sortie visée
+
 ```
 $ npm run eval
 Retrieval  : rappel@5 = 82 % (25/30 — échecs : Q7, Q12, Q19, Q23, Q28)
 Fidélité   : 90 % (juge calibré : accord humain 87 % sur 20 cas)
 Refus      : 4/5 questions hors corpus correctement refusées
-vs baseline (v0.3) : rappel +9 pts (chunking par structure), fidélité stable
+vs baseline (v0.3) : rappel +9 pts (découpage par structure), fidélité stable
 ```
-Quatre lignes qui changent tout : tu sais OÙ ça pèche (les 5 questions d'échec sont tes prochaines investigations), tu sais si la dernière modif a payé, et tu as des chiffres pour l'entretien.
+
+Quatre lignes. Elles ne se contentent pas de noter le système : chacune répond à une question
+qu'on se pose vraiment.
+
+### Ce que chaque ligne rend possible
+
+**« rappel@5 = 82 % »** — un nombre, sur une population définie. Comparable à celui d'hier, à
+celui d'une autre configuration, à un objectif. Un « ça marche plutôt bien » n'a aucune de ces
+propriétés.
+
+**« échecs : Q7, Q12, Q19, Q23, Q28 »** — la liste nominative est plus utile que le
+pourcentage. C'est **la liste des choses à regarder demain matin**, et l'on découvre presque
+toujours que ces cinq questions ont un point commun : elles portent toutes sur des tableaux, ou
+toutes sur des documents d'un même service. Le taux dit qu'il y a un problème ; la liste dit
+lequel.
+
+**« juge calibré : accord humain 87 % »** — la mesure de la mesure. Sans elle, « fidélité
+90 % » est un chiffre dont on ignore s'il veut dire quelque chose. Avec elle, on sait que ce
+90 % est fiable à quelques points près, et donc qu'un écart de deux points ne se commente pas.
+
+**« vs baseline (v0.3) »** — la comparaison à un point fixe. C'est ce qui transforme une note
+en **information de décision** : le changement de découpage a rapporté 9 points de rappel sans
+coûter de fidélité, donc on le garde.
+
+Et la parenthèse `(découpage par structure)` est ce qui rend l'historique lisible dans six
+mois : le score sans la modification qui l'a produit ne s'interprète pas.
+
+### Pourquoi trois lignes et pas une note globale
+
+Les trois métriques mesurent des étages **différents**, et c'est ce qui permet de savoir quoi
+corriger. Un score unique agrégerait :
+
+| Système | Rappel | Fidélité | Refus | Note globale | Problème réel |
+|---|---:|---:|---:|---:|---|
+| A | 0,95 | 0,60 | 0,80 | 0,78 | la génération trahit les sources |
+| B | 0,60 | 0,95 | 0,80 | 0,78 | la recherche ne trouve rien |
+| C | 0,95 | 0,95 | 0,00 | 0,77 | **il invente quand il ne sait pas** |
+
+Trois systèmes, trois notes globales presque identiques, trois défauts sans rapport. Et le
+troisième est le plus dangereux des trois, alors que sa note est la plus basse **de très peu**.
+
+La ligne « Refus » mérite d'exister séparément pour cette raison : c'est la seule qui mesure ce
+que l'utilisateur ne peut pas vérifier. Un système qui répond toujours quelque chose paraît
+excellent tant qu'on ne lui pose que des questions dont la réponse existe.
+
+### Une commande, et pourquoi ça compte
+
+`npm run eval`. Une seule commande, aucun réglage, aucun notebook à dérouler dans l'ordre.
+
+Ce détail d'ergonomie décide de l'existence même de la mesure. Une évaluation qui demande
+quinze minutes de manipulation est lancée une fois par semaine, puis plus du tout. Une
+évaluation qui tient en une commande est lancée avant chaque modification — et c'est le seul
+régime où elle sert à quelque chose.
+
+Corollaire pratique : le harnais doit être **rapide et gratuit** autant que possible. Le rappel
+se calcule sans aucun appel de modèle ; la fidélité en demande. Séparer les deux permet une
+boucle courte à chaque changement et une boucle complète moins souvent.
+
+### Ce que le harnais ne dit pas
+
+Il mesure ce qu'on lui a appris à mesurer. Sur trente questions écrites par la même personne en
+une après-midi, il y a des angles morts — des formulations qu'on n'a pas pensé à tester, des
+documents qu'on n'a pas couverts, des utilisateurs qui ne demandent pas ce qu'on imagine.
+
+C'est pourquoi le jeu de référence est **vivant** : chaque défaut remonté par un utilisateur
+réel y entre comme un cas nouveau. Un harnais qui n'a pas grossi depuis trois mois mesure de
+mieux en mieux un système qui a cessé d'avoir ces problèmes-là.
+
 
 ## ⚠️ Erreurs fréquentes
 - Évaluer « au feeling » sur 3 questions mémorisées : tu optimises ton biais.

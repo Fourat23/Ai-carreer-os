@@ -340,7 +340,8 @@ assert empreinte(db) == avant, "état partiel écrit malgré la transaction"
 ```
 
 L'assertion porte sur l'**absence** de changement, ce qui est la formulation exacte de
-l'atomicité. La mesure de l'exemple guidé montre ce qui arrive sans elle : **617 lignes sur
+l'**atomicité** : une opération se fait entièrement ou pas du tout, jamais à
+moitié. La mesure de l'exemple guidé montre ce qui arrive sans elle : **617 lignes sur
 1 000, et un total de 96 006 € au lieu de 149 500 €** — 36 % d'écart affichés sans le moindre
 avertissement.
 

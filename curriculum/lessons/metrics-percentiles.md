@@ -275,7 +275,8 @@ complètent : le percentile pour la tendance, le comptage au seuil pour l'engage
 ## 🔥 Pratique — faire dire la vérité à des mesures
 
 **A. La moyenne qui ment.** Fabrique un jeu de latences où la moyenne est
-excellente et le centile 95 mauvais. Livrable : les deux valeurs, et le nombre
+excellente et le **centile 95** mauvais — le centile 95 étant la valeur en
+dessous de laquelle tombent 95 % des mesures. Livrable : les deux valeurs, et le nombre
 d'utilisateurs concernés sur un million de requêtes par jour.
 
 **B. Calculer un centile.** Implémente le calcul à partir d'une liste triée,

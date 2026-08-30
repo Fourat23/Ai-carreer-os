@@ -290,7 +290,8 @@ un endroit où exécuter du code serveur — le framework devient justifié.
 **Si on se trompe** en prenant Next.js sans en avoir besoin : on paie une complexité de
 build, de déploiement et de frontière serveur/client pour une application que personne
 n'indexe. Six mois plus tard, l'équipe passe des après-midis sur des erreurs de
-sérialisation dans un outil interne à quinze utilisateurs.
+**sérialisation** — la conversion d'un objet du serveur en une forme
+transmissible au navigateur, qui refuse certains types — dans un outil interne à quinze utilisateurs.
 
 ### Projet B — site de l'association
 

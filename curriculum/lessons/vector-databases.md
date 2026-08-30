@@ -125,6 +125,10 @@ dans le premier régime.
 
 ### 3. La quantification avant l'infrastructure
 
+La **quantification** consiste à coder chaque nombre d'un vecteur sur moins
+de bits — par exemple un entier sur 8 bits au lieu d'un flottant sur 32.
+On perd de la précision et on divise la mémoire.
+
 Dernière ligne du tableau : les mêmes 200 000 vecteurs en `int8` occupent **154 Mo au lieu de
 614**. Un facteur 4, pour une perte de rappel généralement faible — mesurable, et à mesurer.
 

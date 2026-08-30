@@ -266,7 +266,7 @@ et ajoute au même instant.
    montant_cents IS NULL`, par lots pour ne pas verrouiller la table. Puis la
    requête de contrôle qui décide de la suite :
    `SELECT count(*) FROM commande WHERE montant_cents IS NULL` doit renvoyer 0.
-   Retour arrière : aucun besoin, l'opération est idempotente.
+   Retour arrière : aucun besoin, l'opération est **idempotente** : la rejouer ne change rien de plus.
 4. **Bascule de lecture.** Code v3 : lit `montant_cents`, écrit toujours les
    deux. Retour arrière : redéployer v2, qui lit `total_cents` — encore
    maintenu à jour, donc correct. C'est précisément la double écriture de

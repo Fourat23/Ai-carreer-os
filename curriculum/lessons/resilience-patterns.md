@@ -361,7 +361,8 @@ qu'une dépendance secondaire fait tomber tout un système.
 maximal est un délai infini**, et c'est presque toujours le défaut des clients
 HTTP et des pilotes de base de données. Il faut le poser explicitement.
 
-Ce qui décide de sa durée : le centile 99 de la latence normale de la dépendance,
+Ce qui décide de sa durée : le **centile 99** de la latence normale de la dépendance — la valeur en
+dessous de laquelle tombent 99 % des appels,
 plus une marge. Trop court, on abandonne des requêtes qui allaient aboutir ; trop
 long, on immobilise des ressources pour rien. **La valeur se mesure, elle ne se
 choisit pas au hasard** — et elle se remesure quand la dépendance change.

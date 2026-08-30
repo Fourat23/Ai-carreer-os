@@ -80,7 +80,8 @@ Plus l'utilisateur tape vite et plus sa recherche est précise, plus il a de cha
 un résultat faux.
 
 **Décision 1 — nommer le problème correctement.** La tentation est de dire « il faut un
-debounce ». Un debounce réduit le nombre de requêtes ; il ne garantit rien. Avec 300 ms
+debounce », c'est-à-dire n'envoyer la requête qu'après une pause de frappe.
+Un **debounce** réduit le nombre de requêtes ; il ne garantit rien. Avec 300 ms
 d'attente, l'utilisateur qui marque une pause après « ch » puis complète en « chat » relance
 deux requêtes, et la course reste possible — plus rare, donc plus difficile à reproduire et
 à diagnostiquer. **Ce qui est rare n'est pas corrigé, c'est déguisé.** Le vrai énoncé est :

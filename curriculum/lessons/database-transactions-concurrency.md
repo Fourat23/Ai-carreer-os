@@ -324,7 +324,9 @@ charge réelle, et il se présente comme une incohérence comptable inexplicable
 
 **Sur les autres questions.** Passer en `Serializable` déplace le travail sans le
 supprimer : la base détecte désormais les conflits et **rejette** une des transactions
-avec une erreur de sérialisation. Ton code doit donc **savoir rejouer** — attraper cette
+avec une **erreur de sérialisation** — le nom que la norme SQL donne au refus
+d'une transaction dont le résultat ne pourrait pas être obtenu en exécutant
+les transactions l'une après l'autre. Ton code doit donc **savoir rejouer** — attraper cette
 erreur précise et retenter l'opération. Un `Serializable` sans logique de rejeu transforme
 un bug silencieux en erreurs visibles pour l'utilisateur ; c'est un progrès, mais le
 travail n'est fait qu'à moitié.
@@ -451,7 +453,8 @@ attente.
 Le raisonnement à retenir dépasse les bases de données : **quand une valeur est
 partagée, on ne la lit pas pour la recalculer ailleurs ; on décrit la
 modification à faire.** C'est le même principe que l'opération atomique en
-programmation concurrente, et la même famille de raisonnement que l'idempotence
+programmation concurrente, et la même famille de raisonnement que l'**idempotence** — la propriété d'une
+opération qu'on peut rejouer sans changer le résultat —
 mesurée dans `etl-pipelines`.
 
 ## 📚 Vocabulaire

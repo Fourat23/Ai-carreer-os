@@ -151,7 +151,9 @@ Sur les coûts, **l'erreur probable est presque universelle** : on compte les je
 **Alternative défendable** au comptage manuel : demander l'usage réel au fournisseur, que la réponse d'API renvoie systématiquement. Plus fiable qu'une estimation — les jetons ne se comptent pas en mots — et c'est ce qu'on branche en production. L'estimation manuelle reste utile pour dimensionner AVANT d'écrire le code.
 
 **Vérifie seul, sans corrigé** :
-1. À température 0, tes cinq réponses sont-elles vraiment identiques ? Souvent elles ne le sont pas tout à fait : l'inférence distribuée n'est pas parfaitement déterministe. Constater cela vaut mieux que croire à une garantie qui n'existe pas.
+1. À température 0, tes cinq réponses sont-elles vraiment identiques ? Souvent elles ne le sont pas tout à fait : l'**inférence** — le calcul qui produit une réponse à partir du modèle —
+n'est pas parfaitement déterministe lorsqu'elle est répartie sur plusieurs
+machines. Constater cela vaut mieux que croire à une garantie qui n'existe pas.
 2. Montre ton hallucination à quelqu'un qui ignore le sujet. S'il ne peut pas dire laquelle des deux réponses est inventée, tu as compris le problème.
 3. Ton calcul de coût distingue-t-il entrée et sortie ? Sinon, refais-le.
 4. Estime le coût d'une conversation de 10 tours et compare-le à 10 fois le coût d'un tour. L'écart est l'information.

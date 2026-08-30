@@ -1,6 +1,11 @@
 <!-- keep -->
 # Leçon — Travail asynchrone : files, workers, retry et idempotence
 
+> **Idempotence** : propriété d'une opération qu'on peut rejouer plusieurs
+> fois sans changer le résultat. Encaisser un paiement ne l'est pas ;
+> « mettre le statut à *payé* » l'est. Le mot revient tout au long de cette
+> leçon, parce que c'est ce qui rend une file de messages utilisable.
+
 ## 🌍 Le problème d'abord
 Un utilisateur téléverse une vidéo et ton API doit l'encoder, générer des miniatures, envoyer un
 e-mail. Si tu fais tout ça DANS la requête HTTP, l'utilisateur attend 40 secondes, et si l'e-mail

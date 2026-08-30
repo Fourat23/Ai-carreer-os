@@ -1,6 +1,11 @@
 <!-- keep -->
 # Leçon — Embeddings
 
+> **Embedding**, ou *plongement* en français : représentation d'un texte
+> par une liste de nombres, construite de telle sorte que deux textes de
+> sens proche produisent deux listes proches. C'est ce qui permet de
+> comparer des sens au lieu de comparer des mots.
+
 ## 🌍 Le problème d'abord
 Deux phrases peuvent employer des mots complètement différents et pourtant parler de la même
 chose : « comment poser mes congés ? » et « procédure de demande de vacances ». Une recherche

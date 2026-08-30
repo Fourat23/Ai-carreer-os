@@ -1,0 +1,772 @@
+[
+ {
+  "slug": "agent-workflows-orchestration",
+  "termesNus": [],
+  "prerequisMots": 43,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "agents-fundamentals",
+  "termesNus": [],
+  "prerequisMots": 49,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "ai-evaluation",
+  "termesNus": [],
+  "prerequisMots": 48,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "ai-security",
+  "termesNus": [],
+  "prerequisMots": 50,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "algorithmic-thinking",
+  "termesNus": [],
+  "prerequisMots": 41,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "api-design-basics",
+  "termesNus": [],
+  "prerequisMots": 42,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "api-production-contracts",
+  "termesNus": [],
+  "prerequisMots": 44,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "architecture-basics",
+  "termesNus": [],
+  "prerequisMots": 46,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "async-javascript",
+  "termesNus": [],
+  "prerequisMots": 53,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "async-messaging-queues",
+  "termesNus": [],
+  "prerequisMots": 62,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "authentication",
+  "termesNus": [],
+  "prerequisMots": 57,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "breaking-changes-compatibility",
+  "termesNus": [],
+  "prerequisMots": 81,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "browser-dom-rendering",
+  "termesNus": [],
+  "prerequisMots": 47,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "caching-performance",
+  "termesNus": [],
+  "prerequisMots": 45,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "chunking-strategies",
+  "termesNus": [],
+  "prerequisMots": 43,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "ci-cd-pipeline-anatomy",
+  "termesNus": [],
+  "prerequisMots": 38,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "ci-cd-quality-gates-artifacts",
+  "termesNus": [],
+  "prerequisMots": 39,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "ci-cd",
+  "termesNus": [],
+  "prerequisMots": 62,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "clean-code",
+  "termesNus": [],
+  "prerequisMots": 39,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "cloud-aws-core",
+  "termesNus": [],
+  "prerequisMots": 37,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "cloud-azure-core",
+  "termesNus": [],
+  "prerequisMots": 38,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "cloud-compute-storage",
+  "termesNus": [],
+  "prerequisMots": 28,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "cloud-finops",
+  "termesNus": [],
+  "prerequisMots": 33,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "cloud-fundamentals",
+  "termesNus": [],
+  "prerequisMots": 43,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "cloud-networking",
+  "termesNus": [],
+  "prerequisMots": 38,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "css-flexbox",
+  "termesNus": [],
+  "prerequisMots": 40,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "css-fundamentals",
+  "termesNus": [],
+  "prerequisMots": 49,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "css-grid",
+  "termesNus": [],
+  "prerequisMots": 36,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "data-cleaning-quality",
+  "termesNus": [],
+  "prerequisMots": 57,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "data-structures-intro",
+  "termesNus": [],
+  "prerequisMots": 38,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "database-migrations",
+  "termesNus": [],
+  "prerequisMots": 134,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "database-modeling",
+  "termesNus": [],
+  "prerequisMots": 51,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "database-transactions-concurrency",
+  "termesNus": [
+   "idempotence"
+  ],
+  "prerequisMots": 43,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "deployment-secrets",
+  "termesNus": [],
+  "prerequisMots": 45,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "deployment-strategies",
+  "termesNus": [],
+  "prerequisMots": 33,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "design-patterns-intro",
+  "termesNus": [],
+  "prerequisMots": 43,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "distributed-systems-failures",
+  "termesNus": [],
+  "prerequisMots": 32,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "distributed-tracing",
+  "termesNus": [],
+  "prerequisMots": 41,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "docker-build-dockerfile",
+  "termesNus": [],
+  "prerequisMots": 37,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "docker-compose",
+  "termesNus": [],
+  "prerequisMots": 33,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "docker-containers",
+  "termesNus": [],
+  "prerequisMots": 54,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "docker-images-layers",
+  "termesNus": [],
+  "prerequisMots": 51,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "docker-networking-volumes",
+  "termesNus": [],
+  "prerequisMots": 34,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "docker-production-hardening",
+  "termesNus": [],
+  "prerequisMots": 36,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "embeddings",
+  "termesNus": [],
+  "prerequisMots": 64,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "error-handling",
+  "termesNus": [],
+  "prerequisMots": 48,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "etl-pipelines",
+  "termesNus": [],
+  "prerequisMots": 53,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "express-backend",
+  "termesNus": [],
+  "prerequisMots": 43,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "feature-engineering",
+  "termesNus": [],
+  "prerequisMots": 65,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "frontend-performance",
+  "termesNus": [],
+  "prerequisMots": 94,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "frontend-testing",
+  "termesNus": [],
+  "prerequisMots": 44,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "git-advanced",
+  "termesNus": [],
+  "prerequisMots": 46,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "git-fundamentals",
+  "termesNus": [],
+  "prerequisMots": 43,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "html-semantic-structure",
+  "termesNus": [],
+  "prerequisMots": 53,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "http-rest-json",
+  "termesNus": [],
+  "prerequisMots": 40,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "iac-fundamentals",
+  "termesNus": [],
+  "prerequisMots": 37,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "incident-response",
+  "termesNus": [],
+  "prerequisMots": 153,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "interview-preparation",
+  "termesNus": [],
+  "prerequisMots": 48,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "javascript-basics",
+  "termesNus": [],
+  "prerequisMots": 41,
+  "prerequisRenvoie": false
+ },
+ {
+  "slug": "k8s-config-probes",
+  "termesNus": [],
+  "prerequisMots": 31,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "k8s-networking-services",
+  "termesNus": [],
+  "prerequisMots": 44,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "k8s-security",
+  "termesNus": [],
+  "prerequisMots": 35,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "k8s-troubleshooting",
+  "termesNus": [],
+  "prerequisMots": 41,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "k8s-why-architecture",
+  "termesNus": [],
+  "prerequisMots": 45,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "k8s-workloads",
+  "termesNus": [],
+  "prerequisMots": 36,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "linux-filesystem-permissions",
+  "termesNus": [],
+  "prerequisMots": 61,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "linux-processes-signals",
+  "termesNus": [],
+  "prerequisMots": 49,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "linux-resources-io",
+  "termesNus": [],
+  "prerequisMots": 40,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "linux-services-systemd",
+  "termesNus": [],
+  "prerequisMots": 42,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "linux-ssh-remote",
+  "termesNus": [],
+  "prerequisMots": 45,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "llm-cost-optimization",
+  "termesNus": [],
+  "prerequisMots": 58,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "llm-fundamentals",
+  "termesNus": [],
+  "prerequisMots": 48,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "llm-observability",
+  "termesNus": [],
+  "prerequisMots": 49,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "logging-structured",
+  "termesNus": [],
+  "prerequisMots": 33,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "machine-learning-basics",
+  "termesNus": [],
+  "prerequisMots": 50,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "metrics-percentiles",
+  "termesNus": [],
+  "prerequisMots": 37,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "model-evaluation",
+  "termesNus": [],
+  "prerequisMots": 51,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "monitoring-production",
+  "termesNus": [],
+  "prerequisMots": 56,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "networking-addressing-routing",
+  "termesNus": [],
+  "prerequisMots": 41,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "networking-dns",
+  "termesNus": [],
+  "prerequisMots": 37,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "networking-http-tls",
+  "termesNus": [],
+  "prerequisMots": 41,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "networking-proxy-loadbalancing",
+  "termesNus": [],
+  "prerequisMots": 45,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "networking-tcp-ip-model",
+  "termesNus": [],
+  "prerequisMots": 33,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "neural-networks",
+  "termesNus": [],
+  "prerequisMots": 65,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "nextjs-data-production",
+  "termesNus": [],
+  "prerequisMots": 27,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "nextjs-foundations",
+  "termesNus": [],
+  "prerequisMots": 34,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "nextjs-rendering",
+  "termesNus": [],
+  "prerequisMots": 30,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "nextjs-server-client-components",
+  "termesNus": [],
+  "prerequisMots": 33,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "observability-fundamentals",
+  "termesNus": [],
+  "prerequisMots": 54,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "observability-logging",
+  "termesNus": [],
+  "prerequisMots": 47,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "pandas-data-wrangling",
+  "termesNus": [],
+  "prerequisMots": 57,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "portfolio-github",
+  "termesNus": [],
+  "prerequisMots": 44,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "postmortem-rca",
+  "termesNus": [],
+  "prerequisMots": 66,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "prompt-engineering",
+  "termesNus": [],
+  "prerequisMots": 71,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "prompt-injection-defense",
+  "termesNus": [],
+  "prerequisMots": 74,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "python-foundations",
+  "termesNus": [],
+  "prerequisMots": 37,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "rag-evaluation",
+  "termesNus": [],
+  "prerequisMots": 44,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "rag-fundamentals",
+  "termesNus": [],
+  "prerequisMots": 57,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "react-accessibility",
+  "termesNus": [],
+  "prerequisMots": 46,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "react-application-states",
+  "termesNus": [],
+  "prerequisMots": 35,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "react-composition-architecture",
+  "termesNus": [],
+  "prerequisMots": 47,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "react-fundamentals",
+  "termesNus": [],
+  "prerequisMots": 54,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "react-hooks-effects",
+  "termesNus": [],
+  "prerequisMots": 53,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "readme-documentation",
+  "termesNus": [],
+  "prerequisMots": 42,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "recursion",
+  "termesNus": [],
+  "prerequisMots": 55,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "refactoring-legacy-code",
+  "termesNus": [],
+  "prerequisMots": 44,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "release-incident-recovery",
+  "termesNus": [],
+  "prerequisMots": 34,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "resilience-patterns",
+  "termesNus": [],
+  "prerequisMots": 27,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "responsive-design",
+  "termesNus": [],
+  "prerequisMots": 38,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "retrieval-reranking",
+  "termesNus": [],
+  "prerequisMots": 43,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "scikit-learn-workflow",
+  "termesNus": [],
+  "prerequisMots": 55,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "slo-error-budget",
+  "termesNus": [],
+  "prerequisMots": 124,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "sql-foundations",
+  "termesNus": [],
+  "prerequisMots": 50,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "sql-performance-indexing",
+  "termesNus": [],
+  "prerequisMots": 38,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "statistics-for-ml",
+  "termesNus": [],
+  "prerequisMots": 54,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "structured-outputs-tools",
+  "termesNus": [],
+  "prerequisMots": 51,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "system-design-interview",
+  "termesNus": [],
+  "prerequisMots": 53,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "system-design-scaling",
+  "termesNus": [],
+  "prerequisMots": 45,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "technical-debt",
+  "termesNus": [],
+  "prerequisMots": 49,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "technical-documentation",
+  "termesNus": [],
+  "prerequisMots": 50,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "technical-storytelling",
+  "termesNus": [],
+  "prerequisMots": 46,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "terminal-shell-filesystem",
+  "termesNus": [],
+  "prerequisMots": 49,
+  "prerequisRenvoie": false
+ },
+ {
+  "slug": "testing-foundations",
+  "termesNus": [],
+  "prerequisMots": 46,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "transformers",
+  "termesNus": [],
+  "prerequisMots": 65,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "typescript-basics",
+  "termesNus": [],
+  "prerequisMots": 44,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "typescript-frontend",
+  "termesNus": [],
+  "prerequisMots": 42,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "vector-databases",
+  "termesNus": [],
+  "prerequisMots": 51,
+  "prerequisRenvoie": true
+ },
+ {
+  "slug": "web-forms-validation",
+  "termesNus": [],
+  "prerequisMots": 35,
+  "prerequisRenvoie": true
+ }
+]

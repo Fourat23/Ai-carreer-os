@@ -286,7 +286,8 @@ de son propre code ne soit en cause.
 **D — le trou.** L'écart entre la durée du parent et la somme des enfants est la
 mesure la plus utile d'une trace, et la plus ignorée. Les causes typiques, par
 fréquence : du code applicatif non instrumenté entre deux appels ; l'attente
-d'une connexion disponible dans un pool ; la sérialisation ou la désérialisation
+d'une connexion disponible dans un pool ; la **sérialisation** ou la **désérialisation** — la conversion d'un objet en
+mémoire vers une forme transmissible, et l'inverse —
 d'une réponse volumineuse ; l'attente dans une file d'exécution.
 
 Le piège méthodologique : ne pas confondre le trou avec du parallélisme. Si deux

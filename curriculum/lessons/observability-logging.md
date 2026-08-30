@@ -1,6 +1,10 @@
 <!-- keep -->
 # Leçon — Observabilité et logs structurés
 
+> **Observabilité** : capacité à répondre à une question qu'on n'avait pas
+> prévue sur un système en marche, **sans le modifier ni le redéployer**.
+> C'est une propriété du système, pas un outil qu'on installe.
+
 ## 🌍 Le problème d'abord
 Un utilisateur signale : « votre appli a planté hier soir vers 22 h ». Tu ouvres ton code… et tu n'as AUCUNE idée de ce qui s'est passé : pas de trace, pas d'événement enregistré, rien à rejouer. Tu devines, tu tâtonnes, tu ne reproduis pas. Un système qu'on ne peut pas OBSERVER est une boîte noire indéfendable — et c'est encore pire pour un système IA non déterministe. Il te faut des enregistrements exploitables : des logs structurés, des niveaux, un identifiant pour suivre une requête de bout en bout. Cette leçon t'apprend à rendre un système observable, et surtout ce qu'il ne faut JAMAIS enregistrer.
 
@@ -162,7 +166,8 @@ reconstitution complète d'une requête par un seul filtre sur l'identifiant.
 
 **B. Mesurer avant d'optimiser.** Ajoute la durée mesurée à la fin de la réponse,
 puis expose un point d'entrée qui publie, par route : le nombre de requêtes, le
-nombre d'erreurs, et les centiles 50, 95 et 99 de la latence. Livrable : la
+nombre d'erreurs, et les **centiles** 50, 95 et 99 de la latence — le centile 95 est la valeur
+en dessous de laquelle tombent 95 % des mesures. Livrable : la
 sortie, et la route la plus lente identifiée par un chiffre.
 
 **C. Prouver que la moyenne ment.** Sur les mêmes données, compare la latence

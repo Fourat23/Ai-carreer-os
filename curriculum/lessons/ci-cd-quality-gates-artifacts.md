@@ -74,12 +74,106 @@ prod. On ne « rejoue » pas le build ; on avance le même livrable.
 ```
 La version par hash de commit relie sans ambiguïté l'artefact au code source.
 
-## 🧭 Exemple guidé — instaurer une porte qui protège vraiment
-1. Lister les vérifications existantes : lesquelles BLOQUENT réellement ?
-2. Rendre bloquantes celles qui doivent l'être (tests, seuil de couverture, scan).
-3. Versionner l'artefact (hash de commit) et le publier UNE fois.
-4. Promouvoir ce même artefact vers staging puis prod, config injectée à part.
-5. Vérifier la traçabilité : « quel artefact tourne où ? ».
+## 🧭 Exemple guidé — « la porte est à 90 % de couverture, on est protégés »
+
+Cette porte est la plus répandue de toutes, et c'est aussi celle qui se trompe
+le plus discrètement. Plutôt que d'en discuter, on va écrire deux suites de
+tests sur le **même** code et mesurer laquelle protège. Le script
+`scripts/v70-verifications/porte-couverture.mjs` le fait avec le calcul de
+couverture intégré à Node.
+
+**Le code testé** est une fonction de remise contenant un défaut réel et
+précis :
+
+```js
+export function prixApresRemise(prix, pourcentage) {
+  if (pourcentage < 0) throw new RangeError('pourcentage negatif');
+  if (pourcentage > 100) return 0;
+  return Math.floor(prix * (100 - pourcentage)) / 100;   // ← l arrondi ne sert à rien
+}
+```
+
+`Math.floor` est appliqué **avant** la division, donc il n'arrondit rien :
+`Math.floor(1999 × 90)` vaut 179910, puis `/ 100` donne **1799,1**. La fonction
+rend un nombre de centimes fractionnaire, qui se propagera dans la base et dans
+tous les totaux.
+
+**La suite A** appelle chaque fonction avec plusieurs entrées, y compris les cas
+limites, et termine par `assert.ok(true)`. C'est exactement la suite qu'on écrit
+quand l'objectif à atteindre est un pourcentage.
+
+**La suite B** contient un seul test, une seule assertion, et une valeur
+attendue calculée à la main.
+
+Mesure :
+
+```
+suite A (appelle tout, n affirme rien) : lignes 100,00 % · branches 100,00 % · fonctions 100,00 %  -> VERTE
+suite B (une seule assertion vraie)     : lignes  88,89 % · branches  66,67 % · fonctions  66,67 %  -> ROUGE
+```
+
+La suite A obtient **100 % sur les trois indicateurs** et passe la porte. La
+suite B est à 88,89 % de lignes : elle est **refusée par une porte à 90 %**. Et
+c'est la suite B qui a trouvé le défaut — parce qu'elle compare, tandis que la
+suite A se contente d'exécuter.
+
+Le test se poursuit avec une régression franche : on remplace `100 - pourcentage`
+par `100 + pourcentage`, ce qui transforme une remise en majoration.
+
+```
+suite A : couverture lignes 100,00 % -> VERTE
+suite B : couverture lignes  87,50 % -> ROUGE
+```
+
+**Une remise qui augmente le prix passe la porte sans la faire bouger d'un
+point.** La couverture n'a pas baissé, parce qu'elle ne mesure pas ce que le
+code fait : elle mesure quelles lignes ont été exécutées.
+
+### Ce qu'il faut en conclure — et ce qu'il ne faut pas
+
+La mauvaise conclusion est « la couverture ne sert à rien ». C'est faux dans le
+sens utile : une couverture **basse** est une information fiable. Elle prouve
+que du code n'est jamais exécuté par les tests, et donc qu'aucun test ne peut le
+protéger. À 30 % de couverture, on sait quelque chose de vrai.
+
+La bonne conclusion porte sur le sens de l'implication. La couverture est une
+**condition nécessaire et non suffisante** : ligne non couverte ⇒ ligne non
+protégée, mais ligne couverte ⇏ ligne protégée. Une porte de couverture peut
+donc refuser du travail insuffisant ; elle ne peut jamais certifier du travail
+suffisant.
+
+Et il y a pire que « ne rien certifier » : la porte **oriente le comportement**.
+Quand le nombre devient l'objectif, la suite A est la réponse rationnelle — elle
+est plus rapide à écrire que la suite B et elle rapporte davantage. Une équipe
+sous pression convergera vers elle sans mauvaise intention. C'est la raison pour
+laquelle une porte de couverture haute, posée seule, produit souvent une
+couverture élevée et une protection faible. La contre-mesure n'est pas de monter
+le seuil : c'est d'ajouter une porte qui mesure autre chose — un test de
+mutation, qui modifie le code et vérifie qu'un test rougit, répond exactement à
+la question à laquelle la couverture ne répond pas.
+
+### Instaurer une porte qui protège vraiment — la démarche
+
+1. **Inventorier ce qui bloque réellement.** Pour chaque vérification du
+   pipeline, une seule question : si elle échoue, la fusion est-elle impossible ?
+   Beaucoup de vérifications affichent un résultat sans rien empêcher. Elles
+   informent, elles ne protègent pas — et il faut le savoir.
+2. **Choisir ce que chaque porte mesure, et ce qu'elle ne mesure pas.** Écrire
+   la limite à côté de la porte, comme ci-dessus. Une porte dont personne ne
+   connaît la limite finit par être lue comme une garantie générale.
+3. **Poser le seuil avant de voir le résultat.** Un seuil ajusté après coup ne
+   fait que décrire l'état actuel.
+4. **Vérifier que la porte peut refuser.** Le test est le même que pour la CI :
+   fabriquer une modification qui doit être refusée, et constater le refus. Une
+   porte jamais vue rouge est une décoration.
+5. **Construire l'artefact une fois, le promouvoir ensuite.** L'artefact est
+   versionné par l'empreinte du commit, immuable, et c'est **le même octet pour
+   octet** qui passe de recette à production. La configuration et les secrets
+   sont injectés au déploiement, jamais gravés dedans — sinon il faut
+   reconstruire par environnement, et « le même code » redevient une supposition.
+6. **Rendre la traçabilité interrogeable.** « Quel artefact tourne où, et de
+   quel commit vient-il ? » doit avoir une réponse en une commande, pas une
+   enquête.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
@@ -203,9 +297,91 @@ en staging, rouge en prod » disparaissent.
 - « Pourquoi versionner les artefacts ? » → traçabilité et rollback.
 
 ## ✍️ Mini-exercice
-Staging est vert mais la prod casse, alors que « c'est le même code ». Quelle
-pratique aurait évité ça ? → construire un artefact unique versionné et le
-promouvoir (au lieu de reconstruire par environnement).
+Sans relire : une porte à 90 % de couverture peut-elle refuser une bonne suite
+de tests et accepter une mauvaise ? Justifie en une phrase.
+
+## 🔥 Pratique — mesurer ce que tes portes protègent réellement
+
+**A. Reproduire l'expérience sur ton propre code.** Choisis un module de l'un de
+tes projets. Écris deux suites : une qui maximise la couverture sans vérifier
+grand-chose, une qui vérifie peu de choses mais réellement. Mesure la couverture
+des deux. Livrable : les deux pourcentages et les deux fichiers.
+
+**B. Le test de mutation, à la main.** Introduis dix modifications ponctuelles
+dans ton code — inverser une comparaison, remplacer `&&` par `||`, changer un
+`+` en `-`, supprimer une ligne de garde, décaler une borne de 1. Pour chacune,
+lance ta suite et note si elle rougit. Livrable : le tableau des dix mutations
+avec « détectée / non détectée », et le score.
+
+**C. Éprouver chaque porte de ton pipeline.** Pour chaque vérification
+bloquante, fabrique une modification qui doit la faire échouer, pousse, et
+garde la trace du refus. Livrable : la liste des portes avec, pour chacune, le
+lien vers l'exécution rouge — ou la mention « n'a pas refusé ».
+
+**D. Prouver l'unicité de l'artefact.** Fais construire ton projet deux fois
+dans le pipeline et compare les empreintes des deux sorties. Puis construis-le
+une fois et déploie le même fichier vers deux environnements. Livrable : les
+empreintes, et la réponse à « est-ce le même octet pour octet ? ».
+
+## ✅ Correction attendue
+
+**A — l'écart attendu.** Sur la plupart des modules, la suite « pour le
+pourcentage » dépasse la suite « pour la vérité », souvent largement. Les
+valeurs mesurées dans la section guidée — 100 % contre 88,89 % — ne sont pas une
+curiosité : elles sont le résultat normal, parce qu'appeler une fonction est
+plus rapide que calculer sa valeur attendue. Si ton expérience donne l'inverse,
+regarde si ta suite « pour le pourcentage » n'affirme pas quelque chose par
+accident.
+
+Le point à formuler : la couverture ne distingue pas `f(x)` de
+`assert.equal(f(x), attendu)`. Les deux exécutent les mêmes lignes.
+
+**B — le score de mutation.** C'est le chiffre qui répond vraiment à « mes tests
+protègent-ils ». Une suite qui détecte 9 mutations sur 10 protège ; une suite à
+3 sur 10 ne protège pas, quelle que soit sa couverture. Les mutations qui
+survivent le plus souvent, dans l'ordre :
+
+- **les bornes** (`<` contre `<=`) — presque jamais testées, parce qu'un seul
+  cas nominal les traverse sans les distinguer ;
+- **la gestion d'erreur** — le chemin d'échec est couvert par un test qui vérifie
+  qu'« une erreur est levée » sans vérifier laquelle ;
+- **les valeurs de retour dans les branches rares**, exécutées par un test qui
+  ne regarde pas ce qui sort.
+
+Une mutation qui survit n'est pas nécessairement un test à ajouter : parfois
+c'est du code mort, et la bonne action est de le supprimer. C'est un bénéfice
+secondaire et réel de l'exercice.
+
+**C — les portes qui ne refusent pas.** Attends-toi à en trouver. Les causes
+récurrentes : la vérification tourne sur `push` mais pas sur les demandes de
+fusion ; elle est bloquante dans le fichier de pipeline mais n'est pas déclarée
+requise dans le réglage de branche protégée ; elle est marquée
+`continue-on-error`. Cette dernière est particulièrement traître, parce que
+l'exécution apparaît en rouge dans l'interface tout en laissant la fusion
+possible.
+
+La réponse attendue distingue deux niveaux : **le pipeline décide de l'échec, la
+plateforme décide du blocage.** Une porte n'est bloquante que si les deux sont
+alignés, et seul un essai réel le prouve.
+
+**D — l'artefact unique.** Deux constructions successives du même commit
+donnent rarement des fichiers identiques : horodatages intégrés, ordre de
+parcours de fichiers, chemins absolus, versions de dépendances résolues
+différemment. Ce résultat est le bon résultat de l'exercice — il justifie la
+règle qui suit.
+
+Puisqu'on ne peut pas garantir que deux constructions sont identiques, on ne
+construit qu'**une fois**. L'artefact porte l'empreinte du commit, il est stocké
+et immuable, et c'est ce fichier-là qui est promu vers recette puis production.
+Reconstruire par environnement fait de « c'est le même code » une supposition
+non vérifiée — et c'est très exactement le mécanisme derrière « ça passe en
+recette, ça casse en production ».
+
+Corollaire à ne pas manquer : si le même artefact va dans les deux
+environnements, alors ce qui les distingue ne peut plus être dedans. La
+configuration et les secrets sont **injectés au déploiement**. Un artefact qui
+contient l'URL de la base de recette n'est pas promouvable ; il faut le
+reconstruire, et on a reperdu la propriété qu'on cherchait.
 
 ## 🧾 À retenir
 - Une porte qualité n'a de valeur que si elle BLOQUE vraiment.

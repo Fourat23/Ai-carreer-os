@@ -23,6 +23,11 @@ const norm = (t) => t
   .replace(/\s+/g, ' ').trim().toLowerCase();
 
 const TROUVE = (secs, ...res) => secs.find((s) => res.some((re) => re.test(norm(s.titre))));
+// TOUS : même critère que TROUVE mais renvoie TOUTES les sections concordantes.
+// Introduit au V70 CP8 pour la sonde `lPratiqueTot` (voir la note de sonde
+// plus bas). N'est utilisé par AUCUNE des sondes existantes : les champs
+// d'origine gardent exactement leur sémantique et leurs valeurs.
+const TOUS = (secs, ...res) => secs.filter((s) => res.some((re) => re.test(norm(s.titre))));
 
 // --- métadonnées jour ------------------------------------------------------
 const jours = fs.readdirSync(DDIR).filter((f) => f.endsWith('.md'));
@@ -100,6 +105,47 @@ export function analyser(slug) {
   const corrTxt  = S.correction ? S.correction.corps : '';
   const exoTxt   = [S.exo, S.exoDur].filter(Boolean).map((s) => s.corps).join('\n');
 
+  // ------------------------------------------------------------------------
+  // SONDE ADDITIONNELLE — V70 CP8, documentée conformément à la règle de
+  // non-triche du brief (§6).
+  //
+  // DÉFAUT DÉMONTRÉ. `TROUVE` s'appuie sur Array.prototype.find : il renvoie
+  // la PREMIÈRE section dont le titre concorde, puis s'arrête. Les leçons
+  // réécrites depuis le CP5 portent deux sections de pratique distinctes :
+  // un « Mini-exercice » court de rappel actif (deux lignes, volontairement),
+  // suivi d'une « Pratique » longue avec livrables. Comme « mini exercice »
+  // est le premier motif de la liste ET la première section du fichier,
+  // `S.exo` ne voit JAMAIS la seconde. Conséquence : `lExo` mesure le rappel
+  // actif et jamais la pratique principale, et `exoLivrable` — qui s'applique
+  // à `exoTxt` — juge le mauvais texte.
+  //
+  // POURQUOI LA SONDE D'ORIGINE N'EST PAS MODIFIÉE. La corriger ferait monter
+  // mes propres chiffres sur les leçons que je viens d'écrire, et rendrait
+  // `lExo` non comparable avec le rapport CP0. Les champs `lExo`, `aExo` et
+  // `exoLivrable` sont donc LAISSÉS EXACTEMENT EN L'ÉTAT. Les champs
+  // ci-dessous s'ajoutent, sans rien remplacer, et sont publiés séparément.
+  //
+  // IMPACT MESURÉ sur le corpus figé au commit d5d2cd9 (celui du CP0),
+  // recompté fichier par fichier et non supposé :
+  //   leçons portant « Mini-exercice »            : 115
+  //   leçons portant une section « Pratique »     :  12
+  //   leçons portant « Exercice plus difficile »  :  39
+  //   leçons portant Mini-exercice ET Pratique    :   0   <- le cas du défaut
+  // Aucun chiffre du rapport CP0 ne change donc : au CP0, la première section
+  // concordante ÉTAIT la bonne dans les 128 cas. Le défaut n'apparaît que sur
+  // les leçons réécrites en V70, qui portent les deux sections.
+  //
+  // ÉCART CONSTATÉ au CP8 sur le corpus courant, publié tel quel :
+  //   exoLivrable      (sonde CP0, inchangée) : 87 / 128
+  //   pratiqueLivrable (sonde CP8, ajoutée)   : 93 / 128   -> +6
+  // Ces six leçons demandaient déjà une production observable ; la sonde du
+  // CP0 lisait le rappel actif à la place et ne pouvait pas la voir. Les deux
+  // chiffres sont conservés et rapportés séparément au CP15.
+  // ------------------------------------------------------------------------
+  const pratSecs = TOUS(secs, /mini exercice/, /mise en pratique/, /pratique associee/,
+                              /^pratique$/, /^pratique /, /exercice plus difficile/);
+  const pratTxt  = pratSecs.map((s) => s.corps).join('\n');
+
   return {
     slug, titre,
     total: mots(txt),
@@ -108,6 +154,8 @@ export function analyser(slug) {
     // longueurs
     lProbleme: m('probleme'), lMental: m('mental'), lExplic: m('explic'),
     lGuide: m('guide'), lExo: mots(exoTxt), lCorr: m('correction'), lMetier: m('metier'),
+    // sonde additionnelle CP8 : toutes les sections de pratique cumulées
+    lPratiqueTot: mots(pratTxt), nPratiqueSecs: pratSecs.length,
     // présences
     aMental: !!S.mental, aGuide: !!S.guide, aExo: !!(S.exo || S.exoDur),
     aCorr: !!S.correction, aMetier: !!S.metier, aErreurs: !!S.erreurs,
@@ -148,6 +196,9 @@ export function analyser(slug) {
     // observable. Chiffre publié au mini-statut CP5 et repris au CP15 ; le
     // rapport CP0 n'est pas réécrit.
     exoLivrable: /(^|[^\p{L}])(écris|écrire|implémente|construis|mesure|refactor|dessine|code|ajoute|corrige|répare|compare|teste|conçois|modifie|produis)([^\p{L}]|$)/iu.test(exoTxt),
+    // Même expression, appliquée au texte COMPLET de pratique (sonde CP8).
+    // `exoLivrable` ci-dessus est inchangé et reste la mesure comparable au CP0.
+    pratiqueLivrable: /(^|[^\p{L}])(écris|écrire|implémente|construis|mesure|refactor|dessine|code|ajoute|corrige|répare|compare|teste|conçois|modifie|produis)([^\p{L}]|$)/iu.test(pratTxt),
     exoPassif: /^\s*(qu'est-ce que|explique en une phrase|cite|liste|nomme)/i.test(exoTxt.trim()),
     // correction
     corrRaisonne: /(la démarche|l'erreur probable|pourquoi|alternative|défendable|se défend)/i.test(corrTxt),

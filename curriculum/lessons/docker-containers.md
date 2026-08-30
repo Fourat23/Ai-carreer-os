@@ -212,30 +212,159 @@ Les autres, plus classiques :
   (voir le Dockerfile fautif ci-dessus).
 
 ## ✍️ Mini-exercice
-Écris un Dockerfile pour un de tes projets et lance-le. Vérifie qu'il tourne sur une machine « propre » (sans tes dépendances installées globalement).
+Sans relire : un `RUN rm secret.txt` placé après le `COPY` qui l'a introduit
+retire-t-il le secret de l'image ? Que fait-il réellement ?
 
-## 🔥 Exercice plus difficile
-Écris un `docker-compose.yml` à 2 services (app + base), avec un volume persistant et des secrets par variables d'environnement. Prouve que `docker compose down && up` conserve les données.
+## 🔥 Pratique — voir le mécanisme des couches de tes propres yeux
+
+Ce que Docker appelle une image est une pile de systèmes de fichiers superposés,
+un mécanisme du noyau Linux nommé *overlay*. Tu vas l'exercer directement, sans
+Docker, ce qui a un avantage : rien n'est caché.
+
+**A. Fabriquer une pile de couches.** Crée trois répertoires `couche1`,
+`couche2`, `couche3` plus un répertoire de travail et un point de fusion.
+Mets dans `couche1` un fichier `.env` contenant un faux secret et un `app.js`.
+Mets dans `couche2` un `app.js` différent. Monte la superposition :
+
+```bash
+mount -t overlay overlay \
+  -o lowerdir=couche2:couche1,upperdir=couche3,workdir=travail fusion
+```
+
+Livrable : le contenu de `fusion/app.js`, et ta prédiction écrite avant de
+regarder.
+
+**B. Supprimer, puis chercher.** Depuis le point de fusion, supprime le `.env`.
+Puis réponds à quatre questions par une commande chacune : le fichier est-il
+visible depuis la fusion ? qu'est-ce qui a été écrit dans `couche3` ?
+(`ls -la`, et regarde le premier caractère du mode) ; que contient encore
+`couche1` ? l'ensemble des couches a-t-il maigri ?
+
+**C. Mesurer le poids.** Mets un fichier de 5 Mio dans `couche1`, mesure les
+trois couches, supprime-le depuis la fusion, remesure. Livrable : les deux
+mesures et le total.
+
+**D. Traduire en Dockerfile.** À partir de A, B et C, écris deux Dockerfile pour
+un de tes projets : un qui télécharge une archive, l'utilise et la supprime dans
+**trois** instructions, et un qui fait les trois dans **une seule**. Explique en
+quatre lignes, en te servant de tes mesures, pourquoi les images n'ont pas la
+même taille.
+
+**E. Vérifier l'ordre des couches.** Réécris ton Dockerfile pour que modifier
+une ligne de code ne relance pas l'installation des dépendances. Livrable : le
+fichier, et l'ordre des instructions justifié par leur fréquence de changement.
 
 ## ✅ Correction attendue
 
-**L'erreur de raisonnement à corriger d'abord**, parce qu'elle produit toutes les autres :
-croire qu'un Dockerfile est une liste d'instructions dont l'ORDRE n'a d'importance que pour la
-logique. Il décrit en réalité une pile, et chaque ligne dépend de toutes celles au-dessus. Tant
-qu'on ne pense pas en couches, on écrit des Dockerfile qui marchent et qu'on déteste utiliser.
+> **Limite déclarée.** Le démon Docker n'est pas disponible dans l'environnement
+> où ce cours a été écrit ; aucune commande `docker` n'a été exécutée pour
+> produire cette correction. En revanche le mécanisme sous-jacent — la
+> superposition de systèmes de fichiers — a été exercé réellement, et les
+> sorties ci-dessous sont mesurées :
+> `scripts/v70-verifications/couches-overlay.sh`. Ce n'est pas une analogie de
+> ce que fait Docker : c'est la couche du noyau que Docker utilise.
 
-Deuxième erreur de raisonnement : croire qu'un fichier supprimé dans une image a disparu. Une
-couche ne défait pas la précédente, elle s'ajoute par-dessus. Un `COPY .env` suivi d'un
-`RUN rm .env` laisse le secret parfaitement lisible dans la couche intermédiaire.
+**A — quelle couche gagne.** La fusion montre `app.js` contenant la version de
+`couche2`. Dans l'option de montage, `lowerdir=couche2:couche1` se lit **de la
+plus haute à la plus basse** — c'est un ordre qui surprend, et se tromper
+inverse la démonstration. La règle transposée : quand deux instructions touchent
+le même chemin, c'est la dernière qui compte pour le contenu visible.
 
-Vérifie ensuite, sur ton propre Dockerfile :
-- modifier une ligne de code ne relance PAS l'installation des dépendances ;
-- `docker history` sur ton image ne montre aucune couche contenant un secret ;
-- l'application tourne sur une machine où rien n'est installé globalement ;
-- les données de la base survivent à `docker compose down` puis `up`.
+**B — ce qu'écrit vraiment une suppression.** Depuis la fusion :
 
-Si l'un des quatre échoue, la cause est presque toujours dans l'ordre des couches ou dans
-l'absence de volume — pas dans l'application.
+```
+fichiers .env visibles : 0
+lecture : cat: .../fusion/.env: No such file or directory
+```
+
+Le conteneur ne voit plus rien. Mais dans la couche supérieure :
+
+```
+c--------- 2 root root 0, 0 Aug 30 10:46 .env
+```
+
+Le premier caractère est `c` : c'est un **fichier spécial en mode caractère**,
+de numéros majeur 0 et mineur 0, appelé *whiteout*. Ce n'est pas une
+suppression, c'est un **marqueur de masquage**. Et la couche du dessous est
+intacte :
+
+```
+SECRET=sk_live_abc123
+```
+
+Voilà pourquoi un `COPY .env` suivi d'un `RUN rm .env` ne protège rien. Le
+secret n'apparaît dans aucun conteneur démarré depuis l'image — ce qui est
+précisément le piège, puisqu'on vérifie en démarrant un conteneur. Il est dans
+la couche, et **quiconque obtient l'image obtient les couches**. Une image
+poussée sur un registre partagé a distribué le secret.
+
+Note la parenté avec l'historique git : dans les deux cas, on manipule une
+structure faite d'états successifs et immuables, et l'opération « retirer »
+n'existe pas — seulement « ajouter un état où la chose n'est plus visible ».
+
+**C — le poids.** Mesuré, en kibioctets :
+
+```
+avant suppression : couche1 5132 · couche2 8 · couche3 4
+apres suppression : couche1 5132 · couche2 8 · couche3 4
+total des couches : 5144
+```
+
+Rien n'a maigri. La couche 1 pèse toujours 5 Mio, et la couche supérieure a
+même **grossi** d'un fichier de masquage. Une image ne rétrécit jamais par
+suppression, elle ne fait que s'allonger.
+
+**D — la conséquence sur le Dockerfile.** La version en trois instructions
+produit une image qui contient l'archive pour toujours ; la version en une seule
+instruction ne la fait jamais entrer dans une couche persistée. La formulation
+exacte compte : le fichier ne doit pas être *supprimé*, il doit **ne jamais
+exister à la fin d'une instruction**.
+
+```dockerfile
+# ❌ l archive pèse dans l image, définitivement
+RUN curl -o outils.tar.gz https://exemple/outils.tar.gz
+RUN tar xf outils.tar.gz
+RUN rm outils.tar.gz
+
+# ✅ l archive n existe qu à l intérieur d une seule couche
+RUN curl -o outils.tar.gz https://exemple/outils.tar.gz \
+ && tar xf outils.tar.gz \
+ && rm outils.tar.gz
+```
+
+Et pour un secret, la même logique conduit plus loin : il ne doit pas non plus
+entrer dans une instruction unique, parce qu'il resterait présent pendant
+l'exécution de celle-ci et peut apparaître dans les journaux de construction. Un
+secret se fournit au **démarrage du conteneur**, jamais à la construction de
+l'image — ce qui rejoint la règle de la leçon `deployment-secrets` : la
+configuration est injectée, pas gravée.
+
+**E — l'ordre par fréquence de changement.** L'ordre attendu, du plus stable au
+plus changeant :
+
+```dockerfile
+FROM node:20-slim               # change tous les mois
+WORKDIR /app
+COPY package*.json ./           # change quand une dépendance change
+RUN npm ci                      # l instruction coûteuse
+COPY . .                        # change à chaque commit
+CMD ["node", "serveur.js"]
+```
+
+Le mécanisme à savoir énoncer : le cache d'une instruction est invalidé dès
+qu'une instruction **précédente** l'est. Placer `COPY . .` avant `RUN npm ci`
+fait donc réinstaller toutes les dépendances à chaque modification d'une ligne
+de code — l'image est correcte, la construction est dix fois plus lente, et
+personne ne comprend pourquoi. C'est le défaut le plus fréquent des Dockerfile
+écrits sans penser en couches, et il ne produit aucune erreur : seulement de
+l'attente.
+
+Deux compléments qu'une bonne réponse ajoute d'elle-même. Un `.dockerignore`
+est nécessaire, sans quoi `COPY . .` embarque `node_modules`, `.git` et les
+fichiers locaux — donc invalide le cache à chaque changement de n'importe quoi.
+Et la persistance des données ne passe pas par les couches : un conteneur
+supprimé emporte sa couche d'écriture, donc la base doit vivre dans un
+**volume**, seul mécanisme qui survit à la recréation du conteneur.
 
 ## 🎤 Questions d'entretien
 - « Différence entre une image et un conteneur ? » → L'image est le modèle figé, le conteneur une instance qui tourne (comme classe vs objet).

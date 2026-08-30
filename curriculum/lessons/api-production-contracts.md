@@ -65,18 +65,124 @@ optionnel, changer un code de statut. Pour un changement cassant, on **versionne
 négociation par en-tête) et on maintient l'ancienne version le temps que les clients migrent. Règle :
 « ajoute sans casser ; pour casser, versionne et préviens ».
 
-## 🔬 Exemple guidé
+## 🔬 Exemple guidé — le train qui passe dans un tunnel
 
-### Simple — idempotence d'un paiement
-`POST /paiements` avec `Idempotency-Key: abc-123`. Le mobile perd le réseau et réessaie avec la MÊME
-clé. Le serveur voit `abc-123` déjà traité → il renvoie le paiement DÉJÀ créé (même id, `200`) au lieu
-d'en créer un second. Le client, lui, ne sait même pas qu'il a rejoué.
+Un utilisateur valide un paiement de 89 € depuis son téléphone. Le train entre dans un tunnel
+au moment exact où la requête part. L'application affiche « échec réseau ». L'utilisateur
+appuie de nouveau sur « Payer ».
 
-### Réaliste — migrer un champ sans casser
-Tu veux renommer `nom` en `fullName`. Cassant. Solution compatible : pendant une transition, renvoie
-les DEUX champs (`nom` déprécié + `fullName`), documente la dépréciation, puis retire `nom` dans une
-`/v2` une fois les clients migrés. Les anciennes apps continuent de lire `nom` ; les nouvelles lisent
-`fullName`.
+**A-t-il été débité une fois, ou deux ?**
+
+Cette question paraît anecdotique. Elle est en réalité le point de départ de la moitié des
+règles de conception d'une API de production, et elle n'a **aucune** réponse sans un mécanisme
+prévu à l'avance.
+
+### Ce que le client ne peut pas savoir
+
+Le téléphone a envoyé la requête et n'a pas reçu de réponse. Trois situations sont possibles,
+et **elles sont indiscernables de son point de vue** :
+
+| | Ce qui s'est passé | Faut-il réessayer ? |
+|---|---|---|
+| 1 | la requête n'est jamais arrivée | **oui** |
+| 2 | elle est arrivée, le paiement a été créé, la réponse s'est perdue | **non** |
+| 3 | elle est arrivée, le serveur a échoué avant de créer le paiement | **oui** |
+
+Deux cas sur trois appellent une nouvelle tentative, un l'interdit — et rien ne permet de
+distinguer le second des deux autres. Un client qui ne réessaie jamais perd des paiements
+légitimes ; un client qui réessaie toujours crée des doublons.
+
+**L'impasse n'est pas résoluble côté client.** C'est au serveur de fournir la sortie, et c'est
+tout l'objet de la clé d'idempotence.
+
+### La clé d'idempotence
+
+Le client génère un identifiant unique **avant** d'envoyer, et le renvoie à l'identique à
+chaque tentative :
+
+```http
+POST /paiements
+Idempotency-Key: 8f3a-4c21-b7e0
+Content-Type: application/json
+
+{ "montant": 8900, "devise": "EUR", "commande": "cmd-771" }
+```
+
+Côté serveur, la logique tient en trois branches :
+
+```
+clé inconnue          → traiter, mémoriser (clé → résultat), répondre 201
+clé connue, terminée  → NE RIEN FAIRE, renvoyer le résultat mémorisé (200)
+clé connue, en cours  → 409 : une requête identique est en cours de traitement
+```
+
+Le deuxième cas résout le tunnel : la seconde tentative reçoit **le paiement déjà créé**, avec
+le même identifiant. L'utilisateur voit un succès, il n'a été débité qu'une fois, et il
+n'apprendra jamais que sa première requête avait abouti.
+
+La troisième branche est celle qu'on oublie, et elle a son importance : deux requêtes
+identiques peuvent arriver **en même temps** — un double appui, deux onglets. Sans elle, les
+deux passent le test « clé inconnue » simultanément et créent deux paiements. La parade est un
+verrou ou une contrainte d'unicité sur la clé, à poser dans la base.
+
+### Trois précisions qui distinguent une bonne réponse
+
+**Qui génère la clé ?** Le **client**, pas le serveur. Une clé générée côté serveur serait
+différente à chaque tentative, donc inutile. C'est contre-intuitif — on confie une
+responsabilité au client — mais lui seul sait que sa deuxième requête est une reprise de la
+première.
+
+**Combien de temps la conserver ?** Assez longtemps pour couvrir toutes les tentatives
+raisonnables : 24 heures est un ordre de grandeur courant. Trop court, un client qui réessaie
+le lendemain crée un doublon ; indéfiniment, on stocke une clé par requête pour toujours.
+
+**Que mémoriser exactement ?** Le **résultat**, pas seulement le fait d'avoir traité. Sinon la
+seconde tentative sait qu'elle a déjà été faite et ne peut rien renvoyer — le client reste sans
+identifiant de paiement.
+
+### Le second contrat : renommer un champ sans rien casser
+
+Même API, un an plus tard. Le champ `nom` doit devenir `nomComplet`. Trois applications mobiles
+publiées lisent `nom`, et **tu ne contrôles pas quand leurs utilisateurs mettront à jour**.
+
+Le raisonnement décisif est là : une API publiée n'est pas du code, c'est un **engagement**.
+Tu peux réécrire l'intérieur quand tu veux ; tu ne peux pas modifier ce que tu as promis à des
+gens qui ne peuvent pas suivre.
+
+D'où le motif **élargir, laisser migrer, rétrécir** :
+
+| Étape | Ce que renvoie l'API | Qui est cassé |
+|---|---|---|
+| 1 — élargir | `nom` **et** `nomComplet` | personne |
+| 2 — déprécier | les deux, plus un en-tête et une date de retrait annoncée | personne |
+| 3 — transition | les deux, pendant que les clients migrent à leur rythme | personne |
+| 4 — rétrécir | `nomComplet` seul, en version majeure annoncée | ceux qui n'ont pas migré, prévenus |
+
+Quatre étapes, aucune rupture surprise. C'est exactement le motif des migrations de base de
+données appliqué à un contrat d'API — et pour la même raison : **on ne peut pas changer deux
+choses en même temps quand elles sont déployées séparément.**
+
+L'étape 2 mérite un mot : « déprécier » n'est pas un commentaire dans une documentation que
+personne ne lit. C'est un signal **mesurable** — un en-tête `Deprecation` dans la réponse, une
+métrique qui compte les lectures du champ obsolète, et un message aux intégrateurs identifiés.
+Sans compteur, on ne saura jamais si l'on peut passer à l'étape 4 ; avec lui, on peut dire
+« trois clients lisent encore `nom`, en voici les identifiants ».
+
+### La question qui les relie
+
+Idempotence et compatibilité paraissent sans rapport. Elles répondent pourtant à la même
+question, et c'est elle qu'il faut emporter :
+
+> **Qu'est-ce que je ne contrôle pas ?**
+
+Tu ne contrôles ni le réseau du client, ni le moment où il met à jour son application. Une API
+de production est faite de mécanismes qui rendent ces deux inconnues **inoffensives** — et non
+d'hypothèses optimistes sur leur comportement.
+
+Le même raisonnement engendre les autres règles de la leçon : la pagination existe parce que tu
+ne contrôles pas la taille future de tes collections ; la limitation de débit, parce que tu ne
+contrôles pas la boucle qu'un intégrateur écrira ; la version, parce que tu ne contrôles pas la
+date à laquelle il te lira.
 
 ## ⚖️ Trade-offs
 - Idempotence par clé : robustesse ↔ stockage/état côté serveur (mémoriser les clés un certain temps).

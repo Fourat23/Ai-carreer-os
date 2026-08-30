@@ -78,15 +78,147 @@ L'ordre n'est PAS garanti par défaut sur plusieurs workers (le message 2 peut f
 l'ordre compte (événements d'un même compte), on le garantit par PARTITION (tous les messages d'une
 même clé vont au même consommateur) — au prix d'un parallélisme réduit sur cette clé.
 
-## 🔬 Exemple guidé
-Traiter des paiements via une file, sans doublon.
-1. L'API reçoit `POST /paiement`, publie `{ paiementId: "p-42" }` dans la file, répond `202 Accepted`.
-2. Un worker consomme `p-42`, débite, marque `p-42` traité.
-3. Le worker tombe juste après le débit, AVANT d'accuser réception → le message est **re-livré**.
-4. Le worker (idempotent) voit `p-42` **déjà traité** → il n'en refait rien et accuse réception.
-Raisonnement : la livraison est at-least-once (étape 3), mais le consommateur idempotent (étape 4) rend
-la duplication inoffensive. Si `p-42` échouait 5 fois (donnée corrompue), il partirait en **DLQ** pour
-inspection, sans bloquer les autres paiements.
+## 🔬 Exemple guidé — un paiement de 30 €, et quatre façons de le débiter
+
+Une file de messages garantit la **livraison au moins une fois** : tant qu'un consommateur n'a
+pas accusé réception, le message lui est représenté. Cette garantie est celle qu'on veut — elle
+assure qu'aucun paiement n'est perdu — et elle a une conséquence directe : **ton consommateur
+verra le même message plusieurs fois.** Pas peut-être : régulièrement.
+
+La question n'est donc pas « comment éviter les doublons ? » mais « **que se passe-t-il quand
+le doublon arrive ?** ». Mesurons-le.
+
+> Les quatre résultats sont **exécutés** par
+> `scripts/v70-verifications/file-idempotence.mjs` : une file à livraison au moins une fois,
+> un consommateur que l'on fait tomber à un instant choisi, et un vrai solde en base.
+
+**Le décor.** Un compte à **100 €**, un message `{ id: 'p-42', montant: 30 }`. La réponse
+attendue est **70 €**, quel que soit le nombre de re-livraisons.
+
+### A. Le consommateur naïf
+
+```js
+function traiter(m) {
+  db.run('UPDATE comptes SET solde = solde - ? WHERE id = 1', m.montant);
+  accuserReception(m);          // ← le worker tombe parfois avant d'arriver ici
+}
+```
+
+Le worker tombe deux fois juste après le débit, avant l'accusé de réception.
+
+```
+livraisons = 3      solde = 10 €      ← DÉBIT MULTIPLE
+```
+
+Trois débits de 30 € pour un seul paiement. Aucun bug dans le code : il fait exactement ce
+qu'on lui demande, trois fois. Le défaut n'est pas dans le traitement, il est dans
+l'**hypothèse** — celle qu'un message n'arrive qu'une fois.
+
+### B. Le consommateur idempotent
+
+On mémorise les messages déjà traités :
+
+```js
+function traiter(m) {
+  if (dejaTraite(m.id)) return;                                        // rien à refaire
+  db.run('UPDATE comptes SET solde = solde - ? WHERE id = 1', m.montant);
+  db.run('INSERT INTO traites VALUES (?)', m.id);
+  accuserReception(m);
+}
+```
+
+Sans panne : `livraisons = 1`, `solde = 70 €`. Correct.
+
+**Idempotent** veut dire exactement cela : *rejouer l'opération ne change pas le résultat.* Ce
+n'est pas « refuser les doublons », c'est « les traiter sans effet supplémentaire ».
+
+### C. Le même code, avec une panne au mauvais moment
+
+Faisons tomber le worker **entre** le débit et le marquage — deux lignes consécutives, un
+intervalle de quelques microsecondes.
+
+```
+livraisons = 2      solde = 40 €      ← DÉBIT MULTIPLE
+```
+
+Le compte a été débité deux fois, **malgré** le contrôle d'idempotence.
+
+Déroulons :
+
+| Temps | Ce qui se passe | Solde | Table `traites` |
+|---|---|---|---|
+| 1 | débit de 30 | 70 | vide |
+| 2 | **le worker tombe** | 70 | vide |
+| 3 | le message est re-livré | 70 | vide |
+| 4 | `dejaTraite('p-42')` → **non** | 70 | vide |
+| 5 | débit de 30 | **40** | vide |
+
+Le marquage n'a jamais eu lieu, donc le contrôle ne pouvait rien voir. **L'effet et la preuve
+de l'effet n'étaient pas solidaires.**
+
+C'est le point le plus important de cette leçon, et celui qui manque dans la plupart des
+réponses d'entretien : *« mon consommateur est idempotent »* ne suffit pas. Il faut préciser
+**comment** l'idempotence est enregistrée, et si elle l'est **en même temps** que l'effet.
+
+### D. La correction : une seule transaction
+
+```js
+db.exec('BEGIN');
+db.run('UPDATE comptes SET solde = solde - ? WHERE id = 1', m.montant);
+db.run('INSERT INTO traites VALUES (?)', m.id);
+db.exec('COMMIT');
+accuserReception(m);
+```
+
+```
+livraisons = 2      solde = 70 €
+```
+
+Deux livraisons, un seul débit. La panne survient toujours au même endroit, mais elle annule
+maintenant **les deux** écritures d'un coup : la re-livraison repart d'un état propre, où rien
+n'a été fait ni marqué.
+
+La règle qui en découle, et elle est générale : **l'effet et sa trace doivent être commis
+ensemble, ou pas du tout.** Si l'effet est dans la base, la trace doit être dans la même base
+et la même transaction. Si l'effet est ailleurs — un appel à un prestataire de paiement — il
+faut un mécanisme d'idempotence **chez lui** (la clé d'idempotence de
+`/doc/lessons/api-production-contracts`), parce qu'aucune transaction locale ne peut annuler un
+débit déjà effectué à l'extérieur.
+
+### Le message empoisonné
+
+Dernier cas : un message dont les données sont corrompues et qui échouera toujours. Deux
+messages dans la file, `p-99` (corrompu) et `p-100` (sain), cinq tentatives autorisées :
+
+```
+livraisons = 6
+file d'attente d'échecs = [{ id: 'p-99', tentatives: 5 }]
+solde = 80          ← p-100 a bien été traité
+```
+
+Après cinq échecs, `p-99` est déplacé dans une **file d'attente d'échecs** (souvent appelée
+*dead letter queue*, DLQ) — une file à part, où il attend qu'un humain l'examine. Et surtout :
+`p-100` **a été traité**, le solde le prouve.
+
+Sans ce mécanisme, `p-99` serait re-livré indéfiniment, occuperait le consommateur, et
+bloquerait tout ce qui le suit. Un seul message malformé suffit alors à immobiliser un système
+entier — c'est une panne classique, et son nom dit bien ce qu'elle fait.
+
+Deux garde-fous vont ensemble : **un compteur de tentatives borné** et **une destination pour
+les abandons**. Le second sans le premier ne se déclenche jamais ; le premier sans le second
+perd silencieusement des paiements.
+
+### Ce qu'il faut retenir de la mesure
+
+| Question | Réponse |
+|---|---|
+| Mon message sera-t-il livré plusieurs fois ? | oui, régulièrement |
+| L'idempotence suffit-elle ? | non — seulement si effet et marquage sont atomiques |
+| Que faire d'un message qui échoue toujours ? | le borner et le sortir de la file |
+| Ai-je le droit de supposer l'ordre ? | non, sauf partitionnement explicite par clé |
+
+Et la formulation à garder : **une file ne promet pas « une fois », elle promet « au moins une
+fois ».** Tout ce qui suit découle de cette phrase.
 
 ## ⚖️ Trade-offs
 - File vs synchrone : robustesse/absorption de charge ↔ latence (le résultat n'est pas immédiat) et

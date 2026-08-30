@@ -81,15 +81,139 @@ guident les choix de redondance et de sauvegarde.
 - graceful degradation = offrir moins plutôt que rien.
 - redondance/failover suppriment les SPOF ; RTO/RPO cadrent la reprise.
 
-## 🛠 Exemple guidé — une dépendance externe ralentit
-1. **Symptôme** : le service de paiement passe de 100 ms à 8 s ; TON service commence
-   à saturer (threads bloqués).
-2. **Timeout** : borner l'appel paiement à 2 s → on ne bloque plus indéfiniment.
-3. **Circuit breaker** : après N échecs, arrêter d'appeler le paiement 30 s → échouer
-   vite.
-4. **Graceful degradation** : proposer « réessayer le paiement plus tard » plutôt
-   qu'une page d'erreur totale.
-5. Résultat : la panne du paiement reste LOCALE ; le reste du service tient.
+## 🛠 Exemple guidé — 6 600 ms d'attente, 600 appels, et comment tomber à 5
+
+Le service de paiement d'un prestataire passe de 100 ms à ne plus répondre du tout. Ton
+service, lui, n'a aucun bug. Voyons ce qu'il devient — en chiffres.
+
+> Les valeurs sont produites par `scripts/v70-verifications/disjoncteur-et-attente.mjs`.
+> **Limite déclarée :** le temps y est simulé par une horloge virtuelle, pour que le script
+> s'exécute instantanément. Les durées publiées sont donc celles du **modèle** — mais le
+> modèle, lui, est le comportement exact de tes protections, et c'est ce qu'on cherche à
+> comprendre.
+
+### Étape 1 — sans rien : l'attente infinie
+
+Ton code appelle le paiement, sans délai d'attente. Le prestataire ne répond pas. Ton fil
+d'exécution attend. Une seconde requête arrive, un autre fil attend. Puis dix, puis cent.
+
+Au bout de quelques minutes, ton service ne répond plus **à rien** — pas même à la page
+d'accueil, qui n'a pourtant aucun rapport avec le paiement. Rien chez toi n'est en panne : tous
+tes fils sont simplement occupés à attendre quelqu'un d'autre.
+
+C'est la panne en cascade, et elle mérite d'être nommée précisément : **ce n'est pas la panne
+du prestataire qui t'a mis à terre, c'est ton absence de limite.**
+
+### Étape 2 — le délai d'attente : calculons ce qu'il coûte
+
+On borne l'appel à **2 secondes**, avec **3 tentatives** et un recul exponentiel de 200 ms.
+Question — et c'est une vraie question d'entretien : **quel est le temps d'attente maximal vu
+par l'utilisateur ?**
+
+```
+3 tentatives × 2 000 ms   = 6 000 ms d'appels
++ reculs : 200 + 400      =   600 ms d'attente entre les tentatives
+                          ------------
+                            6 600 ms
+```
+
+Mesure : **6 600 ms**. Le calcul et le modèle concordent exactement.
+
+Six secondes et demie. Devant un formulaire de paiement, c'est très long — beaucoup
+d'utilisateurs auront cliqué une seconde fois avant la fin, ce qui crée les doublons dont
+parle `/doc/lessons/api-production-contracts`.
+
+Et voilà le premier enseignement : **le délai d'attente ne se choisit pas seul.** Un délai de
+2 s paraît prudent ; multiplié par les tentatives et augmenté des reculs, il donne 6,6 s. La
+bonne façon de raisonner est inverse : *je m'autorise 3 secondes de bout en bout, donc je peux
+faire deux tentatives d'une seconde, ou une seule de deux secondes et demie.* Le budget total
+est la contrainte ; les tentatives s'y logent.
+
+### Étape 3 — ce que subit une dépendance déjà tombée
+
+Passons à l'échelle. La dépendance est **complètement** tombée, et 200 requêtes utilisateur
+arrivent, à raison de 20 par seconde.
+
+```
+sans disjoncteur :
+  appels reçus par la dépendance : 600
+  attente moyenne par requête    : 6 600 ms
+```
+
+**Six cents appels.** Trois par requête, sur 200 requêtes. Chaque utilisateur attend 6,6
+secondes pour recevoir une erreur.
+
+Regarde ce nombre du point de vue du prestataire : il est en train de tomber, et tu lui
+envoies **trois fois plus de trafic que d'habitude**. Tes tentatives ne l'aident pas à se
+relever ; elles l'en empêchent. Si tous ses clients font pareil — et ils le font — le service
+ne redémarre jamais, parce qu'il est submergé dès qu'il reprend son souffle.
+
+Deuxième enseignement, contre-intuitif : **réessayer contre un service en panne aggrave la
+panne.** La nouvelle tentative est faite pour les défaillances *passagères*, pas pour les
+pannes franches.
+
+### Étape 4 — le disjoncteur
+
+Un **disjoncteur** compte les échecs. Au-delà d'un seuil, il s'ouvre : pendant un temps donné,
+il ne laisse plus passer un seul appel et échoue immédiatement. Après ce délai, il laisse
+passer une requête d'essai — si elle réussit, il se referme.
+
+Mêmes 200 requêtes, seuil de 5 échecs, ouverture de 30 secondes :
+
+| | Sans disjoncteur | Avec disjoncteur |
+|---|---:|---:|
+| appels reçus par la dépendance | **600** | **5** |
+| attente moyenne par requête | 6 600 ms | **56 ms** |
+| pire attente | 6 600 ms | 6 600 ms |
+| échecs immédiats | 0 | 199 |
+
+Trois lectures, dans l'ordre d'importance.
+
+**5 appels au lieu de 600.** Les cinq premiers échouent, le disjoncteur s'ouvre, et la
+dépendance cesse de recevoir du trafic. Elle a maintenant une chance de se rétablir. Le
+disjoncteur protège **la dépendance autant que toi** — c'est l'aspect que la plupart des
+présentations omettent.
+
+**56 ms d'attente moyenne au lieu de 6 600.** Cent dix-huit fois moins. L'utilisateur reçoit
+une erreur claire presque instantanément, au lieu de regarder un indicateur de chargement
+pendant sept secondes pour obtenir la même erreur. **Échouer vite est un service rendu**, pas
+un aveu de faiblesse.
+
+**La pire attente reste 6 600 ms.** C'est la ligne honnête du tableau : la toute première
+requête, celle qui découvre la panne, paie le prix fort. Le disjoncteur ne supprime pas la
+première douleur — il empêche qu'elle se répète deux cents fois. Aucune protection n'est
+gratuite ni totale, et le dire fait partie de la compétence.
+
+### Étape 5 — que voit l'utilisateur
+
+Une erreur rapide reste une erreur. La dernière protection est de choisir **ce qui reste
+possible** :
+
+| Réponse | Ce que l'utilisateur peut faire |
+|---|---|
+| « Une erreur est survenue » | rien — il quitte |
+| « Le paiement est momentanément indisponible » | attendre, revenir plus tard |
+| « Votre commande est enregistrée, le paiement sera relancé automatiquement ; vous recevrez une confirmation » | **rien à faire — et il a acheté** |
+
+La troisième ligne est un vrai mode dégradé : la commande est prise, le paiement passe en file
+d'attente, l'utilisateur est prévenu. Le service de paiement est tombé et **la vente a eu
+lieu**.
+
+C'est le critère qui distingue un mode dégradé d'une panne polie : *l'utilisateur peut-il
+terminer ce qu'il était venu faire ?*
+
+### Les quatre protections, et l'ordre dans lequel elles se posent
+
+| # | Protection | Ce qu'elle empêche |
+|---|---|---|
+| 1 | **délai d'attente** | que la lenteur d'un tiers devienne ta panne |
+| 2 | **tentatives bornées + recul** | qu'un incident passager devienne visible pour l'utilisateur |
+| 3 | **disjoncteur** | que tes tentatives empêchent le tiers de se relever |
+| 4 | **mode dégradé** | que la panne d'une fonction devienne la panne du produit |
+
+L'ordre n'est pas décoratif : sans le 1, rien d'autre ne peut fonctionner — on ne compte pas
+les échecs de quelque chose qui n'échoue jamais parce qu'il attend indéfiniment. Le délai
+d'attente est la protection fondatrice, et c'est celle qui manque le plus souvent.
 
 ## 🧪 Mise en pratique
 Voir la pratique associée : détecter un SPOF, vérifier la redondance multi-zone,

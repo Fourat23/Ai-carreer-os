@@ -90,12 +90,124 @@ fiabilité. Un SLO tenu à coups de toil n'est pas soutenable.
 - budget restant → livrer ; budget épuisé → stabiliser.
 
 ## 🛠 Exemple guidé — poser un SLO et l'exploiter
-1. SLI choisi : % de requêtes réussies sous 300 ms (vue utilisateur).
-2. SLO : 99,9 % sur 30 jours → error budget = 0,1 % ≈ 43 min d'indispo/mois.
-3. Un incident consomme 20 min : il reste ~23 min de budget → on peut continuer à
-   livrer, prudemment.
-4. Un burn rate soudain de 14 (on épuiserait tout en ~2 jours) déclenche une alerte :
-   on enquête AVANT que le budget soit à zéro.
+« On vise 99,9 % de disponibilité. » Tout le monde acquiesce, personne ne sait ce que ça
+autorise. Calculons-le, parce que c'est précisément là que la notion devient un outil de
+décision au lieu d'un slogan.
+
+> Les nombres de cette section sont **calculés** par
+> `scripts/v70-verifications/slo-budget-erreur.py`.
+
+### Ce qu'un « neuf » de plus coûte vraiment
+
+| Objectif | Par an | Par mois (30 j) | Par semaine | Par jour |
+|---|---|---|---|---|
+| 99 % | 3,7 j | **7,2 h** | 1,7 h | 14 min |
+| 99,5 % | 1,8 j | 3,6 h | 50 min | 7 min |
+| **99,9 %** | 8,8 h | **43 min** | 10 min | 1 min |
+| 99,95 % | 4,4 h | 22 min | 5 min | 43 s |
+| **99,99 %** | 53 min | **4 min** | 1 min | 9 s |
+
+Deux lectures.
+
+**99 % est très permissif** : sept heures par mois. C'est plus qu'une journée de travail
+d'indisponibilité, et pourtant l'objectif paraît sérieux quand on l'énonce.
+
+**99,99 % est un autre métier.** Quatre minutes par mois — moins que le temps de comprendre un
+incident, a fortiori de le corriger. Un tel objectif suppose que la reprise soit
+**automatique** : bascule, dégradation, redémarrage sans humain. Ce n'est plus une exigence de
+qualité, c'est une contrainte d'architecture, et son coût est sans commune mesure avec celui
+de 99,9 %.
+
+D'où la question à poser avant de choisir un nombre : **combien de minutes par mois
+sommes-nous prêts à perdre, et quel budget acceptons-nous d'y consacrer ?** Un objectif choisi
+sans cette conversation est un objectif qu'on ne tiendra pas et qu'on cessera de regarder.
+
+### Le budget d'erreur : de l'objectif au nombre d'erreurs
+
+Trente millions de requêtes par mois :
+
+| SLO | Budget d'erreur mensuel |
+|---|---|
+| 99 % | **300 000** requêtes |
+| 99,9 % | **30 000** requêtes |
+| 99,99 % | **3 000** requêtes |
+
+C'est le renversement utile : au lieu de « il ne faut pas d'incident », on obtient **une
+quantité d'échecs qu'on a le droit de dépenser**. Un budget se dépense, se surveille, et se
+répartit.
+
+Et il se consomme vite. Un incident de vingt minutes, à douze mille requêtes par minute,
+consomme 240 000 requêtes :
+
+| SLO | Part du budget mensuel consommée par **ce seul incident** |
+|---|---|
+| 99 % | 80 % |
+| 99,9 % | **800 %** |
+| 99,99 % | **8 000 %** |
+
+Un seul incident de vingt minutes fait **huit fois** dépasser un objectif de 99,9 %. Personne
+ne le devine sans calculer, et c'est ce calcul qui rend la conversation possible : *« notre
+objectif implique de ne pas avoir plus de deux minutes et demie d'incident par mois — en
+avons-nous les moyens ? »*
+
+### À quoi sert un budget qu'on n'a pas dépensé
+
+C'est la partie que la plupart des équipes n'appliquent jamais, et c'est la seule qui rende le
+dispositif utile.
+
+| État du budget | Ce que ça autorise |
+|---|---|
+| largement disponible | **livrer plus vite**, prendre des risques, migrer, expérimenter |
+| entamé, sous surveillance | livrer normalement, mais pas de changement structurel |
+| **épuisé** | gel des livraisons non critiques, priorité à la fiabilité |
+
+Le budget d'erreur transforme un débat récurrent — *« il faut aller plus vite » contre *« il
+faut être plus stable »* — en une **règle chiffrée que les deux camps ont acceptée d'avance**.
+Ce n'est plus une opinion contre une autre : c'est un compteur.
+
+Et il fonctionne dans les deux sens. Un budget systématiquement **inutilisé** ne signifie pas
+que tout va bien : il signifie que l'objectif est trop bas, ou qu'on est trop prudent. Une
+équipe qui n'entame jamais son budget paie de la fiabilité que personne ne lui demande.
+
+### La vitesse de consommation
+
+Le budget dit *combien il reste*. La vitesse de consommation dit *à quelle allure il part* —
+et c'est elle qui déclenche les alertes.
+
+```
+vitesse = (taux d'erreur observé) / (taux d'erreur autorisé)
+```
+
+Une vitesse de **1** consomme exactement le budget sur la période. Une vitesse de **14** épuise
+un budget mensuel en un peu plus de deux jours.
+
+C'est l'indicateur d'alerte correct, et il évite les deux défauts habituels :
+
+- alerter sur **le taux d'erreur brut** réveille pour un pic de trois minutes sans conséquence ;
+- alerter sur **le budget restant** réveille trop tard, quand tout est déjà consommé.
+
+La pratique courante combine deux fenêtres : une vitesse élevée sur une heure déclenche une
+alerte immédiate ; une vitesse modérée sur six heures déclenche un ticket. Rapide et grave
+réveille ; lent et grave n'est pas urgent, mais ne doit pas être oublié.
+
+### Le SLI, et pourquoi il se choisit en premier
+
+Un indicateur de niveau de service se mesure **du point de vue de l'utilisateur** :
+
+> *pourcentage de requêtes réussies en moins de 300 ms*
+
+Ce que cette formulation contient et qu'un « taux de disponibilité » n'a pas : un **critère de
+succès** (pas d'erreur **et** rapide) et un **seuil explicite**. Une requête qui répond
+correctement en douze secondes n'est pas un succès pour l'utilisateur ; elle l'est pour la
+plupart des tableaux de bord.
+
+Le piège inverse est l'indicateur commode : *« le processus tourne »*, *« le point de santé
+répond »*. Ce sont des indicateurs qui restent verts pendant que le produit est inutilisable —
+faciles à mesurer, et sans rapport avec ce que vit quelqu'un.
+
+**Un bon indicateur est celui qui devient rouge quand un utilisateur est mécontent, et
+seulement à ce moment-là.**
+
 
 ## 🧪 Mise en pratique
 Voir la pratique associée : calculer l'error budget restant à partir du SLO et des

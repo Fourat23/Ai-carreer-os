@@ -68,14 +68,110 @@ préparé ».
   observability (dépend de l'instrumentation).
 
 ## 🛠 Exemple guidé — « c'est lent, parfois ça plante »
-1. **Métrique** : le taux d'erreur est à 3 % (avant : 0,1 %) et la latence p95 a
-   doublé → il y a bien un problème, et il a commencé à une certaine heure.
-2. **Trace** : sur une requête lente, 90 % du temps est passé dans l'appel à la base
-   de données → le problème est là, pas dans le code de l'API.
-3. **Log** : au moment des erreurs, « connection pool exhausted » → la base refuse de
-   nouvelles connexions.
-4. Conclusion étayée par des DONNÉES, pas par des suppositions : le pool de
-   connexions est trop petit pour la charge. On sait quoi corriger.
+Un incident commence. Trois questions se posent, toujours dans cet ordre, et **chacune se
+répond avec un outil différent** :
+
+| Question | Outil | Ce qu'il donne |
+|---|---|---|
+| **Y a-t-il un problème, et depuis quand ?** | métriques | des courbes agrégées |
+| **Où, dans la chaîne ?** | traces | le chemin d'une requête, étape par étape |
+| **Pourquoi ?** | journaux | le détail d'un cas précis |
+
+L'erreur de méthode la plus coûteuse est de commencer par les journaux — parce que c'est ce
+qu'on connaît, et parce qu'on y trouve toujours quelque chose. On lit dix mille lignes, on
+repère une erreur, et l'on ne sait pas si elle est la cause, une conséquence, ou du bruit
+présent depuis six mois.
+
+### Le déroulé, sur un incident réel
+
+**1 — Les métriques ouvrent l'enquête.**
+
+```
+taux d'erreur : 0,1 %  →  3 %       depuis 14 h 12
+latence p95   : 400 ms →  2 800 ms  même heure
+trafic        : inchangé
+```
+
+Trois informations, et elles suffisent déjà à écarter des hypothèses. Le trafic n'a pas bougé :
+ce n'est pas une montée en charge. Les deux dégradations sont **simultanées** : c'est
+probablement une seule cause. Et l'heure est précise, ce qui rend la question suivante
+possible : *qu'est-ce qui a changé à 14 h 12 ?*
+
+Ce que les métriques ne disent pas : **où**. Elles agrègent tout le service.
+
+**2 — La trace localise.**
+
+Une trace suit **une seule requête** à travers tous les composants, avec le temps passé dans
+chacun :
+
+```
+requête a3f9  total 2 840 ms
+  ├─ passerelle          12 ms
+  ├─ service commandes   38 ms
+  │   └─ appel base   2 760 ms   ← 97 % du temps
+  └─ sérialisation       30 ms
+```
+
+En une lecture, le problème est localisé. Sans trace, il aurait fallu deviner, ajouter des
+mesures de temps dans le code, redéployer, attendre que l'incident se reproduise.
+
+Ce que la trace ne dit pas : **pourquoi** cet appel prend 2,7 secondes.
+
+**3 — Les journaux expliquent.**
+
+```
+14:12:03 warn  {"requeteId":"a3f9","msg":"connexion base réessayée","tentative":3}
+14:12:01 error {"requeteId":"a3f9","msg":"pool épuisé","attente_ms":2700,"actives":50,"max":50}
+```
+
+La réserve de connexions est saturée. Cinquante connexions actives sur cinquante autorisées, et
+chaque requête attend qu'une se libère.
+
+La cause est trouvée en trois gestes, chacun ayant réduit l'espace de recherche.
+
+### Ce qui relie les trois : un identifiant
+
+`requeteId: a3f9` apparaît dans la trace **et** dans les journaux. C'est ce qui permet de
+passer de l'un à l'autre, et sans lui les trois piliers restent trois silos.
+
+Concrètement : un identifiant unique est généré à l'entrée, propagé dans chaque appel interne
+— en-tête HTTP, attribut de message, contexte d'exécution — et inclus dans chaque ligne de
+journal.
+
+C'est **la seule chose à mettre en place avant d'avoir un incident**, parce qu'elle ne
+s'ajoute pas rétroactivement. Les métriques et les journaux existent déjà, plus ou moins bien ;
+la corrélation, elle, se prépare.
+
+### Ce que « observable » veut dire, précisément
+
+Un système est observable quand on peut répondre à des questions **qu'on n'avait pas prévues**,
+sans le modifier.
+
+La distinction avec la supervision est là, et elle est opérationnelle :
+
+| | Supervision | Observabilité |
+|---|---|---|
+| répond à | des questions **prévues** (« le taux d'erreur dépasse-t-il 1 % ? ») | des questions **imprévues** (« pourquoi ces trois clients-là ? ») |
+| se construit | avec des seuils et des alertes | avec des données riches et corrélables |
+| son échec | l'alerte ne s'est pas déclenchée | il faut ajouter du code et redéployer pour comprendre |
+
+Le test pratique : **la dernière fois qu'un incident a eu lieu, as-tu dû ajouter des journaux
+et redéployer pour comprendre ?** Si oui, le système n'était pas observable — et le déploiement
+a probablement modifié les conditions de l'incident, ce qui l'a rendu irreproductible.
+
+### Le quatrième pilier qu'on oublie
+
+Trois piliers, dit-on. Il en manque un, et son absence prolonge presque tous les incidents :
+
+> **savoir ce qui a changé.**
+
+Déploiements, changements de configuration, indicateurs de fonctionnalité activés, migrations,
+mises à jour de dépendances — datés, sur la même échelle de temps que les métriques.
+
+Parce que la question « qu'est-ce qui a changé à 14 h 12 ? » est celle qui résout le plus
+d'incidents, et le plus vite. Superposer la ligne des déploiements aux courbes de métriques
+transforme une enquête en une lecture.
+
 
 ## 🧪 Mise en pratique
 Voir la pratique associée : identifier ce qui MANQUE pour diagnostiquer une panne

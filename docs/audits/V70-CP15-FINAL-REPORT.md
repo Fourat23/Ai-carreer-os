@@ -346,6 +346,49 @@ que V70 n'a pas le droit de modifier.
 
 ---
 
+## 9 bis. La conséquence non voulue : le temps de lecture a augmenté de 48 %
+
+Trouvée au dernier contrôle du CP15, en relançant `npm run generate` : le fichier généré
+`data/program.json` avait dérivé du corpus. La dérive porte sur `readingMinutes`, qui est
+**calculé à partir de la longueur des leçons**. V70 a allongé les leçons ; les temps de
+lecture ont suivi mécaniquement.
+
+| | CP0 | CP15 |
+|---|---|---|
+| lecture par journée — min / médiane / max | 21 / 51 / 297 min | **29 / 74 / 454 min** |
+| total sur les 365 journées | 337 h | **500 h** |
+| variation | — | **+48,1 %** |
+
+**Ces chiffres ne sont pas fabriqués : ils sont recalculés par le générateur à partir du
+texte réel.** Le brief interdit de fabriquer des temps d'étude ; il n'interdit pas de
+publier ceux que le contenu impose. C'est ici le second cas.
+
+**Journées où la lecture seule dépasse le budget horaire de la journée** : **1 au CP0,
+3 au CP15**. Les trois sont les revues hebdomadaires des semaines 10, 11 et 12
+(journées 70, 77 et 84), qui agrègent les leçons de leur semaine :
+
+| journée | budget | lecture | ratio |
+|---|---|---|---|
+| 70 — revue semaine 10 | 4,5 h | 4,5 h | ×1,0 |
+| 77 — revue semaine 11 | 4,5 h | 7,6 h | **×1,7** |
+| 84 — revue semaine 12 | 4,5 h | 5,5 h | ×1,2 |
+
+**Ce que je n'ai pas fait.** Ni raccourcir des leçons pour faire rentrer ces trois journées,
+ni relever le budget horaire. Les deux seraient des ajustements après avoir vu le résultat.
+
+**Nuance qui compte pour l'interprétation**, et qui n'excuse rien : sur une journée de
+revue, la « lecture » est une **relecture** de matière déjà vue. Une relecture ne se fait
+pas à la vitesse d'une première lecture, et l'estimateur ne fait pas cette distinction —
+il applique un débit unique à un volume de mots. Les 7,6 heures de la journée 77 sont donc
+un majorant, pas une prévision. Reste que l'estimateur dit ce qu'il dit, et que 3 journées
+sur 365 sortent du budget là où il y en avait 1.
+
+**Pour V71** : soit l'estimateur distingue première lecture et relecture, soit les revues
+hebdomadaires sélectionnent au lieu d'agréger. La première option est un travail
+d'outillage, la seconde une décision de curriculum — donc hors du droit de V70.
+
+---
+
 ## 10. Intégrité
 
 | élément | état |

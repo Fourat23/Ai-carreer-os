@@ -187,6 +187,53 @@ L'assertion utile porte sur la valeur exacte attendue : `assert.deepEqual(r, { v
 
 **Vérifie seul, sans corrigé** : le seul critère qui compte est le sabotage. Casse ta fonction de trois façons **différentes** — inverse une condition, renvoie une constante, supprime un cas limite. Trois rouges attendus. Un sabotage qui passe ne signifie pas que ton test est un peu faible : il désigne un comportement que **personne ne vérifie**. Écris le test manquant, et recommence.
 
+### Deux mesures qui décident de la valeur d'une suite de tests
+
+**La couverture ne mesure pas ce que tu crois.** La vérification
+`scripts/v70-verifications/porte-couverture.mjs` écrit deux suites sur le **même**
+code : l'une appelle tout sans presque rien affirmer, l'autre contient une seule
+assertion vraie.
+
+```
+suite A (appelle tout, n affirme rien) : lignes 100,00 % · branches 100,00 % · fonctions 100,00 %
+suite B (une seule assertion vraie)     : lignes  88,89 % · branches  66,67 % · fonctions  66,67 %
+```
+
+La suite A obtient **100 % partout** et ne détecte pas le défaut ; la suite B est
+à 88,89 % et le détecte. Pire, quand on introduit une régression franche — une
+remise qui **augmente** le prix — la suite A reste verte avec une couverture
+inchangée.
+
+**La couverture mesure ce qui est exécuté, pas ce qui est vérifié.** Une
+couverture basse est une information fiable (ce code n'est protégé par rien) ;
+une couverture haute ne garantit rien.
+
+**Le sabotage est la seule mesure directe.** C'est pourquoi l'exercice demande de
+casser volontairement la fonction : un test qui ne rougit pas quand le code
+devient faux ne protège de rien, quelle que soit sa couverture. Le rapport
+« mutations détectées / mutations introduites » est le vrai indicateur, et il se
+calcule à la main en dix minutes.
+
+**Un test instable coûte à toute la suite, pas à lui seul.** La vérification
+`scripts/v70-verifications/tests-instables.mjs` mesure deux causes réelles :
+
+```
+état partagé entre deux tests : vert isolé, ROUGE en suite (# pass 1 # fail 1)
+attente de 2 ms fixes         : 319/320 vertes au repos, 0/320 sous charge
+2 % de tests instables sur 300 tests -> pipeline vert du premier coup : 0,2333 %
+```
+
+Les probabilités se multiplient. À 2 % de tests instables — un taux que personne
+ne trouverait alarmant — un pipeline vert du premier coup arrive **deux fois sur
+mille**. Le taux tolérable n'est pas « faible » : il est proche de zéro, et c'est
+l'arithmétique qui l'impose.
+
+Les deux causes se distinguent facilement et se corrigent différemment. **Vert
+isolé et rouge en suite** = état partagé ; le correctif est de reconstruire
+l'état à chaque test, jamais de fixer l'ordre. **Rouge de façon aléatoire** =
+attente d'une durée au lieu d'un événement ; le correctif est d'attendre la fin
+de l'opération, jamais d'augmenter le délai.
+
 ## 🏢 Cas professionnel
 Une équipe affiche fièrement 92 % de couverture. Une refonte du calcul de facturation passe la suite au vert et part en production ; les factures de fin de mois sont fausses. L'enquête montre que les tests appelaient bien le code de facturation — d'où les 92 % — mais que leurs assertions vérifiaient surtout que la fonction ne levait pas d'exception.
 

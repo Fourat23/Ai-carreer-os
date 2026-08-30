@@ -65,12 +65,102 @@ Tout le reste en découle. L'UI change pour des raisons d'ergonomie, les règles
 ## Concepts clés
 Couplage / cohésion · frontière / interface · inversion de dépendance · 3-tiers, MVC, hexagonal, monolithe modulaire, microservices, event-driven · queue, cache, auth/authz · observabilité (logs/métriques/traces) · résilience · stateless · trade-off · ADR (Architecture Decision Record : contexte, options, décision, conséquences).
 
-## 🧭 Exemple guidé
-Le MÊME besoin (« analyser des documents uploadés ») en trois architectures :
-- **Monolithe modulaire** : une app, modules ingestion/analyse/restitution — simple, déployable en un `docker compose up`. ✅ pour un produit local ou une petite équipe.
-- **Microservices** : service d'ingestion + service d'analyse + service de restitution — justifiable si des équipes séparées scalent indépendamment. Coût : réseau, contrats, ops.
-- **Event-driven** : l'upload émet `document.recu`, des workers consomment — absorbe des pics massifs, mais le suivi d'un document exige des traces sérieuses.
-La bonne réponse dépend des CONTRAINTES — savoir le dire est la compétence.
+## 🧭 Exemple guidé — le même besoin, trois architectures, et le calcul qui tranche
+
+Le besoin : **analyser des documents déposés par des utilisateurs**. Trois
+architectures le satisfont. Le travail d'architecture consiste à savoir dire
+laquelle, et surtout **pourquoi**.
+
+### Les trois options, avec ce que chacune coûte
+
+**Monolithe modulaire.** Une seule application, trois modules internes —
+ingestion, analyse, restitution — avec des frontières nettes entre eux. Un seul
+dépôt, un seul déploiement, un seul journal, une seule base. Les appels entre
+modules sont des appels de fonction : instantanés, typés, impossibles à
+interrompre par le réseau.
+
+**Microservices.** Trois services déployés séparément, communiquant par le
+réseau. Chaque équipe déploie le sien à son rythme. Chaque appel devient une
+requête réseau qui peut échouer, être lente, ou arriver deux fois.
+
+**Piloté par les événements.** Le dépôt d'un document publie un message ; des
+travailleurs le consomment à leur rythme. Les pics sont absorbés par la file au
+lieu d'être subis par le service.
+
+### Ce que le premier découpage coûte réellement
+
+C'est ici que la plupart des raisonnements s'arrêtent trop tôt. Passer d'un appel
+de fonction à un appel réseau ne change pas seulement la latence : cela change
+**la nature des pannes possibles**, et les leçons de ce programme l'ont mesuré.
+
+- **La latence.** Un aller-retour dans un centre de données coûte environ 500 µs
+  contre 0,1 µs pour une lecture en mémoire — un facteur cinq mille (mesuré dans
+  `system-design-interview`). Une chaîne de cinq appels internes devient une
+  chaîne de cinq allers-retours.
+- **Le N+1 traverse le réseau.** La mesure de `sql-performance-indexing` montre
+  51 requêtes là où une seule suffisait. Sur un appel de fonction c'est
+  regrettable ; sur un appel réseau, chaque unité devient un aller-retour.
+- **Le retour arrière se complique.** Trois services déployables séparément, ce
+  sont trois versions qui cohabitent. La mesure de `release-incident-recovery`
+  montre qu'une colonne `NOT NULL DEFAULT` laisse alors passer des écritures
+  silencieusement fausses (`ACCEPTÉ, devise = ""`).
+- **La corrélation devient obligatoire.** Sans identifiant propagé, reconstituer
+  une requête à travers trois services par proximité temporelle donne **1
+  reconstitution correcte sur 200** dès cinq requêtes simultanées (mesuré dans
+  `distributed-tracing`) — et l'échec est silencieux.
+- **Les pannes partielles apparaissent.** Un service lent bloque ses appelants ;
+  sans disjoncteur, la mesure de `resilience-patterns` montre 600 appels vers un
+  service en panne là où 5 suffisaient.
+
+Aucun de ces coûts n'existe dans un monolithe modulaire. **Le découpage en
+services n'achète pas de la propreté : il achète de l'indépendance de
+déploiement, et il la paie en complexité de panne.**
+
+### La question qui tranche
+
+Elle n'est pas technique : **combien d'équipes doivent déployer indépendamment ?**
+
+- Une équipe → le monolithe modulaire gagne, sans discussion. L'indépendance de
+  déploiement n'a aucune valeur pour des gens qui déploient ensemble, et les
+  coûts ci-dessus sont bien réels.
+- Plusieurs équipes qui se bloquent mutuellement à chaque livraison → le
+  découpage commence à se justifier, et la frontière suit **l'organisation**, pas
+  le schéma technique.
+- Des pics de charge très irréguliers sur une seule étape → l'architecture
+  événementielle traite ce problème précis, et elle peut s'introduire **dans** un
+  monolithe : une file interne suffit souvent.
+
+### Ce qui doit être décidé tôt, et ce qui peut attendre
+
+La distinction la plus utile de tout le sujet.
+
+**Réversible, donc à décider plus tard** : le découpage en services, le choix
+d'un cadre applicatif, le fournisseur d'hébergement, le format des journaux. Ces
+choix se changent, au prix d'un travail borné.
+
+**Difficilement réversible, donc à décider tôt** : le modèle de données, le
+contrat public d'une API, le choix « synchrone ou asynchrone » sur un flux
+central, et la stratégie d'identifiants. La leçon
+`breaking-changes-compatibility` détaille pourquoi : dès qu'un tiers dépend de
+ton contrat, tu ne le changes plus, tu en publies un second.
+
+**On investit son temps d'architecture sur la seconde liste.** L'erreur la plus
+répandue est l'inverse : de longues discussions sur le découpage en services — un
+choix réversible — et une décision de modèle de données prise en dix minutes en
+début de projet.
+
+### La forme de la décision
+
+Quelle que soit l'option retenue, elle s'écrit : le contexte et les contraintes,
+**les options envisagées avec ce que chacune coûte**, la décision, et les
+conséquences — les bonnes **et** les mauvaises.
+
+C'est cette dernière partie qui distingue un document utile. Une décision sans
+conséquences négatives écrites n'a pas été instruite : toute architecture a un
+coût, et ne pas le nommer signifie soit qu'on ne l'a pas cherché, soit qu'on le
+cache. Six mois plus tard, quand quelqu'un demandera « pourquoi ce choix ? », ce
+document est la seule chose qui existera encore — le code, lui, montre ce qui a
+été fait, jamais ce qui a été écarté ni pourquoi.
 
 ## ⚠️ Erreurs fréquentes
 - Choisir l'architecture à la mode plutôt qu'adaptée (microservices pour un projet solo).

@@ -128,6 +128,85 @@ a de la valeur.**
 ## 🤖 Exemple appliqué (IA / data / architecture)
 Ton pipeline RAG embedde 50 chunks : en séquentiel, 50 × 300 ms = 15 s ; par lots parallèles, ~2 s. Tes appels LLM sont des Promises avec timeout et retry (leçon error-handling). Le streaming des réponses LLM est de l'asynchrone incrémental. Maîtriser cette leçon = des pipelines 10× plus rapides.
 
+## 🧪 Ce que la boucle d'événements fait réellement — mesuré
+
+Trois affirmations reviennent constamment sur l'asynchrone, et elles se
+vérifient. Le script `scripts/v70-verifications/js-async-et-types.mjs` les
+exécute.
+
+### 1. « await dans une boucle, ce n'est pas si grave »
+
+Cinq appels dont les durées sont 120, 90, 150, 110 et 80 millisecondes :
+
+```
+somme des durées   : 550 ms
+plus longue durée  : 150 ms
+boucle avec await  : 552,7 ms
+Promise.all        : 150,8 ms
+rapport            : ×3,67
+```
+
+Une boucle avec `await` attend **la somme**. `Promise.all` attend **le plus
+long**. Sur cinq appels réseau, c'est le facteur qui sépare une page lente d'une
+page normale, sans qu'aucune requête ne change.
+
+La règle qui en découle est précise et ne dit pas « toujours paralléliser » :
+**si les appels sont indépendants, `Promise.all` ; si le second a besoin du
+résultat du premier, la boucle est correcte.** Le défaut consiste à écrire la
+boucle par réflexe sans se poser la question.
+
+### 2. Ce que `Promise.all` fait des erreurs
+
+```
+Promise.all        : REJETÉ dès le premier échec — « service indisponible »
+                     les deux résultats réussis sont PERDUS.
+Promise.allSettled : fulfilled, rejected, fulfilled
+```
+
+`Promise.all` rejette **dès le premier échec** et jette les résultats obtenus,
+même ceux qui étaient déjà arrivés. `Promise.allSettled` attend tout le monde et
+rend l'état de chacun.
+
+Ce n'est pas « l'un est meilleur » : c'est une décision. **Tout ou rien** contre
+**ce qu'on a pu obtenir**. Pour une opération transactionnelle, `all` est correct.
+Pour un tableau de bord agrégeant six sources, `allSettled` est le bon choix —
+une source indisponible ne doit pas vider la page.
+
+### 3. L'ordre d'exécution, observé
+
+```
+1 synchrone
+2 synchrone (fin)
+3 microtâche
+4 promesse résolue
+5 setTimeout 0
+```
+
+Tout le code synchrone s'exécute d'abord. Puis **toutes** les microtâches
+(promesses résolues, `queueMicrotask`). Puis seulement les macrotâches
+(`setTimeout`), **même avec un délai de zéro**.
+
+`setTimeout(f, 0)` n'exécute donc pas `f` « tout de suite » : il l'exécute après
+tout ce qui est déjà en attente. Le zéro est un minimum, pas une promesse.
+
+### 4. La famine, qui explique les pages figées
+
+```
+20 000 microtâches enchaînées avant que la boucle reprenne la main
+le setTimeout(0) posé AVANT a-t-il pu s exécuter ? NON
+```
+
+Une microtâche qui en programme une autre crée une chaîne que la boucle vide
+**entièrement** avant de regarder les macrotâches. Vingt mille maillons plus
+tard, le `setTimeout(0)` posé avant n'a toujours pas tourné.
+
+C'est ainsi qu'une page « ne répond plus » alors qu'aucune fonction ne dure
+longtemps : **ce n'est pas une tâche lente, c'est une file qui ne se vide
+jamais.** Le rendu, les clics et les animations sont des macrotâches ; ils
+attendent tous. Le remède est de rendre la main volontairement — découper le
+travail et le replanifier via une macrotâche, ce qui laisse le navigateur
+respirer entre deux tranches.
+
 ## ⚠️ Erreurs fréquentes
 - Oublier `await` → tu manipules une Promise au lieu de sa valeur (`[object Promise]`).
 - `await` dans une boucle pour des tâches indépendantes (lenteur ×n).

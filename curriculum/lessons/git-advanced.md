@@ -232,13 +232,156 @@ Sur DocSense, chaque score d'évaluation est lié à un commit (leçon LLMOps) :
 - Rebase permanent par dogme là où un merge honnête suffit.
 
 ## ✍️ Mini-exercice
-Crée 4 commits brouillons sur une branche de test, puis nettoie-les en 2 commits propres par rebase interactif. Vérifie avec `git log --oneline`.
+Sans relire : tu fais `git reset --hard HEAD~3`. Combien de commits ont été
+supprimés ?
 
-## 🔥 Exercice plus difficile
-Introduis un bug dans un commit du milieu d'une série de 8, puis retrouve-le avec `git bisect` (bonne/mauvaise borne, réponds good/bad). Chronomètre : moins de 5 minutes.
+## 🔥 Pratique — construire un dépôt jetable et observer
+
+Aucune de ces manipulations ne s'apprend par la lecture. Construis un dépôt
+vide, fabrique les situations, et regarde ce qui change vraiment.
+
+**A. Fusion contre rebasage.** Crée une branche de deux commits, avance la
+branche principale d'un commit, puis fais deux essais dans deux branches
+distinctes : l'un fusionne, l'autre rebase. Compare le nombre de commits, le
+nombre de commits de fusion, et **les empreintes** de tes deux commits d'origine.
+Livrable : les deux histoires et le sort des empreintes.
+
+**B. Retrouver du travail « perdu ».** Fais un `reset --hard HEAD~2`, puis
+retrouve les deux commits sans les avoir notés nulle part. Livrable : les
+commandes, et l'explication de pourquoi ils étaient encore là.
+
+**C. La recherche dichotomique.** Fabrique quinze commits en introduisant une
+régression au neuvième, puis trouve-la avec `git bisect` en comptant les étapes.
+Livrable : le nombre d'étapes, et le nombre attendu par le calcul.
+
+**D. Le cherry-pick, deux fois.** Applique le même commit dans deux situations :
+la branche cible est exactement le parent du commit, puis la branche cible a
+avancé. Compare les empreintes obtenues. Livrable : les deux résultats et ton
+explication de la différence.
+
+**E. Automatiser la dichotomie.** Écris un script qui répond « bon » ou
+« mauvais » automatiquement, et lance `git bisect run` avec. Livrable : le
+script et la sortie.
 
 ## ✅ Correction attendue
-La logique : rebase pour nettoyer AVANT de partager, merge après, bisect pour l'archéologie, reflog comme filet. Vérifie : ton historique nettoyé se lit comme un récit ; tu sais expliquer POURQUOI on ne rebase pas du partagé ; ton bisect a trouvé le commit exact.
+
+> Les valeurs ci-dessous viennent de `scripts/v70-verifications/git-avance.sh`,
+> exécuté sur un dépôt jetable construit pour l'occasion.
+
+**A — ce que le rebasage fait réellement.**
+
+```
+FUSION   : 5 commits, dont 1 commit de fusion
+           « fonctionnalite 1 » garde son empreinte : OUI, il est dans l historique
+REBASAGE : 4 commits, dont 0 commit de fusion
+           « fonctionnalite 1 » porte desormais une AUTRE empreinte
+           l ancienne empreinte existe-t-elle encore comme objet ? OUI
+```
+
+Le point que presque tout le monde formule de travers : **le rebasage ne déplace
+pas les commits, il en fabrique de nouveaux.** Contenu identique, empreinte
+différente, parce qu'une empreinte de commit est le hachage de son arbre, de son
+parent et de ses métadonnées — et le parent a changé.
+
+Détail que la mesure révèle et qu'on oublie : l'ancien commit **existe encore**
+comme objet dans la base. Il n'est simplement plus atteignable depuis une
+branche. C'est ce qui rend la récupération possible (point B) et c'est le même
+mécanisme que celui mesuré dans `deployment-secrets` — retirer une référence
+n'efface pas l'objet.
+
+Et la règle qui en découle : **on ne rebase pas une branche déjà partagée.** Non
+par convention, mais parce que les collègues ont l'ancienne histoire, la tienne
+est nouvelle, et les deux ne se rejoignent plus. Chacun devra réconcilier
+manuellement.
+
+**B — le filet.**
+
+```
+apres « reset --hard HEAD~2 » : les commits sont dans 0 branche
+le reflog les connait encore :
+  000b5b4 reset: moving to HEAD~2
+  549aaca rebase (finish): returning to refs/heads/essai-rebase
+apres « reset --hard 549aaca » : HEAD est revenu
+```
+
+La réponse à la question du mini-exercice est donc : **zéro**. `reset --hard` ne
+supprime aucun commit ; il déplace une **référence**. Les objets restent, et le
+reflog enregistre chaque position passée de `HEAD` — pendant 90 jours par défaut
+pour les entrées atteignables, 30 pour les autres.
+
+**Presque toutes les « pertes » de travail sous git n'en sont pas.** La
+procédure : `git reflog`, repérer l'empreinte d'avant l'erreur, `git reset --hard
+<empreinte>`. Les seules vraies pertes concernent ce qui n'a **jamais** été
+commité — un `git checkout .` ou un `git stash drop` sur du travail non
+enregistré, où il n'y a aucun objet à retrouver. La conséquence pratique : commit
+tôt, commit souvent, quitte à nettoyer ensuite par rebasage interactif.
+
+**C — la dichotomie.**
+
+```
+16 commits, la regression est introduite au 9e
+commit fautif trouve en 4 etapes
+```
+
+Le calcul : log₂(15) ≈ 3,9, donc quatre essais. Une recherche linéaire en
+demanderait huit en moyenne. **L'écart explose avec la taille** : sur mille
+commits, dix essais contre cinq cents.
+
+Ce que la dichotomie exige et qu'on sous-estime : un **critère de décision
+binaire et fiable**. « Ça a l'air plus lent » ne suffit pas ; il faut une
+commande qui répond oui ou non. Une bonne partie du travail de `bisect` consiste
+à écrire ce test d'abord — et il devient souvent le test de non-régression qui
+manquait.
+
+**D — le cherry-pick, et un résultat contre-intuitif.**
+
+```
+cas A — la branche cible est exactement le parent du commit :
+  empreinte sur « correctif » : b65e01f
+  empreinte apres cherry-pick : b65e01f      identiques ? OUI
+
+cas B — la branche cible a avance entre-temps :
+  empreinte sur « correctif » : b65e01f
+  empreinte apres cherry-pick : f6dba36      identiques ? NON
+  meme contenu du fichier ? OUI
+```
+
+Le cas A surprend et il est parfaitement logique : l'empreinte est le hachage de
+l'arbre, du parent et des métadonnées. Ici les trois sont identiques, donc
+l'empreinte l'est aussi — **le cherry-pick n'a rien dupliqué du tout**.
+
+Le cas B est la situation réelle. Deux commits distincts portent la même
+modification. À la fusion ultérieure de la branche source, git voit deux commits
+différents touchant les mêmes lignes, et c'est la source classique des conflits
+sur un travail pourtant déjà intégré.
+
+La règle qui en découle : **on ne cherry-pick pas un commit qu'on fusionnera de
+toute façon plus tard.** Le cherry-pick est fait pour les cas où la fusion
+n'aura jamais lieu — un correctif urgent porté sur une branche de version
+maintenue séparément, par exemple.
+
+**E — l'automatisation.** La forme attendue :
+
+```bash
+# essai.sh : code de sortie 0 = bon, non nul = mauvais
+npm test --silent > /dev/null 2>&1
+```
+
+```
+git bisect start MAUVAIS BON
+git bisect run ./essai.sh
+```
+
+Deux pièges que la correction attend que tu connaisses. Le code de sortie **125**
+est réservé : il signifie « ce commit n'est pas testable » (il ne compile pas,
+par exemple) et fait passer `bisect` au suivant au lieu de le classer. Sans lui,
+un commit intermédiaire cassé fausse toute la recherche.
+
+Et le script doit être **hors de l'arborescence testée**, ou au moins ne pas être
+lui-même modifié par les allers-retours de `bisect` — sinon il change sous les
+pieds de la recherche. C'est le même piège de mesure que celui rencontré dans la
+vérification des permissions de `linux-filesystem-permissions`, où le fichier
+testé était modifié par le test lui-même.
 
 ## 🎤 Questions d'entretien
 - « merge vs rebase ? » → Fusionner deux histoires vs réécrire la sienne ; rebase avant de partager, jamais après.

@@ -101,19 +101,91 @@ décision/conséquences) · HLD/HSD · LLD/TSD · runbook · playbook · post-mo
 changelog · documentation vivante vs morte · POURQUOI > QUOI · maintenance corrective/
 adaptative/préventive/évolutive.
 
-## 🧭 Exemple guidé
-Une même fonctionnalité, quatre documents pour quatre questions :
-```
-Décision : « choisir la file de messages » → ADR
-  (contexte, options RabbitMQ vs SQS vs table SQL, décision, conséquences)
-Conception : « comment le worker consomme la file » → HLD (schéma) + TSD (détail)
-Exploitation : « la file est saturée en pleine nuit » → runbook (procédure) +
-  playbook (méthode de diagnostic)
-Après incident : « pourquoi a-t-elle saturé » → post-mortem sans blâme
-Livraison : « la v2 change le format des messages » → changelog (changement cassant)
-```
-Aucun de ces documents ne remplace les autres : chacun répond à une question, pour une
-audience, à un moment.
+## 🧭 Exemple guidé — quatre documents, quatre questions, quatre durées de vie
+
+On confond souvent « documenter » avec « écrire beaucoup ». Le bon critère est
+autre : **à quelle question ce document répond-il, pour qui, et à quel moment ?**
+Suivons une seule fonctionnalité — l'ajout d'une file de messages — à travers sa
+vie.
+
+### Le tableau qui organise tout
+
+| Question posée | Document | Audience | Quand on l'écrit | Durée de vie |
+|---|---|---|---|---|
+| « pourquoi une file, et pas une table ? » | décision d'architecture | future équipe | avant de coder | **permanente** |
+| « comment le travailleur consomme-t-il la file ? » | conception | qui va modifier | pendant | jusqu'à la refonte |
+| « la file est saturée, que faire ? » | manuel d'exploitation | astreinte, à 3 h | avant la mise en production | jusqu'au changement d'outil |
+| « pourquoi a-t-elle saturé ? » | compte rendu d'incident | tous | après l'incident | **permanente** |
+| « la v2 change le format » | journal des changements | consommateurs | à la livraison | permanente |
+
+Deux colonnes portent tout le raisonnement. **L'audience** décide du niveau de
+détail : la personne d'astreinte à trois heures du matin n'a pas les mêmes
+besoins que celle qui modifiera le code dans six mois. Et **la durée de vie**
+décide de ce qu'on peut se permettre d'écrire.
+
+### Pourquoi certains documents sont permanents
+
+Une décision d'architecture et un compte rendu d'incident ont une propriété
+commune : ils décrivent un **événement daté**, pas un état courant. Ils ne
+périment donc jamais.
+
+C'est ce qui donne la règle contre-intuitive : **on ne modifie pas une décision
+d'architecture quand la décision change.** On en écrit une nouvelle, qui remplace
+la précédente, et l'ancienne reste avec la mention « remplacée par ». Modifier
+l'ancienne détruirait la seule information qu'elle contenait — que ce choix a été
+fait, à cette date, pour ces raisons, avec ces informations-là.
+
+Le corollaire est ce qui rend ces documents précieux : **ils contiennent ce que
+le code ne contiendra jamais**, à savoir les options qui ont été écartées et
+pourquoi. Le code montre ce qui a été fait. Il ne dit jamais qu'on a envisagé une
+table SQL et qu'on l'a écartée parce que le débit attendu la saturait — et c'est
+exactement la question que posera la personne qui, dans deux ans, proposera de
+revenir à une table SQL.
+
+### Pourquoi la documentation de conception pourrit, et que faire
+
+Un document qui décrit **comment le code fonctionne aujourd'hui** décrit un état
+qui change à chaque commit. Six mois plus tard, son état le plus probable est :
+partiellement faux, sans que rien ne le signale.
+
+Et une documentation partiellement fausse est **pire qu'aucune documentation** :
+elle est crue. Quelqu'un prend une décision sur sa base, découvre l'écart trois
+heures plus tard, et n'a aucun moyen de savoir quelles autres parties sont
+périmées.
+
+Trois réponses, par ordre d'efficacité :
+
+1. **Ne pas l'écrire.** Ce que le code dit clairement n'a pas besoin d'être
+   redit. Un document qui paraphrase des signatures de fonctions est une dette
+   pure.
+2. **La rendre exécutable.** Un exemple dans un test est vérifié à chaque
+   exécution ; une commande dans un README est vérifiable, et la leçon
+   `readme-documentation` montre qu'on peut l'exécuter réellement — quatre
+   commandes sur quatre y ont été testées depuis un clone neuf.
+3. **La limiter au niveau qui bouge lentement** : les frontières entre modules,
+   les flux principaux, les invariants. Un schéma des trois composants et de
+   leurs échanges survit à des années de refactorisation ; une description des
+   fonctions, non.
+
+### Le manuel d'exploitation, seul document dont la valeur se mesure
+
+Le manuel se distingue de tous les autres : il s'**exécute**, donc il se teste.
+La leçon `incident-response` en donne le protocole — déclencher une panne
+volontaire, suivre le manuel sans improviser, noter chaque fois qu'on doit en
+sortir. Un manuel jamais éprouvé en contient typiquement trois à six trous, et
+toujours des mêmes familles : une autorisation manquante, une commande qui a
+changé, une étape implicite, un contact qui a changé d'équipe.
+
+**Un manuel jamais exécuté a une valeur inconnue** : on ne peut pas dire s'il est
+bon, seulement qu'il existe.
+
+### La règle qui résume
+
+Avant d'écrire quoi que ce soit, deux questions. **Qui lira ceci, et dans quelle
+situation ?** Puis : **cette information périme-t-elle ?** Si elle périme, soit on
+la rend vérifiable automatiquement, soit on ne l'écrit pas. Si elle ne périme pas
+— une décision, un incident, une rupture de contrat — alors elle mérite d'être
+écrite avec soin, parce qu'elle sera lue longtemps après le départ de son auteur.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

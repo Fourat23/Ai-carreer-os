@@ -101,6 +101,44 @@ Ta discipline du jour 26 est devenue un contrat outillé : ce que tu devais te r
 ## 🔗 Liens avec le programme
 Le pattern central de tes apps LLM (mois 8+) : définir le type attendu de la sortie du modèle, parser en `unknown`, VALIDER, puis seulement utiliser. Le LLM est un composant faillible ; le typage est la douane à sa frontière. DocSense (mois 11) sera intégralement typé : ports et adapters de l'architecture hexagonale sont... des interfaces TypeScript.
 
+## 🧪 Où s'arrête TypeScript — mesuré
+
+La question la plus utile sur TypeScript n'est pas « comment écrire ce type »
+mais **« jusqu'où va la vérification ? »**. Le script
+`scripts/v70-verifications/js-async-et-types.mjs` répond en exécutant du code.
+
+TypeScript est **effacé à la compilation**. Il ne reste rien de tes types dans le
+JavaScript produit : aucune vérification n'existe à l'exécution. La conséquence
+est précise et coûteuse.
+
+```
+JSON.parse rend : {"age":"trente"}
+typeof depuisJson.age = string
+depuisJson.age * 2 = NaN
+```
+
+Voici ce qui s'est passé. Le code déclarait une interface avec `age: number` et
+recevait ce JSON d'une API. `JSON.parse` renvoie `any`, donc TypeScript
+**accepte** l'affectation sans broncher. Le programme compile, passe la revue, et
+calcule `NaN` en production.
+
+**Un type déclaré n'est pas un contrôle : c'est une affirmation que tu fais au
+compilateur, et qu'il croit.** À la frontière du programme — réponse d'API,
+lecture de fichier, paramètre d'URL, contenu du stockage local, variable
+d'environnement — cette affirmation n'est vérifiée par personne.
+
+La règle qui en découle : **valider à la frontière avec du code qui s'exécute.**
+Une fonction de validation, ou une bibliothèque de schémas, qui inspecte
+réellement la valeur et lève une erreur explicite. Ce que TypeScript garantit,
+c'est la cohérence **à l'intérieur** du programme une fois les données entrées ;
+c'est déjà énorme, et ce n'est pas la même chose.
+
+Le corollaire pratique : chaque `any` que tu laisses passer est un trou par
+lequel toute cette cohérence interne s'échappe, et il se propage silencieusement
+à tout ce qu'il touche. C'est pourquoi `any` sur une valeur venant de l'extérieur
+est le cas le plus dangereux — il est exactement à l'endroit où le contrôle
+manquait déjà.
+
 ## Mini-exercice
 Modélise une commande e-commerce : `Produit`, `LigneCommande`, `Commande` (statut en union littérale). Écris `total(commande): number` et une fonction générique `chercher<T>(arr: T[], p: (x: T) => boolean): T | undefined`. Tout doit compiler en strict, zéro `any`. Puis introduis volontairement une typo de statut et constate l'erreur.
 

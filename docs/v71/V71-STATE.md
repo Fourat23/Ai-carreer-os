@@ -5,11 +5,11 @@
 
 ## Position
 
-- **dernier CP terminé** : CP0
-- **CP actuel** : CP1
-- **prochaine action EXACTE** : rédiger `docs/v71/V71-ACADEMIC-CONTRACT-FROZEN.md`
-  (ancres objectives 0→5 pour D1→D14, seuils numériques des agrégats, conditions
-  READY), le committer, puis enchaîner CP2 sans demander de validation.
+- **dernier CP terminé** : CP1
+- **CP actuel** : CP2
+- **prochaine action EXACTE** : rédiger `docs/v71/V71-STANDARD-HUMAIN.md`
+  (standard pédagogique + archétypes + règles anti-template), le committer, puis
+  enchaîner CP3 — lecture et notation des 128 — sans demander de validation.
 
 ## Invariants contrôlés à l'entrée (CP0)
 
@@ -51,8 +51,8 @@
 | CP | objet | état |
 |---|---|---|
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
-| CP1 | contrat académique gelé, ancres D1→D14, seuils READY | en cours |
-| CP2 | standard humain + archétypes + règles anti-template | à faire |
+| CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
+| CP2 | standard humain + archétypes + règles anti-template | en cours |
 | CP3 | lecture et notation des 128 + ledger initial | à faire |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
@@ -69,4 +69,5 @@
 
 ## Commits V71
 
-- CP0 : (ce commit)
+- CP0 : `1fb8ea6`
+- CP1 : (ce commit)

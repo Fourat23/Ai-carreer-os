@@ -120,6 +120,162 @@ Pendant six mois, tout va bien. Une nuit, le disque `/donnees` n'est pas monté.
 
 Deux réflexes en découlent, et ils sont universels : on vérifie le code de sortie de chaque étape avant de passer à la suivante (`set -e` en tête de script, ou `cd /x || exit 1`), et on ne fait jamais suivre un `cd` d'un `rm` sans avoir vérifié où l'on se trouve. **Le terminal n'a pas de « êtes-vous sûr ? »** — c'est ce qui le rend automatisable, et c'est ce qui le rend dangereux. Les deux propriétés sont la même.
 
+## 🧪 L'échec silencieux, mesuré
+
+Le cas professionnel ci-dessus repose sur une affirmation : « le `cd` échoue et
+le shell continue à la ligne suivante ». On ne va pas la croire sur parole. Le
+script `scripts/v70-verifications/shell-erreurs-silencieuses.sh` l'exécute.
+
+**L'affirmation est confirmée, et elle est pire que ce qui était annoncé.**
+
+```
+script.sh: line 1: cd: /repertoire-qui-nexiste-pas: No such file or directory
+LIGNE SUIVANTE EXECUTEE, repertoire courant = /tmp/.../sim
+
+code de sortie du script entier : 0
+```
+
+Le `cd` échoue, affiche un message, et la suite s'exécute depuis l'ancien
+répertoire. Mais surtout : **le script entier se termine avec le code 0.** Une
+tâche planifiée, une intégration continue, un superviseur — tous concluent au
+succès. L'échec n'est visible ni dans le comportement, ni dans le code de
+sortie. Seul un humain lisant les journaux pourrait le voir, et personne ne lit
+les journaux d'un script qui réussit.
+
+**Les deux protections, mesurées séparément :**
+
+```
+aucune       : suite exécutée = OUI | code de sortie = 0
+set -e       : suite exécutée = non | code de sortie = 1
+cd || exit   : suite exécutée = non | code de sortie = 1
+```
+
+Les deux fonctionnent, et les deux corrigent **les deux moitiés** du problème :
+elles arrêtent le script *et* rendent un code non nul. C'est ce second point qui
+compte le plus, parce que c'est lui qui rend l'échec visible de l'extérieur.
+
+**Mais `set -e` n'est pas un filet universel**, et le croire est plus dangereux
+que de ne pas l'utiliser :
+
+```
+branche fausse prise
+echec attrape par ||
+ATTEINT quand meme : set -e ne s applique pas dans une condition
+```
+
+`set -e` est **désactivé** à l'intérieur d'une condition, après un `&&` ou un
+`||`, et dans un pipeline pour toutes les commandes sauf la dernière. Ce dernier
+cas est le plus traître :
+
+```
+cat /fichier-inexistant | wc -l    ->  affiche 0, et le script continue
+code de sortie du pipeline : 0
+avec « set -o pipefail »   : 1
+```
+
+`cat` a échoué, `wc` a réussi en comptant zéro ligne, et **le code du pipeline
+est celui de la dernière commande**. Le script obtient donc un `0` parfaitement
+crédible qui ne veut rien dire. C'est ainsi qu'un traitement produit un fichier
+vide sans que rien ne le signale — le même défaut silencieux que celui mesuré
+dans `etl-pipelines`, où une interruption laisse **617 lignes sur 1 000** et une
+somme de **96 006** au lieu de 149 500.
+
+**Les trois lignes d'en-tête à connaître**, et ce que chacune achète :
+
+```bash
+set -e          # s arrêter à la première commande qui échoue
+set -u          # échouer si une variable non définie est utilisée
+set -o pipefail # le code d un pipeline devient celui de la première commande qui échoue
+```
+
+`set -u` mérite une mention à part : sans lui, une variable mal orthographiée
+vaut la chaîne vide, et `rm -r "$RÉPETOIRE/"` devient `rm -r /`. La faute de
+frappe ne produit aucune erreur ; elle produit une commande différente.
+
+**Ce qu'il faut retenir au-delà du shell.** Ce mécanisme est le même que celui
+mesuré ailleurs dans ce programme : un contrôle qui ne peut pas refuser ne
+protège de rien. Un `cd` dont on ignore le code de sortie, un test qui vérifie
+qu'une fonction « ne plante pas », une porte de couverture qui donne 100 % à une
+suite sans assertion — trois formes du même défaut. **La question n'est jamais
+« est-ce que ça a marché ? » mais « comment saurais-je que ça n'a pas marché ? »**
+
+## 🔥 Pratique — rendre visibles les échecs qui ne le sont pas
+
+**A. Reproduire l'échec silencieux.** Écris un script de deux lignes : un `cd`
+vers un répertoire inexistant, puis une commande qui écrit un fichier. Lance-le
+et relève : ce que fait la deuxième ligne, où le fichier atterrit, et le code de
+sortie du script entier. Livrable : les trois observations.
+
+**B. Les trois en-têtes, séparément.** Ajoute `set -e`, puis `set -u`, puis
+`set -o pipefail`, **une à la fois**, et pour chacune trouve un cas qu'elle
+attrape et un cas qu'elle n'attrape pas. Livrable : le tableau à six cases.
+
+**C. Le pipeline menteur.** Construis un pipeline dont la première commande
+échoue et la dernière réussit. Relève le code de sortie avec et sans
+`pipefail`. Livrable : les deux codes.
+
+**D. La variable mal orthographiée.** Écris un script qui supprime un répertoire
+désigné par une variable, fais une faute de frappe dans son nom, et observe la
+commande réellement exécutée — **dans un répertoire jetable, avec `echo` devant
+le `rm`**. Livrable : la commande obtenue, et ce que `set -u` change.
+
+**E. Ton propre script.** Prends un script shell que tu utilises réellement.
+Ajoute les trois en-têtes, relance-le. Livrable : ce qui casse, et ce que chaque
+casse révélait.
+
+## ✅ Correction — sur la pratique A → E
+
+**A — les trois observations.** Le fichier atterrit dans le répertoire d'où le
+script a été lancé, pas dans celui qu'on croyait. Et le code de sortie est
+**0** : c'est le résultat qui compte, parce qu'il rend l'échec invisible pour
+tout ce qui appelle le script.
+
+Formulation à retenir : le script n'a pas « planté ». Il a fait **exactement ce
+qui était écrit**, et ce qui était écrit ne disait pas de s'arrêter.
+
+**B — le tableau à six cases.** Ce qu'on attend, y compris les angles morts :
+
+| en-tête | attrape | n'attrape pas |
+|---|---|---|
+| `set -e` | une commande simple qui échoue | un échec dans une condition, après `&&`/`\|\|`, ou en milieu de pipeline |
+| `set -u` | une variable jamais définie | une variable définie à la chaîne vide |
+| `pipefail` | un échec en milieu de pipeline | tout ce qui n'est pas un pipeline |
+
+Les colonnes de droite sont la partie utile. **Croire que `set -e` protège de
+tout est plus dangereux que de ne pas l'utiliser**, parce qu'on cesse alors de
+vérifier les codes de sortie à la main là où il ne s'applique pas.
+
+**C — les deux codes.** `0` sans `pipefail`, non nul avec. Le code d'un pipeline
+est par défaut celui de la **dernière** commande, et une commande de comptage ou
+de filtrage réussit très bien en ne recevant rien.
+
+C'est le mécanisme derrière une catégorie entière d'incidents : un traitement
+produit un fichier vide, tout est vert, et le problème se découvre en aval — la
+même forme que la mise à jour perdue de `database-transactions-concurrency`
+(stock final à 50 au lieu de 20, **les deux connexions ayant cru réussir**).
+
+**D — la variable mal orthographiée.** Sans `set -u`, la variable inconnue vaut
+la chaîne vide, et `rm -r "$RÉPERTOIRE/"` devient `rm -r /`. **La faute de frappe
+ne produit aucune erreur : elle produit une commande différente.**
+
+Deux précautions que la correction attend que tu aies prises d'emblée : un
+répertoire jetable, et un `echo` devant le `rm` pour lire la commande avant de
+l'exécuter. Si tu ne les as pas prises, c'est le vrai enseignement de l'exercice.
+
+Et la protection réelle est double : `set -u` pour que l'absence échoue, et des
+guillemets autour de la variable pour que la présence d'un espace ne découpe pas
+l'argument en deux.
+
+**E — ce qui casse.** Attends-toi à des ruptures, et chacune est une information,
+pas une régression. Les plus fréquentes : une variable d'environnement optionnelle
+non définie (que `set -u` révèle — il faut alors une valeur par défaut explicite,
+pas retirer `set -u`), une commande dont on ignorait qu'elle rend un code non nul
+en cas normal (`grep` sans correspondance rend 1), et un pipeline dont la
+première commande échouait déjà silencieusement depuis des mois.
+
+La troisième est celle qui justifie tout l'exercice : **le script ne s'est pas
+mis à échouer, il a cessé de mentir.**
+
 ## 🎤 Questions d'entretien
 - « Comment lances-tu ton projet ? » → Une commande, pas une suite de clics. C'est la question la plus banale des entretiens et elle vérifie surtout que tu sais ce que fait la commande.
 - « Quelle différence entre un chemin absolu et un chemin relatif ? » → L'absolu part de `/` et vaut partout ; le relatif part du répertoire courant, donc il change de sens selon d'où on l'exécute. C'est la cause n°1 des scripts qui marchent chez soi et pas en CI.

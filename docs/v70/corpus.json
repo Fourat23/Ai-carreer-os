@@ -889,7 +889,7 @@
  {
   "slug": "async-messaging-queues",
   "titre": "Travail asynchrone : files, workers, retry et idempotence",
-  "total": 2767,
+  "total": 2812,
   "nSections": 17,
   "titres": [
    "le probleme d abord",
@@ -2816,7 +2816,7 @@
  {
   "slug": "database-transactions-concurrency",
   "titre": "Transactions, ACID et concurrence",
-  "total": 3713,
+  "total": 3751,
   "nSections": 17,
   "titres": [
    "le probleme d abord",
@@ -2842,7 +2842,7 @@
   "lExplic": 383,
   "lGuide": 1007,
   "lExo": 52,
-  "lCorr": 733,
+  "lCorr": 759,
   "lMetier": 0,
   "lPratiqueTot": 216,
   "nPratiqueSecs": 2,
@@ -2976,7 +2976,7 @@
  {
   "slug": "deployment-strategies",
   "titre": "Stratégies de déploiement sans coupure",
-  "total": 2748,
+  "total": 2755,
   "nSections": 18,
   "titres": [
    "le probleme d abord",
@@ -3003,7 +3003,7 @@
   "lExplic": 273,
   "lGuide": 850,
   "lExo": 21,
-  "lCorr": 690,
+  "lCorr": 697,
   "lMetier": 57,
   "lPratiqueTot": 245,
   "nPratiqueSecs": 2,
@@ -3213,7 +3213,7 @@
  {
   "slug": "distributed-tracing",
   "titre": "Traces distribuées : suivre une requête de bout en bout",
-  "total": 3070,
+  "total": 3082,
   "nSections": 18,
   "titres": [
    "le probleme d abord",
@@ -3240,7 +3240,7 @@
   "lExplic": 252,
   "lGuide": 802,
   "lExo": 203,
-  "lCorr": 1011,
+  "lCorr": 1023,
   "lMetier": 66,
   "lPratiqueTot": 214,
   "nPratiqueSecs": 2,
@@ -3804,7 +3804,7 @@
  {
   "slug": "embeddings",
   "titre": "Embeddings",
-  "total": 3144,
+  "total": 3185,
   "nSections": 19,
   "titres": [
    "le probleme d abord",
@@ -4016,7 +4016,7 @@
  {
   "slug": "etl-pipelines",
   "titre": "Pipelines ETL",
-  "total": 3218,
+  "total": 3231,
   "nSections": 19,
   "titres": [
    "le probleme d abord",
@@ -4044,7 +4044,7 @@
   "lExplic": 374,
   "lGuide": 995,
   "lExo": 46,
-  "lCorr": 1032,
+  "lCorr": 1045,
   "lMetier": 0,
   "lPratiqueTot": 46,
   "nPratiqueSecs": 2,
@@ -6093,7 +6093,7 @@
  {
   "slug": "llm-fundamentals",
   "titre": "LLM : comprendre les grands modèles de langage",
-  "total": 3190,
+  "total": 3206,
   "nSections": 19,
   "titres": [
    "le probleme d abord",
@@ -6121,7 +6121,7 @@
   "lExplic": 422,
   "lGuide": 606,
   "lExo": 55,
-  "lCorr": 430,
+  "lCorr": 446,
   "lMetier": 198,
   "lPratiqueTot": 241,
   "nPratiqueSecs": 2,
@@ -6449,7 +6449,7 @@
  {
   "slug": "metrics-percentiles",
   "titre": "Métriques et percentiles : quand la moyenne ment",
-  "total": 3384,
+  "total": 3398,
   "nSections": 20,
   "titres": [
    "le probleme d abord",
@@ -6480,7 +6480,7 @@
   "lExo": 30,
   "lCorr": 422,
   "lMetier": 53,
-  "lPratiqueTot": 197,
+  "lPratiqueTot": 211,
   "nPratiqueSecs": 3,
   "aMental": true,
   "aGuide": true,
@@ -7322,7 +7322,7 @@
  {
   "slug": "nextjs-foundations",
   "titre": "Next.js : pourquoi un framework au-dessus de React ?",
-  "total": 3074,
+  "total": 3090,
   "nSections": 15,
   "titres": [
    "le probleme d abord",
@@ -7346,7 +7346,7 @@
   "lExplic": 247,
   "lGuide": 850,
   "lExo": 332,
-  "lCorr": 871,
+  "lCorr": 887,
   "lMetier": 0,
   "lPratiqueTot": 386,
   "nPratiqueSecs": 2,
@@ -7621,7 +7621,7 @@
  {
   "slug": "observability-logging",
   "titre": "Observabilité et logs structurés",
-  "total": 2433,
+  "total": 2479,
   "nSections": 18,
   "titres": [
    "le probleme d abord",
@@ -7650,7 +7650,7 @@
   "lExo": 23,
   "lCorr": 497,
   "lMetier": 0,
-  "lPratiqueTot": 255,
+  "lPratiqueTot": 269,
   "nPratiqueSecs": 2,
   "aMental": true,
   "aGuide": true,
@@ -8860,7 +8860,7 @@
  {
   "slug": "react-hooks-effects",
   "titre": "React : effets, données async et hooks",
-  "total": 2982,
+  "total": 2991,
   "nSections": 18,
   "titres": [
    "le probleme d abord",
@@ -8885,7 +8885,7 @@
   "lProbleme": 117,
   "lMental": 39,
   "lExplic": 198,
-  "lGuide": 927,
+  "lGuide": 936,
   "lExo": 107,
   "lCorr": 1173,
   "lMetier": 0,
@@ -9306,7 +9306,7 @@
  {
   "slug": "resilience-patterns",
   "titre": "Patterns de résilience : survivre aux pannes des autres",
-  "total": 3496,
+  "total": 3506,
   "nSections": 20,
   "titres": [
    "le probleme d abord",
@@ -10581,8 +10581,8 @@
  {
   "slug": "terminal-shell-filesystem",
   "titre": "Terminal, shell et système de fichiers",
-  "total": 1986,
-  "nSections": 17,
+  "total": 3201,
+  "nSections": 20,
   "titres": [
    "le probleme d abord",
    "objectif",
@@ -10597,6 +10597,9 @@
    "mini exercice",
    "correction attendue",
    "cas professionnel",
+   "l echec silencieux mesure",
+   "pratique rendre visibles les echecs qui ne le sont pas",
+   "correction sur la pratique a e",
    "questions d entretien",
    "checklist quand suis je pret",
    "vocabulaire",
@@ -10609,8 +10612,8 @@
   "lExo": 43,
   "lCorr": 302,
   "lMetier": 151,
-  "lPratiqueTot": 43,
-  "nPratiqueSecs": 1,
+  "lPratiqueTot": 235,
+  "nPratiqueSecs": 2,
   "aMental": true,
   "aGuide": true,
   "aExo": true,
@@ -10636,7 +10639,7 @@
   "gabaritB": false,
   "decisionN": 0,
   "variante": true,
-  "blocsCode": 2,
+  "blocsCode": 7,
   "puces": 16,
   "exoLivrable": true,
   "pratiqueLivrable": true,
@@ -10657,6 +10660,9 @@
    "Mini-exercice",
    "✅ Correction attendue",
    "🏢 Cas professionnel",
+   "🧪 L'échec silencieux, mesuré",
+   "🔥 Pratique — rendre visibles les échecs qui ne le sont pas",
+   "✅ Correction — sur la pratique A → E",
    "🎤 Questions d'entretien",
    "🟢 Checklist « quand suis-je prêt ? »",
    "📚 Vocabulaire",
@@ -11040,7 +11046,7 @@
  {
   "slug": "vector-databases",
   "titre": "Bases de données vectorielles",
-  "total": 2790,
+  "total": 2826,
   "nSections": 19,
   "titres": [
    "le probleme d abord",
@@ -11066,7 +11072,7 @@
   "lProbleme": 101,
   "lMental": 36,
   "lExplic": 406,
-  "lGuide": 670,
+  "lGuide": 706,
   "lExo": 49,
   "lCorr": 856,
   "lMetier": 0,

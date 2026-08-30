@@ -7,7 +7,7 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **prochaine action EXACTE** : CP3 — lire les 128 leçons par lots d'environ 8,
+- **prochaine action EXACTE** : CP3 — lot 3/16 (day-051 : api-design-basics, api-production-contracts, express-backend, error-handling, sql-foundations, database-modeling, technical-storytelling, authentication). Lire les 128 leçons par lots de 8,
   noter D1→D14 selon `V71-ACADEMIC-CONTRACT-FROZEN.md`, alimenter
   `docs/v71/LEDGER-128.json` après chaque lot, committer par lot.
 
@@ -40,11 +40,11 @@
 
 ## Avancement de la notation
 
-- leçons lues intégralement au CP0 : **3** (`k8s-workloads`, `javascript-basics`,
-  `docker-production-hardening`) + sections ciblées de 5 autres
-- leçons notées D1→D14 : **0 / 128**
-- P0 ouverts : non recensé (CP3)
-- P1 ouverts : non recensé (CP3)
+- leçons réellement lues : **16 / 128**
+- notations D1→D14 complètes : **16 / 128**
+- P0 ouverts : **0**
+- P1 ouverts : **0**
+- P2 ouverts : **2**
 
 ## Lots
 
@@ -71,4 +71,6 @@
 
 - CP0 : `1fb8ea6`
 - CP1 : `5472c2c`
-- CP2 : (ce commit)
+- CP2 : `b3e4592`
+- CP3 lot 1 : `b3c9489`
+- CP3 lot 2 : `2440c0b`

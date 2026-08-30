@@ -92,17 +92,104 @@ ajout additif · versionnement sémantique (majeur/mineur/correctif) · dépréc
 transition · changelog · tolérance du consommateur (ignorer les champs inconnus).
 
 ## 🧭 Exemple guidé
-Renommer un champ d'API `nom` → `nomComplet` sans casser les clients existants :
+### La question qui décide de tout
+
+Avant d'apprendre des règles, il faut savoir laquelle poser. La voici, et elle vaut pour toute
+modification d'une interface publiée :
+
+> **Un client existant, que je ne peux pas modifier, continue-t-il de fonctionner sans rien
+> changer de son côté ?**
+
+Si oui, le changement est compatible. Si non, il est **cassant** — quelle que soit sa taille,
+quelle que soit son évidence, quelle que soit la certitude qu'« il n'y a que trois clients et
+je les connais ».
+
+### Le test, appliqué à six changements
+
+| Changement | Compatible ? | Pourquoi |
+|---|---|---|
+| **ajouter** un champ dans une réponse | oui, presque toujours | un client qui l'ignore ne le lit pas |
+| **ajouter** un paramètre **optionnel** | oui | l'ancien appel reste valide |
+| **ajouter** un paramètre **obligatoire** | **non** | tous les appels existants deviennent invalides |
+| **renommer** un champ | **non** | le client lit un champ qui a disparu |
+| **élargir** un type (`number` → `number \| null`) | **non** | le client ne prévoit pas la nouvelle forme |
+| **restreindre** un type (`string` → `"a" \| "b"`) | oui en sortie, **non** en entrée | selon qui produit et qui consomme |
+
+Les deux dernières lignes sont celles qui font la différence entre une réponse d'entretien
+correcte et une réponse excellente, parce qu'elles contredisent l'intuition.
+
+**Élargir un type de sortie est cassant.** Ajouter `null` aux valeurs possibles d'un champ ne
+retire rien — et pourtant le client qui fait `nom.toUpperCase()` plante le jour où il reçoit
+`null`. La compatibilité ne se juge pas sur ce que l'interface **permet**, mais sur ce que le
+consommateur **suppose**.
+
+**Le sens compte.** Restreindre les valeurs qu'on renvoie est sans risque : le client en
+recevait déjà un sous-ensemble. Restreindre les valeurs qu'on **accepte** casse tous ceux qui
+envoyaient une valeur désormais refusée. La même modification est compatible ou cassante selon
+qu'elle porte sur l'entrée ou sur la sortie.
+
+Retiens la formulation : **on peut toujours en donner moins et en accepter plus ; jamais
+l'inverse.**
+
+### Et « ajouter un champ » : le presque-toujours
+
+La première ligne du tableau porte une réserve, et elle est instructive. Ajouter un champ casse
+un client dans deux cas réels :
+
+- il **valide strictement** la réponse et rejette les champs inconnus ;
+- il **recopie la réponse entière** ailleurs — dans une base au schéma fixe, dans un autre
+  système.
+
+C'est rare, mais ce n'est pas théorique. La règle prudente qui en découle concerne ton propre
+code de consommateur : **valide ce dont tu as besoin, ignore le reste.** Un client tolérant est
+un client qui ne casse pas quand son fournisseur évolue.
+
+### Le cas concret : renommer `nom` en `nomComplet`
+
+Changement cassant, ligne 4 du tableau. La séquence compatible :
+
 ```
-1. AJOUTER : la réponse renvoie DÉSORMAIS les DEUX champs (nom ET nomComplet) — compatible,
-   les anciens clients lisent toujours `nom`.
-2. DÉPRÉCIER : documenter que `nom` est obsolète, remplacé par `nomComplet`, avec une date de
-   retrait ; l'annoncer dans le changelog.
-3. TRANSITION : les clients migrent vers `nomComplet` à leur rythme.
-4. RETIRER `nom` uniquement à la prochaine version MAJEURE annoncée.
+1. ÉLARGIR    la réponse contient DÉSORMAIS les deux champs, nom ET nomComplet.
+              Personne ne casse : les anciens clients lisent toujours nom.
+
+2. DÉPRÉCIER  en-tête Deprecation sur la réponse, entrée de changelog, date de
+              retrait annoncée, ET un compteur sur les lectures de `nom`.
+
+3. TRANSITION les clients migrent à leur rythme. On regarde le compteur.
+
+4. RÉTRÉCIR   retirer `nom`, en version majeure, quand le compteur est à zéro
+              — ou quand les derniers lecteurs ont été prévenus nommément.
 ```
-C'est exactement le motif expand/contract des migrations de base, appliqué à un contrat d'API :
-on élargit, on laisse migrer, on rétrécit — jamais de rupture sèche.
+
+C'est exactement le motif de la migration de base de données de
+`/doc/lessons/database-migrations`, appliqué à un contrat d'API. Ce n'est pas une
+ressemblance : c'est le même problème. **Deux systèmes déployés séparément ne peuvent pas
+changer en même temps** — qu'il s'agisse d'un schéma et d'une application, ou d'une API et de
+ses clients.
+
+Le point qu'on rate le plus souvent est le **compteur** de l'étape 2. Sans lui, l'étape 4 se
+décide au calendrier — « six mois, ça devrait aller » — c'est-à-dire au hasard. Avec lui, elle
+se décide sur un fait, et l'on peut même nommer les trois intégrations qui n'ont pas migré.
+
+### Ce que la version sémantique dit vraiment
+
+`MAJEUR.MINEUR.CORRECTIF` n'est pas une convention de numérotation. C'est une **promesse** :
+
+| Segment | Ce qu'il promet au consommateur |
+|---|---|
+| correctif | tu peux mettre à jour les yeux fermés |
+| mineur | tu peux mettre à jour les yeux fermés ; il y a du nouveau si tu veux |
+| **majeur** | **lis les notes de version avant de mettre à jour** |
+
+D'où le seul vrai manquement possible : **livrer un changement cassant sans incrémenter le
+majeur.** Ce n'est pas une erreur de numérotation, c'est une promesse rompue — et elle coûte
+d'autant plus cher que le consommateur a une mise à jour automatique qui, précisément, faisait
+confiance à cette promesse.
+
+Corollaire souvent ignoré : un changement cassant reste cassant même s'il **corrige un bug**.
+Si des clients se sont adaptés au comportement bogué — et six mois suffisent —, le corriger les
+casse. Cela ne veut pas dire qu'il ne faut pas corriger : cela veut dire qu'il faut le
+**traiter comme un changement majeur**, avec l'annonce qui va avec.
 
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.

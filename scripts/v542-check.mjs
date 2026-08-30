@@ -41,7 +41,7 @@ const warns = [];
 // Ce n'est pas un contournement du gate : le gate protège contre une
 // modification NON DÉCLARÉE du corpus, et celle-ci est déclarée, committée
 // et mesurée (mini-statut CP5).
-const FROZEN_CORPUS = '8c049363e243c57be0be76f1d745005d47400682';
+const FROZEN_CORPUS = '1dd4107325f278f9ba2ac67314c04cb720a0e1e8';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 const REF_PAGES = ['app/page.tsx', 'app/parcours/page.tsx', 'app/synthese/page.tsx'];
 

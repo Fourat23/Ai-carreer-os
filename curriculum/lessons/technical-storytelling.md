@@ -8,7 +8,9 @@ En entretien, on te demande de parler d'un projet. Tu réponds : « j'ai fait un
 Savoir transformer un projet technique en un RÉCIT qui convainc un recruteur : problème, décisions, résultats chiffrés, apprentissages. Un projet qu'on ne sait pas raconter n'existe pas pour un employeur — c'est LA compétence qui convertit ton travail en offres d'entretien.
 
 ## 🧩 Prérequis
-Tu dois avoir mené un projet technique avec de vraies décisions (`/doc/lessons/portfolio-github`) et savoir en tirer des résultats mesurables (avant/après, chiffres). Les bases de la communication technique — adapter son propos à l'auditoire (`/doc/lessons/technical-documentation`) — aident. Aucune aisance orale préalable n'est supposée : le récit se prépare et se répète.
+Tu dois avoir **mené un projet technique avec de vraies décisions**, et savoir en tirer des résultats mesurables (avant/après, chiffres). C'est le seul prérequis réel : il ne s'apprend pas dans une leçon, il se constitue en travaillant — et n'importe quel projet du parcours convient, y compris le tien en cours. Les bases de la communication technique — adapter son propos à l'auditoire (`/doc/lessons/technical-documentation`) — **aident**. Aucune aisance orale préalable n'est supposée : le récit se prépare et se répète.
+
+> **Où trouver le détail.** `/doc/lessons/portfolio-github` traite la mise en vitrine de ces projets — quels dépôts épingler, dans quel ordre, et ce que chacun doit prouver. Elle est **programmée plus loin** dans le parcours : le récit se prépare d'abord, la vitrine l'expose ensuite.
 
 ## 🧠 Modèle mental
 Un recruteur n'achète pas des features, il achète une **façon de penser**. Raconter un projet, c'est montrer comment tu DÉCIDES sous contraintes — pas réciter ce que tu as tapé. « J'ai fait un CRUD » n'intéresse personne ; « j'ai arbitré X vs Y pour telle raison, et voici le résultat mesuré » recrute.

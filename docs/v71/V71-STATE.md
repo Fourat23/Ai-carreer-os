@@ -6,18 +6,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP7**
-- **CP actuel** : CP8
+- **dernier CP terminé** : **CP8**
+- **CP actuel** : CP9
 - **leçons réellement lues et notées** : **128 / 128** ✅
-- **prochaine action EXACTE** : **CP8** — les **quatre derniers P1** :
-  `interview-preparation` (→ `system-design-interview` +23 j **et** `technical-storytelling`
-  +18 j — la seule leçon à deux prérequis postérieurs), `technical-storytelling`
-  (→ `portfolio-github`, +17 j), `technical-documentation`
-  (→ `breaking-changes-compatibility`, +2 j) et `technical-debt` (**D1 = 2**, l'erreur
-  d'unité qui inverse la conclusion de son exemple guidé). Ces quatre relèvent du domaine
-  Carrière, donc formellement du CP9 — mais **il ne reste plus qu'eux**, et le brief §12
-  interdit de passer aux P2 tant qu'un P1 subsiste. Les traiter au CP8 ferme les P1 ; le CP9
-  ouvrira alors les P2.
+- **P1 : 0** — tous fermés. Les P2 sont désormais ouverts (§12).
+- **prochaine action EXACTE** : **CP9** — traiter les **14 P2**. Cinq classes :
+  (1) trois **noyaux catalogue** (`interview-preparation`, `database-modeling`,
+  `javascript-basics`) ; (2) quatre **comptages ou chiffres faux**
+  (`browser-dom-rendering` N=21→20, `prompt-engineering` cinq→quatre, `ai-evaluation` note
+  globale non reproductible, `cloud-finops` colonne à 1 884 contre 1 885) ; (3) deux
+  **sections dupliquées** (`async-messaging-queues`, `system-design-scaling`) ; (4) deux
+  **gloses cassées** (`database-migrations`, `feature-engineering`) ; (5) trois divers
+  (`python-foundations` `TypeErreur`, `typescript-frontend` argument répété trois fois,
+  `react-composition-architecture` incohérence avec `react-application-states`).
 
 > **Ordre imposé (brief §12) : P0, puis P1, puis P2 — pas les P3 tant qu'il reste des P1.**
 > Aucun P0. Les 14 P2 et 10 P3 ne seront traités qu'**après** le dernier P1 (fin CP9).
@@ -198,6 +199,67 @@ Validation après re-gel (hash `db3c1a6d34511d38e559b14d142423749c91963f`) : `ga
 
 Effet cumulé CP4 → CP7 : moyenne **4,820 → 4,864**, D2 **4,31 → 4,84**, leçons à D2 = 1
 **20 → 3**, P1 **23 → 4**.
+
+---
+
+## CP8 — les quatre derniers P1. **P1 = 0.**
+
+Les quatre relèvent du domaine Carrière, donc formellement du CP9 — mais il ne restait qu'eux,
+et le brief §12 interdit d'ouvrir les P2 tant qu'un P1 subsiste. Les traiter ici ferme la
+séquence.
+
+**`technical-debt` : la ligne C a été recalculée, pas seulement corrigée d'unité.** Le défaut
+n'était pas seulement que « ~10 j » valait 10,67 h : c'est qu'avec 1,33 j/an la dette C passait
+**derrière** A, et que l'observation « C est celle qu'on sous-estime » ne découlait plus du
+tableau. Les deux tableaux sont donc refaits de façon cohérente — l'export est touché ~1 fois
+par **mois** et non par trimestre, et retrouver puis corriger un export faux coûte ~**2 jours**
+et non 1. Le calcul est posé en clair : `(1/3) × 2 × 12 = 8 jours par an` pour un principal de
+3, soit **le coût annuel le plus élevé du tableau** devant les 4,5 j de A, et l'amortissement
+le plus court (4,5 mois contre 5,5). **La thèse de la leçon découle enfin de ses propres
+chiffres.** Le paragraphe est de surcroît renforcé : ce qui rend cette dette invisible n'est
+pas sa taille mais sa **forme** — on se souvient des mois calmes, pas de l'espérance.
+
+Les trois derniers prérequis :
+
+| leçon | écart | ce qui a été intégré |
+|---|---|---|
+| `interview-preparation` | +23 j **et** +18 j | la seule leçon à **deux** prérequis postérieurs. Le seul prérequis réel est nommé comme tel (avoir des projets, qui ne s'apprend pas mais se constitue) ; les deux méthodes sont données en une ligne chacune |
+| `technical-storytelling` | +17 j | rien : le vrai prérequis est d'avoir mené un projet. L'encadré ajoute l'ordre logique — le récit se prépare d'abord, la vitrine l'expose ensuite |
+| `technical-documentation` | +2 j | ce qu'est un changement cassant, avec la raison qu'on l'écrit : parce qu'on ne s'en souvient plus deux ans après |
+
+### Résultat de la séquence CP4 → CP8 sur les prérequis
+
+`scripts/v71/prerequis-ordre.mjs` compte toujours **31** citations pointant vers une leçon
+postérieure — il ne pouvait pas en compter moins, puisque les citations sont conservées :
+c'était l'objet du remède, signaler plutôt que supprimer. Ce qui a changé est leur **classe à
+la lecture** :
+
+| | avant CP4 | après CP8 |
+|---|---|---|
+| classe A — signalées | 9 | **31** |
+| classe B — exigences ≥ 7 j | 17 | **0** |
+| classe C — exigences à 2 j | 5 | **0** |
+
+**Zéro citation postérieure non signalée dans le corpus.** Un filtre heuristique en signalait
+une (`scikit-learn-workflow` → `model-evaluation`) : vérification faite, c'est un faux positif
+de mon propre extracteur, qui coupe l'encadré « Où trouver le détail » en deux. La citation est
+bien signalée dans le fichier.
+
+Validation (hash `a0d4f462b822b7276a273531407c262a566e74a8`) : `gates:active` **0**,
+`npm test` **1420/1420**, `tsc --noEmit` **0**, `npm run build` **0**.
+
+### Bilan des P1
+
+| | avant CP4 | après CP8 |
+|---|---|---|
+| **P1** | **23** | **0** |
+| moyenne du corpus | 4,820 | **4,873** |
+| D2 | 4,31 | **4,94** |
+| leçons à D2 = 1 | 20 | **0** |
+
+Les 24 défauts P1 (23 leçons, `llm-cost-optimization` en portait deux) se répartissaient en
+**20 défauts de prérequis, 3 erreurs de calcul et 1 pratique manquante**. Tous fermés, chacun
+vérifié après correction.
 
 ---
 
@@ -418,8 +480,8 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP5 | P0+P1 frontend / CSS / React / Next.js | **terminé** |
 | CP6 | P0+P1 web / backend / API / SQL / data | **terminé** |
 | CP7 | P0+P1 ML / IA appliquée / LLM / RAG / agents | **terminé** |
-| CP8 | P0+P1 architecture / perf / sécurité / observabilité / incidents | à faire |
-| CP9 | P0+P1 carrière / Git / pratiques pro / documentation | à faire |
+| CP8 | P0+P1 architecture / perf / sécurité / observabilité / incidents | **terminé** |
+| CP9 | P1 carrière **terminés au CP8** → CP9 traite les P2 | à faire |
 | CP10 | passe transversale PRATIQUE (128) | à faire |
 | CP11 | passe corrections + vulgarisation + jargon + prérequis | à faire |
 | CP12 | validation factuelle et assertions exécutables | à faire |
@@ -436,7 +498,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
 - CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : `a6a4270` — **CP3 terminé**
-- CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : `3fd6f8b` · CP7 : ce commit
+- CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : `3fd6f8b` · CP7 : `4fd6fa2` · CP8 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 

@@ -54,7 +54,7 @@ const warns = [];
 // Ce n'est pas un contournement du gate : le gate protège contre une
 // modification NON DÉCLARÉE du corpus, et celle-ci est déclarée, committée
 // et mesurée (mini-statut CP5).
-const FROZEN_CORPUS = 'db3c1a6d34511d38e559b14d142423749c91963f';
+const FROZEN_CORPUS = 'a0d4f462b822b7276a273531407c262a566e74a8';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 
 // ── 1) Gel du corpus, de la progression et de l'ordre des 365 jours ────────

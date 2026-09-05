@@ -117,7 +117,7 @@ décorative pour devenir un outil de décision. Comparons-les avec la même gril
 |---|---|---|---|
 | A | module de paiement dupliqué en 3 endroits | chaque évolution tarifaire à faire 3 fois, risque d'oubli → erreur de facturation | ~1 fois par mois |
 | B | fonction de 600 lignes, illisible, mais correcte | 2 h de relecture avant toute modification | ~2 fois par an |
-| C | pas de tests sur le module d'export | chaque modification est un pari ; 1 régression sur 3 environ | ~1 fois par trimestre |
+| C | pas de tests sur le module d'export | chaque modification est un pari ; 1 régression sur 3 environ, et retrouver puis corriger un export faux coûte ~2 jours | **~1 fois par mois** |
 | D | duplication dans un script d'archivage annuel | il faut modifier 2 endroits | **1 fois par an** |
 
 Les quatre sont de la vraie dette. Aucune ne relève du goût.
@@ -148,7 +148,7 @@ pas rembourser.
 |---|---|---|---|---|---|
 | A | 2 j | 3 h + risque de facturation | 12 / an | **36 h + risque financier** | **rembourser maintenant** |
 | B | 4 j | 2 h de relecture | 2 / an | 4 h | plus tard |
-| C | 3 j | 1 régression sur 3, ~1 j de correction | 4 / an | **~10 j** | **rembourser maintenant** |
+| C | 3 j | 1 régression sur 3, ~2 j de correction | 12 / an | **8 j** | **rembourser en premier** |
 | D | 0,5 j | 30 min | 1 / an | 0,5 h | **jamais** |
 
 Trois observations, et ce sont elles la leçon.
@@ -162,10 +162,18 @@ toujours la mauvaise dette.
 de travail pour économiser trente minutes par an ne se rentabilise qu'au bout de huit ans.
 Écrire « on ne rembourse pas, et voici pourquoi » est un résultat d'analyse — pas un aveu.
 
-**C est celle qu'on sous-estime.** Son intérêt n'est pas du temps, c'est une **probabilité**.
-Une régression sur trois modifications, quatre modifications par an, une journée de correction
-chacune : dix jours par an, pour un principal de trois. Les dettes dont l'intérêt est un risque
-sont systématiquement sous-évaluées parce qu'elles ne coûtent rien **certains** trimestres.
+**C est celle qu'on sous-estime, et le calcul le montre.** Son intérêt n'est pas du temps,
+c'est une **probabilité**. Pose-le comme les autres : une régression sur trois modifications,
+douze modifications par an, deux jours pour retrouver et corriger un export faux — soit
+`(1/3) × 2 × 12 = **8 jours par an**`, pour un principal de trois. C'est le coût annuel le plus
+élevé du tableau, devant les 4,5 jours de A, et l'amortissement le plus court : **4 mois et
+demi** contre 5 mois et demi.
+
+Ce qui la rend invisible n'est donc pas sa taille, c'est sa **forme** : les dettes dont
+l'intérêt est un risque ne coûtent rien **la plupart des mois**. On se souvient des mois
+calmes, pas de l'espérance. C'est exactement pourquoi il faut la calculer au lieu de la
+ressentir — l'espérance d'un coût aléatoire est un coût, même quand elle ne s'est pas encore
+matérialisée ce trimestre-ci.
 
 ### Le chiffre qu'on n'invente pas : la fréquence
 

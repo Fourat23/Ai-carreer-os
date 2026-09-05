@@ -465,7 +465,7 @@
     "archetype": "projet incremental",
     "D": [
       4,
-      1,
+      5,
       5,
       4,
       5,
@@ -485,8 +485,8 @@
         "quoi": "noyau explicatif de 247 mots en liste a puces : les quatre types d entretien sont enumeres avec mecanisme et consequence, mais sans arbitrage ni quand-ne-pas. Plafonne a 3 en D6 par l ancre du contrat. Le modele mental (44 mots) est juste mais trop mince pour servir d outil de raisonnement."
       },
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — exige technical-storytelling (jour 66, +18 j) ET system-design-interview (jour 71, +23 j) au jour 48 : deux prerequis posterieurs. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Correction prevue CP4-CP9 (texte de la lecon uniquement). Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP8 : la SEULE lecon du corpus a deux prerequis posterieurs (+23 j et +18 j) est fermee. Le seul prerequis reel est desormais nomme comme tel — avoir des projets concrets a presenter, qui ne s apprend pas mais se constitue — et les deux notions employees sont donnees en une ligne chacune : raconter un projet se structure en situation, tache, action, resultat avec au moins un chiffre avant/apres ; l entretien de design systeme consiste a clarifier les besoins, poser une architecture simple, puis discuter ce qui casse en premier quand la charge augmente. Les deux lecons sortent vers un encadre, avec l invitation a reprendre ses simulations a ce moment-la. Ancre D2 niveau 5."
       }
     ],
     "action": "RETOUCHE",
@@ -743,7 +743,7 @@
     "archetype": "projet incremental",
     "D": [
       4,
-      1,
+      5,
       5,
       5,
       5,
@@ -759,8 +759,8 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — exige d avoir mene un projet via portfolio-github (jour 83) au jour 66, +17 j. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Correction prevue CP4-CP9 (texte de la lecon uniquement). Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP8 : portfolio-github (+17 j) sort de la liste des prerequis. Le vrai prerequis est requalifie et nomme — avoir mene un projet avec de vraies decisions, qui ne s apprend pas dans une lecon mais se constitue en travaillant, n importe quel projet du parcours convenant y compris celui en cours. L encadre ajoute l ordre logique, qui est le bon : le recit se prepare d abord, la vitrine l expose ensuite. Ancre D2 niveau 5."
       }
     ],
     "action": "CONSERVE",
@@ -1125,7 +1125,7 @@
     "archetype": "comparaison",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -1141,8 +1141,8 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — exige breaking-changes-compatibility (jour 76) au jour 74, +2 j. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Correction prevue CP4-CP9 (texte de la lecon uniquement). Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP8 : breaking-changes-compatibility (+2 j) sort vers un encadre, et la notion employee comme exemple d ADR est definie sur place — un changement est cassant s il oblige quelqu un d autre a modifier son code, par opposition a un ajout que les appelants peuvent ignorer. La lecon ajoute pourquoi c est justement ce type de decision qu on ecrit : parce qu on ne s en souvient plus deux ans apres. Ancre D2 niveau 5."
       }
     ],
     "action": "CONSERVE",
@@ -1460,13 +1460,13 @@
     "cp": "CP3",
     "archetype": "comparaison",
     "D": [
-      2,
       5,
       5,
       5,
       5,
       5,
-      4,
+      5,
+      5,
       5,
       5,
       5,
@@ -1477,11 +1477,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D1 : erreur d unite dans l exemple guide, qui inverse sa propre conclusion. La formule posee par la lecon est cout annuel = interet x frequence. Lignes A, B et D sont en heures et exactes (3 h x 12 = 36 h ; 2 h x 2 = 4 h ; 30 min x 1 = 0,5 h). Ligne C : (1 regression sur 3) x 1 jour x 4 par an = 10,67 HEURES, publie ~10 j (jours). La prose repete l erreur : dix jours par an, pour un principal de trois. Consequence : avec 1,33 j/an, C s amortit en 2,25 ans et non 0,30 an, donc elle passe DERRIERE A (0,44 an) et l observation C est celle qu on sous-estime ne decoule plus de son propre tableau. La these generale (les dettes dont l interet est un risque sont sous-evaluees) reste defendable, mais l exemple ne la demontre pas. Remede : porter l interet de C a environ 2 j de correction et 12 modifications par an, ce qui donne 8 j/an et retablit la demonstration. A corriger au CP9."
+        "p": "CORRIGE",
+        "quoi": "CP8 : l erreur d unite qui inversait la conclusion de l exemple guide est fermee, et la ligne C a ete RECALCULEE plutot que simplement corrigee d unite. Le probleme n etait pas seulement que ~10 j valait 10,67 h : c est qu avec 1,33 j/an la dette C passait DERRIERE A et que l observation C est celle qu on sous-estime ne decoulait plus du tableau. Les deux tableaux sont donc refaits de facon coherente — l export est touche ~1 fois par MOIS et non par trimestre, et retrouver puis corriger un export faux coute ~2 jours et non 1. Le calcul est desormais pose en clair dans le texte : (1/3) x 2 x 12 = 8 jours par an, pour un principal de 3, soit le cout annuel le PLUS ELEVE du tableau devant les 4,5 jours de A, et l amortissement le plus court (4,5 mois contre 5,5). La these de la lecon decoule enfin de ses propres chiffres. Le paragraphe est de surcroit renforce : ce qui rend cette dette invisible n est pas sa taille mais sa FORME — les dettes dont l interet est un risque ne coutent rien la plupart des mois, on se souvient des mois calmes, pas de l esperance. D1 de 2 a 5, D7 de 4 a 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "La grille principal / interet / frequence est un vrai outil de decision, et la lecon en tire la seule formule qui compte plus l observation qui la rend utile : le principal ne decide de rien. Trois enseignements justes et rarement enseignes — B est la plus laide et elle attend (la laideur est visible, le cout ne l est pas) ; D ne sera jamais remboursee et c est une decision ecrite, pas une negligence ; la frequence est la seule colonne qu on n invente pas, elle se lit dans git log. Le passage sur la conversation avec un responsable est exemplaire de D10 : la meme demande, exprimee dans l unite de celui qui arbitre. Correction : nomme l erreur probable (prioriser par la laideur), dit pourquoi elle seduit (la repulsion est un signal physique immediat, la frequence ne se ressent pas), offre une alternative defendable (boy-scout) et sa limite. Arithmetique de la seconde correction verifiee (48 h/an, 40 h de travail, amorti en 10 mois). D7 a 4 : l exemple guide porte l erreur ci-dessus."
   },
   {

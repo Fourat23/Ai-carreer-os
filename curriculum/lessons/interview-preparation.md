@@ -8,7 +8,11 @@ Tu décroches enfin un entretien pour un poste IA junior. Tu connais tes projets
 Aborder les 4 types d'entretien d'un poste IA junior (technique, projet, design système, comportemental) avec une préparation SYSTÉMATIQUE : fiches, simulations enregistrées, grilles d'auto-évaluation. L'entretien est une compétence qui s'entraîne — pas un test de personnalité.
 
 ## 🧩 Prérequis
-Tu dois avoir des projets concrets à présenter et savoir les raconter (`/doc/lessons/technical-storytelling`), et connaître la méthode de l'entretien de design système (`/doc/lessons/system-design-interview`), car c'est l'un des quatre types. Une idée réaliste des attentes d'un poste junior aide. Aucune expérience préalable d'entretien technique n'est supposée : justement, on s'y entraîne.
+Tu dois avoir **des projets concrets à présenter** — c'est le seul prérequis réel de cette leçon, et il ne s'apprend pas, il se constitue. Une idée réaliste des attentes d'un poste junior aide. Aucune expérience préalable d'entretien technique n'est supposée : justement, on s'y entraîne.
+
+Deux des quatre types d'entretien traités ici sont approfondis ailleurs dans le parcours, et cette leçon donne d'eux ce qu'il faut pour s'entraîner dès aujourd'hui : **raconter un projet** se structure en situation, tâche, action, résultat — avec au moins un chiffre avant/après ; **l'entretien de design système** consiste à clarifier les besoins, poser une architecture simple, puis discuter ce qui casse en premier quand la charge augmente.
+
+> **Où trouver le détail.** `/doc/lessons/technical-storytelling` traite la construction d'un récit de projet, `/doc/lessons/system-design-interview` la méthode complète de l'exercice de design. Les deux sont **programmées plus loin** dans le parcours ; rien ici ne suppose que tu les as lues, et tu pourras reprendre tes simulations à ce moment-là.
 
 ## 🧠 Modèle mental
 Un entretien est **une démo de ta façon de penser, en conditions de stress**. Le stress se réduit par la RÉPÉTITION (simulations), et la pensée se montre en la VERBALISANT. Le candidat calme et structuré a simplement plus répété — c'est accessible à tous.

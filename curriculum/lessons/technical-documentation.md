@@ -20,11 +20,20 @@ adaptative, préventive, évolutive) dans le cycle de vie d'un logiciel.
 
 ## 🧩 Prérequis
 Tu dois avoir une notion d'architecture et de compromis de conception
-(`/doc/lessons/architecture-basics`), de gestion d'erreurs/incidents
-(`/doc/lessons/error-handling`) et de changements de contrat
-(`/doc/lessons/breaking-changes-compatibility`), car la documentation sert à capturer des
-DÉCISIONS et des PROCÉDURES autour de ces sujets. Le README de base est vu ailleurs
+(`/doc/lessons/architecture-basics`) et de gestion d'erreurs/incidents
+(`/doc/lessons/error-handling`), car la documentation sert à capturer des DÉCISIONS et des
+PROCÉDURES autour de ces sujets. Le README de base est vu ailleurs
 (`/doc/lessons/readme-documentation`) ; cette leçon couvre les autres artefacts.
+
+La notion de **changement cassant** est employée comme exemple d'ADR, et il suffit d'en
+savoir ceci : un changement est *cassant* s'il oblige quelqu'un d'autre à modifier son code —
+retirer un champ, renommer une route, resserrer une contrainte — par opposition à un ajout,
+que les appelants existants peuvent ignorer. C'est le type de décision qu'on écrit, justement
+parce qu'on ne s'en souvient plus deux ans après.
+
+> **Où trouver le détail.** `/doc/lessons/breaking-changes-compatibility` traite comment faire
+> évoluer un contrat sans casser ses appelants. Elle est **programmée deux jours plus loin** ;
+> rien ici ne suppose que tu l'as lue.
 
 ## 🧠 Modèle mental
 Une documentation n'est utile que si elle répond à une QUESTION précise pour une AUDIENCE

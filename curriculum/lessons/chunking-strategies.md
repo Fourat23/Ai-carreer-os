@@ -248,7 +248,19 @@ Les autres :
 - Chunks énormes « pour ne rien rater » → le retrieval ramène du bruit, la génération se noie.
 
 ## ✍️ Mini-exercice
-Implémente un chunker taille-fixe + overlap, applique-le à un vrai document, et LIS 5 chunks. Note ce qui te gêne (phrases coupées, tableaux cassés).
+Implémente un chunker taille-fixe + overlap, applique-le à un vrai document d'au moins
+dix pages, et **lis les cinq premiers chunks en entier**. Contraintes imposées, pour que
+le résultat soit comparable au tien plus tard : **512 caractères, 64 de recouvrement**,
+découpe au caractère et pas au mot — c'est le réglage naïf, et c'est celui qu'on veut voir
+échouer.
+
+**Livrable** : les cinq chunks copiés tels quels, et sous chacun une ligne disant ce qui a
+été cassé (phrase coupée, tableau tronqué, titre séparé de son paragraphe, rien).
+
+**Critère de réussite, vérifiable seul** : sur cinq chunks, **au moins deux doivent porter
+un défaut visible**. Si tu n'en trouves aucun, ce n'est pas que le chunker est bon — c'est
+que ton document est trop homogène pour être un test (du texte courant sans titres ni
+tableaux). Reprends avec un document qui contient au moins un tableau et une liste.
 
 ## 🔥 Exercice plus difficile
 Implémente un chunker par structure (découpe aux titres Markdown) et compare-le au taille-fixe sur 10 questions : pour chacune, le bon passage est-il dans le top-3 ? Conclus par les chiffres.

@@ -193,10 +193,27 @@ Avant d'entraîner un modèle (mois 6), un nettoyage bâclé cause du leakage ou
 - « fillna(0) » partout par réflexe (un 0 n'est pas « inconnu »).
 
 ## ✍️ Mini-exercice
-Sur un CSV sale : compte les manquants et doublons par colonne, corrige un format de date, et écris 3 lignes justifiant chaque décision.
+Sur un CSV sale : compte les manquants et doublons par colonne, corrige un format de date, et
+écris **trois lignes par décision** — pas trois lignes en tout — sur ce modèle : ce que j'ai
+fait / ce que j'aurais pu faire à la place / pourquoi j'ai tranché ainsi.
+
+**Critère de réussite, vérifiable seul** : relis tes justifications et compte celles qui
+disent **ce que la donnée corrigée devient**, et non seulement ce que tu as supprimé.
+« J'ai retiré les lignes sans date » ne dit rien ; « j'ai retiré les 12 lignes sans date, donc
+mes totaux mensuels portent sur 3 % de commandes en moins et sont sous-estimés d'autant » est
+une justification. **Si aucune de tes lignes ne dit ce qui est faussé après coup, tu as
+documenté un geste, pas une décision.**
 
 ## 🔥 Exercice plus difficile
 Transforme ton nettoyage en fonctions pures Python (`load`, `validate`, `clean`, `report`) testées, produisant un rapport avant/après (complétude, doublons, aberrations).
+
+**Critère de réussite, vérifiable seul, et il est plus exigeant qu'il n'en a l'air** :
+**relance tout le pipeline sur sa propre sortie.** Le second rapport « après » doit être
+identique au premier — zéro manquant corrigé, zéro doublon supprimé, zéro aberration
+traitée, parce qu'il n'y a plus rien à faire. Un nettoyage est **idempotent** ou il est faux :
+s'il trouve encore du travail au deuxième passage, c'est qu'il en crée en même temps qu'il en
+enlève, et personne ne peut alors dire quel est l'état réel de tes données. C'est le test que
+personne ne fait, et c'est celui qui trouve les vrais défauts.
 
 ## ✅ Correction
 

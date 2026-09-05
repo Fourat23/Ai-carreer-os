@@ -1582,7 +1582,7 @@
    5,
    5,
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -1590,7 +1590,12 @@
    4,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : deux exercices justes, aucun critere. Le mini recoit le seul critere qui teste vraiment la competence annoncee (etat minimal, stocke contre derive) : COMPTE TES useState, IL DOIT Y EN AVOIR UN — le pas, le min et le max sont des props, et bouton desactive se calcule. Le Kanban recoit le test d immuabilite qui echoue silencieusement tant qu on ne le fait pas : garder une reference avant le deplacement, verifier que avant === cartes rend false ET que avant est inchange. Ecrire setCartes ne prouve rien."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Exemple guide exemplaire de l archetype : symptome (la coche a change de tache), puis le geste qui fait gagner une heure — verifier le STATE separement de l ecran, ce qui divise le champ de recherche en deux —, puis la cause. La key y est requalifiee de facon juste : ce n est pas un identifiant technique reclame par le framework, c est une AFFIRMATION d identite entre deux rendus. Et la lecon va plus loin que la correction du symptome : si l information cochee vivait dans l objet tache plutot que dans le DOM, la categorie entiere de bugs disparaissait. La correction mesure trois cas dans Chromium : muter et repasser la meme reference donne 0 rendu avec un ecart entre l etat et l ecran ; muter puis copier revele la mutation precedente a l occasion d une action SANS RAPPORT, donc le symptome apparait loin de sa cause. C est la vraie raison de la regle d immutabilite, et elle est rarement donnee. D8 et D12 a 4 : l enonce du Kanban tient en 25 mots et les attentes reelles (forme plate contre imbriquee, atomicite du deplacement) n apparaissent que dans la correction. D13 a 4 : pas de section de verification distincte."
  },
@@ -1857,7 +1862,7 @@
    5,
    5,
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -1865,7 +1870,12 @@
    4,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le mini etait une suite de gestes mecaniques sans contexte ni critere. Contexte impose (un export reel, pas un CSV fabrique), livrable nomme (trois lignes sur ce que info et describe ont appris) et critere qui refuse le fichier trop propre : si le nombre de non-nuls egale le nombre de lignes partout, le fichier n apprend rien. Surtout, l exercice difficile recoit le critere qui manquait et qui est le bon : chaque requete pandas doit rendre EXACTEMENT le meme resultat que la version JS du jour 11 — et l ecart, quand il y en a un, vient presque toujours de l INDEX, que JS n a pas et que pandas conserve apres un filtre ou un tri."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Les trois chiffres de l exemple guide reverifies exactement, y compris la chaine concatenee caractere pour caractere : somme reelle 1 840,40, somme apres errors=coerce 494,50, ecart 73,1 %. La lecon ne se contente pas de montrer que sum() sur du texte concatene — elle explique pourquoi c est pire ailleurs (ici c est visible, dans un tableau de bord agrege ca ne le serait pas). Trois decisions valent plus que la syntaxe. errors=coerce est un excellent outil A CONDITION d etre suivi d un comptage : un silence n est pas un succes. La date 05/04/2024 devenue le 4 mai est la classe d erreurs la plus dangereuse — pas une valeur manquante, une valeur PLAUSIBLE ET FAUSSE — et pandas n a pas eu tort, la date est reellement ambigue. Enfin toute cle de regroupement doit etre normalisee avant de servir de cle, sinon groupby compte six clients la ou il y en a quatre. La conclusion depasse le sujet : une valeur manquante est une question posee au metier, pas un dechet a supprimer discretement. D8, D12 et D13 a 4 : les deux enonces (19 et 28 mots) nomment une production reelle et un livrable implicite, mais sans contraintes ni critere de reussite explicite, et il n y a pas de section de verification distincte — ecart net avec le lot frontend."
  },
@@ -1882,11 +1892,11 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
+   5,
+   5,
    4,
    5
   ],
@@ -1894,6 +1904,10 @@
    {
     "p": "P3",
     "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — feature-engineering (jour 169) cite au jour 128, signale par eclairent pourquoi certaines corrections doivent attendre APRES le split. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : deux defauts fermes. D12 — ecris 3 lignes justifiant chaque decision etait ambigu (trois lignes en tout ou par decision ?) : desormais trois lignes PAR decision, sur un modele donne (ce que j ai fait / ce que j aurais pu faire / pourquoi j ai tranche). D8 — le critere ajoute au mini exige que la justification dise ce qui est FAUSSE apres coup, pas seulement ce qui a ete supprime (j ai retire les 12 lignes sans date, donc mes totaux mensuels sont sous-estimes de 3 %). Et l exercice difficile recoit le test que personne ne fait : relancer le pipeline sur sa propre sortie, le second rapport devant etre identique au premier. Un nettoyage est idempotent ou il est faux."
    }
   ],
   "action": "CONSERVE",
@@ -2314,7 +2328,7 @@
    5,
    5,
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -2322,7 +2336,12 @@
    4,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : les deux exercices demandaient de construire une validation sans jamais dire comment savoir qu elle protege. Le mini recoit six sorties hostiles ecrites a la main, a passer SANS appeler le modele — 3 valide, la chaine 3, 6, null, 3.5, et du texte avant le JSON — dont une seule doit passer. La regle qui en sort depasse le cas : une validation qu on n a testee qu avec des entrees valides n a pas ete testee. L assistant a deux outils recoit le test de l outil qui echoue A TOUS LES COUPS, avec le comptage exact du budget d iterations, et les deux echecs opposes a guetter : la boucle infinie, et l assistant qui invente plutot que d admettre l echec — le second etant le plus dangereux parce qu il ne se voit pas dans les journaux."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La lecon corrige d emblee ce que le nom du sujet induit en erreur, et c est la moitie de sa valeur : « function calling » laisse croire que le modele execute une fonction — il n execute rien, il produit du texte structure qui DEMANDE un appel, et c est ton programme qui decide s il obeit. La lecon precise pourquoi ce n est pas du vocabulaire : cette frontiere est l endroit exact ou se trouvent toute la securite et toute la fiabilite du systeme. Le modele propose, ton code dispose. La decision 2 transpose exactement le raisonnement de l injection SQL — une valeur venue d ailleurs ne doit jamais devenir du code — et en tire la regle de conception d un outil : valide l argument COMME SI UN ATTAQUANT L AVAIT ECRIT, parce que c est parfois le cas, et surtout tu ne securises pas un outil dangereux avec des consignes, tu ne lui donnes pas l outil. La decision 3 donne un critere de tri des erreurs qui est le bon et qui est deja celui du choix entre un 400 et un 503 : quelqu un peut-il agir sur cette erreur, et qui. La decision 4 traite le budget d iterations comme une decision de conception et non une precaution, avec la consequence que presque personne n ecrit : renvoyer le dernier texte produit quand le budget est epuise est le PIRE choix, car c est precisement une reponse que le modele n a pas fini d etayer — un budget qui se termine en silence par une reponse plausible transforme une limite technique en hallucination. Enfin la variante donne la regle de classement des outils : classe-les par CE QU ILS CASSENT, pas par ce qu ils font. D8/D12/D13 a 4 : deux enonces courts, pas de section de verification."
  },
@@ -2339,7 +2358,7 @@
    5,
    5,
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -2347,7 +2366,12 @@
    4,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le mini-exercice n avait ni contrainte ni critere — quelle taille, quel recouvrement, et comment sait-on qu on a vu le probleme. Contraintes imposees (512 caracteres, 64 de recouvrement, decoupe au caractere : le reglage naif, celui qu on veut voir echouer), livrable nomme (les cinq chunks copies plus une ligne de defaut par chunk) et critere INVERSE : au moins deux chunks sur cinq doivent porter un defaut visible, faute de quoi c est le DOCUMENT qui est trop homogene pour etre un test. L exercice difficile portait deja son critere (le bon passage est-il dans le top-3)."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Les sept lignes du tableau de stockage et les quatre du tableau de coupures recalculees EXACTEMENT (60/12 000/0 %, 67/13 400/+12 %, 80/16 000/+33 %, 15/12 000/0 %, 17/13 600/+13 %, 20/16 000/+33 %, 10/16 000/+33 % ; coupures 15,0 / 8,3 / 5,0 / 2,5 %, et 1,9 % pour 1 600 sans recouvrement). La lecon ouvre en attaquant la source du probleme plutot que le probleme : « decoupez en morceaux de 500 caracteres avec 100 de recouvrement » vient de nulle part, ce sont les nombres du premier tutoriel recopies depuis. Elle pose ensuite trois quantites qui s opposent et etablit qu AUCUN reglage ne maximise les trois — d ou « la bonne taille de morceau » n existe pas dans l absolu. Deux resultats non triviaux et tous deux verifies. Le surcout du recouvrement NE DEPEND QUE DE SON POURCENTAGE, pas de la taille : 25 % de recouvrement coutent 33 % de stockage que les morceaux fassent 200 ou 1 600 mots — et c est exact, puisque les mots stockes valent le document divise par (1 moins le taux). Et la conclusion contre-intuitive : c est LE PAS qui gouverne le taux de coupure, pas le recouvrement, si bien qu agrandir les morceaux reduit les coupures plus efficacement que le recouvrement — un morceau de 1 600 sans recouvrement coupe 1,9 % des phrases, mieux qu un morceau de 200 avec 25 % de recouvrement, et sans surcout. Le recouvrement ne se justifie donc que si l on veut des morceaux petits. D8/D12/D13 a 4."
  },
@@ -2588,7 +2612,7 @@
    5,
    5,
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -2600,6 +2624,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP7 : LE PLUS GRAND ECART DU CORPUS (+57 j) est ferme, et il n a rien coute. La lecon construit deja elle-meme, dans son exemple guide, les trois mecanismes de robustesse qu elle semblait exiger — borner le parallelisme, ecrire l etat au fur et a mesure pour pouvoir reprendre, isoler l echec d un element — chacun introduit par le probleme qu il resout et ecrit en entier. Le texte le dit desormais explicitement, et resilience-patterns sort vers un encadre. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : l exercice de decision suggere une symetrie fausse — quatre taches, quatre motifs. Verification faite dans la correction de la lecon : deux des quatre relevent du MEME motif (parallelisation). Le critere ajoute est donc un piege honnete, verifiable avant de lire la correction : si tu as repondu quatre motifs differents, tu t es trompe — et l interet est dans ce qui change entre les deux malgre le motif identique (a 20 unites on refait tout, a 10 000 la reprise est le sujet principal). L exercice difficile recoit un critere sur la VARIANCE et non la moyenne : les cinq couts de l agent doivent se disperser la ou ceux du workflow se ressemblent, sinon la comparaison ne porte pas sur ce qu on croit."
    }
   ],
   "action": "CONSERVE",

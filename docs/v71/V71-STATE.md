@@ -7,11 +7,46 @@
 ## Position
 
 - **dernier CP terminé** : **CP9**
-- **CP actuel** : CP10
+- **CP actuel** : **CP10 en cours — lot 1 / 8 leçons lues**
 - **leçons réellement lues et notées** : **128 / 128** ✅
 - **P0 : 0 · P1 : 0 · P2 : 0** — tous fermés. Les 10 P3 sont désormais ouverts (§12).
-- **prochaine action EXACTE** : **CP10** — passe de pratique R/E/D/P/T sur les 128 leçons,
-  en traitant les 10 P3 au fil du passage lorsqu'ils tombent dans le domaine lu.
+- **prochaine action EXACTE** : **CP10, lot 2** — continuer l'ordre de lecture produit par
+  `scripts/v71/pratique-redpt.mjs`, à partir de `docker-networking-volumes`. Les 10 P3 sont
+  traités au fil du passage. **8 / 128 sections de pratique lues.**
+
+### CP10 — la grille R/E/D/P/T
+
+Opérationnalisation des **cinq éléments déjà écrits dans l'ancre D8 = 5** du contrat gelé au
+CP1. Elle n'ajoute aucune dimension et ne touche pas au barème (§6) — elle rend les cinq
+éléments vérifiables un par un :
+
+| | élément de l'ancre D8 = 5 |
+|---|---|
+| **R** | production **réelle** et observable — l'apprenant produit, il ne restitue pas |
+| **E** | **énoncé du contexte** — une situation, pas un énoncé hors-sol |
+| **D** | contraintes **données** — ce qui est imposé, ce qui est interdit |
+| **P** | livrable nommé — le **produit** attendu est dit |
+| **T** | critère de réussite vérifiable seul — le **test** que l'apprenant s'applique |
+
+**La sonde a été jetée trois fois avant d'être utilisable, et c'est le résultat le plus utile
+du début de CP10 :**
+
+1. *v1* incluait les sections « 🛠️ Pratique », qui ne sont pas des consignes mais des
+   **renvois** vers les exercices auto-corrigés de la plateforme. Leurs 45 à 60 mots de
+   routage plaçaient en tête de l'ordre de lecture des leçons dont la vraie consigne est
+   ailleurs et va très bien (vérifié sur `api-design-basics`).
+2. *v2* excluait donc **tout** titre commençant par 🛠️ — et jetait avec eux des pratiques
+   réelles, la même icône servant aux deux usages (vérifié sur `browser-dom-rendering`, dont
+   la pratique est l'un des meilleurs dispositifs du corpus). Discriminant retenu : un renvoi
+   s'intitule « Pratique » tout court, une consigne annonce ce qu'on va faire après un tiret.
+3. *v3* — la plus instructive — **excluait les sections de correction**, où vit le bloc
+   « Vérifie seul, sans corrigé ». Ce bloc est présent dans **66 des 128 leçons** et il porte
+   très souvent le **T** à lui seul. La sonde déclarait donc « aucune pratique » sur quatre
+   leçons qui en ont une, et « T absent » sur des dizaines qui le portent.
+
+**Ce que cela dit du CP3 :** une sonde mal cadrée aurait produit un ordre de travail faux, et
+aucune des trois erreurs n'était visible sans ouvrir les leçons concernées. C'est la
+justification empirique de la règle du brief §4 — une sonde priorise, elle ne note pas.
 
 > **Ordre imposé (brief §12) : P0, puis P1, puis P2 — pas les P3 tant qu'il reste des P1.**
 > Ordre respecté : P1 fermés du CP4 au CP8, P2 fermés au CP9, P3 ouverts seulement ensuite.

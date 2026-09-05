@@ -174,8 +174,24 @@ Le workflow d'analyse de DocSense (résumé, points clés, incohérences) est un
 ## ✍️ Mini-exercice
 Pour ces 4 tâches — résumé quotidien de 20 articles, tri de tickets support, investigation d'un bug inconnu, migration de 10 000 fiches — choisis : chaînage, parallélisation, routage, ou agent. Justifie en une ligne chacune.
 
+**Critère de réussite, vérifiable avant de lire la correction** : **si tu as répondu quatre
+motifs différents, tu t'es trompé.** Quatre tâches, quatre cases, une par case — c'est la
+symétrie que l'énoncé suggère et elle est fausse. Deux de ces tâches relèvent du **même**
+motif. Trouve lesquelles, et surtout dis ce qui change entre les deux malgré le motif
+identique : c'est là qu'est tout l'intérêt de l'exercice, et c'est ce que la correction
+développe.
+
 ## 🔥 Exercice plus difficile
 Implémente le même cas (vérification de cohérence de docs) en version agent ET en version workflow ; compare sur 5 exécutions : coût, latence, fiabilité, qualité. Rédige la décision en ADR.
+
+**Critère de réussite, vérifiable seul** : sur les cinq exécutions, l'agent doit être **plus
+cher, plus lent, et plus dispersé** — c'est-à-dire que ses cinq coûts doivent varier
+sensiblement entre eux, là où ceux du workflow se ressemblent. Si tu n'observes pas cet écart,
+la comparaison ne porte pas sur ce que tu crois : soit ton workflow appelle le modèle plus
+souvent qu'il ne le devrait, soit ton « agent » suit en réalité un chemin fixe et n'en est
+pas un. **La variance est le signal, plus encore que la moyenne** : c'est elle qu'on paie
+quand on met un agent en production, parce qu'on ne peut pas budgéter ce qu'on ne peut pas
+prévoir.
 
 ## ✅ Correction attendue
 ### La démarche

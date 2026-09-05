@@ -144,10 +144,27 @@ L'interface de DocQA/DocSense est du React : la liste des sources citées, l'ét
 - Un composant de 300 lignes qui fait tout (décomposer !).
 
 ## ✍️ Mini-exercice
-Construis le compteur avancé : pas configurable, min/max, reset — state minimal (qu'est-ce qui est stocké vs dérivé ?).
+Construis le compteur avancé : pas configurable, min/max, reset — état minimal (qu'est-ce
+qui est stocké, qu'est-ce qui est dérivé ?).
+
+**Livrable** : le composant, et une ligne par variable d'état disant pourquoi elle ne peut
+pas être calculée.
+
+**Critère de réussite, vérifiable seul et sans discussion** : **compte tes appels à
+`useState`. Il doit y en avoir un.** La valeur du compteur est stockée ; le pas, le min et le
+max sont des props ou des constantes ; « est-ce que le bouton + doit être désactivé » se
+calcule (`valeur >= max`). Si tu as un second `useState`, nomme-le à voix haute et demande-toi
+de quoi il se déduit — c'est tout l'exercice.
 
 ## 🔥 Exercice plus difficile
 Un mini-Kanban 3 colonnes (à faire / en cours / fait) avec déplacement de cartes — état immuable, et réponds par écrit : OÙ vit l'état et pourquoi ?
+
+**Critère de réussite, vérifiable seul** : garde une référence vers le tableau de cartes
+**avant** un déplacement (`const avant = cartes`), déplace une carte, puis compare
+`avant === cartes`. La comparaison doit rendre `false`, et `avant` doit être **inchangé**.
+Si `avant` a changé, tu as muté — même si l'affichage est correct, même si tu as écrit
+`setCartes`. C'est le seul test qui distingue « ça marche » de « c'est immuable », et il
+échoue silencieusement tant qu'on ne le fait pas.
 
 ## ✅ Correction
 

@@ -198,10 +198,28 @@ Les autres :
 - Enchaîner 15 transformations illisibles sans étapes nommées.
 
 ## ✍️ Mini-exercice
-Charge un CSV, affiche `info()` et `describe()`, filtre les lignes d'une catégorie, et calcule une moyenne par groupe.
+Prends un CSV que tu n'as pas fabriqué toi-même — un export réel, avec ses défauts. Charge-le,
+affiche `info()` et `describe()`, filtre les lignes d'une catégorie, calcule une moyenne par
+groupe.
+
+**Livrable** : les deux sorties `info()` / `describe()`, et **trois lignes** disant ce
+qu'elles t'ont appris que tu ne savais pas avant de les lire.
+
+**Critère de réussite, vérifiable seul** : compare le nombre de lignes annoncé par `info()`
+au nombre de valeurs non nulles de chaque colonne. **S'ils sont égaux partout, tu travailles
+sur un fichier trop propre pour apprendre quoi que ce soit** — c'est le seul cas où l'on peut
+faire une moyenne sans se poser de question, et il n'arrive jamais en vrai. Prends-en un
+autre.
 
 ## 🔥 Exercice plus difficile
 Reproduis en pandas les 10 requêtes que tu avais faites en JS (jour 11) : filtres, tri, top N, regroupements, moyenne par groupe. Compare la lisibilité JS / SQL / pandas.
+
+**Critère de réussite, et il est strict** : chaque requête pandas doit rendre **exactement le
+même résultat** que ta version JS — mêmes lignes, mêmes valeurs, même ordre. Écris la
+comparaison, ne la fais pas à l'œil. Quand une paire diverge, c'est la version pandas qui a
+tort dans la grande majorité des cas, et l'écart est instructif : il vient presque toujours
+de l'**index**, que JS n'a pas et que pandas conserve derrière ton dos après un filtre ou un
+tri. Une divergence comprise vaut mieux que dix requêtes qui passent.
 
 ## ✅ Correction
 

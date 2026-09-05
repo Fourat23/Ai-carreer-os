@@ -131,8 +131,33 @@ Extracteur de factures : le LLM renvoie `{fournisseur, montant, date}` en JSON v
 ## ✍️ Mini-exercice
 Écris un prompt + une validation de code qui garantit une sortie `{"note": 1..5}` et rejette/retente toute sortie non conforme.
 
+**Livrable** : le prompt, la fonction de validation, et le tableau des six essais ci-dessous
+avec, pour chacun, accepté ou rejeté.
+
+**Critère de réussite, vérifiable seul.** Ne teste pas ta validation sur ce que le modèle
+renvoie quand tout va bien — teste-la sur ce qu'il renvoie quand ça va mal. Passe-lui ces six
+sorties, écrites à la main, sans appeler le modèle :
+
+```
+{"note": 3}                      {"note": "3"}         {"note": 6}
+{"note": null}                   {"note": 3.5}         Voici la note : {"note": 3}
+```
+
+**La seule qui doit passer est la première.** Si ta validation en accepte deux, elle ne
+protège de rien ; les cinq autres sont exactement les formes qu'un modèle produit en
+conditions réelles. Le point à retenir vaut au-delà de ce cas : **une validation qu'on n'a
+testée qu'avec des entrées valides n'a pas été testée.**
+
 ## 🔥 Exercice plus difficile
 Implémente un mini-assistant à 2 outils (une recherche mockée + un calcul) avec la boucle complète, un budget d'itérations, et la gestion d'un outil qui échoue.
+
+**Critère de réussite, vérifiable seul** : fais échouer l'outil de recherche **à tous les
+coups** (renvoie une exception, systématiquement), puis lance l'assistant. Il doit
+s'arrêter, dire qu'il n'a pas pu répondre, et **avoir consommé exactement ton budget
+d'itérations, pas une de plus**. Compte-les. Les deux échecs à guetter sont opposés : une
+boucle qui ne s'arrête jamais, et un assistant qui invente une réponse plutôt que d'admettre
+l'échec de l'outil — le second est le plus dangereux, parce qu'il ne se voit pas dans les
+journaux.
 
 ## ✅ Correction attendue
 ### La démarche

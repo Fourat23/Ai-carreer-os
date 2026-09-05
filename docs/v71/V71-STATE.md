@@ -8,9 +8,9 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **48 / 128**
-- **dernier lot complet** : **6 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 7/16**, leçons 49 à 56 de
+- **leçons réellement lues et notées** : **56 / 128**
+- **dernier lot complet** : **7 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 8/16**, leçons 57 à 64 de
   `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
@@ -74,21 +74,21 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **48 / 128**
-- notations D1→D14 complètes : **48 / 128**
-- moyenne provisoire (48 notées) : **4,763**
+- leçons réellement lues : **56 / 128**
+- notations D1→D14 complètes : **56 / 128**
+- moyenne provisoire (56 notées) : **4,770**
 - leçons sous 3,00 : **0**
-- **P0 : 0** · **P1 : 9** · **P2 : 4** · **P3 : 7**
+- **P0 : 0** · **P1 : 12** · **P2 : 6** · **P3 : 7**
 
-### Moyenne par dimension (48 notées)
+### Moyenne par dimension (56 notées)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,81 | **4,27** | 4,92 | 4,98 | 4,96 | 4,58 | 4,96 |
+| 4,82 | **4,16** | 4,93 | 4,98 | 4,96 | 4,64 | 4,96 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,98 | 4,98 | 4,42 | 4,69 | 5,00 | **4,25** | 4,90 |
+| 4,96 | 4,96 | 4,50 | 4,71 | 4,98 | **4,30** | 4,89 |
 
 Les deux points bas sont **D2** (prérequis, qui va encore descendre : 16 des 20 leçons à
 D2 = 1 ne sont pas encore notées) et **D13** (vérification de compréhension — présente
@@ -160,7 +160,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 48/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 56/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -182,4 +182,25 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : ce commit
+
+### Lot 7 — frontend (8 leçons)
+
+Le lot le plus fort du corpus jusqu'ici sur D1/D4/D6/D7, et le plus faible sur D2 : **trois
+des huit** portent un défaut de prérequis de classe B ou C (`react-application-states` +9 j,
+`web-forms-validation` +7 j, `frontend-performance` +2 j), tous vers
+`react-composition-architecture` ou `html-semantic-structure`. Corrections au CP5.
+
+`html-semantic-structure` est la **deuxième leçon du corpus à 5 sur les quatorze dimensions**
+(après `portfolio-github`). Deux défauts nouveaux, mineurs :
+
+- **`browser-dom-rendering` (P2)** — la matrice de synchronisation totalise **20** croix
+  (comptées dans le fichier) et la leçon publie `N = 21`, répété en toutes lettres. N'inverse
+  aucune conclusion, mais l'apprenant doit produire ce nombre lui-même et comparer. Fix CP5.
+- **`typescript-frontend` (P2)** — l'argument sur `as` est produit **trois fois**, deux fois en
+  termes quasi identiques, et la section « Correction attendue » ne corrige aucun énoncé (la
+  pratique a déjà son corrigé juste au-dessus) : elle réexplique le cours. Fix CP5.
+
+Les huit archétypes du lot sont **tous distincts** — fondation conceptuelle, debugging,
+construction, architecture, sécurité, comparaison, optimisation, revue de code — ce qui
+satisfait la règle anti-clonage du CP2 sur huit leçons consécutives d'un même domaine.

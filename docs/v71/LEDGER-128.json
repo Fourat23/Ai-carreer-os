@@ -1538,5 +1538,230 @@
     "defauts": [],
     "action": "CONSERVE",
     "justif": "Seule leçon du lot a 5 sur les quatorze dimensions. Elle part d une contrainte mesurable — deux a trois minutes d attention, decision dans les dix premieres secondes — et en DEDUIT trois consequences qui contredisent l intuition : le code compte moins que sa presentation parce que personne ne l atteint ; un seul depot sera vraiment lu ; la quantite nuit. L ordre des six epingles est justifie par une regle unique et verifiable, aucun doublon de facette, avec le test qui elimine : un projet ne merite une position que si tu peux repondre a pourquoi as-tu fait ce choix plutot qu un autre sur au moins une decision de conception. La lecon s appuie sur les mesures d autres lecons plutot que d en inventer (README execute depuis un clone neuf, secret visible deux fois dans git log -p --all et survivant a gc --prune=now) et ordonne correctement les actions : revoquer d abord, trente secondes, seule action qui rend le secret inutilisable. Elle ajoute le point que les autres omettent : un depot public ayant contenu un secret ne redevient pas sur en devenant prive. La cle du tout, et elle est juste : l historique de commits est la seule partie du portfolio qu on ne peut pas maquiller apres coup."
+  },
+  {
+    "slug": "browser-dom-rendering",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "fondation conceptuelle",
+    "D": [
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P2",
+        "quoi": "D1 : la matrice de synchronisation de la correction totalise 20 croix (ajouter 4, cocher 3, decocher 3, supprimer 5, vider 5 — comptees dans le fichier) et la lecon publie N = 21. L erreur est repetee en clair plus bas : vingt et une occasions d erreur ramenees a zero. Contrairement aux deux P1 du lot 6, elle n inverse aucune conclusion — le critere N a deux chiffres tient dans les deux cas et l argument pedagogique est intact. Mais l apprenant doit produire ce nombre a partir de son propre code et comparer : celui qui compte 20 croira avoir oublie une croix et la cherchera. Remede : 20, aux deux endroits. A corriger au CP5."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "La pratique est le meilleur dispositif du corpus pour faire MESURER a l apprenant le probleme qu une bibliotheque resout, au lieu de le lui affirmer : matrice actions x zones, comptage des croix, rapport C/T entre 2 et 4 (deux a quatre fois plus de code pour tenir l ecran a jour que pour faire ce que l application fait), puis casser exprès trois croix dont une qui produit une incoherence SILENCIEUSE. L exemple guide etablit la notion qui portera tout le frontend : ce n est pas la valeur qui est perdue, c est l IDENTITE des elements — et il annonce explicitement qu elle resservira pour la key de React. Le tableau XSS est un apport reel et rarement enseigne : script non execute via innerHTML, img onerror et iframe srcdoc executes, d ou un test negatif sur un seul cas ne demontre rien. La generalisation finale (chaque copie d une verite est une occasion de diverger) porte au-dela du frontend."
+  },
+  {
+    "slug": "react-fundamentals",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "debugging",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Exemple guide exemplaire de l archetype : symptome (la coche a change de tache), puis le geste qui fait gagner une heure — verifier le STATE separement de l ecran, ce qui divise le champ de recherche en deux —, puis la cause. La key y est requalifiee de facon juste : ce n est pas un identifiant technique reclame par le framework, c est une AFFIRMATION d identite entre deux rendus. Et la lecon va plus loin que la correction du symptome : si l information cochee vivait dans l objet tache plutot que dans le DOM, la categorie entiere de bugs disparaissait. La correction mesure trois cas dans Chromium : muter et repasser la meme reference donne 0 rendu avec un ecart entre l etat et l ecran ; muter puis copier revele la mutation precedente a l occasion d une action SANS RAPPORT, donc le symptome apparait loin de sa cause. C est la vraie raison de la regle d immutabilite, et elle est rarement donnee. D8 et D12 a 4 : l enonce du Kanban tient en 25 mots et les attentes reelles (forme plate contre imbriquee, atomicite du deplacement) n apparaissent que dans la correction. D13 a 4 : pas de section de verification distincte."
+  },
+  {
+    "slug": "react-hooks-effects",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "construction",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "La lecon refuse la reponse facile et le dit : un debounce reduit le nombre de requetes, il ne garantit rien — ce qui est rare n est pas corrige, c est deguise. Elle reformule alors le probleme correctement (plusieurs requetes en vol peuvent ecrire dans le meme etat) et la solution en decoule. Le point subtil est explicitement isole : chaque execution de l effet a SON drapeau, capture par fermeture ; une variable declaree dehors, ou un useRef unique, casserait tout. Traces mesurees dans Chromium a l appui, y compris sous StrictMode. La lecon leve d elle-meme l inquietude legitime que le lecteur va avoir (et si l utilisateur efface tout ?) avec un journal d execution, et distingue proprement AbortController du drapeau : le drapeau garantit la JUSTESSE, l abandon recupere des RESSOURCES. D8 a 5 sans reserve : le protocole de verification est IMPOSE et le livrable comprend le journal obtenu, pas seulement le code. D13 a 4 : l auto-evaluation verifie l artefact, pas la comprehension."
+  },
+  {
+    "slug": "react-application-states",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "architecture",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 95 et exige react-composition-architecture (jour 104), soit +9 j, avec la formulation Tu dois maitriser ... et les principes de composition et d architecture d etat — aucun signalement. Remede recommande : requalifier en aide signalee, la lecon etant suivable sans. A corriger au CP5. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Le mouvement central est le bon et il est nomme : rendre l etat impossible plutot que le corriger. Le denombrement est fait devant l apprenant — trois variables independantes donnent huit etats representables, dont cinq legitimes, un franchement contradictoire et deux qui dependent d une intention que personne n a ecrite — puis la reformulation en union discriminee les rend inexprimables. On n a pas ajoute de garde, on a retire la possibilite. Deux qualites rares s ajoutent. La lecon dit NON a son propre outil au bon moment : le type suffit, le reducer ne devient utile que lorsque les transitions ont des regles. Et elle expose la LIMITE de sa solution avant que le lecteur ne la rencontre — mettre items dans la variante succes rend aussi inexprimable l affichage de l ancienne liste pendant un rechargement, qui est une contrainte reelle. La regle de partage URL/etat local est donnee avec son critere (ce qu on doit pouvoir partager, recharger ou retrouver au bouton retour) et sa consequence (se tromper de cote ne produit aucune erreur, seulement une application qui perd ce que l utilisateur croyait acquis)."
+  },
+  {
+    "slug": "web-forms-validation",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "securite",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 96 et exige html-semantic-structure (jour 103), soit +7 j, avec la formulation Tu dois savoir structurer une page avec des balises semantiques — aucun signalement. C est le plus petit ecart de la classe B, mais la formulation est bien une exigence. Remede recommande : integrer en une phrase le seul point necessaire (label associe au champ) ou requalifier en aide signalee. A corriger au CP5. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Le tableau des saisies acceptees par Chromium pour type=email est un apport reel, et la lecon en tire la bonne conclusion en refusant les DEUX conclusions repandues : ni type=email ne sert a rien puisqu il accepte a@b, ni type=email valide l adresse. La seule verification qui tranche est l envoi d un message de confirmation, et elle n appartient meme pas au formulaire — pendant que beaucoup d equipes passent des heures sur une regex parfaite qui, au passage, rejette des adresses legitimes. Le piege du champ type=number est du meme calibre et personne ne l attend : abc est ACCEPTE parce que le navigateur traite alors le champ comme vide, value vaut la chaine vide, et Number de la chaine vide vaut 0 — une saisie absurde devient une quantite de zero sans qu aucun signal ne se declenche. La formule retenue est juste et memorable : un champ valide n est pas un champ rempli. La pratique demande d ATTAQUER son propre formulaire et exige qu au moins deux attaques aient reellement abouti, constatees dans l onglet reseau."
+  },
+  {
+    "slug": "typescript-frontend",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "comparaison",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      4,
+      5,
+      4,
+      4
+    ],
+    "defauts": [
+      {
+        "p": "P2",
+        "quoi": "D14/D9 : l argument central sur le mot-cle as est produit trois fois dans la lecon, deux fois en termes quasi identiques. Explication complete : as User sans verification ferait exactement l inverse, supposer sans verifier. Exemple guide : as n est pas une verification, c est une AFFIRMATION adressee au compilateur. Correction attendue : as ne verifie rien, c est une affirmation adressee au compilateur, pas un controle. S ajoute un probleme de structure : la section Correction attendue (453 m) ne corrige aucun enonce — la pratique a deja son propre Corrige de la pratique (424 m) juste au-dessus — et elle reexplique le cours. Remede : fondre la troisieme passe dans la premiere, ou la reduire au rappel d une ligne. A corriger au CP5."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Le dispositif est excellent et honnete : cinq situations soumises a tsc --strict, sortie brute publiee, trois erreurs sur cinq — et les deux qui passent en silence sont exactement les deux qui plantent en production. Le cas 2 est presente comme une erreur DESIREE, ce qui est la bonne lecture de unknown : le compilateur refuse de deviner et oblige a prouver. La correction distingue finement deux usages du meme mot-cle : le as Record dans la garde est assume parce qu il n affirme que ce qui vient d etre teste, alors que le as User sur une reponse reseau affirme ce qui n a pas ete teste du tout — la difference n est pas la presence du mot, c est ce qu on affirme et qui l a verifie. Le point sur la localisation du plantage est juste et utile : le message d erreur designe la victime, jamais le coupable. La lecon dit aussi ce qu elle ne dit pas (les bibliotheques de schema, et pourquoi elles evitent la divergence entre garde et type). D11 et D14 a 4 : voir le defaut ci-dessus. D13 a 4 : pas de section de verification distincte."
+  },
+  {
+    "slug": "frontend-performance",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "optimisation",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 102 et exige react-composition-architecture (jour 104), soit +2 j, avec la formulation Tu dois comprendre ... la memoisation et l architecture d etat. Ecart faible et recouvrement quasi immediat, mais la formulation est une exigence non signalee et l ancre gelee ne distingue pas selon l ecart. A noter : la meme section traite CORRECTEMENT responsive-design, hors parcours, par un encadre Etagere de reference explicite — le modele a appliquer est donc dans la lecon elle-meme. A corriger au CP5. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Archetype respecte a la lettre : mesure initiale, hypothese, changement, mesure finale, cout. Les deux mesures sont bien choisies et complementaires. Le layout thrashing donne un rapport de 420 (9 088,7 ms contre 21,6 ms, verifie) pour deux boucles qui font la meme chose avec le meme nombre d operations — et la lecon souligne que AUCUN des reflexes habituels ne l aurait trouve : ni boucle mal ecrite, ni algorithme quadratique, ni calcul couteux. La seconde mesure (500 rendus par frappe, 0 avec memo) prolonge le meme enseignement, formule explicitement : le cout vient de la REPETITION d un travail invisible, pas de la lourdeur d une operation visible. Le tableau des leviers est ordonne par cout croissant et impose l architecture d abord — descendre l etat supprime les 500 rendus sans ajouter une ligne, la ou memo les supprime en ajoutant une comparaison permanente. Le piege qui annule tout (style objet litteral et fleche en props d un composant memo) est le cas le plus frequent et il est indetectable a la lecture. Enfin la lecon donne la vraie raison de condamner l optimisation prematuree : non qu elle soit inutile, mais qu elle ajoute des CONTRAINTES PERMANENTES contre un gain que personne n a mesure."
+  },
+  {
+    "slug": "html-semantic-structure",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "revue de code",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Deuxieme lecon du corpus a 5 sur les quatorze dimensions. Le tableau mesure div onclick contre button (compte comme bouton par les aides techniques, tabIndex -1 contre 0, atteignable par Tab, declenchement Entree/Espace 0 fois sur 2 contre 2 sur 2) etablit le fait, et la lecon ajoute ce qui le rend couteux : c est un bug qu aucun test manuel ordinaire ne revele, puisque celui qui teste clique dessus. La decision 1 est conduite jusqu au bout au lieu d etre tranchee par un principe : on repare le div, tabindex, role, gestionnaire keydown filtrant Entree ET Espace avec preventDefault sur Espace, puis l etat desactive, la soumission de formulaire, le contraste eleve — une dizaine de lignes pour reobtenir imparfaitement ce que six caracteres donnaient. D ou la reformulation de la question : jamais quelle balise a la bonne apparence, mais quelle balise a le bon COMPORTEMENT. La decision 2 est ce qui distingue cette lecon d une documentation : le contre-piege attrape celui qui a compris trop vite et remplace machinalement ses div par des section — mesure, une section sans nom accessible n expose aucune region et n apporte rien de plus qu un div."
   }
 ]

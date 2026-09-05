@@ -8,9 +8,9 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **72 / 128**
-- **dernier lot complet** : **9 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 10/16**, leçons 73 à 80 de
+- **leçons réellement lues et notées** : **80 / 128**
+- **dernier lot complet** : **10 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 11/16**, leçons 81 à 88 de
   `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
@@ -74,23 +74,23 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **72 / 128**
-- notations D1→D14 complètes : **72 / 128**
-- moyenne provisoire (72 notées) : **4,788**
-- leçons sous 3,00 : **0**
-- **P0 : 0** · **P1 : 15** · **P2 : 9** · **P3 : 9**
+- leçons réellement lues : **80 / 128**
+- notations D1→D14 complètes : **80 / 128**
+- moyenne provisoire (80 notées) : **4,778**
+- leçons sous 3,00 : **0** · minimum du corpus : **4,14**
+- **P0 : 0** · **P1 : 18** · **P2 : 10** · **P3 : 9**
 
-### Moyenne par dimension (72 notées)
+### Moyenne par dimension (80 notées)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,86 | **4,22** | 4,94 | 4,99 | 4,97 | 4,72 | 4,97 |
+| 4,84 | **4,15** | 4,95 | 4,99 | 4,97 | 4,75 | 4,96 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,86 | 4,97 | 4,61 | 4,78 | 4,90 | **4,33** | 4,89 |
+| 4,80 | 4,97 | 4,65 | 4,80 | 4,84 | **4,31** | 4,90 |
 
-**Sept leçons à 5,00** : les six du lot 8 plus `statistics-for-ml`.
+**Huit leçons à 5,00**, la dernière étant `rag-fundamentals`.
 
 **Six leçons à 5,00 sur les quatorze dimensions** : `portfolio-github`,
 `html-semantic-structure`, `react-accessibility`, `react-composition-architecture`,
@@ -170,7 +170,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 72/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 80/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -192,7 +192,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 
@@ -264,3 +264,36 @@ signal) : vérification systématique reportée au CP11.
 **D13 est le point bas structurel du domaine ML** : six des huit leçons du lot n'ont pas de
 section de vérification de compréhension distincte, contre la quasi-totalité du lot frontend
 qui en a une.
+
+### Lot 10 — LLM et RAG
+
+**La leçon la plus faible du corpus à ce stade : `llm-cost-optimization`, 4,29.** Ses douze
+cellules de coût sont exactes et son facteur global de 196 aussi, mais la section « Les trois
+leviers, par ordre d'efficacité » énonce en **ratios de jetons** ce qu'elle présente comme des
+ratios de **facture** :
+
+| affirmation | mesuré |
+|---|---|
+| « divise la facture par environ 60, sur n'importe quelle ligne » | 53,6 · 48,3 · 44,6 · 48,3 |
+| « divise la facture par cinq environ » | 2,9 (A) · 3,1 (B) · 2,4 (C) |
+| « coûte trois fois moins cher » | 2,0 |
+
+Le 60 est le rapport des prix d'**entrée** ; le 5,5 est le rapport des **jetons** d'entrée. Le
+classement des leviers reste juste (48 > 2,9 > 1,4), donc D1 = 3 et non 2. Aggravant : le
+levier 3 est calculé **correctement** sur la facture par la même leçon (1,4 ×, et « 12 % des
+jetons pour 41 % du coût » vérifié exactement) — elle sait faire et ne l'a pas fait deux fois
+sur trois. Fix CP7.
+
+**Trois P1 de prérequis dans un seul lot** : `prompt-engineering` → `ai-evaluation` (+56 j,
+deuxième plus grand écart du corpus), `rag-evaluation` → `ai-evaluation` (+35 j),
+`llm-cost-optimization` → `rag-fundamentals` (+21 j). Le domaine IA appliquée concentre les
+défauts d'ordre.
+
+**Un comptage faux** dans `prompt-engineering` : le tableau des neuf sorties montre **quatre**
+lignes qui passent `JSON.parse` en violant le schéma, le texte en annonce **cinq**. Même
+classe que le `N = 21` de `browser-dom-rendering`. P2.
+
+Tout le reste du lot a été **recalculé et confirmé exact** : les trois lignes de coût de
+`llm-fundamentals` (36 675 / 2 025 / 2 925 €), les sept lignes de `chunking-strategies`, et
+les **dix valeurs** du tableau de cosinus aléatoires d'`embeddings`, vérifiées par simulation
+de Monte-Carlo sur 200 000 paires par dimension.

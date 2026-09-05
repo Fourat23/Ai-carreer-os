@@ -2203,5 +2203,228 @@
     ],
     "action": "RETOUCHE",
     "justif": "La lecon fait ce que presque aucune ne fait sur ce sujet : elle CALCULE l attention au lieu de la raconter. Dort regarde chat est une phrase qu on lit partout et qui n apprend rien ; a la place, une matrice 3x3 sur des vecteurs de dimension 4 choisis a la main, dont les trois lignes somment bien a 1 (verifie), et le vecteur de dort avant et apres la moyenne ponderee. La definition qui en sort est exacte et desacralisante : integrer le contexte, c est UNE MOYENNE PONDEREE DONT LES POIDS SONT CALCULES PAR PRODUIT SCALAIRE, rien d autre. Les trois autres decisions sont du meme niveau. Le masque causal est explique par sa RAISON (sinon le modele tricherait en s entrainant a predire un mot deja lu) et debouche sur une propriete observable tous les jours, plus la remarque que les modeles concus pour comprendre plutot que generer sont la meme architecture avec un triangle en moins. La division par racine de d est expliquee mecaniquement — sans elle le softmax sature, un poids a 1 et les autres a 0, le gradient s annule — avec la generalisation : beaucoup de constantes bizarres existent pour garder une quantite dans la plage ou le calcul reste stable. Et la decision 4 DEDUIT DE L ARCHITECTURE, non d une opinion sur les LLM, que l assurance d un modele n est pas un signal de fiabilite : le mecanisme produit exactement la meme chose pour une question dont il connait la reponse et pour une question sur un sujet invente. La variante lit le cout quadratique directement dans la forme du tableau — 3x3 devient 8x8 — et le relie a une propriete de produit qu on paie chaque mois. D13 a 4."
+  },
+  {
+    "slug": "llm-cost-optimization",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "optimisation",
+    "D": [
+      3,
+      1,
+      5,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D1 : la section « Les trois leviers, par ordre d efficacite » enonce en RATIOS DE JETONS ce qu elle presente comme des ratios de FACTURE — et contredit ainsi la methode que la lecon etablit elle-meme trois paragraphes plus bas. Les douze cellules du tableau sont exactes (recalculees : 900/86,4/16,8 · 444/40,8/9,2 · 312/27,6/7,0 · 222/20,4/4,6) et le facteur global de 196 aussi. Mais : levier 1, « passer de A a C divise la facture par environ 60, sur n importe quelle ligne du tableau » — mesure sur les quatre lignes : 53,6 · 48,3 · 44,6 · 48,3, jamais 60. Le 60 est le rapport des prix d ENTREE (3,00/0,05) ; la sortie a 15/0,40 = 37,5 tire la moyenne vers le bas. Levier 2, « passer de 6 000 a 1 100 jetons d entree divise la facture par cinq environ » — mesure : 2,9 pour A, 3,1 pour B, 2,4 pour C. Le 5,5 est le rapport des JETONS d entree, pas de la facture, le cout de sortie restant constant. Et « envoyer cinq morceaux pertinents plutot que tout l historique coute trois fois moins cher » — mesure : 2,0. Le classement des leviers, qui est le point pedagogique, reste juste (48 > 2,9 > 1,4) ; ce sont les grandeurs qui sont fausses. Aggravant : le levier 3 est calcule CORRECTEMENT sur la facture (1,4 fois, et « 12 % des jetons pour 41 % du cout » verifie exactement), donc la lecon sait faire et ne l a pas fait pour les deux autres. Remede : remplacer 60 par environ 48, 5 par environ 3, et « trois fois » par « deux fois ». A corriger au CP7."
+      },
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 197 et exige rag-fundamentals (jour 218), soit +21 j, avec la formulation Tu dois savoir ... et comment un RAG injecte du contexte recupere dans le prompt — la principale source de jetons d entree. Remede recommande : integrer la notion en une phrase, un RAG remplace l historique complet par quelques passages recuperes, ce que le tableau de la lecon illustre deja. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Le squelette est excellent et la these est juste : « optimiser le cout d un LLM » n est pas un reglage mais une decision de conception, et le tableau a douze cellules le demontre — 900 EUR contre 5 EUR par mois pour le meme produit et le meme nombre de requetes, soit un facteur 196 verifie exactement. Le passage sur la sortie est le meilleur de la lecon et il est exact au chiffre pres : la sortie represente 12 % des jetons et 41 % du cout, parce qu un jeton produit coute cinq fois un jeton lu — d ou un format verbeux qui coute beaucoup plus que sa proportion en jetons ne le suggere. La requalification du levier modele est juste aussi : ce n est pas une decision unique mais une decision PAR TACHE, et la bonne question n est pas quel modele mais quelles taches ont vraiment besoin du grand modele. Les tarifs sont declares illustratifs et la lecon dit explicitement que ce qui s apprend est la STRUCTURE du calcul, jamais un prix — c est le bon niveau de prudence. D1 a 3 : exact sur le fond et sur le classement, mais deux des trois grandeurs annoncees sont des ratios de jetons presentes comme des ratios de facture, ce qui deviendrait faux des qu on les generalise, et n est pas signale. D7 a 4 : l exemple guide porte ce defaut."
+  },
+  {
+    "slug": "llm-fundamentals",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "fondation conceptuelle",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Les trois lignes du tableau de cout reproduites EXACTEMENT (36 675 / 2 025 / 2 925 EUR par mois, avec une sortie constante de 240 jetons), le rapport de 18 fois et l ecart de 34 000 EUR aussi. La lecon fait ce qu il faut sur des chiffres perissables : elle declare ses tarifs illustratifs et ecrit « verifie toujours les tarifs courants, ils changent souvent », ce qui est exactement ce que l ancre D1 niveau 5 demande d une affirmation dependante d un contexte. Le modele mental est le bon et il est formule pour etre opposable : LA FENETRE DE CONTEXTE EST UN BUDGET, PAS UNE CAPACITE — « ca rentre dans la fenetre » ne veut pas dire « c est une bonne idee de l y mettre », de la meme facon que « la requete SQL fonctionne » ne veut pas dire « elle passe a l echelle ». La decision 2 ajoute ce que le seul calcul ne dit pas : latence, qualite (l information utile noyee au milieu d un tres long contexte est moins bien exploitee) et confidentialite pointent dans le MEME sens, et la lecon note que c est justement quand les quatre criteres s accordent qu il faut prendre la decision explicitement plutot que par defaut. Enfin la propriete la plus sous-estimee est nommee : un modele distant est LA SEULE DEPENDANCE DE TON SYSTEME QUI PEUT CHANGER DE COMPORTEMENT SANS QUE RIEN NE BOUGE DANS TON DEPOT — d ou le jeu d evaluation versionne. D13 a 4."
+  },
+  {
+    "slug": "prompt-engineering",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "debugging",
+    "D": [
+      4,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 197 et exige ai-evaluation (jour 253), soit +56 j — le deuxieme plus grand ecart du corpus — avec la formulation l evaluation d un prompt par un jeu de cas mesure s appuie sur. Remede recommande : requalifier en aide signalee, ou integrer en une phrase la notion de jeu de cas mesure, que la lecon utilise deja implicitement avec son tableau de neuf sorties. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+      },
+      {
+        "p": "P2",
+        "quoi": "D1 : le texte compte cinq la ou son propre tableau en montre quatre. Le tableau des neuf sorties donne : parse OK sur 6 lignes (1, 4, 5, 7, 8, 9), conformes au schema 2 (lignes 1 et 9), donc parse-OK-mais-fausses = 4. Le paragraphe qui suit ecrit « CINQ sorties sur neuf passent le JSON.parse et sont fausses quand meme ». Comptage refait sur le fichier : quatre. La ligne 9 (champ en trop) est marquee conforme dans le tableau ; si on la comptait non conforme le total des conformes tomberait a 1 et la ligne de synthese « respectent reellement le schema : 4 / 9 » deviendrait fausse a son tour. Le point pedagogique — JSON.parse ne protege pas — tient quel que soit le compte, mais l apprenant est invite a lire la colonne de droite et trouvera quatre. Meme classe que le N = 21 de browser-dom-rendering. Remede : ecrire quatre. A corriger au CP7."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Le tableau des neuf sorties reelles est le bon dispositif pour ce sujet, parce qu il attaque le prompt par ou il echoue plutot que par ou il reussit : le prompt donne contient DEJA les quatre bons reflexes — schema explicite, exemple, traitement des absents, interdiction de bavarder — et la lecon le dit avant de montrer qu il echouera quand meme, PAS parce qu il est mal ecrit mais parce qu un prompt est une consigne, pas une garantie. La formule qui en sort est excellente et se transfere bien au-dela des LLM : SAVOIR LIRE UNE DONNEE N EST PAS SAVOIR QU ELLE EST CORRECTE. La distinction entre les deux cas piegeux est fine et juste — « 240 » est une chaine qui RESSEMBLE a un nombre, « null » une chaine qui RESSEMBLE a une absence — et debouche sur la regle : le schema vit dans ton code, pas dans ton prompt ; le prompt demande, le code exige. La decision 4 a le courage de dire que la bonne reponse n est pas un meilleur prompt : beaucoup de problemes de prompt engineering se resolvent mieux en changeant de MECANISME qu en ajoutant des phrases. Et la variante est le meilleur passage : rendre un champ obligatoire force le modele a le remplir, donc a deviner — garder null autorise, parce que « je ne sais pas » est une reponse dont ton systeme a besoin et qu un champ obligatoire lui interdit d exprimer."
+  },
+  {
+    "slug": "structured-outputs-tools",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "securite",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "La lecon corrige d emblee ce que le nom du sujet induit en erreur, et c est la moitie de sa valeur : « function calling » laisse croire que le modele execute une fonction — il n execute rien, il produit du texte structure qui DEMANDE un appel, et c est ton programme qui decide s il obeit. La lecon precise pourquoi ce n est pas du vocabulaire : cette frontiere est l endroit exact ou se trouvent toute la securite et toute la fiabilite du systeme. Le modele propose, ton code dispose. La decision 2 transpose exactement le raisonnement de l injection SQL — une valeur venue d ailleurs ne doit jamais devenir du code — et en tire la regle de conception d un outil : valide l argument COMME SI UN ATTAQUANT L AVAIT ECRIT, parce que c est parfois le cas, et surtout tu ne securises pas un outil dangereux avec des consignes, tu ne lui donnes pas l outil. La decision 3 donne un critere de tri des erreurs qui est le bon et qui est deja celui du choix entre un 400 et un 503 : quelqu un peut-il agir sur cette erreur, et qui. La decision 4 traite le budget d iterations comme une decision de conception et non une precaution, avec la consequence que presque personne n ecrit : renvoyer le dernier texte produit quand le budget est epuise est le PIRE choix, car c est precisement une reponse que le modele n a pas fini d etayer — un budget qui se termine en silence par une reponse plausible transforme une limite technique en hallucination. Enfin la variante donne la regle de classement des outils : classe-les par CE QU ILS CASSENT, pas par ce qu ils font. D8/D12/D13 a 4 : deux enonces courts, pas de section de verification."
+  },
+  {
+    "slug": "chunking-strategies",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "comparaison",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Les sept lignes du tableau de stockage et les quatre du tableau de coupures recalculees EXACTEMENT (60/12 000/0 %, 67/13 400/+12 %, 80/16 000/+33 %, 15/12 000/0 %, 17/13 600/+13 %, 20/16 000/+33 %, 10/16 000/+33 % ; coupures 15,0 / 8,3 / 5,0 / 2,5 %, et 1,9 % pour 1 600 sans recouvrement). La lecon ouvre en attaquant la source du probleme plutot que le probleme : « decoupez en morceaux de 500 caracteres avec 100 de recouvrement » vient de nulle part, ce sont les nombres du premier tutoriel recopies depuis. Elle pose ensuite trois quantites qui s opposent et etablit qu AUCUN reglage ne maximise les trois — d ou « la bonne taille de morceau » n existe pas dans l absolu. Deux resultats non triviaux et tous deux verifies. Le surcout du recouvrement NE DEPEND QUE DE SON POURCENTAGE, pas de la taille : 25 % de recouvrement coutent 33 % de stockage que les morceaux fassent 200 ou 1 600 mots — et c est exact, puisque les mots stockes valent le document divise par (1 moins le taux). Et la conclusion contre-intuitive : c est LE PAS qui gouverne le taux de coupure, pas le recouvrement, si bien qu agrandir les morceaux reduit les coupures plus efficacement que le recouvrement — un morceau de 1 600 sans recouvrement coupe 1,9 % des phrases, mieux qu un morceau de 200 avec 25 % de recouvrement, et sans surcout. Le recouvrement ne se justifie donc que si l on veut des morceaux petits. D8/D12/D13 a 4."
+  },
+  {
+    "slug": "embeddings",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "fondation conceptuelle",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Le tableau des cosinus aleatoires par dimension a ete verifie par simulation de Monte-Carlo (200 000 paires par dimension) et les DIX valeurs correspondent : ecarts-types 0,707 / 0,316 / 0,100 / 0,036 / 0,026 contre 0,71 / 0,32 / 0,099 / 0,036 / 0,025 publies, et P(|cos| > 0,30) 80,63 / 36,90 / 0,25 / 0,00 / 0,00 % contre 80,6 / 37,1 / 0,22 / 0,00 / 0,00. C est l un des resultats les plus contre-intuitifs du domaine et il est ici DEMONTRE : en dimension 768 ou 1 536, deux textes sans aucun rapport ont un cosinus a quelques centiemes de zero, donc un score de 0,30 y est deja un signal massif, alors qu en dimension 2 il arrive quatre fois sur cinq par hasard. La consequence est immediate et bien tiree : un seuil recopie d un tutoriel ne vaut rien puisqu il depend du modele et de sa dimension, et la lecon donne la demarche empirique de remplacement — trente questions reelles, les scores des passages que TOI tu juges pertinents contre ceux des hors-sujet, le seuil la ou les deux nuages se separent — avec le cas d echec : s ils ne se separent pas, aucun seuil ne te sauvera, c est le decoupage ou le modele qu il faut revoir. La decision 2 traite cosinus contre distance sans dogmatisme : le cosinus ne regarde que la direction, c est un CHOIX qu il faut savoir justifier (je compare des sens, pas des intensites), et sur des vecteurs normalises la question disparait d elle-meme. D8/D12/D13 a 4."
+  },
+  {
+    "slug": "rag-evaluation",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "investigation",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 218 et exige ai-evaluation (jour 253), soit +35 j, avec la formulation Tu dois maitriser les principes d evaluation d un systeme IA — golden set, evaluation par etage, LLM-as-judge calibre, baseline. C est tout le vocabulaire de la lecon, exige avant d etre enseigne. Remede recommande : integrer les quatre notions en un paragraphe, la lecon les redefinissant de toute facon dans son corps. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "La lecon ouvre sur le vrai probleme operationnel — « le RAG repond mal a la question 12 » n est pas actionnable, cinq maillons peuvent etre en cause, et modifier au hasard celui qu on connait le mieux est ce qu on fait par defaut — puis donne le geste qui tranche : UNE question binaire, le passage contenant la reponse est-il dans ce qu on a envoye au modele. Elle en souligne le rendement : cette bissection elimine la moitie de la chaine en une minute, sans appeler quoi que ce soit, et c est le geste le plus rentable du domaine et le plus souvent omis. Le tableau des deux systemes est le meilleur argument possible contre la note globale : rappel 0,95 avec fidelite 0,60, et rappel 0,60 avec fidelite 0,95, rendent le MEME verdict mediocre pour deux problemes OPPOSES — et l on passe alors des semaines a ameliorer le prompt d un systeme dont le prompt est excellent et dont la recherche ne trouve rien. Le jeu de reference est specifie en cinq types dont trois pieges, et la lecon designe le plus absent des jeux maison : la question SANS REPONSE dans le corpus, qui teste l abstention. Son argument est juste — c est le cas ou l erreur est la plus grave puisque l utilisateur n a aucun moyen de la detecter — et le comportement attendu est ecrit d avance, une reponse plausible et inventee etant un ECHEC meme bien redigee. D8/D12/D13 a 4 : deux enonces courts."
+  },
+  {
+    "slug": "rag-fundamentals",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "debugging",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "5 sur les quatorze. L exemple guide fait exactement ce que l archetype demande : un symptome (le systeme repond « je ne trouve pas » alors que l information est dans le corpus), puis le diagnostic binaire AVANT toute hypothese, avec la raison de ne jamais le sauter — c est lui qui evite de passer une journee a retoucher un prompt alors que le passage n arrivait meme pas jusqu a lui — et la condition qui le rend possible : journaliser systematiquement les morceaux retenus, sans quoi on debogue a l aveugle. La cause est ensuite MONTREE sur le texte source decoupe : aucun morceau ne contient a la fois « demission/preavis » et « deux mois », le premier parlant de demission sans donner de duree et le second donnant deux mois sans dire de quoi il s agit. La conclusion est nette : la recherche par similarite fonctionne parfaitement, c est le decoupage qui a separe la question de sa reponse, et aucun reglage de k ni changement de modele d embedding ne reparera ca. Deux correctifs mesures sur le meme texte, avec leur arbitrage (le chevauchement est la rustine generique au prix d une redondance ; le decoupage par la structure est meilleur quand elle existe). La regle a emporter est la bonne formulation du sujet : UN MORCEAU DOIT POUVOIR ETRE LU ET COMPRIS ISOLEMENT, puisque c est exactement dans cet etat qu il arrivera au modele — un morceau qui commence par « a deux mois pour les cadres » n a de sens pour personne. Et la decision 4 traite le refus comme une fonctionnalite specifiee et TESTEE, avec l explication mecanique de son absence : aucune suite plausible ne dit « je ne sais pas » si on ne l a pas appris au modele — un RAG qui ne refuse jamais rien n est pas un RAG confiant, c est un RAG dont personne n a ecrit le cas d echec."
   }
 ]

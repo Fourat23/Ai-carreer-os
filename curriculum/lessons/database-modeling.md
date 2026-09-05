@@ -178,6 +178,20 @@ Modélise « des étudiants s'inscrivent à des cours avec une note finale » : 
 ## 🔥 Exercice plus difficile
 Sur une base peuplée (10k+ lignes) : mesure une requête filtrée sans index, pose l'index, remesure, documente le gain. Puis écris la transaction « commande + stock » et prouve le rollback sur une panne simulée.
 
+**Critères de réussite, vérifiables seul.**
+
+1. **Sur l'index : le gain doit se lire dans le PLAN, pas seulement au chronomètre.**
+   Demande son plan à la base (`EXPLAIN`, ou `EXPLAIN QUERY PLAN` en SQLite) avant et après.
+   Tu dois voir un parcours complet de table devenir un parcours d'index. Le temps seul ne
+   suffit pas comme preuve : sur 10 000 lignes, une table entière tient en mémoire, et deux
+   mesures peuvent différer d'un facteur deux **pour des raisons qui n'ont rien à voir avec
+   ton index**. Si le plan ne change pas mais que le temps baisse, tu as mesuré du cache.
+2. **Sur la transaction : recompte le stock après le rollback.** Il doit valoir exactement ce
+   qu'il valait avant, à l'unité près. Et fais le test qui compte vraiment — provoque la
+   panne **entre** l'insertion de la commande et le décrément du stock, pas avant l'une ni
+   après l'autre. C'est le seul instant où l'absence de transaction se voit, et c'est
+   précisément celui qu'on n'atteint jamais par hasard.
+
 ## ✅ Correction
 
 ### Le mini-exercice : où vit la note ?

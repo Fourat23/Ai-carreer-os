@@ -248,6 +248,29 @@ est-il meilleur que le modèle B à 77 % ? ».
 signale les variables dont la corrélation avec la cible dépasse un seuil élevé.
 Teste-la sur le jeu de C. Livrable : la sortie, et les limites que tu identifies.
 
+**Critères de réussite, vérifiables seul.**
+
+- **A — l'exactitude du classifieur de référence doit être élevée et son rappel nul.** Sur un
+  jeu à 3 % de positifs, prédire toujours « négatif » donne 97 % d'exactitude et 0 % de
+  rappel. Si ton modèle réel ne bat pas cette référence sur le **rappel**, il n'a rien appris,
+  quel que soit son score d'exactitude — c'est la réponse au mini-exercice, et il faut
+  l'obtenir soi-même une fois.
+- **C — les deux écarts doivent être de grandeurs très différentes**, et c'est le résultat de
+  l'exercice : la fuite par variable construite depuis la cible produit un écart massif, la
+  fuite par normalisation un écart proche de zéro. Si tu mesures deux écarts comparables,
+  l'une des deux fuites n'est pas celle que tu crois. La raison est mécanique : la
+  normalisation ne transporte que deux nombres par variable et **ne regarde jamais la cible**.
+- **D — c'est le critère décisif de toute la pratique.** L'étendue min–max sur vingt
+  découpages doit **contenir** l'écart entre tes deux modèles A et B. Alors la réponse à
+  « A à 79 % est-il meilleur que B à 77 % ? » est **non, on ne peut pas le dire** — et savoir
+  répondre cela est plus utile que n'importe quel score. Si ton étendue est plus étroite que
+  deux points, vérifie que tu changes bien la graine du découpage à chaque tirage.
+- **E — ton détecteur doit signaler la variable fabriquée en C, et il doit aussi produire au
+  moins un faux positif** sur un jeu réel. S'il n'en produit aucun, ton seuil est trop haut
+  pour servir à quoi que ce soit. C'est la limite à identifier : **une corrélation forte
+  n'est pas une fuite**, c'est une variable à examiner — la question qui tranche est
+  temporelle, pas statistique.
+
 ## ✅ Correction attendue
 
 **A — les six nombres.** Le résultat attendu est celui mesuré : une exactitude

@@ -276,6 +276,27 @@ environnement, politique de redémarrage, délai, limite de tentatives, type de
 notification. Explique en une ligne par directive ce qu'elle achète, en te
 référant à tes propres mesures.
 
+**Critères de réussite, vérifiables seul.**
+
+- **A — le chiffre extrapolé doit être absurde, et c'est le résultat.** Un superviseur sans
+  délai relance des milliers de fois par minute, ce qui donne des centaines de milliers de
+  relances à l'heure. Ce n'est pas un détail de confort : c'est ce qui remplit un disque de
+  journaux et met un serveur à genoux **à cause du superviseur**, pas à cause de la panne.
+- **B — la limite doit se déclencher, pas seulement exister.** Sur dix secondes, tu dois voir
+  le superviseur passer réellement à l'état « échoué ». Un superviseur qui abandonne est un
+  superviseur qui fonctionne : sans abandon, une panne permanente devient une boucle
+  permanente.
+- **C — les deux codes de sortie attendus sont `143` et `137`** (vérifié : `128 + 15` pour un
+  arrêt demandé, `128 + 9` pour une terminaison forcée). Ton superviseur doit **relancer sur
+  137 et pas sur 143**. S'il relance sur les deux, `systemctl stop` ne pourra jamais arrêter
+  ton service — c'est exactement la réponse au mini-exercice, et il faut l'avoir observée.
+- **D — l'écart entre « actif » et « prêt » doit être non nul et mesuré.** C'est ce délai que
+  l'orchestrateur ignore quand il n'a qu'un signal de démarrage : il envoie du trafic à un
+  service qui n'a pas fini de charger, et l'incident ressemble à une panne intermittente.
+- **E — chaque directive doit renvoyer à un chiffre que tu as mesuré toi-même.** Si tu ne
+  peux pas dire ce qu'une ligne achète, retire-la : un fichier d'unité recopié est
+  exactement le genre de configuration que personne n'ose modifier trois ans plus tard.
+
 ## ✅ Correction attendue
 
 **A — le superviseur naïf.** Les ordres de grandeur mesurés : environ 18 relances

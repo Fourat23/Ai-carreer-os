@@ -144,6 +144,24 @@ Ajoute un middleware `requireAuth` à ton API et prouve les 3 cas : sans token �
 ## 🔥 Exercice plus difficile
 Implémente login (hachage bcrypt) + délivrance de token + une règle d'AuthZ de propriété (mes notes seulement), avec les tests des cas 401/403/404 et un rate limit sur /login.
 
+**Critères de réussite, vérifiables seul, et les deux premiers sont des pièges classiques.**
+
+1. **Hache deux fois le même mot de passe et compare les deux empreintes : elles doivent
+   différer.** Si elles sont identiques, tu n'utilises pas bcrypt correctement — le sel est
+   tiré au hasard à chaque appel, et c'est précisément ce qui rend une table pré-calculée
+   inutile. La vérification ne compare donc jamais deux empreintes : elle re-hache avec le
+   sel stocké dans l'empreinte elle-même.
+2. **Demande la note d'un autre utilisateur avec un token valide. Le statut doit être le
+   même que pour une note inexistante.** Si tu renvoies 403 pour « existe mais pas à toi » et
+   404 pour « n'existe pas », tu viens de construire un oracle : n'importe qui peut énumérer
+   les identifiants valides en lisant tes codes de statut. C'est le compromis le plus mal
+   connu de cette leçon — 403 est plus honnête, 404 est plus sûr, et le choix se fait selon
+   ce que l'existence d'une ressource révèle.
+3. **Sur le rate limit : dépasse-le, puis attends et réessaie.** Le blocage doit se lever
+   tout seul. Un rate limit qui ne se relâche pas n'est pas une protection, c'est un déni de
+   service que tu t'infliges — et le premier utilisateur à en souffrir sera quelqu'un qui a
+   simplement tapé son mot de passe de travers cinq fois.
+
 ## ✅ Correction
 
 ### La démarche : deux questions, deux endroits

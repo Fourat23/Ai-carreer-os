@@ -256,6 +256,23 @@ fumée sur un mini jeu de référence rejoué (appels au modèle simulés, donc
 déterministes), qui échoue si un score descend sous un seuil. Puis dégrade
 volontairement le prompt et montre que l'étape rougit.
 
+**Critères de réussite, vérifiables seul.**
+
+- **A et D partagent le même critère, et c'est le principe de toute la pratique : tu dois
+  avoir vu le rouge.** Une capture verte ne prouve rien — ni que les tests tournent, ni
+  qu'ils sont branchés, ni que l'échec bloque quoi que ce soit. Un pipeline qui n'a jamais
+  rougi peut parfaitement exécuter zéro test : c'est le mode de défaillance le plus commun
+  et le plus rassurant qui soit.
+- **B — le résultat attendu n'est pas zéro test instable, c'est de savoir combien.** Si les
+  trois exécutions en ordre aléatoire donnent exactement le même résultat, vérifie d'abord
+  que l'ordre change réellement ; beaucoup de lanceurs ignorent silencieusement l'option.
+- **C — le pourcentage est le chiffre à retenir, et il surprend toujours.** Avec un seul test
+  qui échoue une fois sur vingt, un pipeline de cent tests est vert environ **99 %** du
+  temps ; avec cinq tests dans ce cas, il tombe autour de **78 %** — soit un pipeline sur
+  cinq à relancer sans raison. **Les taux se multiplient**, et c'est le calcul qui explique
+  pourquoi une équipe finit par relancer par réflexe, puis par ne plus lire les échecs.
+  Compare ton pourcentage à ton propre agacement : ils devraient coïncider.
+
 ## ✅ Correction attendue
 
 **A — la CI minimale.** La forme attendue :

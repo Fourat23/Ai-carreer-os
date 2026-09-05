@@ -153,6 +153,28 @@ duquel l'entraînement devient impossible en pratique.
 différentes et compte les échecs. Pour chaque échec, compte les neurones qui ne
 s'activent jamais. Livrable : le taux d'échec et le nombre de neurones morts.
 
+**Critères de réussite, vérifiables seul — chacun a une valeur attendue.**
+
+- **A** — les quatre sorties doivent approcher **0, 1, 1, 0**. Si elles convergent toutes
+  vers la même valeur, ton gradient ne se propage pas jusqu'à la couche cachée : c'est
+  presque toujours une transposition oubliée, pas une erreur de concept.
+- **B** — sans couche cachée, les quatre sorties se figent **autour de 0,5** et l'erreur
+  cesse de baisser. Ce n'est pas un manque d'entraînement : **aucune droite ne sépare les
+  deux classes du OU exclusif**, et une couche unique ne trace qu'une droite. Entraîne
+  cent fois plus longtemps pour t'en convaincre — le chiffre ne bougera pas.
+- **C** — le rang mesuré doit valoir **le minimum des deux dimensions**, ce qui démontre le
+  point : deux couches linéaires sans non-linéarité **sont** une seule couche linéaire. Ton
+  erreur avec l'identité doit donc être la même qu'en B.
+- **D** — les valeurs attendues sont `0,25` · `9,8 × 10⁻⁴` · `9,5 × 10⁻⁷` · `9,1 × 10⁻¹³` ·
+  `7,9 × 10⁻³¹`, contre `1` partout pour une dérivée de 1. **Vers vingt couches, le gradient
+  passe sous la précision utile des nombres flottants** : l'entraînement ne ralentit pas, il
+  s'arrête, sans message d'erreur. C'est ce chiffre qui explique pourquoi les réseaux
+  profonds ont attendu les connexions résiduelles.
+- **E** — tu dois obtenir **au moins deux échecs sur vingt**. Si tu n'en obtiens aucun, ton
+  réseau est trop large pour montrer le phénomène : réduis la couche cachée à deux ou trois
+  neurones. Un neurone ReLU dont l'entrée est toujours négative a un gradient **exactement
+  nul** — il ne réapprend jamais, quelle que soit la suite de l'entraînement.
+
 ## ✅ Correction attendue
 
 > Toutes les valeurs ci-dessous sont produites par

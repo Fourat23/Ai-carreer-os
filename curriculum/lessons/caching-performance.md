@@ -194,8 +194,25 @@ Dans DocSense : cache des embeddings (un document ré-ingéré inchangé ne se r
 ## ✍️ Mini-exercice
 Trouve le N+1 dans une de tes APIs (compte les requêtes SQL d'un endpoint de liste), corrige par JOIN/batch, mesure avant/après.
 
+**Critère de réussite, vérifiable seul, et il porte sur le nombre de requêtes avant de porter
+sur le temps** : **double le nombre d'éléments de la liste et recompte.** Avant correction, le
+compte de requêtes double aussi — c'est *cela*, la signature du N+1, et c'est ce qui le rend
+mortel en production alors qu'il est invisible sur dix lignes de données de test. Après
+correction, **le compte ne doit pas bouger** : une ou deux requêtes, quel que soit le nombre
+d'éléments. Si ton temps s'améliore mais que le compte continue de croître, tu as optimisé
+les requêtes sans supprimer le N+1, et le problème reviendra avec le volume.
+
 ## 🔥 Exercice plus difficile
 Implémente le cache LLM persistant ci-dessus sur ton harnais d'éval : clé complète, TTL, taux de hit affiché. Prouve la réduction de coût sur 3 runs consécutifs.
+
+**Critère de réussite, vérifiable seul** : le premier passage doit afficher **0 % de hit**, les
+deux suivants **100 %**, et le coût des deux suivants doit être **nul**, pas « plus bas ». Un
+taux intermédiaire au deuxième passage signifie que ta clé est incomplète — il y manque
+presque toujours le modèle, la température, ou la version du prompt. Puis fais le test qui
+compte : **change un seul caractère du prompt et relance.** Le taux de hit doit retomber à
+zéro. S'il reste élevé, ta clé ne couvre pas le prompt, et ton cache te sert des réponses
+obtenues avec une question différente — le pire mode de défaillance possible, parce qu'il ne
+ressemble pas à une panne.
 
 ## ✅ Correction
 

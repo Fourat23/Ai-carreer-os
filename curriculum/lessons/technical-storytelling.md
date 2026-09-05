@@ -178,6 +178,21 @@ durée avant et après.
 quelqu'un qui ne connaît pas ton domaine et demande-lui de reformuler le
 problème. Livrable : sa reformulation, mot pour mot.
 
+**Critères de réussite, vérifiables seul.**
+
+- **D est le plus dur et le plus utile : après la coupe, la durée doit avoir baissé d'au
+  moins un tiers.** Si elle n'a presque pas bougé, tu n'as pas barré assez — relis en te
+  demandant, phrase par phrase, ce que l'auditeur ne saurait pas si elle disparaissait. La
+  plupart du temps la réponse est « rien », et c'est là que le récit gagne.
+- **C — si tu ne trouves aucune tentative ratée pour une histoire, ne l'invente pas et ne la
+  garde pas.** Une histoire sans échec est soit un projet trop simple pour être raconté, soit
+  un projet dont tu ne te souviens plus assez pour tenir sous questions. Les deux se voient
+  immédiatement, parce que l'examinateur creuse toujours au même endroit.
+- **E — la réussite n'est pas « il a compris », c'est « il a reformulé sans employer un seul
+  de tes termes techniques ».** S'il te répète tes mots, il a mémorisé, pas compris — et ta
+  situation est encore écrite pour quelqu'un qui connaît déjà le sujet. Or la partie
+  « situation » est justement celle qui s'adresse à qui ne le connaît pas.
+
 ## ✅ Correction attendue
 
 **A — l'inventaire.** C'est l'exercice le plus rentable des cinq, et le plus

@@ -274,6 +274,26 @@ données), connecte-toi en local à travers lui, et vérifie depuis l'extérieur
 le port distant reste bien fermé. Livrable : la commande, la connexion réussie
 localement, et le refus depuis l'extérieur.
 
+**Critères de réussite, vérifiables seul, et chacun exige un ÉCHEC autant qu'un succès.**
+
+- **A — la vérification doit réussir sur le bon défi et échouer sur l'autre.** Les deux
+  moitiés comptent : un code qui accepte toujours passerait la première épreuve sans rien
+  prouver. Et vérifie que ton serveur simulé ne détient à aucun moment la clé privée — s'il
+  l'a, tu as écrit un partage de secret, pas une signature. C'est toute la différence avec un
+  mot de passe : le serveur n'apprend jamais rien qu'il pourrait rejouer ailleurs.
+- **C — le message exact attendu porte sur les permissions, pas sur la clé.** Le client
+  refuse d'utiliser une clé privée lisible par d'autres, et il le fait **avant** toute
+  tentative de connexion. Garde le message : c'est celui que tu reverras un jour sur une
+  machine de déploiement, et savoir qu'il ne parle ni du serveur ni de la clé fait gagner
+  une demi-heure.
+- **D — sans la trace du refus, la partie D n'est pas faite.** Tu dois obtenir une tentative
+  par mot de passe explicitement rejetée. Le piège habituel : la configuration est modifiée
+  mais le service n'a pas été rechargé, et tout continue de fonctionner comme avant. Une
+  porte qu'on n'a pas essayé d'ouvrir n'est pas une porte fermée.
+- **E — le refus depuis l'extérieur doit être un refus de connexion, pas un refus
+  d'authentification.** Si tu obtiens une demande de mot de passe, le port est ouvert au monde
+  et ton tunnel ne sert à rien : il ajoute du confort sans rien fermer.
+
 ## ✅ Correction attendue
 
 **A — le protocole.** L'erreur la plus instructive est de vérifier la signature

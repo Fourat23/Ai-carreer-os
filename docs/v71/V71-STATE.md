@@ -7,15 +7,16 @@
 ## Position
 
 - **dernier CP terminé** : **CP9**
-- **CP actuel** : **CP10 en cours — 46 / 128 sections de pratique lues**
+- **CP actuel** : **CP10 en cours — 73 / 128 sections de pratique lues**
 - **leçons réellement lues et notées** : **128 / 128** ✅
 - **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 9** — un P3 fermé au CP10 (`machine-learning-basics`).
-- **prochaine action EXACTE** : **CP10, lot 4** — les **82 leçons notées D8 = 5 au CP3 et
-  non encore relues au CP10**. Leur note n'est pas confirmée : elle est héritée. Les 9 P3
-  restants (8 plafonds D2 + `ai-security`) sont traités au fil du passage.
+- **prochaine action EXACTE** : **CP10, lot 5** — les **55 leçons restantes**, qui portent
+  toutes au moins un des deux dispositifs de critère (« Critère de réussite » écrit, ou bloc
+  « Vérifie seul »). Leur présence ne prouve pas qu'il s'agisse de vrais critères : c'est
+  précisément ce que le lot 2 a montré. Les 9 P3 restants sont traités au fil du passage.
 
 > **D8 vaut 5,000 au ledger, et cela ne veut PAS dire que le corpus est validé sur D8.**
-> 46 leçons ont été relues au CP10 ; les 82 autres portent une note CP3 non revérifiée. Le
+> 73 leçons ont été relues au CP10 ; les 55 autres portent une note CP3 non revérifiée. Le
 > lot 2 a montré que ces notes se répartissent dans les deux sens — 24 confirmées, 5
 > optimistes, 3 fondées sur une exigence absente du barème. **Le chiffre ne sera opposable
 > qu'à 128 / 128.**
@@ -60,6 +61,43 @@ portées à 5 **par relecture, sans modification de la leçon** pour les deux pr
 trop généreuses, trois trop sévères, sur 46 leçons relues. Ce n'est pas un argument pour
 relâcher le barème — c'est un argument pour relire, qui est précisément ce que le brief §11
 impose et ce que le CP10 exécute.
+
+### CP10 lot 4 — le plus gros mouvement de notes de tout V71, et pourquoi il est défendable
+
+Le lot 4 a lu **27 leçons** : les 8 fondamentaux (`git-*`, `terminal-shell-filesystem`,
+`async-javascript`, `javascript-basics`, `typescript-basics`, `design-patterns-intro`,
+`clean-code`) — dont 7 confirmées sans retouche, plusieurs étant les meilleurs dispositifs
+du corpus — puis les **19 leçons qui ne portaient NI un « Critère de réussite » écrit NI un
+bloc « Vérifie seul »**, repérées par un triage lexical sur les 82 restantes.
+
+**Le fait structurel que ce lot a mis au jour** : ces 19 leçons ont toutes une
+`🟢 Checklist « quand suis-je prêt ? »` et **aucune** n'a de section
+`🧪 Vérification de compréhension`. Or l'ancre **D13 niveau 3** dit : « vérification réduite
+à une **checklist déclarative** (“je sais faire X”) ». Leur note de 4 au CP3 — « vérification
+présente mais partielle » — était donc juste : la pratique apportait plus que la checklist,
+mais l'apprenant ne pouvait pas **se juger seul**, ce que l'ancre 5 exige explicitement.
+
+Les critères écrits au CP10 ferment ce manque, et **18 des 19 passent D13 de 4 à 5**. C'est
+le plus gros mouvement de notes de V71, sur la dimension la plus faible du corpus, donc
+celui qui doit être le plus contestable. Trois garde-fous :
+
+1. **Chaque critère a une valeur attendue, calculée ou vérifiée**, pas une formule creuse :
+   `143` et `137` (exécutés dans cet environnement), `0,25 → 9,1 × 10⁻¹³` après 20 couches,
+   ×**62 500** de 512 à 128 000 unités, **six ou sept** allers-retours transatlantiques par
+   seconde, **78 %** de pipelines verts avec cinq tests instables.
+2. **Le critère doit RÉVÉLER la compréhension, pas vérifier que l'artefact marche.** C'est
+   la distinction que l'ancre D13 = 5 impose, et elle a été appliquée contre l'intérêt du
+   chiffre : **`express-backend` reste à D13 = 4**. Son nouveau critère (« `express` ne doit
+   apparaître nulle part dans les tests du service ») est excellent et binaire, mais il
+   contrôle un découpage — il ne dit pas si l'apprenant a compris *pourquoi*. Une leçon sur
+   dix-neuf a donc été retenue en arrière, délibérément.
+3. **`portfolio-github` reçoit quatre critères et ne bouge d'aucune note** : elle était déjà
+   à 5 sur les quatorze dimensions. La correction ferme un manque réel sans rien rendre au
+   compteur, et c'est écrit ici plutôt que passé sous silence.
+
+**Note d'environnement (§31)** : aucun critère de `linux-ssh-remote` n'a été exécuté — `ssh`
+et `ssh-keygen` ne sont pas installés dans ce conteneur. Ils sont écrits pour la machine de
+l'apprenant, et la leçon ne prétend rien d'autre.
 
 ### Le P3 de `machine-learning-basics` — un défaut de traçabilité devenu un gain de justesse
 

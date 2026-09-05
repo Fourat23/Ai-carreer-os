@@ -164,6 +164,26 @@ apprises sur l'entraînement seul, en les plaçant dans un pipeline. Puis mesure
 l'écart entre la version avec fuite et la version propre. Livrable : les deux
 scores.
 
+**Critères de réussite, vérifiables seul.**
+
+- **A — ton journal doit contenir au moins deux variables RETIRÉES.** Si toutes tes variables
+  ont amélioré la métrique, tu n'as pas mesuré, tu as confirmé : sur huit ajouts, deux ou
+  trois n'apportent rien, et c'est le résultat normal. Un journal sans décision négative
+  n'est pas un journal, c'est un récit.
+- **B — les cinq gains ne doivent pas s'additionner pour donner le gain de l'ensemble.** Mets
+  les cinq variables ensemble et mesure : le total sera **inférieur** à la somme des cinq
+  gains individuels, parce qu'elles encodent en partie la même information (l'heure et
+  l'indicateur de week-end se recoupent). C'est la raison pour laquelle on ne peut pas
+  sélectionner des variables une par une sur leur gain isolé.
+- **C — l'encodage ordinal doit donner un score plausible, et c'est là le piège.** Il ne
+  s'effondre pas : il impose au modèle un **ordre** entre des valeurs qui n'en ont pas, et
+  cette affirmation fausse passe souvent inaperçue dans les scores. Le nombre de colonnes
+  produites, lui, se compare sans ambiguïté — c'est ce chiffre qui décide, pas le score.
+- **D — le gain doit être spectaculaire, et ta réponse à la question temporelle doit être
+  “non”.** Si tu réponds « oui, cette variable existe au moment de la prédiction », ta
+  variable n'est pas dérivée de la cible : refais-la. **Le point de l'exercice est
+  d'éprouver qu'un gain énorme est un signal d'alarme, pas une bonne nouvelle.**
+
 ## ✅ Correction attendue
 
 **A — le journal, et les lignes négatives.** Le critère de qualité du journal est

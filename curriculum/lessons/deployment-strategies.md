@@ -242,6 +242,26 @@ plausibles pour un service que tu connais, et calcule les requêtes exposées en
 bascule globale, canari 5 % et canari 1 %. Puis recalcule en divisant la durée
 de détection par deux. Compare les deux leviers.
 
+**Critères de réussite, vérifiables seul.**
+
+- **A — l'erreur capturée doit venir de l'INSTANCE v1, pas de la migration.** La commande
+  `ALTER TABLE … RENAME COLUMN` réussit ; c'est l'écriture suivante de l'ancien code qui
+  échoue, sur une colonne qui n'existe plus. Si ton script rapporte une erreur de migration,
+  tu n'as pas reproduit la situation — tu as reproduit une faute de frappe. **Le nombre de
+  requêtes en échec doit être non nul**, sinon aucune instance v1 n'écrivait vraiment.
+- **C — le retour arrière de chaque étape doit se faire SANS l'étape suivante.** C'est la
+  définition de « réversible seule », et c'est ce qui distingue une séquence expand/contract
+  d'une suite de migrations qu'on espère ne pas avoir à défaire. Ta colonne « information
+  perdue » doit contenir **zéro** partout ; une seule case non vide et ta séquence n'est pas
+  réversible, quel que soit le nombre de fichiers `down` qu'elle contient.
+- **D — le résultat attendu contredit l'intuition, et c'est le point.** Diviser la durée de
+  détection par deux divise l'exposition par deux, **quelle que soit la stratégie** ;
+  passer d'un canari à 5 % à un canari à 1 % la divise par cinq. Les deux leviers se
+  multiplient, mais l'un dépend de ton observabilité et l'autre d'une ligne de
+  configuration. **Compare-les sur ton propre chiffre avant de conclure lequel financer** :
+  un canari à 1 % qu'on met deux heures à juger protège moins qu'une bascule globale
+  détectée en trois minutes.
+
 ## ✅ Correction attendue
 
 **A — ce que produit le geste direct.** Sur SQLite comme sur PostgreSQL, la

@@ -173,7 +173,15 @@ DocSense expose `POST /questions` : la route valide et traduit ; le service orch
 Dessine la chaîne complète de guichets d'une de tes APIs (dans l'ordre réel de déclaration), et vérifie que le gestionnaire d'erreurs est bien dernier.
 
 ## 🔥 Exercice plus difficile
-Refactore une API « tout-dans-les-routes » en 3 couches, puis écris 5 tests du service SANS serveur (data fake) — le refactor est réussi si c'est facile.
+Refactore une API « tout-dans-les-routes » en 3 couches, puis écris 5 tests du service SANS serveur (data fake).
+
+**Critère de réussite, vérifiable seul et binaire — remplace « c'est facile », qui est une
+opinion** : dans ton fichier de tests du service, **`express` ne doit apparaître nulle part**.
+Ni import, ni `req`, ni `res`, ni code de statut HTTP. Cherche-le : `grep -i "express\|req\.\|res\." tes-tests`. S'il en reste un seul, la couche métier ne s'est pas
+détachée du transport — elle a juste changé de fichier. Et le corollaire, qui est le vrai
+bénéfice : ces cinq tests doivent tourner **sans qu'aucun port ne s'ouvre**, donc en quelques
+millisecondes et sans risque de conflit. Si tu dois démarrer un serveur pour les lancer,
+recommence le découpage.
 
 ## ✅ Correction
 

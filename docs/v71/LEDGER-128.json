@@ -17,10 +17,15 @@
    4,
    4,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : cinq criteres, un par partie, tous a valeur attendue. A — les empreintes doivent etre CONSERVEES du cote fusion et CHANGEES du cote rebasage ; si elles sont identiques des deux cotes, la branche principale n avait pas avance. C — le nombre d etapes de bisect doit etre 4 et non sept ou huit, parce que quatre divisions par deux suffisent pour quinze commits. E — bisect run doit designer LE MEME commit qu en C, sinon le script rend bon et mauvais a l envers, erreur frequente et silencieuse. Et le mini-exercice recoit son renvoi : si ta reponse est trois, garde-la et va faire la partie B, elle te contredira."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Le noyau (1021 m) etablit d abord que l empreinte d un commit depend de son parent, et TOUT le reste en decoule : rebase, regle de securite, --force-with-lease. Exemple guide a 3 decisions explicites, avec une verification que personne ne fait (git diff main..HEAD identique avant/apres). Correction appuyee sur script execute, et publie un resultat contre-intuitif : un cherry-pick sur le parent exact rend une empreinte IDENTIQUE. D5 a 4 : dense pour le niveau. D10 a 4 : exemple applique de 53 mots seulement. D13 a 4 : le mini-exercice est une question de rappel, la verification reelle vient de la pratique.",
   "domaine": "Fondations",
@@ -440,13 +445,17 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP4 : technical-documentation est sortie de la liste des prerequis vers un encadre Ou trouver le detail, avec la mention que la lecon est programmee plus loin et qu un README n en depend pas. La lecon declare desormais qu aucune experience prealable de redaction technique n est attendue et que tout ce dont un README a besoin est construit sur place — ce que sa structure en six points fait effectivement. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : trois criteres. A — cinq minutes jusqu a ca tourne, et ZERO friction, parce que chaque fois que l auteur lui-meme doit deviner, un inconnu s arrete la. C — le tableau ne vaut que dans un clone neuf, une commande qui marche dans le repertoire de travail et pas dans un clone etant precisement le defaut vise. E — la reussite n est pas il a compris mais IL A COMPRIS POUR QUI : la plupart des README taisent le destinataire, et le lecteur en deduit que ce n est pas pour lui."
    }
   ],
   "action": "CONSERVE",
@@ -630,6 +639,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP6 : la distinction dont la lecon a reellement besoin est desormais ENONCEE — une erreur attendue est un cas normal qu on traite et renvoie avec le bon code, une erreur inattendue est un defaut qu on laisse remonter jusqu a un endroit unique qui journalise et repond 500 — et c est elle qui decide de ce qui va dans une route et de ce qui va dans le gestionnaire d erreurs. error-handling sort vers un encadre Ou trouver le detail. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le critere le refactor est reussi si c est facile etait une opinion. Remplace par un test binaire : dans le fichier de tests du service, express ne doit apparaitre NULLE PART — ni import, ni req, ni res, ni code de statut. Corollaire : les cinq tests doivent tourner sans qu aucun port ne s ouvre. D13 RESTE A 4, et c est deliberе : ce critere verifie que l artefact est bien decoupe, il ne revele pas si l apprenant a compris POURQUOI. C est la difference que l ancre D13 = 5 exige et qu il ne faut pas maquiller."
    }
   ],
   "action": "CONSERVE",
@@ -659,10 +672,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : trois criteres. Les trois simulacres doivent produire trois resultats OBSERVABLEMENT differents, sinon une branche n est pas atteinte. Le compte d appels doit valoir exactement le budget — ni un de moins (retry perdu), ni un de plus (charge supplementaire sur un service deja en panne). Et le test que personne ne fait : lancer appelRobuste sans traiter son rejet et regarder le processus — une promesse rejetee sans gestionnaire ne produit AUCUNE erreur visible, la requete reste suspendue, ce qui est mesure dans cette lecon meme."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Le noyau ne se contente pas de dire retry seulement si c est idempotent : il montre que le cas qui fait mal n est pas l appel a echoue mais l appel a REUSSI et la reponse s est perdue, puis conclut qu on ne constate pas l idempotence, on la FABRIQUE. Le disjoncteur est justifie par un mecanisme (le service en panne obtient le repit dont il a besoin) et non par un nom. La correction ouvre sur un test qui tranche : est-ce que je peux ecrire un message utile a l utilisateur ? D10 a 4.",
   "note_sonde": "Le CP0 signalait exoPassif = vrai sur cette lecon. Lecture faite : le mini-exercice demande de CLASSER cinq erreurs (attendue ou bug, qui repond quoi, quel statut) — c est une tache de decision, pas de restitution. La sonde s etait declenchee sur le mot Liste. Faux positif, publie.",
@@ -722,13 +740,17 @@
    4,
    5,
    5,
-   4,
+   5,
    4
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP9 : noyau de 199 mots entierement en puces definitionnelles, sur le sujet qui decide de tout le reste de l application. Corrige par une COLONNE VERTEBRALE : les six notions deviennent trois decisions ordonnees (ou vit chaque fait / qu est-ce qui doit rester vrai / qu est-ce qui est trop lent), avec la raison de l ordre — une base qui contient deja des donnees incoherentes REFUSE la contrainte qui les aurait empechees, et on n indexe qu apres avoir mesure. Et par l arbitrage manquant : normalisation contre denormalisation tranchees par qui paie l erreur, avec la regle operatoire — si tu ne sais pas ecrire le recalcul de la copie, tu ne denormalises pas."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : deux criteres, dont un qui deplace la preuve. Sur l index, le gain doit se lire dans le PLAN et pas au chronometre : sur 10 000 lignes la table tient en memoire et deux mesures peuvent differer d un facteur deux pour des raisons etrangeres a l index — si le plan ne change pas mais que le temps baisse, on a mesure du cache. Sur la transaction, provoquer la panne ENTRE l insertion de la commande et le decrement du stock, seul instant ou l absence de transaction se voit et precisement celui qu on n atteint jamais par hasard."
    }
   ],
   "action": "RETOUCHE",
@@ -758,13 +780,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP8 : portfolio-github (+17 j) sort de la liste des prerequis. Le vrai prerequis est requalifie et nomme — avoir mene un projet avec de vraies decisions, qui ne s apprend pas dans une lecon mais se constitue en travaillant, n importe quel projet du parcours convenant y compris celui en cours. L encadre ajoute l ordre logique, qui est le bon : le recit se prepare d abord, la vitrine l expose ensuite. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : trois criteres. D — apres la coupe la duree doit avoir baisse d AU MOINS UN TIERS ; si elle n a pas bouge, on n a pas assez barre. C — ne pas inventer d echec et ne pas garder l histoire sans echec : c est soit un projet trop simple, soit un projet dont on ne se souvient plus assez pour tenir sous questions, et les deux se voient parce que l examinateur creuse toujours au meme endroit. E — la reussite n est pas il a compris mais IL A REFORMULE SANS EMPLOYER UN SEUL DE TES TERMES TECHNIQUES ; s il repete tes mots, la situation est encore ecrite pour quelqu un qui connait deja le sujet."
    }
   ],
   "action": "CONSERVE",
@@ -794,13 +820,17 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "P3",
     "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — ai-security (jour 260) cite au jour 67, mais signale : viendra plus loin. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : trois criteres, dont deux pieges classiques. (1) Hacher deux fois le meme mot de passe doit donner deux empreintes DIFFERENTES — le sel est tire au hasard, et la verification re-hache avec le sel stocke dans l empreinte. (2) Demander la note d un autre utilisateur avec un token valide doit rendre le MEME statut qu une note inexistante : 403 pour existe mais pas a toi et 404 pour n existe pas construit un ORACLE d enumeration. C est le compromis le plus mal connu de la lecon. (3) Le rate limit doit se relacher tout seul, sinon c est un deni de service qu on s inflige."
    }
   ],
   "action": "CONSERVE",
@@ -830,10 +860,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : quatre criteres. A — comparer git log -p et git log -p --all sur le meme depot ; et verifier le code de sortie separement, un script d audit qui affiche des occurrences mais sort en 0 passe silencieusement en CI, ce qui est pire que pas d audit. B — les quatre comptes NE DOIVENT PAS tomber a zero, et si l un y tombe il faut verifier la commande avant de conclure a la reussite : c est le resultat qu on souhaite, donc celui qu on valide trop vite. C — le hook doit bloquer ET --no-verify doit passer ; s attendre a ce que --no-verify echoue, c est batir sa protection sur une hypothese fausse."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Le noyau va au-dela de la regle habituelle : une variable d environnement N EST PAS un coffre-fort, et la lecon dit par ou fuient reellement les secrets (liste des processus, heritage par les sous-processus, vidage memoire, console.log de l environnement) — plus souvent que par un depot git. La section rotation est celle que tout le monde saute : le systeme doit accepter DEUX secrets valides a la fois, sinon chaque rotation est une coupure, donc on n en fera jamais. L exemple guide EXECUTE la phrase qu on entend le jour de l incident. D10 a 4.",
   "domaine": "Systèmes",
@@ -1016,10 +1051,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : quatre criteres, dont un qui se corrige en dix secondes — un aller-retour transatlantique coute de l ordre de 150 ms, donc la reponse est SIX OU SEPT par seconde, pas quelques centaines. Un ecart d un facteur dix sur un repere est ce qui fait derailler un entretien. A — faire varier le rapport lecture/ecriture d un facteur dix : si la conclusion d architecture ne change pas, le calcul decore une decision deja prise, et l examinateur le repere en demandant et si c etait l inverse. C — compter les affirmations non calculees et viser moins de trois sur quarante-cinq minutes, le chiffre absolu important moins que sa baisse."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Le noyau enseigne l estimation a la louche comme une COMPETENCE et donne les deux reperes memorisables (une journee fait environ 86 400 s, un service ordinaire encaisse quelques centaines de requetes par seconde par instance), puis tire la conclusion qui compte : 30 requetes par seconde tiennent sur une machine, et le DIRE est un point pour toi. La correction montre qu un seul nombre — le rapport lecture/ecriture — fait basculer l architecture. Le piege classique est nomme : donner un chiffre precis sur des hypotheses inventees.",
   "domaine": "Fondations",
@@ -1454,13 +1494,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP6 : le plus grand ecart de la classe B corrige (+55 j). La lecon n avait en realite AUCUN besoin de sql-performance-indexing, puisque son exemple guide construit lui-meme le ralentissement qu il mesure a partir d une table vide et compte les allers-retours plutot que les millisecondes — c est desormais dit explicitement. La citation sort vers un encadre qui distingue les deux sujets d une phrase juste : cette lecon-ci s occupe du travail qu on peut EVITER, celle-la du travail qu on ne peut pas eviter mais qu on peut accelerer. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : deux criteres qui portent sur le COMPTE avant de porter sur le temps. Mini — doubler le nombre d elements et recompter les requetes : avant correction le compte double aussi, et c est CELA la signature du N+1, invisible sur dix lignes de test et mortelle en production ; apres correction le compte ne bouge pas. Si le temps s ameliore mais que le compte croit encore, on a optimise les requetes sans supprimer le N+1. Cache LLM — premier passage 0 % de hit, les deux suivants 100 % et cout NUL, pas plus bas ; puis changer un seul caractere du prompt, le taux doit retomber a zero, faute de quoi le cache sert des reponses obtenues avec une question differente."
    }
   ],
   "action": "CONSERVE",
@@ -1551,7 +1595,12 @@
    5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : quatre criteres ajoutes (retirer un epingle qu on ne sait pas justifier ; cinq minutes et zero friction sur le clone neuf ; zero secret, et si on en trouve un le critere est d avoir REVOQUE la cle et non de l avoir supprimee de l historique ; plus de la moitie des vingt messages disant pourquoi). AUCUNE NOTE NE BOUGE : la lecon etait deja a 5 sur les quatorze dimensions au CP3. La correction ferme un manque reel sans rien rendre au compteur, et c est note ici plutot que dissimule."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Seule leçon du lot a 5 sur les quatorze dimensions. Elle part d une contrainte mesurable — deux a trois minutes d attention, decision dans les dix premieres secondes — et en DEDUIT trois consequences qui contredisent l intuition : le code compte moins que sa presentation parce que personne ne l atteint ; un seul depot sera vraiment lu ; la quantite nuit. L ordre des six epingles est justifie par une regle unique et verifiable, aucun doublon de facette, avec le test qui elimine : un projet ne merite une position que si tu peux repondre a pourquoi as-tu fait ce choix plutot qu un autre sur au moins une decision de conception. La lecon s appuie sur les mesures d autres lecons plutot que d en inventer (README execute depuis un clone neuf, secret visible deux fois dans git log -p --all et survivant a gc --prune=now) et ordonne correctement les actions : revoquer d abord, trente secondes, seule action qui rend le secret inutilisable. Elle ajoute le point que les autres omettent : un depot public ayant contenu un secret ne redevient pas sur en devenant prive. La cle du tout, et elle est juste : l historique de commits est la seule partie du portfolio qu on ne peut pas maquiller apres coup."
  },
@@ -1633,10 +1682,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le CP3 notait D13 a 4 parce que l auto-evaluation verifiait l ARTEFACT et non la comprehension. Le critere ajoute se lit dans le journal en une seconde et porte sur le mecanisme : la DERNIERE ecriture d etat doit porter la donnee de la SECONDE URL, et il doit y en avoir UNE apres le changement d URL, pas deux. Si on en voit deux dans le bon ordre, on n a pas annule la premiere requete, on a eu de la chance sur les temps — refaire en inversant les delais, cela echouera. Sans nettoyage, la reponse lente ecrase le bon resultat par l ancien, sans que rien ne plante ni ne soit signale."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La lecon refuse la reponse facile et le dit : un debounce reduit le nombre de requetes, il ne garantit rien — ce qui est rare n est pas corrige, c est deguise. Elle reformule alors le probleme correctement (plusieurs requetes en vol peuvent ecrire dans le meme etat) et la solution en decoule. Le point subtil est explicitement isole : chaque execution de l effet a SON drapeau, capture par fermeture ; une variable declaree dehors, ou un useRef unique, casserait tout. Traces mesurees dans Chromium a l appui, y compris sous StrictMode. La lecon leve d elle-meme l inquietude legitime que le lecteur va avoir (et si l utilisateur efface tout ?) avec un journal d execution, et distingue proprement AbortController du drapeau : le drapeau garantit la JUSTESSE, l abandon recupere des RESSOURCES. D8 a 5 sans reserve : le protocole de verification est IMPOSE et le livrable comprend le journal obtenu, pas seulement le code. D13 a 4 : l auto-evaluation verifie l artefact, pas la comprehension."
  },
@@ -2125,13 +2179,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP4 : la fuite de donnees, notion dont tout le reste depend, est desormais DEFINIE dans la lecon en une phrase (il y a fuite des qu une information calculee en regardant le test entre dans l entrainement, et rien ne le signale), ce qui justifie l existence du Pipeline sans exiger feature-engineering. Les deux lecons posterieures sont sorties vers un encadre Ou trouver le detail. Prerequis restant : machine-learning-basics, du meme jour. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : quatre criteres a valeur attendue, dont le decisif. A — la reference doit avoir une exactitude elevee et un rappel NUL ; si le modele reel ne la bat pas sur le rappel, il n a rien appris. C — les deux ecarts de fuite doivent etre de grandeurs TRES differentes, sinon l une des deux n est pas celle qu on croit. D — l etendue min-max sur vingt decoupages doit CONTENIR l ecart entre les modeles A et B, ce qui rend la reponse a A 79 % est-il meilleur que B 77 % : NON, ON NE PEUT PAS LE DIRE. E — le detecteur doit produire au moins un faux positif, sinon son seuil est trop haut ; une correlation forte n est pas une fuite, la question qui tranche est temporelle."
    }
   ],
   "action": "CONSERVE",
@@ -2180,13 +2238,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP9 : glose sur surapprentissage inseree entre le terme et la fin de la phrase, orphelinant le fragment servi sur un plateau. Corrige par un deux-points et une coupe de ligne."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : quatre criteres qui revelent la comprehension plutot que l execution. A — le journal doit contenir au moins DEUX variables retirees ; si toutes ont ameliore la metrique, on n a pas mesure, on a confirme. B — les cinq gains ne doivent PAS s additionner pour donner le gain de l ensemble, parce qu ils encodent en partie la meme information — c est pourquoi on ne selectionne pas des variables une par une sur leur gain isole. C — l encodage ordinal ne s effondre pas, et c est le piege : il impose un ORDRE a des valeurs qui n en ont pas, affirmation fausse que les scores ne montrent pas. D — le gain doit etre spectaculaire et la reponse temporelle NON : le point est d eprouver qu un gain enorme est un signal d alarme."
    }
   ],
   "action": "RETOUCHE",
@@ -2210,10 +2272,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : cinq criteres, chacun avec sa valeur attendue, calculees ici. A — sorties proches de 0, 1, 1, 0. B — sans couche cachee elles se figent AUTOUR DE 0,5 et l erreur cesse de baisser, non par manque d entrainement mais parce qu aucune droite ne separe les classes du OU exclusif. C — le rang du produit vaut le minimum des deux dimensions, ce qui demontre que deux couches lineaires SONT une seule couche lineaire. D — 0,25 puis 9,8e-4, 9,5e-7, 9,1e-13, 7,9e-31 contre 1 partout pour une derivee de 1 : vers vingt couches le gradient passe sous la precision utile et l entrainement ne ralentit pas, il S ARRETE sans message. E — au moins deux echecs sur vingt, sinon le reseau est trop large pour montrer le phenomene."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La lecon choisit d expliquer la boucle d entrainement par la ligne que TOUT LE MONDE OUBLIE et dont l absence ne provoque aucune erreur, ce qui est le bon angle. La repartition des roles est posee nettement : backward ne modifie aucun poids, il CALCULE ET DEPOSE une derivee a cote de chaque poids ; step est le seul qui touche aux poids et lit ce que backward a depose. Une fois cela clair, zero_grad devient evident au lieu d etre une incantation. La mesure sans remise a zero est bien choisie (y = 3x + 1, reponse connue) : w passe a 4,204 et b a -7,016, la perte est multipliee par plus de six. Mais le vrai enseignement est la TRAJECTOIRE, publiee telle quelle : 9,98 puis 9,23 puis 8,65 puis 8,57 — les quatre premieres epoques S AMELIORENT. Quelqu un qui lance un entrainement, voit la perte descendre et part dejeuner revient devant un modele divergent ; ce bug est le plus classique de tous parce qu il ne ressemble pas a un bug, il ressemble a un entrainement qui commence bien. La decision 4 est la plus transferable de la lecon et vaut bien au-dela : l accumulation n est pas un defaut mais une FONCTIONNALITE (simuler un grand lot sur une machine qui n a pas la memoire), d ou — beaucoup de pieges d une bibliotheque sont des fonctionnalites vues par quelqu un qui n en avait pas besoin, et chercher a quoi sert un comportement surprenant est presque toujours plus rentable que de memoriser qu il faut s en mefier. Et la regle de diagnostic : la courbe de perte est a l entrainement ce que le test rouge est au code, un entrainement lance sans courbe est un programme lance sans tests. D13 a 4."
  },
@@ -2235,13 +2302,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP7 : le defaut de prerequis le plus grave du corpus par la centralite de la notion (+35 j) est ferme par le remede 1. L embedding est desormais DEFINI en deux phrases dans la lecon — chaque token devient une liste de nombres choisie a l entrainement de sorte que deux mots employes dans des contextes semblables recoivent des vecteurs proches, et proche se mesure par l angle entre deux vecteurs. C est exactement ce que l attention manipule et ce que le tableau de l exemple guide calcule, donc la lecon est desormais autoportante sur ce point. embeddings sort vers un encadre Ou trouver le detail. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : quatre criteres, dont un qui porte sur l honnetete de l apprenant. A — la somme des poids doit valoir 1 A LA TOLERANCE PRES, jamais == 1 ; si elle vaut 7, la normalisation est sur le mauvais axe, erreur frequente au resultat d apparence normale. B — les poids ne correspondront PAS a quelque chose de semantiquement satisfaisant, parce que les matrices de projection sont ALEATOIRES : croire y voir un motif, c est se raconter une histoire. Le calcul demontre le mecanisme, pas le sens — confondre les deux est la principale erreur de comprehension sur ce sujet. C — de 512 a 128 000 unites le nombre de paires est multiplie par 62 500 (verifie) ; trouver 250 revient a raisonner lineairement. D — l ecart-type croit comme la racine de la dimension et retombe autour de 1 apres division."
    }
   ],
   "action": "CONSERVE",
@@ -2825,10 +2896,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : trois criteres. A et D partagent le meme et c est le principe de la pratique — TU DOIS AVOIR VU LE ROUGE. Une capture verte ne prouve ni que les tests tournent, ni qu ils sont branches, ni que l echec bloque : un pipeline jamais rouge peut executer zero test, mode de defaillance le plus commun et le plus rassurant qui soit. B — le resultat attendu n est pas zero test instable, c est de savoir combien ; et si les trois executions donnent le meme resultat, verifier d abord que l ordre change reellement. C — le pourcentage surprend toujours : cinq tests echouant une fois sur vingt donnent un pipeline vert environ 78 % du temps, soit un sur cinq a relancer sans raison. Les taux se multiplient, et c est ce calcul qui explique qu une equipe finisse par ne plus lire les echecs."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "L ouverture designe le vrai probleme et le qualifie exactement : « la CI est rouge une fois sur cinq, on relance » a l air d un detail d organisation alors qu elle decrit LA MORT D UN DISPOSITIF DE SECURITE. La lecon fabrique ensuite les deux causes reelles et les mesure au lieu de les decrire. La cause A est la plus instructive parce qu elle detruit le diagnostic spontane : deux tests partagent un etat de module, le second est VERT seul et ROUGE apres le premier — donc le developpeur qui reproduit en local voit du vert et conclut « c est la CI ». La lecon tranche : le defaut n est pas dans la CI, il est dans le partage d etat, et ce test n est meme pas instable au hasard, il est DETERMINISTE mais depend de l ordre — il changera de couleur le jour ou le lanceur parallelise, sans qu une ligne de code ait bouge. La cause B mesure une vraie instabilite sur 320 executions, machine au repos puis chargee, et compare un test qui attend une DUREE fixe a un test qui attend l EVENEMENT. Le dispositif est honnete dans les deux sens : il montre qu a 5 ms fixes le test passe 320 fois sur 320 au repos, ce qui explique precisement pourquoi personne ne corrige — le defaut ne se manifeste que sous charge, c est-a-dire en CI. D13 a 4 : pas de section de verification distincte."
  },
@@ -3400,10 +3476,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : trois criteres. A — l erreur capturee doit venir de l INSTANCE v1 et non de la migration ; le RENAME reussit, c est l ecriture suivante de l ancien code qui echoue. C — le retour arriere de chaque etape doit se faire SANS l etape suivante, definition de reversible seule, et la colonne information perdue doit contenir zero partout. D — le resultat contredit l intuition : diviser la duree de detection par deux divise l exposition par deux QUELLE QUE SOIT la strategie, passer d un canari a 5 % a 1 % la divise par cinq ; l un depend de l observabilite, l autre d une ligne de configuration. Un canari a 1 % juge en deux heures protege moins qu une bascule globale detectee en trois minutes."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. La lecon attaque une formule vague — le canari est « moins risque » — en la remplacant par une distinction operatoire : le canari agit sur LE NOMBRE DE PERSONNES EXPOSEES, pas sur LA REVERSIBILITE DU DOMMAGE. Les quatre chiffres sont recalcules et exacts (200 requetes par seconde pendant six minutes font 72 000 requetes en erreur en bascule globale, 3 600 a 5 %, 720 a 1 %), et la lecon precise honnetement que c est une multiplication et non une simulation. Deux enseignements en sortent, tous deux contre-intuitifs. Le premier : meme a 1 %, sept cents requetes echouent — un canari ne rend pas un incident indolore, il le rend ABSORBABLE. Le second est le plus utile et il redirige l investissement : le facteur qui pese le plus n est pas la fraction mais LA DUREE DE DETECTION, puisque passer de 5 a 1 % divise par cinq quand passer de six minutes a une divise par six ET beneficie aussi a tous les deploiements globaux. Le corollaire est chiffre et sans appel : 1 % du trafic pendant trois heures fait 21 600 requetes, davantage que la bascule globale detectee en six minutes — UN CANARI NON OBSERVE EST PIRE QU UNE BASCULE GLOBALE OBSERVEE. D13 a 4."
  },
@@ -3600,10 +3681,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : cinq criteres. A — le chiffre extrapole doit etre absurde, et c est le resultat : un superviseur sans delai remplit un disque de journaux et met un serveur a genoux A CAUSE DU SUPERVISEUR, pas de la panne. C — les deux codes attendus sont 143 et 137, VERIFIES dans cet environnement (128+15 et 128+9), et le superviseur doit relancer sur 137 et PAS sur 143, faute de quoi systemctl stop ne pourra jamais arreter le service. D — l ecart entre actif et pret doit etre non nul et mesure : c est ce delai que l orchestrateur ignore quand il n a qu un signal de demarrage. E — chaque directive doit renvoyer a un chiffre mesure soi-meme."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Limite declaree et VERIFIEE INDEPENDAMMENT : la lecon annonce que systemd ne tourne pas dans l environnement de redaction, que /run/systemd/system est absent et que le processus 1 n est pas systemd, donc qu aucune commande systemctl n a ete executee. Controle ici : le processus 1 s appelle process_api. La declaration est exacte. Et elle est faite au bon niveau — la syntaxe des unites est donnee sans execution, tandis que le MECANISME qu un superviseur implemente a bien ete exerce avec un superviseur minimal et des chiffres mesures. Ces chiffres sont recalcules exacts : 54 redemarrages en 3 secondes font 18,0 par seconde, soit 64 800 lignes d erreur par heure. L enseignement central est celui qu on n entend jamais sur le redemarrage automatique : IL NE REPARE QUE LES PANNES TRANSITOIRES. La lecon liste des deux cotes — oui pour une connexion momentanement indisponible ou une dependance qui demarre en meme temps, non pour une variable manquante, une configuration invalide, un port pris a demeure ou un bogue — et conclut par la formule qui reste : sur ces causes-la, le redemarrage TRANSFORME UNE PANNE LISIBLE EN BRUIT. D13 a 4."
  },
@@ -3625,10 +3711,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : quatre criteres, chacun exigeant un ECHEC autant qu un succes. A — la verification doit reussir sur le bon defi ET echouer sur l autre ; et le serveur simule ne doit a aucun moment detenir la cle privee, sinon c est un partage de secret et non une signature — toute la difference avec un mot de passe. C — le message attendu porte sur les PERMISSIONS et pas sur la cle, et il arrive avant toute tentative de connexion. D — sans la trace du refus la partie n est pas faite ; le piege habituel est la configuration modifiee sans rechargement du service. E — le refus depuis l exterieur doit etre un refus de CONNEXION et non d authentification ; une demande de mot de passe signifie que le port est ouvert au monde. NOTE D ENVIRONNEMENT (brief §31) : ssh et ssh-keygen ne sont PAS installes ici, aucun de ces criteres n a ete execute — ils sont ecrits pour la machine de l apprenant."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Deuxieme limite declaree du lot, elle aussi VERIFIEE INDEPENDAMMENT : la lecon annonce que ni le client ni le serveur OpenSSH ne sont installes (which ssh introuvable) et qu aucune commande ssh ni ssh-keygen n a ete executee. Controle ici : which ssh et which ssh-keygen ne renvoient rien. Exact. La lecon fait alors le bon partage, et c est ce qui la sauve : les commandes sont donnees sans execution, mais LA QUESTION DE FOND — pourquoi une paire de cles remplace un mot de passe — repose sur de la cryptographie verifiable, et elle est verifiee par script. J ai rejoue l echange : cle publique Ed25519 de 44 octets, privee de 48, signature de 64, verification vraie sur le defi et FAUSSE sur un autre defi. Les quatre valeurs correspondent exactement a ce que la lecon publie. Le mecanisme est ainsi etabli sans qu on ait besoin de croire : le serveur verifie sans jamais connaitre le secret. L analogie du cadenas est donnee AVEC sa limite explicite (il n y a pas d objet physique, juste des maths), ce que l ancre D4 niveau 5 demande. D13 a 4."
  },

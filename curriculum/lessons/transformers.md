@@ -172,6 +172,29 @@ sans la division.
 même dimension que l'entrée. Livrable : les deux dimensions, et ce que cette
 propriété rend possible.
 
+**Critères de réussite, vérifiables seul.**
+
+- **A** — la somme des poids d'attention d'un mot doit valoir **1 à la tolérance des nombres
+  flottants près** (`abs(somme - 1) < 1e-9`, jamais `== 1`). Si elle vaut 7, tu as normalisé
+  sur le mauvais axe : c'est l'erreur d'implémentation la plus fréquente, et elle produit un
+  résultat d'apparence normale.
+- **B — le critère est ta propre honnêteté, et la bonne réponse est décevante.** Tes poids ne
+  correspondront **pas** à quelque chose de sémantiquement satisfaisant, et c'est normal :
+  tes trois matrices de projection sont **aléatoires**, elles n'ont rien appris. Si tu crois
+  voir un motif, tu te racontes une histoire. Ce que le calcul démontre, c'est le
+  **mécanisme** — chaque mot pondère tous les autres et en tire un mélange. Ce qu'il ne
+  démontre pas, c'est le sens : celui-ci vient entièrement de l'entraînement, pas de la
+  formule. **Confondre les deux est la principale erreur de compréhension sur ce sujet.**
+- **C** — de 512 à 128 000 unités, le nombre de paires est multiplié par **62 500**
+  (250 fois plus long, au carré). Si tu as trouvé 250, tu as raisonné linéairement — c'est
+  exactement l'erreur que l'exercice traque, et c'est aussi ce qui explique le prix d'un long
+  contexte.
+- **D** — l'écart-type des scores bruts doit croître **comme la racine de la dimension**
+  (donc environ ×2,8 de 8 à 64, et ×2,8 encore de 64 à 512), et retomber **autour de 1** après
+  division. Sans elle, à grande dimension, la softmax reçoit des écarts énormes, sature sur
+  un seul mot, et **le gradient devient nul** : le modèle cesse d'apprendre. La division par
+  la racine n'est pas une convention esthétique, c'est ce qui rend l'entraînement possible.
+
 ## ✅ Correction attendue
 
 > Les valeurs ci-dessous viennent de

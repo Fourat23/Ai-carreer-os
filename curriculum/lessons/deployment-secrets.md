@@ -215,6 +215,29 @@ commit si un des motifs de A apparaît. Vérifie ensuite deux choses :
 transition. Montre par un test que les deux valeurs sont acceptées, puis retire
 l'ancienne et montre qu'elle est refusée.
 
+**Critères de réussite, vérifiables seul.**
+
+- **A — lance ton script avec `git log -p` au lieu de `git log -p --all`, et compare.**
+  Sur un dépôt où un secret a été supprimé puis l'historique partiellement réécrit, les deux
+  ne trouvent pas la même chose. Si tes deux exécutions donnent le même résultat, ton dépôt de
+  test est trop simple pour prouver quoi que ce soit : refais-le sur le dépôt jetable de B.
+  Et vérifie le code de sortie séparément — un script d'audit qui affiche des occurrences
+  mais sort en 0 passera silencieusement en intégration continue, ce qui est pire que pas
+  d'audit du tout.
+- **B — tes quatre comptes ne doivent pas tomber à zéro.** Attendu : le secret est encore là
+  après `git rm` + commit, encore là après `gc --prune=now`, et le `blob` reste lisible par
+  `git cat-file` alors que plus aucun fichier ne le montre. **Si tu obtiens zéro quelque
+  part, vérifie ta commande avant de conclure que tu as réussi** — c'est le résultat qu'on
+  souhaite, donc celui qu'on valide trop vite.
+- **C — le hook doit bloquer, ET `--no-verify` doit passer.** Les deux moitiés comptent.
+  Un hook local n'est pas un contrôle de sécurité : c'est un garde-fou contre l'étourderie,
+  contournable en treize caractères et absent chez qui clone le dépôt. Si tu t'attendais à ce
+  que `--no-verify` échoue, tu allais bâtir ta protection sur une hypothèse fausse — le vrai
+  contrôle est côté serveur, dans la CI.
+- **D — après le retrait, l'ancienne clé doit être refusée par un test qui échouait avant.**
+  Fais tourner ce test *pendant* la transition : il doit alors passer avec les deux valeurs.
+  Une rotation dont on ne peut pas prouver les deux états ne se déploie pas sans coupure.
+
 ## ✅ Correction attendue
 
 **A — l'audit.** Le point qui départage une bonne réponse d'une réponse

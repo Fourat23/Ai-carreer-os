@@ -140,6 +140,22 @@ Liste les 5 erreurs possibles d'une de tes routes API et, pour chacune : attendu
 ## 🔥 Exercice plus difficile
 Implémente `appelRobuste` pour de vrai (timeout + retry idempotent + fallback), et prouve chaque branche par un test (mock qui échoue N fois, qui traîne, qui échoue durablement).
 
+**Critères de réussite, vérifiables seul.**
+
+1. **Les trois simulacres doivent produire trois résultats observablement différents** :
+   celui qui échoue deux fois puis réussit doit rendre la vraie valeur ; celui qui traîne doit
+   rendre la main **au bout de ton délai**, pas au bout du sien — chronomètre-le ; celui qui
+   échoue toujours doit rendre le repli. Si deux des trois donnent la même chose, une branche
+   n'est pas atteinte.
+2. **Compte les appels au simulacre.** Avec un budget de trois tentatives, il doit avoir été
+   appelé exactement trois fois dans le troisième cas — ni deux (un retry perdu), ni quatre
+   (un de trop, ce qui multiplie la charge sur un service déjà en panne).
+3. **Le test qui manque presque toujours** : lance `appelRobuste` sans jamais traiter son
+   rejet, et regarde ce que fait ton processus. Une promesse rejetée sans gestionnaire ne
+   produit **aucune erreur visible** dans beaucoup de contextes — la requête reste suspendue
+   jusqu'à expiration. C'est mesuré dans cette leçon même ; assure-toi que ton implémentation
+   ne peut pas finir dans cet état.
+
 ## ✅ Correction
 
 ### La démarche : classer avant de traiter

@@ -173,6 +173,24 @@ chaque trouvaille l'action menée — en commençant par la révocation.
 dépôt principal et classe chaque message : dit-il **pourquoi**, ou seulement
 **quoi** ? Livrable : le décompte, et cinq messages réécrits.
 
+**Critères de réussite, vérifiables seul.**
+
+- **B — si tu n'arrives pas à écrire la ligne d'un dépôt, retire-le des épinglés.** C'est
+  l'objet de l'exercice, et c'est celui qu'on n'exécute jamais : on garde par attachement. Six
+  épinglés dont deux justifiés valent moins que deux épinglés, parce que le visiteur juge sur
+  ce qu'il ouvre en premier et qu'il n'ouvre pas le meilleur, il ouvre le premier.
+- **C — le seuil est le même que pour n'importe quel visiteur : cinq minutes jusqu'à “ça
+  tourne”, et zéro friction.** Toi, l'auteur, tu ne devrais en rencontrer aucune ; chacune que
+  tu rencontres, un inconnu la rencontrera aussi et s'arrêtera là.
+- **D — le seul résultat acceptable est zéro occurrence.** Et si tu en trouves une, le
+  critère de réussite **n'est pas** de l'avoir supprimée de l'historique : c'est d'avoir
+  **révoqué** la clé. La révocation prend deux minutes et fonctionne toujours ; la réécriture
+  d'historique prend une heure et laisse des copies chez tous ceux qui ont cloné. Fais les
+  deux, dans cet ordre.
+- **E — vise plus de la moitié des vingt messages qui disent pourquoi.** En dessous, ce n'est
+  pas ta rigueur qui est en cause, c'est ton habitude de commiter à la fin plutôt qu'à chaque
+  décision — et cela se corrige en changeant le moment du commit, pas en soignant le message.
+
 ## ✅ Correction attendue
 
 **A — l'audit.** Ce qu'on attend n'est pas une liste de corrections cosmétiques

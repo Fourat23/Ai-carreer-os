@@ -189,6 +189,16 @@ normal. Une fois ton hook écrit, fabrique la course délibérément : une URL q
 300 ms, une autre en 50 ms, et un changement d'URL 30 ms après le premier rendu. Journalise
 chaque écriture d'état. Ton livrable comprend **le journal obtenu**, pas seulement le code.
 
+**Critère de réussite, vérifiable seul, et il se lit dans le journal en une seconde** : la
+**dernière** écriture d'état doit porter la donnée de la **seconde** URL. Sans nettoyage, tu
+verras l'inverse — la réponse lente arrive après la rapide et écrase le bon résultat par
+l'ancien, alors que rien n'a planté, que l'interface ne signale rien, et que le composant
+affiche tranquillement la donnée d'une URL que l'utilisateur a quittée. **Le nombre
+d'écritures compte autant que leur ordre** : avec un nettoyage correct il doit y en avoir
+**une** après le changement d'URL, pas deux. Si tu en vois deux dans le bon ordre, tu n'as pas
+annulé la première requête, tu as simplement eu de la chance sur les temps — refais le test en
+inversant les délais, il échouera.
+
 ## ✅ Correction
 
 > Les journaux de cette correction ne sont pas rédigés : ils sont **produits**. Le script

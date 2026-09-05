@@ -235,6 +235,9 @@ Sur DocSense, chaque score d'évaluation est lié à un commit (leçon LLMOps) :
 Sans relire : tu fais `git reset --hard HEAD~3`. Combien de commits ont été
 supprimés ?
 
+**Critère de réussite** : si ta réponse est « trois », garde-la et va faire la partie B de
+la pratique — elle te contredira, et c'est la meilleure façon d'apprendre celle-ci.
+
 ## 🔥 Pratique — construire un dépôt jetable et observer
 
 Aucune de ces manipulations ne s'apprend par la lecture. Construis un dépôt
@@ -262,6 +265,25 @@ explication de la différence.
 **E. Automatiser la dichotomie.** Écris un script qui répond « bon » ou
 « mauvais » automatiquement, et lance `git bisect run` avec. Livrable : le
 script et la sortie.
+
+**Critères de réussite, vérifiables seul, un par partie.**
+
+- **A** — les deux commits d'origine doivent avoir **conservé leur empreinte** du côté
+  fusion et en avoir **changé** du côté rebasage. C'est toute la différence entre les deux
+  commandes, et elle se lit dans huit caractères. Si les empreintes sont identiques des deux
+  côtés, ton rebasage n'a rien rebasé — la branche principale n'avait probablement pas avancé.
+- **B** — le compte de commits « perdus » retrouvés doit être **deux**, et tu dois pouvoir
+  nommer l'endroit où ils étaient restés sans jamais avoir été référencés par une branche.
+- **C** — le nombre d'étapes doit être **4**, parce que `git bisect` divise par deux à chaque
+  fois et que quatre divisions suffisent pour quinze commits. Si tu en as compté sept ou
+  huit, tu as cherché linéairement sans t'en apercevoir : vérifie que tu réponds bien à la
+  question posée par la commande et non à celle que tu te poses.
+- **D** — les deux empreintes obtenues doivent **différer**, alors que le contenu appliqué
+  est le même. C'est ce qui explique les doublons apparents après un `cherry-pick`, et
+  pourquoi Git ne peut pas les détecter tout seul.
+- **E** — lance `git bisect run` sur le même dépôt qu'en C : il doit désigner **le même
+  commit**, sans intervention. S'il en désigne un autre, ton script rend « bon » et
+  « mauvais » à l'envers — l'erreur la plus fréquente, et elle est silencieuse.
 
 ## ✅ Correction attendue
 

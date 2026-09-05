@@ -221,6 +221,27 @@ sais. Livrable : le composant qui casse, le chiffre, et la correction.
 grandeur de latence et vérifie-les. Puis réponds sans calculatrice : combien
 d'allers-retours transatlantiques peut-on faire en série dans une seconde ?
 
+**Critères de réussite, vérifiables seul.**
+
+- **E d'abord, parce qu'il se corrige en dix secondes** : un aller-retour transatlantique
+  coûte de l'ordre de **150 ms**, donc la réponse est **six ou sept**, pas « quelques
+  centaines ». Si tu as répondu un ordre de grandeur au-dessus, tu viens de trouver
+  pourquoi certaines conceptions à « juste quelques appels en série » s'effondrent : la
+  vitesse de la lumière ne s'optimise pas. Un écart d'un facteur dix sur un repère est
+  exactement ce qui fait dérailler un entretien, et cela se répare par la répétition, pas par
+  la compréhension.
+- **A — fais varier le rapport lecture/écriture d'un facteur dix et regarde si ta conclusion
+  d'architecture change.** Si elle ne change pas, ton calcul ne sert à rien : il décore une
+  décision déjà prise. C'est le défaut le plus courant du dimensionnement en entretien, et
+  l'examinateur le repère immédiatement en demandant « et si c'était l'inverse ? ».
+- **C — compte les affirmations non calculées, et vise moins de trois sur quarante-cinq
+  minutes.** Le chiffre absolu importe peu ; ce qui compte est qu'il **baisse** d'une
+  simulation à l'autre. Réécoute-toi : ce n'est pas agréable, et c'est de très loin le
+  meilleur retour dont tu disposes gratuitement.
+- **D — le composant qui casse en premier doit être nommé par un calcul, pas par intuition.**
+  Si tu ne peux pas écrire le chiffre qui le désigne, ta réponse est une opinion, et
+  « on scale horizontalement » n'en est pas une.
+
 ## ✅ Correction attendue
 
 **A — le calcul paramétré.** Ce qu'on attend n'est pas le résultat mais la

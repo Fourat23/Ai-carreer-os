@@ -196,6 +196,23 @@ quelqu'un qui ne connaît pas le projet, chronomètre trente secondes, puis
 demande-lui de te dire ce que fait le projet et pour qui. Livrable : ce qu'il a
 compris, mot pour mot, et ce que tu changes en conséquence.
 
+**Critères de réussite, vérifiables seul.**
+
+- **Sur A — le chiffre est le temps jusqu'à « ça tourne », et le seuil est cinq minutes.**
+  Au-delà, la plupart des visiteurs abandonnent, et ils abandonnent sans te le dire. Compte
+  aussi les frictions : **zéro est le seul score acceptable**, parce que chaque fois que
+  *toi*, l'auteur, dois deviner quelque chose, un inconnu s'arrête là.
+- **Sur C — le tableau ne vaut que si toutes les commandes ont été exécutées dans un clone
+  neuf.** Une commande qui marche dans ton répertoire de travail et pas dans un clone est
+  précisément le défaut que ce README est censé ne pas avoir, et c'est le plus fréquent :
+  elle dépend d'un fichier non versionné, d'une variable d'environnement présente chez toi,
+  ou d'une dépendance installée globalement il y a six mois.
+- **Sur E — la réussite n'est pas « il a compris », c'est « il a compris *pour qui* ».**
+  La plupart des README expliquent ce que fait le projet et taisent à qui il s'adresse ; le
+  lecteur en déduit alors que ce n'est pas pour lui. Si ta personne n'a pas su répondre à la
+  seconde moitié de la question, la première phrase est à réécrire, même si tout le reste
+  est bon.
+
 ## ✅ Correction attendue
 
 **A — les frictions.** Presque personne n'obtient zéro. Les frictions les plus

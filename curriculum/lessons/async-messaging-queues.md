@@ -23,10 +23,20 @@ quand découpler par une file — et quand ce n'est pas nécessaire.
 
 ## 🧩 Prérequis
 Tu dois comprendre HTTP et le cycle requête/réponse (`/doc/lessons/http-rest-json`), les bases de
-performance et de cache (`/doc/lessons/caching-performance`), l'idempotence côté API
-(`/doc/lessons/api-production-contracts`) et les patterns de résilience — timeout, retry, backoff
-(`/doc/lessons/resilience-patterns`). Aucune expérience d'un broker (Redis/Kafka/RabbitMQ) n'est
+performance et de cache (`/doc/lessons/caching-performance`) et l'idempotence côté API
+(`/doc/lessons/api-production-contracts`). Aucune expérience d'un broker (Redis/Kafka/RabbitMQ) n'est
 supposée : on raisonne les CONCEPTS.
+
+Le seul mécanisme de résilience utilisé ici tient en trois mots, et il est le comportement par
+défaut d'une file : **on réessaie**. Un message non acquitté est représenté au consommateur, et
+l'espacement entre deux tentatives augmente à chaque échec pour ne pas saturer un service déjà
+en difficulté. C'est exactement ce qui rend la livraison « au moins une fois » — donc ce qui
+oblige à un consommateur idempotent, qui est le sujet de la leçon.
+
+> **Où trouver le détail.** `/doc/lessons/resilience-patterns` traite les protections d'un
+> appelant face à une dépendance lente ou tombée — délai d'attente, nombre de tentatives,
+> disjoncteur — et chiffre ce que chacune coûte. Elle est **programmée plus loin** dans le
+> parcours ; rien ici ne suppose que tu l'as lue.
 
 > **Réel vs simulé.** Cette leçon enseigne des concepts ; les exercices associés sont des
 > **SIMULATIONS déterministes** locales (aucun vrai Redis/Kafka/RabbitMQ n'est exécuté).

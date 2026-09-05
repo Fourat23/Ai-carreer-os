@@ -48,7 +48,7 @@ const warns = [];
 // Ce n'est pas un contournement du gate : le gate protège contre une
 // modification NON DÉCLARÉE du corpus, et celle-ci est déclarée, committée
 // et mesurée (mini-statut CP5).
-const FROZEN_CORPUS = '8a428b9b4bf2c890b2d1a0e0963839b686f01387';
+const FROZEN_CORPUS = 'e3d3f1d05b85e3fb10ae3688aaa461701276b067';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 const HEX_BASELINE = 0; // V53 : plus aucune couleur hex en dur dans le TSX.
 const PILOTS = ['app/page.tsx', 'app/day/[id]/page.tsx', 'app/skills/page.tsx'];

@@ -8,7 +8,9 @@ Ta page met trois secondes à charger. Ton premier réflexe : « ajoutons un cac
 Savoir MESURER avant d'optimiser, corriger les problèmes de performance classiques (N+1, requêtes lentes), et mettre en place un cache avec une stratégie d'invalidation consciente. En IA, le cache est aussi un levier de COÛT majeur (appels LLM évités).
 
 ## 🧩 Prérequis
-Tu dois comprendre comment une requête traverse une application et interroge une base de données (`/doc/lessons/http-rest-json`, `/doc/lessons/sql-performance-indexing`), car les lenteurs classiques (N+1, requêtes lentes) y naissent. La notion de compromis (fraîcheur vs vitesse) et les bases d'architecture (`/doc/lessons/architecture-basics`) aident. Aucun système de cache particulier n'est supposé.
+Tu dois comprendre comment une requête traverse une application (`/doc/lessons/http-rest-json`). La notion de compromis (fraîcheur vs vitesse) et les bases d'architecture (`/doc/lessons/architecture-basics`) aident. Aucun système de cache particulier n'est supposé, et **aucune connaissance des index n'est nécessaire** : l'exemple guidé construit lui-même le ralentissement qu'il mesure, à partir d'une table vide, et compte les allers-retours plutôt que les millisecondes.
+
+> **Où trouver le détail.** `/doc/lessons/sql-performance-indexing` traite ce que la base fait de chaque requête — plan d'exécution, index, règle du préfixe gauche. Elle est **programmée plus loin** dans le parcours, et rien ici ne suppose que tu l'as lue : cette leçon-ci s'occupe du travail qu'on peut **éviter**, celle-là du travail qu'on ne peut pas éviter mais qu'on peut accélérer.
 
 ## 🧠 Modèle mental
 Un cache, c'est **garder la réponse sous la main au lieu de la recalculer** — échanger de la FRAÎCHEUR contre de la VITESSE (et en IA, contre des euros). Le prix caché : savoir quand la copie ment (invalidation), l'un des « deux problèmes difficiles de l'informatique ».

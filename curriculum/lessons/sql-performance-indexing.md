@@ -90,8 +90,15 @@ puis on chronomètre. Faisons-le sur une vraie table.
 
 > Tout ce qui suit est **mesuré**, pas illustratif : le script
 > `scripts/v70-verifications/sql-index-et-plan.mjs` crée une base SQLite de **200 000
-> commandes**, exécute chaque requête et imprime son plan et sa durée. Les valeurs absolues
-> dépendent de la machine ; les plans et les rapports, non.
+> commandes**, exécute chaque requête et imprime son plan et sa durée.
+>
+> **Ce qui se reproduit, et ce qui ne se reproduit pas.** Les **plans** sont stables : `SCAN`
+> sans index, `SEARCH` avec, à chaque exécution et sur n'importe quelle machine. Les durées,
+> non — et le **rapport** entre elles non plus. Quatre exécutions consécutives du même script
+> sur la même machine donnent des rapports de **436, 542, 726 et 760**. Retiens donc l'ordre
+> de grandeur (deux à trois chiffres, pas un facteur deux) et surtout le changement de verbe
+> dans le plan ; ne retiens pas le nombre. C'est la première raison de mesurer sur **ta**
+> base : même ce script ne se reproduit pas au chiffre près lui-même.
 
 ### Le décor
 
@@ -337,6 +344,49 @@ le N+1 est le même piège que le O(n²) caché de `/doc/lessons/algorithmic-thi
 modélisation (`/doc/lessons/database-modeling`) décide QUELLES colonnes indexer. Et la
 performance des métadonnées conditionne le coût de tes pipelines RAG (mois 9).
 
+## 🔥 Pratique — demander son plan à une vraie base
+
+**Contexte.** Cette leçon répète qu'on ne devine jamais une lenteur : on demande le plan. Tu
+vas le faire, sur une base que tu construis toi-même. Aucune installation n'est nécessaire :
+`node:sqlite` est intégré à Node, et une base en mémoire suffit.
+
+```js
+import { DatabaseSync } from 'node:sqlite';
+const db = new DatabaseSync(':memory:');
+// crée commandes(id, client_id, statut, email, montant, creee_le)
+// insère 200 000 lignes dans une transaction, sinon c'est très lent
+```
+
+**Ta production : un compte rendu en cinq parties.**
+
+**1. La mesure de départ.** Choisis une requête filtrant sur deux colonnes. Relève son plan
+(`EXPLAIN QUERY PLAN <ta requête>`) et sa durée moyenne sur 200 exécutions. Livrable : le
+plan **verbatim** et la durée.
+
+**2. L'index, et sa vérification.** Pose l'index que tu crois adapté, relance **les deux**
+mesures. Livrable : les deux plans côte à côte et les deux durées. Le critère n'est pas que ce
+soit plus rapide : c'est que le **verbe** ait changé, `SCAN` → `SEARCH`.
+
+**3. L'index qui ne sert pas.** Écris trois requêtes qui, malgré cet index, produisent encore
+un `SCAN` — une avec une fonction appliquée à la colonne, une avec un motif ouvert à gauche,
+une filtrant sur la **seconde** colonne de l'index seule. Livrable : les trois plans, et une
+phrase par cas disant *pourquoi* l'index est inutilisable.
+
+**4. Le coût en écriture.** Chronomètre 20 000 insertions sans index, puis avec tes index.
+Livrable : les deux durées et le rapport. C'est ce chiffre qui justifie de ne pas tout indexer.
+
+**5. L'index inutile.** Crée un index qui n'apparaît dans **aucun** de tes plans. Livrable :
+sa définition, la preuve qu'il n'est pas utilisé, et la phrase que tu écrirais dans une revue
+de code pour demander sa suppression.
+
+**Critère de réussite.** (a) Tu as collé des plans réellement obtenus, pas recopiés depuis
+cette leçon ; (b) le passage `SCAN` → `SEARCH` est visible en partie 2 ; (c) les trois cas de
+la partie 3 produisent bien `SCAN` chez toi ; (d) ton rapport de la partie 4 est un nombre,
+pas une impression ; (e) tu as constaté que **tes** durées ne sont pas celles publiées ici —
+c'est attendu, et c'est le sujet.
+
+**Durée.** 60 à 75 minutes.
+
 ## Mini-exercice
 Avec l'exercice `fix-nplus1` : pars d'un code qui, pour N éléments, refait une recherche par
 élément (O(n²) caché), et corrige-le par une pré-indexation en mémoire (une `Map`) — la
@@ -348,11 +398,16 @@ d'un N+1 côté application. Compare le nombre d'opérations avant/après.
 composite / préfixe** · **N+1** · **pagination par curseur** · **index couvrant** ·
 **sélectivité**.
 
-> **Note pratique — réel vs simulé.** La pratique associée à cette leçon s'exécute en
-> JavaScript (raisonnement relationnel déterministe : les lignes sont des tableaux d'objets),
-> **pas sur un vrai SGBD**. Elle entraîne le RAISONNEMENT sur les données, pas la syntaxe SQL
-> réellement exécutée. AI Career OS n'embarque pas (encore) de moteur SQL — voir la décision de
-> runtime dans `docs/ADR-030-curriculum-hardening-iii-and-ai-ml-debt.md`.
+> **Note — réel vs simulé, et ce que chacun entraîne.** L'exercice **auto-corrigé de la
+> plateforme** (`fix-nplus1`) s'exécute en JavaScript, sur des tableaux d'objets, **pas sur un
+> vrai SGBD** : il entraîne le raisonnement sur les données, pas la syntaxe SQL exécutée. AI
+> Career OS n'embarque pas de moteur SQL dans son bac à sable — voir la décision de runtime
+> dans `docs/ADR-030-curriculum-hardening-iii-and-ai-ml-debt.md`.
+>
+> La **pratique** ci-dessus, elle, tourne sur une vraie base : `node:sqlite` est intégré à
+> Node, donc `EXPLAIN QUERY PLAN` s'exécute réellement, sans installer quoi que ce soit. Les
+> deux sont complémentaires et ne travaillent pas la même chose — c'est la seconde qui entraîne
+> la compétence annoncée par l'objectif de cette leçon.
 
 ## 🧾 À retenir
 La performance SQL se joue sur une question : la base peut-elle éviter de tout lire ? Un index

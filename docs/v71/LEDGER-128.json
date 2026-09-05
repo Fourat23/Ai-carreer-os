@@ -608,7 +608,7 @@
     "archetype": "debugging",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -624,8 +624,8 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — exige error-handling (jour 54) au jour 52, +2 j. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Correction prevue CP4-CP9 (texte de la lecon uniquement). Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP6 : la distinction dont la lecon a reellement besoin est desormais ENONCEE — une erreur attendue est un cas normal qu on traite et renvoie avec le bon code, une erreur inattendue est un defaut qu on laisse remonter jusqu a un endroit unique qui journalise et repond 500 — et c est elle qui decide de ce qui va dans une route et de ce qui va dans le gestionnaire d erreurs. error-handling sort vers un encadre Ou trouver le detail. Ancre D2 niveau 5."
       }
     ],
     "action": "CONSERVE",
@@ -1431,7 +1431,7 @@
     "archetype": "optimisation",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -1447,11 +1447,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige. La lecon est au jour 80 et exige sql-performance-indexing (jour 135), soit +55 j, avec la formulation Tu dois comprendre ... car les lenteurs classiques y naissent — aucun signalement. Ancre D2 gelee niveau 1. C est le troisieme plus grand ecart du corpus. Remede recommande : requalifier en aide signalee, la lecon etant parfaitement suivable sans (son exemple guide construit lui-meme le N+1 dont il a besoin). A corriger au CP6. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP6 : le plus grand ecart de la classe B corrige (+55 j). La lecon n avait en realite AUCUN besoin de sql-performance-indexing, puisque son exemple guide construit lui-meme le ralentissement qu il mesure a partir d une table vide et compte les allers-retours plutot que les millisecondes — c est desormais dit explicitement. La citation sort vers un encadre qui distingue les deux sujets d une phrase juste : cette lecon-ci s occupe du travail qu on peut EVITER, celle-la du travail qu on ne peut pas eviter mais qu on peut accelerer. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "Le meilleur usage du corpus d une mesure qui CONTREDIT le reflexe : la ligne 2 du tableau — N+1 plus cache memoire — est mise la expres et affiche 51 requetes sur 51, soit un taux de succes de zero. L arithmetique est donnee (20 000 clients pour 200 000 commandes, donc les 50 dernieres ont presque toutes un client different), et la lecon en tire sa these : un cache ne va pas plus vite, il evite de refaire ; s il n y a rien a refaire il ne sert a rien. Verifie : 51 requetes a 1 ms = 51,4 ms contre 1,1 ms, facteur 46 ; en local facteur 7 seulement, ce qui explique la survie du N+1 jusqu en production. Le tableau des cles de cache oubliees classe trois lignes sur cinq comme des failles de CONFIDENTIALITE, pas de performance — apport reel. Retirer un cache inefficace est nomme comme un geste professionnel rare. D13 a 4 : pas de section de verification distincte."
   },
   {
@@ -1912,21 +1912,25 @@
       5,
       5,
       5,
-      2,
       5,
       5,
       5,
-      4,
+      5,
+      5,
       5,
       5
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D8 : la competence annoncee n a AUCUNE pratique. L objectif est de savoir lire un plan d execution et poser un index justifie ; la lecon enseigne EXPLAIN, en fait le premier geste (ne devine JAMAIS pourquoi une requete est lente : demande son plan) et n en fait jamais executer un. Le seul exercice est un mini-exercice de 57 mots renvoyant a un exercice externe fix-nplus1, qui demande de corriger un N+1 par une pre-indexation en memoire avec une Map — du code applicatif, ni index, ni plan, ni base. Ancre D8 niveau 2 : l exercice ne travaille pas la competence annoncee. C est le premier defaut de pratique de rang P1 de V71, et il est d autant plus net que la lecon dispose deja de tout le materiel (base SQLite de 200 000 lignes, script de mesure). Remede : une pratique qui fait creer la table, lancer EXPLAIN avant, poser l index, relancer EXPLAIN, et publier les deux plans et les deux durees — plus la verification qu un index cree qui n apparait pas dans le nouveau plan est un index inutile, ce que la lecon enonce deja sans le faire pratiquer. A corriger au CP6."
+        "p": "CORRIGE",
+        "quoi": "CP6 : le seul P1 de PRATIQUE du sprint est ferme. Une pratique en cinq parties a ete ajoutee sur la competence annoncee — demander son plan a une vraie base : mesure de depart avec EXPLAIN QUERY PLAN, pose de l index et verification que le VERBE a change de SCAN a SEARCH, trois requetes ou l index reste inutilisable, cout en ecriture sur 20 000 insertions, et creation deliberee d un index inutile avec la phrase de revue de code qui demanderait sa suppression. Faisable sans aucune installation : node:sqlite est integre a Node, ce que j ai verifie en rejouant le script de la lecon. La note reel vs simule a ete reecrite pour distinguer l exercice auto-corrige de la plateforme, qui reste en JavaScript sur des tableaux d objets, de cette pratique qui tourne sur une vraie base — les deux sont complementaires et seule la seconde entraine la competence de l objectif. D8 de 2 a 5, D12 de 4 a 5."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP6 : affirmation de reproductibilite corrigee. La lecon ecrivait que les valeurs absolues dependent de la machine mais que les plans ET LES RAPPORTS n en dependent pas. Rejeu du script cite, quatre fois de suite sur la MEME machine : rapports de 436, 542, 726 et 760. Les plans, eux, sont parfaitement stables (SCAN sans index, SEARCH avec, a chaque fois). Le texte dit desormais ce qui se reproduit et ce qui ne se reproduit pas, publie les quatre valeurs, et en tire un argument qui sert la lecon : meme ce script ne se reproduit pas au chiffre pres lui-meme, ce qui est la premiere raison de mesurer sur SA base."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "Contenu explicatif de tres haut niveau. Le modele mental (index d un livre) est ordinaire mais la lecon en tire une question unique et operationnelle : pour CETTE requete, la base peut-elle eviter de tout lire — et un seul mot a lire dans un plan, SCAN ou SEARCH. Verifie : 7,819 ms contre 0,012 ms, soit 652 fois ; cout en ecriture 27 ms contre 50 ms, soit 1,85 fois. Les trois cas ou l index existe et ne sert a rien sont la vraie valeur, et l analogie de l annuaire trie par nom puis prenom regle definitivement la regle du prefixe gauche (trouver Berger, Lina est instantane ; trouver tous les Lina ne l est pas). La lecon note meme la nuance du plan obtenu — SCAN USING COVERING INDEX est une consolation, pas une recherche : le verbe reste SCAN. Et elle publie une mesure qui CONTREDIT la regle qu on enseigne d habitude : un LIKE ancre a gauche n utilise pas l index ici, parce que LIKE est insensible a la casse par defaut dans SQLite alors que l index est sensible. L enseignement qu elle en tire vaut mieux que la regle : une regle sur les index est toujours conditionnee par la collation, le type et le moteur — d ou la seule methode fiable, demander le plan a TA base avec TES donnees. D12 a 4 : le mini-exercice renvoie a un exercice externe sans dire ou il se trouve."
   },
   {
@@ -2633,7 +2637,7 @@
     "archetype": "debugging",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -2649,12 +2653,12 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 290 et exige resilience-patterns (jour 331), soit +41 j, avec la formulation Tu dois comprendre ... et les patterns de resilience — timeout, retry, backoff. Remede recommande : requalifier en aide signalee. A corriger au CP8. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
-      },
-      {
         "p": "P2",
         "quoi": "D14/D13 : la lecon contient DEUX sections intitulees « Verification de comprehension ». La premiere (99 mots) est bien placee, juste avant la correction, avec la mention « A traiter avant de lire la correction » et quatre questions de scenario. La seconde (40 mots) est en annexe, apres la Pratique, sans correction attachee, et ses trois questions recouvrent partiellement celles de la premiere (idempotence, file de messages morts, ordre). C est un reliquat de la structure anterieure qu une restructuration n a pas retire. Trouve par la sonde scripts/v71/titres-doubles.mjs, qui detecte 28 lecons portant un titre de section en double — mais la lecture retourne le chiffre : 26 sont des « Correction attendue » x2 parfaitement LEGITIMES (deux exercices, deux corrections), et seules 2 lecons dupliquent une verification de comprehension, celle-ci et system-design-scaling. Remede : supprimer la seconde ; ses trois questions sont couvertes par la premiere. A corriger au CP8."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP6 : le seul mecanisme de resilience utilise est desormais enonce en trois mots — on reessaie — avec ce qui le rend suffisant ici : un message non acquitte est represente, l espacement croit a chaque echec, et c est exactement ce qui rend la livraison au moins une fois, donc ce qui oblige a un consommateur idempotent, qui est le sujet de la lecon. resilience-patterns sort vers un encadre. Ancre D2 niveau 5."
       }
     ],
     "action": "RETOUCHE",

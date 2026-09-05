@@ -6,16 +6,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP5**
-- **CP actuel** : CP6
+- **dernier CP terminé** : **CP6**
+- **CP actuel** : CP7
 - **leçons réellement lues et notées** : **128 / 128** ✅
-- **prochaine action EXACTE** : **CP6** — corriger les P1 du domaine
-  **web / backend / API / SQL / data** : `express-backend` (→ `error-handling`, +2 j),
-  `caching-performance` (→ `sql-performance-indexing`, +55 j),
-  `async-messaging-queues` (→ `resilience-patterns`, +41 j), et surtout
-  **`sql-performance-indexing`, le seul P1 de pratique du sprint** — la leçon enseigne
-  `EXPLAIN` et ne le fait jamais exécuter ; il faut lui écrire une pratique sur sa compétence
-  annoncée. Re-geler les 9 gates, valider, committer.
+- **prochaine action EXACTE** : **CP7** — corriger les P1 du domaine
+  **ML / IA appliquée / LLM / RAG / agents**, le plus gros lot restant : `transformers`
+  (→ `embeddings`, +35 j, **le plus grave du corpus par la centralité de la notion**),
+  `prompt-engineering` (→ `ai-evaluation`, +56 j), `rag-evaluation` (→ `ai-evaluation`,
+  +35 j), `llm-cost-optimization` (→ `rag-fundamentals`, +21 j **et** son D1 = 3 sur les
+  trois leviers), `ai-security` et `prompt-injection-defense` (→ `agents-fundamentals`,
+  +14 j chacune), `agent-workflows-orchestration` (→ `resilience-patterns`, **+57 j, le plus
+  grand écart du corpus**). Re-geler les 9 gates, valider, committer.
 
 > **Ordre imposé (brief §12) : P0, puis P1, puis P2 — pas les P3 tant qu'il reste des P1.**
 > Aucun P0. Les 14 P2 et 10 P3 ne seront traités qu'**après** le dernier P1 (fin CP9).
@@ -98,6 +99,51 @@ Validation après re-gel (hash `8a428b9b4bf2c890b2d1a0e0963839b686f01387`) : `ga
 
 Effet cumulé CP4 + CP5 : moyenne **4,820 → 4,838**, D2 **4,31 → 4,53**, leçons à D2 = 1
 **20 → 13**, P1 **23 → 15**.
+
+---
+
+## CP6 — web, backend, SQL, données
+
+**Le seul P1 de pratique du sprint est fermé.** `sql-performance-indexing` enseignait
+`EXPLAIN`, en faisait son premier geste, et ne le faisait jamais exécuter : son unique
+exercice renvoyait à un `fix-nplus1` en JavaScript sur des tableaux d'objets. Une pratique en
+cinq parties a été écrite sur la compétence annoncée — mesure de départ avec
+`EXPLAIN QUERY PLAN`, pose de l'index et vérification que le **verbe** passe de `SCAN` à
+`SEARCH`, trois requêtes où l'index reste inutilisable, coût en écriture sur 20 000
+insertions, et création délibérée d'un index inutile avec la phrase de revue de code qui
+demanderait sa suppression.
+
+Elle est faisable **sans aucune installation** : `node:sqlite` est intégré à Node, ce que j'ai
+vérifié en rejouant le script de la leçon. La note « réel vs simulé » a été réécrite pour
+distinguer l'exercice auto-corrigé de la plateforme — qui reste en JavaScript, et c'est
+assumé — de cette pratique qui tourne sur une vraie base. D8 : 2 → 5, D12 : 4 → 5.
+
+**Un second défaut trouvé pendant la correction, en rejouant le script.** La leçon écrivait
+que « les valeurs absolues dépendent de la machine ; les plans **et les rapports**, non ».
+Quatre exécutions consécutives sur la **même** machine donnent des rapports de **436, 542, 726
+et 760** — le rapport varie d'un facteur 1,7. Les plans, eux, sont parfaitement stables
+(`SCAN` sans index, `SEARCH` avec, à chaque fois). Le texte publie désormais les quatre
+valeurs et en tire un argument qui sert la leçon : **même ce script ne se reproduit pas au
+chiffre près lui-même**, ce qui est la première raison de mesurer sur *sa* base.
+
+Les trois défauts de prérequis du lot :
+
+| leçon | ce qui a été intégré | D2 |
+|---|---|---|
+| `express-backend` | la distinction erreur *attendue* / *inattendue*, celle qui décide de ce qui va dans une route et de ce qui va dans le gestionnaire d'erreurs | 1 → 5 |
+| `caching-performance` | **rien** : l'exemple guidé construit lui-même le ralentissement qu'il mesure, à partir d'une table vide, et compte les allers-retours plutôt que les millisecondes | 1 → 5 |
+| `async-messaging-queues` | « on réessaie » — un message non acquitté est représenté, l'espacement croît, et c'est exactement ce qui rend la livraison *au moins une fois*, donc ce qui oblige à un consommateur idempotent | 1 → 5 |
+
+`caching-performance` était le **plus grand écart de la classe B corrigé à ce jour** (+55 j),
+et il n'a rien coûté : la leçon n'avait aucun besoin réel de `sql-performance-indexing`. Les
+deux sujets sont désormais distingués d'une phrase — l'une s'occupe du travail qu'on peut
+**éviter**, l'autre du travail qu'on ne peut pas éviter mais qu'on peut accélérer.
+
+Validation après re-gel (hash `e3d3f1d05b85e3fb10ae3688aaa461701276b067`) : `gates:active`
+**0**, `npm test` **1420/1420**, `tsc --noEmit` **0**.
+
+Effet cumulé CP4 → CP6 : moyenne **4,820 → 4,847**, D2 **4,31 → 4,63**, D8 **4,82 → 4,84**,
+leçons à D2 = 1 **20 → 10**, P1 **23 → 11**.
 
 ---
 
@@ -316,7 +362,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP3 | lecture et notation des 128 + ledger initial | **terminé — 128/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | **terminé** |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | **terminé** |
-| CP6 | P0+P1 web / backend / API / SQL / data | à faire |
+| CP6 | P0+P1 web / backend / API / SQL / data | **terminé** |
 | CP7 | P0+P1 ML / IA appliquée / LLM / RAG / agents | à faire |
 | CP8 | P0+P1 architecture / perf / sécurité / observabilité / incidents | à faire |
 | CP9 | P0+P1 carrière / Git / pratiques pro / documentation | à faire |
@@ -336,7 +382,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
 - CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : `a6a4270` — **CP3 terminé**
-- CP4 : `c9045cf` · CP5 : ce commit
+- CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 

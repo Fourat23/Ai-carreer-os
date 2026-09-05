@@ -19,10 +19,20 @@ Express est **une chaîne de guichets** : chaque requête traverse des guichets 
 
 ## 🧩 Prérequis
 Tu dois comprendre HTTP et le style REST (`/doc/lessons/http-rest-json`), la conception d'un
-contrat d'API (`/doc/lessons/api-design-basics`), l'asynchrone en JavaScript
-(`/doc/lessons/async-javascript`) et la gestion d'erreurs
-(`/doc/lessons/error-handling`), car une API Express assemble exactement ces briques. La
-notion de code lisible en couches (`/doc/lessons/clean-code`) est réutilisée ici.
+contrat d'API (`/doc/lessons/api-design-basics`) et l'asynchrone en JavaScript
+(`/doc/lessons/async-javascript`). La notion de code lisible en couches
+(`/doc/lessons/clean-code`) est réutilisée ici.
+
+Ce que tu dois savoir de la **gestion d'erreurs** pour lire cette leçon tient en une
+distinction : une erreur *attendue* — une saisie invalide, une ressource absente — est un cas
+normal du programme, qu'on traite et qu'on renvoie avec le bon code ; une erreur *inattendue*
+est un défaut, qu'on ne masque pas et qu'on laisse remonter jusqu'à un endroit unique qui
+journalise et répond `500`. C'est cette distinction qui décide de ce qui va dans une route et
+de ce qui va dans le gestionnaire d'erreurs — et la leçon la met en œuvre pas à pas.
+
+> **Où trouver le détail.** `/doc/lessons/error-handling` traite la conception complète d'une
+> stratégie d'erreurs. Elle est **programmée deux jours plus loin** ; rien ici ne suppose que
+> tu l'as lue.
 
 ## 📖 Explication complète
 - **Le middleware** : une fonction `(req, res, next)`. L'ORDRE de déclaration est l'ordre d'exécution — le parsing JSON avant les routes, le gestionnaire d'erreurs en DERNIER. Oublier `next()` = requête suspendue à jamais.

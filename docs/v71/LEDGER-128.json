@@ -1763,5 +1763,220 @@
     "defauts": [],
     "action": "CONSERVE",
     "justif": "Deuxieme lecon du corpus a 5 sur les quatorze dimensions. Le tableau mesure div onclick contre button (compte comme bouton par les aides techniques, tabIndex -1 contre 0, atteignable par Tab, declenchement Entree/Espace 0 fois sur 2 contre 2 sur 2) etablit le fait, et la lecon ajoute ce qui le rend couteux : c est un bug qu aucun test manuel ordinaire ne revele, puisque celui qui teste clique dessus. La decision 1 est conduite jusqu au bout au lieu d etre tranchee par un principe : on repare le div, tabindex, role, gestionnaire keydown filtrant Entree ET Espace avec preventDefault sur Espace, puis l etat desactive, la soumission de formulaire, le contraste eleve — une dizaine de lignes pour reobtenir imparfaitement ce que six caracteres donnaient. D ou la reformulation de la question : jamais quelle balise a la bonne apparence, mais quelle balise a le bon COMPORTEMENT. La decision 2 est ce qui distingue cette lecon d une documentation : le contre-piege attrape celui qui a compris trop vite et remplace machinalement ses div par des section — mesure, une section sans nom accessible n expose aucune region et n apporte rien de plus qu un div."
+  },
+  {
+    "slug": "react-accessibility",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "investigation",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "5 sur les quatorze. La lecon refuse d enseigner l accessibilite par une liste d attributs et fait faire la tache autrement : range la souris. Le parcours de la modale est conduit touche par touche — le focus ne bouge pas a l ouverture, Tab passe a la page en ARRIERE-PLAN, Echap ne fait rien — et se conclut par un mot juste : pas degradee, INUTILISABLE, et rien dans le code ne le signale. Les corrections sont ordonnees par gravite et la premiere RETIRE du code : trois div deviennent trois button, ce qui resout la majorite. Le principe qui organise tout est enonce et il est exact : ARIA ajoute de l INFORMATION, jamais du COMPORTEMENT — d ou un seul aria-label dans tout l exemple, sur la croix, parce que le lecteur d ecran annoncerait multiplication. Le retour du focus a la fermeture est nomme comme la moitie qu on oublie systematiquement, avec sa consequence chiffree en usage (vingt fois par jour, c est une raison de changer d outil). Et la lecon sait s arreter : pour le piegeage du focus, la reponse professionnelle n est plus je l ecris mais j utilise une primitive eprouvee — les reimplementer par principe n est pas de la rigueur, c est du travail refait. Methode de diagnostic sans outil : fais la tache complete au clavier."
+  },
+  {
+    "slug": "react-composition-architecture",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "architecture",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P2",
+        "quoi": "Coherence entre lecons, pas defaut interne — AUCUNE dimension n est deduite pour cette raison. Le corrige de la pratique inventorie chargement et erreur comme deux etats separes, sans commentaire. Or react-application-states (jour 95, soit neuf jours plus tot) demontre par denombrement que le trio chargement/erreur/donnees en variables independantes est — mot de la lecon — fausse, pas maladroite : fausse, et enseigne a le remplacer par un etat unique discriminé. Un apprenant qui suit l ordre du parcours voit donc, au jour 104, un corrige modele employer la forme que le jour 95 lui a appris a supprimer. Le sujet de cette lecon-ci est etat contre derive, pas la forme de l etat, donc la contradiction est involontaire. Remede : une demi-phrase dans l inventaire (regroupes en un seul etat discriminé, cf. react-application-states). A traiter au CP11, passe transversale."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "5 sur les quatorze. Deux apports que la plupart des cours d architecture React n ont pas. Premier : l ORDRE est impose et justifie — on supprime les etats superflus AVANT de decouper, parce que decouper d abord aurait fige les deux copies dans deux composants differents et l on aurait alors BESOIN d un context pour les partager ; beaucoup d architectures compliquees sont nees d un etat derive qu on n a pas vu. Second : le test du et (decris le composant en une phrase, compte les et) est suivi d une distinction que les decoupages ratent presque toujours — certaines responsabilites veulent devenir des COMPOSANTS, d autres des FONCTIONS ; filtrer et trier n ont pas d interface, en faire des composants serait l erreur symetrique de celle qu on vient de corriger. Le corrige de l ecran Commandes porte le meilleur exemple concret : toutSelectionne stocke reste a vrai apres un changement de filtre qui fait apparaitre des lignes non cochees, l en-tete affirme le faux et l export part avec la mauvaise liste. La lecon dit aussi quand NE PAS decouper : le bon moment est celui ou la description devient composee, pas celui ou le fichier devient long. Archetype architecture partage avec react-application-states (jour 95) mais la conduite differe entierement — la, un denombrement en table de verite ; ici, un remaniement en deux passes."
+  },
+  {
+    "slug": "frontend-testing",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "comparaison",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "5 sur les quatorze. Le dispositif repond exactement a la difficulte annoncee : teste le comportement, pas l implementation est le conseil le plus repete du domaine et le plus dur a appliquer parce que la difference NE SE VOIT PAS quand on ecrit le test — les deux passent au vert. La lecon rend donc la difference visible de la seule facon possible : elle remanie le composant six mois plus tard, publie la sortie utilisateur avant et apres (identique, caractere pour caractere) et les deux verdicts (test A rouge sur un selecteur introuvable, test B vert). L analyse du cout est meilleure que la regle : ce qui coute n est pas de corriger le selecteur, c est ce que le rouge FAIT CROIRE — un test couple a l implementation ne se contente pas d etre inutile, il CONSOMME LA CONFIANCE accordee a tous les autres. Le test de solidite tient en une question (si je reecris l interieur sans changer ce que l utilisateur voit, mon test doit-il rester vert ?). Et la limite est declaree honnetement : certaines choses invisibles meritent d etre testees — un appel reseau avec les bons parametres est un CONTRAT que quelqu un consomme, le nom d une classe CSS n est le contrat de personne. La pratique est rigoureuse et falsifiable dans les deux sens : quatre remaniements doivent laisser tout vert, quatre mutations doivent faire rougir au moins un test chacune."
+  },
+  {
+    "slug": "pandas-data-wrangling",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "construction",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Les trois chiffres de l exemple guide reverifies exactement, y compris la chaine concatenee caractere pour caractere : somme reelle 1 840,40, somme apres errors=coerce 494,50, ecart 73,1 %. La lecon ne se contente pas de montrer que sum() sur du texte concatene — elle explique pourquoi c est pire ailleurs (ici c est visible, dans un tableau de bord agrege ca ne le serait pas). Trois decisions valent plus que la syntaxe. errors=coerce est un excellent outil A CONDITION d etre suivi d un comptage : un silence n est pas un succes. La date 05/04/2024 devenue le 4 mai est la classe d erreurs la plus dangereuse — pas une valeur manquante, une valeur PLAUSIBLE ET FAUSSE — et pandas n a pas eu tort, la date est reellement ambigue. Enfin toute cle de regroupement doit etre normalisee avant de servir de cle, sinon groupby compte six clients la ou il y en a quatre. La conclusion depasse le sujet : une valeur manquante est une question posee au metier, pas un dechet a supprimer discretement. D8, D12 et D13 a 4 : les deux enonces (19 et 28 mots) nomment une production reelle et un livrable implicite, mais sans contraintes ni critere de reussite explicite, et il n y a pas de section de verification distincte — ecart net avec le lot frontend."
+  },
+  {
+    "slug": "data-cleaning-quality",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "investigation",
+    "D": [
+      5,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P3",
+        "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — feature-engineering (jour 169) cite au jour 128, signale par eclairent pourquoi certaines corrections doivent attendre APRES le split. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+      }
+    ],
+    "action": "CONSERVE",
+    "justif": "Le titre de l exemple guide est deja la these — 17 lignes sur 1 040, et 4,5 ans d ecart — et la demonstration la tient. Verifie : aucun defaut ne depasse 7,9 % des lignes, un rapport ecrirait donnees globalement propres, et pourtant l age moyen passe de 42,63 a 38,11. Le mecanisme est pose arithmetiquement : une valeur aberrante n apporte pas une erreur proportionnelle a sa FREQUENCE mais a son ECART, cinq valeurs a 999 pesant autant qu environ 130 personnes de 38 ans (calcul refait : 131,4 — l approximation est annoncee par autant que). D ou l enseignement central, qui est une critique de l unite de mesure habituelle : le pourcentage de lignes sales ne dit rien de l erreur sur les resultats. Trois autres apports rares. La deuxieme ligne du tableau donne exprès le MEME chiffre que la premiere, pour etablir que NaN est le defaut le MOINS dangereux — les sentinelles -1 et 999 sont dangereuses parce qu elles se font passer pour des donnees, et aucun outil generique ne les trouve. fillna(0) produit un TROISIEME chiffre, faux autrement : un zero n est pas inconnu, et remplacer une absence par une valeur transforme un defaut visible en erreur invisible. Le tableau du CA par ville montre une ville fantome (  lyon  avec espaces et minuscule) emportant 2 294 EUR — soit 8,3 % du vrai total lyonnais, la lecon arrondit a pres de 10 %, seule imprecision relevee et elle reste dans la marge de pres de. Le total baisse de 3,88 % apres suppression des doublons : verifie. Point 6 de la methode : ce qui distingue un nettoyage d une falsification, c est que toute transformation est defendable mais aucune ne l est en silence. D8/D12/D13 a 4 : meme ecart d enonce que le reste du lot donnees."
+  },
+  {
+    "slug": "sql-performance-indexing",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "optimisation",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      2,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D8 : la competence annoncee n a AUCUNE pratique. L objectif est de savoir lire un plan d execution et poser un index justifie ; la lecon enseigne EXPLAIN, en fait le premier geste (ne devine JAMAIS pourquoi une requete est lente : demande son plan) et n en fait jamais executer un. Le seul exercice est un mini-exercice de 57 mots renvoyant a un exercice externe fix-nplus1, qui demande de corriger un N+1 par une pre-indexation en memoire avec une Map — du code applicatif, ni index, ni plan, ni base. Ancre D8 niveau 2 : l exercice ne travaille pas la competence annoncee. C est le premier defaut de pratique de rang P1 de V71, et il est d autant plus net que la lecon dispose deja de tout le materiel (base SQLite de 200 000 lignes, script de mesure). Remede : une pratique qui fait creer la table, lancer EXPLAIN avant, poser l index, relancer EXPLAIN, et publier les deux plans et les deux durees — plus la verification qu un index cree qui n apparait pas dans le nouveau plan est un index inutile, ce que la lecon enonce deja sans le faire pratiquer. A corriger au CP6."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Contenu explicatif de tres haut niveau. Le modele mental (index d un livre) est ordinaire mais la lecon en tire une question unique et operationnelle : pour CETTE requete, la base peut-elle eviter de tout lire — et un seul mot a lire dans un plan, SCAN ou SEARCH. Verifie : 7,819 ms contre 0,012 ms, soit 652 fois ; cout en ecriture 27 ms contre 50 ms, soit 1,85 fois. Les trois cas ou l index existe et ne sert a rien sont la vraie valeur, et l analogie de l annuaire trie par nom puis prenom regle definitivement la regle du prefixe gauche (trouver Berger, Lina est instantane ; trouver tous les Lina ne l est pas). La lecon note meme la nuance du plan obtenu — SCAN USING COVERING INDEX est une consolation, pas une recherche : le verbe reste SCAN. Et elle publie une mesure qui CONTREDIT la regle qu on enseigne d habitude : un LIKE ancre a gauche n utilise pas l index ici, parce que LIKE est insensible a la casse par defaut dans SQLite alors que l index est sensible. L enseignement qu elle en tire vaut mieux que la regle : une regle sur les index est toujours conditionnee par la collation, le type et le moteur — d ou la seule methode fiable, demander le plan a TA base avec TES donnees. D12 a 4 : le mini-exercice renvoie a un exercice externe sans dire ou il se trouve."
+  },
+  {
+    "slug": "database-transactions-concurrency",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "debugging",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "5 sur les quatorze. La lecon nomme d emblee la difficulte propre au sujet — seul, tout fonctionne toujours ; le defaut n apparait qu en production, rarement, et de facon irreproductible — puis le provoque exprès sur deux connexions reelles. Quatre etats mesures : lire-calculer-ecrire donne 50 au lieu de 20 (mise a jour perdue), l ecriture relative donne 20, le verrou fait refuser B qui rejoue et donne 20, la version optimiste fait modifier 0 ligne a B qui le detecte et rejoue. La cause est formulee exactement : B a pris sa decision a partir d une valeur devenue perimee entre le moment ou il l a lue et le moment ou il a ecrit — et ce n est PAS un probleme de vitesse, il suffit que l intervalle existe. Trois remedes, chacun avec son prix reel, et un tableau de choix qui les departage. Le point le plus facile a manquer est isole : le verrouillage optimiste n existe que si l application VERIFIE le nombre de lignes modifiees — la protection n est pas dans le SQL, elle est dans le fait de lire la reponse. Le cas de l humain qui edite un formulaire trois minutes justifie l optimiste mieux qu aucun argument theorique. Enfin la limite est DECLAREE : la demonstration tourne sur SQLite qui serialise les ecritures, les mecanismes sont identiques ailleurs mais les niveaux d isolation, les erreurs et la granularite different — ce qu il faut retenir n est pas un code d erreur, c est que lire puis ecrire est faux des qu on est deux. La pratique A a E fait reproduire les cinq anomalies au lieu de les lire, chaque partie avec son livrable chiffre."
+  },
+  {
+    "slug": "etl-pipelines",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "architecture",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "La question de conception est reformulee de la bonne facon des l ouverture : pas fait-il le bon calcul, mais QUE SE PASSE-T-IL A LA DEUXIEME EXECUTION — parce qu un pipeline a une propriete que peu de code partage, il sera relance. Quatre etats mesures sur 1 000 commandes a 149 500 : INSERT simple double tout (2 000 lignes, 299 000) sans qu aucune erreur ne soit levee ; l UPSERT sur cle naturelle rend le meme resultat aux deux executions ; l interruption sans transaction laisse 617 lignes et 96 006 EUR, soit 36 % de moins affiches sur un tableau de bord sans le moindre avertissement ; la meme interruption en transaction laisse 0 ligne. Le point de conception est juste et rarement dit : l idempotence n est pas une option qu on ajoute, c est une CONSEQUENCE DE LA CLE — sans identifiant issu des donnees, aucun mecanisme ne peut savoir qu une ligne a deja ete chargee. Et la lecon publie une nuance qu elle aurait pu taire : dans le cas C, relancer a REPARE l etat partiel, donc l idempotence est aussi un mecanisme de reprise — mais elle ne dispense pas de la transaction, parce qu elle ne protege que SI l on relance, et entre la panne et la relance la base affiche 96 006 a qui la consulte. Le tableau des trois etages associe a chacun sa propriete et ce qu elle permet, avec le piege qui fait perdre la purete de transform : datetime.now() au milieu d une transformation, alors que la date d execution est une ENTREE. La formulation alternative du point 3 (chargement par lots, etat partiel assume, borne et CONNU, tres different d un etat partiel subi) evite le dogmatisme. D8/D12/D13 a 4 : meme ecart d enonce que le reste du lot donnees, bien que prouve qu un second run ne cree pas de doublons soit un critere reellement verifiable."
   }
 ]

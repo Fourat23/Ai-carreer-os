@@ -8,9 +8,9 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **56 / 128**
-- **dernier lot complet** : **7 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 8/16**, leçons 57 à 64 de
+- **leçons réellement lues et notées** : **64 / 128** — mi-parcours
+- **dernier lot complet** : **8 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 9/16**, leçons 65 à 72 de
   `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
@@ -74,21 +74,29 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **56 / 128**
-- notations D1→D14 complètes : **56 / 128**
-- moyenne provisoire (56 notées) : **4,770**
+- leçons réellement lues : **64 / 128** — **mi-parcours**
+- notations D1→D14 complètes : **64 / 128**
+- moyenne provisoire (64 notées) : **4,783**
 - leçons sous 3,00 : **0**
-- **P0 : 0** · **P1 : 12** · **P2 : 6** · **P3 : 7**
+- **P0 : 0** · **P1 : 13** · **P2 : 7** · **P3 : 8**
 
-### Moyenne par dimension (56 notées)
+### Moyenne par dimension (64 notées)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,82 | **4,16** | 4,93 | 4,98 | 4,96 | 4,64 | 4,96 |
+| 4,84 | **4,25** | 4,94 | 4,98 | 4,97 | 4,69 | 4,97 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,96 | 4,96 | 4,50 | 4,71 | 4,98 | **4,30** | 4,89 |
+| 4,88 | 4,97 | 4,56 | 4,75 | 4,92 | **4,34** | 4,91 |
+
+**Six leçons à 5,00 sur les quatorze dimensions** : `portfolio-github`,
+`html-semantic-structure`, `react-accessibility`, `react-composition-architecture`,
+`frontend-testing`, `database-transactions-concurrency`. Quatre d'entre elles sont dans le
+seul lot 8, ce qui est anormalement concentré — **à revérifier au CP13** (audit aveugle) et
+au CP15. Ce qu'elles ont en commun et qui justifie la note : preuve exécutée ou mesurée,
+erreur plausible nommée **avec la raison qui la rend séduisante**, limite de leur propre
+approche déclarée, section de vérification distincte, et pratique à critère falsifiable.
 
 Les deux points bas sont **D2** (prérequis, qui va encore descendre : 16 des 20 leçons à
 D2 = 1 ne sont pas encore notées) et **D13** (vérification de compréhension — présente
@@ -160,7 +168,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 56/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 64/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -182,7 +190,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 
@@ -204,3 +212,25 @@ des huit** portent un défaut de prérequis de classe B ou C (`react-application
 Les huit archétypes du lot sont **tous distincts** — fondation conceptuelle, debugging,
 construction, architecture, sécurité, comparaison, optimisation, revue de code — ce qui
 satisfait la règle anti-clonage du CP2 sur huit leçons consécutives d'un même domaine.
+
+### Lot 8 — fin du frontend, début des données
+
+**Premier P1 de pratique de V71.** `sql-performance-indexing` enseigne `EXPLAIN`, en fait son
+premier geste (« ne devine JAMAIS pourquoi une requête est lente : demande son plan ») et **ne
+le fait jamais exécuter**. Son unique exercice — 57 mots — renvoie à un exercice externe qui
+corrige un N+1 par une `Map` en mémoire : ni index, ni plan, ni base. Ancre D8 niveau 2,
+« l'exercice ne travaille pas la compétence annoncée ». Fix CP6.
+
+**Une incohérence entre leçons**, trouvable seulement par lecture suivie :
+`react-composition-architecture` (jour 104) donne comme corrigé modèle un inventaire où
+`chargement` et `erreur` sont deux états séparés — la forme exacte que
+`react-application-states` (jour 95) démontre être « fausse, pas maladroite : fausse ».
+Involontaire (le sujet de la seconde est état/dérivé, pas la forme de l'état). P2, aucune
+dimension déduite, remède d'une demi-phrase. Fix CP11.
+
+**Asymétrie éditoriale entre domaines, à reporter au CP15.** Les pratiques du lot frontend
+font 400 à 550 mots, en parties lettrées, avec un bloc « Critère de réussite » explicite.
+Celles du lot données font 20 à 60 mots sans critère énoncé. Le contenu explicatif est de
+niveau équivalent — c'est l'énoncé de pratique qui diffère, et c'est ce qui tire D8, D12 et
+D13 vers le bas sur `pandas-data-wrangling`, `data-cleaning-quality` et `etl-pipelines`.
+Ce n'est pas un défaut par leçon mais un choix éditorial non uniforme.

@@ -1313,5 +1313,230 @@
     "premierJour": "day-079",
     "moyenne": 4.86,
     "min": 4
+  },
+  {
+    "slug": "monitoring-production",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "architecture",
+    "D": [
+      5,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P3",
+        "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — llm-observability (jour 325) cite au jour 79, mais signale : utile mais rappelee ici. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+      }
+    ],
+    "action": "CONSERVE",
+    "justif": "La lecon separe deux choses que la moitie des dispositifs de supervision confondent : un tableau de bord se consulte, une alerte INTERROMPT un humain. De la decoule un critere de tri operationnel et opposable — si cette alerte se declenche a 3 h du matin, que fait la personne d astreinte ? Si la reponse est elle regarde, ce n est pas une alerte. L exemple guide (758 m) impose un tableau metrique/seuil/action ou une seule ligne reveille, et la justifie. Les deux pannes symetriques du point de sante (vivant mais pas pret / pret mais declare mort, ou couper la base redemarre tout en boucle) sont expliquees par leur mecanisme, avec le test qui tranche : coupe la base et regarde. Les trois angles morts — taches planifiees, dependances tierces, la supervision elle-meme — closent par le seul cas ou l absence d evenement doit alerter. D2 a 4 : plafond de l ancre, comportement correct."
+  },
+  {
+    "slug": "observability-fundamentals",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "fondation conceptuelle",
+    "D": [
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Modele mental exemplaire au sens de l ancre D4 niveau 5 : l analogie de la voiture est donnee AVEC sa limite explicite — un logiciel n a pas de capot, les traces sont des donnees qu il a fallu DECIDER d emettre avant la panne. L exemple guide (702 m) deroule un incident reel en trois gestes qui reduisent chacun l espace de recherche (metriques 14 h 12, trace 97 % du temps dans l appel base, journaux pool epuise 50/50), puis nomme ce qui les relie — un identifiant — et pourquoi il ne s ajoute pas retroactivement. Le quatrieme pilier qu on oublie (savoir ce qui a change) est un apport reel. La correction nomme l erreur probable ET pourquoi elle seduit : les tableaux de bord sont du travail VISIBLE, l observabilite est invisible jusqu a la panne inedite. Chiffres verifies : 41,0 / 4,9 / 39,5 % d echantillonnage, 200 controles a 1 % = 48 fausses alertes/jour. D3 a 4 : objectif formule en connaissances (comprendre, connaitre) alors que la lecon fait travailler une capacite."
+  },
+  {
+    "slug": "observability-logging",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "construction",
+    "D": [
+      2,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D1 : erreur factuelle dans la correction de la pratique C. Le jeu propose — 95 % a 50 ms, 5 % a 3 000 ms — est annonce comme donnant un centile 95 de 3 000 ms. Mesure (rang le plus proche, 1 000 000 de requetes) : p50 = 50 ms, p95 = 50 ms, p96 = 3 000 ms, p99 = 3 000 ms. C est p99 qui vaut 3 000, pas p95. La moyenne annoncee (197 ms) est juste (197,5). Aggravant : la pratique C demande explicitement de fabriquer un jeu ou le centile 95 est mauvais, et la correction fournit un jeu ou il est bon — elle echoue a l exercice qu elle corrige. Deux remedes possibles : dire p99 = 3 000 ms (edition minimale, et le point pedagogique devient plus fort : meme p95 peut cacher la queue), ou changer le jeu en 90/10 (moyenne 345 ms, p95 = 3 000 ms, 100 000 utilisateurs). A corriger au CP8."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Trois questions mesurees, chacune close par une consequence de conception. Q1 : sur le MEME journal, le format texte repond juste a une question (9 contre 9) et faux a une autre (37 au lieu de 58, 36 % de sous-estimation) sans aucun signal — d ou la regle que ce sur quoi on filtrera doit etre un champ. Q2 : la reconstitution par proximite temporelle passe 200/200 sans concurrence et 1/200 des cinq requetes simultanees, et son echec est SILENCIEUX — elle rend une requete plausible composee de morceaux d autres. Q3 : l echantillonnage uniforme supprime en priorite ce qu on veut garder. La correction sur les centiles est excellente sur le fond (un centile ne s additionne ni ne se moyenne ; p99 n est pas 1 % des gens mais 1 % des requetes) mais porte l erreur ci-dessus. D9 a 4 : la correction de la partie C ne valide pas la contrainte de son propre enonce."
+  },
+  {
+    "slug": "slo-error-budget",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "comparaison",
+    "D": [
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Modele opposable du corpus pour le traitement d un prerequis : au lieu de supposer la disponibilite, la lecon l INTEGRE en quatre phrases (part du temps ou le service rend le service attendu, exprimee en neuf, 7 h / 43 min / 4 min par mois) et renvoie vers le detail sur l etagere de reference. C est le remede a privilegier pour les 20 defauts de PREREQUIS-ORDRE.md. Arithmetique entierement reverifiee : 43 200 min par mois donnent 432 / 43,2 / 4,32 min ; 30 M de requetes donnent 300 000 / 30 000 / 3 000 ; un incident de 20 min a 12 000 req/min consomme 240 000 requetes, soit 80 %, 800 % et 8 000 % du budget. Le point le plus contre-intuitif est enseigne comme tel et dans les deux sens : un budget intact au 28 du mois est une MAUVAISE nouvelle. La correction nomme l erreur probable (poser le SLO au niveau deja atteint), dit pourquoi elle seduit (c est le seul chiffre objectif, donc defendable en reunion) et offre une alternative defendable (ne pas poser de SLO du tout). D3 a 4 : objectif formule en connaissances."
+  },
+  {
+    "slug": "caching-performance",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "optimisation",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige. La lecon est au jour 80 et exige sql-performance-indexing (jour 135), soit +55 j, avec la formulation Tu dois comprendre ... car les lenteurs classiques y naissent — aucun signalement. Ancre D2 gelee niveau 1. C est le troisieme plus grand ecart du corpus. Remede recommande : requalifier en aide signalee, la lecon etant parfaitement suivable sans (son exemple guide construit lui-meme le N+1 dont il a besoin). A corriger au CP6. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Le meilleur usage du corpus d une mesure qui CONTREDIT le reflexe : la ligne 2 du tableau — N+1 plus cache memoire — est mise la expres et affiche 51 requetes sur 51, soit un taux de succes de zero. L arithmetique est donnee (20 000 clients pour 200 000 commandes, donc les 50 dernieres ont presque toutes un client different), et la lecon en tire sa these : un cache ne va pas plus vite, il evite de refaire ; s il n y a rien a refaire il ne sert a rien. Verifie : 51 requetes a 1 ms = 51,4 ms contre 1,1 ms, facteur 46 ; en local facteur 7 seulement, ce qui explique la survie du N+1 jusqu en production. Le tableau des cles de cache oubliees classe trois lignes sur cinq comme des failles de CONFIDENTIALITE, pas de performance — apport reel. Retirer un cache inefficace est nomme comme un geste professionnel rare. D13 a 4 : pas de section de verification distincte."
+  },
+  {
+    "slug": "technical-debt",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "comparaison",
+    "D": [
+      2,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D1 : erreur d unite dans l exemple guide, qui inverse sa propre conclusion. La formule posee par la lecon est cout annuel = interet x frequence. Lignes A, B et D sont en heures et exactes (3 h x 12 = 36 h ; 2 h x 2 = 4 h ; 30 min x 1 = 0,5 h). Ligne C : (1 regression sur 3) x 1 jour x 4 par an = 10,67 HEURES, publie ~10 j (jours). La prose repete l erreur : dix jours par an, pour un principal de trois. Consequence : avec 1,33 j/an, C s amortit en 2,25 ans et non 0,30 an, donc elle passe DERRIERE A (0,44 an) et l observation C est celle qu on sous-estime ne decoule plus de son propre tableau. La these generale (les dettes dont l interet est un risque sont sous-evaluees) reste defendable, mais l exemple ne la demontre pas. Remede : porter l interet de C a environ 2 j de correction et 12 modifications par an, ce qui donne 8 j/an et retablit la demonstration. A corriger au CP9."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "La grille principal / interet / frequence est un vrai outil de decision, et la lecon en tire la seule formule qui compte plus l observation qui la rend utile : le principal ne decide de rien. Trois enseignements justes et rarement enseignes — B est la plus laide et elle attend (la laideur est visible, le cout ne l est pas) ; D ne sera jamais remboursee et c est une decision ecrite, pas une negligence ; la frequence est la seule colonne qu on n invente pas, elle se lit dans git log. Le passage sur la conversation avec un responsable est exemplaire de D10 : la meme demande, exprimee dans l unite de celui qui arbitre. Correction : nomme l erreur probable (prioriser par la laideur), dit pourquoi elle seduit (la repulsion est un signal physique immediat, la frequence ne se ressent pas), offre une alternative defendable (boy-scout) et sa limite. Arithmetique de la seconde correction verifiee (48 h/an, 40 h de travail, amorti en 10 mois). D7 a 4 : l exemple guide porte l erreur ci-dessus."
+  },
+  {
+    "slug": "python-foundations",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "debugging",
+    "D": [
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P2",
+        "quoi": "D1 : la table de traduction JS -> Python ligne try/catch donne except TypeErreur: — TypeErreur n est pas un nom Python. Verifie : raise TypeErreur leve NameError: name TypeErreur is not defined. C est le nom francise de TypeError, dans la table meme qui sert de reference a l apprenant. Defaut peu grave (il echoue immediatement et bruyamment, il n induit pas en erreur silencieusement) mais c est du code faux dans un tableau de correspondance. Remede : une lettre — TypeError. A corriger au CP4."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Le choix editorial est le bon et il est assume : plutot qu une visite guidee de la syntaxe qu on peut lire n importe ou, la lecon consacre son exemple guide aux quatre comportements qu on ne devine pas quand on vient de JavaScript. Les quatre sont EXECUTES et j ai reverifie les quatre : argument par defaut mutable partage entre appels, .copy() superficielle qui laisse tags partage (True), [lambda: i for i in range(3)] qui rend [2,2,2] contre [0,1,2] avec i=i, et int(257) is int(257) False alors que int(256) is int(256) True par le cache CPython de -5 a 256. Le point qui les relie est le vrai enseignement : aucun ne leve d exception, tous produisent un resultat plausible et faux, et trois ne se manifestent qu au deuxieme appel ou sur une valeur particuliere. La correction transpose cela au meta-niveau avec l epreuve de bilinguisme (trier ce qui vient du LANGAGE de ce qui vient de la BIBLIOTHEQUE). D8 a 4 : un seul mini-exercice, sans bloc de pratique multiple ni critere de reussite explicite hors du verifie seul."
+  },
+  {
+    "slug": "portfolio-github",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "revue de code",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Seule leçon du lot a 5 sur les quatorze dimensions. Elle part d une contrainte mesurable — deux a trois minutes d attention, decision dans les dix premieres secondes — et en DEDUIT trois consequences qui contredisent l intuition : le code compte moins que sa presentation parce que personne ne l atteint ; un seul depot sera vraiment lu ; la quantite nuit. L ordre des six epingles est justifie par une regle unique et verifiable, aucun doublon de facette, avec le test qui elimine : un projet ne merite une position que si tu peux repondre a pourquoi as-tu fait ce choix plutot qu un autre sur au moins une decision de conception. La lecon s appuie sur les mesures d autres lecons plutot que d en inventer (README execute depuis un clone neuf, secret visible deux fois dans git log -p --all et survivant a gc --prune=now) et ordonne correctement les actions : revoquer d abord, trente secondes, seule action qui rend le secret inutilisable. Elle ajoute le point que les autres omettent : un depot public ayant contenu un secret ne redevient pas sur en devenant prive. La cle du tout, et elle est juste : l historique de commits est la seule partie du portfolio qu on ne peut pas maquiller apres coup."
   }
 ]

@@ -8,12 +8,10 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **40 / 128**
-- **dernier lot complet** : **5 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 6/16** : `monitoring-production`,
-  `observability-fundamentals`, `observability-logging`, `slo-error-budget`,
-  `caching-performance`, `technical-debt`, `python-foundations`, `portfolio-github`.
-  Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
+- **leçons réellement lues et notées** : **48 / 128**
+- **dernier lot complet** : **6 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 7/16**, leçons 49 à 56 de
+  `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
 ---
@@ -76,11 +74,46 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **40 / 128**
-- notations D1→D14 complètes : **40 / 128**
-- moyenne provisoire (40 notées) : **4,748**
+- leçons réellement lues : **48 / 128**
+- notations D1→D14 complètes : **48 / 128**
+- moyenne provisoire (48 notées) : **4,763**
 - leçons sous 3,00 : **0**
-- **P0 : 0** · **P1 : 6** · **P2 : 3** · **P3 : 6**
+- **P0 : 0** · **P1 : 9** · **P2 : 4** · **P3 : 7**
+
+### Moyenne par dimension (48 notées)
+
+| D1 | D2 | D3 | D4 | D5 | D6 | D7 |
+|---|---|---|---|---|---|---|
+| 4,81 | **4,27** | 4,92 | 4,98 | 4,96 | 4,58 | 4,96 |
+
+| D8 | D9 | D10 | D11 | D12 | D13 | D14 |
+|---|---|---|---|---|---|---|
+| 4,98 | 4,98 | 4,42 | 4,69 | 5,00 | **4,25** | 4,90 |
+
+Les deux points bas sont **D2** (prérequis, qui va encore descendre : 16 des 20 leçons à
+D2 = 1 ne sont pas encore notées) et **D13** (vérification de compréhension — présente
+partout, mais souvent fondue dans la pratique plutôt qu'en contrôle distinct).
+
+### Lot 6 — ce que la lecture a trouvé
+
+Trois défauts nouveaux, tous établis par mesure et non par sonde :
+
+- **`observability-logging` (P1, D1 = 2)** — la correction de la pratique C annonce un
+  centile 95 de 3 000 ms pour un jeu à 95 % / 5 %. Mesuré : p95 = 50 ms, p99 = 3 000 ms.
+  Aggravant : l'énoncé demande un jeu où le p95 est **mauvais**, et la correction en
+  fournit un où il est bon — elle échoue à l'exercice qu'elle corrige. Fix CP8.
+- **`technical-debt` (P1, D1 = 2)** — l'exemple guidé publie « ~10 j » de coût annuel pour
+  la dette C là où sa propre formule donne **10,67 heures**. Les trois autres lignes sont
+  en heures et exactes. Conséquence : C s'amortit en 2,25 ans, pas 0,30, donc elle passe
+  derrière A et l'observation « C est celle qu'on sous-estime » ne découle plus du tableau.
+  Fix CP9.
+- **`python-foundations` (P2)** — `except TypeErreur:` dans la table de traduction :
+  `TypeErreur` n'est pas un nom Python (`NameError` vérifié). Fix CP4.
+
+Et un modèle opposable : **`slo-error-budget`** intègre en quatre phrases la notion de
+disponibilité dont elle a besoin au lieu de l'exiger. C'est le remède à appliquer aux 20
+défauts de prérequis. **`portfolio-github`** est la première leçon du corpus à 5 sur les
+quatorze dimensions.
 
 ### Correction D2 appliquée à la reprise
 
@@ -127,7 +160,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 40/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 48/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -148,4 +181,5 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP2 : `b3e4592`
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
-- reprise après perte de conteneur + enquête prérequis : ce commit
+- reprise après perte de conteneur + enquête prérequis : `44747e5`
+- CP3 lot 6 : ce commit

@@ -171,8 +171,27 @@ Dans un RAG, le prompt de génération impose : « réponds UNIQUEMENT à partir
 ## ✍️ Mini-exercice
 Écris un prompt de classification (texte → une catégorie parmi 4) qui refuse (« INCERTAIN ») si la confiance est faible, et teste-le sur 10 exemples dont 2 ambigus.
 
+**Livrable** : le prompt, et le tableau des dix sorties.
+
+**Critère de réussite, vérifiable seul, et il se lit dans les deux sens** : les **deux
+ambigus doivent rendre INCERTAIN**, et les **huit autres ne doivent pas**. Les deux moitiés
+comptent autant. Un prompt qui ne refuse jamais est inutilisable — c'est celui qu'on a par
+défaut. Mais un prompt qui refuse cinq fois sur dix ne devient pas prudent pour autant : il
+devient inutile, parce que quelqu'un devra traiter à la main la moitié du flux, et cette
+personne se demandera à quoi sert la classification. **Le refus n'est une qualité que s'il
+est rare et justifié** ; compte les deux nombres, jamais un seul.
+
 ## 🔥 Exercice plus difficile
 Construis un mini banc d'essai : 15 cas (dont pièges), un script qui appelle le LLM, valide la sortie, et affiche un taux de réussite. Améliore le prompt jusqu'à > 90 %, en notant chaque version.
+
+**Critère de réussite, vérifiable seul, et il protège de l'exercice lui-même.** Avant de
+commencer, **mets cinq cas de côté et ne les regarde jamais pendant l'amélioration.** Optimise
+le prompt sur les dix autres jusqu'à dépasser 90 %, puis — une seule fois, à la fin — lance-le
+sur les cinq réservés. **Si le taux s'effondre, tu n'as pas amélioré le prompt : tu l'as
+ajusté à tes dix cas.** C'est exactement le rapport entraînement / test des modèles, et il
+s'applique aux prompts pour la même raison : à force d'itérer sur les mêmes exemples, on
+finit par y encoder leurs particularités. Le chiffre qui compte est celui des cinq cas jamais
+vus, et il est toujours plus bas que l'autre.
 
 ## ✅ Correction attendue
 ### La démarche

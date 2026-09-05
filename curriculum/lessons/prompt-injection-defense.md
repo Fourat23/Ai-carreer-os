@@ -160,8 +160,28 @@ La suite adverse de DocSense (15 cas hostiles : injections directes, documents p
 ## ✍️ Mini-exercice
 Écris 3 attaques contre TON RAG (1 directe, 1 document piégé, 1 exfiltration de system prompt), lance-les, note le résultat brut.
 
+**Livrable** : les trois requêtes exactes et les trois sorties, copiées sans les résumer.
+
+**Critère de réussite, vérifiable seul, et il déplaît** : **au moins une des trois doit
+réussir.** Si les trois échouent du premier coup, ne conclus rien sur ta défense — conclus
+que tes attaques sont trop polies. C'est le biais central du test de sécurité par son propre
+auteur : on écrit inconsciemment les attaques que l'on sait bloquer. **Une attaque qui échoue
+ne prouve rien sur la défense, elle prouve seulement quelque chose sur l'attaque.** Durcis
+jusqu'à obtenir un succès : formule l'instruction dans la langue du corpus, place-la en fin
+de document plutôt qu'en tête, fais-la passer pour une consigne de formatage. Le jour où l'une
+passe, tu as enfin un point de départ mesurable.
+
 ## 🔥 Exercice plus difficile
 Implémente 3 couches (frontière de données, contrôle de sortie, vérification de citations), re-lance tes attaques, intègre les cas au harnais avec comportement attendu, et prouve la non-régression sur deux commits.
+
+**Critère de réussite, vérifiable seul : teste le test.** Retire **une** couche, une seule, et
+relance le harnais. **Il doit échouer, et tu dois pouvoir dire laquelle est tombée avant de
+regarder.** Recommence pour les trois. Si le harnais reste vert alors qu'une couche est
+absente, il ne mesure pas ce que tu crois — soit l'attaque correspondante est bloquée en
+amont par une autre couche (et tu ne sais pas laquelle protège vraiment), soit le cas n'est
+pas branché. C'est la seule façon de savoir qu'une défense en profondeur est réellement
+profonde plutôt que redondante par accident, et ce contrôle n'a pas d'équivalent : un harnais
+qui n'a jamais échoué est un harnais dont on ignore ce qu'il surveille.
 
 ## ✅ Correction attendue
 ### La démarche

@@ -1509,7 +1509,7 @@
    5,
    5,
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -1521,6 +1521,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP9 : TypeErreur : nom d exception francise, inexistant en Python. Un lecteur qui le cherche ne le trouve pas. Corrige en TypeError partout."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le motif CP3 etait « un seul mini-exercice, sans bloc de pratique multiple ni critere de reussite explicite HORS DU VERIFIE SEUL ». Or l ancre D8 = 5 gelee au CP1 n exige NI pluralite de blocs NI que le critere vive hors du bloc de verification : elle exige un critere verifiable par l apprenant seul, et il y en a quatre — la majuscule qui doit se fondre, le cas vide obligatoire dans les tests, le comptage des boucles for, et l epreuve de bilinguisme. La note CP3 appliquait une exigence ABSENTE du bareme. Corrigee a 5 par relecture, sans modification de la lecon."
    }
   ],
   "action": "RETOUCHE",
@@ -1997,15 +2001,20 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
-   4,
+   5,
+   5,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le CP3 notait D8 a 4 en admettant lui-meme que prouver qu un second run ne cree pas de doublons EST un critere verifiable. Les elements reellement absents etaient le contexte et le livrable : ajoutes (un export nocturne parfois recu deux fois, parfois rejoue apres incident ; les trois COUNT(*) avant / apres le premier / apres le second). Et le critere est pousse un cran plus loin, la ou la plupart des pipelines se trompent : MODIFIER une ligne du CSV et rejouer — le compte doit rester identique ET la ligne etre a jour, faute de quoi on a ignore le doublon au lieu de le reconcilier. L exercice difficile recoit le critere de l interruption : le compte doit valoir celui d avant OU celui d apres, jamais un nombre intermediaire, qui est le pire etat possible."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La question de conception est reformulee de la bonne facon des l ouverture : pas fait-il le bon calcul, mais QUE SE PASSE-T-IL A LA DEUXIEME EXECUTION — parce qu un pipeline a une propriete que peu de code partage, il sera relance. Quatre etats mesures sur 1 000 commandes a 149 500 : INSERT simple double tout (2 000 lignes, 299 000) sans qu aucune erreur ne soit levee ; l UPSERT sur cle naturelle rend le meme resultat aux deux executions ; l interruption sans transaction laisse 617 lignes et 96 006 EUR, soit 36 % de moins affiches sur un tableau de bord sans le moindre avertissement ; la meme interruption en transaction laisse 0 ligne. Le point de conception est juste et rarement dit : l idempotence n est pas une option qu on ajoute, c est une CONSEQUENCE DE LA CLE — sans identifiant issu des donnees, aucun mecanisme ne peut savoir qu une ligne a deja ete chargee. Et la lecon publie une nuance qu elle aurait pu taire : dans le cas C, relancer a REPARE l etat partiel, donc l idempotence est aussi un mecanisme de reprise — mais elle ne dispense pas de la transaction, parce qu elle ne protege que SI l on relance, et entre la panne et la relance la base affiche 96 006 a qui la consulte. Le tableau des trois etages associe a chacun sa propriete et ce qu elle permet, avec le piege qui fait perdre la purete de transform : datetime.now() au milieu d une transformation, alors que la date d execution est une ENTREE. La formulation alternative du point 3 (chargement par lots, etat partiel assume, borne et CONNU, tres different d un etat partiel subi) evite le dogmatisme. D8/D12/D13 a 4 : meme ecart d enonce que le reste du lot donnees, bien que prouve qu un second run ne cree pas de doublons soit un critere reellement verifiable."
  },
@@ -2022,11 +2031,11 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
+   5,
+   5,
    5,
    5
   ],
@@ -2034,6 +2043,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP9 : glose rejouables sans double effet dupliquee dans la meme phrase avec deux ponctuations differentes, edition inachevee. Corrige."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : mini-exercice de 52 mots sans critere (motif CP3 exact). Critere ajoute, testable en une commande par etape : apres CHAQUE migration, executer un INSERT qui ne mentionne pas la colonne email — c est ce que fait l ancienne version encore en train de tourner. Il doit reussir apres les etapes 1 et 2 et echouer seulement apres la 3. Un echec des l etape 1 signifie une coupure ; une reussite apres l etape 3 signifie que la contrainte n a pas ete posee."
    }
   ],
   "action": "RETOUCHE",
@@ -2077,18 +2090,18 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
-   4,
+   5,
+   5,
+   5,
    5
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "Tracabilite. La lecon publie quatre nombres sous le titre « Resultats mesures : » (0,870 / 0,590 pour la fuite de selection, 0,520 / 0,540 pour la normalisation) sans citer aucun script, alors que c est la convention de tout le reste du corpus, et que scripts/v70-verifications/ml-pieges-mesures.py couvre scikit-learn-workflow, model-evaluation et feature-engineering mais pas celle-ci. Les chiffres ont donc ete REPRODUITS avant notation, sur quatre graines, par scripts/v71/ml-fuite-selection.py : A 0,780 / 0,880 / 0,820 / 0,860 (moyenne 0,835), B 0,590 / 0,390 / 0,470 / 0,610 (moyenne 0,515), normalisation 0,515 des deux cotes. L effet est donc REEL, MASSIF (+0,32) et ROBUSTE, les quatre valeurs publiees tombent dans l intervalle observe, et la seconde affirmation — la fuite de normalisation ne change presque rien — est confirmee exactement. Aucune dimension n est deduite : l ancre D1 dit sources OU mesures, et ils sont mesures. Reste a ajouter la reference au CP7 ; ml-fuite-selection.py peut servir."
+    "p": "CORRIGE",
+    "quoi": "CP10 : deux choses fermees. (1) P3 de tracabilite — les quatre nombres publies sous « Resultats mesures » ne citaient aucun script. Reference ajoutee vers scripts/v71/ml-fuite-selection.py, ET la lecon publie desormais ce que le script montre vraiment : 0,870 et 0,590 sont UN TIRAGE, pas une constante. Sur quatre graines, A donne 0,835 de moyenne et B 0,515 ; ce qui est stable n est pas la decimale mais l ECART, +0,32 sur les quatre sans exception. Idem pour la normalisation : les deux variantes donnent 0,515 a l identique, donc l ecart n est pas petit, il est NUL — les deux decimales publiees etaient du bruit dans les deux sens. Le defaut de tracabilite est devenu un gain de justesse. (2) D8 — le motif CP3 etait « mini-exercice seul, pas de section de verification distincte », exigence absente de l ancre ; le bloc Verifie seul porte quatre criteres dont la demonstration volontaire du leakage. Note portee a 5 par relecture."
    }
   ],
   "action": "RETOUCHE",
@@ -2310,11 +2323,11 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
+   5,
+   5,
    4,
    5
   ],
@@ -2326,6 +2339,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP9 : cinq sorties sur neuf annonce alors que le decompte en donne quatre. Corrige : quatre sorties sur neuf."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : deux criteres, tous deux a double sens. Le mini — les deux ambigus doivent rendre INCERTAIN ET les huit autres ne doivent pas ; un prompt qui refuse cinq fois sur dix n est pas prudent, il est inutile, puisque quelqu un traitera la moitie du flux a la main. L exercice difficile recoit le garde-fou qui protege de l exercice lui-meme : mettre CINQ cas de cote et ne jamais les regarder pendant l amelioration, puis les lancer une seule fois a la fin. Un effondrement signifie qu on a ajuste le prompt aux dix cas — le rapport entrainement / test applique aux prompts, pour la meme raison."
    }
   ],
   "action": "RETOUCHE",
@@ -2434,18 +2451,22 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
-   4,
+   5,
+   5,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP7 : les QUATRE notions exigees a l avance (jeu de reference, reference de comparaison, evaluation par etage, juge automatique) sont desormais definies dans la lecon, une ligne chacune, et la lecon les employait de toute facon dans son corps. Le juge est defini avec sa condition d emploi — utile seulement si l on a verifie qu il note comme un humain sur une vingtaine de cas — ce qui est le point que la lecon developpe ensuite. ai-evaluation sort vers un encadre. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : deux enonces courts sans critere (motif CP3). Le mini recoit un critere INVERSE : au moins deux des trois pieges doivent echouer au premier essai, faute de quoi ce ne sont pas des pieges mais trois questions de plus qui augmentent le score sans rien apprendre. Le calibrage du juge recoit la precaution qui passe avant le chiffre — figer ses vingt jugements manuels AVANT de toucher au prompt, sinon on ajuste son propre jugement en relisant les desaccords et l accord monte sans que le juge ait change. Plus le test qui plafonne tout : refaire ses vingt jugements une semaine plus tard et mesurer son accord AVEC SOI-MEME."
    }
   ],
   "action": "CONSERVE",
@@ -2489,15 +2510,20 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
-   4,
+   5,
+   5,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le mini recoit le resultat ATTENDU et non une question ouverte — la lexicale doit trouver le code exact et la vectorielle doit le rater ; si la vectorielle le trouve aussi, la reference ressemble trop a du langage naturel et il faut en prendre une opaque. L ablation recoit un critere qui contient un piege de mesure : si hybride+rerank n apporte rien, ne pas conclure que le reranking est inutile mais verifier si le rappel@5 sature — le reranking change l ORDRE, pas la presence, donc la metrique ne PEUT pas voir le gain. Une amelioration invisible est souvent une metrique mal choisie."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Les DOUZE metriques du tableau recalculees et exactes, y compris les deux nDCG@5 qui exigent la bonne formule d escompte logarithmique : rappel@3/5/10 0,33/0,67/1,00 puis 0,67/1,00/1,00, precision@3 0,33 puis 0,67, MRR 0,50 puis 1,00, nDCG@5 0,4776 et 0,9675 arrondis a 0,48 et 0,97. La lecon construit son enseignement sur la ligne du tableau qui NE BOUGE PAS : le rappel@10 vaut 1,00 dans les deux classements, la recherche n a rien manque — et pourtant le systeme repond mal, parce qu on n envoie pas dix documents au modele mais trois. D ou la distinction fondamentale, formulee en une ligne opposable : LE RAPPEL DIT SI L INFORMATION EST LA, LE CLASSEMENT DIT SI LE MODELE LA VERRA. Le tableau des quatre metriques associe a chacune la question a laquelle elle repond et le moment ou l employer, sans en presenter aucune comme superieure : MRR quand une seule bonne reponse suffit, nDCG quand plusieurs passages doivent etre combines. Et la remarque de cloture est un argument economique que peu de cours font : aucune de ces quatre metriques ne necessite un modele de langage, elles se calculent avec vingt lignes de Python — donc elles sont gratuites, deterministes et reproductibles, trois proprietes que l evaluation des reponses generees n a pas. D8/D12/D13 a 4."
  },
@@ -2514,15 +2540,20 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
-   4,
+   5,
+   5,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le mini demandait un calcul sans dire comment savoir qu on ne s est pas trompe. Calcul verifie : 200 000 x 768 x 4 = 614 400 000 octets, soit 614 Mo (586 Mio). Deux criteres, dont un qui porte sur la CONCLUSION : si la reponse est oui une base vectorielle est justifiee, relire son propre chiffre — 614 Mo tiennent en memoire, un tableau et un produit scalaire suffisent, et ils ont l avantage d etre exacts. La base se justifie par le debit, la persistance, le filtrage ou la mise a jour, pas par ce volume. L exercice difficile recoit un critere binaire : la meme suite de tests doit passer sur les deux adaptateurs sans qu une ligne de test change, sinon l interface fuit."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Les QUATORZE cellules du tableau d empreintes recalculees et exactes (15/23, 61/92, 307/461, 614/922, 1 229/1 843, 6 144/9 216, 154/230 Mo), avec l arithmetique donnee explicitement — nombre de vecteurs fois dimensions fois octets, et un facteur 1,5 pour l index et les metadonnees. La lecon transforme une question tranchee d habitude par habitude ou par mode en un calcul, et en tire trois decisions plutot qu une reponse. La premiere est celle qu on ne voit jamais poser : LA DIMENSION DU MODELE D EMBEDDING EST UNE DECISION D INFRASTRUCTURE — passer de 384 a 1 536 quadruple l empreinte, et ce choix se fait au moment de selectionner le modele, sur le seul critere de la qualite annoncee, sans que personne ne calcule ce qu il engage. La deuxieme est le tableau des trois regimes avec des seuils chiffres, et la lecon designe celui qu on sous-estime le plus : sous 50 Mo, un tableau en memoire suffit, et pour un corpus de 500 documents une base vectorielle est de l infrastructure a operer, sauvegarder et surveiller pour un service qu un tableau NumPy rend deja. La formulation qui suit est juste et rare : commence simple n est pas une concession pedagogique, c est la bonne decision technique dans ce regime. La troisieme place la quantification avant l infrastructure, chiffres a l appui. D8/D12/D13 a 4."
  },
@@ -2539,18 +2570,22 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
-   4,
+   5,
+   5,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP9 : note globale du tableau a trois systemes non reproductible : une moyenne simple donne 0,63 pour C, pas 0,77. Corrige : la ponderation 0,40 / 0,40 / 0,20 est desormais ENONCEE avant le tableau, et C vaut 0,76 — la valeur que cette ponderation produit reellement. A = 0,78, B = 0,78, C = 0,76 : les trois notes restent quasi identiques et C reste la plus basse, ce qui est exactement l argument de la lecon, maintenant verifiable."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture de l appareil de pratique contre les CINQ elements ecrits de l ancre D8 = 5. Les cinq sont presents — production (construire un golden set et le script de mesure), contexte (mini-corpus de 3 documents), contraintes (10 questions reparties 5 factuelles / 2 syntheses / 1 ambigue / 2 sans reponse), livrable (le jeu et le rappel@3) et critere : le bloc Verifie seul porte QUATRE criteres decidables, dont combien de tes 10 questions partagent trois mots consecutifs avec le document qui les contient — si c est la majorite, ton golden set mesure une recherche par mots-cles deguisee. La justification CP3 ne donnait aucun motif pour le D8 a 4. Note portee a 5 par relecture, sans modification de la lecon."
    }
   ],
   "action": "RETOUCHE",
@@ -2603,18 +2638,22 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
-   4,
+   5,
+   5,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP7 : meme correction (+14 j), avec le principe dont la lecon a reellement besoin enonce sur place — le moindre privilege : on ne donne a un outil que ce dont il a strictement besoin, et l on refuse d en confier un dont l usage est irreversible a un systeme qui obeit au texte qu on lui envoie. La lecon ajoute le rattachement juste : ce principe est deja celui des droits d un utilisateur sur un systeme de fichiers, il change seulement de sujet. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : critere qui deplait, et c est le bon — au moins une des trois attaques doit REUSSIR. Si les trois echouent du premier coup, ne rien conclure sur la defense : conclure que les attaques sont trop polies. C est le biais central du test de securite par son propre auteur, on ecrit inconsciemment les attaques qu on sait bloquer, et une attaque qui echoue ne prouve rien sur la defense. L exercice difficile recoit le test du test : retirer UNE couche, une seule, et relancer le harnais — il doit echouer, et on doit pouvoir dire laquelle est tombee AVANT de regarder. Un harnais qui n a jamais echoue est un harnais dont on ignore ce qu il surveille."
    }
   ],
   "action": "CONSERVE",

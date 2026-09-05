@@ -100,12 +100,19 @@ pipe = Pipeline([("sel", SelectKBest(f_classif, k=20)),
 cross_val_score(pipe, X, y, cv=5).mean()
 ```
 
-Résultats mesurés :
+Résultats mesurés — reproductibles par `scripts/v71/ml-fuite-selection.py`, qui rejoue les
+deux variantes sur quatre graines :
 
 ```
 A) sélection avant la validation croisée : 0.870
 B) sélection dans le pipeline            : 0.590
 ```
+
+Ces deux nombres sont **un tirage**, pas une constante, et il faut le dire pour que le
+chiffre soit lisible. Sur quatre graines, A donne 0,78 · 0,88 · 0,82 · 0,86 (moyenne
+**0,835**) et B donne 0,59 · 0,39 · 0,47 · 0,61 (moyenne **0,515**). Ce qui est stable n'est
+donc pas le 0,870, c'est **l'écart** : environ **+0,32 de justesse fabriquée à partir de
+rien**, sur les quatre tirages sans exception. Retiens l'écart, pas la décimale.
 
 **87 % de justesse sur des données qui ne contiennent rien.** Aucune erreur de code, aucun
 avertissement. Si tu présentes ce chiffre en réunion, personne dans la salle ne pourra dire
@@ -133,7 +140,10 @@ scaler ajusté sur toutes les données : 0.520
 scaler à l'intérieur du pipeline     : 0.540
 ```
 
-Presque rien. Ce n'est pas une invitation à normaliser n'importe comment, mais c'est une
+Presque rien — et le même script le confirme sur les quatre graines : les deux variantes
+donnent **0,515 de moyenne, à l'identique**. L'écart entre elles n'est pas petit, il est
+**nul** ; les deux décimales ci-dessus sont du bruit de tirage dans les deux sens. Ce n'est
+pas une invitation à normaliser n'importe comment, mais c'est une
 information utile : la normalisation ne transporte que deux nombres par variable (moyenne,
 écart-type) et **ne regarde jamais l'étiquette**, alors que la sélection choisit *quelles
 variables existent* en fonction de la réponse. La leçon pratique : quand tu cherches une

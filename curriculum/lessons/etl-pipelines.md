@@ -274,10 +274,29 @@ Les autres :
 - Recharger tout à chaque fois quand un incrémental suffirait.
 
 ## ✍️ Mini-exercice
-Écris un pipeline `extract/transform/load` qui charge un CSV en SQLite, et prouve qu'un second run ne crée PAS de doublons.
+Un export CSV te parvient chaque nuit ; certaines nuits il arrive deux fois, et parfois c'est
+le même fichier renvoyé après un incident. Écris un pipeline `extract/transform/load` qui le
+charge en SQLite, et **prouve** qu'un second passage ne crée pas de doublons.
+
+**Livrable** : le pipeline, plus la sortie de `SELECT COUNT(*)` avant le premier passage,
+après le premier, et après le second.
+
+**Critère de réussite, vérifiable seul** : les deux derniers comptes doivent être **égaux**.
+Puis va un cran plus loin, parce que c'est là que la plupart des pipelines se trompent :
+**modifie une ligne du CSV et rejoue**. Le compte doit rester identique **et** la ligne doit
+être à jour. Si le compte augmente, ta clé d'unicité est trop large ; si la ligne n'est pas à
+jour, tu as ignoré le doublon au lieu de le réconcilier — et ta base porte désormais une
+version périmée qu'aucun nouveau passage ne corrigera.
 
 ## 🔥 Exercice plus difficile
 Rends ton pipeline résistant : simule une interruption au milieu du load et vérifie que la base reste cohérente (transaction), puis qu'une relance repart proprement.
+
+**Critère de réussite, vérifiable seul** : après l'interruption, le compte de lignes doit
+valoir **soit celui d'avant, soit celui d'après — jamais un nombre intermédiaire**. Un
+compte intermédiaire est la preuve que ton chargement n'est pas dans une transaction, et
+c'est le pire état possible : la base a l'air chargée, personne ne relance, et il manque la
+moitié des lignes. Coupe au milieu, pas à la fin — si tu interromps après la dernière ligne
+tu ne testes rien.
 
 ## ✅ Correction
 

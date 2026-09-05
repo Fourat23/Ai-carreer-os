@@ -242,8 +242,27 @@ Les autres :
 ## ✍️ Mini-exercice
 Sur 5 questions dont une contient un code exact (ex. une référence), compare le top-3 de la recherche vectorielle seule vs lexicale seule. Laquelle trouve le code ?
 
+**Livrable** : les deux top-3 côte à côte pour chacune des cinq questions.
+
+**Critère de réussite, vérifiable seul** : sur la question au code exact, **la lexicale doit
+le trouver et la vectorielle doit le rater**. C'est l'observation que l'exercice existe pour
+produire. Si la vectorielle le trouve aussi, ton « code » ressemble trop à du langage
+naturel — une référence comme `FACTURE-2024` porte encore du sens exploitable. Prends une
+référence réellement opaque (`REF-8842-XJ`) et recommence : c'est seulement là que l'écart
+apparaît, et il apparaît alors brutalement.
+
 ## 🔥 Exercice plus difficile
 Construis un tableau d'ablation (vectoriel / lexical / hybride / hybride+rerank) sur 15 questions, mesure le rappel@5 de chaque configuration, et conclus sur le gain de chaque étage.
+
+**Critère de réussite, vérifiable seul, et il contient un piège de mesure qu'il faut savoir
+reconnaître.** Les gains doivent être **décroissants** : l'hybride apporte plus au-dessus du
+vectoriel seul que le reranking n'apporte au-dessus de l'hybride. Si tu observes l'inverse,
+recompte. Et surtout : **si `hybride+rerank` n'apporte rien du tout, ne conclus pas que le
+reranking est inutile.** Regarde d'abord si ton rappel@5 est déjà proche de 1 — auquel cas la
+métrique ne *peut pas* voir le gain, parce que le reranking ne change pas quels documents
+sont présents dans le top-5, il change leur **ordre**. Mesure alors le rappel@1, ou la
+position moyenne du bon document. **Une amélioration invisible est souvent une métrique mal
+choisie, pas une amélioration absente** — et c'est vrai bien au-delà du retrieval.
 
 ## ✅ Correction attendue
 ### La démarche

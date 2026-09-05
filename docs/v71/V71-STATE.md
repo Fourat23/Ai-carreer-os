@@ -7,14 +7,18 @@
 ## Position
 
 - **dernier CP terminé** : **CP9**
-- **CP actuel** : **CP10 en cours — 36 / 128 sections de pratique lues**
+- **CP actuel** : **CP10 en cours — 46 / 128 sections de pratique lues**
 - **leçons réellement lues et notées** : **128 / 128** ✅
-- **P0 : 0 · P1 : 0 · P2 : 0** — tous fermés. Les 10 P3 sont désormais ouverts (§12).
-- **prochaine action EXACTE** : **CP10, lot 3** — les 10 leçons encore à D8 = 4
-  (`ai-evaluation`, `database-migrations`, `etl-pipelines`, `machine-learning-basics`,
-  `prompt-engineering`, `prompt-injection-defense`, `python-foundations`, `rag-evaluation`,
-  `retrieval-reranking`, `vector-databases`), puis le reste de l'ordre de lecture. Les 10 P3
-  sont traités au fil du passage.
+- **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 9** — un P3 fermé au CP10 (`machine-learning-basics`).
+- **prochaine action EXACTE** : **CP10, lot 4** — les **82 leçons notées D8 = 5 au CP3 et
+  non encore relues au CP10**. Leur note n'est pas confirmée : elle est héritée. Les 9 P3
+  restants (8 plafonds D2 + `ai-security`) sont traités au fil du passage.
+
+> **D8 vaut 5,000 au ledger, et cela ne veut PAS dire que le corpus est validé sur D8.**
+> 46 leçons ont été relues au CP10 ; les 82 autres portent une note CP3 non revérifiée. Le
+> lot 2 a montré que ces notes se répartissent dans les deux sens — 24 confirmées, 5
+> optimistes, 3 fondées sur une exigence absente du barème. **Le chiffre ne sera opposable
+> qu'à 128 / 128.**
 
 ### CP10 — ce que la lecture a trouvé sur les notes D8 elles-mêmes
 
@@ -34,6 +38,39 @@ critère** par la sonde. Résultat, et il tranche la question dans les deux sens
   `release-incident-recovery` dont les livrables étaient nommés mais sans énoncé de réussite.
   Leur **D8 = 5 au CP3 était optimiste**. Corrigé en écrivant les critères, pas en baissant la
   note — mais la note était acquise avant de l'être, et cela doit être dit.
+
+### CP10 lot 3 — trois notes CP3 fondées sur une exigence absente du barème
+
+Le lot 3 a traité les 10 leçons encore à D8 = 4. Sept relevaient d'un vrai manque et ont reçu
+un critère écrit. **Trois portaient une note fondée sur une exigence que l'ancre gelée ne
+contient pas**, et c'est un défaut de mesure qu'il faut nommer aussi franchement que les
+notes trop généreuses du lot 2 :
+
+| leçon | motif écrit au CP3 | ce que l'ancre D8 = 5 exige réellement |
+|---|---|---|
+| `python-foundations` | « un seul mini-exercice, sans bloc de pratique multiple ni critère explicite **hors du vérifie seul** » | ni pluralité de blocs, ni critère situé hors du bloc de vérification |
+| `machine-learning-basics` | « mini-exercice seul, **pas de section de vérification distincte** » | aucune exigence de section distincte |
+| `etl-pipelines` | « même écart d'énoncé que le reste du lot données, **bien que** “prouve qu'un second run ne crée pas de doublons” soit un critère réellement vérifiable » | le motif s'annule lui-même |
+
+Les trois portent quatre critères décidables chacune dans leur bloc « Vérifie seul ». Notes
+portées à 5 **par relecture, sans modification de la leçon** pour les deux premières.
+`etl-pipelines` manquait réellement le contexte et le livrable : ils ont été écrits.
+
+**Le sens de tout cela : au CP3, la mesure a dérivé dans les deux directions.** Cinq notes
+trop généreuses, trois trop sévères, sur 46 leçons relues. Ce n'est pas un argument pour
+relâcher le barème — c'est un argument pour relire, qui est précisément ce que le brief §11
+impose et ce que le CP10 exécute.
+
+### Le P3 de `machine-learning-basics` — un défaut de traçabilité devenu un gain de justesse
+
+Les quatre nombres publiés sous « Résultats mesurés » ne citaient aucun script, contre la
+convention du reste du corpus. La référence à `scripts/v71/ml-fuite-selection.py` est ajoutée,
+**et la leçon publie maintenant ce que le script montre vraiment** : 0,870 et 0,590 sont **un
+tirage**, pas une constante. Sur quatre graines, A donne 0,835 de moyenne et B 0,515. Ce qui
+est stable n'est pas la décimale, c'est **l'écart : +0,32 sur les quatre graines sans
+exception**. Idem pour la normalisation — les deux variantes donnent **0,515 à l'identique**,
+donc l'écart n'est pas petit, il est **nul**, et les deux décimales publiées étaient du bruit
+dans les deux sens.
 
 ### CP10 — la grille R/E/D/P/T
 

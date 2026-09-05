@@ -324,6 +324,19 @@ peuplée, en production, sans coupure. Écris la séquence de migrations compati
 ajouter en nullable → backfill/collecter les emails → ajouter la contrainte NOT NULL/UNIQUE
 une fois toutes les lignes remplies). Explique pourquoi l'ordre importe.
 
+**Livrable** : les trois migrations, et pour chacune la réponse à « qu'est-ce que l'ancien
+code peut encore faire après celle-ci ? ».
+
+**Critère de réussite, vérifiable seul, et il se teste en une commande par étape** : après
+**chaque** migration, exécute un `INSERT` qui **ne mentionne pas** la colonne `email` — c'est
+exactement ce que fait l'ancienne version du code, encore en train de tourner sur les
+instances non redéployées. Il doit **réussir après les étapes 1 et 2, et échouer seulement
+après la 3**. Si l'insertion échoue dès l'étape 1, tu as ajouté la contrainte trop tôt et tu
+viens de provoquer une coupure : chaque écriture de l'ancien code est refusée jusqu'au
+redéploiement complet. Si elle réussit encore après l'étape 3, ta contrainte n'a pas été
+posée — vérifie qu'elle n'a pas été silencieusement ignorée faute d'avoir rempli toutes les
+lignes.
+
 ## 📚 Vocabulaire
 **migration** · **up / down** · **reproductibilité** · **changement cassant / compatible** ·
 **compatibilité descendante** · **expand / contract** · **backfill** · **migration de

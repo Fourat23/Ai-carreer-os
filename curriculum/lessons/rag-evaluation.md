@@ -200,8 +200,30 @@ Les autres :
 ## ✍️ Mini-exercice
 Ajoute à ton golden set 3 questions pièges (lexical trompeur, multi-passages, sans réponse) et mesure ce qu'elles révèlent.
 
+**Livrable** : les trois questions, la réponse obtenue pour chacune, et ce qu'elle révèle.
+
+**Critère de réussite, vérifiable seul, et il est inversé par rapport au réflexe** : **au
+moins deux des trois doivent échouer au premier essai.** Si les trois passent, ce ne sont pas
+des pièges — ce sont trois questions de plus, et tu viens d'augmenter ton score sans rien
+apprendre. Réécris-les jusqu'à ce qu'elles fassent mal : le lexical trompeur doit contenir
+les mots d'un passage qui ne répond pas, le multi-passages doit exiger de combiner deux
+documents qu'aucune requête ne ramène ensemble, et la question sans réponse doit être
+plausible au point que le système ait envie d'y répondre. **Un jeu de test qu'on réussit du
+premier coup n'a rien testé.**
+
 ## 🔥 Exercice plus difficile
 Calibre ton juge : juge 20 cas à la main, mesure l'accord, améliore le prompt de jugement (critères binaires), re-mesure. Documente l'accord avant/après.
+
+**Critère de réussite, vérifiable seul, et la précaution passe avant le chiffre.** **Écris
+tes vingt jugements manuels et fige-les AVANT de toucher au prompt du juge.** Sinon il se
+produit ceci, silencieusement : en relisant un désaccord, tu trouves l'argument du juge
+raisonnable, tu ajustes ton propre jugement, et l'accord monte sans que le juge ait changé.
+C'est toi qui as bougé. D'où le second critère : **si ton accord après amélioration dépasse
+0,95, méfie-toi plutôt que de te réjouir.** Un accord humain-machine parfait sur une tâche
+subjective signifie presque toujours que le barème a été relâché — ou qu'un seul juge humain
+a noté, auquel cas tu ne connais pas ta propre reproductibilité. Le test qui tranche : refais
+tes vingt jugements manuels une semaine plus tard, sans les relire, et mesure ton accord
+**avec toi-même**. Il plafonne ce que le juge peut atteindre.
 
 ## ✅ Correction attendue
 ### La démarche

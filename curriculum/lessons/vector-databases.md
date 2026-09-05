@@ -209,8 +209,33 @@ Les autres :
 ## ✍️ Mini-exercice
 Calcule l'empreinte mémoire de 200 000 chunks en 768 dimensions (float32). Une base vectorielle est-elle justifiée ?
 
+**Livrable** : le calcul posé, le résultat en mégaoctets, et ta conclusion en une phrase.
+
+**Critère de réussite, vérifiable seul — et la bonne réponse est celle qu'on n'attend pas.**
+`200 000 × 768 × 4 = 614 400 000` octets, soit **614 Mo (586 Mio)**. Deux vérifications :
+
+1. **Si ton chiffre dépasse quelques gigaoctets, tu t'es trompé d'un facteur** — le plus
+   souvent en comptant 8 octets par nombre au lieu de 4, ou en oubliant que 768 est le
+   nombre de dimensions et non de chunks.
+2. **Si ta conclusion est « oui, une base vectorielle est justifiée », relis ton propre
+   chiffre.** 614 Mo tiennent dans la mémoire de n'importe quelle machine de travail : à
+   cette taille, un tableau en mémoire et un produit scalaire suffisent, et ils ont
+   l'avantage d'être exacts là où un index approximatif ne l'est pas. La base vectorielle
+   se justifie par le nombre de requêtes par seconde, la persistance, le filtrage par
+   métadonnées ou la mise à jour incrémentale — **pas par ce volume-là**. Décider d'après
+   la taille seule est l'erreur que cet exercice existe pour provoquer.
+
 ## 🔥 Exercice plus difficile
 Implémente une interface `VectorStore` (add, query avec filtre) avec DEUX adapters : un « en mémoire » (recherche exacte) et un vers une vraie base. Prouve que changer d'adapter ne change pas le reste du code.
+
+**Critère de réussite, vérifiable seul, et il est binaire** : la **même** suite de tests doit
+passer sur les deux adaptateurs **sans qu'une seule ligne de test change** — seule
+l'instanciation varie. Si tu dois adapter un test, ton interface fuit : elle laisse passer un
+détail de l'implémentation (l'ordre des résultats, la forme d'un identifiant, un champ de
+métadonnée) que ton code appelant finira par utiliser sans le savoir. Et c'est là que
+l'adaptateur en mémoire gagne sa place : parce qu'il est **exact**, il te sert d'oracle — un
+écart entre les deux te dit ce que ton index approximatif te coûte réellement en rappel, ce
+qu'aucune documentation ne t'apprendra sur tes propres données.
 
 ## ✅ Correction attendue
 ### Le calcul demandé

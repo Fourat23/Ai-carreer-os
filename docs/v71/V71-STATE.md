@@ -8,9 +8,9 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **112 / 128**
-- **dernier lot complet** : **14 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 15/16**, leçons 113 à 120 de
+- **leçons réellement lues et notées** : **120 / 128**
+- **dernier lot complet** : **15 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 16/16, dernier**, leçons 121 à 128 de
   `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
@@ -74,21 +74,21 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **112 / 128**
-- notations D1→D14 complètes : **112 / 128**
-- moyenne provisoire (112 notées) : **4,804**
+- leçons réellement lues : **120 / 128**
+- notations D1→D14 complètes : **120 / 128**
+- moyenne provisoire (120 notées) : **4,813**
 - leçons sous 3,00 : **0** · minimum du corpus : **4,14** (`interview-preparation`)
 - **P0 : 0** · **P1 : 23** · **P2 : 14** · **P3 : 10**
 
-### Moyenne par dimension (112 notées)
+### Moyenne par dimension (120 notées)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,87 | **4,21** | 4,96 | 4,99 | 4,98 | 4,82 | 4,97 |
+| 4,88 | **4,27** | 4,97 | 4,99 | 4,98 | 4,83 | 4,97 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,79 | 4,98 | 4,75 | 4,86 | 4,82 | **4,33** | 4,91 |
+| 4,81 | 4,98 | 4,77 | 4,87 | 4,83 | **4,31** | 4,92 |
 
 ### Les vingt leçons à D2 = 1 sont toutes notées
 
@@ -191,7 +191,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 112/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 120/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -213,7 +213,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 
@@ -454,3 +454,36 @@ décider maintenant sans modifier le barème gelé.
 
 Contrôle que ma notation D13 n'est pas mécanique : parmi les 37 leçons à D13 = 5, **31** ont
 la section (6 l'obtiennent sans) ; parmi les 75 à D13 = 4, **19** l'ont quand même.
+
+### Lot 15 — Kubernetes, IaC, stratégies de déploiement
+
+Huit leçons hors parcours, **aucun défaut**, toutes à 4,93 — le plafond mécanique de l'étagère
+de référence, D13 = 4 faute de contrôle de compréhension distinct (voir le constat structurel
+ci-dessus). Le contenu, lui, est de premier ordre.
+
+**Vérification §31 close pour tout le corpus.** Les 16 dernières leçons ont été passées en
+revue : `iac-fundamentals`, `k8s-troubleshooting` et `k8s-why-architecture` déclarent leurs
+repères « non exécutés » ; `deployment-strategies`, `linux-services-systemd`,
+`linux-ssh-remote`, `release-incident-recovery` et `responsive-design` citent un script
+exécuté ; les sept restantes (quatre k8s, trois Next.js) ne publient **aucune** mesure — elles
+traitent de manifestes YAML, de réglages (`initialDelaySeconds: 60` est une *consigne*, pas un
+relevé) et de prémisses de scénario. **Aucune leçon du corpus ne prétend valider Kubernetes,
+un cloud réel ou systemd depuis un environnement qui ne le permet pas.**
+
+Trois passages à retenir pour le CP15 :
+
+- **`k8s-workloads`** confirme le choix qu'en faisait déjà le document du CP2. Elle refuse
+  d'emblée le tableau de correspondance « qui se retient en trente secondes et ne sert à rien
+  parce qu'il suppose la question déjà résolue », et dit **trois fois non** à son propre
+  catalogue d'objets : la correction n'est pas de changer de workload, ni même de déplacer
+  l'état, mais de sortir le travail de l'application. Un cours qui refuse trois fois sa propre
+  nomenclature enseigne à décider, pas à nommer.
+- **`deployment-strategies`** produit le corollaire chiffré le plus utile du lot : 1 % du
+  trafic pendant trois heures fait **21 600** requêtes en erreur, davantage que la bascule
+  globale détectée en six minutes (**72 000** → mais sur six minutes seulement). Donc **un
+  canari non observé est pire qu'une bascule globale observée**, et *investir dans la détection
+  rapporte plus que raffiner le pourcentage*. Les quatre chiffres sont recalculés exacts.
+- **`k8s-config-probes`** applique à Kubernetes le principe exact de `monitoring-production` —
+  une sonde de vivacité ne doit dépendre d'aucune dépendance externe — et montre la
+  configuration de surveillance **provoquant la panne qu'elle est censée détecter**. La
+  cohérence entre domaines éloignés du corpus est réelle, pas déclarative.

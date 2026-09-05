@@ -8,9 +8,9 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **80 / 128**
-- **dernier lot complet** : **10 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 11/16**, leçons 81 à 88 de
+- **leçons réellement lues et notées** : **88 / 128**
+- **dernier lot complet** : **11 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 12/16**, leçons 89 à 96 de
   `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
@@ -74,23 +74,24 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **80 / 128**
-- notations D1→D14 complètes : **80 / 128**
-- moyenne provisoire (80 notées) : **4,778**
-- leçons sous 3,00 : **0** · minimum du corpus : **4,14**
-- **P0 : 0** · **P1 : 18** · **P2 : 10** · **P3 : 9**
+- leçons réellement lues : **88 / 128**
+- notations D1→D14 complètes : **88 / 128**
+- moyenne provisoire (88 notées) : **4,769**
+- leçons sous 3,00 : **0** · minimum du corpus : **4,29**
+- **P0 : 0** · **P1 : 22** · **P2 : 12** · **P3 : 10**
 
-### Moyenne par dimension (80 notées)
+### Moyenne par dimension (88 notées)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,84 | **4,15** | 4,95 | 4,99 | 4,97 | 4,75 | 4,96 |
+| 4,84 | **4,05** | 4,95 | 4,99 | 4,98 | 4,77 | 4,97 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,80 | 4,97 | 4,65 | 4,80 | 4,84 | **4,31** | 4,90 |
+| 4,76 | 4,98 | 4,68 | 4,82 | 4,80 | **4,30** | 4,90 |
 
-**Huit leçons à 5,00**, la dernière étant `rag-fundamentals`.
+**Huit leçons à 5,00.** D2 passe sous 4,10 et continue de descendre à chaque lot du domaine
+IA appliquée.
 
 **Six leçons à 5,00 sur les quatorze dimensions** : `portfolio-github`,
 `html-semantic-structure`, `react-accessibility`, `react-composition-architecture`,
@@ -170,7 +171,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 80/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 88/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -192,7 +193,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 
@@ -297,3 +298,30 @@ Tout le reste du lot a été **recalculé et confirmé exact** : les trois ligne
 `llm-fundamentals` (36 675 / 2 025 / 2 925 €), les sept lignes de `chunking-strategies`, et
 les **dix valeurs** du tableau de cosinus aléatoires d'`embeddings`, vérifiées par simulation
 de Monte-Carlo sur 200 000 paires par dimension.
+
+### Lot 11 — recherche, sécurité IA, agents, files
+
+**Quatre P1 de prérequis sur huit leçons**, dont le **plus grand écart du corpus** :
+`agent-workflows-orchestration` (jour 274) exige `resilience-patterns` (jour 331), **+57 j**.
+Puis `async-messaging-queues` → `resilience-patterns` (+41 j), `ai-security` et
+`prompt-injection-defense` → `agents-fundamentals` (+14 j chacune). Le domaine IA appliquée
+concentre à lui seul près de la moitié des 20 défauts d'ordre du corpus.
+
+**Un chiffre non reproductible**, et c'est celui qui porte l'argument. Dans `ai-evaluation`,
+la colonne « Note globale » donne A 0,78 · B 0,78 · C **0,77**. Recalculé : en moyenne simple,
+A et B tombent juste, mais **C vaut 0,63**. Le 0,77 exige une pondération d'environ
+0,40 / 0,40 / 0,19 que la leçon n'énonce nulle part — et c'est précisément d'elle que dépend
+l'argument « le troisième est le plus dangereux, alors que sa note est la plus basse de très
+peu ». Sous la lecture naturelle, la note globale **attrape** le défaut et l'argument
+s'inverse. P2, fix CP7.
+
+**Deux sections de vérification en double**, trouvées par `scripts/v71/titres-doubles.mjs` —
+une sonde fiable dont la lecture retourne néanmoins le chiffre : **28 détections, 26
+légitimes** (« Correction attendue » ×2 est la forme normale d'une leçon à deux exercices),
+et seulement 2 défauts réels (`async-messaging-queues`, `system-design-scaling`), où une
+restructuration a ajouté la section au bon endroit sans retirer l'ancienne annexe.
+
+Le reste du lot a été **recalculé et confirmé exact** : les douze métriques de
+`retrieval-reranking` (dont les deux nDCG@5, qui exigent la bonne formule d'escompte
+logarithmique), les quatorze cellules d'empreinte de `vector-databases`, et les quatre taux
+de fiabilité d'`agents-fundamentals` (0,95ⁿ pour n = 5, 10, 20, 40).

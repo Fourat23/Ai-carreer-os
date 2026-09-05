@@ -2426,5 +2426,238 @@
     "defauts": [],
     "action": "CONSERVE",
     "justif": "5 sur les quatorze. L exemple guide fait exactement ce que l archetype demande : un symptome (le systeme repond « je ne trouve pas » alors que l information est dans le corpus), puis le diagnostic binaire AVANT toute hypothese, avec la raison de ne jamais le sauter — c est lui qui evite de passer une journee a retoucher un prompt alors que le passage n arrivait meme pas jusqu a lui — et la condition qui le rend possible : journaliser systematiquement les morceaux retenus, sans quoi on debogue a l aveugle. La cause est ensuite MONTREE sur le texte source decoupe : aucun morceau ne contient a la fois « demission/preavis » et « deux mois », le premier parlant de demission sans donner de duree et le second donnant deux mois sans dire de quoi il s agit. La conclusion est nette : la recherche par similarite fonctionne parfaitement, c est le decoupage qui a separe la question de sa reponse, et aucun reglage de k ni changement de modele d embedding ne reparera ca. Deux correctifs mesures sur le meme texte, avec leur arbitrage (le chevauchement est la rustine generique au prix d une redondance ; le decoupage par la structure est meilleur quand elle existe). La regle a emporter est la bonne formulation du sujet : UN MORCEAU DOIT POUVOIR ETRE LU ET COMPRIS ISOLEMENT, puisque c est exactement dans cet etat qu il arrivera au modele — un morceau qui commence par « a deux mois pour les cadres » n a de sens pour personne. Et la decision 4 traite le refus comme une fonctionnalite specifiee et TESTEE, avec l explication mecanique de son absence : aucune suite plausible ne dit « je ne sais pas » si on ne l a pas appris au modele — un RAG qui ne refuse jamais rien n est pas un RAG confiant, c est un RAG dont personne n a ecrit le cas d echec."
+  },
+  {
+    "slug": "retrieval-reranking",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "comparaison",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Les DOUZE metriques du tableau recalculees et exactes, y compris les deux nDCG@5 qui exigent la bonne formule d escompte logarithmique : rappel@3/5/10 0,33/0,67/1,00 puis 0,67/1,00/1,00, precision@3 0,33 puis 0,67, MRR 0,50 puis 1,00, nDCG@5 0,4776 et 0,9675 arrondis a 0,48 et 0,97. La lecon construit son enseignement sur la ligne du tableau qui NE BOUGE PAS : le rappel@10 vaut 1,00 dans les deux classements, la recherche n a rien manque — et pourtant le systeme repond mal, parce qu on n envoie pas dix documents au modele mais trois. D ou la distinction fondamentale, formulee en une ligne opposable : LE RAPPEL DIT SI L INFORMATION EST LA, LE CLASSEMENT DIT SI LE MODELE LA VERRA. Le tableau des quatre metriques associe a chacune la question a laquelle elle repond et le moment ou l employer, sans en presenter aucune comme superieure : MRR quand une seule bonne reponse suffit, nDCG quand plusieurs passages doivent etre combines. Et la remarque de cloture est un argument economique que peu de cours font : aucune de ces quatre metriques ne necessite un modele de langage, elles se calculent avec vingt lignes de Python — donc elles sont gratuites, deterministes et reproductibles, trois proprietes que l evaluation des reponses generees n a pas. D8/D12/D13 a 4."
+  },
+  {
+    "slug": "vector-databases",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "architecture",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Les QUATORZE cellules du tableau d empreintes recalculees et exactes (15/23, 61/92, 307/461, 614/922, 1 229/1 843, 6 144/9 216, 154/230 Mo), avec l arithmetique donnee explicitement — nombre de vecteurs fois dimensions fois octets, et un facteur 1,5 pour l index et les metadonnees. La lecon transforme une question tranchee d habitude par habitude ou par mode en un calcul, et en tire trois decisions plutot qu une reponse. La premiere est celle qu on ne voit jamais poser : LA DIMENSION DU MODELE D EMBEDDING EST UNE DECISION D INFRASTRUCTURE — passer de 384 a 1 536 quadruple l empreinte, et ce choix se fait au moment de selectionner le modele, sur le seul critere de la qualite annoncee, sans que personne ne calcule ce qu il engage. La deuxieme est le tableau des trois regimes avec des seuils chiffres, et la lecon designe celui qu on sous-estime le plus : sous 50 Mo, un tableau en memoire suffit, et pour un corpus de 500 documents une base vectorielle est de l infrastructure a operer, sauvegarder et surveiller pour un service qu un tableau NumPy rend deja. La formulation qui suit est juste et rare : commence simple n est pas une concession pedagogique, c est la bonne decision technique dans ce regime. La troisieme place la quantification avant l infrastructure, chiffres a l appui. D8/D12/D13 a 4."
+  },
+  {
+    "slug": "ai-evaluation",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "construction",
+    "D": [
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P2",
+        "quoi": "D1 : la colonne « Note globale » du tableau des trois systemes n est pas reproductible depuis les entrees donnees, et c est la ligne C qui en depend. Verifie : en moyenne simple des trois metriques, A = 0,78 et B = 0,78 (conformes), mais C = 0,63 alors que la lecon publie 0,77. Le 0,77 exige une ponderation d environ 0,40 / 0,40 / 0,19 — recall et fidelite a quatre dixiemes chacune, refus a moins d un cinquieme — qui n est enoncee nulle part. Or c est precisement de cette ponderation que depend l argument le plus fort de la lecon : « le troisieme est le plus dangereux des trois, alors que sa note est la plus basse DE TRES PEU ». Sous la lecture la plus naturelle (moyenne simple), C tombe a 0,63, la note globale ATTRAPE le defaut, et l argument s inverse. Un lecteur qui refait le calcul conclura que le tableau est faux. Deux remedes : enoncer la ponderation en une ligne, ou choisir des valeurs telles que C avoisine 0,78 en moyenne simple. A corriger au CP7."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "L exemple guide est construit a l envers du reflexe habituel, et c est sa qualite : au lieu de definir des metriques puis de dire de les utiliser, il montre d abord LA SORTIE VISEE — quatre lignes de console — puis explique ce que chacune rend possible. Les quatre justifications sont justes et non triviales. La liste NOMINATIVE des echecs (Q7, Q12, Q19, Q23, Q28) est plus utile que le pourcentage parce qu elle est la liste des choses a regarder demain matin, et qu on decouvre presque toujours que ces cinq questions ont un point commun — le taux dit qu il y a un probleme, la liste dit lequel. L accord humain a 87 % est presente comme LA MESURE DE LA MESURE, sans laquelle une fidelite de 90 % est un chiffre dont on ignore s il veut dire quelque chose, et avec laquelle on sait qu un ecart de deux points ne se commente pas. La comparaison a une reference versionnee transforme une note en information de decision, et la parenthese qui nomme la modification est ce qui rend l historique lisible dans six mois — un score sans la modification qui l a produit ne s interprete pas. La ligne Refus merite d exister separement pour la raison donnee : c est la seule qui mesure ce que l utilisateur ne peut pas verifier. D1 a 4 : voir le defaut ci-dessus."
+  },
+  {
+    "slug": "ai-security",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "investigation",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 260 et exige agents-fundamentals (jour 274), soit +14 j, avec la formulation Tu dois comprendre ... et AVOIR VU les agents et leurs outils. Remede recommande : requalifier en aide signalee, la lecon etant suivable sans. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+      },
+      {
+        "p": "P3",
+        "quoi": "D14 : faute d accord dans la formule-titre de l exemple guide, qui est en gras et destinee a etre retenue — « un moteur d exfiltration MUNIE d une interface agreable » (ligne 88). Moteur est masculin : muni. A corriger au CP7."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Choix d angle remarquable et annonce des le titre — « la fuite, pas l injection » : l injection de prompt occupe toute l attention alors que la fuite de donnees est plus banale, plus frequente et bien plus facile a commettre sans s en apercevoir. La question posee est la bonne et elle est operationnelle : a quel MOMENT exactement les documents qu Alice n a pas le droit de lire sont-ils ecartes. La demonstration compare filtrage APRES et PENDANT la recherche et montre que ce n est pas equivalent, avec DEUX defauts qui se renforcent — de securite (les documents interdits ont ete extraits, manipules, et se retrouvent probablement dans une trace de debogage) et de qualite (la reponse s appuie sur deux documents au lieu de cinq, sans que rien ne le signale). La decision 2 est le meilleur passage : augmenter k pour compenser produit un tableau ou chaque point de qualite regagne s achete en exposition, et la lecon en tire le diagnostic general — quand deux objectifs legitimes ne peuvent progresser qu aux depens l un de l autre, c est en general qu on tente de corriger en aval une decision qui aurait du etre prise en amont. La decision 3 attrape deux fuites que personne ne cherche : journaliser le prompt complet recopie le corpus confidentiel dans un systeme de logs moins protege que la base d origine, et tout le contexte envoye quitte l infrastructure. La methode de cloture est un threat model sans le jargon : trace le chemin d une donnee sensible et demande a chaque etape qui peut la voir."
+  },
+  {
+    "slug": "prompt-injection-defense",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "securite",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 260 et exige agents-fundamentals (jour 274), soit +14 j, avec la formulation ... et le principe du moindre privilege applique aux OUTILS D UN AGENT. Remede recommande : integrer la notion en une phrase — un agent est un modele auquel on a donne des outils qu il peut decider d appeler — la lecon la redefinissant de toute facon. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "La lecon construit la defense couche par couche et REGARDE CHAQUE COUCHE ECHOUER, ce qui est la seule facon de faire comprendre pourquoi il en faut plusieurs. La couche 1 est traitee avec une honnetete rare : delimiter les donnees est utile et a faire, mais ne suffira JAMAIS, parce que le modele ne recoit pas deux canaux — la consigne et le document malveillant arrivent dans la meme suite de mots, et rien au niveau du mecanisme ne distingue ce que le developpeur ordonne de ce que le document raconte. La formule qui en sort est exacte : tu n as pas construit une cloison, tu as ajoute un argument dans un debat. Et la comparaison avec l injection SQL est faite PAR SA DIFFERENCE, ce qui est le bon usage d une analogie : une requete parametree separe STRUCTURELLEMENT le code de la donnee, et c est pourquoi elle est une defense complete ; ici cette separation n existe pas, donc cette couche fait baisser un taux de reussite, elle ne ferme pas une porte. La couche 2 porte le meilleur moment de la lecon : le verificateur de citations rejette parfaitement la premiere attaque (couverture 0,00) et ACCEPTE la seconde avec une couverture de 1,00, sans aucun bug — la phrase est litteralement dans le document cite. D ou la limite a avoir vue une fois : il controle la FIDELITE a la source, jamais la FIABILITE de la source, et une defense anti-hallucination n est pas une defense anti-empoisonnement. La decision de cloture designe la mesure la plus efficace et la moins technique, souvent oubliee parce qu elle n est pas amusante a implementer : restreindre qui peut ecrire dans le corpus. D8/D12/D13 a 4."
+  },
+  {
+    "slug": "agent-workflows-orchestration",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "construction",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 274 et exige resilience-patterns (jour 331), soit +57 j — LE PLUS GRAND ECART DU CORPUS — avec la formulation Les patterns d architecture (parallelisation, reprise sur echec, files) VIENNENT DE architecture-basics et de la resilience. La formulation est indirecte mais presente la notion comme acquise sans dire qu elle ne l est pas encore. Remede recommande : requalifier en aide signalee (viendra au mois 11), la lecon construisant elle-meme les trois mecanismes dont elle a besoin. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "L angle est juste et il est annonce : les quatre choses qui cassent la boucle naive — un document corrompu au 317e qui arrete tout, la limite de debit, les 25 minutes en sequentiel (500 fois 3 s, verifie), le processus tue — NE CONCERNENT AUCUNE l intelligence du traitement. Ce sont des problemes d orchestration, et la lecon en fait sa these : ce qui rend un traitement par lots robuste n a presque rien a voir avec ce qu il calcule. Les quatre reponses sont donnees en un seul bloc de code lisible, chacune rattachee au probleme qu elle traite, et les details qui comptent sont isoles plutot que noyes. Le meilleur : l etat est ecrit AU FUR ET A MESURE, pas a la fin — un etat sauvegarde a la fin ne survit pas a ce contre quoi il est cense proteger. Le parallelisme borne est justifie dans les deux sens (sans borne on depasse la limite de debit du fournisseur et l on transforme un traitement lent en traitement echoue) et chiffre : 25 minutes ramenees a environ 2,5, verifie. La lecon rattache explicitement l idempotence a etl-pipelines plutot que de la reexpliquer, ce qui est le bon usage d un renvoi. D8/D12/D13 a 4 : deux enonces courts, pas de section de verification."
+  },
+  {
+    "slug": "agents-fundamentals",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "comparaison",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Les quatre taux de fiabilite recalcules et exacts (0,95 puissance 5, 10, 20 et 40 donnent 77,4 · 59,9 · 35,8 · 12,9 %) ainsi que le facteur 21 entre la meilleure et la pire execution de l agent. La lecon refuse la question habituelle (« lequel est le plus intelligent ») et pose la seule qui decide : LE CHEMIN EST-IL CONNU D AVANCE. Trois raisonnements la portent. Le premier est un renversement : le point important n est PAS que l agent soit plus cher — a 12 iterations il est moins cher que le workflow — mais que l ecart entre sa meilleure et sa pire execution soit d un facteur 21 sans qu on sache, avant de lancer, dans quel cas on se trouve. Le second est la forme de la croissance, expliquee par son mecanisme : le cout de l agent croit QUADRATIQUEMENT puisque chaque iteration relit tout ce qui precede, donc doubler une exploration en quadruple a peu pres le prix — meme phenomene que le contexte d une conversation. Le troisieme est l argument decisif et il est arithmetique : les taux de reussite se MULTIPLIENT, une chaine de 20 etapes a 95 % chacune echoue presque deux fois sur trois — et la lecon precise que c est une propriete arithmetique, pas un defaut des modeles actuels : elle ne disparaitra pas avec la prochaine generation, elle se deplacera seulement. La consequence de conception en decoule sans slogan : plus une tache compte d etapes, plus il faut que chacune soit verifiable et reprenable, ce qu un workflow permet et qu un agent libre ne permet pas. D13 a 4."
+  },
+  {
+    "slug": "async-messaging-queues",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "debugging",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      4
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 290 et exige resilience-patterns (jour 331), soit +41 j, avec la formulation Tu dois comprendre ... et les patterns de resilience — timeout, retry, backoff. Remede recommande : requalifier en aide signalee. A corriger au CP8. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+      },
+      {
+        "p": "P2",
+        "quoi": "D14/D13 : la lecon contient DEUX sections intitulees « Verification de comprehension ». La premiere (99 mots) est bien placee, juste avant la correction, avec la mention « A traiter avant de lire la correction » et quatre questions de scenario. La seconde (40 mots) est en annexe, apres la Pratique, sans correction attachee, et ses trois questions recouvrent partiellement celles de la premiere (idempotence, file de messages morts, ordre). C est un reliquat de la structure anterieure qu une restructuration n a pas retire. Trouve par la sonde scripts/v71/titres-doubles.mjs, qui detecte 28 lecons portant un titre de section en double — mais la lecture retourne le chiffre : 26 sont des « Correction attendue » x2 parfaitement LEGITIMES (deux exercices, deux corrections), et seules 2 lecons dupliquent une verification de comprehension, celle-ci et system-design-scaling. Remede : supprimer la seconde ; ses trois questions sont couvertes par la premiere. A corriger au CP8."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "La lecon pose la bonne question des l ouverture, et ce n est pas celle qu on attend : pas « comment eviter les doublons » mais « QUE SE PASSE-T-IL QUAND LE DOUBLON ARRIVE », parce que la livraison au moins une fois est la garantie qu on VEUT — elle assure qu aucun paiement n est perdu — et que sa consequence directe est que le consommateur verra le meme message plusieurs fois, pas peut-etre mais regulierement. Quatre etats mesures sur un vrai solde en base, et le troisieme est celui qui fait la valeur de la lecon : le consommateur idempotent, avec son controle correct, debite QUAND MEME deux fois si la panne tombe entre le debit et le marquage — deux lignes consecutives, quelques microsecondes. Montrer une defense correcte echouer sur une fenetre de course est exactement ce qui distingue un cours d une documentation. Le diagnostic du cas A est formule au bon niveau : aucun bug dans le code, il fait exactement ce qu on lui demande, trois fois — le defaut n est pas dans le traitement, il est dans l HYPOTHESE, celle qu un message n arrive qu une fois. Et la definition d idempotent est donnee dans la forme qui evite le contresens le plus frequent : ce n est pas refuser les doublons, c est les traiter sans effet supplementaire. D13 et D14 a 4 : voir le defaut de structure ci-dessus."
   }
 ]

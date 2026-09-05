@@ -213,6 +213,26 @@ Monte une API et une base dans un même `compose.yaml`. Fais volontairement poin
 supprime le conteneur de base et recrée-le : tes données doivent survivre. Trois
 manipulations, trois mécanismes.
 
+**Livrable** : les trois messages ou sorties, copiés — l'erreur exacte du premier essai, la
+sortie de la commande qui prouve la résolution du nom, et le contenu de la table après
+recréation du conteneur.
+
+**Critère de réussite, vérifiable seul, et les trois sont différents** :
+
+1. **Le premier échec doit mentionner la connexion, pas l'authentification.** `localhost`
+   depuis un conteneur désigne *ce conteneur-là* : rien n'écoute sur son port 5432, donc
+   l'erreur est un refus de connexion. Si tu obtiens une erreur de mot de passe, tu as en
+   réalité joint une base — probablement celle de ta machine — et l'exercice ne montre pas
+   ce qu'il devait montrer.
+2. **La correction doit tenir en un seul mot changé** : `localhost` → le nom du service. Si
+   tu as dû ajouter un port publié, une adresse IP ou un `network_mode`, tu as contourné le
+   mécanisme au lieu de l'utiliser.
+3. **Après suppression et recréation du conteneur, la table doit contenir exactement les
+   mêmes lignes.** Refais-le une seconde fois en supprimant aussi le **volume** : les données
+   doivent alors disparaître. Tant que tu n'as pas vu les données disparaître, tu n'as pas
+   prouvé qu'elles vivaient dans le volume — tu as seulement constaté qu'elles étaient encore
+   là.
+
 ## 🧪 Vérification de compréhension
 À traiter avant de lire la correction.
 

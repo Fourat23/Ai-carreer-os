@@ -168,10 +168,29 @@ Dans DocSense, le coût par analyse est AFFICHÉ (LLMOps) et le rapport final in
 - Injecter « tout le contexte au cas où ».
 
 ## ✍️ Mini-exercice
-Estime le coût mensuel d'un assistant interne : 200 questions/jour, 6 chunks de 500 tokens injectés, réponses de 250 tokens. Quel poste domine ?
+Estime le coût mensuel d'un assistant interne : 200 questions/jour, 6 chunks de 500 tokens
+injectés, réponses de 250 tokens. Quel poste domine ?
+
+**Livrable** : le décompte de tokens d'abord, le coût ensuite, et une phrase nommant le poste
+dominant.
+
+**Critère de réussite, vérifiable seul** : **compte les tokens avant de compter l'argent.**
+6 × 500 = 3 000 tokens d'entrée contre 250 de sortie, soit **douze pour un en volume**. Puis
+applique les prix de ton fournisseur — et c'est là que se joue le piège de cette leçon : un
+rapport de prix n'est pas un rapport de facture. Si ta conclusion est que la sortie domine,
+tu as presque certainement oublié de multiplier les six chunks. Si tu conclus que l'entrée
+domine de très loin, recompte quand même : la sortie est facturée plus cher au token, ce qui
+réduit l'écart sans jamais l'inverser ici.
 
 ## 🔥 Exercice plus difficile
 Sur un de tes scripts LLM : trace les tokens réels, calcule le coût de 1000 exécutions, applique DEUX leviers (contexte réduit + cache) et mesure le gain de coût ET l'effet qualité sur ton golden set.
+
+**Critère de réussite, vérifiable seul** : **publie les deux chiffres côte à côte, toujours.**
+Un gain de coût annoncé sans le score de qualité correspondant n'est pas un résultat, c'est la
+moitié d'un résultat — et c'est la moitié flatteuse. Le livrable est une ligne par levier :
+« contexte réduit de 6 à 3 chunks : −44 % de coût, fidélité 0,87 → 0,81 ». Une fois écrite,
+la ligne se juge seule : **si la qualité baisse, tu n'as pas optimisé, tu as arbitré** — ce
+qui peut être le bon choix, mais doit être présenté comme tel à celui qui décide.
 
 ## ✅ Correction attendue
 ### La démarche

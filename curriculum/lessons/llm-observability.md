@@ -167,8 +167,22 @@ Le dashboard qualité de DocSense croise ces traces avec le harnais d'éval : «
 ## ✍️ Mini-exercice
 Ajoute un wrapper de trace à un de tes scripts LLM et produis le « reçu » JSON de 5 appels réels.
 
+**Critère de réussite, vérifiable seul, et c'est le seul qui teste vraiment un reçu** : prends
+un reçu au hasard et **recalcule son coût à la main, à partir des seuls champs qu'il
+contient**. Si tu dois aller chercher ailleurs le modèle utilisé, son tarif, ou le nombre de
+tokens d'entrée, ton reçu est incomplet — et il le restera le jour où tu en auras besoin,
+c'est-à-dire six mois plus tard, sur un incident, quand le script aura changé. **Un reçu
+qu'on ne peut pas relire sans son contexte d'origine n'est pas une trace, c'est un souvenir.**
+
 ## 🔥 Exercice plus difficile
 Construis un mini rapport quotidien : coût total, latence p95, taux de parse-fail, à partir de tes logs — et une alerte si le coût dépasse un budget.
+
+**Critère de réussite, vérifiable seul** : **déclenche ton alerte exprès**, en abaissant le
+budget sous le coût d'hier. Tu dois la voir arriver là où tu la lirais vraiment — pas dans la
+console du script. Une alerte qu'on n'a jamais vue se déclencher n'existe pas : on ne sait ni
+si elle part, ni où elle arrive, ni si son texte permet d'agir. Vérifie ce dernier point en
+particulier — si le message dit « budget dépassé » sans dire de combien ni depuis quand, il
+te réveillera sans t'aider.
 
 ## ✅ Correction attendue
 ### La démarche

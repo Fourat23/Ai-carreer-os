@@ -180,6 +180,14 @@ journaux et échoue s'il y trouve un motif de secret ou de donnée personnelle
 (`authorization`, `token`, une adresse électronique, un numéro de carte).
 Livrable : le test, et son résultat sur tes journaux actuels.
 
+**Critère de réussite, et il vient avant le résultat : commence par faire échouer
+ton test.** Écris volontairement une ligne de journal contenant un jeton, lance le
+test, et vérifie qu'il **échoue**. Alors seulement lance-le sur tes vrais
+journaux. Un test de fuite qui n'a jamais échoué ne prouve rien — il peut très
+bien ne rien chercher du tout, à cause d'une expression régulière fausse ou d'un
+chemin de fichier qui ne pointe nulle part, et il te donnera un feu vert
+rassurant tous les jours jusqu'à l'incident.
+
 **E. Décider ton échantillonnage.** À partir de ton volume et de ton taux
 d'erreur, calcule ce que trois taux uniformes te feraient perdre sur un défaut
 touchant une requête sur mille. Écris la règle que tu retiens.

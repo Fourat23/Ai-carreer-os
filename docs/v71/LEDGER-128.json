@@ -487,6 +487,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP9 : noyau de 247 mots en puces : cinq formats enumeres sans arbitrage ni quand-ne-pas. Corrige par un OUTIL DE RAISONNEMENT, pas par du volume : le critere de repartition est le taux de reemploi (la banque de chiffres sert trois formats, un kata ne sert qu a lui-meme), l erreur de repartition typique est nommee avec sa cause (le kata est le seul format ou l on voit un score monter le soir meme), et le quand-ne-pas est donne (un test technique eliminatoire en premiere etape annule le critere de reemploi). Le modele mental passe de 44 mots enonciatifs a un renversement argumente : preparer n est pas reviser, c est produire des artefacts reutilisables."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : trois criteres portant sur la METHODE plutot que sur les reponses. (1) Zero bug trouve sur trois exercices de difficulte moyenne signifie qu on a relu, pas teste. (2) Compter les reponses de B qui contiennent un chiffre de la banque A : moins de sept signifie que la banque existe mais ne sort pas a l oral, exactement la situation qu on cherche a eviter. (3) Sur E, la seconde note doit monter sur les axes travailles et rester stable ailleurs ; si tout monte d un coup, la grille mesure l aisance et doit etre reecrite avec des criteres qu un tiers pourrait cocher."
    }
   ],
   "action": "RETOUCHE",
@@ -1339,6 +1343,10 @@
    {
     "p": "P3",
     "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — llm-observability (jour 325) cite au jour 79, mais signale : utile mais rappelee ici. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : la SEULE lecon de ce lot notee D8 = 5 au CP3 sans porter aucun critere — elle n a pas de bloc Verifie seul. Note optimiste au CP3, corrigee en ecrivant les criteres plutot qu en baissant la note. Deux passes sur la propre liste de l apprenant : (1) rayer toute action non faisable a trois heures du matin par quelqu un qui n a pas ecrit le code — investiguer et regarder les logs ne sont pas des actions ; s il reste moins de trois lignes, c est une liste de metriques et pas un monitoring ; (2) pour chaque seuil, avoir vu la valeur reelle sur sept jours. Et pour l endpoint /health, le test qui isole la distinction que tout le monde rate : couper la base, vivant doit rester vert et pret passer au rouge, faute de quoi l orchestrateur redemarre en boucle un conteneur sain et transforme une panne de dependance en panne totale."
    }
   ],
   "action": "CONSERVE",
@@ -1394,6 +1402,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP4 : le jeu de la pratique C passe de 95/5 a 94/6, ce qui rend le centile 95 REELLEMENT mauvais et repond donc a l enonce, qui demandait un jeu ou il l est. Valeurs recalculees et publiees : moyenne 227 ms, p95 3 000 ms, 60 000 personnes sur un million de requetes. Et l erreur d origine est retournee en materiau pedagogique : un paragraphe ajoute montre qu au meme jeu a 5 %, la moyenne descend a 197 ms et le p95 vaut 50 ms — il devient excellent alors que cinquante mille personnes attendent toujours trois secondes, parce que le centile est pose PILE a la frontiere du groupe lent. La regle qui en sort est plus forte que le chiffre : un centile choisi ne dit rien de ce qui se passe au-dela de lui, un p95 vert signifie seulement que la queue commence apres 95 %. D1 de 2 a 5, D9 de 4 a 5 : la correction valide desormais la contrainte de son propre enonce."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le test anti-fuite de la partie D se lancait sur les vrais journaux sans avoir jamais echoue. Critere ajoute, et il vient AVANT le resultat : ecrire volontairement une ligne contenant un jeton et verifier que le test echoue. Un test de fuite qui n a jamais echoue peut ne rien chercher du tout — expression reguliere fausse, chemin qui ne pointe nulle part — et donner un feu vert rassurant tous les jours jusqu a l incident."
    }
   ],
   "action": "CONSERVE",
@@ -2235,11 +2247,11 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
+   5,
+   5,
    4,
    5
   ],
@@ -2251,6 +2263,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP7 : les deux leviers enonces en ratios de JETONS sont corriges en ratios de FACTURE, avec les valeurs recalculees. Levier 1 : facteur 60 remplace par 53,6 / 48,3 / 44,6 / 48,3 selon la ligne. Levier 2 : facteur 5 remplace par 2,9 sur le modele A, 3,1 sur le B, 2,4 sur le C. Trois fois moins cher remplace par deux fois, avec les montants (900 EUR contre 444). Et l erreur est retournee en enseignement, deux fois : le rapport des prix d entree vaut bien 60, mais un RAPPORT DE PRIX N EST PAS UN RAPPORT DE FACTURE puisque la sortie suit un autre rapport (37,5) et pese lourd ; et diviser les jetons par 5,5 ne divise la facture que par 2,9 parce que le cout de sortie n a pas bouge et pese d autant plus que l entree maigrit. La lecon enseigne desormais le piege qu elle commettait. D1 de 3 a 5, D7 de 4 a 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : compte les tokens avant de compter l argent — 6 x 500 contre 250, soit douze pour un en volume — puis applique les prix, ou se rejoue le piege ferme au CP7 (un rapport de prix n est pas un rapport de facture). L exercice difficile recoit la regle des DEUX CHIFFRES COTE A COTE : un gain de cout annonce sans le score de qualite correspondant est la moitie flatteuse d un resultat. Si la qualite baisse, on n a pas optimise, on a arbitre."
    }
   ],
   "action": "CONSERVE",
@@ -2388,15 +2404,20 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
+   5,
+   5,
    4,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : defaut de D1 trouve par la lecture, et il est du genre qui punit le travail correct. Le mini-exercice demandait de verifier que cosinus(v, v) === 1. REPRODUIT : sur quatre vecteurs aleatoires de huit dimensions, cette egalite est FAUSSE trois fois sur quatre (le calcul donne 1.0000000000000002). Un apprenant dont l implementation est juste conclut qu elle est fausse. Corrige en transformant le piege en enseignement : le test correct compare a une tolerance, une similarite ne se teste jamais par egalite, et le renvoi vers javascript-basics (jour 4, 0.1 + 0.2 !== 0.3) est anterieur donc legitime. Deux verifications ajoutees, dont cosinus(v, -v) = -1 et un cas orthogonal qui tombe juste — instructif parce qu il montre que l arrondi n apparait qu avec des divisions. L exercice difficile recoit un critere qui porte sur le JEU DE TEST et non sur le score : un rappel@3 de 1,0 sur cinq requetes ecrites par soi-meme signifie presque toujours qu on a repris les mots de la phrase cible, donc qu on a mesure une recherche par mots-cles."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Le tableau des cosinus aleatoires par dimension a ete verifie par simulation de Monte-Carlo (200 000 paires par dimension) et les DIX valeurs correspondent : ecarts-types 0,707 / 0,316 / 0,100 / 0,036 / 0,026 contre 0,71 / 0,32 / 0,099 / 0,036 / 0,025 publies, et P(|cos| > 0,30) 80,63 / 36,90 / 0,25 / 0,00 / 0,00 % contre 80,6 / 37,1 / 0,22 / 0,00 / 0,00. C est l un des resultats les plus contre-intuitifs du domaine et il est ici DEMONTRE : en dimension 768 ou 1 536, deux textes sans aucun rapport ont un cosinus a quelques centiemes de zero, donc un score de 0,30 y est deja un signal massif, alors qu en dimension 2 il arrive quatre fois sur cinq par hasard. La consequence est immediate et bien tiree : un seuil recopie d un tutoriel ne vaut rien puisqu il depend du modele et de sa dimension, et la lecon donne la demarche empirique de remplacement — trente questions reelles, les scores des passages que TOI tu juges pertinents contre ceux des hors-sujet, le seuil la ou les deux nuages se separent — avec le cas d echec : s ils ne se separent pas, aucun seuil ne te sauvera, c est le decoupage ou le modele qu il faut revoir. La decision 2 traite cosinus contre distance sans dogmatisme : le cosinus ne regarde que la direction, c est un CHOIX qu il faut savoir justifier (je compare des sens, pas des intensites), et sur des vecteurs normalises la question disparait d elle-meme. D8/D12/D13 a 4."
  },
@@ -2873,7 +2894,12 @@
    4,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : pratique A-E excellente mais sans critere explicite. Ajoute le chiffre qui EST la lecon : apres suppression depuis la fusion, le total des trois couches ne doit PAS diminuer — il augmente meme du poids du marqueur de suppression. Mesurer moins signifie qu on a mesure le point de fusion. Corollaire verifie : depuis couche1, le .env supprime doit rester LISIBLE EN CLAIR."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Construction remarquable : quatre reponses courantes a « ou mettre la cle », TROIS SONT DES FUITES, et deux d entre elles ont l air parfaitement sures — la lecon annonce cet ecart comme etant ce qui rend l exercice interessant, et c est exact. Le candidat 2 est le coeur : copier puis effacer. L intuition se retourne contre le lecteur, puisque le fichier n est plus la et que docker run ne le montre pas, et pourtant la cle reste recuperable. L explication est structurelle et memorable : une image n est pas un dossier, c est une PILE DE DIFFERENCES EMPILEES dont chacune est conservee telle quelle — la seconde couche MASQUE la premiere, elle ne l efface pas, et les deux voyagent ensemble dans l image publiee. La regle qui en decoule est generalisee au bon niveau : un secret qui a ete present UNE SEULE FOIS pendant la construction y reste, ce qui vaut aussi d un git clone avec un jeton dans l URL ou d un fichier de configuration copie par erreur. Et la lecon fait ce que peu font — elle invite a ne pas la croire : « verifie-le toi-meme plutot que de me croire : construis cette image, puis lance docker history --no-trunc et lis les instructions couche par couche. C est un exercice de trois minutes et il vaccine durablement. » D13 a 4 : pas de section de verification distincte."
  },
@@ -2915,15 +2941,20 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
+   5,
+   5,
    5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le CP3 notait D8 et D12 a 4 pour un mini-exercice sans critere de reussite explicite. Trois criteres ecrits, tous differents et tous decidables : (1) le premier echec doit mentionner la CONNEXION et non l authentification — une erreur de mot de passe signifie qu on a joint une vraie base, probablement celle de la machine, et que l exercice ne montre pas ce qu il devait montrer ; (2) la correction doit tenir en UN SEUL MOT change, ajouter un port publie ou un network_mode etant un contournement du mecanisme ; (3) refaire la manipulation en supprimant AUSSI le volume, les donnees devant alors disparaitre — tant qu on ne les a pas vues disparaitre on n a pas prouve qu elles vivaient dans le volume."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Les deux pannes les plus frequentes sont ramenees a UNE origine commune, et c est le bon cadrage : on raisonne comme si le conteneur etait la machine, alors qu il ne l est ni pour le reseau ni pour le disque. La panne 1 est traitee par la distinction que personne n explicite : localhost DANS un conteneur designe le conteneur lui-meme, et le port publie sur l hote n existe pas dans le reseau interne — d ou un tableau a deux colonnes (depuis l hote / depuis un conteneur voisin) qui rend la regle memorisable. La lecon donne ensuite le premier controle du diagnostic plutot qu une solution : les deux conteneurs sont-ils sur le meme reseau, avec la commande qui repond. Et elle nomme le cas ou cela echoue silencieusement — deux fichiers Compose separes creent chacun leur propre reseau — qui est precisement la situation ou l on cherche longtemps. D8 et D12 a 4 : un mini-exercice sans bloc de pratique multiple ni critere de reussite explicite."
  },
@@ -2965,15 +2996,20 @@
    5,
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
+   5,
+   5,
    4,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le critere qui teste vraiment un recu — en prendre un au hasard et RECALCULER SON COUT A LA MAIN a partir des seuls champs qu il contient. S il faut aller chercher ailleurs le modele, le tarif ou le nombre de tokens, le recu est incomplet, et il le restera le jour ou il servira. Un recu qu on ne peut pas relire sans son contexte d origine n est pas une trace, c est un souvenir. Le rapport quotidien recoit le declenchement volontaire de l alerte : une alerte qu on n a jamais vue partir n existe pas."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "L ouverture pose trois questions qu on se pose TOUJOURS TROP TARD et auxquelles on ne peut pas repondre apres coup — pourquoi la facture a triple, pourquoi cet utilisateur a eu cette reponse-la, la v4 du prompt est-elle meilleure que la v3 — et etablit qu aucune ne se repond en relisant du code : toutes se repondent avec une trace par appel, a condition de l avoir ecrite AVANT d en avoir besoin. C est le bon argument, et il est temporel plutot que technique. Le point qui fait la valeur de la lecon est ensuite isole explicitement : ce qui rend la fonction de trace utile n est pas son contenu, c est qu elle soit LE SEUL ENDROIT d ou partent les appels — un appel direct qui la contourne est un appel qui n existe pas dans tes chiffres, et c est toujours celui qui coute cher. Et le controle correspondant est donne en une ligne de shell executable, avec la recommandation de le mettre en revue de code. C est exactement le passage d un principe a un geste verifiable. D8/D12/D13 a 4 : deux enonces courts, pas de section de verification distincte."
  },
@@ -3678,7 +3714,12 @@
    4,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : le manuel de retablissement n avait pas de critere. Ajoute le seul qui vaille pour un manuel : le faire suivre a la lettre par quelqu un d autre, ou par soi une semaine plus tard sans rien relire, SANS REPONDRE A AUCUNE QUESTION, et compter les fois ou il faut demander. Chacune designe une ligne a reecrire. Un manuel se juge au nombre de questions qu il ne provoque pas, et il se juge froid parce que c est froid qu on le lira."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS, et c est la lecon que incident-response cite pour son exception sur l irreversible — la relecture confirme que la citation est meritee. Trois etapes mesurees sur une vraie base, et chacune apporte un resultat que le sens commun n a pas. L etape 1 nomme un defaut qu on ne cherche jamais : la colonne ajoutee en NOT NULL DEFAULT vide fait ACCEPTER les ecritures des instances anciennes, sans erreur ni alerte, et la formule generalisee est excellente — UNE VALEUR PAR DEFAUT TRANSFORME UNE INCOMPATIBILITE BRUYANTE EN CORRUPTION SILENCIEUSE, le plantage aurait ete preferable. L etape 2 porte la distinction centrale : le retour arriere du code REUSSIT, le taux d erreur redescend, le tableau de bord repasse au vert, l incident est declare clos — et il ne l est pas, puisque v1 additionne des euros et des dollars. LE RETOUR ARRIERE A RESTAURE LA DISPONIBILITE SANS RESTAURER LA CORRECTION, et la lecon ajoute ce qui rend le piege durable : ces deux choses sont distinctes et la premiere MASQUE la seconde, parce que c est la premiere qu on surveille. Archetype partage avec nextjs-data-production, sans consequence : ces lecons n ont aucune position dans le parcours, donc aucune adjacence au sens de la regle du CP2. D13 a 4."
  },

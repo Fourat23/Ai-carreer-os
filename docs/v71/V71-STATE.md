@@ -7,12 +7,33 @@
 ## Position
 
 - **dernier CP terminé** : **CP9**
-- **CP actuel** : **CP10 en cours — lot 1 / 8 leçons lues**
+- **CP actuel** : **CP10 en cours — 36 / 128 sections de pratique lues**
 - **leçons réellement lues et notées** : **128 / 128** ✅
 - **P0 : 0 · P1 : 0 · P2 : 0** — tous fermés. Les 10 P3 sont désormais ouverts (§12).
-- **prochaine action EXACTE** : **CP10, lot 2** — continuer l'ordre de lecture produit par
-  `scripts/v71/pratique-redpt.mjs`, à partir de `docker-networking-volumes`. Les 10 P3 sont
-  traités au fil du passage. **8 / 128 sections de pratique lues.**
+- **prochaine action EXACTE** : **CP10, lot 3** — les 10 leçons encore à D8 = 4
+  (`ai-evaluation`, `database-migrations`, `etl-pipelines`, `machine-learning-basics`,
+  `prompt-engineering`, `prompt-injection-defense`, `python-foundations`, `rag-evaluation`,
+  `retrieval-reranking`, `vector-databases`), puis le reste de l'ordre de lecture. Les 10 P3
+  sont traités au fil du passage.
+
+### CP10 — ce que la lecture a trouvé sur les notes D8 elles-mêmes
+
+Le lot 2 a lu **28 leçons** dont **26 notées D8 = 5 au CP3 mais signalées sans marqueur de
+critère** par la sonde. Résultat, et il tranche la question dans les deux sens :
+
+- **24 des 26 portent un critère réel** — le marqueur manquait parce que le bloc
+  « Vérifie seul, sans corrigé » écrit ses critères sans jamais employer le mot. Ce sont de
+  vrais critères, décidables seul : « compte tes formats d'erreur, il doit y en avoir **un** »
+  (`api-design-basics`), « tout ce que tu arrives à écrire n'a pas besoin d'un agent »
+  (`agents-fundamentals`), « dix secondes pile signifient que le délai de grâce a expiré »
+  (`docker-build-dockerfile`), « si les scores sont meilleurs sur le jeu d'entraînement, tu
+  mesurais de la mémorisation » (`model-evaluation`). **Le D8 = 5 du CP3 est confirmé par
+  relecture sur ces 24.**
+- **2 ne portaient aucun critère** : `monitoring-production` (aucun bloc « Vérifie seul ») et,
+  en partie, `docker-containers`, `interview-preparation`, `observability-logging`,
+  `release-incident-recovery` dont les livrables étaient nommés mais sans énoncé de réussite.
+  Leur **D8 = 5 au CP3 était optimiste**. Corrigé en écrivant les critères, pas en baissant la
+  note — mais la note était acquise avant de l'être, et cela doit être dit.
 
 ### CP10 — la grille R/E/D/P/T
 

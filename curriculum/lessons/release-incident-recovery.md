@@ -245,6 +245,15 @@ nominative des opérations qui ferment le retour arrière dans **ton** système 
 la requête qui répond à « combien de lignes ont été écrites par la version
 fautive » ; qui prévenir et par quel canal.
 
+**Critère de réussite, vérifiable seul, et c'est le seul qui vaille pour un
+manuel** : fais-le **suivre à la lettre** par quelqu'un d'autre — ou par toi une
+semaine plus tard, sans rien relire d'autre — et **ne réponds à aucune question**.
+Compte les fois où il faut demander. Chacune désigne une ligne à réécrire. Un
+manuel se juge au nombre de questions qu'il ne provoque pas, jamais à sa
+longueur ; et il se juge froid, parce que c'est froid qu'on le lira. Objectif :
+zéro question sur les étapes de rétablissement. Une seule hésitation à trois
+heures du matin coûte plus cher que la demi-heure passée à préciser la ligne.
+
 **C. Éprouver le manuel.** Déclenche une panne volontaire dans un environnement
 de test et exécute ton manuel chronomètre en main, sans improviser. Chaque fois
 que tu dois sortir du document pour avancer, note-le : c'est un trou. Livrable :

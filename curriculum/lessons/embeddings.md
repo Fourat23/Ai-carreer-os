@@ -228,7 +228,21 @@ Les autres, plus classiques :
 - Mélanger langues sans modèle multilingue adapté.
 
 ## ✍️ Mini-exercice
-Implémente `cosinus(a, b)` à la main (produit scalaire / produits des normes) et vérifie que `cosinus(v, v) === 1`.
+Implémente `cosinus(a, b)` à la main : produit scalaire divisé par le produit des normes.
+**Livrable** : la fonction, plus les trois vérifications ci-dessous et leur résultat.
+
+**Critère de réussite — et le premier test est un piège dont il faut connaître la sortie.**
+
+1. `cosinus(v, v)` sur un vecteur quelconque. **N'écris pas `=== 1`.** Sur quatre vecteurs
+   aléatoires de huit dimensions, cette comparaison rend `false` **trois fois sur quatre** :
+   le calcul donne `1.0000000000000002`. Ce n'est pas ton code qui est faux, c'est
+   l'arithmétique à virgule flottante — le même phénomène que `0.1 + 0.2 !== 0.3`
+   (`/doc/lessons/javascript-basics`, jour 4). Le test correct compare à une **tolérance** :
+   `Math.abs(cosinus(v, v) - 1) < 1e-9`. **Une similarité ne se teste jamais par égalité.**
+2. `cosinus(v, -v)` doit valoir −1 à la même tolérance près.
+3. `cosinus(v, w)` sur deux vecteurs orthogonaux construits à la main — par exemple
+   `[1, 0]` et `[0, 1]` — doit valoir 0. Celui-là tombe juste, et c'est instructif :
+   les erreurs d'arrondi n'apparaissent que quand il y a des divisions à faire.
 
 ## 🔥 Exercice plus difficile
 Sur 20 phrases et 5 requêtes dont tu connais déjà la bonne réponse, calcule le **rappel@3** :
@@ -236,6 +250,14 @@ pour chaque requête, la bonne phrase figure-t-elle parmi les 3 mieux classées 
 est simplement la proportion de requêtes pour lesquelles c'est le cas — 4 sur 5 donne 0,8.
 C'est la mesure de base d'un retrieval, et elle ne demande aucun LLM
 (`/doc/lessons/rag-evaluation` la détaille). Compare deux modèles d'embedding si tu peux.
+
+**Critère de réussite, vérifiable seul — et il porte sur ton jeu de test, pas sur ton score.**
+**Si ton rappel@3 vaut 1,0, ne conclus rien : vérifie d'abord tes cinq requêtes.** Dans la
+quasi-totalité des cas, un score parfait sur cinq requêtes écrites par soi-même signifie
+qu'on a inconsciemment repris les mots de la phrase cible dans la requête — on a alors mesuré
+une recherche par mots-clés, pas une recherche sémantique. Le test qui tranche : **réécris
+chaque requête sans réutiliser un seul mot de la phrase visée**, et recalcule. Un rappel qui
+s'effondre alors t'apprend plus que le premier chiffre.
 
 ## ✅ Correction attendue
 ### La démarche

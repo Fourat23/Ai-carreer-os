@@ -244,6 +244,15 @@ visible depuis la fusion ? qu'est-ce qui a été écrit dans `couche3` ?
 trois couches, supprime-le depuis la fusion, remesure. Livrable : les deux
 mesures et le total.
 
+**Critère de réussite, vérifiable seul, et c'est toute la leçon en un chiffre :
+le total des trois couches ne doit PAS diminuer.** Il augmente même légèrement,
+du poids du marqueur de suppression écrit dans `couche3`. Si tu mesures moins,
+tu as mesuré le point de fusion et non les couches — refais la mesure sur
+`couche1`, `couche2` et `couche3` séparément. Et vérifie le corollaire, qui est
+la raison d'être de l'exercice : depuis `couche1`, le `.env` supprimé doit
+rester **lisible en clair**. Une suppression dans une couche supérieure cache un
+fichier, elle ne l'efface pas.
+
 **D. Traduire en Dockerfile.** À partir de A, B et C, écris deux Dockerfile pour
 un de tes projets : un qui télécharge une archive, l'utilise et la supprime dans
 **trois** instructions, et un qui fait les trois dans **une seule**. Explique en

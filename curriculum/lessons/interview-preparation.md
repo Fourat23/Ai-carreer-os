@@ -222,6 +222,24 @@ t'enregistrer. Livrable : la grille, la note, et les trois axes d'amélioration.
 tard sans relire tes notes entre-temps. Compare les deux notes. Livrable : les
 deux notes et ce qui a bougé.
 
+**Critères de réussite, vérifiables seul, et ils portent sur ta méthode plus que
+sur tes réponses.**
+
+1. **Sur C — si tu as trouvé zéro bug sur les trois exercices, tu n'as pas testé,
+   tu as relu.** Personne ne résout trois exercices de difficulté moyenne sans
+   une erreur. Le nombre attendu n'est pas zéro, et un candidat qui trouve ses
+   propres bugs à voix haute marque des points qu'aucune solution parfaite et
+   silencieuse ne rapporte.
+2. **Sur B — relis tes dix réponses et compte celles qui contiennent un chiffre
+   issu de A.** Si c'est moins de sept, la banque de chiffres n'a pas encore
+   servi : elle existe mais elle ne sort pas à l'oral, ce qui est exactement la
+   situation qu'on cherche à éviter.
+3. **Sur E — la seconde note doit monter sur les axes que tu as travaillés et
+   rester stable ailleurs.** Si tout monte d'un coup, le problème est ta grille,
+   pas ta progression : elle mesure ton aisance. Réécris-la avec des critères
+   observables — ai-je donné un chiffre ? ai-je nommé une alternative écartée ?
+   ai-je dit ce que je ne savais pas ? — qu'un tiers pourrait cocher à ta place.
+
 ## ✅ Correction attendue
 
 **A — la banque.** Le critère est que chaque ligne soit **vérifiable par toi**,

@@ -139,8 +139,28 @@ Le dashboard qualité de DocSense EST du monitoring de qualité : scores par ver
 ## ✍️ Mini-exercice
 Pour une de tes APIs, écris les 5 lignes de son monitoring minimal (métrique, seuil, action si dépassé).
 
+**Critère de réussite, vérifiable seul, en deux passes sur ta propre liste.**
+
+1. **Relis la colonne « action » et raye tout ce qui n'est pas faisable à trois heures du
+   matin par quelqu'un qui n'a pas écrit le code.** « Investiguer », « regarder les logs »,
+   « prévenir l'équipe » ne sont pas des actions : ce sont des aveux qu'on ne sait pas quoi
+   faire. Une alerte dont l'action est vide réveillera quelqu'un pour rien, et la troisième
+   fois plus personne ne la lira. S'il te reste moins de trois lignes après ce tri, tu as
+   écrit une liste de métriques, pas un monitoring.
+2. **Relis la colonne « seuil » et demande-toi, pour chacun, si tu as vu la valeur réelle
+   sur les sept derniers jours.** Un seuil inventé se trompe dans les deux sens : il ne se
+   déclenche jamais, ou il se déclenche tous les jours. Les deux reviennent au même — on
+   cesse d'y croire.
+
 ## 🔥 Exercice plus difficile
 Implémente un endpoint `/health` (vivant + prêt) et un compteur de coût LLM par jour avec un seuil qui coupe (ou alerte) au dépassement du budget.
+
+**Critère de réussite, vérifiable seul, et il porte sur la distinction que tout le monde
+rate** : **coupe ta base de données, puis rappelle `/health`.** « Vivant » doit rester vert,
+« prêt » doit passer au rouge. Si les deux tombent ensemble, ton orchestrateur va redémarrer
+un conteneur en parfaite santé pendant que la base est indisponible — et transformer une
+panne de dépendance en panne totale, en boucle. C'est le mode de défaillance le plus courant
+et le plus coûteux du couple *liveness* / *readiness*, et il ne se voit **que** par ce test.
 
 ## ✅ Correction attendue
 ### La démarche

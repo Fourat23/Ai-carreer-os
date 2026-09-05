@@ -6,13 +6,13 @@
 
 ## Position
 
-- **dernier CP terminé** : CP2
-- **CP actuel** : CP3
-- **leçons réellement lues et notées** : **120 / 128**
-- **dernier lot complet** : **15 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 16/16, dernier**, leçons 121 à 128 de
-  `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
-  `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
+- **dernier CP terminé** : **CP3**
+- **CP actuel** : CP4
+- **leçons réellement lues et notées** : **128 / 128** ✅
+- **prochaine action EXACTE** : **CP4** — corriger les P1 du domaine
+  fondations / systèmes / cloud / Kubernetes. Ordre imposé par le brief §12 : **P0, puis P1,
+  puis P2 — pas les P3 tant qu'il reste des P1.** Il n'y a aucun P0. Le P2 de
+  `python-foundations` (`except TypeErreur:`) relève du CP4 mais passe **après** les P1.
 
 ---
 
@@ -74,21 +74,58 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **120 / 128**
-- notations D1→D14 complètes : **120 / 128**
-- moyenne provisoire (120 notées) : **4,813**
+- leçons réellement lues : **128 / 128**
+- notations D1→D14 complètes : **128 / 128**
+- moyenne du corpus : **4,820** · minimum **4,14** · maximum **5,00**
 - leçons sous 3,00 : **0** · minimum du corpus : **4,14** (`interview-preparation`)
 - **P0 : 0** · **P1 : 23** · **P2 : 14** · **P3 : 10**
 
-### Moyenne par dimension (120 notées)
+### Moyenne par dimension (128 / 128)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,88 | **4,27** | 4,97 | 4,99 | 4,98 | 4,83 | 4,97 |
+| 4,88 | **4,31** | 4,97 | 4,99 | 4,98 | 4,84 | 4,98 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,81 | 4,98 | 4,77 | 4,87 | 4,83 | **4,31** | 4,92 |
+| 4,82 | 4,98 | 4,78 | 4,88 | 4,84 | **4,29** | 4,92 |
+
+### Prédiction du lot 12 : VÉRIFIÉE
+
+Au lot 12 j'ai écrit qu'aucune des 32 leçons restantes ne devait porter de défaut de
+prérequis, les 20 annoncées par `PREREQUIS-ORDRE.md` étant toutes notées. Contrôle après
+lecture des 32 : **0 leçon à D2 = 1**, total corpus **20 à D2 = 1** et **8 à D2 = 4**,
+exactement les listes annoncées. L'enquête prérequis est close et complète.
+
+### État des seuils gelés du CP1, après CP3 et **avant toute correction**
+
+| seuil | exigence | mesuré | état |
+|---|---|---|---|
+| **S1** | moyenne corpus ≥ 4,00 | **4,820** | franchi |
+| **S2** | chaque dimension ≥ 3,70 | min **4,29** (D13) | franchi |
+| **S3** | 0 leçon sous 3,00 | **0** | franchi |
+| **S5** | 0 P0 | **0** | franchi |
+| **S7** | 128 leçons réellement lues | **128** | franchi |
+| **S8** | 128 notations D1→D14 | **128** | franchi |
+| **S9** | écart de l'audit aveugle ≤ 0,40 | — | **CP13** |
+| **S10** | ≤ 4 écarts individuels > 1,00 | — | **CP13** |
+
+**Il faut dire ce que ce tableau signifie, et ne pas s'en réjouir.** Six seuils sur huit sont
+franchis **sans qu'une seule correction ait été appliquée**. Deux lectures sont possibles et
+une seule sera tranchée au CP13 :
+
+1. le corpus est réellement bon — ce que 128 lectures et une soixantaine de vérifications
+   numériques indépendantes soutiennent ;
+2. **ma grille n'est pas assez exigeante**, et les seuils du CP1 ont été fixés trop bas.
+
+Le contrat interdit de déplacer un seuil après avoir vu le résultat (§7), donc la seconde
+hypothèse ne peut pas être traitée en durcissant le barème maintenant. Elle sera traitée par
+le seul dispositif prévu pour cela : **l'audit aveugle du CP13** (32 leçons, graine 20260831),
+dont S9 et S10 sont désormais **les deux seuls seuils encore capables d'échouer**. Le CP13
+devient donc le point décisif du sprint, et il doit être conduit sans complaisance.
+
+Les 23 P1, 14 P2 et 10 P3 restent à corriger aux CP4→CP9 **indépendamment** du fait que les
+seuils soient franchis : ce sont des défauts établis par mesure, pas des ajustements de note.
 
 ### Les vingt leçons à D2 = 1 sont toutes notées
 
@@ -191,7 +228,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 120/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **terminé — 128/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -213,7 +250,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : ce commit — **CP3 terminé**
 
 ### Lot 7 — frontend (8 leçons)
 

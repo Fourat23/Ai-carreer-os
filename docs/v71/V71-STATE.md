@@ -8,9 +8,9 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **96 / 128**
-- **dernier lot complet** : **12 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 13/16**, leçons 97 à 104 de
+- **leçons réellement lues et notées** : **104 / 128**
+- **dernier lot complet** : **13 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 14/16**, leçons 105 à 112 de
   `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
@@ -74,21 +74,21 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **96 / 128**
-- notations D1→D14 complètes : **96 / 128**
-- moyenne provisoire (96 notées) : **4,783**
+- leçons réellement lues : **104 / 128**
+- notations D1→D14 complètes : **104 / 128**
+- moyenne provisoire (104 notées) : **4,795**
 - leçons sous 3,00 : **0** · minimum du corpus : **4,14** (`interview-preparation`)
 - **P0 : 0** · **P1 : 23** · **P2 : 13** · **P3 : 10**
 
-### Moyenne par dimension (96 notées)
+### Moyenne par dimension (104 notées)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,85 | **4,08** | 4,96 | 4,99 | 4,98 | 4,79 | 4,97 |
+| 4,87 | **4,15** | 4,96 | 4,99 | 4,98 | 4,81 | 4,97 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,78 | 4,98 | 4,71 | 4,83 | 4,81 | **4,32** | 4,90 |
+| 4,78 | 4,98 | 4,73 | 4,85 | 4,81 | **4,36** | 4,90 |
 
 ### Les vingt leçons à D2 = 1 sont toutes notées
 
@@ -110,7 +110,7 @@ Ces 20 leçons occupent **neuf des dix dernières places du corpus** :
 Il ne coûte rien à réparer — trois remèdes de texte, aucune modification du parcours — et sa
 correction aux CP4→CP9 devrait à elle seule faire remonter D2 de 4,08 à environ 4,9.
 
-**Douze leçons à 5,00 sur 96.** La concentration reste à surveiller : l'audit aveugle du CP13
+**Dix-sept leçons à 5,00 sur 104.** La concentration reste à surveiller : l'audit aveugle du CP13
 (32 leçons, graine 20260831) est le contrôle prévu sur ma propre sévérité.
 
 **Six leçons à 5,00 sur les quatorze dimensions** : `portfolio-github`,
@@ -191,7 +191,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 96/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 104/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -213,7 +213,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 
@@ -369,3 +369,45 @@ Le second exemplaire du défaut de section dupliquée est confirmé dans `system
 avec une **nuance qui change la correction** : contrairement à `async-messaging-queues`, ses
 questions d'annexe ne sont pas toutes couvertes par la section principale — celle sur les
 points de défaillance unique doit être reprise avant suppression, pas jetée.
+
+### Lot 13 — Docker production, observabilité LLM, résilience, incidents
+
+**Aucun défaut nouveau, et cinq leçons à 5,00.** C'est le second lot consécutif sans P1 de
+contenu, et il prolonge le constat du lot 12 : les domaines que V70 a le plus retravaillés
+sont ceux qui tiennent le mieux à la lecture.
+
+Trois passages méritent d'être retenus comme modèles opposables pour les CP4→CP9 :
+
+- **`incident-response`** est le **troisième** modèle de traitement d'un prérequis, après
+  `slo-error-budget` et `database-migrations` : elle intègre en trois phrases le retour
+  arrière, l'aller de l'avant et le correctif à chaud, puis signale `release-incident-recovery`
+  comme étagère de référence. Cela **confirme par lecture** le §5 de `PREREQUIS-ORDRE.md`.
+- **`ci-cd-quality-gates-artifacts`** contient la démonstration la plus efficace du corpus
+  contre une pratique répandue : deux suites de tests sur le **même** code, la suite qui
+  appelle tout sans rien affirmer obtient **100 %** de couverture et passe la porte, celle qui
+  contient une seule assertion vraie obtient **88,89 %**, échoue à la porte — et c'est la seule
+  des deux qui attrape le défaut.
+- **`postmortem-rca`** attaque une méthode enseignée partout en démontrant que les cinq
+  pourquoi produisent une réponse **différente selon qui pose les questions**, avec trois
+  chaînes valides menant à trois actions non redondantes.
+
+**`cloud-aws-core`**, première leçon hors parcours du sprint, traite correctement la contrainte
+§31 du brief : ses repères sont explicitement titrés « illustratifs, **non exécutés** ».
+
+### Auto-contrôle : mes 5,00 suivent-elles la structure plutôt que la pédagogie ?
+
+Question posée parce que 17 leçons à 5,00 sur 104 est beaucoup. Test : les leçons à 5,00
+ont-elles simplement plus souvent une section « Vérification de compréhension » **et** une
+« Pratique » ?
+
+| | n | avec les deux sections |
+|---|---:|---:|
+| leçons à 5,00 | 12 | 9 (**75 %**) |
+| leçons < 5,00 | 84 | 22 (**26 %**) |
+
+La corrélation existe, et elle est **attendue** : D13 note précisément la présence d'un
+contrôle de compréhension distinct. Mais elle n'est ni suffisante ni nécessaire —
+**22 leçons ont les deux sections sans atteindre 5,00** (elles perdent sur D2, D1 ou D14), et
+**3 l'atteignent sans les avoir** (`portfolio-github`, `statistics-for-ml`,
+`rag-fundamentals`). La note ne se réduit donc pas à un gabarit. L'audit aveugle du CP13
+reste le contrôle prévu.

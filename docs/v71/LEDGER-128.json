@@ -2659,5 +2659,215 @@
     ],
     "action": "RETOUCHE",
     "justif": "La lecon pose la bonne question des l ouverture, et ce n est pas celle qu on attend : pas « comment eviter les doublons » mais « QUE SE PASSE-T-IL QUAND LE DOUBLON ARRIVE », parce que la livraison au moins une fois est la garantie qu on VEUT — elle assure qu aucun paiement n est perdu — et que sa consequence directe est que le consommateur verra le meme message plusieurs fois, pas peut-etre mais regulierement. Quatre etats mesures sur un vrai solde en base, et le troisieme est celui qui fait la valeur de la lecon : le consommateur idempotent, avec son controle correct, debite QUAND MEME deux fois si la panne tombe entre le debit et le marquage — deux lignes consecutives, quelques microsecondes. Montrer une defense correcte echouer sur une fenetre de course est exactement ce qui distingue un cours d une documentation. Le diagnostic du cas A est formule au bon niveau : aucun bug dans le code, il fait exactement ce qu on lui demande, trois fois — le defaut n est pas dans le traitement, il est dans l HYPOTHESE, celle qu un message n arrive qu une fois. Et la definition d idempotent est donnee dans la forme qui evite le contresens le plus frequent : ce n est pas refuser les doublons, c est les traiter sans effet supplementaire. D13 et D14 a 4 : voir le defaut de structure ci-dessus."
+  },
+  {
+    "slug": "distributed-systems-failures",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "debugging",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "5 sur les quatorze. La lecon prend le ticket le plus decourageant qui soit — « je change mon avatar, je recharge, et l ancien s affiche. Parfois. » — et en fait une methode. Sa these est exacte et rarement enseignee : EN SYSTEME DISTRIBUE, « PARFOIS » N EST PAS UN MOT VAGUE, C EST UNE PISTE, qui designe une classe de causes identifiable avant meme d ouvrir un journal. Le tableau des quatre causes associe a chacune LA QUESTION QUI LA TESTE, ce qui en fait un outil et non une liste. Puis la mesure qui tranche tient en une ligne de shell : repeter la requete vingt fois et compter les reponses differentes. Le resultat est le meilleur moment de la lecon — le « parfois » vaut 6 fois sur 20, donc le bug est devenu un nombre, donc reproductible, donc corrigible — et la lecon va plus loin en notant que ce nombre est proche de la proportion de replicas en lecture, si bien que le rapport DESIGNE DEJA la cause. Le retard de replication est ensuite requalifie de la bonne facon : ce n est pas un defaut de configuration, c est le fonctionnement normal, et il est le PRIX de la capacite d encaisser dix fois plus de lectures. D ou la reformulation de la question utile — non pas comment supprimer le retard, qui n a pas de bonne reponse, mais COMBIEN DE RETARD CETTE DONNEE TOLERE-T-ELLE — avec un tableau qui va de l avatar (une a deux secondes) au solde d un compte (aucun)."
+  },
+  {
+    "slug": "system-design-scaling",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "architecture",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      4
+    ],
+    "defauts": [
+      {
+        "p": "P2",
+        "quoi": "D14/D13 : deux sections intitulees « Verification de comprehension ». La premiere (73 mots) est bien placee avant la correction, avec la mention « A traiter avant de lire la correction » ; la seconde (60 mots) est en annexe, sans correction attachee. Meme defaut et meme cause qu async-messaging-queues : une restructuration a ajoute la section au bon endroit sans retirer l ancienne. NUANCE IMPORTANTE pour la correction : contrairement a async-messaging-queues, les questions de la seconde ne sont PAS toutes couvertes par la premiere — celle sur les deux points de defaillance unique dans « 1 repartiteur, 3 instances, 1 base » n a pas d equivalent. Il faut donc la REPRENDRE dans la premiere avant de supprimer la seconde, et non supprimer sans lire. A corriger au CP8."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "L exemple guide refuse la question posee — « comment on scale ? » n a pas de reponse — et impose l etape qu on saute pour aller a une solution qu on connait deja. Le tableau de l etape 0 est excellent parce qu il a une colonne que les tableaux de ce genre n ont jamais : CE QUI N AIDERAIT PAS. Et sa derniere ligne est celle qui coute le plus cher dans la vraie vie : quand rien n est sature et que c est lent, ajouter des machines ne sert a rien — un service dont les fils d execution attendent une dependance lente ATTEND SIMPLEMENT A QUATRE ENDROITS, POUR QUATRE FOIS LE PRIX — et c est pourtant la premiere chose qu on fait, parce que c est la plus facile. L etape 1 pose ensuite le principe contre-intuitif de tout le sujet : la premiere question n est pas comment faire plus, c est QUE PUIS-JE NE PAS REFAIRE. La demonstration est chiffree et juste (70 % du trafic servi depuis un cache ramene la charge applicative a 30 %, donc divise le besoin en machines par trois, verifie) et elle s appuie sur une mesure d une autre lecon plutot que d en inventer une. D13 et D14 a 4 : voir le defaut de structure."
+  },
+  {
+    "slug": "ci-cd",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "investigation",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "L ouverture designe le vrai probleme et le qualifie exactement : « la CI est rouge une fois sur cinq, on relance » a l air d un detail d organisation alors qu elle decrit LA MORT D UN DISPOSITIF DE SECURITE. La lecon fabrique ensuite les deux causes reelles et les mesure au lieu de les decrire. La cause A est la plus instructive parce qu elle detruit le diagnostic spontane : deux tests partagent un etat de module, le second est VERT seul et ROUGE apres le premier — donc le developpeur qui reproduit en local voit du vert et conclut « c est la CI ». La lecon tranche : le defaut n est pas dans la CI, il est dans le partage d etat, et ce test n est meme pas instable au hasard, il est DETERMINISTE mais depend de l ordre — il changera de couleur le jour ou le lanceur parallelise, sans qu une ligne de code ait bouge. La cause B mesure une vraie instabilite sur 320 executions, machine au repos puis chargee, et compare un test qui attend une DUREE fixe a un test qui attend l EVENEMENT. Le dispositif est honnete dans les deux sens : il montre qu a 5 ms fixes le test passe 320 fois sur 320 au repos, ce qui explique precisement pourquoi personne ne corrige — le defaut ne se manifeste que sous charge, c est-a-dire en CI. D13 a 4 : pas de section de verification distincte."
+  },
+  {
+    "slug": "ci-cd-pipeline-anatomy",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "optimisation",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige. La lecon est au jour 307 et exige docker-images-layers (jour 320), soit +13 j, avec la formulation Vous devez avoir l intuition de la CI/CD et SAVOIR CE QU EST UNE IMAGE que l on construit, CAR un pipeline construit et publie souvent des images. Ancre D2 gelee niveau 1. Remede recommande : requalifier en aide signalee — la lecon n a besoin que de savoir qu un pipeline produit un artefact, notion qu elle construit elle-meme. A corriger au CP8. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Mesure faite SUR CE DEPOT, ce qui rend la demonstration irrefutable et reproductible : les 155 fichiers de tests chronometres un par un, 129,2 s cumulees, et les cinq plus lents pesant 47,9 % du total — recalcule exactement (61,87 s sur 129,2). La lecon en tire la bonne generalisation : cette forme est la regle, pas l exception, le temps d une suite etant presque toujours concentre sur une poignee de fichiers qui compilent, lancent un processus externe ou touchent le disque — donc la premiere action utile n est pas de paralleliser, c est de MESURER PAR FICHIER, ce qui prend dix minutes. Le tableau de parallelisation est ensuite ce qui repond vraiment a la question du titre : l acceleration est quasi parfaite jusqu a quatre agents, decroche a huit, et PLAFONNE a x6,75 quel que soit le nombre d agents au-dela. Le plafond est verifie et sa cause est structurelle : il vaut exactement la duree du fichier le plus long (19,16 s), qu aucun nombre d agents ne peut fractionner. C est la demonstration la plus economique possible du fait qu on ne parallelise pas un chemin critique."
+  },
+  {
+    "slug": "docker-build-dockerfile",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "construction",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "5 sur les quatorze, ET c est la lecon qui traite le mieux du corpus une contrainte d environnement. Elle DECLARE explicitement sa limite au moment ou elle allait citer des chiffres : « ces commandes ne sont pas executees dans le corps de cette lecon — le demon Docker n est pas disponible dans l environnement ou elle a ete redigee. Les tailles citees ci-dessous sont des ordres de grandeur typiques, pas des mesures. Le geste, lui, est celui a faire sur tes propres images. » J ai verifie independamment que le demon Docker n est effectivement pas disponible ici : la declaration est exacte, pas une precaution de style. C est exactement le comportement que le contrat demande — ne pas pretendre valider ce que l environnement ne permet pas — et cela vaut D1 a 5 : une affirmation dependante du contexte qui le dit. Sur le fond, la lecon ramene tout a une seule phrase qui commande le reste : un Dockerfile n est pas un script d installation, c est une suite de couches mises en cache, et l ordre des instructions decide de tout. Les deux consequences sont ensuite tirees proprement — invalidation en cascade, et ce qui entre dans une couche y reste — et le geste de diagnostic precede toute correction : docker history, parce qu on y lit presque toujours que une ou deux couches font 90 % du poids et que ce sont elles seules qu il faut traiter."
+  },
+  {
+    "slug": "docker-compose",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "debugging",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "5 sur les quatorze. Symptome si caracteristique que la lecon le dit : il permet de NOMMER LA CAUSE AVANT D OUVRIR UN FICHIER — « l API plante au demarrage, je la redemarre a la main et tout fonctionne » est une course au demarrage. L explication est mecanique et chiffree plutot qu incantatoire : depends_on garantit l ordre de DEMARRAGE des conteneurs, rien de plus, or un conteneur PostgreSQL est demarre en quelques millisecondes et PRET a accepter des connexions dix a trente secondes plus tard, le temps d initialiser ses fichiers, de rejouer son journal et de creer la base au premier lancement. Entre les deux, l API se connecte et echoue. La lecon explique alors pourquoi le redemarrage manuel « corrige » — au deuxieme essai la base est prete depuis longtemps — et surtout pourquoi le defaut est invisible la ou on developpe et systematique la ou ca compte : on ne redemarre pas souvent en local, et tout part de zero a chaque execution en integration continue. C est le meme motif que le N+1 invisible en developpement, et il est ici tire jusqu a sa consequence operationnelle. La distinction demarré / prêt est exactement celle de monitoring-production entre vivacite et disponibilite, appliquee au demarrage."
+  },
+  {
+    "slug": "docker-containers",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "securite",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Construction remarquable : quatre reponses courantes a « ou mettre la cle », TROIS SONT DES FUITES, et deux d entre elles ont l air parfaitement sures — la lecon annonce cet ecart comme etant ce qui rend l exercice interessant, et c est exact. Le candidat 2 est le coeur : copier puis effacer. L intuition se retourne contre le lecteur, puisque le fichier n est plus la et que docker run ne le montre pas, et pourtant la cle reste recuperable. L explication est structurelle et memorable : une image n est pas un dossier, c est une PILE DE DIFFERENCES EMPILEES dont chacune est conservee telle quelle — la seconde couche MASQUE la premiere, elle ne l efface pas, et les deux voyagent ensemble dans l image publiee. La regle qui en decoule est generalisee au bon niveau : un secret qui a ete present UNE SEULE FOIS pendant la construction y reste, ce qui vaut aussi d un git clone avec un jeton dans l URL ou d un fichier de configuration copie par erreur. Et la lecon fait ce que peu font — elle invite a ne pas la croire : « verifie-le toi-meme plutot que de me croire : construis cette image, puis lance docker history --no-trunc et lis les instructions couche par couche. C est un exercice de trois minutes et il vaccine durablement. » D13 a 4 : pas de section de verification distincte."
+  },
+  {
+    "slug": "docker-images-layers",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "fondation conceptuelle",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "5 sur les quatorze. La lecon part de deux plaintes qui arrivent toujours ensemble — « le build est lent » et « l image est enorme » — et etablit qu elles ont la MEME cause, ce qui est le bon cadrage : on n a pas compris ce qu est une couche. La decision 1 enonce la regle unique du cache et en deduit tout : Docker reutilise chaque couche tant que son entree n a pas change et recalcule TOUT CE QUI SUIT la premiere couche modifiee — donc une virgule corrigee coute une reinstallation complete des dependances. La correction n ajoute rien, elle REORDONNE, et le principe est generalise au-dela de Docker : ce qui change rarement en haut, ce qui change souvent en bas. La decision 2 est le passage contre-intuitif et il est exact : apt-get clean dans une instruction separee ne supprime rien, il AJOUTE une couche qui declare que des fichiers n existent plus, si bien que l image ne maigrit pas d un octet — elle grossit legerement. La formulation a retenir est la meilleure du corpus sur ce point : ON NE PEUT PAS RETIRER QUELQUE CHOSE D UNE COUCHE DEJA ECRITE, ON PEUT SEULEMENT EVITER DE L Y METTRE. La decision 3 remet ensuite les proportions a l endroit — l image de base pese des centaines de megaoctets contre quelques-uns grattes sur un cache apt — tout en declarant honnetement le risque d une base reduite (une bibliotheque systeme manquante pour un module natif, au diagnostic desagreable), donc la decision se prend en connaissance de cause et se verifie en construisant."
   }
 ]

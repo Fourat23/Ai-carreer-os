@@ -8,9 +8,9 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **88 / 128**
-- **dernier lot complet** : **11 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 12/16**, leçons 89 à 96 de
+- **leçons réellement lues et notées** : **96 / 128**
+- **dernier lot complet** : **12 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 13/16**, leçons 97 à 104 de
   `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
@@ -74,24 +74,44 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **88 / 128**
-- notations D1→D14 complètes : **88 / 128**
-- moyenne provisoire (88 notées) : **4,769**
-- leçons sous 3,00 : **0** · minimum du corpus : **4,29**
-- **P0 : 0** · **P1 : 22** · **P2 : 12** · **P3 : 10**
+- leçons réellement lues : **96 / 128**
+- notations D1→D14 complètes : **96 / 128**
+- moyenne provisoire (96 notées) : **4,783**
+- leçons sous 3,00 : **0** · minimum du corpus : **4,14** (`interview-preparation`)
+- **P0 : 0** · **P1 : 23** · **P2 : 13** · **P3 : 10**
 
-### Moyenne par dimension (88 notées)
+### Moyenne par dimension (96 notées)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,84 | **4,05** | 4,95 | 4,99 | 4,98 | 4,77 | 4,97 |
+| 4,85 | **4,08** | 4,96 | 4,99 | 4,98 | 4,79 | 4,97 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,76 | 4,98 | 4,68 | 4,82 | 4,80 | **4,30** | 4,90 |
+| 4,78 | 4,98 | 4,71 | 4,83 | 4,81 | **4,32** | 4,90 |
 
-**Huit leçons à 5,00.** D2 passe sous 4,10 et continue de descendre à chaque lot du domaine
-IA appliquée.
+### Les vingt leçons à D2 = 1 sont toutes notées
+
+La prédiction de `PREREQUIS-ORDRE.md` est close : les **20** leçons annoncées à D2 = 1 ont
+toutes été lues et notées, et les 8 annoncées à D2 = 4 aussi. **Aucune leçon des 32 restantes
+ne devrait donc porter un défaut de prérequis** — c'est une prédiction vérifiable au lot 16.
+
+Ces 20 leçons occupent **neuf des dix dernières places du corpus** :
+
+| | leçon | moyenne |
+|---|---|---|
+| 1 | `interview-preparation` (deux prérequis postérieurs) | **4,14** |
+| 2 | `llm-cost-optimization` (D2 = 1 **et** D1 = 3) | **4,29** |
+| 3 | `prompt-engineering` | 4,43 |
+| 4–7 | `express-backend`, `rag-evaluation`, `prompt-injection-defense`, `agent-workflows-orchestration` | 4,50 |
+| 8 | `javascript-basics` (seul du bas de tableau **sans** défaut de prérequis) | 4,57 |
+
+**Le défaut d'ordre des prérequis est, de loin, la première cause de perte de points de V71.**
+Il ne coûte rien à réparer — trois remèdes de texte, aucune modification du parcours — et sa
+correction aux CP4→CP9 devrait à elle seule faire remonter D2 de 4,08 à environ 4,9.
+
+**Douze leçons à 5,00 sur 96.** La concentration reste à surveiller : l'audit aveugle du CP13
+(32 leçons, graine 20260831) est le contrôle prévu sur ma propre sévérité.
 
 **Six leçons à 5,00 sur les quatorze dimensions** : `portfolio-github`,
 `html-semantic-structure`, `react-accessibility`, `react-composition-architecture`,
@@ -171,7 +191,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 88/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 96/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -193,7 +213,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 
@@ -325,3 +345,27 @@ Le reste du lot a été **recalculé et confirmé exact** : les douze métriques
 `retrieval-reranking` (dont les deux nDCG@5, qui exigent la bonne formule d'escompte
 logarithmique), les quatorze cellules d'empreinte de `vector-databases`, et les quatre taux
 de fiabilité d'`agents-fundamentals` (0,95ⁿ pour n = 5, 10, 20, 40).
+
+### Lot 12 — systèmes distribués, CI/CD, Docker
+
+**Le lot le plus solide du sprint** : quatre leçons à 5,00 et un seul P1, sur le prérequis de
+`ci-cd-pipeline-anatomy` (→ `docker-images-layers`, +13 j). C'est le domaine que V70 a le plus
+retravaillé, et cela se lit.
+
+`docker-build-dockerfile` mérite d'être signalée à part : c'est la leçon qui traite le mieux
+du corpus une **contrainte d'environnement**. Elle interrompt son propre exposé pour déclarer
+que le démon Docker n'était pas disponible à la rédaction, que les tailles citées sont des
+ordres de grandeur et non des mesures, et que le geste — pas le chiffre — est ce qu'il faut
+retenir. J'ai vérifié indépendamment que le démon Docker n'est effectivement pas disponible
+ici : la déclaration est exacte, pas une précaution de style. C'est exactement ce que le
+contrat demande, et cela vaut D1 = 5.
+
+Mesure faite **sur ce dépôt même** dans `ci-cd-pipeline-anatomy` : les 155 fichiers de tests
+chronométrés, 129,2 s cumulées, cinq fichiers pesant 47,9 % du total (recalculé exact), et un
+plafond de parallélisation à ×6,75 qui vaut exactement la durée du fichier le plus long —
+la démonstration la plus économique possible qu'on ne parallélise pas un chemin critique.
+
+Le second exemplaire du défaut de section dupliquée est confirmé dans `system-design-scaling`,
+avec une **nuance qui change la correction** : contrairement à `async-messaging-queues`, ses
+questions d'annexe ne sont pas toutes couvertes par la section principale — celle sur les
+points de défaillance unique doit être reprise avant suppression, pas jetée.

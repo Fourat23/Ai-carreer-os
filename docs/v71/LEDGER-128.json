@@ -1978,5 +1978,230 @@
     "defauts": [],
     "action": "CONSERVE",
     "justif": "La question de conception est reformulee de la bonne facon des l ouverture : pas fait-il le bon calcul, mais QUE SE PASSE-T-IL A LA DEUXIEME EXECUTION — parce qu un pipeline a une propriete que peu de code partage, il sera relance. Quatre etats mesures sur 1 000 commandes a 149 500 : INSERT simple double tout (2 000 lignes, 299 000) sans qu aucune erreur ne soit levee ; l UPSERT sur cle naturelle rend le meme resultat aux deux executions ; l interruption sans transaction laisse 617 lignes et 96 006 EUR, soit 36 % de moins affiches sur un tableau de bord sans le moindre avertissement ; la meme interruption en transaction laisse 0 ligne. Le point de conception est juste et rarement dit : l idempotence n est pas une option qu on ajoute, c est une CONSEQUENCE DE LA CLE — sans identifiant issu des donnees, aucun mecanisme ne peut savoir qu une ligne a deja ete chargee. Et la lecon publie une nuance qu elle aurait pu taire : dans le cas C, relancer a REPARE l etat partiel, donc l idempotence est aussi un mecanisme de reprise — mais elle ne dispense pas de la transaction, parce qu elle ne protege que SI l on relance, et entre la panne et la relance la base affiche 96 006 a qui la consulte. Le tableau des trois etages associe a chacun sa propriete et ce qu elle permet, avec le piege qui fait perdre la purete de transform : datetime.now() au milieu d une transformation, alors que la date d execution est une ENTREE. La formulation alternative du point 3 (chargement par lots, etat partiel assume, borne et CONNU, tres different d un etat partiel subi) evite le dogmatisme. D8/D12/D13 a 4 : meme ecart d enonce que le reste du lot donnees, bien que prouve qu un second run ne cree pas de doublons soit un critere reellement verifiable."
+  },
+  {
+    "slug": "database-migrations",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "construction",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      5,
+      4
+    ],
+    "defauts": [
+      {
+        "p": "P2",
+        "quoi": "D14 : glose dupliquee dans une meme phrase, signature d une edition inachevee. Lignes 91-92 : « ... et etre **idempotentes** — rejouables sans double effet — autant que possible (rejouables sans double effet). » La meme glose deux fois, avec deux ponctuations differentes : on a insere une glose entre tirets sans retirer la parenthese preexistante. Trouve par lecture. La sonde scripts/v71/glose-dupliquee.mjs, ecrite ensuite, detecte 20 lecons portant une sequence de 4 mots repetee dans une meme phrase ; la lecture des 20 en classe 19 comme du parallelisme DELIBERE, qui est une qualite (« Un test doit echouer pour la bonne raison et passer pour la bonne raison », « Un paradoxe de Simpson mesure sur un million de cas reste un paradoxe de Simpson »). Celle-ci est le seul defaut reel des 20. Remede : retirer la parenthese. A corriger au CP6."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Section Prerequis exemplaire, et c est le second modele opposable du corpus apres slo-error-budget : au lieu d exiger le deploiement progressif, elle l INTEGRE en une phrase — les instances sont remplacees une par une, donc l ancienne et la nouvelle version tournent en meme temps sur la meme base, et c est cette cohabitation qui rend une migration dangereuse — puis renvoie deployment-strategies a l etagere de reference par un encadre explicite. L exemple guide mesure a chaque etape ce que voient l ANCIEN et le NOUVEAU code : le RENAME en une instruction tue l ancien d un coup, en lecture comme en ecriture, et la duree de la panne n est pas celle de la migration (quelques millisecondes) mais celle du DEPLOIEMENT. La formulation a retenir est donnee : une migration n est jamais seule. Le motif expand/contract est presente comme quatre etapes individuellement compatibles, avec le critere qui les valide — a aucun moment le code en ligne ne voit un schema qu il ne comprend pas. La reversibilite est traitee honnetement : certaines operations perdent de l information, leur down ne peut pas tout restaurer, on le sait et on le documente. D8 et D12 a 4 : mini-exercice de 52 mots sans critere."
+  },
+  {
+    "slug": "statistics-for-ml",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "investigation",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "5 sur les quatorze, et l exercice difficile est le meilleur enonce de pratique du corpus a ce stade. Toutes les valeurs reverifiees : les probabilites de session (5,0 / 22,6 / 40,1 / 64,2 / 92,3 % pour 1 a 50 requetes), le paradoxe de Simpson (A bat B sur les faciles 93,1 contre 86,7 ET sur les dures 73,0 contre 68,8, et perd au total 78,0 contre 82,6 — c est un vrai paradoxe, pas une illustration approximative), et Bayes (9,0 % pour une maladie a 1/1000 et un test fiable a 99 %). Trois apports rares. Le piege du p95 : il vaut 153 ms et rassure, precisement parce que le groupe lent fait EXACTEMENT 5 % — un percentile ne voit rien au-dela de lui-meme, choisir p95 revient a placer le projecteur pile a la limite de la zone d ombre. L unite de mesure : un defaut touchant 5 % des REQUETES touche 92 % des UTILISATEURS un peu actifs, d ou choisis toujours consciemment l unite que tu mesures, elle change les conclusions plus surement que la statistique employee. Et le biais du survivant en variante, avec le point qui le rend redoutable : il ne se detecte par AUCUN calcul sur les donnees presentes, seulement en se demandant comment elles ont ete collectees. L exercice difficile fait FABRIQUER les trois sophismes en numpy, et son critere de reussite est exemplaire : si tu ne trouves que il faut plus de donnees, relis — deux des trois ne se reglent pas par plus de donnees."
+  },
+  {
+    "slug": "machine-learning-basics",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "fondation conceptuelle",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P3",
+        "quoi": "Tracabilite. La lecon publie quatre nombres sous le titre « Resultats mesures : » (0,870 / 0,590 pour la fuite de selection, 0,520 / 0,540 pour la normalisation) sans citer aucun script, alors que c est la convention de tout le reste du corpus, et que scripts/v70-verifications/ml-pieges-mesures.py couvre scikit-learn-workflow, model-evaluation et feature-engineering mais pas celle-ci. Les chiffres ont donc ete REPRODUITS avant notation, sur quatre graines, par scripts/v71/ml-fuite-selection.py : A 0,780 / 0,880 / 0,820 / 0,860 (moyenne 0,835), B 0,590 / 0,390 / 0,470 / 0,610 (moyenne 0,515), normalisation 0,515 des deux cotes. L effet est donc REEL, MASSIF (+0,32) et ROBUSTE, les quatre valeurs publiees tombent dans l intervalle observe, et la seconde affirmation — la fuite de normalisation ne change presque rien — est confirmee exactement. Aucune dimension n est deduite : l ancre D1 dit sources OU mesures, et ils sont mesures. Reste a ajouter la reference au CP7 ; ml-fuite-selection.py peut servir."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "L experience du detecteur de mensonge est l une des meilleures demonstrations du corpus : 100 individus, 2 000 variables tirees au hasard, etiquette a pile ou face — donc aucun lien par construction — et selectionner les 20 meilleures variables AVANT la validation croisee fait afficher 87 % la ou l honnetete donne 50. Aucune erreur de code, aucun avertissement. La regle qui en sort est formulee au bon niveau d abstraction : ce n est pas mettre les choses dans un pipeline, c est TOUTE OPERATION QUI REGARDE L ETIQUETTE DOIT ETRE REFAITE A L INTERIEUR DE CHAQUE PLI — le pipeline est le moyen, pas le principe. La decision 2 est ce qui distingue cette lecon d un catechisme : toutes les fuites ne se valent pas, la normalisation ne transporte que deux nombres par variable et ne regarde jamais l etiquette, donc quand tu cherches une fuite commence par les etapes qui ont vu y. La correction ajoute le point que presque personne n enseigne : sur des classes tres desequilibrees un classifieur au seuil 0,5 predit negatif partout ALORS MEME qu il a parfaitement appris a ordonner — un modele juge inutile peut n avoir qu un seuil mal place. Et le cas professionnel conclut par un principe qui depasse le ML tabulaire : un jeu de test ne valide que ce qu il ressemble. D8/D12/D13 a 4 : mini-exercice seul, pas de section de verification distincte."
+  },
+  {
+    "slug": "scikit-learn-workflow",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "construction",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 155 et exige DEUX prerequis posterieurs dans la meme phrase : feature-engineering (jour 169, +14 j, classe B) et model-evaluation (jour 157, +2 j, classe C), avec la formulation Tu dois comprendre ... ainsi que le feature engineering et la fuite de donnees, car le Pipeline existe precisement pour rendre le leakage impossible. Remede recommande pour feature-engineering : requalifier en aide signalee. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "Entierement source et REJOUE avant notation : j ai execute scripts/v70-verifications/ml-pieges-mesures.py et sa sortie correspond exactement a ce que la lecon publie (exactitude 97,33 %, aire ROC 79,25 %, tableau des seuils 0,50 a 0,03, ecart nul pour la fuite de normalisation et +18,68 points pour la variable construite a partir de la cible). Le calcul metier est verifie aussi : passer du seuil 0,10 au seuil 0,03 achete 16 fraudes de plus (3 200 EUR) contre 247 alertes de plus, soit environ 20 heures de verification. Deux apports. La distinction CLASSER contre DECIDER : au seuil par defaut le modele ne predit aucune fraude et sa matrice est celle du modele nul, mais son aire ROC vaut 79,3 % contre 50 % pour le hasard — il ordonne correctement sans decider, et une seule de ces deux capacites depend du seuil. Et l explication de cv=5, que la lecon donne parce que personne ne l explique : cinq scores valent mieux qu un, non seulement par leur moyenne mais parce que LEUR DISPERSION EST UNE INFORMATION — 0,81/0,82/0,80/0,81/0,82 et 0,91/0,62/0,88/0,55/0,84 ont la meme moyenne et decrivent deux modeles opposes. Ne regarder que la moyenne d une validation croisee reproduit exactement l erreur que la lecon de statistiques denonce. D13 a 4 : pas de section de verification distincte."
+  },
+  {
+    "slug": "model-evaluation",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "comparaison",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "Les DOUZE chiffres du depistage reverifies exactement : les trois lignes du tableau de seuils (rappel 50 % → 500 rates, 990 faux positifs, justesse 0,985, precision 33,6 % · rappel 95 % → 50 rates, 9 900 FP, 0,900, 8,8 % · rappel 99 % → 10 rates, 49 500 FP, 0,505, 2,0 %), les 10 850 convoques pour 950 trouves, les 450 malades sauves de plus, et le basculement de precision 8,8 % a 70,4 % quand la prevalence passe de 1 % a 20 %. La decision 3 est le point que la plupart des cours omettent et c est le plus important de la lecon : LA PRECISION N EST PAS UNE PROPRIETE DU MODELE. Le test ne change pas d un iota, sensibilite et rappel sont identiques, seule la population change — et c est l explication la plus frequente du ca marchait tres bien chez nous. La lecon deplace ensuite la question au bon endroit : on ne demande pas quelle metrique optimiser, question technique dont le metier n a que faire, mais avez-vous la capacite de faire 10 850 examens de controle et acceptez-vous d inquieter 9 900 personnes pour en sauver 450 de plus. Deux details editoriaux justes : la justesse BAISSE quand le modele devient plus utile, ce qui prouve qu elle ne mesurait pas la bonne chose ; et presente la matrice en EFFECTIFS, pas en pourcentages — 9 900 faux positifs se discute, 90 % de specificite endort. La variante anti-spam inverse la conclusion et montre que rappel d abord n etait pas une regle du domaine mais la consequence d un cout, et elle ouvre sur la troisieme sortie — incertain, a faire verifier par un humain — qui n apparait sur aucune courbe. D13 a 4."
+  },
+  {
+    "slug": "feature-engineering",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "investigation",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      4
+    ],
+    "defauts": [
+      {
+        "p": "P2",
+        "quoi": "D14 : glose inseree qui casse sa phrase hote, meme signature d edition inachevee que database-migrations. Ligne 78-79 : « ... peut apprendre cet individu par coeur — c est du **surapprentissage** — le modele memorise au lieu de generaliser — servi sur un plateau. » La phrase d origine est c est du surapprentissage SERVI SUR UN PLATEAU ; la glose a ete inseree entre le terme et son complement, orphelinant le fragment et produisant trois tirets cadratins qui ne se lisent plus. Trouve par lecture. Une sonde ciblee a ete tentee et NE GENERALISE PAS : les parentheses par tirets cadratins legitimes dominent le corpus et noient le signal, elle n a d ailleurs pas retrouve ce cas. Deux instances connues de ce motif (celle-ci et database-migrations), toutes deux dans une glose definissant un terme technique — ce qui suggere une passe d ajout de gloses ayant laisse des degats. Verification systematique a faire au CP11, passe transversale. Remede ici : deplacer la glose apres plateau, ou la mettre entre parentheses."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "L exemple guide reformule le probleme avant de le resoudre, ce qui est sa qualite principale : sur 3 000 lignes, 604 villes distinctes dont 600 n apparaissent qu UNE fois, le vrai enonce n est pas comment encoder une categorie mais comment traiter une longue traine. Les trois decisions sont exactes et generalisent bien. L encodage par numero est refuse pour la bonne raison, pas par convention : le modele lirait Marseille > Lyon > Paris et un point de Lyon a mi-chemin entre les deux, donc on aurait injecte dans les donnees une AFFIRMATION FAUSSE. L encodage par la cible est teste sur des donnees ou la ville n a par construction aucun lien avec la cible et trouve 0,610 la ou l honnetete donne 0,50, avec un mecanisme limpide : pour les 600 villes vues une seule fois, la moyenne de la cible dans cette ville EST la valeur de la cible de cette ligne — on a recopie la reponse dans une colonne d entree. La lecon ne condamne pas la technique, elle en donne les conditions (moyenne calculee sur le seul pli d entrainement, lissage d autant plus fort que la categorie est rare). Le principe qui traverse tout est une excellente question a poser a n importe quel encodage : QU EST-CE QUE CELUI-CI AFFIRME, ET QU A-T-IL EU LE DROIT DE REGARDER. La variante — une ville jamais vue arrive en production — est traitee comme la situation ordinaire de tout systeme qui vit, pas comme un cas limite."
+  },
+  {
+    "slug": "neural-networks",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "debugging",
+    "D": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [],
+    "action": "CONSERVE",
+    "justif": "La lecon choisit d expliquer la boucle d entrainement par la ligne que TOUT LE MONDE OUBLIE et dont l absence ne provoque aucune erreur, ce qui est le bon angle. La repartition des roles est posee nettement : backward ne modifie aucun poids, il CALCULE ET DEPOSE une derivee a cote de chaque poids ; step est le seul qui touche aux poids et lit ce que backward a depose. Une fois cela clair, zero_grad devient evident au lieu d etre une incantation. La mesure sans remise a zero est bien choisie (y = 3x + 1, reponse connue) : w passe a 4,204 et b a -7,016, la perte est multipliee par plus de six. Mais le vrai enseignement est la TRAJECTOIRE, publiee telle quelle : 9,98 puis 9,23 puis 8,65 puis 8,57 — les quatre premieres epoques S AMELIORENT. Quelqu un qui lance un entrainement, voit la perte descendre et part dejeuner revient devant un modele divergent ; ce bug est le plus classique de tous parce qu il ne ressemble pas a un bug, il ressemble a un entrainement qui commence bien. La decision 4 est la plus transferable de la lecon et vaut bien au-dela : l accumulation n est pas un defaut mais une FONCTIONNALITE (simuler un grand lot sur une machine qui n a pas la memoire), d ou — beaucoup de pieges d une bibliotheque sont des fonctionnalites vues par quelqu un qui n en avait pas besoin, et chercher a quoi sert un comportement surprenant est presque toujours plus rentable que de memoriser qu il faut s en mefier. Et la regle de diagnostic : la courbe de perte est a l entrainement ce que le test rouge est au code, un entrainement lance sans courbe est un programme lance sans tests. D13 a 4."
+  },
+  {
+    "slug": "transformers",
+    "lu": "oui",
+    "cp": "CP3",
+    "archetype": "fondation conceptuelle",
+    "D": [
+      5,
+      1,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      4,
+      5
+    ],
+    "defauts": [
+      {
+        "p": "P1",
+        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 183 et exige embeddings (jour 218), soit +35 j, avec la formulation ... car un transformer EST un reseau particulier, ET LA NOTION D EMBEDDING : un mot devenu vecteur de sens. Un transformer manipule des embeddings de bout en bout : la notion n est pas peripherique, elle est centrale, et elle arrive cinq semaines plus tard. C est le defaut de prerequis le plus grave du corpus par la centralite de la notion exigee. Remede recommande : integrer la notion en deux phrases, comme slo-error-budget le fait pour la disponibilite — un embedding est un vecteur de nombres dont la proximite encode la proximite de sens — puis renvoyer a la lecon pour le detail. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+      }
+    ],
+    "action": "RETOUCHE",
+    "justif": "La lecon fait ce que presque aucune ne fait sur ce sujet : elle CALCULE l attention au lieu de la raconter. Dort regarde chat est une phrase qu on lit partout et qui n apprend rien ; a la place, une matrice 3x3 sur des vecteurs de dimension 4 choisis a la main, dont les trois lignes somment bien a 1 (verifie), et le vecteur de dort avant et apres la moyenne ponderee. La definition qui en sort est exacte et desacralisante : integrer le contexte, c est UNE MOYENNE PONDEREE DONT LES POIDS SONT CALCULES PAR PRODUIT SCALAIRE, rien d autre. Les trois autres decisions sont du meme niveau. Le masque causal est explique par sa RAISON (sinon le modele tricherait en s entrainant a predire un mot deja lu) et debouche sur une propriete observable tous les jours, plus la remarque que les modeles concus pour comprendre plutot que generer sont la meme architecture avec un triangle en moins. La division par racine de d est expliquee mecaniquement — sans elle le softmax sature, un poids a 1 et les autres a 0, le gradient s annule — avec la generalisation : beaucoup de constantes bizarres existent pour garder une quantite dans la plage ou le calcul reste stable. Et la decision 4 DEDUIT DE L ARCHITECTURE, non d une opinion sur les LLM, que l assurance d un modele n est pas un signal de fiabilite : le mecanisme produit exactement la meme chose pour une question dont il connait la reponse et pour une question sur un sujet invente. La variante lit le cout quadratique directement dans la forme du tableau — 3x3 devient 8x8 — et le relie a une propriete de produit qu on paie chaque mois. D13 a 4."
   }
 ]

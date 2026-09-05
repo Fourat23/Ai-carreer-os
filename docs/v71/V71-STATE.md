@@ -8,9 +8,9 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **64 / 128** — mi-parcours
-- **dernier lot complet** : **8 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 9/16**, leçons 65 à 72 de
+- **leçons réellement lues et notées** : **72 / 128**
+- **dernier lot complet** : **9 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 10/16**, leçons 73 à 80 de
   `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
@@ -74,21 +74,23 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **64 / 128** — **mi-parcours**
-- notations D1→D14 complètes : **64 / 128**
-- moyenne provisoire (64 notées) : **4,783**
+- leçons réellement lues : **72 / 128**
+- notations D1→D14 complètes : **72 / 128**
+- moyenne provisoire (72 notées) : **4,788**
 - leçons sous 3,00 : **0**
-- **P0 : 0** · **P1 : 13** · **P2 : 7** · **P3 : 8**
+- **P0 : 0** · **P1 : 15** · **P2 : 9** · **P3 : 9**
 
-### Moyenne par dimension (64 notées)
+### Moyenne par dimension (72 notées)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,84 | **4,25** | 4,94 | 4,98 | 4,97 | 4,69 | 4,97 |
+| 4,86 | **4,22** | 4,94 | 4,99 | 4,97 | 4,72 | 4,97 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,88 | 4,97 | 4,56 | 4,75 | 4,92 | **4,34** | 4,91 |
+| 4,86 | 4,97 | 4,61 | 4,78 | 4,90 | **4,33** | 4,89 |
+
+**Sept leçons à 5,00** : les six du lot 8 plus `statistics-for-ml`.
 
 **Six leçons à 5,00 sur les quatorze dimensions** : `portfolio-github`,
 `html-semantic-structure`, `react-accessibility`, `react-composition-architecture`,
@@ -168,7 +170,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 64/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 72/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -190,7 +192,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 
@@ -234,3 +236,31 @@ Celles du lot données font 20 à 60 mots sans critère énoncé. Le contenu exp
 niveau équivalent — c'est l'énoncé de pratique qui diffère, et c'est ce qui tire D8, D12 et
 D13 vers le bas sur `pandas-data-wrangling`, `data-cleaning-quality` et `etl-pipelines`.
 Ce n'est pas un défaut par leçon mais un choix éditorial non uniforme.
+
+### Lot 9 — migrations, statistiques, ML
+
+Le lot le plus **vérifiable** du sprint, et tout a été revérifié avant notation : les douze
+chiffres du dépistage de `model-evaluation`, le paradoxe de Simpson de `statistics-for-ml`
+(un vrai paradoxe, A gagne les deux sous-groupes et perd au total), le calcul métier de
+`scikit-learn-workflow` (16 fraudes × 200 € contre 247 alertes × 5 min ≈ 20 h) obtenu en
+**réexécutant** `scripts/v70-verifications/ml-pieges-mesures.py`, et les lignes de la matrice
+d'attention de `transformers` qui somment bien à 1.
+
+**Un chiffre non sourcé, reproduit plutôt que cru.** `machine-learning-basics` publie
+« Résultats mesurés : 0,870 / 0,590 » sans citer de script — seule leçon mesurée du corpus
+dans ce cas. Les figures ont donc été reproduites sur quatre graines
+(`scripts/v71/ml-fuite-selection.py`) : **A 0,835 · B 0,515 en moyenne**, la fuite de
+sélection vaut **+0,32** et la fuite de normalisation **+0,00**. L'effet est réel, massif et
+robuste ; les quatre valeurs publiées tombent dans l'intervalle observé. P3 de traçabilité
+seulement, aucune dimension déduite — l'ancre D1 dit « sourcés **ou** mesurés ».
+
+**Deuxième glose cassée**, même signature que `database-migrations` : `feature-engineering`
+écrit « c'est du **surapprentissage** — le modèle mémorise au lieu de généraliser — servi sur
+un plateau », où la glose a été insérée entre le terme et son complément. Deux instances
+connues, toutes deux dans une glose définissant un terme technique. Une sonde ciblée a été
+tentée et **ne généralise pas** (les parenthèses par tirets cadratins légitimes noient le
+signal) : vérification systématique reportée au CP11.
+
+**D13 est le point bas structurel du domaine ML** : six des huit leçons du lot n'ont pas de
+section de vérification de compréhension distincte, contre la quasi-totalité du lot frontend
+qui en a une.

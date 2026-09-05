@@ -18,8 +18,17 @@ seule barrière) — avec la posture « attaquer son propre système avant de le
 
 ## 🧩 Prérequis
 Tu dois comprendre ce qu'est un LLM — notamment qu'il ne distingue pas instructions et données,
-et qu'il est faillible (`/doc/lessons/llm-fundamentals`) — et avoir vu les agents et leurs
-outils (`/doc/lessons/agents-fundamentals`). Les bases de sécurité applicative
+et qu'il est faillible (`/doc/lessons/llm-fundamentals`). Un **agent**, au sens employé ici,
+est simplement un modèle auquel on a donné des **outils** qu'il peut décider d'appeler : lire
+un fichier, interroger une base, envoyer un courriel. C'est tout ce que cette leçon suppose, et
+c'est ce qui rend la question du privilège concrète — un outil dangereux confié à un système
+qui obéit au texte qu'on lui envoie.
+
+> **Où trouver le détail.** `/doc/lessons/agents-fundamentals` traite la boucle d'un agent, le
+> choix entre agent et enchaînement fixe, et les modes d'échec chiffrés. Elle est **programmée
+> plus loin** dans le parcours ; rien ici ne suppose que tu l'as lue.
+
+Les bases de sécurité applicative
 (authentification/autorisation, `/doc/lessons/authentication`) et la gestion des secrets
 (`/doc/lessons/terminal-shell-filesystem`) sont réutilisées. Aucune expertise en cybersécurité
 n'est supposée.

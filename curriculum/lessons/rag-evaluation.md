@@ -17,11 +17,23 @@ Construire un harnais d'évaluation RAG complet et l'utiliser pour PILOTER les a
 Un RAG sans éval, c'est **naviguer sans instruments** : chaque « amélioration » est un pari. Le harnais transforme le pilotage au feeling en pilotage aux instruments — et chaque étage du pipeline a SON cadran.
 
 ## 🧩 Prérequis
-Tu dois maîtriser les principes d'évaluation d'un système IA — golden set, évaluation par
-étage, LLM-as-judge calibré, baseline (`/doc/lessons/ai-evaluation`) — et le pipeline RAG avec
-ses étages retrieval/génération (`/doc/lessons/rag-fundamentals`,
-`/doc/lessons/retrieval-reranking`). Les réflexes statistiques (bruit vs signal,
-`/doc/lessons/statistics-for-ml`) évitent de confondre une vraie amélioration avec du hasard.
+Tu dois connaître le pipeline RAG avec ses étages retrieval/génération
+(`/doc/lessons/rag-fundamentals`, `/doc/lessons/retrieval-reranking`). Les réflexes
+statistiques (bruit vs signal, `/doc/lessons/statistics-for-ml`) évitent de confondre une
+vraie amélioration avec du hasard.
+
+**Les quatre notions d'évaluation employées ici sont définies au fur et à mesure, et les
+voici en une ligne chacune.** Un **jeu de référence** est un ensemble de questions dont on
+connaît d'avance la réponse *et* le passage qui la contient — sans lui, aucune mesure n'est
+possible. Une **référence de comparaison** est le score d'une solution triviale, à battre
+avant de se réjouir. **Évaluer par étage** signifie mesurer la recherche et la génération
+séparément, parce qu'une note globale ne dit pas laquelle est en cause. Un **juge
+automatique** est un modèle à qui l'on demande de noter une réponse — utile seulement si l'on
+a d'abord vérifié qu'il note comme un humain sur une vingtaine de cas.
+
+> **Où trouver le détail.** `/doc/lessons/ai-evaluation` traite ces quatre notions pour un
+> système d'IA quelconque, et la calibration d'un juge en particulier. Elle est **programmée
+> plus loin** dans le parcours ; rien ici ne suppose que tu l'as lue.
 
 ## 📖 Explication complète
 - **Le golden set exigeant** : 30-50 questions sur TON corpus, avec pour chacune la réponse attendue ET l'identifiant du/des chunks qui la contiennent. Varié par construction : factuelles, synthèse multi-passages, ambiguës, pièges lexicaux (mots partagés/sens différent), et SANS réponse dans le corpus (pour tester le refus). Vivant : chaque échec réel devient un cas.

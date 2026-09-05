@@ -21,11 +21,20 @@ Pour un LLM, **tout le contexte est du texte de même nature** : il ne distingue
 ## 🧩 Prérequis
 Tu dois savoir ce qu'est un LLM et pourquoi il traite tout son contexte comme du texte de même
 nature (`/doc/lessons/llm-fundamentals`), comment fonctionne un RAG qui ingère des documents
-externes — la porte d'entrée de l'injection indirecte (`/doc/lessons/rag-fundamentals`) — et le
-principe du moindre privilège appliqué aux outils d'un agent
-(`/doc/lessons/agents-fundamentals`). Les bases de sécurité applicative et l'idée de valider aux
-frontières (`/doc/lessons/ai-security`) complètent le tableau. Sans le pipeline RAG en tête,
-l'injection indirecte reste abstraite.
+externes — la porte d'entrée de l'injection indirecte (`/doc/lessons/rag-fundamentals`). Les
+bases de sécurité applicative et l'idée de valider aux frontières (`/doc/lessons/ai-security`)
+complètent le tableau. Sans le pipeline RAG en tête, l'injection indirecte reste abstraite.
+
+Un **agent** est, ici, un modèle auquel on a donné des **outils** qu'il peut décider
+d'appeler. Le seul principe dont cette leçon a besoin à leur sujet est le **moindre
+privilège** : on ne donne à un outil que ce dont il a strictement besoin, et l'on refuse
+d'en confier un dont l'usage est irréversible à un système qui obéit au texte qu'on lui
+envoie. Ce principe est déjà celui des droits d'un utilisateur sur un système de fichiers ; il
+change seulement de sujet.
+
+> **Où trouver le détail.** `/doc/lessons/agents-fundamentals` traite la boucle d'un agent et
+> ses modes d'échec. Elle est **programmée plus loin** dans le parcours ; rien ici ne suppose
+> que tu l'as lue.
 
 ## 📖 Explication complète
 - **Les deux vecteurs** : injection **directe** (l'utilisateur attaque dans sa question) et **indirecte** (l'instruction malveillante est cachée dans un DOCUMENT que ton système ingère — page web, PDF, email). L'indirecte est la plus dangereuse pour un RAG : ton propre pipeline livre l'attaque au modèle.

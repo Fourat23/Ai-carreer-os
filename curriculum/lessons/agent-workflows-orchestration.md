@@ -20,9 +20,19 @@ Un workflow est **une chaîne de production** (étapes fixées, débit prévisib
 ## 🧩 Prérequis
 Tu dois maîtriser les fondamentaux des agents — boucle décider→agir→observer, function calling,
 garde-fous, modes d'échec (`/doc/lessons/agents-fundamentals`) — et les sorties structurées/
-outils (`/doc/lessons/structured-outputs-tools`). Les patterns d'architecture (parallélisation,
-reprise sur échec, files) viennent de `/doc/lessons/architecture-basics` et de la résilience
-(`/doc/lessons/resilience-patterns`). Aucun framework d'agents particulier n'est supposé.
+outils (`/doc/lessons/structured-outputs-tools`). Les notions d'architecture réutilisées ici
+(découper un traitement, le paralléliser, le reprendre) viennent de
+`/doc/lessons/architecture-basics`. Aucun framework d'agents particulier n'est supposé.
+
+**Les trois mécanismes de robustesse dont la leçon a besoin sont construits dans son exemple
+guidé, pas supposés connus** : borner le parallélisme, écrire l'état au fur et à mesure pour
+pouvoir reprendre, et isoler l'échec d'un élément pour qu'il n'arrête pas les autres. Chacun
+est introduit par le problème qu'il résout et écrit en entier.
+
+> **Où trouver le détail.** `/doc/lessons/resilience-patterns` traite les protections d'un
+> appelant face à une dépendance lente ou tombée — délai d'attente, nombre de tentatives,
+> disjoncteur — et chiffre ce que chacune coûte. Elle est **programmée plus loin** dans le
+> parcours ; rien ici ne suppose que tu l'as lue.
 
 ## 📖 Explication complète
 - **Les 4 patterns de workflow** :

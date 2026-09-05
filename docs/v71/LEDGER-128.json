@@ -2185,7 +2185,7 @@
     "archetype": "fondation conceptuelle",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -2201,11 +2201,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 183 et exige embeddings (jour 218), soit +35 j, avec la formulation ... car un transformer EST un reseau particulier, ET LA NOTION D EMBEDDING : un mot devenu vecteur de sens. Un transformer manipule des embeddings de bout en bout : la notion n est pas peripherique, elle est centrale, et elle arrive cinq semaines plus tard. C est le defaut de prerequis le plus grave du corpus par la centralite de la notion exigee. Remede recommande : integrer la notion en deux phrases, comme slo-error-budget le fait pour la disponibilite — un embedding est un vecteur de nombres dont la proximite encode la proximite de sens — puis renvoyer a la lecon pour le detail. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP7 : le defaut de prerequis le plus grave du corpus par la centralite de la notion (+35 j) est ferme par le remede 1. L embedding est desormais DEFINI en deux phrases dans la lecon — chaque token devient une liste de nombres choisie a l entrainement de sorte que deux mots employes dans des contextes semblables recoivent des vecteurs proches, et proche se mesure par l angle entre deux vecteurs. C est exactement ce que l attention manipule et ce que le tableau de l exemple guide calcule, donc la lecon est desormais autoportante sur ce point. embeddings sort vers un encadre Ou trouver le detail. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "La lecon fait ce que presque aucune ne fait sur ce sujet : elle CALCULE l attention au lieu de la raconter. Dort regarde chat est une phrase qu on lit partout et qui n apprend rien ; a la place, une matrice 3x3 sur des vecteurs de dimension 4 choisis a la main, dont les trois lignes somment bien a 1 (verifie), et le vecteur de dort avant et apres la moyenne ponderee. La definition qui en sort est exacte et desacralisante : integrer le contexte, c est UNE MOYENNE PONDEREE DONT LES POIDS SONT CALCULES PAR PRODUIT SCALAIRE, rien d autre. Les trois autres decisions sont du meme niveau. Le masque causal est explique par sa RAISON (sinon le modele tricherait en s entrainant a predire un mot deja lu) et debouche sur une propriete observable tous les jours, plus la remarque que les modeles concus pour comprendre plutot que generer sont la meme architecture avec un triangle en moins. La division par racine de d est expliquee mecaniquement — sans elle le softmax sature, un poids a 1 et les autres a 0, le gradient s annule — avec la generalisation : beaucoup de constantes bizarres existent pour garder une quantite dans la plage ou le calcul reste stable. Et la decision 4 DEDUIT DE L ARCHITECTURE, non d une opinion sur les LLM, que l assurance d un modele n est pas un signal de fiabilite : le mecanisme produit exactement la meme chose pour une question dont il connait la reponse et pour une question sur un sujet invente. La variante lit le cout quadratique directement dans la forme du tableau — 3x3 devient 8x8 — et le relie a une propriete de produit qu on paie chaque mois. D13 a 4."
   },
   {
@@ -2214,13 +2214,13 @@
     "cp": "CP3",
     "archetype": "optimisation",
     "D": [
-      3,
-      1,
       5,
       5,
       5,
       5,
-      4,
+      5,
+      5,
+      5,
       4,
       5,
       5,
@@ -2231,15 +2231,15 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D1 : la section « Les trois leviers, par ordre d efficacite » enonce en RATIOS DE JETONS ce qu elle presente comme des ratios de FACTURE — et contredit ainsi la methode que la lecon etablit elle-meme trois paragraphes plus bas. Les douze cellules du tableau sont exactes (recalculees : 900/86,4/16,8 · 444/40,8/9,2 · 312/27,6/7,0 · 222/20,4/4,6) et le facteur global de 196 aussi. Mais : levier 1, « passer de A a C divise la facture par environ 60, sur n importe quelle ligne du tableau » — mesure sur les quatre lignes : 53,6 · 48,3 · 44,6 · 48,3, jamais 60. Le 60 est le rapport des prix d ENTREE (3,00/0,05) ; la sortie a 15/0,40 = 37,5 tire la moyenne vers le bas. Levier 2, « passer de 6 000 a 1 100 jetons d entree divise la facture par cinq environ » — mesure : 2,9 pour A, 3,1 pour B, 2,4 pour C. Le 5,5 est le rapport des JETONS d entree, pas de la facture, le cout de sortie restant constant. Et « envoyer cinq morceaux pertinents plutot que tout l historique coute trois fois moins cher » — mesure : 2,0. Le classement des leviers, qui est le point pedagogique, reste juste (48 > 2,9 > 1,4) ; ce sont les grandeurs qui sont fausses. Aggravant : le levier 3 est calcule CORRECTEMENT sur la facture (1,4 fois, et « 12 % des jetons pour 41 % du cout » verifie exactement), donc la lecon sait faire et ne l a pas fait pour les deux autres. Remede : remplacer 60 par environ 48, 5 par environ 3, et « trois fois » par « deux fois ». A corriger au CP7."
+        "p": "CORRIGE",
+        "quoi": "CP7 : le prerequis rag-fundamentals (+21 j) est ferme par le remede 1 — ce qu il faut savoir du RAG pour lire la lecon est dit en une phrase (on va chercher les quelques passages pertinents au lieu d envoyer tout l historique), et c est exactement ce que compare la deuxieme ligne de son tableau. Ancre D2 niveau 5."
       },
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 197 et exige rag-fundamentals (jour 218), soit +21 j, avec la formulation Tu dois savoir ... et comment un RAG injecte du contexte recupere dans le prompt — la principale source de jetons d entree. Remede recommande : integrer la notion en une phrase, un RAG remplace l historique complet par quelques passages recuperes, ce que le tableau de la lecon illustre deja. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP7 : les deux leviers enonces en ratios de JETONS sont corriges en ratios de FACTURE, avec les valeurs recalculees. Levier 1 : facteur 60 remplace par 53,6 / 48,3 / 44,6 / 48,3 selon la ligne. Levier 2 : facteur 5 remplace par 2,9 sur le modele A, 3,1 sur le B, 2,4 sur le C. Trois fois moins cher remplace par deux fois, avec les montants (900 EUR contre 444). Et l erreur est retournee en enseignement, deux fois : le rapport des prix d entree vaut bien 60, mais un RAPPORT DE PRIX N EST PAS UN RAPPORT DE FACTURE puisque la sortie suit un autre rapport (37,5) et pese lourd ; et diviser les jetons par 5,5 ne divise la facture que par 2,9 parce que le cout de sortie n a pas bouge et pese d autant plus que l entree maigrit. La lecon enseigne desormais le piege qu elle commettait. D1 de 3 a 5, D7 de 4 a 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "Le squelette est excellent et la these est juste : « optimiser le cout d un LLM » n est pas un reglage mais une decision de conception, et le tableau a douze cellules le demontre — 900 EUR contre 5 EUR par mois pour le meme produit et le meme nombre de requetes, soit un facteur 196 verifie exactement. Le passage sur la sortie est le meilleur de la lecon et il est exact au chiffre pres : la sortie represente 12 % des jetons et 41 % du cout, parce qu un jeton produit coute cinq fois un jeton lu — d ou un format verbeux qui coute beaucoup plus que sa proportion en jetons ne le suggere. La requalification du levier modele est juste aussi : ce n est pas une decision unique mais une decision PAR TACHE, et la bonne question n est pas quel modele mais quelles taches ont vraiment besoin du grand modele. Les tarifs sont declares illustratifs et la lecon dit explicitement que ce qui s apprend est la STRUCTURE du calcul, jamais un prix — c est le bon niveau de prudence. D1 a 3 : exact sur le fond et sur le classement, mais deux des trois grandeurs annoncees sont des ratios de jetons presentes comme des ratios de facture, ce qui deviendrait faux des qu on les generalise, et n est pas signale. D7 a 4 : l exemple guide porte ce defaut."
   },
   {
@@ -2274,7 +2274,7 @@
     "archetype": "debugging",
     "D": [
       4,
-      1,
+      5,
       5,
       5,
       5,
@@ -2290,12 +2290,12 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 197 et exige ai-evaluation (jour 253), soit +56 j — le deuxieme plus grand ecart du corpus — avec la formulation l evaluation d un prompt par un jeu de cas mesure s appuie sur. Remede recommande : requalifier en aide signalee, ou integrer en une phrase la notion de jeu de cas mesure, que la lecon utilise deja implicitement avec son tableau de neuf sorties. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
-      },
-      {
         "p": "P2",
         "quoi": "D1 : le texte compte cinq la ou son propre tableau en montre quatre. Le tableau des neuf sorties donne : parse OK sur 6 lignes (1, 4, 5, 7, 8, 9), conformes au schema 2 (lignes 1 et 9), donc parse-OK-mais-fausses = 4. Le paragraphe qui suit ecrit « CINQ sorties sur neuf passent le JSON.parse et sont fausses quand meme ». Comptage refait sur le fichier : quatre. La ligne 9 (champ en trop) est marquee conforme dans le tableau ; si on la comptait non conforme le total des conformes tomberait a 1 et la ligne de synthese « respectent reellement le schema : 4 / 9 » deviendrait fausse a son tour. Le point pedagogique — JSON.parse ne protege pas — tient quel que soit le compte, mais l apprenant est invite a lire la colonne de droite et trouvera quatre. Meme classe que le N = 21 de browser-dom-rendering. Remede : ecrire quatre. A corriger au CP7."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP7 : le deuxieme plus grand ecart du corpus (+56 j) est ferme. Ce dont la lecon avait besoin — comment juger qu un prompt est meilleur qu un autre — est desormais dit en une phrase : on ecrit a l avance une vingtaine de cas avec la sortie attendue, on fait tourner les deux prompts dessus, on compare le nombre de cas passes. Avec la remarque qui suffit a l enjeu : un prompt juge mieux sur trois essais a la main ne se compare a rien. ai-evaluation sort vers un encadre. Ancre D2 niveau 5."
       }
     ],
     "action": "RETOUCHE",
@@ -2383,7 +2383,7 @@
     "archetype": "investigation",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -2399,11 +2399,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 218 et exige ai-evaluation (jour 253), soit +35 j, avec la formulation Tu dois maitriser les principes d evaluation d un systeme IA — golden set, evaluation par etage, LLM-as-judge calibre, baseline. C est tout le vocabulaire de la lecon, exige avant d etre enseigne. Remede recommande : integrer les quatre notions en un paragraphe, la lecon les redefinissant de toute facon dans son corps. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP7 : les QUATRE notions exigees a l avance (jeu de reference, reference de comparaison, evaluation par etage, juge automatique) sont desormais definies dans la lecon, une ligne chacune, et la lecon les employait de toute facon dans son corps. Le juge est defini avec sa condition d emploi — utile seulement si l on a verifie qu il note comme un humain sur une vingtaine de cas — ce qui est le point que la lecon developpe ensuite. ai-evaluation sort vers un encadre. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "La lecon ouvre sur le vrai probleme operationnel — « le RAG repond mal a la question 12 » n est pas actionnable, cinq maillons peuvent etre en cause, et modifier au hasard celui qu on connait le mieux est ce qu on fait par defaut — puis donne le geste qui tranche : UNE question binaire, le passage contenant la reponse est-il dans ce qu on a envoye au modele. Elle en souligne le rendement : cette bissection elimine la moitie de la chaine en une minute, sans appeler quoi que ce soit, et c est le geste le plus rentable du domaine et le plus souvent omis. Le tableau des deux systemes est le meilleur argument possible contre la note globale : rappel 0,95 avec fidelite 0,60, et rappel 0,60 avec fidelite 0,95, rendent le MEME verdict mediocre pour deux problemes OPPOSES — et l on passe alors des semaines a ameliorer le prompt d un systeme dont le prompt est excellent et dont la recherche ne trouve rien. Le jeu de reference est specifie en cinq types dont trois pieges, et la lecon designe le plus absent des jeux maison : la question SANS REPONSE dans le corpus, qui teste l abstention. Son argument est juste — c est le cas ou l erreur est la plus grave puisque l utilisateur n a aucun moyen de la detecter — et le comportement attendu est ecrit d avance, une reponse plausible et inventee etant un ECHEC meme bien redigee. D8/D12/D13 a 4 : deux enonces courts."
   },
   {
@@ -2518,7 +2518,7 @@
     "archetype": "investigation",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -2534,12 +2534,12 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 260 et exige agents-fundamentals (jour 274), soit +14 j, avec la formulation Tu dois comprendre ... et AVOIR VU les agents et leurs outils. Remede recommande : requalifier en aide signalee, la lecon etant suivable sans. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
-      },
-      {
         "p": "P3",
         "quoi": "D14 : faute d accord dans la formule-titre de l exemple guide, qui est en gras et destinee a etre retenue — « un moteur d exfiltration MUNIE d une interface agreable » (ligne 88). Moteur est masculin : muni. A corriger au CP7."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP7 : la notion d agent (+14 j) est desormais definie sur place — un modele auquel on a donne des outils qu il peut decider d appeler — et la lecon explique pourquoi cela suffit ici : c est ce qui rend la question du privilege concrete, un outil dangereux confie a un systeme qui obeit au texte qu on lui envoie. agents-fundamentals sort vers un encadre. Ancre D2 niveau 5."
       }
     ],
     "action": "RETOUCHE",
@@ -2552,7 +2552,7 @@
     "archetype": "securite",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -2568,11 +2568,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 260 et exige agents-fundamentals (jour 274), soit +14 j, avec la formulation ... et le principe du moindre privilege applique aux OUTILS D UN AGENT. Remede recommande : integrer la notion en une phrase — un agent est un modele auquel on a donne des outils qu il peut decider d appeler — la lecon la redefinissant de toute facon. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP7 : meme correction (+14 j), avec le principe dont la lecon a reellement besoin enonce sur place — le moindre privilege : on ne donne a un outil que ce dont il a strictement besoin, et l on refuse d en confier un dont l usage est irreversible a un systeme qui obeit au texte qu on lui envoie. La lecon ajoute le rattachement juste : ce principe est deja celui des droits d un utilisateur sur un systeme de fichiers, il change seulement de sujet. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "La lecon construit la defense couche par couche et REGARDE CHAQUE COUCHE ECHOUER, ce qui est la seule facon de faire comprendre pourquoi il en faut plusieurs. La couche 1 est traitee avec une honnetete rare : delimiter les donnees est utile et a faire, mais ne suffira JAMAIS, parce que le modele ne recoit pas deux canaux — la consigne et le document malveillant arrivent dans la meme suite de mots, et rien au niveau du mecanisme ne distingue ce que le developpeur ordonne de ce que le document raconte. La formule qui en sort est exacte : tu n as pas construit une cloison, tu as ajoute un argument dans un debat. Et la comparaison avec l injection SQL est faite PAR SA DIFFERENCE, ce qui est le bon usage d une analogie : une requete parametree separe STRUCTURELLEMENT le code de la donnee, et c est pourquoi elle est une defense complete ; ici cette separation n existe pas, donc cette couche fait baisser un taux de reussite, elle ne ferme pas une porte. La couche 2 porte le meilleur moment de la lecon : le verificateur de citations rejette parfaitement la premiere attaque (couverture 0,00) et ACCEPTE la seconde avec une couverture de 1,00, sans aucun bug — la phrase est litteralement dans le document cite. D ou la limite a avoir vue une fois : il controle la FIDELITE a la source, jamais la FIABILITE de la source, et une defense anti-hallucination n est pas une defense anti-empoisonnement. La decision de cloture designe la mesure la plus efficace et la moins technique, souvent oubliee parce qu elle n est pas amusante a implementer : restreindre qui peut ecrire dans le corpus. D8/D12/D13 a 4."
   },
   {
@@ -2582,7 +2582,7 @@
     "archetype": "construction",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -2598,11 +2598,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 274 et exige resilience-patterns (jour 331), soit +57 j — LE PLUS GRAND ECART DU CORPUS — avec la formulation Les patterns d architecture (parallelisation, reprise sur echec, files) VIENNENT DE architecture-basics et de la resilience. La formulation est indirecte mais presente la notion comme acquise sans dire qu elle ne l est pas encore. Remede recommande : requalifier en aide signalee (viendra au mois 11), la lecon construisant elle-meme les trois mecanismes dont elle a besoin. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP7 : LE PLUS GRAND ECART DU CORPUS (+57 j) est ferme, et il n a rien coute. La lecon construit deja elle-meme, dans son exemple guide, les trois mecanismes de robustesse qu elle semblait exiger — borner le parallelisme, ecrire l etat au fur et a mesure pour pouvoir reprendre, isoler l echec d un element — chacun introduit par le probleme qu il resout et ecrit en entier. Le texte le dit desormais explicitement, et resilience-patterns sort vers un encadre. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "L angle est juste et il est annonce : les quatre choses qui cassent la boucle naive — un document corrompu au 317e qui arrete tout, la limite de debit, les 25 minutes en sequentiel (500 fois 3 s, verifie), le processus tue — NE CONCERNENT AUCUNE l intelligence du traitement. Ce sont des problemes d orchestration, et la lecon en fait sa these : ce qui rend un traitement par lots robuste n a presque rien a voir avec ce qu il calcule. Les quatre reponses sont donnees en un seul bloc de code lisible, chacune rattachee au probleme qu elle traite, et les details qui comptent sont isoles plutot que noyes. Le meilleur : l etat est ecrit AU FUR ET A MESURE, pas a la fin — un etat sauvegarde a la fin ne survit pas a ce contre quoi il est cense proteger. Le parallelisme borne est justifie dans les deux sens (sans borne on depasse la limite de debit du fournisseur et l on transforme un traitement lent en traitement echoue) et chiffre : 25 minutes ramenees a environ 2,5, verifie. La lecon rattache explicitement l idempotence a etl-pipelines plutot que de la reexpliquer, ce qui est le bon usage d un renvoi. D8/D12/D13 a 4 : deux enonces courts, pas de section de verification."
   },
   {

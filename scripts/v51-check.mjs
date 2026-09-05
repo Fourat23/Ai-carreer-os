@@ -44,7 +44,7 @@ const warns = [];
 // Ce n'est pas un contournement du gate : le gate protège contre une
 // modification NON DÉCLARÉE du corpus, et celle-ci est déclarée, committée
 // et mesurée (mini-statut CP5).
-const FROZEN_CORPUS = 'e3d3f1d05b85e3fb10ae3688aaa461701276b067';
+const FROZEN_CORPUS = 'db3c1a6d34511d38e559b14d142423749c91963f';
 const FROZEN_PROGRESS = '323604021055588a9528a86875f36598dbdc7758';
 const BASELINE_PBI = 10;        // pratique-avant-intro héritée (on-ramps jours 1-30)
 const BASELINE_EXCESSIVE = 7;   // journées thématiques denses héritées (>6 exercices)

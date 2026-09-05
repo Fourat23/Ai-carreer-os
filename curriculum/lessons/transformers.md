@@ -20,11 +20,22 @@ L'attention, c'est **une salle de réunion où chaque mot écoute tous les autre
 
 ## 🧩 Prérequis
 Tu dois comprendre un réseau de neurones — couches, poids, activation, entraînement par
-gradient (`/doc/lessons/neural-networks`) — car un transformer EST un réseau particulier, et
-la notion d'embedding : un mot devenu vecteur de sens (`/doc/lessons/embeddings`). Les bases
-de la similarité entre vecteurs (produit scalaire, orientation) aident pour l'attention. Tu
+gradient (`/doc/lessons/neural-networks`) — car un transformer EST un réseau particulier. Tu
 n'as PAS besoin de savoir dériver les équations : on construit l'intuition d'abord, la
 formule vient seulement si elle éclaire.
+
+**L'unique notion supplémentaire dont cette leçon a besoin est l'embedding, et elle tient en
+deux phrases.** Un modèle ne manipule pas des mots mais des **vecteurs** : chaque token est
+transformé en une liste de nombres, disons 768, choisie à l'entraînement de sorte que deux
+mots employés dans des contextes semblables reçoivent des vecteurs proches. « Proche » se
+mesure par l'angle entre deux vecteurs — deux directions voisines signifient deux sens
+voisins. C'est tout ce que l'attention manipule, et c'est ce que le tableau de l'exemple
+guidé calcule.
+
+> **Où trouver le détail.** `/doc/lessons/embeddings` traite comment ces vecteurs sont
+> produits, ce que vaut un score de similarité selon la dimension, et pourquoi un seuil
+> recopié d'un tutoriel ne veut rien dire. Elle est **programmée plus loin** dans le parcours ;
+> rien ici ne suppose que tu l'as lue.
 
 ## 📖 Explication complète
 Le trajet d'une phrase, étape par étape :

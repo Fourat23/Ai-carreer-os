@@ -6,17 +6,18 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP6**
-- **CP actuel** : CP7
+- **dernier CP terminé** : **CP7**
+- **CP actuel** : CP8
 - **leçons réellement lues et notées** : **128 / 128** ✅
-- **prochaine action EXACTE** : **CP7** — corriger les P1 du domaine
-  **ML / IA appliquée / LLM / RAG / agents**, le plus gros lot restant : `transformers`
-  (→ `embeddings`, +35 j, **le plus grave du corpus par la centralité de la notion**),
-  `prompt-engineering` (→ `ai-evaluation`, +56 j), `rag-evaluation` (→ `ai-evaluation`,
-  +35 j), `llm-cost-optimization` (→ `rag-fundamentals`, +21 j **et** son D1 = 3 sur les
-  trois leviers), `ai-security` et `prompt-injection-defense` (→ `agents-fundamentals`,
-  +14 j chacune), `agent-workflows-orchestration` (→ `resilience-patterns`, **+57 j, le plus
-  grand écart du corpus**). Re-geler les 9 gates, valider, committer.
+- **prochaine action EXACTE** : **CP8** — les **quatre derniers P1** :
+  `interview-preparation` (→ `system-design-interview` +23 j **et** `technical-storytelling`
+  +18 j — la seule leçon à deux prérequis postérieurs), `technical-storytelling`
+  (→ `portfolio-github`, +17 j), `technical-documentation`
+  (→ `breaking-changes-compatibility`, +2 j) et `technical-debt` (**D1 = 2**, l'erreur
+  d'unité qui inverse la conclusion de son exemple guidé). Ces quatre relèvent du domaine
+  Carrière, donc formellement du CP9 — mais **il ne reste plus qu'eux**, et le brief §12
+  interdit de passer aux P2 tant qu'un P1 subsiste. Les traiter au CP8 ferme les P1 ; le CP9
+  ouvrira alors les P2.
 
 > **Ordre imposé (brief §12) : P0, puis P1, puis P2 — pas les P3 tant qu'il reste des P1.**
 > Aucun P0. Les 14 P2 et 10 P3 ne seront traités qu'**après** le dernier P1 (fin CP9).
@@ -144,6 +145,59 @@ Validation après re-gel (hash `e3d3f1d05b85e3fb10ae3688aaa461701276b067`) : `ga
 
 Effet cumulé CP4 → CP6 : moyenne **4,820 → 4,847**, D2 **4,31 → 4,63**, D8 **4,82 → 4,84**,
 leçons à D2 = 1 **20 → 10**, P1 **23 → 11**.
+
+---
+
+## CP7 — ML, IA appliquée, LLM, RAG, agents
+
+Le plus gros lot : **sept défauts de prérequis et un défaut de contenu**, tous fermés.
+
+**Les deux plus graves du corpus sont dans ce lot, et aucun n'a coûté cher.**
+
+`agent-workflows-orchestration` exigeait `resilience-patterns` avec **+57 j** — le plus grand
+écart mesuré. Or la leçon **construit déjà elle-même**, dans son exemple guidé, les trois
+mécanismes qu'elle semblait exiger : borner le parallélisme, écrire l'état au fur et à mesure
+pour pouvoir reprendre, isoler l'échec d'un élément. Chacun y est introduit par le problème
+qu'il résout et écrit en entier. Il suffisait de le dire.
+
+`transformers` exigeait `embeddings` avec **+35 j**, et c'était le plus grave *par la
+centralité de la notion* : un transformer manipule des embeddings de bout en bout. La notion
+est désormais définie en deux phrases sur place — chaque token devient une liste de nombres
+telle que deux mots employés dans des contextes semblables reçoivent des vecteurs proches, et
+« proche » se mesure par l'angle. C'est exactement ce que le tableau d'attention de la leçon
+calcule : elle est maintenant autoportante.
+
+| leçon | écart | ce qui a été intégré |
+|---|---|---|
+| `agent-workflows-orchestration` | +57 j | rien : les trois mécanismes étaient déjà construits |
+| `prompt-engineering` | +56 j | comment on juge qu'un prompt est meilleur : vingt cas écrits d'avance, on compare les cas passés |
+| `transformers` | +35 j | la définition de l'embedding, en deux phrases |
+| `rag-evaluation` | +35 j | les quatre notions d'évaluation, une ligne chacune |
+| `llm-cost-optimization` | +21 j | ce qu'est un RAG, en une phrase |
+| `ai-security` | +14 j | ce qu'est un agent : un modèle à qui l'on a donné des outils |
+| `prompt-injection-defense` | +14 j | le moindre privilège, rattaché aux droits sur un système de fichiers |
+
+### Le défaut de contenu : `llm-cost-optimization` D1 2 → 5
+
+Les deux leviers énoncés en **ratios de jetons** sont corrigés en **ratios de facture** :
+
+| | avant | après (recalculé) |
+|---|---|---|
+| levier 1, modèle A → C | « environ 60, sur n'importe quelle ligne » | **53,6 · 48,3 · 44,6 · 48,3** |
+| levier 2, contexte 6 000 → 1 100 jetons | « par cinq environ » | **2,9** (A) · **3,1** (B) · **2,4** (C) |
+| RAG contre historique complet | « trois fois moins cher » | **deux fois** (900 € contre 444 €) |
+
+Et l'erreur est **retournée en enseignement, deux fois**. Le rapport des prix d'entrée vaut
+bien 60 — mais **un rapport de prix n'est pas un rapport de facture**, puisque la sortie suit
+un autre rapport (37,5) et pèse lourd. Et diviser les jetons par 5,5 ne divise la facture que
+par 2,9, parce que le coût de sortie n'a pas bougé et pèse d'autant plus que l'entrée maigrit.
+**La leçon enseigne désormais le piège qu'elle commettait.**
+
+Validation après re-gel (hash `db3c1a6d34511d38e559b14d142423749c91963f`) : `gates:active`
+**0**, `npm test` **1420/1420**, `tsc --noEmit` **0**.
+
+Effet cumulé CP4 → CP7 : moyenne **4,820 → 4,864**, D2 **4,31 → 4,84**, leçons à D2 = 1
+**20 → 3**, P1 **23 → 4**.
 
 ---
 
@@ -363,7 +417,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | **terminé** |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | **terminé** |
 | CP6 | P0+P1 web / backend / API / SQL / data | **terminé** |
-| CP7 | P0+P1 ML / IA appliquée / LLM / RAG / agents | à faire |
+| CP7 | P0+P1 ML / IA appliquée / LLM / RAG / agents | **terminé** |
 | CP8 | P0+P1 architecture / perf / sécurité / observabilité / incidents | à faire |
 | CP9 | P0+P1 carrière / Git / pratiques pro / documentation | à faire |
 | CP10 | passe transversale PRATIQUE (128) | à faire |
@@ -382,7 +436,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
 - CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : `a6a4270` — **CP3 terminé**
-- CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : ce commit
+- CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : `3fd6f8b` · CP7 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 

@@ -19,10 +19,19 @@ Un appel LLM, c'est **un compteur de taxi : tu paies au token, dans les deux sen
 
 ## 🧩 Prérequis
 Tu dois savoir ce qu'est un LLM, un token et la fenêtre de contexte
-(`/doc/lessons/llm-fundamentals`), et comment un RAG injecte du contexte récupéré dans le
-prompt — la principale source de tokens d'entrée (`/doc/lessons/rag-fundamentals`). Des bases
-d'arithmétique suffisent : le coût est une multiplication (tokens × prix) sommée sur les
-appels. Aucun fournisseur particulier n'est supposé ; les prix sont des paramètres.
+(`/doc/lessons/llm-fundamentals`). Des bases d'arithmétique suffisent : le coût est une
+multiplication (tokens × prix) sommée sur les appels. Aucun fournisseur particulier n'est
+supposé ; les prix sont des paramètres.
+
+**Ce qu'il faut savoir du RAG pour lire cette leçon tient en une phrase** : au lieu d'envoyer
+tout l'historique ou tout un document au modèle, on va chercher dans un corpus les quelques
+passages pertinents pour la question posée, et on n'envoie que ceux-là. C'est la principale
+source de jetons d'entrée, donc le principal levier de coût — et c'est exactement ce que
+compare la deuxième ligne du tableau ci-dessous.
+
+> **Où trouver le détail.** `/doc/lessons/rag-fundamentals` traite comment ces passages sont
+> découpés, retrouvés et vérifiés. Elle est **programmée plus loin** dans le parcours ; rien
+> ici ne suppose que tu l'as lue.
 
 ## 📖 Explication complète
 - **La formule** : coût = tokens_entrée × prix_entrée + tokens_sortie × prix_sortie, sommé sur les appels. Les prix (par million de tokens) varient fortement selon le modèle — et la sortie coûte typiquement plus cher que l'entrée.
@@ -71,9 +80,15 @@ Neuf cents euros par mois contre cinq. Même produit, même nombre de requêtes.
 
 ### Les trois leviers, par ordre d'efficacité
 
-**1. Le choix du modèle : facteur 60 à lui seul.** Passer de A à C divise la facture par
-environ 60, sur n'importe quelle ligne du tableau. Aucune autre optimisation n'approche ce
-rapport.
+**1. Le choix du modèle : facteur 45 à 54 selon la ligne.** Passer de A à C divise la facture
+par **53,6** sur la première ligne, **48,3** sur la deuxième, **44,6** sur la troisième et
+**48,3** sur la quatrième. Aucune autre optimisation n'approche ce rapport.
+
+Note au passage un piège de lecture que ce tableau permet d'éviter, et qui vaut pour tout
+calcul de ce genre : le rapport des **prix d'entrée** entre A et C vaut exactement 60
+(3,00 ÷ 0,05), et l'on serait tenté d'annoncer « 60 fois moins cher ». C'est faux, parce que
+la sortie ne suit pas le même rapport (15 ÷ 0,40 = 37,5) et qu'elle pèse lourd. **Un rapport
+de prix n'est pas un rapport de facture** — seule la facture compte, et elle se recalcule.
 
 C'est aussi le levier le plus mal utilisé, parce qu'il est traité comme une décision unique —
 « on prend le meilleur modèle » — alors que c'est une décision **par tâche**. Classer un
@@ -84,11 +99,16 @@ La bonne question n'est pas « quel modèle ? » mais **« quelles tâches ont v
 grand modèle ? »**. Sur un assistant de support réel, la réponse est en général : la génération
 finale, et rien d'autre.
 
-**2. Le contexte envoyé : facteur 5.** Passer de 6 000 à 1 100 jetons d'entrée divise la
-facture par cinq environ. Et le RAG apparaît alors sous un jour qu'on mentionne rarement : sa
-première justification est la **qualité** — donner au modèle les bons passages — mais son effet
-sur le coût est du même ordre. Envoyer cinq morceaux pertinents plutôt que tout l'historique
-coûte trois fois moins cher **et** répond mieux.
+**2. Le contexte envoyé : facteur 2,4 à 3,1 selon le modèle.** Passer de 6 000 à 1 100 jetons
+d'entrée divise les **jetons** par 5,5 — mais la facture seulement par **2,9** sur le modèle A,
+**3,1** sur le B et **2,4** sur le C. L'écart entre 5,5 et 2,9 est exactement le piège
+précédent, dans l'autre sens : le coût de sortie, lui, n'a pas bougé, et il pèse d'autant plus
+que l'entrée maigrit. **Diviser ce qu'on envoie ne divise pas la facture d'autant.**
+
+Et le RAG apparaît alors sous un jour qu'on mentionne rarement : sa première justification est
+la **qualité** — donner au modèle les bons passages — mais son effet sur le coût est du même
+ordre. Envoyer cinq morceaux pertinents plutôt que tout l'historique coûte **deux fois** moins
+cher (900 € contre 444 €) **et** répond mieux.
 
 **3. La longueur des réponses : facteur 1,4.** Le plus petit levier du tableau, et pourtant :
 

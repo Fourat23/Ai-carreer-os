@@ -23,9 +23,17 @@ Tu dois comprendre ce qu'est un LLM et son non-déterminisme — pourquoi la mê
 donner deux sorties (`/doc/lessons/llm-fundamentals`) — et savoir parser/valider des données
 aux frontières d'un programme, gérer un échec proprement (`/doc/lessons/error-handling`). Les
 notions de sortie structurée et de retry sont formalisées juste après
-(`/doc/lessons/structured-outputs-tools`) ; l'évaluation d'un prompt par un jeu de cas mesuré
-s'appuie sur (`/doc/lessons/ai-evaluation`). Sans l'idée de non-déterminisme, « valider la
+(`/doc/lessons/structured-outputs-tools`). Sans l'idée de non-déterminisme, « valider la
 sortie » paraît superflu — c'est pourtant tout l'enjeu.
+
+**Comment on juge qu'un prompt est meilleur qu'un autre** se dit ici en une phrase, et la
+leçon s'en tient là : on écrit à l'avance une vingtaine de cas avec la sortie qu'on attend,
+on fait tourner les deux prompts dessus, et on compare le nombre de cas passés. Un prompt
+qu'on juge « mieux » sur trois essais à la main ne se compare à rien.
+
+> **Où trouver le détail.** `/doc/lessons/ai-evaluation` traite la construction d'un jeu de
+> référence, la calibration d'un juge automatique et la mesure par étage. Elle est
+> **programmée plus loin** dans le parcours ; rien ici ne suppose que tu l'as lue.
 
 ## 📖 Explication complète
 Un prompt efficace combine quelques éléments :

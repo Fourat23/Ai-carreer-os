@@ -6,20 +6,35 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP9**
-- **CP actuel** : **CP10 en cours — 73 / 128 sections de pratique lues**
+- **dernier CP terminé** : **CP10**
+- **CP actuel** : **CP10 TERMINÉ — 128 / 128 sections de pratique lues**
 - **leçons réellement lues et notées** : **128 / 128** ✅
-- **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 9** — un P3 fermé au CP10 (`machine-learning-basics`).
-- **prochaine action EXACTE** : **CP10, lot 5** — les **55 leçons restantes**, qui portent
-  toutes au moins un des deux dispositifs de critère (« Critère de réussite » écrit, ou bloc
-  « Vérifie seul »). Leur présence ne prouve pas qu'il s'agisse de vrais critères : c'est
-  précisément ce que le lot 2 a montré. Les 9 P3 restants sont traités au fil du passage.
+- **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 0** — **tous les défauts du ledger sont fermés.**
+- **prochaine action EXACTE** : **CP11** — passe corrections + vulgarisation + jargon +
+  prérequis transversal. Puis CP12 (validation factuelle), **CP13 (audit aveugle, 32 leçons,
+  graine 20260831)**, CP14, CP15.
 
-> **D8 vaut 5,000 au ledger, et cela ne veut PAS dire que le corpus est validé sur D8.**
-> 73 leçons ont été relues au CP10 ; les 55 autres portent une note CP3 non revérifiée. Le
-> lot 2 a montré que ces notes se répartissent dans les deux sens — 24 confirmées, 5
-> optimistes, 3 fondées sur une exigence absente du barème. **Le chiffre ne sera opposable
-> qu'à 128 / 128.**
+> ## ⚠️ LA MOYENNE EST DE 4,954 ET C'EST UN PROBLÈME, PAS UN RÉSULTAT
+>
+> À la fin du CP10, **toutes les notes sont à 5 sauf 78 sur 1 792**, et il ne reste aucun
+> défaut ouvert. Un barème qui ne discrimine plus ne mesure plus. Trois choses doivent être
+> dites avant le CP13, et elles sont défavorables :
+>
+> 1. **La majeure partie du gain de D13 (4,29 → 4,97) ne vient d'aucune amélioration de
+>    leçon.** Elle vient de la correction d'une erreur de mesure que j'ai commise au CP3 —
+>    avoir exigé une section « Vérification de compréhension » que l'ancre gelée ne demande
+>    nulle part. 38 leçons ont vu leur note monter **sans qu'une ligne ne soit modifiée**.
+> 2. **La même erreur est apparue quatre fois** (§CP10 lot 3, §CP10 lot 5), toujours dans le
+>    sens de la sévérité, toujours en inventant une exigence structurelle. C'est le défaut
+>    méthodologique central de V71 et il est de mon fait, pas de celui du corpus.
+> 3. **Le barème ne peut plus être resserré** — il est gelé depuis le CP1 et le §7 interdit
+>    de le durcir après mesure. Conséquence directe : **S9 et S10, au CP13, sont les seuls
+>    seuils qui peuvent encore échouer.** Le CP13 n'est plus un contrôle de routine, c'est le
+>    seul moment où V71 peut encore se contredire.
+>
+> **Règle posée d'avance, avant de connaître le résultat** : si l'audit aveugle du CP13
+> produit des notes matériellement plus basses que le ledger, **c'est le ledger qui a tort,
+> pas l'audit**, et le verdict sera `ACADEMIC_QUALITY_NOT_READY`.
 
 ### CP10 — ce que la lecture a trouvé sur les notes D8 elles-mêmes
 
@@ -98,6 +113,79 @@ celui qui doit être le plus contestable. Trois garde-fous :
 **Note d'environnement (§31)** : aucun critère de `linux-ssh-remote` n'a été exécuté — `ssh`
 et `ssh-keygen` ne sont pas installés dans ce conteneur. Ils sont écrits pour la machine de
 l'apprenant, et la leçon ne prétend rien d'autre.
+
+### CP10 lot 5 — la fin du CP10, et la découverte qui devrait rendre méfiant
+
+Le lot 5 a lu les **55 leçons restantes**. Aucune n'a été corrigée pour son D8. Ce que la
+lecture a établi, en revanche, est le résultat le plus important du checkpoint.
+
+**Les 34 leçons encore à D13 = 4 se répartissaient en deux groupes, et les deux avaient été
+mal notées au CP3 pour la même raison.**
+
+*Groupe 1 — 13 leçons du parcours* (`sql-foundations`, `metrics-percentiles`,
+`llm-fundamentals`, `linux-filesystem-permissions`…). Leur bloc « Vérifie seul » porte des
+critères décidables qui **révèlent la compréhension**, pas seulement l'exécution :
+« remplace `LEFT` par `INNER` : le résultat doit devenir vide — si rien ne change, ton
+`WHERE` avait déjà tué le `LEFT` » ; « si le p90 ne bouge pas, tu as compris pourquoi les
+percentiles élevés sont instables sur de petits échantillons » ; « montre ton hallucination
+à quelqu'un qui ignore le sujet — s'il ne peut pas dire laquelle des deux réponses est
+inventée, tu as compris le problème ».
+
+*Groupe 2 — les 25 leçons hors parcours.* Le CP8 avait établi que **zéro** d'entre elles n'a
+de section « Vérification de compréhension », et leur D13 avait été plafonné à 4 pour cette
+raison. **L'observation est vraie ; la conclusion était fausse.** Leur dispositif
+« Critère de réussite » + « Piège » satisfait l'ancre 5 — souvent mieux que les leçons
+programmées : « si tu recommandes le framework partout, c'est que tu n'as pas utilisé la
+grille, tu as utilisé une habitude » (`nextjs-foundations`) ; « si tu classes les cinq du
+même côté, tu n'as pas encore compris que la dérive peut venir des deux directions »
+(`iac-fundamentals`) ; « s'il ne peut plus **rien** faire, tu t'es trompé quelque part, il
+reste toujours quelque chose » (`k8s-security`). **Les 25 ont été relues une par une, pas
+échantillonnées.**
+
+Cela **résout par la négative la question laissée ouverte au CP8** pour le CP15 : il ne faut
+ni ajouter une section à 25 leçons, ni rendre D13 non applicable à l'étagère de référence. Il
+fallait cesser d'exiger une structure que le barème ne demande pas.
+
+**Quatre notes ont été maintenues à 4 contre la tendance du lot**, et c'est ce qui rend le
+reste lisible. La méthode : comparer le bloc de vérification à l'**objectif annoncé** de la
+leçon, pas seulement le lire.
+
+| leçon | ce que le bloc couvre | ce que l'objectif annonce en plus |
+|---|---|---|
+| `api-design-basics` | URLs, format d'erreur, verbes, pagination | statuts précis, validation aux frontières |
+| `api-production-contracts` | idempotence, pagination | rate limiting, versionnement, compatibilité |
+| `linux-resources-io` | disque, inodes, CPU | **mémoire** (RSS, swap, OOM), soit un quart de l'objectif |
+| `express-backend` | — | le critère contrôle un découpage, il ne révèle pas la compréhension |
+
+**Un cas où le défaut venait de moi.** `typescript-frontend` était la seule leçon du lot où
+« partielle » était juste — parce qu'**au CP9 j'avais réduit son bloc de quatre points à
+deux**, en jugeant deux d'entre eux redondants avec le corrigé. Cela a amélioré D14 et D9 et
+**rétréci D13**. Deux points ont été réécrits : la désynchronisation type/prédicat, et le
+gestionnaire d'événement dont l'éditeur infère `any` — « le plus discret des trous, parce
+qu'il n'y a rien à voir ». D13 à 5 **après** élargissement, pas avant.
+
+### Les 9 derniers P3 — les plafonds D2 levés, et le plus grand écart du corpus
+
+Huit P3 étaient des **plafonds structurels** : une leçon citait une leçon postérieure en la
+signalant correctement comme aide périphérique, ce qui est l'ancre D2 = 4 et pas 5. Remède 1
+de `PREREQUIS-ORDRE` §6 appliqué aux huit — la notion nécessaire est **intégrée en une
+phrase**, la citation sort vers un encadré « Où trouver le détail ».
+
+| leçon | écart | ce qui a été intégré |
+|---|---|---|
+| `monitoring-production` | **+246 j** | la dérive = un système dont la qualité baisse alors que le code n'a pas changé ; le coût par requête = une métrique qui se dégrade sans que personne ne s'en plaigne |
+| `authentication` | **+193 j** | rien : aucune notion préalable n'était réellement nécessaire. La citation est retirée, et l'encadré dit **pourquoi l'ordre inverse serait le mauvais** — on sécurise un système d'IA avec les principes de cette leçon-ci, pas l'inverse |
+| `breaking-changes-compatibility` | +63 j | le schéma d'une table est un contrat avec des données **déjà écrites**, qui ne peuvent pas être « redéployées » |
+| `async-javascript` | +46 j | un appel réseau, c'est une demande et une réponse plus tard — entre les deux, le programme n'attend pas |
+| `data-cleaning-quality` | +41 j | tout calcul fait sur l'ensemble des lignes fait entrer, dans les lignes gardées, une information venue des lignes mises de côté |
+| `api-design-basics` | +25 j | compatible = un client écrit avant continue de fonctionner sans être modifié |
+| `api-production-contracts` | +16 j | limiter « par client » suppose seulement de pouvoir l'identifier |
+| `architecture-basics` | +6 j | l'API est un contrat que ni l'appelant ni l'appelé ne peut changer seul |
+
+Le neuvième était une faute d'accord dans une formule en gras destinée à être retenue :
+`ai-security`, « un moteur d'exfiltration **munie** d'une interface agréable » → **muni**.
+
+**P0 = 0 · P1 = 0 · P2 = 0 · P3 = 0.**
 
 ### Le P3 de `machine-learning-basics` — un défaut de traçabilité devenu un gain de justesse
 
@@ -792,7 +880,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP7 | P0+P1 ML / IA appliquée / LLM / RAG / agents | **terminé** |
 | CP8 | P0+P1 architecture / perf / sécurité / observabilité / incidents | **terminé** |
 | CP9 | P1 carrière **terminés au CP8** → CP9 traite les 14 P2 | **terminé** |
-| CP10 | passe transversale PRATIQUE (128) R/E/D/P/T + les 10 P3 | à faire |
+| CP10 | passe transversale PRATIQUE (128) R/E/D/P/T + les 10 P3 | **terminé** |
 | CP11 | passe corrections + vulgarisation + jargon + prérequis | à faire |
 | CP12 | validation factuelle et assertions exécutables | à faire |
 | CP13 | audit aveugle (32 leçons, graine 20260831) | à faire |
@@ -808,7 +896,8 @@ franchissable qu'après les corrections P1 des CP4→CP9.
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
 - CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : `a6a4270` — **CP3 terminé**
-- CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : `3fd6f8b` · CP7 : `4fd6fa2` · CP8 : `8701d27` · CP9 : ce commit
+- CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : `3fd6f8b` · CP7 : `4fd6fa2` · CP8 : `8701d27` · CP9 : `bda3dd3`
+- CP10 : `11be707` (lot 1) · `d5fdcde` (lot 2) · `b63ad47` (lot 3) · `66d36bf` (lot 4) · ce commit (lot 5)
 
 ### Lot 7 — frontend (8 leçons)
 

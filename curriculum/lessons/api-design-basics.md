@@ -19,9 +19,14 @@ son **évolution** sans casser les consommateurs.
 ## 🧩 Prérequis
 Tu dois maîtriser HTTP (requête/réponse, méthodes, statuts, JSON) et le style REST
 (`/doc/lessons/http-rest-json`), car concevoir une API, c'est appliquer ces briques avec
-cohérence. La notion de changement compatible vs cassant
-(`/doc/lessons/breaking-changes-compatibility`) éclaire la partie évolution. Aucune
-expérience de conception d'API n'est supposée.
+cohérence. La distinction dont la partie « évolution » a besoin tient en une ligne :
+**un changement est *compatible* si un client écrit avant lui continue de fonctionner sans
+être modifié — ajouter un champ l'est, en renommer un ne l'est pas.** Aucune expérience de
+conception d'API n'est supposée.
+
+> **Où trouver le détail.** `/doc/lessons/breaking-changes-compatibility` traite le cycle de
+> dépréciation et le versionnement. Elle est **programmée plus loin** dans le parcours ; rien
+> ici ne suppose que tu l'as lue.
 
 ## 🧠 Modèle mental
 Pense « CONTRAT avant code ». Une API est une promesse : pour telle requête (méthode +

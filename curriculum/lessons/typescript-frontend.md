@@ -412,6 +412,14 @@ d'un plantage bruyant vers un écran blanc que personne ne sait expliquer.
    doit afficher une erreur maîtrisée — pas un écran blanc, pas une exception en console.
 2. Passe une valeur invalide à `tone`. Le compilateur doit refuser. S'il accepte, ton
    union littérale n'en est pas une.
+3. **Ajoute un champ à ton type `User` sans toucher au prédicat.** Si tout compile encore,
+   tu viens de créer la désynchronisation décrite plus haut : le type promet un champ que
+   rien ne vérifie. C'est le défaut structurel des gardes écrites à la main, et c'est le cas
+   exact où une bibliothèque de schéma gagne.
+4. **Retire le type de retour de ton gestionnaire d'événement et regarde ce qu'infère
+   l'éditeur.** S'il te propose `any`, l'événement n'est pas typé et les trois quarts de la
+   protection ont disparu sans qu'aucune erreur ne s'affiche — c'est le plus discret des
+   trous, parce qu'il n'y a rien à voir.
 
 ## 🏢 Cas professionnel
 Une équipe front consomme une API interne. Tous les appels sont écrits en `as`, parce que « les types du backend sont connus ». Un jour, le backend renomme `name` en `fullName` dans une réponse — un changement rétrocompatible côté serveur, puisque l'ancien champ reste temporairement.

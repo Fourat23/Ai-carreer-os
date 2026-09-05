@@ -104,24 +104,28 @@
   "archetype": "fondation conceptuelle",
   "D": [
    5,
+   5,
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
    4,
    4,
    5,
    5,
-   5,
-   5,
-   5,
-   5,
-   4,
-   4,
-   5,
-   4,
    5
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — http-rest-json (jour 50) cite au jour 4, mais signale : une intuition aide. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : P3 de plafond D2 ferme — http-rest-json (j50) cite au jour 4, +46 j. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — ton programme envoie une demande a une machine distante et recoit une reponse plus tard — entre les deux il n attend pas. C est exactement ce delai qui rend l asynchrone necessaire ; le protocole lui-meme n a aucune importance ici. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
    }
   ],
   "action": "CONSERVE",
@@ -151,13 +155,17 @@
    5,
    4,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP9 : repetition interne mesuree : 114 mots sur 3 blocs. Le Mini-exercice etait un sous-ensemble strict de la Pratique A-E, et sa Correction attendue redisait la mutation dans map, la copie superficielle et les dix expressions. Corrige : Mini-exercice et sa correction supprimes, apres reversement des deux seuls elements qui n existaient que la — l alternative stocke contre derive qui annonce React, et la verification concrete const avant = produits[0].prix qui montre pourquoi soldes !== produits ne prouve rien. Les six regles du bloc des dix expressions ont ete reprises dans leur version longue, la plus explicative des deux."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "RETOUCHE",
@@ -187,10 +195,15 @@
    4,
    4,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Le modele mental dit des la troisieme ligne ce qui decide de tout : les types disparaissent a l execution. La section « ou s arrete TypeScript » l EXECUTE (JSON.parse rend age=string, age*2 = NaN) et formule la regle : un type declare est une affirmation que le compilateur croit. Correction excellente sur le type le plus restrictif qui reste vrai, et sur les trois sources d any implicite. D10 a 4 : pas de cas professionnel distinct. D13 a 4.",
   "domaine": "Fondations",
@@ -218,10 +231,15 @@
    5,
    4,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Exemple guide remarquable : il ecrit d abord la version naive et la GARDE comme reference, refuse de dire « c est lent » sans compter, puis degage la question reutilisable (qu est-ce que je recalcule ?). La variante est meilleure encore : sur le maximum glissant, la meme question donne une reponse DECEVANTE, et la lecon l assume — la soustraction marchait parce qu elle est reversible. Correction : l erreur probable (remplir la Map avant d interroger) echoue sur [3,5] cible 6, cas qui survit a vingt tests aleatoires. Cas professionnel : includes dans une boucle, 500 docs en test contre 200 000 en production.",
   "domaine": "Fondations",
@@ -280,10 +298,15 @@
    5,
    4,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "L exemple guide fait le geste central de la lecon : il refuse de demander quelle structure est la meilleure et demande ce que le programme fait le plus souvent. La decision 3 est la plus fine — pourquoi garder le tableau A COTE du Set : l ordre d insertion d un Set est une garantie du LANGAGE, pas une propriete des tables de hachage. Variante excellente (les dix plus frequentes) : une structure ne se choisit jamais sur l operation rare. D6 a 4 : le noyau s ouvre sur un grand tableau de couts, catalogue, meme si le hachage est ensuite explique.",
   "domaine": "Données & ML",
@@ -311,13 +334,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP4 : les principes de code propre necessaires sont enonces dans la lecon (une fonction fait une chose, on nomme ce qu on fait, on ne repete pas la meme decision) et clean-code est requalifiee en aide eclairante, avec mention explicite qu elle est programmee deux jours plus loin. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -398,24 +425,28 @@
   "archetype": "architecture",
   "D": [
    5,
-   4,
-   5,
-   5,
-   4,
-   5,
-   5,
    5,
    5,
    5,
    4,
    5,
+   5,
+   5,
+   5,
+   5,
    4,
+   5,
+   5,
    5
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — http-rest-json (jour 50) cite au jour 44, mais signale : une notion de client/serveur aide. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : P3 de plafond D2 ferme — http-rest-json (j50) cite au jour 44, +6 j. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — un programme en appelle un autre a travers le reseau, et l API qu ils s echangent est un contrat que ni l un ni l autre ne peut changer seul. C est cette impossibilite qui fait d une frontiere reseau la frontiere architecturale la plus couteuse a deplacer. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
    }
   ],
   "action": "CONSERVE",
@@ -485,7 +516,7 @@
    4,
    4,
    5,
-   4,
+   5,
    4
   ],
   "defauts": [
@@ -500,6 +531,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP10 : trois criteres portant sur la METHODE plutot que sur les reponses. (1) Zero bug trouve sur trois exercices de difficulte moyenne signifie qu on a relu, pas teste. (2) Compter les reponses de B qui contiennent un chiffre de la banque A : moins de sept signifie que la banque existe mais ne sort pas a l oral, exactement la situation qu on cherche a eviter. (3) Sur E, la seconde note doit monter sur les axes travailles et rester stable ailleurs ; si tout monte d un coup, la grille mesure l aisance et doit etre reecrite avec des criteres qu un tiers pourrait cocher."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "RETOUCHE",
@@ -529,10 +564,15 @@
    4,
    4,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La correction contient le meilleur passage : le 404 de route inexistante et le 404 metier sont deux situations differentes qu HTTP ne sait pas distinguer, donc il faut regarder le CORPS. La lecon le relie a sa propre affirmation (choisir le bon statut EST de la conception) et en publie la limite. Pratique excellente sur 400 contre 422 et 401 contre 403, avec la decision de securite 404-contre-403 posee comme un choix explicite. D6 a 4 : le noyau enumere methodes et codes en listes ; l idempotence est expliquee, le reste est enonce.",
   "domaine": "Web & Backend",
@@ -549,7 +589,7 @@
   "archetype": "construction",
   "D": [
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -565,8 +605,12 @@
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — breaking-changes-compatibility (jour 76) cite au jour 51, mais signale comme aide : eclaire la partie evolution. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+    "p": "CORRIGE",
+    "quoi": "CP10 : D13 MAINTENU A 4 apres relecture, contre la tendance du lot. Raison : les quatre verifications couvrent URLs, format d erreur, verbes et pagination — mais l objectif annonce AUSSI les statuts precis et la validation aux frontieres, que rien ne verifie. Couverture reellement partielle d un objectif large. L ancre 4 dit « verification presente mais partielle », et c est exactement le cas."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : P3 de plafond D2 ferme — breaking-changes-compatibility (j76) cite au jour 51, +25 j. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — un changement est compatible si un client ecrit avant lui continue de fonctionner sans etre modifie — ajouter un champ l est, en renommer un ne l est pas. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
    }
   ],
   "action": "CONSERVE",
@@ -585,7 +629,7 @@
   "archetype": "incident",
   "D": [
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -601,8 +645,12 @@
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — authentication (jour 67) cite au jour 51, mais signale : aident pour le rate limiting. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+    "p": "CORRIGE",
+    "quoi": "CP10 : D13 MAINTENU A 4 apres relecture, contre la tendance du lot. Raison : les trois verifications couvrent l idempotence et la pagination ; l objectif annonce en plus rate limiting, versionnement et compatibilite ascendante, non verifies. L ancre 4 dit « verification presente mais partielle », et c est exactement le cas."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : P3 de plafond D2 ferme — authentication (j67) cite au jour 51, +16 j. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — limiter par client suppose de pouvoir identifier le client, et une cle d API ou un jeton dans un en-tete suffit ; comment ce jeton est fabrique et verifie n a aucune importance ici. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
    }
   ],
   "action": "CONSERVE",
@@ -643,6 +691,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP10 : le critere le refactor est reussi si c est facile etait une opinion. Remplace par un test binaire : dans le fichier de tests du service, express ne doit apparaitre NULLE PART — ni import, ni req, ni res, ni code de statut. Corollaire : les cinq tests doivent tourner sans qu aucun port ne s ouvre. D13 RESTE A 4, et c est deliberе : ce critere verifie que l artefact est bien decoupe, il ne revele pas si l apprenant a compris POURQUOI. C est la difference que l ancre D13 = 5 exige et qu il ne faut pas maquiller."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : D13 MAINTENU A 4 apres relecture, contre la tendance du lot. Raison : le critere ecrit au CP10 (express nulle part dans les tests du service) controle un DECOUPAGE, pas une comprehension. L ancre 4 dit « verification presente mais partielle », et c est exactement le cas."
    }
   ],
   "action": "CONSERVE",
@@ -709,10 +761,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La correspondance explicite entre le pipeline JavaScript deja connu et SQL (SELECT ~ map, WHERE ~ filter, GROUP BY + agregats ~ reduce) fait le travail de vulgarisation en trois lignes. La correction porte l erreur la plus utile du sujet : une condition WHERE sur la table de DROITE transforme silencieusement un LEFT JOIN en INNER — le LEFT est toujours ecrit, il ne sert plus a rien, et le resultat semble plausible. D6 a 4 : le noyau enchaine les notions en sections courtes.",
   "domaine": "Données & ML",
@@ -809,7 +866,7 @@
   "archetype": "securite",
   "D": [
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -825,12 +882,12 @@
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — ai-security (jour 260) cite au jour 67, mais signale : viendra plus loin. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+    "p": "CORRIGE",
+    "quoi": "CP10 : trois criteres, dont deux pieges classiques. (1) Hacher deux fois le meme mot de passe doit donner deux empreintes DIFFERENTES — le sel est tire au hasard, et la verification re-hache avec le sel stocke dans l empreinte. (2) Demander la note d un autre utilisateur avec un token valide doit rendre le MEME statut qu une note inexistante : 403 pour existe mais pas a toi et 404 pour n existe pas construit un ORACLE d enumeration. C est le compromis le plus mal connu de la lecon. (3) Le rate limit doit se relacher tout seul, sinon c est un deni de service qu on s inflige."
    },
    {
     "p": "CORRIGE",
-    "quoi": "CP10 : trois criteres, dont deux pieges classiques. (1) Hacher deux fois le meme mot de passe doit donner deux empreintes DIFFERENTES — le sel est tire au hasard, et la verification re-hache avec le sel stocke dans l empreinte. (2) Demander la note d un autre utilisateur avec un token valide doit rendre le MEME statut qu une note inexistante : 403 pour existe mais pas a toi et 404 pour n existe pas construit un ORACLE d enumeration. C est le compromis le plus mal connu de la lecon. (3) Le rate limit doit se relacher tout seul, sinon c est un deni de service qu on s inflige."
+    "quoi": "CP10 : P3 de plafond D2 ferme — ai-security (j260) cite au jour 67, +193 j — le plus grand ecart du corpus. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — aucune notion prealable n etait REELLEMENT necessaire : la citation a ete retiree et remplacee par un encadre qui dit en outre pourquoi l ordre inverse serait le mauvais — on securise un systeme d IA avec les principes de cette lecon-ci, pas l inverse. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
    }
   ],
   "action": "CONSERVE",
@@ -896,10 +953,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "L exemple guide enonce d abord le cercle vicieux (on ne peut pas tester ce qu on ne comprend pas, ni comprendre 240 lignes sans les modifier), puis en donne la sortie par un renversement : tu n as pas besoin de comprendre ce que le code fait pour CAPTURER ce qu il fait. Le test de caracterisation grave la sortie observee meme si elle est manifestement fautive — et la correction nomme les deux mauvaises reponses spontanees (je vais faire attention, on ne peut pas y toucher). D10 a 4.",
   "domaine": "Fondations",
@@ -927,10 +989,15 @@
    4,
    4,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Le modele mental (249 mots) porte TROIS limites d analogie explicites, et designe celle qui compte : un quartier n a pas de murs — deux subnets d un meme VPC se joignent par defaut, le decoupage organise l adressage et n isole rien. C est le pare-feu qui isole. La lecon ajoute que prive ne veut pas dire protege. C est exactement le niveau d honnetete que le standard demande, et cela previent un vrai incident de securite. D6 a 4 : le noyau est dense en notation (CIDR, masques).",
   "domaine": "Systèmes",
@@ -958,10 +1025,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La correction contient l enseignement le plus reutilisable du domaine : la modification du TTL est ELLE-MEME soumise a l ancien TTL, donc baisser le TTL le matin de la migration ne sert a rien — il faut le baisser une duree au moins egale a l ancien TTL avant. L exemple guide donne la propriete rare de cette panne : elle depend de QUI pose la question, et deux personnes obtiennent deux reponses correctes. Mesures honnetes publiees : le cache ne rend pas la seconde resolution instantanee, le gain va de quelques ms a un facteur cinq. D6 a 4.",
   "domaine": "Systèmes",
@@ -989,10 +1061,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La bissection en quatre commandes avec le tableau echec-a / ce-que-ca-veut-dire / ou-chercher est immediatement utilisable, et la lecon nomme l erreur de methode ordinaire : commencer par la couche applicative parce que c est la qu on travaille. La correction traite le classique absolu de TLS — la chaine d intermediaires manquante fonctionne CHEZ TOI parce que ton systeme l a en cache, et casse pour une fraction des utilisateurs, impossible a reproduire depuis le poste de celui qui a deploye. D6 a 4 : noyau en listes de codes.",
   "domaine": "Systèmes",
@@ -1020,10 +1097,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "L exemple guide mesure la difference entre un refus (2 ms, la machine repond activement) et un delai d attente, et en tire deux diagnostics distincts la ou beaucoup traitent les deux cas comme equivalents. La correction demonte le premier outil que tout le monde apprend : ping utilise ICMP, bloque par defaut dans la plupart des groupes de securite cloud, donc son silence ne dit RIEN sur le port 443 — et elle explique pourquoi le piege seduit par trois raisons cumulees, dont le fait qu il a longtemps eu raison. D6 a 4.",
   "domaine": "Systèmes",
@@ -1087,10 +1169,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La lecon publie le piege methodologique qu elle a elle-meme rencontre : la premiere version du script de verification tournait en superutilisateur et affichait autorise partout. Elle en fait le premier enseignement — tester des droits en root ne teste rien — et le relie a linux-services-systemd et docker-production-hardening. La correction explique pourquoi chmod -R rend un dossier entier inaccessible : x ne signifie pas la meme chose sur un fichier et sur un repertoire. D6 a 4 : FHS et inode en listes.",
   "domaine": "Systèmes",
@@ -1118,10 +1205,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "L exemple guide part d un message banal (EADDRINUSE) et en tire une regle generale : un motif n est pas une identite — pkill -f node tue aussi la compilation d un collegue. La correction retourne la question habituelle : ce n est pas comment le tuer mais pourquoi ne se termine-t-il pas, et elle explique pourquoi kill -9 est dangereux PARCE QU il marche toujours (le processus n a pas son mot a dire, les ecritures en tampon ne partent jamais). Regle 128+N mesuree par script. D6 a 4.",
   "domaine": "Systèmes",
@@ -1152,7 +1244,12 @@
    4,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : D13 MAINTENU A 4 apres relecture, contre la tendance du lot. Raison : les trois verifications couvrent le disque, les inodes et le CPU ; la MEMOIRE (RSS, swap, OOM), qui est un quart de l objectif annonce, n est verifiee nulle part. L ancre 4 dit « verification presente mais partielle », et c est exactement le cas."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "L exemple guide est construit sur quatre chiffres qu on lit mal, mesures sur la machine du cours : free contre available, et la distinction est faite avec les vraies colonnes. La correction traite le cas qui fait perdre des heures la nuit : supprimer un fichier de journal ne libere pas l espace tant qu un processus le tient ouvert — il continue meme d y ecrire dans un fichier sans nom. D6 a 4 : noyau en quatre ressources listees.",
   "domaine": "Systèmes",
@@ -1180,13 +1277,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP8 : breaking-changes-compatibility (+2 j) sort vers un encadre, et la notion employee comme exemple d ADR est definie sur place — un changement est cassant s il oblige quelqu un d autre a modifier son code, par opposition a un ajout que les appelants peuvent ignorer. La lecon ajoute pourquoi c est justement ce type de decision qu on ecrit : parce qu on ne s en souvient plus deux ans apres. Ancre D2 niveau 5."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -1205,24 +1306,28 @@
   "archetype": "comparaison",
   "D": [
    5,
-   4,
    5,
    5,
    5,
    5,
    5,
    5,
-   5,
-   4,
    5,
    5,
    4,
+   5,
+   5,
+   5,
    5
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — database-migrations (jour 139) cite au jour 76, mais signale : programmee au mois 5. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : P3 de plafond D2 ferme — database-migrations (j139) cite au jour 76, +63 j. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — le schema d une table est un contrat entre le code et des donnees DEJA ECRITES, et ces donnees-la ne peuvent pas etre redeployees — c est ce qui rend le cas plus difficile, pas different. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
    }
   ],
   "action": "CONSERVE",
@@ -1252,10 +1357,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La correction contient le raisonnement le plus utile du domaine : quand la base ralentit pour tout le monde, TOUTES les instances echouent leur controle de sante en meme temps, donc le repartiteur les retire toutes — un ralentissement degrade devient une indisponibilite totale. La formule de la fenetre d erreur (debit x intervalle x seuil) est donnee et chiffree : une instance morte recoit du trafic jusqu a 20 secondes. D6 a 4 : noyau en definitions proxy/reverse/LB.",
   "domaine": "Systèmes",
@@ -1283,10 +1393,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "L exemple guide prend l objection RAISONNABLE (je peux reconstituer par horodatage) et la mesure : elle marche a une requete simultanee et se degrade des que la concurrence monte — c est le probleme, precisement parce qu elle marche au debut. La correction corrige une erreur de raisonnement plus profonde que la reponse : accuser le span le plus long, alors qu un span parent CONTIENT ses enfants et que ce qui accuse est le temps NON COUVERT. D6 a 4.",
   "domaine": "Fondations",
@@ -1314,10 +1429,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "L exemple guide refuse l argument habituel (c est plus facile a requeter, faible : on peut toujours ecrire une expression reguliere) et fabrique la MEME realite sous deux formes avec une graine fixe. La correction nomme le faux progres qui passe toutes les revues : mettre une phrase dans un champ msg est du JSON sans etre un journal structure — l identite et la raison restent enfermees dans la phrase, et la fuite de donnees personnelles n a pas bouge. D6 a 4.",
   "domaine": "Fondations",
@@ -1345,10 +1465,15 @@
    4,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "La correction traite une erreur qui survit a des annees de carriere : sur 99 requetes a 50 ms et une a 5000, le p99 vaut 50 ms, pas 5000. Elle nomme la cause exacte — on entend p99 comme le pire centieme alors que la definition dit la valeur que 99 pour cent ne depassent pas, deux bornes opposees du meme intervalle. Et elle ajoute la nuance que presque personne ne fait : un centile porte sur les REQUETES, et les utilisateurs les plus actifs en font le plus, donc la proportion d utilisateurs touches depasse nettement 1 pour cent. D10 a 4.",
   "domaine": "Systèmes",
@@ -1365,7 +1490,7 @@
   "archetype": "architecture",
   "D": [
    5,
-   4,
+   5,
    5,
    5,
    5,
@@ -1381,12 +1506,12 @@
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — llm-observability (jour 325) cite au jour 79, mais signale : utile mais rappelee ici. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+    "p": "CORRIGE",
+    "quoi": "CP10 : la SEULE lecon de ce lot notee D8 = 5 au CP3 sans porter aucun critere — elle n a pas de bloc Verifie seul. Note optimiste au CP3, corrigee en ecrivant les criteres plutot qu en baissant la note. Deux passes sur la propre liste de l apprenant : (1) rayer toute action non faisable a trois heures du matin par quelqu un qui n a pas ecrit le code — investiguer et regarder les logs ne sont pas des actions ; s il reste moins de trois lignes, c est une liste de metriques et pas un monitoring ; (2) pour chaque seuil, avoir vu la valeur reelle sur sept jours. Et pour l endpoint /health, le test qui isole la distinction que tout le monde rate : couper la base, vivant doit rester vert et pret passer au rouge, faute de quoi l orchestrateur redemarre en boucle un conteneur sain et transforme une panne de dependance en panne totale."
    },
    {
     "p": "CORRIGE",
-    "quoi": "CP10 : la SEULE lecon de ce lot notee D8 = 5 au CP3 sans porter aucun critere — elle n a pas de bloc Verifie seul. Note optimiste au CP3, corrigee en ecrivant les criteres plutot qu en baissant la note. Deux passes sur la propre liste de l apprenant : (1) rayer toute action non faisable a trois heures du matin par quelqu un qui n a pas ecrit le code — investiguer et regarder les logs ne sont pas des actions ; s il reste moins de trois lignes, c est une liste de metriques et pas un monitoring ; (2) pour chaque seuil, avoir vu la valeur reelle sur sept jours. Et pour l endpoint /health, le test qui isole la distinction que tout le monde rate : couper la base, vivant doit rester vert et pret passer au rouge, faute de quoi l orchestrateur redemarre en boucle un conteneur sain et transforme une panne de dependance en panne totale."
+    "quoi": "CP10 : P3 de plafond D2 ferme — llm-observability (j325) cite au jour 79, +246 j — le deuxieme plus grand ecart. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — la derive, c est un systeme dont la qualite baisse alors que le code n a pas change ; et le cout par requete est une metrique de production comme la latence, a ceci pres qu elle se degrade sans que personne ne s en plaigne. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
    }
   ],
   "action": "CONSERVE",
@@ -1652,13 +1777,17 @@
    5,
    5,
    4,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP10 : deux exercices justes, aucun critere. Le mini recoit le seul critere qui teste vraiment la competence annoncee (etat minimal, stocke contre derive) : COMPTE TES useState, IL DOIT Y EN AVOIR UN — le pas, le min et le max sont des props, et bouton desactive se calcule. Le Kanban recoit le test d immuabilite qui echoue silencieusement tant qu on ne le fait pas : garder une reference avant le deplacement, verifier que avant === cartes rend false ET que avant est inchange. Ecrire setCartes ne prouve rien."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -1772,13 +1901,17 @@
    5,
    4,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP9 : l argument sur as produit TROIS fois, la troisieme quasi mot pour mot, dans une section intitulee Correction attendue qui ne corrige aucun exercice — la lecon n a pas de Verification de comprehension a cet endroit. Corrige : la redite est supprimee, la section est retitree L ordre de travail, et un dernier angle mort et ne conserve que ce qui n est dit nulle part ailleurs — l ordre props / evenements / frontiere, et le fait qu une validation sans traitement de l echec ne supprime pas le silence mais le deplace vers un ecran blanc."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : SEULE lecon de ce lot ou le CP3 avait raison de dire « partielle », et le defaut venait de MOI. Au CP9 j ai reduit son bloc « Verifie seul » de quatre points a deux en jugeant les deux autres redondants avec le corrige : cela a ameliore D14 et D9 et RETRECI D13. Les deux points retires portaient sur des notions centrales que rien d autre ne verifiait. Deux points ecrits a la place : ajouter un champ au type sans toucher au predicat (la desynchronisation, defaut structurel des gardes manuscrites), et retirer le type de retour d un gestionnaire d evenement pour voir l editeur inferer any — le plus discret des trous, parce qu il n y a rien a voir. D13 a 5 apres elargissement, pas avant."
    }
   ],
   "action": "RETOUCHE",
@@ -1937,13 +2070,17 @@
    5,
    5,
    4,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP10 : le mini etait une suite de gestes mecaniques sans contexte ni critere. Contexte impose (un export reel, pas un CSV fabrique), livrable nomme (trois lignes sur ce que info et describe ont appris) et critere qui refuse le fichier trop propre : si le nombre de non-nuls egale le nombre de lignes partout, le fichier n apprend rien. Surtout, l exercice difficile recoit le critere qui manquait et qui est le bon : chaque requete pandas doit rendre EXACTEMENT le meme resultat que la version JS du jour 11 — et l ecart, quand il y en a un, vient presque toujours de l INDEX, que JS n a pas et que pandas conserve apres un filtre ou un tri."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -1956,7 +2093,6 @@
   "archetype": "investigation",
   "D": [
    5,
-   4,
    5,
    5,
    5,
@@ -1967,17 +2103,22 @@
    5,
    5,
    5,
-   4,
+   5,
+   5,
    5
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "D2 : concept enseigne plus tard, mais explicitement signale comme aide peripherique — feature-engineering (jour 169) cite au jour 128, signale par eclairent pourquoi certaines corrections doivent attendre APRES le split. Ancre D2 niveau 4, pas 5. Comportement correct, plafond structurel."
+    "p": "CORRIGE",
+    "quoi": "CP10 : deux defauts fermes. D12 — ecris 3 lignes justifiant chaque decision etait ambigu (trois lignes en tout ou par decision ?) : desormais trois lignes PAR decision, sur un modele donne (ce que j ai fait / ce que j aurais pu faire / pourquoi j ai tranche). D8 — le critere ajoute au mini exige que la justification dise ce qui est FAUSSE apres coup, pas seulement ce qui a ete supprime (j ai retire les 12 lignes sans date, donc mes totaux mensuels sont sous-estimes de 3 %). Et l exercice difficile recoit le test que personne ne fait : relancer le pipeline sur sa propre sortie, le second rapport devant etre identique au premier. Un nettoyage est idempotent ou il est faux."
    },
    {
     "p": "CORRIGE",
-    "quoi": "CP10 : deux defauts fermes. D12 — ecris 3 lignes justifiant chaque decision etait ambigu (trois lignes en tout ou par decision ?) : desormais trois lignes PAR decision, sur un modele donne (ce que j ai fait / ce que j aurais pu faire / pourquoi j ai tranche). D8 — le critere ajoute au mini exige que la justification dise ce qui est FAUSSE apres coup, pas seulement ce qui a ete supprime (j ai retire les 12 lignes sans date, donc mes totaux mensuels sont sous-estimes de 3 %). Et l exercice difficile recoit le test que personne ne fait : relancer le pipeline sur sa propre sortie, le second rapport devant etre identique au premier. Un nettoyage est idempotent ou il est faux."
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : P3 de plafond D2 ferme — feature-engineering (j169) cite au jour 128, +41 j. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — on met de cote une partie des lignes pour juger le resultat dessus, et tout calcul fait sur l ENSEMBLE des lignes — une moyenne de remplacement par exemple — fait entrer dans les lignes gardees une information venue des lignes mises de cote. Le jugement est alors fausse, favorablement. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
    }
   ],
   "action": "CONSERVE",
@@ -2213,10 +2354,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Les DOUZE chiffres du depistage reverifies exactement : les trois lignes du tableau de seuils (rappel 50 % → 500 rates, 990 faux positifs, justesse 0,985, precision 33,6 % · rappel 95 % → 50 rates, 9 900 FP, 0,900, 8,8 % · rappel 99 % → 10 rates, 49 500 FP, 0,505, 2,0 %), les 10 850 convoques pour 950 trouves, les 450 malades sauves de plus, et le basculement de precision 8,8 % a 70,4 % quand la prevalence passe de 1 % a 20 %. La decision 3 est le point que la plupart des cours omettent et c est le plus important de la lecon : LA PRECISION N EST PAS UNE PROPRIETE DU MODELE. Le test ne change pas d un iota, sensibilite et rappel sont identiques, seule la population change — et c est l explication la plus frequente du ca marchait tres bien chez nous. La lecon deplace ensuite la question au bon endroit : on ne demande pas quelle metrique optimiser, question technique dont le metier n a que faire, mais avez-vous la capacite de faire 10 850 examens de controle et acceptez-vous d inquieter 9 900 personnes pour en sauver 450 de plus. Deux details editoriaux justes : la justesse BAISSE quand le modele devient plus utile, ce qui prouve qu elle ne mesurait pas la bonne chose ; et presente la matrice en EFFECTIFS, pas en pourcentages — 9 900 faux positifs se discute, 90 % de specificite endort. La variante anti-spam inverse la conclusion et montre que rappel d abord n etait pas une regle du domaine mais la consequence d un cout, et elle ouvre sur la troisieme sortie — incertain, a faire verifier par un humain — qui n apparait sur aucune courbe. D13 a 4."
  },
@@ -2336,7 +2482,7 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
@@ -2351,6 +2497,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP10 : compte les tokens avant de compter l argent — 6 x 500 contre 250, soit douze pour un en volume — puis applique les prix, ou se rejoue le piege ferme au CP7 (un rapport de prix n est pas un rapport de facture). L exercice difficile recoit la regle des DEUX CHIFFRES COTE A COTE : un gain de cout annonce sans le score de qualite correspondant est la moitie flatteuse d un resultat. Si la qualite baisse, on n a pas optimise, on a arbitre."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -2374,10 +2524,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Les trois lignes du tableau de cout reproduites EXACTEMENT (36 675 / 2 025 / 2 925 EUR par mois, avec une sortie constante de 240 jetons), le rapport de 18 fois et l ecart de 34 000 EUR aussi. La lecon fait ce qu il faut sur des chiffres perissables : elle declare ses tarifs illustratifs et ecrit « verifie toujours les tarifs courants, ils changent souvent », ce qui est exactement ce que l ancre D1 niveau 5 demande d une affirmation dependante d un contexte. Le modele mental est le bon et il est formule pour etre opposable : LA FENETRE DE CONTEXTE EST UN BUDGET, PAS UNE CAPACITE — « ca rentre dans la fenetre » ne veut pas dire « c est une bonne idee de l y mettre », de la meme facon que « la requete SQL fonctionne » ne veut pas dire « elle passe a l echelle ». La decision 2 ajoute ce que le seul calcul ne dit pas : latence, qualite (l information utile noyee au milieu d un tres long contexte est moins bien exploitee) et confidentialite pointent dans le MEME sens, et la lecon note que c est justement quand les quatre criteres s accordent qu il faut prendre la decision explicitement plutot que par defaut. Enfin la propriete la plus sous-estimee est nommee : un modele distant est LA SEULE DEPENDANCE DE TON SYSTEME QUI PEUT CHANGER DE COMPORTEMENT SANS QUE RIEN NE BOUGE DANS TON DEPOT — d ou le jeu d evaluation versionne. D13 a 4."
  },
@@ -2399,7 +2554,7 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
@@ -2414,6 +2569,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP10 : deux criteres, tous deux a double sens. Le mini — les deux ambigus doivent rendre INCERTAIN ET les huit autres ne doivent pas ; un prompt qui refuse cinq fois sur dix n est pas prudent, il est inutile, puisque quelqu un traitera la moitie du flux a la main. L exercice difficile recoit le garde-fou qui protege de l exercice lui-meme : mettre CINQ cas de cote et ne jamais les regarder pendant l amelioration, puis les lancer une seule fois a la fin. Un effondrement signifie qu on a ajuste le prompt aux dix cas — le rapport entrainement / test applique aux prompts, pour la meme raison."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "RETOUCHE",
@@ -2437,13 +2596,17 @@
    5,
    5,
    4,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP10 : les deux exercices demandaient de construire une validation sans jamais dire comment savoir qu elle protege. Le mini recoit six sorties hostiles ecrites a la main, a passer SANS appeler le modele — 3 valide, la chaine 3, 6, null, 3.5, et du texte avant le JSON — dont une seule doit passer. La regle qui en sort depasse le cas : une validation qu on n a testee qu avec des entrees valides n a pas ete testee. L assistant a deux outils recoit le test de l outil qui echoue A TOUS LES COUPS, avec le comptage exact du budget d iterations, et les deux echecs opposes a guetter : la boucle infinie, et l assistant qui invente plutot que d admettre l echec — le second etant le plus dangereux parce qu il ne se voit pas dans les journaux."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -2467,13 +2630,17 @@
    5,
    5,
    4,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP10 : le mini-exercice n avait ni contrainte ni critere — quelle taille, quel recouvrement, et comment sait-on qu on a vu le probleme. Contraintes imposees (512 caracteres, 64 de recouvrement, decoupe au caractere : le reglage naif, celui qu on veut voir echouer), livrable nomme (les cinq chunks copies plus une ligne de defaut par chunk) et critere INVERSE : au moins deux chunks sur cinq doivent porter un defaut visible, faute de quoi c est le DOCUMENT qui est trop homogene pour etre un test. L exercice difficile portait deja son critere (le bon passage est-il dans le top-3)."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -2497,13 +2664,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP10 : defaut de D1 trouve par la lecture, et il est du genre qui punit le travail correct. Le mini-exercice demandait de verifier que cosinus(v, v) === 1. REPRODUIT : sur quatre vecteurs aleatoires de huit dimensions, cette egalite est FAUSSE trois fois sur quatre (le calcul donne 1.0000000000000002). Un apprenant dont l implementation est juste conclut qu elle est fausse. Corrige en transformant le piege en enseignement : le test correct compare a une tolerance, une similarite ne se teste jamais par egalite, et le renvoi vers javascript-basics (jour 4, 0.1 + 0.2 !== 0.3) est anterieur donc legitime. Deux verifications ajoutees, dont cosinus(v, -v) = -1 et un cas orthogonal qui tombe juste — instructif parce qu il montre que l arrondi n apparait qu avec des divisions. L exercice difficile recoit un critere qui porte sur le JEU DE TEST et non sur le score : un rappel@3 de 1,0 sur cinq requetes ecrites par soi-meme signifie presque toujours qu on a repris les mots de la phrase cible, donc qu on a mesure une recherche par mots-cles."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -2685,12 +2856,12 @@
   ],
   "defauts": [
    {
-    "p": "P3",
-    "quoi": "D14 : faute d accord dans la formule-titre de l exemple guide, qui est en gras et destinee a etre retenue — « un moteur d exfiltration MUNIE d une interface agreable » (ligne 88). Moteur est masculin : muni. A corriger au CP7."
+    "p": "CORRIGE",
+    "quoi": "CP7 : la notion d agent (+14 j) est desormais definie sur place — un modele auquel on a donne des outils qu il peut decider d appeler — et la lecon explique pourquoi cela suffit ici : c est ce qui rend la question du privilege concrete, un outil dangereux confie a un systeme qui obeit au texte qu on lui envoie. agents-fundamentals sort vers un encadre. Ancre D2 niveau 5."
    },
    {
     "p": "CORRIGE",
-    "quoi": "CP7 : la notion d agent (+14 j) est desormais definie sur place — un modele auquel on a donne des outils qu il peut decider d appeler — et la lecon explique pourquoi cela suffit ici : c est ce qui rend la question du privilege concrete, un outil dangereux confie a un systeme qui obeit au texte qu on lui envoie. agents-fundamentals sort vers un encadre. Ancre D2 niveau 5."
+    "quoi": "CP10 : P3 ferme. Faute d accord dans la formule-titre en gras de l exemple guide, destinee a etre retenue : « un moteur d exfiltration MUNIE d une interface agreable ». Moteur est masculin — muni."
    }
   ],
   "action": "RETOUCHE",
@@ -2748,7 +2919,7 @@
    5,
    5,
    4,
-   4,
+   5,
    5
   ],
   "defauts": [
@@ -2759,6 +2930,10 @@
    {
     "p": "CORRIGE",
     "quoi": "CP10 : l exercice de decision suggere une symetrie fausse — quatre taches, quatre motifs. Verification faite dans la correction de la lecon : deux des quatre relevent du MEME motif (parallelisation). Le critere ajoute est donc un piege honnete, verifiable avant de lire la correction : si tu as repondu quatre motifs differents, tu t es trompe — et l interet est dans ce qui change entre les deux malgre le motif identique (a 20 unites on refait tout, a 10 000 la reprise est le sujet principal). L exercice difficile recoit un critere sur la VARIANCE et non la moyenne : les cinq couts de l agent doivent se disperser la ou ceux du workflow se ressemblent, sinon la comparaison ne porte pas sur ce qu on croit."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -2782,10 +2957,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Les quatre taux de fiabilite recalcules et exacts (0,95 puissance 5, 10, 20 et 40 donnent 77,4 · 59,9 · 35,8 · 12,9 %) ainsi que le facteur 21 entre la meilleure et la pire execution de l agent. La lecon refuse la question habituelle (« lequel est le plus intelligent ») et pose la seule qui decide : LE CHEMIN EST-IL CONNU D AVANCE. Trois raisonnements la portent. Le premier est un renversement : le point important n est PAS que l agent soit plus cher — a 12 iterations il est moins cher que le workflow — mais que l ecart entre sa meilleure et sa pire execution soit d un facteur 21 sans qu on sache, avant de lancer, dans quel cas on se trouve. Le second est la forme de la croissance, expliquee par son mecanisme : le cout de l agent croit QUADRATIQUEMENT puisque chaque iteration relit tout ce qui precede, donc doubler une exploration en quadruple a peu pres le prix — meme phenomene que le contexte d une conversation. Le troisieme est l argument decisif et il est arithmetique : les taux de reussite se MULTIPLIENT, une chaine de 20 etapes a 95 % chacune echoue presque deux fois sur trois — et la lecon precise que c est une propriete arithmetique, pas un defaut des modeles actuels : elle ne disparaitra pas avec la prochaine generation, elle se deplacera seulement. La consequence de conception en decoule sans slogan : plus une tache compte d etapes, plus il faut que chacune soit verifiable et reprenable, ce qu un workflow permet et qu un agent libre ne permet pas. D13 a 4."
  },
@@ -3006,13 +3186,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP10 : pratique A-E excellente mais sans critere explicite. Ajoute le chiffre qui EST la lecon : apres suppression depuis la fusion, le total des trois couches ne doit PAS diminuer — il augmente meme du poids du marqueur de suppression. Mesurer moins signifie qu on a mesure le point de fusion. Corollaire verifie : depuis couche1, le .env supprime doit rester LISIBLE EN CLAIR."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -3116,13 +3300,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP10 : le critere qui teste vraiment un recu — en prendre un au hasard et RECALCULER SON COUT A LA MAIN a partir des seuls champs qu il contient. S il faut aller chercher ailleurs le modele, le tarif ou le nombre de tokens, le recu est incomplet, et il le restera le jour ou il servira. Un recu qu on ne peut pas relire sans son contexte d origine n est pas une trace, c est un souvenir. Le rapport quotidien recoit le declenchement volontaire de l alerte : une alerte qu on n a jamais vue partir n existe pas."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -3246,10 +3434,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "Premiere lecon HORS PARCOURS du sprint, et elle traite correctement la contrainte du paragraphe 31 du brief : sa section de reperes est intitulee « Reperes (illustratifs, NON EXECUTES) », donc elle ne pretend a aucun moment valider AWS depuis un environnement qui ne le permet pas. L exemple guide fait ce qui manque a tous les tutoriels du sujet : il repond a la question que le conseil habituel laisse ouverte. « Ne code pas tes cles en dur, utilise un role » laisse sans reponse — SI L APPLICATION N A AUCUNE CLE, COMMENT LE SERVICE SAIT-IL QUI ELLE EST — et tant qu on n a pas repondu a ca, le role reste une formule magique. Le deroule en quatre temps est exact et il isole la confusion la plus courante du sujet : politique de CONFIANCE (qui a le droit d emprunter ce role) contre politique de PERMISSIONS (ce que le role permet de faire). Et la lecon corrige ensuite une idee recue que presque tous les cours propagent : l avantage n est PAS qu on ne stocke pas de secret — un secret existe bel et bien, il est simplement de courte duree et depose par la plateforme. La regle de cloture est la bonne pour le moindre privilege : commence par refuser, ouvre au fur et a mesure des erreurs. Le mini-exercice, malgre son titre, fait 231 mots et demande d ecrire quatre politiques dont une qui refuse, avec une correction de 562 mots. D13 a 4 : pas de section de verification distincte."
  },
@@ -3271,10 +3464,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Traite correctement la contrainte du paragraphe 31 : ses reperes chiffres sont titres « illustratifs, non executes ». Le titre de l exemple guide pose une enigme plutot qu un plan — LA PERMISSION QU ON N A PAS DONNEE ET QUI EXISTE QUAND MEME — et la lecon la resout par le mecanisme au lieu de la regle. Les deux composantes indissociables d une attribution sont posees (un ROLE, ce qu on peut faire ; une PORTEE, ou on peut le faire), la hierarchie a quatre niveaux est donnee, et la regle qui explique l incident tient en une phrase : une attribution faite a un niveau s applique a TOUT CE QUI SE TROUVE EN DESSOUS, y compris les ressources qui y seront creees demain. La conclusion est la bonne et elle est humaine : personne n a donne ce droit, quelqu un a donne un role large un niveau au-dessus, il y a longtemps, probablement pour debloquer quelque chose. La lecon rattache aussi explicitement le concept a son equivalent AWS deja vu (le vocabulaire differe, le raisonnement non), ce qui evite de reenseigner. D13 a 4 : pas de section de verification distincte."
  },
@@ -3296,10 +3494,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Cadrage exemplaire pour un sujet qu on enseigne d habitude par definitions : les trois familles de stockage se distinguent MAL sur le papier et TRES BIEN par les pannes qu elles produisent quand on choisit la mauvaise. La lecon est donc organisee par erreurs, dans l ordre ou on les rencontre. L erreur 1 est expliquee par le mecanisme et non par une interdiction : un disque bloc est un disque BRUT qui fournit des blocs numerotes, et c est le systeme d exploitation au-dessus qui tient la comptabilite — deux systemes qui tiennent chacun la leur sur les memes blocs sans se parler ecrivent l un par-dessus l autre, IL N Y A PAS D ARBITRE. D ou les deux sorties, dont le stockage fichier, presente par le service qu il rend : arbitrer. L erreur 2 refait un modele mental faux au lieu de donner un contournement : UN STOCKAGE OBJET N A PAS DE DOSSIERS, il a des cles, et l arborescence affichee par la console est une commodite d affichage — ce qui explique d un coup pourquoi renommer un dossier de douze mille fichiers expire. D13 a 4."
  },
@@ -3321,13 +3524,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP9 : deux defauts d arithmetique. (1) La colonne du tableau somme a 1 884 alors que le total publie est 1 885. Corrige non pas en truquant un chiffre mais en EXPLIQUANT l ecart : chaque ligne est arrondie a l euro, le total est calcule sur les montants exacts (1 884,80). C est ce que fait une vraie facture cloud, et c est devenu un point d enseignement. (2) Le deuxieme geste annoncait 269 EUR pour une extinction 14 h sur 24, chiffre obtenu par le script sur un mois de 30 jours alors que la facture est calculee sur 730 h. Corrige : le script utilise desormais la meme base horaire, le montant est 273 EUR, le cumul passe de 531 a 535 EUR, le pourcentage reste 28 %. Le libelle du script mentionnait le week-end sans le calculer : corrige aussi. La lecon publie maintenant le calcul 350 + 117 = 467, dont 14/24."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
    }
   ],
   "action": "RETOUCHE",
@@ -3351,10 +3558,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Requalification juste et rare des le depart : passer sur le cloud n est pas une operation technique, c est UNE SUITE DE CHOIX DE RESPONSABILITE. Les trois questions posees sont des arbitrages, jamais des recommandations. IaaS contre PaaS est traite par ce qu on ECHANGE — la mise a jour de securite du noyau reste ton travail d un cote, elle disparait de l autre mais tu subis le calendrier du fournisseur — et la question utile est reformulee au bon niveau : non pas lequel est le mieux, mais AI-JE QUELQU UN POUR FAIRE CE TRAVAIL D EXPLOITATION, CHAQUE SEMAINE, INDEFINIMENT. La conclusion pour une equipe de deux personnes est explicite, y compris quand elle contredit la facture : l ecart de prix achete du temps humain qu elle n a pas. La question du multi-zone recoit le meme traitement et la meilleure formule de la lecon : le multi-zone n est pas une bonne pratique a appliquer par principe, c est UN ACHAT D ASSURANCE DONT IL FAUT CONNAITRE LA PRIME — avec le calcul a poser (que vaut une interruption de quatre heures pour ton service ?) et sa reponse opposee selon qu il s agit d un outil interne pour douze personnes ou d une boutique en ligne un samedi. Le detail sur la facturation du transfert entre zones est le genre de fait qui ne s apprend que par la facture. D13 a 4."
  },
@@ -3376,10 +3588,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. La lecon remplace l apprentissage par coeur d un schema a trois niveaux par une question posee trois fois : SI QUELQU UN ARRIVE JUSQU ICI, JUSQU OU VA-T-IL ENSUITE. C est le rayon d explosion, sans le jargon, et cela transforme un diagramme en raisonnement. Elle leve d abord la confusion premiere du sujet, et elle a raison de la traiter en premier : public et prive ne sont pas des etiquettes de securite, un sous-reseau est public s il a une route vers la passerelle Internet — c est une question de TABLE DE ROUTAGE, pas de reglage de securite. La consequence pratique qu elle en tire est celle qui compte : une machine en sous-reseau prive n est pas protegee par magie, elle est inatteignable parce qu AUCUN CHEMIN N Y MENE, et une erreur de routage peut la rendre joignable sans que personne n ait touche a une regle de pare-feu. Le point technique isole ensuite est le bon : les regles de securite cloud se referent a des GROUPES, pas a des plages d adresses, ce qui reste juste quand les machines changent. J ai verifie que le schema du mini-exercice, qui differe de celui de l exemple guide, est DELIBEREMENT defectueux — il est presente comme livre par un prestataire et l apprenant doit y trouver cinq defauts classes par gravite. Ce n est donc pas une incoherence. D13 a 4."
  },
@@ -3401,10 +3618,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. La these desacralise le sujet et elle est exacte : tout le mystere de Flexbox tient dans une seule operation ARITHMETIQUE, pas magique — le navigateur a une largeur disponible, il a des enfants, il doit decider combien chacun recoit. Les deux nombres qui gouvernent tout sont poses d emblee et verifies : 100 plus 200 plus 60 font 360, donc 240 px d espace libre sur 600. Les neuf configurations sont MESUREES dans Chromium, pas deduites, et la premiere suffit a montrer ce que la documentation n explique pas : flex 1 vaut flex-basis 0, donc le contenu naturel est ignore et les trois enfants recoivent 200 chacun — resultat verifie. La lecon annonce explicitement ce qu elle achete au lecteur : une fois qu on sait poser cette operation, flex 1, flex auto et min-width 0 cessent d etre des incantations. C est la bonne promesse pour une lecon de reference, et elle est tenue. D13 a 4."
  },
@@ -3426,10 +3648,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Excellente conduite d enquete sur le bug CSS le plus frequent et, comme le dit la lecon, le plus mal debogue : quatre minutes avec la bonne methode, deux heures d essais aleatoires sans elle. Elle commence par ce qu on sait DEJA avant de toucher au code — une barre horizontale signifie une seule chose, quelque chose est plus large que la fenetre, pas « le CSS est bizarre » — puis ecarte les deux erreurs de methode par leur consequence exacte. La formule sur overflow-x hidden est la meilleure du corpus sur ce genre de correctif : ON A CACHE LE CORPS, PAS RESOLU LE MEURTRE. La sonde donnee en console repond directement a la question et sa sortie est mesuree (DIV carte 407, fenetre 375, verifie : un element en width 100 % avec 16 px de padding de chaque cote donne bien 407 en boite de contenu). Et la lecon tire de l ABSENCE d une ligne attendue un enseignement qu on ne trouve nulle part : la section parente n apparait pas, sa boite fait bien 375 — UN ENFANT QUI DEBORDE NE REDIMENSIONNE PAS SON PARENT, IL SORT DE LUI. La pratique s appelle « predire avant de tester », ce qui est la bonne consigne pour ce sujet. D13 a 4."
  },
@@ -3451,10 +3678,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. La lecon attaque frontalement un cas ou la documentation officielle est EXACTE et n apprend rien : auto-fit « reduit les pistes vides » est une phrase juste qui ne permet de decider de rien tant qu on n a pas vu ce que ca change. Elle mesure donc, en lisant gridTemplateColumns calcule plutot que la declaration ecrite — la distinction est explicitee, et c est le bon niveau de rigueur. Le calcul du nombre de colonnes est donne au lieu d etre affirme, et il est verifie : le navigateur cherche le plus grand n tel que n fois 220 plus (n moins 1) fois 16 tienne dans 1000, soit 928 pour quatre et 1 164 pour cinq, donc quatre colonnes, et les 72 px restants redistribues par le 1fr donnent 238 px par piste. La conclusion est la vraie valeur de la lecon et elle depasse le sujet : le nombre de colonnes n est pas DECLARE, il est DEDUIT d une largeur minimale — on n a pas dit « a partir de 700 px, trois colonnes », on a dit « pas moins de 220 px par carte », et c est ce qui rend les media-queries inutiles ici. D13 a 4."
  },
@@ -3506,10 +3738,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Ses reperes chiffres sont declares « non executes », conformement au paragraphe 31. Le choix de forme est le bon pour ce sujet : au lieu de definir l etat, la lecon raconte un incident dans l ordre ou il s est produit, et la notion apparait la ou elle fait mal. Mardi, un collegue agrandit la base depuis la console web — deux clics, ce n etait « qu un reglage », il ne previent personne. Vendredi, quelqu un ajoute un sous-reseau, le plan annonce « 1 to add, 1 TO CHANGE, 0 to destroy », personne ne lit cette ligne parce qu on cherchait le sous-reseau, et la base redescend en taille moyenne un vendredi soir. Le verdict est la phrase qui installe durablement la notion de derive : L OUTIL N A PAS EU TORT, son travail est de rendre la realite conforme au code, et il a fait exactement cela. C est aussi ce qui rend la lecon opposable en poste : le danger n est pas l outil, c est la modification manuelle non declaree qui l a precede. D13 a 4."
  },
@@ -3531,10 +3768,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Cas remarquable, et la lecon le dit : ici, C EST LA CONFIGURATION DE SURVEILLANCE QUI PROVOQUE LA PANNE QU ELLE EST CENSEE DETECTER. Le diagnostic est deroule sans raccourci — une sonde de vivacite repond a UNE seule question, ce conteneur est-il irremediablement bloque, et son echec repete fait TUER le conteneur, mesure violente reservee aux situations dont un programme ne peut pas sortir seul. Puis la chaine causale : a 2 h, la sauvegarde ralentit la base, le service de paiement externe passe en maintenance, le point de sante qui les interroge depasse le timeout d une seconde, trois echecs consecutifs et quinze secondes plus tard le conteneur est tue. La conclusion est celle qui compte et elle est explicite : L APPLICATION ALLAIT BIEN, elle servait correctement les requetes reelles, on l a tuee parce qu une DEPENDANCE EXTERNE etait lente, et le redemarrage n a evidemment rien repare — d ou la boucle. C est exactement le principe de monitoring-production (la vivacite ne doit dependre d aucune dependance externe) applique a Kubernetes, ce qui donne au corpus une coherence reelle entre domaines. D13 a 4."
  },
@@ -3556,10 +3798,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. La lecon transforme le rapport de bug le plus frequent et le moins informatif d un cluster — « le service ne repond pas » — en une chaine explicite de six maillons dont chacun a son symptome propre, puis donne LA COMMANDE QUI COUPE LE PROBLEME EN DEUX. Le choix de kubectl get endpoints est le bon et la lecon justifie pourquoi : son resultat ne peut prendre que deux formes, et chacune ferme definitivement une moitie de la chaine — vide, le Service ne trouve aucun Pod, le probleme est en amont ; rempli, l erreur est en aval. Elle nomme ensuite le cout evite, qui est le vrai argument : faire cette verification en premier evite de passer une heure sur le DNS et les regles reseau alors qu une FAUTE DE FRAPPE DANS UN LIBELLE empechait toute mise en relation. C est la meme methode de bissection que rag-evaluation et rag-fundamentals appliquent a leur domaine — le corpus enseigne donc une methode, pas une recette par outil. D13 a 4."
  },
@@ -3581,10 +3828,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Archetype respecte a la lettre : la lecon adopte le point de vue de l adversaire et deroule SES TRENTE PREMIERES SECONDES sur un deploiement par defaut, chaque decouverte correspondant a une protection qu on aurait pu poser. Le procede rend concret ce qu une liste de bonnes pratiques laisserait abstrait. Deux moments portent la lecon. Le premier est nuance correctement : il est root, PAS root sur la machine hote — la conteneurisation l en empeche — mais root dans le conteneur, ce qui est deja beaucoup, et rien ne l imposait puisque la plupart des applications n ont aucun besoin de root apres leur demarrage. Le second est la decouverte que peu de gens anticipent et que la lecon designe comme telle : KUBERNETES MONTE AUTOMATIQUEMENT, DANS CHAQUE POD, UN JETON D ACCES A SA PROPRE API — personne ne l a demande, c est le comportement par defaut. La lecon rappelle par ailleurs, deux fois et au bon endroit, que les Secrets Kubernetes sont en base64 et NON chiffres, et qu il ne faut jamais les presenter comme chiffres. D13 a 4."
  },
@@ -3606,10 +3858,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Ses reperes sont declares non executes. La lecon part du geste que tout le monde fait et de la raison pour laquelle il echoue une fois sur deux — LES JOURNAUX D UN CONTENEUR N EXISTENT QUE SI UN CONTENEUR A DEMARRE, or la moitie des pannes se produisent avant — et cette phrase organise tout le sujet. La ligne de temps d un Pod est ensuite dessinee avec ses branches, et le tableau associe a chaque etat SA famille de causes ET UN SEUL OUTIL UTILE, ce qui en fait un arbre de decision plutot qu une liste. La remarque qui suit est celle qui fait gagner du temps a un debutant : les journaux ne servent que sur UNE seule ligne de ce tableau, ce qui explique l ecran vide — on interroge le conteneur alors qu il n a jamais existe. Enfin la lecture du nom CrashLoopBackOff est faite mot par mot, avec une correction d interpretation utile : le BackOff est un ralentissement DELIBERE pour eviter de saturer le noeud, donc le compteur qui monte lentement est normal et non un symptome aggravant. Archetype partage avec k8s-config-probes, mais la conduite differe — recit symptome vers cause d un cote, arbre etat vers outil de l autre — et ces lecons n ont de toute facon aucune position dans le parcours, donc aucune adjacence au sens de la regle anti-clonage du CP2. D13 a 4."
  },
@@ -3631,10 +3888,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Ses reperes sont declares non executes. Le cadrage est la meilleure phrase d entree possible sur ce sujet : Kubernetes deroute parce qu il ne fait pas ce qu on lui DEMANDE, il fait ce qu on lui DECLARE. Trois situations banales suffisent ensuite a l etablir, et la premiere est traitee par le bon geste : devant un Pod qui ressuscite, le reflexe est de chercher qui le relance, le geste utile est de REGARDER L ECART entre observe et desire. La formulation qui en sort resume tout le systeme sans jargon : personne n a « relance » ton Pod, UN PROGRAMME A COMPARE DEUX NOMBRES ET AGI. La situation 2 en tire la regle la plus importante du sujet — CE QUI N EST PAS DANS LA DECLARATION N EXISTE PAS DURABLEMENT — et la relie a ce qui rend le mode declaratif interessant plutot qu a une interdiction : la declaration est un fichier, donc versionnable, relisible et opposable, tandis qu une correction faite a la main sur un objet vivant est invisible pour l equipe et disparaitra sans prevenir. D13 a 4."
  },
@@ -3656,10 +3918,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. C est la lecon que le document du CP2 citait deja en exemple, et la relecture confirme le choix. Elle refuse d emblee le tableau de correspondance qui se retient en trente secondes ET NE SERT A RIEN parce qu il suppose la question deja resolue, et pose la vraie difficulte : SAVOIR SI TON APPLICATION EST SANS ETAT, ou presque tout le monde se trompe au moins une fois. Les trois symptomes sont lus comme des indices chiffres — « environ deux fois sur trois » designe trois exemplaires et une chance sur trois de retomber sur le bon, donc la session est en memoire dans le processus, et l utilisateur n est pas deconnecte, il parle a un autre exemplaire qui ne le connait pas. La lecon ajoute ce qui rend le defaut invisible jusque-la : l application etait sans etat TANT QU ELLE TOURNAIT EN UN SEUL EXEMPLAIRE. Et surtout, deux fois de suite, elle refuse la reponse attendue : la correction n est PAS de changer de type de workload, c est de sortir l etat du processus — puis, au troisieme symptome, ce n est meme pas de deplacer l etat, c est de sortir le travail de l application. Un cours qui dit trois fois non a son propre catalogue d objets enseigne a decider, pas a nommer. D13 a 4."
  },
@@ -3741,10 +4008,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Forme la plus efficace possible pour ce sujet : une journee de mise en ligne racontee heure par heure, ou chaque panne introduit la notion qui la traite. La phrase de cadrage est excellente et elle explique tout ce qui suit — ce qui a ete teste pendant trois semaines, c est une API locale qui repond en 4 ms, jamais en erreur, jeu de donnees stable, un seul utilisateur : LE CAS HEUREUX, MILLE FOIS. A 11 h 25, la page blanche est diagnostiquee sans detour : le code ne prevoit qu une issue, donc tant que les donnees ne sont pas la, rien ne s affiche. Et la correction refuse le symptome : il ne s agit pas d accelerer l API, parce que deux secondes resteront deux secondes pour quelqu un en 4G dans un train. L enseignement est encadre et il est juste : LE CHARGEMENT N EST PAS UN DELAI, C EST UN ETAT, AVEC SON PROPRE ECRAN — un etat sans ecran donne un ecran blanc. C est exactement la these des quatre etats de react-application-states, atteinte par un autre chemin et dans un autre domaine. D13 a 4."
  },
@@ -3766,10 +4038,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. La lecon repond a « pourquoi un framework ? » de la seule facon qui convainque : en le FAISANT RECONSTRUIRE A LA MAIN et en comptant ce qu on doit ecrire. Le protocole est annonce d emblee — on part d une application React qui marche, on ajoute les besoins de production un par un, on ecrit soi-meme la reponse, et on s arrete quand la conclusion est evidente. C est le meme dispositif que la matrice de synchronisation de browser-dom-rendering, et c est ce que le corpus fait de mieux : faire MESURER a l apprenant le probleme que l outil resout, au lieu de le lui affirmer. Le premier besoin est bien choisi parce qu il est trivial a formuler et deja couteux a satisfaire : un collegue demande l URL du livre 42, il n y en a pas — l etat de la vue vit dans la memoire du navigateur, ET LA MEMOIRE DU NAVIGATEUR NE SE COPIE PAS DANS UN MESSAGE. La correction manuelle est ecrite en entier, avec pushState et la relecture au demarrage, ce qui rend visible le cout que le framework absorbe. D13 a 4."
  },
@@ -3791,10 +4068,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. La lecon dit explicitement ce qui manque au tableau de correspondance habituel : il est facile a retenir ET IL NE DIT PAS COMMENT ON DECIDE. Elle le remplace par trois questions ordonnees par leur pouvoir d ELIMINATION, ce qui est la bonne facon de construire un arbre de decision. La premiere est la plus tranchante parce qu elle elimine au lieu de classer — un robot d indexation lit ce qu il recoit, donc page a indexer implique que le HTML contienne le contenu, ce qui exclut le rendu entierement client. La formulation utile de la deuxieme question est donnee explicitement, et c est elle qui fait travailler : entre le moment ou on FABRIQUE la page et le moment ou quelqu un la LIT, le contenu peut-il changer. Le piege de la fiche produit est ensuite le vrai apport : le tableau de correspondance induit en erreur, « stock en temps reel donc rendu serveur a chaque requete » fait payer un calcul complet a chaque visiteur pour une page dont 95 % du contenu ne change presque jamais. D ou la reformulation qui debloque : la bonne question n est pas « la page est-elle dynamique » mais QUELLE PARTIE l est. D13 a 4."
  },
@@ -3816,10 +4098,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. Meme refus que la lecon precedente, et il est justifie de la meme facon : la regle « serveur pour les donnees, client pour l interactivite » se retient en une phrase ET NE SUFFIT A RIEN DECIDER — ce qui apprend, c est de voir ou passe exactement la frontiere, et on ne le voit qu en la franchissant mal. Quatre tentatives, chacune avec son enseignement. La premiere donne le point le plus important et il est de securite, pas d architecture : la cle d API se retrouve dans le paquet JavaScript envoye au navigateur, NON PAS potentiellement visible mais litteralement lisible dans les outils de developpement, parce qu un composant client est du code execute chez l utilisateur. La conclusion est donc requalifiee au bon niveau : LA FRONTIERE N EST PAS UNE PREFERENCE D ARCHITECTURE, C EST UNE LIMITE DE CONFIDENTIALITE. La deuxieme tentative empeche la surcorrection avec la meme rigueur : ce n est pas « le serveur est plus sur donc mettons-y tout », un composant serveur s execute une fois et n existe plus quand l utilisateur clique — il existe une classe de choses que seul le client peut faire. D13 a 4."
  },
@@ -3841,13 +4128,17 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
   "defauts": [
    {
     "p": "CORRIGE",
     "quoi": "CP10 : le manuel de retablissement n avait pas de critere. Ajoute le seul qui vaille pour un manuel : le faire suivre a la lettre par quelqu un d autre, ou par soi une semaine plus tard sans rien relire, SANS REPONDRE A AUCUNE QUESTION, et compter les fois ou il faut demander. Chacune designe une ligne a reecrire. Un manuel se juge au nombre de questions qu il ne provoque pas, et il se juge froid parce que c est froid qu on le lira."
+   },
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
    }
   ],
   "action": "CONSERVE",
@@ -3871,10 +4162,15 @@
    5,
    5,
    5,
-   4,
+   5,
    5
   ],
-  "defauts": [],
+  "defauts": [
+   {
+    "p": "CORRIGE",
+    "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+   }
+  ],
   "action": "CONSERVE",
   "justif": "HORS PARCOURS. La lecon commence par demonter l origine reelle des seuils qu on recopie — demande a l auteur d ou viennent 768, 1024, 1200 : la reponse honnete est « du framework que j utilisais » ou « c est la taille d un iPad » — et pose la regle de remplacement : le seuil correct est celui ou TON contenu cesse de tenir, et il se mesure. Mais elle regle d abord une question prealable, et c est le meilleur choix de structure de la lecon puisque l oublier rend tout le reste inutile. Le nombre 980 est explique par son histoire plutot que subi : ce n est ni la largeur de l ecran ni un calcul, c est une valeur par defaut historique choisie a une epoque ou presque aucun site n etait concu pour le mobile — c etait la bonne decision en 2008, c est reste le comportement par defaut. La consequence est chiffree et je l ai recalculee : 390 divise par 980 donne 0,398, donc un texte declare a 16 px arrive a 6,4 px de hauteur apparente. La phrase de conclusion est exactement le bon diagnostic : il est la, il est correct, IL EST ILLISIBLE. D13 a 4."
  }

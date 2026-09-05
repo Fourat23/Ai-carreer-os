@@ -19,8 +19,14 @@ Savoir décider quand et comment les appliquer.
 ## 🧩 Prérequis
 Tu dois connaître HTTP, REST et les codes de statut (`/doc/lessons/http-rest-json`), et les bases de
 conception d'API — ressources, validation, erreurs, évolution (`/doc/lessons/api-design-basics`), qui
-fondent cette leçon. Des notions d'authentification (`/doc/lessons/authentication`) aident pour le rate
-limiting par client. Cette leçon approfondit le « jour 2 » d'une API.
+fondent cette leçon. Pour le rate limiting, il suffit de savoir ceci : **limiter « par client »
+suppose de pouvoir identifier le client, et une clé d'API ou un jeton dans un en-tête suffit
+à cela** — comment ce jeton est fabriqué et vérifié n'a aucune importance ici. Cette leçon
+approfondit le « jour 2 » d'une API.
+
+> **Où trouver le détail.** `/doc/lessons/authentication` traite le hachage des mots de passe,
+> la délivrance des jetons et les droits. Elle est **programmée plus loin** dans le parcours ;
+> rien ici ne suppose que tu l'as lue.
 
 ## 🧠 Modèle mental
 Une API de production est un **contrat public dans le temps**. Trois vérités en découlent :

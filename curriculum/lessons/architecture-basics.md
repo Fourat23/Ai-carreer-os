@@ -21,8 +21,15 @@ conception : clarifier → schématiser → arbitrer → anticiper l'échelle et
 Tu dois avoir intégré le clean code (responsabilité unique, dépendances,
 `/doc/lessons/clean-code`) et les design patterns, notamment l'inversion de dépendance
 (`/doc/lessons/design-patterns-intro`), car l'architecture applique ces idées à l'échelle d'un
-système entier. Une notion de client/serveur et d'API aide (`/doc/lessons/http-rest-json`).
-Le vocabulaire d'architecture (couplage, port, ADR) est construit ici.
+système entier. Ce qu'il faut savoir de client/serveur tient en une phrase : **un programme
+en appelle un autre à travers le réseau, et ce qu'ils s'échangent — l'API — est un contrat
+que ni l'un ni l'autre ne peut changer seul.** C'est cette impossibilité qui fait d'une
+frontière réseau la frontière architecturale la plus coûteuse à déplacer, et c'est tout ce
+dont la leçon a besoin. Le vocabulaire d'architecture (couplage, port, ADR) est construit ici.
+
+> **Où trouver le détail.** `/doc/lessons/http-rest-json` traite le protocole et le style
+> REST. Elle est **programmée plus loin** dans le parcours ; rien ici ne suppose que tu l'as
+> lue.
 
 ## 🧠 Modèle mental
 Architecturer, c'est répondre à une question par des frontières : « qu'est-ce qui change pour

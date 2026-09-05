@@ -94,7 +94,7 @@ Le pipeline naïf ne se la pose pas. Il cherche dans tout le corpus, prend les c
 les plus pertinents, les met dans le prompt, et le modèle répond. Le contrôle d'accès n'a
 jamais eu lieu. Alice obtient, dans une réponse en prose bien tournée, le contenu de
 documents d'une autre équipe — sans effraction, sans erreur affichée, en utilisant l'outil
-exactement comme prévu. **Un RAG sans contrôle d'accès est un moteur d'exfiltration munie
+exactement comme prévu. **Un RAG sans contrôle d'accès est un moteur d'exfiltration muni
 d'une interface agréable.**
 
 **Décision 1 — filtrer après, ou filtrer pendant ?** Le correctif spontané est d'ajouter un

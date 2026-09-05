@@ -22,9 +22,15 @@ JS est **un serveur de restaurant seul en salle** : il ne reste jamais planté d
 ## 🧩 Prérequis
 Tu dois savoir écrire des fonctions et des callbacks (fonctions passées en argument) en
 JavaScript (`/doc/lessons/javascript-basics`), car une opération asynchrone consiste à
-fournir « la suite à exécuter quand ce sera prêt ». Une intuition de ce qu'est un appel réseau
-(client → serveur → réponse) aide (`/doc/lessons/http-rest-json`). Les Promises et
-`async/await` sont construits ici, à partir de zéro.
+fournir « la suite à exécuter quand ce sera prêt ». Tout ce qu'il faut savoir d'un appel
+réseau tient ici en une phrase : **ton programme envoie une demande à une machine distante et
+reçoit une réponse plus tard — entre les deux, il n'attend pas.** C'est exactement ce délai
+qui rend l'asynchrone nécessaire ; le protocole lui-même n'a aucune importance pour cette
+leçon. Les Promises et `async/await` sont construits ici, à partir de zéro.
+
+> **Où trouver le détail.** `/doc/lessons/http-rest-json` traite le protocole HTTP lui-même —
+> méthodes, statuts, en-têtes. Elle est **programmée plus loin** dans le parcours ; rien ici
+> ne suppose que tu l'as lue.
 
 ## 📖 Explication complète
 - **Pourquoi** : JS n'a qu'UN fil d'exécution. Une attente bloquante (réseau : des dizaines de ms ; LLM : des secondes) gèlerait tout — l'UI, le serveur entier. Les opérations lentes sont donc DÉLÉGUÉES, et ton code fournit « la suite à exécuter quand c'est prêt ».

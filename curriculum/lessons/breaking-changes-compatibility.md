@@ -19,10 +19,15 @@ contrat (fonction, API, format) via un **cycle de dépréciation** plutôt qu'un
 ## 🧩 Prérequis
 Tu dois comprendre ce qu'est un contrat de code — une signature de fonction, un contrat d'API
 (`/doc/lessons/typescript-basics`, `/doc/lessons/http-rest-json`, `/doc/lessons/api-design-basics`
-si tu l'as vue) — car un changement cassant est une rupture de ce contrat. La migration de schéma
-(`/doc/lessons/database-migrations`, programmée au mois 5) est une application voisine de la
-même idée.
+si tu l'as vue) — car un changement cassant est une rupture de ce contrat. Une base de données
+en est un cas particulier qu'il suffit de nommer : **le schéma d'une table est un contrat entre
+le code et des données déjà écrites, et ces données-là ne peuvent pas être « redéployées »** —
+c'est ce qui rend le cas plus difficile, pas différent.
 
+> **Où trouver le détail.** `/doc/lessons/database-migrations` traite la mécanique complète
+> (expand/contract, backfill, réversibilité). Elle est **programmée au mois 5**, donc plus
+> loin ; rien ici ne suppose que tu l'as lue.
+>
 > **Étagère de référence.** `/doc/lessons/deployment-strategies` applique la compatibilité au
 > déploiement lui-même. Elle n'est programmée par aucune des 365 journées — tu peux l'ouvrir
 > librement, et rien ici ne suppose que tu l'as lue.

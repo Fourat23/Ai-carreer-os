@@ -8,7 +8,14 @@ Ton service tourne en production. Tout va bien… jusqu'à ce qu'un client appel
 Savoir surveiller un système en production : détecter qu'il va mal AVANT les utilisateurs, définir des seuils d'alerte utiles, et surveiller ce qui est spécifique à l'IA (qualité, coûts, dérive). C'est ce qui sépare « j'ai déployé » de « je fais tourner un service ».
 
 ## 🧩 Prérequis
-Tu dois connaître les bases de l'observabilité — logs, métriques, traces (`/doc/lessons/observability-logging`) — car le monitoring s'appuie dessus pour déclencher des alertes. Les notions de latence, de percentile et de disponibilité (vues en architecture) aident à définir des seuils. Pour la partie IA, une idée de la dérive et du coût par requête (`/doc/lessons/llm-observability`) est utile mais rappelée ici.
+Tu dois connaître les bases de l'observabilité — logs, métriques, traces (`/doc/lessons/observability-logging`) — car le monitoring s'appuie dessus pour déclencher des alertes. Les notions de latence, de percentile et de disponibilité (vues en architecture) aident à définir des seuils. Pour la partie IA, deux notions suffisent et les voici : **la dérive**, c'est un système dont
+la qualité baisse alors que le code n'a pas changé — parce que ce qu'on lui envoie, ou ce que
+le modèle renvoie, a changé ; et **le coût par requête** est une métrique de production comme
+la latence, à ceci près qu'elle se dégrade sans que personne ne s'en plaigne.
+
+> **Où trouver le détail.** `/doc/lessons/llm-observability` traite la trace d'un appel de
+> modèle, le reçu, et le rapport quotidien. Elle est **programmée bien plus loin** dans le
+> parcours ; rien ici ne suppose que tu l'as lue.
 
 ## 🧠 Modèle mental
 Le monitoring, c'est **le tableau de bord d'une voiture** : jauges (métriques) + voyants (alertes). Tu ne regardes pas le moteur en permanence ; tu veux qu'un voyant s'allume quand quelque chose sort de la normale — et AVANT la panne.

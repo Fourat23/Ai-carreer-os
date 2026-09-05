@@ -20,10 +20,16 @@ Savoir diagnostiquer et corriger des données sales (manquants, doublons, format
 ## 🧩 Prérequis
 Tu dois savoir manipuler un tableau de données — charger, inspecter, filtrer, transformer
 (`/doc/lessons/pandas-data-wrangling`) — et connaître les types de base et la notion de
-donnée tabulaire (lignes/colonnes). La distinction feature/target et l'idée de fuite de
-données (`/doc/lessons/feature-engineering`) éclairent pourquoi certaines corrections doivent
-attendre APRÈS le split. Aucune bibliothèque particulière n'est supposée : on raisonne sur les
-décisions de qualité.
+donnée tabulaire (lignes/colonnes). Une seule idée est nécessaire pour comprendre pourquoi
+certaines corrections doivent attendre, et la voici : **on met de côté une partie des lignes
+pour juger le résultat dessus, et tout calcul fait sur l'ensemble des lignes — une moyenne de
+remplacement, par exemple — fait entrer dans les lignes gardées une information venue des
+lignes mises de côté.** Le jugement est alors faussé, favorablement. Aucune bibliothèque
+particulière n'est supposée : on raisonne sur les décisions de qualité.
+
+> **Où trouver le détail.** `/doc/lessons/feature-engineering` traite la fuite de données et la
+> distinction variable / cible en profondeur. Elle est **programmée plus loin** dans le
+> parcours ; rien ici ne suppose que tu l'as lue.
 
 ## 📖 Explication complète
 Le nettoyage suit un ordre : **inspecter d'abord** (sinon on rate les vrais problèmes), puis traiter chaque défaut avec une décision justifiée.

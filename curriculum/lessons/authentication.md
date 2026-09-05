@@ -21,8 +21,13 @@ L'authentification, c'est **le contrôle d'identité à l'entrée du bâtiment**
 Tu dois comprendre HTTP — requêtes sans état, en-têtes, statuts (dont 401/403) — et le style
 REST (`/doc/lessons/http-rest-json`), ainsi que la structure d'une API en couches
 (`/doc/lessons/express-backend`), car l'auth s'implémente comme un middleware devant les
-routes protégées. Une notion de sécurité applicative aide (`/doc/lessons/ai-security` viendra
-plus loin). Le hachage de mots de passe et les tokens sont introduits ici.
+routes protégées. Le hachage de mots de passe et les tokens sont introduits ici, à partir de
+zéro : aucune notion de sécurité préalable n'est supposée.
+
+> **Où trouver le détail.** `/doc/lessons/ai-security` applique ces mêmes questions aux
+> systèmes à base de modèles de langage. Elle est **programmée bien plus loin** dans le
+> parcours ; rien ici ne suppose que tu l'as lue, et l'ordre inverse serait d'ailleurs le
+> mauvais — on sécurise un système d'IA avec les principes de cette leçon-ci, pas l'inverse.
 
 ## 📖 Explication complète
 - **AuthN vs AuthZ** : authentifier = vérifier l'identité (mot de passe, token) → 401 si échec. Autoriser = vérifier les droits de cette identité (rôle, propriété de la ressource) → 403 si refus. Les confondre = la confusion 401/403, classique d'entretien.

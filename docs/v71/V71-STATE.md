@@ -1,50 +1,124 @@
 # V71 — ÉTAT D'AVANCEMENT
 
-> Fichier de reprise. Mis à jour après **chaque** CP. En cas d'interruption,
-> relire ce fichier, vérifier Git, et reprendre au CP indiqué. NE PAS refaire CP0.
+> Fichier de reprise. Mis à jour après **chaque lot** et après **chaque CP**. En cas
+> d'interruption, relire ce fichier, vérifier Git, et reprendre au point indiqué.
+> NE PAS refaire CP0, CP1, CP2.
 
 ## Position
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **prochaine action EXACTE** : CP3 — lot 6/16 (monitoring-production, observability-fundamentals, observability-logging, slo-error-budget, caching-performance, technical-debt, python-foundations, portfolio-github).
-  noter D1→D14 selon `V71-ACADEMIC-CONTRACT-FROZEN.md`, alimenter
-  `docs/v71/LEDGER-128.json` après chaque lot, committer par lot.
+- **leçons réellement lues et notées** : **40 / 128**
+- **dernier lot complet** : **5 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 6/16** : `monitoring-production`,
+  `observability-fundamentals`, `observability-logging`, `slo-error-budget`,
+  `caching-performance`, `technical-debt`, `python-foundations`, `portfolio-github`.
+  Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
+  `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
-## Invariants contrôlés à l'entrée (CP0)
+---
+
+## Incident de session — perte du conteneur (2026-09-05)
+
+La session du 2026-08-30 a été interrompue par une limite d'usage, puis le conteneur a été
+détruit. Le nouveau conteneur est reparti d'un dépôt vide. Audit forensique effectué avant
+toute écriture ; aucun `reset --hard`, aucun force-push, aucune ref supprimée.
+
+**Récupéré** : tout ce qui avait été poussé, jusqu'à `aebbdaa` (CP3 lot 5).
+
+**Perdu** — matériellement, non reconstructible sans relecture :
+
+| perdu | contenu | statut |
+|---|---|---|
+| commit `8045888` | CP3 lot 6 — 8 leçons lues et notées | **à refaire par lecture** |
+| lot 7 partiel | 4 leçons lues, jamais notées ni commitées | **à refaire par lecture** |
+| `PREREQUIS-ORDRE.md` | jamais commité | **reconstruit par re-mesure** (§ ci-dessous) |
+
+Le chiffre « 48/128 » annoncé en console avant la coupure **n'est pas repris**. Les huit
+notations du lot 6 n'existent dans aucun artefact : elles seront refaites par lecture.
+L'état prouvé est **40/128**, et c'est celui qui est publié.
+
+`PREREQUIS-ORDRE.md` n'a pas été recopié de mémoire : la détection a été écrite en script
+(`scripts/v71/prerequis-ordre.mjs`, qui n'existait pas), rejouée sur le corpus intact, et les
+31 formulations relues. Les comptes sont identiques ; un point a été corrigé par la relecture
+(§5 du document : 6/6 prérequis hors parcours correctement signalés, et non 4/6).
+
+**Règle adoptée pour la suite** : commit + push après **chaque lot de 8**, sans attendre la
+fin d'un CP. Une future perte de conteneur coûte au maximum 8 lectures.
+
+---
+
+## Invariants revérifiés à la reprise (2026-09-05)
 
 | invariant | attendu | mesuré | état |
 |---|---|---|---|
 | leçons | 128 | 128 | OK |
 | journées | 365 | 365 | OK |
 | solutions | 365 | 365 | OK |
-| semaines / mois | 52 / 12 | 52 / 12 | OK |
-| `data/progress.json` | inchangé | dernier commit `1dad5d4`, antérieur à V64 | OK |
-| mapping 365 jours (`scripts/data`) | inchangé depuis V68 | dernier commit `305ba40` (V68) | OK |
-| working tree | propre | 0 fichier modifié | OK |
-| stash | vide | 0 | OK |
-| local == origin | oui | `c825950` des deux côtés | OK |
+| corpus des 128 leçons (SHA1) | `edbfecdf…` | `edbfecdff1d3e4c320cedd51ede95601fd94750d` | **identique au CP0** |
+| `data/program.json` (SHA1) | `5ac3da30…` | `5ac3da304994c298ab964a4b03e13da336bb8935` | **identique au CP0** |
+| `data/progress.json` | non versionné (`.gitignore` l. 8) | absent du dépôt | **non vérifiable, et normal** |
+| working tree | propre | propre | OK |
+| stash | vide | vide | OK |
+| objets orphelins (`git fsck`) | — | aucun | OK |
+| local == origin | oui | `aebbdaa` des deux côtés | OK |
 
-## Empreintes (snapshot CP0)
+`data/progress.json` est un fichier d'état utilisateur local, ignoré par Git depuis l'origine.
+Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle **ne peut pas**
+être revérifiée ici, et cela ne constitue pas une perte : V71 interdit d'y toucher (§30).
 
-- HEAD au démarrage V71 : `c8259501dcbf92c9601b9605bb49d5b5762f2bf4`
-- corpus des 128 leçons : `edbfecdff1d3e4c320cedd51ede95601fd94750d`
-- `data/progress.json` : `598f27c2ade43f4a7d2778536ce7cf5236ae81dd`
-- `data/program.json` : `5ac3da304994c298ab964a4b03e13da336bb8935`
-- snapshot par leçon : `docs/v71/SNAPSHOT-CP0.json`
-- échantillon aveugle : `docs/v71/ECHANTILLON-AVEUGLE.json` — **graine 20260831**
+## Validation à la reprise
 
-## Validation à l'entrée
+`npm test` **1420 / 1420** · `npx tsc --noEmit` **0** · `npm run build` **0** ·
+`npm run gates:active` **0** (dont `v66:check` 56 vérifications, `v66:render` 950 fichiers).
 
-`gates:active` 0 · `npm test` 1420/1420 · `tsc --noEmit` 0 · `npm run build` 0
+---
 
 ## Avancement de la notation
 
 - leçons réellement lues : **40 / 128**
 - notations D1→D14 complètes : **40 / 128**
-- P0 ouverts : **0**
-- P1 ouverts : **0**
-- P2 ouverts : **3**
+- moyenne provisoire (40 notées) : **4,748**
+- leçons sous 3,00 : **0**
+- **P0 : 0** · **P1 : 6** · **P2 : 3** · **P3 : 6**
+
+### Correction D2 appliquée à la reprise
+
+L'enquête prérequis (voir `PREREQUIS-ORDRE.md`) prouve que **20 leçons** exigent un prérequis
+enseigné plus tard sans le signaler, et que **8 autres** citent un concept postérieur en le
+signalant comme aide. L'ancre D2 gelée au CP1 est sans ambiguïté : niveau **1** si « un
+prérequis renvoie vers une leçon située après », niveau **4** si le concept non enseigné est
+« explicitement signalé comme périphérique ».
+
+Le barème n'a pas été modifié — il a été **appliqué**. Douze des 40 leçons déjà notées étaient
+concernées, toutes à D2 = 5. Les deux chiffres sont publiés :
+
+| | avant | après |
+|---|---|---|
+| moyenne D2 (40 notées) | 5,000 | **4,250** |
+| moyenne corpus (40 notées) | 4,802 | **4,748** |
+
+Détail : `design-patterns-intro`, `express-backend`, `interview-preparation`,
+`readme-documentation`, `technical-documentation`, `technical-storytelling` passent de 5 à
+**1** (P1) ; `api-design-basics`, `api-production-contracts`, `architecture-basics`,
+`async-javascript`, `authentication`, `breaking-changes-compatibility` passent de 5 à **4**
+(P3, plafond structurel, comportement correct).
+
+Les 16 leçons restantes de la liste seront notées à leur lot. Conséquence attendue : **S2
+(≥ 3,70 sur chaque dimension) sera le seuil le plus difficile de V71**, et il ne sera
+franchissable qu'après les corrections P1 des CP4→CP9.
+
+---
+
+## Empreintes (snapshot CP0, inchangées)
+
+- HEAD au démarrage V71 : `c8259501dcbf92c9601b9605bb49d5b5762f2bf4`
+- corpus des 128 leçons : `edbfecdff1d3e4c320cedd51ede95601fd94750d`
+- `data/program.json` : `5ac3da304994c298ab964a4b03e13da336bb8935`
+- snapshot par leçon : `docs/v71/SNAPSHOT-CP0.json`
+- échantillon aveugle : `docs/v71/ECHANTILLON-AVEUGLE.json` — **graine 20260831**
+
+---
 
 ## Lots
 
@@ -53,7 +127,7 @@
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | en cours |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 40/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -72,5 +146,6 @@
 - CP0 : `1fb8ea6`
 - CP1 : `5472c2c`
 - CP2 : `b3e4592`
-- CP3 lot 1 : `b3c9489`
-- CP3 lot 2 : `2440c0b`
+- CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
+  lot 5 : `aebbdaa`
+- reprise après perte de conteneur + enquête prérequis : ce commit

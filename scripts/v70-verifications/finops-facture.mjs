@@ -22,11 +22,11 @@ console.log(''.padEnd(53,'-')); console.log('TOTAL'.padEnd(42), eur(total).padSt
 
 // Les trois gestes, dans l'ordre de rentabilite reelle
 const orphelins = 12*100*0.10 + 5*3.60;
-const extinction = (3*0.16 + 2*0.08) * (24-10) * 30;     // recette+dev eteints 14h/j, 30j
+const extinction = (3*0.16 + 2*0.08) * h * (14/24);       // recette+dev eteints 14 h sur 24, tout le mois
 const baseRecette = 0.34*h*0.5;                           // recette en mono-AZ
 console.log('\nGESTES, PAR RENTABILITE DECROISSANTE :');
 console.log('  1. supprimer les orphelins (disques + IP)      ', eur(orphelins).padStart(9), `= ${(orphelins/total*100).toFixed(0)} % de la facture`);
-console.log('  2. eteindre recette et dev la nuit et le week-end', eur(extinction).padStart(7), `= ${(extinction/total*100).toFixed(0)} %`);
+console.log('  2. eteindre recette et dev 14 h sur 24          ', eur(extinction).padStart(9), `= ${(extinction/total*100).toFixed(0)} %`);
 console.log('  3. passer la base de RECETTE en mono-AZ        ', eur(baseRecette).padStart(9), `= ${(baseRecette/total*100).toFixed(0)} %`);
 const economie = orphelins + extinction + baseRecette;
 console.log(`\n  economie cumulee : ${eur(economie)} sur ${eur(total)}, soit ${(economie/total*100).toFixed(0)} %`);

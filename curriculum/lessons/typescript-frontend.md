@@ -381,34 +381,37 @@ bibliothèques de validation de schéma : elles **dérivent** le type du schéma
 désynchronisation impossible par construction. On ne peut pas oublier de valider un champ qu'on
 vient d'ajouter, puisque le champ n'existe que dans le schéma.
 
+Ce qui pose la question que tu dois te poser maintenant : **pourquoi t'a-t-on fait écrire
+un prédicat à la main, si une bibliothèque le fait mieux ?** Parce que la bibliothèque ne
+supprime pas la décision, elle l'exécute — et une équipe qui l'installe sans avoir compris
+ce qu'elle remplace finit par valider ses réponses d'API dans un coin et pas dans un autre,
+sans savoir dire pourquoi. Cet exercice manuel est ce qui rend le choix de la bibliothèque
+délibéré au lieu d'être une habitude.
+
 **Réponse à C.** Avec `as Product` : **zéro sur six**. Aucune détection, aucune erreur de
 compilation, aucune trace. Les cinq réponses invalides traversent, et le plantage survient
 plus tard, ailleurs, sur une ligne innocente.
 
 C'est le chiffre à retenir de toute cette leçon.
 
-## ✅ Correction attendue
-**La démarche** : typer les props en premier (c'est le contrat du composant), les événements ensuite, et traiter la frontière API en dernier — parce que c'est la seule des trois où le typage statique ne protège de rien.
+## 🧭 L'ordre de travail, et un dernier angle mort
 
-**L'erreur probable, et elle est massivement répandue.** À la frontière, presque tout le monde écrit :
+**L'ordre.** Type les props en premier — c'est le contrat du composant. Les événements
+ensuite. La frontière API **en dernier**, parce que c'est la seule des trois où le typage
+statique ne protège de rien et où il faut donc écrire du code qui s'exécute.
 
-```ts
-const data = await res.json() as User;   // ⚠️
-```
-
-Le code compile, l'autocomplétion fonctionne, `data.name` est proposé — tout **semble** typé. En réalité `as` ne vérifie rien : c'est une affirmation adressée au compilateur, pas un contrôle. Si l'API renvoie `{ id: "42", nom: "Lina" }`, TypeScript reste silencieux et le programme plante plus loin, sur `data.name.toUpperCase()`, avec un message qui ne mentionne ni l'API ni le champ manquant.
-
-Le piège séduit pour une raison précise : `as` produit exactement la même expérience d'édition qu'un type honnête. On croit avoir typé parce qu'on voit les propriétés s'afficher. **La règle qui protège tient en une phrase : `as` sert à convertir ce qu'on sait déjà, jamais à découvrir ce qu'on reçoit.** À une frontière, la seule réponse est `unknown` suivi d'un contrôle qui s'exécute — le prédicat `v is User` de la leçon.
-
-Second réflexe fautif, plus subtil : écrire le type guard et oublier la branche `else`. On vérifie, on est content, et si la vérification échoue on ne fait rien — le composant reste vide sans que personne ne sache pourquoi. Une validation sans traitement de l'échec ne fait que déplacer le silence.
-
-**Alternative défendable** aux prédicats écrits à la main : une bibliothèque de validation de schéma, qui génère à la fois le contrôle d'exécution ET le type TypeScript à partir d'une seule déclaration. C'est ce que font la plupart des équipes, et cela supprime le risque de désynchronisation entre le type et le guard — le défaut principal de l'écriture manuelle, où l'on ajoute un champ au type sans l'ajouter au prédicat. Écrire un guard à la main reste l'exercice utile pour comprendre ce que la bibliothèque fait à ta place.
+**L'angle mort.** Tout ce qui précède parle de détecter une donnée invalide. Personne ne
+parle de ce qu'on en fait. Écrire le prédicat puis oublier la branche « sinon » est le
+second réflexe fautif, et il est plus difficile à voir que le premier : on a vérifié, on
+est content, et quand la vérification échoue le composant reste simplement vide. **Une
+validation sans traitement de l'échec ne supprime pas le silence, elle le déplace** —
+d'un plantage bruyant vers un écran blanc que personne ne sait expliquer.
 
 **Vérifie seul, sans corrigé** :
-1. Cherche `as` dans ton code. Chaque occurrence à une frontière est un bug qui attend.
-2. Fais renvoyer volontairement une forme incorrecte par ton API simulée. Ton interface doit afficher une erreur maîtrisée — pas un écran blanc, pas une exception dans la console.
-3. Ajoute un champ à ton type `User` sans toucher au guard. Si tout compile encore, tu viens de créer la désynchronisation décrite ci-dessus : c'est le cas exact où une bibliothèque de schéma gagne.
-4. Passe une valeur invalide à `tone`. Le compilateur doit refuser. Sinon, l'union littérale n'en est pas une.
+1. Fais renvoyer volontairement une forme incorrecte par ton API simulée. Ton interface
+   doit afficher une erreur maîtrisée — pas un écran blanc, pas une exception en console.
+2. Passe une valeur invalide à `tone`. Le compilateur doit refuser. S'il accepte, ton
+   union littérale n'en est pas une.
 
 ## 🏢 Cas professionnel
 Une équipe front consomme une API interne. Tous les appels sont écrits en `as`, parce que « les types du backend sont connus ». Un jour, le backend renomme `name` en `fullName` dans une réponse — un changement rétrocompatible côté serveur, puisque l'ancien champ reste temporairement.

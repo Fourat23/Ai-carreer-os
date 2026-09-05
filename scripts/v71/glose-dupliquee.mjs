@@ -77,3 +77,5 @@ for (const t of trouves) {
 }
 console.log('Verdict de lecture au CP3 : 19 paralleles deliberes, 1 defaut reel');
 console.log('(database-migrations — meme glose, deux ponctuations, edition inachevee).');
+console.log('CP9 : le defaut est corrige. Les 19 paralleles deliberes sont conserves —');
+console.log('les supprimer pour faire tomber le compteur serait du Goodhart (brief §7).');

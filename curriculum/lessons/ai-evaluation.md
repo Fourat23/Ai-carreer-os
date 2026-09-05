@@ -111,11 +111,14 @@ mois : le score sans la modification qui l'a produit ne s'interprète pas.
 Les trois métriques mesurent des étages **différents**, et c'est ce qui permet de savoir quoi
 corriger. Un score unique agrégerait :
 
+Prenons une note globale pondérée — rappel 0,40, fidélité 0,40, refus 0,20, ce qui est déjà
+généreux pour le refus par rapport à ce qu'on voit en pratique :
+
 | Système | Rappel | Fidélité | Refus | Note globale | Problème réel |
 |---|---:|---:|---:|---:|---|
 | A | 0,95 | 0,60 | 0,80 | 0,78 | la génération trahit les sources |
 | B | 0,60 | 0,95 | 0,80 | 0,78 | la recherche ne trouve rien |
-| C | 0,95 | 0,95 | 0,00 | 0,77 | **il invente quand il ne sait pas** |
+| C | 0,95 | 0,95 | 0,00 | 0,76 | **il invente quand il ne sait pas** |
 
 Trois systèmes, trois notes globales presque identiques, trois défauts sans rapport. Et le
 troisième est le plus dangereux des trois, alors que sa note est la plus basse **de très peu**.

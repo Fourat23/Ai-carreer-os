@@ -69,9 +69,14 @@ transiter par les intermédiaires. Attention : le context n'est pas un entrepôt
 
 ### Hooks personnalisés : la factorisation de la logique
 Un **hook personnalisé** est une fonction `useNomDeHook` qui appelle d'autres hooks pour EXTRAIRE
-une logique réutilisable : `useLivres()` encapsule le chargement (les trois états
-loading/error/data) et se réutilise dans plusieurs composants. C'est la factorisation du
-clean code appliquée aux composants : la logique se teste et se réutilise, l'UI reste lisible.
+une logique réutilisable : `useLivres()` encapsule le chargement et se réutilise dans
+plusieurs composants. Ce qu'il renvoie n'est pas trois variables indépendantes
+`chargement` / `erreur` / `données` — `/doc/lessons/react-application-states` a démontré
+par le dénombrement que cette forme est fausse — mais **un seul état à statut unique**,
+du genre `{ statut: 'chargement' | 'erreur' | 'succès', ... }`. C'est même le meilleur
+argument pour le hook personnalisé : il n'y a plus qu'**un** endroit où cette forme peut
+être correcte, au lieu de cinq où elle peut dériver. C'est la factorisation du clean code
+appliquée aux composants : la logique se teste et se réutilise, l'UI reste lisible.
 
 ### Quand mémoïser (et surtout quand ne pas le faire)
 Par défaut, un composant se re-rend quand son état ou ses props changent — et c'est

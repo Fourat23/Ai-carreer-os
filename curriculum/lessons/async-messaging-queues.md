@@ -333,11 +333,6 @@ accumule du retard). SIMULATIONS déterministes — aucun vrai broker.
 **Auto-évaluation** : teste ta compréhension par niveau (jusqu'au transfert) sur `/diagnostics`
 (diagnostic « Travail asynchrone : files, workers et DLQ »).
 
-## 🧪 Vérification de compréhension
-- Pourquoi une livraison at-least-once impose-t-elle un consommateur idempotent ?
-- Un message échoue 20 fois d'affilée : que doit-il devenir, et pourquoi pas rester dans la file ?
-- File ou pub/sub pour « prévenir facturation, stock et e-mail qu'une commande est passée » ?
-
 ## 💼 Cas professionnel
 Encodage vidéo, envoi d'e-mails, génération de rapports, propagation d'événements entre services :
 partout où bloquer la requête serait inacceptable ou où il faut absorber des pics. Les files sont la

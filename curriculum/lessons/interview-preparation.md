@@ -15,7 +15,17 @@ Deux des quatre types d'entretien traités ici sont approfondis ailleurs dans le
 > **Où trouver le détail.** `/doc/lessons/technical-storytelling` traite la construction d'un récit de projet, `/doc/lessons/system-design-interview` la méthode complète de l'exercice de design. Les deux sont **programmées plus loin** dans le parcours ; rien ici ne suppose que tu les as lues, et tu pourras reprendre tes simulations à ce moment-là.
 
 ## 🧠 Modèle mental
-Un entretien est **une démo de ta façon de penser, en conditions de stress**. Le stress se réduit par la RÉPÉTITION (simulations), et la pensée se montre en la VERBALISANT. Le candidat calme et structuré a simplement plus répété — c'est accessible à tous.
+Un entretien est **une démo de ta façon de penser, en conditions de stress**. Deux
+conséquences pratiques en découlent. Le stress se réduit par la **répétition**, jamais par
+la relecture — relire ses notes la veille ne change rien à ce qui se passe le jour même. Et
+la pensée ne se note que si elle est **verbalisée** : un raisonnement juste mais silencieux
+vaut exactement zéro pour l'évaluateur, qui n'a accès qu'à ce que tu dis.
+
+D'où le renversement qui organise toute la leçon : **préparer un entretien, ce n'est pas
+réviser, c'est produire des artefacts** — une banque de chiffres, des histoires écrites, des
+simulations enregistrées. La différence est mesurable : un artefact sert plusieurs formats
+et survit à l'entretien ; une révision ne sert qu'une fois et s'évapore. Le candidat calme
+et structuré n'est pas plus doué : il a plus répété, et sur les bonnes choses.
 
 ## 📖 Explication complète
 - **Technique (algo/code)** : le recruteur note la DÉMARCHE plus que la solution : reformuler, poser des exemples, énoncer le plan, coder en verbalisant, tester les cas limites, donner la complexité. Le silence est l'erreur n°1. S'entraîne par katas À VOIX HAUTE, enregistrés, 25 min chrono.
@@ -25,6 +35,29 @@ Un entretien est **une démo de ta façon de penser, en conditions de stress**. 
 - **Spécifique IA** : les ~20 questions récurrentes (tokens, hallucinations, RAG, debug retrieval/génération, éval, injection, coûts, agent vs workflow — les questions d'entretien de chaque leçon IA de ce programme en sont la banque). Ta botte secrète : répondre avec TON vécu (« sur mon projet, le reranking a gagné 6 points de fidélité ») — imbattable face aux réponses théoriques.
 - **Les deux réflexes qui rassurent** : « je ne sais pas, voici comment je chercherais » (honnêteté structurée > bluff), et clarifier avant de foncer.
 - **Logistique** : simulations complètes enregistrées + auto-évaluées à la grille (rubrics/interview-evaluation.md) ; post-mortem après chaque vrai entretien (questions notées → fiches mises à jour) : chaque entretien améliore le suivant.
+
+### Ce que cette liste ne dit pas : par quoi commencer
+
+Cinq formats, un temps fini. Les préparer à parts égales est le plus sûr moyen de n'en
+maîtriser aucun — et l'erreur de répartition est presque toujours la même : on passe
+l'essentiel du temps sur les katas d'algorithmique. Pas par mauvais calcul, mais parce que
+c'est **le seul format où l'on voit un score monter le soir même**. C'est aussi celui dont
+le rendement décroît le plus vite, et le seul dont une partie des entreprises se passe
+entièrement.
+
+Le critère qui répartit correctement est le **taux de réemploi**. La banque de chiffres sert
+le format projet, le comportemental *et* le spécifique IA. Une histoire STAR bien écrite
+couvre deux ou trois questions différentes. Une simulation enregistrée révèle des défauts
+— débit, silences, structure — qui abîment les cinq formats à la fois. Un kata résolu, lui,
+ne sert qu'à lui-même. **Prépare d'abord ce qui se réemploie, ensuite ce qui ne sert qu'une
+fois.** Et avant de répartir quoi que ce soit, demande au recruteur le format exact du
+processus : une question de trente secondes t'épargne des semaines placées au mauvais
+endroit.
+
+**Quand ne pas suivre cet ordre.** Si l'entreprise annonce un test technique éliminatoire en
+première étape, ce test devient la seule priorité jusqu'à ce qu'il soit franchi — le
+réemploi ne vaut rien après une élimination au premier tour. C'est l'exception, pas la
+règle : vérifie qu'elle s'applique vraiment avant de t'en servir comme d'une permission.
 
 ## 🔧 Exemple simple
 Question : « Pourquoi un LLM hallucine ? » Réponse structurée : mécanisme (il prédit le plausible, pas le vrai) → conséquence (confiance ≠ vérité) → remède que TU as implémenté (RAG + citations vérifiées + refus).

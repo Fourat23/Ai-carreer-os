@@ -171,89 +171,6 @@ Note aussi `NaN === NaN` qui vaut `false` : c'est la seule valeur du langage qui
 ## 🔗 Liens avec le programme
 Tes applications RAG (mois 8-9) manipuleront des tableaux d'objets (chunks avec métadonnées) avec exactement ces gestes : filtrer par score, trier par similarité, regrouper par document. Valider la sortie JSON d'un LLM = vérifier types et structure — la conscience des types commence ici. Et le cache d'appels LLM (mois 10) = une closure + une Map, deux concepts de cette leçon.
 
-## Mini-exercice
-Sur un tableau de 10 produits `{nom, prix, categorie}` : (1) les noms des produits < 20 €, (2) le prix total, (3) appliquer -10 % sur une catégorie SANS modifier l'original (prouve-le), (4) regrouper par catégorie. En boucles d'abord, puis en map/filter/reduce.
-
-## ✅ Correction attendue
-**La démarche**, dans cet ordre : choisir (`filter`), transformer (`map`), agréger (`reduce`). Le regroupement est un `reduce` dont l'accumulateur est un objet dont les clés sont les catégories.
-
-**L'erreur probable sur le point 3, et pourquoi elle passe inaperçue.** Presque tout le monde écrit :
-
-```js
-const soldes = produits.map((p) => {
-  if (p.categorie === "jeux") p.prix = p.prix * 0.9;   // ⚠️ modifie l'original
-  return p;
-});
-```
-
-Le piège est redoutable parce que le code **a l'air immuable** : il y a un `map`, il y a un `return`, on obtient bien un nouveau tableau. Mais ce nouveau tableau contient les MÊMES objets, et on vient de les modifier au passage. `produits` est corrompu, et le test naïf `soldes !== produits` répond `true` — donc tout semble aller bien. La version correcte ne modifie jamais `p` : `p.categorie === "jeux" ? { ...p, prix: p.prix * 0.9 } : p`.
-
-**Alternative défendable** : garder les produits intacts et calculer le prix remisé au moment de l'affichage, sans jamais stocker de second tableau. Une seule source de vérité, aucun risque de désynchronisation — mais il faut recalculer à chaque rendu. C'est exactement l'arbitrage « stocké contre dérivé » que tu retrouveras en React.
-
-**Vérifie seul, sans corrigé** : garde le prix d'origine dans une variable AVANT (`const avant = produits[0].prix`), puis compare après coup. Si `avant` a changé, tu as muté — quelle que soit l'allure du code. C'est le seul test qui ne se laisse pas tromper.
-
-### Les résultats qui surprennent, exécutés plutôt que racontés
-
-Le script `scripts/v70-verifications/js-async-et-types.mjs` évalue dix
-expressions dont on parle beaucoup et qu'on vérifie rarement.
-
-```
-0.1 + 0.2 === 0.3                  -> false
-0.1 + 0.2                          -> 0.30000000000000004
-[10, 9, 100].sort()                -> [10, 100, 9]
-[10, 9, 100].sort((a,b) => a-b)    -> [9, 10, 100]
-[] == false                        -> true
-[] === false                       -> false
-typeof null                        -> "object"
-NaN === NaN                        -> false
-Object.is(NaN, NaN)                -> true
-["1","2","3"].map(parseInt)        -> [1, NaN, NaN]
-```
-
-**Aucun de ces résultats n'est un bug.** Chacun découle d'une règle précise, et
-c'est la règle qu'il faut retenir, pas le résultat :
-
-- `0.1 + 0.2` : les nombres sont codés en binaire à virgule flottante, et 0,1 n'a
-  pas de représentation binaire finie — exactement comme 1/3 n'en a pas en
-  décimal. Conséquence pratique : **on ne stocke jamais de l'argent en nombre à
-  virgule.** On stocke des centimes en entier.
-- `sort()` sans argument **convertit chaque élément en chaîne** et trie
-  lexicographiquement : « 10 » vient avant « 9 » comme « ab » avant « b ». Il
-  faut toujours fournir une fonction de comparaison pour des nombres.
-- `[] == false` vaut `true` parce que `==` convertit les deux côtés avant de
-  comparer ; `===` ne convertit rien. **Utiliser `===` par défaut** supprime toute
-  une famille de surprises.
-- `typeof null` est un défaut historique du langage, conservé pour compatibilité.
-  Il ne s'explique pas, il se connaît.
-- `NaN === NaN` est `false` parce que la norme des nombres à virgule flottante le
-  spécifie ainsi. Pour tester, `Number.isNaN(x)` ou `Object.is`.
-- `map(parseInt)` : `map` passe **trois** arguments (valeur, index, tableau) et
-  `parseInt` en accepte **deux**, le second étant la **base** de numération. On
-  demande donc `parseInt('2', 1)`, base invalide, d'où `NaN`. La règle générale
-  vaut au-delà de ce cas : **ne passe jamais directement une fonction dont tu ne
-  connais pas l'arité à un `map`.**
-
-Et le piège qui n'est pas propre à JavaScript, celui de l'exercice 3 :
-
-```
-apres { ...d1 } puis modification de la copie :
-  d1.nom             = "defaut"   <- inchangé
-  d1.options.verbeux = true       <- MODIFIÉ
-
-apres structuredClone(d2) puis modification du clone :
-  d2.options.verbeux = false      <- inchangé
-```
-
-L'opérateur de décomposition copie **un seul niveau**. Les objets imbriqués
-restent partagés, et une modification les traverse. C'est la distinction entre
-valeur et référence, présente dans presque tous les langages — savoir la nommer
-vaut mieux que mémoriser une liste de pièges.
-
-Le cas le plus coûteux en pratique : un objet de configuration par défaut, copié
-superficiellement pour chaque utilisateur. La première modification contamine
-tout le monde, et le défaut ne se manifeste qu'au **deuxième** utilisateur — donc
-jamais en développement.
-
 ## 🟢 Checklist « quand suis-je prêt ? »
 - [ ] Je sais dire, pour n'importe quelle variable, si elle se copie ou se partage.
 - [ ] J'écris `===` sans y penser, et je sais pourquoi `"5" + 2` ≠ `"5" - 2`.
@@ -319,9 +236,19 @@ const soldes = produits.map((p) =>
   p.categorie === "jeux" ? { ...p, prix: p.prix * 0.9 } : p);
 ```
 
-Et la preuve n'est pas « je vois que ça marche » : c'est une comparaison
-explicite de l'original avant et après. Ce défaut est invisible tant qu'on ne
-regarde que le résultat.
+Et la preuve n'est pas « je vois que ça marche » : c'est une comparaison explicite
+de l'original **avant** et après — `const avant = produits[0].prix`, puis on
+recompare une fois la remise appliquée. C'est le seul test qui ne se laisse pas
+tromper : le test naïf `soldes !== produits` répond `true` même dans la version
+fautive, puisque le tableau, lui, est bien neuf. Ce défaut est invisible tant
+qu'on ne regarde que le résultat.
+
+**Une alternative défendable, et elle est meilleure qu'on ne croit.** Ne construis
+aucun second tableau : garde les produits intacts et calcule le prix remisé au
+moment de l'affichage. Une seule source de vérité, donc aucune désynchronisation
+possible — au prix d'un recalcul à chaque rendu. C'est exactement l'arbitrage
+**stocké contre dérivé** que tu retrouveras en React, et il vaut la peine de le
+reconnaître ici, sur dix produits, plutôt que plus tard sur une interface.
 
 **C — la copie d'un seul niveau.** Mesuré :
 
@@ -366,13 +293,19 @@ Les règles derrière, à retenir plutôt que les résultats :
 - les nombres sont en binaire à virgule flottante, et 0,1 n'a pas de
   représentation binaire finie. **On ne stocke jamais de l'argent en nombre à
   virgule** : on stocke des centimes en entier ;
-- le tri sans argument **convertit en chaînes** et trie lexicographiquement ;
-- `==` convertit avant de comparer, `===` non — d'où l'usage de `===` par défaut ;
-- `typeof null` est un défaut historique conservé pour compatibilité ;
-- `NaN === NaN` est faux par spécification ; on teste avec `Number.isNaN` ;
-- la fonction de transformation passe **trois** arguments et `parseInt` en accepte
-  **deux**, le second étant la base de numération. D'où la règle : **ne passe
-  jamais directement une fonction dont tu ne connais pas l'arité**.
+- le tri sans argument **convertit chaque élément en chaîne** et trie
+  lexicographiquement : « 10 » vient avant « 9 » comme « ab » vient avant « b » ;
+- `==` convertit les deux côtés avant de comparer, `===` ne convertit rien — d'où
+  l'usage de `===` par défaut, qui supprime toute une famille de surprises ;
+- `typeof null` est un défaut historique du langage, conservé pour compatibilité.
+  Il ne s'explique pas, il se connaît ;
+- `NaN === NaN` est faux parce que la norme des nombres à virgule flottante le
+  spécifie ainsi ; on teste avec `Number.isNaN(x)` ou `Object.is` ;
+- la fonction de transformation passe **trois** arguments (valeur, index, tableau)
+  et `parseInt` en accepte **deux**, le second étant la **base** de numération. On
+  demande donc `parseInt('2', 1)` — base invalide, d'où `NaN`. D'où la règle, qui
+  vaut bien au-delà de ce cas : **ne passe jamais directement à un `map` une
+  fonction dont tu ne connais pas l'arité**.
 
 **E — le tri.** Le résultat sans fonction de comparaison est la démonstration
 directe du troisième point ci-dessus. Sur des objets à deux critères, la forme

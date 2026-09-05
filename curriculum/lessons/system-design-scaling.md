@@ -221,6 +221,8 @@ cache aurait réglés en une journée.
    horizontalement sans limite ?
 3. Tu ajoutes un cache devant la base. Quel nouveau problème viens-tu de créer ?
 4. Quelle est la première question à poser avant toute décision de mise à l'échelle ?
+5. Architecture : **1 répartiteur de charge → 3 instances → 1 base**. Cite les points de
+   défaillance unique, et dis ce que coûte l'élimination de chacun.
 
 ## ✅ Correction attendue
 
@@ -266,6 +268,19 @@ comment le sais-je ?** CPU, mémoire, entrées-sorties, connexions à la base, b
 quota d'un service tiers. La réponse dicte le levier, et chacune en appelle un différent.
 Sans elle, on ajoute des machines à un problème de disque.
 
+Reste la topologie **1 répartiteur → 3 instances → 1 base**. Elle contient **deux points
+de défaillance unique**, et les trois instances n'en font pas partie — c'est justement ce
+que la redondance a acheté. Ce sont le **répartiteur** et la **base**. Le répartiteur
+s'élimine en le doublant derrière une adresse IP flottante ou un enregistrement DNS à
+faible durée de vie : c'est peu coûteux, parce qu'un répartiteur ne détient aucun état.
+La base est le cas difficile, et il faut voir pourquoi : ajouter une réplique **ne suffit
+pas**. Il faut décider qui déclenche la bascule, en combien de temps, comment on empêche
+les deux serveurs de se croire primaires en même temps, et ce qu'on fait des écritures
+acquittées au client mais pas encore répliquées. **La haute disponibilité d'une base ne se
+paie pas en machines, elle se paie en décisions de cohérence** — c'est le vrai contenu de
+la question. Et il en reste un troisième que le schéma ne montre pas : la zone, ou la
+région, qui héberge l'ensemble.
+
 **Alternative défendable.** Le scaling **vertical** — une machine plus grosse — est
 souvent le meilleur choix jusqu'à un point bien plus tardif qu'on ne le croit : aucun
 changement de code, aucun état à externaliser, aucune complexité opérationnelle, et le
@@ -295,11 +310,6 @@ de réplicas), `cloud-detect-spof` / `cloud-spof-detect` (repérer les SPOF), `c
 (stateless mal mis à l'échelle). SIMULATIONS déterministes — aucun cloud réel exécuté.
 **Auto-évaluation** : teste ta compréhension par niveau (jusqu'au transfert) sur `/diagnostics`
 (diagnostic « System Design : monter en charge »).
-
-## 🧪 Vérification de compréhension
-- Pourquoi ne peut-on pas scaler horizontalement une application qui garde la session en mémoire locale ?
-- Une API sature : comment décides-tu entre « plus grosse machine », « cache » et « plus d'instances » ?
-- Cite deux SPOF possibles dans « 1 load balancer → 3 instances → 1 base » et comment les éliminer.
 
 ## 💼 Cas professionnel
 Toute application qui grandit suit ce chemin : vertical d'abord (simple), puis cache, puis horizontal +

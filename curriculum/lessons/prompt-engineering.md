@@ -101,7 +101,7 @@ respectent réellement le schéma demandé :   4 / 9
 
 **Décision 1 — la défense évidente protège du mauvais danger.** Le réflexe enseigné est
 `JSON.parse` dans un `try/catch`, avec une relance si ça échoue. Regarde la colonne de
-droite : **cinq sorties sur neuf passent le `JSON.parse` et sont fausses quand même.** Le
+droite : **quatre sorties sur neuf passent le `JSON.parse` et sont fausses quand même.** Le
 `try/catch` ne se déclenchera jamais pour elles. Une facture de `"240 EUR"` traversera le
 système et se retrouvera dans une base, ou dans un total. La leçon dépasse largement les
 LLM : **savoir lire une donnée n'est pas savoir qu'elle est correcte**, et confondre les deux

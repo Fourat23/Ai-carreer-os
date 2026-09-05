@@ -361,7 +361,7 @@ justifie tout ce qui suit dans le programme.
 | supprimer | ✕ | ✕ | ✕ | ✕ | ✕ |
 | vider les achetés | ✕ | ✕ | ✕ | ✕ | ✕ |
 
-**N = 21.** Vingt et une mises à jour à écrire, pour une application de cinq actions et cinq
+**N = 20.** Vingt mises à jour à écrire, pour une application de cinq actions et cinq
 zones d'affichage.
 
 Deux remarques sur ce tableau.
@@ -430,7 +430,7 @@ de synchronisation ; il ne reste que `T`, la logique.
 
 C'est cela qu'on achète, et c'est la seule bonne raison d'adopter une bibliothèque
 d'interface : **supprimer une classe entière de bugs en supprimant le code qui les portait.**
-Pas « c'est plus moderne », pas « c'est ce qu'on demande en entretien ». Vingt et une occasions
+Pas « c'est plus moderne », pas « c'est ce qu'on demande en entretien ». Vingt occasions
 d'erreur ramenées à zéro.
 
 ### Ce que cette pratique ne dit pas

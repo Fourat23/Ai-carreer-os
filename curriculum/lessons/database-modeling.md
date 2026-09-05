@@ -25,12 +25,45 @@ logicielle (`/doc/lessons/clean-code`). Aucune connaissance préalable de normal
 d'index n'est supposée.
 
 ## 📖 Explication complète
+
+Les six notions ci-dessous ne sont pas six sujets à retenir : ce sont **trois décisions**,
+prises dans cet ordre, et chacune n'a de sens qu'une fois la précédente tranchée.
+
+1. **Où vit chaque fait ?** — la normalisation et les relations. On y répond avant d'écrire
+   la moindre requête, parce que la réponse détermine la forme de toutes les requêtes.
+2. **Qu'est-ce qui doit rester vrai quoi qu'il arrive ?** — les contraintes et les
+   transactions. On y répond avant d'avoir des utilisateurs : une base qui contient déjà des
+   données incohérentes **refuse** la contrainte qui les aurait empêchées, et il faut alors
+   nettoyer avant de protéger.
+3. **Qu'est-ce qui est trop lent ?** — les index, et en dernier recours la dénormalisation.
+   On y répond **après avoir mesuré**, jamais avant.
+
+Inverser cet ordre est l'erreur structurante du domaine : poser des index avant de savoir
+quelles questions on posera, ou dénormaliser « pour la performance » sur une base qui n'a
+jamais encore été lente.
+
 - **La normalisation** : 1NF — valeurs atomiques (pas de listes dans une cellule) ; 2NF/3NF — chaque colonne dépend de la clé, toute la clé, rien que la clé. Concrètement : l'auteur vit dans SA table, les livres le référencent par clé étrangère — renommer l'auteur = UNE ligne modifiée.
 - **Les relations** : 1-N (un auteur, des livres) par clé étrangère ; **N-N** (un livre, plusieurs catégories) par **table de liaison** — le pattern à reconnaître partout : emprunts (membre×livre+dates), inscriptions, participations. La table de liaison porte souvent SES données (dates, statut).
 - **La dénormalisation** : dupliquer EXPRÈS pour lire plus vite (un compteur, un total) — un trade-off assumé qui impose de maintenir la cohérence. Jamais un accident.
 - **Les index** : un arbre auxiliaire qui rend une recherche O(log n). Coût : espace + écritures ralenties. Règle : indexer les colonnes FILTRÉES/JOINTES fréquemment, prouvé par une mesure avant/après — pas partout, pas nulle part.
 - **Les transactions (ACID)** : un groupe d'opérations tout-ou-rien. « Créer la commande + décrémenter le stock » sans transaction = une panne au milieu laisse la base incohérente. Atomicité, Cohérence, Isolation, Durabilité.
 - **Contraintes en base** : NOT NULL, UNIQUE, FOREIGN KEY, CHECK — la base comme DERNIER rempart de l'intégrité (la validation applicative peut avoir des trous ; la contrainte, non).
+
+**L'arbitrage central, et il n'a pas de bonne réponse universelle.** Normaliser et
+dénormaliser tirent en sens exactement opposés : la première garantit qu'un fait ne *peut
+pas* se contredire, la seconde achète de la vitesse de lecture en acceptant qu'il le puisse.
+Le critère de choix n'est pas esthétique, il est **qui paie l'erreur**. Tant que la donnée
+dupliquée est réparable par un recalcul — un compteur d'emprunts, un total de panier — la
+dénormaliser est un choix banal, qu'on corrige avec un script de cinq lignes. Dès qu'elle
+est celle qu'on facture, qu'on affiche à un tiers, ou qu'on ne saurait pas recalculer, la
+duplication devient une dette qu'on découvre le jour où les deux copies divergent, sans
+savoir laquelle avait raison.
+
+D'où la règle de conduite : **normalise par défaut, dénormalise sur mesure, et écris à côté
+comment tu recalculerais la copie.** Si tu ne sais pas écrire ce recalcul, tu ne dénormalises
+pas — tu improvises. La même logique vaut pour l'index, qui est un **pari sur les questions
+futures payé à chaque écriture** : un index jamais utilisé n'est pas neutre, c'est un
+ralentissement permanent au profit de personne.
 
 ## 🔧 Exemple simple
 `livres(auteur TEXT)` avec le nom en toutes lettres = 40 lignes à corriger au premier renommage (et des variantes d'orthographe). `livres(auteur_id → auteurs.id)` = une seule vérité.

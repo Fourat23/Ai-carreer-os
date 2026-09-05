@@ -62,3 +62,6 @@ for (const d of suspectes) {
 console.log('\nVerdict de lecture au CP3 : 26 legitimes, 2 defauts reels');
 console.log('(async-messaging-queues et system-design-scaling — seconde section de');
 console.log('verification non corrigee, reliquat d une restructuration).');
+console.log('CP9 : les deux defauts sont corriges. La question sur les points de');
+console.log('defaillance unique de system-design-scaling a ete REPRISE dans la section');
+console.log('principale avant suppression de l annexe — elle n y etait pas couverte.');

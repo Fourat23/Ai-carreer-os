@@ -108,6 +108,13 @@ l'arithmétique, elle, est exacte et reproductible
 | 5 adresses IP réservées et inutilisées | 18 € |
 | **total** | **1 885 €** |
 
+Si tu additionnes la colonne à la main, tu trouves **1 884 €**, pas 1 885. Ce n'est pas
+une coquille : chaque ligne est arrondie à l'euro pour être lisible, alors que le total
+est calculé sur les montants exacts (1 884,80 €). **Une facture cloud réelle fait
+exactement cela**, et c'est une source classique de conversations pénibles avec la
+comptabilité. Retiens la règle : on additionne les montants exacts, puis on arrondit —
+jamais l'inverse.
+
 ### Le réflexe qu'il faut réprimer
 
 La réaction naturelle est d'attaquer le plus gros poste : les machines de production.
@@ -131,11 +138,13 @@ et son disque **survit** — c'est même souvent le comportement par défaut, pe
 strictement nul, obtenu en une heure, et c'est ce qui achète la crédibilité pour la
 suite de la conversation.
 
-### Deuxième geste — ce qui ne sert pas la nuit : 269 €
+### Deuxième geste — ce qui ne sert pas la nuit : 273 €
 
 Les environnements de recette et de développement tournent 24 heures sur 24. Ils sont
-utilisés pendant les heures de bureau. En les éteignant 14 heures par jour, on économise
-**269 €, soit 14 %** — plus que le geste précédent, pour un risque qui reste faible.
+utilisés pendant les heures de bureau. Ces sept machines coûtent 350 + 117 = **467 €**
+par mois ; les éteindre 14 heures sur 24 en supprime les 14/24, soit
+**273 €, ou 14 % de la facture** — plus que le geste précédent, pour un risque qui
+reste faible.
 
 Le seul vrai coût est humain : il faut que ces environnements se rallument sans
 friction, sinon l'équipe les rallumera « juste pour aujourd'hui » et ne les éteindra
@@ -166,7 +175,7 @@ différemment, et aucune ne se voit sur la liste des machines.
 
 ### Le bilan, et ce qu'il faut en retenir
 
-**531 € sur 1 885, soit 28 %, sans toucher à la production.** Trois gestes, aucun
+**138 + 273 + 124 = 535 € sur 1 885, soit 28 %, sans toucher à la production.** Trois gestes, aucun
 risque pour les utilisateurs.
 
 La leçon générale dépasse le cloud : dans presque tout système facturé à l'usage, une

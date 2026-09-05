@@ -75,8 +75,9 @@ regroupement des rares en "Autre", puis   →   5 colonnes
 
 Une colonne d'entrée est devenue 604. Au-delà de la mémoire, le problème est statistique :
 600 de ces colonnes ne valent 1 que pour **une seule ligne**. Un modèle qui dispose d'une
-variable active sur un unique individu peut apprendre cet individu par cœur — c'est du
-**surapprentissage** — le modèle mémorise au lieu de généraliser — servi sur un plateau. Regrouper la longue traîne en « Autre » ne perd donc
+variable active sur un unique individu peut apprendre cet individu par cœur : c'est du
+**surapprentissage** — le modèle mémorise au lieu de généraliser — servi sur un plateau.
+Regrouper la longue traîne en « Autre » ne perd donc
 presque rien (ces villes ne portent aucune statistique exploitable) et supprime le risque.
 Le seuil de regroupement est un choix à documenter, pas une constante universelle : garde
 ce qui apparaît assez souvent pour qu'une moyenne y ait un sens.

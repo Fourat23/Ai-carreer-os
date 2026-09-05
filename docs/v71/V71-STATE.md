@@ -6,23 +6,15 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP8**
-- **CP actuel** : CP9
+- **dernier CP terminé** : **CP9**
+- **CP actuel** : CP10
 - **leçons réellement lues et notées** : **128 / 128** ✅
-- **P1 : 0** — tous fermés. Les P2 sont désormais ouverts (§12).
-- **prochaine action EXACTE** : **CP9** — traiter les **14 P2**. Cinq classes :
-  (1) trois **noyaux catalogue** (`interview-preparation`, `database-modeling`,
-  `javascript-basics`) ; (2) quatre **comptages ou chiffres faux**
-  (`browser-dom-rendering` N=21→20, `prompt-engineering` cinq→quatre, `ai-evaluation` note
-  globale non reproductible, `cloud-finops` colonne à 1 884 contre 1 885) ; (3) deux
-  **sections dupliquées** (`async-messaging-queues`, `system-design-scaling`) ; (4) deux
-  **gloses cassées** (`database-migrations`, `feature-engineering`) ; (5) trois divers
-  (`python-foundations` `TypeErreur`, `typescript-frontend` argument répété trois fois,
-  `react-composition-architecture` incohérence avec `react-application-states`).
+- **P0 : 0 · P1 : 0 · P2 : 0** — tous fermés. Les 10 P3 sont désormais ouverts (§12).
+- **prochaine action EXACTE** : **CP10** — passe de pratique R/E/D/P/T sur les 128 leçons,
+  en traitant les 10 P3 au fil du passage lorsqu'ils tombent dans le domaine lu.
 
 > **Ordre imposé (brief §12) : P0, puis P1, puis P2 — pas les P3 tant qu'il reste des P1.**
-> Aucun P0. Les 14 P2 et 10 P3 ne seront traités qu'**après** le dernier P1 (fin CP9).
-> C'est pourquoi le P2 de `python-foundations` n'a pas été corrigé au CP4 malgré son domaine.
+> Ordre respecté : P1 fermés du CP4 au CP8, P2 fermés au CP9, P3 ouverts seulement ensuite.
 
 ---
 
@@ -263,6 +255,193 @@ vérifié après correction.
 
 ---
 
+## CP9 — les 14 P2. **P2 = 0.**
+
+Cinq classes, quatorze leçons, quatorze défauts fermés. Le point qui compte pour la
+crédibilité de la mesure vient à la fin de cette section : **dix des quatorze corrections ne
+déplacent aucune note.**
+
+### Classe 1 — les cinq chiffres qui ne se reproduisaient pas
+
+| leçon | ce qui était faux | ce qui est publié maintenant |
+|---|---|---|
+| `browser-dom-rendering` | `N = 21` alors que la démonstration en produit 20 | `N = 20`, et « vingt et une occasions d'erreur » → « vingt » |
+| `prompt-engineering` | « cinq sorties sur neuf » alors que le décompte en donne quatre | « quatre sorties sur neuf » |
+| `python-foundations` | `TypeErreur` — nom d'exception francisé, inexistant en Python | `TypeError` partout |
+| `ai-evaluation` | note globale non reproductible : une moyenne simple donne 0,63 pour C, pas 0,77 | la pondération **0,40 / 0,40 / 0,20 est énoncée avant le tableau**, et C vaut **0,76** |
+| `cloud-finops` | colonne à 1 884 contre un total publié à 1 885 ; second geste à 269 € pour « 14 heures par jour » | voir ci-dessous |
+
+**`ai-evaluation` : la correction devait préserver l'argument, pas seulement l'arithmétique.**
+La thèse de la leçon est que trois systèmes très différents obtiennent des notes globales
+quasi identiques, C restant la plus basse de peu. Avec la pondération désormais explicite :
+**A = 0,78 · B = 0,78 · C = 0,76.** L'argument tient et devient vérifiable au lieu d'être
+affirmé.
+
+**`cloud-finops` : deux défauts, dont un corrigé en l'expliquant plutôt qu'en le masquant.**
+
+1. *La colonne qui ne somme pas.* Additionner les neuf lignes donne 1 884 €, le total publié
+   est 1 885 €. La tentation était de retoucher une ligne. Ce qui a été fait à la place :
+   **dire pourquoi**. Chaque ligne est arrondie à l'euro pour la lisibilité, le total est
+   calculé sur les montants exacts (1 884,80 €). Une vraie facture cloud fait exactement
+   cela, c'est une source classique de discussions pénibles avec la comptabilité, et la
+   leçon en tire une règle : on additionne les montants exacts, puis on arrondit — jamais
+   l'inverse. **Un défaut converti en point d'enseignement.**
+2. *Le geste à 269 €.* Le script calculait l'extinction sur un mois de **30 jours** alors que
+   la facture est calculée sur **730 heures** (30,42 jours). Un lecteur qui fait 467 × 14/24
+   trouve 273 et croit s'être trompé. Le script utilise désormais la même base horaire :
+   **273 €**, cumul **535 €** au lieu de 531, pourcentage inchangé à **28 %**. La leçon
+   publie le calcul (350 + 117 = 467, dont 14/24). Défaut annexe corrigé au passage : le
+   libellé du script annonçait « la nuit **et le week-end** » alors qu'il ne calculait que
+   14 h/24.
+
+### Classe 2 — les deux sections dupliquées, traitées différemment
+
+Les deux leçons portaient une seconde « Vérification de compréhension » non corrigée,
+reliquat d'une restructuration. **Elles n'ont pas reçu le même traitement, et c'est le point
+méthodologique de cette classe :**
+
+- `async-messaging-queues` — les trois questions de l'annexe étaient couvertes par la section
+  corrigée et par le corps. La troisième (« file ou pub/sub pour prévenir facturation, stock
+  et e-mail ») est **littéralement** la phrase de la section « File vs publish/subscribe »,
+  trois écrans plus haut. **Supprimée sans reprise.**
+- `system-design-scaling` — sa question sur les points de défaillance unique n'était couverte
+  **nulle part** dans la section corrigée. La supprimer aurait fait disparaître du contenu.
+  Elle est **reprise comme question 5**, avec une correction écrite pour l'occasion : les
+  trois instances ne sont pas des SPOF (c'est ce que la redondance a acheté), le répartiteur
+  s'élimine à bas coût parce qu'il ne détient aucun état, et la base est le cas difficile
+  parce qu'ajouter une réplique ne suffit pas — il faut trancher qui déclenche la bascule,
+  comment on empêche deux primaires simultanés, et ce qu'on fait des écritures acquittées non
+  répliquées. **La haute disponibilité d'une base ne se paie pas en machines, elle se paie en
+  décisions de cohérence.** Plus le troisième SPOF que le schéma ne montre pas : la zone.
+
+Les deux passent D13 4 → 5 : avant, un tiers des questions n'avait pas de correction, ce qui
+est exactement l'ancre « vérification présente mais **partielle** ».
+
+### Classe 3 — les deux gloses cassées
+
+`database-migrations` répétait « rejouables sans double effet » deux fois dans la même phrase
+avec deux ponctuations différentes. `feature-engineering` insérait sa glose sur
+« surapprentissage » entre le terme et la fin de la phrase, orphelinant le fragment « servi
+sur un plateau ». Édition inachevée dans les deux cas. Corrigées.
+
+### Classe 4 — `typescript-frontend` et `javascript-basics` : la redite mesurée
+
+`typescript-frontend` produisait **trois fois** l'argument sur `as`, la troisième quasi mot
+pour mot, dans une section intitulée « ✅ Correction attendue » **qui ne corrigeait aucun
+exercice** — la leçon n'a pas de vérification de compréhension à cet endroit. La redite est
+supprimée, la section retitrée « L'ordre de travail, et un dernier angle mort », et ne
+conserve que ce qui n'est dit nulle part ailleurs : l'ordre props → événements → frontière,
+et le fait qu'**une validation sans traitement de l'échec ne supprime pas le silence, elle le
+déplace** vers un écran blanc que personne ne sait expliquer.
+
+`javascript-basics` portait la seule note à **2** du corpus (D14, répétition interne) : son
+« Mini-exercice » était un **sous-ensemble strict** de la « Pratique A → E », et sa correction
+redisait la mutation dans `map`, la copie superficielle et les dix expressions — 114 mots sur
+trois blocs. Mini-exercice et correction supprimés (82 lignes), **après reversement des deux
+seuls éléments qui n'existaient que là** : l'alternative « stocké contre dérivé » qui annonce
+React, et la vérification concrète `const avant = produits[0].prix` — qui est ce qui montre
+pourquoi `soldes !== produits` ne prouve rien, le tableau étant bien neuf dans la version
+fautive. Les six règles du bloc des dix expressions ont été conservées dans leur version
+**longue**, la plus explicative des deux. D14 : **2 → 5**. D11 : 3 → **4** et pas 5 — la
+pratique D renvoie explicitement à la liste d'expressions de la correction qui suit, ce qui
+reste un renvoi vers l'aval, signalé donc toléré par l'ancre 4.
+
+### Classe 5 — les deux noyaux catalogue, corrigés sans gonfler
+
+Les deux étaient **plafonnés à 3 en D6 par la précision opposable du contrat** : un noyau qui
+n'énonce que des définitions ne dépasse pas 3, quelle que soit leur justesse. La correction ne
+pouvait donc pas être du volume — elle devait apporter un **outil de raisonnement**.
+
+- `database-modeling` (199 mots, le plus court et le plus catalogue) reçoit une **colonne
+  vertébrale** : les six notions deviennent **trois décisions ordonnées** — où vit chaque
+  fait / qu'est-ce qui doit rester vrai / qu'est-ce qui est trop lent — avec la raison de
+  l'ordre, qui est le vrai enseignement : *une base contenant déjà des données incohérentes
+  refuse la contrainte qui les aurait empêchées*, et on n'indexe qu'après avoir mesuré. Plus
+  l'arbitrage manquant : normalisation contre dénormalisation tranchées par **qui paie
+  l'erreur**, avec une règle opérable — si tu ne sais pas écrire le recalcul de la copie, tu
+  ne dénormalises pas, tu improvises. Les cinq éléments de l'ancre D6=5 sont présents :
+  **D6 3 → 5**.
+- `interview-preparation` (247 mots, cinq formats énumérés) reçoit le critère de répartition
+  qui manquait : le **taux de réemploi** (la banque de chiffres sert trois formats, un kata ne
+  sert qu'à lui-même), l'erreur typique **avec sa cause** (on sur-investit les katas parce que
+  c'est le seul format où l'on voit un score monter le soir même — et celui dont le rendement
+  décroît le plus vite), et le quand-ne-pas (un test technique éliminatoire en première étape
+  annule le critère). Le modèle mental passe de 44 mots énonciatifs à un renversement
+  argumenté : préparer, ce n'est pas réviser, c'est produire des artefacts réutilisables.
+  **D6 3 → 4 et non 5** : quatre des cinq éléments de l'ancre sont là, le coût de la
+  préparation reste implicite. La différence de traitement entre les deux leçons est
+  délibérée et opposable.
+
+### `react-composition-architecture` — le défaut trouvé par lecture croisée
+
+La leçon présentait le hook personnalisé comme encapsulant « les trois états
+loading/error/data » — **la forme exacte que `react-application-states` démontre fausse par
+dénombrement**, neuf jours plus tôt (jour 95 contre jour 104, vérifié). Corrigé en une
+demi-phrase de principe : le hook renvoie un état à **statut unique**, la leçon antérieure est
+citée comme la démonstration, et l'incohérence devient un **argument pour** le hook — il n'y a
+plus qu'un endroit où cette forme peut être correcte, au lieu de cinq.
+
+### Le point qui compte : dix corrections sur quatorze ne déplacent aucune note
+
+| | avant CP9 | après CP9 |
+|---|---|---|
+| **P2** | **14** | **0** |
+| moyenne du corpus | 4,873 | **4,883** |
+| D1 | 4,945 | 4,984 |
+| D6 | 4,844 | 4,867 |
+| D11 | 4,875 | 4,883 |
+| D13 | 4,289 | 4,305 |
+| D14 | 4,922 | **4,984** |
+
+Quatorze défauts fermés font monter la moyenne de **0,010 point**. Ce n'est pas un échec de la
+correction, c'est une propriété du barème gelé au CP1, et il faut la dire franchement : sur
+dix des quatorze leçons, **la note n'avait pas été baissée pour ce défaut**. Un comptage faux
+isolé dans une leçon par ailleurs exacte ne fait pas tomber D1 de 5 à 4 sous l'ancre ; il a été
+inscrit comme P2 au ledger sans coût en note. Corriger ferme le défaut sans rien rendre.
+
+Trois conséquences, toutes assumées :
+
+1. **Aucune note n'a été baissée rétroactivement pour rendre les corrections rentables.** Ce
+   serait exactement le déplacement de seuil après mesure qu'interdit le §7.
+2. **`react-composition-architecture` reste à 5/5 sur les quatorze dimensions** alors qu'elle
+   portait une incohérence réelle. La raison est structurelle et mérite d'être notée pour le
+   CP15 : le défaut est **inter-leçons**, et la notation D1→D14 s'applique à une leçon lue
+   seule. Le barème ne peut pas le voir. Il a été trouvé en lisant deux leçons l'une contre
+   l'autre — c'est-à-dire par la méthode, pas par la grille.
+3. **Le mapping des notes a été refait après vérification.** Le premier jet attribuait les
+   hausses aux dimensions thématiquement proches (D3 pour un chiffre faux, D12 pour une glose).
+   Relecture des justifications CP3 : `ai-evaluation` et `cloud-finops` portent littéralement
+   « D1 à 4 : voir le défaut ci-dessus », et les gloses avaient coûté **D14**, pas D12. Les
+   notes ont été **remises à leur valeur CP3 puis redéplacées** selon la dimension réellement
+   pénalisée. Deux hausses du premier jet ont été **annulées** faute de pouvoir les
+   démontrer : `typescript-frontend` D9 (le corrigé A→E n'a pas été relu en entier au CP9) et
+   `database-migrations` D12 (mauvaise dimension).
+
+### Un cas où une porte a eu raison, et un où elle n'aurait pas dû décider
+
+`curriculum:depth-check` a signalé après coup : « `typescript-frontend` : pas de
+mini-exercice ». Sa règle est `/exercice|mini-exercice/i` — un test de **présence de mot**. La
+réponse conforme au §7 aurait été de refuser d'insérer le mot. Vérification faite, le mot
+disparu appartenait à une phrase que j'avais supprimée avec la redite et **dont l'absence était
+une perte réelle** : celle qui répond à la question qu'un lecteur se pose forcément — *pourquoi
+m'a-t-on fait écrire un prédicat à la main si une bibliothèque le fait mieux ?* Le passage a
+donc été réécrit et développé (la bibliothèque n'annule pas la décision, elle l'exécute ; une
+équipe qui l'installe sans avoir compris ce qu'elle remplace valide dans un coin et pas dans un
+autre). **C'est le contenu qui a été restauré, pas le mot** — si la vérification n'avait pas
+mis au jour une perte, la porte aurait été contestée dans ce fichier plutôt que satisfaite.
+
+### Probes
+
+Les deux sondes structurelles portent désormais leur verdict CP9 en clair. `titres-doubles`
+tombe de **2 défauts réels à 0** (26 doubles « Correction attendue » restent, légitimes : deux
+exercices, deux corrections). `glose-dupliquee` tombe de **1 à 0** ; les **19 parallélismes
+délibérés sont conservés** — les supprimer pour faire tomber un compteur serait du Goodhart.
+
+Validation (hash `a852a39002f5981d849cee686343438ed1dbb232`) : `gates:active` **0**,
+`npm test` **1420/1420**, `tsc --noEmit` **0**, `npm run build` **0**.
+
+---
+
 ## Incident de session — perte du conteneur (2026-09-05)
 
 La session du 2026-08-30 a été interrompue par une limite d'usage, puis le conteneur a été
@@ -481,8 +660,8 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP6 | P0+P1 web / backend / API / SQL / data | **terminé** |
 | CP7 | P0+P1 ML / IA appliquée / LLM / RAG / agents | **terminé** |
 | CP8 | P0+P1 architecture / perf / sécurité / observabilité / incidents | **terminé** |
-| CP9 | P1 carrière **terminés au CP8** → CP9 traite les P2 | à faire |
-| CP10 | passe transversale PRATIQUE (128) | à faire |
+| CP9 | P1 carrière **terminés au CP8** → CP9 traite les 14 P2 | **terminé** |
+| CP10 | passe transversale PRATIQUE (128) R/E/D/P/T + les 10 P3 | à faire |
 | CP11 | passe corrections + vulgarisation + jargon + prérequis | à faire |
 | CP12 | validation factuelle et assertions exécutables | à faire |
 | CP13 | audit aveugle (32 leçons, graine 20260831) | à faire |
@@ -498,7 +677,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
 - CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : `a6a4270` — **CP3 terminé**
-- CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : `3fd6f8b` · CP7 : `4fd6fa2` · CP8 : ce commit
+- CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : `3fd6f8b` · CP7 : `4fd6fa2` · CP8 : `8701d27` · CP9 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 

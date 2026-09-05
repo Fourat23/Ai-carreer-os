@@ -44,7 +44,7 @@ Python est la langue de l'IA : pandas, scikit-learn, PyTorch, et l'essentiel de 
 | template literals | f-strings `f"total {n}"` | équivalent direct |
 | `=== ` | `==` | compare les VALEURS ; `is` compare l'identité |
 | `arr.map/filter` | comprehensions | LE style pythonique |
-| `try/catch` | `try/except TypeErreur:` | exceptions typées |
+| `try/catch` | `try/except TypeError:` | exceptions typées |
 
 ### L'indentation EST la syntaxe
 Pas d'accolades : le bloc est défini par l'indentation (4 espaces, standard). Conséquence : l'indentation incohérente n'est pas moche, elle est FAUSSE (erreur ou bug silencieux). Ton éditeur bien configuré gère ça.

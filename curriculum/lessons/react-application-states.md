@@ -18,10 +18,18 @@ source de vérité de l'écran), regrouper un état complexe avec **`useReducer`
 données** (chargement, vide, erreur, succès) au lieu du seul cas heureux.
 
 ## 🧩 Prérequis
-Tu dois maîtriser composants, props/state et le re-rendu (`/doc/lessons/react-fundamentals`), les
-effets et le chargement de données async (`/doc/lessons/react-hooks-effects`), et les principes de
-composition et d'architecture d'état (`/doc/lessons/react-composition-architecture`). Cette leçon
+Tu dois maîtriser composants, props/state et le re-rendu (`/doc/lessons/react-fundamentals`) ainsi
+que les effets et le chargement de données async (`/doc/lessons/react-hooks-effects`). Cette leçon
 ASSEMBLE ces briques à l'échelle d'une application.
+
+La seule notion d'architecture d'état nécessaire ici tient en une phrase : **un état se place au
+plus proche ancêtre commun des composants qui le lisent, et ce qui peut se calculer ne se stocke
+pas**. C'est tout ce que la leçon utilise — elle s'occupe d'une autre question, celle des états
+que ton modèle rend *représentables*.
+
+> **Où trouver le détail.** `/doc/lessons/react-composition-architecture` traite le découpage en
+> composants, le placement de l'état et la mémoïsation. Elle est **programmée plus loin** dans le
+> parcours, et rien ici ne suppose que tu l'as lue.
 
 ## 🧠 Modèle mental
 Une application, c'est trois choses à orchestrer :

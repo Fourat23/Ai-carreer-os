@@ -17,10 +17,19 @@ choisir le bon `type` d'`<input>`, utiliser la validation native (`required`, `t
 et distinguer un formulaire « qui s'affiche » d'un formulaire réellement utilisable.
 
 ## 🧩 Prérequis
-Tu dois savoir structurer une page avec des balises sémantiques
-(`/doc/lessons/html-semantic-structure`) et comprendre le cycle événement → état → DOM
-(`/doc/lessons/browser-dom-rendering`). Des bases de JavaScript aident pour la soumission
-(`/doc/lessons/javascript-basics`). Aucune expérience préalable de formulaires n'est supposée.
+Tu dois comprendre le cycle événement → état → DOM (`/doc/lessons/browser-dom-rendering`). Des
+bases de JavaScript aident pour la soumission (`/doc/lessons/javascript-basics`). Aucune
+expérience préalable de formulaires n'est supposée.
+
+Le seul point de HTML nécessaire ici est celui-ci : **une balise porte un sens, et le navigateur
+en tire un comportement gratuit**. Un `<label>` relié à son champ le rend cliquable et le fait
+annoncer par un lecteur d'écran ; un vrai `<button>` est atteignable au clavier ; un `<input>`
+typé déclenche le bon clavier sur mobile. C'est ce que la leçon exploite, et elle le construit
+au fur et à mesure.
+
+> **Où trouver le détail.** `/doc/lessons/html-semantic-structure` traite la structure complète
+> d'une page — repères, hiérarchie des titres, choix de la balise juste. Elle est **programmée
+> plus loin** dans le parcours ; rien ici ne suppose que tu l'as lue.
 
 ## 🧠 Modèle mental
 Un formulaire est un **contrat de saisie** entre l'utilisateur et l'application. Chaque champ

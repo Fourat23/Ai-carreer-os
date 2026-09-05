@@ -6,15 +6,16 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP4**
-- **CP actuel** : CP5
+- **dernier CP terminé** : **CP5**
+- **CP actuel** : CP6
 - **leçons réellement lues et notées** : **128 / 128** ✅
-- **prochaine action EXACTE** : **CP5** — corriger les P1 du domaine **frontend** :
-  `react-application-states` (→ `react-composition-architecture`, +9 j),
-  `web-forms-validation` (→ `html-semantic-structure`, +7 j) et
-  `frontend-performance` (→ `react-composition-architecture`, +2 j). Les trois sont des
-  défauts de prérequis ; appliquer les remèdes de `PREREQUIS-ORDRE.md` §6, re-geler les
-  9 gates de corpus, valider, committer.
+- **prochaine action EXACTE** : **CP6** — corriger les P1 du domaine
+  **web / backend / API / SQL / data** : `express-backend` (→ `error-handling`, +2 j),
+  `caching-performance` (→ `sql-performance-indexing`, +55 j),
+  `async-messaging-queues` (→ `resilience-patterns`, +41 j), et surtout
+  **`sql-performance-indexing`, le seul P1 de pratique du sprint** — la leçon enseigne
+  `EXPLAIN` et ne le fait jamais exécuter ; il faut lui écrire une pratique sur sa compétence
+  annoncée. Re-geler les 9 gates, valider, committer.
 
 > **Ordre imposé (brief §12) : P0, puis P1, puis P2 — pas les P3 tant qu'il reste des P1.**
 > Aucun P0. Les 14 P2 et 10 P3 ne seront traités qu'**après** le dernier P1 (fin CP9).
@@ -71,7 +72,32 @@ sonde détecte, elle ne classe pas.
 
 Validation après correction et re-gel des 9 gates de corpus (nouveau hash
 `0da3692f1eda45bf0ae9749e8f03738d9fc3f24a`) : `gates:active` **0**, `npm test`
-**1420/1420**, `tsc --noEmit` **0**.
+**1420/1420**, `tsc --noEmit` **0**, `npm run build` **0**.
+
+---
+
+## CP5 — corrections frontend
+
+Trois P1, tous des défauts de prérequis, tous fermés par le remède 1 (intégrer la notion,
+sortir la citation vers un encadré signalé).
+
+| leçon | ce qui a été intégré, ou pourquoi rien ne l'était | D2 |
+|---|---|---|
+| `react-application-states` | « un état se place au plus proche ancêtre commun de ceux qui le lisent, et ce qui peut se calculer ne se stocke pas » — la leçon précise ensuite qu'elle s'occupe d'une **autre** question, celle des états que le modèle rend *représentables* | 1 → 5 |
+| `web-forms-validation` | « une balise porte un sens, et le navigateur en tire un comportement gratuit » — label cliquable et annoncé, `<button>` atteignable au clavier, `<input>` typé déclenchant le bon clavier mobile | 1 → 5 |
+| `frontend-performance` | **rien** : la mémoïsation était présentée comme prérequis alors que la leçon la définit et la mesure elle-même, et que c'est précisément son usage **par réflexe** qu'elle cherche à corriger | 1 → 5 |
+
+Le cas de `frontend-performance` mérite d'être noté : le remède était **déjà dans la même
+section**. La leçon traitait correctement `responsive-design` par un encadré « Étagère de
+référence » deux lignes plus bas, tout en exigeant `react-composition-architecture` sans le
+signaler. Corriger revenait à appliquer à la seconde citation ce que la leçon faisait déjà
+pour la première.
+
+Validation après re-gel (hash `8a428b9b4bf2c890b2d1a0e0963839b686f01387`) : `gates:active`
+**0**, `npm test` **1420/1420**, `tsc --noEmit` **0**.
+
+Effet cumulé CP4 + CP5 : moyenne **4,820 → 4,838**, D2 **4,31 → 4,53**, leçons à D2 = 1
+**20 → 13**, P1 **23 → 15**.
 
 ---
 
@@ -289,7 +315,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
 | CP3 | lecture et notation des 128 + ledger initial | **terminé — 128/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | **terminé** |
-| CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
+| CP5 | P0+P1 frontend / CSS / React / Next.js | **terminé** |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
 | CP7 | P0+P1 ML / IA appliquée / LLM / RAG / agents | à faire |
 | CP8 | P0+P1 architecture / perf / sécurité / observabilité / incidents | à faire |
@@ -310,7 +336,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
 - CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : `a6a4270` — **CP3 terminé**
-- CP4 : ce commit
+- CP4 : `c9045cf` · CP5 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 

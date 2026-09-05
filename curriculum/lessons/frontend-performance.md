@@ -16,9 +16,16 @@ adaptés (mémoïsation ciblée, lazy loading / code splitting, poids des images
 tomber dans l'optimisation prématurée.
 
 ## 🧩 Prérequis
-Tu dois comprendre le rendu et les re-rendus React (`/doc/lessons/react-fundamentals`), la
-mémoïsation et l'architecture d'état (`/doc/lessons/react-composition-architecture`), et les bases du
-réseau/HTTP et du cache (`/doc/lessons/http-rest-json`, `/doc/lessons/caching-performance`). 
+Tu dois comprendre le rendu et les re-rendus React (`/doc/lessons/react-fundamentals`) et les
+bases du réseau/HTTP et du cache (`/doc/lessons/http-rest-json`, `/doc/lessons/caching-performance`).
+La **mémoïsation** n'est pas supposée connue : elle est définie et mesurée ici, et c'est justement
+son usage par réflexe que cette leçon cherche à corriger.
+
+> **Où trouver le détail.** `/doc/lessons/react-composition-architecture` traite le découpage en
+> composants et le placement de l'état — le levier que cette leçon place **avant** la mémoïsation
+> dans son tableau. Elle est **programmée plus loin** dans le parcours ; rien ici ne suppose que
+> tu l'as lue.
+
 > **Étagère de référence.** `/doc/lessons/responsive-design` traite la performance perçue sur
 > mobile. Elle n'est programmée par aucune des 365 journées — rien dans cette leçon ne suppose
 > que tu l'as lue. Le seul point utile ici : sur mobile, le réseau et le processeur sont

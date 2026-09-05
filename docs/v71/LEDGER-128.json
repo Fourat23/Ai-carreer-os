@@ -1626,7 +1626,7 @@
     "archetype": "architecture",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -1642,11 +1642,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 95 et exige react-composition-architecture (jour 104), soit +9 j, avec la formulation Tu dois maitriser ... et les principes de composition et d architecture d etat — aucun signalement. Remede recommande : requalifier en aide signalee, la lecon etant suivable sans. A corriger au CP5. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP5 : la seule notion d architecture d etat necessaire est desormais ENONCEE dans la lecon (un etat se place au plus proche ancetre commun de ceux qui le lisent, et ce qui peut se calculer ne se stocke pas), et react-composition-architecture sort de la liste des prerequis vers un encadre Ou trouver le detail. La lecon precise qu elle s occupe d une autre question — les etats que le modele rend REPRESENTABLES. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "Le mouvement central est le bon et il est nomme : rendre l etat impossible plutot que le corriger. Le denombrement est fait devant l apprenant — trois variables independantes donnent huit etats representables, dont cinq legitimes, un franchement contradictoire et deux qui dependent d une intention que personne n a ecrite — puis la reformulation en union discriminee les rend inexprimables. On n a pas ajoute de garde, on a retire la possibilite. Deux qualites rares s ajoutent. La lecon dit NON a son propre outil au bon moment : le type suffit, le reducer ne devient utile que lorsque les transitions ont des regles. Et elle expose la LIMITE de sa solution avant que le lecteur ne la rencontre — mettre items dans la variante succes rend aussi inexprimable l affichage de l ancienne liste pendant un rechargement, qui est une contrainte reelle. La regle de partage URL/etat local est donnee avec son critere (ce qu on doit pouvoir partager, recharger ou retrouver au bouton retour) et sa consequence (se tromper de cote ne produit aucune erreur, seulement une application qui perd ce que l utilisateur croyait acquis)."
   },
   {
@@ -1656,7 +1656,7 @@
     "archetype": "securite",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -1672,11 +1672,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 96 et exige html-semantic-structure (jour 103), soit +7 j, avec la formulation Tu dois savoir structurer une page avec des balises semantiques — aucun signalement. C est le plus petit ecart de la classe B, mais la formulation est bien une exigence. Remede recommande : integrer en une phrase le seul point necessaire (label associe au champ) ou requalifier en aide signalee. A corriger au CP5. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP5 : le seul point de HTML necessaire est desormais construit dans la lecon (une balise porte un sens et le navigateur en tire un comportement gratuit : label relie au champ, vrai button atteignable au clavier, input type declenchant le bon clavier mobile), et html-semantic-structure sort vers un encadre Ou trouver le detail. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "Le tableau des saisies acceptees par Chromium pour type=email est un apport reel, et la lecon en tire la bonne conclusion en refusant les DEUX conclusions repandues : ni type=email ne sert a rien puisqu il accepte a@b, ni type=email valide l adresse. La seule verification qui tranche est l envoi d un message de confirmation, et elle n appartient meme pas au formulaire — pendant que beaucoup d equipes passent des heures sur une regex parfaite qui, au passage, rejette des adresses legitimes. Le piege du champ type=number est du meme calibre et personne ne l attend : abc est ACCEPTE parce que le navigateur traite alors le champ comme vide, value vaut la chaine vide, et Number de la chaine vide vaut 0 — une saisie absurde devient une quantite de zero sans qu aucun signal ne se declenche. La formule retenue est juste et memorable : un champ valide n est pas un champ rempli. La pratique demande d ATTAQUER son propre formulaire et exige qu au moins deux attaques aient reellement abouti, constatees dans l onglet reseau."
   },
   {
@@ -1716,7 +1716,7 @@
     "archetype": "optimisation",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -1732,11 +1732,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 102 et exige react-composition-architecture (jour 104), soit +2 j, avec la formulation Tu dois comprendre ... la memoisation et l architecture d etat. Ecart faible et recouvrement quasi immediat, mais la formulation est une exigence non signalee et l ancre gelee ne distingue pas selon l ecart. A noter : la meme section traite CORRECTEMENT responsive-design, hors parcours, par un encadre Etagere de reference explicite — le modele a appliquer est donc dans la lecon elle-meme. A corriger au CP5. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP5 : la memoisation n est plus presentee comme un prerequis, ce qui etait doublement faux — la lecon la definit et la mesure elle-meme, et c est precisement son usage PAR REFLEXE qu elle cherche a corriger. react-composition-architecture sort vers un encadre Ou trouver le detail, avec la remarque juste que le decoupage est le levier que cette lecon place AVANT la memoisation dans son tableau. La lecon traitait deja correctement responsive-design de cette facon : le modele etait donc dans la meme section. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "Archetype respecte a la lettre : mesure initiale, hypothese, changement, mesure finale, cout. Les deux mesures sont bien choisies et complementaires. Le layout thrashing donne un rapport de 420 (9 088,7 ms contre 21,6 ms, verifie) pour deux boucles qui font la meme chose avec le meme nombre d operations — et la lecon souligne que AUCUN des reflexes habituels ne l aurait trouve : ni boucle mal ecrite, ni algorithme quadratique, ni calcul couteux. La seconde mesure (500 rendus par frappe, 0 avec memo) prolonge le meme enseignement, formule explicitement : le cout vient de la REPETITION d un travail invisible, pas de la lourdeur d une operation visible. Le tableau des leviers est ordonne par cout croissant et impose l architecture d abord — descendre l etat supprime les 500 rendus sans ajouter une ligne, la ou memo les supprime en ajoutant une comparaison permanente. Le piege qui annule tout (style objet litteral et fleche en props d un composant memo) est le cas le plus frequent et il est indetectable a la lecture. Enfin la lecon donne la vraie raison de condamner l optimisation prematuree : non qu elle soit inutile, mais qu elle ajoute des CONTRAINTES PERMANENTES contre un gain que personne n a mesure."
   },
   {

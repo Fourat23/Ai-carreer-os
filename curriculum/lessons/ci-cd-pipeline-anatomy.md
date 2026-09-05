@@ -19,10 +19,19 @@ circulent entre les jobs. Objectif : lire, concevoir et accélérer un pipeline 
 lieu d'en subir un.
 
 ## 🧩 Prérequis
-Vous devez avoir l'intuition de la **CI/CD** (`/doc/lessons/ci-cd`) et savoir ce
-qu'est une **image** que l'on construit (`/doc/lessons/docker-images-layers`), car un
-pipeline construit et publie souvent des images. Les notions de job, runner, cache et
-artefact sont définies ici.
+Vous devez avoir l'intuition de la **CI/CD** (`/doc/lessons/ci-cd`). Les notions de
+job, runner, cache et artefact sont définies ici.
+
+La seule chose à savoir de ce qu'un pipeline **produit** tient en une phrase : il
+fabrique un **artefact**, c'est-à-dire un fichier construit à partir du code — une
+archive, un exécutable, ou une **image** de conteneur, qui est un paquet contenant
+l'application et ce dont elle a besoin pour tourner. Ce paquet est ensuite publié
+quelque part et déployé tel quel. C'est tout ce que cette leçon suppose.
+
+> **Où trouver le détail.** `/doc/lessons/docker-images-layers` explique comment une
+> image est construite, couche par couche, et pourquoi cet empilement décide de sa
+> taille et de sa vitesse de construction. Elle est **programmée plus loin** dans le
+> parcours ; rien ici ne suppose que tu l'as déjà lue.
 
 ## 🧠 Modèle mental
 Un pipeline est un **graphe de tâches** déclenché par un événement. Chaque tâche

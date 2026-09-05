@@ -295,7 +295,7 @@
     "archetype": "comparaison",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -311,8 +311,8 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — exige clean-code (jour 40) au jour 38, +2 j. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Correction prevue CP4-CP9 (texte de la lecon uniquement). Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP4 : les principes de code propre necessaires sont enonces dans la lecon (une fonction fait une chose, on nomme ce qu on fait, on ne repete pas la meme decision) et clean-code est requalifiee en aide eclairante, avec mention explicite qu elle est programmee deux jours plus loin. Ancre D2 niveau 5."
       }
     ],
     "action": "CONSERVE",
@@ -429,7 +429,7 @@
     "archetype": "investigation",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -445,8 +445,8 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — exige les bases de la documentation technique (jour 74) au jour 47, +27 j. Ancre D2 gelee au CP1, niveau 1 : un prerequis renvoie vers une lecon situee apres. Correction prevue CP4-CP9 (texte de la lecon uniquement). Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP4 : technical-documentation est sortie de la liste des prerequis vers un encadre Ou trouver le detail, avec la mention que la lecon est programmee plus loin et qu un README n en depend pas. La lecon declare desormais qu aucune experience prealable de redaction technique n est attendue et que tout ce dont un README a besoin est construit sur place — ce que sa structure en six points fait effectivement. Ancre D2 niveau 5."
       }
     ],
     "action": "CONSERVE",
@@ -1375,7 +1375,6 @@
     "cp": "CP3",
     "archetype": "construction",
     "D": [
-      2,
       5,
       5,
       5,
@@ -1383,7 +1382,8 @@
       5,
       5,
       5,
-      4,
+      5,
+      5,
       5,
       5,
       5,
@@ -1392,11 +1392,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D1 : erreur factuelle dans la correction de la pratique C. Le jeu propose — 95 % a 50 ms, 5 % a 3 000 ms — est annonce comme donnant un centile 95 de 3 000 ms. Mesure (rang le plus proche, 1 000 000 de requetes) : p50 = 50 ms, p95 = 50 ms, p96 = 3 000 ms, p99 = 3 000 ms. C est p99 qui vaut 3 000, pas p95. La moyenne annoncee (197 ms) est juste (197,5). Aggravant : la pratique C demande explicitement de fabriquer un jeu ou le centile 95 est mauvais, et la correction fournit un jeu ou il est bon — elle echoue a l exercice qu elle corrige. Deux remedes possibles : dire p99 = 3 000 ms (edition minimale, et le point pedagogique devient plus fort : meme p95 peut cacher la queue), ou changer le jeu en 90/10 (moyenne 345 ms, p95 = 3 000 ms, 100 000 utilisateurs). A corriger au CP8."
+        "p": "CORRIGE",
+        "quoi": "CP4 : le jeu de la pratique C passe de 95/5 a 94/6, ce qui rend le centile 95 REELLEMENT mauvais et repond donc a l enonce, qui demandait un jeu ou il l est. Valeurs recalculees et publiees : moyenne 227 ms, p95 3 000 ms, 60 000 personnes sur un million de requetes. Et l erreur d origine est retournee en materiau pedagogique : un paragraphe ajoute montre qu au meme jeu a 5 %, la moyenne descend a 197 ms et le p95 vaut 50 ms — il devient excellent alors que cinquante mille personnes attendent toujours trois secondes, parce que le centile est pose PILE a la frontiere du groupe lent. La regle qui en sort est plus forte que le chiffre : un centile choisi ne dit rien de ce qui se passe au-dela de lui, un p95 vert signifie seulement que la queue commence apres 95 %. D1 de 2 a 5, D9 de 4 a 5 : la correction valide desormais la contrainte de son propre enonce."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "Trois questions mesurees, chacune close par une consequence de conception. Q1 : sur le MEME journal, le format texte repond juste a une question (9 contre 9) et faux a une autre (37 au lieu de 58, 36 % de sous-estimation) sans aucun signal — d ou la regle que ce sur quoi on filtrera doit etre un champ. Q2 : la reconstitution par proximite temporelle passe 200/200 sans concurrence et 1/200 des cinq requetes simultanees, et son echec est SILENCIEUX — elle rend une requete plausible composee de morceaux d autres. Q3 : l echantillonnage uniforme supprime en priorite ce qu on veut garder. La correction sur les centiles est excellente sur le fond (un centile ne s additionne ni ne se moyenne ; p99 n est pas 1 % des gens mais 1 % des requetes) mais porte l erreur ci-dessus. D9 a 4 : la correction de la partie C ne valide pas la contrainte de son propre enonce."
   },
   {
@@ -2071,7 +2071,7 @@
     "archetype": "construction",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -2087,11 +2087,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige — la lecon est au jour 155 et exige DEUX prerequis posterieurs dans la meme phrase : feature-engineering (jour 169, +14 j, classe B) et model-evaluation (jour 157, +2 j, classe C), avec la formulation Tu dois comprendre ... ainsi que le feature engineering et la fuite de donnees, car le Pipeline existe precisement pour rendre le leakage impossible. Remede recommande pour feature-engineering : requalifier en aide signalee. A corriger au CP7. Ancre D2 gelee au CP1, niveau 1. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP4 : la fuite de donnees, notion dont tout le reste depend, est desormais DEFINIE dans la lecon en une phrase (il y a fuite des qu une information calculee en regardant le test entre dans l entrainement, et rien ne le signale), ce qui justifie l existence du Pipeline sans exiger feature-engineering. Les deux lecons posterieures sont sorties vers un encadre Ou trouver le detail. Prerequis restant : machine-learning-basics, du meme jour. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "Entierement source et REJOUE avant notation : j ai execute scripts/v70-verifications/ml-pieges-mesures.py et sa sortie correspond exactement a ce que la lecon publie (exactitude 97,33 %, aire ROC 79,25 %, tableau des seuils 0,50 a 0,03, ecart nul pour la fuite de normalisation et +18,68 points pour la variable construite a partir de la cible). Le calcul metier est verifie aussi : passer du seuil 0,10 au seuil 0,03 achete 16 fraudes de plus (3 200 EUR) contre 247 alertes de plus, soit environ 20 heures de verification. Deux apports. La distinction CLASSER contre DECIDER : au seuil par defaut le modele ne predit aucune fraude et sa matrice est celle du modele nul, mais son aire ROC vaut 79,3 % contre 50 % pour le hasard — il ordonne correctement sans decider, et une seule de ces deux capacites depend du seuil. Et l explication de cv=5, que la lecon donne parce que personne ne l explique : cinq scores valent mieux qu un, non seulement par leur moyenne mais parce que LEUR DISPERSION EST UNE INFORMATION — 0,81/0,82/0,80/0,81/0,82 et 0,91/0,62/0,88/0,55/0,84 ont la meme moyenne et decrivent deux modeles opposes. Ne regarder que la moyenne d une validation croisee reproduit exactement l erreur que la lecon de statistiques denonce. D13 a 4 : pas de section de verification distincte."
   },
   {
@@ -2747,7 +2747,7 @@
     "archetype": "optimisation",
     "D": [
       5,
-      1,
+      5,
       5,
       5,
       5,
@@ -2763,11 +2763,11 @@
     ],
     "defauts": [
       {
-        "p": "P1",
-        "quoi": "D2 : prerequis enseigne apres la lecon qui l exige. La lecon est au jour 307 et exige docker-images-layers (jour 320), soit +13 j, avec la formulation Vous devez avoir l intuition de la CI/CD et SAVOIR CE QU EST UNE IMAGE que l on construit, CAR un pipeline construit et publie souvent des images. Ancre D2 gelee niveau 1. Remede recommande : requalifier en aide signalee — la lecon n a besoin que de savoir qu un pipeline produit un artefact, notion qu elle construit elle-meme. A corriger au CP8. Voir docs/v71/PREREQUIS-ORDRE.md."
+        "p": "CORRIGE",
+        "quoi": "CP4 : la notion necessaire (un pipeline produit un artefact, dont une image de conteneur = un paquet contenant l application et ce dont elle a besoin) est desormais INTEGREE dans la lecon, et docker-images-layers est sorti de la liste des prerequis vers un encadre Ou trouver le detail signalant qu elle est programmee plus loin. Prerequis restants : ci-cd seul, anterieur. Ancre D2 niveau 5."
       }
     ],
-    "action": "RETOUCHE",
+    "action": "CONSERVE",
     "justif": "Mesure faite SUR CE DEPOT, ce qui rend la demonstration irrefutable et reproductible : les 155 fichiers de tests chronometres un par un, 129,2 s cumulees, et les cinq plus lents pesant 47,9 % du total — recalcule exactement (61,87 s sur 129,2). La lecon en tire la bonne generalisation : cette forme est la regle, pas l exception, le temps d une suite etant presque toujours concentre sur une poignee de fichiers qui compilent, lancent un processus externe ou touchent le disque — donc la premiere action utile n est pas de paralleliser, c est de MESURER PAR FICHIER, ce qui prend dix minutes. Le tableau de parallelisation est ensuite ce qui repond vraiment a la question du titre : l acceleration est quasi parfaite jusqu a quatre agents, decroche a huit, et PLAFONNE a x6,75 quel que soit le nombre d agents au-dela. Le plafond est verifie et sa cause est structurelle : il vaut exactement la duree du fichier le plus long (19,16 s), qu aucun nombre d agents ne peut fractionner. C est la demonstration la plus economique possible du fait qu on ne parallelise pas un chemin critique."
   },
   {

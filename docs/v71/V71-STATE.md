@@ -6,13 +6,72 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP3**
-- **CP actuel** : CP4
+- **dernier CP terminé** : **CP4**
+- **CP actuel** : CP5
 - **leçons réellement lues et notées** : **128 / 128** ✅
-- **prochaine action EXACTE** : **CP4** — corriger les P1 du domaine
-  fondations / systèmes / cloud / Kubernetes. Ordre imposé par le brief §12 : **P0, puis P1,
-  puis P2 — pas les P3 tant qu'il reste des P1.** Il n'y a aucun P0. Le P2 de
-  `python-foundations` (`except TypeErreur:`) relève du CP4 mais passe **après** les P1.
+- **prochaine action EXACTE** : **CP5** — corriger les P1 du domaine **frontend** :
+  `react-application-states` (→ `react-composition-architecture`, +9 j),
+  `web-forms-validation` (→ `html-semantic-structure`, +7 j) et
+  `frontend-performance` (→ `react-composition-architecture`, +2 j). Les trois sont des
+  défauts de prérequis ; appliquer les remèdes de `PREREQUIS-ORDRE.md` §6, re-geler les
+  9 gates de corpus, valider, committer.
+
+> **Ordre imposé (brief §12) : P0, puis P1, puis P2 — pas les P3 tant qu'il reste des P1.**
+> Aucun P0. Les 14 P2 et 10 P3 ne seront traités qu'**après** le dernier P1 (fin CP9).
+> C'est pourquoi le P2 de `python-foundations` n'a pas été corrigé au CP4 malgré son domaine.
+
+---
+
+## CP4 — corrections fondations et systèmes
+
+Cinq P1 corrigés, **tous vérifiés après correction**. Aucun P2 ni P3 touché (ordre §12).
+
+### Le défaut de contenu
+
+**`observability-logging`** — la correction de la pratique C annonçait un centile 95 de
+3 000 ms pour un jeu à 95 % / 5 %, alors que ce jeu donne p95 = 50 ms. Elle échouait donc à
+l'exercice qu'elle corrigeait, puisque l'énoncé demandait un jeu où le p95 est **mauvais**.
+
+Correction : le jeu passe à **94 % / 6 %**, recalculé — moyenne **227 ms**, p95 **3 000 ms**,
+**60 000** personnes sur un million de requêtes. Et l'erreur d'origine est **retournée en
+matériau pédagogique** : un paragraphe ajouté montre qu'au même jeu à 5 %, le p95 vaut 50 ms
+et devient *excellent* pendant que cinquante mille personnes attendent toujours trois
+secondes — parce que le centile est posé pile à la frontière du groupe lent. La règle qui en
+sort est plus forte que le chiffre : **un centile choisi ne dit rien de ce qui se passe
+au-delà de lui.** D1 : 2 → 5. D9 : 4 → 5.
+
+### Les quatre défauts de prérequis
+
+Remède 1 de `PREREQUIS-ORDRE.md` §6 appliqué aux quatre : la notion nécessaire est
+**intégrée dans la leçon**, et la leçon postérieure sort de la liste des prérequis vers un
+encadré « Où trouver le détail » qui signale explicitement qu'elle vient plus loin.
+
+| leçon | ce qui a été intégré | D2 |
+|---|---|---|
+| `ci-cd-pipeline-anatomy` | ce qu'est un artefact, et qu'une image est un paquet contenant l'application | 1 → 5 |
+| `design-patterns-intro` | les trois principes de code propre dont un pattern est l'application nommée | 1 → 5 |
+| `readme-documentation` | rien à intégrer : la structure du README est déjà construite sur place | 1 → 5 |
+| `scikit-learn-workflow` | la définition de la **fuite de données** en une phrase — la notion dont dépend l'existence même du Pipeline | 1 → 5 |
+
+**Ce que la sonde dit, et pourquoi c'est correct.** `scripts/v71/prerequis-ordre.mjs` compte
+toujours **31** citations pointant vers une leçon postérieure — le chiffre n'a pas bougé, et
+il ne devait pas : les citations existent encore. Ce qui a changé est leur **formulation**,
+donc leur classe à la lecture : cinq citations passent de la classe B (exigence non signalée)
+à la classe A (aide explicitement signalée). C'est exactement le rappel du contrat §1 — une
+sonde détecte, elle ne classe pas.
+
+### Effet mesuré
+
+| | avant CP4 | après CP4 |
+|---|---|---|
+| moyenne du corpus | 4,820 | **4,831** |
+| moyenne D2 | 4,31 | **4,44** |
+| leçons à D2 = 1 | 20 | **16** |
+| P1 ouverts | 23 | **18** |
+
+Validation après correction et re-gel des 9 gates de corpus (nouveau hash
+`0da3692f1eda45bf0ae9749e8f03738d9fc3f24a`) : `gates:active` **0**, `npm test`
+**1420/1420**, `tsc --noEmit` **0**.
 
 ---
 
@@ -229,7 +288,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
 | CP3 | lecture et notation des 128 + ledger initial | **terminé — 128/128** |
-| CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
+| CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | **terminé** |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
 | CP7 | P0+P1 ML / IA appliquée / LLM / RAG / agents | à faire |
@@ -250,7 +309,8 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : ce commit — **CP3 terminé**
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : `a6a4270` — **CP3 terminé**
+- CP4 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 

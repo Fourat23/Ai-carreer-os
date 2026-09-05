@@ -8,7 +8,9 @@ Tu es fier de ton projet : des semaines de travail, du code propre. Un recruteur
 Écrire des READMEs qu'un recruteur comprend en 30 secondes et qu'un développeur exécute en 5 minutes. Le README est la PORTE de chaque projet : 90 % des visiteurs ne verront que lui — c'est lui qui décide si ton code sera même regardé.
 
 ## 🧩 Prérequis
-Tu dois avoir un projet à documenter et connaître Markdown (titres, listes, blocs de code) ainsi que les bases de la documentation technique (`/doc/lessons/technical-documentation`). Savoir lancer ton projet (commandes d'installation et d'exécution) est nécessaire pour les décrire. Aucun générateur de documentation n'est supposé.
+Tu dois avoir un projet à documenter et connaître Markdown (titres, listes, blocs de code). Savoir lancer ton projet (commandes d'installation et d'exécution) est nécessaire pour les décrire. Aucun générateur de documentation n'est supposé, et aucune expérience préalable de rédaction technique n'est attendue : tout ce dont un README a besoin est construit ici.
+
+> **Où trouver le détail.** `/doc/lessons/technical-documentation` traite les autres artefacts écrits d'un projet — décisions d'architecture, procédures, documentation de référence — et le fait de les adapter à leur lecteur. Elle est **programmée plus loin** dans le parcours. Un README n'en dépend pas : il répond à quatre questions posées en quelques secondes, et c'est exactement ce que la suite installe.
 
 ## 🧠 Modèle mental
 Un README est **une page d'atterrissage, pas une documentation exhaustive** : il doit répondre, dans l'ordre, aux questions du visiteur pressé — c'est quoi ? ça marche ? je peux essayer ? c'est sérieux ? — chacune en quelques secondes de lecture.

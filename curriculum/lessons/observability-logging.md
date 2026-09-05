@@ -206,12 +206,24 @@ s'additionne pas et ne se moyenne pas**. La moyenne de deux centiles 95 n'est pa
 le centile 95 de l'ensemble. Il faut agréger les observations (ou des histogrammes)
 et calculer le centile ensuite.
 
-**C — ce que la moyenne cache.** Un jeu typique : 95 % des requêtes à 50 ms, 5 %
-à 3 000 ms. Moyenne : 197 ms, ce qui paraît correct. Centile 95 : 3 000 ms.
-Et la conversion qui rend le chiffre parlant : sur un million de requêtes par
-jour, **cinquante mille personnes attendent trois secondes**. C'est le calcul à
-savoir faire en entretien comme en réunion — un centile est un pourcentage, un
-nombre d'utilisateurs est un argument.
+**C — ce que la moyenne cache.** Un jeu qui répond à l'énoncé : 94 % des requêtes
+à 50 ms, 6 % à 3 000 ms. Moyenne : **227 ms**, ce qui paraît correct. Centile
+95 : **3 000 ms**. Et la conversion qui rend le chiffre parlant : sur un million
+de requêtes par jour, **soixante mille personnes attendent trois secondes**.
+C'est le calcul à savoir faire en entretien comme en réunion — un centile est un
+pourcentage, un nombre d'utilisateurs est un argument.
+
+**Le choix de 6 % n'est pas cosmétique, et c'est le vrai piège de cet exercice.**
+Reprends exactement le même jeu avec **5 %** de requêtes lentes : la moyenne
+descend à 197 ms, et le centile 95 vaut **50 ms**. Il devient excellent. Pourtant
+cinquante mille personnes attendent toujours trois secondes — le centile 95 est
+posé *pile* à la frontière du groupe lent, et il ne voit rien au-delà de
+lui-même. Seul le p99 les montre.
+
+Retiens la règle plutôt que les nombres : **un centile choisi ne dit rien de ce
+qui se passe au-delà de lui.** Un p95 vert ne signifie pas que la queue est
+saine ; il signifie que la queue commence après 95 %. C'est exactement pourquoi
+on en regarde plusieurs, et pourquoi le point B te demandait p50, p95 **et** p99.
 
 Corollaire : le centile 99 concerne souvent les utilisateurs les plus actifs, qui
 font le plus de requêtes et ont donc la plus forte probabilité d'en rencontrer

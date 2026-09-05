@@ -21,10 +21,20 @@ scikit-learn a UNE grammaire : **tout objet apprend avec `fit`, applique avec `p
 ## 🧩 Prérequis
 Tu dois comprendre le workflow ML (problème → données → split → entraînement → évaluation)
 et pourquoi le test ne doit jamais guider l'entraînement
-(`/doc/lessons/machine-learning-basics`, `/doc/lessons/model-evaluation`), ainsi que le
-feature engineering et la fuite de données (`/doc/lessons/feature-engineering`), car le
-Pipeline existe précisément pour rendre le leakage impossible. Des bases de Python suffisent ;
-aucune connaissance préalable de scikit-learn n'est supposée.
+(`/doc/lessons/machine-learning-basics`). Des bases de Python suffisent ; aucune
+connaissance préalable de scikit-learn n'est supposée.
+
+La **fuite de données** est la notion dont tout le reste dépend ici, et elle tient en une
+phrase : il y a fuite dès qu'une information calculée en regardant le jeu de test entre dans
+l'entraînement — une moyenne, une liste de catégories, un choix de variables. Le modèle
+obtient alors un score qu'il n'obtiendra jamais en production, **et rien ne le signale**.
+C'est précisément ce que le Pipeline rend structurellement impossible, et c'est pour cela
+qu'il existe.
+
+> **Où trouver le détail.** `/doc/lessons/feature-engineering` traite la construction des
+> variables et les formes de fuite qu'elle peut introduire ; `/doc/lessons/model-evaluation`
+> traite le choix des métriques et des seuils. Les deux sont **programmées plus loin** dans
+> le parcours, et rien ici ne suppose que tu les as lues.
 
 ## 📖 Explication complète
 - **La grammaire** : `model.fit(X_train, y_train)` apprend ; `model.predict(X_test)` prédit ; `scaler.fit_transform(X_train)` apprend ET applique ; `scaler.transform(X_test)` applique SEULEMENT (jamais re-fit sur le test !). Tous les objets (régressions, forêts, scalers, encodeurs) parlent cette langue — en changer est trivial.

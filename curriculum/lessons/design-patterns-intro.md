@@ -19,10 +19,14 @@ sur-ingénierie).
 
 ## 🧩 Prérequis
 Tu dois être à l'aise avec les fonctions comme valeurs (callbacks), les interfaces/types et la
-composition (`/doc/lessons/javascript-basics`, `/doc/lessons/typescript-basics`) et avoir
-intégré les principes de clean code (`/doc/lessons/clean-code`), car les patterns sont des
-applications nommées de ces principes. Aucune connaissance préalable des patterns n'est
-supposée.
+composition (`/doc/lessons/javascript-basics`, `/doc/lessons/typescript-basics`). Aucune
+connaissance préalable des patterns n'est supposée.
+
+Les principes de code propre — une fonction fait une chose, on nomme ce qu'on fait, on ne
+répète pas la même décision à trois endroits — **éclairent** ce qui suit, puisqu'un pattern
+est une application nommée de ces principes. Ils sont approfondis dans
+`/doc/lessons/clean-code`, **programmée deux jours plus loin** : la leçon se suit sans, et
+tu y reviendras avec les patterns en tête.
 
 ## 🧠 Modèle mental
 Un pattern est un couple **problème récurrent → solution nommée**. Il se RECONNAÎT quand son

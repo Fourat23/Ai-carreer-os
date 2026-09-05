@@ -8,9 +8,9 @@
 
 - **dernier CP terminé** : CP2
 - **CP actuel** : CP3
-- **leçons réellement lues et notées** : **104 / 128**
-- **dernier lot complet** : **13 / 16**
-- **prochaine action EXACTE** : CP3 — **lot 14/16**, leçons 105 à 112 de
+- **leçons réellement lues et notées** : **112 / 128**
+- **dernier lot complet** : **14 / 16**
+- **prochaine action EXACTE** : CP3 — **lot 15/16**, leçons 113 à 120 de
   `docs/v71/ordre-lecture.json`. Lire (`node scripts/v71/lire.mjs <slug>`), noter D1→D14 selon
   `V71-ACADEMIC-CONTRACT-FROZEN.md`, écrire dans `docs/v71/LEDGER-128.json`, commit, push.
 
@@ -74,21 +74,21 @@ Son empreinte notée au CP0 portait sur le fichier du conteneur détruit ; elle 
 
 ## Avancement de la notation
 
-- leçons réellement lues : **104 / 128**
-- notations D1→D14 complètes : **104 / 128**
-- moyenne provisoire (104 notées) : **4,795**
+- leçons réellement lues : **112 / 128**
+- notations D1→D14 complètes : **112 / 128**
+- moyenne provisoire (112 notées) : **4,804**
 - leçons sous 3,00 : **0** · minimum du corpus : **4,14** (`interview-preparation`)
-- **P0 : 0** · **P1 : 23** · **P2 : 13** · **P3 : 10**
+- **P0 : 0** · **P1 : 23** · **P2 : 14** · **P3 : 10**
 
-### Moyenne par dimension (104 notées)
+### Moyenne par dimension (112 notées)
 
 | D1 | D2 | D3 | D4 | D5 | D6 | D7 |
 |---|---|---|---|---|---|---|
-| 4,87 | **4,15** | 4,96 | 4,99 | 4,98 | 4,81 | 4,97 |
+| 4,87 | **4,21** | 4,96 | 4,99 | 4,98 | 4,82 | 4,97 |
 
 | D8 | D9 | D10 | D11 | D12 | D13 | D14 |
 |---|---|---|---|---|---|---|
-| 4,78 | 4,98 | 4,73 | 4,85 | 4,81 | **4,36** | 4,90 |
+| 4,79 | 4,98 | 4,75 | 4,86 | 4,82 | **4,33** | 4,91 |
 
 ### Les vingt leçons à D2 = 1 sont toutes notées
 
@@ -191,7 +191,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP0 | audit forensique + snapshot + rapport | **terminé** |
 | CP1 | contrat académique gelé, ancres D1→D14, seuils READY | **terminé** |
 | CP2 | standard humain + archétypes + règles anti-template | **terminé** |
-| CP3 | lecture et notation des 128 + ledger initial | **en cours — 104/128** |
+| CP3 | lecture et notation des 128 + ledger initial | **en cours — 112/128** |
 | CP4 | P0+P1 fondations / systèmes / cloud / Kubernetes | à faire |
 | CP5 | P0+P1 frontend / CSS / React / Next.js | à faire |
 | CP6 | P0+P1 web / backend / API / SQL / data | à faire |
@@ -213,7 +213,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 1 : `b3c9489` · lot 2 : `2440c0b` · lot 3 : `237ded7` · lot 4 : `6d79aa0` ·
   lot 5 : `aebbdaa`
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
-- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : ce commit
+- CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 
@@ -411,3 +411,46 @@ contrôle de compréhension distinct. Mais elle n'est ni suffisante ni nécessai
 **3 l'atteignent sans les avoir** (`portfolio-github`, `statistics-for-ml`,
 `rag-fundamentals`). La note ne se réduit donc pas à un gabarit. L'audit aveugle du CP13
 reste le contrôle prévu.
+
+### Lot 14 — l'étagère de référence (cloud, CSS)
+
+Premier lot entièrement **hors parcours** : 5 leçons cloud, 3 CSS. Aucune n'est programmée par
+les 365 journées, donc aucune contrainte d'ordre ne s'y applique — le script de prérequis le
+confirme, et les 8 sont à D2 = 5.
+
+**Contrainte §31 correctement traitée.** Vérifié leçon par leçon : `cloud-aws-core` et
+`cloud-azure-core` titrent leurs repères « illustratifs, **non exécutés** » ; `cloud-finops`
+et les trois CSS citent un script exécuté ; `cloud-compute-storage`, `cloud-fundamentals` et
+`cloud-networking` ne publient **aucune** mesure — elles traitent de CIDR, de ports et de
+scénarios d'exercice. **Aucune leçon ne prétend valider un cloud réel depuis cet
+environnement.**
+
+**Un défaut**, et il est ironique. `cloud-finops`, dont le sujet est de lire une facture avec
+attention, affirme que « l'arithmétique est exacte et reproductible » — et sa colonne de neuf
+postes totalise **1 884 €** quand le tableau annonce **1 885 €**. J'ai exécuté le script cité :
+il reproduit le même écart, parce qu'il totalise des valeurs non arrondies puis arrondit,
+tandis que les lignes sont arrondies individuellement. Second point : le texte attribue
+269 € au fait d'éteindre les environnements « 14 heures par jour », alors que ce calcul donne
+272 € et que l'étiquette du script mentionne « la nuit **et le week-end** ». Aucune conclusion
+n'est inversée et tous les pourcentages tiennent. P2, fix CP8.
+
+**Un faux positif écarté par lecture** : le schéma réseau du mini-exercice de
+`cloud-networking` contredit celui de son exemple guidé (`10.0.2.0/24` public au lieu de
+privé). Vérification faite : le premier est **délibérément défectueux** — présenté comme
+« livré par un prestataire », l'apprenant doit y trouver cinq défauts classés par gravité.
+
+### Constat structurel : D13 et l'étagère de référence
+
+| | n | avec une section « Vérification de compréhension » | D13 moyen |
+|---|---:|---:|---:|
+| leçons **hors parcours** | 9 | **0 (0 %)** | **4,00** |
+| leçons **programmées** | 103 | 50 (49 %) | 4,36 |
+
+Aucune des neuf leçons hors parcours lues n'a de contrôle de compréhension distinct. C'est le
+premier facteur explicatif du point bas de D13, et c'est cohérent avec leur statut : ce sont
+des leçons de consultation, pas de parcours. **À trancher au CP15** — soit on l'assume et on
+le déclare, soit D13 doit devenir NA pour l'étagère de référence, ce qui ne peut pas se
+décider maintenant sans modifier le barème gelé.
+
+Contrôle que ma notation D13 n'est pas mécanique : parmi les 37 leçons à D13 = 5, **31** ont
+la section (6 l'obtiennent sans) ; parmi les 75 à D13 = 4, **19** l'ont quand même.

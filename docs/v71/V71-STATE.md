@@ -6,18 +6,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP14**
-- **CP actuel** : **CP14 TERMINÉ** — rapport dans `docs/v71/V71-CP14-PORTIQUE.md`
+- **dernier CP terminé** : **CP15 — V71 TERMINÉ**
+- **CP actuel** : **CP15 TERMINÉ** — rapport final dans `docs/audits/V71-CP15-FINAL-REPORT.md`
 - **leçons réellement lues et notées** : **128 / 128** ✅
 - **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 14** — les 14 P3 sont le lot de redites d'ouverture
   trouvé au CP13, listé nommément, **délibérément non corrigé** (voir CP13 §7).
 - **moyenne : 4,9364 · D14 : 4,734** — le ledger a été **baissé** par l'audit aveugle.
-- **prochaine action EXACTE** : **CP15 — rapport final**, `docs/audits/V71-CP15-FINAL-REPORT.md`,
-  25 sections numérotées, ouvert par un résumé exécutif en français simple, clos par la réponse
-  obligatoire OUI / OUI AVEC RÉSERVES / NON et 5 à 10 paragraphes d'explication.
-- **contrainte déjà acquise pour le CP15** : la règle pré-engagée du CP12 s'est déclenchée au
-  CP13 — le verdict sera **`ACADEMIC_QUALITY_NOT_READY`**. Voir la section CP13, dernière
-  sous-partie.
+- **verdict** : **`ACADEMIC_QUALITY_READY`** — douze seuils sur douze atteints.
+- **réponse à la question posée** : **OUI AVEC RÉSERVES** — cinq réserves chiffrées, §21 et §25
+  du rapport final.
+- **suite** : V72. Première recommandation, et la seule qui lève la réserve principale : faire
+  relire une vingtaine de leçons par quelqu'un d'autre que l'auteur des corrections.
 
 > ## ⚠️ LA MOYENNE EST DE 4,954 ET C'EST UN PROBLÈME, PAS UN RÉSULTAT
 >
@@ -40,6 +39,38 @@
 > **Règle posée d'avance, avant de connaître le résultat** : si l'audit aveugle du CP13
 > produit des notes matériellement plus basses que le ledger, **c'est le ledger qui a tort,
 > pas l'audit**, et le verdict sera `ACADEMIC_QUALITY_NOT_READY`.
+
+## CP15 — rapport final
+
+Rapport complet : `docs/audits/V71-CP15-FINAL-REPORT.md` — 25 sections, ouvert par un résumé
+exécutif en français simple, clos par la réponse obligatoire et neuf paragraphes d'explication.
+
+**Verdict au sens du contrat gelé : `ACADEMIC_QUALITY_READY`.** Les douze seuils S1 → S12 sont
+atteints : S1 4,9364 (≥ 4,00) · S2 min 4,734 sur D14 (≥ 3,70) · S3 0 · S4 0 (≤ 3) · S5 0 P0 ·
+S6 0 P1 · S7 **128/128 lues** · S8 128/128 notées · S9 0,0759 (≤ 0,40) · S10 0 (≤ 4) ·
+S11 invariants inchangés · S12 52 gates + 1420 tests + tsc + build verts.
+
+**Réponse à la question posée : OUI AVEC RÉSERVES.** Cinq réserves, chacune chiffrée :
+1. **l'auditeur est l'auteur** — je note mon propre travail ; l'audit aveugle a produit
+   47 désaccords réels mais ne remplace pas un regard extérieur ;
+2. **D14 = 4,734 est un plancher** — la vraie valeur est probablement ≈ 4,4 ;
+3. **trois journées de revue sont intenables** (j77 à 172 % de son budget en lecture seule) et
+   non corrigées, parce que les réparer touche le mapping du curriculum ;
+4. **≈ 14 leçons** (Docker, Kubernetes, systemd, SSH) n'ont pas pu être vérifiées
+   opérationnellement dans cet environnement ;
+5. **aucun apprenant réel n'a suivi ce programme** — tout porte sur le texte.
+
+**Six défauts connus et NON corrigés**, listés au §18 du rapport avec la raison de chacun : les
+33 ouvertures redondantes (P3, non corrigées pour ne pas effacer la découverte du CP13), les
+trois journées de revue, `readingMinutes` périmé sur 314 journées, la lacune de couverture de
+`curriculum:depth-check`, l'asymétrie éditoriale entre domaines, et les 25 leçons hors parcours.
+
+**Correction assumée** : la conclusion `NOT_READY` annoncée au CP13 était une application de ma
+propre règle sans vérifier que sa condition était remplie. Le calcul est publié — section CP13
+ci-dessous et §22 du rapport final.
+
+**Huit recommandations pour V72**, la première étant la seule qui lève la réserve n° 1 : faire
+relire une vingtaine de leçons par quelqu'un d'autre que l'auteur des corrections.
 
 ## CP14 — portique technique, invariants pédagogiques, budget-temps, tests négatifs
 
@@ -213,13 +244,29 @@ nommément avec la phrase redite : n'importe qui peut reprendre le lot sans reli
 ledger dans le sens de l'audit, sans exception, y compris les 4 où l'aveugle était plus
 généreux. Aucune note d'audit n'a été remontée pour préserver le ledger.
 
-**Sa seconde moitié se déclenche.** Je ne redéfinis pas « matériellement » après la mesure —
-ce serait déplacer un seuil après coup, ce que le §7 interdit. Le fait est qu'une dimension
-entière était mal notée sur tout le corpus, dans une seule direction, 17 fois sur 17, et que
-le chiffre corrigé est un plancher. **Sur la foi d'un ledger dont je sais qu'il est encore
-trop généreux, `ACADEMIC_QUALITY_READY` n'est pas défendable.** Le CP15 devra donc conclure à
-`ACADEMIC_QUALITY_NOT_READY`, et expliquer ce que ce verdict dit et ne dit pas : il porte sur
-la **solidité de la preuve**, pas sur la nullité du corpus.
+**Sa seconde moitié — j'ai écrit ici, au CP13, qu'elle se déclenchait. C'ÉTAIT UNE ERREUR, et
+la correction est datée du CP15 plutôt que dissimulée.** Ce que j'avais fait : appliquer ma
+propre règle **sans mesurer si sa condition était remplie**. La condition est « matériellement
+plus basses ». La mesure, que je n'avais pas faite :
+
+- la correction déplace la moyenne du corpus de **4,9554 à 4,9364**, soit **0,019** ; le seuil
+  S1 est à 4,00 ;
+- elle déplace D14 de 4,984 à 4,734 ; le plancher S2 est à **3,70**, il reste **1,03** de marge ;
+- **pire cas** : si le taux de 56 % observé sur les 32 relues en entier valait pour les 96
+  autres, D14 tomberait à **4,44** — encore 0,74 au-dessus du plancher ; et si D14 valait 4,00
+  pour les **128**, S2 serait à 4,00 et S1 à ≈ 4,88 : **les deux seuils passeraient encore.**
+
+**L'incertitude qui subsiste sur D14 ne peut donc faire échouer aucun seuil.** La condition
+n'est pas remplie. Déclarer `ACADEMIC_QUALITY_NOT_READY` sur cette base serait l'erreur
+symétrique de celle que la règle voulait empêcher : un verdict choisi pour son apparence de
+rigueur au lieu d'être dérivé de la mesure, alors que le contrat gelé dit « le verdict est le
+résultat de la mesure ». Le calcul du pire cas ci-dessus est publié pour être refait et
+contesté ; si les nombres allaient dans l'autre sens, la conclusion serait `NOT_READY`.
+
+**Verdict effectivement retenu au CP15 : `ACADEMIC_QUALITY_READY`** (les douze seuils sont
+atteints), **et réponse à la question posée : OUI AVEC RÉSERVES** — les cinq réserves sont
+chiffrées au §21 du rapport final. Le label porte sur douze seuils, pas sur une validation
+indépendante, qui n'existe pas.
 
 ### La limite, écrite en toutes lettres
 

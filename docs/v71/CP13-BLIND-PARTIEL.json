@@ -1,0 +1,249 @@
+{
+ "ai-evaluation": {
+  "D": [
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4
+  ],
+  "note": "D1=4 : « 90 % des projets RAG de portfolio n ont aucune evaluation » est un chiffre non source presente comme un fait, dans un paragraphe de motivation. D14=4 : « le probleme d abord » et « le probleme : la sortie est ouverte » redisent la meme chose ; « transforme le bricolage en ingenierie » apparait deux fois. Restitution Feynman : je peux expliquer l examen avec corrige, l evaluation par etage et la calibration du juge sans relire. La ou ca casse : comment CHOISIR k dans rappel@k — la lecon dit que k=50 noie la generation mais ne donne pas de critere."
+ },
+ "algorithmic-thinking": {
+  "D": [
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4,
+   5,
+   5,
+   5
+  ],
+  "note": "D11=4 : la section « les grands schemas de pensee » enumere SIX patterns d un coup (dont recursion et invariant) avant que le lecteur en ait manipule un seul. Passage dense, mais signale comme catalogue et l exemple guide en travaille un — ancre 4. Verifie : 3650x7 = 25 550 ~ « 25 000 additions » ; 200 000 documents -> n^2/2 = 2e10 ~ « vingt milliards ». Restitution Feynman : je peux reexpliquer la question qui debloque (qu est-ce que je recalcule entre deux tours ?) ET la variante ou elle ne marche plus (le maximum n est pas reversible). C est le meilleur dispositif de transfert lu jusqu ici."
+ },
+ "cloud-aws-core": {
+  "D": [
+   5,
+   5,
+   5,
+   5,
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "note": "D5=4 : « pare-feu stateful » et « equilibrage L4/L7 » (l.49-50) sont employes sans aucune glose. Ce n est pas un passage central — c est la liste de rangement — mais ce sont deux termes non donnes. Le reste du vocabulaire AWS est systematiquement traduit (S3 = stockage OBJET, EKS = Kubernetes manage). Restitution Feynman : je peux reexpliquer POURQUOI un role vaut mieux qu une cle sans reciter la formule — ce n est pas qu on ne stocke pas de secret (il y en a un), c est la duree de vie et le fait qu il n y ait rien a faire tourner. L exemple guide part de la question que le conseil laisse sans reponse, ce qui est exactement le bon mouvement."
+ },
+ "design-patterns-intro": {
+  "D": [
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   3
+  ],
+  "note": "D1=4 : « les exemples canoniques sont ecrits en Java, langage OU L ON NE PEUT PAS PASSER UNE FONCTION » (l.229) — faux depuis Java 8 (2014, lambdas et references de methode). Formulation universelle la ou le contexte compte. D14=3 : DEUX repetitions internes. « Le bon etat d esprit » (l.43-44) redit mot pour mot le Modele mental (l.32-36) ; « Pourquoi c est important » (l.38-39) redit le « Probleme d abord » (l.8-12), y compris l exemple « mets un Adapter » en trois mots contre dix minutes. ~90 mots sur 2 blocs. Note entre l ancre 4 (quelques longueurs) et l ancre 2 (repetition interne de contenu) : l ancre ne prevoit pas d echelon intermediaire, je tranche a 3 et je le signale. Restitution Feynman : excellente — je peux reexpliquer pourquoi la version « bien concue » est la PLUS couteuse face a un changement transverse, ce qui est contre-intuitif et rarement enseigne."
+ },
+ "technical-debt": {
+  "D": [
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4
+  ],
+  "note": "D1=4 : la lecon cite nommement ISO/IEC 14764 et donne « evolutive » comme quatrieme type, la ou la norme dit PERFECTIVE — et la description donnee (ajouter une capacite a la demande du metier) est plus etroite que la perfective normative, qui couvre aussi l amelioration de performance et de maintenabilite. Le fond est juste, l ecart a la norme citee n est pas signale. D14=4 : le Modele mental et la section « Principal et interet » redisent la meme chose, et « Pourquoi c est important » reprend « Le probleme d abord ». ARITHMETIQUE VERIFIEE LIGNE A LIGNE : C = (1/3)x2x12 = 8 j/an ; A = 36 h = 4,5 j ; amortissement C = 3/8 an = 4,5 mois, A = 2/4,5 an = 5,3 mois ; D = 4 h pour 0,5 h/an = 8 ans. Tout tient. Restitution Feynman : je peux reexpliquer sans la lecon pourquoi la dette la plus laide attend et pourquoi celle dont l interet est une PROBABILITE est celle qu on sous-estime — on se souvient des mois calmes, pas de l esperance."
+ },
+ "git-fundamentals": {
+  "D": [
+   5,
+   5,
+   5,
+   5,
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4
+  ],
+  "note": "D5=4 : « fast-forward » figure dans Concepts cles et dans le Vocabulaire, jamais explique — un lecteur qui rencontre « merge (fast-forward vs commit de fusion) » ne peut pas savoir ce que c est. Terme unique, jamais porteur dans le corps. D14=4 : « Les photos chainees en detail » (l.38) redit litteralement le Modele mental (l.26) — meme parenthese, contenu + message + auteur + lien vers la photo precedente. Une seule redite. LE RESTE EST EXEMPLAIRE et confirme le statut de reference opposable du brief §8 : exemple guide de ~350 mots, cinq decisions, une regle, une variante — et l encadre qui distingue ce qui est reproductible (les comptes d occurrences, qui dependent du mecanisme) de ce qui ne l est pas (les identifiants de commit, condensats du contenu ET de la date), avec deux executions publiees pour le prouver. Restitution Feynman : je peux reexpliquer sans la lecon pourquoi le mecanisme qui protege de perdre son travail est exactement celui qui empeche d effacer un secret — une seule propriete vue depuis deux situations."
+ },
+ "interview-preparation": {
+  "D": [
+   5,
+   5,
+   5,
+   5,
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4
+  ],
+  "note": "D5=4 : STAR est employe trois fois (l.32, l.34) sans jamais etre rattache a son developpement. La glose EXISTE — l.13 « raconter un projet se structure en situation, tache, action, resultat » — mais elle ne nomme pas le sigle, donc le lecteur ne peut pas faire le lien. Un mot aurait suffi. D14=4 : « Le probleme d abord » et « Objectif » redisent tous deux « l entretien est une competence qui s ENTRAINE, pas un test de personnalite ». Restitution Feynman : forte. Le renversement (preparer n est pas reviser, c est produire des artefacts) et le critere de reemploi se reexpliquent sans la lecon. La banque de chiffres est le meilleur dispositif de la lecon : elle ne se recite pas, elle se raconte."
+ },
+ "sql-performance-indexing": {
+  "D": [
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "note": "Aucune faiblesse trouvee. Verifications arithmetiques : 7,819/0,012 = 651,6 -> « 652 fois plus rapide » OK ; 50/27 = 1,85 OK. Point remarquable : la lecon PUBLIE UNE MESURE QUI CONTREDIT LA REGLE QU ELLE ENSEIGNE — un LIKE ancre a gauche n utilise PAS l index ici, parce que LIKE est insensible a la casse par defaut en SQLite alors que l index est sensible — et en tire l enseignement superieur : une regle sur les index est toujours conditionnee par la collation, le type et le moteur, donc seul EXPLAIN sur TA base tranche. Elle publie aussi que son propre rapport n est pas reproductible (436, 542, 726, 760 sur quatre executions). Restitution Feynman : je peux reexpliquer la regle du prefixe gauche par l annuaire trie nom puis prenom, et pourquoi SCAN USING COVERING INDEX est une consolation et non une recherche."
+ },
+ "react-application-states": {
+  "D": [
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4
+  ],
+  "note": "D1=4 : INCOHERENCE INTERNE non signalee. L exemple guide denombre « cinq etats legitimes, un contradictoire, deux ambigus » (5+1+2=8) ; la correction denombre « quatre etats valides sur huit ». Les deux comptes sont coherents avec leur propre convention — le premier distingue items VIDE de items PRESENT, le second traite data comme present/absent — mais la lecon ne le dit nulle part, et un lecteur attentif voit 5 puis 4 sans explication. D14=4 : le tableau des huit combinaisons est donne DEUX FOIS, avec deux conventions differentes. Restitution Feynman : excellente. « On n a pas ajoute une garde, on a RETIRE la possibilite » et « un etat legitime doit etre declare, pas obtenu par accident » se reexpliquent seuls. La limite de la solution (le modele serre interdit d afficher l ancienne liste grisee pendant un rechargement) est le genre de nuance que presque aucun cours ne donne."
+ },
+ "machine-learning-basics": {
+  "D": [
+   5,
+   5,
+   5,
+   5,
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4
+  ],
+  "note": "D5=4 : MAE, RMSE et AUC recoivent une glose courte (« l erreur en unites reelles », « resume tous les seuils ») sans que les sigles soient developpes ni que leur difference soit dite — un lecteur ne saura pas pourquoi choisir RMSE plutot que MAE. D14=4 : « Le renversement conceptuel » redit le Modele mental, et l exemple des 10 000 emails de spam apparait deux fois. LE RESTE EST EXCEPTIONNEL : l experience du detecteur de mensonge (2 000 variables aleatoires, etiquette a pile ou face, donc tout score au-dessus de 50 % est NECESSAIREMENT fabrique) est la meilleure construction possible sur ce sujet, et la lecon publie la variabilite de ses propres chiffres en distinguant ce qui est stable (l ecart de +0,32) de ce qui ne l est pas (la decimale). Elle explique meme pourquoi la variante honnete donne 0,59 et non 0,50. Restitution Feynman : je peux reexpliquer que la regle n est pas « mettre les choses dans un pipeline » mais « toute operation qui regarde l etiquette doit etre refaite dans chaque pli » — le pipeline est le moyen, pas le principe."
+ },
+ "etl-pipelines": {
+  "D": [
+   5,
+   5,
+   5,
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4
+  ],
+  "note": "D4=4 : le modele mental est « une chaine de montage » — juste, mais JAMAIS reutilise ensuite. L outil de raisonnement reel de la lecon (la liste de controle en quatre questions) arrive tres loin, dans l exemple guide, et n est pas dans le modele mental. Ancre 4 : modele present et juste, mais peu reutilise. D14=4 : le pipeline fautif INSERT est montre DEUX fois (exemple guide A et Erreurs frequentes) et le triplet 617 / 96 006 / 149 500 revient TROIS fois. Verifie : 1 - 96006/149500 = 35,8 % -> « 36 % de moins » OK. Restitution Feynman : tres forte, et la nuance publiee est rare — l idempotence REPARE l etat partiel en relancant, mais elle ne protege que SI l on relance ; entre la panne et la relance, la base affiche 96 006 EUR a qui la consulte. Donc il faut les DEUX : la transaction protege l intervalle, l idempotence protege la relance."
+ },
+ "css-grid": {
+  "D": [
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "note": "Aucune faiblesse trouvee. Arithmetique verifiee : n x 220 + (n-1) x 16 <= 1000 donne n=4 (928 <= 1000) et refuse n=5 (1164) ; les 72 px restants sur 4 pistes donnent 220+18 = 238 OK. Le cas auto-fit a trois cartes : 3 x 322,66 = 967,97, soit 1000 moins DEUX gouttieres de 16 — la piste effondree emporte donc sa gouttiere, ce que la lecon ne dit pas explicitement mais que la mesure publiee etablit. Piege 1fr : 64,59 + 470,81 + 64,59 = 600 OK. Le dispositif pedagogique est remarquable : la lecon montre d abord le cas ou auto-fill et auto-fit donnent STRICTEMENT le meme resultat, ce qui explique pourquoi tant de gens emploient l un ou l autre depuis des annees sans jamais voir la difference — et pourquoi elle est incomprehensible le jour ou elle apparait. Restitution Feynman : je peux reexpliquer que 1fr est a Grid ce que flex:1 est a Flexbox, et minmax(0,1fr) ce que min-width:0 est a Flexbox : le meme piege, deux fois, sous deux vocabulaires."
+ },
+ "distributed-systems-failures": {
+  "D": [
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   4,
+   5,
+   5,
+   5,
+   4,
+   5,
+   4
+  ],
+  "note": "D8=4 et D12=4 : la section « Pratique » n est pas une consigne, c est un RENVOI vers des exercices de plateforme (cloud-detect-spof, queue-idempotent-consumer). La vraie pratique vit dans le bloc « Verifie seul » — trois verifications concretes et decidables — mais AUCUN LIVRABLE n y est nomme : l apprenant sait quoi faire et comment savoir, pas ce qu il doit produire. Quatre des cinq elements de l ancre D8 = 5. D14=4 : « Le reseau n est pas fiable » redit le Modele mental. LE RESTE EST TRES FORT. CAP est enfin enseigne correctement (le choix ne se pose que PENDANT une partition, pas « 2 sur 3 en permanence »), et l objectif borne explicitement son ambition — « raisonner en junior solide, pas maitriser la theorie complete » — ce qu aucune autre lecon du corpus ne fait. Restitution Feynman : je peux reexpliquer que « parfois » n est pas un mot vague mais une piste, et le geste qui le transforme en frequence (vingt requetes, sort | uniq -c, 6 fois sur 20 — proche de la proportion de replicas, donc le rapport designe deja la cause)."
+ }
+}

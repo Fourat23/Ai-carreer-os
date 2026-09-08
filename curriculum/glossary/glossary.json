@@ -6257,13 +6257,14 @@
       "career-onboarding"
     ],
     "aliases": [
-      "individual contributor",
-      "contributeur individuel"
+      "contributeur individuel",
+      "individual contributor"
     ],
     "possibleConfusions": [
-      "IC signifie aussi Integrated Circuit (circuit intégré) en électronique — sans rapport."
+      "IC signifie aussi Integrated Circuit (circuit intégré) en électronique — sans rapport.",
+      "IC désigne aussi l'Incident Commander, la personne qui coordonne un incident en production — sans rapport avec la carrière."
     ],
-    "ambiguityNote": null,
+    "ambiguityNote": "Deux sens sans rapport selon le domaine : Individual Contributor (carrière) et Incident Commander (production). Dans les leçons d'incident et d'astreinte, IC désigne toujours le second.",
     "tags": [
       "business",
       "carriere",
@@ -7573,14 +7574,15 @@
       "pm-kpi"
     ],
     "aliases": [
+      "ARR",
       "monthly recurring revenue",
-      "revenu récurrent mensuel",
-      "ARR"
+      "revenu récurrent mensuel"
     ],
     "possibleConfusions": [
-      "ARR (équivalent annuel) ; MRR est mensuel"
+      "ARR (équivalent annuel) ; MRR est mensuel",
+      "MRR désigne aussi le Mean Reciprocal Rank, une métrique de qualité de classement en recherche d'information — sans aucun rapport avec le revenu."
     ],
-    "ambiguityNote": null,
+    "ambiguityNote": "Deux sens sans rapport selon le domaine : Monthly Recurring Revenue (entreprise) et Mean Reciprocal Rank (recherche, IA). Dans les leçons de RAG et de recherche, MRR désigne toujours le second.",
     "tags": [
       "business",
       "saas",
@@ -12307,6 +12309,7 @@
       "reg-mitigation"
     ],
     "aliases": [
+      "IC",
       "commandant d'incident"
     ],
     "possibleConfusions": [],

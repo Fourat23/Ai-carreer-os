@@ -31,7 +31,9 @@ trouve le programme et l'exécute. Une commande « magique » n'est jamais qu'un
 lancé depuis une position dans l'arbre.
 
 ## 💡 Pourquoi c'est important
-Tout le métier passe par le terminal : lancer un projet (`npm run dev`), versionner (`git`), construire une image (`docker build`), déployer, interroger un serveur (`curl`), lancer une évaluation RAG (`python eval.py`). Un développeur qui dépend de la souris est lent, non scriptable, et perdu dès qu'il touche un serveur distant (qui n'a PAS d'interface graphique). En entretien, « montre-moi comment tu lances ton projet » a toujours pour réponse une commande.
+Tout le métier passe par le terminal : lancer un projet (`npm run dev`), versionner (`git`), construire une image (`docker build`), déployer, interroger un serveur (`curl`), mesurer la qualité d'un assistant qui va chercher
+ses réponses dans tes documents (`python eval.py` — c'est ce qu'on appellera un **RAG** au
+mois 9 ; tu n'as rien à en savoir aujourd'hui). Un développeur qui dépend de la souris est lent, non scriptable, et perdu dès qu'il touche un serveur distant (qui n'a PAS d'interface graphique). En entretien, « montre-moi comment tu lances ton projet » a toujours pour réponse une commande.
 
 ## Explication complète
 

@@ -156,8 +156,17 @@ Sur les données de ton projet 4 : calcule moyenne ET médiane d'une variable as
 
 ## 🔥 Exercice plus difficile
 Trois affirmations circulent dans toutes les équipes. Tu vas les **fabriquer toi-même**,
-en Python, avec numpy — pour découvrir qu'on peut produire chacune sans qu'aucun effet
+en Python, avec **numpy** — pour découvrir qu'on peut produire chacune sans qu'aucun effet
 réel n'existe.
+
+> **numpy, en deux phrases, parce que c'est la première fois que tu en as besoin.** C'est la
+> bibliothèque qui donne à Python un vrai *tableau de nombres* : `np.array([1, 2, 3])`. Elle
+> t'apporte ici deux choses que les listes Python n'ont pas — les opérations s'appliquent à
+> tout le tableau d'un coup (`donnees.mean()`, `donnees * 2`, sans écrire de boucle), et le
+> tirage aléatoire reproductible (`rng = np.random.default_rng(42)`) sans lequel aucun des
+> chiffres de cette pratique ne serait vérifiable par quelqu'un d'autre. Installation :
+> `pip install numpy`. Tu n'as besoin de rien d'autre pour l'instant ; c'est aussi le socle
+> sur lequel reposent pandas et scikit-learn, que tu retrouveras juste après.
 
 **A — « Notre nouveau traitement est moins bon. »** Construis deux traitements A et B,
 et deux sous-populations (cas bénins, cas graves). Choisis les effectifs de sorte que

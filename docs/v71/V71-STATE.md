@@ -6,13 +6,12 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP10**
-- **CP actuel** : **CP10 TERMINÉ — 128 / 128 sections de pratique lues**
+- **dernier CP terminé** : **CP11**
+- **CP actuel** : **CP11 TERMINÉ** — rapport dans `docs/v71/V71-CP11-VULGARISATION-JARGON-PREREQUIS.md`
 - **leçons réellement lues et notées** : **128 / 128** ✅
 - **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 0** — **tous les défauts du ledger sont fermés.**
-- **prochaine action EXACTE** : **CP11** — passe corrections + vulgarisation + jargon +
-  prérequis transversal. Puis CP12 (validation factuelle), **CP13 (audit aveugle, 32 leçons,
-  graine 20260831)**, CP14, CP15.
+- **prochaine action EXACTE** : **CP12** — vérification factuelle exécutable. Puis
+  **CP13 (audit aveugle, 32 leçons, graine 20260831)**, CP14, CP15.
 
 > ## ⚠️ LA MOYENNE EST DE 4,954 ET C'EST UN PROBLÈME, PAS UN RÉSULTAT
 >
@@ -35,6 +34,45 @@
 > **Règle posée d'avance, avant de connaître le résultat** : si l'audit aveugle du CP13
 > produit des notes matériellement plus basses que le ledger, **c'est le ledger qui a tort,
 > pas l'audit**, et le verdict sera `ACADEMIC_QUALITY_NOT_READY`.
+
+## CP11 — vulgarisation, jargon, prérequis, continuité
+
+Rapport complet : `docs/v71/V71-CP11-VULGARISATION-JARGON-PREREQUIS.md`.
+
+**Six corrections. 168 signalements sur 185 étaient des faux positifs de mes propres
+sondes** — toujours par la même faute : mesurer un marqueur structurel au lieu de ce que
+l'ancre demande.
+
+**Trois défauts de jargon réels.** `sql-foundations` posait ACID comme si le sigle parlait
+de lui-même (le lecteur recevait le A, rien d'autre) — les quatre lettres sont désormais
+développées avec *ce que chacune achète*. `terminal-shell-filesystem` écrivait « lancer une
+évaluation RAG » **au jour 1** sans un mot d'explication. Et `rag-evaluation` employait
+`MRR` trois fois sans le développer, alors que **le glossaire du projet fait pointer `MRR`
+vers *Monthly Recurring Revenue***, le revenu récurrent mensuel : un apprenant qui cherche
+tombe sur une définition de gestion d'entreprise sans aucun rapport.
+
+**Un trou de curriculum réel, et c'est la trouvaille du checkpoint.** `numpy` est **exigé**
+par la pratique de trois leçons (« avec numpy seul ») et **introduit nulle part** dans les
+128 leçons ni les 365 journées. Ancre D2 niveau 2 : un concept non enseigné, nécessaire
+pour suivre un passage. Fermé à la première exigence dans l'ordre du parcours
+(`statistics-for-ml`, jour 148), avec les quatre affirmations d'API **exécutées ici** sur
+numpy 2.4.6 — la version même que les leçons publient.
+
+**Les deux dernières notes D5 = 4 étaient une confusion de dimension.** Le motif du CP3
+était, mot pour mot, « dense pour le niveau » — c'est le libellé de l'ancre **D11**, pas de
+l'ancre D5. Relecture faite, les deux leçons expliquent chaque terme où il apparaît. D5
+passe à **5,000 sur 128**, sans qu'une ligne soit modifiée ; **D11 reste à 4** pour les
+deux, parce que la densité, elle, est réelle.
+
+**Convention des prérequis vérifiée contre le contrat gelé** : A = comportement correct,
+B = défaut. Elle n'est pas inversée sur cette branche. 29 des 31 références vers l'aval
+sont en classe A ; **0 en classe B** ; les 2 restantes étaient mal classées par ma sonde,
+qui cherchait un encadré au lieu du signalement lui-même.
+
+**Formulations minimisantes : 134 occurrences, 0 défaut.** `trivial` apparaît presque
+toujours nié (« Ce qui rend le cas **non** trivial »), `simplement` est restrictif
+(« il n'est **simplement** plus atteignable ») et `facile` désigne le plus souvent ce dont
+il faut se méfier (« pas ce qui est **facile** à mesurer »).
 
 ### CP10 — ce que la lecture a trouvé sur les notes D8 elles-mêmes
 
@@ -881,7 +919,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP8 | P0+P1 architecture / perf / sécurité / observabilité / incidents | **terminé** |
 | CP9 | P1 carrière **terminés au CP8** → CP9 traite les 14 P2 | **terminé** |
 | CP10 | passe transversale PRATIQUE (128) R/E/D/P/T + les 10 P3 | **terminé** |
-| CP11 | passe corrections + vulgarisation + jargon + prérequis | à faire |
+| CP11 | vulgarisation + jargon + prérequis + continuité | **terminé** |
 | CP12 | validation factuelle et assertions exécutables | à faire |
 | CP13 | audit aveugle (32 leçons, graine 20260831) | à faire |
 | CP14 | tests négatifs + gauntlet + budget temps | à faire |
@@ -897,7 +935,8 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - reprise après perte de conteneur + enquête prérequis : `44747e5`
 - CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : `a6a4270` — **CP3 terminé**
 - CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : `3fd6f8b` · CP7 : `4fd6fa2` · CP8 : `8701d27` · CP9 : `bda3dd3`
-- CP10 : `11be707` (lot 1) · `d5fdcde` (lot 2) · `b63ad47` (lot 3) · `66d36bf` (lot 4) · ce commit (lot 5)
+- CP10 : `11be707` · `d5fdcde` · `b63ad47` · `66d36bf` · `2cb2443`
+- CP11 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 

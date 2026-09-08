@@ -2701,6 +2701,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP12 : FREQUENCE PUBLIEE SUR QUATRE TIRAGES, ecrite par moi au CP10. La lecon annoncait que cosinus(v, v) === 1 rend false trois fois sur quatre. C etait vrai de MES quatre tirages ; ce n est pas une frequence. Mesure sur 10 000 tirages et trois graines : 44,8 %, 45,8 %, 46,1 % — soit environ une fois sur DEUX, et le taux reste voisin de 50 % de la dimension 2 a la dimension 768. Corrige, avec la reference au script, et l erreur est retournee en enseignement puisque c est le voisinage meme de la lecon : un essai sur quatre vecteurs ne suffit pas a annoncer une frequence, et c est exactement l erreur que statistics-for-ml traite."
       }
     ],
     "action": "CONSERVE",
@@ -3113,6 +3117,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : trois criteres. A et D partagent le meme et c est le principe de la pratique — TU DOIS AVOIR VU LE ROUGE. Une capture verte ne prouve ni que les tests tournent, ni qu ils sont branches, ni que l echec bloque : un pipeline jamais rouge peut executer zero test, mode de defaillance le plus commun et le plus rassurant qui soit. B — le resultat attendu n est pas zero test instable, c est de savoir combien ; et si les trois executions donnent le meme resultat, verifier d abord que l ordre change reellement. C — le pourcentage surprend toujours : cinq tests echouant une fois sur vingt donnent un pipeline vert environ 78 % du temps, soit un sur cinq a relancer sans raison. Les taux se multiplient, et c est ce calcul qui explique qu une equipe finisse par ne plus lire les echecs."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP12 : DEUX POURCENTAGES FAUX, ecrits par moi au CP10 dans un critere de reussite. La lecon annoncait qu un pipeline de cent tests dont UN seul est instable a 1/20 est vert environ 99 % du temps, et 78 % avec cinq. Le modele correct est (1 - p)^k ou k est le nombre de tests INSTABLES — le nombre total de tests n intervient pas du tout, ce que la formulation laissait croire. Et l arithmetique etait fausse : un seul test instable laisse 95 %, pas 99 %. Recalcule et publie par scripts/v70-verifications/ci-instabilite-cumulee.mjs : 95 % (k=1), 77 % (k=5), et QUATORZE tests instables suffisent pour qu un pipeline sur deux echoue sans raison. La limite du modele est desormais enoncee : il suppose les instabilites independantes, alors qu elles se correlent en pratique — ce qui rend la realite PIRE que ce chiffre, jamais meilleure."
       }
     ],
     "action": "CONSERVE",

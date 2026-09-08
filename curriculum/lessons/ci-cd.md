@@ -266,12 +266,18 @@ volontairement le prompt et montre que l'étape rougit.
 - **B — le résultat attendu n'est pas zéro test instable, c'est de savoir combien.** Si les
   trois exécutions en ordre aléatoire donnent exactement le même résultat, vérifie d'abord
   que l'ordre change réellement ; beaucoup de lanceurs ignorent silencieusement l'option.
-- **C — le pourcentage est le chiffre à retenir, et il surprend toujours.** Avec un seul test
-  qui échoue une fois sur vingt, un pipeline de cent tests est vert environ **99 %** du
-  temps ; avec cinq tests dans ce cas, il tombe autour de **78 %** — soit un pipeline sur
-  cinq à relancer sans raison. **Les taux se multiplient**, et c'est le calcul qui explique
-  pourquoi une équipe finit par relancer par réflexe, puis par ne plus lire les échecs.
-  Compare ton pourcentage à ton propre agacement : ils devraient coïncider.
+- **C — le pourcentage est le chiffre à retenir, et il surprend toujours.** Les chiffres
+  ci-dessous sont calculés par `scripts/v70-verifications/ci-instabilite-cumulee.mjs`. Un
+  pipeline est vert du premier coup si **aucun** de ses tests instables ne tombe, soit
+  `(1 − p)^k` — et **le nombre total de tests n'intervient pas** : seuls comptent les
+  instables. À une chance sur vingt de tomber, **un seul test instable** fait descendre le
+  pipeline à **95 %**, et **cinq** le font tomber à **77 %** — soit près d'un pipeline sur
+  quatre à relancer sans qu'aucun bug n'existe. Il en suffit de **quatorze** pour qu'un
+  pipeline sur deux échoue sans raison, et c'est le seuil où une équipe cesse de lire les
+  échecs pour relancer par réflexe. **Les taux se multiplient** ; compare ton pourcentage à
+  ton propre agacement, ils devraient coïncider. Une réserve honnête : ce calcul suppose les
+  instabilités **indépendantes**. En vrai elles se corrèlent — une base partagée, une
+  horloge, un port occupé — ce qui rend la réalité pire que ce chiffre, jamais meilleure.
 
 ## ✅ Correction attendue
 

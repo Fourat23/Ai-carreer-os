@@ -233,12 +233,19 @@ Implémente `cosinus(a, b)` à la main : produit scalaire divisé par le produit
 
 **Critère de réussite — et le premier test est un piège dont il faut connaître la sortie.**
 
-1. `cosinus(v, v)` sur un vecteur quelconque. **N'écris pas `=== 1`.** Sur quatre vecteurs
-   aléatoires de huit dimensions, cette comparaison rend `false` **trois fois sur quatre** :
-   le calcul donne `1.0000000000000002`. Ce n'est pas ton code qui est faux, c'est
-   l'arithmétique à virgule flottante — le même phénomène que `0.1 + 0.2 !== 0.3`
-   (`/doc/lessons/javascript-basics`, jour 4). Le test correct compare à une **tolérance** :
+1. `cosinus(v, v)` sur un vecteur quelconque. **N'écris pas `=== 1`.** Sur 10 000 vecteurs
+   aléatoires, cette comparaison rend `false` **environ une fois sur deux** — 44,8 %, 45,8 %
+   et 46,1 % sur trois graines, et le taux reste voisin de 50 % quelle que soit la dimension,
+   de 2 à 768 (mesuré par `scripts/v71/cp12-assertions.py`). Le calcul donne alors
+   `1.0000000000000002`. Ce n'est pas ton code qui est faux, c'est l'arithmétique à virgule
+   flottante — le même phénomène que `0.1 + 0.2 !== 0.3` (`/doc/lessons/javascript-basics`,
+   jour 4). Le test correct compare à une **tolérance** :
    `Math.abs(cosinus(v, v) - 1) < 1e-9`. **Une similarité ne se teste jamais par égalité.**
+
+   Une remarque de méthode, et elle vaut au-delà de ce cas : **un essai sur quatre vecteurs
+   ne suffit pas à annoncer une fréquence.** Cette leçon a d'abord publié « trois fois sur
+   quatre » sur la foi de quatre tirages ; la mesure sur dix mille en donne une sur deux.
+   C'est exactement l'erreur que `/doc/lessons/statistics-for-ml` traite, commise ici.
 2. `cosinus(v, -v)` doit valoir −1 à la même tolérance près.
 3. `cosinus(v, w)` sur deux vecteurs orthogonaux construits à la main — par exemple
    `[1, 0]` et `[0, 1]` — doit valoir 0. Celui-là tombe juste, et c'est instructif :

@@ -6,12 +6,12 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP11**
-- **CP actuel** : **CP11 TERMINÉ** — rapport dans `docs/v71/V71-CP11-VULGARISATION-JARGON-PREREQUIS.md`
+- **dernier CP terminé** : **CP12**
+- **CP actuel** : **CP12 TERMINÉ** — rapport dans `docs/v71/V71-CP12-FACT-CHECK.md`
 - **leçons réellement lues et notées** : **128 / 128** ✅
 - **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 0** — **tous les défauts du ledger sont fermés.**
-- **prochaine action EXACTE** : **CP12** — vérification factuelle exécutable. Puis
-  **CP13 (audit aveugle, 32 leçons, graine 20260831)**, CP14, CP15.
+- **prochaine action EXACTE** : **CP13 — audit aveugle**, 32 leçons, graine 20260831,
+  échantillon gelé avant les modifications et interdit de changement. Puis CP14, CP15.
 
 > ## ⚠️ LA MOYENNE EST DE 4,954 ET C'EST UN PROBLÈME, PAS UN RÉSULTAT
 >
@@ -34,6 +34,40 @@
 > **Règle posée d'avance, avant de connaître le résultat** : si l'audit aveugle du CP13
 > produit des notes matériellement plus basses que le ledger, **c'est le ledger qui a tort,
 > pas l'audit**, et le verdict sera `ACADEMIC_QUALITY_NOT_READY`.
+
+## CP12 — vérification factuelle exécutable
+
+Rapport complet : `docs/v71/V71-CP12-FACT-CHECK.md`.
+
+**92 assertions exécutées. 3 fausses — et les trois avaient été écrites par moi pendant ce
+sprint.** Aucune n'existait dans le corpus avant V71. Les 50 scripts de vérification hérités
+de V70 sont tous verts (34 Node, 9 Python, 7 shell).
+
+**`ci-cd` publiait deux pourcentages faux**, dans un critère de réussite écrit au CP10. Le
+modèle correct est `(1 − p)^k` où *k* est le nombre de tests **instables** — le nombre total
+n'intervient pas, ce que « un pipeline de cent tests » laissait croire — et un seul test
+instable à 1/20 laisse **95 %**, pas 99 %. Corrigé, avec le script qui produit le tableau, le
+seuil où une équipe décroche (**quatorze** tests instables suffisent pour qu'un pipeline sur
+deux échoue) et la limite du modèle énoncée : l'indépendance supposée rend la réalité **pire**
+que le chiffre, jamais meilleure.
+
+**`embeddings` publiait une fréquence tirée de quatre essais.** « Trois fois sur quatre »
+était vrai de mes quatre tirages ; ce n'est pas une fréquence. Sur 10 000 tirages et trois
+graines : 44,8 %, 45,8 %, 46,1 % — **une fois sur deux**, indépendamment de la dimension.
+L'erreur est retournée en enseignement dans la leçon, puisque c'est exactement son voisinage.
+
+**Ce que ces deux erreurs ont en commun est le point le plus embarrassant du sprint** : ce
+sont des chiffres publiés sans exécution, dans la passe (CP10) dont l'objet était précisément
+de rendre les pratiques vérifiables. Le CP10 a produit des critères vérifiables dont deux
+n'avaient pas été vérifiés.
+
+**Ce que cet environnement ne permet pas de vérifier, relevé et non supposé** : démon Docker
+inactif, `kubectl` absent, systemd absent (PID 1 est `process_api`), `ssh` absent, aucun
+serveur PostgreSQL en écoute, réseau sortant indisponible. Ces six familles **n'ont pas été
+validées par exécution** et le rapport ne prétend pas le contraire. Deux nuances honnêtes :
+les codes `143`/`137` ont bien été vérifiés (ils ne dépendent pas de systemd), et le mécanisme
+d'overlay de `docker-containers` aussi (il utilise le noyau, pas le démon — c'est précisément
+pourquoi sa pratique est écrite sans Docker).
 
 ## CP11 — vulgarisation, jargon, prérequis, continuité
 
@@ -920,7 +954,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 | CP9 | P1 carrière **terminés au CP8** → CP9 traite les 14 P2 | **terminé** |
 | CP10 | passe transversale PRATIQUE (128) R/E/D/P/T + les 10 P3 | **terminé** |
 | CP11 | vulgarisation + jargon + prérequis + continuité | **terminé** |
-| CP12 | validation factuelle et assertions exécutables | à faire |
+| CP12 | validation factuelle et assertions exécutables | **terminé** |
 | CP13 | audit aveugle (32 leçons, graine 20260831) | à faire |
 | CP14 | tests négatifs + gauntlet + budget temps | à faire |
 | CP15 | notation finale 128×14 + rapport + recommandation V72 | à faire |
@@ -936,7 +970,7 @@ franchissable qu'après les corrections P1 des CP4→CP9.
 - CP3 lot 6 : `cde0206` · lot 7 : `d5ebfcc` · lot 8 : `6354c84` · lot 9 : `6d93243` · lot 10 : `a53cdf7` · lot 11 : `43fd152` · lot 12 : `c8553b8` · lot 13 : `86a6886` · lot 14 : `4a83fcc` · lot 15 : `f40a5fe` · lot 16 : `a6a4270` — **CP3 terminé**
 - CP4 : `c9045cf` · CP5 : `e9635e2` · CP6 : `3fd6f8b` · CP7 : `4fd6fa2` · CP8 : `8701d27` · CP9 : `bda3dd3`
 - CP10 : `11be707` · `d5fdcde` · `b63ad47` · `66d36bf` · `2cb2443`
-- CP11 : ce commit
+- CP11 : `d59ae02` · CP12 : ce commit
 
 ### Lot 7 — frontend (8 leçons)
 

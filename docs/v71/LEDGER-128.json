@@ -14,7 +14,7 @@
       5,
       5,
       5,
-      4,
+      5,
       4,
       5,
       5,
@@ -28,6 +28,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP11 : note D5 corrigee par relecture ciblee. Le motif ecrit au CP3 etait « dense pour le niveau » — or c est le libelle de l ancre D11 (charge cognitive), pas de l ancre D5 (vulgarisation), qui exige que chaque terme soit comprehensible AU MOMENT OU IL APPARAIT. Verification faite : le commit est defini comme une photo complete plus un pointeur vers le precedent AVANT que la regle du rebase n en depende ; bisect recoit sa propre section, « la dichotomie appliquee a ton passe », rattachee au cours d algorithmique deja suivi. D5 a 5. D11 RESTE a 4 : la densite, elle, est reelle, et c est la que le CP3 avait raison."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D10 4->5. Observation de lecture : D11=4 : densite reelle. La lecon couvre rebase, rebase interactif, bisect, pull request, stash, cherry-pick et reflog, PLUS une pratique A-E — au jour 1 du parcours. L ordre est lineaire et chaque section est autonome, ce qui compense, mais le volume de notions nouvelles par page est le plus eleve du lot. Verifie : log2(1000) = 9,97 -> « dix tests suffisent » OK. Le detail qui distingue un bon cours d un tres bon : --force-with-lease et non --force, avec la raison (le premier REFUSE d ecraser si quelqu un a pousse entre-temps, ce qui est precisement la situation qu on veut eviter). Et « un relecteur regarde d abord l historique, pas le diff » donne enfin la raison PRATIQUE du rebase interactif — ce n est pas de la cosmetique, c est ce qui rend le travail relisible."
       }
     ],
     "action": "CONSERVE",
@@ -49,7 +53,6 @@
       5,
       5,
       5,
-      5,
       4,
       5,
       5,
@@ -58,9 +61,15 @@
       5,
       5,
       5,
-      5
+      5,
+      4
     ],
-    "defauts": [],
+    "defauts": [
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D5 5->4, D6 4->5, D14 5->4. Observation de lecture : D5=4 : « fast-forward » figure dans Concepts cles et dans le Vocabulaire, jamais explique — un lecteur qui rencontre « merge (fast-forward vs commit de fusion) » ne peut pas savoir ce que c est. Terme unique, jamais porteur dans le corps. D14=4 : « Les photos chainees en detail » (l.38) redit litteralement le Modele mental (l.26) — meme parenthese, contenu + message + auteur + lien vers la photo precedente. Une seule redite. LE RESTE EST EXEMPLAIRE et confirme le statut de reference opposable du brief §8 : exemple guide de ~350 mots, cinq decisions, une regle, une variante — et l encadre qui distingue ce qui est reproductible (les comptes d occurrences, qui dependent du mecanisme) de ce qui ne l est pas (les identifiants de commit, condensats du contenu ET de la date), avec deux executions publiees pour le prouver. Restitution Feynman : je peux reexpliquer sans la lecon pourquoi le mecanisme qui protege de perdre son travail est exactement celui qui empeche d effacer un secret — une seule propriete vue depuis deux situations."
+      }
+    ],
     "action": "CONSERVE",
     "justif": "Reference de concision : 353 mots d exemple guide, 5 decisions, et la regle qui reste (main toujours demontrable). D6 a 4 : noyau de 317 mots, court, mais les trois zones et le modele photo suffisent au niveau vise. Exercice difficile ajoute (secret dans l historique) avec table de 6 etapes mesurees, et distinction explicite entre comptes reproductibles et empreintes non reproductibles. Cas professionnel (cle API poussee) relie au modele : rien n est jamais perdu.",
     "domaine": "Fondations",
@@ -152,7 +161,7 @@
     "cp": "CP3",
     "archetype": "fondation conceptuelle",
     "D": [
-      5,
+      4,
       5,
       5,
       5,
@@ -175,6 +184,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D1 5->4. Observation de lecture : D1=4 : « les 6 falsy » est presente comme une liste exhaustive (false, 0, chaine vide, null, undefined, NaN). Elle omet 0n (BigInt) et -0. C est la simplification pedagogique standard et les six cites sont corrects — mais elle est enoncee comme un compte ferme, sans signalement. Formulation universelle la ou le contexte compte. D11=4 : 314 lignes pour un JOUR 4, premier contact avec la programmation. La densite est reelle meme apres la suppression du doublon ; elle est compensee par un ordre strictement lineaire. Restitution Feynman : forte. La limite de l analogie du Google Doc est explicitement donnee (« avec un Google Doc tu VOIS le curseur de l autre bouger ; ici rien ne signale le partage »), ce qui est exactement ce que l ancre D4 demande et que presque aucun cours ne fait."
       }
     ],
     "action": "RETOUCHE",
@@ -247,6 +260,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : AUCUNE — la notation anterieure est confirmee. Observation de lecture : D11=4 : la section « les grands schemas de pensee » enumere SIX patterns d un coup (dont recursion et invariant) avant que le lecteur en ait manipule un seul. Passage dense, mais signale comme catalogue et l exemple guide en travaille un — ancre 4. Verifie : 3650x7 = 25 550 ~ « 25 000 additions » ; 200 000 documents -> n^2/2 = 2e10 ~ « vingt milliards ». Restitution Feynman : je peux reexpliquer la question qui debloque (qu est-ce que je recalcule entre deux tours ?) ET la variante ou elle ne marche plus (le maximum n est pas reversible). C est le meilleur dispositif de transfert lu jusqu ici."
       }
     ],
     "action": "CONSERVE",
@@ -331,11 +348,6 @@
     "cp": "CP3",
     "archetype": "comparaison",
     "D": [
-      5,
-      5,
-      5,
-      5,
-      5,
       4,
       5,
       5,
@@ -344,7 +356,12 @@
       5,
       5,
       5,
-      5
+      5,
+      5,
+      5,
+      5,
+      5,
+      3
     ],
     "defauts": [
       {
@@ -354,6 +371,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D1 5->4, D6 4->5, D14 5->3. Observation de lecture : D1=4 : « les exemples canoniques sont ecrits en Java, langage OU L ON NE PEUT PAS PASSER UNE FONCTION » (l.229) — faux depuis Java 8 (2014, lambdas et references de methode). Formulation universelle la ou le contexte compte. D14=3 : DEUX repetitions internes. « Le bon etat d esprit » (l.43-44) redit mot pour mot le Modele mental (l.32-36) ; « Pourquoi c est important » (l.38-39) redit le « Probleme d abord » (l.8-12), y compris l exemple « mets un Adapter » en trois mots contre dix minutes. ~90 mots sur 2 blocs. Note entre l ancre 4 (quelques longueurs) et l ancre 2 (repetition interne de contenu) : l ancre ne prevoit pas d echelon intermediaire, je tranche a 3 et je le signale. Restitution Feynman : excellente — je peux reexpliquer pourquoi la version « bien concue » est la PLUS couteuse face a un changement transverse, ce qui est contre-intuitif et rarement enseigne."
       }
     ],
     "action": "CONSERVE",
@@ -490,7 +511,7 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -500,6 +521,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : trois criteres. A — cinq minutes jusqu a ca tourne, et ZERO friction, parce que chaque fois que l auteur lui-meme doit deviner, un inconnu s arrete la. C — le tableau ne vaut que dans un clone neuf, une commande qui marche dans le repertoire de travail et pas dans un clone etant precisement le defaut vise. E — la reussite n est pas il a compris mais IL A COMPRIS POUR QUI : la plupart des README taisent le destinataire, et le lecteur en deduit que ce n est pas pour lui."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Objectif recopie les 90 %, le 30 secondes / 5 minutes et « decide si ton code sera regarde ». Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -517,17 +542,17 @@
     "cp": "CP3",
     "archetype": "projet incremental",
     "D": [
-      4,
       5,
-      5,
-      4,
-      5,
-      4,
       5,
       5,
       5,
       4,
-      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
       5,
       5,
       4
@@ -548,6 +573,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D1 4->5, D4 4->5, D5 5->4, D6 4->5, D10 4->5, D11 4->5. Observation de lecture : D5=4 : STAR est employe trois fois (l.32, l.34) sans jamais etre rattache a son developpement. La glose EXISTE — l.13 « raconter un projet se structure en situation, tache, action, resultat » — mais elle ne nomme pas le sigle, donc le lecteur ne peut pas faire le lien. Un mot aurait suffi. D14=4 : « Le probleme d abord » et « Objectif » redisent tous deux « l entretien est une competence qui s ENTRAINE, pas un test de personnalite ». Restitution Feynman : forte. Le renversement (preparer n est pas reviser, c est produire des artefacts) et le critere de reemploi se reexpliquent sans la lecon. La banque de chiffres est le meilleur dispositif de la lecon : elle ne se recite pas, elle se raconte."
       }
     ],
     "action": "RETOUCHE",
@@ -614,7 +643,7 @@
       5,
       5,
       4,
-      5
+      4
     ],
     "defauts": [
       {
@@ -624,6 +653,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : P3 de plafond D2 ferme — breaking-changes-compatibility (j76) cite au jour 51, +25 j. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — un changement est compatible si un client ecrit avant lui continue de fonctionner sans etre modifie — ajouter un champ l est, en renommer un ne l est pas. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Pourquoi c est important recopie trois phrases du modele mental (contrat, se devine sans documentation, exercice d EMPATHIE) pour une seule clause neuve. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -771,7 +804,7 @@
       5,
       5,
       5,
-      4,
+      5,
       5,
       5,
       5,
@@ -785,6 +818,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP11 : defaut D5 reel. ACID etait employe comme si le sigle parlait de lui-meme — « atomique (tout ou rien — ACID) » donne le A et rien d autre. Les quatre lettres sont desormais developpees avec CE QUE CHACUNE ACHETE : atomicite (le groupe passe entier ou pas du tout), coherence (les contraintes restent vraies apres comme avant), isolation (deux transactions simultanees ne se voient pas a moitie faites), durabilite (une fois confirmee, la donnee survit a une coupure). Plus le conseil de hierarchisation : retenir l atomicite et l isolation, qui expliquent la quasi-totalite des incidents de donnees."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D10 4->5. Observation de lecture : D6=4 : la section Explication complete survole SIX sujets (modele relationnel, SELECT/WHERE, JOIN, GROUP BY/HAVING, normalisation, index, transactions). Chacun recoit le quoi et le comment, mais le QUAND-NE-PAS et l ARBITRAGE ne sont donnes que pour l index (« on indexe les colonnes filtrees souvent, pas tout, au prix d ecritures plus lentes »). Quatre des cinq elements de l ancre D6 = 5. Le bloc « Verifie seul » est en revanche le meilleur du corpus sur le plan de la verifiabilite, et ses QUATRE promesses ont ete EXECUTEES au CP12 sur node:sqlite — LEFT JOIN rend exactement le livre jamais emprunte, INNER a la place rend le vide, HAVING > 2 exclut bien l auteur a deux livres (contre-epreuve avec >= 2 : il apparait), et WHERE COUNT(*) est refuse par la base avec « near WHERE: syntax error ». Aucune promesse fausse."
       }
     ],
     "action": "CONSERVE",
@@ -842,7 +879,6 @@
     "cp": "CP3",
     "archetype": "projet incremental",
     "D": [
-      4,
       5,
       5,
       5,
@@ -855,7 +891,8 @@
       5,
       5,
       5,
-      5
+      5,
+      4
     ],
     "defauts": [
       {
@@ -869,6 +906,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP11 : la seule des 31 references anterieures encore formulee sans dire que la lecon citee vient plus tard. La notion utile est desormais donnee en une phrase — adapter son propos a qui ecoute, dire a un recruteur ce qu il peut evaluer et a un pair ce qu il peut discuter — et technical-documentation est annoncee comme programmee huit jours plus loin, avec la mention que rien ici ne suppose qu on l a lue."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D1 4->5, D14 5->4. Observation de lecture : D14=4 : « Un projet qu on ne sait pas raconter n existe pas pour un employeur » figure MOT POUR MOT dans le Probleme d abord et dans l Objectif. Redite litterale. Le reste est fort, et un point la distingue d interview-preparation : ici STAR est REELLEMENT developpe (Situation, Tache, Action, Resultat, chacun avec ce qu il doit contenir), puis illustre par un recit complet de 90 secondes ecrit tel qu il se dit a voix haute — « une structure ne s apprend pas en lisant ses initiales ». C est exactement ce qui manquait a interview-preparation, ou le sigle est employe sans etre rattache a son developpement."
       }
     ],
     "action": "CONSERVE",
@@ -939,12 +980,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : quatre criteres. A — comparer git log -p et git log -p --all sur le meme depot ; et verifier le code de sortie separement, un script d audit qui affiche des occurrences mais sort en 0 passe silencieusement en CI, ce qui est pire que pas d audit. B — les quatre comptes NE DOIVENT PAS tomber a zero, et si l un y tombe il faut verifier la commande avant de conclure a la reussite : c est le resultat qu on souhaite, donc celui qu on valide trop vite. C — le hook doit bloquer ET --no-verify doit passer ; s attendre a ce que --no-verify echoue, c est batir sa protection sur une hypothese fausse."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Objectif recopie « hors du code, par environnement », « compromis pour toujours », « l erreur qui coute le plus cher ». Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -969,11 +1014,11 @@
       5,
       5,
       5,
-      5,
-      5,
       4,
       5,
       5,
+      5,
+      4,
       5,
       5
     ],
@@ -981,6 +1026,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du bloc « Verifie seul » contre l ancre D13. Le CP3 notait 4 — verification presente mais PARTIELLE. Verification faite, le bloc couvre la ou les notions CENTRALES de la lecon et chacun de ses points est decidable seul, ce qui est l ancre 5. Note portee a 5 PAR LECTURE, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D8 5->4, D10 4->5, D12 5->4. Observation de lecture : D8=4 et D12=4 : un seul bloc de pratique, dont le LIVRABLE n est pas nomme — l apprenant sait quoi faire (3 tests de caracterisation, une extraction, une regle nouvelle) et comment savoir (« verifie qu a aucune etape un ancien test n a rougi par surprise »), mais pas ce qu il rend. Ambiguite mineure, levable par bon sens. LE RESTE EST TRES FORT. L exemple guide sort de la boucle circulaire du legacy par une inversion nette — tu n as pas besoin de comprendre ce que le code fait pour capturer ce qu il fait — et il FIGE DELIBEREMENT UN BUG (un prix negatif) en expliquant pourquoi le corriger maintenant serait l erreur. Le detail le plus fin : l ordre des conditions dans la fonction extraite fait qu un client pro avec code de parrainage garde 15 % au lieu de 10 %, ce qui est une DECISION METIER a poser a quelqu un — et qui, noyee dans 240 lignes, ne se voyait meme pas."
       }
     ],
     "action": "CONSERVE",
@@ -1155,12 +1204,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : quatre criteres, dont un qui se corrige en dix secondes — un aller-retour transatlantique coute de l ordre de 150 ms, donc la reponse est SIX OU SEPT par seconde, pas quelques centaines. Un ecart d un facteur dix sur un repere est ce qui fait derailler un entretien. A — faire varier le rapport lecture/ecriture d un facteur dix : si la conclusion d architecture ne change pas, le calcul decore une decision deja prise, et l examinateur le repere en demandant et si c etait l inverse. C — compter les affirmations non calculees et viser moins de trois sur quarante-cinq minutes, le chiffre absolu important moins que sa baisse."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Objectif redit la methode (clarifier -> composants/flux -> trade-offs -> echelle/pannes) et « teste ton RAISONNEMENT » mot pour mot. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -1263,12 +1316,16 @@
       5,
       5,
       4,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : D13 MAINTENU A 4 apres relecture, contre la tendance du lot. Raison : les trois verifications couvrent le disque, les inodes et le CPU ; la MEMOIRE (RSS, swap, OOM), qui est un quart de l objectif annonce, n est verifiee nulle part. L ancre 4 dit « verification presente mais partielle », et c est exactement le cas."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Modele mental recopie le paragraphe des quatre ressources ; seul l anglais « file descriptors » s ajoute, deja present dans l Objectif. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -1523,7 +1580,7 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -1533,6 +1590,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : P3 de plafond D2 ferme — llm-observability (j325) cite au jour 79, +246 j — le deuxieme plus grand ecart. La citation etait correctement signalee comme aide peripherique, donc conforme a l ancre D2 = 4, mais plafonnee la par construction. Remede 1 de PREREQUIS-ORDRE §6 applique : la notion necessaire est INTEGREE dans la lecon en une phrase — la derive, c est un systeme dont la qualite baisse alors que le code n a pas change ; et le cout par requete est une metrique de production comme la latence, a ceci pres qu elle se degrade sans que personne ne s en plaigne. — et la citation sort de la liste des prerequis vers un encadre « Ou trouver le detail » qui dit explicitement que la lecon est programmee plus loin et que rien ici ne suppose qu on l a lue. Ancre D2 niveau 5 : les prerequis pointent vers l amont et tout autre concept est construit dans la lecon."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Objectif recopie les quatre points du probleme, dont « j ai deploye » / « je fais tourner un service » a l identique. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -1582,7 +1643,7 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -1592,6 +1653,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : le test anti-fuite de la partie D se lancait sur les vrais journaux sans avoir jamais echoue. Critere ajoute, et il vient AVANT le resultat : ecrire volontairement une ligne contenant un jeton et verifier que le test echoue. Un test de fuite qui n a jamais echoue peut ne rien chercher du tout — expression reguliere fausse, chemin qui ne pointe nulle part — et donner un feu vert rassurant tous les jours jusqu a l incident."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Objectif recopie les quatre points et « boite noire indefendable » mot pour mot. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -1662,6 +1727,7 @@
     "cp": "CP3",
     "archetype": "comparaison",
     "D": [
+      4,
       5,
       5,
       5,
@@ -1674,13 +1740,16 @@
       5,
       5,
       5,
-      5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP8 : l erreur d unite qui inversait la conclusion de l exemple guide est fermee, et la ligne C a ete RECALCULEE plutot que simplement corrigee d unite. Le probleme n etait pas seulement que ~10 j valait 10,67 h : c est qu avec 1,33 j/an la dette C passait DERRIERE A et que l observation C est celle qu on sous-estime ne decoulait plus du tableau. Les deux tableaux sont donc refaits de facon coherente — l export est touche ~1 fois par MOIS et non par trimestre, et retrouver puis corriger un export faux coute ~2 jours et non 1. Le calcul est desormais pose en clair dans le texte : (1/3) x 2 x 12 = 8 jours par an, pour un principal de 3, soit le cout annuel le PLUS ELEVE du tableau devant les 4,5 jours de A, et l amortissement le plus court (4,5 mois contre 5,5). La these de la lecon decoule enfin de ses propres chiffres. Le paragraphe est de surcroit renforce : ce qui rend cette dette invisible n est pas sa taille mais sa FORME — les dettes dont l interet est un risque ne coutent rien la plupart des mois, on se souvient des mois calmes, pas de l esperance. D1 de 2 a 5, D7 de 4 a 5."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D1 5->4, D14 5->4. Observation de lecture : D1=4 : la lecon cite nommement ISO/IEC 14764 et donne « evolutive » comme quatrieme type, la ou la norme dit PERFECTIVE — et la description donnee (ajouter une capacite a la demande du metier) est plus etroite que la perfective normative, qui couvre aussi l amelioration de performance et de maintenabilite. Le fond est juste, l ecart a la norme citee n est pas signale. D14=4 : le Modele mental et la section « Principal et interet » redisent la meme chose, et « Pourquoi c est important » reprend « Le probleme d abord ». ARITHMETIQUE VERIFIEE LIGNE A LIGNE : C = (1/3)x2x12 = 8 j/an ; A = 36 h = 4,5 j ; amortissement C = 3/8 an = 4,5 mois, A = 2/4,5 an = 5,3 mois ; D = 4 h pour 0,5 h/an = 8 ans. Tout tient. Restitution Feynman : je peux reexpliquer sans la lecon pourquoi la dette la plus laide attend et pourquoi celle dont l interet est une PROBABILITE est celle qu on sous-estime — on se souvient des mois calmes, pas de l esperance."
       }
     ],
     "action": "CONSERVE",
@@ -1705,7 +1774,7 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -1715,6 +1784,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : le motif CP3 etait « un seul mini-exercice, sans bloc de pratique multiple ni critere de reussite explicite HORS DU VERIFIE SEUL ». Or l ancre D8 = 5 gelee au CP1 n exige NI pluralite de blocs NI que le critere vive hors du bloc de verification : elle exige un critere verifiable par l apprenant seul, et il y en a quatre — la majuscule qui doit se fondre, le cas vide obligatoire dans les tests, le comptage des boucles for, et l epreuve de bilinguisme. La note CP3 appliquait une exigence ABSENTE du bareme. Corrigee a 5 par relecture, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D14 5->4. Observation de lecture : D14=4 : « Le probleme d abord » et « Pourquoi c est important » affirment tous deux que l apprenant sait deja programmer et que c est un changement de SYNTAXE et non de paradigme. Redite d une phrase. Le reste est exact et bien calibre : la table de correspondance JS -> Python est juste, les quatre pieges specifiques sont ceux qui comptent vraiment pour quelqu un qui vient de JS, et la nuance sur les comprehensions est donnee dans LES DEUX SENS — ecrire des boucles la ou une comprehension est plus claire est le marqueur du nouveau venu, mais une comprehension illisible de trois lignes doit redevenir une boucle."
       }
     ],
     "action": "RETOUCHE",
@@ -1739,12 +1812,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : quatre criteres ajoutes (retirer un epingle qu on ne sait pas justifier ; cinq minutes et zero friction sur le clone neuf ; zero secret, et si on en trouve un le critere est d avoir REVOQUE la cle et non de l avoir supprimee de l historique ; plus de la moitie des vingt messages disant pourquoi). AUCUNE NOTE NE BOUGE : la lecon etait deja a 5 sur les quatorze dimensions au CP3. La correction ferme un manque reel sans rien rendre au compteur, et c est note ici plutot que dissimule."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Objectif recopie la liste des signaux negatifs et la phrase « le portfolio EST le CV technique ». Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -1797,9 +1874,9 @@
       5,
       5,
       5,
-      4,
       5,
-      5
+      5,
+      4
     ],
     "defauts": [
       {
@@ -1809,6 +1886,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D12 4->5, D14 5->4. Observation de lecture : D14=4 : le basculement declaratif est enonce TROIS fois — « travail de plombier vers travail de dessinateur » (probleme d abord), « UI = f(state) » (objectif), « Declaratif (QUOI), pas imperatif (COMMENT) » (modele mental). Trois sections adjacentes, une seule idee. Le reste est excellent, et deux passages sortent du lot. (1) L etat comme INSTANTANE : setCount(count+1) deux fois n ajoute que 1 parce que les deux lisent le MEME count — « le setter n ecrit pas la variable, il programme le prochain rendu ». (2) L exemple guide sur key={i} : le symptome est MESURE dans un navigateur (la coche change de tache apres suppression, sans aucune erreur en console) et le premier geste enseigne est de separer le modele de l ecran — les donnees sont-elles fausses, ou seulement leur affichage ? — ce qui divise le champ de recherche en deux."
       }
     ],
     "action": "CONSERVE",
@@ -1850,6 +1931,7 @@
     "cp": "CP3",
     "archetype": "architecture",
     "D": [
+      4,
       5,
       5,
       5,
@@ -1862,13 +1944,16 @@
       5,
       5,
       5,
-      5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP5 : la seule notion d architecture d etat necessaire est desormais ENONCEE dans la lecon (un etat se place au plus proche ancetre commun de ceux qui le lisent, et ce qui peut se calculer ne se stocke pas), et react-composition-architecture sort de la liste des prerequis vers un encadre Ou trouver le detail. La lecon precise qu elle s occupe d une autre question — les etats que le modele rend REPRESENTABLES. Ancre D2 niveau 5."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D1 5->4, D14 5->4. Observation de lecture : D1=4 : INCOHERENCE INTERNE non signalee. L exemple guide denombre « cinq etats legitimes, un contradictoire, deux ambigus » (5+1+2=8) ; la correction denombre « quatre etats valides sur huit ». Les deux comptes sont coherents avec leur propre convention — le premier distingue items VIDE de items PRESENT, le second traite data comme present/absent — mais la lecon ne le dit nulle part, et un lecteur attentif voit 5 puis 4 sans explication. D14=4 : le tableau des huit combinaisons est donne DEUX FOIS, avec deux conventions differentes. Restitution Feynman : excellente. « On n a pas ajoute une garde, on a RETIRE la possibilite » et « un etat legitime doit etre declare, pas obtenu par accident » se reexpliquent seuls. La limite de la solution (le modele serre interdit d afficher l ancienne liste grisee pendant un rechargement) est le genre de nuance que presque aucun cours ne donne."
       }
     ],
     "action": "CONSERVE",
@@ -1918,7 +2003,7 @@
       5,
       5,
       5,
-      4,
+      5,
       5,
       4,
       5,
@@ -1933,6 +2018,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : SEULE lecon de ce lot ou le CP3 avait raison de dire « partielle », et le defaut venait de MOI. Au CP9 j ai reduit son bloc « Verifie seul » de quatre points a deux en jugeant les deux autres redondants avec le corrige : cela a ameliore D14 et D9 et RETRECI D13. Les deux points retires portaient sur des notions centrales que rien d autre ne verifiait. Deux points ecrits a la place : ajouter un champ au type sans toucher au predicat (la desynchronisation, defaut structurel des gardes manuscrites), et retirer le type de retour d un gestionnaire d evenement pour voir l editeur inferer any — le plus discret des trous, parce qu il n y a rien a voir. D13 a 5 apres elargissement, pas avant."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D9 4->5. Observation de lecture : D11=4 : 450 lignes, deux corrections successives (le corrige de la pratique A-E puis la section L ordre de travail), et un exemple guide de 160 lignes. La densite est reelle pour une lecon qui suppose deja TypeScript acquis. L exemple guide est excellent : cinq lignes soumises a tsc --strict, SORTIE BRUTE PUBLIEE, trois erreurs sur cinq — et les deux qui passent en silence sont exactement les deux qui plantent en production. Le cas 2 est presente comme une erreur DESIREE, ce qui est la bonne lecture de unknown : le compilateur refuse de deviner et oblige a prouver."
       }
     ],
     "action": "RETOUCHE",
@@ -2009,12 +2098,17 @@
       5,
       5,
       5,
-      5,
+      4,
       5,
       5,
       5
     ],
-    "defauts": [],
+    "defauts": [
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D11 5->4. Observation de lecture : D11=4 : 518 lignes, et la section Explication complete enchaine NEUF sous-sections (semantique, noms accessibles, clavier, tabindex, modales, mouvement, contraste, ARIA, tests) avant le moindre exemple guide. Chacune est courte et autonome, ce qui compense, mais la densite de notions nouvelles par page est reelle. La pratique est la meilleure du lot sur un point : la contrainte est PHYSIQUE — debranche ta souris ou pose-la hors d atteinte — avec la raison, « cette pratique ne fonctionne pas si tu fais comme si, la main revient au pave tactile sans que tu t en apercoives ». Et le modele mental (une page a deux lectures, visuelle et programmatique, et l accessibilite consiste a ce qu elles disent la MEME chose) est un outil de raisonnement, pas une definition."
+      }
+    ],
     "action": "CONSERVE",
     "justif": "5 sur les quatorze. La lecon refuse d enseigner l accessibilite par une liste d attributs et fait faire la tache autrement : range la souris. Le parcours de la modale est conduit touche par touche — le focus ne bouge pas a l ouverture, Tab passe a la page en ARRIERE-PLAN, Echap ne fait rien — et se conclut par un mot juste : pas degradee, INUTILISABLE, et rien dans le code ne le signale. Les corrections sont ordonnees par gravite et la premiere RETIRE du code : trois div deviennent trois button, ce qui resout la majorite. Le principe qui organise tout est enonce et il est exact : ARIA ajoute de l INFORMATION, jamais du COMPORTEMENT — d ou un seul aria-label dans tout l exemple, sur la croix, parce que le lecteur d ecran annoncerait multiplication. Le retour du focus a la fermeture est nomme comme la moitie qu on oublie systematiquement, avec sa consequence chiffree en usage (vingt fois par jour, c est une raison de changer d outil). Et la lecon sait s arreter : pour le piegeage du focus, la reponse professionnelle n est plus je l ecris mais j utilise une primitive eprouvee — les reimplementer par principe n est pas de la rigueur, c est du travail refait. Methode de diagnostic sans outil : fais la tache complete au clavier."
   },
@@ -2079,18 +2173,18 @@
     "cp": "CP3",
     "archetype": "construction",
     "D": [
-      5,
-      5,
-      5,
-      5,
-      5,
-      5,
-      5,
-      5,
-      5,
-      5,
-      5,
       4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
       5,
       5
     ],
@@ -2102,6 +2196,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D1 5->4, D12 4->5. Observation de lecture : D1=4 : « c est de la que vient le facteur 50 a 100 » pour la vectorisation — chiffre donne sans source ni mesure, alors que le reste de la lecon mesure tout. Le facteur reel depend enormement de l operation. Formulation universelle la ou le contexte compte. TOUT LE RESTE EST EXACT ET VERIFIE : 120,50 + 89 + 210 + 45,90 + 1 300 + 75 = 1 840,40 ; apres coerce, 120,5 + 89 + 210 + 75 = 494,50 ; (1840,40 - 494,50)/1840,40 = 73,1 % -> « faux de 73 % » OK. Et 05/04/2024 devient bien 2024-05-04 avec la convention par defaut de pandas. L exemple guide est l un des trois meilleurs du corpus : quatre decisions, quatre erreurs SILENCIEUSES, et la classe d erreur enfin nommee — pas une valeur manquante, une VALEUR PLAUSIBLE ET FAUSSE. La regle finale se retient : errors=coerce est un excellent outil a condition d etre suivi d un comptage ; un silence n est pas un succes."
       }
     ],
     "action": "CONSERVE",
@@ -2174,6 +2272,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP6 : affirmation de reproductibilite corrigee. La lecon ecrivait que les valeurs absolues dependent de la machine mais que les plans ET LES RAPPORTS n en dependent pas. Rejeu du script cite, quatre fois de suite sur la MEME machine : rapports de 436, 542, 726 et 760. Les plans, eux, sont parfaitement stables (SCAN sans index, SEARCH avec, a chaque fois). Le texte dit desormais ce qui se reproduit et ce qui ne se reproduit pas, publie les quatre valeurs, et en tire un argument qui sert la lecon : meme ce script ne se reproduit pas au chiffre pres lui-meme, ce qui est la premiere raison de mesurer sur SA base."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : AUCUNE — la notation anterieure est confirmee. Observation de lecture : Aucune faiblesse trouvee. Verifications arithmetiques : 7,819/0,012 = 651,6 -> « 652 fois plus rapide » OK ; 50/27 = 1,85 OK. Point remarquable : la lecon PUBLIE UNE MESURE QUI CONTREDIT LA REGLE QU ELLE ENSEIGNE — un LIKE ancre a gauche n utilise PAS l index ici, parce que LIKE est insensible a la casse par defaut en SQLite alors que l index est sensible — et en tire l enseignement superieur : une regle sur les index est toujours conditionnee par la collation, le type et le moteur, donc seul EXPLAIN sur TA base tranche. Elle publie aussi que son propre rapport n est pas reproductible (436, 542, 726, 760 sur quatre executions). Restitution Feynman : je peux reexpliquer la regle du prefixe gauche par l annuaire trie nom puis prenom, et pourquoi SCAN USING COVERING INDEX est une consolation et non une recherche."
       }
     ],
     "action": "CONSERVE",
@@ -2200,7 +2302,12 @@
       5,
       5
     ],
-    "defauts": [],
+    "defauts": [
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : AUCUNE — la notation anterieure est confirmee. Observation de lecture : Aucune faiblesse suffisante pour deplacer une note. UNE OBSERVATION A CONSIGNER : le Mini-exercice CONTIENT SA PROPRE SOLUTION — « Propose DEUX solutions : (1) UPDATE posts SET likes = likes + 1 ; (2) un verrouillage optimiste avec numero de version » — ce qui est l ancre D8 niveau 2 pour CE BLOC. La note reste a 5 parce que l ancre note l appareil de pratique et que la vraie pratique de la lecon est le bloc A-E « reproduire les anomalies plutot que les lire », qui satisfait les cinq elements. Mais un apprenant qui ne ferait que le mini-exercice aurait un exercice de choix, pas de production. L exemple guide est exemplaire : quatre approches MESUREES (lire-calculer-ecrire donne 50 au lieu de 20 ; UPDATE atomique donne 20 ; verrou pessimiste refuse B ; version optimiste), chacune avec sa limite, et la cause tenue en une phrase — B a pris sa decision a partir d une valeur devenue perimee entre le moment ou il l a lue et celui ou il a ecrit. Plus la discipline qui en decoule : une transaction contient des acces a la base, et RIEN D AUTRE."
+      }
+    ],
     "action": "CONSERVE",
     "justif": "5 sur les quatorze. La lecon nomme d emblee la difficulte propre au sujet — seul, tout fonctionne toujours ; le defaut n apparait qu en production, rarement, et de facon irreproductible — puis le provoque exprès sur deux connexions reelles. Quatre etats mesures : lire-calculer-ecrire donne 50 au lieu de 20 (mise a jour perdue), l ecriture relative donne 20, le verrou fait refuser B qui rejoue et donne 20, la version optimiste fait modifier 0 ligne a B qui le detecte et rejoue. La cause est formulee exactement : B a pris sa decision a partir d une valeur devenue perimee entre le moment ou il l a lue et le moment ou il a ecrit — et ce n est PAS un probleme de vitesse, il suffit que l intervalle existe. Trois remedes, chacun avec son prix reel, et un tableau de choix qui les departage. Le point le plus facile a manquer est isole : le verrouillage optimiste n existe que si l application VERIFIE le nombre de lignes modifiees — la protection n est pas dans le SQL, elle est dans le fait de lire la reponse. Le cas de l humain qui edite un formulaire trois minutes justifie l optimiste mieux qu aucun argument theorique. Enfin la limite est DECLAREE : la demonstration tourne sur SQLite qui serialise les ecritures, les mecanismes sont identiques ailleurs mais les niveaux d isolation, les erreurs et la granularite different — ce qu il faut retenir n est pas un code d erreur, c est que lire puis ecrire est faux des qu on est deux. La pratique A a E fait reproduire les cinq anomalies au lieu de les lire, chaque partie avec son livrable chiffre."
   },
@@ -2213,6 +2320,7 @@
       5,
       5,
       5,
+      4,
       5,
       5,
       5,
@@ -2222,13 +2330,16 @@
       5,
       5,
       5,
-      5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : le CP3 notait D8 a 4 en admettant lui-meme que prouver qu un second run ne cree pas de doublons EST un critere verifiable. Les elements reellement absents etaient le contexte et le livrable : ajoutes (un export nocturne parfois recu deux fois, parfois rejoue apres incident ; les trois COUNT(*) avant / apres le premier / apres le second). Et le critere est pousse un cran plus loin, la ou la plupart des pipelines se trompent : MODIFIER une ligne du CSV et rejouer — le compte doit rester identique ET la ligne etre a jour, faute de quoi on a ignore le doublon au lieu de le reconcilier. L exercice difficile recoit le critere de l interruption : le compte doit valoir celui d avant OU celui d apres, jamais un nombre intermediaire, qui est le pire etat possible."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D4 5->4, D14 5->4. Observation de lecture : D4=4 : le modele mental est « une chaine de montage » — juste, mais JAMAIS reutilise ensuite. L outil de raisonnement reel de la lecon (la liste de controle en quatre questions) arrive tres loin, dans l exemple guide, et n est pas dans le modele mental. Ancre 4 : modele present et juste, mais peu reutilise. D14=4 : le pipeline fautif INSERT est montre DEUX fois (exemple guide A et Erreurs frequentes) et le triplet 617 / 96 006 / 149 500 revient TROIS fois. Verifie : 1 - 96006/149500 = 35,8 % -> « 36 % de moins » OK. Restitution Feynman : tres forte, et la nuance publiee est rare — l idempotence REPARE l etat partiel en relancant, mais elle ne protege que SI l on relance ; entre la panne et la relance, la base affiche 96 006 EUR a qui la consulte. Donc il faut les DEUX : la transaction protege l intervalle, l idempotence protege la relance."
       }
     ],
     "action": "CONSERVE",
@@ -2308,6 +2419,7 @@
       5,
       5,
       5,
+      4,
       5,
       5,
       5,
@@ -2316,13 +2428,16 @@
       5,
       5,
       5,
-      5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : deux choses fermees. (1) P3 de tracabilite — les quatre nombres publies sous « Resultats mesures » ne citaient aucun script. Reference ajoutee vers scripts/v71/ml-fuite-selection.py, ET la lecon publie desormais ce que le script montre vraiment : 0,870 et 0,590 sont UN TIRAGE, pas une constante. Sur quatre graines, A donne 0,835 de moyenne et B 0,515 ; ce qui est stable n est pas la decimale mais l ECART, +0,32 sur les quatre sans exception. Idem pour la normalisation : les deux variantes donnent 0,515 a l identique, donc l ecart n est pas petit, il est NUL — les deux decimales publiees etaient du bruit dans les deux sens. Le defaut de tracabilite est devenu un gain de justesse. (2) D8 — le motif CP3 etait « mini-exercice seul, pas de section de verification distincte », exigence absente de l ancre ; le bloc Verifie seul porte quatre criteres dont la demonstration volontaire du leakage. Note portee a 5 par relecture."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D5 5->4, D14 5->4. Observation de lecture : D5=4 : MAE, RMSE et AUC recoivent une glose courte (« l erreur en unites reelles », « resume tous les seuils ») sans que les sigles soient developpes ni que leur difference soit dite — un lecteur ne saura pas pourquoi choisir RMSE plutot que MAE. D14=4 : « Le renversement conceptuel » redit le Modele mental, et l exemple des 10 000 emails de spam apparait deux fois. LE RESTE EST EXCEPTIONNEL : l experience du detecteur de mensonge (2 000 variables aleatoires, etiquette a pile ou face, donc tout score au-dessus de 50 % est NECESSAIREMENT fabrique) est la meilleure construction possible sur ce sujet, et la lecon publie la variabilite de ses propres chiffres en distinguant ce qui est stable (l ecart de +0,32) de ce qui ne l est pas (la decimale). Elle explique meme pourquoi la variante honnete donne 0,59 et non 0,50. Restitution Feynman : je peux reexpliquer que la regle n est pas « mettre les choses dans un pipeline » mais « toute operation qui regarde l etiquette doit etre refaite dans chaque pli » — le pipeline est le moyen, pas le principe."
       }
     ],
     "action": "RETOUCHE",
@@ -2411,7 +2526,7 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -2421,6 +2536,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : quatre criteres qui revelent la comprehension plutot que l execution. A — le journal doit contenir au moins DEUX variables retirees ; si toutes ont ameliore la metrique, on n a pas mesure, on a confirme. B — les cinq gains ne doivent PAS s additionner pour donner le gain de l ensemble, parce qu ils encodent en partie la meme information — c est pourquoi on ne selectionne pas des variables une par une sur leur gain isole. C — l encodage ordinal ne s effondre pas, et c est le piege : il impose un ORDRE a des valeurs qui n en ont pas, affirmation fausse que les scores ne montrent pas. D — le gain doit etre spectaculaire et la reponse temporelle NON : le point est d eprouver qu un gain enorme est un signal d alarme."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D14 5->4. Observation de lecture : D14=4 : l Objectif et le Modele mental, adjacents, affirment tous deux que les features comptent plus que le choix du modele. Redite courte, sans consequence de lecture. LE RESTE EST TRES SOLIDE. Les trois formes de leakage sont hierarchisees et la troisieme (temporelle) est correctement designee comme la plus sournoise, avec le test infaillible pour la premiere : « cette colonne est-elle remplie A L INSTANT ou je dois predire ? ». Le symptome est enseigne comme une ALERTE et non comme une reussite — 0,99 d AUC sur un probleme repute difficile appelle « qu est-ce que ce modele sait qu il ne devrait pas savoir ? ». Et l encodage par la cible est teste sur des donnees SANS LIEN, ou il trouve 0,610 quand l honnete est 0,50. Restitution Feynman : je peux reexpliquer pourquoi Paris=1, Lyon=2, Marseille=3 est faux — ce n est pas une convenance, c est une affirmation fausse injectee dans les donnees."
       }
     ],
     "action": "RETOUCHE",
@@ -2445,12 +2564,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : cinq criteres, chacun avec sa valeur attendue, calculees ici. A — sorties proches de 0, 1, 1, 0. B — sans couche cachee elles se figent AUTOUR DE 0,5 et l erreur cesse de baisser, non par manque d entrainement mais parce qu aucune droite ne separe les classes du OU exclusif. C — le rang du produit vaut le minimum des deux dimensions, ce qui demontre que deux couches lineaires SONT une seule couche lineaire. D — 0,25 puis 9,8e-4, 9,5e-7, 9,1e-13, 7,9e-31 contre 1 partout pour une derivee de 1 : vers vingt couches le gradient passe sous la precision utile et l entrainement ne ralentit pas, il S ARRETE sans message. E — au moins deux echecs sur vingt, sinon le reseau est trop large pour montrer le phenomene."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. La metaphore boutons / note / sens du reglage est developpee integralement deux fois, dans le probleme puis dans le modele mental. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -2475,7 +2598,7 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -2485,6 +2608,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : quatre criteres, dont un qui porte sur l honnetete de l apprenant. A — la somme des poids doit valoir 1 A LA TOLERANCE PRES, jamais == 1 ; si elle vaut 7, la normalisation est sur le mauvais axe, erreur frequente au resultat d apparence normale. B — les poids ne correspondront PAS a quelque chose de semantiquement satisfaisant, parce que les matrices de projection sont ALEATOIRES : croire y voir un motif, c est se raconter une histoire. Le calcul demontre le mecanisme, pas le sens — confondre les deux est la principale erreur de comprehension sur ce sujet. C — de 512 a 128 000 unites le nombre de paires est multiplie par 62 500 (verifie) ; trouver 250 revient a raisonner lineairement. D — l ecart-type croit comme la racine de la dimension et retombe autour de 1 apres division."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D14 5->4. Observation de lecture : D14=4 : le meme point — le sens d un mot vient de son contexte — est illustre TROIS fois par trois images differentes : la souris animal/objet (probleme d abord), la salle de reunion (modele mental), la banque/pret contre banque/fleuve (exemple simple). Chacune est bonne ; ensemble elles font une longueur. Le reste est exact et le niveau est BORNE EXPLICITEMENT (« intuition solide, schemas, pas equations » ; objectif d entretien : expliquer un transformer en trois minutes), ce que peu de lecons font. Le critere B ecrit au CP10 fournit la limite de l analogie que le modele mental ne donne pas : les poids d attention ne correspondront PAS a quelque chose de semantiquement satisfaisant, parce que les matrices de projection sont aleatoires — le calcul demontre le mecanisme, pas le sens."
       }
     ],
     "action": "CONSERVE",
@@ -2509,7 +2636,7 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -2527,6 +2654,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D14 5->4. Observation de lecture : D14=4 : « une competence d ingenieur que peu de juniors possedent » apparait dans le Probleme d abord ET dans l Objectif. Redite d une formule. Arithmetique verifiee : 500 x 4000 = 2 M tokens d entree ; 2 x 3 = 6 USD ; 500 x 300 = 0,15 M de sortie ; 0,15 x 15 = 2,25 USD ; total 8,25 -> « 8 USD/jour » et 247 -> « 250 USD/mois ». Exact. Le modele mental (compteur de taxi, on paie dans les deux sens ; optimiser = raccourcir les trajets, pas supprimer les courses) est court et opérant."
       }
     ],
     "action": "CONSERVE",
@@ -2839,6 +2970,7 @@
     "cp": "CP3",
     "archetype": "construction",
     "D": [
+      4,
       5,
       5,
       5,
@@ -2851,8 +2983,7 @@
       5,
       5,
       5,
-      5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -2862,6 +2993,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture de l appareil de pratique contre les CINQ elements ecrits de l ancre D8 = 5. Les cinq sont presents — production (construire un golden set et le script de mesure), contexte (mini-corpus de 3 documents), contraintes (10 questions reparties 5 factuelles / 2 syntheses / 1 ambigue / 2 sans reponse), livrable (le jeu et le rappel@3) et critere : le bloc Verifie seul porte QUATRE criteres decidables, dont combien de tes 10 questions partagent trois mots consecutifs avec le document qui les contient — si c est la majorite, ton golden set mesure une recherche par mots-cles deguisee. La justification CP3 ne donnait aucun motif pour le D8 a 4. Note portee a 5 par relecture, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D1 5->4, D14 5->4. Observation de lecture : D1=4 : « 90 % des projets RAG de portfolio n ont aucune evaluation » est un chiffre non source presente comme un fait, dans un paragraphe de motivation. D14=4 : « le probleme d abord » et « le probleme : la sortie est ouverte » redisent la meme chose ; « transforme le bricolage en ingenierie » apparait deux fois. Restitution Feynman : je peux expliquer l examen avec corrige, l evaluation par etage et la calibration du juge sans relire. La ou ca casse : comment CHOISIR k dans rappel@k — la lecon dit que k=50 noie la generation mais ne donne pas de critere."
       }
     ],
     "action": "RETOUCHE",
@@ -3050,15 +3185,20 @@
       5,
       5,
       5,
+      4,
       5,
       5,
       5,
+      4,
       5,
-      5,
-      5,
-      5
+      4
     ],
-    "defauts": [],
+    "defauts": [
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D8 5->4, D12 5->4, D14 5->4. Observation de lecture : D8=4 et D12=4 : la section « Pratique » n est pas une consigne, c est un RENVOI vers des exercices de plateforme (cloud-detect-spof, queue-idempotent-consumer). La vraie pratique vit dans le bloc « Verifie seul » — trois verifications concretes et decidables — mais AUCUN LIVRABLE n y est nomme : l apprenant sait quoi faire et comment savoir, pas ce qu il doit produire. Quatre des cinq elements de l ancre D8 = 5. D14=4 : « Le reseau n est pas fiable » redit le Modele mental. LE RESTE EST TRES FORT. CAP est enfin enseigne correctement (le choix ne se pose que PENDANT une partition, pas « 2 sur 3 en permanence »), et l objectif borne explicitement son ambition — « raisonner en junior solide, pas maitriser la theorie complete » — ce qu aucune autre lecon du corpus ne fait. Restitution Feynman : je peux reexpliquer que « parfois » n est pas un mot vague mais une piste, et le geste qui le transforme en frequence (vingt requetes, sort | uniq -c, 6 fois sur 20 — proche de la proportion de replicas, donc le rapport designe deja la cause)."
+      }
+    ],
     "action": "CONSERVE",
     "justif": "5 sur les quatorze. La lecon prend le ticket le plus decourageant qui soit — « je change mon avatar, je recharge, et l ancien s affiche. Parfois. » — et en fait une methode. Sa these est exacte et rarement enseignee : EN SYSTEME DISTRIBUE, « PARFOIS » N EST PAS UN MOT VAGUE, C EST UNE PISTE, qui designe une classe de causes identifiable avant meme d ouvrir un journal. Le tableau des quatre causes associe a chacune LA QUESTION QUI LA TESTE, ce qui en fait un outil et non une liste. Puis la mesure qui tranche tient en une ligne de shell : repeter la requete vingt fois et compter les reponses differentes. Le resultat est le meilleur moment de la lecon — le « parfois » vaut 6 fois sur 20, donc le bug est devenu un nombre, donc reproductible, donc corrigible — et la lecon va plus loin en notant que ce nombre est proche de la proportion de replicas en lecture, si bien que le rapport DESIGNE DEJA la cause. Le retard de replication est ensuite requalifie de la bonne facon : ce n est pas un defaut de configuration, c est le fonctionnement normal, et il est le PRIX de la capacite d encaisser dix fois plus de lectures. D ou la reformulation de la question utile — non pas comment supprimer le retard, qui n a pas de bonne reponse, mais COMBIEN DE RETARD CETTE DONNEE TOLERE-T-ELLE — avec un tableau qui va de l avatar (une a deux secondes) au solde d un compte (aucun)."
   },
@@ -3111,7 +3251,7 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -3121,6 +3261,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP12 : DEUX POURCENTAGES FAUX, ecrits par moi au CP10 dans un critere de reussite. La lecon annoncait qu un pipeline de cent tests dont UN seul est instable a 1/20 est vert environ 99 % du temps, et 78 % avec cinq. Le modele correct est (1 - p)^k ou k est le nombre de tests INSTABLES — le nombre total de tests n intervient pas du tout, ce que la formulation laissait croire. Et l arithmetique etait fausse : un seul test instable laisse 95 %, pas 99 %. Recalcule et publie par scripts/v70-verifications/ci-instabilite-cumulee.mjs : 95 % (k=1), 77 % (k=5), et QUATORZE tests instables suffisent pour qu un pipeline sur deux echoue sans raison. La limite du modele est desormais enoncee : il suppose les instabilites independantes, alors qu elles se correlent en pratique — ce qui rend la realite PIRE que ce chiffre, jamais meilleure."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Modele mental redit la phrase du robot (lint, teste, construit, AVANT que ca n atteigne les autres) presque a l identique. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -3225,7 +3369,7 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
@@ -3235,6 +3379,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : relecture du dispositif de verification contre l ancre D13, et comparaison avec l OBJECTIF annonce de la lecon. Le CP3 notait 4 (« verification presente mais partielle ») en s appuyant sur l absence d une section « Verification de comprehension » — exigence que l ancre gelee ne contient pas. Verification faite, le dispositif couvre les notions centrales de l objectif et chacun de ses points est decidable seul : c est l ancre 5. Note portee a 5 par lecture."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Modele mental ouvre sur la phrase de la boite reprise mot pour mot ; « ca marche dans la boite, donc partout » est une reformulation, pas une idee neuve. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -3464,7 +3612,7 @@
       5,
       5,
       5,
-      5,
+      4,
       5,
       5,
       5,
@@ -3479,6 +3627,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D5 5->4. Observation de lecture : D5=4 : « pare-feu stateful » et « equilibrage L4/L7 » (l.49-50) sont employes sans aucune glose. Ce n est pas un passage central — c est la liste de rangement — mais ce sont deux termes non donnes. Le reste du vocabulaire AWS est systematiquement traduit (S3 = stockage OBJET, EKS = Kubernetes manage). Restitution Feynman : je peux reexpliquer POURQUOI un role vaut mieux qu une cle sans reciter la formule — ce n est pas qu on ne stocke pas de secret (il y en a un), c est la duree de vie et le fait qu il n y ait rien a faire tourner. L exemple guide part de la question que le conseil laisse sans reponse, ce qui est exactement le bon mouvement."
       }
     ],
     "action": "CONSERVE",
@@ -3503,12 +3655,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Modele mental redit « MEMES concepts », « Deux specificites a integrer d emblee », « erreur numero un » — le niveau management group est une precision, pas un modele. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -3723,6 +3879,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : AUCUNE — la notation anterieure est confirmee. Observation de lecture : Aucune faiblesse trouvee. Arithmetique verifiee : n x 220 + (n-1) x 16 <= 1000 donne n=4 (928 <= 1000) et refuse n=5 (1164) ; les 72 px restants sur 4 pistes donnent 220+18 = 238 OK. Le cas auto-fit a trois cartes : 3 x 322,66 = 967,97, soit 1000 moins DEUX gouttieres de 16 — la piste effondree emporte donc sa gouttiere, ce que la lecon ne dit pas explicitement mais que la mesure publiee etablit. Piege 1fr : 64,59 + 470,81 + 64,59 = 600 OK. Le dispositif pedagogique est remarquable : la lecon montre d abord le cas ou auto-fill et auto-fit donnent STRICTEMENT le meme resultat, ce qui explique pourquoi tant de gens emploient l un ou l autre depuis des annees sans jamais voir la difference — et pourquoi elle est incomprehensible le jour ou elle apparait. Restitution Feynman : je peux reexpliquer que 1fr est a Grid ce que flex:1 est a Flexbox, et minmax(0,1fr) ce que min-width:0 est a Flexbox : le meme piege, deux fois, sous deux vocabulaires."
       }
     ],
     "action": "CONSERVE",
@@ -3777,12 +3937,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D14 5->4. Observation de lecture : D14=4 : l idee declarative est enoncee TROIS fois d affilee — dans le Probleme d abord, dans l Objectif et dans le Modele mental. Le reste est tres bon. L exemple guide raconte un incident dans l ordre chronologique (mardi : un collegue agrandit la base depuis la console ; vendredi : quelqu un applique un plan pour tout autre chose et la base redescend) et en tire la notion que personne n explique avant qu elle ne fasse mal — la DERIVE, silencieuse par nature, qui ne se manifeste que le jour ou l on applique, souvent sur une modification sans rapport. La regle qui en decoule n est pas presentee comme une regle d autorite : si l infrastructure est decrite en code, la console web devient un outil de LECTURE, parce que toute modification faite ailleurs sera annulee a un moment qu on ne choisit pas."
       }
     ],
     "action": "CONSERVE",
@@ -3837,12 +4001,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Modele mental redit Pods jetables / adresse stable / « load balancer interne » ; labels et niveau transport sont des incises. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -3867,12 +4035,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "P3",
+        "quoi": "CP13 LECTURE HORS ECHANTILLON — D14 5->4. Modele mental reprend le triplet RBAC / NetworkPolicy / securityContext dans le meme ordre et les memes parentheses. Ancre D14 niveau 4 : quelques longueurs ou une formule de remplissage. Non corrige au CP13 : voir V71-CP13-BLIND-AUDIT.md section 7."
       }
     ],
     "action": "CONSERVE",
@@ -4077,12 +4249,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D14 5->4. Observation de lecture : D14=4 : le Probleme d abord et l Objectif enumerent les MEMES quatre questions (routing, rendu serveur, donnees securisees, conventions de production). Redite de structure. LE DISPOSITIF EST LE MEILLEUR POSSIBLE SUR CE SUJET : au lieu d annoncer ce qu apporte le framework, la lecon RECONSTRUIT le framework a la main, besoin par besoin, en comptant ce qu on doit ecrire — une expression reguliere qui traduit une URL en etat, puis l ecoute de popstate, puis la decouverte que le code source recu par le serveur ne contient que <div id=root>. Le lecteur conclut lui-meme. Et le modele mental distingue explicitement les CONCEPTS STABLES de la SYNTAXE d une version donnee, ce qui est exactement ce que l ancre D1 = 5 demande pour les affirmations dependantes d une version."
       }
     ],
     "action": "CONSERVE",
@@ -4113,6 +4289,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : AUCUNE — la notation anterieure est confirmee. Observation de lecture : Aucune faiblesse trouvee. Le modele mental est un vrai outil combinatoire — trois MOMENTS (construction, requete, apres chargement) x deux ENDROITS (serveur, navigateur) — dont chaque strategie est une combinaison, ce qui permet de classer une strategie qu on n a jamais vue. L exemple guide (« les trois questions, et le piege de la fiche produit ») pose les questions dans l ordre ou elles ELIMINENT des options, et le critere du CP10 contient deux falsificateurs decidables : au moins une page doit melanger deux strategies (sinon on est reste au tableau de correspondance) et la colonne « retard acceptable » ne doit contenir aucune case vide, y compris pour les pages jugees statiques."
       }
     ],
     "action": "CONSERVE",
@@ -4137,12 +4317,16 @@
       5,
       5,
       5,
-      5
+      4
     ],
     "defauts": [
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : D14 5->4. Observation de lecture : D14=4 : le Modele mental et l Objectif enoncent tous deux ce qui traverse la frontiere (des donnees serialisables, jamais une fonction ni un secret). Redite. Le reste est solide : l exemple guide part de QUATRE ERREURS devant la frontiere et de ce que chacune apprend, ce qui est le bon mouvement quand les messages d erreur du framework paraissent absurdes — « hooks non autorises ici », « impossible de serialiser ». La regle mentale finale est courte et operante : donnees et secrets vers le serveur, interactivite vers le client, et entre les deux on passe des donnees serialisables."
       }
     ],
     "action": "CONSERVE",
@@ -4207,6 +4391,10 @@
       {
         "p": "CORRIGE",
         "quoi": "CP10 : lecon HORS PARCOURS. Le CP8 avait etabli que zero des 25 lecons de l etagere de reference n a de section « Verification de comprehension », et leur D13 avait ete plafonne a 4 pour cette raison. L observation est vraie, la conclusion etait fausse : l ancre D13 gelee au CP1 n exige AUCUNE section — elle exige une restitution, une decision ou une production QUI REVELE si la notion est comprise, et que l apprenant puisse se juger seul. Le dispositif « Critere de reussite » + « Piege » de ces lecons fait exactement cela, et souvent mieux que les lecons programmees. Les 25 ont ete relues une par une, pas echantillonnees. Note portee a 5 par lecture, sans modification de la lecon."
+      },
+      {
+        "p": "CORRIGE",
+        "quoi": "CP13 AUDIT AVEUGLE — lecon de l echantillon gele (graine 20260831). Relue integralement contre les quatorze ancres, SANS consulter sa notation anterieure. Notes deplacees : AUCUNE — la notation anterieure est confirmee. Observation de lecture : Aucune faiblesse trouvee. Verifie : 390/980 = 0,398 et 16 x 0,398 = 6,37 -> « environ 6,4 px » OK. Le dispositif est exemplaire sur deux points rares. (1) Le nombre 980 est explique HISTORIQUEMENT — une valeur par defaut choisie a une epoque ou presque aucun site n etait concu pour mobile — et non presente comme une constante magique ; avec la consequence operatoire : sans la balise viewport, TOUTES les media-queries sont mortes, puisqu elles interrogent une largeur qui vaut 980 quel que soit le telephone. (2) Le seuil de la page est MESURE par balayage (540 px) et n est aucun des seuils canoniques que les frameworks proposent — « 540, parce que 280 de colonne laterale plus le tableau plus les gouttieres font 540, et pour aucune autre raison ». Puis la distinction que tout le monde confond : le nombre dit ou la mise en page CASSE, il ne dit pas ou elle doit CHANGER."
       }
     ],
     "action": "CONSERVE",

@@ -6,12 +6,22 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP12**
-- **CP actuel** : **CP12 TERMINÉ** — rapport dans `docs/v71/V71-CP12-FACT-CHECK.md`
+- **dernier CP terminé** : **CP13**
+- **CP actuel** : **CP13 TERMINÉ** — rapport dans `docs/v71/V71-CP13-BLIND-AUDIT.md`
 - **leçons réellement lues et notées** : **128 / 128** ✅
-- **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 0** — **tous les défauts du ledger sont fermés.**
-- **prochaine action EXACTE** : **CP13 — audit aveugle**, 32 leçons, graine 20260831,
-  échantillon gelé avant les modifications et interdit de changement. Puis CP14, CP15.
+- **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 14** — les 14 P3 sont le lot de redites d'ouverture
+  trouvé au CP13, listé nommément, **délibérément non corrigé** (voir CP13 §7).
+- **moyenne : 4,9364 · D14 : 4,734** — le ledger a été **baissé** par l'audit aveugle.
+- **prochaine action EXACTE** : **CP14 — portique technique et invariants pédagogiques**.
+  `npm test`, `npx tsc --noEmit`, `npm run build`, `npm run gates:active`, intégrité du corpus,
+  128/365/365, mapping des jours inchangé, `progress.json` non muté, aucun serveur résiduel ;
+  puis budget-temps par journée ; puis **au moins 10 tests négatifs** (introduire volontairement
+  le défaut que chaque gate prétend détecter, vérifier qu'il rougit, restaurer le fichier à
+  l'identique). Un gate qui ne voit pas son propre défaut est **invalide** : le signaler, ne
+  jamais assouplir le seuil pour obtenir du vert. Puis CP15.
+- **contrainte déjà acquise pour le CP15** : la règle pré-engagée du CP12 s'est déclenchée au
+  CP13 — le verdict sera **`ACADEMIC_QUALITY_NOT_READY`**. Voir la section CP13, dernière
+  sous-partie.
 
 > ## ⚠️ LA MOYENNE EST DE 4,954 ET C'EST UN PROBLÈME, PAS UN RÉSULTAT
 >
@@ -34,6 +44,114 @@
 > **Règle posée d'avance, avant de connaître le résultat** : si l'audit aveugle du CP13
 > produit des notes matériellement plus basses que le ledger, **c'est le ledger qui a tort,
 > pas l'audit**, et le verdict sera `ACADEMIC_QUALITY_NOT_READY`.
+
+## CP13 — audit aveugle et contre-notation
+
+Rapport complet : `docs/v71/V71-CP13-BLIND-AUDIT.md`. Notes aveugles publiées :
+`docs/v71/CP13-BLIND-32.json`. **Aucun fichier de leçon modifié à ce checkpoint.**
+
+**Les deux seuils gelés passent** : S9 (écart moyen ledger ↔ aveugle) = **0,0759** pour un
+seuil de 0,40 ; S10 (leçons à écart > 1,00) = **0** pour un seuil de 4.
+
+**Et ce passage ne prouve presque rien.** Une note de leçon est la moyenne de 14 dimensions :
+un désaccord d'un point sur une dimension déplace la moyenne de 0,071. Faire échouer S9
+demanderait près de six dimensions en désaccord par leçon. S9 exclut que le ledger soit une
+invention ; il n'exclut pas qu'il soit systématiquement trop généreux sur un point. C'est
+exactement ce qui s'est produit.
+
+### Le chiffre qui compte : 448 cellules
+
+| | |
+|---|---|
+| cellules (32 leçons × 14 dimensions) | 448 |
+| accord exact | **401 — 89,5 %** |
+| désaccord | 47 — 10,5 %, dont **33** où l'aveugle est plus sévère |
+
+Répartition : **D14 = 17** · D1 = 8 · D5 = 4 · D10 = 4 · D12 = 4 · D6 = 3 · D4 = 2 · D8 = 2 ·
+D11 = 2 · D9 = 1. **D14 concentre 36 % des désaccords et les 17 vont tous dans le même sens.**
+
+### Le défaut trouvé : les ouvertures se répètent
+
+Dans 17 leçons de l'échantillon, deux des quatre sections d'ouverture (« Le problème
+d'abord », « Objectif », « Modèle mental », « Pourquoi c'est important ») disent la même
+chose, parfois mot pour mot — `technical-storytelling` répète une phrase à l'identique,
+`react-fundamentals` énonce le basculement déclaratif **trois fois** dans trois sections
+adjacentes, `transformers` illustre « le sens vient du contexte » par trois images
+successives. L'ancre D14 = 4 gelée au CP1 le décrit : « quelques longueurs ou une formule de
+remplissage ». **Le CP3 ne l'avait pénalisé aucune fois** — parce qu'il lisait chaque section
+pour ce qu'elle contient, et que chacune est juste. Le défaut n'apparaît qu'en lisant les
+sections d'affilée, comme le fait un apprenant.
+
+### Extension hors échantillon, sonde publiée avec ses erreurs
+
+`scripts/v71/cp13-redite-ouverture.mjs` (recouvrement de Jaccard ≥ 0,20 sur les mots porteurs)
+signale 32 leçons sur 128. **Son rappel est mesuré, pas estimé : 10 des 17 cas trouvés par la
+lecture, soit 59 %.** Les 22 leçons signalées hors échantillon ont toutes été lues :
+**14 confirment le défaut, 8 sont écartées** (précision 64 %) — les huit écartées sont
+publiées avec la raison de leur écartement dans le rapport.
+
+### Le comptage est un plancher, et c'est dit
+
+| population | n | D14 | leçons à D14 < 5 | taux |
+|---|---:|---:|---:|---:|
+| échantillon aveugle (relu **en entier**) | 32 | **4,406** | 18 | **56 %** |
+| hors échantillon (lu **là où la sonde pointe**) | 96 | 4,844 | 15 | 16 % |
+| corpus complet | 128 | **4,734** | 33 | 26 % |
+
+Ces deux taux ne mesurent pas deux corpus, ils mesurent **deux méthodes de lecture**. Au taux
+de l'échantillon, ce ne sont pas 15 mais de l'ordre de **54** leçons hors échantillon qui
+seraient concernées. Je ne l'affirme pas — je n'ai pas relu les 96 en entier et le §4 interdit
+de le prétendre. Ce que j'affirme : **D14 = 4,734 est une borne supérieure généreuse.**
+
+### Ledger après CP13
+
+moyenne générale **4,9554 → 4,9364** · D14 **4,984 → 4,734** · leçons à D14 < 5 : **2 → 33** ·
+leçons sous 3,00 : **0** · P0/P1/P2 ouverts : **0/0/0** · 46 entrées CP13 (32 procès-verbaux
+de relecture, 14 défauts **P3 ouverts et non corrigés**).
+
+Par dimension : D1 4,953 · D2 5,000 · D3 4,969 · D4 4,992 · D5 4,969 · D6 4,891 · D7 4,992 ·
+D8 4,984 · D9 5,000 · D10 4,813 · D11 4,883 · D12 4,961 · D13 4,969 · **D14 4,734**.
+S1, S2 et S3 passent ; la dimension la plus basse (D14) reste très au-dessus du plancher S2 de
+3,70. Les 52 gates sont verts, corpus inchangé (`7eb88ba5…`).
+
+### Pourquoi rien n'a été corrigé
+
+Décision, pas oubli, argumentée en §7 du rapport : le défaut a été trouvé **par l'audit, à
+l'étape d'audit, par la personne qui a écrit les corrections précédentes**. Le corriger tout
+de suite remonterait D14 à 5,000 et effacerait la seule chose que ce checkpoint a découverte —
+c'est le §7 du cahier des charges (anti-Goodhart) dans sa forme la plus pure. Le défaut est
+classé P3, il ne reste aucun P0/P1/P2, et le §12 fixe l'ordre. Les 33 leçons sont listées
+nommément avec la phrase redite : n'importe qui peut reprendre le lot sans relire le corpus.
+
+### La règle pré-engagée du CP12 s'applique — et elle contraint le CP15
+
+Écrite avant de connaître le résultat, en tête de ce fichier :
+
+> « si l'audit aveugle du CP13 produit des notes matériellement plus basses que le ledger,
+> **c'est le ledger qui a tort, pas l'audit**, et le verdict sera `ACADEMIC_QUALITY_NOT_READY`. »
+
+**Sa première moitié a été appliquée intégralement** : les 47 désaccords ont été portés au
+ledger dans le sens de l'audit, sans exception, y compris les 4 où l'aveugle était plus
+généreux. Aucune note d'audit n'a été remontée pour préserver le ledger.
+
+**Sa seconde moitié se déclenche.** Je ne redéfinis pas « matériellement » après la mesure —
+ce serait déplacer un seuil après coup, ce que le §7 interdit. Le fait est qu'une dimension
+entière était mal notée sur tout le corpus, dans une seule direction, 17 fois sur 17, et que
+le chiffre corrigé est un plancher. **Sur la foi d'un ledger dont je sais qu'il est encore
+trop généreux, `ACADEMIC_QUALITY_READY` n'est pas défendable.** Le CP15 devra donc conclure à
+`ACADEMIC_QUALITY_NOT_READY`, et expliquer ce que ce verdict dit et ne dit pas : il porte sur
+la **solidité de la preuve**, pas sur la nullité du corpus.
+
+### La limite, écrite en toutes lettres
+
+Un audit vraiment aveugle est impossible ici. L'auditeur a lu les 128 leçons au CP3, a écrit
+les corrections des CP4 à CP12, et a figé l'échantillon lui-même. « Aveugle » signifie
+seulement : le ledger n'a pas été rouvert avant de renoter, et les notes ont été écrites dans
+un fichier séparé avant toute comparaison. Le dispositif a produit 47 désaccords, donc il
+n'est pas cosmétique — mais il ne corrige ni le biais d'auteur (je note mon propre travail),
+ni le biais d'attente (ayant trouvé le motif tôt, je l'ai cherché ensuite), ni le plafond de
+la lecture ciblée. **Seule une relecture par quelqu'un d'autre lèverait ces trois limites.**
+Hors périmètre V71, à porter comme réserve au CP15.
 
 ## CP12 — vérification factuelle exécutable
 

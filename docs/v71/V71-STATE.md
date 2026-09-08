@@ -6,19 +6,15 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP13**
-- **CP actuel** : **CP13 TERMINÉ** — rapport dans `docs/v71/V71-CP13-BLIND-AUDIT.md`
+- **dernier CP terminé** : **CP14**
+- **CP actuel** : **CP14 TERMINÉ** — rapport dans `docs/v71/V71-CP14-PORTIQUE.md`
 - **leçons réellement lues et notées** : **128 / 128** ✅
 - **P0 : 0 · P1 : 0 · P2 : 0 · P3 : 14** — les 14 P3 sont le lot de redites d'ouverture
   trouvé au CP13, listé nommément, **délibérément non corrigé** (voir CP13 §7).
 - **moyenne : 4,9364 · D14 : 4,734** — le ledger a été **baissé** par l'audit aveugle.
-- **prochaine action EXACTE** : **CP14 — portique technique et invariants pédagogiques**.
-  `npm test`, `npx tsc --noEmit`, `npm run build`, `npm run gates:active`, intégrité du corpus,
-  128/365/365, mapping des jours inchangé, `progress.json` non muté, aucun serveur résiduel ;
-  puis budget-temps par journée ; puis **au moins 10 tests négatifs** (introduire volontairement
-  le défaut que chaque gate prétend détecter, vérifier qu'il rougit, restaurer le fichier à
-  l'identique). Un gate qui ne voit pas son propre défaut est **invalide** : le signaler, ne
-  jamais assouplir le seuil pour obtenir du vert. Puis CP15.
+- **prochaine action EXACTE** : **CP15 — rapport final**, `docs/audits/V71-CP15-FINAL-REPORT.md`,
+  25 sections numérotées, ouvert par un résumé exécutif en français simple, clos par la réponse
+  obligatoire OUI / OUI AVEC RÉSERVES / NON et 5 à 10 paragraphes d'explication.
 - **contrainte déjà acquise pour le CP15** : la règle pré-engagée du CP12 s'est déclenchée au
   CP13 — le verdict sera **`ACADEMIC_QUALITY_NOT_READY`**. Voir la section CP13, dernière
   sous-partie.
@@ -44,6 +40,89 @@
 > **Règle posée d'avance, avant de connaître le résultat** : si l'audit aveugle du CP13
 > produit des notes matériellement plus basses que le ledger, **c'est le ledger qui a tort,
 > pas l'audit**, et le verdict sera `ACADEMIC_QUALITY_NOT_READY`.
+
+## CP14 — portique technique, invariants pédagogiques, budget-temps, tests négatifs
+
+Rapport complet : `docs/v71/V71-CP14-PORTIQUE.md`. Script rejouable :
+`scripts/v71/cp14-tests-negatifs.mjs`.
+
+**Portique vert de bout en bout** : `npm test` **1420/1420**, `npx tsc --noEmit` **0 erreur**,
+`npm run build` compilé, `npm run gates:active` **52/52**, corpus `7eb88ba5…` identique au gel,
+**128 / 365 / 365**, ordre des 365 jours inchangé, aucun serveur résiduel, arbre propre.
+
+**`progress.json` n'a pas été muté — mais il faut dire pourquoi.** Le fichier n'existe pas
+dans ce conteneur (état utilisateur, ignoré par Git). Le gate `v5421:check` qui prétend le
+geler tombe dans sa branche `catch` et émet un **avertissement**, pas une erreur. « 52 gates
+verts » recouvre donc ici **un invariant non vérifiable**. Le test négatif n° 14 montre que le
+contrôle fonctionne dès que le fichier existe.
+
+### Volume : contrôle de non-dérive
+
+Entre le gel CP0 et aujourd'hui, même compteur des deux côtés : **356 296 → 369 183 mots**,
+soit **+12 887 (+3,6 %)** répartis sur **68 leçons** (+190 mots en moyenne). Plus forte
+hausse `interview-preparation` +29 % ; plus forte **baisse** `javascript-basics` −13 %. Le
+volume n'est pas une métrique de qualité : ce tableau sert seulement à montrer que V71 n'a pas
+rempli des leçons pour faire du chiffre.
+
+### Les 14 tests négatifs — le cœur du CP14
+
+Un gate vert prouve deux choses très différentes : soit le dépôt est sain, soit le gate ne
+regarde rien. Pour chaque gate testé, on **introduit le défaut qu'il prétend détecter**, on
+vérifie qu'il rougit, on restaure et on contrôle la restauration à l'octet près.
+
+**14 tests, 14 conformes, 0 gate invalide.** Détectés : suppression d'une leçon
+(`curriculum:check`) · disparition du mot « exercice », leçon sous 350 mots, titre
+« Cours approfondi » renommé (`curriculum:depth-check`) · doublon de glossaire
+(`glossary:check`) · **un seul octet** ajouté à une leçon (`v48:check`) · collision d'id
+(`v47:check`) · deux journées interverties et progression au mauvais contenu (`v5421:check`) ·
+littéral de gamification (`v52:check`) · couleur hex en dur (`v542:check`) · HTML brut en JSX
+(`v64:check`) · clôture de bloc de code échappée, le bug du CP8 (`v66:render`).
+
+**Une lacune de couverture, pas un gate invalide.** Retirer le titre « Exemple guidé » d'une
+leçon laisse `curriculum:depth-check` vert : pour les leçons il n'exige que ≥ 350 mots,
+≥ 6 sections, le mot « exercice » et le mot « vocabulaire » ; le « gabarit complet » est
+**compté ligne 88 et jamais exigé**. Son message de succès (« leçons structurées ») promet
+plus qu'il ne tient. Signalé — **pas durci après mesure**.
+
+**Trois tests sur quatorze ont été mal visés avant d'être justes**, et c'est le plus
+instructif : `dangerouslySetInnerHTML` dans un commentaire (le gate retire les commentaires,
+et il a raison) ; une section ordinaire ajoutée en fin de fichier (elle atteint bien la page) ;
+et le cas « Exemple guidé » ci-dessus. **Un test négatif teste deux choses : le gate, et la
+compréhension qu'on a du gate.** Les trois erreurs sont conservées en en-tête du script.
+
+### Budget-temps
+
+Lecture totale du parcours **522 h** pour **1 643 h** de budget annoncé, soit **31,8 %**. Deux
+tiers du temps restent à la pratique — exactement ce que le cahier des charges demande, et
+c'est mesuré.
+
+**Trois journées où la lecture SEULE dépasse le budget**, toutes des revues : **j77 à 172 %**
+(464 min de lecture pour 270 de budget, **20 leçons** listées à relire), j84 à 129 %, j70 à
+105 %. Le jour 77 contient en plus un test pratique minuté à 75 min, un test théorique, un
+mini-projet et un exercice de réflexion : **la journée n'est pas faisable telle qu'elle est
+écrite**. Second point : ses 20 leçons (réseau, Linux, Git, README, storytelling, clean code,
+architecture, design patterns) **ne correspondent pas** au thème « Express complet ».
+**Non corrigé** : réparer cela, c'est modifier le mapping du curriculum, que le §30 interdit.
+Localisé pour transmission : `scripts/generate-curriculum.mjs`, `lessonsDeLaRevue`, ligne 800.
+
+**48 journées où la lecture pèse moins de 15 % du budget** : livrable, correction substantielle,
+checklist et critères de passage sont présents **48 / 48**. Ma sonde avait signalé 49 « trous »
+sur le seul critère d'un minutage explicite — **les 49 sont des artefacts de la sonde**,
+vérifié par lecture du jour 120. **Septième occurrence** du défaut méthodologique de V71 :
+mesurer un marqueur structurel au lieu de l'exigence réelle.
+
+**Dérive mineure** : `data/program.json` datant du 2026-08-30, ses `readingMinutes` sont
+périmés sur 314 journées (+1 369 min cumulées, +4,4 min en moyenne). Non régénéré — cela
+casserait `FROZEN_PROGRESS` et neuf gels à deux checkpoints de la fin. À faire hors V71.
+
+### Fait structurel à porter au CP15
+
+**25 leçons sur 128 (19,5 %) ne sont citées par aucune des 365 journées** — cloud (6),
+Kubernetes (6), Next.js (4), CSS (3), Linux/livraison (6). Ce n'est pas un défaut (le ledger
+reconnaît cette étagère de référence : ces entrées n'ont ni `premierJour` ni `jours`), mais
+c'est à déclarer sans l'arrondir : **V71 certifie 128 leçons, dont 103 sont enseignées par le
+parcours et 25 seulement consultables.** Cela explique rétrospectivement le point bas de D13
+constaté au CP3.
 
 ## CP13 — audit aveugle et contre-notation
 

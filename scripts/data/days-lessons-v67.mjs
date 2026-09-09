@@ -91,6 +91,26 @@ export const LESSONS_V67 = {
   // ── Conteneurs et livraison ────────────────────────────────────────────
   320: ['docker-build-dockerfile.md', 'docker-images-layers.md', 'docker-compose.md',
     'docker-networking-volumes.md', 'docker-production-hardening.md'], // « DocSense : dockerisation »
+
+  // V72 · CP8 — le jour 321 fait PRATIQUER Kubernetes sans que rien ne l ENSEIGNE.
+  //
+  // Mesuré : `data/day-exercises.json` affecte à cette journée DIX exercices Kubernetes
+  // (k8s-oom-risk, k8s-probe-role, k8s-rolling-available, k8s-pod-phase,
+  // k8s-recovery-decision, k8s-ingress-backends…), alors que les seules leçons qu'elle
+  // liait sont les trois leçons d'évaluation IA. Aucune des 365 journées n'enseignait
+  // Kubernetes : l'apprenant devait répondre sur les sondes et les phases d'un Pod sans
+  // avoir jamais lu ce qu'est un Pod.
+  //
+  // Les trois leçons ajoutées sont les seules du bloc Kubernetes dont TOUS les prérequis
+  // sont satisfaits AVANT le jour 321 : `k8s-why-architecture` exige `docker-compose` et
+  // `docker-production-hardening`, enseignés la veille au jour 320 ; `k8s-workloads` exige
+  // `k8s-why-architecture` ; `k8s-config-probes` exige `k8s-workloads` et
+  // `linux-resources-io`, enseigné au jour 72. L'ordre de la liste suit la chaîne.
+  //
+  // Les quatre autres insertions candidates ont été REFUSÉES par la même vérification :
+  // le bloc cloud dépend de `cloud-fundamentals`, qui dépend de `docker-containers`,
+  // enseigné seulement au jour 320 — le cloud n'est donc insérable nulle part avant.
+  321: ['k8s-why-architecture.md', 'k8s-workloads.md', 'k8s-config-probes.md'], // « DocSense : jalon évaluation et reproductibilité »
   307: ['ci-cd-pipeline-anatomy.md'],                  // « DocSense : setup et CI vide »
   326: ['ci-cd-quality-gates-artifacts.md'],           // « DocSense : CI complète »
 };

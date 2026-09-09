@@ -5,13 +5,12 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP7**
-- **NEXT_CP** : **CP8**
-- **NEXT_ACTION** : audit Cloud / Kubernetes / Next.js / CSS / Linux — pour chaque domaine :
-  compétences promises, concepts enseignés, concepts seulement référencés, concepts réellement
-  pratiqués. Question directrice : un apprenant qui suit uniquement les 365 jours rencontre-t-il
-  ces compétences avant qu'elles ne servent professionnellement ?
-  Rapport `docs/v72/V72-CP8-DOMAINES.md`.
+- **dernier CP terminé** : **CP8**
+- **NEXT_CP** : **CP9**
+- **NEXT_ACTION** : normalisation du **niveau d'exigence** des pratiques (P1–P4 du contrat),
+  **pas** de la longueur ni du style. Ne corriger que les leçons qui échouent à P1 (que
+  produire ?) ou P3 (comment sait-on que c'est réussi ?), et vérifier les deux références
+  d'exercice mortes (`api-idempotency`, `dlq-duplicate`). Rapport `docs/v72/V72-CP9-PRATIQUES.md`.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -118,9 +117,21 @@
   ferait passer C3 mécaniquement avec **une** journée sur 365 — franchir le seuil par la lettre
   contre son intention est exactement ce que l'anti-Goodhart interdit.
 
+- **CP8** — mesure par domaine : **Docker est le seul intégré** (6/6 leçons liées, 65 journées,
+  un livrable) ; cloud, Kubernetes, Next.js, CSS et Linux/livraison sont **référencés sans être
+  enseignés**. Trou trouvé : `data/day-exercises.json` affecte **59 exercices cloud/k8s/docker
+  à 9 journées** dont les leçons ne couvrent pas le sujet — **j321 pose 10 questions Kubernetes
+  à quelqu'un à qui aucune journée n'a dit ce qu'est un Pod** ; j78 pose 6 exercices IAM sans
+  rien qui enseigne IAM. **Une seule insertion sur cinq est légale** au regard de M5 :
+  j321 ← `k8s-why-architecture` → `k8s-workloads` → `k8s-config-probes` (prérequis satisfaits
+  la veille au j320 et au j72). Les quatre refus révèlent un fait de conception :
+  **le cloud n'est insérable nulle part avant le jour 320**, parce que `cloud-fundamentals`
+  dépend de `docker-containers`. Leçons sur parcours **103 → 106**.
+
 ## Tests
 
 - **CP2** : 1420/1420 · tsc 0 · gates verts.
 - **CP3** : 1420/1420 · tsc 0 · gates verts.
 - **CP6** : 1420/1420 · gates verts · corpus inchangé.
+- **CP8** : 1420/1420 · gates verts · corpus inchangé.
 - aucun serveur résiduel ; le démon Docker démarré pour la mesure a été arrêté.

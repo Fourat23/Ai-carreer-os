@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T15:19:22.437Z",
+  "generatedAt": "2026-09-09T15:27:49.717Z",
   "skills": [
     {
       "id": "algo",
@@ -5553,7 +5553,7 @@
       "skillName": "Évaluation IA",
       "difficulty": 3,
       "hours": 4.5,
-      "readingMinutes": 83,
+      "readingMinutes": 139,
       "isReview": false,
       "detailed": false,
       "deliverable": "Jalon 46 démontré + revue d'archi.",
@@ -5568,7 +5568,7 @@
       "skillName": "Évaluation IA",
       "difficulty": 2,
       "hours": 4.5,
-      "readingMinutes": 164,
+      "readingMinutes": 153,
       "isReview": true,
       "detailed": false,
       "deliverable": null,

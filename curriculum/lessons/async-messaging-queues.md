@@ -327,8 +327,8 @@ reprise, pas par principe.
 - Tout passer en asynchrone « par principe » → latence et complexité inutiles pour une tâche courte.
 
 ## 🛠️ Pratique
-`queue-idempotent-consumer` (rendre un consommateur idempotent), `dlq-duplicate` (compter les effets
-réels sous re-livraison / router vers DLQ). Incident associé : playbook `queue-backlog` (file qui
+`queue-idempotent-consumer` (rendre un consommateur idempotent : compter les effets réels sous
+re-livraison), `dlq-routing` (router vers la dead letter queue après N échecs). Incident associé : playbook `queue-backlog` (file qui
 accumule du retard). SIMULATIONS déterministes — aucun vrai broker.
 **Auto-évaluation** : teste ta compréhension par niveau (jusqu'au transfert) sur `/diagnostics`
 (diagnostic « Travail asynchrone : files, workers et DLQ »).

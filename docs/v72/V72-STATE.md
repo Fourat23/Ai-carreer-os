@@ -5,12 +5,13 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP8**
-- **NEXT_CP** : **CP9**
-- **NEXT_ACTION** : normalisation du **niveau d'exigence** des pratiques (P1–P4 du contrat),
-  **pas** de la longueur ni du style. Ne corriger que les leçons qui échouent à P1 (que
-  produire ?) ou P3 (comment sait-on que c'est réussi ?), et vérifier les deux références
-  d'exercice mortes (`api-idempotency`, `dlq-duplicate`). Rapport `docs/v72/V72-CP9-PRATIQUES.md`.
+- **dernier CP terminé** : **CP9**
+- **NEXT_CP** : **CP10**
+- **NEXT_ACTION** : validation opérationnelle par niveaux N1–N4 du contrat. N1 statique :
+  parser les **19 blocs YAML** (k8s, CI, compose), lire les Dockerfile, `bash -n` sur les
+  commandes shell. N2 local : exécuter ce qui l'est (node, python, git, shell, sqlite).
+  N3 conteneur : le démon Docker démarre mais le CDN d'images est bloqué — mesurer et déclarer.
+  N4 : publier ce qui reste non exécutable. Rapport `docs/v72/V72-CP10-OPERATIONNEL.md`.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -128,10 +129,23 @@
   **le cloud n'est insérable nulle part avant le jour 320**, parce que `cloud-fundamentals`
   dépend de `docker-containers`. Leçons sur parcours **103 → 106**.
 
+- **CP9** — **aucune consigne réécrite**, et c'est conforme au contrat : l'asymétrie de longueur
+  entre domaines (médiane 507 mots en frontend contre 220 en web/backend) n'est **pas** un
+  défaut, vérifié sur pièce (`recursion`, 61 mots, porte trois livrables et deux chiffres à
+  relever). **P1 : 0 échec sur 128** — les 4 leçons en renvoi sont conformes au §6 dès lors que
+  les exercices cités existent. **Les 2 références mortes sont corrigées** :
+  `api-idempotency` → **`http-idempotency-dedup`**, `dlq-duplicate` → **`dlq-routing`**
+  (+ suppression d'une redite que la citation morte avait introduite). Références mortes
+  restantes : **0**, avec un contrôle rejouable (`scripts/v72/refs-mortes.mjs`) qu'aucun gate
+  n'assurait. **P3 : 0 échec sur 128** — ma sonde en signalait 10, puis 1 ; lecture faite, zéro.
+  **Neuvième occurrence** du défaut de méthode, attrapée avant publication.
+  Seuils **C4** et **C5** : **atteints**. Corpus `d535fcf6…` → **`c1ac869e…`**.
+
 ## Tests
 
 - **CP2** : 1420/1420 · tsc 0 · gates verts.
 - **CP3** : 1420/1420 · tsc 0 · gates verts.
 - **CP6** : 1420/1420 · gates verts · corpus inchangé.
 - **CP8** : 1420/1420 · gates verts · corpus inchangé.
+- **CP9** : 1420/1420 · gates verts · corpus `c1ac869e…`, 9 gels mis à jour.
 - aucun serveur résiduel ; le démon Docker démarré pour la mesure a été arrêté.

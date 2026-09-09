@@ -206,7 +206,7 @@ date à laquelle il te lira.
 ## 🛠️ Pratique
 Exercices déterministes reliés à cette leçon :
 `http-method-idempotent` (quelles méthodes sont idempotentes), `auth-status-decision` (401/403/404/200),
-`api-router` (routeur REST). Approfondissement V38 : `api-idempotency` (rejouer sans doubler),
+`api-router` (routeur REST). Approfondissement V38 : `http-idempotency-dedup` (rejouer sans doubler, par clé d'idempotence),
 `api-pagination-choice` (offset vs curseur).
 **Auto-évaluation** : teste ta compréhension par niveau (jusqu'au transfert) sur `/diagnostics`
 (diagnostic « HTTP et contrats d'API de production »).

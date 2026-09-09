@@ -5,14 +5,12 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP3**
-- **NEXT_CP** : **CP4**
-- **NEXT_ACTION** : écrire le protocole **SIMULATED LEARNER VALIDATION** dans
-  `docs/v72/V72-SLV-PROTOCOL.md`, conforme aux règles S1–S7 du contrat gelé : séquence
-  PRE-TEST → lecture → rappel immédiat → explication → application → misconception →
-  transfert ; cinq axes notés séparément sur [0,1] ; réutiliser la taxonomie déjà présente
-  dans le produit (RECALL / UNDERSTANDING / APPLICATION / DIAGNOSIS / TRANSFER, 151 items).
-  **Protocole écrit et gelé AVANT tout passage** (seuil L1).
+- **dernier CP terminé** : **CP4**
+- **NEXT_CP** : **CP5**
+- **NEXT_ACTION** : tirer l'échantillon stratifié de **24 leçons**, **graine publiée avant le
+  tirage**, au plus 8 communes avec les 32 de l'échantillon aveugle V71 ; puis exécuter le
+  passage **AVANT** du protocole SLV et écrire `docs/v72/V72-SLV-BEFORE.json` +
+  `docs/v72/V72-CP5-SLV-AVANT.md`. TEXT_SCORE et LEARNER_SIMULATION_SCORE publiés séparément.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -74,6 +72,14 @@
   **mesuré** (×7 à ×72 pour une boucle, ×333 à ×3072 pour `apply(axis=1)`), 90 % non sourcé
   retiré avec sa raison, liste des falsy déclarée comme simplification. Corpus
   `a45e9f5b…` → **`d535fcf6…`**. Seuil **C7 : 6 → 0**.
+
+- **CP4** — protocole SLV gelé (`docs/v72/V72-SLV-PROTOCOL.md`), **avant tout passage**
+  (seuil L1). Séquence en 7 étapes, cinq axes notés sur [0;1] par pas de 0,25 avec barème
+  explicite, questions écrites à partir des **objectifs annoncés** par la leçon, réutilisation
+  des **151 items déjà taxonomés du produit** quand ils couvrent la leçon (57/128).
+  **`DELAYED_RECALL` = NOT MEASURED** : un délai de 48 h n'est pas reproductible dans une
+  session d'agent, et le simuler serait une invention. Cinq conditions d'invalidation du
+  protocole publiées d'avance, et la liste des formulations autorisées pour chaque résultat.
 
 ## Tests
 

@@ -5,12 +5,12 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP10**
-- **NEXT_CP** : **CP11**
-- **NEXT_ACTION** : régénérer proprement `readingMinutes` — snapshot avant, régénération,
-  comparaison des 365 journées, vérifier que **seuls les champs attendus changent** et que
-  l'ordre reste inchangé. Seuil **C10** : écart max ≤ 5 min par journée.
-  Rapport `docs/v72/V72-CP11-READINGMINUTES.md`.
+- **dernier CP terminé** : **CP11**
+- **NEXT_CP** : **CP12**
+- **NEXT_ACTION** : honnêteté du gate de profondeur. Décider entre durcir `curriculum:depth-check`
+  sur des propriétés **objectives** et rendre son message honnête ; ne jamais lui faire noter la
+  pédagogie. Puis **tests négatifs** des huit défauts imposés par le §11 du contrat, avec
+  restauration vérifiée à l'octet près. Rapport `docs/v72/V72-CP12-GATE.md`.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -150,6 +150,16 @@
   de l'image de base (CDN `Forbidden`), le Dockerfile étant lu sans erreur. **N4** : `kubectl`,
   `ssh`, `terraform`, `aws`/`az` absents, systemd ne tourne pas. **Les 6 leçons cloud ne
   contiennent aucune commande à exécuter** : la réserve V71 de « ~14 leçons » se réduit à **10**.
+
+- **CP11** — **rien à régénérer** : les régénérations des CP6 et CP8 avaient déjà recalculé
+  `readingMinutes`. **0 / 365 journée périmée, écart max 0 min ⇒ seuil C10 ATTEINT** (le CP0
+  mesurait 314 périmées, +1 369 min). **Déterminisme testé, pas supposé** : deux `npm run
+  generate` de suite produisent un `curriculum/` d'empreinte identique (`f578a2db…`) et un
+  `program.json` identique hors `generatedAt`. Comparaison champ par champ depuis le CP0 :
+  **un seul champ a changé sur 365 journées — `readingMinutes` (315 journées)** ; titres,
+  livrables, `hours`, `skill`, ordre et compteurs sont intacts. Le plus grand écart (j77,
+  454 → 168 min) est **la trace de la correction du CP6**, pas une dérive. **CP11 n'a modifié
+  aucun fichier.**
 
 ## Tests
 

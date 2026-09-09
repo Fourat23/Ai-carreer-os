@@ -5,12 +5,13 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP6**
-- **NEXT_CP** : **CP7**
-- **NEXT_ACTION** : décider des 25 leçons hors parcours selon les classes A–E du §5 du contrat
-  gelé, insérer automatiquement les **A** si et seulement si M1–M8 sont respectés, le thème de
-  la journée hôte est préservé et la charge reste BALANCED ; documenter et laisser ouvert
-  sinon. Rapport `docs/v72/V72-CP7-HORS-PARCOURS.md`.
+- **dernier CP terminé** : **CP7**
+- **NEXT_CP** : **CP8**
+- **NEXT_ACTION** : audit Cloud / Kubernetes / Next.js / CSS / Linux — pour chaque domaine :
+  compétences promises, concepts enseignés, concepts seulement référencés, concepts réellement
+  pratiqués. Question directrice : un apprenant qui suit uniquement les 365 jours rencontre-t-il
+  ces compétences avant qu'elles ne servent professionnellement ?
+  Rapport `docs/v72/V72-CP8-DOMAINES.md`.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -104,6 +105,18 @@
   qui sont faux. **Ré-attribution mécanique impossible** : les décalages vont de −1 à −17 et
   deux enregistrements pointent vers la même semaine. Réparer = réécrire 9 semaines de contenu
   pédagogique ⇒ **décision de curriculum transmise au CP15**.
+
+- **CP7** — **aucune modification**, et c'est le résultat. En appliquant les critères gelés,
+  **0 leçon de classe A** : les six leçons programmées qui citent une leçon hors parcours en
+  prérequis déclarent toutes explicitement « rien ici ne suppose que tu l'as lue » et donnent
+  la notion sur place — ce sont des renvois d'approfondissement correctement annoncés, pas des
+  dépendances. Classement : **A 0 · B 9 · C 16 · D 0 · E 0**. **Le seuil C3 ÉCHOUE** : la
+  compétence déclarée **`cloud` / « Cloud / DevOps » n'a aucune journée sur 365**. Les deux
+  réparations possibles (retirer la compétence, ou lui donner des journées) sont **réservées à
+  l'utilisateur par le §5 du contrat** ⇒ posées au CP15. Une troisième voie a été examinée et
+  **REFUSÉE** : ré-étiqueter j320 (« DocSense : dockerisation », étiquetée `evalia`) en `cloud`
+  ferait passer C3 mécaniquement avec **une** journée sur 365 — franchir le seuil par la lettre
+  contre son intention est exactement ce que l'anti-Goodhart interdit.
 
 ## Tests
 

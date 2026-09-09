@@ -36,10 +36,24 @@ c'est lui qui aligne les données quand on combine deux objets.
 **Ce que « vectorisé » veut dire, concrètement.** Écrire `df["ht"] * 1.2` ne demande pas à
 Python de parcourir les lignes. L'opération est transmise en une fois à du code compilé qui
 travaille sur un bloc de mémoire contigu, sans repasser par l'interpréteur à chaque valeur.
-C'est de là que vient le facteur 50 à 100 : ce n'est pas que la boucle soit « mal écrite »,
-c'est qu'elle paie un coût d'interprétation par ligne que l'opération vectorisée ne paie
-qu'une fois. La conséquence pratique : dès qu'on écrit `for` sur les lignes d'un DataFrame, il
-existe presque toujours une opération vectorisée équivalente qu'on n'a pas trouvée.
+C'est de là que vient le gain : la boucle n'est pas « mal écrite », elle paie un coût
+d'interprétation **par ligne** que l'opération vectorisée ne paie qu'une fois.
+
+**De combien ? Mesuré, parce que le facteur n'est pas une constante** — il dépend du nombre de
+lignes et surtout de la boucle à laquelle on se compare (`scripts/v72/cp3-vectorisation.py`) :
+
+| lignes | boucle Python ordinaire | `df.apply(..., axis=1)` |
+|---:|---:|---:|
+| 10 000 | ×7 | **×333** |
+| 100 000 | ×41 | **×1 673** |
+| 1 000 000 | ×72 | **×3 072** |
+
+Deux choses à retenir de ce tableau. Le facteur **croît avec la taille**, donc un test sur
+mille lignes ne dit rien de la production. Et l'écart le plus spectaculaire ne vient pas d'une
+boucle `for` mais de `apply(axis=1)` — l'idiome que le débutant écrit spontanément parce qu'il
+« a l'air pandas » — qui construit un objet `Series` par ligne. La conséquence pratique : dès
+qu'on parcourt les lignes d'un DataFrame, quelle qu'en soit la syntaxe, il existe presque
+toujours une opération vectorisée équivalente qu'on n'a pas trouvée.
 
 **Le masque booléen, qui déroute au début.** `df["age"] > 30` ne rend pas des lignes : cela
 rend une Series de `True`/`False`, une par ligne. C'est ensuite `df[masque]` qui garde les
@@ -187,7 +201,8 @@ demande est impossible. Règle pratique : dès qu'une affectation suit un filtra
 passer par `.loc`.
 
 Les autres :
-- Boucler sur les lignes au lieu de vectoriser — 50 à 100 fois plus lent, pour un code plus
+- Boucler sur les lignes au lieu de vectoriser — de quelques fois à plus de mille fois plus
+  lent selon la taille et la forme de la boucle (tableau mesuré plus haut), pour un code plus
   long.
 - Transformer avant d'inspecter : on découvre les valeurs manquantes après les avoir moyennées.
 - Confondre `df["col"]` (une Series) et `df[["col"]]` (un DataFrame d'une colonne) : les

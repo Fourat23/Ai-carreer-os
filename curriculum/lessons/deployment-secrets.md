@@ -2,7 +2,7 @@
 # Leçon — Secrets, environnements et déploiement
 
 ## 🌍 Le problème d'abord
-Un développeur commit par mégarde une clé d'API dans le dépôt. Quelques heures plus tard, la clé est aspirée par un robot qui scanne GitHub, et la facture cloud explose — ou pire, des données fuient. Un secret commis une seule fois est compromis POUR TOUJOURS, même supprimé ensuite (il reste dans l'historique). Le problème de fond : le code est fait pour être PARTAGÉ, les secrets pour rester PRIVÉS — ils ne doivent jamais voyager ensemble. Cette leçon t'apprend à gérer secrets et configuration proprement (hors du code, par environnement) et à déployer sans fuiter — l'erreur qui coûte le plus cher évitée.
+Un développeur commit par mégarde une clé d'API dans le dépôt. Quelques heures plus tard, la clé est aspirée par un robot qui scanne GitHub, et la facture cloud explose — ou pire, des données fuient. Un secret commis une seule fois est compromis POUR TOUJOURS, même supprimé ensuite (il reste dans l'historique). Le problème de fond : le code est fait pour être PARTAGÉ, les secrets pour rester PRIVÉS — ils ne doivent jamais voyager ensemble.
 
 ## 🎯 Objectif
 Gérer les secrets (clés d'API, mots de passe) et la configuration proprement : hors du code, par environnement, jamais dans Git. Savoir déployer une application simple sans fuiter. Un secret commis une fois est compromis pour toujours — cette leçon évite l'erreur qui coûte le plus cher.

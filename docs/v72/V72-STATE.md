@@ -5,15 +5,14 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP2**
-- **NEXT_CP** : **CP3**
-- **NEXT_ACTION** : variété éditoriale transverse (motifs mécaniques : même phrase, même
-  métaphore, même cadence, « Objectif » qui répète le titre, clôtures identiques) **et**
-  correction des **six défauts factuels** laissés ouverts par V71 : `design-patterns-intro`
-  (Java 8), `technical-debt` (ISO/IEC 14764 « perfective »), `react-application-states`
-  (comptage 5+1+2=8 contre « quatre sur huit »), `ai-evaluation` (90 % non sourcé),
-  `pandas-data-wrangling` (facteur 50-100 non sourcé), `javascript-basics` (liste des falsy).
-  Rapport `docs/v72/V72-CP3-VARIETE.md`.
+- **dernier CP terminé** : **CP3**
+- **NEXT_CP** : **CP4**
+- **NEXT_ACTION** : écrire le protocole **SIMULATED LEARNER VALIDATION** dans
+  `docs/v72/V72-SLV-PROTOCOL.md`, conforme aux règles S1–S7 du contrat gelé : séquence
+  PRE-TEST → lecture → rappel immédiat → explication → application → misconception →
+  transfert ; cinq axes notés séparément sur [0,1] ; réutiliser la taxonomie déjà présente
+  dans le produit (RECALL / UNDERSTANDING / APPLICATION / DIAGNOSIS / TRANSFER, 151 items).
+  **Protocole écrit et gelé AVANT tout passage** (seuil L1).
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -66,7 +65,18 @@
   et réécriture de `git-fundamentals` / `technical-debt`). Volume : +233 mots (+0,5 %) dont
   5 leçons qui maigrissent. Corpus `7eb88ba5…` → **`a45e9f5b…`**, 9 gels mis à jour.
 
+- **CP3** — deux objets. (a) Motifs mécaniques : **118/128** leçons closent leur accroche par
+  « Cette leçon… », mais seules **4** dupliquent leur propre objectif (recouvrement ≥ 0,30) —
+  ces 4 sont corrigées, les 114 autres **volontairement pas touchées** (annoncer n'est pas
+  répéter ; interdit n° 3). (b) Les **six défauts factuels** laissés ouverts par V71 sont
+  fermés : Java 8 daté, ISO/IEC 14764 « perfective » rétablie avec l'écart au mot français,
+  double comptage de `react-application-states` expliqué par un encadré, facteur pandas
+  **mesuré** (×7 à ×72 pour une boucle, ×333 à ×3072 pour `apply(axis=1)`), 90 % non sourcé
+  retiré avec sa raison, liste des falsy déclarée comme simplification. Corpus
+  `a45e9f5b…` → **`d535fcf6…`**. Seuil **C7 : 6 → 0**.
+
 ## Tests
 
-- **CP2** : `npm test` 1420/1420 · `tsc --noEmit` 0 · `gates:active` vert (52).
+- **CP2** : 1420/1420 · tsc 0 · gates verts.
+- **CP3** : 1420/1420 · tsc 0 · gates verts.
 - aucun serveur résiduel ; le démon Docker démarré pour la mesure a été arrêté.

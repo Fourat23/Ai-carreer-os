@@ -34,7 +34,7 @@ passage ? mesurable sans LLM) puis la GÉNÉRATION (la réponse est-elle fidèle
 car corriger exige de savoir QUEL étage a failli.
 
 ## 💡 Pourquoi c'est important
-Un système IA sans évaluation est un pari : tu ne sais ni s'il marche, ni si ta dernière « amélioration » l'a dégradé. L'évaluation est LA compétence la plus rare chez les candidats juniors IA — 90 % des projets RAG de portfolio n'en ont aucune. Tes chiffres avant/après seront ton différenciateur n°1 en entretien, et le harnais d'évaluation est ce qui transforme le bricolage en ingénierie : on n'améliore que ce qu'on mesure.
+Un système IA sans évaluation est un pari : tu ne sais ni s'il marche, ni si ta dernière « amélioration » l'a dégradé. L'évaluation est la compétence la plus rare chez les candidats juniors IA : la très grande majorité des projets RAG de portfolio n'en présentent aucune — regarde les dépôts publics que tu croises, tu le vérifieras toi-même en dix minutes (aucun chiffre n'est avancé ici, parce qu'aucun recensement sérieux n'existe). Tes chiffres avant/après seront ton différenciateur n°1 en entretien, et le harnais d'évaluation est ce qui transforme le bricolage en ingénierie : on n'améliore que ce qu'on mesure.
 
 ## Explication complète
 

@@ -248,7 +248,15 @@ Le dénombrement est pourtant sans appel. Trois valeurs indépendantes produisen
 | ✅ | ✅ | ✅ | **incohérent** |
 
 Quatre états valides sur huit représentables : **la moitié du domaine ne veut rien dire**,
-et rien n'empêche l'interface d'y tomber. Un seul état à quatre valeurs —
+et rien n'empêche l'interface d'y tomber.
+
+> **Pourquoi ce décompte diffère de celui de l'exemple guidé.** Plus haut, la même énumération
+> donnait *cinq* états à sens clair. Ce n'est pas une contradiction, c'est une **convention
+> différente**, et elle mérite d'être vue : l'exemple guidé distinguait « aucun résultat »
+> (liste vide) de « rien n'a encore été cherché », parce qu'un écran doit les afficher
+> différemment ; ici on ne compte que les états du *chargement*, où les deux se confondent.
+> Le nombre d'états d'un système n'est jamais une propriété du code seul — il dépend de la
+> question qu'on lui pose. Dis toujours laquelle tu poses avant d'annoncer un chiffre. Un seul état à quatre valeurs —
 `'idle' | 'loading' | 'error' | 'ok'` — rend ces combinaisons **inexprimables**. C'est
 exactement ce que le reducer de cette leçon apporte : il ne range pas du code, il
 **supprime des états impossibles**.

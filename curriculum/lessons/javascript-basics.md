@@ -59,7 +59,7 @@ Une fonction se stocke dans une variable, se passe en argument (callback), se re
 Une fonction **pure** (même entrée → même sortie, zéro effet de bord) est testable, cachable, prévisible. L'**immutabilité** (retourner des versions neuves au lieu de modifier) évite les bugs de référence partagée et rend possible l'undo/redo. Ce sont des choix de style aujourd'hui, des OBLIGATIONS en React demain.
 
 ## Concepts clés
-`const`/`let` · types primitifs · conversions et `===` · truthy/falsy (les 6 falsy : `false, 0, "", null, undefined, NaN`) · valeur vs référence · copie superficielle (spread) · tableaux, objets, tableaux d'objets · fonctions fléchées · callbacks · closures · `map/filter/reduce` · pureté, immutabilité.
+`const`/`let` · types primitifs · conversions et `===` · truthy/falsy (les 6 que tu rencontreras : `false, 0, "", null, undefined, NaN` — il en existe deux autres, `-0` et `0n`, que tu n'écriras pas par accident) · valeur vs référence · copie superficielle (spread) · tableaux, objets, tableaux d'objets · fonctions fléchées · callbacks · closures · `map/filter/reduce` · pureté, immutabilité.
 
 ## 🧭 Exemple guidé
 **Énoncé** : on te donne une liste d'employés. Il faut (a) les noms de ceux du service tech, et (b) augmenter Lina de 10 % **sans abîmer la liste d'origine**, qu'un autre écran affiche encore.

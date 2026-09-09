@@ -13,8 +13,7 @@ classique par mots-clés échoue ici — aucun mot commun. Comment une machine p
 que ces deux phrases sont PROCHES par le SENS, pas par les lettres ? La réponse est l'idée
 centrale de toute l'IA de recherche moderne : transformer chaque texte en une position dans un
 espace, calculée pour que « sens proche = position proche ». Ces positions s'appellent des
-**embeddings**. Cette leçon te fait comprendre géométriquement ce que c'est et pourquoi ça rend
-possible la recherche par sens — la brique qui fait fonctionner le retrieval d'un RAG.
+**embeddings**.
 
 ## 🎯 Objectif
 Comprendre ce qu'est un embedding (géométriquement), pourquoi il permet la recherche par SENS (et pas par mots), et comment l'utiliser en pratique (similarité cosinus, normalisation). C'est la brique qui rend possible le retrieval d'un RAG.

@@ -94,8 +94,11 @@ professionnelle (norme ISO/IEC 14764) distingue **quatre types** :
 - **préventive** : agir AVANT la panne pour réduire un risque futur (corriger une faiblesse latente,
   ajouter des tests, durcir un point fragile) — c'est là que vit une grande part du remboursement de
   dette.
-- **évolutive** : faire ÉVOLUER les fonctionnalités (ajouter/modifier une capacité à la demande du
-  métier) — la maintenance la plus visible.
+- **perfective** : améliorer le logiciel sans qu'un défaut l'exige — ajouter ou modifier une
+  capacité à la demande du métier, mais aussi améliorer les performances ou la maintenabilité.
+  C'est la maintenance la plus visible, et le terme français « évolutive » qu'on entend souvent
+  en est une traduction **plus étroite** que la norme : elle couvre l'ajout de fonctions, pas
+  l'amélioration interne.
 Savoir nommer le type de maintenance en cours aide à prioriser et à communiquer : un correctif urgent
 (corrective) ne se planifie pas comme une montée de version (adaptative) ou un ajout de feature
 (évolutive). La dette technique se rembourse surtout par de la maintenance **préventive**, souvent à

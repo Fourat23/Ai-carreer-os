@@ -8,8 +8,7 @@ tes requêtes attendent la réponse qui ne vient pas, tes connexions s'accumulen
 mémoire se remplit, et TON service tombe à son tour — à cause de la panne de
 QUELQU'UN D'AUTRE. Une petite panne locale devient une panne générale : c'est une
 **panne en cascade**. La résilience, c'est l'art de ne PAS s'effondrer quand une
-dépendance flanche. Cette leçon présente les patterns qui contiennent les pannes :
-timeout, retry, circuit breaker, backpressure, dégradation gracieuse, redondance.
+dépendance flanche.
 
 ## 🎯 Objectif
 Connaître les principaux **patterns de résilience** (timeout, retry avec backoff,

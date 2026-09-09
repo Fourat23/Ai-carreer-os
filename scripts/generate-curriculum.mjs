@@ -140,7 +140,23 @@ function lessonsOf(day) {
  */
 const PLAFOND_REVUE = 7;
 
-function lessonsDeLaRevue(semaine, joursDeLaSemaine) {
+/**
+ * V72 · CP12 — SECONDE CORRECTION : UNE REVUE NE DÉCOUVRE RIEN.
+ *
+ * L'invariant de prérequis écrit au CP12 a rougi sur deux cas, et ils étaient réels :
+ * la revue de la semaine 9 (jour 63) envoyait vers `data-cleaning-quality` et
+ * `etl-pipelines`, qui exigent toutes deux `pandas-data-wrangling` — enseignée au
+ * jour 127, soit SOIXANTE-TROIS JOURS PLUS TARD. Ces deux leçons ne sont réellement
+ * enseignées qu'aux jours 128 et 138 ; elles n'apparaissaient au jour 63 que parce que
+ * le complément par compétence tirait tout le catalogue `sql`.
+ *
+ * La règle qui ferme cela est plus simple qu'un contrôle de prérequis, et plus vraie :
+ * **une revue RÉVISE, elle n'introduit pas.** Le complément par compétence ne retient
+ * donc que les leçons DÉJÀ rencontrées sur une journée de travail antérieure ou de la
+ * semaine en cours. Une leçon dont la revue serait la première apparition n'a rien à y
+ * faire — et ses prérequis ne sont, par construction, pas garantis.
+ */
+function lessonsDeLaRevue(semaine, joursDeLaSemaine, dejaVues) {
   const jours = joursDeLaSemaine.filter((d) => !d.isReview);
   const explicites = [];
   for (const d of [...jours].sort((a, b) => b.day - a.day))
@@ -148,8 +164,11 @@ function lessonsDeLaRevue(semaine, joursDeLaSemaine) {
   const complement = [];
   for (const d of jours) {
     if ((LESSONS_V67[d.day] ?? []).length) continue;
-    for (const f of (LESSON_BY_SKILL[d.skill] ?? []))
-      if (!explicites.includes(f) && !complement.includes(f)) complement.push(f);
+    for (const f of (LESSON_BY_SKILL[d.skill] ?? [])) {
+      if (explicites.includes(f) || complement.includes(f)) continue;
+      if (dejaVues && !dejaVues.has(f)) continue;   // la revue ne découvre pas
+      complement.push(f);
+    }
   }
   return [...explicites, ...complement].slice(0, PLAFOND_REVUE);
 }
@@ -829,7 +848,11 @@ for (let n = 1; n <= 365; n++) {
     const debut = (day.week - 1) * 7 + 1;
     const semaine = [];
     for (let d = debut; d < debut + 7 && d <= 365; d++) if (d !== n) semaine.push(buildDay(d));
-    const l = lessonsDeLaRevue(day.week, semaine);
+    // Leçons déjà rencontrées sur une journée de travail antérieure ou de la semaine en cours.
+    const dejaVues = new Set();
+    for (let d = 1; d < n; d++) { const j = buildDay(d); if (!j.isReview) for (const f of lessonsOf(j)) dejaVues.add(f); }
+    for (const j of semaine) if (!j.isReview) for (const f of lessonsOf(j)) dejaVues.add(f);
+    const l = lessonsDeLaRevue(day.week, semaine, dejaVues);
     if (l.length) day.lessonsOverride = l;
   }
   const mdJour = lierSpecsProjets(renderDay(day));

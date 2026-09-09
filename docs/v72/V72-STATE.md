@@ -5,12 +5,12 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP11**
-- **NEXT_CP** : **CP12**
-- **NEXT_ACTION** : honnêteté du gate de profondeur. Décider entre durcir `curriculum:depth-check`
-  sur des propriétés **objectives** et rendre son message honnête ; ne jamais lui faire noter la
-  pédagogie. Puis **tests négatifs** des huit défauts imposés par le §11 du contrat, avec
-  restauration vérifiée à l'octet près. Rapport `docs/v72/V72-CP12-GATE.md`.
+- **dernier CP terminé** : **CP12**
+- **NEXT_CP** : **CP13**
+- **NEXT_ACTION** : rejouer le passage **APRÈS** de la validation simulée sur le **même**
+  échantillon de 24 et les **mêmes** questions ; publier `docs/v72/V72-SLV-AFTER.json` et la
+  comparaison AVANT/APRÈS. Interprétation **déjà fixée au CP5** : un score identique ne prouve
+  rien, une **baisse** est le seul signal réellement détectable.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -161,6 +161,19 @@
   454 → 168 min) est **la trace de la correction du CP6**, pas une dérive. **CP11 n'a modifié
   aucun fichier.**
 
+- **CP12** — gate de profondeur **durci sur une propriété objective** (références mortes,
+  désormais bloquantes) et **message rendu honnête** ; le « gabarit complet » (93/128) reste un
+  **indicateur non exigé** — l'exiger ferait ajouter deux titres à 35 leçons pour satisfaire un
+  contrôle. **Cinq invariants V72 rendus exécutables** : 4 verts, **1 rouge assumé** (`cloud`
+  déclarée sans journée). Le contrôle de prérequis a trouvé un **vrai défaut** après deux
+  corrections de ma sonde : la revue du jour 63 envoyait vers deux leçons exigeant
+  `pandas-data-wrangling`, enseignée **63 jours plus tard**. Corrigé par une règle plus simple
+  et plus vraie — **une revue révise, elle n'introduit pas** (7 journées régénérées, aucune
+  revue vide). **Huit tests négatifs : 8/8 valides — mais pas du premier coup.** Le test n° 8
+  est resté vert devant une référence morte : avec le drapeau `m`, `$` marque la fin de LIGNE,
+  donc le contrôle capturait une chaîne vide et parcourait du néant. **Le même défaut existait
+  dans le script rejouable livré au CP9.** Corrigé dans les deux fichiers.
+
 ## Tests
 
 - **CP2** : 1420/1420 · tsc 0 · gates verts.
@@ -168,4 +181,5 @@
 - **CP6** : 1420/1420 · gates verts · corpus inchangé.
 - **CP8** : 1420/1420 · gates verts · corpus inchangé.
 - **CP9** : 1420/1420 · gates verts · corpus `c1ac869e…`, 9 gels mis à jour.
+- **CP12** : 1420/1420 · tsc 0 · gates verts · 8/8 tests négatifs · corpus inchangé.
 - aucun serveur résiduel ; le démon Docker démarré pour la mesure a été arrêté.

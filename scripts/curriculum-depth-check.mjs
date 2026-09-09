@@ -90,6 +90,53 @@ for (const f of lessonFiles) {
 }
 if (nbLessons < LESSON_TARGET) errors.push(`Bibliothèque : ${nbLessons}/${LESSON_TARGET} leçons — exigence minimale non atteinte`);
 
+// ── V72 · CP12 — DURCISSEMENT SUR UNE PROPRIÉTÉ OBJECTIVE : les références mortes ──
+//
+// Trouvé au CP9 : deux leçons citaient dans leur section « Pratique » des exercices
+// (`api-idempotency`, `dlq-duplicate`) qui n'existaient dans AUCUN des 541 identifiants
+// du dépôt. Aucun gate ne le voyait — les gates vérifient les CATALOGUES, jamais la prose
+// des leçons. L'apprenant, lui, cherche un exercice qui n'est nulle part.
+//
+// C'est exactement le genre de propriété qu'un gate peut tenir : décidable, objective,
+// sans jugement pédagogique. On l'ajoute ici plutôt que d'inventer une notation.
+// Renvoie le contenu des sections « ## … Pratique … » ou « ## … Exercice … » d'une leçon.
+function sectionsPratique(md) {
+  const out = []; let dedans = false, buf = [];
+  for (const l of md.split('\n')) {
+    if (l.startsWith('## ')) {
+      if (dedans) { out.push(buf.join('\n')); buf = []; }
+      dedans = /Pratique|Exercice/.test(l);
+    } else if (dedans) buf.push(l);
+  }
+  if (dedans) out.push(buf.join('\n'));
+  return out;
+}
+
+const CATALOGUES = ['exercises', 'missions', 'capstones', 'terminal-tasks', 'playbooks',
+  'pipelines', 'security', 'cloud', 'topologies', 'manifests', 'transfer-challenges', 'assessments'];
+const idsConnus = new Set();
+for (const d of CATALOGUES) {
+  const p = join(ROOT, 'data', d);
+  if (existsSync(p)) for (const f of readdirSync(p)) if (f.endsWith('.json')) idsConnus.add(f.slice(0, -5));
+}
+const slugsLecons = new Set(lessonFiles.map((f) => f.slice(0, -3)));
+// Termes techniques écrits en code qui ressemblent à un identifiant sans en être un.
+const TERME_TECHNIQUE = /^(aria-|auto-fill|auto-fit|grid-template|cherry-pick|pre-commit|pas-un-|box-sizing|border-box|min-width|max-width|flex-|align-|justify-)/;
+let refsMortes = 0;
+for (const f of lessonFiles) {
+  const md = read(join(CUR, 'lessons', f));
+  // Découpage par titre plutôt que par expression régulière : avec le drapeau `m`,
+  // `$` marque la fin de LIGNE, donc `([\s\S]*?)(?=^## |$)` capturait une chaîne VIDE.
+  // Le contrôle passait sur du néant et annonçait « 0 référence morte ». Trouvé par le
+  // test négatif n° 8 du CP12, qui est exactement ce à quoi sert un test négatif.
+  for (const bloc of sectionsPratique(md))
+    for (const [, id] of bloc.matchAll(/`([a-z][a-z0-9]+(?:-[a-z0-9]+){1,4})`/g)) {
+      if (idsConnus.has(id) || slugsLecons.has(id) || TERME_TECHNIQUE.test(id)) continue;
+      errors.push(`Leçon ${f} : référence morte « ${id} » — aucun exercice, playbook ni diagnostic de ce nom`);
+      refsMortes++;
+    }
+}
+
 // ── Rapport ──
 const nWork = program.days.filter((d) => !d.isReview).length;
 console.log('── Audit de profondeur pédagogique ──');
@@ -100,7 +147,14 @@ console.log(`  avec « Question d'entretien »       : ${withInterview}/${nWork}
 console.log(`  avec « Cas métier »                 : ${withCase}/${nWork}`);
 console.log(`  avec « Pourquoi ça comptera »       : ${withFuture}/${nWork}`);
 console.log(`  avec correction                     : ${withCorrection}/${nWork}`);
-console.log(`Leçons de fond                        : ${nbLessons} (dont ${fullGabarit} au gabarit complet) — cible ${LESSON_TARGET}`);
+console.log(`Leçons de fond                        : ${nbLessons} — cible ${LESSON_TARGET}`);
+console.log(`  contrôles EXIGÉS par leçon          : ≥ 350 mots · ≥ 6 sections · un exercice · références vivantes`);
+console.log(`  références mortes                    : ${refsMortes}`);
+console.log(`  INDICATEUR, non exigé — gabarit complet : ${fullGabarit}/${nbLessons}`);
+console.log(`     (« Objectif », « Modèle mental », « Exemple guidé », « Questions d'entretien »,`);
+console.log(`      « quand suis-je prêt » réunis. NON exigé délibérément : imposer ces cinq titres`);
+console.log(`      ferait ajouter des sections pour satisfaire un contrôle, ce qui dégraderait`);
+console.log(`      des leçons volontairement plus courtes. La qualité pédagogique ne se note pas ici.)`);
 if (warns.length) {
   console.log(`\n⚠️  ${warns.length} avertissement(s) (non bloquants) :`);
   for (const w of warns.slice(0, 25)) console.log(`   - ${w}`);
@@ -111,4 +165,11 @@ if (errors.length) {
   for (const e of errors.slice(0, 40)) console.log(`   - ${e}`);
   process.exit(1);
 }
-console.log('\n✅ Profondeur OK : structure pédagogique complète, blocs IA présents, leçons structurées.');
+// V72 · CP12 — MESSAGE HONNÊTE. L'ancien disait « leçons structurées », ce qui laissait
+// croire à une vérification de structure pédagogique. Ce gate vérifie quatre propriétés
+// objectives par leçon, et rien d'autre. Un message qui promet plus que ce qu'il tient
+// est un gate vert auquel on ne peut pas se fier.
+console.log('\n✅ Profondeur OK : journées au gabarit attendu (cours, exemple guidé, entretien,');
+console.log('   cas métier sur les compétences IA/data, correction), et pour chaque leçon :');
+console.log('   longueur minimale, nombre de sections, présence d\'un exercice, aucune référence morte.');
+console.log('   Ce gate ne juge PAS la qualité pédagogique — il vérifie des propriétés décidables.');

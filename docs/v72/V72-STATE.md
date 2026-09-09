@@ -5,11 +5,15 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP1**
-- **NEXT_CP** : **CP2**
-- **NEXT_ACTION** : corriger les redondances **R2 et R3** (23 cas) selon le §1 du contrat gelé.
-  Reclasser d'abord les 33 avec les critères R0–R3 du contrat, publier tout désaccord avec le
-  classement préliminaire du CP0, puis corriger. Rapport `docs/v72/V72-CP2-EDITORIAL.md`.
+- **dernier CP terminé** : **CP2**
+- **NEXT_CP** : **CP3**
+- **NEXT_ACTION** : variété éditoriale transverse (motifs mécaniques : même phrase, même
+  métaphore, même cadence, « Objectif » qui répète le titre, clôtures identiques) **et**
+  correction des **six défauts factuels** laissés ouverts par V71 : `design-patterns-intro`
+  (Java 8), `technical-debt` (ISO/IEC 14764 « perfective »), `react-application-states`
+  (comptage 5+1+2=8 contre « quatre sur huit »), `ai-evaluation` (90 % non sourcé),
+  `pandas-data-wrangling` (facteur 50-100 non sourcé), `javascript-basics` (liste des falsy).
+  Rapport `docs/v72/V72-CP3-VARIETE.md`.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -53,7 +57,16 @@
    `origin/claude/v71-recovery-cross-validation` — V71 ne l'a pas intégrée.
 10. Conflit de convention A/B dans `docs/v71/PREREQUIS-ORDRE.md`, à trancher au CP1.
 
+## Journal des CP
+
+- **CP2** — 17 leçons corrigées (5 R3 + 12 R2). Reclassement par les critères gelés :
+  R0=2 · R1=14 · R2=12 · R3=5, en désaccord avec le préliminaire CP0 sur **7 leçons**, toutes
+  publiées. Six leçons ont été **épargnées** parce que les critères gelés sont plus exigeants
+  qu'un jugement de lecteur. Deux passages de **corps** supprimés (`design-patterns-intro`,
+  et réécriture de `git-fundamentals` / `technical-debt`). Volume : +233 mots (+0,5 %) dont
+  5 leçons qui maigrissent. Corpus `7eb88ba5…` → **`a45e9f5b…`**, 9 gels mis à jour.
+
 ## Tests
 
-- `npm run gates:active` : non rejoué au CP0 (aucune modification) — dernier passage V71 : 52/52.
+- **CP2** : `npm test` 1420/1420 · `tsc --noEmit` 0 · `gates:active` vert (52).
 - aucun serveur résiduel ; le démon Docker démarré pour la mesure a été arrêté.

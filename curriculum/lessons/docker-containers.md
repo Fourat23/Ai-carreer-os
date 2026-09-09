@@ -2,7 +2,7 @@
 # Leçon — Docker et conteneurs
 
 ## 🌍 Le problème d'abord
-Ton application marche parfaitement sur ta machine. Tu l'envoies à un collègue (ou en production) : elle plante — mauvaise version de langage, dépendance manquante, variable d'environnement absente. « Ça marche chez moi » devient le cauchemar de toute équipe. Le problème : ton application dépend d'un ENVIRONNEMENT que tu n'as pas emporté avec elle. Les conteneurs résolvent ça en empaquetant l'application ET tout son environnement dans une boîte qui tourne à l'identique partout. Cette leçon t'apprend à construire cette boîte (Dockerfile) pour livrer n'importe quelle application — y compris un système IA — de façon reproductible.
+Ton application marche parfaitement sur ta machine. Tu l'envoies à un collègue (ou en production) : elle plante — mauvaise version de langage, dépendance manquante, variable d'environnement absente. « Ça marche chez moi » devient le cauchemar de toute équipe. Le problème : ton application dépend d'un ENVIRONNEMENT que tu n'as pas emporté avec elle — et cet environnement est presque toujours **invisible**, parce qu'il est fait de tout ce que tu as installé un jour sans le noter. La documentation d'installation ne le répare pas : elle décrit ce dont tu te souviens, pas ce dont le programme a réellement besoin. Cette leçon t'apprend à rendre cet environnement explicite et reproductible.
 
 ## 🎯 Objectif
 Comprendre ce qu'est un conteneur, pourquoi il résout le « ça marche chez moi », et savoir écrire un Dockerfile + un docker-compose pour livrer une application (dont un système IA) de façon reproductible. C'est le standard de livraison et ce qui rend ton projet final crédible.

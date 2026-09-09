@@ -11,12 +11,12 @@
 Créer son infrastructure « à la main » en cliquant dans la console du fournisseur
 paraît simple… au début. Puis les problèmes arrivent : personne ne sait exactement
 ce qui tourne, impossible de recréer à l'identique, un collègue modifie un réglage en
-douce et plus rien n'est cohérent. La solution : **décrire** l'infrastructure voulue
-dans du **code** versionné, et laisser un outil la créer et la mettre à jour. C'est
-l'**Infrastructure as Code**. C'est la même idée que Kubernetes appliquée aux
-serveurs/réseaux : on déclare l'état voulu, l'outil calcule les changements. Cette
-leçon explique pourquoi, et les notions clés (plan/apply, state, dérive) — en
-enseignant les CONCEPTS, sans provisionner quoi que ce soit de réel.
+douce et plus rien n'est cohérent. Le vrai coût n'est pas le clic : c'est qu'**aucune trace ne
+subsiste de la décision**. Six mois plus tard, personne ne peut dire si ce port ouvert est un
+oubli ou un choix, ni ce qui casserait en le fermant. C'est le même problème qu'un projet sans
+Git, transposé aux serveurs. Cette leçon explique la réponse — l'**Infrastructure as Code** — et
+ses notions clés (plan/apply, state, dérive), en enseignant les CONCEPTS, sans provisionner
+quoi que ce soit de réel.
 
 ## 🎯 Objectif
 Comprendre pourquoi on DÉCRIT l'infrastructure dans du code versionné plutôt que

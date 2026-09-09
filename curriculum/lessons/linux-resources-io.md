@@ -24,11 +24,21 @@ d'abord repérer QUEL processus consomme la ressource. Les termes RSS, swap, OOM
 descripteur de fichier sont définis ici, pas supposés connus.
 
 ## 🧠 Modèle mental
-Un serveur a quatre ressources limitées qui se partagent : **CPU** (temps de calcul),
-**mémoire** (RAM), **disque** (débit et espace) et **file descriptors** (nombre de
-fichiers/sockets ouverts). Une lenteur n'est jamais « la machine est lente » : c'est
-TOUJOURS l'une de ces quatre qui sature. Diagnostiquer, c'est identifier laquelle,
-avec des chiffres, avant de conclure.
+Diagnostiquer, c'est **remonter du symptôme à la ressource**, pas l'inverse. Chacune des
+quatre sature d'une façon reconnaissable :
+
+- **CPU** — les processus sont *prêts* mais attendent leur tour : le load monte, le temps
+  de réponse s'allonge proportionnellement à la charge, et le disque ne bouge pas.
+- **Mémoire** — la machine ne ralentit pas progressivement : elle bascule. Le *swap*
+  s'active, tout devient lent d'un coup, ou le noyau tue un processus (OOM).
+- **Disque** — le processeur est *inactif* et pourtant rien n'avance : les processus sont
+  bloqués en attente d'entrées-sorties (état `D`), pas en calcul.
+- **Descripteurs de fichiers** — la machine va bien, mais les nouvelles connexions
+  échouent avec « too many open files » alors que CPU, RAM et disque sont au repos.
+
+La règle qui découle de ce tableau : **un symptôme identique — « c'est lent » — a quatre
+causes qui ne se soignent pas de la même manière.** Le chiffre qui les sépare est toujours
+disponible avant qu'on ait conclu quoi que ce soit.
 
 ## 📖 Explication complète
 **CPU et load average.** Le *load average* (`uptime`, `top`) est le nombre moyen de

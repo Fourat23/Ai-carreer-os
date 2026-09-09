@@ -4,18 +4,18 @@
 ## 🌍 Le problème d'abord
 Tu as vu (leçon précédente) que rendre une page vivante « à la main » revient à mettre à
 jour le DOM à chaque changement — et que, dès que l'interface grandit, tu oublies fatalement
-un endroit et l'écran affiche une valeur périmée. **React** répond exactement à ce problème :
-au lieu de décrire COMMENT modifier l'écran étape par étape, tu décris À QUOI l'écran doit
-ressembler pour un état donné ; quand l'état change, React se charge de mettre le DOM à jour
-correctement, partout. Tu passes d'un travail de plombier (« trouve ce div, change son
-texte ») à un travail de dessinateur (« pour cet état, voici l'interface »). Cette leçon
-installe ce basculement mental — le plus important de tout le frontend.
+un endroit et l'écran affiche une valeur périmée. Le nombre d'endroits à mettre à jour ne croît
+pas avec le nombre d'écrans : il croît avec le nombre de **combinaisons** d'état, et c'est
+pourquoi un formulaire à cinq champs devient vite ingérable alors qu'il paraissait simple.
+**React** répond exactement à ce problème — mais la façon dont il y répond demande d'abandonner
+le réflexe le plus ancré du débutant : aller chercher un élément pour le modifier. Cette leçon
+installe ce basculement mental, le plus important de tout le frontend.
 
 ## 🎯 Objectif
-Acquérir LE modèle mental de React (UI = f(state)), penser en composants, gérer l'état sans le muter, et comprendre le re-rendu. React est le standard du frontend — et l'interface de tes futures apps IA (DocQA, DocSense).
+Acquérir LE modèle mental de React, penser en composants, gérer l'état sans le muter, et comprendre le re-rendu. React est le standard du frontend — et l'interface de tes futures apps IA (DocQA, DocSense).
 
 ## 🧠 Modèle mental
-**L'UI est une FONCTION de l'état** : tu ne modifies jamais l'écran directement (« trouve ce div et change son texte ») — tu décris à quoi l'UI DOIT ressembler pour chaque état possible, et React recalcule le rendu quand l'état change. Déclaratif (QUOI), pas impératif (COMMENT).
+**L'UI est une FONCTION de l'état** — `UI = f(state)`. Tu ne modifies jamais l'écran directement (« trouve ce div et change son texte », le geste impératif) : tu décris à quoi l'UI DOIT ressembler pour chaque état possible (le geste déclaratif), et React recalcule le rendu quand l'état change. Le renversement tient en une phrase : **tu passes d'un travail de plombier — trouver le bon tuyau et le réparer — à un travail de dessinateur : pour cet état, voici l'interface.**
 
 ## 🧩 Prérequis
 Tu dois comprendre le DOM, les événements et le cycle événement → état → DOM

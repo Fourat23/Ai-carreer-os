@@ -36,12 +36,9 @@ en avoir le problème est l'anti-pattern le plus fréquent de ceux qui viennent 
 apprendre.
 
 ## 💡 Pourquoi c'est important
-Un design pattern est une solution NOMMÉE à un problème récurrent de conception. Leur valeur première n'est pas le code (tu as déjà réinventé la moitié d'entre eux) mais le VOCABULAIRE : « mets un Adapter devant » transmet en trois mots ce qui prendrait dix minutes d'explication. Les revues de code, les entretiens et les livres d'architecture parlent cette langue.
+Ce vocabulaire est celui dans lequel se déroulent les revues de code, les entretiens et les livres d'architecture : ne pas le parler ne t'empêche pas de coder, mais t'empêche de **participer à la discussion** — tu proposes une solution que ton interlocuteur a déjà nommée et évaluée. À l'inverse, savoir nommer un pattern permet de le **refuser** explicitement (« un Observer ici coûterait plus cher que le couplage qu'il retire »), et c'est ce refus argumenté, plus que l'application, qui distingue un candidat expérimenté.
 
 ## Explication complète
-
-### Le bon état d'esprit
-Un pattern se RECONNAÎT quand son problème apparaît — il ne s'applique jamais préventivement. Le pattern sans problème est de la sur-ingénierie (l'anti-pattern le plus répandu chez ceux qui viennent de les apprendre). Ordre correct : douleur → « il y a un nom pour ça » → solution nommée.
 
 ### Les cinq patterns les plus rentables
 

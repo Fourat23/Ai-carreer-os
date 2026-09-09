@@ -3,17 +3,16 @@
 
 ## 🌍 Le problème d'abord
 « Réseau de neurones », « deep learning », « intelligence artificielle » : les mots
-impressionnent et donnent l'impression d'une magie inaccessible. Pourtant, à la base, il y a
-une idée simple. Imagine une machine avec des milliers de petits boutons à régler, et une
-note qui te dit à quel point elle se trompe. Si tu savais, pour chaque bouton, dans quel sens
-le tourner pour améliorer la note, tu pourrais — en répétant des millions de fois — obtenir
-une machine très performante. C'est EXACTEMENT ce qu'est l'entraînement d'un réseau de
-neurones : des poids (les boutons), une loss (la note), un gradient (le sens du réglage). Pas
-de magie — des maths simples empilées. Cette leçon ouvre la boîte noire pour que tu raisonnes
-sur les réseaux (et plus tard les LLM) au lieu de les subir.
+impressionnent et donnent l'impression d'une magie inaccessible. Le débutant se retrouve donc
+devant un objet qu'il utilise sans pouvoir en parler — incapable de dire pourquoi son modèle
+n'apprend pas, ni ce qu'il faudrait changer. Or personne n'a jamais programmé un réseau
+« pour qu'il reconnaisse un chat » : on lui a donné des millions de réglages et un moyen
+mécanique de savoir, pour chacun, s'il faut le monter ou le baisser. La question de cette
+leçon est donc précise : **qu'est-ce qui est réglé, et par quel mécanisme ?** Y répondre, c'est
+pouvoir raisonner sur les réseaux (et plus tard sur les LLM) au lieu de les subir.
 
 ## 🎯 Objectif
-Comprendre ce qu'est VRAIMENT un réseau de neurones (une composition de fonctions simples optimisée par gradient), savoir en entraîner un petit en PyTorch, et diagnostiquer avec les courbes. Le socle pour comprendre les transformers et les LLM — pas de la magie, des maths simples empilées.
+Comprendre ce qu'est VRAIMENT un réseau de neurones (une composition de fonctions simples optimisée par gradient), savoir en entraîner un petit en PyTorch, et diagnostiquer avec les courbes. Le socle pour comprendre les transformers et les LLM.
 
 ## 🧠 Modèle mental
 Un réseau de neurones, c'est **une machine à régler des boutons** : des millions de boutons (les poids), une note à chaque essai (la loss), et une méthode pour savoir dans quel sens tourner chaque bouton pour améliorer la note (le gradient). L'entraînement = tourner les boutons petit à petit jusqu'à ce que la note soit bonne.

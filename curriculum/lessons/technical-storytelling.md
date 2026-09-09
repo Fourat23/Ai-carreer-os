@@ -2,7 +2,7 @@
 # Leçon — Storytelling technique (raconter ses projets)
 
 ## 🌍 Le problème d'abord
-En entretien, on te demande de parler d'un projet. Tu réponds : « j'ai fait une application avec React et une base de données ». Silence poli. Le recruteur n'a rien retenu, rien appris de ta façon de penser. Le problème : tu as décrit CE QUE tu as tapé, pas COMMENT tu as décidé. Un projet qu'on ne sait pas raconter n'existe pas aux yeux d'un employeur. Un bon récit technique montre un problème, des décisions arbitrées sous contraintes, des résultats chiffrés et des apprentissages — la « façon de penser » que le recruteur achète réellement. Cette leçon t'apprend à transformer ton travail en récit qui convertit en entretiens.
+En entretien, on te demande de parler d'un projet. Tu réponds : « j'ai fait une application avec React et une base de données ». Silence poli. Le recruteur n'a rien retenu, rien appris de ta façon de penser. Le problème : tu as décrit CE QUE tu as tapé, pas COMMENT tu as décidé. Et le réflexe de compensation est pire — ajouter des détails techniques, citer des bibliothèques, allonger. Plus la description est fournie, moins le raisonnement est visible : on entend un inventaire, on cherchait une pensée.
 
 ## 🎯 Objectif
 Savoir transformer un projet technique en un RÉCIT qui convainc un recruteur : problème, décisions, résultats chiffrés, apprentissages. Un projet qu'on ne sait pas raconter n'existe pas pour un employeur — c'est LA compétence qui convertit ton travail en offres d'entretien.

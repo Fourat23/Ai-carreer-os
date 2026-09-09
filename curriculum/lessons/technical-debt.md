@@ -43,12 +43,14 @@ remboursera » est une phrase de professionnel.
 
 ## Explication complète
 
-### Principal et intérêt
-Le **principal** est le travail qu'il faudrait faire pour rendre le code idéal. L'**intérêt**
-est le surcoût récurrent tant qu'on ne l'a pas fait : chaque nouvelle fonctionnalité contourne
-le raccourci, chaque modification risque un bug. Une dette à fort intérêt (dans du code touché
-tous les jours) est bien plus urgente qu'une dette à faible intérêt (dans un coin jamais
-modifié) — même si la seconde est « plus laide ».
+### Ce que le taux d'intérêt change à la priorité
+Le modèle mental ci-dessus donne le principal et l'intérêt ; la conséquence pratique est
+contre-intuitive et c'est elle qui compte. **On ne rembourse pas la dette la plus grosse, on
+rembourse celle dont le taux est le plus élevé** — c'est-à-dire celle qui se trouve dans le
+code touché tous les jours. Une dette énorme dans un module que personne n'ouvre depuis deux
+ans coûte zéro par mois ; un raccourci laid mais isolé peut légitimement rester en place des
+années. Le critère de priorité n'est donc pas la laideur du code : c'est **la fréquence à
+laquelle on doit le contourner**.
 
 ### Les quatre quadrants (Martin Fowler)
 La dette se classe selon deux axes : **prudente/imprudente** et **délibérée/accidentelle**.

@@ -8,15 +8,14 @@ décide. Pendant des années, les machines lisaient les phrases mot à mot, de g
 et peinaient à relier un mot à un autre distant. Le problème à résoudre : comment donner à
 chaque mot un sens qui dépend de tous les autres mots autour de lui, et le faire assez vite
 pour entraîner des modèles gigantesques ? La réponse — l'ATTENTION, puis le TRANSFORMER — a
-déclenché toute la vague des LLM. Cette leçon suit le trajet d'une phrase de bout en bout, au
-niveau intuition solide (schémas d'abord, formules seulement si elles éclairent), pour que tu
-saches expliquer un transformer avec tes propres mots.
+déclenché toute la vague des LLM. Et c'est une architecture qu'on peut réellement comprendre
+sans équations : ce qu'elle fait tient en quelques gestes simples, répétés.
 
 ## 🎯 Objectif
 Comprendre le trajet d'une phrase dans un transformer — tokenisation → embeddings → attention → prédiction — au niveau INTUITION SOLIDE (schémas, pas équations). Objectif d'entretien : « explique-moi un transformer » en 3 minutes, avec tes propres mots.
 
 ## 🧠 Modèle mental
-L'attention, c'est **une salle de réunion où chaque mot écoute tous les autres** et décide à qui prêter attention pour préciser son propre sens. Dans « la souris mange le fromage » vs « la souris ne répond plus », le mot « souris » construit son sens en regardant ses voisins. Le transformer, c'est cette réunion, répétée couche après couche.
+L'attention, c'est **une salle de réunion où chaque mot écoute tous les autres** et décide à qui prêter attention pour préciser son propre sens. Deux propriétés en découlent, et ce sont elles qu'il faut retenir : chaque mot écoute **tous** les autres en même temps (d'où le coût quadratique, et d'où la capacité à relier deux mots éloignés que la lecture de gauche à droite ratait) ; et le résultat n'est pas un choix binaire mais une **pondération** — un mot peut écouter trois voisins à 40 %, 35 % et 25 %. Le transformer, c'est cette réunion, répétée couche après couche.
 
 ## 🧩 Prérequis
 Tu dois comprendre un réseau de neurones — couches, poids, activation, entraînement par

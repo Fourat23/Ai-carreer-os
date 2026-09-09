@@ -35,8 +35,8 @@ Git est l'outil de collaboration et de sécurité n°1 du métier : il enregistr
 
 ## Explication complète
 
-### Les photos chaînées en détail
-Un **commit** est une photo complète de ton projet à un instant : contenu + message + auteur + lien vers la photo précédente. L'historique est une chaîne de photos. Rien n'est jamais perdu : revenir en arrière, comparer deux photos, retrouver quand un bug est né (`git bisect` fait une recherche binaire dans l'historique !) — tout est possible parce que tout est conservé.
+### Ce que la chaîne de photos rend possible
+Parce que chaque commit pointe vers le précédent et que rien n'est jamais écrasé, l'historique n'est pas seulement une sauvegarde : c'est une **structure interrogeable**. Revenir à n'importe quel point, comparer deux instants, et surtout retrouver **quand** un bug est apparu — `git bisect` fait une recherche binaire dans l'historique, et dix essais suffisent à isoler le commit fautif parmi mille. C'est la contrepartie directe du choix « on ajoute, on n'écrase jamais ».
 
 ### Les trois zones (LE schéma à savoir dessiner)
 ```

@@ -8,15 +8,16 @@
 
 
 ## 🌍 Le problème d'abord
-Azure repose sur les MÊMES concepts que n'importe quel cloud (machines, stockage,
-réseau, identité) — mais avec une organisation et un vocabulaire qui lui sont
-PROPRES, et différents d'AWS. L'erreur numéro un des personnes venant d'AWS est de
+Tu sais lire une architecture AWS. On te met devant un schéma Azure, et rien ne
+s'aligne : ni les noms, ni les découpages, ni la façon dont les droits sont
+attribués. L'erreur numéro un des personnes venant d'AWS est de
 chercher un équivalent identique et de tout mélanger (« le S3 d'Azure », « l'IAM
-d'Azure »)… qui n'existent pas sous ce nom ni exactement sous cette forme. Deux
-spécificités à intégrer d'emblée : une hiérarchie de rangement explicite
-(abonnement → groupe de ressources) et une identité en deux parties (l'annuaire
-Entra ID + les droits RBAC Azure). Cette leçon présente Azure pour lui-même, PUIS
-donne une table de correspondance honnête AWS ↔ Azure pour ne jamais confondre.
+d'Azure »)… qui n'existent pas sous ce nom ni exactement sous cette forme. Le piège est
+plus profond qu'une affaire de vocabulaire : deux services qui se ressemblent peuvent
+avoir des **frontières de sécurité différentes**, si bien qu'une architecture traduite
+mot à mot depuis AWS peut être fonctionnelle et pourtant mal cloisonnée. Cette leçon
+présente Azure pour lui-même, PUIS donne une table de correspondance honnête
+AWS ↔ Azure pour ne jamais confondre.
 
 ## 🎯 Objectif
 Se repérer dans Azure : son ORGANISATION propre (**abonnements**, **groupes de

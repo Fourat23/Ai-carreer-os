@@ -6,7 +6,7 @@
 > C'est une propriété du système, pas un outil qu'on installe.
 
 ## 🌍 Le problème d'abord
-Un utilisateur signale : « votre appli a planté hier soir vers 22 h ». Tu ouvres ton code… et tu n'as AUCUNE idée de ce qui s'est passé : pas de trace, pas d'événement enregistré, rien à rejouer. Tu devines, tu tâtonnes, tu ne reproduis pas. Un système qu'on ne peut pas OBSERVER est une boîte noire indéfendable — et c'est encore pire pour un système IA non déterministe. Il te faut des enregistrements exploitables : des logs structurés, des niveaux, un identifiant pour suivre une requête de bout en bout. Cette leçon t'apprend à rendre un système observable, et surtout ce qu'il ne faut JAMAIS enregistrer.
+Un utilisateur signale : « votre appli a planté hier soir vers 22 h ». Tu ouvres ton code… et tu n'as AUCUNE idée de ce qui s'est passé : pas de trace, pas d'événement enregistré, rien à rejouer. Tu devines, tu tâtonnes, tu ne reproduis pas. Et le réflexe qui vient — « je vais tout logger » — crée le problème inverse : des mégaoctets de texte où l'incident est introuvable, et parfois un mot de passe écrit en clair dans un fichier que toute l'équipe peut lire. Enregistrer beaucoup n'est pas observer ; c'est même la façon la plus courante de ne rien voir tout en s'exposant.
 
 ## 🎯 Objectif
 Rendre un système OBSERVABLE : savoir ce qui s'est passé en production sans deviner. Maîtriser les logs structurés, les niveaux, le correlation id, et savoir quoi ne JAMAIS logger. Sans observabilité, tout système (surtout IA) est une boîte noire indéfendable.

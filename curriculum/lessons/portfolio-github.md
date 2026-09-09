@@ -5,7 +5,7 @@
 Un recruteur reçoit ta candidature et ouvre ton GitHub. En 2-3 minutes, il décide si ton profil mérite un entretien. Ce qu'il voit : un profil vide ou soigné, des repos qui racontent une progression ou un grenier de projets abandonnés, des commits réguliers ou un désert. Pour un reconverti sans expérience salariée, ce GitHub EST le CV technique — la seule preuve tangible que tu sais coder et que tu es constant. Laissé au hasard, il travaille CONTRE toi (secrets exposés, code honteux public, repos morts). Cette leçon t'apprend à en faire une vitrine qui plaide en ta faveur.
 
 ## 🎯 Objectif
-Transformer ton GitHub en PREUVE d'employabilité : profil soigné, repos épinglés qui racontent une progression, historique de commits qui démontre la constance, et zéro signal négatif (secrets, repos morts, code honteux public). Pour un reconverti, le portfolio EST le CV technique.
+Transformer ton GitHub en PREUVE d'employabilité : que mettre en avant et dans quel ordre, quoi archiver, comment un historique de commits se lit, et comment retirer un signal négatif sans effacer ce qui prouve ta progression.
 
 ## 🧩 Prérequis
 Tu dois maîtriser Git et la notion d'historique de commits (`/doc/lessons/git-fundamentals`), savoir écrire un README clair (`/doc/lessons/readme-documentation`), et être conscient du risque de fuite de secrets (`/doc/lessons/deployment-secrets`). Avoir un ou deux projets à exposer est le point de départ. Aucune notoriété open-source préalable n'est attendue.

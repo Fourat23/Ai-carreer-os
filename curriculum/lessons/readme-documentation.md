@@ -2,10 +2,10 @@
 # Leçon — Le README recruteur
 
 ## 🌍 Le problème d'abord
-Tu es fier de ton projet : des semaines de travail, du code propre. Un recruteur clique dessus, tombe sur un README vide (ou pire, le README généré par défaut), ne comprend ni ce que fait le projet ni comment l'essayer… et repart en dix secondes. 90 % des visiteurs ne verront QUE le README : c'est la porte d'entrée de ton travail. S'il est mauvais, ton code ne sera même pas regardé. Le problème : un README n'est pas une documentation exhaustive, c'est une page d'atterrissage qui doit répondre vite aux questions du visiteur pressé. Cette leçon t'apprend à écrire un README compris en 30 secondes et exécutable en 5 minutes.
+Tu es fier de ton projet : des semaines de travail, du code propre. Un recruteur clique dessus, tombe sur un README vide (ou pire, le README généré par défaut), ne comprend ni ce que fait le projet ni comment l'essayer… et repart en dix secondes. Il ne verra rien d'autre : ni ton architecture, ni tes tests, ni les décisions dont tu es fier. Le réflexe naturel est alors d'en écrire beaucoup — installation détaillée, historique, roadmap — et c'est précisément ce qui achève de perdre le lecteur pressé.
 
 ## 🎯 Objectif
-Écrire des READMEs qu'un recruteur comprend en 30 secondes et qu'un développeur exécute en 5 minutes. Le README est la PORTE de chaque projet : 90 % des visiteurs ne verront que lui — c'est lui qui décide si ton code sera même regardé.
+Écrire des READMEs qu'un recruteur comprend en **30 secondes** et qu'un développeur exécute en **5 minutes** : la structure qui répond aux questions dans l'ordre où elles se posent, les trois chiffres qui rendent un projet crédible, et ce qu'il faut refuser d'y mettre. **90 % des visiteurs ne verront que le README** — c'est lui qui décide si ton code sera même regardé.
 
 ## 🧩 Prérequis
 Tu dois avoir un projet à documenter et connaître Markdown (titres, listes, blocs de code). Savoir lancer ton projet (commandes d'installation et d'exécution) est nécessaire pour les décrire. Aucun générateur de documentation n'est supposé, et aucune expérience préalable de rédaction technique n'est attendue : tout ce dont un README a besoin est construit ici.

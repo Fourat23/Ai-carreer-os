@@ -2,7 +2,7 @@
 # Leçon — L'entretien de design système
 
 ## 🌍 Le problème d'abord
-En entretien, on te lance : « conçois un système pour raccourcir des URLs » (ou un fil d'actualité, ou un RAG à l'échelle). Panique : par où commencer ? Le piège du débutant est de foncer coder une solution, ou de rester muet en cherchant LA bonne réponse. Or il n'y en a pas : le recruteur teste ta FAÇON de raisonner sous incertitude — poses-tu les bonnes questions, structures-tu, arbitres-tu ? Une question ouverte ne se devine pas, elle se DÉROULE avec une méthode. Cette leçon te donne cette méthode (clarifier → composants/flux → trade-offs → échelle/pannes) pour ne jamais rester sans réponse — décisif pour les rôles AI Engineer.
+En entretien, on te lance : « conçois un système pour raccourcir des URLs » (ou un fil d'actualité, ou un RAG à l'échelle). Panique : par où commencer ? Le piège du débutant est de foncer coder une solution, ou de rester muet en cherchant LA bonne réponse. Le silence est interprété comme une incapacité à travailler sous incertitude — ce qui est exactement le quotidien du poste. Et le candidat qui parle beaucoup sans structure s'en sort à peine mieux : au bout de vingt minutes, le recruteur ne sait toujours pas s'il sait arbitrer. Ce qui est évalué n'est donc ni la solution ni l'aisance, mais quelque chose de plus précis, que la plupart des candidats ne soupçonnent pas.
 
 ## 🎯 Objectif
 Savoir aborder une question ouverte (« conçois un système pour X ») avec une méthode qui ne laisse jamais sans réponse : clarifier → composants/flux → trade-offs → échelle/pannes. Décisif pour les rôles AI Engineer junior+, où l'on teste ton RAISONNEMENT plus qu'une solution.

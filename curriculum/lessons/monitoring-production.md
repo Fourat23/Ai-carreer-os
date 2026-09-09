@@ -2,10 +2,10 @@
 # Leçon — Monitoring et production
 
 ## 🌍 Le problème d'abord
-Ton service tourne en production. Tout va bien… jusqu'à ce qu'un client appelle, furieux : le site est lent depuis deux heures et tu ne le savais pas. Découvrir les pannes PAR les utilisateurs, c'est déjà avoir perdu. Il te faut détecter qu'un système va mal AVANT eux : des jauges qui mesurent en continu, des voyants qui s'allument quand quelque chose sort de la normale — et, pour l'IA, surveiller aussi la qualité, les coûts et la dérive. Cette leçon te fait passer de « j'ai déployé » à « je fais tourner un service » : définir des alertes utiles, pas du bruit.
+Ton service tourne en production. Tout va bien… jusqu'à ce qu'un client appelle, furieux : le site est lent depuis deux heures et tu ne le savais pas. Découvrir les pannes PAR les utilisateurs, c'est déjà avoir perdu. Le réflexe qui suit est pourtant le mauvais : on branche des alertes partout, elles sonnent trente fois par semaine pour rien, et au bout d'un mois plus personne ne les lit — on est revenu au point de départ, en plus bruyant. La difficulté n'est donc pas de mesurer, c'est de décider **ce qui mérite de réveiller quelqu'un**. Cette leçon te fait passer de « j'ai déployé » à « je fais tourner un service ».
 
 ## 🎯 Objectif
-Savoir surveiller un système en production : détecter qu'il va mal AVANT les utilisateurs, définir des seuils d'alerte utiles, et surveiller ce qui est spécifique à l'IA (qualité, coûts, dérive). C'est ce qui sépare « j'ai déployé » de « je fais tourner un service ».
+Savoir surveiller un système en production : les quatre signaux qui méritent une jauge, la différence entre un seuil qui protège et un seuil qui fait du bruit, et ce qui est spécifique à l'IA (qualité, coûts, dérive) et qu'aucun outil générique ne mesure à ta place.
 
 ## 🧩 Prérequis
 Tu dois connaître les bases de l'observabilité — logs, métriques, traces (`/doc/lessons/observability-logging`) — car le monitoring s'appuie dessus pour déclencher des alertes. Les notions de latence, de percentile et de disponibilité (vues en architecture) aident à définir des seuils. Pour la partie IA, deux notions suffisent et les voici : **la dérive**, c'est un système dont

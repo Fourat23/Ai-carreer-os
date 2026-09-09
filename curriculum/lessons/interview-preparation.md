@@ -2,7 +2,7 @@
 # Leçon — Préparation à l'entretien IA
 
 ## 🌍 Le problème d'abord
-Tu décroches enfin un entretien pour un poste IA junior. Tu connais tes projets… mais le jour J, le stress te fait bafouiller, oublier des points clés, répondre à côté. Beaucoup croient que réussir un entretien est une question de personnalité ou de chance. C'est faux : c'est une compétence qui s'ENTRAÎNE. Un poste IA comporte quatre types d'entretien (technique, projet, design système, comportemental), chacun avec ses attentes et ses pièges. Sans préparation systématique, tu improvises quatre fois. Cette leçon te donne une méthode d'entraînement (fiches, simulations enregistrées, grilles d'auto-évaluation) pour transformer le stress en répétition maîtrisée.
+Tu décroches enfin un entretien pour un poste IA junior. Tu connais tes projets… mais le jour J, le stress te fait bafouiller, oublier des points clés, répondre à côté. Beaucoup croient que réussir un entretien est une question de personnalité ou de chance. C'est faux, et le contre-exemple est facile à faire : quelqu'un qui a répété son récit de projet à voix haute six fois ne bafouille pas au septième, quelle que soit sa personnalité. Ce qui manque n'est pas de l'assurance, c'est du **matériel prêt** — des phrases déjà dites, des chiffres déjà retrouvés, des réponses déjà éprouvées sur quelqu'un. Réviser ne suffit pas : relire ses notes donne l'impression de savoir, et cette impression tombe dès la première question de relance.
 
 ## 🎯 Objectif
 Aborder les 4 types d'entretien d'un poste IA junior (technique, projet, design système, comportemental) avec une préparation SYSTÉMATIQUE : fiches, simulations enregistrées, grilles d'auto-évaluation. L'entretien est une compétence qui s'entraîne — pas un test de personnalité.

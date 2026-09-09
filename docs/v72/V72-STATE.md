@@ -5,16 +5,22 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP14**
-- **NEXT_CP** : **CP15**
-- **NEXT_ACTION** : rédiger `docs/audits/V72-FINAL-REPORT.md` — **17 sections obligatoires**,
-  **deux verdicts séparés** (`CURRICULUM_INTEGRITY_*` et `SIMULATED_LEARNING_VALIDATION_*`,
-  jamais fusionnés), `REAL_HUMAN_LEARNING_EVIDENCE` = **NOT YET MEASURED**, publication du
-  **pré-test 0,842** à côté du verdict simulé avec la mention que l'instrument n'a pas
-  discriminé, répartition `EXECUTED / STATICALLY CHECKED / NOT EXECUTABLE HERE` par domaine
-  (§7 du contrat), **protocole de test humain léger préparé sans être exécuté** (§24), et les
-  **deux questions finales** répondues OUI / OUI AVEC RÉSERVES / NON. Ne **pas** proposer V73
-  comme nouveau sprint académique. Ne rien lancer automatiquement.
+- **dernier CP terminé** : **CP15 — V72 EST TERMINÉ**
+- **NEXT_CP** : **aucun**. Rien n'est lancé automatiquement.
+- **VERDICTS** (jamais fusionnés) :
+  - **`CURRICULUM_INTEGRITY_NOT_READY`** — 7 seuils sur 10 atteints ; **le seul obstacle au
+    statut `CANDIDATE` est C3** (`cloud` déclarée sans journée), **réservé à l'utilisateur** par
+    le contrat gelé au CP1. C1 et C2 échouent aussi, soit exactement le maximum toléré.
+  - **`SIMULATED_LEARNING_VALIDATION_READY`** — L1 → L9 atteints, **avec le pré-test 0,842
+    publié à côté : l'instrument n'a pas discriminé**.
+  - **`REAL_HUMAN_LEARNING_EVIDENCE` = `NOT YET MEASURED`** — aucun humain n'a suivi le
+    protocole.
+- **RÉPONSES AUX DEUX QUESTIONS FINALES** :
+  - *bonne connaissance au bon moment, charge réaliste ?* → **OUI AVEC RÉSERVES**
+  - *peut-on arrêter les gros sprints académiques et revenir au Learning / Retention Engine ?*
+    → **OUI**
+- **RAPPORT FINAL** : `docs/audits/V72-FINAL-REPORT.md` · protocole humain **préparé et non
+  exécuté** : `docs/v72/V72-PROTOCOLE-TEST-HUMAIN.md`.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -226,6 +232,25 @@
   a signalé `evalia = 2` au mois 6 comme non enseigné, en lisant l'**étiquette** des journées ;
   la lecture des 35 journées montre que le mois 6 enseigne massivement l'évaluation (j158, j162,
   j165, j167, j180). Corpus **inchangé**.
+
+- **CP15** — rapport final `docs/audits/V72-FINAL-REPORT.md`, 17 sections. **Deux verdicts
+  séparés, jamais fusionnés.** `CURRICULUM_INTEGRITY_NOT_READY` : C4, C5, C6, C7, C8, C9, C10
+  atteints ; **C1** (6 journées IMPOSSIBLE, toutes des revues), **C2** (19 revues en
+  dépassement sur 52) et **C3** (`cloud`) échouent. L'arithmétique est publiée : C1 et C2 sont
+  exactement les deux échecs tolérés, **C3 est le seul obstacle au statut `CANDIDATE`**, et C3
+  est réservé à l'utilisateur par le contrat. **C1 est publié avec sa sensibilité** — à
+  coefficient de relecture 0,5 il n'y a plus aucune journée impossible ; le seuil n'est pas
+  déplacé pour autant. `SIMULATED_LEARNING_VALIDATION_READY` par la lettre, **publié avec le
+  pré-test 0,842 et la phrase que l'instrument n'a pas discriminé** (obligation pré-écrite au
+  CP5). `REAL_HUMAN_LEARNING_EVIDENCE` = `NOT YET MEASURED`. **Répartition par domaine
+  `EXECUTED / STATICALLY CHECKED / NOT EXECUTABLE HERE`** publiée (obligation §7). **Correction
+  de comptage assumée** : la série des occurrences du défaut de méthode allait de la 8ᵉ à la
+  11ᵉ, mais quatre occurrences du CP10 et du CP12 n'avaient jamais été numérotées — **le
+  chiffre honnête pour V72 est huit**, et il est publié. **Protocole de test humain léger écrit
+  et NON EXÉCUTÉ** (`docs/v72/V72-PROTOCOLE-TEST-HUMAIN.md`) : 5 à 8 participants, deux séances
+  à 48 h, aucun pourcentage autorisé sur cet échantillon. **Réponses** : *OUI AVEC RÉSERVES* et
+  *OUI*. **V73 n'est pas proposé comme sprint académique** ; les cinq chantiers ouverts sont
+  listés au §14 et aucun ne demande de relire 128 leçons. **Rien n'est lancé.**
 
 ## Tests
 

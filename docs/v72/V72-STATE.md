@@ -5,13 +5,12 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP9**
-- **NEXT_CP** : **CP10**
-- **NEXT_ACTION** : validation opérationnelle par niveaux N1–N4 du contrat. N1 statique :
-  parser les **19 blocs YAML** (k8s, CI, compose), lire les Dockerfile, `bash -n` sur les
-  commandes shell. N2 local : exécuter ce qui l'est (node, python, git, shell, sqlite).
-  N3 conteneur : le démon Docker démarre mais le CDN d'images est bloqué — mesurer et déclarer.
-  N4 : publier ce qui reste non exécutable. Rapport `docs/v72/V72-CP10-OPERATIONNEL.md`.
+- **dernier CP terminé** : **CP10**
+- **NEXT_CP** : **CP11**
+- **NEXT_ACTION** : régénérer proprement `readingMinutes` — snapshot avant, régénération,
+  comparaison des 365 journées, vérifier que **seuls les champs attendus changent** et que
+  l'ordre reste inchangé. Seuil **C10** : écart max ≤ 5 min par journée.
+  Rapport `docs/v72/V72-CP11-READINGMINUTES.md`.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -140,6 +139,17 @@
   n'assurait. **P3 : 0 échec sur 128** — ma sonde en signalait 10, puis 1 ; lecture faite, zéro.
   **Neuvième occurrence** du défaut de méthode, attrapée avant publication.
   Seuils **C4** et **C5** : **atteints**. Corpus `d535fcf6…` → **`c1ac869e…`**.
+
+- **CP10** — **N1** : 687 blocs extraits ; YAML **19/19**, shell **51/51**, JSON **6/6**,
+  Dockerfile **21/21**. Deux artefacts de sonde corrigés avant publication (marqueurs `<nom>`
+  lus comme redirection par `bash -n` ; le mot `FROM` attrapant des requêtes SQL et condamnant
+  les fragments délibérés) — **dixième occurrence** du défaut de méthode. **N2** : les
+  **50 scripts de vérification du corpus passent**, 47 immédiatement et 3 après installation de
+  React 18 **hors projet** (supprimée) ; **0 échec réel**. **N3** : `dockerd` démarre et
+  construit un `FROM scratch` ; les 8 Dockerfile du corpus échouent **uniquement** sur le tirage
+  de l'image de base (CDN `Forbidden`), le Dockerfile étant lu sans erreur. **N4** : `kubectl`,
+  `ssh`, `terraform`, `aws`/`az` absents, systemd ne tourne pas. **Les 6 leçons cloud ne
+  contiennent aucune commande à exécuter** : la réserve V71 de « ~14 leçons » se réduit à **10**.
 
 ## Tests
 

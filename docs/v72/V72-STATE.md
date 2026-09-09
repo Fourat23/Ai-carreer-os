@@ -5,12 +5,13 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP4**
-- **NEXT_CP** : **CP5**
-- **NEXT_ACTION** : tirer l'échantillon stratifié de **24 leçons**, **graine publiée avant le
-  tirage**, au plus 8 communes avec les 32 de l'échantillon aveugle V71 ; puis exécuter le
-  passage **AVANT** du protocole SLV et écrire `docs/v72/V72-SLV-BEFORE.json` +
-  `docs/v72/V72-CP5-SLV-AVANT.md`. TEXT_SCORE et LEARNER_SIMULATION_SCORE publiés séparément.
+- **dernier CP terminé** : **CP5**
+- **NEXT_CP** : **CP6**
+- **NEXT_ACTION** : reconstruire les journées de revue en dépassement selon le §3 du contrat
+  (plafond **7 leçons**, règle de sélection a/b/c, aucune compétence nécessaire supprimée —
+  déplacée si besoin). Corriger la cause dans `scripts/generate-curriculum.mjs`
+  (`lessonsDeLaRevue`, ligne 118 : union des catalogues de compétences). Re-tester le budget
+  APRÈS. Rapport `docs/v72/V72-CP6-REVUES.md`.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -80,6 +81,17 @@
   **`DELAYED_RECALL` = NOT MEASURED** : un délai de 48 h n'est pas reproductible dans une
   session d'agent, et le simuler serait une invention. Cinq conditions d'invalidation du
   protocole publiées d'avance, et la liste des formulations autorisées pour chaque résultat.
+
+- **CP5** — échantillon de 24 leçons tiré (graine **20260909** publiée avant le tirage,
+  **0** commune avec l'échantillon V71, 4 hors parcours) et passage **AVANT** exécuté sur les
+  24. **Le résultat principal n'est pas un score : c'est que l'instrument ne discrimine pas.**
+  PRE-TEST **0,842** — le lecteur simulé répond déjà à 84 % des questions AVANT lecture, donc
+  le gain attribuable au texte est plafonné à 0,16. RAPPEL / EXPLICATION / APPLICATION /
+  MISCONCEPTION = **1,000** ; TRANSFERT **0,969** (3 leçons à 0,75). Cas « texte fort /
+  restitution faible » : **0**. `DELAYED_RECALL` = **NOT MEASURED**. L7 et L8 passent
+  **trivialement**, et le rapport final devra le dire au lieu d'afficher deux coches.
+  Interprétation du CP13 **fixée d'avance** : un score identique ne prouvera rien, une baisse
+  sera le seul signal réellement détectable.
 
 ## Tests
 

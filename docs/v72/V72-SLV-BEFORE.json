@@ -1,0 +1,298 @@
+{
+ "passage": "AVANT",
+ "date": "2026-09-09",
+ "protocole": "docs/v72/V72-SLV-PROTOCOL.md",
+ "graine_echantillon": 20260909,
+ "avertissement": "TEXT_SCORE et LEARNER_SIMULATION_SCORE ne sont jamais fusionnes. Aucun de ces chiffres ne mesure un apprentissage humain.",
+ "lecons": {
+  "async-javascript": {
+   "TEXT_SCORE": 4.7857,
+   "PRE_TEST": 0.9,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "Restitution complete. Le modele mental porte SA PROPRE LIMITE (le parallelisme est celui de l attente, jamais du code) et la consequence est donnee : Promise.all sur cinq calculs lourds ne gagne rien. Le mecanisme de l event loop est reexplicable sans les mots de la lecon (le moteur decoupe la fonction a chaque await, la suite attend que la pile soit vide). Misconception nommee par la lecon elle-meme : Promise.all imbrique dans un map RESSEMBLE a du sequencage et n en est pas. Pre-test haut : je connaissais async/await ; ce que je ne connaissais pas, ce sont les mesures (x3,67 ; 20 000 microtaches affamant un setTimeout(0))."
+  },
+  "async-messaging-queues": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "La lecon place l idempotence en ENCADRE D OUVERTURE, avant meme le probleme, avec le contre-exemple qui la definit vraiment : encaisser un paiement ne l est pas, mettre le statut a « paye » l est. L equation centrale se restitue seule : at-least-once + consommateur idempotent = exactly-once EN PRATIQUE — on ne peut pas empecher la duplication, on la rend INOFFENSIVE. Le modele mental porte sa contrepartie plutot que ses seuls benefices : la file echange de la latence immediate contre de la robustesse, et le traitement devient plus tard, ailleurs, et peut echouer ou se repeter. La lecon declare aussi que ses exercices sont des SIMULATIONS deterministes, aucun broker reel execute."
+  },
+  "chunking-strategies": {
+   "TEXT_SCORE": 4.9286,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "Le resultat contre-intuitif se restitue seul : c est le PAS (taille moins recouvrement) qui gouverne le taux de coupure, donc agrandir les morceaux reduit les coupures plus efficacement que le recouvrement, qui ne se justifie que si l on veut des morceaux petits. La misconception est nommee et expliquee : regler la taille en jugeant les REPONSES FINALES rend le diagnostic impossible, parce que cinq maillons peuvent expliquer la variation. Generalisation transferable telle quelle : un parametre qu on ne mesure pas est un parametre qu on a copie."
+  },
+  "ci-cd-pipeline-anatomy": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 0.75
+   },
+   "observation": "Le modele mental porte la regle qui evite les deux erreurs classiques : machines JETABLES plus flux de donnees EXPLICITE — croire qu un job herite de l etat d un autre, et reconstruire inutilement. La distinction cache/artefact est donnee avec son critere de decision, pas seulement sa definition : le cache est OPPORTUNISTE (son absence ralentit sans casser), l artefact fait partie du CONTRAT du pipeline. Transfert a 0,75 : le principe se transpose sans peine (toute chaine de taches sur environnements ephemeres), mais je ne peux pas donner depuis la lecon la condition ou il cesse de valoir."
+  },
+  "cloud-azure-core": {
+   "TEXT_SCORE": 4.9286,
+   "PRE_TEST": 0.9,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 0.75
+   },
+   "observation": "Lecon de REPERAGE plus que de mecanisme : elle enseigne une organisation et un vocabulaire, avec une table de correspondance AWS-Azure. Elle nomme la misconception (« le S3 d Azure », « l IAM d Azure ») et donne le piege profond ajoute au CP2 : deux services qui se ressemblent peuvent avoir des frontieres de securite differentes, donc une architecture traduite mot a mot peut etre fonctionnelle et mal cloisonnee. Transfert a 0,75 : le principe se transpose (changer d ecosysteme, ce n est pas traduire un vocabulaire) mais la lecon ne donne pas la condition ou il cesse de valoir — c est la nature d une lecon-catalogue, pas un defaut."
+  },
+  "css-flexbox": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "CAS REMARQUABLE. La lecon pose Flexbox comme une ARITHMETIQUE et non comme un catalogue de proprietes : conteneur 600 px, contenus naturels 100+200+60 = 360, donc 240 d espace libre — deux nombres qui gouvernent tout. Neuf configurations MESUREES dans Chromium par un script. La difference entre flex:1 et flex:auto se restitue exactement : basis 0 efface la taille du contenu avant de repartir (600/3 = 200 chacun), basis auto ne partage QUE l espace libre (240/3 = 80 ajoutes a chacun, donc 180/280/140). Principe qui depasse le CSS : une contrainte impossible ne produit pas d erreur, elle produit un debordement — personne ne t avertira. Et le piege min-width:auto est nomme comme LA cause n 1 des debordements horizontaux."
+  },
+  "css-fundamentals": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "L exemple guide est une ENQUETE mesuree, pas une explication : sonde en console qui liste les elements dont le bord droit depasse, une seule ligne (DIV carte 407 contre 375), depassement de 32 px = 16 + 16 de padding. Trois corrections comparees et DEPARTAGEES : retirer le padding supprime la fonctionnalite, calc(100% - 32px) est exact mais cree deux endroits a synchroniser a la main, border-box change la definition de width. La generalisation est la meilleure de la lecon et se restitue seule : un defaut de mise en page ne se manifeste qu aux largeurs ou il n y a plus de mou — on teste en fenetre etroite parce que c est le REVELATEUR, pas parce que le mobile est important."
+  },
+  "data-cleaning-quality": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "CAS REMARQUABLE. Deux contenus rares se restituent. (1) « Pourquoi ca manque » a TROIS reponses qui n appellent pas le meme geste, et aucune ne se distingue en comptant les manquants — il faut regarder QUI manque : au hasard (imputer deforme peu), pour une raison observee ailleurs (imputer par groupe), ou A CAUSE DE SA PROPRE VALEUR (les hauts revenus ne declarent pas) — et dans ce dernier cas aucune imputation ne repare, la mediane EFFACE precisement le signal recherche. (2) L exemple guide montre que 17 lignes sur 1 040 deplacent l age moyen de 4,5 ans (42,63 contre 38,11), donc le pourcentage de lignes est la MAUVAISE UNITE — un rapport ecrirait « donnees globalement propres ». La fuite de donnees par imputation avant separation est expliquee avec ce qui la rend vicieuse : le score est trop beau et RIEN n a l air anormal."
+  },
+  "database-modeling": {
+   "TEXT_SCORE": 4.8571,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "La lecon reorganise six notions en TROIS DECISIONS ordonnees — ou vit chaque fait, qu est-ce qui doit rester vrai, qu est-ce qui est trop lent — et dit que les inverser est l erreur structurante du domaine. Deux resultats se restituent sans le texte. (1) Le critere de denormalisation n est pas esthetique, il est QUI PAIE L ERREUR : tant que la copie est recalculable c est banal, des qu on la facture c est une dette qu on decouvre le jour ou les deux copies divergent sans savoir laquelle avait raison. D ou la regle operatoire : si tu ne sais pas ecrire le recalcul, tu n as pas denormalise, tu as improvise. (2) L exemple guide montre que la contrainte UNIQUE(livre_id, rendu_le) se trompe DANS LES DEUX SENS, parce qu en SQL NULL n est jamais egal a NULL — trois emprunts en cours passent sans broncher. Et le defaut verifier-puis-agir est nomme avec la raison pour laquelle il ne se reproduit jamais en developpement : on y est seul a cliquer."
+  },
+  "deployment-secrets": {
+   "TEXT_SCORE": 4.8571,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "Deux points que presque aucune explication ne donne et qui se restituent : une variable d environnement N EST PAS un coffre-fort (visible dans la liste des processus, heritee par les sous-processus, presente dans un vidage memoire, ecrite en entier par un console.log(process.env) de debogage — les fuites reelles passent plus souvent par la que par Git) ; et la ROTATION exige que le systeme accepte DEUX secrets valides a la fois, sinon chaque rotation est une coupure, donc on n en fait jamais, donc un secret compromis le reste. Misconception mesuree sur un vrai depot : « j ai supprime le fichier au commit suivant » — le repertoire de travail rassure, l historique n a rien oublie."
+  },
+  "docker-compose": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "La distinction qui compte est donnee avec sa consequence : depends_on controle l ORDRE de demarrage, mais « demarre » n est pas « pret » — une base peut etre lancee sans accepter encore de connexions, d ou la course au demarrage et la necessite d une condition de sante. La lecon DECLARE aussi sa limite de portee : Compose orchestre sur une machine, le multi-noeuds et l auto-reparation relevent de Kubernetes — mais le modele declaratif appris ici s y transpose, ce qui en fait une repetition et non un cul-de-sac."
+  },
+  "express-backend": {
+   "TEXT_SCORE": 4.7857,
+   "PRE_TEST": 0.8,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "CAS REMARQUABLE — ET INVERSE DE CELUI QU ON CHERCHE : note de texte la plus basse de l echantillon (4,79) pour une restitution parfaite. Deux contenus tres rares se restituent seuls. (1) Express reconnait la chaine d erreurs A L ARITE : retirer le parametre next inutilise — geste que l editeur SUGGERE — transforme silencieusement le gestionnaire en middleware ordinaire qui ne s executera plus jamais. (2) Le comportement MESURE differe entre Express 4 et Express 5 : sur la version 4, une promesse rejetee dans un handler ne produit AUCUNE REPONSE (requete suspendue) et, depuis Node 15, tue le processus ; sur la 5, elle est acheminee vers la chaine d erreurs. La lecon en tire la bonne consigne : verifie ta version avant de recopier une regle, car le meme code a deux comportements opposes."
+  },
+  "frontend-performance": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "La lecon corrige le reflexe qu elle enseigne : la memoisation est un outil LEGITIME mais coute en lisibilite et cree des bugs de dependances, donc elle vient APRES la mesure et APRES l architecture (etat plus bas, derive au bon endroit). La distinction chargement / execution est posee comme deux problemes differents avec des leviers differents. Elle declare aussi ce que le poste de developpement ne montre pas : sur mobile le reseau et le processeur sont plusieurs fois plus lents, donc c est la configuration qu il faut SIMULER pour mesurer."
+  },
+  "k8s-config-probes": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "CAS REMARQUABLE. L exemple guide montre une configuration de surveillance qui PROVOQUE la panne qu elle est censee detecter : la sonde de vivacite interroge la base, le service de paiement et le cache ; a 2 h du matin la sauvegarde ralentit la base, le timeout d une seconde expire trois fois, le conteneur est tue — et le redemarrage ne repare rien, d ou la boucle. La regle se restitue exactement : une sonde de VIVACITE ne teste que soi (un 200 inconditionnel est souvent le meilleur choix) ; une sonde de DISPONIBILITE teste soi ET les dependances, et retire du trafic sans tuer. La lecon corrige aussi une faussete tres repandue : un Secret Kubernetes est encode en base64, PAS chiffre — et elle interdit explicitement de le presenter comme chiffre."
+  },
+  "linux-resources-io": {
+   "TEXT_SCORE": 4.7143,
+   "PRE_TEST": 0.8,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 0.75
+   },
+   "observation": "La lecon est un manuel de diagnostic et elle se restitue comme tel : available et non free ; la charge rapportee a nproc et retardee d une minute ; charge haute + processeur bas = attente ; du et df qui divergent = fichier supprime encore ouvert, l espace revient a la FERMETURE pas a la suppression ; df -i pour les inodes. Elle DECLARE un mecanisme non reproduit (l etat D sous Linux) au lieu de le presenter comme mesure — c est rare et c est juste. Transfert a 0,75 : le principe se transpose (remonter du symptome a la ressource) mais je ne peux pas donner la condition ou il cesse de valoir sans sortir de la lecon."
+  },
+  "llm-fundamentals": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.9,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "L exemple guide fait le passage du mecanisme a l ingenierie en deux lignes : « La capitale de la France est » et « La capitale de la Zorbaquie est » produisent le MEME calcul, donc le modele ne distingue pas « je sais » de « je complete » — son assurance n est jamais un signal de verite. Puis la consequence chiffree : envoyer tout le manuel plutot que six passages coute 18 fois plus cher, 36 675 EUR contre 2 025 EUR par mois, pour repondre a la meme question. La reformulation se retient telle quelle : « ca rentre dans la fenetre » ne veut pas dire « c est une bonne idee de l y mettre », exactement comme « la requete SQL fonctionne » ne veut pas dire « elle passe a l echelle ». Les tarifs sont declares ILLUSTRATIFS avec consigne de verifier — la lecon ne fige pas un prix qui bouge."
+  },
+  "logging-structured": {
+   "TEXT_SCORE": 4.8571,
+   "PRE_TEST": 0.8,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "CAS REMARQUABLE. La demonstration ne dit pas « le structure est plus facile a requeter » — elle montre que le TEXTE DONNE SOUVENT LA BONNE REPONSE, et que c est precisement ce qui le rend dangereux. Meme journal, deux questions : la premiere juste (9 = 9) malgre 24 lignes rejetees en silence, la seconde fausse (37 au lieu de 58, -36 %). La conclusion se restitue seule : la fiabilite du format texte depend de la question posee, donc on ne peut pas s y fier puisqu on ignore les questions qu on posera pendant un incident. Le cout est publie sans etre minimise (x1,71) et la lecon REFUSE d avancer un chiffre de compression non mesure."
+  },
+  "monitoring-production": {
+   "TEXT_SCORE": 4.9286,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "Le critere de tri se restitue seul et il est brutal : une alerte n existe que si quelqu un doit AGIR immediatement, parce qu une alerte INTERROMPT un humain a trois heures du matin, alors qu un tableau de bord peut porter trente courbes sans nuire. Le test operatoire donne : si cette alerte se declenche a 3 h, que fait la personne d astreinte ? Si la reponse est « elle regarde », l alerte ne devrait pas reveiller. Le tableau des cinq metriques IA ne compte QU UNE SEULE ligne qui reveille, et c est delibere. Defaut du seuil fixe correctement expose : 2 % d erreur se declenche identiquement sur dix requetes a 3 h et sur cent mille en journee — d ou l exigence d un volume minimum et le raisonnement sur le budget d erreur."
+  },
+  "prompt-injection-defense": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.75,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "CAS REMARQUABLE. La lecon fait ECHOUER chaque couche devant le lecteur au lieu de les empiler. Deux resultats se restituent sans le texte. (1) La comparaison avec l injection SQL est eclairante PAR SA DIFFERENCE : une requete parametree separe STRUCTURELLEMENT le code de la donnee, donc c est une defense complete ; ici cette separation n existe pas, et delimiter les documents n est pas une cloison mais un argument de plus dans un debat. (2) Le verificateur de citations attrape l hallucination et LAISSE PASSER l empoisonnement : la phrase est litteralement dans le document cite, couverture 1,00, accepte — une defense anti-hallucination n est pas une defense anti-empoisonnement, « le modele a invente » et « on lui a menti » ne se traitent pas par la meme mesure. Et la mesure la plus efficace est la moins technique : qui a le droit d ecrire dans le corpus."
+  },
+  "react-composition-architecture": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "La regle d or se restitue seule : ne stocke JAMAIS ce qui se calcule — stocker un derive cree une seconde source de verite qui se desynchronisera. Et la lecon fait ce que peu de corpus font : elle CITE le resultat d une autre lecon pour corriger une forme repandue — un hook personnalise ne rend pas trois variables independantes chargement/erreur/donnees, forme dont react-application-states a demontre par le denombrement qu elle est fausse, mais un seul etat a statut unique. La coherence inter-lecons est reelle, pas declarative."
+  },
+  "resilience-patterns": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "Le modele mental electrique est reutilise et non decoratif. L exemple guide est chiffre et DECLARE SA LIMITE : le temps est simule par une horloge virtuelle, donc les durees publiees sont celles du MODELE — la lecon le dit au lieu de laisser croire a une mesure sur systeme reel. La chaine causale se restitue seule : sans delai d attente, un prestataire muet immobilise un fil par requete, puis dix, puis cent, et le service ne repond plus a RIEN — pas meme a la page d accueil, qui n a aucun rapport. La regle du retry est donnee avec sa condition : uniquement sur des operations IDEMPOTENTES, espacees, limitees — reessayer en boucle pendant une panne ajoute de la charge a un service deja a terre."
+  },
+  "slo-error-budget": {
+   "TEXT_SCORE": 4.9286,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "Chiffres restitues sans le texte : 99,9 % = 43 min/mois, un incident de 20 min consomme 800 % de ce budget. Point le plus contre-intuitif retenu : un budget INTACT au 28 du mois est une mauvaise nouvelle. Misconception nommee ET sa seduction expliquee (poser le SLO au niveau deja atteint est defendable en reunion parce que c est le seul chiffre objectif disponible). Limite que la lecon ne donne PAS et que le transfert fait apparaitre : le budget suppose les echecs fongibles — mille erreurs breves et une panne catastrophique consomment le meme budget sans avoir le meme cout."
+  },
+  "statistics-for-ml": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.85,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "CAS REMARQUABLE. Trois resultats se restituent sans le texte et aucun n est banal. (1) Le p95 vaut 153 ms et RASSURE a tort parce qu il passe juste sous un groupe lent qui fait exactement 5 % du total : un percentile ne voit rien au-dela de lui-meme, donc choisir p95 quand 5 % des requetes sont pathologiques revient a placer le projecteur pile a la limite de la zone d ombre. (2) Un defaut qui touche 5 % des REQUETES touche 92 % des UTILISATEURS un peu actifs (50 requetes par session) — le tableau de bord compte des requetes, les plaintes viennent de personnes. La consigne generale qui en decoule est transferable telle quelle : choisis consciemment l unite que tu mesures, elle change les conclusions plus surement que la statistique employee. (3) Le paradoxe de Simpson est presente sur des chiffres reels par categorie."
+  },
+  "technical-documentation": {
+   "TEXT_SCORE": 5.0,
+   "PRE_TEST": 0.75,
+   "LEARNER_SIMULATION": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 1.0
+   },
+   "observation": "Le modele mental est un OUTIL DE CHOIX a deux axes — temporel (decide-t-on : RFC/ADR ; decrit-on : HLD/LLD ; que faire face a une situation : runbook/post-mortem) et audience — et il produit la formulation qui se retient : la mauvaise doc n est pas trop courte, c est le mauvais TYPE pour la question posee. Regle operatoire : documenter le POURQUOI, qui se perd, plutot que le QUOI, qui se lit dans le code. Detail rare : un ADR ne se MODIFIE pas — s il devient caduc on en ecrit un nouveau qui le remplace."
+  }
+ },
+ "DELAYED_RECALL": "NOT MEASURED"
+}

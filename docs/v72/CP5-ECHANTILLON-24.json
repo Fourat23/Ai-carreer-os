@@ -1,0 +1,246 @@
+{
+  "graine": 20260909,
+  "medianeMots": 3305,
+  "lecons": [
+    {
+      "slug": "technical-documentation",
+      "domaine": "Carrière",
+      "moy": 5,
+      "d14": 5,
+      "mots": 3157,
+      "parcours": true,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "cloud-azure-core",
+      "domaine": "Cloud",
+      "moy": 4.928571428571429,
+      "d14": 4,
+      "mots": 2727,
+      "parcours": false,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "data-cleaning-quality",
+      "domaine": "Données & ML",
+      "moy": 5,
+      "d14": 5,
+      "mots": 3543,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "database-modeling",
+      "domaine": "Données & ML",
+      "moy": 4.857142857142857,
+      "d14": 4,
+      "mots": 3567,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "statistics-for-ml",
+      "domaine": "Données & ML",
+      "moy": 5,
+      "d14": 5,
+      "mots": 4178,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "async-javascript",
+      "domaine": "Fondations",
+      "moy": 4.785714285714286,
+      "d14": 5,
+      "mots": 3030,
+      "parcours": true,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "chunking-strategies",
+      "domaine": "Fondations",
+      "moy": 4.928571428571429,
+      "d14": 5,
+      "mots": 3395,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "logging-structured",
+      "domaine": "Fondations",
+      "moy": 4.857142857142857,
+      "d14": 5,
+      "mots": 2831,
+      "parcours": true,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "monitoring-production",
+      "domaine": "Fondations",
+      "moy": 4.928571428571429,
+      "d14": 4,
+      "mots": 3146,
+      "parcours": true,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "resilience-patterns",
+      "domaine": "Fondations",
+      "moy": 5,
+      "d14": 5,
+      "mots": 3716,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "frontend-performance",
+      "domaine": "Frontend",
+      "moy": 5,
+      "d14": 5,
+      "mots": 4331,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "react-composition-architecture",
+      "domaine": "Frontend",
+      "moy": 5,
+      "d14": 5,
+      "mots": 4044,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "css-flexbox",
+      "domaine": "Frontend-hors",
+      "moy": 5,
+      "d14": 5,
+      "mots": 4381,
+      "parcours": false,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "css-fundamentals",
+      "domaine": "Frontend-hors",
+      "moy": 5,
+      "d14": 5,
+      "mots": 4101,
+      "parcours": false,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "llm-fundamentals",
+      "domaine": "IA appliquée",
+      "moy": 5,
+      "d14": 5,
+      "mots": 3448,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "prompt-injection-defense",
+      "domaine": "IA appliquée",
+      "moy": 5,
+      "d14": 5,
+      "mots": 3426,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "k8s-config-probes",
+      "domaine": "Kubernetes",
+      "moy": 5,
+      "d14": 5,
+      "mots": 2592,
+      "parcours": false,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "ci-cd-pipeline-anatomy",
+      "domaine": "Systèmes",
+      "moy": 5,
+      "d14": 5,
+      "mots": 3606,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "deployment-secrets",
+      "domaine": "Systèmes",
+      "moy": 4.857142857142857,
+      "d14": 4,
+      "mots": 3072,
+      "parcours": true,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "docker-compose",
+      "domaine": "Systèmes",
+      "moy": 5,
+      "d14": 5,
+      "mots": 2966,
+      "parcours": true,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "linux-resources-io",
+      "domaine": "Systèmes",
+      "moy": 4.714285714285714,
+      "d14": 4,
+      "mots": 2903,
+      "parcours": true,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "slo-error-budget",
+      "domaine": "Systèmes",
+      "moy": 4.928571428571429,
+      "d14": 5,
+      "mots": 3726,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    },
+    {
+      "slug": "async-messaging-queues",
+      "domaine": "Web & Backend",
+      "moy": 5,
+      "d14": 5,
+      "mots": 3055,
+      "parcours": true,
+      "v71": false,
+      "long": false
+    },
+    {
+      "slug": "express-backend",
+      "domaine": "Web & Backend",
+      "moy": 4.785714285714286,
+      "d14": 5,
+      "mots": 3531,
+      "parcours": true,
+      "v71": false,
+      "long": true
+    }
+  ]
+}

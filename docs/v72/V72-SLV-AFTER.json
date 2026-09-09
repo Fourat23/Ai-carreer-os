@@ -1,0 +1,438 @@
+{
+  "passage": "APRES",
+  "date": "2026-09-09",
+  "protocole": "docs/v72/V72-SLV-PROTOCOL.md",
+  "graine_echantillon": 20260909,
+  "base_de_comparaison": "167f822 (HEAD au CP0) .. HEAD",
+  "avertissement": "TEXT_SCORE et LEARNER_SIMULATION_SCORE ne sont jamais fusionnes. Aucun de ces chiffres ne mesure un apprentissage humain.",
+  "interpretation_prefixee_au_CP5": "Un score identique est le resultat ATTENDU (quatre axes deja au plafond) et ne prouve rien sur les corrections des CP2, CP3, CP6 a CP12. Une BAISSE etait le seul signal reellement detectable par ce second passage. Il n y en a pas.",
+  "lecons_modifiees_par_v72": [
+    "async-messaging-queues",
+    "cloud-azure-core",
+    "deployment-secrets",
+    "linux-resources-io",
+    "monitoring-production",
+    "resilience-patterns"
+  ],
+  "lecons_inchangees": 18,
+  "moyennes": {
+    "RAPPEL": 1.0,
+    "EXPLICATION": 1.0,
+    "APPLICATION": 1.0,
+    "MISCONCEPTION": 1.0,
+    "TRANSFERT": 0.9688
+  },
+  "PRE_TEST_moyen_AVANT": 0.8417,
+  "PRE_TEST_APRES": "NON REJOUABLE — le pre-test mesure ce qui est su AVANT lecture ; les 24 lecons ont ete lues au CP5, cette condition ne peut plus etre reunie. Rejouer un pre-test ici mesurerait la memoire du premier passage, pas une connaissance prealable.",
+  "DELAYED_RECALL": "NOT MEASURED",
+  "lecons": {
+    "async-javascript": {
+      "TEXT_SCORE": 4.7857,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.9,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "async-messaging-queues": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": true,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "diff": {
+        "lignes_ajoutees": 2,
+        "lignes_retirees": 2
+      },
+      "observation": "Modifiee au CP9 (reference morte). L exercice cite `dlq-duplicate` n existait pas ; il est remplace par `dlq-routing`, qui existe (data/exercises/dlq-routing.json) et fait bien ce que le texte annonce desormais — router vers la dead letter queue apres N echecs (maxAttempts). La capacite « compter les effets reels sous re-livraison », que l ancienne phrase attribuait a l exercice inexistant, a ete RATTACHEE a `queue-idempotent-consumer`, dont l enonce reel est exactement celui-la (additionner amount une seule fois par id). Aucune notion perdue : la reattribution est verifiee contre les deux enonces d exercice, pas supposee. Les cinq axes portent sur l idempotence et l equation at-least-once + consommateur idempotent = exactly-once EN PRATIQUE, qui n est touchee par aucune ligne du diff."
+    },
+    "chunking-strategies": {
+      "TEXT_SCORE": 4.9286,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "ci-cd-pipeline-anatomy": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 0.75
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "cloud-azure-core": {
+      "TEXT_SCORE": 4.9286,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.9,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": true,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 0.75
+      },
+      "ecart_avant_apres": "aucun",
+      "diff": {
+        "lignes_ajoutees": 9,
+        "lignes_retirees": 8
+      },
+      "observation": "Modifiee au CP2 (ouverture). L ouverture ne se contente plus d annoncer un probleme de vocabulaire : elle nomme le risque reel — deux services qui se ressemblent peuvent avoir des FRONTIERES DE SECURITE differentes, donc une architecture traduite mot a mot depuis AWS peut etre fonctionnelle et pourtant mal cloisonnee. C est un gain : l ouverture annonce maintenant ce que l exemple guide demontre (l heritage de portee). TRANSFERT RESTE A 0,75 : la condition de validite exigee par le bareme etait deja donnee ailleurs (« Quand la reponse changerait » — trois personnes contre trois cents) et la correction du CP2 n a pas touche cet endroit. Remonter la note ici reviendrait a corriger mon jugement du CP5, pas a mesurer un changement du texte."
+    },
+    "css-flexbox": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "css-fundamentals": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "data-cleaning-quality": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "database-modeling": {
+      "TEXT_SCORE": 4.8571,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "deployment-secrets": {
+      "TEXT_SCORE": 4.8571,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": true,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "diff": {
+        "lignes_ajoutees": 1,
+        "lignes_retirees": 1
+      },
+      "observation": "Modifiee au CP2 (redite). La derniere phrase de l ouverture — « Cette lecon t apprend a gerer secrets et configuration proprement (hors du code, par environnement) et a deployer sans fuiter — l erreur qui coute le plus cher evitee » — a ete retiree. Verification faite ligne a ligne : la section Objectif qui suit IMMEDIATEMENT porte les quatre memes propositions (hors du code, par environnement, jamais dans Git, deployer sans fuiter, l erreur qui coute le plus cher). Rien de propositionnel n est perdu ; c est une repetition a une ligne d intervalle qui disparait."
+    },
+    "docker-compose": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "express-backend": {
+      "TEXT_SCORE": 4.7857,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.8,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "frontend-performance": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "k8s-config-probes": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "linux-resources-io": {
+      "TEXT_SCORE": 4.7143,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.8,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": true,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 0.75
+      },
+      "ecart_avant_apres": "aucun",
+      "diff": {
+        "lignes_ajoutees": 15,
+        "lignes_retirees": 5
+      },
+      "observation": "Modifiee au CP2 (modele mental). Le resume en quatre ressources est remplace par une table de diagnostic par ressource : chaque saturation recoit sa SIGNATURE reconnaissable (CPU : load haut, disque immobile ; memoire : bascule brutale, pas degradation progressive ; disque : processeur inactif et etat D ; descripteurs : tout au repos et les nouvelles connexions echouent). Gain reel — le lecteur repart avec de quoi trancher, pas avec une liste. TRANSFERT RESTE A 0,75, et c est le resultat qui compte ici : le defaut releve au CP5 etait l absence de CONDITION SOUS LAQUELLE LE PRINCIPE CESSE DE VALOIR, et la correction du CP2 ne l a pas comblee. La phrase ajoutee (« le chiffre qui les separe est toujours disponible ») affirme une disponibilite, elle n enonce pas une limite. Les corrections du CP2 visaient les redites et les ouvertures ; elles n avaient pas a viser cet ecart, et elles ne l ont pas vise."
+    },
+    "llm-fundamentals": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.9,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "logging-structured": {
+      "TEXT_SCORE": 4.8571,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.8,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "monitoring-production": {
+      "TEXT_SCORE": 4.9286,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": true,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "diff": {
+        "lignes_ajoutees": 2,
+        "lignes_retirees": 2
+      },
+      "observation": "Modifiee au CP2 (ouverture + objectif). L ouverture nomme desormais le piege qui suit immediatement la prise de conscience — on branche des alertes partout, elles sonnent trente fois par semaine, plus personne ne les lit — et pose la vraie difficulte : decider CE QUI MERITE DE REVEILLER QUELQU UN. L objectif est reformule en ce qui est appris plutot qu en ce qui est vise. Controle de perte fait proposition par proposition : « detecter avant les utilisateurs » subsiste (« Decouvrir les pannes PAR les utilisateurs, c est deja avoir perdu »), « jauge » subsiste (« les quatre signaux qui meritent une jauge »), « qualite, couts, derive » subsiste dans l objectif. Aucune des trois notions de l ancienne redaction n a disparu."
+    },
+    "prompt-injection-defense": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.75,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "react-composition-architecture": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "resilience-patterns": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": true,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "diff": {
+        "lignes_ajoutees": 1,
+        "lignes_retirees": 2
+      },
+      "observation": "Modifiee au CP3 (cloture d ouverture). La phrase « Cette lecon presente les patterns qui contiennent les pannes : timeout, retry, circuit breaker, backpressure, degradation gracieuse, redondance » a ete retiree. Verification : la section Objectif, deux lignes plus bas, enumere les six memes patterns et trois de plus (rate limiting, load shedding, failover). La liste n est pas perdue, elle est donnee une fois au lieu de deux."
+    },
+    "slo-error-budget": {
+      "TEXT_SCORE": 4.9286,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "statistics-for-ml": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.85,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    },
+    "technical-documentation": {
+      "TEXT_SCORE": 5.0,
+      "TEXT_SCORE_rejoue": false,
+      "PRE_TEST_AVANT": 0.75,
+      "PRE_TEST_APRES": "NON REJOUABLE",
+      "modifiee_par_v72": false,
+      "LEARNER_SIMULATION": {
+        "RAPPEL": 1.0,
+        "EXPLICATION": 1.0,
+        "APPLICATION": 1.0,
+        "MISCONCEPTION": 1.0,
+        "TRANSFERT": 1.0
+      },
+      "ecart_avant_apres": "aucun",
+      "observation": "Texte octet pour octet identique au passage AVANT. Les cinq notes sont REPORTEES, pas remesurees : un texte inchange relu par le meme correcteur qui se souvient de ses propres reponses ne produit aucune information nouvelle. Le report est declare comme tel ; il n est pas presente comme une seconde mesure."
+    }
+  }
+}

@@ -5,12 +5,13 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP12**
-- **NEXT_CP** : **CP13**
-- **NEXT_ACTION** : rejouer le passage **APRÈS** de la validation simulée sur le **même**
-  échantillon de 24 et les **mêmes** questions ; publier `docs/v72/V72-SLV-AFTER.json` et la
-  comparaison AVANT/APRÈS. Interprétation **déjà fixée au CP5** : un score identique ne prouve
-  rien, une **baisse** est le seul signal réellement détectable.
+- **dernier CP terminé** : **CP13**
+- **NEXT_CP** : **CP14**
+- **NEXT_ACTION** : parcours séquentiel complet des **365 journées** — ordre des prérequis,
+  charge, revues, progression, semaines, projets, compétences, leçons hors parcours,
+  transitions. Attention particulière à **J1, J7, J30, J70, J77, J84, J100, J150, J200, J250,
+  J300, J365** et aux **jonctions de phase**. Question à trancher : *le parcours ressemble-t-il
+  à une formation construite, ou à 365 blocs assemblés ?*
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -173,6 +174,29 @@
   est resté vert devant une référence morte : avec le drapeau `m`, `$` marque la fin de LIGNE,
   donc le contrôle capturait une chaîne vide et parcourait du néant. **Le même défaut existait
   dans le script rejouable livré au CP9.** Corrigé dans les deux fichiers.
+
+- **CP13** — passage **APRÈS** de la validation simulée. Mesure préalable qui commande tout :
+  **6 leçons sur 24 ont changé** depuis le CP0 (CP2 ×4, CP3 ×1, CP9 ×1) ; les **18 autres sont
+  identiques octet pour octet**. Leurs notes sont donc **reportées et déclarées comme
+  reportées** — un texte inchangé relu par le même correcteur ne produit aucune information.
+  Le **pré-test n'est pas rejouable** (les 24 leçons ont été lues au CP5) : champ `NON
+  REJOUABLE`, la valeur qui compte reste **0,842**. Sur les 6 leçons modifiées, contrôle
+  **proposition par proposition** de ce qui a été retiré : les 4 propositions supprimées de
+  `deployment-secrets` et les 6 patterns de `resilience-patterns` sont dans l'Objectif deux
+  lignes plus bas ; les 3 propositions retirées de `monitoring-production` subsistent toutes ;
+  la référence morte d'`async-messaging-queues` a été remplacée **et les deux énoncés
+  d'exercice ont été lus** pour vérifier que la capacité déplacée est bien portée par son
+  nouveau titulaire. **Aucune baisse sur aucun axe : 1,000 · 1,000 · 1,000 · 1,000 · 0,969**,
+  écart nul avec le CP5. **Deux notes volontairement NON remontées** : `linux-resources-io`
+  (le CP2 a nettement amélioré le modèle mental mais n'a pas comblé l'absence de condition de
+  validité — preuve qu'un axe bas ne bouge pas tout seul parce qu'on a travaillé ailleurs) et
+  `cloud-azure-core` (la condition existe, mais elle existait **déjà** au CP5 : la remonter
+  corrigerait mon jugement, pas le texte). **L1 → L9 tous atteints**, donc
+  `SIMULATED_LEARNING_VALIDATION_READY` **dû par la lettre** — L7 et L8 franchis au premier
+  passage avec des marges de 0,30 et 0,42 par un instrument dont le pré-test est à 0,842.
+  **Obligation reportée au CP15** : publier 0,842 à côté du verdict et dire que l'instrument
+  n'a pas discriminé. `REAL_HUMAN_LEARNING_EVIDENCE` reste `NOT YET MEASURED`. **CP13 n'a
+  modifié aucun fichier du corpus.**
 
 ## Tests
 

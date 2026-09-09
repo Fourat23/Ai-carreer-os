@@ -5,13 +5,16 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP13**
-- **NEXT_CP** : **CP14**
-- **NEXT_ACTION** : parcours séquentiel complet des **365 journées** — ordre des prérequis,
-  charge, revues, progression, semaines, projets, compétences, leçons hors parcours,
-  transitions. Attention particulière à **J1, J7, J30, J70, J77, J84, J100, J150, J200, J250,
-  J300, J365** et aux **jonctions de phase**. Question à trancher : *le parcours ressemble-t-il
-  à une formation construite, ou à 365 blocs assemblés ?*
+- **dernier CP terminé** : **CP14**
+- **NEXT_CP** : **CP15**
+- **NEXT_ACTION** : rédiger `docs/audits/V72-FINAL-REPORT.md` — **17 sections obligatoires**,
+  **deux verdicts séparés** (`CURRICULUM_INTEGRITY_*` et `SIMULATED_LEARNING_VALIDATION_*`,
+  jamais fusionnés), `REAL_HUMAN_LEARNING_EVIDENCE` = **NOT YET MEASURED**, publication du
+  **pré-test 0,842** à côté du verdict simulé avec la mention que l'instrument n'a pas
+  discriminé, répartition `EXECUTED / STATICALLY CHECKED / NOT EXECUTABLE HERE` par domaine
+  (§7 du contrat), **protocole de test humain léger préparé sans être exécuté** (§24), et les
+  **deux questions finales** répondues OUI / OUI AVEC RÉSERVES / NON. Ne **pas** proposer V73
+  comme nouveau sprint académique. Ne rien lancer automatiquement.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -198,6 +201,32 @@
   n'a pas discriminé. `REAL_HUMAN_LEARNING_EVIDENCE` reste `NOT YET MEASURED`. **CP13 n'a
   modifié aucun fichier du corpus.**
 
+- **CP14** — marche séquentielle des 365 journées. **Réponse à la question posée** : une
+  formation construite, mais **en deux régimes qui ne se raccordent pas**. Mesuré : 313 journées
+  de travail en **64 séquences continues** (médiane 2 jours) ; `jsts` et `se` reviennent **8
+  fois**, `autonomy` 7, `algo` 6 — tandis que `ml`, `dl` et `llm` n'ont **qu'une seule
+  séquence** chacun. La première moitié entrelace, la seconde bloque, et rien ne l'annonce.
+  **L'ordre des prérequis tient sans exception** sur les 106 leçons programmées, et **aucune des
+  52 revues n'introduit une leçon jamais rencontrée** (règle du CP12 vérifiée sur tout le
+  parcours). **Une correction, une seule** : **j320** liait **9 leçons / 219 min** — seule
+  journée de travail infaisable des 365 — dont **3 leçons d'évaluation** (66 min) venant de
+  l'étiquette `evalia` alors que le titre, l'objectif et tout le cours portent sur la
+  dockerisation. Retirées : **152 min, BALANCED**. M1→M8 vérifiés un par un (M4 : les trois
+  restent sur 20, 62 et 37 journées, dont j316–j319 et j321). **L'étiquette de compétence n'est
+  PAS changée** — le refus du CP7 de faire passer C3 par la lettre est maintenu. **Sensibilité
+  publiée au lieu d'un chiffre unique** : la conclusion « des journées sont IMPOSSIBLES » tenait
+  à une hypothèse non testée de mon propre modèle (relire = lire) ; à coefficient 0,5 il n'en
+  reste **aucune**. Ce qui survit : les revues sont **2,8 fois** plus souvent en dépassement que
+  les journées ordinaires (37 % contre 13 %), **92 %** de la lecture d'une revue est la
+  relecture des leçons, et **40 / 52** revues minutent 99 min de pratique **sans** budgéter cette
+  relecture. **`difficulty` est constant sur 276 journées consécutives** (j90→j365) et reste
+  affiché à l'apprenant. **`cloud` : le mois 11 déclare `expectedScores.cloud = 2`** — une cible
+  chiffrée sur une compétence sans aucune journée ; C3 échoue toujours, réparations réservées à
+  l'utilisateur. **Onzième occurrence du défaut de méthode, en faux positif attrapé** : ma sonde
+  a signalé `evalia = 2` au mois 6 comme non enseigné, en lisant l'**étiquette** des journées ;
+  la lecture des 35 journées montre que le mois 6 enseigne massivement l'évaluation (j158, j162,
+  j165, j167, j180). Corpus **inchangé**.
+
 ## Tests
 
 - **CP2** : 1420/1420 · tsc 0 · gates verts.
@@ -206,4 +235,5 @@
 - **CP8** : 1420/1420 · gates verts · corpus inchangé.
 - **CP9** : 1420/1420 · gates verts · corpus `c1ac869e…`, 9 gels mis à jour.
 - **CP12** : 1420/1420 · tsc 0 · gates verts · 8/8 tests négatifs · corpus inchangé.
+- **CP14** : 1420/1420 · tsc 0 · gates verts · corpus inchangé · 0 journée de travail IMPOSSIBLE.
 - aucun serveur résiduel ; le démon Docker démarré pour la mesure a été arrêté.

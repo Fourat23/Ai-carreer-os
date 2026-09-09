@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T15:52:21.143Z",
+  "generatedAt": "2026-09-09T21:39:00.918Z",
   "skills": [
     {
       "id": "algo",
@@ -5538,7 +5538,7 @@
       "skillName": "Évaluation IA",
       "difficulty": 3,
       "hours": 4.5,
-      "readingMinutes": 219,
+      "readingMinutes": 152,
       "isReview": false,
       "detailed": false,
       "deliverable": "DocSense dockerisé (compose up).",

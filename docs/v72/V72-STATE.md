@@ -5,13 +5,12 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP5**
-- **NEXT_CP** : **CP6**
-- **NEXT_ACTION** : reconstruire les journées de revue en dépassement selon le §3 du contrat
-  (plafond **7 leçons**, règle de sélection a/b/c, aucune compétence nécessaire supprimée —
-  déplacée si besoin). Corriger la cause dans `scripts/generate-curriculum.mjs`
-  (`lessonsDeLaRevue`, ligne 118 : union des catalogues de compétences). Re-tester le budget
-  APRÈS. Rapport `docs/v72/V72-CP6-REVUES.md`.
+- **dernier CP terminé** : **CP6**
+- **NEXT_CP** : **CP7**
+- **NEXT_ACTION** : décider des 25 leçons hors parcours selon les classes A–E du §5 du contrat
+  gelé, insérer automatiquement les **A** si et seulement si M1–M8 sont respectés, le thème de
+  la journée hôte est préservé et la charge reste BALANCED ; documenter et laisser ouvert
+  sinon. Rapport `docs/v72/V72-CP7-HORS-PARCOURS.md`.
 - **HEAD au CP0** : `7c9bcbe` · branche `claude/ai-career-os-saas-phfg49`
 - **corpus** : `7eb88ba5…` · **curriculum entier** : `d4bdb9d2…` · 128 / 365 / 365
 
@@ -93,8 +92,22 @@
   Interprétation du CP13 **fixée d'avance** : un score identique ne prouvera rien, une baisse
   sera le seul signal réellement détectable.
 
+- **CP6** — cause corrigée à la racine dans `lessonsDeLaRevue` : une revue liait l'union des
+  **catalogues de compétences** traversés, pas ce que la semaine avait enseigné. Plafond de 7
+  appliqué. **Revues au-dessus du plafond : 6 → 0** ; maximum 20 → 7 ; journées IMPOSSIBLE
+  **11 → 7**. 103/128 leçons restent citées par une journée — **aucune orpheline créée**.
+  Aucune leçon modifiée (`d535fcf6…`). **DÉFAUT PLUS GRAND TROUVÉ AU PASSAGE, NON CORRIGÉ** :
+  **9 pages de revue se contredisent elles-mêmes** — le « Thème de la semaine » et la
+  « Synthèse de la semaine » de la même page parlent de deux semaines différentes (j42, j49,
+  j70, j77, j84, j196, j217, j224, j238). La synthèse est fiable (21/21 ne citent que des
+  journées de leur propre semaine) ; c'est le thème, le bilan, le test pratique et les critères
+  qui sont faux. **Ré-attribution mécanique impossible** : les décalages vont de −1 à −17 et
+  deux enregistrements pointent vers la même semaine. Réparer = réécrire 9 semaines de contenu
+  pédagogique ⇒ **décision de curriculum transmise au CP15**.
+
 ## Tests
 
 - **CP2** : 1420/1420 · tsc 0 · gates verts.
 - **CP3** : 1420/1420 · tsc 0 · gates verts.
+- **CP6** : 1420/1420 · gates verts · corpus inchangé.
 - aucun serveur résiduel ; le démon Docker démarré pour la mesure a été arrêté.

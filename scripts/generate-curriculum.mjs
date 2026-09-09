@@ -110,15 +110,48 @@ function lessonsOf(day) {
  * n'offrait aucun chemin vers ce qu'il faut réviser.
  *
  * Le correctif ne fabrique rien : les leçons d'une revue sont l'UNION de celles
- * que les journées de sa semaine ont réellement liées. Si la semaine n'a lié
- * aucune leçon, la revue n'en lie aucune — on ne comble pas un vide par une
- * suggestion. Le contrat gelé interdit de recomposer les revues ; ceci ne les
- * recompose pas, cela leur rend accessible ce que la semaine a déjà enseigné.
+ * que les journées de sa semaine ont réellement liées.
+ *
+ * V72 · CP6 — CE CORRECTIF AVAIT UN DÉFAUT DE DOSAGE, MESURÉ.
+ *
+ * `lessonsOf` retourne, pour une journée sans liste explicite, TOUTES les leçons
+ * de sa compétence. L'union sur une semaine était donc pilotée par le NOMBRE DE
+ * COMPÉTENCES TRAVERSÉES, pas par ce qui avait été enseigné : la semaine 11 en
+ * traverse cinq et produisait VINGT leçons — 444 minutes de relecture dans une
+ * journée qui en budgète 270 et qui contient déjà un test pratique chronométré à
+ * 75 minutes, un test théorique, un mini-projet et un exercice de réflexion.
+ * Six revues sur 52 dépassaient ainsi le plafond.
+ *
+ * Le plafond est de SEPT leçons, et il n'est pas arbitraire : 270 minutes moins
+ * le test pratique minuté moins ~40 minutes pour le reste laissent environ 155
+ * minutes de relecture, soit sept leçons du corpus.
+ *
+ * Règle de sélection, gelée au CP1 (§3 du contrat V72) :
+ *   (a) d'abord les leçons qu'une journée de la semaine a EXPLICITEMENT liées,
+ *       de la plus récente à la plus ancienne — ce sont celles que la semaine a
+ *       réellement enseignées ;
+ *   (b) puis, pour compléter, les leçons de compétence des journées SANS liste
+ *       explicite, dans l'ordre des journées ;
+ *   (c) on coupe au plafond.
+ *
+ * Ce qui est retiré n'est pas perdu : ces leçons restent liées par LEUR journée,
+ * qui est le bon endroit pour les rencontrer. Une revue n'est pas un index du
+ * corpus, c'est une séance de travail dont le budget est fini.
  */
+const PLAFOND_REVUE = 7;
+
 function lessonsDeLaRevue(semaine, joursDeLaSemaine) {
-  const u = new Set();
-  for (const d of joursDeLaSemaine) if (!d.isReview) for (const f of lessonsOf(d)) u.add(f);
-  return [...u];
+  const jours = joursDeLaSemaine.filter((d) => !d.isReview);
+  const explicites = [];
+  for (const d of [...jours].sort((a, b) => b.day - a.day))
+    for (const f of (LESSONS_V67[d.day] ?? [])) if (!explicites.includes(f)) explicites.push(f);
+  const complement = [];
+  for (const d of jours) {
+    if ((LESSONS_V67[d.day] ?? []).length) continue;
+    for (const f of (LESSON_BY_SKILL[d.skill] ?? []))
+      if (!explicites.includes(f) && !complement.includes(f)) complement.push(f);
+  }
+  return [...explicites, ...complement].slice(0, PLAFOND_REVUE);
 }
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.

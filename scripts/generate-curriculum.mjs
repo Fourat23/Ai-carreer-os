@@ -142,6 +142,17 @@ function lessonsOf(day) {
 const PLAFOND_REVUE = 7;
 
 /**
+ * V74 · CP6 — dernier rappel « ancien » de chaque leçon, rempli au fil de la
+ * génération des 52 revues, dans l'ordre des journées. Sans cette trace, les
+ * mêmes deux leçons anciennes seraient reproposées à chaque revue.
+ *
+ * La génération parcourt les journées de 1 à 365 dans l'ordre : cette carte est
+ * donc déterministe, et une régénération complète rend exactement le même
+ * résultat.
+ */
+const DERNIERE_REVUE = new Map();
+
+/**
  * V72 · CP12 — SECONDE CORRECTION : UNE REVUE NE DÉCOUVRE RIEN.
  *
  * L'invariant de prérequis écrit au CP12 a rougi sur deux cas, et ils étaient réels :
@@ -157,7 +168,51 @@ const PLAFOND_REVUE = 7;
  * semaine en cours. Une leçon dont la revue serait la première apparition n'a rien à y
  * faire — et ses prérequis ne sont, par construction, pas garantis.
  */
-function lessonsDeLaRevue(semaine, joursDeLaSemaine, dejaVues) {
+/**
+ * V74 · CP6 — REVIEWS 2.0. Une revue cesse d'être « relis ta semaine ».
+ *
+ * ── LE DÉFAUT, TEL QUE LE CP0 DE V74 L'A CHIFFRÉ ─────────────────────────
+ *
+ * Sur 247 paires leçon × revue, **135 (55 %) ont la leçon liée au jour 6, la
+ * veille de la revue**, et **94 sont liées aux SIX journées de leur semaine** —
+ * pour celles-là, l'écart d'un jour est INÉVITABLE, quelle que soit la date de
+ * la revue. Déplacer les revues ne corrigerait donc rien. Et **218 leçons sur
+ * 247 viennent de la propre semaine de la revue** : la revue est une revue *de
+ * sa semaine*, pas un rappel espacé.
+ *
+ * ── CE QUI CHANGE, ET CE QUI NE CHANGE PAS ───────────────────────────────
+ *
+ * Le PLAFOND NE BOUGE PAS. Sept leçons, comme avant : le §6 G12 du contrat
+ * gelé interdit d'augmenter le volume de révision pour faire monter un
+ * compteur, et les seuils de charge de V73 ne sont pas renégociables.
+ *
+ * Ce qui change est la COMPOSITION. Jusqu'à DEUX des sept places sont
+ * réservées à de la matière plus ancienne, chacune avec une raison visible :
+ *
+ *   RECENT    — enseignée cette semaine : ce que la revue a toujours fait ;
+ *   SPACED    — enseignée il y a au moins 21 jours, et pas revue depuis ;
+ *   TRANSFER  — SPACED, et d'une AUTRE compétence que celle de la semaine :
+ *               l'employer ici, c'est l'employer hors de son contexte d'origine.
+ *
+ * ── DEUX CATÉGORIES SONT VOLONTAIREMENT ABSENTES D'ICI ───────────────────
+ *
+ * `WEAK` exige de savoir ce que l'apprenant a raté. Le curriculum est GÉNÉRÉ,
+ * statique, identique pour tous : il ne peut pas le savoir. L'inventer serait
+ * fabriquer de la progression. `WEAK` appartient donc à la surface d'exécution
+ * (`/retention`), là où l'état apprenant existe.
+ *
+ * `PREREQUISITE` exige le graphe des prérequis — qui est construit À PARTIR du
+ * curriculum généré. Le faire lire ici créerait une dépendance CIRCULAIRE entre
+ * la génération et son propre audit. Il appartient lui aussi à l'exécution.
+ *
+ * Le contrat §4 assigne aux 52 revues la responsabilité du rendez-vous
+ * hebdomadaire de rappel libre ; il ne leur demande pas de connaître
+ * l'apprenant.
+ */
+const ESPACEMENT_MIN_JOURS = 21;
+const PLACES_ANCIENNES = 2;
+
+function lessonsDeLaRevue(semaine, joursDeLaSemaine, dejaVues, historique) {
   const jours = joursDeLaSemaine.filter((d) => !d.isReview);
   const explicites = [];
   for (const d of [...jours].sort((a, b) => b.day - a.day))
@@ -171,7 +226,48 @@ function lessonsDeLaRevue(semaine, joursDeLaSemaine, dejaVues) {
       complement.push(f);
     }
   }
-  return [...explicites, ...complement].slice(0, PLAFOND_REVUE);
+  const recentes = [...explicites, ...complement];
+  const dejaCitees = new Set(recentes);
+
+  // ── les places anciennes, dérivées de l'HISTORIQUE DU CURRICULUM lui-même
+  const anciennes = [];
+  if (historique) {
+    const jourRevue = joursDeLaSemaine.length ? Math.max(...joursDeLaSemaine.map((d) => d.day)) + 1 : semaine * 7;
+    const skillsSemaine = new Set(jours.map((d) => d.skill));
+    const candidats = [];
+    for (const [f, info] of historique.dernierJour) {
+      if (dejaCitees.has(f)) continue;
+      const ecart = jourRevue - info.jour;
+      if (ecart < ESPACEMENT_MIN_JOURS) continue;
+      const derniereRevue = historique.derniereRevue.get(f) ?? 0;
+      if (jourRevue - derniereRevue < ESPACEMENT_MIN_JOURS) continue;   // déjà rappelée récemment
+      candidats.push({ f, ecart, transfert: !skillsSemaine.has(info.skill), skill: info.skill });
+    }
+    // Priorité au TRANSFERT, puis au plus ancien. Ordre TOTAL : l'identifiant
+    // départage, sans quoi deux générations pourraient différer.
+    candidats.sort((x, y) => (
+      (y.transfert ? 1 : 0) - (x.transfert ? 1 : 0)
+      || y.ecart - x.ecart
+      || x.f.localeCompare(y.f)
+    ));
+    for (const c of candidats.slice(0, PLACES_ANCIENNES)) {
+      anciennes.push({
+        file: c.f,
+        categorie: c.transfert ? 'TRANSFER' : 'SPACED',
+        raison: c.transfert
+          ? `vue il y a ${c.ecart} jours, et sur une autre compétence — l'employer ici, c'est l'employer hors de son contexte`
+          : `vue il y a ${c.ecart} jours, et pas rappelée depuis`,
+      });
+    }
+  }
+
+  // Le plafond ne bouge pas : les places anciennes sont PRISES SUR les sept,
+  // jamais ajoutées à côté.
+  const placesRecentes = Math.max(1, PLAFOND_REVUE - anciennes.length);
+  return [
+    ...recentes.slice(0, placesRecentes).map((f) => ({ file: f, categorie: 'RECENT', raison: 'enseignée cette semaine' })),
+    ...anciennes,
+  ];
 }
 
 // Compétences « IA / data » pour lesquelles un cas métier est attendu.
@@ -425,7 +521,15 @@ function renderDay(day) {
       L.push('');
       L.push('**Étape 2 — relecture ciblée, et elle seule.** Rouvre uniquement les leçons que tu n\'as pas su restituer à l\'étape 1. En général une ou deux, pas la liste entière : relire ce qu\'on sait déjà donne un sentiment de maîtrise sans rien ajouter à la mémoire.');
       L.push('');
-      for (const f of aReviser) L.push(`- [${lessonTitle(f)}](/doc/lessons/${f.replace(/\.md$/, '')})`);
+      // V74 · CP6 — chaque leçon porte la RAISON de sa présence. Une revue qui
+      // ne dit pas pourquoi elle propose telle notion demande une obéissance,
+      // pas un travail.
+      const meta = new Map((day.reviewLessonMeta ?? []).map((x) => [x.file, x]));
+      for (const f of aReviser) {
+        const m = meta.get(f);
+        const lien = `- [${lessonTitle(f)}](/doc/lessons/${f.replace(/\.md$/, '')})`;
+        L.push(m && m.categorie !== 'RECENT' ? `${lien} — *${m.raison}*` : lien);
+      }
       L.push('');
       L.push(`> **Ce que cette étape coûte, écrit noir sur blanc.** Le rappel actif : ${minutesRappel} min. La relecture ciblée : environ 25 min par leçon rouverte, et tu ne devrais pas en rouvrir plus de deux. **Relire les ${nb} intégralement n'est pas ce qui est demandé** — ce serait plus long, et moins efficace.`);
       L.push('');
@@ -893,11 +997,27 @@ for (let n = 1; n <= 365; n++) {
     const semaine = [];
     for (let d = debut; d < debut + 7 && d <= 365; d++) if (d !== n) semaine.push(buildDay(d));
     // Leçons déjà rencontrées sur une journée de travail antérieure ou de la semaine en cours.
+    // V74 · CP6 — la même passe construit l'HISTORIQUE dont la revue a besoin pour
+    // choisir ses places anciennes : pour chaque leçon, la dernière journée qui
+    // l'a enseignée et la compétence de cette journée. Aucune source nouvelle,
+    // aucune lecture de fichier : tout vient des journées déjà construites.
     const dejaVues = new Set();
-    for (let d = 1; d < n; d++) { const j = buildDay(d); if (!j.isReview) for (const f of lessonsOf(j)) dejaVues.add(f); }
+    const dernierJour = new Map();
+    for (let d = 1; d < n; d++) {
+      const j = buildDay(d);
+      if (j.isReview) continue;
+      for (const f of lessonsOf(j)) { dejaVues.add(f); dernierJour.set(f, { jour: d, skill: j.skill }); }
+    }
     for (const j of semaine) if (!j.isReview) for (const f of lessonsOf(j)) dejaVues.add(f);
-    const l = lessonsDeLaRevue(day.week, semaine, dejaVues);
-    if (l.length) day.lessonsOverride = l;
+    const l = lessonsDeLaRevue(day.week, semaine, dejaVues, { dernierJour, derniereRevue: DERNIERE_REVUE });
+    if (l.length) {
+      day.lessonsOverride = l.map((x) => x.file);
+      day.reviewLessonMeta = l;
+      // Mémorise le rappel : une leçon rappelée cette semaine ne sera pas
+      // reproposée comme « ancienne » avant le prochain palier. Sans cette
+      // trace, les mêmes deux leçons reviendraient à chaque revue.
+      for (const x of l) if (x.categorie !== 'RECENT') DERNIERE_REVUE.set(x.file, n);
+    }
   }
   const mdJour = lierSpecsProjets(renderDay(day));
   writeMd(join(CUR, 'days', `day-${pad3(n)}.md`), mdJour);

@@ -43,14 +43,14 @@
   },
   "attentive·relecture1": {
    "IMPOSSIBLE": 24,
-   "HEAVY": 32,
-   "BALANCED": 304,
+   "HEAVY": 33,
+   "BALANCED": 303,
    "UNDERLOADED": 5
   },
   "attentive·relecture0.5": {
    "IMPOSSIBLE": 24,
-   "HEAVY": 32,
-   "BALANCED": 304,
+   "HEAVY": 33,
+   "BALANCED": 303,
    "UNDERLOADED": 5
   }
  },
@@ -74,20 +74,20 @@
  },
  "statsRevues": {
   "bas": {
-   "P10": 90,
-   "P25": 98,
-   "mediane": 131,
-   "P75": 146,
-   "P90": 185,
-   "max": 208
+   "P10": 96,
+   "P25": 99,
+   "mediane": 133,
+   "P75": 148,
+   "P90": 188,
+   "max": 210
   },
   "haut": {
-   "P10": 153,
-   "P25": 161,
-   "mediane": 186,
+   "P10": 156,
+   "P25": 162,
+   "mediane": 188,
    "P75": 211,
-   "P90": 264,
-   "max": 293
+   "P90": 267,
+   "max": 295
   }
  },
  "structurellementImpossibles": [],
@@ -1900,15 +1900,15 @@
    "j": 42,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 6",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 9,
     "correction": 4,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 134,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 159,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -1926,8 +1926,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 131,
-   "haut": 186,
+   "bas": 133,
+   "haut": 188,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -2824,15 +2824,15 @@
    "j": 63,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 9",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 9,
     "correction": 4,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 139,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 161,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -2850,8 +2850,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 131,
-   "haut": 186,
+   "bas": 133,
+   "haut": 188,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -3135,7 +3135,7 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
@@ -3158,8 +3158,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 148,
-   "haut": 209,
+   "bas": 149,
+   "haut": 210,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -3447,7 +3447,7 @@
     "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
-    "lectureLeconsSiToutRelu": 159,
+    "lectureLeconsSiToutRelu": 157,
     "rappelActifMinute": 20,
     "guide": [
      0,
@@ -3466,8 +3466,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 134,
-   "haut": 189,
+   "bas": 135,
+   "haut": 190,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -3755,7 +3755,7 @@
     "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
-    "lectureLeconsSiToutRelu": 166,
+    "lectureLeconsSiToutRelu": 164,
     "rappelActifMinute": 20,
     "guide": [
      0,
@@ -4063,7 +4063,7 @@
     "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
-    "lectureLeconsSiToutRelu": 158,
+    "lectureLeconsSiToutRelu": 160,
     "rappelActifMinute": 20,
     "guide": [
      0,
@@ -4364,15 +4364,15 @@
    "j": 98,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 14",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 150,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 176,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -4390,8 +4390,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 128,
-   "haut": 183,
+   "bas": 131,
+   "haut": 186,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -4679,7 +4679,7 @@
     "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
-    "lectureLeconsSiToutRelu": 185,
+    "lectureLeconsSiToutRelu": 195,
     "rappelActifMinute": 20,
     "guide": [
      0,
@@ -4698,8 +4698,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 109,
-   "haut": 173,
+   "bas": 110,
+   "haut": 174,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -4980,15 +4980,15 @@
    "j": 112,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 16",
-   "nlec": 4,
+   "nlec": 6,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 37,
-    "lectureLeconsHaut": 62,
-    "lectureLeconsSiToutRelu": 100,
-    "rappelActifMinute": 12,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 143,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -5006,8 +5006,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 138,
-   "haut": 199,
+   "bas": 144,
+   "haut": 205,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -5288,15 +5288,15 @@
    "j": 119,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 17",
-   "nlec": 2,
+   "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 2,
-    "lectureLecons": 31,
-    "lectureLeconsHaut": 56,
-    "lectureLeconsSiToutRelu": 45,
-    "rappelActifMinute": 6,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 84,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -5314,8 +5314,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 100,
-   "haut": 171,
+   "bas": 106,
+   "haut": 177,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -5596,15 +5596,15 @@
    "j": 126,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 18",
-   "nlec": 1,
+   "nlec": 3,
    "difficulte": 2,
    "postes": {
     "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 28,
-    "lectureLeconsHaut": 53,
-    "lectureLeconsSiToutRelu": 18,
-    "rappelActifMinute": 3,
+    "lectureLecons": 34,
+    "lectureLeconsHaut": 59,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": 9,
     "guide": [
      0,
      0
@@ -5622,8 +5622,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 89,
-   "haut": 153,
+   "bas": 95,
+   "haut": 159,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -5904,15 +5904,15 @@
    "j": 133,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 19",
-   "nlec": 2,
+   "nlec": 4,
    "difficulte": 2,
    "postes": {
     "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 31,
-    "lectureLeconsHaut": 56,
-    "lectureLeconsSiToutRelu": 42,
-    "rappelActifMinute": 6,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 86,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -5930,8 +5930,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 92,
-   "haut": 156,
+   "bas": 98,
+   "haut": 162,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -6219,7 +6219,7 @@
     "correction": 3,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
-    "lectureLeconsSiToutRelu": 171,
+    "lectureLeconsSiToutRelu": 160,
     "rappelActifMinute": 20,
     "guide": [
      0,
@@ -6238,8 +6238,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 106,
-   "haut": 170,
+   "bas": 107,
+   "haut": 171,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -6520,15 +6520,15 @@
    "j": 147,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 21",
-   "nlec": 2,
+   "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 2,
-    "lectureLecons": 31,
-    "lectureLeconsHaut": 56,
-    "lectureLeconsSiToutRelu": 45,
-    "rappelActifMinute": 6,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 97,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -6546,8 +6546,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 100,
-   "haut": 171,
+   "bas": 106,
+   "haut": 177,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -6828,15 +6828,15 @@
    "j": 154,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 22",
-   "nlec": 1,
+   "nlec": 3,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 28,
-    "lectureLeconsHaut": 53,
-    "lectureLeconsSiToutRelu": 28,
-    "rappelActifMinute": 3,
+    "lectureLecons": 34,
+    "lectureLeconsHaut": 59,
+    "lectureLeconsSiToutRelu": 72,
+    "rappelActifMinute": 9,
     "guide": [
      0,
      0
@@ -6854,8 +6854,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 89,
-   "haut": 153,
+   "bas": 95,
+   "haut": 159,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -7136,15 +7136,15 @@
    "j": 161,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 23",
-   "nlec": 4,
+   "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 37,
-    "lectureLeconsHaut": 62,
-    "lectureLeconsSiToutRelu": 96,
-    "rappelActifMinute": 12,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 140,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -7162,8 +7162,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 98,
-   "haut": 162,
+   "bas": 104,
+   "haut": 168,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -7444,15 +7444,15 @@
    "j": 168,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 24",
-   "nlec": 4,
+   "nlec": 6,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 37,
-    "lectureLeconsHaut": 62,
-    "lectureLeconsSiToutRelu": 96,
-    "rappelActifMinute": 12,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 142,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -7470,8 +7470,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 106,
-   "haut": 177,
+   "bas": 113,
+   "haut": 184,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -7752,15 +7752,15 @@
    "j": 175,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 25",
-   "nlec": 5,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 40,
-    "lectureLeconsHaut": 65,
-    "lectureLeconsSiToutRelu": 118,
-    "rappelActifMinute": 15,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 161,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -7778,8 +7778,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 110,
-   "haut": 181,
+   "bas": 115,
+   "haut": 186,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8060,15 +8060,15 @@
    "j": 182,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 26",
-   "nlec": 5,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 40,
-    "lectureLeconsHaut": 65,
-    "lectureLeconsSiToutRelu": 118,
-    "rappelActifMinute": 15,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 161,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -8086,8 +8086,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 113,
-   "haut": 162,
+   "bas": 118,
+   "haut": 167,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8368,15 +8368,15 @@
    "j": 189,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 27",
-   "nlec": 2,
+   "nlec": 4,
    "difficulte": 2,
    "postes": {
     "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 31,
-    "lectureLeconsHaut": 56,
-    "lectureLeconsSiToutRelu": 41,
-    "rappelActifMinute": 6,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 87,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -8394,8 +8394,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 179,
-   "haut": 258,
+   "bas": 185,
+   "haut": 264,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8676,15 +8676,15 @@
    "j": 196,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 28",
-   "nlec": 2,
+   "nlec": 4,
    "difficulte": 2,
    "postes": {
     "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 31,
-    "lectureLeconsHaut": 56,
-    "lectureLeconsSiToutRelu": 41,
-    "rappelActifMinute": 6,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 84,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -8702,8 +8702,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 164,
-   "haut": 237,
+   "bas": 170,
+   "haut": 243,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8984,15 +8984,15 @@
    "j": 203,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 29",
-   "nlec": 4,
+   "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 10,
+    "lectureJour": 11,
     "correction": 3,
-    "lectureLecons": 37,
-    "lectureLeconsHaut": 62,
-    "lectureLeconsSiToutRelu": 91,
-    "rappelActifMinute": 12,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 134,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -9010,8 +9010,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 185,
-   "haut": 264,
+   "bas": 191,
+   "haut": 270,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9292,15 +9292,15 @@
    "j": 210,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 30",
-   "nlec": 4,
+   "nlec": 6,
    "difficulte": 2,
    "postes": {
     "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 37,
-    "lectureLeconsHaut": 62,
-    "lectureLeconsSiToutRelu": 91,
-    "rappelActifMinute": 12,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 137,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -9318,8 +9318,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 141,
-   "haut": 240,
+   "bas": 148,
+   "haut": 247,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9600,15 +9600,15 @@
    "j": 217,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 31",
-   "nlec": 4,
+   "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 10,
+    "lectureJour": 11,
     "correction": 3,
-    "lectureLecons": 37,
-    "lectureLeconsHaut": 62,
-    "lectureLeconsSiToutRelu": 91,
-    "rappelActifMinute": 12,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 134,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -9626,8 +9626,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 200,
-   "haut": 285,
+   "bas": 207,
+   "haut": 292,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9908,15 +9908,15 @@
    "j": 224,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 32",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 151,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 170,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -9934,8 +9934,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 206,
-   "haut": 291,
+   "bas": 208,
+   "haut": 293,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -10216,15 +10216,15 @@
    "j": 231,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 33",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 11,
     "correction": 4,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 151,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 173,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -10242,8 +10242,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 207,
-   "haut": 292,
+   "bas": 210,
+   "haut": 295,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -10524,15 +10524,15 @@
    "j": 238,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 34",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 11,
     "correction": 4,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 151,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 170,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -10550,16 +10550,16 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 208,
-   "haut": 293,
+   "bas": 210,
+   "haut": 295,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -10832,15 +10832,15 @@
    "j": 245,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 35",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 151,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 170,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -10858,8 +10858,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 143,
-   "haut": 204,
+   "bas": 146,
+   "haut": 207,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11140,15 +11140,15 @@
    "j": 252,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 36",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 151,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 173,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -11166,8 +11166,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 163,
-   "haut": 232,
+   "bas": 165,
+   "haut": 234,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11448,15 +11448,15 @@
    "j": 259,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 37",
-   "nlec": 3,
+   "nlec": 5,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 34,
-    "lectureLeconsHaut": 59,
-    "lectureLeconsSiToutRelu": 66,
-    "rappelActifMinute": 9,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 110,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
@@ -11474,8 +11474,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 134,
-   "haut": 195,
+   "bas": 141,
+   "haut": 202,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11756,15 +11756,15 @@
    "j": 266,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 38",
-   "nlec": 3,
+   "nlec": 5,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 34,
-    "lectureLeconsHaut": 59,
-    "lectureLeconsSiToutRelu": 79,
-    "rappelActifMinute": 9,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 122,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
@@ -11782,8 +11782,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 134,
-   "haut": 195,
+   "bas": 141,
+   "haut": 202,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -12064,15 +12064,15 @@
    "j": 273,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 39",
-   "nlec": 3,
+   "nlec": 5,
    "difficulte": 2,
    "postes": {
     "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 34,
-    "lectureLeconsHaut": 59,
-    "lectureLeconsSiToutRelu": 66,
-    "rappelActifMinute": 9,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 112,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
@@ -12090,8 +12090,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 86,
-   "haut": 143,
+   "bas": 93,
+   "haut": 150,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -12372,15 +12372,15 @@
    "j": 280,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 40",
-   "nlec": 3,
+   "nlec": 5,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 34,
-    "lectureLeconsHaut": 59,
-    "lectureLeconsSiToutRelu": 68,
-    "rappelActifMinute": 9,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 112,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
@@ -12398,8 +12398,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 134,
-   "haut": 195,
+   "bas": 141,
+   "haut": 202,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -12680,15 +12680,15 @@
    "j": 287,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 41",
-   "nlec": 3,
+   "nlec": 5,
    "difficulte": 2,
    "postes": {
     "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 34,
-    "lectureLeconsHaut": 59,
-    "lectureLeconsSiToutRelu": 68,
-    "rappelActifMinute": 9,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 112,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
@@ -12706,8 +12706,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 134,
-   "haut": 195,
+   "bas": 140,
+   "haut": 201,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -12995,7 +12995,7 @@
     "correction": 3,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
-    "lectureLeconsSiToutRelu": 146,
+    "lectureLeconsSiToutRelu": 150,
     "rappelActifMinute": 20,
     "guide": [
      0,
@@ -13296,15 +13296,15 @@
    "j": 301,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 43",
-   "nlec": 5,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 40,
-    "lectureLeconsHaut": 65,
-    "lectureLeconsSiToutRelu": 126,
-    "rappelActifMinute": 15,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 169,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -13322,8 +13322,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 141,
-   "haut": 202,
+   "bas": 146,
+   "haut": 207,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -13604,15 +13604,15 @@
    "j": 308,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 44",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 134,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 155,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -13630,8 +13630,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 97,
-   "haut": 154,
+   "bas": 99,
+   "haut": 156,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -13912,15 +13912,15 @@
    "j": 315,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 45",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 151,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 173,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -13938,8 +13938,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 83,
-   "haut": 120,
+   "bas": 86,
+   "haut": 123,
    "cat": "UNDERLOADED",
    "catsParHypothese": {
     "rapide·relecture1": "UNDERLOADED",
@@ -14223,11 +14223,11 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
-    "lectureLeconsSiToutRelu": 144,
+    "lectureLeconsSiToutRelu": 148,
     "rappelActifMinute": 20,
     "guide": [
      0,
@@ -14246,8 +14246,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 98,
-   "haut": 155,
+   "bas": 99,
+   "haut": 156,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -14528,15 +14528,15 @@
    "j": 329,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 47",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 131,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 153,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -14554,8 +14554,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 96,
-   "haut": 153,
+   "bas": 99,
+   "haut": 156,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -14836,15 +14836,15 @@
    "j": 336,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 48",
-   "nlec": 6,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 43,
-    "lectureLeconsHaut": 68,
-    "lectureLeconsSiToutRelu": 151,
-    "rappelActifMinute": 18,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 171,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -14862,8 +14862,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 96,
-   "haut": 153,
+   "bas": 99,
+   "haut": 156,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -15144,15 +15144,15 @@
    "j": 343,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 49",
-   "nlec": 4,
+   "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 37,
-    "lectureLeconsHaut": 62,
-    "lectureLeconsSiToutRelu": 82,
-    "rappelActifMinute": 12,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 126,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -15170,8 +15170,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 90,
-   "haut": 147,
+   "bas": 97,
+   "haut": 154,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -15452,15 +15452,15 @@
    "j": 350,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 50",
-   "nlec": 4,
+   "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 37,
-    "lectureLeconsHaut": 62,
-    "lectureLeconsSiToutRelu": 82,
-    "rappelActifMinute": 12,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 126,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -15478,8 +15478,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 90,
-   "haut": 147,
+   "bas": 96,
+   "haut": 153,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -15767,7 +15767,7 @@
     "correction": 3,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
-    "lectureLeconsSiToutRelu": 165,
+    "lectureLeconsSiToutRelu": 166,
     "rappelActifMinute": 20,
     "guide": [
      0,
@@ -15786,8 +15786,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 98,
-   "haut": 155,
+   "bas": 99,
+   "haut": 156,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -16068,15 +16068,15 @@
    "j": 364,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 52",
-   "nlec": 2,
+   "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 31,
-    "lectureLeconsHaut": 56,
-    "lectureLeconsSiToutRelu": 45,
-    "rappelActifMinute": 6,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 89,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -16094,8 +16094,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 84,
-   "haut": 141,
+   "bas": 90,
+   "haut": 147,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",

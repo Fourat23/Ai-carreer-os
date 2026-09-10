@@ -7,20 +7,21 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP5**
+- **dernier CP terminé** : **CP6**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP6** — reviews 2.0
-- **NEXT_ACTION** : faire évoluer le mécanisme de revue. Une revue ne doit plus signifier
-  automatiquement « relis ce que tu as fait cette semaine ». Elle doit pouvoir mêler
-  **RECENT · SPACED · WEAK · PREREQUISITE · TRANSFER**, **chacun avec une raison visible**.
-  **Préserver la limite de charge** — seuils V73 non renégociés : `L1 = 0`, `L2 ≤ 12/52`,
-  `L3 ≤ 20/365`, budget `[240, 300]` min. **Mesurer BEFORE / AFTER** avec
-  `node scripts/v73/cp6-charge.mjs`. **Rappel du CP0** : la médiane de 1 jour vient
-  **dominamment du rattachement des leçons aux journées** (94 leçons sur 247 sont liées aux six
-  journées de leur semaine), pas du dimanche de revue — donc **déplacer les revues ne
-  corrigerait rien**, et **G12 interdit d'ajouter des blocs de rappel pour faire monter un
-  compteur**. Les 52 revues sont générées par `scripts/generate-curriculum.mjs`.
+- **NEXT_CP** : **CP7** — moteur de remédiation
+- **NEXT_ACTION** : construire `lib/remediation.mjs` — **règle DÉTERMINISTE V1** qui, après un
+  ÉCHEC, décide entre **indice · sous-problème · retour au modèle mental · exemple analogue ·
+  exercice plus simple · correction complète · nouvelle tentative différée**. Interdiction
+  centrale du brief : **« ne pas simplement redonner la réponse »** — la correction complète
+  doit être la DERNIÈRE marche, pas la première. Entrées disponibles et déjà écrites :
+  `ExerciseAttempt` (CP2 : `passed/total`, `phase`, `correctionSeen`), la fiche mémoire du CP2
+  (`failedRetrievalCount`, `consecutiveSuccesses`, `lastFailureAt`, `prereqDepth`), les
+  archétypes du CP5 (`tachePour`) pour matérialiser « exercice plus simple » et « exemple
+  analogue » **sans inventer de contenu**, et `correctionState` (`locked/available/viewed/
+  acknowledged`) qui dit si la réponse a déjà été vue. **Ne pas créer de quatrième moteur** ;
+  module PUR, horloge injectée (B2), et **chaque décision doit porter sa raison** (B10).
 
 ## Repères Git
 
@@ -108,6 +109,11 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP6** : **modifié** `scripts/generate-curriculum.mjs` (`lessonsDeLaRevue` rend des leçons
+  **catégorisées** `{file, categorie, raison}` ; `ESPACEMENT_MIN_JOURS = 21`,
+  `PLACES_ANCIENNES = 2`, historique `DERNIERE_REVUE`). **Régénérés** : `data/program.json`,
+  **46 journées de revue** (`day-042` → `day-364`), `docs/v73/charge-365.json`,
+  `docs/v73/curriculum-graph.json`. **Créé** `docs/v74/V74-CP6-REVIEWS-2.md`.
 - **CP5** : **créés** `lib/retrieval-task.mjs`, `tests/v74-retrieval-task.test.mjs`.
   **Modifié** `scripts/v651-check.mjs` (liste C11).
 - **CP4** : **créés** `lib/retention-scheduler.mjs`, `tests/v74-retention-scheduler.test.mjs`.
@@ -127,6 +133,10 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP6** : **1482/1482** · tsc 0 · `gates:active` **0 violation** · porte V73 verte ·
+  **R1→R7 = 0** · corpus des leçons `92d5fae6…` **inchangé** (seules les journées de revue
+  changent) · `data/progress.json` absent · **charge L1 = 0 · L2 = 0/52 · L3 = 6/365**,
+  identique au BEFORE.
 - **CP5** : **1482/1482** (12 nouveaux) · tsc 0 · `gates:active` 0 violation · corpus
   `92d5fae6…` inchangé · `data/progress.json` absent.
 - **CP4** : **1470/1470** (15 nouveaux) · tsc 0 · `gates:active` 0 violation · corpus
@@ -164,6 +174,63 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP6** — **une revue cesse d'être « relis ta semaine ». L'espacement médian passe de 1 à
+  3 jours, sans toucher au plafond de charge.**
+  - **`scripts/generate-curriculum.mjs`** — `lessonsDeLaRevue` ne rend plus une liste de
+    fichiers mais des leçons **catégorisées** : `{file, categorie, raison}` avec
+    `RECENT | SPACED | TRANSFER`. Le rendu affiche la raison en clair à côté de la leçon —
+    **une revue sans raison visible n'apprend rien à l'apprenant sur POURQUOI il revoit ceci**.
+  - **Deux places réservées aux leçons anciennes** (`PLACES_ANCIENNES = 2`) sous une condition
+    dure : `ESPACEMENT_MIN_JOURS = 21`. Une leçon vue il y a moins de trois semaines n'est pas
+    « espacée », et l'appeler ainsi serait le contournement **G4** (« jour vu récemment = jour
+    maîtrisé », dans sa forme symétrique).
+  - **Un historique `DERNIERE_REVUE` empêche la boucle** : une leçon déjà rappelée dans une
+    revue antérieure ne peut pas revenir immédiatement. Sans cela, les mêmes deux leçons
+    anciennes seraient réapparues dans les 46 revues — beaucoup de répétitions, aucune
+    couverture.
+  - **`WEAK` et `PREREQUISITE` sont VOLONTAIREMENT ABSENTS DU GÉNÉRATEUR, et la raison est
+    écrite dans le code** : `WEAK` demande l'état de l'apprenant, or **le curriculum est
+    statique et identique pour tous** — le fabriquer à la génération reviendrait à inventer une
+    progression que personne n'a faite (interdiction « fabriquer progress.json »). Ces deux
+    catégories relèvent de l'ARBITRE d'exécution (CP3/CP4), qui, lui, lit l'apprenant réel.
+    `PREREQUISITE` a en plus un obstacle structurel : le graphe de prérequis de V73 est
+    construit **à partir du curriculum généré** — l'utiliser pendant la génération serait une
+    **dépendance circulaire**.
+  - **BEFORE / AFTER MESURÉ, pas estimé** — sur les 52 revues :
+
+    | mesure | BEFORE | AFTER |
+    |---|---|---|
+    | écart médian leçon → revue | **1 j** | **3 j** |
+    | paires à 1 jour d'écart | 135 (**55 %**) | 121 (**39 %**) |
+    | paires à 7 jours ou plus | 29 (**12 %**) | 114 (**37 %**) |
+    | paires leçon × revue | 247 | **307** |
+    | leçons anciennes ajoutées | 0 | **93** |
+    | charge `L1 / L2 / L3` | `0 / 0 / 6` | `0 / 0 / 6` |
+    | borne haute médiane d'une revue | 186 min | **188 min** |
+    | borne haute maximale | 293 min | **295 min** |
+
+  - **LE VOLUME AUGMENTE DE 24 % ET JE LE DIS PLUTÔT QUE DE L'ARRONDIR** : 247 → 307 paires.
+    Le brief interdit « augmenter le nombre de reviews pour faire monter un score » (G12) — ce
+    n'est pas ce qui se passe ici : **le nombre de revues reste 52**, le plafond de leçons par
+    revue reste **7** et n'a pas été relevé, la charge mesurée est **identique au jour près**.
+    Ce qui augmente, c'est le nombre de leçons ANCIENNES rappelées — c'est-à-dire exactement la
+    propriété visée. **Mais l'augmentation est réelle et devait être publiée**, pas dissimulée
+    derrière « à charge constante ».
+  - **Le plafond de 7 est respecté sans exception** ; distribution effective des revues par
+    nombre de leçons : `3 → 4 · 4 → 6 · 5 → 7 · 6 → 9 · 7 → 26`.
+  - **Les 6 premières semaines ne changent PAS** : avant le jour 42, aucune leçon n'a 21 jours
+    d'âge. **Le générateur ne fabrique rien pour remplir une case** — il rend moins de leçons
+    quand il n'y en a pas d'anciennes, plutôt que d'abaisser le seuil pour que le tableau soit
+    plein.
+  - **Ce qui n'est PAS corrigé, et pourquoi ce n'est pas un échec du CP6** : les 39 % de paires
+    encore à 1 jour viennent des **94 leçons sur 247 rattachées aux SIX journées de leur
+    semaine** — mesure du CP0. Pour celles-là l'écart de 1 est **arithmétiquement inévitable**,
+    quelle que soit la date de la revue. Le corriger exigerait de modifier le **rattachement
+    des leçons** (défaut V73 `P1-CP13-1`), c'est-à-dire de toucher au curriculum pour verdir
+    une métrique de rétention — **précisément ce que N1/N2 non bloquants interdisent**.
+  - **1482/1482 · tsc 0 · 52 portes vertes · porte V73 verte · R1→R7 = 0 · corpus des leçons
+    inchangé.**
 
 - **CP5** — **douze archétypes de rappel, zéro invention.**
   - **`lib/retrieval-task.mjs`** — pur, sans I/O. **Règle absolue du module : une tâche cite

@@ -998,7 +998,8 @@
     "async-javascript",
     "design-patterns-intro",
     "clean-code",
-    "testing-foundations"
+    "git-advanced",
+    "git-fundamentals"
    ],
    "estProduction": false,
    "exercices": [
@@ -1007,7 +1008,8 @@
    "competencesPortees": [
     "jsts",
     "patterns",
-    "se"
+    "se",
+    "gitlinux"
    ]
   },
   {
@@ -1163,7 +1165,7 @@
     "algorithmic-thinking",
     "clean-code",
     "testing-foundations",
-    "recursion"
+    "terminal-shell-filesystem"
    ],
    "estProduction": false,
    "exercices": [
@@ -1172,7 +1174,8 @@
    "competencesPortees": [
     "jsts",
     "algo",
-    "se"
+    "se",
+    "gitlinux"
    ]
   },
   {
@@ -1327,8 +1330,8 @@
     "api-design-basics",
     "express-backend",
     "clean-code",
-    "testing-foundations",
-    "error-handling"
+    "async-javascript",
+    "javascript-basics"
    ],
    "estProduction": false,
    "exercices": [
@@ -1336,7 +1339,8 @@
    ],
    "competencesPortees": [
     "http",
-    "se"
+    "se",
+    "jsts"
    ]
   },
   {
@@ -1493,7 +1497,8 @@
     "http-rest-json",
     "api-design-basics",
     "express-backend",
-    "algorithmic-thinking"
+    "git-advanced",
+    "git-fundamentals"
    ],
    "estProduction": false,
    "exercices": [
@@ -1503,7 +1508,7 @@
     "sql",
     "http",
     "se",
-    "algo"
+    "gitlinux"
    ]
   },
   {
@@ -1667,8 +1672,8 @@
     "api-design-basics",
     "express-backend",
     "clean-code",
-    "testing-foundations",
-    "error-handling"
+    "terminal-shell-filesystem",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -1676,7 +1681,9 @@
    ],
    "competencesPortees": [
     "se",
-    "http"
+    "http",
+    "gitlinux",
+    "algo"
    ]
   },
   {
@@ -1847,8 +1854,8 @@
     "linux-filesystem-permissions",
     "linux-processes-signals",
     "linux-resources-io",
-    "networking-tcp-ip-model",
-    "networking-dns"
+    "async-javascript",
+    "javascript-basics"
    ],
    "estProduction": false,
    "exercices": [
@@ -1860,8 +1867,7 @@
     "gitlinux",
     "secu",
     "archi",
-    "http",
-    "cloud"
+    "jsts"
    ]
   },
   {
@@ -2055,8 +2061,8 @@
     "logging-structured",
     "metrics-percentiles",
     "distributed-tracing",
-    "slo-error-budget",
-    "networking-proxy-loadbalancing"
+    "data-structures-intro",
+    "typescript-basics"
    ],
    "estProduction": false,
    "exercices": [
@@ -2067,7 +2073,9 @@
     "se",
     "archi",
     "cloud",
-    "secu"
+    "secu",
+    "ds",
+    "jsts"
    ]
   },
   {
@@ -2238,8 +2246,8 @@
     "testing-foundations",
     "error-handling",
     "technical-storytelling",
-    "readme-documentation",
-    "portfolio-github"
+    "recursion",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -2248,7 +2256,9 @@
    "competencesPortees": [
     "jsts",
     "se",
-    "comm"
+    "comm",
+    "algo",
+    "http"
    ]
   },
   {
@@ -2413,7 +2423,8 @@
     "react-application-states",
     "javascript-basics",
     "typescript-basics",
-    "async-javascript"
+    "algorithmic-thinking",
+    "database-modeling"
    ],
    "estProduction": false,
    "exercices": [
@@ -2421,7 +2432,9 @@
    ],
    "competencesPortees": [
     "jsts",
-    "archi"
+    "archi",
+    "algo",
+    "sql"
    ]
   },
   {
@@ -2586,8 +2599,8 @@
     "html-semantic-structure",
     "frontend-performance",
     "javascript-basics",
-    "typescript-basics",
-    "async-javascript"
+    "data-structures-intro",
+    "sql-foundations"
    ],
    "estProduction": false,
    "exercices": [
@@ -2595,7 +2608,9 @@
    ],
    "competencesPortees": [
     "jsts",
-    "archi"
+    "archi",
+    "ds",
+    "sql"
    ]
   },
   {
@@ -2741,7 +2756,9 @@
     "frontend-testing",
     "clean-code",
     "testing-foundations",
-    "error-handling"
+    "error-handling",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -2749,7 +2766,8 @@
    ],
    "competencesPortees": [
     "jsts",
-    "se"
+    "se",
+    "algo"
    ]
   },
   {
@@ -2883,7 +2901,9 @@
    "difficulte": 2,
    "lecons": [
     "system-design-interview",
-    "algorithmic-thinking"
+    "algorithmic-thinking",
+    "typescript-basics",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -2892,7 +2912,10 @@
    "competencesPortees": [
     "archi",
     "comm",
-    "algo"
+    "algo",
+    "jsts",
+    "http",
+    "se"
    ]
   },
   {
@@ -3036,14 +3059,18 @@
    "projet": null,
    "difficulte": 2,
    "lecons": [
-    "python-foundations"
+    "python-foundations",
+    "data-structures-intro",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
     "prompt-injection-classify"
    ],
    "competencesPortees": [
-    "python"
+    "python",
+    "ds",
+    "algo"
    ]
   },
   {
@@ -3194,7 +3221,9 @@
    "difficulte": 2,
    "lecons": [
     "python-foundations",
-    "pandas-data-wrangling"
+    "pandas-data-wrangling",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -3204,7 +3233,9 @@
    ],
    "competencesPortees": [
     "python",
-    "sql"
+    "sql",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -3354,8 +3385,8 @@
     "sql-performance-indexing",
     "sql-foundations",
     "database-modeling",
-    "etl-pipelines",
-    "data-cleaning-quality"
+    "typescript-basics",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -3367,7 +3398,8 @@
     "sql",
     "se",
     "archi",
-    "python"
+    "jsts",
+    "http"
    ]
   },
   {
@@ -3504,7 +3536,9 @@
    "difficulte": 2,
    "lecons": [
     "system-design-interview",
-    "algorithmic-thinking"
+    "algorithmic-thinking",
+    "data-structures-intro",
+    "express-backend"
    ],
    "estProduction": false,
    "exercices": [
@@ -3514,7 +3548,10 @@
    "competencesPortees": [
     "archi",
     "comm",
-    "algo"
+    "algo",
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -3657,14 +3694,18 @@
    "projet": null,
    "difficulte": 2,
    "lecons": [
-    "statistics-for-ml"
+    "statistics-for-ml",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
     "retry-should"
    ],
    "competencesPortees": [
-    "ml"
+    "ml",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -3814,7 +3855,9 @@
     "machine-learning-basics",
     "statistics-for-ml",
     "scikit-learn-workflow",
-    "model-evaluation"
+    "model-evaluation",
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
@@ -3823,7 +3866,9 @@
    "competencesPortees": [
     "ml",
     "python",
-    "evalia"
+    "evalia",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -3971,7 +4016,9 @@
     "machine-learning-basics",
     "statistics-for-ml",
     "scikit-learn-workflow",
-    "model-evaluation"
+    "model-evaluation",
+    "data-structures-intro",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -3981,7 +4028,10 @@
    "competencesPortees": [
     "ml",
     "python",
-    "evalia"
+    "evalia",
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -4129,7 +4179,9 @@
     "statistics-for-ml",
     "scikit-learn-workflow",
     "feature-engineering",
-    "model-evaluation"
+    "model-evaluation",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -4139,7 +4191,9 @@
    "competencesPortees": [
     "ml",
     "python",
-    "evalia"
+    "evalia",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -4287,7 +4341,9 @@
     "statistics-for-ml",
     "scikit-learn-workflow",
     "feature-engineering",
-    "model-evaluation"
+    "model-evaluation",
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
@@ -4296,7 +4352,9 @@
    "competencesPortees": [
     "ml",
     "python",
-    "evalia"
+    "evalia",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -4449,7 +4507,9 @@
    "difficulte": 2,
    "lecons": [
     "neural-networks",
-    "transformers"
+    "transformers",
+    "data-structures-intro",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -4457,7 +4517,10 @@
    ],
    "competencesPortees": [
     "dl",
-    "llm"
+    "llm",
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -4606,7 +4669,9 @@
    "difficulte": 2,
    "lecons": [
     "neural-networks",
-    "transformers"
+    "transformers",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -4615,7 +4680,9 @@
    ],
    "competencesPortees": [
     "dl",
-    "llm"
+    "llm",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -4786,7 +4853,9 @@
     "llm-fundamentals",
     "prompt-engineering",
     "structured-outputs-tools",
-    "llm-cost-optimization"
+    "llm-cost-optimization",
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
@@ -4795,7 +4864,9 @@
    "competencesPortees": [
     "llm",
     "agents",
-    "cloud"
+    "cloud",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -4956,7 +5027,9 @@
     "llm-fundamentals",
     "prompt-engineering",
     "structured-outputs-tools",
-    "llm-cost-optimization"
+    "llm-cost-optimization",
+    "data-structures-intro",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -4965,7 +5038,10 @@
    "competencesPortees": [
     "llm",
     "agents",
-    "cloud"
+    "cloud",
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -5126,7 +5202,9 @@
     "llm-fundamentals",
     "prompt-engineering",
     "structured-outputs-tools",
-    "llm-cost-optimization"
+    "llm-cost-optimization",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -5137,7 +5215,9 @@
    "competencesPortees": [
     "llm",
     "agents",
-    "cloud"
+    "cloud",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -5330,7 +5410,8 @@
     "chunking-strategies",
     "retrieval-reranking",
     "vector-databases",
-    "rag-evaluation"
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
@@ -5341,7 +5422,8 @@
     "rag",
     "llm",
     "dl",
-    "evalia"
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -5528,7 +5610,8 @@
     "chunking-strategies",
     "retrieval-reranking",
     "vector-databases",
-    "rag-evaluation"
+    "data-structures-intro",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -5538,7 +5621,9 @@
     "rag",
     "llm",
     "dl",
-    "evalia"
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -5719,7 +5804,8 @@
     "chunking-strategies",
     "retrieval-reranking",
     "vector-databases",
-    "rag-evaluation"
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -5731,7 +5817,8 @@
     "rag",
     "llm",
     "dl",
-    "evalia"
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -5912,7 +5999,8 @@
     "chunking-strategies",
     "retrieval-reranking",
     "vector-databases",
-    "rag-evaluation"
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
@@ -5922,7 +6010,8 @@
     "rag",
     "llm",
     "dl",
-    "evalia"
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -6103,7 +6192,8 @@
     "chunking-strategies",
     "retrieval-reranking",
     "vector-databases",
-    "rag-evaluation"
+    "data-structures-intro",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -6113,7 +6203,9 @@
     "rag",
     "llm",
     "dl",
-    "evalia"
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -6279,7 +6371,9 @@
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
-    "model-evaluation"
+    "model-evaluation",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -6290,7 +6384,9 @@
    "competencesPortees": [
     "evalia",
     "rag",
-    "ml"
+    "ml",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -6446,7 +6542,9 @@
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
-    "authentication"
+    "authentication",
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
@@ -6456,7 +6554,9 @@
    "competencesPortees": [
     "secu",
     "llm",
-    "http"
+    "http",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -6622,7 +6722,9 @@
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
-    "model-evaluation"
+    "model-evaluation",
+    "data-structures-intro",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -6632,7 +6734,10 @@
    "competencesPortees": [
     "evalia",
     "rag",
-    "ml"
+    "ml",
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -6799,7 +6904,9 @@
    "lecons": [
     "agents-fundamentals",
     "agent-workflows-orchestration",
-    "structured-outputs-tools"
+    "structured-outputs-tools",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -6808,7 +6915,9 @@
    "competencesPortees": [
     "agents",
     "archi",
-    "llm"
+    "llm",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -6974,7 +7083,9 @@
    "lecons": [
     "agents-fundamentals",
     "agent-workflows-orchestration",
-    "structured-outputs-tools"
+    "structured-outputs-tools",
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
@@ -6983,7 +7094,9 @@
    "competencesPortees": [
     "agents",
     "archi",
-    "llm"
+    "llm",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -7164,8 +7277,8 @@
     "design-patterns-intro",
     "system-design-scaling",
     "distributed-systems-failures",
-    "docker-containers",
-    "cloud-fundamentals"
+    "data-structures-intro",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -7176,7 +7289,10 @@
     "cloud",
     "secu",
     "archi",
-    "patterns"
+    "patterns",
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -7345,7 +7461,9 @@
     "metrics-percentiles",
     "ai-security",
     "prompt-injection-defense",
-    "authentication"
+    "authentication",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -7356,7 +7474,9 @@
     "cloud",
     "secu",
     "llm",
-    "http"
+    "http",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -7522,7 +7642,8 @@
     "cloud-azure-core",
     "architecture-basics",
     "caching-performance",
-    "system-design-interview"
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
@@ -7535,7 +7656,8 @@
     "se",
     "secu",
     "archi",
-    "comm"
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -7716,7 +7838,8 @@
     "chunking-strategies",
     "retrieval-reranking",
     "vector-databases",
-    "rag-evaluation"
+    "data-structures-intro",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -7728,7 +7851,9 @@
     "rag",
     "llm",
     "dl",
-    "evalia"
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -7930,8 +8055,8 @@
     "k8s-config-probes",
     "docker-build-dockerfile",
     "docker-images-layers",
-    "docker-compose",
-    "docker-networking-volumes"
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
@@ -7940,7 +8065,9 @@
    "competencesPortees": [
     "cloud",
     "archi",
-    "secu"
+    "secu",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -8129,7 +8256,8 @@
     "cloud-finops",
     "agents-fundamentals",
     "agent-workflows-orchestration",
-    "structured-outputs-tools"
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
@@ -8140,7 +8268,8 @@
     "se",
     "archi",
     "agents",
-    "llm"
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -8306,7 +8435,8 @@
     "resilience-patterns",
     "ai-security",
     "prompt-injection-defense",
-    "authentication"
+    "data-structures-intro",
+    "api-production-contracts"
    ],
    "estProduction": false,
    "exercices": [
@@ -8319,7 +8449,9 @@
     "comm",
     "secu",
     "llm",
-    "http"
+    "ds",
+    "http",
+    "se"
    ]
   },
   {
@@ -8468,14 +8600,18 @@
     "technical-storytelling",
     "readme-documentation",
     "portfolio-github",
-    "interview-preparation"
+    "interview-preparation",
+    "javascript-basics",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [
     "py-data-dedup-latest"
    ],
    "competencesPortees": [
-    "comm"
+    "comm",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -8624,14 +8760,18 @@
     "technical-storytelling",
     "readme-documentation",
     "portfolio-github",
-    "interview-preparation"
+    "interview-preparation",
+    "typescript-basics",
+    "algorithmic-thinking"
    ],
    "estProduction": false,
    "exercices": [
     "py-data-diagnose-mean-none"
    ],
    "competencesPortees": [
-    "comm"
+    "comm",
+    "jsts",
+    "algo"
    ]
   },
   {
@@ -8792,8 +8932,8 @@
     "design-patterns-intro",
     "algorithmic-thinking",
     "data-structures-intro",
-    "recursion",
-    "technical-storytelling"
+    "api-production-contracts",
+    "express-backend"
    ],
    "estProduction": false,
    "exercices": [
@@ -8804,7 +8944,8 @@
     "patterns",
     "algo",
     "ds",
-    "comm"
+    "http",
+    "se"
    ]
   },
   {
@@ -8951,7 +9092,9 @@
    "difficulte": 2,
    "lecons": [
     "system-design-interview",
-    "algorithmic-thinking"
+    "algorithmic-thinking",
+    "javascript-basics",
+    "deployment-secrets"
    ],
    "estProduction": false,
    "exercices": [
@@ -8960,7 +9103,10 @@
    "competencesPortees": [
     "archi",
     "comm",
-    "algo"
+    "algo",
+    "jsts",
+    "cloud",
+    "secu"
    ]
   },
   {
@@ -9032,9 +9178,34 @@
     28,
     35,
     49,
-    63,
+    70,
+    91,
+    98,
+    112,
     119,
+    126,
+    133,
     147,
+    154,
+    161,
+    175,
+    182,
+    196,
+    203,
+    217,
+    224,
+    238,
+    245,
+    259,
+    266,
+    280,
+    287,
+    301,
+    308,
+    322,
+    329,
+    343,
+    350,
     357,
     364
    ],
@@ -9052,14 +9223,14 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 11,
-   "joursPortants": 29,
+   "joursPortants": 54,
    "leconsDeclarantes": 2,
    "leconsProgrammees": 2,
    "leconsHorsParcours": [],
    "artefactsPratique": 6,
    "premierContact": 15,
    "dernierContact": 365,
-   "plusGrandSilence": 204,
+   "plusGrandSilence": 21,
    "silenceFinal": 0
   },
   {
@@ -9082,6 +9253,19 @@
    "application": [],
    "revues": [
     35,
+    84,
+    105,
+    126,
+    147,
+    168,
+    189,
+    210,
+    231,
+    252,
+    273,
+    294,
+    315,
+    336,
     357
    ],
    "evaluations": [
@@ -9093,14 +9277,14 @@
    ],
    "niveauAttenduFinal": 2,
    "joursEtiquetes": 4,
-   "joursPortants": 7,
+   "joursPortants": 20,
    "leconsDeclarantes": 1,
    "leconsProgrammees": 1,
    "leconsHorsParcours": [],
    "artefactsPratique": 6,
    "premierContact": 30,
    "dernierContact": 357,
-   "plusGrandSilence": 316,
+   "plusGrandSilence": 49,
    "silenceFinal": 8
   },
   {
@@ -9201,10 +9385,37 @@
     28,
     42,
     49,
+    56,
+    77,
+    84,
     91,
     98,
     105,
-    112
+    112,
+    119,
+    133,
+    140,
+    154,
+    161,
+    175,
+    182,
+    196,
+    203,
+    217,
+    224,
+    238,
+    245,
+    259,
+    266,
+    280,
+    287,
+    301,
+    308,
+    322,
+    329,
+    343,
+    350,
+    364
    ],
    "evaluations": [
     {
@@ -9235,15 +9446,15 @@
    ],
    "niveauAttenduFinal": 4,
    "joursEtiquetes": 42,
-   "joursPortants": 51,
+   "joursPortants": 78,
    "leconsDeclarantes": 22,
    "leconsProgrammees": 22,
    "leconsHorsParcours": [],
    "artefactsPratique": 44,
    "premierContact": 4,
-   "dernierContact": 117,
-   "plusGrandSilence": 38,
-   "silenceFinal": 248
+   "dernierContact": 364,
+   "plusGrandSilence": 21,
+   "silenceFinal": 1
   },
   {
    "id": "python",
@@ -9311,7 +9522,6 @@
    "revues": [
     126,
     133,
-    140,
     161,
     168,
     175,
@@ -9336,7 +9546,7 @@
    ],
    "niveauAttenduFinal": 4,
    "joursEtiquetes": 16,
-   "joursPortants": 35,
+   "joursPortants": 34,
    "leconsDeclarantes": 5,
    "leconsProgrammees": 5,
    "leconsHorsParcours": [],
@@ -9369,6 +9579,10 @@
    "revues": [
     7,
     21,
+    42,
+    49,
+    63,
+    70,
     77
    ],
    "evaluations": [
@@ -9385,7 +9599,7 @@
    ],
    "niveauAttenduFinal": 2,
    "joursEtiquetes": 7,
-   "joursPortants": 9,
+   "joursPortants": 13,
    "leconsDeclarantes": 8,
    "leconsProgrammees": 6,
    "leconsHorsParcours": [
@@ -9395,7 +9609,7 @@
    "artefactsPratique": 11,
    "premierContact": 1,
    "dernierContact": 77,
-   "plusGrandSilence": 51,
+   "plusGrandSilence": 21,
    "silenceFinal": 288
   },
   {
@@ -9472,10 +9686,22 @@
     56,
     63,
     70,
-    77,
+    91,
+    119,
+    140,
+    147,
+    168,
+    189,
+    210,
+    231,
+    252,
     266,
+    273,
+    294,
     301,
-    336
+    315,
+    336,
+    357
    ],
    "evaluations": [
     {
@@ -9496,15 +9722,15 @@
    ],
    "niveauAttenduFinal": 4,
    "joursEtiquetes": 12,
-   "joursPortants": 42,
+   "joursPortants": 54,
    "leconsDeclarantes": 8,
    "leconsProgrammees": 8,
    "leconsHorsParcours": [],
    "artefactsPratique": 16,
    "premierContact": 50,
-   "dernierContact": 336,
-   "plusGrandSilence": 163,
-   "silenceFinal": 29
+   "dernierContact": 357,
+   "plusGrandSilence": 22,
+   "silenceFinal": 8
   },
   {
    "id": "sql",
@@ -9565,6 +9791,8 @@
    ],
    "revues": [
     63,
+    98,
+    105,
     133,
     140
    ],
@@ -9587,14 +9815,14 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 11,
-   "joursPortants": 28,
+   "joursPortants": 30,
    "leconsDeclarantes": 8,
    "leconsProgrammees": 8,
    "leconsHorsParcours": [],
    "artefactsPratique": 17,
    "premierContact": 55,
    "dernierContact": 152,
-   "plusGrandSilence": 63,
+   "plusGrandSilence": 34,
    "silenceFinal": 213
   },
   {
@@ -9712,9 +9940,21 @@
     84,
     91,
     112,
+    119,
     140,
+    147,
+    168,
+    189,
+    210,
+    231,
+    252,
+    273,
+    294,
     308,
-    329
+    315,
+    329,
+    336,
+    357
    ],
    "evaluations": [
     {
@@ -9740,15 +9980,15 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 15,
-   "joursPortants": 62,
+   "joursPortants": 74,
    "leconsDeclarantes": 16,
    "leconsProgrammees": 16,
    "leconsHorsParcours": [],
    "artefactsPratique": 47,
    "premierContact": 40,
-   "dernierContact": 329,
-   "plusGrandSilence": 148,
-   "silenceFinal": 36
+   "dernierContact": 357,
+   "plusGrandSilence": 21,
+   "silenceFinal": 8
   },
   {
    "id": "archi",
@@ -10415,7 +10655,6 @@
     287,
     301,
     315,
-    329,
     336
    ],
    "evaluations": [
@@ -10437,7 +10676,7 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 21,
-   "joursPortants": 119,
+   "joursPortants": 118,
    "leconsDeclarantes": 9,
    "leconsProgrammees": 9,
    "leconsHorsParcours": [],
@@ -10808,14 +11047,8 @@
     168,
     175,
     182,
-    224,
-    231,
-    238,
-    245,
-    252,
     259,
-    273,
-    315
+    273
    ],
    "evaluations": [
     {
@@ -10836,7 +11069,7 @@
    ],
    "niveauAttenduFinal": 4,
    "joursEtiquetes": 20,
-   "joursPortants": 78,
+   "joursPortants": 72,
    "leconsDeclarantes": 3,
    "leconsProgrammees": 3,
    "leconsHorsParcours": [],
@@ -10911,7 +11144,8 @@
     301,
     308,
     322,
-    336
+    336,
+    364
    ],
    "evaluations": [
     {
@@ -10932,7 +11166,7 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 23,
-   "joursPortants": 36,
+   "joursPortants": 37,
    "leconsDeclarantes": 15,
    "leconsProgrammees": 13,
    "leconsHorsParcours": [
@@ -10941,9 +11175,9 @@
    ],
    "artefactsPratique": 36,
    "premierContact": 67,
-   "dernierContact": 336,
+   "dernierContact": 364,
    "plusGrandSilence": 175,
-   "silenceFinal": 29
+   "silenceFinal": 1
   },
   {
    "id": "cloud",
@@ -11010,7 +11244,6 @@
     332
    ],
    "revues": [
-    77,
     84,
     203,
     210,
@@ -11020,7 +11253,8 @@
     308,
     322,
     329,
-    336
+    336,
+    364
    ],
    "evaluations": [
     {
@@ -11044,9 +11278,9 @@
    ],
    "artefactsPratique": 92,
    "premierContact": 68,
-   "dernierContact": 336,
+   "dernierContact": 364,
    "plusGrandSilence": 112,
-   "silenceFinal": 29
+   "silenceFinal": 1
   },
   {
    "id": "comm",
@@ -11132,11 +11366,9 @@
     91,
     119,
     147,
-    308,
     336,
     343,
     350,
-    357,
     364
    ],
    "evaluations": [
@@ -11158,7 +11390,7 @@
    ],
    "niveauAttenduFinal": 4,
    "joursEtiquetes": 25,
-   "joursPortants": 59,
+   "joursPortants": 57,
    "leconsDeclarantes": 7,
    "leconsProgrammees": 7,
    "leconsHorsParcours": [],

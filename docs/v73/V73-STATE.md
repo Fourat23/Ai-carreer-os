@@ -5,16 +5,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP1**
+- **dernier CP terminé** : **CP2**
 - **CP courant** : —
-- **NEXT_CP** : **CP2**
-- **NEXT_ACTION** : construire le **graphe canonique** compétence → concept → leçon → journée →
-  pratique → preuve → revue → projet, **en s'appuyant sur `lib/curriculum-graph.mjs` qui existe
-  déjà** (module pur V31, utilisé par les gates v39/v40/v42) — ne pas créer de doublon.
-  Produire `docs/v73/curriculum-graph.json`. Pour chaque compétence : introduction,
-  développement, pratique, application, revue, évaluation, niveau attendu final. Tests négatifs
-  sur le graphe. **Attention I4** : la source d'enseignement se lit sur le CONTENU d'une
-  journée, pas sur `day.skill` (faux positif `evalia`/mois 6 au CP0).
+- **NEXT_CP** : **CP3** — fermeture des trous de curriculum (CP MAJEUR)
+- **NEXT_ACTION** : fermer **CSS**, **Next.js** et **Cloud proprement dit**, en construisant de
+  vraies séquences (INTRODUCTION → GUIDED PRACTICE → APPLICATION → INTEGRATION → REVIEW quand
+  c'est pédagogiquement justifié), **sans créer ni supprimer de journée** (365 inchangé).
+  Ressource identifiée au CP0 : **31 des 40 journées UNDERLOADED sont entre j91 et j180**.
+  **Ne pas insérer une leçon dans une journée au seul motif qu'elle est courte.** Produire un
+  ledger BEFORE→AFTER. Vérifier ensuite Docker / Kubernetes / Linux avancé / sécurité /
+  observabilité. Conditions M1→M9 du contrat à respecter et à inscrire au ledger.
+  **Le CP2 a précisé le trou `cloud`** : ce n'est pas « jamais enseigné » (41 journées le
+  portent depuis j68), c'est (a) **jamais étiqueté** — 0 journée porte l'étiquette, donc rien
+  ne l'affiche à l'apprenant — et (b) **le cloud proprement dit manque** : AWS, Azure, réseau
+  cloud, IaC, FinOps sont les 7 leçons hors parcours.
 
 ## Repères Git
 
@@ -60,6 +64,31 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP2** — graphe canonique. **`lib/curriculum-graph.mjs` (V31) RÉUTILISÉ, pas dupliqué** ; le
+  CP2 lui ajoute **l'axe temporel** qui lui manquait (365 journées). Sortie :
+  `docs/v73/curriculum-graph.json` (202 Kio) + la porte `scripts/v73/v73-graphe-check.mjs`.
+  **I2 = 0 · I3 = 0 · I4 = 0 · I8 = 0 · I10 = 0 · C9 = 0 · invariants intacts.**
+  **Tests négatifs : 10 / 10**, restauration contrôlée par `git status`.
+  **Une seule modification du produit** : la référence morte `{ kind:'lab', id:'terminal' }`
+  retirée de `terminal-shell-filesystem` (traitée ici et non au CP12, pour qu'une porte
+  durablement rouge ne masque pas les régressions). Corpus **inchangé** (`c1ac869e…`).
+  **CORRECTION IMPORTANTE DU CP0 SUR `cloud`** : lu déclarativement (leçons qui portent la
+  compétence, pas `day.skill`), `cloud` est **enseignée depuis j68 sur 41 journées** et
+  **étiquetée sur 0**. Le trou réel est double : le calendrier ne le dit jamais, et le cloud
+  *proprement dit* (AWS, Azure, réseau, IaC, FinOps) est hors parcours.
+  **Autres faits nouveaux** : `autonomy` = 12 applications, 1 pratique, **0 leçon déclarante**
+  (repli déclaratif sur l'étiquette, nommé dans le code) ; `dl`, `llm`, `agents` = **0
+  application** pour 133 journées d'exposition.
+  **HUIT ANOMALIES DE SONDE PUBLIÉES (n° 6 à 13)**, dont trois trouvées par les tests négatifs
+  eux-mêmes. La plus grave, **n° 12** : le marqueur d'annonce était cherché dans tout le
+  paragraphe et « Aucune X n'est supposée » était accepté — or cette phrase parle du sujet
+  PROPRE de la leçon. **83 exigences réelles** étaient classées « renvoi annoncé »
+  (`css-flexbox → css-fundamentals`…), le graphe REQUIRES perdait **129 arêtes**, et le
+  « 0 cycle » du premier passage ne prouvait rien. Portée corrigée : encadré `>` ou phrase.
+  **n° 13** : l'emphase Markdown coupe les phrases (`programmées plus loin** dans le parcours`
+  ne contient pas « plus loin dans le parcours ») — la normalisation retire désormais `*` et
+  les accents graves. Classification finale : **263 REQUIS · 43 LOOKAHEAD**.
 
 - **CP1** — contrat gelé, **aucun fichier de produit modifié**. Le point qui commande la suite :
   le budget passe d'un **point à 270 min** à une **fourchette `[240, 300]`**, conformément à
@@ -117,3 +146,5 @@ jamais le créer.
 - **CP0** : lecture seule, aucun test rejoué (état hérité de V72 : 1420/1420 · tsc 0 ·
   52 gates · build OK).
 - **CP1** : document seul, aucun code modifié — aucun test à rejouer.
+- **CP2** : 1420/1420 · tsc 0 · 52 gates verts · porte V73 verte · 10/10 tests négatifs ·
+  corpus `c1ac869e…` inchangé.

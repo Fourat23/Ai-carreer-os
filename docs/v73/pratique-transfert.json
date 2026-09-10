@@ -1,0 +1,1124 @@
+{
+ "regle": "Une compétence pratiquée DANS le projet d'une autre EST pratiquée. Le CP11 ne fabrique pas un projet par compétence pour faire monter un compteur.",
+ "competences": [
+  {
+   "competence": "algo",
+   "nom": "Algorithmie",
+   "leconsProgrammees": 2,
+   "artefacts": 6,
+   "exercices": 11,
+   "jExposition": 9,
+   "jPratique": 11,
+   "jProduction": 0,
+   "joursProduction": [],
+   "projets": [],
+   "niveauAttendu": 3,
+   "manque": null
+  },
+  {
+   "competence": "ds",
+   "nom": "Structures de données",
+   "leconsProgrammees": 1,
+   "artefacts": 6,
+   "exercices": 4,
+   "jExposition": 1,
+   "jPratique": 4,
+   "jProduction": 0,
+   "joursProduction": [],
+   "projets": [],
+   "niveauAttendu": 2,
+   "manque": null
+  },
+  {
+   "competence": "jsts",
+   "nom": "JavaScript / TypeScript",
+   "leconsProgrammees": 22,
+   "artefacts": 44,
+   "exercices": 67,
+   "jExposition": 2,
+   "jPratique": 35,
+   "jProduction": 5,
+   "joursProduction": [
+    45,
+    113,
+    114,
+    115,
+    117
+   ],
+   "projets": [
+    "Projet 1",
+    "Projet 3"
+   ],
+   "niveauAttendu": 4,
+   "manque": null
+  },
+  {
+   "competence": "python",
+   "nom": "Python",
+   "leconsProgrammees": 5,
+   "artefacts": 12,
+   "exercices": 18,
+   "jExposition": 3,
+   "jPratique": 17,
+   "jProduction": 8,
+   "joursProduction": [
+    141,
+    142,
+    143,
+    145,
+    176,
+    177,
+    179,
+    181
+   ],
+   "projets": [
+    "Projet 4",
+    "Projet 5"
+   ],
+   "niveauAttendu": 4,
+   "manque": null
+  },
+  {
+   "competence": "gitlinux",
+   "nom": "Git / Linux",
+   "leconsProgrammees": 6,
+   "artefacts": 9,
+   "exercices": 11,
+   "jExposition": 1,
+   "jPratique": 5,
+   "jProduction": 0,
+   "joursProduction": [],
+   "projets": [],
+   "niveauAttendu": 2,
+   "manque": null
+  },
+  {
+   "competence": "http",
+   "nom": "HTTP / API",
+   "leconsProgrammees": 8,
+   "artefacts": 16,
+   "exercices": 35,
+   "jExposition": 10,
+   "jPratique": 14,
+   "jProduction": 11,
+   "joursProduction": [
+    61,
+    62,
+    64,
+    65,
+    85,
+    330,
+    331,
+    332,
+    333,
+    334,
+    335
+   ],
+   "projets": [
+    "Projet 2",
+    "DocSense"
+   ],
+   "niveauAttendu": 4,
+   "manque": null
+  },
+  {
+   "competence": "sql",
+   "nom": "SQL / Data",
+   "leconsProgrammees": 8,
+   "artefacts": 17,
+   "exercices": 17,
+   "jExposition": 3,
+   "jPratique": 14,
+   "jProduction": 8,
+   "joursProduction": [
+    61,
+    62,
+    64,
+    141,
+    142,
+    143,
+    144,
+    145
+   ],
+   "projets": [
+    "Projet 2",
+    "Projet 4"
+   ],
+   "niveauAttendu": 3,
+   "manque": null
+  },
+  {
+   "competence": "se",
+   "nom": "Software engineering",
+   "leconsProgrammees": 16,
+   "artefacts": 47,
+   "exercices": 79,
+   "jExposition": 5,
+   "jPratique": 30,
+   "jProduction": 15,
+   "joursProduction": [
+    45,
+    46,
+    47,
+    61,
+    62,
+    65,
+    85,
+    116,
+    302,
+    303,
+    304,
+    305,
+    306,
+    307,
+    326
+   ],
+   "projets": [
+    "Projet 1",
+    "Projet 2",
+    "Projet 3",
+    "DocSense"
+   ],
+   "niveauAttendu": 3,
+   "manque": null
+  },
+  {
+   "competence": "archi",
+   "nom": "Architecture",
+   "leconsProgrammees": 36,
+   "artefacts": 84,
+   "exercices": 113,
+   "jExposition": 12,
+   "jPratique": 21,
+   "jProduction": 18,
+   "joursProduction": [
+    47,
+    85,
+    113,
+    118,
+    141,
+    146,
+    302,
+    303,
+    304,
+    305,
+    306,
+    307,
+    320,
+    321,
+    325,
+    326,
+    331,
+    332
+   ],
+   "projets": [
+    "Projet 1",
+    "Projet 2",
+    "Projet 3",
+    "Projet 4",
+    "DocSense"
+   ],
+   "niveauAttendu": 3,
+   "manque": null
+  },
+  {
+   "competence": "patterns",
+   "nom": "Design patterns",
+   "leconsProgrammees": 1,
+   "artefacts": 0,
+   "exercices": 4,
+   "jExposition": 1,
+   "jPratique": 4,
+   "jProduction": 0,
+   "joursProduction": [],
+   "projets": [],
+   "niveauAttendu": 3,
+   "manque": null
+  },
+  {
+   "competence": "ml",
+   "nom": "Machine learning",
+   "leconsProgrammees": 5,
+   "artefacts": 6,
+   "exercices": 49,
+   "jExposition": 1,
+   "jPratique": 29,
+   "jProduction": 17,
+   "joursProduction": [
+    176,
+    177,
+    178,
+    179,
+    180,
+    181,
+    267,
+    268,
+    269,
+    270,
+    271,
+    272,
+    316,
+    317,
+    318,
+    319,
+    321
+   ],
+   "projets": [
+    "Projet 5",
+    "Projet 6",
+    "DocSense"
+   ],
+   "niveauAttendu": 3,
+   "manque": null
+  },
+  {
+   "competence": "dl",
+   "nom": "Deep learning",
+   "leconsProgrammees": 3,
+   "artefacts": 4,
+   "exercices": 19,
+   "jExposition": 23,
+   "jPratique": 19,
+   "jProduction": 6,
+   "joursProduction": [
+    309,
+    310,
+    311,
+    312,
+    313,
+    314
+   ],
+   "projets": [
+    "DocSense"
+   ],
+   "niveauAttendu": 2,
+   "manque": null
+  },
+  {
+   "competence": "llm",
+   "nom": "LLM",
+   "leconsProgrammees": 6,
+   "artefacts": 5,
+   "exercices": 46,
+   "jExposition": 15,
+   "jPratique": 27,
+   "jProduction": 7,
+   "joursProduction": [
+    323,
+    324,
+    325,
+    326,
+    327,
+    328,
+    332
+   ],
+   "projets": [
+    "DocSense"
+   ],
+   "niveauAttendu": 3,
+   "manque": null
+  },
+  {
+   "competence": "rag",
+   "nom": "RAG",
+   "leconsProgrammees": 6,
+   "artefacts": 4,
+   "exercices": 35,
+   "jExposition": 21,
+   "jPratique": 15,
+   "jProduction": 17,
+   "joursProduction": [
+    267,
+    268,
+    269,
+    270,
+    271,
+    272,
+    309,
+    310,
+    311,
+    312,
+    313,
+    314,
+    316,
+    317,
+    318,
+    319,
+    321
+   ],
+   "projets": [
+    "Projet 6",
+    "DocSense"
+   ],
+   "niveauAttendu": 4,
+   "manque": null
+  },
+  {
+   "competence": "agents",
+   "nom": "Agents",
+   "leconsProgrammees": 3,
+   "artefacts": 6,
+   "exercices": 36,
+   "jExposition": 13,
+   "jPratique": 17,
+   "jProduction": 6,
+   "joursProduction": [
+    323,
+    324,
+    325,
+    326,
+    327,
+    328
+   ],
+   "projets": [
+    "DocSense"
+   ],
+   "niveauAttendu": 3,
+   "manque": null
+  },
+  {
+   "competence": "evalia",
+   "nom": "Évaluation IA",
+   "leconsProgrammees": 3,
+   "artefacts": 4,
+   "exercices": 43,
+   "jExposition": 21,
+   "jPratique": 23,
+   "jProduction": 22,
+   "joursProduction": [
+    176,
+    177,
+    179,
+    180,
+    181,
+    267,
+    268,
+    269,
+    270,
+    271,
+    272,
+    309,
+    310,
+    311,
+    312,
+    313,
+    314,
+    316,
+    317,
+    318,
+    319,
+    321
+   ],
+   "projets": [
+    "Projet 5",
+    "Projet 6",
+    "DocSense"
+   ],
+   "niveauAttendu": 4,
+   "manque": null
+  },
+  {
+   "competence": "secu",
+   "nom": "Sécurité",
+   "leconsProgrammees": 13,
+   "artefacts": 33,
+   "exercices": 59,
+   "jExposition": 9,
+   "jPratique": 9,
+   "jProduction": 10,
+   "joursProduction": [
+    85,
+    303,
+    320,
+    321,
+    330,
+    331,
+    332,
+    333,
+    334,
+    335
+   ],
+   "projets": [
+    "Projet 2",
+    "DocSense"
+   ],
+   "niveauAttendu": 3,
+   "manque": null
+  },
+  {
+   "competence": "cloud",
+   "nom": "Cloud / DevOps",
+   "leconsProgrammees": 33,
+   "artefacts": 81,
+   "exercices": 76,
+   "jExposition": 14,
+   "jPratique": 11,
+   "jProduction": 9,
+   "joursProduction": [
+    85,
+    303,
+    307,
+    320,
+    321,
+    325,
+    326,
+    331,
+    332
+   ],
+   "projets": [
+    "Projet 2",
+    "DocSense"
+   ],
+   "niveauAttendu": 2,
+   "manque": null
+  },
+  {
+   "competence": "comm",
+   "nom": "Communication technique",
+   "leconsProgrammees": 7,
+   "artefacts": 4,
+   "exercices": 21,
+   "jExposition": 29,
+   "jPratique": 8,
+   "jProduction": 12,
+   "joursProduction": [
+    47,
+    66,
+    86,
+    118,
+    146,
+    302,
+    303,
+    304,
+    305,
+    306,
+    307,
+    332
+   ],
+   "projets": [
+    "Projet 1",
+    "Projet 2",
+    "Projet 3",
+    "Projet 4",
+    "DocSense"
+   ],
+   "niveauAttendu": 4,
+   "manque": null
+  },
+  {
+   "competence": "autonomy",
+   "nom": "Autonomie projet",
+   "leconsProgrammees": 0,
+   "artefacts": 0,
+   "exercices": 1,
+   "jExposition": 10,
+   "jPratique": 1,
+   "jProduction": 12,
+   "joursProduction": [
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146
+   ],
+   "projets": [
+    "Projet 3",
+    "Projet 4"
+   ],
+   "niveauAttendu": 4,
+   "manque": null
+  }
+ ],
+ "projets": [
+  {
+   "projet": "Projet 1",
+   "n": 3,
+   "de": 45,
+   "a": 47,
+   "mois": 2,
+   "competences": [
+    "se:3",
+    "jsts:1",
+    "comm:1",
+    "archi:1"
+   ]
+  },
+  {
+   "projet": "Projet 2",
+   "n": 7,
+   "de": 61,
+   "a": 86,
+   "mois": 3,
+   "competences": [
+    "http:5",
+    "se:4",
+    "sql:3",
+    "comm:2",
+    "secu:1",
+    "archi:1",
+    "cloud:1"
+   ]
+  },
+  {
+   "projet": "Projet 3",
+   "n": 6,
+   "de": 113,
+   "a": 118,
+   "mois": 4,
+   "competences": [
+    "jsts:4",
+    "archi:2",
+    "se:1",
+    "comm:1"
+   ]
+  },
+  {
+   "projet": "Projet 4",
+   "n": 6,
+   "de": 141,
+   "a": 146,
+   "mois": 5,
+   "competences": [
+    "sql:5",
+    "python:4",
+    "archi:2",
+    "comm:1"
+   ]
+  },
+  {
+   "projet": "Projet 5",
+   "n": 6,
+   "de": 176,
+   "a": 181,
+   "mois": 6,
+   "competences": [
+    "ml:6",
+    "evalia:5",
+    "python:4"
+   ]
+  },
+  {
+   "projet": "Projet 6",
+   "n": 6,
+   "de": 267,
+   "a": 272,
+   "mois": 9,
+   "competences": [
+    "evalia:6",
+    "rag:6",
+    "ml:6"
+   ]
+  },
+  {
+   "projet": "DocSense",
+   "n": 30,
+   "de": 302,
+   "a": 335,
+   "mois": 11,
+   "competences": [
+    "archi:12",
+    "rag:11",
+    "evalia:11",
+    "secu:9",
+    "cloud:8",
+    "se:7",
+    "comm:7",
+    "llm:7",
+    "dl:6",
+    "agents:6",
+    "http:6",
+    "ml:5"
+   ]
+  }
+ ],
+ "trousDeProduction": [
+  {
+   "de": 181,
+   "a": 267,
+   "jours": 86
+  }
+ ],
+ "leconsJamaisConstruites": [
+  {
+   "slug": "algorithmic-thinking",
+   "statut": "CORE",
+   "competences": [
+    "algo"
+   ]
+  },
+  {
+   "slug": "api-production-contracts",
+   "statut": "CORE",
+   "competences": [
+    "http",
+    "se"
+   ]
+  },
+  {
+   "slug": "async-javascript",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "async-messaging-queues",
+   "statut": "CORE",
+   "competences": [
+    "archi",
+    "se"
+   ]
+  },
+  {
+   "slug": "breaking-changes-compatibility",
+   "statut": "CORE",
+   "competences": [
+    "se"
+   ]
+  },
+  {
+   "slug": "browser-dom-rendering",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "cloud-compute-storage",
+   "statut": "CORE",
+   "competences": [
+    "cloud",
+    "archi"
+   ]
+  },
+  {
+   "slug": "cloud-fundamentals",
+   "statut": "CORE",
+   "competences": [
+    "cloud",
+    "archi"
+   ]
+  },
+  {
+   "slug": "cloud-networking",
+   "statut": "CORE",
+   "competences": [
+    "cloud",
+    "secu"
+   ]
+  },
+  {
+   "slug": "css-flexbox",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "css-fundamentals",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "css-grid",
+   "statut": "CORE",
+   "competences": [
+    "jsts",
+    "archi"
+   ]
+  },
+  {
+   "slug": "data-structures-intro",
+   "statut": "CORE",
+   "competences": [
+    "ds"
+   ]
+  },
+  {
+   "slug": "database-migrations",
+   "statut": "CORE",
+   "competences": [
+    "sql",
+    "se"
+   ]
+  },
+  {
+   "slug": "database-transactions-concurrency",
+   "statut": "CORE",
+   "competences": [
+    "sql",
+    "se"
+   ]
+  },
+  {
+   "slug": "deployment-secrets",
+   "statut": "CORE",
+   "competences": [
+    "cloud",
+    "secu"
+   ]
+  },
+  {
+   "slug": "design-patterns-intro",
+   "statut": "CORE",
+   "competences": [
+    "patterns"
+   ]
+  },
+  {
+   "slug": "distributed-systems-failures",
+   "statut": "CORE",
+   "competences": [
+    "archi"
+   ]
+  },
+  {
+   "slug": "distributed-tracing",
+   "statut": "CORE",
+   "competences": [
+    "archi",
+    "cloud"
+   ]
+  },
+  {
+   "slug": "error-handling",
+   "statut": "CORE",
+   "competences": [
+    "se"
+   ]
+  },
+  {
+   "slug": "frontend-performance",
+   "statut": "CORE",
+   "competences": [
+    "jsts",
+    "archi"
+   ]
+  },
+  {
+   "slug": "frontend-testing",
+   "statut": "CORE",
+   "competences": [
+    "jsts",
+    "se"
+   ]
+  },
+  {
+   "slug": "git-advanced",
+   "statut": "CORE",
+   "competences": [
+    "gitlinux"
+   ]
+  },
+  {
+   "slug": "git-fundamentals",
+   "statut": "CORE",
+   "competences": [
+    "gitlinux"
+   ]
+  },
+  {
+   "slug": "html-semantic-structure",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "http-rest-json",
+   "statut": "CORE",
+   "competences": [
+    "http"
+   ]
+  },
+  {
+   "slug": "javascript-basics",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "linux-filesystem-permissions",
+   "statut": "CORE",
+   "competences": [
+    "gitlinux",
+    "secu"
+   ]
+  },
+  {
+   "slug": "linux-processes-signals",
+   "statut": "CORE",
+   "competences": [
+    "gitlinux"
+   ]
+  },
+  {
+   "slug": "linux-resources-io",
+   "statut": "CORE",
+   "competences": [
+    "gitlinux",
+    "archi"
+   ]
+  },
+  {
+   "slug": "llm-cost-optimization",
+   "statut": "CORE",
+   "competences": [
+    "llm",
+    "cloud"
+   ]
+  },
+  {
+   "slug": "llm-fundamentals",
+   "statut": "CORE",
+   "competences": [
+    "llm"
+   ]
+  },
+  {
+   "slug": "logging-structured",
+   "statut": "CORE",
+   "competences": [
+    "archi",
+    "secu"
+   ]
+  },
+  {
+   "slug": "metrics-percentiles",
+   "statut": "CORE",
+   "competences": [
+    "archi",
+    "cloud"
+   ]
+  },
+  {
+   "slug": "monitoring-production",
+   "statut": "OPTIONAL",
+   "competences": [
+    "cloud",
+    "archi"
+   ]
+  },
+  {
+   "slug": "networking-addressing-routing",
+   "statut": "CORE",
+   "competences": [
+    "cloud",
+    "archi"
+   ]
+  },
+  {
+   "slug": "networking-dns",
+   "statut": "CORE",
+   "competences": [
+    "http",
+    "cloud"
+   ]
+  },
+  {
+   "slug": "networking-http-tls",
+   "statut": "CORE",
+   "competences": [
+    "http",
+    "secu"
+   ]
+  },
+  {
+   "slug": "networking-proxy-loadbalancing",
+   "statut": "CORE",
+   "competences": [
+    "archi",
+    "cloud"
+   ]
+  },
+  {
+   "slug": "networking-tcp-ip-model",
+   "statut": "CORE",
+   "competences": [
+    "http",
+    "archi"
+   ]
+  },
+  {
+   "slug": "neural-networks",
+   "statut": "CORE",
+   "competences": [
+    "dl"
+   ]
+  },
+  {
+   "slug": "nextjs-data-production",
+   "statut": "OPTIONAL",
+   "competences": [
+    "jsts",
+    "archi"
+   ]
+  },
+  {
+   "slug": "nextjs-foundations",
+   "statut": "OPTIONAL",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "nextjs-rendering",
+   "statut": "OPTIONAL",
+   "competences": [
+    "jsts",
+    "archi"
+   ]
+  },
+  {
+   "slug": "nextjs-server-client-components",
+   "statut": "OPTIONAL",
+   "competences": [
+    "jsts",
+    "archi"
+   ]
+  },
+  {
+   "slug": "observability-fundamentals",
+   "statut": "CORE",
+   "competences": [
+    "archi",
+    "cloud"
+   ]
+  },
+  {
+   "slug": "prompt-engineering",
+   "statut": "CORE",
+   "competences": [
+    "llm"
+   ]
+  },
+  {
+   "slug": "python-foundations",
+   "statut": "CORE",
+   "competences": [
+    "python"
+   ]
+  },
+  {
+   "slug": "react-accessibility",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "react-application-states",
+   "statut": "CORE",
+   "competences": [
+    "jsts",
+    "archi"
+   ]
+  },
+  {
+   "slug": "react-composition-architecture",
+   "statut": "CORE",
+   "competences": [
+    "jsts",
+    "archi"
+   ]
+  },
+  {
+   "slug": "react-hooks-effects",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "recursion",
+   "statut": "CORE",
+   "competences": [
+    "algo"
+   ]
+  },
+  {
+   "slug": "refactoring-legacy-code",
+   "statut": "CORE",
+   "competences": [
+    "se"
+   ]
+  },
+  {
+   "slug": "slo-error-budget",
+   "statut": "CORE",
+   "competences": [
+    "archi",
+    "cloud"
+   ]
+  },
+  {
+   "slug": "sql-performance-indexing",
+   "statut": "CORE",
+   "competences": [
+    "sql",
+    "archi"
+   ]
+  },
+  {
+   "slug": "system-design-scaling",
+   "statut": "CORE",
+   "competences": [
+    "archi"
+   ]
+  },
+  {
+   "slug": "technical-debt",
+   "statut": "CORE",
+   "competences": [
+    "se"
+   ]
+  },
+  {
+   "slug": "technical-documentation",
+   "statut": "CORE",
+   "competences": [
+    "se",
+    "comm"
+   ]
+  },
+  {
+   "slug": "terminal-shell-filesystem",
+   "statut": "CORE",
+   "competences": [
+    "gitlinux"
+   ]
+  },
+  {
+   "slug": "transformers",
+   "statut": "CORE",
+   "competences": [
+    "dl",
+    "llm"
+   ]
+  },
+  {
+   "slug": "typescript-frontend",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  },
+  {
+   "slug": "web-forms-validation",
+   "statut": "CORE",
+   "competences": [
+    "jsts"
+   ]
+  }
+ ]
+}

@@ -135,7 +135,13 @@ const jours = prog.days.map((d) => {
   const liees = [...new Set([...md.matchAll(/\/doc\/lessons\/([a-z0-9-]+)/g)].map((m) => m[1]))].filter((s) => slugsLecons.has(s));
   return {
     j: d.day, semaine: d.week, mois: d.month, etiquette: d.skill, revue: !!d.isReview,
-    titre: d.title, livrable: d.deliverable ?? null, projet: d.project?.id ?? null,
+    titre: d.title, livrable: d.deliverable ?? null,
+    // ANOMALIE DE SONDE n° 22, PUBLIÉE. La lecture était `d.project?.id` alors que
+    // `program.json` stocke `project` comme un NOMBRE : `(2)?.id` vaut `undefined`, donc
+    // `projet` valait **null sur les 365 journées**. Le défaut est resté invisible parce que
+    // le marqueur de titre `estProduction` faisait le travail à sa place — et parce que le
+    // champ n'était renseigné que sur 10 journées sur 365 (défaut corrigé au CP11).
+    projet: typeof d.project === 'number' ? d.project : (d.project?.id ?? null),
     difficulte: d.difficulty, lecons: liees,
     // ANOMALIE DE SONDE PUBLIÉE (n° 8 de V73). `day.project` n'est renseigné que sur
     // 10 journées sur 365, alors que 34 journées portent un titre « Projet N — … ».

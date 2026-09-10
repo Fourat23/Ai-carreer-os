@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T14:36:44.010Z",
+  "generatedAt": "2026-09-10T14:50:05.782Z",
   "skills": [
     {
       "id": "algo",
@@ -2441,7 +2441,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "BiblioApp : socle navigable.",
-      "project": null
+      "project": 3
     },
     {
       "day": 114,
@@ -2456,7 +2456,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "BiblioApp : CRUD complet.",
-      "project": null
+      "project": 3
     },
     {
       "day": 115,
@@ -2471,7 +2471,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "BiblioApp : recherche + filtres.",
-      "project": null
+      "project": 3
     },
     {
       "day": 116,
@@ -2486,7 +2486,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "BiblioApp : suite de tests verte.",
-      "project": null
+      "project": 3
     },
     {
       "day": 117,
@@ -2501,7 +2501,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "BiblioApp : tous les états soignés.",
-      "project": null
+      "project": 3
     },
     {
       "day": 118,
@@ -2516,7 +2516,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "BiblioApp v1 : README + schéma + GIF + ADR + démo.",
-      "project": null
+      "project": 3
     },
     {
       "day": 119,
@@ -2861,7 +2861,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Cadrage DataPulse : source + 3 questions + backlog.",
-      "project": null
+      "project": 4
     },
     {
       "day": 142,
@@ -2876,7 +2876,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DataPulse : extraction fonctionnelle.",
-      "project": null
+      "project": 4
     },
     {
       "day": 143,
@@ -2891,7 +2891,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DataPulse : transformation + rapport qualité.",
-      "project": null
+      "project": 4
     },
     {
       "day": 144,
@@ -2906,7 +2906,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DataPulse : pipeline complet en une commande.",
-      "project": null
+      "project": 4
     },
     {
       "day": 145,
@@ -2921,7 +2921,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DataPulse : dashboard fonctionnel.",
-      "project": null
+      "project": 4
     },
     {
       "day": 146,
@@ -2936,7 +2936,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DataPulse v1 : README + ADR + démo.",
-      "project": null
+      "project": 4
     },
     {
       "day": 147,
@@ -3386,7 +3386,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "ChurnScope : EDA + baseline.",
-      "project": null
+      "project": 5
     },
     {
       "day": 177,
@@ -3401,7 +3401,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "ChurnScope : modèles comparés.",
-      "project": null
+      "project": 5
     },
     {
       "day": 178,
@@ -3416,7 +3416,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "ChurnScope : features + gains mesurés.",
-      "project": null
+      "project": 5
     },
     {
       "day": 179,
@@ -3431,7 +3431,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "ChurnScope : modèle validé.",
-      "project": null
+      "project": 5
     },
     {
       "day": 180,
@@ -3446,7 +3446,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "ChurnScope : rapport 2 pages.",
-      "project": null
+      "project": 5
     },
     {
       "day": 181,
@@ -3461,7 +3461,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "ChurnScope v1 : reproductible + README + démo.",
-      "project": null
+      "project": 5
     },
     {
       "day": 182,
@@ -4751,7 +4751,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Baseline chiffrée de DocQA.",
-      "project": null
+      "project": 6
     },
     {
       "day": 268,
@@ -4766,7 +4766,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Amélioration 1 mesurée.",
-      "project": null
+      "project": 6
     },
     {
       "day": 269,
@@ -4781,7 +4781,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Amélioration 2 mesurée.",
-      "project": null
+      "project": 6
     },
     {
       "day": 270,
@@ -4796,7 +4796,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DocQA sécurisé (suite adverse verte).",
-      "project": null
+      "project": 6
     },
     {
       "day": 271,
@@ -4811,7 +4811,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Rapport d'évaluation avec tableau.",
-      "project": null
+      "project": 6
     },
     {
       "day": 272,
@@ -4826,7 +4826,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DocQA v1 : README + ADR + démo chiffrée.",
-      "project": null
+      "project": 6
     },
     {
       "day": 273,
@@ -5122,7 +5122,7 @@
       "skillName": "Architecture",
       "difficulty": 3,
       "hours": 4.5,
-      "readingMinutes": 84,
+      "readingMinutes": 109,
       "isReview": false,
       "detailed": false,
       "deliverable": "5 patterns + 2 anti-patterns identifiés chez toi.",
@@ -5152,7 +5152,7 @@
       "skillName": "Architecture",
       "difficulty": 2,
       "hours": 4.5,
-      "readingMinutes": 153,
+      "readingMinutes": 157,
       "isReview": true,
       "detailed": false,
       "deliverable": null,
@@ -5276,7 +5276,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "SPEC.md complet.",
-      "project": null
+      "project": 7
     },
     {
       "day": 303,
@@ -5291,7 +5291,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "ARCHITECTURE.md + 4 ADRs.",
-      "project": null
+      "project": 7
     },
     {
       "day": 304,
@@ -5306,7 +5306,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Modèle de données DocSense.",
-      "project": null
+      "project": 7
     },
     {
       "day": 305,
@@ -5321,7 +5321,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Maquettes + backlog 8 jalons.",
-      "project": null
+      "project": 7
     },
     {
       "day": 306,
@@ -5336,7 +5336,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "3 risques + 3 spikes planifiés.",
-      "project": null
+      "project": 7
     },
     {
       "day": 307,
@@ -5351,7 +5351,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Repo DocSense initialisé + CI verte.",
-      "project": null
+      "project": 7
     },
     {
       "day": 308,
@@ -5381,7 +5381,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Ingestion robuste (testée sur 5 PDF réels).",
-      "project": null
+      "project": 7
     },
     {
       "day": 310,
@@ -5396,7 +5396,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "RAG core en architecture cible.",
-      "project": null
+      "project": 7
     },
     {
       "day": 311,
@@ -5411,7 +5411,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Retrieval hybride sur DocSense.",
-      "project": null
+      "project": 7
     },
     {
       "day": 312,
@@ -5426,7 +5426,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Génération citée et fiable.",
-      "project": null
+      "project": 7
     },
     {
       "day": 313,
@@ -5441,7 +5441,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "3 spikes exécutés et documentés.",
-      "project": null
+      "project": 7
     },
     {
       "day": 314,
@@ -5456,7 +5456,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Jalon 45 démontré + revue d'archi.",
-      "project": null
+      "project": 7
     },
     {
       "day": 315,
@@ -5486,7 +5486,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Golden set DocSense 40+.",
-      "project": null
+      "project": 7
     },
     {
       "day": 317,
@@ -5501,7 +5501,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Harnais d'évaluation opérationnel.",
-      "project": null
+      "project": 7
     },
     {
       "day": 318,
@@ -5516,7 +5516,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Dashboard qualité fonctionnel.",
-      "project": null
+      "project": 7
     },
     {
       "day": 319,
@@ -5531,7 +5531,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Baseline officielle enregistrée.",
-      "project": null
+      "project": 7
     },
     {
       "day": 320,
@@ -5546,7 +5546,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DocSense dockerisé (compose up).",
-      "project": null
+      "project": 7
     },
     {
       "day": 321,
@@ -5561,7 +5561,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Jalon 46 démontré + revue d'archi.",
-      "project": null
+      "project": 7
     },
     {
       "day": 322,
@@ -5591,7 +5591,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Workflow d'analyse fonctionnel.",
-      "project": null
+      "project": 7
     },
     {
       "day": 324,
@@ -5606,7 +5606,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Détection d'incohérences démontrée.",
-      "project": null
+      "project": 7
     },
     {
       "day": 325,
@@ -5621,7 +5621,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Coûts affichés + observabilité.",
-      "project": null
+      "project": 7
     },
     {
       "day": 326,
@@ -5636,7 +5636,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "CI complète verte.",
-      "project": null
+      "project": 7
     },
     {
       "day": 327,
@@ -5651,7 +5651,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Tests du workflow LLM (mock/replay).",
-      "project": null
+      "project": 7
     },
     {
       "day": 328,
@@ -5666,7 +5666,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DocSense v0.5 + bilan mi-projet + revue mensuelle 11.",
-      "project": null
+      "project": 7
     },
     {
       "day": 329,
@@ -5696,7 +5696,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Suite adverse verte.",
-      "project": null
+      "project": 7
     },
     {
       "day": 331,
@@ -5711,7 +5711,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "10 scénarios d'erreur gérés proprement.",
-      "project": null
+      "project": 7
     },
     {
       "day": 332,
@@ -5726,7 +5726,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Session rejouable + dashboard narratif.",
-      "project": null
+      "project": 7
     },
     {
       "day": 333,
@@ -5741,7 +5741,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Tests du cœur (chemins critiques).",
-      "project": null
+      "project": 7
     },
     {
       "day": 334,
@@ -5756,7 +5756,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "Rapport qualité v1.0 (avant/après).",
-      "project": null
+      "project": 7
     },
     {
       "day": 335,
@@ -5771,7 +5771,7 @@
       "isReview": false,
       "detailed": false,
       "deliverable": "DocSense v1.0 gelée + post-mortem.",
-      "project": null
+      "project": 7
     },
     {
       "day": 336,

@@ -1064,7 +1064,7 @@
    "revue": false,
    "titre": "Projet 1 — TaskFlow : Store JSON et commandes de base",
    "livrable": "TaskFlow : add + list fonctionnels + persistance testée + 2-3 commits.",
-   "projet": null,
+   "projet": 1,
    "difficulte": 3,
    "lecons": [
     "typescript-basics",
@@ -1087,7 +1087,7 @@
    "revue": false,
    "titre": "Projet 1 — TaskFlow : CRUD complet et filtres",
    "livrable": "TaskFlow : CRUD complet + filtres.",
-   "projet": null,
+   "projet": 1,
    "difficulte": 3,
    "lecons": [
     "clean-code"
@@ -1108,7 +1108,7 @@
    "revue": false,
    "titre": "Projet 1 — TaskFlow : stats, tests, README, ADR",
    "livrable": "TaskFlow v1 + tests + README + ADR n°1.",
-   "projet": null,
+   "projet": 1,
    "difficulte": 3,
    "lecons": [
     "testing-foundations",
@@ -1436,7 +1436,7 @@
    "revue": false,
    "titre": "Projet 2 — LivreAPI : schéma et CRUD livres",
    "livrable": "LivreAPI : CRUD livres sur SQLite + commits.",
-   "projet": null,
+   "projet": 2,
    "difficulte": 3,
    "lecons": [
     "express-backend",
@@ -1461,7 +1461,7 @@
    "revue": false,
    "titre": "Projet 2 — LivreAPI : relations et logique d'emprunt",
    "livrable": "LivreAPI : emprunts fonctionnels avec règles métier.",
-   "projet": null,
+   "projet": 2,
    "difficulte": 4,
    "lecons": [
     "database-modeling",
@@ -1514,7 +1514,7 @@
    "revue": false,
    "titre": "Projet 2 — LivreAPI : recherche, pagination, filtres",
    "livrable": "LivreAPI : recherche + pagination + filtres.",
-   "projet": null,
+   "projet": 2,
    "difficulte": 3,
    "lecons": [
     "sql-foundations",
@@ -1537,7 +1537,7 @@
    "revue": false,
    "titre": "Projet 2 — LivreAPI : tests d'intégration",
    "livrable": "Suite de tests d'intégration verte + cas limites couverts.",
-   "projet": null,
+   "projet": 2,
    "difficulte": 4,
    "lecons": [
     "testing-foundations",
@@ -1560,7 +1560,7 @@
    "revue": false,
    "titre": "Projet 2 — LivreAPI : documentation, README, ADR, démo",
    "livrable": "LivreAPI v1 : README + collection + ADR + runbook + démo.",
-   "projet": null,
+   "projet": 2,
    "difficulte": 3,
    "lecons": [
     "readme-documentation",
@@ -2078,7 +2078,7 @@
    "revue": false,
    "titre": "Projet 2 — LivreAPI : durcissement final et performance",
    "livrable": "LivreAPI durcie et performante, prête pour le portfolio.",
-   "projet": null,
+   "projet": 2,
    "difficulte": 4,
    "lecons": [
     "authentication",
@@ -2110,7 +2110,7 @@
    "revue": false,
    "titre": "Projet 2 — LivreAPI : storytelling et fiche projet",
    "livrable": "Fiche projet LivreAPI (format storytelling) + démo orale préparée.",
-   "projet": null,
+   "projet": 2,
    "difficulte": 3,
    "lecons": [
     "technical-storytelling",
@@ -2760,7 +2760,7 @@
    "revue": false,
    "titre": "Projet 3 — BiblioApp : socle",
    "livrable": "BiblioApp : socle navigable.",
-   "projet": null,
+   "projet": 3,
    "difficulte": 3,
    "lecons": [
     "react-fundamentals",
@@ -2781,7 +2781,7 @@
    "revue": false,
    "titre": "Projet 3 — CRUD complet",
    "livrable": "BiblioApp : CRUD complet.",
-   "projet": null,
+   "projet": 3,
    "difficulte": 3,
    "lecons": [
     "react-fundamentals"
@@ -2800,7 +2800,7 @@
    "revue": false,
    "titre": "Projet 3 — Recherche et filtres",
    "livrable": "BiblioApp : recherche + filtres.",
-   "projet": null,
+   "projet": 3,
    "difficulte": 3,
    "lecons": [
     "react-fundamentals"
@@ -2819,7 +2819,7 @@
    "revue": false,
    "titre": "Projet 3 — Tests",
    "livrable": "BiblioApp : suite de tests verte.",
-   "projet": null,
+   "projet": 3,
    "difficulte": 3,
    "lecons": [
     "testing-foundations"
@@ -2838,7 +2838,7 @@
    "revue": false,
    "titre": "Projet 3 — Polish et états edge",
    "livrable": "BiblioApp : tous les états soignés.",
-   "projet": null,
+   "projet": 3,
    "difficulte": 4,
    "lecons": [
     "react-fundamentals",
@@ -2858,7 +2858,7 @@
    "revue": false,
    "titre": "Projet 3 — README, schéma, ADR, démo",
    "livrable": "BiblioApp v1 : README + schéma + GIF + ADR + démo.",
-   "projet": null,
+   "projet": 3,
    "difficulte": 3,
    "lecons": [
     "readme-documentation",
@@ -3378,7 +3378,7 @@
    "revue": false,
    "titre": "Projet 4 — DataPulse : cadrage et source",
    "livrable": "Cadrage DataPulse : source + 3 questions + backlog.",
-   "projet": null,
+   "projet": 4,
    "difficulte": 4,
    "lecons": [
     "etl-pipelines",
@@ -3400,7 +3400,7 @@
    "revue": false,
    "titre": "Projet 4 — Extract",
    "livrable": "DataPulse : extraction fonctionnelle.",
-   "projet": null,
+   "projet": 4,
    "difficulte": 3,
    "lecons": [
     "etl-pipelines"
@@ -3420,7 +3420,7 @@
    "revue": false,
    "titre": "Projet 4 — Transform",
    "livrable": "DataPulse : transformation + rapport qualité.",
-   "projet": null,
+   "projet": 4,
    "difficulte": 4,
    "lecons": [
     "data-cleaning-quality"
@@ -3440,7 +3440,7 @@
    "revue": false,
    "titre": "Projet 4 — Load",
    "livrable": "DataPulse : pipeline complet en une commande.",
-   "projet": null,
+   "projet": 4,
    "difficulte": 3,
    "lecons": [
     "database-modeling"
@@ -3459,7 +3459,7 @@
    "revue": false,
    "titre": "Projet 4 — Dashboard",
    "livrable": "DataPulse : dashboard fonctionnel.",
-   "projet": null,
+   "projet": 4,
    "difficulte": 3,
    "lecons": [
     "pandas-data-wrangling"
@@ -3479,7 +3479,7 @@
    "revue": false,
    "titre": "Projet 4 — README, ADR, démo",
    "livrable": "DataPulse v1 : README + ADR + démo.",
-   "projet": null,
+   "projet": 4,
    "difficulte": 3,
    "lecons": [
     "readme-documentation",
@@ -4150,7 +4150,7 @@
    "revue": false,
    "titre": "Projet 5 — ChurnScope : EDA et baseline",
    "livrable": "ChurnScope : EDA + baseline.",
-   "projet": null,
+   "projet": 5,
    "difficulte": 3,
    "lecons": [
     "scikit-learn-workflow",
@@ -4172,7 +4172,7 @@
    "revue": false,
    "titre": "Projet 5 — Premiers modèles",
    "livrable": "ChurnScope : modèles comparés.",
-   "projet": null,
+   "projet": 5,
    "difficulte": 4,
    "lecons": [
     "scikit-learn-workflow",
@@ -4194,7 +4194,7 @@
    "revue": false,
    "titre": "Projet 5 — Feature engineering",
    "livrable": "ChurnScope : features + gains mesurés.",
-   "projet": null,
+   "projet": 5,
    "difficulte": 3,
    "lecons": [
     "feature-engineering"
@@ -4213,7 +4213,7 @@
    "revue": false,
    "titre": "Projet 5 — Optimisation et validation",
    "livrable": "ChurnScope : modèle validé.",
-   "projet": null,
+   "projet": 5,
    "difficulte": 4,
    "lecons": [
     "model-evaluation",
@@ -4235,7 +4235,7 @@
    "revue": false,
    "titre": "Projet 5 — Analyse d'erreurs et rapport",
    "livrable": "ChurnScope : rapport 2 pages.",
-   "projet": null,
+   "projet": 5,
    "difficulte": 3,
    "lecons": [
     "model-evaluation"
@@ -4255,7 +4255,7 @@
    "revue": false,
    "titre": "Projet 5 — README, reproductibilité, démo",
    "livrable": "ChurnScope v1 : reproductible + README + démo.",
-   "projet": null,
+   "projet": 5,
    "difficulte": 5,
    "lecons": [
     "machine-learning-basics",
@@ -6425,7 +6425,7 @@
    "revue": false,
    "titre": "Projet 6 — DocQA : baseline chiffrée",
    "livrable": "Baseline chiffrée de DocQA.",
-   "projet": null,
+   "projet": 6,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -6450,7 +6450,7 @@
    "revue": false,
    "titre": "Projet 6 — Amélioration 1 pilotée",
    "livrable": "Amélioration 1 mesurée.",
-   "projet": null,
+   "projet": 6,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -6475,7 +6475,7 @@
    "revue": false,
    "titre": "Projet 6 — Amélioration 2 pilotée",
    "livrable": "Amélioration 2 mesurée.",
-   "projet": null,
+   "projet": 6,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -6500,7 +6500,7 @@
    "revue": false,
    "titre": "Projet 6 — Guardrails et robustesse",
    "livrable": "DocQA sécurisé (suite adverse verte).",
-   "projet": null,
+   "projet": 6,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -6525,7 +6525,7 @@
    "revue": false,
    "titre": "Projet 6 — Rapport d'évaluation",
    "livrable": "Rapport d'évaluation avec tableau.",
-   "projet": null,
+   "projet": 6,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -6550,7 +6550,7 @@
    "revue": false,
    "titre": "Projet 6 — README, ADR, démo",
    "livrable": "DocQA v1 : README + ADR + démo chiffrée.",
-   "projet": null,
+   "projet": 6,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -7049,7 +7049,8 @@
    "lecons": [
     "architecture-basics",
     "caching-performance",
-    "system-design-interview"
+    "system-design-interview",
+    "design-patterns-intro"
    ],
    "estProduction": false,
    "exercices": [
@@ -7058,7 +7059,8 @@
    "competencesPortees": [
     "archi",
     "se",
-    "comm"
+    "comm",
+    "patterns"
    ]
   },
   {
@@ -7103,11 +7105,11 @@
    "lecons": [
     "cloud-networking",
     "cloud-compute-storage",
+    "design-patterns-intro",
     "system-design-scaling",
     "distributed-systems-failures",
     "docker-containers",
-    "cloud-fundamentals",
-    "async-messaging-queues"
+    "cloud-fundamentals"
    ],
    "estProduction": false,
    "exercices": [
@@ -7118,7 +7120,7 @@
     "cloud",
     "secu",
     "archi",
-    "se"
+    "patterns"
    ]
   },
   {
@@ -7302,7 +7304,7 @@
    "revue": false,
    "titre": "DocSense : cadrage produit (SPEC)",
    "livrable": "SPEC.md complet.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 4,
    "lecons": [
     "architecture-basics",
@@ -7327,7 +7329,7 @@
    "revue": false,
    "titre": "DocSense : architecture (ADRs)",
    "livrable": "ARCHITECTURE.md + 4 ADRs.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "architecture-basics",
@@ -7354,7 +7356,7 @@
    "revue": false,
    "titre": "DocSense : modèle de données",
    "livrable": "Modèle de données DocSense.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 4,
    "lecons": [
     "architecture-basics",
@@ -7377,7 +7379,7 @@
    "revue": false,
    "titre": "DocSense : maquettes et backlog",
    "livrable": "Maquettes + backlog 8 jalons.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 3,
    "lecons": [
     "architecture-basics",
@@ -7400,7 +7402,7 @@
    "revue": false,
    "titre": "DocSense : dérisquage (spikes)",
    "livrable": "3 risques + 3 spikes planifiés.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 3,
    "lecons": [
     "architecture-basics",
@@ -7423,7 +7425,7 @@
    "revue": false,
    "titre": "DocSense : setup et CI vide",
    "livrable": "Repo DocSense initialisé + CI verte.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "architecture-basics",
@@ -7481,7 +7483,7 @@
    "revue": false,
    "titre": "DocSense : ingestion multi-format",
    "livrable": "Ingestion robuste (testée sur 5 PDF réels).",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
@@ -7507,7 +7509,7 @@
    "revue": false,
    "titre": "DocSense : RAG core (architecture cible)",
    "livrable": "RAG core en architecture cible.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
@@ -7533,7 +7535,7 @@
    "revue": false,
    "titre": "DocSense : retrieval hybride",
    "livrable": "Retrieval hybride sur DocSense.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
@@ -7559,7 +7561,7 @@
    "revue": false,
    "titre": "DocSense : génération avec citations",
    "livrable": "Génération citée et fiable.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
@@ -7585,7 +7587,7 @@
    "revue": false,
    "titre": "DocSense : spikes exécutés",
    "livrable": "3 spikes exécutés et documentés.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
@@ -7611,7 +7613,7 @@
    "revue": false,
    "titre": "DocSense : jalon RAG bout-en-bout",
    "livrable": "Jalon 45 démontré + revue d'archi.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
@@ -7667,7 +7669,7 @@
    "revue": false,
    "titre": "DocSense : golden set",
    "livrable": "Golden set DocSense 40+.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -7692,7 +7694,7 @@
    "revue": false,
    "titre": "DocSense : harnais d'évaluation",
    "livrable": "Harnais d'évaluation opérationnel.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -7717,7 +7719,7 @@
    "revue": false,
    "titre": "DocSense : dashboard qualité",
    "livrable": "Dashboard qualité fonctionnel.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 4,
    "lecons": [
     "ai-evaluation",
@@ -7742,7 +7744,7 @@
    "revue": false,
    "titre": "DocSense : baseline officielle",
    "livrable": "Baseline officielle enregistrée.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -7767,7 +7769,7 @@
    "revue": false,
    "titre": "DocSense : dockerisation",
    "livrable": "DocSense dockerisé (compose up).",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "docker-containers",
@@ -7810,7 +7812,7 @@
    "revue": false,
    "titre": "DocSense : jalon évaluation et reproductibilité",
    "livrable": "Jalon 46 démontré + revue d'archi.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "ai-evaluation",
@@ -7879,7 +7881,7 @@
    "revue": false,
    "titre": "DocSense : workflow d'analyse",
    "livrable": "Workflow d'analyse fonctionnel.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 3,
    "lecons": [
     "agents-fundamentals",
@@ -7903,7 +7905,7 @@
    "revue": false,
    "titre": "DocSense : détection d'incohérences",
    "livrable": "Détection d'incohérences démontrée.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 3,
    "lecons": [
     "agents-fundamentals",
@@ -7927,7 +7929,7 @@
    "revue": false,
    "titre": "DocSense : coûts et observabilité",
    "livrable": "Coûts affichés + observabilité.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "agents-fundamentals",
@@ -7956,7 +7958,7 @@
    "revue": false,
    "titre": "DocSense : CI complète",
    "livrable": "CI complète verte.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "agents-fundamentals",
@@ -7997,7 +7999,7 @@
    "revue": false,
    "titre": "DocSense : tests du workflow LLM",
    "livrable": "Tests du workflow LLM (mock/replay).",
-   "projet": null,
+   "projet": 7,
    "difficulte": 3,
    "lecons": [
     "agents-fundamentals",
@@ -8021,7 +8023,7 @@
    "revue": false,
    "titre": "DocSense : jalon + revue mensuelle 11",
    "livrable": "DocSense v0.5 + bilan mi-projet + revue mensuelle 11.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 3,
    "lecons": [
     "agents-fundamentals",
@@ -8075,7 +8077,7 @@
    "revue": false,
    "titre": "DocSense : guardrails testés",
    "livrable": "Suite adverse verte.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 4,
    "lecons": [
     "ai-security",
@@ -8097,7 +8099,7 @@
    "revue": false,
    "titre": "DocSense : gestion d'erreur bout-en-bout",
    "livrable": "10 scénarios d'erreur gérés proprement.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "ai-security",
@@ -8122,7 +8124,7 @@
    "revue": false,
    "titre": "DocSense : observabilité finale",
    "livrable": "Session rejouable + dashboard narratif.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "ai-security",
@@ -8151,7 +8153,7 @@
    "revue": false,
    "titre": "DocSense : couverture de tests",
    "livrable": "Tests du cœur (chemins critiques).",
-   "projet": null,
+   "projet": 7,
    "difficulte": 3,
    "lecons": [
     "ai-security",
@@ -8173,7 +8175,7 @@
    "revue": false,
    "titre": "DocSense : rapport qualité v1.0",
    "livrable": "Rapport qualité v1.0 (avant/après).",
-   "projet": null,
+   "projet": 7,
    "difficulte": 5,
    "lecons": [
     "ai-security",
@@ -8195,7 +8197,7 @@
    "revue": false,
    "titre": "DocSense : feature freeze v1.0",
    "livrable": "DocSense v1.0 gelée + post-mortem.",
-   "projet": null,
+   "projet": 7,
    "difficulte": 4,
    "lecons": [
     "ai-security",
@@ -9631,7 +9633,6 @@
     91,
     112,
     140,
-    294,
     308,
     329
    ],
@@ -9659,7 +9660,7 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 15,
-   "joursPortants": 63,
+   "joursPortants": 62,
    "leconsDeclarantes": 16,
    "leconsProgrammees": 16,
    "leconsHorsParcours": [],
@@ -9833,16 +9834,19 @@
     38,
     39,
     76,
+    292,
     352
    ],
    "pratique": [
     38,
     39,
-    76
+    76,
+    292
    ],
    "application": [],
    "revues": [
     42,
+    294,
     357
    ],
    "evaluations": [
@@ -9854,14 +9858,14 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 2,
-   "joursPortants": 6,
+   "joursPortants": 8,
    "leconsDeclarantes": 1,
    "leconsProgrammees": 1,
    "leconsHorsParcours": [],
    "artefactsPratique": 0,
    "premierContact": 38,
    "dernierContact": 357,
-   "plusGrandSilence": 276,
+   "plusGrandSilence": 216,
    "silenceFinal": 8
   },
   {

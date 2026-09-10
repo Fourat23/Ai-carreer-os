@@ -7,7 +7,14 @@
 // d(titre, objectif, exercice, livrable, skill?) → une journée
 const d = (title, objective, exercise, deliverable, skill) => ({ title, objective, exercise, deliverable, skill });
 
-// WEEK_PLANS[week] = { skill (défaut), days: [6 journées] }
+// WEEK_PLANS[week] = { skill (défaut), project?, days: [6 journées] }
+//
+// V73 · CP11 — `project` RATTACHE une semaine à son projet. Sans ce champ, `day.project`
+// restait `null` sur 355 journées sur 365, et la page /projects — qui filtre sur ce champ
+// exact, sans heuristique de titre — affichait « Journées rattachées : 0 » pour les projets
+// 3, 4, 5, 6 et 7. Les neuf semaines ci-dessous sont INTÉGRALEMENT des semaines de projet
+// (6 journées sur 6 titrées « Projet N — … » ou « DocSense : … »), ce qui rend la
+// déclaration exacte au niveau de la semaine, sans avoir à lire un seul titre.
 export const WEEK_PLANS = {
   // ══════════ MOIS 4 : Frontend React, full-stack, tests ══════════
   14: { skill: 'jsts', days: [
@@ -34,7 +41,7 @@ export const WEEK_PLANS = {
     d("Hooks personnalisés", "Extraire la logique réutilisable.", "Crée 2 hooks custom (useFetch, useLocalStorage), typés, testés.", "2 hooks custom typés et testés."),
     d("Gestion d'erreur front robuste", "Ne jamais casser l'UI.", "Error boundaries, états d'erreur soignés partout, retry. Casse ton app volontairement et vérifie la résilience.", "App résiliente aux erreurs (démontré)."),
   ]},
-  17: { skill: 'autonomy', days: [
+  17: { skill: 'autonomy', project: 3, days: [
     d("Projet 3 — BiblioApp : socle", "Liste, détail, navigation sur ton API.", "Implémente le socle : liste des livres, détail, navigation, module api. Commits atomiques.", "BiblioApp : socle navigable."),
     d("Projet 3 — CRUD complet", "Ajout, édition, suppression.", "Formulaires d'ajout/édition validés, suppression avec confirmation, mise à jour d'état immuable.", "BiblioApp : CRUD complet."),
     d("Projet 3 — Recherche et filtres", "Recherche et filtrage côté UI.", "Barre de recherche, filtres combinables, états vides soignés.", "BiblioApp : recherche + filtres."),
@@ -67,7 +74,7 @@ export const WEEK_PLANS = {
     d("ETL : concevoir un pipeline", "Structurer extract/transform/load.", "Conçois (papier + code) un pipeline extract (CSV+API) → transform → load (SQLite).", "Pipeline ETL conçu et amorcé."),
     d("ETL : robustesse et rejouabilité", "Rendre le pipeline robuste.", "Ajoute logs, gestion d'échec partiel, idempotence (rejouable sans dupliquer). Simule une interruption.", "Pipeline ETL rejouable + preuve de survie à interruption."),
   ]},
-  21: { skill: 'autonomy', days: [
+  21: { skill: 'autonomy', project: 4, days: [
     d("Projet 4 — DataPulse : cadrage et source", "Choisir la source et les questions.", "Lis project-04.md. Choisis une source publique, définis les 3 questions du dashboard, backlog.", "Cadrage DataPulse : source + 3 questions + backlog."),
     d("Projet 4 — Extract", "Ingérer la source.", "Implémente l'extraction (CSV/API), avec gestion des erreurs de source.", "DataPulse : extraction fonctionnelle."),
     d("Projet 4 — Transform", "Nettoyer et transformer.", "Nettoyage documenté (fonctions pures), rapport de qualité.", "DataPulse : transformation + rapport qualité."),
@@ -108,7 +115,7 @@ export const WEEK_PLANS = {
     d("Interprétabilité", "Expliquer un modèle.", "Feature importance, permutation importance, explique les décisions du modèle.", "Analyse d'interprétabilité."),
     d("Consolidation ML + cadrage Projet 5", "Souder le ML classique.", "Note 'Mon workflow ML'. Lis project-05.md, choisis dataset et question métier.", "Workflow ML écrit + cadrage ChurnScope."),
   ]},
-  26: { skill: 'ml', days: [
+  26: { skill: 'ml', project: 5, days: [
     d("Projet 5 — ChurnScope : EDA et baseline", "Comprendre les données, établir la baseline.", "EDA complète, question métier formulée, split, baseline établie.", "ChurnScope : EDA + baseline."),
     d("Projet 5 — Premiers modèles", "Comparer des modèles.", "2+ modèles en cross-validation, journal d'expériences ouvert.", "ChurnScope : modèles comparés."),
     d("Projet 5 — Feature engineering", "Améliorer par les features.", "Features dérivées justifiées, mesure de l'impact, anti-leakage vérifié.", "ChurnScope : features + gains mesurés."),
@@ -215,7 +222,7 @@ export const WEEK_PLANS = {
     d("Suite de tests adverses", "Automatiser la sécurité.", "15 cas hostiles (injections, hors corpus, données privées) intégrés au harnais d'évaluation.", "Suite adverse dans le harnais."),
     d("Défense en profondeur : synthèse", "Vue d'ensemble sécurité.", "Dessine les couches de défense de DocQA (entrée→consignes→sortie→citations→logs), ce que chacune attrape.", "Schéma de défense en profondeur."),
   ]},
-  39: { skill: 'evalia', days: [
+  39: { skill: 'evalia', project: 6, days: [
     d("Projet 6 — DocQA : baseline chiffrée", "Établir la référence.", "Fais tourner le harnais sur DocQA, enregistre les scores de base (avant optimisation).", "Baseline chiffrée de DocQA."),
     d("Projet 6 — Amélioration 1 pilotée", "Améliorer par les mesures.", "Choisis une amélioration (chunking/hybride/rerank), applique, mesure avant/après.", "Amélioration 1 mesurée."),
     d("Projet 6 — Amélioration 2 pilotée", "Itérer.", "Deuxième amélioration pilotée par les métriques, documentée.", "Amélioration 2 mesurée."),
@@ -257,7 +264,7 @@ export const WEEK_PLANS = {
     d("Consolidation sécurité + revue mensuelle 10", "Souder la sécurité IA.", "Synthèse sécurité, corrige 3 vraies failles trouvées. Revue mensuelle 10.", "3 failles corrigées + revue mensuelle 10."),
   ]},
   // ══════════ MOIS 11 : Projet final DocSense (build) + DevOps ══════════
-  44: { skill: 'archi', days: [
+  44: { skill: 'archi', project: 7, days: [
     d("DocSense : cadrage produit (SPEC)", "Cadrer comme un pro.", "SPEC.md : personas, 5 cas d'usage, hors-scope explicite. Le hors-scope est la partie clé.", "SPEC.md complet."),
     d("DocSense : architecture (ADRs)", "Décider et documenter.", "ARCHITECTURE.md (schéma C4, flux de données), 4 ADRs (stockage, LLM, chunking, éval).", "ARCHITECTURE.md + 4 ADRs."),
     d("DocSense : modèle de données", "Concevoir les données.", "Modèle de données complet (documents, chunks, évaluations, sessions), justifié.", "Modèle de données DocSense."),
@@ -265,7 +272,7 @@ export const WEEK_PLANS = {
     d("DocSense : dérisquage (spikes)", "Identifier et réduire les risques.", "3 risques techniques majeurs, un spike de 2h pour dérisquer chacun.", "3 risques + 3 spikes planifiés."),
     d("DocSense : setup et CI vide", "Poser les fondations.", "Repo initialisé, structure, CI vide qui passe, relecture critique de la SPEC à J+2.", "Repo DocSense initialisé + CI verte."),
   ]},
-  45: { skill: 'rag', days: [
+  45: { skill: 'rag', project: 7, days: [
     d("DocSense : ingestion multi-format", "Ingérer un vrai corpus.", "Ingestion PDF/Markdown/HTML d'un corpus technique réel (30+ docs), résistante aux fichiers moches.", "Ingestion robuste (testée sur 5 PDF réels)."),
     d("DocSense : RAG core (architecture cible)", "Le moteur avec la bonne config.", "Pipeline RAG avec la config optimale du mois 9, en architecture hexagonale dès le départ.", "RAG core en architecture cible."),
     d("DocSense : retrieval hybride", "Le meilleur retrieval.", "Intègre hybride + reranking, teste sur le corpus DocSense.", "Retrieval hybride sur DocSense."),
@@ -273,7 +280,7 @@ export const WEEK_PLANS = {
     d("DocSense : spikes exécutés", "Réduire les risques identifiés.", "Exécute les 3 spikes du jour 44, documente résultats et décisions.", "3 spikes exécutés et documentés."),
     d("DocSense : jalon RAG bout-en-bout", "Démontrer la semaine.", "10 questions sur le corpus → réponses citées, avec l'architecture cible. Revue d'archi hebdo.", "Jalon 45 démontré + revue d'archi."),
   ]},
-  46: { skill: 'evalia', days: [
+  46: { skill: 'evalia', project: 7, days: [
     d("DocSense : golden set", "Bâtir l'évaluation.", "Golden set de 40+ questions sur le corpus DocSense, types variés.", "Golden set DocSense 40+."),
     d("DocSense : harnais d'évaluation", "Évaluer dès maintenant.", "Harnais (retrieval + fidélité) en une commande, branché sur DocSense.", "Harnais d'évaluation opérationnel."),
     d("DocSense : dashboard qualité", "Visualiser la qualité.", "Dashboard affichant les scores par version (tendance > valeur absolue).", "Dashboard qualité fonctionnel."),
@@ -281,7 +288,7 @@ export const WEEK_PLANS = {
     d("DocSense : dockerisation", "Rendre reproductible.", "Dockerfile + compose (up = tout tourne), secrets par env, .dockerignore.", "DocSense dockerisé (compose up)."),
     d("DocSense : jalon évaluation et reproductibilité", "Démontrer la semaine.", "Éval en une commande + dashboard + docker up sur machine propre. Revue d'archi hebdo.", "Jalon 46 démontré + revue d'archi."),
   ]},
-  47: { skill: 'agents', days: [
+  47: { skill: 'agents', project: 7, days: [
     d("DocSense : workflow d'analyse", "La fonctionnalité différenciante.", "Workflow explicite : résumé structuré, points clés, questions ouvertes d'un document.", "Workflow d'analyse fonctionnel."),
     d("DocSense : détection d'incohérences", "Analyse avancée.", "Détection d'incohérences entre un document et le reste du corpus, avec le workflow visible dans les logs.", "Détection d'incohérences démontrée."),
     d("DocSense : coûts et observabilité", "Maîtriser coût et traces.", "Coût par analyse affiché, logs structurés, traçabilité du workflow.", "Coûts affichés + observabilité."),
@@ -290,7 +297,7 @@ export const WEEK_PLANS = {
     d("DocSense : jalon + revue mensuelle 11", "Bilan de mi-projet.", "DocSense v0.5 conforme au backlog. Écarts SPEC/réalité, coupes de scope à assumer. Revue mensuelle 11.", "DocSense v0.5 + bilan mi-projet + revue mensuelle 11."),
   ]},
   // ══════════ MOIS 12 : DocSense (polish + éval) + carrière ══════════
-  48: { skill: 'secu', days: [
+  48: { skill: 'secu', project: 7, days: [
     d("DocSense : guardrails testés", "Sécuriser en production locale.", "Suite adverse (15 cas hostiles adaptés) qui passe, injections bloquées.", "Suite adverse verte."),
     d("DocSense : gestion d'erreur bout-en-bout", "Ne jamais casser.", "Erreurs (LLM down, doc corrompu, question vide) → messages utilisateur propres, jamais de crash.", "10 scénarios d'erreur gérés proprement."),
     d("DocSense : observabilité finale", "Rejouer une session.", "Logs permettant de rejouer une session complète, dashboard qui raconte l'histoire des progrès.", "Session rejouable + dashboard narratif."),

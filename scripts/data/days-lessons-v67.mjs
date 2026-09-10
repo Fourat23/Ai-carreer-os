@@ -119,6 +119,14 @@ export const LESSONS_V67 = {
   // un conteneur — ce qui corrige au passage le défaut relevé par V72, où la TOTALITÉ du
   // curriculum Docker tombait sur la seule journée 320.
   291: ['system-design-scaling.md', 'distributed-systems-failures.md', 'docker-containers.md', 'cloud-fundamentals.md'], // « Monolithe modulaire vs microservices »
+  // V73 · CP11 — la journée 292 s'intitule « Design patterns dans ton code », son cours
+  // développe Strategy, Adapter, Factory, Decorator, Repository et leurs anti-patterns —
+  // et elle ne reliait PAS la leçon de fond sur les design patterns. `patterns` était donc
+  // la compétence la plus mince du parcours : une seule leçon programmée, rencontrée aux
+  // jours 38-39 et 76. Le rattachement est justifié par le titre et le cours de la journée ;
+  // qu'il tombe au mois 10, là où `expectedScores.patterns = 3`, en est la conséquence et
+  // non la raison.
+  292: ['design-patterns-intro.md'],                   // « Design patterns dans ton code »
 
   // ── Observabilité et fiabilité ─────────────────────────────────────────
   // Le jour 79 enseigne déjà, dans son propre cours, les trois piliers, les

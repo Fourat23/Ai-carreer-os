@@ -301,7 +301,12 @@ function buildDay(n) {
         concepts: [],
         exercise: entry.exercise,
         deliverable: entry.deliverable,
-        project: entry.project,
+        // V73 · CP11 — le rattachement au projet est déclaré au niveau de la SEMAINE
+        // (`WEEK_PLANS[w].project`) quand ses six journées sont toutes des journées de ce
+        // projet, et au niveau de la journée sinon. Sans cela `day.project` valait `null`
+        // sur 355 journées et la page /projects n'affichait aucune journée pour les
+        // projets 3 à 7.
+        project: entry.project ?? plan.project ?? null,
         theoryExtra: enrich.theory,
         guidedExample: enrich.guided,
         caseStudy: enrich.caseStudy,

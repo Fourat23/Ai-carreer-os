@@ -12900,14 +12900,14 @@
    "j": 292,
    "revue": false,
    "titre": "Design patterns dans ton code",
-   "nlec": 3,
+   "nlec": 4,
    "difficulte": 3,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
-    "lectureLecons": 72,
-    "lectureLeconsHaut": 72,
-    "lectureLeconsSiToutRelu": 72,
+    "lectureLecons": 97,
+    "lectureLeconsHaut": 97,
+    "lectureLeconsSiToutRelu": 97,
     "rappelActifMinute": null,
     "guide": [
      1,
@@ -12926,8 +12926,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 143,
-   "haut": 194,
+   "bas": 168,
+   "haut": 220,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -12995,7 +12995,7 @@
     "correction": 3,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
-    "lectureLeconsSiToutRelu": 143,
+    "lectureLeconsSiToutRelu": 146,
     "rappelActifMinute": 20,
     "guide": [
      0,

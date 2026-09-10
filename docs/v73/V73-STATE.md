@@ -5,22 +5,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP10**
+- **dernier CP terminé** : **CP11**
 - **CP courant** : —
-- **NEXT_CP** : **CP11** — pratique, projets et transfert
-- **NEXT_ACTION** : vérifier que **chaque compétence promise est PRATIQUÉE et APPLIQUÉE**, pas
-  seulement exposée. Faits déjà chiffrés à reprendre : **`patterns` = 0 artefact de pratique**
-  alors que le mois 10 en attend 3 · `rag` 4 · `evalia` 4 · `ml` 6 contre `se` 47 · les
-  **4 leçons Next.js OPTIONAL** enseignées au CP3 mais **aucun projet des 365 journées ne
-  demande de construire avec** (constat inconfortable du CP4, publié et non corrigé) · le CP8
-  laisse **4 `ABSENCE_DE_TRANSFERT`** (`algo`, `ds`, `gitlinux`, `patterns`) · le CP9 laisse
-  **P2-CP9-2** (98/313 journées dont l'exemple guidé résout déjà l'exercice demandé) et
-  **P2-CP9-3** (projets 1 à 5 sans progression d'exigence : 3,67 → 3,17 → 3,67 ; et **86 jours
-  sans aucune journée de production entre j181 et j267**, sur les deux mois les plus exigeants
-  de l'année). **NE PAS fabriquer un projet par compétence pour verdir un compteur** (§7
-  anti-Goodhart) : une compétence pratiquée DANS le projet d'une autre est pratiquée.
-  Ressources : `docs/v73/retention-contacts.json`, `docs/v73/progression-365.json`,
-  `docs/v73/curriculum-graph.json`.
+- **NEXT_CP** : **CP12** — intégrité factuelle
+- **NEXT_ACTION** : contrôler ce qui est **vérifiable mécaniquement**, et publier les erreurs de
+  sonde. (a) `readingMinutes` : recalculer et comparer au déclaré ; (b) **références** — le lab
+  `terminal` est **déjà corrigé au CP2**, NE PAS le « re-corriger » ; (c) affirmations
+  exécutables : les exécuter réellement ; (d) **contrôle de clé dupliquée dans `LESSONS_V67`**,
+  promis au CP3 (anomalies n° 10 et n° 14 : une clé dupliquée est écrasée par la dernière, le
+  rattachement est silencieusement perdu) ; (e) les **deux sous-déclarations de
+  `lessons-map.mjs`** trouvées en aval : compétences manquantes sur 10 semaines (CP10) et
+  `practiceRefs` manquants sur toute la moitié IA — `rag` 4 déclarés pour 35 exercices
+  programmés, `ml` 6 pour 49 (CP11, P2-CP11-1). **Corriger la carte, pas les semaines.**
+  Ressources : `docs/v73/pratique-transfert.json`, `docs/v73/curriculum-graph.json`.
 
 ## Repères Git
 
@@ -66,6 +63,57 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP11** — **la page `/projects` affichait « Journées rattachées : 0 » pour cinq projets sur
+  sept.**
+  - **Le défaut** : `day.project` valait `null` sur **355 journées sur 365** — seuls les projets
+    1 et 2, écrits à la main, le portaient. `app/projects/page.tsx` filtre sur ce champ exact et
+    écrit en commentaire « aucune heuristique de titre, aucun rattachement deviné ». La règle
+    était bonne, la donnée manquait. **10 → 64 journées rattachées** (P3 0→6, P4 0→6, P5 0→6,
+    P6 0→6, P7 0→30). `PeriodLoad` classait ces 54 journées en « étude » au lieu de « projet ».
+  - **La correction est une DÉCLARATION, pas une heuristique** : les 9 semaines concernées sont
+    **intégralement** des semaines de projet (6/6 journées titrées), donc `WEEK_PLANS[w].project`
+    suffit — sans lire un seul titre. **Contrôle : les 64 déclarées = les 64 titrées, 0 faux
+    positif, 0 oubli.**
+  - **RECTIFICATION DU CP0 — ANOMALIE n° 21.** Le CP0 concluait « `rag` a 4 artefacts de
+    pratique, `evalia` 4, `ml` 6 : la moitié IA pratique par projet plutôt que par exercice ».
+    La colonne comptait les **`practiceRefs` déclarés par les leçons**, pas **les exercices que
+    le calendrier programme**. Vrai chiffre vécu : `rag` **35**, `evalia` **43**, `ml` **49**,
+    `llm` **46**. Ce qui reste vrai est autre chose : `lessons-map.mjs` **sous-déclare** ses
+    `practiceRefs` — même famille que la sous-déclaration de compétences du CP10 → **CP12**.
+  - **UNE CORRECTION DE CONTENU, JUSTIFIÉE PAR LA JOURNÉE** : **j292 s'intitule « Design
+    patterns dans ton code »**, son cours développe Strategy, Adapter, Factory, Decorator,
+    Repository et leurs anti-patterns — **et ne reliait pas `design-patterns-intro`**. Rattachée.
+    Justifiée par le titre et le cours ; qu'elle tombe au mois 10 où `expectedScores.patterns = 3`
+    en est la **conséquence, pas la raison**. `patterns` : 3 → **4 journées de pratique**,
+    réparties j38 → j352 au lieu de s'arrêter à j76.
+  - **RÈGLE DE SUFFISANCE gelée avant mesure** (niv 1-2 → exposition · niv 3 → pratique ·
+    niv 4-5 → application) : **0 / 20 compétences dont le niveau promis dépasse ce que le
+    parcours fait faire.**
+  - **LE TROU DE 86 JOURS EST UN TROU DE DÉCLARATION, PAS DE CONSTRUCTION.** Lecture des
+    livrables j218→j272 : « rag-from-scratch modulaire », « DocQA v0 sur corpus réel »,
+    « Interface DocQA fonctionnelle », « DocQA sur Chroma », « Recherche hybride implémentée »,
+    « DocQA sécurisé ». **Le parcours construit sans interruption de j218 à j272** et ne nomme
+    « projet » que les six derniers jours. **NON déclaré unilatéralement** (cela ferait un projet
+    de 54 journées face à un projet 3 de six) → **P1-CP11-2**.
+  - **ANOMALIE n° 23 — `ABSENCE_DE_TRANSFERT` ne peut pas voir une compétence de SUBSTRAT.**
+    `algo`, `ds`, `gitlinux`, `patterns` : le `Store` de TaskFlow EST une structure de données,
+    chaque journée de projet commite, le projet 6 code une similarité cosinus. Ce qu'aucune
+    journée de projet ne fait, c'est **relier une leçon** de ces compétences. **Ajouter ces liens
+    pour faire tomber le compteur serait le contournement du §7** — et alourdirait la lecture de
+    ces journées sans changer un mot de leur travail. **Publié, non corrigé.**
+  - **63 leçons jamais reliées à une journée de projet (58 CORE, 5 OPTIONAL) — aucune violation**
+    : le §2 du contrat définit CORE par « un **livrable** la suppose », pas « un projet l'emploie ».
+    Les 5 OPTIONAL sont les 4 Next.js + `monitoring-production` du CP4 : **le statut OPTIONAL
+    règle déjà la question**, forcer un livrable Next.js reste interdit par le §7.
+  - **PROGRESSION DES PROJETS, chiffrée pour la première fois** : 3,67 → 3,43 → **3,17** → 3,33 →
+    3,67 puis **5,00** au projet 6. **Aucune montée d'exigence pendant 136 jours**, puis un saut.
+    **P1-CP11-1**, non corrigé — le corriger demanderait de réécrire trois énoncés de projet.
+  - **ANOMALIE n° 22** : `cp2-graphe.mjs` lisait `d.project?.id` sur un champ **numérique** —
+    `projet` valait null sur les 365 journées, masqué par le marqueur de titre `estProduction`.
+    **Deux défauts se masquaient l'un l'autre.** Corrigé.
+  - **Aucune leçon touchée, aucun texte de journée réécrit, aucune journée déplacée.** Corpus
+    `92d5fae6…` inchangé.
 
 - **CP10** — **douze semaines faisaient réviser ce qu'elles n'avaient pas enseigné. Il n'en
   reste aucune.**
@@ -441,6 +489,9 @@ jamais le créer.
   **inchangé** (seuls le générateur et les 365 journées générées changent).
 - **CP8** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** · charge 362 BALANCED / 3 UNDERLOADED / 0 HEAVY / 0 IMPOSSIBLE.
+- **CP11** : 1420/1420 · tsc 0 · **build OK** · 0 violation de gate · porte V73 verte · corpus
+  `92d5fae6…` **inchangé** · L1 = 0 · L2 = 0/52 · L3 = 6/365 · **64 journées de projet
+  déclarées** = les 64 titrées · `days-difficulty-v73.mjs` régénéré identique.
 - **CP10** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** · 52 semaines · 12 mois · L1 = 0 · L2 = 0/52 · L3 = 6/365 · les 8 parcours du
   catalogue gardent leur longueur · `days-difficulty-v73.mjs` régénéré **identique** (preuve de

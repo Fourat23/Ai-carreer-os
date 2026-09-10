@@ -151,7 +151,12 @@ for (const m of MUTATIONS) {
   try {
     m.appliquer();
     if (m.regenerer) sh(REGEN);
-    if (m.porte === PORTE_GRAPHE) sh('node scripts/v73/cp2-graphe.mjs --ecrire');
+    // ERREUR DE HARNAIS TROUVÉE PAR LA PREMIÈRE EXÉCUTION : le graphe n'était régénéré que
+    // pour la porte du graphe. La mutation n° 5 gonfle une journée via `LESSONS_V67`, et
+    // `cp6-charge.mjs` lit `docs/v73/curriculum-graph.json` : il voyait donc l'ANCIEN
+    // rattachement et déclarait la journée saine. La porte n'était pas en cause ; le harnais
+    // l'était. Le graphe est désormais régénéré dès qu'une mutation touche la génération.
+    if (m.regenerer || m.porte === PORTE_GRAPHE) sh('node scripts/v73/cp2-graphe.mjs --ecrire');
     const r = sh(m.porte);
     etat = r.ok ? 'RESTÉE VERTE — LA PORTE NE PROTÈGE PAS' : 'VUE ROUGE';
     detail = (r.out.split('\n').filter((l) => /❌|violation|✗|Error|défaut|DÉRIVE/.test(l))[0] ?? '').trim().slice(0, 110);

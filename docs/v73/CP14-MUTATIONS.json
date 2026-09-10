@@ -1,0 +1,102 @@
+{
+ "vues": 10,
+ "restaurees": 12,
+ "resultats": [
+  {
+   "n": 1,
+   "titre": "une compétence CORE ramenée à 0 journée",
+   "invariant": "I1 / C1",
+   "etat": "RESTÉE VERTE — LA PORTE NE PROTÈGE PAS",
+   "detail": "",
+   "restaure": true
+  },
+  {
+   "n": 2,
+   "titre": "un livrable dépendant d'un prérequis futur non signalé",
+   "invariant": "I2 / C2",
+   "etat": "VUE ROUGE",
+   "detail": "❌ 4 violation(s) du contrat gelé :",
+   "restaure": true
+  },
+  {
+   "n": 3,
+   "titre": "une revue liant une leçon jamais enseignée avant",
+   "invariant": "I3 / C3",
+   "etat": "VUE ROUGE",
+   "detail": "❌ 1 violation(s) du contrat gelé :",
+   "restaure": true
+  },
+  {
+   "n": 4,
+   "titre": "une référence vers une leçon inexistante",
+   "invariant": "C9",
+   "etat": "VUE ROUGE",
+   "detail": "R2  liens entre leçons                             ❌ 1",
+   "restaure": true
+  },
+  {
+   "n": 5,
+   "titre": "une journée gonflée au-delà du budget haut",
+   "invariant": "L1 / C10",
+   "etat": "RESTÉE VERTE — LA PORTE NE PROTÈGE PAS",
+   "detail": "",
+   "restaure": true
+  },
+  {
+   "n": 6,
+   "titre": "un mapping jour → leçon cassé",
+   "invariant": "I10",
+   "etat": "VUE ROUGE",
+   "detail": "R1  liens de leçon des 365 journées                ❌ 2",
+   "restaure": true
+  },
+  {
+   "n": 7,
+   "titre": "un cycle dans le graphe des prérequis",
+   "invariant": "I8 / C8",
+   "etat": "VUE ROUGE",
+   "detail": "❌ 1 violation(s) du contrat gelé :",
+   "restaure": true
+  },
+  {
+   "n": 8,
+   "titre": "une leçon privée de statut",
+   "invariant": "I5 / C5",
+   "etat": "VUE ROUGE",
+   "detail": "❌ violation de I5 : agent-workflows-orchestration",
+   "restaure": true
+  },
+  {
+   "n": 9,
+   "titre": "un expectedScores sur une compétence non enseignée avant",
+   "invariant": "I4 / C4",
+   "etat": "VUE ROUGE",
+   "detail": "❌ 1 violation(s) du contrat gelé :",
+   "restaure": true
+  },
+  {
+   "n": 10,
+   "titre": "une journée dupliquée",
+   "invariant": "I9",
+   "etat": "VUE ROUGE",
+   "detail": "❌ 2 violation(s) du contrat gelé :",
+   "restaure": true
+  },
+  {
+   "n": 11,
+   "titre": "une journée supprimée",
+   "invariant": "I9",
+   "etat": "VUE ROUGE",
+   "detail": "❌ 2 violation(s) du contrat gelé :",
+   "restaure": true
+  },
+  {
+   "n": 12,
+   "titre": "une tentative de création de data/progress.json",
+   "invariant": "I7 / C7",
+   "etat": "VUE ROUGE",
+   "detail": "❌ 1 violation(s) du contrat gelé :",
+   "restaure": true
+  }
+ ]
+}

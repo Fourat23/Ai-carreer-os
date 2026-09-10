@@ -33,7 +33,7 @@
    "secu",
    "sql"
   ],
-  "aretes": 800,
+  "aretes": 799,
   "pratiques": 339,
   "pratiquesNonResolues": 0,
   "anomaliesBloquantes": 0
@@ -7021,7 +7021,9 @@
     "caching-performance",
     "system-design-interview",
     "system-design-scaling",
-    "distributed-systems-failures"
+    "distributed-systems-failures",
+    "docker-containers",
+    "cloud-fundamentals"
    ],
    "estProduction": false,
    "exercices": [
@@ -7030,7 +7032,8 @@
    "competencesPortees": [
     "archi",
     "se",
-    "comm"
+    "comm",
+    "cloud"
    ]
   },
   {
@@ -7071,7 +7074,9 @@
    "lecons": [
     "architecture-basics",
     "caching-performance",
-    "system-design-interview"
+    "system-design-interview",
+    "cloud-networking",
+    "cloud-compute-storage"
    ],
    "estProduction": false,
    "exercices": [
@@ -7080,7 +7085,9 @@
    "competencesPortees": [
     "archi",
     "se",
-    "comm"
+    "comm",
+    "cloud",
+    "secu"
    ]
   },
   {
@@ -7094,12 +7101,13 @@
    "projet": null,
    "difficulte": 2,
    "lecons": [
+    "cloud-networking",
+    "cloud-compute-storage",
     "system-design-scaling",
     "distributed-systems-failures",
-    "async-messaging-queues",
-    "architecture-basics",
-    "caching-performance",
-    "system-design-interview"
+    "docker-containers",
+    "cloud-fundamentals",
+    "async-messaging-queues"
    ],
    "estProduction": false,
    "exercices": [
@@ -7107,9 +7115,10 @@
     "http-cache-policy"
    ],
    "competencesPortees": [
+    "cloud",
+    "secu",
     "archi",
-    "se",
-    "comm"
+    "se"
    ]
   },
   {
@@ -7323,14 +7332,18 @@
    "lecons": [
     "architecture-basics",
     "caching-performance",
-    "system-design-interview"
+    "system-design-interview",
+    "cloud-aws-core",
+    "cloud-azure-core"
    ],
    "estProduction": false,
    "exercices": [],
    "competencesPortees": [
     "archi",
     "se",
-    "comm"
+    "comm",
+    "cloud",
+    "secu"
    ]
   },
   {
@@ -7440,6 +7453,8 @@
    "difficulte": 2,
    "lecons": [
     "ci-cd-pipeline-anatomy",
+    "cloud-aws-core",
+    "cloud-azure-core",
     "architecture-basics",
     "caching-performance",
     "system-design-interview"
@@ -7453,6 +7468,7 @@
    "competencesPortees": [
     "cloud",
     "se",
+    "secu",
     "archi",
     "comm"
    ]
@@ -7917,7 +7933,8 @@
     "agents-fundamentals",
     "agent-workflows-orchestration",
     "structured-outputs-tools",
-    "llm-observability"
+    "llm-observability",
+    "cloud-finops"
    ],
    "estProduction": false,
    "exercices": [
@@ -7927,7 +7944,8 @@
    "competencesPortees": [
     "agents",
     "llm",
-    "cloud"
+    "cloud",
+    "archi"
    ]
   },
   {
@@ -7945,7 +7963,8 @@
     "agent-workflows-orchestration",
     "structured-outputs-tools",
     "ci-cd",
-    "ci-cd-quality-gates-artifacts"
+    "ci-cd-quality-gates-artifacts",
+    "iac-fundamentals"
    ],
    "estProduction": false,
    "exercices": [
@@ -7966,7 +7985,8 @@
     "agents",
     "llm",
     "cloud",
-    "se"
+    "se",
+    "archi"
    ]
   },
   {
@@ -8029,6 +8049,8 @@
    "difficulte": 2,
    "lecons": [
     "ci-cd-quality-gates-artifacts",
+    "iac-fundamentals",
+    "cloud-finops",
     "agents-fundamentals",
     "agent-workflows-orchestration",
     "structured-outputs-tools"
@@ -8040,6 +8062,7 @@
    "competencesPortees": [
     "cloud",
     "se",
+    "archi",
     "agents",
     "llm"
    ]
@@ -9658,6 +9681,8 @@
     307,
     320,
     321,
+    325,
+    326,
     331,
     332,
     358,
@@ -9692,7 +9717,9 @@
     293,
     302,
     320,
-    321
+    321,
+    325,
+    326
    ],
    "application": [
     47,
@@ -9714,6 +9741,7 @@
     301,
     308,
     322,
+    329,
     336,
     364
    ],
@@ -9741,18 +9769,14 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 19,
-   "joursPortants": 61,
+   "joursPortants": 64,
    "leconsDeclarantes": 40,
-   "leconsProgrammees": 32,
+   "leconsProgrammees": 36,
    "leconsHorsParcours": [
     "deployment-strategies",
     "release-incident-recovery",
     "k8s-networking-services",
-    "k8s-troubleshooting",
-    "cloud-fundamentals",
-    "cloud-compute-storage",
-    "iac-fundamentals",
-    "cloud-finops"
+    "k8s-troubleshooting"
    ],
    "artefactsPratique": 92,
    "premierContact": 44,
@@ -10571,12 +10595,14 @@
     263,
     264,
     265,
+    293,
     295,
     296,
     297,
     298,
     299,
     300,
+    303,
     320,
     321,
     330,
@@ -10593,6 +10619,7 @@
     72,
     79,
     260,
+    293,
     295,
     298,
     320,
@@ -10605,7 +10632,9 @@
     77,
     84,
     266,
+    294,
     301,
+    308,
     322,
     336
    ],
@@ -10628,15 +10657,12 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 23,
-   "joursPortants": 32,
+   "joursPortants": 36,
    "leconsDeclarantes": 15,
-   "leconsProgrammees": 10,
+   "leconsProgrammees": 13,
    "leconsHorsParcours": [
     "linux-ssh-remote",
-    "k8s-security",
-    "cloud-networking",
-    "cloud-aws-core",
-    "cloud-azure-core"
+    "k8s-security"
    ],
    "artefactsPratique": 36,
    "premierContact": 67,
@@ -10672,7 +10698,10 @@
     214,
     215,
     216,
+    291,
+    293,
     297,
+    303,
     307,
     320,
     321,
@@ -10691,6 +10720,8 @@
     199,
     200,
     201,
+    291,
+    293,
     320,
     321,
     325,
@@ -10705,6 +10736,7 @@
     203,
     210,
     217,
+    294,
     301,
     308,
     322,
@@ -10720,23 +10752,16 @@
    ],
    "niveauAttenduFinal": 2,
    "joursEtiquetes": 0,
-   "joursPortants": 41,
+   "joursPortants": 45,
    "leconsDeclarantes": 39,
-   "leconsProgrammees": 26,
+   "leconsProgrammees": 33,
    "leconsHorsParcours": [
     "linux-services-systemd",
     "deployment-strategies",
     "release-incident-recovery",
     "k8s-networking-services",
     "k8s-troubleshooting",
-    "k8s-security",
-    "cloud-fundamentals",
-    "cloud-networking",
-    "cloud-compute-storage",
-    "cloud-aws-core",
-    "cloud-azure-core",
-    "iac-fundamentals",
-    "cloud-finops"
+    "k8s-security"
    ],
    "artefactsPratique": 92,
    "premierContact": 68,
@@ -10822,7 +10847,6 @@
     91,
     119,
     147,
-    294,
     308,
     336,
     343,
@@ -10849,7 +10873,7 @@
    ],
    "niveauAttenduFinal": 4,
    "joursEtiquetes": 25,
-   "joursPortants": 60,
+   "joursPortants": 59,
    "leconsDeclarantes": 7,
    "leconsProgrammees": 7,
    "leconsHorsParcours": [],

@@ -5,20 +5,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP2**
+- **dernier CP terminé** : **CP3**
 - **CP courant** : —
-- **NEXT_CP** : **CP3** — fermeture des trous de curriculum (CP MAJEUR)
-- **NEXT_ACTION** : fermer **CSS**, **Next.js** et **Cloud proprement dit**, en construisant de
-  vraies séquences (INTRODUCTION → GUIDED PRACTICE → APPLICATION → INTEGRATION → REVIEW quand
-  c'est pédagogiquement justifié), **sans créer ni supprimer de journée** (365 inchangé).
-  Ressource identifiée au CP0 : **31 des 40 journées UNDERLOADED sont entre j91 et j180**.
-  **Ne pas insérer une leçon dans une journée au seul motif qu'elle est courte.** Produire un
-  ledger BEFORE→AFTER. Vérifier ensuite Docker / Kubernetes / Linux avancé / sécurité /
-  observabilité. Conditions M1→M9 du contrat à respecter et à inscrire au ledger.
-  **Le CP2 a précisé le trou `cloud`** : ce n'est pas « jamais enseigné » (41 journées le
-  portent depuis j68), c'est (a) **jamais étiqueté** — 0 journée porte l'étiquette, donc rien
-  ne l'affiche à l'apprenant — et (b) **le cloud proprement dit manque** : AWS, Azure, réseau
-  cloud, IaC, FinOps sont les 7 leçons hors parcours.
+- **NEXT_CP** : **CP4** — statut des leçons hors parcours
+- **NEXT_ACTION** : donner un statut explicite à **CHAQUE** leçon (règle I5 : 128/128, aucune
+  zone grise) parmi CORE / ADVANCED / OPTIONAL / REFERENCE / DEPRECATED, avec justification.
+  Traiter en particulier les **7 leçons restées hors parcours** après le CP3 :
+  `deployment-strategies` (citée par **6** leçons programmées — record du corpus),
+  `release-incident-recovery`, `k8s-networking-services`, `k8s-security`, `k8s-troubleshooting`,
+  `linux-services-systemd`, `linux-ssh-remote`. Pour toute leçon intégrée : jour, semaine,
+  compétence, prérequis, charge AVANT/APRÈS, impact. **Ne pas intégrer les 7 par principe** et
+  **ne jamais cacher une disparition**. Produire `docs/v73/V73-CURRICULUM-LEDGER.md`.
 
 ## Repères Git
 
@@ -64,6 +61,41 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP3** — **les trois trous P0 sont fermés.** Les **15 leçons** de CSS, Next.js et cloud sont
+  entrées sur **16 journées existantes dont le sujet les porte**, chacune recevant un **vrai
+  passage de cours** (3–4 paragraphes écrits pour cette journée). **Hors parcours : 22 → 7.**
+  - **CSS** j87 (plateforme web : DOM + balisage sémantique + `css-fundamentals`, sur la
+    journée qui OUVRE le front) · j103 (`css-flexbox`, `css-grid` — la disposition EST une
+    question d'accessibilité) · j117 (`responsive-design` — l'écran étroit est l'état
+    non-heureux le plus oublié).
+  - **Next.js** j99 (`nextjs-foundations`, par le routage) · j102 (`nextjs-rendering`, décision
+    de performance) · j104 (`nextjs-server-client-components`, frontière d'architecture) ·
+    j111 (`nextjs-data-production`, production).
+  - **Cloud** j291 (`docker-containers` + `cloud-fundamentals`) · j293 (`cloud-networking`,
+    `cloud-compute-storage`) · j303 (`cloud-aws-core`, `cloud-azure-core`) · j325
+    (`cloud-finops`) · j326 (`iac-fundamentals`). **Docker cesse d'être enseigné en un seul
+    jour** : introduit j291, approfondi j320 (défaut relevé par V72).
+  - **RECTIFICATION MESURÉE DU CP0** : la ressource annoncée — « 31 journées UNDERLOADED entre
+    j91 et j180 » — **n'existe pas** sous le budget gelé au CP1 (`[240,300]` au lieu de 270) :
+    il n'y a que **6 UNDERLOADED sur 365, aucune entre j91 et j180**. Le chiffre du CP0 était
+    une conséquence du seuil. Il est **conservé tel quel** (règle S7). La place réelle est la
+    **marge** : journée de travail médiane à 192 min, **77 journées à ≥ 90 min de marge** entre
+    j91 et j180.
+  - **UNE SEULE LEÇON MODIFIÉE** sur 128 : `cloud-fundamentals`, dont le prérequis
+    `docker-containers` était **faux et bloquant** — 3 mentions de « conteneur » en 2 896 mots,
+    aucune commande, exemple guidé sur une VM. Converti en renvoi **annoncé** avec la notion
+    donnée sur place, selon la convention V71. (Contre-épreuve : `cloud-compute-storage`
+    mentionne le conteneur **18 fois** — prérequis réel, leçon placée après j291.)
+  - **Charge inchangée** : 350 BALANCED · 6 HEAVY · 6 UNDERLOADED · 3 IMPOSSIBLE, **exactement
+    les mêmes journées qu'avant** (toutes des revues). **Aucune journée dégradée.**
+  - **Effet non anticipé** : les revues des semaines 42, 44 et 47 (j294, j308, j329) ont
+    automatiquement repris les leçons cloud — la première révision espacée existe déjà.
+  - **ANOMALIE n° 14 publiée** : deux des cinq rattachements cloud n'ont eu **aucun effet**, les
+    jours 291 et 326 possédant déjà une clé dans `LESSONS_V67` — **clé dupliquée écrasée par la
+    dernière**. Même piège qu'au CP2 (n° 10), cette fois en **production**. Fusionné dans les
+    clés existantes ; le CP14 ajoutera un contrôle de clé dupliquée.
+  - Corpus `c1ac869e…` → **`77feba18…`**, **9 gels de corpus** mis à jour.
 
 - **CP2** — graphe canonique. **`lib/curriculum-graph.mjs` (V31) RÉUTILISÉ, pas dupliqué** ; le
   CP2 lui ajoute **l'axe temporel** qui lui manquait (365 journées). Sortie :
@@ -148,3 +180,5 @@ jamais le créer.
 - **CP1** : document seul, aucun code modifié — aucun test à rejouer.
 - **CP2** : 1420/1420 · tsc 0 · 52 gates verts · porte V73 verte · 10/10 tests négatifs ·
   corpus `c1ac869e…` inchangé.
+- **CP3** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `77feba18…`
+  (1 leçon modifiée, 9 gels regelés).

@@ -37,6 +37,30 @@
 // accident ». Les inventer une place aurait été le contraire de ce principe.
 
 export const LESSONS_V67 = {
+  // ── V73 · CP3 — le bloc Cloud / DevOps ──────────────────────────────────
+  // Le CP0 et le CP2 ont montré le vrai trou : `cloud` est portée par 41 journées et
+  // étiquetée par ZÉRO, et le cloud PROPREMENT DIT (fondamentaux, réseau, calcul et
+  // stockage, fournisseurs, IaC, FinOps) était entièrement hors parcours. La chaîne de
+  // prérequis de ces sept leçons est stricte : fondamentaux → {réseau, calcul/stockage}
+  // → AWS → Azure → {IaC, FinOps}, et IaC/FinOps exigent en plus les leçons Kubernetes
+  // du jour 321. Le bloc est donc posé là où le SUJET DE LA JOURNÉE le porte, dans cet
+  // ordre, et nulle part ailleurs.
+  //
+  // j291 « Monolithe modulaire vs microservices » — le découpage pose la question « où
+  // ça tourne, et qui l'exploite ». `docker-containers` y entre aussi : l'unité de
+  // déploiement EST un conteneur, et cela corrige au passage un défaut relevé par V72,
+  // où la totalité du curriculum Docker tombait sur la seule journée 320.
+  // j293 « Exercice d'architecture » — un exercice d'architecture place du calcul, du
+  // stockage et du réseau. Ce sont exactement ces deux leçons.
+  293: ['cloud-networking.md', 'cloud-compute-storage.md'],
+  // j303 « DocSense : architecture (ADRs) » — choisir un fournisseur EST une décision
+  // d'architecture, et un ADR est l'endroit où on l'écrit avec ses alternatives.
+  303: ['cloud-aws-core.md', 'cloud-azure-core.md'],
+  // j325 « DocSense : coûts et observabilité » — le FinOps est la lecture économique de
+  // l'observabilité. Prérequis `k8s-config-probes` enseigné au jour 321.
+  325: ['cloud-finops.md'],
+  // j326 « DocSense : CI complète » — une CI complète provisionne son environnement.
+  // Prérequis `k8s-why-architecture` enseigné au jour 321.
   // ── Systèmes, Linux, réseau ────────────────────────────────────────────
   // Jour 72 « Terminal et Linux avancés : scripts, permissions, processus ».
   // Les trois leçons retenues SONT ce que la journée annonce. `linux-ssh-remote`
@@ -74,7 +98,11 @@ export const LESSONS_V67 = {
   74: ['technical-documentation.md'],                  // « Documentation technique : écrire pour être compris »
   81: ['technical-debt.md'],                           // « Trade-offs et anti-patterns : penser en ingénieur »
   290: ['async-messaging-queues.md'],                  // « Event-driven et queues »
-  291: ['system-design-scaling.md', 'distributed-systems-failures.md'], // « Monolithe modulaire vs microservices »
+  // V73 · CP3 — le découpage pose la question « où ça tourne, et qui l'exploite » : les
+  // fondamentaux cloud entrent ici. `docker-containers` aussi — l'unité de déploiement EST
+  // un conteneur — ce qui corrige au passage le défaut relevé par V72, où la TOTALITÉ du
+  // curriculum Docker tombait sur la seule journée 320.
+  291: ['system-design-scaling.md', 'distributed-systems-failures.md', 'docker-containers.md', 'cloud-fundamentals.md'], // « Monolithe modulaire vs microservices »
 
   // ── Observabilité et fiabilité ─────────────────────────────────────────
   // Le jour 79 enseigne déjà, dans son propre cours, les trois piliers, les
@@ -112,7 +140,9 @@ export const LESSONS_V67 = {
   // enseigné seulement au jour 320 — le cloud n'est donc insérable nulle part avant.
   321: ['k8s-why-architecture.md', 'k8s-workloads.md', 'k8s-config-probes.md'], // « DocSense : jalon évaluation et reproductibilité »
   307: ['ci-cd-pipeline-anatomy.md'],                  // « DocSense : setup et CI vide »
-  326: ['ci-cd-quality-gates-artifacts.md'],           // « DocSense : CI complète »
+  // V73 · CP3 — une CI complète provisionne son environnement : `iac-fundamentals` entre
+  // ici. Son prérequis `k8s-why-architecture` est enseigné au jour 321.
+  326: ['ci-cd-quality-gates-artifacts.md', 'iac-fundamentals.md'], // « DocSense : CI complète »
 };
 
 /**

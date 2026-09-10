@@ -27,10 +27,18 @@ managés**. Le vocabulaire et les modèles mentaux avant AWS ou Azure.
 
 ## 🧩 Prérequis
 Vous devez avoir une idée de ce qu'est une **adresse réseau**
-(`/doc/lessons/networking-addressing-routing`) et un **conteneur**
-(`/doc/lessons/docker-containers`), car le cloud héberge surtout des machines et des
-conteneurs mis en réseau. Aucune notion cloud (IaaS, région, responsabilité
-partagée) n'est supposée : on part du datacenter physique.
+(`/doc/lessons/networking-addressing-routing`), car le cloud héberge surtout des
+machines mises en réseau. La seule notion de conteneur nécessaire ici tient en une
+phrase, et la voici : **un conteneur est une application empaquetée avec tout ce dont
+elle a besoin pour tourner, qui démarre en quelques secondes sur n'importe quelle
+machine.** C'est tout ce que cette leçon en utilise ; elle part du datacenter
+physique et n'exécute aucune commande.
+
+> **Où trouver le détail.** `/doc/lessons/docker-containers` traite la mécanique des
+> conteneurs — image, couche, registre, isolation. Elle est **programmée plus loin**
+> dans le parcours ; rien ici ne suppose que tu l'as lue.
+
+Aucune notion cloud (IaaS, région, responsabilité partagée) n'est supposée.
 
 ## 🧠 Modèle mental
 Le cloud, c'est **louer** de l'infrastructure à la demande au lieu de POSSÉDER des

@@ -5,17 +5,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP4**
+- **dernier CP terminé** : **CP5**
 - **CP courant** : —
-- **NEXT_CP** : **CP5** — prérequis et ordre pédagogique
-- **NEXT_ACTION** : clore l'enquête prérequis avec la **taxonomie sémantique gelée**
-  (`INVALID_FORWARD_PREREQUISITE`, `EXPLICIT_LOOKAHEAD`, `VALID_RECAP`,
-  `VALID_PRIOR_KNOWLEDGE`, `AMBIGUOUS`) — **jamais A/B**. Valider les renvois recensés,
-  **chercher les incohérences CRÉÉES par les CP3 et CP4** (16 journées hôtes + 3 leçons
-  modifiées), et vérifier le graphe complet. Produire
-  `docs/v73/V73-PREREQUISITE-LEDGER.md`. La porte `v73-graphe-check.mjs` mesure déjà
-  **I2 = 0** ; le CP5 doit le **confirmer par lecture** sur les citations nouvellement créées et
-  publier le registre nominatif.
+- **NEXT_CP** : **CP6** — modèle de charge des 365 journées
+- **NEXT_ACTION** : recalcul complet **APRÈS** de la charge des 365 journées, décomposée par
+  poste (lecture · exemple guidé · pratique · correction · projet · revue · setup déclaré non
+  mesuré), avec **P10 / P25 / médiane / P75 / P90 / max** et l'**analyse de sensibilité
+  obligatoire** sur les six hypothèses gelées. Comparer **CP0 → CP6** en publiant les deux
+  lectures côte à côte (budget-point 270 du CP0 et fourchette `[240,300]` du contrat CP1).
+  **Ne traiter QUE les journées structurellement impossibles** — IMPOSSIBLE sous ≥ 4 des
+  6 hypothèses. **Ne pas maquiller une journée en raccourcissant les cours.** État actuel
+  (contrat CP1) : 350 BALANCED · 6 HEAVY · 6 UNDERLOADED · 3 IMPOSSIBLE, toutes des revues.
 
 ## Repères Git
 
@@ -61,6 +61,27 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP5** — **prérequis clos, la convention A/B est supprimée définitivement.**
+  Sur **306 citations** en section « Prérequis » : **`VALID_PRIOR_KNOWLEDGE` 214 ·
+  `VALID_RECAP` 48 · `EXPLICIT_LOOKAHEAD` 44 · `INVALID_FORWARD_PREREQUISITE` 0 ·
+  `AMBIGUOUS` 0.** Résultat **maintenu après** les 16 rattachements du CP3 et les 2 ancres du
+  CP4.
+  - Les **47 nouvelles relations** créées par le CP3 sont **toutes valides**, et l'ordre a été
+    construit pour cela, pas constaté après coup. Deux cas nommés : `cloud-compute-storage →
+    docker-containers` est un prérequis **réel** (18 mentions), satisfait uniquement parce que
+    le CP3 a introduit Docker au j291 ; `cloud-fundamentals → docker-containers` est devenu un
+    `EXPLICIT_LOOKAHEAD` parce que ce prérequis **n'était pas réel** (3 mentions, aucune
+    commande).
+  - **RAFFINEMENT DE CLASSEMENT DÉCLARÉ** : 3 citations ADVANCED → ADVANCED
+    (`k8s-security`/`k8s-troubleshooting` → `k8s-networking-services`,
+    `release-incident-recovery` → `deployment-strategies`) étaient d'abord marquées INVALID. Or
+    **le parcours ne fait jamais lire la leçon source non plus** : ces citations décrivent
+    l'ordre interne de l'étagère, qui est juste. Règle générale posée : *une citation dont la
+    leçon source n'est pas programmée ne peut pas être un défaut d'ordre du parcours.*
+  - **Limite déclarée** : le registre porte sur les sections « Prérequis ». Une notion supposée
+    au détour d'un paragraphe lui échappe — seul le **CP13** peut l'attaquer.
+  - **Aucun fichier de produit modifié au CP5.** Corpus inchangé (`92d5fae6…`).
 
 - **CP4** — **statut explicite des 128 leçons, aucune zone grise.**
   **CORE 116 · ADVANCED 7 · OPTIONAL 5 · REFERENCE 0 · DEPRECATED 0 · ZONE GRISE 0.**
@@ -205,3 +226,4 @@ jamais le créer.
   (1 leçon modifiée, 9 gels regelés).
 - **CP4** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   (2 leçons modifiées, 9 gels regelés).
+- **CP5** : mesure seule, aucun fichier de produit modifié — porte V73 verte, corpus inchangé.

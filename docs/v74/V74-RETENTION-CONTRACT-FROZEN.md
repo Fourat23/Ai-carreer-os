@@ -262,14 +262,40 @@ C'est la décision la plus importante du contrat, et elle va contre la facilité
 
 **Mesure qui la commande** *(CP1, sur les 376 exercices)* :
 
-| | |
-|---|---|
-| rattachables à un concept **par déclaration** (`practiceRefs` d'une leçon) | **207 / 376** |
-| rattachables **seulement** via les leçons de leur journée | **169 / 376** |
-| nombre de leçons candidates dans ce cas | **médiane 3, maximum 15** |
+> **⚠ CORRECTION DE MESURE, APPORTÉE AU CP7 — la RÈGLE ci-dessous est inchangée, les
+> CHIFFRES qui la commandaient étaient faux, et ils l'étaient DANS LE SENS QUI M'ARRANGEAIT.**
+>
+> La sonde du CP1 comptait les exercices **déclarés par AU MOINS une leçon** (207) et les
+> présentait comme « rattachables », alors que la règle gelée ci-dessous exige **exactement
+> une** leçon déclarante. Les 67 exercices déclarés par 2 à 6 leçons étaient comptés du bon
+> côté alors que le code les écarte. **La sonde mesurait la déclaration, pas l'unicité.**
+>
+> | | mesure CP1 | mesure RÉELLE (CP7) |
+> |---|---|---|
+> | rattachables par déclaration **unique** | 207 / 376 | **140 / 376** |
+> | **non** rattachables par déclaration unique | 169 / 376 | **236 / 376** |
+> | dont déclarés par 2 à 6 leçons | *(non compté)* | **67** — distribution `2→52 · 3→9 · 4→4 · 6→2` |
+> | dont **jamais déclarés** par aucune leçon | *(confondus avec les précédents)* | **169** |
+> | leçons candidates via la journée, pour les non rattachables | médiane 3, max 15 | **médiane 3, max 14** |
+>
+> **Aucun comportement de produit ne change** : `lib/learner-memory-server.ts` a toujours
+> appliqué `slugs.size !== 1 → non rattaché`. Le code attachait déjà 140 exercices, jamais
+> 207. C'était la mesure publiée qui était fausse, pas l'implémentation.
+>
+> **La décision en sort RENFORCÉE, pas fragilisée** : ce sont 236 exercices sur 376 — et non
+> 169 — qu'une équivalence automatique obligerait à trancher arbitrairement. Refuser
+> l'option C était encore plus justifié que le chiffre ne le laissait croire. C'est aussi
+> pourquoi la correction est publiée telle quelle : une erreur de sonde qui va dans le sens
+> de ma propre conclusion est celle qui a le plus besoin d'être dite.
 
-Traduire automatiquement les 376 en `RecallAttempt` obligerait, pour 169 d'entre eux, à
-**choisir arbitrairement** parmi trois à quinze concepts. Ce serait fabriquer de la donnée.
+| | valeur RÉELLE (corrigée au CP7) |
+|---|---|
+| rattachables à un concept **par déclaration unique** (`practiceRefs` d'une leçon) | **140 / 376** |
+| **non** rattachables par déclaration unique | **236 / 376** |
+| nombre de leçons candidates dans ce cas, via les leçons de leur journée | **médiane 3, maximum 14** |
+
+Traduire automatiquement les 376 en `RecallAttempt` obligerait, pour 236 d'entre eux, à
+**choisir arbitrairement** parmi trois à quatorze concepts. Ce serait fabriquer de la donnée.
 
 **Règle dérivée gelée — `DERIVED_RECALL` :**
 

@@ -66,9 +66,16 @@ export function getMemoryContext(): MemoryContext {
   // ── Exercice → concept UNIQUE déclaré (§3.4 condition 1 du contrat gelé).
   //
   // Un exercice déclaré par PLUSIEURS leçons n'est rattaché à AUCUNE : choisir
-  // serait fabriquer de la donnée. Le CP1 a mesuré que 207 exercices sur 376
-  // sont dans le cas non ambigu, et que rattacher les 169 autres aurait exigé
-  // de trancher entre 3 leçons en médiane, jusqu'à 15.
+  // serait fabriquer de la donnée.
+  //
+  // CHIFFRES CORRIGÉS AU CP7 : **140** exercices sur 376 sont dans le cas non
+  // ambigu — et non 207, chiffre publié au CP1 qui comptait les exercices
+  // déclarés par AU MOINS une leçon au lieu d'exactement une. Les **236**
+  // autres (dont 67 déclarés par 2 à 6 leçons et 169 jamais déclarés) auraient
+  // exigé de trancher entre 3 leçons en médiane, jusqu'à 14.
+  //
+  // Le code ci-dessous n'a jamais changé : `slugs.size !== 1` écartait déjà les
+  // 67 ambigus. C'est la mesure publiée qui était fausse, pas la règle.
   const declarants = new Map<string, Set<string>>();
   for (const l of lessons) {
     for (const r of l.practiceRefs ?? []) {

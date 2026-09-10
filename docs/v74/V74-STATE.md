@@ -7,21 +7,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP6**
+- **dernier CP terminé** : **CP7**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP7** — moteur de remédiation
-- **NEXT_ACTION** : construire `lib/remediation.mjs` — **règle DÉTERMINISTE V1** qui, après un
-  ÉCHEC, décide entre **indice · sous-problème · retour au modèle mental · exemple analogue ·
-  exercice plus simple · correction complète · nouvelle tentative différée**. Interdiction
-  centrale du brief : **« ne pas simplement redonner la réponse »** — la correction complète
-  doit être la DERNIÈRE marche, pas la première. Entrées disponibles et déjà écrites :
-  `ExerciseAttempt` (CP2 : `passed/total`, `phase`, `correctionSeen`), la fiche mémoire du CP2
-  (`failedRetrievalCount`, `consecutiveSuccesses`, `lastFailureAt`, `prereqDepth`), les
-  archétypes du CP5 (`tachePour`) pour matérialiser « exercice plus simple » et « exemple
-  analogue » **sans inventer de contenu**, et `correctionState` (`locked/available/viewed/
-  acknowledged`) qui dit si la réponse a déjà été vue. **Ne pas créer de quatrième moteur** ;
-  module PUR, horloge injectée (B2), et **chaque décision doit porter sa raison** (B10).
+- **NEXT_CP** : **CP8** — orchestration de l'espacement
+- **NEXT_ACTION** : faire de l'espacement une propriété **du plan de l'apprenant**, pas
+  seulement du curriculum statique. Le CP6 a traité les 52 revues générées ; le CP8 traite ce
+  que l'arbitre (CP3 + CP4) propose réellement à un apprenant donné, à partir de ses faits.
+  **Mesurer BEFORE / AFTER** sur des séries de faits synthétiques et publier la distribution
+  des intervalles obtenus. **Interdiction explicite du brief : « ne pas chercher
+  artificiellement *7 jours partout* »** — un espacement uniforme serait le signe que le moteur
+  ignore l'apprenant, pas qu'il l'a compris ; la dispersion des intervalles est attendue et
+  doit être publiée telle quelle. Ne créer aucune échelle nouvelle : `INTERVALS` de V66 reste
+  la seule (règle C11). Réutiliser `echeanceDe`/`planifier` du CP4 plutôt que de les doubler.
 
 ## Repères Git
 
@@ -38,7 +36,7 @@
 `128` leçons · `365` journées · `365` corrections · `52` semaines · `12` mois ·
 corpus des leçons `92d5fae6…` · **`data/progress.json` n'existe pas** — l'invariant est de ne
 jamais le créer · `L1 = 0 · L2 = 0/52 · L3 = 6/365` (seuils de charge V73) ·
-`1420/1420` tests · `tsc 0` · 52 portes sans violation · porte V73 verte ·
+`1420/1420` tests · `tsc 0` · **46** portes sans violation · porte V73 verte ·
 R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Décisions gelées
@@ -62,10 +60,12 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
   - **Option B retenue additivement** : `RecallAttempt` reçoit `durationMs`, `sourceKind`,
     `evidenceRef`, **avec valeurs par défaut** — aucune donnée historique invalidée.
   - **Option C REFUSÉE en tant qu'équivalence**, retenue en **règle dérivée qualifiée
-    `DERIVED_RECALL`** (4 conditions). **Mesure qui commande la décision : 207 exercices sur
-    376 sont rattachables à un concept par déclaration ; les 169 autres ont une MÉDIANE DE 3
-    leçons candidates (max 15).** Traduire les 376 automatiquement obligerait à choisir
-    arbitrairement — ce serait fabriquer de la donnée.
+    `DERIVED_RECALL`** (4 conditions). **Mesure qui commande la décision — CHIFFRES CORRIGÉS AU
+    CP7, règle inchangée : 140 exercices sur 376** (et non 207) sont rattachables à un concept
+    par déclaration **unique** ; les **236 autres** (et non 169) ont une médiane de 3 leçons
+    candidates, max **14**. La sonde du CP1 comptait les exercices déclarés par AU MOINS une
+    leçon, alors que la règle exige exactement une. **Le code n'a jamais changé** — il attachait
+    déjà 140. **La décision en sort renforcée**, pas fragilisée. Détail : anomalie n° 7.
   - **Option D REFUSÉE** : pas de quatrième moteur.
   - **Idempotence** : clés métier gelées (`exerciseId`+seconde+`passed/total` ;
     `conceptId`+seconde+`format`), **provenance obligatoire**, **horodatage serveur
@@ -109,6 +109,11 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP7** : **créés** `lib/remediation.mjs`, `lib/remediation.d.ts`, `lib/remediation-server.ts`,
+  `tests/v74-remediation.test.mjs` (27), `scripts/v74/cp7-remediation-substrat.mjs`,
+  `scripts/v74/cp7-rattachement.mjs`, `docs/v74/V74-CP7-REMEDIATION.md`.
+  **Modifiés** `docs/v74/V74-RETENTION-CONTRACT-FROZEN.md` (**correction de mesure §3.4, règle
+  inchangée**), `lib/learner-memory-server.ts` (commentaire : chiffres corrigés).
 - **CP6** : **modifié** `scripts/generate-curriculum.mjs` (`lessonsDeLaRevue` rend des leçons
   **catégorisées** `{file, categorie, raison}` ; `ESPACEMENT_MIN_JOURS = 21`,
   `PLACES_ANCIENNES = 2`, historique `DERNIERE_REVUE`). **Régénérés** : `data/program.json`,
@@ -133,6 +138,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP7** : **1509/1509** (27 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (46 portes) · corpus `92d5fae6…` inchangé · `data/progress.json` absent · **B2 et B10
+  vérifiés** · **4 mutations VUES rougir** (7 · 1 · 2 · 1 tests) puis restaurées.
 - **CP6** : **1482/1482** · tsc 0 · `gates:active` **0 violation** · porte V73 verte ·
   **R1→R7 = 0** · corpus des leçons `92d5fae6…` **inchangé** (seules les journées de revue
   changent) · `data/progress.json` absent · **charge L1 = 0 · L2 = 0/52 · L3 = 6/365**,
@@ -148,7 +156,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
   **B1 vérifié** (égalité stricte × 2 : rejeu et ordre d'insertion).
 - **CP1** : document seul, aucun code modifié — aucun test à rejouer.
 - **CP0** : lecture seule, aucun test rejoué (état hérité de V73 : 1420/1420 · tsc 0 ·
-  52 portes · build OK · 376/376).
+  **46** portes · build OK · 376/376).
 
 ## Dette découverte
 
@@ -161,11 +169,14 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **D5** | **trois mécanismes de révision sans arbitre** : V19 journée, V66 concept, 52 revues | `lib/review.mjs`, `lib/retention.mjs`, générateur |
 | **D6** | `weeklyReviews{}` est un objet libre, sans schéma normalisé | `lib/learning.mjs` |
 | **D7** | aucune durée n'est attachée à une réactivation, aucune preuve d'utilité d'un rappel | `lib/retention.mjs` |
+| **D8** *(CP7)* | **192 exercices sur 376 ne se rattachent à AUCUNE leçon sans ambiguïté** (140 par déclaration unique + 44 par journée unique = 184 seulement). Deux marches de remédiation plafonnent à **49 %** pour cette raison, alors que les sections existent sur **128/128** leçons. **Dette de CURRICULUM, pas de moteur** : la corriger voudrait dire enrichir les `practiceRefs` pour verdir une métrique de rétention — ce que N1/N2 interdisent | `data/program.json` (`practiceRefs`) |
 
 ## Erreurs de sondes
 
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
+| **8** *(CP7)* | **un nombre que je n'ai jamais compté moi-même** : « 52 portes », repris du rapport final de V73 et répété dans CINQ entrées de journal de V74 | le nombre d'entrées de `gates:active`, qui vaut **46** — et valait déjà 46 au commit `b353ebd`, fin de V73. Aucune porte ne manquait, aucun verdict ne change (le critère est « 0 violation », pas un décompte) : **c'est un chiffre recopié au lieu d'être mesuré**. Corrigé partout dans ce fichier. |
+| **7** *(CP7)* | les exercices **déclarés par AU MOINS une leçon** → **207** | les exercices **rattachables à UNE leçon**, ce qu'exige la règle §3.4 → **140**. Les **67** exercices déclarés par 2 à 6 leçons étaient comptés du bon côté alors que le code les écarte depuis toujours. **Aucun comportement de produit ne change** ; **la décision du CP1 en sort RENFORCÉE** (236 exercices à trancher arbitrairement, et non 169). **Une erreur de sonde qui va dans le sens de ma propre conclusion est celle qui a le plus besoin d'être publiée.** |
 | **6** *(CP5)* | un motif **ancré en début de chaîne** (`/^objectif/i`) | la présence d'une **section** dont le titre commence par un **émoji**. `FEYNMAN` sortait disponible sur **0 leçon sur 128** alors que ses sections existent partout — **un archétype à zéro aurait pu passer pour un constat de corpus**. |
 | **5** *(CP3)* | **ma propre séquence de vérification** : `gates:active > /dev/null` puis lecture du seul code de retour **après le push** | vérifier avant de pousser. Faute de séquence, publiée. |
 | **4** *(CP3)* | le nombre de `', et '` dans une phrase | le nombre de **facteurs cités**. La phrase de l'échec contient elle-même « , et » : **la sonde mesurait la ponctuation**. Les identifiants cités sont désormais exposés à part. |
@@ -174,6 +185,72 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP7** — **après un échec, la réponse arrive en DERNIER. Sept marches, trois dérogations,
+  et deux de mes propres chiffres corrigés.**
+  - **`lib/remediation.mjs`** — pur, horloge injectée, ressources injectées. Il ne rédige
+    **aucun contenu pédagogique** : comme le CP5, il produit une **consigne** et un **pointeur**
+    vers une section réelle, un test réel ou un exercice réel.
+  - **Pourquoi donner la réponse trop tôt est un défaut MESURABLE** : le contrat §1.4 (R-b) dit
+    qu'une tentative postérieure à l'ouverture de la correction **ne vaut plus récupération**.
+    Répondre à chaque échec par la solution ne se contente pas de mal aider — **cela détruit la
+    seule mesure objective du produit**. Un test vérifie qu'**aucun chemin, y compris un repli
+    pour matière manquante, n'ouvre la correction avant le niveau 5**.
+  - **L'échelle, ordonnée par l'assistance donnée** : niveau 1 avec des tests qui passent →
+    `SOUS_PROBLEME` (il avance, on le focalise) · niveau 1 avec zéro test → `MODELE_MENTAL`
+    (c'est la forme du problème qui manque) · niveau 2 → `INDICE` · niveau 3 **avec**
+    progression → `SOUS_PROBLEME` (on ne redescend pas l'échelle de quelqu'un qui progresse) ·
+    niveau 3 **sans** progression → `EXEMPLE_ANALOGUE` · niveau 4 → `EXERCICE_PLUS_SIMPLE` ·
+    niveau 5 → `CORRECTION_COMPLETE`.
+  - **SUBSTRAT MESURÉ AVANT D'ÉCRIRE LA RÈGLE** — *une marche sans matière n'est pas une
+    marche, c'est une décoration* : « Modèle mental » **128/128** · « Erreurs fréquentes »
+    **128/128** · « Exemple guidé » **128/128** · « Correction attendue » **127/128** ·
+    « Anti-patterns » **51/128** · voisin strictement plus simple **331/376** (médiane **7**
+    candidats) · misconception nommant l'exercice **121/376** · **0 exercice sans test public**,
+    **0 test sans nom**.
+  - **AUCUN QUATRIÈME MOTEUR, AUCUN SECOND REGISTRE** : le module ne définit **aucune échéance
+    de rappel** (il rend un *délai de reprise de séance* de 20 h, ce qui est autre chose —
+    `INTERVALS` de V66 reste seule, règle C11) ; et **`lib/misconceptions.mjs` existait déjà**
+    (57 entrées, 18 compétences, **0 référence fantôme**) — le CP7 la **consomme**. Rédiger sept
+    indices sur mesure aurait été plus rapide que de brancher un registre existant.
+  - **Le voisin plus simple n'est PAS le plus facile** : avec 7 candidats en médiane, tirer au
+    hasard serait un aléa déguisé en pédagogie, et prendre le plus facile enverrait quelqu'un
+    bloqué au niveau 4 vers un exercice de niveau 1. Règle : **la difficulté la plus haute
+    strictement en dessous**, puis le plus de compétences communes, puis l'identifiant (B2).
+  - **TROIS DÉROGATIONS, et leur ordre EST la décision.** **D1** — une tentative hors phase
+    `run` **ne fait pas monter l'échelle** : sans cela, **trois points-virgules manquants
+    suffiraient à faire donner la correction complète**. **D2** — correction déjà vue →
+    `TENTATIVE_DIFFEREE` : proposer un indice à quelqu'un qui a la réponse sous les yeux est du
+    théâtre. **D3** — **pilonnage** (≥ 4 échecs en ≤ 20 min) → report à 20 h ; *mais la
+    dérogation s'arrête au niveau de la correction* — **le report ne doit pas devenir un moyen
+    de ne jamais donner la réponse**, et c'est aussi ce qui interdit la boucle que le CP13 ira
+    chercher.
+  - **COUVERTURE EFFECTIVE DES MARCHES, publiée en nombres** : `MODELE_MENTAL` **184/376
+    (49 %)** · `INDICE` **256/376 (68 %)** · `EXEMPLE_ANALOGUE` **184/376 (49 %)** ·
+    `EXERCICE_PLUS_SIMPLE` **331/376 (88 %)** · `CORRECTION_COMPLETE` **376/376** ·
+    **13/376 (3 %)** sans aucune marche adossée à une leçon ni à un voisin — pour ceux-là le
+    `SOUS_PROBLEME` reste disponible.
+  - **Les 49 % ne sont PAS un défaut du corpus** (les sections existent sur 128/128) : c'est le
+    **rattachement exercice → leçon** qui plafonne à **184/376**. Je ne le corrige pas, et c'est
+    délibéré — le corriger voudrait dire enrichir les `practiceRefs` **pour verdir une métrique
+    de rétention**, ce que N1/N2 interdisent. Inscrit en **dette D8**.
+  - **LA SONDE A CONTREDIT UN CHIFFRE DU CP1, ET C'EST LE CP1 QUI AVAIT TORT (anomalie n° 7).**
+    En branchant le rattachement sur la **même fonction** que le produit (`leconUnique`, placée
+    dans le module pur exprès pour que sonde et produit ne divergent pas), j'obtiens **140** là
+    où le CP1 publiait **207**. La sonde du CP1 comptait les exercices déclarés par **au moins**
+    une leçon ; la règle exige **exactement** une. **Le code n'a jamais changé** —
+    `slugs.size !== 1` écartait déjà les 67 ambigus. **La décision en sort renforcée** : 236
+    exercices à trancher arbitrairement, et non 169. Corrigé dans le contrat gelé, dans le
+    commentaire du code et dans ce fichier — **la RÈGLE n'est pas touchée**.
+  - **UN SECOND CHIFFRE À MOI CORRIGÉ (anomalie n° 8)** : « 52 portes », que j'ai repris du
+    rapport de V73 et répété dans **cinq** entrées de ce journal, vaut **46** — et valait déjà
+    46 à `b353ebd`. Aucune porte ne manquait et aucun verdict ne bouge (le critère est
+    « 0 violation »), mais **c'était un nombre recopié au lieu d'être mesuré**.
+  - **VINGT-SEPT TESTS PASSANT DU PREMIER COUP EST UNE RAISON DE SE MÉFIER** : quatre mutations
+    ont donc été injectées et **vues rougir** — correction accessible au niveau 2 (**7 tests**),
+    repli sautant à la correction (**1**), échec de compilation faisant monter l'échelle
+    (**2**), voisin le plus facile au lieu du plus proche (**1**). Toutes restaurées.
+  - **1509/1509 · tsc 0 · build OK · 46 portes vertes · corpus inchangé.**
 
 - **CP6** — **une revue cesse d'être « relis ta semaine ». L'espacement médian passe de 1 à
   3 jours, sans toucher au plafond de charge.**
@@ -229,7 +306,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
     quelle que soit la date de la revue. Le corriger exigerait de modifier le **rattachement
     des leçons** (défaut V73 `P1-CP13-1`), c'est-à-dire de toucher au curriculum pour verdir
     une métrique de rétention — **précisément ce que N1/N2 non bloquants interdisent**.
-  - **1482/1482 · tsc 0 · 52 portes vertes · porte V73 verte · R1→R7 = 0 · corpus des leçons
+  - **1482/1482 · tsc 0 · 46 portes vertes · porte V73 verte · R1→R7 = 0 · corpus des leçons
     inchangé.**
 
 - **CP5** — **douze archétypes de rappel, zéro invention.**
@@ -259,7 +336,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
   - **Un test garde le piège** : « le titre réel commence par un émoji, et la reconnaissance ne
     s'y trompe pas ». Un autre garde l'essentiel : **aucun archétype ne doit être creux** —
     chacun doit avoir une couverture non nulle sur le corpus réel.
-  - **1482/1482 · tsc 0 · 52 portes vertes · corpus inchangé.**
+  - **1482/1482 · tsc 0 · 46 portes vertes · corpus inchangé.**
 
 - **CP4** — **scheduler V1 : quoi, quand, sous quelle forme, dans quel budget.**
   - **`lib/retention-scheduler.mjs`** — pur, horloge injectée, **et il ne définit AUCUNE
@@ -290,7 +367,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
     d'entrée des fiches n'a aucun effet · aucune horloge implicite.
   - **C11 étendue à `lib/retention-scheduler.mjs`** ; la vérification de propriété ajoutée au
     CP3 continue de garantir qu'il **ne porte aucune échelle**.
-  - **1470/1470 · tsc 0 · 52 portes vertes · corpus inchangé.**
+  - **1470/1470 · tsc 0 · 46 portes vertes · corpus inchangé.**
 
 - **CP3** — **priorité EXPLICABLE : sept facteurs additifs, bornés, publiés.**
   - **`lib/retention-priority.mjs`** — pur, horloge injectée. **Poids entiers dont la somme
@@ -335,7 +412,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
   - **Le renforcement a été VU rougir** : en injectant un `INTERVALS = [...]` dans l'arbitre,
     C11 échoue avec `aucune ÉCHELLE D'ESPACEMENT hors des deux moteurs nommés` ; la mutation
     restaurée, elle repasse au vert.
-  - **1455/1455 · tsc 0 · 52 portes vertes · corpus inchangé.**
+  - **1455/1455 · tsc 0 · 46 portes vertes · corpus inchangé.**
 
 - **CP2** — **le fait qui manquait existe : `ExerciseAttempt`. Et le laboratoire écrit
   désormais la tentative, qu'elle réussisse OU NON.**
@@ -364,7 +441,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
     la progression vide. `exerciseAttempts: []` s'y ajoute — **liste vide, jamais absente**,
     sans quoi « aucune tentative » et « aucun échec observable » resteraient indiscernables.
     Le test est mis à jour avec sa raison, pas contourné.
-  - **1440/1440 · tsc 0 · build OK · 52 portes vertes · corpus `92d5fae6…` inchangé ·
+  - **1440/1440 · tsc 0 · build OK · 46 portes vertes · corpus `92d5fae6…` inchangé ·
     `progress.json` absent.**
 
 - **CP1** — **contrat gelé. Aucun fichier de produit modifié.**

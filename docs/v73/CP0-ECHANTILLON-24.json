@@ -1,0 +1,229 @@
+{
+ "graine": 20260910,
+ "taille": 24,
+ "medianeMotsCorpus": 3489,
+ "periodes": {
+  "debut": 7,
+  "milieu": 5,
+  "fin": 6,
+  "hors": 6
+ },
+ "domaines": {
+  "Fondations": 1,
+  "IA appliquée": 2,
+  "Cloud, AWS, Azure & IaC": 1,
+  "Web & backend": 1,
+  "Data & SQL": 2,
+  "Software engineering & architecture": 2,
+  "Frontend : Web Platform": 2,
+  "Python & ML": 1,
+  "CI/CD & livraison": 2,
+  "Frontend & React": 3,
+  "Production & DevOps": 2,
+  "Kubernetes": 1,
+  "Conteneurs & Docker": 1,
+  "Systèmes & Linux": 1,
+  "Observabilité, SRE & fiabilité": 2
+ },
+ "horsParcours": 6,
+ "auDessusMediane": 12,
+ "notesDisponibles": "oui (128 leçons)",
+ "avecNote": 24,
+ "noteMin": 4.7857,
+ "noteMax": 5,
+ "sousLaMediane": 6,
+ "lecons": [
+  {
+   "slug": "async-javascript",
+   "cat": "Fondations",
+   "level": 2,
+   "mots": 3266,
+   "jour": 4,
+   "note": 4.7857
+  },
+  {
+   "slug": "database-modeling",
+   "cat": "Data & SQL",
+   "level": 2,
+   "mots": 3736,
+   "jour": 57,
+   "note": 4.8571
+  },
+  {
+   "slug": "refactoring-legacy-code",
+   "cat": "Software engineering & architecture",
+   "level": 2,
+   "mots": 2932,
+   "jour": 69,
+   "note": 4.8571
+  },
+  {
+   "slug": "monitoring-production",
+   "cat": "Production & DevOps",
+   "level": 3,
+   "mots": 3263,
+   "jour": 79,
+   "note": 4.9286
+  },
+  {
+   "slug": "distributed-tracing",
+   "cat": "Observabilité, SRE & fiabilité",
+   "level": 3,
+   "mots": 3381,
+   "jour": 79,
+   "note": 4.8571
+  },
+  {
+   "slug": "caching-performance",
+   "cat": "Web & backend",
+   "level": 3,
+   "mots": 3669,
+   "jour": 80,
+   "note": 5
+  },
+  {
+   "slug": "react-hooks-effects",
+   "cat": "Frontend & React",
+   "level": 2,
+   "mots": 3532,
+   "jour": 88,
+   "note": 5
+  },
+  {
+   "slug": "react-application-states",
+   "cat": "Frontend & React",
+   "level": 3,
+   "mots": 4816,
+   "jour": 95,
+   "note": 4.8571
+  },
+  {
+   "slug": "web-forms-validation",
+   "cat": "Frontend : Web Platform",
+   "level": 2,
+   "mots": 4254,
+   "jour": 96,
+   "note": 5
+  },
+  {
+   "slug": "pandas-data-wrangling",
+   "cat": "Data & SQL",
+   "level": 2,
+   "mots": 3624,
+   "jour": 127,
+   "note": 4.9286
+  },
+  {
+   "slug": "machine-learning-basics",
+   "cat": "Python & ML",
+   "level": 2,
+   "mots": 3053,
+   "jour": 155,
+   "note": 4.8571
+  },
+  {
+   "slug": "rag-fundamentals",
+   "cat": "IA appliquée",
+   "level": 2,
+   "mots": 4467,
+   "jour": 218,
+   "note": 5
+  },
+  {
+   "slug": "prompt-injection-defense",
+   "cat": "IA appliquée",
+   "level": 3,
+   "mots": 3598,
+   "jour": 260,
+   "note": 5
+  },
+  {
+   "slug": "async-messaging-queues",
+   "cat": "Software engineering & architecture",
+   "level": 3,
+   "mots": 3205,
+   "jour": 290,
+   "note": 5
+  },
+  {
+   "slug": "ci-cd-pipeline-anatomy",
+   "cat": "CI/CD & livraison",
+   "level": 2,
+   "mots": 3866,
+   "jour": 307,
+   "note": 5
+  },
+  {
+   "slug": "docker-containers",
+   "cat": "Production & DevOps",
+   "level": 2,
+   "mots": 3435,
+   "jour": 320,
+   "note": 4.9286
+  },
+  {
+   "slug": "docker-networking-volumes",
+   "cat": "Conteneurs & Docker",
+   "level": 2,
+   "mots": 2659,
+   "jour": 320,
+   "note": 5
+  },
+  {
+   "slug": "resilience-patterns",
+   "cat": "Observabilité, SRE & fiabilité",
+   "level": 3,
+   "mots": 3802,
+   "jour": 331,
+   "note": 5
+  },
+  {
+   "slug": "cloud-fundamentals",
+   "cat": "Cloud, AWS, Azure & IaC",
+   "level": 2,
+   "mots": 2896,
+   "jour": null,
+   "note": 5
+  },
+  {
+   "slug": "css-grid",
+   "cat": "Frontend : Web Platform",
+   "level": 2,
+   "mots": 4109,
+   "jour": null,
+   "note": 5
+  },
+  {
+   "slug": "deployment-strategies",
+   "cat": "CI/CD & livraison",
+   "level": 3,
+   "mots": 3260,
+   "jour": null,
+   "note": 5
+  },
+  {
+   "slug": "k8s-troubleshooting",
+   "cat": "Kubernetes",
+   "level": 3,
+   "mots": 2736,
+   "jour": null,
+   "note": 5
+  },
+  {
+   "slug": "linux-services-systemd",
+   "cat": "Systèmes & Linux",
+   "level": 2,
+   "mots": 3464,
+   "jour": null,
+   "note": 5
+  },
+  {
+   "slug": "nextjs-data-production",
+   "cat": "Frontend & React",
+   "level": 3,
+   "mots": 4561,
+   "jour": null,
+   "note": 5
+  }
+ ]
+}

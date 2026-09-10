@@ -87,7 +87,14 @@ test('emptyFlat : forme V6 vide', () => {
   // progression vide porte une liste de faits VIDE, jamais l'absence de liste
   // — un consommateur ne doit pas avoir à distinguer « pas de tentative » de
   // « champ manquant ».
-  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [] });
+  //
+  // `exerciseAttempts` s'ajoute en V74 · CP2 pour la même raison, et pour une
+  // de plus : le CP0 de V74 a établi qu'un exercice raté n'écrivait RIEN,
+  // parce que le produit persistait la projection (la preuve) et jetait le
+  // fait (la tentative). La liste est donc VIDE et jamais absente, y compris
+  // sur une progression neuve — sans quoi « aucune tentative » et « aucun
+  // échec observable » resteraient indiscernables.
+  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [] });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
 

@@ -97,6 +97,44 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       // d'ailleurs la commande, et un refus n'écrit rien.
       let recorded = false;
       let sessionsUpdated = 0;
+
+      // ── V74 · CP2 — LA TENTATIVE EST UN FAIT, QU'ELLE RÉUSSISSE OU NON ──
+      //
+      // Le CP0 de V74 a établi que ce fichier n'écrivait RIEN quand un exercice
+      // échouait : il n'existait pas de branche `else` au test ci-dessous. La
+      // cause n'était pas un oubli mais un choix d'objet — le produit
+      // persistait la PROJECTION (la preuve, écrite seulement en cas de
+      // succès) et jetait le FAIT (la tentative). Un moteur de rétention
+      // branché sur des données qui n'enregistrent jamais l'échec ne peut rien
+      // mesurer.
+      //
+      // La tentative est donc écrite AVANT toute projection, systématiquement.
+      // `correctionSeen` décide si elle pourra un jour valoir RÉCUPÉRATION
+      // (condition R-b du contrat gelé) : une tentative postérieure à
+      // l'ouverture de la correction reste un contact significatif, jamais un
+      // rappel. En l'absence d'information, le doute joue contre le compteur.
+      {
+        const dayRefsAll = daysForExercise(getDayExerciseIndex(), ex.id);
+        const before = readProgress();
+        const joursLus = before.days as Record<string, { correctionState?: string }> | undefined;
+        const correctionSeen = dayRefsAll.some((d) => {
+          const st = joursLus?.[String(d)]?.correctionState;
+          return st === 'viewed' || st === 'acknowledged';
+        });
+        const r = applyCommand(before, {
+          type: 'RECORD_EXERCISE_ATTEMPT',
+          exerciseId: ex.id,
+          passed: attempt.passed,
+          total: attempt.total,
+          phase: phase === 'compile' ? 'compile' : timedOut ? 'timeout' : 'run',
+          durationMs: attempt.durationMs ?? 0,
+          dayRefs: dayRefsAll,
+          correctionSeen,
+          provenance: { producer: 'lab-runner', method: 'sandbox-tests' },
+        }, { now: new Date() });
+        if (r.ok) writeProgress(r.progress);
+      }
+
       if (attempt.allPassed) {
         const dayRefs = daysForExercise(getDayExerciseIndex(), ex.id);
         if (dayRefs.length) {

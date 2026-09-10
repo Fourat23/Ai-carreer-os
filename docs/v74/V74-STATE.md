@@ -7,19 +7,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP1**
+- **dernier CP terminé** : **CP2**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP2** — learner memory model
-- **NEXT_ACTION** : construire une **projection déterministe** de l'état d'apprentissage —
-  **jamais une seconde source mutable**. Par concept ET par compétence : `lastExposureAt`,
-  `lastRetrievalAt`, `lastSuccessAt`, `lastFailureAt`, `lastEvidenceAt`,
-  `successfulRetrievalCount`, `failedRetrievalCount`, `applications`, `transfers`,
-  `currentExpectedLevel`, `nextCurriculumNeed`, `meaningfulContacts[]`.
-  **Idempotence obligatoire** (critère bloquant B1 : effacer et rejouer depuis les seuls faits
-  rend un résultat strictement égal). Appliquer les définitions §1 du contrat gelé —
-  notamment MEANINGFUL_CONTACT (M1-M4) et RETRIEVAL (R-a, R-b, R-c). Le module doit être
-  **PUR** : aucune I/O, horloge injectée, comme `lib/retention.mjs`.
+- **NEXT_CP** : **CP3** — retention priority model
+- **NEXT_ACTION** : construire une priorité de révision **EXPLICABLE** — pas un score magique
+  opaque. La décision doit pouvoir dire « cette notion est prioritaire parce que… ».
+  Facteurs candidats, **chacun à justifier** : temps depuis le dernier rappel RÉUSSI ·
+  importance future (`currentExpectedLevel`, `nextCurriculumNeed`) · erreur récente
+  (`lastFailureAt`) · absence de retrieval (`retrievalCount === 0` alors que l'exposition
+  existe) · contact uniquement passif · profondeur de prérequis · proximité d'un projet ·
+  proximité d'une évaluation · historique de réussite/échec. **Produire une TRACE
+  d'explication** (critère bloquant B10 : 100 % des éléments proposés portent une trace
+  lisible citant leurs facteurs). Le module doit être **PUR**, horloge injectée, et
+  consommer `projectLearnerMemory` — jamais recalculer l'état.
 
 ## Repères Git
 
@@ -107,6 +108,12 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP2** : **créés** `lib/exercise-attempt.mjs`, `lib/exercise-attempt.d.ts`,
+  `lib/learner-memory.mjs`, `lib/learner-memory-server.ts`,
+  `tests/v74-learner-memory.test.mjs`. **Modifiés** `lib/progress-store.mjs` (persistance
+  additive), `lib/learning-engine.mjs` (commande `RECORD_EXERCISE_ATTEMPT`), `lib/types.ts`,
+  `app/api/lab/[exerciseId]/route.ts` (**écriture de la tentative dans les deux cas**),
+  `tests/progress-store.test.mjs` (forme de la progression vide).
 - **CP1** : aucun fichier de produit. Créé : `docs/v74/V74-RETENTION-CONTRACT-FROZEN.md`.
 - **CP0** : aucun fichier de produit. Créés : `scripts/v74/cp0-forensics.mjs`,
   `scripts/v74/cp0-learner-fields.json`, `docs/v74/cp0-forensics.json`,
@@ -114,6 +121,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP2** : **1440/1440** (20 nouveaux) · tsc 0 · build OK · `gates:active` 0 violation ·
+  porte V73 verte · corpus `92d5fae6…` inchangé · `data/progress.json` absent ·
+  **B1 vérifié** (égalité stricte × 2 : rejeu et ordre d'insertion).
 - **CP1** : document seul, aucun code modifié — aucun test à rejouer.
 - **CP0** : lecture seule, aucun test rejoué (état hérité de V73 : 1420/1420 · tsc 0 ·
   52 portes · build OK · 376/376).
@@ -122,8 +132,8 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 | # | dette | où |
 |---|---|---|
-| **D1** | **un exercice raté n'écrit RIEN** — `if (attempt.allPassed)` sans branche `else` | `app/api/lab/[exerciseId]/route.ts:100` |
-| **D2** | **un exercice réussi n'émet pas `RECORD_RECALL`** — les 376 exercices ne nourrissent pas le moteur de rétention | même fichier |
+| ~~**D1**~~ | ~~un exercice raté n'écrit RIEN~~ — **PAYÉE au CP2** : la tentative est écrite avant toute projection, succès ou échec | `app/api/lab/[exerciseId]/route.ts` |
+| ~~**D2**~~ | ~~un exercice réussi n'émet pas de fait de rétention~~ — **PAYÉE au CP2** : `ExerciseAttempt` est persistée et le modèle mémoire la consomme | même fichier |
 | **D3** | `RECORD_ATTEMPT` n'est appelé qu'une fois, avec `outcome: 'attempted'` en dur | `app/day/[id]/DayCorrection.tsx:35` |
 | **D4** | `evidence[]` porte `competencyIds` (20), jamais `conceptId` (128) — **les grains ne coïncident pas** | `lib/evidence.mjs` |
 | **D5** | **trois mécanismes de révision sans arbitre** : V19 journée, V66 concept, 52 revues | `lib/review.mjs`, `lib/retention.mjs`, générateur |
@@ -139,6 +149,36 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP2** — **le fait qui manquait existe : `ExerciseAttempt`. Et le laboratoire écrit
+  désormais la tentative, qu'elle réussisse OU NON.**
+  - **`lib/exercise-attempt.mjs`** — le fait canonique, pur : normalisation, **issue DÉRIVÉE
+    des compteurs** (un appelant qui mentirait n'a aucun effet), **producteur obligatoire**
+    (un fait sans provenance est refusé, jamais réparé en silence), **clé métier**
+    `exerciseId + seconde + passed/total` qui rend le rejeu idempotent, et le champ décisif
+    **`correctionSeen`, vrai par défaut : le doute joue CONTRE le compteur**.
+  - **`lib/learner-memory.mjs`** — la projection pure aux **deux grains** (128 concepts,
+    20 compétences), horloge injectée. Elle applique littéralement le contrat : M1→M4 pour
+    MEANINGFUL_CONTACT, **R-a/R-b/R-c** pour RETRIEVAL, et la règle « `partial` gèle la série ».
+  - **`app/api/lab/[exerciseId]/route.ts`** — **la dette D1 et D2 du CP0 est payée** : la
+    tentative est écrite AVANT toute projection, systématiquement. Il n'y a plus de branche
+    manquante ; un exercice raté laisse désormais une trace.
+  - **`lib/learner-memory-server.ts`** — le contexte curriculaire, **dérivé de
+    `data/program.json` uniquement** (qui porte déjà `skills` et `practiceRefs`), sans lire
+    `scripts/`. **Un exercice déclaré par plusieurs leçons n'est rattaché à AUCUNE** : le CP1
+    a mesuré que choisir aurait exigé de trancher entre 3 leçons en médiane, jusqu'à 15.
+  - **Critère bloquant B1 vérifié en test** : deux appels identiques rendent une **égalité
+    stricte**, et **l'ordre d'insertion des faits n'a aucun effet**. Deux tests indépendants.
+  - **20 tests V74 ajoutés**, dont ceux qui gardent les contournements interdits : `done`
+    n'est pas un contact significatif (**G2**), une preuve non validée ne compte pas (**G8**),
+    une correction ouverte avant disqualifie la récupération (**R-b**), et la deuxième
+    tentative du même exercice le même jour n'est pas un rappel (**R-c**).
+  - **Une régression de forme assumée** : `tests/progress-store.test.mjs` gelait la forme de
+    la progression vide. `exerciseAttempts: []` s'y ajoute — **liste vide, jamais absente**,
+    sans quoi « aucune tentative » et « aucun échec observable » resteraient indiscernables.
+    Le test est mis à jour avec sa raison, pas contourné.
+  - **1440/1440 · tsc 0 · build OK · 52 portes vertes · corpus `92d5fae6…` inchangé ·
+    `progress.json` absent.**
 
 - **CP1** — **contrat gelé. Aucun fichier de produit modifié.**
   - La décision qui commande tout le sprint : **`ExerciseAttempt` devient un fait canonique**,

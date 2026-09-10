@@ -179,6 +179,8 @@ export interface Progress {
    * ailleurs. Voir `lib/retention.mjs`.
    */
   recallAttempts?: import('./retention').RecallAttempt[];
+  /** V74 · CP2 — tentatives d'exercice : le fait qui manquait, écrit succès OU échec. */
+  exerciseAttempts?: import('./exercise-attempt').ExerciseAttempt[];
   /** V18 · état des missions d'ingénierie (additif, optionnel). */
   missions?: Record<string, unknown>;
 }

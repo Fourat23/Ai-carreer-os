@@ -2137,7 +2137,9 @@
    "difficulte": 3,
    "lecons": [
     "react-fundamentals",
-    "browser-dom-rendering"
+    "browser-dom-rendering",
+    "html-semantic-structure",
+    "css-fundamentals"
    ],
    "estProduction": false,
    "exercices": [
@@ -2433,7 +2435,8 @@
    "projet": null,
    "difficulte": 3,
    "lecons": [
-    "react-fundamentals"
+    "react-fundamentals",
+    "nextjs-foundations"
    ],
    "estProduction": false,
    "exercices": [
@@ -2500,6 +2503,7 @@
    "lecons": [
     "react-hooks-effects",
     "caching-performance",
+    "nextjs-rendering",
     "frontend-performance"
    ],
    "estProduction": false,
@@ -2525,6 +2529,8 @@
    "difficulte": 3,
    "lecons": [
     "react-fundamentals",
+    "css-flexbox",
+    "css-grid",
     "react-accessibility",
     "html-semantic-structure"
    ],
@@ -2535,7 +2541,8 @@
     "a11y-accessible-name"
    ],
    "competencesPortees": [
-    "jsts"
+    "jsts",
+    "archi"
    ]
   },
   {
@@ -2551,6 +2558,7 @@
    "lecons": [
     "react-fundamentals",
     "architecture-basics",
+    "nextjs-server-client-components",
     "react-composition-architecture"
    ],
    "estProduction": false,
@@ -2708,12 +2716,15 @@
    "projet": null,
    "difficulte": 3,
    "lecons": [
-    "error-handling"
+    "error-handling",
+    "nextjs-data-production"
    ],
    "estProduction": false,
    "exercices": [],
    "competencesPortees": [
-    "se"
+    "se",
+    "jsts",
+    "archi"
    ]
   },
   {
@@ -2830,7 +2841,8 @@
    "projet": null,
    "difficulte": 3,
    "lecons": [
-    "react-fundamentals"
+    "react-fundamentals",
+    "responsive-design"
    ],
    "estProduction": true,
    "exercices": [],
@@ -9007,6 +9019,7 @@
     104,
     107,
     110,
+    111,
     113,
     114,
     115,
@@ -9096,19 +9109,10 @@
    ],
    "niveauAttenduFinal": 4,
    "joursEtiquetes": 42,
-   "joursPortants": 50,
+   "joursPortants": 51,
    "leconsDeclarantes": 22,
-   "leconsProgrammees": 14,
-   "leconsHorsParcours": [
-    "css-fundamentals",
-    "css-flexbox",
-    "css-grid",
-    "responsive-design",
-    "nextjs-foundations",
-    "nextjs-rendering",
-    "nextjs-server-client-components",
-    "nextjs-data-production"
-   ],
+   "leconsProgrammees": 22,
+   "leconsHorsParcours": [],
    "artefactsPratique": 44,
    "premierContact": 4,
    "dernierContact": 117,
@@ -9631,7 +9635,9 @@
     85,
     95,
     102,
+    103,
     104,
+    111,
     113,
     118,
     135,
@@ -9675,6 +9681,7 @@
     81,
     95,
     102,
+    103,
     104,
     135,
     288,
@@ -9734,14 +9741,10 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 19,
-   "joursPortants": 59,
+   "joursPortants": 61,
    "leconsDeclarantes": 40,
-   "leconsProgrammees": 28,
+   "leconsProgrammees": 32,
    "leconsHorsParcours": [
-    "css-grid",
-    "nextjs-rendering",
-    "nextjs-server-client-components",
-    "nextjs-data-production",
     "deployment-strategies",
     "release-incident-recovery",
     "k8s-networking-services",

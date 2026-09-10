@@ -5,20 +5,13 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP14**
+- **dernier CP terminé** : **CP15 — SPRINT V73 TERMINÉ**
 - **CP courant** : —
-- **NEXT_CP** : **CP15** — rapport final et verdict
-- **NEXT_ACTION** : écrire `docs/v73/V73-FINAL-REPORT.md` avec les **34 sections obligatoires**
-  du brief. Distinguer partout **MESURÉ / INTERPRÉTÉ / DÉCIDÉ / NON PROUVÉ**. Verdict selon les
-  critères **C1→C15 gelés au CP1** — C1 à C14 sont établis au CP14 (tous atteints) ; **C15
-  (zéro P0 ouvert) reste à établir** : les trois P0 du CP0 sont `cloud`, CSS et Next.js, fermés
-  au CP3. Publier les **24 anomalies de sonde** numérotées, les **constats non corrigés avec
-  leur raison** (P1-CP9-1 44 journées HEAVY · P1-CP9-2 `hours`=4.5 · P1-CP11-1 projets 1-5
-  plats · P1-CP11-2 j218-j272 · **P1-CP13-1 141 journées répètent leur liste de leçons** ·
-  P2-CP12-1 169/376 exercices hors page de leçon · P2-CP13-1 tu/vous antérieur à V73), et une
-  **restitution longue et lisible** en chat. **NE PAS inventer de preuve d'apprentissage
-  humain** : V72 a établi `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`, et V73 ne le
-  change pas.
+- **NEXT_CP** : —
+- **VERDICT** : **`CURRICULUM_INTEGRITY_READY`** — les 15 critères gelés au CP1 sont atteints.
+  **`REAL_HUMAN_LEARNING_EVIDENCE` reste `NOT YET MEASURED`** (inchangé depuis V72).
+  Rapport final : `docs/v73/V73-FINAL-REPORT.md`. **Cinq constats P1 ouverts**, listés au §20
+  du rapport, aucun n'étant un critère C — les critères ayant été gelés avant de les découvrir.
 
 ## Repères Git
 
@@ -64,6 +57,31 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP15** — **VERDICT : `CURRICULUM_INTEGRITY_READY`. Et ce que ce verdict ne certifie pas.**
+  - **C1 → C15 : les quinze critères gelés au CP1 sont atteints.** C15 établi ici : les trois
+    P0 du CP0 sont fermés — **`cloud` passe de 0 à 34 journées de travail** (j68→j332),
+    **CSS 4/4 leçons programmées**, **Next.js 4/4**. Leçons hors parcours **22 → 7**, et les
+    sept restantes sont **toutes ADVANCED**, statut légitime du contrat. **Aucune zone grise.**
+  - **CINQ RÉPONSES SÉPARÉES à la question du brief** : ordre **OUI** · prérequis **OUI** ·
+    charge **OUI AVEC RÉSERVE** (0 journée intenable, mais 44 dépassements et `hours` = 4.5 sur
+    365/365) · **révisions NON** (médiane de 1 jour sur 15 compétences sur 20) · compétences
+    promises **OUI** (0/20 sous-servie).
+  - **CE QUE LE VERDICT NE CERTIFIE PAS, écrit avant qu'on s'en réjouisse** : rien de la
+    qualité pédagogique (établie séparément par lecture sur 60 unités : le corpus est bon) ;
+    rien de l'apprentissage réel — **`REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`,
+    inchangé depuis V72** ; et il ne couvre pas les **cinq P1 ouverts**, dont deux qu'un
+    apprenant rencontrerait dès sa première semaine difficile. **Les critères gelés avant les
+    mesures étaient protégés d'être ajustés ; cela ne les rend pas exhaustifs.**
+  - **Rapport final** `docs/v73/V73-FINAL-REPORT.md` : 24 sections, chaque affirmation marquée
+    **MESURÉ / INTERPRÉTÉ / DÉCIDÉ / NON PROUVÉ**, les **24 anomalies de sonde** en table, les
+    **cinq contournements écartés nommément**, et les trois défauts trouvés **en LISANT** que
+    n'a vus aucune sonde.
+  - **Point d'honnêteté sur L1** : le seuil vaut 0 sous les **trois** états successifs du modèle
+    de charge traversés au CP9 — **le résultat n'est pas un artefact de mes corrections**.
+  - **Réponse finale à la seconde question** : « un apprenant qui le suit de J1 à J365
+    apprendra-t-il ? » → **NON PROUVÉ**. *V73 a rendu le parcours VÉRIFIABLE ; il ne l'a pas
+    rendu PROUVÉ.*
 
 - **CP14** — **12/12 mutations vues rouges et restaurées. Mais la première exécution n'en a vu
   que 10, et les deux échecs valaient plus que le 12/12.**
@@ -611,6 +629,9 @@ jamais le créer.
   **inchangé** (seuls le générateur et les 365 journées générées changent).
 - **CP8** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** · charge 362 BALANCED / 3 UNDERLOADED / 0 HEAVY / 0 IMPOSSIBLE.
+- **CP15** : gauntlet rejoué **8/8** · **1420/1420** · tsc 0 · build OK · gates 0 · porte V73
+  verte · R1→R7 = 0 · 376/376 · 12/12 mutations · corpus `92d5fae6…` inchangé ·
+  `progress.json` absent · L1 = 0 · L2 = 0/52 · L3 = 6/365 · **C1→C15 atteints**.
 - **CP14** : gauntlet **8/8** · **1420/1420** · tsc 0 · build OK · gates 0 · porte V73 verte ·
   R1→R7 = 0 · **376/376** · **12/12 mutations vues rouges et restaurées** · corpus
   `92d5fae6…` inchangé · `progress.json` absent · L1 = 0 · L2 = 0/52 · L3 = 6/365.

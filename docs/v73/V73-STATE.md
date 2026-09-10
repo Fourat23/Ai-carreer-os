@@ -5,17 +5,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP5**
+- **dernier CP terminé** : **CP6**
 - **CP courant** : —
-- **NEXT_CP** : **CP6** — modèle de charge des 365 journées
-- **NEXT_ACTION** : recalcul complet **APRÈS** de la charge des 365 journées, décomposée par
-  poste (lecture · exemple guidé · pratique · correction · projet · revue · setup déclaré non
-  mesuré), avec **P10 / P25 / médiane / P75 / P90 / max** et l'**analyse de sensibilité
-  obligatoire** sur les six hypothèses gelées. Comparer **CP0 → CP6** en publiant les deux
-  lectures côte à côte (budget-point 270 du CP0 et fourchette `[240,300]` du contrat CP1).
-  **Ne traiter QUE les journées structurellement impossibles** — IMPOSSIBLE sous ≥ 4 des
-  6 hypothèses. **Ne pas maquiller une journée en raccourcissant les cours.** État actuel
-  (contrat CP1) : 350 BALANCED · 6 HEAVY · 6 UNDERLOADED · 3 IMPOSSIBLE, toutes des revues.
+- **NEXT_CP** : **CP7** — reconception des 52 revues
+- **NEXT_ACTION** : traiter les **9 revues en dépassement** que le CP6 a diagnostiquées, en
+  **préservant** ce qui fonctionne (les 52 ont test pratique, test théorique, grille chiffrée,
+  plan de remédiation, rappel sans notes — **ne rien détruire de cela**). Deux profils distincts
+  et deux corrections différentes : **j140** est un problème de **relecture** (7 leçons,
+  171 min, pour 90 min de pratique) ; **j217** et **j357** sont des problèmes de **pratique**
+  (150 et 190 min annoncées, 4 leçons seulement). Les six autres (j7, j21, j224, j231, j238,
+  j252) cumulent 130–150 min de pratique et 112–151 min de relecture.
+  **Réduire la relecture passive là où le rappel actif suffit**, et **budgéter** la relecture
+  qui reste. Mesurer BEFORE/AFTER : charge, nombre de leçons relues, retrieval actif, temps
+  depuis le dernier contact. **Le nombre de revues reste 52.**
 
 ## Repères Git
 
@@ -61,6 +63,33 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP6** — **modèle de charge décomposé. Aucune journée structurellement impossible : le CP6
+  n'a rien à corriger, et c'est le résultat correct.**
+  - **L1 = 0 ✅ · L2 = 9/52 ≤ 12 ✅ · L3 = 6/365 ≤ 20 ✅** — les trois seuils de charge gelés
+    passent.
+  - **Décomposition par poste** (moyenne, borne haute) : journée de travail = texte 8 · correction
+    3 · **leçons 70** · guidé 3 · **pratique 93** ; revue = texte 7 · correction 3 ·
+    **leçons 109** · **pratique 129**. **Deux postes font 95 % de la charge** ; le texte propre
+    d'une journée pèse **huit minutes**. Alléger un cours ne changerait pratiquement rien.
+  - **Déciles** — travail : bas P50 = 139, haut P50 = **191**, haut max **294** (sous le budget).
+    Revues : haut P50 = **248**, P90 = **314**, max **373**. **Tout le dépassement est sur les
+    revues.**
+  - **Sensibilité** : les 3 IMPOSSIBLE de l'hypothèse de référence (j224, j231, j238, toutes des
+    revues) ne le sont que sous **2 hypothèses sur 6** → **aucune journée structurellement
+    impossible**.
+  - **CP0 → CP6, les deux lectures publiées côte à côte sur le MÊME état** : budget-point 270 →
+    6 IMPOSSIBLE / 54 HEAVY / 255 BALANCED / 50 UNDERLOADED ; fourchette [240,300] →
+    **3 / 6 / 350 / 6**. **L'écart vient entièrement du seuil, pas du produit.** Chiffres CP0
+    non réécrits (S7).
+  - **Les 6 UNDERLOADED sont toutes justifiées** par le §5.5 : j36, j40, j82 sont des journées
+    de **bascule** (ouverture de compétence) ; j126, j154, j364 des revues de **respiration ou
+    de bilan**. **Zéro non justifiée.**
+  - **Diagnostic livré au CP7** : les 9 revues en dépassement annoncent **130 à 190 min de
+    pratique** et y ajoutent **82 à 171 min de relecture jamais budgétée**. Deux profils —
+    **j140** = problème de relecture ; **j217**/**j357** = problèmes de pratique.
+  - **Aucun fichier de produit modifié.** Artefacts : `scripts/v73/cp6-charge.mjs`,
+    `docs/v73/charge-365.json`.
 
 - **CP5** — **prérequis clos, la convention A/B est supprimée définitivement.**
   Sur **306 citations** en section « Prérequis » : **`VALID_PRIOR_KNOWLEDGE` 214 ·
@@ -227,3 +256,4 @@ jamais le créer.
 - **CP4** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   (2 leçons modifiées, 9 gels regelés).
 - **CP5** : mesure seule, aucun fichier de produit modifié — porte V73 verte, corpus inchangé.
+- **CP6** : mesure seule, aucun fichier de produit modifié — corpus inchangé (`92d5fae6…`).

@@ -270,6 +270,7 @@ safe(() => {
     // V74 — arbitre et projections, pas des moteurs :
     'lib/retention-priority.mjs',
     'lib/retention-scheduler.mjs',
+    'lib/retrieval-task.mjs',
   ]);
   const extra = walk('lib')
     .filter((f) => /sm-?2|spaced|retention/i.test(f) && !MOTEURS_AUTORISES.has(f));

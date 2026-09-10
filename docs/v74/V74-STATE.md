@@ -7,19 +7,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP4**
+- **dernier CP terminé** : **CP5**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP5** — retrieval task generator
-- **NEXT_ACTION** : construire **au moins dix archétypes** de rappel — rappel libre · question
-  conceptuelle · **prédiction avant exécution** · debug · décision technique · reconstruction
-  partielle · mini-implémentation · comparaison de solutions · explication Feynman · transfert
-  métier. **La génération DOIT s'appuyer sur les leçons existantes** — jamais fabriquer une
-  connaissance nouvelle : une tâche cite une section réelle de la leçon, ou elle n'existe pas.
-  Les cinq formes de V66 (`free/cued/applied/discrim/generate`) restent le vocabulaire de
-  planification ; les archétypes en sont les **réalisations concrètes**. Vérifier pour chaque
-  archétype qu'il est **disponible** sur les 128 leçons — et publier le compte réel, sans
-  élargir un critère pour faire monter la couverture (**G7**, **G12**).
+- **NEXT_CP** : **CP6** — reviews 2.0
+- **NEXT_ACTION** : faire évoluer le mécanisme de revue. Une revue ne doit plus signifier
+  automatiquement « relis ce que tu as fait cette semaine ». Elle doit pouvoir mêler
+  **RECENT · SPACED · WEAK · PREREQUISITE · TRANSFER**, **chacun avec une raison visible**.
+  **Préserver la limite de charge** — seuils V73 non renégociés : `L1 = 0`, `L2 ≤ 12/52`,
+  `L3 ≤ 20/365`, budget `[240, 300]` min. **Mesurer BEFORE / AFTER** avec
+  `node scripts/v73/cp6-charge.mjs`. **Rappel du CP0** : la médiane de 1 jour vient
+  **dominamment du rattachement des leçons aux journées** (94 leçons sur 247 sont liées aux six
+  journées de leur semaine), pas du dimanche de revue — donc **déplacer les revues ne
+  corrigerait rien**, et **G12 interdit d'ajouter des blocs de rappel pour faire monter un
+  compteur**. Les 52 revues sont générées par `scripts/generate-curriculum.mjs`.
 
 ## Repères Git
 
@@ -107,6 +108,8 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP5** : **créés** `lib/retrieval-task.mjs`, `tests/v74-retrieval-task.test.mjs`.
+  **Modifié** `scripts/v651-check.mjs` (liste C11).
 - **CP4** : **créés** `lib/retention-scheduler.mjs`, `tests/v74-retention-scheduler.test.mjs`.
   **Modifié** `scripts/v651-check.mjs` (liste C11).
 - **CP3** : **créés** `lib/retention-priority.mjs`, `tests/v74-retention-priority.test.mjs`.
@@ -124,6 +127,8 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP5** : **1482/1482** (12 nouveaux) · tsc 0 · `gates:active` 0 violation · corpus
+  `92d5fae6…` inchangé · `data/progress.json` absent.
 - **CP4** : **1470/1470** (15 nouveaux) · tsc 0 · `gates:active` 0 violation · corpus
   `92d5fae6…` inchangé · `data/progress.json` absent · **B2 vérifié** (3 tests).
 - **CP3** : **1455/1455** (15 nouveaux) · tsc 0 · `gates:active` 0 violation · corpus
@@ -151,6 +156,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
+| **6** *(CP5)* | un motif **ancré en début de chaîne** (`/^objectif/i`) | la présence d'une **section** dont le titre commence par un **émoji**. `FEYNMAN` sortait disponible sur **0 leçon sur 128** alors que ses sections existent partout — **un archétype à zéro aurait pu passer pour un constat de corpus**. |
 | **5** *(CP3)* | **ma propre séquence de vérification** : `gates:active > /dev/null` puis lecture du seul code de retour **après le push** | vérifier avant de pousser. Faute de séquence, publiée. |
 | **4** *(CP3)* | le nombre de `', et '` dans une phrase | le nombre de **facteurs cités**. La phrase de l'échec contient elle-même « , et » : **la sonde mesurait la ponctuation**. Les identifiants cités sont désormais exposés à part. |
 | **1** | « le prochain projet après le **dernier contact** » — une constante | le prochain besoin curriculaire, qui est **relatif à une date**. Donnait « aucun » pour les 20 compétences. **Re-mesuré.** |
@@ -158,6 +164,35 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP5** — **douze archétypes de rappel, zéro invention.**
+  - **`lib/retrieval-task.mjs`** — pur, sans I/O. **Règle absolue du module : une tâche cite
+    une section RÉELLE de la leçon, ou elle n'existe pas.** Le module ne rédige aucun contenu
+    pédagogique : il produit une **consigne** et un **pointeur** vers l'endroit où comparer.
+    Le savoir reste dans les 128 leçons écrites par un humain.
+  - **Douze archétypes** (le brief en demandait dix), chacun déclarant sa forme V66, les
+    sections sans lesquelles il n'existe pas, son coût en minutes et où vérifier :
+    `FREE_RECALL` · `FEYNMAN` · `CONCEPTUAL_QUESTION` · `PREREQUISITE_CHAIN` ·
+    `PREDICT_BEFORE_RUN` · `MINI_IMPLEMENTATION` · `HARDER_IMPLEMENTATION` · `DEBUG` ·
+    `SOLUTION_COMPARISON` · `TECHNICAL_DECISION` · `PARTIAL_RECONSTRUCTION` ·
+    `BUSINESS_TRANSFER`.
+  - **COUVERTURE RÉELLE MESURÉE SUR LES 128 LEÇONS, publiée en nombres et non arrondie** :
+    `FREE_RECALL` 128 · `FEYNMAN` 128 · `PREREQUISITE_CHAIN` 128 · `DEBUG` 128 ·
+    `BUSINESS_TRANSFER` 128 · `PREDICT_BEFORE_RUN` **120** · `MINI_IMPLEMENTATION` **110** ·
+    `CONCEPTUAL_QUESTION` **101** · `PARTIAL_RECONSTRUCTION` **93** · `TECHNICAL_DECISION`
+    **66** · `SOLUTION_COMPARISON` **51** · `HARDER_IMPLEMENTATION` **31**.
+    **0 leçon sans aucun archétype · 5 formes sur 5 couvertes · médiane de 9 archétypes par
+    leçon.**
+  - **ANOMALIE DE SONDE n° 6, TROUVÉE ET PUBLIÉE** : deux motifs étaient **ancrés en début de
+    chaîne** (`/^objectif/i`, `/^correction/i`). Or les titres du corpus commencent par un
+    **émoji** — le titre réel est « 🎯 Objectif ». L'archétype **FEYNMAN sortait disponible
+    sur 0 leçon sur 128** alors que ses deux sections existent sur les 128. **Un archétype à
+    zéro aurait pu passer pour un constat de corpus ; c'était un défaut de motif.** Les motifs
+    ne sont plus ancrés et l'émoji est retiré avant comparaison.
+  - **Un test garde le piège** : « le titre réel commence par un émoji, et la reconnaissance ne
+    s'y trompe pas ». Un autre garde l'essentiel : **aucun archétype ne doit être creux** —
+    chacun doit avoir une couverture non nulle sur le corpus réel.
+  - **1482/1482 · tsc 0 · 52 portes vertes · corpus inchangé.**
 
 - **CP4** — **scheduler V1 : quoi, quand, sous quelle forme, dans quel budget.**
   - **`lib/retention-scheduler.mjs`** — pur, horloge injectée, **et il ne définit AUCUNE

@@ -247,12 +247,48 @@ safe(() => {
   //   lib/review.mjs     — planifie une JOURNÉE depuis la compréhension déclarée ;
   //   lib/retention.mjs  — planifie un CONCEPT depuis des tentatives réelles.
   // Leur étanchéité est vérifiée séparément par la règle R11 de `v66:check`.
-  const MOTEURS_AUTORISES = new Set(['lib/review.mjs', 'lib/retention.mjs', 'lib/retention.d.ts', 'lib/retention-server.ts']);
+  //
+  // V74 · CP3 — EXTENSION DE LA LISTE, ET RENFORCEMENT DE LA RÈGLE.
+  //
+  // Cette règle a rougi sur `lib/retention-priority.mjs`, et elle a eu raison
+  // de rougir : c'est un fichier de `lib/` dont le nom porte « retention » et
+  // qui n'était pas prévu. Mais elle est écrite sur les NOMS DE FICHIERS, et
+  // un nom ne distingue pas un MOTEUR d'un ARBITRE.
+  //
+  // Le contrat gelé de V74 (§4) assigne des responsabilités disjointes et place
+  // l'arbitre AU-DESSUS des deux moteurs : il les lit, il ne les remplace pas.
+  // Les modules de V74 ne définissent aucune échéance et aucun palier — ils
+  // consomment ceux de `lib/retention.mjs`.
+  //
+  // Étendre la liste sans rien d'autre serait exactement ce que la méthode
+  // interdit : élargir un gate après avoir découvert ce qui échoue. La liste
+  // est donc étendue ET la règle est renforcée par une vérification de
+  // PROPRIÉTÉ, que la liste ne peut plus masquer : hors des deux moteurs
+  // nommés, aucun fichier de `lib/` ne définit sa propre échelle d'espacement.
+  const MOTEURS_AUTORISES = new Set([
+    'lib/review.mjs', 'lib/retention.mjs', 'lib/retention.d.ts', 'lib/retention-server.ts',
+    // V74 — arbitre et projections, pas des moteurs :
+    'lib/retention-priority.mjs',
+  ]);
   const extra = walk('lib')
     .filter((f) => /sm-?2|spaced|retention/i.test(f) && !MOTEURS_AUTORISES.has(f));
   must(extra.length === 0,
     '[C11] aucun TROISIÈME moteur de répétition espacée',
     extra.join(', '));
+
+  // ── LE RENFORCEMENT : une échelle d'espacement, c'est ce qui fait un moteur.
+  // On cherche la PROPRIÉTÉ, plus le nom : un tableau d'intervalles, un facteur
+  // de facilité, ou l'arithmétique de SM-2. Deux fichiers ont le droit d'en
+  // porter une ; tout autre fichier de `lib/` qui en définirait une serait le
+  // troisième moteur que la règle interdit, quel que soit son nom.
+  const PORTEURS_D_ECHELLE = new Set(['lib/review.mjs', 'lib/retention.mjs']);
+  const ECHELLE = /INTERVALS\s*=\s*\[|MAX_INTERVAL\s*=|MIN_EASE\s*=|MAX_EASE\s*=|ease\s*[*+-]=|\bSM-?2\b/;
+  const echelles = walk('lib')
+    .filter((f) => /\.mjs$|\.ts$/.test(f) && !PORTEURS_D_ECHELLE.has(f))
+    .filter((f) => ECHELLE.test(code(f)));
+  must(echelles.length === 0,
+    '[C11] aucune ÉCHELLE D’ESPACEMENT hors des deux moteurs nommés',
+    echelles.join(', '));
 }, '[C11] pont révision');
 
 // ── C12. Idempotence et dédoublonnage par CLÉ MÉTIER ─────────────────────

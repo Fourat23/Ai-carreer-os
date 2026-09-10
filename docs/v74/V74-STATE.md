@@ -108,7 +108,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 ## Fichiers modifiés
 
 - **CP3** : **créés** `lib/retention-priority.mjs`, `tests/v74-retention-priority.test.mjs`.
-  Aucun fichier existant modifié.
+  **Modifié** `scripts/v651-check.mjs` (règle C11 étendue **et renforcée**).
 - **CP2** : **créés** `lib/exercise-attempt.mjs`, `lib/exercise-attempt.d.ts`,
   `lib/learner-memory.mjs`, `lib/learner-memory-server.ts`,
   `tests/v74-learner-memory.test.mjs`. **Modifiés** `lib/progress-store.mjs` (persistance
@@ -147,6 +147,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
+| **5** *(CP3)* | **ma propre séquence de vérification** : `gates:active > /dev/null` puis lecture du seul code de retour **après le push** | vérifier avant de pousser. Faute de séquence, publiée. |
 | **4** *(CP3)* | le nombre de `', et '` dans une phrase | le nombre de **facteurs cités**. La phrase de l'échec contient elle-même « , et » : **la sonde mesurait la ponctuation**. Les identifiants cités sont désormais exposés à part. |
 | **1** | « le prochain projet après le **dernier contact** » — une constante | le prochain besoin curriculaire, qui est **relatif à une date**. Donnait « aucun » pour les 20 compétences. **Re-mesuré.** |
 | **2** | la **présence d'une section** dans le gabarit d'une journée | une **distribution de formes de révision**. 6 catégories sur 9 sortaient à 313-365 parce que toutes les journées ont ces sections. |
@@ -179,6 +180,24 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
     la phrase sur `', et '` — or la phrase de l'échec contient elle-même « , et ». **La sonde
     mesurait la ponctuation, pas la règle.** Les identifiants cités sont désormais exposés
     (`pourquoiFacteurs`) et c'est sur eux que porte le test.
+  - **UNE PORTE A ROUGI, ET ELLE AVAIT RAISON — avec une erreur de méthode de ma part,
+    publiée.** La règle **C11 de `v651:check`** interdit « un TROISIÈME moteur de répétition
+    espacée » et a détecté `lib/retention-priority.mjs`. **J'avais poussé avant de voir le
+    résultat** : j'avais lancé `gates:active` en redirigeant la sortie vers `/dev/null` et je
+    n'ai lu que le code de retour, après le push. C'est une faute de séquence, pas de
+    diagnostic.
+  - **Ce que la règle mesure, et sa limite** : elle est écrite sur les **noms de fichiers**, et
+    un nom ne distingue pas un MOTEUR d'un ARBITRE. Le contrat §4 place l'arbitre AU-DESSUS des
+    deux moteurs — il les lit, il ne les remplace pas, et il ne définit ni échéance ni palier.
+  - **La liste est étendue ET la règle est RENFORCÉE**, parce qu'étendre seul serait exactement
+    ce que la méthode interdit — élargir un gate après avoir découvert ce qui échoue. Le
+    renforcement porte sur la **propriété** plutôt que sur le nom : *hors des deux moteurs
+    nommés, aucun fichier de `lib/` ne définit sa propre échelle d'espacement* (tableau
+    d'intervalles, facteur de facilité, arithmétique SM-2). **La règle passe de 43 à 45
+    vérifications.**
+  - **Le renforcement a été VU rougir** : en injectant un `INTERVALS = [...]` dans l'arbitre,
+    C11 échoue avec `aucune ÉCHELLE D'ESPACEMENT hors des deux moteurs nommés` ; la mutation
+    restaurée, elle repasse au vert.
   - **1455/1455 · tsc 0 · 52 portes vertes · corpus inchangé.**
 
 - **CP2** — **le fait qui manquait existe : `ExerciseAttempt`. Et le laboratoire écrit

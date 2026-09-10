@@ -1,6 +1,6 @@
 # Semaine 16 — Full-stack réel : front + API + auth simple, tests unitaires
 
-> **Mois 4** · Compétences : JavaScript / TypeScript, Software engineering, HTTP / API
+> **Mois 4** · Compétences : Software engineering, JavaScript / TypeScript
 
 [← Mois 4](month-04.md) · [Vue d'ensemble](year-overview.md)
 

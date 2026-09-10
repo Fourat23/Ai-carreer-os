@@ -5,20 +5,22 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP9**
+- **dernier CP terminé** : **CP10**
 - **CP courant** : —
-- **NEXT_CP** : **CP10** — les 52 semaines et les 12 mois
-- **NEXT_ACTION** : vérifier que **chaque semaine décrit bien ce que ses six journées
-  enseignent** et que **chaque mois décrit ses quatre à cinq semaines**. Défaut déjà mesuré au
-  CP0 : **13 thèmes de semaine sur 52 décrivent mieux une AUTRE semaine**, en **deux blocs**
-  (s8-s13 et s28-s34) — et **aucune permutation constante ne les corrige**, donc ce n'est pas
-  un décalage d'indice unique. Vérifier aussi `expectedScores` par mois contre ce que le mois
-  enseigne réellement (le CP2 a montré que `cloud` est portée par 41 journées et étiquetée sur
-  0 : l'étiquette de journée ment, la déclaration de leçon dit vrai — **contrôler sur le
-  CONTENU**, règle I4). **Les 52 semaines et 12 mois sont un invariant produit** : on corrige
-  des textes de thème, on ne redécoupe pas le calendrier. Ressources : `docs/v73/
-  curriculum-graph.json` (leçons et compétences par journée), `docs/v73/progression-365.json`
-  (difficulté dérivée et sept facteurs par journée).
+- **NEXT_CP** : **CP11** — pratique, projets et transfert
+- **NEXT_ACTION** : vérifier que **chaque compétence promise est PRATIQUÉE et APPLIQUÉE**, pas
+  seulement exposée. Faits déjà chiffrés à reprendre : **`patterns` = 0 artefact de pratique**
+  alors que le mois 10 en attend 3 · `rag` 4 · `evalia` 4 · `ml` 6 contre `se` 47 · les
+  **4 leçons Next.js OPTIONAL** enseignées au CP3 mais **aucun projet des 365 journées ne
+  demande de construire avec** (constat inconfortable du CP4, publié et non corrigé) · le CP8
+  laisse **4 `ABSENCE_DE_TRANSFERT`** (`algo`, `ds`, `gitlinux`, `patterns`) · le CP9 laisse
+  **P2-CP9-2** (98/313 journées dont l'exemple guidé résout déjà l'exercice demandé) et
+  **P2-CP9-3** (projets 1 à 5 sans progression d'exigence : 3,67 → 3,17 → 3,67 ; et **86 jours
+  sans aucune journée de production entre j181 et j267**, sur les deux mois les plus exigeants
+  de l'année). **NE PAS fabriquer un projet par compétence pour verdir un compteur** (§7
+  anti-Goodhart) : une compétence pratiquée DANS le projet d'une autre est pratiquée.
+  Ressources : `docs/v73/retention-contacts.json`, `docs/v73/progression-365.json`,
+  `docs/v73/curriculum-graph.json`.
 
 ## Repères Git
 
@@ -64,6 +66,62 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP10** — **douze semaines faisaient réviser ce qu'elles n'avaient pas enseigné. Il n'en
+  reste aucune.**
+  - **Le défaut est bien plus grave que « 13 thèmes décalés » (CP0)** : ce n'est pas
+    l'étiquette qui bougeait, c'est **tout l'appareil de révision** — bilan, test pratique, test
+    théorique, mini-projet, critères de passage, exercice d'architecture. Cas le plus net :
+    **la revue de la semaine 8 évaluait le projet TaskFlow de la semaine 7**, alors que la
+    semaine 8 enseigne HTTP, REST, Express et les premiers SELECT.
+  - **Pourquoi quatre contrôles verts l'avaient laissé passer** : CP0 (« 52/52 revues ont un
+    test pratique ») n'a jamais regardé SUR QUOI ; CP2/I3 (« aucune revue n'introduit une leçon
+    inédite ») est vrai parce que les **leçons** d'une revue sont générées depuis ses journées —
+    seul le **texte des tests** est écrit à la main ; CP7 a corrigé la FORME de l'étape de
+    révision, pas son OBJET ; CP8 mesurait l'espacement sur les leçons liées, qui étaient
+    justes. **Treizième occurrence : quatre propriétés vraies ne font pas une revue juste.**
+  - **BLOC 2 (s28→s34) — décalage d'exactement une semaine, corrigé par RÉATTACHEMENT, sans
+    rien réécrire.** Sept correspondances de contenu indépendantes le prouvent (le mini-projet
+    « banc d'essai » = j-6 de s29 ; l'exercice d'archi « dessine le composant appel LLM
+    robuste » = titre exact de j4 de s31 ; « calcule n docs × chunks × dimensions » = « Estimation
+    de la taille de l'index » de s33). **Les marqueurs de revue mensuelle sont des ancres de
+    calendrier et n'ont pas bougé** (mois 7 → s30, mois 8 → s34). **s34 a été écrite** : seule
+    semaine du bloc sans narration à recevoir.
+  - **BLOC 1 (s6→s13, puis s15) — une COMPRESSION, pas un décalage** : le plan des semaines
+    donnait quatre semaines à HTTP/REST/Express/SQL, le plan des journées les a mis dans la
+    **seule semaine 8**. Retard de −1 à −3, donc **aucun réattachement possible** → les
+    **9 semaines ont été écrites depuis leurs propres journées**. **Rien de bon n'est perdu** :
+    les neuf narrations retirées sont réévaluées ailleurs, table de correspondance publiée
+    (curl/statuts → s8 temps 1 ; serveur Express → s8 temps 2 ; middleware d'erreurs → s8
+    temps 3 ; SELECT/JOIN → s8 + s9 ; Postman → s9 mini-projet…). **s5 complétée** (et non
+    réécrite) sur ses journées 5-6, seul ajout du CP10 à une semaine déjà juste.
+  - **Mesuré, avant → après** : semaines dont la narration colle mieux à une AUTRE semaine
+    **12 → 0** · semaines sans **aucun** mot de contenu commun avec leurs journées **6 → 0**.
+    Le recouvrement médian baisse un peu (0,120 → 0,110) et **c'est normal** : une narration qui
+    parle de ses six journées partage une plus petite fraction de vocabulaire avec chacune.
+  - **Compétences déclarées par semaine : 22 → 10** (hors `autonomy`, exclue avec sa raison :
+    **aucune leçon du corpus ne la déclare**, CP2). **4 corrigées** (s2 `algo`, s16 `http`,
+    s25 `se`→`python`, s31 `jsts`) — la compétence n'y est pas travaillée du tout. **10 NON
+    corrigées, et c'est délibéré** : la compétence EST travaillée mais aucune leçon ne la
+    déclare — **s42 déclare `patterns` et sa journée 5 s'intitule « Design patterns dans ton
+    code »**, s38 déclare `llm` sur six journées de prompt injection, s27 déclare `python` en
+    NumPy/PyTorch. **Retirer ces déclarations rendrait la sonde verte et le produit faux** : le
+    défaut est dans `lessons-map.mjs`, **c'est un constat pour le CP12**.
+  - **MOIS — `expectedScores` : 0 évaluation sans source**, sous la lecture **cumulative**
+    déclarée avant mesure (« à la fin du mois N, tu devrais être à ce niveau »). Sous une
+    lecture non cumulative, huit mois seraient en défaut ; **les deux chiffres sont publiés**,
+    c'est la cumulative qui est retenue car c'est celle que le contrat du CP1 a gelée.
+    **Deux titres de mois réalignés** : le titre du **mois 3 décrivait le contenu du mois 2**.
+  - **EFFET DE BORD MESURÉ : 8 journées changent d'étiquette, toutes des revues, toutes des
+    corrections** (j42 `ds`→`jsts`, j56 `jsts`→`http`, j63 `http`→`sql`, j84 `sql`→`archi`,
+    j91 `http`→`jsts`, j112 `jsts`→`se`, j203 `dl`→`llm`, j224 `llm`→`rag`). **Les 8 parcours
+    du catalogue gardent exactement leur longueur** (365·119·54·85·31·15·29·188).
+  - **UN TEST GELAIT L'ANCIENNE ÉTIQUETTE FAUSSE** : `v5421-visual-integrity` vérifiait que j57
+    précède j84 dans le parcours data-ml ; j84 ayant quitté ce parcours, l'assertion devenait
+    `6 < -1`. **Le test n'a pas été supprimé et aucun seuil n'a bougé** : la paire de contrôle
+    devient (57, 82), toutes deux dans le parcours, les gardes d'ordre et de longueur intactes.
+  - **Aucune journée déplacée, ajoutée ou retirée. Aucune leçon touchée.** Corpus `92d5fae6…`
+    inchangé. **52 semaines, 12 mois.**
 
 - **CP9** — **`difficulty` ne décrivait pas la journée, il décrivait sa position dans la
   semaine. 234 journées reçoivent une valeur dérivée du travail demandé.**
@@ -383,6 +441,10 @@ jamais le créer.
   **inchangé** (seuls le générateur et les 365 journées générées changent).
 - **CP8** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** · charge 362 BALANCED / 3 UNDERLOADED / 0 HEAVY / 0 IMPOSSIBLE.
+- **CP10** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
+  **inchangé** · 52 semaines · 12 mois · L1 = 0 · L2 = 0/52 · L3 = 6/365 · les 8 parcours du
+  catalogue gardent leur longueur · `days-difficulty-v73.mjs` régénéré **identique** (preuve de
+  non-circularité du CP9).
 - **CP9** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** · `data/progress.json` toujours absent · **L1 = 0 · L2 = 0/52 · L3 = 6/365** ·
   charge 315 BALANCED / 6 UNDERLOADED / **44 HEAVY** / 0 IMPOSSIBLE (le HEAVY est publié comme

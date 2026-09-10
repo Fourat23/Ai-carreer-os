@@ -1,6 +1,6 @@
 # Semaine 25 — Clustering, feature engineering, pipelines scikit-learn
 
-> **Mois 6** · Compétences : Machine learning, Software engineering
+> **Mois 6** · Compétences : Machine learning, Python
 
 [← Mois 6](month-06.md) · [Vue d'ensemble](year-overview.md)
 

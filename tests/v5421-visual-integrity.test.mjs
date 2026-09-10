@@ -30,9 +30,17 @@ test('V54.2.1 — resolveTrackDays est chronologique sur TOUS les parcours', () 
 test('V54.2.1 — data-ml-v1 : la régression exacte observée (…73, 82, 84, 57, 58…) ne peut plus revenir', () => {
   const days = resolveTrackDays(cat, 'data-ml-v1');
   assert.equal(days.length, 188);
-  const i84 = days.indexOf(84);
+  // V73 · CP10 — la paire de contrôle était (57, 84). Le jour 84 est la REVUE de la semaine 12 ;
+  // son étiquette de compétence vaut `week.skills[0]`, et la semaine 12 déclarait `sql` alors
+  // que ses six journées enseignent l'architecture en couches, l'observabilité et le cache.
+  // L'étiquette corrigée (`archi`) sort ce jour du module SQL du parcours data-ml — le parcours
+  // garde exactement 188 jours, le jour 63 (revue de la semaine 9, réellement SQL) y entrant.
+  // Le défaut que ce test garde est l'ORDRE (…73, 82, 84, 57, 58…), pas l'appartenance : la
+  // paire de contrôle devient (57, 82), toutes deux toujours dans le parcours.
+  const i82 = days.indexOf(82);
   const i57 = days.indexOf(57);
-  assert.ok(i57 < i84, 'le jour 57 doit précéder le jour 84');
+  assert.ok(i57 >= 0 && i82 >= 0, 'les jours 57 et 82 doivent appartenir au parcours');
+  assert.ok(i57 < i82, 'le jour 57 doit précéder le jour 82');
   assert.ok(asc(days));
 });
 

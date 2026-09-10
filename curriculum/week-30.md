@@ -1,4 +1,4 @@
-# Semaine 30 — LLM : fonctionnement, APIs, hallucinations + revue mensuelle 7
+# Semaine 30 — Prompt engineering, structured outputs, function calling + revue mensuelle 7
 
 > **Mois 7** · Compétences : LLM
 
@@ -14,13 +14,14 @@
 - [Jour 210](days/day-210.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** Tu utilises enfin des LLM en sachant ce qu'il y a dedans. Appels API propres, paramètres compris, limites mesurées toi-même. Revue mensuelle 7 en fin de semaine.
-- **Test pratique :** 75 min : script (Node ou Python) qui appelle une API LLM — system prompt, température comparée (0 vs 1) sur 5 prompts, streaming, comptage de tokens et coût calculé, 3 hallucinations provoquées et documentées.
-- **Test théorique :** Qu'est-ce qu'un LLM prédit exactement ; pourquoi il hallucine (mécanisme, pas morale) ; température/top-p ; pourquoi le même prompt donne des réponses différentes ; que contient VRAIMENT le contexte envoyé ?
-- **Mini-projet :** Petit banc d'essai : 10 questions dont tu connais les réponses, posées à 2 modèles, avec un tableau juste/faux/inventé et 10 lignes de conclusions.
+- **Bilan :** Le prompt comme spécification, pas comme incantation : rôle, contraintes, exemples, format de sortie imposé et VALIDÉ par le code. La semaine ferme le mois 7 : revue mensuelle 7 en fin de semaine.
+- **Test pratique :** 90 min : construis un extracteur d'informations (texte libre → JSON strict : personnes, dates, montants) — prompt versionné, schéma validé côté code, 10 cas de test dont 3 pièges, taux de réussite mesuré.
+- **Test théorique :** Pourquoi 'réponds en JSON' ne suffit pas ; few-shot : quand ça aide vraiment ; pourquoi versionner ses prompts ; que faire quand la sortie ne parse pas (stratégies) ; system vs user prompt ?
+- **Mini-projet :** Bibliothèque perso de 5 patterns de prompts testés (extraction, classification, résumé contraint, réécriture, critique) avec leurs cas de test.
 - **Critères de passage :**
-  - [ ] Script API complet fonctionnel
-  - [ ] Banc d'essai documenté
+  - [ ] Extracteur ≥ 8/10 cas réussis
+  - [ ] 5 patterns documentés et testés
+  - [ ] Auto-éval llm ≥ 3
   - [ ] Revue mensuelle 7 complétée
   - [ ] Note transformer publiée (livrable mois 7)
-- **Exercice d'architecture :** Un LLM dans une architecture n'est PAS une base de données ni un moteur de règles. Écris 5 propriétés d'ingénierie qui le distinguent (non-déterminisme, latence, coût/appel, faillibilité, dérive) et ce que chacune impose à ton code appelant.
+- **Exercice d'architecture :** Ton extracteur est appelé 10 000 fois/jour. Où mets-tu la validation, le retry, le fallback, le log des échecs ? Dessine le composant 'appel LLM robuste' réutilisable.

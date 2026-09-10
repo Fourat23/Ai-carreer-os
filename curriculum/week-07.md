@@ -1,6 +1,6 @@
-# Semaine 7 — TypeScript sérieux, POO, programmation fonctionnelle de base
+# Semaine 7 — Programmation fonctionnelle en TS, puis PROJET 1 : TaskFlow CLI
 
-> **Mois 2** · Compétences : JavaScript / TypeScript, Design patterns
+> **Mois 2** · Compétences : JavaScript / TypeScript, Software engineering
 
 [← Mois 2](month-02.md) · [Vue d'ensemble](year-overview.md)
 
@@ -14,12 +14,13 @@
 - [Jour 49](days/day-049.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** Tu écris maintenant du TypeScript par défaut. POO et FP ne sont pas des religions : ce sont deux outils, tu apprends à choisir.
-- **Test pratique :** 75 min : modélise en TS un système de paiement (interface `MoyenPaiement`, classes `Carte`/`Paypal`/`Virement`, fonction `payer` polymorphe) ; puis la même chose en style fonctionnel (union types + fonctions). Compare.
-- **Test théorique :** Interface vs type ; génériques : à quoi ça sert (exemple) ; les 4 piliers POO avec exemples courts ; fonction pure et pourquoi c'est testable ; qu'est-ce que l'injection de dépendance (intuition).
-- **Mini-projet :** Refactor de TaskFlow (préparation projet 1) : conçois les types/interfaces du futur CLI (Task, Store, Commands) sans encore tout implémenter.
+- **Bilan :** Première semaine à dominante projet. La composition et la pureté vues lundi ne restent pas théoriques : elles servent dès le lendemain à construire TaskFlow. Objectif : LIVRER, pas perfectionner. Le projet suit la spec de curriculum/projects/project-01.md.
+- **Test pratique :** Le projet EST le test : CRUD complet, persistance JSON, commandes list/add/done/rm/stats, gestion d'erreurs propre (fichier absent, id inconnu, JSON corrompu). Il doit tourner depuis un terminal vierge, avec les seules instructions de ton README.
+- **Test théorique :** Ce qu'est une fonction pure et ce que la pureté te fait gagner quand tu débogues ; pourquoi composer de petites fonctions bat une grosse fonction paramétrée ; où ton projet garde son ÉTAT et pourquoi il est isolé ; quels cas d'erreur tu as traités et lesquels tu as sciemment laissés de côté (les deux réponses comptent) ; et l'auto-révision du mois 2 : les 15 questions de month-02.md, sans notes.
+- **Mini-projet :** TaskFlow lui-même, plus son README (template dans le fichier projet) et une ADR de dix lignes : pourquoi JSON plutôt qu'une base, et à partir de quel volume ce choix deviendrait mauvais.
 - **Critères de passage :**
-  - [ ] Les 2 versions du test compilent et fonctionnent
-  - [ ] Comparaison écrite POO vs FP (10 lignes)
-  - [ ] Types de TaskFlow validés contre la spec du projet
-- **Exercice d'architecture :** Dans TaskFlow, la persistance (JSON) peut changer plus tard (SQLite). Conçois l'interface `Store` pour que le reste du code ne sache PAS où sont stockées les données. C'est ta première inversion de dépendance.
+  - [ ] CRUD complet fonctionnel et persistant
+  - [ ] Trois cas d'erreur démontrés en direct
+  - [ ] README suffisant pour un inconnu
+  - [ ] Auto-révision mois 2 faite et corrigée
+- **Exercice d'architecture :** TaskFlow écrit tout son fichier JSON à chaque commande. Décris ce qui se passe à 10 000 tâches, puis à deux processus qui écrivent en même temps. Choisis la parade que tu appliquerais en premier et dis pourquoi les autres attendent.

@@ -5,24 +5,24 @@
 > Une revue ne « se corrige » pas : elle s'ÉVALUE. Voici l'attendu, la grille et les critères de passage.
 
 ## 🎯 Attendu de la semaine
-Thème : **MLP sur données réelles, régularisation, courbes**. Entraîner de vrais petits réseaux, diagnostiquer avec les courbes train/val, et connaître les 3 remèdes de base à l'overfitting profond.
+Thème : **NLP : tokenisation, embeddings, attention, transformers**. La semaine charnière vers les LLM : comment du texte devient des nombres, et ce que fait VRAIMENT l'attention. Intuition d'abord, code guidé ensuite.
 
 ## ✅ Grille d'évaluation (note chaque axe de 0 à 5)
-- **Test pratique réussi** dans le temps imparti : 90 min : MLP PyTorch sur MNIST (ou Fashion-MNIST) — DataLoader, boucle d'entraînement propre, courbes train/val, early stopping simple, dropout testé avec effet mesuré.
-- **Test théorique** (réponds de mémoire puis auto-corrige) : Batch/epoch/itération ; pourquoi un set de validation distinct du test ; que voit-on quand ça overfitte (courbes) ; dropout : intuition ; batch norm : à quoi ça sert (intuition suffit) ?
-- **Mini-projet / livrable** conforme : Rapport d'expériences : 5 configurations (largeur, dropout, lr) comparées rigoureusement sur le même split, tableau de résultats, conclusion.
-- **Exercice d'architecture** fait sérieusement : Ton entraînement prend 10 min. Il en prendra 10h sur un vrai dataset. Qu'est-ce que ça change dans ta façon de travailler (checkpoints, logs, reprise, coût d'une erreur de code) ? Liste 5 pratiques.
+- **Test pratique réussi** dans le temps imparti : 75 min : tokenise un texte avec un vrai tokenizer (tiktoken ou HF) et analyse les surprises (mots coupés, espaces, accents) ; calcule des similarités cosinus entre embeddings de phrases et vérifie qu'elles matchent ton intuition sur 10 paires.
+- **Test théorique** (réponds de mémoire puis auto-corrige) : Pourquoi tokeniser en sous-mots plutôt qu'en mots ; qu'est-ce qu'un embedding (géométriquement) ; que calcule l'attention (requête/clé/valeur, avec une analogie à toi) ; pourquoi le transformer a remplacé les RNN ; que fait la couche finale d'un LLM ?
+- **Mini-projet / livrable** conforme : Note illustrée 'Le trajet d'une phrase dans un transformer' : tes propres schémas, de la tokenisation aux logits. Cette note ressert au mois 7 (livrable portfolio).
+- **Exercice d'architecture** fait sérieusement : La fenêtre de contexte est limitée (ex: 128k tokens). Quelles conséquences d'architecture pour une app qui doit 'connaître' 10 000 documents ? (C'est la question qui justifie le RAG — réponds AVANT de lire le mois 8.)
 
 ## 📋 Checklist de validation
-- [ ] Boucle d'entraînement écrite maison (pas copiée)
-- [ ] Courbes systématiques
-- [ ] Une seule variable changée par expérience
-- [ ] Seed fixée pour comparer
+- [ ] J'ai compté des tokens sur mes propres textes
+- [ ] Similarité cosinus : calculée à la main une fois
+- [ ] Mon analogie de l'attention tient debout
+- [ ] Schémas faits MAIN (pas copiés)
 
 ## 🚦 Critères de passage à la semaine suivante
-- [ ] > 95% sur MNIST test
-- [ ] Diagnostic overfitting démontré et corrigé
-- [ ] Tableau d'expériences propre
+- [ ] Quiz tokens/embeddings/attention réussi
+- [ ] Note illustrée complète et juste
+- [ ] Similarités interprétées correctement
 
 ## ⚠️ Erreurs fréquentes en revue
 - Se sur-noter (familiarité ≠ maîtrise) : ne compte que ce que tu produis SEUL et sais EXPLIQUER.

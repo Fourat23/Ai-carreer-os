@@ -5,24 +5,24 @@
 > Une revue ne « se corrige » pas : elle s'ÉVALUE. Voici l'attendu, la grille et les critères de passage.
 
 ## 🎯 Attendu de la semaine
-Thème : **Function calling, tool use, intégration app**. Le LLM qui agit : déclarer des outils, router les appels, exécuter côté code, renvoyer les résultats. La base des agents, comprise mécaniquement.
+Thème : **RAG v1 : chunking, embeddings, retrieval naïf**. Ton premier RAG, SANS framework : chaque étape codée et comprise. C'est le savoir-faire le plus demandé du marché junior IA.
 
 ## ✅ Grille d'évaluation (note chaque axe de 0 à 5)
-- **Test pratique réussi** dans le temps imparti : 90 min : assistant météo+calcul : 2 outils déclarés (get_weather mockée, calculate), boucle complète requête→tool_call→exécution→réponse finale, gestion du cas 'aucun outil nécessaire' et 'outil échoue'.
-- **Test théorique** (réponds de mémoire puis auto-corrige) : Qui exécute les outils (le modèle ou ton code) ; que contient une déclaration d'outil ; pourquoi décrire précisément les paramètres ; que renvoyer au modèle après exécution ; quand le function calling est-il un mauvais choix ?
-- **Mini-projet / livrable** conforme : Intègre un appel LLM utile dans une de TES apps précédentes (ex : BiblioApp — résumé de livre, ou TaskFlow — décomposition de tâche), proprement : module dédié, erreurs gérées, coût loggé.
-- **Exercice d'architecture** fait sérieusement : Ton app dépend maintenant d'une API externe non-déterministe. Qu'est-ce que ça impose : timeouts, retries, circuit breaker (intuition), cache, mode dégradé ? Écris la politique d'appel de ton intégration.
+- **Test pratique réussi** dans le temps imparti : 90 min : pipeline complet sur 5 documents texte — découpage en chunks (taille fixe + overlap), embeddings via API, stockage (JSON suffit), recherche par similarité cosinus (implémentée TOI-même), top-k injecté dans le prompt, réponse avec citation des sources.
+- **Test théorique** (réponds de mémoire puis auto-corrige) : Pourquoi le RAG plutôt que tout mettre dans le prompt ; rôle de l'overlap ; pourquoi normaliser les vecteurs ; que retourne exactement la similarité cosinus ; qu'est-ce qui fait échouer un RAG (liste 4 causes) ?
+- **Mini-projet / livrable** conforme : 'rag-from-scratch' : le pipeline propre en modules (ingest/chunk/embed/search/answer), CLI simple, README expliquant chaque étape. Base du projet 6.
+- **Exercice d'architecture** fait sérieusement : Liste les 6 décisions de conception de ton RAG (taille chunks, overlap, k, modèle d'embedding, format du prompt, seuil de similarité). Pour chacune : comment saurais-tu qu'elle est mauvaise ? (Tu viens d'inventer le besoin d'évaluation — mois 9.)
 
 ## 📋 Checklist de validation
-- [ ] La boucle tool-call écrite à la main une fois
-- [ ] Timeout et erreurs d'outil gérés
-- [ ] Je logge chaque appel (tokens, latence, coût)
-- [ ] L'app reste utilisable si le LLM est down
+- [ ] Similarité cosinus codée à la main (une fois)
+- [ ] Zéro framework RAG
+- [ ] Citations des sources dans chaque réponse
+- [ ] J'ai lu mes chunks (oui, avec les yeux)
 
 ## 🚦 Critères de passage à la semaine suivante
-- [ ] Assistant 2-outils robuste
-- [ ] Intégration dans ton app fonctionnelle
-- [ ] Dégradation gracieuse démontrée
+- [ ] Pipeline bout-en-bout fonctionnel
+- [ ] Réponses avec sources correctes sur 8/10 questions test
+- [ ] README pédagogique écrit
 
 ## ⚠️ Erreurs fréquentes en revue
 - Se sur-noter (familiarité ≠ maîtrise) : ne compte que ce que tu produis SEUL et sais EXPLIQUER.

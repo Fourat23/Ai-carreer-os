@@ -5,24 +5,24 @@
 > Une revue ne « se corrige » pas : elle s'ÉVALUE. Voici l'attendu, la grille et les critères de passage.
 
 ## 🎯 Attendu de la semaine
-Thème : **Prompt engineering sérieux, structured outputs**. Le prompt comme spécification, pas comme incantation : rôle, contraintes, exemples, format de sortie imposé et VALIDÉ par le code.
+Thème : **Prompts en production, guardrails, function calling avancé ; ouverture du RAG**. Le LLM qui agit : déclarer des outils, router les appels, exécuter côté code, renvoyer les résultats. La base des agents, comprise mécaniquement.
 
 ## ✅ Grille d'évaluation (note chaque axe de 0 à 5)
-- **Test pratique réussi** dans le temps imparti : 90 min : construis un extracteur d'informations (texte libre → JSON strict : personnes, dates, montants) — prompt versionné, schéma validé côté code, 10 cas de test dont 3 pièges, taux de réussite mesuré.
-- **Test théorique** (réponds de mémoire puis auto-corrige) : Pourquoi 'réponds en JSON' ne suffit pas ; few-shot : quand ça aide vraiment ; pourquoi versionner ses prompts ; que faire quand la sortie ne parse pas (stratégies) ; system vs user prompt ?
-- **Mini-projet / livrable** conforme : Bibliothèque perso de 5 patterns de prompts testés (extraction, classification, résumé contraint, réécriture, critique) avec leurs cas de test.
-- **Exercice d'architecture** fait sérieusement : Ton extracteur est appelé 10 000 fois/jour. Où mets-tu la validation, le retry, le fallback, le log des échecs ? Dessine le composant 'appel LLM robuste' réutilisable.
+- **Test pratique réussi** dans le temps imparti : 90 min : assistant météo+calcul : 2 outils déclarés (get_weather mockée, calculate), boucle complète requête→tool_call→exécution→réponse finale, gestion du cas 'aucun outil nécessaire' et 'outil échoue'.
+- **Test théorique** (réponds de mémoire puis auto-corrige) : Qui exécute les outils (le modèle ou ton code) ; que contient une déclaration d'outil ; pourquoi décrire précisément les paramètres ; que renvoyer au modèle après exécution ; quand le function calling est-il un mauvais choix ; qu'est-ce qu'un guardrail d'ENTRÉE et un guardrail de SORTIE, et pourquoi les deux sont nécessaires ; et enfin : quelle limite d'un LLM le RAG vient-il précisément lever ?
+- **Mini-projet / livrable** conforme : Intègre un appel LLM utile dans une de TES apps précédentes (ex : BiblioApp — résumé de livre, ou TaskFlow — décomposition de tâche), proprement : module dédié, erreurs gérées, coût loggé.
+- **Exercice d'architecture** fait sérieusement : Ton app dépend maintenant d'une API externe non-déterministe. Qu'est-ce que ça impose : timeouts, retries, circuit breaker (intuition), cache, mode dégradé ? Écris la politique d'appel de ton intégration.
 
 ## 📋 Checklist de validation
-- [ ] Sorties TOUJOURS validées par le code
-- [ ] Prompts dans des fichiers versionnés, pas en dur
-- [ ] Chaque pattern a ses cas de test
-- [ ] Retry avec message d'erreur en cas de parse fail
+- [ ] La boucle tool-call écrite à la main une fois
+- [ ] Timeout et erreurs d'outil gérés
+- [ ] Je logge chaque appel (tokens, latence, coût)
+- [ ] L'app reste utilisable si le LLM est down
 
 ## 🚦 Critères de passage à la semaine suivante
-- [ ] Extracteur ≥ 8/10 cas réussis
-- [ ] 5 patterns documentés et testés
-- [ ] Auto-éval llm ≥ 3
+- [ ] Assistant 2-outils robuste
+- [ ] Intégration dans ton app fonctionnelle
+- [ ] Dégradation gracieuse démontrée
 
 ## ⚠️ Erreurs fréquentes en revue
 - Se sur-noter (familiarité ≠ maîtrise) : ne compte que ce que tu produis SEUL et sais EXPLIQUER.

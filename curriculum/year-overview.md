@@ -13,8 +13,8 @@ Programme de 12 mois (365 jours, 4-5 h/jour) pour passer de quasi-débutant à p
 | Mois | Thème | Projet |
 |------|-------|--------|
 | [1](month-01.md) | Fondations : terminal, Git, JavaScript, algorithmie | — |
-| [2](month-02.md) | Algorithmie, structures de données, TypeScript, POO/FP | P1 |
-| [3](month-03.md) | HTTP, REST, APIs, Node/Express, SQL — Projet 2 | P2 |
+| [2](month-02.md) | Structures de données, TypeScript et POO/FP, Projet 1 ; premières APIs | P1 |
+| [3](month-03.md) | SQL et persistance, sécurité et auth, réseau/Linux/Git, architecture — Projet 2 | P2 |
 | [4](month-04.md) | Frontend React, full-stack, tests — Projet 3 | P3 |
 | [5](month-05.md) | Python, data, SQL avancé, ETL — Projet 4 | P4 |
 | [6](month-06.md) | Statistiques, machine learning classique — Projet 5 | P5 |

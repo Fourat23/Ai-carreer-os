@@ -5,26 +5,26 @@
 > Une revue ne « se corrige » pas : elle s'ÉVALUE. Voici l'attendu, la grille et les critères de passage.
 
 ## 🎯 Attendu de la semaine
-Thème : **PROJET 1 : TaskFlow CLI + revue mensuelle 2**. Première semaine 100% projet. Objectif : livrer, pas perfectionner. Le projet suit la spec de curriculum/projects/project-01.md.
+Thème : **HTTP et REST, Node puis Express, validation et erreurs ; premiers SELECT + revue mensuelle 2**. Tu passes de consommateur d'API à producteur, et tu ne sautes pas l'étape du dessous : d'abord ce qui circule vraiment sur le fil, ensuite le module http natif, ensuite seulement Express. La semaine ferme le mois 2 : revue mensuelle 2 en fin de semaine.
 
 ## ✅ Grille d'évaluation (note chaque axe de 0 à 5)
-- **Test pratique réussi** dans le temps imparti : Le projet EST le test : CRUD complet, persistance JSON, commandes list/add/done/rm/stats, gestion d'erreurs propre (fichier absent, id inconnu).
-- **Test théorique** (réponds de mémoire puis auto-corrige) : Auto-révision mois 2 : 15 questions dans month-02.md (Big O, structures, TS, POO/FP). Sans notes, corrige-toi ensuite.
-- **Mini-projet / livrable** conforme : Le projet 1 lui-même + son README (template dans le fichier projet).
-- **Exercice d'architecture** fait sérieusement : Écris l'ADR n°1 de ta vie (Architecture Decision Record, template dans le fichier projet) : 'Pourquoi un fichier JSON et pas SQLite pour TaskFlow ?' Contexte, options, décision, conséquences.
+- **Test pratique réussi** dans le temps imparti : 90 min, en trois temps. (1) Avec curl uniquement : GET une API publique, POST du JSON, affiche les headers, suis une redirection, explique chaque statut reçu. (2) Un serveur Express : GET /livres, GET /livres/:id, POST /livres avec validation du titre, DELETE /livres/:id — données en mémoire, statuts corrects. (3) Ajoute-lui un middleware d'erreurs centralisé et des 400 détaillées, puis CASSE-le exprès (JSON invalide, id inexistant, champ manquant) et vérifie qu'aucune erreur ne fuit en 500.
+- **Test théorique** (réponds de mémoire puis auto-corrige) : Le trajet complet d'une requête (DNS → TCP → requête → réponse) ; huit statuts avec leur cas d'usage (200/201/204/301/400/401/404/500) ; pourquoi GET ne doit pas modifier l'état ; ce qu'est un middleware et dans quel ordre ils s'exécutent ; où mettre la validation et pourquoi jamais dans la route ; erreur opérationnelle vs bug, et pourquoi les deux ne se traitent pas pareil ; et pour le SQL de vendredi : que fait un JOIN, dessine-le.
+- **Mini-projet / livrable** conforme : API 'citations' : CRUD complet en mémoire, route GET /citations/aleatoire, middleware de log des requêtes, gestion d'erreurs centralisée et validation manuelle des entrées. C'est le squelette réutilisable qui servira de base au projet 2.
+- **Exercice d'architecture** fait sérieusement : Ton API citations est appelée par un front que tu n'écris pas. Liste six choses que ce front a le droit d'attendre de toi (statuts stables, forme d'erreur constante, pagination, CORS, versionnage, contrat documenté) et écris pour chacune ce que tu casserais si tu la changeais sans prévenir.
 
 ## 📋 Checklist de validation
-- [ ] Spec lue et découpée en tâches AVANT de coder
-- [ ] Commits atomiques quotidiens
-- [ ] Tests manuels documentés
-- [ ] README avec install/usage/architecture
-- [ ] Section "Ce que j'ai appris" écrite
+- [ ] J'ai utilisé curl AVANT Postman, et je sais lire une réponse brute
+- [ ] Le module http natif écrit à la main une fois, avant Express
+- [ ] Aucune validation dans le corps d'une route
+- [ ] Une entrée invalide ne produit jamais un 500
+- [ ] Revue mensuelle 2 faite
 
 ## 🚦 Critères de passage à la semaine suivante
-- [ ] Toutes les commandes de la spec fonctionnent
-- [ ] Code en modules séparés (types/store/commands/cli)
-- [ ] Revue mensuelle mois 2 complétée
-- [ ] Score attendu atteint (voir month-02.md)
+- [ ] Les quatre routes répondent avec les bons statuts
+- [ ] Middleware d'erreurs démontré sur trois entrées cassées
+- [ ] Cinq requêtes SQL de base écrites sans aide
+- [ ] Revue mensuelle 2 complétée
 
 ## ⚠️ Erreurs fréquentes en revue
 - Se sur-noter (familiarité ≠ maîtrise) : ne compte que ce que tu produis SEUL et sais EXPLIQUER.

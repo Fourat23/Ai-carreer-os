@@ -5,24 +5,24 @@
 > Une revue ne « se corrige » pas : elle s'ÉVALUE. Voici l'attendu, la grille et les critères de passage.
 
 ## 🎯 Attendu de la semaine
-Thème : **RAG v1 : chunking, embeddings, retrieval naïf**. Ton premier RAG, SANS framework : chaque étape codée et comprise. C'est le savoir-faire le plus demandé du marché junior IA.
+Thème : **RAG v1 multi-formats, métadonnées, DocQA v0 sur corpus réel**. Ton RAG passe de la démo au réel : PDF/Markdown, métadonnées, interface, robustesse.
 
 ## ✅ Grille d'évaluation (note chaque axe de 0 à 5)
-- **Test pratique réussi** dans le temps imparti : 90 min : pipeline complet sur 5 documents texte — découpage en chunks (taille fixe + overlap), embeddings via API, stockage (JSON suffit), recherche par similarité cosinus (implémentée TOI-même), top-k injecté dans le prompt, réponse avec citation des sources.
-- **Test théorique** (réponds de mémoire puis auto-corrige) : Pourquoi le RAG plutôt que tout mettre dans le prompt ; rôle de l'overlap ; pourquoi normaliser les vecteurs ; que retourne exactement la similarité cosinus ; qu'est-ce qui fait échouer un RAG (liste 4 causes) ?
-- **Mini-projet / livrable** conforme : 'rag-from-scratch' : le pipeline propre en modules (ingest/chunk/embed/search/answer), CLI simple, README expliquant chaque étape. Base du projet 6.
-- **Exercice d'architecture** fait sérieusement : Liste les 6 décisions de conception de ton RAG (taille chunks, overlap, k, modèle d'embedding, format du prompt, seuil de similarité). Pour chacune : comment saurais-tu qu'elle est mauvaise ? (Tu viens d'inventer le besoin d'évaluation — mois 9.)
+- **Test pratique réussi** dans le temps imparti : 90 min : ajoute au rag-from-scratch — extraction PDF et Markdown, métadonnées par chunk (source, page, section), filtre par document, petite UI (web ou CLI enrichie), gestion des documents mis à jour (ré-ingestion).
+- **Test théorique** (réponds de mémoire puis auto-corrige) : Pourquoi les PDF sont pénibles (structure perdue) ; à quoi servent les métadonnées de chunk ; stratégie de mise à jour d'un index ; que faire des tableaux et du code dans les documents ?
+- **Mini-projet / livrable** conforme : DocQA v0 : ton RAG sur un corpus RÉEL qui t'intéresse (docs techniques d'un outil, notes de cours...) avec 15 questions de test et tes observations d'échecs.
+- **Exercice d'architecture** fait sérieusement : ADR n°6 : stockage des vecteurs — JSON en mémoire vs vraie vector DB. Jusqu'à quelle taille de corpus ton approche actuelle tient-elle ? Calcule un ordre de grandeur (n docs × chunks × dimensions × 4 octets) avant de répondre.
 
 ## 📋 Checklist de validation
-- [ ] Similarité cosinus codée à la main (une fois)
-- [ ] Zéro framework RAG
-- [ ] Citations des sources dans chaque réponse
-- [ ] J'ai lu mes chunks (oui, avec les yeux)
+- [ ] Extraction PDF testée sur de vrais PDF moches
+- [ ] Chaque chunk garde sa provenance
+- [ ] Ré-ingestion sans doublons
+- [ ] Journal des échecs de retrieval tenu
 
 ## 🚦 Critères de passage à la semaine suivante
-- [ ] Pipeline bout-en-bout fonctionnel
-- [ ] Réponses avec sources correctes sur 8/10 questions test
-- [ ] README pédagogique écrit
+- [ ] Multi-format opérationnel
+- [ ] DocQA v0 utilisable sur ton corpus
+- [ ] Journal d'échecs avec 5+ cas analysés
 
 ## ⚠️ Erreurs fréquentes en revue
 - Se sur-noter (familiarité ≠ maîtrise) : ne compte que ce que tu produis SEUL et sais EXPLIQUER.

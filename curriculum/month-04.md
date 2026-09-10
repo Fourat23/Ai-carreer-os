@@ -7,7 +7,7 @@ Construire des interfaces : React (composants, state, effets, formulaires), cons
 
 ## Semaines
 - [Semaine 14](week-14.md) — React : composants, props, state, événements
-- [Semaine 15](week-15.md) — React : effets, fetch, formulaires, routing
+- [Semaine 15](week-15.md) — React : routing, état partagé, contexte, performance et accessibilité
 - [Semaine 16](week-16.md) — Full-stack réel : front + API + auth simple, tests unitaires
 - [Semaine 17](week-17.md) — PROJET 3 : BiblioApp full-stack + revue mensuelle 4
 

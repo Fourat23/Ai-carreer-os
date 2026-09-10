@@ -1,6 +1,6 @@
-# Semaine 13 — PROJET 2 : LivreAPI + collection Postman + revue mensuelle 3
+# Semaine 13 — PROJET 2 durci et raconté ; premier full-stack React + revue mensuelle 3
 
-> **Mois 3** · Compétences : HTTP / API, SQL / Data, Autonomie projet
+> **Mois 3** · Compétences : JavaScript / TypeScript, Communication technique, Software engineering
 
 [← Mois 3](month-03.md) · [Vue d'ensemble](year-overview.md)
 
@@ -14,12 +14,13 @@
 - [Jour 91](days/day-091.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** Deuxième projet portfolio. Une API qu'un recruteur peut cloner, lancer et tester avec ta collection Postman en 5 minutes.
-- **Test pratique :** Le projet EST le test — spec complète dans curriculum/projects/project-02.md.
-- **Test théorique :** Auto-révision mois 3 : 15 questions dans month-03.md (HTTP, REST, Express, SQL).
-- **Mini-projet :** Projet 2 complet + collection Postman avec tests automatisés (status, schéma de réponse, cas d'erreur).
+- **Bilan :** Deux mouvements dans la même semaine : LivreAPI est durcie et devient une pièce de portfolio qu'on sait raconter, et le front fait son entrée — React, la consommation de ta propre API, une mini-app de bout en bout. La semaine ferme le mois 3 et le premier trimestre.
+- **Test pratique :** 90 min : durcis LivreAPI (limites de charge sur les routes coûteuses, cache sur les lectures, logs exploitables) et mesure le gain. Puis, en React : une mini-app qui consomme TON API — liste, détail, formulaire d'ajout, avec les trois états rendus explicitement à l'écran (chargement, erreur, succès). Le test est réussi quand tu coupes ton API en direct et que l'interface reste compréhensible.
+- **Test théorique :** Ce que tu as durci et le chiffre qui le prouve ; comment tu racontes ce projet en deux minutes à quelqu'un qui n'est pas développeur ; ce qu'est un composant React et ce que « l'état » y désigne ; pourquoi un appel réseau ne se fait pas pendant le rendu ; les trois états d'une donnée asynchrone et ce qui arrive quand on en oublie un ; et l'auto-révision du mois 3 : les questions de month-03.md, sans notes.
+- **Mini-projet :** La fiche projet de LivreAPI pour ton portfolio : le problème résolu en une phrase, la démo de deux minutes, les décisions d'architecture, les chiffres de performance avant/après. Plus le bilan du trimestre 1 : ce que tu sais faire aujourd'hui et que tu ne savais pas au jour 1, en preuves, pas en adjectifs.
 - **Critères de passage :**
-  - [ ] Tous les endpoints de la spec passent les tests Postman
-  - [ ] Revue mensuelle 3 complétée
-  - [ ] Démo enregistrée (2 min, écran + voix)
-- **Exercice d'architecture :** ADR n°2 : 'Validation à la main vs librairie de validation'. Contexte, options considérées, décision pour ce projet, et à partir de quand tu changerais d'avis.
+  - [ ] LivreAPI durcie, gain mesuré et documenté
+  - [ ] Mini-app full-stack fonctionnelle avec les trois états
+  - [ ] Fiche projet et démo prêtes pour le portfolio
+  - [ ] Revue mensuelle 3 complétée et bilan de trimestre écrit
+- **Exercice d'architecture :** Ton front et ton API sont maintenant deux programmes qui doivent se mettre d'accord. Écris le contrat qui les lie — forme des réponses, forme des erreurs, codes de statut — puis liste trois changements côté API qui casseraient le front sans qu'aucun test de l'API ne devienne rouge.

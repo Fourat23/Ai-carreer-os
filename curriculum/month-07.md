@@ -7,9 +7,9 @@ Comprendre ce qu'il y a sous le capot des LLM : neurones, backpropagation (intui
 
 ## Semaines
 - [Semaine 27](week-27.md) — Deep learning : neurones, gradient, PyTorch tenseurs
-- [Semaine 28](week-28.md) — MLP sur données réelles, régularisation, courbes
-- [Semaine 29](week-29.md) — NLP : tokenisation, embeddings, attention, transformers
-- [Semaine 30](week-30.md) — LLM : fonctionnement, APIs, hallucinations + revue mensuelle 7
+- [Semaine 28](week-28.md) — NLP : tokenisation, embeddings, attention, transformers
+- [Semaine 29](week-29.md) — LLM : fonctionnement, APIs, tokens et coûts, hallucinations
+- [Semaine 30](week-30.md) — Prompt engineering, structured outputs, function calling + revue mensuelle 7
 
 ## 🗓️ Revue mensuelle
 - **Projet validant :** Mini-projet : classificateur de texte (MLP puis fine-tuning léger d'un petit modèle) + note écrite 'Comment fonctionne un transformer' avec tes propres schémas.

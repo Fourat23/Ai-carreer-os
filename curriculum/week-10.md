@@ -1,6 +1,6 @@
-# Semaine 10 — REST design, Node.js, premiers serveurs, Express
+# Semaine 10 — PROJET 2 livré : recherche, tests d'intégration, documentation ; sécurité web et authentification
 
-> **Mois 3** · Compétences : HTTP / API, JavaScript / TypeScript
+> **Mois 3** · Compétences : HTTP / API, Sécurité, Software engineering
 
 [← Mois 3](month-03.md) · [Vue d'ensemble](year-overview.md)
 
@@ -14,12 +14,13 @@
 - [Jour 70](days/day-070.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** Tu passes de consommateur d'API à producteur. D'abord le module http natif (pour comprendre), puis Express (pour produire).
-- **Test pratique :** 75 min : serveur Express avec routes GET /livres, GET /livres/:id, POST /livres (validation titre requis), DELETE /livres/:id — données en mémoire, statuts corrects, testé via Postman.
-- **Test théorique :** Les 6 contraintes REST (au moins 4 de tête) ; pourquoi GET ne doit pas modifier l'état ; qu'est-ce qu'un middleware Express ; où mettre la validation ; que renvoyer sur un POST réussi ?
-- **Mini-projet :** API 'citations' : CRUD complet en mémoire + route GET /citations/aleatoire + middleware de log des requêtes.
+- **Bilan :** LivreAPI passe de « ça marche chez moi » à « quelqu'un d'autre peut l'utiliser et lui faire confiance » : recherche et pagination, tests d'intégration qui tournent seuls, documentation lisible — puis la sécurité, qui n'est pas une couche qu'on ajoute à la fin mais des décisions qu'on prend partout.
+- **Test pratique :** 90 min : ajoute à LivreAPI recherche, pagination et filtres combinables, couverts par des tests d'intégration qui partent d'une base vide et vérifient les statuts ET le contenu. Puis passe la checklist OWASP sur ton API — injection, exposition de données, contrôle d'accès manquant, secret en dur — et corrige ce que tu trouves. Termine en protégeant deux routes par un token vérifié dans un middleware.
+- **Test théorique :** Ce qu'un test d'intégration vérifie qu'un test unitaire ne verra jamais ; pourquoi les tests doivent partir d'un état connu ; trois failles OWASP avec, pour chacune, la ligne de TON code qui la rendait possible ; différence entre authentification et autorisation ; où vit un secret et où il ne doit jamais aller ; pourquoi un token dans l'URL est une mauvaise idée.
+- **Mini-projet :** La fiche projet de LivreAPI : README qui permet à un inconnu de la lancer en cinq minutes, une ADR sur le choix du stockage, la documentation des routes, et une démo de deux minutes enregistrée.
 - **Critères de passage :**
-  - [ ] API du test pratique complète et correcte
-  - [ ] Middleware de log écrit maison
-  - [ ] Routes nommées selon les conventions REST
-- **Exercice d'architecture :** Ton API citations a 3 responsabilités mélangées : routing, logique, données. Propose un découpage en 3 couches (routes/services/data) et applique-le. C'est ton premier 3-tiers.
+  - [ ] Recherche, pagination et filtres opérationnels
+  - [ ] Tests d'intégration verts et rejouables
+  - [ ] Checklist OWASP passée, corrections démontrées
+  - [ ] Auth par token fonctionnelle sur deux routes
+- **Exercice d'architecture :** Un attaquant a ton token. Écris ce qu'il peut faire, pendant combien de temps, et comment tu t'en apercevrais. Puis liste trois mesures par ordre de rapport efficacité/coût — expiration, révocation, portée restreinte — et dis laquelle tu implémenterais en premier et pourquoi.

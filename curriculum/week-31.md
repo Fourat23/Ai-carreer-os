@@ -1,6 +1,6 @@
-# Semaine 31 — Prompt engineering sérieux, structured outputs
+# Semaine 31 — Prompts en production, guardrails, function calling avancé ; ouverture du RAG
 
-> **Mois 8** · Compétences : LLM
+> **Mois 8** · Compétences : LLM, Agents
 
 [← Mois 8](month-08.md) · [Vue d'ensemble](year-overview.md)
 
@@ -14,12 +14,12 @@
 - [Jour 217](days/day-217.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** Le prompt comme spécification, pas comme incantation : rôle, contraintes, exemples, format de sortie imposé et VALIDÉ par le code.
-- **Test pratique :** 90 min : construis un extracteur d'informations (texte libre → JSON strict : personnes, dates, montants) — prompt versionné, schéma validé côté code, 10 cas de test dont 3 pièges, taux de réussite mesuré.
-- **Test théorique :** Pourquoi 'réponds en JSON' ne suffit pas ; few-shot : quand ça aide vraiment ; pourquoi versionner ses prompts ; que faire quand la sortie ne parse pas (stratégies) ; system vs user prompt ?
-- **Mini-projet :** Bibliothèque perso de 5 patterns de prompts testés (extraction, classification, résumé contraint, réécriture, critique) avec leurs cas de test.
+- **Bilan :** Le LLM qui agit : déclarer des outils, router les appels, exécuter côté code, renvoyer les résultats. La base des agents, comprise mécaniquement.
+- **Test pratique :** 90 min : assistant météo+calcul : 2 outils déclarés (get_weather mockée, calculate), boucle complète requête→tool_call→exécution→réponse finale, gestion du cas 'aucun outil nécessaire' et 'outil échoue'.
+- **Test théorique :** Qui exécute les outils (le modèle ou ton code) ; que contient une déclaration d'outil ; pourquoi décrire précisément les paramètres ; que renvoyer au modèle après exécution ; quand le function calling est-il un mauvais choix ; qu'est-ce qu'un guardrail d'ENTRÉE et un guardrail de SORTIE, et pourquoi les deux sont nécessaires ; et enfin : quelle limite d'un LLM le RAG vient-il précisément lever ?
+- **Mini-projet :** Intègre un appel LLM utile dans une de TES apps précédentes (ex : BiblioApp — résumé de livre, ou TaskFlow — décomposition de tâche), proprement : module dédié, erreurs gérées, coût loggé.
 - **Critères de passage :**
-  - [ ] Extracteur ≥ 8/10 cas réussis
-  - [ ] 5 patterns documentés et testés
-  - [ ] Auto-éval llm ≥ 3
-- **Exercice d'architecture :** Ton extracteur est appelé 10 000 fois/jour. Où mets-tu la validation, le retry, le fallback, le log des échecs ? Dessine le composant 'appel LLM robuste' réutilisable.
+  - [ ] Assistant 2-outils robuste
+  - [ ] Intégration dans ton app fonctionnelle
+  - [ ] Dégradation gracieuse démontrée
+- **Exercice d'architecture :** Ton app dépend maintenant d'une API externe non-déterministe. Qu'est-ce que ça impose : timeouts, retries, circuit breaker (intuition), cache, mode dégradé ? Écris la politique d'appel de ton intégration.

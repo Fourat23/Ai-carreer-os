@@ -6,10 +6,10 @@
 Le cœur de ton futur métier : intégrer des LLM dans de vraies applications. Prompt engineering sérieux (pas des recettes magiques), sorties structurées JSON, function calling, gestion des coûts, puis construction de ton premier pipeline RAG de zéro (chunking, embeddings, retrieval).
 
 ## Semaines
-- [Semaine 31](week-31.md) — Prompt engineering sérieux, structured outputs
-- [Semaine 32](week-32.md) — Function calling, tool use, intégration app
-- [Semaine 33](week-33.md) — RAG v1 : chunking, embeddings, retrieval naïf
-- [Semaine 34](week-34.md) — RAG v1 complet multi-formats + revue mensuelle 8
+- [Semaine 31](week-31.md) — Prompts en production, guardrails, function calling avancé ; ouverture du RAG
+- [Semaine 32](week-32.md) — RAG v1 : chunking, embeddings, retrieval naïf
+- [Semaine 33](week-33.md) — RAG v1 multi-formats, métadonnées, DocQA v0 sur corpus réel
+- [Semaine 34](week-34.md) — DocQA : interface, session, robustesse ; bilan RAG + revue mensuelle 8
 
 ## Projet du mois
 **Projet 6 : DocQA — application RAG locale (démarrage)** — voir [la fiche projet](projects/project-06.md).

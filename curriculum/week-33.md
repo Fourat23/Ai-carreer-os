@@ -1,6 +1,6 @@
-# Semaine 33 — RAG v1 : chunking, embeddings, retrieval naïf
+# Semaine 33 — RAG v1 multi-formats, métadonnées, DocQA v0 sur corpus réel
 
-> **Mois 8** · Compétences : RAG, LLM
+> **Mois 8** · Compétences : RAG, Software engineering
 
 [← Mois 8](month-08.md) · [Vue d'ensemble](year-overview.md)
 
@@ -14,12 +14,12 @@
 - [Jour 231](days/day-231.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** Ton premier RAG, SANS framework : chaque étape codée et comprise. C'est le savoir-faire le plus demandé du marché junior IA.
-- **Test pratique :** 90 min : pipeline complet sur 5 documents texte — découpage en chunks (taille fixe + overlap), embeddings via API, stockage (JSON suffit), recherche par similarité cosinus (implémentée TOI-même), top-k injecté dans le prompt, réponse avec citation des sources.
-- **Test théorique :** Pourquoi le RAG plutôt que tout mettre dans le prompt ; rôle de l'overlap ; pourquoi normaliser les vecteurs ; que retourne exactement la similarité cosinus ; qu'est-ce qui fait échouer un RAG (liste 4 causes) ?
-- **Mini-projet :** 'rag-from-scratch' : le pipeline propre en modules (ingest/chunk/embed/search/answer), CLI simple, README expliquant chaque étape. Base du projet 6.
+- **Bilan :** Ton RAG passe de la démo au réel : PDF/Markdown, métadonnées, interface, robustesse.
+- **Test pratique :** 90 min : ajoute au rag-from-scratch — extraction PDF et Markdown, métadonnées par chunk (source, page, section), filtre par document, petite UI (web ou CLI enrichie), gestion des documents mis à jour (ré-ingestion).
+- **Test théorique :** Pourquoi les PDF sont pénibles (structure perdue) ; à quoi servent les métadonnées de chunk ; stratégie de mise à jour d'un index ; que faire des tableaux et du code dans les documents ?
+- **Mini-projet :** DocQA v0 : ton RAG sur un corpus RÉEL qui t'intéresse (docs techniques d'un outil, notes de cours...) avec 15 questions de test et tes observations d'échecs.
 - **Critères de passage :**
-  - [ ] Pipeline bout-en-bout fonctionnel
-  - [ ] Réponses avec sources correctes sur 8/10 questions test
-  - [ ] README pédagogique écrit
-- **Exercice d'architecture :** Liste les 6 décisions de conception de ton RAG (taille chunks, overlap, k, modèle d'embedding, format du prompt, seuil de similarité). Pour chacune : comment saurais-tu qu'elle est mauvaise ? (Tu viens d'inventer le besoin d'évaluation — mois 9.)
+  - [ ] Multi-format opérationnel
+  - [ ] DocQA v0 utilisable sur ton corpus
+  - [ ] Journal d'échecs avec 5+ cas analysés
+- **Exercice d'architecture :** ADR n°6 : stockage des vecteurs — JSON en mémoire vs vraie vector DB. Jusqu'à quelle taille de corpus ton approche actuelle tient-elle ? Calcule un ordre de grandeur (n docs × chunks × dimensions × 4 octets) avant de répondre.

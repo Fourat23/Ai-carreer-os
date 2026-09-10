@@ -5,23 +5,25 @@
 > Une revue ne « se corrige » pas : elle s'ÉVALUE. Voici l'attendu, la grille et les critères de passage.
 
 ## 🎯 Attendu de la semaine
-Thème : **LLM : fonctionnement, APIs, hallucinations + revue mensuelle 7**. Tu utilises enfin des LLM en sachant ce qu'il y a dedans. Appels API propres, paramètres compris, limites mesurées toi-même. Revue mensuelle 7 en fin de semaine.
+Thème : **Prompt engineering, structured outputs, function calling + revue mensuelle 7**. Le prompt comme spécification, pas comme incantation : rôle, contraintes, exemples, format de sortie imposé et VALIDÉ par le code. La semaine ferme le mois 7 : revue mensuelle 7 en fin de semaine.
 
 ## ✅ Grille d'évaluation (note chaque axe de 0 à 5)
-- **Test pratique réussi** dans le temps imparti : 75 min : script (Node ou Python) qui appelle une API LLM — system prompt, température comparée (0 vs 1) sur 5 prompts, streaming, comptage de tokens et coût calculé, 3 hallucinations provoquées et documentées.
-- **Test théorique** (réponds de mémoire puis auto-corrige) : Qu'est-ce qu'un LLM prédit exactement ; pourquoi il hallucine (mécanisme, pas morale) ; température/top-p ; pourquoi le même prompt donne des réponses différentes ; que contient VRAIMENT le contexte envoyé ?
-- **Mini-projet / livrable** conforme : Petit banc d'essai : 10 questions dont tu connais les réponses, posées à 2 modèles, avec un tableau juste/faux/inventé et 10 lignes de conclusions.
-- **Exercice d'architecture** fait sérieusement : Un LLM dans une architecture n'est PAS une base de données ni un moteur de règles. Écris 5 propriétés d'ingénierie qui le distinguent (non-déterminisme, latence, coût/appel, faillibilité, dérive) et ce que chacune impose à ton code appelant.
+- **Test pratique réussi** dans le temps imparti : 90 min : construis un extracteur d'informations (texte libre → JSON strict : personnes, dates, montants) — prompt versionné, schéma validé côté code, 10 cas de test dont 3 pièges, taux de réussite mesuré.
+- **Test théorique** (réponds de mémoire puis auto-corrige) : Pourquoi 'réponds en JSON' ne suffit pas ; few-shot : quand ça aide vraiment ; pourquoi versionner ses prompts ; que faire quand la sortie ne parse pas (stratégies) ; system vs user prompt ?
+- **Mini-projet / livrable** conforme : Bibliothèque perso de 5 patterns de prompts testés (extraction, classification, résumé contraint, réécriture, critique) avec leurs cas de test.
+- **Exercice d'architecture** fait sérieusement : Ton extracteur est appelé 10 000 fois/jour. Où mets-tu la validation, le retry, le fallback, le log des échecs ? Dessine le composant 'appel LLM robuste' réutilisable.
 
 ## 📋 Checklist de validation
-- [ ] Clé API dans .env, jamais commitée
-- [ ] Coût par appel calculé
-- [ ] Hallucination : je peux en provoquer et l'expliquer
+- [ ] Sorties TOUJOURS validées par le code
+- [ ] Prompts dans des fichiers versionnés, pas en dur
+- [ ] Chaque pattern a ses cas de test
+- [ ] Retry avec message d'erreur en cas de parse fail
 - [ ] Revue mensuelle 7 faite
 
 ## 🚦 Critères de passage à la semaine suivante
-- [ ] Script API complet fonctionnel
-- [ ] Banc d'essai documenté
+- [ ] Extracteur ≥ 8/10 cas réussis
+- [ ] 5 patterns documentés et testés
+- [ ] Auto-éval llm ≥ 3
 - [ ] Revue mensuelle 7 complétée
 - [ ] Note transformer publiée (livrable mois 7)
 

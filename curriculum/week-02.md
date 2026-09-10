@@ -1,6 +1,6 @@
 # Semaine 2 — JS : boucles, fonctions, tableaux, objets
 
-> **Mois 1** · Compétences : JavaScript / TypeScript, Algorithmie
+> **Mois 1** · Compétences : JavaScript / TypeScript
 
 [← Mois 1](month-01.md) · [Vue d'ensemble](year-overview.md)
 

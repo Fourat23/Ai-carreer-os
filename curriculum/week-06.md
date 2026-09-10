@@ -1,6 +1,6 @@
-# Semaine 6 — Stacks, queues, linked lists, arbres, BFS/DFS ; TypeScript intro
+# Semaine 6 — TypeScript : typage, POO, design patterns ; clean code et debugging
 
-> **Mois 2** · Compétences : Structures de données, JavaScript / TypeScript
+> **Mois 2** · Compétences : JavaScript / TypeScript, Design patterns, Software engineering
 
 [← Mois 2](month-02.md) · [Vue d'ensemble](year-overview.md)
 
@@ -14,12 +14,12 @@
 - [Jour 42](days/day-042.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** Les structures classiques : les implémenter une fois pour les comprendre, puis savoir QUAND les utiliser (le vrai savoir).
-- **Test pratique :** 75 min : implémente une Stack et une Queue (classes) ; `parenthesesValides(str)` avec ta Stack ; parcours BFS d'un arbre fourni (niveau par niveau).
-- **Test théorique :** LIFO vs FIFO avec un cas d'usage réel chacun ; pourquoi une linked list insère en O(1) mais accède en O(n) ; différence BFS/DFS et un cas d'usage chacun ; qu'apporte TypeScript par rapport à JS ?
-- **Mini-projet :** File d'attente de tickets support en TypeScript : priorités, ajout, traitement, historique — avec types stricts.
+- **Bilan :** La semaine où ton JavaScript devient du code qu'un autre peut reprendre : les types attrapent tes bugs avant l'exécution, les patterns nomment ce que tu écrivais déjà sans le savoir, et le debugging cesse d'être une suite d'essais au hasard.
+- **Test pratique :** 75 min : reprends une de tes fonctions JS des semaines 3-4 et convertis-la en TypeScript strict — types explicites, une interface, une union discriminée, aucun `any`. Puis introduis délibérément trois bugs (mauvais type, propriété absente, cas non couvert) et vérifie que le compilateur les attrape AVANT l'exécution. Ceux qu'il ne voit pas : écris pourquoi.
+- **Test théorique :** Ce qu'un type attrape et ce qu'il n'attrape jamais ; `interface` vs `type` (quand l'un plutôt que l'autre) ; ce qu'une union discriminée rend impossible ; encapsulation : quel bug concret elle empêche ; nomme un design pattern que tu utilisais déjà avant de connaître son nom, et dis ce que le nom t'apporte ; et la question qui compte : quelle est la PREMIÈRE chose à faire devant un bug, avant de toucher au code ?
+- **Mini-projet :** Un module TypeScript propre, typé strictement, réutilisable dans le projet 1 de la semaine prochaine — avec son README de dix lignes, et un journal de debugging : trois bugs rencontrés cette semaine, l'hypothèse posée pour chacun, et comment tu l'as vérifiée.
 - **Critères de passage :**
-  - [ ] parenthesesValides + BFS corrects
-  - [ ] Mini-projet compile en strict sans any
-  - [ ] Auto-éval ds ≥ 2.5
-- **Exercice d'architecture :** Pour un historique de navigation (back/forward), quelle structure ? Pour une file d'impression ? Pour l'autocomplétion ? Justifie chaque choix en 3 lignes.
+  - [ ] Conversion TS stricte réussie, compilateur satisfait
+  - [ ] Trois bugs attrapés à la compilation, les autres expliqués
+  - [ ] Journal de debugging avec hypothèses écrites
+- **Exercice d'architecture :** Le typage a un coût : temps d'écriture, verbosité, compilation. Écris dix lignes sur ce que ce coût achète — et nomme un cas où il ne vaut PAS le prix (script jetable, prototype d'une heure). Savoir quand ne pas typer fait partie du métier.

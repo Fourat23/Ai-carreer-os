@@ -1,6 +1,6 @@
-# Semaine 8 — PROJET 1 : TaskFlow CLI + revue mensuelle 2
+# Semaine 8 — HTTP et REST, Node puis Express, validation et erreurs ; premiers SELECT + revue mensuelle 2
 
-> **Mois 2** · Compétences : JavaScript / TypeScript, Software engineering, Autonomie projet
+> **Mois 2** · Compétences : HTTP / API, Software engineering, SQL / Data
 
 [← Mois 2](month-02.md) · [Vue d'ensemble](year-overview.md)
 
@@ -14,13 +14,13 @@
 - [Jour 56](days/day-056.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** Première semaine 100% projet. Objectif : livrer, pas perfectionner. Le projet suit la spec de curriculum/projects/project-01.md.
-- **Test pratique :** Le projet EST le test : CRUD complet, persistance JSON, commandes list/add/done/rm/stats, gestion d'erreurs propre (fichier absent, id inconnu).
-- **Test théorique :** Auto-révision mois 2 : 15 questions dans month-02.md (Big O, structures, TS, POO/FP). Sans notes, corrige-toi ensuite.
-- **Mini-projet :** Le projet 1 lui-même + son README (template dans le fichier projet).
+- **Bilan :** Tu passes de consommateur d'API à producteur, et tu ne sautes pas l'étape du dessous : d'abord ce qui circule vraiment sur le fil, ensuite le module http natif, ensuite seulement Express. La semaine ferme le mois 2 : revue mensuelle 2 en fin de semaine.
+- **Test pratique :** 90 min, en trois temps. (1) Avec curl uniquement : GET une API publique, POST du JSON, affiche les headers, suis une redirection, explique chaque statut reçu. (2) Un serveur Express : GET /livres, GET /livres/:id, POST /livres avec validation du titre, DELETE /livres/:id — données en mémoire, statuts corrects. (3) Ajoute-lui un middleware d'erreurs centralisé et des 400 détaillées, puis CASSE-le exprès (JSON invalide, id inexistant, champ manquant) et vérifie qu'aucune erreur ne fuit en 500.
+- **Test théorique :** Le trajet complet d'une requête (DNS → TCP → requête → réponse) ; huit statuts avec leur cas d'usage (200/201/204/301/400/401/404/500) ; pourquoi GET ne doit pas modifier l'état ; ce qu'est un middleware et dans quel ordre ils s'exécutent ; où mettre la validation et pourquoi jamais dans la route ; erreur opérationnelle vs bug, et pourquoi les deux ne se traitent pas pareil ; et pour le SQL de vendredi : que fait un JOIN, dessine-le.
+- **Mini-projet :** API 'citations' : CRUD complet en mémoire, route GET /citations/aleatoire, middleware de log des requêtes, gestion d'erreurs centralisée et validation manuelle des entrées. C'est le squelette réutilisable qui servira de base au projet 2.
 - **Critères de passage :**
-  - [ ] Toutes les commandes de la spec fonctionnent
-  - [ ] Code en modules séparés (types/store/commands/cli)
-  - [ ] Revue mensuelle mois 2 complétée
-  - [ ] Score attendu atteint (voir month-02.md)
-- **Exercice d'architecture :** Écris l'ADR n°1 de ta vie (Architecture Decision Record, template dans le fichier projet) : 'Pourquoi un fichier JSON et pas SQLite pour TaskFlow ?' Contexte, options, décision, conséquences.
+  - [ ] Les quatre routes répondent avec les bons statuts
+  - [ ] Middleware d'erreurs démontré sur trois entrées cassées
+  - [ ] Cinq requêtes SQL de base écrites sans aide
+  - [ ] Revue mensuelle 2 complétée
+- **Exercice d'architecture :** Ton API citations est appelée par un front que tu n'écris pas. Liste six choses que ce front a le droit d'attendre de toi (statuts stables, forme d'erreur constante, pagination, CORS, versionnage, contrat documenté) et écris pour chacune ce que tu casserais si tu la changeais sans prévenir.

@@ -76,18 +76,18 @@
   "bas": {
    "P10": 90,
    "P25": 98,
-   "mediane": 128,
-   "P75": 143,
+   "mediane": 131,
+   "P75": 146,
    "P90": 185,
-   "max": 206
+   "max": 208
   },
   "haut": {
    "P10": 153,
-   "P25": 156,
-   "mediane": 183,
+   "P25": 161,
+   "mediane": 186,
    "P75": 211,
    "P90": 264,
-   "max": 291
+   "max": 293
   }
  },
  "structurellementImpossibles": [],
@@ -1595,7 +1595,7 @@
    "nlec": 3,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
+    "lectureJour": 9,
     "correction": 3,
     "lectureLecons": 34,
     "lectureLeconsHaut": 59,
@@ -1618,8 +1618,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 95,
-   "haut": 159,
+   "bas": 97,
+   "haut": 161,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -1903,8 +1903,8 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
-    "correction": 3,
+    "lectureJour": 9,
+    "correction": 4,
     "lectureLecons": 43,
     "lectureLeconsHaut": 68,
     "lectureLeconsSiToutRelu": 134,
@@ -1926,8 +1926,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 128,
-   "haut": 183,
+   "bas": 131,
+   "haut": 186,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -2211,8 +2211,8 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
-    "correction": 3,
+    "lectureJour": 9,
+    "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
     "lectureLeconsSiToutRelu": 154,
@@ -2222,20 +2222,20 @@
      0
     ],
     "pratique": [
-     75,
-     105
+     51,
+     90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 5,
-    "minuteAnnonce": 75,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 131,
-   "haut": 186,
+   "bas": 108,
+   "haut": 172,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -2519,8 +2519,8 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
-    "correction": 3,
+    "lectureJour": 10,
+    "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
     "lectureLeconsSiToutRelu": 155,
@@ -2533,7 +2533,7 @@
      51,
      90
     ],
-    "sourcePratique": "fourchette par difficulté",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 5,
     "minuteAnnonce": 0,
     "reflexion": [
@@ -2542,8 +2542,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 107,
-   "haut": 171,
+   "bas": 110,
+   "haut": 174,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -2827,8 +2827,8 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
-    "correction": 3,
+    "lectureJour": 9,
+    "correction": 4,
     "lectureLecons": 43,
     "lectureLeconsHaut": 68,
     "lectureLeconsSiToutRelu": 139,
@@ -2838,20 +2838,20 @@
      0
     ],
     "pratique": [
-     60,
-     84
+     75,
+     105
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 5,
-    "minuteAnnonce": 60,
+    "minuteAnnonce": 75,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 114,
-   "haut": 163,
+   "bas": 131,
+   "haut": 186,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -3135,8 +3135,8 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
-    "correction": 3,
+    "lectureJour": 9,
+    "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
     "lectureLeconsSiToutRelu": 156,
@@ -3146,20 +3146,20 @@
      0
     ],
     "pratique": [
-     75,
-     105
+     90,
+     126
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 5,
-    "minuteAnnonce": 75,
+    "minuteAnnonce": 90,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 131,
-   "haut": 186,
+   "bas": 148,
+   "haut": 209,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -3443,8 +3443,8 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
-    "correction": 3,
+    "lectureJour": 10,
+    "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
     "lectureLeconsSiToutRelu": 159,
@@ -3466,8 +3466,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 131,
-   "haut": 186,
+   "bas": 134,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -3751,8 +3751,8 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
-    "correction": 3,
+    "lectureJour": 10,
+    "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
     "lectureLeconsSiToutRelu": 166,
@@ -3762,20 +3762,20 @@
      0
     ],
     "pratique": [
-     75,
-     105
+     51,
+     90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 5,
-    "minuteAnnonce": 75,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 131,
-   "haut": 186,
+   "bas": 110,
+   "haut": 174,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -4059,8 +4059,8 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
-    "correction": 3,
+    "lectureJour": 9,
+    "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
     "lectureLeconsSiToutRelu": 158,
@@ -4070,20 +4070,20 @@
      0
     ],
     "pratique": [
-     43,
-     75
+     90,
+     126
     ],
-    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
+    "sourcePratique": "minutage explicite",
     "etapes": 4,
-    "minuteAnnonce": 0,
+    "minuteAnnonce": 90,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 98,
-   "haut": 155,
+   "bas": 148,
+   "haut": 209,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -4675,8 +4675,8 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
-    "correction": 3,
+    "lectureJour": 9,
+    "correction": 4,
     "lectureLecons": 45,
     "lectureLeconsHaut": 70,
     "lectureLeconsSiToutRelu": 185,
@@ -4698,8 +4698,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 106,
-   "haut": 170,
+   "bas": 109,
+   "haut": 173,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8690,20 +8690,20 @@
      0
     ],
     "pratique": [
-     145,
-     203
+     120,
+     168
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 10,
-    "minuteAnnonce": 145,
+    "minuteAnnonce": 120,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 189,
-   "haut": 272,
+   "bas": 164,
+   "haut": 237,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -10527,8 +10527,8 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 10,
-    "correction": 3,
+    "lectureJour": 11,
+    "correction": 4,
     "lectureLecons": 43,
     "lectureLeconsHaut": 68,
     "lectureLeconsSiToutRelu": 151,
@@ -10538,20 +10538,20 @@
      0
     ],
     "pratique": [
-     91,
-     165
+     150,
+     210
     ],
-    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
+    "sourcePratique": "minutage explicite",
     "etapes": 10,
-    "minuteAnnonce": 0,
+    "minuteAnnonce": 150,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 147,
-   "haut": 246,
+   "bas": 208,
+   "haut": 293,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",

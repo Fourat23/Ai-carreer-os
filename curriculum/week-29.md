@@ -1,6 +1,6 @@
-# Semaine 29 — NLP : tokenisation, embeddings, attention, transformers
+# Semaine 29 — LLM : fonctionnement, APIs, tokens et coûts, hallucinations
 
-> **Mois 7** · Compétences : Deep learning, LLM
+> **Mois 7** · Compétences : LLM
 
 [← Mois 7](month-07.md) · [Vue d'ensemble](year-overview.md)
 
@@ -14,12 +14,11 @@
 - [Jour 203](days/day-203.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** La semaine charnière vers les LLM : comment du texte devient des nombres, et ce que fait VRAIMENT l'attention. Intuition d'abord, code guidé ensuite.
-- **Test pratique :** 75 min : tokenise un texte avec un vrai tokenizer (tiktoken ou HF) et analyse les surprises (mots coupés, espaces, accents) ; calcule des similarités cosinus entre embeddings de phrases et vérifie qu'elles matchent ton intuition sur 10 paires.
-- **Test théorique :** Pourquoi tokeniser en sous-mots plutôt qu'en mots ; qu'est-ce qu'un embedding (géométriquement) ; que calcule l'attention (requête/clé/valeur, avec une analogie à toi) ; pourquoi le transformer a remplacé les RNN ; que fait la couche finale d'un LLM ?
-- **Mini-projet :** Note illustrée 'Le trajet d'une phrase dans un transformer' : tes propres schémas, de la tokenisation aux logits. Cette note ressert au mois 7 (livrable portfolio).
+- **Bilan :** Tu utilises enfin des LLM en sachant ce qu'il y a dedans. Appels API propres, paramètres compris, limites mesurées toi-même.
+- **Test pratique :** 75 min : script (Node ou Python) qui appelle une API LLM — system prompt, température comparée (0 vs 1) sur 5 prompts, streaming, comptage de tokens et coût calculé, 3 hallucinations provoquées et documentées.
+- **Test théorique :** Qu'est-ce qu'un LLM prédit exactement ; pourquoi il hallucine (mécanisme, pas morale) ; température/top-p ; pourquoi le même prompt donne des réponses différentes ; que contient VRAIMENT le contexte envoyé ?
+- **Mini-projet :** Petit banc d'essai : 10 questions dont tu connais les réponses, posées à 2 modèles, avec un tableau juste/faux/inventé et 10 lignes de conclusions.
 - **Critères de passage :**
-  - [ ] Quiz tokens/embeddings/attention réussi
-  - [ ] Note illustrée complète et juste
-  - [ ] Similarités interprétées correctement
-- **Exercice d'architecture :** La fenêtre de contexte est limitée (ex: 128k tokens). Quelles conséquences d'architecture pour une app qui doit 'connaître' 10 000 documents ? (C'est la question qui justifie le RAG — réponds AVANT de lire le mois 8.)
+  - [ ] Script API complet fonctionnel
+  - [ ] Banc d'essai documenté
+- **Exercice d'architecture :** Un LLM dans une architecture n'est PAS une base de données ni un moteur de règles. Écris 5 propriétés d'ingénierie qui le distinguent (non-déterminisme, latence, coût/appel, faillibilité, dérive) et ce que chacune impose à ton code appelant.

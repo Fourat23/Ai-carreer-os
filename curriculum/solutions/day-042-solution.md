@@ -5,24 +5,24 @@
 > Une revue ne « se corrige » pas : elle s'ÉVALUE. Voici l'attendu, la grille et les critères de passage.
 
 ## 🎯 Attendu de la semaine
-Thème : **Stacks, queues, linked lists, arbres, BFS/DFS ; TypeScript intro**. Les structures classiques : les implémenter une fois pour les comprendre, puis savoir QUAND les utiliser (le vrai savoir).
+Thème : **TypeScript : typage, POO, design patterns ; clean code et debugging**. La semaine où ton JavaScript devient du code qu'un autre peut reprendre : les types attrapent tes bugs avant l'exécution, les patterns nomment ce que tu écrivais déjà sans le savoir, et le debugging cesse d'être une suite d'essais au hasard.
 
 ## ✅ Grille d'évaluation (note chaque axe de 0 à 5)
-- **Test pratique réussi** dans le temps imparti : 75 min : implémente une Stack et une Queue (classes) ; `parenthesesValides(str)` avec ta Stack ; parcours BFS d'un arbre fourni (niveau par niveau).
-- **Test théorique** (réponds de mémoire puis auto-corrige) : LIFO vs FIFO avec un cas d'usage réel chacun ; pourquoi une linked list insère en O(1) mais accède en O(n) ; différence BFS/DFS et un cas d'usage chacun ; qu'apporte TypeScript par rapport à JS ?
-- **Mini-projet / livrable** conforme : File d'attente de tickets support en TypeScript : priorités, ajout, traitement, historique — avec types stricts.
-- **Exercice d'architecture** fait sérieusement : Pour un historique de navigation (back/forward), quelle structure ? Pour une file d'impression ? Pour l'autocomplétion ? Justifie chaque choix en 3 lignes.
+- **Test pratique réussi** dans le temps imparti : 75 min : reprends une de tes fonctions JS des semaines 3-4 et convertis-la en TypeScript strict — types explicites, une interface, une union discriminée, aucun `any`. Puis introduis délibérément trois bugs (mauvais type, propriété absente, cas non couvert) et vérifie que le compilateur les attrape AVANT l'exécution. Ceux qu'il ne voit pas : écris pourquoi.
+- **Test théorique** (réponds de mémoire puis auto-corrige) : Ce qu'un type attrape et ce qu'il n'attrape jamais ; `interface` vs `type` (quand l'un plutôt que l'autre) ; ce qu'une union discriminée rend impossible ; encapsulation : quel bug concret elle empêche ; nomme un design pattern que tu utilisais déjà avant de connaître son nom, et dis ce que le nom t'apporte ; et la question qui compte : quelle est la PREMIÈRE chose à faire devant un bug, avant de toucher au code ?
+- **Mini-projet / livrable** conforme : Un module TypeScript propre, typé strictement, réutilisable dans le projet 1 de la semaine prochaine — avec son README de dix lignes, et un journal de debugging : trois bugs rencontrés cette semaine, l'hypothèse posée pour chacun, et comment tu l'as vérifiée.
+- **Exercice d'architecture** fait sérieusement : Le typage a un coût : temps d'écriture, verbosité, compilation. Écris dix lignes sur ce que ce coût achète — et nomme un cas où il ne vaut PAS le prix (script jetable, prototype d'une heure). Savoir quand ne pas typer fait partie du métier.
 
 ## 📋 Checklist de validation
-- [ ] Stack/Queue implémentées de tête
-- [ ] BFS écrit avec une queue sans modèle
-- [ ] tsconfig strict activé
-- [ ] Types explicites sur toutes les signatures
+- [ ] Zéro `any` dans mon code de la semaine
+- [ ] Je nomme au moins trois patterns dans du code existant
+- [ ] Mes fonctions font une seule chose et se lisent sans commentaire
+- [ ] Devant un bug : j'ai formulé une hypothèse AVANT de modifier quoi que ce soit
 
 ## 🚦 Critères de passage à la semaine suivante
-- [ ] parenthesesValides + BFS corrects
-- [ ] Mini-projet compile en strict sans any
-- [ ] Auto-éval ds ≥ 2.5
+- [ ] Conversion TS stricte réussie, compilateur satisfait
+- [ ] Trois bugs attrapés à la compilation, les autres expliqués
+- [ ] Journal de debugging avec hypothèses écrites
 
 ## ⚠️ Erreurs fréquentes en revue
 - Se sur-noter (familiarité ≠ maîtrise) : ne compte que ce que tu produis SEUL et sais EXPLIQUER.

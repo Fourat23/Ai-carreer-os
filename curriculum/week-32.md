@@ -1,6 +1,6 @@
-# Semaine 32 — Function calling, tool use, intégration app
+# Semaine 32 — RAG v1 : chunking, embeddings, retrieval naïf
 
-> **Mois 8** · Compétences : LLM, JavaScript / TypeScript
+> **Mois 8** · Compétences : RAG, LLM
 
 [← Mois 8](month-08.md) · [Vue d'ensemble](year-overview.md)
 
@@ -14,12 +14,12 @@
 - [Jour 224](days/day-224.md) _(revue hebdo)_
 
 ## Revue hebdomadaire (jour 7)
-- **Bilan :** Le LLM qui agit : déclarer des outils, router les appels, exécuter côté code, renvoyer les résultats. La base des agents, comprise mécaniquement.
-- **Test pratique :** 90 min : assistant météo+calcul : 2 outils déclarés (get_weather mockée, calculate), boucle complète requête→tool_call→exécution→réponse finale, gestion du cas 'aucun outil nécessaire' et 'outil échoue'.
-- **Test théorique :** Qui exécute les outils (le modèle ou ton code) ; que contient une déclaration d'outil ; pourquoi décrire précisément les paramètres ; que renvoyer au modèle après exécution ; quand le function calling est-il un mauvais choix ?
-- **Mini-projet :** Intègre un appel LLM utile dans une de TES apps précédentes (ex : BiblioApp — résumé de livre, ou TaskFlow — décomposition de tâche), proprement : module dédié, erreurs gérées, coût loggé.
+- **Bilan :** Ton premier RAG, SANS framework : chaque étape codée et comprise. C'est le savoir-faire le plus demandé du marché junior IA.
+- **Test pratique :** 90 min : pipeline complet sur 5 documents texte — découpage en chunks (taille fixe + overlap), embeddings via API, stockage (JSON suffit), recherche par similarité cosinus (implémentée TOI-même), top-k injecté dans le prompt, réponse avec citation des sources.
+- **Test théorique :** Pourquoi le RAG plutôt que tout mettre dans le prompt ; rôle de l'overlap ; pourquoi normaliser les vecteurs ; que retourne exactement la similarité cosinus ; qu'est-ce qui fait échouer un RAG (liste 4 causes) ?
+- **Mini-projet :** 'rag-from-scratch' : le pipeline propre en modules (ingest/chunk/embed/search/answer), CLI simple, README expliquant chaque étape. Base du projet 6.
 - **Critères de passage :**
-  - [ ] Assistant 2-outils robuste
-  - [ ] Intégration dans ton app fonctionnelle
-  - [ ] Dégradation gracieuse démontrée
-- **Exercice d'architecture :** Ton app dépend maintenant d'une API externe non-déterministe. Qu'est-ce que ça impose : timeouts, retries, circuit breaker (intuition), cache, mode dégradé ? Écris la politique d'appel de ton intégration.
+  - [ ] Pipeline bout-en-bout fonctionnel
+  - [ ] Réponses avec sources correctes sur 8/10 questions test
+  - [ ] README pédagogique écrit
+- **Exercice d'architecture :** Liste les 6 décisions de conception de ton RAG (taille chunks, overlap, k, modèle d'embedding, format du prompt, seuil de similarité). Pour chacune : comment saurais-tu qu'elle est mauvaise ? (Tu viens d'inventer le besoin d'évaluation — mois 9.)

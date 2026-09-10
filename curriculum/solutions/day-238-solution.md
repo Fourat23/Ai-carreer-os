@@ -5,25 +5,25 @@
 > Une revue ne « se corrige » pas : elle s'ÉVALUE. Voici l'attendu, la grille et les critères de passage.
 
 ## 🎯 Attendu de la semaine
-Thème : **RAG v1 complet multi-formats + revue mensuelle 8**. Ton RAG passe de la démo au réel : PDF/Markdown, métadonnées, interface, robustesse. Revue mensuelle 8 en fin de semaine.
+Thème : **DocQA : interface, session, robustesse ; bilan RAG + revue mensuelle 8**. La semaine où le RAG cesse d'être un script et devient un produit qu'un autre peut utiliser : une interface, une conversation qui se souvient, et un comportement défini quand la question n'a pas de réponse dans le corpus. Elle ferme le mois 8 et prépare l'évaluation du projet 6.
 
 ## ✅ Grille d'évaluation (note chaque axe de 0 à 5)
-- **Test pratique réussi** dans le temps imparti : 90 min : ajoute au rag-from-scratch — extraction PDF et Markdown, métadonnées par chunk (source, page, section), filtre par document, petite UI (web ou CLI enrichie), gestion des documents mis à jour (ré-ingestion).
-- **Test théorique** (réponds de mémoire puis auto-corrige) : Pourquoi les PDF sont pénibles (structure perdue) ; à quoi servent les métadonnées de chunk ; stratégie de mise à jour d'un index ; que faire des tableaux et du code dans les documents ?
-- **Mini-projet / livrable** conforme : DocQA v0 : ton RAG sur un corpus RÉEL qui t'intéresse (docs techniques d'un outil, notes de cours...) avec 15 questions de test et tes observations d'échecs.
-- **Exercice d'architecture** fait sérieusement : ADR n°6 : stockage des vecteurs — JSON en mémoire vs vraie vector DB. Jusqu'à quelle taille de corpus ton approche actuelle tient-elle ? Calcule un ordre de grandeur (n docs × chunks × dimensions × 4 octets) avant de répondre.
+- **Test pratique réussi** dans le temps imparti : 90 min : rends ton DocQA utilisable par quelqu'un d'autre — interface (web ou CLI enrichie) avec sources cliquables, historique de session conservé entre deux questions, et trois cas limites traités explicitement : question hors corpus, corpus vide, document illisible. Chacun doit produire un message utile, jamais une réponse inventée.
+- **Test théorique** (réponds de mémoire puis auto-corrige) : Que doit répondre un RAG quand aucun chunk n'est pertinent, et pourquoi le silence vaut mieux qu'une réponse plausible ; ce que l'historique de session change au prompt envoyé (et ce qu'il coûte en tokens) ; pourquoi optimiser le prompt de génération avant d'optimiser le retrieval est souvent une erreur ; trois cas limites qu'un RAG de démo ne rencontre jamais et qu'un RAG réel rencontre tout le temps.
+- **Mini-projet / livrable** conforme : Fiche de préparation à l'évaluation du projet 6 : les 15 questions de test de ton corpus, la réponse attendue pour chacune, ce que ton RAG répond aujourd'hui, et le classement des échecs par cause (retrieval, génération, corpus). C'est cette fiche que le mois 9 transformera en évaluation chiffrée.
+- **Exercice d'architecture** fait sérieusement : Ton DocQA garde l'historique de session. Écris ce qui se passe au bout de 30 échanges : taille du contexte, coût par question, latence, qualité des réponses. Puis choisis une politique (fenêtre glissante, résumé du passé, remise à zéro explicite) et justifie-la en trois lignes. C'est la même question que la fenêtre de contexte du mois 7, revenue sous forme de produit.
 
 ## 📋 Checklist de validation
-- [ ] Extraction PDF testée sur de vrais PDF moches
-- [ ] Chaque chunk garde sa provenance
-- [ ] Ré-ingestion sans doublons
-- [ ] Journal des échecs de retrieval tenu
+- [ ] Un tiers a utilisé mon DocQA sans que je sois derrière lui
+- [ ] La question hors corpus ne produit JAMAIS une réponse inventée
+- [ ] L'historique de session est borné (sinon le coût explose)
+- [ ] Chaque échec observé est écrit avec sa cause présumée
 
 ## 🚦 Critères de passage à la semaine suivante
-- [ ] Multi-format opérationnel
-- [ ] DocQA v0 utilisable sur ton corpus
+- [ ] DocQA utilisable par un tiers, sources affichées
+- [ ] Trois cas limites traités et démontrés
+- [ ] Fiche des 15 questions complète avec causes d'échec
 - [ ] Revue mensuelle 8 complétée
-- [ ] Journal d'échecs avec 5+ cas analysés
 
 ## ⚠️ Erreurs fréquentes en revue
 - Se sur-noter (familiarité ≠ maîtrise) : ne compte que ce que tu produis SEUL et sais EXPLIQUER.

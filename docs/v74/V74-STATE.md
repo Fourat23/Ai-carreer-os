@@ -7,19 +7,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP0**
+- **dernier CP terminé** : **CP1**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP1** — contrat de rétention gelé
-- **NEXT_ACTION** : écrire `docs/v74/V74-RETENTION-CONTRACT-FROZEN.md` **avant toute
-  implémentation**. Définir : `CONTACT`, `EXPOSURE`, `ATTEMPT`, `RETRIEVAL`, `SUCCESS`,
-  `FAILURE`, `EVIDENCE`, `APPLICATION`, `TRANSFER`, `REVIEW`, `REMEDIATION`,
-  `LAST_MEANINGFUL_CONTACT`. **Définir le CONTACT SIGNIFICATIF** — une simple ouverture de page
-  ne doit PAS suffire. Définir les statuts opérationnels `DUE / SOON / HEALTHY / OVERDUE /
-  UNKNOWN` **en déclarant explicitement qu'ils ne représentent AUCUNE probabilité de mémoire**.
-  Geler aussi : les seuils, les critères de verdict, et les tests négatifs.
-  **Contrainte issue du CP0** : le contrat doit dire quoi faire des **trois mécanismes
-  existants** (V19 journée, V66 concept, 52 revues du curriculum) — arbitrer, pas empiler.
+- **NEXT_CP** : **CP2** — learner memory model
+- **NEXT_ACTION** : construire une **projection déterministe** de l'état d'apprentissage —
+  **jamais une seconde source mutable**. Par concept ET par compétence : `lastExposureAt`,
+  `lastRetrievalAt`, `lastSuccessAt`, `lastFailureAt`, `lastEvidenceAt`,
+  `successfulRetrievalCount`, `failedRetrievalCount`, `applications`, `transfers`,
+  `currentExpectedLevel`, `nextCurriculumNeed`, `meaningfulContacts[]`.
+  **Idempotence obligatoire** (critère bloquant B1 : effacer et rejouer depuis les seuls faits
+  rend un résultat strictement égal). Appliquer les définitions §1 du contrat gelé —
+  notamment MEANINGFUL_CONTACT (M1-M4) et RETRIEVAL (R-a, R-b, R-c). Le module doit être
+  **PUR** : aucune I/O, horloge injectée, comme `lib/retention.mjs`.
 
 ## Repères Git
 
@@ -42,6 +42,49 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 ## Décisions gelées
 
 - **CP0** : aucune (lecture seule).
+- **CP1** : contrat gelé `docs/v74/V74-RETENTION-CONTRACT-FROZEN.md`. Décisions structurantes :
+  - **MEANINGFUL_CONTACT** défini par quatre faits écrits (M1 tentative de rappel · M2
+    tentative d'exercice réellement exécutée · M3 preuve validée · M4 soumission non vide).
+    **`status = 'done'` n'en est PAS un**, ni une page ouverte, ni une compréhension déclarée.
+  - **RETRIEVAL** = trois conditions cumulatives : tentative (R-a) · **correction non ouverte
+    avant** (R-b) · première tentative de l'artefact ce jour-là (R-c).
+  - **PARTIAL ne fait ni progresser ni casser une série** (règle V66 reprise, car prudente).
+  - **Les 5 statuts `UNKNOWN/OVERDUE/DUE/SOON/HEALTHY` NE SONT PAS des probabilités de
+    mémoire** — états de planification uniquement. Ordre d'évaluation gelé et testé au CP14.
+    Seuils : `FENETRE_SOON = 3 j`, `TOLERANCE_DUE = 7 j`.
+  - **QUESTION CRITIQUE TRANCHÉE — option A retenue : `ExerciseAttempt` devient un FAIT
+    CANONIQUE.** Raison sémantique, pas de commodité : *le système persiste aujourd'hui la
+    PROJECTION (la preuve) et jette le FAIT (la tentative)* ; quand l'exercice échoue il n'y a
+    pas de projection à écrire, donc rien n'est écrit. C'est le **seul événement du produit à
+    verdict objectif**. Champ décisif : **`correctionSeen`**, sans lequel R-b serait décoratif.
+  - **Option B retenue additivement** : `RecallAttempt` reçoit `durationMs`, `sourceKind`,
+    `evidenceRef`, **avec valeurs par défaut** — aucune donnée historique invalidée.
+  - **Option C REFUSÉE en tant qu'équivalence**, retenue en **règle dérivée qualifiée
+    `DERIVED_RECALL`** (4 conditions). **Mesure qui commande la décision : 207 exercices sur
+    376 sont rattachables à un concept par déclaration ; les 169 autres ont une MÉDIANE DE 3
+    leçons candidates (max 15).** Traduire les 376 automatiquement obligerait à choisir
+    arbitrairement — ce serait fabriquer de la donnée.
+  - **Option D REFUSÉE** : pas de quatrième moteur.
+  - **Idempotence** : clés métier gelées (`exerciseId`+seconde+`passed/total` ;
+    `conceptId`+seconde+`format`), **provenance obligatoire**, **horodatage serveur
+    uniquement**, tri à la lecture, bornes à 20 000.
+  - **Responsabilités DISJOINTES des trois mécanismes** : V19 = relecture de journée depuis la
+    compréhension déclarée (devient **un signal d'intention**) · V66 = série de rappels par
+    concept (devient **un facteur**) · 52 revues = **le seul rendez-vous FREE_RECALL** (cessent
+    de décider QUOI réviser). **L'arbitre est au-dessus, il ne remplace rien.**
+  - **Architecture en 8 couches** documentée (entrée, sortie, mutabilité, source de vérité,
+    déterminisme, responsabilité) + deux règles transverses : aucune couche n'écrit au-dessus
+    d'elle ; toute couche déterministe rend une sortie identique à entrée identique.
+  - **DOUZE contournements interdits G1→G12**, dont **G9 « absence d'échec enregistré =
+    absence d'échec »** et **G12 « ajouter un bloc de rappel aux 313 journées ferait passer le
+    FREE_RECALL de 52 à 365 sans qu'aucune propriété ne change »**.
+  - **12 critères BLOQUANTS B1→B12** (dont **B12 : `READY` interdit si le scheduler n'est pas
+    réellement utilisé par le produit**) et **5 NON bloquants N1→N5**. **N1 et N2 —
+    l'espacement — sont délibérément NON bloquants** : le CP0 a montré que la cause dominante
+    est le rattachement des leçons (défaut de curriculum `P1-CP13-1` de V73), et les rendre
+    bloquants forcerait V74 à modifier le curriculum pour verdir une métrique de rétention.
+  - **4 hypothèses déclarées non prouvées** (H1→H4) et **4 incertitudes**, dont
+    `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`, **inchangé par V74**.
 
 ## Mesures BEFORE (CP0, à ne jamais reconstruire)
 
@@ -64,12 +107,14 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP1** : aucun fichier de produit. Créé : `docs/v74/V74-RETENTION-CONTRACT-FROZEN.md`.
 - **CP0** : aucun fichier de produit. Créés : `scripts/v74/cp0-forensics.mjs`,
   `scripts/v74/cp0-learner-fields.json`, `docs/v74/cp0-forensics.json`,
   `docs/v74/V74-CP0-RETENTION-FORENSICS.md`, `docs/v74/V74-STATE.md`.
 
 ## Tests exécutés
 
+- **CP1** : document seul, aucun code modifié — aucun test à rejouer.
 - **CP0** : lecture seule, aucun test rejoué (état hérité de V73 : 1420/1420 · tsc 0 ·
   52 portes · build OK · 376/376).
 
@@ -94,6 +139,23 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP1** — **contrat gelé. Aucun fichier de produit modifié.**
+  - La décision qui commande tout le sprint : **`ExerciseAttempt` devient un fait canonique**,
+    parce que *le système persiste la projection et jette le fait*. Quand l'exercice échoue, il
+    n'y a pas de projection à écrire — donc rien n'est écrit. C'est la cause exacte du constat
+    CP0 « le système n'a jamais observé un échec ».
+  - **Une mesure a tranché l'option C** : 207/376 exercices sont rattachables à un concept par
+    déclaration ; les 169 autres ont une médiane de **3** leçons candidates, jusqu'à 15.
+    L'équivalence automatique exercice → rappel est donc **refusée**, remplacée par la règle
+    qualifiée `DERIVED_RECALL` à quatre conditions.
+  - **Les cinq statuts sont déclarés SANS rapport avec une probabilité de mémoire** — ce sont
+    des états de planification, et le contrat l'écrit en tête de section.
+  - **Les trois mécanismes existants reçoivent des responsabilités disjointes** plutôt qu'une
+    fusion : l'arbitre est au-dessus. Pas de quatrième moteur.
+  - **N1/N2 (l'espacement) sont NON bloquants, délibérément** : la cause dominante mesurée au
+    CP0 est un défaut de curriculum, pas du moteur ; les rendre bloquants pousserait V74 à
+    modifier le curriculum pour verdir une métrique — contournement G12.
 
 - **CP0** — **audit forensique, lecture seule. Aucun fichier de produit modifié.**
   - **LE FAIT QUI CHANGE LE CADRAGE : un Retention Engine EXISTE DÉJÀ depuis V66 et il est

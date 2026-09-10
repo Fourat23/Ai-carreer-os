@@ -5,19 +5,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP6**
+- **dernier CP terminé** : **CP7**
 - **CP courant** : —
-- **NEXT_CP** : **CP7** — reconception des 52 revues
-- **NEXT_ACTION** : traiter les **9 revues en dépassement** que le CP6 a diagnostiquées, en
-  **préservant** ce qui fonctionne (les 52 ont test pratique, test théorique, grille chiffrée,
-  plan de remédiation, rappel sans notes — **ne rien détruire de cela**). Deux profils distincts
-  et deux corrections différentes : **j140** est un problème de **relecture** (7 leçons,
-  171 min, pour 90 min de pratique) ; **j217** et **j357** sont des problèmes de **pratique**
-  (150 et 190 min annoncées, 4 leçons seulement). Les six autres (j7, j21, j224, j231, j238,
-  j252) cumulent 130–150 min de pratique et 112–151 min de relecture.
-  **Réduire la relecture passive là où le rappel actif suffit**, et **budgéter** la relecture
-  qui reste. Mesurer BEFORE/AFTER : charge, nombre de leçons relues, retrieval actif, temps
-  depuis le dernier contact. **Le nombre de revues reste 52.**
+- **NEXT_CP** : **CP8** — préparation du Retention Engine
+- **NEXT_ACTION** : **NE PAS construire le Retention Engine.** Produire les DONNÉES qu'il
+  consommera : pour chaque compétence et concept pertinent — `firstExposure`,
+  `guidedPractice`, `independentPractice`, `application`, `reviewContacts`, `projectContacts`,
+  `lastContact`, `gapSequence`, `maxGap`, `expectedLevel`. Identifier **abandon prématuré ·
+  répétition trop locale · silence excessif · rappel trop proche · absence de transfert**.
+  **Ne corriger que les anomalies structurelles certaines** ; ne pas fabriquer une courbe
+  parfaite. Deux faits déjà mesurés à reprendre : l'**espacement médian d'1 jour** entre une
+  revue et le dernier contact (le CP7 l'a laissé au CP8), et les **fondations abandonnées** —
+  `algo` dernier contact j48, `ds` j42, `patterns` j39, `gitlinux` j73, soit 290 à 326 jours de
+  silence, alors que j365 propose de l'algorithmique. Produire
+  `docs/v73/V73-RETENTION-READINESS.md` + un artefact machine-readable.
 
 ## Repères Git
 
@@ -63,6 +64,34 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP7** — **zéro revue en dépassement (9 au CP6), et rien de ce qui fonctionnait n'a été
+  retiré.**
+  - **Conservé intégralement** : test pratique, test théorique sans notes, grille chiffrée, plan
+    de remédiation — **52/52 pour chacun**. Leçons reliées par revue **inchangées** (1/5/7).
+    **Aucune leçon retirée d'aucune revue.**
+  - **Une seule correction, dans le générateur, pour les 52** : la liste « Leçons de fond à
+    relire » devient **« Rappel actif, puis relecture ciblée »** — étape 1 de rappel, leçons
+    fermées, budget calculé (3 min/leçon, plafond 20) ; étape 2 de relecture **uniquement** de
+    ce qui n'a pas été restitué ; et le coût **écrit noir sur blanc**. **52/52 revues portent un
+    rappel actif budgété (AVANT : 0).**
+  - **TROIS CONTRIBUTIONS PUBLIÉES SÉPARÉMENT**, pour ne pas s'attribuer un gain de mesure :
+    CP6 = 3 IMPOSSIBLE + 6 HEAVY ; texte APRÈS mais **apprenant qui relit tout** = 2 + 4 (gain
+    réel mais modeste) ; texte APRÈS **consigne suivie** = **0 + 0**. **Aucun seuil déplacé.**
+  - **Déciles des revues** : borne haute médiane **248 → 186**, P90 **314 → 264**, max
+    **373 → 291** (sous le budget).
+  - **DEUX ANOMALIES DE SONDE (n° 15 et 16)**, trouvées en mesurant la correction. **n° 15** :
+    le bloc de rappel contient ses propres minutes, ramassées par le scan de minutage de la
+    **pratique** — moyenne des revues 129 → **180 min sans qu'aucun exercice change**, six
+    revues devenues HEAVY pour cette seule raison. **n° 16** : la revue **j357** écrit
+    « **Chaque jour** : 2 exercices de 25 min … **Fin de semaine** : 60 min » et le modèle
+    sommait ces **190 min sur la seule journée**. Règle de **portée hebdomadaire** que le
+    contrat V72 portait déjà, restaurée ; **une seule revue sur 52** concernée.
+  - **Laissé au CP8, explicitement** : l'**espacement** reste à **1 jour de médiane**. Le
+    corriger demande de décider quoi rappeler quand — c'est le modèle de contacts du CP8, pas un
+    bricolage dans une revue. Ce que le CP7 lui apporte : la revue demande maintenant une
+    **récupération sans support**, seule opération dont un moteur de rétention tire un signal.
+  - **Corpus INCHANGÉ** (`92d5fae6…`) — aucune leçon touchée. **L1 = 0 · L2 = 0/52 · L3 = 0.**
 
 - **CP6** — **modèle de charge décomposé. Aucune journée structurellement impossible : le CP6
   n'a rien à corriger, et c'est le résultat correct.**
@@ -257,3 +286,5 @@ jamais le créer.
   (2 leçons modifiées, 9 gels regelés).
 - **CP5** : mesure seule, aucun fichier de produit modifié — porte V73 verte, corpus inchangé.
 - **CP6** : mesure seule, aucun fichier de produit modifié — corpus inchangé (`92d5fae6…`).
+- **CP7** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
+  **inchangé** (seuls le générateur et les 365 journées générées changent).

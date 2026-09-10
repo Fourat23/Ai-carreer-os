@@ -397,8 +397,27 @@ function renderDay(day) {
     // chemin vers ce qu'elles demandent de réviser.
     const aReviser = lessonsOf(day);
     if (aReviser.length) {
-      L.push('### Leçons de fond à relire cette semaine');
+      // V73 · CP7 — De la RELECTURE au RAPPEL ACTIF, et la relecture enfin BUDGÉTÉE.
+      //
+      // Le CP6 a mesuré le défaut : ces revues annoncent 130 à 190 minutes de pratique,
+      // et y ajoutent 82 à 171 minutes de relecture qui ne figurent dans AUCUN compte.
+      // Une liste de liens intitulée « à relire » demande implicitement de tout relire.
+      //
+      // Ce qui change ici n'est pas la liste — elle reste entière, rien n'est retiré —
+      // mais l'ORDRE DE TRAVAIL : on récupère d'abord de mémoire, on ne rouvre que ce
+      // qu'on n'a pas su restituer. C'est la seule opération de cette journée qui produit
+      // de la rétention plutôt que de la reconnaissance, et elle coûte moins cher.
+      const nb = aReviser.length;
+      const minutesRappel = Math.min(20, 3 * nb);
+      L.push('### Rappel actif, puis relecture ciblée');
+      L.push('');
+      L.push(`**Étape 1 — rappel actif (${minutesRappel} min), leçons FERMÉES.** Pour chacune des ${nb === 1 ? 'la leçon' : `${nb} leçons`} ci-dessous, écris de mémoire, en deux lignes : ce qu'elle enseigne, et **la condition dans laquelle sa règle cesse de valoir**. Ce que tu n'arrives pas à écrire est exactement ce que tu n'as pas retenu.`);
+      L.push('');
+      L.push('**Étape 2 — relecture ciblée, et elle seule.** Rouvre uniquement les leçons que tu n\'as pas su restituer à l\'étape 1. En général une ou deux, pas la liste entière : relire ce qu\'on sait déjà donne un sentiment de maîtrise sans rien ajouter à la mémoire.');
+      L.push('');
       for (const f of aReviser) L.push(`- [${lessonTitle(f)}](/doc/lessons/${f.replace(/\.md$/, '')})`);
+      L.push('');
+      L.push(`> **Ce que cette étape coûte, écrit noir sur blanc.** Le rappel actif : ${minutesRappel} min. La relecture ciblée : environ 25 min par leçon rouverte, et tu ne devrais pas en rouvrir plus de deux. **Relire les ${nb} intégralement n'est pas ce qui est demandé** — ce serait plus long, et moins efficace.`);
       L.push('');
     }
     // Enrichissement optionnel des revues (synthèse, grille de notation,

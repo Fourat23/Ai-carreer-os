@@ -48,30 +48,57 @@ function decomposer(d, v, coef) {
   const md = lire(`curriculum/days/day-${n3(d.j)}.md`);
   const sol = lire(`curriculum/solutions/day-${n3(d.j)}-solution.md`);
   const guide = section(md, '## 🧭 Exemple guidé');
-  const prat = section(md, '## ✍️ Pratique autonome') || section(md, '## 🔁 Revue hebdomadaire');
+  // ANOMALIE DE SONDE PUBLIÉE (n° 15 de V73). Le bloc de rappel actif introduit au CP7 contient
+  // ses propres minutes (« rappel actif (18 min) », « environ 25 min par leçon »). Le scan de
+  // minutage de la PRATIQUE les a d'abord ramassées : la pratique moyenne des revues est passée
+  // de 129 à 180 minutes sans qu'aucun exercice n'ait changé, et six revues sont devenues HEAVY
+  // pour cette seule raison. Le bloc de rappel est donc RETIRÉ de la portée du minutage de
+  // pratique — il est compté à part, une fois, dans le poste de relecture.
+  let prat = section(md, '## ✍️ Pratique autonome') || section(md, '## 🔁 Revue hebdomadaire');
+  const iRappel = prat.indexOf('### Rappel actif');
+  if (iRappel >= 0) {
+    const fin = prat.indexOf('\n### ', iRappel + 1);
+    prat = prat.slice(0, iRappel) + (fin < 0 ? '' : prat.slice(fin));
+  }
 
   const pLectureJour = minutes(md, v) - minutes(guide, v);   // le guidé est compté à part
   const pCorrection = minutes(sol, v);
-  const pLecons = d.lecons.map((s) => minutes(lecon(s), v)).reduce((a, b) => a + b, 0) * (d.revue ? coef : 1);
+  // V73 · CP7 — une revue qui MINUTE explicitement sa révision est comptée sur ce qu'elle
+  // demande, exactement comme une pratique qui minute ses étapes. Le texte dit : rappel actif
+  // de N minutes, leçons fermées, puis relecture ciblée d'AU PLUS DEUX leçons à ~25 min.
+  // Relire la liste entière n'est plus ce qui est demandé — et le texte le dit explicitement.
+  // Les deux lectures sont publiées : `lectureLeconsSiToutRelu` conserve l'ancien calcul.
+  const brut = d.lecons.map((s) => minutes(lecon(s), v)).reduce((a, b) => a + b, 0) * (d.revue ? coef : 1);
+  const mRappel = d.revue ? (md.match(/rappel actif \((\d+) min\)/i)?.[1] ?? null) : null;
+  const pLecons = mRappel ? +mRappel + 25 : brut;          // borne basse : une leçon rouverte
+  const pLeconsHaut = mRappel ? +mRappel + 50 : brut;      // borne haute : deux leçons
   const pGuideBas = minutes(guide, v) * 0.5, pGuideHaut = minutes(guide, v) * 1.5;
 
   const etapes = Math.max((prat.match(/^\s*\d+[.)]\s/gm) ?? []).length, (prat.match(/^\s*\*\*[A-E][.)]/gm) ?? []).length);
-  const minute = [...prat.matchAll(/(\d{2,3})\s*min/g)].map((m) => +m[1]).reduce((a, b) => a + b, 0);
+  // ANOMALIE DE SONDE PUBLIÉE (n° 16 de V73) — et c'est une règle que le contrat V72 portait
+  // déjà : le MINUTAGE À PORTÉE HEBDOMADAIRE ne se compte pas sur une journée. La revue j357
+  // écrit « Chaque jour : 2 exercices algo de 25 min … Fin de semaine : simulation de 60 min » :
+  // le modèle sommait 190 minutes sur la seule journée de revue, et j357 restait la dernière
+  // revue en dépassement pour cette seule raison. Une phrase qui dit « chaque jour » décrit la
+  // semaine, pas le jour. La portée hebdomadaire est donc exclue du minutage journalier.
+  const portéeHebdo = /[Cc]haque jour|[Pp]ar jour|dans la semaine|sur la semaine|[Ff]in de semaine/.test(prat);
+  const minute = portéeHebdo ? 0 : [...prat.matchAll(/(\d{2,3})\s*min/g)].map((m) => +m[1]).reduce((a, b) => a + b, 0);
   const [b0, b1] = BASE[d.difficulte] ?? BASE[3];
   const sup = Math.max(0, etapes - 3);
   let pPratBas = b0 + sup * 8, pPratHaut = b1 + sup * 15;
-  const source = minute >= 30 ? 'minutage explicite' : 'fourchette par difficulté';
+  const source = portéeHebdo ? 'portée hebdomadaire — minutage journalier exclu' : minute >= 30 ? 'minutage explicite' : 'fourchette par difficulté';
   if (minute >= 30) { pPratBas = Math.max(pPratBas, minute); pPratHaut = Math.max(pPratHaut, Math.round(minute * 1.4)); }
   const pReflexBas = /Questions de réflexion/.test(md) ? 10 : 0;
   const pReflexHaut = /Questions de réflexion/.test(md) ? 20 : 0;
 
   const bas = Math.round(pLectureJour + pCorrection + pLecons + pGuideBas + pPratBas + pReflexBas);
-  const haut = Math.round(pLectureJour + pCorrection + pLecons + pGuideHaut + pPratHaut + pReflexHaut);
+  const haut = Math.round(pLectureJour + pCorrection + pLeconsHaut + pGuideHaut + pPratHaut + pReflexHaut);
   const cat = bas > BUDGET[1] ? 'IMPOSSIBLE' : haut > BUDGET[1] ? 'HEAVY' : haut >= BUDGET[0] * 0.55 ? 'BALANCED' : 'UNDERLOADED';
   return {
     postes: {
       lectureJour: Math.round(pLectureJour), correction: Math.round(pCorrection),
-      lectureLecons: Math.round(pLecons), guide: [Math.round(pGuideBas), Math.round(pGuideHaut)],
+      lectureLecons: Math.round(pLecons), lectureLeconsHaut: Math.round(pLeconsHaut),
+      lectureLeconsSiToutRelu: Math.round(brut), rappelActifMinute: mRappel ? +mRappel : null, guide: [Math.round(pGuideBas), Math.round(pGuideHaut)],
       pratique: [pPratBas, pPratHaut], sourcePratique: source, etapes, minuteAnnonce: minute,
       reflexion: [pReflexBas, pReflexHaut], setup: 'NON MESURÉ',
     },

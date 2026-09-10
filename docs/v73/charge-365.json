@@ -12,47 +12,45 @@
   "attentive·relecture0.5"
  ],
  "categories": {
-  "BALANCED": 350,
-  "HEAVY": 6,
-  "UNDERLOADED": 6,
-  "IMPOSSIBLE": 3
+  "BALANCED": 362,
+  "UNDERLOADED": 3
  },
  "sensibilite": {
   "rapide·relecture1": {
    "IMPOSSIBLE": 0,
-   "HEAVY": 4,
-   "BALANCED": 349,
-   "UNDERLOADED": 12
+   "HEAVY": 0,
+   "BALANCED": 357,
+   "UNDERLOADED": 8
   },
   "rapide·relecture0.5": {
    "IMPOSSIBLE": 0,
-   "HEAVY": 1,
-   "BALANCED": 345,
-   "UNDERLOADED": 19
+   "HEAVY": 0,
+   "BALANCED": 357,
+   "UNDERLOADED": 8
   },
   "normale·relecture1": {
-   "IMPOSSIBLE": 3,
-   "HEAVY": 6,
-   "BALANCED": 350,
-   "UNDERLOADED": 6
+   "IMPOSSIBLE": 0,
+   "HEAVY": 0,
+   "BALANCED": 362,
+   "UNDERLOADED": 3
   },
   "normale·relecture0.5": {
    "IMPOSSIBLE": 0,
-   "HEAVY": 1,
-   "BALANCED": 355,
-   "UNDERLOADED": 9
+   "HEAVY": 0,
+   "BALANCED": 362,
+   "UNDERLOADED": 3
   },
   "attentive·relecture1": {
-   "IMPOSSIBLE": 12,
-   "HEAVY": 55,
-   "BALANCED": 295,
-   "UNDERLOADED": 3
+   "IMPOSSIBLE": 0,
+   "HEAVY": 44,
+   "BALANCED": 319,
+   "UNDERLOADED": 2
   },
   "attentive·relecture0.5": {
    "IMPOSSIBLE": 0,
-   "HEAVY": 48,
-   "BALANCED": 311,
-   "UNDERLOADED": 6
+   "HEAVY": 44,
+   "BALANCED": 319,
+   "UNDERLOADED": 2
   }
  },
  "statsTravail": {
@@ -75,20 +73,20 @@
  },
  "statsRevues": {
   "bas": {
-   "P10": 118,
-   "P25": 178,
-   "mediane": 210,
-   "P75": 244,
-   "P90": 271,
-   "max": 313
+   "P10": 90,
+   "P25": 98,
+   "mediane": 131,
+   "P75": 144,
+   "P90": 185,
+   "max": 206
   },
   "haut": {
-   "P10": 158,
-   "P25": 215,
-   "mediane": 248,
-   "P75": 292,
-   "P90": 314,
-   "max": 373
+   "P10": 153,
+   "P25": 156,
+   "mediane": 186,
+   "P75": 227,
+   "P90": 264,
+   "max": 291
   }
  },
  "structurellementImpossibles": [],
@@ -103,6 +101,9 @@
     "lectureJour": 9,
     "correction": 3,
     "lectureLecons": 67,
+    "lectureLeconsHaut": 67,
+    "lectureLeconsSiToutRelu": 67,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -144,6 +145,9 @@
     "lectureJour": 9,
     "correction": 3,
     "lectureLecons": 67,
+    "lectureLeconsHaut": 67,
+    "lectureLeconsSiToutRelu": 67,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -185,6 +189,9 @@
     "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 67,
+    "lectureLeconsHaut": 67,
+    "lectureLeconsSiToutRelu": 67,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -226,6 +233,9 @@
     "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -267,6 +277,9 @@
     "lectureJour": 8,
     "correction": 4,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -308,6 +321,9 @@
     "lectureJour": 9,
     "correction": 4,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -346,39 +362,42 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 131,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 131,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     130,
-     182
+     83,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 9,
-    "minuteAnnonce": 130,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 273,
-   "haut": 325,
-   "cat": "HEAVY",
+   "bas": 139,
+   "haut": 231,
+   "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "HEAVY",
+    "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 1
+   "nImpossible": 0
   },
   {
    "j": 8,
@@ -390,6 +409,9 @@
     "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -431,6 +453,9 @@
     "lectureJour": 9,
     "correction": 4,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -472,6 +497,9 @@
     "lectureJour": 9,
     "correction": 4,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -513,6 +541,9 @@
     "lectureJour": 8,
     "correction": 4,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -554,6 +585,9 @@
     "lectureJour": 9,
     "correction": 4,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -595,6 +629,9 @@
     "lectureJour": 9,
     "correction": 4,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -633,9 +670,12 @@
    "nlec": 3,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
+    "lectureJour": 9,
     "correction": 3,
-    "lectureLecons": 64,
+    "lectureLecons": 34,
+    "lectureLeconsHaut": 59,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": 9,
     "guide": [
      0,
      0
@@ -653,8 +693,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 174,
-   "haut": 224,
+   "bas": 146,
+   "haut": 221,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -677,6 +717,9 @@
     "lectureJour": 9,
     "correction": 4,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -718,6 +761,9 @@
     "lectureJour": 9,
     "correction": 4,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -759,6 +805,9 @@
     "lectureJour": 9,
     "correction": 5,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -800,6 +849,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 67,
+    "lectureLeconsHaut": 67,
+    "lectureLeconsSiToutRelu": 67,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -841,6 +893,9 @@
     "lectureJour": 10,
     "correction": 5,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -882,6 +937,9 @@
     "lectureJour": 10,
     "correction": 5,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -920,9 +978,12 @@
    "nlec": 5,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 112,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 112,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
@@ -940,19 +1001,19 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 258,
-   "haut": 312,
-   "cat": "HEAVY",
+   "bas": 188,
+   "haut": 267,
+   "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "HEAVY",
+    "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 1
+   "nImpossible": 0
   },
   {
    "j": 22,
@@ -964,6 +1025,9 @@
     "lectureJour": 9,
     "correction": 4,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -1005,6 +1069,9 @@
     "lectureJour": 9,
     "correction": 4,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -1046,6 +1113,9 @@
     "lectureJour": 10,
     "correction": 5,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -1087,6 +1157,9 @@
     "lectureJour": 10,
     "correction": 5,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -1128,6 +1201,9 @@
     "lectureJour": 10,
     "correction": 5,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -1169,6 +1245,9 @@
     "lectureJour": 10,
     "correction": 5,
     "lectureLecons": 64,
+    "lectureLeconsHaut": 64,
+    "lectureLeconsSiToutRelu": 64,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -1207,9 +1286,12 @@
    "nlec": 5,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
+    "lectureJour": 9,
     "correction": 3,
-    "lectureLecons": 108,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 108,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
@@ -1227,15 +1309,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 224,
-   "haut": 269,
+   "bas": 157,
+   "haut": 227,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -1251,6 +1333,9 @@
     "lectureJour": 10,
     "correction": 5,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -1292,6 +1377,9 @@
     "lectureJour": 9,
     "correction": 5,
     "lectureLecons": 49,
+    "lectureLeconsHaut": 49,
+    "lectureLeconsSiToutRelu": 49,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -1333,6 +1421,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 50,
+    "lectureLeconsHaut": 50,
+    "lectureLeconsSiToutRelu": 50,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -1374,6 +1465,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      2,
      5
@@ -1415,6 +1509,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 27,
+    "lectureLeconsHaut": 27,
+    "lectureLeconsSiToutRelu": 27,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -1456,6 +1553,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 50,
+    "lectureLeconsHaut": 50,
+    "lectureLeconsSiToutRelu": 50,
+    "rappelActifMinute": null,
     "guide": [
      2,
      6
@@ -1494,28 +1594,31 @@
    "nlec": 3,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 72,
+    "lectureLecons": 34,
+    "lectureLeconsHaut": 59,
+    "lectureLeconsSiToutRelu": 72,
+    "rappelActifMinute": 9,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     105,
-     147
+     51,
+     90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 5,
-    "minuteAnnonce": 105,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 186,
-   "haut": 228,
+   "bas": 95,
+   "haut": 159,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -1538,6 +1641,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 21,
+    "lectureLeconsHaut": 21,
+    "lectureLeconsSiToutRelu": 21,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -1579,6 +1685,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 21,
+    "lectureLeconsHaut": 21,
+    "lectureLeconsSiToutRelu": 21,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -1620,6 +1729,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 46,
+    "lectureLeconsHaut": 46,
+    "lectureLeconsSiToutRelu": 46,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -1661,6 +1773,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -1702,6 +1817,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 26,
+    "lectureLeconsHaut": 26,
+    "lectureLeconsSiToutRelu": 26,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -1743,6 +1861,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -1781,9 +1902,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 134,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 134,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -1801,8 +1925,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 218,
-   "haut": 248,
+   "bas": 128,
+   "haut": 183,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -1825,6 +1949,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 46,
+    "lectureLeconsHaut": 46,
+    "lectureLeconsSiToutRelu": 46,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -1866,6 +1993,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 46,
+    "lectureLeconsHaut": 46,
+    "lectureLeconsSiToutRelu": 46,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -1907,6 +2037,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 46,
+    "lectureLeconsHaut": 46,
+    "lectureLeconsSiToutRelu": 46,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -1948,6 +2081,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 26,
+    "lectureLeconsHaut": 26,
+    "lectureLeconsSiToutRelu": 26,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -1989,6 +2125,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2030,6 +2169,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -2068,9 +2210,12 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 154,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 154,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -2088,15 +2233,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 238,
-   "haut": 268,
+   "bas": 131,
+   "haut": 186,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -2112,6 +2257,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 24,
+    "lectureLeconsHaut": 24,
+    "lectureLeconsSiToutRelu": 24,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2153,6 +2301,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 61,
+    "lectureLeconsHaut": 61,
+    "lectureLeconsSiToutRelu": 61,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2194,6 +2345,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -2235,6 +2389,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 50,
+    "lectureLeconsHaut": 50,
+    "lectureLeconsSiToutRelu": 50,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -2276,6 +2433,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 42,
+    "lectureLeconsHaut": 42,
+    "lectureLeconsSiToutRelu": 42,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -2317,6 +2477,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2355,9 +2518,12 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 155,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 155,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -2375,15 +2541,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 216,
-   "haut": 255,
+   "bas": 107,
+   "haut": 171,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -2399,6 +2565,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 50,
+    "lectureLeconsHaut": 50,
+    "lectureLeconsSiToutRelu": 50,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2440,6 +2609,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2481,6 +2653,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2522,6 +2697,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2563,6 +2741,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2604,6 +2785,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 50,
+    "lectureLeconsHaut": 50,
+    "lectureLeconsSiToutRelu": 50,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -2642,9 +2826,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 139,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 139,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -2662,8 +2849,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 209,
-   "haut": 239,
+   "bas": 114,
+   "haut": 169,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -2686,6 +2873,9 @@
     "lectureJour": 10,
     "correction": 4,
     "lectureLecons": 43,
+    "lectureLeconsHaut": 43,
+    "lectureLeconsSiToutRelu": 43,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2727,6 +2917,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -2768,6 +2961,9 @@
     "lectureJour": 15,
     "correction": 4,
     "lectureLecons": 42,
+    "lectureLeconsHaut": 42,
+    "lectureLeconsSiToutRelu": 42,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -2809,6 +3005,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2850,6 +3049,9 @@
     "lectureJour": 14,
     "correction": 4,
     "lectureLecons": 48,
+    "lectureLeconsHaut": 48,
+    "lectureLeconsSiToutRelu": 48,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -2891,6 +3093,9 @@
     "lectureJour": 14,
     "correction": 4,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -2929,9 +3134,12 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 156,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 156,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -2949,15 +3157,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 241,
-   "haut": 271,
+   "bas": 131,
+   "haut": 186,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -2973,6 +3181,9 @@
     "lectureJour": 14,
     "correction": 4,
     "lectureLecons": 137,
+    "lectureLeconsHaut": 137,
+    "lectureLeconsSiToutRelu": 137,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3014,6 +3225,9 @@
     "lectureJour": 14,
     "correction": 4,
     "lectureLecons": 92,
+    "lectureLeconsHaut": 92,
+    "lectureLeconsSiToutRelu": 92,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3055,6 +3269,9 @@
     "lectureJour": 12,
     "correction": 4,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3096,6 +3313,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 63,
+    "lectureLeconsHaut": 63,
+    "lectureLeconsSiToutRelu": 63,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3137,6 +3357,9 @@
     "lectureJour": 12,
     "correction": 4,
     "lectureLecons": 51,
+    "lectureLeconsHaut": 51,
+    "lectureLeconsSiToutRelu": 51,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3178,6 +3401,9 @@
     "lectureJour": 12,
     "correction": 4,
     "lectureLecons": 92,
+    "lectureLeconsHaut": 92,
+    "lectureLeconsSiToutRelu": 92,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3216,9 +3442,12 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 159,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 159,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -3236,19 +3465,19 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 244,
-   "haut": 274,
+   "bas": 131,
+   "haut": 186,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 1
+   "nImpossible": 0
   },
   {
    "j": 78,
@@ -3260,6 +3489,9 @@
     "lectureJour": 16,
     "correction": 4,
     "lectureLecons": 50,
+    "lectureLeconsHaut": 50,
+    "lectureLeconsSiToutRelu": 50,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3301,6 +3533,9 @@
     "lectureJour": 15,
     "correction": 4,
     "lectureLecons": 155,
+    "lectureLeconsHaut": 155,
+    "lectureLeconsSiToutRelu": 155,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -3342,6 +3577,9 @@
     "lectureJour": 19,
     "correction": 4,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -3383,6 +3621,9 @@
     "lectureJour": 17,
     "correction": 4,
     "lectureLecons": 75,
+    "lectureLeconsHaut": 75,
+    "lectureLeconsSiToutRelu": 75,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3424,6 +3665,9 @@
     "lectureJour": 11,
     "correction": 4,
     "lectureLecons": 18,
+    "lectureLeconsHaut": 18,
+    "lectureLeconsSiToutRelu": 18,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3465,6 +3709,9 @@
     "lectureJour": 12,
     "correction": 4,
     "lectureLecons": 40,
+    "lectureLeconsHaut": 40,
+    "lectureLeconsSiToutRelu": 40,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3503,9 +3750,12 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 166,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 166,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -3523,19 +3773,19 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 251,
-   "haut": 281,
+   "bas": 131,
+   "haut": 186,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 1
+   "nImpossible": 0
   },
   {
    "j": 85,
@@ -3547,6 +3797,9 @@
     "lectureJour": 17,
     "correction": 4,
     "lectureLecons": 70,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 70,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3588,6 +3841,9 @@
     "lectureJour": 12,
     "correction": 4,
     "lectureLecons": 61,
+    "lectureLeconsHaut": 61,
+    "lectureLeconsSiToutRelu": 61,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3629,6 +3885,9 @@
     "lectureJour": 13,
     "correction": 4,
     "lectureLecons": 112,
+    "lectureLeconsHaut": 112,
+    "lectureLeconsSiToutRelu": 112,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -3670,6 +3929,9 @@
     "lectureJour": 12,
     "correction": 4,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -3711,6 +3973,9 @@
     "lectureJour": 12,
     "correction": 4,
     "lectureLecons": 46,
+    "lectureLeconsHaut": 46,
+    "lectureLeconsSiToutRelu": 46,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -3752,6 +4017,9 @@
     "lectureJour": 12,
     "correction": 4,
     "lectureLecons": 40,
+    "lectureLeconsHaut": 40,
+    "lectureLeconsSiToutRelu": 40,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3790,9 +4058,12 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 158,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 158,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -3801,7 +4072,7 @@
      43,
      75
     ],
-    "sourcePratique": "fourchette par difficulté",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 4,
     "minuteAnnonce": 0,
     "reflexion": [
@@ -3810,8 +4081,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 210,
-   "haut": 242,
+   "bas": 98,
+   "haut": 155,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -3834,6 +4105,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3875,6 +4149,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3916,6 +4193,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3957,6 +4237,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 55,
+    "lectureLeconsHaut": 55,
+    "lectureLeconsSiToutRelu": 55,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -3998,6 +4281,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 53,
+    "lectureLeconsHaut": 53,
+    "lectureLeconsSiToutRelu": 53,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -4039,6 +4325,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 67,
+    "lectureLeconsHaut": 67,
+    "lectureLeconsSiToutRelu": 67,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -4077,9 +4366,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 150,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 150,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -4097,15 +4389,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 234,
-   "haut": 264,
+   "bas": 128,
+   "haut": 183,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -4121,6 +4413,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 46,
+    "lectureLeconsHaut": 46,
+    "lectureLeconsSiToutRelu": 46,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4162,6 +4457,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4203,6 +4501,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4244,6 +4545,9 @@
     "lectureJour": 10,
     "correction": 2,
     "lectureLecons": 94,
+    "lectureLeconsHaut": 94,
+    "lectureLeconsSiToutRelu": 94,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4285,6 +4589,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 145,
+    "lectureLeconsHaut": 145,
+    "lectureLeconsSiToutRelu": 145,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4326,6 +4633,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 99,
+    "lectureLeconsHaut": 99,
+    "lectureLeconsSiToutRelu": 99,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4364,39 +4674,42 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 185,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 185,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     75,
-     105
+     51,
+     90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 5,
-    "minuteAnnonce": 75,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 269,
-   "haut": 299,
+   "bas": 106,
+   "haut": 170,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 1
+   "nImpossible": 0
   },
   {
    "j": 106,
@@ -4408,6 +4721,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 20,
+    "lectureLeconsHaut": 20,
+    "lectureLeconsSiToutRelu": 20,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4449,6 +4765,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 50,
+    "lectureLeconsHaut": 50,
+    "lectureLeconsSiToutRelu": 50,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4490,6 +4809,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 20,
+    "lectureLeconsHaut": 20,
+    "lectureLeconsSiToutRelu": 20,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4531,6 +4853,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 26,
+    "lectureLeconsHaut": 26,
+    "lectureLeconsSiToutRelu": 26,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4572,6 +4897,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 49,
+    "lectureLeconsHaut": 49,
+    "lectureLeconsSiToutRelu": 49,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -4613,6 +4941,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 54,
+    "lectureLeconsHaut": 54,
+    "lectureLeconsSiToutRelu": 54,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4651,9 +4982,12 @@
    "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 100,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 100,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -4671,8 +5005,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 200,
-   "haut": 236,
+   "bas": 138,
+   "haut": 199,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -4695,6 +5029,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 48,
+    "lectureLeconsHaut": 48,
+    "lectureLeconsSiToutRelu": 48,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4736,6 +5073,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4777,6 +5117,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -4818,6 +5161,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 20,
+    "lectureLeconsHaut": 20,
+    "lectureLeconsSiToutRelu": 20,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4859,6 +5205,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 47,
+    "lectureLeconsHaut": 47,
+    "lectureLeconsSiToutRelu": 47,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4900,6 +5249,9 @@
     "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 47,
+    "lectureLeconsHaut": 47,
+    "lectureLeconsSiToutRelu": 47,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -4938,9 +5290,12 @@
    "nlec": 2,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 2,
-    "lectureLecons": 45,
+    "lectureLecons": 31,
+    "lectureLeconsHaut": 56,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": 6,
     "guide": [
      0,
      0
@@ -4958,12 +5313,12 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 113,
-   "haut": 159,
+   "bas": 100,
+   "haut": 171,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "UNDERLOADED",
+    "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
@@ -4982,6 +5337,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 18,
+    "lectureLeconsHaut": 18,
+    "lectureLeconsSiToutRelu": 18,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5023,6 +5381,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 18,
+    "lectureLeconsHaut": 18,
+    "lectureLeconsSiToutRelu": 18,
+    "rappelActifMinute": null,
     "guide": [
      2,
      5
@@ -5064,6 +5425,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 42,
+    "lectureLeconsHaut": 42,
+    "lectureLeconsSiToutRelu": 42,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5105,6 +5469,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 44,
+    "lectureLeconsHaut": 44,
+    "lectureLeconsSiToutRelu": 44,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5146,6 +5513,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 20,
+    "lectureLeconsHaut": 20,
+    "lectureLeconsSiToutRelu": 20,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5187,6 +5557,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 18,
+    "lectureLeconsHaut": 18,
+    "lectureLeconsSiToutRelu": 18,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5225,36 +5598,39 @@
    "nlec": 1,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 18,
+    "lectureLecons": 28,
+    "lectureLeconsHaut": 53,
+    "lectureLeconsSiToutRelu": 18,
+    "rappelActifMinute": 3,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     60,
+     51,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 5,
-    "minuteAnnonce": 60,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 87,
-   "haut": 117,
-   "cat": "UNDERLOADED",
+   "bas": 89,
+   "haut": 153,
+   "cat": "BALANCED",
    "catsParHypothese": {
-    "rapide·relecture1": "UNDERLOADED",
-    "rapide·relecture0.5": "UNDERLOADED",
-    "normale·relecture1": "UNDERLOADED",
-    "normale·relecture0.5": "UNDERLOADED",
-    "attentive·relecture1": "UNDERLOADED",
-    "attentive·relecture0.5": "UNDERLOADED"
+    "rapide·relecture1": "BALANCED",
+    "rapide·relecture0.5": "BALANCED",
+    "normale·relecture1": "BALANCED",
+    "normale·relecture0.5": "BALANCED",
+    "attentive·relecture1": "BALANCED",
+    "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -5269,6 +5645,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 24,
+    "lectureLeconsHaut": 24,
+    "lectureLeconsSiToutRelu": 24,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5310,6 +5689,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 49,
+    "lectureLeconsHaut": 49,
+    "lectureLeconsSiToutRelu": 49,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5351,6 +5733,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 24,
+    "lectureLeconsHaut": 24,
+    "lectureLeconsSiToutRelu": 24,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5392,6 +5777,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 24,
+    "lectureLeconsHaut": 24,
+    "lectureLeconsSiToutRelu": 24,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5433,6 +5821,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 49,
+    "lectureLeconsHaut": 49,
+    "lectureLeconsSiToutRelu": 49,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5474,6 +5865,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 51,
+    "lectureLeconsHaut": 51,
+    "lectureLeconsSiToutRelu": 51,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5512,32 +5906,35 @@
    "nlec": 2,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 42,
+    "lectureLecons": 31,
+    "lectureLeconsHaut": 56,
+    "lectureLeconsSiToutRelu": 42,
+    "rappelActifMinute": 6,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     75,
-     105
+     51,
+     90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 5,
-    "minuteAnnonce": 75,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 126,
+   "bas": 92,
    "haut": 156,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "UNDERLOADED",
+    "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
@@ -5556,6 +5953,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5597,6 +5997,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 73,
+    "lectureLeconsHaut": 73,
+    "lectureLeconsSiToutRelu": 73,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5638,6 +6041,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 51,
+    "lectureLeconsHaut": 51,
+    "lectureLeconsSiToutRelu": 51,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5679,6 +6085,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5720,6 +6129,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 26,
+    "lectureLeconsHaut": 26,
+    "lectureLeconsSiToutRelu": 26,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5761,6 +6173,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 47,
+    "lectureLeconsHaut": 47,
+    "lectureLeconsSiToutRelu": 47,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5799,39 +6214,42 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 171,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 171,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     90,
-     126
+     51,
+     90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 5,
-    "minuteAnnonce": 90,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 271,
-   "haut": 307,
-   "cat": "HEAVY",
+   "bas": 106,
+   "haut": 170,
+   "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "HEAVY",
+    "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 1
+   "nImpossible": 0
   },
   {
    "j": 141,
@@ -5843,6 +6261,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 51,
+    "lectureLeconsHaut": 51,
+    "lectureLeconsSiToutRelu": 51,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -5884,6 +6305,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 26,
+    "lectureLeconsHaut": 26,
+    "lectureLeconsSiToutRelu": 26,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5925,6 +6349,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -5966,6 +6393,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -6007,6 +6437,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 24,
+    "lectureLeconsHaut": 24,
+    "lectureLeconsSiToutRelu": 24,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6048,6 +6481,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 47,
+    "lectureLeconsHaut": 47,
+    "lectureLeconsSiToutRelu": 47,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6086,9 +6522,12 @@
    "nlec": 2,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 2,
-    "lectureLecons": 45,
+    "lectureLecons": 31,
+    "lectureLeconsHaut": 56,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": 6,
     "guide": [
      0,
      0
@@ -6106,12 +6545,12 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 112,
-   "haut": 158,
+   "bas": 100,
+   "haut": 171,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "UNDERLOADED",
+    "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
@@ -6130,6 +6569,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 28,
+    "lectureLeconsHaut": 28,
+    "lectureLeconsSiToutRelu": 28,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6171,6 +6613,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 28,
+    "lectureLeconsHaut": 28,
+    "lectureLeconsSiToutRelu": 28,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6212,6 +6657,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 28,
+    "lectureLeconsHaut": 28,
+    "lectureLeconsSiToutRelu": 28,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -6253,6 +6701,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 28,
+    "lectureLeconsHaut": 28,
+    "lectureLeconsSiToutRelu": 28,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -6294,6 +6745,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 53,
+    "lectureLeconsHaut": 53,
+    "lectureLeconsSiToutRelu": 53,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -6335,6 +6789,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 28,
+    "lectureLeconsHaut": 28,
+    "lectureLeconsSiToutRelu": 28,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -6373,36 +6830,39 @@
    "nlec": 1,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
     "lectureLecons": 28,
+    "lectureLeconsHaut": 53,
+    "lectureLeconsSiToutRelu": 28,
+    "rappelActifMinute": 3,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     60,
+     51,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 5,
-    "minuteAnnonce": 60,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 98,
-   "haut": 128,
-   "cat": "UNDERLOADED",
+   "bas": 89,
+   "haut": 153,
+   "cat": "BALANCED",
    "catsParHypothese": {
-    "rapide·relecture1": "UNDERLOADED",
-    "rapide·relecture0.5": "UNDERLOADED",
-    "normale·relecture1": "UNDERLOADED",
-    "normale·relecture0.5": "UNDERLOADED",
+    "rapide·relecture1": "BALANCED",
+    "rapide·relecture0.5": "BALANCED",
+    "normale·relecture1": "BALANCED",
+    "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "UNDERLOADED"
+    "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -6417,6 +6877,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6458,6 +6921,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 20,
+    "lectureLeconsHaut": 20,
+    "lectureLeconsSiToutRelu": 20,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -6499,6 +6965,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 47,
+    "lectureLeconsHaut": 47,
+    "lectureLeconsSiToutRelu": 47,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -6540,6 +7009,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6581,6 +7053,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 20,
+    "lectureLeconsHaut": 20,
+    "lectureLeconsSiToutRelu": 20,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6622,6 +7097,9 @@
     "lectureJour": 10,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -6660,28 +7138,31 @@
    "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 96,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 96,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     90,
-     126
+     51,
+     90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 5,
-    "minuteAnnonce": 90,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 195,
-   "haut": 231,
+   "bas": 98,
+   "haut": 162,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -6704,6 +7185,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6745,6 +7229,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 20,
+    "lectureLeconsHaut": 20,
+    "lectureLeconsSiToutRelu": 20,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6786,6 +7273,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 20,
+    "lectureLeconsHaut": 20,
+    "lectureLeconsSiToutRelu": 20,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6827,6 +7317,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6868,6 +7361,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 43,
+    "lectureLeconsHaut": 43,
+    "lectureLeconsSiToutRelu": 43,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -6909,6 +7405,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -6947,28 +7446,31 @@
    "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 96,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 96,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     90,
-     126
+     59,
+     105
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 6,
-    "minuteAnnonce": 90,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 196,
-   "haut": 232,
+   "bas": 106,
+   "haut": 177,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -6991,6 +7493,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 21,
+    "lectureLeconsHaut": 21,
+    "lectureLeconsSiToutRelu": 21,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -7032,6 +7537,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 46,
+    "lectureLeconsHaut": 46,
+    "lectureLeconsSiToutRelu": 46,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -7073,6 +7581,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 25,
+    "lectureLeconsHaut": 25,
+    "lectureLeconsSiToutRelu": 25,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -7114,6 +7625,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 20,
+    "lectureLeconsHaut": 20,
+    "lectureLeconsSiToutRelu": 20,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -7155,6 +7669,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -7196,6 +7713,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -7234,28 +7754,31 @@
    "nlec": 5,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 118,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 118,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     90,
-     126
+     59,
+     105
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 6,
-    "minuteAnnonce": 90,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 217,
-   "haut": 253,
+   "bas": 110,
+   "haut": 181,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -7278,6 +7801,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 47,
+    "lectureLeconsHaut": 47,
+    "lectureLeconsSiToutRelu": 47,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -7319,6 +7845,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 47,
+    "lectureLeconsHaut": 47,
+    "lectureLeconsSiToutRelu": 47,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -7360,6 +7889,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 21,
+    "lectureLeconsHaut": 21,
+    "lectureLeconsSiToutRelu": 21,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -7401,6 +7933,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 47,
+    "lectureLeconsHaut": 47,
+    "lectureLeconsSiToutRelu": 47,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -7442,6 +7977,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 23,
+    "lectureLeconsHaut": 23,
+    "lectureLeconsSiToutRelu": 23,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -7483,6 +8021,9 @@
     "lectureJour": 4,
     "correction": 1,
     "lectureLecons": 118,
+    "lectureLeconsHaut": 118,
+    "lectureLeconsSiToutRelu": 118,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -7521,9 +8062,12 @@
    "nlec": 5,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 118,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 118,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
@@ -7541,15 +8085,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 294,
+   "bas": 144,
+   "haut": 243,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -7565,6 +8109,9 @@
     "lectureJour": 5,
     "correction": 2,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -7606,6 +8153,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -7647,6 +8197,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -7688,6 +8241,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -7729,6 +8285,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -7770,6 +8329,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -7808,9 +8370,12 @@
    "nlec": 2,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 41,
+    "lectureLecons": 31,
+    "lectureLeconsHaut": 56,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": 6,
     "guide": [
      0,
      0
@@ -7828,8 +8393,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 188,
-   "haut": 242,
+   "bas": 179,
+   "haut": 258,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -7852,6 +8417,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -7893,6 +8461,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -7934,6 +8505,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -7975,6 +8549,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8016,6 +8593,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8057,6 +8637,9 @@
     "lectureJour": 5,
     "correction": 1,
     "lectureLecons": 41,
+    "lectureLeconsHaut": 41,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -8095,9 +8678,12 @@
    "nlec": 2,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 41,
+    "lectureLecons": 31,
+    "lectureLeconsHaut": 56,
+    "lectureLeconsSiToutRelu": 41,
+    "rappelActifMinute": 6,
     "guide": [
      0,
      0
@@ -8115,8 +8701,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 198,
-   "haut": 256,
+   "bas": 189,
+   "haut": 272,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8139,6 +8725,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8180,6 +8769,9 @@
     "lectureJour": 5,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8221,6 +8813,9 @@
     "lectureJour": 5,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8262,6 +8857,9 @@
     "lectureJour": 5,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8303,6 +8901,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8344,6 +8945,9 @@
     "lectureJour": 5,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8382,9 +8986,12 @@
    "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 91,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -8402,15 +9009,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 238,
-   "haut": 292,
+   "bas": 185,
+   "haut": 264,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -8426,6 +9033,9 @@
     "lectureJour": 5,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8467,6 +9077,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8508,6 +9121,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -8549,6 +9165,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8590,6 +9209,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8631,6 +9253,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8669,35 +9294,38 @@
    "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 91,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     135,
-     189
+     91,
+     165
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 10,
-    "minuteAnnonce": 135,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 238,
-   "haut": 292,
+   "bas": 141,
+   "haut": 240,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -8713,6 +9341,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8754,6 +9385,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -8795,6 +9429,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8836,6 +9473,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8877,6 +9517,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8918,6 +9561,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 91,
+    "lectureLeconsHaut": 91,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -8956,9 +9602,12 @@
    "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 91,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 91,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -8976,15 +9625,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 252,
-   "haut": 312,
-   "cat": "HEAVY",
+   "bas": 200,
+   "haut": 285,
+   "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "HEAVY",
+    "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -9000,6 +9649,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9041,6 +9693,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9082,6 +9737,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9123,6 +9781,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9164,6 +9825,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9205,6 +9869,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9243,9 +9910,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 8,
+    "lectureJour": 9,
     "correction": 3,
-    "lectureLecons": 151,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -9263,19 +9933,19 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 312,
-   "haut": 372,
-   "cat": "IMPOSSIBLE",
+   "bas": 205,
+   "haut": 290,
+   "cat": "BALANCED",
    "catsParHypothese": {
-    "rapide·relecture1": "HEAVY",
+    "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "IMPOSSIBLE",
+    "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
-    "attentive·relecture0.5": "HEAVY"
+    "attentive·relecture1": "BALANCED",
+    "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 2
+   "nImpossible": 0
   },
   {
    "j": 225,
@@ -9287,6 +9957,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9328,6 +10001,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9369,6 +10045,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -9410,6 +10089,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9451,6 +10133,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9492,6 +10177,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9530,9 +10218,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 151,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -9550,19 +10241,19 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 313,
-   "haut": 373,
-   "cat": "IMPOSSIBLE",
+   "bas": 206,
+   "haut": 291,
+   "cat": "BALANCED",
    "catsParHypothese": {
-    "rapide·relecture1": "HEAVY",
+    "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "IMPOSSIBLE",
+    "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
-    "attentive·relecture0.5": "HEAVY"
+    "attentive·relecture1": "BALANCED",
+    "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 2
+   "nImpossible": 0
   },
   {
    "j": 232,
@@ -9574,6 +10265,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9615,6 +10309,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9656,6 +10353,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9697,6 +10397,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9738,6 +10441,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -9779,6 +10485,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9817,39 +10526,42 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
-    "lectureLecons": 151,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     150,
-     210
+     91,
+     165
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 10,
-    "minuteAnnonce": 150,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 313,
-   "haut": 373,
-   "cat": "IMPOSSIBLE",
+   "bas": 147,
+   "haut": 246,
+   "cat": "BALANCED",
    "catsParHypothese": {
-    "rapide·relecture1": "HEAVY",
+    "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "IMPOSSIBLE",
+    "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
-    "attentive·relecture0.5": "HEAVY"
+    "attentive·relecture1": "BALANCED",
+    "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 2
+   "nImpossible": 0
   },
   {
    "j": 239,
@@ -9861,6 +10573,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9902,6 +10617,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9943,6 +10661,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -9984,6 +10705,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -10025,6 +10749,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10066,6 +10793,9 @@
     "lectureJour": 6,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10104,9 +10834,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 151,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -10124,19 +10857,19 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 250,
-   "haut": 286,
+   "bas": 143,
+   "haut": 204,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 1
+   "nImpossible": 0
   },
   {
    "j": 246,
@@ -10148,6 +10881,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10189,6 +10925,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10230,6 +10969,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10271,6 +11013,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -10312,6 +11057,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10353,6 +11101,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10391,9 +11142,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 151,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -10411,19 +11165,19 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 270,
-   "haut": 314,
-   "cat": "HEAVY",
+   "bas": 163,
+   "haut": 232,
+   "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "HEAVY",
+    "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 1
+   "nImpossible": 0
   },
   {
    "j": 253,
@@ -10435,6 +11189,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10476,6 +11233,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10517,6 +11277,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10558,6 +11321,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10599,6 +11365,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10640,6 +11409,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10678,9 +11450,12 @@
    "nlec": 3,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 66,
+    "lectureLecons": 34,
+    "lectureLeconsHaut": 59,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": 9,
     "guide": [
      0,
      0
@@ -10698,8 +11473,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 166,
-   "haut": 202,
+   "bas": 134,
+   "haut": 195,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -10722,6 +11497,9 @@
     "lectureJour": 7,
     "correction": 3,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -10763,6 +11541,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10804,6 +11585,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10845,6 +11629,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10886,6 +11673,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      4
@@ -10927,6 +11717,9 @@
     "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -10965,9 +11758,12 @@
    "nlec": 3,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 79,
+    "lectureLecons": 34,
+    "lectureLeconsHaut": 59,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": 9,
     "guide": [
      0,
      0
@@ -10985,8 +11781,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 178,
-   "haut": 214,
+   "bas": 134,
+   "haut": 195,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11009,6 +11805,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -11050,6 +11849,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11091,6 +11893,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11132,6 +11937,9 @@
     "lectureJour": 7,
     "correction": 3,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11173,6 +11981,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -11214,6 +12025,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11252,9 +12066,12 @@
    "nlec": 3,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 66,
+    "lectureLecons": 34,
+    "lectureLeconsHaut": 59,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": 9,
     "guide": [
      0,
      0
@@ -11272,16 +12089,16 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 118,
-   "haut": 150,
+   "bas": 86,
+   "haut": 143,
    "cat": "BALANCED",
    "catsParHypothese": {
-    "rapide·relecture1": "UNDERLOADED",
-    "rapide·relecture0.5": "UNDERLOADED",
+    "rapide·relecture1": "BALANCED",
+    "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "UNDERLOADED",
+    "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "UNDERLOADED"
+    "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -11296,6 +12113,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11337,6 +12157,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11378,6 +12201,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11419,6 +12245,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11460,6 +12289,9 @@
     "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11501,6 +12333,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -11539,9 +12374,12 @@
    "nlec": 3,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 68,
+    "lectureLecons": 34,
+    "lectureLeconsHaut": 59,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": 9,
     "guide": [
      0,
      0
@@ -11559,8 +12397,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 168,
-   "haut": 204,
+   "bas": 134,
+   "haut": 195,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11583,6 +12421,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11624,6 +12465,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11665,6 +12509,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11706,6 +12553,9 @@
     "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11747,6 +12597,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11788,6 +12641,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -11826,9 +12682,12 @@
    "nlec": 3,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 68,
+    "lectureLecons": 34,
+    "lectureLeconsHaut": 59,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": 9,
     "guide": [
      0,
      0
@@ -11846,8 +12705,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 167,
-   "haut": 203,
+   "bas": 134,
+   "haut": 195,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11870,6 +12729,9 @@
     "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 72,
+    "lectureLeconsHaut": 72,
+    "lectureLeconsSiToutRelu": 72,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11911,6 +12773,9 @@
     "lectureJour": 8,
     "correction": 3,
     "lectureLecons": 72,
+    "lectureLeconsHaut": 72,
+    "lectureLeconsSiToutRelu": 72,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -11952,6 +12817,9 @@
     "lectureJour": 9,
     "correction": 3,
     "lectureLecons": 93,
+    "lectureLeconsHaut": 93,
+    "lectureLeconsSiToutRelu": 93,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -11993,6 +12861,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 156,
+    "lectureLeconsHaut": 156,
+    "lectureLeconsSiToutRelu": 156,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12034,6 +12905,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 72,
+    "lectureLeconsHaut": 72,
+    "lectureLeconsSiToutRelu": 72,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12075,6 +12949,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 109,
+    "lectureLeconsHaut": 109,
+    "lectureLeconsSiToutRelu": 109,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12113,9 +12990,12 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 143,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 143,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -12133,15 +13013,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 242,
-   "haut": 278,
+   "bas": 146,
+   "haut": 207,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -12157,6 +13037,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12198,6 +13081,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -12239,6 +13125,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 126,
+    "lectureLeconsHaut": 126,
+    "lectureLeconsSiToutRelu": 126,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12280,6 +13169,9 @@
     "lectureJour": 10,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12321,6 +13213,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12362,6 +13257,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12400,9 +13298,12 @@
    "nlec": 5,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 126,
+    "lectureLecons": 40,
+    "lectureLeconsHaut": 65,
+    "lectureLeconsSiToutRelu": 126,
+    "rappelActifMinute": 15,
     "guide": [
      0,
      0
@@ -12420,15 +13321,15 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 226,
-   "haut": 262,
+   "bas": 141,
+   "haut": 202,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
+    "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
@@ -12444,6 +13345,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 72,
+    "lectureLeconsHaut": 72,
+    "lectureLeconsSiToutRelu": 72,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -12485,6 +13389,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 108,
+    "lectureLeconsHaut": 108,
+    "lectureLeconsSiToutRelu": 108,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12526,6 +13433,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 72,
+    "lectureLeconsHaut": 72,
+    "lectureLeconsSiToutRelu": 72,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12567,6 +13477,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 72,
+    "lectureLeconsHaut": 72,
+    "lectureLeconsSiToutRelu": 72,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12608,6 +13521,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 72,
+    "lectureLeconsHaut": 72,
+    "lectureLeconsSiToutRelu": 72,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12649,6 +13565,9 @@
     "lectureJour": 9,
     "correction": 3,
     "lectureLecons": 122,
+    "lectureLeconsHaut": 122,
+    "lectureLeconsSiToutRelu": 122,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12687,9 +13606,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 134,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 134,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -12707,12 +13629,12 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 186,
-   "haut": 218,
+   "bas": 97,
+   "haut": 154,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "UNDERLOADED",
+    "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
@@ -12731,6 +13653,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12772,6 +13697,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12813,6 +13741,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12854,6 +13785,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12895,6 +13829,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12936,6 +13873,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 151,
+    "lectureLeconsHaut": 151,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -12974,9 +13914,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 151,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -12994,8 +13937,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 203,
-   "haut": 235,
+   "bas": 96,
+   "haut": 153,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -13018,6 +13961,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13059,6 +14005,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13100,6 +14049,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13141,6 +14093,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 66,
+    "lectureLeconsHaut": 66,
+    "lectureLeconsSiToutRelu": 66,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -13182,6 +14137,9 @@
     "lectureJour": 15,
     "correction": 2,
     "lectureLecons": 134,
+    "lectureLeconsHaut": 134,
+    "lectureLeconsSiToutRelu": 134,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13223,6 +14181,9 @@
     "lectureJour": 13,
     "correction": 2,
     "lectureLecons": 123,
+    "lectureLeconsHaut": 123,
+    "lectureLeconsSiToutRelu": 123,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13261,9 +14222,12 @@
    "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 144,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 144,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -13281,8 +14245,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 196,
-   "haut": 228,
+   "bas": 98,
+   "haut": 155,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -13305,6 +14269,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13346,6 +14313,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13387,6 +14357,9 @@
     "lectureJour": 10,
     "correction": 2,
     "lectureLecons": 109,
+    "lectureLeconsHaut": 109,
+    "lectureLeconsSiToutRelu": 109,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13428,6 +14401,9 @@
     "lectureJour": 14,
     "correction": 2,
     "lectureLecons": 136,
+    "lectureLeconsHaut": 136,
+    "lectureLeconsSiToutRelu": 136,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13469,6 +14445,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13510,6 +14489,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 68,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 68,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13548,9 +14530,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 131,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 131,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -13568,12 +14553,12 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 183,
-   "haut": 215,
+   "bas": 96,
+   "haut": 153,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "UNDERLOADED",
+    "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
@@ -13592,6 +14577,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13633,6 +14621,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 104,
+    "lectureLeconsHaut": 104,
+    "lectureLeconsSiToutRelu": 104,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13674,6 +14665,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 147,
+    "lectureLeconsHaut": 147,
+    "lectureLeconsSiToutRelu": 147,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13715,6 +14709,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13756,6 +14753,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -13797,6 +14797,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 79,
+    "lectureLeconsHaut": 79,
+    "lectureLeconsSiToutRelu": 79,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13835,9 +14838,12 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 151,
+    "lectureLecons": 43,
+    "lectureLeconsHaut": 68,
+    "lectureLeconsSiToutRelu": 151,
+    "rappelActifMinute": 18,
     "guide": [
      0,
      0
@@ -13855,8 +14861,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 204,
-   "haut": 236,
+   "bas": 96,
+   "haut": 153,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -13879,6 +14885,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -13920,6 +14929,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -13961,6 +14973,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14002,6 +15017,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14043,6 +15061,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14084,6 +15105,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14122,9 +15146,12 @@
    "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 82,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -14142,14 +15169,14 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 135,
-   "haut": 167,
+   "bas": 90,
+   "haut": 147,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "UNDERLOADED",
+    "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "UNDERLOADED",
+    "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
@@ -14166,6 +15193,9 @@
     "lectureJour": 9,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -14207,6 +15237,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -14248,6 +15281,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14289,6 +15325,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14330,6 +15369,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14371,6 +15413,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14409,9 +15454,12 @@
    "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 82,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
@@ -14429,14 +15477,14 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 134,
-   "haut": 166,
+   "bas": 90,
+   "haut": 147,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "UNDERLOADED",
+    "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "UNDERLOADED",
+    "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
     "attentive·relecture0.5": "BALANCED"
    },
@@ -14453,6 +15501,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14494,6 +15545,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14535,6 +15589,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14576,6 +15633,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14617,6 +15677,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14658,6 +15721,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 82,
+    "lectureLeconsHaut": 82,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14696,39 +15762,42 @@
    "nlec": 4,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 82,
+    "lectureLecons": 37,
+    "lectureLeconsHaut": 62,
+    "lectureLeconsSiToutRelu": 82,
+    "rappelActifMinute": 12,
     "guide": [
      0,
      0
     ],
     "pratique": [
-     190,
-     266
+     43,
+     75
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "portée hebdomadaire — minutage journalier exclu",
     "etapes": 4,
-    "minuteAnnonce": 190,
+    "minuteAnnonce": 0,
     "reflexion": [
      0,
      0
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 282,
-   "haut": 358,
-   "cat": "HEAVY",
+   "bas": 90,
+   "haut": 147,
+   "cat": "BALANCED",
    "catsParHypothese": {
-    "rapide·relecture1": "HEAVY",
-    "rapide·relecture0.5": "HEAVY",
-    "normale·relecture1": "HEAVY",
-    "normale·relecture0.5": "HEAVY",
-    "attentive·relecture1": "IMPOSSIBLE",
-    "attentive·relecture0.5": "HEAVY"
+    "rapide·relecture1": "BALANCED",
+    "rapide·relecture0.5": "BALANCED",
+    "normale·relecture1": "BALANCED",
+    "normale·relecture0.5": "BALANCED",
+    "attentive·relecture1": "BALANCED",
+    "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
-   "nImpossible": 1
+   "nImpossible": 0
   },
   {
    "j": 358,
@@ -14740,6 +15809,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      2
@@ -14781,6 +15853,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14822,6 +15897,9 @@
     "lectureJour": 7,
     "correction": 2,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14863,6 +15941,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14904,6 +15985,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      1,
      3
@@ -14945,6 +16029,9 @@
     "lectureJour": 8,
     "correction": 2,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      0,
      1
@@ -14983,9 +16070,12 @@
    "nlec": 2,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 6,
+    "lectureJour": 7,
     "correction": 3,
-    "lectureLecons": 45,
+    "lectureLecons": 31,
+    "lectureLeconsHaut": 56,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": 6,
     "guide": [
      0,
      0
@@ -15003,16 +16093,16 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 97,
-   "haut": 129,
-   "cat": "UNDERLOADED",
+   "bas": 84,
+   "haut": 141,
+   "cat": "BALANCED",
    "catsParHypothese": {
-    "rapide·relecture1": "UNDERLOADED",
-    "rapide·relecture0.5": "UNDERLOADED",
-    "normale·relecture1": "UNDERLOADED",
-    "normale·relecture0.5": "UNDERLOADED",
+    "rapide·relecture1": "BALANCED",
+    "rapide·relecture0.5": "BALANCED",
+    "normale·relecture1": "BALANCED",
+    "normale·relecture0.5": "BALANCED",
     "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "UNDERLOADED"
+    "attentive·relecture0.5": "BALANCED"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -15027,6 +16117,9 @@
     "lectureJour": 10,
     "correction": 3,
     "lectureLecons": 45,
+    "lectureLeconsHaut": 45,
+    "lectureLeconsSiToutRelu": 45,
+    "rappelActifMinute": null,
     "guide": [
      2,
      5

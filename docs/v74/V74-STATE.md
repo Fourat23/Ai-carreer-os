@@ -7,19 +7,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP3**
+- **dernier CP terminé** : **CP4**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP4** — scheduler V1
-- **NEXT_ACTION** : construire le scheduler de rappel. **NE PAS appliquer aveuglément SM-2** —
-  il peut servir de repère, mais AI Career OS n'est pas une application de cartes mémoire :
-  une compétence technique demande parfois un rappel conceptuel, parfois un diagnostic, parfois
-  du code, parfois une décision de conception. Le scheduler doit choisir **QUOI · QUAND · SOUS
-  QUELLE FORME**. Il consomme `prioriser()` du CP3 et `projectLearnerMemory()` du CP2 ; il ne
-  recalcule ni l'état ni la priorité. **Critère bloquant B2** : entrée identique + horloge
-  identique → sortie strictement identique (tri total, aucune source d'aléa). Réutiliser
-  `INTERVALS`, `interleave` et `availableFormats` de `lib/retention.mjs` plutôt que de les
-  redéfinir — le contrat §4 assigne à V66 la responsabilité de la série de rappels.
+- **NEXT_CP** : **CP5** — retrieval task generator
+- **NEXT_ACTION** : construire **au moins dix archétypes** de rappel — rappel libre · question
+  conceptuelle · **prédiction avant exécution** · debug · décision technique · reconstruction
+  partielle · mini-implémentation · comparaison de solutions · explication Feynman · transfert
+  métier. **La génération DOIT s'appuyer sur les leçons existantes** — jamais fabriquer une
+  connaissance nouvelle : une tâche cite une section réelle de la leçon, ou elle n'existe pas.
+  Les cinq formes de V66 (`free/cued/applied/discrim/generate`) restent le vocabulaire de
+  planification ; les archétypes en sont les **réalisations concrètes**. Vérifier pour chaque
+  archétype qu'il est **disponible** sur les 128 leçons — et publier le compte réel, sans
+  élargir un critère pour faire monter la couverture (**G7**, **G12**).
 
 ## Repères Git
 
@@ -107,6 +107,8 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP4** : **créés** `lib/retention-scheduler.mjs`, `tests/v74-retention-scheduler.test.mjs`.
+  **Modifié** `scripts/v651-check.mjs` (liste C11).
 - **CP3** : **créés** `lib/retention-priority.mjs`, `tests/v74-retention-priority.test.mjs`.
   **Modifié** `scripts/v651-check.mjs` (règle C11 étendue **et renforcée**).
 - **CP2** : **créés** `lib/exercise-attempt.mjs`, `lib/exercise-attempt.d.ts`,
@@ -122,6 +124,8 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP4** : **1470/1470** (15 nouveaux) · tsc 0 · `gates:active` 0 violation · corpus
+  `92d5fae6…` inchangé · `data/progress.json` absent · **B2 vérifié** (3 tests).
 - **CP3** : **1455/1455** (15 nouveaux) · tsc 0 · `gates:active` 0 violation · corpus
   `92d5fae6…` inchangé · `data/progress.json` absent · **B10 vérifié**, **B2 amorcé**.
 - **CP2** : **1440/1440** (20 nouveaux) · tsc 0 · build OK · `gates:active` 0 violation ·
@@ -154,6 +158,37 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP4** — **scheduler V1 : quoi, quand, sous quelle forme, dans quel budget.**
+  - **`lib/retention-scheduler.mjs`** — pur, horloge injectée, **et il ne définit AUCUNE
+    échelle d'espacement** : les paliers viennent de `INTERVALS` de V66, dont le contrat §4
+    garde la responsabilité de la série. C'est un **arbitre**, pas un moteur.
+  - **SM-2 étudié comme repère, puis écarté — trois raisons de produit** : (1) son facteur de
+    facilité est un **flottant qui dérive**, réglé par une auto-évaluation, or le CP0 a montré
+    que ce produit a **trop d'auto-déclaration** et manque de verdict objectif ; (2) il
+    planifie une carte **toujours de la même façon**, alors qu'une compétence technique demande
+    tantôt un rappel conceptuel, tantôt un diagnostic, tantôt du code ; (3) il ignore projet à
+    venir, prérequis et budget de journée. **Ce qui est gardé** : réussite espace, échec ramène
+    au début — ce que `INTERVALS` fait déjà, en entiers publiés plutôt qu'en flottant dérivant.
+  - **La forme suit trois règles, et l'ordre EST la décision** : après un **échec** non repris,
+    forme **soutenue** (`cued`) — *redemander une restitution libre à quelqu'un qui vient
+    d'échouer, c'est le faire échouer deux fois* ; avant un **projet proche**, forme
+    **appliquée** — *ce qu'on va devoir faire est ce qu'il faut répéter* ; sinon on **varie**,
+    ce qui empêche de mémoriser la question au lieu du concept.
+  - **Aucune forme n'est inventée** : `availableFormats` dit ce que la leçon rend possible. Une
+    leçon sans section support n'est pas proposée — elle est **écartée en le disant**.
+  - **`differes` est une SORTIE, pas un reliquat** : savoir ce qui a été écarté, et pourquoi,
+    vaut autant que savoir ce qui a été retenu.
+  - **Le budget est une contrainte, pas une variable d'ajustement** (G12) : un **plafond de 8
+    unités** borne la session même quand le budget le permettrait.
+  - **Les minutes par forme sont des ORDRES DE GRANDEUR DÉCLARÉS, pas des mesures** — aucune
+    donnée d'apprenant n'existe pour les calibrer, et le contrat interdit de présenter un
+    chiffre inventé comme mesuré. Configurables et publiés.
+  - **B2 vérifié par trois tests** : sortie strictement identique à entrée identique · l'ordre
+    d'entrée des fiches n'a aucun effet · aucune horloge implicite.
+  - **C11 étendue à `lib/retention-scheduler.mjs`** ; la vérification de propriété ajoutée au
+    CP3 continue de garantir qu'il **ne porte aucune échelle**.
+  - **1470/1470 · tsc 0 · 52 portes vertes · corpus inchangé.**
 
 - **CP3** — **priorité EXPLICABLE : sept facteurs additifs, bornés, publiés.**
   - **`lib/retention-priority.mjs`** — pur, horloge injectée. **Poids entiers dont la somme

@@ -269,6 +269,7 @@ safe(() => {
     'lib/review.mjs', 'lib/retention.mjs', 'lib/retention.d.ts', 'lib/retention-server.ts',
     // V74 — arbitre et projections, pas des moteurs :
     'lib/retention-priority.mjs',
+    'lib/retention-scheduler.mjs',
   ]);
   const extra = walk('lib')
     .filter((f) => /sm-?2|spaced|retention/i.test(f) && !MOTEURS_AUTORISES.has(f));

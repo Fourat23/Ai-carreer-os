@@ -1,0 +1,161 @@
+{
+ "graine": 20260913,
+ "tireLe": "2026-09-10",
+ "taillesDeStrate": {
+  "A": 10,
+  "B": 6,
+  "C": 27,
+  "D": 127,
+  "E": 54,
+  "F": 15,
+  "G": 125,
+  "H": 180
+ },
+ "n": 36,
+ "echantillon": [
+  {
+   "strate": "A",
+   "unite": "semaine-10"
+  },
+  {
+   "strate": "B",
+   "unite": "semaine-30"
+  },
+  {
+   "strate": "C",
+   "unite": "jour-208"
+  },
+  {
+   "strate": "D",
+   "unite": "jour-241"
+  },
+  {
+   "strate": "E",
+   "unite": "jour-309"
+  },
+  {
+   "strate": "F",
+   "unite": "lecon-css-flexbox"
+  },
+  {
+   "strate": "G",
+   "unite": "lecon-react-fundamentals"
+  },
+  {
+   "strate": "H",
+   "unite": "jour-44"
+  },
+  {
+   "strate": "A",
+   "unite": "semaine-13"
+  },
+  {
+   "strate": "B",
+   "unite": "semaine-31"
+  },
+  {
+   "strate": "C",
+   "unite": "jour-198"
+  },
+  {
+   "strate": "D",
+   "unite": "jour-139"
+  },
+  {
+   "strate": "E",
+   "unite": "jour-303"
+  },
+  {
+   "strate": "F",
+   "unite": "lecon-cloud-fundamentals"
+  },
+  {
+   "strate": "G",
+   "unite": "lecon-linux-services-systemd"
+  },
+  {
+   "strate": "H",
+   "unite": "jour-144"
+  },
+  {
+   "strate": "A",
+   "unite": "semaine-34"
+  },
+  {
+   "strate": "B",
+   "unite": "semaine-32"
+  },
+  {
+   "strate": "C",
+   "unite": "jour-216"
+  },
+  {
+   "strate": "D",
+   "unite": "jour-223"
+  },
+  {
+   "strate": "E",
+   "unite": "jour-146"
+  },
+  {
+   "strate": "F",
+   "unite": "lecon-responsive-design"
+  },
+  {
+   "strate": "G",
+   "unite": "lecon-technical-debt"
+  },
+  {
+   "strate": "H",
+   "unite": "jour-355"
+  },
+  {
+   "strate": "A",
+   "unite": "semaine-8"
+  },
+  {
+   "strate": "B",
+   "unite": "semaine-29"
+  },
+  {
+   "strate": "C",
+   "unite": "jour-217"
+  },
+  {
+   "strate": "D",
+   "unite": "jour-257"
+  },
+  {
+   "strate": "E",
+   "unite": "jour-114"
+  },
+  {
+   "strate": "F",
+   "unite": "lecon-cloud-networking"
+  },
+  {
+   "strate": "G",
+   "unite": "lecon-frontend-performance"
+  },
+  {
+   "strate": "H",
+   "unite": "jour-61"
+  },
+  {
+   "strate": "A",
+   "unite": "semaine-12"
+  },
+  {
+   "strate": "B",
+   "unite": "semaine-33"
+  },
+  {
+   "strate": "C",
+   "unite": "jour-215"
+  },
+  {
+   "strate": "D",
+   "unite": "jour-197"
+  }
+ ]
+}

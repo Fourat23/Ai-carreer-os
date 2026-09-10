@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T14:57:52.747Z",
+  "generatedAt": "2026-09-10T15:10:20.960Z",
   "skills": [
     {
       "id": "algo",
@@ -4096,7 +4096,7 @@
       "skillName": "RAG",
       "difficulty": 2,
       "hours": 4.5,
-      "readingMinutes": 163,
+      "readingMinutes": 164,
       "isReview": true,
       "detailed": false,
       "deliverable": null,
@@ -4201,7 +4201,7 @@
       "skillName": "RAG",
       "difficulty": 2,
       "hours": 4.5,
-      "readingMinutes": 163,
+      "readingMinutes": 165,
       "isReview": true,
       "detailed": false,
       "deliverable": null,

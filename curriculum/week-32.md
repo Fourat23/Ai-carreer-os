@@ -16,7 +16,7 @@
 ## Revue hebdomadaire (jour 7)
 - **Bilan :** Ton premier RAG, SANS framework : chaque étape codée et comprise. C'est le savoir-faire le plus demandé du marché junior IA.
 - **Test pratique :** 90 min : pipeline complet sur 5 documents texte — découpage en chunks (taille fixe + overlap), embeddings via API, stockage (JSON suffit), recherche par similarité cosinus (implémentée TOI-même), top-k injecté dans le prompt, réponse avec citation des sources.
-- **Test théorique :** Pourquoi le RAG plutôt que tout mettre dans le prompt ; rôle de l'overlap ; pourquoi normaliser les vecteurs ; que retourne exactement la similarité cosinus ; qu'est-ce qui fait échouer un RAG (liste 4 causes) ?
+- **Test théorique :** Pourquoi le RAG plutôt que tout mettre dans le prompt ; rôle de l'overlap ; pourquoi normaliser les vecteurs ; que retourne exactement la similarité cosinus ; qu'est-ce qui fait échouer un RAG (liste 4 causes) ; pourquoi un PDF perd sa structure et ce que ça coûte au découpage ; et que doit faire ton pipeline quand un document déjà ingéré est modifié — ré-ingérer tout, ou seulement lui, et comment évites-tu les doublons ?
 - **Mini-projet :** 'rag-from-scratch' : le pipeline propre en modules (ingest/chunk/embed/search/answer), CLI simple, README expliquant chaque étape. Base du projet 6.
 - **Critères de passage :**
   - [ ] Pipeline bout-en-bout fonctionnel

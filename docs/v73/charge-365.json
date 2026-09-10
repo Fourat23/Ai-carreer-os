@@ -9911,7 +9911,7 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 9,
+    "lectureJour": 10,
     "correction": 3,
     "lectureLecons": 43,
     "lectureLeconsHaut": 68,
@@ -9934,8 +9934,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 205,
-   "haut": 290,
+   "bas": 206,
+   "haut": 291,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -10219,8 +10219,8 @@
    "nlec": 6,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 10,
-    "correction": 3,
+    "lectureJour": 11,
+    "correction": 4,
     "lectureLecons": 43,
     "lectureLeconsHaut": 68,
     "lectureLeconsSiToutRelu": 151,
@@ -10242,8 +10242,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 206,
-   "haut": 291,
+   "bas": 207,
+   "haut": 292,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",

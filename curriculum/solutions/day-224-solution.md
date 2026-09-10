@@ -9,7 +9,7 @@ Thème : **RAG v1 : chunking, embeddings, retrieval naïf**. Ton premier RAG, SA
 
 ## ✅ Grille d'évaluation (note chaque axe de 0 à 5)
 - **Test pratique réussi** dans le temps imparti : 90 min : pipeline complet sur 5 documents texte — découpage en chunks (taille fixe + overlap), embeddings via API, stockage (JSON suffit), recherche par similarité cosinus (implémentée TOI-même), top-k injecté dans le prompt, réponse avec citation des sources.
-- **Test théorique** (réponds de mémoire puis auto-corrige) : Pourquoi le RAG plutôt que tout mettre dans le prompt ; rôle de l'overlap ; pourquoi normaliser les vecteurs ; que retourne exactement la similarité cosinus ; qu'est-ce qui fait échouer un RAG (liste 4 causes) ?
+- **Test théorique** (réponds de mémoire puis auto-corrige) : Pourquoi le RAG plutôt que tout mettre dans le prompt ; rôle de l'overlap ; pourquoi normaliser les vecteurs ; que retourne exactement la similarité cosinus ; qu'est-ce qui fait échouer un RAG (liste 4 causes) ; pourquoi un PDF perd sa structure et ce que ça coûte au découpage ; et que doit faire ton pipeline quand un document déjà ingéré est modifié — ré-ingérer tout, ou seulement lui, et comment évites-tu les doublons ?
 - **Mini-projet / livrable** conforme : 'rag-from-scratch' : le pipeline propre en modules (ingest/chunk/embed/search/answer), CLI simple, README expliquant chaque étape. Base du projet 6.
 - **Exercice d'architecture** fait sérieusement : Liste les 6 décisions de conception de ton RAG (taille chunks, overlap, k, modèle d'embedding, format du prompt, seuil de similarité). Pour chacune : comment saurais-tu qu'elle est mauvaise ? (Tu viens d'inventer le besoin d'évaluation — mois 9.)
 

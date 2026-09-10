@@ -5,19 +5,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP12**
+- **dernier CP terminé** : **CP13**
 - **CP courant** : —
-- **NEXT_CP** : **CP13** — audit à l'aveugle
-- **NEXT_ACTION** : **au moins 32 unités** (leçons, journées, revues, semaines, mois),
-  **échantillon tiré et publié AVANT de lire le moindre résultat** (graine écrite d'abord,
-  comme au CP0 avec 20260910). Lire réellement, pas scanner. Comparer au CP0, qui avait conclu
-  sur 24 unités que **« l'hypothèse *les cours sont mauvais* est fausse »** — le CP13 doit
-  dire si les corrections des CP3 à CP12 ont dégradé quoi que ce soit. **Inclure
-  obligatoirement** : des semaines réécrites au CP10 (s6→s13, s15, s34), des journées dont la
-  difficulté a été redérivée au CP9, des journées dont `readingMinutes` a changé au CP12
-  (j197→j210), et des leçons non touchées depuis le CP0 comme témoins. **Une anomalie de
-  tirage doit être publiée** (le CP0 avait donné 0 leçon « milieu » au premier jet).
-  Ressources : `docs/v73/CP0-ECHANTILLON-24.json`, `docs/v73/V73-STATUTS-128.json`.
+- **NEXT_CP** : **CP14** — le gauntlet
+- **NEXT_ACTION** : rejouer **tout** — `npm test`, `npx tsc --noEmit`, `npm run build`,
+  `npm run gates:active`, la **porte V73 du graphe**, `cp12-integrite` (R1→R7) et
+  `cp12-executer-references` (376/376). Puis exécuter les **DOUZE MUTATIONS NÉGATIVES** du
+  contrat gelé au CP1 : **chacune doit être VUE rouge, puis restaurée**, et la restauration
+  contrôlée par `git status --porcelain` (anomalie n° 9 : une empreinte contenant `generatedAt`
+  déclarait à tort « non restauré »). **Piège n° 10 à éviter** : ne pas muter une journée qui
+  possède déjà une clé dans `LESSONS_V67` — la clé dupliquée est écrasée et la mutation n'a
+  aucun effet. Le test 12 est la **NON-CRÉATION** de `data/progress.json`.
 
 ## Repères Git
 
@@ -63,6 +61,54 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP13** — **aucune régression sur 36 unités. Et 39 % de l'année annonce la même liste de
+  leçons que la veille — trouvé en LISANT, pas en mesurant.**
+  - **Protocole** : graine **20260913** écrite dans le code avant le tirage, **36 unités**
+    (≥ 32 exigées), **8 strates** décidées d'avance, **tourniquet** (l'anomalie de tirage du
+    CP0 évitée d'avance, pas rattrapée), et surtout : **l'échantillon a été committé et poussé
+    (`95cc41d`) AVANT la première lecture**.
+  - **Les strates incluent des TÉMOINS**, sans quoi la question « les corrections ont-elles
+    dégradé quelque chose ? » n'a pas de réponse : 4 leçons et 4 journées qu'aucun CP n'a
+    touchées.
+  - **RÉSULTAT : 0 / 36 unité incomplète ou fautive · 0 régression attribuable aux CP3-CP12.**
+    Les leçons touchées au CP3 et les leçons témoins sont **indiscernables** (2 715-4 381 mots,
+    15-18 sections des deux côtés). Les 5 semaines réécrites décrivent leurs journées et
+    demandent une DÉMONSTRATION (« CASSE-le exprès », « coupe ton API en direct », « provoque
+    une donnée périmée et montre-la »). Les 5 semaines réattachées ont leur contenu d'origine
+    intact, sur la bonne semaine.
+  - **UN RESTE TROUVÉ EN LISANT, ET CORRIGÉ** : le test pratique de **s33** ouvrait sur les
+    journées 5-6 de **s32** (multi-formats, ré-ingestion) pendant que trois de ses propres
+    journées n'étaient évaluées nulle part. **La sonde du CP10 ne pouvait pas le voir** : elle
+    compare une semaine aux 52 et s33 collait bien à s33 — *mais pas à la bonne moitié de s33*.
+    *Une mesure de classement ne voit pas un déséquilibre interne.* Test de s33 recentré ;
+    multi-format et ré-ingestion versés au test théorique de s32 où ils sont enseignés —
+    **aucune matière retirée**.
+  - **P1-CP13-1 — LE PLUS GROS CONSTAT DU CHECKPOINT** : **141 journées sur 365 (39 %)**
+    appartiennent à une suite d'au moins six jours consécutifs liant **exactement le même jeu
+    de leçons**. La plus longue : **j218→j252, 35 jours**, les 6 leçons RAG. Puis j197→j217,
+    21 jours, les 4 leçons LLM. Mécanisme déclaratif : repli sur `LESSON_BY_SKILL[day.skill]`,
+    **seules 35 journées sur 365 ayant un rattachement explicite**. Trois conséquences : le
+    bloc « à lire/relire » se répète 35 jours ; `readingMinutes` recompte ces leçons en entier
+    chaque jour ; **les 70 min/jour de lecture de leçons du modèle de charge CP6 viennent
+    largement de là**. **NON corrigé** : écrire 141 listes propres serait la réécriture massive
+    que le brief interdit — et **deux contournements ont été écartés nommément** (compter la
+    relecture à demi-tarif ferait baisser 141 journées sans qu'une ligne du produit change ;
+    tronquer la liste retirerait des liens utiles).
+  - **P2-CP13-1** : **44 leçons sur 128 mêlent tutoiement et vouvoiement** (`cloud-fundamentals`
+    écrit « **Vous devez** avoir une idée… » quatre lignes avant « rien ici ne suppose que
+    **tu** l'as lue »). **Défaut ANTÉRIEUR à V73**, vérifié au commit `fe7a10c` — publié
+    justement parce qu'il ne nous incombe pas.
+  - **Une difficulté discutable, publiée** : **j197 « Fonctionnement des LLM » au niveau 5**
+    alors que c'est une journée d'OUVERTURE. Le score l'y place parce qu'elle cumule trois
+    facteurs au maximum. **C'est l'écart qu'annonçaient les 55 % d'accord du CP9**, et la
+    raison pour laquelle les 78 journées témoins gardent leur difficulté écrite à la main.
+  - **CP0 → CP13** : le CP0 concluait sur 24 unités que « l'hypothèse *les cours sont mauvais*
+    est fausse ». **Elle tient sur 36, et elle est renforcée.** Les deux défauts trouvés ne sont
+    pas des défauts de CONTENU mais de PRÉSENTATION DU TRAVAIL — quelle liste on affiche, à qui
+    on s'adresse. Aucune sonde du sprint ne demandait « qu'est-ce que cette page dit à
+    l'apprenant, deux jours de suite ? ».
+  - **Aucune leçon touchée.** Corpus `92d5fae6…` inchangé.
 
 - **CP12** — **les 376 solutions de référence ont été EXÉCUTÉES : 376/376 passent. Et un accent
   grave orphelin faisait perdre 55 minutes de lecture à douze journées.**
@@ -534,6 +580,9 @@ jamais le créer.
   **inchangé** (seuls le générateur et les 365 journées générées changent).
 - **CP8** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** · charge 362 BALANCED / 3 UNDERLOADED / 0 HEAVY / 0 IMPOSSIBLE.
+- **CP13** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · **R1→R7 = 0** ·
+  corpus `92d5fae6…` **inchangé** · 0/52 semaines en défaut de description · L1 = 0 ·
+  L2 = 0/52 · L3 = 6/365.
 - **CP12** : 1420/1420 · tsc 0 · 0 violation de gate (V49 régénérée) · porte V73 verte · corpus
   `92d5fae6…` **inchangé** · **R1→R7 = 0 défaut** · **376/376 solutions de référence exécutées
   et passantes** · 0/52 semaines déclarant une compétence non portée · L1 = 0 · L2 = 0/52 ·

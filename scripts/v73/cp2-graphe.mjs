@@ -64,8 +64,27 @@ const leconsPourGraphe = LESSONS.map((e) => ({
 // dans » est donc ajouté. Les deux leçons sont par ailleurs enseignées LE MÊME JOUR (j218),
 // donc aucun ordre n'est violé. Le CP5 notera que cette annonce est plus faible que les
 // autres et mérite d'être rendue explicite dans le texte.
-const normaliser = (t) => t.replace(/^\s*>\s?/gm, '').replace(/\s+/g, ' ');   // règle S6 du contrat
-const ANNONCE = /rien ici ne suppose|n'est pas supposé|n'est supposée|se suit sans|tu y reviendras|n'est programmée par aucune|étagère de référence|sans l'avoir lue|programmée plus loin|programmée au mois|plus loin dans le parcours|n'en dépend pas|si tu l'as vue|est approfondie? dans|sont approfondis dans|d'abord.{0,40}ensuite|donne .{0,40}ce qu'il faut/i;
+// Règle S6 du contrat, étendue. Le préfixe `>` des encadrés coupe les phrases ; l'emphase
+// Markdown les coupe aussi : « sont **programmées plus loin** dans le parcours » ne contient
+// PAS la chaîne « plus loin dans le parcours », à cause des astérisques. Quatre annonces
+// parfaitement explicites étaient ainsi classées « exigence non annoncée » (13ᵉ anomalie de
+// sonde de V73). On retire donc aussi l'emphase et les accents graves avant toute recherche.
+const normaliser = (t) => t.replace(/^\s*>\s?/gm, '').replace(/[*`]/g, '').replace(/\s+/g, ' ');
+//
+// ANOMALIE DE SONDE PUBLIÉE (n° 12 de V73 — la plus grave, et trouvée par un test négatif).
+// Un premier jet cherchait le marqueur d'annonce dans tout le PARAGRAPHE contenant la
+// citation, et acceptait « Aucune X n'est supposée » comme marqueur. Or cette phrase parle
+// du SUJET PROPRE de la leçon, pas de la leçon citée : « Tu dois connaître le box model
+// (`css-fundamentals`) … Aucune notion de disposition n'est supposée. » Résultat : QUATRE-
+// VINGT-TROIS exigences réelles étaient classées « renvoi annoncé », dont
+// `css-flexbox → css-fundamentals`, et le graphe REQUIRES perdait 129 arêtes. Le contrôle de
+// cycles portait donc sur un graphe tronqué.
+//
+// RÈGLE CORRIGÉE, et elle porte sur la propriété : une annonce doit désigner LA LEÇON CITÉE
+// comme venant plus tard. La portée est donc le bloc de citation `>` s'il y en a un — ces
+// encadrés sont dédiés à une citation — sinon la PHRASE contenant la citation. Et le motif ne
+// retient que les marqueurs de POSTÉRIORITÉ ou d'ÉTAGÈRE, jamais « n'est supposé ».
+const ANNONCE = /programmées? plus loin|programmées? au mois|plus loin dans le parcours|rien ici ne suppose|viendra plus loin|étagère de référence|n'est programmée par aucune|rien ici ne suppose que tu l'as lue|sans l'avoir lue|se suit sans|tu y reviendras|n'en dépend pas|est approfondie? dans|sont approfondis dans|si tu l'as vue|d'abord.{0,40}ensuite/i;
 const prereqPlan = {};      // exigences réelles → graphe REQUIRES, contrôle de cycles
 const lookaheadPlan = {};   // renvois annoncés → jamais un cycle, jamais un défaut d'ordre
 for (const s of slugsLecons) {
@@ -73,12 +92,28 @@ for (const s of slugsLecons) {
   const i = md.indexOf('## 🧩 Prérequis'); if (i < 0) continue;
   const j = md.indexOf('\n## ', i + 1);
   const bloc = md.slice(i, j < 0 ? md.length : j);
+  const lignes = bloc.split('\n');
   for (const dep of [...new Set([...bloc.matchAll(/\/doc\/lessons\/([a-z0-9-]+)/g)].map((m) => m[1]))]) {
     if (dep === s || !slugsLecons.has(dep)) continue;
-    const pos = bloc.indexOf(`/doc/lessons/${dep}`);
-    const deb = Math.max(0, bloc.lastIndexOf('\n\n', pos)); const fin = bloc.indexOf('\n\n', pos);
-    const para = normaliser(bloc.slice(deb, fin < 0 ? bloc.length : fin));
-    const cible = ANNONCE.test(para) ? lookaheadPlan : prereqPlan;
+    const cite = `/doc/lessons/${dep}`;
+    // portée : le bloc `>` contenant la citation, s'il existe
+    let portee = null;
+    for (let k = 0; k < lignes.length; k++) {
+      if (!/^\s*>/.test(lignes[k]) || !lignes[k].includes(cite)) continue;
+      let a = k, b = k;
+      while (a > 0 && /^\s*>/.test(lignes[a - 1])) a--;
+      while (b < lignes.length - 1 && /^\s*>/.test(lignes[b + 1])) b++;
+      portee = normaliser(lignes.slice(a, b + 1).join('\n'));
+      break;
+    }
+    if (portee === null) {                       // sinon : la phrase contenant la citation
+      const plat = normaliser(bloc);
+      const pos = plat.indexOf(cite);
+      const deb = Math.max(0, plat.lastIndexOf('. ', pos) + 1);
+      const fin = plat.indexOf('. ', pos);
+      portee = plat.slice(deb, fin < 0 ? plat.length : fin + 1);
+    }
+    const cible = ANNONCE.test(portee) ? lookaheadPlan : prereqPlan;
     (cible[s] ??= []).push(dep);
   }
 }

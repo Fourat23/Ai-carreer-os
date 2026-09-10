@@ -5,17 +5,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP13**
+- **dernier CP terminé** : **CP14**
 - **CP courant** : —
-- **NEXT_CP** : **CP14** — le gauntlet
-- **NEXT_ACTION** : rejouer **tout** — `npm test`, `npx tsc --noEmit`, `npm run build`,
-  `npm run gates:active`, la **porte V73 du graphe**, `cp12-integrite` (R1→R7) et
-  `cp12-executer-references` (376/376). Puis exécuter les **DOUZE MUTATIONS NÉGATIVES** du
-  contrat gelé au CP1 : **chacune doit être VUE rouge, puis restaurée**, et la restauration
-  contrôlée par `git status --porcelain` (anomalie n° 9 : une empreinte contenant `generatedAt`
-  déclarait à tort « non restauré »). **Piège n° 10 à éviter** : ne pas muter une journée qui
-  possède déjà une clé dans `LESSONS_V67` — la clé dupliquée est écrasée et la mutation n'a
-  aucun effet. Le test 12 est la **NON-CRÉATION** de `data/progress.json`.
+- **NEXT_CP** : **CP15** — rapport final et verdict
+- **NEXT_ACTION** : écrire `docs/v73/V73-FINAL-REPORT.md` avec les **34 sections obligatoires**
+  du brief. Distinguer partout **MESURÉ / INTERPRÉTÉ / DÉCIDÉ / NON PROUVÉ**. Verdict selon les
+  critères **C1→C15 gelés au CP1** — C1 à C14 sont établis au CP14 (tous atteints) ; **C15
+  (zéro P0 ouvert) reste à établir** : les trois P0 du CP0 sont `cloud`, CSS et Next.js, fermés
+  au CP3. Publier les **24 anomalies de sonde** numérotées, les **constats non corrigés avec
+  leur raison** (P1-CP9-1 44 journées HEAVY · P1-CP9-2 `hours`=4.5 · P1-CP11-1 projets 1-5
+  plats · P1-CP11-2 j218-j272 · **P1-CP13-1 141 journées répètent leur liste de leçons** ·
+  P2-CP12-1 169/376 exercices hors page de leçon · P2-CP13-1 tu/vous antérieur à V73), et une
+  **restitution longue et lisible** en chat. **NE PAS inventer de preuve d'apprentissage
+  humain** : V72 a établi `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`, et V73 ne le
+  change pas.
 
 ## Repères Git
 
@@ -61,6 +64,34 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP14** — **12/12 mutations vues rouges et restaurées. Mais la première exécution n'en a vu
+  que 10, et les deux échecs valaient plus que le 12/12.**
+  - **GAUNTLET 8/8** : generate **idempotent** (seul `generatedAt` change) · tsc **0** ·
+    **1420/1420** · build **OK** · `gates:active` **0 violation** · porte V73 **verte** ·
+    R1→R7 **0 défaut** · **376/376 solutions de référence passent**.
+  - **Invariants** : corpus **`92d5fae6…`** inchangé depuis le CP4 · 365/365/52/12 ·
+    **`data/progress.json` absent** · **L1 = 0 · L2 = 0/52 · L3 = 6/365**.
+  - **DÉFAUT n° 1 TROUVÉ PAR UNE MUTATION : la porte V73 ne contrôlait pas I1.** Le contrat
+    gelé au CP1 énonce I1 (« aucune compétence CORE n'a zéro journée ») et le verdict compte
+    **C1** — et **aucune porte ne le regardait**. Il aurait été possible de traverser tout le
+    sprint, de publier « C1 : 0 » et de le croire : **aucune mesure ne l'aurait démenti, parce
+    qu'une porte qui ne regarde pas ne peut pas rougir.** I1 implémenté, mutation désormais
+    rouge.
+  - **DÉFAUT n° 2 : le harnais mentait, et la porte n'y était pour rien.** La mutation 5
+    (journée gonflée) restait verte ; mesuré à la main, **j150 passe à 390-442 min, IMPOSSIBLE
+    sous 4 hypothèses sur 6**. Mon harnais ne régénérait le graphe que pour la porte du graphe,
+    et `cp6-charge.mjs` lit le graphe : il voyait l'ANCIEN rattachement. **Une mutation qui
+    reste verte doit être INSTRUITE, jamais réécrite pour devenir rouge** — l'instruction a
+    innocenté la porte et condamné le harnais.
+  - **Deux pièges du sprint payés d'avance** : restauration contrôlée par `git status
+    --porcelain` **et rien d'autre** (anomalie n° 9) ; chaque mutation **refuse de s'appliquer
+    si sa cible possède déjà une clé** dans `LESSONS_V67` (anomalie n° 10).
+  - **La forme commune des anomalies n° 21, 22, 24 et des deux ci-dessus** : *la sonde mesurait
+    quelque chose de vrai, mais pas la chose dont on tirait la conclusion.* C'est pourquoi ce
+    sprint publie ses erreurs de mesure au même rang que ses corrections de produit.
+  - **C1 → C14 : tous atteints.** C15 reste à établir au CP15.
+  - **Aucun fichier de produit modifié au CP14.**
 
 - **CP13** — **aucune régression sur 36 unités. Et 39 % de l'année annonce la même liste de
   leçons que la veille — trouvé en LISANT, pas en mesurant.**
@@ -580,6 +611,9 @@ jamais le créer.
   **inchangé** (seuls le générateur et les 365 journées générées changent).
 - **CP8** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** · charge 362 BALANCED / 3 UNDERLOADED / 0 HEAVY / 0 IMPOSSIBLE.
+- **CP14** : gauntlet **8/8** · **1420/1420** · tsc 0 · build OK · gates 0 · porte V73 verte ·
+  R1→R7 = 0 · **376/376** · **12/12 mutations vues rouges et restaurées** · corpus
+  `92d5fae6…` inchangé · `progress.json` absent · L1 = 0 · L2 = 0/52 · L3 = 6/365.
 - **CP13** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · **R1→R7 = 0** ·
   corpus `92d5fae6…` **inchangé** · 0/52 semaines en défaut de description · L1 = 0 ·
   L2 = 0/52 · L3 = 6/365.

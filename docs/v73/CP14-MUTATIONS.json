@@ -1,13 +1,13 @@
 {
- "vues": 10,
+ "vues": 12,
  "restaurees": 12,
  "resultats": [
   {
    "n": 1,
    "titre": "une compétence CORE ramenée à 0 journée",
    "invariant": "I1 / C1",
-   "etat": "RESTÉE VERTE — LA PORTE NE PROTÈGE PAS",
-   "detail": "",
+   "etat": "VUE ROUGE",
+   "detail": "❌ 1 violation(s) du contrat gelé :",
    "restaure": true
   },
   {
@@ -38,8 +38,8 @@
    "n": 5,
    "titre": "une journée gonflée au-delà du budget haut",
    "invariant": "L1 / C10",
-   "etat": "RESTÉE VERTE — LA PORTE NE PROTÈGE PAS",
-   "detail": "",
+   "etat": "VUE ROUGE",
+   "detail": "❌ violation du seuil L1 (exigé : 0)",
    "restaure": true
   },
   {

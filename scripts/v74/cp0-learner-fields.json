@@ -1,0 +1,42 @@
+{
+  "avertissement": "Inventaire LU dans le code, jamais inventé. Chaque champ cite le module et la fonction qui le normalise.",
+  "AVAILABLE": [
+    { "champ": "days[n].status", "valeurs": "not-started | in-progress | done | to-review", "source": "lib/learning.mjs · normalizeDay", "utile_au_moteur": "un jour marqué done n'est PAS une preuve de rappel" },
+    { "champ": "days[n].startedAt / completedAt / updatedAt", "valeurs": "ISO", "source": "lib/learning.mjs · normalizeDay", "utile_au_moteur": "datation des contacts réels, par opposition au calendrier théorique" },
+    { "champ": "days[n].comprehension", "valeurs": "understood | partial | review", "source": "lib/learning.mjs · normalizeDay", "utile_au_moteur": "DÉCLARÉ par l'apprenant — un jugement, pas une observation" },
+    { "champ": "days[n].selfAssessment", "valeurs": "auto-évaluation structurée", "source": "lib/learning.mjs · normalizeSelfAssessment", "utile_au_moteur": "déclaré" },
+    { "champ": "days[n].attempts", "valeurs": "{ count, lastAt, history:[{ at, outcome, summary }] }", "source": "lib/learning.mjs · normalizeAttempts", "utile_au_moteur": "tentatives de JOURNÉE, texte libre en outcome — non typé" },
+    { "champ": "days[n].correctionState", "valeurs": "locked | available | viewed | acknowledged", "source": "lib/learning.mjs · normalizeDay", "utile_au_moteur": "la correction a-t-elle été ouverte AVANT la tentative" },
+    { "champ": "days[n].review", "valeurs": "{ dueAt, interval, repetitions, ease, lastReviewedAt, reason }", "source": "lib/review.mjs · updateReviewSchedule", "utile_au_moteur": "planning SM-2 par JOURNÉE, piloté par la compréhension déclarée" },
+    { "champ": "days[n].submissions / answers / notes", "valeurs": "texte", "source": "lib/learning.mjs", "utile_au_moteur": "production écrite, non notée automatiquement" },
+    { "champ": "evidence[]", "valeurs": "{ id, sourceType, sourceId, competencyIds[], createdAt, validation:{ status, kind, checkedAt, detail, score }, provenance:{ producer, method, note }, dayId, sessionId }", "source": "lib/evidence.mjs · normalizeEvidenceRecord", "utile_au_moteur": "PREUVE datée, rattachée à des compétences, avec statut de validation VÉRIFIÉ pour exercise/assessment/mission/capstone" },
+    { "champ": "recallAttempts[]", "valeurs": "{ conceptId, at, outcome: recalled|partial|failed, format: free|cued|applied|discrim|generate, sourceRef }", "source": "lib/retention.mjs · normalizeAttempt", "utile_au_moteur": "LE fait de rappel — le seul événement de récupération typé du système" },
+    { "champ": "skills{}", "valeurs": "compétence → 0..5", "source": "lib/learning.mjs · migrateProgress", "utile_au_moteur": "niveau DÉCLARÉ par l'apprenant" },
+    { "champ": "weeklyReviews{} / monthlyReviews{}", "valeurs": "objet libre", "source": "lib/learning.mjs · migrateProgress", "utile_au_moteur": "trace des revues hebdo/mensuelles" },
+    { "champ": "missions{}", "valeurs": "état des missions", "source": "lib/progress-store.mjs · normalizeMissionsMap", "utile_au_moteur": "livrables d'ingénierie" }
+  ],
+  "DERIVABLE": [
+    { "champ": "lastExposureAt par concept", "de": "days[n].completedAt + liens /doc/lessons de la journée n", "note": "aucune écriture nouvelle nécessaire" },
+    { "champ": "lastRetrievalAt / lastSuccessAt / lastFailureAt par concept", "de": "recallAttempts filtrés par conceptId et outcome" },
+    { "champ": "lastEvidenceAt par compétence", "de": "evidence[].createdAt + competencyIds, filtré sur validation.status = passed" },
+    { "champ": "successfulRetrievalCount / failedRetrievalCount", "de": "recallAttempts" },
+    { "champ": "applications par compétence", "de": "evidence[] de sourceType project/capstone + jours porteurs de project:N" },
+    { "champ": "currentExpectedLevel", "de": "program.months[].expectedScores, cumulatif" },
+    { "champ": "nextCurriculumNeed", "de": "prochaine journée de projet portant la compétence, après aujourd'hui" },
+    { "champ": "profondeur de prérequis", "de": "docs/v73/curriculum-graph.json · prereq.requis" },
+    { "champ": "correction consultée avant tentative", "de": "correctionState = viewed|acknowledged ET attempts.lastAt postérieur" }
+  ],
+  "MISSING": [
+    { "champ": "outcome TYPÉ d'une tentative de journée", "constat": "days[n].attempts.history[].outcome est une chaîne libre de 40 caractères — non contrainte, donc non exploitable comme succès/échec" },
+    { "champ": "rattachement d'une tentative d'exercice à un CONCEPT", "constat": "evidence porte competencyIds (20 compétences), jamais un conceptId (128 leçons) — le grain du moteur de rétention et celui des preuves ne coïncident pas" },
+    { "champ": "type d'erreur commise", "constat": "aucun champ ne classe une erreur ; `detail` de validation est du texte libre" },
+    { "champ": "durée réelle d'une activité", "constat": "startedAt et completedAt existent au niveau JOUR, pas au niveau activité" },
+    { "champ": "trace d'une révision hebdomadaire effectuée", "constat": "weeklyReviews est un objet libre, sans schéma normalisé" }
+  ],
+  "UNMEASURABLE": [
+    { "champ": "probabilité de mémoire", "raison": "aucune donnée d'apprenant réel n'existe ; V73 a laissé REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED" },
+    { "champ": "temps de setup et interruptions", "raison": "non instrumenté, déjà déclaré non mesuré par le contrat V73" },
+    { "champ": "effort cognitif ressenti", "raison": "seule la compréhension déclarée existe, et elle est un jugement" },
+    { "champ": "transfert réel vers une situation professionnelle", "raison": "hors du produit" }
+  ]
+}

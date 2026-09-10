@@ -7,20 +7,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP2**
+- **dernier CP terminé** : **CP3**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP3** — retention priority model
-- **NEXT_ACTION** : construire une priorité de révision **EXPLICABLE** — pas un score magique
-  opaque. La décision doit pouvoir dire « cette notion est prioritaire parce que… ».
-  Facteurs candidats, **chacun à justifier** : temps depuis le dernier rappel RÉUSSI ·
-  importance future (`currentExpectedLevel`, `nextCurriculumNeed`) · erreur récente
-  (`lastFailureAt`) · absence de retrieval (`retrievalCount === 0` alors que l'exposition
-  existe) · contact uniquement passif · profondeur de prérequis · proximité d'un projet ·
-  proximité d'une évaluation · historique de réussite/échec. **Produire une TRACE
-  d'explication** (critère bloquant B10 : 100 % des éléments proposés portent une trace
-  lisible citant leurs facteurs). Le module doit être **PUR**, horloge injectée, et
-  consommer `projectLearnerMemory` — jamais recalculer l'état.
+- **NEXT_CP** : **CP4** — scheduler V1
+- **NEXT_ACTION** : construire le scheduler de rappel. **NE PAS appliquer aveuglément SM-2** —
+  il peut servir de repère, mais AI Career OS n'est pas une application de cartes mémoire :
+  une compétence technique demande parfois un rappel conceptuel, parfois un diagnostic, parfois
+  du code, parfois une décision de conception. Le scheduler doit choisir **QUOI · QUAND · SOUS
+  QUELLE FORME**. Il consomme `prioriser()` du CP3 et `projectLearnerMemory()` du CP2 ; il ne
+  recalcule ni l'état ni la priorité. **Critère bloquant B2** : entrée identique + horloge
+  identique → sortie strictement identique (tri total, aucune source d'aléa). Réutiliser
+  `INTERVALS`, `interleave` et `availableFormats` de `lib/retention.mjs` plutôt que de les
+  redéfinir — le contrat §4 assigne à V66 la responsabilité de la série de rappels.
 
 ## Repères Git
 
@@ -108,6 +107,8 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP3** : **créés** `lib/retention-priority.mjs`, `tests/v74-retention-priority.test.mjs`.
+  Aucun fichier existant modifié.
 - **CP2** : **créés** `lib/exercise-attempt.mjs`, `lib/exercise-attempt.d.ts`,
   `lib/learner-memory.mjs`, `lib/learner-memory-server.ts`,
   `tests/v74-learner-memory.test.mjs`. **Modifiés** `lib/progress-store.mjs` (persistance
@@ -121,6 +122,8 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP3** : **1455/1455** (15 nouveaux) · tsc 0 · `gates:active` 0 violation · corpus
+  `92d5fae6…` inchangé · `data/progress.json` absent · **B10 vérifié**, **B2 amorcé**.
 - **CP2** : **1440/1440** (20 nouveaux) · tsc 0 · build OK · `gates:active` 0 violation ·
   porte V73 verte · corpus `92d5fae6…` inchangé · `data/progress.json` absent ·
   **B1 vérifié** (égalité stricte × 2 : rejeu et ordre d'insertion).
@@ -144,11 +147,39 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
+| **4** *(CP3)* | le nombre de `', et '` dans une phrase | le nombre de **facteurs cités**. La phrase de l'échec contient elle-même « , et » : **la sonde mesurait la ponctuation**. Les identifiants cités sont désormais exposés à part. |
 | **1** | « le prochain projet après le **dernier contact** » — une constante | le prochain besoin curriculaire, qui est **relatif à une date**. Donnait « aucun » pour les 20 compétences. **Re-mesuré.** |
 | **2** | la **présence d'une section** dans le gabarit d'une journée | une **distribution de formes de révision**. 6 catégories sur 9 sortaient à 313-365 parce que toutes les journées ont ces sections. |
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP3** — **priorité EXPLICABLE : sept facteurs additifs, bornés, publiés.**
+  - **`lib/retention-priority.mjs`** — pur, horloge injectée. **Poids entiers dont la somme
+    fait exactement 100**, vérifiée en test pour qu'aucune dérive silencieuse ne passe :
+    ancienneté du rappel 30 · échec récent 20 · jamais tenté 15 · besoin proche 15 · niveau
+    promis 10 · profondeur de prérequis 5 · contact passif 5.
+  - **Additifs et bornés, délibérément** : pas de produit, pas d'exponentielle, pas de facteur
+    de facilité flottant. On doit pouvoir dire « 40 points sur 100 viennent de ceci » sans
+    dérouler un calcul. Un score qu'on ne peut pas décomposer n'a pas le droit d'exister ici.
+  - **Le score n'est PAS une probabilité d'oubli** — le CP0 a déclaré cette grandeur
+    UNMEASURABLE. C'est un **ordre de passage**, et il n'est jamais montré chiffré à
+    l'apprenant (§9 du contrat interdit nommément « memory score = 0.637 »).
+  - **B10 vérifié en test** : chaque unité proposée porte ses facteurs, leur valeur observée,
+    leurs points, et une phrase lisible. **La justification cite AU PLUS deux facteurs** —
+    au-delà, une justification cesse d'en être une et devient un rapport.
+  - **G5 gardé par un test** : « récent » ne protège pas. L'ancienneté se compte depuis le
+    dernier **rappel RÉUSSI**, pas depuis le dernier contact — avoir rouvert une page hier ne
+    dit rien, avoir su la retrouver il y a trois semaines dit quelque chose.
+  - **Deux signaux silencieux nommés** : « exposé mais jamais mis à l'épreuve » (rien n'échoue,
+    donc rien n'alerte) et « travaillé mais jamais sans la réponse sous les yeux ».
+  - **B2 amorcé** : le tri est TOTAL — score, puis statut, puis identifiant. Sans cette
+    dernière clé, deux exécutions pourraient rendre deux ordres.
+  - **UNE SONDE DE TEST CORRIGÉE, PUBLIÉE** : le test « au plus deux facteurs cités » découpait
+    la phrase sur `', et '` — or la phrase de l'échec contient elle-même « , et ». **La sonde
+    mesurait la ponctuation, pas la règle.** Les identifiants cités sont désormais exposés
+    (`pourquoiFacteurs`) et c'est sur eux que porte le test.
+  - **1455/1455 · tsc 0 · 52 portes vertes · corpus inchangé.**
 
 - **CP2** — **le fait qui manquait existe : `ExerciseAttempt`. Et le laboratoire écrit
   désormais la tentative, qu'elle réussisse OU NON.**

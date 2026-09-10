@@ -1,0 +1,1 @@
+export function initials(fullName){ return fullName.split(/\s+/).filter(Boolean).map(w=>w[0].toUpperCase()).join(''); }

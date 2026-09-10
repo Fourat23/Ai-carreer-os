@@ -1,0 +1,1 @@
+export function toOctal(s){const v={r:4,w:2,x:1,"-":0};let o="";for(let i=0;i<9;i+=3){o+=String(v[s[i]]+v[s[i+1]]+v[s[i+2]]);}return o;}

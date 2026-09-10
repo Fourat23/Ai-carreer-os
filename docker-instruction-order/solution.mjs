@@ -1,0 +1,1 @@
+export function optimalOrder(steps){const r={from:0,system:1,manifest:2,install:3,code:4,cmd:5};return steps.map((s,i)=>[s,i]).sort((a,b)=>(r[a[0].kind]-r[b[0].kind])||(a[1]-b[1])).map(x=>x[0]);}

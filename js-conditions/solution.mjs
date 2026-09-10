@@ -1,0 +1,1 @@
+export function categorize(age){ if(age<13)return 'enfant'; if(age<=17)return 'ado'; return 'adulte'; }

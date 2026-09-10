@@ -1,0 +1,1 @@
+export function phase(signal){const m={"bad-image":"ImagePullBackOff","mem-exceeded":"OOMKilled","restart-loop":"CrashLoopBackOff","unscheduled":"Pending"};return m[signal]||"Running";}

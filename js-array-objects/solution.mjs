@@ -1,0 +1,1 @@
+export function topScorer(players){ let best=null; for(const p of players){ if(best===null||p.score>best.score) best=p; } return best?best.name:null; }

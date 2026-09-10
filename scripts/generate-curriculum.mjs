@@ -861,7 +861,22 @@ ensureDir(join(ROOT, 'data'));
  * mieux vaut ne rien annoncer que d'annoncer faux.
  */
 function minutesDeLecture(md) {
-  const sansCode = md.replace(/```[\s\S]*?```/g, ' ').replace(/`[^`]*`/g, ' ');
+  // ANOMALIE DE SONDE n° 24, PUBLIÉE — et elle était dans le PRODUIT, pas dans une sonde
+  // d'audit : `readingMinutes` est affiché à l'apprenant. Le motif de code en ligne était
+  // `/`[^`]*`/g`, sans exclusion du saut de ligne. Il apparie donc deux accents graves
+  // séparés par des lignes, des paragraphes — et, puisque cette fonction reçoit la journée,
+  // ses leçons et sa correction CONCATÉNÉES, par des documents entiers.
+  //
+  // Une seule leçon du corpus sur 858 documents porte un nombre IMPAIR d'accents graves hors
+  // blocs de code : `prompt-engineering`, dont la ligne 127 montre une clôture ```json
+  // littérale dans un `<code>`. Ce contenu est JUSTE. Mais cet accent grave orphelin
+  // s'appariait avec le suivant, situé dans le document d'après, et le texte entre les deux
+  // — plusieurs milliers de mots — disparaissait du comptage. Les douze journées j197-j208,
+  // qui lient toutes cette leçon, annonçaient **45 minutes de lecture au lieu de 98**.
+  //
+  // Le motif est donc borné à la ligne. Le corpus n'est pas touché : c'est la mesure qui
+  // était fausse, pas la leçon.
+  const sansCode = md.replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
   const mots = sansCode.split(/\s+/).filter(Boolean).length;
   const lignesCode = [...md.matchAll(/```[\s\S]*?```/g)]
     .map((m) => Math.max(0, m[0].split('\n').length - 2)).reduce((a, b) => a + b, 0);

@@ -1,0 +1,1 @@
+export function missingDeps(jobs){const ids=new Set(jobs.map(j=>j.id));const out=[];const seen=new Set();for(const j of jobs)for(const d of j.needs||[])if(!ids.has(d)&&!seen.has(d)){seen.add(d);out.push(d);}return out;}

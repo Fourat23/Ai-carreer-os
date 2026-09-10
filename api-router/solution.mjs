@@ -1,0 +1,1 @@
+export function matchRoute(method, path, table){ const sp = path.split('/'); for (const [m, pattern, name] of table){ if (m!==method) continue; const pp = pattern.split('/'); if (pp.length!==sp.length) continue; let ok=true; for (let i=0;i<pp.length;i++){ if (pp[i].startsWith(':')) continue; if (pp[i]!==sp[i]){ ok=false; break; } } if (ok) return name; } return 'not-found'; }

@@ -1,0 +1,1 @@
+export function replicas(rps,perInstance){const base=Math.ceil(rps/perInstance)+1;return Math.max(2,base);}

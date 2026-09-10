@@ -1,0 +1,1 @@
+export function countKinds(resources){const o={};for(const r of resources)o[r.kind]=(o[r.kind]||0)+1;return o;}

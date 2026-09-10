@@ -1,0 +1,1 @@
+export function countByLevel(lines){const known=new Set(["ERROR","WARN","INFO","DEBUG"]);const out={};for(const l of lines){const lvl=l.split(/\s+/)[1];if(known.has(lvl))out[lvl]=(out[lvl]||0)+1;}return out;}

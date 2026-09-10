@@ -471,7 +471,6 @@
     91,
     112,
     140,
-    294,
     308,
     329
    ],
@@ -546,8 +545,7 @@
     1,
     1,
     1,
-    1,
-    8,
+    9,
     1,
     1,
     1,
@@ -559,10 +557,10 @@
    ],
    "maxGap": 148,
    "expectedLevel": 3,
-   "nContacts": 63,
+   "nContacts": 62,
    "nTravail": 50,
    "silenceFinal": 36,
-   "fenetre80pourcent": 251,
+   "fenetre80pourcent": 250,
    "ecartRevueMedian": 1,
    "anomalies": [
     "SILENCE_EXCESSIF (148 j entre deux contacts)",
@@ -702,6 +700,7 @@
    "application": null,
    "reviewContacts": [
     42,
+    294,
     357
    ],
    "projectContacts": [],
@@ -710,18 +709,20 @@
     1,
     3,
     34,
-    276,
+    216,
+    2,
+    58,
     5
    ],
-   "maxGap": 276,
+   "maxGap": 216,
    "expectedLevel": 3,
-   "nContacts": 6,
-   "nTravail": 4,
+   "nContacts": 8,
+   "nTravail": 5,
    "silenceFinal": 8,
    "fenetre80pourcent": 314,
-   "ecartRevueMedian": 5,
+   "ecartRevueMedian": 3,
    "anomalies": [
-    "SILENCE_EXCESSIF (276 j entre deux contacts)",
+    "SILENCE_EXCESSIF (216 j entre deux contacts)",
     "ABSENCE_DE_TRANSFERT (aucune journée de projet)"
    ]
   },

@@ -1,0 +1,1 @@
+export function changed(before,after){return Object.keys(before).filter(k=>k in after&&after[k]!==before[k]).sort();}

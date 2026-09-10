@@ -1,0 +1,1 @@
+export function haReplicas(desired){return Math.max(2,desired);}

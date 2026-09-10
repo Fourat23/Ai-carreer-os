@@ -1,0 +1,1 @@
+export async function sumAsync(nums){ const vals = await Promise.all(nums.map(n => Promise.resolve(n))); return vals.reduce((a,b)=>a+b, 0); }

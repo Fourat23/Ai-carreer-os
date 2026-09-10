@@ -1,0 +1,1 @@
+export function blastRadius(services,id){const hit=new Set([id]);for(const s of services)if((s.dependsOn||[]).includes(id))hit.add(s.id);return hit.size;}

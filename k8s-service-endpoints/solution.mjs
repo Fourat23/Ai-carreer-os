@@ -1,0 +1,1 @@
+export function endpoints(selector,pods){const k=Object.keys(selector);if(k.length===0)return 0;return pods.filter(p=>k.every(key=>p.labels[key]===selector[key])).length;}

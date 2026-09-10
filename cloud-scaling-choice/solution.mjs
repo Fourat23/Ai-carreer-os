@@ -1,0 +1,1 @@
+export function scalingChoice(svc){if(svc.stateless)return "horizontal";if(!svc.atMaxSize)return "vertical";return "refactor";}

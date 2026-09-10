@@ -1,0 +1,1 @@
+export function placement(sensitive){return sensitive?"Secret":"ConfigMap";}

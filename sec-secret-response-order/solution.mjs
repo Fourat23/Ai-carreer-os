@@ -1,0 +1,1 @@
+export function nextStep(done){const order=["revocation","rotation","redeploy","audit"];for(const s of order)if(!done.includes(s))return s;return "complete";}

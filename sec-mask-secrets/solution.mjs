@@ -1,0 +1,1 @@
+export function redact(line,secrets){let out=line;for(const s of secrets)if(s)out=out.split(s).join("***");return out;}

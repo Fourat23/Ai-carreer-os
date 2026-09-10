@@ -1,0 +1,1 @@
+export function probeFor(goal){if(goal==="traffic")return "readiness";if(goal==="restart")return "liveness";if(goal==="slow-boot")return "startup";return "readiness";}

@@ -1,0 +1,1 @@
+export function tier(kind){const p=["load-balancer","frontend","cdn","reverse-proxy"];const d=["relational-db","nosql-db","object-storage","cache","block-storage","file-storage"];if(p.includes(kind))return "presentation";if(d.includes(kind))return "data";return "logic";}

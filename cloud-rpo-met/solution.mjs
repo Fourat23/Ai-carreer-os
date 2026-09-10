@@ -1,0 +1,1 @@
+export function rpoMet(backupIntervalMin,rpoMin){return backupIntervalMin<=rpoMin;}

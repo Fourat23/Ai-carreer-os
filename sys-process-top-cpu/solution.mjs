@@ -1,0 +1,1 @@
+export function topByCpu(procs,n){return [...procs].sort((a,b)=>b.cpu-a.cpu||a.pid-b.pid).slice(0,n).map(p=>p.pid);}

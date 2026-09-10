@@ -1,6 +1,6 @@
 # Semaine 35 — Vector DB, chunking avancé
 
-> **Mois 9** · Compétences : RAG, SQL / Data
+> **Mois 9** · Compétences : RAG
 
 [← Mois 9](month-09.md) · [Vue d'ensemble](year-overview.md)
 

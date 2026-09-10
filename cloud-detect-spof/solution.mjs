@@ -1,0 +1,1 @@
+export function spofKinds(nodes){const crit=new Set(["api","load-balancer","relational-db"]);const c={};for(const n of nodes)if(crit.has(n.kind))c[n.kind]=(c[n.kind]||0)+1;return Object.keys(c).filter(k=>c[k]===1).sort();}

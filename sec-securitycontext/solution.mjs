@@ -1,0 +1,1 @@
+export function isHardened(sc){return sc.runAsNonRoot===true&&sc.readOnlyRootFilesystem===true&&sc.dropsAll===true;}

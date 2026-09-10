@@ -1,0 +1,1 @@
+export function statusClass(c){if(c>=100&&c<200)return "informational";if(c<300)return "success";if(c<400)return "redirect";if(c<500)return "client-error";if(c<600)return "server-error";return "unknown";}

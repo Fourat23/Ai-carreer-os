@@ -1,0 +1,1 @@
+export function canPromote(g){if(!g.ciGreen||!g.artifactPresent)return false;if(g.requiresApproval)return g.approved===true;return true;}

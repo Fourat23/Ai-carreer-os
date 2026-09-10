@@ -1,0 +1,1 @@
+export function recover(ctx){if(ctx.migrationBlocks)return "roll-forward";if(ctx.urgent)return "hotfix";return "rollback";}

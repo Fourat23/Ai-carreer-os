@@ -1,0 +1,1 @@
+export function retryDecision(code,attempt,max){if(code===0)return "success";return attempt<max?"retry":"give-up";}

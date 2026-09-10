@@ -1,0 +1,1 @@
+export function classifyForm(line){const m=line.match(/^\s*(CMD|ENTRYPOINT)\s+(.*)$/i);if(!m)return "invalid";const arg=m[2].trim();if(/^\[.*\]$/.test(arg)){try{const a=JSON.parse(arg);return Array.isArray(a)&&a.every(x=>typeof x==="string")?"exec":"invalid";}catch{return "invalid";}}return arg?"shell":"invalid";}

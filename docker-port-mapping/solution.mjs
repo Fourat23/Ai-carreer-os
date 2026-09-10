@@ -1,0 +1,1 @@
+export function hostPortFor(mappings,cp){for(const m of mappings){const [h,c]=String(m).split(":").map(Number);if(c===cp)return h;}return null;}

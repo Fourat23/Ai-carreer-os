@@ -5,19 +5,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP11**
+- **dernier CP terminé** : **CP12**
 - **CP courant** : —
-- **NEXT_CP** : **CP12** — intégrité factuelle
-- **NEXT_ACTION** : contrôler ce qui est **vérifiable mécaniquement**, et publier les erreurs de
-  sonde. (a) `readingMinutes` : recalculer et comparer au déclaré ; (b) **références** — le lab
-  `terminal` est **déjà corrigé au CP2**, NE PAS le « re-corriger » ; (c) affirmations
-  exécutables : les exécuter réellement ; (d) **contrôle de clé dupliquée dans `LESSONS_V67`**,
-  promis au CP3 (anomalies n° 10 et n° 14 : une clé dupliquée est écrasée par la dernière, le
-  rattachement est silencieusement perdu) ; (e) les **deux sous-déclarations de
-  `lessons-map.mjs`** trouvées en aval : compétences manquantes sur 10 semaines (CP10) et
-  `practiceRefs` manquants sur toute la moitié IA — `rag` 4 déclarés pour 35 exercices
-  programmés, `ml` 6 pour 49 (CP11, P2-CP11-1). **Corriger la carte, pas les semaines.**
-  Ressources : `docs/v73/pratique-transfert.json`, `docs/v73/curriculum-graph.json`.
+- **NEXT_CP** : **CP13** — audit à l'aveugle
+- **NEXT_ACTION** : **au moins 32 unités** (leçons, journées, revues, semaines, mois),
+  **échantillon tiré et publié AVANT de lire le moindre résultat** (graine écrite d'abord,
+  comme au CP0 avec 20260910). Lire réellement, pas scanner. Comparer au CP0, qui avait conclu
+  sur 24 unités que **« l'hypothèse *les cours sont mauvais* est fausse »** — le CP13 doit
+  dire si les corrections des CP3 à CP12 ont dégradé quoi que ce soit. **Inclure
+  obligatoirement** : des semaines réécrites au CP10 (s6→s13, s15, s34), des journées dont la
+  difficulté a été redérivée au CP9, des journées dont `readingMinutes` a changé au CP12
+  (j197→j210), et des leçons non touchées depuis le CP0 comme témoins. **Une anomalie de
+  tirage doit être publiée** (le CP0 avait donné 0 leçon « milieu » au premier jet).
+  Ressources : `docs/v73/CP0-ECHANTILLON-24.json`, `docs/v73/V73-STATUTS-128.json`.
 
 ## Repères Git
 
@@ -63,6 +63,51 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP12** — **les 376 solutions de référence ont été EXÉCUTÉES : 376/376 passent. Et un accent
+  grave orphelin faisait perdre 55 minutes de lecture à douze journées.**
+  - **SEPT CONTRÔLES MÉCANIQUES, TOUS VERTS** : R1 liens de leçon des 365 journées **0 mort** ·
+    R2 liens entre leçons **0** · R3 `practiceRefs` **0** · R4 exercices programmés **0** ·
+    R5 **clés dupliquées 0** · R6 `readingMinutes` recompté **0 écart > 3 min** · R7 exercices
+    sans solution ou sans test **0**. Le lab `terminal` **n'a pas été « re-corrigé »** : réparé
+    au CP2, R3 le confirme vert.
+  - **R5 acquitte la dette du CP3.** Les anomalies **n° 10** (sonde, CP2) et **n° 14**
+    (PRODUCTION, CP3) sont le même défaut : une clé dupliquée dans un littéral d'objet, écrasée
+    par la dernière, sans le moindre avertissement. Le contrôle **a été testé négativement** —
+    clé 292 injectée → ❌ 1 détecté → fichier restauré → ✅ 0. Motif d'indentation **élargi de
+    2 espaces exacts à 1-8**, sans quoi il aurait été vert *par construction*.
+  - **ANOMALIE n° 24, ET ELLE ÉTAIT DANS LE PRODUIT** : `minutesDeLecture` retirait le code en
+    ligne avec ``/`[^`]*`/g``, **sans exclure le saut de ligne**, sur la CONCATÉNATION
+    journée + leçons + correction. **Un seul document sur 858** porte un nombre impair
+    d'accents graves hors blocs : `prompt-engineering.md`, qui montre une clôture ```json
+    littérale — **contenu juste**. Son accent orphelin s'appariait avec le suivant, dans le
+    document d'après, et avalait des milliers de mots. **j197 annonçait 45 min au lieu de
+    100.** **27 journées corrigées**, médiane 77 → **80**, total 31 141 → **32 289 min**.
+    Correctif **dans la sonde, pas dans le corpus** — hash inchangé.
+  - **LES AFFIRMATIONS EXÉCUTABLES ONT ÉTÉ EXÉCUTÉES** — le contrôle n'existait pas : une porte
+    vérifiait qu'une solution de référence EXISTE, jamais qu'elle MARCHE. **376/376 passent
+    l'intégralité de leurs propres tests**, dans le vrai exécuteur de l'application
+    (`runExercise`), sans aucune réimplémentation. Six runtimes couverts.
+  - **UN DÉTAIL D'HONNÊTETÉ** : au premier passage, 18 exercices `python-ds` étaient « non
+    exécutables ici » (venv Data/ML absent). Publier **358/376 avec 18 non concernés** aurait
+    été vrai et trompeur. Le script de provisionnement du dépôt a été lancé et **les 18 ont été
+    réellement exécutés**. *Un environnement absent n'est pas un exercice qui passe.*
+  - **CARTE DES LEÇONS, sur une règle déclarée d'avance** (« `week.skills` nomme ce que la
+    semaine ENSEIGNE ; si une leçon l'enseigne sans le déclarer → corriger la CARTE ; si aucune
+    ne l'enseigne → corriger la SEMAINE ») : **4 ajouts vérifiés en lisant la leçon**
+    (`ai-security` +`llm`, `prompt-injection-defense` +`llm`, `rag-fundamentals` +`llm`,
+    `agent-workflows-orchestration` +`archi`) et **6 retraits de semaine** (s27 `python`,
+    s33/s34/s45 `se`, s35 `sql`, s48 `se`+`evalia`). **22 → 10 → 0 / 52.** Aucune étiquette de
+    revue ne bouge. **La porte V49 a rougi** — son ledger est dérivé de la carte : régénéré,
+    pas contourné.
+  - **P2-CP11-1 REFORMULÉ après mesure complète** : il n'y a **aucun** exercice orphelin —
+    **les 376 sont programmés** par au moins une journée, **0 déclaré-jamais-programmé**,
+    **0 inatteignable**. L'énoncé exact est : **169 exercices sur 376 (45 %) ne sont
+    atteignables que par le calendrier, jamais depuis une page de leçon.** Choix de navigation,
+    chiffré, **non corrigé** — rattacher mécaniquement 169 exercices inventerait une intention
+    que personne n'a écrite.
+  - **Aucune leçon touchée**, corpus `92d5fae6…` inchangé. Seul change le nombre affiché en tête
+    de 27 journées, et il devient exact.
 
 - **CP11** — **la page `/projects` affichait « Journées rattachées : 0 » pour cinq projets sur
   sept.**
@@ -489,6 +534,10 @@ jamais le créer.
   **inchangé** (seuls le générateur et les 365 journées générées changent).
 - **CP8** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** · charge 362 BALANCED / 3 UNDERLOADED / 0 HEAVY / 0 IMPOSSIBLE.
+- **CP12** : 1420/1420 · tsc 0 · 0 violation de gate (V49 régénérée) · porte V73 verte · corpus
+  `92d5fae6…` **inchangé** · **R1→R7 = 0 défaut** · **376/376 solutions de référence exécutées
+  et passantes** · 0/52 semaines déclarant une compétence non portée · L1 = 0 · L2 = 0/52 ·
+  L3 = 6/365.
 - **CP11** : 1420/1420 · tsc 0 · **build OK** · 0 violation de gate · porte V73 verte · corpus
   `92d5fae6…` **inchangé** · L1 = 0 · L2 = 0/52 · L3 = 6/365 · **64 journées de projet
   déclarées** = les 64 titrées · `days-difficulty-v73.mjs` régénéré identique.

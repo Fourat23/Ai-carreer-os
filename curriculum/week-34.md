@@ -1,6 +1,6 @@
 # Semaine 34 — DocQA : interface, session, robustesse ; bilan RAG + revue mensuelle 8
 
-> **Mois 8** · Compétences : RAG, Software engineering
+> **Mois 8** · Compétences : RAG
 
 [← Mois 8](month-08.md) · [Vue d'ensemble](year-overview.md)
 

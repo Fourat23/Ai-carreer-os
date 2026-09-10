@@ -1,0 +1,1 @@
+export function keptFiles(files,patterns){const ex=(f)=>patterns.some(p=>{if(p.endsWith("/"))return f.startsWith(p);if(p.startsWith("*."))return f.endsWith(p.slice(1));return f===p;});return files.filter(f=>!ex(f));}

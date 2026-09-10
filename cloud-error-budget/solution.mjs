@@ -1,0 +1,1 @@
+export function remainingBudget(total,slo,failed){const allowed=Math.floor(total*(1-slo));return Math.max(0,allowed-failed);}

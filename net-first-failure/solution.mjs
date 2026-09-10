@@ -1,0 +1,1 @@
+export function firstFailure(checks){for(const c of checks){if(!c.ok)return c.layer;}return null;}

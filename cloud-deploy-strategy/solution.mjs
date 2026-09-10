@@ -1,0 +1,1 @@
+export function strategy(req){if(req.needsMetric)return "canary";if(req.instantRollback)return "blue-green";if(req.zeroDowntime)return "rolling";return "recreate";}

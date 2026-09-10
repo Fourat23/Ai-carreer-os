@@ -1,0 +1,1 @@
+export function applyUmask(b,u){let o="";for(let i=0;i<b.length;i++){o+=String(Number(b[i])&(~Number(u[i])&7));}return o;}

@@ -1,0 +1,1 @@
+export function wordCount(str){ const m=new Map(); for(const w of str.toLowerCase().split(/\s+/).filter(Boolean)){ m.set(w,(m.get(w)||0)+1); } return Object.fromEntries(m); }

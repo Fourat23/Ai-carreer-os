@@ -1,6 +1,6 @@
 # Semaine 33 — RAG v1 multi-formats, métadonnées, DocQA v0 sur corpus réel
 
-> **Mois 8** · Compétences : RAG, Software engineering
+> **Mois 8** · Compétences : RAG
 
 [← Mois 8](month-08.md) · [Vue d'ensemble](year-overview.md)
 

@@ -1,0 +1,2 @@
+import { isEmail, MIN_NAME } from './rules.mjs';
+export function validateUser(user){ const errors=[]; if(!user||typeof user.name!=='string'||user.name.length<MIN_NAME) errors.push('nom trop court'); if(!user||!isEmail(user.email)) errors.push('email invalide'); return { valid: errors.length===0, errors }; }

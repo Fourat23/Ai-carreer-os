@@ -1,0 +1,1 @@
+export function findSecretLeaks(lines){const out=[];lines.forEach((l,i)=>{const u=l.toUpperCase();if(/^\s*(ENV|ARG)\s+\w*(API_KEY|TOKEN|SECRET|PASSWORD)\w*\s*=\s*\S+/.test(u))out.push(i);else if(/^\s*COPY\s+.*\.ENV(\s|$)/.test(u))out.push(i);});return out;}

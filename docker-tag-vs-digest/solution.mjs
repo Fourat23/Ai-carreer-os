@@ -1,0 +1,1 @@
+export function isReproducible(ref){return /@sha256:[0-9a-f]{6,}/i.test(String(ref));}

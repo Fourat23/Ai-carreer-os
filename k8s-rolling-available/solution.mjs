@@ -1,0 +1,1 @@
+export function minAvailable(replicas,maxUnavailable){return Math.max(0,replicas-maxUnavailable);}

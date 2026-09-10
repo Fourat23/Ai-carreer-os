@@ -1,0 +1,1 @@
+export function pinned(image){const ref=image.split("/").pop();if(!ref.includes(":"))return false;const tag=ref.split(":").pop();return tag!=="latest"&&tag.length>0;}

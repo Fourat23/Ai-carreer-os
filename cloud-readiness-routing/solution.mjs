@@ -1,0 +1,1 @@
+export function routable(instances){return instances.filter(i=>i.ready===true).map(i=>i.id).sort();}

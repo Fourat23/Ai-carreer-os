@@ -1,6 +1,6 @@
 # Semaine 45 — Projet final : ingestion multi-format + RAG core
 
-> **Mois 11** · Compétences : RAG, Software engineering
+> **Mois 11** · Compétences : RAG
 
 [← Mois 11](month-11.md) · [Vue d'ensemble](year-overview.md)
 

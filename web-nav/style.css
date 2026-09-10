@@ -1,0 +1,2 @@
+.menu { display: flex; gap: 12px; list-style: none; padding: 0; }
+@media (max-width: 480px) { .menu { flex-direction: column; } }

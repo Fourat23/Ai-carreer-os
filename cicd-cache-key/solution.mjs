@@ -1,0 +1,1 @@
+export function cacheHit(inputs,changed){if(!inputs||inputs.length===0)return false;const set=new Set(changed||[]);return !inputs.some(f=>set.has(f));}

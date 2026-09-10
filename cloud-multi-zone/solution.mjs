@@ -1,0 +1,1 @@
+export function isMultiZone(instances){return new Set(instances.map(i=>i.zone)).size>=2;}

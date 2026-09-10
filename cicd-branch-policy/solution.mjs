@@ -1,0 +1,1 @@
+export function canMerge(policy,pr){const protectedB=policy.protectedBranches||[];if(!protectedB.includes(pr.target))return true;if(policy.requireGreenCI)return pr.ciGreen===true;return true;}

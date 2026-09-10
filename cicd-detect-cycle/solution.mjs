@@ -1,0 +1,1 @@
+export function hasCycle(jobs){const byId=new Map(jobs.map(j=>[j.id,j]));const st=new Map();function dfs(id){if(!byId.has(id))return false;if(st.get(id)===1)return false;if(st.get(id)===0)return true;st.set(id,0);for(const d of byId.get(id).needs||[])if(dfs(d))return true;st.set(id,1);return false;}return jobs.some(j=>dfs(j.id));}

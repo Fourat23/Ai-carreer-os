@@ -1,0 +1,1 @@
+export function exposedDbs(nodes){const db=new Set(["relational-db","nosql-db"]);return nodes.filter(n=>db.has(n.kind)&&n.public===true).map(n=>n.id).sort();}

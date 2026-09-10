@@ -1,0 +1,1 @@
+export function decide(ctx){if(ctx.reversible)return "rollback";if(ctx.critical)return "hotfix";return "roll-forward";}

@@ -1,0 +1,45 @@
+# Harnais genere - ne pas modifier.
+import sys, json, io, importlib.util, traceback
+TESTS = json.loads("[{\"id\":\"t1\",\"kind\":\"call-equals\",\"export\":\"harness_report\",\"args\":[[{\"pred\":\"a\",\"gold\":\"a\",\"category\":\"format\"},{\"pred\":\"x\",\"gold\":\"y\",\"category\":\"faux\"},{\"pred\":\"z \",\"gold\":\"z\",\"category\":\"format\"},{\"pred\":\"1\",\"gold\":\"2\",\"category\":\"faux\"},{\"pred\":\"q\",\"gold\":\"w\",\"category\":\"ancrage\"}],0.42,0.05]},{\"id\":\"t2\",\"kind\":\"call-equals\",\"export\":\"harness_report\",\"args\":[[{\"pred\":\"a\",\"gold\":\"a\",\"category\":\"format\"},{\"pred\":\"x\",\"gold\":\"y\",\"category\":\"faux\"},{\"pred\":\"z \",\"gold\":\"z\",\"category\":\"format\"},{\"pred\":\"1\",\"gold\":\"2\",\"category\":\"faux\"},{\"pred\":\"q\",\"gold\":\"w\",\"category\":\"ancrage\"}],0.85,0.05]},{\"id\":\"t3\",\"kind\":\"call-equals\",\"export\":\"harness_report\",\"args\":[[{\"pred\":\"a\",\"gold\":\"b\",\"category\":\"zeta\"},{\"pred\":\"c\",\"gold\":\"d\",\"category\":\"alpha\"}],0.5,0.1]},{\"id\":\"t4\",\"kind\":\"call-equals\",\"export\":\"harness_report\",\"args\":[[{\"pred\":\"a\",\"gold\":\"a\",\"category\":\"x\"}],0.9,0.05]}]")
+ENTRY = "solution.py"
+MARKER = "__LAB_RESULT__"
+_buf = io.StringIO()
+_real = sys.stdout
+sys.stdout = _buf
+sys.stderr = io.StringIO()
+mod = None
+import_error = None
+try:
+    spec = importlib.util.spec_from_file_location("user_entry", ENTRY)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+except Exception:
+    import_error = traceback.format_exc()[:2000]
+observed = {}
+import time as _time
+for t in TESTS:
+    tid = t["id"]
+    if t["kind"] == "call-equals":
+        _t0 = _time.time()
+        if import_error:
+            entry = {"error": import_error}
+        else:
+            fn = getattr(mod, t["export"], None)
+            if not callable(fn):
+                entry = {"error": "export '%s' introuvable ou non-callable" % t["export"]}
+            else:
+                try:
+                    entry = {"value": fn(*t.get("args", []))}
+                except Exception as e:
+                    entry = {"error": (repr(e))[:500]}
+        entry["durationMs"] = int((_time.time() - _t0) * 1000)
+        observed[tid] = entry
+    else:
+        observed[tid] = {"error": import_error, "stdout": _buf.getvalue()} if import_error else {"stdout": _buf.getvalue()}
+user_stdout = _buf.getvalue()[:100000]
+sys.stdout = _real
+try:
+    payload = json.dumps({"observed": observed, "stdout": user_stdout})
+except Exception:
+    payload = json.dumps({"observed": {}, "fatal": "resultat non serialisable"})
+sys.stdout.write(MARKER + payload + "\n")

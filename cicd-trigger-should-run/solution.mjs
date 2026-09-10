@@ -1,0 +1,1 @@
+export function shouldRun(p,e){if(!(p.trigger||[]).includes(e.kind))return false;if(e.kind==="tag")return !(p.tagFilters&&p.tagFilters.length)||p.tagFilters.includes(e.tag);if(p.branchFilters&&p.branchFilters.length)return p.branchFilters.includes(e.branch);return true;}

@@ -1,0 +1,1 @@
+export function brokenBackends(backends,services){const set=new Set(services);return [...new Set(backends.filter(b=>!set.has(b)))].sort();}

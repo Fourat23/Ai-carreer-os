@@ -1,0 +1,1 @@
+export function classify(s){const m={"name-not-resolved":"DNS","connection-refused":"TCP","timeout":"TCP","cert-expired":"TLS","cert-mismatch":"TLS"};if(m[s])return m[s];if(/^http-[45]\d\d$/.test(s))return "HTTP";return "UNKNOWN";}

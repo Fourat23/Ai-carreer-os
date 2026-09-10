@@ -1,0 +1,1 @@
+export function matches(selector,labels){const k=Object.keys(selector);if(k.length===0)return false;return k.every(key=>labels[key]===selector[key]);}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T14:50:05.782Z",
+  "generatedAt": "2026-09-10T14:57:52.747Z",
   "skills": [
     {
       "id": "algo",
@@ -517,8 +517,7 @@
       "theme": "Deep learning : neurones, gradient, PyTorch tenseurs",
       "month": 7,
       "skills": [
-        "dl",
-        "python"
+        "dl"
       ]
     },
     {
@@ -569,8 +568,7 @@
       "theme": "RAG v1 multi-formats, métadonnées, DocQA v0 sur corpus réel",
       "month": 8,
       "skills": [
-        "rag",
-        "se"
+        "rag"
       ]
     },
     {
@@ -578,8 +576,7 @@
       "theme": "DocQA : interface, session, robustesse ; bilan RAG + revue mensuelle 8",
       "month": 8,
       "skills": [
-        "rag",
-        "se"
+        "rag"
       ]
     },
     {
@@ -587,8 +584,7 @@
       "theme": "Vector DB, chunking avancé",
       "month": 9,
       "skills": [
-        "rag",
-        "sql"
+        "rag"
       ]
     },
     {
@@ -678,8 +674,7 @@
       "theme": "Projet final : ingestion multi-format + RAG core",
       "month": 11,
       "skills": [
-        "rag",
-        "se"
+        "rag"
       ]
     },
     {
@@ -707,8 +702,7 @@
       "month": 12,
       "skills": [
         "secu",
-        "se",
-        "evalia"
+        "http"
       ]
     },
     {
@@ -3697,7 +3691,7 @@
       "skillName": "LLM",
       "difficulty": 5,
       "hours": 4.5,
-      "readingMinutes": 45,
+      "readingMinutes": 100,
       "isReview": false,
       "detailed": false,
       "deliverable": "Note de synthèse sur le fonctionnement LLM.",
@@ -3712,7 +3706,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 44,
+      "readingMinutes": 99,
       "isReview": false,
       "detailed": false,
       "deliverable": "Script d'appel LLM fonctionnel.",
@@ -3727,7 +3721,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 44,
+      "readingMinutes": 99,
       "isReview": false,
       "detailed": false,
       "deliverable": "Étude des paramètres + conclusions.",
@@ -3742,7 +3736,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 45,
+      "readingMinutes": 99,
       "isReview": false,
       "detailed": false,
       "deliverable": "Calcul de coûts + estimation à l'échelle.",
@@ -3757,7 +3751,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 45,
+      "readingMinutes": 99,
       "isReview": false,
       "detailed": false,
       "deliverable": "3 hallucinations documentées + mécanisme.",
@@ -3772,7 +3766,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 45,
+      "readingMinutes": 99,
       "isReview": false,
       "detailed": false,
       "deliverable": "Banc d'essai LLM documenté.",
@@ -3787,7 +3781,7 @@
       "skillName": "LLM",
       "difficulty": 2,
       "hours": 4.5,
-      "readingMinutes": 49,
+      "readingMinutes": 104,
       "isReview": true,
       "detailed": false,
       "deliverable": null,
@@ -3802,7 +3796,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 45,
+      "readingMinutes": 99,
       "isReview": false,
       "detailed": false,
       "deliverable": "5 prompts robustes versionnés.",
@@ -3817,7 +3811,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 45,
+      "readingMinutes": 100,
       "isReview": false,
       "detailed": false,
       "deliverable": "Extracteur avec validation + retry.",
@@ -3832,7 +3826,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 45,
+      "readingMinutes": 100,
       "isReview": false,
       "detailed": false,
       "deliverable": "Bibliothèque de 5 patterns testés.",
@@ -3847,7 +3841,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 46,
+      "readingMinutes": 100,
       "isReview": false,
       "detailed": false,
       "deliverable": "Assistant 2-outils robuste.",
@@ -3862,7 +3856,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 45,
+      "readingMinutes": 99,
       "isReview": false,
       "detailed": false,
       "deliverable": "Intégration LLM robuste dans ton app.",
@@ -3877,7 +3871,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 45,
+      "readingMinutes": 99,
       "isReview": false,
       "detailed": false,
       "deliverable": "Note d'ingénierie LLM + revue mensuelle 7.",
@@ -3892,7 +3886,7 @@
       "skillName": "LLM",
       "difficulty": 2,
       "hours": 4.5,
-      "readingMinutes": 49,
+      "readingMinutes": 104,
       "isReview": true,
       "detailed": false,
       "deliverable": null,
@@ -3907,7 +3901,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 46,
+      "readingMinutes": 100,
       "isReview": false,
       "detailed": false,
       "deliverable": "Système de prompts versionnés + tests.",
@@ -3922,7 +3916,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 46,
+      "readingMinutes": 100,
       "isReview": false,
       "detailed": false,
       "deliverable": "Guardrails de base implémentés.",
@@ -3937,7 +3931,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 46,
+      "readingMinutes": 100,
       "isReview": false,
       "detailed": false,
       "deliverable": "Assistant multi-outils robuste.",
@@ -3952,7 +3946,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 46,
+      "readingMinutes": 100,
       "isReview": false,
       "detailed": false,
       "deliverable": "Composant appel-LLM-robuste réutilisable.",
@@ -3967,7 +3961,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 46,
+      "readingMinutes": 101,
       "isReview": false,
       "detailed": false,
       "deliverable": "Note 'pourquoi le RAG' + conception.",
@@ -3982,7 +3976,7 @@
       "skillName": "LLM",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 46,
+      "readingMinutes": 100,
       "isReview": false,
       "detailed": false,
       "deliverable": "Chunking implémenté + chunks inspectés.",
@@ -3997,7 +3991,7 @@
       "skillName": "LLM",
       "difficulty": 2,
       "hours": 4.5,
-      "readingMinutes": 50,
+      "readingMinutes": 104,
       "isReview": true,
       "detailed": false,
       "deliverable": null,
@@ -4177,7 +4171,7 @@
       "skillName": "RAG",
       "difficulty": 5,
       "hours": 4.5,
-      "readingMinutes": 160,
+      "readingMinutes": 161,
       "isReview": false,
       "detailed": false,
       "deliverable": "Filtrage par métadonnées fonctionnel.",
@@ -4297,7 +4291,7 @@
       "skillName": "RAG",
       "difficulty": 5,
       "hours": 4.5,
-      "readingMinutes": 161,
+      "readingMinutes": 162,
       "isReview": false,
       "detailed": false,
       "deliverable": "Bilan + plan d'évaluation.",
@@ -4342,7 +4336,7 @@
       "skillName": "RAG",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 161,
+      "readingMinutes": 162,
       "isReview": false,
       "detailed": false,
       "deliverable": "Chunking structuré + comparaison.",
@@ -4357,7 +4351,7 @@
       "skillName": "RAG",
       "difficulty": 5,
       "hours": 4.5,
-      "readingMinutes": 161,
+      "readingMinutes": 162,
       "isReview": false,
       "detailed": false,
       "deliverable": "Rapport de comparaison chunking.",
@@ -5542,7 +5536,7 @@
       "skillName": "Évaluation IA",
       "difficulty": 5,
       "hours": 4.5,
-      "readingMinutes": 152,
+      "readingMinutes": 153,
       "isReview": false,
       "detailed": false,
       "deliverable": "DocSense dockerisé (compose up).",
@@ -5902,7 +5896,7 @@
       "skillName": "Communication technique",
       "difficulty": 4,
       "hours": 4.5,
-      "readingMinutes": 94,
+      "readingMinutes": 95,
       "isReview": false,
       "detailed": false,
       "deliverable": "CV 1 page finalisé.",
@@ -7782,7 +7776,8 @@
       "level": 2,
       "min": 55,
       "skills": [
-        "rag"
+        "rag",
+        "llm"
       ],
       "practiceRefs": [
         {
@@ -7903,7 +7898,8 @@
       "level": 3,
       "min": 50,
       "skills": [
-        "agents"
+        "agents",
+        "archi"
       ],
       "practiceRefs": [
         {
@@ -7931,7 +7927,8 @@
       "level": 3,
       "min": 50,
       "skills": [
-        "secu"
+        "secu",
+        "llm"
       ],
       "practiceRefs": [
         {
@@ -7947,7 +7944,8 @@
       "level": 3,
       "min": 45,
       "skills": [
-        "secu"
+        "secu",
+        "llm"
       ],
       "practiceRefs": [
         {

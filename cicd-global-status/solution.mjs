@@ -1,0 +1,1 @@
+export function globalStatus(jobs){if(jobs.some(j=>j.status==="failed"&&!j.allowFailure))return "failed";if(jobs.some(j=>j.status==="blocked"))return "blocked";if(jobs.some(j=>j.status==="cancelled"))return "cancelled";return "success";}

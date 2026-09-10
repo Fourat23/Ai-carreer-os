@@ -33,7 +33,7 @@
    "secu",
    "sql"
   ],
-  "aretes": 799,
+  "aretes": 803,
   "pratiques": 339,
   "pratiquesNonResolues": 0,
   "anomaliesBloquantes": 0
@@ -5164,6 +5164,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5192,6 +5193,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5220,6 +5222,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5248,6 +5251,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5276,6 +5280,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5304,6 +5309,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5333,6 +5339,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5361,6 +5368,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5389,6 +5397,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5417,6 +5426,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5443,6 +5453,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5469,6 +5480,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5495,6 +5507,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5523,6 +5536,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5549,6 +5563,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5575,6 +5590,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5601,6 +5617,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5627,6 +5644,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5653,6 +5671,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5679,6 +5698,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5709,6 +5729,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5735,6 +5756,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5761,6 +5783,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5787,6 +5810,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5813,6 +5837,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5839,6 +5864,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5865,6 +5891,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5893,6 +5920,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5919,6 +5947,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5945,6 +5974,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5971,6 +6001,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -5997,6 +6028,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -6023,6 +6055,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -6049,6 +6082,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -6077,6 +6111,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -6279,6 +6314,7 @@
    ],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -6301,6 +6337,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -6323,6 +6360,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -6345,6 +6383,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -6367,6 +6406,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -6389,6 +6429,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -6414,6 +6455,7 @@
    ],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -6615,6 +6657,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6639,6 +6682,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6663,6 +6707,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6687,6 +6732,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6711,6 +6757,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6735,6 +6782,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6759,6 +6807,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6783,6 +6832,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6807,6 +6857,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6831,6 +6882,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6855,6 +6907,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6879,6 +6932,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6903,6 +6957,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -6927,6 +6982,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -7144,6 +7200,7 @@
    ],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -7166,6 +7223,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -7190,6 +7248,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http",
     "archi",
     "cloud"
@@ -7221,6 +7280,7 @@
    ],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -7243,6 +7303,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -7265,6 +7326,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -7293,6 +7355,7 @@
     "archi",
     "cloud",
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -7497,6 +7560,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -7523,6 +7587,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -7549,6 +7614,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -7575,6 +7641,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -7601,6 +7668,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -7627,6 +7695,7 @@
    "exercices": [],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -7657,6 +7726,7 @@
    ],
    "competencesPortees": [
     "rag",
+    "llm",
     "dl",
     "evalia"
    ]
@@ -7894,6 +7964,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -7918,6 +7989,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -7945,9 +8017,9 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm",
-    "cloud",
-    "archi"
+    "cloud"
    ]
   },
   {
@@ -7985,10 +8057,10 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm",
     "cloud",
-    "se",
-    "archi"
+    "se"
    ]
   },
   {
@@ -8012,6 +8084,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -8036,6 +8109,7 @@
    ],
    "competencesPortees": [
     "agents",
+    "archi",
     "llm"
    ]
   },
@@ -8088,6 +8162,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -8111,6 +8186,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http",
     "archi",
     "cloud"
@@ -8138,9 +8214,9 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http",
     "cloud",
-    "llm",
     "archi",
     "comm"
    ]
@@ -8164,6 +8240,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -8186,6 +8263,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -8208,6 +8286,7 @@
    "exercices": [],
    "competencesPortees": [
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -8239,6 +8318,7 @@
     "cloud",
     "comm",
     "secu",
+    "llm",
     "http"
    ]
   },
@@ -9699,6 +9779,18 @@
     135,
     141,
     146,
+    274,
+    275,
+    276,
+    277,
+    278,
+    279,
+    281,
+    282,
+    283,
+    284,
+    285,
+    286,
     288,
     289,
     290,
@@ -9714,8 +9806,12 @@
     307,
     320,
     321,
+    323,
+    324,
     325,
     326,
+    327,
+    328,
     331,
     332,
     352,
@@ -9743,6 +9839,18 @@
     103,
     104,
     135,
+    274,
+    275,
+    276,
+    277,
+    278,
+    279,
+    281,
+    282,
+    283,
+    284,
+    285,
+    286,
     288,
     289,
     290,
@@ -9765,8 +9873,12 @@
     307,
     320,
     321,
+    323,
+    324,
     325,
     326,
+    327,
+    328,
     331,
     332
    ],
@@ -9778,6 +9890,8 @@
     119,
     140,
     147,
+    280,
+    287,
     294,
     301,
     308,
@@ -9811,19 +9925,19 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 20,
-   "joursPortants": 66,
-   "leconsDeclarantes": 40,
-   "leconsProgrammees": 36,
+   "joursPortants": 84,
+   "leconsDeclarantes": 41,
+   "leconsProgrammees": 37,
    "leconsHorsParcours": [
     "deployment-strategies",
     "release-incident-recovery",
     "k8s-networking-services",
     "k8s-troubleshooting"
    ],
-   "artefactsPratique": 92,
+   "artefactsPratique": 96,
    "premierContact": 44,
    "dernierContact": 365,
-   "plusGrandSilence": 141,
+   "plusGrandSilence": 127,
    "silenceFinal": 0
   },
   {
@@ -10151,6 +10265,42 @@
     214,
     215,
     216,
+    218,
+    219,
+    220,
+    221,
+    222,
+    223,
+    225,
+    226,
+    227,
+    228,
+    229,
+    230,
+    232,
+    233,
+    234,
+    235,
+    236,
+    237,
+    239,
+    240,
+    241,
+    242,
+    243,
+    244,
+    246,
+    247,
+    248,
+    249,
+    250,
+    251,
+    260,
+    261,
+    262,
+    263,
+    264,
+    265,
     274,
     275,
     276,
@@ -10163,13 +10313,30 @@
     284,
     285,
     286,
+    295,
+    296,
+    297,
+    298,
+    299,
+    300,
+    309,
+    310,
+    311,
+    312,
+    313,
+    314,
     323,
     324,
     325,
     326,
     327,
     328,
-    332
+    330,
+    331,
+    332,
+    333,
+    334,
+    335
    ],
    "pratique": [
     183,
@@ -10187,6 +10354,16 @@
     199,
     200,
     201,
+    218,
+    219,
+    220,
+    221,
+    222,
+    223,
+    225,
+    226,
+    227,
+    260,
     274,
     275,
     276,
@@ -10198,16 +10375,29 @@
     283,
     284,
     285,
-    286
+    286,
+    295,
+    298
    ],
    "application": [
+    309,
+    310,
+    311,
+    312,
+    313,
+    314,
     323,
     324,
     325,
     326,
     327,
     328,
-    332
+    330,
+    331,
+    332,
+    333,
+    334,
+    335
    ],
    "revues": [
     189,
@@ -10215,9 +10405,18 @@
     203,
     210,
     217,
+    224,
+    231,
+    238,
+    245,
+    252,
+    266,
     280,
     287,
-    329
+    301,
+    315,
+    329,
+    336
    ],
    "evaluations": [
     {
@@ -10238,15 +10437,15 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 21,
-   "joursPortants": 57,
-   "leconsDeclarantes": 6,
-   "leconsProgrammees": 6,
+   "joursPortants": 119,
+   "leconsDeclarantes": 9,
+   "leconsProgrammees": 9,
    "leconsHorsParcours": [],
-   "artefactsPratique": 5,
+   "artefactsPratique": 8,
    "premierContact": 183,
-   "dernierContact": 332,
-   "plusGrandSilence": 57,
-   "silenceFinal": 33
+   "dernierContact": 336,
+   "plusGrandSilence": 8,
+   "silenceFinal": 29
   },
   {
    "id": "rag",

@@ -1,0 +1,1 @@
+export function diagnose(s){const m={"exited-127":"command-not-found","exited-1-missing-env":"missing-env","port-unreachable":"port-not-published","permission-denied":"permissions","healthcheck-failed":"healthcheck"};return m[s]||"unknown";}

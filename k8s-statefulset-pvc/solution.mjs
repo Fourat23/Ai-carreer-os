@@ -1,0 +1,1 @@
+export function needsPvc(kind,hasVolumeClaim){return kind==="StatefulSet"&&!hasVolumeClaim;}

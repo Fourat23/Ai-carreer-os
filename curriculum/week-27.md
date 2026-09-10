@@ -1,6 +1,6 @@
 # Semaine 27 — Deep learning : neurones, gradient, PyTorch tenseurs
 
-> **Mois 7** · Compétences : Deep learning, Python
+> **Mois 7** · Compétences : Deep learning
 
 [← Mois 7](month-07.md) · [Vue d'ensemble](year-overview.md)
 

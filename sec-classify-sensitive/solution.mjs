@@ -1,0 +1,1 @@
+export function isSensitive(name){const n=String(name).toLowerCase();return ["password","token","secret","apikey","key"].some(k=>n.includes(k));}

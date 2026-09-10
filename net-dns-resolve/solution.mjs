@@ -1,0 +1,1 @@
+export function resolve(table,name){const seen=new Set();let cur=name;while(true){if(seen.has(cur))return null;seen.add(cur);const rec=table[cur];if(!rec)return null;if(rec.type==="A")return rec.value;cur=rec.value;}}

@@ -1,0 +1,2 @@
+import { PRICES } from './items.mjs';
+export function cartTotal(cart){ let total=0; for(const item of cart){ total += (PRICES[item.id]||0) * item.qty; } if(total>100) total=Math.round(total*0.9); return total; }

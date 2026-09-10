@@ -1,0 +1,1 @@
+export function runsAsRoot(lines){let last=null;for(const l of lines){const m=l.match(/^\s*USER\s+(\S+)/i);if(m)last=m[1];}if(last===null)return true;return last==="root"||/^0(:|$)/.test(last);}

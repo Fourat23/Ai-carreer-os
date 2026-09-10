@@ -1,0 +1,1 @@
+export function isOpen(policy){return policy.defaultDeny===false||(policy.allowFrom||[]).includes("*");}

@@ -1,0 +1,1 @@
+export function extraPerms(granted,needed){const set=new Set(needed);return [...new Set(granted.filter(p=>!set.has(p)))].sort();}

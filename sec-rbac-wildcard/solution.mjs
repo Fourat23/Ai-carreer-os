@@ -1,0 +1,1 @@
+export function hasWildcard(rule){return (rule.verbs||[]).includes("*")||(rule.resources||[]).includes("*");}

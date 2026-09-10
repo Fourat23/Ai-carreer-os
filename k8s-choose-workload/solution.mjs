@@ -1,0 +1,1 @@
+export function chooseWorkload(n){if(n.perNode)return "DaemonSet";if(n.scheduled)return "CronJob";if(n.oneShot)return "Job";if(n.stateful)return "StatefulSet";return "Deployment";}

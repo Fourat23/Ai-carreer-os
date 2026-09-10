@@ -1,0 +1,1 @@
+export function isRisky(svc){return svc.stateful===true&&svc.autoscaling===true;}

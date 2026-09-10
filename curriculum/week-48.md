@@ -1,6 +1,6 @@
 # Semaine 48 — Projet final : guardrails, tests, observabilité, polish
 
-> **Mois 12** · Compétences : Sécurité, Software engineering, Évaluation IA
+> **Mois 12** · Compétences : Sécurité, HTTP / API
 
 [← Mois 12](month-12.md) · [Vue d'ensemble](year-overview.md)
 

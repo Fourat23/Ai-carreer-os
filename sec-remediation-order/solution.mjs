@@ -1,0 +1,1 @@
+export function ordered(findings){const rank={blocking:0,risk:1,warning:2,observation:3};return [...findings].sort((a,b)=>(rank[a.severity]-rank[b.severity])||a.code.localeCompare(b.code)).map(f=>f.code);}

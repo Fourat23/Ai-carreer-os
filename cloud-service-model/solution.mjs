@@ -1,0 +1,1 @@
+export function serviceModel(m){if(m.os&&m.runtime&&m.app)return "SaaS";if(m.os&&m.runtime)return "PaaS";if(m.os)return "IaaS";return "on-prem";}

@@ -1,0 +1,1 @@
+export function imageSize(layers){return layers.reduce((s,l)=>s+(l.sizeMb||0),0);}

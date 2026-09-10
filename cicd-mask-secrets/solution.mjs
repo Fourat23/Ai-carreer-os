@@ -1,0 +1,1 @@
+export function maskLog(line,secrets){let out=String(line);for(const s of secrets||[])if(s)out=out.split(String(s)).join("***");return out;}

@@ -1,0 +1,1 @@
+export function failFast(jobs){let failed=false;const out=[];for(const j of jobs){if(failed&&j.status==="pending")out.push(j.id);if(j.status==="failed")failed=true;}return out;}

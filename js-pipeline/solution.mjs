@@ -1,0 +1,1 @@
+export function runPipeline(x, ops){ const OPS={ double:n=>n*2, inc:n=>n+1, square:n=>n*n }; return ops.reduce((acc, op)=>OPS[op](acc), x); }

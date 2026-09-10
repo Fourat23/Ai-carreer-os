@@ -1,0 +1,1 @@
+export function toSymbolic(o){let s="";for(const c of o){const d=Number(c);s+=(d&4?"r":"-")+(d&2?"w":"-")+(d&1?"x":"-");}return s;}

@@ -1,0 +1,1 @@
+export function isStale(a,now,ret){return (now-(a.createdDay||0))>ret;}

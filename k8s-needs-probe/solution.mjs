@@ -1,0 +1,1 @@
+export function needsReadiness(c){return c.kind==="service"&&!c.hasReadiness;}

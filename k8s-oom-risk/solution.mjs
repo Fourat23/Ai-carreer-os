@@ -1,0 +1,1 @@
+export function oomRisk(reqMi,limMi){return limMi<reqMi;}

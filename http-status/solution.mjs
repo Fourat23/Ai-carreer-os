@@ -1,0 +1,1 @@
+export function statusInfo(code){ const category = code>=500?'server-error':code>=400?'client-error':code>=300?'redirection':code>=200?'success':code>=100?'informational':'unknown'; return { category, ok: code>=200 && code<300 }; }

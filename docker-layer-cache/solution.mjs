@@ -1,0 +1,1 @@
+export function firstInvalidated(layers,changed){const set=new Set(changed);for(let i=0;i<layers.length;i++){if((layers[i].inputs||[]).some(f=>set.has(f)))return i;}return -1;}

@@ -8,7 +8,15 @@
 // skills (compétences associées). L'ordre DANS une catégorie = ordre recommandé.
 export const LESSONS = [
   // ── Fondations ──
-  { file: 'terminal-shell-filesystem.md', title: 'Terminal, shell et système de fichiers', cat: 'Fondations', level: 1, min: 40, skills: ['gitlinux'], practiceRefs: [{ kind: 'lab', id: 'terminal' }, { kind: 'exercise', id: 'sh-pipeline-exit-diagnose' }] },
+  // V73 · CP2 — la référence `{ kind: 'lab', id: 'terminal' }` a été retirée : c'était la
+  // SEULE référence morte du corpus. `LAB_ROUTES` (app/doc/[...slug]/page.tsx) ne déclare que
+  // `kubernetes`, `security`, `cloud-architecture` et `pipeline` ; il n'existe aucune route
+  // `/terminal`, et les tâches de terminal (data/terminal-tasks/) sont servies à l'intérieur
+  // de `/lab/[exerciseId]`. Le lien rendu était donc `null` : un libellé « Lab terminal » non
+  // cliquable. Rien n'est perdu — la leçon garde son exercice réel, qui porte la même
+  // pratique. Traité ici plutôt qu'au CP12 pour qu'une porte durablement rouge ne masque pas
+  // les régressions que les tests négatifs doivent révéler.
+  { file: 'terminal-shell-filesystem.md', title: 'Terminal, shell et système de fichiers', cat: 'Fondations', level: 1, min: 40, skills: ['gitlinux'], practiceRefs: [{ kind: 'exercise', id: 'sh-pipeline-exit-diagnose' }] },
   { file: 'git-fundamentals.md', title: 'Git : les fondamentaux', cat: 'Fondations', level: 1, min: 45, skills: ['gitlinux'], practiceRefs: [{ kind: 'exercise', id: 'git-commit-grouping' }, { kind: 'exercise', id: 'git-conflicting-files' }] },
   { file: 'javascript-basics.md', title: 'JavaScript : les bases solides', cat: 'Fondations', level: 1, min: 50, skills: ['jsts'], practiceRefs: [{ kind: 'exercise', id: 'js-array-objects' }, { kind: 'exercise', id: 'js-conditions' }, { kind: 'exercise', id: 'js-loops' }, { kind: 'exercise', id: 'js-even-squares' }] },
   { file: 'algorithmic-thinking.md', title: 'La pensée algorithmique', cat: 'Fondations', level: 1, min: 50, skills: ['algo'], practiceRefs: [{ kind: 'exercise', id: 'algo-two-sum' }, { kind: 'exercise', id: 'fizzbuzz' }, { kind: 'exercise', id: 'algo-binary-search' }, { kind: 'exercise', id: 'algo-interval-merge' }, { kind: 'exercise', id: 'algo-coin-change-min' }, { kind: 'exercise', id: 'algo-kadane-max-subarray' }] },

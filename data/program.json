@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T21:39:00.918Z",
+  "generatedAt": "2026-09-10T08:20:01.149Z",
   "skills": [
     {
       "id": "algo",
@@ -6231,10 +6231,6 @@
         "gitlinux"
       ],
       "practiceRefs": [
-        {
-          "kind": "lab",
-          "id": "terminal"
-        },
         {
           "kind": "exercise",
           "id": "sh-pipeline-exit-diagnose"

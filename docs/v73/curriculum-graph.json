@@ -8566,12 +8566,17 @@
     "technical-storytelling",
     "readme-documentation",
     "portfolio-github",
-    "interview-preparation"
+    "interview-preparation",
+    "algorithmic-thinking",
+    "data-structures-intro",
+    "recursion"
    ],
    "estProduction": false,
    "exercices": [],
    "competencesPortees": [
-    "comm"
+    "comm",
+    "algo",
+    "ds"
    ]
   },
   {
@@ -8588,12 +8593,17 @@
     "technical-storytelling",
     "readme-documentation",
     "portfolio-github",
-    "interview-preparation"
+    "interview-preparation",
+    "architecture-basics",
+    "system-design-scaling",
+    "design-patterns-intro"
    ],
    "estProduction": false,
    "exercices": [],
    "competencesPortees": [
-    "comm"
+    "comm",
+    "archi",
+    "patterns"
    ]
   },
   {
@@ -8695,16 +8705,23 @@
    "projet": null,
    "difficulte": 2,
    "lecons": [
-    "technical-storytelling",
-    "readme-documentation",
-    "portfolio-github",
-    "interview-preparation"
+    "architecture-basics",
+    "system-design-scaling",
+    "design-patterns-intro",
+    "algorithmic-thinking",
+    "data-structures-intro",
+    "recursion",
+    "technical-storytelling"
    ],
    "estProduction": false,
    "exercices": [
     "py-data-validate-schema"
    ],
    "competencesPortees": [
+    "archi",
+    "patterns",
+    "algo",
+    "ds",
     "comm"
    ]
   },
@@ -8905,6 +8922,7 @@
     32,
     34,
     48,
+    351,
     358,
     359,
     360,
@@ -8935,6 +8953,7 @@
     63,
     119,
     147,
+    357,
     364
    ],
    "evaluations": [
@@ -8951,14 +8970,14 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 11,
-   "joursPortants": 27,
+   "joursPortants": 29,
    "leconsDeclarantes": 2,
    "leconsProgrammees": 2,
    "leconsHorsParcours": [],
    "artefactsPratique": 6,
    "premierContact": 15,
    "dernierContact": 365,
-   "plusGrandSilence": 211,
+   "plusGrandSilence": 204,
    "silenceFinal": 0
   },
   {
@@ -8969,7 +8988,8 @@
     30,
     31,
     33,
-    34
+    34,
+    351
    ],
    "pratique": [
     30,
@@ -8979,7 +8999,8 @@
    ],
    "application": [],
    "revues": [
-    35
+    35,
+    357
    ],
    "evaluations": [
     {
@@ -8990,15 +9011,15 @@
    ],
    "niveauAttenduFinal": 2,
    "joursEtiquetes": 5,
-   "joursPortants": 5,
+   "joursPortants": 7,
    "leconsDeclarantes": 1,
    "leconsProgrammees": 1,
    "leconsHorsParcours": [],
    "artefactsPratique": 6,
    "premierContact": 30,
-   "dernierContact": 35,
-   "plusGrandSilence": 2,
-   "silenceFinal": 330
+   "dernierContact": 357,
+   "plusGrandSilence": 316,
+   "silenceFinal": 8
   },
   {
    "id": "jsts",
@@ -9685,6 +9706,7 @@
     326,
     331,
     332,
+    352,
     358,
     359,
     360,
@@ -9743,6 +9765,7 @@
     322,
     329,
     336,
+    357,
     364
    ],
    "evaluations": [
@@ -9769,7 +9792,7 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 19,
-   "joursPortants": 64,
+   "joursPortants": 66,
    "leconsDeclarantes": 40,
    "leconsProgrammees": 36,
    "leconsHorsParcours": [
@@ -9791,7 +9814,8 @@
    "developpement": [
     38,
     39,
-    76
+    76,
+    352
    ],
    "pratique": [
     38,
@@ -9800,7 +9824,8 @@
    ],
    "application": [],
    "revues": [
-    42
+    42,
+    357
    ],
    "evaluations": [
     {
@@ -9811,15 +9836,15 @@
    ],
    "niveauAttenduFinal": 3,
    "joursEtiquetes": 2,
-   "joursPortants": 4,
+   "joursPortants": 6,
    "leconsDeclarantes": 1,
    "leconsProgrammees": 1,
    "leconsHorsParcours": [],
    "artefactsPratique": 0,
    "premierContact": 38,
-   "dernierContact": 76,
-   "plusGrandSilence": 34,
-   "silenceFinal": 289
+   "dernierContact": 357,
+   "plusGrandSilence": 276,
+   "silenceFinal": 8
   },
   {
    "id": "ml",

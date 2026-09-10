@@ -37,6 +37,22 @@
 // accident ». Les inventer une place aurait été le contraire de ce principe.
 
 export const LESSONS_V67 = {
+  // ── V73 · CP8 — deux journées de fin de parcours dont le sujet contredisait l'étiquette ──
+  // Le CP8 a mesuré un abandon prématuré des fondations : dernier contact avec les structures
+  // de données au jour 35, avec les design patterns au jour 76, avec Git/Linux au jour 77 —
+  // soit 288 à 330 jours de silence, alors que le parcours se termine par des entretiens
+  // techniques. Or DEUX journées de la semaine 51 portent exactement ces sujets dans leur
+  // titre, et ne liaient que des leçons de communication, parce que leur compétence est `comm`.
+  // C'est le même défaut que celui trouvé par V72 au jour 320 : l'étiquette décide du
+  // rattachement, contre le sujet réel de la journée.
+  //
+  // j351 « Révision algo pour entretien » — le cours de la journée parle explicitement de
+  // « manipulation de chaînes/tableaux, recherche, tri, structures de données simples, un peu
+  // de complexité ». Ce sont littéralement ces trois leçons.
+  351: ['algorithmic-thinking.md', 'data-structures-intro.md', 'recursion.md'],
+  // j352 « Questions système et IA » — le cours dit « les questions IA et système sont là où tu
+  // dois EXCELLER ». Le rappel porte donc sur l'architecture et sa mise à l'échelle.
+  352: ['architecture-basics.md', 'system-design-scaling.md', 'design-patterns-intro.md'],
   // ── V73 · CP3 — le bloc Cloud / DevOps ──────────────────────────────────
   // Le CP0 et le CP2 ont montré le vrai trou : `cloud` est portée par 41 journées et
   // étiquetée par ZÉRO, et le cloud PROPREMENT DIT (fondamentaux, réseau, calcul et

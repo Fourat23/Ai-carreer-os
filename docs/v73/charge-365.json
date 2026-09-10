@@ -42,14 +42,14 @@
   },
   "attentive·relecture1": {
    "IMPOSSIBLE": 0,
-   "HEAVY": 44,
-   "BALANCED": 319,
+   "HEAVY": 46,
+   "BALANCED": 317,
    "UNDERLOADED": 2
   },
   "attentive·relecture0.5": {
    "IMPOSSIBLE": 0,
-   "HEAVY": 44,
-   "BALANCED": 319,
+   "HEAVY": 46,
+   "BALANCED": 317,
    "UNDERLOADED": 2
   }
  },
@@ -15495,14 +15495,14 @@
    "j": 351,
    "revue": false,
    "titre": "Révision algo pour entretien",
-   "nlec": 4,
+   "nlec": 7,
    "difficulte": 3,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
-    "lectureLecons": 82,
-    "lectureLeconsHaut": 82,
-    "lectureLeconsSiToutRelu": 82,
+    "lectureLecons": 154,
+    "lectureLeconsHaut": 154,
+    "lectureLeconsSiToutRelu": 154,
     "rappelActifMinute": null,
     "guide": [
      1,
@@ -15521,16 +15521,16 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 158,
-   "haut": 205,
+   "bas": 230,
+   "haut": 277,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -15539,14 +15539,14 @@
    "j": 352,
    "revue": false,
    "titre": "Questions système et IA",
-   "nlec": 4,
+   "nlec": 7,
    "difficulte": 3,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
-    "lectureLecons": 82,
-    "lectureLeconsHaut": 82,
-    "lectureLeconsSiToutRelu": 82,
+    "lectureLecons": 155,
+    "lectureLeconsHaut": 155,
+    "lectureLeconsSiToutRelu": 155,
     "rappelActifMinute": null,
     "guide": [
      1,
@@ -15565,16 +15565,16 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 154,
-   "haut": 206,
+   "bas": 226,
+   "haut": 278,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -15759,15 +15759,15 @@
    "j": 357,
    "revue": true,
    "titre": "Revue hebdomadaire — semaine 51",
-   "nlec": 4,
+   "nlec": 7,
    "difficulte": 2,
    "postes": {
-    "lectureJour": 7,
+    "lectureJour": 8,
     "correction": 3,
-    "lectureLecons": 37,
-    "lectureLeconsHaut": 62,
-    "lectureLeconsSiToutRelu": 82,
-    "rappelActifMinute": 12,
+    "lectureLecons": 45,
+    "lectureLeconsHaut": 70,
+    "lectureLeconsSiToutRelu": 165,
+    "rappelActifMinute": 20,
     "guide": [
      0,
      0
@@ -15785,8 +15785,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 90,
-   "haut": 147,
+   "bas": 98,
+   "haut": 155,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",

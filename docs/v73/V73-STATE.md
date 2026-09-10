@@ -5,20 +5,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP7**
+- **dernier CP terminé** : **CP8**
 - **CP courant** : —
-- **NEXT_CP** : **CP8** — préparation du Retention Engine
-- **NEXT_ACTION** : **NE PAS construire le Retention Engine.** Produire les DONNÉES qu'il
-  consommera : pour chaque compétence et concept pertinent — `firstExposure`,
-  `guidedPractice`, `independentPractice`, `application`, `reviewContacts`, `projectContacts`,
-  `lastContact`, `gapSequence`, `maxGap`, `expectedLevel`. Identifier **abandon prématuré ·
-  répétition trop locale · silence excessif · rappel trop proche · absence de transfert**.
-  **Ne corriger que les anomalies structurelles certaines** ; ne pas fabriquer une courbe
-  parfaite. Deux faits déjà mesurés à reprendre : l'**espacement médian d'1 jour** entre une
-  revue et le dernier contact (le CP7 l'a laissé au CP8), et les **fondations abandonnées** —
-  `algo` dernier contact j48, `ds` j42, `patterns` j39, `gitlinux` j73, soit 290 à 326 jours de
-  silence, alors que j365 propose de l'algorithmique. Produire
-  `docs/v73/V73-RETENTION-READINESS.md` + un artefact machine-readable.
+- **NEXT_CP** : **CP9** — progression réelle de J1 à J365
+- **NEXT_ACTION** : **dériver `difficulty` du TRAVAIL RÉELLEMENT DEMANDÉ** — nouveauté
+  conceptuelle, autonomie exigée, quantité de guidance fournie, complexité technique,
+  intégration de plusieurs compétences, ambiguïté de l'énoncé, responsabilité du livrable.
+  **NE PAS remplacer cela par une rampe artificielle 1,1,1,2,2,2,…,5** : le brief l'interdit
+  nommément. Auditer aussi le **découpage horaire**, la **guidance**, l'**autonomie** et la
+  **complexité des projets** le long de l'année. Base de départ mesurée au CP0 :
+  `difficulty = 3` sur **271 journées consécutives** (j90→j360) et découpage horaire présent
+  sur **26 journées, toutes au mois 1**. Attention : `difficulty` alimente le modèle de charge
+  du CP6 (fourchettes de pratique par difficulté) — **toute redérivation doit republier la
+  charge**, et le seuil `[240, 300]` reste gelé.
 
 ## Repères Git
 
@@ -64,6 +63,44 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP8** — **données de rétention. Le moteur n'est PAS construit, et c'était la consigne.**
+  - Produit le **modèle de CONTACTS** des 20 compétences : `firstExposure`, `guidedPractice`,
+    `independentPractice`, `application`, `reviewContacts`, `projectContacts`, `lastContact`,
+    `gapSequence`, `maxGap`, `fenetre80pourcent`, `ecartRevueMedian`, `expectedLevel`.
+    Artefacts : `scripts/v73/cp8-retention.mjs`, `docs/v73/retention-contacts.json`,
+    `docs/v73/V73-RETENTION-READINESS.md`. **Aucune donnée d'apprenant, aucun score de mémoire**
+    — le fichier le déclare en tête.
+  - **Les cinq définitions d'anomalie sont écrites AVANT la mesure** : `ABANDON_PRÉMATURÉ`
+    ≥ 180 j de silence final · `RÉPÉTITION_LOCALE` 80 % des contacts en ≤ 45 j ·
+    `SILENCE_EXCESSIF` un intervalle ≥ 120 j · `RAPPEL_TROP_PROCHE` médiane des écarts
+    revue ↔ dernier contact ≤ 2 j · `ABSENCE_DE_TRANSFERT` aucune journée de projet.
+  - **RÉSULTAT CENTRAL, PUBLIÉ ET DÉLIBÉRÉMENT NON CORRIGÉ** : `RAPPEL_TROP_PROCHE` touche
+    **15 compétences sur 20, avec une médiane de 1 jour**. Une revue de fin de semaine rappelle
+    ce qui a été vu l'avant-veille. **C'est la raison d'être du Retention Engine** ; le corriger
+    à la main dans les 52 revues reviendrait à bricoler ce que le moteur doit décider.
+  - **DEUX ANOMALIES STRUCTURELLES CERTAINES CORRIGÉES**, et seulement celles-là. **j351**
+    « Révision algo pour entretien » ne reliait que 4 leçons de communication : elle relie
+    désormais aussi `algorithmic-thinking`, `data-structures-intro`, `recursion`. **j352**
+    « Questions système et IA » relie désormais `architecture-basics`,
+    `system-design-scaling`, `design-patterns-intro`. Les deux sont justifiées par **le texte
+    de ces journées elles-mêmes**, pas par le besoin de verdir une métrique. Effet :
+    `ds` dernier contact **j35 → j351**, `patterns` **j76 → j352**, `ABANDON_PRÉMATURÉ` 6 → 4,
+    `ABSENCE_DE_TRANSFERT` 7 → 4. Effet en aval non provoqué : la revue **j357** reprend
+    automatiquement ces 6 leçons (4 → 7 leçons revues), et reste **BALANCED** (98–155).
+  - **ANOMALIE DE SONDE n° 17 PUBLIÉE** : le marqueur de journée de PRODUCTION était
+    `^Projet \d` — il rate les **30 journées « DocSense : … »**, qui sont le projet final et le
+    plus gros livrable des 365 jours. `dl`, `llm` et `agents` étaient signalées « aucune
+    application » à tort. Corrigé : `ABSENCE_DE_TRANSFERT` **7 → 4** par la seule correction de
+    sonde. **Douzième occurrence** du même défaut de fond : *mesurer un marqueur n'est pas
+    mesurer la propriété*.
+  - **NON corrigées, avec la raison écrite** : `algo`/`ds`/`patterns`/`gitlinux` sans journée de
+    projet dédiée (elles sont pratiquées **dans** les projets des autres compétences ; créer un
+    « projet algo » déplacerait le produit pour satisfaire un compteur) ; les 9
+    `SILENCE_EXCESSIF` (c'est exactement ce que le moteur doit planifier).
+  - **Charge revérifiée après modification** : **362 BALANCED · 3 UNDERLOADED · 0 HEAVY ·
+    0 IMPOSSIBLE**. j351 = 230–277, j352 = 226–278. **L1 = 0 · L2 = 0/52 · L3 = 0.**
+  - **Corpus INCHANGÉ** (`92d5fae6…`) — aucune leçon touchée au CP8.
 
 - **CP7** — **zéro revue en dépassement (9 au CP6), et rien de ce qui fonctionnait n'a été
   retiré.**
@@ -288,3 +325,5 @@ jamais le créer.
 - **CP6** : mesure seule, aucun fichier de produit modifié — corpus inchangé (`92d5fae6…`).
 - **CP7** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** (seuls le générateur et les 365 journées générées changent).
+- **CP8** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
+  **inchangé** · charge 362 BALANCED / 3 UNDERLOADED / 0 HEAVY / 0 IMPOSSIBLE.

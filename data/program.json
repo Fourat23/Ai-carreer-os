@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T08:54:19.772Z",
+  "generatedAt": "2026-09-10T09:00:31.908Z",
   "skills": [
     {
       "id": "algo",
@@ -6003,7 +6003,7 @@
       "skillName": "Communication technique",
       "difficulty": 3,
       "hours": 4.5,
-      "readingMinutes": 94,
+      "readingMinutes": 166,
       "isReview": false,
       "detailed": false,
       "deliverable": "2 exercices algo enregistrés.",
@@ -6018,7 +6018,7 @@
       "skillName": "Communication technique",
       "difficulty": 3,
       "hours": 4.5,
-      "readingMinutes": 95,
+      "readingMinutes": 167,
       "isReview": false,
       "detailed": false,
       "deliverable": "10 réponses IA préparées.",
@@ -6093,7 +6093,7 @@
       "skillName": "Communication technique",
       "difficulty": 2,
       "hours": 4.5,
-      "readingMinutes": 93,
+      "readingMinutes": 175,
       "isReview": true,
       "detailed": false,
       "deliverable": null,

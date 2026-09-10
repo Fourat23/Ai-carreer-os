@@ -23,6 +23,7 @@ import { DAYS_01_15 } from './data/days-01-15.mjs';
 import { DAYS_16_30 } from './data/days-16-30.mjs';
 import { DAYS_31_90 } from './data/days-31-90.mjs';
 import { WEEK_PLANS } from './data/days-plan.mjs';
+import { DIFFICULTY_V73 } from './data/days-difficulty-v73.mjs';
 import { EXTRAS_31_90 } from './data/days-31-90-extras.mjs';
 import { GUIDED_01_30 } from './data/days-01-30-guided.mjs';
 import { DAYS_ENRICH as ENRICH_BASE } from './data/days-enrich.mjs';
@@ -291,7 +292,11 @@ function buildDay(n) {
         day: n, week, month, isReview: false, planned: true,
         title: entry.title,
         skill: entry.skill ?? plan.skill,
-        difficulty: 3, hours: 4.5,
+        // V73 · CP9 — la constante `3` disparaît. Elle valait 3 sur les 234 journées de
+        // travail planifiées, si bien que la suite des 365 difficultés était 3,3,3,3,3,3,2
+        // répétée : une fonction de la position dans la semaine, muette sur la journée.
+        // La valeur vient maintenant du travail demandé (cf. days-difficulty-v73.mjs).
+        difficulty: DIFFICULTY_V73[n] ?? 3, hours: 4.5,
         objective: entry.objective,
         concepts: [],
         exercise: entry.exercise,

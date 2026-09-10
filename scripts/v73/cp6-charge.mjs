@@ -55,6 +55,18 @@ function decomposer(d, v, coef) {
   // pour cette seule raison. Le bloc de rappel est donc RETIRÉ de la portée du minutage de
   // pratique — il est compté à part, une fois, dans le poste de relecture.
   let prat = section(md, '## ✍️ Pratique autonome') || section(md, '## 🔁 Revue hebdomadaire');
+  // ANOMALIE DE SONDE n° 20, PUBLIÉE — la plus coûteuse des trois du CP9. Chacune des 313
+  // journées de travail ouvre sa pratique par la même phrase générique : « D'abord sans IA.
+  // **Tente seul au moins 30 minutes.** » Ce n'est pas un minutage de la journée, c'est une
+  // règle de méthode identique partout. Le scan la ramassait : **309 journées sur 365
+  // "annonçaient 30 min"**, ce 30 ne venant que de là. Tant que le code prenait le maximum
+  // entre la fourchette et l'annonce, c'était sans effet (30 < 50, borne basse d'une journée
+  // de difficulté 3) — l'erreur est restée invisible deux checkpoints durant. Dès que le §5.2
+  // du contrat a été appliqué à la lettre (l'annonce REMPLACE la fourchette), le modèle a cru
+  // que 309 journées demandaient trente minutes de pratique, et 133 journées sont devenues
+  // UNDERLOADED. La phrase est donc exclue de la portée du minutage, comme le bloc de rappel
+  // actif l'avait été au CP7 (n° 15).
+  prat = prat.replace(/>\s*\*\*D'abord sans IA\.\*\*[^\n]*\n/g, '\n');
   const iRappel = prat.indexOf('### Rappel actif');
   if (iRappel >= 0) {
     const fin = prat.indexOf('\n### ', iRappel + 1);
@@ -87,7 +99,17 @@ function decomposer(d, v, coef) {
   const sup = Math.max(0, etapes - 3);
   let pPratBas = b0 + sup * 8, pPratHaut = b1 + sup * 15;
   const source = portéeHebdo ? 'portée hebdomadaire — minutage journalier exclu' : minute >= 30 ? 'minutage explicite' : 'fourchette par difficulté';
-  if (minute >= 30) { pPratBas = Math.max(pPratBas, minute); pPratHaut = Math.max(pPratHaut, Math.round(minute * 1.4)); }
+  // ANOMALIE DE SONDE n° 19, PUBLIÉE. Le §5.2 du contrat gelé au CP1 dit, mot pour mot :
+  // « Le minutage explicite fait foi. Quand la section de pratique annonce 90 min, cette valeur
+  // REMPLACE la fourchette de difficulté (bas = somme annoncée, haut = somme × 1,4). »
+  // Le code écrivait `Math.max(fourchette, annoncé)` — c'est-à-dire « la plus grande des deux »,
+  // pas « remplace ». L'écart est resté INVISIBLE tant que `difficulty` valait 3 sur 280
+  // journées : la fourchette [50, 90] passait presque toujours sous le minutage annoncé. Dès
+  // que le CP9 a rendu la difficulté informative, la fourchette [90, 150] d'une journée de
+  // niveau 5 est passée AU-DESSUS de ce que la journée déclare demander, et le modèle a
+  // commencé à corriger le produit à la hausse contre son propre texte. 44 journées sont
+  // devenues HEAVY pour cette seule raison. Le contrat, gelé avant tout cela, tranche.
+  if (minute >= 30) { pPratBas = minute; pPratHaut = Math.round(minute * 1.4); }
   const pReflexBas = /Questions de réflexion/.test(md) ? 10 : 0;
   const pReflexHaut = /Questions de réflexion/.test(md) ? 20 : 0;
 

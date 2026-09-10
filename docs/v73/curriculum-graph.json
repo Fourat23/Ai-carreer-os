@@ -2499,7 +2499,7 @@
    "titre": "Performance React : re-renders",
    "livrable": "Optimisation mesurée + note sur le sur-usage.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "react-hooks-effects",
     "caching-performance",
@@ -2526,7 +2526,7 @@
    "titre": "Accessibilité et UX de base",
    "livrable": "Audit a11y + 5 corrections.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "react-fundamentals",
     "css-flexbox",
@@ -2554,7 +2554,7 @@
    "titre": "Consolidation front + préparation Projet 3",
    "livrable": "Cadrage complet de BiblioApp.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "react-fundamentals",
     "architecture-basics",
@@ -2628,7 +2628,7 @@
    "titre": "Tester des composants React",
    "livrable": "Tests de 3 composants clés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "testing-foundations",
     "frontend-testing"
@@ -2714,7 +2714,7 @@
    "titre": "Gestion d'erreur front robuste",
    "livrable": "App résiliente aux erreurs (démontré).",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "error-handling",
     "nextjs-data-production"
@@ -2839,7 +2839,7 @@
    "titre": "Projet 3 — Polish et états edge",
    "livrable": "BiblioApp : tous les états soignés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "react-fundamentals",
     "responsive-design"
@@ -2925,7 +2925,7 @@
    "titre": "Python : fonctions, modules, fichiers",
    "livrable": "CLI Python modulaire fonctionnel.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 2,
    "lecons": [
     "python-foundations"
    ],
@@ -3284,7 +3284,7 @@
    "titre": "SQL avancé : requêtes analytiques",
    "livrable": "5 requêtes analytiques commentées.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 2,
    "lecons": [
     "sql-foundations"
    ],
@@ -3325,7 +3325,7 @@
    "titre": "ETL : robustesse et rejouabilité",
    "livrable": "Pipeline ETL rejouable + preuve de survie à interruption.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "etl-pipelines",
     "database-migrations"
@@ -3379,7 +3379,7 @@
    "titre": "Projet 4 — DataPulse : cadrage et source",
    "livrable": "Cadrage DataPulse : source + 3 questions + backlog.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "etl-pipelines",
     "architecture-basics"
@@ -3421,7 +3421,7 @@
    "titre": "Projet 4 — Transform",
    "livrable": "DataPulse : transformation + rapport qualité.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "data-cleaning-quality"
    ],
@@ -3676,7 +3676,7 @@
    "titre": "ML : le workflow et scikit-learn",
    "livrable": "Un pipeline ML minimal fonctionnel.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "machine-learning-basics",
     "scikit-learn-workflow"
@@ -3720,7 +3720,7 @@
    "titre": "Train/test split et baseline",
    "livrable": "Démonstration de leakage + correction.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "model-evaluation",
     "scikit-learn-workflow"
@@ -4173,7 +4173,7 @@
    "titre": "Projet 5 — Premiers modèles",
    "livrable": "ChurnScope : modèles comparés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "scikit-learn-workflow",
     "model-evaluation"
@@ -4214,7 +4214,7 @@
    "titre": "Projet 5 — Optimisation et validation",
    "livrable": "ChurnScope : modèle validé.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "model-evaluation",
     "scikit-learn-workflow"
@@ -4256,7 +4256,7 @@
    "titre": "Projet 5 — README, reproductibilité, démo",
    "livrable": "ChurnScope v1 : reproductible + README + démo.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "machine-learning-basics",
     "statistics-for-ml",
@@ -4308,7 +4308,7 @@
    "titre": "Le neurone : de zéro en NumPy",
    "livrable": "Neurone NumPy qui converge + courbe de loss.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4331,7 +4331,7 @@
    "titre": "Descente de gradient",
    "livrable": "Expériences de learning rate + conclusions.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4354,7 +4354,7 @@
    "titre": "PyTorch : tenseurs et autograd",
    "livrable": "Neurone PyTorch + comparaison NumPy.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4377,7 +4377,7 @@
    "titre": "MLP : perceptron multicouche",
    "livrable": "MLP PyTorch qui converge.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4400,7 +4400,7 @@
    "titre": "Entraînement sur données réelles",
    "livrable": "MLP > 95% sur MNIST test + courbes.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4423,7 +4423,7 @@
    "titre": "Régularisation et diagnostic",
    "livrable": "Tableau d'expériences DL + diagnostic.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4469,7 +4469,7 @@
    "titre": "NLP : tokenisation",
    "livrable": "Analyse de tokenisation sur tes textes.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4492,7 +4492,7 @@
    "titre": "Embeddings",
    "livrable": "Similarités d'embeddings interprétées.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4515,7 +4515,7 @@
    "titre": "Attention",
    "livrable": "Note sur l'attention avec analogie personnelle.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4538,7 +4538,7 @@
    "titre": "Architecture transformer",
    "livrable": "Schémas 'un transformer expliqué'.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4561,7 +4561,7 @@
    "titre": "Classification de texte",
    "livrable": "Classificateur de texte fonctionnel.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4582,7 +4582,7 @@
    "titre": "Note 'un LLM expliqué à un dev backend'",
    "livrable": "Article 'LLM expliqué' publié sur GitHub.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "neural-networks",
     "transformers"
@@ -4627,7 +4627,7 @@
    "titre": "Fonctionnement des LLM",
    "livrable": "Note de synthèse sur le fonctionnement LLM.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4653,7 +4653,7 @@
    "titre": "Appeler une API LLM",
    "livrable": "Script d'appel LLM fonctionnel.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4679,7 +4679,7 @@
    "titre": "Température et paramètres",
    "livrable": "Étude des paramètres + conclusions.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4705,7 +4705,7 @@
    "titre": "Tokens et coûts",
    "livrable": "Calcul de coûts + estimation à l'échelle.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4731,7 +4731,7 @@
    "titre": "Hallucinations",
    "livrable": "3 hallucinations documentées + mécanisme.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4757,7 +4757,7 @@
    "titre": "Banc d'essai LLM",
    "livrable": "Banc d'essai LLM documenté.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4807,7 +4807,7 @@
    "titre": "Prompt engineering sérieux",
    "livrable": "5 prompts robustes versionnés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4831,7 +4831,7 @@
    "titre": "Structured outputs",
    "livrable": "Extracteur avec validation + retry.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4855,7 +4855,7 @@
    "titre": "Few-shot et patterns de prompts",
    "livrable": "Bibliothèque de 5 patterns testés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4879,7 +4879,7 @@
    "titre": "Function calling / tool use",
    "livrable": "Assistant 2-outils robuste.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4903,7 +4903,7 @@
    "titre": "Intégration LLM dans une app",
    "livrable": "Intégration LLM robuste dans ton app.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4927,7 +4927,7 @@
    "titre": "Consolidation LLM + revue mensuelle 7",
    "livrable": "Note d'ingénierie LLM + revue mensuelle 7.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -4977,7 +4977,7 @@
    "titre": "Prompts en production",
    "livrable": "Système de prompts versionnés + tests.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -5001,7 +5001,7 @@
    "titre": "Guardrails d'entrée/sortie",
    "livrable": "Guardrails de base implémentés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -5025,7 +5025,7 @@
    "titre": "Function calling avancé",
    "livrable": "Assistant multi-outils robuste.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -5049,7 +5049,7 @@
    "titre": "Le composant 'appel LLM robuste'",
    "livrable": "Composant appel-LLM-robuste réutilisable.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -5073,7 +5073,7 @@
    "titre": "Introduction au RAG : le pourquoi",
    "livrable": "Note 'pourquoi le RAG' + conception.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -5097,7 +5097,7 @@
    "titre": "RAG : chunking",
    "livrable": "Chunking implémenté + chunks inspectés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "llm-fundamentals",
     "prompt-engineering",
@@ -5149,7 +5149,7 @@
    "titre": "RAG : embeddings",
    "livrable": "Chunks embeddés et stockés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5177,7 +5177,7 @@
    "titre": "RAG : recherche par similarité",
    "livrable": "Recherche par similarité maison.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5205,7 +5205,7 @@
    "titre": "RAG : génération avec citations",
    "livrable": "RAG bout-en-bout avec citations.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5233,7 +5233,7 @@
    "titre": "RAG : pipeline modulaire",
    "livrable": "rag-from-scratch modulaire + README.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5261,7 +5261,7 @@
    "titre": "RAG : multi-formats (PDF, Markdown)",
    "livrable": "Ingestion multi-format fonctionnelle.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5289,7 +5289,7 @@
    "titre": "RAG : robustesse et ré-ingestion",
    "livrable": "RAG robuste + journal d'échecs.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5346,7 +5346,7 @@
    "titre": "DocQA v0 sur ton corpus",
    "livrable": "DocQA v0 sur corpus réel + observations.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5374,7 +5374,7 @@
    "titre": "Diagnostic des échecs de retrieval",
    "livrable": "Diagnostic de 10 échecs classés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5402,7 +5402,7 @@
    "titre": "Décisions de conception du RAG",
    "livrable": "6 décisions documentées + critères d'échec.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5430,7 +5430,7 @@
    "titre": "Estimation de la taille de l'index",
    "livrable": "Calcul de dimensionnement de l'index.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5456,7 +5456,7 @@
    "titre": "Métadonnées et filtrage",
    "livrable": "Filtrage par métadonnées fonctionnel.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5482,7 +5482,7 @@
    "titre": "Consolidation RAG v1 + revue mensuelle 8",
    "livrable": "ADR stockage + revue mensuelle 8.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5536,7 +5536,7 @@
    "titre": "Préparation Projet 6 : DocQA évalué",
    "livrable": "Cadrage DocQA évalué.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5562,7 +5562,7 @@
    "titre": "Interface du RAG",
    "livrable": "Interface DocQA fonctionnelle.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5588,7 +5588,7 @@
    "titre": "Gestion de session et historique",
    "livrable": "DocQA avec historique.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5614,7 +5614,7 @@
    "titre": "Optimisation du prompt de génération",
    "livrable": "Prompt de génération optimisé.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5640,7 +5640,7 @@
    "titre": "Robustesse et cas limites",
    "livrable": "Cas limites gérés et testés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5666,7 +5666,7 @@
    "titre": "Bilan RAG et préparation évaluation",
    "livrable": "Bilan + plan d'évaluation.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5722,7 +5722,7 @@
    "titre": "Vector DB : migration vers Chroma",
    "livrable": "DocQA sur Chroma fonctionnel.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5748,7 +5748,7 @@
    "titre": "Chunking avancé : par structure",
    "livrable": "Chunking structuré + comparaison.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5774,7 +5774,7 @@
    "titre": "Chunking : comparaison objective",
    "livrable": "Rapport de comparaison chunking.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5800,7 +5800,7 @@
    "titre": "Versioning de l'index",
    "livrable": "Index versionné + procédure de migration.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5826,7 +5826,7 @@
    "titre": "Embeddings : comparer les modèles",
    "livrable": "Comparaison de modèles d'embedding.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5852,7 +5852,7 @@
    "titre": "Consolidation vector DB + chunking",
    "livrable": "Configuration de retrieval justifiée.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5906,7 +5906,7 @@
    "titre": "Recherche lexicale (BM25/FTS5)",
    "livrable": "Recherche lexicale fonctionnelle.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5932,7 +5932,7 @@
    "titre": "Hybrid search",
    "livrable": "Recherche hybride implémentée.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5958,7 +5958,7 @@
    "titre": "Reranking",
    "livrable": "Reranking + amélioration mesurée.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -5984,7 +5984,7 @@
    "titre": "Tableau d'ablation",
    "livrable": "Tableau d'ablation complet.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -6010,7 +6010,7 @@
    "titre": "Budget latence et optimisation",
    "livrable": "Budget latence tenu + optimisations.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -6036,7 +6036,7 @@
    "titre": "Consolidation retrieval avancé",
    "livrable": "Retrieval final justifié par les chiffres.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -6090,7 +6090,7 @@
    "titre": "Golden set : construction",
    "livrable": "Golden set de 30+ questions.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6115,7 +6115,7 @@
    "titre": "Évaluation du retrieval",
    "livrable": "Évaluateur de retrieval + scores.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6140,7 +6140,7 @@
    "titre": "LLM-as-judge",
    "livrable": "LLM-as-judge calibré.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6165,7 +6165,7 @@
    "titre": "Métriques : fidélité, pertinence, exactitude",
    "livrable": "3 métriques mesurées et distinguées.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6190,7 +6190,7 @@
    "titre": "Harnais d'évaluation automatisé",
    "livrable": "Harnais d'évaluation reproductible.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6215,7 +6215,7 @@
    "titre": "Évaluer l'évaluateur",
    "livrable": "Validation du juge + protocole.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6267,7 +6267,7 @@
    "titre": "Prompt injection : attaque",
    "livrable": "5 tentatives d'injection documentées.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
@@ -6291,7 +6291,7 @@
    "titre": "Prompt injection : défense",
    "livrable": "Défenses en couches + injections bloquées.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
@@ -6313,7 +6313,7 @@
    "titre": "Citations vérifiables",
    "livrable": "Vérification automatique des citations.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
@@ -6335,7 +6335,7 @@
    "titre": "Le refus comme feature",
    "livrable": "Refus explicite implémenté et testé.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
@@ -6379,7 +6379,7 @@
    "titre": "Défense en profondeur : synthèse",
    "livrable": "Schéma de défense en profondeur.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
@@ -6426,7 +6426,7 @@
    "titre": "Projet 6 — DocQA : baseline chiffrée",
    "livrable": "Baseline chiffrée de DocQA.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6451,7 +6451,7 @@
    "titre": "Projet 6 — Amélioration 1 pilotée",
    "livrable": "Amélioration 1 mesurée.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6476,7 +6476,7 @@
    "titre": "Projet 6 — Amélioration 2 pilotée",
    "livrable": "Amélioration 2 mesurée.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6501,7 +6501,7 @@
    "titre": "Projet 6 — Guardrails et robustesse",
    "livrable": "DocQA sécurisé (suite adverse verte).",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6526,7 +6526,7 @@
    "titre": "Projet 6 — Rapport d'évaluation",
    "livrable": "Rapport d'évaluation avec tableau.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6551,7 +6551,7 @@
    "titre": "Projet 6 — README, ADR, démo",
    "livrable": "DocQA v1 : README + ADR + démo chiffrée.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -6602,7 +6602,7 @@
    "titre": "Agent : la boucle de base",
    "livrable": "Agent 3-outils avec traces.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "agents-fundamentals",
     "agent-workflows-orchestration",
@@ -6723,7 +6723,7 @@
    "titre": "Consolidation agents",
    "livrable": "Note 'quand faire un agent'.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "agents-fundamentals",
     "agent-workflows-orchestration",
@@ -6989,7 +6989,7 @@
    "titre": "Event-driven et queues",
    "livrable": "Note event-driven + cas d'usage DocSense.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "architecture-basics",
     "caching-performance",
@@ -7015,7 +7015,7 @@
    "titre": "Monolithe modulaire vs microservices",
    "livrable": "Note comparative des architectures.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "architecture-basics",
     "caching-performance",
@@ -7070,7 +7070,7 @@
    "titre": "Exercice d'architecture",
    "livrable": "Design système complet + trade-offs.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "architecture-basics",
     "caching-performance",
@@ -7154,7 +7154,7 @@
    "titre": "Privacy et données",
    "livrable": "Politique de données DocSense.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
@@ -7176,7 +7176,7 @@
    "titre": "Observabilité d'une app IA",
    "livrable": "DocQA observable (session rejouable).",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
@@ -7303,13 +7303,13 @@
    "titre": "DocSense : cadrage produit (SPEC)",
    "livrable": "SPEC.md complet.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "architecture-basics",
     "caching-performance",
     "system-design-interview"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "patterns-when-not-yagni"
    ],
@@ -7328,7 +7328,7 @@
    "titre": "DocSense : architecture (ADRs)",
    "livrable": "ARCHITECTURE.md + 4 ADRs.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "architecture-basics",
     "caching-performance",
@@ -7336,7 +7336,7 @@
     "cloud-aws-core",
     "cloud-azure-core"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "archi",
@@ -7355,13 +7355,13 @@
    "titre": "DocSense : modèle de données",
    "livrable": "Modèle de données DocSense.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "architecture-basics",
     "caching-performance",
     "system-design-interview"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "archi",
@@ -7384,7 +7384,7 @@
     "caching-performance",
     "system-design-interview"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "archi",
@@ -7407,7 +7407,7 @@
     "caching-performance",
     "system-design-interview"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "archi",
@@ -7424,7 +7424,7 @@
    "titre": "DocSense : setup et CI vide",
    "livrable": "Repo DocSense initialisé + CI verte.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "architecture-basics",
     "caching-performance",
@@ -7432,7 +7432,7 @@
     "ci-cd",
     "ci-cd-pipeline-anatomy"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "archi",
@@ -7482,7 +7482,7 @@
    "titre": "DocSense : ingestion multi-format",
    "livrable": "Ingestion robuste (testée sur 5 PDF réels).",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -7491,7 +7491,7 @@
     "vector-databases",
     "rag-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "rag",
@@ -7508,7 +7508,7 @@
    "titre": "DocSense : RAG core (architecture cible)",
    "livrable": "RAG core en architecture cible.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -7517,7 +7517,7 @@
     "vector-databases",
     "rag-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "rag",
@@ -7534,7 +7534,7 @@
    "titre": "DocSense : retrieval hybride",
    "livrable": "Retrieval hybride sur DocSense.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -7543,7 +7543,7 @@
     "vector-databases",
     "rag-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "rag",
@@ -7560,7 +7560,7 @@
    "titre": "DocSense : génération avec citations",
    "livrable": "Génération citée et fiable.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -7569,7 +7569,7 @@
     "vector-databases",
     "rag-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "rag",
@@ -7586,7 +7586,7 @@
    "titre": "DocSense : spikes exécutés",
    "livrable": "3 spikes exécutés et documentés.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -7595,7 +7595,7 @@
     "vector-databases",
     "rag-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "rag",
@@ -7612,7 +7612,7 @@
    "titre": "DocSense : jalon RAG bout-en-bout",
    "livrable": "Jalon 45 démontré + revue d'archi.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "rag-fundamentals",
     "embeddings",
@@ -7621,7 +7621,7 @@
     "vector-databases",
     "rag-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "rag",
@@ -7668,13 +7668,13 @@
    "titre": "DocSense : golden set",
    "livrable": "Golden set DocSense 40+.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
     "model-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "ml-confusion-cost"
    ],
@@ -7693,13 +7693,13 @@
    "titre": "DocSense : harnais d'évaluation",
    "livrable": "Harnais d'évaluation opérationnel.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
     "model-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "ml-imbalance-metric-trap"
    ],
@@ -7718,13 +7718,13 @@
    "titre": "DocSense : dashboard qualité",
    "livrable": "Dashboard qualité fonctionnel.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
     "model-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "skl-confusion-matrix"
    ],
@@ -7743,13 +7743,13 @@
    "titre": "DocSense : baseline officielle",
    "livrable": "Baseline officielle enregistrée.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
     "model-evaluation"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "eval-harness-report"
    ],
@@ -7768,7 +7768,7 @@
    "titre": "DocSense : dockerisation",
    "livrable": "DocSense dockerisé (compose up).",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "docker-containers",
     "docker-build-dockerfile",
@@ -7777,7 +7777,7 @@
     "docker-networking-volumes",
     "docker-production-hardening"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "docker-instruction-order",
     "docker-detect-secret",
@@ -7811,7 +7811,7 @@
    "titre": "DocSense : jalon évaluation et reproductibilité",
    "livrable": "Jalon 46 démontré + revue d'archi.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-evaluation",
     "rag-evaluation",
@@ -7820,7 +7820,7 @@
     "k8s-workloads",
     "k8s-config-probes"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "k8s-oom-risk",
     "k8s-probe-role",
@@ -7886,7 +7886,7 @@
     "agent-workflows-orchestration",
     "structured-outputs-tools"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "agent-detect-loop"
    ],
@@ -7910,7 +7910,7 @@
     "agent-workflows-orchestration",
     "structured-outputs-tools"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "agent-retry-idempotent"
    ],
@@ -7928,7 +7928,7 @@
    "titre": "DocSense : coûts et observabilité",
    "livrable": "Coûts affichés + observabilité.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "agents-fundamentals",
     "agent-workflows-orchestration",
@@ -7936,7 +7936,7 @@
     "llm-observability",
     "cloud-finops"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "cloud-monthly-cost",
     "cloud-rightsizing-savings"
@@ -7957,7 +7957,7 @@
    "titre": "DocSense : CI complète",
    "livrable": "CI complète verte.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "agents-fundamentals",
     "agent-workflows-orchestration",
@@ -7966,7 +7966,7 @@
     "ci-cd-quality-gates-artifacts",
     "iac-fundamentals"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "cicd-trigger-should-run",
     "cicd-topo-order",
@@ -8004,7 +8004,7 @@
     "agent-workflows-orchestration",
     "structured-outputs-tools"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "agent-tool-failure-recovery"
    ],
@@ -8028,7 +8028,7 @@
     "agent-workflows-orchestration",
     "structured-outputs-tools"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [
     "llm-tool-route"
    ],
@@ -8076,13 +8076,13 @@
    "titre": "DocSense : guardrails testés",
    "livrable": "Suite adverse verte.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
     "authentication"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "secu",
@@ -8098,14 +8098,14 @@
    "titre": "DocSense : gestion d'erreur bout-en-bout",
    "livrable": "10 scénarios d'erreur gérés proprement.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
     "authentication",
     "resilience-patterns"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "secu",
@@ -8123,7 +8123,7 @@
    "titre": "DocSense : observabilité finale",
    "livrable": "Session rejouable + dashboard narratif.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
@@ -8132,7 +8132,7 @@
     "incident-response",
     "postmortem-rca"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "secu",
@@ -8158,7 +8158,7 @@
     "prompt-injection-defense",
     "authentication"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "secu",
@@ -8174,13 +8174,13 @@
    "titre": "DocSense : rapport qualité v1.0",
    "livrable": "Rapport qualité v1.0 (avant/après).",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 5,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
     "authentication"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "secu",
@@ -8196,13 +8196,13 @@
    "titre": "DocSense : feature freeze v1.0",
    "livrable": "DocSense v1.0 gelée + post-mortem.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "ai-security",
     "prompt-injection-defense",
     "authentication"
    ],
-   "estProduction": false,
+   "estProduction": true,
    "exercices": [],
    "competencesPortees": [
     "secu",
@@ -8405,7 +8405,7 @@
    "titre": "CV orienté preuves",
    "livrable": "CV 1 page finalisé.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "technical-storytelling",
     "readme-documentation",
@@ -8427,7 +8427,7 @@
    "titre": "LinkedIn optimisé",
    "livrable": "LinkedIn refait et publié.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "technical-storytelling",
     "readme-documentation",
@@ -8588,7 +8588,7 @@
    "titre": "Questions système et IA",
    "livrable": "10 réponses IA préparées.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "technical-storytelling",
     "readme-documentation",
@@ -8734,7 +8734,7 @@
    "titre": "Candidatures : premier lot",
    "livrable": "5 candidatures envoyées.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "system-design-interview",
     "algorithmic-thinking"
@@ -8778,7 +8778,7 @@
    "titre": "Candidatures : deuxième lot",
    "livrable": "10 candidatures au total envoyées.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "system-design-interview",
     "algorithmic-thinking"
@@ -8844,7 +8844,7 @@
    "titre": "Plan des 90 prochains jours",
    "livrable": "PLAN-90-JOURS.md + revue de l'année.",
    "projet": null,
-   "difficulte": 3,
+   "difficulte": 4,
    "lecons": [
     "system-design-interview",
     "algorithmic-thinking"
@@ -9378,7 +9378,13 @@
     62,
     64,
     65,
-    85
+    85,
+    330,
+    331,
+    332,
+    333,
+    334,
+    335
    ],
    "revues": [
     56,
@@ -9595,9 +9601,7 @@
     290,
     291,
     292,
-    293,
-    302,
-    326
+    293
    ],
    "application": [
     45,
@@ -9607,7 +9611,14 @@
     62,
     65,
     85,
-    116
+    116,
+    302,
+    303,
+    304,
+    305,
+    306,
+    307,
+    326
    ],
    "revues": [
     42,
@@ -9736,12 +9747,7 @@
     290,
     291,
     292,
-    293,
-    302,
-    320,
-    321,
-    325,
-    326
+    293
    ],
    "application": [
     47,
@@ -9749,7 +9755,19 @@
     113,
     118,
     141,
-    146
+    146,
+    302,
+    303,
+    304,
+    305,
+    306,
+    307,
+    320,
+    321,
+    325,
+    326,
+    331,
+    332
    ],
    "revues": [
     77,
@@ -9928,12 +9946,7 @@
     255,
     256,
     257,
-    258,
-    316,
-    317,
-    318,
-    319,
-    321
+    258
    ],
    "application": [
     176,
@@ -9947,7 +9960,12 @@
     269,
     270,
     271,
-    272
+    272,
+    316,
+    317,
+    318,
+    319,
+    321
    ],
    "revues": [
     154,
@@ -10057,7 +10075,14 @@
     226,
     227
    ],
-   "application": [],
+   "application": [
+    309,
+    310,
+    311,
+    312,
+    313,
+    314
+   ],
    "revues": [
     189,
     196,
@@ -10169,15 +10194,17 @@
     283,
     284,
     285,
-    286,
+    286
+   ],
+   "application": [
     323,
     324,
     325,
     326,
     327,
-    328
+    328,
+    332
    ],
-   "application": [],
    "revues": [
     189,
     196,
@@ -10291,12 +10318,7 @@
     255,
     256,
     257,
-    258,
-    316,
-    317,
-    318,
-    319,
-    321
+    258
    ],
    "application": [
     267,
@@ -10304,7 +10326,18 @@
     269,
     270,
     271,
-    272
+    272,
+    309,
+    310,
+    311,
+    312,
+    313,
+    314,
+    316,
+    317,
+    318,
+    319,
+    321
    ],
    "revues": [
     224,
@@ -10409,7 +10442,9 @@
     283,
     284,
     285,
-    286,
+    286
+   ],
+   "application": [
     323,
     324,
     325,
@@ -10417,7 +10452,6 @@
     327,
     328
    ],
-   "application": [],
    "revues": [
     203,
     210,
@@ -10540,12 +10574,7 @@
     255,
     256,
     257,
-    258,
-    316,
-    317,
-    318,
-    319,
-    321
+    258
    ],
    "application": [
     176,
@@ -10558,7 +10587,18 @@
     269,
     270,
     271,
-    272
+    272,
+    309,
+    310,
+    311,
+    312,
+    313,
+    314,
+    316,
+    317,
+    318,
+    319,
+    321
    ],
    "revues": [
     161,
@@ -10646,12 +10686,19 @@
     260,
     293,
     295,
-    298,
-    320,
-    321
+    298
    ],
    "application": [
-    85
+    85,
+    303,
+    320,
+    321,
+    330,
+    331,
+    332,
+    333,
+    334,
+    335
    ],
    "revues": [
     77,
@@ -10746,14 +10793,18 @@
     200,
     201,
     291,
-    293,
+    293
+   ],
+   "application": [
+    85,
+    303,
+    307,
     320,
     321,
     325,
-    326
-   ],
-   "application": [
-    85
+    326,
+    331,
+    332
    ],
    "revues": [
     77,
@@ -10857,15 +10908,21 @@
     290,
     291,
     292,
-    293,
-    302
+    293
    ],
    "application": [
     47,
     66,
     86,
     118,
-    146
+    146,
+    302,
+    303,
+    304,
+    305,
+    306,
+    307,
+    332
    ],
    "revues": [
     77,
@@ -11316,5 +11373,627 @@
   "I8_cycles": [],
   "C9_refs_mortes": [],
   "I10_orphelines_non_declarees": []
+ },
+ "prereq": {
+  "requis": {
+   "agent-workflows-orchestration": [
+    "agents-fundamentals",
+    "structured-outputs-tools",
+    "architecture-basics"
+   ],
+   "agents-fundamentals": [
+    "llm-fundamentals",
+    "api-design-basics"
+   ],
+   "ai-evaluation": [
+    "model-evaluation",
+    "machine-learning-basics",
+    "rag-fundamentals",
+    "statistics-for-ml"
+   ],
+   "ai-security": [
+    "llm-fundamentals",
+    "authentication",
+    "terminal-shell-filesystem"
+   ],
+   "algorithmic-thinking": [
+    "javascript-basics"
+   ],
+   "api-design-basics": [
+    "http-rest-json"
+   ],
+   "api-production-contracts": [
+    "http-rest-json",
+    "api-design-basics"
+   ],
+   "architecture-basics": [
+    "clean-code",
+    "design-patterns-intro"
+   ],
+   "async-javascript": [
+    "javascript-basics"
+   ],
+   "async-messaging-queues": [
+    "http-rest-json",
+    "caching-performance",
+    "api-production-contracts"
+   ],
+   "authentication": [
+    "http-rest-json",
+    "express-backend"
+   ],
+   "browser-dom-rendering": [
+    "javascript-basics"
+   ],
+   "caching-performance": [
+    "http-rest-json",
+    "architecture-basics"
+   ],
+   "chunking-strategies": [
+    "rag-fundamentals",
+    "embeddings"
+   ],
+   "ci-cd-pipeline-anatomy": [
+    "ci-cd"
+   ],
+   "ci-cd-quality-gates-artifacts": [
+    "ci-cd-pipeline-anatomy"
+   ],
+   "ci-cd": [
+    "testing-foundations",
+    "git-fundamentals"
+   ],
+   "clean-code": [
+    "javascript-basics"
+   ],
+   "cloud-aws-core": [
+    "cloud-fundamentals",
+    "cloud-networking",
+    "cloud-compute-storage"
+   ],
+   "cloud-azure-core": [
+    "cloud-fundamentals",
+    "cloud-networking",
+    "cloud-aws-core"
+   ],
+   "cloud-compute-storage": [
+    "cloud-fundamentals",
+    "docker-containers"
+   ],
+   "cloud-finops": [
+    "cloud-fundamentals",
+    "cloud-compute-storage",
+    "k8s-config-probes"
+   ],
+   "cloud-fundamentals": [
+    "networking-addressing-routing"
+   ],
+   "cloud-networking": [
+    "networking-addressing-routing",
+    "networking-tcp-ip-model",
+    "cloud-fundamentals"
+   ],
+   "css-flexbox": [
+    "css-fundamentals",
+    "html-semantic-structure"
+   ],
+   "css-fundamentals": [
+    "html-semantic-structure"
+   ],
+   "css-grid": [
+    "css-fundamentals",
+    "css-flexbox",
+    "html-semantic-structure"
+   ],
+   "data-cleaning-quality": [
+    "pandas-data-wrangling"
+   ],
+   "data-structures-intro": [
+    "javascript-basics",
+    "algorithmic-thinking"
+   ],
+   "database-migrations": [
+    "database-modeling",
+    "git-fundamentals"
+   ],
+   "database-modeling": [
+    "sql-foundations",
+    "clean-code"
+   ],
+   "database-transactions-concurrency": [
+    "sql-foundations",
+    "database-modeling",
+    "async-javascript"
+   ],
+   "deployment-secrets": [
+    "git-fundamentals",
+    "authentication"
+   ],
+   "deployment-strategies": [
+    "ci-cd-quality-gates-artifacts",
+    "networking-proxy-loadbalancing"
+   ],
+   "design-patterns-intro": [
+    "javascript-basics",
+    "typescript-basics"
+   ],
+   "distributed-systems-failures": [
+    "system-design-scaling",
+    "database-transactions-concurrency",
+    "async-messaging-queues"
+   ],
+   "distributed-tracing": [
+    "observability-fundamentals",
+    "logging-structured",
+    "networking-proxy-loadbalancing"
+   ],
+   "docker-build-dockerfile": [
+    "docker-images-layers"
+   ],
+   "docker-compose": [
+    "docker-networking-volumes"
+   ],
+   "docker-containers": [
+    "terminal-shell-filesystem"
+   ],
+   "docker-images-layers": [
+    "docker-containers",
+    "linux-filesystem-permissions"
+   ],
+   "docker-networking-volumes": [
+    "docker-containers",
+    "networking-tcp-ip-model",
+    "networking-addressing-routing"
+   ],
+   "docker-production-hardening": [
+    "docker-build-dockerfile",
+    "linux-processes-signals"
+   ],
+   "embeddings": [
+    "llm-fundamentals",
+    "http-rest-json"
+   ],
+   "error-handling": [
+    "javascript-basics",
+    "async-javascript",
+    "http-rest-json"
+   ],
+   "etl-pipelines": [
+    "pandas-data-wrangling",
+    "data-cleaning-quality",
+    "error-handling"
+   ],
+   "express-backend": [
+    "http-rest-json",
+    "api-design-basics",
+    "async-javascript",
+    "clean-code"
+   ],
+   "feature-engineering": [
+    "machine-learning-basics",
+    "statistics-for-ml",
+    "model-evaluation"
+   ],
+   "frontend-performance": [
+    "react-fundamentals",
+    "http-rest-json",
+    "caching-performance"
+   ],
+   "frontend-testing": [
+    "testing-foundations",
+    "react-fundamentals",
+    "react-hooks-effects"
+   ],
+   "git-advanced": [
+    "git-fundamentals"
+   ],
+   "git-fundamentals": [
+    "terminal-shell-filesystem"
+   ],
+   "html-semantic-structure": [
+    "browser-dom-rendering"
+   ],
+   "http-rest-json": [
+    "javascript-basics"
+   ],
+   "iac-fundamentals": [
+    "cloud-fundamentals",
+    "cloud-aws-core",
+    "cloud-azure-core",
+    "k8s-why-architecture"
+   ],
+   "incident-response": [
+    "observability-fundamentals",
+    "metrics-percentiles",
+    "slo-error-budget"
+   ],
+   "k8s-config-probes": [
+    "k8s-workloads",
+    "linux-resources-io"
+   ],
+   "k8s-networking-services": [
+    "k8s-workloads",
+    "networking-tcp-ip-model",
+    "networking-proxy-loadbalancing"
+   ],
+   "k8s-security": [
+    "k8s-config-probes",
+    "k8s-networking-services",
+    "docker-production-hardening"
+   ],
+   "k8s-troubleshooting": [
+    "k8s-workloads",
+    "k8s-networking-services",
+    "k8s-config-probes"
+   ],
+   "k8s-why-architecture": [
+    "docker-compose",
+    "docker-production-hardening"
+   ],
+   "k8s-workloads": [
+    "k8s-why-architecture"
+   ],
+   "linux-filesystem-permissions": [
+    "terminal-shell-filesystem"
+   ],
+   "linux-processes-signals": [
+    "linux-filesystem-permissions"
+   ],
+   "linux-resources-io": [
+    "linux-processes-signals"
+   ],
+   "linux-services-systemd": [
+    "linux-processes-signals"
+   ],
+   "linux-ssh-remote": [
+    "linux-filesystem-permissions",
+    "networking-tcp-ip-model"
+   ],
+   "llm-cost-optimization": [
+    "llm-fundamentals"
+   ],
+   "llm-fundamentals": [
+    "machine-learning-basics",
+    "http-rest-json"
+   ],
+   "llm-observability": [
+    "observability-fundamentals",
+    "llm-fundamentals",
+    "llm-cost-optimization",
+    "ai-evaluation"
+   ],
+   "logging-structured": [
+    "observability-fundamentals"
+   ],
+   "machine-learning-basics": [
+    "statistics-for-ml",
+    "python-foundations"
+   ],
+   "metrics-percentiles": [
+    "observability-fundamentals",
+    "linux-resources-io"
+   ],
+   "model-evaluation": [
+    "machine-learning-basics",
+    "statistics-for-ml"
+   ],
+   "monitoring-production": [
+    "observability-logging"
+   ],
+   "networking-addressing-routing": [
+    "networking-tcp-ip-model"
+   ],
+   "networking-dns": [
+    "networking-addressing-routing"
+   ],
+   "networking-http-tls": [
+    "networking-tcp-ip-model"
+   ],
+   "networking-proxy-loadbalancing": [
+    "networking-tcp-ip-model",
+    "networking-http-tls"
+   ],
+   "networking-tcp-ip-model": [
+    "terminal-shell-filesystem"
+   ],
+   "neural-networks": [
+    "machine-learning-basics",
+    "statistics-for-ml",
+    "model-evaluation"
+   ],
+   "nextjs-data-production": [
+    "nextjs-rendering",
+    "nextjs-server-client-components",
+    "react-application-states",
+    "http-rest-json",
+    "typescript-frontend",
+    "authentication"
+   ],
+   "nextjs-foundations": [
+    "react-fundamentals",
+    "react-application-states",
+    "http-rest-json",
+    "typescript-frontend"
+   ],
+   "nextjs-rendering": [
+    "nextjs-foundations",
+    "browser-dom-rendering",
+    "frontend-performance",
+    "http-rest-json"
+   ],
+   "nextjs-server-client-components": [
+    "nextjs-rendering",
+    "react-fundamentals",
+    "react-hooks-effects",
+    "typescript-frontend"
+   ],
+   "observability-fundamentals": [
+    "http-rest-json"
+   ],
+   "observability-logging": [
+    "http-rest-json",
+    "error-handling",
+    "deployment-secrets"
+   ],
+   "pandas-data-wrangling": [
+    "python-foundations",
+    "sql-foundations"
+   ],
+   "portfolio-github": [
+    "git-fundamentals",
+    "readme-documentation",
+    "deployment-secrets"
+   ],
+   "prompt-engineering": [
+    "llm-fundamentals",
+    "error-handling",
+    "structured-outputs-tools"
+   ],
+   "prompt-injection-defense": [
+    "llm-fundamentals",
+    "rag-fundamentals",
+    "ai-security"
+   ],
+   "python-foundations": [
+    "javascript-basics"
+   ],
+   "rag-evaluation": [
+    "rag-fundamentals",
+    "retrieval-reranking",
+    "statistics-for-ml"
+   ],
+   "rag-fundamentals": [
+    "llm-fundamentals",
+    "embeddings"
+   ],
+   "react-accessibility": [
+    "browser-dom-rendering",
+    "react-fundamentals"
+   ],
+   "react-application-states": [
+    "react-fundamentals",
+    "react-hooks-effects"
+   ],
+   "react-composition-architecture": [
+    "react-fundamentals",
+    "react-hooks-effects",
+    "clean-code"
+   ],
+   "react-fundamentals": [
+    "browser-dom-rendering",
+    "javascript-basics"
+   ],
+   "react-hooks-effects": [
+    "react-fundamentals",
+    "async-javascript"
+   ],
+   "recursion": [
+    "javascript-basics",
+    "algorithmic-thinking"
+   ],
+   "refactoring-legacy-code": [
+    "clean-code",
+    "testing-foundations",
+    "git-fundamentals"
+   ],
+   "release-incident-recovery": [
+    "ci-cd-quality-gates-artifacts",
+    "deployment-strategies"
+   ],
+   "resilience-patterns": [
+    "networking-proxy-loadbalancing",
+    "distributed-tracing",
+    "metrics-percentiles"
+   ],
+   "responsive-design": [
+    "css-flexbox",
+    "css-grid",
+    "css-fundamentals"
+   ],
+   "retrieval-reranking": [
+    "embeddings",
+    "rag-fundamentals",
+    "vector-databases"
+   ],
+   "scikit-learn-workflow": [
+    "machine-learning-basics"
+   ],
+   "slo-error-budget": [
+    "metrics-percentiles"
+   ],
+   "sql-foundations": [
+    "javascript-basics"
+   ],
+   "sql-performance-indexing": [
+    "sql-foundations",
+    "algorithmic-thinking",
+    "data-structures-intro"
+   ],
+   "structured-outputs-tools": [
+    "llm-fundamentals",
+    "typescript-basics",
+    "error-handling",
+    "api-design-basics"
+   ],
+   "system-design-interview": [
+    "architecture-basics"
+   ],
+   "system-design-scaling": [
+    "architecture-basics",
+    "networking-proxy-loadbalancing",
+    "caching-performance",
+    "database-modeling"
+   ],
+   "technical-debt": [
+    "clean-code",
+    "refactoring-legacy-code"
+   ],
+   "technical-documentation": [
+    "architecture-basics",
+    "error-handling",
+    "readme-documentation"
+   ],
+   "testing-foundations": [
+    "javascript-basics",
+    "clean-code"
+   ],
+   "transformers": [
+    "neural-networks"
+   ],
+   "typescript-basics": [
+    "javascript-basics"
+   ],
+   "typescript-frontend": [
+    "typescript-basics",
+    "async-javascript",
+    "http-rest-json",
+    "browser-dom-rendering"
+   ],
+   "vector-databases": [
+    "embeddings",
+    "rag-fundamentals",
+    "data-structures-intro"
+   ],
+   "web-forms-validation": [
+    "browser-dom-rendering",
+    "javascript-basics"
+   ]
+  },
+  "lookahead": {
+   "agent-workflows-orchestration": [
+    "resilience-patterns"
+   ],
+   "ai-security": [
+    "agents-fundamentals"
+   ],
+   "api-design-basics": [
+    "breaking-changes-compatibility"
+   ],
+   "api-production-contracts": [
+    "authentication"
+   ],
+   "architecture-basics": [
+    "http-rest-json"
+   ],
+   "async-javascript": [
+    "http-rest-json"
+   ],
+   "async-messaging-queues": [
+    "resilience-patterns"
+   ],
+   "authentication": [
+    "ai-security"
+   ],
+   "breaking-changes-compatibility": [
+    "typescript-basics",
+    "http-rest-json",
+    "api-design-basics",
+    "database-migrations",
+    "deployment-strategies"
+   ],
+   "caching-performance": [
+    "sql-performance-indexing"
+   ],
+   "ci-cd-pipeline-anatomy": [
+    "docker-images-layers"
+   ],
+   "cloud-fundamentals": [
+    "docker-containers"
+   ],
+   "data-cleaning-quality": [
+    "feature-engineering"
+   ],
+   "database-migrations": [
+    "deployment-strategies"
+   ],
+   "design-patterns-intro": [
+    "clean-code"
+   ],
+   "express-backend": [
+    "error-handling"
+   ],
+   "frontend-performance": [
+    "react-composition-architecture",
+    "responsive-design"
+   ],
+   "incident-response": [
+    "release-incident-recovery"
+   ],
+   "interview-preparation": [
+    "technical-storytelling",
+    "system-design-interview"
+   ],
+   "llm-cost-optimization": [
+    "rag-fundamentals"
+   ],
+   "monitoring-production": [
+    "llm-observability"
+   ],
+   "postmortem-rca": [
+    "incident-response",
+    "release-incident-recovery"
+   ],
+   "prompt-engineering": [
+    "ai-evaluation"
+   ],
+   "prompt-injection-defense": [
+    "agents-fundamentals"
+   ],
+   "rag-evaluation": [
+    "ai-evaluation"
+   ],
+   "react-application-states": [
+    "react-composition-architecture"
+   ],
+   "readme-documentation": [
+    "technical-documentation"
+   ],
+   "retrieval-reranking": [
+    "rag-evaluation"
+   ],
+   "scikit-learn-workflow": [
+    "feature-engineering",
+    "model-evaluation"
+   ],
+   "slo-error-budget": [
+    "cloud-fundamentals"
+   ],
+   "statistics-for-ml": [
+    "python-foundations"
+   ],
+   "technical-documentation": [
+    "breaking-changes-compatibility"
+   ],
+   "technical-storytelling": [
+    "technical-documentation",
+    "portfolio-github"
+   ],
+   "transformers": [
+    "embeddings"
+   ],
+   "web-forms-validation": [
+    "html-semantic-structure"
+   ]
+  }
  }
 }

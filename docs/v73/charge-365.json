@@ -12,79 +12,80 @@
   "attentive·relecture0.5"
  ],
  "categories": {
-  "BALANCED": 362,
-  "UNDERLOADED": 3
+  "BALANCED": 315,
+  "UNDERLOADED": 6,
+  "HEAVY": 44
  },
  "sensibilite": {
   "rapide·relecture1": {
    "IMPOSSIBLE": 0,
    "HEAVY": 0,
-   "BALANCED": 357,
-   "UNDERLOADED": 8
+   "BALANCED": 354,
+   "UNDERLOADED": 11
   },
   "rapide·relecture0.5": {
    "IMPOSSIBLE": 0,
    "HEAVY": 0,
-   "BALANCED": 357,
-   "UNDERLOADED": 8
+   "BALANCED": 354,
+   "UNDERLOADED": 11
   },
   "normale·relecture1": {
    "IMPOSSIBLE": 0,
-   "HEAVY": 0,
-   "BALANCED": 362,
-   "UNDERLOADED": 3
+   "HEAVY": 44,
+   "BALANCED": 315,
+   "UNDERLOADED": 6
   },
   "normale·relecture0.5": {
    "IMPOSSIBLE": 0,
-   "HEAVY": 0,
-   "BALANCED": 362,
-   "UNDERLOADED": 3
+   "HEAVY": 44,
+   "BALANCED": 315,
+   "UNDERLOADED": 6
   },
   "attentive·relecture1": {
-   "IMPOSSIBLE": 0,
-   "HEAVY": 46,
-   "BALANCED": 317,
-   "UNDERLOADED": 2
+   "IMPOSSIBLE": 24,
+   "HEAVY": 32,
+   "BALANCED": 304,
+   "UNDERLOADED": 5
   },
   "attentive·relecture0.5": {
-   "IMPOSSIBLE": 0,
-   "HEAVY": 46,
-   "BALANCED": 317,
-   "UNDERLOADED": 2
+   "IMPOSSIBLE": 24,
+   "HEAVY": 32,
+   "BALANCED": 304,
+   "UNDERLOADED": 5
   }
  },
  "statsTravail": {
   "bas": {
    "P10": 94,
-   "P25": 115,
-   "mediane": 139,
-   "P75": 159,
-   "P90": 220,
-   "max": 235
+   "P25": 119,
+   "mediane": 143,
+   "P75": 178,
+   "P90": 241,
+   "max": 269
   },
   "haut": {
    "P10": 146,
-   "P25": 166,
-   "mediane": 191,
-   "P75": 211,
-   "P90": 272,
-   "max": 294
+   "P25": 171,
+   "mediane": 201,
+   "P75": 241,
+   "P90": 303,
+   "max": 341
   }
  },
  "statsRevues": {
   "bas": {
    "P10": 90,
    "P25": 98,
-   "mediane": 131,
-   "P75": 144,
+   "mediane": 128,
+   "P75": 143,
    "P90": 185,
    "max": 206
   },
   "haut": {
    "P10": 153,
    "P25": 156,
-   "mediane": 186,
-   "P75": 227,
+   "mediane": 183,
+   "P75": 211,
    "P90": 264,
    "max": 291
   }
@@ -112,9 +113,9 @@
      65,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 8,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -156,9 +157,9 @@
      41,
      75
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 5,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -200,9 +201,9 @@
      59,
      105
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 6,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -241,19 +242,19 @@
      1
     ],
     "pratique": [
-     30,
+     25,
      45
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 115,
+   "bas": 110,
    "haut": 141,
    "cat": "BALANCED",
    "catsParHypothese": {
@@ -285,19 +286,19 @@
      2
     ],
     "pratique": [
-     30,
+     25,
      45
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 117,
+   "bas": 112,
    "haut": 143,
    "cat": "BALANCED",
    "catsParHypothese": {
@@ -332,9 +333,9 @@
      59,
      105
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 6,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -420,9 +421,9 @@
      59,
      105
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 6,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -464,9 +465,9 @@
      51,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 5,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -508,9 +509,9 @@
      51,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 5,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -552,9 +553,9 @@
      91,
      165
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 10,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -596,9 +597,9 @@
      35,
      60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -640,9 +641,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -682,7 +683,7 @@
     ],
     "pratique": [
      100,
-     150
+     140
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 9,
@@ -694,7 +695,7 @@
     "setup": "NON MESURÉ"
    },
    "bas": 146,
-   "haut": 221,
+   "haut": 211,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -728,9 +729,9 @@
      106,
      195
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 10,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -772,9 +773,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -816,9 +817,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -860,9 +861,9 @@
      35,
      60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 3,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -904,9 +905,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -945,20 +946,20 @@
      2
     ],
     "pratique": [
-     142,
-     199
+     112,
+     157
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 8,
-    "minuteAnnonce": 142,
+    "minuteAnnonce": 112,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 211,
-   "haut": 279,
+   "bas": 181,
+   "haut": 237,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -1036,9 +1037,9 @@
      106,
      195
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 10,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1080,9 +1081,9 @@
      51,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 5,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1124,9 +1125,9 @@
      66,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 5,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1168,9 +1169,9 @@
      94,
      165
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 6,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1212,9 +1213,9 @@
      66,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 5,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1256,9 +1257,9 @@
      82,
      150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 7,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1298,7 +1299,7 @@
     ],
     "pratique": [
      105,
-     150
+     147
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 9,
@@ -1310,7 +1311,7 @@
     "setup": "NON MESURÉ"
    },
    "bas": 157,
-   "haut": 227,
+   "haut": 224,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -1344,9 +1345,9 @@
      110,
      195
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 8,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1388,9 +1389,9 @@
      90,
      165
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 8,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1432,9 +1433,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1476,9 +1477,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1520,9 +1521,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1564,9 +1565,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1652,9 +1653,9 @@
      35,
      60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1696,9 +1697,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1740,9 +1741,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1784,9 +1785,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1828,9 +1829,9 @@
      35,
      60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1872,9 +1873,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -1960,9 +1961,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2004,9 +2005,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2048,9 +2049,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2092,9 +2093,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2136,9 +2137,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2180,9 +2181,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2268,9 +2269,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2312,9 +2313,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2356,9 +2357,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2400,9 +2401,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2444,9 +2445,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2488,9 +2489,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2576,9 +2577,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2620,9 +2621,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2664,9 +2665,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2708,9 +2709,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2752,9 +2753,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2796,9 +2797,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2838,7 +2839,7 @@
     ],
     "pratique": [
      60,
-     90
+     84
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 5,
@@ -2850,7 +2851,7 @@
     "setup": "NON MESURÉ"
    },
    "bas": 114,
-   "haut": 169,
+   "haut": 163,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -2884,9 +2885,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2928,9 +2929,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -2972,9 +2973,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3016,9 +3017,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3060,9 +3061,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3104,9 +3105,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3192,9 +3193,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3236,9 +3237,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3280,9 +3281,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3324,9 +3325,9 @@
      35,
      60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3368,9 +3369,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3412,9 +3413,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3500,9 +3501,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3544,9 +3545,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3588,9 +3589,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3632,9 +3633,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3676,9 +3677,9 @@
      35,
      60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3720,9 +3721,9 @@
      35,
      60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3808,9 +3809,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3852,9 +3853,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3896,9 +3897,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3940,9 +3941,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -3984,9 +3985,9 @@
      70,
      120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4028,9 +4029,9 @@
      35,
      60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4116,9 +4117,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4160,9 +4161,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4204,9 +4205,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4248,9 +4249,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4292,9 +4293,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4336,9 +4337,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4424,9 +4425,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4468,9 +4469,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4512,9 +4513,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4540,7 +4541,7 @@
    "revue": false,
    "titre": "Performance React : re-renders",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 10,
     "correction": 2,
@@ -4553,64 +4554,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 167,
-   "haut": 219,
-   "cat": "BALANCED",
-   "catsParHypothese": {
-    "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
-   },
-   "structurellementImpossible": false,
-   "nImpossible": 0
-  },
-  {
-   "j": 103,
-   "revue": false,
-   "titre": "Accessibilité et UX de base",
-   "nlec": 5,
-   "difficulte": 3,
-   "postes": {
-    "lectureJour": 9,
-    "correction": 2,
-    "lectureLecons": 145,
-    "lectureLeconsHaut": 145,
-    "lectureLeconsSiToutRelu": 145,
-    "rappelActifMinute": null,
-    "guide": [
-     1,
-     3
-    ],
-    "pratique": [
-     50,
-     90
-    ],
-    "sourcePratique": "minutage explicite",
-    "etapes": 0,
-    "minuteAnnonce": 30,
-    "reflexion": [
-     10,
-     20
-    ],
-    "setup": "NON MESURÉ"
-   },
-   "bas": 217,
-   "haut": 269,
+   "bas": 207,
+   "haut": 279,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -4624,11 +4581,55 @@
    "nImpossible": 0
   },
   {
+   "j": 103,
+   "revue": false,
+   "titre": "Accessibilité et UX de base",
+   "nlec": 5,
+   "difficulte": 5,
+   "postes": {
+    "lectureJour": 9,
+    "correction": 2,
+    "lectureLecons": 145,
+    "lectureLeconsHaut": 145,
+    "lectureLeconsSiToutRelu": 145,
+    "rappelActifMinute": null,
+    "guide": [
+     1,
+     3
+    ],
+    "pratique": [
+     90,
+     150
+    ],
+    "sourcePratique": "fourchette par difficulté",
+    "etapes": 0,
+    "minuteAnnonce": 0,
+    "reflexion": [
+     10,
+     20
+    ],
+    "setup": "NON MESURÉ"
+   },
+   "bas": 257,
+   "haut": 329,
+   "cat": "HEAVY",
+   "catsParHypothese": {
+    "rapide·relecture1": "BALANCED",
+    "rapide·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
+   },
+   "structurellementImpossible": false,
+   "nImpossible": 2
+  },
+  {
    "j": 104,
    "revue": false,
    "titre": "Consolidation front + préparation Projet 3",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -4641,20 +4642,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 171,
-   "haut": 223,
+   "bas": 191,
+   "haut": 253,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -4732,9 +4733,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4760,7 +4761,7 @@
    "revue": false,
    "titre": "Tester des composants React",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -4773,20 +4774,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 120,
-   "haut": 173,
+   "bas": 140,
+   "haut": 203,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -4820,9 +4821,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4864,9 +4865,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4908,9 +4909,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -4936,7 +4937,7 @@
    "revue": false,
    "titre": "Gestion d'erreur front robuste",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -4949,20 +4950,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 127,
-   "haut": 179,
+   "bas": 147,
+   "haut": 209,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -5040,9 +5041,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5084,9 +5085,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5128,9 +5129,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5172,9 +5173,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5200,7 +5201,7 @@
    "revue": false,
    "titre": "Projet 3 — Polish et états edge",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -5213,20 +5214,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 119,
-   "haut": 171,
+   "bas": 139,
+   "haut": 201,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -5260,9 +5261,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5348,9 +5349,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5376,7 +5377,7 @@
    "revue": false,
    "titre": "Python : fonctions, modules, fichiers",
    "nlec": 1,
-   "difficulte": 3,
+   "difficulte": 2,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -5389,28 +5390,28 @@
      5
     ],
     "pratique": [
-     50,
-     90
+     35,
+     60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 89,
-   "haut": 142,
-   "cat": "BALANCED",
+   "bas": 74,
+   "haut": 112,
+   "cat": "UNDERLOADED",
    "catsParHypothese": {
-    "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "rapide·relecture1": "UNDERLOADED",
+    "rapide·relecture0.5": "UNDERLOADED",
+    "normale·relecture1": "UNDERLOADED",
+    "normale·relecture0.5": "UNDERLOADED",
+    "attentive·relecture1": "UNDERLOADED",
+    "attentive·relecture0.5": "UNDERLOADED"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -5436,9 +5437,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5480,9 +5481,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5524,9 +5525,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5568,9 +5569,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5656,9 +5657,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5700,9 +5701,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5744,9 +5745,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5788,9 +5789,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5832,9 +5833,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5876,9 +5877,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -5964,9 +5965,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6008,9 +6009,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6052,9 +6053,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6080,7 +6081,7 @@
    "revue": false,
    "titre": "SQL avancé : requêtes analytiques",
    "nlec": 1,
-   "difficulte": 3,
+   "difficulte": 2,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -6093,28 +6094,28 @@
      4
     ],
     "pratique": [
-     50,
-     90
+     35,
+     60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 96,
-   "haut": 148,
-   "cat": "BALANCED",
+   "bas": 81,
+   "haut": 118,
+   "cat": "UNDERLOADED",
    "catsParHypothese": {
-    "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "rapide·relecture1": "UNDERLOADED",
+    "rapide·relecture0.5": "UNDERLOADED",
+    "normale·relecture1": "UNDERLOADED",
+    "normale·relecture0.5": "UNDERLOADED",
+    "attentive·relecture1": "UNDERLOADED",
+    "attentive·relecture0.5": "UNDERLOADED"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -6140,9 +6141,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6168,7 +6169,7 @@
    "revue": false,
    "titre": "ETL : robustesse et rejouabilité",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -6181,20 +6182,20 @@
      4
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 118,
-   "haut": 170,
+   "bas": 138,
+   "haut": 200,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -6256,7 +6257,7 @@
    "revue": false,
    "titre": "Projet 4 — DataPulse : cadrage et source",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -6269,20 +6270,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 122,
-   "haut": 175,
+   "bas": 142,
+   "haut": 205,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -6316,9 +6317,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6344,7 +6345,7 @@
    "revue": false,
    "titre": "Projet 4 — Transform",
    "nlec": 1,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -6357,20 +6358,20 @@
      4
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 96,
-   "haut": 149,
+   "bas": 116,
+   "haut": 179,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -6404,9 +6405,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6448,9 +6449,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6492,9 +6493,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6580,9 +6581,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6624,9 +6625,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6668,9 +6669,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6712,9 +6713,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6756,9 +6757,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6800,9 +6801,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6872,7 +6873,7 @@
    "revue": false,
    "titre": "ML : le workflow et scikit-learn",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -6885,20 +6886,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 115,
-   "haut": 167,
+   "bas": 135,
+   "haut": 197,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -6932,9 +6933,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -6960,7 +6961,7 @@
    "revue": false,
    "titre": "Train/test split et baseline",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -6973,20 +6974,20 @@
      4
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 119,
-   "haut": 171,
+   "bas": 139,
+   "haut": 201,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -7020,9 +7021,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7064,9 +7065,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7108,9 +7109,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7196,9 +7197,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7240,9 +7241,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7284,9 +7285,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7328,9 +7329,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7372,9 +7373,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7416,9 +7417,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7504,9 +7505,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7548,9 +7549,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7592,9 +7593,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7636,9 +7637,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7680,9 +7681,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7724,9 +7725,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7812,9 +7813,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7840,7 +7841,7 @@
    "revue": false,
    "titre": "Projet 5 — Premiers modèles",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -7853,20 +7854,20 @@
      4
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 118,
-   "haut": 171,
+   "bas": 138,
+   "haut": 201,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -7900,9 +7901,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -7928,7 +7929,7 @@
    "revue": false,
    "titre": "Projet 5 — Optimisation et validation",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -7941,20 +7942,20 @@
      4
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 119,
-   "haut": 171,
+   "bas": 139,
+   "haut": 201,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -7988,9 +7989,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -8016,7 +8017,7 @@
    "revue": false,
    "titre": "Projet 5 — README, reproductibilité, démo",
    "nlec": 5,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 4,
     "correction": 1,
@@ -8029,28 +8030,28 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 184,
-   "haut": 234,
+   "bas": 224,
+   "haut": 294,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -8073,8 +8074,8 @@
      0
     ],
     "pratique": [
-     91,
-     165
+     60,
+     84
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 10,
@@ -8085,8 +8086,8 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 144,
-   "haut": 243,
+   "bas": 113,
+   "haut": 162,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8104,7 +8105,7 @@
    "revue": false,
    "titre": "Le neurone : de zéro en NumPy",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 5,
     "correction": 2,
@@ -8117,20 +8118,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 109,
-   "haut": 160,
+   "bas": 149,
+   "haut": 220,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8148,7 +8149,7 @@
    "revue": false,
    "titre": "Descente de gradient",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -8161,20 +8162,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 109,
-   "haut": 160,
+   "bas": 129,
+   "haut": 190,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8192,7 +8193,7 @@
    "revue": false,
    "titre": "PyTorch : tenseurs et autograd",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8205,20 +8206,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 108,
-   "haut": 159,
+   "bas": 128,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8236,7 +8237,7 @@
    "revue": false,
    "titre": "MLP : perceptron multicouche",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8249,20 +8250,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 108,
-   "haut": 159,
+   "bas": 128,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8280,7 +8281,7 @@
    "revue": false,
    "titre": "Entraînement sur données réelles",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8293,20 +8294,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 108,
-   "haut": 159,
+   "bas": 128,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8324,7 +8325,7 @@
    "revue": false,
    "titre": "Régularisation et diagnostic",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8337,20 +8338,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 107,
-   "haut": 158,
+   "bas": 127,
+   "haut": 188,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8412,7 +8413,7 @@
    "revue": false,
    "titre": "NLP : tokenisation",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8425,20 +8426,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 108,
-   "haut": 159,
+   "bas": 128,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8456,7 +8457,7 @@
    "revue": false,
    "titre": "Embeddings",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8469,20 +8470,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 108,
-   "haut": 159,
+   "bas": 128,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8500,7 +8501,7 @@
    "revue": false,
    "titre": "Attention",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8513,20 +8514,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 108,
-   "haut": 159,
+   "bas": 128,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8544,7 +8545,7 @@
    "revue": false,
    "titre": "Architecture transformer",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8557,20 +8558,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 108,
-   "haut": 159,
+   "bas": 128,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8588,7 +8589,7 @@
    "revue": false,
    "titre": "Classification de texte",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8601,20 +8602,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 108,
-   "haut": 159,
+   "bas": 128,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8632,7 +8633,7 @@
    "revue": false,
    "titre": "Note 'un LLM expliqué à un dev backend'",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 1,
@@ -8645,20 +8646,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 108,
-   "haut": 159,
+   "bas": 128,
+   "haut": 189,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8720,7 +8721,7 @@
    "revue": false,
    "titre": "Fonctionnement des LLM",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -8733,28 +8734,28 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 159,
-   "haut": 210,
+   "bas": 199,
+   "haut": 270,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -8764,7 +8765,7 @@
    "revue": false,
    "titre": "Appeler une API LLM",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 2,
@@ -8777,20 +8778,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 158,
-   "haut": 209,
+   "bas": 178,
+   "haut": 239,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8808,7 +8809,7 @@
    "revue": false,
    "titre": "Température et paramètres",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 2,
@@ -8821,20 +8822,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 158,
-   "haut": 209,
+   "bas": 178,
+   "haut": 239,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8852,7 +8853,7 @@
    "revue": false,
    "titre": "Tokens et coûts",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 2,
@@ -8865,20 +8866,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 158,
-   "haut": 210,
+   "bas": 178,
+   "haut": 240,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8896,7 +8897,7 @@
    "revue": false,
    "titre": "Hallucinations",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -8909,20 +8910,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 159,
-   "haut": 210,
+   "bas": 179,
+   "haut": 240,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -8940,7 +8941,7 @@
    "revue": false,
    "titre": "Banc d'essai LLM",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 2,
@@ -8953,20 +8954,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 158,
-   "haut": 210,
+   "bas": 178,
+   "haut": 240,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9028,7 +9029,7 @@
    "revue": false,
    "titre": "Prompt engineering sérieux",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 5,
     "correction": 2,
@@ -9041,20 +9042,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 158,
-   "haut": 210,
+   "bas": 178,
+   "haut": 240,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9072,7 +9073,7 @@
    "revue": false,
    "titre": "Structured outputs",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9085,20 +9086,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 159,
-   "haut": 211,
+   "bas": 179,
+   "haut": 241,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9116,7 +9117,7 @@
    "revue": false,
    "titre": "Few-shot et patterns de prompts",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -9129,20 +9130,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 159,
-   "haut": 210,
+   "bas": 179,
+   "haut": 240,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9160,7 +9161,7 @@
    "revue": false,
    "titre": "Function calling / tool use",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9173,20 +9174,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 159,
-   "haut": 211,
+   "bas": 179,
+   "haut": 241,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9204,7 +9205,7 @@
    "revue": false,
    "titre": "Intégration LLM dans une app",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9217,20 +9218,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 159,
-   "haut": 210,
+   "bas": 179,
+   "haut": 240,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9248,7 +9249,7 @@
    "revue": false,
    "titre": "Consolidation LLM + revue mensuelle 7",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9261,20 +9262,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 158,
-   "haut": 209,
+   "bas": 178,
+   "haut": 239,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9336,7 +9337,7 @@
    "revue": false,
    "titre": "Prompts en production",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9349,20 +9350,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 159,
-   "haut": 211,
+   "bas": 179,
+   "haut": 241,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9380,7 +9381,7 @@
    "revue": false,
    "titre": "Guardrails d'entrée/sortie",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9393,20 +9394,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 159,
-   "haut": 211,
+   "bas": 179,
+   "haut": 241,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9424,7 +9425,7 @@
    "revue": false,
    "titre": "Function calling avancé",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9437,20 +9438,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 160,
-   "haut": 211,
+   "bas": 180,
+   "haut": 241,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9468,7 +9469,7 @@
    "revue": false,
    "titre": "Le composant 'appel LLM robuste'",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9481,20 +9482,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 160,
-   "haut": 211,
+   "bas": 180,
+   "haut": 241,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9512,7 +9513,7 @@
    "revue": false,
    "titre": "Introduction au RAG : le pourquoi",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -9525,20 +9526,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 160,
-   "haut": 211,
+   "bas": 180,
+   "haut": 241,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9556,7 +9557,7 @@
    "revue": false,
    "titre": "RAG : chunking",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9569,20 +9570,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 160,
-   "haut": 211,
+   "bas": 180,
+   "haut": 241,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -9644,7 +9645,7 @@
    "revue": false,
    "titre": "RAG : embeddings",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9657,38 +9658,38 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 219,
-   "haut": 271,
-   "cat": "BALANCED",
+   "bas": 259,
+   "haut": 331,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 219,
    "revue": false,
    "titre": "RAG : recherche par similarité",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9701,38 +9702,38 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 271,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 331,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 220,
    "revue": false,
    "titre": "RAG : génération avec citations",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9745,38 +9746,38 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 271,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 331,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 221,
    "revue": false,
    "titre": "RAG : pipeline modulaire",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9789,38 +9790,38 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 219,
-   "haut": 271,
-   "cat": "BALANCED",
+   "bas": 259,
+   "haut": 331,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 222,
    "revue": false,
    "titre": "RAG : multi-formats (PDF, Markdown)",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9833,38 +9834,38 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 332,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 223,
    "revue": false,
    "titre": "RAG : robustesse et ré-ingestion",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -9877,31 +9878,31 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 332,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 224,
@@ -9952,7 +9953,7 @@
    "revue": false,
    "titre": "DocQA v0 sur ton corpus",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -9965,26 +9966,26 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 240,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -9996,7 +9997,7 @@
    "revue": false,
    "titre": "Diagnostic des échecs de retrieval",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10009,38 +10010,38 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 332,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 227,
    "revue": false,
    "titre": "Décisions de conception du RAG",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -10053,38 +10054,38 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 271,
-   "cat": "BALANCED",
+   "bas": 261,
+   "haut": 331,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 228,
    "revue": false,
    "titre": "Estimation de la taille de l'index",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10097,38 +10098,38 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 332,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 229,
    "revue": false,
    "titre": "Métadonnées et filtrage",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -10141,38 +10142,38 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 271,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 331,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 230,
    "revue": false,
    "titre": "Consolidation RAG v1 + revue mensuelle 8",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -10185,26 +10186,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 240,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -10260,7 +10261,7 @@
    "revue": false,
    "titre": "Préparation Projet 6 : DocQA évalué",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -10273,26 +10274,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 240,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -10304,7 +10305,7 @@
    "revue": false,
    "titre": "Interface du RAG",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -10317,26 +10318,26 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 240,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -10348,7 +10349,7 @@
    "revue": false,
    "titre": "Gestion de session et historique",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10361,38 +10362,38 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 332,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 235,
    "revue": false,
    "titre": "Optimisation du prompt de génération",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -10405,38 +10406,38 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 332,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 236,
    "revue": false,
    "titre": "Robustesse et cas limites",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10449,26 +10450,26 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 241,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -10480,7 +10481,7 @@
    "revue": false,
    "titre": "Bilan RAG et préparation évaluation",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10493,31 +10494,31 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 273,
-   "cat": "BALANCED",
+   "bas": 261,
+   "haut": 333,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 238,
@@ -10568,7 +10569,7 @@
    "revue": false,
    "titre": "Vector DB : migration vers Chroma",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -10581,26 +10582,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 240,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -10612,7 +10613,7 @@
    "revue": false,
    "titre": "Chunking avancé : par structure",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10625,26 +10626,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 241,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -10656,7 +10657,7 @@
    "revue": false,
    "titre": "Chunking : comparaison objective",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10669,38 +10670,38 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 273,
-   "cat": "BALANCED",
+   "bas": 261,
+   "haut": 333,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 242,
    "revue": false,
    "titre": "Versioning de l'index",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10713,38 +10714,38 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 260,
+   "haut": 332,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 243,
    "revue": false,
    "titre": "Embeddings : comparer les modèles",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10757,26 +10758,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 241,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -10788,7 +10789,7 @@
    "revue": false,
    "titre": "Consolidation vector DB + chunking",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 6,
     "correction": 2,
@@ -10801,26 +10802,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 220,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 240,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -10876,7 +10877,7 @@
    "revue": false,
    "titre": "Recherche lexicale (BM25/FTS5)",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10889,26 +10890,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 273,
-   "cat": "BALANCED",
+   "bas": 241,
+   "haut": 303,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -10920,7 +10921,7 @@
    "revue": false,
    "titre": "Hybrid search",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10933,38 +10934,38 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 261,
+   "haut": 332,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 248,
    "revue": false,
    "titre": "Reranking",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -10977,26 +10978,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 273,
-   "cat": "BALANCED",
+   "bas": 241,
+   "haut": 303,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -11008,7 +11009,7 @@
    "revue": false,
    "titre": "Tableau d'ablation",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11021,26 +11022,26 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 272,
-   "cat": "BALANCED",
+   "bas": 241,
+   "haut": 302,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -11052,7 +11053,7 @@
    "revue": false,
    "titre": "Budget latence et optimisation",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11065,26 +11066,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 273,
-   "cat": "BALANCED",
+   "bas": 241,
+   "haut": 303,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -11096,7 +11097,7 @@
    "revue": false,
    "titre": "Consolidation retrieval avancé",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11109,26 +11110,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 273,
-   "cat": "BALANCED",
+   "bas": 241,
+   "haut": 303,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -11184,7 +11185,7 @@
    "revue": false,
    "titre": "Golden set : construction",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11197,20 +11198,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 176,
+   "haut": 248,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11228,7 +11229,7 @@
    "revue": false,
    "titre": "Évaluation du retrieval",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11241,20 +11242,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 156,
+   "haut": 218,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11272,7 +11273,7 @@
    "revue": false,
    "titre": "LLM-as-judge",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11285,20 +11286,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 137,
-   "haut": 189,
+   "bas": 157,
+   "haut": 219,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11316,7 +11317,7 @@
    "revue": false,
    "titre": "Métriques : fidélité, pertinence, exactitude",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11329,20 +11330,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 156,
+   "haut": 218,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11360,7 +11361,7 @@
    "revue": false,
    "titre": "Harnais d'évaluation automatisé",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11373,20 +11374,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 156,
+   "haut": 218,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11404,7 +11405,7 @@
    "revue": false,
    "titre": "Évaluer l'évaluateur",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -11417,20 +11418,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 137,
-   "haut": 189,
+   "bas": 157,
+   "haut": 219,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11492,7 +11493,7 @@
    "revue": false,
    "titre": "Prompt injection : attaque",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 3,
@@ -11505,20 +11506,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 150,
-   "haut": 201,
+   "bas": 190,
+   "haut": 261,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11536,7 +11537,7 @@
    "revue": false,
    "titre": "Prompt injection : défense",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -11549,20 +11550,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 150,
-   "haut": 202,
+   "bas": 170,
+   "haut": 232,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11580,7 +11581,7 @@
    "revue": false,
    "titre": "Citations vérifiables",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11593,20 +11594,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 149,
-   "haut": 201,
+   "bas": 169,
+   "haut": 231,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11624,7 +11625,7 @@
    "revue": false,
    "titre": "Le refus comme feature",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11637,20 +11638,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 149,
-   "haut": 201,
+   "bas": 169,
+   "haut": 231,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11684,9 +11685,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -11712,7 +11713,7 @@
    "revue": false,
    "titre": "Défense en profondeur : synthèse",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 3,
@@ -11725,20 +11726,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 150,
-   "haut": 202,
+   "bas": 170,
+   "haut": 232,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11800,7 +11801,7 @@
    "revue": false,
    "titre": "Projet 6 — DocQA : baseline chiffrée",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11813,20 +11814,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 176,
+   "haut": 248,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11844,7 +11845,7 @@
    "revue": false,
    "titre": "Projet 6 — Amélioration 1 pilotée",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11857,20 +11858,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 176,
+   "haut": 248,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11888,7 +11889,7 @@
    "revue": false,
    "titre": "Projet 6 — Amélioration 2 pilotée",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -11901,20 +11902,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 137,
-   "haut": 188,
+   "bas": 177,
+   "haut": 248,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11932,7 +11933,7 @@
    "revue": false,
    "titre": "Projet 6 — Guardrails et robustesse",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 3,
@@ -11945,20 +11946,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 137,
-   "haut": 189,
+   "bas": 177,
+   "haut": 249,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -11976,7 +11977,7 @@
    "revue": false,
    "titre": "Projet 6 — Rapport d'évaluation",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -11989,20 +11990,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 137,
-   "haut": 188,
+   "bas": 177,
+   "haut": 248,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -12020,7 +12021,7 @@
    "revue": false,
    "titre": "Projet 6 — README, ADR, démo",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -12033,20 +12034,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 176,
+   "haut": 248,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -12108,7 +12109,7 @@
    "revue": false,
    "titre": "Agent : la boucle de base",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -12121,20 +12122,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 139,
-   "haut": 191,
+   "bas": 159,
+   "haut": 221,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -12168,9 +12169,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12212,9 +12213,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12256,9 +12257,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12300,9 +12301,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12328,7 +12329,7 @@
    "revue": false,
    "titre": "Consolidation agents",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -12341,20 +12342,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 139,
-   "haut": 190,
+   "bas": 159,
+   "haut": 220,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -12432,9 +12433,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12476,9 +12477,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12520,9 +12521,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12564,9 +12565,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12608,9 +12609,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12652,9 +12653,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12740,9 +12741,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12784,9 +12785,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12812,7 +12813,7 @@
    "revue": false,
    "titre": "Event-driven et queues",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 9,
     "correction": 3,
@@ -12825,28 +12826,28 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 165,
-   "haut": 216,
+   "bas": 205,
+   "haut": 276,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -12856,7 +12857,7 @@
    "revue": false,
    "titre": "Monolithe modulaire vs microservices",
    "nlec": 7,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -12869,31 +12870,31 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 229,
-   "haut": 281,
-   "cat": "BALANCED",
+   "bas": 269,
+   "haut": 341,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 292,
@@ -12916,9 +12917,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -12944,7 +12945,7 @@
    "revue": false,
    "titre": "Exercice d'architecture",
    "nlec": 5,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -12957,20 +12958,20 @@
      3
     ],
     "pratique": [
-     75,
-     105
+     45,
+     63
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 0,
-    "minuteAnnonce": 75,
+    "minuteAnnonce": 45,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 207,
-   "haut": 249,
+   "bas": 177,
+   "haut": 207,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -13048,9 +13049,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -13076,7 +13077,7 @@
    "revue": false,
    "titre": "Privacy et données",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -13089,20 +13090,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 151,
-   "haut": 202,
+   "bas": 171,
+   "haut": 232,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -13120,7 +13121,7 @@
    "revue": false,
    "titre": "Observabilité d'une app IA",
    "nlec": 5,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -13133,28 +13134,28 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 197,
-   "haut": 249,
+   "bas": 217,
+   "haut": 279,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -13180,9 +13181,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -13224,9 +13225,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -13268,9 +13269,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -13340,7 +13341,7 @@
    "revue": false,
    "titre": "DocSense : cadrage produit (SPEC)",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -13353,20 +13354,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 144,
-   "haut": 194,
+   "bas": 164,
+   "haut": 224,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -13384,7 +13385,7 @@
    "revue": false,
    "titre": "DocSense : architecture (ADRs)",
    "nlec": 5,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -13397,28 +13398,28 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 180,
-   "haut": 232,
+   "bas": 220,
+   "haut": 292,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -13428,7 +13429,7 @@
    "revue": false,
    "titre": "DocSense : modèle de données",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -13441,20 +13442,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 143,
-   "haut": 195,
+   "bas": 163,
+   "haut": 225,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -13488,9 +13489,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -13532,9 +13533,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -13560,7 +13561,7 @@
    "revue": false,
    "titre": "DocSense : setup et CI vide",
    "nlec": 5,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 9,
     "correction": 3,
@@ -13573,28 +13574,28 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 195,
-   "haut": 247,
-   "cat": "BALANCED",
+   "bas": 235,
+   "haut": 307,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -13648,7 +13649,7 @@
    "revue": false,
    "titre": "DocSense : ingestion multi-format",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -13661,38 +13662,38 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 222,
-   "haut": 274,
-   "cat": "BALANCED",
+   "bas": 262,
+   "haut": 334,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 310,
    "revue": false,
    "titre": "DocSense : RAG core (architecture cible)",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -13705,26 +13706,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 222,
-   "haut": 274,
-   "cat": "BALANCED",
+   "bas": 242,
+   "haut": 304,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -13736,7 +13737,7 @@
    "revue": false,
    "titre": "DocSense : retrieval hybride",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -13749,38 +13750,38 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 221,
-   "haut": 273,
-   "cat": "BALANCED",
+   "bas": 261,
+   "haut": 333,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 312,
    "revue": false,
    "titre": "DocSense : génération avec citations",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -13793,26 +13794,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 222,
-   "haut": 273,
-   "cat": "BALANCED",
+   "bas": 242,
+   "haut": 303,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -13824,7 +13825,7 @@
    "revue": false,
    "titre": "DocSense : spikes exécutés",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -13837,26 +13838,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 222,
-   "haut": 273,
-   "cat": "BALANCED",
+   "bas": 242,
+   "haut": 303,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -13868,7 +13869,7 @@
    "revue": false,
    "titre": "DocSense : jalon RAG bout-en-bout",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -13881,26 +13882,26 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 222,
-   "haut": 274,
-   "cat": "BALANCED",
+   "bas": 242,
+   "haut": 304,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
     "attentive·relecture1": "HEAVY",
     "attentive·relecture0.5": "HEAVY"
    },
@@ -13925,8 +13926,8 @@
      0
     ],
     "pratique": [
-     43,
-     75
+     30,
+     42
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 4,
@@ -13937,16 +13938,16 @@
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 96,
-   "haut": 153,
-   "cat": "BALANCED",
+   "bas": 83,
+   "haut": 120,
+   "cat": "UNDERLOADED",
    "catsParHypothese": {
-    "rapide·relecture1": "BALANCED",
-    "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "rapide·relecture1": "UNDERLOADED",
+    "rapide·relecture0.5": "UNDERLOADED",
+    "normale·relecture1": "UNDERLOADED",
+    "normale·relecture0.5": "UNDERLOADED",
+    "attentive·relecture1": "UNDERLOADED",
+    "attentive·relecture0.5": "UNDERLOADED"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -13956,7 +13957,7 @@
    "revue": false,
    "titre": "DocSense : golden set",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -13969,20 +13970,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 176,
+   "haut": 248,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -14000,7 +14001,7 @@
    "revue": false,
    "titre": "DocSense : harnais d'évaluation",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -14013,20 +14014,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 176,
+   "haut": 248,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -14044,7 +14045,7 @@
    "revue": false,
    "titre": "DocSense : dashboard qualité",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -14057,20 +14058,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 156,
+   "haut": 218,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -14088,7 +14089,7 @@
    "revue": false,
    "titre": "DocSense : baseline officielle",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -14101,20 +14102,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 136,
-   "haut": 188,
+   "bas": 176,
+   "haut": 248,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -14132,7 +14133,7 @@
    "revue": false,
    "titre": "DocSense : dockerisation",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 15,
     "correction": 2,
@@ -14145,38 +14146,38 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 212,
-   "haut": 263,
-   "cat": "BALANCED",
+   "bas": 252,
+   "haut": 323,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 321,
    "revue": false,
    "titre": "DocSense : jalon évaluation et reproductibilité",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 13,
     "correction": 2,
@@ -14189,28 +14190,28 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 199,
-   "haut": 250,
-   "cat": "BALANCED",
+   "bas": 239,
+   "haut": 310,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -14280,9 +14281,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -14324,9 +14325,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -14352,7 +14353,7 @@
    "revue": false,
    "titre": "DocSense : coûts et observabilité",
    "nlec": 5,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 10,
     "correction": 2,
@@ -14365,28 +14366,28 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 183,
-   "haut": 234,
+   "bas": 223,
+   "haut": 294,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -14396,7 +14397,7 @@
    "revue": false,
    "titre": "DocSense : CI complète",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 14,
     "correction": 2,
@@ -14409,31 +14410,31 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 213,
-   "haut": 265,
-   "cat": "BALANCED",
+   "bas": 253,
+   "haut": 325,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 327,
@@ -14456,9 +14457,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -14500,9 +14501,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -14572,7 +14573,7 @@
    "revue": false,
    "titre": "DocSense : guardrails testés",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -14585,20 +14586,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 150,
-   "haut": 202,
+   "bas": 170,
+   "haut": 232,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -14616,7 +14617,7 @@
    "revue": false,
    "titre": "DocSense : gestion d'erreur bout-en-bout",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -14629,28 +14630,28 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 175,
-   "haut": 227,
+   "bas": 215,
+   "haut": 287,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
     "normale·relecture1": "BALANCED",
     "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "BALANCED",
-    "attentive·relecture0.5": "BALANCED"
+    "attentive·relecture1": "HEAVY",
+    "attentive·relecture0.5": "HEAVY"
    },
    "structurellementImpossible": false,
    "nImpossible": 0
@@ -14660,7 +14661,7 @@
    "revue": false,
    "titre": "DocSense : observabilité finale",
    "nlec": 6,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -14673,31 +14674,31 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 218,
-   "haut": 270,
-   "cat": "BALANCED",
+   "bas": 258,
+   "haut": 330,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 333,
@@ -14720,9 +14721,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -14748,7 +14749,7 @@
    "revue": false,
    "titre": "DocSense : rapport qualité v1.0",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 5,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -14761,20 +14762,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     90,
+     150
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 150,
-   "haut": 201,
+   "bas": 190,
+   "haut": 261,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -14792,7 +14793,7 @@
    "revue": false,
    "titre": "DocSense : feature freeze v1.0",
    "nlec": 3,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -14805,20 +14806,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 150,
-   "haut": 202,
+   "bas": 170,
+   "haut": 232,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -14896,9 +14897,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -14940,9 +14941,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -14984,9 +14985,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15028,9 +15029,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15072,9 +15073,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15116,9 +15117,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15188,7 +15189,7 @@
    "revue": false,
    "titre": "CV orienté preuves",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 9,
     "correction": 2,
@@ -15201,20 +15202,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 154,
-   "haut": 205,
+   "bas": 174,
+   "haut": 235,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -15232,7 +15233,7 @@
    "revue": false,
    "titre": "LinkedIn optimisé",
    "nlec": 4,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -15245,20 +15246,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 153,
-   "haut": 205,
+   "bas": 173,
+   "haut": 235,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -15292,9 +15293,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15336,9 +15337,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15380,9 +15381,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15424,9 +15425,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15509,19 +15510,19 @@
      3
     ],
     "pratique": [
-     55,
+     50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 55,
+    "minuteAnnonce": 25,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 230,
+   "bas": 225,
    "haut": 277,
    "cat": "BALANCED",
    "catsParHypothese": {
@@ -15540,7 +15541,7 @@
    "revue": false,
    "titre": "Questions système et IA",
    "nlec": 7,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -15553,31 +15554,31 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 226,
-   "haut": 278,
-   "cat": "BALANCED",
+   "bas": 246,
+   "haut": 308,
+   "cat": "HEAVY",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
     "rapide·relecture0.5": "BALANCED",
-    "normale·relecture1": "BALANCED",
-    "normale·relecture0.5": "BALANCED",
-    "attentive·relecture1": "HEAVY",
-    "attentive·relecture0.5": "HEAVY"
+    "normale·relecture1": "HEAVY",
+    "normale·relecture0.5": "HEAVY",
+    "attentive·relecture1": "IMPOSSIBLE",
+    "attentive·relecture0.5": "IMPOSSIBLE"
    },
    "structurellementImpossible": false,
-   "nImpossible": 0
+   "nImpossible": 2
   },
   {
    "j": 353,
@@ -15597,20 +15598,20 @@
      3
     ],
     "pratique": [
-     90,
-     126
+     60,
+     84
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 0,
-    "minuteAnnonce": 90,
+    "minuteAnnonce": 60,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 193,
-   "haut": 241,
+   "bas": 163,
+   "haut": 199,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -15641,20 +15642,20 @@
      3
     ],
     "pratique": [
-     75,
-     105
+     45,
+     63
     ],
     "sourcePratique": "minutage explicite",
     "etapes": 0,
-    "minuteAnnonce": 75,
+    "minuteAnnonce": 45,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 178,
-   "haut": 220,
+   "bas": 148,
+   "haut": 178,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -15688,9 +15689,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15732,9 +15733,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15804,7 +15805,7 @@
    "revue": false,
    "titre": "Candidatures : premier lot",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -15817,20 +15818,20 @@
      2
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 115,
-   "haut": 166,
+   "bas": 135,
+   "haut": 196,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -15864,9 +15865,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15892,7 +15893,7 @@
    "revue": false,
    "titre": "Candidatures : deuxième lot",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 7,
     "correction": 2,
@@ -15905,20 +15906,20 @@
      3
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 115,
-   "haut": 167,
+   "bas": 135,
+   "haut": 197,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -15952,9 +15953,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -15996,9 +15997,9 @@
      50,
      90
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
@@ -16024,7 +16025,7 @@
    "revue": false,
    "titre": "Plan des 90 prochains jours",
    "nlec": 2,
-   "difficulte": 3,
+   "difficulte": 4,
    "postes": {
     "lectureJour": 8,
     "correction": 2,
@@ -16037,20 +16038,20 @@
      1
     ],
     "pratique": [
-     50,
-     90
+     70,
+     120
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 0,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20
     ],
     "setup": "NON MESURÉ"
    },
-   "bas": 116,
-   "haut": 166,
+   "bas": 136,
+   "haut": 196,
    "cat": "BALANCED",
    "catsParHypothese": {
     "rapide·relecture1": "BALANCED",
@@ -16128,9 +16129,9 @@
      35,
      60
     ],
-    "sourcePratique": "minutage explicite",
+    "sourcePratique": "fourchette par difficulté",
     "etapes": 1,
-    "minuteAnnonce": 30,
+    "minuteAnnonce": 0,
     "reflexion": [
      10,
      20

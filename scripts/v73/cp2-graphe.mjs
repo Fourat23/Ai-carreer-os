@@ -141,7 +141,10 @@ const jours = prog.days.map((d) => {
     // 10 journées sur 365, alors que 34 journées portent un titre « Projet N — … ».
     // Compter les productions sur `day.project` donnait ZÉRO application pour les vingt
     // compétences. Le marqueur déclaratif fiable est le titre normalisé de `program.json`.
-    estProduction: /^Projet \d/.test(d.title),
+    // ANOMALIE DE SONDE n° 17, ÉTENDUE AU CP2. Le marqueur ci-dessus rate les **30 journées
+    // « DocSense : … »**, qui sont le projet final — le plus gros livrable des 365 jours.
+    // Trouvée au CP8 sur sa propre copie du marqueur, elle est corrigée ici, à la source.
+    estProduction: /^Projet \d/.test(d.title) || /^DocSense\s*:/.test(d.title),
     exercices: (dayEx[String(d.day)] ?? []).filter((x) => typeof x === 'string'),
     // compétences RÉELLEMENT portées par la journée = union des compétences de ses leçons
     competencesPortees: [...new Set(liees.flatMap((s) => [...(skillsDeLecon.get(s) ?? [])]))],
@@ -295,6 +298,11 @@ const sortie = {
     anomaliesBloquantes: audit31.blocking?.length ?? 0,
   },
   jours, arcs, evaluations, controles,
+  // V73 · CP9 — AJOUT SANS EFFET SUR AUCUNE MESURE DU CP2. Les deux plans étaient déjà
+  // calculés ici (l. 88-116) et servaient au contrôle de cycles ; ils n'étaient simplement
+  // pas publiés. Le CP9 a besoin de la PROFONDEUR DE PRÉREQUIS pour estimer la complexité
+  // technique d'une journée, et la recalculer ailleurs créerait une seconde vérité.
+  prereq: { requis: prereqPlan, lookahead: lookaheadPlan },
 };
 
 if (process.argv.includes('--ecrire')) {

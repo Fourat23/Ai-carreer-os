@@ -5,19 +5,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP8**
+- **dernier CP terminé** : **CP9**
 - **CP courant** : —
-- **NEXT_CP** : **CP9** — progression réelle de J1 à J365
-- **NEXT_ACTION** : **dériver `difficulty` du TRAVAIL RÉELLEMENT DEMANDÉ** — nouveauté
-  conceptuelle, autonomie exigée, quantité de guidance fournie, complexité technique,
-  intégration de plusieurs compétences, ambiguïté de l'énoncé, responsabilité du livrable.
-  **NE PAS remplacer cela par une rampe artificielle 1,1,1,2,2,2,…,5** : le brief l'interdit
-  nommément. Auditer aussi le **découpage horaire**, la **guidance**, l'**autonomie** et la
-  **complexité des projets** le long de l'année. Base de départ mesurée au CP0 :
-  `difficulty = 3` sur **271 journées consécutives** (j90→j360) et découpage horaire présent
-  sur **26 journées, toutes au mois 1**. Attention : `difficulty` alimente le modèle de charge
-  du CP6 (fourchettes de pratique par difficulté) — **toute redérivation doit republier la
-  charge**, et le seuil `[240, 300]` reste gelé.
+- **NEXT_CP** : **CP10** — les 52 semaines et les 12 mois
+- **NEXT_ACTION** : vérifier que **chaque semaine décrit bien ce que ses six journées
+  enseignent** et que **chaque mois décrit ses quatre à cinq semaines**. Défaut déjà mesuré au
+  CP0 : **13 thèmes de semaine sur 52 décrivent mieux une AUTRE semaine**, en **deux blocs**
+  (s8-s13 et s28-s34) — et **aucune permutation constante ne les corrige**, donc ce n'est pas
+  un décalage d'indice unique. Vérifier aussi `expectedScores` par mois contre ce que le mois
+  enseigne réellement (le CP2 a montré que `cloud` est portée par 41 journées et étiquetée sur
+  0 : l'étiquette de journée ment, la déclaration de leçon dit vrai — **contrôler sur le
+  CONTENU**, règle I4). **Les 52 semaines et 12 mois sont un invariant produit** : on corrige
+  des textes de thème, on ne redécoupe pas le calendrier. Ressources : `docs/v73/
+  curriculum-graph.json` (leçons et compétences par journée), `docs/v73/progression-365.json`
+  (difficulté dérivée et sept facteurs par journée).
 
 ## Repères Git
 
@@ -63,6 +64,61 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP9** — **`difficulty` ne décrivait pas la journée, il décrivait sa position dans la
+  semaine. 234 journées reçoivent une valeur dérivée du travail demandé.**
+  - **Le constat du CP0 était en dessous de la vérité** : ce n'était pas « une longue plage
+    constante », c'était une **constante codée en dur** dans le générateur (`difficulty: 3`
+    pour toute journée planifiée, `2` pour toute revue). La suite valait `3,3,3,3,3,3,2`
+    répétée **40 fois** à partir de j91. Aucune journée 91-365 n'avait jamais eu de difficulté
+    décidée.
+  - **Sept facteurs déclaratifs, écrits avant mesure**, échelle 0-2 : F1 nouveauté (premier
+    contact de travail + ouverture de compétence) · F2 autonomie (**recouvrement Jaccard entre
+    l'énoncé du guidé et celui de l'exercice**) · F3 guidance (volume guidé + correction) ·
+    F4 complexité (profondeur de prérequis réels, graphe CP2) · F5 intégration (compétences
+    distinctes) · F6 ambiguïté (étapes numérotées) · F7 responsabilité du livrable.
+    **Exclues d'avance** : toutes les sections présentes sur exactement les 78 journées 1-90
+    — elles mesurent la RÉDACTION, pas le travail.
+  - **Calibration sur un jugement humain indépendant** : les 78 journées 1-90 portent une
+    `difficulty` écrite à la main. **Deux calibrations publiées** : A (minimiser l'erreur)
+    donne 48/78 mais est **DÉGÉNÉRÉE** — elle prédit le mode et remet 360 journées à 3 ;
+    B (quantiles, **RETENUE**) donne **43/78 = 55 % exact, 90 % à un niveau près, erreur
+    absolue 0,55**. **55 % n'est pas un triomphe et n'est pas présenté comme tel** : c'est
+    assez pour ordonner 365 journées, pas pour contredire un auteur sur une journée — d'où la
+    conservation des 78 témoins.
+  - **Résultat** : répartition **1:4 · 2:70 · 3:151 · 4:95 · 5:45** (avant : 4 · 68 · **280** ·
+    13 · **0**). Corrélation difficulté × jour = **0,463**. Plages constantes 131 → **198**.
+    Courbe à **deux crêtes** (mois 7-9 et 11), creux réel au mois 10 — **pas une rampe**, ce
+    que le brief interdisait nommément.
+  - **EFFET SUR LA CHARGE, PUBLIÉ SANS ARRANGEMENT** : **L1 = 0 ✅ · L2 = 0/52 ✅ ·
+    L3 = 6/365 ✅** — les trois seuils gelés passent, **sans qu'aucune difficulté ait été
+    baissée pour cela**. Mais **44 journées de travail dépassent le budget haut** (mois 8 : 18,
+    mois 9 : 12, mois 11 : 10 ; toutes de niveau 4 ou 5 ; dépassement médian **+25 min**).
+    Le « 0 journée de travail en dépassement » du CP6 **était une conséquence de la
+    constante**. Enregistré **P1-CP9-1**.
+  - **TROIS ANOMALIES DE SONDE (n° 18, 19, 20)** — aucune n'était détectable tant que
+    `difficulty` était figée. **n° 18** : le découpage coupait sur `###`, or tout le contenu de
+    « Pratique autonome » vit dans `### Exercice principal` — **F6 valait 2 sur les 365
+    journées** (facteur mort, visible dans la matrice de corrélation) et F2 ne lisait que le
+    livrable. **n° 19** : le §5.2 du contrat gelé dit que le minutage explicite **REMPLACE** la
+    fourchette ; le code faisait `Math.max` — invisible tant que `[50,90]` passait sous
+    l'annonce. **n° 20** : les 313 journées ouvrent leur pratique par « Tente seul au moins
+    **30 minutes** » — **309 journées « annonçaient 30 min »** par cette seule phrase générique.
+    **Une valeur figée ne masque pas seulement son information : elle masque les défauts de
+    tout ce qui la consomme.**
+  - **Fausse piste publiée** : F2 défini d'abord comme rapport de volumes avait le **signe
+    inverse** (un énoncé d'une phrase donnait « peu d'autonomie ») — contradiction lisible dans
+    `F2 × F6 = −0,30`. Remplacé par le recouvrement d'énoncés.
+  - **Autres constats chiffrés** : **`hours` = 4.5 sur 365/365** face à une charge de 99 à
+    341 min (**P1-CP9-2**, décision de promesse produit, non prise unilatéralement) ·
+    **290/313** journées énoncent leur exercice en **une phrase** · **98/313** journées ont un
+    exemple guidé qui **résout déjà** la tâche demandée · **projets 1 à 5 sans progression**
+    (3,67 → 3,17 → 3,67) et **86 jours sans production entre j181 et j267**, sur les deux mois
+    les plus exigeants (**P2, pour le CP11**) · découpage horaire toujours sur 26 journées.
+  - **Périmètre d'écriture** : jours 1-90 **inchangés** (témoins de calibration), 52 revues
+    **inchangées** (extrapolation hors domaine — la valeur dérivée est publiée, pas écrite),
+    **234 journées de travail j91-j364** réécrites. **Aucune leçon touchée, aucun texte de
+    journée réécrit.** Corpus `92d5fae6…` **inchangé**.
 
 - **CP8** — **données de rétention. Le moteur n'est PAS construit, et c'était la consigne.**
   - Produit le **modèle de CONTACTS** des 20 compétences : `firstExposure`, `guidedPractice`,
@@ -327,3 +383,7 @@ jamais le créer.
   **inchangé** (seuls le générateur et les 365 journées générées changent).
 - **CP8** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
   **inchangé** · charge 362 BALANCED / 3 UNDERLOADED / 0 HEAVY / 0 IMPOSSIBLE.
+- **CP9** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
+  **inchangé** · `data/progress.json` toujours absent · **L1 = 0 · L2 = 0/52 · L3 = 6/365** ·
+  charge 315 BALANCED / 6 UNDERLOADED / **44 HEAVY** / 0 IMPOSSIBLE (le HEAVY est publié comme
+  P1, pas masqué).

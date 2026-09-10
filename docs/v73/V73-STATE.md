@@ -5,14 +5,16 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP0**
+- **dernier CP terminé** : **CP1**
 - **CP courant** : —
-- **NEXT_CP** : **CP1**
-- **NEXT_ACTION** : geler `docs/v73/V73-CURRICULUM-CONTRACT-FROZEN.md` — définitions
-  (compétence enseignée / pratiquée / produite / révisée / maîtrisée ; leçon core /
-  approfondissement / référence / optionnelle / dépréciée), règles d'intégrité, et **seuils de
-  charge gelés APRÈS la mesure du CP0 mais AVANT toute modification**. Objectif utilisateur
-  réel : **4 à 5 h par jour**, en fourchettes, sans normaliser les 365 journées à 270 min.
+- **NEXT_CP** : **CP2**
+- **NEXT_ACTION** : construire le **graphe canonique** compétence → concept → leçon → journée →
+  pratique → preuve → revue → projet, **en s'appuyant sur `lib/curriculum-graph.mjs` qui existe
+  déjà** (module pur V31, utilisé par les gates v39/v40/v42) — ne pas créer de doublon.
+  Produire `docs/v73/curriculum-graph.json`. Pour chaque compétence : introduction,
+  développement, pratique, application, revue, évaluation, niveau attendu final. Tests négatifs
+  sur le graphe. **Attention I4** : la source d'enseignement se lit sur le CONTENU d'une
+  journée, pas sur `day.skill` (faux positif `evalia`/mois 6 au CP0).
 
 ## Repères Git
 
@@ -35,8 +37,41 @@ jamais le créer.
 ## Décisions gelées
 
 - **CP0** : aucune (lecture seule).
+- **CP1** : contrat gelé `docs/v73/V73-CURRICULUM-CONTRACT-FROZEN.md`. Décisions structurantes :
+  - **cinq degrés de compétence** avec preuve opérationnelle pour chacun ; **MAÎTRISÉE déclarée
+    NON MESURABLE** par V73 (`expectedScores` = intention, jamais constat) ;
+  - **cinq statuts de leçon** CORE / ADVANCED / OPTIONAL / REFERENCE / DEPRECATED, avec
+    conditions cumulatives ; `DEPRECATED` interdit comme poubelle de commodité ;
+  - **dix règles d'intégrité I1→I10** ; **I4 se contrôle sur le CONTENU**, pas sur `day.skill` ;
+  - **budget de charge en FOURCHETTE `[240, 300]` min** et non 270 exact — déplacement déclaré
+    d'avance, chiffres CP0 conservés tels quels, CP6 publiera les deux lectures ;
+  - **quatre zones** IMPOSSIBLE / HEAVY / BALANCED / UNDERLOADED définies sur la fourchette ;
+    **UNDERLOADED acceptable** dans trois cas nommés (respiration, bascule, bilan) ;
+  - **six hypothèses de sensibilité gelées** ; une journée n'est « structurellement impossible »
+    que si elle l'est sous **≥ 4 des 6** ;
+  - **seuils de charge L1 = 0 · L2 ≤ 12/52 · L3 ≤ 20/365** — L2 fixé à 12 et **non à 5**, avec
+    la raison écrite avant mesure ;
+  - **M1→M9** pour toute modification du calendrier ; **rien n'est réservé à l'utilisateur**
+    (le brief a tranché : CSS, Next.js, Cloud restent dans la promesse) ;
+  - **§7 anti-Goodhart** avec cinq contournements interdits nommés d'avance ;
+  - **S1→S8 règles de méthode** issues des cinq anomalies de sonde du CP0 ;
+  - **verdict C1→C15** ; **C15 (zéro P0 ouvert) est dans le socle exigé même pour CANDIDATE** ;
+  - **douze mutations** de tests négatifs, dont le test 12 redéfini en **non-création** de
+    `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP1** — contrat gelé, **aucun fichier de produit modifié**. Le point qui commande la suite :
+  le budget passe d'un **point à 270 min** à une **fourchette `[240, 300]`**, conformément à
+  l'objectif réel de 4-5 h/jour et à l'interdiction explicite du brief de normaliser les
+  365 journées. Le déplacement est **déclaré avant toute correction**, les chiffres CP0 sont
+  **conservés tels quels**, et le CP6 publiera les deux lectures côte à côte. Second point :
+  **L2 est fixé à 12 revues en dépassement, pas à 5** — le CP0 en mesure 18, et descendre à 5
+  obligerait à retirer de la matière à treize revues sans preuve que chacune est en faute. La
+  raison est écrite avant la mesure et le seuil ne bougera plus. Troisième point : **rien n'est
+  réservé à l'utilisateur** — le brief tranche que CSS, Next.js et Cloud restent dans la
+  promesse, donc fermer les trois P0 est une **obligation** de ce sprint et non une option, ce
+  que traduit **C15 dans le socle exigé même pour `CANDIDATE`**.
 
 - **CP0** — audit forensique, lecture seule. **Aucun fichier de produit modifié.**
   - **P0-1** `cloud` déclarée et chiffrée au mois 11, **0 journée** ; 39 leçons la déclarent,
@@ -81,3 +116,4 @@ jamais le créer.
 
 - **CP0** : lecture seule, aucun test rejoué (état hérité de V72 : 1420/1420 · tsc 0 ·
   52 gates · build OK).
+- **CP1** : document seul, aucun code modifié — aucun test à rejouer.

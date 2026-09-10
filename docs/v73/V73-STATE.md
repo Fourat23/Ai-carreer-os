@@ -5,17 +5,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP3**
+- **dernier CP terminé** : **CP4**
 - **CP courant** : —
-- **NEXT_CP** : **CP4** — statut des leçons hors parcours
-- **NEXT_ACTION** : donner un statut explicite à **CHAQUE** leçon (règle I5 : 128/128, aucune
-  zone grise) parmi CORE / ADVANCED / OPTIONAL / REFERENCE / DEPRECATED, avec justification.
-  Traiter en particulier les **7 leçons restées hors parcours** après le CP3 :
-  `deployment-strategies` (citée par **6** leçons programmées — record du corpus),
-  `release-incident-recovery`, `k8s-networking-services`, `k8s-security`, `k8s-troubleshooting`,
-  `linux-services-systemd`, `linux-ssh-remote`. Pour toute leçon intégrée : jour, semaine,
-  compétence, prérequis, charge AVANT/APRÈS, impact. **Ne pas intégrer les 7 par principe** et
-  **ne jamais cacher une disparition**. Produire `docs/v73/V73-CURRICULUM-LEDGER.md`.
+- **NEXT_CP** : **CP5** — prérequis et ordre pédagogique
+- **NEXT_ACTION** : clore l'enquête prérequis avec la **taxonomie sémantique gelée**
+  (`INVALID_FORWARD_PREREQUISITE`, `EXPLICIT_LOOKAHEAD`, `VALID_RECAP`,
+  `VALID_PRIOR_KNOWLEDGE`, `AMBIGUOUS`) — **jamais A/B**. Valider les renvois recensés,
+  **chercher les incohérences CRÉÉES par les CP3 et CP4** (16 journées hôtes + 3 leçons
+  modifiées), et vérifier le graphe complet. Produire
+  `docs/v73/V73-PREREQUISITE-LEDGER.md`. La porte `v73-graphe-check.mjs` mesure déjà
+  **I2 = 0** ; le CP5 doit le **confirmer par lecture** sur les citations nouvellement créées et
+  publier le registre nominatif.
 
 ## Repères Git
 
@@ -61,6 +61,27 @@ jamais le créer.
     `progress.json` (le fichier n'existe pas).
 
 ## Journal des CP
+
+- **CP4** — **statut explicite des 128 leçons, aucune zone grise.**
+  **CORE 116 · ADVANCED 7 · OPTIONAL 5 · REFERENCE 0 · DEPRECATED 0 · ZONE GRISE 0.**
+  Classement **dérivé de propriétés déclarées** (`scripts/v73/cp4-statuts.mjs`), avec un calcul
+  de noyau en **point fixe** — la 3ᵉ condition du contrat est récursive, une passe unique
+  donnerait un résultat dépendant de l'ordre de parcours.
+  - **Aucune leçon dépréciée** : la mesure ne désigne aucune redondance.
+  - **DEUX ANCRES AJOUTÉES** (les seules modifications de contenu du CP4) : `k8s-security` et
+    `linux-ssh-remote` n'étaient citées par **aucune** leçon programmée — la zone grise exacte
+    que I5 interdit. Pointeurs posés dans `k8s-config-probes` (j321) et
+    `linux-processes-signals` (j72), avec la mention qu'elles ne sont programmées par aucune
+    journée.
+  - **RÉSULTAT INCONFORTABLE, PUBLIÉ ET NON CORRIGÉ** : quatre des cinq OPTIONAL sont les
+    **leçons Next.js que le CP3 vient d'insérer**. Elles sont enseignées — le trou P0 est
+    fermé — mais **aucun projet des 365 journées ne demande de construire avec Next.js**. La
+    cinquième, `monitoring-production`, est enseignée au **j79 et plus jamais reprise** (elle
+    n'entre pas dans la revue de sa semaine, plafond de 7 atteint). **Forcer un livrable
+    Next.js reviendrait à déplacer le produit pour satisfaire une métrique** (§7 anti-Goodhart)
+    — le fait est publié, et se traitera au CP11 (pratique) et au CP8 (espacement) s'il doit
+    l'être.
+  - Corpus `77feba18…` → **`92d5fae6…`**, 9 gels mis à jour.
 
 - **CP3** — **les trois trous P0 sont fermés.** Les **15 leçons** de CSS, Next.js et cloud sont
   entrées sur **16 journées existantes dont le sujet les porte**, chacune recevant un **vrai
@@ -182,3 +203,5 @@ jamais le créer.
   corpus `c1ac869e…` inchangé.
 - **CP3** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `77feba18…`
   (1 leçon modifiée, 9 gels regelés).
+- **CP4** : 1420/1420 · tsc 0 · 0 violation de gate · porte V73 verte · corpus `92d5fae6…`
+  (2 leçons modifiées, 9 gels regelés).

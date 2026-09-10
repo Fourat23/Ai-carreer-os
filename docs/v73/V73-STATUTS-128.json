@@ -1,0 +1,4938 @@
+[
+ {
+  "slug": "agent-workflows-orchestration",
+  "titre": "Agents avancés et orchestration",
+  "domaine": "IA appliquée",
+  "niveau": 3,
+  "competences": [
+   "agents"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   274,
+   275,
+   276,
+   277,
+   278,
+   279,
+   281,
+   282,
+   283,
+   284,
+   285,
+   286,
+   323,
+   324,
+   325,
+   326,
+   327,
+   328
+  ],
+  "revues": [
+   280,
+   287,
+   329
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "agents-fundamentals",
+  "titre": "Agents IA : fondamentaux",
+  "domaine": "IA appliquée",
+  "niveau": 2,
+  "competences": [
+   "agents"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   274,
+   275,
+   276,
+   277,
+   278,
+   279,
+   281,
+   282,
+   283,
+   284,
+   285,
+   286,
+   323,
+   324,
+   325,
+   326,
+   327,
+   328
+  ],
+  "revues": [
+   280,
+   287,
+   329
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "agent-workflows-orchestration"
+  ],
+  "citeePar": [
+   "agent-workflows-orchestration",
+   "ai-security",
+   "prompt-injection-defense"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "ai-evaluation",
+  "titre": "Évaluer un système IA",
+  "domaine": "IA appliquée",
+  "niveau": 3,
+  "competences": [
+   "evalia"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   253,
+   254,
+   255,
+   256,
+   257,
+   258,
+   267,
+   268,
+   269,
+   270,
+   271,
+   272,
+   316,
+   317,
+   318,
+   319,
+   321
+  ],
+  "revues": [
+   259,
+   273
+  ],
+  "surProjet": [
+   267,
+   268,
+   269,
+   270,
+   271,
+   272
+  ],
+  "exigeePar": [
+   "llm-observability"
+  ],
+  "citeePar": [
+   "ci-cd",
+   "llm-observability",
+   "prompt-engineering",
+   "rag-evaluation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "ai-security",
+  "titre": "Sécurité des systèmes IA",
+  "domaine": "IA appliquée",
+  "niveau": 3,
+  "competences": [
+   "secu"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   260,
+   261,
+   262,
+   263,
+   264,
+   265,
+   295,
+   296,
+   297,
+   298,
+   299,
+   300,
+   330,
+   331,
+   332,
+   333,
+   334,
+   335
+  ],
+  "revues": [
+   266,
+   301,
+   336
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "prompt-injection-defense"
+  ],
+  "citeePar": [
+   "authentication",
+   "prompt-injection-defense"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "algorithmic-thinking",
+  "titre": "La pensée algorithmique",
+  "domaine": "Fondations",
+  "niveau": 1,
+  "competences": [
+   "algo"
+  ],
+  "pratiques": 6,
+  "programmee": true,
+  "jours": [
+   15,
+   16,
+   17,
+   19,
+   20,
+   25,
+   29,
+   31,
+   32,
+   34,
+   48,
+   358,
+   359,
+   360,
+   361,
+   362,
+   363,
+   365
+  ],
+  "revues": [
+   21,
+   28,
+   35,
+   49,
+   63,
+   119,
+   147,
+   364
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "data-structures-intro",
+   "recursion",
+   "sql-performance-indexing"
+  ],
+  "citeePar": [
+   "data-structures-intro",
+   "recursion",
+   "sql-performance-indexing"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "api-design-basics",
+  "titre": "Concevoir une API",
+  "domaine": "Web & backend",
+  "niveau": 2,
+  "competences": [
+   "http"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   51,
+   54,
+   60,
+   61,
+   64,
+   67,
+   76,
+   97
+  ],
+  "revues": [
+   56,
+   63,
+   70
+  ],
+  "surProjet": [
+   61,
+   64
+  ],
+  "exigeePar": [
+   "agents-fundamentals",
+   "api-production-contracts",
+   "express-backend",
+   "structured-outputs-tools"
+  ],
+  "citeePar": [
+   "agents-fundamentals",
+   "api-production-contracts",
+   "breaking-changes-compatibility",
+   "express-backend",
+   "structured-outputs-tools"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "api-production-contracts",
+  "titre": "API de production : idempotence, pagination, limites et versions",
+  "domaine": "Web & backend",
+  "niveau": 3,
+  "competences": [
+   "http",
+   "se"
+  ],
+  "pratiques": 7,
+  "programmee": true,
+  "jours": [
+   51
+  ],
+  "revues": [
+   56
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "async-messaging-queues"
+  ],
+  "citeePar": [
+   "async-messaging-queues",
+   "database-migrations",
+   "resilience-patterns"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "architecture-basics",
+  "titre": "Architecture logicielle : les bases",
+  "domaine": "Software engineering & architecture",
+  "niveau": 3,
+  "competences": [
+   "archi"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   44,
+   47,
+   53,
+   60,
+   69,
+   75,
+   76,
+   78,
+   81,
+   104,
+   113,
+   118,
+   141,
+   146,
+   288,
+   289,
+   290,
+   291,
+   292,
+   293,
+   302,
+   303,
+   304,
+   305,
+   306,
+   307
+  ],
+  "revues": [
+   308
+  ],
+  "surProjet": [
+   47,
+   113,
+   118,
+   141,
+   146
+  ],
+  "exigeePar": [
+   "agent-workflows-orchestration",
+   "caching-performance",
+   "system-design-interview",
+   "system-design-scaling",
+   "technical-documentation"
+  ],
+  "citeePar": [
+   "agent-workflows-orchestration",
+   "caching-performance",
+   "react-application-states",
+   "react-composition-architecture",
+   "system-design-interview",
+   "system-design-scaling",
+   "technical-documentation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "async-javascript",
+  "titre": "JavaScript asynchrone",
+  "domaine": "Fondations",
+  "niveau": 2,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   22,
+   23,
+   24,
+   26,
+   27,
+   88
+  ],
+  "revues": [
+   7,
+   14,
+   28,
+   42,
+   49,
+   98,
+   105
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "database-transactions-concurrency",
+   "error-handling",
+   "express-backend",
+   "react-hooks-effects",
+   "typescript-frontend"
+  ],
+  "citeePar": [
+   "database-transactions-concurrency",
+   "error-handling",
+   "express-backend",
+   "react-hooks-effects",
+   "typescript-frontend"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "async-messaging-queues",
+  "titre": "Travail asynchrone : files, workers, retry et idempotence",
+  "domaine": "Software engineering & architecture",
+  "niveau": 3,
+  "competences": [
+   "archi",
+   "se"
+  ],
+  "pratiques": 6,
+  "programmee": true,
+  "jours": [
+   290
+  ],
+  "revues": [
+   294
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "distributed-systems-failures"
+  ],
+  "citeePar": [
+   "agent-workflows-orchestration",
+   "distributed-systems-failures",
+   "system-design-scaling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "authentication",
+  "titre": "Authentification et autorisation",
+  "domaine": "Web & backend",
+  "niveau": 2,
+  "competences": [
+   "secu",
+   "http"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   67,
+   68,
+   85,
+   260,
+   261,
+   262,
+   263,
+   264,
+   265,
+   295,
+   296,
+   297,
+   298,
+   299,
+   300,
+   330,
+   331,
+   332,
+   333,
+   334,
+   335
+  ],
+  "revues": [
+   266,
+   301,
+   336
+  ],
+  "surProjet": [
+   85
+  ],
+  "exigeePar": [
+   "ai-security",
+   "deployment-secrets",
+   "nextjs-data-production"
+  ],
+  "citeePar": [
+   "ai-security",
+   "api-production-contracts",
+   "deployment-secrets",
+   "k8s-security",
+   "networking-http-tls",
+   "nextjs-data-production",
+   "web-forms-validation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "breaking-changes-compatibility",
+  "titre": "Changements cassants et compatibilité",
+  "domaine": "Software engineering & architecture",
+  "niveau": 3,
+  "competences": [
+   "se"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   76
+  ],
+  "revues": [
+   77
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "api-design-basics",
+   "api-production-contracts",
+   "refactoring-legacy-code",
+   "technical-documentation"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "browser-dom-rendering",
+  "titre": "Le navigateur, le DOM et le rendu",
+  "domaine": "Frontend & React",
+  "niveau": 1,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   87
+  ],
+  "revues": [
+   91
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "html-semantic-structure",
+   "nextjs-rendering",
+   "react-accessibility",
+   "react-fundamentals",
+   "typescript-frontend",
+   "web-forms-validation"
+  ],
+  "citeePar": [
+   "html-semantic-structure",
+   "nextjs-rendering",
+   "react-accessibility",
+   "react-fundamentals",
+   "typescript-frontend",
+   "web-forms-validation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "caching-performance",
+  "titre": "Cache et performance",
+  "domaine": "Web & backend",
+  "niveau": 3,
+  "competences": [
+   "archi",
+   "se"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   80,
+   85,
+   102,
+   288,
+   289,
+   290,
+   291,
+   292,
+   293,
+   302,
+   303,
+   304,
+   305,
+   306,
+   307
+  ],
+  "revues": [
+   308
+  ],
+  "surProjet": [
+   85
+  ],
+  "exigeePar": [
+   "async-messaging-queues",
+   "frontend-performance",
+   "system-design-scaling"
+  ],
+  "citeePar": [
+   "async-messaging-queues",
+   "frontend-performance",
+   "linux-resources-io",
+   "llm-cost-optimization",
+   "system-design-scaling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "chunking-strategies",
+  "titre": "Stratégies de chunking",
+  "domaine": "IA appliquée",
+  "niveau": 2,
+  "competences": [
+   "rag"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   218,
+   219,
+   220,
+   221,
+   222,
+   223,
+   225,
+   226,
+   227,
+   228,
+   229,
+   230,
+   232,
+   233,
+   234,
+   235,
+   236,
+   237,
+   239,
+   240,
+   241,
+   242,
+   243,
+   244,
+   246,
+   247,
+   248,
+   249,
+   250,
+   251,
+   309,
+   310,
+   311,
+   312,
+   313,
+   314
+  ],
+  "revues": [
+   224,
+   231,
+   238,
+   245,
+   252,
+   315
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "embeddings"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "ci-cd-pipeline-anatomy",
+  "titre": "CI/CD : anatomie d'un pipeline",
+  "domaine": "CI/CD & livraison",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "se"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   307
+  ],
+  "revues": [
+   308
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "ci-cd-quality-gates-artifacts"
+  ],
+  "citeePar": [
+   "ci-cd-quality-gates-artifacts"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "ci-cd-quality-gates-artifacts",
+  "titre": "CI/CD : portes qualité et artefacts versionnés",
+  "domaine": "CI/CD & livraison",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "se"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   326
+  ],
+  "revues": [
+   329
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "deployment-strategies",
+   "release-incident-recovery"
+  ],
+  "citeePar": [
+   "ci-cd-pipeline-anatomy",
+   "deployment-strategies",
+   "release-incident-recovery"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "ci-cd",
+  "titre": "Intégration continue (CI/CD)",
+  "domaine": "Production & DevOps",
+  "niveau": 2,
+  "competences": [
+   "cloud"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   307,
+   326
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "ci-cd-pipeline-anatomy"
+  ],
+  "citeePar": [
+   "ci-cd-pipeline-anatomy"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "clean-code",
+  "titre": "Clean code",
+  "domaine": "Software engineering & architecture",
+  "niveau": 1,
+  "competences": [
+   "se"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   40,
+   41,
+   43,
+   45,
+   46,
+   69,
+   75,
+   109,
+   110,
+   123,
+   132
+  ],
+  "revues": [
+   42,
+   49,
+   56,
+   70,
+   91,
+   112
+  ],
+  "surProjet": [
+   45,
+   46
+  ],
+  "exigeePar": [
+   "architecture-basics",
+   "database-modeling",
+   "express-backend",
+   "react-composition-architecture",
+   "refactoring-legacy-code",
+   "technical-debt",
+   "testing-foundations"
+  ],
+  "citeePar": [
+   "architecture-basics",
+   "database-modeling",
+   "design-patterns-intro",
+   "express-backend",
+   "react-composition-architecture",
+   "refactoring-legacy-code",
+   "technical-debt",
+   "testing-foundations"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "cloud-aws-core",
+  "titre": "AWS : les services cœur et le modèle IAM",
+  "domaine": "Cloud, AWS, Azure & IaC",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "secu"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   303
+  ],
+  "revues": [
+   308
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "cloud-azure-core",
+   "iac-fundamentals"
+  ],
+  "citeePar": [
+   "cloud-azure-core",
+   "cloud-compute-storage",
+   "cloud-fundamentals",
+   "cloud-networking",
+   "iac-fundamentals"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "cloud-azure-core",
+  "titre": "Azure : les services cœur et le modèle d'identité",
+  "domaine": "Cloud, AWS, Azure & IaC",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "secu"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   303
+  ],
+  "revues": [
+   308
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "iac-fundamentals"
+  ],
+  "citeePar": [
+   "cloud-aws-core",
+   "cloud-compute-storage",
+   "cloud-fundamentals",
+   "cloud-networking",
+   "iac-fundamentals"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "cloud-compute-storage",
+  "titre": "Cloud : compute et stockage",
+  "domaine": "Cloud, AWS, Azure & IaC",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   293
+  ],
+  "revues": [
+   294
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "cloud-aws-core",
+   "cloud-finops"
+  ],
+  "citeePar": [
+   "cloud-aws-core",
+   "cloud-finops",
+   "cloud-fundamentals",
+   "resilience-patterns"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "cloud-finops",
+  "titre": "FinOps : maîtriser le coût du cloud",
+  "domaine": "Cloud, AWS, Azure & IaC",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   325
+  ],
+  "revues": [
+   329
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "cloud-compute-storage",
+   "llm-cost-optimization"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "cloud-fundamentals",
+  "titre": "Cloud : concepts fondamentaux",
+  "domaine": "Cloud, AWS, Azure & IaC",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   291
+  ],
+  "revues": [
+   294
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "cloud-aws-core",
+   "cloud-azure-core",
+   "cloud-compute-storage",
+   "cloud-finops",
+   "cloud-networking",
+   "iac-fundamentals"
+  ],
+  "citeePar": [
+   "cloud-aws-core",
+   "cloud-azure-core",
+   "cloud-compute-storage",
+   "cloud-finops",
+   "cloud-networking",
+   "iac-fundamentals",
+   "slo-error-budget"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "cloud-networking",
+  "titre": "Cloud : le réseau (VPC/VNet, subnets, pare-feu)",
+  "domaine": "Cloud, AWS, Azure & IaC",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "secu"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   293
+  ],
+  "revues": [
+   294
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "cloud-aws-core",
+   "cloud-azure-core"
+  ],
+  "citeePar": [
+   "cloud-aws-core",
+   "cloud-azure-core",
+   "cloud-fundamentals"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "css-flexbox",
+  "titre": "CSS Flexbox : aligner et répartir sur un axe",
+  "domaine": "Frontend : Web Platform",
+  "niveau": 2,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   103
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "css-grid",
+   "responsive-design"
+  ],
+  "citeePar": [
+   "css-fundamentals",
+   "css-grid",
+   "responsive-design"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "css-fundamentals",
+  "titre": "CSS : cascade, spécificité et box model",
+  "domaine": "Frontend : Web Platform",
+  "niveau": 1,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   87
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "css-flexbox",
+   "css-grid",
+   "responsive-design"
+  ],
+  "citeePar": [
+   "css-flexbox",
+   "css-grid",
+   "html-semantic-structure",
+   "responsive-design"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "css-grid",
+  "titre": "CSS Grid : organiser en lignes et colonnes",
+  "domaine": "Frontend : Web Platform",
+  "niveau": 2,
+  "competences": [
+   "jsts",
+   "archi"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   103
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "responsive-design"
+  ],
+  "citeePar": [
+   "css-flexbox",
+   "css-fundamentals",
+   "responsive-design"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "data-cleaning-quality",
+  "titre": "Nettoyage et qualité des données",
+  "domaine": "Data & SQL",
+  "niveau": 2,
+  "competences": [
+   "python",
+   "sql"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   128,
+   132,
+   143,
+   152
+  ],
+  "revues": [
+   140
+  ],
+  "surProjet": [
+   143
+  ],
+  "exigeePar": [
+   "etl-pipelines"
+  ],
+  "citeePar": [
+   "etl-pipelines",
+   "pandas-data-wrangling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "data-structures-intro",
+  "titre": "Structures de données : choisir son outil",
+  "domaine": "Fondations",
+  "niveau": 2,
+  "competences": [
+   "ds"
+  ],
+  "pratiques": 6,
+  "programmee": true,
+  "jours": [
+   30,
+   31,
+   33,
+   34
+  ],
+  "revues": [
+   35
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "sql-performance-indexing",
+   "vector-databases"
+  ],
+  "citeePar": [
+   "sql-performance-indexing",
+   "vector-databases"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "database-migrations",
+  "titre": "Migrations de schéma et compatibilité",
+  "domaine": "Data & SQL",
+  "niveau": 3,
+  "competences": [
+   "sql",
+   "se"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   139
+  ],
+  "revues": [
+   140
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "breaking-changes-compatibility"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "database-modeling",
+  "titre": "Modélisation, index et transactions",
+  "domaine": "Data & SQL",
+  "niveau": 2,
+  "competences": [
+   "sql"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   57,
+   58,
+   60,
+   62,
+   131,
+   134,
+   135,
+   136,
+   144
+  ],
+  "revues": [
+   63,
+   140
+  ],
+  "surProjet": [
+   62,
+   144
+  ],
+  "exigeePar": [
+   "database-migrations",
+   "database-transactions-concurrency",
+   "system-design-scaling"
+  ],
+  "citeePar": [
+   "database-migrations",
+   "database-transactions-concurrency",
+   "sql-performance-indexing",
+   "system-design-scaling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "database-transactions-concurrency",
+  "titre": "Transactions, ACID et concurrence",
+  "domaine": "Data & SQL",
+  "niveau": 3,
+  "competences": [
+   "sql",
+   "se"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   136
+  ],
+  "revues": [
+   140
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "distributed-systems-failures"
+  ],
+  "citeePar": [
+   "database-modeling",
+   "distributed-systems-failures"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "deployment-secrets",
+  "titre": "Secrets, environnements et déploiement",
+  "domaine": "Production & DevOps",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "secu"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   68
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "observability-logging",
+   "portfolio-github"
+  ],
+  "citeePar": [
+   "docker-build-dockerfile",
+   "docker-production-hardening",
+   "linux-ssh-remote",
+   "nextjs-data-production",
+   "observability-logging",
+   "portfolio-github"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "deployment-strategies",
+  "titre": "Stratégies de déploiement sans coupure",
+  "domaine": "CI/CD & livraison",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 4,
+  "programmee": false,
+  "jours": [],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "release-incident-recovery"
+  ],
+  "citeePar": [
+   "breaking-changes-compatibility",
+   "ci-cd-pipeline-anatomy",
+   "ci-cd-quality-gates-artifacts",
+   "database-migrations",
+   "incident-response",
+   "postmortem-rca",
+   "release-incident-recovery"
+  ],
+  "etagere": true,
+  "statut": "ADVANCED",
+  "raison": "approfondissement d'une compétence déclarée, ancré depuis 6 leçon(s) programmée(s) : breaking-changes-compatibility, ci-cd-pipeline-anatomy, ci-cd-quality-gates-artifacts, database-migrations, incident-response, postmortem-rca"
+ },
+ {
+  "slug": "design-patterns-intro",
+  "titre": "Design patterns : introduction",
+  "domaine": "Software engineering & architecture",
+  "niveau": 2,
+  "competences": [
+   "patterns"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   38,
+   39,
+   76
+  ],
+  "revues": [
+   42
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "architecture-basics"
+  ],
+  "citeePar": [
+   "architecture-basics"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "distributed-systems-failures",
+  "titre": "Systèmes distribués : ce qui casse quand on distribue",
+  "domaine": "Software engineering & architecture",
+  "niveau": 3,
+  "competences": [
+   "archi"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   291
+  ],
+  "revues": [
+   294
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "system-design-scaling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "distributed-tracing",
+  "titre": "Traces distribuées : suivre une requête de bout en bout",
+  "domaine": "Observabilité, SRE & fiabilité",
+  "niveau": 3,
+  "competences": [
+   "archi",
+   "cloud"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   79,
+   297
+  ],
+  "revues": [
+   84,
+   301
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "resilience-patterns"
+  ],
+  "citeePar": [
+   "logging-structured",
+   "metrics-percentiles",
+   "observability-fundamentals",
+   "resilience-patterns"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "docker-build-dockerfile",
+  "titre": "Docker : maîtriser le Dockerfile et le multi-stage",
+  "domaine": "Conteneurs & Docker",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "secu"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   320
+  ],
+  "revues": [
+   322
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "docker-production-hardening"
+  ],
+  "citeePar": [
+   "docker-images-layers",
+   "docker-production-hardening"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "docker-compose",
+  "titre": "Docker Compose : orchestrer une application multi-services",
+  "domaine": "Conteneurs & Docker",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   320
+  ],
+  "revues": [
+   322
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "k8s-why-architecture"
+  ],
+  "citeePar": [
+   "docker-networking-volumes",
+   "k8s-why-architecture"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "docker-containers",
+  "titre": "Docker et conteneurs",
+  "domaine": "Production & DevOps",
+  "niveau": 2,
+  "competences": [
+   "cloud"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   291,
+   320
+  ],
+  "revues": [
+   294
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "cloud-compute-storage",
+   "docker-images-layers",
+   "docker-networking-volumes"
+  ],
+  "citeePar": [
+   "cloud-compute-storage",
+   "cloud-fundamentals",
+   "docker-compose",
+   "docker-images-layers",
+   "docker-networking-volumes"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "docker-images-layers",
+  "titre": "Docker : images, couches et registre",
+  "domaine": "Conteneurs & Docker",
+  "niveau": 2,
+  "competences": [
+   "cloud"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   320
+  ],
+  "revues": [
+   322
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "docker-build-dockerfile"
+  ],
+  "citeePar": [
+   "ci-cd-pipeline-anatomy",
+   "docker-build-dockerfile"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "docker-networking-volumes",
+  "titre": "Docker : réseau et persistance des données",
+  "domaine": "Conteneurs & Docker",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   320
+  ],
+  "revues": [
+   322
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "docker-compose"
+  ],
+  "citeePar": [
+   "docker-compose",
+   "docker-production-hardening"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "docker-production-hardening",
+  "titre": "Docker : durcissement pour la production",
+  "domaine": "Conteneurs & Docker",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "secu"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   320
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "k8s-security",
+   "k8s-why-architecture"
+  ],
+  "citeePar": [
+   "docker-build-dockerfile",
+   "docker-compose",
+   "docker-images-layers",
+   "docker-networking-volumes",
+   "k8s-security",
+   "k8s-why-architecture"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "embeddings",
+  "titre": "Embeddings",
+  "domaine": "IA appliquée",
+  "niveau": 2,
+  "competences": [
+   "rag",
+   "dl"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   218,
+   219,
+   220,
+   221,
+   222,
+   223,
+   225,
+   226,
+   227,
+   228,
+   229,
+   230,
+   232,
+   233,
+   234,
+   235,
+   236,
+   237,
+   239,
+   240,
+   241,
+   242,
+   243,
+   244,
+   246,
+   247,
+   248,
+   249,
+   250,
+   251,
+   309,
+   310,
+   311,
+   312,
+   313,
+   314
+  ],
+  "revues": [
+   224,
+   231,
+   238,
+   245,
+   252,
+   315
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "chunking-strategies",
+   "rag-fundamentals",
+   "retrieval-reranking",
+   "vector-databases"
+  ],
+  "citeePar": [
+   "chunking-strategies",
+   "rag-fundamentals",
+   "retrieval-reranking",
+   "transformers",
+   "vector-databases"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "error-handling",
+  "titre": "Gestion d'erreurs",
+  "domaine": "Software engineering & architecture",
+  "niveau": 2,
+  "competences": [
+   "se"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   54,
+   67,
+   97,
+   111,
+   122
+  ],
+  "revues": [
+   56,
+   70,
+   91,
+   112
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "etl-pipelines",
+   "observability-logging",
+   "prompt-engineering",
+   "structured-outputs-tools",
+   "technical-documentation"
+  ],
+  "citeePar": [
+   "etl-pipelines",
+   "express-backend",
+   "llm-observability",
+   "observability-logging",
+   "prompt-engineering",
+   "structured-outputs-tools",
+   "technical-documentation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "etl-pipelines",
+  "titre": "Pipelines ETL",
+  "domaine": "Data & SQL",
+  "niveau": 2,
+  "competences": [
+   "python",
+   "sql"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   138,
+   139,
+   141,
+   142
+  ],
+  "revues": [
+   140
+  ],
+  "surProjet": [
+   141,
+   142
+  ],
+  "exigeePar": [],
+  "citeePar": [
+   "agent-workflows-orchestration"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "express-backend",
+  "titre": "Backend Express : structure et robustesse",
+  "domaine": "Web & backend",
+  "niveau": 2,
+  "competences": [
+   "http",
+   "se"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   52,
+   53,
+   61,
+   62,
+   65
+  ],
+  "revues": [
+   56,
+   63,
+   70
+  ],
+  "surProjet": [
+   61,
+   62,
+   65
+  ],
+  "exigeePar": [
+   "authentication"
+  ],
+  "citeePar": [
+   "authentication",
+   "llm-observability"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "feature-engineering",
+  "titre": "Feature engineering",
+  "domaine": "Python & ML",
+  "niveau": 2,
+  "competences": [
+   "ml"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   169,
+   170,
+   178,
+   181
+  ],
+  "revues": [
+   175,
+   182
+  ],
+  "surProjet": [
+   178,
+   181
+  ],
+  "exigeePar": [],
+  "citeePar": [
+   "data-cleaning-quality",
+   "scikit-learn-workflow"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "frontend-performance",
+  "titre": "Performance frontend : mesurer avant d'optimiser",
+  "domaine": "Frontend & React",
+  "niveau": 3,
+  "competences": [
+   "jsts",
+   "archi"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   102
+  ],
+  "revues": [
+   105
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "nextjs-rendering"
+  ],
+  "citeePar": [
+   "nextjs-rendering"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "frontend-testing",
+  "titre": "Tester une interface : comportement, pas implémentation",
+  "domaine": "Frontend & React",
+  "niveau": 3,
+  "competences": [
+   "jsts",
+   "se"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   107
+  ],
+  "revues": [
+   112
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "prompt-injection-defense"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "git-advanced",
+  "titre": "Git avancé : rebase et historique propre",
+  "domaine": "Fondations",
+  "niveau": 3,
+  "competences": [
+   "gitlinux"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   1,
+   2,
+   3,
+   18,
+   73
+  ],
+  "revues": [
+   7,
+   21
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "git-fundamentals",
+  "titre": "Git : les fondamentaux",
+  "domaine": "Fondations",
+  "niveau": 1,
+  "competences": [
+   "gitlinux"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   1,
+   2,
+   3,
+   18,
+   73
+  ],
+  "revues": [
+   7,
+   21
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "ci-cd",
+   "database-migrations",
+   "deployment-secrets",
+   "git-advanced",
+   "portfolio-github",
+   "refactoring-legacy-code"
+  ],
+  "citeePar": [
+   "ci-cd",
+   "database-migrations",
+   "deployment-secrets",
+   "git-advanced",
+   "portfolio-github",
+   "refactoring-legacy-code"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "html-semantic-structure",
+  "titre": "HTML sémantique : structurer une page",
+  "domaine": "Frontend : Web Platform",
+  "niveau": 1,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   87,
+   103
+  ],
+  "revues": [
+   105
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "css-flexbox",
+   "css-fundamentals",
+   "css-grid"
+  ],
+  "citeePar": [
+   "css-flexbox",
+   "css-fundamentals",
+   "css-grid",
+   "responsive-design",
+   "web-forms-validation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "http-rest-json",
+  "titre": "HTTP, REST et JSON",
+  "domaine": "Web & backend",
+  "niveau": 1,
+  "competences": [
+   "http"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   50,
+   51,
+   59,
+   71
+  ],
+  "revues": [
+   56,
+   63,
+   70
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "api-design-basics",
+   "api-production-contracts",
+   "async-messaging-queues",
+   "authentication",
+   "caching-performance",
+   "embeddings",
+   "error-handling",
+   "express-backend",
+   "frontend-performance",
+   "llm-fundamentals",
+   "nextjs-data-production",
+   "nextjs-foundations",
+   "nextjs-rendering",
+   "observability-fundamentals",
+   "observability-logging",
+   "typescript-frontend"
+  ],
+  "citeePar": [
+   "api-design-basics",
+   "api-production-contracts",
+   "architecture-basics",
+   "async-javascript",
+   "async-messaging-queues",
+   "authentication",
+   "breaking-changes-compatibility",
+   "caching-performance",
+   "embeddings",
+   "error-handling",
+   "express-backend",
+   "frontend-performance",
+   "llm-fundamentals",
+   "networking-http-tls",
+   "nextjs-data-production",
+   "nextjs-foundations",
+   "nextjs-rendering",
+   "observability-fundamentals",
+   "observability-logging",
+   "typescript-frontend"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "iac-fundamentals",
+  "titre": "Infrastructure as Code : les fondamentaux",
+  "domaine": "Cloud, AWS, Azure & IaC",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   326
+  ],
+  "revues": [
+   329
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "cloud-aws-core",
+   "cloud-azure-core"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "incident-response",
+  "titre": "Répondre à un incident : méthode sous pression",
+  "domaine": "Observabilité, SRE & fiabilité",
+  "niveau": 3,
+  "competences": [
+   "archi",
+   "cloud"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   332
+  ],
+  "revues": [
+   336
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "postmortem-rca",
+   "resilience-patterns",
+   "slo-error-budget"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "interview-preparation",
+  "titre": "Préparation à l'entretien IA",
+  "domaine": "Portfolio & carrière",
+  "niveau": 2,
+  "competences": [
+   "comm"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   48,
+   83,
+   86,
+   90,
+   337,
+   338,
+   339,
+   340,
+   341,
+   342,
+   344,
+   345,
+   346,
+   347,
+   348,
+   349,
+   351,
+   352,
+   353,
+   354,
+   355,
+   356
+  ],
+  "revues": [
+   343,
+   350,
+   357
+  ],
+  "surProjet": [
+   86
+  ],
+  "exigeePar": [],
+  "citeePar": [],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "javascript-basics",
+  "titre": "JavaScript : les bases solides",
+  "domaine": "Fondations",
+  "niveau": 1,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   22,
+   23,
+   24,
+   26,
+   27
+  ],
+  "revues": [
+   7,
+   14,
+   28,
+   42,
+   49,
+   98,
+   105
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "algorithmic-thinking",
+   "async-javascript",
+   "browser-dom-rendering",
+   "clean-code",
+   "data-structures-intro",
+   "design-patterns-intro",
+   "error-handling",
+   "http-rest-json",
+   "python-foundations",
+   "react-fundamentals",
+   "recursion",
+   "sql-foundations",
+   "testing-foundations",
+   "typescript-basics",
+   "web-forms-validation"
+  ],
+  "citeePar": [
+   "algorithmic-thinking",
+   "async-javascript",
+   "browser-dom-rendering",
+   "clean-code",
+   "data-structures-intro",
+   "design-patterns-intro",
+   "embeddings",
+   "error-handling",
+   "http-rest-json",
+   "python-foundations",
+   "react-fundamentals",
+   "recursion",
+   "sql-foundations",
+   "testing-foundations",
+   "typescript-basics",
+   "web-forms-validation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "k8s-config-probes",
+  "titre": "Kubernetes : configuration, secrets, probes et ressources",
+  "domaine": "Kubernetes",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "secu"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   321
+  ],
+  "revues": [
+   322
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "cloud-finops",
+   "k8s-security",
+   "k8s-troubleshooting"
+  ],
+  "citeePar": [
+   "cloud-finops",
+   "k8s-networking-services",
+   "k8s-security",
+   "k8s-troubleshooting",
+   "k8s-workloads"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "k8s-networking-services",
+  "titre": "Kubernetes : réseau, Services et Ingress",
+  "domaine": "Kubernetes",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 4,
+  "programmee": false,
+  "jours": [],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "k8s-security",
+   "k8s-troubleshooting"
+  ],
+  "citeePar": [
+   "k8s-security",
+   "k8s-troubleshooting",
+   "k8s-why-architecture",
+   "k8s-workloads"
+  ],
+  "etagere": true,
+  "statut": "ADVANCED",
+  "raison": "approfondissement d'une compétence déclarée, ancré depuis 2 leçon(s) programmée(s) : k8s-why-architecture, k8s-workloads"
+ },
+ {
+  "slug": "k8s-security",
+  "titre": "Kubernetes : sécurité et moindre privilège",
+  "domaine": "Kubernetes",
+  "niveau": 3,
+  "competences": [
+   "secu",
+   "cloud"
+  ],
+  "pratiques": 3,
+  "programmee": false,
+  "jours": [],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "k8s-config-probes"
+  ],
+  "etagere": true,
+  "statut": "ADVANCED",
+  "raison": "approfondissement d'une compétence déclarée, ancré depuis 1 leçon(s) programmée(s) : k8s-config-probes"
+ },
+ {
+  "slug": "k8s-troubleshooting",
+  "titre": "Kubernetes : diagnostiquer un incident",
+  "domaine": "Kubernetes",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 6,
+  "programmee": false,
+  "jours": [],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "k8s-config-probes"
+  ],
+  "etagere": true,
+  "statut": "ADVANCED",
+  "raison": "approfondissement d'une compétence déclarée, ancré depuis 1 leçon(s) programmée(s) : k8s-config-probes"
+ },
+ {
+  "slug": "k8s-why-architecture",
+  "titre": "Kubernetes : pourquoi et architecture",
+  "domaine": "Kubernetes",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   321
+  ],
+  "revues": [
+   322
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "iac-fundamentals",
+   "k8s-workloads"
+  ],
+  "citeePar": [
+   "iac-fundamentals",
+   "k8s-workloads"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "k8s-workloads",
+  "titre": "Kubernetes : Pods, Deployments et workloads",
+  "domaine": "Kubernetes",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   321
+  ],
+  "revues": [
+   322
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "k8s-config-probes",
+   "k8s-networking-services",
+   "k8s-troubleshooting"
+  ],
+  "citeePar": [
+   "k8s-config-probes",
+   "k8s-networking-services",
+   "k8s-troubleshooting",
+   "k8s-why-architecture"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "linux-filesystem-permissions",
+  "titre": "Linux : système de fichiers et permissions",
+  "domaine": "Systèmes & Linux",
+  "niveau": 2,
+  "competences": [
+   "gitlinux",
+   "secu"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   72
+  ],
+  "revues": [
+   77
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "docker-images-layers",
+   "linux-processes-signals",
+   "linux-ssh-remote"
+  ],
+  "citeePar": [
+   "docker-images-layers",
+   "docker-networking-volumes",
+   "linux-processes-signals",
+   "linux-ssh-remote"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "linux-processes-signals",
+  "titre": "Linux : processus et signaux",
+  "domaine": "Systèmes & Linux",
+  "niveau": 2,
+  "competences": [
+   "gitlinux"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   72
+  ],
+  "revues": [
+   77
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "docker-production-hardening",
+   "linux-resources-io",
+   "linux-services-systemd"
+  ],
+  "citeePar": [
+   "docker-production-hardening",
+   "linux-filesystem-permissions",
+   "linux-resources-io",
+   "linux-services-systemd"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "linux-resources-io",
+  "titre": "Linux : ressources, mémoire et I/O",
+  "domaine": "Systèmes & Linux",
+  "niveau": 3,
+  "competences": [
+   "gitlinux",
+   "archi"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   72
+  ],
+  "revues": [
+   77
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "k8s-config-probes",
+   "metrics-percentiles"
+  ],
+  "citeePar": [
+   "cloud-finops",
+   "docker-production-hardening",
+   "k8s-config-probes",
+   "k8s-troubleshooting",
+   "metrics-percentiles"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "linux-services-systemd",
+  "titre": "Linux : services et systemd",
+  "domaine": "Systèmes & Linux",
+  "niveau": 2,
+  "competences": [
+   "gitlinux",
+   "cloud"
+  ],
+  "pratiques": 1,
+  "programmee": false,
+  "jours": [],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "linux-processes-signals"
+  ],
+  "etagere": true,
+  "statut": "ADVANCED",
+  "raison": "approfondissement d'une compétence déclarée, ancré depuis 1 leçon(s) programmée(s) : linux-processes-signals"
+ },
+ {
+  "slug": "linux-ssh-remote",
+  "titre": "Linux : SSH et accès distant",
+  "domaine": "Systèmes & Linux",
+  "niveau": 2,
+  "competences": [
+   "gitlinux",
+   "secu"
+  ],
+  "pratiques": 1,
+  "programmee": false,
+  "jours": [],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "linux-processes-signals"
+  ],
+  "etagere": true,
+  "statut": "ADVANCED",
+  "raison": "approfondissement d'une compétence déclarée, ancré depuis 1 leçon(s) programmée(s) : linux-processes-signals"
+ },
+ {
+  "slug": "llm-cost-optimization",
+  "titre": "Coûts d'inférence : estimer et optimiser",
+  "domaine": "IA appliquée",
+  "niveau": 3,
+  "competences": [
+   "llm",
+   "cloud"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   197,
+   198,
+   199,
+   200,
+   201,
+   202,
+   204,
+   205,
+   206,
+   207,
+   208,
+   209,
+   211,
+   212,
+   213,
+   214,
+   215,
+   216
+  ],
+  "revues": [
+   203,
+   210,
+   217
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "llm-observability"
+  ],
+  "citeePar": [
+   "llm-observability",
+   "prompt-engineering"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "llm-fundamentals",
+  "titre": "LLM : comprendre les grands modèles",
+  "domaine": "IA appliquée",
+  "niveau": 2,
+  "competences": [
+   "llm"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   197,
+   198,
+   199,
+   200,
+   201,
+   202,
+   204,
+   205,
+   206,
+   207,
+   208,
+   209,
+   211,
+   212,
+   213,
+   214,
+   215,
+   216
+  ],
+  "revues": [
+   203,
+   210,
+   217
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "agents-fundamentals",
+   "ai-security",
+   "embeddings",
+   "llm-cost-optimization",
+   "llm-observability",
+   "prompt-engineering",
+   "prompt-injection-defense",
+   "rag-fundamentals",
+   "structured-outputs-tools"
+  ],
+  "citeePar": [
+   "agents-fundamentals",
+   "ai-security",
+   "embeddings",
+   "llm-cost-optimization",
+   "llm-observability",
+   "prompt-engineering",
+   "prompt-injection-defense",
+   "rag-fundamentals",
+   "structured-outputs-tools"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "llm-observability",
+  "titre": "LLMOps : observer un système LLM",
+  "domaine": "Production & DevOps",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "llm"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   325,
+   332
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "monitoring-production"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "logging-structured",
+  "titre": "Logs structurés et correlation ID",
+  "domaine": "Observabilité, SRE & fiabilité",
+  "niveau": 2,
+  "competences": [
+   "archi",
+   "secu"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   79
+  ],
+  "revues": [
+   84
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "distributed-tracing"
+  ],
+  "citeePar": [
+   "distributed-tracing",
+   "llm-observability",
+   "observability-fundamentals"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "machine-learning-basics",
+  "titre": "Machine learning : les bases",
+  "domaine": "Python & ML",
+  "niveau": 2,
+  "competences": [
+   "ml"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   155,
+   156,
+   159,
+   163,
+   164,
+   166,
+   172,
+   174,
+   181
+  ],
+  "revues": [
+   161,
+   168,
+   175,
+   182
+  ],
+  "surProjet": [
+   181
+  ],
+  "exigeePar": [
+   "ai-evaluation",
+   "feature-engineering",
+   "llm-fundamentals",
+   "model-evaluation",
+   "neural-networks",
+   "scikit-learn-workflow"
+  ],
+  "citeePar": [
+   "ai-evaluation",
+   "feature-engineering",
+   "llm-fundamentals",
+   "model-evaluation",
+   "neural-networks",
+   "scikit-learn-workflow"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "metrics-percentiles",
+  "titre": "Métriques et percentiles : quand la moyenne ment",
+  "domaine": "Observabilité, SRE & fiabilité",
+  "niveau": 2,
+  "competences": [
+   "archi",
+   "cloud"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   79,
+   297
+  ],
+  "revues": [
+   84,
+   301
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "incident-response",
+   "resilience-patterns",
+   "slo-error-budget"
+  ],
+  "citeePar": [
+   "distributed-tracing",
+   "incident-response",
+   "observability-fundamentals",
+   "resilience-patterns",
+   "slo-error-budget"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "model-evaluation",
+  "titre": "Évaluer un modèle ML",
+  "domaine": "Python & ML",
+  "niveau": 2,
+  "competences": [
+   "ml",
+   "evalia"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   157,
+   158,
+   160,
+   162,
+   165,
+   166,
+   167,
+   173,
+   176,
+   177,
+   179,
+   180,
+   181,
+   253,
+   254,
+   255,
+   256,
+   257,
+   258,
+   267,
+   268,
+   269,
+   270,
+   271,
+   272,
+   316,
+   317,
+   318,
+   319,
+   321
+  ],
+  "revues": [
+   161,
+   168,
+   175,
+   182,
+   259,
+   273
+  ],
+  "surProjet": [
+   176,
+   177,
+   179,
+   180,
+   181,
+   267,
+   268,
+   269,
+   270,
+   271,
+   272
+  ],
+  "exigeePar": [
+   "ai-evaluation",
+   "feature-engineering",
+   "neural-networks"
+  ],
+  "citeePar": [
+   "ai-evaluation",
+   "feature-engineering",
+   "neural-networks",
+   "scikit-learn-workflow"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "monitoring-production",
+  "titre": "Monitoring et production",
+  "domaine": "Production & DevOps",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   79
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "networking-proxy-loadbalancing"
+  ],
+  "etagere": false,
+  "statut": "OPTIONAL",
+  "raison": "programmée, mais aucun livrable ni leçon du noyau ne la suppose"
+ },
+ {
+  "slug": "networking-addressing-routing",
+  "titre": "Réseau : adressage IP, CIDR et routage",
+  "domaine": "Réseau",
+  "niveau": 2,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   71
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "cloud-fundamentals",
+   "cloud-networking",
+   "docker-networking-volumes",
+   "networking-dns"
+  ],
+  "citeePar": [
+   "cloud-fundamentals",
+   "cloud-networking",
+   "docker-networking-volumes",
+   "networking-dns"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "networking-dns",
+  "titre": "Réseau : DNS, la résolution de noms",
+  "domaine": "Réseau",
+  "niveau": 2,
+  "competences": [
+   "http",
+   "cloud"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   71
+  ],
+  "revues": [
+   77
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "networking-tcp-ip-model"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "networking-http-tls",
+  "titre": "Réseau : HTTP et TLS",
+  "domaine": "Réseau",
+  "niveau": 2,
+  "competences": [
+   "http",
+   "secu"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   71
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "networking-proxy-loadbalancing"
+  ],
+  "citeePar": [
+   "docker-networking-volumes",
+   "linux-ssh-remote",
+   "networking-dns",
+   "networking-proxy-loadbalancing",
+   "networking-tcp-ip-model"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "networking-proxy-loadbalancing",
+  "titre": "Réseau : proxy, reverse proxy et load balancing",
+  "domaine": "Réseau",
+  "niveau": 3,
+  "competences": [
+   "archi",
+   "cloud"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   78
+  ],
+  "revues": [
+   84
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "deployment-strategies",
+   "distributed-tracing",
+   "k8s-networking-services",
+   "resilience-patterns",
+   "system-design-scaling"
+  ],
+  "citeePar": [
+   "deployment-strategies",
+   "distributed-tracing",
+   "k8s-networking-services",
+   "networking-addressing-routing",
+   "networking-dns",
+   "networking-http-tls",
+   "networking-tcp-ip-model",
+   "resilience-patterns",
+   "system-design-scaling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "networking-tcp-ip-model",
+  "titre": "Réseau : le modèle TCP/IP en couches",
+  "domaine": "Réseau",
+  "niveau": 1,
+  "competences": [
+   "http",
+   "archi"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   71
+  ],
+  "revues": [
+   77
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "cloud-networking",
+   "docker-networking-volumes",
+   "k8s-networking-services",
+   "linux-ssh-remote",
+   "networking-addressing-routing",
+   "networking-http-tls",
+   "networking-proxy-loadbalancing"
+  ],
+  "citeePar": [
+   "cloud-networking",
+   "docker-networking-volumes",
+   "k8s-networking-services",
+   "linux-ssh-remote",
+   "networking-addressing-routing",
+   "networking-dns",
+   "networking-http-tls",
+   "networking-proxy-loadbalancing"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "neural-networks",
+  "titre": "Réseaux de neurones : ouvrir la boîte noire",
+  "domaine": "Python & ML",
+  "niveau": 3,
+  "competences": [
+   "dl"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   183,
+   184,
+   185,
+   186,
+   187,
+   188,
+   190,
+   191,
+   192,
+   193,
+   194,
+   195
+  ],
+  "revues": [
+   189,
+   196
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "transformers"
+  ],
+  "citeePar": [
+   "transformers"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "nextjs-data-production",
+  "titre": "Next.js : données, états d'erreur et mise en production",
+  "domaine": "Frontend & React",
+  "niveau": 3,
+  "competences": [
+   "jsts",
+   "archi"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   111
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "caching-performance",
+   "nextjs-foundations",
+   "nextjs-rendering",
+   "nextjs-server-client-components"
+  ],
+  "etagere": true,
+  "statut": "OPTIONAL",
+  "raison": "programmée, mais aucun livrable ni leçon du noyau ne la suppose"
+ },
+ {
+  "slug": "nextjs-foundations",
+  "titre": "Next.js : pourquoi un framework au-dessus de React ?",
+  "domaine": "Frontend & React",
+  "niveau": 3,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   99
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "nextjs-rendering"
+  ],
+  "citeePar": [
+   "nextjs-rendering"
+  ],
+  "etagere": true,
+  "statut": "OPTIONAL",
+  "raison": "programmée, mais aucun livrable ni leçon du noyau ne la suppose"
+ },
+ {
+  "slug": "nextjs-rendering",
+  "titre": "Rendu web : CSR, SSR, SSG et streaming",
+  "domaine": "Frontend & React",
+  "niveau": 3,
+  "competences": [
+   "jsts",
+   "archi"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   102
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "nextjs-data-production",
+   "nextjs-server-client-components"
+  ],
+  "citeePar": [
+   "nextjs-data-production",
+   "nextjs-foundations",
+   "nextjs-server-client-components"
+  ],
+  "etagere": true,
+  "statut": "OPTIONAL",
+  "raison": "programmée, mais aucun livrable ni leçon du noyau ne la suppose"
+ },
+ {
+  "slug": "nextjs-server-client-components",
+  "titre": "Server Components vs Client Components : le modèle mental",
+  "domaine": "Frontend & React",
+  "niveau": 3,
+  "competences": [
+   "jsts",
+   "archi"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   104
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "nextjs-data-production"
+  ],
+  "citeePar": [
+   "nextjs-data-production",
+   "nextjs-foundations",
+   "nextjs-rendering"
+  ],
+  "etagere": true,
+  "statut": "OPTIONAL",
+  "raison": "programmée, mais aucun livrable ni leçon du noyau ne la suppose"
+ },
+ {
+  "slug": "observability-fundamentals",
+  "titre": "Observabilité : voir ce qui se passe en production",
+  "domaine": "Observabilité, SRE & fiabilité",
+  "niveau": 2,
+  "competences": [
+   "archi",
+   "cloud"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   79
+  ],
+  "revues": [
+   84
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "distributed-tracing",
+   "incident-response",
+   "llm-observability",
+   "logging-structured",
+   "metrics-percentiles"
+  ],
+  "citeePar": [
+   "distributed-tracing",
+   "incident-response",
+   "llm-observability",
+   "logging-structured",
+   "metrics-percentiles",
+   "slo-error-budget"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "observability-logging",
+  "titre": "Observabilité et logs structurés",
+  "domaine": "Software engineering & architecture",
+  "niveau": 2,
+  "competences": [
+   "archi",
+   "cloud"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   79,
+   85
+  ],
+  "revues": [],
+  "surProjet": [
+   85
+  ],
+  "exigeePar": [
+   "monitoring-production"
+  ],
+  "citeePar": [
+   "linux-services-systemd",
+   "logging-structured",
+   "monitoring-production",
+   "observability-fundamentals",
+   "release-incident-recovery"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "pandas-data-wrangling",
+  "titre": "pandas : manipuler des données",
+  "domaine": "Data & SQL",
+  "niveau": 2,
+  "competences": [
+   "python",
+   "sql"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   127,
+   128,
+   129,
+   130,
+   131,
+   145
+  ],
+  "revues": [
+   133
+  ],
+  "surProjet": [
+   145
+  ],
+  "exigeePar": [
+   "data-cleaning-quality",
+   "etl-pipelines"
+  ],
+  "citeePar": [
+   "data-cleaning-quality",
+   "etl-pipelines"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "portfolio-github",
+  "titre": "Portfolio technique GitHub",
+  "domaine": "Portfolio & carrière",
+  "niveau": 1,
+  "competences": [
+   "comm"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   83,
+   86,
+   90,
+   337,
+   338,
+   339,
+   340,
+   341,
+   342,
+   344,
+   345,
+   346,
+   347,
+   348,
+   349,
+   351,
+   352,
+   353,
+   354,
+   355,
+   356
+  ],
+  "revues": [
+   91,
+   343,
+   350,
+   357
+  ],
+  "surProjet": [
+   86
+  ],
+  "exigeePar": [],
+  "citeePar": [
+   "technical-storytelling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "postmortem-rca",
+  "titre": "Post-mortem et analyse de cause racine (RCA)",
+  "domaine": "Observabilité, SRE & fiabilité",
+  "niveau": 3,
+  "competences": [
+   "archi",
+   "comm"
+  ],
+  "pratiques": 3,
+  "programmee": true,
+  "jours": [
+   332
+  ],
+  "revues": [
+   336
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "incident-response",
+   "technical-documentation"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "prompt-engineering",
+  "titre": "Prompt engineering (sérieux)",
+  "domaine": "IA appliquée",
+  "niveau": 2,
+  "competences": [
+   "llm"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   197,
+   198,
+   199,
+   200,
+   201,
+   202,
+   204,
+   205,
+   206,
+   207,
+   208,
+   209,
+   211,
+   212,
+   213,
+   214,
+   215,
+   216
+  ],
+  "revues": [
+   203,
+   210,
+   217
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "prompt-injection-defense",
+  "titre": "Défense contre la prompt injection",
+  "domaine": "IA appliquée",
+  "niveau": 3,
+  "competences": [
+   "secu"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   260,
+   261,
+   262,
+   263,
+   264,
+   265,
+   295,
+   296,
+   297,
+   298,
+   299,
+   300,
+   330,
+   331,
+   332,
+   333,
+   334,
+   335
+  ],
+  "revues": [
+   266,
+   301,
+   336
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "structured-outputs-tools"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "python-foundations",
+  "titre": "Python : les fondations",
+  "domaine": "Python & ML",
+  "niveau": 1,
+  "competences": [
+   "python"
+  ],
+  "pratiques": 6,
+  "programmee": true,
+  "jours": [
+   82,
+   120,
+   121,
+   122,
+   123,
+   125
+  ],
+  "revues": [
+   126,
+   133
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "machine-learning-basics",
+   "pandas-data-wrangling"
+  ],
+  "citeePar": [
+   "machine-learning-basics",
+   "pandas-data-wrangling",
+   "statistics-for-ml"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "rag-evaluation",
+  "titre": "Évaluation RAG avancée",
+  "domaine": "IA appliquée",
+  "niveau": 3,
+  "competences": [
+   "evalia",
+   "rag"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   218,
+   219,
+   220,
+   221,
+   222,
+   223,
+   225,
+   226,
+   227,
+   228,
+   229,
+   230,
+   232,
+   233,
+   234,
+   235,
+   236,
+   237,
+   239,
+   240,
+   241,
+   242,
+   243,
+   244,
+   246,
+   247,
+   248,
+   249,
+   250,
+   251,
+   253,
+   254,
+   255,
+   256,
+   257,
+   258,
+   267,
+   268,
+   269,
+   270,
+   271,
+   272,
+   309,
+   310,
+   311,
+   312,
+   313,
+   314,
+   316,
+   317,
+   318,
+   319,
+   321
+  ],
+  "revues": [
+   224,
+   231,
+   238,
+   245,
+   252,
+   259,
+   273,
+   315
+  ],
+  "surProjet": [
+   267,
+   268,
+   269,
+   270,
+   271,
+   272
+  ],
+  "exigeePar": [],
+  "citeePar": [
+   "chunking-strategies",
+   "embeddings",
+   "retrieval-reranking"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "rag-fundamentals",
+  "titre": "RAG : retrieval-augmented generation",
+  "domaine": "IA appliquée",
+  "niveau": 2,
+  "competences": [
+   "rag"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   218,
+   219,
+   220,
+   221,
+   222,
+   223,
+   225,
+   226,
+   227,
+   228,
+   229,
+   230,
+   232,
+   233,
+   234,
+   235,
+   236,
+   237,
+   239,
+   240,
+   241,
+   242,
+   243,
+   244,
+   246,
+   247,
+   248,
+   249,
+   250,
+   251,
+   309,
+   310,
+   311,
+   312,
+   313,
+   314
+  ],
+  "revues": [
+   224,
+   231,
+   238,
+   245,
+   252,
+   315
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "ai-evaluation",
+   "chunking-strategies",
+   "prompt-injection-defense",
+   "rag-evaluation",
+   "retrieval-reranking",
+   "vector-databases"
+  ],
+  "citeePar": [
+   "ai-evaluation",
+   "chunking-strategies",
+   "llm-cost-optimization",
+   "prompt-injection-defense",
+   "rag-evaluation",
+   "retrieval-reranking",
+   "vector-databases"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "react-accessibility",
+  "titre": "Accessibilité des interfaces web",
+  "domaine": "Frontend & React",
+  "niveau": 2,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   103
+  ],
+  "revues": [
+   105
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "browser-dom-rendering",
+   "frontend-testing",
+   "html-semantic-structure",
+   "responsive-design",
+   "web-forms-validation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "react-application-states",
+  "titre": "De composant à application : routing, useReducer et états d'écran",
+  "domaine": "Frontend & React",
+  "niveau": 3,
+  "competences": [
+   "jsts",
+   "archi"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   95
+  ],
+  "revues": [
+   98
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "nextjs-data-production",
+   "nextjs-foundations"
+  ],
+  "citeePar": [
+   "css-grid",
+   "frontend-performance",
+   "frontend-testing",
+   "nextjs-data-production",
+   "nextjs-foundations",
+   "react-composition-architecture"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "react-composition-architecture",
+  "titre": "React : composition, architecture d'état et hooks personnalisés",
+  "domaine": "Frontend & React",
+  "niveau": 3,
+  "competences": [
+   "jsts",
+   "archi"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   104
+  ],
+  "revues": [
+   105
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "frontend-performance",
+   "nextjs-server-client-components",
+   "react-accessibility",
+   "react-application-states"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "react-fundamentals",
+  "titre": "React : les fondamentaux",
+  "domaine": "Frontend & React",
+  "niveau": 2,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 6,
+  "programmee": true,
+  "jours": [
+   87,
+   89,
+   92,
+   94,
+   99,
+   100,
+   101,
+   103,
+   104,
+   113,
+   114,
+   115,
+   117
+  ],
+  "revues": [],
+  "surProjet": [
+   113,
+   114,
+   115,
+   117
+  ],
+  "exigeePar": [
+   "frontend-performance",
+   "frontend-testing",
+   "nextjs-foundations",
+   "nextjs-server-client-components",
+   "react-accessibility",
+   "react-application-states",
+   "react-composition-architecture",
+   "react-hooks-effects"
+  ],
+  "citeePar": [
+   "browser-dom-rendering",
+   "css-flexbox",
+   "frontend-performance",
+   "frontend-testing",
+   "nextjs-foundations",
+   "nextjs-server-client-components",
+   "python-foundations",
+   "react-accessibility",
+   "react-application-states",
+   "react-composition-architecture",
+   "react-hooks-effects",
+   "responsive-design",
+   "typescript-frontend"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "react-hooks-effects",
+  "titre": "React : effets, données async et hooks",
+  "domaine": "Frontend & React",
+  "niveau": 2,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   88,
+   89,
+   93,
+   95,
+   96,
+   102,
+   110
+  ],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [
+   "frontend-testing",
+   "nextjs-server-client-components",
+   "react-application-states",
+   "react-composition-architecture"
+  ],
+  "citeePar": [
+   "database-transactions-concurrency",
+   "frontend-testing",
+   "nextjs-server-client-components",
+   "python-foundations",
+   "react-application-states",
+   "react-composition-architecture",
+   "typescript-frontend",
+   "web-forms-validation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "readme-documentation",
+  "titre": "Le README recruteur",
+  "domaine": "Portfolio & carrière",
+  "niveau": 1,
+  "competences": [
+   "comm"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   47,
+   66,
+   74,
+   118,
+   146,
+   337,
+   338,
+   339,
+   340,
+   341,
+   342,
+   344,
+   345,
+   346,
+   347,
+   348,
+   349,
+   351,
+   352,
+   353,
+   354,
+   355,
+   356
+  ],
+  "revues": [
+   91,
+   343,
+   350,
+   357
+  ],
+  "surProjet": [
+   47,
+   66,
+   118,
+   146
+  ],
+  "exigeePar": [
+   "portfolio-github",
+   "technical-documentation"
+  ],
+  "citeePar": [
+   "portfolio-github",
+   "technical-documentation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "recursion",
+  "titre": "La récursion en profondeur",
+  "domaine": "Fondations",
+  "niveau": 2,
+  "competences": [
+   "algo"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   15,
+   16,
+   17,
+   19,
+   20,
+   25,
+   29,
+   30,
+   32
+  ],
+  "revues": [
+   21,
+   28,
+   35,
+   49
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "refactoring-legacy-code",
+  "titre": "Refactoring et code legacy : changer sans casser",
+  "domaine": "Software engineering & architecture",
+  "niveau": 2,
+  "competences": [
+   "se"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   69
+  ],
+  "revues": [
+   70
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "technical-debt"
+  ],
+  "citeePar": [
+   "technical-debt"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "release-incident-recovery",
+  "titre": "Reprise après incident : rollback, roll-forward, hotfix",
+  "domaine": "CI/CD & livraison",
+  "niveau": 3,
+  "competences": [
+   "cloud",
+   "archi"
+  ],
+  "pratiques": 4,
+  "programmee": false,
+  "jours": [],
+  "revues": [],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "deployment-strategies",
+   "incident-response",
+   "postmortem-rca"
+  ],
+  "etagere": true,
+  "statut": "ADVANCED",
+  "raison": "approfondissement d'une compétence déclarée, ancré depuis 2 leçon(s) programmée(s) : incident-response, postmortem-rca"
+ },
+ {
+  "slug": "resilience-patterns",
+  "titre": "Patterns de résilience : survivre aux pannes des autres",
+  "domaine": "Observabilité, SRE & fiabilité",
+  "niveau": 3,
+  "competences": [
+   "archi",
+   "cloud"
+  ],
+  "pratiques": 6,
+  "programmee": true,
+  "jours": [
+   331
+  ],
+  "revues": [
+   336
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "agent-workflows-orchestration",
+   "api-production-contracts",
+   "async-messaging-queues",
+   "database-transactions-concurrency",
+   "distributed-systems-failures",
+   "networking-http-tls"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "responsive-design",
+  "titre": "Responsive design : une interface pour tous les écrans",
+  "domaine": "Frontend : Web Platform",
+  "niveau": 2,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   117
+  ],
+  "revues": [],
+  "surProjet": [
+   117
+  ],
+  "exigeePar": [],
+  "citeePar": [
+   "css-flexbox",
+   "css-fundamentals",
+   "css-grid",
+   "frontend-performance"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "retrieval-reranking",
+  "titre": "Retrieval, hybride et reranking",
+  "domaine": "IA appliquée",
+  "niveau": 3,
+  "competences": [
+   "rag"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   218,
+   219,
+   220,
+   221,
+   222,
+   223,
+   225,
+   226,
+   227,
+   228,
+   229,
+   230,
+   232,
+   233,
+   234,
+   235,
+   236,
+   237,
+   239,
+   240,
+   241,
+   242,
+   243,
+   244,
+   246,
+   247,
+   248,
+   249,
+   250,
+   251,
+   309,
+   310,
+   311,
+   312,
+   313,
+   314
+  ],
+  "revues": [
+   224,
+   231,
+   238,
+   245,
+   252,
+   315
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "rag-evaluation"
+  ],
+  "citeePar": [
+   "embeddings",
+   "rag-evaluation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "scikit-learn-workflow",
+  "titre": "Le workflow scikit-learn",
+  "domaine": "Python & ML",
+  "niveau": 2,
+  "competences": [
+   "ml",
+   "python"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   155,
+   157,
+   170,
+   171,
+   174,
+   176,
+   177,
+   179,
+   181
+  ],
+  "revues": [
+   161,
+   168,
+   175,
+   182
+  ],
+  "surProjet": [
+   176,
+   177,
+   179,
+   181
+  ],
+  "exigeePar": [],
+  "citeePar": [],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "slo-error-budget",
+  "titre": "SLI, SLO et error budget : la fiabilité comme un budget",
+  "domaine": "Observabilité, SRE & fiabilité",
+  "niveau": 2,
+  "competences": [
+   "archi",
+   "cloud"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   79
+  ],
+  "revues": [
+   84
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "incident-response"
+  ],
+  "citeePar": [
+   "incident-response",
+   "metrics-percentiles"
+  ],
+  "etagere": true,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "sql-foundations",
+  "titre": "SQL : les fondations",
+  "domaine": "Data & SQL",
+  "niveau": 1,
+  "competences": [
+   "sql"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   55,
+   57,
+   61,
+   64,
+   135,
+   137
+  ],
+  "revues": [
+   63,
+   140
+  ],
+  "surProjet": [
+   61,
+   64
+  ],
+  "exigeePar": [
+   "database-modeling",
+   "database-transactions-concurrency",
+   "pandas-data-wrangling",
+   "sql-performance-indexing"
+  ],
+  "citeePar": [
+   "database-modeling",
+   "database-transactions-concurrency",
+   "pandas-data-wrangling",
+   "sql-performance-indexing"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "sql-performance-indexing",
+  "titre": "Performance SQL : index, plans et N+1",
+  "domaine": "Data & SQL",
+  "niveau": 3,
+  "competences": [
+   "sql",
+   "archi"
+  ],
+  "pratiques": 6,
+  "programmee": true,
+  "jours": [
+   135
+  ],
+  "revues": [
+   140
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "caching-performance",
+   "database-modeling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "statistics-for-ml",
+  "titre": "Statistiques pour le ML",
+  "domaine": "Python & ML",
+  "niveau": 2,
+  "competences": [
+   "ml"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   148,
+   149,
+   150,
+   151,
+   152,
+   153,
+   181
+  ],
+  "revues": [
+   154,
+   161,
+   168,
+   175,
+   182
+  ],
+  "surProjet": [
+   181
+  ],
+  "exigeePar": [
+   "ai-evaluation",
+   "feature-engineering",
+   "machine-learning-basics",
+   "model-evaluation",
+   "neural-networks",
+   "rag-evaluation"
+  ],
+  "citeePar": [
+   "ai-evaluation",
+   "embeddings",
+   "feature-engineering",
+   "machine-learning-basics",
+   "model-evaluation",
+   "neural-networks",
+   "rag-evaluation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "structured-outputs-tools",
+  "titre": "Sorties structurées et function calling",
+  "domaine": "IA appliquée",
+  "niveau": 2,
+  "competences": [
+   "llm",
+   "agents"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   197,
+   198,
+   199,
+   200,
+   201,
+   202,
+   204,
+   205,
+   206,
+   207,
+   208,
+   209,
+   211,
+   212,
+   213,
+   214,
+   215,
+   216,
+   274,
+   275,
+   276,
+   277,
+   278,
+   279,
+   281,
+   282,
+   283,
+   284,
+   285,
+   286,
+   323,
+   324,
+   325,
+   326,
+   327,
+   328
+  ],
+  "revues": [
+   203,
+   210,
+   217,
+   280,
+   287,
+   329
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "agent-workflows-orchestration",
+   "prompt-engineering"
+  ],
+  "citeePar": [
+   "agent-workflows-orchestration",
+   "prompt-engineering"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "system-design-interview",
+  "titre": "L'entretien de design système",
+  "domaine": "Portfolio & carrière",
+  "niveau": 3,
+  "competences": [
+   "archi",
+   "comm"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   71,
+   81,
+   288,
+   289,
+   290,
+   291,
+   292,
+   293,
+   302,
+   303,
+   304,
+   305,
+   306,
+   307,
+   358,
+   359,
+   360,
+   361,
+   362,
+   363,
+   365
+  ],
+  "revues": [
+   119,
+   147,
+   308,
+   364
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "distributed-systems-failures",
+   "interview-preparation",
+   "system-design-scaling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "system-design-scaling",
+  "titre": "System Design : passer d'une machine à l'échelle",
+  "domaine": "Software engineering & architecture",
+  "niveau": 2,
+  "competences": [
+   "archi"
+  ],
+  "pratiques": 6,
+  "programmee": true,
+  "jours": [
+   291
+  ],
+  "revues": [
+   294
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "distributed-systems-failures"
+  ],
+  "citeePar": [
+   "distributed-systems-failures",
+   "docker-networking-volumes",
+   "networking-proxy-loadbalancing"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "technical-debt",
+  "titre": "La dette technique : décider en connaissance de cause",
+  "domaine": "Software engineering & architecture",
+  "niveau": 2,
+  "competences": [
+   "se"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   81
+  ],
+  "revues": [
+   84
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "refactoring-legacy-code"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "technical-documentation",
+  "titre": "La documentation technique : quel document, pour qui, quand",
+  "domaine": "Software engineering & architecture",
+  "niveau": 2,
+  "competences": [
+   "se",
+   "comm"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   74
+  ],
+  "revues": [
+   77
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "readme-documentation",
+   "technical-storytelling"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "technical-storytelling",
+  "titre": "Storytelling technique",
+  "domaine": "Portfolio & carrière",
+  "niveau": 2,
+  "competences": [
+   "comm"
+  ],
+  "pratiques": 0,
+  "programmee": true,
+  "jours": [
+   66,
+   74,
+   86,
+   337,
+   338,
+   339,
+   340,
+   341,
+   342,
+   344,
+   345,
+   346,
+   347,
+   348,
+   349,
+   351,
+   352,
+   353,
+   354,
+   355,
+   356
+  ],
+  "revues": [
+   91,
+   343,
+   350,
+   357
+  ],
+  "surProjet": [
+   66,
+   86
+  ],
+  "exigeePar": [],
+  "citeePar": [
+   "interview-preparation"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "terminal-shell-filesystem",
+  "titre": "Terminal, shell et système de fichiers",
+  "domaine": "Fondations",
+  "niveau": 1,
+  "competences": [
+   "gitlinux"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   1,
+   2,
+   3,
+   18,
+   72
+  ],
+  "revues": [
+   7,
+   21
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "ai-security",
+   "docker-containers",
+   "git-fundamentals",
+   "linux-filesystem-permissions",
+   "networking-tcp-ip-model"
+  ],
+  "citeePar": [
+   "ai-security",
+   "docker-containers",
+   "git-fundamentals",
+   "linux-filesystem-permissions",
+   "networking-tcp-ip-model"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "testing-foundations",
+  "titre": "Tester son code",
+  "domaine": "Software engineering & architecture",
+  "niveau": 2,
+  "competences": [
+   "se"
+  ],
+  "pratiques": 5,
+  "programmee": true,
+  "jours": [
+   41,
+   47,
+   59,
+   65,
+   69,
+   106,
+   107,
+   108,
+   116,
+   124
+  ],
+  "revues": [
+   42,
+   49,
+   56,
+   70,
+   91,
+   112
+  ],
+  "surProjet": [
+   47,
+   65,
+   116
+  ],
+  "exigeePar": [
+   "ci-cd",
+   "frontend-testing",
+   "refactoring-legacy-code"
+  ],
+  "citeePar": [
+   "ci-cd-quality-gates-artifacts",
+   "ci-cd",
+   "frontend-testing",
+   "react-accessibility",
+   "refactoring-legacy-code",
+   "technical-debt"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "transformers",
+  "titre": "Transformers : l'architecture des LLM",
+  "domaine": "Python & ML",
+  "niveau": 3,
+  "competences": [
+   "dl",
+   "llm"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   183,
+   184,
+   185,
+   186,
+   187,
+   188,
+   190,
+   191,
+   192,
+   193,
+   194,
+   195
+  ],
+  "revues": [
+   189,
+   196
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "typescript-basics",
+  "titre": "TypeScript : typer pour fiabiliser",
+  "domaine": "Fondations",
+  "niveau": 2,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   22,
+   23,
+   24,
+   26,
+   27,
+   36,
+   37,
+   38,
+   43,
+   44,
+   45
+  ],
+  "revues": [
+   7,
+   14,
+   28,
+   42,
+   49,
+   98,
+   105
+  ],
+  "surProjet": [
+   45
+  ],
+  "exigeePar": [
+   "design-patterns-intro",
+   "structured-outputs-tools",
+   "typescript-frontend"
+  ],
+  "citeePar": [
+   "breaking-changes-compatibility",
+   "design-patterns-intro",
+   "structured-outputs-tools",
+   "typescript-frontend"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "typescript-frontend",
+  "titre": "TypeScript côté frontend : props, événements et données d'API",
+  "domaine": "Frontend : Web Platform",
+  "niveau": 2,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 4,
+  "programmee": true,
+  "jours": [
+   97
+  ],
+  "revues": [
+   98
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "nextjs-data-production",
+   "nextjs-foundations",
+   "nextjs-server-client-components"
+  ],
+  "citeePar": [
+   "nextjs-data-production",
+   "nextjs-foundations",
+   "nextjs-server-client-components",
+   "prompt-engineering"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "vector-databases",
+  "titre": "Bases de données vectorielles",
+  "domaine": "IA appliquée",
+  "niveau": 2,
+  "competences": [
+   "rag"
+  ],
+  "pratiques": 1,
+  "programmee": true,
+  "jours": [
+   218,
+   219,
+   220,
+   221,
+   222,
+   223,
+   225,
+   226,
+   227,
+   228,
+   229,
+   230,
+   232,
+   233,
+   234,
+   235,
+   236,
+   237,
+   239,
+   240,
+   241,
+   242,
+   243,
+   244,
+   246,
+   247,
+   248,
+   249,
+   250,
+   251,
+   309,
+   310,
+   311,
+   312,
+   313,
+   314
+  ],
+  "revues": [
+   224,
+   231,
+   238,
+   245,
+   252,
+   315
+  ],
+  "surProjet": [],
+  "exigeePar": [
+   "retrieval-reranking"
+  ],
+  "citeePar": [
+   "retrieval-reranking"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ },
+ {
+  "slug": "web-forms-validation",
+  "titre": "Formulaires web : saisie, validation et accessibilité",
+  "domaine": "Frontend : Web Platform",
+  "niveau": 2,
+  "competences": [
+   "jsts"
+  ],
+  "pratiques": 2,
+  "programmee": true,
+  "jours": [
+   96
+  ],
+  "revues": [
+   98
+  ],
+  "surProjet": [],
+  "exigeePar": [],
+  "citeePar": [
+   "llm-cost-optimization",
+   "typescript-frontend"
+  ],
+  "etagere": false,
+  "statut": "CORE",
+  "raison": "programmée, porte une compétence déclarée, et sert un livrable ou une leçon du noyau"
+ }
+]

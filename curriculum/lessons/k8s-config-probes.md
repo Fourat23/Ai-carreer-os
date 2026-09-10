@@ -365,3 +365,10 @@ readiness / startup probe** · **requests / limits** · **scheduler** ·
 Mois 11 (orchestration). Leçons liées : `/doc/lessons/k8s-workloads`,
 `/doc/lessons/k8s-troubleshooting`, `/doc/lessons/linux-resources-io`. Probes et
 ressources sont au cœur du diagnostic K8s et du FinOps.
+
+**Pour aller plus loin, quand tu opéreras vraiment un cluster.** Les limites et les
+sondes protègent le voisinage ; elles ne disent rien de **qui a le droit de faire
+quoi** dans le cluster. `/doc/lessons/k8s-security` traite le moindre privilège côté
+orchestrateur — comptes de service, rôles, liaisons, contexte de sécurité d'un
+conteneur. Elle n'est **programmée par aucune des 365 journées** et rien ici ne
+suppose que tu l'as lue : ouvre-la le jour où tu déploies sur un cluster partagé.

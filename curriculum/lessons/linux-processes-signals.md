@@ -386,3 +386,10 @@ Jour `/day/72` (processus, permissions). Leçons liées :
 `/doc/lessons/linux-filesystem-permissions`, `/doc/lessons/linux-services-systemd`. Le
 modèle de signaux prépare le cycle de vie des conteneurs et des Pods (arrêt gracieux via
 `SIGTERM`, probes) — développé dans les leçons Docker et Kubernetes du parcours.
+
+**Pour aller plus loin, quand la machine n'est plus la tienne.** Tout ce qui précède
+suppose que tu es déjà **sur** la machine. `/doc/lessons/linux-ssh-remote` traite la
+façon d'y arriver et d'y travailler sans mot de passe : clés, agent, tunnels, sessions
+qui survivent à une déconnexion. Elle n'est **programmée par aucune des 365 journées**
+et rien ici ne suppose que tu l'as lue : ouvre-la le jour où tu administres un serveur
+distant.

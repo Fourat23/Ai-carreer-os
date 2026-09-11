@@ -7,20 +7,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP9**
+- **dernier CP terminé** : **CP10**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP10** — plan d'apprentissage quotidien et arbitrage de budget
-- **NEXT_ACTION** : construire le **plan de journée** qui arbitre entre **nouveau matériel**
-  et **réactivation**, sous contrainte de budget. **Traiter les 44 journées HEAVY héritées de
-  V73.** Le CP8 a établi la mesure qui commande ce CP : **chez l'apprenant à 50 % de réussite,
-  l'arriéré croît linéairement jusqu'à 102 notions en 365 jours, et TRIPLER LE BUDGET ne le
-  divise pas par trois** (63 → 53 → 43 → 48) — parce qu'à 50 % d'échec chaque notion servie
-  revient le lendemain, donc **servir plus crée mécaniquement plus de retours**. La réponse
-  n'est donc pas dans l'ordonnancement (CP8 l'a épuisé) mais dans **l'ENTRÉE** : ralentir
-  l'acquisition de nouveau matériel quand l'arriéré grandit. **Ne PAS supprimer une compétence
-  difficile ni modifier les 365 journées pour satisfaire une sonde.** Réutiliser `simuler`
-  (CP8) pour mesurer BEFORE/AFTER sur les trois apprenants.
+- **NEXT_CP** : **CP11** — transfert entre compétences
+- **NEXT_ACTION** : traiter le **TRANSFERT entre compétences** — une notion n'est pas retenue
+  parce qu'on sait la réciter dans son contexte d'origine, mais parce qu'on sait l'employer
+  ailleurs. Matériel déjà mesuré et disponible : `transferDays` (journées dont les leçons
+  portent ≥ 2 compétences, calculé au CP2 dans `lib/learner-memory-server.ts`), le champ
+  `transfers` de la fiche mémoire, `lib/transfer-challenge.mjs` (**existe déjà** — vérifier
+  AVANT d'écrire quoi que ce soit, et le CONSOMMER plutôt que le doubler, comme le CP7 l'a fait
+  avec `lib/misconceptions.mjs`), et l'archétype `BUSINESS_TRANSFER` du CP5 (disponible sur
+  **128/128** leçons). **Ne PAS inventer un score de transfert** : le CP0 a déclaré le transfert
+  professionnel `UNMEASURABLE`. Mesurer ce que le corpus permet réellement, publier les nombres
+  bruts, et ne pas conclure au-delà.
 
 ## Repères Git
 
@@ -110,6 +110,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP10** : **créés** `lib/daily-plan.mjs`, `scripts/v74/cp10-charge.mjs`,
+  `tests/v74-daily-plan.test.mjs` (14), `docs/v74/V74-CP10-PLAN-JOURNEE.md`.
+  **Aucun fichier de curriculum touché.**
 - **CP9** : **créés** `scripts/v74/cp9-oubli.mjs` (5 candidats + sensibilité),
   `tests/v74-oubli.test.mjs` (10), `docs/v74/V74-CP9-OUBLI.md`. **Modifiés**
   `lib/retention-scheduler.mjs` (paramètre `echeanceDeOf`, **défaut inchangé**),
@@ -147,6 +150,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP10** : **1545/1545** (14 nouveaux) · tsc 0 · `gates:active` **0 violation** (46 portes) ·
+  corpus `92d5fae6…` inchangé · `data/progress.json` absent · **4 mutations VUES rougir**, dont
+  **1 ne rougissait pas d'abord** (anomalie n° 11).
 - **CP9** : **1531/1531** (10 nouveaux) · tsc 0 · `gates:active` **0 violation** (46 portes) ·
   corpus `92d5fae6…` inchangé · `data/progress.json` absent · **4 mutations VUES rougir**,
   dont **2 ne rougissaient pas d'abord** (anomalie n° 10) · **aucun modèle adopté**.
@@ -184,12 +190,14 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **D5** | **trois mécanismes de révision sans arbitre** : V19 journée, V66 concept, 52 revues | `lib/review.mjs`, `lib/retention.mjs`, générateur |
 | **D6** | `weeklyReviews{}` est un objet libre, sans schéma normalisé | `lib/learning.mjs` |
 | **D7** | aucune durée n'est attachée à une réactivation, aucune preuve d'utilité d'un rappel | `lib/retention.mjs` |
+| **D9** *(CP10)* | **44 journées HEAVY** (302 à 341 min pour un budget de 300), groupées en **six séries de six journées consécutives**. Conséquence directe : **6 séries de 6 jours sans aucune réactivation programmée**, et **735 minutes non placées sur l'année**. **Dette de CURRICULUM** : V73 l'a explicitement laissée, et la corriger ici voudrait dire retirer du contenu pour verdir une métrique de rétention | `curriculum/days/`, 44 journées |
 | **D8** *(CP7)* | **192 exercices sur 376 ne se rattachent à AUCUNE leçon sans ambiguïté** (140 par déclaration unique + 44 par journée unique = 184 seulement). Deux marches de remédiation plafonnent à **49 %** pour cette raison, alors que les sections existent sur **128/128** leçons. **Dette de CURRICULUM, pas de moteur** : la corriger voudrait dire enrichir les `practiceRefs` pour verdir une métrique de rétention — ce que N1/N2 interdisent | `data/program.json` (`practiceRefs`) |
 
 ## Erreurs de sondes
 
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
+| **11** *(CP10)* | **20 minutes perdues par semaine chargée**, parce que le report ÉCRASAIT la valeur entrante (`reste: cible`) au lieu de l'accumuler | **120 minutes** réellement sautées sur six journées consécutives. Sur l'année, ma mesure annonçait **115 minutes non placées ; le chiffre réel est 735** — un facteur **6,4**. Conséquence secondaire : `REPORT_MAX_PAR_JOUR` était **du code mort**, et le test qui le « gardait » veillait sur une propriété inatteignable. **L'erreur allait dans le sens qui m'arrangeait** : elle faisait paraître le coût de mon propre arbitrage six fois plus petit. Trouvée parce qu'une mutation ne faisait rougir personne. |
 | **10** *(CP9)* | **rien du tout, deux fois.** (a) un test comparait une série de 3 réussites à une série CASSÉE, or `sm2` court-circuite (`serie === 0` rend 1 jour **sans consulter le facteur de facilité**) : **inverser le signe du terme d'échec ne faisait rougir personne** ; (b) une fixture posée sur le **plafond** du facteur (2,8) absorbait encore l'inversion après correction | la sensibilité des candidats à l'échec. **Et une mutation de contrôle était un no-op arithmétique (`1 * 0 + 1` vaut `1`)** — croire qu'une suite « résiste » à une non-mutation est pire que ne pas avoir muté. Trois règles retenues : un court-circuit en amont rend le code en aval intestable · une valeur bornée teste mal · **une mutation doit être vérifiée comme mutation**. |
 | **9** *(CP8)* | une **coïncidence de données** : avec des valeurs par défaut, la fiche en retard a naturellement le meilleur score, donc les DEUX ordres de tri donnaient le même résultat | la **règle** « une notion à jour ne passe pas devant une notion en retard ». Le test **passait avant comme après le CP8**, et aurait continué à passer si la règle avait été supprimée. Découvert parce qu'une mutation censée toucher deux tests n'en faisait rougir **qu'un**. Réécrit sur le cas discriminant (fiche saine à **30** contre **20**), avec une assertion qui garde le fait que le cas RESTE discriminant. |
 | **8** *(CP7)* | **un nombre que je n'ai jamais compté moi-même** : « 52 portes », repris du rapport final de V73 et répété dans CINQ entrées de journal de V74 | le nombre d'entrées de `gates:active`, qui vaut **46** — et valait déjà 46 au commit `b353ebd`, fin de V73. Aucune porte ne manquait, aucun verdict ne change (le critère est « 0 violation », pas un décompte) : **c'est un chiffre recopié au lieu d'être mesuré**. Corrigé partout dans ce fichier. |
@@ -202,6 +210,56 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP10** — **le plan cesse d'ajouter des minutes à des journées qui débordent déjà. Et ma
+  propre mesure minimisait sa perte d'un facteur six.**
+  - **`lib/daily-plan.mjs`** — pur, horloge et charge injectées. **Ce n'est pas un cinquième
+    moteur** : il ne définit ni échéance, ni priorité, ni forme, ni échelle — **il alloue des
+    minutes** et délègue au scheduler du CP4. C11 reste satisfaite.
+  - **TROIS MESURES, ET CHACUNE A TUÉ UNE SOLUTION ÉVIDENTE.** (1) les **44 journées HEAVY**
+    (302 à 341 min) se groupent en **six séries de SIX journées consécutives** ; (2) **la
+    journée de revue ne peut PAS servir de réservoir — hypothèse réfutée par la mesure** : les
+    revues qui suivent ces séries pèsent **293 et 295 min**, soit **5 à 7 minutes de marge**
+    (marge minimale sur les 52 revues : **5 min**) ; (3) **mais au grain de la SEMAINE, seules
+    3 semaines sur 52 dépassent** (S32 +181, S33 +125, S34 +98) et **la semaine médiane a 693
+    minutes de marge**.
+  - **CE QUI EN DÉCOULE** : **26 des 44 journées surchargées sont dans des semaines globalement
+    tenables** — *le défaut dominant est une RÉPARTITION dans la semaine, pas un excès de
+    programme*. Un arbitre peut corriger une répartition sans toucher au curriculum.
+  - **RÈGLES** : on raisonne sur la borne **HAUTE** de la charge (*un apprenant qui déborde
+    systématiquement cesse de faire ses rappels*) · une journée au-dessus du budget reçoit
+    **ZÉRO** minute, et **le scheduler n'est même pas convoqué** — pas de « petite révision
+    quand même » · le report reste **dans la semaine**, rattrapage plafonné à 20 min/jour · ce
+    qui n'est pas placé est **déclaré perdu**, jamais empilé.
+  - **BEFORE → AFTER** : journées hors budget une fois la réactivation ajoutée **54/365 →
+    44/365** ; **minutes hors budget DU FAIT DU PLAN : 1798 → 0**. *Les 44 journées encore hors
+    budget le sont par le seul fait du curriculum ; le plan n'y ajoute plus une minute.*
+  - **LE COÛT, PUBLIÉ** : **44 journées sans aucune réactivation**, dont **six séries de six
+    jours consécutifs**, et **735 minutes non placées sur l'année (10 % du volume visé)**.
+    Atténuation réelle mais qui ne compense pas : une journée HEAVY est lourde *parce qu'elle
+    contient de la pratique*, laquelle est un contact significatif (M2/M4) — **mais ce sont des
+    jours sans RETRIEVAL sur les notions ANCIENNES**, exactement ce que le moteur existe pour
+    produire.
+  - **LES 3 SEMAINES EXCÉDENTAIRES SONT DITES, PAS RÉPARÉES** : marquées avec leur excédent
+    exact, **les 7 journées laissées en place**, et un test vérifie que rien n'est supprimé.
+  - **LE SIGNAL DE RALENTISSEMENT PROPOSE, IL NE DÉCIDE PAS** : « c'est toi qui décides — le
+    programme ne saute rien tout seul ». Un test garde le fait qu'un arriéré **stable** ne
+    déclenche pas la proposition ; seul un arriéré qui **croît** le fait. Un autre garde
+    qu'aucun message n'expose de score chiffré (§9).
+  - **ANOMALIE n° 11 — MA MESURE MINIMISAIT SA PERTE D'UN FACTEUR 6,4.** Le report écrivait
+    `reste: cible`, **écrasant la valeur entrante au lieu de l'accumuler** : six journées
+    chargées d'affilée déclaraient **20 minutes non placées au lieu de 120**. Sur l'année,
+    j'annonçais **115 minutes perdues ; le chiffre réel est 735**. Conséquence secondaire :
+    `REPORT_MAX_PAR_JOUR` était **du code mort** et le test qui le « gardait » veillait sur une
+    propriété inatteignable. **Trouvée parce qu'une mutation ne faisait rougir personne.**
+    **L'erreur allait dans le sens qui m'arrangeait** — troisième cas du sprint après les
+    anomalies 7 et 9. Corrigé : le report accumule, et le rattrapage non consommé reste dû —
+    *un plafond doit borner le SERVICE, pas la DETTE*.
+  - **Dette D9 inscrite** : les 44 journées HEAVY appartiennent au curriculum ; V73 a choisi de
+    les laisser, et les corriger ici reviendrait à retirer du contenu pour verdir une métrique
+    de rétention.
+  - **1545/1545 · tsc 0 · 46 portes vertes · corpus inchangé · aucun fichier de curriculum
+    touché.**
 
 - **CP9** — **aucun modèle d'oubli n'est adopté, et c'est le RÉSULTAT MESURÉ, pas une dérobade.**
   - **Cinq candidats** implémentés et comparés : seuils temporels · Leitner (actuel) · SM-2

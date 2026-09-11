@@ -7,19 +7,21 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP7**
+- **dernier CP terminé** : **CP8**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP8** — orchestration de l'espacement
-- **NEXT_ACTION** : faire de l'espacement une propriété **du plan de l'apprenant**, pas
-  seulement du curriculum statique. Le CP6 a traité les 52 revues générées ; le CP8 traite ce
-  que l'arbitre (CP3 + CP4) propose réellement à un apprenant donné, à partir de ses faits.
-  **Mesurer BEFORE / AFTER** sur des séries de faits synthétiques et publier la distribution
-  des intervalles obtenus. **Interdiction explicite du brief : « ne pas chercher
-  artificiellement *7 jours partout* »** — un espacement uniforme serait le signe que le moteur
-  ignore l'apprenant, pas qu'il l'a compris ; la dispersion des intervalles est attendue et
-  doit être publiée telle quelle. Ne créer aucune échelle nouvelle : `INTERVALS` de V66 reste
-  la seule (règle C11). Réutiliser `echeanceDe`/`planifier` du CP4 plutôt que de les doubler.
+- **NEXT_CP** : **CP9** — modèle d'oubli / decay
+- **NEXT_ACTION** : comparer explicitement plusieurs candidats de modèle d'oubli — **seuils
+  temporels** (ce que fait aujourd'hui `statutDe`), **Leitner-like** (ce que fait `INTERVALS`),
+  **SM-2-inspiré**, **décroissance exponentielle**, **evidence-aware** — et documenter pour
+  chacun : hypothèses, limites, sensibilité aux paramètres. **INTERDICTION CENTRALE DU BRIEF :
+  « si aucune donnée ne permet de calibrer, NE PAS INVENTER »** — les paramètres doivent rester
+  **déclarés et configurables**, jamais présentés comme mesurés (contournements G7 et G10).
+  Rappel du CP0, à ne pas contourner : `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`, et la
+  probabilité de mémoire a été déclarée **UNMEASURABLE** — le CP9 ne doit donc PAS produire une
+  probabilité d'oubli, mais comparer des politiques de planification. Réutiliser la simulation
+  du CP8 (`scripts/v74/cp8-espacement.mjs` exporte `simuler`, avec injection de `variante`)
+  pour éprouver chaque candidat sur les mêmes séries de faits.
 
 ## Repères Git
 
@@ -109,6 +111,10 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP8** : **créés** `scripts/v74/cp8-espacement.mjs`, `tests/v74-espacement.test.mjs` (12).
+  **Modifiés** `lib/retention-priority.mjs` (ordre de service EN BANDES),
+  `lib/retention-scheduler.mjs` (`PLACES_DECOUVERTE`, séquence à place réservée).
+  **Créé** `docs/v74/V74-CP8-ESPACEMENT.md`.
 - **CP7** : **créés** `lib/remediation.mjs`, `lib/remediation.d.ts`, `lib/remediation-server.ts`,
   `tests/v74-remediation.test.mjs` (27), `scripts/v74/cp7-remediation-substrat.mjs`,
   `scripts/v74/cp7-rattachement.mjs`, `docs/v74/V74-CP7-REMEDIATION.md`.
@@ -138,6 +144,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP8** : **1521/1521** (12 nouveaux) · tsc 0 · `gates:active` **0 violation** (46 portes) ·
+  corpus `92d5fae6…` inchangé · `data/progress.json` absent · **B2 vérifié** (tri total) ·
+  **4 mutations VUES rougir** (2 · 4 · 4 · 1) puis restaurées.
 - **CP7** : **1509/1509** (27 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (46 portes) · corpus `92d5fae6…` inchangé · `data/progress.json` absent · **B2 et B10
   vérifiés** · **4 mutations VUES rougir** (7 · 1 · 2 · 1 tests) puis restaurées.
@@ -175,6 +184,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
+| **9** *(CP8)* | une **coïncidence de données** : avec des valeurs par défaut, la fiche en retard a naturellement le meilleur score, donc les DEUX ordres de tri donnaient le même résultat | la **règle** « une notion à jour ne passe pas devant une notion en retard ». Le test **passait avant comme après le CP8**, et aurait continué à passer si la règle avait été supprimée. Découvert parce qu'une mutation censée toucher deux tests n'en faisait rougir **qu'un**. Réécrit sur le cas discriminant (fiche saine à **30** contre **20**), avec une assertion qui garde le fait que le cas RESTE discriminant. |
 | **8** *(CP7)* | **un nombre que je n'ai jamais compté moi-même** : « 52 portes », repris du rapport final de V73 et répété dans CINQ entrées de journal de V74 | le nombre d'entrées de `gates:active`, qui vaut **46** — et valait déjà 46 au commit `b353ebd`, fin de V73. Aucune porte ne manquait, aucun verdict ne change (le critère est « 0 violation », pas un décompte) : **c'est un chiffre recopié au lieu d'être mesuré**. Corrigé partout dans ce fichier. |
 | **7** *(CP7)* | les exercices **déclarés par AU MOINS une leçon** → **207** | les exercices **rattachables à UNE leçon**, ce qu'exige la règle §3.4 → **140**. Les **67** exercices déclarés par 2 à 6 leçons étaient comptés du bon côté alors que le code les écarte depuis toujours. **Aucun comportement de produit ne change** ; **la décision du CP1 en sort RENFORCÉE** (236 exercices à trancher arbitrairement, et non 169). **Une erreur de sonde qui va dans le sens de ma propre conclusion est celle qui a le plus besoin d'être publiée.** |
 | **6** *(CP5)* | un motif **ancré en début de chaîne** (`/^objectif/i`) | la présence d'une **section** dont le titre commence par un **émoji**. `FEYNMAN` sortait disponible sur **0 leçon sur 128** alors que ses sections existent partout — **un archétype à zéro aurait pu passer pour un constat de corpus**. |
@@ -185,6 +195,75 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP8** — **l'espacement PRESCRIT est enfin l'espacement SERVI. Et la correction a cassé
+  autre chose, que la mesure a dit tout de suite.**
+  - **Ce que le CP8 mesure n'est PAS ce qu'a mesuré le CP6** : le CP6 traitait les 52 revues du
+    curriculum, objet **statique** lisible dans les fichiers ; le CP8 traite ce que l'ARBITRE
+    propose réellement à UN apprenant à partir de SES faits — **cela ne se lit nulle part, il
+    faut faire tourner le moteur**. D'où `scripts/v74/cp8-espacement.mjs`, simulation
+    déterministe (générateur à graine, **aucun `Math.random`**), 180 à 365 jours, trois
+    apprenants à **90 % · 75 % · 50 %** de réussite.
+  - **LE DÉFAUT TROUVÉ, chiffré** : chez l'apprenant à 90 %, **44 % des propositions portaient
+    sur des notions `HEALTHY`** — que le moteur lui-même déclare à jour — et **222 places**
+    avaient été prises par une notion non due **alors qu'une notion due attendait**. Cause :
+    `prioriser` triait par **score** puis par statut ; le statut n'était qu'un départage.
+  - **RÈGLE 1 — le statut décide de la BANDE, le score décide du rang DANS la bande.** Ordre de
+    service `OVERDUE → DUE → UNKNOWN → SOON → HEALTHY`. **À ne pas confondre avec l'ordre
+    d'ÉVALUATION gelé au §2 du contrat** (qui dit comment on CALCULE un statut) : les deux sont
+    indépendants et **le contrat n'est pas modifié**. Justification : `INTERVALS` est l'échelle
+    d'espacement **publiée**, et le §4 en confie la responsabilité à V66 — *laisser un score la
+    contredire rendrait cette échelle décorative*. **Rien n'est exclu** : file de retard vide,
+    les `SOON` puis `HEALTHY` remplissent le budget restant.
+  - **LA RÈGLE 1, SEULE, A CASSÉ AUTRE CHOSE — et j'ai failli publier le beau chiffre.** Elle
+    effondrait l'arriéré du 50 % de **61 à 6**… et faisait passer de **0 à 49** le nombre de
+    notions rencontrées et **JAMAIS proposées** en 180 jours. **Un arriéré est un problème de
+    capacité ; une notion jamais proposée est un défaut de correction.** Les deux ne se
+    compensent pas.
+  - **RÈGLE 2 — une séance n'est jamais intégralement composée de retard**, et la place est
+    réservée aux seules fiches `UNKNOWN`. La raison est une **propriété, pas un réglage** :
+    *une notion jamais mise à l'épreuve ne peut pas devenir « en retard » toute seule* — elle
+    n'a pas d'échéance, donc rien ne la fera jamais monter. **C'est le seul statut qui peut
+    mourir de faim** ; `SOON` et `HEALTHY` deviendront `DUE` d'eux-mêmes.
+  - **DEUX VERSIONS DE LA RÈGLE 2 ÉCRITES, MESURÉES, ET LA PREMIÈRE JETÉE.** (a) réservation en
+    DERNIÈRE position → **ne servait jamais**, car **le facteur limitant d'une séance n'est pas
+    le plafond d'unités mais le BUDGET EN MINUTES** : *une réservation qu'on peut évincer n'en
+    est pas une*. (b) réservation tôt mais ouverte à toute fiche non en retard → famine réglée,
+    **mais arriéré revenu à son niveau d'avant** (60 contre 61) : *une place vaut le quart d'une
+    séance de 20 minutes*. Retenue : **tôt, et réservée aux `UNKNOWN`**.
+  - **BEFORE → AFTER (180 j, budget 20 min), y compris là où ça ne s'améliore pas** :
+    arriéré au jour 180 **16→1** (90 %) · **41→22** (75 %) · **61→63** (50 %) ; retard p90
+    **12→0** · **17→10** · **28→29** ; propositions sur notions à jour **44 %→30 %** ; places
+    prises à une notion due **222→16** ; **notions jamais proposées 0→0** aux trois taux.
+  - **L'APPRENANT À 50 % NE S'AMÉLIORE PAS, ET JE NE L'ARRONDIS PAS.** Deux mesures tranchent :
+    (A) sur 365 jours, 90 % et 75 % **plafonnent** (1 et 21), 50 % **croît linéairement** —
+    jamais exponentiellement — jusqu'à **102** ; (B) **tripler le budget ne divise pas l'arriéré
+    par trois** : 63 → 53 → 43 → 48. Raison : *à 50 % d'échec, chaque notion servie revient le
+    lendemain — servir plus crée mécaniquement plus de retours*. **Ce n'est donc pas un défaut
+    d'ordonnancement mais un énoncé VRAI sur cet apprenant** : il absorbe du matériel nouveau
+    plus vite qu'il n'en retient. La réponse appartient à l'ENTRÉE, donc au **CP10**.
+  - **Ce qui aurait été malhonnête** : déplacer les seuils jusqu'à ce que le tableau du 50 %
+    devienne joli (**G11**). `PLACES_DECOUVERTE = 1` est le minimum qui borne l'attente et le
+    maximum qui ne rouvre pas le défaut corrigé — **pas le résultat d'un balayage**.
+  - **« SEPT JOURS PARTOUT » : L'INTERDICTION EST TENUE, PREUVE PUBLIÉE.** Intervalles réalisés
+    — 90 % : médiane **5**, max **56** (étalés) · 75 % : médiane **4**, **bimodale** · 50 % :
+    médiane **1** (les échecs ramènent au départ). **C'est l'inverse de l'uniformité, et c'est
+    le résultat attendu** — un espacement uniforme signalerait que le moteur ignore l'apprenant.
+    Un test garde la propriété.
+  - **La médiane du 90 % BAISSE de 11 à 5 jours, et ce n'est pas une régression** : avant, les
+    notions étaient servies très en retard, ce qui gonflait les intervalles observés. *Un
+    intervalle long obtenu parce qu'on a oublié de proposer la notion n'est pas un espacement,
+    c'est une négligence.*
+  - **AUCUNE ÉCHELLE NOUVELLE** : le CP8 ne définit aucun intervalle ; C11 reste verte. Il ne
+    change que l'ORDRE DE SERVICE et l'ALLOCATION DES PLACES — le métier de l'arbitre.
+  - **ANOMALIE DE SONDE n° 9** : le premier test de la règle 1 **passait avant comme après**,
+    parce qu'avec des valeurs par défaut la fiche en retard a naturellement le meilleur score —
+    **il mesurait une coïncidence de données, pas la règle**. Découvert parce qu'une mutation
+    censée toucher deux tests n'en faisait rougir **qu'un**. Réécrit sur le cas discriminant,
+    **avec une assertion qui garde le fait que le cas reste discriminant**.
+  - **4 mutations VUES rougir** : tri score-d'abord (**2**), suppression de la place réservée
+    (**4**), réservation en dernière position (**4**), réservation élargie (**1**).
+  - **1521/1521 · tsc 0 · 46 portes vertes · corpus inchangé.**
 
 - **CP7** — **après un échec, la réponse arrive en DERNIER. Sept marches, trois dérogations,
   et deux de mes propres chiffres corrigés.**

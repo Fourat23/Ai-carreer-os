@@ -37,6 +37,12 @@ export type Command =
   | { type: 'SET_SKILL'; skill: string; score: number }
   | { type: 'SET_WEEKLY_REVIEW'; week: string; patch: Record<string, unknown> }
   | { type: 'SET_MONTHLY_REVIEW'; month: string; patch: Record<string, unknown> }
+  // V75 · CP7 — `PAUSED_CURRICULUM` (§1.5) : un choix de l'apprenant que le
+  // moteur ne peut qu'enregistrer. Rien ne l'appelle automatiquement.
+  | {
+      type: 'SET_CURRICULUM_PAUSE'; paused: boolean; raison?: string;
+      provenance?: { producer?: string; method?: string };
+    }
   // V66 — la seule écriture du Retention Engine. Concept, pas journée : une
   // tentative de rappel porte sur une notion, pas sur une date du calendrier.
   | { type: 'RECORD_RECALL'; conceptId: string; outcome: RecallOutcome; format?: RecallFormat; sourceRef?: string };

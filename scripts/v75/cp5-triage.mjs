@@ -139,6 +139,11 @@ export function trierProfil(profil, { auJour = null } = {}) {
   return {
     id: profil.id, nom: profil.nom,
     jourCourant, jourMax,
+    // Les notions elles-mêmes, pas seulement leur décompte. Le CP7 en a eu
+    // besoin, ne les a pas trouvées, et sa première mesure a rendu **zéro pour
+    // les vingt profils** — en affichant fièrement « invariants ✅ 20/20 ».
+    // Une mesure faite sur rien valide tout.
+    notions: t.notions,
     total: t.total,
     actif: t.placement.actif, differe: t.placement.differe, gare: t.placement.gare,
     somme: t.placement.actif + t.placement.differe + t.placement.gare,

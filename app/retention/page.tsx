@@ -16,11 +16,13 @@ import { getRetentionSummary, getRecallPrompt } from '@/lib/retention-server';
 import { getPlanDuJour } from '@/lib/plan-jour-server';
 import { getVueArriere, HORIZON_ESSENTIEL } from '@/lib/backlog-server';
 import { getVueRecuperation } from '@/lib/recovery-server';
+import { getVueRattrapage } from '@/lib/catchup-server';
 import { RETENTION_STATE_LABEL, INTERVALS, RETAINED_MIN_SPAN_DAYS } from '@/lib/retention';
 import { PageHeader, ContextLine, Panel, EmptyState, Metric, InlineNotice } from '@/app/ui';
 import RecallStation from './RecallStation';
 import BacklogPanel from './BacklogPanel';
 import RecoveryNotice from './RecoveryNotice';
+import CatchupPlan from './CatchupPlan';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,6 +52,9 @@ export default function RetentionPage() {
   const arriere = getVueArriere(now);
   const plan = getPlanDuJour(now, arriere.jourCourant);
   const recuperation = getVueRecuperation(now, { arriere, plan });
+  // V75 · CP7 — le plan de rattrapage consomme le triage et les minutes déjà
+  // calculés : deux sources produiraient deux plans sur la même page.
+  const rattrapage = getVueRattrapage(recuperation, now);
   const parConcept = new Map(plan.unites.map((u) => [u.id, u]));
 
   // ── V75 · CP5 — CE QUE L'ARRIÉRÉ CORRIGE ──
@@ -187,6 +192,11 @@ export default function RetentionPage() {
               qu'il est la question la plus importante pour un apprenant
               irrégulier (80 % du corpus en retard, profil B). */}
           <BacklogPanel vue={arriere} horizon={HORIZON_ESSENTIEL} />
+
+          {/* V75 · CP7 — la semaine proposée, et le choix de suspendre. Placé
+              APRÈS l'arriéré : on ne propose un plan qu'à quelqu'un qui vient
+              de voir ce qu'il couvre et ce qu'il ne couvre pas. */}
+          <CatchupPlan vue={rattrapage} mode={recuperation.mode} />
         </div>
 
         <aside className="ret-rail">

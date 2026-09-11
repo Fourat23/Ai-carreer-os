@@ -7,18 +7,16 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP6**
+- **dernier CP terminé** : **CP7**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP7** — PLAN DE RATTRAPAGE multi-journées
-- **NEXT_ACTION** : produire une séquence **budgétée, reprenable, explicable, recalculable et
-  non punitive**. Contraintes du brief : **ne jamais afficher « vous avez 91 notions en retard,
-  faites-les toutes »** ; le plan doit être abandonnable sans pénalité (§1.3) et recalculé
-  chaque jour. Matière disponible : `trierArriere` (classes + placements + pression),
-  `arbitrerLaJournee` (minutes NOUVEAU/RÉVISION/REMÉDIATION), `notionsEssentielles` (horizon).
-  **Point à traiter en priorité** : `PAUSED_CURRICULUM` (§1.5) est aujourd'hui *décrit* mais
-  pas *enregistrable* — le CP6 n'affiche volontairement aucun bouton inerte. C'est au CP7 de
-  donner à l'apprenant le moyen d'exercer ce choix, ou de déclarer pourquoi il ne le fait pas.
+- **NEXT_CP** : **CP8** — UX de la TÉLÉMÉTRIE
+- **NEXT_ACTION** : rendre lisibles, **sans jargon moteur**, l'arriéré, le mode, le plan et les
+  raisons. Interdits nommés par le brief : *« score mémoire 0.63 »*, *« decay 0.72 »*,
+  *« percentile »*, tout vocabulaire de moteur. Auditer **desktop ET responsive** (375 / 768 /
+  1024 / 1440). Les surfaces déjà posées aux CP5→CP7 — `BacklogPanel`, `RecoveryNotice`,
+  `CatchupPlan`, `PauseCurriculum` — sont le point de départ, pas un acquis : c'est au CP8 de
+  vérifier qu'elles se lisent **ensemble** et qu'elles ne se contredisent pas sur une même page.
 
 ## Repères Git
 
@@ -34,7 +32,7 @@
 
 `128` leçons · `365` journées · `52` semaines · `12` mois · corpus des leçons `92d5fae6` ·
 **376 exercices** · **`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
-`1708/1708` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
+`1733/1733` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
 
 ## Décisions gelées
 
@@ -82,6 +80,27 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP7** : **plan de rattrapage + `PAUSED_CURRICULUM`**. Décisions :
+  - **« NON PUNITIF » EST UNE PROPRIÉTÉ DU TYPE, PAS UN TON** : `planDeRattrapage` ne reçoit
+    **aucun historique de plan**. Il ne peut donc pas savoir qu'une journée a été sautée — donc
+    pas le reprocher. Un plan qui se souvient d'avoir été manqué finit toujours par le faire payer.
+  - **`HORIZON_PLAN = 7`, déclaré et volontairement court.** Une séquence ouverte « jusqu'à ce
+    que ce soit fini » annoncerait dix-huit jours de pénitence à 91 notions : c'est le
+    rattrapage impossible de `R12`.
+  - **Les deux nombres, toujours ensemble** : ce que le plan couvre ET ce qu'il laisse. Le total
+    seul est un mur ; la décomposition seule est une dette cachée.
+  - **La couverture est un DÉBIT, jamais une promesse** : « ces notions repassent une fois »
+    n'est pas « tu les sauras ». Confondre les deux fabriquerait une probabilité d'oubli (`R10`).
+  - **Une notion COÛTEUSE passe en tête de journée même si elle dépasse le budget** — sinon elle
+    attendrait indéfiniment derrière des notions moins chères (la famine mesurée au CP8 de V74).
+  - **`SET_CURRICULUM_PAUSE` : le choix devient exerçable.** §1.5 tenu à la lettre — la commande
+    n'est émise par **aucun module du moteur**, seulement par la surface où quelqu'un a cliqué,
+    et un test l'exige fichier par fichier. **La pause n'efface rien** : aucune notion due, aucune
+    échéance, aucun état de rétention. Un no-op ne re-date pas le fait.
+  - **Reprendre est SYMÉTRIQUE de suspendre** : même place, même poids visuel, aucune
+    confirmation supplémentaire. Un produit qui rend la sortie plus difficile que l'entrée a
+    piégé la personne.
 
 - **CP6** : **mode de récupération** — `lib/recovery-mode.mjs` (PUR). Décisions :
   - **LE MODE N'EST JAMAIS PERSISTÉ.** §1.2 : c'est *« un état DÉCLARÉ du plan, pas un état de
@@ -247,6 +266,9 @@
 |---|---|---|---|
 | **1** | CP0.A | `nextCurriculumNeed` lu sur les **concepts** (toujours `null`), puis au **jour 365** (où aucun projet n'est futur) | les **compétences bloquantes**. Rendait **0 pour les vingt profils**. Trois versions ont été nécessaires : mauvais grain, puis mauvais moment, puis correcte (pic pendant le parcours → 6 à 12) |
 | **2** | CP0.A | le **nombre d'unités** écartées | des « minutes différées ». Renommé `unitesDifferees` |
+| **9** | CP7 | la **présence** d'une phrase dans le fichier — elle existait aussi dans l'en-tête explicatif du composant | le RENDU. Remplacer le texte affiché laissait le test **vert** : il gardait ma documentation. Corrigé : lecture du fichier **sans commentaires** |
+| **8** | CP7 | `{plan.restantes}` par simple présence du nom, alors qu'il subsiste dans `{plan.restantes > 0 ? …}` | que le nombre est **rendu**. Même motif que l'anomalie n° 6 |
+| **7** | CP7 | **rien** : `trierProfil` ne renvoyait pas les notions, le plan recevait une liste vide, et le script a publié **« invariants ✅ 20/20 »** sur zéro élément | le plan de rattrapage des 20 profils. *Une mesure faite sur rien valide tout.* Le script refuse désormais de conclure sans matière |
 | **6** | CP5 | le panneau d'affichage, par la simple **présence** de la chaîne `vue.gare` dans le fichier — elle subsistait dans un texte d'explication | que le nombre garé est **rendu**. Remplacer `value={vue.gare}` par `value={0}` laissait le test **vert**. Corrigé : on exige la valeur rendue, pas la mention |
 | **5** | CP5 | la **soupape**, en croyant tester la règle d'exclusion des dépendances mutuelles : `a`↔`b` seuls, une fois garés, constituent *tout* l'arriéré, donc la soupape dégarait et le test passait même sans la règle | la règle d'exclusion mutuelle. Corrigé en ajoutant une troisième notion libre |
 | **4** | CP5 | le triage au **jour 365**, où **aucune journée n'est « à venir »** : `URGENT` valait donc 0 pour les vingt profils | les notions **bloquantes**. **C'est l'anomalie n° 1 du CP0, refaite ailleurs** — mauvais moment de mesure, pas mauvais grain cette fois. Corrigé : mesure au **jour 180** publiée à côté de celle du jour 365 |
@@ -254,6 +276,12 @@
 
 ## Fichiers
 
+- **CP7** : **créés** `lib/catchup-plan.mjs` + `.d.ts` (moteur PUR), `lib/catchup-server.ts`,
+  `app/retention/CatchupPlan.tsx`, `app/retention/PauseCurriculum.tsx` (**le premier vrai
+  contrôle du sprint**), `scripts/v75/cp7-rattrapage.mjs` + `docs/v75/cp7-rattrapage.json`,
+  `tests/v75-catchup-plan.test.mjs` (25). **Modifiés** `lib/learning-engine.mjs` + `.d.ts`
+  (commande `SET_CURRICULUM_PAUSE`), `lib/types.ts` (`curriculumPause`),
+  `app/retention/page.tsx`, `app/globals.css`, `scripts/v75/cp5-triage.mjs` (`notions` rendues).
 - **CP6** : **créés** `lib/recovery-mode.mjs` + `.d.ts` (moteur PUR), `lib/recovery-server.ts`
   (read-model, `E4` recalculé), `app/retention/RecoveryNotice.tsx` (**la surface**),
   `scripts/v75/cp6-modes.mjs` + `docs/v75/cp6-modes.json`, `tests/v75-recovery-mode.test.mjs` (32).
@@ -287,6 +315,10 @@
 
 ## Tests exécutés
 
+- **CP7** : **1733/1733** (25 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **12 mutations VUES rougir**, dont **2 restées VERTES au premier passage** —
+  tests corrigés, mutations rejouées rouges. Mesure sur les 20 profils : **rien ne disparaît
+  20/20** · **plan borné à 7 journées** · **une phrase de couverture partout**.
 - **CP6** : **1708/1708** (32 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **10 mutations VUES rougir**. Mesure sur les 20 profils : **V12 tenu 20/20** ·
   **0 proposition appliquée ou imposée** · **« ne rien changer » offert partout** · une phrase
@@ -308,6 +340,39 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP7** — **un plan qui ne se souvient pas d'avoir été manqué.**
+  - **La décision du checkpoint tient dans une signature** : `planDeRattrapage` ne prend aucun
+    paramètre décrivant un plan antérieur. « Non punitif » cesse d'être une promesse de ton pour
+    devenir une impossibilité mécanique — le plan **ne peut pas** savoir qu'on l'a abandonné.
+  - **`PAUSED_CURRICULUM` est enfin exerçable.** Le CP6 le décrivait sans pouvoir l'enregistrer
+    et refusait d'afficher un bouton inerte ; `SET_CURRICULUM_PAUSE` existe maintenant, et
+    **aucun module du moteur ne l'émet** — un test le vérifie fichier par fichier.
+  - **DÉFAUT TROUVÉ DANS MA PROPRE PHRASE, par la mesure.** Pour le profil L — **72 notions en
+    retard, dont 57 garées** — la couverture annonçait « **2 jours** ». Vrai pour les 15
+    travaillables, et trompeur pour l'apprenant : rien n'était caché, mais le chiffre rassurant
+    se lisait comme une fin. C'est *« transformer une absence en réussite »*. La phrase porte
+    désormais **les deux nombres**, et ne date pas le déblocage des 57 — il dépend de tentatives
+    qui n'ont pas eu lieu.
+  - **ANOMALIE DE SONDE N° 7, et la pire du sprint** : la première mesure du CP7 a rendu
+    **zéro pour les vingt profils** — `trierProfil` ne renvoyait pas les notions — et a affiché
+    **« invariants ✅ 20/20 »**. *Une mesure faite sur rien valide tout.* Le script refuse
+    désormais explicitement de conclure quand il n'y a aucune matière à mesurer.
+  - **DEUX TESTS AVEUGLES DE PLUS, même motif que l'anomalie n° 12 de V74** : la phrase cherchée
+    existait aussi dans **l'en-tête explicatif du composant**, si bien que le test gardait ma
+    documentation et non le rendu. Les assertions lisent maintenant le fichier **sans ses
+    commentaires**, et exigent la valeur *rendue*, pas la mention.
+  - **Une porte de V74 a encore corrigé le code, pas l'inverse** : `v64:check` exige `setError` /
+    `{error && …}` sur tout composant qui écrit — la régression visée étant un clic sans effet
+    visible. J'avais nommé la variable en français ; c'est le composant qui s'est aligné.
+  - **CHANGEMENT VISIBLE** : `/retention` propose désormais **une semaine de travail**, journée
+    par journée, avec le pourquoi de chacune — et un bouton qui suspend réellement le nouveau
+    contenu, en disant **avant le clic** que le retard, lui, ne bouge pas.
+  - **12 mutations vues rougir** : horizon débridé · notions garées planifiées · reste effacé ·
+    notion coûteuse jamais proposée · couverture ignorant le garage · couverture promettant la
+    maîtrise · pause re-datée · no-op supprimé · pause effaçant les journées · moteur déclenchant
+    la pause · surface cachant le reste · pause prétendant alléger la dette.
+  - **1733/1733 · tsc 0 · build OK · 47 portes vertes.**
 
 - **CP6** — **le mode recommande, et il ne se souvient de rien.**
   - **Le mode n'est pas persisté, et c'est la décision du checkpoint.** Persister un compteur

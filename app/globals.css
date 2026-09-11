@@ -5502,6 +5502,31 @@ button.dot::after {
 }
 .ret-counts dd { margin: 0; font-family: var(--font-mono); font-size: var(--fs-base); }
 
+/* ── V75 · CP7 — le plan de rattrapage ───────────────────────────────────
+   Une liste ORDONNÉE de journées, pas un tableau : l'ordre est l'information.
+   Chaque journée porte son nombre de minutes en évidence — c'est le chiffre
+   qui dit « c'est faisable », et c'est celui qu'on regarde avant de décider. */
+.cat-jours { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; counter-reset: none; }
+.cat-jours > li { padding-left: 12px; border-left: 2px solid var(--border); min-width: 0; }
+.cat-jour-tete { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.cat-jour-rang { font-size: var(--fs-sm); font-weight: 600; }
+.cat-jour-min { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); white-space: nowrap; }
+.cat-jour-why { font-size: var(--fs-xs); color: var(--muted); margin-top: 1px; overflow-wrap: anywhere; }
+.cat-unites { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.cat-unites li { font-size: var(--fs-sm); overflow-wrap: anywhere; }
+
+/* Le contrôle de pause : même poids visuel pour suspendre et pour reprendre.
+   Un produit qui rend la sortie plus difficile que l'entrée a piégé la
+   personne, et le §1.5 en fait un choix, pas un engagement. */
+.cat-pause { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); }
+.cat-pause-btn {
+  font: inherit; font-size: var(--fs-sm); cursor: pointer;
+  padding: 7px 12px; border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--panel); color: var(--fg);
+}
+.cat-pause-btn:disabled { opacity: .6; cursor: default; }
+.cat-pause-note { margin: 8px 0 0; font-size: var(--fs-xs); color: var(--muted); }
+
 /* ── V75 · CP6 — la recommandation de récupération ───────────────────────
    Une recommandation doit se lire comme une phrase et un choix, pas comme un
    tableau de bord. Chaque option montre son effet en dessous d'elle : une

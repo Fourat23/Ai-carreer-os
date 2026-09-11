@@ -183,6 +183,25 @@ export interface Progress {
   exerciseAttempts?: import('./exercise-attempt').ExerciseAttempt[];
   /** V18 · état des missions d'ingénierie (additif, optionnel). */
   missions?: Record<string, unknown>;
+  /**
+   * V75 · CP7 — `PAUSED_CURRICULUM` (§1.5 du contrat de récupération).
+   *
+   * Un **choix de l'apprenant**, jamais du moteur : aucune règle n'écrit ce
+   * champ toute seule. Il ne retire aucune notion de l'arriéré, ne décale
+   * aucune échéance et ne change aucun état de rétention — ce serait `R2`
+   * déguisé en confort. Il n'inscrit qu'un fait daté : *« à cette date, j'ai
+   * décidé de suspendre le nouveau contenu. »*
+   */
+  curriculumPause?: {
+    paused: boolean;
+    /** Début de la pause EN COURS, `null` quand le parcours a repris. */
+    since: string | null;
+    updatedAt: string;
+    /** Texte libre : la parole de l'apprenant, pas une catégorie imposée. */
+    raison: string;
+    provenance: { producer: string; method: string };
+    schemaVersion: number;
+  };
 }
 
 export const EMPTY_DAY_PROGRESS: DayProgress = {

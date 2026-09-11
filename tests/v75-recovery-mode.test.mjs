@@ -308,7 +308,11 @@ test('V75 · CP6 — la page transmet enfin la POSITION au plan du jour (P1)', (
   // V74 l'exige, et il a raison — une garde qui suit trois indirections ne
   // garde plus grand-chose. On lui passe simplement la position.
   const page = lire('app/retention/page.tsx');
-  assert.match(page, /=\s*getPlanDuJour\(now,\s*arriere\.jourCourant\)/,
+  // Au CP8 la position a été ISOLÉE dans son propre appel : le plan en a
+  // besoin, et le triage a besoin de la taille réelle de la séance que ce plan
+  // produit. L'ordre `position → plan → triage` casse le cycle.
+  assert.match(page, /=\s*getPositionApprenant\(now\)/, 'la position doit être lue d’abord');
+  assert.match(page, /=\s*getPlanDuJour\(now,\s*jourCourant\)/,
     'la page doit appeler le plan AVEC la position');
   assert.doesNotMatch(page, /=\s*getPlanDuJour\(now\)\s*;/,
     'appeler le plan sans position rendrait deux budgets sur une même page');

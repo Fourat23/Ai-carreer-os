@@ -14,7 +14,7 @@
 import Link from 'next/link';
 import { getRetentionSummary, getRecallPrompt } from '@/lib/retention-server';
 import { getPlanDuJour } from '@/lib/plan-jour-server';
-import { getVueArriere, HORIZON_ESSENTIEL } from '@/lib/backlog-server';
+import { getVueArriere, getPositionApprenant, HORIZON_ESSENTIEL } from '@/lib/backlog-server';
 import { getVueRecuperation } from '@/lib/recovery-server';
 import { getVueRattrapage } from '@/lib/catchup-server';
 import { RETENTION_STATE_LABEL, INTERVALS, RETAINED_MIN_SPAN_DAYS } from '@/lib/retention';
@@ -41,16 +41,21 @@ export default function RetentionPage() {
   // Les deux sources ne se contredisent pas : V66 garde la responsabilité de
   // l'ÉTAT d'une notion (§4 du contrat gelé), l'arbitre celle de l'ORDRE. C'est
   // exactement le partage que le CP1 avait écrit.
-  // ── V75 · CP5 et CP6 — L'ORDRE DES TROIS APPELS EST LA DÉCISION ──
+  // ── V75 · CP5 → CP8 — L'ORDRE DES QUATRE APPELS EST LA DÉCISION ──
   //
-  // 1. l'arriéré donne la POSITION de l'apprenant dans le parcours ;
+  // 1. la POSITION, seule et d'abord. Elle ne dépend de rien d'autre ;
   // 2. le plan la reçoit — c'était le second verrou du défaut **P1** : appelé
   //    sans position, `getPlanDuJour` voit une charge `null` et retombe
   //    toujours sur le budget nominal, quelle que soit la journée réelle ;
-  // 3. la récupération reçoit les deux plutôt que de les recalculer, sans quoi
+  // 3. le triage reçoit la TAILLE RÉELLE de la séance que ce plan produit.
+  //    **C'est la correction du constat bloquant de l'audit CP8** : l'arriéré
+  //    était trié avec le plafond du scheduler (8), si bien que la page
+  //    annonçait « Aujourd'hui : 8 » au-dessus d'une file de 2 cartes ;
+  // 4. la récupération reçoit les deux plutôt que de les recalculer, sans quoi
   //    la page afficherait deux budgets différents pour la même journée.
-  const arriere = getVueArriere(now);
-  const plan = getPlanDuJour(now, arriere.jourCourant);
+  const jourCourant = getPositionApprenant(now);
+  const plan = getPlanDuJour(now, jourCourant);
+  const arriere = getVueArriere(now, { capaciteActive: plan.unites.length });
   const recuperation = getVueRecuperation(now, { arriere, plan });
   // V75 · CP7 — le plan de rattrapage consomme le triage et les minutes déjà
   // calculés : deux sources produiraient deux plans sur la même page.
@@ -150,7 +155,15 @@ export default function RetentionPage() {
           une journée de programme appartient à la personne, jamais au
           planificateur. Aucun chiffre de « score » ici — seulement un décompte
           de notions, qui se vérifie. */}
-      {plan.signal.message ? (
+      {/* ── V75 · CP8 — UN SEUL SIGNAL À LA FOIS ──
+          L'audit du CP8 a lu la page rendue : ce bandeau annonçait « Rien à
+          changer pour l'instant ; le nombre ne monte plus », immédiatement
+          suivi de « Le retard s'est installé au point qu'avancer le creuse ».
+          Deux avis opposés à trois lignes d'intervalle.
+          Le signal de V74 ne connaît que le VOLUME ; le mode du CP6 connaît
+          les cinq facteurs. Quand un mode est actif, c'est lui qui parle —
+          le signal de charge n'est pas supprimé, il est subordonné. */}
+      {plan.signal.message && recuperation.mode === 'NORMAL' ? (
         <InlineNotice tone={plan.signal.niveau === 'ralentir' ? 'attention' : 'info'}>
           {plan.signal.message}
           {plan.signal.proposition ? <> {plan.signal.proposition}</> : null}
@@ -196,7 +209,11 @@ export default function RetentionPage() {
           {/* V75 · CP7 — la semaine proposée, et le choix de suspendre. Placé
               APRÈS l'arriéré : on ne propose un plan qu'à quelqu'un qui vient
               de voir ce qu'il couvre et ce qu'il ne couvre pas. */}
-          <CatchupPlan vue={rattrapage} mode={recuperation.mode} />
+          <CatchupPlan
+            vue={rattrapage}
+            mode={recuperation.mode}
+            choix={recuperation.arbitrage.recommandation.choix}
+          />
         </div>
 
         <aside className="ret-rail">

@@ -52,6 +52,8 @@ export function trierArriere(input: {
   scoreDe?: (id: string) => number;
   besoinDe?: (id: string) => { inDays: number } | null;
   capaciteActive?: number;
+  /** Titre lisible d'une notion. Le module reste pur : le libellé est injecté. */
+  libelleDe?: (id: string) => string;
   now: string;
 }): ResultatTriage;
 

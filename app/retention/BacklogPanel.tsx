@@ -25,12 +25,10 @@
 import { Panel, Metric, InlineNotice } from '@/app/ui';
 import type { VueArriere } from '@/lib/backlog-server';
 
-const LIBELLE: Record<string, string> = {
-  URGENT: 'Le parcours en a besoin',
-  IMPORTANT: 'Une tentative a échoué',
-  DEFERRABLE: 'Peut attendre',
-  PARKED: 'En attente d’un prérequis',
-};
+// Le libellé humain du garage. Trois autres entrées existaient ici, jamais
+// utilisées : chaque classe du triage porte déjà sa RAISON en clair, et une
+// table de traduction morte finit par diverger de ce qu'elle traduit.
+const EN_ATTENTE = 'en attente d’un prérequis';
 
 export default function BacklogPanel({ vue, horizon }: { vue: VueArriere; horizon: number }) {
   if (vue.total === 0) {
@@ -154,7 +152,7 @@ export default function BacklogPanel({ vue, horizon }: { vue: VueArriere; horizo
           exactement la différence qui compte.
         </p>
         <p className="ret-note">
-          Une notion classée <em>{LIBELLE.PARKED.toLowerCase()}</em> garde son échéance, son
+          Une notion classée <em>{EN_ATTENTE}</em> garde son échéance, son
           état et son historique. Rien n’est remis à zéro, rien n’est déclaré acquis.
         </p>
       </details>

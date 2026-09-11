@@ -7,16 +7,15 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP7**
+- **dernier CP terminé** : **CP8**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP8** — UX de la TÉLÉMÉTRIE
-- **NEXT_ACTION** : rendre lisibles, **sans jargon moteur**, l'arriéré, le mode, le plan et les
-  raisons. Interdits nommés par le brief : *« score mémoire 0.63 »*, *« decay 0.72 »*,
-  *« percentile »*, tout vocabulaire de moteur. Auditer **desktop ET responsive** (375 / 768 /
-  1024 / 1440). Les surfaces déjà posées aux CP5→CP7 — `BacklogPanel`, `RecoveryNotice`,
-  `CatchupPlan`, `PauseCurriculum` — sont le point de départ, pas un acquis : c'est au CP8 de
-  vérifier qu'elles se lisent **ensemble** et qu'elles ne se contredisent pas sur une même page.
+- **NEXT_CP** : **CP9** — DÉFIS DE TRANSFERT accessibles (dette **D10**)
+- **NEXT_ACTION** : lever `D10`. Mesuré au CP0 : route `app/transfer` **absente** · navigation
+  **absente** · **0/365** journées citant un défi · **0** référence dans `program.json` · type de
+  preuve **présent** (V74 · CP11). Livrer : page, navigation, état, tentative, correction,
+  preuve — et **vérifier les 25 défis un par un**, pas en agrégat. Rappel du CP6 : en `RECOVERY`
+  et `CRITICAL` le transfert est **suspendu** ; la page doit donc exister ET respecter ce mode.
 
 ## Repères Git
 
@@ -32,7 +31,7 @@
 
 `128` leçons · `365` journées · `52` semaines · `12` mois · corpus des leçons `92d5fae6` ·
 **376 exercices** · **`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
-`1733/1733` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
+`1748/1748` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
 
 ## Décisions gelées
 
@@ -80,6 +79,22 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP8** : **UX de la télémétrie** — audit du rendu réel, puis correction. Décisions :
+  - **UNE PAGE, UNE VÉRITÉ SUR « AUJOURD'HUI ».** Le triage reçoit désormais la **taille réelle
+    de la séance** (`plan.unites.length`), et non plus le plafond du scheduler. L'ordre des
+    appels devient `position → plan → triage → récupération`, ce qui casse le cycle qui
+    obligeait à retomber sur une capacité par défaut.
+  - **UN SEUL SIGNAL À LA FOIS** : le signal de charge de V74 ne connaît que le **volume**, le
+    mode du CP6 connaît les **cinq facteurs**. Quand un mode est actif, c'est lui qui parle. Le
+    signal n'est pas supprimé — il est **subordonné**.
+  - **LE GARAGE NOMME LA NOTION, PAS SON FICHIER.** `libelleDe` est **injecté** dans le module
+    pur : celui-ci reste sans I/O, et retombe sur l'identifiant quand l'appelant n'a pas de titre.
+  - **UNE ACTION, UN LIBELLÉ, UN ENDROIT** : les options de la recommandation ont rejoint le
+    bouton qui les exécute. Une option décrite loin de son contrôle se lit comme un bouton mort —
+    ce que le CP6 s'était justement interdit.
+  - **Table de libellés morte supprimée** : trois entrées sur quatre n'étaient jamais lues, et
+    une table de traduction morte finit par diverger de ce qu'elle traduit.
 
 - **CP7** : **plan de rattrapage + `PAUSED_CURRICULUM`**. Décisions :
   - **« NON PUNITIF » EST UNE PROPRIÉTÉ DU TYPE, PAS UN TON** : `planDeRattrapage` ne reçoit
@@ -257,6 +272,7 @@
 | **P1** | **le facteur `besoinProche` (15 points sur 100) ne peut JAMAIS s'allumer.** `nextCurriculumNeed` n'est rempli que sur les **compétences** ; le scheduler consomme `projection.concepts` (`plan-jour-server.ts:134`), où il vaut toujours `null`. Second verrou indépendant : le read-model passe `startDate: null`, donc `positionDuJour` rend 0 et aucun projet n'est jamais « proche ». Conséquence collatérale : la règle du CP4 « avant un projet proche, forme appliquée » ne s'allume jamais non plus | vérifié par exécution : concept → `null`, compétence → `{day:9,inDays:3}` |
 | **P2** | **l'arriéré réel n'est jamais montré.** La page affiche `s.queue.length`, c'est-à-dire la file V66 **plafonnée à 8**, comme s'il s'agissait du total. 84 réels → « 8 » annoncés → 3 cartes | rendu réel mesuré |
 | **P3** | **un apprenant qui suit les journées sans pratiquer ne reçoit AUCUNE remédiation** (profil P : 0 remédiation sur 365 jours), parce que la remédiation est déclenchée par une tentative d'exercice | simulation profil P |
+| **P6** | *(trouvé au CP8, sur le rendu réel)* **la page annonçait quatre « aujourd'hui » différents** : `BacklogPanel` « Aujourd'hui 8 » · file du jour **2 cartes** · `RecoveryNotice` « 6 min de révision » · plan « Journée 1, 32 min ». Le triage était borné par `PLAFOND_UNITES` (8) et non par la séance réelle, que le budget limite bien avant | rendu HTTP, fixture profil L au jour 180 |
 | **P5** | *(trouvé au CP5)* **le produit décrit un apprenant irrégulier « au jour 2 » pour toujours.** `computeStats().currentDay` et `nextIncompleteDay()` rendent la **première journée non terminée**, c'est-à-dire *le trou le plus ancien*. Quelqu'un qui a sauté la journée 2 et travaille aujourd'hui la 300 y est décrit au jour 2, et tout horizon « les 14 prochains jours » désigne alors le début du programme. `resolveResume` applique la bonne règle (« première non terminée APRÈS la dernière terminée ») ; c'est elle que le read-model de l'arriéré consomme | mesuré sur les 20 profils : `jourCourant` vs `jourMax` |
 | **P4** | *(trouvé au CP4)* **une réussite au laboratoire écrit DEUX preuves au registre**, avec des `sourceId` différents (`<ex>` par `recordExerciseSuccess`, `lab-<ex>` par la soumission) : le dédoublonnage déterministe ne les fusionne pas. Le CP3 n'en avait instrumenté qu'une — **la seconde repartait sans concept et retombait sur le rattachement par journée**, recréditant les 3 leçons médianes et annulant le gain du CP3 pour le même exercice | `deterministicId(sourceType, sourceId, …)` · corrigé au CP4 : `SUBMIT` transporte `conceptIds` |
 
@@ -276,6 +292,14 @@
 
 ## Fichiers
 
+- **CP8** : **créé** `tests/v75-telemetrie-ux.test.mjs` (15). **Modifiés**
+  `app/retention/page.tsx` (ordre des appels, signal subordonné),
+  `lib/backlog-triage.mjs` + `.d.ts` (`libelleDe` injecté), `lib/backlog-server.ts`
+  (`getPositionApprenant` extrait, `capaciteActive` et titres transmis),
+  `app/retention/BacklogPanel.tsx` (table morte retirée), `app/retention/RecoveryNotice.tsx`
+  (options déplacées), `app/retention/CatchupPlan.tsx` (options réunies au contrôle),
+  `lib/recovery-mode.mjs` (libellé aligné sur le bouton), `tests/v75-recovery-mode.test.mjs`.
+  **Aucun fichier de curriculum touché.**
 - **CP7** : **créés** `lib/catchup-plan.mjs` + `.d.ts` (moteur PUR), `lib/catchup-server.ts`,
   `app/retention/CatchupPlan.tsx`, `app/retention/PauseCurriculum.tsx` (**le premier vrai
   contrôle du sprint**), `scripts/v75/cp7-rattrapage.mjs` + `docs/v75/cp7-rattrapage.json`,
@@ -315,6 +339,10 @@
 
 ## Tests exécutés
 
+- **CP8** : **1748/1748** (15 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **8 mutations VUES rougir** · **responsive vérifié sur le rendu réel** :
+  375 / 768 / 1024 / 1440 px sur `/retention`, `/revisions`, `/parcours` — **0 débordement,
+  0 superposition** · fixture d'audit **hors dépôt**, `data/progress.json` toujours absent.
 - **CP7** : **1733/1733** (25 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **12 mutations VUES rougir**, dont **2 restées VERTES au premier passage** —
   tests corrigés, mutations rejouées rouges. Mesure sur les 20 profils : **rien ne disparaît
@@ -340,6 +368,31 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP8** — **quatre défauts que seul le rendu pouvait montrer.**
+  - **Les quatre venaient de la RENCONTRE de surfaces individuellement correctes.** Aucun n'était
+    visible dans un test de moteur : chaque module disait vrai, et la page mentait.
+  - **DÉFAUT BLOQUANT — quatre nombres pour « aujourd'hui », aucun d'accord.** Sur la fixture
+    réelle (profil L, jour 180, 78 notions en retard) : *« Aujourd'hui : 8 »* au-dessus d'une
+    file de **2** cartes, *« 6 min de révision »* à côté d'une « Journée 1 » de 32 min. Cause :
+    le triage était borné par le **plafond du scheduler**, jamais par la séance réelle.
+    Corrigé, et **vérifié sur le rendu** : « Aujourd'hui 2 » = « File du jour — 2 », et
+    2 + 12 + 64 = 78 — `I2` tient toujours.
+  - **DÉFAUT — deux bandeaux contradictoires à trois lignes d'intervalle** : *« Rien à changer
+    pour l'instant ; le nombre ne monte plus »* immédiatement suivi de *« le retard s'est
+    installé au point qu'avancer le creuse »*. Le signal de V74 ne connaît que le volume.
+  - **DÉFAUT — le garage citait `observability-logging`**, un nom de fichier, là où le brief
+    interdit le jargon moteur. Il dit maintenant « Observabilité et logs structurés ».
+  - **DÉFAUT — « suspendre » existait deux fois**, avec deux libellés, et une seule occurrence
+    cliquable. Décision et contrôle sont réunis, et le libellé de l'option est **celui du bouton**.
+  - **Ce que l'audit a AUSSI montré, et qui n'était pas cassé** : responsive propre sur les
+    quatre largeurs, aucun bouton sans `type`, l'erreur d'écriture affichée avec `role="alert"`.
+    Un saut de niveau `h1` → `h3` subsiste, **pré-existant à V75** et commun à l'application —
+    je le signale, je ne le corrige pas dans ce sprint.
+  - **8 mutations vues rougir** : triage non borné · deux signaux · garage en identifiants ·
+    titres non injectés · deux libellés pour une action · état vide supprimé · responsive retiré ·
+    options détachées de leur contrôle.
+  - **1748/1748 · tsc 0 · build OK · 47 portes vertes.**
 
 - **CP7** — **un plan qui ne se souvient pas d'avoir été manqué.**
   - **La décision du checkpoint tient dans une signature** : `planDeRattrapage` ne prend aucun

@@ -19,9 +19,12 @@
 //     les deux fabriquerait une probabilité d'oubli (`R10`).
 import { Panel } from '@/app/ui';
 import type { VueRattrapage } from '@/lib/catchup-server';
+import type { Choix } from '@/lib/recovery-mode';
 import PauseCurriculum from './PauseCurriculum';
 
-export default function CatchupPlan({ vue, mode }: { vue: VueRattrapage; mode: string }) {
+export default function CatchupPlan(
+  { vue, mode, choix = [] }: { vue: VueRattrapage; mode: string; choix?: Choix[] },
+) {
   const { plan, pause } = vue;
   // Rien en retard et aucune pause en cours : pas de plan à montrer. Afficher
   // un panneau vide donnerait du poids à un problème qui n'existe pas.
@@ -87,8 +90,21 @@ export default function CatchupPlan({ vue, mode }: { vue: VueRattrapage; mode: s
         </>
       )}
 
-      {/* §1.5 — la pause est un CHOIX de l'apprenant. Le CP6 la recommandait
-          sans pouvoir l'enregistrer ; ici elle devient un vrai contrôle. */}
+      {/* ── §1.5 — LA DÉCISION ET SON CONTRÔLE, AU MÊME ENDROIT ──
+          Le CP6 recommandait la pause sans pouvoir l'enregistrer ; l'audit du
+          CP8 a ensuite trouvé l'option décrite en haut de page et le bouton en
+          bas. Les deux sont réunis ici : on lit ce que chaque option change,
+          puis on choisit — ou on ne choisit rien, ce qui est aussi une option. */}
+      {choix.length > 1 ? (
+        <ul className="rec-choix">
+          {choix.map((c) => (
+            <li key={c.id}>
+              <span className="rec-choix-libelle">{c.libelle}</span>
+              <span className="rec-choix-effet">{c.effet}</span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
       <PauseCurriculum paused={pause.paused} recommande={mode === 'CRITICAL'} />
     </Panel>
   );

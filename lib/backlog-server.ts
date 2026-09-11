@@ -86,11 +86,35 @@ function getPrerequis(): Map<string, string[]> {
 }
 
 /**
+ * ── LA POSITION DE L'APPRENANT, ISOLÉE ───────────────────────────────────
+ *
+ * Extraite du read-model au CP8, pour une raison d'affichage : le plan du jour
+ * a besoin de la position, et le triage a besoin de la taille RÉELLE de la
+ * séance que ce plan produit. Sans cette fonction, l'ordre des appels était
+ * circulaire et le triage retombait sur une capacité par défaut — d'où les
+ * quatre nombres contradictoires que l'audit du CP8 a lus sur la page.
+ *
+ * `resumeDay` et non `nextIncompleteDay` : ce dernier rend le **trou le plus
+ * ancien**, et décrirait « au jour 2 » pour toujours un apprenant irrégulier
+ * qui travaille la journée 300 (défaut **P5**).
+ */
+export function getPositionApprenant(now: string = new Date().toISOString()): number {
+  const progress = readProgress() as unknown as Progress;
+  return progressPosition(getProgram().days, progress, new Date(now)).resumeDay;
+}
+
+/**
  * L'arriéré trié, prêt à afficher.
  *
  * @param now horloge injectée (jamais lue ici)
+ * @param capaciteActive nombre d'unités que la séance du jour prend RÉELLEMENT.
+ *        Omis, on retombe sur le plafond du scheduler — ce qui fait mentir le
+ *        nombre « Aujourd'hui » dès que le budget borne la séance avant lui.
  */
-export function getVueArriere(now: string = new Date().toISOString()): VueArriere {
+export function getVueArriere(
+  now: string = new Date().toISOString(),
+  { capaciteActive }: { capaciteActive?: number } = {},
+): VueArriere {
   const progress = readProgress() as unknown as Progress & {
     recallAttempts?: unknown[]; exerciseAttempts?: unknown[]; evidence?: unknown[];
   };
@@ -125,7 +149,7 @@ export function getVueArriere(now: string = new Date().toISOString()): VueArrier
   // pour toujours, et l'horizon des 14 prochains jours désignerait le début du
   // programme. `resumeDay` applique la règle « première non terminée APRÈS la
   // dernière terminée », qui est la position réelle.
-  const jourCourant = progressPosition(getProgram().days, progress as Progress, new Date(now)).resumeDay;
+  const jourCourant = getPositionApprenant(now);
 
   const prereq = getPrerequis();
   const prerequisDe = (id: string) => prereq.get(id) ?? [];
@@ -168,6 +192,11 @@ export function getVueArriere(now: string = new Date().toISOString()): VueArrier
     fiches,
     dueAtOf,
     statutDe,
+    // La taille RÉELLE de la séance, quand l'appelant la connaît. C'est la
+    // correction du constat bloquant de l'audit CP8 : sans elle, « Aujourd'hui »
+    // annonçait 8 notions pendant que la file du jour en proposait 2.
+    ...(Number.isFinite(capaciteActive) ? { capaciteActive } : {}),
+    libelleDe: (id: string) => titreDe.get(id) ?? id,
     estEssentielle: (id: string) => essentielles.has(id),
     prerequisDe,
     minutesDe,

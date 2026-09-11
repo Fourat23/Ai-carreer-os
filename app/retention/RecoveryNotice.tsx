@@ -13,13 +13,16 @@
 //   3. **aucune option n'est appliquée automatiquement**, et le composant le
 //      dit noir sur blanc plutôt que de le laisser deviner.
 //
-// ── POURQUOI CE NE SONT PAS DES BOUTONS ─────────────────────────────────
+// ── CE QUE CE BANDEAU DIT, ET CE QU'IL NE FAIT PLUS ─────────────────────
 //
-// Suspendre le nouveau contenu (`PAUSED_CURRICULUM`, §1.5) est un **choix de
-// l'apprenant que le moteur ne peut qu'enregistrer** — et la commande qui
-// l'enregistrerait n'existe pas encore. Afficher un bouton qui ne fait rien
-// serait pire que de ne pas l'afficher : le produit prétendrait offrir un
-// contrôle qu'il n'a pas. Les options sont donc décrites, pas déclenchées.
+// Au CP6 il décrivait aussi les OPTIONS, faute de commande pour les exercer.
+// `SET_CURRICULUM_PAUSE` existe depuis le CP7, et l'audit du CP8 a constaté le
+// résultat : l'action « suspendre le nouveau contenu » apparaissait **deux
+// fois** sur la même page, avec deux libellés, et une seule était cliquable.
+//
+// Les options ont donc rejoint leur contrôle, dans le panneau de rattrapage.
+// Ce bandeau garde ce qu'il est seul à pouvoir dire : **pourquoi** la journée
+// ressemble à ça, et ce que la proposition ferait au budget.
 import { InlineNotice } from '@/app/ui';
 import type { VueRecuperation } from '@/lib/recovery-server';
 
@@ -37,16 +40,15 @@ export default function RecoveryNotice({ vue }: { vue: VueRecuperation }) {
       <p className="rec-phrase">{phrase}</p>
       {r.texte ? <p className="rec-texte">{r.texte.replace(/\*\*/g, '')}</p> : null}
 
-      {r.choix.length > 1 ? (
-        <ul className="rec-choix">
-          {r.choix.map((c) => (
-            <li key={c.id}>
-              <span className="rec-choix-libelle">{c.libelle}</span>
-              <span className="rec-choix-effet">{c.effet}</span>
-            </li>
-          ))}
-        </ul>
-      ) : null}
+      {/* ── V75 · CP8 — LES OPTIONS ONT DÉMÉNAGÉ, ET C'EST UNE CORRECTION ──
+          L'audit du CP8 a trouvé l'action « suspendre le nouveau contenu »
+          DEUX fois sur la même page, avec deux libellés, et une seule
+          cliquable : décrite ici, réelle dans le panneau de rattrapage.
+          Une décision et son contrôle doivent être au même endroit — sinon la
+          description ressemble à un bouton mort, ce que le CP6 s'était
+          justement interdit. Les options sont donc rendues à côté du bouton
+          (`CatchupPlan`), et ce bandeau garde ce qu'il est seul à savoir dire :
+          POURQUOI la journée ressemble à ça. */}
 
       {/* La minute est le contrôle qui compte : si la proposition ajoutait du
           temps, elle serait un rattrapage imposé (R12). On montre donc les deux

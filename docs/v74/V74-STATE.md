@@ -7,20 +7,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP14**
+- **dernier CP terminé** : **CP15 — SPRINT V74 TERMINÉ**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP15** — rapport final
-- **NEXT_ACTION** : écrire `docs/v74/V74-FINAL-REPORT.md` — **long**, avec les 34 sections
-  minimales listées dans le brief. Doivent y figurer nommément : **ce que je croyais au CP0 et
-  qui était faux** · **les anomalies de mes propres sondes** (il y en a **quatorze**, n° 1 à
-  n° 14, et quatre d'entre elles allaient dans le sens qui m'arrangeait) · les décisions
-  **abandonnées** et **prises** · la séparation stricte entre **mesuré / interprété / non
-  prouvé** · les dettes **D1→D10** · l'état des critères **B1→B12** et **N1→N5** · le verdict
-  parmi `RETENTION_ENGINE_NOT_READY / FOUNDATION_READY / CANDIDATE / READY`, avec sa
-  justification. **Rappel : `READY` est INTERDIT si le scheduler n'est pas réellement utilisé
-  par le produit** — B12 est désormais satisfait ET gardé par la porte `v74:check` (R6).
-  C'est le **second et dernier gros rapport visible** demandé par le brief.
+- **NEXT_CP** : — *(aucun : V74 est terminé)*
+- **NEXT_ACTION** : — *(aucune)*.
+- **VERDICT** : **`RETENTION_ENGINE_READY`** — les douze critères bloquants `B1→B12`, gelés au
+  CP1 **avant** toute implémentation et **jamais retouchés**, sont tous atteints. Rapport final :
+  `docs/v74/V74-FINAL-REPORT.md`.
+- **CE QUE LE VERDICT NE DIT PAS** : rien de l'efficacité pédagogique.
+  `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`, inchangé. **Caveat principal publié** :
+  chez l'apprenant irrégulier (B) et celui qui échoue souvent (C), l'arriéré sature à **85 %** et
+  **92 %** des notions rencontrées sur 365 jours — le moteur est correct, ces deux apprenants
+  sont submergés, et la réponse appartient à l'ENTRÉE (curriculum), pas à l'ordonnancement.
 
 ## Repères Git
 
@@ -110,6 +109,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP15** : **créés** `docs/v74/V74-FINAL-REPORT.md` (rapport final),
+  `docs/v74/cp15-forensics-after.json` (mesures finales). **`docs/v74/cp0-forensics.json` a été
+  écrasé par la re-mesure puis RESTAURÉ** — les constats du CP0 sont intacts.
 - **CP14** : **créés** `scripts/v74/cp14-mutations.mjs` (harnais 15 mutations),
   `scripts/v74-check.mjs` (**porte V74, 21 vérifications**), `docs/v74/V74-CP14-MUTATIONS.md`.
   **Modifiés** `package.json` (`v74:check` dans `gates:active` → **47 portes**),
@@ -170,6 +172,8 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP15** : **1612/1612** · tsc 0 · **build OK** · `gates:active` **0 violation** (47 portes) ·
+  porte `v74:check` verte · corpus `92d5fae6…` inchangé · `data/progress.json` absent.
 - **CP14** : **1612/1612** (1 nouveau) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (**47 portes**) · **15 mutations sur 15 vues rougir**, 15 fichiers restaurés à l'octet près ·
   `data/progress.json` absent · corpus inchangé.
@@ -248,6 +252,36 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP15** — **rapport final. Verdict `RETENTION_ENGINE_READY`.**
+  - **Les douze critères bloquants sont atteints**, et chacun a été **vérifié à la mesure au
+    CP15**, pas rappelé de mémoire : B3 vérifié en constatant qu'**aucun des cinq états de
+    rétention n'apparaît dans `learning-engine.mjs` ni dans `progress-store.mjs`** · B5 vérifié
+    (`128/365/52/12`, corpus `92d5fae6`) · B8 mesuré sur **365 jours** · B12 gardé par la porte.
+  - **L'échelle de verdict a été gelée au CP1 et n'a jamais été retouchée** — ni relâchée pour
+    atteindre `READY`, ni durcie après coup pour l'éviter.
+  - **CE QUE LE VERDICT NE DIT PAS**, écrit aussi fort que le verdict lui-même : rien de
+    l'efficacité pédagogique. `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`.
+  - **B8 SATISFAIT AVEC LE CAVEAT PRINCIPAL DU RAPPORT** : l'arriéré est **structurellement
+    plafonné** par le nombre de notions rencontrées et **sature** au lieu de diverger — mais sur
+    365 jours il sature à **85 %** (irrégulier) et **92 %** (nombreux échecs) de ce plafond.
+    *Le moteur est correct ; ces deux apprenants sont submergés.* Publié, pas dissimulé.
+  - **N1 ET N2 ONT PROGRESSÉ alors qu'ils étaient NON bloquants** : intervalles valant 1 jour
+    **78 % → 69 %** (grain compétence), ≥ 8 jours **8 % → 13 %**, `RAPPEL_TROP_PROCHE`
+    **15/20 → 12/20** — **sans qu'une seule journée de TRAVAIL soit modifiée**, le gain venant
+    entièrement des 52 revues du CP6.
+  - **UN INCIDENT, ET SA CORRECTION** : re-lancer la sonde du CP0 pour obtenir la mesure AFTER a
+    **écrasé `docs/v74/cp0-forensics.json`** — or la consigne était explicite : *ne pas effacer
+    les constats du CP0*. **Fichier restauré immédiatement** (`git checkout`), et la mesure
+    finale rangée à part dans `cp15-forensics-after.json`. Les deux coexistent, la comparaison
+    est reproductible.
+  - **34 sections**, dont celles que le brief exigeait nommément : **ce que je croyais au CP0 et
+    qui était faux** (7 croyances) · **les 14 anomalies de mes propres sondes**, dont **4
+    allaient dans le sens qui m'arrangeait** · **16 décisions prises et 10 abandonnées** ·
+    **mesuré / interprété / non prouvé** en trois colonnes étanches · **les 10 dettes** ·
+    **B1→B12 et N1→N5** un par un.
+  - **1612/1612 · tsc 0 · build OK · 47 portes vertes · corpus inchangé · `progress.json`
+    absent.**
 
 - **CP14** — **15 mutations sur 15 vues rougir. Mais au premier passage, 13 — et les deux trous
   étaient réels.**

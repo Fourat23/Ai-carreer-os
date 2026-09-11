@@ -1,0 +1,9520 @@
+{
+ "avertissement": "CP0 MESURE. Aucune valeur n'est ici déclarée bonne ou mauvaise.",
+ "A_distributionIntervalles": {
+  "competence": {
+   "n": 914,
+   "min": 1,
+   "P10": 1,
+   "P25": 1,
+   "median": 1,
+   "P75": 3,
+   "P90": 14,
+   "max": 216
+  },
+  "concept": {
+   "n": 1128,
+   "min": 1,
+   "P10": 1,
+   "P25": 1,
+   "median": 1,
+   "P75": 3,
+   "P90": 21,
+   "max": 296
+  }
+ },
+ "IJ_repartitionParPalier": {
+  "competence": {
+   "1 j": 630,
+   "2-3 j": 84,
+   "4-7 j": 84,
+   "8-14 j": 44,
+   "15-30 j": 50,
+   "31-60 j": 14,
+   "61-90 j": 2,
+   "91+ j": 6
+  },
+  "concept": {
+   "1 j": 765,
+   "2-3 j": 90,
+   "4-7 j": 83,
+   "8-14 j": 41,
+   "15-30 j": 105,
+   "31-60 j": 29,
+   "61-90 j": 2,
+   "91+ j": 13
+  }
+ },
+ "competences": [
+  {
+   "id": "algo",
+   "nContacts": 54,
+   "parNature": {
+    "exposition": 9,
+    "pratique": 11,
+    "application": 0,
+    "revue": 34
+   },
+   "premiereExposition": 15,
+   "premierePratique": 15,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 134,
+   "ecartsRevueDernierContact": [
+    1,
+    3,
+    1,
+    1,
+    22,
+    43,
+    50,
+    64,
+    71,
+    78,
+    85,
+    99,
+    106,
+    113,
+    127,
+    134,
+    148,
+    155,
+    169,
+    176,
+    190,
+    197,
+    211,
+    218,
+    232,
+    239,
+    253,
+    260,
+    274,
+    281,
+    295,
+    302,
+    6,
+    1
+   ],
+   "derniereExposition": 365,
+   "silenceFinal": 0,
+   "plusGrandSilence": 21,
+   "fenetre80": 334,
+   "gaps": [
+    1,
+    1,
+    2,
+    1,
+    1,
+    4,
+    3,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    13,
+    1,
+    21,
+    21,
+    7,
+    14,
+    7,
+    7,
+    7,
+    14,
+    7,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    1,
+    6,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "niveauAttenduMax": 3,
+   "moisDuNiveauMax": 2,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "ds",
+   "nContacts": 20,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 4,
+    "application": 0,
+    "revue": 15
+   },
+   "premiereExposition": 30,
+   "premierePratique": 30,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 155,
+   "ecartsRevueDernierContact": [
+    1,
+    50,
+    71,
+    92,
+    113,
+    134,
+    155,
+    176,
+    197,
+    218,
+    239,
+    260,
+    281,
+    302,
+    6
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 49,
+   "fenetre80": 264,
+   "gaps": [
+    1,
+    2,
+    1,
+    1,
+    49,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    15,
+    6
+   ],
+   "niveauAttenduMax": 2,
+   "moisDuNiveauMax": 2,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "jsts",
+   "nContacts": 78,
+   "parNature": {
+    "exposition": 2,
+    "pratique": 35,
+    "application": 5,
+    "revue": 36
+   },
+   "premiereExposition": 4,
+   "premierePratique": 4,
+   "premiereApplication": 45,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 41,
+   "applicationVersRevue": 4,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 65,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    4,
+    4,
+    11,
+    32,
+    39,
+    2,
+    1,
+    1,
+    1,
+    2,
+    16,
+    23,
+    37,
+    44,
+    58,
+    65,
+    79,
+    86,
+    100,
+    107,
+    121,
+    128,
+    142,
+    149,
+    163,
+    170,
+    184,
+    191,
+    205,
+    212,
+    226,
+    233,
+    247
+   ],
+   "derniereExposition": 364,
+   "silenceFinal": 1,
+   "plusGrandSilence": 21,
+   "fenetre80": 199,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    2,
+    1,
+    1,
+    8,
+    1,
+    1,
+    4,
+    1,
+    1,
+    1,
+    4,
+    7,
+    21,
+    7,
+    3,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    3,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14,
+    7,
+    14
+   ],
+   "niveauAttenduMax": 4,
+   "moisDuNiveauMax": 4,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "python",
+   "nContacts": 34,
+   "parNature": {
+    "exposition": 3,
+    "pratique": 17,
+    "application": 8,
+    "revue": 6
+   },
+   "premiereExposition": 82,
+   "premierePratique": 82,
+   "premiereApplication": 141,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 59,
+   "applicationVersRevue": 20,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    4,
+    11,
+    1,
+    1
+   ],
+   "derniereExposition": 182,
+   "silenceFinal": 183,
+   "plusGrandSilence": 38,
+   "fenetre80": 55,
+   "gaps": [
+    38,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    5,
+    1,
+    2,
+    1,
+    1,
+    2,
+    7,
+    3,
+    2,
+    4,
+    7,
+    2,
+    1,
+    3,
+    1,
+    1,
+    1,
+    2,
+    2,
+    1
+   ],
+   "niveauAttenduMax": 4,
+   "moisDuNiveauMax": 6,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "gitlinux",
+   "nContacts": 13,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 5,
+    "application": 0,
+    "revue": 7
+   },
+   "premiereExposition": 1,
+   "premierePratique": 1,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 14,
+   "ecartRevueDernierContactMedian": 24,
+   "ecartsRevueDernierContact": [
+    4,
+    3,
+    24,
+    31,
+    45,
+    52,
+    4
+   ],
+   "derniereExposition": 77,
+   "silenceFinal": 288,
+   "plusGrandSilence": 21,
+   "fenetre80": 71,
+   "gaps": [
+    1,
+    1,
+    4,
+    11,
+    3,
+    21,
+    7,
+    14,
+    7,
+    2,
+    1,
+    4
+   ],
+   "niveauAttenduMax": 2,
+   "moisDuNiveauMax": 1,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "http",
+   "nContacts": 54,
+   "parNature": {
+    "exposition": 10,
+    "pratique": 14,
+    "application": 11,
+    "revue": 19
+   },
+   "premiereExposition": 50,
+   "premierePratique": 50,
+   "premiereApplication": 61,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 11,
+   "applicationVersRevue": 2,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 22,
+   "ecartsRevueDernierContact": [
+    2,
+    1,
+    2,
+    6,
+    22,
+    43,
+    50,
+    71,
+    92,
+    113,
+    134,
+    155,
+    1,
+    8,
+    29,
+    1,
+    15,
+    1,
+    22
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 22,
+   "fenetre80": 250,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    2,
+    3,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    2,
+    1,
+    5,
+    9,
+    6,
+    6,
+    22,
+    21,
+    7,
+    21,
+    21,
+    21,
+    21,
+    21,
+    8,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    7,
+    21,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    14,
+    15,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    21
+   ],
+   "niveauAttenduMax": 4,
+   "moisDuNiveauMax": 8,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "sql",
+   "nContacts": 30,
+   "parNature": {
+    "exposition": 3,
+    "pratique": 14,
+    "application": 8,
+    "revue": 5
+   },
+   "premiereExposition": 55,
+   "premierePratique": 55,
+   "premiereApplication": 61,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 6,
+   "applicationVersRevue": 2,
+   "ecartRevueRevueMedian": 28,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    34,
+    41,
+    1,
+    1
+   ],
+   "derniereExposition": 152,
+   "silenceFinal": 213,
+   "plusGrandSilence": 34,
+   "fenetre80": 83,
+   "gaps": [
+    2,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    34,
+    7,
+    22,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    7
+   ],
+   "niveauAttenduMax": 3,
+   "moisDuNiveauMax": 5,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "se",
+   "nContacts": 74,
+   "parNature": {
+    "exposition": 5,
+    "pratique": 30,
+    "application": 15,
+    "revue": 24
+   },
+   "premiereExposition": 40,
+   "premierePratique": 40,
+   "premiereApplication": 45,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 5,
+   "applicationVersRevue": 4,
+   "ecartRevueRevueMedian": 14,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    1,
+    2,
+    2,
+    1,
+    1,
+    1,
+    3,
+    6,
+    1,
+    3,
+    1,
+    8,
+    29,
+    50,
+    71,
+    92,
+    113,
+    134,
+    1,
+    1,
+    8,
+    3,
+    10,
+    31
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 21,
+   "fenetre80": 252,
+   "gaps": [
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    2,
+    2,
+    1,
+    1,
+    1,
+    2,
+    3,
+    2,
+    1,
+    1,
+    2,
+    2,
+    2,
+    1,
+    4,
+    1,
+    1,
+    1,
+    3,
+    1,
+    3,
+    1,
+    6,
+    6,
+    5,
+    4,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    4,
+    3,
+    3,
+    1,
+    1,
+    8,
+    4,
+    3,
+    1,
+    7,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    15,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    7,
+    11,
+    3,
+    7,
+    21
+   ],
+   "niveauAttenduMax": 3,
+   "moisDuNiveauMax": 4,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "archi",
+   "nContacts": 66,
+   "parNature": {
+    "exposition": 12,
+    "pratique": 21,
+    "application": 18,
+    "revue": 15
+   },
+   "premiereExposition": 44,
+   "premierePratique": 44,
+   "premiereApplication": 47,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 3,
+   "applicationVersRevue": 30,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    3,
+    3,
+    1,
+    1,
+    5,
+    1,
+    1,
+    4,
+    1,
+    1,
+    3,
+    4,
+    5,
+    1
+   ],
+   "derniereExposition": 365,
+   "silenceFinal": 0,
+   "plusGrandSilence": 141,
+   "fenetre80": 276,
+   "gaps": [
+    3,
+    6,
+    7,
+    9,
+    2,
+    1,
+    3,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    3,
+    1,
+    10,
+    3,
+    4,
+    1,
+    1,
+    1,
+    6,
+    2,
+    5,
+    1,
+    16,
+    5,
+    1,
+    5,
+    1,
+    141,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    3,
+    4,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    12,
+    1,
+    1,
+    3,
+    1,
+    3,
+    2,
+    1,
+    4,
+    16,
+    5,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "niveauAttenduMax": 3,
+   "moisDuNiveauMax": 9,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "patterns",
+   "nContacts": 8,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 4,
+    "application": 0,
+    "revue": 3
+   },
+   "premiereExposition": 38,
+   "premierePratique": 38,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 252,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    3,
+    2,
+    5
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 216,
+   "fenetre80": 314,
+   "gaps": [
+    1,
+    3,
+    34,
+    216,
+    2,
+    58,
+    5
+   ],
+   "niveauAttenduMax": 3,
+   "moisDuNiveauMax": 10,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "ml",
+   "nContacts": 54,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 29,
+    "application": 17,
+    "revue": 7
+   },
+   "premiereExposition": 148,
+   "premierePratique": 148,
+   "premiereApplication": 176,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 28,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 321,
+   "silenceFinal": 44,
+   "plusGrandSilence": 71,
+   "fenetre80": 120,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    71,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    43,
+    1,
+    1,
+    1,
+    2
+   ],
+   "niveauAttenduMax": 3,
+   "moisDuNiveauMax": 6,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "dl",
+   "nContacts": 56,
+   "parNature": {
+    "exposition": 23,
+    "pratique": 19,
+    "application": 6,
+    "revue": 8
+   },
+   "premiereExposition": 183,
+   "premierePratique": 183,
+   "premiereApplication": 309,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 126,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 315,
+   "silenceFinal": 50,
+   "plusGrandSilence": 57,
+   "fenetre80": 65,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    22,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    57,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "niveauAttenduMax": 2,
+   "moisDuNiveauMax": 7,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "llm",
+   "nContacts": 56,
+   "parNature": {
+    "exposition": 15,
+    "pratique": 27,
+    "application": 7,
+    "revue": 7
+   },
+   "premiereExposition": 183,
+   "premierePratique": 183,
+   "premiereApplication": 323,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 140,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 332,
+   "silenceFinal": 33,
+   "plusGrandSilence": 57,
+   "fenetre80": 100,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    57,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    36,
+    1,
+    1,
+    1,
+    1,
+    1,
+    4
+   ],
+   "niveauAttenduMax": 3,
+   "moisDuNiveauMax": 8,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "rag",
+   "nContacts": 61,
+   "parNature": {
+    "exposition": 21,
+    "pratique": 15,
+    "application": 17,
+    "revue": 8
+   },
+   "premiereExposition": 218,
+   "premierePratique": 218,
+   "premiereApplication": 267,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 49,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 321,
+   "silenceFinal": 44,
+   "plusGrandSilence": 36,
+   "fenetre80": 55,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    36,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2
+   ],
+   "niveauAttenduMax": 4,
+   "moisDuNiveauMax": 11,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "agents",
+   "nContacts": 42,
+   "parNature": {
+    "exposition": 13,
+    "pratique": 17,
+    "application": 6,
+    "revue": 6
+   },
+   "premiereExposition": 197,
+   "premierePratique": 197,
+   "premiereApplication": 323,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 126,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 329,
+   "silenceFinal": 36,
+   "plusGrandSilence": 57,
+   "fenetre80": 89,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    57,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    36,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "niveauAttenduMax": 3,
+   "moisDuNiveauMax": 10,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "evalia",
+   "nContacts": 72,
+   "parNature": {
+    "exposition": 21,
+    "pratique": 23,
+    "application": 22,
+    "revue": 6
+   },
+   "premiereExposition": 157,
+   "premierePratique": 157,
+   "premiereApplication": 176,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 19,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    2,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 321,
+   "silenceFinal": 44,
+   "plusGrandSilence": 36,
+   "fenetre80": 112,
+   "gaps": [
+    1,
+    2,
+    1,
+    1,
+    3,
+    1,
+    1,
+    1,
+    5,
+    2,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    36,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    36,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2
+   ],
+   "niveauAttenduMax": 4,
+   "moisDuNiveauMax": 12,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "secu",
+   "nContacts": 37,
+   "parNature": {
+    "exposition": 9,
+    "pratique": 9,
+    "application": 10,
+    "revue": 9
+   },
+   "premiereExposition": 67,
+   "premierePratique": 67,
+   "premiereApplication": 85,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 18,
+   "applicationVersRevue": 181,
+   "ecartRevueRevueMedian": 14,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    5,
+    5,
+    1,
+    1,
+    1,
+    5,
+    1,
+    1,
+    29
+   ],
+   "derniereExposition": 364,
+   "silenceFinal": 1,
+   "plusGrandSilence": 175,
+   "fenetre80": 252,
+   "gaps": [
+    1,
+    3,
+    1,
+    5,
+    2,
+    5,
+    1,
+    175,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    27,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    5,
+    12,
+    1,
+    1,
+    8,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    28
+   ],
+   "niveauAttenduMax": 3,
+   "moisDuNiveauMax": 10,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "cloud",
+   "nContacts": 45,
+   "parNature": {
+    "exposition": 14,
+    "pratique": 11,
+    "application": 9,
+    "revue": 11
+   },
+   "premiereExposition": 68,
+   "premierePratique": 68,
+   "premiereApplication": 85,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 17,
+   "applicationVersRevue": 118,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    5,
+    1,
+    1,
+    1,
+    1,
+    4,
+    1,
+    1,
+    3,
+    4,
+    32
+   ],
+   "derniereExposition": 364,
+   "silenceFinal": 1,
+   "plusGrandSilence": 112,
+   "fenetre80": 134,
+   "gaps": [
+    3,
+    7,
+    1,
+    5,
+    1,
+    112,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    74,
+    2,
+    1,
+    3,
+    4,
+    2,
+    4,
+    1,
+    12,
+    1,
+    1,
+    3,
+    1,
+    3,
+    2,
+    1,
+    4,
+    28
+   ],
+   "niveauAttenduMax": 2,
+   "moisDuNiveauMax": 11,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "comm",
+   "nContacts": 57,
+   "parNature": {
+    "exposition": 29,
+    "pratique": 8,
+    "application": 12,
+    "revue": 8
+   },
+   "premiereExposition": 47,
+   "premierePratique": 71,
+   "premiereApplication": 47,
+   "expositionVersPratique": 24,
+   "pratiqueVersApplication": -24,
+   "applicationVersRevue": 30,
+   "ecartRevueRevueMedian": 14,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    3,
+    1,
+    1,
+    1,
+    4,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 365,
+   "silenceFinal": 0,
+   "plusGrandSilence": 141,
+   "fenetre80": 247,
+   "gaps": [
+    1,
+    18,
+    5,
+    3,
+    3,
+    4,
+    2,
+    3,
+    4,
+    1,
+    27,
+    1,
+    27,
+    1,
+    141,
+    1,
+    1,
+    1,
+    1,
+    1,
+    9,
+    1,
+    1,
+    1,
+    1,
+    1,
+    25,
+    4,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "niveauAttenduMax": 4,
+   "moisDuNiveauMax": 12,
+   "prochainBesoinProjet": null
+  },
+  {
+   "id": "autonomy",
+   "nContacts": 23,
+   "parNature": {
+    "exposition": 10,
+    "pratique": 1,
+    "application": 12,
+    "revue": 0
+   },
+   "premiereExposition": 44,
+   "premierePratique": 44,
+   "premiereApplication": 113,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 69,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 365,
+   "silenceFinal": 0,
+   "plusGrandSilence": 212,
+   "fenetre80": 252,
+   "gaps": [
+    16,
+    23,
+    7,
+    23,
+    1,
+    1,
+    1,
+    1,
+    1,
+    23,
+    1,
+    1,
+    1,
+    1,
+    1,
+    212,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2
+   ],
+   "niveauAttenduMax": 4,
+   "moisDuNiveauMax": 11,
+   "prochainBesoinProjet": null
+  }
+ ],
+ "concepts": [
+  {
+   "id": "agent-workflows-orchestration",
+   "nContacts": 21,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 12,
+    "application": 6,
+    "revue": 3
+   },
+   "premiereExposition": 274,
+   "premierePratique": 274,
+   "premiereApplication": 323,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 49,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 42,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 329,
+   "silenceFinal": 36,
+   "plusGrandSilence": 36,
+   "fenetre80": 51,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    36,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "agents-fundamentals",
+   "nContacts": 21,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 12,
+    "application": 6,
+    "revue": 3
+   },
+   "premiereExposition": 274,
+   "premierePratique": 274,
+   "premiereApplication": 323,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 49,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 42,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 329,
+   "silenceFinal": 36,
+   "plusGrandSilence": 36,
+   "fenetre80": 51,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    36,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "ai-evaluation",
+   "nContacts": 19,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 6,
+    "application": 11,
+    "revue": 2
+   },
+   "premiereExposition": 253,
+   "premierePratique": 253,
+   "premiereApplication": 267,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 14,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 14,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1
+   ],
+   "derniereExposition": 321,
+   "silenceFinal": 44,
+   "plusGrandSilence": 43,
+   "fenetre80": 64,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    43,
+    1,
+    1,
+    1,
+    2
+   ]
+  },
+  {
+   "id": "ai-security",
+   "nContacts": 21,
+   "parNature": {
+    "exposition": 9,
+    "pratique": 3,
+    "application": 6,
+    "revue": 3
+   },
+   "premiereExposition": 260,
+   "premierePratique": 260,
+   "premiereApplication": 330,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 70,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 35,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 336,
+   "silenceFinal": 29,
+   "plusGrandSilence": 29,
+   "fenetre80": 72,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    29,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    29,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "algorithmic-thinking",
+   "nContacts": 39,
+   "parNature": {
+    "exposition": 9,
+    "pratique": 10,
+    "application": 0,
+    "revue": 20
+   },
+   "premiereExposition": 15,
+   "premierePratique": 15,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 113,
+   "ecartsRevueDernierContact": [
+    1,
+    3,
+    1,
+    1,
+    50,
+    71,
+    78,
+    99,
+    113,
+    134,
+    155,
+    176,
+    197,
+    218,
+    239,
+    260,
+    281,
+    302,
+    6,
+    1
+   ],
+   "derniereExposition": 365,
+   "silenceFinal": 0,
+   "plusGrandSilence": 49,
+   "fenetre80": 337,
+   "gaps": [
+    1,
+    1,
+    2,
+    1,
+    1,
+    4,
+    3,
+    1,
+    2,
+    1,
+    2,
+    1,
+    13,
+    1,
+    49,
+    21,
+    7,
+    21,
+    14,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    1,
+    6,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "api-design-basics",
+   "nContacts": 11,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 5,
+    "application": 2,
+    "revue": 3
+   },
+   "premiereExposition": 51,
+   "premierePratique": 51,
+   "premiereApplication": 61,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 10,
+   "applicationVersRevue": 2,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 2,
+   "ecartsRevueDernierContact": [
+    2,
+    2,
+    3
+   ],
+   "derniereExposition": 97,
+   "silenceFinal": 268,
+   "plusGrandSilence": 21,
+   "fenetre80": 19,
+   "gaps": [
+    3,
+    2,
+    4,
+    1,
+    2,
+    1,
+    3,
+    3,
+    6,
+    21
+   ]
+  },
+  {
+   "id": "api-production-contracts",
+   "nContacts": 15,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 14
+   },
+   "premiereExposition": 51,
+   "premierePratique": 51,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 180,
+   "ecartsRevueDernierContact": [
+    5,
+    40,
+    68,
+    89,
+    117,
+    138,
+    159,
+    180,
+    201,
+    222,
+    243,
+    264,
+    285,
+    306
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 35,
+   "fenetre80": 238,
+   "gaps": [
+    5,
+    35,
+    28,
+    21,
+    28,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21
+   ]
+  },
+  {
+   "id": "architecture-basics",
+   "nContacts": 29,
+   "parNature": {
+    "exposition": 3,
+    "pratique": 13,
+    "application": 11,
+    "revue": 2
+   },
+   "premiereExposition": 44,
+   "premierePratique": 44,
+   "premiereApplication": 47,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 3,
+   "applicationVersRevue": 261,
+   "ecartRevueRevueMedian": 49,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    1,
+    5
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 142,
+   "fenetre80": 248,
+   "gaps": [
+    3,
+    6,
+    7,
+    9,
+    6,
+    1,
+    2,
+    3,
+    23,
+    9,
+    5,
+    23,
+    5,
+    142,
+    1,
+    1,
+    1,
+    1,
+    1,
+    9,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    44,
+    5
+   ]
+  },
+  {
+   "id": "async-javascript",
+   "nContacts": 22,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 15,
+    "application": 0,
+    "revue": 7
+   },
+   "premiereExposition": 4,
+   "premierePratique": 4,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 14,
+   "ecartRevueDernierContactMedian": 15,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    15,
+    22,
+    29,
+    50
+   ],
+   "derniereExposition": 88,
+   "silenceFinal": 277,
+   "plusGrandSilence": 21,
+   "fenetre80": 38,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    2,
+    1,
+    1,
+    14,
+    7,
+    7,
+    21,
+    11
+   ]
+  },
+  {
+   "id": "async-messaging-queues",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 290,
+   "premierePratique": 290,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 290,
+   "silenceFinal": 75,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "authentication",
+   "nContacts": 23,
+   "parNature": {
+    "exposition": 9,
+    "pratique": 5,
+    "application": 7,
+    "revue": 2
+   },
+   "premiereExposition": 67,
+   "premierePratique": 67,
+   "premiereApplication": 85,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 18,
+   "applicationVersRevue": 181,
+   "ecartRevueRevueMedian": 35,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1
+   ],
+   "derniereExposition": 335,
+   "silenceFinal": 30,
+   "plusGrandSilence": 175,
+   "fenetre80": 74,
+   "gaps": [
+    1,
+    17,
+    175,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    29,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    29,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "breaking-changes-compatibility",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 76,
+   "premierePratique": 76,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 77,
+   "silenceFinal": 288,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "browser-dom-rendering",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 87,
+   "premierePratique": 87,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 4,
+   "ecartsRevueDernierContact": [
+    4
+   ],
+   "derniereExposition": 91,
+   "silenceFinal": 274,
+   "plusGrandSilence": 4,
+   "fenetre80": null,
+   "gaps": [
+    4
+   ]
+  },
+  {
+   "id": "caching-performance",
+   "nContacts": 16,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 8,
+    "application": 7,
+    "revue": 1
+   },
+   "premiereExposition": 80,
+   "premierePratique": 80,
+   "premiereApplication": 85,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 5,
+   "applicationVersRevue": 223,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 308,
+   "silenceFinal": 57,
+   "plusGrandSilence": 186,
+   "fenetre80": 20,
+   "gaps": [
+    5,
+    17,
+    186,
+    1,
+    1,
+    1,
+    1,
+    1,
+    9,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "chunking-strategies",
+   "nContacts": 42,
+   "parNature": {
+    "exposition": 21,
+    "pratique": 9,
+    "application": 6,
+    "revue": 6
+   },
+   "premiereExposition": 218,
+   "premierePratique": 218,
+   "premiereApplication": 309,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 91,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 315,
+   "silenceFinal": 50,
+   "plusGrandSilence": 57,
+   "fenetre80": 33,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    57,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "ci-cd-pipeline-anatomy",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 307,
+   "premierePratique": null,
+   "premiereApplication": 307,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 1,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 308,
+   "silenceFinal": 57,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "ci-cd-quality-gates-artifacts",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 326,
+   "premierePratique": null,
+   "premiereApplication": 326,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 3,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    3
+   ],
+   "derniereExposition": 329,
+   "silenceFinal": 36,
+   "plusGrandSilence": 3,
+   "fenetre80": null,
+   "gaps": [
+    3
+   ]
+  },
+  {
+   "id": "ci-cd",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 2,
+    "revue": 0
+   },
+   "premiereExposition": 307,
+   "premierePratique": null,
+   "premiereApplication": 307,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 326,
+   "silenceFinal": 39,
+   "plusGrandSilence": 19,
+   "fenetre80": null,
+   "gaps": [
+    19
+   ]
+  },
+  {
+   "id": "clean-code",
+   "nContacts": 17,
+   "parNature": {
+    "exposition": 2,
+    "pratique": 7,
+    "application": 2,
+    "revue": 6
+   },
+   "premiereExposition": 40,
+   "premierePratique": 40,
+   "premiereApplication": 45,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 5,
+   "applicationVersRevue": 4,
+   "ecartRevueRevueMedian": 14,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    1,
+    3,
+    10,
+    1,
+    16,
+    2
+   ],
+   "derniereExposition": 132,
+   "silenceFinal": 233,
+   "plusGrandSilence": 18,
+   "fenetre80": 70,
+   "gaps": [
+    1,
+    1,
+    1,
+    2,
+    1,
+    3,
+    7,
+    13,
+    1,
+    5,
+    16,
+    18,
+    1,
+    2,
+    11,
+    9
+   ]
+  },
+  {
+   "id": "cloud-aws-core",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 303,
+   "premierePratique": null,
+   "premiereApplication": 303,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 5,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 308,
+   "silenceFinal": 57,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "cloud-azure-core",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 303,
+   "premierePratique": null,
+   "premiereApplication": 303,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 5,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 308,
+   "silenceFinal": 57,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "cloud-compute-storage",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 293,
+   "premierePratique": 293,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 294,
+   "silenceFinal": 71,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "cloud-finops",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 325,
+   "premierePratique": null,
+   "premiereApplication": 325,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 4,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 4,
+   "ecartsRevueDernierContact": [
+    4
+   ],
+   "derniereExposition": 329,
+   "silenceFinal": 36,
+   "plusGrandSilence": 4,
+   "fenetre80": null,
+   "gaps": [
+    4
+   ]
+  },
+  {
+   "id": "cloud-fundamentals",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 291,
+   "premierePratique": 291,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 291,
+   "silenceFinal": 74,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "cloud-networking",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 293,
+   "premierePratique": 293,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 294,
+   "silenceFinal": 71,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "css-flexbox",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 103,
+   "premierePratique": 103,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 103,
+   "silenceFinal": 262,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "css-fundamentals",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 87,
+   "premierePratique": 87,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 87,
+   "silenceFinal": 278,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "css-grid",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 103,
+   "premierePratique": 103,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 103,
+   "silenceFinal": 262,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "data-cleaning-quality",
+   "nContacts": 4,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 3,
+    "application": 1,
+    "revue": 0
+   },
+   "premiereExposition": 128,
+   "premierePratique": 128,
+   "premiereApplication": 143,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 15,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 152,
+   "silenceFinal": 213,
+   "plusGrandSilence": 11,
+   "fenetre80": 24,
+   "gaps": [
+    4,
+    11,
+    9
+   ]
+  },
+  {
+   "id": "data-structures-intro",
+   "nContacts": 20,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 4,
+    "application": 0,
+    "revue": 15
+   },
+   "premiereExposition": 30,
+   "premierePratique": 30,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 155,
+   "ecartsRevueDernierContact": [
+    1,
+    50,
+    71,
+    92,
+    113,
+    134,
+    155,
+    176,
+    197,
+    218,
+    239,
+    260,
+    281,
+    302,
+    6
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 49,
+   "fenetre80": 264,
+   "gaps": [
+    1,
+    2,
+    1,
+    1,
+    49,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    15,
+    6
+   ]
+  },
+  {
+   "id": "database-migrations",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 0,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 139,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 140,
+   "silenceFinal": 225,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "database-modeling",
+   "nContacts": 12,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 6,
+    "application": 2,
+    "revue": 3
+   },
+   "premiereExposition": 57,
+   "premierePratique": 57,
+   "premiereApplication": 62,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 5,
+   "applicationVersRevue": 1,
+   "ecartRevueRevueMedian": 42,
+   "ecartRevueDernierContactMedian": 4,
+   "ecartsRevueDernierContact": [
+    1,
+    36,
+    4
+   ],
+   "derniereExposition": 144,
+   "silenceFinal": 221,
+   "plusGrandSilence": 35,
+   "fenetre80": 79,
+   "gaps": [
+    1,
+    2,
+    2,
+    1,
+    35,
+    33,
+    3,
+    1,
+    1,
+    4,
+    4
+   ]
+  },
+  {
+   "id": "database-transactions-concurrency",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 136,
+   "premierePratique": 136,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 4,
+   "ecartsRevueDernierContact": [
+    4
+   ],
+   "derniereExposition": 140,
+   "silenceFinal": 225,
+   "plusGrandSilence": 4,
+   "fenetre80": null,
+   "gaps": [
+    4
+   ]
+  },
+  {
+   "id": "deployment-secrets",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 68,
+   "premierePratique": 68,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 296,
+   "ecartsRevueDernierContact": [
+    296
+   ],
+   "derniereExposition": 364,
+   "silenceFinal": 1,
+   "plusGrandSilence": 296,
+   "fenetre80": null,
+   "gaps": [
+    296
+   ]
+  },
+  {
+   "id": "deployment-strategies",
+   "nContacts": 0,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": null,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": null,
+   "silenceFinal": null,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "design-patterns-intro",
+   "nContacts": 8,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 4,
+    "application": 0,
+    "revue": 3
+   },
+   "premiereExposition": 38,
+   "premierePratique": 38,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 252,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    3,
+    2,
+    5
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 216,
+   "fenetre80": 314,
+   "gaps": [
+    1,
+    3,
+    34,
+    216,
+    2,
+    58,
+    5
+   ]
+  },
+  {
+   "id": "distributed-systems-failures",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 291,
+   "premierePratique": 291,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    3
+   ],
+   "derniereExposition": 294,
+   "silenceFinal": 71,
+   "plusGrandSilence": 3,
+   "fenetre80": null,
+   "gaps": [
+    3
+   ]
+  },
+  {
+   "id": "distributed-tracing",
+   "nContacts": 4,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 1,
+    "application": 0,
+    "revue": 2
+   },
+   "premiereExposition": 79,
+   "premierePratique": 79,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 217,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5,
+    4
+   ],
+   "derniereExposition": 301,
+   "silenceFinal": 64,
+   "plusGrandSilence": 213,
+   "fenetre80": 222,
+   "gaps": [
+    5,
+    213,
+    4
+   ]
+  },
+  {
+   "id": "docker-build-dockerfile",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 320,
+   "premierePratique": null,
+   "premiereApplication": 320,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 2,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 2,
+   "ecartsRevueDernierContact": [
+    2
+   ],
+   "derniereExposition": 322,
+   "silenceFinal": 43,
+   "plusGrandSilence": 2,
+   "fenetre80": null,
+   "gaps": [
+    2
+   ]
+  },
+  {
+   "id": "docker-compose",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 0
+   },
+   "premiereExposition": 320,
+   "premierePratique": null,
+   "premiereApplication": 320,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 320,
+   "silenceFinal": 45,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "docker-containers",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 1,
+    "revue": 0
+   },
+   "premiereExposition": 291,
+   "premierePratique": 291,
+   "premiereApplication": 320,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 29,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 320,
+   "silenceFinal": 45,
+   "plusGrandSilence": 29,
+   "fenetre80": null,
+   "gaps": [
+    29
+   ]
+  },
+  {
+   "id": "docker-images-layers",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 320,
+   "premierePratique": null,
+   "premiereApplication": 320,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 2,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 2,
+   "ecartsRevueDernierContact": [
+    2
+   ],
+   "derniereExposition": 322,
+   "silenceFinal": 43,
+   "plusGrandSilence": 2,
+   "fenetre80": null,
+   "gaps": [
+    2
+   ]
+  },
+  {
+   "id": "docker-networking-volumes",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 0
+   },
+   "premiereExposition": 320,
+   "premierePratique": null,
+   "premiereApplication": 320,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 320,
+   "silenceFinal": 45,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "docker-production-hardening",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 0
+   },
+   "premiereExposition": 320,
+   "premierePratique": null,
+   "premiereApplication": 320,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 320,
+   "silenceFinal": 45,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "embeddings",
+   "nContacts": 42,
+   "parNature": {
+    "exposition": 21,
+    "pratique": 9,
+    "application": 6,
+    "revue": 6
+   },
+   "premiereExposition": 218,
+   "premierePratique": 218,
+   "premiereApplication": 309,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 91,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 315,
+   "silenceFinal": 50,
+   "plusGrandSilence": 57,
+   "fenetre80": 33,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    57,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "error-handling",
+   "nContacts": 7,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 4,
+    "application": 0,
+    "revue": 2
+   },
+   "premiereExposition": 54,
+   "premierePratique": 54,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 24,
+   "ecartsRevueDernierContact": [
+    24,
+    1
+   ],
+   "derniereExposition": 122,
+   "silenceFinal": 243,
+   "plusGrandSilence": 24,
+   "fenetre80": 55,
+   "gaps": [
+    13,
+    24,
+    6,
+    14,
+    1,
+    10
+   ]
+  },
+  {
+   "id": "etl-pipelines",
+   "nContacts": 4,
+   "parNature": {
+    "exposition": 2,
+    "pratique": 0,
+    "application": 2,
+    "revue": 0
+   },
+   "premiereExposition": 138,
+   "premierePratique": null,
+   "premiereApplication": 141,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 142,
+   "silenceFinal": 223,
+   "plusGrandSilence": 2,
+   "fenetre80": 4,
+   "gaps": [
+    1,
+    2,
+    1
+   ]
+  },
+  {
+   "id": "express-backend",
+   "nContacts": 10,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 2,
+    "application": 3,
+    "revue": 5
+   },
+   "premiereExposition": 52,
+   "premierePratique": 52,
+   "premiereApplication": 61,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 9,
+   "applicationVersRevue": 2,
+   "ecartRevueRevueMedian": 77,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    3,
+    1,
+    5,
+    82,
+    292
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 210,
+   "fenetre80": 18,
+   "gaps": [
+    1,
+    3,
+    5,
+    1,
+    1,
+    2,
+    5,
+    77,
+    210
+   ]
+  },
+  {
+   "id": "feature-engineering",
+   "nContacts": 6,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 2,
+    "application": 2,
+    "revue": 2
+   },
+   "premiereExposition": 169,
+   "premierePratique": 169,
+   "premiereApplication": 178,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 9,
+   "applicationVersRevue": 4,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5,
+    1
+   ],
+   "derniereExposition": 182,
+   "silenceFinal": 183,
+   "plusGrandSilence": 5,
+   "fenetre80": 12,
+   "gaps": [
+    1,
+    5,
+    3,
+    3,
+    1
+   ]
+  },
+  {
+   "id": "frontend-performance",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 102,
+   "premierePratique": 102,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    3
+   ],
+   "derniereExposition": 105,
+   "silenceFinal": 260,
+   "plusGrandSilence": 3,
+   "fenetre80": null,
+   "gaps": [
+    3
+   ]
+  },
+  {
+   "id": "frontend-testing",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 107,
+   "premierePratique": 107,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 112,
+   "silenceFinal": 253,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "git-advanced",
+   "nContacts": 9,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 4,
+    "application": 0,
+    "revue": 4
+   },
+   "premiereExposition": 1,
+   "premierePratique": 1,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 24,
+   "ecartsRevueDernierContact": [
+    4,
+    3,
+    24,
+    45
+   ],
+   "derniereExposition": 73,
+   "silenceFinal": 292,
+   "plusGrandSilence": 21,
+   "fenetre80": 62,
+   "gaps": [
+    1,
+    1,
+    4,
+    11,
+    3,
+    21,
+    21,
+    10
+   ]
+  },
+  {
+   "id": "git-fundamentals",
+   "nContacts": 9,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 4,
+    "application": 0,
+    "revue": 4
+   },
+   "premiereExposition": 1,
+   "premierePratique": 1,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 24,
+   "ecartsRevueDernierContact": [
+    4,
+    3,
+    24,
+    45
+   ],
+   "derniereExposition": 73,
+   "silenceFinal": 292,
+   "plusGrandSilence": 21,
+   "fenetre80": 62,
+   "gaps": [
+    1,
+    1,
+    4,
+    11,
+    3,
+    21,
+    21,
+    10
+   ]
+  },
+  {
+   "id": "html-semantic-structure",
+   "nContacts": 3,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 2,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 87,
+   "premierePratique": 87,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 2,
+   "ecartsRevueDernierContact": [
+    2
+   ],
+   "derniereExposition": 105,
+   "silenceFinal": 260,
+   "plusGrandSilence": 16,
+   "fenetre80": 18,
+   "gaps": [
+    16,
+    2
+   ]
+  },
+  {
+   "id": "http-rest-json",
+   "nContacts": 7,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 4,
+    "application": 0,
+    "revue": 3
+   },
+   "premiereExposition": 50,
+   "premierePratique": 50,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5,
+    4,
+    11
+   ],
+   "derniereExposition": 71,
+   "silenceFinal": 294,
+   "plusGrandSilence": 7,
+   "fenetre80": 20,
+   "gaps": [
+    1,
+    5,
+    3,
+    4,
+    7,
+    1
+   ]
+  },
+  {
+   "id": "iac-fundamentals",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 326,
+   "premierePratique": null,
+   "premiereApplication": 326,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 3,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    3
+   ],
+   "derniereExposition": 329,
+   "silenceFinal": 36,
+   "plusGrandSilence": 3,
+   "fenetre80": null,
+   "gaps": [
+    3
+   ]
+  },
+  {
+   "id": "incident-response",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 332,
+   "premierePratique": null,
+   "premiereApplication": 332,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 4,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 4,
+   "ecartsRevueDernierContact": [
+    4
+   ],
+   "derniereExposition": 336,
+   "silenceFinal": 29,
+   "plusGrandSilence": 4,
+   "fenetre80": null,
+   "gaps": [
+    4
+   ]
+  },
+  {
+   "id": "interview-preparation",
+   "nContacts": 24,
+   "parNature": {
+    "exposition": 21,
+    "pratique": 0,
+    "application": 1,
+    "revue": 2
+   },
+   "premiereExposition": 48,
+   "premierePratique": null,
+   "premiereApplication": 86,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 257,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1
+   ],
+   "derniereExposition": 356,
+   "silenceFinal": 9,
+   "plusGrandSilence": 247,
+   "fenetre80": 19,
+   "gaps": [
+    35,
+    3,
+    4,
+    247,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "javascript-basics",
+   "nContacts": 36,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 14,
+    "application": 0,
+    "revue": 22
+   },
+   "premiereExposition": 4,
+   "premierePratique": 4,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 127,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    15,
+    22,
+    29,
+    50,
+    71,
+    78,
+    85,
+    106,
+    127,
+    148,
+    169,
+    190,
+    211,
+    232,
+    253,
+    274,
+    295,
+    316,
+    337
+   ],
+   "derniereExposition": 364,
+   "silenceFinal": 1,
+   "plusGrandSilence": 21,
+   "fenetre80": 213,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    2,
+    1,
+    1,
+    14,
+    7,
+    7,
+    21,
+    21,
+    7,
+    7,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21
+   ]
+  },
+  {
+   "id": "k8s-config-probes",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 321,
+   "premierePratique": null,
+   "premiereApplication": 321,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 1,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 322,
+   "silenceFinal": 43,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "k8s-networking-services",
+   "nContacts": 0,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": null,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": null,
+   "silenceFinal": null,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "k8s-security",
+   "nContacts": 0,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": null,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": null,
+   "silenceFinal": null,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "k8s-troubleshooting",
+   "nContacts": 0,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": null,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": null,
+   "silenceFinal": null,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "k8s-why-architecture",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 321,
+   "premierePratique": null,
+   "premiereApplication": 321,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 1,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 322,
+   "silenceFinal": 43,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "k8s-workloads",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 321,
+   "premierePratique": null,
+   "premiereApplication": 321,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 1,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 322,
+   "silenceFinal": 43,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "linux-filesystem-permissions",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 72,
+   "premierePratique": 72,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 77,
+   "silenceFinal": 288,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "linux-processes-signals",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 72,
+   "premierePratique": 72,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 77,
+   "silenceFinal": 288,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "linux-resources-io",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 72,
+   "premierePratique": 72,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 77,
+   "silenceFinal": 288,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "linux-services-systemd",
+   "nContacts": 0,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": null,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": null,
+   "silenceFinal": null,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "linux-ssh-remote",
+   "nContacts": 0,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": null,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": null,
+   "silenceFinal": null,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "llm-cost-optimization",
+   "nContacts": 21,
+   "parNature": {
+    "exposition": 13,
+    "pratique": 5,
+    "application": 0,
+    "revue": 3
+   },
+   "premiereExposition": 197,
+   "premierePratique": 197,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 217,
+   "silenceFinal": 148,
+   "plusGrandSilence": 1,
+   "fenetre80": 16,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "llm-fundamentals",
+   "nContacts": 21,
+   "parNature": {
+    "exposition": 13,
+    "pratique": 5,
+    "application": 0,
+    "revue": 3
+   },
+   "premiereExposition": 197,
+   "premierePratique": 197,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 217,
+   "silenceFinal": 148,
+   "plusGrandSilence": 1,
+   "fenetre80": 16,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "llm-observability",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 2,
+    "revue": 0
+   },
+   "premiereExposition": 325,
+   "premierePratique": null,
+   "premiereApplication": 325,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 332,
+   "silenceFinal": 33,
+   "plusGrandSilence": 7,
+   "fenetre80": null,
+   "gaps": [
+    7
+   ]
+  },
+  {
+   "id": "logging-structured",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 79,
+   "premierePratique": 79,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 84,
+   "silenceFinal": 281,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "machine-learning-basics",
+   "nContacts": 13,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 7,
+    "application": 1,
+    "revue": 4
+   },
+   "premiereExposition": 155,
+   "premierePratique": 155,
+   "premiereApplication": 181,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 26,
+   "applicationVersRevue": 1,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 2,
+   "ecartsRevueDernierContact": [
+    2,
+    2,
+    1,
+    1
+   ],
+   "derniereExposition": 182,
+   "silenceFinal": 183,
+   "plusGrandSilence": 6,
+   "fenetre80": 20,
+   "gaps": [
+    1,
+    3,
+    2,
+    2,
+    1,
+    2,
+    2,
+    4,
+    2,
+    1,
+    6,
+    1
+   ]
+  },
+  {
+   "id": "metrics-percentiles",
+   "nContacts": 4,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 1,
+    "application": 0,
+    "revue": 2
+   },
+   "premiereExposition": 79,
+   "premierePratique": 79,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 217,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5,
+    4
+   ],
+   "derniereExposition": 301,
+   "silenceFinal": 64,
+   "plusGrandSilence": 213,
+   "fenetre80": 222,
+   "gaps": [
+    5,
+    213,
+    4
+   ]
+  },
+  {
+   "id": "model-evaluation",
+   "nContacts": 36,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 14,
+    "application": 16,
+    "revue": 6
+   },
+   "premiereExposition": 157,
+   "premierePratique": 157,
+   "premiereApplication": 176,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 19,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    2,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 321,
+   "silenceFinal": 44,
+   "plusGrandSilence": 71,
+   "fenetre80": 113,
+   "gaps": [
+    1,
+    2,
+    1,
+    1,
+    3,
+    1,
+    1,
+    1,
+    5,
+    2,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    71,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    43,
+    1,
+    1,
+    1,
+    2
+   ]
+  },
+  {
+   "id": "monitoring-production",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 79,
+   "premierePratique": 79,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 79,
+   "silenceFinal": 286,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "networking-addressing-routing",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 71,
+   "premierePratique": 71,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 71,
+   "silenceFinal": 294,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "networking-dns",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 71,
+   "premierePratique": 71,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 71,
+   "silenceFinal": 294,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "networking-http-tls",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 71,
+   "premierePratique": 71,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 71,
+   "silenceFinal": 294,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "networking-proxy-loadbalancing",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 78,
+   "premierePratique": 78,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 78,
+   "silenceFinal": 287,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "networking-tcp-ip-model",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 71,
+   "premierePratique": 71,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 71,
+   "silenceFinal": 294,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "neural-networks",
+   "nContacts": 14,
+   "parNature": {
+    "exposition": 2,
+    "pratique": 10,
+    "application": 0,
+    "revue": 2
+   },
+   "premiereExposition": 183,
+   "premierePratique": 183,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1
+   ],
+   "derniereExposition": 196,
+   "silenceFinal": 169,
+   "plusGrandSilence": 1,
+   "fenetre80": 11,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "nextjs-data-production",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 0,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 111,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 111,
+   "silenceFinal": 254,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "nextjs-foundations",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 99,
+   "premierePratique": 99,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 99,
+   "silenceFinal": 266,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "nextjs-rendering",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 102,
+   "premierePratique": 102,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 102,
+   "silenceFinal": 263,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "nextjs-server-client-components",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 104,
+   "premierePratique": 104,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 104,
+   "silenceFinal": 261,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "observability-fundamentals",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 79,
+   "premierePratique": 79,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 84,
+   "silenceFinal": 281,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "observability-logging",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 1,
+    "revue": 0
+   },
+   "premiereExposition": 79,
+   "premierePratique": 79,
+   "premiereApplication": 85,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 6,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 85,
+   "silenceFinal": 280,
+   "plusGrandSilence": 6,
+   "fenetre80": null,
+   "gaps": [
+    6
+   ]
+  },
+  {
+   "id": "pandas-data-wrangling",
+   "nContacts": 7,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 5,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 127,
+   "premierePratique": 127,
+   "premiereApplication": 145,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 18,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 2,
+   "ecartsRevueDernierContact": [
+    2
+   ],
+   "derniereExposition": 145,
+   "silenceFinal": 220,
+   "plusGrandSilence": 12,
+   "fenetre80": 6,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    2,
+    12
+   ]
+  },
+  {
+   "id": "portfolio-github",
+   "nContacts": 23,
+   "parNature": {
+    "exposition": 20,
+    "pratique": 0,
+    "application": 1,
+    "revue": 2
+   },
+   "premiereExposition": 83,
+   "premierePratique": null,
+   "premiereApplication": 86,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 257,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1
+   ],
+   "derniereExposition": 356,
+   "silenceFinal": 9,
+   "plusGrandSilence": 247,
+   "fenetre80": 18,
+   "gaps": [
+    3,
+    4,
+    247,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "postmortem-rca",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 332,
+   "premierePratique": null,
+   "premiereApplication": 332,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 4,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 4,
+   "ecartsRevueDernierContact": [
+    4
+   ],
+   "derniereExposition": 336,
+   "silenceFinal": 29,
+   "plusGrandSilence": 4,
+   "fenetre80": null,
+   "gaps": [
+    4
+   ]
+  },
+  {
+   "id": "prompt-engineering",
+   "nContacts": 21,
+   "parNature": {
+    "exposition": 13,
+    "pratique": 5,
+    "application": 0,
+    "revue": 3
+   },
+   "premiereExposition": 197,
+   "premierePratique": 197,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 217,
+   "silenceFinal": 148,
+   "plusGrandSilence": 1,
+   "fenetre80": 16,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "prompt-injection-defense",
+   "nContacts": 21,
+   "parNature": {
+    "exposition": 9,
+    "pratique": 3,
+    "application": 6,
+    "revue": 3
+   },
+   "premiereExposition": 260,
+   "premierePratique": 260,
+   "premiereApplication": 330,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 70,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 35,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 336,
+   "silenceFinal": 29,
+   "plusGrandSilence": 29,
+   "fenetre80": 72,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    29,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    29,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "python-foundations",
+   "nContacts": 8,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 6,
+    "application": 0,
+    "revue": 2
+   },
+   "premiereExposition": 82,
+   "premierePratique": 82,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 8,
+   "ecartsRevueDernierContact": [
+    1,
+    8
+   ],
+   "derniereExposition": 133,
+   "silenceFinal": 232,
+   "plusGrandSilence": 38,
+   "fenetre80": 13,
+   "gaps": [
+    38,
+    1,
+    1,
+    1,
+    2,
+    1,
+    7
+   ]
+  },
+  {
+   "id": "rag-evaluation",
+   "nContacts": 55,
+   "parNature": {
+    "exposition": 21,
+    "pratique": 15,
+    "application": 17,
+    "revue": 2
+   },
+   "premiereExposition": 218,
+   "premierePratique": 218,
+   "premiereApplication": 267,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 49,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 14,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1
+   ],
+   "derniereExposition": 321,
+   "silenceFinal": 44,
+   "plusGrandSilence": 36,
+   "fenetre80": 55,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    36,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    2
+   ]
+  },
+  {
+   "id": "rag-fundamentals",
+   "nContacts": 42,
+   "parNature": {
+    "exposition": 21,
+    "pratique": 9,
+    "application": 6,
+    "revue": 6
+   },
+   "premiereExposition": 218,
+   "premierePratique": 218,
+   "premiereApplication": 309,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 91,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 315,
+   "silenceFinal": 50,
+   "plusGrandSilence": 57,
+   "fenetre80": 33,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    57,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "react-accessibility",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 103,
+   "premierePratique": 103,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 2,
+   "ecartsRevueDernierContact": [
+    2
+   ],
+   "derniereExposition": 105,
+   "silenceFinal": 260,
+   "plusGrandSilence": 2,
+   "fenetre80": null,
+   "gaps": [
+    2
+   ]
+  },
+  {
+   "id": "react-application-states",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 95,
+   "premierePratique": 95,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    3
+   ],
+   "derniereExposition": 98,
+   "silenceFinal": 267,
+   "plusGrandSilence": 3,
+   "fenetre80": null,
+   "gaps": [
+    3
+   ]
+  },
+  {
+   "id": "react-composition-architecture",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 104,
+   "premierePratique": 104,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 105,
+   "silenceFinal": 260,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "react-fundamentals",
+   "nContacts": 13,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 9,
+    "application": 4,
+    "revue": 0
+   },
+   "premiereExposition": 87,
+   "premierePratique": 87,
+   "premiereApplication": 113,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 26,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 117,
+   "silenceFinal": 248,
+   "plusGrandSilence": 9,
+   "fenetre80": 25,
+   "gaps": [
+    2,
+    3,
+    2,
+    5,
+    1,
+    1,
+    2,
+    1,
+    9,
+    1,
+    1,
+    2
+   ]
+  },
+  {
+   "id": "react-hooks-effects",
+   "nContacts": 7,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 6,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 88,
+   "premierePratique": 88,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 110,
+   "silenceFinal": 255,
+   "plusGrandSilence": 8,
+   "fenetre80": 14,
+   "gaps": [
+    1,
+    4,
+    2,
+    1,
+    6,
+    8
+   ]
+  },
+  {
+   "id": "readme-documentation",
+   "nContacts": 25,
+   "parNature": {
+    "exposition": 19,
+    "pratique": 0,
+    "application": 4,
+    "revue": 2
+   },
+   "premiereExposition": 47,
+   "premierePratique": null,
+   "premiereApplication": 47,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 296,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1
+   ],
+   "derniereExposition": 356,
+   "silenceFinal": 9,
+   "plusGrandSilence": 191,
+   "fenetre80": 19,
+   "gaps": [
+    19,
+    8,
+    44,
+    28,
+    191,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "recursion",
+   "nContacts": 27,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 9,
+    "application": 0,
+    "revue": 17
+   },
+   "premiereExposition": 15,
+   "premierePratique": 15,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 143,
+   "ecartsRevueDernierContact": [
+    1,
+    3,
+    3,
+    38,
+    59,
+    80,
+    101,
+    122,
+    143,
+    164,
+    185,
+    206,
+    227,
+    248,
+    269,
+    290,
+    311
+   ],
+   "derniereExposition": 351,
+   "silenceFinal": 14,
+   "plusGrandSilence": 35,
+   "fenetre80": 244,
+   "gaps": [
+    1,
+    1,
+    2,
+    1,
+    1,
+    4,
+    3,
+    1,
+    1,
+    2,
+    3,
+    35,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    8
+   ]
+  },
+  {
+   "id": "refactoring-legacy-code",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 69,
+   "premierePratique": 69,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 70,
+   "silenceFinal": 295,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "release-incident-recovery",
+   "nContacts": 0,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": null,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": null,
+   "silenceFinal": null,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "resilience-patterns",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 1
+   },
+   "premiereExposition": 331,
+   "premierePratique": null,
+   "premiereApplication": 331,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 5,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 336,
+   "silenceFinal": 29,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "responsive-design",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 0,
+    "application": 1,
+    "revue": 0
+   },
+   "premiereExposition": 117,
+   "premierePratique": null,
+   "premiereApplication": 117,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 117,
+   "silenceFinal": 248,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "retrieval-reranking",
+   "nContacts": 42,
+   "parNature": {
+    "exposition": 21,
+    "pratique": 9,
+    "application": 6,
+    "revue": 6
+   },
+   "premiereExposition": 218,
+   "premierePratique": 218,
+   "premiereApplication": 309,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 91,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 315,
+   "silenceFinal": 50,
+   "plusGrandSilence": 57,
+   "fenetre80": 33,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    57,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "scikit-learn-workflow",
+   "nContacts": 13,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 4,
+    "application": 4,
+    "revue": 4
+   },
+   "premiereExposition": 155,
+   "premierePratique": 155,
+   "premiereApplication": 176,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 21,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 4,
+   "ecartsRevueDernierContact": [
+    4,
+    11,
+    1,
+    1
+   ],
+   "derniereExposition": 182,
+   "silenceFinal": 183,
+   "plusGrandSilence": 7,
+   "fenetre80": 21,
+   "gaps": [
+    2,
+    4,
+    7,
+    2,
+    1,
+    3,
+    1,
+    1,
+    1,
+    2,
+    2,
+    1
+   ]
+  },
+  {
+   "id": "slo-error-budget",
+   "nContacts": 1,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 0
+   },
+   "premiereExposition": 79,
+   "premierePratique": 79,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": null,
+   "ecartsRevueDernierContact": [],
+   "derniereExposition": 79,
+   "silenceFinal": 286,
+   "plusGrandSilence": null,
+   "fenetre80": null,
+   "gaps": []
+  },
+  {
+   "id": "sql-foundations",
+   "nContacts": 9,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 4,
+    "application": 2,
+    "revue": 3
+   },
+   "premiereExposition": 55,
+   "premierePratique": 55,
+   "premiereApplication": 61,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 6,
+   "applicationVersRevue": 2,
+   "ecartRevueRevueMedian": 42,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    2,
+    41,
+    3
+   ],
+   "derniereExposition": 140,
+   "silenceFinal": 225,
+   "plusGrandSilence": 41,
+   "fenetre80": 82,
+   "gaps": [
+    2,
+    4,
+    2,
+    1,
+    41,
+    30,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "sql-performance-indexing",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 135,
+   "premierePratique": 135,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    5
+   ],
+   "derniereExposition": 140,
+   "silenceFinal": 225,
+   "plusGrandSilence": 5,
+   "fenetre80": null,
+   "gaps": [
+    5
+   ]
+  },
+  {
+   "id": "statistics-for-ml",
+   "nContacts": 12,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 6,
+    "application": 1,
+    "revue": 5
+   },
+   "premiereExposition": 148,
+   "premierePratique": 148,
+   "premiereApplication": 181,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 33,
+   "applicationVersRevue": 1,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 8,
+   "ecartsRevueDernierContact": [
+    1,
+    8,
+    15,
+    22,
+    1
+   ],
+   "derniereExposition": 182,
+   "silenceFinal": 183,
+   "plusGrandSilence": 7,
+   "fenetre80": 27,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    7,
+    7,
+    7,
+    6,
+    1
+   ]
+  },
+  {
+   "id": "structured-outputs-tools",
+   "nContacts": 41,
+   "parNature": {
+    "exposition": 13,
+    "pratique": 17,
+    "application": 6,
+    "revue": 5
+   },
+   "premiereExposition": 197,
+   "premierePratique": 197,
+   "premiereApplication": 323,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 126,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 328,
+   "silenceFinal": 37,
+   "plusGrandSilence": 57,
+   "fenetre80": 88,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    57,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    36,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "system-design-interview",
+   "nContacts": 24,
+   "parNature": {
+    "exposition": 7,
+    "pratique": 8,
+    "application": 6,
+    "revue": 3
+   },
+   "premiereExposition": 71,
+   "premierePratique": 71,
+   "premiereApplication": 302,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 231,
+   "applicationVersRevue": 62,
+   "ecartRevueRevueMedian": 217,
+   "ecartRevueDernierContactMedian": 38,
+   "ecartsRevueDernierContact": [
+    38,
+    66,
+    1
+   ],
+   "derniereExposition": 365,
+   "silenceFinal": 0,
+   "plusGrandSilence": 141,
+   "fenetre80": 77,
+   "gaps": [
+    10,
+    38,
+    28,
+    141,
+    1,
+    1,
+    1,
+    1,
+    1,
+    9,
+    1,
+    1,
+    1,
+    1,
+    1,
+    51,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "system-design-scaling",
+   "nContacts": 4,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 1,
+    "application": 0,
+    "revue": 2
+   },
+   "premiereExposition": 291,
+   "premierePratique": 291,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 63,
+   "ecartRevueDernierContactMedian": 5,
+   "ecartsRevueDernierContact": [
+    3,
+    5
+   ],
+   "derniereExposition": 357,
+   "silenceFinal": 8,
+   "plusGrandSilence": 58,
+   "fenetre80": 66,
+   "gaps": [
+    3,
+    58,
+    5
+   ]
+  },
+  {
+   "id": "technical-debt",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 81,
+   "premierePratique": 81,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    3
+   ],
+   "derniereExposition": 84,
+   "silenceFinal": 281,
+   "plusGrandSilence": 3,
+   "fenetre80": null,
+   "gaps": [
+    3
+   ]
+  },
+  {
+   "id": "technical-documentation",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 1,
+    "pratique": 0,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 74,
+   "premierePratique": null,
+   "premiereApplication": null,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 3,
+   "ecartsRevueDernierContact": [
+    3
+   ],
+   "derniereExposition": 77,
+   "silenceFinal": 288,
+   "plusGrandSilence": 3,
+   "fenetre80": null,
+   "gaps": [
+    3
+   ]
+  },
+  {
+   "id": "technical-storytelling",
+   "nContacts": 24,
+   "parNature": {
+    "exposition": 19,
+    "pratique": 0,
+    "application": 2,
+    "revue": 3
+   },
+   "premiereExposition": 66,
+   "premierePratique": null,
+   "premiereApplication": 66,
+   "expositionVersPratique": null,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": 25,
+   "ecartRevueRevueMedian": 252,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    5,
+    1,
+    1
+   ],
+   "derniereExposition": 356,
+   "silenceFinal": 9,
+   "plusGrandSilence": 246,
+   "fenetre80": 19,
+   "gaps": [
+    8,
+    12,
+    5,
+    246,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "terminal-shell-filesystem",
+   "nContacts": 9,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 5,
+    "application": 0,
+    "revue": 4
+   },
+   "premiereExposition": 1,
+   "premierePratique": 1,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 31,
+   "ecartsRevueDernierContact": [
+    4,
+    3,
+    31,
+    52
+   ],
+   "derniereExposition": 72,
+   "silenceFinal": 293,
+   "plusGrandSilence": 28,
+   "fenetre80": 69,
+   "gaps": [
+    1,
+    1,
+    4,
+    11,
+    3,
+    28,
+    21,
+    2
+   ]
+  },
+  {
+   "id": "testing-foundations",
+   "nContacts": 13,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 7,
+    "application": 3,
+    "revue": 3
+   },
+   "premiereExposition": 41,
+   "premierePratique": 41,
+   "premiereApplication": 47,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 6,
+   "applicationVersRevue": 2,
+   "ecartRevueRevueMedian": 42,
+   "ecartRevueDernierContactMedian": 4,
+   "ecartsRevueDernierContact": [
+    2,
+    22,
+    4
+   ],
+   "derniereExposition": 124,
+   "silenceFinal": 241,
+   "plusGrandSilence": 22,
+   "fenetre80": 69,
+   "gaps": [
+    6,
+    2,
+    10,
+    6,
+    4,
+    22,
+    15,
+    1,
+    1,
+    4,
+    4,
+    8
+   ]
+  },
+  {
+   "id": "transformers",
+   "nContacts": 14,
+   "parNature": {
+    "exposition": 2,
+    "pratique": 10,
+    "application": 0,
+    "revue": 2
+   },
+   "premiereExposition": 183,
+   "premierePratique": 183,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1
+   ],
+   "derniereExposition": 196,
+   "silenceFinal": 169,
+   "plusGrandSilence": 1,
+   "fenetre80": 11,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "typescript-basics",
+   "nContacts": 39,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 19,
+    "application": 1,
+    "revue": 19
+   },
+   "premiereExposition": 4,
+   "premierePratique": 4,
+   "premiereApplication": 45,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 41,
+   "applicationVersRevue": 4,
+   "ecartRevueRevueMedian": 21,
+   "ecartRevueDernierContactMedian": 116,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    4,
+    4,
+    39,
+    53,
+    74,
+    95,
+    116,
+    137,
+    158,
+    179,
+    200,
+    221,
+    242,
+    263,
+    284,
+    305
+   ],
+   "derniereExposition": 350,
+   "silenceFinal": 15,
+   "plusGrandSilence": 35,
+   "fenetre80": 199,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    8,
+    1,
+    1,
+    2,
+    1,
+    1,
+    8,
+    1,
+    1,
+    4,
+    1,
+    1,
+    1,
+    4,
+    35,
+    14,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21,
+    21
+   ]
+  },
+  {
+   "id": "typescript-frontend",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 97,
+   "premierePratique": 97,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1
+   ],
+   "derniereExposition": 98,
+   "silenceFinal": 267,
+   "plusGrandSilence": 1,
+   "fenetre80": null,
+   "gaps": [
+    1
+   ]
+  },
+  {
+   "id": "vector-databases",
+   "nContacts": 42,
+   "parNature": {
+    "exposition": 21,
+    "pratique": 9,
+    "application": 6,
+    "revue": 6
+   },
+   "premiereExposition": 218,
+   "premierePratique": 218,
+   "premiereApplication": 309,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": 91,
+   "applicationVersRevue": 6,
+   "ecartRevueRevueMedian": 7,
+   "ecartRevueDernierContactMedian": 1,
+   "ecartsRevueDernierContact": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "derniereExposition": 315,
+   "silenceFinal": 50,
+   "plusGrandSilence": 57,
+   "fenetre80": 33,
+   "gaps": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    57,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "web-forms-validation",
+   "nContacts": 2,
+   "parNature": {
+    "exposition": 0,
+    "pratique": 1,
+    "application": 0,
+    "revue": 1
+   },
+   "premiereExposition": 96,
+   "premierePratique": 96,
+   "premiereApplication": null,
+   "expositionVersPratique": 0,
+   "pratiqueVersApplication": null,
+   "applicationVersRevue": null,
+   "ecartRevueRevueMedian": null,
+   "ecartRevueDernierContactMedian": 2,
+   "ecartsRevueDernierContact": [
+    2
+   ],
+   "derniereExposition": 98,
+   "silenceFinal": 267,
+   "plusGrandSilence": 2,
+   "fenetre80": null,
+   "gaps": [
+    2
+   ]
+  }
+ ],
+ "revues52": [
+  {
+   "j": 7,
+   "semaine": 1,
+   "nLecons": 6,
+   "lecons": [
+    "terminal-shell-filesystem",
+    "git-fundamentals",
+    "git-advanced",
+    "javascript-basics",
+    "typescript-basics",
+    "async-javascript"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "terminal-shell-filesystem",
+     "j": 3,
+     "nature": "pratique"
+    },
+    {
+     "slug": "git-fundamentals",
+     "j": 3,
+     "nature": "pratique"
+    },
+    {
+     "slug": "git-advanced",
+     "j": 3,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 6,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 6,
+     "nature": "pratique"
+    },
+    {
+     "slug": "async-javascript",
+     "j": 6,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 4,
+   "ecartMax": 4,
+   "rappelActifMin": 18,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 6
+  },
+  {
+   "j": 14,
+   "semaine": 2,
+   "nLecons": 3,
+   "lecons": [
+    "javascript-basics",
+    "typescript-basics",
+    "async-javascript"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "javascript-basics",
+     "j": 13,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 13,
+     "nature": "pratique"
+    },
+    {
+     "slug": "async-javascript",
+     "j": 13,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 1,
+   "rappelActifMin": 9,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 21,
+   "semaine": 3,
+   "nLecons": 5,
+   "lecons": [
+    "algorithmic-thinking",
+    "recursion",
+    "terminal-shell-filesystem",
+    "git-fundamentals",
+    "git-advanced"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "algorithmic-thinking",
+     "j": 20,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 20,
+     "nature": "pratique"
+    },
+    {
+     "slug": "terminal-shell-filesystem",
+     "j": 18,
+     "nature": "pratique"
+    },
+    {
+     "slug": "git-fundamentals",
+     "j": 18,
+     "nature": "pratique"
+    },
+    {
+     "slug": "git-advanced",
+     "j": 18,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 3,
+   "ecartMax": 3,
+   "rappelActifMin": 15,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 28,
+   "semaine": 4,
+   "nLecons": 5,
+   "lecons": [
+    "javascript-basics",
+    "typescript-basics",
+    "async-javascript",
+    "algorithmic-thinking",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "async-javascript",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 25,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 25,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 3,
+   "rappelActifMin": 15,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 35,
+   "semaine": 5,
+   "nLecons": 3,
+   "lecons": [
+    "algorithmic-thinking",
+    "recursion",
+    "data-structures-intro"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "algorithmic-thinking",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 3,
+   "rappelActifMin": 9,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 42,
+   "semaine": 6,
+   "nLecons": 7,
+   "lecons": [
+    "javascript-basics",
+    "typescript-basics",
+    "async-javascript",
+    "design-patterns-intro",
+    "clean-code",
+    "git-advanced",
+    "git-fundamentals"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 38,
+     "nature": "pratique"
+    },
+    {
+     "slug": "async-javascript",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "design-patterns-intro",
+     "j": 39,
+     "nature": "pratique"
+    },
+    {
+     "slug": "clean-code",
+     "j": 41,
+     "nature": "pratique"
+    },
+    {
+     "slug": "git-advanced",
+     "j": 18,
+     "nature": "pratique"
+    },
+    {
+     "slug": "git-fundamentals",
+     "j": 18,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 15,
+   "ecartMax": 24,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 49,
+   "semaine": 7,
+   "nLecons": 7,
+   "lecons": [
+    "javascript-basics",
+    "typescript-basics",
+    "async-javascript",
+    "algorithmic-thinking",
+    "clean-code",
+    "testing-foundations",
+    "terminal-shell-filesystem"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "async-javascript",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    },
+    {
+     "slug": "clean-code",
+     "j": 46,
+     "nature": "application"
+    },
+    {
+     "slug": "testing-foundations",
+     "j": 47,
+     "nature": "application"
+    },
+    {
+     "slug": "terminal-shell-filesystem",
+     "j": 18,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 4,
+   "ecartMax": 31,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 56,
+   "semaine": 8,
+   "nLecons": 7,
+   "lecons": [
+    "api-production-contracts",
+    "http-rest-json",
+    "api-design-basics",
+    "express-backend",
+    "clean-code",
+    "async-javascript",
+    "javascript-basics"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    },
+    {
+     "slug": "http-rest-json",
+     "j": 51,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-design-basics",
+     "j": 54,
+     "nature": "pratique"
+    },
+    {
+     "slug": "express-backend",
+     "j": 53,
+     "nature": "pratique"
+    },
+    {
+     "slug": "clean-code",
+     "j": 46,
+     "nature": "application"
+    },
+    {
+     "slug": "async-javascript",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 2,
+   "ecartMedian": 5,
+   "ecartMax": 29,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 63,
+   "semaine": 9,
+   "nLecons": 7,
+   "lecons": [
+    "sql-foundations",
+    "database-modeling",
+    "http-rest-json",
+    "api-design-basics",
+    "express-backend",
+    "git-advanced",
+    "git-fundamentals"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "sql-foundations",
+     "j": 61,
+     "nature": "application"
+    },
+    {
+     "slug": "database-modeling",
+     "j": 62,
+     "nature": "application"
+    },
+    {
+     "slug": "http-rest-json",
+     "j": 59,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-design-basics",
+     "j": 61,
+     "nature": "application"
+    },
+    {
+     "slug": "express-backend",
+     "j": 62,
+     "nature": "application"
+    },
+    {
+     "slug": "git-advanced",
+     "j": 18,
+     "nature": "pratique"
+    },
+    {
+     "slug": "git-fundamentals",
+     "j": 18,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 2,
+   "ecartMax": 45,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 70,
+   "semaine": 10,
+   "nLecons": 7,
+   "lecons": [
+    "refactoring-legacy-code",
+    "http-rest-json",
+    "api-design-basics",
+    "express-backend",
+    "clean-code",
+    "terminal-shell-filesystem",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "refactoring-legacy-code",
+     "j": 69,
+     "nature": "pratique"
+    },
+    {
+     "slug": "http-rest-json",
+     "j": 59,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-design-basics",
+     "j": 67,
+     "nature": "pratique"
+    },
+    {
+     "slug": "express-backend",
+     "j": 65,
+     "nature": "application"
+    },
+    {
+     "slug": "clean-code",
+     "j": 69,
+     "nature": "pratique"
+    },
+    {
+     "slug": "terminal-shell-filesystem",
+     "j": 18,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 5,
+   "ecartMax": 52,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 77,
+   "semaine": 11,
+   "nLecons": 7,
+   "lecons": [
+    "breaking-changes-compatibility",
+    "technical-documentation",
+    "linux-filesystem-permissions",
+    "linux-processes-signals",
+    "linux-resources-io",
+    "async-javascript",
+    "javascript-basics"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "breaking-changes-compatibility",
+     "j": 76,
+     "nature": "pratique"
+    },
+    {
+     "slug": "technical-documentation",
+     "j": 74,
+     "nature": "exposition"
+    },
+    {
+     "slug": "linux-filesystem-permissions",
+     "j": 72,
+     "nature": "pratique"
+    },
+    {
+     "slug": "linux-processes-signals",
+     "j": 72,
+     "nature": "pratique"
+    },
+    {
+     "slug": "linux-resources-io",
+     "j": 72,
+     "nature": "pratique"
+    },
+    {
+     "slug": "async-javascript",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 5,
+   "ecartMax": 50,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 84,
+   "semaine": 12,
+   "nLecons": 7,
+   "lecons": [
+    "technical-debt",
+    "observability-fundamentals",
+    "logging-structured",
+    "metrics-percentiles",
+    "distributed-tracing",
+    "data-structures-intro",
+    "typescript-basics"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "technical-debt",
+     "j": 81,
+     "nature": "pratique"
+    },
+    {
+     "slug": "observability-fundamentals",
+     "j": 79,
+     "nature": "pratique"
+    },
+    {
+     "slug": "logging-structured",
+     "j": 79,
+     "nature": "pratique"
+    },
+    {
+     "slug": "metrics-percentiles",
+     "j": 79,
+     "nature": "pratique"
+    },
+    {
+     "slug": "distributed-tracing",
+     "j": 79,
+     "nature": "pratique"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    }
+   ],
+   "ecartMin": 3,
+   "ecartMedian": 5,
+   "ecartMax": 50,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 91,
+   "semaine": 13,
+   "nLecons": 7,
+   "lecons": [
+    "browser-dom-rendering",
+    "clean-code",
+    "testing-foundations",
+    "error-handling",
+    "technical-storytelling",
+    "recursion",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "browser-dom-rendering",
+     "j": 87,
+     "nature": "pratique"
+    },
+    {
+     "slug": "clean-code",
+     "j": 75,
+     "nature": "exposition"
+    },
+    {
+     "slug": "testing-foundations",
+     "j": 69,
+     "nature": "pratique"
+    },
+    {
+     "slug": "error-handling",
+     "j": 67,
+     "nature": "pratique"
+    },
+    {
+     "slug": "technical-storytelling",
+     "j": 86,
+     "nature": "application"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 4,
+   "ecartMedian": 22,
+   "ecartMax": 59,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 2
+  },
+  {
+   "j": 98,
+   "semaine": 14,
+   "nLecons": 7,
+   "lecons": [
+    "typescript-frontend",
+    "web-forms-validation",
+    "react-application-states",
+    "javascript-basics",
+    "typescript-basics",
+    "algorithmic-thinking",
+    "database-modeling"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "typescript-frontend",
+     "j": 97,
+     "nature": "pratique"
+    },
+    {
+     "slug": "web-forms-validation",
+     "j": 96,
+     "nature": "pratique"
+    },
+    {
+     "slug": "react-application-states",
+     "j": 95,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    },
+    {
+     "slug": "database-modeling",
+     "j": 62,
+     "nature": "application"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 36,
+   "ecartMax": 71,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 105,
+   "semaine": 15,
+   "nLecons": 7,
+   "lecons": [
+    "react-composition-architecture",
+    "react-accessibility",
+    "html-semantic-structure",
+    "frontend-performance",
+    "javascript-basics",
+    "data-structures-intro",
+    "sql-foundations"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "react-composition-architecture",
+     "j": 104,
+     "nature": "pratique"
+    },
+    {
+     "slug": "react-accessibility",
+     "j": 103,
+     "nature": "pratique"
+    },
+    {
+     "slug": "html-semantic-structure",
+     "j": 103,
+     "nature": "pratique"
+    },
+    {
+     "slug": "frontend-performance",
+     "j": 102,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "sql-foundations",
+     "j": 64,
+     "nature": "application"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 3,
+   "ecartMax": 78,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 112,
+   "semaine": 16,
+   "nLecons": 6,
+   "lecons": [
+    "frontend-testing",
+    "clean-code",
+    "testing-foundations",
+    "error-handling",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "frontend-testing",
+     "j": 107,
+     "nature": "pratique"
+    },
+    {
+     "slug": "clean-code",
+     "j": 110,
+     "nature": "exposition"
+    },
+    {
+     "slug": "testing-foundations",
+     "j": 108,
+     "nature": "pratique"
+    },
+    {
+     "slug": "error-handling",
+     "j": 111,
+     "nature": "exposition"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 5,
+   "ecartMax": 85,
+   "rappelActifMin": 18,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 119,
+   "semaine": 17,
+   "nLecons": 4,
+   "lecons": [
+    "system-design-interview",
+    "algorithmic-thinking",
+    "typescript-basics",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "system-design-interview",
+     "j": 81,
+     "nature": "pratique"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 38,
+   "ecartMedian": 71,
+   "ecartMax": 74,
+   "rappelActifMin": 12,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 0
+  },
+  {
+   "j": 126,
+   "semaine": 18,
+   "nLecons": 3,
+   "lecons": [
+    "python-foundations",
+    "data-structures-intro",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "python-foundations",
+     "j": 125,
+     "nature": "pratique"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 78,
+   "ecartMax": 92,
+   "rappelActifMin": 9,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 1
+  },
+  {
+   "j": 133,
+   "semaine": 19,
+   "nLecons": 4,
+   "lecons": [
+    "python-foundations",
+    "pandas-data-wrangling",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "python-foundations",
+     "j": 125,
+     "nature": "pratique"
+    },
+    {
+     "slug": "pandas-data-wrangling",
+     "j": 131,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 2,
+   "ecartMedian": 101,
+   "ecartMax": 106,
+   "rappelActifMin": 12,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 1
+  },
+  {
+   "j": 140,
+   "semaine": 20,
+   "nLecons": 7,
+   "lecons": [
+    "database-migrations",
+    "database-transactions-concurrency",
+    "sql-performance-indexing",
+    "sql-foundations",
+    "database-modeling",
+    "typescript-basics",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "database-migrations",
+     "j": 139,
+     "nature": "exposition"
+    },
+    {
+     "slug": "database-transactions-concurrency",
+     "j": 136,
+     "nature": "pratique"
+    },
+    {
+     "slug": "sql-performance-indexing",
+     "j": 135,
+     "nature": "pratique"
+    },
+    {
+     "slug": "sql-foundations",
+     "j": 137,
+     "nature": "pratique"
+    },
+    {
+     "slug": "database-modeling",
+     "j": 136,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 4,
+   "ecartMax": 95,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 147,
+   "semaine": 21,
+   "nLecons": 4,
+   "lecons": [
+    "system-design-interview",
+    "algorithmic-thinking",
+    "data-structures-intro",
+    "express-backend"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "system-design-interview",
+     "j": 81,
+     "nature": "pratique"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "express-backend",
+     "j": 65,
+     "nature": "application"
+    }
+   ],
+   "ecartMin": 66,
+   "ecartMedian": 99,
+   "ecartMax": 113,
+   "rappelActifMin": 12,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 0
+  },
+  {
+   "j": 154,
+   "semaine": 22,
+   "nLecons": 3,
+   "lecons": [
+    "statistics-for-ml",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "statistics-for-ml",
+     "j": 153,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 122,
+   "ecartMax": 127,
+   "rappelActifMin": 9,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 1
+  },
+  {
+   "j": 161,
+   "semaine": 23,
+   "nLecons": 6,
+   "lecons": [
+    "machine-learning-basics",
+    "statistics-for-ml",
+    "scikit-learn-workflow",
+    "model-evaluation",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "machine-learning-basics",
+     "j": 159,
+     "nature": "pratique"
+    },
+    {
+     "slug": "statistics-for-ml",
+     "j": 153,
+     "nature": "pratique"
+    },
+    {
+     "slug": "scikit-learn-workflow",
+     "j": 157,
+     "nature": "pratique"
+    },
+    {
+     "slug": "model-evaluation",
+     "j": 160,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 8,
+   "ecartMax": 116,
+   "rappelActifMin": 18,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 168,
+   "semaine": 24,
+   "nLecons": 6,
+   "lecons": [
+    "machine-learning-basics",
+    "statistics-for-ml",
+    "scikit-learn-workflow",
+    "model-evaluation",
+    "data-structures-intro",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "machine-learning-basics",
+     "j": 166,
+     "nature": "pratique"
+    },
+    {
+     "slug": "statistics-for-ml",
+     "j": 153,
+     "nature": "pratique"
+    },
+    {
+     "slug": "scikit-learn-workflow",
+     "j": 157,
+     "nature": "pratique"
+    },
+    {
+     "slug": "model-evaluation",
+     "j": 167,
+     "nature": "pratique"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 15,
+   "ecartMax": 134,
+   "rappelActifMin": 18,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 2
+  },
+  {
+   "j": 175,
+   "semaine": 25,
+   "nLecons": 7,
+   "lecons": [
+    "machine-learning-basics",
+    "statistics-for-ml",
+    "scikit-learn-workflow",
+    "feature-engineering",
+    "model-evaluation",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "machine-learning-basics",
+     "j": 174,
+     "nature": "exposition"
+    },
+    {
+     "slug": "statistics-for-ml",
+     "j": 153,
+     "nature": "pratique"
+    },
+    {
+     "slug": "scikit-learn-workflow",
+     "j": 174,
+     "nature": "exposition"
+    },
+    {
+     "slug": "feature-engineering",
+     "j": 170,
+     "nature": "pratique"
+    },
+    {
+     "slug": "model-evaluation",
+     "j": 173,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 5,
+   "ecartMax": 148,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 182,
+   "semaine": 26,
+   "nLecons": 7,
+   "lecons": [
+    "machine-learning-basics",
+    "statistics-for-ml",
+    "scikit-learn-workflow",
+    "feature-engineering",
+    "model-evaluation",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "machine-learning-basics",
+     "j": 181,
+     "nature": "application"
+    },
+    {
+     "slug": "statistics-for-ml",
+     "j": 181,
+     "nature": "application"
+    },
+    {
+     "slug": "scikit-learn-workflow",
+     "j": 181,
+     "nature": "application"
+    },
+    {
+     "slug": "feature-engineering",
+     "j": 181,
+     "nature": "application"
+    },
+    {
+     "slug": "model-evaluation",
+     "j": 181,
+     "nature": "application"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 137,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 189,
+   "semaine": 27,
+   "nLecons": 4,
+   "lecons": [
+    "neural-networks",
+    "transformers",
+    "data-structures-intro",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "neural-networks",
+     "j": 188,
+     "nature": "pratique"
+    },
+    {
+     "slug": "transformers",
+     "j": 188,
+     "nature": "pratique"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 138,
+   "ecartMax": 155,
+   "rappelActifMin": 12,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 2
+  },
+  {
+   "j": 196,
+   "semaine": 28,
+   "nLecons": 4,
+   "lecons": [
+    "neural-networks",
+    "transformers",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "neural-networks",
+     "j": 195,
+     "nature": "exposition"
+    },
+    {
+     "slug": "transformers",
+     "j": 195,
+     "nature": "exposition"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 164,
+   "ecartMax": 169,
+   "rappelActifMin": 12,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 2
+  },
+  {
+   "j": 203,
+   "semaine": 29,
+   "nLecons": 6,
+   "lecons": [
+    "llm-fundamentals",
+    "prompt-engineering",
+    "structured-outputs-tools",
+    "llm-cost-optimization",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "llm-fundamentals",
+     "j": 202,
+     "nature": "exposition"
+    },
+    {
+     "slug": "prompt-engineering",
+     "j": 202,
+     "nature": "exposition"
+    },
+    {
+     "slug": "structured-outputs-tools",
+     "j": 202,
+     "nature": "exposition"
+    },
+    {
+     "slug": "llm-cost-optimization",
+     "j": 202,
+     "nature": "exposition"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 158,
+   "rappelActifMin": 18,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 210,
+   "semaine": 30,
+   "nLecons": 6,
+   "lecons": [
+    "llm-fundamentals",
+    "prompt-engineering",
+    "structured-outputs-tools",
+    "llm-cost-optimization",
+    "data-structures-intro",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "llm-fundamentals",
+     "j": 209,
+     "nature": "exposition"
+    },
+    {
+     "slug": "prompt-engineering",
+     "j": 209,
+     "nature": "exposition"
+    },
+    {
+     "slug": "structured-outputs-tools",
+     "j": 209,
+     "nature": "exposition"
+    },
+    {
+     "slug": "llm-cost-optimization",
+     "j": 209,
+     "nature": "exposition"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 176,
+   "rappelActifMin": 18,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 217,
+   "semaine": 31,
+   "nLecons": 6,
+   "lecons": [
+    "llm-fundamentals",
+    "prompt-engineering",
+    "structured-outputs-tools",
+    "llm-cost-optimization",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "llm-fundamentals",
+     "j": 216,
+     "nature": "exposition"
+    },
+    {
+     "slug": "prompt-engineering",
+     "j": 216,
+     "nature": "exposition"
+    },
+    {
+     "slug": "structured-outputs-tools",
+     "j": 216,
+     "nature": "exposition"
+    },
+    {
+     "slug": "llm-cost-optimization",
+     "j": 216,
+     "nature": "exposition"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 190,
+   "rappelActifMin": 18,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 224,
+   "semaine": 32,
+   "nLecons": 7,
+   "lecons": [
+    "rag-fundamentals",
+    "embeddings",
+    "chunking-strategies",
+    "retrieval-reranking",
+    "vector-databases",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "rag-fundamentals",
+     "j": 223,
+     "nature": "pratique"
+    },
+    {
+     "slug": "embeddings",
+     "j": 223,
+     "nature": "pratique"
+    },
+    {
+     "slug": "chunking-strategies",
+     "j": 223,
+     "nature": "pratique"
+    },
+    {
+     "slug": "retrieval-reranking",
+     "j": 223,
+     "nature": "pratique"
+    },
+    {
+     "slug": "vector-databases",
+     "j": 223,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 179,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 231,
+   "semaine": 33,
+   "nLecons": 7,
+   "lecons": [
+    "rag-fundamentals",
+    "embeddings",
+    "chunking-strategies",
+    "retrieval-reranking",
+    "vector-databases",
+    "data-structures-intro",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "rag-fundamentals",
+     "j": 230,
+     "nature": "exposition"
+    },
+    {
+     "slug": "embeddings",
+     "j": 230,
+     "nature": "exposition"
+    },
+    {
+     "slug": "chunking-strategies",
+     "j": 230,
+     "nature": "exposition"
+    },
+    {
+     "slug": "retrieval-reranking",
+     "j": 230,
+     "nature": "exposition"
+    },
+    {
+     "slug": "vector-databases",
+     "j": 230,
+     "nature": "exposition"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 197,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 238,
+   "semaine": 34,
+   "nLecons": 7,
+   "lecons": [
+    "rag-fundamentals",
+    "embeddings",
+    "chunking-strategies",
+    "retrieval-reranking",
+    "vector-databases",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "rag-fundamentals",
+     "j": 237,
+     "nature": "exposition"
+    },
+    {
+     "slug": "embeddings",
+     "j": 237,
+     "nature": "exposition"
+    },
+    {
+     "slug": "chunking-strategies",
+     "j": 237,
+     "nature": "exposition"
+    },
+    {
+     "slug": "retrieval-reranking",
+     "j": 237,
+     "nature": "exposition"
+    },
+    {
+     "slug": "vector-databases",
+     "j": 237,
+     "nature": "exposition"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 211,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 245,
+   "semaine": 35,
+   "nLecons": 7,
+   "lecons": [
+    "rag-fundamentals",
+    "embeddings",
+    "chunking-strategies",
+    "retrieval-reranking",
+    "vector-databases",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "rag-fundamentals",
+     "j": 244,
+     "nature": "exposition"
+    },
+    {
+     "slug": "embeddings",
+     "j": 244,
+     "nature": "exposition"
+    },
+    {
+     "slug": "chunking-strategies",
+     "j": 244,
+     "nature": "exposition"
+    },
+    {
+     "slug": "retrieval-reranking",
+     "j": 244,
+     "nature": "exposition"
+    },
+    {
+     "slug": "vector-databases",
+     "j": 244,
+     "nature": "exposition"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 200,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 252,
+   "semaine": 36,
+   "nLecons": 7,
+   "lecons": [
+    "rag-fundamentals",
+    "embeddings",
+    "chunking-strategies",
+    "retrieval-reranking",
+    "vector-databases",
+    "data-structures-intro",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "rag-fundamentals",
+     "j": 251,
+     "nature": "exposition"
+    },
+    {
+     "slug": "embeddings",
+     "j": 251,
+     "nature": "exposition"
+    },
+    {
+     "slug": "chunking-strategies",
+     "j": 251,
+     "nature": "exposition"
+    },
+    {
+     "slug": "retrieval-reranking",
+     "j": 251,
+     "nature": "exposition"
+    },
+    {
+     "slug": "vector-databases",
+     "j": 251,
+     "nature": "exposition"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 218,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 259,
+   "semaine": 37,
+   "nLecons": 5,
+   "lecons": [
+    "ai-evaluation",
+    "rag-evaluation",
+    "model-evaluation",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "ai-evaluation",
+     "j": 258,
+     "nature": "pratique"
+    },
+    {
+     "slug": "rag-evaluation",
+     "j": 258,
+     "nature": "pratique"
+    },
+    {
+     "slug": "model-evaluation",
+     "j": 258,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 232,
+   "rappelActifMin": 15,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 266,
+   "semaine": 38,
+   "nLecons": 5,
+   "lecons": [
+    "ai-security",
+    "prompt-injection-defense",
+    "authentication",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "ai-security",
+     "j": 265,
+     "nature": "exposition"
+    },
+    {
+     "slug": "prompt-injection-defense",
+     "j": 265,
+     "nature": "exposition"
+    },
+    {
+     "slug": "authentication",
+     "j": 265,
+     "nature": "exposition"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 221,
+   "rappelActifMin": 15,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 273,
+   "semaine": 39,
+   "nLecons": 5,
+   "lecons": [
+    "ai-evaluation",
+    "rag-evaluation",
+    "model-evaluation",
+    "data-structures-intro",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "ai-evaluation",
+     "j": 272,
+     "nature": "application"
+    },
+    {
+     "slug": "rag-evaluation",
+     "j": 272,
+     "nature": "application"
+    },
+    {
+     "slug": "model-evaluation",
+     "j": 272,
+     "nature": "application"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 239,
+   "rappelActifMin": 15,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 280,
+   "semaine": 40,
+   "nLecons": 5,
+   "lecons": [
+    "agents-fundamentals",
+    "agent-workflows-orchestration",
+    "structured-outputs-tools",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "agents-fundamentals",
+     "j": 279,
+     "nature": "pratique"
+    },
+    {
+     "slug": "agent-workflows-orchestration",
+     "j": 279,
+     "nature": "pratique"
+    },
+    {
+     "slug": "structured-outputs-tools",
+     "j": 279,
+     "nature": "pratique"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 253,
+   "rappelActifMin": 15,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 287,
+   "semaine": 41,
+   "nLecons": 5,
+   "lecons": [
+    "agents-fundamentals",
+    "agent-workflows-orchestration",
+    "structured-outputs-tools",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "agents-fundamentals",
+     "j": 286,
+     "nature": "pratique"
+    },
+    {
+     "slug": "agent-workflows-orchestration",
+     "j": 286,
+     "nature": "pratique"
+    },
+    {
+     "slug": "structured-outputs-tools",
+     "j": 286,
+     "nature": "pratique"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 242,
+   "rappelActifMin": 15,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 3
+  },
+  {
+   "j": 294,
+   "semaine": 42,
+   "nLecons": 7,
+   "lecons": [
+    "cloud-networking",
+    "cloud-compute-storage",
+    "design-patterns-intro",
+    "system-design-scaling",
+    "distributed-systems-failures",
+    "data-structures-intro",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "cloud-networking",
+     "j": 293,
+     "nature": "pratique"
+    },
+    {
+     "slug": "cloud-compute-storage",
+     "j": 293,
+     "nature": "pratique"
+    },
+    {
+     "slug": "design-patterns-intro",
+     "j": 292,
+     "nature": "pratique"
+    },
+    {
+     "slug": "system-design-scaling",
+     "j": 291,
+     "nature": "pratique"
+    },
+    {
+     "slug": "distributed-systems-failures",
+     "j": 291,
+     "nature": "pratique"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 3,
+   "ecartMax": 260,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 301,
+   "semaine": 43,
+   "nLecons": 7,
+   "lecons": [
+    "distributed-tracing",
+    "metrics-percentiles",
+    "ai-security",
+    "prompt-injection-defense",
+    "authentication",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "distributed-tracing",
+     "j": 297,
+     "nature": "exposition"
+    },
+    {
+     "slug": "metrics-percentiles",
+     "j": 297,
+     "nature": "exposition"
+    },
+    {
+     "slug": "ai-security",
+     "j": 300,
+     "nature": "exposition"
+    },
+    {
+     "slug": "prompt-injection-defense",
+     "j": 300,
+     "nature": "exposition"
+    },
+    {
+     "slug": "authentication",
+     "j": 300,
+     "nature": "exposition"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 4,
+   "ecartMax": 274,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 308,
+   "semaine": 44,
+   "nLecons": 7,
+   "lecons": [
+    "ci-cd-pipeline-anatomy",
+    "cloud-aws-core",
+    "cloud-azure-core",
+    "architecture-basics",
+    "caching-performance",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "ci-cd-pipeline-anatomy",
+     "j": 307,
+     "nature": "application"
+    },
+    {
+     "slug": "cloud-aws-core",
+     "j": 303,
+     "nature": "application"
+    },
+    {
+     "slug": "cloud-azure-core",
+     "j": 303,
+     "nature": "application"
+    },
+    {
+     "slug": "architecture-basics",
+     "j": 307,
+     "nature": "application"
+    },
+    {
+     "slug": "caching-performance",
+     "j": 307,
+     "nature": "application"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 5,
+   "ecartMax": 263,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 315,
+   "semaine": 45,
+   "nLecons": 7,
+   "lecons": [
+    "rag-fundamentals",
+    "embeddings",
+    "chunking-strategies",
+    "retrieval-reranking",
+    "vector-databases",
+    "data-structures-intro",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "rag-fundamentals",
+     "j": 314,
+     "nature": "application"
+    },
+    {
+     "slug": "embeddings",
+     "j": 314,
+     "nature": "application"
+    },
+    {
+     "slug": "chunking-strategies",
+     "j": 314,
+     "nature": "application"
+    },
+    {
+     "slug": "retrieval-reranking",
+     "j": 314,
+     "nature": "application"
+    },
+    {
+     "slug": "vector-databases",
+     "j": 314,
+     "nature": "application"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 281,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 322,
+   "semaine": 46,
+   "nLecons": 7,
+   "lecons": [
+    "k8s-why-architecture",
+    "k8s-workloads",
+    "k8s-config-probes",
+    "docker-build-dockerfile",
+    "docker-images-layers",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "k8s-why-architecture",
+     "j": 321,
+     "nature": "application"
+    },
+    {
+     "slug": "k8s-workloads",
+     "j": 321,
+     "nature": "application"
+    },
+    {
+     "slug": "k8s-config-probes",
+     "j": 321,
+     "nature": "application"
+    },
+    {
+     "slug": "docker-build-dockerfile",
+     "j": 320,
+     "nature": "application"
+    },
+    {
+     "slug": "docker-images-layers",
+     "j": 320,
+     "nature": "application"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 2,
+   "ecartMax": 295,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 329,
+   "semaine": 47,
+   "nLecons": 7,
+   "lecons": [
+    "ci-cd-quality-gates-artifacts",
+    "iac-fundamentals",
+    "cloud-finops",
+    "agents-fundamentals",
+    "agent-workflows-orchestration",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "ci-cd-quality-gates-artifacts",
+     "j": 326,
+     "nature": "application"
+    },
+    {
+     "slug": "iac-fundamentals",
+     "j": 326,
+     "nature": "application"
+    },
+    {
+     "slug": "cloud-finops",
+     "j": 325,
+     "nature": "application"
+    },
+    {
+     "slug": "agents-fundamentals",
+     "j": 328,
+     "nature": "application"
+    },
+    {
+     "slug": "agent-workflows-orchestration",
+     "j": 328,
+     "nature": "application"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 3,
+   "ecartMax": 284,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 336,
+   "semaine": 48,
+   "nLecons": 7,
+   "lecons": [
+    "incident-response",
+    "postmortem-rca",
+    "resilience-patterns",
+    "ai-security",
+    "prompt-injection-defense",
+    "data-structures-intro",
+    "api-production-contracts"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "incident-response",
+     "j": 332,
+     "nature": "application"
+    },
+    {
+     "slug": "postmortem-rca",
+     "j": 332,
+     "nature": "application"
+    },
+    {
+     "slug": "resilience-patterns",
+     "j": 331,
+     "nature": "application"
+    },
+    {
+     "slug": "ai-security",
+     "j": 335,
+     "nature": "application"
+    },
+    {
+     "slug": "prompt-injection-defense",
+     "j": 335,
+     "nature": "application"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 34,
+     "nature": "pratique"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 4,
+   "ecartMax": 302,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 343,
+   "semaine": 49,
+   "nLecons": 6,
+   "lecons": [
+    "technical-storytelling",
+    "readme-documentation",
+    "portfolio-github",
+    "interview-preparation",
+    "javascript-basics",
+    "recursion"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "technical-storytelling",
+     "j": 342,
+     "nature": "exposition"
+    },
+    {
+     "slug": "readme-documentation",
+     "j": 342,
+     "nature": "exposition"
+    },
+    {
+     "slug": "portfolio-github",
+     "j": 342,
+     "nature": "exposition"
+    },
+    {
+     "slug": "interview-preparation",
+     "j": 342,
+     "nature": "exposition"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "recursion",
+     "j": 32,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 316,
+   "rappelActifMin": 18,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 350,
+   "semaine": 50,
+   "nLecons": 6,
+   "lecons": [
+    "technical-storytelling",
+    "readme-documentation",
+    "portfolio-github",
+    "interview-preparation",
+    "typescript-basics",
+    "algorithmic-thinking"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "technical-storytelling",
+     "j": 349,
+     "nature": "exposition"
+    },
+    {
+     "slug": "readme-documentation",
+     "j": 349,
+     "nature": "exposition"
+    },
+    {
+     "slug": "portfolio-github",
+     "j": 349,
+     "nature": "exposition"
+    },
+    {
+     "slug": "interview-preparation",
+     "j": 349,
+     "nature": "exposition"
+    },
+    {
+     "slug": "typescript-basics",
+     "j": 45,
+     "nature": "application"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 48,
+     "nature": "exposition"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 1,
+   "ecartMax": 305,
+   "rappelActifMin": 18,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 4
+  },
+  {
+   "j": 357,
+   "semaine": 51,
+   "nLecons": 7,
+   "lecons": [
+    "architecture-basics",
+    "system-design-scaling",
+    "design-patterns-intro",
+    "algorithmic-thinking",
+    "data-structures-intro",
+    "api-production-contracts",
+    "express-backend"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "architecture-basics",
+     "j": 352,
+     "nature": "exposition"
+    },
+    {
+     "slug": "system-design-scaling",
+     "j": 352,
+     "nature": "exposition"
+    },
+    {
+     "slug": "design-patterns-intro",
+     "j": 352,
+     "nature": "exposition"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 351,
+     "nature": "exposition"
+    },
+    {
+     "slug": "data-structures-intro",
+     "j": 351,
+     "nature": "exposition"
+    },
+    {
+     "slug": "api-production-contracts",
+     "j": 51,
+     "nature": "pratique"
+    },
+    {
+     "slug": "express-backend",
+     "j": 65,
+     "nature": "application"
+    }
+   ],
+   "ecartMin": 5,
+   "ecartMedian": 6,
+   "ecartMax": 306,
+   "rappelActifMin": 20,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 5
+  },
+  {
+   "j": 364,
+   "semaine": 52,
+   "nLecons": 4,
+   "lecons": [
+    "system-design-interview",
+    "algorithmic-thinking",
+    "javascript-basics",
+    "deployment-secrets"
+   ],
+   "derniersContacts": [
+    {
+     "slug": "system-design-interview",
+     "j": 363,
+     "nature": "exposition"
+    },
+    {
+     "slug": "algorithmic-thinking",
+     "j": 363,
+     "nature": "exposition"
+    },
+    {
+     "slug": "javascript-basics",
+     "j": 27,
+     "nature": "pratique"
+    },
+    {
+     "slug": "deployment-secrets",
+     "j": 68,
+     "nature": "pratique"
+    }
+   ],
+   "ecartMin": 1,
+   "ecartMedian": 296,
+   "ecartMax": 337,
+   "rappelActifMin": 12,
+   "aTestPratique": true,
+   "aTestTheorique": true,
+   "aGrille": true,
+   "aRemediation": true,
+   "aRelecture": true,
+   "leconsDeSaSemaine": 2
+  }
+ ],
+ "formes": {
+  "PASSIVE_REVIEW": {
+   "total": 365,
+   "revues": 52,
+   "travail": 313
+  },
+  "RECOGNITION": {
+   "total": 236,
+   "revues": 0,
+   "travail": 236
+  },
+  "FREE_RECALL": {
+   "total": 52,
+   "revues": 52,
+   "travail": 0
+  },
+  "CUED_RECALL": {
+   "total": 365,
+   "revues": 52,
+   "travail": 313
+  },
+  "RECONSTRUCTION": {
+   "total": 52,
+   "revues": 52,
+   "travail": 0
+  },
+  "DIAGNOSIS": {
+   "total": 364,
+   "revues": 52,
+   "travail": 312
+  },
+  "APPLICATION": {
+   "total": 365,
+   "revues": 52,
+   "travail": 313
+  },
+  "TRANSFER": {
+   "total": 313,
+   "revues": 0,
+   "travail": 313
+  },
+  "PRODUCTION": {
+   "total": 365,
+   "revues": 52,
+   "travail": 313
+  }
+ },
+ "etatApprenant": {
+  "avertissement": "Inventaire LU dans le code, jamais inventé. Chaque champ cite le module et la fonction qui le normalise.",
+  "AVAILABLE": [
+   {
+    "champ": "days[n].status",
+    "valeurs": "not-started | in-progress | done | to-review",
+    "source": "lib/learning.mjs · normalizeDay",
+    "utile_au_moteur": "un jour marqué done n'est PAS une preuve de rappel"
+   },
+   {
+    "champ": "days[n].startedAt / completedAt / updatedAt",
+    "valeurs": "ISO",
+    "source": "lib/learning.mjs · normalizeDay",
+    "utile_au_moteur": "datation des contacts réels, par opposition au calendrier théorique"
+   },
+   {
+    "champ": "days[n].comprehension",
+    "valeurs": "understood | partial | review",
+    "source": "lib/learning.mjs · normalizeDay",
+    "utile_au_moteur": "DÉCLARÉ par l'apprenant — un jugement, pas une observation"
+   },
+   {
+    "champ": "days[n].selfAssessment",
+    "valeurs": "auto-évaluation structurée",
+    "source": "lib/learning.mjs · normalizeSelfAssessment",
+    "utile_au_moteur": "déclaré"
+   },
+   {
+    "champ": "days[n].attempts",
+    "valeurs": "{ count, lastAt, history:[{ at, outcome, summary }] }",
+    "source": "lib/learning.mjs · normalizeAttempts",
+    "utile_au_moteur": "tentatives de JOURNÉE, texte libre en outcome — non typé"
+   },
+   {
+    "champ": "days[n].correctionState",
+    "valeurs": "locked | available | viewed | acknowledged",
+    "source": "lib/learning.mjs · normalizeDay",
+    "utile_au_moteur": "la correction a-t-elle été ouverte AVANT la tentative"
+   },
+   {
+    "champ": "days[n].review",
+    "valeurs": "{ dueAt, interval, repetitions, ease, lastReviewedAt, reason }",
+    "source": "lib/review.mjs · updateReviewSchedule",
+    "utile_au_moteur": "planning SM-2 par JOURNÉE, piloté par la compréhension déclarée"
+   },
+   {
+    "champ": "days[n].submissions / answers / notes",
+    "valeurs": "texte",
+    "source": "lib/learning.mjs",
+    "utile_au_moteur": "production écrite, non notée automatiquement"
+   },
+   {
+    "champ": "evidence[]",
+    "valeurs": "{ id, sourceType, sourceId, competencyIds[], createdAt, validation:{ status, kind, checkedAt, detail, score }, provenance:{ producer, method, note }, dayId, sessionId }",
+    "source": "lib/evidence.mjs · normalizeEvidenceRecord",
+    "utile_au_moteur": "PREUVE datée, rattachée à des compétences, avec statut de validation VÉRIFIÉ pour exercise/assessment/mission/capstone"
+   },
+   {
+    "champ": "recallAttempts[]",
+    "valeurs": "{ conceptId, at, outcome: recalled|partial|failed, format: free|cued|applied|discrim|generate, sourceRef }",
+    "source": "lib/retention.mjs · normalizeAttempt",
+    "utile_au_moteur": "LE fait de rappel — le seul événement de récupération typé du système"
+   },
+   {
+    "champ": "skills{}",
+    "valeurs": "compétence → 0..5",
+    "source": "lib/learning.mjs · migrateProgress",
+    "utile_au_moteur": "niveau DÉCLARÉ par l'apprenant"
+   },
+   {
+    "champ": "weeklyReviews{} / monthlyReviews{}",
+    "valeurs": "objet libre",
+    "source": "lib/learning.mjs · migrateProgress",
+    "utile_au_moteur": "trace des revues hebdo/mensuelles"
+   },
+   {
+    "champ": "missions{}",
+    "valeurs": "état des missions",
+    "source": "lib/progress-store.mjs · normalizeMissionsMap",
+    "utile_au_moteur": "livrables d'ingénierie"
+   }
+  ],
+  "DERIVABLE": [
+   {
+    "champ": "lastExposureAt par concept",
+    "de": "days[n].completedAt + liens /doc/lessons de la journée n",
+    "note": "aucune écriture nouvelle nécessaire"
+   },
+   {
+    "champ": "lastRetrievalAt / lastSuccessAt / lastFailureAt par concept",
+    "de": "recallAttempts filtrés par conceptId et outcome"
+   },
+   {
+    "champ": "lastEvidenceAt par compétence",
+    "de": "evidence[].createdAt + competencyIds, filtré sur validation.status = passed"
+   },
+   {
+    "champ": "successfulRetrievalCount / failedRetrievalCount",
+    "de": "recallAttempts"
+   },
+   {
+    "champ": "applications par compétence",
+    "de": "evidence[] de sourceType project/capstone + jours porteurs de project:N"
+   },
+   {
+    "champ": "currentExpectedLevel",
+    "de": "program.months[].expectedScores, cumulatif"
+   },
+   {
+    "champ": "nextCurriculumNeed",
+    "de": "prochaine journée de projet portant la compétence, après aujourd'hui"
+   },
+   {
+    "champ": "profondeur de prérequis",
+    "de": "docs/v73/curriculum-graph.json · prereq.requis"
+   },
+   {
+    "champ": "correction consultée avant tentative",
+    "de": "correctionState = viewed|acknowledged ET attempts.lastAt postérieur"
+   }
+  ],
+  "MISSING": [
+   {
+    "champ": "outcome TYPÉ d'une tentative de journée",
+    "constat": "days[n].attempts.history[].outcome est une chaîne libre de 40 caractères — non contrainte, donc non exploitable comme succès/échec"
+   },
+   {
+    "champ": "rattachement d'une tentative d'exercice à un CONCEPT",
+    "constat": "evidence porte competencyIds (20 compétences), jamais un conceptId (128 leçons) — le grain du moteur de rétention et celui des preuves ne coïncident pas"
+   },
+   {
+    "champ": "type d'erreur commise",
+    "constat": "aucun champ ne classe une erreur ; `detail` de validation est du texte libre"
+   },
+   {
+    "champ": "durée réelle d'une activité",
+    "constat": "startedAt et completedAt existent au niveau JOUR, pas au niveau activité"
+   },
+   {
+    "champ": "trace d'une révision hebdomadaire effectuée",
+    "constat": "weeklyReviews est un objet libre, sans schéma normalisé"
+   }
+  ],
+  "UNMEASURABLE": [
+   {
+    "champ": "probabilité de mémoire",
+    "raison": "aucune donnée d'apprenant réel n'existe ; V73 a laissé REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED"
+   },
+   {
+    "champ": "temps de setup et interruptions",
+    "raison": "non instrumenté, déjà déclaré non mesuré par le contrat V73"
+   },
+   {
+    "champ": "effort cognitif ressenti",
+    "raison": "seule la compréhension déclarée existe, et elle est un jugement"
+   },
+   {
+    "champ": "transfert réel vers une situation professionnelle",
+    "raison": "hors du produit"
+   }
+  ]
+ }
+}

@@ -7,17 +7,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP13**
+- **dernier CP terminé** : **CP14**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP14** — quinze mutations négatives
-- **NEXT_ACTION** : exécuter les **15 mutations négatives** listées dans le brief. Pour CHACUNE :
-  l'injecter, **VOIR la suite rougir** (noter quels tests et combien), puis restaurer. Une
-  mutation qui ne fait rougir personne est un **trou de couverture à publier**, pas un succès —
-  c'est ce que les anomalies n° 10, 11, 12 et celle du CP13 ont montré quatre fois de suite.
-  **Vérifier aussi qu'une mutation MUTE réellement** (l'anomalie n° 11 portait sur `1 * 0 + 1`,
-  qui vaut `1`). Après restauration complète : `npm test`, `npx tsc --noEmit`, `npm run build`,
-  `npm run gates:active`, et les portes V74. Publier le tableau mutation → tests rouges.
+- **NEXT_CP** : **CP15** — rapport final
+- **NEXT_ACTION** : écrire `docs/v74/V74-FINAL-REPORT.md` — **long**, avec les 34 sections
+  minimales listées dans le brief. Doivent y figurer nommément : **ce que je croyais au CP0 et
+  qui était faux** · **les anomalies de mes propres sondes** (il y en a **quatorze**, n° 1 à
+  n° 14, et quatre d'entre elles allaient dans le sens qui m'arrangeait) · les décisions
+  **abandonnées** et **prises** · la séparation stricte entre **mesuré / interprété / non
+  prouvé** · les dettes **D1→D10** · l'état des critères **B1→B12** et **N1→N5** · le verdict
+  parmi `RETENTION_ENGINE_NOT_READY / FOUNDATION_READY / CANDIDATE / READY`, avec sa
+  justification. **Rappel : `READY` est INTERDIT si le scheduler n'est pas réellement utilisé
+  par le produit** — B12 est désormais satisfait ET gardé par la porte `v74:check` (R6).
+  C'est le **second et dernier gros rapport visible** demandé par le brief.
 
 ## Repères Git
 
@@ -34,7 +37,7 @@
 `128` leçons · `365` journées · `365` corrections · `52` semaines · `12` mois ·
 corpus des leçons `92d5fae6…` · **`data/progress.json` n'existe pas** — l'invariant est de ne
 jamais le créer · `L1 = 0 · L2 = 0/52 · L3 = 6/365` (seuils de charge V73) ·
-`1420/1420` tests · `tsc 0` · **46** portes sans violation · porte V73 verte ·
+`1420/1420` tests · `tsc 0` · **47** portes sans violation (dont `v74:check`, créée au CP14) · porte V73 verte ·
 R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Décisions gelées
@@ -107,6 +110,11 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP14** : **créés** `scripts/v74/cp14-mutations.mjs` (harnais 15 mutations),
+  `scripts/v74-check.mjs` (**porte V74, 21 vérifications**), `docs/v74/V74-CP14-MUTATIONS.md`.
+  **Modifiés** `package.json` (`v74:check` dans `gates:active` → **47 portes**),
+  `tests/v74-learner-memory.test.mjs` (trou M06), `tests/v74-retention-priority.test.mjs`
+  (sonde G5). **0 fichier de produit modifié.**
 - **CP13** : **créés** `scripts/v74/cp13-apprenants.mjs` (8 profils, 6 propriétés),
   `tests/v74-apprenants.test.mjs` (45), `docs/v74/V74-CP13-APPRENANTS.md`.
   **Aucun fichier de produit modifié** — le CP13 mesure, il ne corrige pas.
@@ -162,6 +170,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP14** : **1612/1612** (1 nouveau) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (**47 portes**) · **15 mutations sur 15 vues rougir**, 15 fichiers restaurés à l'octet près ·
+  `data/progress.json` absent · corpus inchangé.
 - **CP13** : **1611/1611** (45 nouveaux) · tsc 0 · `gates:active` **0 violation** (46 portes) ·
   corpus `92d5fae6…` inchangé · `data/progress.json` absent · simulation **déterministe**
   (graine, aucun `Math.random`) · **3 mutations testées, 1 seule rougissait d'abord**
@@ -222,6 +233,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
 | **11** *(CP10)* | **20 minutes perdues par semaine chargée**, parce que le report ÉCRASAIT la valeur entrante (`reste: cible`) au lieu de l'accumuler | **120 minutes** réellement sautées sur six journées consécutives. Sur l'année, ma mesure annonçait **115 minutes non placées ; le chiffre réel est 735** — un facteur **6,4**. Conséquence secondaire : `REPORT_MAX_PAR_JOUR` était **du code mort**, et le test qui le « gardait » veillait sur une propriété inatteignable. **L'erreur allait dans le sens qui m'arrangeait** : elle faisait paraître le coût de mon propre arbitrage six fois plus petit. Trouvée parce qu'une mutation ne faisait rougir personne. |
+| **14** *(CP14)* | **une fixture posant le cas où la règle n'a rien à décider** : le test G5 posait `lastSuccessAt` **sans** `lastRetrievalAt` (nul), or le code lit `lastSuccessAt ?? lastRetrievalAt` — **les deux ordres de repli donnaient le même résultat** | la règle G5 « récent ne protège pas ». Le CP3 avait écrit « gardé par un test » : le test existait et **ne gardait rien**. Cas discriminant ajouté (tentative RÉCENTE qui a ÉCHOUÉ + réussite ANCIENNE). **Quatrième occurrence du motif** après les n° 9, 10 et 13. *Et une de mes mutations de contrôle était encore inefficace* : `RECORD_EXERCISE_ATTEMPT_X` **contient** `RECORD_EXERCISE_ATTEMPT`. |
 | **13** *(CP13)* | **la cohérence interne du plan avec lui-même** : `minutesPlanifiees > minutesAccordees` | **le respect du budget de la JOURNÉE**. En neutralisant le plancher du CP10, la séance respectait toujours le budget qu'on venait de lui donner — **aussi faux fût-il** : la colonne « budget respecté » aurait affiché ✅ sur une journée à **351 minutes**. Corrigé : le contrôle porte sur charge de curriculum **+** réactivation. La mutation fait désormais rougir **9** tests. |
 | **12** *(CP12)* | **la PRÉSENCE D'UNE CHAÎNE** : `includes('getPlanDuJour')` | **l'existence d'un BRANCHEMENT**. Une mutation remplaçant l'appel par un objet vide **passait**, parce que le nom subsistait dans un `as ReturnType<typeof getPlanDuJour>`. Même motif que les anomalies 9 et 10. Corrigé en exigeant la forme d'un **appel affecté**. |
 | **10** *(CP9)* | **rien du tout, deux fois.** (a) un test comparait une série de 3 réussites à une série CASSÉE, or `sm2` court-circuite (`serie === 0` rend 1 jour **sans consulter le facteur de facilité**) : **inverser le signe du terme d'échec ne faisait rougir personne** ; (b) une fixture posée sur le **plafond** du facteur (2,8) absorbait encore l'inversion après correction | la sensibilité des candidats à l'échec. **Et une mutation de contrôle était un no-op arithmétique (`1 * 0 + 1` vaut `1`)** — croire qu'une suite « résiste » à une non-mutation est pire que ne pas avoir muté. Trois règles retenues : un court-circuit en amont rend le code en aval intestable · une valeur bornée teste mal · **une mutation doit être vérifiée comme mutation**. |
@@ -236,6 +248,49 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP14** — **15 mutations sur 15 vues rougir. Mais au premier passage, 13 — et les deux trous
+  étaient réels.**
+  - **NOTE D'HONNÊTETÉ EN TÊTE DU RAPPORT** : le brief énumérait quinze mutations, **je n'en ai
+    plus le texte verbatim**. Les quinze sont **dérivées des décisions gelées** (G1→G12,
+    B1→B12), chacune attaquant une décision nommée, du CP2 au CP12. **Reconstruction fidèle à
+    l'intention, pas citation** — le dire vaut mieux que de laisser croire à une correspondance
+    exacte.
+  - **Le harnais fait deux vérifications qu'on oublie** : que la mutation **a réellement muté le
+    fichier** (leçon de l'anomalie n° 11 : `1 * 0 + 1` vaut `1`), et que le fichier est
+    **restauré à l'octet près**.
+  - **PREMIER PASSAGE : 13/15.** Les deux manquantes étaient de vrais défauts de couverture, et
+    **elles ont la même forme**.
+  - **TROU M06 — la clé métier ne testait qu'une direction sur deux.** Le test vérifiait que
+    deux enregistrements à la même seconde FUSIONNENT ; **rien ne vérifiait qu'ils se
+    DISTINGUENT** quand les scores diffèrent. **Conséquence réelle** : un apprenant qui relance
+    dans la même seconde après avoir corrigé son code verrait sa progression **2/5 → 5/5 écrasée
+    par déduplication** — le moteur perdrait le fait le plus intéressant qu'il ait.
+  - **TROU M10 — la fixture posait exactement le cas où la règle n'a rien à décider.** Le CP3
+    avait écrit « G5 gardé par un test ». **Le test existait et ne gardait rien** : il posait
+    `lastSuccessAt` sans poser `lastRetrievalAt` (nul), or le code lit
+    `lastSuccessAt ?? lastRetrievalAt` — **les deux ordres de repli donnaient le même
+    résultat**. Le cas discriminant, qui est le cas réel visé par G5, est **une tentative
+    RÉCENTE qui a ÉCHOUÉ plus une réussite ANCIENNE**. **Quatrième occurrence du motif** après
+    les anomalies n° 9, 10 et 13 : *un test vert ne prouve rien tant qu'on ne l'a pas vu
+    rougir*.
+  - **UNE NOUVELLE PORTE : `v74:check`.** Le brief demandait de rejouer « les portes V74 » —
+    **elles n'existaient pas** (V65 et V66 ont chacune la leur). Créée, **21 vérifications**,
+    ajoutée à `gates:active` : **46 → 47 portes**. Elle garde des propriétés STRUCTURELLES
+    qu'aucune assertion ne voit : R2 (la tentative écrite AVANT la branche de succès), R5
+    (modules purs), **R6 · B12 — les cinq modules branchés, la page qui appelle l'arbitre, le
+    laboratoire qui appelle la remédiation**, R7 (aucun score de mémoire), R9 (transfert non
+    fabriqué), R10 (`progress.json` absent).
+  - **LA PORTE A ÉTÉ VUE ROUGIR** sur cinq injections (B12 débranché, commande supprimée,
+    tentative écrite après le succès, échelle dans `daily-plan`, co-occurrence rebaptisée).
+    **Et une de mes mutations de contrôle était encore inefficace** : renommer
+    `RECORD_EXERCISE_ATTEMPT` en `RECORD_EXERCISE_ATTEMPT_X` laisse la chaîne d'origine
+    **contenue** dans la nouvelle — `indexOf` la trouvait toujours. Même famille que
+    l'anomalie n° 11, refaite correctement.
+  - **APRÈS RESTAURATION COMPLÈTE : 0 fichier de PRODUIT modifié** — seuls deux fichiers de test
+    ont été corrigés.
+  - **1612/1612 · tsc 0 · build OK · 47 portes vertes · corpus inchangé · `progress.json`
+    absent.**
 
 - **CP13** — **huit apprenants, six propriétés, 8/8. Et le décompte qui les faisait tous
   échouer était trompeur — en MA défaveur.**

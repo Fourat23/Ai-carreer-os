@@ -78,14 +78,33 @@ test('V74 · DUE / SOON / OVERDUE se départagent par la tolérance de 7 jours',
 
 // ── les facteurs, un par un ───────────────────────────────────────────────
 
+// SONDE CORRIGÉE — TROU TROUVÉ PAR LA MUTATION M10 DU CP14.
+//
+// La première version posait `lastSuccessAt` **sans poser `lastRetrievalAt`**,
+// laissé à `null` par la fixture. Or le code lit `lastSuccessAt ?? lastRetrievalAt` :
+// avec un `lastRetrievalAt` nul, **les deux ordres de repli donnent le même
+// résultat**. En inversant l'expression (`lastRetrievalAt ?? lastSuccessAt`),
+// aucun test ne rougissait.
+//
+// Le test posait donc exactement le cas où la règle n'a rien à décider. Il
+// fallait le cas DISCRIMINANT, qui est aussi le cas réel que G5 vise : une
+// tentative RÉCENTE qui a ÉCHOUÉ, et une réussite ANCIENNE. C'est là que
+// « récent ne protège pas » veut dire quelque chose.
 test('V74 · G5 — « récent » ne protège pas : c’est le dernier RAPPEL RÉUSSI qui compte', () => {
-  // Contact significatif hier, mais dernière réussite il y a deux mois.
   const p = prioriteDe(f({
     lastMeaningfulContactAt: '2026-02-28T00:00:00.000Z',
-    lastSuccessAt: '2026-01-01T00:00:00.000Z', retrievalCount: 1,
+    // Tentative d'hier — mais ÉCHOUÉE. Elle ne doit rien rafraîchir.
+    lastRetrievalAt: '2026-02-28T00:00:00.000Z',
+    lastFailureAt: '2026-02-28T00:00:00.000Z',
+    // Dernière réussite : deux mois plus tôt.
+    lastSuccessAt: '2026-01-01T00:00:00.000Z',
+    retrievalCount: 2, successfulRetrievalCount: 1, failedRetrievalCount: 1,
   }), { now: NOW });
   const anc = p.facteurs.find((x) => x.id === 'ancienneteRappel');
-  assert.ok(anc && anc.valeur >= 55, 'l’ancienneté doit se compter depuis la réussite');
+  assert.ok(anc, 'le facteur d’ancienneté doit être cité');
+  assert.ok(anc.valeur >= 55,
+    `l’ancienneté se compte depuis la RÉUSSITE (attendu ≥ 55 j, obtenu ${anc.valeur}) : `
+    + 'une tentative récente mais ratée ne doit pas rajeunir la notion');
 });
 
 test('V74 · « exposé mais jamais mis à l’épreuve » est un signal, et il est silencieux sans lui', () => {

@@ -58,6 +58,29 @@ test('V74 · clé métier : un rejeu à la même seconde est le MÊME fait', () 
   assert.equal(normalizeExerciseAttempts([exo(), exo()]).length, 1);
 });
 
+// TROU DE COUVERTURE TROUVÉ PAR LA MUTATION M06 DU CP14.
+//
+// Le test ci-dessus ne vérifiait que la direction qui FUSIONNE : même seconde →
+// même clé. Rien ne vérifiait la direction qui DISTINGUE. En retirant
+// `passed/total` de la clé métier, **aucun test ne rougissait** — alors que
+// c'est précisément ce terme qui empêche deux tentatives de scores différents
+// d'être confondues.
+//
+// Conséquence réelle de l'absence : un apprenant qui relance l'exercice dans la
+// même seconde après avoir corrigé son code verrait sa progression (2/5 → 5/5)
+// écrasée par déduplication. Le moteur de rétention perdrait le fait le plus
+// intéressant qu'il ait : celui qui montre qu'il vient de comprendre.
+test('V74 · clé métier : deux scores DIFFÉRENTS à la même seconde restent deux faits', () => {
+  const rate = normalizeExerciseAttempt(exo({ passed: 2, total: 5 }));
+  const reussi = normalizeExerciseAttempt(exo({ passed: 5, total: 5 }));
+  assert.notEqual(attemptKey(rate), attemptKey(reussi),
+    'la clé métier ne distingue plus deux tentatives de scores différents');
+  assert.equal(
+    normalizeExerciseAttempts([exo({ passed: 2, total: 5 }), exo({ passed: 5, total: 5 })]).length, 2,
+    'une progression dans la même seconde a été écrasée par déduplication',
+  );
+});
+
 test('V74 · une phase non exécutée ne peut pas être un succès', () => {
   const a = normalizeExerciseAttempt(exo({ phase: 'compile', passed: 3, total: 3 }));
   assert.equal(a.outcome, 'failure');

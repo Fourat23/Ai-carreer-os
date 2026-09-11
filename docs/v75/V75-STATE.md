@@ -7,18 +7,18 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP1**
+- **dernier CP terminé** : **CP2**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP2** — event model V2
-- **NEXT_ACTION** : payer **D3 / D6** autant que possible et poser un modèle événementiel
-  cohérent. Étudier `ExerciseAttempt` · `RecallAttempt` · `Evidence` · `WeeklyReviewAttempt` ·
-  `TransferAttempt`. Chaque fait doit être **immuable**, horodaté **serveur**, porter sa
-  **provenance**, sa **déduplication**, son **grain explicite** et une **version de schéma**.
-  **Préserver les anciennes données — aucune migration destructive.** Rappel CP0 : `D3` a
-  **1 producteur et 0 consommateur réel**, son `outcome` est une chaîne libre sans provenance ni
-  idempotence ; `D6` (`weeklyReviews`) est un objet libre sans horodatage touché par 6 fichiers.
-  Décider explicitement pour D3 : disparaître · être typé · être remplacé · rester legacy.
+- **NEXT_CP** : **CP3** — preuves au grain CONCEPT
+- **NEXT_ACTION** : payer **D4**. Permettre à une preuve de porter un `conceptId` **quand il est
+  connu**, de façon strictement **ADDITIVE** : `competencyIds` n'est jamais retiré. Quatre cas à
+  traiter explicitement — concept unique · concepts multiples · compétence sans concept ·
+  transfert multi-concepts. **Ne PAS forcer un seul concept quand un exercice en teste
+  plusieurs** : le CP0 a mesuré **67 exercices multi-concepts PAR CONCEPTION**, ce qui n'est pas
+  un défaut à corriger mais une réalité à représenter. Le champ doit donc accepter une LISTE.
+  Rappel : `data/progress.json` est absent, donc aucune preuve réelle à migrer — mais le
+  normaliseur doit quand même lire sans broncher une preuve écrite avant ce contrat.
 
 ## Repères Git
 
@@ -64,6 +64,24 @@
     **`N3` (part garée) est non bloquant ET surveillé** : le CP13 publiera **total, actif et
     garé séparément**, parce que tout mettre au garage ferait chuter l'arriéré actif sans rien
     résoudre — `R2` et `R6` déguisés.
+
+- **CP2** : modèle événementiel V2 — `lib/event-model.mjs`. Décisions structurantes :
+  - **D3 TRANCHÉE : l'événement est TYPÉ, pas supprimé.** Quatre options étaient ouvertes ;
+    « disparaître » était tentant (0 lecteur) mais **supprimer un champ persisté est une
+    migration destructive**, interdite par le brief — *un fait qu'on ne lit plus n'est pas un
+    fait qu'on a le droit d'effacer*. « Remplacer par `ExerciseAttempt` » a été refusé : celui-ci
+    parle du grain EXERCICE, `DayAttempt` dit « j'ai travaillé cette journée » — les confondre
+    serait mélanger deux grains que ce sprint passe son temps à séparer.
+  - **`ATTEMPT_OUTCOMES` ferme le vocabulaire** (chaîne libre → 5 valeurs) ; provenance
+    obligatoire sur un fait NOUVEAU, `legacy` sur un fait ANCIEN ; clé métier `jour+seconde+issue`.
+  - **D6 payée additivement** : `at`, `provenance`, `schemaVersion` ajoutés aux revues
+    hebdomadaires. **`score` reste une AUTO-ÉVALUATION et est renommé `scoreDeclare`** — le CP0
+    de V74 avait établi l'excès de déclaratif dans ce produit, et *la réponse n'est pas de
+    maquiller une déclaration en mesure mais de la nommer*. L'ancien champ `score` reste écrit.
+  - **RÈGLE CENTRALE : refuser le NOUVEAU mal formé, accepter l'ANCIEN en le rendant visible.**
+    Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
+    laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
+    absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
 
 ## Mesures BEFORE (CP0 — à ne jamais reconstruire ni écraser)
 
@@ -145,6 +163,9 @@
 
 ## Fichiers
 
+- **CP2** : **créés** `lib/event-model.mjs`, `tests/v75-event-model.test.mjs` (15).
+  **Modifiés** `lib/learning.mjs` (D3 : `recordAttempt` typé + normaliseur additif),
+  `lib/learning-engine.mjs` (D6 : revue hebdomadaire horodatée et tracée).
 - **CP1** : **créé** `docs/v75/V75-RECOVERY-CONTRACT-FROZEN.md`. **Aucun fichier de produit.**
 - **CP0** : **créés** `scripts/v75/cp0-forensics.mjs`, `scripts/v75/cp0-backlog.mjs`,
   `docs/v75/cp0-forensics.json`, `docs/v75/cp0-backlog.json`,
@@ -152,11 +173,29 @@
 
 ## Tests exécutés
 
+- **CP2** : **1627/1627** (15 nouveaux) · tsc 0 · `gates:active` **0 violation** (47 portes) ·
+  corpus inchangé · `data/progress.json` absent · **4 mutations VUES rougir**.
 - **CP1** : document seul, aucun code modifié — aucun test à rejouer.
 - **CP0** : **1612/1612** · tsc 0 · build OK · `gates:active` **47 portes, 0 violation** ·
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP2** — **modèle événementiel V2 : refuser le nouveau mal formé, accepter l'ancien en le
+  rendant visible.**
+  - **D3 tranchée par la sémantique, pas par la commodité** : l'événement est **typé**, pas
+    supprimé. Il avait pourtant **0 lecteur** — mais supprimer un champ persisté est une
+    migration destructive, et la progression d'un apprenant réel peut déjà en contenir.
+  - **D6 payée additivement** : les revues hebdomadaires ont enfin une **date**. Sans elle, une
+    revue ne peut servir ni à une reprise ni à une télémétrie — et le CP0 avait mesuré qu'elle
+    n'avait ni horodatage, ni provenance, ni version, ni **aucun lecteur**.
+  - **Le `score` hebdomadaire reste déclaratif, et s'appelle désormais `scoreDeclare`.** La
+    tentation était de le traiter comme une mesure ; le CP0 de V74 avait justement établi que ce
+    produit a **trop** d'auto-déclaration. On le nomme au lieu de le maquiller.
+  - **4 mutations vues rougir** : producteur non exigé sur un fait neuf · vocabulaire d'issue
+    réouvert · provenance perdue sur une entrée ancienne (migration destructive) · score
+    déborné.
+  - **1627/1627 · tsc 0 · 47 portes vertes.**
 
 - **CP1** — **contrat gelé. Aucun fichier de produit modifié.**
   - **La décision qui commande le sprint : `PARKED ≠ MASTERED`.** Garer une notion, c'est décider

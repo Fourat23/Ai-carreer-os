@@ -7,22 +7,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP11**
+- **dernier CP terminé** : **CP12**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP12** — explication à l'apprenant + audit UI/UX
-- **NEXT_ACTION** : rendre le moteur VISIBLE et COMPRÉHENSIBLE par l'apprenant, puis auditer
-  l'UI/UX avec des constats classés **P0 / P1 / P2**. Contraintes du brief, verbatim :
-  **« réutiliser le langage visuel existant, PAS de redesign massif »** et **jamais
-  « memory score = 0,637 »** (§9 du contrat gelé). **Critère BLOQUANT B12 : `READY` est
-  interdit si le scheduler n'est pas réellement utilisé par le produit** — c'est LE checkpoint
-  qui décide de ce critère. À brancher : `planDuJour` (CP10) · `planifier` (CP4) · `remedier`
-  (CP7, jamais branché à l'interface) · `tachePour` (CP5) · le signal de ralentissement (CP10)
-  · les trois signaux silencieux (« exposé mais jamais mis à l'épreuve », « travaillé mais
-  jamais sans la réponse sous les yeux », « su mais jamais hors de son contexte », CP11).
-  **Ouvrir aussi les verrous UI de la dette D10** si c'est peu coûteux : `app/transfer/[id]`
-  n'existe pas, alors que `lib/transfer-challenges-server.ts` est prêt.
-  Réutiliser les composants existants ; faire un `ux-audit` avant de toucher quoi que ce soit.
+- **NEXT_CP** : **CP13** — huit apprenants synthétiques
+- **NEXT_ACTION** : simuler **huit apprenants synthétiques** — **A** parfait · **B** irrégulier ·
+  **C** nombreux échecs · **D** très peu actif · **E** progression rapide · **F** oublis
+  sélectifs · **G** reprend après 30 jours d'arrêt · **H** termine sans produire les preuves.
+  **Vérifier sur chacun** : aucune boucle infinie · aucun arriéré exponentiel · aucune répétition
+  quotidienne permanente · **aucune compétence oubliée indéfiniment** · priorité explicable ·
+  budget respecté. Réutiliser `simuler` de `scripts/v74/cp8-espacement.mjs` (déjà paramétré par
+  graine, budget, `echeanceDeOf` et `oubli`) plutôt que d'écrire un second simulateur.
+  **RAPPEL, à écrire dans le titre du rapport : une simulation n'est PAS une preuve
+  d'apprentissage** — le contrat §8.2 l'exige. Les profils F, G et H sont ceux que le CP8 n'a pas
+  couverts : ses trois apprenants ne différaient que par un taux de réussite constant.
 
 ## Repères Git
 
@@ -112,6 +110,13 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP12** : **créés** `lib/plan-jour-server.ts`, `lib/daily-plan.d.ts`, `lib/learner-memory.d.ts`,
+  `lib/retention-priority.d.ts`, `lib/retention-scheduler.d.ts`, `lib/retrieval-task.d.ts`,
+  `tests/v74-b12-branchement.test.mjs` (10), `docs/v74/V74-CP12-INTERFACE.md`.
+  **Modifiés** `app/retention/page.tsx`, `app/retention/RecallStation.tsx`,
+  `app/api/lab/[exerciseId]/route.ts`, `app/lab/[exerciseId]/LabWorkspace.tsx`,
+  `app/globals.css` (**jetons existants uniquement**), `scripts/v651-check.mjs` (C11).
+  **Aucun fichier de curriculum touché.**
 - **CP11** : **créés** `scripts/v74/cp11-transfert.mjs`, `tests/v74-transfert.test.mjs` (11),
   `docs/v74/V74-CP11-TRANSFERT.md`. **Modifiés** `lib/learner-memory.mjs` (`transfers` redéfini,
   `cooccurrencesCompetences` + `jamaisTransfere` ajoutés, `sourceType` transmis),
@@ -157,6 +162,10 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP12** : **1566/1566** (10 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (46 portes) · **responsive 0 débordement / 0 superposition** aux 4 viewports · **0 score
+  chiffré** dans le HTML servi · `data/progress.json` absent · **3 mutations VUES rougir**,
+  dont **1 ne rougissait pas d'abord** (assertion creuse).
 - **CP11** : **1556/1556** (11 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (46 portes) · corpus `92d5fae6…` inchangé · `data/progress.json` absent · **4 mutations VUES
   rougir** · **1 test V65 a rougi et avait raison** (gel du vocabulaire des preuves).
@@ -209,6 +218,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
 | **11** *(CP10)* | **20 minutes perdues par semaine chargée**, parce que le report ÉCRASAIT la valeur entrante (`reste: cible`) au lieu de l'accumuler | **120 minutes** réellement sautées sur six journées consécutives. Sur l'année, ma mesure annonçait **115 minutes non placées ; le chiffre réel est 735** — un facteur **6,4**. Conséquence secondaire : `REPORT_MAX_PAR_JOUR` était **du code mort**, et le test qui le « gardait » veillait sur une propriété inatteignable. **L'erreur allait dans le sens qui m'arrangeait** : elle faisait paraître le coût de mon propre arbitrage six fois plus petit. Trouvée parce qu'une mutation ne faisait rougir personne. |
+| **12** *(CP12)* | **la PRÉSENCE D'UNE CHAÎNE** : `includes('getPlanDuJour')` | **l'existence d'un BRANCHEMENT**. Une mutation remplaçant l'appel par un objet vide **passait**, parce que le nom subsistait dans un `as ReturnType<typeof getPlanDuJour>`. Même motif que les anomalies 9 et 10. Corrigé en exigeant la forme d'un **appel affecté**. |
 | **10** *(CP9)* | **rien du tout, deux fois.** (a) un test comparait une série de 3 réussites à une série CASSÉE, or `sm2` court-circuite (`serie === 0` rend 1 jour **sans consulter le facteur de facilité**) : **inverser le signe du terme d'échec ne faisait rougir personne** ; (b) une fixture posée sur le **plafond** du facteur (2,8) absorbait encore l'inversion après correction | la sensibilité des candidats à l'échec. **Et une mutation de contrôle était un no-op arithmétique (`1 * 0 + 1` vaut `1`)** — croire qu'une suite « résiste » à une non-mutation est pire que ne pas avoir muté. Trois règles retenues : un court-circuit en amont rend le code en aval intestable · une valeur bornée teste mal · **une mutation doit être vérifiée comme mutation**. |
 | **9** *(CP8)* | une **coïncidence de données** : avec des valeurs par défaut, la fiche en retard a naturellement le meilleur score, donc les DEUX ordres de tri donnaient le même résultat | la **règle** « une notion à jour ne passe pas devant une notion en retard ». Le test **passait avant comme après le CP8**, et aurait continué à passer si la règle avait été supprimée. Découvert parce qu'une mutation censée toucher deux tests n'en faisait rougir **qu'un**. Réécrit sur le cas discriminant (fiche saine à **30** contre **20**), avec une assertion qui garde le fait que le cas RESTE discriminant. |
 | **8** *(CP7)* | **un nombre que je n'ai jamais compté moi-même** : « 52 portes », repris du rapport final de V73 et répété dans CINQ entrées de journal de V74 | le nombre d'entrées de `gates:active`, qui vaut **46** — et valait déjà 46 au commit `b353ebd`, fin de V73. Aucune porte ne manquait, aucun verdict ne change (le critère est « 0 violation », pas un décompte) : **c'est un chiffre recopié au lieu d'être mesuré**. Corrigé partout dans ce fichier. |
@@ -221,6 +231,66 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP12** — **B12 est passé de NON à OUI : le moteur atteint enfin l'apprenant. Et deux défauts
+  ne sont apparus qu'en LISANT LA PAGE RENDUE.**
+  - **CE QUE L'AUDIT A ÉTABLI** : entre le CP2 et le CP11, **aucun des six modules écrits
+    n'était atteignable depuis le produit** — `learner-memory`, `retention-priority`,
+    `retention-scheduler`, `retrieval-task`, `remediation`, `daily-plan` : **0 référence** dans
+    `app/`, **0 read-model**. Les 7 correspondances de « remediation » étaient toutes des faux
+    positifs (capstones, cloud, libellé de phase). **Six modules, des centaines de tests verts,
+    et rien qu'un apprenant puisse voir** — exactement ce que B12 vise, et ce qu'un tableau de
+    tests verts cache parfaitement.
+  - **Constats : 3 P0 · 4 P1 · 1 P2.** Les trois P0 ont la même cause. **Ce qui était déjà bon
+    n'a PAS été touché** : responsive 0 débordement aux 4 viewports · `lang="fr"` · 20 règles
+    `focus-visible` · `role="alert"` / `role="group"` · aucun score chiffré · le geste
+    « consigne d'abord, réponse après » de V66.
+  - **AUCUN REDESIGN** : un read-model nouveau, quatre fichiers touchés, composants existants
+    réutilisés (`Panel`, `InlineNotice`, `ContextLine`), et **aucune couleur ni motif nouveau** —
+    les styles ajoutés n'emploient que des jetons existants (vérifié : les 3 jetons que j'avais
+    inventés au premier jet n'existaient pas, remplacés par les vrais).
+  - **`lib/plan-jour-server.ts`** assemble la chaîne et **ne décide rien** : faits → CP2 → CP3 →
+    CP4 → CP5 → CP10. Aucun seuil, aucune échelle — c'est ce qui l'empêche d'être un sixième
+    moteur.
+  - **CE QUE L'APPRENANT VOIT, vérifié sur le rendu réel** : *« ta dernière tentative n'a pas
+    abouti, il y a 16 jours, et tu n'y es pas revenu depuis »* (pourquoi explicable du CP3, deux
+    facteurs) · *« Question posée · environ 3 min »* (forme soutenue après échec, CP4 + coût
+    CP10) · *« Réponds à voix haute aux questions d'entretien de la leçon »* (archétype réel du
+    CP5) · et la place réservée du CP8 : *« tu l'as rencontré, mais tu ne l'as jamais mis à
+    l'épreuve »*.
+  - **LA REMÉDIATION DU CP7 EST RENDUE**, vérifiée par un appel réel à l'API : 2/5 tests →
+    `SOUS_PROBLEME`, *« Oublie les autres tests. Fais passer celui-ci… »*, prochaine `INDICE`.
+    **Au premier échec, l'apprenant ne reçoit PAS la réponse.** L'anti-fuite est préservé : seuls
+    les tests PUBLICS échoués sont nommés, et un test le garde.
+  - **DEUX DÉFAUTS TROUVÉS EN LISANT LA PAGE RENDUE, PAS LE CODE** — tous deux passés au travers
+    de `tsc`, de 1556 tests et du build. (a) **la carte annonçait un exercice et en demandait un
+    autre** : le libellé venait de la forme V66 (« Mise en application ») et la consigne de la
+    forme CP4 (questions d'entretien) — j'avais remplacé la consigne sans remplacer la forme ;
+    (b) **la page se contredisait à deux centimètres** : « Rien n'est dû aujourd'hui » pendant
+    que le rail affichait « Écarté aujourd'hui — budget de la session atteint », parce que je
+    cherchais les unités dans `s.queue` (file DUE de V66) au lieu de `s.projection` — **le choix
+    de l'arbitre était refiltré par la règle d'échéance de V66, soit deux décideurs pour une
+    même question**. *Ces deux défauts sont l'argument le plus fort en faveur du CP12 lui-même :
+    un moteur qu'on ne regarde pas fonctionner peut être parfaitement testé et parfaitement faux
+    à l'écran.*
+  - **UNE PORTE A ROUGI, ET ELLE AVAIT RAISON DE REGARDER** : C11 a signalé
+    `retention-priority.d.ts` et `retention-scheduler.d.ts`. **Mais un `.d.ts` ne contient aucune
+    implémentation** — il ne peut pas être un moteur, et la liste contenait déjà
+    `lib/retention.d.ts`. Les `.d.ts` sortent du contrôle **par le NOM** et **restent soumis au
+    contrôle par la PROPRIÉTÉ** ; vérifié négativement dans les deux sens (un `.d.ts` portant un
+    `INTERVALS` rougit ; un vrai `.mjs` non déclaré rougit).
+  - **B12 EST DÉSORMAIS GARDÉ PAR UN TEST, PAS PAR UNE LECTURE** :
+    `tests/v74-b12-branchement.test.mjs` teste un **branchement**, pas une fonction.
+  - **ANOMALIE n° 12** : une de ses assertions était **creuse**. `includes('getPlanDuJour')`
+    passait alors que l'appel avait été remplacé par un objet vide — le nom subsistait dans un
+    `as ReturnType<typeof getPlanDuJour>`. **Le test gardait la présence d'une chaîne, pas
+    l'existence d'un branchement.** Corrigé en exigeant la forme d'un appel affecté.
+  - **RESTE EN DETTE** : `/transfer` toujours en 404 (D10, verrous 1-3 : lier les défis aux
+    journées toucherait au curriculum) · D3 non payée · **la tendance de l'arriéré n'est pas
+    persistée**, donc le signal reste en « vigilance » — *inventer une tendance aurait été
+    fabriquer un fait*, le read-model passe `null` et le dit.
+  - **1566/1566 · tsc 0 · build OK · 46 portes vertes · 0 débordement aux 4 viewports · 0 score
+    chiffré dans le HTML servi · corpus inchangé.**
 
 - **CP11** — **le moteur était STRUCTURELLEMENT incapable d'observer un transfert, et ce qu'il
   appelait « transfert » s'allumait sur 74 % des journées.**

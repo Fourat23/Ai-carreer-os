@@ -14,6 +14,8 @@ import {
   readWorkspaceTree, writeWorkspaceFile, resetWorkspace, resetWorkspaceFile, runExercise, buildReactPreview,
 } from '@/lib/workspace-server';
 import { splitAttempt } from '@/lib/lab-feedback';
+import { remedier } from '@/lib/remediation';
+import { ressourcesDe } from '@/lib/remediation-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -97,6 +99,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       // d'ailleurs la commande, et un refus n'écrit rien.
       let recorded = false;
       let sessionsUpdated = 0;
+      // V74 · CP12 — la remédiation du CP7, enfin rendue à l'apprenant.
+      let remediation: unknown = null;
 
       // ── V74 · CP2 — LA TENTATIVE EST UN FAIT, QU'ELLE RÉUSSISSE OU NON ──
       //
@@ -133,6 +137,38 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
           provenance: { producer: 'lab-runner', method: 'sandbox-tests' },
         }, { now: new Date() });
         if (r.ok) writeProgress(r.progress);
+
+        // ── V74 · CP12 — QUE FAIRE APRÈS CET ÉCHEC ──
+        //
+        // Le CP7 avait écrit le moteur ; l'audit du CP12 a constaté qu'il
+        // n'était appelé nulle part. Une échelle de remédiation que personne ne
+        // voit n'aide personne.
+        //
+        // La règle centrale du CP7 tient toute seule ici : **la correction
+        // complète est la DERNIÈRE marche**. Ce que l'apprenant reçoit au
+        // premier échec est un sous-problème ou un retour au modèle mental, pas
+        // la réponse — et le contrat §1.4 (R-b) explique pourquoi : une
+        // tentative postérieure à l'ouverture de la correction ne vaut plus
+        // récupération.
+        if (!attempt.allPassed) {
+          const apres = r.ok ? r.progress : before;
+          const tentatives = ((apres as { exerciseAttempts?: unknown[] }).exerciseAttempts ?? []) as Parameters<typeof remedier>[0]['attempts'];
+          const res = ressourcesDe(ex.id);
+          remediation = remedier({
+            attempts: tentatives,
+            exerciseId: ex.id,
+            now: new Date().toISOString(),
+            sections: res.sections,
+            misconception: res.misconception,
+            voisinPlusSimple: res.voisinPlusSimple,
+            // Seuls les tests PUBLICS échoués sont nommés : nommer un test privé
+            // révélerait l'attendu, et l'anti-fuite du produit est antérieur au
+            // CP12. Un sous-problème tiré d'un test privé serait une fuite.
+            testsEchoues: publicResults.filter((t) => !t.passed).map((t) => ({ name: t.name })),
+            diagnostic: (diagnostics ?? []).map((d) => (d as { message?: string }).message).filter(Boolean)[0] ?? null,
+            correctionVue: correctionSeen,
+          });
+        }
       }
 
       if (attempt.allPassed) {
@@ -169,7 +205,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
           recorded = true;
         }
       }
-      return NextResponse.json({ ok: true, attempt, privateSummary, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded, sessionsUpdated });
+      return NextResponse.json({ ok: true, attempt, privateSummary, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded, sessionsUpdated, remediation });
     }
     return NextResponse.json({ error: 'Action inconnue.' }, { status: 400 });
   } catch (e: unknown) {

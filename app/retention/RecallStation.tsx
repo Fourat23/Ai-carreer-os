@@ -33,6 +33,17 @@ export interface PromptRow {
   teachingDays: number[];
   state: RetentionStateId;
   reason: string;
+  // ── V74 · CP12 — ce que l'arbitre ajoute, tout est FACULTATIF ──
+  // Ces champs viennent de la chaîne CP3 → CP4 → CP5. Ils sont optionnels pour
+  // que la station continue de fonctionner exactement comme avant quand ils
+  // sont absents : le CP12 branche le moteur, il ne réécrit pas la surface.
+  /** Phrase explicable du CP3 : au plus deux facteurs cités (critère B10). */
+  pourquoi?: string;
+  /** Consigne d'un archétype RÉEL du CP5, citant une section de la leçon. */
+  consigne?: string;
+  /** Section où comparer APRÈS avoir tenté. */
+  verifier?: string | null;
+  minutes?: number;
 }
 
 const OUTCOMES: Array<{ key: RecallOutcome; label: string; Icon: typeof Check; hint: string }> = [
@@ -85,12 +96,22 @@ export default function RecallStation({ prompts }: { prompts: PromptRow[] }) {
                 <h3 className="ret-card-title">{row.title}</h3>
                 <span className="ret-card-state">{RETENTION_STATE_LABEL[row.state]}</span>
               </div>
-              <p className="ret-card-why">{row.reason}</p>
+              {/* Le POURQUOI de l'arbitre passe devant l'état V66 quand il existe :
+                  « il y a trois semaines que tu ne l'as pas retrouvée » se
+                  conteste, « Fragile » ne se conteste pas. L'état reste affiché
+                  dans l'en-tête de la carte. */}
+              <p className="ret-card-why">{row.pourquoi ?? row.reason}</p>
 
               {row.format ? (
                 <>
-                  <p className="ret-card-format">{FORMAT_LABEL[row.format]}</p>
-                  <p className="ret-card-prompt">{FORMAT_PROMPT[row.format]}</p>
+                  <p className="ret-card-format">
+                    {FORMAT_LABEL[row.format]}
+                    {row.minutes ? <span className="ret-card-mins"> · environ {row.minutes} min</span> : null}
+                  </p>
+                  {/* La consigne de l'archétype CITE une section réelle de la
+                      leçon ; la consigne V66 est générique. On préfère la
+                      première quand elle existe, jamais on n'en invente une. */}
+                  <p className="ret-card-prompt">{row.consigne ?? FORMAT_PROMPT[row.format]}</p>
                 </>
               ) : (
                 // Honnêteté sur le corpus : quand la leçon n'offre aucune section
@@ -108,8 +129,9 @@ export default function RecallStation({ prompts }: { prompts: PromptRow[] }) {
               ) : (
                 <div className="ret-card-after">
                   <p className="ret-card-check">
-                    Compare ce que tu viens de produire avec le cours :
-                    {' '}
+                    {row.verifier
+                      ? <>Compare ce que tu viens de produire avec la section <strong>« {row.verifier} »</strong> :{' '}</>
+                      : <>Compare ce que tu viens de produire avec le cours :{' '}</>}
                     {row.teachingDays.length > 0
                       ? row.teachingDays.slice(0, 3).map((d, i) => (
                         <span key={d}>{i > 0 ? ' · ' : ''}<Link href={`/day/${d}`}>Jour {d}</Link></span>

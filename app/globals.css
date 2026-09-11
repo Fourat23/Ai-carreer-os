@@ -5580,3 +5580,22 @@ button.dot::after {
 .doc-table-scroll { overflow-x: auto; max-width: 100%; }
 .doc-table-scroll:focus-visible { outline: 2px solid var(--border-accent, currentColor); outline-offset: 2px; }
 .prose .doc-table-scroll > table { display: table; overflow: visible; width: max-content; min-width: 100%; }
+
+/* V74 · CP12 — remédiation après un échec d'exercice (moteur du CP7).
+   Aucune couleur nouvelle, aucun motif nouveau : on réutilise les jetons
+   existants. Le bloc se lit comme une suite du verdict, pas comme une alerte —
+   un échec est une donnée utile, pas une punition (règle reprise de V66). */
+.lab-remediation {
+  margin: 0 0 var(--sp-3);
+  padding: var(--sp-3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-sm);
+  background: var(--panel-2);
+}
+.lab-rem-why { margin: 0 0 var(--sp-2); font-size: var(--fs-xs); color: var(--muted); }
+.lab-rem-do { margin: 0; font-size: var(--fs-sm); line-height: 1.5; color: var(--text); }
+.lab-rem-ptr { margin: var(--sp-2) 0 0; font-size: var(--fs-xs); }
+.lab-rem-note { margin: var(--sp-2) 0 0; font-size: var(--fs-xs); color: var(--faint); }
+/* V74 · CP12 — durée estimée d'une réactivation, à côté de la forme. */
+.ret-card-mins { color: var(--muted); font-weight: 400; }

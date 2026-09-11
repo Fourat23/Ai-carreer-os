@@ -44,6 +44,12 @@ type TestMeta = { id: string; name: string };
 type ResultItem = { testId: string; name: string; passed: boolean; message: string; expected?: unknown; actual?: unknown; durationMs?: number | null };
 type Attempt = { total: number; passed: number; allPassed: boolean; durationMs: number; results: ResultItem[] };
 type PrivateSummary = { total: number; passed: number } | null;
+// V74 · CP12 — la remédiation rendue par l'API après un échec (moteur du CP7).
+type Remediation = {
+  action: string; niveau: number; consigne: string;
+  pointeur: { kind: string; ref: string | null };
+  minutes: number; raison: string; prochaine: string | null; note: string | null;
+} | null;
 type Diagnostic = { category: 'error' | 'warning' | 'suggestion'; code: number | string; message: string; phase: string; file?: string; line?: number; column?: number; endLine?: number; endColumn?: number };
 type RightTab = 'preview' | 'tests' | 'diagnostics' | 'console' | 'terminal' | 'help';
 type PreviewLog = { level: string; type: string; text: string; line?: number | null; col?: number | null; at: number };
@@ -85,6 +91,7 @@ export default function LabWorkspace({
   const [runPhase, setRunPhase] = useState<'compiling' | 'testing' | null>(null);
   const [attempt, setAttempt] = useState<Attempt | null>(null);
   const [privateSummary, setPrivateSummary] = useState<PrivateSummary>(null);
+  const [remediation, setRemediation] = useState<Remediation>(null);
   const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
   const [compileFailed, setCompileFailed] = useState(false);
   const [goto, setGoto] = useState<{ line: number; column: number; nonce: number } | null>(null);
@@ -217,6 +224,7 @@ export default function LabWorkspace({
       if (j.attempt) {
         setAttempt(j.attempt);
         setPrivateSummary(j.privateSummary ?? null);
+        setRemediation((j.remediation as Remediation) ?? null);
         setHistory((h) => [{ at: new Date().toISOString(), passed: j.attempt.passed, total: j.attempt.total, allPassed: j.attempt.allPassed, durationMs: j.attempt.durationMs }, ...h].slice(0, 5));
         try { localStorage.setItem(LASTRUN_KEY, JSON.stringify({ attempt: j.attempt, stdout: j.stdout ?? '', privateSummary: j.privateSummary ?? null })); } catch { /* best-effort */ }
       }
@@ -470,6 +478,25 @@ export default function LabWorkspace({
                 {attempt && !compileFailed && (
                   <>
                     <div className={`lab-verdict ${attempt.allPassed ? 'ok' : 'ko'}`} style={{ marginBottom: 'var(--sp-3)' }}>{attempt.passed}/{attempt.total} tests · {attempt.durationMs} ms</div>
+                    {/* ── V74 · CP12 — QUE FAIRE MAINTENANT ──
+                        La règle du CP7 est visible ici : ce qui s'affiche au
+                        premier échec n'est PAS la réponse. La correction
+                        complète est la dernière marche, et `prochaine` annonce
+                        ce qui viendrait si celle-ci ne suffisait pas — pour que
+                        l'apprenant sache que l'aide monte, et n'aille pas
+                        chercher la solution ailleurs. */}
+                    {!attempt.allPassed && remediation && (
+                      <div className="lab-remediation">
+                        <p className="lab-rem-why">{remediation.raison}</p>
+                        <p className="lab-rem-do">{remediation.consigne}</p>
+                        {remediation.pointeur.kind === 'exercise' && remediation.pointeur.ref && (
+                          <p className="lab-rem-ptr">
+                            <a href={`/lab/${remediation.pointeur.ref}`}>Ouvrir cet exercice</a>
+                          </p>
+                        )}
+                        {remediation.note && <p className="lab-rem-note">{remediation.note}</p>}
+                      </div>
+                    )}
                     <ul className="lab-test-list">
                       {attempt.results.map((r) => {
                         const showDiff = !r.passed && r.expected !== undefined;

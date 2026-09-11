@@ -272,7 +272,26 @@ safe(() => {
     'lib/retention-scheduler.mjs',
     'lib/retrieval-task.mjs',
   ]);
+  // V74 · CP12 — les FICHIERS DE DÉCLARATION sont hors de la règle de NOM.
+  //
+  // Cette règle a rougi sur `lib/retention-priority.d.ts` et
+  // `lib/retention-scheduler.d.ts`, et elle a eu raison de regarder : ce sont
+  // des fichiers de `lib/` dont le nom porte « retention ».
+  //
+  // Mais un `.d.ts` ne contient **aucune implémentation** : il déclare les
+  // types de son jumeau, sans une ligne exécutable. Il ne peut pas être un
+  // moteur, au sens propre du terme. La liste contenait d'ailleurs déjà
+  // `lib/retention.d.ts` — la nature du fichier était donc reconnue, mais au
+  // cas par cas, ce qui obligeait à rallonger la liste à chaque nouveau jumeau.
+  //
+  // Ce n'est PAS un élargissement de confort, et voici pourquoi : les `.d.ts`
+  // restent intégralement soumis à la VÉRIFICATION DE PROPRIÉTÉ ci-dessous,
+  // qui scanne `.ts$` — donc eux aussi. Un fichier de déclaration qui
+  // porterait un tableau d'intervalles ou une arithmétique de facilité ferait
+  // toujours rougir la règle. **On retire du contrôle par le nom ce que le nom
+  // ne sait pas juger, et on laisse le contrôle par la propriété intact.**
   const extra = walk('lib')
+    .filter((f) => !f.endsWith('.d.ts'))
     .filter((f) => /sm-?2|spaced|retention/i.test(f) && !MOTEURS_AUTORISES.has(f));
   must(extra.length === 0,
     '[C11] aucun TROISIÈME moteur de répétition espacée',

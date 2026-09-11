@@ -5,13 +5,17 @@
 // que le sprint V66 pose : « quelles NOTIONS suis-je capable de retrouver,
 // d'après ce que j'ai réellement su restituer ».
 //
-// Rien n'est calculé ici. L'état, l'échéance et l'ordre viennent tous de
-// `getRetentionSummary()` — le même read-model pour toutes les surfaces.
+// Rien n'est calculé ici. Deux read-models fournissent tout, et ils ont des
+// responsabilités DISJOINTES (§4 du contrat gelé V74) :
+//   · `getRetentionSummary()` (V66) — l'ÉTAT d'une notion et son échéance ;
+//   · `getPlanDuJour()`      (V74) — l'ORDRE, la forme, le budget, le pourquoi.
+// L'arbitre est au-dessus des moteurs : il les lit, il ne les remplace pas.
 
 import Link from 'next/link';
 import { getRetentionSummary, getRecallPrompt } from '@/lib/retention-server';
+import { getPlanDuJour } from '@/lib/plan-jour-server';
 import { RETENTION_STATE_LABEL, INTERVALS, RETAINED_MIN_SPAN_DAYS } from '@/lib/retention';
-import { PageHeader, ContextLine, Panel, EmptyState, Metric } from '@/app/ui';
+import { PageHeader, ContextLine, Panel, EmptyState, Metric, InlineNotice } from '@/app/ui';
 import RecallStation from './RecallStation';
 
 export const dynamic = 'force-dynamic';
@@ -19,7 +23,48 @@ export const dynamic = 'force-dynamic';
 export default function RetentionPage() {
   const now = new Date().toISOString();
   const s = getRetentionSummary(now);
-  const prompts = s.queue.map(getRecallPrompt);
+
+  // ── V74 · CP12 — l'arbitre décide de l'ORDRE, V66 décide de l'ÉTAT ──
+  //
+  // Jusqu'ici cette page classait par la seule série de réussites consécutives.
+  // Le plan du jour applique la chaîne complète : sept facteurs explicables
+  // (CP3), les bandes de statut et la place réservée (CP8), la forme adaptée
+  // (CP4), un archétype citant une section réelle (CP5), et le budget que la
+  // journée peut réellement donner (CP10).
+  //
+  // Les deux sources ne se contredisent pas : V66 garde la responsabilité de
+  // l'ÉTAT d'une notion (§4 du contrat gelé), l'arbitre celle de l'ORDRE. C'est
+  // exactement le partage que le CP1 avait écrit.
+  const plan = getPlanDuJour(now);
+  const parConcept = new Map(plan.unites.map((u) => [u.id, u]));
+
+  // Les unités du plan sont retrouvées dans la PROJECTION COMPLÈTE de V66, pas
+  // dans sa file. La nuance est le défaut trouvé en lisant la page réelle :
+  // chercher dans `s.queue` revenait à refiltrer le choix de l'arbitre par la
+  // règle d'échéance de V66 — deux décideurs pour une même question, et une
+  // page qui affichait « rien n'est dû aujourd'hui » alors que le plan venait
+  // d'écarter des unités faute de budget. **Un seul décide de l'ordre.**
+  const base = plan.unites.length > 0
+    ? plan.unites.map((u) => s.projection.find((p) => p.conceptId === u.id)).filter((p) => p != null)
+    : s.queue;
+  const prompts = base.map((p) => {
+    const row = getRecallPrompt(p!);
+    const u = parConcept.get(row.conceptId);
+    return u ? {
+      ...row,
+      // La FORME vient de l'arbitre, comme la consigne. Les laisser diverger
+      // était un défaut réel, visible seulement en lisant la page rendue : le
+      // libellé affichait la forme choisie par V66 (« Mise en application »)
+      // pendant que la consigne venait de la forme choisie par le CP4
+      // (« réponds aux questions d'entretien »). Une carte ne peut pas annoncer
+      // un exercice et en demander un autre.
+      format: u.format as typeof row.format,
+      pourquoi: u.pourquoi,
+      consigne: u.consigne || undefined,
+      verifier: u.verifier,
+      minutes: u.minutes,
+    } : row;
+  });
 
   // Deux grandeurs DISJOINTES, et leur somme vaut le total — sinon la page se
   // contredit (défaut trouvé au CP14 en lisant la page réelle).
@@ -68,14 +113,27 @@ export default function RetentionPage() {
         />
       ) : null}
 
+      {/* ── Le signal de charge (CP10). Il PROPOSE, il ne décide pas : sauter
+          une journée de programme appartient à la personne, jamais au
+          planificateur. Aucun chiffre de « score » ici — seulement un décompte
+          de notions, qui se vérifie. */}
+      {plan.signal.message ? (
+        <InlineNotice tone={plan.signal.niveau === 'ralentir' ? 'attention' : 'info'}>
+          {plan.signal.message}
+          {plan.signal.proposition ? <> {plan.signal.proposition}</> : null}
+        </InlineNotice>
+      ) : null}
+
       <div className="ret-grid">
         <div className="ret-main">
-          <Panel label={`File du jour${s.queue.length ? ` — ${s.queue.length}` : ''}`}>
-            {s.queue.length === 0 ? (
+          <Panel label={`File du jour${prompts.length ? ` — ${prompts.length}` : ''}`}>
+            {prompts.length === 0 ? (
               <p className="ret-note">
                 {s.attemptCount === 0
                   ? 'Rien à réactiver : aucune notion n’a encore été tentée.'
-                  : 'Rien n’est dû aujourd’hui. Les échéances sont calculées depuis tes tentatives réelles — revenir plus tôt n’avancerait rien.'}
+                  : plan.minutesAccordees === 0
+                    ? plan.motifBudget
+                    : 'Rien n’est dû aujourd’hui. Les échéances sont calculées depuis tes tentatives réelles — revenir plus tôt n’avancerait rien.'}
               </p>
             ) : (
               <>
@@ -128,6 +186,31 @@ export default function RetentionPage() {
               tentatives, ou il ne s’obtient pas.
             </p>
           </Panel>
+
+          {/* V74 · CP12 — ce que l'arbitre a ÉCARTÉ, et pourquoi.
+              Le CP4 traite `differes` comme une SORTIE, pas un reliquat :
+              savoir ce qui n'a pas été retenu vaut autant que savoir ce qui
+              l'a été, et c'est ce qui rend l'ordre contestable. */}
+          {plan.differes.length > 0 && (
+            <Panel label="Écarté aujourd’hui">
+              <ul className="ret-rule">
+                {plan.differes.map((d) => (
+                  <li key={d.titre}><strong>{d.titre}</strong> — {d.motif}</li>
+                ))}
+              </ul>
+            </Panel>
+          )}
+
+          {plan.jamaisTransferees > 0 && (
+            <Panel label="Su, mais jamais ailleurs">
+              <p className="ret-note">
+                <strong>{plan.jamaisTransferees}</strong> notions que tu sais retrouver
+                n’ont jamais été employées <strong>hors de leur contexte d’origine</strong>.
+                Rien n’échoue dessus, donc rien ne t’alerte — c’est précisément pourquoi
+                c’est écrit ici.
+              </p>
+            </Panel>
+          )}
 
           <Panel label="Ce que cette page ne mesure pas">
             <p className="ret-note">

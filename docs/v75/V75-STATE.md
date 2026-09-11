@@ -7,18 +7,18 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP2**
+- **dernier CP terminé** : **CP3**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP3** — preuves au grain CONCEPT
-- **NEXT_ACTION** : payer **D4**. Permettre à une preuve de porter un `conceptId` **quand il est
-  connu**, de façon strictement **ADDITIVE** : `competencyIds` n'est jamais retiré. Quatre cas à
-  traiter explicitement — concept unique · concepts multiples · compétence sans concept ·
-  transfert multi-concepts. **Ne PAS forcer un seul concept quand un exercice en teste
-  plusieurs** : le CP0 a mesuré **67 exercices multi-concepts PAR CONCEPTION**, ce qui n'est pas
-  un défaut à corriger mais une réalité à représenter. Le champ doit donc accepter une LISTE.
-  Rappel : `data/progress.json` est absent, donc aucune preuve réelle à migrer — mais le
-  normaliseur doit quand même lire sans broncher une preuve écrite avant ce contrat.
+- **NEXT_CP** : **CP4** — désambiguïsation des 376 exercices (D8)
+- **NEXT_ACTION** : traiter **D8**. Résoudre ce qui est RÉELLEMENT résoluble parmi les 376
+  exercices, à partir de : `practiceRefs` · rattachement par journée · métadonnées de leçon ·
+  métadonnées explicites d'exercice · graphe de curriculum. **Priorité à la déclaration
+  explicite.** Conserver `MULTI_CONCEPT_BY_DESIGN` en multi, conserver `AMBIGUOUS` en ambigu.
+  **OBJECTIF : réduire l'ambiguïté RÉELLE, pas la cacher** — et ne jamais choisir arbitrairement
+  une leçon pour verdir la métrique. Point de départ mesuré au CP0 : `UNAMBIGUOUS` **140** ·
+  `RESOLVABLE_FROM_CONTEXT` **32** · `MULTI_CONCEPT_BY_DESIGN` **67** · `AMBIGUOUS` **137** ·
+  `ORPHAN` **0**. La cible honnête est de faire baisser les **137**, pas de les reclasser.
 
 ## Repères Git
 
@@ -82,6 +82,22 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP3** : **D4 payée** — `evidence.conceptIds`, une **LISTE**. Décisions :
+  - **Le champ est une liste, et c'est la décision du checkpoint.** Le CP0 a mesuré **67
+    exercices multi-concepts PAR CONCEPTION** : forcer un concept unique obligerait à en choisir
+    un arbitrairement, c'est-à-dire à fabriquer de la donnée — ce que V74 avait refusé pour son
+    option C. *Un champ singulier aurait rendu la dette invisible au lieu de la représenter.*
+  - **Strictement ADDITIF** : `competencyIds` n'est jamais retiré ; une preuve **sans** concept
+    reste valide (137 exercices sont réellement ambigus — exiger un concept les rendrait tous
+    irrecevables) ; une liste **vide** signifie « concept inconnu », jamais « aucun concept ».
+  - **Contrat en DEUX TEMPS, écrit pour ne pas être oublié** : `lib/evidence.mjs` est PUR et ne
+    valide que la **forme** d'un slug ; `lib/evidence-concepts-server.ts` valide l'**appartenance
+    au catalogue** des 128 leçons. Énumérer les 128 slugs dans le module pur a été refusé
+    (« énumérer plutôt que dériver »), le rendre impur aussi.
+  - **Effet réel sur la projection** : une preuve qui DÉCLARE ses concepts n'est plus **diluée**
+    sur les 3 à 15 leçons de sa journée. Sans déclaration, le rattachement par journée reste le
+    repli — c'est un repli, pas une régression.
 
 ## Mesures BEFORE (CP0 — à ne jamais reconstruire ni écraser)
 
@@ -163,6 +179,10 @@
 
 ## Fichiers
 
+- **CP3** : **créés** `lib/evidence-concepts-server.ts`, `tests/v75-concept-evidence.test.mjs` (9).
+  **Modifiés** `lib/evidence.mjs` (`conceptIds` + `programConcepts` + `MAX_CONCEPTS`),
+  `lib/evidence.d.ts`, `lib/lab-progress.mjs` + `.d.ts`, `app/api/lab/[exerciseId]/route.ts`
+  (la preuve du laboratoire porte ses concepts), `lib/learner-memory.mjs` (la projection les lit).
 - **CP2** : **créés** `lib/event-model.mjs`, `tests/v75-event-model.test.mjs` (15).
   **Modifiés** `lib/learning.mjs` (D3 : `recordAttempt` typé + normaliseur additif),
   `lib/learning-engine.mjs` (D6 : revue hebdomadaire horodatée et tracée).
@@ -173,6 +193,9 @@
 
 ## Tests exécutés
 
+- **CP3** : **1636/1636** (9 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **4 mutations VUES rougir** · **1 test a trouvé du code mort** (`conceptIds`
+  calculé puis jamais renvoyé par `normalizeEvidenceRecord`).
 - **CP2** : **1627/1627** (15 nouveaux) · tsc 0 · `gates:active` **0 violation** (47 portes) ·
   corpus inchangé · `data/progress.json` absent · **4 mutations VUES rougir**.
 - **CP1** : document seul, aucun code modifié — aucun test à rejouer.
@@ -180,6 +203,24 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP3** — **D4 payée : une preuve porte enfin ses concepts, et elle en porte PLUSIEURS.**
+  - **La décision du checkpoint est le PLURIEL.** Le CP0 a mesuré 67 exercices multi-concepts
+    *par conception* ; un champ singulier aurait obligé à trancher au hasard et aurait **rendu la
+    dette invisible au lieu de la représenter**.
+  - **Une preuve sans concept reste valide** — 137 exercices sont réellement ambigus, et exiger
+    un concept les rendrait tous irrecevables ou pousserait à en inventer un.
+  - **Contrat en deux temps** : forme validée dans le module PUR, appartenance au catalogue
+    validée côté serveur. Les deux alternatives (énumérer 128 slugs, ou rendre le module impur)
+    ont été écartées et la raison est écrite dans le code.
+  - **L'effet est réel, pas déclaratif** : un test vérifie qu'une preuve déclarant `alpha` ne
+    crédite plus `gamma`, enseignée le même jour. Avant le CP3, elle créditait les trois.
+  - **UN TEST A TROUVÉ DU CODE MORT** : `normalizeEvidenceRecord` calculait `conceptIds` et **ne
+    le renvoyait pas**. Une preuve relue du disque perdait donc ses concepts en silence — le
+    champ était payé à l'écriture et jeté à la lecture.
+  - **4 mutations vues rougir** : concept forcé au singulier · `competencyIds` retiré · preuve
+    sans concept refusée · preuve déclarante quand même diluée sur sa journée.
+  - **1636/1636 · tsc 0 · build OK · 47 portes vertes.**
 
 - **CP2** — **modèle événementiel V2 : refuser le nouveau mal formé, accepter l'ancien en le
   rendant visible.**

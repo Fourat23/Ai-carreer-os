@@ -89,3 +89,7 @@ export function appendEvidence(list: Evidence[] | undefined, evidence: Evidence)
 export function normalizeLedger(raw: unknown): Evidence[];
 export function classifyLegacyEvidence(e: unknown): { sourceType: EvidenceSourceType; sourceId: string; qualifying: boolean };
 export function migrateLegacyEvidence(days: unknown): Evidence[];
+
+// V75 · CP3 — D4 : les concepts portés par une preuve (liste, éventuellement vide).
+export declare const MAX_CONCEPTS: number;
+export declare function programConcepts(ids: unknown): string[];

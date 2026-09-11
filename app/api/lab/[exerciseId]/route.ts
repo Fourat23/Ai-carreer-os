@@ -16,6 +16,8 @@ import {
 import { splitAttempt } from '@/lib/lab-feedback';
 import { remedier } from '@/lib/remediation';
 import { ressourcesDe } from '@/lib/remediation-server';
+import { conceptsDeLExercice } from '@/lib/evidence-concepts-server';
+import { getProgram } from '@/lib/program';
 
 export const dynamic = 'force-dynamic';
 
@@ -176,6 +178,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
         if (dayRefs.length) {
           let progress = recordExerciseSuccess(readProgress(), {
             exerciseId: ex.id, title: ex.title, skills: ex.skills ?? [], dayRefs,
+            // V75 · CP3 — la preuve porte enfin ses CONCEPTS quand ils sont
+            // connus sans ambiguïté. Le CP0 a mesuré 67 exercices
+            // multi-concepts PAR CONCEPTION : la liste peut en contenir
+            // plusieurs, et ce n'est pas un défaut à trancher.
+            conceptIds: conceptsDeLExercice(ex.id, getProgram().lessons ?? []),
           });
           const checkedAt = new Date().toISOString();
           for (const d of dayRefs) {

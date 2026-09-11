@@ -7,18 +7,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP3**
+- **dernier CP terminé** : **CP4**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP4** — désambiguïsation des 376 exercices (D8)
-- **NEXT_ACTION** : traiter **D8**. Résoudre ce qui est RÉELLEMENT résoluble parmi les 376
-  exercices, à partir de : `practiceRefs` · rattachement par journée · métadonnées de leçon ·
-  métadonnées explicites d'exercice · graphe de curriculum. **Priorité à la déclaration
-  explicite.** Conserver `MULTI_CONCEPT_BY_DESIGN` en multi, conserver `AMBIGUOUS` en ambigu.
-  **OBJECTIF : réduire l'ambiguïté RÉELLE, pas la cacher** — et ne jamais choisir arbitrairement
-  une leçon pour verdir la métrique. Point de départ mesuré au CP0 : `UNAMBIGUOUS` **140** ·
-  `RESOLVABLE_FROM_CONTEXT` **32** · `MULTI_CONCEPT_BY_DESIGN` **67** · `AMBIGUOUS` **137** ·
-  `ORPHAN` **0**. La cible honnête est de faire baisser les **137**, pas de les reclasser.
+- **NEXT_CP** : **CP5** — moteur de TRIAGE de l'arriéré
+- **NEXT_ACTION** : classer chaque notion due en **`URGENT` / `IMPORTANT` / `DEFERRABLE` /
+  `PARKED`**, **avec une raison lisible** pour chacune. Contraintes du contrat gelé au CP1 :
+  **`PARKED` ne signifie PAS « maîtrisé »** — cela signifie « volontairement non planifié
+  aujourd'hui » ; **l'arriéré TOTAL et l'arriéré ACTIF restent visibles séparément** (`I2` :
+  `total = actif + différé + garé`, exactement) ; le classement doit s'appuyer sur les **cinq
+  facteurs nommés** de `BACKLOG_PRESSURE`, **jamais sur un score unique**. Garder à l'esprit le
+  piège du CP13 : *tout mettre au garage ferait chuter l'arriéré actif sans rien résoudre.*
 
 ## Repères Git
 
@@ -33,8 +32,8 @@
 ## Invariants (à revérifier à chaque CP)
 
 `128` leçons · `365` journées · `52` semaines · `12` mois · corpus des leçons `92d5fae6` ·
-**`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
-`1612/1612` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
+**376 exercices** · **`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
+`1650/1650` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
 
 ## Décisions gelées
 
@@ -82,6 +81,29 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP4** : **D8 traitée** — cascade `R1→R4` dans `lib/exercise-mapping.mjs` (PUR). Décisions :
+  - **`AMBIGUOUS` : 137 → 125, soit 9 %. Le gain est modeste et n'est pas habillé.** Les 125
+    restants sont proposés par des journées qui enseignent plusieurs leçons de la **même**
+    compétence ; rien dans la donnée déclarée ne les distingue. **Les résoudre demanderait une
+    décision d'AUTEUR** (ajouter un `practiceRefs` dans la bonne leçon), **pas un algorithme** —
+    et en inventer une serait exactement l'interdit `R1`/« fabriquer une maîtrise ».
+  - **L'ORDRE DE LA CASCADE EST LA DÉCISION**, du plus fiable au moins fiable : `R1` déclarant
+    unique (intention d'auteur) · `R2` déclarants multiples (**fait à conserver, pas ambiguïté à
+    trancher** — tous gardés) · `R3` journée à leçon unique (aucun choix possible) · `R4` une
+    seule leçon de la journée partage une compétence **canonique**.
+  - **`R4` exige l'UNICITÉ, pas la compatibilité.** Deux leçons compatibles ⇒ `AMBIGUOUS` et
+    **liste vide**. Prendre « la première » aurait fait tomber le compteur à zéro et fabriqué de
+    la donnée que le moteur de rétention aurait ensuite prise pour un fait.
+  - **INVARIANT QUI REND LA RÉDUCTION VÉRIFIABLE** : *rattaché ⇔ au moins un concept réel*,
+    testé sur les 376 exercices. On ne peut pas sortir un exercice d'`AMBIGUOUS` sans lui donner
+    un concept, ni lui donner un concept sans l'en sortir. **Faire baisser le compteur exige donc
+    de produire de la donnée vraie.**
+  - **UNE SEULE IMPLÉMENTATION** : la mesure publiée (`scripts/v75/cp4-mapping.mjs`) et le produit
+    (`lib/exercise-concepts-server.ts`) appellent la **même** cascade pure, et un test l'exige.
+    Deux implémentations donneraient deux vérités — le défaut qu'on supprime, pas qu'on reproduit.
+  - **`conceptsDeLExercice` (CP3) a été SUPPRIMÉ**, absorbé par `R1`/`R2`. Garder les deux aurait
+    laissé deux réponses possibles à la même question.
 
 - **CP3** : **D4 payée** — `evidence.conceptIds`, une **LISTE**. Décisions :
   - **Le champ est une liste, et c'est la décision du checkpoint.** Le CP0 a mesuré **67
@@ -169,6 +191,7 @@
 | **P1** | **le facteur `besoinProche` (15 points sur 100) ne peut JAMAIS s'allumer.** `nextCurriculumNeed` n'est rempli que sur les **compétences** ; le scheduler consomme `projection.concepts` (`plan-jour-server.ts:134`), où il vaut toujours `null`. Second verrou indépendant : le read-model passe `startDate: null`, donc `positionDuJour` rend 0 et aucun projet n'est jamais « proche ». Conséquence collatérale : la règle du CP4 « avant un projet proche, forme appliquée » ne s'allume jamais non plus | vérifié par exécution : concept → `null`, compétence → `{day:9,inDays:3}` |
 | **P2** | **l'arriéré réel n'est jamais montré.** La page affiche `s.queue.length`, c'est-à-dire la file V66 **plafonnée à 8**, comme s'il s'agissait du total. 84 réels → « 8 » annoncés → 3 cartes | rendu réel mesuré |
 | **P3** | **un apprenant qui suit les journées sans pratiquer ne reçoit AUCUNE remédiation** (profil P : 0 remédiation sur 365 jours), parce que la remédiation est déclenchée par une tentative d'exercice | simulation profil P |
+| **P4** | *(trouvé au CP4)* **une réussite au laboratoire écrit DEUX preuves au registre**, avec des `sourceId` différents (`<ex>` par `recordExerciseSuccess`, `lab-<ex>` par la soumission) : le dédoublonnage déterministe ne les fusionne pas. Le CP3 n'en avait instrumenté qu'une — **la seconde repartait sans concept et retombait sur le rattachement par journée**, recréditant les 3 leçons médianes et annulant le gain du CP3 pour le même exercice | `deterministicId(sourceType, sourceId, …)` · corrigé au CP4 : `SUBMIT` transporte `conceptIds` |
 
 ## Anomalies de mes propres sondes (V75)
 
@@ -176,9 +199,17 @@
 |---|---|---|---|
 | **1** | CP0.A | `nextCurriculumNeed` lu sur les **concepts** (toujours `null`), puis au **jour 365** (où aucun projet n'est futur) | les **compétences bloquantes**. Rendait **0 pour les vingt profils**. Trois versions ont été nécessaires : mauvais grain, puis mauvais moment, puis correcte (pic pendant le parcours → 6 à 12) |
 | **2** | CP0.A | le **nombre d'unités** écartées | des « minutes différées ». Renommé `unitesDifferees` |
+| **3** | CP4 | l'intersection de `ex.skills` (**vocabulaire fin**, 51 termes) avec les `skills` des leçons (**20 compétences de programme**) — **deux vocabulaires différents**, donc intersection vide presque partout | la règle `R4`. Ne résolvait que **9** exercices au lieu de **12** ; corrigée en passant par `programSkills()` (`skill-taxonomy.mjs`), qui fait déjà cette traduction |
 
 ## Fichiers
 
+- **CP4** : **créés** `lib/exercise-mapping.mjs` (cascade PURE), `lib/exercise-concepts-server.ts`
+  (I/O du corpus), `scripts/v75/cp4-mapping.mjs` + `docs/v75/cp4-mapping.json` (la mesure),
+  `tests/v75-exercise-mapping.test.mjs` (14). **Modifiés** `app/api/lab/[exerciseId]/route.ts`
+  (les **deux** producteurs de preuves reçoivent les concepts résolus), `lib/learning-engine.mjs`
+  (`canonicalEvidenceFor` transporte `cmd.conceptIds`), `lib/learning-engine.d.ts` (`SUBMIT`
+  enfin typée avec ses options de preuve), `lib/evidence-concepts-server.ts` (`conceptsDeLExercice`
+  **supprimé**, absorbé par `R1`/`R2`).
 - **CP3** : **créés** `lib/evidence-concepts-server.ts`, `tests/v75-concept-evidence.test.mjs` (9).
   **Modifiés** `lib/evidence.mjs` (`conceptIds` + `programConcepts` + `MAX_CONCEPTS`),
   `lib/evidence.d.ts`, `lib/lab-progress.mjs` + `.d.ts`, `app/api/lab/[exerciseId]/route.ts`
@@ -193,6 +224,9 @@
 
 ## Tests exécutés
 
+- **CP4** : **1650/1650** (14 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **7 mutations VUES rougir** · mesure inchangée après extraction du module pur
+  (140 / 67 / 32 / 12 / **125**), ce qui prouve que le refactor n'a pas déplacé la frontière.
 - **CP3** : **1636/1636** (9 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **4 mutations VUES rougir** · **1 test a trouvé du code mort** (`conceptIds`
   calculé puis jamais renvoyé par `normalizeEvidenceRecord`).
@@ -203,6 +237,34 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP4** — **D8 : l'ambiguïté baisse de 9 %, et le reste est structurel. Je le dis comme ça.**
+  - **137 → 125.** C'est peu, et l'habiller serait le vrai échec du checkpoint. La règle `R4`
+    (intersection de compétences canoniques) a résolu **12 exercices**. Les **125** restants sont
+    proposés par des journées enseignant plusieurs leçons de la **même** compétence : **aucune
+    donnée déclarée ne les distingue.** Ce n'est pas un problème d'algorithme, c'est une
+    **décision d'auteur manquante** dans le corpus.
+  - **Le vrai travail du checkpoint était de ne PAS tricher.** Faire tomber `AMBIGUOUS` à 0
+    demandait une ligne : prendre la première leçon candidate. Le compteur serait vert et chaque
+    preuve créditerait une notion non travaillée — que le moteur de rétention prendrait ensuite
+    pour un fait. L'invariant testé sur les 376 exercices (*rattaché ⇔ au moins un concept réel*)
+    rend cette triche **impossible sans casser la suite**.
+  - **`R2` conserve TOUS les déclarants.** 67 exercices sont multi-concepts par conception ;
+    n'en garder qu'un serait perdre une information d'auteur, pas en gagner une.
+  - **DÉFAUT P4, trouvé en branchant** : une réussite au laboratoire écrit **deux** preuves
+    (`<ex>` et `lab-<ex>`), et le CP3 n'en instrumentait qu'une. La seconde retombait sur le
+    rattachement par journée et **annulait le gain du CP3 pour le même exercice**. Corrigé :
+    `SUBMIT` transporte `conceptIds`, et un test vérifie que les **deux** chemins les reçoivent.
+  - **ANOMALIE DE MA PROPRE SONDE (n° 3)** : `R4` croisait deux vocabulaires différents — les 51
+    termes fins des exercices contre les 20 compétences du programme. Elle ne résolvait que 9
+    exercices. `skill-taxonomy.mjs` faisait déjà la traduction ; inventer une seconde table
+    aurait créé une divergence de plus.
+  - **Une seule implémentation de la cascade**, partagée par la mesure et le produit, et un test
+    l'exige. `conceptsDeLExercice` du CP3 a été **supprimé** plutôt que laissé en doublon.
+  - **7 mutations vues rougir** : `R4` prend le premier candidat · `R2` tronqué à un déclarant ·
+    vocabulaire non canonicalisé · `AMBIGUOUS` désigne une leçon · `SUBMIT` sans `conceptIds` ·
+    moteur ignorant `cmd.conceptIds` · serveur ne déléguant plus à la cascade.
+  - **1650/1650 · tsc 0 · build OK · 47 portes vertes.**
 
 - **CP3** — **D4 payée : une preuve porte enfin ses concepts, et elle en porte PLUSIEURS.**
   - **La décision du checkpoint est le PLURIEL.** Le CP0 a mesuré 67 exercices multi-concepts

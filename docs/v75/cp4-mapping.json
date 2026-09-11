@@ -1,0 +1,2852 @@
+[
+ {
+  "id": "a11y-accessible-name",
+  "concepts": [
+   "react-accessibility"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "agent-cycle-index",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "agent-detect-loop",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "agent-excessive-agency",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "agent-hitl-decision",
+  "concepts": [
+   "prompt-injection-defense"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "agent-loop-detect",
+  "concepts": [
+   "agent-workflows-orchestration"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "agent-permission-guard",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "agent-retry-idempotent",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "agent-retry-policy",
+  "concepts": [
+   "agent-workflows-orchestration"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "agent-run-loop-budget",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "agent-state-transition",
+  "concepts": [
+   "agents-fundamentals",
+   "agent-workflows-orchestration"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "agent-tool-failure-recovery",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "agent-tool-router",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "agent-tool-select",
+  "concepts": [
+   "agents-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "agent-tool-validate",
+  "concepts": [
+   "agent-workflows-orchestration"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "agent-transition-guard",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "agent-validate-args",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "alert-actionable",
+  "concepts": [
+   "observability-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "algo-binary-search",
+  "concepts": [
+   "algorithmic-thinking"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "algo-coin-change-min",
+  "concepts": [
+   "algorithmic-thinking"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "algo-interval-merge",
+  "concepts": [
+   "algorithmic-thinking"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "algo-kadane-max-subarray",
+  "concepts": [
+   "algorithmic-thinking"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "algo-two-sum",
+  "concepts": [
+   "algorithmic-thinking",
+   "data-structures-intro"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "api-pagination-choice",
+  "concepts": [
+   "api-production-contracts"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "api-router",
+  "concepts": [
+   "http-rest-json",
+   "api-design-basics",
+   "express-backend",
+   "api-production-contracts"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 4 leçons"
+ },
+ {
+  "id": "arch-backpressure",
+  "concepts": [
+   "agent-workflows-orchestration"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "arch-cache-invalidation",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "arch-circuit-breaker",
+  "concepts": [
+   "testing-foundations"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "arch-consistency-tradeoff",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "arch-cqrs-when",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "arch-cycle-detect",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "arch-idempotency-key",
+  "concepts": [
+   "testing-foundations"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "arch-idempotent-handler",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "arch-layer-violation",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "arch-queue-vs-sync",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "arch-repository-boundary",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "arch-transactional-outbox",
+  "concepts": [
+   "clean-code"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "array-sum-even",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "async-sum",
+  "concepts": [
+   "async-javascript"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "async-user-lookup",
+  "concepts": [
+   "async-javascript"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "attention-argmax",
+  "concepts": [
+   "transformers"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "auth-status-decision",
+  "concepts": [
+   "authentication",
+   "api-production-contracts"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "breaking-change-classify",
+  "concepts": [
+   "breaking-changes-compatibility"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "capacity-estimate",
+  "concepts": [
+   "system-design-scaling"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cicd-branch-policy",
+  "concepts": [
+   "ci-cd-quality-gates-artifacts"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cicd-cache-key",
+  "concepts": [
+   "ci-cd-pipeline-anatomy"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cicd-critical-path",
+  "concepts": [
+   "ci-cd-pipeline-anatomy"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cicd-detect-cycle",
+  "concepts": [
+   "ci-cd-quality-gates-artifacts"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "cicd-env-promotion",
+  "concepts": [
+   "ci-cd-quality-gates-artifacts"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cicd-fail-fast",
+  "concepts": [
+   "ci-cd-pipeline-anatomy"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cicd-global-status",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "cicd-mask-secrets",
+  "concepts": [
+   "logging-structured",
+   "ci-cd-quality-gates-artifacts"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cicd-missing-deps",
+  "concepts": [
+   "ci-cd-quality-gates-artifacts"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "cicd-stale-artifact",
+  "concepts": [
+   "ci-cd-quality-gates-artifacts"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cicd-topo-order",
+  "concepts": [
+   "ci-cd-pipeline-anatomy"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cicd-trigger-should-run",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "circuit-breaker-state",
+  "concepts": [
+   "resilience-patterns"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-blast-radius",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "cloud-cidr-overlap",
+  "concepts": [
+   "networking-addressing-routing",
+   "cloud-networking"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-classify-tier",
+  "concepts": [
+   "cloud-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-compute-choice",
+  "concepts": [
+   "cloud-compute-storage"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-deploy-strategy",
+  "concepts": [
+   "deployment-strategies"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-detect-spof",
+  "concepts": [
+   "system-design-scaling",
+   "distributed-systems-failures",
+   "resilience-patterns"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 3 leçons"
+ },
+ {
+  "id": "cloud-error-budget",
+  "concepts": [
+   "slo-error-budget",
+   "cloud-finops"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-iam-credential-choice",
+  "concepts": [
+   "cloud-aws-core",
+   "cloud-azure-core"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-iam-excess-actions",
+  "concepts": [
+   "cloud-aws-core"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-iam-wildcard",
+  "concepts": [
+   "cloud-aws-core"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-monthly-cost",
+  "concepts": [
+   "cloud-finops"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-multi-az",
+  "concepts": [
+   "resilience-patterns"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-multi-zone",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "cloud-observability-gap",
+  "concepts": [
+   "observability-fundamentals",
+   "metrics-percentiles"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-prod-ready",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "cloud-provider-map",
+  "concepts": [
+   "cloud-aws-core",
+   "cloud-azure-core"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-public-exposure",
+  "concepts": [
+   "cloud-networking"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-readiness-routing",
+  "concepts": [
+   "networking-proxy-loadbalancing",
+   "deployment-strategies"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-replica-count",
+  "concepts": [
+   "system-design-scaling",
+   "distributed-systems-failures"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-rightsizing-savings",
+  "concepts": [
+   "cloud-finops"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-rollback-decision",
+  "concepts": [
+   "incident-response",
+   "release-incident-recovery"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-rpo-meets",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "cloud-rpo-met",
+  "concepts": [
+   "resilience-patterns"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-scaling-choice",
+  "concepts": [
+   "system-design-scaling",
+   "cloud-compute-storage"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-scaling-kind",
+  "concepts": [
+   "cloud-compute-storage"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-service-model",
+  "concepts": [
+   "cloud-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-sg-port-range",
+  "concepts": [
+   "networking-addressing-routing",
+   "cloud-networking"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "cloud-spof-detect",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "cloud-stateful-autoscale",
+  "concepts": [
+   "system-design-scaling"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-storage-class",
+  "concepts": [
+   "cloud-compute-storage"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "cloud-subnet-visibility",
+  "concepts": [
+   "networking-addressing-routing",
+   "cloud-networking"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "compose-depends-ready",
+  "concepts": [
+   "docker-compose"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "css-box-size",
+  "concepts": [
+   "css-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "css-specificity-order",
+  "concepts": [
+   "css-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "data-missing-strategy",
+  "concepts": [
+   "data-cleaning-quality"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "data-quality-detect",
+  "concepts": [
+   "pandas-data-wrangling",
+   "data-cleaning-quality"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "db-concurrency-risk",
+  "concepts": [
+   "database-transactions-concurrency"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "debt-audit",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "debt-legacy-refactor",
+  "concepts": [
+   "refactoring-legacy-code",
+   "technical-debt"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "debug-cart",
+  "concepts": [
+   "clean-code",
+   "testing-foundations"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "dl-count-params",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-diagnose-training",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-forward-2layer",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-generalization-gap",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-gradient-step",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-he-init-std",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-lr-stability",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-mse-loss",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-neuron-forward",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-relu-layer",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-sgd-linear-step",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dl-vanishing-gradient",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 9 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "dlq-routing",
+  "concepts": [
+   "async-messaging-queues"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "dns-record-type-choice",
+  "concepts": [
+   "networking-dns"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "dns-ttl-still-cached",
+  "concepts": [
+   "networking-dns"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "docker-cmd-entrypoint",
+  "concepts": [
+   "docker-build-dockerfile"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "docker-detect-root",
+  "concepts": [
+   "docker-production-hardening"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "docker-detect-secret",
+  "concepts": [
+   "docker-production-hardening"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "docker-dockerignore",
+  "concepts": [
+   "docker-build-dockerfile"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "docker-exit-diagnosis",
+  "concepts": [
+   "linux-processes-signals",
+   "docker-production-hardening"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "docker-image-size",
+  "concepts": [
+   "docker-images-layers",
+   "docker-containers"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "docker-instruction-order",
+  "concepts": [
+   "docker-build-dockerfile",
+   "docker-containers"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "docker-layer-cache",
+  "concepts": [
+   "docker-images-layers",
+   "docker-containers"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "docker-port-mapping",
+  "concepts": [
+   "docker-networking-volumes",
+   "docker-compose"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "docker-tag-vs-digest",
+  "concepts": [
+   "docker-images-layers"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "dom-event-delegation",
+  "concepts": [
+   "browser-dom-rendering"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ds-lru-cache",
+  "concepts": [
+   "data-structures-intro",
+   "caching-performance"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "ds-min-stack",
+  "concepts": [
+   "data-structures-intro"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ds-stack",
+  "concepts": [
+   "data-structures-intro"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ds-two-stack-queue",
+  "concepts": [
+   "data-structures-intro"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "etl-pipeline-order",
+  "concepts": [
+   "etl-pipelines"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "eval-exact-match",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "eval-failure-categorize",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "eval-groundedness-proxy",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "eval-harness-report",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "eval-regression-gate",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "eval-structured-output",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "eval-tool-call-contract",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "fix-nplus1",
+  "concepts": [
+   "sql-foundations",
+   "database-modeling",
+   "sql-performance-indexing"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 3 leçons"
+ },
+ {
+  "id": "fizzbuzz",
+  "concepts": [
+   "algorithmic-thinking"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "frontend-layout-choice",
+  "concepts": [
+   "css-grid"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "frontend-rendering-choice",
+  "concepts": [
+   "nextjs-rendering"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "git-commit-grouping",
+  "concepts": [
+   "git-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "git-conflicting-files",
+  "concepts": [
+   "git-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "greeting",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "http-cache-policy",
+  "concepts": [
+   "caching-performance"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "http-etag-revalidation",
+  "concepts": [
+   "http-rest-json",
+   "caching-performance"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "http-idempotency-dedup",
+  "concepts": [
+   "http-rest-json",
+   "api-production-contracts"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "http-method-idempotent",
+  "concepts": [
+   "api-design-basics",
+   "api-production-contracts",
+   "networking-http-tls"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 3 leçons"
+ },
+ {
+  "id": "http-rate-limit-decide",
+  "concepts": [
+   "api-production-contracts"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "http-resilient-consumer",
+  "concepts": [
+   "api-production-contracts",
+   "async-messaging-queues"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "http-status",
+  "concepts": [
+   "http-rest-json",
+   "api-design-basics",
+   "express-backend",
+   "networking-http-tls"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 4 leçons"
+ },
+ {
+  "id": "iac-idempotent-changes",
+  "concepts": [
+   "iac-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "iac-plan-destructive",
+  "concepts": [
+   "iac-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "incident-health-rollup",
+  "concepts": [
+   "observability-fundamentals",
+   "incident-response",
+   "release-incident-recovery"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 3 leçons"
+ },
+ {
+  "id": "incident-severity",
+  "concepts": [
+   "incident-response"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "js-array-objects",
+  "concepts": [
+   "javascript-basics"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "js-conditions",
+  "concepts": [
+   "javascript-basics"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "js-even-squares",
+  "concepts": [
+   "javascript-basics"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "js-initials",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "js-loops",
+  "concepts": [
+   "javascript-basics"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "js-pipeline",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "k8s-choose-workload",
+  "concepts": [
+   "k8s-workloads"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "k8s-config-drift",
+  "concepts": [
+   "k8s-troubleshooting",
+   "iac-fundamentals"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "k8s-count-kinds",
+  "concepts": [
+   "k8s-why-architecture"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "k8s-image-pinned",
+  "concepts": [
+   "k8s-workloads"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "k8s-ingress-backends",
+  "concepts": [
+   "k8s-networking-services"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "k8s-needs-probe",
+  "concepts": [
+   "k8s-config-probes"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "k8s-oom-risk",
+  "concepts": [
+   "linux-resources-io",
+   "k8s-config-probes"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "k8s-pod-phase",
+  "concepts": [
+   "k8s-why-architecture",
+   "k8s-troubleshooting"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "k8s-probe-role",
+  "concepts": [
+   "k8s-config-probes"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "k8s-recovery-decision",
+  "concepts": [
+   "incident-response",
+   "release-incident-recovery",
+   "k8s-troubleshooting"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 3 leçons"
+ },
+ {
+  "id": "k8s-replicas-ha",
+  "concepts": [
+   "k8s-workloads"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "k8s-rolling-available",
+  "concepts": [
+   "deployment-strategies"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "k8s-secret-placement",
+  "concepts": [
+   "k8s-config-probes",
+   "k8s-security"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "k8s-selector-match",
+  "concepts": [
+   "k8s-networking-services"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "k8s-service-endpoints",
+  "concepts": [
+   "networking-proxy-loadbalancing",
+   "k8s-networking-services"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "k8s-statefulset-pvc",
+  "concepts": [
+   "k8s-workloads"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "latency-percentiles",
+  "concepts": [
+   "distributed-tracing",
+   "metrics-percentiles"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "linux-fd-ulimit",
+  "concepts": [
+   "linux-resources-io"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "linux-path-traversal-x",
+  "concepts": [
+   "linux-filesystem-permissions"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "linux-signal-choice",
+  "concepts": [
+   "linux-processes-signals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "llm-context-budget-truncate",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "llm-context-budget",
+  "concepts": [
+   "llm-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "llm-cost-budget-plan",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 13 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "llm-cost-estimate",
+  "concepts": [
+   "llm-cost-optimization",
+   "llm-observability"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "llm-cost-per-call",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "llm-prompt-injection-scan",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "llm-retry-idempotent",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "llm-structured-output-repair",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "llm-token-estimate",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "llm-tool-route",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "migration-compat",
+  "concepts": [
+   "database-migrations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ml-bad-feature-id",
+  "concepts": [
+   "statistics-for-ml"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ml-baseline-majority",
+  "concepts": [
+   "statistics-for-ml"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ml-baseline-vs-model",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "ml-calibration-ece",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "ml-confusion-cost",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "ml-confusion-matrix",
+  "concepts": [
+   "statistics-for-ml"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ml-confusion-metric",
+  "concepts": [
+   "model-evaluation"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ml-data-leakage",
+  "concepts": [
+   "feature-engineering",
+   "scikit-learn-workflow"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "ml-diagnose-overfit",
+  "concepts": [
+   "machine-learning-basics"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "ml-drift-detect",
+  "concepts": [
+   "llm-observability"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ml-feature-encoding",
+  "concepts": [
+   "feature-engineering"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ml-imbalance-metric-trap",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "ml-leakage-detect",
+  "concepts": [
+   "machine-learning-basics"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ml-leakage-temporal",
+  "concepts": [
+   "machine-learning-basics"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ml-metric-choice",
+  "concepts": [
+   "machine-learning-basics",
+   "model-evaluation"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "ml-metric-selection",
+  "concepts": [
+   "model-evaluation"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ml-missing-not-zero",
+  "concepts": [
+   "machine-learning-basics"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ml-overfit-diagnose",
+  "concepts": [
+   "model-evaluation",
+   "neural-networks"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "ml-overfit-onset",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "ml-precision-recall-f1",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "ml-split-choice",
+  "concepts": [
+   "statistics-for-ml",
+   "scikit-learn-workflow"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "ml-split-stratify",
+  "concepts": [
+   "model-evaluation"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ml-train-serve-skew",
+  "concepts": [
+   "feature-engineering"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ml-train-test-split",
+  "concepts": [
+   "statistics-for-ml"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "net-dns-resolve",
+  "concepts": [
+   "networking-tcp-ip-model",
+   "networking-dns"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "net-first-failure",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "net-http-status-class",
+  "concepts": [
+   "networking-tcp-ip-model",
+   "networking-http-tls"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "net-layer-classify",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "nn-forward-neuron",
+  "concepts": [
+   "neural-networks"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "patterns-adapter-legacy",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "patterns-composition-vs-inheritance",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 5 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "patterns-dependency-injection",
+  "concepts": [
+   "clean-code"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "patterns-factory-area",
+  "concepts": [
+   "design-patterns-intro"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "patterns-null-object",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 5 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "patterns-observer-filter",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 5 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "patterns-strategy-table",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "patterns-strategy-vs-conditional",
+  "concepts": [
+   "agent-workflows-orchestration"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "patterns-when-not-yagni",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 10 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "pdx-dropna-count",
+  "concepts": [
+   "model-evaluation"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "pdx-fix-dtype-sum",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "pdx-groupby-mean",
+  "concepts": [
+   "machine-learning-basics"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "pdx-merge-inner",
+  "concepts": [
+   "model-evaluation"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "perf-budget",
+  "concepts": [
+   "metrics-percentiles"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "perf-pair-count",
+  "concepts": [
+   "data-structures-intro",
+   "frontend-performance",
+   "sql-performance-indexing"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 3 leçons"
+ },
+ {
+  "id": "prompt-injection-classify",
+  "concepts": [
+   "ai-security",
+   "prompt-injection-defense"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "py-data-clean-missing",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "py-data-dedup-latest",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "py-data-diagnose-mean-none",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "py-data-etl-upsert-idempotent",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 14 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "py-data-groupby-sum",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "py-data-inner-join",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "py-data-parse-records",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "py-data-validate-schema",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "py-debug-average",
+  "concepts": [
+   "statistics-for-ml"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "py-debug-grades",
+  "concepts": [
+   "data-cleaning-quality"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "py-exceptions",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "py-list-sum",
+  "concepts": [
+   "python-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "py-report",
+  "concepts": [
+   "scikit-learn-workflow"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "py-retry-idempotent",
+  "concepts": [
+   "python-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "py-safe-divide",
+  "concepts": [
+   "pandas-data-wrangling"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "py-sliding-window-max",
+  "concepts": [
+   "python-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "py-slugify",
+  "concepts": [
+   "python-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "py-temperature",
+  "concepts": [
+   "python-foundations"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "py-topk-frequent",
+  "concepts": [
+   "python-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "py-word-count",
+  "concepts": [
+   "python-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "queue-idempotent-consumer",
+  "concepts": [
+   "async-messaging-queues",
+   "distributed-systems-failures"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "rag-bow-vector",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rag-chunk-by-size",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rag-chunking-overlap",
+  "concepts": [
+   "chunking-strategies"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "rag-cosine-rank",
+  "concepts": [
+   "embeddings",
+   "vector-databases"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "rag-cosine-similarity",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rag-diagnose-fault",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rag-failure-locate",
+  "concepts": [
+   "rag-fundamentals",
+   "retrieval-reranking",
+   "ai-evaluation",
+   "rag-evaluation"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 4 leçons"
+ },
+ {
+  "id": "rag-hybrid-rrf",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rag-recall-at-k",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rag-recall-precision-at-k",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rag-retrieval-vs-generation",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rag-rrf-fusion",
+  "concepts": [
+   "retrieval-reranking"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "rag-rrf-hybrid-fuse",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rag-structured-validate",
+  "concepts": [
+   "prompt-engineering",
+   "structured-outputs-tools"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "rag-topk-retrieve",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 6 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "rca-classify-cause",
+  "concepts": [
+   "postmortem-rca"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-avatar",
+  "concepts": [
+   "react-accessibility"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-badge-list",
+  "concepts": [
+   "react-fundamentals"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "react-conditional",
+  "concepts": [
+   "react-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-counter",
+  "concepts": [
+   "react-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-debug-greeting",
+  "concepts": [
+   "react-fundamentals"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "react-debug-list",
+  "concepts": [
+   "react-accessibility",
+   "frontend-testing"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "react-form-name",
+  "concepts": [
+   "react-hooks-effects"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-greeting",
+  "concepts": [
+   "react-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-hello",
+  "concepts": [
+   "react-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-lift-state",
+  "concepts": [
+   "react-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-list",
+  "concepts": [
+   "react-fundamentals"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-parent-child",
+  "concepts": [
+   "react-hooks-effects",
+   "react-composition-architecture",
+   "react-application-states"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 3 leçons"
+ },
+ {
+  "id": "react-profile",
+  "concepts": [
+   "typescript-frontend",
+   "react-composition-architecture"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "react-reducer-actions",
+  "concepts": [
+   "react-application-states"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "react-search",
+  "concepts": [
+   "react-hooks-effects",
+   "react-composition-architecture",
+   "react-application-states",
+   "frontend-testing",
+   "frontend-performance",
+   "nextjs-data-production"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 6 leçons"
+ },
+ {
+  "id": "react-toggle",
+  "concepts": [
+   "react-hooks-effects"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "refactor-legacy",
+  "concepts": [
+   "clean-code",
+   "refactoring-legacy-code"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "replication-lag-reason",
+  "concepts": [
+   "distributed-systems-failures"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "retry-backoff-delay",
+  "concepts": [
+   "async-messaging-queues"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "retry-should",
+  "concepts": [
+   "error-handling",
+   "resilience-patterns"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "se-flaky-vs-real",
+  "concepts": [
+   "testing-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "se-release-decision",
+  "concepts": [
+   "testing-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "se-semver-bump",
+  "concepts": [
+   "breaking-changes-compatibility"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sec-blast-radius",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-classify-sensitive",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-cve-affected",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-image-digest",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-least-privilege",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-lockfile-diff",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-mask-secrets",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-networkpolicy-open",
+  "concepts": [
+   "k8s-security"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sec-prompt-injection-detect",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-rbac-wildcard",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-recovery-decision",
+  "concepts": [
+   "postmortem-rca"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sec-redact-secret-log",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-remediation-order",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-sbom-added",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-secret-placement",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-secret-response-order",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-secret-vs-config",
+  "concepts": [
+   "authentication"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "sec-securitycontext",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-sql-injection-safe",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 7 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sec-typosquat",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sh-exit-retry",
+  "concepts": [
+   "error-handling"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sh-pipeline-exit-diagnose",
+  "concepts": [
+   "terminal-shell-filesystem"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sh-pipeline-run",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "skl-confusion-matrix",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "skl-logreg-accuracy",
+  "concepts": [
+   "scikit-learn-workflow"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "skl-pipeline-cv",
+  "concepts": [
+   "model-evaluation"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "skl-train-test-split",
+  "concepts": [
+   "model-evaluation"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "slo-burn-rate",
+  "concepts": [
+   "slo-error-budget"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sql-dedup-latest",
+  "concepts": [
+   "sql-performance-indexing"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sql-group-having",
+  "concepts": [
+   "sql-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sql-index-advice",
+  "concepts": [
+   "sql-performance-indexing"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sql-inner-join",
+  "concepts": [
+   "sql-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sql-left-join-nulls",
+  "concepts": [
+   "sql-foundations"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sql-window-running-total",
+  "concepts": [
+   "sql-performance-indexing"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sqlite-group-having",
+  "concepts": [
+   "testing-foundations"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "sqlite-index-explain",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sqlite-inner-join",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sqlite-left-join-orphans",
+  "concepts": [
+   "data-cleaning-quality"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "sqlite-select-where",
+  "concepts": [
+   "python-foundations"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "sqlite-subquery-above-avg",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sqlite-top-n",
+  "concepts": [
+   "pandas-data-wrangling"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "sqlite-transaction-last-seat",
+  "concepts": [
+   "sql-foundations"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ssh-key-perms-accepted",
+  "concepts": [
+   "linux-ssh-remote"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "sys-log-level-counts",
+  "concepts": [
+   "sql-foundations",
+   "database-modeling"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "sys-perms-to-octal",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sys-perms-to-symbolic",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sys-port-listener",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "sys-process-top-cpu",
+  "concepts": [
+   "linux-processes-signals",
+   "linux-resources-io"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "sys-umask-apply",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 4 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "system-design-diagnose",
+  "concepts": [
+   "system-design-scaling"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "systemd-restart-loop",
+  "concepts": [
+   "linux-services-systemd"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "table-groupby",
+  "concepts": [
+   "pandas-data-wrangling"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "tls-cert-usable",
+  "concepts": [
+   "networking-http-tls"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ts-async-double",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "ts-async-fetch-user",
+  "concepts": [
+   "async-javascript"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ts-debug-discount",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "ts-debug-filter-strings",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "ts-debug-positives",
+  "concepts": [
+   "typescript-basics"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ts-fizzbuzz",
+  "concepts": [
+   "typescript-basics"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ts-frontend-guard",
+  "concepts": [
+   "typescript-frontend"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ts-generic-first",
+  "concepts": [
+   "typescript-basics"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ts-greeter",
+  "concepts": [
+   "typescript-basics"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ts-interface-cart",
+  "concepts": [
+   "typescript-basics",
+   "typescript-frontend"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "ts-inventory",
+  "concepts": [
+   "typescript-basics"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "ts-pluck",
+  "concepts": [
+   "typescript-basics"
+  ],
+  "classe": "RESOLVED_BY_SKILL",
+  "regle": "R4 · une seule leçon de sa journée partage sa compétence"
+ },
+ {
+  "id": "ts-typed-average",
+  "concepts": [
+   "typescript-basics"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "ts-union-area",
+  "concepts": [
+   "typescript-frontend"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "ts-word-frequency",
+  "concepts": [
+   "typescript-basics"
+  ],
+  "classe": "RESOLVABLE_FROM_CONTEXT",
+  "regle": "R3 · sa journée n’enseigne qu’une leçon"
+ },
+ {
+  "id": "validate-user",
+  "concepts": [
+   "express-backend",
+   "authentication",
+   "testing-foundations"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 3 leçons"
+ },
+ {
+  "id": "web-card",
+  "concepts": [
+   "html-semantic-structure",
+   "css-fundamentals",
+   "css-flexbox",
+   "css-grid",
+   "web-forms-validation",
+   "react-accessibility"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 6 leçons"
+ },
+ {
+  "id": "web-counter",
+  "concepts": [
+   "browser-dom-rendering"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "web-debug-selector",
+  "concepts": [
+   "browser-dom-rendering"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "web-debug-toggle",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "web-greeting-form",
+  "concepts": [
+   "web-forms-validation"
+  ],
+  "classe": "UNAMBIGUOUS",
+  "regle": "R1 · déclaré par une seule leçon"
+ },
+ {
+  "id": "web-inline-style",
+  "concepts": [
+   "css-fundamentals",
+   "browser-dom-rendering"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 2 leçons"
+ },
+ {
+  "id": "web-list-filter",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "web-log-init",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "web-nav",
+  "concepts": [
+   "html-semantic-structure",
+   "css-flexbox",
+   "css-grid",
+   "responsive-design"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 4 leçons"
+ },
+ {
+  "id": "web-semantic",
+  "concepts": [
+   "html-semantic-structure",
+   "browser-dom-rendering",
+   "react-accessibility"
+  ],
+  "classe": "MULTI_CONCEPT_BY_DESIGN",
+  "regle": "R2 · déclaré par 3 leçons"
+ },
+ {
+  "id": "web-status-text",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 2 leçons candidates, aucune règle ne tranche"
+ },
+ {
+  "id": "word-frequencies",
+  "concepts": [],
+  "classe": "AMBIGUOUS",
+  "regle": "R5 · 3 leçons candidates, aucune règle ne tranche"
+ }
+]

@@ -19,7 +19,13 @@ export type Command =
   | { type: 'COMPLETE'; day: number; comprehension?: string; confidence?: string; scheduleReview?: boolean }
   | { type: 'SET_STEP'; day: number; stepId: string; state: StepState }
   | { type: 'SAVE_DRAFT'; day: number; answers?: Record<string, string>; notes?: string; answer?: string }
-  | { type: 'SUBMIT'; day: number; stepId: string; kind?: string; content: string; validation?: Partial<Validation> | null }
+  | {
+      type: 'SUBMIT'; day: number; stepId: string; kind?: string; content: string;
+      validation?: Partial<Validation> | null;
+      evidenceId?: string; evidenceTitle?: string; evidenceUrl?: string; skills?: string[];
+      /** V75 · CP4 — concepts connus sans ambiguïté. Additif : vide = inconnu. */
+      conceptIds?: string[];
+    }
   | { type: 'ATTACH_VALIDATION'; day: number; submissionId: string; validation: Partial<Validation> }
   | { type: 'SET_COMPREHENSION'; day: number; value: string }
   | { type: 'SET_SELF_ASSESSMENT'; day: number; level?: number; confidence?: string }

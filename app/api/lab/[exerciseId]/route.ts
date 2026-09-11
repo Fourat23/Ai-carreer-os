@@ -16,8 +16,7 @@ import {
 import { splitAttempt } from '@/lib/lab-feedback';
 import { remedier } from '@/lib/remediation';
 import { ressourcesDe } from '@/lib/remediation-server';
-import { conceptsDeLExercice } from '@/lib/evidence-concepts-server';
-import { getProgram } from '@/lib/program';
+import { conceptsDeLExerciceResolu } from '@/lib/exercise-concepts-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -176,13 +175,23 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       if (attempt.allPassed) {
         const dayRefs = daysForExercise(getDayExerciseIndex(), ex.id);
         if (dayRefs.length) {
+          // Résolu UNE fois, transmis aux DEUX producteurs de preuves : sinon
+          // le second retombe sur le rattachement par journée et rend la
+          // désambiguïsation inutile pour cet exercice.
+          const concepts = conceptsDeLExerciceResolu(ex.id, ex.skills ?? []).concepts;
           let progress = recordExerciseSuccess(readProgress(), {
             exerciseId: ex.id, title: ex.title, skills: ex.skills ?? [], dayRefs,
-            // V75 · CP3 — la preuve porte enfin ses CONCEPTS quand ils sont
-            // connus sans ambiguïté. Le CP0 a mesuré 67 exercices
+            // V75 · CP3 puis CP4 — la preuve porte enfin ses CONCEPTS quand ils
+            // sont connus sans ambiguïté. Le CP0 a mesuré 67 exercices
             // multi-concepts PAR CONCEPTION : la liste peut en contenir
             // plusieurs, et ce n'est pas un défaut à trancher.
-            conceptIds: conceptsDeLExercice(ex.id, getProgram().lessons ?? []),
+            //
+            // Le CP4 élargit la source : aux deux règles de déclaration
+            // s'ajoutent la journée à leçon unique (R3) et l'intersection de
+            // compétences canoniques (R4). Quand AUCUNE règle ne tranche, la
+            // liste revient VIDE — l'exercice reste ambigu, et la preuve le dit
+            // au lieu de désigner une leçon au hasard.
+            conceptIds: concepts,
           });
           const checkedAt = new Date().toISOString();
           for (const d of dayRefs) {
@@ -205,6 +214,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
               evidenceTitle: `Exercice réussi : ${ex.title}`,
               evidenceUrl: `/lab/${ex.id}`,
               skills: ex.skills ?? [],
+              conceptIds: concepts,
             }, { now: new Date() });
             if (r.ok) { progress = r.progress; sessionsUpdated += 1; }
           }

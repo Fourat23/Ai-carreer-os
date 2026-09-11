@@ -41,25 +41,7 @@ export function conceptsDuCatalogue(ids: unknown): string[] {
   return (programConcepts(ids as string[]) as string[]).filter((id) => c.has(id));
 }
 
-/**
- * Les concepts d'un exercice, quand ils sont connus SANS AMBIGUÏTÉ.
- *
- * Réutilise la règle gelée au CP1 de V74 et affinée au CP0 de V75 : un
- * exercice déclaré par exactement une leçon rend cette leçon ; un exercice
- * déclaré par plusieurs leçons rend **toutes** ses leçons déclarantes, parce
- * que le CP0 a mesuré **67 exercices multi-concepts par conception** — ce n'est
- * pas une ambiguïté à trancher, c'est une réalité à représenter.
- *
- * Un exercice qu'aucune leçon ne déclare rend une liste vide. On ne descend
- * PAS vers les leçons de sa journée : le CP0 a mesuré une médiane de 3
- * candidates, jusqu'à 15, et choisir parmi elles serait fabriquer de la donnée.
- */
-export function conceptsDeLExercice(
-  exerciseId: string,
-  lessons: { slug: string; practiceRefs?: { kind: string; id: string }[] }[],
-): string[] {
-  const declarants = lessons
-    .filter((l) => (l.practiceRefs ?? []).some((r) => r.kind === 'exercise' && r.id === exerciseId))
-    .map((l) => l.slug);
-  return conceptsDuCatalogue(declarants);
-}
+// La résolution exercice → concepts vivait ici au CP3, limitée aux déclarations
+// de leçon. Le CP4 l'a reprise dans `lib/exercise-concepts-server.ts` avec deux
+// règles de plus ; la garder en double aurait créé deux réponses possibles à la
+// même question, et c'est précisément ce qu'on essaie de supprimer.

@@ -1,0 +1,206 @@
+{
+ "B_evenements": [
+  {
+   "nom": "ExerciseAttempt",
+   "source": "app/api/lab/[exerciseId]/route.ts",
+   "collection": "exerciseAttempts",
+   "timestamp": "serveur",
+   "learnerId": "implicite (fichier unique)",
+   "dayId": "dayRefs[]",
+   "conceptId": "—",
+   "competencyIds": "—",
+   "exerciseId": "oui",
+   "projectId": "—",
+   "outcome": "success|partial|failure (DÉRIVÉ)",
+   "duration": "durationMs",
+   "provenance": "obligatoire",
+   "validation": "—",
+   "idempotency": "exerciseId + seconde + passed/total",
+   "schemaVersion": "—"
+  },
+  {
+   "nom": "RecallAttempt",
+   "source": "RecallStation → RECORD_RECALL",
+   "collection": "recallAttempts",
+   "timestamp": "serveur",
+   "learnerId": "implicite",
+   "dayId": "via sourceRef (regex)",
+   "conceptId": "oui",
+   "competencyIds": "—",
+   "exerciseId": "—",
+   "projectId": "—",
+   "outcome": "recalled|partial|failed",
+   "duration": "durationMs (défaut 0)",
+   "provenance": "oui",
+   "validation": "—",
+   "idempotency": "conceptId + seconde + format",
+   "schemaVersion": "—"
+  },
+  {
+   "nom": "Evidence",
+   "source": "lab, diagnostics, missions, capstones, transfer",
+   "collection": "evidence",
+   "timestamp": "createdAt serveur",
+   "learnerId": "implicite",
+   "dayId": "dayId",
+   "conceptId": "—  ← D4",
+   "competencyIds": "oui (20)",
+   "exerciseId": "via sourceId",
+   "projectId": "via sourceId",
+   "outcome": "validation.status",
+   "duration": "—",
+   "provenance": "producer/method/note",
+   "validation": "status/kind/checkedAt/detail/score",
+   "idempotency": "sourceType:sourceId:comps:q",
+   "schemaVersion": "—"
+  },
+  {
+   "nom": "DayAttempt (legacy)",
+   "source": "app/day/[id]/DayCorrection.tsx",
+   "collection": "days[n].attempts",
+   "timestamp": "serveur",
+   "learnerId": "implicite",
+   "dayId": "oui",
+   "conceptId": "—",
+   "competencyIds": "—",
+   "exerciseId": "—",
+   "projectId": "—",
+   "outcome": "CHAÎNE LIBRE (40 car.) ← D3",
+   "duration": "—",
+   "provenance": "—",
+   "validation": "—",
+   "idempotency": "AUCUNE",
+   "schemaVersion": "—"
+  },
+  {
+   "nom": "Submission",
+   "source": "SUBMIT",
+   "collection": "days[n].submissions",
+   "timestamp": "serveur",
+   "learnerId": "implicite",
+   "dayId": "oui",
+   "conceptId": "—",
+   "competencyIds": "via skills",
+   "exerciseId": "via stepId",
+   "projectId": "—",
+   "outcome": "validation.status",
+   "duration": "—",
+   "provenance": "—",
+   "validation": "oui",
+   "idempotency": "stepId + at",
+   "schemaVersion": "—"
+  },
+  {
+   "nom": "WeeklyReview",
+   "source": "SET_WEEKLY_REVIEW",
+   "collection": "weeklyReviews",
+   "timestamp": "—  ← D6",
+   "learnerId": "implicite",
+   "dayId": "—",
+   "conceptId": "—",
+   "competencyIds": "—",
+   "exerciseId": "—",
+   "projectId": "—",
+   "outcome": "—",
+   "duration": "—",
+   "provenance": "—",
+   "validation": "—",
+   "idempotency": "clé = numéro de semaine",
+   "schemaVersion": "—"
+  },
+  {
+   "nom": "TransferAttempt",
+   "source": "INEXISTANT",
+   "collection": "—",
+   "timestamp": "—",
+   "learnerId": "—",
+   "dayId": "—",
+   "conceptId": "—",
+   "competencyIds": "—",
+   "exerciseId": "—",
+   "projectId": "—",
+   "outcome": "—",
+   "duration": "—",
+   "provenance": "—",
+   "validation": "—",
+   "idempotency": "—",
+   "schemaVersion": "—"
+  }
+ ],
+ "C_D3": {
+  "producteurs": [
+   "app/day/[id]/DayCorrection.tsx"
+  ],
+  "nbProducteurs": 1,
+  "outcomeVocabulaire": "CHAÎNE LIBRE — aucune liste fermée, borne 40 caractères",
+  "outcomesObserves": [],
+  "consommateursReels": [],
+  "nbConsommateursReels": 0,
+  "ecritDans": "days[n].attempts = { count, lastAt, history[] }",
+  "provenance": false,
+  "idempotence": false
+ },
+ "D_D4": {
+  "champsPortes": [],
+  "porteConceptId": false,
+  "porteCompetencyIds": true,
+  "grainCompetences": 20,
+  "grainConcepts": 128,
+  "sourceTypes": [
+   "exercise",
+   "assessment",
+   "mission",
+   "capstone",
+   "submission",
+   "declared",
+   "review",
+   "transfer-challenge"
+  ],
+  "note": "Aucune preuve d’apprenant réelle à mesurer : data/progress.json est absent par invariant."
+ },
+ "E_D6": {
+  "normaliseur": "partiel",
+  "consommateurs": [
+   "lib/backup.mjs",
+   "lib/learning-engine.mjs",
+   "lib/learning.mjs",
+   "lib/progress-server.ts",
+   "lib/progress-store.mjs",
+   "lib/types.ts"
+  ],
+  "schemaObserve": "objet libre indexé par numéro de semaine — aucun champ obligatoire, aucun horodatage",
+  "commande": "SET_WEEKLY_REVIEW"
+ },
+ "F_D8": {
+  "total": 376,
+  "classes": {
+   "UNAMBIGUOUS": 140,
+   "RESOLVABLE_FROM_CONTEXT": 32,
+   "MULTI_CONCEPT_BY_DESIGN": 67,
+   "AMBIGUOUS": 137,
+   "ORPHAN": 0
+  },
+  "candidatesParJour": {
+   "mediane": 3,
+   "max": 15
+  },
+  "exercicesSansCompetenceProgramme": 204
+ },
+ "G_D10": {
+  "total": 25,
+  "niveaux": {
+   "T5": 23,
+   "T4": 2
+  },
+  "crossDomain": 25,
+  "competencesCouvertes": 18,
+  "avecBridge": 25,
+  "questionsMediane": 3,
+  "routeExiste": false,
+  "serveurExiste": true,
+  "joursCitantUnDefi": 0,
+  "refDansProgramJson": false,
+  "typeDePreuveExiste": true,
+  "navigation": false
+ }
+}

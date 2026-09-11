@@ -7,15 +7,15 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP8**
+- **dernier CP terminé** : **CP9**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP9** — DÉFIS DE TRANSFERT accessibles (dette **D10**)
-- **NEXT_ACTION** : lever `D10`. Mesuré au CP0 : route `app/transfer` **absente** · navigation
-  **absente** · **0/365** journées citant un défi · **0** référence dans `program.json` · type de
-  preuve **présent** (V74 · CP11). Livrer : page, navigation, état, tentative, correction,
-  preuve — et **vérifier les 25 défis un par un**, pas en agrégat. Rappel du CP6 : en `RECOVERY`
-  et `CRITICAL` le transfert est **suspendu** ; la page doit donc exister ET respecter ce mode.
+- **NEXT_CP** : **CP10** — télémétrie `TransferAttempt`
+- **NEXT_ACTION** : enregistrer la TENTATIVE de transfert, réussie **ou non** — aujourd'hui seule
+  la conservation explicite écrit quelque chose, et uniquement une PREUVE. C'est la dissymétrie
+  que le CP2 de V74 avait corrigée pour les exercices : *le produit persistait la projection et
+  jetait le fait.* Contrainte du brief : **ne pas appeler un succès « maîtrise »**. Le CP0 a
+  mesuré `TransferAttempt` **INEXISTANT** dans l'inventaire des sept événements.
 
 ## Repères Git
 
@@ -31,7 +31,7 @@
 
 `128` leçons · `365` journées · `52` semaines · `12` mois · corpus des leçons `92d5fae6` ·
 **376 exercices** · **`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
-`1748/1748` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
+`1766/1766` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
 
 ## Décisions gelées
 
@@ -79,6 +79,27 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP9** : **dette D10 levée** — les 25 défis deviennent atteignables. Décisions :
+  - **TOUT EXISTAIT SAUF LE CHEMIN** : 25 défis validés dans `data/`, un correcteur pur, un type
+    de preuve depuis V74 · CP11. `lib/learner-memory.mjs` écrivait déjà la conséquence — le
+    compteur `transfers` *« vaut 0 tant que les 25 défis ne sont pas atteignables »*.
+  - **LE TEST QUI COMPTE N'EST PAS « la page existe »** mais *« une preuve de défi est COMPTÉE
+    comme un transfert par le moteur »*. Une surface qui produirait une preuve que personne ne
+    lit ne lèverait rien du tout.
+  - **AUCUN CINQUIÈME VOCABULAIRE** : `validation.kind` reste `assessment-grade`, parce que la
+    correction réutilise littéralement `gradeQuestion`. C'est le `sourceType` qui distingue un
+    transfert d'un diagnostic, et c'est lui que le moteur lit.
+  - **LE PONT EST AFFICHÉ AVANT LES QUESTIONS.** Un défi de transfert n'est pas un piège : on
+    annonce la notion d'origine et le contexte d'arrivée, puis on demande de faire le trajet.
+    Cacher le pont testerait la devinette.
+  - **LE VERDICT EST CALCULÉ PAR LE SERVEUR**, jamais reçu du client. Le repli local existe pour
+    ne pas perdre le travail — et il **désactive la conservation** : un verdict que le produit
+    n'a pas calculé lui-même ne vaut rien comme preuve.
+  - **CORRIGER N'ÉCRIT RIEN** ; conserver est une action explicite (règle de V65). Rejouer le
+    même défi ne crée pas une seconde preuve. Aucun `dayId` d'emprunt.
+  - **EN RÉCUPÉRATION, LE TRANSFERT EST SIGNALÉ INOPPORTUN — PAS INTERDIT.** Suspendre n'est pas
+    fermer : la page reste accessible, et le dit.
 
 - **CP8** : **UX de la télémétrie** — audit du rendu réel, puis correction. Décisions :
   - **UNE PAGE, UNE VÉRITÉ SUR « AUJOURD'HUI ».** Le triage reçoit désormais la **taille réelle
@@ -252,7 +273,7 @@
 | **D4** | `evidence[]` porte `competencyIds` (20), **jamais** `conceptId` (128) |
 | **D6** | objet libre indexé par n° de semaine · **aucun horodatage** · 6 fichiers y touchent |
 | **D8** | `UNAMBIGUOUS` **140** · `RESOLVABLE_FROM_CONTEXT` **32** · `MULTI_CONCEPT_BY_DESIGN` **67** · `AMBIGUOUS` **137** · `ORPHAN` **0** |
-| **D10** | route `app/transfer` **absente** · navigation **absente** · **0/365** journées citant un défi · **0** référence dans `program.json` · type de preuve **présent** (V74·CP11) |
+| **D10** | *(levée au CP9)* route `app/transfer` **absente** · navigation **absente** · **0/365** journées citant un défi · **0** référence dans `program.json` · type de preuve **présent** (V74·CP11) |
 
 ### UX du retard — ce que l'apprenant voit RÉELLEMENT
 
@@ -282,6 +303,8 @@
 |---|---|---|---|
 | **1** | CP0.A | `nextCurriculumNeed` lu sur les **concepts** (toujours `null`), puis au **jour 365** (où aucun projet n'est futur) | les **compétences bloquantes**. Rendait **0 pour les vingt profils**. Trois versions ont été nécessaires : mauvais grain, puis mauvais moment, puis correcte (pic pendant le parcours → 6 à 12) |
 | **2** | CP0.A | le **nombre d'unités** écartées | des « minutes différées ». Renommé `unitesDifferees` |
+| **11** | CP9 | la **présence** de `arbitrage.transfert === 'suspendu'` — elle subsiste dans la ligne `const suspendu = …` | que la valeur est **rendue**. `{suspendu ?` remplacé par `{false ?` laissait le test vert |
+| **10** | CP9 | `makeEvidence` **de son côté**, jamais ce que la ROUTE lui passe | que la route écrit `sourceType: 'transfer-challenge'`. Le remplacer par `'assessment'` laissait tout vert — et c'est *exactement* le mode de panne de `D10` : une preuve écrite sous un autre nom n'est jamais comptée comme un transfert |
 | **9** | CP7 | la **présence** d'une phrase dans le fichier — elle existait aussi dans l'en-tête explicatif du composant | le RENDU. Remplacer le texte affiché laissait le test **vert** : il gardait ma documentation. Corrigé : lecture du fichier **sans commentaires** |
 | **8** | CP7 | `{plan.restantes}` par simple présence du nom, alors qu'il subsiste dans `{plan.restantes > 0 ? …}` | que le nombre est **rendu**. Même motif que l'anomalie n° 6 |
 | **7** | CP7 | **rien** : `trierProfil` ne renvoyait pas les notions, le plan recevait une liste vide, et le script a publié **« invariants ✅ 20/20 »** sur zéro élément | le plan de rattrapage des 20 profils. *Une mesure faite sur rien valide tout.* Le script refuse désormais de conclure sans matière |
@@ -292,6 +315,12 @@
 
 ## Fichiers
 
+- **CP9** : **créés** `app/transfer/page.tsx` (catalogue), `app/transfer/[id]/page.tsx` +
+  `ChallengeRunner.tsx` (passation), `app/api/transfer/[id]/route.ts` (correction + preuve),
+  `scripts/v75/cp9-transfert.mjs` + `docs/v75/cp9-transfert.json`,
+  `tests/v75-transfert.test.mjs` (18). **Modifiés** `app/shell/nav.ts` et
+  `app/shell/AppShell.tsx` (l'entrée de navigation et son icône), `app/globals.css`.
+  **Aucun défi, aucun correcteur, aucun type de preuve modifié** — tout existait.
 - **CP8** : **créé** `tests/v75-telemetrie-ux.test.mjs` (15). **Modifiés**
   `app/retention/page.tsx` (ordre des appels, signal subordonné),
   `lib/backlog-triage.mjs` + `.d.ts` (`libelleDe` injecté), `lib/backlog-server.ts`
@@ -339,6 +368,12 @@
 
 ## Tests exécutés
 
+- **CP9** : **1766/1766** (18 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **8 mutations VUES rougir**, dont **2 restées VERTES au premier passage**.
+  **25/25 défis vérifiés un par un** : structure · route HTTP **200** · réussit avec les bonnes
+  réponses · **échoue avec les mauvaises** · produit une preuve recevable · **comptée comme un
+  transfert par le moteur**. Cycle complet rejoué en HTTP sur fixture isolée : corriger n'écrit
+  rien, conserver écrit une preuve, rejouer rend `duplicate`.
 - **CP8** : **1748/1748** (15 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **8 mutations VUES rougir** · **responsive vérifié sur le rendu réel** :
   375 / 768 / 1024 / 1440 px sur `/retention`, `/revisions`, `/parcours` — **0 débordement,
@@ -368,6 +403,30 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP9** — **il ne manquait qu'un chemin, et ce chemin valait zéro transfert.**
+  - **La dette D10 n'était pas un manque de contenu.** 25 défis validés, un correcteur pur, un
+    type de preuve : tout était là depuis V74. Ce qui manquait était une route, une entrée de
+    navigation et une API — et sans elles, le compteur `transfers` du moteur **ne pouvait valoir
+    que zéro, à jamais**. Le produit était structurellement aveugle au transfert.
+  - **VÉRIFIÉ UN PAR UN, comme le brief l'exige**, et la raison m'a été donnée par mon propre
+    CP7 : un agrégat vert cache un défi mort. Chacun des 25 est nommé, avec six colonnes.
+  - **Le test qui prouve réellement la levée** n'est pas l'existence de la page : c'est qu'une
+    preuve de défi soit **comptée comme un transfert** par `projectLearnerMemory`. Vérifié en
+    HTTP de bout en bout, et le compteur passe de 0 à 2 compétences transférées.
+  - **Le contrôle négatif est aussi important que le positif** : chaque défi doit **échouer**
+    avec de mauvaises réponses. Sans lui, un correcteur qui dit toujours oui passerait.
+  - **DEUX TESTS AVEUGLES DE PLUS** : remplacer `sourceType: 'transfer-challenge'` par
+    `'assessment'` **dans la route** laissait tout vert — mes tests vérifiaient `makeEvidence` de
+    leur côté, jamais ce que la route lui passe. C'est pourtant *exactement* le mode de panne de
+    D10. Le second acceptait `{false ?` à la place de `{suspendu ?`.
+  - **UNE PORTE DE V64 M'A CORRIGÉ POUR LA TROISIÈME FOIS** : elle exige `setNotice` /
+    `{notice && …}` sur tout correcteur serveur. J'avais ouvert un **second** canal (`error`) ;
+    deux canaux, c'est un de trop pour garantir qu'un échec s'affiche. Le composant s'est aligné.
+  - **CHANGEMENT VISIBLE** : une entrée « Défis de transfert » dans la navigation, un catalogue
+    de 25 défis groupés par distance, une page par défi avec son pont conceptuel, et une preuve
+    enregistrable que le moteur compte enfin.
+  - **1766/1766 · tsc 0 · build OK · 47 portes vertes.**
 
 - **CP8** — **quatre défauts que seul le rendu pouvait montrer.**
   - **Les quatre venaient de la RENCONTRE de surfaces individuellement correctes.** Aucun n'était

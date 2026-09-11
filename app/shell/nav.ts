@@ -37,6 +37,11 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/skills', label: 'Compétences', icon: 'Gauge' },
       { href: '/diagnostics', label: 'Diagnostics', icon: 'ShieldQuestion' },
+      // V75 · CP9 — dette D10 levée. Les 25 défis existaient dans `data/`, le
+      // correcteur et le type de preuve aussi ; il manquait le CHEMIN. Sans
+      // cette ligne, le compteur `transfers` du moteur de rétention ne pouvait
+      // valoir que zéro, à jamais.
+      { href: '/transfer', label: 'Défis de transfert', icon: 'Shuffle' },
       { href: '/capstones', label: 'Capstones', icon: 'Layers' },
       { href: '/reviews', label: 'Évaluations', icon: 'ClipboardCheck' },
     ],

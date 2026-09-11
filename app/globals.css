@@ -5670,3 +5670,17 @@ button.dot::after {
 .lab-rem-note { margin: var(--sp-2) 0 0; font-size: var(--fs-xs); color: var(--faint); }
 /* V74 · CP12 — durée estimée d'une réactivation, à côté de la forme. */
 .ret-card-mins { color: var(--muted); font-weight: 400; }
+
+/* ── V75 · CP9 — défis de transfert ──────────────────────────────────────
+   Le PONT est la seule chose vraiment propre à cette surface : il se lit
+   avant les questions, en trois lignes, et il doit se contester. Le reste
+   réutilise la grammaire des diagnostics (`.diag-*`) plutôt que d'inventer
+   un sixième motif — plafond ADR-056 §1. */
+.tr-list { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-3); }
+.tr-bridge-from, .tr-bridge-to { margin: 0 0 4px; font-size: var(--fs-sm); overflow-wrap: anywhere; }
+.tr-bridge {
+  margin: 8px 0 0; padding-left: 12px; border-left: 2px solid var(--border);
+  font-size: var(--fs-sm); color: var(--muted); overflow-wrap: anywhere;
+}
+.tr-verdict { margin: 0; font-size: var(--fs-base); font-family: var(--font-mono); }
+.tr-actions { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-3); }

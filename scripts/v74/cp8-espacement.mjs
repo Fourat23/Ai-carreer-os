@@ -86,7 +86,7 @@ const DEBUT = Date.parse('2026-01-05T08:00:00.000Z');
  * `variante` permet de rejouer la MÊME simulation avec un scheduler modifié —
  * c'est ce qui rend le AFTER comparable au BEFORE.
  */
-function simuler({ jours = 180, budget = 20, pReussite = 0.75, graine = 42, variante = null } = {}) {
+function simuler({ jours = 180, budget = 20, pReussite = 0.75, graine = 42, variante = null, echeanceDeOf = null, oubli = null } = {}) {
   const alea = rng(graine);
   const recallAttempts = [];
   const days = {};
@@ -124,6 +124,7 @@ function simuler({ jours = 180, budget = 20, pReussite = 0.75, graine = 42, vari
       budgetMinutes: budget,
       formatsOf: (id) => formatsDe.get(id) ?? [],
       recallOf: (id) => projectRecall(id, normalizeAttempts(attemptsDe.get(id) ?? [])),
+      ...(echeanceDeOf ? { echeanceDeOf } : {}),
     });
 
     const cptStatuts = comptesParStatut(fiches, {
@@ -145,9 +146,19 @@ function simuler({ jours = 180, budget = 20, pReussite = 0.75, graine = 42, vari
       }
       dernierRappel.set(item.id, now);
 
+      // ── L'APPRENANT SIMULÉ ──
+      // Par défaut, sa réussite est INDÉPENDANTE de l'intervalle : dans ce
+      // monde, l'oubli n'existe pas. C'est volontaire et c'est une limite
+      // déclarée — voir `docs/v74/V74-CP9-OUBLI.md` §3.
+      // `oubli` permet d'injecter une hypothèse de décroissance ; l'injecter
+      // revient à SUPPOSER la réponse, ce qui n'est légitime qu'en analyse de
+      // sensibilité, jamais pour désigner un gagnant.
+      const ecart = precedent
+        ? Math.round((Date.parse(now) - Date.parse(precedent)) / DAY_MS) : 0;
+      const p = oubli ? oubli(ecart, pReussite) : pReussite;
       recallAttempts.push({
         conceptId: item.id, at: now, format: item.format,
-        outcome: alea() < pReussite ? 'recalled' : 'failed',
+        outcome: alea() < p ? 'recalled' : 'failed',
         provenance: { producer: 'cp8-simulation', method: 'synthetique' },
       });
     }

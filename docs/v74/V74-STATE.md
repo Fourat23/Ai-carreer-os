@@ -7,21 +7,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP8**
+- **dernier CP terminé** : **CP9**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP9** — modèle d'oubli / decay
-- **NEXT_ACTION** : comparer explicitement plusieurs candidats de modèle d'oubli — **seuils
-  temporels** (ce que fait aujourd'hui `statutDe`), **Leitner-like** (ce que fait `INTERVALS`),
-  **SM-2-inspiré**, **décroissance exponentielle**, **evidence-aware** — et documenter pour
-  chacun : hypothèses, limites, sensibilité aux paramètres. **INTERDICTION CENTRALE DU BRIEF :
-  « si aucune donnée ne permet de calibrer, NE PAS INVENTER »** — les paramètres doivent rester
-  **déclarés et configurables**, jamais présentés comme mesurés (contournements G7 et G10).
-  Rappel du CP0, à ne pas contourner : `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`, et la
-  probabilité de mémoire a été déclarée **UNMEASURABLE** — le CP9 ne doit donc PAS produire une
-  probabilité d'oubli, mais comparer des politiques de planification. Réutiliser la simulation
-  du CP8 (`scripts/v74/cp8-espacement.mjs` exporte `simuler`, avec injection de `variante`)
-  pour éprouver chaque candidat sur les mêmes séries de faits.
+- **NEXT_CP** : **CP10** — plan d'apprentissage quotidien et arbitrage de budget
+- **NEXT_ACTION** : construire le **plan de journée** qui arbitre entre **nouveau matériel**
+  et **réactivation**, sous contrainte de budget. **Traiter les 44 journées HEAVY héritées de
+  V73.** Le CP8 a établi la mesure qui commande ce CP : **chez l'apprenant à 50 % de réussite,
+  l'arriéré croît linéairement jusqu'à 102 notions en 365 jours, et TRIPLER LE BUDGET ne le
+  divise pas par trois** (63 → 53 → 43 → 48) — parce qu'à 50 % d'échec chaque notion servie
+  revient le lendemain, donc **servir plus crée mécaniquement plus de retours**. La réponse
+  n'est donc pas dans l'ordonnancement (CP8 l'a épuisé) mais dans **l'ENTRÉE** : ralentir
+  l'acquisition de nouveau matériel quand l'arriéré grandit. **Ne PAS supprimer une compétence
+  difficile ni modifier les 365 journées pour satisfaire une sonde.** Réutiliser `simuler`
+  (CP8) pour mesurer BEFORE/AFTER sur les trois apprenants.
 
 ## Repères Git
 
@@ -111,6 +110,10 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP9** : **créés** `scripts/v74/cp9-oubli.mjs` (5 candidats + sensibilité),
+  `tests/v74-oubli.test.mjs` (10), `docs/v74/V74-CP9-OUBLI.md`. **Modifiés**
+  `lib/retention-scheduler.mjs` (paramètre `echeanceDeOf`, **défaut inchangé**),
+  `scripts/v74/cp8-espacement.mjs` (injections `echeanceDeOf` et `oubli`).
 - **CP8** : **créés** `scripts/v74/cp8-espacement.mjs`, `tests/v74-espacement.test.mjs` (12).
   **Modifiés** `lib/retention-priority.mjs` (ordre de service EN BANDES),
   `lib/retention-scheduler.mjs` (`PLACES_DECOUVERTE`, séquence à place réservée).
@@ -144,6 +147,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP9** : **1531/1531** (10 nouveaux) · tsc 0 · `gates:active` **0 violation** (46 portes) ·
+  corpus `92d5fae6…` inchangé · `data/progress.json` absent · **4 mutations VUES rougir**,
+  dont **2 ne rougissaient pas d'abord** (anomalie n° 10) · **aucun modèle adopté**.
 - **CP8** : **1521/1521** (12 nouveaux) · tsc 0 · `gates:active` **0 violation** (46 portes) ·
   corpus `92d5fae6…` inchangé · `data/progress.json` absent · **B2 vérifié** (tri total) ·
   **4 mutations VUES rougir** (2 · 4 · 4 · 1) puis restaurées.
@@ -184,6 +190,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
+| **10** *(CP9)* | **rien du tout, deux fois.** (a) un test comparait une série de 3 réussites à une série CASSÉE, or `sm2` court-circuite (`serie === 0` rend 1 jour **sans consulter le facteur de facilité**) : **inverser le signe du terme d'échec ne faisait rougir personne** ; (b) une fixture posée sur le **plafond** du facteur (2,8) absorbait encore l'inversion après correction | la sensibilité des candidats à l'échec. **Et une mutation de contrôle était un no-op arithmétique (`1 * 0 + 1` vaut `1`)** — croire qu'une suite « résiste » à une non-mutation est pire que ne pas avoir muté. Trois règles retenues : un court-circuit en amont rend le code en aval intestable · une valeur bornée teste mal · **une mutation doit être vérifiée comme mutation**. |
 | **9** *(CP8)* | une **coïncidence de données** : avec des valeurs par défaut, la fiche en retard a naturellement le meilleur score, donc les DEUX ordres de tri donnaient le même résultat | la **règle** « une notion à jour ne passe pas devant une notion en retard ». Le test **passait avant comme après le CP8**, et aurait continué à passer si la règle avait été supprimée. Découvert parce qu'une mutation censée toucher deux tests n'en faisait rougir **qu'un**. Réécrit sur le cas discriminant (fiche saine à **30** contre **20**), avec une assertion qui garde le fait que le cas RESTE discriminant. |
 | **8** *(CP7)* | **un nombre que je n'ai jamais compté moi-même** : « 52 portes », repris du rapport final de V73 et répété dans CINQ entrées de journal de V74 | le nombre d'entrées de `gates:active`, qui vaut **46** — et valait déjà 46 au commit `b353ebd`, fin de V73. Aucune porte ne manquait, aucun verdict ne change (le critère est « 0 violation », pas un décompte) : **c'est un chiffre recopié au lieu d'être mesuré**. Corrigé partout dans ce fichier. |
 | **7** *(CP7)* | les exercices **déclarés par AU MOINS une leçon** → **207** | les exercices **rattachables à UNE leçon**, ce qu'exige la règle §3.4 → **140**. Les **67** exercices déclarés par 2 à 6 leçons étaient comptés du bon côté alors que le code les écarte depuis toujours. **Aucun comportement de produit ne change** ; **la décision du CP1 en sort RENFORCÉE** (236 exercices à trancher arbitrairement, et non 169). **Une erreur de sonde qui va dans le sens de ma propre conclusion est celle qui a le plus besoin d'être publiée.** |
@@ -195,6 +202,54 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP9** — **aucun modèle d'oubli n'est adopté, et c'est le RÉSULTAT MESURÉ, pas une dérobade.**
+  - **Cinq candidats** implémentés et comparés : seuils temporels · Leitner (actuel) · SM-2
+    inspiré · décroissance exponentielle · evidence-aware. **Aucun ne produit de probabilité de
+    mémoire** — le CP0 a déclaré cette grandeur `UNMEASURABLE` et un test le garde.
+  - **Ils vivent dans `scripts/`, PAS dans `lib/`, et c'est une décision** : les livrer dans
+    `lib/` serait créer les cinq échelles concurrentes que le brief interdit, **et la règle C11
+    l'interdirait à juste titre**. Le bon endroit pour une étude est l'étude.
+  - **LE PIÈGE, NOMMÉ AVANT D'ÉCRIRE LA MOINDRE LIGNE** : l'apprenant simulé du CP8 réussit avec
+    une probabilité **indépendante de l'intervalle** — *dans ce monde, l'oubli n'existe pas*. Y
+    classer des modèles d'oubli aurait mesuré l'hypothèse de mon propre simulateur et l'aurait
+    présentée comme une propriété des modèles. Et l'alternative — injecter une courbe d'oubli —
+    est **circulaire** : elle favorise le modèle dont la forme ressemble à la courbe injectée.
+  - **DÉMONSTRATION B1 — le classement se retourne selon l'hypothèse** : sur trois hypothèses
+    d'oubli toutes également invérifiables, **trois modèles sur cinq occupent la première
+    place**, et « seuils temporels » passe du **1ᵉʳ au 5ᵉ rang**.
+  - **DÉMONSTRATION B2, celle que j'ai failli ne pas faire — à hypothèse FIXÉE, la seule graine
+    du générateur retourne aussi le classement.** SM-2 va du rang 5 au rang 1 (amplitude
+    **3,9 pt**), « seuils » du rang 5 au rang 1 (**2,9 pt**). **L'écart ENTRE modèles (0,1 à
+    1,6 pt) est plus PETIT que la variation d'UN modèle d'une graine à l'autre (1,3 à 3,9 pt) :
+    le signal est sous le bruit.** Les écarts de B1 étaient minuscules — il fallait mesurer le
+    bruit, pas l'affirmer.
+  - **`evidence-aware` est AVEUGLE, et ses chiffres identiques à Leitner sont TROMPEURS** : ce
+    n'est pas une équivalence mais une **dégénérescence** — la simulation n'injecte aucune
+    preuve, donc le multiplicateur vaut 1, donc le candidat *est* Leitner. Cause : **dette D4**
+    (les preuves portent `competencyIds`, jamais `conceptId`). *Le seul candidat qui
+    s'appuierait sur la donnée la plus objective du produit est celui que le produit ne sait pas
+    alimenter au bon grain.*
+  - **DÉCISION — Leitner (V66) est CONSERVÉ**, sur des raisons de produit décidables sans
+    données de mémoire (même méthode qu'au CP4) : changer une échelle publiée exige une preuve
+    et il n'y en a aucune · **Leitner s'explique en une phrase**, aucun autre candidat ne le
+    fait (critère B10, bloquant) · il n'introduit **aucun paramètre inventé** là où les autres
+    en ajoutent 4 à 5, donc autant d'occasions de **G11**. **Les trois conditions qui rendraient
+    la décision révisable sont écrites**, pour qu'on ne puisse pas prétendre plus tard que la
+    question n'avait pas été posée.
+  - **ANOMALIE DE SONDE n° 10 — DEUX tests aveugles, et une mutation qui ne mutait rien.** Les
+    dix tests passaient du premier coup ; sur quatre mutations, **deux ne faisaient rougir
+    personne**. (a) `sm2` **court-circuite** — `serie === 0` rend 1 jour *sans jamais consulter
+    le facteur de facilité*, donc inverser le signe du terme d'échec restait invisible ; (b)
+    après correction, la fixture était posée sur le **plafond** du facteur (2,8), et un plafond
+    absorbe les écarts ; (c) **ma mutation de contrôle sur `evidence-aware` était un no-op
+    arithmétique** — `1 * 0 + 1` vaut `1`. **Croire qu'une suite « résiste » à une non-mutation
+    est pire que ne pas avoir muté du tout.** Trois règles retenues : un court-circuit en amont
+    rend le code en aval intestable · une valeur bornée teste mal · **une mutation doit être
+    vérifiée comme mutation**.
+  - **Le produit n'a PAS changé de modèle** : `planifier` reçoit un paramètre `echeanceDeOf`
+    dont le défaut reste `echeanceDe`, et un test vérifie l'égalité stricte des deux appels.
+  - **1531/1531 · tsc 0 · 46 portes vertes · corpus inchangé.**
 
 - **CP8** — **l'espacement PRESCRIT est enfin l'espacement SERVI. Et la correction a cassé
   autre chose, que la mesure a dit tout de suite.**

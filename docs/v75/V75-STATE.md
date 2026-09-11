@@ -7,17 +7,18 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP5**
+- **dernier CP terminé** : **CP6**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP6** — mode RÉCUPÉRATION
-- **NEXT_ACTION** : arbitrer entre **NOUVEAU / RÉVISION / REMÉDIATION / PROJET / TRANSFERT**
-  selon le mode, et **RECOMMANDER — jamais imposer** (« l'utilisateur reste maître »). Les
-  quatre modes et leurs seuils sont **déjà gelés** au §3 du contrat : `NORMAL` · `CATCH_UP`
-  (`bloquantes ≥ 1` ou `echecsNonRepris ≥ 3`) · `RECOVERY` (`bloquantes ≥ 3` ou
-  `minutesRequises ≥ 3× budget`) · `CRITICAL` (`bloquantes ≥ 6` ou `≥ 6× budget`). **Ne pas les
-  recalibrer après avoir vu les mesures du CP5** — ce serait `R7`/`G11`. Les cinq facteurs sont
-  produits par `trierArriere(...).pression` ; `RECOVERY_EXIT` (`E1→E4`) est gelé au §4.
+- **NEXT_CP** : **CP7** — PLAN DE RATTRAPAGE multi-journées
+- **NEXT_ACTION** : produire une séquence **budgétée, reprenable, explicable, recalculable et
+  non punitive**. Contraintes du brief : **ne jamais afficher « vous avez 91 notions en retard,
+  faites-les toutes »** ; le plan doit être abandonnable sans pénalité (§1.3) et recalculé
+  chaque jour. Matière disponible : `trierArriere` (classes + placements + pression),
+  `arbitrerLaJournee` (minutes NOUVEAU/RÉVISION/REMÉDIATION), `notionsEssentielles` (horizon).
+  **Point à traiter en priorité** : `PAUSED_CURRICULUM` (§1.5) est aujourd'hui *décrit* mais
+  pas *enregistrable* — le CP6 n'affiche volontairement aucun bouton inerte. C'est au CP7 de
+  donner à l'apprenant le moyen d'exercer ce choix, ou de déclarer pourquoi il ne le fait pas.
 
 ## Repères Git
 
@@ -33,7 +34,7 @@
 
 `128` leçons · `365` journées · `52` semaines · `12` mois · corpus des leçons `92d5fae6` ·
 **376 exercices** · **`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
-`1676/1676` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
+`1708/1708` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
 
 ## Décisions gelées
 
@@ -81,6 +82,29 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP6** : **mode de récupération** — `lib/recovery-mode.mjs` (PUR). Décisions :
+  - **LE MODE N'EST JAMAIS PERSISTÉ.** §1.2 : c'est *« un état DÉCLARÉ du plan, pas un état de
+    l'apprenant »*. Stocké, il deviendrait un attribut de la personne — « tu es en récupération »
+    — et **survivrait à la situation qui l'a produit**. Il est recalculé intégralement, y
+    compris pour `E4`, qui relit la pression **au jour actif précédent**.
+  - **DEUX ALLOCATIONS, JAMAIS UNE** : `actuel` (si l'apprenant ne change rien) et `propose`.
+    Rien n'applique la seconde — `applique: false`, `impose: false`, et **« ne rien changer »
+    est toujours offert**, sans reproche. Une recommandation à option unique est un ordre.
+  - **`propose.total ≤ actuel.total`, TOUJOURS** (critère `V12`) : consolider davantage se paie
+    en avançant moins, **jamais en travaillant plus longtemps**. Un moteur qui rallonge la
+    journée pour rattraper est le « rattrapage impossible » de `R12`.
+  - **On ne réserve jamais plus de révision qu'il n'y en a à faire** : plafonner à
+    `minutesRequises` évite de fabriquer du travail pour remplir un quota.
+  - **La remédiation est un SOUS-ENSEMBLE de la révision**, jamais un ajout : un échec non
+    repris se travaille en le reprenant, pas en travaillant plus.
+  - **Le transfert est SUSPENDU en `RECOVERY` et `CRITICAL`** : le proposer pendant que des
+    prérequis sont en retard organiserait un échec de plus.
+  - **AUCUN BOUTON INERTE.** `PAUSED_CURRICULUM` est un choix que le moteur ne peut
+    qu'*enregistrer*, et la commande n'existe pas encore : les options sont **décrites**, pas
+    déclenchées. Un bouton qui ne fait rien prétendrait offrir un contrôle que le produit n'a pas.
+  - **Les seuils ne sont PAS recalibrés** après avoir vu les chiffres du CP5 — ce serait `R7`,
+    le piège nommé `G11` par V74.
 
 - **CP5** : **triage de l'arriéré** — `lib/backlog-triage.mjs` (PUR). Décisions :
   - **`PARKED` exige une CONDITION NOMMÉE, jamais une place dans la file.** C'est la décision
@@ -230,6 +254,11 @@
 
 ## Fichiers
 
+- **CP6** : **créés** `lib/recovery-mode.mjs` + `.d.ts` (moteur PUR), `lib/recovery-server.ts`
+  (read-model, `E4` recalculé), `app/retention/RecoveryNotice.tsx` (**la surface**),
+  `scripts/v75/cp6-modes.mjs` + `docs/v75/cp6-modes.json`, `tests/v75-recovery-mode.test.mjs` (32).
+  **Modifiés** `app/retention/page.tsx` (la **position** est enfin transmise au plan du jour),
+  `app/globals.css`.
 - **CP5** : **créés** `lib/backlog-triage.mjs` + `.d.ts` (moteur PUR), `lib/backlog-server.ts`
   (read-model), `app/retention/BacklogPanel.tsx` (**la surface**), `scripts/v75/cp5-triage.mjs`
   + `docs/v75/cp5-triage.json` (la mesure), `tests/v75-backlog-triage.test.mjs` (26).
@@ -258,6 +287,10 @@
 
 ## Tests exécutés
 
+- **CP6** : **1708/1708** (32 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **10 mutations VUES rougir**. Mesure sur les 20 profils : **V12 tenu 20/20** ·
+  **0 proposition appliquée ou imposée** · **« ne rien changer » offert partout** · une phrase
+  pour chaque décision. Répartition : `NORMAL` 8 · `CATCH_UP` 3 · `RECOVERY` 3 · `CRITICAL` 6.
 - **CP5** : **1676/1676** (26 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **10 mutations VUES rougir**, dont **2 restées VERTES au premier passage** —
   tests corrigés, mutations rejouées rouges. Mesure sur les 20 profils : **I2 tenu 20/20** aux
@@ -275,6 +308,37 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP6** — **le mode recommande, et il ne se souvient de rien.**
+  - **Le mode n'est pas persisté, et c'est la décision du checkpoint.** Persister un compteur
+    aurait été plus simple ; le §1.2 l'interdit pour une raison précise — stocké, « récupération »
+    devient un attribut de la personne et survit à la situation qui l'a produit. `E4` (« tenu
+    2 jours actifs ») est donc obtenu en **relisant les faits au jour actif précédent**.
+  - **Le moteur s'allume enfin.** `NORMAL` 8/20 · `CATCH_UP` 3 · `RECOVERY` 3 · `CRITICAL` 6.
+    C'est cohérent avec le CP0 (11/20 ne reviennent jamais sous contrôle) et cela évite le sort
+    du facteur `besoinProche` : présent, correct, **jamais allumé**.
+  - **`V12` tenu 20/20 : la récupération ne crée jamais de minutes.** En `RECOVERY` elle en
+    DÉPLACE (240 → 220 de nouveau contenu, 20 → 40 de révision, total inchangé) ; en `CRITICAL`
+    elle RACCOURCIT la journée (260 → 60 min). Elle ne l'allonge jamais.
+  - **DEUX DÉFAUTS TROUVÉS DANS MON PROPRE RENDU, par la mesure :**
+    · la page annonçait « le même total dans les deux cas » — **faux en `CRITICAL`**, où la
+      journée passe de 260 à 60 minutes. Le texte distingue désormais *déplacer* de *raccourcir* ;
+    · maintenu par `E4`, le profil K lisait « plusieurs notions attendent » alors qu'il n'en
+      avait plus **aucune** de bloquante : la phrase décrivait une situation inexistante. Le
+      maintien par `E4` a maintenant sa propre phrase, qui dit ce qui se passe réellement.
+  - **La garde `B12` de V74 a fait son travail contre moi.** En faisant appeler `getPlanDuJour`
+    par le read-model de récupération, j'avais retiré l'appel de la page — et la porte a rougi.
+    **Je n'ai pas touché à la garde** : la page rappelle l'arbitre elle-même, avec la position.
+    Une garde qui suivrait trois indirections ne garderait plus grand-chose.
+  - **CHANGEMENT VISIBLE** : `/retention` explique désormais *pourquoi* la séance ressemble à
+    ça, en une phrase, et montre les options **avec leur effet** — y compris « continuer comme
+    prévu ». Aucun bouton inerte : `PAUSED_CURRICULUM` n'est pas encore enregistrable, et le
+    produit ne fait pas semblant de l'offrir.
+  - **10 mutations vues rougir** : déclencheur basculé sur le volume · `E4` supprimé ·
+    récupération qui ajoute du temps · proposition appliquée d'office · « ne rien changer »
+    retiré · seuil recalibré après mesure · jargon moteur dans la phrase · transfert non
+    suspendu · bouton inerte réintroduit · plan rappelé sans position.
+  - **1708/1708 · tsc 0 · build OK · 47 portes vertes.**
 
 - **CP5** — **trier n'est pas soustraire, et la preuve est une contre-mesure.**
   - **La question du brief n'est pas « combien sont garées » mais « qu'est-ce que le garage fait

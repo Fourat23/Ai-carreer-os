@@ -15,10 +15,12 @@ import Link from 'next/link';
 import { getRetentionSummary, getRecallPrompt } from '@/lib/retention-server';
 import { getPlanDuJour } from '@/lib/plan-jour-server';
 import { getVueArriere, HORIZON_ESSENTIEL } from '@/lib/backlog-server';
+import { getVueRecuperation } from '@/lib/recovery-server';
 import { RETENTION_STATE_LABEL, INTERVALS, RETAINED_MIN_SPAN_DAYS } from '@/lib/retention';
 import { PageHeader, ContextLine, Panel, EmptyState, Metric, InlineNotice } from '@/app/ui';
 import RecallStation from './RecallStation';
 import BacklogPanel from './BacklogPanel';
+import RecoveryNotice from './RecoveryNotice';
 
 export const dynamic = 'force-dynamic';
 
@@ -37,10 +39,20 @@ export default function RetentionPage() {
   // Les deux sources ne se contredisent pas : V66 garde la responsabilité de
   // l'ÉTAT d'une notion (§4 du contrat gelé), l'arbitre celle de l'ORDRE. C'est
   // exactement le partage que le CP1 avait écrit.
-  const plan = getPlanDuJour(now);
+  // ── V75 · CP5 et CP6 — L'ORDRE DES TROIS APPELS EST LA DÉCISION ──
+  //
+  // 1. l'arriéré donne la POSITION de l'apprenant dans le parcours ;
+  // 2. le plan la reçoit — c'était le second verrou du défaut **P1** : appelé
+  //    sans position, `getPlanDuJour` voit une charge `null` et retombe
+  //    toujours sur le budget nominal, quelle que soit la journée réelle ;
+  // 3. la récupération reçoit les deux plutôt que de les recalculer, sans quoi
+  //    la page afficherait deux budgets différents pour la même journée.
+  const arriere = getVueArriere(now);
+  const plan = getPlanDuJour(now, arriere.jourCourant);
+  const recuperation = getVueRecuperation(now, { arriere, plan });
   const parConcept = new Map(plan.unites.map((u) => [u.id, u]));
 
-  // ── V75 · CP5 — L'ARRIÉRÉ RÉEL, ET SON TRIAGE ──
+  // ── V75 · CP5 — CE QUE L'ARRIÉRÉ CORRIGE ──
   //
   // Le CP0 a mesuré le défaut **P2** sur cette page même : à 84 notions
   // réellement en retard, elle affichait « 8 » — la longueur de la file V66,
@@ -52,7 +64,6 @@ export default function RetentionPage() {
   // n'est qu'un mur (106 notions pour l'apprenant irrégulier du CP0), le
   // triage du CP5 l'accompagne : ce qui est pris aujourd'hui, ce qui attend,
   // ce qui est garé — et pourquoi, notion par notion.
-  const arriere = getVueArriere(now);
 
   // Les unités du plan sont retrouvées dans la PROJECTION COMPLÈTE de V66, pas
   // dans sa file. La nuance est le défaut trouvé en lisant la page réelle :
@@ -140,6 +151,11 @@ export default function RetentionPage() {
           {plan.signal.proposition ? <> {plan.signal.proposition}</> : null}
         </InlineNotice>
       ) : null}
+
+      {/* V75 · CP6 — le mode du jour, et ce qu'il PROPOSE. Placé au-dessus de
+          la file : savoir pourquoi la séance ressemble à ça doit précéder la
+          séance, pas la suivre. */}
+      <RecoveryNotice vue={recuperation} />
 
       <div className="ret-grid">
         <div className="ret-main">

@@ -5502,6 +5502,21 @@ button.dot::after {
 }
 .ret-counts dd { margin: 0; font-family: var(--font-mono); font-size: var(--fs-base); }
 
+/* ── V75 · CP6 — la recommandation de récupération ───────────────────────
+   Une recommandation doit se lire comme une phrase et un choix, pas comme un
+   tableau de bord. Chaque option montre son effet en dessous d'elle : une
+   option dont on ne voit pas la conséquence n'est pas un choix. */
+.rec-phrase { margin: 6px 0 0; font-size: var(--fs-sm); }
+.rec-texte { margin: 6px 0 0; font-size: var(--fs-sm); color: var(--muted); }
+.rec-choix { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.rec-choix li {
+  display: flex; flex-direction: column; gap: 1px; min-width: 0;
+  padding-left: 10px; border-left: 2px solid var(--border);
+}
+.rec-choix-libelle { font-size: var(--fs-sm); }
+.rec-choix-effet { font-size: var(--fs-xs); color: var(--muted); overflow-wrap: anywhere; }
+.rec-budget, .rec-maitre { margin: 10px 0 0; font-size: var(--fs-xs); color: var(--muted); }
+
 /* ── V75 · CP5 — l'arriéré, en entier ────────────────────────────────────
    Trois métriques côte à côte, et elles s'additionnent au total annoncé dans
    le titre du panneau. Elles passent en colonne sous 520 px plutôt que de se

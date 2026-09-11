@@ -1,0 +1,821 @@
+[
+ {
+  "id": "A",
+  "nom": "parfait",
+  "mode": "NORMAL",
+  "regle": "aucun seuil atteint",
+  "phrase": "Rien ne presse : le parcours avance à son rythme.",
+  "sortieConfirmee": true,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 0,
+   "volume": 0,
+   "minutesRequises": 0,
+   "anciennete": 0
+  },
+  "total": 0,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": 0,
+   "revision": 0,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "B",
+  "nom": "irrégulier",
+  "mode": "CRITICAL",
+  "regle": "minutes requises ≥ 6× le budget",
+  "phrase": "Le retard s'est installé : tout reprendre demanderait 256 minutes, et 2 notions dont la suite du parcours dépend sont en retard.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 2,
+   "echecsNonRepris": 0,
+   "volume": 47,
+   "minutesRequises": 256,
+   "anciennete": 44
+  },
+  "total": 47,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 0,
+   "revision": 60,
+   "remediation": 0,
+   "total": 60,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -240,
+   "revision": 40,
+   "total": -200
+  },
+  "transfert": "suspendu",
+  "projet": "reportable",
+  "choix": [
+   "pause",
+   "consolider",
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "C",
+  "nom": "nombreux échecs",
+  "mode": "CRITICAL",
+  "regle": "minutes requises ≥ 6× le budget",
+  "phrase": "Le retard s'est installé : tout reprendre demanderait 339 minutes, et 3 notions dont la suite du parcours dépend sont en retard.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 3,
+   "echecsNonRepris": 2,
+   "volume": 64,
+   "minutesRequises": 339,
+   "anciennete": 32
+  },
+  "total": 64,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 0,
+   "revision": 60,
+   "remediation": 6,
+   "total": 60,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -240,
+   "revision": 40,
+   "total": -200
+  },
+  "transfert": "suspendu",
+  "projet": "reportable",
+  "choix": [
+   "pause",
+   "consolider",
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "D",
+  "nom": "faible activité",
+  "mode": "RECOVERY",
+  "regle": "bloquantes ≥ 3",
+  "phrase": "Consolider passe avant avancer aujourd'hui : 3 notions dont la suite du parcours dépend sont en retard.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 3,
+   "echecsNonRepris": 2,
+   "volume": 16,
+   "minutesRequises": 72,
+   "anciennete": 58
+  },
+  "total": 16,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 220,
+   "revision": 40,
+   "remediation": 6,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -20,
+   "revision": 20,
+   "total": 0
+  },
+  "transfert": "suspendu",
+  "projet": "inchange",
+  "choix": [
+   "consolider",
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "E",
+  "nom": "rapide",
+  "mode": "NORMAL",
+  "regle": "aucun seuil atteint",
+  "phrase": "Rien ne presse : le parcours avance à son rythme.",
+  "sortieConfirmee": true,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 0,
+   "volume": 0,
+   "minutesRequises": 0,
+   "anciennete": 0
+  },
+  "total": 0,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": 0,
+   "revision": 0,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "F",
+  "nom": "oublis sélectifs",
+  "mode": "NORMAL",
+  "regle": "aucun seuil atteint",
+  "phrase": "Rien ne presse : le parcours avance à son rythme.",
+  "sortieConfirmee": true,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 1,
+   "volume": 1,
+   "minutesRequises": 3,
+   "anciennete": 0
+  },
+  "total": 1,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 3,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": 0,
+   "revision": 0,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "G",
+  "nom": "reprise après 30 j",
+  "mode": "NORMAL",
+  "regle": "aucun seuil atteint",
+  "phrase": "Rien ne presse : le parcours avance à son rythme.",
+  "sortieConfirmee": true,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 0,
+   "volume": 0,
+   "minutesRequises": 0,
+   "anciennete": 0
+  },
+  "total": 0,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": 0,
+   "revision": 0,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "H",
+  "nom": "sans preuves",
+  "mode": "NORMAL",
+  "regle": "aucun seuil atteint",
+  "phrase": "Rien ne presse : le parcours avance à son rythme.",
+  "sortieConfirmee": true,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 0,
+   "volume": 0,
+   "minutesRequises": 0,
+   "anciennete": 0
+  },
+  "total": 0,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": 0,
+   "revision": 0,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "I",
+  "nom": "absence 7 jours",
+  "mode": "NORMAL",
+  "regle": "aucun seuil atteint",
+  "phrase": "Rien ne presse : le parcours avance à son rythme.",
+  "sortieConfirmee": true,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 1,
+   "volume": 2,
+   "minutesRequises": 7,
+   "anciennete": 0
+  },
+  "total": 2,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 3,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": 0,
+   "revision": 0,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "J",
+  "nom": "absence 14 jours",
+  "mode": "NORMAL",
+  "regle": "aucun seuil atteint",
+  "phrase": "Rien ne presse : le parcours avance à son rythme.",
+  "sortieConfirmee": true,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 0,
+   "volume": 0,
+   "minutesRequises": 0,
+   "anciennete": 0
+  },
+  "total": 0,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": 0,
+   "revision": 0,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "K",
+  "nom": "absence 60 jours",
+  "mode": "CATCH_UP",
+  "regle": "sortie non confirmée : la condition doit tenir 2 jours actifs (E4)",
+  "phrase": "Ton retard vient d’être résorbé : le produit attend un jour de travail de plus avant de l’annoncer.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 2,
+   "volume": 13,
+   "minutesRequises": 55,
+   "anciennete": 8
+  },
+  "total": 13,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 230,
+   "revision": 30,
+   "remediation": 6,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -10,
+   "revision": 10,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "L",
+  "nom": "30 % de réussite",
+  "mode": "CRITICAL",
+  "regle": "minutes requises ≥ 6× le budget",
+  "phrase": "Le retard s'est installé : tout reprendre demanderait 354 minutes, et 4 tentatives échouées n'ont pas été reprises.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 4,
+   "echecsNonRepris": 4,
+   "volume": 72,
+   "minutesRequises": 354,
+   "anciennete": 44
+  },
+  "total": 72,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 0,
+   "revision": 60,
+   "remediation": 12,
+   "total": 60,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -240,
+   "revision": 40,
+   "total": -200
+  },
+  "transfert": "suspendu",
+  "projet": "reportable",
+  "choix": [
+   "pause",
+   "consolider",
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "M",
+  "nom": "50 % de réussite",
+  "mode": "CRITICAL",
+  "regle": "minutes requises ≥ 6× le budget",
+  "phrase": "Le retard s'est installé : tout reprendre demanderait 304 minutes, et 2 notions dont la suite du parcours dépend sont en retard.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 2,
+   "echecsNonRepris": 1,
+   "volume": 59,
+   "minutesRequises": 304,
+   "anciennete": 29
+  },
+  "total": 59,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 0,
+   "revision": 60,
+   "remediation": 3,
+   "total": 60,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -240,
+   "revision": 40,
+   "total": -200
+  },
+  "transfert": "suspendu",
+  "projet": "reportable",
+  "choix": [
+   "pause",
+   "consolider",
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "N",
+  "nom": "70 % de réussite",
+  "mode": "RECOVERY",
+  "regle": "minutes requises ≥ 3× le budget",
+  "phrase": "Consolider passe avant avancer aujourd'hui : tout reprendre demanderait 85 minutes, et 1 notion dont la suite du parcours dépend est en retard.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 1,
+   "echecsNonRepris": 1,
+   "volume": 16,
+   "minutesRequises": 85,
+   "anciennete": 7
+  },
+  "total": 16,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 220,
+   "revision": 40,
+   "remediation": 3,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -20,
+   "revision": 20,
+   "total": 0
+  },
+  "transfert": "suspendu",
+  "projet": "inchange",
+  "choix": [
+   "consolider",
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "O",
+  "nom": "très fort mais intermittent",
+  "mode": "CATCH_UP",
+  "regle": "bloquantes ≥ 1",
+  "phrase": "Tu as du retard à reprendre : 1 notion dont la suite du parcours dépend est en retard, et 3 tentatives échouées n'ont pas été reprises.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 1,
+   "echecsNonRepris": 3,
+   "volume": 11,
+   "minutesRequises": 51,
+   "anciennete": 5
+  },
+  "total": 11,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 230,
+   "revision": 30,
+   "remediation": 9,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -10,
+   "revision": 10,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "P",
+  "nom": "suit les jours, saute la pratique",
+  "mode": "CRITICAL",
+  "regle": "minutes requises ≥ 6× le budget",
+  "phrase": "Le retard s'est installé : tout reprendre demanderait 145 minutes.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 1,
+   "volume": 26,
+   "minutesRequises": 145,
+   "anciennete": 8
+  },
+  "total": 26,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 0,
+   "revision": 60,
+   "remediation": 3,
+   "total": 60,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -240,
+   "revision": 40,
+   "total": -200
+  },
+  "transfert": "suspendu",
+  "projet": "reportable",
+  "choix": [
+   "pause",
+   "consolider",
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "Q",
+  "nom": "lit la correction avant d’essayer",
+  "mode": "RECOVERY",
+  "regle": "minutes requises ≥ 3× le budget",
+  "phrase": "Consolider passe avant avancer aujourd'hui : tout reprendre demanderait 65 minutes, et 1 notion dont la suite du parcours dépend est en retard.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 1,
+   "echecsNonRepris": 1,
+   "volume": 13,
+   "minutesRequises": 65,
+   "anciennete": 5
+  },
+  "total": 13,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 220,
+   "revision": 40,
+   "remediation": 3,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -20,
+   "revision": 20,
+   "total": 0
+  },
+  "transfert": "suspendu",
+  "projet": "inchange",
+  "choix": [
+   "consolider",
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "R",
+  "nom": "recall OK, transfert KO",
+  "mode": "NORMAL",
+  "regle": "aucun seuil atteint",
+  "phrase": "Rien ne presse : le parcours avance à son rythme.",
+  "sortieConfirmee": true,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 1,
+   "volume": 1,
+   "minutesRequises": 3,
+   "anciennete": 0
+  },
+  "total": 1,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 3,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": 0,
+   "revision": 0,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "S",
+  "nom": "rapide puis arrêt 90 j",
+  "mode": "CRITICAL",
+  "regle": "minutes requises ≥ 6× le budget",
+  "phrase": "Le retard s'est installé : tout reprendre demanderait 262 minutes.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 0,
+   "echecsNonRepris": 0,
+   "volume": 54,
+   "minutesRequises": 262,
+   "anciennete": 61
+  },
+  "total": 54,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 0,
+   "revision": 60,
+   "remediation": 0,
+   "total": 60,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -240,
+   "revision": 40,
+   "total": -200
+  },
+  "transfert": "suspendu",
+  "projet": "reportable",
+  "choix": [
+   "pause",
+   "consolider",
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ },
+ {
+  "id": "T",
+  "nom": "reprend au jour 250, fondations fragiles",
+  "mode": "CATCH_UP",
+  "regle": "bloquantes ≥ 1",
+  "phrase": "Tu as du retard à reprendre : 1 notion dont la suite du parcours dépend est en retard, et 3 tentatives échouées n'ont pas été reprises.",
+  "sortieConfirmee": false,
+  "pression": {
+   "bloquantes": 1,
+   "echecsNonRepris": 3,
+   "volume": 9,
+   "minutesRequises": 36,
+   "anciennete": 150
+  },
+  "total": 9,
+  "actuel": {
+   "nouveau": 240,
+   "revision": 20,
+   "remediation": 0,
+   "total": 260
+  },
+  "propose": {
+   "nouveau": 230,
+   "revision": 30,
+   "remediation": 9,
+   "total": 260,
+   "applique": false
+  },
+  "ecart": {
+   "nouveau": -10,
+   "revision": 10,
+   "total": 0
+  },
+  "transfert": "propose",
+  "projet": "inchange",
+  "choix": [
+   "garder"
+  ],
+  "impose": false,
+  "applique": false
+ }
+]

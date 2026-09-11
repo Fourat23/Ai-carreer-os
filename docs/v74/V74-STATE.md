@@ -7,20 +7,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP12**
+- **dernier CP terminé** : **CP13**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP13** — huit apprenants synthétiques
-- **NEXT_ACTION** : simuler **huit apprenants synthétiques** — **A** parfait · **B** irrégulier ·
-  **C** nombreux échecs · **D** très peu actif · **E** progression rapide · **F** oublis
-  sélectifs · **G** reprend après 30 jours d'arrêt · **H** termine sans produire les preuves.
-  **Vérifier sur chacun** : aucune boucle infinie · aucun arriéré exponentiel · aucune répétition
-  quotidienne permanente · **aucune compétence oubliée indéfiniment** · priorité explicable ·
-  budget respecté. Réutiliser `simuler` de `scripts/v74/cp8-espacement.mjs` (déjà paramétré par
-  graine, budget, `echeanceDeOf` et `oubli`) plutôt que d'écrire un second simulateur.
-  **RAPPEL, à écrire dans le titre du rapport : une simulation n'est PAS une preuve
-  d'apprentissage** — le contrat §8.2 l'exige. Les profils F, G et H sont ceux que le CP8 n'a pas
-  couverts : ses trois apprenants ne différaient que par un taux de réussite constant.
+- **NEXT_CP** : **CP14** — quinze mutations négatives
+- **NEXT_ACTION** : exécuter les **15 mutations négatives** listées dans le brief. Pour CHACUNE :
+  l'injecter, **VOIR la suite rougir** (noter quels tests et combien), puis restaurer. Une
+  mutation qui ne fait rougir personne est un **trou de couverture à publier**, pas un succès —
+  c'est ce que les anomalies n° 10, 11, 12 et celle du CP13 ont montré quatre fois de suite.
+  **Vérifier aussi qu'une mutation MUTE réellement** (l'anomalie n° 11 portait sur `1 * 0 + 1`,
+  qui vaut `1`). Après restauration complète : `npm test`, `npx tsc --noEmit`, `npm run build`,
+  `npm run gates:active`, et les portes V74. Publier le tableau mutation → tests rouges.
 
 ## Repères Git
 
@@ -110,6 +107,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP13** : **créés** `scripts/v74/cp13-apprenants.mjs` (8 profils, 6 propriétés),
+  `tests/v74-apprenants.test.mjs` (45), `docs/v74/V74-CP13-APPRENANTS.md`.
+  **Aucun fichier de produit modifié** — le CP13 mesure, il ne corrige pas.
 - **CP12** : **créés** `lib/plan-jour-server.ts`, `lib/daily-plan.d.ts`, `lib/learner-memory.d.ts`,
   `lib/retention-priority.d.ts`, `lib/retention-scheduler.d.ts`, `lib/retrieval-task.d.ts`,
   `tests/v74-b12-branchement.test.mjs` (10), `docs/v74/V74-CP12-INTERFACE.md`.
@@ -162,6 +162,10 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP13** : **1611/1611** (45 nouveaux) · tsc 0 · `gates:active` **0 violation** (46 portes) ·
+  corpus `92d5fae6…` inchangé · `data/progress.json` absent · simulation **déterministe**
+  (graine, aucun `Math.random`) · **3 mutations testées, 1 seule rougissait d'abord**
+  (anomalie n° 13).
 - **CP12** : **1566/1566** (10 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (46 portes) · **responsive 0 débordement / 0 superposition** aux 4 viewports · **0 score
   chiffré** dans le HTML servi · `data/progress.json` absent · **3 mutations VUES rougir**,
@@ -218,6 +222,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | # | ce que la sonde mesurait | ce qu'elle prétendait mesurer |
 |---|---|---|
 | **11** *(CP10)* | **20 minutes perdues par semaine chargée**, parce que le report ÉCRASAIT la valeur entrante (`reste: cible`) au lieu de l'accumuler | **120 minutes** réellement sautées sur six journées consécutives. Sur l'année, ma mesure annonçait **115 minutes non placées ; le chiffre réel est 735** — un facteur **6,4**. Conséquence secondaire : `REPORT_MAX_PAR_JOUR` était **du code mort**, et le test qui le « gardait » veillait sur une propriété inatteignable. **L'erreur allait dans le sens qui m'arrangeait** : elle faisait paraître le coût de mon propre arbitrage six fois plus petit. Trouvée parce qu'une mutation ne faisait rougir personne. |
+| **13** *(CP13)* | **la cohérence interne du plan avec lui-même** : `minutesPlanifiees > minutesAccordees` | **le respect du budget de la JOURNÉE**. En neutralisant le plancher du CP10, la séance respectait toujours le budget qu'on venait de lui donner — **aussi faux fût-il** : la colonne « budget respecté » aurait affiché ✅ sur une journée à **351 minutes**. Corrigé : le contrôle porte sur charge de curriculum **+** réactivation. La mutation fait désormais rougir **9** tests. |
 | **12** *(CP12)* | **la PRÉSENCE D'UNE CHAÎNE** : `includes('getPlanDuJour')` | **l'existence d'un BRANCHEMENT**. Une mutation remplaçant l'appel par un objet vide **passait**, parce que le nom subsistait dans un `as ReturnType<typeof getPlanDuJour>`. Même motif que les anomalies 9 et 10. Corrigé en exigeant la forme d'un **appel affecté**. |
 | **10** *(CP9)* | **rien du tout, deux fois.** (a) un test comparait une série de 3 réussites à une série CASSÉE, or `sm2` court-circuite (`serie === 0` rend 1 jour **sans consulter le facteur de facilité**) : **inverser le signe du terme d'échec ne faisait rougir personne** ; (b) une fixture posée sur le **plafond** du facteur (2,8) absorbait encore l'inversion après correction | la sensibilité des candidats à l'échec. **Et une mutation de contrôle était un no-op arithmétique (`1 * 0 + 1` vaut `1`)** — croire qu'une suite « résiste » à une non-mutation est pire que ne pas avoir muté. Trois règles retenues : un court-circuit en amont rend le code en aval intestable · une valeur bornée teste mal · **une mutation doit être vérifiée comme mutation**. |
 | **9** *(CP8)* | une **coïncidence de données** : avec des valeurs par défaut, la fiche en retard a naturellement le meilleur score, donc les DEUX ordres de tri donnaient le même résultat | la **règle** « une notion à jour ne passe pas devant une notion en retard ». Le test **passait avant comme après le CP8**, et aurait continué à passer si la règle avait été supprimée. Découvert parce qu'une mutation censée toucher deux tests n'en faisait rougir **qu'un**. Réécrit sur le cas discriminant (fiche saine à **30** contre **20**), avec une assertion qui garde le fait que le cas RESTE discriminant. |
@@ -231,6 +236,50 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP13** — **huit apprenants, six propriétés, 8/8. Et le décompte qui les faisait tous
+  échouer était trompeur — en MA défaveur.**
+  - **« UNE SIMULATION N'EST PAS UNE PREUVE D'APPRENTISSAGE »**, écrit dans le titre du rapport
+    comme le contrat §8.2 l'exige. Ce qui est vérifié est la **ROBUSTESSE** du moteur, pas son
+    efficacité pédagogique — `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`, inchangé.
+  - **CE QUE LE CP8 N'AVAIT PAS COUVERT** : ses trois apprenants ne différaient que par un
+    **taux de réussite constant**. Les profils **B** (irrégulier), **D** (un jour sur dix),
+    **F** (oublis sélectifs sur UNE compétence), **G** (arrêt de 30 jours puis reprise) et **H**
+    (n'produit jamais de preuve) couvrent ce qui manquait.
+  - **Chaque profil passe par le VRAI plan de journée** — `planDuJour` → `planifier` →
+    `prioriteDe`, avec la charge réelle des 365 journées. Pas un simulateur parallèle. La
+    compétence affaiblie de F est **dérivée du corpus**, pas choisie à la main (la choisir
+    permettrait de choisir celle qui arrange) ; un test le garde.
+  - **RÉSULTAT : 8 profils sur 8** satisfont les six propriétés — pas de boucle · arriéré non
+    explosif · pas de répétition permanente · aucune famine · priorité explicable · budget
+    respecté.
+  - **LE DÉCOMPTE BRUT LES FAISAIT TOUS ÉCHOUER, ET IL ÉTAIT TROMPEUR** : « 3 à 18 notions
+    jamais proposées » mélangeait deux choses — une notion rencontrée **l'avant-veille** n'a pas
+    encore eu son tour, une notion rencontrée **il y a trois mois** serait une vraie famine. La
+    mesure qui tranche est le nombre de **jours ACTIFS** depuis la première exposition :
+    **attente maximale 23 jours actifs, et 0 notion au-delà de 30, sur les huit profils.**
+  - **LE SEUIL DE 30 A ÉTÉ CHOISI APRÈS AVOIR VU LE MAXIMUM, et je le dis** : sinon un seuil
+    confortable passerait pour une démonstration. **Ce qui prouve la propriété est la BORNE
+    MESURÉE (23), pas le seuil.** Un test garde la borne elle-même.
+  - **ANOMALIE n° 13 — « budget respecté » ne mesurait presque rien.** Ma sonde comparait
+    `minutesPlanifiees > minutesAccordees`, c'est-à-dire **la cohérence interne du plan avec
+    lui-même**. En neutralisant le plancher du CP10, la séance respectait toujours le budget
+    qu'on venait de lui donner — **aussi faux fût-il** : la colonne aurait affiché ✅ sur une
+    journée à **351 minutes**. Corrigé : le contrôle porte sur la **journée entière** (charge +
+    réactivation). La mutation fait désormais rougir **9** tests contre **0**.
+  - **UNE TROISIÈME MUTATION NE ROUGIT PAS, ET C'EST VRAI** : porter `PLAFOND_UNITES` de 8 à 400
+    ne change rien, parce que **le budget de 20 minutes borne la séance bien avant le plafond**
+    (~4 unités) — fait déjà établi au CP8. Le plafond ne protège rien à 20 minutes, et **il vaut
+    mieux l'écrire que de laisser croire qu'il travaille**.
+  - **Lectures qui méritent d'être dites** : C fait **14 jours consécutifs sur `recursion`** —
+    comportement ATTENDU, pas défaut (échouer ramène l'intervalle à 1 jour) · D ne couvre que
+    24 notions sur 42 parce que **24 journées actives et une place de découverte par séance
+    rendent 42 arithmétiquement impossible** — capacité, pas famine · G culmine à 42 d'arriéré
+    au retour puis redescend à 28 : **ni blocage, ni noyade**.
+  - **H reste servi** (882 tentatives, 85 notions) alors qu'il ne produit aucune preuve : c'est
+    la décision du CP2 en action — **la preuve est une projection, la tentative est le fait**.
+  - **1611/1611 · tsc 0 · 46 portes vertes · corpus inchangé · aucun fichier de produit
+    modifié.**
 
 - **CP12** — **B12 est passé de NON à OUI : le moteur atteint enfin l'apprenant. Et deux défauts
   ne sont apparus qu'en LISANT LA PAGE RENDUE.**

@@ -7,19 +7,18 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP0**
+- **dernier CP terminé** : **CP1**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP1** — contrat de récupération gelé
-- **NEXT_ACTION** : créer `docs/v75/V75-RECOVERY-CONTRACT-FROZEN.md` et y **geler AVANT toute
-  implémentation** : `RECOVERY_MODE` · `NORMAL_MODE` · `CATCH_UP` · `CRITICAL_BACKLOG` ·
-  `PAUSED_CURRICULUM` · `RESUME_PLAN` · `ESSENTIAL` · `DEFERRABLE` · `BLOCKING_CONCEPT` ·
-  `BACKLOG_PRESSURE` · `RECOVERY_EXIT`. **La pression d'arriéré doit être EXPLICABLE**, pas un
-  score opaque : la décision doit pouvoir dire « mode récupération activé parce que… ».
-  **Les critères de sortie doivent être posés AVANT la mesure** — les choisir après simulation
-  serait le contournement G11 hérité de V74. Geler aussi l'échelle de verdict
-  (`ADAPTIVE_RECOVERY_NOT_READY / FOUNDATION_READY / CANDIDATE / READY`) et les critères
-  bloquants, et **ne jamais les modifier ensuite parce que leur mesure échoue**.
+- **NEXT_CP** : **CP2** — event model V2
+- **NEXT_ACTION** : payer **D3 / D6** autant que possible et poser un modèle événementiel
+  cohérent. Étudier `ExerciseAttempt` · `RecallAttempt` · `Evidence` · `WeeklyReviewAttempt` ·
+  `TransferAttempt`. Chaque fait doit être **immuable**, horodaté **serveur**, porter sa
+  **provenance**, sa **déduplication**, son **grain explicite** et une **version de schéma**.
+  **Préserver les anciennes données — aucune migration destructive.** Rappel CP0 : `D3` a
+  **1 producteur et 0 consommateur réel**, son `outcome` est une chaîne libre sans provenance ni
+  idempotence ; `D6` (`weeklyReviews`) est un objet libre sans horodatage touché par 6 fichiers.
+  Décider explicitement pour D3 : disparaître · être typé · être remplacé · rester legacy.
 
 ## Repères Git
 
@@ -41,6 +40,30 @@
 
 - **CP0** : aucune (lecture seule). Les seuils d'acceptabilité d'un arriéré sont **délibérément
   NON posés** au CP0 — le brief l'interdit avant le CP1.
+- **CP1** : contrat gelé `docs/v75/V75-RECOVERY-CONTRACT-FROZEN.md`. Décisions structurantes :
+  - **12 interdits `R1→R12`** repris du brief, dont **R1 cacher la dette** et **R6 diminuer un
+    arriéré en retirant des concepts de la mesure**.
+  - **`PARKED ≠ MASTERED`** — la distinction qui porte tout le contrat, rendue vérifiable par
+    cinq invariants `I1→I5`, dont **I2 : `total = actif + différé + garé`, exactement**.
+  - **`BACKLOG_PRESSURE` est une LISTE DE CINQ FACTEURS NOMMÉS**, jamais un score : `bloquantes`
+    · `echecsNonRepris` · `volume` · `minutesRequises` · `anciennete`. **Il n'existe aucun
+    nombre unique appelé « pression ».**
+  - **Le déclencheur principal est `bloquantes`, PAS le volume** — raison écrite : *60 notions
+    en retard dont aucune n'est exigée avant un mois ne sont pas une difficulté ; 4 notions
+    prérequises de la semaine prochaine, si.* Déclencher sur le volume punirait le premier
+    apprenant et manquerait le second (**R11**).
+  - **Quatre modes** `NORMAL / CATCH_UP / RECOVERY / CRITICAL`, seuils **déclarés et publiés**,
+    `HORIZON_ESSENTIEL = 14 jours`.
+  - **`CRITICAL` RECOMMANDE une pause, ne l'impose jamais** ; `PAUSED_CURRICULUM` est un choix
+    de l'apprenant, que le moteur ne peut qu'enregistrer.
+  - **`RECOVERY_EXIT` posé AVANT toute mesure** : `E1` aucune bloquante · `E2` ≤ 2 échecs non
+    repris · `E3` minutes ≤ 2× budget · `E4` tenu **2 jours actifs consécutifs**
+    (anti-oscillation). *Si la mesure montre qu'on n'en sort jamais, c'est le moteur qu'il faudra
+    corriger, pas le seuil.*
+  - **14 critères bloquants `V1→V14`** et 5 non bloquants, échelle de verdict gelée.
+    **`N3` (part garée) est non bloquant ET surveillé** : le CP13 publiera **total, actif et
+    garé séparément**, parce que tout mettre au garage ferait chuter l'arriéré actif sans rien
+    résoudre — `R2` et `R6` déguisés.
 
 ## Mesures BEFORE (CP0 — à ne jamais reconstruire ni écraser)
 
@@ -122,16 +145,34 @@
 
 ## Fichiers
 
+- **CP1** : **créé** `docs/v75/V75-RECOVERY-CONTRACT-FROZEN.md`. **Aucun fichier de produit.**
 - **CP0** : **créés** `scripts/v75/cp0-forensics.mjs`, `scripts/v75/cp0-backlog.mjs`,
   `docs/v75/cp0-forensics.json`, `docs/v75/cp0-backlog.json`,
   `docs/v75/V75-CP0-FORENSICS.md`, `docs/v75/V75-STATE.md`. **Aucun fichier de produit modifié.**
 
 ## Tests exécutés
 
+- **CP1** : document seul, aucun code modifié — aucun test à rejouer.
 - **CP0** : **1612/1612** · tsc 0 · build OK · `gates:active` **47 portes, 0 violation** ·
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP1** — **contrat gelé. Aucun fichier de produit modifié.**
+  - **La décision qui commande le sprint : `PARKED ≠ MASTERED`.** Garer une notion, c'est décider
+    de ne pas la planifier aujourd'hui — **ni** l'avoir apprise, **ni** l'avoir retirée de la
+    dette. Rendue vérifiable par `I2` : *`total = actif + différé + garé`, exactement*.
+  - **`BACKLOG_PRESSURE` n'est pas un score.** C'est une liste de cinq facteurs nommés, et la
+    décision doit pouvoir se dire en une phrase : « mode récupération activé parce que 4 notions
+    bloquantes sont en retard et que 3 échecs ne sont pas repris. »
+  - **Le déclencheur est `bloquantes`, pas le volume**, et la raison est écrite dans le contrat :
+    déclencher sur le volume **punirait** l'apprenant en avance sur ses révisions et **manquerait**
+    celui qui est réellement bloqué.
+  - **`RECOVERY_EXIT` est posé avant la première simulation**, avec une condition
+    anti-oscillation (`E4`, 2 jours actifs consécutifs) — sans elle le produit annoncerait en
+    alternance une bonne et une mauvaise nouvelle.
+  - **`I5` répond directement au défaut P2 du CP0** : le nombre montré comme « en retard » doit
+    être l'arriéré TOTAL, jamais une file plafonnée.
 
 - **CP0** — **audit forensique, lecture seule. Aucun fichier de produit modifié.**
   - **11 profils sur 20 ne reviennent jamais sous contrôle**, et le pire n'est pas l'absence :

@@ -14,9 +14,11 @@
 import Link from 'next/link';
 import { getRetentionSummary, getRecallPrompt } from '@/lib/retention-server';
 import { getPlanDuJour } from '@/lib/plan-jour-server';
+import { getVueArriere, HORIZON_ESSENTIEL } from '@/lib/backlog-server';
 import { RETENTION_STATE_LABEL, INTERVALS, RETAINED_MIN_SPAN_DAYS } from '@/lib/retention';
 import { PageHeader, ContextLine, Panel, EmptyState, Metric, InlineNotice } from '@/app/ui';
 import RecallStation from './RecallStation';
+import BacklogPanel from './BacklogPanel';
 
 export const dynamic = 'force-dynamic';
 
@@ -37,6 +39,20 @@ export default function RetentionPage() {
   // exactement le partage que le CP1 avait écrit.
   const plan = getPlanDuJour(now);
   const parConcept = new Map(plan.unites.map((u) => [u.id, u]));
+
+  // ── V75 · CP5 — L'ARRIÉRÉ RÉEL, ET SON TRIAGE ──
+  //
+  // Le CP0 a mesuré le défaut **P2** sur cette page même : à 84 notions
+  // réellement en retard, elle affichait « 8 » — la longueur de la file V66,
+  // plafonnée — et proposait 3 cartes. Aucune intention de cacher, et pourtant
+  // la dette était cachée.
+  //
+  // L'invariant `I5` du contrat gelé exige l'inverse : le nombre montré comme
+  // « en retard » est l'arriéré TOTAL. Et puisqu'un total sans décomposition
+  // n'est qu'un mur (106 notions pour l'apprenant irrégulier du CP0), le
+  // triage du CP5 l'accompagne : ce qui est pris aujourd'hui, ce qui attend,
+  // ce qui est garé — et pourquoi, notion par notion.
+  const arriere = getVueArriere(now);
 
   // Les unités du plan sont retrouvées dans la PROJECTION COMPLÈTE de V66, pas
   // dans sa file. La nuance est le défaut trouvé en lisant la page réelle :
@@ -80,7 +96,8 @@ export default function RetentionPage() {
           { k: 'Notions du programme', v: `${s.totalConcepts}` },
           { k: 'Rencontrées', v: `${rencontres}` },
           { k: 'Mises à l’épreuve', v: `${testes}` },
-          { k: 'Dues aujourd’hui', v: `${s.queue.length}` },
+          // I5 · l'arriéré TOTAL, jamais une file plafonnée (défaut P2).
+          { k: 'En retard', v: `${arriere.total}` },
         ]}
       />
 
@@ -147,6 +164,13 @@ export default function RetentionPage() {
               </>
             )}
           </Panel>
+
+          {/* V75 · CP5 — l'arriéré TOTAL, décomposé. Il est dans la colonne
+              PRINCIPALE et non dans le rail : le CP0 a montré qu'un retard
+              relégué en marge se lit comme une note de bas de page, alors
+              qu'il est la question la plus importante pour un apprenant
+              irrégulier (80 % du corpus en retard, profil B). */}
+          <BacklogPanel vue={arriere} horizon={HORIZON_ESSENTIEL} />
         </div>
 
         <aside className="ret-rail">

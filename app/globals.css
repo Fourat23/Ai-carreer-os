@@ -5502,6 +5502,37 @@ button.dot::after {
 }
 .ret-counts dd { margin: 0; font-family: var(--font-mono); font-size: var(--fs-base); }
 
+/* ── V75 · CP5 — l'arriéré, en entier ────────────────────────────────────
+   Trois métriques côte à côte, et elles s'additionnent au total annoncé dans
+   le titre du panneau. Elles passent en colonne sous 520 px plutôt que de se
+   comprimer : trois nombres illisibles ne valent pas mieux qu'un nombre
+   caché, et c'est le défaut P2 qu'on est en train de corriger. */
+.ret-backlog-metrics {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-3); margin: 0 0 12px;
+}
+@media (max-width: 520px) { .ret-backlog-metrics { grid-template-columns: 1fr; } }
+.ret-backlog-h {
+  margin: 16px 0 6px; font-size: var(--fs-xs); text-transform: uppercase;
+  letter-spacing: .03em; color: var(--muted); font-weight: 600;
+}
+.ret-backlog-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ret-backlog-list li {
+  display: flex; flex-direction: column; gap: 1px; min-width: 0;
+  padding-left: 10px; border-left: 2px solid var(--border);
+}
+.ret-backlog-titre { font-size: var(--fs-sm); overflow-wrap: anywhere; }
+.ret-backlog-raison { font-size: var(--fs-xs); color: var(--muted); overflow-wrap: anywhere; }
+/* La condition de sortie d'un garage : jamais en couleur seule, toujours
+   lisible comme une phrase. Un garage sans levée serait une suppression. */
+.ret-backlog-retour { font-size: var(--fs-xs); color: var(--faint, var(--muted)); font-style: italic; }
+.ret-backlog-details { margin-top: 16px; }
+.ret-backlog-details > summary {
+  cursor: pointer; font-size: var(--fs-xs); text-transform: uppercase;
+  letter-spacing: .03em; color: var(--muted);
+}
+.ret-backlog-details > * + * { margin-top: 10px; }
+
 .ret-rule { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
 .ret-rule li { font-size: var(--fs-sm); color: var(--muted); }
 .ret-rule strong { color: var(--fg); }

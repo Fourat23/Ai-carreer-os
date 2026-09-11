@@ -101,7 +101,16 @@ export const PROFILS = [
   { id: 'T', nom: 'reprend au jour 250, fondations fragiles', ouvre: (j) => j <= 30 || j > 250, reussit: (_c, _j, a) => a() < 0.5, preuve: true },
 ];
 
-export function simuler(profil, { jours = 365, budget = 20, graine = 1975 } = {}) {
+/**
+ * @param profil
+ * @param o.avecFaits  ajoute les FAITS bruts au retour (V75 · CP5).
+ *
+ * `avecFaits` est strictement additif et n'existe que pour que les checkpoints
+ * suivants puissent rejouer un parcours sans re-simuler à côté. La sortie CLI
+ * et `docs/v75/cp0-backlog.json` restent **inchangés** : les mesures du CP0 ne
+ * se réécrivent pas, c'est une consigne explicite du brief.
+ */
+export function simuler(profil, { jours = 365, budget = 20, graine = 1975, avecFaits = false } = {}) {
   const alea = rng(graine);
   const recallAttempts = [];
   const exerciseAttempts = [];
@@ -253,8 +262,14 @@ export function simuler(profil, { jours = 365, budget = 20, graine = 1975 } = {}
     jamaisProposees: attente.length,
     competencesBloquantes: bloquantesMax,
     retourSousControle: retour,
+    ...(avecFaits
+      ? { faits: { days, recallAttempts, exerciseAttempts, evidence }, finAt: new Date(DEBUT + jours * DAY_MS).toISOString() }
+      : {}),
   };
 }
+
+/** Contexte curriculaire du simulateur, réutilisé par les checkpoints suivants. */
+export { CTX, DEBUT, DAY_MS, formatsDe, conceptSkills };
 
 if (process.argv[1] && process.argv[1].endsWith('cp0-backlog.mjs')) {
   console.log('# V75 · CP0.A — BACKLOG FORENSICS, 20 PROFILS (365 jours, budget 20 min)\n');

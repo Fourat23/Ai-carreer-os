@@ -7,17 +7,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP4**
+- **dernier CP terminé** : **CP5**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP5** — moteur de TRIAGE de l'arriéré
-- **NEXT_ACTION** : classer chaque notion due en **`URGENT` / `IMPORTANT` / `DEFERRABLE` /
-  `PARKED`**, **avec une raison lisible** pour chacune. Contraintes du contrat gelé au CP1 :
-  **`PARKED` ne signifie PAS « maîtrisé »** — cela signifie « volontairement non planifié
-  aujourd'hui » ; **l'arriéré TOTAL et l'arriéré ACTIF restent visibles séparément** (`I2` :
-  `total = actif + différé + garé`, exactement) ; le classement doit s'appuyer sur les **cinq
-  facteurs nommés** de `BACKLOG_PRESSURE`, **jamais sur un score unique**. Garder à l'esprit le
-  piège du CP13 : *tout mettre au garage ferait chuter l'arriéré actif sans rien résoudre.*
+- **NEXT_CP** : **CP6** — mode RÉCUPÉRATION
+- **NEXT_ACTION** : arbitrer entre **NOUVEAU / RÉVISION / REMÉDIATION / PROJET / TRANSFERT**
+  selon le mode, et **RECOMMANDER — jamais imposer** (« l'utilisateur reste maître »). Les
+  quatre modes et leurs seuils sont **déjà gelés** au §3 du contrat : `NORMAL` · `CATCH_UP`
+  (`bloquantes ≥ 1` ou `echecsNonRepris ≥ 3`) · `RECOVERY` (`bloquantes ≥ 3` ou
+  `minutesRequises ≥ 3× budget`) · `CRITICAL` (`bloquantes ≥ 6` ou `≥ 6× budget`). **Ne pas les
+  recalibrer après avoir vu les mesures du CP5** — ce serait `R7`/`G11`. Les cinq facteurs sont
+  produits par `trierArriere(...).pression` ; `RECOVERY_EXIT` (`E1→E4`) est gelé au §4.
 
 ## Repères Git
 
@@ -33,7 +33,7 @@
 
 `128` leçons · `365` journées · `52` semaines · `12` mois · corpus des leçons `92d5fae6` ·
 **376 exercices** · **`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
-`1650/1650` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
+`1676/1676` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
 
 ## Décisions gelées
 
@@ -81,6 +81,29 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP5** : **triage de l'arriéré** — `lib/backlog-triage.mjs` (PUR). Décisions :
+  - **`PARKED` exige une CONDITION NOMMÉE, jamais une place dans la file.** C'est la décision
+    qui rend impossible par construction le « 90 % dans PARKED » dont le brief prévient : garer
+    demande de produire une condition vérifiable **et sa levée**, affichable, notion par notion.
+    Corollaire du vocabulaire : **`différé` = revient demain tout seul**, **`garé` = ne revient
+    pas tant que *X* n'est pas repris**.
+  - **La seule cause de garage est : un PRÉREQUIS est lui-même en retard.** Réviser la
+    conséquence avant la cause fait échouer sur la cause. Une dépendance **mutuelle** est
+    exclue (sinon les deux notions deviendraient inatteignables à jamais).
+  - **L'ORDRE `T1→T4` EST LA GARANTIE** : `T1` (essentielle) avant `T3` (garage) ⇒ **une notion
+    qui bloque le parcours n'est jamais garable** ; `T2` (échec non repris) avant `T3` ⇒ **un
+    échec ne disparaît jamais au garage** (`R4`). Les deux ordres sont testés négativement.
+  - **Un débordement de capacité est DIFFÉRÉ, jamais garé.** Une notion urgente qui ne rentre
+    pas dans la séance reste urgente et repasse en tête demain ; la garer reviendrait à lui
+    inventer une condition de blocage.
+  - **SOUPAPE déclarée** : si le garage absorbait la totalité de l'arriéré, le produit se serait
+    bloqué lui-même. On dégare alors tout **et on le publie** (`soupape: true`).
+  - **La capacité active est celle du scheduler V74** (`PLAFOND_UNITES`), pas un second plafond :
+    deux plafonds concurrents finiraient par diverger et la page afficherait deux vérités.
+  - **La position vient de `progressPosition().resumeDay`**, pas de `nextIncompleteDay` :
+    ce dernier rend le **trou le plus ancien**, et décrirait « au jour 2 » pour toujours un
+    apprenant irrégulier qui travaille la journée 300 *(défaut **P5**)*.
 
 - **CP4** : **D8 traitée** — cascade `R1→R4` dans `lib/exercise-mapping.mjs` (PUR). Décisions :
   - **`AMBIGUOUS` : 137 → 125, soit 9 %. Le gain est modeste et n'est pas habillé.** Les 125
@@ -191,6 +214,7 @@
 | **P1** | **le facteur `besoinProche` (15 points sur 100) ne peut JAMAIS s'allumer.** `nextCurriculumNeed` n'est rempli que sur les **compétences** ; le scheduler consomme `projection.concepts` (`plan-jour-server.ts:134`), où il vaut toujours `null`. Second verrou indépendant : le read-model passe `startDate: null`, donc `positionDuJour` rend 0 et aucun projet n'est jamais « proche ». Conséquence collatérale : la règle du CP4 « avant un projet proche, forme appliquée » ne s'allume jamais non plus | vérifié par exécution : concept → `null`, compétence → `{day:9,inDays:3}` |
 | **P2** | **l'arriéré réel n'est jamais montré.** La page affiche `s.queue.length`, c'est-à-dire la file V66 **plafonnée à 8**, comme s'il s'agissait du total. 84 réels → « 8 » annoncés → 3 cartes | rendu réel mesuré |
 | **P3** | **un apprenant qui suit les journées sans pratiquer ne reçoit AUCUNE remédiation** (profil P : 0 remédiation sur 365 jours), parce que la remédiation est déclenchée par une tentative d'exercice | simulation profil P |
+| **P5** | *(trouvé au CP5)* **le produit décrit un apprenant irrégulier « au jour 2 » pour toujours.** `computeStats().currentDay` et `nextIncompleteDay()` rendent la **première journée non terminée**, c'est-à-dire *le trou le plus ancien*. Quelqu'un qui a sauté la journée 2 et travaille aujourd'hui la 300 y est décrit au jour 2, et tout horizon « les 14 prochains jours » désigne alors le début du programme. `resolveResume` applique la bonne règle (« première non terminée APRÈS la dernière terminée ») ; c'est elle que le read-model de l'arriéré consomme | mesuré sur les 20 profils : `jourCourant` vs `jourMax` |
 | **P4** | *(trouvé au CP4)* **une réussite au laboratoire écrit DEUX preuves au registre**, avec des `sourceId` différents (`<ex>` par `recordExerciseSuccess`, `lab-<ex>` par la soumission) : le dédoublonnage déterministe ne les fusionne pas. Le CP3 n'en avait instrumenté qu'une — **la seconde repartait sans concept et retombait sur le rattachement par journée**, recréditant les 3 leçons médianes et annulant le gain du CP3 pour le même exercice | `deterministicId(sourceType, sourceId, …)` · corrigé au CP4 : `SUBMIT` transporte `conceptIds` |
 
 ## Anomalies de mes propres sondes (V75)
@@ -199,10 +223,20 @@
 |---|---|---|---|
 | **1** | CP0.A | `nextCurriculumNeed` lu sur les **concepts** (toujours `null`), puis au **jour 365** (où aucun projet n'est futur) | les **compétences bloquantes**. Rendait **0 pour les vingt profils**. Trois versions ont été nécessaires : mauvais grain, puis mauvais moment, puis correcte (pic pendant le parcours → 6 à 12) |
 | **2** | CP0.A | le **nombre d'unités** écartées | des « minutes différées ». Renommé `unitesDifferees` |
+| **6** | CP5 | le panneau d'affichage, par la simple **présence** de la chaîne `vue.gare` dans le fichier — elle subsistait dans un texte d'explication | que le nombre garé est **rendu**. Remplacer `value={vue.gare}` par `value={0}` laissait le test **vert**. Corrigé : on exige la valeur rendue, pas la mention |
+| **5** | CP5 | la **soupape**, en croyant tester la règle d'exclusion des dépendances mutuelles : `a`↔`b` seuls, une fois garés, constituent *tout* l'arriéré, donc la soupape dégarait et le test passait même sans la règle | la règle d'exclusion mutuelle. Corrigé en ajoutant une troisième notion libre |
+| **4** | CP5 | le triage au **jour 365**, où **aucune journée n'est « à venir »** : `URGENT` valait donc 0 pour les vingt profils | les notions **bloquantes**. **C'est l'anomalie n° 1 du CP0, refaite ailleurs** — mauvais moment de mesure, pas mauvais grain cette fois. Corrigé : mesure au **jour 180** publiée à côté de celle du jour 365 |
 | **3** | CP4 | l'intersection de `ex.skills` (**vocabulaire fin**, 51 termes) avec les `skills` des leçons (**20 compétences de programme**) — **deux vocabulaires différents**, donc intersection vide presque partout | la règle `R4`. Ne résolvait que **9** exercices au lieu de **12** ; corrigée en passant par `programSkills()` (`skill-taxonomy.mjs`), qui fait déjà cette traduction |
 
 ## Fichiers
 
+- **CP5** : **créés** `lib/backlog-triage.mjs` + `.d.ts` (moteur PUR), `lib/backlog-server.ts`
+  (read-model), `app/retention/BacklogPanel.tsx` (**la surface**), `scripts/v75/cp5-triage.mjs`
+  + `docs/v75/cp5-triage.json` (la mesure), `tests/v75-backlog-triage.test.mjs` (26).
+  **Modifiés** `app/retention/page.tsx` (**« Dues aujourd'hui » = file plafonnée → « En
+  retard » = arriéré TOTAL**, défaut P2), `app/globals.css`, `scripts/v75/cp0-backlog.mjs`
+  (option `avecFaits`, **strictement additive** — `docs/v75/cp0-backlog.json` vérifié
+  **inchangé au bit près**).
 - **CP4** : **créés** `lib/exercise-mapping.mjs` (cascade PURE), `lib/exercise-concepts-server.ts`
   (I/O du corpus), `scripts/v75/cp4-mapping.mjs` + `docs/v75/cp4-mapping.json` (la mesure),
   `tests/v75-exercise-mapping.test.mjs` (14). **Modifiés** `app/api/lab/[exerciseId]/route.ts`
@@ -224,6 +258,10 @@
 
 ## Tests exécutés
 
+- **CP5** : **1676/1676** (26 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **10 mutations VUES rougir**, dont **2 restées VERTES au premier passage** —
+  tests corrigés, mutations rejouées rouges. Mesure sur les 20 profils : **I2 tenu 20/20** aux
+  deux instantanés · **0 notion urgente garée** · **0 échec garé** · **0 notion muette**.
 - **CP4** : **1650/1650** (14 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **7 mutations VUES rougir** · mesure inchangée après extraction du module pur
   (140 / 67 / 32 / 12 / **125**), ce qui prouve que le refactor n'a pas déplacé la frontière.
@@ -237,6 +275,34 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP5** — **trier n'est pas soustraire, et la preuve est une contre-mesure.**
+  - **La question du brief n'est pas « combien sont garées » mais « qu'est-ce que le garage fait
+    GAGNER au moteur ? »** On rejoue donc le triage **garage désactivé** : l'arriéré **total est
+    identique sur 20/20 profils** (le garage ne retire rien de la mesure) et la **séance du jour
+    ne change que pour 2 profils sur 20** au jour 180. Garer ne rapporte donc au moteur ni un
+    arriéré plus flatteur ni une charge allégée : c'est un tri, pas une triche.
+  - **La part garée est élevée et je la publie telle quelle** : jusqu'à **81 %** (profil S) au
+    jour 180, **91 %** (profil C) au jour 365. Ce n'est pas un artefact : quand 90 % du corpus
+    est en retard, presque toute notion a un prérequis en retard. **C'est une description fidèle
+    d'un apprenant profondément décroché**, et la contre-mesure ci-dessus est ce qui la
+    distingue d'une dissimulation. `N3` reste non bloquant **et surveillé**.
+  - **Le seul cas où le garage raccourcit vraiment la séance est le bon cas** : profil T
+    (« fondations fragiles ») passe de 8 à **4** unités, parce que les 5 autres dépendent
+    précisément de ces 4. La séance est plus courte **et mieux ciblée** — pas allégée.
+  - **ANOMALIE DE MA PROPRE SONDE (n° 4), et c'est la n° 1 du CP0 refaite ailleurs** : mesuré au
+    seul jour 365, `URGENT` valait **0 pour les vingt profils** — au dernier jour, aucune journée
+    n'est « à venir », donc plus rien n'est prérequis de la suite. Mesure ajoutée au **jour 180**.
+  - **DEUX DE MES TESTS ÉTAIENT AVEUGLES, et seule la mutation l'a montré** : l'un vérifiait la
+    **soupape** en croyant vérifier l'exclusion des dépendances mutuelles ; l'autre cherchait la
+    simple présence de `vue.gare` dans le fichier, si bien que remplacer le nombre affiché par
+    `0` le laissait vert. Corrigés, puis les deux mutations rejouées **rouges**.
+  - **DÉFAUT P5** : le produit décrit un apprenant irrégulier « au jour 2 » pour toujours.
+  - **CHANGEMENT VISIBLE** : `/retention` annonçait « Dues aujourd'hui : 8 » sur **84 notions
+    réellement en retard**. Elle annonce désormais **l'arriéré total**, décomposé en
+    *aujourd'hui / plus tard / en attente*, avec la raison de chaque notion garée **et la
+    condition qui la ramène**.
+  - **1676/1676 · tsc 0 · build OK · 47 portes vertes · 10 mutations vues rougir.**
 
 - **CP4** — **D8 : l'ambiguïté baisse de 9 %, et le reste est structurel. Je le dis comme ça.**
   - **137 → 125.** C'est peu, et l'habiller serait le vrai échec du checkpoint. La règle `R4`

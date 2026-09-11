@@ -7,20 +7,22 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP10**
+- **dernier CP terminé** : **CP11**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP11** — transfert entre compétences
-- **NEXT_ACTION** : traiter le **TRANSFERT entre compétences** — une notion n'est pas retenue
-  parce qu'on sait la réciter dans son contexte d'origine, mais parce qu'on sait l'employer
-  ailleurs. Matériel déjà mesuré et disponible : `transferDays` (journées dont les leçons
-  portent ≥ 2 compétences, calculé au CP2 dans `lib/learner-memory-server.ts`), le champ
-  `transfers` de la fiche mémoire, `lib/transfer-challenge.mjs` (**existe déjà** — vérifier
-  AVANT d'écrire quoi que ce soit, et le CONSOMMER plutôt que le doubler, comme le CP7 l'a fait
-  avec `lib/misconceptions.mjs`), et l'archétype `BUSINESS_TRANSFER` du CP5 (disponible sur
-  **128/128** leçons). **Ne PAS inventer un score de transfert** : le CP0 a déclaré le transfert
-  professionnel `UNMEASURABLE`. Mesurer ce que le corpus permet réellement, publier les nombres
-  bruts, et ne pas conclure au-delà.
+- **NEXT_CP** : **CP12** — explication à l'apprenant + audit UI/UX
+- **NEXT_ACTION** : rendre le moteur VISIBLE et COMPRÉHENSIBLE par l'apprenant, puis auditer
+  l'UI/UX avec des constats classés **P0 / P1 / P2**. Contraintes du brief, verbatim :
+  **« réutiliser le langage visuel existant, PAS de redesign massif »** et **jamais
+  « memory score = 0,637 »** (§9 du contrat gelé). **Critère BLOQUANT B12 : `READY` est
+  interdit si le scheduler n'est pas réellement utilisé par le produit** — c'est LE checkpoint
+  qui décide de ce critère. À brancher : `planDuJour` (CP10) · `planifier` (CP4) · `remedier`
+  (CP7, jamais branché à l'interface) · `tachePour` (CP5) · le signal de ralentissement (CP10)
+  · les trois signaux silencieux (« exposé mais jamais mis à l'épreuve », « travaillé mais
+  jamais sans la réponse sous les yeux », « su mais jamais hors de son contexte », CP11).
+  **Ouvrir aussi les verrous UI de la dette D10** si c'est peu coûteux : `app/transfer/[id]`
+  n'existe pas, alors que `lib/transfer-challenges-server.ts` est prêt.
+  Réutiliser les composants existants ; faire un `ux-audit` avant de toucher quoi que ce soit.
 
 ## Repères Git
 
@@ -110,6 +112,11 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Fichiers modifiés
 
+- **CP11** : **créés** `scripts/v74/cp11-transfert.mjs`, `tests/v74-transfert.test.mjs` (11),
+  `docs/v74/V74-CP11-TRANSFERT.md`. **Modifiés** `lib/learner-memory.mjs` (`transfers` redéfini,
+  `cooccurrencesCompetences` + `jamaisTransfere` ajoutés, `sourceType` transmis),
+  `lib/evidence.mjs` (`transfer-challenge` dans les DEUX listes),
+  `tests/v65-evidence.test.mjs` (gel V65 mis à jour **avec sa raison**).
 - **CP10** : **créés** `lib/daily-plan.mjs`, `scripts/v74/cp10-charge.mjs`,
   `tests/v74-daily-plan.test.mjs` (14), `docs/v74/V74-CP10-PLAN-JOURNEE.md`.
   **Aucun fichier de curriculum touché.**
@@ -150,6 +157,9 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 
 ## Tests exécutés
 
+- **CP11** : **1556/1556** (11 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (46 portes) · corpus `92d5fae6…` inchangé · `data/progress.json` absent · **4 mutations VUES
+  rougir** · **1 test V65 a rougi et avait raison** (gel du vocabulaire des preuves).
 - **CP10** : **1545/1545** (14 nouveaux) · tsc 0 · `gates:active` **0 violation** (46 portes) ·
   corpus `92d5fae6…` inchangé · `data/progress.json` absent · **4 mutations VUES rougir**, dont
   **1 ne rougissait pas d'abord** (anomalie n° 11).
@@ -190,6 +200,7 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **D5** | **trois mécanismes de révision sans arbitre** : V19 journée, V66 concept, 52 revues | `lib/review.mjs`, `lib/retention.mjs`, générateur |
 | **D6** | `weeklyReviews{}` est un objet libre, sans schéma normalisé | `lib/learning.mjs` |
 | **D7** | aucune durée n'est attachée à une réactivation, aucune preuve d'utilité d'un rappel | `lib/retention.mjs` |
+| **D10** *(CP11)* | **les 25 défis de transfert T4/T5 sont inatteignables.** Trois verrous restants : **0/365 journées** n'en cite un · **aucune référence** dans `data/program.json` · **aucune page** (`app/transfer` n'existe pas) alors que `lib/transfer-challenges-server.ts` est prêt. Le 4ᵉ verrou (type de preuve) a été ouvert au CP11 | `curriculum/days/`, `data/program.json`, `app/` |
 | **D9** *(CP10)* | **44 journées HEAVY** (302 à 341 min pour un budget de 300), groupées en **six séries de six journées consécutives**. Conséquence directe : **6 séries de 6 jours sans aucune réactivation programmée**, et **735 minutes non placées sur l'année**. **Dette de CURRICULUM** : V73 l'a explicitement laissée, et la corriger ici voudrait dire retirer du contenu pour verdir une métrique de rétention | `curriculum/days/`, 44 journées |
 | **D8** *(CP7)* | **192 exercices sur 376 ne se rattachent à AUCUNE leçon sans ambiguïté** (140 par déclaration unique + 44 par journée unique = 184 seulement). Deux marches de remédiation plafonnent à **49 %** pour cette raison, alors que les sections existent sur **128/128** leçons. **Dette de CURRICULUM, pas de moteur** : la corriger voudrait dire enrichir les `practiceRefs` pour verdir une métrique de rétention — ce que N1/N2 interdisent | `data/program.json` (`practiceRefs`) |
 
@@ -210,6 +221,59 @@ R1→R7 = 0 · 376/376 solutions de référence passantes.
 | **3** | `Mini-quiz` en texte libre → **236** journées | V73 comptait la **section** `## ❓ Mini-quiz` → **78**. Les deux sont justes et ne mesurent pas la même chose ; signalé, non tranché. |
 
 ## Journal des CP
+
+- **CP11** — **le moteur était STRUCTURELLEMENT incapable d'observer un transfert, et ce qu'il
+  appelait « transfert » s'allumait sur 74 % des journées.**
+  - **CE QUE LE COMPTEUR MESURAIT** : les contacts d'une journée dont les leçons portent ≥ 2
+    compétences → **269 journées sur 365 (74 %)**. Deux défauts, et le second est le vrai :
+    un indicateur qui s'allume trois fois sur quatre ne distingue rien ; **et surtout il ne
+    mesure pas le transfert** — *deux compétences enseignées le même jour ne demandent pas de
+    transposer l'une dans l'autre*. C'était une **erreur de NOM, pas de seuil** : aucun réglage
+    ne l'aurait corrigée.
+  - **CE QUE LE PRODUIT POSSÉDAIT DÉJÀ, ET QUI N'ÉTAIT PAS BRANCHÉ** : une taxonomie de distance
+    **T0→T5** (`lib/transfer-taxonomy.mjs`, classifieur conservateur) · **25 défis**, dont
+    **23 en T5**, **25/25 `crossDomain`**, pont conceptuel exigé · **18 compétences sur 20**
+    couvertes (seules `comm` et `autonomy` sans défi) · **aucun moteur de notation propre** —
+    `gradeTransferChallenge` compose `lib/assessment.mjs`. **Le CP11 n'a écrit ni taxonomie, ni
+    défi, ni barème** : comme le CP7 avec `misconceptions.mjs`, il branche l'existant.
+  - **LES QUATRE VERROUS** : **0/365** journées citant un défi · **aucune** référence dans
+    `data/program.json` · **aucune page** (`app/transfer` n'existe pas) · et surtout
+    **`transfer-challenge` n'était pas un type de preuve** — `createEvidence` aurait REFUSÉ une
+    réussite avec `INVALID_SOURCE_TYPE`. **Même en réussissant les 25 défis, rien n'aurait pu
+    être écrit nulle part.** C'est le motif du CP0 (« le système n'a jamais observé un échec »)
+    appliqué au transfert.
+  - **CE QUI CHANGE** : `transfers` compte désormais une **preuve validée issue d'un défi de
+    transfert** — donc **0 pour tout le monde aujourd'hui**, et c'est la valeur honnête. *Un
+    zéro honnête vaut mieux qu'un compteur saturé*, qui laissait croire que le transfert était
+    mesuré (même décision qu'au CP2 pour `exerciseAttempts: []`). La co-occurrence est
+    **conservée sous son vrai nom** (`cooccurrencesCompetences`).
+  - **LE QUATRIÈME VERROU EST OUVERT** : `transfer-challenge` rejoint `EVIDENCE_SOURCE_TYPES`
+    **et** `QUALIFYING_SOURCE_TYPES`, sur la justification que V65 s'était donnée — *« les
+    seuils sont ceux qui existaient déjà »* : le seuil **0,7** préexiste dans
+    `gradeTransferChallenge`. **Aucun seuil nouveau.**
+  - **UN TEST DE V65 A ROUGI, ET IL AVAIT RAISON** : le gel de la liste qualifiante à quatre
+    types. *Élargir le vocabulaire des preuves est précisément le genre de changement qui doit
+    être vu.* Gel mis à jour **avec sa raison écrite**, pas contourné.
+  - **TROISIÈME SIGNAL SILENCIEUX NOMMÉ** : `jamaisTransfere` — **« su, mais jamais hors de son
+    contexte d'origine »**, aux côtés de « exposé mais jamais mis à l'épreuve » et « travaillé
+    mais jamais sans la réponse sous les yeux » (CP3). Les trois ne déclenchent **aucune alerte
+    naturelle** : rien n'échoue, donc rien ne se plaint. Il ne s'allume **que sur une notion
+    déjà réussie** — le dire d'une notion jamais réussie confondrait deux manques très
+    différents, et un test garde la distinction.
+  - **CE QUE LE CP11 NE FAIT PAS** : aucun score de transfert inventé (`UNMEASURABLE` au CP0) ·
+    les trois premiers verrous restent fermés (curriculum et UI → **CP12**, dette **D10**) ·
+    **aucun facteur de priorité ajouté** sur une valeur structurellement nulle — ce serait le
+    code mort que l'anomalie n° 11 vient de me coûter.
+  - **CONSÉQUENCE POUR LE CP9** : le candidat `evidence-aware` était aveugle ; le CP11 explique
+    la moitié du pourquoi et lève un verrou. Il reste la dette **D4**. Les conditions de
+    réouverture posées par le CP9 restent ouvertes, avec **un obstacle de moins**.
+  - **Une fixture de test corrigée** : trois tests échouaient **pour une raison sans rapport
+    avec le transfert** — `dayConcepts` passé en objet simple a des clés CHAÎNES, alors que
+    `dayRef` est un NOMBRE. Le produit était correct, la fixture ne l'était pas.
+  - **4 mutations VUES rougir** : co-occurrence rebaptisée transfert (1) · `sourceType` non
+    transmis (3) · signal s'allumant sur une notion jamais réussie (1) · preuve non validée
+    comptée (1).
+  - **1556/1556 · tsc 0 · build OK · 46 portes vertes · corpus inchangé.**
 
 - **CP10** — **le plan cesse d'ajouter des minutes à des journées qui débordent déjà. Et ma
   propre mesure minimisait sa perte d'un facteur six.**

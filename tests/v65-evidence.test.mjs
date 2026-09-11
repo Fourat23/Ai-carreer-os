@@ -373,5 +373,20 @@ test('tous les types de source déclarés sont soit qualifiables soit explicitem
   for (const t of EVIDENCE_SOURCE_TYPES) {
     assert.equal(typeof QUALIFYING_SOURCE_TYPES.has(t), 'boolean');
   }
-  assert.deepEqual([...QUALIFYING_SOURCE_TYPES].sort(), ['assessment', 'capstone', 'exercise', 'mission']);
+  // V74 · CP11 — `transfer-challenge` rejoint la liste qualifiante.
+  //
+  // Ce gel est délibéré et il a bien fait de rougir : élargir le vocabulaire
+  // des preuves est exactement le genre de changement qui doit être vu. La
+  // raison de l'élargissement est celle que V65 s'était donnée — « les seuils
+  // sont ceux qui existaient déjà, V65 n'en invente aucun » : le seuil de 0,7
+  // et la comparaison à un attendu préexistent dans `lib/transfer-challenge.mjs`
+  // (`gradeTransferChallenge`), au même titre que `gradeAssessment` pour
+  // `assessment`. Aucun seuil nouveau n'est introduit.
+  //
+  // Sans ce type, une réussite à un défi T4/T5 ne pouvait être enregistrée
+  // nulle part, et le compteur de transferts du moteur de rétention ne pouvait
+  // valoir que zéro à jamais — un compteur structurellement incapable de
+  // compter.
+  assert.deepEqual([...QUALIFYING_SOURCE_TYPES].sort(),
+    ['assessment', 'capstone', 'exercise', 'mission', 'transfer-challenge']);
 });

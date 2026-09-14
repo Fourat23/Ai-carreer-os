@@ -94,7 +94,12 @@ test('emptyFlat : forme V6 vide', () => {
   // fait (la tentative). La liste est donc VIDE et jamais absente, y compris
   // sur une progression neuve — sans quoi « aucune tentative » et « aucun
   // échec observable » resteraient indiscernables.
-  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [] });
+  //
+  // `transferAttempts` s'ajoute en V75 · CP10, et la raison est la même une
+  // troisième fois : le CP9 a rendu les 25 défis atteignables, mais le produit
+  // n'écrivait toujours rien quand un transfert ÉCHOUE — or c'est l'échec qui
+  // dit qu'une notion tient chez elle et cède ailleurs.
+  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [] });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
 

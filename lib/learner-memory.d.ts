@@ -14,8 +14,10 @@ export interface FicheMemoire {
   distinctSuccessDays: number;
   successSpanDays: number;
   applications: number;
-  /** Preuve validée issue d'un défi de transfert (V74 · CP11). */
+  /** Défis de transfert RÉUSSIS, comptés une fois chacun (V74 · CP11, V75 · CP10). */
   transfers: number;
+  /** V75 · CP10 — défis TENTÉS sans succès. L'échec au transfert, enfin visible. */
+  transfersEchoues: number;
   /** Contacts sur une journée à ≥ 2 compétences. **N'est PAS du transfert.** */
   cooccurrencesCompetences: number;
   /** Signal silencieux : su, mais jamais hors de son contexte d'origine. */

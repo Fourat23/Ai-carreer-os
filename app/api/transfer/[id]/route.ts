@@ -29,8 +29,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getTransferChallenge } from '@/lib/transfer-challenges-server';
 import { gradeTransferChallenge } from '@/lib/transfer-challenge';
-import { readProgress, writeProgress } from '@/lib/progress-server';
+import { readProgressFresh, writeProgress } from '@/lib/progress-server';
 import { makeEvidence, appendEvidence } from '@/lib/evidence';
+import { applyCommand } from '@/lib/learning-engine';
+import { empreinteReponses } from '@/lib/transfer-attempt';
 import type { Progress } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -46,21 +48,66 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (raw === null || raw.length > MAX_BODY) {
     return NextResponse.json({ ok: false, error: 'Requête invalide.' }, { status: 400 });
   }
-  let body: { responses?: Record<string, unknown>; record?: boolean };
+  let body: { responses?: Record<string, unknown>; record?: boolean; startedAt?: string };
   try { body = JSON.parse(raw); } catch {
     return NextResponse.json({ ok: false, error: 'JSON invalide.' }, { status: 400 });
   }
   const responses = body.responses && typeof body.responses === 'object' && !Array.isArray(body.responses)
     ? body.responses : {};
 
-  // Corriger ne MUTE RIEN. Conserver est une action explicite et séparée.
   const result = gradeTransferChallenge(challenge, responses);
+  const now = new Date().toISOString();
+
+  // ── V75 · CP10 — LA TENTATIVE EST UN FAIT, QU'ELLE RÉUSSISSE OU NON ──
+  //
+  // Elle est écrite AVANT toute projection et INDÉPENDAMMENT de `record`.
+  //
+  // Jusqu'ici cette route ne persistait qu'une PREUVE, et seulement si
+  // l'apprenant la conservait : un défi raté ne laissait **aucune trace**, et un
+  // défi réussi sans conservation non plus. C'est mot pour mot la dissymétrie
+  // que le CP2 de V74 avait corrigée pour les exercices — *persister la
+  // projection et jeter le fait*.
+  //
+  // Sur un défi de transfert, l'échec est l'information la PLUS utile : il dit
+  // « la notion tient chez elle et cède ailleurs », ce qu'aucun exercice ne
+  // peut révéler.
+  //
+  // Le fait passe par le Learning Engine, comme tous les autres : c'est lui qui
+  // chaîne la reprise (`retryOf`), détecte le rejeu réseau et garantit
+  // l'idempotence. La route n'écrit pas de fait à la main.
+  // `readProgressFresh` et non `readProgress` : ce dernier est mémoïsé par
+  // requête (React `cache`), si bien qu'un second appel dans la MÊME requête
+  // rend l'instantané d'AVANT l'écriture. Écrire la preuve à partir de cet
+  // instantané effaçait la tentative qu'on venait d'enregistrer — trouvé en
+  // traversant la chaîne réelle, invisible en test unitaire.
+  let progress = readProgressFresh();
+  {
+    const r = applyCommand(progress, {
+      type: 'RECORD_TRANSFER_ATTEMPT',
+      challengeId: challenge.id,
+      conceptIds: challenge.lessonRefs ?? [],
+      competencyIds: challenge.skills ?? [],
+      passed: result.passed,
+      total: result.total,
+      // Déclaré par le client, nommé comme tel, jamais utilisé pour un verdict.
+      startedAtDeclare: typeof body.startedAt === 'string' ? body.startedAt : null,
+      sourceRef: `/transfer/${challenge.id}`,
+      empreinte: empreinteReponses(responses),
+      provenance: { producer: 'transfer-grader', method: 'transfer-challenge' },
+    }, { now: new Date(now) });
+    // Un no-op (clé déjà vue, ou rejeu réseau) ne touche pas le disque.
+    if (r.ok && r.effects.some((e) => e === 'transfer-attempt:recorded')) {
+      writeProgress(r.progress as Progress);
+      // On CHAÎNE sur le résultat du moteur plutôt que de relire : la suite de
+      // la requête doit partir de l'état qu'on vient d'écrire.
+      progress = r.progress as Progress;
+    }
+  }
+
+  // Corriger n'écrit aucune PREUVE. Conserver est une action explicite.
   if (body.record !== true) {
     return NextResponse.json({ ok: true, result, recorded: false });
   }
-
-  const progress = readProgress();
-  const now = new Date().toISOString();
 
   const ev = makeEvidence({
     // Le type ajouté par V74 · CP11, enfin produit par quelque chose.

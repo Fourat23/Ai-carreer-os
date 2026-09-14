@@ -268,6 +268,24 @@ export default function RetentionPage() {
             </Panel>
           )}
 
+          {/* ── V75 · CP10 — L'ÉCHEC AU TRANSFERT, ENFIN VISIBLE ──
+              Signal strictement plus fort que « jamais employée ailleurs » :
+              là, on a essayé, et ça n'a pas tenu. Il est placé AVANT le signal
+              silencieux parce qu'un fait observé passe devant une absence. */}
+          {plan.transfertsEchoues > 0 && (
+            <Panel label="Su ici, pas encore ailleurs">
+              <p className="ret-note">
+                <strong>{plan.transfertsEchoues}</strong> notion{plan.transfertsEchoues > 1 ? 's' : ''}{' '}
+                que tu retrouves correctement {plan.transfertsEchoues > 1 ? 'ont' : 'a'} été{' '}
+                <strong>mise{plan.transfertsEchoues > 1 ? 's' : ''} à l’épreuve dans un autre
+                contexte</strong>, sans y tenir. Ce n’est pas un échec de mémoire : c’est
+                l’écart entre <em>savoir retrouver</em> et <em>savoir reconnaître ailleurs</em>,
+                et c’est exactement ce qu’un défi de transfert sert à révéler.{' '}
+                <Link href="/transfer">Les défis de transfert</Link>.
+              </p>
+            </Panel>
+          )}
+
           {plan.jamaisTransferees > 0 && (
             <Panel label="Su, mais jamais ailleurs">
               <p className="ret-note">

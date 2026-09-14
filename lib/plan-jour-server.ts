@@ -71,6 +71,15 @@ export interface PlanDuJour {
   signal: { niveau: string; message: string | null; proposition: string | null };
   /** Notions sues mais jamais employées ailleurs (signal silencieux du CP11). */
   jamaisTransferees: number;
+  /**
+   * V75 · CP10 — notions dont un défi de transfert a été TENTÉ SANS SUCCÈS.
+   *
+   * Signal strictement plus fort que `jamaisTransferees` : là où celui-ci dit
+   * « on n'a jamais essayé », celui-ci dit **« on a essayé et ça n'a pas
+   * tenu »**. C'est le profil R du CP0 (« recall OK, transfert KO »), qui était
+   * littéralement inobservable avant que la tentative devienne un fait.
+   */
+  transfertsEchoues: number;
 }
 
 let chargeParJour: Map<number, number> | null = null;
@@ -114,7 +123,7 @@ function getTitres(): Map<string, string[]> {
 export function getPlanDuJour(now: string = new Date().toISOString(), jourCourant: number | null = null): PlanDuJour {
   const progress = readProgress() as unknown as {
     days?: Record<string, unknown>; recallAttempts?: unknown[];
-    exerciseAttempts?: unknown[]; evidence?: unknown[];
+    exerciseAttempts?: unknown[]; evidence?: unknown[]; transferAttempts?: unknown[];
   };
   const ctx = getMemoryContext();
 
@@ -124,6 +133,11 @@ export function getPlanDuJour(now: string = new Date().toISOString(), jourCouran
       recallAttempts: progress.recallAttempts ?? [],
       exerciseAttempts: progress.exerciseAttempts ?? [],
       evidence: progress.evidence ?? [],
+      // V75 · CP10 — le septième fait rejoint la projection. Sans cette ligne,
+      // `TransferAttempt` existerait dans `lib/` et nulle part ailleurs : c'est
+      // exactement le défaut que V74 a payé au prix fort (six modules écrits,
+      // aucun atteignable depuis le produit).
+      transferAttempts: progress.transferAttempts ?? [],
     },
     context: { ...ctx, startDate: null },
     now,
@@ -205,6 +219,7 @@ export function getPlanDuJour(now: string = new Date().toISOString(), jourCouran
     arriere,
     signal: plan.signal,
     jamaisTransferees: fiches.filter((f) => f.jamaisTransfere).length,
+    transfertsEchoues: fiches.filter((f) => (f.transfersEchoues ?? 0) > 0).length,
   };
 }
 

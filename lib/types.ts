@@ -181,6 +181,13 @@ export interface Progress {
   recallAttempts?: import('./retention').RecallAttempt[];
   /** V74 · CP2 — tentatives d'exercice : le fait qui manquait, écrit succès OU échec. */
   exerciseAttempts?: import('./exercise-attempt').ExerciseAttempt[];
+  /**
+   * V75 · CP10 — tentatives de TRANSFERT. Écrites systématiquement, succès
+   * comme échec : sur un défi de transfert, l'échec est l'information la plus
+   * utile, puisque c'est lui qui dit que la notion tient chez elle et cède
+   * ailleurs. Une reprise est un fait NEUF — rien n'est jamais écrasé.
+   */
+  transferAttempts?: import('./transfer-attempt').TransferAttempt[];
   /** V18 · état des missions d'ingénierie (additif, optionnel). */
   missions?: Record<string, unknown>;
   /**

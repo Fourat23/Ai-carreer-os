@@ -67,6 +67,21 @@ export function readProgress(): Progress {
   return activeTrackProgress(readProgressV3());
 }
 
+/**
+ * ── V75 · CP10 — LECTURE NON MÉMOÏSÉE, POUR LES ROUTES QUI ÉCRIVENT DEUX FOIS ──
+ *
+ * `readProgress` est mémoïsé par requête (React `cache`). C'est le bon défaut
+ * pour une page, qui lit plusieurs fois le même état — mais un PIÈGE pour une
+ * route qui écrit puis relit : le second appel rend l'instantané d'AVANT
+ * l'écriture, et le second `writeProgress` efface le premier.
+ *
+ * Trouvé en traversant la chaîne réelle en HTTP : la preuve de transfert
+ * effaçait la tentative enregistrée trois lignes plus haut.
+ */
+export function readProgressFresh(): Progress {
+  return activeTrackProgress(readProgressV3Fresh());
+}
+
 // ÉCRITURE ATOMIQUE (ADR-064 §8.1). `writeFileSync` direct laissait, en cas
 // d'interruption, un JSON tronqué que `readProgressV3` interprète comme une
 // progression VIDE — soit une perte totale silencieuse. On écrit dans un

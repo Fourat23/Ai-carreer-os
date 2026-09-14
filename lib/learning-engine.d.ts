@@ -34,6 +34,15 @@ export type Command =
   | { type: 'SCHEDULE_REVIEW'; day: number; comprehension?: string }
   | { type: 'ADD_EVIDENCE'; day: number; evidence: Record<string, unknown> }
   | { type: 'REMOVE_EVIDENCE'; day: number; evidenceId: string }
+  // V75 · CP10 — la tentative de transfert, écrite succès OU échec.
+  | {
+      type: 'RECORD_TRANSFER_ATTEMPT'; challengeId: string;
+      passed: number; total: number;
+      conceptIds?: string[]; competencyIds?: string[];
+      startedAtDeclare?: string | null; evidenceId?: string | null;
+      sourceRef?: string | null; empreinte?: string;
+      provenance?: { producer?: string; method?: string };
+    }
   | { type: 'SET_SKILL'; skill: string; score: number }
   | { type: 'SET_WEEKLY_REVIEW'; week: string; patch: Record<string, unknown> }
   | { type: 'SET_MONTHLY_REVIEW'; month: string; patch: Record<string, unknown> }

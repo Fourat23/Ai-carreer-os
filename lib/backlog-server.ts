@@ -116,7 +116,7 @@ export function getVueArriere(
   { capaciteActive }: { capaciteActive?: number } = {},
 ): VueArriere {
   const progress = readProgress() as unknown as Progress & {
-    recallAttempts?: unknown[]; exerciseAttempts?: unknown[]; evidence?: unknown[];
+    recallAttempts?: unknown[]; exerciseAttempts?: unknown[]; evidence?: unknown[]; transferAttempts?: unknown[];
   };
   const ctx = getMemoryContext();
   const { concepts } = getConceptCatalogue();
@@ -127,6 +127,11 @@ export function getVueArriere(
       recallAttempts: progress.recallAttempts ?? [],
       exerciseAttempts: progress.exerciseAttempts ?? [],
       evidence: progress.evidence ?? [],
+      // V75 · CP10 — le septième fait rejoint la projection. Sans cette ligne,
+      // `TransferAttempt` existerait dans `lib/` et nulle part ailleurs : c'est
+      // exactement le défaut que V74 a payé au prix fort (six modules écrits,
+      // aucun atteignable depuis le produit).
+      transferAttempts: progress.transferAttempts ?? [],
     },
     context: { ...ctx, startDate: null },
     now,

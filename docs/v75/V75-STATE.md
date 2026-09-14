@@ -7,15 +7,16 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP9**
+- **dernier CP terminé** : **CP10**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP10** — télémétrie `TransferAttempt`
-- **NEXT_ACTION** : enregistrer la TENTATIVE de transfert, réussie **ou non** — aujourd'hui seule
-  la conservation explicite écrit quelque chose, et uniquement une PREUVE. C'est la dissymétrie
-  que le CP2 de V74 avait corrigée pour les exercices : *le produit persistait la projection et
-  jetait le fait.* Contrainte du brief : **ne pas appeler un succès « maîtrise »**. Le CP0 a
-  mesuré `TransferAttempt` **INEXISTANT** dans l'inventaire des sept événements.
+- **NEXT_CP** : **CP11** — intégration RÉCUPÉRATION + PLAN DU JOUR
+- **NEXT_ACTION** : produire **UN PLAN UNIQUE ET EXPLICABLE** arbitrant entre **NEW / REVIEW /
+  REMEDIATION / TRANSFER / PROJECT** — sans concaténer les cinq. Contraintes : le budget
+  quotidien reste une **contrainte** ; une journée déjà au-dessus du budget ne reçoit **pas**
+  30 minutes cachées ; `CRITICAL` **recommande**, ne verrouille pas ; `TOTAL / ACTIVE / PARKED`
+  restent distincts ; chaque modification du plan est **justifiée en langage humain**. Vérifier
+  le branchement **sur le produit réel**, pas seulement un module.
 
 ## Repères Git
 
@@ -31,7 +32,7 @@
 
 `128` leçons · `365` journées · `52` semaines · `12` mois · corpus des leçons `92d5fae6` ·
 **376 exercices** · **`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
-`1766/1766` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
+`1797/1797` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
 
 ## Décisions gelées
 
@@ -79,6 +80,28 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP10** : **`TransferAttempt`, le septième fait**. Décisions :
+  - **LE FAIT EST ÉCRIT SYSTÉMATIQUEMENT, succès comme échec**, et **indépendamment** de la
+    conservation d'une preuve. Sur un défi de transfert, l'échec est l'information la PLUS
+    utile : il dit qu'une notion *tient chez elle et cède ailleurs*. Le profil R du CP0
+    (« recall OK, transfert KO ») était jusqu'ici **littéralement inobservable**.
+  - **LA FORME VIENT DU CONTRAT DU CP2**, qui l'avait déclarée *avant* que le fait existe :
+    grain `challenge`, provenance, clé métier, horodatage, version, `conceptId`.
+  - **TROIS ISSUES, PAS UNE DE PLUS** (`success/partial/failure`), **dérivées** de `passed/total`.
+    Une issue fournie par celui qu'elle juge n'est pas une observation.
+  - **CARDINALITÉ RÉELLE PRÉSERVÉE** : plusieurs concepts, plusieurs compétences. Même décision
+    qu'au CP3 — un champ singulier obligerait à choisir, donc à fabriquer.
+  - **UNE REPRISE EST UN FAIT NEUF** : `retryOf` est chaîné **par le moteur**, jamais par
+    l'appelant, et la tentative précédente n'est jamais écrasée.
+  - **LE REJEU RÉSEAU N'EST PAS UNE TENTATIVE** : fenêtre **déclarée** de 10 s sur des réponses
+    identiques au caractère près. La règle tient parce que *rien de neuf n'a été tenté*, pas
+    parce que le chiffre serait mesuré.
+  - **`startedAtDeclare` est DÉCLARÉ par le client** et nommé comme tel — décision `scoreDeclare`
+    du CP2 appliquée au temps. Refusé s'il est postérieur à la soumission.
+  - **LE COMPTEUR N'ADDITIONNE PAS SES DEUX SOURCES** : un succès connu par la tentative *et*
+    par une preuve conservée compte **une fois** (union par `challengeId`). Les preuves écrites
+    entre le CP9 et le CP10 restent lues — les ignorer effacerait une histoire réelle.
 
 - **CP9** : **dette D10 levée** — les 25 défis deviennent atteignables. Décisions :
   - **TOUT EXISTAIT SAUF LE CHEMIN** : 25 défis validés dans `data/`, un correcteur pur, un type
@@ -293,6 +316,7 @@
 | **P1** | **le facteur `besoinProche` (15 points sur 100) ne peut JAMAIS s'allumer.** `nextCurriculumNeed` n'est rempli que sur les **compétences** ; le scheduler consomme `projection.concepts` (`plan-jour-server.ts:134`), où il vaut toujours `null`. Second verrou indépendant : le read-model passe `startDate: null`, donc `positionDuJour` rend 0 et aucun projet n'est jamais « proche ». Conséquence collatérale : la règle du CP4 « avant un projet proche, forme appliquée » ne s'allume jamais non plus | vérifié par exécution : concept → `null`, compétence → `{day:9,inDays:3}` |
 | **P2** | **l'arriéré réel n'est jamais montré.** La page affiche `s.queue.length`, c'est-à-dire la file V66 **plafonnée à 8**, comme s'il s'agissait du total. 84 réels → « 8 » annoncés → 3 cartes | rendu réel mesuré |
 | **P3** | **un apprenant qui suit les journées sans pratiquer ne reçoit AUCUNE remédiation** (profil P : 0 remédiation sur 365 jours), parce que la remédiation est déclenchée par une tentative d'exercice | simulation profil P |
+| **P7** | *(trouvé au CP10)* **la pause du curriculum n'était pas persistée — depuis le CP7.** `lib/progress-store.mjs` filtre les champs à l'écriture **et** à la lecture ; `curriculumPause` manquait dans les deux. La pause était donc perdue au rechargement de la page. Les tests du CP7 appelaient `applyCommand` sur un objet plat, **jamais `writeProgress`** | aller-retour disque, et chaîne HTTP réelle |
 | **P6** | *(trouvé au CP8, sur le rendu réel)* **la page annonçait quatre « aujourd'hui » différents** : `BacklogPanel` « Aujourd'hui 8 » · file du jour **2 cartes** · `RecoveryNotice` « 6 min de révision » · plan « Journée 1, 32 min ». Le triage était borné par `PLAFOND_UNITES` (8) et non par la séance réelle, que le budget limite bien avant | rendu HTTP, fixture profil L au jour 180 |
 | **P5** | *(trouvé au CP5)* **le produit décrit un apprenant irrégulier « au jour 2 » pour toujours.** `computeStats().currentDay` et `nextIncompleteDay()` rendent la **première journée non terminée**, c'est-à-dire *le trou le plus ancien*. Quelqu'un qui a sauté la journée 2 et travaille aujourd'hui la 300 y est décrit au jour 2, et tout horizon « les 14 prochains jours » désigne alors le début du programme. `resolveResume` applique la bonne règle (« première non terminée APRÈS la dernière terminée ») ; c'est elle que le read-model de l'arriéré consomme | mesuré sur les 20 profils : `jourCourant` vs `jourMax` |
 | **P4** | *(trouvé au CP4)* **une réussite au laboratoire écrit DEUX preuves au registre**, avec des `sourceId` différents (`<ex>` par `recordExerciseSuccess`, `lab-<ex>` par la soumission) : le dédoublonnage déterministe ne les fusionne pas. Le CP3 n'en avait instrumenté qu'une — **la seconde repartait sans concept et retombait sur le rattachement par journée**, recréditant les 3 leçons médianes et annulant le gain du CP3 pour le même exercice | `deterministicId(sourceType, sourceId, …)` · corrigé au CP4 : `SUBMIT` transporte `conceptIds` |
@@ -303,6 +327,7 @@
 |---|---|---|---|
 | **1** | CP0.A | `nextCurriculumNeed` lu sur les **concepts** (toujours `null`), puis au **jour 365** (où aucun projet n'est futur) | les **compétences bloquantes**. Rendait **0 pour les vingt profils**. Trois versions ont été nécessaires : mauvais grain, puis mauvais moment, puis correcte (pic pendant le parcours → 6 à 12) |
 | **2** | CP0.A | le **nombre d'unités** écartées | des « minutes différées ». Renommé `unitesDifferees` |
+| **12** | CP10 | uniquement des tentatives **réussies** | que le compteur de succès ne compte que des succès. Faire compter tout contact de transfert comme une réussite laissait tout vert — le contournement même que le checkpoint existe pour empêcher |
 | **11** | CP9 | la **présence** de `arbitrage.transfert === 'suspendu'` — elle subsiste dans la ligne `const suspendu = …` | que la valeur est **rendue**. `{suspendu ?` remplacé par `{false ?` laissait le test vert |
 | **10** | CP9 | `makeEvidence` **de son côté**, jamais ce que la ROUTE lui passe | que la route écrit `sourceType: 'transfer-challenge'`. Le remplacer par `'assessment'` laissait tout vert — et c'est *exactement* le mode de panne de `D10` : une preuve écrite sous un autre nom n'est jamais comptée comme un transfert |
 | **9** | CP7 | la **présence** d'une phrase dans le fichier — elle existait aussi dans l'en-tête explicatif du composant | le RENDU. Remplacer le texte affiché laissait le test **vert** : il gardait ma documentation. Corrigé : lecture du fichier **sans commentaires** |
@@ -315,6 +340,13 @@
 
 ## Fichiers
 
+- **CP10** : **créés** `lib/transfer-attempt.mjs` + `.d.ts` (le fait, PUR),
+  `tests/v75-transfer-attempt.test.mjs` (31), `docs/v75/V75-CP10-TRANSFER-TELEMETRY.md`.
+  **Modifiés** `lib/learning-engine.mjs` + `.d.ts` (commande `RECORD_TRANSFER_ATTEMPT`),
+  `lib/progress-store.mjs` (**les deux listes blanches**), `lib/progress-server.ts`
+  (`readProgressFresh`), `lib/learner-memory.mjs` + `.d.ts` (contact `transfer`,
+  `transfersEchoues`), `lib/plan-jour-server.ts`, `lib/backlog-server.ts`, `lib/types.ts`,
+  `app/api/transfer/[id]/route.ts`, `app/retention/page.tsx`, `tests/progress-store.test.mjs`.
 - **CP9** : **créés** `app/transfer/page.tsx` (catalogue), `app/transfer/[id]/page.tsx` +
   `ChallengeRunner.tsx` (passation), `app/api/transfer/[id]/route.ts` (correction + preuve),
   `scripts/v75/cp9-transfert.mjs` + `docs/v75/cp9-transfert.json`,
@@ -368,6 +400,11 @@
 
 ## Tests exécutés
 
+- **CP10** : **1797/1797** (31 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **13 mutations VUES rougir**, dont **1 restée VERTE au premier passage**.
+  **Chaîne HTTP complète rejouée** : échec sans conservation → fait écrit · rejeu réseau →
+  dédupliqué · reprise → chaînée sans écrasement · conservation → preuve écrite **et fait
+  préservé**.
 - **CP9** : **1766/1766** (18 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **8 mutations VUES rougir**, dont **2 restées VERTES au premier passage**.
   **25/25 défis vérifiés un par un** : structure · route HTTP **200** · réussit avec les bonnes
@@ -403,6 +440,31 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP10** — **deux défauts que seule la chaîne réelle pouvait montrer.**
+  - **Le fait manquait, et sa conséquence était nommée depuis le CP2** : l'inventaire des sept
+    événements se terminait par « `TransferAttempt` — INEXISTANT ». Le CP9 avait rendu les défis
+    atteignables ; le produit n'écrivait toujours **rien** quand un transfert échoue.
+  - **DÉFAUT A — DEUX LISTES BLANCHES, et le fait tombait dans les deux.**
+    `lib/progress-store.mjs` filtre les champs **à l'écriture** (`flatOf`) *et* **à la lecture**
+    (`activeTrackProgress`). Le moteur écrivait la tentative, les tests unitaires passaient, et
+    le disque ne gardait rien. **Et `curriculumPause` manquait aussi — depuis le CP7** : la
+    pause du curriculum était perdue au rechargement, c'est-à-dire exactement là où elle sert.
+    C'est le **défaut P7**, et il a été trouvé par ce checkpoint-ci, pas par le sien.
+  - **DÉFAUT B — LA LECTURE MÉMOÏSÉE EFFAÇAIT LE FAIT.** `readProgress()` est mémoïsé par
+    requête (React `cache`) ; la route l'appelait deux fois, et le second `writeProgress`
+    repartait de l'instantané d'AVANT l'écriture. La preuve effaçait la tentative enregistrée
+    trois lignes plus haut. Corrigé par `readProgressFresh()` et le chaînage sur le moteur.
+  - **La leçon est celle du brief §10.6, et elle vient d'être payée deux fois** : *« CP10 ne
+    passe PAS si `TransferAttempt` existe uniquement dans `lib/` »*. Douze tests unitaires verts
+    ne disaient rien de ce que le disque garde.
+  - **UNE MUTATION EST RESTÉE VERTE** : « un échec compte comme un succès ». Mes tests
+    n'utilisaient que des succès — précisément le contournement que ce checkpoint existe pour
+    empêcher. Test écrit, mutation rejouée rouge.
+  - **CHANGEMENT VISIBLE** : `/retention` affiche « Su ici, pas encore ailleurs » — les notions
+    retrouvées correctement mais mises en échec dans un autre contexte. Ce panneau ne pouvait
+    pas exister avant que la tentative devienne un fait.
+  - **1797/1797 · tsc 0 · build OK · 47 portes vertes.**
 
 - **CP9** — **il ne manquait qu'un chemin, et ce chemin valait zéro transfert.**
   - **La dette D10 n'était pas un manque de contenu.** 25 défis validés, un correcteur pur, un

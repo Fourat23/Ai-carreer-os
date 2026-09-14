@@ -12,17 +12,16 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP2**
+- **dernier CP terminé** : **CP3**
 - **CP courant** : —
-- **NEXT_CP** : **CP3** — ÉDITEUR
-- **NEXT_ACTION** : corriger le **défaut démontré au CP2/CP3** :
-  `app/lab/[exerciseId]/CodeMirrorEditor.tsx` ne connaît que `python`, `tsx`,
-  `jsx`, `typescript` et **retombe sur `javascript()` pour tout le reste** —
-  alors que `lib/exercise-files.mjs` détecte correctement `html`, `css`, `json`,
-  `markdown`, `text` par extension. Conséquence mesurée : **11 fichiers `.html`
-  et 3 fichiers `.css`** sont colorés comme du JavaScript. Ajouter
-  `@codemirror/lang-html` et `@codemirror/lang-css`, **et rien d'autre** — le
-  brief interdit les fonctions d'IDE décoratives.
+- **NEXT_CP** : **CP4** — MULTI-FICHIER
+- **NEXT_ACTION** : tester **individuellement** les **3 seuls** exercices
+  multi-fichiers du corpus — `web-card` (`index.html` + `style.css`),
+  `web-counter` (`index.html` en lecture seule + `style.css` + `app.js`),
+  `web-nav` (`index.html` + `style.css`) — sur la séquence complète : départ →
+  éditer chaque fichier → lancer → échec → reprise → réussite → `reset` →
+  rechargement. **Si tout fonctionne : NE RIEN RECONSTRUIRE**, documenter et
+  passer au CP5.
 
 ## Repères Git
 
@@ -205,6 +204,10 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP3** : **modifié** `app/lab/[exerciseId]/CodeMirrorEditor.tsx` (+2 langages),
+  `package.json` (`@codemirror/lang-html`, `@codemirror/lang-css`). **Créés**
+  `tests/v76-editor-languages.test.mjs` (5), `docs/v76/V76-CP3-EDITOR.md`.
+
 - **CP2** : **créés** `scripts/v76/ui-audit.mjs` (35 rendus Chromium réels),
   `docs/v76/V76-CP2-WORKBENCH-SHELL.md`, `docs/v76/ui-audit-cp2.json`.
   **Modifié** `package.json` (`playwright` en dépendance de développement).
@@ -229,6 +232,24 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP3** — **le langage était bien calculé, puis jeté à la dernière ligne.**
+  - `lib/exercise-files.mjs` détecte correctement `html` et `css` depuis
+    l'extension. `CodeMirrorEditor.tsx` ne connaissait que quatre langages et
+    **retombait sur JavaScript pour tout le reste** : 11 fichiers `.html` et
+    3 `.css` colorés avec la mauvaise grammaire, dans les exercices `web` où le
+    langage est justement le sujet.
+  - **« Ça colore » n'était pas une preuve** : une grammaire fausse produit aussi
+    des jetons. Le test compare donc les **arbres syntaxiques** et exige des
+    nœuds que la mauvaise grammaire ne peut pas produire. Le test décisif : sur
+    `.card { max-width: 320px; }`, la grammaire JavaScript produit un nœud
+    d'erreur `⚠` — le repli n'était pas moins joli, il était **faux**.
+  - **Le test garde la décision dans les deux sens** : il exige que HTML et CSS
+    soient réellement présents dans le corpus (sinon `G13`), et qu'aucun langage
+    présent ≥ 3 fois ne reste sans grammaire.
+  - **Rien de décoratif ajouté.** Écartés faute de défaut démontré :
+    autocomplétion, pliage, minimap, multi-curseur, et surtout **le linter temps
+    réel — qui ferait le travail que l'exercice demande à l'apprenant**.
 
 - **CP2** — **chercher un défaut dans un vrai navigateur, et ne pas en trouver.**
   - **35 rendus réels** (5 pages × 7 largeurs). L'éditeur est visible et

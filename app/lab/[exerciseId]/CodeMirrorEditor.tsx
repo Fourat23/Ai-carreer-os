@@ -11,13 +11,30 @@ import { EditorView, keymap } from '@codemirror/view';
 import { basicSetup } from 'codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
+import { html } from '@codemirror/lang-html';
+import { css } from '@codemirror/lang-css';
 import { indentWithTab } from '@codemirror/commands';
 
-// Coloration selon le langage du fichier actif. JSON reste en mode JS (proche).
+// ── COLORATION SELON LE LANGAGE DU FICHIER ACTIF ────────────────────────
+//
+// `lib/exercise-files.mjs` déduit déjà le langage de l'extension, et il le fait
+// correctement : `html`, `css`, `json`, `markdown`, `text` y sont reconnus.
+// Jusqu'au CP3 de V76, cet éditeur n'en connaissait que quatre et **retombait
+// sur JavaScript pour tout le reste** : les 11 fichiers `.html` et les 3 `.css`
+// du corpus étaient colorés comme du JS, dans les seuls exercices où le langage
+// est justement le sujet (`web`, `react-tsx`).
+//
+// Deux langages ajoutés, et deux seulement. Le contrat interdit les fonctions
+// d'IDE décoratives : c'est un environnement d'apprentissage, pas un clone de
+// VS Code.
 function languageExtension(language?: string): Extension {
   if (language === 'python') return python();
+  if (language === 'html') return html();
+  if (language === 'css') return css();
   if (language === 'tsx') return javascript({ typescript: true, jsx: true });
   if (language === 'jsx') return javascript({ jsx: true });
+  // `json` reste en mode JavaScript : la grammaire en est un sous-ensemble, et
+  // aucun exercice du corpus n'a de fichier `.json` éditable.
   return javascript({ typescript: language === 'typescript' });
 }
 

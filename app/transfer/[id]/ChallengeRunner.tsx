@@ -23,15 +23,14 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Check, X, RotateCcw, Save, ChevronLeft } from 'lucide-react';
-import { gradeTransferChallenge } from '@/lib/transfer-challenge';
-import type { TransferChallenge, TransferChallengeResult } from '@/lib/transfer-challenge';
+import type { TransferChallengePublic, TransferChallengeResult } from '@/lib/transfer-challenge';
 import { SurfaceHead, Panel, InlineNotice } from '@/app/ui';
 
 type Responses = Record<string, number | number[] | string>;
 
 export default function ChallengeRunner({
   challenge, skillNames,
-}: { challenge: TransferChallenge; skillNames: Record<string, string> }) {
+}: { challenge: TransferChallengePublic; skillNames: Record<string, string> }) {
   const [responses, setResponses] = useState<Responses>({});
   const [result, setResult] = useState<TransferChallengeResult | null>(null);
   const [busy, setBusy] = useState(false);
@@ -60,9 +59,20 @@ export default function ChallengeRunner({
       });
       const j = await res.json();
       if (res.ok && j.ok) { setResult(j.result); setHorsLigne(false); }
-      else { setResult(gradeTransferChallenge(challenge, responses)); setHorsLigne(true); }
+      else { setHorsLigne(true); }
     } catch {
-      setResult(gradeTransferChallenge(challenge, responses)); setHorsLigne(true);
+      // ── V76 · CP8 — PLUS DE CORRECTION HORS LIGNE, ET C'EST VOULU ──
+      //
+      // Cette branche corrigeait le défi DANS LE NAVIGATEUR quand le réseau
+      // échouait. Elle ne pouvait fonctionner que parce que la page recevait
+      // les bonnes réponses — autrement dit, **le repli hors ligne était la
+      // fuite**, pas seulement une conséquence.
+      //
+      // Un client capable de se corriger seul est un client qui détient le
+      // corrigé. On préfère donc dire qu'on ne peut pas corriger : une
+      // correction disponible hors ligne le serait aussi pour qui l'ouvrirait
+      // avant de répondre.
+      setHorsLigne(true);
     }
     setBusy(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -141,6 +151,25 @@ export default function ChallengeRunner({
         ) : null}
       </Panel>
 
+      {/* ── V76 · CP8 — HORS LIGNE, LE PRODUIT NE CORRIGE PAS, ET LE DIT ──
+          Avant le CP8, cette situation déclenchait une correction DANS LE
+          NAVIGATEUR — possible seulement parce que la page recevait les bonnes
+          réponses. Le repli hors ligne ÉTAIT la fuite. Le produit préfère
+          désormais ne pas corriger plutôt que de détenir le corrigé. */}
+      {horsLigne ? (
+        <InlineNotice tone="attention">
+          Le serveur n’a pas répondu : <strong>la correction n’a pas pu être faite</strong>.
+          Elle est calculée côté serveur, et elle seule — ton navigateur ne reçoit pas les
+          bonnes réponses, sans quoi elles seraient lisibles avant même que tu répondes.
+          Réessaie quand la connexion est revenue ; tes réponses sont conservées.
+        </InlineNotice>
+      ) : null}
+      {/* ── V76 · CP8 — LE RÉSULTAT EST ANNONCÉ ──
+          Le CP2 a mesuré `aria-live = 0` sur cette page : un apprenant utilisant
+          un lecteur d'écran soumettait sa tentative et n'apprenait RIEN de ce
+          qui s'était passé. `polite` plutôt qu'`assertive` : le verdict ne doit
+          pas interrompre la lecture en cours, seulement être lu ensuite. */}
+      <div aria-live="polite" aria-atomic="false">
       {result ? (
         <Panel label={result.passedOverall ? 'Transfert observé' : 'Seuil non atteint'}>
           <p className="tr-verdict">
@@ -151,13 +180,6 @@ export default function ChallengeRunner({
               ? 'Tu as reconnu la notion hors de son contexte d’origine. C’est un indice de transfert, pas une preuve que tu la maîtrises : un indice se répète, une maîtrise se démontre dans la durée.'
               : 'Reconnaître une notion ailleurs est exactement ce qui est difficile, et rater un défi n’annule rien de ce que tu sais. Les explications ci-dessous disent où le pont a cédé.'}
           </p>
-          {horsLigne ? (
-            <InlineNotice tone="attention">
-              La correction a été faite <strong>sur ton appareil</strong>, le serveur n’ayant pas
-              répondu. Le résultat ne peut pas être conservé comme preuve : un verdict que le
-              produit n’a pas calculé lui-même ne vaut rien comme preuve.
-            </InlineNotice>
-          ) : null}
           {notice && (echec
             ? <p className="ret-error" role="alert">{notice}</p>
             : <p className="ret-note"><strong>{notice}</strong></p>)}
@@ -199,7 +221,10 @@ export default function ChallengeRunner({
                     const choisi = q.kind === 'mcq'
                       ? responses[q.id] === oi
                       : Array.isArray(responses[q.id]) && (responses[q.id] as number[]).includes(oi);
-                    const attendu = corrige && (Array.isArray(q.answer) ? q.answer.includes(oi) : q.answer === oi);
+                    // V76 · CP8 — la bonne réponse vient du RÉSULTAT de l'API,
+                    // plus du défi : la page ne la reçoit plus avant la
+                    // tentative. `r.expected` n'existe qu'après soumission.
+                    const attendu = corrige && (Array.isArray(r?.expected) ? r.expected.includes(oi) : r?.expected === oi);
                     return (
                       <label key={oi} className={`diag-opt${choisi ? ' chosen' : ''}${attendu ? ' answer' : ''}`}>
                         <input
@@ -230,9 +255,9 @@ export default function ChallengeRunner({
               {corrige && (
                 <p className="diag-explain">
                   {!r?.passed && q.kind === 'predict' && (
-                    <span className="diag-expected">Attendu : <code>{String(q.answer)}</code>. </span>
+                    <span className="diag-expected">Attendu : <code>{String(r?.expected)}</code>. </span>
                   )}
-                  {q.explanation}
+                  {r?.explanation}
                 </p>
               )}
             </li>
@@ -240,6 +265,7 @@ export default function ChallengeRunner({
         })}
       </ol>
 
+      </div>
       {!result ? (
         <button type="button" className="btn primary" onClick={corriger} disabled={busy}>
           {busy ? 'Correction…' : 'Corriger mes réponses'}

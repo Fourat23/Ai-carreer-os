@@ -12,19 +12,15 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP7**
+- **dernier CP terminé** : **CP8**
 - **CP courant** : —
-- **NEXT_CP** : **CP8** — 🔴 **FUITE DES RÉPONSES DE TRANSFERT**
-- **NEXT_ACTION** : corriger le chemin transfert. `GET /transfer/[id]` sert
-  aujourd'hui `"answer":0` et le texte d'`explanation` **dans la charge utile
-  RSC de la page**, lisibles avant toute tentative. Réutiliser la discipline
-  anti-fuite du laboratoire (`exerciseMeta` + `splitAttempt`). **Vérifier sur le
-  HTML, la charge RSC, le JSON et le « afficher le code source ».** Puis tester
-  les **25 défis** : 25/25 chargent · 25/25 échouent avec de mauvaises réponses ·
-  25/25 réussissent avec les bonnes · 25/25 produisent un `TransferAttempt` ·
-  **sans fuite préalable**. Corriger aussi l'accessibilité du `ChallengeRunner` :
-  `aria-live = 0` mesuré au CP2, donc le résultat d'une tentative n'est **jamais
-  annoncé**.
+- **NEXT_CP** : **CP9** — PERSISTANCE, BROUILLON PÉRIMÉ, `RESET`
+- **NEXT_ACTION** : mesurer ce qui n'a jamais été mesuré (`T20`) : rafraîchir,
+  naviguer, revenir, **deux onglets**, écritures concurrentes, **brouillon
+  périmé écrasant un plus récent**. Puis clarifier les **trois** sémantiques
+  gelées au CP1 — `RESET_FILE`, `RESET_WORKSPACE`, et `RESET_EXERCISE` **qui ne
+  doit pas exister**. Règle gelée : **aucun `RESET` n'efface un `ATTEMPT`, une
+  `SUBMISSION` ou une `EVIDENCE`.**
 
 ## Repères Git
 
@@ -148,7 +144,16 @@ déclaré honnêtement). Il n'a jamais été appliqué au runner d'exercices.
 Python (`import os` ne traverse aucun crochet JS). **101 exercices Python
 resteront non isolés sans conteneur** — à écrire, pas à laisser croire.
 
-### Fuite de réponse — à corriger au CP8
+### ✅ CORRIGÉ AU CP8 — la fuite est fermée
+
+**25/25 fuyaient, 0/25 fuient**, et les 25 fonctionnent toujours (8 vérifications
+chacun). Contre-épreuve : l'ancien code remis en place, la sonde retrouve
+**25/25** — elle discrimine. Le type `TransferChallengePublic` empêche désormais
+le compilateur de passer le défi complet au client. **Coût assumé** : la
+correction hors ligne a disparu, car elle ne pouvait fonctionner qu'au prix de
+la fuite. `aria-live` ajouté (le CP2 avait mesuré 0).
+
+### L'état AVANT (conservé — à ne jamais réécrire)
 
 `GET /transfer/[id]` sert `"answer":0` et le texte d'`explanation` **dans la
 charge utile de la page**, lisibles avant toute tentative. Le côté laboratoire,
@@ -218,6 +223,14 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP8** : **créés** `scripts/v76/cp8-transfer.mjs` (10 vérifications × 25),
+  `tests/v76-transfer-leak.test.mjs` (8), `docs/v76/V76-CP8-TRANSFER-LEAK.md`,
+  `docs/v76/cp8-transfer.json`. **Modifiés** `lib/transfer-challenge.mjs`
+  (+ `vuePubliqueDuDefi`), `lib/transfer-challenge.d.ts` (+ le type public),
+  `app/transfer/[id]/page.tsx`, `app/transfer/[id]/ChallengeRunner.tsx`
+  (correction lue depuis le résultat de l'API, plus de grader client,
+  `aria-live`).
+
 - **CP7** : **créés** `lib/hint-view.mjs` (PUR) + `lib/hint-view.d.ts`,
   `tests/v76-hint-view.test.mjs` (16), `docs/v76/V76-CP7-AIDE-GRADUEE.md`.
   **Modifiés** `lib/learning-engine.mjs` (commande `RECORD_HINT_VIEW`),
@@ -270,6 +283,27 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP8** — **le repli hors ligne ÉTAIT la fuite.**
+  - `GET /transfer/[id]` servait `"answer":0` et le texte d'`explanation` dans
+    sa charge utile RSC : un « afficher le code source » donnait les réponses
+    avant toute tentative. **25/25 défis concernés.**
+  - **V75 ne pouvait pas la voir** : son CP9 avait fait six vérifications
+    sérieuses sur chaque défi, et aucune sur la fuite. *Un défi qui fonctionne
+    parfaitement peut donner la réponse d'avance.*
+  - **La discipline existait déjà côté laboratoire** (`exerciseMeta`,
+    `splitAttempt`) ; elle n'avait simplement jamais traversé.
+  - **Le TYPE fait la garde** : `TransferChallengePublic` empêche le compilateur
+    de passer le défi complet. Une protection qui dépend d'une relecture
+    attentive n'en est pas une.
+  - **Une capacité a disparu, et c'était juste** : le client corrigeait hors
+    ligne — ce qui n'était possible que parce qu'il détenait le corrigé. Le
+    produit dit maintenant qu'il ne peut pas corriger, plutôt que de garder la
+    réponse sous la main.
+  - **Contre-épreuve décisive** : ancien code remis, produit reconstruit, sonde
+    relancée → **25/25 fuient**. Avec le correctif → **0/25**. Une sonde qui ne
+    trouve rien peut simplement être aveugle ; celle-ci ne l'est pas.
+  - `aria-live="polite"` ajouté sur le résultat (le CP2 avait mesuré **0**).
 
 - **CP7** — **le produit ne savait pas qu'il avait aidé.**
   - Huitième fait du produit : `RECORD_HINT_VIEW`, même contrat que les sept

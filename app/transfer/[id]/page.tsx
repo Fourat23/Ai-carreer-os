@@ -7,6 +7,7 @@
 // cliente, parce qu'elle a un état.
 import { notFound } from 'next/navigation';
 import { getTransferChallenge, listTransferChallenges } from '@/lib/transfer-challenges-server';
+import { vuePubliqueDuDefi } from '@/lib/transfer-challenge';
 import { getProgram } from '@/lib/program';
 import { ContextLine } from '@/app/ui';
 import ChallengeRunner from './ChallengeRunner';
@@ -19,6 +20,10 @@ export default async function TransferChallengePage(
   const { id } = await params;
   const challenge = getTransferChallenge(id);
   if (!challenge) notFound();
+  // Construite AVANT tout rendu : le composant client ne doit jamais voir le
+  // défi complet, même une fraction de seconde dans une charge utile RSC.
+  const publique = vuePubliqueDuDefi(challenge);
+  if (!publique) notFound();
 
   const program = getProgram();
   const skillNames = Object.fromEntries(
@@ -35,7 +40,12 @@ export default async function TransferChallengePage(
           { k: 'Distance', v: challenge.transferLevel === 'T5' ? 'autre domaine' : 'contexte voisin' },
         ]}
       />
-      <ChallengeRunner challenge={challenge} skillNames={skillNames} />
+      {/* V76 · CP8 — la vue PUBLIQUE, sans `answer` ni `explanation`. Le CP0 a
+          mesuré que la page servait les bonnes réponses dans sa charge utile,
+          lisibles avant toute tentative par « afficher le code source ». La
+          correction arrive désormais par la réponse de l'API, après soumission —
+          même discipline que le laboratoire depuis V74. */}
+      <ChallengeRunner challenge={publique} skillNames={skillNames} />
     </>
   );
 }

@@ -31,3 +31,14 @@ export interface TransferChallengeResult {
 export const CHALLENGE_LEVELS: readonly TransferLevel[];
 export function validateTransferChallenge(c: unknown): { ok: boolean; errors: string[] };
 export function gradeTransferChallenge(c: TransferChallenge, responsesById?: Record<string, unknown>): TransferChallengeResult;
+
+/**
+ * V76 · CP8 — le défi tel qu'il peut être servi au CLIENT : sans `answer`, sans
+ * `explanation`. Le type le rend vérifiable par le compilateur, pas seulement
+ * par un test.
+ */
+export type QuestionPublique = Omit<AssessmentQuestion, 'answer' | 'explanation'>;
+export interface TransferChallengePublic extends Omit<TransferChallenge, 'questions'> {
+  questions: QuestionPublique[];
+}
+export function vuePubliqueDuDefi(c: TransferChallenge | null): TransferChallengePublic | null;

@@ -12,16 +12,20 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP3**
+- **dernier CP terminé** : **CP4**
 - **CP courant** : —
-- **NEXT_CP** : **CP4** — MULTI-FICHIER
-- **NEXT_ACTION** : tester **individuellement** les **3 seuls** exercices
-  multi-fichiers du corpus — `web-card` (`index.html` + `style.css`),
-  `web-counter` (`index.html` en lecture seule + `style.css` + `app.js`),
-  `web-nav` (`index.html` + `style.css`) — sur la séquence complète : départ →
-  éditer chaque fichier → lancer → échec → reprise → réussite → `reset` →
-  rechargement. **Si tout fonctionne : NE RIEN RECONSTRUIRE**, documenter et
-  passer au CP5.
+- **NEXT_CP** : **CP5** — 🔴 **ISOLATION DE L'EXÉCUTION — LE CŒUR DE V76**
+- **NEXT_ACTION** : traiter `T12`→`T16` (= `SEC1`–`SEC5` du contrat gelé). Partir
+  du modèle `lib/terminal-docker.mjs` (conteneur durci, réseau `none`, non-root,
+  lecture seule, « indisponible » déclaré honnêtement). Objectifs : le code
+  apprenant ne peut ni lire l'hôte, ni écrire hors workspace, ni lancer un
+  processus, ni atteindre `localhost`/le réseau interne, ni lire le corpus de
+  corrections ; les tests privés restent protégés ; délai, sortie, ressources
+  bornés ; nettoyage déterministe. **Si une frontière est indisponible :
+  déclarer le runtime indisponible, JAMAIS de repli silencieux vers l'exécution
+  hôte.** Rejouer ensuite les cinq sondes : `/etc/passwd`, fuite de correction,
+  écriture hôte, `execSync`, SSRF — **les cinq doivent être contenues**. Écrire
+  un rapport de sécurité détaillé.
 
 ## Repères Git
 
@@ -204,6 +208,11 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP4** : **créés** `scripts/v76/cp4-multifile.mjs`,
+  `docs/v76/V76-CP4-MULTIFILE.md`, `docs/v76/cp4-multifile.json`.
+  **Aucun fichier de produit modifié** — la séquence passe 3/3, rien à
+  reconstruire.
+
 - **CP3** : **modifié** `app/lab/[exerciseId]/CodeMirrorEditor.tsx` (+2 langages),
   `package.json` (`@codemirror/lang-html`, `@codemirror/lang-css`). **Créés**
   `tests/v76-editor-languages.test.mjs` (5), `docs/v76/V76-CP3-EDITOR.md`.
@@ -232,6 +241,26 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP4** — **trois exercices sur 376, et la séquence passe sur les trois.**
+  - `web-card`, `web-counter`, `web-nav` — tous `web`. Séquence complète du
+    brief (départ → éditer A → éditer B → lancer → échec → reprise → réussite →
+    reset → recharger) : **3/3 sur neuf étapes**.
+  - **La vérification qui n'était pas évidente** : le défaut caractéristique du
+    multi-fichier est qu'une sauvegarde écrase les autres fichiers. Chaque
+    fichier est donc marqué séparément, et les marques précédentes sont
+    revérifiées après **chaque** sauvegarde. **Aucune perte.**
+  - **`web-counter` refuse l'écriture sur son `index.html` protégé**, avec un
+    message lisible. C'est la garantie la plus importante d'un multi-fichier :
+    sans elle, on réussit en changeant l'énoncé.
+  - **Rien construit** : pas d'arbre de fichiers (aucun exercice n'a de
+    sous-répertoire), pas de création/suppression/renommage (aucun ne le
+    demande). Les onglets et la palette `⌘K` suffisent à deux ou trois fichiers
+    à plat.
+  - **LIMITE DÉCLARÉE** : les trois sont `web`. Le multi-fichier n'a jamais été
+    exercé sur un runtime qui exécute réellement du code — or `lib/runtime.mjs`
+    déclare `multiFile: true` pour **tous**. Capacité **déclarée mais non
+    vérifiée** pour `node-js`, `python3`, `typescript`, `python-ds`.
 
 - **CP3** — **le langage était bien calculé, puis jeté à la dernière ligne.**
   - `lib/exercise-files.mjs` détecte correctement `html` et `css` depuis

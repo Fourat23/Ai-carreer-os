@@ -1,0 +1,142 @@
+[
+ {
+  "id": "web-card",
+  "runtime": "web",
+  "fichiers": [
+   "index.html",
+   "style.css"
+  ],
+  "proteges": [],
+  "ouvre": true,
+  "fichiersServis": [
+   "index.html",
+   "style.css"
+  ],
+  "tousEditablesServis": true,
+  "lectureSeuleServie": true,
+  "testsCachesNonServis": true,
+  "drapeauxCorrects": true,
+  "langagesDistincts": [
+   "html",
+   "css"
+  ],
+  "editionParFichier": [
+   {
+    "fichier": "index.html",
+    "statut": 200,
+    "conserve": true,
+    "autresIntacts": true
+   },
+   {
+    "fichier": "style.css",
+    "statut": 200,
+    "conserve": true,
+    "autresIntacts": true
+   }
+  ],
+  "toutesEditionsConservees": true,
+  "editionsIndependantes": true,
+  "protegeRefuse": null,
+  "echoue": true,
+  "echecScore": "0/5",
+  "reussit": true,
+  "reussiteScore": "5/5",
+  "resetToutRestaure": true,
+  "rechargementStable": true
+ },
+ {
+  "id": "web-counter",
+  "runtime": "web",
+  "fichiers": [
+   "style.css",
+   "app.js"
+  ],
+  "proteges": [
+   "index.html"
+  ],
+  "ouvre": true,
+  "fichiersServis": [
+   "index.html",
+   "style.css",
+   "app.js"
+  ],
+  "tousEditablesServis": true,
+  "lectureSeuleServie": true,
+  "testsCachesNonServis": true,
+  "drapeauxCorrects": true,
+  "langagesDistincts": [
+   "html",
+   "css",
+   "javascript"
+  ],
+  "editionParFichier": [
+   {
+    "fichier": "style.css",
+    "statut": 200,
+    "conserve": true,
+    "autresIntacts": true
+   },
+   {
+    "fichier": "app.js",
+    "statut": 200,
+    "conserve": true,
+    "autresIntacts": true
+   }
+  ],
+  "toutesEditionsConservees": true,
+  "editionsIndependantes": true,
+  "protegeRefuse": true,
+  "protegeMessage": "Fichier en lecture seule : « index.html ».",
+  "echoue": true,
+  "echecScore": "2/4",
+  "reussit": true,
+  "reussiteScore": "4/4",
+  "resetToutRestaure": true,
+  "rechargementStable": true
+ },
+ {
+  "id": "web-nav",
+  "runtime": "web",
+  "fichiers": [
+   "index.html",
+   "style.css"
+  ],
+  "proteges": [],
+  "ouvre": true,
+  "fichiersServis": [
+   "index.html",
+   "style.css"
+  ],
+  "tousEditablesServis": true,
+  "lectureSeuleServie": true,
+  "testsCachesNonServis": true,
+  "drapeauxCorrects": true,
+  "langagesDistincts": [
+   "html",
+   "css"
+  ],
+  "editionParFichier": [
+   {
+    "fichier": "index.html",
+    "statut": 200,
+    "conserve": true,
+    "autresIntacts": true
+   },
+   {
+    "fichier": "style.css",
+    "statut": 200,
+    "conserve": true,
+    "autresIntacts": true
+   }
+  ],
+  "toutesEditionsConservees": true,
+  "editionsIndependantes": true,
+  "protegeRefuse": null,
+  "echoue": true,
+  "echecScore": "0/3",
+  "reussit": true,
+  "reussiteScore": "3/3",
+  "resetToutRestaure": true,
+  "rechargementStable": true
+ }
+]

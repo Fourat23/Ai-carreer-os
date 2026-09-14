@@ -5684,3 +5684,19 @@ button.dot::after {
 }
 .tr-verdict { margin: 0; font-size: var(--fs-base); font-family: var(--font-mono); }
 .tr-actions { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-3); }
+
+/* ── V75 · CP11 — le plan unique sur la journée ───────────────────────────
+   Une liste de blocs, pas un tableau : l'ORDRE est l'information (c'est
+   l'ordre d'arbitrage du mode). Les minutes à droite, la raison dessous —
+   on lit « combien » puis « pourquoi », jamais l'inverse. */
+.dpu-blocs { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.dpu-bloc { padding-left: 12px; border-left: 2px solid var(--border); min-width: 0; }
+/* Un bloc ajusté se distingue par une arête plus marquée, jamais par la seule
+   couleur : le contraste de couleur ne porte aucune information ici. */
+.dpu-bloc.is-reduit, .dpu-bloc.is-differe, .dpu-bloc.is-suspendu,
+.dpu-bloc.is-recommande-pause { border-left-width: 3px; border-left-style: dashed; }
+.dpu-bloc-tete { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.dpu-bloc-nom { font-size: var(--fs-sm); font-weight: 600; }
+.dpu-bloc-min { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); white-space: nowrap; }
+.dpu-bloc-coupe { color: var(--faint, var(--muted)); }
+.dpu-bloc-why { font-size: var(--fs-xs); color: var(--muted); margin-top: 1px; overflow-wrap: anywhere; }

@@ -7,16 +7,16 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP10**
+- **dernier CP terminé** : **CP11**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP11** — intégration RÉCUPÉRATION + PLAN DU JOUR
-- **NEXT_ACTION** : produire **UN PLAN UNIQUE ET EXPLICABLE** arbitrant entre **NEW / REVIEW /
-  REMEDIATION / TRANSFER / PROJECT** — sans concaténer les cinq. Contraintes : le budget
-  quotidien reste une **contrainte** ; une journée déjà au-dessus du budget ne reçoit **pas**
-  30 minutes cachées ; `CRITICAL` **recommande**, ne verrouille pas ; `TOTAL / ACTIVE / PARKED`
-  restent distincts ; chaque modification du plan est **justifiée en langage humain**. Vérifier
-  le branchement **sur le produit réel**, pas seulement un module.
+- **NEXT_CP** : **CP12** — instrumentation de la VALIDATION HUMAINE
+- **NEXT_ACTION** : construire un **protocole instrumenté** `PRETEST → LEARNING →
+  IMMEDIATE_RETRIEVAL → DELAY → DELAYED_RETRIEVAL → TRANSFER → CONFUSION_REPORT`, et
+  `docs/v75/V75-HUMAN-LEARNING-PROTOCOL.md`. **NE PAS prétendre exécuter une étude humaine** :
+  aucun participant, aucun résultat inventé. Mode **opt-in, non bloquant, isolé** du parcours
+  normal. Documenter ce qui est enregistré, pourquoi, comment l'exporter et le SUPPRIMER, et ce
+  qui n'est **pas** enregistré. `REAL_HUMAN_LEARNING_EVIDENCE` reste `NOT YET MEASURED`.
 
 ## Repères Git
 
@@ -32,7 +32,7 @@
 
 `128` leçons · `365` journées · `52` semaines · `12` mois · corpus des leçons `92d5fae6` ·
 **376 exercices** · **`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
-`1797/1797` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
+`1818/1818` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
 
 ## Décisions gelées
 
@@ -80,6 +80,22 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP11** : **le plan unique** — `lib/plan-unifie.mjs` (PUR). Décisions :
+  - **L'ORDRE D'ARBITRAGE DÉPEND DU MODE**, et c'est ce qui distingue arbitrer de concaténer.
+    `REMEDIATION` passe devant tout dès `CATCH_UP` (le CP3 de V74 : un échec non repris est le
+    signal le plus actionnable) ; `PROJECT` passe en premier en `NORMAL` (un livrable a une date).
+  - **`total accordé ≤ budget`, TOUJOURS** — vérifié sur 336 combinaisons. Une journée lourde ne
+    reçoit **pas** 30 min cachées ; les minutes refusées sont **publiées**, jamais effacées.
+  - **`CRITICAL` donne au bloc `NEW` le statut `recommande-pause`** : il garde ses minutes, il
+    n'est pas retiré. Aucun module du plan n'émet `SET_CURRICULUM_PAUSE` — testé fichier par
+    fichier. La surface ne porte **aucun verrou**.
+  - **`TOTAL / ACTIVE / PARKED` traversent le plan sans être agrégés** ; aucun champ `backlog`
+    unique n'existe.
+  - **UNE PHRASE HUMAINE PAR MODIFICATION**, et le jargon est refusé par un test —
+    `recoveryPressure`, `score`, `decay`, jusqu'aux noms de modes eux-mêmes.
+  - **LE READ-MODEL NE REDÉCLARE AUCUN SEUIL** : il consomme les moteurs existants. Une couche
+    d'assemblage qui décide devient un sixième moteur (leçon de l'audit CP8).
 
 - **CP10** : **`TransferAttempt`, le septième fait**. Décisions :
   - **LE FAIT EST ÉCRIT SYSTÉMATIQUEMENT, succès comme échec**, et **indépendamment** de la
@@ -340,6 +356,11 @@
 
 ## Fichiers
 
+- **CP11** : **créés** `lib/plan-unifie.mjs` + `.d.ts` (moteur PUR),
+  `lib/plan-unifie-server.ts` (read-model), `app/day/[id]/DayPlanUnifie.tsx` (**la surface, sur
+  la page où l'on travaille**), `tests/v75-plan-unifie.test.mjs` (21),
+  `docs/v75/V75-CP11-DAILY-PLAN-INTEGRATION.md`. **Modifiés** `app/day/[id]/page.tsx`,
+  `app/globals.css`.
 - **CP10** : **créés** `lib/transfer-attempt.mjs` + `.d.ts` (le fait, PUR),
   `tests/v75-transfer-attempt.test.mjs` (31), `docs/v75/V75-CP10-TRANSFER-TELEMETRY.md`.
   **Modifiés** `lib/learning-engine.mjs` + `.d.ts` (commande `RECORD_TRANSFER_ATTEMPT`),
@@ -400,6 +421,10 @@
 
 ## Tests exécutés
 
+- **CP11** : **1818/1818** (21 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **8 mutations VUES rougir** · **budget respecté sur 336 combinaisons**
+  (4 modes × 7 charges × 4 × 3) · rendu réel vérifié sur `/day/181` · responsive
+  375/768/1024/1440 px sur `/day/181` et `/retention`.
 - **CP10** : **1797/1797** (31 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **13 mutations VUES rougir**, dont **1 restée VERTE au premier passage**.
   **Chaîne HTTP complète rejouée** : échec sans conservation → fait écrit · rejeu réseau →
@@ -440,6 +465,30 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP11** — **le moteur arrive enfin sur la page où l'on travaille.**
+  - **Tout le moteur de récupération vivait sur `/retention`.** La page d'une journée proposait
+    la journée entière quel que soit l'arriéré, le mode ou la charge. §11.6 l'exige : *« pas
+    seulement un module »* — un moteur qui n'influence pas la page où l'on travaille n'influence
+    rien.
+  - **ARBITRER, PAS CONCATÉNER** : l'ordre de service dépend du mode, et un ordre unique pour
+    tous les modes est testé négativement. Ce qui ne rentre pas est **réduit, différé ou
+    suspendu** — avec une phrase, jamais tronqué en silence.
+  - **UN BUG TROUVÉ PAR LA CONTRAINTE QUE CE CP DÉFEND** : le bloc `NEW` de `CRITICAL` passait
+    sa demande entière sans être borné, et le total montait à **320 min sur un plafond de 300**.
+    Le checkpoint censé protéger le budget le violait. *Recommander une pause ne dispense pas de
+    la contrainte.*
+  - **UN TEST À MOI ÉTAIT MAL CALIBRÉ** : j'attendais « le nouveau contenu est réduit » sur une
+    charge de 265 + 35 min de révision — soit exactement 300. Rien n'était coupé, et la phrase
+    n'avait pas lieu d'être. Le cas testé ne testait rien.
+  - **RENDU RÉEL VÉRIFIÉ** (profil L, jour 180, mode `CRITICAL`) : remédiation 12 min →
+    réactivation 60 min → nouveau contenu **réduit de 294 à 228** → transfert suspendu ·
+    **total 300 sur 300** · **66 min refusées, affichées** · explication en français sans un
+    seul nom de mode.
+  - **8 mutations vues rougir** : budget dépassé · ordre unique · transfert non suspendu ·
+    minutes non placées effacées · `CRITICAL` verrouille · explication en jargon · arriéré garé
+    effacé · plan absent de la page journée.
+  - **1818/1818 · tsc 0 · build OK · 47 portes vertes.**
 
 - **CP10** — **deux défauts que seule la chaîne réelle pouvait montrer.**
   - **Le fait manquait, et sa conséquence était nommée depuis le CP2** : l'inventaire des sept

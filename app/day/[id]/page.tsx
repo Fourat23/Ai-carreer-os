@@ -15,11 +15,13 @@ import { EMPTY_DAY_PROGRESS } from '@/lib/types';
 import { stripDayLeadHtml, splitDayHtml, isDayMetaLine } from '@/lib/day-view';
 import { annotateDayHtml, deriveActivities, deriveDayPhases } from '@/lib/section-family';
 import { sessionView } from '@/lib/learning-engine';
+import { getPlanUnifie } from '@/lib/plan-unifie-server';
 import { SectionHeader, Status, PhaseRail, ContextLine } from '@/app/ui';
 import DayPanel from './DayPanel';
 import DayMission from './DayMission';
 import DayCorrection from './DayCorrection';
 import DayEvidence from './DayEvidence';
+import DayPlanUnifie from './DayPlanUnifie';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,6 +60,10 @@ export default async function DayPage({ params, searchParams }: {
   const solution = getSolutionHtml(dayNum);
   const checklist = getDayChecklist(dayNum);
   const progress = getDayProgress(dayNum) ?? { ...EMPTY_DAY_PROGRESS };
+  // V75 · CP11 — le plan unique de CETTE journée. Calculé sur le numéro de la
+  // journée ouverte, pas sur la position de l'apprenant : on explique la
+  // journée qu'il regarde.
+  const planUnifieVue = getPlanUnifie(new Date().toISOString(), dayNum);
   // V64 · l'état de travail de la journée, DÉRIVÉ (ADR-064). Une lecture ne
   // mute jamais rien : `sessionView` est une fonction pure sur la progression
   // déjà lue, elle ne crée aucune session au passage.
@@ -209,6 +215,16 @@ export default async function DayPage({ params, searchParams }: {
             <h2 id="day-do-h" className="day-zone-t">Faire</h2>
             <span className="day-zone-n">{doCount} activités</span>
           </header>
+
+          {/* ── V75 · CP11 — LE PLAN UNIQUE, LÀ OÙ L'ON TRAVAILLE ──
+              Jusqu'ici tout le moteur de récupération vivait sur `/retention`.
+              La page d'une journée n'en savait rien : elle proposait la journée
+              entière quel que soit l'arriéré, le mode ou la charge. §11.6
+              l'exige nommément — un moteur qui n'influence pas la page où l'on
+              travaille n'influence rien.
+              Il ne RETIRE aucune section : tout le contenu reste monté
+              en dessous. Il dit ce que le produit ferait, et pourquoi. */}
+          <DayPlanUnifie vue={planUnifieVue} />
 
           {labExercises.length > 0 && (
             <section className="day-lab">

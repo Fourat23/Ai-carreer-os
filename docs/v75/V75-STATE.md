@@ -7,16 +7,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP11**
+- **dernier CP terminé** : **CP12**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP12** — instrumentation de la VALIDATION HUMAINE
-- **NEXT_ACTION** : construire un **protocole instrumenté** `PRETEST → LEARNING →
-  IMMEDIATE_RETRIEVAL → DELAY → DELAYED_RETRIEVAL → TRANSFER → CONFUSION_REPORT`, et
-  `docs/v75/V75-HUMAN-LEARNING-PROTOCOL.md`. **NE PAS prétendre exécuter une étude humaine** :
-  aucun participant, aucun résultat inventé. Mode **opt-in, non bloquant, isolé** du parcours
-  normal. Documenter ce qui est enregistré, pourquoi, comment l'exporter et le SUPPRIMER, et ce
-  qui n'est **pas** enregistré. `REAL_HUMAN_LEARNING_EVIDENCE` reste `NOT YET MEASURED`.
+- **NEXT_CP** : **CP13** — SIMULATION ADVERSARIALE
+- **NEXT_ACTION** : rejouer **TOUS** les profils A→T du CP0, publier **BEFORE → AFTER** pour
+  chacun, et publier **total / actif / garé SÉPARÉMENT**. Piège nommé par le brief : *« total 100,
+  actif 5, garé 95 n'est PAS automatiquement bon »* — vérifier **pourquoi** les garées sont
+  garées, **combien de temps**, la **famine**, le **besoin futur**, la **possibilité de
+  réactivation**. Tester réellement **entrée → séjour → sortie** du mode récupération, et
+  détecter : récupération dont on ne sort jamais · sortie trop facile · oscillation quotidienne ·
+  arriéré repoussé indéfiniment.
 
 ## Repères Git
 
@@ -32,7 +33,7 @@
 
 `128` leçons · `365` journées · `52` semaines · `12` mois · corpus des leçons `92d5fae6` ·
 **376 exercices** · **`data/progress.json` n'existe pas** — l'invariant est de ne jamais le créer ·
-`1818/1818` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
+`1841/1841` tests · `tsc 0` · **47 portes** sans violation (dont `v74:check`) · build OK.
 
 ## Décisions gelées
 
@@ -80,6 +81,27 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP12** : **instrumentation d'une validation humaine** — `lib/study-protocol.mjs` (PUR).
+  Décisions :
+  - **`conclusionPossible` vaut `false` EN PERMANENCE**, quel que soit l'état d'une session.
+    Ce champ n'est pas une précaution de style : il évite qu'une surface, un rapport ou une
+    lecture pressée ait à déduire ce qu'une session autorise à conclure. **Réponse : rien.**
+  - **`REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`**, inchangé. Aucun participant, aucune
+    session conduite, aucun résultat.
+  - **CHAQUE ÉTAPE DÉCLARE L'AMBIGUÏTÉ QU'ELLE LÈVE** — sans mesure avant, « j'ai appris » et
+    « je le savais déjà » sont indiscernables ; sans délai, on mesure la mémoire de travail ;
+    sans transfert, on mesure la forme de la question. Une étape sans raison serait de la
+    collecte superflue.
+  - **LA DURÉE EST MESURÉE OU ABSENTE, jamais estimée** : une durée déduite du temps passé sur
+    une page mesure surtout les onglets laissés ouverts. `null` est une réponse.
+  - **ISOLATION STRICTE** : les données d'étude n'entrent dans **aucune projection** du produit,
+    et un test le vérifie moteur par moteur. Si l'étude nourrissait le moteur, **l'observation
+    modifierait ce qu'elle observe**.
+  - **`NON_COLLECTE` EST PUBLIÉ**, donc vérifiable : ni frappes, ni défilement, ni identifiant de
+    machine, ni percentile, ni comparaison entre apprenants, ni envoi vers un tiers.
+  - **LE BIAIS LE PLUS LOURD EST NOMMÉ** : sans groupe témoin, le protocole peut montrer que des
+    gens apprennent **avec** AI Career OS, jamais **grâce à** lui.
 
 - **CP11** : **le plan unique** — `lib/plan-unifie.mjs` (PUR). Décisions :
   - **L'ORDRE D'ARBITRAGE DÉPEND DU MODE**, et c'est ce qui distingue arbitrer de concaténer.
@@ -356,6 +378,10 @@
 
 ## Fichiers
 
+- **CP12** : **créés** `lib/study-protocol.mjs` (PUR),
+  `docs/v75/V75-HUMAN-LEARNING-PROTOCOL.md`, `tests/v75-study-protocol.test.mjs` (23).
+  **Aucun fichier de produit modifié** — le protocole est instrumenté, pas branché : rien ne
+  s'enregistre tant qu'une session d'étude n'est pas explicitement ouverte.
 - **CP11** : **créés** `lib/plan-unifie.mjs` + `.d.ts` (moteur PUR),
   `lib/plan-unifie-server.ts` (read-model), `app/day/[id]/DayPlanUnifie.tsx` (**la surface, sur
   la page où l'on travaille**), `tests/v75-plan-unifie.test.mjs` (21),
@@ -421,6 +447,9 @@
 
 ## Tests exécutés
 
+- **CP12** : **1841/1841** (23 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **8 mutations VUES rougir**, dont « conclusion possible », « lecture qui conclut
+  à un apprentissage » et « participants inventés dans le document ».
 - **CP11** : **1818/1818** (21 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **8 mutations VUES rougir** · **budget respecté sur 336 combinaisons**
   (4 modes × 7 charges × 4 × 3) · rendu réel vérifié sur `/day/181` · responsive
@@ -465,6 +494,33 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP12** — **écrire le protocole sans prétendre l'avoir exécuté.**
+  - **Le champ qui porte tout le checkpoint est `conclusionPossible: false`**, rendu en
+    permanence. Une étude instrumentée n'est pas une étude menée, et aucune surface ne doit avoir
+    à le déduire.
+  - **Les sept étapes ne sont pas décoratives** : chacune lève une ambiguïté précise, et la
+    raison est publiée à côté de l'étape. Sans `PRETEST`, une réussite peut vouloir dire « je le
+    savais déjà » ; sans `DELAY`, « c'est encore en mémoire de travail » ; sans `TRANSFER`,
+    « j'ai retenu la forme de la question ».
+  - **L'ISOLATION EST LA GARANTIE LA PLUS FACILE À PERDRE DE VUE.** Si les données d'étude
+    nourrissaient le moteur, l'observation modifierait l'observé. Un test le vérifie moteur par
+    moteur — `learner-memory`, `backlog-triage`, `recovery-mode`, `plan-unifie`,
+    `retention-scheduler`.
+  - **CE QUI N'EST PAS COLLECTÉ EST ÉCRIT POUR ÊTRE VÉRIFIÉ**, pas pour rassurer : `NON_COLLECTE`
+    est exporté, et un test refuse que le fait conserve `keystrokes`, `scrollDepth`,
+    `userAgent`, `ip`, `percentile` ou `cohorte`.
+  - **NUANCE TROUVÉE EN ÉCRIVANT UN TEST** : `percentile` et `classement` figurent bel et bien
+    dans le module — dans la **déclaration de ce qu'il refuse d'enregistrer**. Interdire le mot
+    partout reviendrait à s'interdire de nommer ce qu'on s'interdit. Le test vérifie donc qu'ils
+    n'apparaissent **que** là.
+  - **LE BIAIS LE PLUS LOURD EST ÉCRIT D'AVANCE** : sans groupe témoin, on montre que des gens
+    apprennent **avec** le produit, jamais **grâce à** lui. Le dire maintenant évite de le
+    découvrir en lisant des résultats.
+  - **8 mutations vues rougir** : conclusion possible · lecture concluant à un apprentissage ·
+    durée absurde acceptée · étape inconnue acceptée · délai supprimé · délai inconnu présenté
+    comme insuffisant · provenance non exigée · **participants inventés dans le document**.
+  - **1841/1841 · tsc 0 · build OK · 47 portes vertes.**
 
 - **CP11** — **le moteur arrive enfin sur la page où l'on travaille.**
   - **Tout le moteur de récupération vivait sur `/retention`.** La page d'une journée proposait

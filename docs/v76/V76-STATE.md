@@ -12,24 +12,14 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP0**
+- **dernier CP terminé** : **CP1**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP1** — CONTRAT DE WORKBENCH GELÉ
-- **NEXT_ACTION** : écrire `docs/v76/V76-WORKBENCH-CONTRACT-FROZEN.md`. Geler
-  (a) le vocabulaire — `WORKBENCH` `WORKSPACE` `DRAFT` `RUN` `ATTEMPT`
-  `SUBMISSION` `TEST_RESULT` `DIAGNOSTIC` `HINT` `REMEDIATION` `RESET`
-  `SOLUTION_VIEW` `EVIDENCE` `PREVIEW` `TERMINAL_SESSION` ; (b) la règle
-  **`DRAFT ≠ ATTEMPT`** (déjà vraie dans le produit : `save` n'écrit aucun fait,
-  mesuré 36 → 36) et la règle « un test échoué PRODUIT un `ExerciseAttempt` »
-  (déjà vraie) ; (c) le **modèle de capacités**, qui existe déjà dans
-  `lib/runtime.mjs` (`multiFile` `stdin` `cancellation` `timeout`
-  `syntaxHighlighting` `preview` `previewKind`) — **le geler, pas le
-  réinventer** ; (d) le **contrat de sécurité** : timeout, plafond de sortie,
-  politique de processus, politique réseau, racine de bac à sable, politique
-  d'environnement, sémantique de `reset` — avec l'interdiction de l'affaiblir
-  ensuite pour faire passer un exercice ; (e) les **critères de verdict
-  d'ingénierie**, gelés AVANT implémentation.
+- **NEXT_CP** : **CP2** — COQUILLE DU WORKBENCH (auditer, pas redessiner)
+- **NEXT_ACTION** : vérifier le **rendu réel** de l'existant (`LabWorkspace`,
+  `CodeMirrorEditor`, `FrontendPreview`, `ReactPreview`, `TerminalPanel`,
+  `usePanelLayout`) en lançant le serveur, et **ne corriger que les défauts
+  démontrés**. Interdit par `G14` : remplacer le Workbench sans défaut démontré.
 
 ## Repères Git
 
@@ -149,9 +139,45 @@ charge utile de la page**, lisibles avant toute tentative. Le côté laboratoire
 lui, filtre correctement (`exerciseMeta` + `splitAttempt`). **Régression que V75
 ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
-## Décisions gelées
+## Décisions gelées (CP1 — `docs/v76/V76-WORKBENCH-CONTRACT-FROZEN.md`)
 
-*(aucune — le contrat est l'objet du CP1)*
+- **15 termes gelés** : `WORKBENCH` `WORKSPACE` `DRAFT` `RUN` `ATTEMPT`
+  `SUBMISSION` `TEST_RESULT` `DIAGNOSTIC` `HINT` `REMEDIATION` `RESET`
+  `SOLUTION_VIEW` `EVIDENCE` `PREVIEW` `TERMINAL_SESSION`.
+- **`DRAFT ≠ ATTEMPT`** · **tout `RUN` produit un `ATTEMPT`, succès OU échec** ·
+  **une `SUBMISSION` n'efface jamais un échec** · **aucun `RESET` n'efface un
+  fait** · **la solution complète n'est jamais la première aide** · **une
+  réussite après aide reste une réussite, mais sa provenance le montre**.
+- **Trois natures de fichier** : `USER_FILE` / `READ_ONLY_FILE` /
+  `HIDDEN_TEST_FILE`. L'apprenant ne peut ni lire ni écrire un test caché.
+- **Trois sémantiques de `RESET`** : `RESET_FILE`, `RESET_WORKSPACE`, et
+  `RESET_EXERCISE` **qui n'existera pas**.
+- **Modèle de capacités GELÉ À PARTIR DE L'EXISTANT** (`lib/runtime.mjs`) :
+  `execution` `preview` `publicTests` `privateTests` `multiFile` `stdin`
+  `cancellation` `timeout` `syntaxHighlighting`. **Rien de réinventé.**
+- **Capacités NON construites** (`G13`) : `database`/SQL (0 exercice),
+  `http` (0), `config` (0), `text` (0), `stdin` (déclaré `false` partout).
+- **Cinq interdits de sécurité absolus** : `SEC1` pas de lecture de l'hôte ·
+  `SEC2` pas d'écriture hors workspace · `SEC3` pas de processus ·
+  `SEC4` pas de réseau ni loopback · `SEC5` pas d'accès aux corrections.
+- **Bornes gelées** : 5 000 ms (8 000 pour `python-ds`/`react-tsx`) ·
+  100 000 o de sortie · 200 000 o par fichier · 1 000 000 o par workspace ·
+  40 fichiers par requête · `SIGKILL`. **Plus strict autorisé, jamais plus
+  permissif.**
+- **`cwd` n'est PAS une frontière** (`G2`) — c'est l'erreur nommée au CP0.
+- **Docker indisponible ⇒ runtime déclaré indisponible**, jamais de repli
+  silencieux vers l'exécution hôte. Conséquence écrite d'avance : un chargeur
+  restrictif Node **ne protège pas Python** ; si aucune frontière n'existe pour
+  lui, les **101 exercices Python seront déclarés non isolés**.
+- **14 contournements interdits** (`G1`–`G14`), dont « appeler `cwd` une
+  sandbox », « HTTP 200 = E2E réussi », « construire SQL/HTTP malgré zéro
+  exercice », « remplacer le Workbench sans défaut démontré ».
+- **11 invariants de non-régression** (`I1`–`I11`) issus des mesures CP0.
+- **22 critères de verdict d'ingénierie** (`W1`–`W22`), gelés AVANT
+  implémentation, avec l'échelle à quatre valeurs.
+- **LEÇON V75 APPLIQUÉE** : si `W1`–`W22` sont tous atteints, le verdict
+  d'ingénierie **DOIT** être `PRACTICE_WORKBENCH_READY`. L'absence de validation
+  humaine s'exprime **uniquement** sur le second axe.
 
 ## Anomalies de mes propres sondes (V76)
 
@@ -169,6 +195,9 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP1** : **créé** `docs/v76/V76-WORKBENCH-CONTRACT-FROZEN.md`. **Aucun
+  fichier de produit modifié** — le CP1 gèle, il n'implémente pas.
+
 - **CP0** : **créés** `scripts/v76/cp0-practice-forensics.mjs` (inventaire
   statique), `scripts/v76/cp0-e2e.mjs` (la boucle par HTTP),
   `scripts/v76/cp0-security.mjs` (16 sondes d'attaque),
@@ -185,6 +214,22 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP1** — **geler à partir de ce qui existe, pas de ce qu'on imaginait.**
+  - Le modèle de capacités n'a pas été inventé : il **existait déjà** dans
+    `lib/runtime.mjs` et a été gelé tel quel. Le brief le demandait, et le CP0
+    l'avait trouvé.
+  - **Le contrat déclare les cinq interdits de sécurité en termes absolus**
+    (`SEC1`–`SEC5`) alors que les cinq sont violés aujourd'hui. Les geler avant
+    de savoir si ce sera facile est exactement le point : les poser après aurait
+    été le contournement `G11` de V74.
+  - **La conséquence la plus désagréable est écrite d'avance** : un chargeur
+    restrictif Node ne protégera pas Python, et 101 exercices pourraient devoir
+    être déclarés non isolés. `G1` interdit de les désactiver pour effacer la
+    ligne rouge.
+  - **L'erreur de V75 est nommée et neutralisée** : l'échelle d'ingénierie dit
+    que `W1`–`W22` tous atteints **imposent** `READY`. Le doute pédagogique a son
+    propre axe et n'a pas le droit d'en déborder.
 
 - **CP0** — **le Workbench existait déjà ; le vrai sujet est ailleurs.**
   - Pour la troisième fois de suite, le sprint commence par découvrir que la

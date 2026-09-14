@@ -12,20 +12,16 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP4**
+- **dernier CP terminé** : **CP5**
 - **CP courant** : —
-- **NEXT_CP** : **CP5** — 🔴 **ISOLATION DE L'EXÉCUTION — LE CŒUR DE V76**
-- **NEXT_ACTION** : traiter `T12`→`T16` (= `SEC1`–`SEC5` du contrat gelé). Partir
-  du modèle `lib/terminal-docker.mjs` (conteneur durci, réseau `none`, non-root,
-  lecture seule, « indisponible » déclaré honnêtement). Objectifs : le code
-  apprenant ne peut ni lire l'hôte, ni écrire hors workspace, ni lancer un
-  processus, ni atteindre `localhost`/le réseau interne, ni lire le corpus de
-  corrections ; les tests privés restent protégés ; délai, sortie, ressources
-  bornés ; nettoyage déterministe. **Si une frontière est indisponible :
-  déclarer le runtime indisponible, JAMAIS de repli silencieux vers l'exécution
-  hôte.** Rejouer ensuite les cinq sondes : `/etc/passwd`, fuite de correction,
-  écriture hôte, `execSync`, SSRF — **les cinq doivent être contenues**. Écrire
-  un rapport de sécurité détaillé.
+- **NEXT_CP** : **CP6** — DIAGNOSTIC PÉDAGOGIQUE
+- **NEXT_ACTION** : relier `TEST FAILURE` → symptôme observé → diagnostic →
+  remédiation. Aujourd'hui l'échelon d'aide ne dépend que du **nombre de
+  tentatives** ; le produit sait pourtant qu'un test attendait `"C"` et a reçu
+  `"F"`. Exploiter `expected`, `received`, le genre de test, les diagnostics de
+  compilation, la ligne, le diff structuré (`lib/test-diff.mjs`, `lib/ts-hints.mjs`
+  existent déjà). **Ne pas fabriquer un diagnostic si le test ne permet pas de le
+  déduire** — prévoir un repli honnête.
 
 ## Repères Git
 
@@ -115,7 +111,18 @@ malveillant refusé 400 · charge 10 Mo refusée 400 · 200 fichiers refusés 40
 fichier protégé refusé · **brouillon ≠ tentative (36 → 36)** · action inconnue
 refusée 400 · **environnement filtré à 2 variables**.
 
-### Ce qui NE tient PAS — à corriger au CP5
+### ✅ CORRIGÉ AU CP5 — les cinq sont désormais contenues
+
+`T12` `/etc/passwd` · `T13` corrections d'autres exercices · `T14` écriture hôte ·
+`T15` processus · `T16` SSRF : **16/16 sondes contenues**, et les mêmes attaques
+réécrites en Python sur un exercice réel : 4/4 bloquées. Détail dans
+`docs/v76/V76-CP5-EXECUTION-ISOLATION.md`.
+
+**Limite déclarée** : `SEC3` reste **partiel** en Python — un processus enfant
+peut naître, mais dans la même racine minimale, sans réseau ni privilège hôte.
+Écrit dans le code (`CONTENU_PAR_MODE`) et gardé par un test.
+
+### L'état AVANT (conservé — à ne jamais réécrire)
 
 | # | menace | observation |
 |---|---|---|
@@ -208,6 +215,12 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP5** : **créés** `lib/sandbox.mjs` (décision, PUR), `lib/sandbox-detect.mjs`
+  (sondes réelles), `scripts/sandbox/enter-root.sh` (entrée en racine minimale),
+  `tests/v76-sandbox.test.mjs` (13), `docs/v76/V76-CP5-EXECUTION-ISOLATION.md`.
+  **Modifié** `lib/workspace-fs.mjs` : les **trois** points d'exécution passent
+  désormais par `execIsole`, plus aucun spawn direct.
+
 - **CP4** : **créés** `scripts/v76/cp4-multifile.mjs`,
   `docs/v76/V76-CP4-MULTIFILE.md`, `docs/v76/cp4-multifile.json`.
   **Aucun fichier de produit modifié** — la séquence passe 3/3, rien à
@@ -241,6 +254,31 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP5** — **les cinq évasions fermées, et cinq exercices cassés en chemin.**
+  - Deux frontières, choisies pour ce que le noyau offre RÉELLEMENT (aucun
+    Docker ici) : `node --permission` + `unshare --net` pour les 275 exercices
+    Node/TS/React/web ; espaces de noms utilisateur/montage/réseau + racine
+    minimale pour les 101 exercices Python.
+  - **16/16 sondes contenues** (11/16 au CP0), et 4/4 attaques Python bloquées.
+  - **L'isolation a cassé cinq exercices avant d'être juste**, et aucune panne
+    n'a été résolue en desserrant une protection : lecture de `node_modules`
+    autorisée (l'écriture jamais) · `existsSync` remplacé par `lstatSync` parce
+    qu'il **suit** les liens et rend `false` sur un lien cassé · binaires nommés
+    en absolu (`/usr/sbin/chroot` hors du `PATH` minimal) · interpréteur résolu
+    AVANT d'entrer dans la racine (c'est `/etc` qui manque, et c'est voulu) ·
+    répertoires de paquets Python nommés explicitement, parce que `$HOME` est
+    précisément ce que la racine cache.
+  - **La dernière erreur est la plus instructive** : après tout cela, `pandas`
+    échouait encore à cause de **deux affectations successives partant toutes
+    deux de `env`**, dont la seconde écrasait la première. Le symptôme désignait
+    la frontière ; la faute était à six lignes de là.
+  - **`SEC3` est déclaré PARTIEL en Python**, pas maquillé en `total` : un
+    processus peut naître, confiné à la même racine, sans réseau ni privilège.
+    Un test refuse que cette valeur devienne `total` sans mesure.
+  - **7 mutations vues rouges**, dont « un point d'exécution contourne la
+    frontière » : le CP0 avait trouvé TROIS points de spawn, et en oublier un
+    rouvrirait les cinq évasions sur tout un runtime.
 
 - **CP4** — **trois exercices sur 376, et la séquence passe sur les trois.**
   - `web-card`, `web-counter`, `web-nav` — tous `web`. Séquence complète du

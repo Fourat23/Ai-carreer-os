@@ -4,7 +4,7 @@
   "nom": "boucle infinie · le timeout tient-il ?",
   "menace": "épuisement de ressources",
   "ok": true,
-  "detail": "5105 ms, statut 200",
+  "detail": "5112 ms, statut 200",
   "coupe": true
  },
  {
@@ -12,7 +12,7 @@
   "nom": "inondation de stdout · la sortie est-elle bornée ?",
   "menace": "épuisement mémoire / réponse géante",
   "ok": true,
-  "detail": "réponse 1 Ko en 5083 ms",
+  "detail": "réponse 1 Ko en 5071 ms",
   "coupe": true
  },
  {
@@ -43,25 +43,25 @@
   "id": "S6",
   "nom": "lecture du système de fichiers serveur depuis le code",
   "menace": "évasion du bac à sable en lecture",
-  "ok": false,
-  "detail": "❌ `/etc/passwd` LU depuis le code apprenant",
-  "coupe": false
+  "ok": true,
+  "detail": "bloqué (attendu \"Fermer la fenêtre\", obtenu \"BLO)",
+  "coupe": true
  },
  {
   "id": "S7",
   "nom": "création de processus depuis le code",
   "menace": "exécution de commandes arbitraires",
-  "ok": false,
-  "detail": "❌ COMMANDE SHELL EXÉCUTÉE — attendu \"Fermer la fenêtre\", obtenu \"uid",
-  "coupe": false
+  "ok": true,
+  "detail": "bloqué (attendu \"Fermer la fenêtre\", obtenu \"BLO)",
+  "coupe": true
  },
  {
   "id": "S8",
   "nom": "accès réseau sortant depuis le code",
   "menace": "SSRF / exfiltration",
-  "ok": false,
-  "detail": "❌ SSRF : l’API du produit atteinte depuis le code apprenant (attendu \"Fermer la fenêtre\", o)",
-  "coupe": false
+  "ok": true,
+  "detail": "bloqué (attendu \"Fermer la fenêtre\", obtenu \"BLO)",
+  "coupe": true
  },
  {
   "id": "S9",
@@ -76,7 +76,7 @@
   "nom": "charge utile géante (10 Mo)",
   "menace": "déni de service par la taille",
   "ok": true,
-  "detail": "statut 400 en 180 ms",
+  "detail": "statut 400 en 169 ms",
   "coupe": true
  },
  {
@@ -100,24 +100,24 @@
   "nom": "le brouillon compte-t-il comme une tentative ?",
   "menace": "fait fabriqué",
   "ok": true,
-  "detail": "tentatives 36 → 36",
+  "detail": "tentatives 27 → 27",
   "coupe": true
  },
  {
   "id": "S15",
   "nom": "ÉCRITURE hors du bac à sable depuis le code",
   "menace": "évasion du bac à sable en écriture",
-  "ok": false,
-  "detail": "❌ FICHIER ÉCRIT DANS LE DÉPÔT par le code apprenant",
-  "coupe": false
+  "ok": true,
+  "detail": "écriture refusée",
+  "coupe": true
  },
  {
   "id": "S16",
   "nom": "lecture de la SOLUTION d’un autre exercice depuis le code",
   "menace": "fuite pédagogique par le disque",
-  "ok": false,
-  "detail": "❌ la CORRECTION d’un autre exercice est lisible depuis le code apprenant",
-  "coupe": false
+  "ok": true,
+  "detail": "bloqué (attendu \"Fermer la fenêtre\", obtenu \"BLO)",
+  "coupe": true
  },
  {
   "id": "S14",

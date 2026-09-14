@@ -1,0 +1,130 @@
+[
+ {
+  "id": "S1",
+  "nom": "boucle infinie · le timeout tient-il ?",
+  "menace": "épuisement de ressources",
+  "ok": true,
+  "detail": "5105 ms, statut 200",
+  "coupe": true
+ },
+ {
+  "id": "S2",
+  "nom": "inondation de stdout · la sortie est-elle bornée ?",
+  "menace": "épuisement mémoire / réponse géante",
+  "ok": true,
+  "detail": "réponse 1 Ko en 5083 ms",
+  "coupe": true
+ },
+ {
+  "id": "S3",
+  "nom": "traversée de chemin · `../../` à l’écriture",
+  "menace": "écriture hors du bac à sable",
+  "ok": true,
+  "detail": "refusé (statut 400)",
+  "coupe": true
+ },
+ {
+  "id": "S4",
+  "nom": "chemin absolu à l’écriture",
+  "menace": "écriture arbitraire sur le disque",
+  "ok": true,
+  "detail": "refusé (statut 400)",
+  "coupe": true
+ },
+ {
+  "id": "S5",
+  "nom": "lecture de secrets d’environnement depuis le code",
+  "menace": "fuite de secret",
+  "ok": true,
+  "detail": "2 variable(s) transmise(s), aucune sensible",
+  "coupe": true
+ },
+ {
+  "id": "S6",
+  "nom": "lecture du système de fichiers serveur depuis le code",
+  "menace": "évasion du bac à sable en lecture",
+  "ok": false,
+  "detail": "❌ `/etc/passwd` LU depuis le code apprenant",
+  "coupe": false
+ },
+ {
+  "id": "S7",
+  "nom": "création de processus depuis le code",
+  "menace": "exécution de commandes arbitraires",
+  "ok": false,
+  "detail": "❌ COMMANDE SHELL EXÉCUTÉE — attendu \"Fermer la fenêtre\", obtenu \"uid",
+  "coupe": false
+ },
+ {
+  "id": "S8",
+  "nom": "accès réseau sortant depuis le code",
+  "menace": "SSRF / exfiltration",
+  "ok": false,
+  "detail": "❌ SSRF : l’API du produit atteinte depuis le code apprenant (attendu \"Fermer la fenêtre\", o)",
+  "coupe": false
+ },
+ {
+  "id": "S9",
+  "nom": "modification d’un test CACHÉ pour réussir",
+  "menace": "falsification du verdict",
+  "ok": true,
+  "detail": "sur `async-user-lookup` (data.mjs) : aucune tentative",
+  "coupe": true
+ },
+ {
+  "id": "S10",
+  "nom": "charge utile géante (10 Mo)",
+  "menace": "déni de service par la taille",
+  "ok": true,
+  "detail": "statut 400 en 180 ms",
+  "coupe": true
+ },
+ {
+  "id": "S11",
+  "nom": "trop de fichiers dans une requête",
+  "menace": "épuisement de ressources",
+  "ok": true,
+  "detail": "statut 400",
+  "coupe": true
+ },
+ {
+  "id": "S12",
+  "nom": "nom de fichier malveillant (octet nul, échappement)",
+  "menace": "traversée / corruption du disque",
+  "ok": true,
+  "detail": "refusé/ignoré (statut 400)",
+  "coupe": true
+ },
+ {
+  "id": "S13",
+  "nom": "le brouillon compte-t-il comme une tentative ?",
+  "menace": "fait fabriqué",
+  "ok": true,
+  "detail": "tentatives 36 → 36",
+  "coupe": true
+ },
+ {
+  "id": "S15",
+  "nom": "ÉCRITURE hors du bac à sable depuis le code",
+  "menace": "évasion du bac à sable en écriture",
+  "ok": false,
+  "detail": "❌ FICHIER ÉCRIT DANS LE DÉPÔT par le code apprenant",
+  "coupe": false
+ },
+ {
+  "id": "S16",
+  "nom": "lecture de la SOLUTION d’un autre exercice depuis le code",
+  "menace": "fuite pédagogique par le disque",
+  "ok": false,
+  "detail": "❌ la CORRECTION d’un autre exercice est lisible depuis le code apprenant",
+  "coupe": false
+ },
+ {
+  "id": "S14",
+  "nom": "action inconnue / capacité non autorisée",
+  "menace": "invocation de capacité non déclarée",
+  "ok": true,
+  "detail": "statut 400, corps {\"error\":\"Action inconnue.\"}",
+  "coupe": true
+ }
+]

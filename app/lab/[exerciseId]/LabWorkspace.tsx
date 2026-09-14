@@ -54,6 +54,8 @@ type Diagnostic = { category: 'error' | 'warning' | 'suggestion'; code: number |
 type RightTab = 'preview' | 'tests' | 'diagnostics' | 'console' | 'terminal' | 'help';
 /** V76 · CP6 — le symptôme observé, tel que la route le publie. */
 type Diag = { classe: string; observation: string; piste: string; exploitable: boolean; sur: string | null; testId: string | null } | null;
+/** V76 · CP7 — la provenance d'une réussite. `reussite` vaut TOUJOURS `true`. */
+type Prov = { reussite: boolean; aidesConsultees: number; actions: string[]; correctionVue: boolean; lecture: string } | null;
 type PreviewLog = { level: string; type: string; text: string; line?: number | null; col?: number | null; at: number };
 
 type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean; preview?: boolean; previewKind?: string | null };
@@ -98,6 +100,9 @@ export default function LabWorkspace({
   // propose ensuite. Un symptôme n'est pas une piste, et une piste n'est pas la
   // correction : le contrat gelé sépare les trois (§1.8 → §1.9 → §1.10).
   const [diagnostic, setDiagnostic] = useState<Diag>(null);
+  // V76 · CP7 — comment la réussite a été obtenue. Affiché SANS jugement :
+  // le contrat interdit d'en faire une note ou une pénalité.
+  const [provenance, setProvenance] = useState<Prov>(null);
   const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
   const [compileFailed, setCompileFailed] = useState(false);
   const [goto, setGoto] = useState<{ line: number; column: number; nonce: number } | null>(null);
@@ -232,6 +237,7 @@ export default function LabWorkspace({
         setPrivateSummary(j.privateSummary ?? null);
         setRemediation((j.remediation as Remediation) ?? null);
         setDiagnostic((j.diagnostic as Diag) ?? null);
+        setProvenance((j.provenance as Prov) ?? null);
         setHistory((h) => [{ at: new Date().toISOString(), passed: j.attempt.passed, total: j.attempt.total, allPassed: j.attempt.allPassed, durationMs: j.attempt.durationMs }, ...h].slice(0, 5));
         try { localStorage.setItem(LASTRUN_KEY, JSON.stringify({ attempt: j.attempt, stdout: j.stdout ?? '', privateSummary: j.privateSummary ?? null })); } catch { /* best-effort */ }
       }
@@ -497,6 +503,12 @@ export default function LabWorkspace({
                         diffère n'a parfois besoin de rien d'autre. Quand le test
                         ne publie pas de quoi comparer, le produit le DIT au lieu
                         d'inventer une piste (`exploitable: false`). */}
+                    {/* Réussi : on dit COMMENT, sans dévaluer. « Réussi sans
+                        aide » et « réussi après la correction » sont deux faits
+                        différents, et le second reste une réussite. */}
+                    {attempt.allPassed && provenance && provenance.aidesConsultees > 0 && (
+                      <p className="lab-provenance">{provenance.lecture}</p>
+                    )}
                     {!attempt.allPassed && diagnostic && (
                       <div className={`lab-diag lab-diag--${diagnostic.exploitable ? 'ok' : 'flou'}`}>
                         <p className="lab-diag-obs">{diagnostic.observation}</p>

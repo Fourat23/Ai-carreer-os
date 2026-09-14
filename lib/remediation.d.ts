@@ -70,6 +70,8 @@ export declare function remedier(input: {
   testsEchoues?: ({ name?: string } | string)[];
   diagnostic?: string | null;
   correctionVue?: boolean;
+  /** V76 · CP7 — marches déjà lues sur cet exercice : elles ne sont pas reproposées. */
+  dejaVues?: string[];
 }): RemediationDecision | null;
 
 export declare function prochaineMarche(niveau: number): RemediationAction;

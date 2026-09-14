@@ -99,7 +99,7 @@ test('emptyFlat : forme V6 vide', () => {
   // troisième fois : le CP9 a rendu les 25 défis atteignables, mais le produit
   // n'écrivait toujours rien quand un transfert ÉCHOUE — or c'est l'échec qui
   // dit qu'une notion tient chez elle et cède ailleurs.
-  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [] });
+  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [], hintViews: [] });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
 

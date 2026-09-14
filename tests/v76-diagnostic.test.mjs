@@ -200,7 +200,11 @@ test('V76 · CP6 — le diagnostic est calculé sur les tests PUBLICS uniquement
 
 test('V76 · CP6 — le diagnostic est RENDU à l’apprenant, pas seulement calculé', () => {
   const route = lire('app/api/lab/[exerciseId]/route.ts');
-  assert.match(route, /remediation,\s*diagnostic\s*\}/, 'la route ne publie pas le diagnostic');
+  // On vérifie que la clé est PUBLIÉE, pas sa position dans l'objet : un test
+  // qui épingle l'ordre des champs rougit au prochain ajout sans qu'aucune
+  // propriété du produit n'ait bougé. (Il l'a fait au CP7.)
+  const payload = route.slice(route.lastIndexOf('NextResponse.json({ ok: true, attempt'));
+  assert.match(payload.slice(0, 400), /\bdiagnostic\b/, 'la route ne publie pas le diagnostic');
   const ui = lire('app/lab/[exerciseId]/LabWorkspace.tsx');
   assert.match(ui, /setDiagnostic/, 'la surface ne lit pas le diagnostic');
   assert.match(ui, /diagnostic\.observation/, 'l’observation n’est pas rendue');

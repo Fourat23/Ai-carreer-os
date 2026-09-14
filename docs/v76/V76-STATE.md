@@ -12,14 +12,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP6**
+- **dernier CP terminé** : **CP7**
 - **CP courant** : —
-- **NEXT_CP** : **CP7** — AIDE GRADUÉE
-- **NEXT_ACTION** : brancher l'échelon d'aide sur le **symptôme** (le CP6 vient
-  de le fournir via `diagnostic.observation`), l'**historique**, les **aides
-  déjà consultées**, `correctionSeen`, et le nombre d'échecs. **Historiser les
-  aides consultées** — aujourd'hui rien ne trace qu'un indice a été lu.
-  Préserver : la correction complète reste la DERNIÈRE marche.
+- **NEXT_CP** : **CP8** — 🔴 **FUITE DES RÉPONSES DE TRANSFERT**
+- **NEXT_ACTION** : corriger le chemin transfert. `GET /transfer/[id]` sert
+  aujourd'hui `"answer":0` et le texte d'`explanation` **dans la charge utile
+  RSC de la page**, lisibles avant toute tentative. Réutiliser la discipline
+  anti-fuite du laboratoire (`exerciseMeta` + `splitAttempt`). **Vérifier sur le
+  HTML, la charge RSC, le JSON et le « afficher le code source ».** Puis tester
+  les **25 défis** : 25/25 chargent · 25/25 échouent avec de mauvaises réponses ·
+  25/25 réussissent avec les bonnes · 25/25 produisent un `TransferAttempt` ·
+  **sans fuite préalable**. Corriger aussi l'accessibilité du `ChallengeRunner` :
+  `aria-live = 0` mesuré au CP2, donc le résultat d'une tentative n'est **jamais
+  annoncé**.
 
 ## Repères Git
 
@@ -213,6 +218,13 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP7** : **créés** `lib/hint-view.mjs` (PUR) + `lib/hint-view.d.ts`,
+  `tests/v76-hint-view.test.mjs` (16), `docs/v76/V76-CP7-AIDE-GRADUEE.md`.
+  **Modifiés** `lib/learning-engine.mjs` (commande `RECORD_HINT_VIEW`),
+  `lib/progress-store.mjs` (**les deux** listes blanches), `lib/remediation.mjs`
+  (+ `dejaVues`), `lib/remediation.d.ts`, la route du laboratoire,
+  `LabWorkspace.tsx`, `app/globals.css`, `tests/progress-store.test.mjs`.
+
 - **CP6** : **créés** `lib/diagnostic.mjs` (PUR) + `lib/diagnostic.d.ts`,
   `tests/v76-diagnostic.test.mjs` (17), `docs/v76/V76-CP6-DIAGNOSTIC.md`.
   **Modifiés** `app/api/lab/[exerciseId]/route.ts` (diagnostic calculé sur les
@@ -258,6 +270,28 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP7** — **le produit ne savait pas qu'il avait aidé.**
+  - Huitième fait du produit : `RECORD_HINT_VIEW`, même contrat que les sept
+    autres. `hintViews` ajouté aux **DEUX** listes blanches du store **dans le
+    même commit** — le défaut P7 de V75 avait laissé `curriculumPause` dans une
+    seule pendant trois checkpoints, verte et sans effet sur le disque. Le test
+    fait donc l'aller-retour RÉEL par `writeActiveTrack`.
+  - **L'échelle ne repropose plus ce qui vient d'être lu**, mais le repli sur la
+    liste complète n'est pas une concession : laisser la liste vide ferait
+    tomber `remedier` dans sa branche de dernier recours, c'est-à-dire **donner
+    la réponse**.
+  - **La provenance décrit, elle ne punit pas** : `reussite` vaut `true` en
+    toutes circonstances, et trois tests distincts empêchent la dérive vers une
+    note (vocabulaire interdit, forme de l'objet figée, rendu non alarmant).
+  - **Une mutation a survécu** : vider les marches ne donnait pas la correction,
+    ça renvoyait « reprends plus tard » — et mon test s'en satisfaisait. Or
+    c'est **une autre façon de ne plus aider**. Le test exige désormais une
+    marche réelle tant qu'il en reste.
+  - **Deux de mes tests ont cassé pour rien** : ils épinglaient la chaîne exacte
+    `remediation, diagnostic }`, et l'ajout d'un champ l'a déplacée. Aucune
+    propriété du produit n'avait bougé. Ils cherchent maintenant la PRÉSENCE de
+    la clé, et une mutation de contrôle les fait toujours rougir.
 
 - **CP6** — **le module a violé la règle pour laquelle il existe.**
   - Le produit savait qu'un test attendait `"C"` et recevait `"F"` ; l'échelle

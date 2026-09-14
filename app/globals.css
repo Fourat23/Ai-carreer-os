@@ -5716,3 +5716,14 @@ button.dot::after {
 .lab-diag--flou { border-left-color: var(--faint); }
 .lab-diag-obs { margin: 0; color: var(--text); font-size: 13px; line-height: 1.5; }
 .lab-diag-piste { margin: 6px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+
+/* ── V76 · CP7 — LA PROVENANCE D'UNE RÉUSSITE ───────────────────────────
+   Une mention neutre, jamais un avertissement : le contrat interdit de
+   dévaluer une réussite obtenue après une aide. Ton discret, couleur de
+   texte secondaire — ni rouge, ni badge, ni pourcentage. */
+.lab-provenance {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+}

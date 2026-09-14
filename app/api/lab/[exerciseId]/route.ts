@@ -18,6 +18,7 @@ import { remedier } from '@/lib/remediation';
 import { ressourcesDe } from '@/lib/remediation-server';
 import { conceptsDeLExerciceResolu } from '@/lib/exercise-concepts-server';
 import { diagnostiquer, lectureDuDiagnostic } from '@/lib/diagnostic';
+import { actionsVues, provenanceDeLaReussite } from '@/lib/hint-view';
 
 export const dynamic = 'force-dynamic';
 
@@ -106,6 +107,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       // V76 · CP6 — ce que le produit OBSERVE de cet échec. `null` en cas de
       // réussite ; `exploitable: false` quand le test ne permet rien d'en dire.
       let diagnostic: ReturnType<typeof lectureDuDiagnostic> = null;
+      // V76 · CP7 — comment cette réussite a été obtenue. `null` tant qu'il n'y
+      // a pas de réussite : une provenance sans réussite n'a pas de sens.
+      let provenance: ReturnType<typeof provenanceDeLaReussite> | null = null;
 
       // ── V74 · CP2 — LA TENTATIVE EST UN FAIT, QU'ELLE RÉUSSISSE OU NON ──
       //
@@ -194,7 +198,34 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
               ? diagnostic.observation
               : ((diagnostics ?? []).map((d) => (d as { message?: string }).message).filter(Boolean)[0] ?? null),
             correctionVue: correctionSeen,
+            // V76 · CP7 — les marches DÉJÀ LUES sur cet exercice. Sans elles,
+            // l'échelle reproposait à l'identique l'aide que l'apprenant venait
+            // de lire : une échelle qui se répète n'est pas une échelle.
+            dejaVues: actionsVues(
+              (apres as { hintViews?: unknown[] }).hintViews ?? [],
+              ex.id,
+            ),
           });
+
+          // ── V76 · CP7 — L'AIDE SERVIE EST ENREGISTRÉE ──
+          //
+          // Le fait est écrit AVANT d'être rendu : une aide affichée puis
+          // perdue au rafraîchissement laisserait l'échelle croire qu'elle n'a
+          // rien donné. Idempotent par clé métier — deux affichages du même
+          // indice à la même seconde ne sont pas deux consultations.
+          const marche = remediation as { action?: string; niveau?: number } | null;
+          if (marche?.action) {
+            const rv = applyCommand(r.ok ? r.progress : before, {
+              type: 'RECORD_HINT_VIEW',
+              exerciseId: ex.id,
+              action: marche.action,
+              niveau: marche.niveau ?? 0,
+              // Servie après un échec, pas ouverte par l'apprenant.
+              declenchee: 'auto',
+              provenance: { producer: 'lab-runner', method: 'echelle-aide' },
+            }, { now: new Date() });
+            if (rv.ok) writeProgress(rv.progress);
+          }
         }
       }
 
@@ -246,9 +277,20 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
           }
           writeProgress(progress);
           recorded = true;
+          // ── V76 · CP7 — LA PROVENANCE DE CETTE RÉUSSITE ──
+          //
+          // « Réussi sans aide » et « réussi après avoir consulté la
+          // correction » sont deux faits différents, et le contrat gelé (§1.12)
+          // exige que la seconde le montre. Elle reste une RÉUSSITE : on décrit,
+          // on ne dévalue pas, et `provenanceDeLaReussite` rend toujours
+          // `reussite: true`.
+          provenance = provenanceDeLaReussite(
+            (progress as { hintViews?: unknown[] }).hintViews ?? [],
+            ex.id,
+          );
         }
       }
-      return NextResponse.json({ ok: true, attempt, privateSummary, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded, sessionsUpdated, remediation, diagnostic });
+      return NextResponse.json({ ok: true, attempt, privateSummary, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded, sessionsUpdated, remediation, diagnostic, provenance });
     }
     return NextResponse.json({ error: 'Action inconnue.' }, { status: 400 });
   } catch (e: unknown) {

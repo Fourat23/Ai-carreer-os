@@ -7,17 +7,22 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP12**
+- **dernier CP terminé** : **CP13**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP13** — SIMULATION ADVERSARIALE
-- **NEXT_ACTION** : rejouer **TOUS** les profils A→T du CP0, publier **BEFORE → AFTER** pour
-  chacun, et publier **total / actif / garé SÉPARÉMENT**. Piège nommé par le brief : *« total 100,
-  actif 5, garé 95 n'est PAS automatiquement bon »* — vérifier **pourquoi** les garées sont
-  garées, **combien de temps**, la **famine**, le **besoin futur**, la **possibilité de
-  réactivation**. Tester réellement **entrée → séjour → sortie** du mode récupération, et
-  détecter : récupération dont on ne sort jamais · sortie trop facile · oscillation quotidienne ·
-  arriéré repoussé indéfiniment.
+- **NEXT_CP** : **CP14** — TESTS DE MUTATION + GAUNTLET COMPLET
+- **NEXT_ACTION** : écrire **au minimum 20 mutations négatives**, dont les **24 nommées par le
+  brief** (échec supprimé · succès dupliqué · `conceptId` faux · evidence multi-concept forcée
+  single · backlog total caché · `parked == mastered` · recovery jamais déclenché · recovery
+  toujours déclenché · impossible de sortir de recovery · sortie recovery trop facile · nouveau
+  contenu qui continue en `CRITICAL` · projet urgent ignoré · absence 60 j traitée comme 1 j ·
+  horodatages de tentatives hors ordre · `TransferAttempt` perdu · `TransferAttempt == mastery` ·
+  schéma `weeklyReview` cassé · tentative de création de `data/progress.json` · scheduler non
+  déterministe · budget quotidien dépassé · retry qui écrase la tentative initiale · doublon
+  réseau qui crée deux faits · famine au garage · plan de reprise sans justification). **Chaque
+  mutation : RED → restauration → GREEN.** Puis gauntlet complet : `npm test`, `tsc --noEmit`,
+  build, `gates:active`, portes V73/V74/V75 ; vérifier local == origin, arbre propre, aucun
+  serveur résiduel, `data/progress.json` absent, corpus intact, déterminisme, idempotence.
 
 ## Repères Git
 
@@ -81,6 +86,29 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP13** : **simulation adversariale, 20 profils, lecture seule.** Décisions :
+  - **L'arriéré total n'a PAS baissé, et c'est le résultat attendu** : C passe de 111 à 109,
+    L de 120 à 116. Le moteur de récupération n'efface rien — il change ce qu'on **fait** de la
+    dette. Un CP13 qui aurait montré « 120 → 15 » aurait prouvé que le produit ment.
+  - **Ce qui a changé : `actif max = 8` pour les vingt profils.** Personne ne reçoit une session
+    de 120 notions, quelle que soit la dette.
+  - **Sept profils entrent en récupération sans jamais en sortir (B C D L M N P)** — et cette
+    mesure-là **ne peut pas trancher** entre « le moteur est un piège » et « la dette est réelle »,
+    parce qu'aucune des sept trajectoires ne contient de reprise. **Il a fallu en fabriquer une.**
+  - **CONTRE-MESURE DÉCISIVE (`scripts/v75/cp13-sortie.mjs`)** : reprise réelle greffée au jour
+    200, aucun seuil touché. **Les 7 quittent la récupération, en 5 à 165 jours**, et **100 % des
+    notions garées au jour 200 sont libérées au jour 365**. Le garage n'est pas une décharge.
+  - **`jamaisActive` (jusqu'à 63) est une BORNE SUPÉRIEURE de la famine, pas la famine** — le pas
+    d'échantillonnage de 15 jours n'observe que 192 places sur 8 unités/jour. Rejoué **jour par
+    jour** (`cp13-rotation.mjs`) : la sélection tourne, 18 à 28 notions distinctes en 30 jours.
+  - **LIMITE RÉELLE, publiée comme telle** : ces 18 à 28 distinctes portent sur 81 à 84 notions
+    dues — **les deux tiers de la dette ne sont pas touchés en un mois** pour un apprenant très
+    endetté. À débit constant (8 unités, 300 min), un décrochage profond ne se rattrape pas sans
+    réduire le nouveau contenu ou allonger la durée. C'est ce que **propose** `recommande-pause`.
+  - **LIMITE : le profil R n'est PAS mesuré ici.** Le simulateur du CP0 ne produit aucun
+    `TransferAttempt` — le drapeau `transfertKO` est **inerte**. Le transfert est couvert par le
+    panneau du CP10, pas par cette simulation.
 
 - **CP12** : **instrumentation d'une validation humaine** — `lib/study-protocol.mjs` (PUR).
   Décisions :
@@ -378,6 +406,13 @@
 
 ## Fichiers
 
+- **CP13** : **créés** `scripts/v75/cp13-adversarial.mjs` (20 profils × 24 instantanés),
+  `scripts/v75/cp13-sortie.mjs` (contre-mesure : la sortie est-elle atteignable),
+  `scripts/v75/cp13-rotation.mjs` (contre-mesure : « jamais active » est-il de la famine),
+  `tests/v75-adversarial.test.mjs` (12), `docs/v75/V75-CP13-ADVERSARIAL-SIMULATION.md`,
+  `docs/v75/cp13-adversarial.json`, `docs/v75/cp13-sortie.json`, `docs/v75/cp13-rotation.json`.
+  **Aucun fichier de produit modifié** — le CP13 est une mesure, en lecture seule.
+
 - **CP12** : **créés** `lib/study-protocol.mjs` (PUR),
   `docs/v75/V75-HUMAN-LEARNING-PROTOCOL.md`, `tests/v75-study-protocol.test.mjs` (23).
   **Aucun fichier de produit modifié** — le protocole est instrumenté, pas branché : rien ne
@@ -447,6 +482,12 @@
 
 ## Tests exécutés
 
+- **CP13** : **1853/1853** (12 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (47 portes) · **3 mutations VUES rougir** : `conditionDeRetour: null` (1 rouge), clamp du bloc
+  `NEW` retiré (1 rouge), reprise du §6 désactivée (**3 rouges**). 480 instantanés vérifiés :
+  `I2` 20/20 · budget jamais dépassé · 0 garée sans condition · 0 essentielle garée · 0 échec
+  non repris garé.
+
 - **CP12** : **1841/1841** (23 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **8 mutations VUES rougir**, dont « conclusion possible », « lecture qui conclut
   à un apprentissage » et « participants inventés dans le document ».
@@ -494,6 +535,26 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP13** — **une mesure a trouvé une pathologie, et il a fallu deux contre-mesures pour
+  savoir si c'en était une.**
+  - La mesure principale a rendu deux chiffres alarmants : **sept profils enfermés en
+    récupération** et **un séjour au garage de 315 jours**. Les publier seuls aurait été
+    alarmiste ; les excuser en prose aurait été malhonnête. **Aucune des deux options n'était
+    acceptable**, donc il a fallu mesurer davantage.
+  - **La leçon de méthode du checkpoint** : on ne peut pas trancher une pathologie sur des
+    trajectoires qui ne contiennent pas le cas qui l'infirmerait. Les 20 profils n'ont **aucune
+    reprise** — il a fallu en greffer une, sans toucher au moteur, pour que la question
+    « la sortie existe-t-elle ? » ait seulement un sens.
+  - **Le résultat le plus net du sprint** : 100 % des notions garées libérées dès que
+    l'apprenant revient, pour les sept profils. Le garage se vide.
+  - **Un chiffre a failli être publié faux** : « 63 notions jamais placées en actif » était un
+    **artefact du pas d'échantillonnage** (1 jour sur 15 × 8 places). Rejoué jour par jour, il
+    devient « la sélection tourne » — et une **limite réelle** apparaît à sa place : les deux
+    tiers de la dette ne sont pas touchés en un mois chez un apprenant très endetté.
+  - **Les tests du CP13 sont écrits en deux moitiés**, et la seconde exige que les détecteurs
+    **sachent crier** — héritage direct de l'anomalie n° 7 : *une mesure faite sur rien valide
+    tout.*
 
 - **CP12** — **écrire le protocole sans prétendre l'avoir exécuté.**
   - **Le champ qui porte tout le checkpoint est `conclusionPossible: false`**, rendu en

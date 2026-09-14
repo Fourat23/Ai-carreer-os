@@ -1,0 +1,488 @@
+[
+ {
+  "id": "C",
+  "nom": "nombreux échecs",
+  "debut": 200,
+  "jours": 30,
+  "placesOffertes": 240,
+  "notionsDistinctesTravaillees": 28,
+  "notionsEnRetardSurLaFenetre": 81,
+  "tauxDeRotation": 0.12,
+  "parJour": [
+   {
+    "j": 200,
+    "actifs": 8,
+    "total": 71
+   },
+   {
+    "j": 201,
+    "actifs": 8,
+    "total": 73
+   },
+   {
+    "j": 202,
+    "actifs": 8,
+    "total": 77
+   },
+   {
+    "j": 203,
+    "actifs": 8,
+    "total": 76
+   },
+   {
+    "j": 204,
+    "actifs": 8,
+    "total": 73
+   },
+   {
+    "j": 205,
+    "actifs": 8,
+    "total": 71
+   },
+   {
+    "j": 206,
+    "actifs": 8,
+    "total": 71
+   },
+   {
+    "j": 207,
+    "actifs": 8,
+    "total": 72
+   },
+   {
+    "j": 208,
+    "actifs": 8,
+    "total": 72
+   },
+   {
+    "j": 209,
+    "actifs": 8,
+    "total": 71
+   },
+   {
+    "j": 210,
+    "actifs": 8,
+    "total": 72
+   },
+   {
+    "j": 211,
+    "actifs": 8,
+    "total": 73
+   },
+   {
+    "j": 212,
+    "actifs": 8,
+    "total": 71
+   },
+   {
+    "j": 213,
+    "actifs": 8,
+    "total": 71
+   },
+   {
+    "j": 214,
+    "actifs": 8,
+    "total": 71
+   },
+   {
+    "j": 215,
+    "actifs": 8,
+    "total": 69
+   },
+   {
+    "j": 216,
+    "actifs": 8,
+    "total": 67
+   },
+   {
+    "j": 217,
+    "actifs": 8,
+    "total": 67
+   },
+   {
+    "j": 218,
+    "actifs": 8,
+    "total": 69
+   },
+   {
+    "j": 219,
+    "actifs": 8,
+    "total": 73
+   },
+   {
+    "j": 220,
+    "actifs": 8,
+    "total": 73
+   },
+   {
+    "j": 221,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 222,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 223,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 224,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 225,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 226,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 227,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 228,
+    "actifs": 8,
+    "total": 76
+   },
+   {
+    "j": 229,
+    "actifs": 8,
+    "total": 76
+   }
+  ]
+ },
+ {
+  "id": "L",
+  "nom": "30 % de réussite",
+  "debut": 200,
+  "jours": 30,
+  "placesOffertes": 240,
+  "notionsDistinctesTravaillees": 18,
+  "notionsEnRetardSurLaFenetre": 84,
+  "tauxDeRotation": 0.07,
+  "parJour": [
+   {
+    "j": 200,
+    "actifs": 8,
+    "total": 79
+   },
+   {
+    "j": 201,
+    "actifs": 8,
+    "total": 79
+   },
+   {
+    "j": 202,
+    "actifs": 8,
+    "total": 79
+   },
+   {
+    "j": 203,
+    "actifs": 8,
+    "total": 79
+   },
+   {
+    "j": 204,
+    "actifs": 8,
+    "total": 80
+   },
+   {
+    "j": 205,
+    "actifs": 8,
+    "total": 79
+   },
+   {
+    "j": 206,
+    "actifs": 8,
+    "total": 77
+   },
+   {
+    "j": 207,
+    "actifs": 8,
+    "total": 78
+   },
+   {
+    "j": 208,
+    "actifs": 8,
+    "total": 77
+   },
+   {
+    "j": 209,
+    "actifs": 8,
+    "total": 77
+   },
+   {
+    "j": 210,
+    "actifs": 8,
+    "total": 77
+   },
+   {
+    "j": 211,
+    "actifs": 8,
+    "total": 76
+   },
+   {
+    "j": 212,
+    "actifs": 8,
+    "total": 78
+   },
+   {
+    "j": 213,
+    "actifs": 8,
+    "total": 78
+   },
+   {
+    "j": 214,
+    "actifs": 8,
+    "total": 76
+   },
+   {
+    "j": 215,
+    "actifs": 8,
+    "total": 77
+   },
+   {
+    "j": 216,
+    "actifs": 8,
+    "total": 77
+   },
+   {
+    "j": 217,
+    "actifs": 8,
+    "total": 78
+   },
+   {
+    "j": 218,
+    "actifs": 8,
+    "total": 81
+   },
+   {
+    "j": 219,
+    "actifs": 8,
+    "total": 81
+   },
+   {
+    "j": 220,
+    "actifs": 8,
+    "total": 82
+   },
+   {
+    "j": 221,
+    "actifs": 8,
+    "total": 82
+   },
+   {
+    "j": 222,
+    "actifs": 8,
+    "total": 82
+   },
+   {
+    "j": 223,
+    "actifs": 8,
+    "total": 82
+   },
+   {
+    "j": 224,
+    "actifs": 8,
+    "total": 81
+   },
+   {
+    "j": 225,
+    "actifs": 8,
+    "total": 82
+   },
+   {
+    "j": 226,
+    "actifs": 8,
+    "total": 83
+   },
+   {
+    "j": 227,
+    "actifs": 8,
+    "total": 83
+   },
+   {
+    "j": 228,
+    "actifs": 8,
+    "total": 83
+   },
+   {
+    "j": 229,
+    "actifs": 8,
+    "total": 83
+   }
+  ]
+ },
+ {
+  "id": "M",
+  "nom": "50 % de réussite",
+  "debut": 200,
+  "jours": 30,
+  "placesOffertes": 240,
+  "notionsDistinctesTravaillees": 21,
+  "notionsEnRetardSurLaFenetre": 83,
+  "tauxDeRotation": 0.09,
+  "parJour": [
+   {
+    "j": 200,
+    "actifs": 8,
+    "total": 73
+   },
+   {
+    "j": 201,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 202,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 203,
+    "actifs": 8,
+    "total": 73
+   },
+   {
+    "j": 204,
+    "actifs": 8,
+    "total": 70
+   },
+   {
+    "j": 205,
+    "actifs": 8,
+    "total": 69
+   },
+   {
+    "j": 206,
+    "actifs": 8,
+    "total": 70
+   },
+   {
+    "j": 207,
+    "actifs": 8,
+    "total": 70
+   },
+   {
+    "j": 208,
+    "actifs": 8,
+    "total": 69
+   },
+   {
+    "j": 209,
+    "actifs": 8,
+    "total": 69
+   },
+   {
+    "j": 210,
+    "actifs": 8,
+    "total": 68
+   },
+   {
+    "j": 211,
+    "actifs": 8,
+    "total": 66
+   },
+   {
+    "j": 212,
+    "actifs": 8,
+    "total": 64
+   },
+   {
+    "j": 213,
+    "actifs": 8,
+    "total": 65
+   },
+   {
+    "j": 214,
+    "actifs": 8,
+    "total": 64
+   },
+   {
+    "j": 215,
+    "actifs": 8,
+    "total": 62
+   },
+   {
+    "j": 216,
+    "actifs": 8,
+    "total": 61
+   },
+   {
+    "j": 217,
+    "actifs": 8,
+    "total": 64
+   },
+   {
+    "j": 218,
+    "actifs": 8,
+    "total": 68
+   },
+   {
+    "j": 219,
+    "actifs": 8,
+    "total": 72
+   },
+   {
+    "j": 220,
+    "actifs": 8,
+    "total": 72
+   },
+   {
+    "j": 221,
+    "actifs": 8,
+    "total": 72
+   },
+   {
+    "j": 222,
+    "actifs": 8,
+    "total": 72
+   },
+   {
+    "j": 223,
+    "actifs": 8,
+    "total": 72
+   },
+   {
+    "j": 224,
+    "actifs": 8,
+    "total": 74
+   },
+   {
+    "j": 225,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 226,
+    "actifs": 8,
+    "total": 75
+   },
+   {
+    "j": 227,
+    "actifs": 8,
+    "total": 76
+   },
+   {
+    "j": 228,
+    "actifs": 8,
+    "total": 77
+   },
+   {
+    "j": 229,
+    "actifs": 8,
+    "total": 77
+   }
+  ]
+ }
+]

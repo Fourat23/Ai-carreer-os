@@ -12,14 +12,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP1**
+- **dernier CP terminé** : **CP2**
 - **CP courant** : —
-- **sous-lot courant** : —
-- **NEXT_CP** : **CP2** — COQUILLE DU WORKBENCH (auditer, pas redessiner)
-- **NEXT_ACTION** : vérifier le **rendu réel** de l'existant (`LabWorkspace`,
-  `CodeMirrorEditor`, `FrontendPreview`, `ReactPreview`, `TerminalPanel`,
-  `usePanelLayout`) en lançant le serveur, et **ne corriger que les défauts
-  démontrés**. Interdit par `G14` : remplacer le Workbench sans défaut démontré.
+- **NEXT_CP** : **CP3** — ÉDITEUR
+- **NEXT_ACTION** : corriger le **défaut démontré au CP2/CP3** :
+  `app/lab/[exerciseId]/CodeMirrorEditor.tsx` ne connaît que `python`, `tsx`,
+  `jsx`, `typescript` et **retombe sur `javascript()` pour tout le reste** —
+  alors que `lib/exercise-files.mjs` détecte correctement `html`, `css`, `json`,
+  `markdown`, `text` par extension. Conséquence mesurée : **11 fichiers `.html`
+  et 3 fichiers `.css`** sont colorés comme du JavaScript. Ajouter
+  `@codemirror/lang-html` et `@codemirror/lang-css`, **et rien d'autre** — le
+  brief interdit les fonctions d'IDE décoratives.
 
 ## Repères Git
 
@@ -181,6 +184,13 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Anomalies de mes propres sondes (V76)
 
+- **n° 4 — un `404` inventé (CP2).** La sonde fermait le contexte dès
+  `networkidle`, annulant les préchargements RSC de Next.js. En laissant la page
+  vivre 2,5 s : aucune réponse ≥ 400, aucune erreur.
+- **n° 3 — quatre faux « sans nom accessible » (CP2).** Des
+  `<input disabled aria-hidden="true" tabindex="-1">` décoratifs, **correctement**
+  retirés de l'arbre d'accessibilité, étaient comptés comme fautifs.
+
 - **n° 1 — fausse alerte de fuite.** La sonde E2E cherchait les 60 premiers
   caractères de la correction dans la réponse et criait « fuite » sur deux
   exercices dont le **début du fichier corrigé est identique au départ**.
@@ -194,6 +204,11 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   est publié.
 
 ## Fichiers
+
+- **CP2** : **créés** `scripts/v76/ui-audit.mjs` (35 rendus Chromium réels),
+  `docs/v76/V76-CP2-WORKBENCH-SHELL.md`, `docs/v76/ui-audit-cp2.json`.
+  **Modifié** `package.json` (`playwright` en dépendance de développement).
+  **Aucune ligne de la coquille du Workbench modifiée** — aucun défaut démontré.
 
 - **CP1** : **créé** `docs/v76/V76-WORKBENCH-CONTRACT-FROZEN.md`. **Aucun
   fichier de produit modifié** — le CP1 gèle, il n'implémente pas.
@@ -214,6 +229,22 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP2** — **chercher un défaut dans un vrai navigateur, et ne pas en trouver.**
+  - **35 rendus réels** (5 pages × 7 largeurs). L'éditeur est visible et
+    utilisable **partout**, y compris à 375 px où il occupe encore **51 %** de
+    l'écran avec ses **15 commandes**. **Zéro débordement horizontal, 35/35.
+    Zéro élément sans nom accessible.**
+  - **Aucune ligne de la coquille n'a été modifiée**, et c'est le résultat
+    correct : `G14` interdit de remplacer sans défaut démontré. Une refonte
+    « parce que le neuf paraît plus moderne » aurait coûté une régression pour
+    zéro gain mesuré.
+  - **Le seul écart réel appartient au CP8** : `aria-live = 0` sur la page de
+    transfert — le résultat d'une tentative n'est jamais annoncé.
+  - **Deux nouvelles fausses alertes de ma sonde**, corrigées : quatre cases
+    `aria-hidden` comptées comme « sans nom », et un `404` qui n'était que
+    l'annulation d'un préchargement RSC par la fermeture trop rapide du
+    contexte. *Une sonde mal calibrée invente des défauts ou en cache.*
 
 - **CP1** — **geler à partir de ce qui existe, pas de ce qu'on imaginait.**
   - Le modèle de capacités n'a pas été inventé : il **existait déjà** dans

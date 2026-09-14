@@ -357,3 +357,42 @@ test('V75 · CP5 — un cycle de prérequis ne fait pas boucler la fermeture', (
   });
   assert.deepEqual([...e].sort(), ['b', 'c']);
 });
+
+// ── LA SOUPAPE · AJOUTÉE AU CP14, PARCE QU'UNE MUTATION A SURVÉCU ───────
+//
+// La mutation `M23` remplaçait `const soupape = …` par `false` et **restait
+// verte** : le seul test qui touchait la soupape vérifiait qu'elle ne se
+// déclenche PAS (c'était l'anomalie n° 5 du CP5, corrigée en retirant un
+// déclenchement accidentel). Personne ne vérifiait qu'elle se déclenche quand
+// il le faut. Un filet de sécurité sans test positif est un filet supposé.
+
+test('V75 · CP5 — la soupape dégare TOUT quand tout serait garé', () => {
+  // Cycle de prérequis à trois : a←b, b←c, c←a. Aucune paire n'est mutuelle,
+  // donc l'exclusion du CP5 ne s'applique pas et les trois seraient garées.
+  const cycle = { a: ['b'], b: ['c'], c: ['a'] };
+  const r = trier(['a', 'b', 'c'].map((id) => fiche(id)), {
+    prerequisDe: (id) => cycle[id] ?? [],
+  });
+
+  assert.equal(r.total, 3, 'la soupape ne doit RIEN retirer de la dette');
+  assert.equal(r.soupape, true, 'tout serait garé : la soupape doit s’ouvrir');
+  assert.equal(r.placement.gare, 0, 'après la soupape, plus rien n’est garé');
+  assert.ok(r.placement.actif > 0, 'l’apprenant doit avoir quelque chose à faire');
+  // Et elle le DIT, au lieu de corriger en silence.
+  for (const n of r.notions) {
+    assert.equal(n.classe, 'DEFERRABLE');
+    assert.equal(n.conditionDeRetour, null);
+    assert.match(n.raison, /dépendent les unes des autres/);
+  }
+});
+
+test('V75 · CP5 — la soupape reste FERMÉE dès qu’une notion est travaillable', () => {
+  // Le pendant du test précédent : une soupape qui s'ouvrirait tout le temps
+  // supprimerait le garage au lieu de le sécuriser.
+  const r = trier(['a', 'b', 'libre'].map((id) => fiche(id)), {
+    prerequisDe: (id) => ({ a: ['b'] }[id] ?? []),
+  });
+  assert.equal(r.soupape, false);
+  assert.equal(r.placement.gare, 1, 'seule « a » est garée, derrière « b »');
+  assert.equal(r.total, 3);
+});

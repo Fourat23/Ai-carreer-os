@@ -248,3 +248,25 @@ test('isolation : bascule aller-retour entre les trois parcours conserve chaque 
   v3 = setActiveTrack(v3, BACKEND_TRACK_ID, NOW);
   assert.equal(activeTrackProgress(v3).skills.http, 3);
 });
+
+// ── AJOUTÉ AU CP14, PARCE QU'UNE MUTATION A SURVÉCU ────────────────────
+//
+// La mutation `M17` remplaçait `weeklyReviews: m.weeklyReviews` par `null` à
+// l'écriture et **restait verte** : tous les cas de ce fichier passaient
+// `weeklyReviews: {}`, un objet vide qu'aucune assertion ne distinguait de
+// l'absence. Le store a DEUX listes blanches — écriture et lecture — et c'est
+// exactement ce couple qui avait fait perdre `curriculumPause` entre le CP7 et
+// le CP10. Un champ non vérifié sur un aller-retour RÉEL est un champ perdu.
+
+test('writeActiveTrack → activeTrackProgress : les bilans hebdomadaires survivent à l’aller-retour', () => {
+  let v3 = migrateToV7(v6, NOW);
+  const flat = activeTrackProgress(v3);
+  flat.weeklyReviews = { '3': { done: true, notes: 'semaine 3', updatedAt: NOW } };
+  flat.monthlyReviews = { '1': { done: true, updatedAt: NOW } };
+
+  const relu = activeTrackProgress(writeActiveTrack(v3, flat, NOW));
+
+  assert.equal(relu.weeklyReviews?.['3']?.done, true, 'bilan hebdomadaire perdu à l’écriture');
+  assert.equal(relu.weeklyReviews?.['3']?.notes, 'semaine 3');
+  assert.equal(relu.monthlyReviews?.['1']?.done, true, 'bilan mensuel perdu à l’écriture');
+});

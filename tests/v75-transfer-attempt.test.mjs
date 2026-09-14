@@ -422,3 +422,28 @@ test('V75 · CP10 — la progression accueille le fait sans migration', () => {
   assert.equal(f.transfers, 0);
   assert.equal(f.transfersEchoues, 0);
 });
+
+// ── AJOUTÉ AU CP14, PARCE QU'UNE MUTATION A SURVÉCU ────────────────────
+//
+// La mutation `M22` neutralisait la garde par CLÉ (`if (false)`) et **restait
+// verte** : le seul test de doublon rejouait la requête 1,2 s après, donc dans
+// la fenêtre de `estUnRejeu`, qui l'attrapait à la place. Les deux gardes
+// existent pour des raisons différentes et l'une masquait l'autre.
+//
+// Le cas que seule la clé attrape : une requête ANCIENNE qui arrive en retard,
+// après qu'une autre tentative a été enregistrée entre-temps.
+
+test('V75 · CP10 — un doublon TARDIF d’une requête ancienne ne crée pas un second fait', () => {
+  // A à t0, puis B à t0+60 s (issue différente), puis A **rejouée en retard**.
+  let p = applyCommand(base, cmd({ passed: 3, empreinte: 'a' }), { now: new Date(plus(0)) }).progress;
+  p = applyCommand(p, cmd({ passed: 1, empreinte: 'b' }), { now: new Date(plus(60_000)) }).progress;
+  assert.equal(p.transferAttempts.length, 2);
+
+  // La dernière tentative du défi est B : la fenêtre de rejeu ne peut rien
+  // pour A (écart négatif, issue différente). Seule la clé métier le voit.
+  const r = applyCommand(p, cmd({ passed: 3, empreinte: 'a' }), { now: new Date(plus(0)) });
+  assert.ok(r.ok);
+  assert.ok(r.effects.some((e) => e === 'noop:transfer-attempt:duplicate'),
+    `attendu un no-op par CLÉ, reçu : ${r.effects.join(', ')}`);
+  assert.equal(r.progress.transferAttempts.length, 2, 'un doublon tardif a créé un second fait');
+});

@@ -7,22 +7,19 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP13**
+- **dernier CP terminé** : **CP14**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP14** — TESTS DE MUTATION + GAUNTLET COMPLET
-- **NEXT_ACTION** : écrire **au minimum 20 mutations négatives**, dont les **24 nommées par le
-  brief** (échec supprimé · succès dupliqué · `conceptId` faux · evidence multi-concept forcée
-  single · backlog total caché · `parked == mastered` · recovery jamais déclenché · recovery
-  toujours déclenché · impossible de sortir de recovery · sortie recovery trop facile · nouveau
-  contenu qui continue en `CRITICAL` · projet urgent ignoré · absence 60 j traitée comme 1 j ·
-  horodatages de tentatives hors ordre · `TransferAttempt` perdu · `TransferAttempt == mastery` ·
-  schéma `weeklyReview` cassé · tentative de création de `data/progress.json` · scheduler non
-  déterministe · budget quotidien dépassé · retry qui écrase la tentative initiale · doublon
-  réseau qui crée deux faits · famine au garage · plan de reprise sans justification). **Chaque
-  mutation : RED → restauration → GREEN.** Puis gauntlet complet : `npm test`, `tsc --noEmit`,
-  build, `gates:active`, portes V73/V74/V75 ; vérifier local == origin, arbre propre, aucun
-  serveur résiduel, `data/progress.json` absent, corpus intact, déterminisme, idempotence.
+- **NEXT_CP** : **CP15** — RAPPORT FINAL
+- **NEXT_ACTION** : écrire `docs/v75/V75-FINAL-REPORT.md`, **50 sections minimum**, TRÈS LONG et
+  COMPRÉHENSIBLE — pas une synthèse cryptique. Rendre le **verdict** sur l'échelle gelée
+  (`ADAPTIVE_RECOVERY_NOT_READY` / `FOUNDATION_READY` / `CANDIDATE` / `READY`) et répondre aux
+  **deux questions finales obligatoires** par **OUI / OUI AVEC RÉSERVES / NON** :
+  (1) *« Si un utilisateur rate 30 jours, revient avec 70 notions fragiles et échoue à la moitié
+  de ses exercices, AI Career OS sait-il réellement lui construire une reprise réaliste sans
+  cacher sa dette et sans l'écraser ? »* ; (2) *« Sommes-nous maintenant suffisamment instrumentés
+  pour commencer une première validation humaine réelle de l'apprentissage ? »*
+  **`READY` est interdit** tant que `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`.
 
 ## Repères Git
 
@@ -86,6 +83,27 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP14** : **tests de mutation + gauntlet.** Décisions :
+  - **Le premier passage a laissé SURVIVRE trois mutations sur vingt-quatre** (M17 `weeklyReview`
+    cassé à l'écriture · M22 doublon réseau · M23 soupape supprimée). Une table de 24 ✅ au premier
+    essai aurait surtout prouvé que les mutations avaient été choisies pour passer.
+  - **M17 est la famille du défaut P7** : tous les tests passaient `weeklyReviews: {}`, un objet
+    vide qu'aucune assertion ne distinguait de `null`. *Un champ non vérifié sur un aller-retour
+    RÉEL est un champ perdu.*
+  - **M22** : deux gardes existaient (clé métier, fenêtre de rejeu) et **l'une masquait l'autre**.
+    Le cas que seule la clé attrape : une requête ancienne qui arrive en retard.
+  - **M23** : le seul test qui touchait la soupape vérifiait qu'elle ne se déclenche PAS.
+    *Un filet de sécurité sans test positif est un filet supposé.*
+  - **Correctif : 3 tests ajoutés. Aucune mutation affaiblie, aucun seuil déplacé, aucun test
+    existant relâché.** Après correctif : **24/24 rouges**.
+  - **CRÉATION DE LA PORTE `v75:check`** (60 vérifications, `gates:active` passe de 47 à
+    **48 portes**). Elle n'existait pas : six moteurs purs n'étaient gardés par aucune porte.
+    Elle garde ce qui se dégrade **sans casser** — `I2`, les deux listes blanches (défaut P7),
+    le mode jamais persisté, le bornage du budget, l'absence de score, le branchement réel.
+    **Vérifiée par 7 mutations, toutes rouges.**
+  - **V73 n'a pas de porte propre et ce n'est pas une lacune** : `curriculum:check`,
+    `curriculum:depth` et le gel du corpus (`v48/v49/v50:check`) la portent sous un autre nom.
 
 - **CP13** : **simulation adversariale, 20 profils, lecture seule.** Décisions :
   - **L'arriéré total n'a PAS baissé, et c'est le résultat attendu** : C passe de 111 à 109,
@@ -406,6 +424,13 @@
 
 ## Fichiers
 
+- **CP14** : **créés** `scripts/v75-check.mjs` (la porte V75, 60 vérifications),
+  `scripts/v75/cp14-mutations.mjs` (les 24 mutations), `docs/v75/cp14-mutations.json`,
+  `docs/v75/V75-CP14-MUTATIONS-ET-GAUNTLET.md`. **Modifiés** `package.json`
+  (`v75:check` ajouté et branché dans `gates:active`), `tests/progress-store.test.mjs`,
+  `tests/v75-backlog-triage.test.mjs`, `tests/v75-transfer-attempt.test.mjs` (**+4 tests**,
+  ajoutés parce que trois mutations avaient survécu). **Aucun fichier de moteur modifié.**
+
 - **CP13** : **créés** `scripts/v75/cp13-adversarial.mjs` (20 profils × 24 instantanés),
   `scripts/v75/cp13-sortie.mjs` (contre-mesure : la sortie est-elle atteignable),
   `scripts/v75/cp13-rotation.mjs` (contre-mesure : « jamais active » est-il de la famine),
@@ -482,6 +507,13 @@
 
 ## Tests exécutés
 
+- **CP14** : **1857/1857** (4 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (**48 portes**, dont la nouvelle `v75:check` à 60 vérifications) · **24 mutations sur 24 VUES
+  rougir** (3 seulement après correctif du premier passage) · **7 mutations de la porte elle-même
+  vues rougir** · déterminisme (deux exécutions identiques au bit près) · idempotence
+  (`noop:transfer-attempt:duplicate`, 1 fait et non 2) · corpus gelé · `data/progress.json` absent
+  · aucun serveur résiduel.
+
 - **CP13** : **1853/1853** (12 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (47 portes) · **3 mutations VUES rougir** : `conditionDeRetour: null` (1 rouge), clamp du bloc
   `NEW` retiré (1 rouge), reprise du §6 désactivée (**3 rouges**). 480 instantanés vérifiés :
@@ -535,6 +567,19 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP14** — **trois mensonges étaient indétectables, et c'est le résultat utile.**
+  - Vingt-quatre mutations jouées, **trois survivantes au premier passage**. Une table pleine de
+    ✅ du premier coup aurait surtout prouvé que les mutations avaient été choisies pour passer.
+  - **Les trois survivantes racontent la même histoire** : un test qui vérifie la PRÉSENCE d'un
+    champ et pas son CONTENU (M17), une garde masquée par une autre garde (M22), un filet de
+    sécurité sans test positif (M23). Aucune des trois n'était un oubli de couverture : les trois
+    étaient des tests qui *avaient l'air* de couvrir.
+  - **La porte `v75:check` manquait tout simplement.** Six moteurs purs, aucune porte. Écrite,
+    branchée, et elle-même vérifiée par sept mutations — parce qu'une porte toujours verte est
+    pire qu'aucune porte.
+  - **Rien n'a été affaibli pour obtenir du vert** : 3 tests ajoutés, 0 seuil déplacé, 0 test
+    relâché, 0 mutation adoucie.
 
 - **CP13** — **une mesure a trouvé une pathologie, et il a fallu deux contre-mesures pour
   savoir si c'en était une.**

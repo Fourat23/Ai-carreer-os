@@ -1,0 +1,194 @@
+[
+ {
+  "id": "M1",
+  "nom": "un échec est supprimé",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/learner-memory.mjs"
+ },
+ {
+  "id": "M2",
+  "nom": "un succès est compté deux fois",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/learner-memory.mjs"
+ },
+ {
+  "id": "M3",
+  "nom": "un exercice est rattaché à un `conceptId` faux",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/exercise-mapping.mjs"
+ },
+ {
+  "id": "M4",
+  "nom": "une preuve multi-concepts est forcée à un seul concept",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/exercise-mapping.mjs"
+ },
+ {
+  "id": "M5",
+  "nom": "l'arriéré TOTAL est caché derrière l'arriéré actif",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/backlog-triage.mjs"
+ },
+ {
+  "id": "M6",
+  "nom": "une notion garée est traitée comme acquise (retirée du total)",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/backlog-triage.mjs"
+ },
+ {
+  "id": "M7",
+  "nom": "le mode récupération ne se déclenche JAMAIS",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/recovery-mode.mjs"
+ },
+ {
+  "id": "M8",
+  "nom": "le mode récupération se déclenche TOUJOURS",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/recovery-mode.mjs"
+ },
+ {
+  "id": "M9",
+  "nom": "on ne peut JAMAIS sortir de la récupération",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/recovery-mode.mjs"
+ },
+ {
+  "id": "M10",
+  "nom": "la sortie de récupération est trop facile (un seul bon jour)",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/recovery-mode.mjs"
+ },
+ {
+  "id": "M11",
+  "nom": "le nouveau contenu continue normalement en `CRITICAL`",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/plan-unifie.mjs"
+ },
+ {
+  "id": "M12",
+  "nom": "un projet urgent passe en dernier",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/plan-unifie.mjs"
+ },
+ {
+  "id": "M13",
+  "nom": "une absence de 60 jours est traitée comme une absence de 1 jour",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/retention-priority.mjs"
+ },
+ {
+  "id": "M14",
+  "nom": "les horodatages de tentatives ne sont plus ordonnés",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/transfer-attempt.mjs"
+ },
+ {
+  "id": "M15",
+  "nom": "un `TransferAttempt` est perdu à la persistance",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/progress-store.mjs"
+ },
+ {
+  "id": "M16",
+  "nom": "un `TransferAttempt` raté compte comme une réussite",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/learner-memory.mjs"
+ },
+ {
+  "id": "M17",
+  "nom": "le schéma `weeklyReview` est cassé à l’écriture",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/progress-store.mjs"
+ },
+ {
+  "id": "M18",
+  "nom": "`data/progress.json` est créé dans le dépôt",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "data/progress.json"
+ },
+ {
+  "id": "M19",
+  "nom": "le scheduler devient non déterministe",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/retention-scheduler.mjs"
+ },
+ {
+  "id": "M20",
+  "nom": "le budget quotidien est dépassé",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/plan-unifie.mjs"
+ },
+ {
+  "id": "M21",
+  "nom": "une reprise écrase la tentative initiale",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/learning-engine.mjs"
+ },
+ {
+  "id": "M22",
+  "nom": "un doublon réseau crée deux faits",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/learning-engine.mjs"
+ },
+ {
+  "id": "M23",
+  "nom": "la soupape disparaît : famine possible au garage",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/backlog-triage.mjs"
+ },
+ {
+  "id": "M24",
+  "nom": "le plan de reprise ne donne plus aucune justification",
+  "vertAvant": true,
+  "rouge": true,
+  "vertApres": true,
+  "cible": "lib/plan-unifie.mjs"
+ }
+]

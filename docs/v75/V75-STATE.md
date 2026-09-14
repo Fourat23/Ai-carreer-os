@@ -7,19 +7,23 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP14**
+- **dernier CP terminé** : **CP15 — V75 EST TERMINÉ**
 - **CP courant** : —
 - **sous-lot courant** : —
-- **NEXT_CP** : **CP15** — RAPPORT FINAL
-- **NEXT_ACTION** : écrire `docs/v75/V75-FINAL-REPORT.md`, **50 sections minimum**, TRÈS LONG et
-  COMPRÉHENSIBLE — pas une synthèse cryptique. Rendre le **verdict** sur l'échelle gelée
-  (`ADAPTIVE_RECOVERY_NOT_READY` / `FOUNDATION_READY` / `CANDIDATE` / `READY`) et répondre aux
-  **deux questions finales obligatoires** par **OUI / OUI AVEC RÉSERVES / NON** :
-  (1) *« Si un utilisateur rate 30 jours, revient avec 70 notions fragiles et échoue à la moitié
-  de ses exercices, AI Career OS sait-il réellement lui construire une reprise réaliste sans
-  cacher sa dette et sans l'écraser ? »* ; (2) *« Sommes-nous maintenant suffisamment instrumentés
-  pour commencer une première validation humaine réelle de l'apprentissage ? »*
-  **`READY` est interdit** tant que `REAL_HUMAN_LEARNING_EVIDENCE = NOT YET MEASURED`.
+- **NEXT_CP** : — *(sprint clos)*
+- **VERDICT** : **`ADAPTIVE_RECOVERY_CANDIDATE`** — rapport `docs/v75/V75-FINAL-REPORT.md`
+  - **14/14 critères bloquants atteints.** L'échelle gelée du contrat donnerait mécaniquement
+    `READY` ; **le verdict rendu est `CANDIDATE`**, parce que `READY` sur un produit
+    d'apprentissage voudrait dire « ce moteur aide réellement quelqu'un à apprendre » et que
+    **rien dans ce sprint ne permet de l'affirmer**. Ce qui manque n'est pas dans le code.
+  - **Question 1** (reprise réaliste après 30 j d'absence, 70 notions fragiles, 50 % d'échec) :
+    **OUI AVEC RÉSERVES** — trois réserves : « réaliste » vérifié sur des automates seulement ·
+    le débit ne suffit pas dans les cas extrêmes (⅔ de la dette non touchés en un mois) ·
+    `ESSENTIAL` dépend d'un graphe de prérequis non rejugé.
+  - **Question 2** (suffisamment instrumentés pour une première validation humaine) : **OUI** —
+    avec deux avertissements : **absence de groupe témoin** (on pourra montrer qu'on apprend
+    AVEC, pas GRÂCE À) et **hypothèses à geler avant de voir la moindre donnée** (`G11`).
+  - `REAL_HUMAN_LEARNING_EVIDENCE` = **`NOT YET MEASURED`**, inchangé.
 
 ## Repères Git
 
@@ -83,6 +87,20 @@
     Un fait sans provenance est marqué `producer: 'legacy'` et `schemaVersion: 1` plutôt que
     laissé muet — sans quoi on ne distingue plus « champ absent parce qu'ancien » de « champ
     absent parce que mal écrit », qui est le contournement **G9** de V74 appliqué aux métadonnées.
+
+- **CP15** : **rapport final.** Décisions :
+  - **Le verdict rendu (`CANDIDATE`) est plus bas que ce que l'échelle gelée donnerait
+    (`READY`)**, et l'écart est assumé et écrit. Un verdict qui se contente de son propre barème
+    quand le barème ne mesure pas la bonne chose serait exactement le « beau graphique » que la
+    §3 interdit.
+  - **Le chiffre le moins flatteur est publié tel quel** : `N1`, la saturation de B (80 % → 75 %)
+    et de C (92 % → 90 %), baisse à peine. C'est cohérent avec le §21 — le moteur ne supprime pas
+    la dette, et un automate qui échoue à 55 % pendant un an n'a aucune raison de voir la sienne
+    baisser.
+  - **Lacune fermée au lieu d'être déclarée acceptable** : le critère `V7` exigeait « testé sur
+    profils I/J/K » et ne l'était pas — les tests du CP7 portaient sur des notions fabriquées.
+    Test ajouté, mesurant chaque profil **au jour de son retour** (I : 112 · J : 119 · K : 165),
+    et vérifié non vacuous par mutation (`PARKED` rendu planifiable → rouge).
 
 - **CP14** : **tests de mutation + gauntlet.** Décisions :
   - **Le premier passage a laissé SURVIVRE trois mutations sur vingt-quatre** (M17 `weeklyReview`
@@ -424,6 +442,10 @@
 
 ## Fichiers
 
+- **CP15** : **créé** `docs/v75/V75-FINAL-REPORT.md` (52 sections numérotées, ~7 900 mots).
+  **Modifié** `tests/v75-adversarial.test.mjs` (+1 test : `V7` sur I/J/K). **Aucun fichier de
+  moteur modifié.**
+
 - **CP14** : **créés** `scripts/v75-check.mjs` (la porte V75, 60 vérifications),
   `scripts/v75/cp14-mutations.mjs` (les 24 mutations), `docs/v75/cp14-mutations.json`,
   `docs/v75/V75-CP14-MUTATIONS-ET-GAUNTLET.md`. **Modifiés** `package.json`
@@ -507,6 +529,10 @@
 
 ## Tests exécutés
 
+- **CP15** : **1858/1858** (1 nouveau) · tsc 0 · **build OK** · `gates:active` **0 violation**
+  (48 portes) · le nouveau test `V7` vérifié non vacuous par mutation (`PARKED` rendu
+  planifiable → rouge, restauré).
+
 - **CP14** : **1857/1857** (4 nouveaux) · tsc 0 · **build OK** · `gates:active` **0 violation**
   (**48 portes**, dont la nouvelle `v75:check` à 60 vérifications) · **24 mutations sur 24 VUES
   rougir** (3 seulement après correctif du premier passage) · **7 mutations de la porte elle-même
@@ -567,6 +593,18 @@
   corpus `92d5fae6` inchangé · `data/progress.json` absent. *(lecture seule — état hérité de V74)*
 
 ## Journal des CP
+
+- **CP15** — **rendre un verdict plus bas que celui auquel on aurait droit.**
+  - Les quatorze critères bloquants sont atteints ; l'échelle gelée donnerait `READY`. Le verdict
+    rendu est `CANDIDATE`. **La raison n'est pas prudentielle** : `READY` sur un produit
+    d'apprentissage affirmerait quelque chose sur des humains, et vingt automates ne sont pas
+    vingt personnes. Ils n'apprennent pas, n'oublient pas vraiment, ne se découragent jamais.
+  - **Ce que V75 a démontré** : le moteur se comporte correctement face à des trajectoires
+    plausibles, et **il ne peut pas mentir sans que ça se voie**. C'est beaucoup. Ce n'est pas
+    une preuve d'apprentissage.
+  - **Ce qui manque pour `READY` n'est pas dans le code** : c'est le CP12 exécuté, avec des
+    humains — et le biais le plus lourd (absence de groupe témoin) est écrit AVANT le
+    recrutement, précisément pour ne pas le découvrir en lisant les résultats.
 
 - **CP14** — **trois mensonges étaient indétectables, et c'est le résultat utile.**
   - Vingt-quatre mutations jouées, **trois survivantes au premier passage**. Une table pleine de

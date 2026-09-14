@@ -15,7 +15,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { PROFILS } from '../scripts/v75/cp0-backlog.mjs';
-import { trajectoire } from '../scripts/v75/cp13-adversarial.mjs';
+import { PLAFOND_UNITES as _CAP } from '../lib/retention-scheduler.mjs';
+import { simuler } from '../scripts/v75/cp0-backlog.mjs';
+import { trajectoire, etatAuJour } from '../scripts/v75/cp13-adversarial.mjs';
+import { planDeRattrapage, couvertureDe, HORIZON_PLAN } from '../lib/catchup-plan.mjs';
 import { apresLaReprise } from '../scripts/v75/cp13-sortie.mjs';
 import { rotation } from '../scripts/v75/cp13-rotation.mjs';
 import { PLAFOND_UNITES } from '../lib/retention-scheduler.mjs';
@@ -132,4 +135,56 @@ test('V75 · CP13 — la sélection tourne : le moteur ne repropose pas les 8 m�
   assert.ok(r.notionsEnRetardSurLaFenetre > 20, 'fenêtre sans dette : rien à départager');
   assert.ok(r.notionsDistinctesTravaillees > PLAFOND_UNITES,
     `${r.notionsDistinctesTravaillees} notions distinctes pour ${PLAFOND_UNITES} places : sélection figée`);
+});
+
+// ── 6 · `V7` DU CONTRAT GELÉ — UNE ABSENCE LONGUE PRODUIT UN PLAN ───────
+//
+// Le contrat exige ce critère « testé sur profils I/J/K », et il ne l'était
+// pas : les tests du CP7 vérifiaient le plan sur des notions fabriquées, jamais
+// sur la trajectoire réelle d'une absence. Écrit au CP15, en fermant la lacune
+// plutôt qu'en la déclarant acceptable.
+//
+// « Exploitable » a un sens précis, et chaque partie est vérifiée :
+//   · le plan tient en quelques jours, pas en autant de jours que de notions ;
+//   · il ne planifie RIEN de garé — travailler la conséquence avant la cause
+//     fait échouer sur la cause ;
+//   · ce qu'il ne couvre pas est COMPTÉ et NOMMÉ, jamais effacé.
+
+test('V75 · V7 — après 7, 14 et 60 jours d’absence, le plan de reprise est exploitable', () => {
+  // Chacun est mesuré au RETOUR, pas à une date commune : une absence de 7
+  // jours et une de 60 ne finissent pas le même jour, et c'est précisément
+  // l'instant du retour qui intéresse ce critère.
+  for (const [id, absence, jourDuRetour] of [['I', 7, 112], ['J', 14, 119], ['K', 60, 165]]) {
+    const e = etatAuJour(simuler(profil(id), { avecFaits: true }).faits, jourDuRetour);
+    const notions = e.triage.notions;
+    assert.ok(notions.length > 10,
+      `${id} au jour ${jourDuRetour} : ${notions.length} notions en retard, trop peu pour que le test prouve quelque chose`);
+
+    const plan = planDeRattrapage({ notions, minutesParJour: 20, unitesParJour: PLAFOND_UNITES, now: e.now });
+
+    // ── Le plan est COURT : une reprise, pas une pénitence.
+    assert.ok(plan.jours.length <= HORIZON_PLAN,
+      `${id} (absence ${absence} j) : ${plan.jours.length} jours de plan, horizon ${HORIZON_PLAN}`);
+    assert.ok(plan.jours.length > 0, `${id} : aucune journée proposée malgré ${notions.length} notions en retard`);
+
+    // ── Rien de garé n'entre au plan, et le garage reste COMPTÉ.
+    const garees = new Set(notions.filter((n) => n.classe === 'PARKED').map((n) => n.id));
+    for (const j of plan.jours) {
+      for (const n of j.unites) {
+        assert.ok(!garees.has(n.id), `${id} : la notion garée ${n.id} est planifiée avant son prérequis`);
+      }
+    }
+    assert.equal(plan.total, notions.length, `${id} : le plan a perdu des notions de la dette`);
+
+    // ── Ce qui n'est pas couvert est dit, jamais effacé.
+    const c = plan.couverture;
+    assert.deepEqual(c, couvertureDe(plan.couvertes + plan.restantes, plan.rythme, plan.garees),
+      `${id} : la couverture publiée ne correspond pas aux nombres publiés`);
+    assert.ok(typeof c.phrase === 'string' && c.phrase.length > 20, `${id} : couverture sans phrase`);
+    // Ce qui reste dû est COMPTÉ, garage inclus — jamais soustrait du total.
+    assert.equal(plan.couvertes + plan.restantes + plan.garees, plan.total,
+      `${id} : des notions ont disparu entre la dette et le plan`);
+    assert.doesNotMatch(c.phrase, /doi(s|t)|rattrape|retard accumulé|dois-tu/i,
+      `${id} : la couverture formule une obligation`);
+  }
 });

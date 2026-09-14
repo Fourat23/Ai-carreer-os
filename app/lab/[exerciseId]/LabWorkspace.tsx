@@ -52,6 +52,8 @@ type Remediation = {
 } | null;
 type Diagnostic = { category: 'error' | 'warning' | 'suggestion'; code: number | string; message: string; phase: string; file?: string; line?: number; column?: number; endLine?: number; endColumn?: number };
 type RightTab = 'preview' | 'tests' | 'diagnostics' | 'console' | 'terminal' | 'help';
+/** V76 · CP6 — le symptôme observé, tel que la route le publie. */
+type Diag = { classe: string; observation: string; piste: string; exploitable: boolean; sur: string | null; testId: string | null } | null;
 type PreviewLog = { level: string; type: string; text: string; line?: number | null; col?: number | null; at: number };
 
 type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean; preview?: boolean; previewKind?: string | null };
@@ -92,6 +94,10 @@ export default function LabWorkspace({
   const [attempt, setAttempt] = useState<Attempt | null>(null);
   const [privateSummary, setPrivateSummary] = useState<PrivateSummary>(null);
   const [remediation, setRemediation] = useState<Remediation>(null);
+  // V76 · CP6 — ce que le produit OBSERVE de l'échec, distinct de l'aide qu'il
+  // propose ensuite. Un symptôme n'est pas une piste, et une piste n'est pas la
+  // correction : le contrat gelé sépare les trois (§1.8 → §1.9 → §1.10).
+  const [diagnostic, setDiagnostic] = useState<Diag>(null);
   const [diagnostics, setDiagnostics] = useState<Diagnostic[]>([]);
   const [compileFailed, setCompileFailed] = useState(false);
   const [goto, setGoto] = useState<{ line: number; column: number; nonce: number } | null>(null);
@@ -225,6 +231,7 @@ export default function LabWorkspace({
         setAttempt(j.attempt);
         setPrivateSummary(j.privateSummary ?? null);
         setRemediation((j.remediation as Remediation) ?? null);
+        setDiagnostic((j.diagnostic as Diag) ?? null);
         setHistory((h) => [{ at: new Date().toISOString(), passed: j.attempt.passed, total: j.attempt.total, allPassed: j.attempt.allPassed, durationMs: j.attempt.durationMs }, ...h].slice(0, 5));
         try { localStorage.setItem(LASTRUN_KEY, JSON.stringify({ attempt: j.attempt, stdout: j.stdout ?? '', privateSummary: j.privateSummary ?? null })); } catch { /* best-effort */ }
       }
@@ -485,6 +492,17 @@ export default function LabWorkspace({
                         ce qui viendrait si celle-ci ne suffisait pas — pour que
                         l'apprenant sache que l'aide monte, et n'aille pas
                         chercher la solution ailleurs. */}
+                    {/* Le SYMPTÔME d'abord : ce que le produit a observé. Il
+                        précède l'aide, parce qu'un apprenant qui voit ce qui
+                        diffère n'a parfois besoin de rien d'autre. Quand le test
+                        ne publie pas de quoi comparer, le produit le DIT au lieu
+                        d'inventer une piste (`exploitable: false`). */}
+                    {!attempt.allPassed && diagnostic && (
+                      <div className={`lab-diag lab-diag--${diagnostic.exploitable ? 'ok' : 'flou'}`}>
+                        <p className="lab-diag-obs">{diagnostic.observation}</p>
+                        <p className="lab-diag-piste">{diagnostic.piste}</p>
+                      </div>
+                    )}
                     {!attempt.allPassed && remediation && (
                       <div className="lab-remediation">
                         <p className="lab-rem-why">{remediation.raison}</p>

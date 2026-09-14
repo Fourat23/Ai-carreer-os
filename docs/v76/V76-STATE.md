@@ -12,16 +12,14 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP5**
+- **dernier CP terminé** : **CP6**
 - **CP courant** : —
-- **NEXT_CP** : **CP6** — DIAGNOSTIC PÉDAGOGIQUE
-- **NEXT_ACTION** : relier `TEST FAILURE` → symptôme observé → diagnostic →
-  remédiation. Aujourd'hui l'échelon d'aide ne dépend que du **nombre de
-  tentatives** ; le produit sait pourtant qu'un test attendait `"C"` et a reçu
-  `"F"`. Exploiter `expected`, `received`, le genre de test, les diagnostics de
-  compilation, la ligne, le diff structuré (`lib/test-diff.mjs`, `lib/ts-hints.mjs`
-  existent déjà). **Ne pas fabriquer un diagnostic si le test ne permet pas de le
-  déduire** — prévoir un repli honnête.
+- **NEXT_CP** : **CP7** — AIDE GRADUÉE
+- **NEXT_ACTION** : brancher l'échelon d'aide sur le **symptôme** (le CP6 vient
+  de le fournir via `diagnostic.observation`), l'**historique**, les **aides
+  déjà consultées**, `correctionSeen`, et le nombre d'échecs. **Historiser les
+  aides consultées** — aujourd'hui rien ne trace qu'un indice a été lu.
+  Préserver : la correction complète reste la DERNIÈRE marche.
 
 ## Repères Git
 
@@ -215,6 +213,12 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP6** : **créés** `lib/diagnostic.mjs` (PUR) + `lib/diagnostic.d.ts`,
+  `tests/v76-diagnostic.test.mjs` (17), `docs/v76/V76-CP6-DIAGNOSTIC.md`.
+  **Modifiés** `app/api/lab/[exerciseId]/route.ts` (diagnostic calculé sur les
+  résultats PUBLICS, publié, et transmis à `remedier` s'il est exploitable),
+  `app/lab/[exerciseId]/LabWorkspace.tsx` (rendu du symptôme), `app/globals.css`.
+
 - **CP5** : **créés** `lib/sandbox.mjs` (décision, PUR), `lib/sandbox-detect.mjs`
   (sondes réelles), `scripts/sandbox/enter-root.sh` (entrée en racine minimale),
   `tests/v76-sandbox.test.mjs` (13), `docs/v76/V76-CP5-EXECUTION-ISOLATION.md`.
@@ -254,6 +258,30 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP6** — **le module a violé la règle pour laquelle il existe.**
+  - Le produit savait qu'un test attendait `"C"` et recevait `"F"` ; l'échelle
+    d'aide ne savait que compter les tentatives. La route jetait `expected` et
+    `received` au moment précis où ils auraient servi.
+  - **ANOMALIE n° 5, la plus instructive du sprint jusqu'ici.** La première
+    version nommait un motif `BORNE` et affirmait « c'est celui de la limite ».
+    Juste sur `py-debug-grades` (le bug EST un `>` pour `>=`), **faux sur
+    `react-counter`** où un compteur démarre à 0 au lieu de 7 : la piste
+    envoyait relire une comparaison inexistante. « Un seul cas échoue » est une
+    OBSERVATION ; « c'est une borne » est une INTERPRÉTATION que le résultat de
+    test ne soutient pas. Classe renommée `CAS_ISOLE`, piste réduite à une
+    démarche, et un test refuse les mots « borne / limite / comparaison ».
+  - **Seconde moitié** : `web-card` affichait « attend null et reçoit false » —
+    vrai, vide, et ça a l'air d'un diagnostic. Le prédicat qui écarte les
+    sentinelles de DOM est désormais posé AVANT toute branche.
+  - **Une mutation a survécu** : mon test n'examinait que trois observations
+    échantillonnées, et la classe mutée n'y était pas. *Un test qui regarde
+    trois cas sur huit garde trois cas sur huit.*
+  - **Le correctif a failli être le mauvais** : interdire tout impératif
+    refusait ma propre piste « Corrige d'abord ce que l'outil signale », qui est
+    une consigne d'ORDRE sans réponse. L'affaiblir aurait été `G12`. Le test
+    interdit donc précisément le CONTENU d'un correctif : opérateur, appel,
+    valeur, « remplace X par Y ». **6/6 rouges après correction.**
 
 - **CP5** — **les cinq évasions fermées, et cinq exercices cassés en chemin.**
   - Deux frontières, choisies pour ce que le noyau offre RÉELLEMENT (aucun

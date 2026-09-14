@@ -17,6 +17,7 @@ import { splitAttempt } from '@/lib/lab-feedback';
 import { remedier } from '@/lib/remediation';
 import { ressourcesDe } from '@/lib/remediation-server';
 import { conceptsDeLExerciceResolu } from '@/lib/exercise-concepts-server';
+import { diagnostiquer, lectureDuDiagnostic } from '@/lib/diagnostic';
 
 export const dynamic = 'force-dynamic';
 
@@ -102,6 +103,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       let sessionsUpdated = 0;
       // V74 · CP12 — la remédiation du CP7, enfin rendue à l'apprenant.
       let remediation: unknown = null;
+      // V76 · CP6 — ce que le produit OBSERVE de cet échec. `null` en cas de
+      // réussite ; `exploitable: false` quand le test ne permet rien d'en dire.
+      let diagnostic: ReturnType<typeof lectureDuDiagnostic> = null;
 
       // ── V74 · CP2 — LA TENTATIVE EST UN FAIT, QU'ELLE RÉUSSISSE OU NON ──
       //
@@ -155,6 +159,23 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
           const apres = r.ok ? r.progress : before;
           const tentatives = ((apres as { exerciseAttempts?: unknown[] }).exerciseAttempts ?? []) as Parameters<typeof remedier>[0]['attempts'];
           const res = ressourcesDe(ex.id);
+          // ── V76 · CP6 — LE SYMPTÔME OBSERVÉ REJOINT ENFIN L'AIDE ──
+          //
+          // Le CP0 avait mesuré que l'échelle d'aide montait sur le NOMBRE de
+          // tentatives, jamais sur la MANIÈRE d'échouer — et que cette route
+          // jetait l'information : elle ne transmettait que `{ name }` pour
+          // chaque test échoué, laissant tomber `expected` et `received` que le
+          // produit possédait pourtant.
+          //
+          // Le diagnostic est calculé sur les seuls résultats PUBLICS : en tirer
+          // un d'un test privé publierait son attendu, et l'anti-fuite prime.
+          diagnostic = lectureDuDiagnostic(diagnostiquer({
+            resultatsPublics: publicResults,
+            compilation: (diagnostics ?? []) as { message?: string; line?: number; file?: string }[],
+            phase: phase === 'compile' ? 'compile' : timedOut ? 'timeout' : 'test',
+            erreur: error,
+          }));
+
           remediation = remedier({
             attempts: tentatives,
             exerciseId: ex.id,
@@ -166,7 +187,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
             // révélerait l'attendu, et l'anti-fuite du produit est antérieur au
             // CP12. Un sous-problème tiré d'un test privé serait une fuite.
             testsEchoues: publicResults.filter((t) => !t.passed).map((t) => ({ name: t.name })),
-            diagnostic: (diagnostics ?? []).map((d) => (d as { message?: string }).message).filter(Boolean)[0] ?? null,
+            // L'échelle reçoit désormais l'OBSERVATION, pas seulement le message
+            // de compilation : c'est elle qui rend l'indice spécifique au
+            // symptôme plutôt qu'au compteur d'échecs.
+            diagnostic: diagnostic?.exploitable
+              ? diagnostic.observation
+              : ((diagnostics ?? []).map((d) => (d as { message?: string }).message).filter(Boolean)[0] ?? null),
             correctionVue: correctionSeen,
           });
         }
@@ -222,7 +248,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
           recorded = true;
         }
       }
-      return NextResponse.json({ ok: true, attempt, privateSummary, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded, sessionsUpdated, remediation });
+      return NextResponse.json({ ok: true, attempt, privateSummary, stdout, timedOut, error, phase: phase ?? 'test', diagnostics: diagnostics ?? [], recorded, sessionsUpdated, remediation, diagnostic });
     }
     return NextResponse.json({ error: 'Action inconnue.' }, { status: 400 });
   } catch (e: unknown) {

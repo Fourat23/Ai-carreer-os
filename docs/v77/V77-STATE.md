@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP2** |
+| `LAST_COMPLETED_CP` | **CP3** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP3** — TERMINAL |
-| `NEXT_ACTION` | trancher le terminal à partir du contrat CP1 et de la carte CP2, qui le posent en `NO_FACT`. Si `NO_FACT` est confirmé : **documenter et TESTER** qu'une exécution de terminal ne produit artificiellement ni fait ni preuve. Si `USAGE_EVENT` est retenu : il ne dit que ce qui a été observé (tâche, adaptateur, `exitCode`, horodatage serveur), vit dans un champ séparé, ne porte jamais `passed`/`score`, ne produit aucune Evidence et n'entre dans aucun moteur (contrat §3.4). **NE PAS créer `TerminalAttempt(success = true)`.** |
+| `NEXT_CP` | **CP4** — ASSESSMENTS |
+| `NEXT_ACTION` | construire le fait **`AssessmentAttempt`** (contrat CP1, carte CP2) : un assessment échoué 5 fois doit laisser **5 faits**, puis une réussite, puis une reprise — et un doublon réseau ne doit **pas** créer un sixième. Dette `D6` mesurée au CP0 : aujourd'hui 5 échecs laissent **1 trace**. Le fait porte `kind` (assessment ou capstone) et `simulation` ; il ne fabrique aucune preuve que la correction serveur ne justifie pas. **NE PAS** transformer un assessment en `mastery` (`H`-interdit du contrat). |
 
 ## Repères Git
 
@@ -109,6 +109,7 @@
 | `D9` | **la marque de simulation vit dans du texte libre** | `detail`, pas un champ ; rien ne la garde |
 | `D10` | **125 exercices sans rattachement** | cause : aucun `conceptIds`/`lessonRefs` dans la source |
 | `D11` | `placeholder` est un terme du domaine traité comme un marqueur de remplissage | `PLACEHOLDER_RE` |
+| `D12` | **CP3** — ~~les faits ne survivaient pas à l'import de leur propre sauvegarde~~ **CORRIGÉE au CP3** : `validateStrict` était une quatrième liste blanche | mesuré `recallAttempts 1 → 0`, `hintViews 1 → 0` ; l'énumération des faits est désormais unique |
 
 ## `PROBE_ERRORS`
 
@@ -123,12 +124,28 @@
 Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 (79 vérifications) reste dans `gates:active`.
 
-## `TESTS_RUN` au CP0
+## `TESTS_RUN`
 
-`npm test` **1984/1984** · `tsc` **0** · `build` **OK** ·
+**CP3** — `npm test` **2024/2024** · `tsc` **0** · `build` **OK** ·
+`gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
+0 trou** · chaîne HTTP réelle du terminal traversée · `data/progress.json`
+**absent**.
+
+**CP0** — `npm test` **1984/1984** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP3** — **créés** `lib/usage-event.mjs` (**PUR**), `lib/usage-event.d.ts`,
+`tests/v77-usage-event.test.mjs` (21), `docs/v77/V77-CP3-TERMINAL.md`.
+**Modifiés** : `lib/progress-store.mjs` (énumération unique des faits —
+`normaliserLesFaits` + `FAITS_DU_PRODUIT`), `lib/backup.mjs` (**la quatrième
+liste blanche**), `lib/learning-engine.mjs` + `.d.ts` (`RECORD_USAGE_EVENT`),
+`lib/types.ts`, `app/api/terminal/[taskId]/route.ts` (émission après `run`),
+`scripts/v75-check.mjs` `[A5]` et `scripts/v76-check.mjs` `[B7]` (règles
+réécrites en COMPORTEMENT, vérifiées par mutation), `scripts/v76-negative.sh`
+N11, `scripts/v75/cp14-mutations.mjs` M15, `scripts/v76/cp14-mutations.mjs` M25,
+`tests/progress-store.test.mjs`, `tests/v76-hint-view.test.mjs`.
 
 **CP2** — **créés** `lib/practice-model.mjs` (**PUR**), `lib/practice-model.d.ts`,
 `tests/v77-practice-model.test.mjs` (19), `docs/v77/V77-CP2-CANONICAL-PRACTICE-MODEL.md`.
@@ -152,9 +169,44 @@ le branchement a lieu aux CP3 → CP7.
 |---|---|
 | CP0 | `c6aca1c` — la phrase de départ était fausse, dans les deux sens |
 | CP1 | `e0c4a80` — contrat d'observabilité gelé |
-| CP2 | *(ce commit)* — modèle canonique de la pratique |
+| CP2 | `98b6849` — la politique devient une donnée |
+| CP3 | *(ce commit)* — le terminal : un usage, pas une réussite |
 
 ## Journal des CP
+
+- **CP3** — **le terminal écrit enfin, et écrit le moins possible.**
+  - **Politique `USAGE_ONLY`**, pas `NO_FACT` et surtout pas `TerminalAttempt`.
+    Le CP0 avait mesuré les deux moitiés : le terminal **exécute vraiment**
+    (`exitCode 0`, 263 octets, bac à sable) et **n'observe aucune réussite** —
+    ses trois tâches n'ont aucun critère pédagogique et leurs arguments sont des
+    énumérations fermées. *Un apprenant qui choisit `-la` parmi trois options
+    valides n'a rien démontré.*
+  - Le fait ne dit que **ce qui a eu lieu** : tâche, adaptateur, `exitCode`,
+    durée, horodatage serveur. `exitCode: 0` est enregistré **sans être
+    interprété** — 0 ne veut pas dire « réussi », il veut dire que le processus
+    s'est terminé sans erreur.
+  - **Le `detail` est une LISTE BLANCHE, pas un filtre** : retirer les champs
+    interdits laisserait passer tout ce qu'on n'a pas pensé à interdire. Un
+    `maitrise: 0.9` envoyé par un appelant futur n'entre pas, alors qu'aucune
+    liste noire ne l'attendait.
+  - Chaîne traversée **en HTTP réel**, pas en test unitaire : `1` usage écrit,
+    `0` preuve, `0` fait pédagogique, export fidèle.
+  - **LE DÉFAUT DU CHECKPOINT N'EST PAS DANS LE TERMINAL.** En vérifiant que le
+    nouveau fait s'exporte, j'ai trouvé une **QUATRIÈME liste blanche** —
+    `validateStrict` dans `lib/backup.mjs`. Mesuré avant correction :
+    `recallAttempts 1 → 0`, `hintViews 1 → 0`, `usageEvents 1 → 0`. **Les quatre
+    faits introduits depuis V66 ne survivaient pas à leur propre sauvegarde**, et
+    le registre de preuves était reconstruit depuis `days[*].evidence` — ce qui
+    perd toute preuve sans journée et ressemble à une restauration réussie.
+  - Correction : l'énumération des faits vit dans **une seule fonction**
+    (`normaliserLesFaits`), appelée par les quatre sites. Ajouter `usageEvents`
+    à trois endroits sur quatre aurait rejoué `P7` une troisième fois.
+  - **Deux règles de porte réécrites en COMPORTEMENT** (`[B7]` de V76, `[A5]` de
+    V75) : elles pinçaient une disposition de code et ont rougi pour une
+    amélioration. Ce n'est pas un affaiblissement — vérifié par mutation avant de
+    conclure, et `[B7]` garde désormais **les six faits** au lieu d'un seul.
+    Trois harnais de mutation visaient un texte disparu : laissés tels quels, ils
+    auraient appliqué un remplacement **sans effet** et conclu à tort.
 
 - **CP2** — **la politique devient une donnée, et le défaut par défaut cesse
   d'être « ça passe ».**

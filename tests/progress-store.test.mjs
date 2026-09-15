@@ -99,7 +99,14 @@ test('emptyFlat : forme V6 vide', () => {
   // troisième fois : le CP9 a rendu les 25 défis atteignables, mais le produit
   // n'écrivait toujours rien quand un transfert ÉCHOUE — or c'est l'échec qui
   // dit qu'une notion tient chez elle et cède ailleurs.
-  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [], hintViews: [] });
+  //
+  // `usageEvents` s'ajoute en V77 · CP3, et pour une raison DIFFÉRENTE des
+  // précédentes : ce n'est pas un fait pédagogique. Le terminal exécute
+  // vraiment, mais ses tâches ne portent aucun critère de réussite — leurs
+  // arguments sont des énumérations fermées. La liste dit donc qu'une surface a
+  // été UTILISÉE, jamais qu'elle a été réussie, et elle vit dans un champ
+  // séparé pour qu'aucun moteur ne puisse la confondre avec les autres.
+  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [], hintViews: [], usageEvents: [] });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
 

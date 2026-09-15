@@ -54,7 +54,18 @@ export type Command =
     }
   // V66 — la seule écriture du Retention Engine. Concept, pas journée : une
   // tentative de rappel porte sur une notion, pas sur une date du calendrier.
-  | { type: 'RECORD_RECALL'; conceptId: string; outcome: RecallOutcome; format?: RecallFormat; sourceRef?: string };
+  | { type: 'RECORD_RECALL'; conceptId: string; outcome: RecallOutcome; format?: RecallFormat; sourceRef?: string }
+  // V77 · CP3 — un USAGE observé. Le type est volontairement dépourvu de tout
+  // champ d'issue : il n'existe aucune façon d'exprimer une réussite ici, et
+  // c'est la contrainte n°5 du contrat gelé rendue vérifiable à la compilation.
+  | {
+      type: 'RECORD_USAGE_EVENT';
+      surface: import('./usage-event').SurfaceUsage;
+      action: import('./usage-event').ActionUsage;
+      ref: string;
+      detail?: { adapter?: string; exitCode?: number; durationMs?: number; disponible?: boolean };
+      provenance: { producer: string; method?: string };
+    };
 
 export type CommandResult =
   | { ok: true; progress: Progress; effects: string[] }

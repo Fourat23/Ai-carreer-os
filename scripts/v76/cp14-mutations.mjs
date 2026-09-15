@@ -142,7 +142,10 @@ export const MUTATIONS = [
     avant: '    aidesConsultees: aides.length,', apres: '    aidesConsultees: aides.length,\n    score: Math.max(0, 100 - aides.length * 20),',
     note: 'un score fabriqué apparaît' },
   { id: 'M25', famille: 'fait perdu par liste blanche', garde: 'gate', fichier: PS,
-    avant: '  flat.hintViews = normalizeHintViews(t.hintViews);', apres: '  // flat.hintViews retiré',
+    // V77 · CP3 — l'énumération des faits du store vit désormais à UN endroit ;
+    // la mutation vise cette déclaration, faute de quoi elle serait sans effet et
+    // le harnais conclurait à tort que la porte tient.
+    avant: '    hintViews: normalizeHintViews(src?.hintViews).slice(-MAX_HINT_VIEWS),', apres: '    // hintViews retiré',
     note: 'le défaut P7 de V75 rejoué sur `hintViews`' },
 
   // ── FAMILLE 5 · HISTORIQUE ET COMPARAISON (29–32) ────────────────────

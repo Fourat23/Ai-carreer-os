@@ -188,18 +188,39 @@ const sandbox = await import(new URL('../lib/sandbox.mjs', import.meta.url).href
 // dit rien de l'endroit où elles se trouvent.*
 //
 // On regarde donc CHAQUE liste blanche séparément, par son corps de fonction.
+//
+// ── LE TROISIÈME TROU, TROUVÉ PAR LE CP3 DE V77 ──
+//
+// La deuxième version regardait le corps de `flatOf`, `activeTrackProgress` et
+// `emptyFlat` et y exigeait le texte `hintViews`. Elle gardait donc une FORME
+// de code, pas une propriété : quand V77 · CP3 a rassemblé l'énumération des
+// faits dans une seule fonction — ce qui rend le défaut P7 structurellement
+// impossible — la règle a rougi pour une amélioration. *Une assertion de texte
+// tient une convention, jamais un comportement.*
+//
+// On exécute donc le store pour de vrai : écrire, relire, et regarder si le
+// fait est encore là. Une suppression dans la liste blanche, où qu'elle vive,
+// est alors visible ; un déplacement de code ne l'est pas.
 {
-  const store = lire('lib/progress-store.mjs');
-  const corps = (nom) => {
-    const i = store.indexOf(`function ${nom}(`);
-    if (i < 0) return '';
-    const j = store.indexOf('\n}', i);
-    return store.slice(i, j > i ? j : store.length);
+  const store = await import('../lib/progress-store.mjs');
+  const T = '2026-01-01T00:00:00.000Z';
+  const vue = {
+    at: T, exerciseId: 'gate-b7', action: 'INDICE', niveau: 1, declenchee: 'auto',
+    provenance: { producer: 'gate', method: '' }, schemaVersion: 2,
   };
-  for (const [fn, sens] of [['flatOf', 'écriture'], ['activeTrackProgress', 'lecture'], ['emptyFlat', 'état vide']]) {
-    const b = corps(fn);
-    check(b.length > 0, `[B7] la fonction \`${fn}\` existe`);
-    check(/hintViews/.test(b), `[B7] \`hintViews\` traverse la liste blanche de ${sens} (\`${fn}\`)`);
+  const ecrit = store.writeActiveTrack(store.migrateToV7({}), { ...store.emptyFlat(), hintViews: [vue] });
+  // `JSON.parse(JSON.stringify(...))` : ce qui n'est pas sérialisable n'a jamais
+  // atteint le disque, et c'est exactement ce que le défaut P7 laissait croire.
+  const relu = store.activeTrackProgress(JSON.parse(JSON.stringify(ecrit)));
+  check(relu.hintViews?.length === 1,
+    '[B7] `hintViews` survit à l’écriture PUIS à la relecture du store');
+  check(Array.isArray(store.emptyFlat().hintViews),
+    '[B7] `hintViews` existe dans l’état vide (`emptyFlat`)');
+  // V77 · CP3 — la même exigence pour CHAQUE fait du produit, pas seulement
+  // celui de V76 : c'est ce que P7 a coûté deux fois.
+  for (const fait of store.FAITS_DU_PRODUIT ?? []) {
+    check(Array.isArray(store.emptyFlat()[fait]),
+      `[B7] le fait \`${fait}\` traverse les listes blanches du store`);
   }
   check(/'RECORD_HINT_VIEW'/.test(lire('lib/learning-engine.mjs')),
     '[B7] la commande `RECORD_HINT_VIEW` existe dans le vocabulaire du moteur');

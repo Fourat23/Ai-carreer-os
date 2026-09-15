@@ -11,6 +11,9 @@ import { getTerminalTask, publicTerminalTask } from '@/lib/terminal-tasks-server
 import { validateWorkspacePath } from '@/lib/terminal.mjs';
 import * as local from '@/lib/terminal-local.mjs';
 import * as docker from '@/lib/terminal-docker.mjs';
+import { readProgressFresh, writeProgress } from '@/lib/progress-server';
+import { applyCommand } from '@/lib/learning-engine';
+import type { Progress } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +31,45 @@ function seedWorkspace(dir: string, seedFiles?: { path: string; content: string 
     const abs = join(dir, sf.path);
     try { mkdirSync(dirname(abs), { recursive: true }); writeFileSync(abs, String(sf.content ?? '').slice(0, 8192)); } catch { /* best-effort */ }
   }
+}
+
+/**
+ * ── V77 · CP3 — CE QUE LE TERMINAL A LE DROIT D'ÉCRIRE ──────────────────
+ *
+ * Avant V77, cette route exécutait vraiment — `exitCode 0`, sortie bornée, bac
+ * à sable — et n'en gardait **rien**. Le CP0 a mesuré les deux moitiés du
+ * problème : l'exécution est réelle, mais les trois tâches du terminal ne
+ * portent aucun critère de réussite pédagogique et leurs arguments sont des
+ * énumérations fermées. Une tâche dit d'elle-même « démonstration d'exécution
+ * bornée ».
+ *
+ * D'où la politique `USAGE_ONLY` : on écrit **que la chose a eu lieu**, jamais
+ * qu'elle a réussi. Pas de preuve, aucun moteur touché, aucun `passed`.
+ *
+ * Et `exitCode` est enregistré **sans être interprété** : 0 ne veut pas dire
+ * réussi, il veut dire que le processus s'est terminé sans erreur. C'est une
+ * observation, pas un verdict — la distinction est tout le CP3.
+ *
+ * Écriture au mieux : un échec de persistance ne doit jamais faire échouer
+ * l'exécution que l'apprenant vient de lancer.
+ */
+function noterUsage(taskId: string, adapter: string, run: unknown) {
+  try {
+    const r = (run ?? {}) as { exitCode?: number | null; durationMs?: number };
+    const res = applyCommand(readProgressFresh(), {
+      type: 'RECORD_USAGE_EVENT',
+      surface: 'terminal',
+      action: 'run',
+      ref: taskId,
+      detail: {
+        adapter,
+        ...(typeof r.exitCode === 'number' ? { exitCode: r.exitCode } : {}),
+        ...(typeof r.durationMs === 'number' ? { durationMs: r.durationMs } : {}),
+      },
+      provenance: { producer: 'terminal-route', method: 'POST /api/terminal/[taskId] action=run' },
+    }, { now: new Date() });
+    if (res.ok) writeProgress(res.progress as Progress);
+  } catch { /* au mieux : l'usage est un bonus, jamais une dépendance */ }
 }
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ taskId: string }> }) {
@@ -79,6 +121,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tas
       // Annulation via abandon de la requête (fetch AbortController côté client).
       req.signal?.addEventListener('abort', () => { try { local.cancel(runId); } catch { /* ok */ } });
       const run = await local.execute(task, rawArgs, { runToken: prep.runToken, runId });
+      noterUsage(taskId, 'local', run);
       return NextResponse.json({ run });
     }
     // Docker : workspace pour un éventuel montage borné ; sinon indisponible honnête.
@@ -86,6 +129,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tas
     seedWorkspace(prep.workspaceDir, task.seedFiles);
     const config = { ...docker.hardenedDefaults(task.dockerImage ?? 'alpine:3.20'), workspaceMount: null };
     const run = await docker.execute(task, rawArgs, config, { runId });
+    noterUsage(taskId, 'docker', run);
     return NextResponse.json({ run });
   } catch (e) {
     return NextResponse.json({ error: 'Échec d’exécution.', detail: String((e as Error)?.message ?? '').slice(0, 200) }, { status: 500 });

@@ -106,17 +106,43 @@ for (const m of MOTEURS) {
 // seule des deux listes est perdu sans qu'aucun test unitaire ne rougisse :
 // c'est exactement ce qui est arrivé à `curriculumPause` entre le CP7 et le
 // CP10. Cette règle vérifie les deux côtés, pour les deux champs de V75.
+//
+// ── RÉÉCRITE PAR V77 · CP3 ──
+//
+// La version d'origine cherchait le nom du champ ENTRE `function flatOf` et
+// `function activeTrackProgress`. Elle gardait donc une disposition de code :
+// quand le CP3 a rassemblé l'énumération des faits dans une seule fonction —
+// ce qui rend P7 structurellement impossible — elle a rougi alors que les deux
+// champs traversaient toujours le disque. *Une assertion de texte tient une
+// convention, jamais un comportement.*
+//
+// On écrit donc, on sérialise, on relit. C'est la question que la règle a
+// toujours voulu poser.
 {
-  const s = code('lib/progress-store.mjs');
-  const iEcriture = s.indexOf('function flatOf');
-  const iLecture = s.indexOf('function activeTrackProgress');
-  check(iEcriture > 0 && iLecture > iEcriture, '[A5] les deux listes blanches existent');
-  const ecriture = s.slice(iEcriture, iLecture);
-  const lecture = s.slice(iLecture);
-  for (const champ of ['transferAttempts', 'curriculumPause']) {
-    check(ecriture.includes(champ), `[A5] \`${champ}\` est dans la liste blanche d’ÉCRITURE`);
-    check(lecture.includes(champ), `[A5] \`${champ}\` est dans la liste blanche de LECTURE`);
-  }
+  const store = await import('../lib/progress-store.mjs');
+  const T = '2026-01-01T00:00:00.000Z';
+  const depart = {
+    ...store.emptyFlat(),
+    transferAttempts: [{
+      at: T, challengeId: 'a5', passed: 2, total: 3, outcome: 'partial',
+      provenance: { producer: 'gate', method: '' },
+    }],
+    curriculumPause: {
+      paused: true, since: T, updatedAt: T, raison: 'porte A5',
+      provenance: { producer: 'gate', method: '' }, schemaVersion: 1,
+    },
+  };
+  // `JSON.parse(JSON.stringify(...))` : ce qui ne se sérialise pas n'a jamais
+  // atteint le disque — c'est précisément ce que P7 laissait croire.
+  const relu = store.activeTrackProgress(
+    JSON.parse(JSON.stringify(store.writeActiveTrack(store.migrateToV7({}), depart))),
+  );
+  check(relu.transferAttempts?.length === 1,
+    '[A5] `transferAttempts` survit à l’écriture PUIS à la relecture');
+  check(relu.curriculumPause?.paused === true,
+    '[A5] `curriculumPause` survit à l’écriture PUIS à la relecture');
+  check(Array.isArray(store.emptyFlat().transferAttempts),
+    '[A5] `transferAttempts` existe dans l’état vide');
 }
 
 // ── A6. LE BUDGET DE LA JOURNÉE NE SE NÉGOCIE PAS ──────────────────────

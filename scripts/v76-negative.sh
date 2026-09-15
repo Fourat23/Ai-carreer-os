@@ -125,14 +125,18 @@ PY
 run "N10" "\[B1\] lib/attempt-diff.mjs reste PUR"
 back lib/attempt-diff.mjs
 
-echo "N11 — hintViews disparaît d'une des deux listes blanches (défaut P7)"
+echo "N11 — hintViews disparaît de la liste blanche des faits (défaut P7)"
 snap lib/progress-store.mjs
 python3 - <<'PY'
 p='lib/progress-store.mjs'; s=open(p,encoding='utf-8').read()
-s=s.replace('  flat.hintViews = normalizeHintViews(t.hintViews);','  // retiré')
+# V77 · CP3 — l'énumération des faits vit désormais à UN endroit, et la règle
+# B7 exécute le store au lieu d'y chercher du texte. La mutation retire donc le
+# fait là où il est réellement déclaré : il doit alors disparaître des quatre
+# listes blanches à la fois, et la porte doit le voir.
+s=s.replace('    hintViews: normalizeHintViews(src?.hintViews).slice(-MAX_HINT_VIEWS),','    // retire')
 open(p,'w',encoding='utf-8').write(s)
 PY
-run "N11" "\[B7\] .hintViews. traverse"
+run "N11" "\[B7\] .hintViews. survit"
 back lib/progress-store.mjs
 
 echo

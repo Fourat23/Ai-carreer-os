@@ -188,6 +188,14 @@ export interface Progress {
    * ailleurs. Une reprise est un fait NEUF — rien n'est jamais écrasé.
    */
   transferAttempts?: import('./transfer-attempt').TransferAttempt[];
+  /**
+   * V77 · CP3 — ÉVÉNEMENTS D'USAGE. Un champ **séparé** des faits pédagogiques,
+   * et il le reste : aucun moteur ne le lit, aucune preuve n'en naît. Il répond
+   * à une seule question — *« cette surface a-t-elle été utilisée ? »* — et
+   * jamais à *« a-t-elle été réussie ? »*. Le type `UsageEvent` ne porte aucun
+   * champ d'issue, de sorte que la promesse est vérifiable à la compilation.
+   */
+  usageEvents?: import('./usage-event').UsageEvent[];
   /** V18 · état des missions d'ingénierie (additif, optionnel). */
   missions?: Record<string, unknown>;
   /**

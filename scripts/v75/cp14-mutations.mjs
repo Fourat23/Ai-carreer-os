@@ -145,8 +145,12 @@ export const MUTATIONS = [
   {
     id: 'M15', nom: 'un `TransferAttempt` est perdu à la persistance',
     fichier: 'lib/progress-store.mjs',
-    avant: '  flat.transferAttempts = normalizeTransferAttempts(track?.transferAttempts).slice(-MAX_TRANSFER_ATTEMPTS);',
-    apres: '  flat.transferAttempts = [];',
+    // V77 · CP3 — l'énumération des faits du store a été rassemblée en un seul
+    // endroit ; la mutation vise désormais cette déclaration unique. Sans cette
+    // mise à jour, le harnais aurait appliqué un remplacement SANS EFFET et
+    // conclu à tort que les tests tiennent.
+    avant: '    transferAttempts: normalizeTransferAttempts(src?.transferAttempts).slice(-MAX_TRANSFER_ATTEMPTS),',
+    apres: '    transferAttempts: [],',
     tests: T('progress-store.test.mjs', 'v75-transfer-attempt.test.mjs'),
   },
   {

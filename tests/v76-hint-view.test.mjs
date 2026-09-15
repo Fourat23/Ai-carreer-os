@@ -178,13 +178,26 @@ test('V76 · CP7 — la route ENREGISTRE l’aide servie, et la passe à l’éc
   assert.ok(iEcrit > 0 && iRendu > iEcrit, 'l’aide est rendue avant d’être enregistrée');
 });
 
-test('V76 · CP7 — les DEUX listes blanches du store portent le champ', () => {
-  const s = lire('lib/progress-store.mjs');
-  const iEcriture = s.indexOf('function flatOf');
-  const iLecture = s.indexOf('function activeTrackProgress');
-  assert.ok(iEcriture > 0 && iLecture > iEcriture);
-  assert.ok(s.slice(iEcriture, iLecture).includes('hintViews'), 'absent de la liste blanche d’ÉCRITURE');
-  assert.ok(s.slice(iLecture).includes('hintViews'), 'absent de la liste blanche de LECTURE');
+test('V76 · CP7 — le champ traverse les listes blanches du store', () => {
+  // ── CE TEST A ÉTÉ RÉÉCRIT PAR V77 · CP3 ──
+  //
+  // Il cherchait le texte `hintViews` entre `function flatOf` et
+  // `function activeTrackProgress`. Il tenait donc une DISPOSITION DE CODE, pas
+  // une propriété : quand le CP3 a rassemblé l'énumération des faits en un seul
+  // endroit — ce qui rend le défaut P7 structurellement impossible — il a rougi
+  // pour une amélioration, alors que le fait traversait toujours le disque.
+  //
+  // La question posée est la même qu'avant ; elle est maintenant posée au
+  // comportement.
+  const vue = {
+    at: T0, exerciseId: 'p7', action: 'INDICE', niveau: 1, declenchee: 'auto',
+    provenance: { producer: 'test', method: '' }, schemaVersion: 2,
+  };
+  const ecrit = writeActiveTrack(migrateToV7({}), { ...emptyFlat(), hintViews: [vue] });
+  const relu = activeTrackProgress(JSON.parse(JSON.stringify(ecrit)));
+  assert.equal(relu.hintViews.length, 1, 'perdu entre l’écriture et la relecture');
+  assert.equal(relu.hintViews[0].exerciseId, 'p7');
+  assert.ok(Array.isArray(emptyFlat().hintViews), 'absent de l’état vide');
 });
 
 test('V76 · CP7 — les aides d’un exercice ne fuient pas vers un autre', () => {

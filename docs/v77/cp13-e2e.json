@@ -1,0 +1,81 @@
+{
+ "generatedAt": "2026-09-15T14:07:10.223Z",
+ "base": "http://127.0.0.1:3190",
+ "progressFile": "/tmp/claude-0/-home-user-Ai-carreer-os/79d55860-21ac-5b1a-91c6-5b6622f4a502/scratchpad/prog.json",
+ "chaines": [
+  {
+   "nom": "C1 · exercice → mission → compétence",
+   "question": "une production, combien de crédits ?",
+   "ecrit": {
+    "evidence": 2,
+    "evidenceQualifiantes": 1,
+    "exerciseAttempts": 1,
+    "missionSubmissions": 3
+   },
+   "attendu": "UNE preuve qualifiante (l’exercice), une preuve de mission NON qualifiante",
+   "note": "la chaîne du défaut A13 du CP0",
+   "preuves": [
+    "exercise:cicd-env-promotion passed/exercise-tests VALIDATED",
+    "mission:cicd-blocked-delivery manual/mission-deliverables DECLARED"
+   ]
+  },
+  {
+   "nom": "C2 · diagnostic échoué puis réussi",
+   "question": "la courbe est-elle conservée ?",
+   "ecrit": {
+    "evidence": 2,
+    "evidenceQualifiantes": 1,
+    "assessmentAttempts": 2
+   },
+   "attendu": "DEUX tentatives, deux preuves (échec + réussite)",
+   "note": "avant le CP4 : une seule trace, celle de l’échec",
+   "preuves": [
+    "assessment:async-messaging-queues failed/assessment-grade OBSERVED",
+    "assessment:async-messaging-queues passed/assessment-grade VALIDATED"
+   ]
+  },
+  {
+   "nom": "C3 · capstone corrigé par le serveur",
+   "question": "est-il enfin archivé pour ce qu’il est ?",
+   "ecrit": {
+    "evidence": 1,
+    "evidenceQualifiantes": 1,
+    "assessmentAttempts": 1
+   },
+   "attendu": "une tentative + une preuve `capstone-grade` VALIDATED, simulation: true",
+   "note": "avant le CP6 : archivé `self`, donc une auto-déclaration",
+   "preuves": [
+    "capstone:agent-tool-loop-incident passed/capstone-grade VALIDATED"
+   ]
+  },
+  {
+   "nom": "C4 · artefact : sans, puis posté, puis repris",
+   "question": "analyser la fixture compte-t-il comme un travail ?",
+   "ecritSansArtefact": {},
+   "ecrit": {
+    "artifactAnalyses": 2
+   },
+   "attendu": "RIEN sans artefact · DEUX analyses ensuite (deux versions)",
+   "note": "la garde la plus facile à perdre du CP7",
+   "preuves": []
+  },
+  {
+   "nom": "C5 · terminal + pipelines",
+   "question": "un usage produit-il une preuve ?",
+   "ecrit": {
+    "usageEvents": 2
+   },
+   "attendu": "DEUX usages, ZÉRO preuve, ZÉRO fait pédagogique",
+   "note": "le pipeline a rendu « success », et le fait ne le porte pas",
+   "preuves": []
+  },
+  {
+   "nom": "C6 · consulter, réinitialiser, demander le corrigé",
+   "question": "que reste-t-il d’une consultation ?",
+   "ecrit": {},
+   "attendu": "RIEN — et c’est une réponse VALIDE",
+   "note": "ouvrir une page n’est pas un fait de travail ; `remediate` rend la correction DU PRODUIT",
+   "preuves": []
+  }
+ ]
+}

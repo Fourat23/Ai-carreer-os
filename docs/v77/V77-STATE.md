@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP12** |
+| `LAST_COMPLETED_CP` | **CP13** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP13** — E2E INTER-SURFACES |
-| `NEXT_ACTION` | traverser des chaînes COMPLÈTES en HTTP réel, d'un bout à l'autre, sur le produit reconstruit : exercice → mission → compétence ; diagnostic échoué puis réussi ; capstone ; artefact posté puis repris ; terminal et pipelines. Vérifier ce que chaque chaîne écrit ET ce qu'elle n'écrit pas. **`N/A` et `NO_FACT` sont des réponses VALIDES** — une chaîne qui n'écrit rien doit être constatée telle quelle, pas réparée pour faire joli. |
+| `NEXT_CP` | **CP14** — MUTATIONS + PORTE `v77:check` |
+| `NEXT_ACTION` | jouer **≥ 30 mutations** (le brief en liste 35 familles obligatoires) contre la suite ET les sondes : chacune doit rougir. Écrire la porte `v77:check` et l'ajouter à `gates:active`. **La porte V77 ne doit PAS se juger elle-même** — prévoir un JUGE EXTERNE, comme `tests/v76-gate.test.mjs` au V76 · CP14. Gauntlet complet : `npm test`, `tsc`, `build`, `gates:active`, `v74`, `v75`, `v76`, `v77` — **PAS `v73`**, qui n'existe pas. |
 
 ## Repères Git
 
@@ -136,6 +136,10 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 
 ## `TESTS_RUN`
 
+**CP13** — `npm test` **2171/2171** · `gates:active` **49 portes, 0 violation** ·
+**6 chaînes E2E en HTTP réel, 6 résultats attendus, 0 écart** ·
+`data/progress.json` **absent**.
+
 **CP12** — `npm test` **2162/2162** · `tsc` **0** · `gates:active` **49 portes,
 0 violation** · export et `reset` traversés en HTTP réel.
 
@@ -182,6 +186,11 @@ traversée · `data/progress.json` **absent**.
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP13** — **créés** `scripts/v77/cp13-e2e.mjs` (6 chaînes en HTTP réel),
+`docs/v77/cp13-e2e.json`, `tests/v77-e2e.test.mjs` (9),
+`docs/v77/V77-CP13-E2E.md`. **Aucun fichier de produit modifié** — le CP13
+traverse et constate.
 
 **CP12** — **créés** `docs/v77/V78-PILOT-READINESS.md`,
 `tests/v77-pilot-readiness.test.mjs` (6 — le document est RATTACHÉ au code :
@@ -294,9 +303,33 @@ le branchement a lieu aux CP3 → CP7.
 | CP9 | `3e2fff5` — la matrice, et la décision qu'elle force |
 | CP10 | `2f9cfae` — le double comptage : 42 · 14 · 0 |
 | CP11 | `6f89924` — les faits deviennent lisibles, sans nouveau moteur |
-| CP12 | *(ce commit)* — ce qu'un pilote pourra observer, et ce qu'il ne pourra pas |
+| CP12 | `0e266e7` — ce qu'un pilote pourra observer, et ce qu'il ne pourra pas |
+| CP13 | *(ce commit)* — six chaînes traversées sur le produit qui tourne |
 
 ## Journal des CP
+
+- **CP13** — **un produit n'est pas une somme de surfaces.**
+  - Six chaînes traversées en HTTP réel sur le produit reconstruit. L'état est lu
+    **par l'EXPORT du produit**, pas par le fichier sur disque : une sonde qui
+    lirait ce qu'elle vient d'écrire mesurerait son appareil — V76 · CP14 a payé
+    trois faux survivants pour cette leçon.
+  - **La sonde ne contourne AUCUNE garantie** : les corrigés ne sont jamais
+    servis par l'API, donc elle les lit dans les fixtures, comme un auteur.
+    Ouvrir une porte pour se faciliter la tâche invaliderait à la fois la mesure
+    et la garantie. Deux tests gardent ces deux points.
+  - **C1, la chaîne du défaut `A13`** : toujours **deux** preuves — rien n'a été
+    supprimé, la mission a bien eu lieu — mais **une seule démontre**.
+  - **C4, la garde la plus facile à perdre** : `analyze` **sans** artefact
+    calcule les mêmes diagnostics et n'écrit **pas un octet** ; deux versions
+    postées font deux productions ; aucune preuve n'en naît.
+  - **C6 n'écrit RIEN, et c'est la réponse.** Consulter, réinitialiser, demander
+    le corrigé du produit : aucun de ces gestes n'est un travail de l'apprenant.
+  - **Le résultat est publié ET pinné** par neuf tests : ils ne remplacent pas la
+    sonde, ils empêchent qu'un comportement change sans que personne ne la
+    rejoue.
+  - **Ce que la traversée ne peut pas confirmer** : qu'un humain apprenne quoi que
+    ce soit. Elle prouve que le système observe proprement — la valeur
+    pédagogique de ces observations est la question de V78.
 
 - **CP12** — **ce qu'un pilote pourra observer, et surtout ce qu'il ne pourra
   pas.**

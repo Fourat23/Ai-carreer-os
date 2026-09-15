@@ -12,17 +12,15 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP10**
+- **dernier CP terminé** : **CP11**
 - **CP courant** : —
-- **NEXT_CP** : **CP11** — AUDIT D'INTÉGRATION AU MOTEUR D'APPRENTISSAGE
-- **NEXT_ACTION** : vérifier la chaîne complète Workbench → `ExerciseAttempt` →
-  `Evidence` → concepts → compétence → Rétention → Récupération. Tester :
-  échec · réussite · reprise · réussite après aide · réussite après correction ·
-  multi-concepts · `TransferAttempt`. **CHASSER LE DOUBLE COMPTAGE** — une
-  réussite ne doit pas produire DEUX preuves équivalentes par deux chemins
-  (`recordExerciseSuccess` et la commande `SUBMIT` convergent-elles vraiment sur
-  `evidenceId: lab-<id>` ?). Ne rien reconstruire : auditer, mesurer, corriger
-  seulement ce qui est démontré défaillant.
+- **NEXT_CP** : **CP12** — LES 12 PARCOURS E2E RÉELS, REJOUÉS
+- **NEXT_ACTION** : rejouer `node scripts/v76/cp0-e2e.mjs` (les mêmes 12
+  exercices, un par famille de runtime) APRÈS toutes les modifications des
+  CP3 → CP11 — isolation, diagnostic, aide, fuite fermée, révisions, journal,
+  preuve unique. **Comparer CP0 → CP12** chiffre à chiffre, y compris les temps
+  (le CP5 a ajouté `unshare`/chroot : le coût doit être mesuré, pas supposé).
+  Produire `docs/v76/V76-E2E-12-EXERCISES.md`.
 
 ## Repères Git
 
@@ -38,7 +36,7 @@
 
 `376` exercices · `128` leçons · `365` journées · `52` semaines · `12` mois ·
 corpus gelé `92d5fae6` · **`data/progress.json` n'existe pas** ·
-`data/lab-workspaces/` et `data/lab-journals/` ignorés par git · **1963 tests** ·
+`data/lab-workspaces/` et `data/lab-journals/` ignorés par git · **1977 tests** ·
 tsc 0 · build OK ·
 `gates:active` **48 portes, 0 violation**.
 
@@ -226,6 +224,18 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP11** : **créés** `scripts/v76/cp11-integration.mjs` (13 scénarios, fixture
+  remise à zéro à chaque fois), `tests/v76-integration.test.mjs` (14),
+  `docs/v76/V76-CP11-INTEGRATION-AUDIT.md`, `docs/v76/cp11-integration.json`.
+  **Modifiés** `lib/learning-engine.mjs` (+ `canonicalSourceId` : le FAIT nommé
+  séparément de la preuve de journée), `app/api/lab/[exerciseId]/route.ts`
+  (la route le passe), `lib/evidence.mjs` (+ `fusionnerPreuvesDeLaboratoire`,
+  appliquée à la LECTURE par `normalizeLedger`) + `lib/evidence.d.ts`,
+  `tests/v75-exercise-mapping.test.mjs` (borne `{0,900}` remplacée par une
+  recherche dans le bloc — **aucune propriété du produit n'a bougé**).
+  **`ExerciseAttempt`, la règle de consolidation et le moteur de rétention
+  n'ont PAS été touchés.**
+
 - **CP10** : **créés** `lib/attempt-journal.mjs` (PUR) + `.d.ts`,
   `lib/attempt-diff.mjs` (PUR) + `.d.ts`, `lib/attempt-journal-fs.mjs` (I/O),
   `lib/attempt-journal-server.ts` (racine `data/lab-journals/`),
@@ -312,6 +322,43 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP11** — **une réussite, deux preuves : le double comptage était écrit dans
+  le code depuis V75.**
+  - Sur un état NEUF — condition sans laquelle « une preuve de plus » est
+    invisible — une seule réussite au laboratoire écrivait **2 preuves**,
+    fournissait **2 « sources distinctes »** et produisait **2 contacts de
+    rétention**.
+  - **Ce n'était pas cosmétique** : la règle de consolidation promeut à
+    `reinforced` sur « deux sources distinctes ET deux dates distinctes » —
+    c'est-à-dire deux OCCASIONS différentes de démontrer la compétence. Un seul
+    exercice en fournissait deux : résolu deux jours de suite, il déclarait un
+    réancrage qui n'avait pas eu lieu. Le « score fabriqué » que V75 avait
+    interdit.
+  - **Le plus gênant : c'était écrit.** Un commentaire de V75 · CP4 l'annonçait
+    mot pour mot, et s'en servait comme d'une CONTRAINTE (« il faut instrumenter
+    les deux preuves ») au lieu d'y voir le défaut. Quinze lignes plus haut, un
+    autre commentaire affirmait le contraire — « les deux chemins convergent sur
+    UNE preuve ». Vrai pour la journée, faux pour le registre. *Deux commentaires
+    du même fichier se contredisaient depuis un sprint, et aucun test ne pouvait
+    trancher parce qu'aucun ne COMPTAIT.*
+  - **Cause** : `evidenceId` servait à deux choses — identifiant de la preuve de
+    JOURNÉE et `sourceId` de la preuve CANONIQUE. `canonicalSourceId` sépare les
+    deux. Absent, le comportement reste celui d'avant.
+  - **La moitié qui aurait cassé le produit** : §P9 du contrat V65 fait échouer
+    une commande dont la preuve est refusée. Si le doublon était devenu une
+    ERREUR, chaque réussite aurait affiché un échec de soumission. Un test
+    l'épingle.
+  - **Les registres déjà écrits** sont réparés **à la lecture**, jamais réécrits
+    sur le disque. Règle étroite : seulement `exercise`, seulement si `<id>`
+    existe, seulement à compétences identiques — appuyée sur une propriété du
+    corpus VÉRIFIÉE (0/376 identifiants commençant par `lab-`).
+  - **Sept maillons sur neuf fonctionnaient, et n'ont pas été touchés.** Le CP11
+    était un audit ; il a corrigé le seul maillon cassé et n'a rien reconstruit.
+  - **11 mutations, 10 tuées, 1 équivalente.** `O7` avait survécu parce que mes
+    tests n'atteignaient jamais la branche gardée (même faute que `N4` au CP10) ;
+    `O8` dans sa première forme avait survécu parce que la tentative est aussi
+    persistée, accidentellement, par l'écriture du fait `hintViews`.
 
 - **CP10** — **l'historique était complet, et personne ne le servait.**
   - Quatrième sprint de suite où la chose à construire existe déjà, débranchée.

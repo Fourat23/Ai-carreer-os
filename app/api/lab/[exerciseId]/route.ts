@@ -353,9 +353,19 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
                 detail: `${attempt.passed}/${attempt.total} tests`,
                 score: { passed: attempt.passed, total: attempt.total },
               },
-              // Même identifiant de preuve que `recordExerciseSuccess` : les
-              // deux chemins convergent sur UNE preuve, jamais deux.
+              // Même identifiant de preuve de JOURNÉE que
+              // `recordExerciseSuccess` : de ce côté-là, les deux chemins
+              // convergent depuis toujours.
               evidenceId: `lab-${ex.id}`,
+              // ── V76 · CP11 — ET LE MÊME NOM POUR LE FAIT ──
+              //
+              // Le registre canonique, lui, ne convergeait PAS :
+              // `recordExerciseSuccess` nomme la source `<exerciseId>`, cette
+              // commande la nommait `lab-<exerciseId>`. Une seule réussite
+              // écrivait donc deux preuves, et fournissait à elle seule les
+              // « deux sources distinctes » que la règle de consolidation exige
+              // pour promouvoir une compétence. Mesuré au CP11, corrigé ici.
+              canonicalSourceId: ex.id,
               evidenceTitle: `Exercice réussi : ${ex.title}`,
               evidenceUrl: `/lab/${ex.id}`,
               skills: ex.skills ?? [],

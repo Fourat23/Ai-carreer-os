@@ -209,16 +209,35 @@ test('V75 · CP4 — les deux contextes « leçons de la journée » sont la MÊ
 
 // ── LE BRANCHEMENT : SANS LUI, LE CHECKPOINT N'EXISTE PAS ───────────────
 
-test('V75 · CP4 — le laboratoire utilise le résolveur, pour les DEUX preuves', () => {
-  // Une réussite au laboratoire écrit deux preuves au registre, avec des
-  // `sourceId` différents (`<ex>` et `lab-<ex>`) : le dédoublonnage ne les
-  // fusionne pas. Le CP3 n'en instrumentait qu'une ; la seconde retombait sur
-  // le rattachement par journée et annulait le gain pour le même exercice.
+test('V75 · CP4 — le laboratoire utilise le résolveur, pour les DEUX producteurs', () => {
+  // ── CE QUE CE TEST GARDE, ET CE QU'IL NE GARDE PLUS ──
+  //
+  // V75 · CP4 : les DEUX producteurs de preuves du laboratoire doivent recevoir
+  // les concepts résolus. Le CP3 n'en instrumentait qu'un ; le second repartait
+  // sans concept et retombait sur le rattachement PAR JOURNÉE, annulant le gain
+  // pour le même exercice. **Cette propriété-là n'a pas bougé.**
+  //
+  // Ce qui a changé au V76 · CP11 : les deux producteurs convergent désormais
+  // sur UNE preuve au registre (`canonicalSourceId`), au lieu de deux sous des
+  // `sourceId` différents. La phrase « écrit deux preuves » du commentaire
+  // d'origine décrivait un défaut, pas une garantie.
+  //
+  // La borne `{0,900}` de la version d'origine a cassé dès qu'un commentaire a
+  // été ajouté entre `type: 'SUBMIT'` et `conceptIds` — sans qu'aucune
+  // propriété du produit ne bouge. On cherche donc la PRÉSENCE de la clé dans
+  // le bloc de la commande, pas à une distance donnée.
   const route = lire('app/api/lab/[exerciseId]/route.ts');
   assert.match(route, /conceptsDeLExerciceResolu\s*\(/, 'le résolveur du CP4 doit être appelé');
-  assert.match(route, /recordExerciseSuccess\([^)]*[\s\S]{0,900}?conceptIds:\s*concepts/,
+
+  const bloc = (depuis, jusqu) => {
+    const i = route.indexOf(depuis);
+    assert.ok(i > 0, `« ${depuis} » introuvable dans la route`);
+    const j = route.indexOf(jusqu, i);
+    return route.slice(i, j > i ? j : route.length);
+  };
+  assert.match(bloc('recordExerciseSuccess(', '});'), /conceptIds:\s*concepts/,
     'la preuve du lab-runner doit porter les concepts résolus');
-  assert.match(route, /type:\s*'SUBMIT'[\s\S]{0,900}?conceptIds:\s*concepts/,
+  assert.match(bloc("type: 'SUBMIT'", '}, { now:'), /conceptIds:\s*concepts/,
     'la preuve canonique de la soumission doit porter les mêmes concepts');
 });
 

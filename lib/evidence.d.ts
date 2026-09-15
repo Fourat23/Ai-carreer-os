@@ -87,6 +87,8 @@ export function appendEvidence(list: Evidence[] | undefined, evidence: Evidence)
   evidence: Evidence[]; added: boolean; reason?: string;
 };
 export function normalizeLedger(raw: unknown): Evidence[];
+// V76 · CP11 — retire les doublons `exercise:lab-<id>` quand `exercise:<id>` existe.
+export function fusionnerPreuvesDeLaboratoire<T>(list: T[]): T[];
 export function classifyLegacyEvidence(e: unknown): { sourceType: EvidenceSourceType; sourceId: string; qualifying: boolean };
 export function migrateLegacyEvidence(days: unknown): Evidence[];
 

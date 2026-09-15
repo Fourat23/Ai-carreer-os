@@ -1,0 +1,80 @@
+[
+ {
+  "id": "I1",
+  "nom": "ÉCHEC : la tentative est écrite, et AUCUNE preuve",
+  "ok": true,
+  "detail": "1 tentative(s) · issue « partial » · 0 preuve(s)"
+ },
+ {
+  "id": "I2",
+  "nom": "RÉUSSITE : combien de preuves pour UNE réussite ?",
+  "ok": true,
+  "detail": "**1 preuve(s)** au registre · sources : exercise:a11y-accessible-name · 1 preuve(s) de journée"
+ },
+ {
+  "id": "I3",
+  "nom": "REPRISE : relancer une réussite n’ajoute rien",
+  "ok": true,
+  "detail": "preuves 1 → 1 · tentatives 1 → 2"
+ },
+ {
+  "id": "I4",
+  "nom": "La PREUVE DE JOURNÉE converge, elle, sur UN identifiant",
+  "ok": true,
+  "detail": "1 preuve(s) de journée · identifiants : lab-a11y-accessible-name"
+ },
+ {
+  "id": "I5",
+  "nom": "DOUBLE COMPTAGE → la compétence monte-t-elle toute seule ?",
+  "ok": true,
+  "detail": "un seul exercice réussi fournit **1 source(s) distincte(s)** : exercise:a11y-accessible-name"
+ },
+ {
+  "id": "I6",
+  "nom": "RÉTENTION : combien de contacts pour UNE réussite ?",
+  "ok": true,
+  "detail": "contacts : exercise=2 · evidence=1"
+ },
+ {
+  "id": "I7",
+  "nom": "CONCEPTS : les deux producteurs de preuves les portent-ils ?",
+  "ok": true,
+  "detail": "1/1 preuve(s) portent des concepts · react-accessibility"
+ },
+ {
+  "id": "I8",
+  "nom": "AIDE : une réussite après aide reste une réussite, et le DIT",
+  "ok": true,
+  "detail": "3 aide(s) consignée(s) · provenance : « Réussi après 3 aides consultées. » · réussite conservée : true"
+ },
+ {
+  "id": "I9",
+  "nom": "CORRECTION OUVERTE : la tentative suivante ne vaut PAS récupération",
+  "ok": true,
+  "detail": "correctionSeen = true · issue « success »"
+ },
+ {
+  "id": "I10",
+  "nom": "TRANSFERT : le défi écrit SON fait, distinct de la tentative d’exercice",
+  "ok": true,
+  "detail": "1 TransferAttempt · 0 ExerciseAttempt · 0 preuve(s)"
+ },
+ {
+  "id": "I11",
+  "nom": "MULTI-CONCEPTS : la preuve les porte TOUS, sans en choisir un",
+  "ok": true,
+  "detail": "`agent-state-transition` · 1 preuve(s) · 2/2 concepts portés"
+ },
+ {
+  "id": "I13",
+  "nom": "AMBIGU : aucune leçon n’est créditée au hasard",
+  "ok": true,
+  "detail": "`agent-cycle-index` · 1 preuve(s) · concepts portés : aucun (correct)"
+ },
+ {
+  "id": "I12",
+  "nom": "`data/progress.json` n’est JAMAIS créé",
+  "ok": true,
+  "detail": "absent"
+ }
+]

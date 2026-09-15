@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP11** |
+| `LAST_COMPLETED_CP` | **CP12** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP12** — `docs/v77/V78-PILOT-READINESS.md` |
-| `NEXT_ACTION` | écrire `docs/v77/V78-PILOT-READINESS.md` : ce qu'un pilote humain pourra RÉELLEMENT observer, surface par surface, et ce qu'il ne pourra pas. Reprendre les politiques du CP1/CP2 confrontées à ce qui a été construit, la granularité de la suppression et ce qu'un export contient exactement (point laissé au CP12 par le CP0), et les limites déclarées de chaque CP. **Ne rien promettre que les CP3→CP11 n'aient mesuré.** |
+| `NEXT_CP` | **CP13** — E2E INTER-SURFACES |
+| `NEXT_ACTION` | traverser des chaînes COMPLÈTES en HTTP réel, d'un bout à l'autre, sur le produit reconstruit : exercice → mission → compétence ; diagnostic échoué puis réussi ; capstone ; artefact posté puis repris ; terminal et pipelines. Vérifier ce que chaque chaîne écrit ET ce qu'elle n'écrit pas. **`N/A` et `NO_FACT` sont des réponses VALIDES** — une chaîne qui n'écrit rien doit être constatée telle quelle, pas réparée pour faire joli. |
 
 ## Repères Git
 
@@ -136,6 +136,9 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 
 ## `TESTS_RUN`
 
+**CP12** — `npm test` **2162/2162** · `tsc` **0** · `gates:active` **49 portes,
+0 violation** · export et `reset` traversés en HTTP réel.
+
 **CP11** — `npm test` **2156/2156** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · `/history` traversée en HTTP réel ·
 `data/progress.json` **absent**.
@@ -179,6 +182,12 @@ traversée · `data/progress.json` **absent**.
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP12** — **créés** `docs/v77/V78-PILOT-READINESS.md`,
+`tests/v77-pilot-readiness.test.mjs` (6 — le document est RATTACHÉ au code :
+surfaces, nombres et faits sont vérifiés contre `practice-model`,
+`evidence-matrix` et `FAITS_DU_PRODUIT`).
+**Aucun fichier de produit modifié** — le CP12 mesure et déclare.
 
 **CP11** — **créés** `tests/v77-learner-state.test.mjs` (14),
 `docs/v77/V77-CP11-ETAT-APPRENANT.md`. **Modifiés** : `lib/learner-history.mjs`
@@ -284,9 +293,34 @@ le branchement a lieu aux CP3 → CP7.
 | CP8 | `39c69c6` — les 125 ambigus : 125 → 125, et c'est le résultat |
 | CP9 | `3e2fff5` — la matrice, et la décision qu'elle force |
 | CP10 | `2f9cfae` — le double comptage : 42 · 14 · 0 |
-| CP11 | *(ce commit)* — les faits deviennent lisibles, sans nouveau moteur |
+| CP11 | `6f89924` — les faits deviennent lisibles, sans nouveau moteur |
+| CP12 | *(ce commit)* — ce qu'un pilote pourra observer, et ce qu'il ne pourra pas |
 
 ## Journal des CP
+
+- **CP12** — **ce qu'un pilote pourra observer, et surtout ce qu'il ne pourra
+  pas.**
+  - Le document énumère **quatre questions tranchables** et **six qui ne le sont
+    pas**. Les secondes comptent plus : un pilote qui les croit tranchées
+    produira des conclusions fausses.
+  - **Le document est RATTACHÉ AU CODE par six tests.** Un document de readiness
+    est le plus facile à écrire et le plus facile à laisser mentir : il vieillit
+    sans rougir. Surfaces, nombres et faits sont vérifiés contre
+    `practice-model`, `evidence-matrix` et `FAITS_DU_PRODUIT`.
+  - **VIE PRIVÉE — les deux points laissés au CP12 par le CP0, mesurés** :
+    · l'export contient les **neuf faits** et **aucun identifiant personnel** —
+      mais **PAS les journaux de laboratoire**, donc *un participant qui exporte
+      « toutes ses données » n'emporte pas son code* ;
+    · `reset` efface la progression, **écrit un instantané de secours qui
+      contient encore tout**, et **ne touche ni les journaux ni les espaces de
+      travail**. C'est délibéré (V76 · CP10 : un `RESET` ne doit pas effacer
+      l'histoire d'un échec) — et c'est une réserve qu'un protocole humain doit
+      énoncer.
+  - **NON CORRIGÉ, et dit comme tel** : changer ce comportement à la veille d'un
+    pilote casserait une garantie pédagogique pour en servir une autre, sans
+    mesure. C'est une décision de protocole, pas d'ingénierie.
+  - **La phrase qu'il ne faudra pas écrire**, nommée dans le document et gardée
+    par un test : *« Le système mesure l'apprentissage. »* Il ne le mesure pas.
 
 - **CP11** — **un fait que personne ne peut lire n'est pas encore une
   observation : c'est du stockage.**

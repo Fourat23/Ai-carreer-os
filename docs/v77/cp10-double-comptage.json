@@ -1,0 +1,855 @@
+{
+ "generatedAt": "2026-09-15T12:00:00.000Z",
+ "pairesStructurelles": 42,
+ "pairesQuiChevauchent": 14,
+ "doubleComptageAujourdhui": 0,
+ "a13": {
+  "rejouable": true,
+  "preuveExercice": {
+   "id": "ev-exercise-react-search",
+   "niveau": "VALIDATED",
+   "qualifie": true
+  },
+  "preuveMission": {
+   "id": "ev-mission-frontend-accessible-search-n",
+   "niveau": "DECLARED",
+   "qualifie": false
+  },
+  "parCompetence": {
+   "jsts": {
+    "preuves": 2,
+    "qualifiantes": 1,
+    "etat": "demonstrated"
+   }
+  }
+ },
+ "detail": [
+  {
+   "missionId": "cicd-blocked-delivery",
+   "deliverableId": "promote",
+   "exerciseId": "cicd-env-promotion",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cicd-broken-pr",
+   "deliverableId": "status",
+   "exerciseId": "cicd-global-status",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cicd-secret-in-logs",
+   "deliverableId": "mask",
+   "exerciseId": "cicd-mask-secrets",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo",
+    "gitlinux"
+   ],
+   "competencesCommunes": [
+    "gitlinux"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cicd-slow-flaky",
+   "deliverableId": "critical",
+   "exerciseId": "cicd-critical-path",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se",
+    "sql"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-backup-dr",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-rpo-meets",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-backup-recovery",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-rpo-met",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "http",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-broken-release",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-rollback-decision",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-cost-reduction",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-replica-count",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "http",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-ha-api-design",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-prod-ready",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-high-availability",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-detect-spof",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "http",
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-migrate-resilient",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-spof-detect",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-observability-diagnosis",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-observability-gap",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-reduce-bill",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-rightsizing-savings",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-secure-architecture",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-iam-wildcard",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-secure-exposure",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-public-exposure",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "http",
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "cloud-three-tier",
+   "deliverableId": "exo",
+   "exerciseId": "cloud-classify-tier",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "http",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "docker-container-incident",
+   "deliverableId": "diagnose",
+   "exerciseId": "docker-exit-diagnosis",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo",
+    "se"
+   ],
+   "competencesCommunes": [
+    "se"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "docker-containerize-api",
+   "deliverableId": "non-root",
+   "exerciseId": "docker-detect-root",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "algo",
+    "gitlinux"
+   ],
+   "competencesExercice": [
+    "algo",
+    "gitlinux"
+   ],
+   "competencesCommunes": [
+    "algo",
+    "gitlinux"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "docker-reduce-image-debt",
+   "deliverableId": "repro",
+   "exerciseId": "docker-tag-vs-digest",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "sql"
+   ],
+   "competencesExercice": [
+    "algo",
+    "gitlinux"
+   ],
+   "competencesCommunes": [
+    "gitlinux"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "frontend-accessible-search",
+   "deliverableId": "search-behavior",
+   "exerciseId": "react-search",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "jsts"
+   ],
+   "competencesExercice": [
+    "jsts"
+   ],
+   "competencesCommunes": [
+    "jsts"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "frontend-capstone-diagnose",
+   "deliverableId": "debug-fix",
+   "exerciseId": "react-debug-list",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "jsts",
+    "se"
+   ],
+   "competencesExercice": [
+    "jsts"
+   ],
+   "competencesCommunes": [
+    "jsts"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "health-incident-postmortem",
+   "deliverableId": "diagnosis-fix",
+   "exerciseId": "incident-health-rollup",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "algo",
+    "ds"
+   ],
+   "competencesExercice": [
+    "algo",
+    "ds"
+   ],
+   "competencesCommunes": [
+    "algo",
+    "ds"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "iac-drift-remediation",
+   "deliverableId": "exo-destructive",
+   "exerciseId": "iac-plan-destructive",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "algo",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [
+    "algo"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "iac-drift-remediation",
+   "deliverableId": "exo-idempotent",
+   "exerciseId": "iac-idempotent-changes",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "algo",
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "incident-dns-tls-http",
+   "deliverableId": "locate-layer",
+   "exerciseId": "net-first-failure",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "http",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo",
+    "se"
+   ],
+   "competencesCommunes": [
+    "se"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "k8s-crashloop",
+   "deliverableId": "exo",
+   "exerciseId": "k8s-pod-phase",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "k8s-deploy-api",
+   "deliverableId": "exo",
+   "exerciseId": "k8s-service-endpoints",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "http",
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "k8s-oomkilled-sizing",
+   "deliverableId": "exo",
+   "exerciseId": "k8s-oom-risk",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "k8s-rolling-regression",
+   "deliverableId": "exo",
+   "exerciseId": "k8s-recovery-decision",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "k8s-secret-rotation",
+   "deliverableId": "exo",
+   "exerciseId": "k8s-secret-placement",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "http",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "k8s-service-no-endpoints",
+   "deliverableId": "exo",
+   "exerciseId": "k8s-selector-match",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "http",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "legacy-pricing-maintenance",
+   "deliverableId": "refactor",
+   "exerciseId": "debt-legacy-refactor",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "algo",
+    "ds"
+   ],
+   "competencesExercice": [
+    "algo",
+    "ds"
+   ],
+   "competencesCommunes": [
+    "algo",
+    "ds"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "permissions-secret-expose",
+   "deliverableId": "compute-perms",
+   "exerciseId": "sys-perms-to-octal",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "algo",
+    "gitlinux"
+   ],
+   "competencesExercice": [
+    "algo",
+    "gitlinux"
+   ],
+   "competencesCommunes": [
+    "algo",
+    "gitlinux"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "port-occupe-service-indisponible",
+   "deliverableId": "find-listener",
+   "exerciseId": "sys-port-listener",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "se"
+   ],
+   "competencesExercice": [
+    "ds",
+    "gitlinux"
+   ],
+   "competencesCommunes": [
+    "gitlinux"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "saturation-ressources",
+   "deliverableId": "top-consumers",
+   "exerciseId": "sys-process-top-cpu",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "sql"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "sec-broken-security-deploy",
+   "deliverableId": "exo",
+   "exerciseId": "sec-recovery-decision",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "sec-combined-incident",
+   "deliverableId": "exo",
+   "exerciseId": "sec-blast-radius",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "se"
+   ],
+   "competencesExercice": [
+    "se"
+   ],
+   "competencesCommunes": [
+    "se"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "sec-dependency-compromise",
+   "deliverableId": "exo",
+   "exerciseId": "sec-cve-affected",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "sec-rbac-excessive",
+   "deliverableId": "exo",
+   "exerciseId": "sec-least-privilege",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "sec-secret-leak",
+   "deliverableId": "exo",
+   "exerciseId": "sec-secret-response-order",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "se"
+   ],
+   "competencesExercice": [
+    "ds"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "sec-workload-hardening",
+   "deliverableId": "exo",
+   "exerciseId": "sec-securitycontext",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "gitlinux",
+    "se"
+   ],
+   "competencesExercice": [
+    "algo"
+   ],
+   "competencesCommunes": [],
+   "chevauche": false,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  },
+  {
+   "missionId": "slow-endpoint-optimization",
+   "deliverableId": "optimize",
+   "exerciseId": "perf-pair-count",
+   "exerciceExiste": true,
+   "competencesMission": [
+    "algo",
+    "ds"
+   ],
+   "competencesExercice": [
+    "algo",
+    "ds"
+   ],
+   "competencesCommunes": [
+    "algo",
+    "ds"
+   ],
+   "chevauche": true,
+   "preuveExerciceQualifie": true,
+   "preuveMissionQualifie": false,
+   "competencesDoublementCreditees": [],
+   "doubleComptage": false
+  }
+ ]
+}

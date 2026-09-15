@@ -67,6 +67,13 @@ export interface Evidence {
   /** V77 · CP5 — DÉRIVÉ du type de source et du moyen de validation, jamais reçu. */
   evidenceLevel: NiveauDePreuve;
   /**
+   * V77 · CP10 — filiation : de quelles autres productions cette preuve dérive
+   * (`exercise:<id>`…). N'entre PAS dans la clé métier — une filiation décrit
+   * une origine, elle ne change pas l'identité de la preuve. Liste vide =
+   * « filiation inconnue », jamais « aucune filiation ».
+   */
+  derivedFrom: string[];
+  /**
    * V77 · CP6 — environnement simulé. Ne dégrade AUCUN niveau : `VALIDATED` et
    * `simulation: true` tiennent ensemble. Champ booléen, jamais du texte.
    */
@@ -89,6 +96,8 @@ export interface EvidenceInput {
   artifactRef?: string;
   /** V77 · CP6 — déclaré par l'appelant, qui seul sait si l'environnement est simulé. */
   simulation?: boolean;
+  /** V77 · CP10 — filiation déclarée par le producteur (`exercise:<id>`…). */
+  derivedFrom?: string[];
 }
 
 export type MakeEvidenceResult =

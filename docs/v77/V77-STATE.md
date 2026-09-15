@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP9** |
+| `LAST_COMPLETED_CP` | **CP10** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP10** — DOUBLE COMPTAGE INTER-SURFACES |
-| `NEXT_ACTION` | mesurer le **nombre CANONIQUE** de doubles comptages inter-surfaces — **NE PAS réutiliser le 14 du CP0**, le remesurer. Défaut `D1` : un exercice résolu valide un livrable de mission, et les deux preuves portaient la même compétence canonique (sonde `A13`). Le CP5 a retiré la moitié « mission » en la rendant non qualifiante — il faut mesurer ce qui RESTE. Ajouter la provenance `derivedFrom` là où une preuve dérive d'une autre. Vérifier rejeu et idempotence. |
+| `NEXT_CP` | **CP11** — INTÉGRATION À L'ÉTAT DE L'APPRENANT |
+| `NEXT_ACTION` | brancher les nouveaux faits sur l'état de l'apprenant **SANS créer de nouveau moteur**. Les faits des CP3→CP7 (`usageEvents`, `assessmentAttempts`, `missionSubmissions`, `artifactAnalyses`) sont écrits, persistés et exportés — mais **aucune surface ne les lit**. Les rendre lisibles là où ils ont un sens, sans fabriquer de score, sans percentile, sans probabilité. `UNKNOWN` reste une réponse valide. |
 
 ## Repères Git
 
@@ -107,6 +107,7 @@
 | `D7` | **six surfaces calculent et ne gardent rien** | `A1`–`A6` : 200, résultat substantiel, 0 octet écrit |
 | `D8` | **aucun niveau de confiance sur les preuves** | 5 tests en bac à sable et un clic portent le même `passed` |
 | `D9` | **la marque de simulation vit dans du texte libre** | `detail`, pas un champ ; rien ne la garde |
+| `D1` | ~~double comptage inter-surfaces~~ **CLOS PAR CONSÉQUENCE au CP10** (CP5 + CP9), et remesuré : **42** paires structurelles · **14** qui chevauchent une compétence (c'était le « 14 » du CP0, un chevauchement STRUCTUREL) · **0** double comptage effectif | sonde `A13` rejouée : 2 preuves, **1** qualifiante |
 | `D8` | ~~aucun niveau de confiance sur les preuves~~ **CORRIGÉE aux CP5→CP9** : `evidenceLevel` dérivé, deux plafonds, matrice de 192 lignes publiée et sans incohérence | 12 combinaisons qualifiantes sur 192 |
 | `D10` | **125 exercices sans rattachement** | cause : aucun `conceptIds`/`lessonRefs` dans la source |
 | `D11` | `placeholder` est un terme du domaine traité comme un marqueur de remplissage | `PLACEHOLDER_RE` |
@@ -134,6 +135,9 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 (79 vérifications) reste dans `gates:active`.
 
 ## `TESTS_RUN`
+
+**CP10** — `npm test` **2142/2142** · `tsc` **0** · `build` **OK** ·
+`gates:active` **49 portes, 0 violation** · mesure canonique **42 · 14 · 0**.
 
 **CP9** — `npm test` **2130/2130** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
@@ -171,6 +175,12 @@ traversée · `data/progress.json` **absent**.
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP10** — **créés** `scripts/v77/cp10-double-comptage.mjs`,
+`docs/v77/cp10-double-comptage.json`, `tests/v77-double-comptage.test.mjs` (12),
+`docs/v77/V77-CP10-DOUBLE-COMPTAGE.md`. **Modifiés** : `lib/evidence.mjs`
+(champ `derivedFrom`, hors clé métier), `lib/evidence.d.ts`,
+`lib/mission-state.mjs` (filiation écrite sur la preuve de mission).
 
 **CP9** — **créés** `lib/evidence-matrix.mjs` (**PUR**),
 `lib/evidence-matrix.d.ts`, `scripts/v77/cp9-matrice.mjs`,
@@ -262,9 +272,34 @@ le branchement a lieu aux CP3 → CP7.
 | CP6 | `3f411b4` — le capstone était dégradé, pas surclassé |
 | CP7 | `96b6d36` — quatre surfaces analysaient vraiment, et n'écrivaient rien |
 | CP8 | `39c69c6` — les 125 ambigus : 125 → 125, et c'est le résultat |
-| CP9 | *(ce commit)* — la matrice, et la décision qu'elle force |
+| CP9 | `3e2fff5` — la matrice, et la décision qu'elle force |
+| CP10 | *(ce commit)* — le double comptage : 42 · 14 · 0 |
 
 ## Journal des CP
+
+- **CP10** — **42 · 14 · 0, et confondre les deux premiers était l'erreur.**
+  - Le « 14 » du CP0 n'a **pas** été recopié : il datait d'avant les CP5 et CP9,
+    qui ont changé ce qu'une preuve de mission VAUT. Un chiffre recopié n'est pas
+    une mesure, c'est une citation.
+  - **Il se retrouve pourtant — et on sait enfin ce qu'il désignait** : un
+    chevauchement STRUCTUREL de compétence entre une mission et l'exercice qui
+    valide son livrable `auto`. Pas un double crédit. Les deux se ressemblaient
+    tant qu'une preuve de mission qualifiait.
+  - **ZÉRO double comptage effectif**, mesuré en construisant les deux preuves
+    comme le produit les construit. Le défaut `D1` est clos **par conséquence**
+    (CP5 + CP9), pas par une règle dédiée — et ajouter une déduplication là où
+    aucun cas ne l'exige serait de la doctrine, pas de la précision.
+  - **Sonde `A13` rejouée** : les deux preuves EXISTENT toujours — rien n'a été
+    supprimé, la mission a bien eu lieu — mais **une seule démontre**.
+  - **La filiation est écrite plutôt que redécouverte** : `derivedFrom` dit de
+    quel exercice une preuve de mission dérive. Les 42 la portent, aucune n'est
+    muette. Elle n'entre PAS dans la clé métier — sans quoi changer un
+    `exerciseRef` créerait une seconde preuve, un double comptage fabriqué par la
+    correction du double comptage.
+  - **Une garde pour la suite** : un test dit exactement ce qui rouvrirait le
+    défaut — si une preuve de mission redevenait qualifiante, **14** doubles
+    comptages reviendraient. Le zéro dépend d'une décision, pas d'une structure,
+    et c'est écrit.
 
 - **CP9** — **une règle qu'on ne peut lire qu'en recoupant trois fichiers n'est
   pas une règle : c'est une coutume.**

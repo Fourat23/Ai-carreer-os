@@ -199,6 +199,14 @@ export interface Progress {
    */
   assessmentAttempts?: import('./assessment-attempt').AssessmentAttempt[];
   /**
+   * V77 · CP5 — LIVRABLES DE MISSION RENDUS.
+   *
+   * Le fait dit ce qui a été rendu et par quel MODE il a été constaté ; il ne
+   * dit jamais que le travail est juste. C'est ce qui a permis à la preuve de
+   * mission de cesser de dire `passed` sans rien perdre de ce qui était vrai.
+   */
+  missionSubmissions?: import('./mission-submission').MissionSubmission[];
+  /**
    * V77 · CP3 — ÉVÉNEMENTS D'USAGE. Un champ **séparé** des faits pédagogiques,
    * et il le reste : aucun moteur ne le lit, aucune preuve n'en naît. Il répond
    * à une seule question — *« cette surface a-t-elle été utilisée ? »* — et

@@ -70,6 +70,19 @@ export type Command =
       sourceRef?: string | null;
       provenance?: { producer?: string; method?: string };
     }
+  // V77 · CP5 — un livrable de mission rendu. Le niveau se dérive du MODE, pas
+  // du résultat : aucun champ ici ne peut affirmer que le travail est juste.
+  | {
+      type: 'RECORD_MISSION_SUBMISSION';
+      missionId: string;
+      deliverableId: string;
+      mode: import('./mission-submission').ModeDeLivrable;
+      statut: import('./mission-submission').StatutDeLivrable;
+      structureOk?: boolean;
+      manques?: string[];
+      tailleContenu?: number;
+      provenance?: { producer?: string; method?: string };
+    }
   // V77 · CP3 — un USAGE observé. Le type est volontairement dépourvu de tout
   // champ d'issue : il n'existe aucune façon d'exprimer une réussite ici, et
   // c'est la contrainte n°5 du contrat gelé rendue vérifiable à la compilation.

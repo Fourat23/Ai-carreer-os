@@ -111,7 +111,11 @@ test('emptyFlat : forme V6 vide', () => {
   // soumission d'un diagnostic et refusait les suivantes comme doublons, si
   // bien qu'une progression `0/5 → 1/5 → 4/5` ne laissait que `0/5`. Ici encore,
   // la liste est VIDE et jamais absente — « aucune soumission » est une donnée.
-  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [], hintViews: [], assessmentAttempts: [], usageEvents: [] });
+  //
+  // `missionSubmissions` s'ajoute en V77 · CP5 : la preuve de mission ne dit
+  // plus `passed`, et ce que ce mot recouvrait abusivement — un livrable rendu,
+  // constaté par tel MODE — est écrit là où c'est vrai.
+  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [], hintViews: [], assessmentAttempts: [], missionSubmissions: [], usageEvents: [] });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
 

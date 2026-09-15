@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP4** |
+| `LAST_COMPLETED_CP` | **CP5** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP5** — MISSIONS (le plus lourd) |
-| `NEXT_ACTION` | **arrêter d'émettre `passed` sur une mission.** Le CP0 a mesuré que 42/42 missions terminent sur un livrable `review` auto-validé par un clic, et qu'un document délibérément mauvais obtient `structure ok: true` (`D2`, `D3`). Séparer **trois choses** aujourd'hui confondues : l'état d'avancement, le niveau de validation, la preuve. Plafond gelé au CP1 : une mission ne peut JAMAIS atteindre `VALIDATED` (règle du maillon faible — `STRUCTURE_VALID + SELF_CONFIRMATION` vaut sa composante la plus faible). Produire un BEFORE/AFTER sur les 42 missions. **AUCUNE migration destructive** : les preuves existantes ne sont ni réécrites ni supprimées. |
+| `NEXT_CP` | **CP6** — CAPSTONES |
+| `NEXT_ACTION` | réparer l'accident `D4` **sans surclasser** : un capstone est corrigé par le serveur contre un corrigé déclaré, et son `kind` `capstone-grade` est absent de `VALIDATION_KINDS` — la preuve retombe donc sur `self`, c'est-à-dire une auto-déclaration. Ajouter `capstone-grade` au vocabulaire ; brancher `AssessmentAttempt` avec `kind: 'capstone'` et `simulation: true` (le fait existe depuis le CP4, la route n'émet rien). **NE PAS remonter les preuves héritées `capstone-review`** (`D5`) : leur correction n'est pas rejouable, donc on ne peut pas affirmer qu'elle a eu lieu. 13/13 capstones testés. |
 
 ## Repères Git
 
@@ -109,6 +109,8 @@
 | `D9` | **la marque de simulation vit dans du texte libre** | `detail`, pas un champ ; rien ne la garde |
 | `D10` | **125 exercices sans rattachement** | cause : aucun `conceptIds`/`lessonRefs` dans la source |
 | `D11` | `placeholder` est un terme du domaine traité comme un marqueur de remplissage | `PLACEHOLDER_RE` |
+| `D2` | ~~une mission écrit `passed` sur une auto-validation~~ **CORRIGÉE au CP5** | 42 → 0 preuves qualifiantes ; 17 compétences `demonstrated` → `practiced` |
+| `D3` | **un document faux mais bien structuré passe** — CONFIRMÉE en HTTP au CP5, et non corrigée : c'est ce qu'un validateur de FORME fait. Le CP5 en tire la conséquence (`OBSERVED`) au lieu de prétendre l'avoir réparé | runbook « pas de rollback prévu » → `structure ok: True` |
 | `D6` | ~~un assessment échoué 5× laisse 1 trace~~ **CORRIGÉE au CP4** — et la mesure disait plus que la dette : la clé de preuve ignorant le score, c'est la PREMIÈRE tentative qui survivait, donc `0/5 → 1/5 → 4/5` ne gardait que `0/5` puis `4/5` | 7 soumissions → 7 faits ; doublon réseau → 1 fait |
 | `D12` | **CP3** — ~~les faits ne survivaient pas à l'import de leur propre sauvegarde~~ **CORRIGÉE au CP3** : `validateStrict` était une quatrième liste blanche | mesuré `recallAttempts 1 → 0`, `hintViews 1 → 0` ; l'énumération des faits est désormais unique |
 
@@ -127,6 +129,11 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 
 ## `TESTS_RUN`
 
+**CP5** — `npm test` **2070/2070** · `tsc` **0** · `build` **OK** ·
+`gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
+0 trou** · BEFORE/AFTER sur **42 missions** · chaîne HTTP réelle d'une mission
+traversée · `data/progress.json` **absent**.
+
 **CP4** — `npm test` **2047/2047** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
 0 trou** · chaîne HTTP réelle des diagnostics traversée · `data/progress.json`
@@ -141,6 +148,15 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP5** — **créés** `lib/mission-submission.mjs` (**PUR**),
+`lib/mission-submission.d.ts`, `tests/v77-mission-submission.test.mjs` (23),
+`scripts/v77/cp5-missions-before-after.mjs`, `docs/v77/cp5-missions-before-after.json`,
+`docs/v77/V77-CP5-MISSIONS.md`. **Modifiés** : `lib/evidence.mjs`
+(`evidenceLevel` DÉRIVÉ + `NIVEAU_MAX_PAR_SOURCE`), `lib/mission-state.mjs`
+(la mission écrit `manual`, plus `passed`), `lib/progress-store.mjs`,
+`lib/learning-engine.mjs` + `.d.ts` (`RECORD_MISSION_SUBMISSION`), `lib/types.ts`,
+`app/api/missions/[id]/route.ts`, `tests/progress-store.test.mjs`.
 
 **CP4** — **créés** `lib/assessment-attempt.mjs` (**PUR**),
 `lib/assessment-attempt.d.ts`, `tests/v77-assessment-attempt.test.mjs` (23),
@@ -185,9 +201,41 @@ le branchement a lieu aux CP3 → CP7.
 | CP1 | `e0c4a80` — contrat d'observabilité gelé |
 | CP2 | `98b6849` — la politique devient une donnée |
 | CP3 | `5ddbd87` — le terminal : un usage, pas une réussite |
-| CP4 | *(ce commit)* — cinq échecs ne laissaient qu'une trace |
+| CP4 | `68fba8a` — cinq échecs ne laissaient qu'une trace |
+| CP5 | *(ce commit)* — une mission ne dit plus `passed` |
 
 ## Journal des CP
+
+- **CP5** — **`passed` répondait à trois questions à la fois, et c'est pour cela
+  qu'il mentait.**
+  - Les trois sont désormais séparées : l'**avancement** (`computeMissionStatus`,
+    inchangé), le **niveau de validation** (dérivé du MODE de constat), la
+    **preuve** (`manual`, non qualifiante, `evidenceLevel: OBSERVED`).
+  - **Maillon faible : `DECLARED` pour les 42 missions.** Aucune n'échappe à la
+    revue que l'apprenant signe lui-même. Le plafond se calcule sur la
+    DÉFINITION : il existe avant la première soumission, et aucune réussite ne le
+    lève.
+  - **`D3` confirmée en HTTP, et NON corrigée** : un runbook disant « on déploie
+    le vendredi soir sans prévenir » et « il n'y a pas de rollback prévu »
+    obtient `structure ok: True`. Ce n'est pas un défaut du validateur, c'est ce
+    qu'un validateur de FORME fait. Le CP5 en tire la conséquence au lieu de
+    prétendre l'avoir réparé.
+  - **BEFORE/AFTER mesuré, pas promis** : 42/42 preuves qualifiantes → 0/42, et
+    **17 compétences passent de `demonstrated` à `practiced`** quand les missions
+    sont la seule pratique. `practiced` et non `unassessed` : le travail compte
+    toujours, il cesse de valoir démonstration.
+  - **L'AFFIRMATION LA PLUS FORTE DU PRODUIT N'ÉTAIT GARDÉE PAR AUCUN TEST.** En
+    retirant `passed`, **une seule assertion a rougi** dans 2 047 tests — la
+    forme de `emptyFlat`. Les tests de mission vérifiaient qu'une preuve EXISTE,
+    jamais qu'elle qualifie.
+  - **Défaut trouvé par la sonde, pas par relecture** : ma `lectureDeLaMission`
+    annonçait « 4 livrables rendus » pour une mission qui en a trois, parce
+    qu'elle comptait des FAITS. Cliquer deux fois sur « valider » produit bien
+    deux actes ; cela ne fait pas deux livrables.
+  - **Une tension notée, pas enterrée** : le contrat gèle la mission à
+    `OBSERVED`, le maillon faible donne `DECLARED`. Aucune conséquence
+    opérationnelle aujourd'hui (les deux sont non qualifiants) — **à trancher au
+    CP9**, dont c'est le mandat.
 
 - **CP4** — **le produit gardait la PREMIÈRE tentative et appelait ça un
   historique.**

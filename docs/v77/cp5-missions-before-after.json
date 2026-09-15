@@ -1,0 +1,989 @@
+{
+  "generatedAt": "2026-09-15T12:00:00.000Z",
+  "competences": {
+    "avant": {
+      "demonstrated": 17
+    },
+    "apres": {
+      "practiced": 17
+    }
+  },
+  "missions": [
+    {
+      "id": "cicd-blocked-delivery",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cicd-broken-pr",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cicd-secret-in-logs",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cicd-slow-flaky",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-backup-dr",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-backup-recovery",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-broken-release",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-cost-reduction",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-ha-api-design",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-high-availability",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-migrate-resilient",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-observability-diagnosis",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-reduce-bill",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-secure-architecture",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-secure-exposure",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "cloud-three-tier",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "docker-container-incident",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "docker-containerize-api",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "docker-reduce-image-debt",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "feature-design-docs",
+      "statut": "done",
+      "livrables": [
+        "structural",
+        "structural",
+        "structural",
+        "structural",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "frontend-accessible-search",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "frontend-capstone-diagnose",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "health-incident-postmortem",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "structural",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "iac-drift-remediation",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "incident-dns-tls-http",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "k8s-crashloop",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "k8s-deploy-api",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "k8s-oomkilled-sizing",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "k8s-rolling-regression",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "k8s-secret-rotation",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "k8s-service-no-endpoints",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "legacy-pricing-maintenance",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "permissions-secret-expose",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "port-occupe-service-indisponible",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "saturation-ressources",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "sec-broken-security-deploy",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "sec-combined-incident",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "sec-dependency-compromise",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "sec-rbac-excessive",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "sec-secret-leak",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "sec-workload-hardening",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    },
+    {
+      "id": "slow-endpoint-optimization",
+      "statut": "done",
+      "livrables": [
+        "auto",
+        "structural",
+        "structural",
+        "review"
+      ],
+      "avant": {
+        "status": "passed",
+        "kind": "mission-deliverables",
+        "qualifiante": true,
+        "niveau": "OBSERVED"
+      },
+      "apres": {
+        "status": "manual",
+        "kind": "mission-deliverables",
+        "qualifiante": false,
+        "niveau": "OBSERVED"
+      },
+      "maillonFaible": "DECLARED",
+      "niveauDeLaMission": "DECLARED"
+    }
+  ]
+}

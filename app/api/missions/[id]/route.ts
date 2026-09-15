@@ -9,6 +9,7 @@ import {
   recordMissionCompletion, missionProgress, missionReview,
 } from '@/lib/mission-state.mjs';
 import { validateDocumentStructure } from '@/lib/mission.mjs';
+import { applyCommand } from '@/lib/learning-engine';
 import type { Mission, DocSpec } from '@/lib/mission';
 import type { Progress } from '@/lib/types';
 
@@ -61,6 +62,33 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     flat = submitDeliverable(flat, mission, deliv.id, { status: 'validated' });
   } else {
     return NextResponse.json({ error: 'Action inconnue.' }, { status: 400 });
+  }
+
+  // ── V77 · CP5 — CE QUI A ÉTÉ RENDU, ET COMMENT ON L'A CONSTATÉ ──
+  //
+  // La preuve de mission ne dit plus `passed` (cf. `recordMissionCompletion`).
+  // Pour que rien ne soit perdu au change, ce qu'elle recouvrait abusivement est
+  // écrit ici, là où c'est vrai : un livrable, un MODE de constat, et le niveau
+  // que ce mode permet d'affirmer. Une revue signée par l'apprenant reste une
+  // DÉCLARATION, et le fait le dit.
+  if (deliv && action !== 'start') {
+    const fait = applyCommand(flat, {
+      type: 'RECORD_MISSION_SUBMISSION',
+      missionId: mission.id,
+      deliverableId: deliv.id,
+      mode: deliv.validation,
+      statut: action === 'submit-doc'
+        ? (structureResult?.ok ? 'structure-valid' : 'submitted')
+        : action === 'self-assess' ? 'self-assessed' : 'validated',
+      structureOk: structureResult?.ok,
+      // Ce que le validateur a réellement signalé — sections absentes et
+      // mentions manquantes. Nommer les manques est une observation ; en tirer
+      // une note n'en serait plus une.
+      manques: [...(structureResult?.missingSections ?? []), ...(structureResult?.missingMentions ?? [])],
+      tailleContenu: typeof body.content === 'string' ? body.content.length : 0,
+      provenance: { producer: 'mission-engine', method: `POST /api/missions/[id] action=${action}` },
+    }, { now: new Date() });
+    if (fait.ok) flat = fait.progress as MissionFlat;
   }
 
   flat = reconcileAutoDeliverables(flat, mission);

@@ -1,0 +1,332 @@
+{
+ "generatedAt": "2026-09-15T14:14:53.300Z",
+ "total": 36,
+ "vues": 36,
+ "survivantes": [],
+ "resultats": [
+  {
+   "id": "M01",
+   "famille": "usage devenu réussite",
+   "fichier": "lib/usage-event.mjs",
+   "note": "la liste des champs interdits est vidée",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M02",
+   "famille": "usage devenu réussite",
+   "fichier": "lib/usage-event.mjs",
+   "note": "un usage se met à valoir une réussite",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M03",
+   "famille": "usage devenu réussite",
+   "fichier": "lib/usage-event.mjs",
+   "note": "le détail cesse d’être une liste blanche",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M04",
+   "famille": "fait perdu par liste blanche",
+   "fichier": "lib/progress-store.mjs",
+   "note": "l’usage n’atteint plus le disque",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M05",
+   "famille": "fait perdu par liste blanche",
+   "fichier": "lib/progress-store.mjs",
+   "note": "les soumissions de diagnostic disparaissent",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M06",
+   "famille": "fait perdu par liste blanche",
+   "fichier": "lib/backup.mjs",
+   "note": "les faits ne survivent plus à leur sauvegarde",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M07",
+   "famille": "fait perdu par liste blanche",
+   "fichier": "lib/progress-store.mjs",
+   "note": "un fait sort de l’énumération unique",
+   "juge": "gate",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M08",
+   "famille": "tentatives fusionnées",
+   "fichier": "lib/assessment-attempt.mjs",
+   "note": "toutes les soumissions d’un diagnostic fusionnent",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M09",
+   "famille": "tentatives fusionnées",
+   "fichier": "lib/learning-engine.mjs",
+   "note": "toute reprise est prise pour un rejeu réseau",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M10",
+   "famille": "tentative écrite trop tard",
+   "fichier": "app/api/assessments/[id]/route.ts",
+   "note": "la tentative n’est écrite QUE si l’apprenant conserve",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M11",
+   "famille": "issue reçue",
+   "fichier": "lib/assessment-attempt.mjs",
+   "note": "l’issue est fournie par celui qu’elle juge",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M12",
+   "famille": "issue reçue",
+   "fichier": "lib/assessment-attempt.mjs",
+   "note": "la réussite globale est auto-déclarée",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M13",
+   "famille": "seuil inventé",
+   "fichier": "lib/assessment-attempt.mjs",
+   "note": "un seuil absent devient 0 : tout réussit",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M14",
+   "famille": "mission surclassée",
+   "fichier": "lib/mission-state.mjs",
+   "note": "une mission redevient une preuve qualifiante",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M15",
+   "famille": "mission surclassée",
+   "fichier": "lib/evidence.mjs",
+   "note": "le moyen « livrables » se met à valoir une validation",
+   "juge": "gate",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M16",
+   "famille": "maillon faible ignoré",
+   "fichier": "lib/mission-submission.mjs",
+   "note": "une revue auto-signée vaut une validation",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M17",
+   "famille": "maillon faible ignoré",
+   "fichier": "lib/mission-submission.mjs",
+   "note": "le maillon faible devient le maillon FORT",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M18",
+   "famille": "structure prise pour justesse",
+   "fichier": "lib/mission-submission.mjs",
+   "note": "« non mesuré » devient « faux »",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M19",
+   "famille": "capstone dégradé",
+   "fichier": "lib/evidence.mjs",
+   "note": "`capstone-grade` sort du vocabulaire",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M20",
+   "famille": "preuve héritée remontée",
+   "fichier": "lib/evidence.mjs",
+   "note": "une correction jamais rejouée se met à démontrer",
+   "juge": "gate",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M21",
+   "famille": "simulation effacée",
+   "fichier": "lib/evidence.mjs",
+   "note": "la marque de simulation disparaît",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M22",
+   "famille": "analyse sans artefact",
+   "fichier": "lib/artifact-analysis.mjs",
+   "note": "analyser la fixture compte comme un travail",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M23",
+   "famille": "analyse sans artefact",
+   "fichier": "lib/artifact-analysis-server.ts",
+   "note": "la seconde garde tombe aussi",
+   "juge": "gate",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M24",
+   "famille": "compte pris pour verdict",
+   "fichier": "lib/artifact-analysis.mjs",
+   "note": "`0 diagnostic` devient une réussite",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M25",
+   "famille": "empreinte aveugle",
+   "fichier": "lib/artifact-analysis.mjs",
+   "note": "deux artefacts différents ont la même empreinte",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M26",
+   "famille": "pipeline surclassé",
+   "fichier": "app/api/pipelines/[id]/route.ts",
+   "note": "le verdict de la fixture entre dans le fait",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M27",
+   "famille": "ambiguïté devinée",
+   "fichier": "lib/exercise-mapping.mjs",
+   "note": "la première candidate est choisie au hasard",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M28",
+   "famille": "déclaration sans source",
+   "fichier": "lib/exercise-declarations.mjs",
+   "note": "on peut déclarer sans dire pourquoi",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M29",
+   "famille": "fichier annexe prioritaire",
+   "fichier": "lib/exercise-mapping.mjs",
+   "note": "un fichier annexe contredit le corpus en silence",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M30",
+   "famille": "qualification généreuse",
+   "fichier": "lib/evidence.mjs",
+   "note": "`isQualifying` cesse de regarder le niveau",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M31",
+   "famille": "plafond levé",
+   "fichier": "lib/evidence.mjs",
+   "note": "le plafond le plus GÉNÉREUX gagne",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M32",
+   "famille": "moteurs divergents",
+   "fichier": "lib/evidence-matrix.mjs",
+   "note": "un moteur qualifie ce que les autres refusent",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M33",
+   "famille": "filiation effacée",
+   "fichier": "lib/mission-state.mjs",
+   "note": "la mission ne dit plus de quoi elle dérive",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M34",
+   "famille": "usage compté comme travail",
+   "fichier": "lib/learner-history.mjs",
+   "note": "l’usage est additionné au travail",
+   "juge": "test",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M35",
+   "famille": "porte neutralisée",
+   "fichier": "scripts/v77-check.mjs",
+   "note": "la porte sort toujours en 0",
+   "juge": "juge-externe",
+   "verdict": "VUE",
+   "vu": true
+  },
+  {
+   "id": "M36",
+   "famille": "porte vidée",
+   "fichier": "scripts/v77-check.mjs",
+   "note": "la porte n’enregistre plus rien",
+   "juge": "juge-externe",
+   "verdict": "VUE",
+   "vu": true
+  }
+ ]
+}

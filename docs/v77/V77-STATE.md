@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP13** |
+| `LAST_COMPLETED_CP` | **CP14** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP14** — MUTATIONS + PORTE `v77:check` |
-| `NEXT_ACTION` | jouer **≥ 30 mutations** (le brief en liste 35 familles obligatoires) contre la suite ET les sondes : chacune doit rougir. Écrire la porte `v77:check` et l'ajouter à `gates:active`. **La porte V77 ne doit PAS se juger elle-même** — prévoir un JUGE EXTERNE, comme `tests/v76-gate.test.mjs` au V76 · CP14. Gauntlet complet : `npm test`, `tsc`, `build`, `gates:active`, `v74`, `v75`, `v76`, `v77` — **PAS `v73`**, qui n'existe pas. |
+| `NEXT_CP` | **CP15** — RAPPORT FINAL |
+| `NEXT_ACTION` | écrire `docs/v77/V77-FINAL-REPORT.md` et rendre **le seul rapport conversationnel long du sprint**. Deux verdicts sur les deux axes. Trois questions finales. Ne rien affirmer que les CP0→CP14 n'aient mesuré. |
 
 ## Repères Git
 
@@ -40,7 +40,7 @@
 | tests d'exercice | **1 357** | conforme |
 | runtimes | **6** | conforme |
 | tests applicatifs | **1 984** | conforme |
-| portes `gates:active` | **49** | conforme |
+| portes `gates:active` | **49** → **50** au CP14 (`v77:check`) | |
 | sondes de sécurité V76 | **16 / 16 contenues** | conforme |
 | `v74:check` `v75:check` `v76:check` | ✅ ✅ ✅ | conformes |
 | `v73:check` | **INEXISTANT** | le brief le suppose ; il n'a jamais existé ici |
@@ -136,6 +136,12 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 
 ## `TESTS_RUN`
 
+**CP14 — GANTELET COMPLET** — `npm test` **2177/2177** · `tsc` **0** ·
+`build` **OK** · `gates:active` **50 portes, 0 violation** ·
+`v74` `v75` `v76` `v77` ✅✅✅✅ · `v76:negative` **11 vues, 0 trou** ·
+`cp14-mutations` **36/36 vues, 0 survivante** · `data/progress.json` **absent**.
+**`v73:check` non lancé et NON créé** — il n'a jamais existé ici.
+
 **CP13** — `npm test` **2171/2171** · `gates:active` **49 portes, 0 violation** ·
 **6 chaînes E2E en HTTP réel, 6 résultats attendus, 0 écart** ·
 `data/progress.json` **absent**.
@@ -186,6 +192,13 @@ traversée · `data/progress.json` **absent**.
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP14** — **créés** `scripts/v77-check.mjs` (**146 vérifications**),
+`tests/v77-gate.test.mjs` (6 — **JUGE EXTERNE**),
+`scripts/v77/cp14-mutations.mjs` (36 mutations), `docs/v77/cp14-mutations.json`,
+`docs/v77/V77-CP14-MUTATIONS-PORTE.md`. **Modifiés** : `package.json`
+(`v77:check` + `gates:active` → **50 portes**), et **deux tests renforcés**
+après survie de mutation (`v77-usage-event`, `v77-assessment-attempt`).
 
 **CP13** — **créés** `scripts/v77/cp13-e2e.mjs` (6 chaînes en HTTP réel),
 `docs/v77/cp13-e2e.json`, `tests/v77-e2e.test.mjs` (9),
@@ -304,9 +317,38 @@ le branchement a lieu aux CP3 → CP7.
 | CP10 | `2f9cfae` — le double comptage : 42 · 14 · 0 |
 | CP11 | `6f89924` — les faits deviennent lisibles, sans nouveau moteur |
 | CP12 | `0e266e7` — ce qu'un pilote pourra observer, et ce qu'il ne pourra pas |
-| CP13 | *(ce commit)* — six chaînes traversées sur le produit qui tourne |
+| CP13 | `65fabe0` — six chaînes traversées sur le produit qui tourne |
+| CP14 | *(ce commit)* — 36 mensonges, zéro survivant, et une porte qui sait rougir |
 
 ## Journal des CP
+
+- **CP14** — **36 mensonges plausibles, zéro survivant — après en avoir laissé
+  passer deux.**
+  - Premier passage : **34/36**. Les deux survivantes étaient des trous **dans
+    mes propres tests**, pas dans le produit.
+  - **`M01` — un test qui dérivait ses attentes de la chose testée.** Il bouclait
+    sur `CHAMPS_INTERDITS` pour construire ses assertions : vider la liste le
+    rendait **vert avec zéro assertion**. Même famille que le défaut payé deux
+    fois par V76, sous une forme nouvelle. Corrigé en pinant la liste EN CLAIR.
+  - **`M10` — l'ordre du texte ne suffit pas.** Glisser une condition sur
+    `record` À L'INTÉRIEUR du bloc d'écriture laisse l'ordre intact et rétablit
+    la dissymétrie du CP4. La mutation elle-même a dû être RÉÉCRITE — la première
+    ne mutait rien — et le test vérifie désormais une propriété : *rien qui parle
+    de `record` ne se tient entre la correction et l'enregistrement.*
+  - **Porte `v77:check` : 146 vérifications**, `gates:active` passe de **49 à
+    50**. Ses règles décisives **exécutent le produit** — `A2` traverse écriture,
+    sérialisation, relecture, sauvegarde et restauration ; `A5` parcourt les 192
+    lignes de la matrice.
+  - **Elle ne se juge pas elle-même** : `tests/v77-gate.test.mjs` est le JUGE
+    EXTERNE, et les deux mutations visant la porte (`M35`, `M36`) sont jugées par
+    lui. Toutes deux vues.
+  - **Une mutation dont le motif a disparu est REFUSÉE**, pas appliquée en
+    silence — le défaut que le CP3 avait trouvé dans les harnais de V75 et V76.
+  - **`v73:check` n'a pas été créé.** Le brief le suppose ; il n'a jamais existé
+    ici. Un test du juge externe vérifie qu'il n'a pas été inventé.
+  - **Ce que le harnais ne prouve pas** : 36 mensonges vus sont 36 mensonges
+    **auxquels j'ai pensé**. Une mutation qu'on n'écrit pas ne survit pas — elle
+    n'existe pas, et son absence n'est pas une preuve.
 
 - **CP13** — **un produit n'est pas une somme de surfaces.**
   - Six chaînes traversées en HTTP réel sur le produit reconstruit. L'état est lu

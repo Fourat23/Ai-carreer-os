@@ -276,6 +276,17 @@ test('V77 · CP4 — la route écrit la tentative AVANT la branche `record`', ()
   const iRecord = src.indexOf('if (body.record !== true)');
   assert.ok(iFait > 0, 'la route n’écrit aucune tentative');
   assert.ok(iRecord > iFait, 'la tentative n’est écrite que si l’apprenant conserve');
+  // ── DÉFAUT TROUVÉ PAR LA MUTATION `M10` DU CP14 ──
+  //
+  // L'ordre du TEXTE ne suffit pas : glisser `if (body.record !== true) return;`
+  // À L'INTÉRIEUR du bloc d'écriture laisse l'ordre intact et rétablit pourtant
+  // la dissymétrie corrigée au CP4. On vérifie donc la propriété : **rien qui
+  // parle de `record` ne se tient entre la correction et l'enregistrement.**
+  const iGrade = src.indexOf('const result = gradeAssessment');
+  assert.ok(iGrade > 0 && iGrade < iFait);
+  const entreDeux = src.slice(iGrade, iFait);
+  assert.equal(/body\.record/.test(entreDeux), false,
+    'une condition sur `record` s’est glissée avant l’enregistrement de la tentative');
   // Et le seuil vient de la fixture, pas d'une constante recopiée dans la route.
   assert.ok(src.includes('assessment.passThreshold'));
   assert.equal(COMMANDS.includes('RECORD_ASSESSMENT_ATTEMPT'), true);

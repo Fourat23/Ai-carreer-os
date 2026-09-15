@@ -77,7 +77,17 @@ test('V77 · CP3 — les champs d’issue envoyés par l’appelant N’ENTRENT 
     surface: 'terminal', action: 'run', ref: 't', provenance: { producer: 'p' },
     detail: { adapter: 'local', exitCode: 0, passed: true, success: true, score: 100, allPassed: true, validation: { status: 'passed' } },
   }, { now: T0 });
-  for (const champ of CHAMPS_INTERDITS) {
+  // ── DÉFAUT TROUVÉ PAR LA MUTATION `M01` DU CP14 ──
+  //
+  // Ce test parcourait `CHAMPS_INTERDITS` pour construire ses assertions : vider
+  // la liste le rendait **vert avec zéro assertion**. Un test qui dérive ses
+  // attentes de la chose qu'il teste ne teste rien.
+  //
+  // La liste est donc pinée ici, en clair, ET les champs sont vérifiés un par un.
+  assert.deepEqual([...CHAMPS_INTERDITS],
+    ['passed', 'success', 'outcome', 'score', 'allPassed', 'validation'],
+    'la liste des champs interdits ne doit ni rétrécir ni se vider');
+  for (const champ of ['passed', 'success', 'outcome', 'score', 'allPassed', 'validation']) {
     assert.equal(champ in e.detail, false, `« ${champ} » ne doit pas entrer dans le détail`);
     assert.equal(champ in e, false, `« ${champ} » ne doit pas entrer dans le fait`);
   }

@@ -1,0 +1,299 @@
+{
+  "generatedAt": "2026-09-15T12:00:00.000Z",
+  "vocabulaire": [
+    "exercise-tests",
+    "assessment-grade",
+    "mission-deliverables",
+    "capstone-grade",
+    "capstone-review",
+    "self"
+  ],
+  "capstones": [
+    {
+      "id": "agent-tool-loop-incident",
+      "phases": 7,
+      "questions": 7,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "applied-ai-rag-regression",
+      "phases": 7,
+      "questions": 10,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "backend-latency-after-release",
+      "phases": 7,
+      "questions": 10,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "cloud-k8s-partial-outage",
+      "phases": 7,
+      "questions": 9,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "data-ml-validation-production-gap",
+      "phases": 7,
+      "questions": 10,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "dl-training-diverges",
+      "phases": 7,
+      "questions": 7,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "frontend-react-regression",
+      "phases": 7,
+      "questions": 9,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "least-privilege-incident",
+      "phases": 7,
+      "questions": 7,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "legacy-service-refactor",
+      "phases": 7,
+      "questions": 7,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "llm-context-budget-regression",
+      "phases": 7,
+      "questions": 7,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "ml-imbalance-fraud-incident",
+      "phases": 7,
+      "questions": 7,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "perf-quadratic-incident",
+      "phases": 7,
+      "questions": 7,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    },
+    {
+      "id": "rag-hallucination-grounding",
+      "phases": 7,
+      "questions": 7,
+      "corrigeAtteintLeSeuil": true,
+      "avant": {
+        "kind": "self",
+        "status": "passed",
+        "niveau": "DECLARED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "apres": {
+        "kind": "capstone-grade",
+        "status": "passed",
+        "niveau": "VALIDATED",
+        "qualifiante": true,
+        "simulation": true
+      },
+      "competenceAvant": "demonstrated",
+      "competenceApres": "demonstrated"
+    }
+  ]
+}

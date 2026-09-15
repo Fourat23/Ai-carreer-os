@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP5** |
+| `LAST_COMPLETED_CP` | **CP6** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP6** — CAPSTONES |
-| `NEXT_ACTION` | réparer l'accident `D4` **sans surclasser** : un capstone est corrigé par le serveur contre un corrigé déclaré, et son `kind` `capstone-grade` est absent de `VALIDATION_KINDS` — la preuve retombe donc sur `self`, c'est-à-dire une auto-déclaration. Ajouter `capstone-grade` au vocabulaire ; brancher `AssessmentAttempt` avec `kind: 'capstone'` et `simulation: true` (le fait existe depuis le CP4, la route n'émet rien). **NE PAS remonter les preuves héritées `capstone-review`** (`D5`) : leur correction n'est pas rejouable, donc on ne peut pas affirmer qu'elle a eu lieu. 13/13 capstones testés. |
+| `NEXT_CP` | **CP7** — CLOUD · K8S · SÉCURITÉ · PIPELINES |
+| `NEXT_ACTION` | construire **`ArtifactAnalysis`** pour les QUATRE surfaces analytiques (`kubernetes`, `cloud-lab`, `cloud-foundations`, `security`) : elles acceptent un artefact RÉDIGÉ par l'apprenant (manifeste, topologie, architecture, scénario) et rendent des diagnostics. Niveau `OBSERVED` — **un compte de diagnostics n'est pas un verdict**, et `0 diagnostic` ne devient JAMAIS `passed`. `simulation: true` structurellement. Pour `pipelines` : le CP1 a tranché `NO_FACT`/`USAGE_EVENT` — la route n'accepte **aucun pipeline candidat**, l'apprenant choisit un déclencheur sur une fixture fournie, donc le statut mesure la fixture et non la personne. Dire explicitement pourquoi terminal et pipelines arrivent au même fait pauvre par deux chemins différents. |
 
 ## Repères Git
 
@@ -109,6 +109,9 @@
 | `D9` | **la marque de simulation vit dans du texte libre** | `detail`, pas un champ ; rien ne la garde |
 | `D10` | **125 exercices sans rattachement** | cause : aucun `conceptIds`/`lessonRefs` dans la source |
 | `D11` | `placeholder` est un terme du domaine traité comme un marqueur de remplissage | `PLACEHOLDER_RE` |
+| `D4` | ~~la preuve de capstone est dégradée en `self`~~ **CORRIGÉE au CP6** — et la mesure a montré une CONTRADICTION que la dette ne disait pas : le produit archivait `self`/`DECLARED` et créditait `demonstrated` | 13 × `self` → 13 × `capstone-grade` ; niveau `DECLARED` → `VALIDATED` |
+| `D5` | ~~`capstone-review` n'est plus produit que par la migration héritée~~ **RETOURNÉE au CP6** : les neuves disent la vérité, les héritées restent plafonnées `OBSERVED` et ne sont PAS remontées | `NIVEAU_MAX_PAR_KIND['capstone-review'] = 'OBSERVED'` |
+| `D9` | ~~la marque de simulation vit dans du texte libre~~ **CORRIGÉE au CP6** : champ booléen sur la preuve ET sur le fait ; ne dégrade aucun niveau | 13 × `simulation: true` |
 | `D2` | ~~une mission écrit `passed` sur une auto-validation~~ **CORRIGÉE au CP5** | 42 → 0 preuves qualifiantes ; 17 compétences `demonstrated` → `practiced` |
 | `D3` | **un document faux mais bien structuré passe** — CONFIRMÉE en HTTP au CP5, et non corrigée : c'est ce qu'un validateur de FORME fait. Le CP5 en tire la conséquence (`OBSERVED`) au lieu de prétendre l'avoir réparé | runbook « pas de rollback prévu » → `structure ok: True` |
 | `D6` | ~~un assessment échoué 5× laisse 1 trace~~ **CORRIGÉE au CP4** — et la mesure disait plus que la dette : la clé de preuve ignorant le score, c'est la PREMIÈRE tentative qui survivait, donc `0/5 → 1/5 → 4/5` ne gardait que `0/5` puis `4/5` | 7 soumissions → 7 faits ; doublon réseau → 1 fait |
@@ -129,6 +132,10 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 
 ## `TESTS_RUN`
 
+**CP6** — `npm test` **2081/2081** · `tsc` **0** · `build` **OK** ·
+`gates:active` **49 portes, 0 violation** · BEFORE/AFTER sur **13 capstones** ·
+chaîne HTTP réelle d'un capstone traversée · `data/progress.json` **absent**.
+
 **CP5** — `npm test` **2070/2070** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
 0 trou** · BEFORE/AFTER sur **42 missions** · chaîne HTTP réelle d'une mission
@@ -148,6 +155,14 @@ traversée · `data/progress.json` **absent**.
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP6** — **créés** `tests/v77-capstone.test.mjs` (11),
+`scripts/v77/cp6-capstones-before-after.mjs`, `docs/v77/cp6-capstones-before-after.json`,
+`docs/v77/V77-CP6-CAPSTONES.md`. **Modifiés** : `lib/evidence.mjs`
+(`capstone-grade` au vocabulaire · `NIVEAU_MAX_PAR_KIND` · champ `simulation`),
+`lib/evidence.d.ts`, `app/api/capstones/[id]/route.ts` (fait `kind: 'capstone'`
+écrit AVANT la branche `record` · preuve `simulation: true`).
+**Aucun fichier de test existant modifié** — rien ne gardait le défaut.
 
 **CP5** — **créés** `lib/mission-submission.mjs` (**PUR**),
 `lib/mission-submission.d.ts`, `tests/v77-mission-submission.test.mjs` (23),
@@ -202,9 +217,37 @@ le branchement a lieu aux CP3 → CP7.
 | CP2 | `98b6849` — la politique devient une donnée |
 | CP3 | `5ddbd87` — le terminal : un usage, pas une réussite |
 | CP4 | `68fba8a` — cinq échecs ne laissaient qu'une trace |
-| CP5 | *(ce commit)* — une mission ne dit plus `passed` |
+| CP5 | `6c8c8f5` — une mission ne dit plus `passed` |
+| CP6 | *(ce commit)* — le capstone était dégradé, pas surclassé |
 
 ## Journal des CP
+
+- **CP6** — **l'erreur de sens INVERSE de celle du CP5, et elle vient du même
+  endroit.**
+  - `capstone-grade` manquait à `VALIDATION_KINDS` ; `normalizeValidation`
+    remplace tout genre inconnu par `self`. Une correction SERVEUR déterministe,
+    multi-phases, était donc archivée comme une **auto-déclaration de
+    l'apprenant**. Ce n'est pas `capstone-grade` qui était spécial : c'est
+    l'absence d'un mot dans une liste.
+  - **LA MESURE A MONTRÉ PLUS QUE LA DETTE.** Sur les 13 capstones : genre
+    `self`, niveau `DECLARED`… et compétence projetée `demonstrated`. **Les deux
+    dernières se contredisent** — `isQualifying` ne regarde ni le genre ni le
+    niveau. Le produit disait « déclaration » et créditait « démonstration ».
+  - **`isQualifying` n'a PAS été touché.** Décider qu'une preuve qualifiante
+    doit aussi exiger un niveau changerait la règle de crédit de tout le produit ;
+    c'est le mandat du CP9, pas un détour de checkpoint. L'état est figé par un
+    test, pas préjugé.
+  - **DEUX plafonds désormais, et le plus sévère gagne** : par SOURCE (ce qu'on
+    peut observer) et par MOYEN (ce qu'on peut affirmer). `capstone` + `self` =
+    `DECLARED` ; `mission` + `assessment-grade` = `OBSERVED`.
+  - **`capstone-review` hérité n'est PAS remonté** (`D5`) : la migration l'a
+    reclassé sur la foi d'un identifiant, sans jamais rejouer la correction.
+    L'affirmer serait reconstruire un fait historique absent.
+  - **La simulation devient un CHAMP** (`D9`) et **ne dégrade aucun niveau** :
+    `VALIDATED` + `simulation: true` tiennent ensemble — c'est exactement ce
+    qu'un capstone est.
+  - **Un seul fait pour deux surfaces** : la route des capstones écrit le même
+    `AssessmentAttempt` que les diagnostics, avec `kind: 'capstone'`.
 
 - **CP5** — **`passed` répondait à trois questions à la fois, et c'est pour cela
   qu'il mentait.**

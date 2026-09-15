@@ -19,8 +19,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCapstone } from '@/lib/capstones-server';
 import { gradeCapstone } from '@/lib/capstone';
-import { readProgress, writeProgress } from '@/lib/progress-server';
+import { readProgressFresh, writeProgress } from '@/lib/progress-server';
 import { makeEvidence, appendEvidence } from '@/lib/evidence';
+import { applyCommand } from '@/lib/learning-engine';
+import { empreinteReponses } from '@/lib/transfer-attempt';
 import type { Progress } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -43,13 +45,47 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const responses = body.responses && typeof body.responses === 'object' && !Array.isArray(body.responses)
     ? body.responses : {};
 
-  // Correction déterministe. Une simple correction NE MUTE RIEN.
+  // Correction déterministe.
   const result = gradeCapstone(capstone, responses);
+
+  // ── V77 · CP6 — LA SOUMISSION EST UN FAIT, COMME POUR UN DIAGNOSTIC ──
+  //
+  // Un capstone est observationnellement un diagnostic : un questionnaire
+  // corrigé côté serveur contre un corrigé déclaré. Le CP2 l'a tranché ainsi, et
+  // c'est pourquoi il écrit le MÊME fait avec `kind: 'capstone'` plutôt qu'un
+  // jumeau. La différence pédagogique — sept phases d'incident — vit dans le
+  // genre ; l'environnement simulé dans `simulation`.
+  //
+  // Écrit AVANT la branche `record`, pour la raison mesurée au CP4 : n'écrire
+  // que sous `record` n'observerait que les tentatives dont l'apprenant est
+  // assez content pour les garder.
+  try {
+    const rt = applyCommand(readProgressFresh(), {
+      type: 'RECORD_ASSESSMENT_ATTEMPT',
+      assessmentId: capstone.id,
+      kind: 'capstone',
+      competencyIds: capstone.skills ?? [],
+      passed: result.passed,
+      total: result.total,
+      seuil: typeof capstone.passThreshold === 'number' ? capstone.passThreshold : undefined,
+      // Réussir une simulation professionnelle est un indice fort ; ce n'est
+      // pas une expérience réelle. Le champ le dit, le texte ne le dirait pas.
+      simulation: true,
+      empreinte: empreinteReponses(responses),
+      sourceRef: `/capstones/${capstone.id}`,
+      provenance: { producer: 'capstone-grader', method: 'POST /api/capstones/[id]' },
+    }, { now: new Date() });
+    if (rt.ok) writeProgress(rt.progress as Progress);
+  } catch { /* au mieux : le fait ne doit jamais bloquer la correction */ }
+
+  // Une simple correction NE MUTE AUCUNE PREUVE.
   if (body.record !== true) {
     return NextResponse.json({ ok: true, result, recorded: false });
   }
 
-  const progress = readProgress();
+  // `readProgressFresh` : la tentative vient d'être écrite juste au-dessus, et
+  // `readProgress` est mémoïsé par requête — elle serait silencieusement perdue.
+  const progress = readProgressFresh();
   const now = new Date().toISOString();
 
   const ev = makeEvidence({
@@ -65,6 +101,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       detail: `${result.passed}/${result.total} · simulation professionnelle, pas une expérience réelle`,
       score: { passed: result.passed, total: result.total },
     },
+    // V77 · CP6 — la marque de simulation devient un CHAMP (dette `D9`). Elle
+    // ne dégrade pas le niveau : `VALIDATED` et `simulation: true` tiennent
+    // ensemble, et c'est exactement ce qu'un capstone est.
+    simulation: true,
     title: `Capstone : ${capstone.title}`,
     provenance: {
       producer: 'capstone-grader',

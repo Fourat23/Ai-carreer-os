@@ -9,11 +9,21 @@ export const VALIDATION_KINDS: readonly EvidenceValidationKind[];
 
 export type EvidenceSourceType =
   | 'exercise' | 'assessment' | 'mission' | 'capstone'
-  | 'submission' | 'declared' | 'review';
+  | 'submission' | 'declared' | 'review' | 'transfer-challenge';
+
+/** V77 · CP1 §2 — trois niveaux ; seul `VALIDATED` compte dans les moteurs. */
+export type NiveauDePreuve = 'DECLARED' | 'OBSERVED' | 'VALIDATED';
+export const NIVEAUX_DE_PREUVE: readonly NiveauDePreuve[];
+export const NIVEAU_MAX_PAR_SOURCE: Readonly<Record<string, NiveauDePreuve>>;
+export const NIVEAU_MAX_PAR_KIND: Readonly<Record<string, NiveauDePreuve>>;
+export function niveauDePreuve(sourceType: string, validation: unknown): NiveauDePreuve;
 
 export type EvidenceValidationStatus = 'passed' | 'failed' | 'pending' | 'manual';
 export type EvidenceValidationKind =
-  | 'exercise-tests' | 'assessment-grade' | 'mission-deliverables' | 'capstone-review' | 'self';
+  | 'exercise-tests' | 'assessment-grade' | 'mission-deliverables'
+  // V77 · CP6 — le genre manquait, et une correction serveur retombait sur
+  // `self`. `capstone-review` reste pour les preuves héritées, non remontées.
+  | 'capstone-grade' | 'capstone-review' | 'self';
 
 export interface EvidenceValidation {
   status: EvidenceValidationStatus;
@@ -48,6 +58,13 @@ export interface Evidence {
   assessmentId: string | null;
   attemptNumber: number | null;
   artifactRef: string | null;
+  /** V77 · CP5 — DÉRIVÉ du type de source et du moyen de validation, jamais reçu. */
+  evidenceLevel: NiveauDePreuve;
+  /**
+   * V77 · CP6 — environnement simulé. Ne dégrade AUCUN niveau : `VALIDATED` et
+   * `simulation: true` tiennent ensemble. Champ booléen, jamais du texte.
+   */
+  simulation: boolean;
 }
 
 export interface EvidenceInput {
@@ -64,6 +81,8 @@ export interface EvidenceInput {
   assessmentId?: string;
   attemptNumber?: number;
   artifactRef?: string;
+  /** V77 · CP6 — déclaré par l'appelant, qui seul sait si l'environnement est simulé. */
+  simulation?: boolean;
 }
 
 export type MakeEvidenceResult =

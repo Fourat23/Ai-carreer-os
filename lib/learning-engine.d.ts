@@ -55,6 +55,21 @@ export type Command =
   // V66 — la seule écriture du Retention Engine. Concept, pas journée : une
   // tentative de rappel porte sur une notion, pas sur une date du calendrier.
   | { type: 'RECORD_RECALL'; conceptId: string; outcome: RecallOutcome; format?: RecallFormat; sourceRef?: string }
+  // V77 · CP4 — la soumission d'un diagnostic. Le type ne porte ni niveau ni
+  // pourcentage de maîtrise : `passed`, `total` et le `seuil` de la fixture
+  // suffisent, et tout le reste s'en dérive.
+  | {
+      type: 'RECORD_ASSESSMENT_ATTEMPT';
+      assessmentId: string;
+      kind?: import('./assessment-attempt').GenreDeDiagnostic;
+      competencyIds?: string[];
+      passed: number; total: number; seuil?: number;
+      simulation?: boolean;
+      empreinte?: string;
+      evidenceId?: string | null;
+      sourceRef?: string | null;
+      provenance?: { producer?: string; method?: string };
+    }
   // V77 · CP3 — un USAGE observé. Le type est volontairement dépourvu de tout
   // champ d'issue : il n'existe aucune façon d'exprimer une réussite ici, et
   // c'est la contrainte n°5 du contrat gelé rendue vérifiable à la compilation.

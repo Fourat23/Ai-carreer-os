@@ -18,8 +18,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAssessment } from '@/lib/assessments-server';
 import { gradeAssessment } from '@/lib/assessment';
-import { readProgress, writeProgress } from '@/lib/progress-server';
+import { readProgressFresh, writeProgress } from '@/lib/progress-server';
 import { makeEvidence, appendEvidence } from '@/lib/evidence';
+import { applyCommand } from '@/lib/learning-engine';
+import { empreinteReponses } from '@/lib/transfer-attempt';
 import type { Progress } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -42,14 +44,58 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const responses = body.responses && typeof body.responses === 'object' && !Array.isArray(body.responses)
     ? body.responses : {};
 
-  // Correction déterministe. Une simple correction NE MUTE RIEN.
+  // Correction déterministe.
   const result = gradeAssessment(assessment, responses);
+
+  // ── V77 · CP4 — LA SOUMISSION EST UN FAIT, MÊME SANS CONSERVATION ──
+  //
+  // Mesuré avant d'écrire, sur le produit réel : sept soumissions humaines sur
+  // le même diagnostic laissaient **2 preuves et 0 tentative** ; et une suite
+  // `0/5 → 1/5 → 4/5` gardait `0/5` puis `4/5`, le `1/5` étant refusé comme
+  // doublon parce que la clé de preuve ignore le score. **Le produit gardait la
+  // première tentative et appelait ça un historique.**
+  //
+  // Le fait est donc écrit ici, et non dans la branche `record`. L'interface
+  // corrige d'abord (`submit`, sans conservation) et ne conserve qu'ensuite
+  // (`keep`) : n'écrire que sous `record` reviendrait à n'observer que les
+  // tentatives dont l'apprenant est assez content pour les garder — c'est-à-dire
+  // exactement la dissymétrie que V74 · CP2 a corrigée pour les exercices.
+  //
+  // `empreinteReponses` vient de V75 · CP10 : les deux appels de l'interface
+  // portent les MÊMES réponses, et `estUnRejeu` les compte donc une seule fois.
+  // Une soumission humaine distincte, elle, reste un fait distinct.
+  //
+  // Écriture au mieux : un échec de persistance du fait ne doit pas faire
+  // échouer la correction que l'apprenant attend.
+  try {
+    const rt = applyCommand(readProgressFresh(), {
+      type: 'RECORD_ASSESSMENT_ATTEMPT',
+      assessmentId: assessment.id,
+      kind: 'assessment',
+      competencyIds: assessment.skills ?? [],
+      passed: result.passed,
+      total: result.total,
+      seuil: typeof assessment.passThreshold === 'number' ? assessment.passThreshold : undefined,
+      // Un diagnostic se répond dans le produit : rien n'est simulé ici.
+      simulation: false,
+      empreinte: empreinteReponses(responses),
+      sourceRef: `/diagnostics/${assessment.id}`,
+      provenance: { producer: 'assessment-grader', method: 'POST /api/assessments/[id]' },
+    }, { now: new Date() });
+    if (rt.ok) writeProgress(rt.progress as Progress);
+  } catch { /* au mieux : le fait ne doit jamais bloquer la correction */ }
+
+  // Une simple correction NE MUTE AUCUNE PREUVE.
   if (body.record !== true) {
     return NextResponse.json({ ok: true, result, recorded: false });
   }
 
   // ── Conservation explicite du résultat, SANS journée d'emprunt ──
-  const progress = readProgress();
+  //
+  // V77 · CP4 — `readProgressFresh` et non `readProgress` : ce dernier est
+  // mémoïsé par requête, et la tentative vient d'être écrite juste au-dessus.
+  // Repartir d'un instantané mémoïsé la reperdrait — silencieusement.
+  const progress = readProgressFresh();
   const now = new Date().toISOString();
 
   const ev = makeEvidence({

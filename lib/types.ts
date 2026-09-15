@@ -189,6 +189,16 @@ export interface Progress {
    */
   transferAttempts?: import('./transfer-attempt').TransferAttempt[];
   /**
+   * V77 · CP4 — SOUMISSIONS DE DIAGNOSTIC (et de capstone, via `kind`).
+   *
+   * Le CP4 a mesuré que cinq échecs successifs ne laissaient qu'UNE trace, et
+   * que la survivante était la PREMIÈRE : la clé de preuve ignore le score, si
+   * bien qu'une amélioration sous le seuil était refusée comme doublon. Une
+   * tentative identifie un ACTE, pas son résultat ; elle ne se déduplique donc
+   * que sur un rejeu réseau.
+   */
+  assessmentAttempts?: import('./assessment-attempt').AssessmentAttempt[];
+  /**
    * V77 · CP3 — ÉVÉNEMENTS D'USAGE. Un champ **séparé** des faits pédagogiques,
    * et il le reste : aucun moteur ne le lit, aucune preuve n'en naît. Il répond
    * à une seule question — *« cette surface a-t-elle été utilisée ? »* — et

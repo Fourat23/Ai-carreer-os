@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP3** |
+| `LAST_COMPLETED_CP` | **CP4** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP4** — ASSESSMENTS |
-| `NEXT_ACTION` | construire le fait **`AssessmentAttempt`** (contrat CP1, carte CP2) : un assessment échoué 5 fois doit laisser **5 faits**, puis une réussite, puis une reprise — et un doublon réseau ne doit **pas** créer un sixième. Dette `D6` mesurée au CP0 : aujourd'hui 5 échecs laissent **1 trace**. Le fait porte `kind` (assessment ou capstone) et `simulation` ; il ne fabrique aucune preuve que la correction serveur ne justifie pas. **NE PAS** transformer un assessment en `mastery` (`H`-interdit du contrat). |
+| `NEXT_CP` | **CP5** — MISSIONS (le plus lourd) |
+| `NEXT_ACTION` | **arrêter d'émettre `passed` sur une mission.** Le CP0 a mesuré que 42/42 missions terminent sur un livrable `review` auto-validé par un clic, et qu'un document délibérément mauvais obtient `structure ok: true` (`D2`, `D3`). Séparer **trois choses** aujourd'hui confondues : l'état d'avancement, le niveau de validation, la preuve. Plafond gelé au CP1 : une mission ne peut JAMAIS atteindre `VALIDATED` (règle du maillon faible — `STRUCTURE_VALID + SELF_CONFIRMATION` vaut sa composante la plus faible). Produire un BEFORE/AFTER sur les 42 missions. **AUCUNE migration destructive** : les preuves existantes ne sont ni réécrites ni supprimées. |
 
 ## Repères Git
 
@@ -109,6 +109,7 @@
 | `D9` | **la marque de simulation vit dans du texte libre** | `detail`, pas un champ ; rien ne la garde |
 | `D10` | **125 exercices sans rattachement** | cause : aucun `conceptIds`/`lessonRefs` dans la source |
 | `D11` | `placeholder` est un terme du domaine traité comme un marqueur de remplissage | `PLACEHOLDER_RE` |
+| `D6` | ~~un assessment échoué 5× laisse 1 trace~~ **CORRIGÉE au CP4** — et la mesure disait plus que la dette : la clé de preuve ignorant le score, c'est la PREMIÈRE tentative qui survivait, donc `0/5 → 1/5 → 4/5` ne gardait que `0/5` puis `4/5` | 7 soumissions → 7 faits ; doublon réseau → 1 fait |
 | `D12` | **CP3** — ~~les faits ne survivaient pas à l'import de leur propre sauvegarde~~ **CORRIGÉE au CP3** : `validateStrict` était une quatrième liste blanche | mesuré `recallAttempts 1 → 0`, `hintViews 1 → 0` ; l'énumération des faits est désormais unique |
 
 ## `PROBE_ERRORS`
@@ -126,6 +127,11 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 
 ## `TESTS_RUN`
 
+**CP4** — `npm test` **2047/2047** · `tsc` **0** · `build` **OK** ·
+`gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
+0 trou** · chaîne HTTP réelle des diagnostics traversée · `data/progress.json`
+**absent**.
+
 **CP3** — `npm test` **2024/2024** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
 0 trou** · chaîne HTTP réelle du terminal traversée · `data/progress.json`
@@ -135,6 +141,14 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP4** — **créés** `lib/assessment-attempt.mjs` (**PUR**),
+`lib/assessment-attempt.d.ts`, `tests/v77-assessment-attempt.test.mjs` (23),
+`docs/v77/V77-CP4-ASSESSMENTS.md`. **Modifiés** : `lib/event-model.mjs` (grain
+`assessment`), `lib/progress-store.mjs` (le fait rejoint l'énumération unique),
+`lib/learning-engine.mjs` + `.d.ts` (`RECORD_ASSESSMENT_ATTEMPT`), `lib/types.ts`,
+`app/api/assessments/[id]/route.ts` (fait écrit à CHAQUE correction serveur,
+**avant** la branche `record`), `tests/progress-store.test.mjs`.
 
 **CP3** — **créés** `lib/usage-event.mjs` (**PUR**), `lib/usage-event.d.ts`,
 `tests/v77-usage-event.test.mjs` (21), `docs/v77/V77-CP3-TERMINAL.md`.
@@ -170,9 +184,37 @@ le branchement a lieu aux CP3 → CP7.
 | CP0 | `c6aca1c` — la phrase de départ était fausse, dans les deux sens |
 | CP1 | `e0c4a80` — contrat d'observabilité gelé |
 | CP2 | `98b6849` — la politique devient une donnée |
-| CP3 | *(ce commit)* — le terminal : un usage, pas une réussite |
+| CP3 | `5ddbd87` — le terminal : un usage, pas une réussite |
+| CP4 | *(ce commit)* — cinq échecs ne laissaient qu'une trace |
 
 ## Journal des CP
+
+- **CP4** — **le produit gardait la PREMIÈRE tentative et appelait ça un
+  historique.**
+  - Dette `D6` **remesurée** au lieu d'être recopiée, et la mesure dit plus que
+    la dette. Sept soumissions humaines laissaient **2 preuves et 0 tentative**.
+    Surtout : `0/5 → 1/5 → 4/5` gardait `0/5` puis `4/5`. La clé de preuve est
+    `sourceType:sourceId:compétences:qualifiante` — **elle ignore le score** —
+    donc deux échecs de scores différents ont la même clé et c'est le **premier**
+    qui survit. Pour un pilote, ce n'est pas une donnée manquante : c'est une
+    donnée qui dit le contraire de ce qui s'est passé.
+  - **Même cause qu'en V74 · CP2, trois sprints plus tard** : persister la
+    PROJECTION (la preuve, dédupliquée par nature) et jeter le FAIT (la
+    soumission, qui ne se déduplique pas).
+  - **LE POINT DÉCISIF EST L'ENDROIT DE L'ÉCRITURE.** L'interface corrige
+    (`submit`, sans conservation) puis conserve (`keep`). Écrire sous `record`
+    n'aurait observé que les tentatives dont l'apprenant est assez content pour
+    les garder — la dissymétrie exacte de V74. Le fait est donc écrit à **chaque
+    correction serveur**.
+  - **Deux gardes qui ne disent pas la même chose** : la clé métier écarte la
+    même requête livrée deux fois ; `estUnRejeu` écarte la séquence
+    « corriger puis conserver » de l'interface. Sans la seconde, chaque
+    diagnostic conservé compterait DOUBLE — un mensonge de sens contraire.
+  - **Le seuil appartient au fait** : `4/5` est réussi à 0,7 et échoué à 0,9. Le
+    recopier rend le calcul refaisable sans retrouver la version de la fixture.
+  - **Aucun capstone branché** : le fait porte déjà `kind` et `simulation`, mais
+    la route des capstones n'émet rien — c'est le CP6, avec sa justification
+    propre. Ouvrir un vocabulaire n'écrit pas un fait.
 
 - **CP3** — **le terminal écrit enfin, et écrit le moins possible.**
   - **Politique `USAGE_ONLY`**, pas `NO_FACT` et surtout pas `TerminalAttempt`.

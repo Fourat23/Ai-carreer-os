@@ -106,7 +106,12 @@ test('emptyFlat : forme V6 vide', () => {
   // arguments sont des énumérations fermées. La liste dit donc qu'une surface a
   // été UTILISÉE, jamais qu'elle a été réussie, et elle vit dans un champ
   // séparé pour qu'aucun moteur ne puisse la confondre avec les autres.
-  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [], hintViews: [], usageEvents: [] });
+  //
+  // `assessmentAttempts` s'ajoute en V77 · CP4 : le produit gardait la PREMIÈRE
+  // soumission d'un diagnostic et refusait les suivantes comme doublons, si
+  // bien qu'une progression `0/5 → 1/5 → 4/5` ne laissait que `0/5`. Ici encore,
+  // la liste est VIDE et jamais absente — « aucune soumission » est une donnée.
+  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [], hintViews: [], assessmentAttempts: [], usageEvents: [] });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
 

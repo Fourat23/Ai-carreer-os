@@ -12,15 +12,14 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP8**
+- **dernier CP terminé** : **CP9**
 - **CP courant** : —
-- **NEXT_CP** : **CP9** — PERSISTANCE, BROUILLON PÉRIMÉ, `RESET`
-- **NEXT_ACTION** : mesurer ce qui n'a jamais été mesuré (`T20`) : rafraîchir,
-  naviguer, revenir, **deux onglets**, écritures concurrentes, **brouillon
-  périmé écrasant un plus récent**. Puis clarifier les **trois** sémantiques
-  gelées au CP1 — `RESET_FILE`, `RESET_WORKSPACE`, et `RESET_EXERCISE` **qui ne
-  doit pas exister**. Règle gelée : **aucun `RESET` n'efface un `ATTEMPT`, une
-  `SUBMISSION` ou une `EVIDENCE`.**
+- **NEXT_CP** : **CP10** — HISTORIQUE DES TENTATIVES + COMPARAISON
+- **NEXT_ACTION** : l'historique **existe déjà** (`exerciseAttempts`, panneau
+  « historique » du Workbench). Ne PAS le reconstruire. Construire uniquement le
+  manque démontré : une **comparaison utile entre deux tentatives** — outcome,
+  tests, aides consultées, horodatage, et le **diff pertinent**. **Pas un clone
+  de Git** (`G14`).
 
 ## Repères Git
 
@@ -36,7 +35,7 @@
 
 `376` exercices · `128` leçons · `365` journées · `52` semaines · `12` mois ·
 corpus gelé `92d5fae6` · **`data/progress.json` n'existe pas** ·
-`data/lab-workspaces/` ignoré par git · **1858 tests** · tsc 0 · build OK ·
+`data/lab-workspaces/` ignoré par git · **1936 tests** · tsc 0 · build OK ·
 `gates:active` **48 portes, 0 violation**.
 
 ## Mesures BEFORE (CP0 — à ne jamais reconstruire ni écraser)
@@ -223,6 +222,19 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP9** : **créés** `scripts/v76/cp9-persistence.mjs` (10 sondes HTTP),
+  `tests/v76-persistence.test.mjs` (19), `lib/workspace-conflit.mjs` (PUR,
+  sans import Node — chargé par un composant client) + `.d.ts`,
+  `docs/v76/V76-CP9-PERSISTENCE.md`, `docs/v76/cp9-persistence.json`.
+  **Modifiés** `lib/workspace-fs.mjs` (+ `revisionDe`, `rev` sur chaque entrée),
+  `lib/exercise-files.mjs` (la révision traverse jusqu'au client),
+  `lib/workspace.mjs` (+ `decisionDeSauvegarde`, PURE) + `lib/workspace.d.ts`,
+  `lib/workspace-server.ts` (`conflitsDeRevision` délègue et joint le contenu
+  actuel), `app/api/lab/[exerciseId]/route.ts` (refus **409** AVANT toute
+  écriture), `app/lab/[exerciseId]/LabWorkspace.tsx` (révisions mémorisées,
+  refus lu par `lectureDuRefus`, avertissement `role="alert"`),
+  `app/globals.css` (`.wb-conflit`).
+
 - **CP8** : **créés** `scripts/v76/cp8-transfer.mjs` (10 vérifications × 25),
   `tests/v76-transfer-leak.test.mjs` (8), `docs/v76/V76-CP8-TRANSFER-LEAK.md`,
   `docs/v76/cp8-transfer.json`. **Modifiés** `lib/transfer-challenge.mjs`
@@ -283,6 +295,39 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP9** — **un onglet oublié effaçait le travail d'un autre.**
+  - `T20` était écrit « non mesuré » depuis le CP0. Mesuré : **le scénario se
+    produisait**. Un onglet laissé ouvert une heure renvoyait son état au
+    prochain autosave et **écrasait silencieusement** le travail fait
+    entre-temps — sans trace, sans avertissement, sans moyen de le retrouver.
+  - **La révision est calculée sur le CONTENU, pas sur l'horloge.** C'est la
+    seule variante qui laisse passer une sauvegarde qui ne change rien : une
+    protection qui punit l'inaction n'en est pas une.
+  - **Le refus rend le contenu de l'autre version.** Un refus qui dit seulement
+    « non » laisse l'apprenant devant un mur. Rien n'est fusionné, rien n'est
+    écrasé, **aucun bouton « forcer »** — un test l'interdit.
+  - **La compatibilité est un choix, pas un oubli** : sans `revs`, rien n'est
+    refusé. Un client qui ne les connaît pas perd la protection, jamais sa
+    sauvegarde.
+  - **`RESET` n'efface toujours aucun fait**, vérifié en fabriquant une histoire
+    réelle puis en réinitialisant deux fois de deux façons : `43→43 · 12→12 ·
+    3→3`. `RESET_EXERCISE` n'existe pas : `400 — Action inconnue.`
+  - **QUATRE mutations ont survécu, en deux vagues, pour la même raison.** Mes
+    tests cherchaient du TEXTE (`conflitsDeRevision(`, `status: 409`,
+    `setConflit(`) au lieu d'exercer une décision. `if (false && conflits.length)`
+    les laissait tous verts ; et le composant contenant DEUX `setConflit(`,
+    effacer la branche de refus laissait la remise à zéro — donc le test vert.
+    *Une assertion de texte tient une convention, jamais un comportement.*
+  - **Remède, deux fois le même** : sortir la décision du serveur
+    (`decisionDeSauvegarde`, PURE) et la lecture du refus de la surface
+    (`lectureDuRefus`, PURE, sans import Node), et les faire APPELER par les
+    tests. Même geste qu'au CP5 pour la frontière d'exécution.
+  - **14 mutations, 14 tuées.** Trois d'entre elles (`M3`, `M4`, `M7`) portent
+    sur une route TypeScript : `npm test` ne peut pas l'exécuter, et **aucune
+    assertion statique ne prouve qu'un handler appelle ce qu'il importe**. Elles
+    sont tuées par la SONDE, produit reconstruit et servi. **Limite déclarée** :
+    le gantelet du CP14 devra faire tourner les deux, pas seulement `npm test`.
 
 - **CP8** — **le repli hors ligne ÉTAIT la fuite.**
   - `GET /transfer/[id]` servait `"answer":0` et le texte d'`explanation` dans

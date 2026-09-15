@@ -1,0 +1,62 @@
+[
+ {
+  "id": "P1",
+  "nom": "un brouillon survit à un rechargement",
+  "ok": true,
+  "detail": "conservé"
+ },
+ {
+  "id": "P2",
+  "nom": "un brouillon n’est PAS une tentative",
+  "ok": true,
+  "detail": "tentatives 43 → 43"
+ },
+ {
+  "id": "P3",
+  "nom": "un brouillon survit à un passage sur un AUTRE exercice",
+  "ok": true,
+  "detail": "conservé"
+ },
+ {
+  "id": "P4",
+  "nom": "DEUX ONGLETS : le dernier à écrire gagne (comportement observé)",
+  "ok": true,
+  "detail": "gagnant : B (le plus récent)"
+ },
+ {
+  "id": "P5",
+  "nom": "BROUILLON PÉRIMÉ : un onglet resté ouvert écrase-t-il le travail récent ?",
+  "ok": true,
+  "detail": "refus 409 pour l’onglet périmé · le travail récent survit · l’autre version est rendue : oui"
+ },
+ {
+  "id": "P6",
+  "nom": "`RESET_FILE` restaure UN fichier et laisse les autres",
+  "ok": true,
+  "detail": "index.html restauré : true · style.css intact : true"
+ },
+ {
+  "id": "P7",
+  "nom": "`RESET_WORKSPACE` restaure TOUS les fichiers",
+  "ok": true,
+  "detail": "2/2 restaurés"
+ },
+ {
+  "id": "P8",
+  "nom": "LA RÈGLE QUI NE SE NÉGOCIE PAS : `RESET` n’efface AUCUN fait",
+  "ok": true,
+  "detail": "tentatives 45→45 · preuves 12→12 · aides 4→4"
+ },
+ {
+  "id": "P9",
+  "nom": "`RESET_EXERCISE` n’existe pas (et ne doit pas être inventé)",
+  "ok": true,
+  "detail": "statut 400 — Action inconnue."
+ },
+ {
+  "id": "P10",
+  "nom": "un fichier PROTÉGÉ n’est pas réinitialisable non plus",
+  "ok": true,
+  "detail": "statut 400"
+ }
+]

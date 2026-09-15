@@ -1,3 +1,4 @@
+import { decisionDeSauvegarde } from './workspace.mjs';
 // Liant applicatif du gestionnaire d'espace de travail : fixe la racine dédiée
 // data/lab-workspaces/ (jamais versionnée) et expose l'API à Next. Toute la
 // logique — sûreté des chemins, allowlist, exécution cloisonnée — vit dans
@@ -15,6 +16,24 @@ export function materializeWorkspace(exercise: Exercise, userFiles: Record<strin
 export function workspaceExists(exercise: Exercise): boolean {
   return fs.workspaceExists(ROOT, exercise);
 }
+/**
+ * V76 · CP9 — quels fichiers ont bougé depuis la base sur laquelle le client a
+ * travaillé ? Rendu vide quand tout concorde.
+ */
+export function conflitsDeRevision(
+  exercise: Exercise,
+  revsAttendues: Record<string, string>,
+): { path: string; revAttendue: string; revActuelle: string; contenuActuel: string }[] {
+  const actuels = new Map(readWorkspaceTree(exercise).map((f) => [f.path, f]));
+  // La DÉCISION est pure (`lib/workspace.mjs`) : ce read-model ne fait qu'y
+  // ajouter le contenu actuel, pour que l'apprenant voie ce qu'il n'écrasera pas.
+  const revsActuelles = Object.fromEntries(
+    [...actuels].map(([p, f]) => [p, (f as { rev?: string }).rev ?? '']),
+  );
+  const { conflits } = decisionDeSauvegarde(revsAttendues, revsActuelles);
+  return conflits.map((c) => ({ ...c, contenuActuel: actuels.get(c.path)?.content ?? '' }));
+}
+
 export function readWorkspaceTree(exercise: Exercise): WorkspaceFileState[] {
   return fs.readWorkspaceTree(ROOT, exercise);
 }

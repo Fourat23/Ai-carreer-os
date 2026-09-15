@@ -16,6 +16,7 @@ import { usePanelLayout } from './usePanelLayout';
 import { describeDiff } from '@/lib/test-diff';
 import { hintForDiagnostic } from '@/lib/ts-hints';
 import { appendPreviewLog, type PreviewLogEntry } from '@/lib/console-format';
+import { lectureDuRefus } from '@/lib/workspace-conflit';
 
 const CodeMirrorEditor = dynamic(() => import('./CodeMirrorEditor'), {
   ssr: false,
@@ -87,6 +88,17 @@ export default function LabWorkspace({
   const TABS_KEY = `lab:tabs:${exercise.id}`;
 
   const [files, setFiles] = useState<FileState[]>(initialFiles);
+  // ── V76 · CP9 — SUR QUELLE BASE CE NAVIGATEUR TRAVAILLE ──
+  //
+  // La révision de chaque fichier telle qu'il l'a REÇUE. Renvoyée à chaque
+  // sauvegarde : si le fichier a changé ailleurs entre-temps, le serveur refuse
+  // plutôt que de laisser le dernier écrivain gagner. Le CP9 a mesuré qu'un
+  // onglet laissé ouvert une heure écrasait silencieusement le travail d'un
+  // autre — sans trace, et sans moyen de le retrouver.
+  const revs = useRef<Record<string, string>>(
+    Object.fromEntries(initialFiles.map((f) => [f.path, (f as { rev?: string }).rev ?? ''])),
+  );
+  const [conflit, setConflit] = useState<{ path: string; contenuActuel: string | null }[] | null>(null);
   const [active, setActive] = useState(initialActive || visibleFiles[0]?.path || '');
   const [openTabs, setOpenTabs] = useState<string[]>(() => (initialActive ? [initialActive] : visibleFiles[0] ? [visibleFiles[0].path] : []));
   const [dirty, setDirty] = useState<Set<string>>(() => new Set());
@@ -198,7 +210,13 @@ export default function LabWorkspace({
   const post = useCallback(async (action: string, extra: Record<string, unknown> = {}) => {
     const res = await fetch(`/api/lab/${exercise.id}`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action, files: editableMap(), ...extra }),
+      body: JSON.stringify({
+        action, files: editableMap(),
+        // Seule la sauvegarde porte les révisions : un `run` juge le code
+        // présent, il n'arbitre pas une concurrence d'écriture.
+        ...(action === 'save' ? { revs: revs.current } : {}),
+        ...extra,
+      }),
     });
     return res.json().catch(() => ({ error: 'Réponse illisible.' }));
   }, [exercise.id, editableMap]);
@@ -207,7 +225,19 @@ export default function LabWorkspace({
     if (!dirtyRef.current.size) { setSaveState('saved'); return; }
     setSaveState('saving');
     const j = await post('save');
-    if (j.ok) { setDirty(new Set()); setSaveState('saved'); } else setSaveState('idle');
+    // On ne décide PAS à la place de l'apprenant, et on n'écrase rien : la
+    // lecture du refus est pure (lib/workspace-conflit.mjs), exercée par les
+    // tests, et ne fait que nommer les fichiers concernés.
+    const refus = lectureDuRefus(j);
+    setConflit(refus ? refus.conflits : null);
+    if (j.ok) {
+      setDirty(new Set());
+      setSaveState('saved');
+      // Les révisions avancent avec le serveur : c'est LUI qui fait foi.
+      for (const f of (j.files ?? []) as { path: string; rev?: string }[]) {
+        if (f.rev) revs.current[f.path] = f.rev;
+      }
+    } else setSaveState('idle');
   }, [post]);
 
   const run = useCallback(async () => {
@@ -425,6 +455,19 @@ export default function LabWorkspace({
             ? <CodeMirrorEditor key={`${activeFile.path}:${editorKey}`} value={activeFile.content} onChange={onEdit} readOnly={!activeFile.editable} language={activeFile.language} goto={goto && goto.line ? goto : null} />
             : <div className="cm-loading">Aucun fichier ouvert.</div>}
         </div>
+        {/* ── V76 · CP9 — UNE SAUVEGARDE REFUSÉE SE VOIT ──
+            Le CP9 a mesuré qu'un onglet laissé ouvert écrasait silencieusement
+            le travail d'un autre. Le serveur refuse désormais ; ici, on le DIT,
+            et on ne choisit pas à la place de l'apprenant. */}
+        {conflit && conflit.length > 0 && (
+          <div className="wb-conflit" role="alert">
+            <strong>Ce fichier a changé ailleurs.</strong>{' '}
+            {conflit.map((c) => c.path).join(', ')} {conflit.length > 1 ? 'ont' : 'a'} été modifié
+            {conflit.length > 1 ? 's' : ''} depuis que cet onglet l’a ouvert — sans doute dans une
+            autre fenêtre. <strong>Rien n’a été écrasé.</strong> Recharge la page pour repartir de
+            la version enregistrée, ou copie ton travail avant de recharger.
+          </div>
+        )}
         <div className="wb-status">
           <span className="wb-status-file">{activeFile?.path ?? '—'}</span>
           <span className={`wb-runtime${runtime.available ? '' : ' off'}`} title={runtime.available ? (runtime.version ?? '') : (runtime.error ?? 'indisponible')}>

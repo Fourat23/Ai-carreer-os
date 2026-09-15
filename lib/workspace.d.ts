@@ -12,3 +12,11 @@ export function gradeRun(
   rawStdout: string,
   ctx?: { error?: string | null; durationMs?: number; at?: string | null },
 ): AttemptResult;
+
+// V76 · CP9 — la concurrence d'écriture, décidée hors du serveur et hors de la
+// surface, pour qu'un test puisse l'exercer sans lancer ni l'un ni l'autre.
+export type ConflitDeRevision = { path: string; revAttendue: string; revActuelle: string };
+export function decisionDeSauvegarde(
+  revsAttendues: unknown,
+  revsActuelles: Record<string, string> | null | undefined,
+): { refuse: boolean; conflits: ConflitDeRevision[] };

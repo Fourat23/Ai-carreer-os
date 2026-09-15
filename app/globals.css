@@ -5727,3 +5727,15 @@ button.dot::after {
   font-size: 12.5px;
   line-height: 1.5;
 }
+
+/* ── V76 · CP9 — SAUVEGARDE REFUSÉE (BROUILLON PÉRIMÉ) ──────────────────
+   Un avertissement RÉEL, cette fois : quelque chose demande une décision de
+   l'apprenant. À distinguer de `.lab-provenance`, qui ne fait que décrire. */
+.wb-conflit {
+  padding: 9px 12px;
+  border-top: 1px solid color-mix(in srgb, var(--warn) 45%, transparent);
+  background: color-mix(in srgb, var(--warn) 12%, transparent);
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.55;
+}

@@ -12,6 +12,7 @@ import { recordExerciseSuccess } from '@/lib/lab-progress';
 import { applyCommand } from '@/lib/learning-engine';
 import {
   readWorkspaceTree, writeWorkspaceFile, resetWorkspace, resetWorkspaceFile, runExercise, buildReactPreview,
+  conflitsDeRevision,
 } from '@/lib/workspace-server';
 import { splitAttempt } from '@/lib/lab-feedback';
 import { remedier } from '@/lib/remediation';
@@ -73,6 +74,29 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ exe
       return NextResponse.json({ ok: r.ok, srcDoc: r.srcDoc ?? null, channel: r.channel ?? null, diagnostics: r.diagnostics ?? [] });
     }
     if (action === 'save') {
+      // ── V76 · CP9 — UNE SAUVEGARDE PÉRIMÉE EST REFUSÉE ──
+      //
+      // Le CP9 a mesuré le scénario `T20` du modèle de menace : un onglet
+      // laissé ouvert une heure renvoie SON état au prochain autosave, et
+      // **écrase silencieusement** le travail fait entre-temps dans un autre
+      // onglet. Rien ne le signalait, et rien ne permettait de le retrouver.
+      //
+      // Le client renvoie donc la révision sur laquelle il a travaillé. Si le
+      // fichier a changé depuis, on REFUSE et on rend le contenu actuel : à
+      // l'apprenant de choisir, plutôt qu'au dernier écrivain de gagner.
+      //
+      // Sans `revs`, le comportement reste celui d'avant — un client ancien ne
+      // casse pas, il perd seulement la protection.
+      const revs = (body as { revs?: Record<string, string> }).revs;
+      if (revs && typeof revs === 'object') {
+        const conflits = conflitsDeRevision(ex, revs);
+        if (conflits.length) {
+          return NextResponse.json({
+            ok: false, conflit: true, conflits,
+            error: 'Ce fichier a changé ailleurs depuis que tu l’as ouvert.',
+          }, { status: 409 });
+        }
+      }
       for (const [path, content] of Object.entries(files)) writeWorkspaceFile(ex, path, String(content));
       return NextResponse.json({ ok: true, files: readWorkspaceTree(ex) });
     }

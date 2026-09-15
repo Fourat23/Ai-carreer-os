@@ -101,20 +101,25 @@ test('V77 · CP6 — DÉFAUT MESURÉ : un genre hors vocabulaire retombe sur `se
 
 test('V77 · CP6 — LA CONTRADICTION MESURÉE : « déclaration » et « démontré » à la fois', () => {
   // Avant le CP6, la preuve disait `self` (une déclaration) ET créditait
-  // `demonstrated`, parce que `isQualifying` ne regarde ni le genre ni le
-  // niveau. Le CP6 aligne le genre ; le CP9 décidera si `isQualifying` doit
-  // regarder le niveau — ce test fige l'état, il ne le préjuge pas.
+  // `demonstrated`, parce que `isQualifying` ne regardait ni le genre ni le
+  // niveau. Le CP6 a aligné le genre ; le CP9 a tranché le reste.
   const c = CAPSTONES[0];
   const avant = preuveDe(c, 'genre-inexistant').evidence;
   assert.equal(avant.evidenceLevel, 'DECLARED');
-  assert.equal(isQualifying(avant), true, 'la contradiction historique, telle quelle');
-  assert.equal(projectCompetency(c.skills[0], [avant]).state, 'demonstrated');
+  // ── AMENDÉ PAR V77 · CP9 ──
+  //
+  // Le CP6 figeait la contradiction sans la trancher : `isQualifying` ignorait
+  // le niveau, et cette preuve annoncée `self` créditait `demonstrated`. Le CP9
+  // a appliqué le contrat gelé (*seul `VALIDATED` compte*), et la contradiction
+  // a disparu — pas parce qu'on l'a maquillée, parce qu'on l'a résolue.
+  assert.equal(isQualifying(avant), false, 'une auto-déclaration ne crédite plus rien');
+  assert.equal(projectCompetency(c.skills[0], [avant]).state, 'practiced');
 
   const apres = preuveDe(c, 'capstone-grade').evidence;
   assert.equal(apres.evidenceLevel, 'VALIDATED');
   assert.equal(isQualifying(apres), true);
   assert.equal(projectCompetency(c.skills[0], [apres]).state, 'demonstrated',
-    'la compétence ne CHANGE pas : ce qui change, c’est que le genre dit enfin la vérité');
+    'corrigé par le serveur, le capstone démontre — et c’est le seul des deux qui le peut');
 });
 
 // ── 2 · CE QUI NE DOIT PAS ÊTRE REMONTÉ ────────────────────────────────

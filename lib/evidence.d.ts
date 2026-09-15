@@ -17,6 +17,12 @@ export const NIVEAUX_DE_PREUVE: readonly NiveauDePreuve[];
 export const NIVEAU_MAX_PAR_SOURCE: Readonly<Record<string, NiveauDePreuve>>;
 export const NIVEAU_MAX_PAR_KIND: Readonly<Record<string, NiveauDePreuve>>;
 export function niveauDePreuve(sourceType: string, validation: unknown): NiveauDePreuve;
+/**
+ * V77 · CP9 — une preuve QUALIFIE si et seulement si : son type le peut, sa
+ * validation a abouti, ET son niveau dérivé vaut `VALIDATED`. La troisième
+ * condition est la décision du CP9 (contrat CP1 §2).
+ */
+export function isQualifying(evidence: unknown): boolean;
 
 export type EvidenceValidationStatus = 'passed' | 'failed' | 'pending' | 'manual';
 export type EvidenceValidationKind =
@@ -91,7 +97,6 @@ export type MakeEvidenceResult =
 
 export function safeId(v: unknown, max?: number): string | null;
 export function safeUrlish(u: unknown): string | null;
-export function isQualifying(evidence: unknown): boolean;
 export function evidenceKey(evidence: unknown): string;
 /**
  * Identifiant déterministe. `qualifying` porte le MÊME discriminant que la clé

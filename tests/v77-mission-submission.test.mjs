@@ -72,7 +72,12 @@ test('V77 · CP5 — une mission terminée ne produit PLUS de preuve qualifiante
   assert.equal(preuve.validation.status, 'manual');
   assert.equal(preuve.validation.kind, 'mission-deliverables');
   assert.equal(isQualifying(preuve), false);
-  assert.equal(preuve.evidenceLevel, 'OBSERVED');
+  // V77 · CP9 — `OBSERVED` au CP5, `DECLARED` depuis : le CP9 a tranché la
+  // tension laissée ouverte ici. `NIVEAU_MAX_PAR_SOURCE` est un PLAFOND, pas une
+  // assignation, et la mesure dit que les 42 missions portent une revue requise
+  // auto-signée. La preuve reste non qualifiante dans les deux cas — ce qui
+  // change est la précision de ce qu'on en dit.
+  assert.equal(preuve.evidenceLevel, 'DECLARED');
 });
 
 test('V77 · CP5 — L’AVANCEMENT EST INTACT : « terminée » reste « terminée »', () => {
@@ -99,7 +104,22 @@ test('V77 · CP5 — LA CONSÉQUENCE MESURÉE : `demonstrated` → `practiced`',
   const apres = (recordMissionCompletion(missionTerminee(def), def, NOW).evidence ?? [])
     .find((e) => e.sourceType === 'mission');
 
-  assert.equal(projectCompetency('algo', [avant.evidence]).state, 'demonstrated');
+  // ── CE TEST A ÉTÉ AMENDÉ PAR V77 · CP9 ──
+  //
+  // Au CP5, `avant` reproduisait le comportement historique en repassant par
+  // `makeEvidence` : `passed` + `mission-deliverables` qualifiait, et la
+  // compétence tombait à `demonstrated`. Le CP9 a ajouté la troisième condition
+  // à `isQualifying` (niveau `VALIDATED` requis), de sorte que cette
+  // combinaison ne qualifie plus NON PLUS.
+  //
+  // Le comportement d'avant est donc devenu INATTEIGNABLE avec le code actuel.
+  // On le reconstruit explicitement — une preuve dont le moyen atteint
+  // `VALIDATED` — plutôt que de prétendre que `makeEvidence` le produit encore.
+  // La mesure publiée au CP5 (17 compétences `demonstrated` → `practiced`)
+  // reste vraie de la bascule qu'elle décrivait ; elle ne se rejoue simplement
+  // plus telle quelle.
+  const commeAvantCP5 = { ...avant.evidence, validation: { ...avant.evidence.validation, kind: 'assessment-grade' }, sourceType: 'assessment' };
+  assert.equal(projectCompetency('algo', [commeAvantCP5]).state, 'demonstrated');
   assert.equal(projectCompetency('algo', [apres]).state, 'practiced');
 });
 
@@ -144,12 +164,17 @@ test('V77 · CP5 — le niveau est DÉRIVÉ : un appelant ne peut pas se le déc
     title: 'x', provenance: { producer: 'p', method: 'm' },
     evidenceLevel: 'VALIDATED', // tentative d'auto-promotion
   }, { now: NOW });
-  assert.equal(v.evidence.evidenceLevel, 'OBSERVED');
+  // V77 · CP9 — `DECLARED` désormais (cf. plafond par MOYEN). Ce que ce test
+  // garde est inchangé : l'appelant ne peut pas se décerner un niveau.
+  assert.equal(v.evidence.evidenceLevel, 'DECLARED');
 });
 
 test('V77 · CP5 — le plafond par source tient même contre un `passed`', () => {
-  assert.equal(NIVEAU_MAX_PAR_SOURCE.mission, 'OBSERVED');
-  assert.equal(niveauDePreuve('mission', { status: 'passed', kind: 'mission-deliverables' }), 'OBSERVED');
+  assert.equal(NIVEAU_MAX_PAR_SOURCE.mission, 'OBSERVED', 'le PLAFOND par source reste OBSERVED');
+  // V77 · CP9 — et le niveau RÉEL descend en dessous, parce que le plafond par
+  // MOYEN est plus sévère : `mission-deliverables` inclut toujours une revue
+  // auto-signée (42/42 mesurées). Un plafond n'est pas une assignation.
+  assert.equal(niveauDePreuve('mission', { status: 'passed', kind: 'mission-deliverables' }), 'DECLARED');
   assert.equal(niveauDePreuve('exercise', { status: 'passed', kind: 'exercise-tests' }), 'VALIDATED');
 });
 
@@ -169,8 +194,13 @@ test('V77 · CP5 — le niveau est une PROJECTION : les preuves anciennes ne son
   };
   const [relue] = normalizeLedger([ancienne]);
   assert.equal(relue.validation.status, 'passed', 'le disque n’est pas réécrit');
-  assert.equal(relue.evidenceLevel, 'OBSERVED', 'mais le niveau reste plafonné');
-  assert.equal(isQualifying(relue), true, 'et l’ancienne preuve garde son statut historique');
+  // V77 · CP9 — le niveau descend à `DECLARED`, et la CONSÉQUENCE change : une
+  // preuve de mission antérieure au CP5 cesse de créditer une compétence. Ce
+  // n'est pas une migration — rien n'est réécrit — c'est la règle de lecture qui
+  // s'aligne enfin sur ce que la preuve dit d'elle-même. Mesuré et déclaré dans
+  // `docs/v77/V77-CP9-MATRICE.md`.
+  assert.equal(relue.evidenceLevel, 'DECLARED', 'le niveau est plafonné par le MOYEN');
+  assert.equal(isQualifying(relue), false, 'et elle ne crédite plus une compétence');
 });
 
 // ── 4 · LE FAIT `MissionSubmission` ────────────────────────────────────

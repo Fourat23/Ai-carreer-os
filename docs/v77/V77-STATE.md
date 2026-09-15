@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP8** |
+| `LAST_COMPLETED_CP` | **CP9** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP9** — UNIFICATION DES PREUVES |
-| `NEXT_ACTION` | publier et GELER la matrice `sourceType × validationKind × evidenceLevel × simulation × qualifiesFor{Competency, Retention, Recovery}`. Les deux plafonds existent déjà (`NIVEAU_MAX_PAR_SOURCE` au CP5, `NIVEAU_MAX_PAR_KIND` au CP6) ; il reste à les publier ENSEMBLE, à les tester exhaustivement, et à trancher **la question laissée ouverte au CP6** : `isQualifying` ignore le niveau — une preuve `DECLARED` d'un type qualifiant portant `passed` crédite encore une compétence. Trancher aussi la **tension du CP5** : contrat = `OBSERVED` pour une mission, maillon faible = `DECLARED`. |
+| `NEXT_CP` | **CP10** — DOUBLE COMPTAGE INTER-SURFACES |
+| `NEXT_ACTION` | mesurer le **nombre CANONIQUE** de doubles comptages inter-surfaces — **NE PAS réutiliser le 14 du CP0**, le remesurer. Défaut `D1` : un exercice résolu valide un livrable de mission, et les deux preuves portaient la même compétence canonique (sonde `A13`). Le CP5 a retiré la moitié « mission » en la rendant non qualifiante — il faut mesurer ce qui RESTE. Ajouter la provenance `derivedFrom` là où une preuve dérive d'une autre. Vérifier rejeu et idempotence. |
 
 ## Repères Git
 
@@ -107,6 +107,7 @@
 | `D7` | **six surfaces calculent et ne gardent rien** | `A1`–`A6` : 200, résultat substantiel, 0 octet écrit |
 | `D8` | **aucun niveau de confiance sur les preuves** | 5 tests en bac à sable et un clic portent le même `passed` |
 | `D9` | **la marque de simulation vit dans du texte libre** | `detail`, pas un champ ; rien ne la garde |
+| `D8` | ~~aucun niveau de confiance sur les preuves~~ **CORRIGÉE aux CP5→CP9** : `evidenceLevel` dérivé, deux plafonds, matrice de 192 lignes publiée et sans incohérence | 12 combinaisons qualifiantes sur 192 |
 | `D10` | **125 exercices sans rattachement** | cause : aucun `conceptIds`/`lessonRefs` dans la source |
 | `D11` | `placeholder` est un terme du domaine traité comme un marqueur de remplissage | `PLACEHOLDER_RE` |
 | `D10` | **125 exercices sans rattachement** — **DÉCLARÉE au CP8, non corrigée** : 4 sources auditées, **0 résolution**. Sous-classée : 112 conséquentes (les candidates couvrent plusieurs compétences), 13 sans conséquence pour la compétence | mécanisme de déclaration hors corpus livré **vide** |
@@ -133,6 +134,10 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 (79 vérifications) reste dans `gates:active`.
 
 ## `TESTS_RUN`
+
+**CP9** — `npm test` **2130/2130** · `tsc` **0** · `build` **OK** ·
+`gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
+0 trou** · matrice **192 lignes, 0 incohérence**.
 
 **CP8** — `npm test` **2117/2117** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · audit de 4 sources, **0 résolution** ·
@@ -166,6 +171,14 @@ traversée · `data/progress.json` **absent**.
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP9** — **créés** `lib/evidence-matrix.mjs` (**PUR**),
+`lib/evidence-matrix.d.ts`, `scripts/v77/cp9-matrice.mjs`,
+`docs/v77/cp9-evidence-matrix.json`, `tests/v77-evidence-matrix.test.mjs` (13),
+`docs/v77/V77-CP9-MATRICE.md`. **Modifiés** : `lib/evidence.mjs`
+(`isQualifying` exige `VALIDATED` · `mission-deliverables` plafonné `DECLARED`),
+`lib/evidence.d.ts`, et **6 assertions amendées** dans
+`tests/v77-mission-submission.test.mjs` et `tests/v77-capstone.test.mjs`.
 
 **CP8** — **créés** `lib/exercise-declarations.mjs` (**PUR**),
 `lib/exercise-declarations.d.ts`, `lib/exercise-declarations-server.ts`,
@@ -248,9 +261,40 @@ le branchement a lieu aux CP3 → CP7.
 | CP5 | `6c8c8f5` — une mission ne dit plus `passed` |
 | CP6 | `3f411b4` — le capstone était dégradé, pas surclassé |
 | CP7 | `96b6d36` — quatre surfaces analysaient vraiment, et n'écrivaient rien |
-| CP8 | *(ce commit)* — les 125 ambigus : 125 → 125, et c'est le résultat |
+| CP8 | `39c69c6` — les 125 ambigus : 125 → 125, et c'est le résultat |
+| CP9 | *(ce commit)* — la matrice, et la décision qu'elle force |
 
 ## Journal des CP
+
+- **CP9** — **une règle qu'on ne peut lire qu'en recoupant trois fichiers n'est
+  pas une règle : c'est une coutume.**
+  - Le CP5 avait posé un plafond par SOURCE, le CP6 un par MOYEN. Deux phrases
+    vraies séparément, dont la combinaison n'avait **jamais été relue**. La
+    matrice énumère les **192 combinaisons** — 80 `DECLARED`, 100 `OBSERVED`,
+    **12 `VALIDATED`** — et ne contient aucune incohérence.
+  - **LA DÉCISION** : `isQualifying` exige désormais le niveau `VALIDATED`,
+    conformément au contrat gelé. La contradiction laissée ouverte au CP6 — une
+    preuve annoncée `self` créditant `demonstrated` — est **résolue, pas
+    maquillée**.
+  - **CE QUE ÇA COÛTE, MESURÉ AVANT DE REGARDER SI LE CHIFFRE EST CONFORTABLE** :
+    18 combinaisons cessent de qualifier. Sur une progression héritée
+    reconstruite par le seul producteur encore actif, **4 preuves qualifiantes
+    tombent à 2**. Un apprenant ancien verra des compétences redescendre de
+    `demonstrated` à `practiced`. Aucune donnée n'est réécrite : c'est la règle de
+    LECTURE qui s'aligne sur ce que la preuve dit d'elle-même.
+  - **LA TENSION DU CP5, TRANCHÉE PAR LA MESURE** : `NIVEAU_MAX_PAR_SOURCE` est
+    un PLAFOND, pas une assignation — « pas plus qu'observé » n'interdit pas
+    d'être en dessous. Et **42 missions sur 42** portent une revue REQUISE
+    auto-signée, donc `mission-deliverables` vaut `DECLARED`. Pas par principe :
+    parce que le corpus est ainsi. Un test rougit si une mission sans revue
+    apparaît.
+  - **Les trois moteurs disent la même chose, et c'est écrit** : le contrat les
+    traite ensemble ; inventer trois règles serait ajouter de la doctrine, pas de
+    la précision. Une propriété rougit s'ils divergent un jour.
+  - **6 assertions des CP5/CP6 amendées**, intention conservée, raison écrite.
+    L'une méritait plus qu'une valeur remplacée : son « avant » était devenu
+    inatteignable avec le code actuel, et elle le reconstruit désormais
+    explicitement plutôt que de prétendre le contraire.
 
 - **CP8** — **125 → 125, et c'est le résultat.**
   - `125 → 0 n'est pas un objectif`, et résoudre par heuristique arbitraire est

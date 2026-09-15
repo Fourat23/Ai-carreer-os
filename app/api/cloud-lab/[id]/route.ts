@@ -11,6 +11,21 @@ import { getProgram } from '@/lib/program';
 import { buildCatalogue } from '@/lib/catalogue.mjs';
 import { isKnownSkill } from '@/lib/skill-taxonomy.mjs';
 
+import { noterAnalyse } from '@/lib/artifact-analysis-server';
+
+// ── V77 · CP7 — CE QUE CETTE SURFACE A LE DROIT D'ÉCRIRE ────────────────
+//
+// Le CP0 a mesuré qu'elle valide et analyse REELLEMENT — `422` sur un artefact
+// mal formé, des diagnostics classés par sévérité — et qu'elle n'écrit pas un
+// octet. Elle écrit désormais un fait `ArtifactAnalysis`, de niveau `OBSERVED`.
+//
+// Deux refus, portés par `noterAnalyse` et par le module pur :
+//   · **pas d'artefact posté → pas de fait.** `analyze` sans artefact analyse la
+//     FIXTURE du produit ; compter cela serait compter une page vue ;
+//   · **aucun verdict.** Un compte de diagnostics n'est pas un jugement, et
+//     `0 diagnostic` veut dire « rien de ce que je sais détecter », jamais
+//     « c'est juste ».
+
 export const dynamic = 'force-dynamic';
 
 function validationCtx() {
@@ -47,7 +62,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       : base;
     const v = validateTopology(candidate as never, validationCtx());
     if (!v.ok) return NextResponse.json({ error: 'Topologie invalide.', errors: v.errors }, { status: 422 });
-    return NextResponse.json({ topology: publicTopologyView(candidate as never), analysis: analyzeTopology(candidate) });
+    const analysis = analyzeTopology(candidate);
+    noterAnalyse('cloud-lab', base.id, Boolean(body.topology && typeof body.topology === 'object'), body.topology, analysis);
+    return NextResponse.json({ topology: publicTopologyView(candidate as never), analysis });
   }
 
   if (action === 'scenario') {

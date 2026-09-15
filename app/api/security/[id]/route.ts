@@ -11,6 +11,21 @@ import { getProgram } from '@/lib/program';
 import { buildCatalogue } from '@/lib/catalogue.mjs';
 import { isKnownSkill } from '@/lib/skill-taxonomy.mjs';
 
+import { noterAnalyse } from '@/lib/artifact-analysis-server';
+
+// ── V77 · CP7 — CE QUE CETTE SURFACE A LE DROIT D'ÉCRIRE ────────────────
+//
+// Le CP0 a mesuré qu'elle valide et analyse REELLEMENT — `422` sur un artefact
+// mal formé, des diagnostics classés par sévérité — et qu'elle n'écrit pas un
+// octet. Elle écrit désormais un fait `ArtifactAnalysis`, de niveau `OBSERVED`.
+//
+// Deux refus, portés par `noterAnalyse` et par le module pur :
+//   · **pas d'artefact posté → pas de fait.** `analyze` sans artefact analyse la
+//     FIXTURE du produit ; compter cela serait compter une page vue ;
+//   · **aucun verdict.** Un compte de diagnostics n'est pas un jugement, et
+//     `0 diagnostic` veut dire « rien de ce que je sais détecter », jamais
+//     « c'est juste ».
+
 export const dynamic = 'force-dynamic';
 
 function validationCtx() {
@@ -51,7 +66,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       : base;
     const v = validateScenario(candidate as never, validationCtx());
     if (!v.ok) return NextResponse.json({ error: 'Scénario invalide.', errors: v.errors }, { status: 422 });
-    return NextResponse.json({ scenario: publicScenarioView(candidate as never), analysis: analyzeScenario(candidate, cve) });
+    const analysis = analyzeScenario(candidate, cve);
+    noterAnalyse('security', base.id, Boolean(body.scenario && typeof body.scenario === 'object'), body.scenario, analysis);
+    return NextResponse.json({ scenario: publicScenarioView(candidate as never), analysis });
   }
   if (action === 'simulate') {
     const kind = String(body.incident ?? base.incident ?? '');

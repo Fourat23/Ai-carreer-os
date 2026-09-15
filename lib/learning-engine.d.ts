@@ -83,6 +83,21 @@ export type Command =
       tailleContenu?: number;
       provenance?: { producer?: string; method?: string };
     }
+  // V77 · CP7 — un artefact analysé. Aucun champ ici ne peut exprimer une
+  // réussite, et `artefactFourni` doit valoir `true` : sans artefact posté par
+  // l'apprenant, le fait n'existe pas.
+  | {
+      type: 'RECORD_ARTIFACT_ANALYSIS';
+      surface: import('./artifact-analysis').SurfaceAnalytique;
+      artifactId: string;
+      artefactFourni: boolean;
+      diagnostics: number;
+      parSeverite?: Record<string, number>;
+      dimensions?: string[];
+      empreinte?: string;
+      tailleArtefact?: number;
+      provenance?: { producer?: string; method?: string };
+    }
   // V77 · CP3 — un USAGE observé. Le type est volontairement dépourvu de tout
   // champ d'issue : il n'existe aucune façon d'exprimer une réussite ici, et
   // c'est la contrainte n°5 du contrat gelé rendue vérifiable à la compilation.

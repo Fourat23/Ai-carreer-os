@@ -10,6 +10,21 @@ import { getProgram } from '@/lib/program';
 import { buildCatalogue } from '@/lib/catalogue.mjs';
 import { isKnownSkill } from '@/lib/skill-taxonomy.mjs';
 
+import { noterAnalyse } from '@/lib/artifact-analysis-server';
+
+// ── V77 · CP7 — CE QUE CETTE SURFACE A LE DROIT D'ÉCRIRE ────────────────
+//
+// Le CP0 a mesuré qu'elle valide et analyse REELLEMENT — `422` sur un artefact
+// mal formé, des diagnostics classés par sévérité — et qu'elle n'écrit pas un
+// octet. Elle écrit désormais un fait `ArtifactAnalysis`, de niveau `OBSERVED`.
+//
+// Deux refus, portés par `noterAnalyse` et par le module pur :
+//   · **pas d'artefact posté → pas de fait.** `analyze` sans artefact analyse la
+//     FIXTURE du produit ; compter cela serait compter une page vue ;
+//   · **aucun verdict.** Un compte de diagnostics n'est pas un jugement, et
+//     `0 diagnostic` veut dire « rien de ce que je sais détecter », jamais
+//     « c'est juste ».
+
 export const dynamic = 'force-dynamic';
 
 function validationCtx() {
@@ -66,7 +81,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       : base;
     const v = validateCloudArchitecture(candidate as never, validationCtx());
     if (!v.ok) return NextResponse.json({ error: 'Architecture invalide.', errors: v.errors }, { status: 422 });
-    return NextResponse.json({ architecture: publicCloudView(candidate as never), analysis: analyzeCloud(candidate as never, priceBook as never) });
+    const analysis = analyzeCloud(candidate as never, priceBook as never);
+    noterAnalyse('cloud-foundations', base.id, Boolean(body.architecture && typeof body.architecture === 'object'), body.architecture, analysis);
+    return NextResponse.json({ architecture: publicCloudView(candidate as never), analysis });
   }
   return NextResponse.json({ error: `Action inconnue « ${action} ».` }, { status: 400 });
 }

@@ -115,7 +115,11 @@ test('emptyFlat : forme V6 vide', () => {
   // `missionSubmissions` s'ajoute en V77 · CP5 : la preuve de mission ne dit
   // plus `passed`, et ce que ce mot recouvrait abusivement — un livrable rendu,
   // constaté par tel MODE — est écrit là où c'est vrai.
-  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [], hintViews: [], assessmentAttempts: [], missionSubmissions: [], usageEvents: [] });
+  //
+  // `artifactAnalyses` s'ajoute en V77 · CP7 : quatre surfaces validaient et
+  // analysaient réellement un artefact rédigé par l'apprenant, et n'écrivaient
+  // pas un octet. Ici encore, la liste est VIDE et jamais absente.
+  assert.deepEqual(emptyFlat(), { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {}, evidence: [], recallAttempts: [], exerciseAttempts: [], transferAttempts: [], hintViews: [], assessmentAttempts: [], missionSubmissions: [], artifactAnalyses: [], usageEvents: [] });
   assert.deepEqual(activeTrackProgress(migrateToV7({}, NOW)).days, {});
 });
 

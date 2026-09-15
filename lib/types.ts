@@ -207,6 +207,15 @@ export interface Progress {
    */
   missionSubmissions?: import('./mission-submission').MissionSubmission[];
   /**
+   * V77 · CP7 — ARTEFACTS ANALYSÉS sur les quatre surfaces analytiques.
+   *
+   * L'apprenant rédige vraiment un manifeste, une topologie, une architecture
+   * ou un scénario ; le produit l'analyse vraiment. Mais il ne sait pas le
+   * JUGER : un compte de diagnostics n'est pas un verdict, et `0 diagnostic`
+   * veut dire « rien de ce que je sais détecter », jamais « c'est juste ».
+   */
+  artifactAnalyses?: import('./artifact-analysis').ArtifactAnalysis[];
+  /**
    * V77 · CP3 — ÉVÉNEMENTS D'USAGE. Un champ **séparé** des faits pédagogiques,
    * et il le reste : aucun moteur ne le lit, aucune preuve n'en naît. Il répond
    * à une seule question — *« cette surface a-t-elle été utilisée ? »* — et

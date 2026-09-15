@@ -7,6 +7,9 @@ import { getPipeline, publicPipeline } from '@/lib/pipelines-server';
 import { runPipeline } from '@/lib/pipeline-engine.mjs';
 import { TRIGGER_KINDS } from '@/lib/pipeline.mjs';
 import { availability } from '@/lib/pipeline-local.mjs';
+import { readProgressFresh, writeProgress } from '@/lib/progress-server';
+import { applyCommand } from '@/lib/learning-engine';
+import type { Progress } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,5 +44,37 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   // Contexte : approbation manuelle simulée. Aucun secret réel n'est fourni.
   const ctx = { approved: body.approved === true, branch: event.branch };
   const run = runPipeline(pipeline, event, ctx, { clock: () => 0 });
+
+  // ── V77 · CP7 — `USAGE_ONLY`, ET POUR UNE AUTRE RAISON QUE LE TERMINAL ──
+  //
+  // Le brief demandait de ne pas jeter le verdict objectif de cette route
+  // (`success` / `failed` / `blocked`). Le CP1 l'a renversé après lecture du
+  // code, et la raison tient en une phrase :
+  //
+  //   > la route n'accepte **aucun pipeline candidat**.
+  //
+  // Le corps est `{ action, event, approved }`. L'apprenant choisit un
+  // déclencheur et coche une approbation ; le pipeline, lui, est **fourni par le
+  // produit**. Deux apprenants qui choisissent le même déclencheur obtiennent
+  // exactement le même résultat. *Le statut mesure la fixture, pas la personne.*
+  //
+  // C'est la différence avec les quatre surfaces voisines, qui acceptent un
+  // artefact RÉDIGÉ par l'apprenant et méritent donc `ArtifactAnalysis`. Et
+  // c'est une raison DIFFÉRENTE de celle du terminal, qui n'a aucun critère de
+  // réussite du tout : deux chemins distincts vers le même fait pauvre.
+  //
+  // On écrit donc l'usage — « ce participant est allé ici » — et jamais l'issue.
+  try {
+    const res = applyCommand(readProgressFresh(), {
+      type: 'RECORD_USAGE_EVENT',
+      surface: 'pipelines',
+      action: 'run',
+      ref: pipeline.id,
+      detail: { adapter: kind },
+      provenance: { producer: 'pipeline-route', method: 'POST /api/pipelines/[id] action=run' },
+    }, { now: new Date() });
+    if (res.ok) writeProgress(res.progress as Progress);
+  } catch { /* au mieux : l'usage est un bonus, jamais une dépendance */ }
+
   return NextResponse.json({ run });
 }

@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP6** |
+| `LAST_COMPLETED_CP` | **CP7** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP7** — CLOUD · K8S · SÉCURITÉ · PIPELINES |
-| `NEXT_ACTION` | construire **`ArtifactAnalysis`** pour les QUATRE surfaces analytiques (`kubernetes`, `cloud-lab`, `cloud-foundations`, `security`) : elles acceptent un artefact RÉDIGÉ par l'apprenant (manifeste, topologie, architecture, scénario) et rendent des diagnostics. Niveau `OBSERVED` — **un compte de diagnostics n'est pas un verdict**, et `0 diagnostic` ne devient JAMAIS `passed`. `simulation: true` structurellement. Pour `pipelines` : le CP1 a tranché `NO_FACT`/`USAGE_EVENT` — la route n'accepte **aucun pipeline candidat**, l'apprenant choisit un déclencheur sur une fixture fournie, donc le statut mesure la fixture et non la personne. Dire explicitement pourquoi terminal et pipelines arrivent au même fait pauvre par deux chemins différents. |
+| `NEXT_CP` | **CP8** — LES 125 EXERCICES AMBIGUS |
+| `NEXT_ACTION` | déclarer explicitement l'état des **125 exercices `AMBIGUOUS`** (cause unique mesurée au CP0 : `R5` — aucun `conceptIds`/`lessonRefs` dans la source). La déclaration vit **HORS du corpus gelé**. Produire un BEFORE/AFTER. **125 → 0 N'EST PAS UN OBJECTIF** : rester `AMBIGUOUS` est un résultat VALIDE, et résoudre par heuristique arbitraire est nommément interdit. La précision prime sur la couverture. |
 
 ## Repères Git
 
@@ -109,6 +109,7 @@
 | `D9` | **la marque de simulation vit dans du texte libre** | `detail`, pas un champ ; rien ne la garde |
 | `D10` | **125 exercices sans rattachement** | cause : aucun `conceptIds`/`lessonRefs` dans la source |
 | `D11` | `placeholder` est un terme du domaine traité comme un marqueur de remplissage | `PLACEHOLDER_RE` |
+| `D7` | ~~six surfaces calculent et ne gardent rien~~ **SOLDÉE pour 5/6 au CP7** (`terminal` au CP3, les quatre analytiques ici) ; `pipelines` reste en `USAGE_ONLY` par décision, pas par oubli | sans artefact → 0 octet ; avec artefact → 1 fait `OBSERVED` |
 | `D4` | ~~la preuve de capstone est dégradée en `self`~~ **CORRIGÉE au CP6** — et la mesure a montré une CONTRADICTION que la dette ne disait pas : le produit archivait `self`/`DECLARED` et créditait `demonstrated` | 13 × `self` → 13 × `capstone-grade` ; niveau `DECLARED` → `VALIDATED` |
 | `D5` | ~~`capstone-review` n'est plus produit que par la migration héritée~~ **RETOURNÉE au CP6** : les neuves disent la vérité, les héritées restent plafonnées `OBSERVED` et ne sont PAS remontées | `NIVEAU_MAX_PAR_KIND['capstone-review'] = 'OBSERVED'` |
 | `D9` | ~~la marque de simulation vit dans du texte libre~~ **CORRIGÉE au CP6** : champ booléen sur la preuve ET sur le fait ; ne dégrade aucun niveau | 13 × `simulation: true` |
@@ -131,6 +132,11 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 (79 vérifications) reste dans `gates:active`.
 
 ## `TESTS_RUN`
+
+**CP7** — `npm test` **2103/2103** · `tsc` **0** · `build` **OK** ·
+`gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
+0 trou** · chaîne HTTP réelle des quatre surfaces + pipelines traversée ·
+`data/progress.json` **absent**.
 
 **CP6** — `npm test` **2081/2081** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · BEFORE/AFTER sur **13 capstones** ·
@@ -155,6 +161,14 @@ traversée · `data/progress.json` **absent**.
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP7** — **créés** `lib/artifact-analysis.mjs` (**PUR**),
+`lib/artifact-analysis.d.ts`, `lib/artifact-analysis-server.ts` (écriture
+partagée, UN seul endroit), `tests/v77-artifact-analysis.test.mjs` (22),
+`docs/v77/V77-CP7-ARTEFACTS.md`. **Modifiés** : `lib/progress-store.mjs`,
+`lib/learning-engine.mjs` + `.d.ts` (`RECORD_ARTIFACT_ANALYSIS`), `lib/types.ts`,
+les QUATRE routes analytiques, `app/api/pipelines/[id]/route.ts`
+(`USAGE_ONLY`), `tests/progress-store.test.mjs`.
 
 **CP6** — **créés** `tests/v77-capstone.test.mjs` (11),
 `scripts/v77/cp6-capstones-before-after.mjs`, `docs/v77/cp6-capstones-before-after.json`,
@@ -218,9 +232,34 @@ le branchement a lieu aux CP3 → CP7.
 | CP3 | `5ddbd87` — le terminal : un usage, pas une réussite |
 | CP4 | `68fba8a` — cinq échecs ne laissaient qu'une trace |
 | CP5 | `6c8c8f5` — une mission ne dit plus `passed` |
-| CP6 | *(ce commit)* — le capstone était dégradé, pas surclassé |
+| CP6 | `3f411b4` — le capstone était dégradé, pas surclassé |
+| CP7 | *(ce commit)* — quatre surfaces analysaient vraiment, et n'écrivaient rien |
 
 ## Journal des CP
+
+- **CP7** — **un compte de diagnostics n'est pas un verdict.**
+  - Les quatre surfaces analytiques valident et analysent RÉELLEMENT un artefact
+    **rédigé par l'apprenant** — c'est ce qui les sépare du terminal. Elles
+    écrivent désormais `ArtifactAnalysis`, niveau `OBSERVED`.
+  - **LE PIÈGE ÉVITÉ** : traiter `0 diagnostic` comme une réussite aurait donné
+    quatre surfaces de plus en `VALIDATED` et un tableau flatteur. L'analyseur
+    signale **ce qu'il sait reconnaître** ; `0 diagnostic` veut dire « rien de ce
+    que je sais détecter », jamais « c'est juste ». Récompenser ce silence
+    reviendrait à récompenser le vide.
+  - **LA GARDE QUI COMPTE LE PLUS, mesurée en HTTP** : `analyze` **sans**
+    artefact calcule 7 diagnostics et n'écrit **AUCUN octet** ; le même appel
+    **avec** artefact écrit 1 fait et 0 preuve. Les deux calculent la même chose ;
+    seul le second est un travail de l'apprenant.
+  - **Une seule écriture pour quatre routes** : quatre copies divergeraient, et
+    l'une finirait par compter ce que les trois autres refusent. Leçon du CP3
+    appliquée AVANT d'en payer le prix.
+  - **Une empreinte qui distingue vraiment** : `empreinteReponses` aurait rendu
+    `[object Object]` sur un manifeste imbriqué — deux architectures différentes
+    auraient eu la même empreinte, l'inverse d'une empreinte.
+  - **`pipelines` : `USAGE_ONLY`, par un chemin DIFFÉRENT du terminal.** Le
+    terminal n'a aucun critère ; le pipeline en a un, objectif, mais qui porte sur
+    **la fixture**. Mesuré : le moteur rend `status: success`, et le fait écrit ne
+    porte que `{ adapter: 'manual' }` — le verdict n'est pas recopié.
 
 - **CP6** — **l'erreur de sens INVERSE de celle du CP5, et elle vient du même
   endroit.**

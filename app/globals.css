@@ -1402,8 +1402,40 @@ details.gloss-more[open] > summary::before { content: '▾ '; }
 .wb-history { margin-top: var(--sp-5); padding-top: var(--sp-3); border-top: 1px solid var(--border); }
 .wb-history ul { list-style: none; margin: 0; padding: 0; }
 .wb-history li { display: grid; grid-template-columns: 1fr auto auto; gap: var(--sp-3); font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); padding: 3px 0; }
-.wb-history li.ok > span:nth-child(2) { color: var(--ok); }
-.wb-history li.ko > span:nth-child(2) { color: var(--warn); }
+/* V76 · CP10 — l'historique devient sélectionnable : la grille accepte une case
+   à cocher en tête, et deux mentions optionnelles en queue. `auto` partout pour
+   que les colonnes se calent sur leur contenu réel, y compris quand il manque. */
+.wb-history li { grid-template-columns: auto 1fr auto auto; align-items: center; }
+.wb-history li.ok > span:nth-of-type(2) { color: var(--ok); }
+.wb-history li.ko > span:nth-of-type(2) { color: var(--warn); }
+.wb-history-aide { font-weight: 400; color: var(--muted); font-size: var(--fs-xs); }
+.wb-history-pick { margin: 0; cursor: pointer; }
+.wb-history-pick:disabled { cursor: not-allowed; opacity: .4; }
+/* Les aides lues sont DÉCRITES, jamais signalées comme une faute : ton neutre,
+   aucune couleur d'alerte. Le contrat §1.12 interdit d'en faire une note. */
+.wb-history-aides, .wb-history-perdu { grid-column: 2 / -1; color: var(--muted); font-size: var(--fs-xs); }
+.wb-history-perdu { font-style: italic; opacity: .75; }
+
+/* V76 · CP10 — la comparaison entre deux tentatives */
+.wb-compare { margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px dashed var(--border); }
+.wb-compare-lecture { margin: 0 0 var(--sp-2); font-size: var(--fs-sm); color: var(--fg); }
+.wb-compare-tests { display: flex; align-items: center; gap: 5px; margin: 2px 0; font-size: var(--fs-xs); color: var(--muted); }
+.wb-compare-tests.ok { color: var(--ok); }
+.wb-compare-tests.ko { color: var(--warn); }
+.wb-compare-aides { margin: 2px 0; font-size: var(--fs-xs); color: var(--muted); }
+.wb-compare-file { margin-top: var(--sp-3); }
+.wb-compare-path { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--muted); margin-bottom: 3px; }
+.wb-compare-path span { opacity: .7; }
+.wb-diff { margin: 0; padding: 0; overflow-x: auto; font-family: var(--font-mono); font-size: var(--fs-xs); line-height: 1.5; }
+.wb-diff-l { display: grid; grid-template-columns: 3.2em .9em 1fr; white-space: pre; }
+.wb-diff-n { color: var(--muted); opacity: .6; text-align: right; padding-right: 6px; }
+/* Le signe reste lisible pour qui ne distingue pas les deux teintes : la
+   couleur double l'information, elle ne la porte pas seule. */
+.wb-diff-l.add { background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.wb-diff-l.add .wb-diff-s { color: var(--ok); }
+.wb-diff-l.del { background: color-mix(in srgb, var(--danger) 12%, transparent); }
+.wb-diff-l.del .wb-diff-s { color: var(--danger); }
+.wb-diff-l.gap .wb-diff-n, .wb-diff-l.gap .wb-diff-s { color: var(--muted); opacity: .5; }
 
 /* Workbench : indicateur de runtime */
 .wb-runtime { display: inline-flex; align-items: center; gap: 5px; font-size: var(--fs-xs); color: var(--muted); }

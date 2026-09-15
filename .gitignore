@@ -11,4 +11,10 @@ data/progress.backup.json
 # Espaces de travail du laboratoire de code (fichiers utilisateur exécutés localement).
 # Jamais versionnés : contenu volatil, propre à la machine.
 data/lab-workspaces/
+
+# V76 · CP10 — journal d'accompagnement des tentatives (code soumis, résultats
+# de test publics, aides lues). Même nature que ci-dessus : volatil, propre à la
+# machine. Séparé de lab-workspaces/ parce qu'un `RESET` efface celui-là, et que
+# le contrat §1.11 interdit qu'un `RESET` emporte l'histoire d'une tentative.
+data/lab-journals/
 .venv-ds/

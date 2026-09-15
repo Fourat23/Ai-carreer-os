@@ -71,6 +71,11 @@ export function exportAllWorkspaces(exercises: Exercise[]): Record<string, { fil
   return out;
 }
 
+/** Les chemins que l'apprenant a le droit d'écrire sur cet exercice. */
+export function fichiersEditables(exercise: Exercise): Set<string> {
+  return fs.editableAllowSet(exercise);
+}
+
 export function workspaceAllowlist(exercises: Exercise[]): Map<string, Set<string>> {
   const map = new Map<string, Set<string>>();
   for (const ex of exercises) map.set(ex.id, fs.editableAllowSet(ex));

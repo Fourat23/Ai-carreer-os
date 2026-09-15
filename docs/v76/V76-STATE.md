@@ -12,14 +12,17 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP9**
+- **dernier CP terminé** : **CP10**
 - **CP courant** : —
-- **NEXT_CP** : **CP10** — HISTORIQUE DES TENTATIVES + COMPARAISON
-- **NEXT_ACTION** : l'historique **existe déjà** (`exerciseAttempts`, panneau
-  « historique » du Workbench). Ne PAS le reconstruire. Construire uniquement le
-  manque démontré : une **comparaison utile entre deux tentatives** — outcome,
-  tests, aides consultées, horodatage, et le **diff pertinent**. **Pas un clone
-  de Git** (`G14`).
+- **NEXT_CP** : **CP11** — AUDIT D'INTÉGRATION AU MOTEUR D'APPRENTISSAGE
+- **NEXT_ACTION** : vérifier la chaîne complète Workbench → `ExerciseAttempt` →
+  `Evidence` → concepts → compétence → Rétention → Récupération. Tester :
+  échec · réussite · reprise · réussite après aide · réussite après correction ·
+  multi-concepts · `TransferAttempt`. **CHASSER LE DOUBLE COMPTAGE** — une
+  réussite ne doit pas produire DEUX preuves équivalentes par deux chemins
+  (`recordExerciseSuccess` et la commande `SUBMIT` convergent-elles vraiment sur
+  `evidenceId: lab-<id>` ?). Ne rien reconstruire : auditer, mesurer, corriger
+  seulement ce qui est démontré défaillant.
 
 ## Repères Git
 
@@ -35,7 +38,8 @@
 
 `376` exercices · `128` leçons · `365` journées · `52` semaines · `12` mois ·
 corpus gelé `92d5fae6` · **`data/progress.json` n'existe pas** ·
-`data/lab-workspaces/` ignoré par git · **1936 tests** · tsc 0 · build OK ·
+`data/lab-workspaces/` et `data/lab-journals/` ignorés par git · **1963 tests** ·
+tsc 0 · build OK ·
 `gates:active` **48 portes, 0 violation**.
 
 ## Mesures BEFORE (CP0 — à ne jamais reconstruire ni écraser)
@@ -222,6 +226,19 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP10** : **créés** `lib/attempt-journal.mjs` (PUR) + `.d.ts`,
+  `lib/attempt-diff.mjs` (PUR) + `.d.ts`, `lib/attempt-journal-fs.mjs` (I/O),
+  `lib/attempt-journal-server.ts` (racine `data/lab-journals/`),
+  `scripts/v76/cp10-history.mjs` (13 sondes), `tests/v76-attempt-history.test.mjs`
+  (27), `docs/v76/V76-CP10-HISTORY-DIFF.md`, `docs/v76/cp10-history.json`.
+  **Modifiés** `app/api/lab/[exerciseId]/route.ts` (historique servi au `GET` et
+  après un `run` · journal consigné · action `compare`),
+  `app/lab/[exerciseId]/page.tsx` (`initialHistory` au premier rendu),
+  `app/lab/[exerciseId]/LabWorkspace.tsx` (historique hydraté depuis le serveur,
+  sélection de deux tentatives, rendu de la comparaison),
+  `lib/workspace-server.ts` (+ `fichiersEditables`), `app/globals.css`,
+  `.gitignore` (`data/lab-journals/`). **`ExerciseAttempt` n'a PAS été touché.**
+
 - **CP9** : **créés** `scripts/v76/cp9-persistence.mjs` (10 sondes HTTP),
   `tests/v76-persistence.test.mjs` (19), `lib/workspace-conflit.mjs` (PUR,
   sans import Node — chargé par un composant client) + `.d.ts`,
@@ -295,6 +312,43 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP10** — **l'historique était complet, et personne ne le servait.**
+  - Quatrième sprint de suite où la chose à construire existe déjà, débranchée.
+    Le fait `ExerciseAttempt` est persisté depuis V74 · CP2 ; la surface tenait
+    sa propre liste dans un `useState([])`, plafonnée à cinq, **affichée à partir
+    du DEUXIÈME lancement** — donc pas après le premier échec, qui est le moment
+    où on regarde son historique — et vidée à chaque rechargement.
+  - **Le fait n'a PAS été étendu.** Il est gelé au contrat V74 §3.2 et alimente
+    la rétention ; y verser du code source en changerait la nature, et 20 000
+    tentatives × un espace de travail rendrait la progression inutilisable. Un
+    JOURNAL séparé porte ce que le fait n'a pas — résultats publics, code soumis,
+    aides lues — et **ne fait jamais autorité** : un journal qui prétendrait
+    `passed: 999` ne change pas le score affiché (test).
+  - **Il vit hors de l'espace de travail**, parce que `resetWorkspace` fait
+    `rmSync(dir, { recursive: true })` et que §1.11 interdit qu'un `RESET`
+    emporte l'histoire d'une tentative.
+  - **La catégorie qu'on oublie** : les tests CASSÉS entre deux tentatives. Un
+    apprenant qui répare un test en cassant un autre voit `2/3` puis `2/3` et
+    croit n'avoir rien fait. La lecture le dit : « le score est le même des deux
+    côtés, mais ce ne sont pas les mêmes tests ».
+  - **L'ORDRE vient des dates, pas de l'appelant** : comparer du récent vers
+    l'ancien présenterait un progrès comme une régression.
+  - **LA SONDE A TROUVÉ CE QU'AUCUN TEST UNITAIRE NE POUVAIT VOIR.** Le produit
+    nomme ce champ `testId` dans un RÉSULTAT et `id` dans un DESCRIPTEUR. Le
+    journal ne lisait que `id` : il gardait le code et **jetait silencieusement
+    tous les résultats**. Mes 27 tests étaient verts, parce que mes fixtures
+    écrivaient déjà `id`. *Un test qui fabrique ses propres données ne découvre
+    jamais qu'il les fabrique au mauvais format.* Un test unitaire garde la
+    logique ; seule une exécution réelle garde le CONTRAT ENTRE DEUX MODULES.
+  - **19 mutations, 18 tuées, 1 équivalente et déclarée telle.** `N4` avait
+    survécu parce que mon test n'atteignait jamais la branche qu'il croyait
+    garder ; `N18` parce que ma sonde passait déjà les tentatives dans le bon
+    ordre. `N17′` survit légitimement : le fichier de journal serait à CÔTÉ du
+    répertoire effacé, pas dedans — comptée équivalente, pas tuée.
+  - **Limite déclarée** : le journal ne commence qu'après le CP10. Les
+    tentatives antérieures sont listées avec « code non conservé » — dites, pas
+    masquées. Reconstruire rétroactivement serait inventer.
 
 - **CP9** — **un onglet oublié effaçait le travail d'un autre.**
   - `T20` était écrit « non mesuré » depuis le CP0. Mesuré : **le scénario se

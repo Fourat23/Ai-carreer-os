@@ -1,0 +1,80 @@
+[
+ {
+  "id": "H1",
+  "nom": "le FAIT est persisté à chaque lancement, réussite comme échec",
+  "ok": true,
+  "detail": "49 → 51 tentatives persistées"
+ },
+ {
+  "id": "H2",
+  "nom": "l’API du laboratoire SERT-ELLE cet historique ?",
+  "ok": true,
+  "detail": "servi (12 entrées)"
+ },
+ {
+  "id": "H3",
+  "nom": "la surface garde-t-elle l’historique après un rechargement ?",
+  "ok": true,
+  "detail": "hydratée depuis le serveur"
+ },
+ {
+  "id": "H4",
+  "nom": "l’historique servi porte-t-il de quoi COMPARER ?",
+  "ok": true,
+  "detail": "présents : outcome horodatage tests aides fichiers · absents : —"
+ },
+ {
+  "id": "H5",
+  "nom": "le CODE d’une tentative passée est-il retrouvable ?",
+  "ok": true,
+  "detail": "1 fichier(s) retrouvé(s) : solution.mjs"
+ },
+ {
+  "id": "H6",
+  "nom": "sait-on QUELS tests ont changé d’état entre deux tentatives ?",
+  "ok": true,
+  "detail": "2 tentatives portent leurs résultats de test publics"
+ },
+ {
+  "id": "H7",
+  "nom": "les AIDES consultées sont-elles rattachées à l’historique ?",
+  "ok": true,
+  "detail": "12/12 entrées portent les aides consultées"
+ },
+ {
+  "id": "H8",
+  "nom": "une COMPARAISON entre deux tentatives est-elle offerte ?",
+  "ok": true,
+  "detail": "oui — 1 fichier modifié : solution.mjs. 2 tests passés au vert : aria-label gagne sur le texte, image : le alt sert de nom."
+ },
+ {
+  "id": "H11",
+  "nom": "la comparaison dit QUEL test a basculé, pas seulement le score",
+  "ok": true,
+  "detail": "tests passés au vert : aria-label gagne sur le texte, image : le alt sert de nom · 1 fichier(s) avec diff (+4/−3)"
+ },
+ {
+  "id": "H13",
+  "nom": "l’ordre de sélection n’inverse PAS la lecture de la comparaison",
+  "ok": true,
+  "detail": "les deux sens donnent la même comparaison"
+ },
+ {
+  "id": "H12",
+  "nom": "un `RESET` n’efface PAS le journal des tentatives",
+  "ok": true,
+  "detail": "4 → 4 tentatives conservées"
+ },
+ {
+  "id": "H9",
+  "nom": "l’historique servi n’expose AUCUN test privé ni correction",
+  "ok": true,
+  "detail": "aucune fuite (2 tests privés, 3 lignes distinctives vérifiées)"
+ },
+ {
+  "id": "H10",
+  "nom": "l’historique reste BORNÉ (il ne grossit pas sans fin)",
+  "ok": true,
+  "detail": "12 entrées · 3942 octets servis"
+ }
+]

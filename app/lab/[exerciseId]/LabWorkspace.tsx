@@ -58,6 +58,14 @@ type Diag = { classe: string; observation: string; piste: string; exploitable: b
 /** V76 · CP7 — la provenance d'une réussite. `reussite` vaut TOUJOURS `true`. */
 type Prov = { reussite: boolean; aidesConsultees: number; actions: string[]; correctionVue: boolean; lecture: string } | null;
 type PreviewLog = { level: string; type: string; text: string; line?: number | null; col?: number | null; at: number };
+/**
+ * V76 · CP10 — une ligne d'historique telle que le serveur la sert : le FAIT
+ * (compteurs, issue, durée) enrichi du JOURNAL (tests, aides, fichiers).
+ * `conserve: false` signale une tentative dont le journal est parti — elle
+ * reste listée, parce que masquer une tentative réécrirait l'histoire.
+ */
+type LigneHistorique = import('@/lib/attempt-journal').LigneHistorique;
+type Comparaison = import('@/lib/attempt-diff').Comparaison;
 
 type RuntimeInfo = { id: string; label: string; available: boolean; version: string | null; error: string | null; compiles?: boolean; preview?: boolean; previewKind?: string | null };
 
@@ -75,13 +83,14 @@ function isStructured(v: unknown): boolean {
 }
 
 export default function LabWorkspace({
-  exercise, initialFiles, initialActive, runtime, terminalTasks = [],
+  exercise, initialFiles, initialActive, runtime, terminalTasks = [], initialHistory = [],
 }: {
   exercise: { id: string; title: string; summary: string; tests: TestMeta[]; testCount?: number };
   terminalTasks?: TerminalTaskView[];
   initialFiles: FileState[];
   initialActive: string;
   runtime: RuntimeInfo;
+  initialHistory?: LigneHistorique[];
 }) {
   const layout = usePanelLayout();
   const visibleFiles = useMemo(() => initialFiles.filter((f) => !f.hidden), [initialFiles]);
@@ -133,7 +142,17 @@ export default function LabWorkspace({
   const [rightTab, setRightTab] = useState<RightTab>(runtime.preview ? 'preview' : 'tests');
   const [palette, setPalette] = useState(false);
   const [paletteQ, setPaletteQ] = useState('');
-  const [history, setHistory] = useState<{ at: string; passed: number; total: number; allPassed: boolean; durationMs: number }[]>([]);
+  // ── V76 · CP10 — L'HISTORIQUE VIENT DU SERVEUR ──
+  //
+  // Il était tenu ici dans un `useState([])`, plafonné à cinq et affiché à
+  // partir du deuxième lancement : un rechargement de page le vidait, alors que
+  // le fait `ExerciseAttempt` était persisté depuis V74 · CP2. Le produit
+  // gardait tout et n'en montrait rien au-delà de la session en cours.
+  const [history, setHistory] = useState<LigneHistorique[]>(initialHistory);
+  /** Les deux tentatives choisies pour la comparaison, par clé métier. */
+  const [comparees, setComparees] = useState<string[]>([]);
+  const [comparaison, setComparaison] = useState<Comparaison | null>(null);
+  const [comparaisonEnCours, setComparaisonEnCours] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const LASTRUN_KEY = `lab:lastrun:${exercise.id}`;
   // Vue étroite (tablette/mobile) : une zone à la fois via une nav segmentée.
@@ -268,7 +287,10 @@ export default function LabWorkspace({
         setRemediation((j.remediation as Remediation) ?? null);
         setDiagnostic((j.diagnostic as Diag) ?? null);
         setProvenance((j.provenance as Prov) ?? null);
-        setHistory((h) => [{ at: new Date().toISOString(), passed: j.attempt.passed, total: j.attempt.total, allPassed: j.attempt.allPassed, durationMs: j.attempt.durationMs }, ...h].slice(0, 5));
+        // L'historique est celui que le SERVEUR vient d'écrire, pas une liste
+        // reconstruite ici : c'est le disque qui fait foi, comme pour les
+        // révisions du CP9.
+        if (Array.isArray(j.history)) setHistory(j.history as LigneHistorique[]);
         try { localStorage.setItem(LASTRUN_KEY, JSON.stringify({ attempt: j.attempt, stdout: j.stdout ?? '', privateSummary: j.privateSummary ?? null })); } catch { /* best-effort */ }
       }
       setStdout(j.stdout ?? ''); setDirty(new Set()); setSaveState('saved');
@@ -279,6 +301,35 @@ export default function LabWorkspace({
       else setRunError('Échec de l’exécution.');
     } finally { setRunning(false); setRunPhase(null); abortRef.current = null; }
   }, [exercise.id, editableMap, LASTRUN_KEY, runtime, running, narrow]);
+
+  // ── V76 · CP10 — COMPARER DEUX TENTATIVES ──
+  //
+  // Deux clés, et rien d'autre. Le troisième clic remplace le plus ancien des
+  // deux choix : on ne construit ni plage, ni sélection multiple, ni
+  // restauration — le brief dit « pas un Git clone », et le besoin démontré
+  // tient en une comparaison.
+  const basculerComparaison = useCallback((cle: string) => {
+    setComparaison(null);
+    setComparees((c) => (c.includes(cle) ? c.filter((x) => x !== cle) : [...c, cle].slice(-2)));
+  }, []);
+
+  useEffect(() => {
+    if (comparees.length !== 2) { setComparaison(null); return; }
+    let annule = false;
+    setComparaisonEnCours(true);
+    (async () => {
+      try {
+        const res = await fetch(`/api/lab/${exercise.id}`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'compare', a: comparees[0], b: comparees[1] }),
+        });
+        const j = await res.json().catch(() => null);
+        if (!annule) setComparaison((j?.comparaison as Comparaison) ?? null);
+      } catch { if (!annule) setComparaison(null); }
+      finally { if (!annule) setComparaisonEnCours(false); }
+    })();
+    return () => { annule = true; };
+  }, [comparees, exercise.id]);
 
   // Clic sur un diagnostic → ouvre le fichier concerné et révèle la position.
   const openDiagnostic = useCallback((d: Diagnostic) => {
@@ -610,18 +661,74 @@ export default function LabWorkspace({
                     )}
                   </>
                 )}
-                {history.length > 1 && (
+                {/* ── V76 · CP10 — L'HISTORIQUE, ET CE QU'ON PEUT EN FAIRE ──
+                    Servi par le serveur (donc conservé d'une session à l'autre),
+                    et comparable deux à deux. Affiché dès la PREMIÈRE tentative :
+                    le seuil « à partir de deux » cachait précisément la trace
+                    qu'un apprenant cherche après son premier échec. */}
+                {history.length > 0 && (
                   <div className="wb-history">
-                    <div className="section-label" style={{ marginBottom: 6 }}>Exécutions récentes</div>
+                    <div className="section-label" style={{ marginBottom: 6 }}>
+                      Tentatives {history.length > 1 && <span className="wb-history-aide">— cochez-en deux pour comparer</span>}
+                    </div>
                     <ul>
-                      {history.map((h, i) => (
-                        <li key={h.at + i} className={h.allPassed ? 'ok' : 'ko'}>
-                          <span>{new Date(h.at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                      {history.map((h) => (
+                        <li key={h.cle} className={h.allPassed ? 'ok' : 'ko'}>
+                          {history.length > 1 && (
+                            <input
+                              type="checkbox"
+                              className="wb-history-pick"
+                              checked={comparees.includes(h.cle)}
+                              disabled={!h.conserve}
+                              onChange={() => basculerComparaison(h.cle)}
+                              aria-label={`Comparer la tentative du ${new Date(h.at).toLocaleString('fr-FR')}`}
+                              title={h.conserve ? 'Comparer cette tentative' : 'Code non conservé : comparaison impossible'}
+                            />
+                          )}
+                          <span>{new Date(h.at).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
                           <span>{h.passed}/{h.total}</span>
                           <span>{h.durationMs} ms</span>
+                          {/* Les aides lues sont DÉCRITES, jamais comptées comme une
+                              pénalité : le contrat §1.12 l'interdit (CP7). */}
+                          {h.aides.length > 0 && <span className="wb-history-aides" title={h.aides.join(' · ')}>{h.aides.length} aide{h.aides.length > 1 ? 's' : ''}</span>}
+                          {!h.conserve && <span className="wb-history-perdu" title="Le journal ne porte plus le code de cette tentative.">code non conservé</span>}
                         </li>
                       ))}
                     </ul>
+                    {comparaisonEnCours && <div className="lab-hint">Comparaison…</div>}
+                    {comparaison && !comparaison.lisible && <div className="lab-hint">{comparaison.raison}</div>}
+                    {comparaison && comparaison.lisible && (
+                      <div className="wb-compare" aria-live="polite">
+                        <p className="wb-compare-lecture">{comparaison.lecture}</p>
+                        {comparaison.tests.reussis.length > 0 && (
+                          <p className="wb-compare-tests ok"><Check size={12} /> passés au vert : {comparaison.tests.reussis.join(', ')}</p>
+                        )}
+                        {comparaison.tests.casses.length > 0 && (
+                          <p className="wb-compare-tests ko"><X size={12} /> ne passent plus : {comparaison.tests.casses.join(', ')}</p>
+                        )}
+                        {comparaison.aidesEntre.length > 0 && (
+                          <p className="wb-compare-aides">aides lues entre les deux : {comparaison.aidesEntre.join(', ')}</p>
+                        )}
+                        {comparaison.fichiers.filter((f) => !f.identique).map((f) => (
+                          <div key={f.chemin} className="wb-compare-file">
+                            <div className="wb-compare-path">{f.chemin} <span>+{f.ajoutees} −{f.retirees}</span></div>
+                            <pre className="wb-diff">
+                              {f.lignes.map((l, i) => (
+                                <div key={i} className={`wb-diff-l ${l.type === '+' ? 'add' : l.type === '-' ? 'del' : l.type === '…' ? 'gap' : ''}`}>
+                                  <span className="wb-diff-n">{l.type === '…' ? '' : (l.apres ?? l.avant ?? '')}</span>
+                                  <span className="wb-diff-s">{l.type === '…' ? '⋮' : l.type === '=' ? ' ' : l.type}</span>
+                                  <span className="wb-diff-t">{l.type === '…' ? '' : l.texte}</span>
+                                </div>
+                              ))}
+                            </pre>
+                            {f.tronque && <div className="lab-hint">Diff tronqué : le fichier change trop pour être rendu en entier.</div>}
+                          </div>
+                        ))}
+                        {comparaison.fichiersModifies.length === 0 && (
+                          <p className="wb-compare-tests">Aucun fichier n’a changé entre ces deux lancements.</p>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </>

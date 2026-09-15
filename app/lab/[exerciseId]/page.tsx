@@ -10,6 +10,8 @@ import { runtimeStatus } from '@/lib/runtime-detect.mjs';
 import { getDayExerciseIndex } from '@/lib/day-exercises-server';
 import { daysForExercise } from '@/lib/day-exercises';
 import { tasksForDays, publicTerminalTask } from '@/lib/terminal-tasks-server';
+import { readProgress } from '@/lib/progress-server';
+import { historiqueDe } from '@/lib/attempt-journal-server';
 import { SurfaceHead } from '@/app/ui';
 import LabWorkspace from './LabWorkspace';
 
@@ -41,6 +43,15 @@ export default async function LabExercisePage({ params }: { params: Promise<{ ex
     tests: ex.tests.filter((t) => !(t as { private?: boolean }).private).map((t) => ({ id: t.id, name: t.name })),
     testCount: ex.tests.length,
   };
+
+  // ── V76 · CP10 — L'HISTORIQUE ARRIVE AVEC LA PAGE ──
+  //
+  // Le fait est persisté depuis V74 · CP2 ; la surface tenait pourtant sa
+  // propre liste en mémoire, vidée à chaque rechargement. Elle part désormais
+  // de ce que le serveur a réellement gardé, dès le premier rendu.
+  const faits = ((readProgress() as { exerciseAttempts?: { exerciseId?: string }[] }).exerciseAttempts ?? [])
+    .filter((a) => a?.exerciseId === ex.id);
+  const initialHistory = historiqueDe(ex.id, faits);
 
   // Tâches de terminal reliées aux journées de l'exercice (dérivé, borné).
   const exDays = daysForExercise(getDayExerciseIndex(), ex.id);
@@ -117,7 +128,7 @@ export default async function LabExercisePage({ params }: { params: Promise<{ ex
       </section>
 
       <section className="lab-ex-work" aria-label="Exécution et vérification">
-        <LabWorkspace exercise={meta} initialFiles={files} initialActive={initialActive} runtime={runtime} terminalTasks={terminalTasks} />
+        <LabWorkspace exercise={meta} initialFiles={files} initialActive={initialActive} runtime={runtime} terminalTasks={terminalTasks} initialHistory={initialHistory} />
       </section>
     </div>
   );

@@ -1,4 +1,10 @@
-# V77 — ÉTAT D'AVANCEMENT
+# V77 — ÉTAT D'AVANCEMENT — **SPRINT TERMINÉ**
+
+> **VERDICTS** : ingénierie `PRACTICE_OBSERVABILITY_UNIFIED` · pédagogie
+> `HUMAN_PRACTICE_EFFICACY_STILL_NOT_MEASURED` (inchangé depuis V76, et c'est
+> correct : V77 n'a observé aucun humain).
+> Rapport : `docs/v77/V77-FINAL-REPORT.md` · Préparation V78 :
+> `docs/v77/V78-PILOT-READINESS.md`.
 
 > Fichier de reprise. Mis à jour après **chaque CP**. En cas d'interruption :
 > relire ce fichier, vérifier Git, reprendre au CP indiqué. **NE PAS refaire un
@@ -17,11 +23,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP14** |
+| `LAST_COMPLETED_CP` | **CP15 — V77 TERMINÉ** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP15** — RAPPORT FINAL |
-| `NEXT_ACTION` | écrire `docs/v77/V77-FINAL-REPORT.md` et rendre **le seul rapport conversationnel long du sprint**. Deux verdicts sur les deux axes. Trois questions finales. Ne rien affirmer que les CP0→CP14 n'aient mesuré. |
+| `NEXT_CP` | **aucun** — V78 (HUMAN LEARNING PILOT) est un sprint de PROTOCOLE, pas d'infrastructure |
+| `NEXT_ACTION` | **aucune.** V77 est clos : verdicts `PRACTICE_OBSERVABILITY_UNIFIED` et `HUMAN_PRACTICE_EFFICACY_STILL_NOT_MEASURED`, rapport `docs/v77/V77-FINAL-REPORT.md`, préparation `docs/v77/V78-PILOT-READINESS.md`. Trois questions ouvertes y attendent une décision HUMAINE — pas une décision d'ingénierie. |
 
 ## Repères Git
 
@@ -193,6 +199,9 @@ traversée · `data/progress.json` **absent**.
 
 ## `FILES`
 
+**CP15** — **créé** `docs/v77/V77-FINAL-REPORT.md`.
+**Aucun fichier de produit modifié** — le CP15 rend compte.
+
 **CP14** — **créés** `scripts/v77-check.mjs` (**146 vérifications**),
 `tests/v77-gate.test.mjs` (6 — **JUGE EXTERNE**),
 `scripts/v77/cp14-mutations.mjs` (36 mutations), `docs/v77/cp14-mutations.json`,
@@ -318,9 +327,25 @@ le branchement a lieu aux CP3 → CP7.
 | CP11 | `6f89924` — les faits deviennent lisibles, sans nouveau moteur |
 | CP12 | `0e266e7` — ce qu'un pilote pourra observer, et ce qu'il ne pourra pas |
 | CP13 | `65fabe0` — six chaînes traversées sur le produit qui tourne |
-| CP14 | *(ce commit)* — 36 mensonges, zéro survivant, et une porte qui sait rougir |
+| CP14 | `7d24d45` — 36 mensonges, zéro survivant, et une porte qui sait rougir |
+| CP15 | *(ce commit)* — rapport final, deux verdicts, trois questions |
 
 ## Journal des CP
+
+- **CP15** — **deux verdicts, et l'un des deux ne bouge pas.**
+  - **Ingénierie : `PRACTICE_OBSERVABILITY_UNIFIED`.** 13 surfaces portent une
+    politique explicite dans une carte EXÉCUTABLE, pas dans un document. 192
+    combinaisons de preuve énumérées, 0 incohérence, 12 qualifiantes. 36
+    mutations vues échouer, 50 portes.
+  - **Pédagogie : `HUMAN_PRACTICE_EFFICACY_STILL_NOT_MEASURED`** — inchangé
+    depuis V76, et **c'est correct**. V77 n'a observé aucun humain : il a rendu
+    l'observation honnête, il n'a rien appris sur l'apprentissage.
+  - **Six découvertes hors brief**, dont deux sur mon propre travail : une
+    QUATRIÈME liste blanche (les faits ne survivaient pas à leur sauvegarde), et
+    deux de mes tests qui ne testaient rien.
+  - **Trois questions rendues au jugement humain** : trancher les 112 ambiguïtés
+    conséquentes ? un troisième état de compétence entre `practiced` et
+    `demonstrated` ? que regarder pendant V78 ?
 
 - **CP14** — **36 mensonges plausibles, zéro survivant — après en avoir laissé
   passer deux.**

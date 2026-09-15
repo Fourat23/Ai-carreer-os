@@ -12,18 +12,15 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP14**
+- **dernier CP terminé** : **CP15 — SPRINT V76 TERMINÉ**
 - **CP courant** : —
-- **NEXT_CP** : **CP15** — RAPPORT FINAL
-- **NEXT_ACTION** : écrire `docs/v76/V76-FINAL-REPORT.md`, **55 sections
-  minimum**. Les DEUX verdicts sur DEUX AXES SÉPARÉS : ingénierie
-  (`PRACTICE_WORKBENCH_NOT_READY` / `FOUNDATION_READY` / `CANDIDATE` / `READY`)
-  et pédagogie (`HUMAN_PRACTICE_EFFICACY_NOT_MEASURED` / `CANDIDATE` /
-  `VALIDATED`). **NE PLUS FAIRE L'ERREUR V75** : si le contrat gelé CP1 dit que
-  tous les critères `W1`–`W22` atteints = `READY` et qu'ils le sont tous, le
-  verdict d'ingénierie DOIT être `READY` ; l'absence de validation humaine
-  s'exprime UNIQUEMENT sur le second axe. Répondre aux trois questions finales.
-  **CP15 est la SEULE restitution conversationnelle du sprint.**
+- **NEXT_CP** : — (aucun)
+- **VERDICTS** : ingénierie **`PRACTICE_WORKBENCH_READY`** · pédagogie
+  **`HUMAN_PRACTICE_EFFICACY_NOT_MEASURED`**. Rapport :
+  `docs/v76/V76-FINAL-REPORT.md` (65 sections).
+- **NE PAS REFAIRE V76.** Ne pas reconstruire la frontière d'exécution
+  (`lib/sandbox.mjs`), le diagnostic, l'échelle d'aide, le journal des
+  tentatives ni la porte `v76:check`. Ne pas retoucher le curriculum.
 
 ## Repères Git
 
@@ -227,6 +224,11 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP15** : **créés** `scripts/v76/cp15-cloture.mjs` (les deux dernières
+  mesures : `W15` déterminisme, `T18` XSS dans l'aperçu),
+  `docs/v76/V76-FINAL-REPORT.md` (65 sections), `docs/v76/cp15-cloture.json`.
+  **Aucun fichier de produit modifié.**
+
 - **CP14** : **créés** `scripts/v76-check.mjs` (**79 vérifications**, porte
   `v76:check`), `scripts/v76-negative.sh` (11 cas négatifs),
   `scripts/v76/cp14-mutations.mjs` (33 mutations, rejouables par lots),
@@ -346,6 +348,30 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP15** — **les deux verdicts, sur deux axes séparés.**
+  - **`PRACTICE_WORKBENCH_READY`** : les 22 critères `W1`–`W22`, gelés au CP1
+    AVANT toute implémentation, sont atteints. Le contrat dit que dans ce cas le
+    verdict d'ingénierie **DOIT** être `READY` — rendre autre chose reviendrait à
+    redéfinir l'échelle après coup pour se donner l'air prudent. **L'erreur V75
+    n'est pas répétée.**
+  - **`HUMAN_PRACTICE_EFFICACY_NOT_MEASURED`** : aucun humain n'a utilisé ce
+    Workbench. Zéro apprenant, zéro session, zéro mesure d'apprentissage réel.
+    Le doute pédagogique s'exprime ici, et NULLE PART AILLEURS.
+  - **Deux choses restaient non mesurées, et rendre `READY` sans elles aurait
+    été la ligne verte que ce sprint passe son temps à refuser.** `W15`
+    (déterminisme) : 6 runtimes, verdicts identiques deux fois. `T18` (XSS dans
+    l'aperçu), déclarée « à sonder au CP14 » et que le CP14 n'avait pas
+    sondée : les deux aperçus portent `sandbox="allow-scripts"` **sans**
+    `allow-same-origin`.
+  - **ANOMALIE DE SONDE n° 8** : ma sonde a déclaré les deux aperçus non
+    cloisonnés. Faux — elle avait trouvé `allow-same-origin` dans le
+    **commentaire qui explique son absence**. Même famille que les anomalies
+    n° 1 et n° 3 : chercher la bonne chose au mauvais endroit. *Une sonde qui
+    lit la documentation d'une protection et la prend pour son contraire.*
+  - **Les huit anomalies de sonde du sprint sont publiées**, aucune corrigée en
+    silence. L'anomalie n° 2 reste la plus grave : trois évasions réussies,
+    toutes trois déclarées « contenues ».
 
 - **CP14** — **une porte ne peut pas détecter sa propre neutralisation.**
   - **16/16 sondes d'attaque contenues**, aucune régression depuis le CP5.

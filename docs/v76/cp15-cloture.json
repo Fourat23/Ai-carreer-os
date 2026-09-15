@@ -1,0 +1,32 @@
+[
+ {
+  "id": "F1",
+  "nom": "W15 · DÉTERMINISME : deux lancements identiques donnent le même verdict",
+  "ok": true,
+  "detail": "6 runtimes · verdicts identiques deux fois"
+ },
+ {
+  "id": "F2",
+  "nom": "W15 · le même code corrigé réussit deux fois de suite",
+  "ok": true,
+  "detail": "3/3 réussissent deux fois"
+ },
+ {
+  "id": "F3",
+  "nom": "T18 · l’aperçu web est-il CLOISONNÉ ? (menace déclarée non mesurée au CP0)",
+  "ok": true,
+  "detail": "sandbox = « allow-scripts » · allow-same-origin : non"
+ },
+ {
+  "id": "F4",
+  "nom": "T18 · l’aperçu REACT est cloisonné lui aussi",
+  "ok": true,
+  "detail": "sandbox = « allow-scripts » · allow-same-origin : non"
+ },
+ {
+  "id": "F5",
+  "nom": "T18 · le document d’aperçu ne transporte aucune donnée du produit",
+  "ok": true,
+  "detail": "document de 577225 o, aucune adresse d’API ni cookie"
+ }
+]

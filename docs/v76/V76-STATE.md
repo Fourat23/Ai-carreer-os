@@ -12,16 +12,22 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP12**
+- **dernier CP terminé** : **CP13**
 - **CP courant** : —
-- **NEXT_CP** : **CP13** — UX / RESPONSIVE / A11Y / PERF
-- **NEXT_ACTION** : rejouer `scripts/v76/ui-audit.mjs` (le MÊME script qu'au
-  CP2) aux 7 largeurs `1440 / 1280 / 1024 / 768 / 430 / 390 / 375`, en écrivant
-  `docs/v76/ui-audit-cp13.json` pour comparaison directe avec
-  `docs/v76/ui-audit-cp2.json`. Vérifier clavier, focus, régions vivantes, zoom.
-  Comparer les performances AVANT/APRÈS. **Les cibles tactiles < 24 px se
-  consignent ici.** Les surfaces neuves du sprint (conflit CP9, historique et
-  comparaison CP10) n'ont JAMAIS été vues dans un navigateur.
+- **NEXT_CP** : **CP14** — SÉCURITÉ + GANTELET DE MUTATIONS
+- **NEXT_ACTION** : rejouer `scripts/v76/cp0-security.mjs` (16 sondes) ET les
+  variantes Python du CP5. Puis **au minimum 30 mutations** couvrant les 32
+  familles nommées par le brief (lecture/écriture hôte, `/etc/passwd`, fuite de
+  correction, tests cachés, processus, `child_process`, injection shell, SSRF
+  loopback, API interne, réseau externe, boucle infinie, inondation de sortie,
+  fichier énorme, trop de fichiers, traversée, chemin absolu, nom malveillant,
+  brouillon périmé, soumission en double, reprise qui écrase l'historique, échec
+  non persisté, preuve dupliquée, `DRAFT == ATTEMPT`, provenance perdue, `RESET`
+  destructeur, fuite de réponse de transfert, transfert == maîtrise,
+  `progress.json` créé, runner non déterministe, fichier protégé mutable).
+  **TESTER LA PORTE V76 ELLE-MÊME PAR MUTATION.** Créer `scripts/v76-check.mjs`
+  + `npm run v76:check` et le brancher dans `gates:active` (48 → 49 portes).
+  Puis gantelet complet + portes V73/V74/V75/V76.
 
 ## Repères Git
 
@@ -225,6 +231,12 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP13** : **créés** `scripts/v76/cp13-ux.mjs` (10 sondes d'interaction
+  Chromium), `app/icon.svg`, `docs/v76/V76-CP13-UX-A11Y-PERF.md`,
+  `docs/v76/ui-audit-cp13.json`, `docs/v76/cp13-ux.json`.
+  **Modifié** `app/globals.css` (`.wb-history-pick` : `appearance: none`,
+  zone cliquable 24 px, anneau de focus, coche glyphe).
+
 - **CP12** : **créés** `scripts/v76/cp12-e2e.mjs` (importe `choisirDouze` et
   `parcours` de `cp0-e2e.mjs` — **même instrument**, pas une réécriture),
   `docs/v76/V76-E2E-12-EXERCISES.md`, `docs/v76/cp12-e2e.json`.
@@ -328,6 +340,41 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP13** — **l'audit a trouvé une régression que j'avais introduite au CP10.**
+  - **Quatre cibles tactiles à 13 × 13 px** : les cases à cocher de
+    l'historique, sous le seuil WCAG 2.2 AA. Personne ne les avait regardées à
+    l'écran, parce que le CP10 s'est vérifié par des fonctions pures et des
+    sondes HTTP — les deux bons outils pour ce qu'il construisait, et **aucun
+    des deux ne mesure un pixel**.
+  - **La première correction n'a pas marché, et il a fallu le mesurer** :
+    Chromium traite `input[type=checkbox]` comme un élément REMPLACÉ et ignore
+    son `padding`. Toujours 12 × 12 px. La correction qui fonctionne passe par
+    `appearance: none` — et comme cela retire ce que le natif donnait
+    gratuitement, un anneau de focus et une coche GLYPHE (pas un simple aplat de
+    couleur) ont été ajoutés. **24 × 24 px mesurés.**
+  - **Une erreur de console permanente** : `/favicon.ico` → 404 à chaque
+    première visite. Ce n'est pas une question de décoration — une ligne rouge
+    permanente est une ligne qu'on apprend à ignorer, et c'est exactement le
+    mécanisme qui a laissé le double comptage du CP11 vivre un sprint entier
+    dans un commentaire. `app/icon.svg`, 0 erreur sur 35 rendus.
+  - **Le CP8 confirmé dans un vrai navigateur** : `transfert` passe de
+    `aria-live: 0` à `1` aux SEPT largeurs.
+  - **Le troisième écart n'en est pas un** : `liste-lab` gagne un focusable
+    parce que la fixture porte 12 exercices réussis et affiche « Ouvrir
+    l'exercice ». C'est la DONNÉE qui diffère, pas la page — écrit plutôt que
+    compté comme un changement.
+  - **Les surfaces neuves vues pour la première fois** : conflit CP9,
+    historique et comparaison CP10. 10/10, y compris **au clavier sans souris**
+    et **à 200 % de zoom**. Le clavier n'a rien coûté parce que la sélection est
+    un `<input type=checkbox>` NATIF ; un faux bouton stylé aurait exigé
+    `role`, `tabindex`, `aria-checked` et un gestionnaire — quatre occasions
+    d'oublier quelque chose.
+  - **Cibles < 24 px restantes, consignées** : 5 en large, 3 en étroit, toutes
+    identiques au CP2. Non corrigées, avec la raison écrite : ce sont des
+    éléments existants dont la modification touche la coquille (`G14`), alors
+    que les quatre cases étaient une RÉGRESSION DE CE SPRINT. C'est la
+    différence qui décide.
 
 - **CP12** — **les six runtimes passent, isolation comprise, et les scores
   n'ont pas bougé d'un test.**

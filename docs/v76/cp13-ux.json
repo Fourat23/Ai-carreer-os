@@ -1,0 +1,62 @@
+[
+ {
+  "id": "U1",
+  "nom": "L’HISTORIQUE apparaît, et il vient du SERVEUR",
+  "ok": true,
+  "detail": "8 ligne(s) · 8 case(s) · « Tentatives — cochez-en deux pour comparer »"
+ },
+ {
+  "id": "U2",
+  "nom": "les cases de comparaison font au moins 24 px",
+  "ok": true,
+  "detail": "8 case(s) · 24×24 px · 0 sous le seuil"
+ },
+ {
+  "id": "U3",
+  "nom": "la COMPARAISON s’ouvre en cochant deux tentatives",
+  "ok": true,
+  "detail": "10 ligne(s) de diff (+4/−3) · « 1 fichier modifié : solution.mjs. 2 tests passés au vert : aria-label gagne sur le texte, image : le alt sert de nom. »"
+ },
+ {
+  "id": "U4",
+  "nom": "la comparaison est ANNONCÉE et ne déborde pas",
+  "ok": true,
+  "detail": "aria-live = « polite » · 327×353 px · débordement : false"
+ },
+ {
+  "id": "U5",
+  "nom": "la comparaison est atteignable AU CLAVIER, sans souris",
+  "ok": true,
+  "detail": "comparaison ouverte au clavier (focus : true · tabindex : natif)"
+ },
+ {
+  "id": "U6",
+  "nom": "L’AVERTISSEMENT DE CONFLIT apparaît, et il est annoncé",
+  "ok": true,
+  "detail": "role = « alert » · 324×135 px · « Ce fichier a changé ailleurs. solution.mjs a été modifié depuis que ce… »"
+ },
+ {
+  "id": "U7",
+  "nom": "l’avertissement ne propose PAS d’écraser",
+  "ok": true,
+  "detail": "0 bouton(s) dans l’avertissement · rassure sur l’essentiel : true"
+ },
+ {
+  "id": "U8",
+  "nom": "à 200 % de ZOOM, rien ne déborde",
+  "ok": true,
+  "detail": "document 640 px pour 640 px · éditeur : true · historique : false"
+ },
+ {
+  "id": "U9",
+  "nom": "le DIFF défile seul, il ne pousse pas la page",
+  "ok": true,
+  "detail": "overflow-x du diff : auto · la page déborde : false"
+ },
+ {
+  "id": "U10",
+  "nom": "aucune erreur de console INATTENDUE sur ces parcours",
+  "ok": true,
+  "detail": "aucune · 1 message(s) attendu(s) écarté(s) (dont le 409 du CP9, confirmé par U6)"
+ }
+]

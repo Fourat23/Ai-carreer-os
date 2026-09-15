@@ -1,0 +1,16 @@
+<!-- V76 · CP13 — L'audit a mesuré un 404 sur `/favicon.ico` à chaque première
+     visite, et l'erreur de console qui va avec. Ce n'est pas une question de
+     décoration : une erreur permanente dans la console est une ligne rouge qu'on
+     apprend à ignorer, et une console qu'on ignore ne signale plus rien.
+
+     Convention Next.js : `app/icon.svg` fournit l'icône du site. Aucun
+     dépendance, aucune image binaire, les couleurs du thème. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="AI Career OS">
+  <rect width="32" height="32" rx="7" fill="#0b0d13"/>
+  <path d="M9 11.5 L5.5 16 L9 20.5" fill="none" stroke="#8b8ff5" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 11.5 L26.5 16 L23 20.5" fill="none" stroke="#8b8ff5" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M18.5 8 L13.5 24" fill="none" stroke="#4fb08a" stroke-width="2.2"
+        stroke-linecap="round"/>
+</svg>

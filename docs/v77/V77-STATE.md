@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP0** |
+| `LAST_COMPLETED_CP` | **CP1** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP1** — CONTRAT D'OBSERVABILITÉ GELÉ |
-| `NEXT_ACTION` | écrire `docs/v77/V77-PRACTICE-OBSERVABILITY-CONTRACT-FROZEN.md` : geler le vocabulaire (`ACTIVITY`, `ATTEMPT`, `SUBMISSION`, `ARTIFACT`, `ASSESSMENT`, `VALIDATION`, `EVIDENCE`, `EXTERNAL_EVIDENCE`, `DECLARED`/`OBSERVED`/`VALIDATED`, `PROJECT_MILESTONE`, `TERMINAL_ACTION`, `SIMULATED_ACTIVITY`), la règle **`NO_FACT` par défaut** avec justification par surface, les règles de conception d'événement, et les critères de verdict **avant** toute modification |
+| `NEXT_CP` | **CP2** — MODÈLE CANONIQUE DE LA PRATIQUE |
+| `NEXT_ACTION` | construire **une** carte canonique lisible par la machine (`lib/practice-model.mjs`, PURE) : `surface → activité → capacité d'observation → politique de fait → type de fait → politique de preuve → niveau → simulation → concepts → compétences`. Les routes doivent pouvoir s'y adosser. Ajouter des tests de cohérence (toute surface de `cp0-inventory.json` a une entrée ; aucun niveau `VALIDATED` sur une surface `OBSERVED` ; aucune entrée orpheline). **Ne pas dupliquer la liste ailleurs.** |
 
 ## Repères Git
 
@@ -52,9 +52,47 @@
 | playbooks | 45 | contenu, pas pratique |
 | exercices `AMBIGUOUS` | **125** / 376 | cause unique : `R5` |
 
-## `FROZEN_DECISIONS`
+## `FROZEN_DECISIONS` — CP1 · `docs/v77/V77-PRACTICE-OBSERVABILITY-CONTRACT-FROZEN.md`
 
-*(vide jusqu'au CP1 — c'est le CP1 qui gèle)*
+- **15 termes gelés** : `ACTIVITY` `ATTEMPT` `SUBMISSION` `ARTIFACT`
+  `ASSESSMENT` `VALIDATION` `EVIDENCE` `EVIDENCE_LEVEL` `EXTERNAL_EVIDENCE`
+  `PROJECT_MILESTONE` `SIMULATED_ACTIVITY` `USAGE_EVENT` `NO_FACT`
+  `DERIVED_ADVANCEMENT` `OBSERVATION_CAPABILITY`.
+- **TROIS NIVEAUX DE PREUVE** : `DECLARED` < `OBSERVED` < `VALIDATED`.
+  **Seul `VALIDATED` compte** pour compétence, rétention et récupération.
+- **Trois inégalités** : `DECLARED ≠ PASSED` · `OBSERVED ≠ VALIDATED` ·
+  `STRUCTURE_VALID ≠ PEDAGOGICALLY_CORRECT`.
+- **`NO_FACT` par défaut** : une surface n'écrit rien sans justification
+  positive. **Viser 12/12 est un ÉCHEC du sprint**, pas un succès (`H1`).
+- **Politique par surface, gelée** : `lab` `transfer` `assessments` `capstones`
+  → `VALIDATED` · `missions` → **`OBSERVED` jamais `VALIDATED`** ·
+  `kubernetes`/`cloud-lab`/`cloud-foundations`/`security` → `OBSERVED` +
+  `simulation` · **`pipelines` et `terminal` → `NO_FACT`/`USAGE_EVENT`** ·
+  playbooks + 25 surfaces de lecture → `NO_FACT` · tâches externes →
+  `DECLARED` au maximum, non implémentées.
+- **DEUX types de faits nouveaux pour six surfaces**, pas six :
+  **`AssessmentAttempt`** (assessments + capstones, champ `kind`) et
+  **`ArtifactAnalysis`** (les quatre surfaces analytiques).
+- **Règle du maillon faible** : le niveau d'une preuve composite est celui de sa
+  composante la plus FAIBLE. Une mission vaut donc son auto-évaluation.
+- **`simulation` est un CHAMP BOOLÉEN**, jamais du texte libre. Il ne dégrade
+  pas le niveau : `VALIDATED` + `simulation: true` sont compatibles.
+- **Sémantique des genres capstone** : `capstone-grade` = `VALIDATED`
+  (correction serveur) · `capstone-review` = `OBSERVED` (héritage non rejouable,
+  **non remonté**) · `self` = `DECLARED`.
+- **Double comptage** : une production humaine ne devient jamais deux sources
+  qualifiantes. `derivedFrom` obligatoire ; la projection compte les
+  PRODUCTIONS, pas les sources. **Le chiffre du CP15 sera celui du CP10, sur les
+  compétences CANONIQUES** — le 14 du CP0 ne doit pas être recopié.
+- **`USAGE_EVENT` : cinq contraintes** — champ séparé, aucune Evidence, aucun
+  moteur, borné et supprimable, jamais de `passed`/`score`.
+- **125 → 0 n'est pas un objectif.** Aucune heuristique nouvelle ; seule une
+  déclaration explicite adossée à une source, **hors du corpus gelé**.
+- **`H1`–`H14`** : quatorze contournements interdits.
+- **`O1`–`O20`** : critères d'ingénierie gelés AVANT implémentation, avec la
+  règle héritée de V75/V76 — tous atteints ⇒ le verdict **DOIT** être `READY`,
+  et l'absence de pilote humain s'exprime **uniquement** sur le second axe.
+- **Axe humain plafonné** à `REAL_HUMAN_LEARNING_EVIDENCE_NOT_MEASURED`.
 
 ## `OPEN_DEBTS` — mesurées au CP0
 
@@ -90,7 +128,12 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 `npm test` **1984/1984** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
-## `FILES` — CP0
+## `FILES`
+
+**CP1** — **créé** `docs/v77/V77-PRACTICE-OBSERVABILITY-CONTRACT-FROZEN.md`.
+**Aucun fichier de produit modifié** — le CP1 gèle, il n'implémente pas.
+
+### CP0
 
 **Créés** : `scripts/v77/cp0-practice-forensics.mjs` (inventaire statique),
 `scripts/v77/cp0-observability-probe.mjs` (13 sondes en direct),
@@ -102,9 +145,43 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 
 | CP | sujet |
 |---|---|
-| CP0 | *(ce commit)* |
+| CP0 | `c6aca1c` — la phrase de départ était fausse, dans les deux sens |
+| CP1 | *(ce commit)* — contrat d'observabilité gelé |
 
 ## Journal des CP
+
+- **CP1** — **geler à partir de ce que le CP0 a mesuré, pas de ce que le brief
+  supposait.**
+  - **Le renversement le plus net : `pipelines` passe en `NO_FACT`.** Le brief
+    demandait de ne pas jeter son verdict objectif `success`/`failed`/`blocked`.
+    Le verdict est bien objectif — mais la route n'accepte **aucun pipeline
+    candidat** : l'apprenant choisit un déclencheur et une approbation, puis
+    observe un pipeline **fourni par le produit**. Deux apprenants obtiennent le
+    même résultat. *Le statut mesure la fixture, pas la personne.*
+  - **Et la symétrie inverse** : `kubernetes`, `cloud-lab`, `cloud-foundations`
+    et `security` acceptent bien un **artefact rédigé par l'apprenant**. Ce sont
+    elles, pas le pipeline, qui observent un travail — d'où un fait commun
+    `ArtifactAnalysis`, au niveau `OBSERVED` : **un compte de diagnostics n'est
+    pas un verdict**, et `0 diagnostic` ne devient jamais `passed`.
+  - **La décision la plus lourde** : une mission ne pourra plus jamais produire
+    `VALIDATED`. `STRUCTURE_VALID + SELF_CONFIRMATION → passed` est interdit par
+    le contrat. La **règle du maillon faible** le formalise : une preuve
+    composite vaut sa composante la plus faible, jamais la plus forte.
+  - **Un assessment mérite un fait**, pour une raison sémantique et non de
+    commodité : plusieurs tentatives humaines ont réellement lieu, la courbe
+    d'échecs est ce qu'un pilote doit lire, et le produit traite déjà ainsi les
+    exercices et les transferts. Ne pas le faire ici est une INCOHÉRENCE.
+  - **Un capstone est un assessment** au sens observationnel : questionnaire
+    multi-phases corrigé contre un corrigé déclaré. Même fait, champ `kind`
+    pour la différence pédagogique, champ `simulation` pour l'autre. **Deux
+    types de faits pour six surfaces, pas six.**
+  - **`capstone-grade` rejoint le vocabulaire**, et ce n'est pas un
+    surclassement : c'est la réparation d'un accident. Mais les preuves
+    héritées `capstone-review` **ne sont PAS remontées** — leur correction n'est
+    pas rejouable, donc on ne peut pas affirmer qu'elle a eu lieu.
+  - **`OBSERVED` et `DECLARED` ne comptent pour rien** dans les moteurs. C'est
+    délibérément sévère, et déclaré comme un choix : sous-déclarer une maîtrise
+    est moins grave que la sur-déclarer.
 
 - **CP0** — **la phrase de départ du brief était fausse, dans les deux sens.**
   - Le brief reprend la conclusion de V76 : « 11 surfaces, 2 écrivent un fait ».

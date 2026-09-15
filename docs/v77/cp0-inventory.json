@@ -1,0 +1,1252 @@
+{
+ "surfaces": [
+  {
+   "id": "accueil",
+   "route": "/",
+   "page": "app/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 318,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/StartDayButton.tsx",
+    "app/Trajectory365.tsx",
+    "app/TrajectoryGrid.tsx",
+    "app/TrajectoryMap.tsx",
+    "app/TrajectoryMapGrid.tsx",
+    "app/capstones/[id]/CapstoneRunner.tsx",
+    "app/cloud-foundations/CloudCatalogue.tsx",
+    "app/cloud-foundations/[id]/CloudAnalyzer.tsx",
+    "app/cloud-lab/CloudLabCatalogue.tsx",
+    "app/cloud-lab/[id]/TopologyAnalyzer.tsx",
+    "app/day/[id]/DayCorrection.tsx",
+    "app/day/[id]/DayEvidence.tsx",
+    "app/day/[id]/DayHeader.tsx",
+    "app/day/[id]/DayMission.tsx",
+    "app/day/[id]/DayOutline.tsx",
+    "app/day/[id]/DayPanel.tsx",
+    "app/day/[id]/DayPhases.tsx",
+    "app/day/[id]/DayPlanUnifie.tsx",
+    "app/design-spike/v60/layout.tsx",
+    "app/design-spike/v60/parts.tsx",
+    "app/design-spike/v60-1/layout.tsx",
+    "app/design-spike/v60-1/motifs.tsx",
+    "app/design-spike/v60-1/shell.tsx",
+    "app/diagnostics/DiagnosticsBoard.tsx",
+    "app/glossary/GlossaryBrowser.tsx",
+    "app/history/HistoryFilters.tsx",
+    "app/kubernetes/KubernetesCatalogue.tsx",
+    "app/kubernetes/[id]/ManifestAnalyzer.tsx",
+    "app/lab/LabCatalog.tsx",
+    "app/lab/[exerciseId]/CodeMirrorEditor.tsx",
+    "app/lab/[exerciseId]/FrontendPreview.tsx",
+    "app/lab/[exerciseId]/LabWorkspace.tsx",
+    "app/lab/[exerciseId]/ReactPreview.tsx",
+    "app/lab/[exerciseId]/TerminalPanel.tsx",
+    "app/layout.tsx",
+    "app/lessons/LessonsCatalog.tsx",
+    "app/missions/[id]/MissionDetail.tsx",
+    "app/not-found.tsx",
+    "app/parcours/TrackActions.tsx",
+    "app/period/PeriodLoad.tsx",
+    "app/pipelines/PipelineCatalogue.tsx",
+    "app/pipelines/[id]/PipelineRunner.tsx",
+    "app/retention/BacklogPanel.tsx",
+    "app/retention/CatchupPlan.tsx",
+    "app/retention/PauseCurriculum.tsx",
+    "app/retention/RecallStation.tsx",
+    "app/retention/RecoveryNotice.tsx",
+    "app/revisions/ReviewList.tsx",
+    "app/revisions/RevisionStation.tsx",
+    "app/security/PlaybookBrowser.tsx",
+    "app/security/PlaybookView.tsx",
+    "app/security/SecurityCatalogue.tsx",
+    "app/security/[id]/SecurityAnalyzer.tsx",
+    "app/settings/SettingsPanel.tsx",
+    "app/shell/AppShell.tsx",
+    "app/shell/CommandPalette.tsx",
+    "app/skills/SkillsBoard.tsx",
+    "app/tech/TechBench.tsx",
+    "app/transfer/[id]/ChallengeRunner.tsx",
+    "app/ui/ActionRow.tsx",
+    "app/ui/ContextLine.tsx",
+    "app/ui/EditorialShell.tsx",
+    "app/ui/EmptyState.tsx",
+    "app/ui/EvidenceMark.tsx",
+    "app/ui/HeroFocus.tsx",
+    "app/ui/InlineNotice.tsx",
+    "app/ui/ListRow.tsx",
+    "app/ui/Metric.tsx",
+    "app/ui/PageHeader.tsx",
+    "app/ui/Panel.tsx",
+    "app/ui/PhaseRail.tsx",
+    "app/ui/PositionRing.tsx",
+    "app/ui/PrimaryFocus.tsx",
+    "app/ui/ProgressRail.tsx",
+    "app/ui/SectionHeader.tsx",
+    "app/ui/Status.tsx",
+    "app/ui/SurfaceHead.tsx",
+    "app/ui/WorkbenchShell.tsx",
+    "app/ui/YearBand.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "assessments",
+   "route": null,
+   "page": null,
+   "api": "app/api/assessments/[id]/route.ts",
+   "apiRoute": "/api/assessments/[id]",
+   "contenu": {
+    "source": "data/assessments",
+    "n": 16
+   },
+   "analyseApi": {
+    "evenement": false,
+    "preuve": true,
+    "ecritureEtat": true,
+    "lectureEtat": true,
+    "lignes": 98,
+    "commandes": [],
+    "sourceTypes": [
+     "assessment"
+    ]
+   },
+   "analysePage": null,
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "calendar",
+   "route": "/calendar",
+   "page": "app/calendar/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 189,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "capstones",
+   "route": "/capstones/[id]",
+   "page": "app/capstones/[id]/page.tsx",
+   "api": "app/api/capstones/[id]/route.ts",
+   "apiRoute": "/api/capstones/[id]",
+   "contenu": {
+    "source": "data/capstones",
+    "n": 13
+   },
+   "analyseApi": {
+    "evenement": false,
+    "preuve": true,
+    "ecritureEtat": true,
+    "lectureEtat": true,
+    "lignes": 98,
+    "commandes": [],
+    "sourceTypes": [
+     "capstone"
+    ]
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 42,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/capstones/[id]/CapstoneRunner.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "career",
+   "route": "/career",
+   "page": "app/career/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 86,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "cloud-foundations",
+   "route": "/cloud-foundations/[id]",
+   "page": "app/cloud-foundations/[id]/page.tsx",
+   "api": "app/api/cloud-foundations/[id]/route.ts",
+   "apiRoute": "/api/cloud-foundations/[id]",
+   "contenu": {
+    "source": "data/topologies",
+    "n": 3
+   },
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 73,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 61,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/cloud-foundations/[id]/CloudAnalyzer.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "cloud-lab",
+   "route": "/cloud-lab/[id]",
+   "page": "app/cloud-lab/[id]/page.tsx",
+   "api": "app/api/cloud-lab/[id]/route.ts",
+   "apiRoute": "/api/cloud-lab/[id]",
+   "contenu": {
+    "source": "data/cloud",
+    "n": 8
+   },
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 64,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 51,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/cloud-lab/[id]/TopologyAnalyzer.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "day",
+   "route": "/day/[id]",
+   "page": "app/day/[id]/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 292,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/day/[id]/DayCorrection.tsx",
+    "app/day/[id]/DayEvidence.tsx",
+    "app/day/[id]/DayHeader.tsx",
+    "app/day/[id]/DayMission.tsx",
+    "app/day/[id]/DayOutline.tsx",
+    "app/day/[id]/DayPanel.tsx",
+    "app/day/[id]/DayPhases.tsx",
+    "app/day/[id]/DayPlanUnifie.tsx"
+   ],
+   "posteVersApi": false
+  },
+  {
+   "id": "diagnostics",
+   "route": "/diagnostics",
+   "page": "app/diagnostics/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 92,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/diagnostics/DiagnosticsBoard.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "doc",
+   "route": "/doc/[...slug]",
+   "page": "app/doc/[...slug]/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 179,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "glossary",
+   "route": "/glossary",
+   "page": "app/glossary/page.tsx",
+   "api": "app/api/glossary/[id]/route.ts",
+   "apiRoute": "/api/glossary/[id]",
+   "contenu": null,
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 19,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 58,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/glossary/GlossaryBrowser.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "guide",
+   "route": "/guide",
+   "page": "app/guide/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 72,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "history",
+   "route": "/history",
+   "page": "app/history/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 168,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/history/HistoryFilters.tsx"
+   ],
+   "posteVersApi": false
+  },
+  {
+   "id": "kubernetes",
+   "route": "/kubernetes/[id]",
+   "page": "app/kubernetes/[id]/page.tsx",
+   "api": "app/api/kubernetes/[id]/route.ts",
+   "apiRoute": "/api/kubernetes/[id]",
+   "contenu": {
+    "source": "data/manifests",
+    "n": 3
+   },
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 73,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 63,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/kubernetes/[id]/ManifestAnalyzer.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "lab",
+   "route": "/lab/[exerciseId]",
+   "page": "app/lab/[exerciseId]/page.tsx",
+   "api": "app/api/lab/[exerciseId]/route.ts",
+   "apiRoute": "/api/lab/[exerciseId]",
+   "contenu": {
+    "source": "data/exercises",
+    "n": 376
+   },
+   "analyseApi": {
+    "evenement": true,
+    "preuve": false,
+    "ecritureEtat": true,
+    "lectureEtat": true,
+    "lignes": 402,
+    "commandes": [
+     "RECORD_EXERCISE_ATTEMPT",
+     "RECORD_HINT_VIEW",
+     "SUBMIT"
+    ],
+    "sourceTypes": []
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 136,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/lab/[exerciseId]/CodeMirrorEditor.tsx",
+    "app/lab/[exerciseId]/FrontendPreview.tsx",
+    "app/lab/[exerciseId]/LabWorkspace.tsx",
+    "app/lab/[exerciseId]/ReactPreview.tsx",
+    "app/lab/[exerciseId]/TerminalPanel.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "lessons",
+   "route": "/lessons",
+   "page": "app/lessons/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 113,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/lessons/LessonsCatalog.tsx"
+   ],
+   "posteVersApi": false
+  },
+  {
+   "id": "missions",
+   "route": "/missions/[id]",
+   "page": "app/missions/[id]/page.tsx",
+   "api": "app/api/missions/[id]/route.ts",
+   "apiRoute": "/api/missions/[id]",
+   "contenu": {
+    "source": "data/missions",
+    "n": 42
+   },
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": true,
+    "lectureEtat": true,
+    "lignes": 74,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 55,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/missions/[id]/MissionDetail.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "month",
+   "route": "/month/[id]",
+   "page": "app/month/[id]/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 134,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "notes",
+   "route": "/notes",
+   "page": "app/notes/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 165,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "parcours",
+   "route": "/parcours",
+   "page": "app/parcours/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 232,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/parcours/TrackActions.tsx"
+   ],
+   "posteVersApi": false
+  },
+  {
+   "id": "pipelines",
+   "route": "/pipelines/[id]",
+   "page": "app/pipelines/[id]/page.tsx",
+   "api": "app/api/pipelines/[id]/route.ts",
+   "apiRoute": "/api/pipelines/[id]",
+   "contenu": {
+    "source": "data/pipelines",
+    "n": 3
+   },
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 46,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 59,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/pipelines/[id]/PipelineRunner.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "progress",
+   "route": null,
+   "page": null,
+   "api": "app/api/progress/export/route.ts",
+   "apiRoute": "/api/progress/export",
+   "contenu": null,
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 23,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": null,
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "projects",
+   "route": "/projects",
+   "page": "app/projects/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 179,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "resources",
+   "route": "/resources",
+   "page": "app/resources/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": {
+    "source": "data/playbooks",
+    "n": 45
+   },
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 68,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "retention",
+   "route": "/retention",
+   "page": "app/retention/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 319,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/retention/BacklogPanel.tsx",
+    "app/retention/CatchupPlan.tsx",
+    "app/retention/PauseCurriculum.tsx",
+    "app/retention/RecallStation.tsx",
+    "app/retention/RecoveryNotice.tsx"
+   ],
+   "posteVersApi": false
+  },
+  {
+   "id": "reviews",
+   "route": "/reviews",
+   "page": "app/reviews/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 156,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "revisions",
+   "route": "/revisions",
+   "page": "app/revisions/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 93,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/revisions/ReviewList.tsx",
+    "app/revisions/RevisionStation.tsx"
+   ],
+   "posteVersApi": false
+  },
+  {
+   "id": "search-index",
+   "route": null,
+   "page": null,
+   "api": "app/api/search-index/route.ts",
+   "apiRoute": "/api/search-index",
+   "contenu": null,
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 25,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": null,
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "security",
+   "route": "/security/[id]",
+   "page": "app/security/[id]/page.tsx",
+   "api": "app/api/security/[id]/route.ts",
+   "apiRoute": "/api/security/[id]",
+   "contenu": {
+    "source": "data/security",
+    "n": 5
+   },
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 65,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 60,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/security/[id]/SecurityAnalyzer.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "settings",
+   "route": "/settings",
+   "page": "app/settings/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 76,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/settings/SettingsPanel.tsx"
+   ],
+   "posteVersApi": false
+  },
+  {
+   "id": "skills",
+   "route": "/skills/[id]",
+   "page": "app/skills/[id]/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 219,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "synthese",
+   "route": "/synthese",
+   "page": "app/synthese/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 263,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "terminal",
+   "route": null,
+   "page": null,
+   "api": "app/api/terminal/[taskId]/route.ts",
+   "apiRoute": "/api/terminal/[taskId]",
+   "contenu": {
+    "source": "data/terminal-tasks",
+    "n": 3
+   },
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 97,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": null,
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "track",
+   "route": null,
+   "page": null,
+   "api": "app/api/track/route.ts",
+   "apiRoute": "/api/track",
+   "contenu": null,
+   "analyseApi": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 22,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "analysePage": null,
+   "composants": [],
+   "posteVersApi": false
+  },
+  {
+   "id": "transfer",
+   "route": "/transfer/[id]",
+   "page": "app/transfer/[id]/page.tsx",
+   "api": "app/api/transfer/[id]/route.ts",
+   "apiRoute": "/api/transfer/[id]",
+   "contenu": {
+    "source": "data/transfer-challenges",
+    "n": 25
+   },
+   "analyseApi": {
+    "evenement": true,
+    "preuve": true,
+    "ecritureEtat": true,
+    "lectureEtat": false,
+    "lignes": 162,
+    "commandes": [
+     "RECORD_TRANSFER_ATTEMPT"
+    ],
+    "sourceTypes": [
+     "transfer-challenge"
+    ]
+   },
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": false,
+    "lignes": 52,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [
+    "app/transfer/[id]/ChallengeRunner.tsx"
+   ],
+   "posteVersApi": true
+  },
+  {
+   "id": "week",
+   "route": "/week/[id]",
+   "page": "app/week/[id]/page.tsx",
+   "api": null,
+   "apiRoute": null,
+   "contenu": null,
+   "analyseApi": null,
+   "analysePage": {
+    "evenement": false,
+    "preuve": false,
+    "ecritureEtat": false,
+    "lectureEtat": true,
+    "lignes": 133,
+    "commandes": [],
+    "sourceTypes": []
+   },
+   "composants": [],
+   "posteVersApi": false
+  }
+ ],
+ "faits": {
+  "champsDeLEtatVide": [
+   "days",
+   "skills",
+   "weeklyReviews",
+   "monthlyReviews",
+   "evidence",
+   "recallAttempts",
+   "exerciseAttempts",
+   "transferAttempts",
+   "hintViews"
+  ],
+  "dansListeEcriture": [
+   "days",
+   "skills",
+   "weeklyReviews",
+   "monthlyReviews",
+   "evidence",
+   "recallAttempts",
+   "exerciseAttempts",
+   "transferAttempts",
+   "hintViews"
+  ],
+  "dansListeLecture": [
+   "days",
+   "skills",
+   "weeklyReviews",
+   "monthlyReviews",
+   "evidence",
+   "recallAttempts",
+   "exerciseAttempts",
+   "transferAttempts",
+   "hintViews"
+  ],
+  "commandesDuMoteur": [
+   "START",
+   "PAUSE",
+   "RESUME",
+   "COMPLETE",
+   "REOPEN",
+   "SET_STEP",
+   "SAVE_DRAFT",
+   "SUBMIT",
+   "ATTACH_VALIDATION",
+   "SET_COMPREHENSION",
+   "SET_SELF_ASSESSMENT",
+   "SET_CORRECTION_STATE",
+   "RECORD_ATTEMPT",
+   "SCHEDULE_REVIEW",
+   "RECORD_RECALL",
+   "RECORD_EXERCISE_ATTEMPT",
+   "RECORD_TRANSFER_ATTEMPT",
+   "RECORD_HINT_VIEW",
+   "ADD_EVIDENCE",
+   "REMOVE_EVIDENCE",
+   "SET_SKILL",
+   "SET_WEEKLY_REVIEW",
+   "SET_MONTHLY_REVIEW",
+   "SET_CURRICULUM_PAUSE"
+  ],
+  "commandesRecord": [
+   "RECORD_ATTEMPT",
+   "RECORD_RECALL",
+   "RECORD_EXERCISE_ATTEMPT",
+   "RECORD_TRANSFER_ATTEMPT",
+   "RECORD_HINT_VIEW"
+  ]
+ },
+ "ambiguite": {
+  "total": 376,
+  "parClasse": {
+   "UNAMBIGUOUS": 140,
+   "AMBIGUOUS": 125,
+   "MULTI_CONCEPT_BY_DESIGN": 67,
+   "RESOLVED_BY_SKILL": 12,
+   "RESOLVABLE_FROM_CONTEXT": 32
+  },
+  "ambigus": [
+   "agent-cycle-index",
+   "agent-detect-loop",
+   "agent-excessive-agency",
+   "agent-permission-guard",
+   "agent-retry-idempotent",
+   "agent-run-loop-budget",
+   "agent-tool-failure-recovery",
+   "agent-tool-router",
+   "agent-transition-guard",
+   "agent-validate-args",
+   "arch-cache-invalidation",
+   "arch-consistency-tradeoff",
+   "arch-cqrs-when",
+   "arch-cycle-detect",
+   "arch-idempotent-handler",
+   "arch-layer-violation",
+   "arch-queue-vs-sync",
+   "arch-repository-boundary",
+   "array-sum-even",
+   "cicd-global-status",
+   "cicd-trigger-should-run",
+   "cloud-blast-radius",
+   "cloud-multi-zone",
+   "cloud-prod-ready",
+   "cloud-rpo-meets",
+   "cloud-spof-detect",
+   "debt-audit",
+   "dl-count-params",
+   "dl-diagnose-training",
+   "dl-forward-2layer",
+   "dl-generalization-gap",
+   "dl-gradient-step",
+   "dl-he-init-std",
+   "dl-lr-stability",
+   "dl-mse-loss",
+   "dl-neuron-forward",
+   "dl-relu-layer",
+   "dl-sgd-linear-step",
+   "dl-vanishing-gradient",
+   "eval-exact-match",
+   "eval-failure-categorize",
+   "eval-groundedness-proxy",
+   "eval-harness-report",
+   "eval-regression-gate",
+   "eval-structured-output",
+   "eval-tool-call-contract",
+   "greeting",
+   "js-initials",
+   "js-pipeline",
+   "llm-context-budget-truncate",
+   "llm-cost-budget-plan",
+   "llm-cost-per-call",
+   "llm-prompt-injection-scan",
+   "llm-retry-idempotent",
+   "llm-structured-output-repair",
+   "llm-token-estimate",
+   "llm-tool-route",
+   "ml-baseline-vs-model",
+   "ml-calibration-ece",
+   "ml-confusion-cost",
+   "ml-imbalance-metric-trap",
+   "ml-overfit-onset",
+   "ml-precision-recall-f1",
+   "net-first-failure",
+   "net-layer-classify",
+   "patterns-adapter-legacy",
+   "patterns-composition-vs-inheritance",
+   "patterns-null-object",
+   "patterns-observer-filter",
+   "patterns-strategy-table",
+   "patterns-when-not-yagni",
+   "pdx-fix-dtype-sum",
+   "py-data-clean-missing",
+   "py-data-dedup-latest",
+   "py-data-diagnose-mean-none",
+   "py-data-etl-upsert-idempotent",
+   "py-data-groupby-sum",
+   "py-data-inner-join",
+   "py-data-parse-records",
+   "py-data-validate-schema",
+   "py-exceptions",
+   "rag-bow-vector",
+   "rag-chunk-by-size",
+   "rag-cosine-similarity",
+   "rag-diagnose-fault",
+   "rag-hybrid-rrf",
+   "rag-recall-at-k",
+   "rag-recall-precision-at-k",
+   "rag-retrieval-vs-generation",
+   "rag-rrf-hybrid-fuse",
+   "rag-topk-retrieve",
+   "sec-blast-radius",
+   "sec-classify-sensitive",
+   "sec-cve-affected",
+   "sec-image-digest",
+   "sec-least-privilege",
+   "sec-lockfile-diff",
+   "sec-mask-secrets",
+   "sec-prompt-injection-detect",
+   "sec-rbac-wildcard",
+   "sec-redact-secret-log",
+   "sec-remediation-order",
+   "sec-sbom-added",
+   "sec-secret-placement",
+   "sec-secret-response-order",
+   "sec-securitycontext",
+   "sec-sql-injection-safe",
+   "sec-typosquat",
+   "sh-pipeline-run",
+   "skl-confusion-matrix",
+   "sqlite-index-explain",
+   "sqlite-inner-join",
+   "sqlite-subquery-above-avg",
+   "sys-perms-to-octal",
+   "sys-perms-to-symbolic",
+   "sys-port-listener",
+   "sys-umask-apply",
+   "ts-async-double",
+   "ts-debug-discount",
+   "ts-debug-filter-strings",
+   "web-debug-toggle",
+   "web-list-filter",
+   "web-log-init",
+   "web-status-text",
+   "word-frequencies"
+  ]
+ },
+ "preuves": {
+  "sourceTypes": [
+   "exercise"
+  ],
+  "qualifiants": [
+   "exercise",
+   "assessment",
+   "mission",
+   "capstone",
+   "transfer-challenge"
+  ],
+  "validationKinds": [
+   "exercise-tests",
+   "assessment-grade",
+   "capstone-review"
+  ]
+ },
+ "viePrivee": {
+  "export": true,
+  "import": true,
+  "reset": true,
+  "fichiersAvecAnalytiqueTierce": [
+   "app/TrajectoryMapGrid.tsx",
+   "app/design-spike/v60/a/day/page.tsx",
+   "app/design-spike/v60/c/calendar/page.tsx",
+   "app/design-spike/v60-1/calendar/page.tsx",
+   "app/design-spike/v60-1/motifs.tsx",
+   "app/lab/[exerciseId]/LabWorkspace.tsx",
+   "app/ui/YearBand.tsx",
+   "lib/cloud-analysis.mjs",
+   "lib/exercise-files.mjs",
+   "lib/exercise.mjs",
+   "lib/glossary-core.mjs",
+   "lib/internal-links.mjs",
+   "lib/runtime.mjs",
+   "lib/security-analysis.mjs"
+  ],
+  "progressDansLeDepot": false,
+  "gitignore": [
+   "node_modules/",
+   ".next/",
+   "*.tsbuildinfo",
+   "next-env.d.ts",
+   ".DS_Store",
+   "data/progress.json",
+   "data/progress.backup.json",
+   "data/lab-workspaces/",
+   "data/lab-journals/",
+   ".venv-ds/"
+  ]
+ },
+ "corpus": {
+  "exercices": 376,
+  "testsExercice": 1357,
+  "runtimes": [
+   "node-js",
+   "python-ds",
+   "python3",
+   "react-tsx",
+   "typescript",
+   "web"
+  ]
+ }
+}

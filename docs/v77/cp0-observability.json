@@ -1,0 +1,80 @@
+[
+ {
+  "id": "A1",
+  "nom": "KUBERNETES — analyse un manifeste, écrit-il quelque chose ?",
+  "ok": null,
+  "detail": "HTTP 200 · 0 diagnostic(s) rendus · état : **aucun changement**"
+ },
+ {
+  "id": "A2",
+  "nom": "CLOUD-LAB — analyse une topologie",
+  "ok": null,
+  "detail": "HTTP 200 · 5 diagnostic(s) · état : **aucun changement**"
+ },
+ {
+  "id": "A3",
+  "nom": "CLOUD-FOUNDATIONS — analyse une architecture",
+  "ok": null,
+  "detail": "HTTP 200 · état : **aucun changement**"
+ },
+ {
+  "id": "A4",
+  "nom": "SECURITY — analyse un scénario",
+  "ok": null,
+  "detail": "HTTP 200 · 5 diagnostic(s) · état : **aucun changement**"
+ },
+ {
+  "id": "A5",
+  "nom": "PIPELINES — exécute un pipeline (verdict OBJECTIF)",
+  "ok": null,
+  "detail": "HTTP 200 · statut du run : **blocked** · état : **aucun changement**"
+ },
+ {
+  "id": "A6",
+  "nom": "TERMINAL — exécute réellement une commande",
+  "ok": null,
+  "detail": "HTTP 200 · exitCode **0** · 263 o de sortie · état : **aucun changement**"
+ },
+ {
+  "id": "A7",
+  "nom": "ASSESSMENT — un échec puis une réussite",
+  "ok": null,
+  "detail": "échec : evidence 0→1 · réussite : evidence 1→2"
+ },
+ {
+  "id": "A8",
+  "nom": "ASSESSMENT — trois échecs de plus : combien de traces ?",
+  "ok": null,
+  "detail": "**aucune trace supplémentaire** — trois échecs de plus sont invisibles"
+ },
+ {
+  "id": "A9",
+  "nom": "MISSION — un document STRUCTURELLEMENT conforme et FAUX suffit-il ?",
+  "ok": null,
+  "detail": "structure ok : **true** · mission : **deliverables-incomplete** · état : rien · preuve : aucune"
+ },
+ {
+  "id": "A10",
+  "nom": "MISSION — un exercice résolu avance-t-il une mission ?",
+  "ok": null,
+  "detail": "exercice résolu : evidence 0→1 exerciseAttempts 0→1 preuvesDeJour 0→1 · livrable auto « search-behavior » de la mission : **validated** · avancement : 1/3"
+ },
+ {
+  "id": "A11",
+  "nom": "CAPSTONE — réussite : quelles preuves ?",
+  "ok": null,
+  "detail": "`agent-tool-loop-incident` · 7/7 · réussi : **true** · état : evidence 0→1 · preuve : passed/self · simulation déclarée dans la preuve : **true**"
+ },
+ {
+  "id": "A12",
+  "nom": "PAGES DE LECTURE — une visite laisse-t-elle une trace ?",
+  "ok": true,
+  "detail": "six pages visitées, **aucune trace** — correct"
+ },
+ {
+  "id": "A13",
+  "nom": "MISSION — la CHAÎNE COMPLÈTE : que vaut la preuve produite ?",
+  "ok": null,
+  "detail": "mission : **done** · 2 preuve(s) au registre : `exercise:react-search` passed/exercise-tests [jsts] · `mission:frontend-accessible-search` passed/mission-deliverables [jsts]"
+ }
+]

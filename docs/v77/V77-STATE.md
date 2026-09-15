@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP1** |
+| `LAST_COMPLETED_CP` | **CP2** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP2** — MODÈLE CANONIQUE DE LA PRATIQUE |
-| `NEXT_ACTION` | construire **une** carte canonique lisible par la machine (`lib/practice-model.mjs`, PURE) : `surface → activité → capacité d'observation → politique de fait → type de fait → politique de preuve → niveau → simulation → concepts → compétences`. Les routes doivent pouvoir s'y adosser. Ajouter des tests de cohérence (toute surface de `cp0-inventory.json` a une entrée ; aucun niveau `VALIDATED` sur une surface `OBSERVED` ; aucune entrée orpheline). **Ne pas dupliquer la liste ailleurs.** |
+| `NEXT_CP` | **CP3** — TERMINAL |
+| `NEXT_ACTION` | trancher le terminal à partir du contrat CP1 et de la carte CP2, qui le posent en `NO_FACT`. Si `NO_FACT` est confirmé : **documenter et TESTER** qu'une exécution de terminal ne produit artificiellement ni fait ni preuve. Si `USAGE_EVENT` est retenu : il ne dit que ce qui a été observé (tâche, adaptateur, `exitCode`, horodatage serveur), vit dans un champ séparé, ne porte jamais `passed`/`score`, ne produit aucune Evidence et n'entre dans aucun moteur (contrat §3.4). **NE PAS créer `TerminalAttempt(success = true)`.** |
 
 ## Repères Git
 
@@ -130,6 +130,11 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 
 ## `FILES`
 
+**CP2** — **créés** `lib/practice-model.mjs` (**PUR**), `lib/practice-model.d.ts`,
+`tests/v77-practice-model.test.mjs` (19), `docs/v77/V77-CP2-CANONICAL-PRACTICE-MODEL.md`.
+**Aucun fichier de produit modifié** — la carte existe, personne ne la lit encore ;
+le branchement a lieu aux CP3 → CP7.
+
 **CP1** — **créé** `docs/v77/V77-PRACTICE-OBSERVABILITY-CONTRACT-FROZEN.md`.
 **Aucun fichier de produit modifié** — le CP1 gèle, il n'implémente pas.
 
@@ -146,9 +151,39 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 | CP | sujet |
 |---|---|
 | CP0 | `c6aca1c` — la phrase de départ était fausse, dans les deux sens |
-| CP1 | *(ce commit)* — contrat d'observabilité gelé |
+| CP1 | `e0c4a80` — contrat d'observabilité gelé |
+| CP2 | *(ce commit)* — modèle canonique de la pratique |
 
 ## Journal des CP
+
+- **CP2** — **la politique devient une donnée, et le défaut par défaut cesse
+  d'être « ça passe ».**
+  - Le CP0 avait mesuré que la politique d'observation **n'existait nulle
+    part** : implicite, dispersée dans huit routes, contradictoire. Elle est
+    maintenant dans **un** fichier pur que les tests et la porte peuvent
+    interroger.
+  - **La distinction qui a le plus de conséquences** est
+    `ARTIFACT_ANALYSIS` vs `SIMULATED_EXPLORATION` : remettre ce qu'on a
+    produit, ou explorer un dispositif fourni. C'est elle qui sépare
+    `kubernetes` de `pipelines`, et elle vient des mesures du CP0, pas d'une
+    intuition.
+  - **Une surface inconnue n'hérite d'aucune politique implicite** :
+    `politiqueDe()` rend `null` et `niveauAutorise()` rend `false`. C'est
+    l'inverse du comportement qui a permis aux six surfaces silencieuses de le
+    rester.
+  - **Le maillon faible rend `null` sur une liste vide**, pas `DECLARED` :
+    « aucune composante » n'est pas « composante la plus faible », et rendre
+    `DECLARED` fabriquerait une preuve à partir de rien.
+  - **La moitié qu'on oublie est testée** : une carte qui plafonnerait TOUT à
+    `OBSERVED` protégerait aussi bien et rendrait la compétence inatteignable.
+    Quatre surfaces doivent atteindre `VALIDATED`, et un test l'exige.
+  - **Un de mes tests a cassé pour rien** : il cherchait `OBSERVED` à une
+    position de colonne dans le tableau du contrat. La colonne a bougé, aucune
+    propriété n'avait changé — la faute que V76 a payée deux fois. Il cherche
+    désormais la LIGNE de la surface et y vérifie présence/absence.
+  - **Carte introduite, pas branchée.** Faire les deux dans le même checkpoint
+    aurait rendu impossible de dire laquelle des deux moitiés casse quelque
+    chose.
 
 - **CP1** — **geler à partir de ce que le CP0 a mesuré, pas de ce que le brief
   supposait.**

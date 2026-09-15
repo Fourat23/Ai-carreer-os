@@ -12,15 +12,16 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP11**
+- **dernier CP terminé** : **CP12**
 - **CP courant** : —
-- **NEXT_CP** : **CP12** — LES 12 PARCOURS E2E RÉELS, REJOUÉS
-- **NEXT_ACTION** : rejouer `node scripts/v76/cp0-e2e.mjs` (les mêmes 12
-  exercices, un par famille de runtime) APRÈS toutes les modifications des
-  CP3 → CP11 — isolation, diagnostic, aide, fuite fermée, révisions, journal,
-  preuve unique. **Comparer CP0 → CP12** chiffre à chiffre, y compris les temps
-  (le CP5 a ajouté `unshare`/chroot : le coût doit être mesuré, pas supposé).
-  Produire `docs/v76/V76-E2E-12-EXERCISES.md`.
+- **NEXT_CP** : **CP13** — UX / RESPONSIVE / A11Y / PERF
+- **NEXT_ACTION** : rejouer `scripts/v76/ui-audit.mjs` (le MÊME script qu'au
+  CP2) aux 7 largeurs `1440 / 1280 / 1024 / 768 / 430 / 390 / 375`, en écrivant
+  `docs/v76/ui-audit-cp13.json` pour comparaison directe avec
+  `docs/v76/ui-audit-cp2.json`. Vérifier clavier, focus, régions vivantes, zoom.
+  Comparer les performances AVANT/APRÈS. **Les cibles tactiles < 24 px se
+  consignent ici.** Les surfaces neuves du sprint (conflit CP9, historique et
+  comparaison CP10) n'ont JAMAIS été vues dans un navigateur.
 
 ## Repères Git
 
@@ -224,6 +225,11 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP12** : **créés** `scripts/v76/cp12-e2e.mjs` (importe `choisirDouze` et
+  `parcours` de `cp0-e2e.mjs` — **même instrument**, pas une réécriture),
+  `docs/v76/V76-E2E-12-EXERCISES.md`, `docs/v76/cp12-e2e.json`.
+  **Aucun fichier de produit modifié** — le CP12 mesure, il ne corrige pas.
+
 - **CP11** : **créés** `scripts/v76/cp11-integration.mjs` (13 scénarios, fixture
   remise à zéro à chaque fois), `tests/v76-integration.test.mjs` (14),
   `docs/v76/V76-CP11-INTEGRATION-AUDIT.md`, `docs/v76/cp11-integration.json`.
@@ -322,6 +328,31 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP12** — **les six runtimes passent, isolation comprise, et les scores
+  n'ont pas bougé d'un test.**
+  - **12/12** sur la boucle complète, après neuf checkpoints qui ont modifié
+    l'exécution elle-même. Les mêmes fichiers de départ échouent avec exactement
+    les mêmes compteurs qu'au CP0, et les mêmes références passent avec les
+    mêmes : **l'isolation n'a modifié aucun verdict de test**.
+  - **Le coût de l'isolation reste sous le bruit de mesure.** Les temps sont
+    même plus bas qu'au CP0 (`python-ds` −486 ms, `react-tsx` jusqu'à −376 ms),
+    mais les deux mesures n'ont pas été prises sur le même serveur ni au même
+    état de cache : la comparaison prouve que le coût est imperceptible, **pas
+    qu'il est nul**. Écrit comme tel.
+  - **La ligne « fuite 11/12 → 12/12 » n'est PAS un correctif** : le CP0 lisait
+    un espace de travail contenant encore une solution laissée par une exécution
+    antérieure. Artefact de fixture, déclaré comme tel plutôt que compté comme
+    un gain.
+  - **ANOMALIE DE SONDE n° 6** : la colonne « aide servie » changeait à chaque
+    exécution. Cause : ma sonde rejouait le même échec quelques centaines de
+    millisecondes après le précédent — **même clé métier à la seconde près**,
+    donc tentative dédupliquée, donc série d'échecs à zéro, donc `remedier` rend
+    `null`. Comportement du produit **correct** ; c'est la sonde qui allait plus
+    vite que la résolution temporelle du modèle de faits.
+  - *Une sonde instable qu'on n'explique pas devient une ligne qu'on finit par
+    ignorer — et une ligne ignorée est exactement ce qui a permis au double
+    comptage du CP11 de vivre un sprint entier dans un commentaire.*
 
 - **CP11** — **une réussite, deux preuves : le double comptage était écrit dans
   le code depuis V75.**

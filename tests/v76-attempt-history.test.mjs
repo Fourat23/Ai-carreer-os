@@ -60,6 +60,26 @@ test('V76 · CP10 — deux rejeux du même lancement ne font qu’une entrée', 
   assert.equal(j.length, 1);
 });
 
+test('V76 · CP10 — le journal ACCUMULE les tentatives', () => {
+  // ── LA MUTATION QUI A SURVÉCU AU GANTELET DU CP14 ──
+  //
+  // `M26` remplaçait la liste existante par `[]` : chaque lancement effaçait
+  // tout l'historique et n'en gardait qu'un. **Quatre de mes tests sont restés
+  // verts** — l'idempotence tient avec une seule entrée, la borne aussi, et la
+  // borne en octets encore mieux. Aucun ne disait la chose la plus simple :
+  // *un journal sert à en garder PLUSIEURS.*
+  //
+  // C'est la troisième fois de ce sprint qu'une propriété évidente n'est tenue
+  // par personne précisément parce qu'elle va de soi.
+  let j = [];
+  for (let i = 1; i <= 4; i += 1) {
+    j = ajouterAuJournal(j, E(`2026-04-0${i}T10:00:00.000Z`, i, 5, { 'a.mjs': `v${i}` }, [T('t1', false)]));
+  }
+  assert.equal(j.length, 4, `${j.length} entrée(s) après quatre lancements distincts`);
+  assert.deepEqual(j.map((e) => e.files['a.mjs']), ['v1', 'v2', 'v3', 'v4'],
+    'les tentatives précédentes ont été remplacées au lieu d’être conservées');
+});
+
 test('V76 · CP10 — le journal est BORNÉ, et garde les plus RÉCENTES', () => {
   let j = [];
   for (let i = 0; i < MAX_ENTREES + 6; i += 1) {

@@ -12,22 +12,18 @@
 
 ## Position
 
-- **dernier CP terminé** : **CP13**
+- **dernier CP terminé** : **CP14**
 - **CP courant** : —
-- **NEXT_CP** : **CP14** — SÉCURITÉ + GANTELET DE MUTATIONS
-- **NEXT_ACTION** : rejouer `scripts/v76/cp0-security.mjs` (16 sondes) ET les
-  variantes Python du CP5. Puis **au minimum 30 mutations** couvrant les 32
-  familles nommées par le brief (lecture/écriture hôte, `/etc/passwd`, fuite de
-  correction, tests cachés, processus, `child_process`, injection shell, SSRF
-  loopback, API interne, réseau externe, boucle infinie, inondation de sortie,
-  fichier énorme, trop de fichiers, traversée, chemin absolu, nom malveillant,
-  brouillon périmé, soumission en double, reprise qui écrase l'historique, échec
-  non persisté, preuve dupliquée, `DRAFT == ATTEMPT`, provenance perdue, `RESET`
-  destructeur, fuite de réponse de transfert, transfert == maîtrise,
-  `progress.json` créé, runner non déterministe, fichier protégé mutable).
-  **TESTER LA PORTE V76 ELLE-MÊME PAR MUTATION.** Créer `scripts/v76-check.mjs`
-  + `npm run v76:check` et le brancher dans `gates:active` (48 → 49 portes).
-  Puis gantelet complet + portes V73/V74/V75/V76.
+- **NEXT_CP** : **CP15** — RAPPORT FINAL
+- **NEXT_ACTION** : écrire `docs/v76/V76-FINAL-REPORT.md`, **55 sections
+  minimum**. Les DEUX verdicts sur DEUX AXES SÉPARÉS : ingénierie
+  (`PRACTICE_WORKBENCH_NOT_READY` / `FOUNDATION_READY` / `CANDIDATE` / `READY`)
+  et pédagogie (`HUMAN_PRACTICE_EFFICACY_NOT_MEASURED` / `CANDIDATE` /
+  `VALIDATED`). **NE PLUS FAIRE L'ERREUR V75** : si le contrat gelé CP1 dit que
+  tous les critères `W1`–`W22` atteints = `READY` et qu'ils le sont tous, le
+  verdict d'ingénierie DOIT être `READY` ; l'absence de validation humaine
+  s'exprime UNIQUEMENT sur le second axe. Répondre aux trois questions finales.
+  **CP15 est la SEULE restitution conversationnelle du sprint.**
 
 ## Repères Git
 
@@ -43,9 +39,9 @@
 
 `376` exercices · `128` leçons · `365` journées · `52` semaines · `12` mois ·
 corpus gelé `92d5fae6` · **`data/progress.json` n'existe pas** ·
-`data/lab-workspaces/` et `data/lab-journals/` ignorés par git · **1977 tests** ·
+`data/lab-workspaces/` et `data/lab-journals/` ignorés par git · **1984 tests** ·
 tsc 0 · build OK ·
-`gates:active` **48 portes, 0 violation**.
+`gates:active` **49 portes, 0 violation** (`v76:check` ajoutée au CP14).
 
 ## Mesures BEFORE (CP0 — à ne jamais reconstruire ni écraser)
 
@@ -231,6 +227,16 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
 
 ## Fichiers
 
+- **CP14** : **créés** `scripts/v76-check.mjs` (**79 vérifications**, porte
+  `v76:check`), `scripts/v76-negative.sh` (11 cas négatifs),
+  `scripts/v76/cp14-mutations.mjs` (33 mutations, rejouables par lots),
+  `tests/v76-gate.test.mjs` (6 — le juge EXTÉRIEUR de la porte),
+  `docs/v76/V76-CP14-SECURITY-MUTATIONS.md`, `docs/v76/cp14-mutations.json`.
+  **Modifiés** `package.json` (`v76:check` + `v76:negative`, `gates:active`
+  48 → **49 portes**), `tests/v76-attempt-history.test.mjs` (+ « le journal
+  ACCUMULE les tentatives », qui tue `M26`).
+  **Aucun fichier de produit modifié** — le CP14 mesure et garde.
+
 - **CP13** : **créés** `scripts/v76/cp13-ux.mjs` (10 sondes d'interaction
   Chromium), `app/icon.svg`, `docs/v76/V76-CP13-UX-A11Y-PERF.md`,
   `docs/v76/ui-audit-cp13.json`, `docs/v76/cp13-ux.json`.
@@ -340,6 +346,46 @@ ne pouvait pas voir** : son CP9 a vérifié six choses, aucune sur la fuite.
   serveur résiduel.
 
 ## Journal des CP
+
+- **CP14** — **une porte ne peut pas détecter sa propre neutralisation.**
+  - **16/16 sondes d'attaque contenues**, aucune régression depuis le CP5.
+    `SEC3` reste déclaré **partiel** en Python, et la porte tue désormais la
+    mutation qui le maquillerait en `total`.
+  - **33 mutations, 33 tuées**, réparties sur trois niveaux de garde — et le
+    choix du niveau fait partie du résultat : 13 par les tests, 13 par la porte,
+    **5 par des sondes sur le produit reconstruit et servi**, 2 sur la porte
+    elle-même.
+  - **LA DÉCOUVERTE DU CHECKPOINT** : `M32` et `M33` ont survécu, et il n'y
+    avait rien d'étonnant à cela — on les vérifiait en LANÇANT la porte,
+    c'est-à-dire en lui demandant si elle allait bien. `if (false &&
+    violations.length)` la rend verte et elle s'en déclare satisfaite. Il lui
+    faut un JUGE EXTÉRIEUR : `tests/v76-gate.test.mjs` lui impose une violation
+    (`V76_SELFTEST=1`) et exige qu'elle rougisse **en la nommant**.
+  - **Deux règles de ma propre porte étaient décoratives**, et c'est le script
+    négatif qui l'a dit. `[B2]` comptait les `execIsole(` en incluant la
+    DÉFINITION de la fonction : neutraliser un appel en laissait trois, seuil
+    atteint, règle verte. `[B7]` comptait les occurrences de `hintViews` dans le
+    fichier : en retirer une de la liste de LECTURE en laissait trois —
+    c'est-à-dire **exactement le défaut P7 que cette règle prétend garder**.
+    *Un seuil sur un total ne dit rien de l'endroit où les choses se trouvent.*
+    Les deux regardent désormais la structure. **11/11 règles vues échouer.**
+  - **`M26` a survécu** : quatre de mes tests restaient verts pendant que chaque
+    lancement effaçait tout l'historique. Aucun ne disait la chose la plus
+    simple — *un journal sert à en garder plusieurs.*
+  - **TROIS FAUX SURVIVANTS, et c'est la septième anomalie de sonde.** Un
+    serveur resté vivant d'une exécution tuée pour épuisement mémoire tenait le
+    port ; les sondes interrogeaient **du code non muté**. Puis `M31` a survécu
+    une seconde fois parce que le journal des exécutions précédentes était
+    encore sur le disque. Le harnais vérifie maintenant qu'il parle bien au
+    serveur qu'il vient de lancer, efface l'état avant chaque sonde, et distingue
+    **`SONDE INVALIDE`** d'une mutation tuée comme d'une survivante : « on ne
+    sait pas » est un troisième verdict, et le confondre avec un succès serait
+    pire que ne rien mesurer.
+  - **Deux familles du brief ne sont pas gardées par une mutation, et c'est
+    écrit** : « transfert == maîtrise » (le produit n'a jamais établi cette
+    équivalence — muter un chemin inexistant donnerait une ligne verte sans
+    objet) et « runner non déterministe » (mesuré par les scores identiques du
+    CP12, pas muté).
 
 - **CP13** — **l'audit a trouvé une régression que j'avais introduite au CP10.**
   - **Quatre cibles tactiles à 13 × 13 px** : les cases à cocher de

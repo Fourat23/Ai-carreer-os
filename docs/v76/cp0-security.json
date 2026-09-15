@@ -4,7 +4,7 @@
   "nom": "boucle infinie · le timeout tient-il ?",
   "menace": "épuisement de ressources",
   "ok": true,
-  "detail": "5112 ms, statut 200",
+  "detail": "5106 ms, statut 200",
   "coupe": true
  },
  {
@@ -12,7 +12,7 @@
   "nom": "inondation de stdout · la sortie est-elle bornée ?",
   "menace": "épuisement mémoire / réponse géante",
   "ok": true,
-  "detail": "réponse 1 Ko en 5071 ms",
+  "detail": "réponse 4 Ko en 5088 ms",
   "coupe": true
  },
  {
@@ -76,7 +76,7 @@
   "nom": "charge utile géante (10 Mo)",
   "menace": "déni de service par la taille",
   "ok": true,
-  "detail": "statut 400 en 169 ms",
+  "detail": "statut 400 en 134 ms",
   "coupe": true
  },
  {
@@ -100,7 +100,7 @@
   "nom": "le brouillon compte-t-il comme une tentative ?",
   "menace": "fait fabriqué",
   "ok": true,
-  "detail": "tentatives 27 → 27",
+  "detail": "tentatives 55 → 55",
   "coupe": true
  },
  {

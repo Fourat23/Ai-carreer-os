@@ -6,7 +6,7 @@
 // effectuée. Aucun événement de navigation, aucun horodatage reconstruit.
 
 import Link from 'next/link';
-import { Play, Send, ShieldCheck, Check, RotateCcw } from 'lucide-react';
+import { Play, Send, ShieldCheck, Check, RotateCcw, ClipboardCheck, FileText, Search, Terminal } from 'lucide-react';
 import { getLearningHistory } from '@/lib/learner-read-models';
 import { getProgram } from '@/lib/program';
 import { HISTORY_EVENT_LABEL, groupHistoryByDate } from '@/lib/learner-history';
@@ -16,13 +16,18 @@ import HistoryFilters from './HistoryFilters';
 
 export const dynamic = 'force-dynamic';
 
-const ICON = {
+const ICON: Record<HistoryEventType, typeof Play> = {
   DAY_STARTED: Play,
   SUBMISSION_CREATED: Send,
   EVIDENCE_CREATED: ShieldCheck,
   DAY_COMPLETED: Check,
   REVIEW_COMPLETED: RotateCcw,
-} as const;
+  // V77 · CP11 — les quatre faits des CP3→CP7 deviennent visibles.
+  ASSESSMENT_SUBMITTED: ClipboardCheck,
+  MISSION_DELIVERABLE: FileText,
+  ARTIFACT_ANALYZED: Search,
+  SURFACE_USED: Terminal,
+};
 
 function hhmm(iso: string) {
   return new Date(iso).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
@@ -81,7 +86,11 @@ export default async function HistoryPage({
           empty
             ? [{ k: 'Événements', v: 'aucun', here: true }]
             : [
-                { k: 'Événements', v: `${summary.total}`, here: true },
+                /* V77 · CP11 — travail et usage comptés SÉPARÉMENT. Les
+                   additionner ferait grimper un chiffre sans qu'un seul
+                   exercice de plus ait été résolu. */
+                { k: 'Travail', v: `${summary.travail}`, here: true },
+                { k: 'Usage', v: `${summary.usage}` },
                 { k: 'Jours actifs', v: `${summary.activeDays}` },
                 { k: 'Preuves', v: `${summary.byType.EVIDENCE_CREATED}` },
                 { k: 'Journées terminées', v: `${summary.byType.DAY_COMPLETED}` },
@@ -142,6 +151,12 @@ export default async function HistoryPage({
                         {e.type === 'EVIDENCE_CREATED' && e.qualifying === false && (
                           <span className="hist-tag">non qualifiante</span>
                         )}
+                        {/* V77 · CP11 — un usage n'est pas un travail évalué, et
+                            la ligne le dit plutôt que de laisser le lecteur le
+                            supposer. */}
+                        {e.usage === true && <span className="hist-tag">usage</span>}
+                        {e.simulation === true && <span className="hist-tag">simulé</span>}
+                        {e.niveau === 'DECLARED' && <span className="hist-tag">déclaré</span>}
                       </span>
                       {e.detail && <span className="hist-detail">{e.detail}</span>}
                       {e.competencyIds && e.competencyIds.length > 0 && (

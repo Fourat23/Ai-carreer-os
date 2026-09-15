@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP10** |
+| `LAST_COMPLETED_CP` | **CP11** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP11** — INTÉGRATION À L'ÉTAT DE L'APPRENANT |
-| `NEXT_ACTION` | brancher les nouveaux faits sur l'état de l'apprenant **SANS créer de nouveau moteur**. Les faits des CP3→CP7 (`usageEvents`, `assessmentAttempts`, `missionSubmissions`, `artifactAnalyses`) sont écrits, persistés et exportés — mais **aucune surface ne les lit**. Les rendre lisibles là où ils ont un sens, sans fabriquer de score, sans percentile, sans probabilité. `UNKNOWN` reste une réponse valide. |
+| `NEXT_CP` | **CP12** — `docs/v77/V78-PILOT-READINESS.md` |
+| `NEXT_ACTION` | écrire `docs/v77/V78-PILOT-READINESS.md` : ce qu'un pilote humain pourra RÉELLEMENT observer, surface par surface, et ce qu'il ne pourra pas. Reprendre les politiques du CP1/CP2 confrontées à ce qui a été construit, la granularité de la suppression et ce qu'un export contient exactement (point laissé au CP12 par le CP0), et les limites déclarées de chaque CP. **Ne rien promettre que les CP3→CP11 n'aient mesuré.** |
 
 ## Repères Git
 
@@ -136,6 +136,10 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 
 ## `TESTS_RUN`
 
+**CP11** — `npm test` **2156/2156** · `tsc` **0** · `build` **OK** ·
+`gates:active` **49 portes, 0 violation** · `/history` traversée en HTTP réel ·
+`data/progress.json` **absent**.
+
 **CP10** — `npm test` **2142/2142** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · mesure canonique **42 · 14 · 0**.
 
@@ -175,6 +179,12 @@ traversée · `data/progress.json` **absent**.
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP11** — **créés** `tests/v77-learner-state.test.mjs` (14),
+`docs/v77/V77-CP11-ETAT-APPRENANT.md`. **Modifiés** : `lib/learner-history.mjs`
+(quatre nouveaux types d'événement · `travail` et `usage` comptés séparément),
+`lib/learner-history.d.ts`, `app/history/page.tsx` (icônes, marqueurs
+`usage`/`simulé`/`déclaré`, deux compteurs distincts).
 
 **CP10** — **créés** `scripts/v77/cp10-double-comptage.mjs`,
 `docs/v77/cp10-double-comptage.json`, `tests/v77-double-comptage.test.mjs` (12),
@@ -273,9 +283,33 @@ le branchement a lieu aux CP3 → CP7.
 | CP7 | `96b6d36` — quatre surfaces analysaient vraiment, et n'écrivaient rien |
 | CP8 | `39c69c6` — les 125 ambigus : 125 → 125, et c'est le résultat |
 | CP9 | `3e2fff5` — la matrice, et la décision qu'elle force |
-| CP10 | *(ce commit)* — le double comptage : 42 · 14 · 0 |
+| CP10 | `2f9cfae` — le double comptage : 42 · 14 · 0 |
+| CP11 | *(ce commit)* — les faits deviennent lisibles, sans nouveau moteur |
 
 ## Journal des CP
+
+- **CP11** — **un fait que personne ne peut lire n'est pas encore une
+  observation : c'est du stockage.**
+  - Les quatre faits des CP3→CP7 étaient écrits, persistés, bornés, exportés,
+    restaurés… et **aucune surface ne les lisait**. Mesuré : zéro lecteur dans
+    `app/` et `lib/`. **Cinquième sprint d'affilée** où la chose à brancher
+    existe déjà débranchée — et cette fois je l'avais construite moi-même.
+  - **Aucun nouveau moteur** : l'historique de V65 est une PROJECTION, et les
+    quatre faits s'y ajoutent comme les cinq autres. Un test garde le point :
+    lire ne doit rien écrire.
+  - **LA GARDE QUI COMPTE : usage ≠ travail.** Ajouter l'usage au compteur
+    d'événements aurait fait grimper un chiffre **sans qu'un seul exercice de
+    plus ait été résolu**. `total = travail + usage`, affichés séparément, et la
+    ligne d'usage porte son avertissement DANS SON TEXTE — pas seulement dans un
+    champ que personne ne lit.
+  - **Aucun score** : un test balaie chaque ligne et refuse `score`, `%`,
+    `percentile`, `maîtrise` — dans le texte ET dans les noms de champs.
+  - **Mesuré en HTTP, et la sortie la plus parlante est `Preuves 0`** : un
+    diagnostic soumis sans conservation n'a produit AUCUNE preuve, et le travail
+    est pourtant observé. C'est la correction du CP4, visible à l'écran.
+  - **Limite déclarée** : la lisibilité s'arrête à l'historique. Ces faits
+    n'apparaissent ni au tableau de bord ni dans les compétences, parce qu'il
+    faudrait décider ce qu'ils qualifient — ce que le CP9 a réservé aux preuves.
 
 - **CP10** — **42 · 14 · 0, et confondre les deux premiers était l'erreur.**
   - Le « 14 » du CP0 n'a **pas** été recopié : il datait d'avant les CP5 et CP9,

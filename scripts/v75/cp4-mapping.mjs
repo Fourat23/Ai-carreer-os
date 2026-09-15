@@ -24,6 +24,16 @@
 import { readFileSync, readdirSync, existsSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { resoudreExercice } from '../../lib/exercise-mapping.mjs';
+import { normaliserDeclarations, CHEMIN_DECLARATIONS } from '../../lib/exercise-declarations.mjs';
+
+/** V77 · CP8 — les déclarations hors corpus, lues une fois. */
+let _decl = null;
+function declarationsCp8() {
+  if (_decl) return _decl;
+  const p = join(process.cwd(), CHEMIN_DECLARATIONS);
+  _decl = existsSync(p) ? normaliserDeclarations(JSON.parse(readFileSync(p, 'utf8'))) : {};
+  return _decl;
+}
 
 const ROOT = process.cwd();
 const pad3 = (n) => String(n).padStart(3, '0');
@@ -80,8 +90,21 @@ export function resoudre(ex) {
     leconsDuJour: jours.flatMap((j) => leconsDuJour.get(j) ?? []),
     skillsExercice: ex.skills ?? [],
     skillsDeLecon: (s) => [...(skillsDeLecon.get(s) ?? [])],
+    // V77 · CP8 — même source que le produit. La mesure et le comportement
+    // doivent lire le MÊME fichier annexe, sans quoi l'une des deux mentirait.
+    declarantsHorsCorpus: declarationsCp8()[ex.id]?.lessons ?? [],
   });
 }
+
+// ── V77 · CP8 — LE CONTEXTE EST EXPORTÉ, PAS RECONSTRUIT ────────────────
+//
+// Le CP8 doit sous-classer les mêmes 125 exercices que ceux mesurés ici. Les
+// relire depuis une seconde lecture du corpus donnerait deux vérités — le défaut
+// que ce module passe son temps à éviter. On expose donc le contexte déjà lu.
+export { exercices };
+export const declarantsDe = (id) => declarants.get(id) ?? [];
+export const leconsDuJourDe = (id) => [...new Set((joursDe.get(id) ?? []).flatMap((j) => leconsDuJour.get(j) ?? []))];
+export const skillsDeLeconMap = () => skillsDeLecon;
 
 if (process.argv[1] && process.argv[1].endsWith('cp4-mapping.mjs')) {
   const classes = {};

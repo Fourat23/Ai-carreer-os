@@ -17,11 +17,11 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP7** |
+| `LAST_COMPLETED_CP` | **CP8** |
 | `CURRENT_CP` | — |
 | `CURRENT_BATCH` | — |
-| `NEXT_CP` | **CP8** — LES 125 EXERCICES AMBIGUS |
-| `NEXT_ACTION` | déclarer explicitement l'état des **125 exercices `AMBIGUOUS`** (cause unique mesurée au CP0 : `R5` — aucun `conceptIds`/`lessonRefs` dans la source). La déclaration vit **HORS du corpus gelé**. Produire un BEFORE/AFTER. **125 → 0 N'EST PAS UN OBJECTIF** : rester `AMBIGUOUS` est un résultat VALIDE, et résoudre par heuristique arbitraire est nommément interdit. La précision prime sur la couverture. |
+| `NEXT_CP` | **CP9** — UNIFICATION DES PREUVES |
+| `NEXT_ACTION` | publier et GELER la matrice `sourceType × validationKind × evidenceLevel × simulation × qualifiesFor{Competency, Retention, Recovery}`. Les deux plafonds existent déjà (`NIVEAU_MAX_PAR_SOURCE` au CP5, `NIVEAU_MAX_PAR_KIND` au CP6) ; il reste à les publier ENSEMBLE, à les tester exhaustivement, et à trancher **la question laissée ouverte au CP6** : `isQualifying` ignore le niveau — une preuve `DECLARED` d'un type qualifiant portant `passed` crédite encore une compétence. Trancher aussi la **tension du CP5** : contrat = `OBSERVED` pour une mission, maillon faible = `DECLARED`. |
 
 ## Repères Git
 
@@ -109,6 +109,7 @@
 | `D9` | **la marque de simulation vit dans du texte libre** | `detail`, pas un champ ; rien ne la garde |
 | `D10` | **125 exercices sans rattachement** | cause : aucun `conceptIds`/`lessonRefs` dans la source |
 | `D11` | `placeholder` est un terme du domaine traité comme un marqueur de remplissage | `PLACEHOLDER_RE` |
+| `D10` | **125 exercices sans rattachement** — **DÉCLARÉE au CP8, non corrigée** : 4 sources auditées, **0 résolution**. Sous-classée : 112 conséquentes (les candidates couvrent plusieurs compétences), 13 sans conséquence pour la compétence | mécanisme de déclaration hors corpus livré **vide** |
 | `D7` | ~~six surfaces calculent et ne gardent rien~~ **SOLDÉE pour 5/6 au CP7** (`terminal` au CP3, les quatre analytiques ici) ; `pipelines` reste en `USAGE_ONLY` par décision, pas par oubli | sans artefact → 0 octet ; avec artefact → 1 fait `OBSERVED` |
 | `D4` | ~~la preuve de capstone est dégradée en `self`~~ **CORRIGÉE au CP6** — et la mesure a montré une CONTRADICTION que la dette ne disait pas : le produit archivait `self`/`DECLARED` et créditait `demonstrated` | 13 × `self` → 13 × `capstone-grade` ; niveau `DECLARED` → `VALIDATED` |
 | `D5` | ~~`capstone-review` n'est plus produit que par la migration héritée~~ **RETOURNÉE au CP6** : les neuves disent la vérité, les héritées restent plafonnées `OBSERVED` et ne sont PAS remontées | `NIVEAU_MAX_PAR_KIND['capstone-review'] = 'OBSERVED'` |
@@ -132,6 +133,10 @@ Python, déclaré tel quel. V77 ne doit rien dégrader : la porte `v76:check`
 (79 vérifications) reste dans `gates:active`.
 
 ## `TESTS_RUN`
+
+**CP8** — `npm test` **2117/2117** · `tsc` **0** · `build` **OK** ·
+`gates:active` **49 portes, 0 violation** · audit de 4 sources, **0 résolution** ·
+corpus **intact**.
 
 **CP7** — `npm test` **2103/2103** · `tsc` **0** · `build` **OK** ·
 `gates:active` **49 portes, 0 violation** · `v76:negative` **11 vues échouer,
@@ -161,6 +166,15 @@ traversée · `data/progress.json` **absent**.
 `gates:active` **49 portes, 0 violation** · sécurité **16/16**.
 
 ## `FILES`
+
+**CP8** — **créés** `lib/exercise-declarations.mjs` (**PUR**),
+`lib/exercise-declarations.d.ts`, `lib/exercise-declarations-server.ts`,
+`scripts/v77/cp8-ambiguite.mjs`, `docs/v77/cp8-ambiguite.json`,
+`tests/v77-ambiguite.test.mjs` (14), `docs/v77/V77-CP8-AMBIGUITE.md`.
+**Modifiés** : `lib/exercise-mapping.mjs` (règle **R1b**),
+`lib/exercise-concepts-server.ts`, `scripts/v75/cp4-mapping.mjs` (contexte
+exporté + même source annexe que le produit).
+**CORPUS INTACT** — aucun fichier d'exercice, aucun Markdown, aucun `program.json`.
 
 **CP7** — **créés** `lib/artifact-analysis.mjs` (**PUR**),
 `lib/artifact-analysis.d.ts`, `lib/artifact-analysis-server.ts` (écriture
@@ -233,9 +247,34 @@ le branchement a lieu aux CP3 → CP7.
 | CP4 | `68fba8a` — cinq échecs ne laissaient qu'une trace |
 | CP5 | `6c8c8f5` — une mission ne dit plus `passed` |
 | CP6 | `3f411b4` — le capstone était dégradé, pas surclassé |
-| CP7 | *(ce commit)* — quatre surfaces analysaient vraiment, et n'écrivaient rien |
+| CP7 | `96b6d36` — quatre surfaces analysaient vraiment, et n'écrivaient rien |
+| CP8 | *(ce commit)* — les 125 ambigus : 125 → 125, et c'est le résultat |
 
 ## Journal des CP
+
+- **CP8** — **125 → 125, et c'est le résultat.**
+  - `125 → 0 n'est pas un objectif`, et résoudre par heuristique arbitraire est
+    nommément interdit. Le CP8 livre donc un MÉCANISME et une MESURE, pas un
+    chiffre amélioré.
+  - **Un endroit pour déclarer HORS du corpus gelé** :
+    `data/exercise-declarations.json`, règle **R1b**, nommée à part plutôt que
+    fondue dans R1 — savoir qu'un rattachement vient d'un fichier annexe change
+    ce qu'on peut en dire. Elle vient APRÈS R1 : le corpus fait foi.
+  - **Une déclaration SANS SOURCE est refusée**, pas réparée. Sans cette garde,
+    le fichier deviendrait l'endroit où écrire ce qu'on aimerait croire.
+  - **AUDIT DE QUATRE SOURCES, RENDEMENT PUBLIÉ Y COMPRIS NUL** : aucune ne
+    tranche un seul des 125. `S1` touche `cloud-spof-detect`… cité par DEUX
+    leçons, donc ne tranche rien. `S2` donne zéro parce que les Markdown de
+    journée ne lient pas les exercices — aucune proximité éditoriale à exploiter.
+    Un rendement nul MESURÉ permet d'affirmer que le blocage est dans la donnée,
+    pas dans l'effort.
+  - **LA DISTINCTION QUE PERSONNE N'AVAIT MESURÉE** : les leçons candidates
+    portent-elles la même compétence ? **112 conséquentes** (choisir mal
+    changerait la compétence créditée) · **13 sans conséquence** (ambiguïté
+    réelle au grain du concept seulement). Aucun exercice ne change de classe :
+    c'est une carte de priorité pour un auteur, pas une résolution déguisée.
+  - **L'invariant gardé par un test** : si `AMBIGUOUS` baisse un jour sans que le
+    nombre de déclarations augmente, quelqu'un aura deviné.
 
 - **CP7** — **un compte de diagnostics n'est pas un verdict.**
   - Les quatre surfaces analytiques valident et analysent RÉELLEMENT un artefact

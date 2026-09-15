@@ -22,6 +22,7 @@
 // résoudre demanderait une décision d'auteur, pas un algorithme — et en
 // inventer une serait exactement ce que le brief interdit.
 import { resoudreExercice } from './exercise-mapping.mjs';
+import { declarationsHorsCorpus } from './exercise-declarations-server';
 import { getProgram } from './program';
 import { getDayExerciseIndex } from './day-exercises-server';
 import { daysForExercise } from './day-exercises';
@@ -92,6 +93,9 @@ export function conceptsDeLExerciceResolu(exerciseId: string, skills: string[] =
     leconsDuJour: [...new Set(jours.flatMap((j) => c.leconsDuJour.get(j) ?? []))],
     skillsExercice: skills,
     skillsDeLecon: (slug: string) => c.skillsDeLecon.get(slug) ?? [],
+    // V77 · CP8 — déclaration d'auteur hors du corpus GELÉ. Absente (état livré
+    // par le CP8), elle ne change rien : le fichier vide est un état normal.
+    declarantsHorsCorpus: declarationsHorsCorpus()[exerciseId]?.lessons ?? [],
   }) as ResolutionExercice;
 
   // Dernier filtre : un slug doit désigner une leçon RÉELLE du catalogue.

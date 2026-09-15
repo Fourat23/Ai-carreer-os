@@ -1,0 +1,1475 @@
+{
+ "generatedAt": "2026-09-15T12:00:00.000Z",
+ "total": 376,
+ "avant": {
+  "AMBIGUOUS": 125,
+  "source": "V75 · CP4, remesuré ici"
+ },
+ "apres": {
+  "UNAMBIGUOUS": 140,
+  "AMBIGUOUS": 125,
+  "MULTI_CONCEPT_BY_DESIGN": 67,
+  "RESOLVED_BY_SKILL": 12,
+  "RESOLVABLE_FROM_CONTEXT": 32
+ },
+ "fichierDeDeclaration": "data/exercise-declarations.json",
+ "declarationsPresentes": 0,
+ "audit": [
+  {
+   "nom": "S1 · l’identifiant de l’exercice est CITÉ dans le texte d’une leçon",
+   "note": "un auteur qui nomme un exercice dans sa leçon le déclare, même hors `practiceRefs`",
+   "touches": 1,
+   "tranchent": 0,
+   "exemples": []
+  },
+  {
+   "nom": "S2 · l’exercice est LIÉ depuis le Markdown d’une journée (`/lab/<id>`)",
+   "note": "la proximité éditoriale serait un acte d’auteur, si elle existait",
+   "touches": 0,
+   "tranchent": 0,
+   "exemples": []
+  },
+  {
+   "nom": "S3 · le titre de l’exercice est EXACTEMENT celui d’une leçon",
+   "note": "coïncidence d’auteur, pas ressemblance de texte — comparaison stricte",
+   "touches": 0,
+   "tranchent": 0,
+   "exemples": []
+  },
+  {
+   "nom": "S4 · déclaration explicite HORS CORPUS (`data/exercise-declarations.json`)",
+   "note": "le mécanisme du CP8 : un auteur déclare sans toucher au corpus gelé",
+   "touches": 0,
+   "tranchent": 0,
+   "exemples": []
+  }
+ ],
+ "parSousClasse": {
+  "METADATA_MISSING_CONSEQUENTE": 112,
+  "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE": 13
+ },
+ "sousClasses": [
+  {
+   "id": "agent-cycle-index",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "agent-detect-loop",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "agent-excessive-agency",
+   "candidates": 3,
+   "competences": [
+    "http",
+    "llm",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "agent-permission-guard",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "agent-retry-idempotent",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "agent-run-loop-budget",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "agent-tool-failure-recovery",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "agent-tool-router",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "agent-transition-guard",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "agent-validate-args",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "arch-cache-invalidation",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "comm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "arch-consistency-tradeoff",
+   "candidates": 7,
+   "competences": [
+    "archi",
+    "cloud",
+    "ds",
+    "http",
+    "patterns",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "arch-cqrs-when",
+   "candidates": 7,
+   "competences": [
+    "algo",
+    "archi",
+    "cloud",
+    "http",
+    "jsts",
+    "llm",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "arch-cycle-detect",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "comm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "arch-idempotent-handler",
+   "candidates": 4,
+   "competences": [
+    "archi",
+    "comm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "arch-layer-violation",
+   "candidates": 7,
+   "competences": [
+    "archi",
+    "cloud",
+    "comm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "arch-queue-vs-sync",
+   "candidates": 4,
+   "competences": [
+    "archi",
+    "comm",
+    "patterns",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "arch-repository-boundary",
+   "candidates": 2,
+   "competences": [
+    "jsts",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "array-sum-even",
+   "candidates": 3,
+   "competences": [
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "cicd-global-status",
+   "candidates": 6,
+   "competences": [
+    "agents",
+    "archi",
+    "cloud",
+    "llm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "cicd-trigger-should-run",
+   "candidates": 6,
+   "competences": [
+    "agents",
+    "archi",
+    "cloud",
+    "llm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "cloud-blast-radius",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "comm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "cloud-multi-zone",
+   "candidates": 7,
+   "competences": [
+    "archi",
+    "cloud",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "cloud-prod-ready",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "comm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "cloud-rpo-meets",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "comm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "cloud-spof-detect",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "comm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "debt-audit",
+   "candidates": 4,
+   "competences": [
+    "archi",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-count-params",
+   "candidates": 2,
+   "competences": [
+    "dl",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-diagnose-training",
+   "candidates": 2,
+   "competences": [
+    "dl",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-forward-2layer",
+   "candidates": 2,
+   "competences": [
+    "dl",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-generalization-gap",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-gradient-step",
+   "candidates": 2,
+   "competences": [
+    "dl",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-he-init-std",
+   "candidates": 2,
+   "competences": [
+    "dl",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-lr-stability",
+   "candidates": 2,
+   "competences": [
+    "dl",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-mse-loss",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-neuron-forward",
+   "candidates": 2,
+   "competences": [
+    "dl",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-relu-layer",
+   "candidates": 2,
+   "competences": [
+    "dl",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-sgd-linear-step",
+   "candidates": 2,
+   "competences": [
+    "dl",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "dl-vanishing-gradient",
+   "candidates": 9,
+   "competences": [
+    "algo",
+    "archi",
+    "cloud",
+    "dl",
+    "jsts",
+    "llm",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "eval-exact-match",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "eval-failure-categorize",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "eval-groundedness-proxy",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "eval-harness-report",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "eval-regression-gate",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "eval-structured-output",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "eval-tool-call-contract",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "greeting",
+   "candidates": 3,
+   "competences": [
+    "gitlinux"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "js-initials",
+   "candidates": 3,
+   "competences": [
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "js-pipeline",
+   "candidates": 3,
+   "competences": [
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "llm-context-budget-truncate",
+   "candidates": 4,
+   "competences": [
+    "agents",
+    "cloud",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "llm-cost-budget-plan",
+   "candidates": 13,
+   "competences": [
+    "algo",
+    "archi",
+    "cloud",
+    "dl",
+    "evalia",
+    "jsts",
+    "llm",
+    "rag",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "llm-cost-per-call",
+   "candidates": 4,
+   "competences": [
+    "agents",
+    "cloud",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "llm-prompt-injection-scan",
+   "candidates": 4,
+   "competences": [
+    "agents",
+    "cloud",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "llm-retry-idempotent",
+   "candidates": 4,
+   "competences": [
+    "agents",
+    "cloud",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "llm-structured-output-repair",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "llm-token-estimate",
+   "candidates": 4,
+   "competences": [
+    "agents",
+    "cloud",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "llm-tool-route",
+   "candidates": 3,
+   "competences": [
+    "agents",
+    "archi",
+    "llm"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "ml-baseline-vs-model",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "ml-calibration-ece",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "ml-confusion-cost",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "ml-imbalance-metric-trap",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "ml-overfit-onset",
+   "candidates": 2,
+   "competences": [
+    "evalia",
+    "ml"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "ml-precision-recall-f1",
+   "candidates": 2,
+   "competences": [
+    "evalia",
+    "ml",
+    "python"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "net-first-failure",
+   "candidates": 6,
+   "competences": [
+    "archi",
+    "cloud",
+    "comm",
+    "http",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "net-layer-classify",
+   "candidates": 6,
+   "competences": [
+    "archi",
+    "cloud",
+    "comm",
+    "http",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "patterns-adapter-legacy",
+   "candidates": 4,
+   "competences": [
+    "archi",
+    "http",
+    "patterns",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "patterns-composition-vs-inheritance",
+   "candidates": 5,
+   "competences": [
+    "algo",
+    "http",
+    "jsts",
+    "llm",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "patterns-null-object",
+   "candidates": 5,
+   "competences": [
+    "ds",
+    "evalia",
+    "http",
+    "ml",
+    "rag",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "patterns-observer-filter",
+   "candidates": 5,
+   "competences": [
+    "archi",
+    "cloud",
+    "comm",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "patterns-strategy-table",
+   "candidates": 6,
+   "competences": [
+    "agents",
+    "cloud",
+    "ds",
+    "http",
+    "llm",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "patterns-when-not-yagni",
+   "candidates": 10,
+   "competences": [
+    "archi",
+    "comm",
+    "http",
+    "jsts",
+    "se",
+    "sql"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "pdx-fix-dtype-sum",
+   "candidates": 2,
+   "competences": [
+    "ml",
+    "python"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "py-data-clean-missing",
+   "candidates": 7,
+   "competences": [
+    "dl",
+    "ds",
+    "http",
+    "llm",
+    "rag",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "py-data-dedup-latest",
+   "candidates": 6,
+   "competences": [
+    "algo",
+    "comm",
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "py-data-diagnose-mean-none",
+   "candidates": 6,
+   "competences": [
+    "algo",
+    "comm",
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "py-data-etl-upsert-idempotent",
+   "candidates": 14,
+   "competences": [
+    "algo",
+    "archi",
+    "cloud",
+    "dl",
+    "ds",
+    "jsts",
+    "llm",
+    "rag",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "py-data-groupby-sum",
+   "candidates": 7,
+   "competences": [
+    "algo",
+    "archi",
+    "cloud",
+    "jsts",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "py-data-inner-join",
+   "candidates": 7,
+   "competences": [
+    "agents",
+    "algo",
+    "archi",
+    "cloud",
+    "jsts",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "py-data-parse-records",
+   "candidates": 7,
+   "competences": [
+    "algo",
+    "archi",
+    "cloud",
+    "jsts",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "py-data-validate-schema",
+   "candidates": 7,
+   "competences": [
+    "algo",
+    "archi",
+    "ds",
+    "http",
+    "patterns",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "py-exceptions",
+   "candidates": 2,
+   "competences": [
+    "python",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-bow-vector",
+   "candidates": 6,
+   "competences": [
+    "dl",
+    "evalia",
+    "llm",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-chunk-by-size",
+   "candidates": 6,
+   "competences": [
+    "dl",
+    "evalia",
+    "llm",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-cosine-similarity",
+   "candidates": 6,
+   "competences": [
+    "dl",
+    "evalia",
+    "llm",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-diagnose-fault",
+   "candidates": 6,
+   "competences": [
+    "dl",
+    "evalia",
+    "llm",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-hybrid-rrf",
+   "candidates": 6,
+   "competences": [
+    "dl",
+    "evalia",
+    "llm",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-recall-at-k",
+   "candidates": 6,
+   "competences": [
+    "dl",
+    "evalia",
+    "llm",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-recall-precision-at-k",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-retrieval-vs-generation",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-rrf-hybrid-fuse",
+   "candidates": 6,
+   "competences": [
+    "dl",
+    "evalia",
+    "llm",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "rag-topk-retrieve",
+   "candidates": 6,
+   "competences": [
+    "dl",
+    "evalia",
+    "llm",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-blast-radius",
+   "candidates": 3,
+   "competences": [
+    "http",
+    "llm",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-classify-sensitive",
+   "candidates": 2,
+   "competences": [
+    "cloud",
+    "http",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-cve-affected",
+   "candidates": 3,
+   "competences": [
+    "http",
+    "llm",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-image-digest",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "cloud",
+    "http",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-least-privilege",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "cloud",
+    "http",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-lockfile-diff",
+   "candidates": 3,
+   "competences": [
+    "http",
+    "llm",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-mask-secrets",
+   "candidates": 2,
+   "competences": [
+    "cloud",
+    "http",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-prompt-injection-detect",
+   "candidates": 7,
+   "competences": [
+    "algo",
+    "evalia",
+    "jsts",
+    "ml",
+    "python",
+    "rag",
+    "sql"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-rbac-wildcard",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "cloud",
+    "http",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-redact-secret-log",
+   "candidates": 7,
+   "competences": [
+    "algo",
+    "dl",
+    "jsts",
+    "llm",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-remediation-order",
+   "candidates": 2,
+   "competences": [
+    "cloud",
+    "http",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-sbom-added",
+   "candidates": 3,
+   "competences": [
+    "http",
+    "llm",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-secret-placement",
+   "candidates": 3,
+   "competences": [
+    "http",
+    "llm",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-secret-response-order",
+   "candidates": 2,
+   "competences": [
+    "cloud",
+    "http",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-securitycontext",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "cloud",
+    "http",
+    "se",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-sql-injection-safe",
+   "candidates": 7,
+   "competences": [
+    "dl",
+    "ds",
+    "http",
+    "llm",
+    "rag",
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sec-typosquat",
+   "candidates": 3,
+   "competences": [
+    "http",
+    "llm",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sh-pipeline-run",
+   "candidates": 3,
+   "competences": [
+    "gitlinux"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "skl-confusion-matrix",
+   "candidates": 3,
+   "competences": [
+    "evalia",
+    "ml",
+    "rag"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sqlite-index-explain",
+   "candidates": 2,
+   "competences": [
+    "python",
+    "sql"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sqlite-inner-join",
+   "candidates": 2,
+   "competences": [
+    "python",
+    "sql"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sqlite-subquery-above-avg",
+   "candidates": 3,
+   "competences": [
+    "archi",
+    "sql"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sys-perms-to-octal",
+   "candidates": 4,
+   "competences": [
+    "archi",
+    "gitlinux",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sys-perms-to-symbolic",
+   "candidates": 4,
+   "competences": [
+    "archi",
+    "gitlinux",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sys-port-listener",
+   "candidates": 4,
+   "competences": [
+    "archi",
+    "gitlinux",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "sys-umask-apply",
+   "candidates": 4,
+   "competences": [
+    "archi",
+    "gitlinux",
+    "secu"
+   ],
+   "sousClasse": "METADATA_MISSING_CONSEQUENTE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "ts-async-double",
+   "candidates": 2,
+   "competences": [
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "ts-debug-discount",
+   "candidates": 2,
+   "competences": [
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "ts-debug-filter-strings",
+   "candidates": 2,
+   "competences": [
+    "se"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "web-debug-toggle",
+   "candidates": 2,
+   "competences": [
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "web-list-filter",
+   "candidates": 2,
+   "competences": [
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "web-log-init",
+   "candidates": 2,
+   "competences": [
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "web-status-text",
+   "candidates": 2,
+   "competences": [
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  },
+  {
+   "id": "word-frequencies",
+   "candidates": 3,
+   "competences": [
+    "jsts"
+   ],
+   "sousClasse": "METADATA_MISSING_SANS_CONSEQUENCE_COMPETENCE",
+   "declarantsConnus": 0
+  }
+ ]
+}

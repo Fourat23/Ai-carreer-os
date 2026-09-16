@@ -16,10 +16,12 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP5** |
+| `LAST_COMPLETED_CP` | **CP6 — V77.1 TERMINÉ** |
 | `CURRENT_CP` | — |
-| `NEXT_CP` | **CP6** — GANTELET FINAL & RAPPORT |
-| `NEXT_ACTION` | écrire **≥ 25 tests négatifs / mutations**, chacun VERT AVANT → ROUGE MUTÉ → RESTAURÉ → VERT APRÈS ; lancer le **gantelet complet** (`npm test`, `tsc`, `build`, `gates:active`, `v74`, `v75`, `v76`, `v77`, négatifs V66 et V76 — **jamais `v73`**) ; vérifier branche, `HEAD`, `origin`, arbre propre, `data/progress.json` absent, curriculum intact ; écrire `docs/v77-1/V77-1-FINAL-REPORT.md`. **Seulement ensuite** : répondre en chat, verdicts + trois questions finales. |
+| `NEXT_CP` | **aucun** — la prochaine étape est **un humain**, pas un moteur |
+| `NEXT_ACTION` | **V78 — HUMAN LEARNING PILOT I.** Instructions exactes : `docs/v77-1/V77-1-FINAL-REPORT.md` §28. Ne pas ouvrir un nouveau sprint d'infrastructure. |
+| `VERDICT_PRE_PILOTE` | **`HUMAN_PILOT_READY_WITH_RESERVATIONS`** — deux réserves : `RS1` la station de rappel ne propose pas le concept focal · `RS2` un échec d'exercice ne porte aucun concept |
+| `VERDICT_HUMAIN` | **`REAL_HUMAN_LEARNING_EVIDENCE_NOT_MEASURED`** — inchangé, et il ne pouvait pas changer |
 
 ## Repères Git
 
@@ -103,6 +105,12 @@
 vérification, une ligne : les importeurs de `lib/practice-model.mjs` →
 **aucun code produit** (confirme `O1` non atteint).
 
+**CP6** — `npm test` **2293/2293** · `tsc` **0** · `build` **OK** ·
+`gates:active` **50 portes, 0 violation** · `v74` `v75` `v76` `v77` ✅ ·
+`v66:negative` **22 vues** · `v76:negative` **11 vues** ·
+**`v77-1:mutations` 65/65 vues, 0 survivante** · `data/progress.json` **absent** ·
+curriculum et corpus **intacts** · `v73:check` **non inventé**.
+
 **CP5** — `npm test` **2280/2280** (2256 + 24) · `tsc` **0** · `build` **OK** ·
 `gates:active` **50 portes, 0 violation** · **navigateur réel** : 5 surfaces,
 0 erreur JS · `data/progress.json` **absent**.
@@ -144,6 +152,12 @@ inchangé) · `app/settings/SettingsPanel.tsx` (wording + suppression totale) ·
 `lib/workspace-server.ts` (`workspacesRoot`) · `lib/attempt-journal-server.ts`
 (`journalsRoot`). **Format de sauvegarde NON touché.**
 
+**CP6** — **créés** `scripts/v77-1/cp6-mutations.mjs` (65 mutations) ·
+`docs/v77-1/cp6-mutations.json` · `docs/v77-1/V77-1-FINAL-REPORT.md`.
+**Modifiés** `lib/learner-data.mjs` (`verdictDeSuppression`, pur) ·
+`lib/learner-data-fs.mjs` · `package.json` (`v77-1:mutations`, `v77-1:scope`) ·
+les quatre fichiers de tests V77.1 (neuf trous refermés). **Aucune 51ᵉ porte.**
+
 **CP5** — **créés** `lib/confusion-taxonomy.mjs` · `.d.ts` ·
 `scripts/v77-1/cp5-ux-walkthrough.mjs` · `docs/v77-1/cp5-ux.json` ·
 `docs/v77-1/V78-PARTICIPANT-PROCEDURE.md` · `V78-FACILITATOR-SCRIPT.md` ·
@@ -178,7 +192,8 @@ de plus) · `data/pilot/v78-pilot-1.json` (`occurrences`, `conceptsAttendus`,
 | CP2 | `c956ed3` — réinitialiser n'est pas supprimer |
 | CP3 | `2f8a66a` — le scope gelé, et « non ambigu » remesuré |
 | CP4 | `0b5de6f` — la boucle traversée, et quatre découvertes |
-| CP5 | *(ce commit)* — ce que le participant voit, et le compteur sur papier |
+| CP5 | `1e7adf7` — ce que le participant voit, et le compteur sur papier |
+| CP6 | *(ce commit)* — 65 mensonges, 9 trous dans mes propres tests |
 
 ## Journal des CP
 
@@ -305,3 +320,32 @@ de plus) · `data/pilot/v78-pilot-1.json` (`occurrences`, `conceptsAttendus`,
     rapport → `NOT_OBSERVED` et **pas** `H6_TIENT`.
   - **Aucune surface modifiée pour le pilote** : montrer autre chose au
     participant instrumenté est `H4`, donc une règle d'arrêt.
+
+- **CP6** — **neuf mutations ont survécu au premier passage, et c'étaient neuf
+  trous dans mes propres tests.**
+  - `X02` : un test bouclait sur `REPERTOIRES_DU_PRODUIT` — **vider la liste le
+    rendait vert avec zéro assertion**. C'est `M01` de V77 · CP14, revenu sous
+    une autre forme. Liste pinnée en clair.
+  - `X08` : `ok: true` écrit en dur survivait — **aucun test ne reliait le
+    verdict à ce que le disque montrait**. Le verdict est devenu une fonction
+    pure, testée séparément.
+  - `X10` · `X16` : des assertions de TEXTE qu'un `false &&` ou un `//`
+    laissaient vraies. Ancrées sur la ligne entière.
+  - `X17`–`X20` : les tests de scope ne vérifiaient que le **cas sain**. Un
+    vérificateur qui ne trouve jamais rien ressemble exactement à un scope
+    parfait. **Huit cas négatifs** ajoutés.
+  - `X45` : `/exactement 2/` restait vrai après suppression d'**une** des deux
+    occurrences. Comptées.
+  - Après correction : **65 / 65 vues échouer, 0 survivante**, chacune avec le
+    cycle complet **VERT AVANT → ROUGE MUTÉ → RESTAURÉ (SHA-256) → VERT APRÈS**.
+  - **Verdict `HUMAN_PILOT_READY_WITH_RESERVATIONS`** : aucune des treize
+    interdictions ne se déclenche, mais deux réserves mesurées changent ce que
+    le pilote observera — `RS1` la station de rappel, `RS2` le concept d'un
+    échec.
+
+---
+
+## V77.1 — TERMINÉ
+
+Tous les artefacts sont dans `docs/v77-1/`. La prochaine étape du projet est
+**un humain**, pas un moteur.

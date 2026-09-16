@@ -122,7 +122,10 @@ test('CP2 — la suppression exige une saisie, pas seulement un clic', () => {
 
 test('CP2 — la route de suppression refuse un POST sans le mot de confirmation', () => {
   assert.match(DELETE_ALL, /CONFIRMATION_MANQUANTE/);
-  assert.match(DELETE_ALL, /confirmation !== CONFIRMATION_DE_SUPPRESSION/);
+  // La garde doit être la CONDITION du `if`, pas un morceau de texte qu'on peut
+  // neutraliser en glissant `false &&` devant. Mesuré au CP6 : la mutation
+  // `if (false && confirmation !== …)` survivait à l'ancienne assertion.
+  assert.match(DELETE_ALL, /^ {2}if \(confirmation !== CONFIRMATION_DE_SUPPRESSION\) \{$/m);
   // La route importe le mot, elle ne le recopie pas.
   assert.match(DELETE_ALL, /import \{ CONFIRMATION_DE_SUPPRESSION \} from '@\/lib\/learner-data'/);
   assert.equal(DELETE_ALL.includes("'SUPPRIMER'"), false);
@@ -133,7 +136,9 @@ test('CP2 — la route de suppression ne crée aucun instantané', () => {
 });
 
 test('CP2 — la route de réinitialisation, elle, en crée toujours un', () => {
-  assert.match(RESET, /snapshotProgress\(\)/);
+  // L'appel doit être EXÉCUTÉ, pas seulement présent : commenté, il satisfaisait
+  // l'ancienne assertion (mesuré au CP6).
+  assert.match(RESET, /^ {2}snapshotProgress\(\);$/m);
   assert.match(RESET, /porteeDe\('reset'\)/);
 });
 

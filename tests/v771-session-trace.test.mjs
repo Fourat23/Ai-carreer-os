@@ -193,6 +193,47 @@ test('CP4 — un fait d’un AUTRE exercice ne peut pas tenir lieu d’étape', 
   assert.ok(r.manques.some((m) => m.etape === 'EXERCISE_ATTEMPT_FAIL' && m.genre === 'ETAPE_ABSENTE'));
 });
 
+test('CP4 — deux étapes ne peuvent pas s’appuyer sur le MÊME fait', () => {
+  // Sans consommation, une amorce servirait deux fois et la session paraîtrait
+  // complète alors qu'il lui manque un fait. C'est le « study event dupliqué ».
+  const r = reconstruireLaSession(archiveSaine(), FIXTURE);
+  const empreintes = r.etapes
+    .filter((e) => e.at && e.cle)
+    .map((e) => `${e.fait}|${e.cle}|${e.at}`);
+  assert.equal(new Set(empreintes).size, empreintes.length, `un fait sert deux fois : ${empreintes.join(' · ')}`);
+});
+
+test('CP4 — l’identité de session ne porte AUCUNE donnée personnelle', async () => {
+  const src = readFileSync('lib/pilot-session-server.ts', 'utf8');
+  for (const interdit of ['email', 'nom', 'prenom', 'firstName', 'lastName', 'fullName', 'phone']) {
+    assert.equal(new RegExp(interdit, 'i').test(src), false, `« ${interdit} » apparaît dans l'identité de session`);
+  }
+  // Et la version de protocole vient de la FIXTURE, jamais de l'environnement :
+  // un facilitateur ne doit pas pouvoir déclarer un protocole qu'il n'a pas suivi.
+  assert.match(src, /readFileSync\(\s*\n?\s*join\(process\.cwd\(\), 'data\/pilot\/v78-pilot-1\.json'\)/);
+  assert.equal(/process\.env\[[^\]]*\]\s*\?\?\s*['"]V78-PILOT-PROTOCOL/.test(src), false);
+  const envs = [...src.matchAll(/process\.env\[([^\]]+)\]/g)].map((m) => m[1]);
+  assert.deepEqual(envs, ['VARIABLE_DE_SESSION'], 'une seconde variable d’environnement est lue');
+});
+
+test('CP4 — l’instrumentation du pilote n’ÉCRIT rien et n’appelle aucun tiers', () => {
+  // `H4` : observer ne doit pas modifier ce qui est observé. Et aucun service
+  // tiers n'a sa place dans un produit local — il n'y a pas de destinataire.
+  const fichiers = [
+    'app/api/progress/export-all/route.ts',
+    'lib/pilot-session-server.ts',
+    'lib/session-trace.mjs',
+    'lib/confusion-taxonomy.mjs',
+    'lib/pilot-scope.mjs',
+  ];
+  for (const f of fichiers) {
+    const src = readFileSync(f, 'utf8');
+    assert.equal(/writeProgress|writeFileSync|applyCommand/.test(src), false, `${f} écrit alors qu'il observe`);
+    assert.equal(/https?:\/\/(?!127\.0\.0\.1|localhost)/.test(src), false, `${f} appelle un hôte externe`);
+    assert.equal(/analytics|telemetry|gtag|segment\.io|posthog|sentry/i.test(src), false, `${f} introduit un tiers`);
+  }
+});
+
 test('CP4 — un PRETEST amputé d’une amorce est signalé, pas complété', () => {
   const a = clone(archiveSaine());
   piste(a).recallAttempts.splice(1, 1); // une seule amorce de prérequis

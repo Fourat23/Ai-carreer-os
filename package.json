@@ -93,7 +93,9 @@
     "v75:check": "node scripts/v75-check.mjs",
     "v76:check": "node scripts/v76-check.mjs",
     "v76:negative": "bash scripts/v76-negative.sh",
-    "v77:check": "node scripts/v77-check.mjs"
+    "v77:check": "node scripts/v77-check.mjs",
+    "v77-1:mutations": "node scripts/v77-1/cp6-mutations.mjs",
+    "v77-1:scope": "node scripts/v77-1/cp3-scope.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.4",

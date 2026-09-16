@@ -44,6 +44,7 @@ export declare const FICHIERS_DU_PRODUIT: readonly string[];
 export declare function estSousLeChemin(parent: string, enfant: string): boolean;
 export declare function planDeSuppression(racines: RacinesDonneesApprenant): EtapeDeSuppression[];
 export declare function violationsDuPlan(plan: { id: string; chemin: string }[], racineProjet: string): string[];
+export declare function verdictDeSuppression(lignes: { resteSurLeDisque?: boolean; erreur?: string | null }[]): boolean;
 export declare function porteeDe(operation: OperationSurLesDonnees): {
   operation: OperationSurLesDonnees;
   touche: { id: string; effet: EffetSurLaDonnee; libelle: string }[];

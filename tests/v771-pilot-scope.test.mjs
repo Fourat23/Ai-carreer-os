@@ -74,6 +74,96 @@ test('CP3 — le scope gelé ne porte AUCUNE incohérence face au corpus réel',
   assert.deepEqual(v, [], `incohérences :\n  ${v.join('\n  ')}`);
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 1 bis. LE VÉRIFICATEUR LUI-MÊME — il doit savoir REFUSER
+//
+// Mesuré au CP6 : les assertions du cas sain survivaient à un
+// `incoherencesDuScope` qui rend toujours `[]`. Un vérificateur qui ne trouve
+// jamais rien ressemble exactement à un scope parfait. Ces cas-ci lui donnent
+// des fixtures abîmées et exigent qu'il les nomme.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** La fixture, cassée d'une façon précise. */
+function abimee(f) {
+  const c = JSON.parse(JSON.stringify(fixture));
+  f(c);
+  return c;
+}
+
+test('CP3 — le vérificateur refuse un exercice à PLUSIEURS déclarants', () => {
+  const v = incoherencesDuScope(abimee((c) => {
+    const focal = c.concepts.find((x) => x.stage === 'FOCAL');
+    focal.exercises[0].exerciseId = 'http-method-idempotent';
+    focal.exercises[0].declarants = corpus.declarantsDe('http-method-idempotent');
+  }), corpus, VERSION);
+  assert.ok(v.some((x) => /AMBIGU pour ce protocole/.test(x)), JSON.stringify(v));
+});
+
+test('CP3 — le vérificateur refuse un scope hors de 3 à 6 concepts', () => {
+  const trop = incoherencesDuScope(abimee((c) => { c.concepts = c.concepts.slice(0, 2); }), corpus, VERSION);
+  assert.ok(trop.some((x) => /3 à 6/.test(x)), JSON.stringify(trop));
+  const beaucoup = incoherencesDuScope(abimee((c) => {
+    c.concepts = [...c.concepts, ...c.concepts, ...c.concepts];
+  }), corpus, VERSION);
+  assert.ok(beaucoup.some((x) => /3 à 6/.test(x)), JSON.stringify(beaucoup));
+});
+
+test('CP3 — le vérificateur refuse un exercice écarté SANS raison mesurable', () => {
+  const v = incoherencesDuScope(abimee((c) => {
+    c.excludedExercises.push({
+      exerciseId: 'algo-binary-search',
+      declarants: corpus.declarantsDe('algo-binary-search'),
+      raison: 'MULTI_CONCEPT_BY_DESIGN — 1 déclarant',
+    });
+  }), corpus, VERSION);
+  assert.ok(v.some((x) => /écarté alors qu'il n'a qu'un déclarant/.test(x)), JSON.stringify(v));
+});
+
+test('CP3 — le vérificateur refuse une version de protocole discordante', () => {
+  const v = incoherencesDuScope(fixture, corpus, 'V78-PILOT-PROTOCOL-0');
+  assert.ok(v.some((x) => /protocolVersion/.test(x)), JSON.stringify(v));
+});
+
+test('CP3 — le vérificateur refuse zéro ou deux concepts FOCAL', () => {
+  const zero = incoherencesDuScope(abimee((c) => {
+    c.concepts.find((x) => x.stage === 'FOCAL').stage = 'TRANSFER_TARGET';
+  }), corpus, VERSION);
+  assert.ok(zero.some((x) => /FOCAL/.test(x)), JSON.stringify(zero));
+  const deux = incoherencesDuScope(abimee((c) => {
+    c.concepts.find((x) => x.stage === 'PRETEST_PREREQUISITE').stage = 'FOCAL';
+  }), corpus, VERSION);
+  assert.ok(deux.some((x) => /FOCAL/.test(x)), JSON.stringify(deux));
+});
+
+test('CP3 — le vérificateur refuse une leçon, un exercice ou un transfert inexistants', () => {
+  const lecon = incoherencesDuScope(abimee((c) => { c.concepts[0].conceptId = 'lecon-fantome'; c.concepts[0].lesson.slug = 'lecon-fantome'; }), corpus, VERSION);
+  assert.ok(lecon.some((x) => /aucune leçon de ce slug/.test(x)), JSON.stringify(lecon));
+  const ex = incoherencesDuScope(abimee((c) => {
+    c.concepts.find((x) => x.stage === 'FOCAL').exercises[0].exerciseId = 'exercice-fantome';
+  }), corpus, VERSION);
+  assert.ok(ex.some((x) => /inexistant/.test(x)), JSON.stringify(ex));
+  const tr = incoherencesDuScope(abimee((c) => { c.transfers[0].id = 'defi-fantome'; }), corpus, VERSION);
+  assert.ok(tr.some((x) => /inexistant/.test(x)), JSON.stringify(tr));
+});
+
+test('CP3 — le vérificateur refuse une forme de rappel que la leçon n’offre pas', () => {
+  const v = incoherencesDuScope(abimee((c) => {
+    c.concepts.find((x) => x.stage === 'FOCAL').retrieval.formats = ['generate'];
+  }), corpus, VERSION);
+  assert.ok(v.some((x) => /indisponible/.test(x)), JSON.stringify(v));
+});
+
+test('CP3 — le vérificateur refuse une étape manquante ou une justification creuse', () => {
+  const etape = incoherencesDuScope(abimee((c) => {
+    c.steps = c.steps.filter((s) => s.id !== 'TRANSFER');
+  }), corpus, VERSION);
+  assert.ok(etape.some((x) => /TRANSFER.+absente/.test(x)), JSON.stringify(etape));
+  const just = incoherencesDuScope(abimee((c) => {
+    c.concepts.find((x) => x.stage === 'FOCAL').exercises[0].justification = 'évident';
+  }), corpus, VERSION);
+  assert.ok(just.some((x) => /justification/.test(x)), JSON.stringify(just));
+});
+
 test('CP3 — la fixture porte la version de protocole gelée au CP1', () => {
   // Pinnée en clair : la dériver de la fixture rendrait ce test tautologique.
   assert.equal(fixture.protocolVersion, 'V78-PILOT-PROTOCOL-1');

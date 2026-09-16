@@ -121,8 +121,11 @@ test('CP5 — le compteur d’amorces figure dans le script ET dans la liste', (
   // Rien dans un fait de rappel ne dit à quelle étape il appartient : c'est le
   // point le plus fragile du protocole, et il se tient sur papier.
   assert.match(SCRIPT, /compteur d'amorces|Le compteur d'amorces|compteur d’amorces/i);
-  assert.match(LISTE, /exactement 2/);
-  assert.match(LISTE, /exactement 1/);
+  // COMPTÉES, pas seulement présentes : le protocole a DEUX étapes à deux
+  // amorces et DEUX étapes à une. En perdre une laissait l'ancienne assertion
+  // verte (mesuré au CP6).
+  assert.equal((LISTE.match(/exactement 2/g) ?? []).length, 2);
+  assert.equal((LISTE.match(/exactement 1/g) ?? []).length, 2);
   assert.match(LISTE, /décale|débordement/i);
 });
 

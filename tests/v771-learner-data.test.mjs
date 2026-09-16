@@ -14,7 +14,7 @@ import { tmpdir } from 'node:os';
 import {
   CATEGORIES_DONNEES_APPRENANT, ORDRE_DE_SUPPRESSION, REPERTOIRES_DU_PRODUIT,
   FICHIERS_DU_PRODUIT, planDeSuppression, violationsDuPlan, porteeDe,
-  couvreToutesLesDonnees, estSousLeChemin,
+  couvreToutesLesDonnees, estSousLeChemin, verdictDeSuppression,
 } from '../lib/learner-data.mjs';
 import {
   supprimerToutesLesDonnees, inventaireDesDonnees, compterFichiers,
@@ -113,9 +113,24 @@ test('CP2 — un plan visant « data » entier est refusé : il contient le curr
   } finally { t.nettoyer(); }
 });
 
+test('CP2 — les répertoires du produit sont NOMMÉS, pas seulement énumérés', () => {
+  // Pinnés EN CLAIR : le test suivant boucle sur cette liste, et une liste vide
+  // le rendrait vert avec zéro assertion. C'est le défaut `M01` de V77 · CP14,
+  // et le CP6 l'a retrouvé ici — d'où ce garde-fou.
+  for (const attendu of ['.git', 'app', 'curriculum', 'data/exercises', 'data/assessments',
+    'data/capstones', 'data/missions', 'data/pilot', 'docs', 'lib', 'scripts', 'tests']) {
+    assert.ok(REPERTOIRES_DU_PRODUIT.includes(attendu), `« ${attendu} » n'est plus protégé`);
+  }
+  assert.ok(REPERTOIRES_DU_PRODUIT.length >= 20, `${REPERTOIRES_DU_PRODUIT.length} répertoires protégés`);
+  for (const attendu of ['data/program.json', 'data/day-exercises.json']) {
+    assert.ok(FICHIERS_DU_PRODUIT.includes(attendu), `« ${attendu} » n'est plus protégé`);
+  }
+});
+
 test('CP2 — un plan visant un répertoire du produit est refusé, un par un', () => {
   const t = projetJetable();
   try {
+    assert.ok(REPERTOIRES_DU_PRODUIT.length >= 20);
     for (const rep of REPERTOIRES_DU_PRODUIT) {
       const v = violationsDuPlan([{ id: 'progress', chemin: join(t.racine, rep, 'quelquechose') }], t.racine);
       assert.ok(v.length >= 1, `« ${rep} » aurait dû être refusé`);
@@ -234,6 +249,23 @@ test('CP2 — DELETE ALL est idempotent : rejoué sur du vide, il reste ok', () 
     assert.equal(deux.ok, true);
     assert.equal(deux.supprime.every((l) => l.etaitPresent === false), true);
     assert.equal(deux.supprime.every((l) => l.fichiersSupprimes === 0), true);
+  } finally { t.nettoyer(); }
+});
+
+test('CP2 — le verdict de suppression est DÉRIVÉ des lignes, jamais décrété', () => {
+  // Le CP6 a mesuré qu'un `ok: true` écrit en dur survivait à tous les tests :
+  // aucun ne reliait le verdict à ce que le disque montrait.
+  assert.equal(verdictDeSuppression([{ resteSurLeDisque: false, erreur: null }]), true);
+  assert.equal(verdictDeSuppression([{ resteSurLeDisque: true, erreur: null }]), false);
+  assert.equal(verdictDeSuppression([{ resteSurLeDisque: false, erreur: 'EPERM' }]), false);
+  assert.equal(verdictDeSuppression([
+    { resteSurLeDisque: false, erreur: null }, { resteSurLeDisque: true, erreur: null },
+  ]), false);
+  // Et le rapport réel l'utilise : son `ok` vaut exactement ce verdict.
+  const t = projetJetable();
+  try {
+    const r = supprimerToutesLesDonnees(t.racines, t.racine);
+    assert.equal(r.ok, verdictDeSuppression(r.supprime));
   } finally { t.nettoyer(); }
 });
 

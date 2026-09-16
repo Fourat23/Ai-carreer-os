@@ -16,10 +16,10 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP4** |
+| `LAST_COMPLETED_CP` | **CP5** |
 | `CURRENT_CP` | — |
-| `NEXT_CP` | **CP5** — RÉPÉTITION UX & DOCUMENTS DE PILOTE |
-| `NEXT_ACTION` | traverser la boucle **dans un navigateur** et écrire trois documents : `docs/v77-1/V78-PARTICIPANT-PROCEDURE.md`, `V78-FACILITATOR-SCRIPT.md`, `V78-PILOT-CHECKLIST.md`. Geler la taxonomie de confusion (`INSTRUCTION_UNCLEAR`, `UI_CONFUSION`, `CONCEPT_CONFUSION`, `TOOL_CONFUSION`, `BUG`, `FATIGUE`, `OTHER`). **Nommer le chemin de repli du risque `R8`** — `/retention` ne propose PAS le concept focal — et **compter les amorces** dans la liste de contrôle, sinon la reconstruction se décale sans le dire. |
+| `NEXT_CP` | **CP6** — GANTELET FINAL & RAPPORT |
+| `NEXT_ACTION` | écrire **≥ 25 tests négatifs / mutations**, chacun VERT AVANT → ROUGE MUTÉ → RESTAURÉ → VERT APRÈS ; lancer le **gantelet complet** (`npm test`, `tsc`, `build`, `gates:active`, `v74`, `v75`, `v76`, `v77`, négatifs V66 et V76 — **jamais `v73`**) ; vérifier branche, `HEAD`, `origin`, arbre propre, `data/progress.json` absent, curriculum intact ; écrire `docs/v77-1/V77-1-FINAL-REPORT.md`. **Seulement ensuite** : répondre en chat, verdicts + trois questions finales. |
 
 ## Repères Git
 
@@ -103,6 +103,10 @@
 vérification, une ligne : les importeurs de `lib/practice-model.mjs` →
 **aucun code produit** (confirme `O1` non atteint).
 
+**CP5** — `npm test` **2280/2280** (2256 + 24) · `tsc` **0** · `build` **OK** ·
+`gates:active` **50 portes, 0 violation** · **navigateur réel** : 5 surfaces,
+0 erreur JS · `data/progress.json` **absent**.
+
 **CP4** — `npm test` **2256/2256** (2231 + 25) · `tsc` **0** · `build` **OK** ·
 `gates:active` **50 portes, 0 violation** · `v66:negative` **22 vues, 0 trou** ·
 `v76:negative` **11 vues, 0 trou** · **répétition à blanc HTTP réelle** :
@@ -140,6 +144,13 @@ inchangé) · `app/settings/SettingsPanel.tsx` (wording + suppression totale) ·
 `lib/workspace-server.ts` (`workspacesRoot`) · `lib/attempt-journal-server.ts`
 (`journalsRoot`). **Format de sauvegarde NON touché.**
 
+**CP5** — **créés** `lib/confusion-taxonomy.mjs` · `.d.ts` ·
+`scripts/v77-1/cp5-ux-walkthrough.mjs` · `docs/v77-1/cp5-ux.json` ·
+`docs/v77-1/V78-PARTICIPANT-PROCEDURE.md` · `V78-FACILITATOR-SCRIPT.md` ·
+`V78-PILOT-CHECKLIST.md` · `V77-1-CP5-UX-REHEARSAL.md` ·
+`tests/v771-confusion-taxonomy.test.mjs` (24). **Aucune surface du produit
+modifiée** — `/retention` reste telle quelle.
+
 **CP4** — **créés** `lib/session-trace.mjs` · `.d.ts` · `lib/pilot-session-server.ts`
 · `scripts/v77-1/cp4-dry-run.mjs` · `docs/v77-1/cp4-dry-run.json` ·
 `tests/v771-session-trace.test.mjs` (25) · `docs/v77-1/V77-1-CP4-DRY-RUN.md`.
@@ -166,7 +177,8 @@ de plus) · `data/pilot/v78-pilot-1.json` (`occurrences`, `conceptsAttendus`,
 | CP1 | `94935a7` — le contrat gelé, et V77 remis sur son échelle |
 | CP2 | `c956ed3` — réinitialiser n'est pas supprimer |
 | CP3 | `2f8a66a` — le scope gelé, et « non ambigu » remesuré |
-| CP4 | *(ce commit)* — la boucle traversée, et quatre découvertes |
+| CP4 | `0b5de6f` — la boucle traversée, et quatre découvertes |
+| CP5 | *(ce commit)* — ce que le participant voit, et le compteur sur papier |
 
 ## Journal des CP
 
@@ -275,3 +287,21 @@ de plus) · `data/pilot/v78-pilot-1.json` (`occurrences`, `conceptsAttendus`,
   - **`R8` LEVÉ, et négativement** : `/retention` **ne propose pas** le concept
     focal. Le repli (commande directe) fonctionne, exercé neuf fois — le CP5
     doit le **nommer** dans la procédure.
+
+- **CP5** — **`R8` vu à l'écran, et la parade tient sur papier.**
+  - `/retention` affiche **deux boutons** — « Rechercher » et « Replier » — et
+    dit « **Aucune tentative de rappel enregistrée** », « **Rien à réactiver** ».
+    La page est honnête et bien écrite ; elle est **inutilisable en l'état** pour
+    un participant neuf. Le script du facilitateur **cite cette phrase** pour
+    que personne ne découvre l'écran vide en direct.
+  - `/lab` montre tout ce dont le protocole a besoin **sans explication** :
+    `2/4 tests`, l'écart attendu/reçu, l'indice ciblé, « 1 aide », l'historique.
+  - **Le point le plus fragile du protocole tient sur papier** : rien dans un
+    fait de rappel ne dit à quelle étape il appartient. Un compteur d'amorces
+    dans la liste de contrôle, et non un étiquetage dans le moteur — qui aurait
+    modifié ce que l'instrumentation observe (`H4`).
+  - **Taxonomie de confusion gelée et exécutable** : 7 catégories, `OTHER` sans
+    verbatim **refusé**, décompte à sept lignes y compris les zéros, zéro
+    rapport → `NOT_OBSERVED` et **pas** `H6_TIENT`.
+  - **Aucune surface modifiée pour le pilote** : montrer autre chose au
+    participant instrumenté est `H4`, donc une règle d'arrêt.

@@ -1,0 +1,255 @@
+{
+  "base": "http://127.0.0.1:3215",
+  "surfaces": [
+    {
+      "id": "LESSON",
+      "url": "/doc/lessons/api-production-contracts",
+      "etape": 2,
+      "status": 200,
+      "erreursJs": [],
+      "titre": "AI Career OS",
+      "h1": [
+        "Leçon — API de production : idempotence, pagination, limites et versions"
+      ],
+      "h2": [
+        "01Le problème d'abord",
+        "02 · CadrerObjectif",
+        "03Prérequis",
+        "04 · ApprendreModèle mental",
+        "05Explication progressive",
+        "06 · ObserverExemple guidé — le train qui passe dans un tunnel",
+        "07Trade-offs",
+        "08 · VérifierErreurs fréquentes / anti-patterns",
+        "09 · PratiquerPratique",
+        "10Vérification de compréhension",
+        "11 · VérifierCorrection attendue",
+        "12Cas professionnel",
+        "13 · PréparerEntretien",
+        "14 · RetenirÀ retenir"
+      ],
+      "boutons": [
+        {
+          "texte": "Rechercher⌘K",
+          "desactive": false
+        },
+        {
+          "texte": "Replier",
+          "desactive": false
+        },
+        {
+          "texte": "Ouvrir",
+          "desactive": false
+        }
+      ],
+      "champs": [],
+      "vide": false,
+      "mots": 5837
+    },
+    {
+      "id": "LAB",
+      "url": "/lab/http-rate-limit-decide",
+      "etape": "3-6",
+      "status": 200,
+      "erreursJs": [],
+      "titre": "AI Career OS",
+      "h1": [
+        "API : limiteur de débit à fenêtre glissante"
+      ],
+      "h2": [],
+      "boutons": [
+        {
+          "texte": "Rechercher⌘K",
+          "desactive": false
+        },
+        {
+          "texte": "Replier",
+          "desactive": false
+        },
+        {
+          "texte": "solution.mjs",
+          "desactive": false
+        },
+        {
+          "texte": "solution.mjs",
+          "desactive": false
+        },
+        {
+          "texte": "Lancer ⌘⏎",
+          "desactive": false
+        },
+        {
+          "texte": "Enregistrer",
+          "desactive": false
+        },
+        {
+          "texte": "Reset",
+          "desactive": false
+        },
+        {
+          "texte": "Tests",
+          "desactive": false
+        },
+        {
+          "texte": "Console",
+          "desactive": false
+        },
+        {
+          "texte": "Aide",
+          "desactive": false
+        }
+      ],
+      "champs": [],
+      "vide": false,
+      "mots": 534
+    },
+    {
+      "id": "RETENTION",
+      "url": "/retention",
+      "etape": "1, 7, 8",
+      "status": 200,
+      "erreursJs": [],
+      "titre": "AI Career OS",
+      "h1": [
+        "Réactivation"
+      ],
+      "h2": [],
+      "boutons": [
+        {
+          "texte": "Rechercher⌘K",
+          "desactive": false
+        },
+        {
+          "texte": "Replier",
+          "desactive": false
+        }
+      ],
+      "champs": [],
+      "vide": false,
+      "mots": 738
+    },
+    {
+      "id": "TRANSFER",
+      "url": "/transfer/throttling-everywhere",
+      "etape": 9,
+      "status": 200,
+      "erreursJs": [],
+      "titre": "AI Career OS",
+      "h1": [
+        "La fenêtre glissante : limiter bien au-delà d'une API"
+      ],
+      "h2": [],
+      "boutons": [
+        {
+          "texte": "Rechercher⌘K",
+          "desactive": false
+        },
+        {
+          "texte": "Replier",
+          "desactive": false
+        },
+        {
+          "texte": "Tous les défis",
+          "desactive": false
+        },
+        {
+          "texte": "Corriger mes réponses",
+          "desactive": false
+        }
+      ],
+      "champs": [
+        {
+          "type": "radio",
+          "label": ""
+        },
+        {
+          "type": "radio",
+          "label": ""
+        },
+        {
+          "type": "radio",
+          "label": ""
+        },
+        {
+          "type": "radio",
+          "label": ""
+        },
+        {
+          "type": "checkbox",
+          "label": ""
+        },
+        {
+          "type": "checkbox",
+          "label": ""
+        },
+        {
+          "type": "checkbox",
+          "label": ""
+        },
+        {
+          "type": "checkbox",
+          "label": ""
+        },
+        {
+          "type": "text",
+          "label": "Ta réponse…"
+        }
+      ],
+      "vide": false,
+      "mots": 526
+    },
+    {
+      "id": "SETTINGS",
+      "url": "/settings",
+      "etape": 11,
+      "status": 200,
+      "erreursJs": [],
+      "titre": "AI Career OS",
+      "h1": [
+        "Sauvegarde des données"
+      ],
+      "h2": [
+        "Ce que contient ta progression",
+        "Parcours",
+        "Exporter, importer, restaurer"
+      ],
+      "boutons": [
+        {
+          "texte": "Rechercher⌘K",
+          "desactive": false
+        },
+        {
+          "texte": "Replier",
+          "desactive": false
+        },
+        {
+          "texte": "Exporter une sauvegarde",
+          "desactive": false
+        },
+        {
+          "texte": "Télécharger l'archive complète",
+          "desactive": false
+        },
+        {
+          "texte": "Choisir un fichier de sauvegarde",
+          "desactive": false
+        },
+        {
+          "texte": "Réinitialiser la progression",
+          "desactive": false
+        },
+        {
+          "texte": "Supprimer toutes mes données",
+          "desactive": false
+        }
+      ],
+      "champs": [
+        {
+          "type": "file",
+          "label": ""
+        }
+      ],
+      "vide": false,
+      "mots": 494
+    }
+  ]
+}

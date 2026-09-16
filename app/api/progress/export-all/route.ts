@@ -18,6 +18,7 @@ import { exportAllWorkspaces } from '@/lib/workspace-server';
 import { tousLesJournaux, instantaneDeSecours } from '@/lib/learner-data-server';
 import { serializeBackupV3 } from '@/lib/backup';
 import { CATEGORIES_DONNEES_APPRENANT, VERSION_ARCHIVE_COMPLETE } from '@/lib/learner-data';
+import { identiteDeSession } from '@/lib/pilot-session-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,6 +30,18 @@ export async function GET() {
     kind: 'archive-complete',
     archiveSchemaVersion: VERSION_ARCHIVE_COMPLETE,
     exportedAt: now.toISOString(),
+    // ── V77.1 · CP4 — L'IDENTITÉ DE SESSION, ET POURQUOI ELLE EST ICI ──
+    //
+    // Le CP0 a mesuré qu'AUCUNE notion de « session de participant » n'existe
+    // dans le produit (risque `R7`). Le CP4 ne l'a pas inventée dans les faits :
+    // estampiller les 9 faits aurait touché le moteur, la sérialisation et les
+    // quatre listes blanches — pour un besoin qui n'est PAS celui du produit,
+    // et en modifiant ce que l'instrumentation observe.
+    //
+    // L'ARCHIVE, elle, peut se nommer sans rien changer à ce qu'elle contient.
+    // `null` quand aucune session n'est déclarée : un lecteur doit pouvoir voir
+    // qu'il tient un export ordinaire, pas une session de pilote.
+    session: identiteDeSession(),
     // La liste des catégories vient de la SOURCE, pas d'une recopie : si une
     // catégorie de donnée apparaît un jour sans être ajoutée ici, l'écart est
     // visible dans le fichier lui-même.

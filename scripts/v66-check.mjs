@@ -73,8 +73,14 @@ safe(() => {
   must(keys.length === 0,
     '[R1] la progression ne stocke aucun champ dérivé de rétention', keys.join(', '));
   const a = r.progress.recallAttempts[0];
-  must(a && Object.keys(a).sort().join(',') === 'at,conceptId,format,outcome,sourceRef',
+  // V77.1 · CP4 — `provenance` rejoint la liste. Ce n'est pas un relâchement :
+  // la liste reste EXHAUSTIVE et le fait reste sans état dérivé. `provenance`
+  // dit QUI a constaté le rappel, ce que `lib/event-model.mjs` déclarait depuis
+  // V74 sans que le fait l'écrive — mesuré par la répétition à blanc du CP4.
+  must(a && Object.keys(a).sort().join(',') === 'at,conceptId,format,outcome,provenance,sourceRef',
     '[R1] une tentative ne porte QUE des faits', a ? Object.keys(a).join(',') : 'aucune');
+  must(a && typeof a.provenance?.producer === 'string' && a.provenance.producer !== '',
+    '[R1] une tentative nomme QUI l’a constatée', JSON.stringify(a?.provenance ?? null));
 }, '[R1] forme du fait');
 
 safe(() => {

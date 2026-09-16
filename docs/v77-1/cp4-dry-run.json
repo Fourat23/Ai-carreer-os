@@ -1,0 +1,547 @@
+{
+  "etapes": [
+    {
+      "etape": "PRETEST",
+      "faitAttendu": "recallAttempts",
+      "delta": {
+        "recallAttempts": 2
+      },
+      "conforme": true,
+      "dernierFait": {
+        "at": "2026-09-16T11:01:12.682Z",
+        "conceptId": "networking-http-tls",
+        "conceptIds": null,
+        "exerciseId": null,
+        "challengeId": null,
+        "outcome": "recalled",
+        "passed": null,
+        "total": null,
+        "status": null,
+        "evidenceLevel": null,
+        "action": null,
+        "provenance": {
+          "producer": "recall-station",
+          "method": "auto-report",
+          "note": ""
+        },
+        "sourceRef": "/retention"
+      },
+      "http": 200
+    },
+    {
+      "etape": "PRETEST_FOCAL",
+      "faitAttendu": "recallAttempts",
+      "delta": {
+        "recallAttempts": 2
+      },
+      "conforme": true,
+      "dernierFait": {
+        "at": "2026-09-16T11:01:12.709Z",
+        "conceptId": "api-production-contracts",
+        "conceptIds": null,
+        "exerciseId": null,
+        "challengeId": null,
+        "outcome": "failed",
+        "passed": null,
+        "total": null,
+        "status": null,
+        "evidenceLevel": null,
+        "action": null,
+        "provenance": {
+          "producer": "recall-station",
+          "method": "auto-report",
+          "note": ""
+        },
+        "sourceRef": "/retention"
+      },
+      "http": 200
+    },
+    {
+      "etape": "LESSON",
+      "faitAttendu": null,
+      "delta": {},
+      "conforme": true,
+      "dernierFait": null,
+      "http": 200
+    },
+    {
+      "etape": "EXERCISE_ATTEMPT_FAIL",
+      "faitAttendu": "exerciseAttempts",
+      "delta": {
+        "exerciseAttempts": 1,
+        "hintViews": 1
+      },
+      "conforme": true,
+      "dernierFait": {
+        "at": "2026-09-16T11:01:13.345Z",
+        "conceptId": null,
+        "conceptIds": null,
+        "exerciseId": "http-rate-limit-decide",
+        "challengeId": null,
+        "outcome": "partial",
+        "passed": 2,
+        "total": 4,
+        "status": null,
+        "evidenceLevel": null,
+        "action": null,
+        "provenance": {
+          "producer": "lab-runner",
+          "method": "sandbox-tests"
+        },
+        "sourceRef": null
+      },
+      "http": 200
+    },
+    {
+      "etape": "HINT_VIEW",
+      "faitAttendu": "hintViews",
+      "delta": {
+        "hintViews": 1
+      },
+      "conforme": true,
+      "dernierFait": {
+        "at": "2026-09-16T11:01:13.410Z",
+        "exerciseId": "http-rate-limit-decide",
+        "action": "SOUS_PROBLEME",
+        "niveau": 1,
+        "declenchee": "auto",
+        "provenance": {
+          "producer": "lab-runner",
+          "method": "echelle-aide"
+        },
+        "schemaVersion": 2
+      },
+      "note": "écrite par la route du laboratoire pendant l’étape 3 — le script n’a rien demandé"
+    },
+    {
+      "etape": "EXERCISE_ATTEMPT_RETRY",
+      "faitAttendu": "exerciseAttempts",
+      "delta": {
+        "exerciseAttempts": 1,
+        "hintViews": 1
+      },
+      "conforme": true,
+      "dernierFait": {
+        "at": "2026-09-16T11:01:14.636Z",
+        "conceptId": null,
+        "conceptIds": null,
+        "exerciseId": "http-rate-limit-decide",
+        "challengeId": null,
+        "outcome": "partial",
+        "passed": 1,
+        "total": 4,
+        "status": null,
+        "evidenceLevel": null,
+        "action": null,
+        "provenance": {
+          "producer": "lab-runner",
+          "method": "sandbox-tests"
+        },
+        "sourceRef": null
+      },
+      "http": 200
+    },
+    {
+      "etape": "EXERCISE_ATTEMPT_SUCCESS",
+      "faitAttendu": "evidence",
+      "delta": {
+        "evidence": 1,
+        "exerciseAttempts": 1
+      },
+      "conforme": true,
+      "dernierFait": {
+        "at": null,
+        "conceptId": null,
+        "conceptIds": [
+          "api-production-contracts"
+        ],
+        "exerciseId": null,
+        "challengeId": null,
+        "outcome": null,
+        "passed": null,
+        "total": null,
+        "status": null,
+        "evidenceLevel": "VALIDATED",
+        "action": null,
+        "provenance": {
+          "producer": "lab-runner",
+          "method": "exercise-tests",
+          "note": "Exécution en bac à sable, tous les tests verts."
+        },
+        "sourceRef": null
+      },
+      "http": 200
+    },
+    {
+      "etape": "IMMEDIATE_RETRIEVAL",
+      "faitAttendu": "recallAttempts",
+      "delta": {
+        "recallAttempts": 1
+      },
+      "conforme": true,
+      "dernierFait": {
+        "at": "2026-09-16T11:01:16.923Z",
+        "conceptId": "api-production-contracts",
+        "conceptIds": null,
+        "exerciseId": null,
+        "challengeId": null,
+        "outcome": "recalled",
+        "passed": null,
+        "total": null,
+        "status": null,
+        "evidenceLevel": null,
+        "action": null,
+        "provenance": {
+          "producer": "recall-station",
+          "method": "auto-report",
+          "note": ""
+        },
+        "sourceRef": "/retention"
+      },
+      "http": 200
+    },
+    {
+      "etape": "DELAYED_RETRIEVAL",
+      "faitAttendu": "recallAttempts",
+      "delta": {
+        "recallAttempts": 1
+      },
+      "conforme": true,
+      "dernierFait": {
+        "conceptId": "api-production-contracts",
+        "at": "2026-09-16T11:01:18.034Z",
+        "outcome": "recalled",
+        "format": "discrim",
+        "sourceRef": "/retention",
+        "provenance": {
+          "producer": "recall-station",
+          "method": "auto-report",
+          "note": ""
+        }
+      },
+      "note": "à blanc : joué immédiatement. Le DÉLAI n’est pas simulé — sa propriété est mesurée séparément."
+    },
+    {
+      "etape": "TRANSFER",
+      "faitAttendu": "transferAttempts",
+      "delta": {
+        "evidence": 1,
+        "transferAttempts": 1
+      },
+      "conforme": true,
+      "dernierFait": {
+        "at": "2026-09-16T11:01:19.145Z",
+        "conceptId": null,
+        "conceptIds": [
+          "api-production-contracts",
+          "authentication"
+        ],
+        "exerciseId": null,
+        "challengeId": "throttling-everywhere",
+        "outcome": "success",
+        "passed": 3,
+        "total": 3,
+        "status": null,
+        "evidenceLevel": null,
+        "action": null,
+        "provenance": {
+          "producer": "transfer-grader",
+          "method": "transfer-challenge",
+          "note": ""
+        },
+        "sourceRef": "/transfer/throttling-everywhere"
+      },
+      "http": 200
+    },
+    {
+      "etape": "CONFUSION_REPORT",
+      "faitAttendu": null,
+      "delta": {},
+      "conforme": true,
+      "note": "hors produit par contrat : aucune surface ne le recueille"
+    }
+  ],
+  "controles": [
+    {
+      "nom": "l’échec est réel, pas fabriqué",
+      "verdict": "OK",
+      "detail": "allPassed=false passed=2/4"
+    },
+    {
+      "nom": "l’aide a été servie par le produit, pas déclenchée par le script",
+      "verdict": "OK",
+      "detail": "action=SOUS_PROBLEME niveau=1 déclenchée=auto"
+    },
+    {
+      "nom": "deux tentatives identiques dans la même seconde : une seule est écrite",
+      "verdict": "CONSTAT",
+      "detail": "la seconde est traitée comme un rejeu — limite à énoncer, pas un défaut"
+    },
+    {
+      "nom": "la réussite est réelle",
+      "verdict": "OK",
+      "detail": "allPassed=true"
+    },
+    {
+      "nom": "un horodatage fourni par le client n’a AUCUN effet sur l’instant du fait",
+      "verdict": "OK",
+      "detail": "le fait porte l’instant serveur (2026-09-16T11:01:18.034Z)"
+    },
+    {
+      "nom": "exporter l’archive ne modifie pas ce qu’elle observe",
+      "verdict": "OK",
+      "detail": "4eb1d834b4899e0c → 4eb1d834b4899e0c"
+    },
+    {
+      "nom": "ouvrir la station de rappel ne modifie rien",
+      "verdict": "OK",
+      "detail": "4eb1d834b4899e0c → 4eb1d834b4899e0c"
+    },
+    {
+      "nom": "ouvrir la leçon ne modifie rien",
+      "verdict": "OK",
+      "detail": "4eb1d834b4899e0c → 4eb1d834b4899e0c"
+    },
+    {
+      "nom": "R8 — /retention propose le concept focal",
+      "verdict": "CONSTAT",
+      "detail": "le concept est absent de la page rendue"
+    }
+  ],
+  "reconstruction": {
+    "reconstructible": true,
+    "identite": {
+      "sessionId": "DRY-RUN-CP4-003",
+      "protocolVersion": "V78-PILOT-PROTOCOL-1",
+      "scopeId": "V78-SCOPE-HTTP-PRODUCTION",
+      "exportedAt": "2026-09-16T11:01:19.511Z"
+    },
+    "etapes": [
+      {
+        "id": "PRETEST",
+        "n": 1,
+        "concept": "networking-http-tls",
+        "fait": "recallAttempts",
+        "at": "2026-09-16T11:01:12.672Z",
+        "resultat": "recalled",
+        "provenance": {
+          "producer": "recall-station",
+          "method": "auto-report",
+          "note": ""
+        },
+        "sourceRef": "/retention",
+        "cle": "networking-http-tls",
+        "concepts": [
+          "networking-http-tls"
+        ],
+        "origineDuConcept": "fait",
+        "occurrences": 2
+      },
+      {
+        "id": "PRETEST_FOCAL",
+        "n": 1,
+        "concept": "api-production-contracts",
+        "fait": "recallAttempts",
+        "at": "2026-09-16T11:01:12.701Z",
+        "resultat": "failed",
+        "provenance": {
+          "producer": "recall-station",
+          "method": "auto-report",
+          "note": ""
+        },
+        "sourceRef": "/retention",
+        "cle": "api-production-contracts",
+        "concepts": [
+          "api-production-contracts"
+        ],
+        "origineDuConcept": "fait",
+        "occurrences": 2
+      },
+      {
+        "id": "LESSON",
+        "n": 2,
+        "concept": "api-production-contracts",
+        "fait": null,
+        "at": null,
+        "resultat": "NON_OBSERVABLE",
+        "provenance": null,
+        "sourceRef": "/doc/lessons/api-production-contracts",
+        "raison": "étape sans fait par contrat"
+      },
+      {
+        "id": "EXERCISE_ATTEMPT_FAIL",
+        "n": 3,
+        "concept": "api-production-contracts",
+        "fait": "exerciseAttempts",
+        "at": "2026-09-16T11:01:13.345Z",
+        "resultat": "echoue 2/4",
+        "provenance": {
+          "producer": "lab-runner",
+          "method": "sandbox-tests"
+        },
+        "sourceRef": "/lab/http-rate-limit-decide",
+        "cle": "http-rate-limit-decide",
+        "concepts": [],
+        "origineDuConcept": "fixture",
+        "occurrences": 1
+      },
+      {
+        "id": "HINT_VIEW",
+        "n": 4,
+        "concept": "api-production-contracts",
+        "fait": "hintViews",
+        "at": "2026-09-16T11:01:13.410Z",
+        "resultat": "SOUS_PROBLEME",
+        "provenance": {
+          "producer": "lab-runner",
+          "method": "echelle-aide"
+        },
+        "sourceRef": "/lab/http-rate-limit-decide",
+        "cle": "http-rate-limit-decide",
+        "concepts": [],
+        "origineDuConcept": "fait",
+        "occurrences": 1
+      },
+      {
+        "id": "EXERCISE_ATTEMPT_RETRY",
+        "n": 5,
+        "concept": "api-production-contracts",
+        "fait": "exerciseAttempts",
+        "at": "2026-09-16T11:01:14.636Z",
+        "resultat": "echoue 1/4",
+        "provenance": {
+          "producer": "lab-runner",
+          "method": "sandbox-tests"
+        },
+        "sourceRef": "/lab/http-rate-limit-decide",
+        "cle": "http-rate-limit-decide",
+        "concepts": [],
+        "origineDuConcept": "fixture",
+        "occurrences": 1
+      },
+      {
+        "id": "EXERCISE_ATTEMPT_SUCCESS",
+        "n": 6,
+        "concept": "api-production-contracts",
+        "fait": "evidence",
+        "at": "2026-09-16T11:01:15.809Z",
+        "resultat": "passed",
+        "provenance": {
+          "producer": "lab-runner",
+          "method": "exercise-tests",
+          "note": "Exécution en bac à sable, tous les tests verts."
+        },
+        "sourceRef": "/lab/http-rate-limit-decide",
+        "cle": "http-rate-limit-decide",
+        "concepts": [
+          "api-production-contracts"
+        ],
+        "origineDuConcept": "fait",
+        "occurrences": 1
+      },
+      {
+        "id": "IMMEDIATE_RETRIEVAL",
+        "n": 7,
+        "concept": "api-production-contracts",
+        "fait": "recallAttempts",
+        "at": "2026-09-16T11:01:16.923Z",
+        "resultat": "recalled",
+        "provenance": {
+          "producer": "recall-station",
+          "method": "auto-report",
+          "note": ""
+        },
+        "sourceRef": "/retention",
+        "cle": "api-production-contracts",
+        "concepts": [
+          "api-production-contracts"
+        ],
+        "origineDuConcept": "fait",
+        "occurrences": 1
+      },
+      {
+        "id": "DELAYED_RETRIEVAL",
+        "n": 8,
+        "concept": "api-production-contracts",
+        "fait": "recallAttempts",
+        "at": "2026-09-16T11:01:18.034Z",
+        "resultat": "recalled",
+        "provenance": {
+          "producer": "recall-station",
+          "method": "auto-report",
+          "note": ""
+        },
+        "sourceRef": "/retention",
+        "cle": "api-production-contracts",
+        "concepts": [
+          "api-production-contracts"
+        ],
+        "origineDuConcept": "fait",
+        "occurrences": 1
+      },
+      {
+        "id": "TRANSFER",
+        "n": 9,
+        "concept": "api-production-contracts",
+        "fait": "transferAttempts",
+        "at": "2026-09-16T11:01:19.145Z",
+        "resultat": "reussi",
+        "provenance": {
+          "producer": "transfer-grader",
+          "method": "transfer-challenge",
+          "note": ""
+        },
+        "sourceRef": "/transfer/throttling-everywhere",
+        "cle": "throttling-everywhere",
+        "concepts": [
+          "api-production-contracts",
+          "authentication"
+        ],
+        "origineDuConcept": "fait",
+        "occurrences": 1
+      },
+      {
+        "id": "CONFUSION_REPORT",
+        "n": 10,
+        "concept": null,
+        "fait": null,
+        "at": null,
+        "resultat": "NON_OBSERVABLE",
+        "provenance": null,
+        "sourceRef": "hors produit",
+        "raison": "étape sans fait par contrat"
+      },
+      {
+        "id": "SESSION_EXPORT",
+        "n": 11,
+        "concept": null,
+        "fait": null,
+        "at": null,
+        "resultat": "NON_OBSERVABLE",
+        "provenance": null,
+        "sourceRef": "/api/progress/export-all",
+        "raison": "étape sans fait par contrat"
+      }
+    ],
+    "manques": [],
+    "delaiHeures": 0.0003086111111111111,
+    "verdictDuDelai": "DELAY_OUT_OF_WINDOW"
+  },
+  "risques": [
+    {
+      "id": "R8",
+      "question": "la station de rappel propose-t-elle le concept focal au moment voulu ?",
+      "mesure": "le concept N’APPARAÎT PAS dans la page",
+      "consequence": "le facilitateur devra passer par la commande directe — à écrire dans la procédure du CP5",
+      "repli": "POST /api/progress { command: { type: RECORD_RECALL, … } } — exercé six fois dans cette répétition, il fonctionne"
+    }
+  ],
+  "resume": {
+    "etapes": 11,
+    "etapesNonConformes": 0,
+    "controles": 9,
+    "ecarts": 0,
+    "manques": 0,
+    "reconstructible": true
+  }
+}

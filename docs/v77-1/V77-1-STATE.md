@@ -16,10 +16,10 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP3** |
+| `LAST_COMPLETED_CP` | **CP4** |
 | `CURRENT_CP` | — |
-| `NEXT_CP` | **CP4** — RÉPÉTITION À BLANC (DONNÉES SYNTHÉTIQUES) |
-| `NEXT_ACTION` | traverser la boucle complète **sans humain** : `PRETEST` → `LESSON` → `EXERCISE_FAIL` → `HINT` → `RETRY` → `SUCCESS` → `IMMEDIATE_RETRIEVAL` → délai → `DELAYED_RETRIEVAL` → `TRANSFER` → `CONFUSION_REPORT` → `SESSION_EXPORT`. Vérifier pour chaque étape : fait, horodatage, session, `protocolVersion`, concept, provenance, résultat, **aucun doublon**. Prouver que le délai est imposé par l'**horloge serveur** (un horodatage client ne suffit pas). Tester l'**effet d'observation**. Vérifier que l'export de session suffit à **reconstruire sans deviner**. **Lever le risque `R8`** : `/retention` propose-t-elle le concept focal ? |
+| `NEXT_CP` | **CP5** — RÉPÉTITION UX & DOCUMENTS DE PILOTE |
+| `NEXT_ACTION` | traverser la boucle **dans un navigateur** et écrire trois documents : `docs/v77-1/V78-PARTICIPANT-PROCEDURE.md`, `V78-FACILITATOR-SCRIPT.md`, `V78-PILOT-CHECKLIST.md`. Geler la taxonomie de confusion (`INSTRUCTION_UNCLEAR`, `UI_CONFUSION`, `CONCEPT_CONFUSION`, `TOOL_CONFUSION`, `BUG`, `FATIGUE`, `OTHER`). **Nommer le chemin de repli du risque `R8`** — `/retention` ne propose PAS le concept focal — et **compter les amorces** dans la liste de contrôle, sinon la reconstruction se décale sans le dire. |
 
 ## Repères Git
 
@@ -103,6 +103,12 @@
 vérification, une ligne : les importeurs de `lib/practice-model.mjs` →
 **aucun code produit** (confirme `O1` non atteint).
 
+**CP4** — `npm test` **2256/2256** (2231 + 25) · `tsc` **0** · `build` **OK** ·
+`gates:active` **50 portes, 0 violation** · `v66:negative` **22 vues, 0 trou** ·
+`v76:negative` **11 vues, 0 trou** · **répétition à blanc HTTP réelle** :
+11 étapes, 0 non conforme, 9 contrôles, 0 écart, **0 manque**,
+`SESSION_TRACE_RECONSTRUCTABILITY = OUI` · `data/progress.json` **absent**.
+
 **CP3** — `npm test` **2231/2231** (2213 + 18) · `tsc` **0** · `build` **OK** ·
 `gates:active` **50 portes, 0 violation** · mesure de scope publiée
 (`docs/v77-1/cp3-scope.json`) · `data/progress.json` **absent**.
@@ -134,6 +140,16 @@ inchangé) · `app/settings/SettingsPanel.tsx` (wording + suppression totale) ·
 `lib/workspace-server.ts` (`workspacesRoot`) · `lib/attempt-journal-server.ts`
 (`journalsRoot`). **Format de sauvegarde NON touché.**
 
+**CP4** — **créés** `lib/session-trace.mjs` · `.d.ts` · `lib/pilot-session-server.ts`
+· `scripts/v77-1/cp4-dry-run.mjs` · `docs/v77-1/cp4-dry-run.json` ·
+`tests/v771-session-trace.test.mjs` (25) · `docs/v77-1/V77-1-CP4-DRY-RUN.md`.
+**Modifiés** `lib/retention.mjs` (`provenance` sur `RecallAttempt`, mode
+`legacy`) · `lib/learning-engine.mjs` (producteur par défaut) ·
+`app/api/progress/export-all/route.ts` (identité de session) ·
+`scripts/v66-check.mjs` (`[R1]` : liste toujours exhaustive + une vérification
+de plus) · `data/pilot/v78-pilot-1.json` (`occurrences`, `conceptsAttendus`,
+`origineDuConcept`).
+
 **CP3** — **créés** `data/pilot/v78-pilot-1.json` (fixture gelée) ·
 `lib/pilot-scope.mjs` · `.d.ts` · `lib/pilot-scope-server.ts` ·
 `scripts/v77-1/cp3-scope.mjs` · `docs/v77-1/cp3-scope.json` ·
@@ -149,7 +165,8 @@ inchangé) · `app/settings/SettingsPanel.tsx` (wording + suppression totale) ·
 | CP0 | `0458f30` — le verdict V77 a été inventé après coup |
 | CP1 | `94935a7` — le contrat gelé, et V77 remis sur son échelle |
 | CP2 | `c956ed3` — réinitialiser n'est pas supprimer |
-| CP3 | *(ce commit)* — le scope gelé, et « non ambigu » remesuré |
+| CP3 | `2f8a66a` — le scope gelé, et « non ambigu » remesuré |
+| CP4 | *(ce commit)* — la boucle traversée, et quatre découvertes |
 
 ## Journal des CP
 
@@ -233,3 +250,28 @@ inchangé) · `app/settings/SettingsPanel.tsx` (wording + suppression totale) ·
     reconstruction ne prouvera jamais que la leçon a été lue.
   - **Risque `R8` ouvert pour le CP4** : `/retention` sert le plan du jour ; un
     participant partant de zéro pourrait ne pas y voir le concept focal.
+
+- **CP4** — **la boucle traverse, et la sonde s'est cassée la première.**
+  - **La première sonde mesurait son propre silence** : elle postait la commande
+    à plat, recevait `NO_COMMAND`, et concluait que le produit n'écrivait rien.
+    Le client lève désormais dès qu'une commande est refusée.
+  - **`RecallAttempt` promettait une provenance et ne l'écrivait pas** —
+    `event-model.mjs` la déclare depuis V74. **Corrigé**, en mode `legacy` :
+    exiger la provenance aurait effacé tout l'historique de rappel en silence,
+    parce que `normalizeAttempts` **jette** ce que le normaliseur refuse. C'est
+    `H13` par la porte de derrière.
+  - **Un ÉCHEC d'exercice ne porte aucun concept** — décision V74 déclarée
+    (`conceptId: false`), jamais énoncée dans ses conséquences : l'information
+    la plus utile à la rétention est celle que le fait ne porte pas. **Déclarée,
+    pas corrigée** (`origineDuConcept: fixture`). Entrée de V78.
+  - **Deux tentatives identiques dans la même seconde n'en font qu'une** :
+    la clé métier les confond avec un rejeu réseau. Inoffensif pour un humain,
+    trompeur pour un automate — et la répétition à blanc s'y est prise.
+  - **Le délai n'a PAS été simulé.** Sa propriété est mesurée : trois noms de
+    champ d'horodatage client, **aucun effet**. Le délai rapporté est donc
+    honnêtement `DELAY_OUT_OF_WINDOW`.
+  - **Effet d'observation nul** : même empreinte SHA-256 avant et après export,
+    station de rappel et lecture de leçon.
+  - **`R8` LEVÉ, et négativement** : `/retention` **ne propose pas** le concept
+    focal. Le repli (commande directe) fonctionne, exercé neuf fois — le CP5
+    doit le **nommer** dans la procédure.

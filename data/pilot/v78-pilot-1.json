@@ -4,32 +4,54 @@
   "frozenBy": "V77.1 · CP3",
   "primaryOutcome": "SESSION_TRACE_RECONSTRUCTABILITY",
   "delayedRetrievalDelayHours": 24,
-  "delayedRetrievalWindowHours": [18, 36],
+  "delayedRetrievalWindowHours": [
+    18,
+    36
+  ],
   "partialAfterHours": 72,
-
   "concepts": [
     {
       "conceptId": "networking-http-tls",
       "stage": "PRETEST_PREREQUISITE",
-      "lesson": { "slug": "networking-http-tls", "level": 2, "minutes": 50, "words": 3489 },
+      "lesson": {
+        "slug": "networking-http-tls",
+        "level": 2,
+        "minutes": 50,
+        "words": 3489
+      },
       "prerequisites": [],
       "exercises": [],
-      "retrieval": { "formats": ["discrim", "cued"], "prompts": 2 },
+      "retrieval": {
+        "formats": [
+          "discrim",
+          "cued"
+        ],
+        "prompts": 2
+      },
       "transfer": null,
       "justification": "La leçon focale suppose HTTP, ses codes et ses méthodes. Ce concept sert UNIQUEMENT à mesurer le prérequis : il n'est ni lu ni pratiqué pendant la séance. Il porte cinq formes de rappel, donc le prérequis peut être sondé autrement qu'en rappel libre."
     },
     {
       "conceptId": "api-production-contracts",
       "stage": "FOCAL",
-      "lesson": { "slug": "api-production-contracts", "level": 3, "minutes": 50, "words": 2879 },
-      "prerequisites": ["networking-http-tls"],
+      "lesson": {
+        "slug": "api-production-contracts",
+        "level": 3,
+        "minutes": 50,
+        "words": 2879
+      },
+      "prerequisites": [
+        "networking-http-tls"
+      ],
       "exercises": [
         {
           "exerciseId": "http-rate-limit-decide",
           "role": "PRINCIPAL",
           "difficulty": 3,
           "tests": 4,
-          "declarants": ["api-production-contracts"],
+          "declarants": [
+            "api-production-contracts"
+          ],
           "regleDeResolution": "R1 · déclaré par une seule leçon",
           "justification": "Seule `api-production-contracts` le déclare : sa trace ne peut désigner qu'un concept. C'est aussi la source directe du transfert retenu — le limiteur à fenêtre glissante y devient une protection contre le bourrage d'identifiants."
         },
@@ -38,19 +60,32 @@
           "role": "SECOURS",
           "difficulty": 2,
           "tests": 4,
-          "declarants": ["api-production-contracts"],
+          "declarants": [
+            "api-production-contracts"
+          ],
           "regleDeResolution": "R1 · déclaré par une seule leçon",
           "justification": "Même règle de résolution, difficulté inférieure. Utilisé SI et SEULEMENT SI le participant réussit l'exercice principal du premier coup : sans échec, les étapes 3 à 5 du protocole ne peuvent pas être observées."
         }
       ],
-      "retrieval": { "formats": ["free", "discrim"], "prompts": 2 },
+      "retrieval": {
+        "formats": [
+          "free",
+          "discrim"
+        ],
+        "prompts": 2
+      },
       "transfer": "throttling-everywhere",
       "justification": "Concept focal : la seule leçon LUE pendant la séance, la seule PRATIQUÉE, et la seule sur laquelle portent les deux rappels. Elle possède deux exercices que personne d'autre ne déclare, et deux défis de transfert réellement éloignés."
     },
     {
       "conceptId": "authentication",
       "stage": "TRANSFER_TARGET",
-      "lesson": { "slug": "authentication", "level": 2, "minutes": 45, "words": 3906 },
+      "lesson": {
+        "slug": "authentication",
+        "level": 2,
+        "minutes": 45,
+        "words": 3906
+      },
       "prerequisites": [],
       "exercises": [],
       "retrieval": null,
@@ -60,7 +95,12 @@
     {
       "conceptId": "async-messaging-queues",
       "stage": "TRANSFER_TARGET_SECOURS",
-      "lesson": { "slug": "async-messaging-queues", "level": 3, "minutes": 55, "words": 3205 },
+      "lesson": {
+        "slug": "async-messaging-queues",
+        "level": 3,
+        "minutes": 55,
+        "words": 3205
+      },
       "prerequisites": [],
       "exercises": [],
       "retrieval": null,
@@ -68,7 +108,6 @@
       "justification": "Contexte cible du transfert de SECOURS, utilisé si le participant déclare avoir déjà rencontré `throttling-everywhere`. L'idempotence HTTP y devient un consommateur de file : la distance est plus grande encore, mais la chaîne avec l'exercice pratiqué est moins directe."
     }
   ],
-
   "transfers": [
     {
       "id": "throttling-everywhere",
@@ -77,7 +116,10 @@
       "passThreshold": 0.7,
       "crossDomain": true,
       "transferLevel": "T5",
-      "lessonRefs": ["api-production-contracts", "authentication"],
+      "lessonRefs": [
+        "api-production-contracts",
+        "authentication"
+      ],
       "justification": "Chaîne la plus lisible dans la trace : l'exercice pratiqué (`http-rate-limit-decide`) et le transfert portent sur la MÊME notion, transposée hors de son domaine. Un lecteur de l'export peut relier les deux sans deviner."
     },
     {
@@ -87,26 +129,184 @@
       "passThreshold": 0.7,
       "crossDomain": true,
       "transferLevel": "T5",
-      "lessonRefs": ["api-production-contracts", "async-messaging-queues"],
+      "lessonRefs": [
+        "api-production-contracts",
+        "async-messaging-queues"
+      ],
       "justification": "Transfert plus éloigné, mais sa notion source (l'idempotence) n'a aucun exercice EXCLUSIF dans ce scope : `http-method-idempotent` est déclaré par trois leçons et se trouve donc écarté. La chaîne exercice → transfert y serait rompue."
     }
   ],
-
   "steps": [
-    { "n": 1,  "id": "PRETEST",                  "concept": "networking-http-tls",      "fait": "recallAttempts",    "grain": "concept",  "surface": "/retention",                    "niveauDePreuveMax": "DECLARED" },
-    { "n": 1,  "id": "PRETEST_FOCAL",            "concept": "api-production-contracts", "fait": "recallAttempts",    "grain": "concept",  "surface": "/retention",                    "niveauDePreuveMax": "DECLARED" },
-    { "n": 2,  "id": "LESSON",                   "concept": "api-production-contracts", "fait": null,                "grain": null,       "surface": "/doc/lessons/api-production-contracts", "niveauDePreuveMax": null },
-    { "n": 3,  "id": "EXERCISE_ATTEMPT_FAIL",    "concept": "api-production-contracts", "fait": "exerciseAttempts",  "grain": "exercise", "surface": "/lab/http-rate-limit-decide",   "niveauDePreuveMax": "VALIDATED" },
-    { "n": 4,  "id": "HINT_VIEW",                "concept": "api-production-contracts", "fait": "hintViews",         "grain": "exercise", "surface": "/lab/http-rate-limit-decide",   "niveauDePreuveMax": null },
-    { "n": 5,  "id": "EXERCISE_ATTEMPT_RETRY",   "concept": "api-production-contracts", "fait": "exerciseAttempts",  "grain": "exercise", "surface": "/lab/http-rate-limit-decide",   "niveauDePreuveMax": "VALIDATED" },
-    { "n": 6,  "id": "EXERCISE_ATTEMPT_SUCCESS", "concept": "api-production-contracts", "fait": "evidence",          "grain": "exercise", "surface": "/lab/http-rate-limit-decide",   "niveauDePreuveMax": "VALIDATED" },
-    { "n": 7,  "id": "IMMEDIATE_RETRIEVAL",      "concept": "api-production-contracts", "fait": "recallAttempts",    "grain": "concept",  "surface": "/retention",                    "niveauDePreuveMax": "DECLARED" },
-    { "n": 8,  "id": "DELAYED_RETRIEVAL",        "concept": "api-production-contracts", "fait": "recallAttempts",    "grain": "concept",  "surface": "/retention",                    "niveauDePreuveMax": "DECLARED" },
-    { "n": 9,  "id": "TRANSFER",                 "concept": "api-production-contracts", "fait": "transferAttempts",  "grain": "concept",  "surface": "/transfer/throttling-everywhere", "niveauDePreuveMax": "VALIDATED" },
-    { "n": 10, "id": "CONFUSION_REPORT",         "concept": null,                       "fait": null,                "grain": null,       "surface": "hors produit",                  "niveauDePreuveMax": null },
-    { "n": 11, "id": "SESSION_EXPORT",           "concept": null,                       "fait": null,                "grain": null,       "surface": "/api/progress/export-all",      "niveauDePreuveMax": null }
+    {
+      "n": 1,
+      "id": "PRETEST",
+      "concept": "networking-http-tls",
+      "fait": "recallAttempts",
+      "grain": "concept",
+      "surface": "/retention",
+      "niveauDePreuveMax": "DECLARED",
+      "cle": "networking-http-tls",
+      "conceptsAttendus": [
+        "networking-http-tls"
+      ],
+      "occurrences": 2,
+      "origineDuConcept": "fait"
+    },
+    {
+      "n": 1,
+      "id": "PRETEST_FOCAL",
+      "concept": "api-production-contracts",
+      "fait": "recallAttempts",
+      "grain": "concept",
+      "surface": "/retention",
+      "niveauDePreuveMax": "DECLARED",
+      "cle": "api-production-contracts",
+      "conceptsAttendus": [
+        "api-production-contracts"
+      ],
+      "occurrences": 2,
+      "origineDuConcept": "fait"
+    },
+    {
+      "n": 2,
+      "id": "LESSON",
+      "concept": "api-production-contracts",
+      "fait": null,
+      "grain": null,
+      "surface": "/doc/lessons/api-production-contracts",
+      "niveauDePreuveMax": null,
+      "cle": null,
+      "conceptsAttendus": [],
+      "occurrences": 1,
+      "origineDuConcept": null
+    },
+    {
+      "n": 3,
+      "id": "EXERCISE_ATTEMPT_FAIL",
+      "concept": "api-production-contracts",
+      "fait": "exerciseAttempts",
+      "grain": "exercise",
+      "surface": "/lab/http-rate-limit-decide",
+      "niveauDePreuveMax": "VALIDATED",
+      "cle": "http-rate-limit-decide",
+      "conceptsAttendus": [],
+      "occurrences": 1,
+      "origineDuConcept": "fixture"
+    },
+    {
+      "n": 4,
+      "id": "HINT_VIEW",
+      "concept": "api-production-contracts",
+      "fait": "hintViews",
+      "grain": "exercise",
+      "surface": "/lab/http-rate-limit-decide",
+      "niveauDePreuveMax": null,
+      "cle": "http-rate-limit-decide",
+      "conceptsAttendus": [],
+      "occurrences": 1,
+      "origineDuConcept": "fait"
+    },
+    {
+      "n": 5,
+      "id": "EXERCISE_ATTEMPT_RETRY",
+      "concept": "api-production-contracts",
+      "fait": "exerciseAttempts",
+      "grain": "exercise",
+      "surface": "/lab/http-rate-limit-decide",
+      "niveauDePreuveMax": "VALIDATED",
+      "cle": "http-rate-limit-decide",
+      "conceptsAttendus": [],
+      "occurrences": 1,
+      "origineDuConcept": "fixture"
+    },
+    {
+      "n": 6,
+      "id": "EXERCISE_ATTEMPT_SUCCESS",
+      "concept": "api-production-contracts",
+      "fait": "evidence",
+      "grain": "exercise",
+      "surface": "/lab/http-rate-limit-decide",
+      "niveauDePreuveMax": "VALIDATED",
+      "cle": "http-rate-limit-decide",
+      "conceptsAttendus": [
+        "api-production-contracts"
+      ],
+      "occurrences": 1,
+      "origineDuConcept": "fait"
+    },
+    {
+      "n": 7,
+      "id": "IMMEDIATE_RETRIEVAL",
+      "concept": "api-production-contracts",
+      "fait": "recallAttempts",
+      "grain": "concept",
+      "surface": "/retention",
+      "niveauDePreuveMax": "DECLARED",
+      "cle": "api-production-contracts",
+      "conceptsAttendus": [
+        "api-production-contracts"
+      ],
+      "occurrences": 1,
+      "origineDuConcept": "fait"
+    },
+    {
+      "n": 8,
+      "id": "DELAYED_RETRIEVAL",
+      "concept": "api-production-contracts",
+      "fait": "recallAttempts",
+      "grain": "concept",
+      "surface": "/retention",
+      "niveauDePreuveMax": "DECLARED",
+      "cle": "api-production-contracts",
+      "conceptsAttendus": [
+        "api-production-contracts"
+      ],
+      "occurrences": 1,
+      "origineDuConcept": "fait"
+    },
+    {
+      "n": 9,
+      "id": "TRANSFER",
+      "concept": "api-production-contracts",
+      "fait": "transferAttempts",
+      "grain": "concept",
+      "surface": "/transfer/throttling-everywhere",
+      "niveauDePreuveMax": "VALIDATED",
+      "cle": "throttling-everywhere",
+      "conceptsAttendus": [
+        "api-production-contracts",
+        "authentication"
+      ],
+      "occurrences": 1,
+      "origineDuConcept": "fait"
+    },
+    {
+      "n": 10,
+      "id": "CONFUSION_REPORT",
+      "concept": null,
+      "fait": null,
+      "grain": null,
+      "surface": "hors produit",
+      "niveauDePreuveMax": null,
+      "cle": null,
+      "conceptsAttendus": [],
+      "occurrences": 1,
+      "origineDuConcept": null
+    },
+    {
+      "n": 11,
+      "id": "SESSION_EXPORT",
+      "concept": null,
+      "fait": null,
+      "grain": null,
+      "surface": "/api/progress/export-all",
+      "niveauDePreuveMax": null,
+      "cle": null,
+      "conceptsAttendus": [],
+      "occurrences": 1,
+      "origineDuConcept": null
+    }
   ],
-
   "pretestRules": {
     "PRETEST_HIGH": {
       "mesure": "les 2 amorces de rappel sur `api-production-contracts`, AVANT lecture",
@@ -125,27 +325,76 @@
       "attenuation": "procédure, pas code — le facilitateur fait ÉNONCER la réponse À VOIX HAUTE avant de révéler l'amorce, et note l'écart éventuel dans le rapport de session"
     }
   },
-
   "fallbackScope": {
     "scopeId": "V78-SCOPE-ALGO",
     "conceptFocal": "algorithmic-thinking",
-    "exercices": ["fizzbuzz", "algo-binary-search", "algo-interval-merge", "algo-coin-change-min", "algo-kadane-max-subarray"],
-    "formats": ["free", "cued", "applied", "discrim", "generate"],
+    "exercices": [
+      "fizzbuzz",
+      "algo-binary-search",
+      "algo-interval-merge",
+      "algo-coin-change-min",
+      "algo-kadane-max-subarray"
+    ],
+    "formats": [
+      "free",
+      "cued",
+      "applied",
+      "discrim",
+      "generate"
+    ],
     "transfert": "greedy-is-not-optimal",
     "justification": "Cinq exercices EXCLUSIFS (un seul déclarant chacun), cinq formes de rappel, une montée de difficulté d1 → d4. Retenu comme repli et non comme principal : le registre est celui de l'entretien technique, et le plafond au PRETEST y est plus probable pour le profil visé."
   },
-
   "excludedExercises": [
-    { "exerciseId": "http-method-idempotent",  "declarants": ["api-design-basics", "api-production-contracts", "networking-http-tls"], "raison": "MULTI_CONCEPT_BY_DESIGN — 3 leçons le déclarent : sa trace ne dit pas lequel a été pratiqué" },
-    { "exerciseId": "auth-status-decision",    "declarants": ["authentication", "api-production-contracts"], "raison": "MULTI_CONCEPT_BY_DESIGN — 2 déclarants" },
-    { "exerciseId": "api-router",              "declarants": ["http-rest-json", "api-design-basics", "express-backend", "api-production-contracts"], "raison": "MULTI_CONCEPT_BY_DESIGN — 4 déclarants" },
-    { "exerciseId": "http-idempotency-dedup",  "declarants": ["http-rest-json", "api-production-contracts"], "raison": "MULTI_CONCEPT_BY_DESIGN — 2 déclarants" },
-    { "exerciseId": "http-resilient-consumer", "declarants": ["api-production-contracts", "async-messaging-queues"], "raison": "MULTI_CONCEPT_BY_DESIGN — 2 déclarants" }
+    {
+      "exerciseId": "http-method-idempotent",
+      "declarants": [
+        "api-design-basics",
+        "api-production-contracts",
+        "networking-http-tls"
+      ],
+      "raison": "MULTI_CONCEPT_BY_DESIGN — 3 leçons le déclarent : sa trace ne dit pas lequel a été pratiqué"
+    },
+    {
+      "exerciseId": "auth-status-decision",
+      "declarants": [
+        "authentication",
+        "api-production-contracts"
+      ],
+      "raison": "MULTI_CONCEPT_BY_DESIGN — 2 déclarants"
+    },
+    {
+      "exerciseId": "api-router",
+      "declarants": [
+        "http-rest-json",
+        "api-design-basics",
+        "express-backend",
+        "api-production-contracts"
+      ],
+      "raison": "MULTI_CONCEPT_BY_DESIGN — 4 déclarants"
+    },
+    {
+      "exerciseId": "http-idempotency-dedup",
+      "declarants": [
+        "http-rest-json",
+        "api-production-contracts"
+      ],
+      "raison": "MULTI_CONCEPT_BY_DESIGN — 2 déclarants"
+    },
+    {
+      "exerciseId": "http-resilient-consumer",
+      "declarants": [
+        "api-production-contracts",
+        "async-messaging-queues"
+      ],
+      "raison": "MULTI_CONCEPT_BY_DESIGN — 2 déclarants"
+    }
   ],
-
   "nonResolu": {
     "constat": "aucun des 5 exercices écartés n'a été « résolu », ni par une heuristique, ni par une déclaration ajoutée dans `data/exercise-declarations.json`",
     "raison": "un exercice multi-concept l'est PAR CHOIX D'AUTEUR (règle R2). Le trancher pour les besoins d'un pilote fabriquerait une donnée pédagogique pour servir un protocole — exactement l'inversion que V77 a refusée. Le pilote se restreint ; le corpus ne bouge pas.",
     "ambiguitesDuCorpus": "125, inchangées. Le CP3 n'en résout aucune."
-  }
+  },
+  "noteSurLesConcepts": "Une étape déclare `conceptsAttendus` : l'ensemble EXACT des concepts que son fait doit porter. L'étape TRANSFER en attend DEUX — un défi de transfert relie par construction un concept source et un contexte d'arrivée, et `conceptIds` porte les deux. Ce n'est donc pas une ambiguïté : c'est une relation, déclarée d'avance. Un fait qui porterait un autre ensemble rendrait la session non reconstructible.",
+  "noteSurLOrigineDuConcept": "Chaque étape déclare d'OÙ vient son concept. `fait` : le fait lui-même le porte, et la reconstruction le lit. `fixture` : le fait ne porte AUCUN concept, et le lien vient de la fixture gelée — c'est le cas des tentatives d'exercice, que `lib/event-model.mjs` déclare explicitement sans `conceptId` depuis V74. Conséquence à connaître : sans cette fixture, un lecteur de l'export ne saurait pas quel concept un ÉCHEC d'exercice concerne. La preuve de RÉUSSITE, elle, porte ses `conceptIds`. L'échec — l'information la plus utile pour la rétention — est celui qui les perd."
 }

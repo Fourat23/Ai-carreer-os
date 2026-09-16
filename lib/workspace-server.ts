@@ -10,6 +10,11 @@ import type { WorkspaceFileState, RunOutput } from './workspace-fs';
 
 const ROOT = join(process.cwd(), 'data', 'lab-workspaces');
 
+/** Racine réelle des espaces de travail — source unique pour V77.1 · CP2. */
+export function workspacesRoot(): string {
+  return ROOT;
+}
+
 export function materializeWorkspace(exercise: Exercise, userFiles: Record<string, string> = {}): string {
   return fs.materializeWorkspace(ROOT, exercise, userFiles);
 }

@@ -27,6 +27,15 @@ export function progressFilePath(): string {
   return FILE;
 }
 
+/**
+ * Chemin de l'instantané de secours (V77.1 · CP2). Exposé parce qu'une
+ * suppression totale doit pouvoir l'emporter : tant qu'il existait sans être
+ * nommable, « tout effacer » était forcément faux.
+ */
+export function progressSnapshotPath(): string {
+  return SNAPSHOT;
+}
+
 export function emptyProgress(): Progress {
   return { startDate: null, days: {}, skills: {}, weeklyReviews: {}, monthlyReviews: {} };
 }

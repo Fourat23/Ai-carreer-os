@@ -16,10 +16,10 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP1** |
+| `LAST_COMPLETED_CP` | **CP2** |
 | `CURRENT_CP` | — |
-| `NEXT_CP` | **CP2** — DROITS SUR LES DONNÉES |
-| `NEXT_ACTION` | distinguer `RESET LEARNING PROGRESS` de `DELETE ALL LOCAL LEARNER DATA` ; **implémenter et tester réellement sur disque** la suppression totale des données appartenant à l'apprenant (progression, instantané, `lab-workspaces/`, `lab-journals/`) **sans jamais toucher** au curriculum, aux leçons, aux définitions d'exercices, aux corrigés ni au code source ; rendre l'export honnête (Option A = complet, ou Option B = nommé exactement) ; documenter les droits sur les données. Utiliser les mesures **réelles** du CP0.B / CP0.C, ne pas re-mesurer. |
+| `NEXT_CP` | **CP3** — SCOPE DU PILOTE & MAPPINGS |
+| `NEXT_ACTION` | geler **UN** scope (candidat A `api-production-contracts`, repli B `algorithmic-thinking`) ; déclarer **3 à 6 concepts** avec `conceptId`, leçon, prérequis, exercices, rappel, transfert, étape du protocole ; **mapping explicite et justifié** pour CHAQUE exercice du pilote (retirer tout exercice qui reste ambigu — ne PAS résoudre les 125) ; geler les seuils `PRETEST_HIGH` et `MISSING_PREREQUISITE` ; écrire la fixture canonique `data/pilot/v78-pilot-1.json` portant `protocolVersion = V78-PILOT-PROTOCOL-1`. |
 
 ## Repères Git
 
@@ -87,6 +87,12 @@
 vérification, une ligne : les importeurs de `lib/practice-model.mjs` →
 **aucun code produit** (confirme `O1` non atteint).
 
+**CP2** — `npm test` **2213/2213** (2177 + 36) · `tsc` **0** · `build` **OK** ·
+`gates:active` **50 portes, 0 violation** · **traversée HTTP réelle** de
+`export`, `export-all`, `delete-all` (refus sans confirmation, refus sur
+minuscule, suppression effective des 4 catégories, curriculum intact) ·
+`data/progress.json` **absent**.
+
 ## `FILES`
 
 **CP0** — **créés** `docs/v77-1/V77-1-CP0-PRE-PILOT-FORENSICS.md`,
@@ -97,12 +103,24 @@ lecture seule.
 de produit modifié.** `docs/v77/V77-FINAL-REPORT.md` **délibérément non
 réécrit** : il porte `UNIFIED`, le CP1 porte la correction et sa raison.
 
+**CP2** — **créés** `lib/learner-data.mjs` · `.d.ts` · `lib/learner-data-fs.mjs`
+· `.d.ts` · `lib/learner-data-server.ts` · `app/api/progress/delete-all/route.ts`
+· `app/api/progress/export-all/route.ts` · `tests/v771-learner-data.test.mjs`
+(22) · `tests/v771-data-rights-ux.test.mjs` (14) ·
+`docs/v77-1/V77-1-CP2-DATA-RIGHTS.md` · `docs/v77-1/V78-DATA-RIGHTS.md`.
+**Modifiés** `app/api/progress/reset/route.ts` (rend sa portée, comportement
+inchangé) · `app/settings/SettingsPanel.tsx` (wording + suppression totale) ·
+`app/globals.css` · `lib/progress-server.ts` (`progressSnapshotPath`) ·
+`lib/workspace-server.ts` (`workspacesRoot`) · `lib/attempt-journal-server.ts`
+(`journalsRoot`). **Format de sauvegarde NON touché.**
+
 ## `COMMITS`
 
 | CP | sujet |
 |---|---|
 | CP0 | `0458f30` — le verdict V77 a été inventé après coup |
-| CP1 | *(ce commit)* — le contrat gelé, et V77 remis sur son échelle |
+| CP1 | `94935a7` — le contrat gelé, et V77 remis sur son échelle |
+| CP2 | *(ce commit)* — réinitialiser n'est pas supprimer |
 
 ## Journal des CP
 
@@ -143,3 +161,26 @@ réécrit** : il porte `UNIFIED`, le CP1 porte la correction et sa raison.
     planifie déjà**.
   - **Cinq exploratoires portent chacun leur interdiction de conclusion**, pour
     rendre visible toute promotion en résultat.
+
+- **CP2** — **réinitialiser n'est pas supprimer, et l'interface le dit enfin.**
+  - `F5` et `F6` n'étaient pas des bugs mais **deux phrases fausses**. Le
+    comportement de `reset` est **inchangé** (V76 · CP10 tient) ; seul le mot a
+    été corrigé.
+  - **Une carte des données est la source** (`lib/learner-data.mjs`) : quatre
+    catégories, quatre opérations. `couvreToutesLesDonnees()` décide qui a le
+    **droit** de dire « toutes mes données » — `deleteAll` et l'archive, pas
+    `reset`, pas la sauvegarde. Un test rougit si l'interface diverge.
+  - **`POST /api/progress/delete-all`** supprime réellement les 4 catégories,
+    **sans aucun filet**, et exige `{"confirmation":"SUPPRIMER"}` — la
+    minuscule est refusée.
+  - **Deux verrous contre la catastrophe** : `data/` **contient le curriculum**.
+    La suppression ne connaît que 4 chemins nommés un par un, et un garde-fou
+    **refuse le plan entier** — donc ne supprime **rien** — s'il vise le
+    produit. Comparaison par **segments** : `/a/data` n'est pas le parent de
+    `/a/database`.
+  - **`GET /api/progress/export-all`** : une seconde route, pas un champ de plus
+    dans la sauvegarde — le format restaurable n'a pas été remué à la veille
+    d'un pilote.
+  - **Vérifié en HTTP réel** : suppression effective sur le disque, curriculum ·
+    exercices · leçons · code source **intacts**, archive rejouée après
+    suppression → vide.

@@ -11,6 +11,11 @@ import type { EntreeJournal, LigneHistorique } from './attempt-journal';
 
 const ROOT = join(process.cwd(), 'data', 'lab-journals');
 
+/** Racine réelle des journaux — source unique pour V77.1 · CP2. */
+export function journalsRoot(): string {
+  return ROOT;
+}
+
 export function journalDe(exerciseId: string): EntreeJournal[] {
   return lireJournal(ROOT, exerciseId) as EntreeJournal[];
 }

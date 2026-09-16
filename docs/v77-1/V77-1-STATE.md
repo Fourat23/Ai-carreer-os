@@ -16,10 +16,10 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP0** |
+| `LAST_COMPLETED_CP` | **CP1** |
 | `CURRENT_CP` | — |
-| `NEXT_CP` | **CP1** — CONTRAT DE PILOTE GELÉ |
-| `NEXT_ACTION` | écrire `docs/v77-1/V77-1-PILOT-CONTRACT-FROZEN.md`. Geler AVANT toute donnée humaine : question principale (**observabilité de la boucle**, pas efficacité), hypothèses `H1`–`H7`, **UN** outcome primaire, outcomes secondaires limités, exploratoires séparés, **délai de rappel**, règles d'arrêt, règles de donnée manquante. Et **remettre le verdict V77 sur l'échelle gelée au CP1 de V77** — `UNIFIED` n'y figure pas. |
+| `NEXT_CP` | **CP2** — DROITS SUR LES DONNÉES |
+| `NEXT_ACTION` | distinguer `RESET LEARNING PROGRESS` de `DELETE ALL LOCAL LEARNER DATA` ; **implémenter et tester réellement sur disque** la suppression totale des données appartenant à l'apprenant (progression, instantané, `lab-workspaces/`, `lab-journals/`) **sans jamais toucher** au curriculum, aux leçons, aux définitions d'exercices, aux corrigés ni au code source ; rendre l'export honnête (Option A = complet, ou Option B = nommé exactement) ; documenter les droits sur les données. Utiliser les mesures **réelles** du CP0.B / CP0.C, ne pas re-mesurer. |
 
 ## Repères Git
 
@@ -65,11 +65,27 @@
 | risque de plafond au PRETEST | **faible** | moyen | **élevé** |
 | **recommandation CP0** | **candidat principal** | repli | écarté |
 
+## `DECISIONS GELÉES` — CP1
+
+| champ | valeur |
+|---|---|
+| `PROTOCOL_VERSION` | `V78-PILOT-PROTOCOL-1` |
+| `PRIMARY_OUTCOME` | `SESSION_TRACE_RECONSTRUCTABILITY` (un seul) |
+| `DELAYED_RETRIEVAL_DELAY` | **24 h**, fenêtre `[18 h, 36 h]`, horloge **serveur** |
+| `PARTIAL_AFTER` | 72 h |
+| `PARTICIPANTS` | cible 3 · min 1 · max 5 |
+| `V77_ENGINEERING_VERDICT_CANONICAL` | **`PRACTICE_OBSERVABILITY_NOT_READY`** — `O1` non atteint, `O18` partiel, application littérale de l'échelle gelée |
+| `HUMAN_AXIS` | `REAL_HUMAN_LEARNING_EVIDENCE_NOT_MEASURED` — **inchangé, et ne peut pas changer en V77.1** |
+
 ## `TESTS_RUN`
 
 **CP0** — `npm test` **2177/2177** · `tsc` **0** · `build` **OK** ·
 `gates:active` **50 portes, 0 violation** · `reset` traversé en HTTP réel ·
 `data/progress.json` **absent**.
+
+**CP1** — aucun test lancé : le CP1 **gèle**, il n'implémente pas. Une seule
+vérification, une ligne : les importeurs de `lib/practice-model.mjs` →
+**aucun code produit** (confirme `O1` non atteint).
 
 ## `FILES`
 
@@ -77,11 +93,16 @@
 `docs/v77-1/V77-1-STATE.md`. **Aucun fichier de produit modifié** — le CP0 est en
 lecture seule.
 
+**CP1** — **créé** `docs/v77-1/V77-1-PILOT-CONTRACT-FROZEN.md`. **Aucun fichier
+de produit modifié.** `docs/v77/V77-FINAL-REPORT.md` **délibérément non
+réécrit** : il porte `UNIFIED`, le CP1 porte la correction et sa raison.
+
 ## `COMMITS`
 
 | CP | sujet |
 |---|---|
-| CP0 | *(ce commit)* — le verdict V77 a été inventé après coup |
+| CP0 | `0458f30` — le verdict V77 a été inventé après coup |
+| CP1 | *(ce commit)* — le contrat gelé, et V77 remis sur son échelle |
 
 ## Journal des CP
 
@@ -102,3 +123,23 @@ lecture seule.
   - **Trois scopes candidats** pour le pilote, avec un critère décisif : le
     plafond au PRETEST est le seul risque qui **invalide** un pilote. D'où
     `api-production-contracts` en principal, `algorithmic-thinking` en repli.
+
+- **CP1** — **le contrat est gelé avant la première donnée humaine.**
+  - **`V77` est `PRACTICE_OBSERVABILITY_NOT_READY`** par application littérale de
+    l'échelle gelée. `CANDIDATE` a été **refusé** : il exigerait de lire `O1`
+    comme « existe » en laissant tomber « et est lue par le produit » **après
+    avoir vu le résultat** — c'est `H14`. L'échelle n'a pas de case pour « tout
+    atteint sauf un critère de définition » ; c'est un défaut de l'échelle,
+    constaté, **et non corrigé après coup**.
+  - **Rien n'a été fait pour rattraper le verdict** : la carte n'a pas été
+    branchée dans du code produit, le rapport de V77 n'a pas été réécrit.
+  - **Un seul outcome primaire** — `SESSION_TRACE_RECONSTRUCTABILITY`, binaire
+    par session, jugé par quelqu'un qui n'a pas assisté à la session, à partir
+    du **seul export**. Cinq candidats écartés, chacun avec sa raison.
+  - **Aucun seuil de succès n'a été fixé.** Un seuil posé avant toute idée de la
+    distribution ne sert qu'à permettre de déclarer victoire.
+  - **Le délai de rappel n'est pas inventé** : `INTERVALS[0] = 1 jour` dans
+    `lib/retention.mjs`. Le pilote observe la boucle **telle que le produit la
+    planifie déjà**.
+  - **Cinq exploratoires portent chacun leur interdiction de conclusion**, pour
+    rendre visible toute promotion en résultat.

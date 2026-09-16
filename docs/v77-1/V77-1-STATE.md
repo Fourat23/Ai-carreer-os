@@ -16,10 +16,10 @@
 |---|---|
 | `REPO` | `Fourat23/Ai-carreer-os` (**deux `r`**) |
 | `BRANCH` | `claude/ai-career-os-saas-phfg49` |
-| `LAST_COMPLETED_CP` | **CP2** |
+| `LAST_COMPLETED_CP` | **CP3** |
 | `CURRENT_CP` | — |
-| `NEXT_CP` | **CP3** — SCOPE DU PILOTE & MAPPINGS |
-| `NEXT_ACTION` | geler **UN** scope (candidat A `api-production-contracts`, repli B `algorithmic-thinking`) ; déclarer **3 à 6 concepts** avec `conceptId`, leçon, prérequis, exercices, rappel, transfert, étape du protocole ; **mapping explicite et justifié** pour CHAQUE exercice du pilote (retirer tout exercice qui reste ambigu — ne PAS résoudre les 125) ; geler les seuils `PRETEST_HIGH` et `MISSING_PREREQUISITE` ; écrire la fixture canonique `data/pilot/v78-pilot-1.json` portant `protocolVersion = V78-PILOT-PROTOCOL-1`. |
+| `NEXT_CP` | **CP4** — RÉPÉTITION À BLANC (DONNÉES SYNTHÉTIQUES) |
+| `NEXT_ACTION` | traverser la boucle complète **sans humain** : `PRETEST` → `LESSON` → `EXERCISE_FAIL` → `HINT` → `RETRY` → `SUCCESS` → `IMMEDIATE_RETRIEVAL` → délai → `DELAYED_RETRIEVAL` → `TRANSFER` → `CONFUSION_REPORT` → `SESSION_EXPORT`. Vérifier pour chaque étape : fait, horodatage, session, `protocolVersion`, concept, provenance, résultat, **aucun doublon**. Prouver que le délai est imposé par l'**horloge serveur** (un horodatage client ne suffit pas). Tester l'**effet d'observation**. Vérifier que l'export de session suffit à **reconstruire sans deviner**. **Lever le risque `R8`** : `/retention` propose-t-elle le concept focal ? |
 
 ## Repères Git
 
@@ -54,7 +54,23 @@
 | `F6` | l'interface dit « Télécharge **toutes tes données locales** » — **faux** : les journaux de laboratoire, qui contiennent le **code de l'apprenant**, ne sont pas exportés | **haute** |
 | `F7` | `reset` conserve `lab-journals/` (code apprenant) et `lab-workspaces/` — délibéré (V76 · CP10), mais non dit | moyenne |
 
-## `PILOT_SCOPE_CANDIDATES` — CP0.D
+## `SCOPE GELÉ` — CP3
+
+| | |
+|---|---|
+| `SCOPE_ID` | **`V78-SCOPE-HTTP-PRODUCTION`** |
+| fixture | `data/pilot/v78-pilot-1.json` |
+| concept focal | `api-production-contracts` (lu, pratiqué, rappelé) |
+| prérequis | `networking-http-tls` (PRETEST seulement) |
+| cibles de transfert | `authentication` (principal) · `async-messaging-queues` (secours) |
+| exercices retenus | `http-rate-limit-decide` (d3, PRINCIPAL) · `api-pagination-choice` (d2, SECOURS) |
+| exercices écartés | **5**, tous `MULTI_CONCEPT_BY_DESIGN` — **aucun résolu** |
+| transfert | `throttling-everywhere` (T5, crossDomain, seuil 0,7) |
+| repli | `V78-SCOPE-ALGO` — `algorithmic-thinking`, 5 exercices exclusifs, 5 formats |
+| `PRETEST_HIGH` | 2 sur 2 `recalled` → repli ; si le repli plafonne → `INVALID` |
+| `MISSING_PREREQUISITE` | 0 sur 2 `recalled` → `INVALID` |
+
+## `PILOT_SCOPE_CANDIDATES` — CP0.D *(remesurés au CP3, voir ci-dessus)*
 
 | | A · `api-production-contracts` | B · `algorithmic-thinking` | C · `javascript-basics` |
 |---|---|---|---|
@@ -87,6 +103,10 @@
 vérification, une ligne : les importeurs de `lib/practice-model.mjs` →
 **aucun code produit** (confirme `O1` non atteint).
 
+**CP3** — `npm test` **2231/2231** (2213 + 18) · `tsc` **0** · `build` **OK** ·
+`gates:active` **50 portes, 0 violation** · mesure de scope publiée
+(`docs/v77-1/cp3-scope.json`) · `data/progress.json` **absent**.
+
 **CP2** — `npm test` **2213/2213** (2177 + 36) · `tsc` **0** · `build` **OK** ·
 `gates:active` **50 portes, 0 violation** · **traversée HTTP réelle** de
 `export`, `export-all`, `delete-all` (refus sans confirmation, refus sur
@@ -114,13 +134,22 @@ inchangé) · `app/settings/SettingsPanel.tsx` (wording + suppression totale) ·
 `lib/workspace-server.ts` (`workspacesRoot`) · `lib/attempt-journal-server.ts`
 (`journalsRoot`). **Format de sauvegarde NON touché.**
 
+**CP3** — **créés** `data/pilot/v78-pilot-1.json` (fixture gelée) ·
+`lib/pilot-scope.mjs` · `.d.ts` · `lib/pilot-scope-server.ts` ·
+`scripts/v77-1/cp3-scope.mjs` · `docs/v77-1/cp3-scope.json` ·
+`tests/v771-pilot-scope.test.mjs` (18) ·
+`docs/v77-1/V77-1-CP3-PILOT-SCOPE-FROZEN.md`. **Modifié** `lib/learner-data.mjs`
+(`data/pilot` protégé de la suppression). **Curriculum NON touché** ·
+`data/exercise-declarations.json` **toujours vide**.
+
 ## `COMMITS`
 
 | CP | sujet |
 |---|---|
 | CP0 | `0458f30` — le verdict V77 a été inventé après coup |
 | CP1 | `94935a7` — le contrat gelé, et V77 remis sur son échelle |
-| CP2 | *(ce commit)* — réinitialiser n'est pas supprimer |
+| CP2 | `c956ed3` — réinitialiser n'est pas supprimer |
+| CP3 | *(ce commit)* — le scope gelé, et « non ambigu » remesuré |
 
 ## Journal des CP
 
@@ -184,3 +213,23 @@ inchangé) · `app/settings/SettingsPanel.tsx` (wording + suppression totale) ·
   - **Vérifié en HTTP réel** : suppression effective sur le disque, curriculum ·
     exercices · leçons · code source **intacts**, archive rejouée après
     suppression → vide.
+
+- **CP3** — **« non ambigu » ne voulait pas dire la même chose au CP0 et au CP1.**
+  - Dans ce produit **un concept EST une leçon**. Un exercice déclaré par
+    plusieurs leçons se résout en **plusieurs** concepts (`R2`) — ce n'est pas un
+    défaut, mais pour CE protocole sa trace ne dit pas lequel a été pratiqué.
+  - Sous la règle stricte « un seul déclarant », `api-production-contracts`
+    tombe de **4 à 2** exercices ; `algorithmic-thinking` en a **5**.
+    `api-production-contracts` reste focal quand même : plafond au PRETEST plus
+    faible, et **chaîne exercice → transfert directe** (`http-rate-limit-decide`
+    → `throttling-everywhere`, même notion, autre domaine).
+  - **Quatre concepts, chacun sur une étape différente** : c'est ce qui rend
+    « 3 à 6 concepts » compatible avec une séance courte — une seule leçon est
+    lue.
+  - **Aucune ambiguïté résolue.** 125 avant, 125 après.
+    `data/exercise-declarations.json` reste vide, et un test le garde.
+  - **Une limite du primaire déclarée d'avance** : l'étape `LESSON` ne laisse
+    aucun fait (surface de lecture, `NO_FACT` par contrat V77), donc la
+    reconstruction ne prouvera jamais que la leçon a été lue.
+  - **Risque `R8` ouvert pour le CP4** : `/retention` sert le plan du jour ; un
+    participant partant de zéro pourrait ne pas y voir le concept focal.

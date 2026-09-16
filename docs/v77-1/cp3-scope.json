@@ -1,0 +1,885 @@
+{
+  "conceptsDuProgramme": 128,
+  "eligibles": 75,
+  "groupes": [
+    {
+      "skill": "sql",
+      "taille": 6,
+      "conceptsDisponibles": 7,
+      "minutesLecture": 285,
+      "exercicesExclusifs": 8,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        1,
+        2,
+        3
+      ],
+      "transferts": [
+        "cumulative-vs-snapshot",
+        "compatibility-precedence",
+        "isolation-sql-to-concurrency"
+      ],
+      "concepts": [
+        "sql-foundations",
+        "data-cleaning-quality",
+        "etl-pipelines",
+        "pandas-data-wrangling",
+        "database-migrations",
+        "database-transactions-concurrency"
+      ]
+    },
+    {
+      "skill": "http",
+      "taille": 3,
+      "conceptsDisponibles": 3,
+      "minutesLecture": 145,
+      "exercicesExclusifs": 5,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        2,
+        3
+      ],
+      "transferts": [
+        "idempotence-http-to-queue",
+        "throttling-everywhere"
+      ],
+      "concepts": [
+        "networking-dns",
+        "networking-http-tls",
+        "api-production-contracts"
+      ]
+    },
+    {
+      "skill": "se",
+      "taille": 6,
+      "conceptsDisponibles": 10,
+      "minutesLecture": 290,
+      "exercicesExclusifs": 14,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        2,
+        3
+      ],
+      "transferts": [
+        "idempotence-http-to-queue",
+        "throttling-everywhere"
+      ],
+      "concepts": [
+        "ci-cd-pipeline-anatomy",
+        "ci-cd-quality-gates-artifacts",
+        "error-handling",
+        "testing-foundations",
+        "api-production-contracts",
+        "async-messaging-queues"
+      ]
+    },
+    {
+      "skill": "python",
+      "taille": 4,
+      "conceptsDisponibles": 4,
+      "minutesLecture": 180,
+      "exercicesExclusifs": 9,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        1,
+        2
+      ],
+      "transferts": [
+        "windowed-extremes-everywhere"
+      ],
+      "concepts": [
+        "python-foundations",
+        "data-cleaning-quality",
+        "etl-pipelines",
+        "pandas-data-wrangling"
+      ]
+    },
+    {
+      "skill": "llm",
+      "taille": 4,
+      "conceptsDisponibles": 4,
+      "minutesLecture": 200,
+      "exercicesExclusifs": 4,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        2,
+        3
+      ],
+      "transferts": [
+        "llm-schema-to-api-validation"
+      ],
+      "concepts": [
+        "llm-fundamentals",
+        "llm-observability",
+        "prompt-injection-defense",
+        "transformers"
+      ]
+    },
+    {
+      "skill": "gitlinux",
+      "taille": 6,
+      "conceptsDisponibles": 7,
+      "minutesLecture": 265,
+      "exercicesExclusifs": 7,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        1,
+        2
+      ],
+      "transferts": [
+        "gitlinux-perms-to-iam"
+      ],
+      "concepts": [
+        "git-fundamentals",
+        "terminal-shell-filesystem",
+        "linux-filesystem-permissions",
+        "linux-processes-signals",
+        "linux-services-systemd",
+        "linux-ssh-remote"
+      ]
+    },
+    {
+      "skill": "jsts",
+      "taille": 6,
+      "conceptsDisponibles": 13,
+      "minutesLecture": 280,
+      "exercicesExclusifs": 15,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        1,
+        2
+      ],
+      "transferts": [
+        "stale-value-in-async"
+      ],
+      "concepts": [
+        "browser-dom-rendering",
+        "css-fundamentals",
+        "javascript-basics",
+        "async-javascript",
+        "css-grid",
+        "react-accessibility"
+      ]
+    },
+    {
+      "skill": "archi",
+      "taille": 6,
+      "conceptsDisponibles": 25,
+      "minutesLecture": 290,
+      "exercicesExclusifs": 10,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        2
+      ],
+      "transferts": [
+        "reconciliation-loop-everywhere"
+      ],
+      "concepts": [
+        "cloud-compute-storage",
+        "cloud-finops",
+        "cloud-fundamentals",
+        "css-grid",
+        "docker-compose",
+        "k8s-why-architecture"
+      ]
+    },
+    {
+      "skill": "secu",
+      "taille": 6,
+      "conceptsDisponibles": 10,
+      "minutesLecture": 295,
+      "exercicesExclusifs": 8,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        2,
+        3
+      ],
+      "transferts": [
+        "gitlinux-perms-to-iam"
+      ],
+      "concepts": [
+        "docker-build-dockerfile",
+        "linux-filesystem-permissions",
+        "linux-ssh-remote",
+        "networking-http-tls",
+        "cloud-aws-core",
+        "cloud-networking"
+      ]
+    },
+    {
+      "skill": "cloud",
+      "taille": 6,
+      "conceptsDisponibles": 26,
+      "minutesLecture": 285,
+      "exercicesExclusifs": 16,
+      "formatsUnion": [
+        "applied",
+        "cued",
+        "discrim",
+        "free",
+        "generate"
+      ],
+      "niveaux": [
+        2
+      ],
+      "transferts": [],
+      "concepts": [
+        "ci-cd-pipeline-anatomy",
+        "ci-cd-quality-gates-artifacts",
+        "cloud-compute-storage",
+        "cloud-finops",
+        "cloud-fundamentals",
+        "docker-build-dockerfile"
+      ]
+    }
+  ],
+  "candidatsCP0": [
+    {
+      "conceptId": "api-production-contracts",
+      "titre": "API de production : idempotence, pagination, limites et versions",
+      "niveau": 3,
+      "minutes": 50,
+      "skills": [
+        "http",
+        "se"
+      ],
+      "mots": 2878,
+      "sections": 16,
+      "formats": [
+        "free",
+        "discrim"
+      ],
+      "exercicesExclusifs": [
+        {
+          "id": "api-pagination-choice",
+          "difficulty": 2,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            56
+          ]
+        },
+        {
+          "id": "http-rate-limit-decide",
+          "difficulty": 3,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            62
+          ]
+        }
+      ],
+      "exercicesPartages": [
+        {
+          "id": "http-method-idempotent",
+          "difficulty": 2,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 3,
+          "jours": [
+            61
+          ]
+        },
+        {
+          "id": "auth-status-decision",
+          "difficulty": 2,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 2,
+          "jours": [
+            51
+          ]
+        },
+        {
+          "id": "api-router",
+          "difficulty": 3,
+          "runtime": "node-js",
+          "tests": 5,
+          "hints": 0,
+          "declarants": 4,
+          "jours": [
+            52,
+            273
+          ]
+        },
+        {
+          "id": "http-idempotency-dedup",
+          "difficulty": 4,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 2,
+          "jours": [
+            224,
+            336
+          ]
+        },
+        {
+          "id": "http-resilient-consumer",
+          "difficulty": 5,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 2,
+          "jours": [
+            238
+          ]
+        }
+      ],
+      "transferts": [
+        "idempotence-http-to-queue",
+        "throttling-everywhere"
+      ],
+      "manques": []
+    },
+    {
+      "conceptId": "algorithmic-thinking",
+      "titre": "La pensée algorithmique",
+      "niveau": 1,
+      "minutes": 50,
+      "skills": [
+        "algo"
+      ],
+      "mots": 3481,
+      "sections": 19,
+      "formats": [
+        "free",
+        "cued",
+        "applied",
+        "discrim",
+        "generate"
+      ],
+      "exercicesExclusifs": [
+        {
+          "id": "fizzbuzz",
+          "difficulty": 1,
+          "runtime": "node-js",
+          "tests": 5,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            8
+          ]
+        },
+        {
+          "id": "algo-binary-search",
+          "difficulty": 2,
+          "runtime": "node-js",
+          "tests": 5,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            16
+          ]
+        },
+        {
+          "id": "algo-interval-merge",
+          "difficulty": 3,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            25
+          ]
+        },
+        {
+          "id": "algo-coin-change-min",
+          "difficulty": 4,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            29,
+            224
+          ]
+        },
+        {
+          "id": "algo-kadane-max-subarray",
+          "difficulty": 4,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            32
+          ]
+        }
+      ],
+      "exercicesPartages": [
+        {
+          "id": "algo-two-sum",
+          "difficulty": 2,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 2,
+          "jours": [
+            31
+          ]
+        }
+      ],
+      "transferts": [
+        "dl-lr-to-stepsize",
+        "greedy-is-not-optimal",
+        "quadratic-blowup-everywhere"
+      ],
+      "manques": []
+    },
+    {
+      "conceptId": "javascript-basics",
+      "titre": "JavaScript : les bases solides",
+      "niveau": 1,
+      "minutes": 50,
+      "skills": [
+        "jsts"
+      ],
+      "mots": 3408,
+      "sections": 17,
+      "formats": [
+        "free",
+        "cued",
+        "discrim",
+        "generate"
+      ],
+      "exercicesExclusifs": [
+        {
+          "id": "js-array-objects",
+          "difficulty": 2,
+          "runtime": "node-js",
+          "tests": 3,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            11
+          ]
+        },
+        {
+          "id": "js-conditions",
+          "difficulty": 1,
+          "runtime": "node-js",
+          "tests": 5,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            5
+          ]
+        },
+        {
+          "id": "js-loops",
+          "difficulty": 1,
+          "runtime": "node-js",
+          "tests": 4,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            6
+          ]
+        },
+        {
+          "id": "js-even-squares",
+          "difficulty": 2,
+          "runtime": "node-js",
+          "tests": 3,
+          "hints": 0,
+          "declarants": 1,
+          "jours": [
+            23
+          ]
+        }
+      ],
+      "exercicesPartages": [],
+      "transferts": [
+        "stale-value-in-async"
+      ],
+      "manques": []
+    }
+  ],
+  "transferts": [
+    {
+      "id": "archi-scale-shift",
+      "title": "Quand une contrainte nouvelle rend l’architecture correcte… mauvaise",
+      "lessonRefs": [
+        "system-design-scaling",
+        "architecture-basics"
+      ],
+      "sourceSkill": "archi",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 2
+    },
+    {
+      "id": "budget-then-escalate",
+      "title": "Budget puis escalade : réessayer sans s'acharner",
+      "lessonRefs": [
+        "resilience-patterns",
+        "agents-fundamentals"
+      ],
+      "sourceSkill": "http",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "cache-to-distributed-consistency",
+      "title": "Quand la copie ment : du cache à la cohérence distribuée",
+      "lessonRefs": [
+        "caching-performance",
+        "distributed-systems-failures"
+      ],
+      "sourceSkill": "archi",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "compatibility-precedence",
+      "title": "Compatibilité : la précédence du changement cassant",
+      "lessonRefs": [
+        "breaking-changes-compatibility",
+        "database-migrations"
+      ],
+      "sourceSkill": "se",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "cumulative-vs-snapshot",
+      "title": "Cumul vs instantané : le total courant partout",
+      "lessonRefs": [
+        "sql-foundations",
+        "metrics-percentiles"
+      ],
+      "sourceSkill": "sql",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "dl-lr-to-stepsize",
+      "title": "Du learning rate au pas d’une optimisation",
+      "lessonRefs": [
+        "neural-networks",
+        "algorithmic-thinking"
+      ],
+      "sourceSkill": "dl",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 2
+    },
+    {
+      "id": "dl-overfit-to-generalization",
+      "title": "De l’écart train/val à la généralisation",
+      "lessonRefs": [
+        "neural-networks",
+        "model-evaluation"
+      ],
+      "sourceSkill": "dl",
+      "transferLevel": "T4",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 2
+    },
+    {
+      "id": "eviction-policy-everywhere",
+      "title": "L'éviction LRU, bien au-delà d'un cache",
+      "lessonRefs": [
+        "data-structures-intro",
+        "caching-performance"
+      ],
+      "sourceSkill": "ds",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "gitlinux-perms-to-iam",
+      "title": "Des permissions de fichier au moindre privilège IAM",
+      "lessonRefs": [
+        "linux-filesystem-permissions",
+        "deployment-secrets"
+      ],
+      "sourceSkill": "gitlinux",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 2
+    },
+    {
+      "id": "greedy-is-not-optimal",
+      "title": "Quand 'prendre le plus gros d'abord' se trompe",
+      "lessonRefs": [
+        "algorithmic-thinking",
+        "recursion"
+      ],
+      "sourceSkill": "algo",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "idempotence-http-to-queue",
+      "title": "Reconnaître l'idempotence loin de l'API HTTP",
+      "lessonRefs": [
+        "api-production-contracts",
+        "async-messaging-queues"
+      ],
+      "sourceSkill": "http",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "isolation-sql-to-concurrency",
+      "title": "Le « lost update » hors de la base de données",
+      "lessonRefs": [
+        "database-transactions-concurrency"
+      ],
+      "sourceSkill": "sql",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "leakage-to-evaluation",
+      "title": "La fuite de données comme problème d'ÉVALUATION, pas de modèle",
+      "lessonRefs": [
+        "model-evaluation",
+        "machine-learning-basics"
+      ],
+      "sourceSkill": "ml",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "least-privilege-everywhere",
+      "title": "Le moindre privilège, du système au produit",
+      "lessonRefs": [
+        "authentication",
+        "ai-security"
+      ],
+      "sourceSkill": "secu",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "llm-context-to-eviction",
+      "title": "Du budget de contexte à l’éviction bornée",
+      "lessonRefs": [
+        "llm-cost-optimization",
+        "architecture-basics"
+      ],
+      "sourceSkill": "llm",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 2
+    },
+    {
+      "id": "llm-schema-to-api-validation",
+      "title": "De la validation de sortie LLM à la validation d’entrée d’API",
+      "lessonRefs": [
+        "api-design-basics",
+        "llm-fundamentals"
+      ],
+      "sourceSkill": "llm",
+      "transferLevel": "T4",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 2
+    },
+    {
+      "id": "patterns-yagni-to-infra",
+      "title": "De « pas de pattern inutile » à « pas de sur-architecture »",
+      "lessonRefs": [
+        "design-patterns-intro",
+        "system-design-scaling"
+      ],
+      "sourceSkill": "patterns",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 2
+    },
+    {
+      "id": "quadratic-blowup-everywhere",
+      "title": "Reconnaître un coût quadratique loin de l'algorithmique",
+      "lessonRefs": [
+        "algorithmic-thinking",
+        "data-structures-intro"
+      ],
+      "sourceSkill": "algo",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "read-write-tradeoff",
+      "title": "Accélérer la lecture au prix de l'écriture : un compromis récurrent",
+      "lessonRefs": [
+        "sql-performance-indexing",
+        "caching-performance"
+      ],
+      "sourceSkill": "sql",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "reconciliation-loop-everywhere",
+      "title": "La boucle de réconciliation hors de Kubernetes",
+      "lessonRefs": [
+        "k8s-why-architecture",
+        "iac-fundamentals"
+      ],
+      "sourceSkill": "cloud",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "retrieval-to-search",
+      "title": "Séparer « trouver » de « rédiger » hors du RAG",
+      "lessonRefs": [
+        "rag-fundamentals",
+        "retrieval-reranking"
+      ],
+      "sourceSkill": "rag",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "signal-vs-noise-monitoring",
+      "title": "Signal ou bruit : instable vs vraie régression, partout",
+      "lessonRefs": [
+        "observability-fundamentals",
+        "monitoring-production"
+      ],
+      "sourceSkill": "se",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "stale-value-in-async",
+      "title": "La valeur périmée capturée par une closure asynchrone",
+      "lessonRefs": [
+        "async-javascript",
+        "javascript-basics"
+      ],
+      "sourceSkill": "jsts",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "throttling-everywhere",
+      "title": "La fenêtre glissante : limiter bien au-delà d'une API",
+      "lessonRefs": [
+        "api-production-contracts",
+        "authentication"
+      ],
+      "sourceSkill": "http",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    },
+    {
+      "id": "windowed-extremes-everywhere",
+      "title": "Fenêtre glissante d'extrêmes : du code au monitoring",
+      "lessonRefs": [
+        "python-foundations",
+        "metrics-percentiles"
+      ],
+      "sourceSkill": "python",
+      "transferLevel": "T5",
+      "crossDomain": true,
+      "passThreshold": 0.7,
+      "questions": 3
+    }
+  ]
+}
